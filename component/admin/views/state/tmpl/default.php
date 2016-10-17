@@ -7,112 +7,80 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
-
-$filter = JRequest::getVar('filter');
-
+$uri = JURI::getInstance();
+$url = $uri->root();
 ?>
+
+
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
 		var form = document.adminForm;
-		if (pressbutton) {
-			form.task.value = pressbutton;
+
+		if (pressbutton == 'cancel') {
+			submitform(pressbutton);
+			return;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
-			form.view.value = "state_detail";
+		if (form.country_id.value == 0) {
+			alert("<?php echo JText::_('COM_REDSHOP_COUNTRY_MUST_BE_SELECTED', true ); ?>");
+		} else if (form.state_name.value == "") {
+			alert("<?php echo JText::_('COM_REDSHOP_STATE_MUST_HAVE_A_NAME', true ); ?>");
+		} else if (form.state_3_code.value == "") {
+			alert("<?php echo JText::_('COM_REDSHOP_STATE_3_CODE_MUST_HAVE_A_VALUE', true ); ?>");
+		} else if (form.state_3_code.value.length > 3 || form.state_3_code.value.length < 3) {
+			alert("<?php echo JText::_('COM_REDSHOP_STATE_MUST_HAVE_A_3_DIGIT_CODE', true ); ?>");
+			var stste = form.state_3_code.value;
+			form.state_3_code.value = stste.slice(0, 3);
+		} else if (form.state_2_code.value == "") {
+			alert("<?php echo JText::_('COM_REDSHOP_STATE_2_CODE_MUST_HAVE_A_VALUE', true ); ?>");
+		} else if (form.state_2_code.value.length > 2 || form.state_2_code.value.length < 2) {
+			alert("<?php echo JText::_('COM_REDSHOP_STATE_MUST_HAVE_A_2_DIGIT_CODE', true ); ?>");
+			var stste = form.state_2_code.value;
+			form.state_2_code.value = stste.slice(0, 2);
+		} else {
+			submitform(pressbutton);
 		}
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-
-		form.submit();
 	}
 </script>
 
-<form action="<?php echo 'index.php?option=com_redshop'; ?>" class="admin" method="post" name="adminForm" id="adminForm">
-	<div class="filterTool">
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<input type="text" name="country_main_filter" id="country_main_filter" placeholder="<?php echo JText::_('COM_REDSHOP_FILTER');  ?>"
-					   value="<?php echo $this->country_main_filter; ?>">
-				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-							   onclick="document.getElementById('country_main_filter').value='';this.form.submit();" />
-			</div>
-		</div>
-		<div class="filterItem">
-			<?php echo JText::_("COM_REDSHOP_COUNTRY_NAME"); ?> :
-			<?php echo $this->lists['country_id']; ?>
-		</div>
-	</div>
+<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
+	<fieldset class="adminform">
+		<legend><?php echo "details" ?></legend>
+		<table class="admintable table">
 
+			<tr>
+				<td valign="top" align="right" class="key"><?php echo JText::_("COM_REDSHOP_COUNTRY_NAME"); ?>:</td>
+				<td><?php echo $this->lists['country_id']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_COUNTRY_NAME'), JText::_('COM_REDSHOP_COUNTRY_NAME'), 'tooltip.png', '', '', false); ?></td>
+			</tr>
 
-	<table class="adminlist table table-striped">
-		<thead>
-		<tr>
-			<th width="5"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-			<th width="10">
-				<?php echo JHtml::_('redshopgrid.checkall'); ?>
-			</th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_NAME'), 's.state_name', $this->lists['order_Dir'], $this->lists['order']);?></th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_COUNTRY_NAME'), 'c.country_name', $this->lists['order_Dir'], $this->lists['order']);?></th>
-
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_3_CODE'), 's.state_3_code', $this->lists['order_Dir'], $this->lists['order']);?></th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_2_CODE'), 's.state_2_code', $this->lists['order_Dir'], $this->lists['order']);?></th>
-
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ID'), 's.state_id', $this->lists['order_Dir'], $this->lists['order']); ?>    </th>
-		</tr>
-		</thead>
-		<?php
-
-		$k = 0;
-		for ($i = 0, $n = count($this->fields); $i < $n; $i++)
-		{
-			$row = $this->fields[$i];
-			$row->id = $row->state_id;
-
-			$link = JRoute::_('index.php?option=com_redshop&view=state_detail&task=edit&cid[]=' . $row->state_id);
-
-			?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td><?php echo $this->pagination->getRowOffset($i); ?></td>
-				<td><?php echo @JHTML::_('grid.checkedout', $row, $i); ?></td>
-				<td>
-					<a href="<?php echo $link; ?>"
-					   title="<?php echo JText::_('COM_REDSHOP_EDIT_state'); ?>"><?php echo $row->state_name ?></a></td>
-
-				<td align="center" width="10%"><?php echo $row->country_name; ?></td>
-				<td align="center" width="10%"><?php echo $row->state_3_code; ?></td>
-				<td align="center" width="10%"><?php echo $row->state_2_code; ?></td>
-
-				<td align="center" width="10%"><?php echo $row->state_id;?></td>
+			<tr>
+				<td class="key"><?php echo JText::_("COM_REDSHOP_STATE_NAME"); ?></td>
+				<td><input class="text_area" type="text" name="state_name" id="state_name" size="30" maxlength="100"
+				           value="<?php echo $this->detail->state_name; ?>"/></td>
+			</tr>
+			<tr>
+				<td class="key"><?php echo JText::_("COM_REDSHOP_STATE_3_CODE"); ?>:</td>
+				<td><input class="text_area" type="text" name="state_3_code" id="state_3_code" size="80" maxlength="255"
+				           value="<?php echo $this->detail->state_3_code; ?>"/></td>
+			</tr>
+			<tr>
+				<td class="key"><?php echo JText::_("COM_REDSHOP_STATE_2_CODE"); ?>:</td>
+				<td><input class="text_area" type="text" name="state_2_code" id="state_2_code" size="80" maxlength="255"
+				           value="<?php echo $this->detail->state_2_code; ?>"/></td>
 
 			</tr>
-			<?php
-			$k = 1 - $k;
+			<tr>
+				<td valign="top" align="right" class="key"><?php echo JText::_("COM_REDSHOP_SHOW_STATE"); ?>:</td>
+				<td><?php echo $this->lists['show_state']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOW_STATE'), JText::_('COM_REDSHOP_SHOW_STATE'), 'tooltip.png', '', '', false); ?></td>
+			</tr>
 
-		}
-		?>
+		</table>
+	</fieldset>
 
 
-		<tfoot>
-		<td colspan="9">
-			<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-				<div class="redShopLimitBox">
-					<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
-			<?php endif; ?>
-			<?php echo $this->pagination->getListFooter(); ?>
-		</td>
-		</tfoot>
-	</table>
-	<input type="hidden" name="view" value="state">
+	<input type="hidden" name="cid[]" value="<?php echo $this->detail->state_id; ?>"/>
 	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="boxchecked" value="0"/>
-	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+	<input type="hidden" name="view" value="state_detail"/>
 </form>
+
+

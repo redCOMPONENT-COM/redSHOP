@@ -10,61 +10,82 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewState extends RedshopViewAdmin
+class RedshopViewState_detail extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
 	public function display($tpl = null)
 	{
-		JLoader::import('joomla.html.pagination');
-
+		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_DETAIL'), 'redshop_region_48');
 
 		$uri      = JFactory::getURI();
-		$document = JFactory::getDocument();
+		$app      = JFactory::getApplication();
+		$user     = JFactory::getUser();
 
-		$document->setTitle(JText::_('COM_REDSHOP_STATE'));
+		$model = $this->getModel('state_detail');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_MANAGEMENT'), 'redshop_region_48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolbarHelper::deleteList();
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
+		$lists  = array();
+		$detail = $this->get('data');
+		$isNew  = ($detail->state_id < 1);
 
-		$state = $this->get('State');
-		$lists['order']     = $state->get('list.ordering', 'state_id');
-		$lists['order_Dir'] = $state->get('list.direction');
+		// 	fail if checked out not by 'me'
+		if ($model->isCheckedOut($user->get('id')))
+		{
+			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
+			$app->redirect('index.php?option=com_redshop', $msg);
+		}
 
-		$db = JFactory::getDbo();
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATES'), 'redshop_region_48');
+		$text      = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$db        = JFactory::getDbo();
 
-		$redhelper       = redhelper::getInstance();
-		$q               = "SELECT  country_id as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
+		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
+
+
+		$redhelper = redhelper::getInstance();
+		$q         = "SELECT  country_id as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
-		$countries       = $db->loadObjectList();
+		$countries = $db->loadObjectList();
+		$countries = $redhelper->convertLanguageString($countries);
 
-		$countries       = $redhelper->convertLanguageString($countries);
-
-		$defSelect = new StdClass;
-		$defSelect->value = "0";
-		$defSelect->text  = JText::_('COM_REDSHOP_SELECT');
-
-		$temps           = array($defSelect);
+		$temps[0]        = new stdClass;
+		$temps[0]->value = "0";
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
 		$countries       = array_merge($temps, $countries);
 
-		$country_id_filter = $state->get('country_id_filter');
-
-		$lists['country_id'] = JHTML::_('select.genericlist', $countries, 'country_id_filter',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();"    ', 'value', 'text', $country_id_filter
+		$lists['country_id'] = JHTML::_('select.genericlist', $countries, 'country_id', 'class="inputbox" size="1" ',
+			'value', 'text', $detail->country_id
 		);
 
-		$country_main_filter = $state->get('country_main_filter');
+		$state_data = $redhelper->getStateAbbrivationByList();
 
-		$fields                    = $this->get('Data');
-		$pagination                = $this->get('Pagination');
+		$lists['show_state'] = JHTML::_('select.genericlist', $state_data, 'show_state',
+			'class="inputbox" size="1" ', 'value', 'text', $detail->show_state
+		);
 
-		$this->country_main_filter = $country_main_filter;
-		$this->user                = JFactory::getUser();
-		$this->pagination          = $pagination;
-		$this->fields              = $fields;
-		$this->lists               = $lists;
-		$this->request_url         = $uri->toString();
+		if ($isNew)
+		{
+			JToolBarHelper::cancel();
+		}
+		else
+		{
+			// EDIT - check out the item
+			$model->checkout($user->get('id'));
+
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
+
+		JToolBarHelper::title(JText::_('COM_REDSHOP_state') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
+
+		$this->detail      = $detail;
+		$this->lists       = $lists;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
