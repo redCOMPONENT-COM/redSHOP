@@ -63,7 +63,7 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\CountryManagerPage::$URL);
 		$I->filterListBySearching($countryName);
 		$I->click(['link' => $countryName]);
-		$I->waitForText('Country:', 60, ['css' => 'H1']);
+		$I->waitForText('Country Management:', 60, ['css' => 'H1']);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager Edit View');
 		$I->fillField(\CountryManagerPage::$countryName, $newCountryName);
 		$I->click('Save & Close');
