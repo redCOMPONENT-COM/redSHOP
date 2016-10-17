@@ -33,6 +33,8 @@ class JFormFieldCategoryList extends JFormFieldList
 	 */
 	public function getInput()
 	{
+		$input = JFactory::getApplication()->input;
+		$cid = $input->getInt('category_id', 0);
 		$productCategory = new product_category;
 		$categories = $productCategory->getCategoryListArray();
 
@@ -40,8 +42,11 @@ class JFormFieldCategoryList extends JFormFieldList
 		{
 			foreach ($categories as $category)
 			{
-				$option = JHTML::_('select.option', $category->category_id, $category->category_name);
-				$options[] = $option;
+				if ($cid != $category->category_id)
+				{
+					$option = JHTML::_('select.option', $category->category_id, $category->category_name);
+					$options[] = $option;
+				}
 			}
 		}
 
