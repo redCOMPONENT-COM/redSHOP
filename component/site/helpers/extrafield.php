@@ -1167,12 +1167,12 @@ class extraField
 	 * @param   int  $section      Section
 	 * @param   int  $sectionItem  Section item
 	 *
-	 * @deprecated 1.6.1  Use RedshopHelperExtrafields::getData instead
+	 * @deprecated 1.6.1  Use RedshopHelperExtraFields::getData instead
 	 *
 	 * @return mixed|null
 	 */
 	public function getSectionFieldDataList($fieldId, $section = 0, $sectionItem = 0)
 	{
-		return RedshopHelperExtrafields::getData($fieldId, $section, $sectionItem);
+		return RedshopHelperExtraFields::getData($fieldId, $section, $sectionItem);
 	}
 }

@@ -4,7 +4,8 @@
  * @subpackage  View
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE 
+ * @since       2.0.0.2.1
  */
 
 defined('_JEXEC') or die;
@@ -14,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       [version> [<description>]
+ * @since       2.0.0.2.1
  */
 
 class RedshopViewCountry extends RedshopViewAdmin
@@ -46,7 +47,7 @@ class RedshopViewCountry extends RedshopViewAdmin
 	 * 
 	 * @return  void
 	 * 
-	 * @since   1.x
+	 * @since   2.0.0.2.1
 	 */
 
 	public function display($tpl = null)

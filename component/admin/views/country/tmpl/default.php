@@ -22,7 +22,7 @@ JFactory::getDocument()->addScriptDeclaration('
 ');
 ?>
 
-<form action="index.php?option=com_redshop&view=country&task=country.edit&giftcard_id=<?php echo $this->item->id; ?>"
+<form action="index.php?option=com_redshop&view=country&task=country.edit&id=<?php echo $this->item->id; ?>"
 	method="post"
 	id="adminForm"
 	name="adminForm"

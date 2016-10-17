@@ -1,4 +1,3 @@
-SET FOREIGN_KEY_CHECKS = 0;
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
@@ -201,11 +200,11 @@ CREATE TABLE IF NOT EXISTS `#__redshop_country` (
 	KEY `idx_country_2_code` (`country_2_code`),
 	KEY `id` (`id`)
 ) 
-	ENGINE=InnoDB AUTO_INCREMENT=253 
+	ENGINE=InnoDB
 	DEFAULT CHARSET=utf8 
 	COMMENT='Country records';
 
-ALTER TABLE `#__redshop_country` ADD INDEX(`id`);
+CREATE INDEX country_id_index ON `#__redshop_country` (`id`);
 
 -- -----------------------------------------------------
 -- Table `#__redshop_coupons`
@@ -1946,15 +1945,15 @@ CREATE TABLE IF NOT EXISTS `#__redshop_state` (
   	KEY `country_id` (`country_id`),
   	CONSTRAINT `fk_country` 
   		FOREIGN KEY (`country_id`) 
-  		REFERENCES `ksd4e_redshop_country` (`id`) 
+  		REFERENCES `#__redshop_country` (`id`) 
   		ON DELETE SET NULL 
   		ON UPDATE CASCADE
 )
-	ENGINE=InnoDB AUTO_INCREMENT=465 
+	ENGINE=InnoDB 
 	DEFAULT CHARSET=utf8 
 	COMMENT='States that are assigned to a country';
 
-ALTER TABLE `#__redshop_state` ADD INDEX(`country_id`);
+CREATE INDEX fk_country_id_index ON `#__redshop_state` (`country_id`);
 
 -- -----------------------------------------------------
 -- Table `#__redshop_stockroom`

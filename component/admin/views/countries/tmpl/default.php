@@ -36,6 +36,7 @@ $filter = JRequest::getVar('filter');
 			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ID'), 'id', $this->lists['order_Dir'], $this->lists['order']); ?>    </th>
 		</tr>
 		</thead>
+		<tbody>
 		<?php
 		$k = 0;
 
@@ -62,6 +63,7 @@ $filter = JRequest::getVar('filter');
 			$k = 1 - $k;
 		}
 		?>
+		</tbody>
 		<tfoot>
 		<td colspan="9">
 			<?php if (version_compare(JVERSION, '3.0', '>=')): ?>

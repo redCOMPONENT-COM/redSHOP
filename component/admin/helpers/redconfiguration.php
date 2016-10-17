@@ -1256,21 +1256,40 @@ class Redconfiguration
 		return $convertformat;
 	}
 
+	/**
+	 * Method to get Country by ID
+	 *
+	 * @param   int  $conid  country id
+	 * 
+	 * @return  country
+	 */
 	public function getCountryId($conid)
 	{
 		$db = JFactory::getDbo();
-		$query = 'SELECT id FROM #__redshop_country '
-			. 'WHERE country_3_code LIKE ' . $db->quote($conid);
+		$query = $db->getQuery(true);
+		$query->select($db->qn('id'))
+			->from($db->qn('#__redshop_country'))
+			->where($db->qn('country_3_code') . ' LIKE ' . $db->q($conid));
+
 		$db->setQuery($query);
 
 		return $db->loadResult();
 	}
 
+	/**
+	 * Method to get Country by ID
+	 *
+	 * @param   int  $conid  country id
+	 * 
+	 * @return  country
+	 */
 	public function getCountryCode2($conid)
 	{
 		$db = JFactory::getDbo();
-		$query = 'SELECT country_2_code FROM #__redshop_country '
-			. 'WHERE country_3_code LIKE ' . $db->quote($conid);
+		$query = $db->getQuery(true);
+		$query->select($db->qn('country_2_code'))
+			->from($db->qn('#__redshop_country'))
+			->where($db->qn('country_3_code') . ' LIKE ' . $db->q($conid));
 		$db->setQuery($query);
 
 		return $db->loadResult();

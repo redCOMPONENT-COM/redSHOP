@@ -46,7 +46,7 @@ $filter = JRequest::getVar('filter');
 		</div>
 		<div class="filterItem">
 			<?php echo JText::_("COM_REDSHOP_COUNTRY_NAME"); ?> :
-			<?php echo $this->lists['id']; ?>
+			<?php echo $this->lists['country_id']; ?>
 		</div>
 	</div>
 

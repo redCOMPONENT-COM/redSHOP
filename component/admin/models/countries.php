@@ -108,8 +108,8 @@ class RedshopModelCountries extends RedshopModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('country_name LIKE ' . $search);
+				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+				$query->where($db->qn('country_name') . ' LIKE ' . $search);
 			}
 		}
 

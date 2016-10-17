@@ -16,7 +16,7 @@ jimport('joomla.html.pagination');
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       [version> [<description>]
+ * @since       2.0.0.2.1
  */
 
 class RedshopViewCountries extends RedshopViewAdmin
@@ -28,7 +28,7 @@ class RedshopViewCountries extends RedshopViewAdmin
 	 *
 	 * @return void
 	 *
-	 * @since 1.x
+	 * @since 2.0.0.2.1
 	 */
 
 	public function display($tpl = null)

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       [version> [<description>]
+ * @since       2.0.0.2.1
  */
 
 class RedshopTableCountry extends JTable
@@ -24,7 +24,7 @@ class RedshopTableCountry extends JTable
 	 *
 	 * @param   object  &$db  Database Object
 	 * 
-	 * @since   1.x
+	 * @since   2.0.0.2.1
 	 */
 
 	public function __construct(&$db)
@@ -68,10 +68,10 @@ class RedshopTableCountry extends JTable
 	public function check()
 	{
 		$db = JFactory::getDbo();
-
-		$query = "SELECT id,country_3_code  FROM " . $this->_table_prefix . "country"
-			. " WHERE country_3_code = " . $db->quote($this->country_3_code)
-			. " AND id !=  " . (int) $this->id;
+		$query = $db->getQuery(true);
+		$query->select($db->qn(['id', 'country_3_code']))
+			->from($db->qn('#__redshop_country'))
+			->where($db->qn('country_3_code') . ' = ' . $db->q($this->country_3_code) . ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id));
 
 		$db->setQuery($query);
 
@@ -86,9 +86,10 @@ class RedshopTableCountry extends JTable
 		}
 		else
 		{
-			$query = "SELECT id,country_3_code,country_2_code  FROM " . $this->_table_prefix . "country"
-				. " WHERE country_2_code = " . $db->quote($this->country_2_code)
-				. " AND id !=  " . (int) $this->id;
+			$query = $db->getQuery(true);
+			$query->select($db->qn(['id', 'country_3_code', 'country_2_code']))
+				->from($db->qn('#__redshop_country'))
+				->where($db->qn('country_2_code') . ' = ' . $db->q($this->country_2_code) . ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id));
 
 			$db->setQuery($query);
 			$xid = intval($db->loadResult());
