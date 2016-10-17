@@ -6,119 +6,449 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
 defined('_JEXEC') or die;
 
 
 class RedshopModelAccessmanager extends RedshopModel
 {
-	public $_context = null;
-
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
 	public $_table_prefix = null;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$app = JFactory::getApplication();
-		$this->_context = 'question_id';
-
-		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('parent_id', 0, '', 'array');
-		$this->setId((int) $array[0]);
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-		$product_id = $app->getUserStateFromRequest($this->_context . 'product_id', 'product_id', 0);
-
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-		$this->setState('filter', $filter);
-		$this->setState('product_id', $product_id);
+		$this->_table_prefix = '';
 	}
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
-	public function getData()
+	public function getaccessmanager()
 	{
-		if (empty($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select('*')
+			->from($db->quoteName('#__redshop_accessmanager'))
+			->where($db->quoteName('section_name') . ' = ' . $db->quote(JFactory::getApplication()->input->get('section')));
+
+		$db->setQuery($query);
+		$this->_data = $db->loadObjectList();
 
 		return $this->_data;
 	}
 
-	public function getTotal()
+	/**
+	 * Method to store the information
+	 *
+	 * @return boolean
+	 */
+	public function store($data)
 	{
-		if (empty($this->_total))
+		$db = JFactory::getDbo();
+
+		/**
+		 * get groups
+		 */
+		$group = $this->getGroup();
+
+		/**
+		 * format groups
+		 */
+		$groups        = $this->formatGroup($group);
+		$check_section = $this->checksection($data['section']);
+
+		unset($groups ['30']);
+		unset($groups ['29']);
+
+		if ($check_section == 0)
 		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
+			if (count($groups))
+			{
+				foreach ($groups as $groupValue => $groupName)
+				{
+					$row               = $this->getTable();
+					$row->gid          = $groupValue;
+					$row->section_name = $data['section'];
+					$row->view         = $data['groupaccess_' . $groupValue]['view'];
+					$row->add          = $data['groupaccess_' . $groupValue]['add'];
+					$row->edit         = $data['groupaccess_' . $groupValue]['edit'];
+					$row->delete       = $data['groupaccess_' . $groupValue]['delete'];
+
+					if ($row->check())
+					{
+						if (!$row->store())
+						{
+							$this->setError($this->_db->getErrorMsg());
+
+							return false;
+						}
+					}
+					else
+					{
+						$this->setError($this->_db->getErrorMsg());
+
+						return false;
+					}
+
+					// Added for stock room
+					if ($row->section_name == 'stockroom')
+					{
+						$row1               = $this->getTable();
+						$row1->gid          = $groupValue;
+						$row1->section_name = "stockroom_detail";
+						$row1->view         = $data['groupaccess_' . $groupValue]['view'];
+						$row1->add          = $data['groupaccess_' . $groupValue]['add'];
+						$row1->edit         = $data['groupaccess_' . $groupValue]['edit'];
+						$row1->delete       = $data['groupaccess_' . $groupValue]['delete'];
+
+						if ($row->view == 1 && $row->add == 1)
+						{
+							if ($row1->check())
+							{
+								if (!$row1->store())
+								{
+									$this->setError($this->_db->getErrorMsg());
+
+									return false;
+								}
+							}
+						}
+						else
+						{
+							$row1->view = null;
+
+							if ($row1->check())
+							{
+								if (!$row1->store())
+								{
+									$this->setError($this->_db->getErrorMsg());
+
+									return false;
+								}
+							}
+						}
+
+						$row_amt               = $this->getTable();
+						$row_amt->gid          = $groupValue;
+						$row_amt->section_name = "stockroom_listing";
+						$row_amt->view         = $data['groupaccess_' . $groupValue]['view'];
+						$row_amt->add          = $data['groupaccess_' . $groupValue]['add'];
+						$row_amt->edit         = $data['groupaccess_' . $groupValue]['edit'];
+						$row_amt->delete       = $data['groupaccess_' . $groupValue]['delete'];
+
+						if ($row->view == 1 && $row->edit == 1)
+						{
+							if ($row_amt->check())
+							{
+								if (!$row_amt->store())
+								{
+									$this->setError($this->_db->getErrorMsg());
+
+									return false;
+								}
+							}
+						}
+						else
+						{
+							$row_amt->view = null;
+
+							if ($row_amt->check())
+							{
+								if (!$row_amt->store())
+								{
+									$this->setError($this->_db->getErrorMsg());
+
+									return false;
+								}
+							}
+						}
+
+						// Stockrrom image
+
+						$row_img               = $this->getTable();
+						$row_img->gid          = $groupValue;
+						$row_img->section_name = "stockimage";
+						$row_img->view         = $data['groupaccess_' . $groupValue]['view'];
+						$row_img->add          = $data['groupaccess_' . $groupValue]['add'];
+						$row_img->edit         = $data['groupaccess_' . $groupValue]['edit'];
+						$row_img->delete       = $data['groupaccess_' . $groupValue]['delete'];
+
+						if ($row->view == 1 && $row->edit == 1)
+						{
+							if ($row_img->check())
+							{
+								if (!$row_img->store())
+								{
+									$this->setError($this->_db->getErrorMsg());
+
+									return false;
+								}
+							}
+						}
+						else
+						{
+							$row_img->view = null;
+							$row_img->add  = null;
+
+							if ($row_img->check())
+							{
+								if (!$row_img->store())
+								{
+									$this->setError($this->_db->getErrorMsg());
+
+									return false;
+								}
+							}
+						}
+
+						$row_imgd               = $this->getTable();
+						$row_imgd->gid          = $groupValue;
+						$row_imgd->section_name = "stockimage_detail";
+						$row_imgd->view         = $data['groupaccess_' . $groupValue]['view'];
+						$row_imgd->add          = $data['groupaccess_' . $groupValue]['add'];
+						$row_imgd->edit         = $data['groupaccess_' . $groupValue]['edit'];
+						$row_imgd->delete       = $data['groupaccess_' . $groupValue]['delete'];
+
+						if ($row_img->view == 1 && $row_img->add == 1)
+						{
+							if ($row_imgd->check())
+							{
+								if (!$row_imgd->store())
+								{
+									$this->setError($this->_db->getErrorMsg());
+
+									return false;
+								}
+							}
+						}
+						else
+						{
+							$row_imgd->view = null;
+							$row_imgd->add  = null;
+
+							if ($row_imgd->check())
+							{
+								if (!$row_imgd->store())
+								{
+									$this->setError($this->_db->getErrorMsg());
+
+									return false;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			foreach ($groups as $groupValue => $groupName)
+			{
+				$row               = new stdClass();
+				$row->gid          = $groupValue;
+				$row->section_name = $data['section'];
+				$row->view         = $data['groupaccess_' . $groupValue]['view'];
+				$row->add          = $data['groupaccess_' . $groupValue]['add'];
+				$row->edit         = $data['groupaccess_' . $groupValue]['edit'];
+				$row->delete       = $data['groupaccess_' . $groupValue]['delete'];
+
+				if ($row->section_name == 'stockroom')
+				{
+					$child_section = "stockroom_detail";
+
+					if ($row->view == 1 && $row->add == 1)
+					{
+						$query = "UPDATE " . "#__redshop_accessmanager"
+							. " SET `view` = " . (int) $row->view . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete
+							. " WHERE `section_name` = " . $db->quote($child_section)
+							. " AND `gid` = " . (int) $row->gid;
+
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+					}
+					else
+					{
+						$child_view = null;
+						$query      = "UPDATE " . "#__redshop_accessmanager"
+							. " SET `view` = " . (int) $child_view . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete
+							. " WHERE `section_name` = " . $db->quote($child_section)
+							. " AND `gid` = " . (int) $row->gid;
+
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+					}
+
+					$child_section1 = "stockroom_listing";
+
+					if ($row->view == 1 && $row->edit == 1)
+					{
+						$query = "UPDATE " . "#__redshop_accessmanager"
+							. " SET `view` = " . (int) $row->view . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete . ""
+							. " WHERE `section_name` = " . $db->quote($child_section1)
+							. " AND `gid` = " . (int) $row->gid;
+
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+					}
+					else
+					{
+						$child_view1 = null;
+						$query       = "UPDATE " . "#__redshop_accessmanager"
+							. " SET `view` = " . (int) $child_view1 . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete . ""
+							. " WHERE `section_name` = '" . $db->quote($child_section1)
+							. " AND `gid` = " . (int) $row->gid;
+
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+					}
+
+					$child_section2 = "stockimage";
+
+					if ($row->view == 1 && $row->edit == 1)
+					{
+						$query = "UPDATE " . "#__redshop_accessmanager"
+							. " SET `view` = " . (int) $row->view . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete
+							. " WHERE `section_name` = " . $db->quote($child_section2)
+							. " AND `gid` = " . (int) $row->gid;
+
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+					}
+					else
+					{
+						$child_view2 = null;
+						$child_add2  = null;
+						$query       = "UPDATE " . "#__redshop_accessmanager"
+							. " SET `view` = " . (int) $child_view2 . ","
+							. " `add` = " . (int) $child_add2 . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete
+							. " WHERE `section_name` = '" . $db->quote($child_section2)
+							. " AND `gid` = " . (int) $row->gid;
+
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+					}
+
+					$child_section3 = "stockimage_detail";
+
+					if ($row->view == 1 && $row->edit == 1)
+					{
+						$query = "UPDATE " . "#__redshop_accessmanager"
+							. " SET `view` = " . (int) $row->view . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete
+							. " WHERE `section_name` = " . $db->quote($child_section3)
+							. " AND `gid` = " . (int) $row->gid;
+
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+					}
+					else
+					{
+						$child_view1 = null;
+						$query       = "UPDATE " . "#__redshop_accessmanager"
+							. " SET `view` = " . (int) $child_view1 . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete
+							. " WHERE `section_name` = " . $db->quote($child_section3)
+							. " AND `gid` = " . (int) $row->gid;
+
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+					}
+				}
+
+				$query = "UPDATE " . "#__redshop_accessmanager"
+					. " SET `view` = " . (int) $row->view . ","
+					. " `add` = " . (int) $row->add . ","
+					. " `edit` = " . (int) $row->edit . ","
+					. " `delete` = " . (int) $row->delete
+					. " WHERE `section_name` = " . $db->quote($row->section_name)
+					. " AND `gid` = " . (int) $row->gid;
+
+				$this->_db->setQuery($query);
+				$this->_db->execute();
+			}
 		}
 
-		return $this->_total;
+		return $row;
 	}
 
-	public function getPagination()
+	/**
+	 * Method to get section
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function checksection($section)
 	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
+		$db    = JFactory::getDbo();
+		$query = " SELECT count(*) FROM " . "#__redshop_accessmanager "
+			. "WHERE `section_name` = " . $db->quote($section);
+		$this->_db->setQuery($query);
 
-		return $this->_pagination;
+		return $this->_db->loadResult();
 	}
 
-	public function _buildQuery()
+	public function getGroup()
 	{
-		$where = "";
-		$filter = $this->getState('filter');
-		$product_id = $this->getState('product_id');
+		// Compute usergroups
+		$db    = JFactory::getDbo();
+		$query = "SELECT a.*,COUNT(DISTINCT c2.id) AS level
+  FROM `#__usergroups` AS a  LEFT  OUTER JOIN `#__usergroups` AS c2  ON a.lft > c2.lft  AND a.rgt < c2.rgt  GROUP BY a.id
+  ORDER BY a.lft asc";
 
-		if ($filter)
+		$db->setQuery($query);
+
+		$groups = $db->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
 		{
-			$where .= " AND q.question LIKE '%" . $filter . "%' ";
+			JError::raiseNotice(500, $db->getErrorMsg());
+
+			return null;
 		}
 
-		if ($product_id != 0)
-		{
-			$where .= " AND q.product_id =" . (int) $product_id . " ";
-		}
-
-		$orderby = $this->_buildContentOrderBy();
-
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
-			. "WHERE q.parent_id = " . (int) $this->_id . " "
-			. $where
-			. $orderby;
-
-		return $query;
+		return ($groups);
 	}
 
-	public function _buildContentOrderBy()
+	public function formatGroup($groups)
 	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
+		$returnable = array();
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'question_date');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+		foreach ($groups as $val)
+		{
+			$returnable[$val->id] = str_repeat('<span class="gi">|&mdash;</span>', $val->level) . $val->title;
+		}
 
-		$orderby = " ORDER BY " . $db->escape($filter_order . " " . $filter_order_Dir);
+		return $returnable;
+	}
 
-		return $orderby;
+	public function getTable($name = 'Accessmanager', $prefix = 'RedshopTable', $options = array())
+	{
+		return parent::getTable($name, $prefix, $options);
 	}
 }
