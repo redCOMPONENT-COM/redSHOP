@@ -30,9 +30,14 @@ $filter = JRequest::getVar('filter_search');
 
 		form.submit();
 	}
+	function clearreset() {
+		var form = document.adminForm;
+		form.filter_search.value = "";
+		form.submit();
+	}
 </script>
 
-<form action="index.php?option=com_redshop" class="admin" id="adminForm" method="post" name="adminForm">
+<form action="index.php?option=com_redshop&view=currency" class="admin" id="adminForm" method="post" name="adminForm">
 
 	<div class="filterTool">
 		<div class="filterItem">
