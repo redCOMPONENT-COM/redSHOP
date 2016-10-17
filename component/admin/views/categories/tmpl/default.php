@@ -21,21 +21,18 @@ $saveOrder = ($listOrder == 'c.ordering' && strtolower($listDirn) == 'asc');
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown') || (pressbutton == 'copy')) {
-			form.view.value = "category";
-		}
 		try {
 			form.onsubmit();
 		}
 		catch (e) {
 		}
 
-		if (pressbutton == 'remove') {
+		if (pressbutton == 'categories.delete') {
 			var r = confirm('<?php echo JText::_("COM_REDSHOP_DELETE_CATEGORY")?>');
 			if (r == true)    form.submit();
 			else return false;
 		}
+
 		form.submit();
 	}
 
@@ -51,8 +48,6 @@ $saveOrder = ($listOrder == 'c.ordering' && strtolower($listDirn) == 'asc');
 			jQuery('input[name="task"]').val('assignTemplate');
 
 			if (confirm("<?php echo JText::_('COM_REDSHOP_SURE_WANT_TO_ASSIGN_TEMPLATE');?>")) {
-
-				//form.product_template.value = templatevalue;
 				form.submit();
 			} else {
 				jQuery('select#filter_category_template').val(0);
@@ -109,7 +104,7 @@ $saveOrder = ($listOrder == 'c.ordering' && strtolower($listDirn) == 'asc');
 				<th><?php echo JText::_('COM_REDSHOP_PRODUCTS'); ?></th>
 				<th width="15%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'c.ordering', $listDirn, $listOrder); ?>
-					<?php  if ($saveOrder) echo JHTML::_('grid.order', $this->items); ?>
+					<?php if ($saveOrder) echo JHTML::_('grid.order', $this->items); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'c.category_id', $listDirn, $listOrder); ?>
