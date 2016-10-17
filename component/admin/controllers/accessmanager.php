@@ -9,15 +9,31 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * Access manager detail controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller.Accessmanager
+ * @since       2.0
+ */
 class RedshopControllerAccessmanager extends RedshopControllerForm
 {
+	/**
+	 * RedshopControllerAccessmanager constructor.
+	 *
+	 * @param   array  $default  An optional associative array of configuration settings.
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * Edit task
+	 *
+	 * @return  JControllerLegacy
+	 */
 	public function edit()
 	{
 		$input = JFactory::getApplication()->input;
@@ -28,15 +44,22 @@ class RedshopControllerAccessmanager extends RedshopControllerForm
 		parent::display();
 	}
 
+	/**
+	 * Save task
+	 *
+	 * @param   int  $apply  Save / Apply data
+	 *
+	 * @return  void
+	 */
 	public function save($apply)
 	{
-		$post = JRequest::get('post');
+		$input = JFactory::getApplication()->input;
+		$post = $input->post->getArray();
 
 		$model   = $this->getModel();
-		$section = JRequest::getVar('section', '', 'request', 'string');
-		$row     = $model->store($post);
+		$section = $input->request->getString('section', '');
 
-		if ($row)
+		if ($model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_SAVED');
 		}
@@ -55,17 +78,35 @@ class RedshopControllerAccessmanager extends RedshopControllerForm
 		}
 	}
 
+	/**
+	 * Alias method of save without redirect back to main view
+	 *
+	 * @return  void
+	 */
 	public function apply()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * Cancel task
+	 *
+	 * @return  void
+	 */
 	public function cancel()
 	{
-		$msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');
-		$this->setRedirect('index.php?option=com_redshop&view=accessmanagers', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=accessmanagers', JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL'));
 	}
 
+	/**
+	 * Proxy to get RedshopModelAccessmanager
+	 *
+	 * @param   string  $name    Model name
+	 * @param   string  $prefix  Model prefix
+	 * @param   array   $config  Configuration
+	 *
+	 * @return  object
+	 */
 	public function getModel($name = 'Accessmanager', $prefix = 'RedshopModel', $config = array())
 	{
 		return parent::getModel($name, $prefix, $config);
