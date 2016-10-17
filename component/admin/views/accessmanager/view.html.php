@@ -9,7 +9,13 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * Access manager detail view
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View.Accessmanager
+ * @since       2.0
+ */
 class RedshopViewAccessmanager extends RedshopViewAdmin
 {
 	/**
@@ -19,10 +25,17 @@ class RedshopViewAccessmanager extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	/**
+	 * Display
+	 *
+	 * @param   string  $tpl  Tpl
+	 *
+	 * @return  JViewLegacy
+	 */
 	public function display($tpl = null)
 	{
 		$model = $this->getModel();
-		$accessmanager = $model->getaccessmanager();
+		$accessmanager = $model->getAccessmanager();
 
 		/**
 		 * get groups
@@ -43,9 +56,13 @@ class RedshopViewAccessmanager extends RedshopViewAdmin
 		parent::display($tpl);
 	}
 
+	/**
+	 * Get group
+	 *
+	 * @return  array|bool
+	 */
 	public function getGroup()
 	{
-
 		// Compute usergroups
 		$db = JFactory::getDbo();
 		$query = "SELECT a.*,COUNT(DISTINCT c2.id) AS level
@@ -67,6 +84,15 @@ FROM `#__usergroups` AS a  LEFT  OUTER JOIN `#__usergroups` AS c2  ON a.lft > c2
 		return ($groups);
 	}
 
+	/**
+	 * Format group
+	 *
+	 * @param   array  $groups  Array of group
+	 *
+	 * @return array
+	 *
+	 * @since version
+	 */
 	public function formatGroup($groups)
 	{
 		$returnable = array();
@@ -79,18 +105,32 @@ FROM `#__usergroups` AS a  LEFT  OUTER JOIN `#__usergroups` AS c2  ON a.lft > c2
 		return $returnable;
 	}
 
+	/**
+	 * Method to add toolbar
+	 *
+	 * @return  void
+	 */
 	protected function addToolbar ()
 	{
-		JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER') . ': <small><small>[ ' . JRequest::getVar('section') . ' ]</small></small>',
+		JToolBarHelper::title(
+			JText::_('COM_REDSHOP_ACCESS_MANAGER') . ': <small><small>[ ' . JFactory::getApplication()->input->get('section') . ' ]</small></small>',
 			'redshop_catalogmanagement48'
 		);
 
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		JToolBarHelper::cancel();
-
 	}
 
+	/**
+	 * Proxy to get RedshopModelAccessmanager
+	 *
+	 * @param   string  $name    Model name
+	 * @param   string  $prefix  Model prefix
+	 * @param   array   $config  Configuration
+	 *
+	 * @return  object
+	 */
 	public function getModel($name = 'Accessmanager', $prefix = 'RedshopModel', $config = array())
 	{
 		return parent::getModel($name, $prefix, $config);
