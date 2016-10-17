@@ -23,7 +23,7 @@ class CountryManagerPage
 
 	public static $countryThreeCode = "#jform_country_3_code";
 
-	public static $country = "#jorm_country_jtext";
+	public static $country = "#jform_country_jtext";
 
 	public static $countryCheck = "//input[@id='cb0']/following-sibling::ins";
 
