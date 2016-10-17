@@ -37,7 +37,7 @@ class RedshopModelCurrency extends RedshopModel
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-		$this->setState('filter', $filter);
+		$this->setState('filter_search', $filter);
 	}
 
 	public function getData()
