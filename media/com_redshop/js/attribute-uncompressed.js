@@ -587,7 +587,7 @@ function collectAttributes(productId, accessoryId, relatedProductId)
 	}
 
 	// Init attribute dom element
-	var attributeDoms = jQuery('[name="attribute_id_' + commonid + '[]"');
+	var attributeDoms = jQuery('[name="attribute_id_' + commonid + '[]"]');
 
 	if (attributeDoms.length <= 0 && redSHOP.RSConfig._('AJAX_CART_BOX') == 1)
 	{
@@ -603,7 +603,7 @@ function collectAttributes(productId, accessoryId, relatedProductId)
 
 		attributeIds.push(attributeId);
 
-		var propertyDoms = jQuery('[name="property_id_' + commonid + '[]"');
+		var propertyDoms = jQuery('[name="property_id_' + commonid + '[]"]');
 
 		if (propertyDoms.length){
 

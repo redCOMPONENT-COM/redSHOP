@@ -70,10 +70,9 @@ class RedshopControllerQuestion extends RedshopController
 
 		if (!$model->publish($cid, 0))
 		{
-
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
-		//var_dump('false', $cid);die;
+
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
 	}

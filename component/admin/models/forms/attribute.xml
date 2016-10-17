@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="attribute_id"
+                type="hidden"
+                />
+        <field
+                name="product_id"
+                type="rproducts"
+                label="COM_REDSHOP_PRODUCT"
+                description="COM_REDSHOP_PRODUCT_DESC"
+                required="true">
+            <option value="">COM_REDSHOP_SELECT_PRODUCT</option>
+        </field>
+        <field
+                name="display_type"
+                type="list"
+                label="COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE"
+                description="COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE"
+                required="true">
+            <option value="">COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE_SELECT</option>
+            <option value="dropdown">COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE_DROPDOWN</option>
+            <option value="radio">COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE_RADIO</option>
+        </field>
+        <field
+                name="attribute_name"
+                type="text"
+                label="COM_REDSHOP_ATTRIBUTE_NAME"
+                description="COM_REDSHOP_ATTRIBUTE_NAME_DESC"
+                size="40"
+                class="inputbox"
+                default=""
+                required="true"
+                />
+        <field
+                name="attribute_required"
+                type="radio"
+                label="COM_REDSHOP_ATTRIBUTE_REQUIRED"
+                description="COM_REDSHOP_ATTRIBUTE_REQUIRED_DESC"
+                class="btn-group"
+                default="0">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="allow_multiple_selection"
+                type="radio"
+                label="COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECT"
+                description="COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECT_DESC"
+                class="btn-group btn-group-yesno"
+                default="0">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+            name="hide_attribute_price"
+            type="radio"
+            label="COM_REDSHOP_HIDE_ATTRIBUTE_PRICE"
+            description="COM_REDSHOP_HIDE_ATTRIBUTE_PRICE"
+            class="btn-group btn-group-yesno"
+            default="0"
+        >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+            name="published"
+            type="radio"
+            class="btn-group btn-group-yesno"
+            default="1"
+            label="COM_REDSHOP_PUBLISHED"
+            description="COM_REDSHOP_PUBLISHED"
+        >
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+        </field>
+    </fieldset>
+</form>

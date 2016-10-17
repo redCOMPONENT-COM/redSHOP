@@ -65,10 +65,10 @@ class RedshopShippingRate
 			$keyToUse              = (($length + $position) + 1);
 
 			$keyToUse              = (255 + $keyToUse) % 255;
-			$byteToBeEncrypted     = SUBSTR($string, $position, 1);
-			$asciiNumByteToEncrypt = ORD($byteToBeEncrypted);
+			$byteToBeEncrypted     = substr($string, $position, 1);
+			$asciiNumByteToEncrypt = ord($byteToBeEncrypted);
 			$xoredByte             = $asciiNumByteToEncrypt ^ $keyToUse;
-			$encryptedByte         = CHR($xoredByte);
+			$encryptedByte         = chr($xoredByte);
 			$encrypted             .= $encryptedByte;
 		}
 

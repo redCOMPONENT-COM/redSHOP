@@ -519,7 +519,7 @@ function validateUserDetail() {
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:</td>
 					<td><input class="inputbox" type="text" name="username" id="username" size="32" maxlength="250"
-					           value="" onblur="validate(1);"/><span id="user_valid"></span></td>
+					           value=""/><span id="user_valid"></span></td>
 				</tr>
 				<tr>
 					<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'); ?>:</td>
