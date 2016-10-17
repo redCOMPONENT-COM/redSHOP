@@ -57,7 +57,7 @@ script:
 - php vendor/bin/robo check:travis-webserver # Test apache
 - php vendor/bin/robo run:tests 1
 #- php vendor/bin/robo send:codeception-output-to-slack C02L0SE5E xoxp-2309442657-4789197868-4789233706-68cec7
-- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+- if [ $TRAVIS_PULL_REQUEST != "false" && $TRAVIS_PHP_VERSION = "5.6"]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
 
 notifications:
   slack:
