@@ -133,31 +133,31 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 		);*/
 
 		// Collect Extra Field Information
-		$pnoInfo = RedshopHelperExtraFields::getDataByName(
+		$pnoInfo = RedshopHelperExtrafields::getDataByName(
 			'rs_pno',
 			extraField::SECTION_PAYMENT_GATEWAY,
 			$data['order_id']
 		);
 
-		$dateOfBirth = RedshopHelperExtraFields::getDataByName(
+		$dateOfBirth = RedshopHelperExtrafields::getDataByName(
 			'rs_birthdate',
 			extraField::SECTION_PAYMENT_GATEWAY,
 			$data['order_id']
 		);
 
-		$genderInfo = RedshopHelperExtraFields::getDataByName(
+		$genderInfo = RedshopHelperExtrafields::getDataByName(
 			'rs_gender',
 			extraField::SECTION_PAYMENT_GATEWAY,
 			$data['order_id']
 		);
 
-		$houseNumberInfo = RedshopHelperExtraFields::getDataByName(
+		$houseNumberInfo = RedshopHelperExtrafields::getDataByName(
 			'rs_house_number',
 			extraField::SECTION_PAYMENT_GATEWAY,
 			$data['order_id']
 		);
 
-		$houseExtensionInfo = RedshopHelperExtraFields::getDataByName(
+		$houseExtensionInfo = RedshopHelperExtrafields::getDataByName(
 			'rs_house_extension',
 			extraField::SECTION_PAYMENT_GATEWAY,
 			$data['order_id']
