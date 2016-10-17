@@ -6,88 +6,224 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
 defined('_JEXEC') or die;
 
 
-class RedshopModelState extends RedshopModel
+class RedshopModelState_detail extends RedshopModel
 {
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.5
-	 */
-	protected function getStoreId($id = '')
-	{
-		$id .= ':' . $this->getState('country_id_filter');
-		$id .= ':' . $this->getState('country_main_filter');
+	public $_id = null;
 
-		return parent::getStoreId($id);
+	public $_data = null;
+
+	public $_table_prefix = null;
+
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->_table_prefix = '#__redshop_';
+
+		$array = JRequest::getVar('cid', 0, '', 'array');
+		$this->setId((int) $array[0]);
+	}
+
+	public function setId($id)
+	{
+		$this->_id = $id;
+		$this->_data = null;
+	}
+
+	public function &getData()
+	{
+		if ($this->_loadData())
+		{
+		}
+		else
+		{
+			$this->_initData();
+		}
+
+		return $this->_data;
+	}
+
+	public function _loadData()
+	{
+		if (empty($this->_data))
+		{
+			$query = 'SELECT * FROM ' . $this->_table_prefix . 'state WHERE state_id = ' . $this->_id;
+			$this->_db->setQuery($query);
+			$this->_data = $this->_db->loadObject();
+
+			return (boolean) $this->_data;
+		}
+
+		return true;
+	}
+
+	public function _initData()
+	{
+		if (empty($this->_data))
+		{
+			$detail                   = new stdClass;
+
+			$detail->state_id         = 0;
+			$detail->state_name       = null;
+			$detail->state_3_code     = null;
+			$detail->country_id       = null;
+			$detail->state_2_code     = null;
+			$detail->show_state       = 2;
+			$detail->checked_out      = 0;
+			$detail->checked_out_time = null;
+			$this->_data              = $detail;
+
+			return (boolean) $this->_data;
+		}
+
+		return true;
+	}
+
+	public function store($data)
+	{
+
+		$row = $this->getTable('state_detail');
+
+		if (!$row->bind($data))
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		if (!$row->check())
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		if (!$row->store())
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		return $row;
+	}
+
+	public function delete($cid = array())
+	{
+		if (count($cid))
+		{
+			$cids = implode(',', $cid);
+
+			$query = 'DELETE FROM ' . $this->_table_prefix . 'state WHERE state_id IN ( ' . $cids . ' )';
+			$this->_db->setQuery($query);
+
+			if (!$this->_db->execute())
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public function getcountry()
+	{
+				$redhelper = redhelper::getInstance();
+		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY 					    	country_name ASC";
+		$this->_db->setQuery($q);
+		$countries = $this->_db->loadObjectList();
+		$countries = $redhelper->convertLanguageString($countries);
+
+		return $countries;
 	}
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Method to checkout/lock the state_detail
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 *  @param   int  $uid  User ID of the user checking the helloworl detail out.
 	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
+	 *  @return   boolean True on success.
 	 */
-	protected function populateState($ordering = 'state_id', $direction = '')
+	public function checkout($uid = null)
 	{
-		$country_id_filter = $this->getUserStateFromRequest($this->context . '.country_id_filter', 'country_id_filter', 0);
-		$country_main_filter = $this->getUserStateFromRequest($this->context . '.country_main_filter', 'country_main_filter', '');
+		if ($this->_id)
+		{
+			// Make sure we have a user id to checkout the article with
+			if (is_null($uid))
+			{
+				$user = JFactory::getUser();
+				$uid = (int) $user->get('id');
+			}
 
-		$this->setState('country_id_filter', $country_id_filter);
-		$this->setState('country_main_filter', $country_main_filter);
+			// Lets get to it and checkout the thing...
+			$state_detail = $this->getTable('state_detail');
 
-		parent::populateState($ordering, $direction);
+			if (!$state_detail->checkout($uid, $this->_id))
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
-	public function _buildQuery()
+	/**
+	 * Method to checkin/unlock the state_detail
+	 *
+	 * @access    public
+	 *
+	 * @return    boolean    True on success
+	 *
+	 * @since    1.5
+	 */
+	public function checkin()
 	{
-		$orderby = $this->_buildContentOrderBy();
-		$country_id_filter = $this->getState('country_id_filter');
-		$country_main_filter = $this->getState('country_main_filter');
-		$andcondition = '1=1';
-		$country_main_filter = addslashes($country_main_filter);
-
-		if ($country_id_filter > 0 && $country_main_filter == '')
+		if ($this->_id)
 		{
-			$andcondition = 'c.country_id = ' . $country_id_filter;
+			$state_detail = $this->getTable('state_detail');
+
+			if (!$state_detail->checkin($this->_id))
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
 		}
 
-		elseif ($country_id_filter > 0 && $country_main_filter != '')
-		{
-			$andcondition = "c.country_id = " . $country_id_filter . " and (s.state_name like '" . $country_main_filter . "%' || s.state_3_code = '"
-				. $country_main_filter . "' || s.state_2_code = '" . $country_main_filter . "')";
-		}
-		elseif ($country_id_filter == 0 && $country_main_filter != '')
-		{
-			$andcondition = "s.state_name like '" . $country_main_filter . "%' || s.state_3_code = '" . $country_main_filter
-				. "' || s.state_2_code='" . $country_main_filter . "'";
-		}
-		$query = 'SELECT distinct(s.state_id),s . * , c.country_name FROM `#__redshop_state` AS s '
-			. 'LEFT JOIN #__redshop_country AS c ON s.country_id = c.country_id WHERE ' . $andcondition . $orderby;
-
-		return $query;
+		return false;
 	}
 
-	public function getCountryName($country_id)
+	/**
+	 * Tests if state_detail is checked out
+	 *
+	 * @access    public
+	 *
+	 * @param    int    A user id
+	 *
+	 * @return    boolean    True if checked out
+	 * @since    1.5
+	 */
+	public function isCheckedOut($uid = 0)
 	{
-		$query = "SELECT  c.country_name from #__redshop_country AS c where c.country_id=" . $country_id;
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
+		if ($this->_loadData())
+		{
+			if ($uid)
+			{
+				return ($this->_data->checked_out && $this->_data->checked_out != $uid);
+			}
+			else
+			{
+				return $this->_data->checked_out;
+			}
+		}
 	}
 }
