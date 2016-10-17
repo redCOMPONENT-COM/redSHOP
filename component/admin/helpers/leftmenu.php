@@ -187,8 +187,8 @@ class LeftMenu
 				return array('USER', 'user');
 				break;
 
-			case "accessmanager":
-			case 'accessmanager_detail':
+			case "accessmanagers":
+			case 'accessmanager':
 				return array('USER', 'accessmanager');
 				break;
 
