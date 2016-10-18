@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 /**
  * The states controller
  *
- * @package     RedITEM.Backend
+ * @package     RedSHOP.Backend
  * @subpackage  Controller.States
  * @since       2.0.0.2.2
  */
-class RedshopControllerStates extends RedshopController
+class RedshopControllerStates extends RedshopControllerAdmin
 {
 }

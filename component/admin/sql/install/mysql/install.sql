@@ -1927,7 +1927,7 @@ COMMENT = 'redSHOP Site Viewer';
 DROP TABLE IF EXISTS `#__redshop_state` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_state` (
-  `state_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `country_id` INT(11) NOT NULL DEFAULT '1',
   `state_name` VARCHAR(64) NULL DEFAULT NULL,
   `state_3_code` CHAR(3) NULL DEFAULT NULL,

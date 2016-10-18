@@ -9,8 +9,14 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewState_detail extends RedshopViewAdmin
+/**
+ * The state view
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  State.View
+ * @since       2.0.0.2.2
+ */
+class RedshopViewState extends RedshopViewAdmin
 {
 	/**
 	 * Do we have to display a sidebar ?
@@ -19,74 +25,65 @@ class RedshopViewState_detail extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	protected $form;
+
+	protected $item;
+
+	protected $state;
+
+	/**
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 */
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_DETAIL'), 'redshop_region_48');
+		// Initialise variables.
+		$this->form		= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->state	= $this->get('State');
 
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
-		$user     = JFactory::getUser();
-
-		$model = $this->getModel('state_detail');
-
-		JToolBarHelper::save();
-		JToolBarHelper::apply();
-		$lists  = array();
-		$detail = $this->get('data');
-		$isNew  = ($detail->state_id < 1);
-
-		// 	fail if checked out not by 'me'
-		if ($model->isCheckedOut($user->get('id')))
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
 		{
-			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
-			$app->redirect('index.php?option=com_redshop', $msg);
+			throw new Exception(implode("\n", $errors));
+
+			return false;
 		}
 
-		$text      = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
-		$db        = JFactory::getDbo();
+		$this->addToolbar();
+		parent::display($tpl);
+	}
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
+		$isNew = ($this->item->id < 1);
 
-		$redhelper = redhelper::getInstance();
-		$q         = "SELECT  country_id as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
-		$db->setQuery($q);
-		$countries = $db->loadObjectList();
-		$countries = $redhelper->convertLanguageString($countries);
+		// Prepare text for title
+		$title = JText::_('COM_REDSHOP_STATE_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 
-		$temps[0]        = new stdClass;
-		$temps[0]->value = "0";
-		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
-		$countries       = array_merge($temps, $countries);
-
-		$lists['country_id'] = JHTML::_('select.genericlist', $countries, 'country_id', 'class="inputbox" size="1" ',
-			'value', 'text', $detail->country_id
-		);
-
-		$state_data = $redhelper->getStateAbbrivationByList();
-
-		$lists['show_state'] = JHTML::_('select.genericlist', $state_data, 'show_state',
-			'class="inputbox" size="1" ', 'value', 'text', $detail->show_state
-		);
+		JToolBarHelper::title($title, 'redshop_state_48');
+		JToolBarHelper::apply('state.apply');
+		JToolBarHelper::save('state.save');
 
 		if ($isNew)
 		{
-			JToolBarHelper::cancel();
+			JToolBarHelper::cancel('state.cancel');
 		}
 		else
 		{
-			// EDIT - check out the item
-			$model->checkout($user->get('id'));
-
-			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+			JToolBarHelper::cancel('state.cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_state') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
-
-		$this->detail      = $detail;
-		$this->lists       = $lists;
-		$this->request_url = $uri->toString();
-
-		parent::display($tpl);
 	}
 }

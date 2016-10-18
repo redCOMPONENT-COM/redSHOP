@@ -9,63 +9,67 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewState extends RedshopViewAdmin
+/**
+ * The states view
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  States.View
+ * @since       2.0.0.2.2
+ */
+class RedshopViewStates extends RedshopViewAdmin
 {
+	/**
+	 * Display the States view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 */
 	public function display($tpl = null)
 	{
-		JLoader::import('joomla.html.pagination');
+		// Get data from the model
+		$model = $this->getModel();
 
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+		$this->state		= $this->get('State');
+		$this->activeFilters = $model->getActiveFilters();
+		$this->filterForm    = $model->getForm();
 
-		$uri      = JFactory::getURI();
-		$document = JFactory::getDocument();
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new Exception(implode('<br />', $errors));
 
-		$document->setTitle(JText::_('COM_REDSHOP_STATE'));
+			return false;
+		}
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_MANAGEMENT'), 'redshop_region_48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolbarHelper::deleteList();
+		// Set the tool-bar and number of found items
+		$this->addToolBar();
 
-		$state = $this->get('State');
-		$lists['order']     = $state->get('list.ordering', 'state_id');
-		$lists['order_Dir'] = $state->get('list.direction');
-
-		$db = JFactory::getDbo();
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATES'), 'redshop_region_48');
-
-		$redhelper       = redhelper::getInstance();
-		$q               = "SELECT  country_id as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
-		$db->setQuery($q);
-		$countries       = $db->loadObjectList();
-
-		$countries       = $redhelper->convertLanguageString($countries);
-
-		$defSelect = new StdClass;
-		$defSelect->value = "0";
-		$defSelect->text  = JText::_('COM_REDSHOP_SELECT');
-
-		$temps           = array($defSelect);
-		$countries       = array_merge($temps, $countries);
-
-		$country_id_filter = $state->get('country_id_filter');
-
-		$lists['country_id'] = JHTML::_('select.genericlist', $countries, 'country_id_filter',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();"    ', 'value', 'text', $country_id_filter
-		);
-
-		$country_main_filter = $state->get('country_main_filter');
-
-		$fields                    = $this->get('Data');
-		$pagination                = $this->get('Pagination');
-
-		$this->country_main_filter = $country_main_filter;
-		$this->user                = JFactory::getUser();
-		$this->pagination          = $pagination;
-		$this->fields              = $fields;
-		$this->lists               = $lists;
-		$this->request_url         = $uri->toString();
-
+		// Display the template
 		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolBar()
+	{
+		$title = JText::_('COM_REDSHOP_STATE_MANAGEMENT');
+
+		if ($this->pagination->total)
+		{
+			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'>(" . $this->pagination->total . ")</span>";
+		}
+
+		JToolBarHelper::title($title, 'redshop_state_48');
+		JToolBarHelper::addNew('state.add');
+		JToolBarHelper::editList('state.edit');
+		JToolBarHelper::deleteList('', 'states.delete');
 	}
 }

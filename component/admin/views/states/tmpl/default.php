@@ -8,49 +8,43 @@
  */
 defined('_JEXEC') or die;
 
-
-$filter = JRequest::getVar('filter');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 
 ?>
-<script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
-			form.view.value = "state_detail";
-		}
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-
-		form.submit();
-	}
-</script>
-
-<form action="<?php echo 'index.php?option=com_redshop'; ?>" class="admin" method="post" name="adminForm" id="adminForm">
+<form 
+	action="<?php echo 'index.php?option=com_redshop&view=states'; ?>" 
+	class="admin" 
+	method="post" 
+	name="adminForm" 
+	id="adminForm"
+>
 	<div class="filterTool">
-		<div class="filterItem">
-			<div class="btn-wrapper input-append">
-				<input type="text" name="country_main_filter" id="country_main_filter" placeholder="<?php echo JText::_('COM_REDSHOP_FILTER');  ?>"
-					   value="<?php echo $this->country_main_filter; ?>">
-				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-							   onclick="document.getElementById('country_main_filter').value='';this.form.submit();" />
-			</div>
-		</div>
-		<div class="filterItem">
-			<?php echo JText::_("COM_REDSHOP_COUNTRY_NAME"); ?> :
-			<?php echo $this->lists['country_id']; ?>
-		</div>
+		<?php
+		echo JLayoutHelper::render(
+			'joomla.searchtools.default',
+			array(
+				'view' => $this,
+				'options' => array(
+					'searchField' => 'search',
+					'filtersHidden' => false,
+					'searchFieldSelector' => '#filter_search',
+					'countryIdFieldSelector' => '#filter_country_id',
+					'limitFieldSelector' => '#list_users_limit',
+					'activeOrder' => $listOrder,
+					'activeDirection' => $listDirn,
+				)
+			)
+		);
+		?>
 	</div>
 
-
+	<?php if (empty($this->items)) : ?>
+		<div class="alert alert-no-items">
+			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+		</div>
+	<?php else : ?>
 	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
@@ -58,29 +52,27 @@ $filter = JRequest::getVar('filter');
 			<th width="10">
 				<?php echo JHtml::_('redshopgrid.checkall'); ?>
 			</th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_NAME'), 's.state_name', $this->lists['order_Dir'], $this->lists['order']);?></th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_COUNTRY_NAME'), 'c.country_name', $this->lists['order_Dir'], $this->lists['order']);?></th>
-
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_3_CODE'), 's.state_3_code', $this->lists['order_Dir'], $this->lists['order']);?></th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_2_CODE'), 's.state_2_code', $this->lists['order_Dir'], $this->lists['order']);?></th>
-
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ID'), 's.state_id', $this->lists['order_Dir'], $this->lists['order']); ?>    </th>
+			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_NAME'), 's.state_name', $listDirn, $listOrder);?></th>
+			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_COUNTRY_NAME'), 'c.country_name', $listDirn, $listOrder);?></th>
+			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_3_CODE'), 's.state_3_code', $listDirn, $listOrder);?></th>
+			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_2_CODE'), 's.state_2_code', $listDirn, $listOrder);?></th>
+			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ID'), 's.state_id', $listDirn, $listOrder); ?></th>
 		</tr>
 		</thead>
 		<?php
 
 		$k = 0;
-		for ($i = 0, $n = count($this->fields); $i < $n; $i++)
+		for ($i = 0, $n = count($this->items); $i < $n; $i++)
 		{
-			$row = $this->fields[$i];
-			$row->id = $row->state_id;
+			$row = $this->items[$i];
+			$row->id = $row->id;
 
-			$link = JRoute::_('index.php?option=com_redshop&view=state_detail&task=edit&cid[]=' . $row->state_id);
+			$link = JRoute::_('index.php?option=com_redshop&view=state&task=edit&id=' . $row->id);
 
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td><?php echo $this->pagination->getRowOffset($i); ?></td>
-				<td><?php echo @JHTML::_('grid.checkedout', $row, $i); ?></td>
+				<td><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
 				<td>
 					<a href="<?php echo $link; ?>"
 					   title="<?php echo JText::_('COM_REDSHOP_EDIT_state'); ?>"><?php echo $row->state_name ?></a></td>
@@ -89,7 +81,7 @@ $filter = JRequest::getVar('filter');
 				<td align="center" width="10%"><?php echo $row->state_3_code; ?></td>
 				<td align="center" width="10%"><?php echo $row->state_2_code; ?></td>
 
-				<td align="center" width="10%"><?php echo $row->state_id;?></td>
+				<td align="center" width="10%"><?php echo $row->id;?></td>
 
 			</tr>
 			<?php
@@ -97,22 +89,21 @@ $filter = JRequest::getVar('filter');
 
 		}
 		?>
-
-
 		<tfoot>
-		<td colspan="9">
-			<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-				<div class="redShopLimitBox">
-					<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
-			<?php endif; ?>
-			<?php echo $this->pagination->getListFooter(); ?>
-		</td>
+			<td colspan="14">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+			</td>
 		</tfoot>
 	</table>
-	<input type="hidden" name="view" value="state">
+	<?php endif; ?>
+
+	<input type="hidden" name="view" value="states">
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
-	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+	<?php echo JHtml::_('form.token'); ?>
 </form>
