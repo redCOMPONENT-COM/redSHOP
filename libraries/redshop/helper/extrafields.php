@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6.1
  */
-class RedshopHelperExtraFields
+class RedshopHelperExtrafields
 {
 	/**
 	 * List of fields data
