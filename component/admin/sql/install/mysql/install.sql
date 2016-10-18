@@ -1935,7 +1935,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_state` (
   `checked_out` INT(11) NOT NULL,
   `checked_out_time` DATETIME NOT NULL,
   `show_state` INT(11) NOT NULL DEFAULT '2',
-  PRIMARY KEY (`state_id`),
+  PRIMARY KEY (`id`),
   UNIQUE INDEX `state_3_code` (`country_id` ASC, `state_3_code` ASC),
   UNIQUE INDEX `state_2_code` (`country_id` ASC, `state_2_code` ASC),
   INDEX `idx_country_id` (`country_id` ASC))
