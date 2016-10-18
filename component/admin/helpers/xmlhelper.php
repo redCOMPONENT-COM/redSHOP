@@ -5,12 +5,17 @@
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
+ *
+ * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml instead
  */
 
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
+/**
+ * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml instead
+ */
 class xmlHelper
 {
 	public $_db = null;
@@ -23,63 +28,59 @@ class xmlHelper
 		$this->_db = JFactory::getDbo();
 	}
 
+	/**
+	 * Get Section Type List
+	 *
+	 * @return  array  Array of HTML section list
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getSectionTypeList() instead
+	 */
 	public function getSectionTypeList()
 	{
-		$section = array();
-		$section[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
-		$section[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
-		$section[] = JHTML::_('select.option', 'order', JText::_('COM_REDSHOP_ORDER'));
-		return $section;
+		return RedshopHelperXml::getSectionTypeList();
 	}
 
+	/**
+	 * Get Section Type Name
+	 *
+	 * @param   string  $value  Value to get section type name
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getSectionTypeName() instead
+	 */
 	public function getSectionTypeName($value = '')
 	{
-		$name = "-";
-
-		switch ($value)
-		{
-			case 'product':
-				$name = JText::_('COM_REDSHOP_PRODUCT');
-				break;
-			case 'order':
-				$name = JText::_('COM_REDSHOP_ORDER');
-				break;
-		}
-
-		return $name;
+		return RedshopHelperXml::getSectionTypeName($value);
 	}
 
+	/**
+	 * Get Synchornization Interval List
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getSynchIntervalList() instead
+	 */
 	public function getSynchIntervalList()
 	{
-		$section = array();
-		$section[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-		$section[] = JHTML::_('select.option', 24, JText::_('COM_REDSHOP_24_HOURS'));
-		$section[] = JHTML::_('select.option', 12, JText::_('COM_REDSHOP_12_HOURS'));
-		$section[] = JHTML::_('select.option', 6, JText::_('COM_REDSHOP_6_HOURS'));
-
-		return $section;
+		return RedshopHelperXml::getSynchIntervalList();
 	}
 
+	/**
+	 * Get Synchronization Interval Name
+	 *
+	 * @param   integer  $value  Decimal value for hours
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getSynchIntervalName() instead
+	 */
 	public function getSynchIntervalName($value = 0)
 	{
-		$name = "-";
-
-		switch ($value)
-		{
-			case 24:
-				$name = JText::_('COM_REDSHOP_24_HOURS');
-				break;
-			case 12:
-				$name = JText::_('COM_REDSHOP_12_HOURS');
-				break;
-			case 6:
-				$name = JText::_('COM_REDSHOP_6_HOURS');
-				break;
-		}
-
-		return $name;
+		return RedshopHelperXml::getSynchIntervalName($value);
 	}
 
+	// @TODO
 	public function getSectionColumnList($section = "", $childSection = "")
 	{
 		$cols = array();
@@ -224,85 +225,91 @@ class xmlHelper
 		return $cols;
 	}
 
+	/**
+	 * Get XML File Tag
+	 *
+	 * @param   string  $fieldname   Field name
+	 * @param   string  $xmlfiletag  XML File Tag
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getXMLFileTag() instead
+	 */
 	public function getXMLFileTag($fieldname = "", $xmlfiletag)
 	{
-		$result = "";
-		$update = 1;
-
-		if ($xmlfiletag != "")
-		{
-			$field = explode(";", $xmlfiletag);
-
-			for ($i = 0, $in = count($field); $i < $in; $i++)
-			{
-				$value = explode("=", $field[$i]);
-
-				if ($value[0] == $fieldname)
-				{
-					$result = trim($value[1]);
-					$update = (isset($value[2])) ? $value[2] : 0;
-					break;
-				}
-			}
-		}
-
-		return array($result, $update);
+		return RedshopHelperXml::getXMLFileTag($fieldname, $xmlfiletag);
 	}
 
+	/**
+	 * Explode XML file string
+	 *
+	 * @param   string  $xmlfiletag  String to explode
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::explodeXmlFileString() instead
+	 */
 	public function explodeXMLFileString($xmlfiletag = "")
 	{
-		$value = array();
-
-		if ($xmlfiletag != "")
-		{
-			$field = explode(";", $xmlfiletag);
-
-			for ($i = 0, $in = count($field); $i < $in; $i++)
-			{
-				$value[$i] = explode("=", $field[$i]);
-			}
-		}
-
-		return $value;
+		return RedshopHelperXml::explodeXmlFileString($xmlfiletag);
 	}
 
+	/**
+	 * Get XML Export Info
+	 *
+	 * @param   integer  $xmlexport_id  ID of xml to export
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getXmlExportInfo() instead
+	 */
 	public function getXMLExportInfo($xmlexport_id = 0)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "xml_export AS x "
-			. "WHERE x.xmlexport_id=" . (int) $xmlexport_id;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
-
-		return $list;
+		return RedshopHelperXml::getXmlExportInfo($xmlexport_id);
 	}
 
+	/**
+	 * Get XML export IP address
+	 *
+	 * @param   integer  $xmlexport_id  ID of xml to export IP address
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getXmlExportIpAddress() instead
+	 */
 	public function getXMLExportIpAddress($xmlexport_id = 0)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "xml_export_ipaddress AS x "
-			. "WHERE x.xmlexport_id=" . (int) $xmlexport_id;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperXml::getXmlExportIpAddress($xmlexport_id);
 	}
 
+	/**
+	 * Insert file name into xml export Log with id
+	 *
+	 * @param   integer  $xmlexport_id  Xml Export ID to insert
+	 * @param   string   $filename      File name to insert
+	 *
+	 * @return void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::insertXmlExportLog() instead
+	 */
 	public function insertXMLExportlog($xmlexport_id = 0, $filename = "")
 	{
-		$query = "INSERT INTO " . $this->_table_prefix . "xml_export_log "
-			. "(xmlexport_id, xmlexport_filename, xmlexport_date) "
-			. "VALUES "
-			. "(" . (int) $xmlexport_id . ", " . $this->_db->quote($filename) . "," . $this->_db->quote(time()) . ") ";
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		return RedshopHelperXml::insertXmlExportLog($xmlexport_id, $filename);
 	}
 
+	/**
+	 * Update file name in xml_export
+	 *
+	 * @param   integer  $xmlexport_id  XML export ID to update
+	 * @param   string   $filename      New file name to set
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::updateXmlExportFilename() instead
+	 */
 	public function updateXMLExportFilename($xmlexport_id = 0, $filename = "")
 	{
-		$query = "UPDATE " . $this->_table_prefix . "xml_export "
-			. "SET filename=" . $this->_db->quote($filename) . " "
-			. "WHERE xmlexport_id=" . (int) $xmlexport_id;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		return RedshopHelperXml::updateXmlExportFilename($xmlexport_id, $filename);
 	}
 
 	public function getXMLImportInfo($xmlimport_id = 0)
