@@ -155,8 +155,7 @@ class RedshopInstallDatabase
 							if (!array_key_exists($field, $columns))
 							{
 								$db->setQuery($query);
-								$db->query();
-								JFactory::getApplication()->enqueueMessage(JText::_('Altered new field: ' . $field), 'notice');
+								$db->execute();
 							}
 						}
 					}
@@ -174,8 +173,7 @@ class RedshopInstallDatabase
 							if (!array_key_exists($field, $indexes))
 							{
 								$db->setQuery($query);
-								$db->query();
-								JFactory::getApplication()->enqueueMessage(JText::_('Altered new index: ' . $field), 'notice');
+								$db->execute();
 							}
 						}
 					}
@@ -192,8 +190,7 @@ class RedshopInstallDatabase
 								if ($columns[$field]->Key != 'UNI')
 								{
 									$db->setQuery($query);
-									$db->query();
-									JFactory::getApplication()->enqueueMessage(JText::_('Add UNIQUE field: ' . $field), 'notice');
+									$db->execute();
 								}
 							}
 						}
@@ -293,15 +290,13 @@ class RedshopInstallDatabase
 						foreach ($query as $aQuery)
 						{
 							$db->setQuery($aQuery);
-							$db->query();
-							JFactory::getApplication()->enqueueMessage(JText::_('Dropped field: ' . $field), 'notice');
+							$db->execute();
 						}
 					}
 					else
 					{
 						$db->setQuery($query);
-						$db->query();
-						JFactory::getApplication()->enqueueMessage(JText::_('Dropped field: ' . $field), 'notice');
+						$db->execute();
 					}
 				}
 			}
@@ -318,17 +313,14 @@ class RedshopInstallDatabase
 						foreach ($query as $aQuery)
 						{
 							$db->setQuery($aQuery);
-							$db->query();
-							JFactory::getApplication()->enqueueMessage(JText::_('Dropped index: ' . $field), 'notice');
+							$db->execute();
 						}
 					}
 					else
 					{
 						$db->setQuery($query);
-						$db->query();
-						JFactory::getApplication()->enqueueMessage(JText::_('Dropped index: ' . $field), 'notice');
+						$db->execute();
 					}
-
 				}
 			}
 		}
