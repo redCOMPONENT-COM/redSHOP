@@ -9,7 +9,6 @@ var composer    = require('gulp-composer');
 var del         = require('del');
 var fs          = require('fs');
 var rename      = require('gulp-rename');
-var uglify      = require('gulp-uglifyjs');
 var xml2js      = require('xml2js');
 var parser      = new xml2js.Parser({explicitArray : false});
 

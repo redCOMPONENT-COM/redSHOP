@@ -1,5 +1,4 @@
 var gulp       = require("gulp");
-var extension  = require("./package.json");
 var argv       = require("yargs").argv;
 var requireDir = require("require-dir");
 var zip        = require("gulp-zip");
@@ -7,10 +6,13 @@ var xml2js     = require("xml2js");
 var fs         = require("fs");
 var sass       = require("gulp-sass");
 var path       = require("path");
-var parser     = new xml2js.Parser();
+
 var config     = require("./gulp-config.json");
-var jgulp      = requireDir("./node_modules/joomla-gulp", {recurse: true});
-var dir        = requireDir("./jgulp", {recurse: true});
+var extension  = require("./package.json");
+var joomlaGulp = requireDir("./node_modules/joomla-gulp", {recurse: true});
+var jgulp      = requireDir("./jgulp", {recurse: true});
+
+var parser     = new xml2js.Parser();
 
 /**
  * Function for read list folder
@@ -88,7 +90,7 @@ function moduleRelease(group, name) {
 }
 
 // Clean test site
-gulp.task(
+/*gulp.task(
     'clean',
     [
         'clean:components',
@@ -98,7 +100,7 @@ gulp.task(
         'clean:plugins'
     ], function() {
         return true;
-    });
+    });*/
 
 // Copy to test site
 gulp.task(
