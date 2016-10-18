@@ -2910,6 +2910,16 @@ class productHelper
 		$return = array();
 		$saved  = 0;
 
+		if (empty($accessory_price))
+		{
+			$accessory_price = 0;
+		}
+
+		if (empty($accessory_main_price))
+		{
+			$accessory_main_price = 0;
+		}
+
 		/*
 		 * $vat = 0 (add vat to accessory price)
 		 * $vat = 1 (Do not add vat to accessory price)
