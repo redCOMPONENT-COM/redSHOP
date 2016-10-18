@@ -57,7 +57,16 @@ class RedshopViewMass_discount_detail extends RedshopViewAdmin
 
 		$manufacturers = $model->getmanufacturers();
 
-		$category_id = explode(',', $detail->category_id);
+		if (isset($detail->category_id))
+		{
+			$category_id = $detail->category_id;
+
+			if (is_string($detail->category_id))
+			{
+				$category_id = explode(',', $detail->category_id);
+			}
+		}
+
 		$tmp = new stdClass;
 		$tmp = @array_merge($tmp, $category_id);
 

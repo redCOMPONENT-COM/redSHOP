@@ -69,7 +69,7 @@ class RedshopHelperWorld
 			return $this->countries;
 		}
 
-		// Load allowed contries from config
+		// Load allowed countries from config
 		$countriesList = Redshop::getConfig()->get('COUNTRY_LIST');
 
 		if ($countriesList)

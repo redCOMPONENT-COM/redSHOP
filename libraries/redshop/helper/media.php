@@ -166,7 +166,7 @@ class RedshopHelperMedia
 		$fileExt       = strtolower(JFile::getExt($fileName));
 		$fileNameNoExt = JFile::stripExt(basename($fileName));
 		$fileNameNoExt = preg_replace("/[&'#]/", '', $fileNameNoExt);
-		$fileNameNoExt = JApplication::stringURLSafe($fileNameNoExt);
+		$fileNameNoExt = JApplicationHelper::stringURLSafe($fileNameNoExt);
 		$fileName      = JPath::clean($fileName);
 		$segments      = explode(DIRECTORY_SEPARATOR, $fileName);
 
@@ -543,7 +543,7 @@ class RedshopHelperMedia
 
 			else
 			{
-				@unlink($file);
+				unlink($file);
 			}
 		}
 
@@ -592,8 +592,8 @@ class RedshopHelperMedia
 	 * Create thumbnail from gif/jpg/png image
 	 *
 	 * @param   string   $fileType  Have 3 options: gif, png, jpg
-	 * @param   string   $tsrc      Source image
-	 * @param   string   $dest      Destination to create thumbnail
+	 * @param   string   $srcImg    Source image
+	 * @param   string   $destImg   Destination to create thumbnail
 	 * @param   integer  $nWidth    Width in pixel
 	 * @param   integer  $nHeight   Height in pixel
 	 *
@@ -601,52 +601,54 @@ class RedshopHelperMedia
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function createThumb($fileType, $tsrc, $dest, $nWidth, $nHeight)
+	public function createThumb($fileType, $srcImg, $destImg, $nWidth, $nHeight)
 	{
+		$newImg = null;
+
 		if ($fileType === "gif")
 		{
-			$im    = imagecreatefromgif($dest);
+			$im    = imagecreatefromgif($destImg);
 
 			// Original picture width is stored
 			$width = imagesx($im);
 
 			// Original picture height is stored
 			$height   = imagesy($im);
-			$newimage = imagecreatetruecolor($nWidth, $nHeight);
-			imagecopyresized($newimage, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
+			$newImg = imagecreatetruecolor($nWidth, $nHeight);
+			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
 
-			imagegif($newimage, $tsrc);
-			chmod("$tsrc", 0755);
+			imagegif($newImg, $srcImg);
+			chmod("$srcImg", 0755);
 		}
 
 		if ($fileType === "jpg")
 		{
-			$im    = imagecreatefromjpeg($dest);
+			$im    = imagecreatefromjpeg($destImg);
 
 			// Original picture width is stored
 			$width = imagesx($im);
 
 			// Original picture height is stored
 			$height   = imagesy($im);
-			$newimage = imagecreatetruecolor($nWidth, $nHeight);
-			imagecopyresized($newimage, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
-			imagejpeg($newimage, $tsrc);
-			chmod("$tsrc", 0755);
+			$newImg = imagecreatetruecolor($nWidth, $nHeight);
+			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
+			imagejpeg($newImg, $srcImg);
+			chmod("$srcImg", 0755);
 		}
 
 		if ($fileType === "png")
 		{
-			$im    = ImageCreateFromPNG($dest);
+			$im    = imagecreatefrompng($destImg);
 
 			// Original picture width is stored
 			$width = imagesx($im);
 
 			// Original picture height is stored
 			$height   = imagesy($im);
-			$newimage = imagecreatetruecolor($nWidth, $nHeight);
-			imagecopyresized($newimage, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
-			imagepng($newimage, $tsrc);
-			chmod("$tsrc", 0755);
+			$newImg = imagecreatetruecolor($nWidth, $nHeight);
+			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
+			imagepng($newImg, $srcImg);
+			chmod("$srcImg", 0755);
 		}
 
 		return $newimage;
