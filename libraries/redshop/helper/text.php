@@ -33,7 +33,7 @@ class RedshopHelperText
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_textlibrary'))
-			->where('published = 1');
+			->where($db->qn('published') . ' = 1');
 
 		return $db->setQuery($query)->loadObjectlist();
 	}

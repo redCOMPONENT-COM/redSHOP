@@ -39,9 +39,7 @@ class RedshopHelperAccess
 
 		$db->setQuery($query);
 
-		$accessSection = $db->loadColumn();
-
-		return $accessSection;
+		return $db->loadColumn();
 	}
 
 	/**
@@ -57,24 +55,20 @@ class RedshopHelperAccess
 	 */
 	public static function checkGroupAccess($view, $task, $groupId)
 	{
-		if ($task == '')
+		switch ($task)
 		{
-			self::getGroupAccess($view, $groupId);
-		}
-		else
-		{
-			if ($task == 'add')
-			{
+			case 'add':
 				self::getGroupAccessTaskAdd($view, $groupId);
-			}
-			elseif ($task == 'edit')
-			{
+				break;
+			case 'edit':
 				self::getGroupAccessTaskEdit($view, $groupId);
-			}
-			elseif ($task == 'remove')
-			{
+				break;
+			case 'remove':
 				self::getGroupAccessTaskDelete($view, $groupId);
-			}
+				break;
+			default:
+				self::getGroupAccess($view, $groupId);
+				break;
 		}
 	}
 
@@ -129,8 +123,8 @@ class RedshopHelperAccess
 		$query = $db->getQuery(true)
 			->select($db->qn('a.view'))
 			->from($db->qn('#__redshop_accessmanager', 'a'))
-			->where($db->qn('a.section_name') . $db->quote($view))
-			->where($db->qn('a.gid') . (int) $groupId);
+			->where($db->qn('a.section_name') . ' = ' . $db->quote($view))
+			->where($db->qn('a.gid') . ' = ' . (int) $groupId);
 
 		$db->setQuery($query);
 		$accessview = $db->loadResult();
@@ -193,7 +187,7 @@ class RedshopHelperAccess
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->from($db->qn('#__redshop_accessmanager', 'a'))
-			->where($db->qn('a.section_name') . $db->quote(str_replace('_detail', '', $view)))
+			->where($db->qn('a.section_name') . ' = ' . $db->quote(str_replace('_detail', '', $view)))
 			->where($db->qn('a.gid') . ' = ' . (int) $groupId);
 
 		$db->setQuery($query);
@@ -257,7 +251,7 @@ class RedshopHelperAccess
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->from($db->qn('#__redshop_accessmanager', 'a'))
-			->where($db->qn('a.section_name') . $db->quote(str_replace('_detail', '', $view)))
+			->where($db->qn('a.section_name') . ' = ' . $db->quote(str_replace('_detail', '', $view)))
 			->where($db->qn('a.gid') . ' = ' . (int) $groupId);
 
 		$db->setQuery($query);
@@ -321,7 +315,7 @@ class RedshopHelperAccess
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->from($db->qn('#__redshop_accessmanager', 'a'))
-			->where($db->qn('a.section_name') . $db->quote(str_replace('_detail', '', $view)))
+			->where($db->qn('a.section_name') . ' = ' . $db->quote(str_replace('_detail', '', $view)))
 			->where($db->qn('a.gid') . ' = ' . (int) $groupId);
 
 		$db->setQuery($query);
