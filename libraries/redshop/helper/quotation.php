@@ -107,9 +107,8 @@ class RedshopHelperQuotation
 		}
 
 		$db->setQuery($query);
-		$list = $db->loadObjectlist();
 
-		return $list;
+		return $db->loadObjectlist();
 	}
 
 	/**
@@ -138,9 +137,7 @@ class RedshopHelperQuotation
 
 		$db->setQuery($query);
 
-		$list = $db->loadObject();
-
-		return $list;
+		return $db->loadObject();
 	}
 
 	/**
@@ -161,9 +158,8 @@ class RedshopHelperQuotation
 		$db->setQuery($query);
 
 		$maxId  = $db->loadResult();
-		$number = $maxId + 1;
 
-		return $number;
+		return $maxId + 1;
 	}
 
 	/**
@@ -219,16 +215,14 @@ class RedshopHelperQuotation
 
 		if ($user->id)
 		{
-			$and = " AND q.user_id = " . (int) $user->id . " ";
 			$query->where($db->qn('q.user_id') . ' = ' . (int) $user->id);
 		}
 
 		$query->order($db->qn('q.quotation_cdate') . ' DESC');
 
 		$db->setQuery($query);
-		$list = $db->loadObjectlist();
 
-		return $list;
+		return $db->loadObjectlist();
 	}
 
 	/**
@@ -273,6 +267,11 @@ class RedshopHelperQuotation
 		$extraField = extraField::getInstance();
 		$rowData = $extraField->getSectionFieldList($sectionId, 1);
 
+		if (empty($rowData))
+		{
+			return false;
+		}
+
 		for ($i = 0, $in = count($rowData); $i < $in; $i++)
 		{
 			if (array_key_exists($rowData[$i]->field_name, $cart) && $cart[$rowData[$i]->field_name])
@@ -307,10 +306,8 @@ class RedshopHelperQuotation
 		$query = $db->getQuery(true);
 
 		$query->insert($db->qn('#__redshop_quotation_fields_data', 'qfd'))
-			->set($db->qn('qfd.fieldid') . ' = ' . (int) $fieldId)
-			->set($db->qn('qfd.data_txt') . ' = ' . $db->quote($value))
-			->set($db->qn('qfd.quotation_item_id') . ' = ' . (int) $quotationItemId)
-			->set($db->qn('qfd.section') . ' = ' . (int) $db->quote($sectionId));
+			->columns($db->qn(array('qfd.fieldid', 'qfd.data_txt', 'qfd.quotation_item_id', 'qfd.section')))
+			->values(implode(',', array((int) $fieldId, $db->quote($value), (int) $quotationItemId, (int) $db->quote($sectionId))));
 
 		$db->setQuery($query)->execute();
 	}
@@ -336,9 +333,8 @@ class RedshopHelperQuotation
 			->where($db->qn('qf.quotation_item_id') . ' = ' . (int) $quotationItemId);
 
 		$db->setQuery($query);
-		$rowData = $db->loadObjectlist();
 
-		return $rowData;
+		return $db->loadObjectlist();
 	}
 
 	/**
@@ -398,7 +394,7 @@ class RedshopHelperQuotation
 
 							for ($f = 0, $fn = count($files); $f < $fn; $f++)
 							{
-								$uLink   = REDSHOP_FRONT_DOCUMENT_ABSPATH . "product/" . $files[$f];
+								$uLink   = Redshop::getConfig()->get('REDSHOP_FRONT_DOCUMENT_ABSPATH') . "product/" . $files[$f];
 								$dataTxt .= "<a href='" . $uLink . "'>" . $files[$f] . "</a> ";
 							}
 
@@ -413,14 +409,12 @@ class RedshopHelperQuotation
 			}
 		}
 
-		$resultStr = "";
-
-		if (count($resultArr) > 0)
+		if (empty($resultArr))
 		{
-			$resultStr .= "<br/>" . implode("<br/>", $resultArr);
+			return '';
 		}
 
-		return $resultStr;
+		return '<br/>' . implode('<br/>', $resultArr);
 	}
 
 	/**
@@ -484,15 +478,19 @@ class RedshopHelperQuotation
 			$orderId = explode(',', $orderId);
 			JArrayHelper::toInteger($orderId);
 
-			$query->where($db->qn('q.order_id') . ' IN (' . implode(',', $orderId) . ')');
+			if (is_array($orderId))
+			{
+				$orderId = implode(',', $orderId);
+			}
+
+			$query->where($db->qn('q.order_id') . ' IN (' . $orderId . ')');
 		}
 
 		$query->order($db->qn('q.quotation_cdate') . ' DESC');
 
 		$db->setQuery($query);
-		$list = $db->loadObjectlist();
 
-		return $list;
+		return $db->loadObjectlist();
 	}
 
 	/**
@@ -519,9 +517,8 @@ class RedshopHelperQuotation
 		}
 
 		$db->setQuery($query);
-		$list = $db->loadObjectlist();
 
-		return $list;
+		return $db->loadObjectlist();
 	}
 
 	/**
@@ -543,7 +540,7 @@ class RedshopHelperQuotation
 
 		$query->select('qat.*')
 			->from($db->qn('#__redshop_quotation_attribute_item', 'qat'))
-			->where($db->qn('qat.is_accessory_att') . ' = ' . (int) $is_accessory)
+			->where($db->qn('qat.is_accessory_att') . ' = ' . (int) $isAccessory)
 			->where($db->qn('qat.section') . ' = ' . $db->quote($section));
 
 		if ($quotationItemId != 0)
@@ -557,8 +554,7 @@ class RedshopHelperQuotation
 		}
 
 		$db->setQuery($query);
-		$list = $db->loadObjectlist();
 
-		return $list;
+		return $db->loadObjectlist();
 	}
 }
