@@ -12,12 +12,43 @@ defined('_JEXEC') or die;
 /**
  * The states model
  *
- * @package     RedITEM.Backend
- * @subpackage  Controller.Model
+ * @package     RedSHOP.Backend
+ * @subpackage  Model.States
  * @since       2.0.0.2.2
  */
-class RedshopModelStates extends RedshopModel
+class RedshopModelStates extends RedshopModelList
 {
+	/**
+	 * Name of the filter form to load
+	 *
+	 * @var  string
+	 */
+	protected $filterFormName = 'filter_states';
+
+	/**
+	 * constructor (registers additional tasks to methods)
+	 *
+	 * @param   array  $config  config params
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'id',
+				'country_id',
+				'state_name',
+				'state_3_code',
+				'state_2_code',
+				'check_out',
+				'check_out_time',
+				'show_state'
+			);
+		}
+
+		parent::__construct($config);
+	}
+
 	/**
 	 * Method to get a store id based on model configuration state.
 	 *
@@ -33,8 +64,8 @@ class RedshopModelStates extends RedshopModel
 	 */
 	protected function getStoreId($id = '')
 	{
-		$id .= ':' . $this->getState('country_id_filter');
-		$id .= ':' . $this->getState('country_main_filter');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.country_id');
 
 		return parent::getStoreId($id);
 	}
@@ -47,15 +78,13 @@ class RedshopModelStates extends RedshopModel
 	 *
 	 * @return  void
 	 *
+	 * @since   2.0.0.2.2
 	 * @note    Calling getState in this method will result in recursion.
 	 */
-	protected function populateState($ordering = 'state_id', $direction = '')
+	protected function populateState($ordering = 'state_name', $direction = '')
 	{
-		$countryIdFilter = $this->getUserStateFromRequest($this->context . '.country_id_filter', 'country_id_filter', 0);
-		$countryMainFilter = $this->getUserStateFromRequest($this->context . '.country_main_filter', 'country_main_filter', '');
-
-		$this->setState('country_id_filter', $countryIdFilter);
-		$this->setState('country_main_filter', $countryMainFilter);
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
 		parent::populateState($ordering, $direction);
 	}
@@ -67,32 +96,44 @@ class RedshopModelStates extends RedshopModel
 	 *
 	 * @note    Calling getState in this method will result in recursion.
 	 */
-	public function _buildQuery()
+	public function getListQuery()
 	{
-		$orderby = $this->_buildContentOrderBy();
-		$country_id_filter = $this->getState('country_id_filter');
-		$country_main_filter = $this->getState('country_main_filter');
-		$andcondition = '1=1';
-		$country_main_filter = addslashes($country_main_filter);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$search = $this->getState('filter.search');
+		$countryId = $this->getState('filter.country_id');
 
-		if ($country_id_filter > 0 && $country_main_filter == '')
+		$query->select(
+						[
+							'DISTINCT ' . $db->qn('s.id'),
+							$db->qn('s.state_name'),
+							$db->qn('s.state_3_code'),
+							$db->qn('s.state_2_code'),
+							$db->qn('c.country_name')
+						]
+					)
+			->from($db->qn('#__redshop_state', 's'))
+			->join('LEFT', $db->qn('#__redshop_country', 'c') . ' ON (' . $db->qn('s.country_id') . ' = ' . $db->qn('c.country_id') . ')');
+
+		if (!empty($search))
 		{
-			$andcondition = 'c.country_id = ' . $country_id_filter;
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where($db->qn('s.id') . ' = ' . $db->q((int) substr($search, 3)));
+			}
+			else
+			{
+				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+				$query->where($db->qn('s.state_name') . ' LIKE ' . $search);
+			}
 		}
 
-		elseif ($country_id_filter > 0 && $country_main_filter != '')
+		if (!empty($countryId))
 		{
-			$andcondition = "c.country_id = " . $country_id_filter . " and (s.state_name like '" . $country_main_filter . "%' || s.state_3_code = '"
-				. $country_main_filter . "' || s.state_2_code = '" . $country_main_filter . "')";
-		}
-		elseif ($country_id_filter == 0 && $country_main_filter != '')
-		{
-			$andcondition = "s.state_name like '" . $country_main_filter . "%' || s.state_3_code = '" . $country_main_filter
-				. "' || s.state_2_code='" . $country_main_filter . "'";
+			$query->where($db->qn('s.country_id') . ' = ' . $db->q($countryId));
 		}
 
-		$query = 'SELECT distinct(s.state_id),s . * , c.country_name FROM `#__redshop_state` AS s '
-			. 'LEFT JOIN #__redshop_country AS c ON s.country_id = c.country_id WHERE ' . $andcondition . $orderby;
+		$query->order($db->qn('s.id'), 'ASC');
 
 		return $query;
 	}
@@ -108,9 +149,15 @@ class RedshopModelStates extends RedshopModel
 	 */
 	public function getCountryName($countryId)
 	{
-		$query = "SELECT  c.country_name from #__redshop_country AS c where c.country_id=" . $countryId;
-		$this->_db->setQuery($query);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		return $this->_db->loadResult();
+		$query->select($db->qn('country_name'))
+			->from($db->qn('#__redshop_country'))
+			->where($db->qn('country_id') . ' = ' . $db->q($countryId));
+
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 }
