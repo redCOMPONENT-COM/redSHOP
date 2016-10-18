@@ -52,7 +52,7 @@ class extra_field
 	 */
 	public function list_all_field_in_product($section = extraField::SECTION_PRODUCT)
 	{
-		return RedshopHelperExtraFields::listAllFieldInProduct($section);
+		return RedshopHelperExtrafields::listAllFieldInProduct($section);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class extra_field
 	 */
 	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
 	{
-		return RedshopHelperExtraFields::listAllField($field_section, $section_id, $field_name, $table, $template_desc);
+		return RedshopHelperExtrafields::listAllField($field_section, $section_id, $field_name, $table, $template_desc);
 	}
 
 	/**
@@ -87,7 +87,7 @@ class extra_field
 	 */
 	public function extra_field_save($data, $field_section, $section_id = "", $user_email = "")
 	{
-		return RedshopHelperExtraFields::extraFieldSave($data, $field_section, $section_id, $user_email);
+		return RedshopHelperExtrafields::extraFieldSave($data, $field_section, $section_id, $user_email);
 	}
 
 	/**
@@ -102,7 +102,7 @@ class extra_field
 	 */
 	public function chk_extrafieldValidation($field_section = "", $section_id = 0)
 	{
-		return RedshopHelperExtraFields::CheckExtraFieldValidation($field_section, $section_id);
+		return RedshopHelperExtrafields::CheckExtraFieldValidation($field_section, $section_id);
 	}
 
 	/**
@@ -121,7 +121,7 @@ class extra_field
 	 */
 	public function list_all_field_display($field_section = "", $section_id = 0, $flag = 0, $user_email = "", $template_desc = "", $sendmail = false)
 	{
-		return RedshopHelperExtraFields::listAllFieldDisplay($field_section, $section_id, $flag, $user_email, $template_desc, $sendmail);
+		return RedshopHelperExtrafields::listAllFieldDisplay($field_section, $section_id, $flag, $user_email, $template_desc, $sendmail);
 	}
 
 	/**
@@ -138,7 +138,7 @@ class extra_field
 	 */
 	public function list_all_user_fields($field_section = "", $section_id = extraField::SECTION_PRODUCT_USERFIELD, $field_type = '', $unique_id)
 	{
-		return RedshopHelperExtraFields::listAllUserFields($field_section, $section_id, $field_type, $unique_id);
+		return RedshopHelperExtrafields::listAllUserFields($field_section, $section_id, $field_type, $unique_id);
 	}
 
 	/**
@@ -157,7 +157,7 @@ class extra_field
 	 */
 	public function booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false)
 	{
-		RedshopHelperExtraFields::booleanList($name, $attribs, $selected, $yes, $no, $id);
+		RedshopHelperExtrafields::booleanList($name, $attribs, $selected, $yes, $no, $id);
 	}
 
 	/**
@@ -178,7 +178,7 @@ class extra_field
 	 */
 	public function rs_booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false, $yes_value, $no_value)
 	{
-		return RedshopHelperExtraFields::rsBooleanList($name, $attribs, $selected, $yes, $no, $id, $yes_value, $no_value);
+		return RedshopHelperExtrafields::rsBooleanList($name, $attribs, $selected, $yes, $no, $id, $yes_value, $no_value);
 	}
 
 	/**
@@ -192,7 +192,7 @@ class extra_field
 	 */
 	public function getFieldValue($id)
 	{
-		return RedshopHelperExtraFields::getFieldValue($id);
+		return RedshopHelperExtrafields::getFieldValue($id);
 	}
 
 	/**
@@ -207,7 +207,7 @@ class extra_field
 	 */
 	public function getSectionFieldList($section = extraField::SECTION_PRODUCT_USERFIELD, $front = 1)
 	{
-		return RedshopHelperExtraFields::getSectionFieldList($section, $front);
+		return RedshopHelperExtrafields::getSectionFieldList($section, $front);
 	}
 
 	/**
@@ -241,7 +241,7 @@ class extra_field
 	 */
 	public function copy_product_extra_field($oldproduct_id, $newPid)
 	{
-		return RedshopHelperExtraFields::copyProductExtraField($oldproduct_id, $newPid);
+		return RedshopHelperExtrafields::copyProductExtraField($oldproduct_id, $newPid);
 	}
 
 	/**
@@ -255,6 +255,6 @@ class extra_field
 	 */
 	public function deleteExtraFieldData($data_id)
 	{
-		return RedshopHelperExtraFields::deleteExtraFieldData($data_id);
+		return RedshopHelperExtrafields::deleteExtraFieldData($data_id);
 	}
 }
