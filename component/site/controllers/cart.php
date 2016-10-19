@@ -213,7 +213,7 @@ class RedshopControllerCart extends RedshopController
 			}
 			else
 			{
-				if (ADDTOCART_BEHAVIOUR == 1)
+				if (Redshop::getConfig()->get('ADDTOCART_BEHAVIOUR') == 1)
 				{
 					$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
 				}
