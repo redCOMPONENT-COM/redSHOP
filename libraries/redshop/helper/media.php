@@ -239,7 +239,7 @@ class RedshopHelperMedia
 		}
 
 		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
-		$physiclePath = self::generateImages($filePath, $dest, $command, $width, $height, $proportional);
+		$physiclePath = self::generateImages($filePath, $dest, $width, $height, $command, $proportional);
 		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physiclePath);
 
 		return $thumbUrl;
