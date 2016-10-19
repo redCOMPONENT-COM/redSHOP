@@ -462,13 +462,13 @@ class Com_RedshopInstallerScript
 		// Install the sh404SEF router files
 		JLoader::import('joomla.filesystem.file');
 		JLoader::import('joomla.filesystem.folder');
-		$sh404sefadmin = JPATH_SITE . '/administrator/components/com_sh404sef';
-		$redadmin      = JPATH_SITE . '/administrator/components/com_redshop/extras';
+		$sh404SEFAdmin    = JPATH_SITE . '/administrator/components/com_sh404sef';
+		$redShopSefFolder = JPATH_SITE . '/administrator/components/com_redshop/extras';
 
 		// Check if sh404SEF is installed
 		if (JFolder::exists(JPATH_SITE . '/components/com_sh404sef'))
 		{
-			if (!JFile::copy($redadmin . '/sh404sef/language/com_redshop.php', $sh404sefadmin . '/language/plugins/com_redshop.php'))
+			if (!JFile::copy($redShopSefFolder . '/sh404sef/language/com_redshop.php', $sh404SEFAdmin . '/language/plugins/com_redshop.php'))
 			{
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
 			}
