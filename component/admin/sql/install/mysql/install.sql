@@ -1940,7 +1940,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_state` (
 	UNIQUE KEY `state_3_code` (`country_id`,`state_3_code`),
 	UNIQUE KEY `state_2_code` (`country_id`,`state_2_code`),
 	INDEX `#__rs_state_country_fk1` (`country_id` ASC),
-	CONSTRAINT `fk_country` 
+	CONSTRAINT `#__rs_state_country_fk1` 
 		FOREIGN KEY (`country_id`) 
 		REFERENCES `#__redshop_country` (`id`) 
 		ON DELETE SET NULL 

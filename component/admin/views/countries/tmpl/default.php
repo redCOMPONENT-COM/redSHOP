@@ -63,7 +63,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		{
 			$row = $this->items[$i];
 			$row->id = $row->id;
-			$link = JRoute::_('index.php?option=com_redshop&v&task=country.edit&id=' . $row->id);
+			$link = JRoute::_('index.php?option=com_redshop&task=country.edit&id=' . $row->id);
 
 			?>
 			<tr class="<?php echo "row$k"; ?>">
