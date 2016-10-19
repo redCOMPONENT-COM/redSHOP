@@ -35,7 +35,7 @@ class JFormFieldRcountries extends JFormFieldList
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true)
-			->select($db->qn('country_id'))
+			->select($db->qn('id'))
 			->select($db->qn('country_name'))
 			->from($db->qn('#__redshop_country'))
 			->order($db->qn('country_name'));
@@ -47,7 +47,7 @@ class JFormFieldRcountries extends JFormFieldList
 		{
 			foreach ($items as $item)
 			{
-				$option = JHTML::_('select.option', $item->country_id, $item->country_name);
+				$option = JHTML::_('select.option', $item->id, $item->country_name);
 				$options[] = $option;
 			}
 		}
