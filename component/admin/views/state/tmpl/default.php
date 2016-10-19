@@ -11,7 +11,7 @@ JHtml::_('behavior.formvalidator');
 ?>
 
 <form
-	action="index.php?option=com_redshop&view=state&task=state.edit&id=<?php echo $this->item->giftcard_id; ?>"
+	action="index.php?option=com_redshop&task=state.edit&id=<?php echo $this->item->id; ?>"
 	method="post"
 	id="adminForm"
 	name="adminForm"
@@ -37,5 +37,3 @@ JHtml::_('behavior.formvalidator');
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="id" value="<?php echo $this->item->id; ?>" />
 </form>
-
-

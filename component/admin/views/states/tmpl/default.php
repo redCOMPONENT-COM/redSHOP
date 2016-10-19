@@ -56,7 +56,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_COUNTRY_NAME'), 'c.country_name', $listDirn, $listOrder);?></th>
 			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_3_CODE'), 's.state_3_code', $listDirn, $listOrder);?></th>
 			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_2_CODE'), 's.state_2_code', $listDirn, $listOrder);?></th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ID'), 's.state_id', $listDirn, $listOrder); ?></th>
+			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ID'), 's.id', $listDirn, $listOrder); ?></th>
 		</tr>
 		</thead>
 		<?php
@@ -67,7 +67,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			$row = $this->items[$i];
 			$row->id = $row->id;
 
-			$link = JRoute::_('index.php?option=com_redshop&view=state&task=edit&id=' . $row->id);
+			$link = JRoute::_('index.php?option=com_redshoptask=state.edit&id=' . $row->id);
 
 			?>
 			<tr class="<?php echo "row$k"; ?>">
