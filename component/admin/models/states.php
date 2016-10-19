@@ -113,7 +113,7 @@ class RedshopModelStates extends RedshopModelList
 						]
 					)
 			->from($db->qn('#__redshop_state', 's'))
-			->join('LEFT', $db->qn('#__redshop_country', 'c') . ' ON (' . $db->qn('s.country_id') . ' = ' . $db->qn('c.country_id') . ')');
+			->join('LEFT', $db->qn('#__redshop_country', 'c') . ' ON (' . $db->qn('s.country_id') . ' = ' . $db->qn('c.id') . ')');
 
 		if (!empty($search))
 		{
