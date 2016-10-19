@@ -39,7 +39,6 @@ npm-debug.log
 node_modules/
 
 # Composer
-composer.phar
 vendor/*
 tests/vendor/*
 
