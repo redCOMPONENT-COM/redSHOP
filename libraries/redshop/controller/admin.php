@@ -18,7 +18,7 @@ if (version_compare(JVERSION, '3.0', 'lt'))
 	 *
 	 * @package     Redshop
 	 * @subpackage  Controller
-	 * @since       __DEPLOY_VERSION__
+	 * @since       2.0.0.3
 	 */
 	class RedshopControllerAdmin extends RedshopControllerAdminBase
 	{
