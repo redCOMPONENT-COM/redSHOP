@@ -35,7 +35,7 @@ class RedshopViewState extends RedshopViewAdmin
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATES'), 'redshop_region_48');
 
 		$redhelper       = redhelper::getInstance();
-		$q               = "SELECT  country_id as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
+		$q               = "SELECT  id as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries       = $db->loadObjectList();
 
@@ -50,7 +50,7 @@ class RedshopViewState extends RedshopViewAdmin
 
 		$country_id_filter = $state->get('country_id_filter');
 
-		$lists['country_id'] = JHTML::_('select.genericlist', $countries, 'country_id_filter',
+		$lists['id'] = JHTML::_('select.genericlist', $countries, 'country_id_filter',
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"    ', 'value', 'text', $country_id_filter
 		);
 

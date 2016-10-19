@@ -9,7 +9,14 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Controller Country Detail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       [version> [<description>]
+ */
 
-class RedshopControllerCountry extends RedshopController
+class RedshopControllerCountry extends RedshopControllerForm
 {
 }
