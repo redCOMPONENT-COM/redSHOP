@@ -340,7 +340,6 @@ class RedshopHelperExtrafields
 
 				case extraField::TYPE_WYSIWYG:
 					$editor          = JFactory::getEditor();
-					$document        = JFactory::getDocument();
 					$exField         .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
 					$textareaValue  = ($dataValue && $dataValue->dataTxt) ? $dataValue->dataTxt : '';
 					$extraFieldValue = $editor->display($rowData[$i]->field_name, $textareaValue, '200', '50', '100', '20');
@@ -348,7 +347,6 @@ class RedshopHelperExtrafields
 					break;
 
 				case extraField::TYPE_DOCUMENTS:
-
 					$document = JFactory::getDocument();
 					JHtml::_('redshopjquery.ui');
 					$document->addScriptDeclaration('
@@ -503,7 +501,6 @@ class RedshopHelperExtrafields
 					$value         = ($dataValue) ? $dataValue->dataTxt : '';
 					$tmpImageHover = array();
 					$tmpImageLink  = array();
-					$chkData       = @explode(",", $dataValue->dataTxt);
 
 					if ($dataValue->altText)
 					{
@@ -527,7 +524,6 @@ class RedshopHelperExtrafields
 
 					$exField .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
 					$extraFieldValue = '<table>';
-					$c = 0;
 
 					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
 					{
@@ -562,8 +558,6 @@ class RedshopHelperExtrafields
 					break;
 
 				case extraField::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
-
-					$date = date("d-m-Y", time());
 
 					if ($dataValue)
 					{
@@ -686,7 +680,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VESION__
+	 * @since __DEPLOY_VERSION__
 	 */
 	public static function extraFieldSave($data, $fieldSection, $sectionId = "", $userEmail = "")
 	{
@@ -695,7 +689,7 @@ class RedshopHelperExtrafields
 
 		$query->select('*')
 			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('field_section') . ' IN (' . (int) $fieldSection . ')')
+			->where($db->qn('field_section') . ' = ' . (int) $fieldSection)
 			->where($db->qn('published') . ' = 1');
 
 		$db->setQuery($query);
@@ -709,7 +703,7 @@ class RedshopHelperExtrafields
 			{
 				if ($rowData[$i]->field_type == 8 || $rowData[$i]->field_type == 1 || $rowData[$i]->field_type == 2)
 				{
-					$dataTxt = JRequest::getVar($rowData[$i]->field_name, '', ' ', 'string', JREQUEST_ALLOWRAW);
+					$dataTxt = JFactory::getApplication()->input->get($rowData[$i]->field_name, '', 'RAW');
 				}
 				else
 				{
@@ -755,10 +749,10 @@ class RedshopHelperExtrafields
 
 						if ($file != "")
 						{
-							$name = RedShopHelperImages::cleanFileName($file);
+							$name = RedshopHelperMedia::cleanFileName($file);
 
 							$src = $_FILES[$rowData[$i]->field_name]['tmp_name'][$ij];
-							$destination = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $name;
+							$destination = Redshop::getConfig()->get('REDSHOP_FRONT_DOCUMENT_RELPATH') . 'extrafields/' . $name;
 
 							JFile::upload($src, $destination);
 
@@ -823,7 +817,7 @@ class RedshopHelperExtrafields
 					$sql = $db->getQuery(true);
 					$sql->update($db->qn('#__redshop_fields_data'))
 						->set($db->qn('alt_text') . ' = ' . $db->quote($strImageHover))
-						->set($dn->qn('image_link') . ' = ' . $db->quote($strImageLink))
+						->set($db->qn('image_link') . ' = ' . $db->quote($strImageLink))
 						->where($db->qn('itemid') . ' = ' . (int) $sectionId)
 						->where($db->qn('section') . ' = ' . $db->quote($fieldSection))
 						->where($db->qn('user_email') . ' = ' . $db->quote($userEmail))
@@ -848,13 +842,8 @@ class RedshopHelperExtrafields
 				else
 				{
 					$sql->insert($db->qn('#__redshop_fields_data'))
-						->set($db->qn('fieldid') . ' = ' . (int) $rowData[$i]->field_id)
-						->set($db->qn('data_txt') . ' = ' . $db->quote($data['imgFieldId' . $rowData[$i]->field_id]))
-						->set($dn->qn('itemid') . ' = ' . (int) $sectionId)
-						->set($dn->qn('section') . ' = ' . $db->quote($fieldSection))
-						->set($dn->qn('alt_text') . ' = ' . $db->quote($strImageHover))
-						->set($dn->qn('image_link') . ' = ' . $db->quote($strImageLink))
-						->set($dn->qn('user_email') . ' = ' . $db->quote($userEmail));
+						->columns($db->qn(array('fieldid', 'data_txt', 'itemid', 'section', 'alt_text', 'image_link', 'user_email')))
+						->values(implode(',', array((int) $rowData[$i]->field_id, $db->quote($data['imgFieldId' . $rowData[$i]->field_id]), (int) $sectionId, $db->quote($fieldSection), $db->quote($strImageHover), $db->quote($strImageLink), $db->quote($userEmail))));
 				}
 
 				$db->setQuery($sql);
@@ -870,6 +859,7 @@ class RedshopHelperExtrafields
 					{
 						if (count($list) > 0)
 						{
+							$sql = $db->getQuery(true);
 							$sql->update($db->qn('#__redshop_fields_data'))
 								->set($db->qn('data_txt') . ' = ' . $db->quote($dataTxt))
 								->where($db->qn('itemid') . ' = ' . (int) $sectionId)
@@ -879,12 +869,10 @@ class RedshopHelperExtrafields
 						}
 						else
 						{
+							$sql = $db->getQuery(true);
 							$sql->insert($db->qn('#__redshop_fields_data'))
-								->set($db->qn('fieldid') . ' = ' . (int) $rowData[$i]->field_id)
-								->set($db->qn('data_txt') . ' = ' . $db->quote($dataTxt))
-								->set($dn->qn('itemid') . ' = ' . (int) $sectionId)
-								->set($dn->qn('section') . ' = ' . (int) $sect[$h])
-								->set($dn->qn('user_email') . ' = ' . $db->quote($userEmail));
+								->columns($db->qn(array('fieldid', 'data_txt', 'itemid', 'section', 'user_email')))
+								->values(implode(',', array((int) $rowData[$i]->field_id, $db->quote($dataTxt), (int) $sectionId, (int) $sect[$h], $db->quote($userEmail))));
 						}
 
 						$db->setQuery($sql);
@@ -1120,10 +1108,10 @@ class RedshopHelperExtrafields
 	/**
 	 * List all user fields
 	 *
-	 * @param   string  $fieldSection  Field Section
-	 * @param   string  $sectionId     Section ID
-	 * @param   string  $fieldType     Field type
-	 * @param   string  $uniqueId      Unique ID
+	 * @param   string   $fieldSection  Field Section
+	 * @param   integer  $sectionId     Section ID
+	 * @param   string   $fieldType     Field type
+	 * @param   string   $uniqueId      Unique ID
 	 *
 	 * @return  string
 	 *
@@ -1318,8 +1306,8 @@ class RedshopHelperExtrafields
 	 * @param   string   $yes       Option Days
 	 * @param   string   $no        Option Weeks
 	 * @param   boolean  $id        ID of radio checkbox
-	 * @param   boolean  $yesValue  ID of radio checkbox
-	 * @param   boolean  $noValue   ID of radio checkbox
+	 * @param   string   $yesValue  ID of radio checkbox
+	 * @param   string   $noValue   ID of radio checkbox
 	 *
 	 * @return  string
 	 *
@@ -1354,8 +1342,8 @@ class RedshopHelperExtrafields
 	/**
 	 * Get Section Field List
 	 *
-	 * @param   string   $section  [description]
-	 * @param   integer  $front    [description]
+	 * @param   integer  $section  Section ID
+	 * @param   integer  $front    Field show in front
 	 *
 	 * @return  object
 	 *
@@ -1428,13 +1416,8 @@ class RedshopHelperExtrafields
 		{
 			$sql = $db->getQuery(true);
 			$sql->insert($db->qn('#__redshop_fields_data'))
-				->set($db->qn('fieldid') . ' = ' . (int) $list[$i]->fieldid)
-				->set($db->qn('data_txt') . ' = ' . $db->quote($list[$i]->data_txt))
-				->set($db->qn('itemid') . ' = ' . (int) $newPid)
-				->set($db->qn('section') . ' = ' . (int) $list[$i]->section)
-				->set($db->qn('alt_text') . ' = ' . $db->quote($list[$i]->alt_text))
-				->set($db->qn('image_link') . ' = ' . $db->quote($list[$i]->image_link))
-				->set($db->qn('user_email') . ' = ' . $db->quote($list[$i]->user_email));
+				->columns($db->qn(array('fieldid', 'data_txt', 'itemid', 'section', 'alt_text', 'image_link', 'user_email')))
+				->values(implode(',', array((int) $list[$i]->fieldid, $db->quote($list[$i]->data_txt), (int) $newPid, (int) $list[$i]->section, $db->quote($list[$i]->alt_text), $db->quote($list[$i]->image_link), $db->quote($list[$i]->user_email))));
 
 			$db->setQuery($sql);
 			$db->execute();
