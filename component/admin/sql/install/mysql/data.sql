@@ -1,4 +1,4 @@
-INSERT IGNORE INTO `#__redshop_country` (`country_id`, `country_name`, `country_3_code`, `country_2_code`) VALUES
+INSERT IGNORE INTO `#__redshop_country` (`id`, `country_name`, `country_3_code`, `country_2_code`) VALUES
 	(1, 'Afghanistan', 'AFG', 'AF'),
 	(2, 'Albania', 'ALB', 'AL'),
 	(3, 'Algeria', 'DZA', 'DZ'),
