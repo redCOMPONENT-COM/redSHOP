@@ -46,11 +46,12 @@ class RedshopAdminProduct
 	 *
 	 * @return mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::replaceAccessoryData($productId, $accessory, $userId, $uniqueId) instead
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::replaceAccessoryData($productId, $accessory, $userId, $uniqueId)
+	 *  instead
 	 */
 	public function replaceAccessoryData($productId = 0, $accessory = array(), $userId = 0, $uniqueId = "")
 	{
-		RedshopHelperProduct::replaceAccessoryData($productId, $accessory, $userId, $uniqueId);
+		return RedshopHelperProduct::replaceAccessoryData($productId, $accessory, $userId, $uniqueId);
 	}
 
 	/**
@@ -64,11 +65,12 @@ class RedshopAdminProduct
 	 *
 	 * @return mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::replaceAttributeData($productId, $accessoryId, $attributes, $userId, $uniqueId) instead
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::replaceAttributeData($productId, $accessoryId, $attributes, $userId,
+	 * $uniqueId) instead
 	 */
-	function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId, $uniqueId = "")
+	public function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
 	{
-		RedshopHelperProduct::replaceAttributeData($productId, $accessoryId, $attributes, $userId, $uniqueId);
+		return RedshopHelperProduct::replaceAttributeData($productId, $accessoryId, $attributes, $userId, $uniqueId);
 	}
 
 	/**
@@ -82,10 +84,9 @@ class RedshopAdminProduct
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::replaceWrapperData($productId, $userId, $uniqueId) instead
 	 */
-	public function replaceWrapperData($productId = 0, $userId, $uniqueId = "")
+	public function replaceWrapperData($productId = 0, $userId = 0, $uniqueId = "")
 	{
-	{
-		RedshopHelperProduct::replaceWrapperData($productId, $userId, $uniqueId);
+		return RedshopHelperProduct::replaceWrapperData($productId, $userId, $uniqueId);
 	}
 
 	/**
@@ -97,13 +98,14 @@ class RedshopAdminProduct
 	 * @param   int     $userId           User id
 	 * @param   int     $newProductPrice  New product price
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::getProductItemInfo($productId, $quantity, $uniqueId, $userId, $newProductPrice) instead
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::getProductItemInfo($productId, $quantity, $uniqueId, $userId,
+	 *  $newProductPrice) instead
 	 */
-	public function getProductItemInfo($productId = 0, $quantity = 1, $uniqueId = "", $userId = 0, $newProductPrice = 0)
+	public function getProductItemInfo($productId = 0, $quantity = 1, $uniqueId = '', $userId = 0, $newProductPrice = 0)
 	{
-		RedshopHelperProduct::getProductItemInfo($productId, $quantity, $uniqueId, $userId, $newProductPrice);
+		return RedshopHelperProduct::getProductItemInfo($productId, $quantity, $uniqueId, $userId, $newProductPrice);
 	}
 
 	/**
@@ -119,7 +121,7 @@ class RedshopAdminProduct
 	 */
 	public function replaceShippingMethod($d = array(), $shippUsersInfoId = 0, $shippingRateId = 0)
 	{
-		RedshopHelperProduct::replaceShippingMethod($d, $shippUsersInfoId, $shippingRateId);
+		return RedshopHelperProduct::replaceShippingMethod($d, $shippUsersInfoId, $shippingRateId);
 	}
 
 	/**
@@ -133,7 +135,7 @@ class RedshopAdminProduct
 	 */
 	public function redesignProductItem($post = array())
 	{
-		RedshopHelperProduct::redesignProductItem($post);
+		return RedshopHelperProduct::redesignProductItem($post);
 	}
 
 	/**
@@ -149,7 +151,7 @@ class RedshopAdminProduct
 	 */
 	public function replaceUserfield($productId = 0, $templateId = 0, $uniqueId = "")
 	{
-		RedshopHelperProduct::replaceUserfield($productId, $templateId, $uniqueId);
+		return RedshopHelperProduct::replaceUserfield($productId, $templateId, $uniqueId);
 	}
 
 	/**
@@ -162,11 +164,12 @@ class RedshopAdminProduct
 	 *
 	 * @return boolen
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::admin_insertProdcutUserfield($fieldId, $orderItemId, $sectionId, $value) instead
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::admin_insertProdcutUserfield($fieldId, $orderItemId, $sectionId,
+	 * $value) instead
 	 */
 	public function admin_insertProdcutUserfield($fieldId = 0, $orderItemId = 0, $sectionId = 12, $value = '')
 	{
-		RedshopHelperProduct::admin_insertProdcutUserfield($fieldId, $orderItemId, $sectionId, $value);
+		return RedshopHelperProduct::admin_insertProdcutUserfield($fieldId, $orderItemId, $sectionId, $value);
 	}
 
 	/**
@@ -178,6 +181,6 @@ class RedshopAdminProduct
 	 */
 	public function getProductrBySortedList()
 	{
-		RedshopHelperProduct::getProductrBySortedList();
+		return RedshopHelperProduct::getProductrBySortedList();
 	}
 }
