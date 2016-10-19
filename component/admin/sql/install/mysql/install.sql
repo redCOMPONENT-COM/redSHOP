@@ -204,8 +204,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_country` (
 	DEFAULT CHARSET=utf8 
 	COMMENT='Country records';
 
-CREATE INDEX country_id_index ON `#__redshop_country` (`id`);
-
 -- -----------------------------------------------------
 -- Table `#__redshop_coupons`
 -- -----------------------------------------------------
@@ -1932,28 +1930,25 @@ DROP TABLE IF EXISTS `#__redshop_state` ;
 CREATE TABLE IF NOT EXISTS `#__redshop_state` (
 	`state_id` int(11) NOT NULL AUTO_INCREMENT,
 	`country_id` int(11) DEFAULT NULL,
-  	`state_name` varchar(64) DEFAULT NULL,
-  	`state_3_code` char(3) DEFAULT NULL,
-  	`state_2_code` char(2) DEFAULT NULL,
-  	`checked_out` int(11) NOT NULL,
-  	`checked_out_time` datetime NOT NULL,
-  	`show_state` int(11) NOT NULL DEFAULT '2',
-  	PRIMARY KEY (`state_id`),
-  	UNIQUE KEY `state_3_code` (`country_id`,`state_3_code`),
-  	UNIQUE KEY `state_2_code` (`country_id`,`state_2_code`),
-  	KEY `idx_country_id` (`country_id`),
-  	KEY `country_id` (`country_id`),
-  	CONSTRAINT `fk_country` 
-  		FOREIGN KEY (`country_id`) 
-  		REFERENCES `#__redshop_country` (`id`) 
-  		ON DELETE SET NULL 
-  		ON UPDATE CASCADE
+	`state_name` varchar(64) DEFAULT NULL,
+	`state_3_code` char(3) DEFAULT NULL,
+	`state_2_code` char(2) DEFAULT NULL,
+	`checked_out` int(11) NOT NULL,
+	`checked_out_time` datetime NOT NULL,
+	`show_state` int(11) NOT NULL DEFAULT '2',
+	PRIMARY KEY (`state_id`),
+	UNIQUE KEY `state_3_code` (`country_id`,`state_3_code`),
+	UNIQUE KEY `state_2_code` (`country_id`,`state_2_code`),
+	INDEX `#__rs_state_country_fk1` (`country_id` ASC),
+	CONSTRAINT `fk_country` 
+		FOREIGN KEY (`country_id`) 
+		REFERENCES `#__redshop_country` (`id`) 
+		ON DELETE SET NULL 
+		ON UPDATE CASCADE
 )
 	ENGINE=InnoDB 
 	DEFAULT CHARSET=utf8 
 	COMMENT='States that are assigned to a country';
-
-CREATE INDEX fk_country_id_index ON `#__redshop_state` (`country_id`);
 
 -- -----------------------------------------------------
 -- Table `#__redshop_stockroom`

@@ -17,45 +17,15 @@ defined('_JEXEC') or die;
  * @since       2.0.0.2.1
  */
 
-class RedshopTableCountry extends JTable
+class RedshopTableCountry extends RedshopTable
 {
 	/**
-	 * Function construct
+	 * The table name without the prefix. Ex: cursos_courses
 	 *
-	 * @param   object  &$db  Database Object
-	 * 
-	 * @since   2.0.0.2.1
+	 * @var  string
 	 */
 
-	public function __construct(&$db)
-	{
-		$this->_table_prefix = '#__redshop_';
-
-		parent::__construct($this->_table_prefix . 'country', 'id', $db);
-	}
-
-	/**
-	 * Function bind data
-	 *
-	 * @param   array   $array   params in array
-	 * @param   string  $ignore  flag to know that ignore or not
-	 * 
-	 * @return  boolean
-	 * 
-	 * @since   1.x
-	 */
-
-	public function bind($array, $ignore = '')
-	{
-		if (array_key_exists('params', $array) && is_array($array['params']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
-		}
-
-		return parent::bind($array, $ignore);
-	}
+	protected $_tableName = 'redshop_country';
 
 	/**
 	 * Function display template
@@ -67,6 +37,11 @@ class RedshopTableCountry extends JTable
 
 	public function check()
 	{
+		if (!parent::check())
+		{
+			return false;
+		}
+
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($db->qn(['id', 'country_3_code']))

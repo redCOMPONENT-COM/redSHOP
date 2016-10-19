@@ -8,9 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 JHtml::_('behavior.modal');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -66,7 +63,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		{
 			$row = $this->items[$i];
 			$row->id = $row->id;
-			$link = JRoute::_('index.php?option=com_redshop&view=country&task=edit&id=' . $row->id);
+			$link = JRoute::_('index.php?option=com_redshop&v&task=country.edit&id=' . $row->id);
 
 			?>
 			<tr class="<?php echo "row$k"; ?>">
@@ -77,7 +74,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</td>
 				<td align="center" width="10%"><?php echo $row->country_3_code; ?></td>
 				<td align="center" width="10%"><?php echo $row->country_2_code; ?></td>
-				<!-- <td align="center" width="10%"><?php echo $row->country_jtext; ?></td> -->
 				<td align="center" width="10%"><?php echo $row->id;?></td>
 
 			</tr>

@@ -17,54 +17,8 @@ defined('_JEXEC') or die;
  * @since       [version> [<description>]
  */
 
-class RedshopModelCountry extends JModelAdmin
+class RedshopModelCountry extends RedshopModelForm
 {
-	/**
-	 * Returns a Table object, always creating it
-	 *
-	 * @param   type    $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  JTable  A database object
-	 *
-	 * @since   1.6
-	 */
-	public function getTable($type = 'Country', $prefix = 'RedshopTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
-	}
-
-	/**
-	 * Method to get the record form.
-	 *
-	 * @param   array    $data      Data for the form. [optional]
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
-	 *
-	 * @return  mixed  A JForm object on success, false on failure
-	 *
-	 * @since   1.6
-	 */
-	public function getForm($data = array(), $loadData = true)
-	{
-		// Get the form.
-		$form = $this->loadForm(
-			'com_redshop.country',
-			'country',
-			array(
-				'control' => 'jform',
-				'load_data' => $loadData
-			)
-		);
-
-		if (empty($form))
-		{
-			return false;
-		}
-
-		return $form;
-	}
-
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
