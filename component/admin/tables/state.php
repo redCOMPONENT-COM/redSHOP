@@ -16,19 +16,15 @@ defined('_JEXEC') or die;
  * @subpackage  Table.State
  * @since       2.0.0.2.2
  */
-class RedshopTableState extends JTable
+class RedshopTableState extends RedshopTable
 {
 	/**
-	 * Constructor
+	 * The table name without the prefix. Ex: cursos_courses
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
-	 *
-	 * @since  11.1
+	 * @var  string
 	 */
-	public function __construct($db)
-	{
-		parent::__construct('#__redshop_state', 'id', $db);
-	}
+
+	protected $_tableName = 'redshop_state';
 
 	/**
 	 * Function check
@@ -37,6 +33,11 @@ class RedshopTableState extends JTable
 	 */
 	public function check()
 	{
+		if (!parent::check())
+		{
+			return false;
+		}
+
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true);
