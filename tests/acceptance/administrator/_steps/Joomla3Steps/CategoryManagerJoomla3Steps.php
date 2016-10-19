@@ -33,12 +33,10 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->click("New");
 		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
+		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
-		$I->click(\CategoryManagerJ3Page::$categoryTemplateIDDropDown);
-		$categoryManagerPage = new \CategoryManagerJ3Page;
-		$I->click($categoryManagerPage->categoryTemplateID("compare_product"));
-		$I->click(\CategoryManagerJ3Page::$categoryTemplateDropDown);
-		$I->click($categoryManagerPage->categoryTemplate("list"));
+		$I->click('//*[@id="s2id_category_more_template"]/ul');
+		$I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
 		$I->click("Save & Close");
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
 	}
@@ -59,11 +57,11 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\CategoryManagerJ3Page::$categorySearch);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
 		$I->click(\CategoryManagerJ3Page::$checkAll);
-		$I->click($categoryName);
+		//$I->click('//*[@id="editcell"]/div[2]/table/tbody/tr[1]/td[3]/a');
 		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
-		$I->fillField(\CategoryManagerJ3Page::$categoryName, $updatedName);
+		$I->fillField('#category_name', $updatedName);
 		$I->click("Save & Close");
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+		//$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
 	}
 
 	/**
@@ -81,16 +79,19 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
 		$I->click(\CategoryManagerJ3Page::$categorySearch);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
+		//$I->click('//*[@id="editcell"]/div[2]/table/tbody/tr[1]/td[3]/a'); //update
 		$I->click(\CategoryManagerJ3Page::$checkAll);
 
 		if ($state == 'unpublish')
 		{
-			$I->click("Unpublish");
+			$I->click('//*[@id="published0-lbl"]/div/ins');
 		}
 		else
 		{
-			$I->click("Publish");
+			$I->click('//*[@id="published1-lbl"]/div/ins');
 		}
+
+		$I->click("Save & Close");
 
 	}
 
@@ -165,7 +166,8 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
 		$I->click(\CategoryManagerJ3Page::$categorySearch);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
-		$I->click(\CategoryManagerJ3Page::$checkAll);
+		$I->click('//*[@id="editcell"]/div[2]/table/tbody/tr[1]/td[2]/div/ins');
+		//$I->click(\CategoryManagerJ3Page::$checkAll);
 		$I->click("Delete");
 		$I->acceptPopup();
 	}
