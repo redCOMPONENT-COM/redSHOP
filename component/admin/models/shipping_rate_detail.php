@@ -215,7 +215,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 	public function GetStateList($country_codes)
 	{
 		$query = 'SELECT s.state_name as text,s.state_2_code as value FROM ' . $this->_table_prefix . 'state AS s '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON c.country_id = s.country_id '
+			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON c.id = s.country_id '
 			. 'WHERE find_in_set( c.country_3_code, "' . $country_codes . '" ) '
 			. 'ORDER BY s.state_name ASC';
 		$this->_db->setQuery($query);
