@@ -265,7 +265,10 @@ gulp.task("release:redshop", ["composer:libraries.redshop"], function (cb) {
                 "./plugins/redshop_payment/rs_payment_banktransfer/**",
                 "./plugins/redshop_payment/rs_payment_paypal/**",
                 "./plugins/redshop_payment/klarna/**",
-                "./plugins/redshop_shipping/default_shipping/**"
+                "./plugins/finder/redshop/**",
+                "./plugins/redshop_alert/alert/**",
+                "./plugins/redshop_shipping/default_shipping/**",
+                "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**"
             ],{ base: "./" })
                 .pipe(zip(fileName))
                 .pipe(gulp.dest(config.releaseDir))
