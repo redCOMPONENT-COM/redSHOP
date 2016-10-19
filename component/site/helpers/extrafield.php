@@ -952,7 +952,7 @@ class extraField
 						if ($data_value->data_txt != "")
 						{
 							$q = "SELECT country_name FROM #__redshop_country "
-								. "WHERE country_id = " . (int) $data_value->data_txt;
+								. "WHERE id = " . (int) $data_value->data_txt;
 							$db->setQuery($q);
 							$field_chk    = $db->loadObject();
 							$displayvalue = $field_chk->country_name;
@@ -1167,12 +1167,12 @@ class extraField
 	 * @param   int  $section      Section
 	 * @param   int  $sectionItem  Section item
 	 *
-	 * @deprecated 1.6.1  Use RedshopHelperExtraFields::getData instead
+	 * @deprecated 1.6.1  Use RedshopHelperExtrafields::getData instead
 	 *
 	 * @return mixed|null
 	 */
 	public function getSectionFieldDataList($fieldId, $section = 0, $sectionItem = 0)
 	{
-		return RedshopHelperExtraFields::getData($fieldId, $section, $sectionItem);
+		return RedshopHelperExtrafields::getData($fieldId, $section, $sectionItem);
 	}
 }
