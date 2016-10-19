@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperCategory instead
+ * @deprecated  2.0.0.3  Use RedshopHelperCategory instead
  */
 
 defined('_JEXEC') or die;
@@ -14,24 +14,24 @@ defined('_JEXEC') or die;
 /**
  * A Helper Class for Product Category
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperCategory instead
+ * @deprecated  2.0.0.3  Use RedshopHelperCategory instead
  */
 class product_category
 {
 	/**
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.0.3
 	 */
 	public $_cats = array();
 
 	/**
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.0.3
 	 */
 	public $_table_prefix = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.0.3
 	 */
 	public function __construct()
 	{
@@ -52,7 +52,7 @@ class product_category
 	 *
 	 * @return  string   HTML of dropdown
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopHelperCategory::listAll() instead
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::listAll() instead
 	 */
 	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = false,
 		$multiple = false, $disabledFields = array(), $width = 250)
@@ -73,7 +73,7 @@ class product_category
 	 *
 	 * @return String   HTML of <option></option>
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopHelperCategory::listTree() instead
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::listTree() instead
 	 */
 	public function list_tree($category_id = "", $cid = '0', $level = '0', $selected_categories = Array(),
 		$disabledFields = Array(), $html = '')
@@ -115,7 +115,7 @@ class product_category
 	 *
 	 * @return string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopHelperCategory::buildContentOrderBy() instead
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::buildContentOrderBy() instead
 	 */
 	public function _buildContentOrderBy()
 	{
@@ -127,7 +127,7 @@ class product_category
 	 *
 	 * @return object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopHelperCategory::getParentCategories() instead
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::getParentCategories() instead
 	 */
 	public function getParentCategories()
 	{
@@ -141,7 +141,7 @@ class product_category
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopHelperCategory::getCategoryTree() instead
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::getCategoryTree() instead
 	 */
 	public function getCategoryTree($cid = '0')
 	{
@@ -155,7 +155,7 @@ class product_category
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopHelperCategory::getCategoryProductList() instead
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::getCategoryProductList() instead
 	 */
 	public function getCategoryProductList($cid)
 	{
@@ -170,7 +170,7 @@ class product_category
 	 *
 	 * @return integer
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopHelperCategory::checkAccessoryExists() instead
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::checkAccessoryExists() instead
 	 */
 	public function CheckAccessoryExists($product_id, $accessory_id)
 	{

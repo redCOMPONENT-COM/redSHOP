@@ -2910,6 +2910,16 @@ class productHelper
 		$return = array();
 		$saved  = 0;
 
+		if (empty($accessory_price))
+		{
+			$accessory_price = 0;
+		}
+
+		if (empty($accessory_main_price))
+		{
+			$accessory_main_price = 0;
+		}
+
 		/*
 		 * $vat = 0 (add vat to accessory price)
 		 * $vat = 1 (Do not add vat to accessory price)
@@ -10153,9 +10163,11 @@ class productHelper
 
 					$related_template_data = $this->getProductOnSaleComment($related_product[$r], $related_template_data);
 					$related_template_data = $this->getSpecialProductComment($related_product[$r], $related_template_data);
+					
+					$isCategorypage = (JFactory::getApplication()->input->getCmd('view') == "category") ? 1 : 0;
 
 					//  Extra field display
-					$related_template_data = $this->getExtraSectionTag($extraFieldName, $related_product[$r]->product_id, "1", $related_template_data, 1);
+					$related_template_data = $this->getExtraSectionTag($extraFieldName, $related_product[$r]->product_id, "1", $related_template_data, $isCategorypage);
 
 					// Related product attribute price list
 					$related_template_data = $this->replaceAttributePriceList($related_product[$r]->product_id, $related_template_data);

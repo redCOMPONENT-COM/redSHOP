@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  2.5
  */
-class RedshopHelperGoogleAnalytics
+class RedshopHelperGoogleanalytics
 {
 	/**
 	 * The analytics.js JavaScript snippet is a new way to measure how users interact with your website.

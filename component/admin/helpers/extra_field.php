@@ -188,8 +188,8 @@ class extra_field
 
 					for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
 					{
-						$selected = (@in_array($field_chk[$c]->country_id, $chk_data)) ? ' selected="selected" ' : '';
-						$extra_field_value .= '<option value="' . $field_chk[$c]->country_id . '" ' . $selected . ' '
+						$selected = (@in_array($field_chk[$c]->id, $chk_data)) ? ' selected="selected" ' : '';
+						$extra_field_value .= '<option value="' . $field_chk[$c]->id . '" ' . $selected . ' '
 							. $required . $reqlbl . $errormsg . '>' . $field_chk[$c]->country_name . '</option>';
 					}
 
@@ -870,7 +870,7 @@ class extra_field
 					if ($data_value && $data_value->data_txt)
 					{
 						$q = "SELECT country_name FROM #__redshop_country "
-							. "WHERE country_id = " . $db->quote($data_value->data_txt);
+							. "WHERE id = " . $db->quote($data_value->data_txt);
 						$db->setQuery($q);
 						$field_chk = $db->loadObject();
 						$extra_field_value = $field_chk->country_name;

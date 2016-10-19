@@ -1,0 +1,91 @@
+{
+  "components": [
+    "redshop"
+  ],
+  "libraries": [
+    "redshop",
+    "tcpdf"
+  ],
+  "modules": {
+    "frontend": [
+      "redcategoryscroller",
+      "redfeaturedproduct",
+      "redmanufacturer",
+      "redmasscart",
+      "redproducts3d",
+      "redproductscroller",
+      "redproducttab",
+      "redshop_cart",
+      "redshop_categories",
+      "redshop_categories_scroller",
+      "redshop_currencies",
+      "redshop_discount",
+      "redshop_logingreeting",
+      "redshop_newsletter",
+      "redshop_pricefilter",
+      "redshop_productcompare",
+      "redshop_products",
+      "redshop_products_slideshow",
+      "redshop_promote_free_shipping",
+      "redshop_search",
+      "redshop_shoppergroup_category",
+      "redshop_shoppergroup_product",
+      "redshop_shoppergrouplogo",
+      "redshop_who_bought",
+      "redshop_wishlist"
+    ]
+  },
+  "plugins": {
+    "acymailing": [
+      "redshop"
+    ],
+    "ajax": [
+      "xmlcron"
+    ],
+    "content": [
+      "redshop_product"
+    ],
+    "economic": [
+      "economic"
+    ],
+    "editors-xtd": [
+      "product"
+    ],
+    "finder": [
+      "redshop"
+    ],
+    "quickicon": [
+      "redshop"
+    ],
+    "redshop_alert": [
+      "alert"
+    ],
+    "redshop_payment": [
+      "baokim",
+      "cielo"
+    ],
+    "redshop_product": [
+      "CreateColorImage",
+      "canonical"
+    ],
+    "redshop_shipping": [
+      "bring"
+    ],
+    "redshop_user": [
+      "registration_acymailing"
+    ],
+    "redshop_vies_registration": [
+      "rs_vies_registration"
+    ],
+    "search": [
+      "redshop_categories",
+      "redshop_products"
+    ],
+    "system": [
+      "quickbook"
+    ],
+    "user": [
+      "highrise"
+    ]
+  }
+}
