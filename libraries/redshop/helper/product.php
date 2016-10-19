@@ -347,7 +347,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function replaceAccessoryData($productId = 0, $accessory = array(), $userId = 0, $uniqueId = "")
+	public static function replaceAccessoryData($productId = 0, $accessory = array(), $userId = 0, $uniqueId = "")
 	{
 		$redconfig = Redconfiguration::getInstance();
 		$producthelper = productHelper::getInstance();
@@ -417,7 +417,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId, $uniqueId = "")
+	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
 	{
 		$producthelper = productHelper::getInstance();
 		$attributeList = "";
@@ -546,7 +546,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function replaceWrapperData($productId = 0, $userId, $uniqueId = "")
+	public static function replaceWrapperData($productId = 0, $userId = 0, $uniqueId = "")
 	{
 		$producthelper = productHelper::getInstance();
 		$wrapperList = "";
@@ -607,7 +607,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getProductItemInfo($productId = 0, $quantity = 1, $uniqueId = "", $userId = 0, $newProductPrice = 0)
+	public static function getProductItemInfo($productId = 0, $quantity = 1, $uniqueId = "", $userId = 0, $newProductPrice = 0)
 	{
 		$productHelper = productHelper::getInstance();
 
@@ -686,7 +686,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function replaceShippingMethod($d = array(), $shippUsersInfoId = 0, $shippingRateId = 0)
+	public static function replaceShippingMethod($d = array(), $shippUsersInfoId = 0, $shippingRateId = 0)
 	{
 		$productHelper = productHelper::getInstance();
 		$orderFunctions = order_functions::getInstance();
@@ -761,7 +761,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function redesignProductItem($post = array())
+	public static function redesignProductItem($post = array())
 	{
 		$orderItem = array();
 		$i = -1;
@@ -870,7 +870,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function replaceUserfield($productId = 0, $templateId = 0, $uniqueId = "")
+	public static function replaceUserfield($productId = 0, $templateId = 0, $uniqueId = "")
 	{
 		$productHelper = productHelper::getInstance();
 		$redTemplate = Redtemplate::getInstance();
@@ -909,7 +909,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function admin_insertProdcutUserfield($fieldId = 0, $orderItemId = 0, $sectionId = 12, $value = '')
+	public static function admin_insertProdcutUserfield($fieldId = 0, $orderItemId = 0, $sectionId = 12, $value = '')
 	{
 		$db = JFactory::getDbo();
 		$columns = array('fieldid', 'data_txt', 'itemid', 'section');
@@ -930,7 +930,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getProductrBySortedList()
+	public static function getProductrBySortedList()
 	{
 		$productData = array();
 		$productData[0] = new stdClass;
