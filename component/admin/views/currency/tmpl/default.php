@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 
-$filter = JRequest::getVar('filter');
+$filter = JRequest::getVar('filter_search');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -30,14 +30,19 @@ $filter = JRequest::getVar('filter');
 
 		form.submit();
 	}
+	function clearreset() {
+		var form = document.adminForm;
+		form.filter_search.value = "";
+		form.submit();
+	}
 </script>
 
-<form action="index.php?option=com_redshop" class="admin" id="adminForm" method="post" name="adminForm">
+<form action="index.php?option=com_redshop&view=currency" class="admin" id="adminForm" method="post" name="adminForm">
 
 	<div class="filterTool">
 		<div class="filterItem">
 			<div class="btn-wrapper input-append">
-				<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
+				<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->filter; ?>"
 					   placeholder="<?php echo JText::_('COM_REDSHOP_CURRENCY_FILTER'); ?>">
 				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
 				<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
