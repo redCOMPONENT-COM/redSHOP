@@ -63,12 +63,11 @@ class RedshopMenuLeft_Menu
 		}
 
 		return RedshopLayoutHelper::render(
-			'menu',
+			'component.full.sidebar.menu',
 			array(
 				'items' => $menu->items,
 				'active' => $active
-			),
-			JPATH_ADMINISTRATOR . '/components/com_redshop/layouts/component/full/sidebar/'
+			)
 		);
 	}
 
