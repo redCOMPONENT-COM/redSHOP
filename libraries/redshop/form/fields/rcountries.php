@@ -31,8 +31,10 @@ class JFormFieldRcountries extends JFormFieldList
 	 *
 	 * @return  string  The field input markup.
 	 */
-	public function getInput()
+	public function getOptions()
 	{
+		$options = array();
+
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true)
 			->select($db->qn('id'))
@@ -40,29 +42,10 @@ class JFormFieldRcountries extends JFormFieldList
 			->from($db->qn('#__redshop_country'))
 			->order($db->qn('country_name'));
 
-		$items = $db->setQuery($query)->loadObjectList();
-		$options = array();
+		$options = $db->setQuery($query)->loadObjectList();
 
-		if (count($items) > 0)
-		{
-			foreach ($items as $item)
-			{
-				$option = JHTML::_('select.option', $item->id, $item->country_name);
-				$options[] = $option;
-			}
-		}
+		$parentOptions = parent::getOptions();
 
-		$options = array_merge(parent::getOptions(), $options);
-		$attr = '';
-
-		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= $this->element['multiple'] ? ' multiple' : '';
-
-		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-
-		return JHTML::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+		return array_merge($parentOptions, $options);
 	}
 }
