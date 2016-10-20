@@ -78,7 +78,7 @@ class RedshopModelZipcode extends RedshopModel
 			. ' FROM `' . $this->_table_prefix . 'zipcode` AS z '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON z.country_code = c.country_3_code '
 			. ' LEFT JOIN ' . $this->_table_prefix . 'state AS s ON z.state_code = s.state_2_code '
-			. ' AND c.country_id = s.country_id '
+			. ' AND c.id = s.country_id '
 			. ' WHERE 1 =1 '
 			. $orderby;
 
@@ -100,7 +100,7 @@ class RedshopModelZipcode extends RedshopModel
 
 	public function getCountryName($country_id)
 	{
-		$query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.country_id=" . $country_id;
+		$query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.id=" . $country_id;
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();

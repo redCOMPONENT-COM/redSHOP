@@ -329,8 +329,8 @@ class RedshopHelperExtrafields
 
 					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
 					{
-						$selected = (@in_array($fieldChk[$c]->country_id, $chkData)) ? ' selected="selected" ' : '';
-						$extraFieldValue .= '<option value="' . $fieldChk[$c]->country_id . '" ' . $selected . ' '
+						$selected = (@in_array($fieldChk[$c]->id, $chkData)) ? ' selected="selected" ' : '';
+						$extraFieldValue .= '<option value="' . $fieldChk[$c]->id . '" ' . $selected . ' '
 							. $required . $reqlbl . $errormsg . '>' . $fieldChk[$c]->country_name . '</option>';
 					}
 
@@ -1047,7 +1047,7 @@ class RedshopHelperExtrafields
 
 						$query->select($db->qn('country_name'))
 							->from($db->qn('#__redshop_country'))
-							->where($db->qn('country_id') . ' = ' . $db->quote($dataValue->data_txt));
+							->where($db->qn('id') . ' = ' . $db->quote($dataValue->data_txt));
 
 						$db->setQuery($query);
 
