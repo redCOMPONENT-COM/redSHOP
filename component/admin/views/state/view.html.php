@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  State.View
- * @since       2.0.0.2.2
+ * @since       2.0.0.4
  */
 class RedshopViewState extends RedshopViewAdmin
 {
