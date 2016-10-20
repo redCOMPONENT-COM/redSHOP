@@ -230,7 +230,7 @@ class RedshopHelperCategory
 	 *
 	 * @return  string   HTML of dropdown
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
 	public static function listAll($name, $categoryId, $selectedCategories = array(), $size = 1, $topLevel = false,
 		$multiple = false, $disabledFields = array(), $width = 250)
@@ -282,7 +282,7 @@ class RedshopHelperCategory
 	 *
 	 * @return String   HTML of <option></option>
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
 	public static function listTree($categoryId = "", $cid = '0', $level = '0', $selectedCategories = array(),
 		$disabledFields = array(), $html = '')
@@ -351,7 +351,7 @@ class RedshopHelperCategory
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
 	public static function buildContentOrderBy()
 	{
@@ -372,7 +372,7 @@ class RedshopHelperCategory
 	 *
 	 * @return object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
 	public static function getParentCategories()
 	{
@@ -397,7 +397,7 @@ class RedshopHelperCategory
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
 	public static function getCategoryTree($cid = '0')
 	{
@@ -436,7 +436,7 @@ class RedshopHelperCategory
 	 *
 	 * @return  object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
 	public function getCategoryProductList($cid)
 	{
@@ -465,7 +465,7 @@ class RedshopHelperCategory
 	 *
 	 * @return integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
 	public static function checkAccessoryExists($productId, $accessoryId)
 	{
