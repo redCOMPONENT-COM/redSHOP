@@ -9,11 +9,14 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Controller Country Detail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       [version> [<description>]
+ */
 
-class RedshopControllerCoupon extends RedshopController
+class RedshopControllerCoupon extends RedshopControllerForm
 {
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
 }
