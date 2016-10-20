@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedSHOP.Backend
+ * @package     RedSHOP.Library
  * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
@@ -10,14 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Left menu helper
+ * Class Redshop Helper Left_Menu
  *
- * @package     RedSHOP
- * @subpackage  Helpers
- *
- * @since       2.0.0.2
+ * @since  2.0.0.2
  */
-class LeftMenu
+class RedshopMenuLeft_Menu
 {
 	/**
 	 * @var null
@@ -38,11 +35,10 @@ class LeftMenu
 	 */
 	public static function render($disableMenu = false)
 	{
-		self::$view = JFactory::getApplication()->input->getCmd('view');
-		self::$layout = JFactory::getApplication()->input->getCmd('layout', '');
+		self::$view = JFactory::getApplication()->input->getString('view', '');
+		self::$layout = JFactory::getApplication()->input->getString('layout', '');
 
 		$menu = RedshopAdminMenu::getInstance();
-
 		$menu->disableMenu = $disableMenu;
 
 		$active = self::getActive();
@@ -66,7 +62,13 @@ class LeftMenu
 			return $menu->items;
 		}
 
-		return JLayoutHelper::render('component.full.sidebar.menu', array('items' => $menu->items, 'active' => $active));
+		return RedshopLayoutHelper::render(
+			'component.full.sidebar.menu',
+			array(
+				'items' => $menu->items,
+				'active' => $active
+			)
+		);
 	}
 
 	/**
