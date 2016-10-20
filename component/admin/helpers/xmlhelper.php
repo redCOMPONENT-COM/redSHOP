@@ -14,14 +14,35 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 
 /**
+ * Admin Components Helper for XML
+ *
+ * @since       1.6
+ *
  * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml instead
  */
 class xmlHelper
 {
+	/**
+	 * $db
+	 *
+	 * @var  null
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
 	public $_db = null;
-	public $_data = null;
+
+	/**
+	 * Table prefix
+	 *
+	 * @var  null
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
 	public $_table_prefix = null;
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -80,149 +101,19 @@ class xmlHelper
 		return RedshopHelperXml::getSynchIntervalName($value);
 	}
 
-	// @TODO
+	/**
+	 * Get section column list
+	 *
+	 * @param   string  $section       Section
+	 * @param   string  $childSection  Child section
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getSectionColumnList() instead
+	 */
 	public function getSectionColumnList($section = "", $childSection = "")
 	{
-		$cols = array();
-		$catcol = array();
-		$table = "";
-		switch ($section)
-		{
-			case 'product':
-				$table = "product";
-
-				switch ($childSection)
-				{
-					case "stockdetail":
-						$table = "stockroom"; //"product_stockroom_xref";
-						$q = "SHOW COLUMNS FROM " . $this->_table_prefix . "product_stockroom_xref";
-						$this->_db->setQuery($q);
-						$cat = $this->_db->loadObjectList();
-						for ($i = 0, $in = count($cat); $i < $in; $i++)
-						{
-							if ($cat[$i]->Field == "quantity")
-							{
-								$catcol[] = $cat[$i];
-							}
-						}
-						break;
-					case "prdextrafield":
-						$table = ""; //"fields_data";
-						$q = "SHOW COLUMNS FROM " . $this->_table_prefix . "fields_data";
-						$this->_db->setQuery($q);
-						$cat = $this->_db->loadObjectList();
-						for ($i = 0, $in = count($cat); $i < $in; $i++)
-						{
-							if ($cat[$i]->Field != "user_email" && $cat[$i]->Field != "section")
-							{
-								$catcol[] = $cat[$i];
-							}
-						}
-						break;
-					default:
-						$table = "product";
-						$q = "SHOW COLUMNS FROM " . $this->_table_prefix . "category";
-						$this->_db->setQuery($q);
-						$cat = $this->_db->loadObjectList();
-
-						for ($i = 0, $in = count($cat); $i < $in; $i++)
-						{
-							if ($cat[$i]->Field == "category_name")
-							{
-								$catcol[] = $cat[$i];
-							}
-							elseif ($cat[$i]->Field == "category_description")
-							{
-								$catcol[] = $cat[$i];
-							}
-							elseif ($cat[$i]->Field == "category_template") //Start Code for display product_url
-							{
-								$cat[$i]->Field = "link";
-								$catcol[] = $cat[$i];
-							}
-
-							elseif ($cat[$i]->Field == "category_thumb_image") //Start Code for display delivertime
-							{
-								$cat[$i]->Field = "delivertime";
-								$catcol[] = $cat[$i];
-							}
-
-							elseif ($cat[$i]->Field == "category_full_image") //Start Code for display pickup
-							{
-								$cat[$i]->Field = "pickup";
-								$catcol[] = $cat[$i];
-							}
-
-							elseif ($cat[$i]->Field == "category_back_full_image") //Start Code for display charges
-							{
-								$cat[$i]->Field = "charge";
-								$catcol[] = $cat[$i];
-							}
-							elseif ($cat[$i]->Field == "category_pdate") //Start Code for display freight
-							{
-								$cat[$i]->Field = "freight";
-								$catcol[] = $cat[$i];
-							}
-
-						}
-
-						// Start Code for display manufacturer name field
-						$q = "SHOW COLUMNS FROM " . $this->_table_prefix . "manufacturer";
-						$this->_db->setQuery($q);
-						$cat = $this->_db->loadObjectList();
-
-						for ($i = 0, $in = count($cat); $i < $in; $i++)
-						{
-							if ($cat[$i]->Field == "manufacturer_name")
-							{
-								$catcol[] = $cat[$i];
-							}
-						}
-
-						break;
-				}
-				break;
-			case 'order':
-				$table = "orders";
-				switch ($childSection)
-				{
-					case "orderdetail":
-						$table = "orders";
-						break;
-					case "billingdetail":
-						$table = "order_users_info";
-						break;
-					case "shippingdetail":
-						$table = "order_users_info";
-						break;
-					case "orderitem":
-						$table = "order_item";
-						break;
-				}
-
-				break;
-		}
-
-		if ($section != "" && $table != "")
-		{
-			$q = "SHOW COLUMNS FROM " . $this->_table_prefix . $table;
-			$this->_db->setQuery($q);
-			$cols = $this->_db->loadObjectList();
-		}
-
-		$cols = array_merge($cols, $catcol);
-
-		for ($i = 0, $in = count($cols); $i < $in; $i++)
-		{
-			if (strtoupper($cols[$i]->Key) == "PRI")
-			{
-				unset($cols[$i]);
-			}
-		}
-
-		sort($cols);
-
-		return $cols;
+		return RedshopHelperXml::getSectionColumnList($section, $childSection);
 	}
 
 	/**
@@ -235,7 +126,7 @@ class xmlHelper
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getXMLFileTag() instead
 	 */
-	public function getXMLFileTag($fieldname = "", $xmlfiletag)
+	public function getXMLFileTag($fieldname = "", $xmlfiletag = "")
 	{
 		return RedshopHelperXml::getXMLFileTag($fieldname, $xmlfiletag);
 	}
@@ -443,256 +334,109 @@ class xmlHelper
 		return RedshopHelperXml::getOrderExist($order_number);
 	}
 
+	/**
+	 * Get Product List
+	 *
+	 * @param   array  $xmlarray   XML array to get
+	 * @param   array  $xmlExport  XML array export
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getProductList() instead
+	 */
 	public function getProductList($xmlarray = array(), $xmlExport = array())
 	{
-		$list = array();
-		$field = array();
-		$strfield = "";
-
-		if (count($xmlarray) > 0)
-		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				if ($key == "category_name")
-				{
-					$field[] = "c." . $key . " AS " . $value;
-				}
-				elseif ($key == "product_price")
-				{
-					$field[] = "if(p.product_on_sale='1' and ((p.discount_stratdate = 0 and p.discount_enddate=0)
-					or (p.discount_stratdate <= UNIX_TIMESTAMP() and p.discount_enddate>=UNIX_TIMESTAMP())), p.discount_price, p."
-						. $key . ") AS " . $value;
-				}
-				elseif ($key == "manufacturer_name") //Start Code for display manufacture name
-				{
-					$field[] = "m." . $key . " AS " . $value;
-				}
-
-				elseif ($key == "link") //Start Code for display product_url
-				{
-					$field[] = "m.manufacturer_email AS link ";
-				}
-
-				elseif ($key == "delivertime") //Start Code for display delivertime
-				{
-					$field[] = "s.max_del_time AS delivertime ";
-				}
-
-				elseif ($key == "pickup") //Start Code for display pickup
-				{
-					$field[] = "m.manufacturer_email AS pickup ";
-				}
-
-				elseif ($key == "charge") //Start Code for display charges
-				{
-					$field[] = "m.manufacturer_email AS charge ";
-				}
-
-				elseif ($key == "freight") //Start Code for display freight
-				{
-					$field[] = "m.manufacturer_email AS freight ";
-				}
-
-				else
-				{
-					$field[] = "p." . $key . " AS " . $value;
-				}
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			$andcat = ($xmlExport->xmlexport_on_category != "") ? "AND c.category_id IN ($xmlExport->xmlexport_on_category) " : "";
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . ", p.product_id FROM " . $this->_table_prefix . "product AS p "
-					. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id=p.product_id "
-					. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=x.category_id "
-					. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id  "
-					. "LEFT JOIN " . $this->_table_prefix . "product_stockroom_xref AS sx ON sx.product_id=p.product_id "
-					. "LEFT JOIN " . $this->_table_prefix . "stockroom AS s ON s.stockroom_id =sx.stockroom_id  "
-					. "WHERE p.published=1 "
-					. $andcat
-					. "GROUP BY p.product_id "
-					. "ORDER BY p.product_id ASC ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadAssocList();
-			}
-		}
-
-		return $list;
+		return RedshopHelperXml::getProductList($xmlarray, $xmlExport);
 	}
 
+	/**
+	 * Get Order List
+	 *
+	 * @param   array  $xmlarray  XML array to get order list
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getOrderList() instead
+	 */
 	public function getOrderList($xmlarray = array())
 	{
-		$list = array();
-		$field = array();
-		$strfield = "";
-
-		if (count($xmlarray) > 0)
-		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				$field[] = $key . " AS " . $value;
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . ", order_id FROM " . $this->_table_prefix . "orders "
-					. "ORDER BY order_id ASC ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectlist();
-			}
-		}
-
-		return $list;
+		return RedshopHelperXml::getOrderList($xmlarray);
 	}
 
+	/**
+	 * Get order user info list
+	 *
+	 * @param   array    $xmlarray     XML to get info
+	 * @param   integer  $order_id     Order ID
+	 * @param   string   $addresstype  Address Type as 2 characters
+	 *
+	 * @return  boolean/object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getOrderUserInfoList() instead
+	 */
 	public function getOrderUserInfoList($xmlarray = array(), $order_id = 0, $addresstype = "BT")
 	{
-		$list = array();
-		$field = array();
-		$strfield = "";
-
-		if (count($xmlarray) > 0)
-		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				$field[] = $key . " AS '" . $value . "'";
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . " FROM " . $this->_table_prefix . "order_users_info "
-					. "WHERE address_type=" . $this->_db->quote($addresstype) . " "
-					. "AND order_id=" . (int) $order_id . " "
-					. "ORDER BY order_id ASC ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObject();
-			}
-		}
-
-		return $list;
+		return RedshopHelperXml::getOrderUserInfoList($xmlarray, $order_id, $addresstype);
 	}
 
+	/**
+	 * Get order item list
+	 *
+	 * @param   array    $xmlarray  XML to get list
+	 * @param   integer  $order_id  Order ID
+	 *
+	 * @return  boolean/object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getOrderItemList() instead
+	 */
 	public function getOrderItemList($xmlarray = array(), $order_id = 0)
 	{
-		$list = array();
-		$field = array();
-		$strfield = "";
-
-		if (count($xmlarray) > 0)
-		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				$field[] = $key . " AS " . $value;
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . " FROM " . $this->_table_prefix . "order_item "
-					. "WHERE order_id=" . (int) $order_id . " "
-					. "ORDER BY order_item_id ASC ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectList();
-			}
-		}
-
-		return $list;
+		return RedshopHelperXml::getOrderItemList($xmlarray, $order_id);
 	}
 
+	/**
+	 * Get Stockroom List
+	 *
+	 * @param   array    $xmlarray    XML to get
+	 * @param   integer  $product_id  Product ID
+	 *
+	 * @return  boolean/object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getStockroomList() instead
+	 */
 	public function getStockroomList($xmlarray = array(), $product_id = 0)
 	{
-		$list = array();
-		$field = array();
-		$strfield = "";
-
-		if (count($xmlarray) > 0)
-		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				$field[] = $key . " AS " . $value;
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . " FROM " . $this->_table_prefix . "stockroom AS s "
-					. "LEFT JOIN " . $this->_table_prefix . "product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
-					. "WHERE product_id=" . (int) $product_id . " "
-					. "ORDER BY s.stockroom_id ASC ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectList();
-			}
-		}
-
-		return $list;
+		return RedshopHelperXml::getStockroomList($xmlarray, $product_id);
 	}
 
+	/**
+	 * Get extra field list
+	 *
+	 * @param   array    $xmlarray      XML array to get list
+	 * @param   integer  $section_id    Section field ID
+	 * @param   integer  $fieldsection  Section Field
+	 *
+	 * @return  boolean/object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::getExtraFieldList() instead
+	 */
 	public function getExtraFieldList($xmlarray = array(), $section_id = 0, $fieldsection = 0)
 	{
-		$list = array();
-		$field = array();
-		$strfield = "";
-
-		if (count($xmlarray) > 0)
-		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				$field[] = $key . " AS " . $value;
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . " FROM " . $this->_table_prefix . "fields_data "
-					. "WHERE itemid=" . (int) $section_id . " "
-					. "AND section=" . (int) $fieldsection . " ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectList();
-			}
-		}
-
-		return $list;
+		return RedshopHelperXml::getExtraFieldList($xmlarray, $section_id, $fieldsection);
 	}
 
+	/**
+	 * Import remote image
+	 *
+	 * @param   string  $src   URL to begin curl
+	 * @param   string  $dest  Path to put file
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperXml::importRemoteImage() instead
+	 */
 	public function importRemoteImage($src, $dest)
 	{
-		chmod($dest, 0777);
-		$Channel = curl_init($src);
-		$File = fopen($dest, "w");
-		curl_setopt($Channel, CURLOPT_FILE, $File);
-		curl_setopt($Channel, CURLOPT_HEADER, 0);
-		curl_setopt($Channel, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($Channel, CURLOPT_SSL_VERIFYHOST, true);
-		curl_exec($Channel);
-		curl_close($Channel);
-		fclose($File);
+		return RedshopHelperXml::importRemoteImage($src, $dest);
 	}
 }

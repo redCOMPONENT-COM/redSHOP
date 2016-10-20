@@ -78,6 +78,171 @@ class RedshopHelperXml
 	}
 
 	/**
+	 * Get section column list
+	 *
+	 * @param   string  $section       Section
+	 * @param   string  $childSection  Child section
+	 *
+	 * @return  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function getSectionColumnList($section = "", $childSection = "")
+	{
+		$db = JFactory::getDbo();
+
+		$cols = array();
+		$catcol = array();
+		$table = "";
+
+		switch ($section)
+		{
+			case 'product':
+				$table = "product";
+
+				switch ($childSection)
+				{
+					case "stockdetail":
+						$query->getQuery(true);
+						$table = "stockroom";
+						$q = "SHOW COLUMNS FROM #__redshop_product_stockroom_xref";
+						$db->setQuery($q);
+						$cat = $db->loadObjectList();
+
+						for ($i = 0, $in = count($cat); $i < $in; $i++)
+						{
+							if ($cat[$i]->Field == "quantity")
+							{
+								$catcol[] = $cat[$i];
+							}
+						}
+
+						break;
+					case "prdextrafield":
+
+						$table = "";
+						$q = "SHOW COLUMNS FROM #__redshop_fields_data";
+						$db->setQuery($q);
+						$cat = $db->loadObjectList();
+
+						for ($i = 0, $in = count($cat); $i < $in; $i++)
+						{
+							if ($cat[$i]->Field != "user_email" && $cat[$i]->Field != "section")
+							{
+								$catcol[] = $cat[$i];
+							}
+						}
+
+						break;
+					default:
+						$table = "product";
+						$q = "SHOW COLUMNS FROM #__redshop_category";
+						$db->setQuery($q);
+						$cat = $db->loadObjectList();
+
+						for ($i = 0, $in = count($cat); $i < $in; $i++)
+						{
+							if ($cat[$i]->Field == "category_name")
+							{
+								$catcol[] = $cat[$i];
+							}
+							elseif ($cat[$i]->Field == "category_description")
+							{
+								$catcol[] = $cat[$i];
+							}
+							// Start Code for display product_url
+							elseif ($cat[$i]->Field == "category_template")
+							{
+								$cat[$i]->Field = "link";
+								$catcol[] = $cat[$i];
+							}
+							// Start Code for display delivertime
+							elseif ($cat[$i]->Field == "category_thumb_image")
+							{
+								$cat[$i]->Field = "delivertime";
+								$catcol[] = $cat[$i];
+							}
+							// Start Code for display pickup
+							elseif ($cat[$i]->Field == "category_full_image")
+							{
+								$cat[$i]->Field = "pickup";
+								$catcol[] = $cat[$i];
+							}
+							// Start Code for display charges
+							elseif ($cat[$i]->Field == "category_back_full_image")
+							{
+								$cat[$i]->Field = "charge";
+								$catcol[] = $cat[$i];
+							}
+							// Start Code for display freight
+							elseif ($cat[$i]->Field == "category_pdate")
+							{
+								$cat[$i]->Field = "freight";
+								$catcol[] = $cat[$i];
+							}
+						}
+
+						// Start Code for display manufacturer name field
+						$q = "SHOW COLUMNS FROM #__redshop_manufacturer";
+						$db->setQuery($q);
+						$cat = $db->loadObjectList();
+
+						for ($i = 0, $in = count($cat); $i < $in; $i++)
+						{
+							if ($cat[$i]->Field == "manufacturer_name")
+							{
+								$catcol[] = $cat[$i];
+							}
+						}
+
+						break;
+				}
+				break;
+			case 'order':
+				$table = "orders";
+
+				switch ($childSection)
+				{
+					case "orderdetail":
+						$table = "orders";
+						break;
+					case "billingdetail":
+						$table = "order_users_info";
+						break;
+					case "shippingdetail":
+						$table = "order_users_info";
+						break;
+					case "orderitem":
+						$table = "order_item";
+						break;
+				}
+
+				break;
+		}
+
+		if ($section != "" && $table != "")
+		{
+			$q = "SHOW COLUMNS FROM #__redshop_" . $table;
+			$db->setQuery($q);
+			$cols = $db->loadObjectList();
+		}
+
+		$cols = array_merge($cols, $catcol);
+
+		for ($i = 0, $in = count($cols); $i < $in; $i++)
+		{
+			if (strtoupper($cols[$i]->Key) == "PRI")
+			{
+				unset($cols[$i]);
+			}
+		}
+
+		sort($cols);
+
+		return $cols;
+	}
+
+	/**
 	 * Get Synchronization Interval Name
 	 *
 	 * @param   integer  $value  Decimal value for hours
@@ -125,7 +290,16 @@ class RedshopHelperXml
 				if ($value[0] == $fieldName)
 				{
 					$result = trim($value[1]);
-					$update = (isset($value[2])) ? $value[2] : 0;
+
+					if (isset($value[2]))
+					{
+						$update = $value[2];
+					}
+					else
+					{
+						$update = 0;
+					}
+
 					break;
 				}
 			}
@@ -735,7 +909,7 @@ class RedshopHelperXml
 	 */
 	public static function writeXmlImportFile($xmlImportId = 0, $tmlXmlImportUrl = "")
 	{
-		$destPath = JPATH_SITE . "/components/com_redshop/assets/xmlfile/import/";
+		$destPath      = JPATH_SITE . "/components/com_redshop/assets/xmlfile/import/";
 		$xmlImportData = self::getXmlImportInfo($xmlImportId);
 
 		if (count($xmlImportData) <= 0)
@@ -760,7 +934,7 @@ class RedshopHelperXml
 		}
 
 		$fileDetail = self::readXmlImportFile($xmlImportData->xmlimport_url, $xmlImportData);
-		$dataList = $fileDetail['xmlarray'];
+		$dataList   = $fileDetail['xmlarray'];
 
 		if (count($dataList) <= 0)
 		{
@@ -1873,7 +2047,7 @@ class RedshopHelperXml
 	 */
 	public static function getProductExist($productNumber = "")
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->qn('#__redshop_product'))
@@ -1897,9 +2071,9 @@ class RedshopHelperXml
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getOrderExist($orderNumber = "")
+	public static function getOrderExist($orderNumber = "")
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->qn('#__redshop_orders'))
@@ -1921,90 +2095,300 @@ class RedshopHelperXml
 	 * @param   array  $xmlArray   XML array to get
 	 * @param   array  $xmlExport  XML array export
 	 *
-	 * @return  array
+	 * @return  boolean/array
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getProductList($xmlArray = array(), $xmlExport = array())
+	public static function getProductList($xmlArray = array(), $xmlExport = array())
 	{
-		$list = array();
-		$field = array();
-		$strfield = "";
+		$db       = JFactory::getDbo();
+		$query    = $db->getQuery(true);
+		$list     = array();
 
 		if (count($xmlArray) > 0)
 		{
-			foreach ($xmlArray AS $key => $value)
+			foreach ($xmlArray as $key => $value)
 			{
 				if ($key == "category_name")
 				{
-					$field[] = "c." . $key . " AS " . $value;
+					$query->select($db->qn("c.{$key}", $value));
 				}
 				elseif ($key == "product_price")
 				{
-					$field[] = "if(p.product_on_sale='1' and ((p.discount_stratdate = 0 and p.discount_enddate=0)
-					or (p.discount_stratdate <= UNIX_TIMESTAMP() and p.discount_enddate>=UNIX_TIMESTAMP())), p.discount_price, p."
-						. $key . ") AS " . $value;
+					$query->select(
+						"if(" . $db->qn('p.product_on_sale') . "='1' and (("
+						. $db->qn('p.discount_stratdate') . " = 0 and "
+						. $db->qn('p.discount_enddate') . "=0) or ("
+						. $db->qn('p.discount_stratdate') . " <= UNIX_TIMESTAMP() and "
+						. $db->qn('p.discount_enddate') . " >= UNIX_TIMESTAMP())), "
+						. $db->qn('p.discount_price') . ", "
+						. $db->qn("p.{$key}") . ") "
+						. "AS $db->qn($value)"
+					);
 				}
 				// Start Code for display manufacture name
 				elseif ($key == "manufacturer_name")
 				{
-					$field[] = "m." . $key . " AS " . $value;
+					$query->select($db->qn("m.{$key}", $value));
 				}
 				// Start Code for display product_url
 				elseif ($key == "link")
 				{
-					$field[] = "m.manufacturer_email AS link ";
+					$query->select($db->qn('m.manufacturer_email', 'link'));
 				}
 				// Start Code for display delivertime
 				elseif ($key == "delivertime")
 				{
-					$field[] = "s.max_del_time AS delivertime ";
+					$query->select($db->qn('s.max_del_time', 'delivertime'));
 				}
 				// Start Code for display pickup
 				elseif ($key == "pickup")
 				{
-					$field[] = "m.manufacturer_email AS pickup ";
+					$query->select($db->qn('m.manufacturer_email', 'pickup'));
 				}
 				// Start Code for display charges
 				elseif ($key == "charge")
 				{
-					$field[] = "m.manufacturer_email AS charge ";
+					$query->select($db->qn('m.manufacturer_email', 'charge'));
 				}
 				// Start Code for display freight
 				elseif ($key == "freight")
 				{
-					$field[] = "m.manufacturer_email AS freight ";
+					$query->select($db->qn('m.manufacturer_email', 'freight'));
 				}
-
 				else
 				{
-					$field[] = "p." . $key . " AS " . $value;
+					$query->select($db->qn("p.{$key}", $value));
 				}
 			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			$andcat = ($xmlExport->xmlexport_on_category != "") ? "AND c.category_id IN ($xmlExport->xmlexport_on_category) " : "";
 
 			if ($strfield != "")
 			{
-				$query = "SELECT " . $strfield . ", p.product_id FROM " . $this->_table_prefix . "product AS p "
-					. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id=p.product_id "
-					. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=x.category_id "
-					. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id  "
-					. "LEFT JOIN " . $this->_table_prefix . "product_stockroom_xref AS sx ON sx.product_id=p.product_id "
-					. "LEFT JOIN " . $this->_table_prefix . "stockroom AS s ON s.stockroom_id =sx.stockroom_id  "
-					. "WHERE p.published=1 "
-					. $andcat
-					. "GROUP BY p.product_id "
-					. "ORDER BY p.product_id ASC ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadAssocList();
+				$query->select($db->qn('p.product_id'))
+					->from($db->qn('#__redshop_product', 'p'))
+					->lefJoin($db->qn('#__redshop_product_category_xref', 'x') . ' ON ' . $db->qn('x.product_id') . ' = ' . $db->qn('p.product_id'))
+					->lefJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('x.category_id'))
+					->lefJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
+					->lefJoin($db->qn('#__redshop_product_stockroom_xref', 'sx') . ' ON ' . $db->qn('sx.product_id') . ' = ' . $db->qn('p.product_id'))
+					->lefJoin($db->qn('#__redshop_stockroom', 's') . ' ON ' . $db->qn('s.stockroom_id') . ' = ' . $db->qn('sx.stockroom_id'))
+					->where($db->qn('p.published') . ' = 1')
+					->group($db->qn('p.product_id'))
+					->order($db->qn('p.product_id') . ' ASC');
+
+				if (($xmlExport->xmlexport_on_category != ""))
+				{
+					$query->where($db->qn('c.category_id') . ' IN (' . $xmlExport->xmlexport_on_category . ')');
+				}
+
+				$db->setQuery($query);
+
+				return $db->loadAssocList();
 			}
 		}
 
-		return $list;
+		return false;
+	}
+
+	/**
+	 * Get Order List
+	 *
+	 * @param   array  $xml  XML array to get order list
+	 *
+	 * @return  boolean/object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getOrderList($xml = array())
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		if (count($xml) > 0)
+		{
+			foreach ($xml as $key => $value)
+			{
+				$query->select($db->qn($key, $value));
+			}
+
+			$query->select($db->qn('order_id'))
+				->from($db->qn('#__redshop_orders'))
+				->order($db->qn('order_id') . ' ASC');
+
+			$db->setQuery($query);
+
+			return $db->loadObjectlist();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get order user info list
+	 *
+	 * @param   array    $xml          XML to get info
+	 * @param   integer  $orderId      Order ID
+	 * @param   string   $addressType  Address Type as 2 characters
+	 *
+	 * @return  boolean/object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getOrderUserInfoList($xml = array(), $orderId = 0, $addressType = "BT")
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		if (count($xml) > 0)
+		{
+			foreach ($xml as $key => $value)
+			{
+				$query->select($db->qn($key, $value));
+			}
+
+			$query->from($db->qn('#__redshop_order_users_info'))
+				->where($db->qn('address_type') . ' = ' . $db->quote($addressType))
+				->where($db->qn('order_id') . ' = ' . (int) $orderId)
+				->order($db->qn('order_id') . ' ASC');
+
+			$db->setQuery($query);
+
+			return $db->loadObjectlist();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get order item list
+	 *
+	 * @param   array    $xml      XML to get list
+	 * @param   integer  $orderId  Order ID
+	 *
+	 * @return  boolean/object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getOrderItemList($xml = array(), $orderId = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		if (count($xml) > 0)
+		{
+			foreach ($xml as $key => $value)
+			{
+				$query->select($db->qn($key, $value));
+			}
+
+			$query->from($db->qn('#__redshop_order_item'))
+				->where($db->qn('order_id') . ' = ' . (int) $orderId)
+				->order($db->qn('order_item_id') . ' ASC');
+
+			$db->setQuery($query);
+
+			return $db->loadObjectlist();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get Stockroom List
+	 *
+	 * @param   array    $xml        XML to get
+	 * @param   integer  $productId  Product ID
+	 *
+	 * @return  boolean/object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getStockroomList($xml = array(), $productId = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		if (count($xml) > 0)
+		{
+			foreach ($xml as $key => $value)
+			{
+				$query->select($db->qn($key, $value));
+			}
+
+			$query->from($db->qn('#__redshop_stockroom', 's'))
+				->leftJoin(
+					$db->qn('#__redshop_product_stockroom_xref', 'sx')
+					. ' ON ' . $db->qn('s.stockroom_id') . ' = ' . $db->qn('sx.stockroom_id')
+				)
+				->where($db->qn('product_id') . ' = ' . (int) $productId)
+				->order($db->qn('s.stockroom_id') . ' ASC');
+
+			$db->setQuery($query);
+
+			return $db->loadObjectlist();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get extra field list
+	 *
+	 * @param   array    $xml           XML array to get list
+	 * @param   integer  $sectionId     Section field ID
+	 * @param   integer  $fieldSection  Section Field
+	 *
+	 * @return  boolean/object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getExtraFieldList($xml = array(), $sectionId = 0, $fieldSection = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		if (count($xml) > 0)
+		{
+			foreach ($xml as $key => $value)
+			{
+				$query->select($db->qn($key, $value));
+			}
+
+			$query->from($db->qn('#__redshop_fields_data', 's'))
+				->where($db->qn('itemid') . ' = ' . (int) $sectionId)
+				->where($db->qn('section') . ' = ' . (int) $fieldSection);
+
+			$db->setQuery($query);
+
+			return $db->loadObjectlist();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Import remote image
+	 *
+	 * @param   string  $src   URL to begin curl
+	 * @param   string  $dest  Path to put file
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function importRemoteImage($src, $dest)
+	{
+		chmod($dest, 0777);
+
+		$channel = curl_init($src);
+		$file    = fopen($dest, "w");
+
+		curl_setopt($channel, CURLOPT_FILE, $file);
+		curl_setopt($channel, CURLOPT_HEADER, 0);
+		curl_setopt($channel, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($channel, CURLOPT_SSL_VERIFYHOST, true);
+		curl_exec($channel);
+		curl_close($channel);
+		fclose($file);
 	}
 
 	/**
@@ -2015,11 +2399,13 @@ class RedshopHelperXml
 	 * @param   array  $condition  Array of where to update
 	 *
 	 * @return  string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function sqlUpdateTables($tables = array(), $sets = '', $condition = array())
 	{
-		$query = "UPDATE ";
-		$tmpTables = array();
+		$query       = "UPDATE ";
+		$tmpTables   = array();
 		$tmpCodition = array();
 
 		if (empty($tables) || $sets == '')
