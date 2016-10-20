@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Table Country
+ * Table Coupon
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
@@ -28,6 +28,36 @@ class RedshopTableCoupon extends RedshopTable
 	protected $_tableName = 'redshop_coupons';
 
 	/**
+	 * Field name to publish/unpublish/trash table registers. Ex: state
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldState = 'published';
+
+	/**
+	 * Method to store a node in the database table.
+	 *
+	 * @param   boolean  $updateNulls  True to update null values as well.
+	 *
+	 * @return  boolean  True on success.
+	 */
+	public function doStore($updateNulls = false)
+	{
+		$startDate = new JDate($this->start_date);
+		$this->start_date = $startDate->toUnix();
+
+		$endDate = new JDate($this->end_date);
+		$this->end_date = $endDate->toUnix();
+
+		if (!parent::doStore($updateNulls))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Validate all fields
 	 *
 	 * @return  bool
@@ -37,6 +67,11 @@ class RedshopTableCoupon extends RedshopTable
 	public function check ()
 	{
 		if (empty($this->coupon_code))
+		{
+			return false;
+		}
+
+		if ($this->start_date > $this->end_date)
 		{
 			return false;
 		}

@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * View Countries
+ * View Coupon
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       2.0.0.2.1
+ * @since       2.0.0.5
  */
 class RedshopViewCoupons extends RedshopViewAdmin
 {
@@ -25,7 +25,7 @@ class RedshopViewCoupons extends RedshopViewAdmin
 	 *
 	 * @return void
 	 *
-	 * @since 2.0.0.2.1
+	 * @since 2.0.0.5
 	 */
 
 	public function display($tpl = null)

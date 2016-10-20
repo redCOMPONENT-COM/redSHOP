@@ -147,8 +147,8 @@ class LeftMenu
 				return array('DISCOUNT', 'voucher');
 				break;
 
+			case "coupons":
 			case "coupon":
-			case "coupon_detail":
 				return array('DISCOUNT', 'coupon');
 				break;
 
@@ -1041,14 +1041,14 @@ class LeftMenu
 		$menu->section('coupon')
 			->title('COM_REDSHOP_COUPON')
 			->addItem(
-				'index.php?option=com_redshop&view=coupon',
+				'index.php?option=com_redshop&view=coupons',
 				'COM_REDSHOP_COUPON_LISTING',
 				(self::$view == 'coupon') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=coupon_detail',
+				'index.php?option=com_redshop&task=coupon.add',
 				'COM_REDSHOP_ADD_COUPON',
-				(self::$view == 'coupon_detail') ? true : false
+				(self::$view == 'coupon') ? true : false
 			);
 	}
 

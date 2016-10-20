@@ -35,21 +35,26 @@
 			class="text_area"
 			default="0.00"
 			required="true"
+			filter="float"
 			/>
 		<field
 			name="start_date"
 			type="calendar"
-			default=""
+			default="NOW"
 			label="COM_REDSHOP_COUPON_START_DATE"
 			description="COM_REDSHOP_COUPON_START_DATE"
-			format="%m-%d-%Y" />
+			format="%d-%m-%Y"
+			filter="user_utc"
+			/>
 		<field
 			name="end_date"
 			type="calendar"
-			default=""
+			default="NOW"
 			label="COM_REDSHOP_COUPON_END_DATE"
 			description="COM_REDSHOP_COUPON_END_DATE"
-			format="%m-%d-%Y" />
+			format="%d-%m-%Y"
+			filter="user_utc"
+			/>
 		<field 
 			name="coupon_type" 
 			type="list" 
@@ -60,6 +65,25 @@
 		  	<option value="1">COM_REDSHOP_USER_SPECIFIC</option>
 		</field>
 		<field
+			name="userid"
+			type="rusers"
+			default=""
+			label="COM_REDSHOP_USER"
+			description="COM_REDSHOP_USER"
+			/>
+		<field
+			id="subtotal"
+			name="subtotal"
+			type="text"
+			label="COM_REDSHOP_SUBTOTAL_LBL"
+			description="COM_REDSHOP_SUBTOTAL_LBL"
+			size="30"
+			class="text_area"
+			default="0.00"
+			required="true"
+			filter="float"
+			/>
+		<field
 			name="free_shipping"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -68,6 +92,18 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 		</field>
+		<field
+			id="coupon_left"
+			name="coupon_left"
+			type="text"
+			label="COM_REDSHOP_LBL_COUPON_LEFT"
+			description="COM_REDSHOP_LBL_COUPON_LEFT"
+			size="30"
+			class="text_area"
+			default="0"
+			required="true"
+			filter="integer"
+			/>
 		<field
 			name="published"
 			type="radio"

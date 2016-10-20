@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_country` (
 DROP TABLE IF EXISTS `#__redshop_coupons` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_coupons` (
-  `coupon_id` INT(16) NOT NULL AUTO_INCREMENT,
+  `id` INT(16) NOT NULL AUTO_INCREMENT,
   `coupon_code` VARCHAR(32) NOT NULL DEFAULT '',
   `percent_or_total` TINYINT(4) NOT NULL,
   `coupon_value` DECIMAL(12,2) NOT NULL DEFAULT '0.00',

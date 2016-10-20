@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Controller Country Detail
+ * Controller Coupon Detail
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller
- * @since       [version> [<description>]
+ * @since       2.0.0.5
  */
 
 class RedshopControllerCoupon extends RedshopControllerForm

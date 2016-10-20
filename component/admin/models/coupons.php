@@ -111,7 +111,7 @@ class RedshopModelCoupons extends RedshopModelList
 				$coupon_type = 0;
 			}
 
-			$where = $db->qn("coupon_code") . " LIKE '%" . $db->q($filter) . "%' ";
+			$where = $db->qn("coupon_code") . " LIKE " . $db->q("%" . $filter . "%");
 
 			if (isset($percentage))
 			{

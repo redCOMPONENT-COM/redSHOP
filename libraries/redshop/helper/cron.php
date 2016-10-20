@@ -345,7 +345,7 @@ class RedshopHelperCron
 
 					if (JFactory::getMailer()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc))
 					{
-						$couponItems                   = JTable::getInstance('coupon_detail', 'Table');
+						$couponItems                   = JTable::getInstance('Coupon', 'Table');
 						$couponItems->coupon_code      = $token;
 						$couponItems->percent_or_total = Redshop::getConfig()->get('DISCOUPON_PERCENT_OR_TOTAL');
 						$couponItems->coupon_value     = Redshop::getConfig()->get('DISCOUPON_VALUE');

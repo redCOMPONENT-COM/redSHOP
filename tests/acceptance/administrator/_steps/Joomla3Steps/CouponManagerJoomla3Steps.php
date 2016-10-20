@@ -43,7 +43,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($couponManagerPage->couponValueIn($couponValueIn));
 		$I->click('Save & Close');
 		$I->waitForElement(['id' => 'system-message-container'], 60);
-		$I->see('Coupon detail saved', '.alert-success');
+		$I->see('Item successfully saved.', '.alert-success');
 		$I->seeElement(['link' => $couponCode]);
 	}
 
@@ -69,7 +69,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CouponManagerJ3Page::$couponCode, $newCouponCode);
 		$I->click('Save & Close');
 		$I->waitForElement(['id' => 'system-message-container'], 60);
-		$I->see('Coupon detail saved', '.alert-success');
+		$I->see('Item successfully saved.', '.alert-success');
 		$I->seeElement(['link' => $newCouponCode]);
 	}
 

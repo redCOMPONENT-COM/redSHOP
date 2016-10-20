@@ -567,6 +567,18 @@ class RedshopTable extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 */
+	public function doStore($updateNulls = false)
+	{
+		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Method to store a node in the database table.
+	 *
+	 * @param   boolean  $updateNulls  True to update null values as well.
+	 *
+	 * @return  boolean  True on success.
+	 */
 	public function store($updateNulls = false)
 	{
 		// Before store
@@ -576,7 +588,7 @@ class RedshopTable extends JTable
 		}
 
 		// Store
-		if (!parent::store($updateNulls))
+		if (!$this->doStore($updateNulls))
 		{
 			return false;
 		}
