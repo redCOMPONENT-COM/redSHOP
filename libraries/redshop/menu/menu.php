@@ -91,7 +91,7 @@ class RedshopMenu
 	 *
 	 * @param   integer  $section  Section value
 	 *
-	 * @return  void
+	 * @return  self
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -107,7 +107,7 @@ class RedshopMenu
 	 *
 	 * @param   integer  $title  Title value
 	 *
-	 * @return  void
+	 * @return  self
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -154,7 +154,7 @@ class RedshopMenu
 	 * @param   boolean  $active  Active or not
 	 * @param   array    $param   Other options
 	 *
-	 * @return  Menu
+	 * @return  self
 	 */
 	public function addItem($link, $title, $active = null, $param = null)
 	{
