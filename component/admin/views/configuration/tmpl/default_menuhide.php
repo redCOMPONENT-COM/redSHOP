@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$items = LeftMenu::render(true);
+$items = RedshopMenuLeft_Menu::render(true);
 
 $menuhide = explode(",", $this->config->get('MENUHIDE'));
 
