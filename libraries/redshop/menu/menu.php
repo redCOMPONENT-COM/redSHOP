@@ -144,6 +144,7 @@ class RedshopMenu
 	public function group($group)
 	{
 		$this->items[$group] = $this->data;
+		$this->data = array();
 	}
 
 	/**
