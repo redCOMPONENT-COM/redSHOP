@@ -81,6 +81,9 @@
       "redshop_categories",
       "redshop_products"
     ],
+    "sh404sefextplugins": [
+      "sh404sefextplugincom_redshop"
+    ],
     "system": [
       "quickbook"
     ],
