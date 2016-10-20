@@ -134,14 +134,6 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 	<?php echo $this->lists ['addtocart_behaviour'];?>
 </div>
 
-<div class="form-group">
-	<span class="addtocartbutton hasTip"
-					      title="<?php echo JText::_('COM_REDSHOP_ADDTOCART_BUTTON_BEHAVE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_BUTTON_BEHAVE'); ?>">
-					<?php echo JText::_('COM_REDSHOP_ADDTOCART_BUTTON_BEHAVE_LBL');?></span>
-	<?php echo $this->lists ['addtocart_behaviour'];?>
-</div>
-
-
 <legend><?php echo JText::_('COM_REDSHOP_CART_SETTINGS'); ?></legend>
 
 <div class="form-group">
