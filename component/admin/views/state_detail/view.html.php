@@ -9,8 +9,15 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Controller State Detail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       [version> [<description>]
+ */
 
-class RedshopViewState_detail extends RedshopViewAdmin
+class RedshopViewState_Detail extends RedshopViewAdmin
 {
 	/**
 	 * Do we have to display a sidebar ?
@@ -18,6 +25,16 @@ class RedshopViewState_detail extends RedshopViewAdmin
 	 * @var  boolean
 	 */
 	protected $displaySidebar = false;
+
+	/**
+	 * Display template function
+	 *
+	 * @param   object  $tpl  template variable
+	 *
+	 * @return void
+	 *
+	 * @since 1.x
+	 */
 
 	public function display($tpl = null)
 	{
@@ -47,9 +64,8 @@ class RedshopViewState_detail extends RedshopViewAdmin
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
 
-
 		$redhelper = redhelper::getInstance();
-		$q         = "SELECT  country_id as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
+		$q         = "SELECT  id as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);

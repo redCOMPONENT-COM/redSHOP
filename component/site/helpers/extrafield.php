@@ -952,7 +952,7 @@ class extraField
 						if ($data_value->data_txt != "")
 						{
 							$q = "SELECT country_name FROM #__redshop_country "
-								. "WHERE country_id = " . (int) $data_value->data_txt;
+								. "WHERE id = " . (int) $data_value->data_txt;
 							$db->setQuery($q);
 							$field_chk    = $db->loadObject();
 							$displayvalue = $field_chk->country_name;

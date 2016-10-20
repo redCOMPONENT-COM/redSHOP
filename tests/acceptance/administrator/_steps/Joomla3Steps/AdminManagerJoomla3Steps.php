@@ -42,7 +42,6 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 			$I->verifyNotices(false, $this->checkForNotices(), $page . ' New');
 			$I->click('Cancel');
 		}
-
 	}
 
 	/**
@@ -152,10 +151,12 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	/**
 	 * Filters an administrator list by searching for a given string
 	 *
-	 * @param   Object  $pageClass  Page Class on which we are performing the Operation
-	 * @param   String  $text  text to be searched to filter the administrator list
+	 * @param   String  $text         text to be searched to filter the administrator list
+	 * @param   String  $searchField  id of field to search
+	 *
+	 * @return void
 	 */
-	public function filterListBySearching($text, $searchField = ['id' => 'filter'])
+	public function filterListBySearching($text, $searchField = ['id' => 'filter_search'])
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
