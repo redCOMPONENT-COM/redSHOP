@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class RedshopHelperShopperGroup
+class RedshopHelperShopper_Group
 {
 	/**
 	 * List all shopper group as dropdown list
@@ -33,22 +33,23 @@ class RedshopHelperShopperGroup
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function listAll($name, $shopperGroupId, $selectedGroups = array(), $size = 1, $topLevel = true, $multiple = false, $disabledFields = array())
+	public static function listAll($name, $shopperGroupId, $selectedGroups = array(), $size = 1, $topLevel = true, $multiple = false,
+		$disabledFields = array())
 	{
 		$db   = JFactory::getDbo();
-		$sql  = $db->getQuery(true);
+		$query  = $db->getQuery(true);
 		$html = '';
 
-		$sql->select($db->qn('parent_id'))
+		$query->select($db->qn('parent_id'))
 			->select($db->qn('shopper_group_id'))
 			->from($db->qn('#__redshop_shopper_group'));
 
 		if ($shopperGroupId)
 		{
-			$sql->where($db->qn('shopper_group_id') . ' = ' . (int) $shopperGroupId);
+			$query->where($db->qn('shopper_group_id') . ' = ' . (int) $shopperGroupId);
 		}
 
-		$db->setQuery($sql);
+		$db->setQuery($query);
 		$groups = $db->loadObjectList();
 
 		if ($groups)
@@ -65,7 +66,7 @@ class RedshopHelperShopperGroup
 			$html .= "<option value=\"0\"> -Top- </option>\n";
 		}
 
-		$html .= self::listTree($shopperGroupId, '0', '0', $selectedGroups, $disabledFields);
+		$html .= self::listTree($shopperGroupId, 0, 0, $selectedGroups, $disabledFields);
 		$html .= "</select>\n";
 
 		return $html;
@@ -74,29 +75,29 @@ class RedshopHelperShopperGroup
 	/**
 	 * List shopper group as option of dropdown list
 	 *
-	 * @param   string  $shopperGroupId  Shopper group ID to display
-	 * @param   string  $cid             Parent ID
-	 * @param   string  $level           Position
-	 * @param   array   $selectedGroups  Selected groups will be marked selected
-	 * @param   array   $disabledFields  Disable groups
-	 * @param   string  $html            Previous HTML
+	 * @param   integer  $shopperGroupId  Shopper group ID to display
+	 * @param   integer  $cid             Parent ID
+	 * @param   integer  $level           Position
+	 * @param   array    $selectedGroups  Selected groups will be marked selected
+	 * @param   array    $disabledFields  Disable groups
+	 * @param   string   $html            Previous HTML
 	 *
 	 * @return  string  HTML to render <option></option>
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function listTree($shopperGroupId = "", $cid = '0', $level = '0', $selectedGroups = array(), $disabledFields = array(), $html = '')
+	public static function listTree($shopperGroupId = 0, $cid = 0, $level = 0, $selectedGroups = array(), $disabledFields = array(), $html = '')
 	{
 		$db  = JFactory::getDbo();
-		$sql = $db->getQuery(true);
+		$query = $db->getQuery(true);
 		$level++;
 
-		$sql->select($db->qn(array('shopper_group_id', 'shopper_group_id', 'shopper_group_name', 'parent_id')))
+		$query->select($db->qn(array('shopper_group_id', 'shopper_group_name', 'parent_id')))
 			->from($db->qn('#__redshop_shopper_group'))
 			->where($db->qn('parent_id') . ' = ' . (int) $cid)
 			->where($db->qn('shopper_group_id') . ' != ' . (int) $shopperGroupId);
 
-		$db->setQuery($sql);
+		$db->setQuery($query);
 		$groups = $db->loadObjectList();
 
 		for ($x = 0, $xn = count($groups); $x < $xn; $x++)
@@ -120,21 +121,18 @@ class RedshopHelperShopperGroup
 					$disabled = 'disabled="disabled"';
 				}
 
-				else
+				$html .= "<option $selected $disabled value=\"$childId\">\n";
+
+				for ($i = 0; $i < $level; $i++)
 				{
-					$html .= "<option $selected $disabled value=\"$childId\">\n";
-
-					for ($i = 0; $i < $level; $i++)
-					{
-						$html .= "&#151;";
-					}
-
-					$html .= "|$level|";
-					$html .= "&nbsp;" . $group->shopper_group_name . "</option>";
+					$html .= "&#151;";
 				}
+
+				$html .= "|$level|";
+				$html .= "&nbsp;" . $group->shopper_group_name . "</option>";
 			}
 
-			$html .= self::list_tree($shopperGroupId, $childId, $level, $selectedGroups, $disabledFields);
+			$html .= self::listTree($shopperGroupId, $childId, $level, $selectedGroups, $disabledFields);
 		}
 
 		return $html;
@@ -143,25 +141,25 @@ class RedshopHelperShopperGroup
 	/**
 	 * Get Shopper Group List as Array
 	 *
-	 * @param   string  $shopperGroupId  Shopper Group ID to display
-	 * @param   string  $cid             Parent ID
-	 * @param   string  $level           Position
+	 * @param   integer  $shopperGroupId  Shopper Group ID to display
+	 * @param   integer  $cid             Parent ID
+	 * @param   integer  $level           Position
 	 *
 	 * @return array
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function getShopperGroupListArray($shopperGroupId = "", $cid = '0', $level = '0')
+	public static function getShopperGroupListArray($shopperGroupId = 0, $cid = 0, $level = 0)
 	{
 		$db  = JFactory::getDbo();
-		$sql = $db->getQuery(true);
+		$query = $db->getQuery(true);
 		$level++;
 
-		$sql->select('*')
+		$query->select('*')
 			->from($db->qn('#__redshop_shopper_group'))
 			->where($db->qn('parent_id') . ' = ' . (int) $cid);
 
-		$db->setQuery($sql);
+		$db->setQuery($query);
 		$groups = $db->loadObjectList();
 
 		for ($x = 0, $xn = count($groups); $x < $xn; $x++)
@@ -196,20 +194,20 @@ class RedshopHelperShopperGroup
 	/**
 	 * Get Category List Reverce Array
 	 *
-	 * @param   string  $cid  Parent ID
+	 * @param   integer  $cid  Parent ID
 	 *
 	 * @return  array
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function getCategoryListReverceArray($cid = '0')
+	public static function getCategoryListReverceArray($cid = 0)
 	{
 		$db = JFactory::getDbo();
-		$sql = $db->getQuery(true);
+		$query = $db->getQuery(true);
 
-		$sql->select($db->qn(array('c.shopper_group_id', 'c.category_name', 'cx.shopper_group_id', 'cx.parent_id')))
+		$query->select($db->qn(array('c.shopper_group_id', 'c.category_name', 'cx.shopper_group_id', 'cx.parent_id')))
 			->from($db->qn('#__redshop_shopper_group', 'cx'))
-			->join(
+			->leftJoin(
 				$db->qn('#__redshop_shopper_group', 'c')
 				. ' ON ' .
 				$db->qn('c.shopper_group_id') . ' = ' . $db->qn('cx.parent_id')

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopperGroup instead
+ * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopper_Group instead
  */
 
 defined('_JEXEC') or die;
@@ -14,7 +14,9 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper for Shopper Group
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopperGroup instead
+ * @since       1.6
+ *
+ * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopper_Group instead
  */
 class shoppergroup
 {
@@ -31,59 +33,60 @@ class shoppergroup
 	 *
 	 * @return string    HTML of dropdown list to render
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopperGroup::listAll() instead
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopper_Group::listAll() instead
 	 */
-	public function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array())
+	public function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true, $multiple = false,
+		$disabledFields = array())
 	{
-		return RedshopHelperShopperGroup::listAll($name, $shopper_group_id, $selected_groups, $size, $toplevel, $multiple, $disabledFields);
+		return RedshopHelperShopper_Group::listAll($name, $shopper_group_id, $selected_groups, $size, $toplevel, $multiple, $disabledFields);
 	}
 
 	/**
 	 * List shopper group as option of dropdown list
 	 *
-	 * @param   string  $shopper_group_id  Shopper group ID to display
-	 * @param   string  $cid               Parent ID
-	 * @param   string  $level             Position
-	 * @param   array   $selected_groups   Selected groups will be marked selected
-	 * @param   array   $disabledFields    Disable groups
-	 * @param   string  $html              Previous HTML
+	 * @param   integer  $shopper_group_id  Shopper group ID to display
+	 * @param   integer  $cid               Parent ID
+	 * @param   integer  $level             Position
+	 * @param   array    $selected_groups   Selected groups will be marked selected
+	 * @param   array    $disabledFields    Disable groups
+	 * @param   string   $html              Previous HTML
 	 *
 	 * @return  string  HTML to render <option></option>
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopperGroup::listTree() instead
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopper_Group::listTree() instead
 	 */
-	public function list_tree($shopper_group_id = "", $cid = '0', $level = '0', $selected_groups = Array(), $disabledFields = Array(), $html = '')
+	public function list_tree($shopper_group_id = 0, $cid = 0, $level = 0, $selected_groups = array(), $disabledFields = array(), $html = '')
 	{
-		return RedshopHelperShopperGroup::listTree($shopper_group_id, $cid, $level, $selected_groups, $disabledFields, $html);
+		return RedshopHelperShopper_Group::listTree($shopper_group_id, $cid, $level, $selected_groups, $disabledFields, $html);
 	}
 
 	/**
 	 * Get Shopper Group List as Array
 	 *
-	 * @param   string  $shopper_group_id  Shopper Group ID to display
-	 * @param   string  $cid               Parent ID
-	 * @param   string  $level             Position
+	 * @param   integer  $shopper_group_id  Shopper Group ID to display
+	 * @param   integer  $cid               Parent ID
+	 * @param   integer  $level             Position
 	 *
 	 * @return array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopperGroup::getShopperGroupListArray() instead
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopper_Group::getShopperGroupListArray() instead
 	 */
-	public function getshopperGroupListArray($shopper_group_id = "", $cid = '0', $level = '0')
+	public function getshopperGroupListArray($shopper_group_id = "", $cid = 0, $level = 0)
 	{
-		return RedshopHelperShopperGroup::getShopperGroupListArray($shopper_group_id, $cid, $level);
+		return RedshopHelperShopper_Group::getShopperGroupListArray($shopper_group_id, $cid, $level);
 	}
 
 	/**
 	 * Get Category List Reverce Array
 	 *
-	 * @param   string  $cid  Parent ID
+	 * @param   integer  $cid  Parent ID
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopperGroup::getCategoryListReverceArray() instead
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopper_Group::getCategoryListReverceArray() instead
 	 */
-	public function getCategoryListReverceArray($cid = '0')
+	public function getCategoryListReverceArray($cid = 0)
 	{
-		return RedshopHelperShopperGroup::getCategoryListReverceArray($cid);
+		return RedshopHelperShopper_Group::getCategoryListReverceArray($cid);
 	}
 }
