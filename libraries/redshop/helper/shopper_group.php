@@ -214,7 +214,7 @@ class RedshopHelperShopper_Group
 			)
 			->where($db->qn('cx.shopper_group_id') . ' = ' . (int) $cid);
 
-		$db->setQuery($q);
+		$db->setQuery($query);
 		$groups = $db->loadObjectList();
 
 		for ($x = 0, $xn = count($groups); $x < $xn; $x++)
