@@ -17,7 +17,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @package     Redshop
  * @subpackage  Base
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.0.3
  */
 class RedshopTable extends JTable
 {
