@@ -223,7 +223,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_coupons` (
   `subtotal` INT(11) NOT NULL,
   `order_id` INT(11) NOT NULL,
   `free_shipping` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`coupon_id`),
+  PRIMARY KEY (`id`),
   INDEX `idx_coupon_code` (`coupon_code` ASC),
   INDEX `idx_percent_or_total` (`percent_or_total` ASC),
   INDEX `idx_start_date` (`start_date` ASC),
