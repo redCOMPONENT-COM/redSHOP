@@ -173,7 +173,7 @@ class RedshopModelCategory extends JModelAdmin
 			return false;
 		}
 
-		$filename = "";
+		$fileName = "";
 
 		if (isset($data['image_delete']))
 		{
@@ -199,12 +199,12 @@ class RedshopModelCategory extends JModelAdmin
 		if (!empty($data['category_full_image']['name']))
 		{
 			// Make the filename unique
-			$filename = RedShopHelperImages::cleanFileName($data['category_full_image']['name']);
-			$newwidth = Redshop::getConfig()->get('THUMB_WIDTH');
-			$newheight = Redshop::getConfig()->get('THUMB_HEIGHT');
+			$fileName = RedShopHelperImages::cleanFileName($data['category_full_image']['name']);
+			$newWidth = Redshop::getConfig()->get('THUMB_WIDTH');
+			$newHeight = Redshop::getConfig()->get('THUMB_HEIGHT');
 
-			$row->category_full_image = $filename;
-			$row->category_thumb_image = $filename;
+			$row->category_full_image = $fileName;
+			$row->category_thumb_image = $fileName;
 
 			// Get extension of the file
 			$filetype = JFile::getExt($data['category_full_image']['name']);
@@ -212,27 +212,27 @@ class RedshopModelCategory extends JModelAdmin
 			$src = $data['category_full_image']['tmp_name'];
 
 			// Specific path of the file
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $filename;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
 
 			JFile::upload($src, $dest);
 		}
 		else
 		{
-			if (isset($data['category_image']) && $data['category_image'] != null)
+			if (!empty($data['category_image']))
 			{
-				$image_split = explode('/', $data['category_image']);
+				$imageSplit = explode('/', $data['category_image']);
 
 				// Make the filename unique
-				$filename = RedShopHelperImages::cleanFileName($image_split[count($image_split) - 1]);
-				$row->category_full_image = $filename;
-				$row->category_thumb_image = $filename;
+				$fileName = RedShopHelperImages::cleanFileName($imageSplit[count($imageSplit) - 1]);
+				$row->category_full_image = $fileName;
+				$row->category_thumb_image = $fileName;
 
 				// Image Upload
-				$newwidth = Redshop::getConfig()->get('THUMB_WIDTH');
-				$newheight = Redshop::getConfig()->get('THUMB_HEIGHT');
+				$newWidth = Redshop::getConfig()->get('THUMB_WIDTH');
+				$newHeight = Redshop::getConfig()->get('THUMB_HEIGHT');
 
 				$src = JPATH_ROOT . '/' . $data['category_image'];
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $filename;
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
 
 				copy($src, $dest);
 			}
@@ -261,8 +261,8 @@ class RedshopModelCategory extends JModelAdmin
 		if (!empty($data['category_back_full_image']['name']))
 		{
 			// Make the filename unique
-			$filename = RedShopHelperImages::cleanFileName($data['category_back_full_image']['name']);
-			$row->category_back_full_image = $filename;
+			$fileName = RedShopHelperImages::cleanFileName($data['category_back_full_image']['name']);
+			$row->category_back_full_image = $fileName;
 
 			// Get extension of the file
 			$filetype = JFile::getExt($data['category_back_full_image']['name']);
@@ -270,7 +270,7 @@ class RedshopModelCategory extends JModelAdmin
 			$src = $data['category_back_full_image']['tmp_name'];
 
 			// Specific path of the file
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $filename;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
 
 			JFile::upload($src, $dest);
 		}
@@ -278,7 +278,7 @@ class RedshopModelCategory extends JModelAdmin
 		// Upload back image end
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -315,7 +315,7 @@ class RedshopModelCategory extends JModelAdmin
 			$db->setQuery($query)->execute();
 
 			// Sheking for the image at the updation time
-			if (empty($data['category_full_image']['name']))
+			if (!empty($data['category_full_image']['name']))
 			{
 				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
 				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
@@ -331,26 +331,26 @@ class RedshopModelCategory extends JModelAdmin
 		{
 			$data['product_accessory'] = array_merge(array(), $data['product_accessory']);
 
-			$product_category = new product_category;
-			$product_list = $product_category->getCategoryProductList($newCatId);
+			$productCategory = new product_category;
+			$productList = $productCategory->getCategoryProductList($newCatId);
 
-			for ($p = 0, $pn = count($product_list); $p < $pn; $p++)
+			for ($p = 0, $pn = count($productList); $p < $pn; $p++)
 			{
-				$product_id = $product_list[$p]->id;
+				$productId = $productList[$p]->id;
 
 				for ($a = 0; $a < count($data['product_accessory']); $a++)
 				{
 					$acc = $data['product_accessory'][$a];
 
-					$accessory_id = $product_category->CheckAccessoryExists($product_id, $acc['child_product_id']);
+					$accessoryId = $productCategory->CheckAccessoryExists($productId, $acc['child_product_id']);
 
-					if ($product_id != $acc['child_product_id'])
+					if ($productId != $acc['child_product_id'])
 					{
 						$accdetail = $this->getTable('accessory_detail');
 
-						$accdetail->accessory_id = $accessory_id;
+						$accdetail->accessory_id = $accessoryId;
 						$accdetail->category_id = $newCatId;
-						$accdetail->product_id = $product_id;
+						$accdetail->product_id = $productId;
 						$accdetail->child_product_id = $acc['child_product_id'];
 						$accdetail->accessory_price = $acc['accessory_price'];
 						$accdetail->oprand = $acc['oprand'];
