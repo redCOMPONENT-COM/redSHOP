@@ -1929,7 +1929,6 @@ COMMENT = 'redSHOP Site Viewer';
 DROP TABLE IF EXISTS `#__redshop_state` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_state` (
-<<<<<<< HEAD
   `state_id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '',
   `country_id` INT(11) NOT NULL DEFAULT '1' COMMENT '',
   `state_name` VARCHAR(64) NULL DEFAULT NULL COMMENT '',
@@ -1945,30 +1944,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_state` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'States that are assigned to a country';
-
-=======
-	`state_id` int(11) NOT NULL AUTO_INCREMENT,
-	`country_id` int(11) DEFAULT NULL,
-	`state_name` varchar(64) DEFAULT NULL,
-	`state_3_code` char(3) DEFAULT NULL,
-	`state_2_code` char(2) DEFAULT NULL,
-	`checked_out` int(11) NOT NULL,
-	`checked_out_time` datetime NOT NULL,
-	`show_state` int(11) NOT NULL DEFAULT '2',
-	PRIMARY KEY (`state_id`),
-	UNIQUE KEY `state_3_code` (`country_id`,`state_3_code`),
-	UNIQUE KEY `state_2_code` (`country_id`,`state_2_code`),
-	INDEX `#__rs_state_country_fk1` (`country_id` ASC),
-	CONSTRAINT `#__rs_state_country_fk1` 
-		FOREIGN KEY (`country_id`) 
-		REFERENCES `#__redshop_country` (`id`) 
-		ON DELETE SET NULL 
-		ON UPDATE CASCADE
-)
-	ENGINE=InnoDB 
-	DEFAULT CHARSET=utf8 
-	COMMENT='States that are assigned to a country';
->>>>>>> 02bad066235a887b57060118088bc5acb7b7e9ee
 
 -- -----------------------------------------------------
 -- Table `#__redshop_stockroom`
