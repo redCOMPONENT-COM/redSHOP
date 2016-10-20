@@ -22,7 +22,7 @@ class RedshopAdminProduct
 	 * Returns the adminProductHelper object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  adminProductHelper  The adminProductHelper object
+	 * @return  self The RedshopAdminProduct object
 	 *
 	 * @since   1.6
 	 */
@@ -164,12 +164,12 @@ class RedshopAdminProduct
 	 *
 	 * @return boolen
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::admin_insertProdcutUserfield($fieldId, $orderItemId, $sectionId,
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::insertProductUserField($fieldId, $orderItemId, $sectionId,
 	 * $value) instead
 	 */
 	public function admin_insertProdcutUserfield($fieldId = 0, $orderItemId = 0, $sectionId = 12, $value = '')
 	{
-		return RedshopHelperProduct::admin_insertProdcutUserfield($fieldId, $orderItemId, $sectionId, $value);
+		return RedshopHelperProduct::insertProductUserField($fieldId, $orderItemId, $sectionId, $value);
 	}
 
 	/**
@@ -177,10 +177,10 @@ class RedshopAdminProduct
 	 *
 	 * @return array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::getProductrBySortedList() instead
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct::getProductsSortByList() instead
 	 */
 	public function getProductrBySortedList()
 	{
-		return RedshopHelperProduct::getProductrBySortedList();
+		return RedshopHelperProduct::getProductsSortByList();
 	}
 }
