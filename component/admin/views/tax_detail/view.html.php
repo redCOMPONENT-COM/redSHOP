@@ -70,11 +70,11 @@ class RedshopViewTax_detail extends RedshopViewAdmin
 			$selected_state_code = "'" . $selected_state_code . "'";
 		}
 
-		$db->setQuery("SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
+		$db->setQuery("SELECT c.id, c.country_3_code, s.state_name, s.state_2_code
 						FROM #__redshop_country c
 						LEFT JOIN #__redshop_state s
-						ON c.country_id=s.country_id OR s.country_id IS NULL
-						ORDER BY c.country_id, s.state_name");
+						ON c.id=s.country_id OR s.country_id IS NULL
+						ORDER BY c.id, s.state_name");
 
 		$states = $db->loadObjectList();
 
