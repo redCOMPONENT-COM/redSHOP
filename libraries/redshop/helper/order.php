@@ -1110,4 +1110,27 @@ class RedshopHelperOrder
 			self::createBookInvoice($orderId, $data->order_status_code);
 		}
 	}
+
+	/**
+	 * Update Order Payment Status
+	 *
+	 * @param   integer  $orderId    Order ID
+	 * @param   string   $newStatus  New status
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function updateOrderPaymentStatus($orderId, $newStatus)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->update($db->qn('#__redshop_orders'))
+					->set($db->qn('order_payment_status') . ' = ' . $db->quote($newStatus))
+					->set($db->qn('mdate') . ' = ' . $db->quote(time()))
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+		$db->setQuery($query);
+		$db->execute();
+	}
 }
