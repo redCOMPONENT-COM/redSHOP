@@ -323,25 +323,18 @@ class order_functions
 		}
 	}
 
+	/**
+	 * Get Order Partial Payment
+	 *
+	 * @param   integer  $order_id  Order ID
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderPartialPayment() instead
+	 */
 	public function getOrderPartialPayment($order_id)
 	{
-		$db = JFactory::getDbo();
-
-		$query = 'SELECT order_payment_amount FROM #__redshop_order_payment ' . 'WHERE order_id = ' . (int) $order_id;
-		$db->setQuery($query);
-		$list = $db->loadObjectlist();
-
-		$spilt_payment_amount = 0;
-
-		for ($i = 0, $in = count($list); $i < $in; $i++)
-		{
-			if ($list[$i]->order_payment_amount > 0)
-			{
-				$spilt_payment_amount = $list[$i]->order_payment_amount;
-			}
-		}
-
-		return $spilt_payment_amount;
+		return RedshopHelperOrder::getOrderPartialPayment($order_id);
 	}
 
 	public function getShippingMethodInfo($shipping_class = '')
