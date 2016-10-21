@@ -5,12 +5,21 @@
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
+ *
+ * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder instead
  */
 
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
+/**
+ * Order helper for backend
+ *
+ * @since       __DEPLOY_VERSION__
+ *
+ * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder instead
+ */
 class order_functions
 {
 	public $_orderstatuslist = null;
