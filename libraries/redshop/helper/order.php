@@ -1934,4 +1934,51 @@ class RedshopHelperOrder
 
 		return $db->loadObjectlist();
 	}
+
+	/**
+	 * Generate Order Number
+	 *
+	 * @return  integer
+	 */
+	public static function generateOrderNumber()
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select('MAX(' . $db->qn('order_id') . ')')
+					->from($db->qn('#__redshop_orders'));
+		$db->setQuery($query);
+		$maxId = $db->loadResult();
+
+		/*
+		 * if Economic Integration is on !!!
+		 * We are not using Order Invoice Number Template
+		 * Economic Order Number Only Support (int) value.
+		 * Invoice Number May be varchar or int.
+		 */
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') && JPluginHelper::isEnabled('economic'))
+		{
+			$query = $db->getQuery(true)
+						->select($db->qn('order_number'))
+						->from($db->qn('#__redshop_orders'))
+						->where($db->qn('order_id') . ' = ' . (int) $maxId);
+			$db->setQuery($query);
+
+			$maxOrderNumber = $db->loadResult();
+			$economic       = economic::getInstance();
+			$maxInvoice     = $economic->getMaxOrderNumberInEconomic();
+			$maxId          = max(intval($maxOrderNumber), $maxInvoice);
+		}
+		elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
+		{
+			$maxId = ($maxId + Redshop::getConfig()->get('FIRST_INVOICE_NUMBER') + 1);
+
+			return self::parseNumberTemplate(
+							Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'),
+							$maxId
+						);
+		}
+
+		return $maxId + 1;
+	}
 }
