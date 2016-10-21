@@ -2563,4 +2563,60 @@ class RedshopHelperOrder
 			}
 		}
 	}
+
+	/**
+	 * Create book invoice
+	 *
+	 * @param   integer  $orderId      Order ID
+	 * @param   string   $orderStatus  Order status
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function createBookInvoice($orderId, $orderStatus)
+	{
+		// Economic Integration start for invoice generate and book current invoice
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 1)
+		{
+			$economic = economic::getInstance();
+
+			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2 && $orderStatus == Redshop::getConfig()->get('BOOKING_ORDER_STATUS'))
+			{
+				$paymentInfo = self::getOrderPaymentDetail($orderId);
+
+				if (count($paymentInfo) > 0)
+				{
+					$paymentName = $paymentInfo[0]->payment_method_class;
+					$paymentArr  = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
+
+					if (count($paymentArr) > 0)
+					{
+						$paymentName = $paymentArr[1];
+					}
+
+					$economicData['economic_payment_method'] = $paymentName;
+					$paymentMethod = self::getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+
+					if (count($paymentMethod) > 0)
+					{
+						$paymentParams = new JRegistry($paymentMethod[0]->params);
+						$economicData['economic_payment_terms_id'] = $paymentParams->get('economic_payment_terms_id');
+						$economicData['economic_design_layout']    = $paymentParams->get('economic_design_layout');
+						$economicData['economic_is_creditcard']    = $paymentParams->get('is_creditcard');
+					}
+				}
+
+				$economic->createInvoiceInEconomic($orderId, $economicData);
+			}
+
+			$bookInvoicePdf = $economic->bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
+
+			if (is_file($bookInvoicePdf))
+			{
+				$redshopMail = redshopMail::getInstance();
+				$redshopMail->sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
+			}
+		}
+	}
 }
