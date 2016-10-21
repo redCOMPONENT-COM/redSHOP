@@ -35,45 +35,16 @@ class order_functions
 		return self::$instance;
 	}
 
+	/**
+	 * Truncate tables orders and relatives
+	 *
+	 * @return      void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::resetOrderId() instead
+	 */
 	public function resetOrderId()
 	{
-		$db = JFactory::getDbo();
-
-		$query = 'TRUNCATE TABLE `#__redshop_orders`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_order_item`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_order_users_info`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_order_status_log`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_order_acc_item`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_order_attribute_item`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_order_payment`';
-		$db->setQuery($query);
-		$db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_product_download`';
-		$this->_db->setQuery($query);
-		$this->_db->execute();
-
-		$query = 'TRUNCATE TABLE `#__redshop_product_download_log`';
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		return RedshopHelperOrder::resetOrderId();
 	}
 
 	/*
