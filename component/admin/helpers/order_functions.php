@@ -564,19 +564,19 @@ class order_functions
 		return RedshopHelperOrder::getDownloadProduct($order_id);
 	}
 
+	/**
+	 * Get download product log
+	 *
+	 * @param   integer  $order_id  Order Id
+	 * @param   string   $did       Download id
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getDownloadProductLog() instead
+	 */
 	public function getDownloadProductLog($order_id, $did = '')
 	{
-		$db = JFactory::getDbo();
-		$whereDownload_id = ($did != '') ? " AND pdl.download_id = " . $db->quote($did) : "";
-
-		$query = "SELECT pdl . * , pd.order_id, pd.product_id, pd.file_name "
-			. " FROM `#__redshop_product_download_log` AS pdl "
-			. " LEFT JOIN #__redshop_product_download AS pd ON pd.download_id = pdl.download_id"
-			. " WHERE pd.order_id = " . (int) $order_id
-			. " " . $whereDownload_id;
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return RedshopHelperOrder::getDownloadProductLog($order_id, $did);
 	}
 
 	public function getparameters($payment)

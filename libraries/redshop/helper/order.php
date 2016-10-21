@@ -2210,4 +2210,35 @@ class RedshopHelperOrder
 
 		return $db->loadObjectList();
 	}
+
+	/**
+	 * Get download product log
+	 *
+	 * @param   integer  $orderId  Order Id
+	 * @param   string   $did      Download id
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getDownloadProductLog($orderId, $did = '')
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select('pdl.*')
+					->select($db->qn(array('pd.order_id', 'pd.product_id', 'pd.file_name')))
+					->from($db->qn('#__redshop_product_download_log', 'pdl'))
+					->leftJoin($db->qn('#__redshop_product_download', 'pd') . ' ON ' . $db->qn('pd.download_id') . ' = ' . $db->qn('pdl.download_id'))
+					->where($db->qn('pd.order_id') . ' = ' . (int) $orderId);
+
+		if ($did != '')
+		{
+			$query->where($db->qn('pdl.download_id') . ' = ' . $db->quote($did));
+		}
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
 }
