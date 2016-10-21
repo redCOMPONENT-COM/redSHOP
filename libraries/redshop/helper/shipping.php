@@ -693,4 +693,37 @@ class RedshopHelperShipping
 
 		return $rate . "`" . $total;
 	}
+
+	/**
+	 * Encrypt Shipping
+	 *
+	 * @param   string  $strMessage  String to encrypt
+	 *
+	 * @deprecated 1.6  Use RedshopShippingRate::encrypt(array);
+	 *
+	 * @return  string  Encrypt shipping rate
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function encryptShipping($strMessage)
+	{
+		$lenStrMessage       = strlen($strMessage);
+		$strEncryptedMessage = "";
+
+		for ($position = 0; $position < $lenStrMessage; $position++)
+		{
+			$keyToUse              = (($lenStrMessage + $position) + 1);
+			$keyToUse              = (255 + $keyToUse) % 255;
+			$byteToBeEncrypted     = substr($strMessage, $position, 1);
+			$asciiNumByteToEncrypt = ord($byteToBeEncrypted);
+			$xoredByte             = $asciiNumByteToEncrypt ^ $keyToUse;
+			$encryptedByte         = chr($xoredByte);
+			$strEncryptedMessage   .= $encryptedByte;
+		}
+
+		$result = base64_encode($strEncryptedMessage);
+		$result = str_replace("+", " ", $result);
+
+		return $result;
+	}
 }
