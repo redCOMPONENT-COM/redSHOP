@@ -37,8 +37,8 @@ class JFormFieldRcountries extends JFormFieldList
 
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true)
-			->select($db->qn('id'))
-			->select($db->qn('country_name'))
+			->select($db->qn('id', 'value'))
+			->select($db->qn('country_name', 'text'))
 			->from($db->qn('#__redshop_country'))
 			->order($db->qn('country_name'));
 
