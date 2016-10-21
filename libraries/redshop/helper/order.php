@@ -2248,6 +2248,8 @@ class RedshopHelperOrder
 	 * @param   string  $payment  Payment type
 	 *
 	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getParameters($payment)
 	{
@@ -2259,5 +2261,77 @@ class RedshopHelperOrder
 		$db->setQuery($sql);
 
 		return $db->loadObjectList();
+	}
+
+	/**
+	 * Get payment information
+	 *
+	 * @param   object  $row   Payment info row
+	 * @param   array   $post  payment method class
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getPaymentInformation($row, $post)
+	{
+		$app       = JFactory::getApplication();
+		$redconfig = Redconfiguration::getInstance();
+
+		$pluginParameters = self::getParameters($post['payment_method_class']);
+		$paymentInfo      = $pluginParameters[0];
+		$paymentParams    = new JRegistry($paymentInfo->params);
+
+		$isCreditcard = $paymentParams->get('is_creditcard', '');
+
+		$order = self::getOrderDetails($row->order_id);
+
+		if ($userBillingInfo = self::getOrderBillingUserInfo($row->order_id))
+		{
+			$userBillingInfo->country_2_code = $redconfig->getCountryCode2($userBillingInfo->country_code);
+			$userBillingInfo->state_2_code   = $redconfig->getCountryCode2($userBillingInfo->state_code);
+		}
+
+		$task = JRequest::getVar('task');
+
+		if ($shippingAddress = self::getOrderShippingUserInfo($row->order_id))
+		{
+			$shippingAddress->country_2_code = $redconfig->getCountryCode2($shippingAddress->country_code);
+			$shippingAddress->state_2_code   = $redconfig->getCountryCode2($shippingAddress->state_code);
+		}
+
+		$values                   = array();
+		$values['shippinginfo']   = $shippingAddress;
+		$values['billinginfo']    = $userBillingInfo;
+		$values['carttotal']      = $order->order_total;
+		$values['order_subtotal'] = $order->order_subtotal;
+		$values["order_id"]       = $row->order_id;
+		$values['payment_plugin'] = $post['payment_method_class'];
+		$values['task']           = $task;
+		$values['order']          = $order;
+
+		if ($isCreditcard == 0)
+		{
+			// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
+			$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($values['payment_plugin']);
+
+			if ($isBankTransferPaymentType)
+			{
+				$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
+			}
+
+			JPluginHelper::importPlugin('redshop_payment');
+			JDispatcher::getInstance()->trigger('onPrePayment', array($values['payment_plugin'], $values));
+
+			$app->redirect(
+				JURI::base()
+				. "index.php?option=com_redshop&view=order_detail&task=edit&cid[]="
+				. $row->order_id
+			);
+		}
+		else
+		{
+			$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
+		}
 	}
 }
