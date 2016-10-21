@@ -152,39 +152,19 @@ class order_functions
 	/**
 	 * Update Order Item Status
 	 *
-	 * @param   int     $orderId      Order id
-	 * @param   int     $productId    Product id
-	 * @param   string  $newStatus    New status
-	 * @param   string  $comment      Comment
-	 * @param   int     $orderItemId  Order item id
+	 * @param   integer  $orderId      Order id
+	 * @param   integer  $productId    Product id
+	 * @param   string   $newStatus    New status
+	 * @param   string   $comment      Comment
+	 * @param   integer  $orderItemId  Order item id
 	 *
 	 * @return  void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::updateOrderItemStatus() instead
 	 */
 	public function updateOrderItemStatus($orderId = 0, $productId = 0, $newStatus = '', $comment = '', $orderItemId = 0)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->update($db->qn('#__redshop_order_item'))
-			->set('order_status = ' . $db->q($newStatus))
-			->where('order_id = ' . (int) $orderId);
-
-		if ($productId != 0)
-		{
-			$query->set('customer_note = ' . $db->q($comment))
-				->where('product_id = ' . (int) $productId);
-		}
-
-		if ($orderItemId != 0)
-		{
-			$query->where('order_item_id = ' . (int) $orderItemId);
-		}
-
-		$db->setQuery($query);
-
-		if (!$db->execute())
-		{
-			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
-		}
+		return RedshopHelperOrder::updateOrderItemStatus($orderId, $productId, $newStatus, $comment, $orderItemId);
 	}
 
 	/**
