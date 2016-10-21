@@ -1541,4 +1541,26 @@ class RedshopHelperOrder
 
 		return $db->loadObject();
 	}
+
+	/**
+	 * Get list order details
+	 *
+	 * @param   integer  $orderId  Order ID
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getMultiOrderDetails($orderId)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_orders'))
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
 }
