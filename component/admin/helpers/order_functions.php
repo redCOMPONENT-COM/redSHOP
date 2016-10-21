@@ -728,56 +728,17 @@ class order_functions
 	/**
 	 * Create PacSoft Label from Order Status Change functions
 	 *
-	 * @param   integer  $order_id           Order Information ID
-	 * @param   string   $order_status       Order Status Code
-	 * @param   string   $paymentstatus      Order Payment Status Code
+	 * @param   integer  $order_id       Order Information ID
+	 * @param   string   $order_status   Order Status Code
+	 * @param   string   $paymentstatus  Order Payment Status Code
 	 *
 	 * @return  void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::createWebPackLabel() instead
 	 */
 	public function createWebPacklabel($order_id, $order_status, $paymentstatus)
 	{
-		// If PacSoft is not enable then return
-		if (!Redshop::getConfig()->get('POSTDK_INTEGRATION'))
-		{
-			return;
-		}
-
-		// If auto generation is disable then return
-		if (!Redshop::getConfig()->get('AUTO_GENERATE_LABEL'))
-		{
-			return;
-		}
-
-		// Only Execute this function for selected status match
-		if ($order_status == Redshop::getConfig()->get('GENERATE_LABEL_ON_STATUS') && $paymentstatus == "Paid")
-		{
-			$order_details  = $this->getOrderDetails($order_id);
-			$details        = RedshopShippingRate::decrypt($order_details->ship_method_id);
-
-			$shippingParams = new JRegistry(
-								JPluginHelper::getPlugin(
-									'redshop_shipping',
-									str_replace(
-										'plgredshop_shipping',
-										'',
-										strtolower($details[0])
-									)
-								)->params
-							);
-
-			// Checking 'plgredshop_shippingdefault_shipping' to support backward compatibility
-			$allowPacsoftLabel = ($details[0] === 'plgredshop_shippingdefault_shipping' || (boolean) $shippingParams->get('allowPacsoftLabel'));
-
-			if ($allowPacsoftLabel && !$order_details->order_label_create)
-			{
-				$generate_label = $this->generateParcel($order_id);
-
-				if ($generate_label != "success")
-				{
-					JFactory::getApplication()->enqueueMessage($generate_label, 'error');
-				}
-			}
-		}
+		return RedshopHelperOrder::createWebPackLabel($order_id, $order_status, $paymentstatus);
 	}
 
 	public function orderStatusUpdate($order_id, $post = array())
