@@ -608,14 +608,18 @@ class order_functions
 		return RedshopHelperOrder::getPaymentInformation($row, $post);
 	}
 
+	/**
+	 * Get shipping location information
+	 *
+	 * @param   string  $shippingname  Shipping name
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getShippingLocationInfo() instead
+	 */
 	function getshippinglocationinfo($shippingname)
 	{
-		$db = JFactory::getDbo();
-		$sql = "SELECT shipping_location_info FROM #__redshop_shipping_rate WHERE shipping_rate_name = " . $db->quote($shippingname);
-		$db->setQuery($sql);
-		$shippingloc = $db->loadObjectList();
-
-		return $shippingloc;
+		return RedshopHelperOrder::getShippingLocationInfo($shippingname);
 	}
 
 	public function barcode_randon_number($lenth = 12, $barcodekey = 0)
