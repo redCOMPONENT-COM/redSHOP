@@ -337,23 +337,18 @@ class order_functions
 		return RedshopHelperOrder::getOrderPartialPayment($order_id);
 	}
 
+	/**
+	 * Get Shipping Method Info
+	 *
+	 * @param   string  $shipping_class  Shipping class
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getShippingMethodInfo() instead
+	 */
 	public function getShippingMethodInfo($shipping_class = '')
 	{
-		$and = "";
-		$db = JFactory::getDbo();
-
-		if ($shipping_class != '')
-		{
-			$and = "AND element = " . $db->quote($shipping_class) . " ";
-		}
-
-		$folder = strtolower('redshop_shipping');
-
-		$query = "SELECT * FROM #__extensions " . "WHERE enabled = '1' " . "AND LOWER(`folder`) = " . $db->quote($folder) . $and . "ORDER BY ordering ASC ";
-		$db->setQuery($query);
-		$list = $db->loadObjectList();
-
-		return $list;
+		return RedshopHelperOrder::getShippingMethodInfo($shipping_class);
 	}
 
 	public function getPaymentMethodInfo($payment_method_class = '')

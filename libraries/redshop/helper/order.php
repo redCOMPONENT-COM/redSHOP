@@ -1666,4 +1666,33 @@ class RedshopHelperOrder
 
 		return $spilt_payment_amount;
 	}
+
+	/**
+	 * Get Shipping Method Info
+	 *
+	 * @param   string  $shippingClass  Shipping class
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getShippingMethodInfo($shippingClass = '')
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__extensions'))
+					->where($db->qn('enabled') . ' = ' . $db->quote('1'))
+					->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote('redshop_shipping'));
+
+		if ($shippingClass != '')
+		{
+			$query->where($db->qn('element') . ' = ' . $db->quote($shippingClass));
+		}
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
 }
