@@ -2009,4 +2009,41 @@ class RedshopHelperOrder
 
 		return $random;
 	}
+
+	/**
+	 * Get Country name by 3 characters of country code
+	 *
+	 * @param   string  $cnt3  Country code
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getCountryName($cnt3 = '')
+	{
+		$db        = JFactory::getDbo();
+		$redHelper = redhelper::getInstance();
+
+		$query = $db->getQuery(true)
+					->select($db->qn('country_3_code', 'value'))
+					->select($db->qn('country_name', 'text'))
+					->select($db->qn('country_jtext'))
+					->from($db->qn('#__redshop_country'));
+
+		if ($cnt3 != '')
+		{
+			$query->where($db->qn('country_3_code') . ' = ' . $db->quote($cnt3));
+		}
+
+		$db->setQuery($query);
+		$countries = $db->loadObjectList();
+		$countries = $redHelper->convertLanguageString($countries);
+
+		if (count($countries) > 0)
+		{
+			return $countries[0]->text;
+		}
+
+		return '';
+	}
 }

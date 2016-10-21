@@ -507,34 +507,18 @@ class order_functions
 		return RedshopHelperOrder::randomGenerateEncryptKey($p_length);
 	}
 
+	/**
+	 * Get Country name by 3 characters of country code
+	 *
+	 * @param   string  $cnt3  Country code
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getCountryName() instead
+	 */
 	public function getCountryName($cnt3 = "")
 	{
-		$db = JFactory::getDbo();
-		$redhelper = redhelper::getInstance();
-		$and = '';
-		$cntname = '';
-
-		if ($cnt3 != "")
-		{
-			$and .= ' AND country_3_code = ' . $db->quote($cnt3) . ' ';
-		}
-		else
-		{
-			return $cntname;
-		}
-
-		$query = 'SELECT country_3_code AS value,country_name AS text,country_jtext FROM '
-			. '#__redshop_country ' . 'WHERE 1=1 ' . $and;
-		$db->setQuery($query);
-		$countries = $db->loadObjectList();
-		$countries = $redhelper->convertLanguageString($countries);
-
-		if (count($countries) > 0)
-		{
-			$cntname = $countries[0]->text;
-		}
-
-		return $cntname;
+		return RedshopHelperOrder::getCountryName($cnt3);
 	}
 
 	public function getStateName($st3 = "", $cnt3 = "")
