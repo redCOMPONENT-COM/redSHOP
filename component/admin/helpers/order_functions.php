@@ -682,50 +682,19 @@ class order_functions
 		return RedshopHelperOrder::changeOrderStatusMail($order_id, $newstatus, $order_comment);
 	}
 
+	/**
+	 * Create book invoice
+	 *
+	 * @param   integer  $order_id      Order ID
+	 * @param   string   $order_status  Order status
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::createBookInvoice() instead
+	 */
 	public function createBookInvoice($order_id, $order_status)
 	{
-		// Economic Integration start for invoice generate and book current invoice
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 1)
-		{
-			$economic = economic::getInstance();
-
-			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2 && $order_status == Redshop::getConfig()->get('BOOKING_ORDER_STATUS'))
-			{
-				$paymentInfo = $this->getOrderPaymentDetail($order_id);
-
-				if (count($paymentInfo) > 0)
-				{
-					$payment_name = $paymentInfo[0]->payment_method_class;
-					$paymentArr = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
-
-					if (count($paymentArr) > 0)
-					{
-						$payment_name = $paymentArr[1];
-					}
-
-					$economicdata['economic_payment_method'] = $payment_name;
-					$paymentmethod = $this->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
-
-					if (count($paymentmethod) > 0)
-					{
-						$paymentparams = new JRegistry($paymentmethod[0]->params);
-						$economicdata['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
-						$economicdata['economic_design_layout'] = $paymentparams->get('economic_design_layout');
-						$economicdata['economic_is_creditcard'] = $paymentparams->get('is_creditcard');
-					}
-				}
-
-				$economic->createInvoiceInEconomic($order_id, $economicdata);
-			}
-
-			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
-
-			if (is_file($bookinvoicepdf))
-			{
-				$redshopMail = redshopMail::getInstance();
-				$redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
-			}
-		}
+		return RedshopHelperOrder::createBookInvoice($order_id, $order_status);
 	}
 
 	public function createMultiprintInvoicePdf($order_id)
