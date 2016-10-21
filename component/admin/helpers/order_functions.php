@@ -622,30 +622,34 @@ class order_functions
 		return RedshopHelperOrder::getShippingLocationInfo($shippingname);
 	}
 
+	/**
+	 * Generate barcode
+	 *
+	 * @param   integer  $lenth       Length
+	 * @param   integer  $barcodekey  Key
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
 	public function barcode_randon_number($lenth = 12, $barcodekey = 0)
 	{
-		$mainhelper = redshopMail::getInstance();
-		$redTemplate = Redtemplate::getInstance();
-
-		$ordermail = $mainhelper->getMailtemplate(0, "order");
-		$ordermailbody = $ordermail[0]->mail_body;
-
-		$invoicemail = $mainhelper->getMailtemplate(0, "invoice_mail");
-		$invoicemailbody = $invoicemail[0]->mail_body;
-
-		$receipttemp = $redTemplate->getTemplate('order_receipt');
-		$receipttempbody = $receipttemp[0]->template_desc;
-
-		$rand_barcode = "";
-		return $rand_barcode;
+		return "";
 	}
 
+	/**
+	 * Generate barcode
+	 *
+	 * @param   integer  $oid      Length
+	 * @param   integer  $barcode  Key
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
 	public function updatebarcode($oid, $barcode)
 	{
-		$db = JFactory::getDbo();
-		$barcodequery = 'UPDATE #__redshop_orders SET barcode = ' . $db->quote($barcode) . ' WHERE order_id = ' . (int) $oid;
-		$db->setQuery($barcodequery);
-		$db->execute();
+		return "";
 	}
 
 	public function checkupdateordersts($data)
