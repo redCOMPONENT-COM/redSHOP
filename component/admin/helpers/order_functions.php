@@ -435,20 +435,18 @@ class order_functions
 		return RedshopHelperOrder::getUserFullname($user_id);
 	}
 
+	/**
+	 * Get order item accessory detail
+	 *
+	 * @param   integer  $order_item_id  Order Item ID
+	 *
+	 * @return  null/object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderItemAccessoryDetail() instead
+	 */
 	public function getOrderItemAccessoryDetail($order_item_id = 0)
 	{
-		$db = JFactory::getDbo();
-
-		if ($order_item_id != 0)
-		{
-			$query = "SELECT * FROM  #__redshop_order_acc_item "
-				. "WHERE order_item_id = " . (int) $order_item_id;
-			$db->setQuery($query);
-
-			return $db->loadObjectlist();
-		}
-
-		return null;
+		return RedshopHelperOrder::getOrderItemAccessoryDetail($order_item_id);
 	}
 
 	public function getOrderItemAttributeDetail($order_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
