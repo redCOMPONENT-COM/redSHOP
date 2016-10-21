@@ -726,4 +726,37 @@ class RedshopHelperShipping
 
 		return $result;
 	}
+
+	/**
+	 * Decrypt Shipping
+	 *
+	 * @param   string  $strMessage  String to decrypt
+	 *
+	 * @deprecated 1.6  Use RedshopShippingRate::decrypt(string);
+	 *
+	 * @return  string  Encrypt shipping rate
+	 *
+	 * @since   2.0.0.3
+	 */
+	public function decryptShipping($strMessage)
+	{
+		$strMessage          = base64_decode($strMessage);
+		$lenStrMessage       = strlen($strMessage);
+		$strEncryptedMessage = "";
+
+		for ($position = 0; $position < $lenStrMessage; $position++)
+		{
+			$keyToUse              = (($lenStrMessage + $position) + 1);
+			$keyToUse              = (255 + $keyToUse) % 255;
+			$byteToBeEncrypted     = substr($strMessage, $position, 1);
+			$asciiNumByteToEncrypt = ord($byteToBeEncrypted);
+
+			// Xor operation
+			$xoredByte             = $asciiNumByteToEncrypt ^ $keyToUse;
+			$encryptedByte         = chr($xoredByte);
+			$strEncryptedMessage   .= $encryptedByte;
+		}
+
+		return $strEncryptedMessage;
+	}
 }
