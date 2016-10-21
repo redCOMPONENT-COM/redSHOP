@@ -267,21 +267,18 @@ class order_functions
 		return RedshopHelperOrder::getMultiOrderDetails($order_id);
 	}
 
+	/**
+	 * Get User Order Details
+	 *
+	 * @param   integer  $user_id  User ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getUserOrderDetails() instead
+	 */
 	public function getUserOrderDetails($user_id = 0)
 	{
-		$db = JFactory::getDbo();
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		$query = "SELECT * FROM #__redshop_orders " . "WHERE user_id = " . (int) $user_id . " ORDER BY `order_id` DESC";
-		$db->setQuery($query);
-		$list = $db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperOrder::getUserOrderDetails($user_id);
 	}
 
 	public function getOrderItemDetail($order_id = 0, $product_id = 0, $order_item_id = 0)

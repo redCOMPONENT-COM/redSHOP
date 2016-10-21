@@ -1563,4 +1563,33 @@ class RedshopHelperOrder
 
 		return $db->loadObjectList();
 	}
+
+	/**
+	 * Get User Order Details
+	 *
+	 * @param   integer  $userId  User ID
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUserOrderDetails($userId = 0)
+	{
+		$db   = JFactory::getDbo();
+		$user = JFactory::getUser();
+
+		if ($userId == 0)
+		{
+			$userId = $user->id;
+		}
+
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_orders'))
+					->where($db->qn('user_id') . ' = ' . (int) $userId)
+					->order($db->qn('order_id'));
+		$db->setQuery($query);
+
+		return $db->loadObjectlist();
+	}
 }
