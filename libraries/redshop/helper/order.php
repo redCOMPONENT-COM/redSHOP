@@ -2241,4 +2241,23 @@ class RedshopHelperOrder
 
 		return $db->loadObjectList();
 	}
+
+	/**
+	 * Get payment parameters
+	 *
+	 * @param   string  $payment  Payment type
+	 *
+	 * @return  object
+	 */
+	public static function getParameters($payment)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__extensions'))
+					->where($db->qn('element') . ' = ' . $db->quote($payment));
+		$db->setQuery($sql);
+
+		return $db->loadObjectList();
+	}
 }
