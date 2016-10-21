@@ -281,39 +281,20 @@ class order_functions
 		return RedshopHelperOrder::getUserOrderDetails($user_id);
 	}
 
+	/**
+	 * Get order item detail
+	 *
+	 * @param   integer  $order_id       Order ID
+	 * @param   integer  $product_id     Product ID
+	 * @param   integer  $order_item_id  Order Item ID
+	 *
+	 * @return  boolean/object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderItemDetail() instead
+	 */
 	public function getOrderItemDetail($order_id = 0, $product_id = 0, $order_item_id = 0)
 	{
-		$and = "";
-		$list = null;
-
-		if ($order_id != 0)
-		{
-			$order_id = explode(',', $order_id);
-			JArrayHelper::toInteger($order_id);
-			$order_id = implode(',', $order_id);
-			$and .= " AND order_id IN (" . $order_id . ") ";
-		}
-
-		if ($product_id != 0)
-		{
-			$and .= " AND product_id = " . (int) $product_id . " ";
-		}
-
-		if ($order_item_id != 0)
-		{
-			$and .= " AND order_item_id = " . (int) $order_item_id . " ";
-		}
-
-		if (!empty($and))
-		{
-			$db = JFactory::getDbo();
-
-			$query = "SELECT * FROM  #__redshop_order_item " . "WHERE 1=1 " . $and;
-			$db->setQuery($query);
-			$list = $db->loadObjectlist();
-		}
-
-		return $list;
+		return RedshopHelperOrder::getOrderItemDetail($order_id, $product_id, $order_item_id);
 	}
 
 	/**
