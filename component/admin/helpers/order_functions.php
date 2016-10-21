@@ -449,29 +449,21 @@ class order_functions
 		return RedshopHelperOrder::getOrderItemAccessoryDetail($order_item_id);
 	}
 
+	/**
+	 * Get order item attribute detail
+	 *
+	 * @param   integer  $order_item_id      Order Item ID
+	 * @param   integer  $is_accessory       Is accessory
+	 * @param   string   $section            Section text
+	 * @param   integer  $parent_section_id  Parent section ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderItemAttributeDetail() instead
+	 */
 	public function getOrderItemAttributeDetail($order_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{
-		$and = "";
-		$db = JFactory::getDbo();
-
-		if ($order_item_id != 0)
-		{
-			$and .= " AND order_item_id = " . (int) $order_item_id . " ";
-		}
-
-		if ($parent_section_id != 0)
-		{
-			$and .= " AND parent_section_id = " . (int) $parent_section_id . " ";
-		}
-
-		$query = "SELECT * FROM  #__redshop_order_attribute_item "
-			. "WHERE is_accessory_att = " . (int) $is_accessory . " "
-			. "AND section = " . $db->quote($section) . " "
-			. $and;
-		$db->setQuery($query);
-		$list = $db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, $is_accessory, $section, $parent_section_id);
 	}
 
 	public function getOrderUserfieldData($order_item_id = 0, $section = 0)
