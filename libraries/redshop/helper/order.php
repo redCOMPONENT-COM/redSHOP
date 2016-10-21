@@ -2126,16 +2126,16 @@ class RedshopHelperOrder
 		}
 
 		// Getting the order details
-		$orderdetail = self::getOrderDetails($orderId);
-		$userdetail  = self::getOrderBillingUserInfo($orderId);
+		$orderDetail = self::getOrderDetails($orderId);
+		$userDetail  = self::getOrderBillingUserInfo($orderId);
 
-		$userfullname = $userdetail->firstname . " " . $userdetail->lastname;
-		$useremail    = $userdetail->email;
+		$userFullname = $userDetail->firstname . " " . $userDetail->lastname;
+		$userEmail    = $userDetail->email;
 
-		$mailData = str_replace("{fullname}", $userfullname, $mailData);
-		$mailData = str_replace("{order_id}", $orderdetail->order_id, $mailData);
-		$mailData = str_replace("{order_number}", $orderdetail->order_number, $mailData);
-		$mailData = str_replace("{order_date}", $config->convertDateFormat($orderdetail->cdate), $mailData);
+		$mailData = str_replace("{fullname}", $userFullname, $mailData);
+		$mailData = str_replace("{order_id}", $orderDetail->order_id, $mailData);
+		$mailData = str_replace("{order_number}", $orderDetail->order_number, $mailData);
+		$mailData = str_replace("{order_date}", $config->convertDateFormat($orderDetail->cdate), $mailData);
 
 		$mailToken     = "";
 		$productStart  = "";
@@ -2173,13 +2173,13 @@ class RedshopHelperOrder
 		}
 
 		$mailData = $productStart . $pMiddle . $productEnd;
-		$mailbody = $mailData;
-		$mailbody = $redshopMail->imginmail($mailbody);
-		$mailSubject = str_replace("{order_number}", $orderdetail->order_number, $mailSubject);
+		$mailBody = $mailData;
+		$mailBody = $redshopMail->imginmail($mailBody);
+		$mailSubject = str_replace("{order_number}", $orderDetail->order_number, $mailSubject);
 
-		if ($mailbody && $useremail != "")
+		if ($mailBody && $userEmail != "")
 		{
-			if (!JFactory::getMailer()->sendMail($mailFrom, $fromName, $useremail, $mailSubject, $mailbody, 1, null, $mailBcc))
+			if (!JFactory::getMailer()->sendMail($mailFrom, $fromName, $userEmail, $mailSubject, $mailBody, 1, null, $mailBcc))
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL'), 'error');
 			}
@@ -2384,5 +2384,183 @@ class RedshopHelperOrder
 		}
 
 		return 1;
+	}
+
+	/**
+	 * Change order status mail
+	 *
+	 * @param   integer  $orderId       Order ID
+	 * @param   string   $newStatus     New status
+	 * @param   string   $orderComment  Order Comment
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function changeOrderStatusMail($orderId, $newStatus, $orderComment = '')
+	{
+		$app = JFactory::getApplication();
+
+		$config          = Redconfiguration::getInstance();
+		$cartHelper      = rsCarthelper::getInstance();
+		$redshopMail     = redshopMail::getInstance();
+
+		$mailFrom     = $app->getCfg('mailfrom');
+		$fromName     = $app->getCfg('fromname');
+		$mailBcc      = null;
+		$mailTemplate = $redshopMail->getMailtemplate(0, '', '`mail_section` LIKE "order_status" AND `mail_order_status` LIKE "' . $newStatus . '"');
+
+		if (count($mailTemplate) > 0)
+		{
+			$mailData    = $mailTemplate[0]->mail_body;
+			$mailSubject = $mailTemplate[0]->mail_subject;
+
+			if (trim($mailTemplate[0]->mail_bcc) != "")
+			{
+				$mailBcc = explode(",", $mailTemplate[0]->mail_bcc);
+			}
+
+			// Getting the order details
+			$orderDetail = self::getOrderDetails($orderId);
+
+			// Changes to parse all tags same as order mail start
+			$row      = self::getOrderDetails($orderId);
+			$mailData = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $mailData);
+			$mailData = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $mailData);
+
+			$mailData = $cartHelper->replaceOrderTemplate($row, $mailData);
+
+			$arrDiscountType = array();
+			$arrDiscount     = explode('@', $row->discount_type);
+			$discountType    = '';
+
+			for ($d = 0, $dn = count($arrDiscount); $d < $dn; $d++)
+			{
+				if ($arrDiscount [$d])
+				{
+					$arrDiscountType = explode(':', $arrDiscount [$d]);
+
+					if ($arrDiscountType [0] == 'c')
+					{
+						$discountType .= JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $arrDiscountType [1] . '<br>';
+					}
+
+					if ($arrDiscountType [0] == 'v')
+					{
+						$discountType .= JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arrDiscountType [1] . '<br>';
+					}
+				}
+			}
+
+			if (!$discountType)
+			{
+				$discountType = JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
+			}
+
+			$search []  = "{discount_type}";
+			$replace [] = $discountType;
+
+			// Changes to parse all tags same as order mail end
+			$userDetail = self::getOrderBillingUserInfo($orderId);
+
+			// Getting the order status changed template from mail center end
+			$mailData = $cartHelper->replaceBillingAddress($mailData, $userDetail);
+
+			// Get ShippingAddress From order Users info
+			$shippingAddresses = self::getOrderShippingUserInfo($orderId);
+
+			if (count($shippingAddresses) <= 0)
+			{
+				$shippingAddresses = $userDetail;
+			}
+
+			$mailData = $cartHelper->replaceShippingAddress($mailData, $shippingAddresses);
+
+			$search[]  = "{shopname}";
+			$replace[] = Redshop::getConfig()->get('SHOP_NAME');
+
+			$search[]  = "{fullname}";
+			$replace[] = $userDetail->firstname . " " . $userDetail->lastname;
+
+			$search[]  = "{customer_id}";
+			$replace[] = $userDetail->users_info_id;
+
+			$search[]  = "{order_id}";
+			$replace[] = $orderId;
+
+			$search[]  = "{order_number}";
+			$replace[] = $orderDetail->order_number;
+
+			$search[]  = "{order_date}";
+			$replace[] = $config->convertDateFormat($orderDetail->cdate);
+
+			$search[]  = "{customer_note_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_COMMENT');
+
+			$search[]  = "{customer_note}";
+			$replace[] = $orderComment;
+
+			$search[]  = "{order_detail_link_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_ORDER_DETAIL_LBL');
+
+			$orderDetailurl = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $orderDetail->encr_key;
+			$search[]       = "{order_detail_link}";
+			$replace[]      = "<a href='" . $orderDetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_DETAIL_LINK_LBL") . "</a>";
+
+			$details = RedshopShippingRate::decrypt($orderDetail->ship_method_id);
+
+			if (count($details) <= 1)
+			{
+				$details = explode("|", $orderDetail->ship_method_id);
+			}
+
+			$shopLocation = $orderDetail->shop_id;
+
+			if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
+			{
+				$shopLocation = '';
+			}
+
+			$arrLocationDetails = explode('|', $shopLocation);
+			$orderDetail->track_no = $arrLocationDetails[0];
+
+			$search[] = "{order_track_no}";
+			$replace[] = trim($orderDetail->track_no);
+
+			$order_trackURL = 'http://www.pacsoftonline.com/ext.po.dk.dk.track?key=' . Redshop::getConfig()->get('POSTDK_CUSTOMER_NO') . '&order=' . $orderId;
+			$search[] = "{order_track_url}";
+			$replace[] = "<a href='" . $order_trackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
+
+			$mailBody = str_replace($search, $replace, $mailData);
+			$mailBody = $redshopMail->imginmail($mailBody);
+			$mailSubject = str_replace($search, $replace, $mailSubject);
+
+			if ('' != $userDetail->thirdparty_email && $mailBody)
+			{
+				JFactory::getMailer()->sendMail(
+					$mailFrom,
+					$fromName,
+					$userDetail->thirdparty_email,
+					$mailSubject,
+					$mailBody,
+					1,
+					null
+				);
+			}
+
+			if ('' != $userDetail->user_email && $mailBody)
+			{
+				JFactory::getMailer()->sendMail(
+					$mailFrom,
+					$fromName,
+					$userDetail->user_email,
+					$mailSubject,
+					$mailBody,
+					1,
+					null,
+					$mailBcc
+				);
+			}
+		}
 	}
 }
