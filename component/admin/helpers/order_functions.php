@@ -351,24 +351,18 @@ class order_functions
 		return RedshopHelperOrder::getShippingMethodInfo($shipping_class);
 	}
 
+	/**
+	 * Get payment method info
+	 *
+	 * @param   string  $payment_method_class  Payment method class
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getPaymentMethodInfo() instead
+	 */
 	public function getPaymentMethodInfo($payment_method_class = '')
 	{
-		$and = "";
-		$db = JFactory::getDbo();
-
-		if ($payment_method_class != '')
-		{
-			$and = "AND element = " . $db->quote($payment_method_class) . " ";
-		}
-
-		$folder = strtolower('redshop_payment');
-
-		$query = "SELECT * FROM #__extensions " . "WHERE enabled = '1' " . $and . "AND LOWER(`folder`) = " . $db->quote($folder) . "ORDER BY ordering ASC ";
-
-		$db->setQuery($query);
-		$list = $db->loadObjectList();
-
-		return $list;
+		return RedshopHelperOrder::getPaymentMethodInfo($payment_method_class);
 	}
 
 	public function getBillingAddress($user_id = 0)
