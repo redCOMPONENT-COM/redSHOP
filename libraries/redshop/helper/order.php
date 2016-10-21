@@ -1133,4 +1133,68 @@ class RedshopHelperOrder
 		$db->setQuery($query);
 		$db->execute();
 	}
+
+	/**
+	 * Update order comment
+	 *
+	 * @param   integer  $orderId  Order ID
+	 * @param   string   $comment  New Comment
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function updateOrderComment($orderId, $comment = '')
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->update($db->qn('#__redshop_orders'))
+					->set($db->qn('customer_note') . ' = ' . $db->quote($comment))
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+		$db->setQuery($query);
+		$db->execute();
+	}
+
+	/**
+	 * Update Order Requisition Number
+	 *
+	 * @param   integer  $orderId            Order ID
+	 * @param   string   $requisitionNumber  Number required
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function updateOrderRequisitionNumber($orderId, $requisitionNumber = '')
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->update($db->qn('#__redshop_orders'))
+					->set($db->qn('requisition_number') . ' = ' . $db->quote($requisitionNumber))
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+		$db->setQuery($query);
+		$db->execute();
+		$affectedRows = $db->getAffectedRows();
+
+		if ($affectedRows)
+		{
+			// Economic Integration start for invoice generate and book current invoice
+			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
+			{
+				$economic = economic::getInstance();
+				$oid      = explode(",", $orderId);
+
+				for ($i = 0, $in = count($oid); $i < $in; $i++)
+				{
+					if (isset($oid[$i]) && $oid[$i] != 0 && $oid[$i] != "")
+					{
+						$orderdata = self::getOrderDetails($oid[$i]);
+						$economic->renewInvoiceInEconomic($orderdata);
+					}
+				}
+			}
+		}
+	}
 }
