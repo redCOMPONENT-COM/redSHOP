@@ -1794,4 +1794,54 @@ class RedshopHelperOrder
 
 		return $db->loadObjectlist();
 	}
+
+	/**
+	 * Get User full name
+	 *
+	 * @param   integer  $userId  User ID
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUserFullname($userId)
+	{
+		$fullName = "";
+		$user     = JFactory::getUser();
+		$db       = JFactory::getDbo();
+
+		if ($userId == 0)
+		{
+			$userId = $user->id;
+		}
+
+		$query = $db->getQuery(true)
+					->select($db->qn(array('firstname', 'lastname')))
+					->from($db->qn('#__redshop_users_info'))
+					->where($db->qn('address_type') . ' LIKE ' . $db->quote('BT'))
+					->where($db->qn('user_id') . ' = ' . (int) $userId);
+		$db->setQuery($query);
+		$list = $db->loadObject();
+
+		if ($list)
+		{
+			$fullName = $list->firstname . " " . $list->lastname;
+		}
+		else
+		{
+			$query = $db->getQuery(true)
+						->select($db->qn('name'))
+						->from($db->qn('#__users'))
+						->where($db->qn('id') . ' = ' . (int) $userId);
+			$db->setQuery($query);
+			$list = $db->loadObject();
+
+			if ($list)
+			{
+				$fullName = $list->name;
+			}
+		}
+
+		return $fullName;
+	}
 }

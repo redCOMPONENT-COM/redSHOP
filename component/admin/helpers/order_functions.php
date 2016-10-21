@@ -421,39 +421,18 @@ class order_functions
 		return RedshopHelperOrder::getOrderShippingUserInfo($order_id);
 	}
 
+	/**
+	 * Get User full name
+	 *
+	 * @param   integer  $user_id  User ID
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getUserFullname() instead
+	 */
 	public function getUserFullname($user_id)
 	{
-		$fullname = "";
-		$user = JFactory::getUser();
-		$db = JFactory::getDbo();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		$query = "SELECT firstname, lastname FROM #__redshop_users_info " . "WHERE address_type like 'BT' "
-			. "AND user_id = " . (int) $user_id;
-		$db->setQuery($query);
-		$list = $db->loadObject();
-
-		if ($list)
-		{
-			$fullname = $list->firstname . " " . $list->lastname;
-		}
-		else
-		{
-			$query = "SELECT name FROM #__users " . "WHERE id = " . (int) $user_id;
-			$db->setQuery($query);
-			$list = $db->loadObject();
-
-			if ($list)
-			{
-				$fullname = $list->name;
-			}
-		}
-
-		return $fullname;
+		return RedshopHelperOrder::getUserFullname($user_id);
 	}
 
 	public function getOrderItemAccessoryDetail($order_item_id = 0)
