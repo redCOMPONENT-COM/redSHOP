@@ -13,7 +13,8 @@
 	        type="rcountries"
 	        label="COM_REDSHOP_COUNTRY"
 	        description="COM_REDSHOP_COUNTRY_DESC"
-	        required="true">
+	        required="true"
+	        onchange="this.form.submit();" >
 	    	<option value="">COM_REDSHOP_SELECT_COUNTRY</option>
 	    </field>
 	</fields>
