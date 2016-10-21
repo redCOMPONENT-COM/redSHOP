@@ -365,39 +365,24 @@ class order_functions
 		return RedshopHelperOrder::getPaymentMethodInfo($payment_method_class);
 	}
 
+	/**
+	 * Get billing address
+	 *
+	 * @param   integer  $user_id  User ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getBillingAddress() instead
+	 */
 	public function getBillingAddress($user_id = 0)
 	{
-		$db = JFactory::getDbo();
-		$helper = redhelper::getInstance();
-
-		$user = JFactory::getUser();
-
-		// Get Joomla Session
-		$session = JFactory::getSession();
-		$list = array();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		if ($user_id)
-		{
-			$query = $db->getQuery(true)
-				->select('*, CONCAT(firstname," ",lastname) AS text')
-				->from('#__redshop_users_info')
-				->where('address_type = ' . $db->q('BT'))
-				->where('user_id = ' . (int) $user_id);
-			$list = $db->setQuery($query)->loadObject();
-		}
-
-		return $list;
+		return RedshopHelperOrder::getBillingAddress($user_id);
 	}
 
 	/**
 	 * Order Billing User info
 	 *
-	 * @param   integer  $order_id  Order Id
+	 * @param   integer  $orderId  Order Id
 	 *
 	 * @deprecated 1.6   Use RedshopHelperOrder::getOrderBillingUserInfo($orderId) instead
 	 *
