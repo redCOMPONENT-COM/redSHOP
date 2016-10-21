@@ -346,18 +346,18 @@ class RedshopModelCategory extends JModelAdmin
 
 					if ($productId != $acc['child_product_id'])
 					{
-						$accdetail = $this->getTable('accessory_detail');
+						$accDetail = $this->getTable('accessory_detail');
 
-						$accdetail->accessory_id = $accessoryId;
-						$accdetail->category_id = $newCatId;
-						$accdetail->product_id = $productId;
-						$accdetail->child_product_id = $acc['child_product_id'];
-						$accdetail->accessory_price = $acc['accessory_price'];
-						$accdetail->oprand = $acc['oprand'];
-						$accdetail->ordering = $acc['ordering'];
-						$accdetail->setdefault_selected = (isset($acc['setdefault_selected']) && $acc['setdefault_selected'] == 1) ? 1 : 0;
+						$accDetail->accessory_id = $accessoryId;
+						$accDetail->category_id = $newCatId;
+						$accDetail->product_id = $productId;
+						$accDetail->child_product_id = $acc['child_product_id'];
+						$accDetail->accessory_price = $acc['accessory_price'];
+						$accDetail->oprand = $acc['oprand'];
+						$accDetail->ordering = $acc['ordering'];
+						$accDetail->setdefault_selected = (isset($acc['setdefault_selected']) && $acc['setdefault_selected'] == 1) ? 1 : 0;
 
-						if (!$accdetail->store())
+						if (!$accDetail->store())
 						{
 							$this->setError($this->_db->getErrorMsg());
 
@@ -499,7 +499,7 @@ class RedshopModelCategory extends JModelAdmin
 	/**
 	 * Method to order up.
 	 *
-	 * @param   array   $cid  category id list.
+	 * @param   array  $cid  category id list.
 	 *
 	 * @return  boolen
 	 *
@@ -566,7 +566,7 @@ class RedshopModelCategory extends JModelAdmin
 	/**
 	 * Method to order down.
 	 *
-	 * @param   array   $cid  category id list.
+	 * @param   array  $cid  category id list.
 	 *
 	 * @return  boolen
 	 *
@@ -632,7 +632,7 @@ class RedshopModelCategory extends JModelAdmin
 	/**
 	 * Method to get max min ordering.
 	 *
-	 * @param   string   $type  type of order min/max.
+	 * @param   string  $type  type of order min/max.
 	 *
 	 * @return  boolen
 	 *
@@ -652,6 +652,8 @@ class RedshopModelCategory extends JModelAdmin
 	 * Method to get product compare template.
 	 *
 	 * @since   2.0.0.2
+	 *
+	 * @return  object
 	 */
 	public function getProductCompareTemplate()
 	{
@@ -669,7 +671,7 @@ class RedshopModelCategory extends JModelAdmin
 	/**
 	 * Method to copy.
 	 *
-	 * @param   array   $cid  category id list.
+	 * @param   array  $cid  category id list.
 	 *
 	 * @return  boolen
 	 *

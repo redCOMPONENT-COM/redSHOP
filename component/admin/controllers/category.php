@@ -83,6 +83,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 	/**
 	 * Method to remove records.
 	 *
+	 * @return  mixed
 	 */
 	public function remove()
 	{
@@ -116,6 +117,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 	/**
 	 * Method to order up.
 	 *
+	 * @return  mixed
 	 */
 	public function orderUp()
 	{
@@ -131,6 +133,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 	/**
 	 * Method to order down.
 	 *
+	 * @return  mixed
 	 */
 	public function orderDown()
 	{
@@ -146,6 +149,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 	/**
 	 * Method to save order.
 	 *
+	 * @return  mixed
 	 */
 	public function saveorder()
 	{
@@ -165,6 +169,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 	/**
 	 * Method to copy record.
 	 *
+	 * @return  mixed
 	 */
 	public function copy()
 	{
