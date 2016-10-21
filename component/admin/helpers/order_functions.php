@@ -493,21 +493,18 @@ class order_functions
 		return RedshopHelperOrder::generateOrderNumber();
 	}
 
+	/**
+	 * Random Generate Encrypt Key
+	 *
+	 * @param   string  $p_length  Length of string
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::randomGenerateEncryptKey() instead
+	 */
 	public function random_gen_enc_key($p_length = '30')
 	{
-		/* Generated a unique order number */
-		$char_list = "abcdefghijklmnopqrstuvwxyz";
-		$char_list .= "1234567890123456789012345678901234567890123456789012345678901234567890";
-
-		$random = "";
-		srand((double) microtime() * 1000000);
-
-		for ($i = 0; $i < $p_length; $i++)
-		{
-			$random .= substr($char_list, (rand() % (strlen($char_list))), 1);
-		}
-
-		return $random;
+		return RedshopHelperOrder::randomGenerateEncryptKey($p_length);
 	}
 
 	public function getCountryName($cnt3 = "")

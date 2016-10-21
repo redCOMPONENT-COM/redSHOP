@@ -1939,6 +1939,8 @@ class RedshopHelperOrder
 	 * Generate Order Number
 	 *
 	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function generateOrderNumber()
 	{
@@ -1980,5 +1982,31 @@ class RedshopHelperOrder
 		}
 
 		return $maxId + 1;
+	}
+
+	/**
+	 * Random Generate Encrypt Key
+	 *
+	 * @param   string  $pLength  Length of string
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function randomGenerateEncryptKey($pLength = '30')
+	{
+		/* Generated a unique order number */
+		$charList = "abcdefghijklmnopqrstuvwxyz";
+		$charList .= "1234567890123456789012345678901234567890123456789012345678901234567890";
+
+		$random = "";
+		srand((double) microtime() * 1000000);
+
+		for ($i = 0; $i < $pLength; $i++)
+		{
+			$random .= substr($charList, (rand() % (strlen($charList))), 1);
+		}
+
+		return $random;
 	}
 }
