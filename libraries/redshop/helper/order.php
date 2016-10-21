@@ -1844,4 +1844,31 @@ class RedshopHelperOrder
 
 		return $fullName;
 	}
+
+	/**
+	 * Get order item accessory detail
+	 *
+	 * @param   integer  $orderItemId  Order Item ID
+	 *
+	 * @return  null/object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getOrderItemAccessoryDetail($orderItemId = 0)
+	{
+		$db = JFactory::getDbo();
+
+		if ($orderItemId != 0)
+		{
+			$query = $db->getQuery(true)
+						->select('*')
+						->from($db->qn('#__redshop_order_acc_item'))
+						->where($db->qn('order_item_id') . ' = ' . (int) $orderItemId);
+			$db->setQuery($query);
+
+			return $db->loadObjectlist();
+		}
+
+		return null;
+	}
 }
