@@ -1592,4 +1592,45 @@ class RedshopHelperOrder
 
 		return $db->loadObjectlist();
 	}
+
+	/**
+	 * Get order item detail
+	 *
+	 * @param   integer  $orderId      Order ID
+	 * @param   integer  $productId    Product ID
+	 * @param   integer  $orderItemId  Order Item ID
+	 *
+	 * @return  boolean/object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getOrderItemDetail($orderId = 0, $productId = 0, $orderItemId = 0)
+	{
+		if ($orderItemId == 0)
+		{
+			return false;
+		}
+
+		$query->select('*')
+			->from($db->qn('#__redshop_order_item'))
+			->where($db->qn('order_item_id') . ' = ' . (int) $orderItemId);
+
+		if ($orderId != 0)
+		{
+			$orderId = explode(',', $orderId);
+			JArrayHelper::toInteger($orderId);
+			$orderId = implode(',', $orderId);
+
+			$query->where($db->qn('order_id') . ' IN (' . $orderId . ')');
+		}
+
+		if ($productId != 0)
+		{
+			$query->where($db->qn('product_id') . ' = ' . (int) $productId);
+		}
+
+		$db->setQuery($query);
+
+		return $db->loadObjectlist();
+	}
 }
