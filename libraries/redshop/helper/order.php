@@ -573,7 +573,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function resetOrderId()
+	public static function resetOrderId()
 	{
 		$db = JFactory::getDbo();
 
@@ -606,12 +606,12 @@ class RedshopHelperOrder
 		$db->execute();
 
 		$query = 'TRUNCATE TABLE `#__redshop_product_download`';
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$db->setQuery($query);
+		$db->execute();
 
 		$query = 'TRUNCATE TABLE `#__redshop_product_download_log`';
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$db->setQuery($query);
+		$db->execute();
 	}
 
 	/**
@@ -623,7 +623,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getOrderStatusTitle($orderStatusCode)
+	public static function getOrderStatusTitle($orderStatusCode)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -645,7 +645,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function updateOrderStatus($orderId, $newStatus)
+	public static function updateOrderStatus($orderId, $newStatus)
 	{
 		$db = JFactory::getDbo();
 
@@ -675,11 +675,11 @@ class RedshopHelperOrder
 
 		$authorizeStatus = $result->authorize_status;
 
-		$paymentMethod   = $this->getPaymentMethodInfo($result->element);
+		$paymentMethod   = self::getPaymentMethodInfo($result->element);
 		$paymentMethod   = $paymentMethod[0];
 
 		// Getting the order details
-		$orderDetail        = $this->getOrderDetails($orderId);
+		$orderDetail        = self::getOrderDetails($orderId);
 		$paymentParams      = new JRegistry($paymentMethod->params);
 		$orderStatusCapture = $paymentParams->get('capture_status', '');
 		$orderStatusCode    = $orderStatusCapture;
@@ -749,7 +749,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function generateParcel($orderId)
+	public static function generateParcel($orderId)
 	{
 		$db                        = JFactory::getDbo();
 		$orderDetail               = self::getOrderDetails($orderId);
