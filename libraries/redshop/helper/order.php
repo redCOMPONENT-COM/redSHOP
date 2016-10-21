@@ -1871,4 +1871,41 @@ class RedshopHelperOrder
 
 		return null;
 	}
+
+	/**
+	 * Get order item attribute detail
+	 *
+	 * @param   integer  $orderItemId      Order Item ID
+	 * @param   integer  $isAccessory      Is accessory
+	 * @param   string   $section          Section text
+	 * @param   integer  $parentSectionId  Parent section ID
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getOrderItemAttributeDetail($orderItemId = 0, $isAccessory = 0, $section = "attribute", $parentSectionId = 0)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_order_attribute_item'))
+					->where($db->qn('is_accessory_att') . ' = ' . (int) $isAccessory)
+					->where($db->qn('section') . ' = ' . $db->quote($section));
+
+		if ($orderItemId != 0)
+		{
+			$query->where($db->qn('order_item_id') . ' = ' . (int) $orderItemId);
+		}
+
+		if ($parentSectionId != 0)
+		{
+			$query->where($db->qn('parent_section_id') . ' = ' . (int) $parentSectionId);
+		}
+
+		$db->setQuery($query);
+
+		return $db->loadObjectlist();
+	}
 }
