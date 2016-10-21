@@ -1733,8 +1733,10 @@ class RedshopHelperOrder
 	 * @param   integer  $userId  User ID
 	 *
 	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getBillingAddress($userId = 0)
+	public static function getBillingAddress($userId = 0)
 	{
 		$db     = JFactory::getDbo();
 		$helper = redhelper::getInstance();
