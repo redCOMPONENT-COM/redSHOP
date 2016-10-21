@@ -741,119 +741,18 @@ class order_functions
 		return RedshopHelperOrder::createWebPackLabel($order_id, $order_status, $paymentstatus);
 	}
 
+	/**
+	 * Order status update
+	 *
+	 * @param   integer  $order_id  Order ID
+	 * @param   array    $post      Post array
+	 *
+	 * @return  boolean/mixed
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::orderStatusUpdate() instead
+	 */
 	public function orderStatusUpdate($order_id, $post = array())
 	{
-		$helper = redhelper::getInstance();
-		$stockroomhelper = rsstockroomhelper::getInstance();
-		$producthelper = productHelper::getInstance();
-		$newstatus = $post['order_status_all'];
-		$customer_note = $post['customer_note' . $order_id];
-		$isproduct = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
-		$product_id = (isset($post['product_id'])) ? $post['product_id'] : 0;
-		$paymentstatus = $post['order_paymentstatus' . $order_id];
-
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
-
-		// Add status log...
-		$order_log = JTable::getInstance('order_status_log', 'Table');
-		$order_log->order_id = $customer_note;
-		$order_log->customer_note = $customer_note;
-		$order_log->order_status = $newstatus;
-		$order_log->date_changed = time();
-
-		if (!$order_log->store())
-		{
-			return JError::raiseWarning('', $order_log->getError());
-		}
-
-		// Changing the status of the order
-		$this->updateOrderStatus($order_id, $newstatus);
-
-		// Changing the status of the order
-		if (isset($paymentstatus))
-		{
-			$this->updateOrderPaymentStatus($order_id, $paymentstatus);
-		}
-
-		if ($post['isPacsoft'])
-		{
-			// For Webpack Postdk Label Generation
-			$this->createWebPacklabel($order_id, $newstatus, $paymentstatus);
-		}
-
-		if (Redshop::getConfig()->get('CLICKATELL_ENABLE'))
-		{
-			// Changing the status of the order end
-			$helper->clickatellSMS($order_id);
-		}
-
-		// If changing the status of the order then there item status need to change
-		if ($isproduct != 1)
-		{
-			$this->updateOrderItemStatus($order_id, 0, $newstatus);
-		}
-
-		// If order is cancelled then
-		if ($newstatus == 'X')
-		{
-			$orderproducts = $this->getOrderItemDetail($order_id);
-
-			for ($j = 0, $jn = count($orderproducts); $j < $jn; $j++)
-			{
-				$prodid = $orderproducts[$j]->product_id;
-				$prodqty = $orderproducts[$j]->stockroom_quantity;
-
-				// When the order is set to "cancelled",product will return to stock
-				$stockroomhelper->manageStockAmount($prodid, $prodqty, $orderproducts[$j]->stockroom_id);
-				$producthelper->makeAttributeOrder($orderproducts[$j]->order_item_id, 0, $prodid, 1);
-			}
-		}
-		elseif ($newstatus == 'RT')
-		{
-			// If any of the item from the order is returuned back then,
-			// change the status of whole order and also put back to stock.
-			if ($isproduct)
-			{
-				$orderproductdetail = $this->getOrderItemDetail($order_id, $product_id);
-				$prodid             = $orderproductdetail[0]->product_id;
-
-				// Changing the status of the order item to Returned
-				$this->updateOrderItemStatus($order_id, $prodid, "RT");
-
-				// Changing the status of the order to Partially Returned
-				$this->updateOrderStatus($order_id, "PRT");
-			}
-		}
-		elseif ($newstatus == 'RC')
-		{
-			// If any of the item from the order is reclamation back then,
-			// change the status of whole order and also put back to stock.
-			if ($isproduct)
-			{
-				// Changing the status of the order item to Reclamation
-				$this->updateOrderItemStatus($order_id, $product_id, "RC");
-
-				// Changing the status of the order to Partially Reclamation
-				$this->updateOrderStatus($order_id, "PRC");
-			}
-		}
-		elseif ($newstatus == 'S')
-		{
-			if ($isproduct)
-			{
-				// Changing the status of the order item to Reclamation
-				$this->updateOrderItemStatus($order_id, $product_id, "S");
-
-				// Changing the status of the order to Partially Reclamation
-				$this->updateOrderStatus($order_id, "PS");
-			}
-		}
-
-		// Mail to customer of order status change
-		$this->changeOrderStatusMail($order_id, $newstatus, $customer_note);
-		$this->createBookInvoice($order_id, $newstatus);
-
-		// GENERATE PDF CODE WRITE
-		return true;
+		return RedshopHelperOrder::orderStatusUpdate($order_id, $post);
 	}
 }
