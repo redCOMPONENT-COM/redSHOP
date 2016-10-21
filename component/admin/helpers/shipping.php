@@ -96,33 +96,17 @@ class shipping
 	/**
 	 * Decrypt Shipping
 	 *
-	 * @param   string  $Str_Message  String to decrypt
+	 * @param   string  $strMessage  String to decrypt
 	 *
 	 * @deprecated 1.6  Use RedshopShippingRate::decrypt(string);
 	 *
 	 * @return  string  Encrypt shipping rate
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::decryptShipping($strMessage) instead
 	 */
-	public function decryptShipping($Str_Message)
+	public function decryptShipping($strMessage)
 	{
-		$Str_Message           = base64_decode($Str_Message);
-		$Len_Str_Message       = strlen($Str_Message);
-		$Str_Encrypted_Message = "";
-
-		for ($Position = 0; $Position < $Len_Str_Message; $Position++)
-		{
-			$Key_To_Use                = (($Len_Str_Message + $Position) + 1);
-
-			$Key_To_Use                = (255 + $Key_To_Use) % 255;
-			$Byte_To_Be_Encrypted      = SUBSTR($Str_Message, $Position, 1);
-			$Ascii_Num_Byte_To_Encrypt = ORD($Byte_To_Be_Encrypted);
-
-			// Xor operation
-			$Xored_Byte                = $Ascii_Num_Byte_To_Encrypt ^ $Key_To_Use;
-			$Encrypted_Byte            = CHR($Xored_Byte);
-			$Str_Encrypted_Message     .= $Encrypted_Byte;
-		}
-
-		return $Str_Encrypted_Message;
+		return RedshopHelperShipping::decryptShipping($strMessage);
 	}
 
 	public function getShippingAddress($user_info_id)
