@@ -550,16 +550,18 @@ class order_functions
 		return RedshopHelperOrder::sendDownload($order_id);
 	}
 
+	/**
+	 * Get download product
+	 *
+	 * @param   integer  $order_id  Order ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getDownloadProduct() instead
+	 */
 	public function getDownloadProduct($order_id)
 	{
-		$db = JFactory::getDbo();
-		$query = "SELECT pd.*,product_name FROM #__redshop_product_download AS pd ,"
-			. "#__redshop_product AS p "
-			. "WHERE pd.product_id=p.product_id "
-			. "AND order_id = " . (int) $order_id;
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return RedshopHelperOrder::getDownloadProduct($order_id);
 	}
 
 	public function getDownloadProductLog($order_id, $did = '')

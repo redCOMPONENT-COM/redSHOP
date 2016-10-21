@@ -2187,4 +2187,27 @@ class RedshopHelperOrder
 
 		return true;
 	}
+
+	/**
+	 * Get download product
+	 *
+	 * @param   integer  $orderId  Order ID
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getDownloadProduct($orderId)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('pd.*')
+					->select($db->qn('product_name'))
+					->from($db->qn('#__redshop_product_download', 'pd'))
+					->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('pd.product_id') . ' = ' . $db->qn('p.product_id'))
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
 }
