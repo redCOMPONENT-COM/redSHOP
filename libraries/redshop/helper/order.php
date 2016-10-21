@@ -906,10 +906,10 @@ class RedshopHelperOrder
 		$agentEle = '';
 
 		// Only when we have store to send parcel - i.e Pickup Location
-		if ('' != trim($order_details->shop_id))
+		if ('' != trim($orderDetails->shop_id))
 		{
 			// Get shop location stored using postdanmark plugin or other similar plugin.
-			$shopLocation = explode('|', $order_details->shop_id);
+			$shopLocation = explode('|', $orderDetails->shop_id);
 
 			// Sending shop location id as an agent code.
 			$agentEle     = '<val n="agentto">' . $shopLocation[0] . '</val>';
@@ -2731,5 +2731,62 @@ class RedshopHelperOrder
 
 		ob_end_clean();
 		$pdfObj->Output($invoiceFolder . '/' . $invoicePdf . ".pdf", "FI");
+	}
+
+	/**
+	 * Create PacSoft Label from Order Status Change functions
+	 *
+	 * @param   integer  $orderId        Order Information ID
+	 * @param   string   $orderStatus    Order Status Code
+	 * @param   string   $paymentStatus  Order Payment Status Code
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function createWebPackLabel($orderId, $orderStatus, $paymentStatus)
+	{
+		// If PacSoft is not enable then return
+		if (!Redshop::getConfig()->get('POSTDK_INTEGRATION'))
+		{
+			return;
+		}
+
+		// If auto generation is disable then return
+		if (!Redshop::getConfig()->get('AUTO_GENERATE_LABEL'))
+		{
+			return;
+		}
+
+		// Only Execute this function for selected status match
+		if ($orderStatus == Redshop::getConfig()->get('GENERATE_LABEL_ON_STATUS') && $paymentStatus == "Paid")
+		{
+			$orderDetails   = self::getOrderDetails($orderId);
+			$details        = RedshopShippingRate::decrypt($orderDetails->ship_method_id);
+
+			$shippingParams = new JRegistry(
+								JPluginHelper::getPlugin(
+									'redshop_shipping',
+									str_replace(
+										'plgredshop_shipping',
+										'',
+										strtolower($details[0])
+									)
+								)->params
+							);
+
+			// Checking 'plgredshop_shippingdefault_shipping' to support backward compatibility
+			$allowPacsoftLabel = ($details[0] === 'plgredshop_shippingdefault_shipping' || (boolean) $shippingParams->get('allowPacsoftLabel'));
+
+			if ($allowPacsoftLabel && !$orderDetails->order_label_create)
+			{
+				$generateLabel = self::generateParcel($orderId);
+
+				if ($generateLabel != "success")
+				{
+					JFactory::getApplication()->enqueueMessage($generateLabel, 'error');
+				}
+			}
+		}
 	}
 }
