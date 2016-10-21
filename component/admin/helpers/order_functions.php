@@ -239,15 +239,18 @@ class order_functions
 		return RedshopHelperOrder::updateStatus();
 	}
 
+	/**
+	 * Get order details
+	 *
+	 * @param   integer  $order_id  Order ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderDetails() instead
+	 */
 	public function getOrderDetails($order_id)
 	{
-		$db = JFactory::getDbo();
-
-		$query = "SELECT * FROM #__redshop_orders " . "WHERE order_id = " . (int) $order_id;
-		$db->setQuery($query);
-		$list = $db->loadObject();
-
-		return $list;
+		return RedshopHelperOrder::getOrderDetails($order_id);
 	}
 
 	public function getmultiOrderDetails($order_id)
