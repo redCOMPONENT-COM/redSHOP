@@ -2334,4 +2334,27 @@ class RedshopHelperOrder
 			$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
 		}
 	}
+
+	/**
+	 * Get shipping location information
+	 *
+	 * @param   string  $shippingName  Shipping name
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getShippingLocationInfo($shippingName)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select($db->qn('shipping_location_info'))
+					->from($db->qn('#__redshop_shipping_rate'))
+					->where($db->qn('shipping_rate_name') . ' = ' . $db->quote($shippingName));
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
 }
