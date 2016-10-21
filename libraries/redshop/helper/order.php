@@ -1684,11 +1684,42 @@ class RedshopHelperOrder
 					->select('*')
 					->from($db->qn('#__extensions'))
 					->where($db->qn('enabled') . ' = ' . $db->quote('1'))
-					->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote('redshop_shipping'));
+					->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote('redshop_shipping'))
+					->order($db->qn('ordering') . ' ASC');
 
 		if ($shippingClass != '')
 		{
 			$query->where($db->qn('element') . ' = ' . $db->quote($shippingClass));
+		}
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
+	 * Get payment method info
+	 *
+	 * @param   string  $paymentMethodClass  Payment method class
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getPaymentMethodInfo($paymentMethodClass = '')
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__extensions'))
+					->where($db->qn('enabled') . ' = ' . $db->quote('1'))
+					->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote('redshop_payment'))
+					->order($db->qn('ordering') . ' ASC');
+
+		if ($paymentMethodClass != '')
+		{
+			$query->where($db->qn('element') . ' = ' . $db->quote($paymentMethodClass));
 		}
 
 		$db->setQuery($query);
