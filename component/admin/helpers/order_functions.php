@@ -466,18 +466,19 @@ class order_functions
 		return RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, $is_accessory, $section, $parent_section_id);
 	}
 
+	/**
+	 * Get Order User Field Data
+	 *
+	 * @param   integer  $order_item_id  Order Item ID
+	 * @param   integer  $section        Section ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderUserFieldData() instead
+	 */
 	public function getOrderUserfieldData($order_item_id = 0, $section = 0)
 	{
-		$db = JFactory::getDbo();
-		$query = "SELECT fd.*,f.field_title,f.field_type,f.field_name"
-			. " FROM #__redshop_fields_data AS fd "
-			. "LEFT JOIN #__redshop_fields AS f ON f.field_id=fd.fieldid "
-			. "WHERE fd.itemid = " . (int) $order_item_id . " "
-			. "AND fd.section = " . $db->quote($section);
-		$db->setQuery($query);
-		$list = $db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperOrder::getOrderUserFieldData($order_item_id, $section);
 	}
 
 	function generateOrderNumber()

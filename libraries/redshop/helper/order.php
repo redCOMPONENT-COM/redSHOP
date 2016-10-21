@@ -1908,4 +1908,30 @@ class RedshopHelperOrder
 
 		return $db->loadObjectlist();
 	}
+
+	/**
+	 * Get Order User Field Data
+	 *
+	 * @param   integer  $orderItemId  Order Item ID
+	 * @param   integer  $section      Section ID
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getOrderUserFieldData($orderItemId = 0, $section = 0)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select('fd.*')
+					->select($db->qn(array('f.field_title', 'f.field_type', 'f.field_name')))
+					->from($db->qn('#__redshop_fields_data', 'fd'))
+					->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('fd.fieldid'))
+					->where($db->qn('fd.itemi') . ' = ' . (int) $orderItemId)
+					->where($db->qn('fd.section') . ' = ' . $db->quote($section));
+		$db->setQuery($query);
+
+		return $db->loadObjectlist();
+	}
 }
