@@ -47,22 +47,18 @@ class order_functions
 		return RedshopHelperOrder::resetOrderId();
 	}
 
-	/*
-	 * get order status Title
+	/**
+	 * Get order status title
 	 *
-	 * @params: orderstatus code
-	 * @return: string
+	 * @param   string  $order_status_code  Order status code to get title
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderStatusTitle() instead
 	 */
 	public function getOrderStatusTitle($order_status_code)
 	{
-		$db = JFactory::getDbo();
-
-		$query = 'SELECT order_status_name FROM #__redshop_order_status ' . 'WHERE order_status_code = '
-			. $db->quote($order_status_code);
-		$db->setQuery($query);
-		$res = $db->loadResult();
-
-		return $res;
+		return RedshopHelperOrder::getOrderStatusTitle($order_status_code);
 	}
 
 	public function updateOrderStatus($order_id, $newstatus)

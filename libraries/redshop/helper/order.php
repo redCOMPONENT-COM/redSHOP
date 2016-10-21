@@ -613,4 +613,25 @@ class RedshopHelperOrder
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 	}
+
+	/**
+	 * Get order status title
+	 *
+	 * @param   string  $orderStatusCode  Order status code to get title
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getOrderStatusTitle($orderStatusCode)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select($db->qn('order_status_name'))
+					->from($db->qn('#__redshop_order_status'))
+					->where($db->qn('order_status_code') . ' = ' . $db->quote($orderStatusCode));
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
 }
