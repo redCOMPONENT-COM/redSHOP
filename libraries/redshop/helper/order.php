@@ -2046,4 +2046,38 @@ class RedshopHelperOrder
 
 		return '';
 	}
+
+	/**
+	 * Get state name
+	 *
+	 * @param   string  $st3   State code
+	 * @param   string  $cnt3  Country code
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getStateName($st3 = "", $cnt3 = "")
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select($db->qn('s.state_name'))
+					->from($db->qn('#__redshop_state', 's'))
+					->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('s.country_id'));
+
+		if ($st3 != "")
+		{
+			$query->where($db->qn('s.state_2_code') . ' = ' . $db->quote($st3));
+		}
+
+		if ($cnt3 != "")
+		{
+			$query->where($db->qn('c.country_3_code') . ' = ' . $db->quote($cnt3));
+		}
+
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
 }
