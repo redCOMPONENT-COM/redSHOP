@@ -68,8 +68,8 @@ class RedshopHelperOrder
 	/**
 	 * Get order information from order id.
 	 *
-	 * @param   integer   $orderId  Order Id
-	 * @param   boolean   $force    Force to get order information from DB instead of cache.
+	 * @param   integer  $orderId  Order Id
+	 * @param   boolean  $force    Force to get order information from DB instead of cache.
 	 *
 	 * @return  object    Order Information Object
 	 */
@@ -363,6 +363,7 @@ class RedshopHelperOrder
 	 * Get Order billing user information
 	 *
 	 * @param   integer  $orderId  Order Id
+	 * @param   boolean  $force    Force get information
 	 *
 	 * @return  object   Order Billing information object
 	 */
@@ -399,6 +400,7 @@ class RedshopHelperOrder
 	 * Get Order shipping user information
 	 *
 	 * @param   integer  $orderId  Order Id
+	 * @param   boolean  $force    Order Id
 	 *
 	 * @return  object   Order Shipping information object
 	 */
@@ -434,6 +436,8 @@ class RedshopHelperOrder
 	 * Get order Billing extra field information in array
 	 *
 	 * @param   integer  $orderUserInfoId  Order Info id
+	 * @param   string   $section          Section to get information
+	 * @param   boolean  $force            Force to get information
 	 *
 	 * @return  array    Extra Field name as a key of an array
 	 */
@@ -560,5 +564,53 @@ class RedshopHelperOrder
 				return $item->is_giftcard;
 			}
 		);
+	}
+
+	/**
+	 * Truncate tables orders and relatives
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function resetOrderId()
+	{
+		$db = JFactory::getDbo();
+
+		$query = 'TRUNCATE TABLE `#__redshop_orders`';
+		$db->setQuery($query);
+		$db->execute();
+
+		$query = 'TRUNCATE TABLE `#__redshop_order_item`';
+		$db->setQuery($query);
+		$db->execute();
+
+		$query = 'TRUNCATE TABLE `#__redshop_order_users_info`';
+		$db->setQuery($query);
+		$db->execute();
+
+		$query = 'TRUNCATE TABLE `#__redshop_order_status_log`';
+		$db->setQuery($query);
+		$db->execute();
+
+		$query = 'TRUNCATE TABLE `#__redshop_order_acc_item`';
+		$db->setQuery($query);
+		$db->execute();
+
+		$query = 'TRUNCATE TABLE `#__redshop_order_attribute_item`';
+		$db->setQuery($query);
+		$db->execute();
+
+		$query = 'TRUNCATE TABLE `#__redshop_order_payment`';
+		$db->setQuery($query);
+		$db->execute();
+
+		$query = 'TRUNCATE TABLE `#__redshop_product_download`';
+		$this->_db->setQuery($query);
+		$this->_db->execute();
+
+		$query = 'TRUNCATE TABLE `#__redshop_product_download_log`';
+		$this->_db->setQuery($query);
+		$this->_db->execute();
 	}
 }
