@@ -1726,4 +1726,40 @@ class RedshopHelperOrder
 
 		return $db->loadObjectList();
 	}
+
+	/**
+	 * Get billing address
+	 *
+	 * @param   integer  $userId  User ID
+	 *
+	 * @return  object
+	 */
+	public function getBillingAddress($userId = 0)
+	{
+		$db     = JFactory::getDbo();
+		$helper = redhelper::getInstance();
+		$user   = JFactory::getUser();
+
+		// Get Joomla Session
+		$session = JFactory::getSession();
+		$list    = array();
+
+		if ($userId == 0)
+		{
+			$userId = $user->id;
+		}
+
+		if ($userId)
+		{
+			$query = $db->getQuery(true)
+				->select('*')
+				->select('CONCAT(' . $db->qn('firstname') . '," ",' . $db->qn('lastname') . ') AS text')
+				->from($db->qn('#__redshop_users_info'))
+				->where($db->qn('address_type') . ' = ' . $db->quote('BT'))
+				->where($db->qn('user_id') . ' = ' . (int) $userId);
+			$list = $db->setQuery($query)->loadObject();
+		}
+
+		return $list;
+	}
 }
