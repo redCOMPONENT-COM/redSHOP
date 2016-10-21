@@ -579,14 +579,18 @@ class order_functions
 		return RedshopHelperOrder::getDownloadProductLog($order_id, $did);
 	}
 
+	/**
+	 * Get payment parameters
+	 *
+	 * @param   string  $payment  Payment type
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getParameters() instead
+	 */
 	public function getparameters($payment)
 	{
-		$db = JFactory::getDbo();
-		$sql = "SELECT * FROM #__extensions WHERE `element` = " . $db->quote($payment);
-		$db->setQuery($sql);
-		$params = $db->loadObjectList();
-
-		return $params;
+		return RedshopHelperOrder::getParameters($payment);
 	}
 
 	public function getpaymentinformation($row, $post)
