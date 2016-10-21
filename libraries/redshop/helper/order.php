@@ -1273,4 +1273,32 @@ class RedshopHelperOrder
 
 		return $myList['statuslist'];
 	}
+
+	/**
+	 * Get filter by list
+	 *
+	 * @param   string  $name        Name of filter by list
+	 * @param   string  $selected    Select filter list
+	 * @param   string  $attributes  Attributes of HTML
+	 *
+	 * @return  string  HTML of filter list
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getFilterByList($name = 'filterbylist', $selected = 'all', $attributes = ' class="inputbox" size="1" ')
+	{
+		$filterByList = array('orderid' => JText::_('COM_REDSHOP_ORDERID'),
+							'ordernumber' => JText::_('COM_REDSHOP_ORDERNUMBER'),
+							'fullname'    => JText::_('COM_REDSHOP_FULLNAME'),
+							'useremail'   => JText::_('COM_REDSHOP_USEREMAIL')
+							);
+
+		$types[]   = JHTML::_('select.option', '', 'All');
+		$types     = array_merge($types, $filterByList);
+		$totStatus = @explode(",", $selected);
+
+		$mylist['filterbylist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $totStatus);
+
+		return $mylist['filterbylist'];
+	}
 }
