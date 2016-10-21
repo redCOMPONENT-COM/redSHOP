@@ -29,8 +29,11 @@ class CouponManagerJ3Page
 
 	public static $selectFirst = "//input[@id='cb0']/following-sibling::ins";
 
-	// //table[@class='test-redshop-table']//tr[@class='test-redshop-table'][1]//td[@class='test-redshop-coupon-checkall']
-	public static $firstResultRow = ['class' => "test-redshop-table-row"];
+	public static $searchField = "//input[@id='filter_search']";
+
+	public static $searchButton = "//input[@value='Search']";
+
+	public static $couponResultRow = "//form[@id='adminForm']/table/tbody/tr[1]";
 
 	/**
 	 * Function to get path for CouponValueIn
