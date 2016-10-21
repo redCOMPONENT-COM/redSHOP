@@ -1633,4 +1633,37 @@ class RedshopHelperOrder
 
 		return $db->loadObjectlist();
 	}
+
+	/**
+	 * Get Order Partial Payment
+	 *
+	 * @param   integer  $orderId  Order ID
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getOrderPartialPayment($orderId)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select($db->qn('order_payment_amount'))
+					->from($db->qn('#__redshop_order_payment'))
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+		$db->setQuery($query);
+		$list = $db->loadObjectlist();
+
+		$spilt_payment_amount = 0;
+
+		for ($i = 0, $in = count($list); $i < $in; $i++)
+		{
+			if ($list[$i]->order_payment_amount > 0)
+			{
+				$spilt_payment_amount = $list[$i]->order_payment_amount;
+			}
+		}
+
+		return $spilt_payment_amount;
+	}
 }
