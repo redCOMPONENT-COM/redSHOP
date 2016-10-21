@@ -992,4 +992,122 @@ class RedshopHelperOrder
 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 	}
+
+	/**
+	 * Change Order status
+	 *
+	 * @param   object  $data  Data to change
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function changeOrderStatus($data)
+	{
+		$helper  = redhelper::getInstance();
+		$db      = JFactory::getDbo();
+		$orderId = $data->order_id;
+		$pos     = strpos(JURI::base(), 'plugins');
+
+		if ($pos !== false)
+		{
+			$explode = explode("plugins", JURI::base());
+			$uri     = $explode[0];
+		}
+		else
+		{
+			$uri = JURI::base();
+		}
+
+		$data->order_status_code         = trim($data->order_status_code);
+		$data->order_payment_status_code = trim($data->order_payment_status_code);
+		$checkUpdateOrders               = self::checkUpdateOrders($data);
+
+		if ($checkUpdateOrders == 0 && $data->order_status_code != "" && $data->order_payment_status_code != "")
+		{
+			// Order status valid and change the status
+			$query = $db->getQuery(true)
+						->update($db->qn('#__redshop_orders set order_status'))
+						->set($db->qn('order_status') . ' = ' . $db->quote($data->order_status_code))
+						->set($db->qn('order_payment_status') . ' = ' . $db->quote($data->order_payment_status_code))
+						->where($db->qn('order_id') . ' = ' . (int) $orderId);
+			$db->setQuery($query);
+			$db->execute();
+
+			// Generate Invoice Number
+			if ("C" == $data->order_status_code
+				&& "Paid" == $data->order_payment_status_code)
+			{
+				self::sendDownload($orderId);
+				self::generateInvoiceNumber($orderId);
+			}
+
+			if (!isset($data->transfee))
+			{
+				$data->transfee = null;
+			}
+
+			$query = $db->getQuery(true)
+						->update($db->qn('#__redshop_order_payment'))
+						->set($db->qn('order_transfee') . ' = ' . $db->quote($data->transfee))
+						->set($db->qn('order_payment_trans_id') . ' = ' . $db->quote($data->transaction_id))
+						->where($db->qn('order_id') . ' = ' . (int) $orderId);
+			$db->setQuery($query);
+			$db->execute();
+
+			$query = $db->getQuery(true)
+						->insert($db->qn('#__redshop_order_status_log'))
+						->columns($db->qn(array('order_status', 'order_payment_status', 'date_changed', 'order_id', 'customer_note')))
+						->values(
+							implode(',',
+								array(
+									$db->quote($data->order_status_code),
+									$db->quote($data->order_payment_status_code),
+									(int) time(),
+									(int) $orderId,
+									$db->quote($data->log)
+								)
+							)
+						);
+			$db->setQuery($query);
+			$db->execute();
+
+			// Send status change email only if config is set to Before order mail or Order is not confirmed.
+			if (!Redshop::getConfig()->get('ORDER_MAIL_AFTER')
+				|| (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $data->order_status_code != "C"))
+			{
+				self::changeOrderStatusMail($orderId, $data->order_status_code);
+			}
+
+			if ($data->order_payment_status_code == "Paid")
+			{
+				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelCheckout = JModelLegacy::getInstance('Checkout', 'RedshopModel');
+				$checkoutModelCheckout->sendGiftCard($orderId);
+
+				// Send the Order mail
+				$redshopMail = redshopMail::getInstance();
+
+				// Send Order Mail After Payment
+				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $data->order_status_code == "C")
+				{
+					$redshopMail->sendOrderMail($orderId);
+				}
+
+				// Send Invoice mail only if order mail is set to before payment.
+				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
+				{
+					$redshopMail->sendInvoiceMail($orderId);
+				}
+			}
+
+			// Trigger function on Order Status change
+			JPluginHelper::importPlugin('order');
+			JDispatcher::getInstance()->trigger('onAfterOrderStatusUpdate', array(self::getOrderDetails($orderId)));
+
+			// For Webpack Postdk Label Generation
+			self::createWebPackLabel($orderId, $data->order_status_code, $data->order_payment_status_code);
+			self::createBookInvoice($orderId, $data->order_status_code);
+		}
+	}
 }
