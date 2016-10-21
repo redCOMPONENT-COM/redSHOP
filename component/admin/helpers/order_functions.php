@@ -521,32 +521,19 @@ class order_functions
 		return RedshopHelperOrder::getCountryName($cnt3);
 	}
 
+	/**
+	 * Get state name
+	 *
+	 * @param   string  $st3   State code
+	 * @param   string  $cnt3  Country code
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getStateName() instead
+	 */
 	public function getStateName($st3 = "", $cnt3 = "")
 	{
-		$stname = '';
-		$and = '';
-		$db = JFactory::getDbo();
-
-		if ($st3 != "")
-		{
-			$and .= ' AND s.state_2_code = ' . $db->quote($st3) . ' ';
-		}
-		else
-		{
-			return $stname;
-		}
-
-		if ($cnt3 != "")
-		{
-			$and .= ' AND c.country_3_code = ' . $db->quote($cnt3) . ' ';
-		}
-
-		$query = 'SELECT s.state_name FROM #__redshop_state AS s ' . ','
-			. '#__redshop_country AS c ' . 'WHERE c.id=s.country_id ' . $and;
-		$db->setQuery($query);
-		$stname = $db->loadResult();
-
-		return $stname;
+		return RedshopHelperOrder::getStateName($st3, $cnt3);
 	}
 
 	public function SendDownload($order_id = 0)
