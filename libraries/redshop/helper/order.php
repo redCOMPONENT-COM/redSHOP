@@ -1427,16 +1427,16 @@ class RedshopHelperOrder
 		{
 			case "X";
 
-				$orderproducts = self::getOrderItemDetail($orderId);
+				$orderProducts = self::getOrderItemDetail($orderId);
 
-				for ($i = 0, $in = count($orderproducts); $i < $in; $i++)
+				for ($i = 0, $in = count($orderProducts); $i < $in; $i++)
 				{
-					$prodid = $orderproducts[$i]->product_id;
-					$prodqty = $orderproducts[$i]->stockroom_quantity;
+					$prodid = $orderProducts[$i]->product_id;
+					$prodqty = $orderProducts[$i]->stockroom_quantity;
 
 					// When the order is set to "cancelled",product will return to stock
-					$stockroomHelper->manageStockAmount($prodid, $prodqty, $orderproducts[$i]->stockroom_id);
-					$productHelper->makeAttributeOrder($orderproducts[$i]->order_item_id, 0, $prodid, 1);
+					$stockroomHelper->manageStockAmount($prodid, $prodqty, $orderProducts[$i]->stockroom_id);
+					$productHelper->makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
 				}
 				break;
 
@@ -2788,5 +2788,131 @@ class RedshopHelperOrder
 				}
 			}
 		}
+	}
+
+	/**
+	 * Order status update
+	 *
+	 * @param   integer  $orderId  Order ID
+	 * @param   array    $post     Post array
+	 *
+	 * @return  boolean/mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function orderStatusUpdate($orderId, $post = array())
+	{
+		$helper          = redhelper::getInstance();
+		$stockroomHelper = rsstockroomhelper::getInstance();
+		$productHelper   = productHelper::getInstance();
+		$newStatus       = $post['order_status_all'];
+		$customerNote    = $post['customer_note' . $orderId];
+		$isProduct       = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
+		$productId       = (isset($post['product_id'])) ? $post['product_id'] : 0;
+		$paymentStatus   = $post['order_paymentstatus' . $orderId];
+
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+
+		// Add status log...
+		$orderLog                = JTable::getInstance('order_status_log', 'Table');
+		$orderLog->order_id      = $customerNote;
+		$orderLog->customer_note = $customerNote;
+		$orderLog->order_status  = $newStatus;
+		$orderLog->date_changed  = time();
+
+		if (!$orderLog->store())
+		{
+			return JError::raiseWarning('', $orderLog->getError());
+		}
+
+		// Changing the status of the order
+		self::updateOrderStatus($orderId, $newStatus);
+
+		// Changing the status of the order
+		if (isset($paymentStatus))
+		{
+			self::updateOrderPaymentStatus($orderId, $paymentStatus);
+		}
+
+		if ($post['isPacsoft'])
+		{
+			// For Webpack Postdk Label Generation
+			self::createWebPackLabel($orderId, $newStatus, $paymentStatus);
+		}
+
+		if (Redshop::getConfig()->get('CLICKATELL_ENABLE'))
+		{
+			// Changing the status of the order end
+			$helper->clickatellSMS($orderId);
+		}
+
+		// If changing the status of the order then there item status need to change
+		if ($isProduct != 1)
+		{
+			self::updateOrderItemStatus($orderId, 0, $newStatus);
+		}
+
+		// If order is cancelled then
+		if ($newStatus == 'X')
+		{
+			$orderProducts = self::getOrderItemDetail($orderId);
+
+			for ($j = 0, $jn = count($orderProducts); $j < $jn; $j++)
+			{
+				$prodid  = $orderProducts[$j]->product_id;
+				$prodqty = $orderProducts[$j]->stockroom_quantity;
+
+				// When the order is set to "cancelled",product will return to stock
+				$stockroomHelper->manageStockAmount($prodid, $prodqty, $orderProducts[$j]->stockroom_id);
+				$productHelper->makeAttributeOrder($orderProducts[$j]->order_item_id, 0, $prodid, 1);
+			}
+		}
+		elseif ($newStatus == 'RT')
+		{
+			// If any of the item from the order is returuned back then,
+			// change the status of whole order and also put back to stock.
+			if ($isProduct)
+			{
+				$orderProductDetail = self::getOrderItemDetail($orderId, $productId);
+				$prodid             = $orderProductDetail[0]->product_id;
+
+				// Changing the status of the order item to Returned
+				self::updateOrderItemStatus($orderId, $prodid, "RT");
+
+				// Changing the status of the order to Partially Returned
+				self::updateOrderStatus($orderId, "PRT");
+			}
+		}
+		elseif ($newStatus == 'RC')
+		{
+			// If any of the item from the order is reclamation back then,
+			// change the status of whole order and also put back to stock.
+			if ($isProduct)
+			{
+				// Changing the status of the order item to Reclamation
+				self::updateOrderItemStatus($orderId, $productId, "RC");
+
+				// Changing the status of the order to Partially Reclamation
+				self::updateOrderStatus($orderId, "PRC");
+			}
+		}
+		elseif ($newStatus == 'S')
+		{
+			if ($isProduct)
+			{
+				// Changing the status of the order item to Reclamation
+				self::updateOrderItemStatus($orderId, $productId, "S");
+
+				// Changing the status of the order to Partially Reclamation
+				self::updateOrderStatus($orderId, "PS");
+			}
+		}
+
+		// Mail to customer of order status change
+		self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
+		self::createBookInvoice($orderId, $newStatus);
+
+		// GENERATE PDF CODE WRITE
+		return true;
 	}
 }
