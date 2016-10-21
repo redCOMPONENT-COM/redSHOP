@@ -393,22 +393,18 @@ class order_functions
 		return RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 	}
 
+	/**
+	 * Get Shipping address
+	 *
+	 * @param   integer  $user_id  User Id
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getShippingAddress() instead
+	 */
 	public function getShippingAddress($user_id = 0)
 	{
-		$db = JFactory::getDbo();
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		$query = 'SELECT *,CONCAT(firstname," ",lastname) AS text FROM #__redshop_users_info '
-			. 'WHERE address_type="ST" ' . 'AND user_id = ' . (int) $user_id;
-		$db->setQuery($query);
-		$list = $db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperOrder::getShippingAddress($user_id);
 	}
 
 	/**

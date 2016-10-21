@@ -1764,4 +1764,34 @@ class RedshopHelperOrder
 
 		return $list;
 	}
+
+	/**
+	 * Get Shipping address
+	 *
+	 * @param   integer  $userId  User Id
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getShippingAddress($userId = 0)
+	{
+		$db   = JFactory::getDbo();
+		$user = JFactory::getUser();
+
+		if ($userId == 0)
+		{
+			$userId = $user->id;
+		}
+
+		$query = $db->getQuery(true)
+					->select('*')
+					->select('CONCAT(' . $db->qn('firstname') . '," ",' . $db->qn('lastname') . ') AS text')
+					->from($db->qn('#__redshop_users_info'))
+					->where($db->qn('address_type') . ' = ' . $db->quote('ST'))
+					->where($db->qn('user_id') . ' = ' . (int) $userId);
+		$db->setQuery($query);
+
+		return $db->loadObjectlist();
+	}
 }
