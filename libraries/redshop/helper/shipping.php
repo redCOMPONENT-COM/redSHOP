@@ -738,7 +738,7 @@ class RedshopHelperShipping
 	 *
 	 * @since   2.0.0.3
 	 */
-	public function decryptShipping($strMessage)
+	public static function decryptShipping($strMessage)
 	{
 		$strMessage          = base64_decode($strMessage);
 		$lenStrMessage       = strlen($strMessage);
@@ -758,5 +758,90 @@ class RedshopHelperShipping
 		}
 
 		return $strEncryptedMessage;
+	}
+
+	/**
+	 * Get shipping address
+	 *
+	 * @param   int  $userInfoId  User info id
+	 *
+	 * @return  object
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function getShippingAddress($userInfoId)
+	{
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_users_info'))
+			->where($db->qn('users_info_id') . ' = ' . $db->q((int) $userInfoId));
+
+		return $db->setQuery($query)->loadObject();
+	}
+
+	/**
+	 * Get shipping method class
+	 *
+	 * @param   string  $shippingClass  Shipping class
+	 *
+	 * @return  object
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function getShippingMethodByClass($shippingClass = '')
+	{
+		$folder = strtolower('redshop_shipping');
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__extensions'))
+			->where('LOWER(' . $db->qn('folder') . ')' . ' = ' . $db->q($folder))
+			->where($db->qn('element') . ' = ' . $db->q($shippingClass));
+
+		return $db->setQuery($query)->loadObject();
+	}
+
+	/**
+	 * Get shipping method by id
+	 *
+	 * @param   int  $id  Shipping id
+	 *
+	 * @return  object
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function getShippingMethodById($id = 0)
+	{
+		$folder = strtolower('redshop_shipping');
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true)
+			->select('*')
+			->select($db->qn('extension_id'))
+			->from($db->qn('#__extensions'))
+			->where('LOWER(' . $db->qn('folder') . ')' . ' = ' . $db->q($folder))
+			->where($db->qn('extension_id') . ' = ' . $db->q((int) $id));
+
+		return $db->setQuery($query)->loadObject();
+	}
+
+	/**
+	 * Get shipping rates
+	 *
+	 * @param   string  $shippingClass  Shipping class
+	 *
+	 * @return  object
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function getShippingRates($shippingClass)
+	{
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_shipping_rate'))
+			->where($db->qn('shipping_class') . ' = ' . $db->q($shippingClass));
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }

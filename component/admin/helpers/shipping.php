@@ -109,53 +109,60 @@ class shipping
 		return RedshopHelperShipping::decryptShipping($strMessage);
 	}
 
-	public function getShippingAddress($user_info_id)
+	/**
+	 * Get shipping address
+	 *
+	 * @param   int  $userInfoId  User info id
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingAddress($userInfoId) instead
+	 */
+	public function getShippingAddress($userInfoId)
 	{
-		$db = JFactory::getDbo();
-
-		$query = 'SELECT * FROM #__redshop_users_info '
-			. 'WHERE users_info_id = ' .(int) $user_info_id;
-		$db->setQuery($query);
-		$result = $db->loadObject();
-
-		return $result;
+		return RedshopHelperShipping::getShippingAddress($userInfoId);
 	}
 
-	public function getShippingMethodByClass($shipping_class = '')
+	/**
+	 * Get shipping method class
+	 *
+	 * @param   string  $shippingClass  Shipping class
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingMethodByClass($shippingClass) instead
+	 */
+	public function getShippingMethodByClass($shippingClass = '')
 	{
-		$folder = strtolower('redshop_shipping');
-		$db = JFactory::getDbo();
-		$query = "SELECT * FROM #__extensions "
-			. "WHERE LOWER(`folder`) = " . $db->quote($folder) . " "
-			. "AND element = " . $db->quote($shipping_class);
-		$db->setQuery($query);
-		$result = $db->loadObject();
-
-		return $result;
+		return RedshopHelperShipping::getShippingMethodByClass($shippingClass);
 	}
 
+	/**
+	 * Get shipping method by id
+	 *
+	 * @param   int  $id  Shipping id
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingMethodById($id) instead
+	 */
 	public function getShippingMethodById($id = 0)
 	{
-		$folder = strtolower('redshop_shipping');
-		$db = JFactory::getDbo();
-		$query = "SELECT *,extension_id as id FROM #__extensions "
-			. "WHERE LOWER(`folder`) = " . $db->quote($folder) . " "
-			. "AND `extension_id` = " . (int) $id;
-		$db->setQuery($query);
-		$list = $db->loadObject();
-
-		return $list;
+		return RedshopHelperShipping::getShippingMethodById($id);
 	}
 
-	public function getShippingRates($shipping_class)
+	/**
+	 * Get shipping rates
+	 *
+	 * @param   string  $shippingClass  Shipping class
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingRates($shippingClass) instead
+	 */
+	public function getShippingRates($shippingClass)
 	{
-		$db = JFactory::getDbo();
-		$query = "SELECT * FROM #__redshop_shipping_rate "
-			. "WHERE shipping_class = " . $db->quote($shipping_class);
-		$db->setQuery($query);
-		$result = $db->loadObjectlist();
-
-		return $result;
+		return RedshopHelperShipping::getShippingRates($shippingClass);
 	}
 
 	/**
