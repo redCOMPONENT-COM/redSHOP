@@ -66,6 +66,15 @@ class RedshopHelperOrder
 	protected static $orderItems = array();
 
 	/**
+	 * Order status list
+	 *
+	 * @var    null
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $orderStatusList = null;
+
+	/**
 	 * Get order information from order id.
 	 *
 	 * @param   integer  $orderId  Order Id
@@ -1236,5 +1245,32 @@ class RedshopHelperOrder
 		{
 			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
 		}
+	}
+
+	/**
+	 * Get status list
+	 *
+	 * @param   string  $name        Name of status list
+	 * @param   string  $selected    Selet status name
+	 * @param   string  $attributes  Attributes of html
+	 *
+	 * @return  string  HTML of status list
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getStatusList($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
+	{
+		if (!self::$orderStatusList)
+		{
+			self::$orderStatusList = self::getOrderStatus();
+		}
+
+		$types[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_STATUS_LBL') . ' -');
+		$types   = array_merge($types, self::$orderStatusList);
+
+		$totStatus            = @explode(",", $selected);
+		$myList['statuslist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $totStatus);
+
+		return $myList['statuslist'];
 	}
 }

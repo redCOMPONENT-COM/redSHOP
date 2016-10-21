@@ -179,20 +179,20 @@ class order_functions
 		return RedshopHelperOrder::getOrderStatusList();
 	}
 
+	/**
+	 * Get status list
+	 *
+	 * @param   string  $name        Name of status list
+	 * @param   string  $selected    Selet status name
+	 * @param   string  $attributes  Attributes of html
+	 *
+	 * @return  string  HTML of status list
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getStatusList() instead
+	 */
 	public function getstatuslist($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
-		if (!$this->_orderstatuslist)
-		{
-			$this->_orderstatuslist = $this->getOrderStatus();
-		}
-
-		$types[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_STATUS_LBL') . ' -');
-		$types = array_merge($types, $this->_orderstatuslist);
-
-		$tot_status = @explode(",", $selected);
-		$mylist['statuslist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $tot_status);
-
-		return $mylist['statuslist'];
+		return RedshopHelperOrder::getStatusList($name, $selected, $attributes);
 	}
 
 	public function getFilterbyList($name = 'filterbylist', $selected = 'all', $attributes = ' class="inputbox" size="1" ')
