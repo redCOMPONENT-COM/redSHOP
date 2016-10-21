@@ -58,12 +58,12 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function editCoupon($couponCode = 'Current Code', $newCouponCode = 'Testing New')
 	{
 		$I = $this;
-		$I->amOnPage(\CountryManagerPage::$URL);
+		$I->amOnPage(\CouponManagerJ3Page::$URL);
 		$I->filterListBySearching($couponCode);
 		$I->click(['link' => $couponCode]);
 		$I->waitForText('Coupon Management:', 60, ['css' => 'H1']);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Coupon Edit View');
-		$I->fillField(\CountryManagerPage::$couponCode, $newCouponCode);
+		$I->fillField(\CouponManagerJ3Page::$couponCode, $newCouponCode);
 		$I->click('Save & Close');
 		$I->waitForText('Coupon Management', 10, 'h1');
 		$I->see('Item successfully saved', ['id' => 'system-message-container']);
@@ -93,6 +93,6 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchCoupon($couponCode = 'Test Coupon', $functionName = 'Search')
 	{
-		$this->search(new \CouponManagerPage, $couponCode, \CouponManagerPage::$couponResultRow, $functionName);
+		$this->search(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$couponResultRow, $functionName);
 	}
 }

@@ -56,7 +56,7 @@ class CouponManagerJ3Page
 	 *
 	 * @return string
 	 */
-	public function couponType($couponType)
+	public static function couponType($couponType)
 	{
 		$path = "//div[@id='jform_coupon_type_chzn']/div/ul/li[contains(text(), '" . $couponType . "')]";
 
