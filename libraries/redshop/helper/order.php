@@ -2357,4 +2357,32 @@ class RedshopHelperOrder
 
 		return $db->loadObjectList();
 	}
+
+	/**
+	 * Check update Orders
+	 *
+	 * @param   object  $data  Data to check
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function checkUpdateOrders($data)
+	{
+		$db  = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_orders'))
+					->where($db->qn('order_status') . ' = ' . $db->quote($data->order_status_code))
+					->where($db->qn('order_payment_status') . ' = ' . $db->quote($data->order_payment_status_code))
+					->where($db->qn('order_id') . ' = ' . (int) $data->order_id);
+		$db->setQuery($query);
+
+		if (count($db->loadObjectList()) == 0)
+		{
+			return 0;
+		}
+
+		return 1;
+	}
 }

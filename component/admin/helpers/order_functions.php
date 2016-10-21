@@ -652,21 +652,18 @@ class order_functions
 		return "";
 	}
 
+	/**
+	 * Check update Orders
+	 *
+	 * @param   object  $data  Data to check
+	 *
+	 * @return  integer
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::checkUpdateOrders() instead
+	 */
 	public function checkupdateordersts($data)
 	{
-		$res = 1;
-		$db = JFactory::getDbo();
-		$query = "SELECT * FROM #__redshop_orders " . "WHERE order_status = " . $db->quote($data->order_status_code)
-			. " AND order_payment_status = " . $db->quote($data->order_payment_status_code) . " AND order_id = " . (int) $data->order_id;
-		$db->setQuery($query);
-		$order_payment = $db->loadObjectList();
-
-		if (count($order_payment) == 0)
-		{
-			$res = 0;
-		}
-
-		return $res;
+		return RedshopHelperOrder::checkUpdateOrders($data);
 	}
 
 	public function changeOrderStatusMail($order_id, $newstatus, $order_comment = '')
