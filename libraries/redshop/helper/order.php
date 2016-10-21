@@ -2080,4 +2080,111 @@ class RedshopHelperOrder
 
 		return $db->loadResult();
 	}
+
+	/**
+	 * Send download by email
+	 *
+	 * @param   integer  $orderId  Order ID
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function sendDownload($orderId = 0)
+	{
+		$config      = Redconfiguration::getInstance();
+		$app         = JFactory::getApplication();
+		$redshopMail = redshopMail::getInstance();
+
+		// Getting the order status changed template from mail center end
+		$mailFrom = $app->getCfg('mailfrom');
+		$fromName = $app->getCfg('fromname');
+
+		$mailData    = "";
+		$mailSubject = "";
+		$mailBcc     = null;
+		$mailInfo    = $redshopMail->getMailtemplate(0, "downloadable_product_mail");
+
+		if (count($mailInfo) > 0)
+		{
+			$mailData = $mailInfo[0]->mail_body;
+			$mailSubject = $mailInfo[0]->mail_subject;
+
+			if (trim($mailInfo[0]->mail_bcc) != "")
+			{
+				$mailBcc = explode(",", $mailInfo[0]->mail_bcc);
+			}
+		}
+
+		// Get Downloadable Product
+		$rows = self::getDownloadProduct($orderId);
+
+		// There is no downloadable product
+		if ($rows === null || count($rows) == 0)
+		{
+			return false;
+		}
+
+		// Getting the order details
+		$orderdetail = self::getOrderDetails($orderId);
+		$userdetail  = self::getOrderBillingUserInfo($orderId);
+
+		$userfullname = $userdetail->firstname . " " . $userdetail->lastname;
+		$useremail    = $userdetail->email;
+
+		$mailData = str_replace("{fullname}", $userfullname, $mailData);
+		$mailData = str_replace("{order_id}", $orderdetail->order_id, $mailData);
+		$mailData = str_replace("{order_number}", $orderdetail->order_number, $mailData);
+		$mailData = str_replace("{order_date}", $config->convertDateFormat($orderdetail->cdate), $mailData);
+
+		$mailToken     = "";
+		$productStart  = "";
+		$productEnd    = "";
+		$productMiddle = "";
+		$pMiddle       = "";
+		$mailFirst     = explode("{product_serial_loop_start}", $mailData);
+
+		if (count($mailFirst) > 1)
+		{
+			$productStart = $mailFirst[0];
+			$mailSec = explode("{product_serial_loop_end}", $mailFirst[1]);
+
+			if (count($mailSec) > 1)
+			{
+				$productMiddle = $mailSec[0];
+				$productEnd    = $mailSec[1];
+			}
+		}
+
+		foreach ($rows as $row)
+		{
+			$dataMessage      = $productMiddle;
+			$downloadFilename = "";
+			$downloadFilename = substr(basename($row->file_name), 11);
+
+			$mailToken = "<a href='" . JURI::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
+				. $row->download_id . "'>" . $downloadFilename . "</a>";
+
+			$dataMessage = str_replace("{product_serial_number}", $row->product_serial_number, $dataMessage);
+			$dataMessage = str_replace("{product_name}", $row->product_name, $dataMessage);
+			$dataMessage = str_replace("{token}", $mailToken, $dataMessage);
+
+			$pMiddle .= $dataMessage;
+		}
+
+		$mailData = $productStart . $pMiddle . $productEnd;
+		$mailbody = $mailData;
+		$mailbody = $redshopMail->imginmail($mailbody);
+		$mailSubject = str_replace("{order_number}", $orderdetail->order_number, $mailSubject);
+
+		if ($mailbody && $useremail != "")
+		{
+			if (!JFactory::getMailer()->sendMail($mailFrom, $fromName, $useremail, $mailSubject, $mailbody, 1, null, $mailBcc))
+			{
+				$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL'), 'error');
+			}
+		}
+
+		return true;
+	}
 }
