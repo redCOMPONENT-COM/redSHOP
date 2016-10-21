@@ -2619,4 +2619,18 @@ class RedshopHelperOrder
 			}
 		}
 	}
+
+	/**
+	 * Create Multi Print Invoice PDF
+	 *
+	 * @param   integer  $orderId  Order ID
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function createMultiPrintInvoicePdf($orderId)
+	{
+		return redshopMail::getInstance()->createMultiprintInvoicePdf($orderId);
+	}
 }

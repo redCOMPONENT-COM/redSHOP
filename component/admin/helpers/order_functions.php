@@ -697,14 +697,18 @@ class order_functions
 		return RedshopHelperOrder::createBookInvoice($order_id, $order_status);
 	}
 
+	/**
+	 * Create Multi Print Invoice PDF
+	 *
+	 * @param   integer  $order_id  Order ID
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::createMultiPrintInvoicePdf() instead
+	 */
 	public function createMultiprintInvoicePdf($order_id)
 	{
-		$invoice = "";
-		$redshopMail = redshopMail::getInstance();
-
-		$invoice = $redshopMail->createMultiprintInvoicePdf($order_id);
-
-		return $invoice;
+		return RedshopHelperOrder::createMultiPrintInvoicePdf($order_id);
 	}
 
 	/**
