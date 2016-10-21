@@ -634,4 +634,109 @@ class RedshopHelperOrder
 
 		return $db->loadResult();
 	}
+
+	/**
+	 * Update order status
+	 *
+	 * @param   integer  $orderId    Order ID to update
+	 * @param   string   $newStatus  New status
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function updateOrderStatus($orderId, $newStatus)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->update($db->qn('#__redshop_orders'))
+					->set($db->qn('order_status') . ' = ' . $db->quote($newStatus))
+					->set($db->qn('mdate') . ' = ' . (int) time())
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+		$db->setQuery($query);
+		$db->execute();
+
+		self::generateInvoiceNumber($orderId);
+
+		$query = $db->getQuery(true)
+					->select(
+						$db->qn(
+							array(
+							'e.element', 'op.order_transfee', 'op.order_payment_trans_id', 'op.order_payment_amount', 'op.authorize_status'
+							)
+						)
+					)
+					->from($db->qn('#__extensions', 'e'))
+					->leftJoin($b->qn('#__redshop_order_payment', 'op') . ' ON ' . $db->qn('op.payment_method_class') . ' = ' . $db->qn('e.element'))
+					->where($db->qn('op.order_id') . ' = ' . (int) $orderId)
+					->where($db->qn('e.folder') . " = 'redshop_payment'");
+		$result = $db->setQuery($query, 0, 1)->loadObject();
+
+		$authorizeStatus = $result->authorize_status;
+
+		$paymentMethod   = $this->getPaymentMethodInfo($result->element);
+		$paymentMethod   = $paymentMethod[0];
+
+		// Getting the order details
+		$orderDetail        = $this->getOrderDetails($orderId);
+		$paymentParams      = new JRegistry($paymentMethod->params);
+		$orderStatusCapture = $paymentParams->get('capture_status', '');
+		$orderStatusCode    = $orderStatusCapture;
+
+		if ($orderStatusCapture == $newStatus
+			&& ($authorizeStatus == "Authorized" || $authorizeStatus == ""))
+		{
+			$values["order_number"]        = $orderDetail->order_number;
+			$values["order_id"]            = $orderId;
+			$values["order_transactionid"] = $result->order_payment_trans_id;
+			$values["order_amount"]        = $orderDetail->order_total + $result->order_transfee;
+			$values['shippinginfo']        = self::getOrderShippingUserInfo($orderId);
+			$values['billinginfo']         = self::getOrderBillingUserInfo($orderId);
+			$values["order_userid"]        = $values['billinginfo']->user_id;
+
+			JPluginHelper::importPlugin('redshop_payment');
+			$data = JDispatcher::getInstance()->trigger('onCapture_Payment' . $result->element, array($result->element, $values));
+			$results = $data[0];
+
+			if (!empty($data))
+			{
+				$message = $results->message;
+
+				$orderStatusLog = JTable::getInstance('order_status_log', 'Table');
+				$orderStatusLog->order_id = $orderId;
+				$orderStatusLog->order_status = $orderStatusCode;
+				$orderStatusLog->date_changed = time();
+				$orderStatusLog->customer_note = $message;
+				$orderStatusLog->store();
+			}
+		}
+
+		if (($newStatus == "X" || $newStatus == "R")
+			&& $paymentParams->get('refund', 0) == 1)
+		{
+			$values["order_number"]        = $orderDetail->order_number;
+			$values["order_id"]            = $orderId;
+			$values["order_transactionid"] = $result->order_payment_trans_id;
+			$values["order_amount"]        = $orderDetail->order_total + $result->order_transfee;
+			$values["order_userid"]        = $values['billinginfo']->user_id;
+
+			JPluginHelper::importPlugin('redshop_payment');
+
+			// Get status and refund if capture/cancel if authorize (for quickpay only)
+			$data = JDispatcher::getInstance()->trigger('onStatus_Payment' . $result->element, array($result->element, $values));
+			$results = $data[0];
+
+			if (!empty($data))
+			{
+				$message = $results->message;
+				$orderStatusLog = JTable::getInstance('order_status_log', 'Table');
+				$orderStatusLog->order_id = $orderId;
+				$orderStatusLog->order_status = $newStatus;
+				$orderStatusLog->date_changed = time();
+				$orderStatusLog->customer_note = $message;
+				$orderStatusLog->store();
+			}
+		}
+	}
 }
