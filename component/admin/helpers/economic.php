@@ -206,113 +206,18 @@ class economic
 	}
 
 	/**
-	 * Method to create Invoice and send mail in E-conomic
+	 * Create Invoice in economic
 	 *
-	 * @access public
-	 * @return array
+	 * @param   integer  $order_id  Order ID
+	 * @param   array    $data      Data to create
+	 *
+	 * @return  boolean/string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createInvoiceInEconomic() instead
 	 */
 	public function createInvoiceInEconomic($order_id, $data = array())
 	{
-		$orderdetail = $this->_order_functions->getOrderDetails($order_id);
-
-		if ($orderdetail->is_booked == 0 && !$orderdetail->invoice_no)
-		{
-			$user_billinginfo  = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
-			$user_shippinginfo = RedshopHelperOrder::getOrderShippingUserInfo($order_id);
-			$orderitem         = $this->_order_functions->getOrderItemDetail($order_id);
-
-			$eco['shop_name']                 = Redshop::getConfig()->get('SHOP_NAME');
-			$eco['economic_payment_terms_id'] = $data['economic_payment_terms_id'];
-			$eco['economic_design_layout']    = $data['economic_design_layout'];
-
-			$ecodebtorNumber = $this->createUserInEconomic($user_billinginfo, $data);
-
-			if (count($ecodebtorNumber) > 0 && is_object($ecodebtorNumber[0]))
-			{
-				$eco['order_id']   = $orderdetail->order_id;
-				$eco['setAttname'] = 0;
-
-				if ($user_billinginfo->is_company == 1)
-				{
-					$eco['setAttname'] = 1;
-				}
-
-				$eco['name'] = $user_billinginfo->firstname . " " . $user_billinginfo->lastname;
-
-				$eco['isvat']              = ($orderdetail->order_tax != 0) ? 1 : 0;
-				$currency                  = Redshop::getConfig()->get('CURRENCY_CODE');
-				$eco['email']              = $user_billinginfo->user_email;
-				$eco['phone']              = $user_billinginfo->phone;
-				$eco['currency_code']      = $currency;
-				$eco['order_number']       = $orderdetail->order_number;
-				$eco['amount']             = $orderdetail->order_total;
-				$eco['debtorHandle']       = intVal($ecodebtorNumber[0]->Number);
-				$eco['user_info_id']       = $user_billinginfo->users_info_id;
-				$eco['customer_note']      = $orderdetail->customer_note;
-				$eco['requisition_number'] = $orderdetail->requisition_number;
-				$eco['vatzone']            = $this->getEconomicTaxZone($user_billinginfo->country_code);
-
-				$invoiceHandle = $this->_dispatcher->trigger('createInvoice', array($eco));
-
-				if (count($invoiceHandle) > 0 && $invoiceHandle[0]->Id)
-				{
-					$invoice_no = $invoiceHandle[0]->Id;
-					$this->updateInvoiceNumber($order_id, $invoice_no);
-
-					$eco['invoiceHandle'] = $invoice_no;
-					$eco['name_ST']       = ($user_shippinginfo->is_company == 1 && $user_shippinginfo->company_name != '')
-						? $user_shippinginfo->company_name : $user_shippinginfo->firstname . ' ' . $user_shippinginfo->lastname;
-					$eco['address_ST']    = $user_shippinginfo->address;
-					$eco['city_ST']       = $user_shippinginfo->city;
-					$eco['country_ST']    = $this->_order_functions->getCountryName($user_shippinginfo->country_code);
-					$eco['zipcode_ST']    = $user_shippinginfo->zipcode;
-
-					$this->_dispatcher->trigger('setDeliveryAddress', array($eco));
-
-					if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
-					{
-						$this->createInvoiceLineInEconomicAsProduct($orderitem, $invoice_no, $orderdetail->user_id);
-					}
-					else
-					{
-						$this->createInvoiceLineInEconomic($orderitem, $invoice_no, $orderdetail->user_id);
-					}
-
-					$this->createInvoiceShippingLineInEconomic($orderdetail->ship_method_id, $invoice_no);
-
-					$isVatDiscount = 0;
-
-					if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0' && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && $orderdetail->order_discount != "0.00" && $orderdetail->order_tax && !empty($orderdetail->order_discount))
-					{
-						$totaldiscount               = $orderdetail->order_discount;
-						$Discountvat                 = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totaldiscount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
-						$orderdetail->order_discount = $totaldiscount - $Discountvat;
-						$isVatDiscount               = 1;
-					}
-
-					$order_discount = $orderdetail->order_discount + $orderdetail->special_discount_amount;
-
-					if ($order_discount)
-					{
-						$this->createInvoiceDiscountLineInEconomic($orderdetail, $invoice_no, $data, 0, $isVatDiscount);
-					}
-
-					if ($orderdetail->payment_discount != 0)
-					{
-						$this->createInvoiceDiscountLineInEconomic($orderdetail, $invoice_no, $data, 1);
-					}
-				}
-
-				return $invoiceHandle;
-			}
-
-			else
-			{
-				return "USRE_NOT_SAVED_IN_ECONOMIC";
-			}
-		}
-
-		return true;
+		return RedshopEconomic::createInvoiceInEconomic($order_id, $data);
 	}
 
 	/**

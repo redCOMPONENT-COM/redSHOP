@@ -542,14 +542,16 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [createInvoiceInEconomic description]
+	 * Create Invoice in economic
 	 *
-	 * @param   [type]  $orderId  [description]
-	 * @param   array   $data     [description]
+	 * @param   integer  $orderId  Order ID
+	 * @param   array    $data     Data to create
 	 *
-	 * @return  [type]            [description]
+	 * @return  boolean/string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createInvoiceInEconomic($orderId, $data = array())
+	public static function createInvoiceInEconomic($orderId, $data = array())
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
@@ -558,89 +560,89 @@ class RedshopEconomic
 
 		if ($orderDetail->is_booked == 0 && !$orderDetail->invoice_no)
 		{
-			$user_billinginfo  = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
-			$user_shippinginfo = RedshopHelperOrder::getOrderShippingUserInfo($orderId);
-			$orderItem         = RedshopHelperOrder::getOrderItemDetail($orderId);
+			$userBillingInfo  = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+			$userShippingInfo = RedshopHelperOrder::getOrderShippingUserInfo($orderId);
+			$orderItem        = RedshopHelperOrder::getOrderItemDetail($orderId);
 
 			$eco['shop_name']                 = Redshop::getConfig()->get('SHOP_NAME');
 			$eco['economic_payment_terms_id'] = $data['economic_payment_terms_id'];
 			$eco['economic_design_layout']    = $data['economic_design_layout'];
 
-			$ecodebtorNumber = $this->createUserInEconomic($user_billinginfo, $data);
+			$ecodebtorNumber = self::createUserInEconomic($userBillingInfo, $data);
 
 			if (count($ecodebtorNumber) > 0 && is_object($ecodebtorNumber[0]))
 			{
 				$eco['order_id']   = $orderDetail->order_id;
 				$eco['setAttname'] = 0;
 
-				if ($user_billinginfo->is_company == 1)
+				if ($userBillingInfo->is_company == 1)
 				{
 					$eco['setAttname'] = 1;
 				}
 
-				$eco['name'] = $user_billinginfo->firstname . " " . $user_billinginfo->lastname;
+				$eco['name'] = $userBillingInfo->firstname . " " . $userBillingInfo->lastname;
 
 				$eco['isvat']              = ($orderDetail->order_tax != 0) ? 1 : 0;
 				$currency                  = Redshop::getConfig()->get('CURRENCY_CODE');
-				$eco['email']              = $user_billinginfo->user_email;
-				$eco['phone']              = $user_billinginfo->phone;
+				$eco['email']              = $userBillingInfo->user_email;
+				$eco['phone']              = $userBillingInfo->phone;
 				$eco['currency_code']      = $currency;
 				$eco['order_number']       = $orderDetail->order_number;
 				$eco['amount']             = $orderDetail->order_total;
 				$eco['debtorHandle']       = intVal($ecodebtorNumber[0]->Number);
-				$eco['user_info_id']       = $user_billinginfo->users_info_id;
+				$eco['user_info_id']       = $userBillingInfo->users_info_id;
 				$eco['customer_note']      = $orderDetail->customer_note;
 				$eco['requisition_number'] = $orderDetail->requisition_number;
-				$eco['vatzone']            = $this->getEconomicTaxZone($user_billinginfo->country_code);
+				$eco['vatzone']            = self::getEconomicTaxZone($userBillingInfo->country_code);
 
 				$invoiceHandle = self::$dispatcher->trigger('createInvoice', array($eco));
 
 				if (count($invoiceHandle) > 0 && $invoiceHandle[0]->Id)
 				{
 					$invoiceNo = $invoiceHandle[0]->Id;
-					$this->updateInvoiceNumber($orderId, $invoiceNo);
+					self::updateInvoiceNumber($orderId, $invoiceNo);
 
 					$eco['invoiceHandle'] = $invoiceNo;
-					$eco['name_ST']       = ($user_shippinginfo->is_company == 1 && $user_shippinginfo->company_name != '')
-						? $user_shippinginfo->company_name : $user_shippinginfo->firstname . ' ' . $user_shippinginfo->lastname;
-					$eco['address_ST']    = $user_shippinginfo->address;
-					$eco['city_ST']       = $user_shippinginfo->city;
-					$eco['country_ST']    = RedshopHelperOrder::getCountryName($user_shippinginfo->country_code);
-					$eco['zipcode_ST']    = $user_shippinginfo->zipcode;
+					$eco['name_ST']       = ($userShippingInfo->is_company == 1 && $userShippingInfo->company_name != '')
+						? $userShippingInfo->company_name : $userShippingInfo->firstname . ' ' . $userShippingInfo->lastname;
+					$eco['address_ST']    = $userShippingInfo->address;
+					$eco['city_ST']       = $userShippingInfo->city;
+					$eco['country_ST']    = RedshopHelperOrder::getCountryName($userShippingInfo->country_code);
+					$eco['zipcode_ST']    = $userShippingInfo->zipcode;
 
 					self::$dispatcher->trigger('setDeliveryAddress', array($eco));
 
 					if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 					{
-						$this->createInvoiceLineInEconomicAsProduct($orderItem, $invoiceNo, $orderDetail->user_id);
+						self::createInvoiceLineInEconomicAsProduct($orderItem, $invoiceNo, $orderDetail->user_id);
 					}
 					else
 					{
-						$this->createInvoiceLineInEconomic($orderItem, $invoiceNo, $orderDetail->user_id);
+						self::createInvoiceLineInEconomic($orderItem, $invoiceNo, $orderDetail->user_id);
 					}
 
-					$this->createInvoiceShippingLineInEconomic($orderDetail->ship_method_id, $invoiceNo);
+					self::createInvoiceShippingLineInEconomic($orderDetail->ship_method_id, $invoiceNo);
 
 					$isVatDiscount = 0;
 
 					if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0' && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && $orderDetail->order_discount != "0.00" && $orderDetail->order_tax && !empty($orderDetail->order_discount))
 					{
-						$totaldiscount               = $orderDetail->order_discount;
-						$Discountvat                 = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totaldiscount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
-						$orderDetail->order_discount = $totaldiscount - $Discountvat;
+						$totalDiscount               = $orderDetail->order_discount;
+						$discountVat                 = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totalDiscount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
+						$orderDetail->order_discount = $totalDiscount - $discountVat;
 						$isVatDiscount               = 1;
 					}
 
-					$order_discount = $orderDetail->order_discount + $orderDetail->special_discount_amount;
+					$orderDiscount = $orderDetail->order_discount + $orderDetail->special_discount_amount;
 
-					if ($order_discount)
+					if ($orderDiscount)
 					{
-						$this->createInvoiceDiscountLineInEconomic($orderDetail, $invoiceNo, $data, 0, $isVatDiscount);
+						self::createInvoiceDiscountLineInEconomic($orderDetail, $invoiceNo, $data, 0, $isVatDiscount);
 					}
 
 					if ($orderDetail->payment_discount != 0)
 					{
-						$this->createInvoiceDiscountLineInEconomic($orderDetail, $invoiceNo, $data, 1);
+						self::createInvoiceDiscountLineInEconomic($orderDetail, $invoiceNo, $data, 1);
 					}
 				}
 
@@ -1168,14 +1170,14 @@ class RedshopEconomic
 			{
 				if ((Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2 && $orderDetail->order_status == Redshop::getConfig()->get('BOOKING_ORDER_STATUS')) || $checkOrderStatus == 0)
 				{
-					$user_billinginfo = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+					$userBillingInfo = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 
-					if ($user_billinginfo->is_company == 0 || (!$user_billinginfo->ean_number && $user_billinginfo->is_company == 1))
+					if ($userBillingInfo->is_company == 0 || (!$userBillingInfo->ean_number && $userBillingInfo->is_company == 1))
 					{
 						$currency = Redshop::getConfig()->get('CURRENCY_CODE');
 
 						$eco['invoiceHandle'] = $orderDetail->invoice_no;
-						$eco['debtorHandle']  = intVal($user_billinginfo->users_info_id);
+						$eco['debtorHandle']  = intVal($userBillingInfo->users_info_id);
 						$eco['currency_code'] = $currency;
 						$eco['amount']        = $orderDetail->order_total;
 						$eco['order_number']  = $orderDetail->order_number;
@@ -1187,14 +1189,14 @@ class RedshopEconomic
 						{
 							$this->updateInvoiceDateInEconomic($orderDetail, $bookinvoicedate);
 
-							if ($user_billinginfo->is_company == 1 && $user_billinginfo->company_name != '')
+							if ($userBillingInfo->is_company == 1 && $userBillingInfo->company_name != '')
 							{
-								$eco['name'] = $user_billinginfo->company_name;
+								$eco['name'] = $userBillingInfo->company_name;
 							}
 
 							else
 							{
-								$eco['name'] = $user_billinginfo->firstname . " " . $user_billinginfo->lastname;
+								$eco['name'] = $userBillingInfo->firstname . " " . $userBillingInfo->lastname;
 							}
 
 							$paymentInfo = RedshopHelperOrder::getOrderPaymentDetail($orderDetail->order_id);
