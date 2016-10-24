@@ -1364,14 +1364,19 @@ class RedshopEconomic
 	 * @param   integer  $bookInvoiceNumber  Booking invoice number
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function updateBookInvoiceNumber($orderId = 0, $bookInvoiceNumber = 0)
+	public static function updateBookInvoiceNumber($orderId = 0, $bookInvoiceNumber = 0)
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
-			. 'SET bookinvoice_number = ' . (int) $bookInvoiceNumber . ' '
-			. 'WHERE order_id = ' . (int) $orderId;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->update($db->qn('#__redshop_orders'))
+					->set($db->qn('bookinvoice_number') . ' = ' . (int) $bookInvoiceNumber)
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+		$db->setQuery($query);
+		$db->execute();
 	}
 
 	/**
