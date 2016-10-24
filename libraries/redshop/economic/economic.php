@@ -1315,22 +1315,25 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [updateInvoiceNumber description]
+	 * Update invoice number
 	 *
-	 * @param   integer  $orderId    [description]
-	 * @param   integer  $invoiceNo  [description]
+	 * @param   integer  $orderId    Order ID
+	 * @param   integer  $invoiceNo  Invoice number
 	 *
-	 * @return  [type]               [description]
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function updateInvoiceNumber($orderId = 0, $invoiceNo = 0)
+	public static function updateInvoiceNumber($orderId = 0, $invoiceNo = 0)
 	{
 		$db = JFactory::getDbo();
 
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
-			. 'SET invoice_no = ' . $db->quote($invoiceNo) . ' '
-			. 'WHERE order_id = ' . (int) $orderId;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$query = $db->getQuery(true)
+					->update($db->qn('#__redshop_orders'))
+					->set($db->qn('invoice_no') . ' = ' . $db->quote($invoiceNo))
+					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+		$db->setQuery($query);
+		$db->execute();
 	}
 
 	/**

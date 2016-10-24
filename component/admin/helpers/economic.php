@@ -374,15 +374,19 @@ class economic
 		return RedshopEconomic::bookInvoiceInEconomic($order_id, $checkOrderStatus, $bookinvoicedate);
 	}
 
+	/**
+	 * Update invoice number
+	 *
+	 * @param   integer  $order_id    Order ID
+	 * @param   integer  $invoice_no  Invoice number
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::updateInvoiceNumber() instead
+	 */
 	public function updateInvoiceNumber($order_id = 0, $invoice_no = 0)
 	{
-		$db = JFactory::getDbo();
-
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
-			. 'SET invoice_no = ' . $db->quote($invoice_no) . ' '
-			. 'WHERE order_id = ' . (int) $order_id ;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		return RedshopEconomic::updateInvoiceNumber($order_id, $invoice_no);
 	}
 
 	public function updateBookInvoice($order_id = 0)
