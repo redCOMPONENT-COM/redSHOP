@@ -418,16 +418,18 @@ class economic
 		return RedshopEconomic::updateBookInvoiceNumber($order_id, $bookinvoice_number);
 	}
 
+	/**
+	 * Get product number
+	 *
+	 * @param   string  $product_number  Product Number
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::getProductByNumber() instead
+	 */
 	public function getProductByNumber($product_number = '')
 	{
-		$db = JFactory::getDbo();
-
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'product '
-			. 'WHERE product_number = ' . $db->quote($product_number);
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
-
-		return $result;
+		return RedshopEconomic::getProductByNumber($product_number);
 	}
 
 	public function makeAccessoryOrder($invoice_no, $orderItem, $user_id = 0)
