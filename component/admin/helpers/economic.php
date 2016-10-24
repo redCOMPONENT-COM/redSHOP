@@ -237,35 +237,18 @@ class economic
 	}
 
 	/**
-	 * Method to create Invoice line in E-conomic for GiftCard
+	 * Create Invoice line in E-conomic for GiftCard
 	 *
-	 * @access public
-	 * @return array
+	 * @param   array   $orderitem   Order Item
+	 * @param   string  $invoice_no  Invoice Number
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createGiftCardInvoiceLineInEconomic() instead
 	 */
 	public function createGFInvoiceLineInEconomic($orderitem = array(), $invoice_no = "")
 	{
-		$product                 = new stdClass;
-		$product->product_id     = $orderitem->product_id;
-		$product->product_number = $orderitem->order_item_sku = "gift_" . $orderitem->product_id . "_" . $orderitem->order_item_name;
-		$product->product_name   = $orderitem->order_item_name;
-		$product->product_price  = $orderitem->product_item_price_excl_vat;
-
-		$giftdata                 = $this->_producthelper->getGiftcardData($orderitem->product_id);
-		$product->accountgroup_id = $giftdata->accountgroup_id;
-		$product->product_volume  = 0;
-
-		$this->createProductInEconomic($product);
-
-		$eco['updateInvoice']    = 0;
-		$eco['invoiceHandle']    = $invoice_no;
-		$eco['order_item_id']    = $orderitem->order_item_id;
-		$eco['product_number']   = $orderitem->order_item_sku;
-		$eco['product_name']     = $orderitem->order_item_name;
-		$eco['product_price']    = $orderitem->product_item_price_excl_vat;
-		$eco['product_quantity'] = $orderitem->product_quantity;
-		$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
-
-		$this->_dispatcher->trigger('createInvoiceLine', array($eco));
+		return RedshopEconomic::createGiftCardInvoiceLineInEconomic($orderitem, $invoice_no);
 	}
 
 	/**
