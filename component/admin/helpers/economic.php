@@ -318,17 +318,15 @@ class economic
 	/**
 	 * Method to delete invoice in E-conomic
 	 *
-	 * @access public
-	 * @return array
+	 * @param   array  $orderdata  Order data to delete
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::deleteInvoiceInEconomic() instead
 	 */
 	public function deleteInvoiceInEconomic($orderdata = array())
 	{
-		if ($orderdata->invoice_no)
-		{
-			$eco['invoiceHandle'] = $orderdata->invoice_no;
-			$this->_dispatcher->trigger('deleteInvoice', array($eco));
-			$this->updateInvoiceNumber($orderdata->order_id, 0);
-		}
+		return RedshopEconomic::deleteInvoiceInEconomic($orderdata);
 	}
 
 	/**
