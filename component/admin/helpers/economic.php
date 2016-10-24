@@ -482,23 +482,18 @@ class economic
 		return RedshopEconomic::createAttributeInvoiceLineInEconomic($invoice_no, $orderItem, $orderAttitem);
 	}
 
+	/**
+	 * Get economic Tax zone
+	 *
+	 * @param   string  $country_code  Country code
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::getEconomicTaxZone() instead
+	 */
 	public function getEconomicTaxZone($country_code = "")
 	{
-		if ($country_code == Redshop::getConfig()->get('SHOP_COUNTRY'))
-		{
-			$taxzone = 'HomeCountry';
-		}
-		elseif ($this->isEUCountry($country_code))
-		{
-			$taxzone = 'EU';
-		}
-		else
-		{
-			// Non EU Country
-			$taxzone = 'Abroad';
-		}
-
-		return $taxzone;
+		return RedshopEconomic::getEconomicTaxZone();
 	}
 
 	public function isEUCountry($country)
