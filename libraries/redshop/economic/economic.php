@@ -1197,16 +1197,20 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [bookInvoiceInEconomic description]
+	 * Method to book invoice and send mail in E-conomic
 	 *
-	 * @param   [type]   $orderId           [description]
-	 * @param   integer  $checkOrderStatus  [description]
-	 * @param   integer  $bookInvoiceDate   [description]
+	 * @param   integer  $orderId           Order ID
+	 * @param   integer  $checkOrderStatus  Check Order status
+	 * @param   integer  $bookInvoiceDate   Booking invoice date
 	 *
-	 * @return  [type]                      [description]
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function bookInvoiceInEconomic($orderId, $checkOrderStatus = 1, $bookInvoiceDate = 0)
+	public static function bookInvoiceInEconomic($orderId, $checkOrderStatus = 1, $bookInvoiceDate = 0)
 	{
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
 		$file = '';
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
@@ -1230,11 +1234,11 @@ class RedshopEconomic
 						$eco['order_number']  = $orderDetail->order_number;
 						$eco['order_id']      = $orderDetail->order_id;
 
-						$currectinvoiceData = self::$dispatcher->trigger('checkDraftInvoice', array($eco));
+						$currentInvoiceData = self::$dispatcher->trigger('checkDraftInvoice', array($eco));
 
-						if (count($currectinvoiceData) > 0 && trim($currectinvoiceData[0]->OtherReference) == $orderDetail->order_number)
+						if (count($currentInvoiceData) > 0 && trim($currentInvoiceData[0]->OtherReference) == $orderDetail->order_number)
 						{
-							$this->updateInvoiceDateInEconomic($orderDetail, $bookInvoiceDate);
+							self::updateInvoiceDateInEconomic($orderDetail, $bookInvoiceDate);
 
 							if ($userBillingInfo->is_company == 1 && $userBillingInfo->company_name != '')
 							{
@@ -1268,36 +1272,36 @@ class RedshopEconomic
 
 							if (Redshop::getConfig()->get('ECONOMIC_BOOK_INVOICE_NUMBER') == 1)
 							{
-								$bookhandle = self::$dispatcher->trigger('CurrentInvoice_Book', array($eco));
+								$bookHandle = self::$dispatcher->trigger('CurrentInvoice_Book', array($eco));
 							}
 							else
 							{
-								$bookhandle = self::$dispatcher->trigger('CurrentInvoice_BookWithNumber', array($eco));
+								$bookHandle = self::$dispatcher->trigger('CurrentInvoice_BookWithNumber', array($eco));
 							}
 
-							if (count($bookhandle) > 0 && isset($bookhandle[0]->Number))
+							if (count($bookHandle) > 0 && isset($bookHandle[0]->Number))
 							{
-								$bookInvoiceNumber = $eco['bookinvoice_number'] = $bookhandle[0]->Number;
+								$bookInvoiceNumber = $eco['bookinvoice_number'] = $bookHandle[0]->Number;
 
 								if (Redshop::getConfig()->get('ECONOMIC_BOOK_INVOICE_NUMBER') == 1)
 								{
-									$this->updateBookInvoiceNumber($orderId, $bookInvoiceNumber);
+									self::updateBookInvoiceNumber($orderId, $bookInvoiceNumber);
 								}
 
-								$bookinvoicepdf = self::$dispatcher->trigger('bookInvoice', array($eco));
+								$bookInvoicePdf = self::$dispatcher->trigger('bookInvoice', array($eco));
 
 								if (JError::isError(JError::getError()))
 								{
 									return $file;
 								}
-								elseif ($bookinvoicepdf != "")
+								elseif ($bookInvoicePdf != "")
 								{
 									$file = JPATH_ROOT . '/components/com_redshop/assets/orders/rsInvoice_' . $orderId . '.pdf';
-									JFile::write($file, $bookinvoicepdf);
+									JFile::write($file, $bookInvoicePdf);
 
 									if (is_file($file))
 									{
-										$this->updateBookInvoice($orderId);
+										self::updateBookInvoice($orderId);
 									}
 								}
 							}

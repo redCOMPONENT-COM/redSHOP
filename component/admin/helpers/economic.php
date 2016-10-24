@@ -361,112 +361,17 @@ class economic
 	/**
 	 * Method to book invoice and send mail in E-conomic
 	 *
-	 * @access public
-	 * @return array
+	 * @param   integer  $order_id          Order ID
+	 * @param   integer  $checkOrderStatus  Check Order status
+	 * @param   integer  $bookinvoicedate   Booking invoice date
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::bookInvoiceInEconomic() instead
 	 */
 	public function bookInvoiceInEconomic($order_id, $checkOrderStatus = 1, $bookinvoicedate = 0)
 	{
-		$file = '';
-
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
-		{
-			$orderdetail = $this->_order_functions->getOrderDetails($order_id);
-
-			if ($orderdetail->invoice_no != '' && $orderdetail->is_booked == 0)
-			{
-				if ((Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2 && $orderdetail->order_status == Redshop::getConfig()->get('BOOKING_ORDER_STATUS')) || $checkOrderStatus == 0)
-				{
-					$user_billinginfo = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
-
-					if ($user_billinginfo->is_company == 0 || (!$user_billinginfo->ean_number && $user_billinginfo->is_company == 1))
-					{
-						$currency = Redshop::getConfig()->get('CURRENCY_CODE');
-
-						$eco['invoiceHandle'] = $orderdetail->invoice_no;
-						$eco['debtorHandle']  = intVal($user_billinginfo->users_info_id);
-						$eco['currency_code'] = $currency;
-						$eco['amount']        = $orderdetail->order_total;
-						$eco['order_number']  = $orderdetail->order_number;
-						$eco['order_id']      = $orderdetail->order_id;
-
-						$currectinvoiceData = $this->_dispatcher->trigger('checkDraftInvoice', array($eco));
-
-						if (count($currectinvoiceData) > 0 && trim($currectinvoiceData[0]->OtherReference) == $orderdetail->order_number)
-						{
-							$this->updateInvoiceDateInEconomic($orderdetail, $bookinvoicedate);
-
-							if ($user_billinginfo->is_company == 1 && $user_billinginfo->company_name != '')
-							{
-								$eco['name'] = $user_billinginfo->company_name;
-							}
-
-							else
-							{
-								$eco['name'] = $user_billinginfo->firstname . " " . $user_billinginfo->lastname;
-							}
-
-							$paymentInfo = $this->_order_functions->getOrderPaymentDetail($orderdetail->order_id);
-
-							if (count($paymentInfo) > 0)
-							{
-								$paymentmethod = $this->_order_functions->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
-
-								if (count($paymentmethod) > 0)
-								{
-									$paymentparams                    = new JRegistry($paymentmethod[0]->params);
-									$eco['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
-									$eco['economic_design_layout']    = $paymentparams->get('economic_design_layout');
-								}
-
-								// Setting merchant fees for economic
-								if($paymentInfo[0]->order_transfee > 0)
-								{
-									$eco['order_transfee'] = $paymentInfo[0]->order_transfee;
-								}
-							}
-
-							if (Redshop::getConfig()->get('ECONOMIC_BOOK_INVOICE_NUMBER') == 1)
-							{
-								$bookhandle = $this->_dispatcher->trigger('CurrentInvoice_Book', array($eco));
-							}
-							else
-							{
-								$bookhandle = $this->_dispatcher->trigger('CurrentInvoice_BookWithNumber', array($eco));
-							}
-
-							if (count($bookhandle) > 0 && isset($bookhandle[0]->Number))
-							{
-								$bookinvoice_number = $eco['bookinvoice_number'] = $bookhandle[0]->Number;
-
-								if (Redshop::getConfig()->get('ECONOMIC_BOOK_INVOICE_NUMBER') == 1)
-								{
-									$this->updateBookInvoiceNumber($order_id, $bookinvoice_number);
-								}
-
-								$bookinvoicepdf = $this->_dispatcher->trigger('bookInvoice', array($eco));
-
-								if (JError::isError(JError::getError()))
-								{
-									return $file;
-								}
-								elseif ($bookinvoicepdf != "")
-								{
-									$file = JPATH_ROOT . '/components/com_redshop/assets/orders/rsInvoice_' . $order_id . '.pdf';
-									JFile::write($file, $bookinvoicepdf);
-
-									if (is_file($file))
-									{
-										$this->updateBookInvoice($order_id);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return $file;
+		return RedshopEconomic::bookInvoiceInEconomic($order_id, $checkOrderStatus, $bookinvoicedate);
 	}
 
 	public function updateInvoiceNumber($order_id = 0, $invoice_no = 0)
