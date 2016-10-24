@@ -659,48 +659,54 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [createInvoiceLineInEconomic description]
+	 * Create Invoice Line In Economic
 	 *
-	 * @param   array    $orderItem  [description]
-	 * @param   string   $invoiceNo  [description]
-	 * @param   integer  $userId     [description]
+	 * @param   array    $orderItem  Order Items
+	 * @param   string   $invoiceNo  Invoice Number
+	 * @param   integer  $userId     User ID
 	 *
-	 * @return  [type]               [description]
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createInvoiceLineInEconomic($orderItem = array(), $invoiceNo = "", $userId = 0)
+	public static function createInvoiceLineInEconomic($orderItem = array(), $invoiceNo = "", $userId = 0)
 	{
 		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 		{
 			return;
 		}
 
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
+
 		for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 		{
-			$displaywrapper   = "";
-			$displayattribute = "";
-			$displayaccessory = "";
+			$displayWrapper   = "";
+			$displayAttribute = "";
+			$displayAccessory = "";
 
 			// Create Gift Card Entry for invoice
 			if ($orderItem[$i]->is_giftcard)
 			{
-				$this->createGFInvoiceLineInEconomic($orderItem[$i], $invoiceNo);
+				self::createGFInvoiceLineInEconomic($orderItem[$i], $invoiceNo);
 				continue;
 			}
 
-			$product_id = $orderItem[$i]->product_id;
-			$product    = Redshop::product((int) $product_id);
-			$this->createProductInEconomic($product);
+			$productId     = $orderItem[$i]->product_id;
+			$product       = Redshop::product((int) $productId);
+			$productHelper = productHelper::getInstance();
+			self::createProductInEconomic($product);
 
 			if ($orderItem[$i]->wrapper_id)
 			{
-				$wrapper = $this->_producthelper->getWrapper($orderItem[$i]->product_id, $orderItem[$i]->wrapper_id);
+				$wrapper = $productHelper->getWrapper($orderItem[$i]->product_id, $orderItem[$i]->wrapper_id);
 
 				if (count($wrapper) > 0)
 				{
-					$wrapper_name = $wrapper[0]->wrapper_name;
+					$wrapperName = $wrapper[0]->wrapper_name;
 				}
 
-				$displaywrapper = "\n" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper_name . "(" . $orderItem[$i]->wrapper_price . ")";
+				$displayWrapper = "\n" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapperName . "(" . $orderItem[$i]->wrapper_price . ")";
 			}
 
 			$eco['updateInvoice']  = 0;
@@ -708,52 +714,52 @@ class RedshopEconomic
 			$eco['order_item_id']  = $orderItem[$i]->order_item_id;
 			$eco['product_number'] = $orderItem[$i]->order_item_sku;
 
-			$discount_calc = "";
+			$discountCalc = "";
 
 			if ($orderItem[$i]->discount_calc_data)
 			{
-				$discount_calc = $orderItem[$i]->discount_calc_data;
-				$discount_calc = str_replace("<br />", "\n", $discount_calc);
-				$discount_calc = "\n" . $discount_calc;
+				$discountCalc = $orderItem[$i]->discount_calc_data;
+				$discountCalc = str_replace("<br />", "\n", $discountCalc);
+				$discountCalc = "\n" . $discountCalc;
 			}
 
 			// Product user field Information
-			$p_userfield    = $this->_producthelper->getuserfield($orderItem[$i]->order_item_id);
-			$displaywrapper = $displaywrapper . "\n" . strip_tags($p_userfield);
+			$pUserfield    = $productHelper->getuserfield($orderItem[$i]->order_item_id);
+			$displayWrapper = $displayWrapper . "\n" . strip_tags($pUserfield);
 
-			$eco['product_name']     = $orderItem[$i]->order_item_name . $displaywrapper . $displayattribute . $discount_calc . $displayaccessory;
+			$eco['product_name']     = $orderItem[$i]->order_item_name . $displayWrapper . $displayAttribute . $discountCalc . $displayAccessory;
 			$eco['product_price']    = $orderItem[$i]->product_item_price_excl_vat;
 			$eco['product_quantity'] = $orderItem[$i]->product_quantity;
 			$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
-			$InvoiceLine_no = self::$dispatcher->trigger('createInvoiceLine', array($eco));
+			$invoiceLineNo = self::$dispatcher->trigger('createInvoiceLine', array($eco));
 
-			$displayattribute = $this->makeAttributeOrder($invoiceNo, $orderItem[$i], 0, $orderItem[$i]->product_id, $userId);
+			$displayAttribute = self::makeAttributeOrder($invoiceNo, $orderItem[$i], 0, $orderItem[$i]->product_id, $userId);
 
 			if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 			{
-				$orderItem[$i]->product_item_price_excl_vat -= $displayattribute;
-				$displayattribute = '';
+				$orderItem[$i]->product_item_price_excl_vat -= $displayAttribute;
+				$displayAttribute = '';
 			}
 
-			$displayaccessory = $this->makeAccessoryOrder($invoiceNo, $orderItem[$i], $userId);
+			$displayAccessory = self::makeAccessoryOrder($invoiceNo, $orderItem[$i], $userId);
 
-			$orderItem[$i]->product_item_price_excl_vat -= $displayaccessory;
-			$displayaccessory = '';
+			$orderItem[$i]->product_item_price_excl_vat -= $displayAccessory;
+			$displayAccessory = '';
 
-			if (count($InvoiceLine_no) > 0 && $InvoiceLine_no[0]->Number)
+			if (count($invoiceLineNo) > 0 && $invoiceLineNo[0]->Number)
 			{
-				$updateInvoiceLine        = $InvoiceLine_no[0]->Number;
+				$updateInvoiceLine        = $invoiceLineNo[0]->Number;
 				$eco['updateInvoice']    = 1;
 				$eco['invoiceHandle']    = $invoiceNo;
 				$eco['order_item_id']    = $updateInvoiceLine;
 				$eco['product_number']   = $orderItem[$i]->order_item_sku;
-				$eco['product_name']     = $orderItem[$i]->order_item_name . $displaywrapper . $displayattribute . $discount_calc . $displayaccessory;
+				$eco['product_name']     = $orderItem[$i]->order_item_name . $displayWrapper . $displayAttribute . $discountCalc . $displayAccessory;
 				$eco['product_price']    = $orderItem[$i]->product_item_price_excl_vat;
 				$eco['product_quantity'] = $orderItem[$i]->product_quantity;
 				$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
-				$InvoiceLine_no = self::$dispatcher->trigger('createInvoiceLine', array($eco));
+				$invoiceLineNo = self::$dispatcher->trigger('createInvoiceLine', array($eco));
 			}
 		}
 	}
@@ -805,11 +811,11 @@ class RedshopEconomic
 	{
 		for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 		{
-			$displaywrapper   = "";
-			$displayaccessory = "";
+			$displayWrapper   = "";
+			$displayAccessory = "";
 
-			$product_id = $orderItem[$i]->product_id;
-			$product    = Redshop::product((int) $product_id);
+			$productId = $orderItem[$i]->product_id;
+			$product    = Redshop::product((int) $productId);
 			$this->createProductInEconomic($product);
 
 			if ($orderItem[$i]->wrapper_id)
@@ -818,34 +824,34 @@ class RedshopEconomic
 
 				if (count($wrapper) > 0)
 				{
-					$wrapper_name = $wrapper[0]->wrapper_name;
+					$wrapperName = $wrapper[0]->wrapper_name;
 				}
 
-				$displaywrapper = "\n" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper_name . "(" . $orderItem[$i]->wrapper_price . ")";
+				$displayWrapper = "\n" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapperName . "(" . $orderItem[$i]->wrapper_price . ")";
 			}
 
 			// Fetch Accessory from Order Item
-			$displayaccessory = $this->makeAccessoryOrder($invoiceNo, $orderItem[$i], $userId);
+			$displayAccessory = $this->makeAccessoryOrder($invoiceNo, $orderItem[$i], $userId);
 
 			$eco['updateInvoice']  = 0;
 			$eco['invoiceHandle']  = $invoiceNo;
 			$eco['order_item_id']  = $orderItem[$i]->order_item_id;
 			$eco['product_number'] = $orderItem[$i]->order_item_sku;
 
-			$discount_calc = "";
+			$discountCalc = "";
 
 			if ($orderItem[$i]->discount_calc_data)
 			{
-				$discount_calc = $orderItem[$i]->discount_calc_data;
-				$discount_calc = str_replace("<br />", "\n", $discount_calc);
-				$discount_calc = "\n" . $discount_calc;
+				$discountCalc = $orderItem[$i]->discount_calc_data;
+				$discountCalc = str_replace("<br />", "\n", $discountCalc);
+				$discountCalc = "\n" . $discountCalc;
 			}
 
 			// Product user field Information
-			$p_userfield    = $this->_producthelper->getuserfield($orderItem[$i]->order_item_id);
-			$displaywrapper = $displaywrapper . "\n" . strip_tags($p_userfield);
+			$pUserfield    = $this->_producthelper->getuserfield($orderItem[$i]->order_item_id);
+			$displayWrapper = $displayWrapper . "\n" . strip_tags($pUserfield);
 
-			$eco['product_name']     = $orderItem[$i]->order_item_name . $displaywrapper . $discount_calc . $displayaccessory;
+			$eco['product_name']     = $orderItem[$i]->order_item_name . $displayWrapper . $discountCalc . $displayAccessory;
 			$eco['product_price']    = $orderItem[$i]->product_item_price_excl_vat;
 			$eco['product_quantity'] = $orderItem[$i]->product_quantity;
 			$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
@@ -875,7 +881,7 @@ class RedshopEconomic
 						$eco['product_number'] = $property_number;
 					}
 
-					$eco['product_name']   = $orderItem[$i]->order_item_name . " " . $property_name . $displaywrapper . $discount_calc;
+					$eco['product_name']   = $orderItem[$i]->order_item_name . " " . $property_name . $displayWrapper . $discountCalc;
 				}
 			}
 
@@ -1345,13 +1351,13 @@ class RedshopEconomic
 	 */
 	public function makeAccessoryOrder($invoiceNo, $orderItem, $userId = 0)
 	{
-		$displayaccessory = "";
+		$displayAccessory = "";
 		$retPrice         = 0;
 		$orderItemdata    = RedshopHelperOrder::getOrderItemAccessoryDetail($orderItem->order_item_id);
 
 		if (count($orderItemdata) > 0)
 		{
-			$displayaccessory .= "\n" . JText::_("COM_REDSHOP_ACCESSORY");
+			$displayAccessory .= "\n" . JText::_("COM_REDSHOP_ACCESSORY");
 
 			for ($i = 0, $in = count($orderItemdata); $i < $in; $i++)
 			{
@@ -1366,7 +1372,7 @@ class RedshopEconomic
 				}
 
 				$accessory_quantity = " (" . JText::_('COM_REDSHOP_ACCESSORY_QUANTITY_LBL') . " " . $orderItemdata[$i]->product_quantity . ") ";
-				$displayaccessory .= "\n" . urldecode($orderItemdata[$i]->order_acc_item_name) . " (" . ($orderItemdata[$i]->order_acc_price + $orderItemdata[$i]->order_acc_vat) . ")" . $accessory_quantity;
+				$displayAccessory .= "\n" . urldecode($orderItemdata[$i]->order_acc_item_name) . " (" . ($orderItemdata[$i]->order_acc_price + $orderItemdata[$i]->order_acc_vat) . ")" . $accessory_quantity;
 
 				if (true)
 				{
@@ -1380,40 +1386,40 @@ class RedshopEconomic
 					$eco['product_price']    = $orderItemdata[$i]->product_acc_item_price;
 					$eco['product_quantity'] = $orderItemdata[$i]->product_quantity;
 					$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
-					$InvoiceLine_no           = self::$dispatcher->trigger('createInvoiceLine', array($eco));
+					$invoiceLineNo           = self::$dispatcher->trigger('createInvoiceLine', array($eco));
 				}
 
-				$displayattribute = $this->makeAttributeOrder($invoiceNo, $orderItem, 1, $orderItemdata[$i]->product_id, $userId);
-				$displayaccessory .= $displayattribute;
+				$displayAttribute = $this->makeAttributeOrder($invoiceNo, $orderItem, 1, $orderItemdata[$i]->product_id, $userId);
+				$displayAccessory .= $displayAttribute;
 
 				if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 				{
-					$orderItemdata[$i]->product_acc_item_price -= $displayattribute;
-					$displayattribute = '';
+					$orderItemdata[$i]->product_acc_item_price -= $displayAttribute;
+					$displayAttribute = '';
 				}
 
-				if (true && count($InvoiceLine_no) > 0 && $InvoiceLine_no[0]->Number)
+				if (true && count($invoiceLineNo) > 0 && $invoiceLineNo[0]->Number)
 				{
 					$eco['updateInvoice']    = 1;
 					$eco['invoiceHandle']    = $invoiceNo;
-					$eco['order_item_id']    = $InvoiceLine_no[0]->Number;
+					$eco['order_item_id']    = $invoiceLineNo[0]->Number;
 					$eco['product_number']   = $orderItemdata[$i]->order_acc_item_sku;
-					$eco['product_name']     = $orderItemdata[$i]->order_acc_item_name . $displayattribute;
+					$eco['product_name']     = $orderItemdata[$i]->order_acc_item_name . $displayAttribute;
 					$eco['product_price']    = $orderItemdata[$i]->product_acc_item_price;
 					$eco['product_quantity'] = $orderItemdata[$i]->product_quantity;
 					$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
-					$InvoiceLine_no = self::$dispatcher->trigger('createInvoiceLine', array($eco));
+					$invoiceLineNo = self::$dispatcher->trigger('createInvoiceLine', array($eco));
 				}
 			}
 		}
 
 		if (true)
 		{
-			$displayaccessory = $retPrice;
+			$displayAccessory = $retPrice;
 		}
 
-		return $displayaccessory;
+		return $displayAccessory;
 	}
 
 	/**
@@ -1429,7 +1435,7 @@ class RedshopEconomic
 	 */
 	public function makeAttributeOrder($invoiceNo, $orderItem, $isAccessory = 0, $parentSectionId = 0, $userId = 0)
 	{
-		$displayattribute = "";
+		$displayAttribute = "";
 		$retPrice         = 0;
 		$chktag           = $this->_producthelper->getApplyattributeVatOrNot('', $userId);
 		$orderItemAttdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "attribute", $parentSectionId);
@@ -1448,7 +1454,7 @@ class RedshopEconomic
 					$hide_attribute_price = $attribute[0]->hide_attribute_price;
 				}
 
-				$displayattribute .= "\n" . urldecode($orderItemAttdata[$i]->section_name) . " : ";
+				$displayAttribute .= "\n" . urldecode($orderItemAttdata[$i]->section_name) . " : ";
 				$orderPropdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "property", $orderItemAttdata[$i]->section_id);
 
 				for ($p = 0, $pn = count($orderPropdata); $p < $pn; $p++)
@@ -1481,7 +1487,7 @@ class RedshopEconomic
 						$disPrice = " (" . $orderPropdata[$p]->section_oprand . $this->_producthelper->getProductFormattedPrice($property_price) . ")";
 					}
 
-					$displayattribute .= urldecode($orderPropdata[$p]->section_name) . $disPrice . $virtualNumber;
+					$displayAttribute .= urldecode($orderPropdata[$p]->section_name) . $disPrice . $virtualNumber;
 
 					if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 					{
@@ -1523,7 +1529,7 @@ class RedshopEconomic
 								$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . $this->_producthelper->getProductFormattedPrice($subproperty_price) . ")";
 							}
 
-							$displayattribute .= "\n" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . $virtualNumber;
+							$displayAttribute .= "\n" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . $virtualNumber;
 
 							if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 							{
@@ -1542,10 +1548,10 @@ class RedshopEconomic
 
 		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 		{
-			$displayattribute = $retPrice;
+			$displayAttribute = $retPrice;
 		}
 
-		return $displayattribute;
+		return $displayAttribute;
 	}
 
 	/**
