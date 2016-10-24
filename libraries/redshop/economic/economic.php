@@ -1380,22 +1380,25 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [getProductByNumber description]
+	 * Get product number
 	 *
-	 * @param   string  $productNumber  [description]
+	 * @param   string  $productNumber  Product Number
 	 *
-	 * @return  [type]                  [description]
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getProductByNumber($productNumber = '')
 	{
 		$db = JFactory::getDbo();
 
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'product '
-			. 'WHERE product_number = ' . $db->quote($productNumber);
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_product'))
+					->where($db->qn('roduct_number') . ' = ' . $db->quote($productNumber));
+		$db->setQuery($query);
 
-		return $result;
+		return $db->loadObject();
 	}
 
 	/**
