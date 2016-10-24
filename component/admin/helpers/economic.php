@@ -466,19 +466,20 @@ class economic
 		return RedshopEconomic::makeAttributeOrder($invoice_no, $orderItem, $is_accessory, $parent_section_id, $user_id);
 	}
 
+	/**
+	 * Create Attribute Invoice Line In Economic
+	 *
+	 * @param   string  $invoice_no    Invoice number
+	 * @param   array   $orderItem     Order Item
+	 * @param   array   $orderAttitem  Ordere Attribute Item
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createAttributeInvoiceLineInEconomic() instead
+	 */
 	public function createAttributeInvoiceLineInEconomic($invoice_no, $orderItem, $orderAttitem)
 	{
-		for ($i = 0, $in = count($orderAttitem); $i < $in; $i++)
-		{
-			$eco[$i]['invoiceHandle']    = $invoice_no;
-			$eco[$i]['order_item_id']    = $orderItem->order_item_id;
-			$eco[$i]['product_number']   = $orderAttitem[$i]->virtualNumber;
-			$eco[$i]['product_name']     = $orderAttitem[$i]->section_name;
-			$eco[$i]['product_price']    = $orderAttitem[$i]->section_price;
-			$eco[$i]['product_quantity'] = $orderItem->product_quantity;
-			$eco[$i]['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
-			$this->_dispatcher->trigger('createInvoiceLine', array($eco[$i]));
-		}
+		return RedshopEconomic::createAttributeInvoiceLineInEconomic($invoice_no, $orderItem, $orderAttitem);
 	}
 
 	public function getEconomicTaxZone($country_code = "")
