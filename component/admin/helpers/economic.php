@@ -165,45 +165,20 @@ class economic
 	}
 
 	/**
-	 * Method to create shipping rate in E-conomic
+	 * Create Shipping rate in economic
 	 *
-	 * @access public
-	 * @return array
+	 * @param   integer  $shipping_number  Shipping Number
+	 * @param   string   $shipping_name    Shipping Name
+	 * @param   integer  $shipping_rate    Shipping Rate
+	 * @param   integer  $isvat            VAT flag
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createShippingRateInEconomic() instead
 	 */
 	public function createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate = 0, $isvat = 1)
 	{
-		$eco['product_desc']   = "";
-		$eco['product_s_desc'] = "";
-
-		$ecoProductGroupNumber = $this->createProductGroupInEconomic(array(), 1, 0, $isvat);
-
-		if (isset($ecoProductGroupNumber[0]->Number))
-		{
-			$eco['product_group'] = $ecoProductGroupNumber[0]->Number;
-		}
-
-		if (strlen($shipping_number) > 25)
-		{
-			$shipping_number = substr($shipping_number, 0, 25);
-		}
-
-		$eco['product_number'] = $shipping_number;
-		$eco['product_name']   = addslashes($shipping_name);
-		$eco['product_price']  = $shipping_rate;
-		$eco['product_volume'] = 1;
-		$debtorHandle          = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
-		$eco['eco_prd_number'] = "";
-
-		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
-		{
-			$eco['eco_prd_number'] = $debtorHandle[0]->Number;
-		}
-
-		$eco['product_stock'] = 1;
-
-		$ecoShippingRateNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
-
-		return $ecoShippingRateNumber;
+		return RedshopEconomic::createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate, $isvat);
 	}
 
 	/**
