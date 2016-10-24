@@ -321,64 +321,18 @@ class shipping
 		return RedshopHelperShipping::getShippingRateError($data);
 	}
 
-	public function isCartDimentionMatch(&$d)
+	/**
+	 * Get Shipping rate error
+	 *
+	 * @param   array  &$data  Cart data
+	 *
+	 * @return  string  error text
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::isCartDimentionMatch($data) instead
+	 */
+	public function isCartDimentionMatch(&$data)
 	{
-		$order_subtotal      = $d['order_subtotal'];
-		$db = JFactory::getDbo();
-
-		$totaldimention      = $this->getCartItemDimention();
-		$weighttotal         = $totaldimention['totalweight'];
-		$volume              = $totaldimention['totalvolume'];
-
-		// Product volume based shipping
-		$volumeShipping      = $this->getProductVolumeShipping();
-
-		$whereShippingVolume = "";
-
-		if (count($volumeShipping) > 0)
-		{
-			$whereShippingVolume .= " AND ( ";
-
-			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
-			{
-				$length = $volumeShipping[$g]['length'];
-				$width  = $volumeShipping[$g]['width'];
-				$height = $volumeShipping[$g]['height'];
-
-				if ($g != 0)
-				{
-					$whereShippingVolume .= " OR ";
-				}
-
-				$whereShippingVolume .= "(
-						(	(" . $db->quote($length) . " BETWEEN shipping_rate_length_start AND shipping_rate_length_end)
-							OR (shipping_rate_length_start = '0' AND shipping_rate_length_end = '0'))
-						AND ((" . $db->quote($width) . " BETWEEN shipping_rate_width_start AND shipping_rate_width_end)
-							OR (shipping_rate_width_start = '0' AND shipping_rate_width_end = '0'))
-						AND ((" . $db->quote($height) . " BETWEEN shipping_rate_height_start AND shipping_rate_height_end)
-							OR (shipping_rate_height_start = '0' AND shipping_rate_height_end = '0'))
-						) ";
-			}
-
-			$whereShippingVolume .= " ) ";
-		}
-
-		$query = "SELECT * FROM #__redshop_shipping_rate "
-			. "WHERE (shipping_class = 'default_shipping' OR shipping_class = 'shipper') "
-			. "AND ((" . $db->quote($volume) . " BETWEEN shipping_rate_volume_start AND shipping_rate_volume_end) OR (shipping_rate_volume_end = 0) ) "
-			. "AND ((" . $db->quote($order_subtotal) . " BETWEEN shipping_rate_ordertotal_start AND shipping_rate_ordertotal_end)  OR (shipping_rate_ordertotal_end = 0)) "
-			. "AND ((" . $db->quote($weighttotal) . " BETWEEN shipping_rate_weight_start AND shipping_rate_weight_end)  OR (shipping_rate_weight_end = 0)) "
-			. $whereShippingVolume
-			. " ORDER BY shipping_rate_priority ";
-		$db->setQuery($query);
-		$shippingrate = $db->loadObjectList();
-
-		if (count($shippingrate) > 0)
-		{
-			return true;
-		}
-
-		return false;
+		return RedshopHelperShipping::isCartDimentionMatch($data);
 	}
 
 	public function isUserInfoMatch(&$d)
