@@ -1044,13 +1044,15 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [renewInvoiceInEconomic description]
+	 * Method to create Invoice and send mail in E-conomic
 	 *
-	 * @param   [type]  $orderData  [description]
+	 * @param   array  $orderData  Order data
 	 *
-	 * @return  [type]              [description]
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function renewInvoiceInEconomic($orderData)
+	public static function renewInvoiceInEconomic($orderData)
 	{
 		$invoiceHandle = array();
 
@@ -1061,36 +1063,36 @@ class RedshopEconomic
 
 			if (count($paymentInfo) > 0)
 			{
-				$payment_name = $paymentInfo[0]->payment_method_class;
+				$paymentName  = $paymentInfo[0]->payment_method_class;
 				$paymentArr   = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
 
 				if (count($paymentArr) > 0)
 				{
-					$payment_name = $paymentArr[1];
+					$paymentName = $paymentArr[1];
 				}
 
-				$data['economic_payment_method'] = $payment_name;
-				$paymentmethod                   = RedshopHelperOrder::getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+				$data['economic_payment_method'] = $paymentName;
+				$paymentMethod                   = RedshopHelperOrder::getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
 
-				if (count($paymentmethod) > 0)
+				if (count($paymentMethod) > 0)
 				{
-					$paymentparams                     = new JRegistry($paymentmethod[0]->params);
-					$data['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
-					$data['economic_design_layout']    = $paymentparams->get('economic_design_layout');
-					$data['economic_is_creditcard']    = $paymentparams->get('is_creditcard');
+					$paymentParams                     = new JRegistry($paymentMethod[0]->params);
+					$data['economic_payment_terms_id'] = $paymentParams->get('economic_payment_terms_id');
+					$data['economic_design_layout']    = $paymentParams->get('economic_design_layout');
+					$data['economic_is_creditcard']    = $paymentParams->get('is_creditcard');
 				}
 			}
 
 			// Delete existing draft invoice from e-conomic
 			if ($orderData->invoice_no)
 			{
-				$this->deleteInvoiceInEconomic($orderData);
+				self::deleteInvoiceInEconomic($orderData);
 			}
 
-			$invoiceHandle = $this->createInvoiceInEconomic($orderData->order_id, $data);
+			return self::createInvoiceInEconomic($orderData->order_id, $data);
 		}
 
-		return $invoiceHandle;
+		return array();
 	}
 
 	/**
@@ -1234,13 +1236,13 @@ class RedshopEconomic
 
 							if (count($paymentInfo) > 0)
 							{
-								$paymentmethod = RedshopHelperOrder::getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+								$paymentMethod = RedshopHelperOrder::getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
 
-								if (count($paymentmethod) > 0)
+								if (count($paymentMethod) > 0)
 								{
-									$paymentparams                    = new JRegistry($paymentmethod[0]->params);
-									$eco['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
-									$eco['economic_design_layout']    = $paymentparams->get('economic_design_layout');
+									$paymentParams                    = new JRegistry($paymentMethod[0]->params);
+									$eco['economic_payment_terms_id'] = $paymentParams->get('economic_payment_terms_id');
+									$eco['economic_design_layout']    = $paymentParams->get('economic_design_layout');
 								}
 
 								// Setting merchant fees for economic

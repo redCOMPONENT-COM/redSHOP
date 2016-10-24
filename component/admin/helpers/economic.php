@@ -304,50 +304,15 @@ class economic
 	/**
 	 * Method to create Invoice and send mail in E-conomic
 	 *
-	 * @access public
-	 * @return array
+	 * @param   array  $orderdata  Order data
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::renewInvoiceInEconomic() instead
 	 */
 	public function renewInvoiceInEconomic($orderdata)
 	{
-		$invoiceHandle = array();
-
-		if ($orderdata->is_booked == 0)
-		{
-			$data        = array();
-			$paymentInfo = $this->_order_functions->getOrderPaymentDetail($orderdata->order_id);
-
-			if (count($paymentInfo) > 0)
-			{
-				$payment_name = $paymentInfo[0]->payment_method_class;
-				$paymentArr   = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
-
-				if (count($paymentArr) > 0)
-				{
-					$payment_name = $paymentArr[1];
-				}
-
-				$data['economic_payment_method'] = $payment_name;
-				$paymentmethod                   = $this->_order_functions->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
-
-				if (count($paymentmethod) > 0)
-				{
-					$paymentparams                     = new JRegistry($paymentmethod[0]->params);
-					$data['economic_payment_terms_id'] = $paymentparams->get('economic_payment_terms_id');
-					$data['economic_design_layout']    = $paymentparams->get('economic_design_layout');
-					$data['economic_is_creditcard']    = $paymentparams->get('is_creditcard');
-				}
-			}
-
-			// Delete existing draft invoice from e-conomic
-			if ($orderdata->invoice_no)
-			{
-				$this->deleteInvoiceInEconomic($orderdata);
-			}
-
-			$invoiceHandle = $this->createInvoiceInEconomic($orderdata->order_id, $data);
-		}
-
-		return $invoiceHandle;
+		return RedshopEconomic::renewInvoiceInEconomic($orderdata);
 	}
 
 	/**
