@@ -9,43 +9,86 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * View Country
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.0.6
+ */
 class RedshopViewCurrency extends RedshopViewAdmin
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
+	protected $form;
+
+	protected $item;
+
+	/**
+	 * Function display template
+	 *
+	 * @param   string  $tpl  name of template
+	 * 
+	 * @return  void
+	 * 
+	 * @since   2.0.0.6
+	 */
+
 	public function display($tpl = null)
 	{
-		$context = 'currency_id';
+		JToolBarHelper::title(JText::_('COM_REDSHOP_CURRENCY_MANAGEMENT'), 'redshop_currency_48');
 
-		$document = JFactory::getDocument();
-		$app      = JFactory::getApplication();
-		$uri      = JFactory::getURI();
+		$uri = JFactory::getURI();
 
-		jimport('joomla.html.pagination');
+		$this->form		= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->state	= $this->get('State');
+		$this->requestUrl = $uri->toString();
 
-		$document->setTitle(JText::_('COM_REDSHOP_CURRENCY'));
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_CURRENCY_MANAGEMENT'), 'redshop_currencies_48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolbarHelper::deleteList();
-
-		$state		    = $this->get('State');
-		$filter_order       = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'currency_id');
-		$filter_order_Dir   = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-
-		$fields             = $this->get('Data');
-		$pagination         = $this->get('Pagination');
-
-		$this->user         = JFactory::getUser();
-		$this->pagination   = $pagination;
-		$this->fields       = $fields;
-		$this->lists        = $lists;
-		$this->request_url  = $uri->toString();
-		$this->filter       = $state->get('filter');
+		$this->addToolBar();
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+
+		$isNew = ($this->item->id < 1);
+
+		// Prepare text for title
+		$title = JText::_('COM_REDSHOP_CURRENCY_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+
+		JToolBarHelper::title($title, 'redshop_currency_48');
+		JToolBarHelper::apply('currency.apply');
+		JToolBarHelper::save('currency.save');
+
+		if ($isNew)
+		{
+			JToolBarHelper::cancel('currency.cancel');
+		}
+		else
+		{
+			JToolBarHelper::cancel('currency.cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
 	}
 }

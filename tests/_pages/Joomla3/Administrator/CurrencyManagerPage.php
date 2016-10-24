@@ -16,13 +16,17 @@
 
 class CurrencyManagerPage
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=currency';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=currencies';
 
-	public static $currencyNameField = "//input[@id='currency_name']";
+	public static $currencyNameField = "//input[@id='jform_currency_name']";
 
-	public static $currencyCodeField = "//input[@id='currency_code']";
+	public static $currencyCodeField = "//input[@id='jform_currency_code']";
 
 	public static $firstResult = "//input[@id='cb0']/following-sibling::ins";
 
 	public static $currencyResultRow = "//form[@id='adminForm']/table/tbody/tr[1]";
+
+	public static $searchField = "//input[@id='filter_search']";
+
+	public static $searchButton = "//input[@value='Search']";
 }

@@ -200,8 +200,8 @@ class RedshopMenuLeft_Menu
 				return array('VAT_AND_CURRENCY', 'tax');
 				break;
 
+			case "currencies":
 			case "currency":
-			case "currency_detail":
 				return array('VAT_AND_CURRENCY', 'currency');
 				break;
 
@@ -1224,14 +1224,14 @@ class RedshopMenuLeft_Menu
 		$menu->section('currency')
 			->title('COM_REDSHOP_CURRENCY')
 			->addItem(
-				'index.php?option=com_redshop&view=currency',
+				'index.php?option=com_redshop&view=currencies',
 				'COM_REDSHOP_CURRENCY_LISTING',
-				(self::$view == 'currency') ? true : false
+				(self::$view == 'currencies') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=currency_detail',
+				'index.php?option=com_redshop&task=currency.add',
 				'COM_REDSHOP_ADD_CURRENCY',
-				(self::$view == 'currency_detail') ? true : false
+				(self::$view == 'currency') ? true : false
 			);
 	}
 

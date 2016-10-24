@@ -19,7 +19,7 @@ JLoader::import('redshop.library');
 if ($currencies)
 {
 	$query = $db->getQuery(true)
-		->select($db->qn(array('currency_id', 'currency_code', 'currency_name')))
+		->select($db->qn(array('id', 'currency_code', 'currency_name')))
 		->from($db->qn('#__redshop_currency'))
 		->where($db->qn('currency_code') . ' IN (' . implode(',', redhelper::quote($currencies)) . ')')
 		->order($db->qn('currency_name'));

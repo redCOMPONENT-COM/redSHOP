@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field
+			name="id"
+			type="hidden"
+			/>
+		<field
+			id="currency_name"
+			name="currency_name"
+			type="text"
+			label="COM_REDSHOP_CURRENCY_NAME"
+			description="COM_REDSHOP_CURRENCY_NAME"
+			size="30"
+			class="text_area"
+			default=""
+			required="true"
+			/>
+		<field
+			id="currency_code"
+			name="currency_code"
+			type="text"
+			label="COM_REDSHOP_CURRENCY_CODE_LBL"
+			description="COM_REDSHOP_CURRENCY_CODE_LBL"
+			size="30"
+			class="text_area"
+			default=""
+			required="true"
+			/>
+	</fieldset>
+</form>
