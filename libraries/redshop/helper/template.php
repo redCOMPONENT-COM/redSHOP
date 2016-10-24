@@ -167,7 +167,7 @@ class RedshopHelperTemplate
 
 		for ($i = 0, $in = count($re); $i < $in; $i++)
 		{
-			$re[$i]->template_desc = self::readtemplateFile($re[$i]->template_section, $re[$i]->template_name);
+			$re[$i]->template_desc = self::readTemplateFile($re[$i]->template_section, $re[$i]->template_name);
 		}
 
 		return $re;
@@ -184,13 +184,13 @@ class RedshopHelperTemplate
 	 *
 	 * @since  2.0.0.3
 	 */
-	public static function readtemplateFile($section, $fileName, $isAdmin = false)
+	public static function readTemplateFile($section, $fileName, $isAdmin = false)
 	{
-		$file_path = self::getTemplatefilepath($section, $fileName, $isAdmin);
+		$filePath = self::getTemplatefilepath($section, $fileName, $isAdmin);
 
-		if (file_exists($file_path))
+		if (file_exists($filePath))
 		{
-			$content = implode("", file($file_path));
+			$content = implode("", file($filePath));
 
 			return $content;
 		}
@@ -211,12 +211,12 @@ class RedshopHelperTemplate
 	 */
 	public static function getTemplatefilepath($section, $fileName, $isAdmin = false)
 	{
-		$app           = JFactory::getApplication();
-		$fileName      = str_replace(array('/', '\\'), '', $fileName);
-		$section       = str_replace(array('/', '\\'), '', $section);
+		$app          = JFactory::getApplication();
+		$fileName     = str_replace(array('/', '\\'), '', $fileName);
+		$section      = str_replace(array('/', '\\'), '', $section);
 		$tempateFile  = "";
 		$templateView = self::getTemplateView($section);
-		$layout        = JRequest::getVar('layout');
+		$layout       = $app->input->getString('layout', '');
 
 		if (!$isAdmin && $section != 'categoryproduct')
 		{
@@ -270,7 +270,7 @@ class RedshopHelperTemplate
 	public static function getTemplateView($section)
 	{
 		$section = strtolower($section);
-		$view = "";
+		$view    = "";
 
 		switch ($section)
 		{
@@ -285,15 +285,18 @@ class RedshopHelperTemplate
 			case 'compare_product':
 				$view = "product";
 				break;
+
 			case 'categoryproduct':
 			case 'category':
 			case 'frontpage_category':
 				$view = "category";
 				break;
+
 			case 'catalog':
 			case 'catalog_sample':
 				$view = "catalog";
 				break;
+
 			case 'manufacturer':
 			case 'manufacturer_detail':
 			case 'manufacturer_products':
@@ -323,25 +326,31 @@ class RedshopHelperTemplate
 			case 'wishlist_mail_template':
 				$view = "wishlist";
 				break;
+
 			case 'newsletter':
 			case 'newsletter_product':
 				$view = "newsletter";
 				break;
+
 			case 'order_list':
 			case 'order_detail':
 			case 'order_receipt':
 				$view = "orders";
 				break;
+
 			case 'giftcard':
 				$view = "giftcard";
 				break;
+
 			case 'checkout':
 			case 'onestep_checkout':
 				$view = "checkout";
 				break;
+
 			case 'ask_question_template':
 				$view = "ask_question";
 				break;
+
 			default:
 				return false;
 		}
@@ -609,15 +618,18 @@ class RedshopHelperTemplate
 		$optionSection = array();
 		$optionSection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 
-		foreach ($options as $key => $value)
+		if (!empty($options))
 		{
-			$optionSection[] = JHTML::_('select.option', $key, $value);
-
-			if ($sectionValue != "")
+			foreach ($options as $key => $value)
 			{
-				if ($key == $sectionValue)
+				$optionSection[] = JHTML::_('select.option', $key, $value);
+
+				if ($sectionValue != "")
 				{
-					return $value;
+					if ($key == $sectionValue)
+					{
+						return $value;
+					}
 				}
 			}
 		}
