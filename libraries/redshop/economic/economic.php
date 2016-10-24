@@ -440,21 +440,23 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [importStockFromEconomic description]
+	 * Import Stock from Economic
 	 *
-	 * @param   array  $productRow  [description]
+	 * @param   array  $productRow  Product Info
 	 *
-	 * @return  [type]               [description]
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function importStockFromEconomic($productRow = array())
+	public static function importStockFromEconomic($productRow = array())
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
 
+		$eco = array();
 		$eco['product_number'] = $productRow->product_number;
-		$ecoStockNumber        = self::$dispatcher->trigger('getProductStock', array($eco));
 
-		return $ecoStockNumber;
+		return self::$dispatcher->trigger('getProductStock', array($eco));
 	}
 
 	/**

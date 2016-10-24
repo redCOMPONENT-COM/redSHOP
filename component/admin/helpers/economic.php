@@ -150,12 +150,18 @@ class economic
 		return RedshopEconomic::createSubpropertyInEconomic($prdrow, $row);
 	}
 
+	/**
+	 * Import Stock from Economic
+	 *
+	 * @param   array  $prdrow  Product Info
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::importStockFromEconomic() instead
+	 */
 	public function importStockFromEconomic($prdrow = array())
 	{
-		$eco['product_number'] = $prdrow->product_number;
-		$ecoStockNumber        = $this->_dispatcher->trigger('getProductStock', array($eco));
-
-		return $ecoStockNumber;
+		return RedshopEconomic::importStockFromEconomic($prdrow);
 	}
 
 	/**
