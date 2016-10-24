@@ -16,6 +16,7 @@
 	</languages>
 	<files>
 		<folder>controller</folder>
+		<folder>economic</folder>
 		<folder>form</folder>
 		<folder>helper</folder>
 		<folder>html</folder>

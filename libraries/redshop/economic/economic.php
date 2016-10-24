@@ -1,63 +1,67 @@
 <?php
 /**
- * @package     RedSHOP.Backend
+ * @package     RedSHOP.Library
  * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
+ *
+ * @since       __DEPLOY_VERSION__
  */
 
+defined('_JEXEC') or die;
+
+/**
+ * Include filesystem to handle files
+ */
 jimport('joomla.filesystem.file');
 
-class economic
+/**
+ * Library for Redshop E-conomic.
+ * This Library provide methods for interact with E-Invoicing and support to orders.
+ * For more information about E-invoicing: https://en.wikipedia.org/wiki/Electronic_invoicing
+ * Using: new RedshopEconomic
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+class RedshopEconomic
 {
-	public $_table_prefix = null;
-
-	public $_db = null;
-
-	public $_producthelper = null;
-
-	public $_shippinghelper = null;
-
-	public $_order_functions = null;
-
-	public $_stockroomhelper = null;
-
-	public $_dispatcher = null;
-
-	protected static $instance = null;
+	/**
+	 * The dispatcher to trigger events
+	 *
+	 * @var  JEventDispatcher
+	 */
+	public static $dispatcher = null;
 
 	/**
-	 * Returns the economic object, only creating it
-	 * if it doesn't already exist.
+	 * Currently it will import plugin: economic, then
+	 * pre-define a dispatcher to trigger event in other methods.
 	 *
-	 * @return  economic  The economic object
+	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function getInstance()
+	public static function importEconomic()
 	{
-		if (self::$instance === null)
-		{
-			self::$instance = new static;
-		}
-
-		return self::$instance;
+		JPluginHelper::importPlugin('economic');
+		self::getDispatcher();
 	}
 
-	public function __construct()
+	/**
+	 * Get priority Dispatcher because JEventDispatcher does not exist in Joomla 2.5.
+	 * In that case, change JEventDispatcher to JDispatcher.
+	 * Using JDispatcher is possible in Joomla 3.x but will generate a deprecated notice.
+	 *
+	 * @return  JEventDispatcher/JDispatcher
+	 */
+	public static function getDispatcher()
 	{
-		$db                     = JFactory::getDbo();
-		$this->_table_prefix    = '#__redshop_';
-		$this->_db              = $db;
-		$this->_producthelper   = productHelper::getInstance();
-		$this->_shippinghelper  = shipping::getInstance();
-		$this->_redhelper       = redhelper::getInstance();
-		$this->_order_functions = order_functions::getInstance();
-		$this->_stockroomhelper = rsstockroomhelper::getInstance();
+		if (!self::$dispatcher)
+		{
+			self::$dispatcher = version_compare(JVERSION, '3.0', 'lt') ? JDispatcher::getInstance() : JEventDispatcher::getInstance();
+		}
 
-		JPluginHelper::importPlugin('economic');
-		$this->_dispatcher = JDispatcher::getInstance();
+		return self::$dispatcher;
 	}
 
 	/**
@@ -67,22 +71,112 @@ class economic
 	 * @param   array  $data  Data of Economic
 	 *
 	 * @return  array
-	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createUserInEconomic() instead
 	 */
-	public function createUserInEconomic($row = array(), $data = array())
+	public static function createUserInEconomic($row = array(), $data = array())
 	{
-		return RedshopEconomic::createUserInEconomic($row, $data);
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
+
+		$eco                 = array();
+		$eco['user_id']      = $row->user_id;
+		$eco['user_info_id'] = $row->users_info_id;
+		$debtorHandle        = self::$dispatcher->trigger('Debtor_FindByNumber', array($eco));
+
+		$eco['currency_code'] = Redshop::getConfig()->get('CURRENCY_CODE');
+		$eco['vatzone']       = self::getEconomicTaxZone($row->country_code);
+		$eco['email']         = $row->user_email;
+
+		if ($row->is_company == 1)
+		{
+			if ($row->vat_number != "")
+			{
+				$eco['vatnumber'] = $row->vat_number;
+			}
+
+			if ($row->ean_number != "")
+			{
+				$eco['ean_number'] = $row->ean_number;
+			}
+		}
+		else
+		{
+			$eco['vatnumber'] = "";
+		}
+
+		$name = $row->firstname . ' ' . $row->lastname;
+
+		if ($row->is_company == 1 && $row->company_name != '')
+		{
+			$name = $row->company_name;
+		}
+
+		$eco['name']    = $name;
+		$eco['phone']   = $row->phone;
+		$eco['address'] = $row->address;
+		$eco['zipcode'] = $row->zipcode;
+		$eco['city']    = $row->city;
+		$eco['country'] = RedshopHelperOrder::getCountryName($row->country_code);
+
+		if (isset($data['economic_payment_terms_id']))
+		{
+			$eco['economic_payment_terms_id'] = $data['economic_payment_terms_id'];
+		}
+
+		if (isset($data['economic_design_layout']))
+		{
+			$eco['economic_design_layout'] = $data['economic_design_layout'];
+		}
+
+		$eco['eco_user_number'] = "";
+		$eco['newuserFlag']     = false;
+
+		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
+		{
+			$debtorEmailHandle = self::$dispatcher->trigger('Debtor_FindByEmail', array($eco));
+
+			if (count($debtorEmailHandle) > 0 && isset($debtorEmailHandle[0]->DebtorHandle) != "")
+			{
+				$emailarray = $debtorEmailHandle[0]->DebtorHandle;
+
+				if (count($emailarray) > 1)
+				{
+					for ($i = 0, $in = count($emailarray); $i < $in; $i++)
+					{
+						if ($debtorHandle[0]->Number == $emailarray[$i]->Number)
+						{
+							$eco['eco_user_number'] = $debtorHandle[0]->Number;
+						}
+					}
+				}
+				elseif (count($emailarray) > 0)
+				{
+					$eco['eco_user_number'] = $emailarray->Number;
+				}
+			}
+			else
+			{
+				$eco['newuserFlag'] = true;
+			}
+		}
+
+		return self::$dispatcher->trigger('storeDebtor', array($eco));
 	}
 
 	/**
-	 * Method to create Product Group in E-conomic
+	 * Create Product Group in E-conomic
 	 *
-	 * @access public
-	 * @return array
+	 * @param   array    $row         Data to create
+	 * @param   integer  $isShipping  Shipping flag
+	 * @param   integer  $isDiscount  Discount flag
+	 * @param   integer  $isVat       VAT flag
+	 *
+	 * @return  integer
 	 */
-	public function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isvat = 0)
+	public static function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isVat = 0)
 	{
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
+
 		$ecoProductGroupNumber         = new stdclass;
 		$ecoProductGroupNumber->Number = 1;
 
@@ -102,7 +196,7 @@ class economic
 		{
 			if ($isShipping == 1)
 			{
-				if ($isvat == 1)
+				if ($isVat == 1)
 				{
 					$eco['productgroup_id']   = $accountgroup[0]->economic_shipping_vat_account;
 					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' shipping vat';
@@ -119,7 +213,7 @@ class economic
 			}
 			elseif ($isDiscount == 1)
 			{
-				if ($isvat == 1)
+				if ($isVat == 1)
 				{
 					$eco['productgroup_id']   = $accountgroup[0]->economic_discount_vat_account;
 					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' discount vat';
@@ -324,12 +418,12 @@ class economic
 	 * @access public
 	 * @return array
 	 */
-	public function createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate = 0, $isvat = 1)
+	public function createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate = 0, $isVat = 1)
 	{
 		$eco['product_desc']   = "";
 		$eco['product_s_desc'] = "";
 
-		$ecoProductGroupNumber = $this->createProductGroupInEconomic(array(), 1, 0, $isvat);
+		$ecoProductGroupNumber = $this->createProductGroupInEconomic(array(), 1, 0, $isVat);
 
 		if (isset($ecoProductGroupNumber[0]->Number))
 		{
@@ -744,11 +838,11 @@ class economic
 				$shipping_name       = $order_shipping[2];
 				$shipping_rate       = $order_shipping[3];
 
-				$isvat = 0;
+				$isVat = 0;
 
 				if (isset($order_shipping[6]) && $order_shipping[6] != 0)
 				{
-					$isvat         = 1;
+					$isVat         = 1;
 					$shipping_rate = $shipping_rate - $order_shipping[6];
 				}
 
@@ -757,7 +851,7 @@ class economic
 					$shipping_number = $order_shipping[7];
 				}
 
-				$ecoShippingrateNumber = $this->createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate, $isvat);
+				$ecoShippingrateNumber = $this->createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate, $isVat);
 
 				if (isset($ecoShippingrateNumber[0]->Number))
 				{
