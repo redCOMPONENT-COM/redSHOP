@@ -224,6 +224,7 @@ class extra_field
 	 */
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
 	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
 		$model =  JModelLegacy::getInstance('Fields', 'RedshopModel');
 
 		return $model->getFieldDataList($fieldid, $section, $orderitemid, $user_email);

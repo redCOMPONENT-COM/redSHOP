@@ -192,6 +192,7 @@ class RedshopHelperExtrafields
 	public static function listAllField($fieldSection = "", $sectionId = 0, $fieldName = "", $table = "", $templateDesc = "")
 	{
 		$db      = JFactory::getDbo();
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
 		$model   = JModelLegacy::getInstance('Fields', 'RedshopModel');
 
 		$rowData = $model->getFieldsBySection($fieldSection, $fieldName);
@@ -1334,6 +1335,7 @@ class RedshopHelperExtrafields
 	 */
 	public static function getFieldValue($id)
 	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
 		$model = JModelLegacy::getInstance('Fields', 'RedshopModel');
 
 		return $model->getFieldValue($id);
@@ -1379,6 +1381,7 @@ class RedshopHelperExtrafields
 	 */
 	public static function getSectionFieldDataList($fieldId, $section = 0, $orderItemId = 0, $userEmail = "")
 	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
 		$model = JModelLegacy::getInstance('Fields', 'RedshopModel');
 
 		return $model->getFieldDataList($fieldId, $section, $orderItemId, $userEmail);
