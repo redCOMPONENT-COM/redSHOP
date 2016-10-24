@@ -870,24 +870,24 @@ class RedshopEconomic
 			$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
 			// Collect Order Attrubute Items
-			$orderItemAttdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem[$i]->order_item_id, 0, "attribute", $orderItem[$i]->product_id);
+			$orderItemAttData = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem[$i]->order_item_id, 0, "attribute", $orderItem[$i]->product_id);
 
-			if (count($orderItemAttdata) > 0)
+			if (count($orderItemAttData) > 0)
 			{
-				$attributeId = $orderItemAttdata[0]->section_id;
+				$attributeId = $orderItemAttData[0]->section_id;
 				$productId   = $orderItem[$i]->product_id;
 
-				$orderPropdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem[$i]->order_item_id, 0, "property", $attributeId);
+				$orderPropData = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem[$i]->order_item_id, 0, "property", $attributeId);
 
-				if (count($orderPropdata) > 0)
+				if (count($orderPropData) > 0)
 				{
-					$propertyId = $orderPropdata[0]->section_id;
+					$propertyId = $orderPropData[0]->section_id;
 
 					// Collect Attribute Property
 					$orderProperty = $productHelper->getAttibuteProperty($propertyId, $attributeId, $productId);
 
 					$propertyNumber = $orderProperty[0]->property_number;
-					$propertyName   = $orderPropdata[0]->section_name;
+					$propertyName   = $orderPropData[0]->section_name;
 
 					if ($propertyNumber)
 					{
@@ -1417,7 +1417,7 @@ class RedshopEconomic
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
 		$displayAccessory = "";
-		$retPrice         = 0;
+		$setPrice         = 0;
 		$orderItemdata    = RedshopHelperOrder::getOrderItemAccessoryDetail($orderItem->order_item_id);
 
 		if (count($orderItemdata) > 0)
@@ -1441,7 +1441,7 @@ class RedshopEconomic
 
 				if (true)
 				{
-					$retPrice += $orderItemdata[$i]->product_acc_item_price;
+					$setPrice += $orderItemdata[$i]->product_acc_item_price;
 
 					$eco['updateInvoice']    = 0;
 					$eco['invoiceHandle']    = $invoiceNo;
@@ -1479,49 +1479,52 @@ class RedshopEconomic
 			}
 		}
 
-		$displayAccessory = $retPrice;
+		$displayAccessory = $setPrice;
 
 		return $displayAccessory;
 	}
 
 	/**
-	 * [makeAttributeOrder description]
+	 * Make Attribute Order
 	 *
-	 * @param   [type]   $invoiceNo        [description]
-	 * @param   [type]   $orderItem        [description]
-	 * @param   integer  $isAccessory      [description]
-	 * @param   integer  $parentSectionId  [description]
-	 * @param   integer  $userId           [description]
+	 * @param   string   $invoiceNo        Invoice number
+	 * @param   integer  $orderItem        Order Item
+	 * @param   integer  $isAccessory      Is accessory
+	 * @param   integer  $parentSectionId  Parent Section ID
+	 * @param   integer  $userId           User ID
 	 *
-	 * @return  [type]                     [description]
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function makeAttributeOrder($invoiceNo, $orderItem, $isAccessory = 0, $parentSectionId = 0, $userId = 0)
+	public static function makeAttributeOrder($invoiceNo, $orderItem, $isAccessory = 0, $parentSectionId = 0, $userId = 0)
 	{
+		$productHelper = productHelper::getInstance();
 		$displayAttribute = "";
-		$retPrice         = 0;
+		$setPrice         = 0;
 		$chktag           = $productHelper->getApplyattributeVatOrNot('', $userId);
-		$orderItemAttdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "attribute", $parentSectionId);
+		$orderItemAttData = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "attribute", $parentSectionId);
 
-		if (count($orderItemAttdata) > 0)
+		if (count($orderItemAttData) > 0)
 		{
 			$product = Redshop::product((int) $parentSectionId);
 
-			for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++)
+			for ($i = 0, $in = count($orderItemAttData); $i < $in; $i++)
 			{
-				$attribute            = $productHelper->getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
-				$hide_attribute_price = 0;
+				$attribute            = $productHelper->getProductAttribute(0, 0, $orderItemAttData[$i]->section_id);
+				$hideAttributePrice = 0;
 
 				if (count($attribute) > 0)
 				{
-					$hide_attribute_price = $attribute[0]->hide_attribute_price;
+					$hideAttributePrice = $attribute[0]->hide_attribute_price;
 				}
 
-				$displayAttribute .= "\n" . urldecode($orderItemAttdata[$i]->section_name) . " : ";
-				$orderPropdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "property", $orderItemAttdata[$i]->section_id);
+				$displayAttribute .= "\n" . urldecode($orderItemAttData[$i]->section_name) . " : ";
+				$orderPropData = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "property", $orderItemAttData[$i]->section_id);
 
-				for ($p = 0, $pn = count($orderPropdata); $p < $pn; $p++)
+				for ($p = 0, $pn = count($orderPropData); $p < $pn; $p++)
 				{
-					$property      = $productHelper->getAttibuteProperty($orderPropdata[$p]->section_id);
+					$property      = $productHelper->getAttibuteProperty($orderPropData[$p]->section_id);
 					$virtualNumber = "";
 
 					if (count($property) > 0 && $property[0]->property_number)
@@ -1530,34 +1533,34 @@ class RedshopEconomic
 
 						if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 						{
-							$orderPropdata[$p]->virtualNumber = $property[0]->property_number;
-							$this->createPropertyInEconomic($product, $property[0]);
+							$orderPropData[$p]->virtualNumber = $property[0]->property_number;
+							self::createPropertyInEconomic($product, $property[0]);
 						}
 					}
 
 					$disPrice = "";
 
-					if (!$hide_attribute_price)
+					if (!$hideAttributePrice)
 					{
-						$property_price = $orderPropdata[$p]->section_price;
+						$propertyPrice = $orderPropData[$p]->section_price;
 
 						if (!empty($chktag))
 						{
-							$property_price = $orderPropdata[$p]->section_price + $orderPropdata[$p]->section_vat;
+							$propertyPrice = $orderPropData[$p]->section_price + $orderPropData[$p]->section_vat;
 						}
 
-						$disPrice = " (" . $orderPropdata[$p]->section_oprand . $productHelper->getProductFormattedPrice($property_price) . ")";
+						$disPrice = " (" . $orderPropData[$p]->section_oprand . $productHelper->getProductFormattedPrice($propertyPrice) . ")";
 					}
 
-					$displayAttribute .= urldecode($orderPropdata[$p]->section_name) . $disPrice . $virtualNumber;
+					$displayAttribute .= urldecode($orderPropData[$p]->section_name) . $disPrice . $virtualNumber;
 
 					if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 					{
-						$retPrice += $orderPropdata[$p]->section_price;
-						$this->createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, array($orderPropdata[$p]));
+						$setPrice += $orderPropData[$p]->section_price;
+						self::createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, array($orderPropData[$p]));
 					}
 
-					$orderSubpropdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "subproperty", $orderPropdata[$p]->section_id);
+					$orderSubpropdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "subproperty", $orderPropData[$p]->section_id);
 
 					if (count($orderSubpropdata) > 0)
 					{
@@ -1573,35 +1576,35 @@ class RedshopEconomic
 								if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 								{
 									$orderSubpropdata[$sp]->virtualNumber = $subproperty[0]->subattribute_color_number;
-									$this->createSubpropertyInEconomic($product, $subproperty[0]);
+									self::createSubpropertyInEconomic($product, $subproperty[0]);
 								}
 							}
 
 							$disPrice = "";
 
-							if (!$hide_attribute_price)
+							if (!$hideAttributePrice)
 							{
-								$subproperty_price = $orderSubpropdata[$sp]->section_price;
+								$subpropertyPrice = $orderSubpropdata[$sp]->section_price;
 
 								if (!empty($chktag))
 								{
-									$subproperty_price = $orderSubpropdata[$sp]->section_price + $orderSubpropdata[$sp]->section_vat;
+									$subpropertyPrice = $orderSubpropdata[$sp]->section_price + $orderSubpropdata[$sp]->section_vat;
 								}
 
-								$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . $productHelper->getProductFormattedPrice($subproperty_price) . ")";
+								$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . $productHelper->getProductFormattedPrice($subpropertyPrice) . ")";
 							}
 
 							$displayAttribute .= "\n" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . $virtualNumber;
 
 							if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 							{
-								$retPrice += $orderSubpropdata[$sp]->section_price;
+								$setPrice += $orderSubpropdata[$sp]->section_price;
 							}
 						}
 
 						if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 						{
-							$this->createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, $orderSubpropdata);
+							self::createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, $orderSubpropdata);
 						}
 					}
 				}
@@ -1610,7 +1613,7 @@ class RedshopEconomic
 
 		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 		{
-			$displayAttribute = $retPrice;
+			$displayAttribute = $setPrice;
 		}
 
 		return $displayAttribute;
