@@ -194,19 +194,15 @@ class economic
 	}
 
 	/**
-	 * Method to get Max Invoice Number in E-conomic
+	 * Get Max Order Number in Economic
 	 *
-	 * @access public
-	 * @return array
+	 * @return  integer
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::getMaxOrderNumberInEconomic() instead
 	 */
 	public function getMaxOrderNumberInEconomic()
 	{
-		$ecoMaxInvoiceNumber = $this->_dispatcher->trigger('getMaxInvoiceNumber');
-		$ecoMaxDraftNumber   = $this->_dispatcher->trigger('getMaxDraftInvoiceNumber');
-
-		$ecoMaxNumber = max($ecoMaxInvoiceNumber[0], $ecoMaxDraftNumber[0]);
-
-		return $ecoMaxNumber;
+		return RedshopEconomic::getMaxOrderNumberInEconomic();
 	}
 
 	/**
