@@ -1842,4 +1842,79 @@ class RedshopHelperShipping
 
 		return false;
 	}
+
+	/**
+	 * Check product detail is matched
+	 *
+	 * @return  boolen
+	 *
+	 * @since   2.0.0.3
+	 */
+	public function isProductDetailMatch()
+	{
+		$db      = JFactory::getDBO();
+		$session = JFactory::getSession();
+		$cart    = $session->get('cart');
+		$idx     = (int) ($cart['idx']);
+		$pWhere  = "";
+		$cWhere  = "";
+
+		if ($idx)
+		{
+			$pWhere = 'OR ( ';
+
+			for ($i = 0; $i < $idx; $i++)
+			{
+				$product_id = $cart [$i] ['product_id'];
+				$pWhere .= "FIND_IN_SET(" . $db->q((int) $product_id) . ", " . $db->qn('shipping_rate_on_product') . ")";
+
+				if ($i != $idx - 1)
+				{
+					$pWhere .= " OR ";
+				}
+			}
+
+			$pWhere .= ")";
+		}
+
+		$acWhere = array();
+
+		for ($i = 0; $i < $idx; $i++)
+		{
+			$product_id = $cart[$i]['product_id'];
+			$query = $db->getQuery(true)
+				->select($db->qn('category_id'))
+				->from($db->qn('#__redshop_product_category_xref'))
+				->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+
+			$categoryData = $db->setQuery($query)->loadObjectList();
+
+			for ($c = 0, $cn = count($categoryData); $c < $cn; $c++)
+			{
+				$acWhere[] = " FIND_IN_SET(" . $db->q((int) $categoryData [$c]->category_id) . ", " . $db->qn('shipping_rate_on_category') . ") ";
+			}
+		}
+
+		if (isset($acWhere) && count($acWhere) > 0)
+		{
+			$acWhere = implode(' OR ', $acWhere);
+			$cWhere = ' OR (' . $acWhere . ')';
+		}
+
+		$query = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate')
+			. "WHERE (" . $db->qn('shipping_class') . " = " . $db->q('default_shipping')
+				. " OR " . $db->qn('shipping_class') . " = " . $db->q('shipper') . " )"
+			. "AND (" . $db->qn('shipping_rate_on_product') . " = '' " . $pWhere . ") AND ("
+				. $db->qn('shipping_rate_on_category') . " = '' " . $cWhere . ") "
+			. "ORDER BY " . $db->qn('shipping_rate_priority');
+
+		$shippingRate = $db->setQuery($query)->loadObjectList();
+
+		if (count($shippingRate) > 0)
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
