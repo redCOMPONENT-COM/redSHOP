@@ -249,136 +249,24 @@ class shipping
 	 * @param   array  $shippingRates  Array shipping rates
 	 *
 	 * @return array
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::filterRatesByPriority($shippingRates) instead
 	 */
 	public static function filterRatesByPriority($shippingRates)
 	{
-		$filteredRates = array();
-
-		for ($i = 0, $j = 0, $ni = count($shippingRates); $i < $ni; $i++)
-		{
-			if ($shippingRates[0]->shipping_rate_priority == $shippingRates[$i]->shipping_rate_priority)
-			{
-				$filteredRates[$j] = $shippingRates[$i];
-				$j++;
-			}
-		}
-
-		return $filteredRates;
+		return RedshopHelperShipping::filterRatesByPriority($shippingRates);
 	}
 
-	/*
-	 * function to get product volume shipping
+	/**
+	 * Function to get product volume shipping
 	 *
-	 * @return: array $cases , 3cases of shipping
+	 * @return array $cases , 3cases of shipping
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getProductVolumeShipping() instead
 	 */
 	public function getProductVolumeShipping()
 	{
-		$productHelper = productHelper::getInstance();
-		$session       = JFactory::getSession();
-		$cart          = $session->get('cart');
-		$idx           = (int) ($cart ['idx']);
-
-		$length   = array();
-		$width    = array();
-		$height   = array();
-		$length_q = array();
-		$width_q  = array();
-		$height_q = array();
-		$Lmax     = 0;
-		$Ltotal   = 0;
-		$Wmax     = 0;
-		$Wtotal   = 0;
-		$Hmax     = 0;
-		$Htotal   = 0;
-
-		// Cart loop
-		for ($i = 0; $i < $idx; $i++)
-		{
-			if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
-			{
-				continue;
-			}
-
-			$data       = Redshop::product((int) $cart [$i] ['product_id']);
-
-			$length[$i] = $data->product_length;
-			$width[$i]  = $data->product_width;
-			$height[$i] = $data->product_height;
-
-			$tmparr     = array($length[$i], $width[$i], $height[$i]);
-			$switch     = array_search(min($tmparr), $tmparr);
-
-			switch ($switch)
-			{
-				case 0:
-					$length_q[$i] = $data->product_length * $cart [$i] ['quantity'];
-					$width_q[$i]  = $data->product_width;
-					$height_q[$i] = $data->product_height;
-				break;
-				case 1:
-					$length_q[$i] = $data->product_length;
-					$width_q[$i]  = $data->product_width * $cart [$i] ['quantity'];
-					$height_q[$i] = $data->product_height;
-				break;
-				case 2:
-					$length_q[$i] = $data->product_length;
-					$width_q[$i]  = $data->product_width;
-					$height_q[$i] = $data->product_height * $cart [$i] ['quantity'];
-				break;
-			}
-		}
-
-		// Get maximum length
-		if (count($length) > 0)
-		{
-			$Lmax = max($length);
-		}
-
-		// Get total length
-		if (count($length_q) > 0)
-		{
-			$Ltotal = array_sum($length_q);
-		}
-
-		// Get maximum width
-		if (count($width) > 0)
-		{
-			$Wmax = max($width);
-		}
-
-		// Get total width
-		if (count($width_q) > 0)
-		{
-			$Wtotal = array_sum($width_q);
-		}
-
-		// Get maximum height
-		if (count($height) > 0)
-		{
-			$Hmax = max($height);
-		}
-
-		// Get total height
-		if (count($height_q) > 0)
-		{
-			$Htotal = array_sum($height_q);
-		}
-
-		// 3 cases are available for shipping boxes
-		$cases              = array();
-		$cases[0]['length'] = $Lmax;
-		$cases[0]['width']  = $Wmax;
-		$cases[0]['height'] = $Htotal;
-
-		$cases[1]['length'] = $Lmax;
-		$cases[1]['width']  = $Wtotal;
-		$cases[1]['height'] = $Hmax;
-
-		$cases[2]['length'] = $Ltotal;
-		$cases[2]['width']  = $Wmax;
-		$cases[2]['height'] = $Hmax;
-
-		return $cases;
+		return RedshopHelperShipping::getProductVolumeShipping();
 	}
 
 	public function getCartItemDimention()
