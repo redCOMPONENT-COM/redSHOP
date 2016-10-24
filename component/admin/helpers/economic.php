@@ -106,18 +106,18 @@ class economic
 		return RedshopEconomic::createProductInEconomic($row);
 	}
 
+	/**
+	 * Get Total Property
+	 *
+	 * @param   integer  $productId  Product ID
+	 *
+	 * @return  integer
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::getTotalProperty() instead
+	 */
 	public function getTotalProperty($productId)
 	{
-		$producthelper = productHelper::getInstance();
-
-		// Collect Attributes
-		$attribute   = $producthelper->getProductAttribute($productId);
-		$attributeId = $attribute[0]->value;
-
-		// Collect Property
-		$property = $producthelper->getAttibuteProperty(0, $attributeId, $productId);
-
-		return count($property);
+		return RedshopEconomic::getTotalProperty($productId);
 	}
 
 	/**

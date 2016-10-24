@@ -307,7 +307,16 @@ class RedshopEconomic
 		return self::$dispatcher->trigger('storeProduct', array($eco));
 	}
 
-	public function getTotalProperty($productId)
+	/**
+	 * Get Total Property
+	 *
+	 * @param   integer  $productId  Product ID
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getTotalProperty($productId)
 	{
 		$producthelper = productHelper::getInstance();
 
