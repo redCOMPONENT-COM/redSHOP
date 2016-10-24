@@ -2017,12 +2017,12 @@ COMMENT = 'redSHOP Subscription Renewal';
 DROP TABLE IF EXISTS `#__redshop_supplier` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_supplier` (
-  `supplier_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `supplier_name` VARCHAR(250) NOT NULL,
   `supplier_desc` LONGTEXT NOT NULL,
   `supplier_email` VARCHAR(255) NOT NULL,
   `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`supplier_id`))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Supplier';
