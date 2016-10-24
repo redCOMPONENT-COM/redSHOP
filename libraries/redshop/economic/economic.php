@@ -460,16 +460,18 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [createShippingRateInEconomic description]
+	 * Create Shipping rate in economic
 	 *
-	 * @param   [type]   $shippingNumber  [description]
-	 * @param   [type]   $shippingName    [description]
-	 * @param   integer  $shippingRate    [description]
-	 * @param   integer  $isVat           [description]
+	 * @param   integer  $shippingNumber  Shipping Number
+	 * @param   string   $shippingName    Shipping Name
+	 * @param   integer  $shippingRate    Shipping Rate
+	 * @param   integer  $isVat           VAT flag
 	 *
-	 * @return  [type]                    [description]
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createShippingRateInEconomic($shippingNumber, $shippingName, $shippingRate = 0, $isVat = 1)
+	public static function createShippingRateInEconomic($shippingNumber, $shippingName, $shippingRate = 0, $isVat = 1)
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
@@ -477,7 +479,7 @@ class RedshopEconomic
 		$eco['product_desc']   = "";
 		$eco['product_s_desc'] = "";
 
-		$ecoProductGroupNumber = $this->createProductGroupInEconomic(array(), 1, 0, $isVat);
+		$ecoProductGroupNumber = self::createProductGroupInEconomic(array(), 1, 0, $isVat);
 
 		if (isset($ecoProductGroupNumber[0]->Number))
 		{
@@ -503,9 +505,7 @@ class RedshopEconomic
 
 		$eco['product_stock'] = 1;
 
-		$ecoShippingRateNumber = self::$dispatcher->trigger('storeProduct', array($eco));
-
-		return $ecoShippingRateNumber;
+		return self::$dispatcher->trigger('storeProduct', array($eco));
 	}
 
 	/**
