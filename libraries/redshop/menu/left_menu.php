@@ -129,8 +129,8 @@ class RedshopMenuLeft_Menu
 				return array('ORDER', 'stockroom');
 				break;
 
+			case "suppliers":
 			case "supplier":
-			case "supplier_detail":
 				return array('ORDER', 'supplier');
 				break;
 
@@ -941,14 +941,14 @@ class RedshopMenuLeft_Menu
 		$menu->section('supplier')
 			->title('COM_REDSHOP_SUPPLIER')
 			->addItem(
-				'index.php?option=com_redshop&view=supplier',
+				'index.php?option=com_redshop&view=suppliers',
 				'COM_REDSHOP_SUPPLIER_LISTING',
 				(self::$view == 'supplier') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=supplier_detail',
+				'index.php?option=com_redshop&task=supplier.add',
 				'COM_REDSHOP_ADD_SUPPLIER',
-				(self::$view == 'supplier_detail') ? true : false
+				(self::$view == 'supplier') ? true : false
 			);
 	}
 
