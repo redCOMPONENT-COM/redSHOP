@@ -9,6 +9,13 @@
 
 jimport('joomla.filesystem.file');
 
+/**
+ * Library for Redshop E-conomic.
+ *
+ * @since       __DEPLOY_VERSION__
+ *
+ * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic instead
+ */
 class economic
 {
 	public $_table_prefix = null;
@@ -45,6 +52,9 @@ class economic
 		return self::$instance;
 	}
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		$db                     = JFactory::getDbo();

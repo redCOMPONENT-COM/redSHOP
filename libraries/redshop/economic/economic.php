@@ -20,7 +20,7 @@ jimport('joomla.filesystem.file');
  * Library for Redshop E-conomic.
  * This Library provide methods for interact with E-Invoicing and support to orders.
  * For more information about E-invoicing: https://en.wikipedia.org/wiki/Electronic_invoicing
- * Using: new RedshopEconomic
+ * Using: RedshopEconomic::<method>
  *
  * @since  __DEPLOY_VERSION__
  */
