@@ -331,17 +331,25 @@ class RedshopEconomic
 	}
 
 	/**
-	 * Method to create property in E-conomic
+	 * Create property product in economic
 	 *
-	 * @access public
-	 * @return array
+	 * @param   array  $productRow  Product data
+	 * @param   array  $row         Data property
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createPropertyInEconomic($prdrow = array(), $row = array())
+	public static function createPropertyInEconomic($productRow = array(), $row = array())
 	{
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
+
+		$eco                   = array();
 		$eco['product_desc']   = '';
 		$eco['product_s_desc'] = '';
 
-		$ecoProductGroupNumber = $this->createProductGroupInEconomic($prdrow);
+		$ecoProductGroupNumber = self::createProductGroupInEconomic($productRow);
 
 		if (isset($ecoProductGroupNumber[0]->Number))
 		{
@@ -352,9 +360,9 @@ class RedshopEconomic
 
 		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 		{
-			$eco['product_name'] = addslashes($prdrow->product_name) . " " . addslashes($row->property_name);
+			$eco['product_name'] = addslashes($productRow->product_name) . " " . addslashes($row->property_name);
 
-			$string = trim($prdrow->product_price . $row->oprand . $row->property_price);
+			$string = trim($productRow->product_price . $row->oprand . $row->property_price);
 			eval('$eco["product_price"] = ' . $string . ';');
 		}
 
@@ -365,19 +373,17 @@ class RedshopEconomic
 		}
 
 		$eco['product_volume'] = 1;
-		$debtorHandle          = self::$dispatcher->trigger('Product_FindByNumber', array($eco));
 		$eco['eco_prd_number'] = "";
+		$debtorHandle          = self::$dispatcher->trigger('Product_FindByNumber', array($eco));
 
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
 		{
 			$eco['eco_prd_number'] = $debtorHandle[0]->Number;
 		}
 
-		$eco['product_stock'] = $this->_stockroomhelper->getStockroomTotalAmount($row->property_id, "property");
+		$eco['product_stock'] = RedshopHelperStockroom::getStockroomTotalAmount($row->property_id, "property");
 
-		$ecoProductNumber = self::$dispatcher->trigger('storeProduct', array($eco));
-
-		return $ecoProductNumber;
+		return self::$dispatcher->trigger('storeProduct', array($eco));
 	}
 
 	/**
@@ -386,12 +392,12 @@ class RedshopEconomic
 	 * @access public
 	 * @return array
 	 */
-	public function createSubpropertyInEconomic($prdrow = array(), $row = array())
+	public function createSubpropertyInEconomic($productRow = array(), $row = array())
 	{
 		$eco['product_desc']   = '';
 		$eco['product_s_desc'] = '';
 
-		$ecoProductGroupNumber = $this->createProductGroupInEconomic($prdrow);
+		$ecoProductGroupNumber = $this->createProductGroupInEconomic($productRow);
 
 		if (isset($ecoProductGroupNumber[0]->Number))
 		{
@@ -403,7 +409,7 @@ class RedshopEconomic
 		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 		{
 			$eco['product_name'] = addslashes($row->subattribute_color_name);
-			$string              = trim($prdrow->product_price . $row->oprand . $row->subattribute_color_price);
+			$string              = trim($productRow->product_price . $row->oprand . $row->subattribute_color_price);
 			eval('$eco["product_price"] = ' . $string . ';');
 		}
 		else
@@ -421,16 +427,16 @@ class RedshopEconomic
 			$eco['eco_prd_number'] = $debtorHandle[0]->Number;
 		}
 
-		$eco['product_stock'] = $this->_stockroomhelper->getStockroomTotalAmount($row->subattribute_color_id, "subproperty");
+		$eco['product_stock'] = RedshopHelperStockroom::getStockroomTotalAmount($row->subattribute_color_id, "subproperty");
 
 		$ecoProductNumber = self::$dispatcher->trigger('storeProduct', array($eco));
 
 		return $ecoProductNumber;
 	}
 
-	public function importStockFromEconomic($prdrow = array())
+	public function importStockFromEconomic($productRow = array())
 	{
-		$eco['product_number'] = $prdrow->product_number;
+		$eco['product_number'] = $productRow->product_number;
 		$ecoStockNumber        = self::$dispatcher->trigger('getProductStock', array($eco));
 
 		return $ecoStockNumber;

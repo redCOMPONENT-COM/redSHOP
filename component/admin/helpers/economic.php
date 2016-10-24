@@ -121,53 +121,18 @@ class economic
 	}
 
 	/**
-	 * Method to create property in E-conomic
+	 * Create property product in economic
 	 *
-	 * @access public
-	 * @return array
+	 * @param   array  $prdrow  Product data
+	 * @param   array  $row     Data property
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createPropertyInEconomic() instead
 	 */
 	public function createPropertyInEconomic($prdrow = array(), $row = array())
 	{
-		$eco['product_desc']   = '';
-		$eco['product_s_desc'] = '';
-
-		$ecoProductGroupNumber = $this->createProductGroupInEconomic($prdrow);
-
-		if (isset($ecoProductGroupNumber[0]->Number))
-		{
-			$eco['product_group'] = $ecoProductGroupNumber[0]->Number;
-		}
-
-		$eco['product_number'] = $row->property_number;
-
-		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
-		{
-			$eco['product_name'] = addslashes($prdrow->product_name) . " " . addslashes($row->property_name);
-
-			$string = trim($prdrow->product_price . $row->oprand . $row->property_price);
-			eval('$eco["product_price"] = ' . $string . ';');
-		}
-
-		else
-		{
-			$eco['product_name']  = addslashes($row->property_name);
-			$eco['product_price'] = $row->property_price;
-		}
-
-		$eco['product_volume'] = 1;
-		$debtorHandle          = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
-		$eco['eco_prd_number'] = "";
-
-		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
-		{
-			$eco['eco_prd_number'] = $debtorHandle[0]->Number;
-		}
-
-		$eco['product_stock'] = $this->_stockroomhelper->getStockroomTotalAmount($row->property_id, "property");
-
-		$ecoProductNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
-
-		return $ecoProductNumber;
+		return RedshopEconomic::createPropertyInEconomic($prdrow, $row);
 	}
 
 	/**
