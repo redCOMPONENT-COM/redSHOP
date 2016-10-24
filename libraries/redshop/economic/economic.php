@@ -1157,39 +1157,43 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [updateInvoiceDateInEconomic description]
+	 * Method to update invoice draft for changing the date in E-conomic
 	 *
-	 * @param   [type]   $orderDetail      [description]
-	 * @param   integer  $bookinvoicedate  [description]
+	 * @param   array    $orderDetail      Order detail
+	 * @param   integer  $bookInvoiceDate  Booking invoice date
 	 *
-	 * @return  [type]                     [description]
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function updateInvoiceDateInEconomic($orderDetail, $bookinvoicedate = 0)
+	public static function updateInvoiceDateInEconomic($orderDetail, $bookInvoiceDate = 0)
 	{
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
+
 		$db = JFactory::getDbo();
 		$eco['invoiceHandle'] = $orderDetail->invoice_no;
 
-		if ($bookinvoicedate != 0)
+		if ($bookInvoiceDate != 0)
 		{
-			$eco['invoiceDate'] = $bookinvoicedate . "T" . date("h:i:s");
+			$eco['invoiceDate'] = $bookInvoiceDate . "T" . date("h:i:s");
 		}
-
 		else
 		{
 			$eco['invoiceDate'] = date("Y-m-d") . "T" . date("h:i:s");
 		}
 
-		$bookinvoice_date = strtotime($eco['invoiceDate']);
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
-			. 'SET bookinvoice_date = ' . $db->quote($bookinvoice_date) . ' '
-			. 'WHERE order_id = ' . (int) $orderDetail->order_id;
+		$bookInvoiceDate = strtotime($eco['invoiceDate']);
 
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		$query = $db->getQuery(true)
+					->update($db->qn('#__redshop_orders'))
+					->set($db->qn('bookinvoice_date') . ' = ' . $db->quote($bookInvoiceDate))
+					->where($db->qn('order_id') . ' = ' . (int) $orderDetail->order_id);
 
-		$InvoiceNumber = self::$dispatcher->trigger('updateInvoiceDate', array($eco));
+		$db->setQuery($query);
+		$db->execute();
 
-		return $InvoiceNumber;
+		return self::$dispatcher->trigger('updateInvoiceDate', array($eco));
 	}
 
 	/**
@@ -1197,11 +1201,11 @@ class RedshopEconomic
 	 *
 	 * @param   [type]   $orderId           [description]
 	 * @param   integer  $checkOrderStatus  [description]
-	 * @param   integer  $bookinvoicedate   [description]
+	 * @param   integer  $bookInvoiceDate   [description]
 	 *
 	 * @return  [type]                      [description]
 	 */
-	public function bookInvoiceInEconomic($orderId, $checkOrderStatus = 1, $bookinvoicedate = 0)
+	public function bookInvoiceInEconomic($orderId, $checkOrderStatus = 1, $bookInvoiceDate = 0)
 	{
 		$file = '';
 
@@ -1230,7 +1234,7 @@ class RedshopEconomic
 
 						if (count($currectinvoiceData) > 0 && trim($currectinvoiceData[0]->OtherReference) == $orderDetail->order_number)
 						{
-							$this->updateInvoiceDateInEconomic($orderDetail, $bookinvoicedate);
+							$this->updateInvoiceDateInEconomic($orderDetail, $bookInvoiceDate);
 
 							if ($userBillingInfo->is_company == 1 && $userBillingInfo->company_name != '')
 							{

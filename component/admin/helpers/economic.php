@@ -346,35 +346,16 @@ class economic
 	/**
 	 * Method to update invoice draft for changing the date in E-conomic
 	 *
-	 * @access public
-	 * @return array
+	 * @param   array    $orderdetail      Order detail
+	 * @param   integer  $bookinvoicedate  Booking invoice date
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::updateInvoiceDateInEconomic() instead
 	 */
 	public function updateInvoiceDateInEconomic($orderdetail, $bookinvoicedate = 0)
 	{
-		$db = JFactory::getDbo();
-		$eco['invoiceHandle'] = $orderdetail->invoice_no;
-
-		if ($bookinvoicedate != 0)
-		{
-			$eco['invoiceDate'] = $bookinvoicedate . "T" . date("h:i:s");
-		}
-
-		else
-		{
-			$eco['invoiceDate'] = date("Y-m-d") . "T" . date("h:i:s");
-		}
-
-		$bookinvoice_date = strtotime($eco['invoiceDate']);
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
-			. 'SET bookinvoice_date = ' . $db->quote($bookinvoice_date) . ' '
-			. 'WHERE order_id = ' . (int) $orderdetail->order_id;
-
-		$this->_db->setQuery($query);
-		$this->_db->execute();
-
-		$InvoiceNumber = $this->_dispatcher->trigger('updateInvoiceDate', array($eco));
-
-		return $InvoiceNumber;
+		return RedshopEconomic::updateInvoiceDateInEconomic($orderdetail, $bookinvoicedate);
 	}
 
 	/**
