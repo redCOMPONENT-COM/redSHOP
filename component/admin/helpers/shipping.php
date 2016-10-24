@@ -361,151 +361,17 @@ class shipping
 		return RedshopHelperShipping::isProductDetailMatch();
 	}
 
-	public function getfreeshippingRate($shipping_rate_id = 0)
+	/**
+	 * Get free shipping rate
+	 *
+	 * @param   int  $shippingRateId  Shipping rate ID
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getFreeShippingRate($shippingRateId) instead
+	 */
+	public function getfreeshippingRate($shippingRateId = 0)
 	{
-		$productHelper = productHelper::getInstance();
-		$userhelper    = rsUserHelper::getInstance();
-		$session       = JFactory::getSession();
-		$cart          = $session->get('cart', null);
-		$db            = JFactory::getDbo();
-
-		$idx = 0;
-
-		if (isset($cart ['idx']) === true)
-		{
-			$idx = (int) ($cart ['idx']);
-		}
-
-		$order_subtotal  = isset($cart['product_subtotal']) ? $cart['product_subtotal'] : null;
-		$order_functions = order_functions::getInstance();
-		$user            = JFactory::getUser();
-		$user_id         = $user->id;
-
-		if (!empty($idx))
-		{
-			$text = JText::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE');
-		}
-		else
-		{
-			return JText::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE_WHEN_NOPRODUCT_IN_CART');
-		}
-
-		$users_info_id = JRequest::getVar('users_info_id');
-
-		// Try to load user information
-		$userInfo     = null;
-		$country      = null;
-		$state        = null;
-		$is_company   = null;
-		$shoppergroup = null;
-		$zip          = null;
-
-		if ($user_id)
-		{
-			if ($users_info_id)
-			{
-				$userInfo = $this->getShippingAddress($users_info_id);
-			}
-			elseif ($userInfo = $order_functions->getShippingAddress($user_id))
-			{
-				$userInfo = $userInfo[0];
-			}
-		}
-
-		$where        = '';
-		$wherestate   = '';
-		$whereshopper = '';
-
-		if (!$is_company)
-		{
-			$where = " AND ( company_only = 2 or company_only = 0) ";
-		}
-		else
-		{
-			$where = " AND ( company_only = 1 or company_only = 0) ";
-		}
-
-		if ($userInfo)
-		{
-			$country      = $userInfo->country_code;
-			$state        = $userInfo->state_code;
-			$is_company   = $userInfo->is_company;
-			$shoppergroup = $userhelper->getShoppergroupData($userInfo->user_id);
-			$zip          = $userInfo->zipcode;
-		}
-
-		if (count($shoppergroup) > 0)
-		{
-			$shopper_group_id = $shoppergroup->shopper_group_id;
-			$whereshopper = ' AND (FIND_IN_SET(' . (int) $shopper_group_id . ', shipping_rate_on_shopper_group )
-			OR shipping_rate_on_shopper_group="") ';
-		}
-
-		$shippingrate = array();
-
-		if ($country)
-		{
-			$wherecountry = 'AND (FIND_IN_SET(' . $db->quote($country) . ', shipping_rate_country ) OR shipping_rate_country="0"
-			OR shipping_rate_country="" )';
-		}
-		else
-		{
-			$wherecountry = 'AND (FIND_IN_SET(' . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ', shipping_rate_country )
-			OR shipping_rate_country="0" OR shipping_rate_country="")';
-		}
-
-		if ($state)
-		{
-			$wherestate = ' AND (FIND_IN_SET(' . $db->quote($state) . ', shipping_rate_state ) OR shipping_rate_state="0" OR shipping_rate_state="")';
-		}
-
-		$zipCond = "";
-		$zip = trim($zip);
-
-		if (preg_match('/^[0-9 ]+$/', $zip) && !empty($zip))
-		{
-			$zipCond = ' AND ( ( shipping_rate_zip_start <= ' . $db->quote($zip) . ' AND shipping_rate_zip_end >= ' . $db->quote($zip) . ' )
-				OR (shipping_rate_zip_start = "0" AND shipping_rate_zip_end = "0")
-				OR (shipping_rate_zip_start = "" AND shipping_rate_zip_end = "") ) ';
-		}
-
-		if ($shipping_rate_id)
-		{
-			$where .= ' AND sr.shipping_rate_id = ' . (int) $shipping_rate_id . ' ';
-		}
-
-		$sql = "SELECT * FROM #__redshop_shipping_rate as sr
-								 LEFT JOIN #__extensions AS s
-								 ON
-								 sr.shipping_class = s.element
-								 WHERE (shipping_rate_value =0 OR shipping_rate_value ='0')
-
-				$wherecountry $wherestate $whereshopper $zipCond $where
-				ORDER BY s.ordering,sr.shipping_rate_priority LIMIT 0,1";
-
-		$db->setQuery($sql);
-		$shippingrate = $db->loadObject();
-
-		if ($shippingrate)
-		{
-			if ($shippingrate->shipping_rate_ordertotal_start > $order_subtotal)
-			{
-				$diff = $shippingrate->shipping_rate_ordertotal_start - $order_subtotal;
-				$text = sprintf(JText::_('COM_REDSHOP_SHIPPING_TEXT_LBL'), $productHelper->getProductFormattedPrice($diff));
-			}
-
-			elseif ($shippingrate->shipping_rate_ordertotal_start <= $order_subtotal
-				&& ($shippingrate->shipping_rate_ordertotal_end == 0 || $shippingrate->shipping_rate_ordertotal_end >= $order_subtotal))
-			{
-				$text = JText::_('COM_REDSHOP_FREE_SHIPPING_RATE_IS_IN_USED');
-			}
-
-			else
-			{
-				$text = JText::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE');
-			}
-		}
-
-		return $text;
+		return RedshopHelperShipping::getFreeShippingRate($shippingRateId);
 	}
 }
