@@ -1118,17 +1118,22 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [checkInvoiceDraftorBookInEconomic description]
+	 * Method to check invoice is draft or booked in E-conomic
 	 *
-	 * @param   [type]  $orderDetail  [description]
+	 * @param   array  $orderDetail  Order detail
 	 *
-	 * @return  [type]                [description]
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function checkInvoiceDraftorBookInEconomic($orderDetail)
+	public static function checkInvoiceDraftorBookInEconomic($orderDetail)
 	{
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
+
 		$eco['invoiceHandle'] = $orderDetail->invoice_no;
 		$eco['order_number']  = $orderDetail->order_number;
-		$bookInvoiceData       = self::$dispatcher->trigger('checkBookInvoice', array($eco));
+		$bookInvoiceData      = self::$dispatcher->trigger('checkBookInvoice', array($eco));
 
 		if (count($bookInvoiceData) > 0 && isset($bookInvoiceData[0]->InvoiceHandle))
 		{
@@ -1137,8 +1142,8 @@ class RedshopEconomic
 			if (isset($bookInvoiceData->Number) && is_numeric($bookInvoiceData->Number))
 			{
 				$bookInvoiceNumber = $bookInvoiceData->Number;
-				$this->updateBookInvoice($orderDetail->order_id);
-				$this->updateBookInvoiceNumber($orderDetail->order_id, $bookInvoiceNumber);
+				self::updateBookInvoice($orderDetail->order_id);
+				self::updateBookInvoiceNumber($orderDetail->order_id, $bookInvoiceNumber);
 				$invoiceData[0]->invoiceStatus = "booked";
 			}
 		}
