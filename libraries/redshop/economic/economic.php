@@ -765,27 +765,34 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [createGFInvoiceLineInEconomic description]
+	 * Create Invoice line in E-conomic for GiftCard
 	 *
-	 * @param   array   $orderItem  [description]
-	 * @param   string  $invoiceNo  [description]
+	 * @param   array   $orderItem  Order Item
+	 * @param   string  $invoiceNo  Invoice Number
 	 *
-	 * @return  [type]              [description]
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createGFInvoiceLineInEconomic($orderItem = array(), $invoiceNo = "")
+	public static function createGiftCardInvoiceLineInEconomic($orderItem = array(), $invoiceNo = "")
 	{
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
+		$productHelper = productHelper::getInstance();
+
 		$product                 = new stdClass;
 		$product->product_id     = $orderItem->product_id;
 		$product->product_number = $orderItem->order_item_sku = "gift_" . $orderItem->product_id . "_" . $orderItem->order_item_name;
 		$product->product_name   = $orderItem->order_item_name;
 		$product->product_price  = $orderItem->product_item_price_excl_vat;
 
-		$giftdata                 = $this->_producthelper->getGiftcardData($orderItem->product_id);
-		$product->accountgroup_id = $giftdata->accountgroup_id;
+		$giftData                 = $productHelper->getGiftcardData($orderItem->product_id);
+		$product->accountgroup_id = $giftData->accountgroup_id;
 		$product->product_volume  = 0;
 
-		$this->createProductInEconomic($product);
+		self::createProductInEconomic($product);
 
+		$eco                     = array();
 		$eco['updateInvoice']    = 0;
 		$eco['invoiceHandle']    = $invoiceNo;
 		$eco['order_item_id']    = $orderItem->order_item_id;
@@ -820,7 +827,7 @@ class RedshopEconomic
 
 			if ($orderItem[$i]->wrapper_id)
 			{
-				$wrapper = $this->_producthelper->getWrapper($orderItem[$i]->product_id, $orderItem[$i]->wrapper_id);
+				$wrapper = $productHelper->getWrapper($orderItem[$i]->product_id, $orderItem[$i]->wrapper_id);
 
 				if (count($wrapper) > 0)
 				{
@@ -848,7 +855,7 @@ class RedshopEconomic
 			}
 
 			// Product user field Information
-			$pUserfield    = $this->_producthelper->getuserfield($orderItem[$i]->order_item_id);
+			$pUserfield    = $productHelper->getuserfield($orderItem[$i]->order_item_id);
 			$displayWrapper = $displayWrapper . "\n" . strip_tags($pUserfield);
 
 			$eco['product_name']     = $orderItem[$i]->order_item_name . $displayWrapper . $discountCalc . $displayAccessory;
@@ -871,7 +878,7 @@ class RedshopEconomic
 					$propertyId = $orderPropdata[0]->section_id;
 
 					// Collect Attribute Property
-					$orderProperty = $this->_producthelper->getAttibuteProperty($propertyId, $attributeId, $productId);
+					$orderProperty = $productHelper->getAttibuteProperty($propertyId, $attributeId, $productId);
 
 					$property_number = $orderProperty[0]->property_number;
 					$property_name   = $orderPropdata[0]->section_name;
@@ -1437,7 +1444,7 @@ class RedshopEconomic
 	{
 		$displayAttribute = "";
 		$retPrice         = 0;
-		$chktag           = $this->_producthelper->getApplyattributeVatOrNot('', $userId);
+		$chktag           = $productHelper->getApplyattributeVatOrNot('', $userId);
 		$orderItemAttdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "attribute", $parentSectionId);
 
 		if (count($orderItemAttdata) > 0)
@@ -1446,7 +1453,7 @@ class RedshopEconomic
 
 			for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++)
 			{
-				$attribute            = $this->_producthelper->getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
+				$attribute            = $productHelper->getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
 				$hide_attribute_price = 0;
 
 				if (count($attribute) > 0)
@@ -1459,7 +1466,7 @@ class RedshopEconomic
 
 				for ($p = 0, $pn = count($orderPropdata); $p < $pn; $p++)
 				{
-					$property      = $this->_producthelper->getAttibuteProperty($orderPropdata[$p]->section_id);
+					$property      = $productHelper->getAttibuteProperty($orderPropdata[$p]->section_id);
 					$virtualNumber = "";
 
 					if (count($property) > 0 && $property[0]->property_number)
@@ -1484,7 +1491,7 @@ class RedshopEconomic
 							$property_price = $orderPropdata[$p]->section_price + $orderPropdata[$p]->section_vat;
 						}
 
-						$disPrice = " (" . $orderPropdata[$p]->section_oprand . $this->_producthelper->getProductFormattedPrice($property_price) . ")";
+						$disPrice = " (" . $orderPropdata[$p]->section_oprand . $productHelper->getProductFormattedPrice($property_price) . ")";
 					}
 
 					$displayAttribute .= urldecode($orderPropdata[$p]->section_name) . $disPrice . $virtualNumber;
@@ -1501,7 +1508,7 @@ class RedshopEconomic
 					{
 						for ($sp = 0; $sp < count($orderSubpropdata); $sp++)
 						{
-							$subproperty   = $this->_producthelper->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
+							$subproperty   = $productHelper->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
 							$virtualNumber = "";
 
 							if (count($subproperty) > 0 && $subproperty[0]->subattribute_color_number)
@@ -1526,7 +1533,7 @@ class RedshopEconomic
 									$subproperty_price = $orderSubpropdata[$sp]->section_price + $orderSubpropdata[$sp]->section_vat;
 								}
 
-								$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . $this->_producthelper->getProductFormattedPrice($subproperty_price) . ")";
+								$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . $productHelper->getProductFormattedPrice($subproperty_price) . ")";
 							}
 
 							$displayAttribute .= "\n" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . $virtualNumber;
