@@ -1684,11 +1684,11 @@ class RedshopHelperShipping
 	}
 
 	/**
-	 * Get Shipping rate error
+	 * Check cart dimension is matched
 	 *
 	 * @param   array  &$data  Cart data
 	 *
-	 * @return  string  error text
+	 * @return  boolen
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -1753,6 +1753,89 @@ class RedshopHelperShipping
 		$shippingrate = $db->setQuery($query)->loadObjectList();
 
 		if (count($shippingrate) > 0)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check user info is matched
+	 *
+	 * @param   array  &$data  Cart data
+	 *
+	 * @return  boolen
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function isUserInfoMatch(&$data)
+	{
+		$userHelper   = rsUserHelper::getInstance();
+		$shippingRate = array();
+		$db           = JFactory::getDBO();
+		$userInfo     = self::getShippingAddress($data['users_info_id']);
+		$country      = $userInfo->country_code;
+		$state        = $userInfo->state_code;
+		$zip          = $userInfo->zipcode;
+		$isCompany    = $userInfo->is_company;
+		$whereShopper = '';
+		$whereState   = '';
+
+		if ($isCompany)
+		{
+			$where = "AND ( " . $db->qn('company_only') . " = 1 OR " . $db->qn('company_only') . " = 0) ";
+		}
+		else
+		{
+			$where = "AND ( " . $db->qn('company_only') . " = 2 OR " . $db->qn('company_only') . " = 0) ";
+		}
+
+		if ($country)
+		{
+			$whereCountry = "AND (FIND_IN_SET(" . $db->q($country) . ", " . $db->qn('shipping_rate_country') . " ) OR " . $db->qn('shipping_rate_country') . " = 0 OR " . $db->qn('shipping_rate_country') . " = '') ";
+		}
+		else
+		{
+			$whereCountry = "AND (FIND_IN_SET(" . $db->q(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", " . $db->qn('shipping_rate_country') . ")) ";
+		}
+
+		$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);
+
+		if (count($shopperGroup) > 0)
+		{
+			$shopperGroupId = $shopperGroup->shopper_group_id;
+			$whereShopper = " AND (FIND_IN_SET(" . $db->q((int) $shopperGroupId) . ", " . $db->qn('shipping_rate_on_shopper_group') . " ) OR " . $db->qn('shipping_rate_on_shopper_group') . " = '') ";
+		}
+
+		if ($state)
+		{
+			$whereState = "AND (FIND_IN_SET(" . $db->q($state) . ", " . $db->qn('shipping_rate_state') . " ) OR " . $db->qn('shipping_rate_state') . " = 0 OR " . $db->qn('shipping_rate_state') . " = '') ";
+		}
+
+		$numbers = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "0", " ");
+		$zipCond = "";
+		$zip     = trim($zip);
+
+		if (strlen(str_replace($numbers, '', $zip)) == 0 && $zip != "")
+		{
+			$zipCond = "AND ( ( " . $db->qn('shipping_rate_zip_start') . " <= " . $db->q($zip) . " AND " . $db->qn('shipping_rate_zip_end') . " >= " . $db->q($zip) . " ) "
+				. "OR (" . $db->qn('shipping_rate_zip_start') . " = 0 AND " . $db->qn('shipping_rate_zip_end') . " = 0) "
+				. "OR (" . $db->qn('shipping_rate_zip_start') . " = '' AND " . $db->qn('shipping_rate_zip_end') . " = '') ) ";
+		}
+
+		$query = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate')
+			. "WHERE (" . $db->qn('shipping_class') . " = " . $db->q('default_shipping') . " OR " . $db->qn('shipping_class') . " = " . $db->q('shipper') . ") "
+			. $whereCountry
+			. $whereState
+			. $whereShopper
+			. $zipCond
+			. $where
+			. " ORDER BY " . $db->qn('shipping_rate_priority');
+
+		$shippingRate = $db->setQuery($query)->loadObjectList();
+
+		if (count($shippingRate) > 0)
 		{
 			return true;
 		}
