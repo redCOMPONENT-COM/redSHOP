@@ -844,4 +844,43 @@ class RedshopHelperShipping
 
 		return $db->setQuery($query)->loadObjectList();
 	}
+
+	/**
+	 * Apply VAT on shipping rate
+	 *
+	 * @param   object  $shippingRate  Shipping Rate information
+	 * @param   array   $data          Shipping Rate user information from cart or checkout selection.
+	 *
+	 * @return  object  Shipping Rate
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function applyVatOnShippingRate($shippingRate, $data)
+	{
+		if (!is_array($data))
+		{
+			throw new InvalidArgumentException(
+				__FUNCTION__ . ' function only accepts array as 2nd argument. Input was: ' . getType($data)
+			);
+		}
+
+		$productHelper   = productHelper::getInstance();
+		$shippingRateVat = $shippingRate->shipping_rate_value;
+
+		if ($shippingRate->apply_vat == 1)
+		{
+			$result = self::getShippingVatRates($shippingRate->shipping_tax_group_id, $data);
+			$addVat = $productHelper->taxexempt_addtocart($data['user_id']);
+
+			if (!empty($result) && $addVat)
+			{
+				if ($result->tax_rate > 0)
+				{
+					$shippingRateVat = ($shippingRateVat * $result->tax_rate) + $shippingRateVat;
+				}
+			}
+		}
+
+		return $shippingRateVat;
+	}
 }
