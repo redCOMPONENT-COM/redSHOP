@@ -53,6 +53,8 @@ class RedshopEconomic
 	 * Using JDispatcher is possible in Joomla 3.x but will generate a deprecated notice.
 	 *
 	 * @return  JEventDispatcher/JDispatcher
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getDispatcher()
 	{
@@ -71,6 +73,8 @@ class RedshopEconomic
 	 * @param   array  $data  Data of Economic
 	 *
 	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function createUserInEconomic($row = array(), $data = array())
 	{
@@ -170,73 +174,78 @@ class RedshopEconomic
 	 * @param   integer  $isDiscount  Discount flag
 	 * @param   integer  $isVat       VAT flag
 	 *
-	 * @return  integer
+	 * @return  null/array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isVat = 0)
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
 
+		$redHelper = redhelper::getInstance();
+
 		$ecoProductGroupNumber         = new stdclass;
 		$ecoProductGroupNumber->Number = 1;
 
-		$accountgroup = array();
+		$accountGroup = array();
+		$eco          = array();
 
 		if (count($row) > 0 && $row->accountgroup_id != 0)
 		{
-			$accountgroup = $this->_redhelper->getEconomicAccountGroup($row->accountgroup_id);
+			$accountGroup = $redHelper->getEconomicAccountGroup($row->accountgroup_id);
 		}
 
 		elseif (Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP') != 0)
 		{
-			$accountgroup = $this->_redhelper->getEconomicAccountGroup(Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'));
+			$accountGroup = $redHelper->getEconomicAccountGroup(Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'));
 		}
 
-		if (count($accountgroup) > 0)
+		if (count($accountGroup) > 0)
 		{
 			if ($isShipping == 1)
 			{
 				if ($isVat == 1)
 				{
-					$eco['productgroup_id']   = $accountgroup[0]->economic_shipping_vat_account;
-					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' shipping vat';
-					$eco['vataccount']        = $accountgroup[0]->economic_shipping_vat_account;
-					$eco['novataccount']      = $accountgroup[0]->economic_shipping_nonvat_account;
+					$eco['productgroup_id']   = $accountGroup[0]->economic_shipping_vat_account;
+					$eco['productgroup_name'] = $accountGroup[0]->accountgroup_name . ' shipping vat';
+					$eco['vataccount']        = $accountGroup[0]->economic_shipping_vat_account;
+					$eco['novataccount']      = $accountGroup[0]->economic_shipping_nonvat_account;
 				}
 				else
 				{
-					$eco['productgroup_id']   = $accountgroup[0]->economic_shipping_nonvat_account;
-					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' shipping novat';
-					$eco['vataccount']        = $accountgroup[0]->economic_shipping_nonvat_account;
-					$eco['novataccount']      = $accountgroup[0]->economic_shipping_nonvat_account;
+					$eco['productgroup_id']   = $accountGroup[0]->economic_shipping_nonvat_account;
+					$eco['productgroup_name'] = $accountGroup[0]->accountgroup_name . ' shipping novat';
+					$eco['vataccount']        = $accountGroup[0]->economic_shipping_nonvat_account;
+					$eco['novataccount']      = $accountGroup[0]->economic_shipping_nonvat_account;
 				}
 			}
 			elseif ($isDiscount == 1)
 			{
 				if ($isVat == 1)
 				{
-					$eco['productgroup_id']   = $accountgroup[0]->economic_discount_vat_account;
-					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' discount vat';
-					$eco['vataccount']        = $accountgroup[0]->economic_discount_vat_account;
-					$eco['novataccount']      = $accountgroup[0]->economic_discount_nonvat_account;
+					$eco['productgroup_id']   = $accountGroup[0]->economic_discount_vat_account;
+					$eco['productgroup_name'] = $accountGroup[0]->accountgroup_name . ' discount vat';
+					$eco['vataccount']        = $accountGroup[0]->economic_discount_vat_account;
+					$eco['novataccount']      = $accountGroup[0]->economic_discount_nonvat_account;
 				}
 				else
 				{
-					$eco['productgroup_id']   = $accountgroup[0]->economic_discount_nonvat_account;
-					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' discount novat';
-					$eco['vataccount']        = $accountgroup[0]->economic_discount_nonvat_account;
-					$eco['novataccount']      = $accountgroup[0]->economic_discount_nonvat_account;
+					$eco['productgroup_id']   = $accountGroup[0]->economic_discount_nonvat_account;
+					$eco['productgroup_name'] = $accountGroup[0]->accountgroup_name . ' discount novat';
+					$eco['vataccount']        = $accountGroup[0]->economic_discount_nonvat_account;
+					$eco['novataccount']      = $accountGroup[0]->economic_discount_nonvat_account;
 				}
 			}
 			else
 			{
-				$eco['productgroup_id']   = $accountgroup[0]->accountgroup_id;
-				$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name;
-				$eco['vataccount']        = $accountgroup[0]->economic_vat_account;
-				$eco['novataccount']      = $accountgroup[0]->economic_nonvat_account;
+				$eco['productgroup_id']   = $accountGroup[0]->accountgroup_id;
+				$eco['productgroup_name'] = $accountGroup[0]->accountgroup_name;
+				$eco['vataccount']        = $accountGroup[0]->economic_vat_account;
+				$eco['novataccount']      = $accountGroup[0]->economic_nonvat_account;
 			}
 
-			$groupHandle              = $this->_dispatcher->trigger('ProductGroup_FindByNumber', array($eco));
+			$groupHandle              = self::$dispatcher->trigger('ProductGroup_FindByNumber', array($eco));
 			$eco['eco_prdgro_number'] = "";
 
 			if (count($groupHandle) > 0 && isset($groupHandle[0]->Number) != "")
@@ -244,10 +253,10 @@ class RedshopEconomic
 				$eco['eco_prdgro_number'] = $groupHandle[0]->Number;
 			}
 
-			$ecoProductGroupNumber = $this->_dispatcher->trigger('storeProductGroup', array($eco));
+			return self::$dispatcher->trigger('storeProductGroup', array($eco));
 		}
 
-		return $ecoProductGroupNumber;
+		return null;
 	}
 
 	/**
@@ -277,7 +286,7 @@ class RedshopEconomic
 		$eco['product_name']   = addslashes($row->product_name);
 		$eco['product_price']  = $row->product_price;
 		$eco['product_volume'] = $row->product_volume;
-		$debtorHandle          = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
+		$debtorHandle          = self::$dispatcher->trigger('Product_FindByNumber', array($eco));
 		$eco['eco_prd_number'] = "";
 
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
@@ -287,7 +296,7 @@ class RedshopEconomic
 
 		$eco['product_stock'] = $this->_stockroomhelper->getStockroomTotalAmount($row->product_id);
 
-		$ecoProductNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
+		$ecoProductNumber = self::$dispatcher->trigger('storeProduct', array($eco));
 
 		return $ecoProductNumber;
 	}
@@ -341,7 +350,7 @@ class RedshopEconomic
 		}
 
 		$eco['product_volume'] = 1;
-		$debtorHandle          = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
+		$debtorHandle          = self::$dispatcher->trigger('Product_FindByNumber', array($eco));
 		$eco['eco_prd_number'] = "";
 
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
@@ -351,7 +360,7 @@ class RedshopEconomic
 
 		$eco['product_stock'] = $this->_stockroomhelper->getStockroomTotalAmount($row->property_id, "property");
 
-		$ecoProductNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
+		$ecoProductNumber = self::$dispatcher->trigger('storeProduct', array($eco));
 
 		return $ecoProductNumber;
 	}
@@ -389,7 +398,7 @@ class RedshopEconomic
 		}
 
 		$eco['product_volume'] = 1;
-		$debtorHandle          = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
+		$debtorHandle          = self::$dispatcher->trigger('Product_FindByNumber', array($eco));
 		$eco['eco_prd_number'] = "";
 
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
@@ -399,7 +408,7 @@ class RedshopEconomic
 
 		$eco['product_stock'] = $this->_stockroomhelper->getStockroomTotalAmount($row->subattribute_color_id, "subproperty");
 
-		$ecoProductNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
+		$ecoProductNumber = self::$dispatcher->trigger('storeProduct', array($eco));
 
 		return $ecoProductNumber;
 	}
@@ -407,7 +416,7 @@ class RedshopEconomic
 	public function importStockFromEconomic($prdrow = array())
 	{
 		$eco['product_number'] = $prdrow->product_number;
-		$ecoStockNumber        = $this->_dispatcher->trigger('getProductStock', array($eco));
+		$ecoStockNumber        = self::$dispatcher->trigger('getProductStock', array($eco));
 
 		return $ecoStockNumber;
 	}
@@ -439,7 +448,7 @@ class RedshopEconomic
 		$eco['product_name']   = addslashes($shipping_name);
 		$eco['product_price']  = $shipping_rate;
 		$eco['product_volume'] = 1;
-		$debtorHandle          = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
+		$debtorHandle          = self::$dispatcher->trigger('Product_FindByNumber', array($eco));
 		$eco['eco_prd_number'] = "";
 
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
@@ -449,7 +458,7 @@ class RedshopEconomic
 
 		$eco['product_stock'] = 1;
 
-		$ecoShippingRateNumber = $this->_dispatcher->trigger('storeProduct', array($eco));
+		$ecoShippingRateNumber = self::$dispatcher->trigger('storeProduct', array($eco));
 
 		return $ecoShippingRateNumber;
 	}
@@ -462,7 +471,7 @@ class RedshopEconomic
 	 */
 	public function getMaxDebtorInEconomic()
 	{
-		$ecoMaxNumber = $this->_dispatcher->trigger('getMaxDebtor');
+		$ecoMaxNumber = self::$dispatcher->trigger('getMaxDebtor');
 
 		return $ecoMaxNumber;
 	}
@@ -475,8 +484,8 @@ class RedshopEconomic
 	 */
 	public function getMaxOrderNumberInEconomic()
 	{
-		$ecoMaxInvoiceNumber = $this->_dispatcher->trigger('getMaxInvoiceNumber');
-		$ecoMaxDraftNumber   = $this->_dispatcher->trigger('getMaxDraftInvoiceNumber');
+		$ecoMaxInvoiceNumber = self::$dispatcher->trigger('getMaxInvoiceNumber');
+		$ecoMaxDraftNumber   = self::$dispatcher->trigger('getMaxDraftInvoiceNumber');
 
 		$ecoMaxNumber = max($ecoMaxInvoiceNumber[0], $ecoMaxDraftNumber[0]);
 
@@ -530,7 +539,7 @@ class RedshopEconomic
 				$eco['requisition_number'] = $orderdetail->requisition_number;
 				$eco['vatzone']            = $this->getEconomicTaxZone($user_billinginfo->country_code);
 
-				$invoiceHandle = $this->_dispatcher->trigger('createInvoice', array($eco));
+				$invoiceHandle = self::$dispatcher->trigger('createInvoice', array($eco));
 
 				if (count($invoiceHandle) > 0 && $invoiceHandle[0]->Id)
 				{
@@ -545,7 +554,7 @@ class RedshopEconomic
 					$eco['country_ST']    = $this->_order_functions->getCountryName($user_shippinginfo->country_code);
 					$eco['zipcode_ST']    = $user_shippinginfo->zipcode;
 
-					$this->_dispatcher->trigger('setDeliveryAddress', array($eco));
+					self::$dispatcher->trigger('setDeliveryAddress', array($eco));
 
 					if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 					{
@@ -658,7 +667,7 @@ class RedshopEconomic
 			$eco['product_quantity'] = $orderitem[$i]->product_quantity;
 			$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
-			$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
+			$InvoiceLine_no = self::$dispatcher->trigger('createInvoiceLine', array($eco));
 
 			$displayattribute = $this->makeAttributeOrder($invoice_no, $orderitem[$i], 0, $orderitem[$i]->product_id, $user_id);
 
@@ -685,7 +694,7 @@ class RedshopEconomic
 				$eco['product_quantity'] = $orderitem[$i]->product_quantity;
 				$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
-				$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
+				$InvoiceLine_no = self::$dispatcher->trigger('createInvoiceLine', array($eco));
 			}
 		}
 	}
@@ -719,7 +728,7 @@ class RedshopEconomic
 		$eco['product_quantity'] = $orderitem->product_quantity;
 		$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
-		$this->_dispatcher->trigger('createInvoiceLine', array($eco));
+		self::$dispatcher->trigger('createInvoiceLine', array($eco));
 	}
 
 	/**
@@ -808,7 +817,7 @@ class RedshopEconomic
 				}
 			}
 
-			$this->_dispatcher->trigger('createInvoiceLine', array($eco));
+			self::$dispatcher->trigger('createInvoiceLine', array($eco));
 		}
 	}
 
@@ -866,7 +875,7 @@ class RedshopEconomic
 					$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 					$eco['shipping']         = 1;
 
-					$this->_dispatcher->trigger('createInvoiceLine', array($eco));
+					self::$dispatcher->trigger('createInvoiceLine', array($eco));
 				}
 			}
 		}
@@ -882,9 +891,9 @@ class RedshopEconomic
 	{
 		if (Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'))
 		{
-			$accountgroup = $this->_redhelper->getEconomicAccountGroup(Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'), 1);
+			$accountGroup = $redHelper->getEconomicAccountGroup(Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'), 1);
 
-			if (count($accountgroup) > 0)
+			if (count($accountGroup) > 0)
 			{
 				$ecoProductGroupNumber = $this->createProductGroupInEconomic(array(), 0, 1, $isVatDiscount);
 
@@ -896,11 +905,11 @@ class RedshopEconomic
 				$discount     = $orderdetail->order_discount + $orderdetail->special_discount_amount;
 				$product_name = JText::_('COM_REDSHOP_ORDER_DISCOUNT');
 
-				$product_number = $accountgroup[0]->economic_discount_product_number;
+				$product_number = $accountGroup[0]->economic_discount_product_number;
 
 				if ($isPaymentDiscount)
 				{
-					$product_number = $accountgroup[0]->economic_discount_product_number . "_" . $data['economic_payment_method'];
+					$product_number = $accountGroup[0]->economic_discount_product_number . "_" . $data['economic_payment_method'];
 					$product_name   = ($orderdetail->payment_oprand == '+') ? JText::_('PAYMENT_CHARGES_LBL') : JText::_('PAYMENT_DISCOUNT_LBL');
 					$discount       = ($orderdetail->payment_oprand == "+") ? (0 - $orderdetail->payment_discount) : $orderdetail->payment_discount;
 				}
@@ -919,7 +928,7 @@ class RedshopEconomic
 				$eco['product_price']    = (0 - $discount);
 				$eco['product_volume']   = 1;
 
-				$debtorHandle          = $this->_dispatcher->trigger('Product_FindByNumber', array($eco));
+				$debtorHandle          = self::$dispatcher->trigger('Product_FindByNumber', array($eco));
 				$eco['eco_prd_number'] = "";
 
 				if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
@@ -928,8 +937,8 @@ class RedshopEconomic
 				}
 
 				$eco['product_stock'] = 1;
-				$this->_dispatcher->trigger('storeProduct', array($eco));
-				$this->_dispatcher->trigger('createInvoiceLine', array($eco));
+				self::$dispatcher->trigger('storeProduct', array($eco));
+				self::$dispatcher->trigger('createInvoiceLine', array($eco));
 			}
 		}
 	}
@@ -994,7 +1003,7 @@ class RedshopEconomic
 		if ($orderdata->invoice_no)
 		{
 			$eco['invoiceHandle'] = $orderdata->invoice_no;
-			$this->_dispatcher->trigger('deleteInvoice', array($eco));
+			self::$dispatcher->trigger('deleteInvoice', array($eco));
 			$this->updateInvoiceNumber($orderdata->order_id, 0);
 		}
 	}
@@ -1009,7 +1018,7 @@ class RedshopEconomic
 	{
 		$eco['invoiceHandle'] = $orderdetail->invoice_no;
 		$eco['order_number']  = $orderdetail->order_number;
-		$bookInvoiceData       = $this->_dispatcher->trigger('checkBookInvoice', array($eco));
+		$bookInvoiceData       = self::$dispatcher->trigger('checkBookInvoice', array($eco));
 
 		if (count($bookInvoiceData) > 0 && isset($bookInvoiceData[0]->InvoiceHandle))
 		{
@@ -1061,7 +1070,7 @@ class RedshopEconomic
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
-		$InvoiceNumber = $this->_dispatcher->trigger('updateInvoiceDate', array($eco));
+		$InvoiceNumber = self::$dispatcher->trigger('updateInvoiceDate', array($eco));
 
 		return $InvoiceNumber;
 	}
@@ -1097,7 +1106,7 @@ class RedshopEconomic
 						$eco['order_number']  = $orderdetail->order_number;
 						$eco['order_id']      = $orderdetail->order_id;
 
-						$currectinvoiceData = $this->_dispatcher->trigger('checkDraftInvoice', array($eco));
+						$currectinvoiceData = self::$dispatcher->trigger('checkDraftInvoice', array($eco));
 
 						if (count($currectinvoiceData) > 0 && trim($currectinvoiceData[0]->OtherReference) == $orderdetail->order_number)
 						{
@@ -1135,11 +1144,11 @@ class RedshopEconomic
 
 							if (Redshop::getConfig()->get('ECONOMIC_BOOK_INVOICE_NUMBER') == 1)
 							{
-								$bookhandle = $this->_dispatcher->trigger('CurrentInvoice_Book', array($eco));
+								$bookhandle = self::$dispatcher->trigger('CurrentInvoice_Book', array($eco));
 							}
 							else
 							{
-								$bookhandle = $this->_dispatcher->trigger('CurrentInvoice_BookWithNumber', array($eco));
+								$bookhandle = self::$dispatcher->trigger('CurrentInvoice_BookWithNumber', array($eco));
 							}
 
 							if (count($bookhandle) > 0 && isset($bookhandle[0]->Number))
@@ -1151,7 +1160,7 @@ class RedshopEconomic
 									$this->updateBookInvoiceNumber($order_id, $bookinvoice_number);
 								}
 
-								$bookinvoicepdf = $this->_dispatcher->trigger('bookInvoice', array($eco));
+								$bookinvoicepdf = self::$dispatcher->trigger('bookInvoice', array($eco));
 
 								if (JError::isError(JError::getError()))
 								{
@@ -1255,7 +1264,7 @@ class RedshopEconomic
 					$eco['product_price']    = $orderItemdata[$i]->product_acc_item_price;
 					$eco['product_quantity'] = $orderItemdata[$i]->product_quantity;
 					$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
-					$InvoiceLine_no           = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
+					$InvoiceLine_no           = self::$dispatcher->trigger('createInvoiceLine', array($eco));
 				}
 
 				$displayattribute = $this->makeAttributeOrder($invoice_no, $orderItem, 1, $orderItemdata[$i]->product_id, $user_id);
@@ -1278,7 +1287,7 @@ class RedshopEconomic
 					$eco['product_quantity'] = $orderItemdata[$i]->product_quantity;
 					$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 
-					$InvoiceLine_no = $this->_dispatcher->trigger('createInvoiceLine', array($eco));
+					$InvoiceLine_no = self::$dispatcher->trigger('createInvoiceLine', array($eco));
 				}
 			}
 		}
@@ -1423,7 +1432,7 @@ class RedshopEconomic
 			$eco[$i]['product_price']    = $orderAttitem[$i]->section_price;
 			$eco[$i]['product_quantity'] = $orderItem->product_quantity;
 			$eco[$i]['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
-			$this->_dispatcher->trigger('createInvoiceLine', array($eco[$i]));
+			self::$dispatcher->trigger('createInvoiceLine', array($eco[$i]));
 		}
 	}
 

@@ -76,84 +76,20 @@ class economic
 	}
 
 	/**
-	 * Method to create Product Group in E-conomic
+	 * Create Product Group in E-conomic
 	 *
-	 * @access public
-	 * @return array
+	 * @param   array    $row         Data to create
+	 * @param   integer  $isShipping  Shipping flag
+	 * @param   integer  $isDiscount  Discount flag
+	 * @param   integer  $isvat       VAT flag
+	 *
+	 * @return  null/array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createProductGroupInEconomic() instead
 	 */
 	public function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isvat = 0)
 	{
-		$ecoProductGroupNumber         = new stdclass;
-		$ecoProductGroupNumber->Number = 1;
-
-		$accountgroup = array();
-
-		if (count($row) > 0 && $row->accountgroup_id != 0)
-		{
-			$accountgroup = $this->_redhelper->getEconomicAccountGroup($row->accountgroup_id);
-		}
-
-		elseif (Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP') != 0)
-		{
-			$accountgroup = $this->_redhelper->getEconomicAccountGroup(Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'));
-		}
-
-		if (count($accountgroup) > 0)
-		{
-			if ($isShipping == 1)
-			{
-				if ($isvat == 1)
-				{
-					$eco['productgroup_id']   = $accountgroup[0]->economic_shipping_vat_account;
-					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' shipping vat';
-					$eco['vataccount']        = $accountgroup[0]->economic_shipping_vat_account;
-					$eco['novataccount']      = $accountgroup[0]->economic_shipping_nonvat_account;
-				}
-				else
-				{
-					$eco['productgroup_id']   = $accountgroup[0]->economic_shipping_nonvat_account;
-					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' shipping novat';
-					$eco['vataccount']        = $accountgroup[0]->economic_shipping_nonvat_account;
-					$eco['novataccount']      = $accountgroup[0]->economic_shipping_nonvat_account;
-				}
-			}
-			elseif ($isDiscount == 1)
-			{
-				if ($isvat == 1)
-				{
-					$eco['productgroup_id']   = $accountgroup[0]->economic_discount_vat_account;
-					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' discount vat';
-					$eco['vataccount']        = $accountgroup[0]->economic_discount_vat_account;
-					$eco['novataccount']      = $accountgroup[0]->economic_discount_nonvat_account;
-				}
-				else
-				{
-					$eco['productgroup_id']   = $accountgroup[0]->economic_discount_nonvat_account;
-					$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name . ' discount novat';
-					$eco['vataccount']        = $accountgroup[0]->economic_discount_nonvat_account;
-					$eco['novataccount']      = $accountgroup[0]->economic_discount_nonvat_account;
-				}
-			}
-			else
-			{
-				$eco['productgroup_id']   = $accountgroup[0]->accountgroup_id;
-				$eco['productgroup_name'] = $accountgroup[0]->accountgroup_name;
-				$eco['vataccount']        = $accountgroup[0]->economic_vat_account;
-				$eco['novataccount']      = $accountgroup[0]->economic_nonvat_account;
-			}
-
-			$groupHandle              = $this->_dispatcher->trigger('ProductGroup_FindByNumber', array($eco));
-			$eco['eco_prdgro_number'] = "";
-
-			if (count($groupHandle) > 0 && isset($groupHandle[0]->Number) != "")
-			{
-				$eco['eco_prdgro_number'] = $groupHandle[0]->Number;
-			}
-
-			$ecoProductGroupNumber = $this->_dispatcher->trigger('storeProductGroup', array($eco));
-		}
-
-		return $ecoProductGroupNumber;
+		return RedshopEconomic::createProductGroupInEconomic($row, $isShipping, $isDiscount, $isvat);
 	}
 
 	/**
