@@ -143,10 +143,12 @@ class RedshopHelperShipping
 				for ($i = 0; $i < $idx; $i++)
 				{
 					$productId = $cart[$i]['product_id'];
-					$sel = 'SELECT ' . $db->qn('category_id')
-						. ' FROM ' . $db->qn('#__redshop_product_category_xref')
-						. ' WHERE ' . $db->qn('product_id') . ' = ' . $db->q((int) $productId);
-					$categoryData = $db->setQuery($sel)->loadObjectList();
+					$query = $db->getQuery(true)
+					->select($db->qn('category_id'))
+					->from($db->qn('#__redshop_product_category_xref'))
+					->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+
+					$categoryData = $db->setQuery($query)->loadObjectList();
 					$where = ' ';
 
 					if ($categoryData)
@@ -260,7 +262,7 @@ class RedshopHelperShipping
 		$weightTotal  = $data->weight;
 		$volume       = $data->product_volume;
 		$userInfo     = self::getShippingAddress($data['users_info_id']);
-		$productId    = $cart['product_id'];
+		$productId    = $data['product_id'];
 		$country      = '';
 		$state        = '';
 		$isCompany    = '';
@@ -348,10 +350,12 @@ class RedshopHelperShipping
 
 			if (!$shippingRate)
 			{
-				$sel = 'SELECT ' . $db->qn('category_id')
-					. ' FROM ' . $db->qn('#__redshop_product_category_xref')
-					. ' WHERE ' . $db->qn('product_id') . ' = ' . $db->q((int) $productId);
-				$categoryData = $db->setQuery($sel)->loadObjectList();
+				$query = $db->getQuery(true)
+					->select($db->qn('category_id'))
+					->from($db->qn('#__redshop_product_category_xref'))
+					->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+
+				$categoryData = $db->setQuery($query)->loadObjectList();
 				$where = ' ';
 
 				if ($categoryData)
@@ -487,10 +491,12 @@ class RedshopHelperShipping
 				$pWhere .= " OR ";
 			}
 
-			$sel = 'SELECT ' . $db->qn('category_id')
-				. ' FROM ' . $db->qn('#__redshop_product_category_xref')
-				. ' WHERE ' . $db->qn('product_id') . ' = ' . $db->q((int) $productId);
-			$categoryData = $db->setQuery($sel)->loadObjectList();
+			$query = $db->getQuery(true)
+					->select($db->qn('category_id'))
+					->from($db->qn('#__redshop_product_category_xref'))
+					->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+
+			$categoryData = $db->setQuery($query)->loadObjectList();
 
 			if ($categoryData)
 			{
@@ -882,5 +888,268 @@ class RedshopHelperShipping
 		}
 
 		return $shippingRateVat;
+	}
+
+	/**
+	 * List shipping rates
+	 *
+	 * @param   object  $shippingClass  Shipping class
+	 * @param   array   $usersInfoId    User info id
+	 * @param   array   &$data          Shipping data
+	 *
+	 * @return  object  Shipping Rate
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function listShippingRates($shippingClass, $usersInfoId, &$data)
+	{
+		$app            = JFactory::getApplication();
+		$isAdmin        = $app->isAdmin();
+		$userHelper     = rsUserHelper::getInstance();
+		$orderSubtotal  = $data['order_subtotal'];
+		$totalDimention = self::getCartItemDimention();
+		$weightTotal    = $totalDimention['totalweight'];
+		$volume         = $totalDimention['totalvolume'];
+		$session        = JFactory::getSession();
+		$db             = JFactory::getDbo();
+		$cart           = $session->get('cart');
+		$idx            = (int) ($cart ['idx']);
+
+		// Product volume based shipping
+		$volumeShipping      = self::getProductVolumeShipping();
+		$whereShippingVolume = "";
+
+		if (count($volumeShipping) > 0)
+		{
+			$whereShippingVolume .= " AND ( ";
+
+			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
+			{
+				$length = $volumeShipping[$g]['length'];
+				$width  = $volumeShipping[$g]['width'];
+				$height = $volumeShipping[$g]['height'];
+
+				if ($g != 0)
+				{
+					$whereShippingVolume .= " OR ";
+				}
+
+				$whereShippingVolume .= "(
+						((" . $db->q($length) . " BETWEEN " . $db->qn('shipping_rate_length_start')
+						. " AND " . $db->qn('shipping_rate_length_end') . ")
+							OR (" . $db->qn('shipping_rate_length_start') . " = 0 AND "
+							. $db->qn('shipping_rate_length_end') . " = 0))
+						AND ((" . $db->q($width) . " BETWEEN " . $db->qn('shipping_rate_width_start')
+						. " AND " . $db->qn('shipping_rate_width_end') . ")
+							OR (" . $db->qn('shipping_rate_width_start') . " = 0 AND "
+							. $db->qn('shipping_rate_width_end') . " = 0))
+						AND ((" . $db->q($height) . " BETWEEN " . $db->qn('shipping_rate_height_start')
+						. " AND " . $db->qn('shipping_rate_height_end') . ")
+							OR (" . $db->qn('shipping_rate_height_start') . " = 0 AND "
+							. $db->qn('shipping_rate_height_end') . "= 0))
+						) ";
+			}
+
+			$whereShippingVolume .= " ) ";
+		}
+
+		$userInfo     = self::getShippingAddress($usersInfoId);
+		$country      = $userInfo->country_code;
+		$state        = $userInfo->state_code;
+		$zip          = $userInfo->zipcode;
+		$isCompany    = $userInfo->is_company;
+		$where        = '';
+		$whereState   = '';
+		$whereShopper = '';
+
+		if (!$isCompany)
+		{
+			$where = " AND ( " . $db->qn('company_only') . " = 2 OR " . $db->qn('company_only') . " = 0) ";
+		}
+		else
+		{
+			$where = " AND ( " . $db->qn('company_only') . " = 1 OR " . $db->qn('company_only') . " = 0) ";
+		}
+
+		$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);
+
+		if (count($shopperGroup) > 0)
+		{
+			$shopperGroupId = $shopperGroup->shopper_group_id;
+			$whereShopper     = " AND (FIND_IN_SET(" . (int) $shopperGroupId . ", " . $db->qn('shipping_rate_on_shopper_group') . ")
+				OR " . $db->qn('shipping_rate_on_shopper_group') . "= '') ";
+		}
+
+		$shippingRate = array();
+
+		if ($country)
+		{
+			$whereCountry = "AND (FIND_IN_SET(" . $db->q($country) . ", " . $db->qn('shipping_rate_country') . ") OR "
+				. $db->qn('shipping_rate_country') . " = 0 OR " . $db->qn('shipping_rate_country') . " = '' )";
+		}
+		else
+		{
+			$whereCountry = "AND (FIND_IN_SET(" . $db->q(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", "
+				. $db->qn('shipping_rate_country') . ") )";
+		}
+
+		if ($state)
+		{
+			$whereState = " AND (FIND_IN_SET(" . $db->q($state) . ", " . $db->qn('shipping_rate_state') . ") OR "
+				. $db->qn('shipping_rate_state') . " = 0 OR " . $db->qn('shipping_rate_state') . " = '')";
+		}
+
+		$pWhere = "";
+		$cWhere = "";
+
+		if ($idx)
+		{
+			$pWhere = 'OR ( ';
+
+			for ($i = 0; $i < $idx; $i++)
+			{
+				$productId = $cart[$i]['product_id'];
+				$pWhere .= "FIND_IN_SET(" . $db->q((int) $productId) . ", " . $db->qn('shipping_rate_on_product') . ")";
+
+				if ($i != $idx - 1)
+				{
+					$pWhere .= " OR ";
+				}
+			}
+
+			$pWhere .= ")";
+		}
+
+		if (!$shippingRate)
+		{
+			for ($i = 0; $i < $idx; $i++)
+			{
+				$productId = $cart[$i]['product_id'];
+				$query = $db->getQuery(true)
+					->select($db->qn('category_id'))
+					->from($db->qn('#__redshop_product_category_xref'))
+					->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+
+				$categoryData = $db->setQuery($query)->loadObjectList();
+
+				if ($categoryData)
+				{
+					for ($c = 0, $cn = count($categoryData); $c < $cn; $c++)
+					{
+						$acWhere[] = " FIND_IN_SET(" . $db->q((int) $categoryData[$c]->category_id) . ", " . $db->qn('shipping_rate_on_category') . ") ";
+					}
+				}
+			}
+
+			if (isset($acWhere) && count($acWhere) > 0)
+			{
+				$acWhere = implode(' OR ', $acWhere);
+				$cWhere  = ' OR (' . $acWhere . ')';
+			}
+		}
+
+		if (!$shippingRate)
+		{
+			$numbers = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z","A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", " ");
+
+			$zipCond = "";
+			$zip     = trim($zip);
+
+			if (strlen(str_replace($numbers, '', $zip)) == 0 && $zip != "")
+			{
+				$zipCond = " AND ( ( " . $db->qn('shipping_rate_zip_start') . " <= " . $db->q($zip) . " AND "
+					. $db->qn('shipping_rate_zip_end') . " >= " . $db->q($zip) . " )
+				OR (" . $db->qn('shipping_rate_zip_start') . " = 0 AND " . $db->qn('shipping_rate_zip_end') . " = 0)
+				OR (" . $db->qn('shipping_rate_zip_start') . " = '' AND " . $db->qn('shipping_rate_zip_end') . " = '') ) ";
+			}
+
+			$sql = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " WHERE " . $db->qn('shipping_class') . " = " . $db->q($shippingClass) . $whereCountry . $whereState . $whereShopper . $zipCond . "
+				AND (( " . $db->qn('$volume') . " BETWEEN " . $db->qn('shipping_rate_volume_start')
+					. " AND " . $db->qn('shipping_rate_volume_end') . ") OR ( . " . $db->qn('shipping_rate_volume_end') . " = 0) )
+				AND (( " . $db->qn('$orderSubtotal') . " BETWEEN " . $db->qn('shipping_rate_ordertotal_start')
+					. " AND " . $db->qn('shipping_rate_ordertotal_end') . ") OR (" . $db->qn('shipping_rate_ordertotal_end') . " = 0))
+				AND (( " . $db->qn('$weightTotal') . " BETWEEN " . $db->qn('shipping_rate_weight_start')
+					. " AND " . $db->qn('shipping_rate_weight_end') . ") OR ("
+						. $db->qn('shipping_rate_weight_end') . " = 0)) " . $whereShippingVolume . "
+				AND (" . $db->qn('shipping_rate_on_product') . " = '' " . $pWhere . ") AND ("
+					. $db->qn('shipping_rate_on_category') . " = '' " . $cWhere . ")" . $where . "
+				ORDER BY " . $db->qn('shipping_rate_priority');
+
+			$shippingRate = $db->setQuery($sql)->loadObjectList();
+		}
+
+		/*
+		 * rearrange shipping rates array
+		 * after filtering zipcode
+		 * check character condition for zip code..
+		 */
+		$shipping = array();
+
+		if (strlen(str_replace($numbers, '', $zip)) != 0 && $zip != "")
+		{
+			$k = 0;
+			$userZipLen = (self::strposa($zip, $numbers) !== false) ? (self::strposa($zip, $numbers)) : strlen($zip);
+
+			for ($i = 0, $countShippingRate = count($shippingRate); $i < $countShippingRate; $i++)
+			{
+				$flag            = false;
+				$tmpShippingRate = $shippingRate[$i];
+				$start           = $tmpShippingRate->shipping_rate_zip_start;
+				$end             = $tmpShippingRate->shipping_rate_zip_end;
+
+				if (trim($start) == "" && trim($end) == "")
+				{
+					$shipping[$k++] = $tmpShippingRate;
+				}
+
+				else
+				{
+					$startZipLen = (self::strposa($start, $numbers) !== false) ? (self::strposa($start, $numbers)) : strlen($start);
+					$endZipLen   = (self::strposa($end, $numbers) !== false) ? (self::strposa($end, $numbers)) : strlen($end);
+
+					if ($startZipLen != $endZipLen || $userZipLen != $endZipLen)
+					{
+						continue;
+					}
+
+					$len = $userZipLen;
+
+					for ($j = 0; $j < $len; $j++)
+					{
+						if (ord(strtoupper($zip[$j])) >= ord(strtoupper($start[$j]))
+							&& ord(strtoupper($zip[$j])) <= ord(strtoupper($end[$j])))
+						{
+							$flag = true;
+						}
+						else
+						{
+							$flag = false;
+							break;
+						}
+					}
+
+					if ($flag)
+					{
+						$shipping[$k++] = $tmpShippingRate;
+					}
+				}
+			}
+
+			if ($isAdmin == false)
+			{
+				$shipping = self::filterRatesByPriority($shipping);
+			}
+
+			return $shipping;
+		}
+		else
+		{
+			if ($isAdmin == false)
+			{
+				$shippingRate = self::filterRatesByPriority($shippingRate);
+			}
+
+			return $shippingRate;
+		}
 	}
 }
