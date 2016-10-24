@@ -186,7 +186,8 @@ class RedshopHelperMail
 		$search[]         = "{discount_type}";
 		$replace[]        = $discountType;
 
-		$orderDetailUrl   = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $row->encr_key;
+		$orderDetailUrl   = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid='
+			. $orderId . '&encr=' . $row->encr_key;
 		$search[]         = "{order_detail_link}";
 		$replace[]        = "<a href='" . $orderDetailUrl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
@@ -196,10 +197,10 @@ class RedshopHelperMail
 		$thirdPartyEmail  = $billingAddresses->thirdparty_email;
 		$email            = $billingAddresses->user_email;
 
-		$search[]      = "{order_id}";
-		$replace[]     = $row->order_id;
-		$search[]      = "{order_number}";
-		$replace[]     = $row->order_number;
+		$search[]     = "{order_id}";
+		$replace[]    = $row->order_id;
+		$search[]     = "{order_number}";
+		$replace[]    = $row->order_number;
 		$searchSub[]  = "{order_id}";
 		$replaceSub[] = $row->order_id;
 		$searchSub[]  = "{order_number}";
@@ -208,7 +209,7 @@ class RedshopHelperMail
 		$replaceSub[] = Redshop::getConfig()->get('SHOP_NAME');
 		$searchSub[]  = "{order_date}";
 		$replaceSub[] = $redConfig->convertDateFormat($row->cdate);
-		$subject       = str_replace($searchSub, $replaceSub, $subject);
+		$subject      = str_replace($searchSub, $replaceSub, $subject);
 
 		// Send the e-mail
 		if ($email != "")
@@ -220,7 +221,8 @@ class RedshopHelperMail
 				$mailBcc = explode(",", $mailInfo[0]->mail_bcc);
 			}
 
-			$bcc      = (trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')) != '') ? explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL'))) : array();
+			$bcc      = (trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')) != '') ?
+				explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL'))) : array();
 			$bcc      = array_merge($bcc, $mailBcc);
 			$fullName = $billingAddresses->firstname . " " . $billingAddresses->lastname;
 
@@ -351,7 +353,8 @@ class RedshopHelperMail
 		$replace[]      = $productHelper->getProductFormattedPrice($row->special_discount_amount);
 		$search[]       = "{special_discount_lbl}";
 		$replace[]      = JText::_('COM_REDSHOP_SPECIAL_DISCOUNT');
-		$orderDetailUrl = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $order_id . '&encr=' . $row->encr_key;
+		$orderDetailUrl = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid='
+			. $order_id . '&encr=' . $row->encr_key;
 		$search[]       = "{order_detail_link}";
 		$replace[]      = "<a href='" . $orderDetailUrl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
@@ -652,7 +655,9 @@ class RedshopHelperMail
 		$email            = $billingAddresses->user_email;
 		$mailBody         = self::imgInMail($mailBody);
 
-		if ((Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 2 || Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 3) && $email != "")
+		if ((Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 2
+			|| Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 3)
+			&& $email != "")
 		{
 			if (!JFactory::getMailer()->sendMail($from, $fromName, $email, $subject, $mailBody, 1, null, $mailBcc, $invoiceAttachment))
 			{
@@ -662,7 +667,9 @@ class RedshopHelperMail
 			}
 		}
 
-		if ((Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 1 || Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 3) && Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
+		if ((Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 1
+			|| Redshop::getConfig()->get('INVOICE_MAIL_SEND_OPTION') == 3)
+			&& Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
 			$sendTo = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 
@@ -1075,13 +1082,13 @@ class RedshopHelperMail
 
 			if ($product->product_full_image)
 			{
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
+				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 				{
 					$productImagePath = $product->product_full_image;
 				}
 				else
 				{
-					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
+					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 					{
 						$productImagePath = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 					}
@@ -1089,7 +1096,7 @@ class RedshopHelperMail
 			}
 			else
 			{
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
+				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 				{
 					$productImagePath = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 				}
@@ -1117,8 +1124,8 @@ class RedshopHelperMail
 			$cartMdata = str_replace("{product_s_desc}", $product->product_s_desc, $cartMdata);
 			$cartMdata = str_replace("{product_thumb_image}", $productImage, $cartMdata);
 
-			$productNote = "<div class='product_note'>" . $wrapperName . "</div>";
-			$cartMdata = str_replace("{product_wrapper}", $productNote, $cartMdata);
+			$productNote       = "<div class='product_note'>" . $wrapperName . "</div>";
+			$cartMdata         = str_replace("{product_wrapper}", $productNote, $cartMdata);
 			$productUserFields = $quotationHelper->displayQuotationUserfield($rowItem[$i]->quotation_item_id, 12);
 
 			$cartMdata = str_replace("{product_userfields}", $productUserFields, $cartMdata);
@@ -1448,7 +1455,7 @@ class RedshopHelperMail
 		$uri           = JURI::getInstance();
 		$url           = $uri->root();
 		$subject       = "";
-		$dataAdd      = "";
+		$dataAdd       = "";
 		$mailBcc       = null;
 
 		$mailInfo = self::getMailtemplate(0, "ask_question_mail");
@@ -1632,10 +1639,9 @@ class RedshopHelperMail
 				}
 			}
 
-			$config   = JFactory::getConfig();
-			$from     = $config->get('mailfrom');
-			$fromName = $config->get('fromname');
-
+			$config      = JFactory::getConfig();
+			$from        = $config->get('mailfrom');
+			$fromName    = $config->get('fromname');
 			$stateName   = self::$orderFunctions->getStateName($data->state_code);
 			$countryName = self::$orderFunctions->getCountryName($data->country_code);
 
@@ -1649,8 +1655,7 @@ class RedshopHelperMail
 			$dataAdd = str_replace("{address}", $data->address, $dataAdd);
 			$dataAdd = str_replace("{city}", $data->city, $dataAdd);
 			$dataAdd = self::imgInMail($dataAdd);
-
-			$sendto = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
+			$sendto  = explode(",", trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')));
 
 			return JFactory::getMailer()->sendMail($from, $fromName, $sendto, $subject, $dataAdd, 1, null, $mailBcc);
 		}
