@@ -509,19 +509,18 @@ class RedshopEconomic
 	}
 
 	/**
-	 * Method to get Max User Number in E-conomic
+	 * Get Max User Number in E-conomic
 	 *
-	 * @access public
-	 * @return array
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getMaxDebtorInEconomic()
+	public static function getMaxDebtorInEconomic()
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
 
-		$ecoMaxNumber = self::$dispatcher->trigger('getMaxDebtor');
-
-		return $ecoMaxNumber;
+		return self::$dispatcher->trigger('getMaxDebtor');
 	}
 
 	/**
