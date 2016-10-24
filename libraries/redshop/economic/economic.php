@@ -903,47 +903,52 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [createInvoiceShippingLineInEconomic description]
+	 * Method to create Invoice line for shipping in E-conomic
 	 *
-	 * @param   string  $shipMethodId  [description]
-	 * @param   string  $invoiceNo     [description]
+	 * @param   string  $shipMethodId  Shipping method ID
+	 * @param   string  $invoiceNo     Invoice Number
 	 *
-	 * @return  [type]                 [description]
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createInvoiceShippingLineInEconomic($shipMethodId = "", $invoiceNo = "")
+	public static function createInvoiceShippingLineInEconomic($shipMethodId = "", $invoiceNo = "")
 	{
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
+
 		if ($shipMethodId != "")
 		{
-			$order_shipping = RedshopShippingRate::decrypt($shipMethodId);
+			$orderShipping = RedshopShippingRate::decrypt($shipMethodId);
 
-			if (count($order_shipping) > 5)
+			if (count($orderShipping) > 5)
 			{
 				// Load language file of the shipping plugin
 				JFactory::getLanguage()->load(
-					'plg_redshop_shipping_' . strtolower(str_replace('plgredshop_shipping', '', $order_shipping[0])),
+					'plg_redshop_shipping_' . strtolower(str_replace('plgredshop_shipping', '', $orderShipping[0])),
 					JPATH_ADMINISTRATOR
 				);
 
-				$shippingName        = JText::_($order_shipping[1]);
-				$shipping_nshortname = (strlen($shippingName) > 15) ? substr($shippingName, 0, 15) : $shippingName;
-				$shippingNumber     = $shipping_nshortname . ' ' . $order_shipping[4];
-				$shippingName       = $order_shipping[2];
-				$shippingRate       = $order_shipping[3];
+				$shippingName       = JText::_($orderShipping[1]);
+				$shippingShortname  = (strlen($shippingName) > 15) ? substr($shippingName, 0, 15) : $shippingName;
+				$shippingNumber     = $shippingShortname . ' ' . $orderShipping[4];
+				$shippingName       = $orderShipping[2];
+				$shippingRate       = $orderShipping[3];
 
 				$isVat = 0;
 
-				if (isset($order_shipping[6]) && $order_shipping[6] != 0)
+				if (isset($orderShipping[6]) && $orderShipping[6] != 0)
 				{
 					$isVat         = 1;
-					$shippingRate = $shippingRate - $order_shipping[6];
+					$shippingRate = $shippingRate - $orderShipping[6];
 				}
 
-				if (isset($order_shipping[7]) && $order_shipping[7] != '')
+				if (isset($orderShipping[7]) && $orderShipping[7] != '')
 				{
-					$shippingNumber = $order_shipping[7];
+					$shippingNumber = $orderShipping[7];
 				}
 
-				$ecoShippingrateNumber = $this->createShippingRateInEconomic($shippingNumber, $shippingName, $shippingRate, $isVat);
+				$ecoShippingrateNumber = self::createShippingRateInEconomic($shippingNumber, $shippingName, $shippingRate, $isVat);
 
 				if (isset($ecoShippingrateNumber[0]->Number))
 				{
@@ -965,25 +970,32 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [createInvoiceDiscountLineInEconomic description]
+	 * Method to create Invoice line for discount in E-conomic
 	 *
-	 * @param   array    $orderDetail        [description]
-	 * @param   string   $invoiceNo          [description]
-	 * @param   array    $data               [description]
-	 * @param   integer  $isPaymentDiscount  [description]
-	 * @param   integer  $isVatDiscount      [description]
+	 * @param   array    $orderDetail        Order detail
+	 * @param   string   $invoiceNo          Invoice Number
+	 * @param   array    $data               Data
+	 * @param   integer  $isPaymentDiscount  Is payment discount or not
+	 * @param   integer  $isVatDiscount      Is VAT discount or not
 	 *
-	 * @return  [type]                       [description]
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createInvoiceDiscountLineInEconomic($orderDetail = array(), $invoiceNo = "", $data = array(), $isPaymentDiscount = 0, $isVatDiscount = 0)
+	public static function createInvoiceDiscountLineInEconomic($orderDetail = array(), $invoiceNo = "", $data = array(), $isPaymentDiscount = 0, $isVatDiscount = 0)
 	{
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
+		$productHelper = productHelper::getInstance();
+		$redHelper     = redhelper::getInstance();
+
 		if (Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'))
 		{
 			$accountGroup = $redHelper->getEconomicAccountGroup(Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'), 1);
 
 			if (count($accountGroup) > 0)
 			{
-				$ecoProductGroupNumber = $this->createProductGroupInEconomic(array(), 0, 1, $isVatDiscount);
+				$ecoProductGroupNumber = self::createProductGroupInEconomic(array(), 0, 1, $isVatDiscount);
 
 				if (isset($ecoProductGroupNumber[0]->Number))
 				{
@@ -991,26 +1003,26 @@ class RedshopEconomic
 				}
 
 				$discount     = $orderDetail->order_discount + $orderDetail->special_discount_amount;
-				$product_name = JText::_('COM_REDSHOP_ORDER_DISCOUNT');
+				$productName  = JText::_('COM_REDSHOP_ORDER_DISCOUNT');
 
 				$productNumber = $accountGroup[0]->economic_discount_product_number;
 
 				if ($isPaymentDiscount)
 				{
 					$productNumber = $accountGroup[0]->economic_discount_product_number . "_" . $data['economic_payment_method'];
-					$product_name   = ($orderDetail->payment_oprand == '+') ? JText::_('PAYMENT_CHARGES_LBL') : JText::_('PAYMENT_DISCOUNT_LBL');
-					$discount       = ($orderDetail->payment_oprand == "+") ? (0 - $orderDetail->payment_discount) : $orderDetail->payment_discount;
+					$productName   = ($orderDetail->payment_oprand == '+') ? JText::_('PAYMENT_CHARGES_LBL') : JText::_('PAYMENT_DISCOUNT_LBL');
+					$discount      = ($orderDetail->payment_oprand == "+") ? (0 - $orderDetail->payment_discount) : $orderDetail->payment_discount;
 				}
 
-				$discount_short = (strlen($productNumber) > 20) ? substr($productNumber, 0, 20) : $productNumber;
+				$discountShort = (strlen($productNumber) > 20) ? substr($productNumber, 0, 20) : $productNumber;
 
 				$eco['invoiceHandle']    = $invoiceNo;
-				$eco['product_number']   = $discount_short;
-				$eco['product_name']     = $product_name;
+				$eco['product_number']   = $discountShort;
+				$eco['product_name']     = $productName;
 				$eco['order_item_id']    = "";
 				$eco['product_desc']     = "";
 				$eco['product_s_desc']   = "";
-				$eco['product_id']       = $discount_short;
+				$eco['product_id']       = $discountShort;
 				$eco['product_quantity'] = 1;
 				$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
 				$eco['product_price']    = (0 - $discount);
