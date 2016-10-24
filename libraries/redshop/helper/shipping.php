@@ -1259,4 +1259,95 @@ class RedshopHelperShipping
 
 		return $db->setQuery($query)->loadObject();
 	}
+
+	/**
+	 * Get shopper group default shipping
+	 *
+	 * @param   int  $userId  User id
+	 *
+	 * @return  arrays
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function getShopperGroupDefaultShipping($userId = 0)
+	{
+		$productHelper = productHelper::getInstance();
+		$shippingArr   = array();
+		$user          = JFactory::getUser();
+
+		// FOR OFFLINE ORDER
+		if ($userId == 0)
+		{
+			$userId = $user->id;
+		}
+
+		if ($userId)
+		{
+			$result = $productHelper->getUserInformation($userId);
+
+			if (count($result) > 0 && $result->default_shipping == 1)
+			{
+				$shippingArr['shipping_rate'] = 0;
+				$shippingArr['shipping_vat']  = 0;
+
+				$row = self::getShippingVatRates(0);
+
+				if (!empty($row))
+				{
+					$total       = 0;
+					$shippingVat = 0;
+
+					if ($row->tax_rate > 0)
+					{
+						$shippingVat = ($result->default_shipping_rate * $row->tax_rate) . "<br>";
+						$total        += $shippingVat + $result->default_shipping_rate;
+					}
+
+					$shippingArr['shipping_vat']  = $shippingVat;
+					$shippingArr['shipping_rate'] = $total;
+
+					return $shippingArr;
+				}
+
+				$shippingArr['shipping_rate'] = $result->default_shipping_rate;
+
+				return $shippingArr;
+			}
+		}
+
+		return $shippingArr;
+	}
+
+	/**
+	 * Find first number position
+	 *
+	 * @param   string  $haystack  string to find
+	 * @param   array   $needles   array to find
+	 * @param   int     $offset    position
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function strposa($haystack, $needles = array(), $offset = 0)
+	{
+		$chr = array();
+
+		foreach ($needles as $needle)
+		{
+			if (strpos($haystack, $needle, $offset) !== false)
+			{
+				$chr[] = strpos($haystack, $needle, $offset);
+			}
+		}
+
+		if (empty($chr))
+		{
+			return false;
+		}
+		else
+		{
+			return min($chr);
+		}
+	}
 }
