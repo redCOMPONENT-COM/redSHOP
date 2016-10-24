@@ -1682,4 +1682,81 @@ class RedshopHelperShipping
 			return JText::_("COM_REDSHOP_CART_DIMENTION_NOT_MATCH");
 		}
 	}
+
+	/**
+	 * Get Shipping rate error
+	 *
+	 * @param   array  &$data  Cart data
+	 *
+	 * @return  string  error text
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function isCartDimentionMatch(&$data)
+	{
+		$orderSubtotal  = $data['order_subtotal'];
+		$db             = JFactory::getDBO();
+		$totalDimention = self::getCartItemDimention();
+		$weightTotal    = $totalDimention['totalweight'];
+		$volume         = $totalDimention['totalvolume'];
+
+		// Product volume based shipping
+		$volumeShipping      = self::getProductVolumeShipping();
+		$whereShippingVolume = "";
+
+		if (count($volumeShipping) > 0)
+		{
+			$whereShippingVolume .= " AND ( ";
+
+			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
+			{
+				$length = $volumeShipping[$g]['length'];
+				$width  = $volumeShipping[$g]['width'];
+				$height = $volumeShipping[$g]['height'];
+
+				if ($g != 0)
+				{
+					$whereShippingVolume .= " OR ";
+				}
+
+				$whereShippingVolume .= "(
+						(	(" . $db->q($length) . " BETWEEN " . $db->qn('shipping_rate_length_start')
+							. " AND " . $db->qn('shipping_rate_length_end') . ")
+							OR (" . $db->qn('shipping_rate_length_start') . " = 0 AND "
+								. $db->qn('shipping_rate_length_end') . " = 0))
+						AND ((" . $db->q($width) . " BETWEEN " . $db->qn('shipping_rate_width_start')
+							. " AND " . $db->qn('shipping_rate_width_end') . ")
+							OR (" . $db->qn('shipping_rate_width_start') . " = 0 AND "
+								. $db->qn('shipping_rate_width_end') . " = 0))
+						AND ((" . $db->q($height) . " BETWEEN " . $db->qn('shipping_rate_height_start')
+							. " AND " . $db->qn('shipping_rate_height_end') . ")
+							OR (" . $db->qn('shipping_rate_height_start') . " = 0 AND "
+								. $db->qn('shipping_rate_height_end') . " = 0))
+						) ";
+			}
+
+			$whereShippingVolume .= " ) ";
+		}
+
+		$query = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate')
+			. "WHERE (" . $db->qn('shipping_class') . " = " . $db->q('default_shipping') . " OR "
+				. $db->qn('shipping_class') . " = " . $db->q('shipper') . ") "
+			. "AND ((" . $db->q($volume) . " BETWEEN " . $db->qn('shipping_rate_volume_start')
+				. " AND " . $db->qn('shipping_rate_volume_end') . ") OR (" . $db->qn('shipping_rate_volume_end') . " = 0) ) "
+			. "AND ((" . $db->q($orderSubtotal) . " BETWEEN " . $db->qn('shipping_rate_ordertotal_start')
+				. " AND " . $db->qn('shipping_rate_ordertotal_end') . ") OR (" . $db->qn('shipping_rate_ordertotal_end') . " = 0)) "
+			. "AND ((" . $db->q($weightTotal) . " BETWEEN " . $db->qn('shipping_rate_weight_start')
+				. " AND " . $db->qn('shipping_rate_weight_end') . ") OR (" . $db->qn('shipping_rate_weight_end') . " = 0)) "
+			. $whereShippingVolume
+			. " ORDER BY " . $db->qn('shipping_rate_priority');
+
+		$shippingrate = $db->setQuery($query)->loadObjectList();
+
+		if (count($shippingrate) > 0)
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
