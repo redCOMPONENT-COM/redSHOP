@@ -1350,4 +1350,142 @@ class RedshopHelperShipping
 			return min($chr);
 		}
 	}
+
+	/**
+	 * Filter Shipping rates based on their priority
+	 * Only show Higher priority rates (In [1,2,3,4] take 1 as a high priority)
+	 * Rates with same priority will shown as radio button list in checkout
+	 *
+	 * @param   array  $shippingRates  Array shipping rates
+	 *
+	 * @return array
+	 */
+	public static function filterRatesByPriority($shippingRates)
+	{
+		$filteredRates = array();
+
+		for ($i = 0, $j = 0, $ni = count($shippingRates); $i < $ni; $i++)
+		{
+			if ($shippingRates[0]->shipping_rate_priority == $shippingRates[$i]->shipping_rate_priority)
+			{
+				$filteredRates[$j] = $shippingRates[$i];
+				$j++;
+			}
+		}
+
+		return $filteredRates;
+	}
+
+	/**
+	 * Function to get product volume shipping
+	 *
+	 * @return array $cases , 3cases of shipping
+	 */
+	public static function getProductVolumeShipping()
+	{
+		$productHelper = productHelper::getInstance();
+		$session       = JFactory::getSession();
+		$cart          = $session->get('cart');
+		$idx           = (int) ($cart['idx']);
+
+		$length  = array();
+		$width   = array();
+		$height  = array();
+		$lengthQ = array();
+		$widthQ  = array();
+		$heightQ = array();
+		$lMax    = 0;
+		$lTotal  = 0;
+		$wMax    = 0;
+		$wTotal  = 0;
+		$hMax    = 0;
+		$hTotal  = 0;
+
+		// Cart loop
+		for ($i = 0; $i < $idx; $i++)
+		{
+			if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
+			{
+				continue;
+			}
+
+			$data       = Redshop::product((int) $cart[$i]['product_id']);
+			$length[$i] = $data->product_length;
+			$width[$i]  = $data->product_width;
+			$height[$i] = $data->product_height;
+			$tmpArr     = array($length[$i], $width[$i], $height[$i]);
+			$switch     = array_search(min($tmpArr), $tmpArr);
+
+			switch ($switch)
+			{
+				case 0:
+					$lengthQ[$i] = $data->product_length * $cart[$i]['quantity'];
+					$widthQ[$i]  = $data->product_width;
+					$heightQ[$i] = $data->product_height;
+				break;
+				case 1:
+					$lengthQ[$i] = $data->product_length;
+					$widthQ[$i]  = $data->product_width * $cart[$i]['quantity'];
+					$heightQ[$i] = $data->product_height;
+				break;
+				case 2:
+					$lengthQ[$i] = $data->product_length;
+					$widthQ[$i]  = $data->product_width;
+					$heightQ[$i] = $data->product_height * $cart[$i]['quantity'];
+				break;
+			}
+		}
+
+		// Get maximum length
+		if (count($length) > 0)
+		{
+			$lMax = max($length);
+		}
+
+		// Get total length
+		if (count($lengthQ) > 0)
+		{
+			$lTotal = array_sum($lengthQ);
+		}
+
+		// Get maximum width
+		if (count($width) > 0)
+		{
+			$wMax = max($width);
+		}
+
+		// Get total width
+		if (count($widthQ) > 0)
+		{
+			$wTotal = array_sum($widthQ);
+		}
+
+		// Get maximum height
+		if (count($height) > 0)
+		{
+			$hMax = max($height);
+		}
+
+		// Get total height
+		if (count($heightQ) > 0)
+		{
+			$hTotal = array_sum($heightQ);
+		}
+
+		// 3 cases are available for shipping boxes
+		$cases              = array();
+		$cases[0]['length'] = $lMax;
+		$cases[0]['width']  = $wMax;
+		$cases[0]['height'] = $hTotal;
+
+		$cases[1]['length'] = $lMax;
+		$cases[1]['width']  = $wTotal;
+		$cases[1]['height'] = $hMax;
+
+		$cases[2]['length'] = $lTotal;
+		$cases[2]['width']  = $wMax;
+		$cases[2]['height'] = $hMax;
+
+		return $cases;
+	}
 }
