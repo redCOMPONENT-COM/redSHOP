@@ -103,7 +103,7 @@ class Redtemplate
 	 */
 	public function readtemplateFile($section, $fileName, $isAdmin = false)
 	{
-		return RedshopHelperTemplate::readtemplateFile($section, $fileName, $isAdmin);
+		return RedshopHelperTemplate::readTemplateFile($section, $fileName, $isAdmin);
 	}
 
 	/**
