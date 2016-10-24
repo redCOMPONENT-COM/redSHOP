@@ -349,68 +349,16 @@ class shipping
 		return RedshopHelperShipping::isUserInfoMatch($data);
 	}
 
+	/**
+	 * Check product detail is matched
+	 *
+	 * @return  boolen
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::isProductDetailMatch() instead
+	 */
 	public function isProductDetailMatch()
 	{
-		$db = JFactory::getDbo();
-		$session = JFactory::getSession();
-		$cart    = $session->get('cart');
-		$idx     = (int) ($cart['idx']);
-
-		$pwhere  = "";
-		$cwhere  = "";
-
-		if ($idx)
-		{
-			$pwhere = 'OR ( ';
-
-			for ($i = 0; $i < $idx; $i++)
-			{
-				$product_id = $cart [$i] ['product_id'];
-				$pwhere .= 'FIND_IN_SET(' . (int) $product_id . ', shipping_rate_on_product)';
-
-				if ($i != $idx - 1)
-				{
-					$pwhere .= " OR ";
-				}
-			}
-
-			$pwhere .= ")";
-		}
-
-		$acwhere = array();
-
-		for ($i = 0; $i < $idx; $i++)
-		{
-			$product_id = $cart[$i]['product_id'];
-			$sel = 'SELECT category_id FROM #__redshop_product_category_xref WHERE product_id = ' . (int) $product_id;
-			$db->setQuery($sel);
-			$categorydata = $db->loadObjectList();
-
-			for ($c = 0, $cn = count($categorydata); $c < $cn; $c++)
-			{
-				$acwhere[] = " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
-			}
-		}
-
-		if (isset($acwhere) && count($acwhere) > 0)
-		{
-			$acwhere = implode(' OR ', $acwhere);
-			$cwhere = ' OR (' . $acwhere . ')';
-		}
-
-		$query = "SELECT * FROM #__redshop_shipping_rate "
-			. "WHERE (shipping_class = 'default_shipping' OR shipping_class = 'shipper') "
-			. "AND (shipping_rate_on_product = '' $pwhere) AND (shipping_rate_on_category = '' $cwhere ) "
-			. "ORDER BY shipping_rate_priority ";
-		$db->setQuery($query);
-		$shippingrate = $db->loadObjectList();
-
-		if (count($shippingrate) > 0)
-		{
-			return true;
-		}
-
-		return false;
+		return RedshopHelperShipping::isProductDetailMatch();
 	}
 
 	public function getfreeshippingRate($shipping_rate_id = 0)
