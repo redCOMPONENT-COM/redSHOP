@@ -211,76 +211,34 @@ class shipping
 		return RedshopHelperShipping::getShippingVatRates($shippingTaxGroupId, $data);
 	}
 
-	public function getShopperGroupDefaultShipping($user_id = 0)
+	/**
+	 * Get shopper group default shipping
+	 *
+	 * @param   int  $userId  User id
+	 *
+	 * @return  arrays
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShopperGroupDefaultShipping($userId) instead
+	 */
+	public function getShopperGroupDefaultShipping($userId = 0)
 	{
-		$productHelper = productHelper::getInstance();
-		$shippingArr   = array();
-		$user          = JFactory::getUser();
-
-		// FOR OFFLINE ORDER
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		if ($user_id)
-		{
-			$result = $productHelper->getUserInformation($user_id);
-
-			if (count($result) > 0 && $result->default_shipping == 1)
-			{
-				$shippingArr['shipping_rate'] = 0;
-				$shippingArr['shipping_vat']  = 0;
-
-				$row = $this->getShippingVatRates(0);
-
-				if (!empty($row))
-				{
-					$total        = 0;
-					$shipping_vat = 0;
-
-					if ($row->tax_rate > 0)
-					{
-						$shipping_vat = ($result->default_shipping_rate * $row->tax_rate) . "<br>";
-						$total        += $shipping_vat + $result->default_shipping_rate;
-					}
-
-					$shippingArr['shipping_vat']  = $shipping_vat;
-					$shippingArr['shipping_rate'] = $total;
-
-					return $shippingArr;
-				}
-
-				$shippingArr['shipping_rate'] = $result->default_shipping_rate;
-
-				return $shippingArr;
-			}
-		}
-
-		return $shippingArr;
+		return RedshopHelperShipping::getShopperGroupDefaultShipping($userId);
 	}
 
-	// function to find first number position.
+	/**
+	 * Find first number position
+	 *
+	 * @param   string  $haystack  string to find
+	 * @param   array   $needles   array to find
+	 * @param   int     $offset    position
+	 *
+	 * @return  arrays
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::strposa($haystack, $needles, $offset) instead
+	 */
 	public function strposa($haystack, $needles = array(), $offset = 0)
 	{
-		$chr = array();
-
-		foreach ($needles as $needle)
-		{
-			if (strpos($haystack, $needle, $offset) !== false)
-			{
-				$chr[] = strpos($haystack, $needle, $offset);
-			}
-		}
-
-		if (empty($chr))
-		{
-			return false;
-		}
-		else
-		{
-			return min($chr);
-		}
+		return RedshopHelperShipping::strposa($haystack, $needles, $offset);
 	}
 
 	/**
