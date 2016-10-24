@@ -179,7 +179,7 @@ class redshopMail
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperMail::imginmail($message) instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMail::imgInMail($message) instead
 	 */
 	public function imginmail($message)
 	{
