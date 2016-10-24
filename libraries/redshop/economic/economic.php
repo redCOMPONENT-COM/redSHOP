@@ -1388,7 +1388,7 @@ class RedshopEconomic
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getProductByNumber($productNumber = '')
+	public static function getProductByNumber($productNumber = '')
 	{
 		$db = JFactory::getDbo();
 
@@ -1402,16 +1402,20 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [makeAccessoryOrder description]
+	 * Make Accessory Order
 	 *
-	 * @param   [type]   $invoiceNo  [description]
-	 * @param   [type]   $orderItem  [description]
-	 * @param   integer  $userId     [description]
+	 * @param   string   $invoiceNo  Invoice number
+	 * @param   array    $orderItem  Order item
+	 * @param   integer  $userId     User ID
 	 *
-	 * @return  [type]               [description]
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function makeAccessoryOrder($invoiceNo, $orderItem, $userId = 0)
+	public static function makeAccessoryOrder($invoiceNo, $orderItem, $userId = 0)
 	{
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
 		$displayAccessory = "";
 		$retPrice         = 0;
 		$orderItemdata    = RedshopHelperOrder::getOrderItemAccessoryDetail($orderItem->order_item_id);
@@ -1424,16 +1428,16 @@ class RedshopEconomic
 			{
 				if (true)
 				{
-					$product = $this->getProductByNumber($orderItemdata[$i]->order_acc_item_sku);
+					$product = self::getProductByNumber($orderItemdata[$i]->order_acc_item_sku);
 
 					if (count($product) > 0)
 					{
-						$this->createProductInEconomic($product);
+						self::createProductInEconomic($product);
 					}
 				}
 
-				$accessory_quantity = " (" . JText::_('COM_REDSHOP_ACCESSORY_QUANTITY_LBL') . " " . $orderItemdata[$i]->product_quantity . ") ";
-				$displayAccessory .= "\n" . urldecode($orderItemdata[$i]->order_acc_item_name) . " (" . ($orderItemdata[$i]->order_acc_price + $orderItemdata[$i]->order_acc_vat) . ")" . $accessory_quantity;
+				$accessoryQuantity = " (" . JText::_('COM_REDSHOP_ACCESSORY_QUANTITY_LBL') . " " . $orderItemdata[$i]->product_quantity . ") ";
+				$displayAccessory .= "\n" . urldecode($orderItemdata[$i]->order_acc_item_name) . " (" . ($orderItemdata[$i]->order_acc_price + $orderItemdata[$i]->order_acc_vat) . ")" . $accessoryQuantity;
 
 				if (true)
 				{
@@ -1450,7 +1454,7 @@ class RedshopEconomic
 					$invoiceLineNo           = self::$dispatcher->trigger('createInvoiceLine', array($eco));
 				}
 
-				$displayAttribute = $this->makeAttributeOrder($invoiceNo, $orderItem, 1, $orderItemdata[$i]->product_id, $userId);
+				$displayAttribute = self::makeAttributeOrder($invoiceNo, $orderItem, 1, $orderItemdata[$i]->product_id, $userId);
 				$displayAccessory .= $displayAttribute;
 
 				if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
@@ -1475,10 +1479,7 @@ class RedshopEconomic
 			}
 		}
 
-		if (true)
-		{
-			$displayAccessory = $retPrice;
-		}
+		$displayAccessory = $retPrice;
 
 		return $displayAccessory;
 	}
