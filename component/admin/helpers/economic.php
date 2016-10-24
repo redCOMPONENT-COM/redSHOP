@@ -252,93 +252,19 @@ class economic
 	}
 
 	/**
-	 * Method to create Invoice line in E-conomic
+	 * Method to create Invoice line in E-conomic as Product
 	 *
-	 * Changes for ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC option 2 :- To use combination of attribute + product : For Stock regulation     *
+	 * @param   array    $orderitem   Order Item
+	 * @param   string   $invoice_no  Invoice Number
+	 * @param   integer  $user_id     User ID
 	 *
-	 * @access public
-	 * @return array
+	 * @return  array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createInvoiceLineInEconomicAsProduct() instead
 	 */
 	public function createInvoiceLineInEconomicAsProduct($orderitem = array(), $invoice_no = "", $user_id = 0)
 	{
-		for ($i = 0, $in = count($orderitem); $i < $in; $i++)
-		{
-			$displaywrapper   = "";
-			$displayaccessory = "";
-
-			$product_id = $orderitem[$i]->product_id;
-			$product    = Redshop::product((int) $product_id);
-			$this->createProductInEconomic($product);
-
-			if ($orderitem[$i]->wrapper_id)
-			{
-				$wrapper = $this->_producthelper->getWrapper($orderitem[$i]->product_id, $orderitem[$i]->wrapper_id);
-
-				if (count($wrapper) > 0)
-				{
-					$wrapper_name = $wrapper[0]->wrapper_name;
-				}
-
-				$displaywrapper = "\n" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper_name . "(" . $orderitem[$i]->wrapper_price . ")";
-			}
-
-			// Fetch Accessory from Order Item
-			$displayaccessory = $this->makeAccessoryOrder($invoice_no, $orderitem[$i], $user_id);
-
-			$eco['updateInvoice']  = 0;
-			$eco['invoiceHandle']  = $invoice_no;
-			$eco['order_item_id']  = $orderitem[$i]->order_item_id;
-			$eco['product_number'] = $orderitem[$i]->order_item_sku;
-
-			$discount_calc = "";
-
-			if ($orderitem[$i]->discount_calc_data)
-			{
-				$discount_calc = $orderitem[$i]->discount_calc_data;
-				$discount_calc = str_replace("<br />", "\n", $discount_calc);
-				$discount_calc = "\n" . $discount_calc;
-			}
-
-			// Product user field Information
-			$p_userfield    = $this->_producthelper->getuserfield($orderitem[$i]->order_item_id);
-			$displaywrapper = $displaywrapper . "\n" . strip_tags($p_userfield);
-
-			$eco['product_name']     = $orderitem[$i]->order_item_name . $displaywrapper . $discount_calc . $displayaccessory;
-			$eco['product_price']    = $orderitem[$i]->product_item_price_excl_vat;
-			$eco['product_quantity'] = $orderitem[$i]->product_quantity;
-			$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
-
-			// Collect Order Attrubute Items
-			$orderItemAttdata = $this->_order_functions->getOrderItemAttributeDetail($orderitem[$i]->order_item_id, 0, "attribute", $orderitem[$i]->product_id);
-
-			if (count($orderItemAttdata) > 0)
-			{
-				$attributeId = $orderItemAttdata[0]->section_id;
-				$productId   = $orderitem[$i]->product_id;
-
-				$orderPropdata = $this->_order_functions->getOrderItemAttributeDetail($orderitem[$i]->order_item_id, 0, "property", $attributeId);
-
-				if (count($orderPropdata) > 0)
-				{
-					$propertyId = $orderPropdata[0]->section_id;
-
-					// Collect Attribute Property
-					$orderProperty = $this->_producthelper->getAttibuteProperty($propertyId, $attributeId, $productId);
-
-					$property_number = $orderProperty[0]->property_number;
-					$property_name   = $orderPropdata[0]->section_name;
-
-					if ($property_number)
-					{
-						$eco['product_number'] = $property_number;
-					}
-
-					$eco['product_name']   = $orderitem[$i]->order_item_name . " " . $property_name . $displaywrapper . $discount_calc;
-				}
-			}
-
-			$this->_dispatcher->trigger('createInvoiceLine', array($eco));
-		}
+		return RedshopEconomic::createInvoiceLineInEconomicAsProduct($orderitem, $invoice_no, $user_id);
 	}
 
 	/**

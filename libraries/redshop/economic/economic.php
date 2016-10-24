@@ -806,16 +806,22 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [createInvoiceLineInEconomicAsProduct description]
+	 * Method to create Invoice line in E-conomic as Product
 	 *
-	 * @param   array    $orderItem  [description]
-	 * @param   string   $invoiceNo  [description]
-	 * @param   integer  $userId     [description]
+	 * @param   array    $orderItem  Order Item
+	 * @param   string   $invoiceNo  Invoice Number
+	 * @param   integer  $userId     User ID
 	 *
-	 * @return  [type]               [description]
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createInvoiceLineInEconomicAsProduct($orderItem = array(), $invoiceNo = "", $userId = 0)
+	public static function createInvoiceLineInEconomicAsProduct($orderItem = array(), $invoiceNo = "", $userId = 0)
 	{
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
+		$productHelper = productHelper::getInstance();
+
 		for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 		{
 			$displayWrapper   = "";
@@ -823,7 +829,7 @@ class RedshopEconomic
 
 			$productId = $orderItem[$i]->product_id;
 			$product    = Redshop::product((int) $productId);
-			$this->createProductInEconomic($product);
+			self::createProductInEconomic($product);
 
 			if ($orderItem[$i]->wrapper_id)
 			{
@@ -838,7 +844,7 @@ class RedshopEconomic
 			}
 
 			// Fetch Accessory from Order Item
-			$displayAccessory = $this->makeAccessoryOrder($invoiceNo, $orderItem[$i], $userId);
+			$displayAccessory = self::makeAccessoryOrder($invoiceNo, $orderItem[$i], $userId);
 
 			$eco['updateInvoice']  = 0;
 			$eco['invoiceHandle']  = $invoiceNo;
@@ -855,7 +861,7 @@ class RedshopEconomic
 			}
 
 			// Product user field Information
-			$pUserfield    = $productHelper->getuserfield($orderItem[$i]->order_item_id);
+			$pUserfield     = $productHelper->getuserfield($orderItem[$i]->order_item_id);
 			$displayWrapper = $displayWrapper . "\n" . strip_tags($pUserfield);
 
 			$eco['product_name']     = $orderItem[$i]->order_item_name . $displayWrapper . $discountCalc . $displayAccessory;
@@ -880,15 +886,15 @@ class RedshopEconomic
 					// Collect Attribute Property
 					$orderProperty = $productHelper->getAttibuteProperty($propertyId, $attributeId, $productId);
 
-					$property_number = $orderProperty[0]->property_number;
-					$property_name   = $orderPropdata[0]->section_name;
+					$propertyNumber = $orderProperty[0]->property_number;
+					$propertyName   = $orderPropdata[0]->section_name;
 
-					if ($property_number)
+					if ($propertyNumber)
 					{
-						$eco['product_number'] = $property_number;
+						$eco['product_number'] = $propertyNumber;
 					}
 
-					$eco['product_name']   = $orderItem[$i]->order_item_name . " " . $property_name . $displayWrapper . $discountCalc;
+					$eco['product_name']   = $orderItem[$i]->order_item_name . " " . $propertyName . $displayWrapper . $discountCalc;
 				}
 			}
 
