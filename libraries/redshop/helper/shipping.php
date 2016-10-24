@@ -1498,7 +1498,7 @@ class RedshopHelperShipping
 	 *
 	 * @since   2.0.0.3
 	 */
-	public function getCartItemDimention()
+	public static function getCartItemDimention()
 	{
 		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
@@ -1568,9 +1568,9 @@ class RedshopHelperShipping
 	 *
 	 * @since   2.0.0.3
 	 */
-	public function getShippingBox()
+	public static function getShippingBox()
 	{
-		$volumeShipping      = $this->getProductVolumeShipping();
+		$volumeShipping      = self::getProductVolumeShipping();
 		$db                  = JFactory::getDBO();
 		$whereShippingVolume = "";
 
@@ -1603,5 +1603,83 @@ class RedshopHelperShipping
 			. " ORDER BY " . $db->qn('shipping_box_priority') . " ASC ";
 
 		return $db->setQuery($query)->loadObjectList();
+	}
+
+	/**
+	 * Get selected shipping BOX dimensions
+	 *
+	 * @param   int  $boxId  Shipping Box id
+	 *
+	 * @return  array  box dimensions
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function getBoxDimensions($boxId = 0)
+	{
+		$db = JFactory::getDBO();
+		$whereShippingBoxes = array();
+
+		if ($boxId)
+		{
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_shipping_boxes'))
+				->where($db->qn('published') . ' = 1')
+				->where($db->qn('shipping_box_id') . ' = ' . $db->q((int) $boxId));
+
+			$boxDetail = $db->setQuery($query)->loadObject();
+
+			if (count($boxDetail) > 0)
+			{
+				$whereShippingBoxes['box_length'] = $boxDetail->shipping_box_length;
+				$whereShippingBoxes['box_width']  = $boxDetail->shipping_box_width;
+				$whereShippingBoxes['box_height'] = $boxDetail->shipping_box_height;
+			}
+		}
+
+		return $whereShippingBoxes;
+	}
+
+	/**
+	 * Get Shipping rate error
+	 *
+	 * @param   array  &$data  Shipping rate data
+	 *
+	 * @return  string  error text
+	 *
+	 * @since   2.0.0.3
+	 */
+	public static function getShippingRateError(&$data)
+	{
+		$bool = self::isCartDimentionMatch($data);
+
+		if ($bool)
+		{
+			$bool = self::isUserInfoMatch($data);
+
+			if ($bool)
+			{
+				$bool = self::isProductDetailMatch();
+
+				if ($bool)
+				{
+					return true;
+				}
+
+				else
+				{
+					return JText::_("COM_REDSHOP_PRODUCT_DETAIL_NOT_MATCH");
+				}
+			}
+
+			else
+			{
+				return JText::_("COM_REDSHOP_USER_INFORMATION_NOT_MATCH");
+			}
+		}
+		else
+		{
+			return JText::_("COM_REDSHOP_CART_DIMENTION_NOT_MATCH");
+		}
 	}
 }

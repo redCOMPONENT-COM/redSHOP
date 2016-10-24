@@ -293,70 +293,32 @@ class shipping
 		return RedshopHelperShipping::getShippingBox();
 	}
 
-	/*
-	 * get Selected shipping BOX dimensions
+	/**
+	 * Get selected shipping BOX dimensions
 	 *
-	 * @params: $boxid	, Shipping Box id
+	 * @param   int  $boxId  Shipping Box id
 	 *
-	 * @return: array , box dimensions
+	 * @return  array  box dimensions
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getBoxDimensions($boxId) instead
 	 */
-	public function getBoxDimensions($boxid = 0)
+	public function getBoxDimensions($boxId = 0)
 	{
-		$db = JFactory::getDbo();
-
-		$whereShippingBoxes = array();
-
-		if ($boxid)
-		{
-			$query = "SELECT * FROM #__redshop_shipping_boxes "
-				. "WHERE published = 1 "
-				. "AND shipping_box_id = " . (int) $boxid;
-			$db->setQuery($query);
-			$box_detail = $db->loadObject();
-
-			if (count($box_detail) > 0)
-			{
-				$whereShippingBoxes['box_length'] = $box_detail->shipping_box_length;
-				$whereShippingBoxes['box_width']  = $box_detail->shipping_box_width;
-				$whereShippingBoxes['box_height'] = $box_detail->shipping_box_height;
-			}
-		}
-
-		return $whereShippingBoxes;
+		return RedshopHelperShipping::getBoxDimensions($boxId);
 	}
 
-	public function getShippingRateError(&$d)
+	/**
+	 * Get Shipping rate error
+	 *
+	 * @param   array  &$data  Shipping rate data
+	 *
+	 * @return  string  error text
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingRateError($data) instead
+	 */
+	public function getShippingRateError(&$data)
 	{
-		$bool = $this->isCartDimentionMatch($d);
-
-		if ($bool)
-		{
-			$bool = $this->isUserInfoMatch($d);
-
-			if ($bool)
-			{
-				$bool = $this->isProductDetailMatch();
-
-				if ($bool)
-				{
-					return true;
-				}
-
-				else
-				{
-					return JText::_("COM_REDSHOP_PRODUCT_DETAIL_NOT_MATCH");
-				}
-			}
-
-			else
-			{
-				return JText::_("COM_REDSHOP_USER_INFORMATION_NOT_MATCH");
-			}
-		}
-		else
-		{
-			return JText::_("COM_REDSHOP_CART_DIMENTION_NOT_MATCH");
-		}
+		return RedshopHelperShipping::getShippingRateError($data);
 	}
 
 	public function isCartDimentionMatch(&$d)
