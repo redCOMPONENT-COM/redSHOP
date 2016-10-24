@@ -199,101 +199,16 @@ class shipping
 	/**
 	 * Get shipping vat rates based on either billing or shipping user
 	 *
-	 * @param   tax    $shipping_tax_group_id  Shipping Default Tax Gorup ID
-	 * @param   array  $data                   Shipping User Information array
+	 * @param   int    $shippingTaxGroupId  Shipping Default Tax Gorup ID
+	 * @param   array  $data                Shipping User Information array
 	 *
 	 * @return  object Shipping VAT rates
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingVatRates($shippingTaxGroupId, $data) instead
 	 */
-	public function getShippingVatRates($shipping_tax_group_id, $data = array())
+	public function getShippingVatRates($shippingTaxGroupId, $data = array())
 	{
-		$db  = JFactory::getDbo();
-		$and = '';
-		$q2  = '';
-
-		if (!empty($data) && ($data['user_id'] > 0 || $data['users_info_id'] > 0))
-		{
-			if ('BT' == Redshop::getConfig()->get('CALCULATE_VAT_ON'))
-			{
-				$userdata = RedshopHelperUser::getUserInformation($data['user_id'], 'BT', 0, true, true);
-			}
-			else
-			{
-				$userdata = RedshopHelperUser::getUserInformation(0, '', $data['users_info_id'], false);
-			}
-
-			if (count($userdata) > 0)
-			{
-				if (!$userdata->country_code)
-				{
-					$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-				}
-
-				if (!$userdata->state_code)
-				{
-					$userdata->state_code = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
-				}
-
-				/*
-				 *  VAT_BASED_ON = 0 // webshop mode
-				 *  VAT_BASED_ON = 1 // customer mode
-				 *  VAT_BASED_ON = 2 // EU mode
-				 */
-				if (0 == Redshop::getConfig()->get('VAT_BASED_ON'))
-				{
-					$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-					$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
-				}
-			}
-
-			if (Redshop::getConfig()->get('VAT_BASED_ON') == 2)
-			{
-				$and .= ' AND tr.is_eu_country=1 ';
-			}
-		}
-		else
-		{
-			$session                = JFactory::getSession();
-			$auth                   = $session->get('auth');
-			$users_info_id          = $auth['users_info_id'];
-			$userdata               = new stdClass;
-			$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-			$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
-
-			if ($users_info_id && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get('REGISTER_METHOD') == 2) && (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
-			{
-				$query = "SELECT country_code,state_code FROM #__redshop_users_info AS u "
-					. "LEFT JOIN #__redshop_shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
-					. "WHERE u.users_info_id = " . (int) $users_info_id . " "
-					. "order by u.users_info_id ASC LIMIT 0,1";
-				$db->setQuery($query);
-				$userdata = $db->loadObject();
-			}
-		}
-
-		if ($shipping_tax_group_id == 0)
-		{
-			$and .= 'AND tr.tax_group_id = ' . (int) Redshop::getConfig()->get('DEFAULT_VAT_GROUP') . ' ';
-		}
-		elseif ($shipping_tax_group_id > 0)
-		{
-			$q2 = 'LEFT JOIN #__redshop_shipping_rate as s on tr.tax_group_id=s.shipping_tax_group_id ';
-			$and .= 'AND s.shipping_tax_group_id = ' . (int) $shipping_tax_group_id . ' ';
-		}
-		else
-		{
-			$and .= 'AND tr.tax_group_id = ' . (int) Redshop::getConfig()->get('DEFAULT_VAT_GROUP') . ' ';
-		}
-
-		$query = 'SELECT tr.* FROM #__redshop_tax_rate as tr '
-			. $q2
-			. 'WHERE ( tr.tax_country = ' . $db->quote($userdata->country_code) . ' or tr.tax_country = "") '
-			. 'AND ( tr.tax_state = ' . $db->quote($userdata->state_code) . ' or tr.tax_state = "")'
-			. $and
-			. ' ORDER BY `tax_rate` DESC';
-		$db->setQuery($query);
-		$taxdata = $db->loadObject();
-
-		return $taxdata;
+		return RedshopHelperShipping::getShippingVatRates($shippingTaxGroupId, $data);
 	}
 
 	public function getShopperGroupDefaultShipping($user_id = 0)
