@@ -403,13 +403,19 @@ class economic
 		return RedshopEconomic::updateBookInvoice($order_id);
 	}
 
+	/**
+	 * Update booking invoice number
+	 *
+	 * @param   integer  $order_id            Order ID
+	 * @param   integer  $bookinvoice_number  Booking invoice number
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::updateBookInvoiceNumber() instead
+	 */
 	public function updateBookInvoiceNumber($order_id = 0, $bookinvoice_number = 0)
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
-			. 'SET bookinvoice_number = ' . (int) $bookinvoice_number . ' '
-			. 'WHERE order_id = ' . (int) $order_id;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		return RedshopEconomic::updateBookInvoiceNumber($order_id, $bookinvoice_number);
 	}
 
 	public function getProductByNumber($product_number = '')
