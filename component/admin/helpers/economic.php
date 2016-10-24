@@ -493,15 +493,20 @@ class economic
 	 */
 	public function getEconomicTaxZone($country_code = "")
 	{
-		return RedshopEconomic::getEconomicTaxZone();
+		return RedshopEconomic::getEconomicTaxZone($country_code);
 	}
 
+	/**
+	 * Check country is belong to EU
+	 *
+	 * @param   string  $country  Country code
+	 *
+	 * @return  boolean
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::isEuCountry() instead
+	 */
 	public function isEUCountry($country)
 	{
-		$eu_country = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST', 'FIN',
-			'FRA', 'FXX', 'GBR', 'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU', 'LUX',
-			'MLT', 'NLD', 'POL', 'PRT', 'ROM', 'SVK', 'SVN', 'SWE');
-
-		return in_array($country, $eu_country);
+		return RedshopEconomic::isEuCountry($country);
 	}
 }
