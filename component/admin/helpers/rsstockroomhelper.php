@@ -403,11 +403,11 @@ class rsstockroomhelper
 	 *
 	 * @return mixed
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getStockroom_maxdelivery($stockroomId) instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getStockroomMaxDelivery($stockroomId) instead
 	 */
 	public function getStockroom_maxdelivery($stockroomId)
 	{
-		return RedshopHelperStockroom::getStockroom_maxdelivery($stockroomId);
+		return RedshopHelperStockroom::getStockroomMaxDelivery($stockroomId);
 	}
 
 	/**
@@ -418,11 +418,11 @@ class rsstockroomhelper
 	 *
 	 * @return mixed
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getdatediff($endDate, $beginDate) instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getDateDiff($endDate, $beginDate) instead
 	 */
 	public function getdatediff($endDate, $beginDate)
 	{
-		return RedshopHelperStockroom::getdatediff($endDate, $beginDate);
+		return RedshopHelperStockroom::getDateDiff($endDate, $beginDate);
 	}
 
 	/**
