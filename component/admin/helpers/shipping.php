@@ -269,111 +269,28 @@ class shipping
 		return RedshopHelperShipping::getProductVolumeShipping();
 	}
 
+	/**
+	 * Function to get cart item dimension
+	 *
+	 * @return array
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getCartItemDimention() instead
+	 */
 	public function getCartItemDimention()
 	{
-		$productHelper = productHelper::getInstance();
-		$session       = JFactory::getSession();
-		$cart          = $session->get('cart');
-		$idx           = (int) ($cart ['idx']);
-
-		$totalQnt    = 0;
-		$totalWeight = 0;
-		$totalVolume = 0;
-		$totalLength = 0;
-		$totalheight = 0;
-		$totalwidth  = 0;
-
-		for ($i = 0; $i < $idx; $i++)
-		{
-			if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
-			{
-				continue;
-			}
-
-			$data       = Redshop::product((int) $cart [$i] ['product_id']);
-			$acc_weight = 0;
-
-			if (isset($cart[$i]['cart_accessory']) && count($cart[$i]['cart_accessory']) > 0)
-			{
-				for ($a = 0; $a < count($cart[$i]['cart_accessory']); $a++)
-				{
-					$acc_id  = $cart[$i]['cart_accessory'][$a]['accessory_id'];
-					$acc_qty = 1;
-
-					if (isset($cart[$i]['cart_accessory'][$a]['accessory_quantity']))
-					{
-						$acc_qty = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
-					}
-
-					if ($acc_data   = $productHelper->getProductById($acc_id))
-					{
-						$acc_weight += ($acc_data->weight * $acc_qty);
-					}
-				}
-			}
-
-			$totalQnt    += $cart [$i] ['quantity'];
-			$totalWeight += (($data->weight * $cart [$i] ['quantity']) + $acc_weight);
-			$totalVolume += ($data->product_volume * $cart [$i] ['quantity']);
-			$totalLength += ($data->product_length * $cart [$i] ['quantity']);
-			$totalheight += ($data->product_height * $cart [$i] ['quantity']);
-			$totalwidth  += ($data->product_width * $cart [$i] ['quantity']);
-		}
-
-		$ret = array(
-			"totalquantity" => $totalQnt,
-			"totalweight"   => $totalWeight,
-			"totalvolume"   => $totalVolume,
-			"totallength"   => $totalLength,
-			"totalheight"   => $totalheight,
-			"totalwidth"    => $totalwidth
-		);
-
-		return $ret;
+		return RedshopHelperShipping::getCartItemDimention();
 	}
 
-	/*
-	 * get available shipping boxes according to cart items
+	/**
+	 * Get available shipping boxes according to cart items
 	 *
-	 * @return: string	, html (radio button table row )
+	 * @return object
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShippingBox() instead
 	 */
 	public function getShippingBox()
 	{
-		$volumeShipping      = $this->getProductVolumeShipping();
-		$db = JFactory::getDbo();
-
-		$whereShippingVolume = "";
-
-		if (count($volumeShipping) > 0)
-		{
-			$whereShippingVolume .= " AND ( ";
-
-			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
-			{
-				$length = $volumeShipping[$g]['length'];
-				$width  = $volumeShipping[$g]['width'];
-				$height = $volumeShipping[$g]['height'];
-
-				if ($g != 0)
-				{
-					$whereShippingVolume .= " OR ";
-				}
-
-				$whereShippingVolume .= " (shipping_box_length >= " . $db->quote($length) . " AND shipping_box_width >= "
-					. $db->quote($width) . " AND shipping_box_height >= " . $db->quote($height) . ") ";
-			}
-
-			$whereShippingVolume .= " ) ";
-		}
-
-		$query = "SELECT * FROM #__redshop_shipping_boxes "
-			. "WHERE published = 1 "
-			. $whereShippingVolume
-			. " ORDER BY shipping_box_priority ASC ";
-		$db->setQuery($query);
-		$list = $db->loadObjectList();
-
-		return $list;
+		return RedshopHelperShipping::getShippingBox();
 	}
 
 	/*
