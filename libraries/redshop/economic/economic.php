@@ -1678,18 +1678,20 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [isEUCountry description]
+	 * Check country is belong to EU
 	 *
-	 * @param   [type]  $country  [description]
+	 * @param   string  $country  Country code
 	 *
-	 * @return  boolean            [description]
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isEUCountry($country)
+	public static function isEuCountry($country)
 	{
-		$eu_country = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST', 'FIN',
+		$euCountry = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST', 'FIN',
 			'FRA', 'FXX', 'GBR', 'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU', 'LUX',
 			'MLT', 'NLD', 'POL', 'PRT', 'ROM', 'SVK', 'SVN', 'SWE');
 
-		return in_array($country, $eu_country);
+		return in_array($country, $euCountry);
 	}
 }
