@@ -1650,19 +1650,21 @@ class RedshopEconomic
 	}
 
 	/**
-	 * [getEconomicTaxZone description]
+	 * Get economic Tax zone
 	 *
-	 * @param   string  $countryCode  [description]
+	 * @param   string  $countryCode  Country code
 	 *
-	 * @return  [type]                [description]
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getEconomicTaxZone($countryCode = "")
+	public static function getEconomicTaxZone($countryCode = "")
 	{
 		if ($countryCode == Redshop::getConfig()->get('SHOP_COUNTRY'))
 		{
 			$taxzone = 'HomeCountry';
 		}
-		elseif ($this->isEUCountry($countryCode))
+		elseif (self::isEUCountry($countryCode))
 		{
 			$taxzone = 'EU';
 		}
