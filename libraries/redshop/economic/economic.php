@@ -260,22 +260,30 @@ class RedshopEconomic
 	}
 
 	/**
-	 * Method to create product in E-conomic
+	 * Create product in E-conomic
 	 *
-	 * @access public
-	 * @return array
+	 * @param   array  $row  Data to create
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createProductInEconomic($row = array())
+	public static function createProductInEconomic($row = array())
 	{
-		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2 && $this->getTotalProperty($row->product_id) > 0)
+		if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2 && self::getTotalProperty($row->product_id) > 0)
 		{
 			return;
 		}
 
+		// If using Dispatcher, must call plugin Economic first
+		self::importEconomic();
+
+		$redHelper = redhelper::getInstance();
+
 		$eco['product_desc']   = utf8_encode(substr(strip_tags($row->product_desc), 0, 499));
 		$eco['product_s_desc'] = utf8_encode(substr(strip_tags($row->product_s_desc), 0, 499));
 
-		$ecoProductGroupNumber = $this->createProductGroupInEconomic($row);
+		$ecoProductGroupNumber = self::createProductGroupInEconomic($row);
 
 		if (isset($ecoProductGroupNumber[0]->Number))
 		{
@@ -286,19 +294,17 @@ class RedshopEconomic
 		$eco['product_name']   = addslashes($row->product_name);
 		$eco['product_price']  = $row->product_price;
 		$eco['product_volume'] = $row->product_volume;
-		$debtorHandle          = self::$dispatcher->trigger('Product_FindByNumber', array($eco));
 		$eco['eco_prd_number'] = "";
+		$debtorHandle          = self::$dispatcher->trigger('Product_FindByNumber', array($eco));
 
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
 		{
 			$eco['eco_prd_number'] = $debtorHandle[0]->Number;
 		}
 
-		$eco['product_stock'] = $this->_stockroomhelper->getStockroomTotalAmount($row->product_id);
+		$eco['product_stock'] = RedshopHelperStockroom::getStockroomTotalAmount($row->product_id);
 
-		$ecoProductNumber = self::$dispatcher->trigger('storeProduct', array($eco));
-
-		return $ecoProductNumber;
+		return self::$dispatcher->trigger('storeProduct', array($eco));
 	}
 
 	public function getTotalProperty($productId)
