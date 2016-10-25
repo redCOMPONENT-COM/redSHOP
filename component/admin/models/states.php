@@ -60,7 +60,7 @@ class RedshopModelStates extends RedshopModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   1.5
+	 * @since   2.0.0.4
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -86,6 +86,8 @@ class RedshopModelStates extends RedshopModelList
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
+		$contryId = $this->getUserStateFromRequest($this->context . '.filter.country_id', 'filter_country_id');
+		$this->setState('filter.product_id', $search);
 		parent::populateState($ordering, $direction);
 	}
 
