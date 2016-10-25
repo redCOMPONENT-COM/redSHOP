@@ -96,17 +96,12 @@ class Redconfiguration
 	 * check configuration file exist or not
 	 *
 	 * @return boolean
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::loadConfigFile() instead
 	 */
 	public function isCFGFile()
 	{
-		if (!file_exists($this->configPath))
-		{
-			return false;
-		}
-
-		require_once $this->configPath;
-
-		return true;
+		return RedshopAppConfiguration::loadConfigFile();
 	}
 
 	/**
@@ -1260,7 +1255,7 @@ class Redconfiguration
 	 * Method to get Country by ID
 	 *
 	 * @param   int  $conid  country id
-	 * 
+	 *
 	 * @return  country
 	 */
 	public function getCountryId($conid)
@@ -1280,7 +1275,7 @@ class Redconfiguration
 	 * Method to get Country by ID
 	 *
 	 * @param   int  $conid  country id
-	 * 
+	 *
 	 * @return  country
 	 */
 	public function getCountryCode2($conid)
