@@ -309,31 +309,16 @@ class Redconfiguration
 		}
 	}
 
+	/**
+	 * Get config status for SHOW_PRICE_PRE
+	 *
+	 * @return  integer
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::cfgShowPrice() instead
+	 */
 	public function showPrice()
 	{
-		$user       = JFactory::getUser();
-		$userHelper = rsUserHelper::getInstance();
-		$shopperGroupId = $userHelper->getShopperGroup($user->id);
-		$list = $userHelper->getShopperGroupList($shopperGroupId);
-
-		if ($list)
-		{
-			$list = $list[0];
-
-			if (($list->show_price == "yes") || ($list->show_price == "global" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1)
-				|| ($list->show_price == "" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1))
-			{
-				return 1;
-			}
-			else
-			{
-				return 0;
-			}
-		}
-		else
-		{
-			return Redshop::getConfig()->get('SHOW_PRICE_PRE');
-		}
+		return RedshopAppConfiguration::cfgShowPrice();
 	}
 
 	public function getCatalog()
