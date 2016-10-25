@@ -1328,18 +1328,37 @@ class RedshopAppConfiguration
 	/**
 	 * Get Country ID by Country 3 code
 	 *
-	 * @param   int  $countryCode  Country as 3 code
+	 * @param   string  $countryCode  Country as 3 code
 	 *
-	 * @return  integer
+	 * @return  string
 	 */
 	public static function getCountryId($countryCode)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 					->select($db->qn('id'))
 					->from($db->qn('#__redshop_country'))
-					->where($db->qn('country_3_code') . ' LIKE ' . $db->q($countryCode));
+					->where($db->qn('country_3_code') . ' LIKE ' . $db->quote($countryCode));
 
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
+
+	/**
+	 * Get Country 2 Code by Country 3 code
+	 *
+	 * @param   string  $countryCode  Country as 3 code
+	 *
+	 * @return  string
+	 */
+	public static function getCountryCode2($countryCode)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select($db->qn('country_2_code'))
+					->from($db->qn('#__redshop_country'))
+					->where($db->qn('country_3_code') . ' LIKE ' . $db->quote($countryCode));
 		$db->setQuery($query);
 
 		return $db->loadResult();

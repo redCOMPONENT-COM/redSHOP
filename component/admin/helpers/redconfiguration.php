@@ -421,17 +421,12 @@ class Redconfiguration
 	 * @param   int  $conid  country id
 	 *
 	 * @return  country
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::getCountryCode2() instead
 	 */
 	public function getCountryCode2($conid)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->qn('country_2_code'))
-			->from($db->qn('#__redshop_country'))
-			->where($db->qn('country_3_code') . ' LIKE ' . $db->q($conid));
-		$db->setQuery($query);
-
-		return $db->loadResult();
+		return RedshopAppConfiguration::getCountryCode2($conid);
 	}
 
 	public function getStateCode2($conid)
