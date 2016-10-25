@@ -18,32 +18,11 @@ defined('_JEXEC') or die;
 class RedshopHelperTemplate
 {
 	/**
-	 * Redshop template path
-	 *
-	 * @var  string
-	 */
-	public static $redshopTemplatePath;
-
-	/**
 	 * Template array
 	 *
 	 * @var  array
 	 */
 	protected static $templatesArray = array();
-
-	/**
-	 * load initial files
-	 */
-	public function __construct()
-	{
-		self::$redshopTemplatePath = JPATH_SITE . "/components/com_redshop/templates";
-
-		if (!is_dir(self::$redshopTemplatePath))
-		{
-			chmod(JPATH_SITE . "/components/com_redshop", 0755);
-			JFolder::create(self::$redshopTemplatePath, 0755);
-		}
-	}
 
 	/**
 	 * Get Template Values
@@ -242,9 +221,9 @@ class RedshopHelperTemplate
 
 			else
 			{
-				$templateDir = self::$redshopTemplatePath . '/' . $section;
+				$templateDir = JPATH_REDSHOP_TEMPLATE . '/' . $section;
 
-				@chmod(self::$redshopTemplatePath, 0755);
+				@chmod(JPATH_REDSHOP_TEMPLATE, 0755);
 			}
 
 			if (!is_dir($templateDir))
@@ -376,7 +355,7 @@ class RedshopHelperTemplate
 		$x = array();
 
 		JPluginHelper::importPlugin('content');
-		JDispatcher::getInstance()->trigger('onContentPrepare', array($context, &$o, &$x, 0));
+		RedshopHelperUtility::getDispatcher()->trigger('onContentPrepare', array($context, &$o, &$x, 0));
 
 		return $o->text;
 	}

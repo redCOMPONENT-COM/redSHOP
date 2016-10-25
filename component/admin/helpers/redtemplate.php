@@ -17,10 +17,6 @@ defined('_JEXEC') or die;
  */
 class Redtemplate
 {
-	public $redshop_template_path;
-
-	protected static $templatesArray = array();
-
 	protected static $instance = null;
 
 	/**
@@ -39,21 +35,6 @@ class Redtemplate
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * load initial files
-	 */
-	public function __construct()
-	{
-		$this->redshop_template_path = JPATH_SITE . "/components/com_redshop/templates";
-
-		if (!is_dir($this->redshop_template_path))
-		{
-			chmod(JPATH_SITE . "/components/com_redshop", 0755);
-
-			JFolder::create($this->redshop_template_path, 0755);
-		}
 	}
 
 	/**

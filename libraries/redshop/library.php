@@ -15,6 +15,9 @@ use \Doctrine\Common\Annotations\AnnotationRegistry;
 // Define redSHOP Library Folder Path
 define('JPATH_REDSHOP_LIBRARY', __DIR__);
 
+// Define redSHOP Template Path
+define('JPATH_REDSHOP_TEMPLATE', JPATH_SITE . "/components/com_redshop/templates");
+
 // Require our Composer libraries
 $composerAutoload = __DIR__ . '/vendor/autoload.php';
 
