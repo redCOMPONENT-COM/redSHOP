@@ -134,28 +134,12 @@ class Redconfiguration
 	 * load Default configuration file
 	 *
 	 * @return boolean
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::loadDefaultConfigFile() instead
 	 */
 	public function loadDefaultCFGFile()
 	{
-		if ($this->isCFGFile())
-		{
-			if (copy($this->configPath, $this->configBkpPath))
-			{
-				if (!copy($this->configDistPath, $this->configPath))
-				{
-					return false;
-				}
-			}
-		}
-		else
-		{
-			if (!copy($this->configDistPath, $this->configPath))
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return RedshopAppConfiguration::loadDefaultConfigFile();
 	}
 
 	/**
@@ -225,21 +209,12 @@ class Redconfiguration
 	 * This function is specially use during upgrading redSHOP and need to put new configuration params.
 	 *
 	 * @return  boolean  True when file successfully updated.
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::updateConfigFile() instead
 	 */
 	public function updateCFGFile()
 	{
-		if ($fp = fopen($this->configPath, "a"))
-		{
-			fputs($fp, $this->cfgData, strlen($this->cfgData));
-			fclose($fp);
-
-			return true;
-		}
-
-		else
-		{
-			return false;
-		}
+		return RedshopAppConfiguration::updateConfigFile($this->cfgData);
 	}
 
 	/**

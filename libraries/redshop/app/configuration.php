@@ -106,6 +106,38 @@ class RedshopAppConfiguration
 	}
 
 	/**
+	 * load default configuration file, if success return true, else return false.
+	 *
+	 * @return boolean
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function loadDefaultConfigFile()
+	{
+		$basePath = JPATH_SITE . '/administrator/components/com_redshop/helpers/';
+
+		if (self::loadConfigFile())
+		{
+			if (copy($basePath . 'redshop.cfg.php', $basePath . 'redshop.cfg.bkp.php'))
+			{
+				if (!copy($basepath . 'wizard/redshop.cfg.dist.php', $basepath . 'redshop.cfg.php'))
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			if (!copy($basepath . 'wizard/redshop.cfg.dist.php', $basepath . 'redshop.cfg.php'))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Check table: redshop_configuration is existed in database or not,
 	 * return true if it is existed, else return false.
 	 *
@@ -619,6 +651,29 @@ class RedshopAppConfiguration
 			$defineText = "<?php \n" . $defineText;
 
 			fwrite($fp, $defineText, strlen($defineText));
+			fclose($fp);
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Update Configuration file with new parameter.
+	 * This function is specially use during upgrading redSHOP and need to put new configuration params.
+	 *
+	 * @param   string  $defineText  Text was defined as command to define configuration
+	 *
+	 * @return  boolean  True when file successfully updated.
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function updateConfigFile($defineText = "")
+	{
+		if ($fp = fopen(JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php', "a"))
+		{
+			fputs($fp, $defineText, strlen($defineText));
 			fclose($fp);
 
 			return true;
