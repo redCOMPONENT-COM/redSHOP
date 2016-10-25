@@ -1005,4 +1005,32 @@ class RedshopAppConfiguration
 
 		return Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE');
 	}
+
+	/**
+	 * We are using file for saving configuration variables
+	 * We need some variables that can be uses as dynamically
+	 * Here is the logic to define that variables
+	 *
+	 * IMPORTANT: we need to call this function in plugin or module manually to see the effect of this variables
+	 *
+	 * @return void
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function defineDynamicVars()
+	{
+		$config = Redshop::getConfig();
+
+		$config->set('SHOW_PRICE', self::cfgShowPrice());
+		$config->set('USE_AS_CATALOG', self::cfgUseAsCatalog());
+
+		$quotationModePre = (int) $config->get('DEFAULT_QUOTATION_MODE_PRE');
+
+		$config->set('DEFAULT_QUOTATION_MODE', $quotationModePre);
+
+		if ($quotationModePre == 1)
+		{
+			$config->set('DEFAULT_QUOTATION_MODE', (int) self::cfgQuotationMode());
+		}
+	}
 }

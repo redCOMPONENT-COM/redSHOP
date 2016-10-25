@@ -291,22 +291,12 @@ class Redconfiguration
 	 * IMPORTANT: we need to call this function in plugin or module manually to see the effect of this variables
 	 *
 	 * @return void
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::defineDynamicVars() instead
 	 */
 	public function defineDynamicVars()
 	{
-		$config = Redshop::getConfig();
-
-		$config->set('SHOW_PRICE', $this->showPrice());
-		$config->set('USE_AS_CATALOG', $this->getCatalog());
-
-		$quotationModePre = (int) $config->get('DEFAULT_QUOTATION_MODE_PRE');
-
-		$config->set('DEFAULT_QUOTATION_MODE', $quotationModePre);
-
-		if ($quotationModePre == 1)
-		{
-			$config->set('DEFAULT_QUOTATION_MODE', (int) $this->setQuotationMode());
-		}
+		return RedshopAppConfiguration::defineDynamicVars();
 	}
 
 	/**
