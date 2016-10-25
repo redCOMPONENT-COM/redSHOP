@@ -226,26 +226,12 @@ class Redconfiguration
 	 * Write prepared data into a file.
 	 *
 	 * @return  boolean  True when file successfully saved.
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::writeConfigToFile() instead
 	 */
 	public function writeCFGFile()
 	{
-		if ($fp = fopen($this->configPath, "w"))
-		{
-			// Cleaning <?php and ?\> tag from the code
-			$this->cfgData = str_replace(array('<?php', '?>', "\n"), '', $this->cfgData);
-
-			// Now, adding <?php tag at the top of the file.
-			$this->cfgData = "<?php \n" . $this->cfgData;
-
-			fwrite($fp, $this->cfgData, strlen($this->cfgData));
-			fclose($fp);
-
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return RedshopAppConfiguration::writeConfigToFile($this->cfgData);
 	}
 
 	/**

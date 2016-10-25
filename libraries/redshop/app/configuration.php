@@ -597,4 +597,33 @@ class RedshopAppConfiguration
 
 		return $defineText;
 	}
+
+	/**
+	 * Write prepared data into a file.
+	 * $defineText = self::defineConfigFromData($data, $bypass)
+	 *
+	 * @param   string  $defineText  Text was defined as command to define configuration
+	 *
+	 * @return  boolean              True when file successfully saved.
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function writeConfigToFile($defineText = "")
+	{
+		if ($fp = fopen(JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php', "w"))
+		{
+			// Cleaning <?php and ?\> tag from the code
+			$defineText = str_replace(array('<?php', '?>', "\n"), '', $defineText);
+
+			// Now, adding <?php tag at the top of the file.
+			$defineText = "<?php \n" . $defineText;
+
+			fwrite($fp, $defineText, strlen($defineText));
+			fclose($fp);
+
+			return true;
+		}
+
+		return false;
+	}
 }
