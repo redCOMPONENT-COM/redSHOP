@@ -572,4 +572,29 @@ class RedshopAppConfiguration
 
 		return $config;
 	}
+
+	/**
+	 * Prepare a text to define Config contants from provided $data.
+	 *
+	 * @param   array    $data    Configuration Data associative array
+	 * @param   boolean  $bypass  Don't write anything and simply bypass if it is set to true.
+	 *
+	 * @return  string
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function defineConfigFromData($data, $bypass = false)
+	{
+		$defineText = "";
+
+		foreach ($data as $key => $value)
+		{
+			if (!defined($key) || $bypass)
+			{
+				$defineText .= "define('" . $key . "', '" . addslashes($value) . "');\n";
+			}
+		}
+
+		return $defineText;
+	}
 }

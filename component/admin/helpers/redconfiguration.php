@@ -212,18 +212,12 @@ class Redconfiguration
 	 * @param   boolean  $bypass  Don't write anything and simply bypass if it is set to true.
 	 *
 	 * @return  void
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::defineConfigFromData() instead
 	 */
 	public function defineCFGVars($data, $bypass = false)
 	{
-		$this->cfgData = "";
-
-		foreach ($data as $key => $value)
-		{
-			if (!defined($key) || $bypass)
-			{
-				$this->cfgData .= "define('" . $key . "', '" . addslashes($value) . "');\n";
-			}
-		}
+		$this->cfgData = RedshopAppConfiguration::defineConfigFromData($data, $bypass);
 
 		return;
 	}
