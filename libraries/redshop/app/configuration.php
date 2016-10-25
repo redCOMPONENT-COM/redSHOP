@@ -897,6 +897,8 @@ class RedshopAppConfiguration
 	 * Get config status for SHOW_PRICE_PRE
 	 *
 	 * @return  integer
+	 *
+	 * @since  2.0.0.3
 	 */
 	public static function cfgShowPrice()
 	{
@@ -922,6 +924,41 @@ class RedshopAppConfiguration
 		else
 		{
 			return Redshop::getConfig()->get('SHOW_PRICE_PRE');
+		}
+	}
+
+	/**
+	 * Get config status for PRE_USE_AS_CATALOG
+	 *
+	 * @return  integer
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function cfgUseAsCatalog()
+	{
+		$user           = JFactory::getUser();
+		$userHelper     = rsUserHelper::getInstance();
+		$shopperGroupId = $userHelper->getShopperGroup($user->id);
+		$list           = $userHelper->getShopperGroupList($shopperGroupId);
+
+		if ($list)
+		{
+			$list = $list[0];
+
+			if (($list->use_as_catalog == "yes") || ($list->use_as_catalog == "global" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1)
+				|| ($list->use_as_catalog == "" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1))
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+
+		else
+		{
+			return Redshop::getConfig()->get('PRE_USE_AS_CATALOG');
 		}
 	}
 }
