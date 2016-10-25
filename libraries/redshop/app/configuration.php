@@ -1331,6 +1331,8 @@ class RedshopAppConfiguration
 	 * @param   string  $countryCode  Country as 3 code
 	 *
 	 * @return  string
+	 *
+	 * @since  2.0.0.3
 	 */
 	public static function getCountryId($countryCode)
 	{
@@ -1351,6 +1353,8 @@ class RedshopAppConfiguration
 	 * @param   string  $countryCode  Country as 3 code
 	 *
 	 * @return  string
+	 *
+	 * @since  2.0.0.3
 	 */
 	public static function getCountryCode2($countryCode)
 	{
@@ -1362,5 +1366,64 @@ class RedshopAppConfiguration
 		$db->setQuery($query);
 
 		return $db->loadResult();
+	}
+
+	/**
+	 * Get state 2 code from state 3 code
+	 *
+	 * @param   string  $stateCode  State 3 code
+	 *
+	 * @return  string
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function getStateCode2($stateCode)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select($db->qn('state_2_code'))
+					->from($db->qn('#__redshop_state'))
+					->where($db->qn('state_3_code') . ' LIKE ' . $db->quote($stateCode));
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
+
+	/**
+	 * Get State 3 code from tax code
+	 *
+	 * @param   integer  $stateId  State ID
+	 * @param   string   $taxCode  Tax Code
+	 *
+	 * @return  string
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function getStateCode($stateId, $taxCode)
+	{
+		if (empty($taxCode))
+		{
+			return null;
+		}
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select($db->qn('state_3_code'), $db->qn('show_state'))
+					->from($db->qn('#__redshop_state'))
+					->where($db->qn('state_2_code') . ' LIKE ' . $db->quote($taxCode))
+					->where($db->qn('id') . ' = ' . (int) $stateId);
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
+
+		if ($result[0]->show_state == 3)
+		{
+			$stateCode = $result[0]->state_3_code;
+
+			return $stateCode;
+		}
+
+		$stateCode = $taxCode;
+
+		return $stateCode;
 	}
 }

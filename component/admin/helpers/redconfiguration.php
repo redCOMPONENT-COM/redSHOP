@@ -429,39 +429,32 @@ class Redconfiguration
 		return RedshopAppConfiguration::getCountryCode2($conid);
 	}
 
+	/**
+	 * Get state 2 code from state 3 code
+	 *
+	 * @param   string  $conid  State 3 code
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::getStateCode2() instead
+	 */
 	public function getStateCode2($conid)
 	{
-		$db = JFactory::getDbo();
-		$query = 'SELECT state_2_code FROM #__redshop_state '
-			. 'WHERE state_3_code LIKE ' . $db->quote($conid);
-		$db->setQuery($query);
-
-		return $db->loadResult();
+		return RedshopAppConfiguration::getStateCode2($conid);
 	}
 
+	/**
+	 * Get State 3 code from tax code
+	 *
+	 * @param   integer  $conid     State ID
+	 * @param   string   $tax_code  Tax Code
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::getStateCode() instead
+	 */
 	public function getStateCode($conid, $tax_code)
 	{
-		if (empty($tax_code))
-		{
-			return null;
-		}
-
-		$db = JFactory::getDbo();
-		$query = 'SELECT  state_3_code , show_state FROM #__redshop_state '
-		. 'WHERE state_2_code LIKE ' . $db->quote($tax_code)
-		. ' AND id = ' . (int) $conid;
-		$db->setQuery($query);
-		$rslt_data = $db->loadObjectList();
-
-		if ($rslt_data[0]->show_state == 3)
-		{
-			$state_code = $rslt_data[0]->state_3_code;
-
-			return $state_code;
-		}
-
-		$state_code = $tax_code;
-
-		return $state_code;
+		return RedshopAppConfiguration::getStateCode($conid, $tax_code);
 	}
 }
