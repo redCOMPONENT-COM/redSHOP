@@ -714,4 +714,40 @@ class RedshopAppConfiguration
 		$defineText = self::defineConfigFromData($data);
 		self::writeConfigToFile($defineText);
 	}
+
+	/**
+	 * Load or Update configuration file
+	 *
+	 * @param   array  $org  Config additional variables to merge
+	 *
+	 * @return boolean
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function loadOrUpdateConfigFile($org = array())
+	{
+		if (self::loadConfigFile())
+		{
+			if (count($org) > 0)
+			{
+				/* Set last param as false to ensure the last line is empty
+				and not containing '?>' at the end of the file*/
+				$additionalDefine = self::defineConfigFromData($org, $false);
+				self::updateConfigFile($additionalDefine);
+			}
+		}
+		else
+		{
+			if (self::checkConfigTableExist())
+			{
+				self::fetchConfigWriteToFile($org);
+			}
+			else
+			{
+				self::loadDefaultConfigFile();
+			}
+		}
+
+		return true;
+	}
 }

@@ -148,31 +148,12 @@ class Redconfiguration
 	 * @param   array  $org  Config additional variables to merge
 	 *
 	 * @return boolean
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::loadOrUpdateConfigFile() instead
 	 */
 	public function manageCFGFile($org = array())
 	{
-		if ($this->isCFGFile())
-		{
-			if (count($org) > 0)
-			{
-				/* Set last param as false to ensure the last line is empty and not containing '?>' at the end of the file*/
-				$this->defineCFGVars($org, false);
-				$this->updateCFGFile();
-			}
-		}
-		else
-		{
-			if ($this->isCFGTable())
-			{
-				$this->setCFGTableData($org);
-			}
-			else
-			{
-				$this->loadDefaultCFGFile();
-			}
-		}
-
-		return true;
+		return RedshopAppConfiguration::loadOrUpdateConfigFile($org);
 	}
 
 	/**
