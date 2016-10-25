@@ -122,26 +122,12 @@ class Redconfiguration
 	 * @param   array  $org  Config additional variables to merge
 	 *
 	 * @return void
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::fetchConfigWriteToFile() instead
 	 */
 	public function setCFGTableData($org = array())
 	{
-		$db = JFactory::getDbo();
-
-		// GetData From table
-		$query = "SELECT * FROM #__redshop_configuration WHERE id = 1";
-		$db->setQuery($query);
-		$cfgdata = $db->loadAssoc();
-
-		// Prepare data from table
-		$data = $this->redshopCFGData($cfgdata);
-
-		if (count($org) > 0)
-		{
-			$data = array_merge($org, $data);
-		}
-
-		$this->defineCFGVars($data);
-		$this->writeCFGFile();
+		return RedshopAppConfiguration::fetchConfigWriteToFile($org);
 	}
 
 	/**

@@ -626,4 +626,37 @@ class RedshopAppConfiguration
 
 		return false;
 	}
+
+	/**
+	 * Write configuration from data in #__red_configuration to file
+	 *
+	 * @param   array  $org  Config additional variables to merge
+	 *
+	 * @return void
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function fetchConfigWriteToFile($org = array())
+	{
+		$db = JFactory::getDbo();
+
+		// Get aata from table
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_configuration'))
+					->where($db->qn('id') . ' = 1');
+		$db->setQuery($query);
+		$configData = $db->loadAssoc();
+
+		// Prepare data from table
+		$data = self::prepareData($configData);
+
+		if (count($org) > 0)
+		{
+			$data = array_merge($org, $data);
+		}
+
+		$defineText = self::defineConfigFromData($data);
+		self::writeConfigToFile($defineText);
+	}
 }
