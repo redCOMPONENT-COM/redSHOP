@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-class Tablemanufacturer_detail extends JTable
+class RedshopTableManufacturer extends JTable
 {
 	public $manufacturer_id = null;
 
@@ -45,12 +45,26 @@ class Tablemanufacturer_detail extends JTable
 
 	public $excluding_category_list = null;
 
+	/**
+	 * RedshopTableManufacturer constructor.
+	 *
+	 * @param   object  &$db  Database object
+	 */
 	public function __construct(& $db)
 	{
-		$this->_table_prefix = '#__redshop_';
-		parent::__construct($this->_table_prefix . 'manufacturer', 'manufacturer_id', $db);
+		parent::__construct('#__redshop_manufacturer', 'manufacturer_id', $db);
 	}
 
+	/**
+	 * Bind data
+	 *
+	 * @param   array|object  $array  Data
+	 * @param   array         $ignore Ignore fields
+	 *
+	 * @return  bool
+	 *
+	 * @since   2.0.0.3
+	 */
 	public function bind($array, $ignore = '')
 	{
 		if (array_key_exists('params', $array) && is_array($array['params']))
@@ -61,5 +75,22 @@ class Tablemanufacturer_detail extends JTable
 		}
 
 		return parent::bind($array, $ignore);
+	}
+
+	/**
+	 * Validate data fields
+	 *
+	 * @return  bool
+	 *
+	 * @since   2.0.0.3
+	 */
+	public function check ()
+	{
+		if (empty($this->manufacturer_name))
+		{
+			return false;
+		}
+
+		return parent::check();
 	}
 }
