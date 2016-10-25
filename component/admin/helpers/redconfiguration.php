@@ -335,20 +335,20 @@ class Redconfiguration
 		return RedshopAppConfiguration::cfgQuotationMode();
 	}
 
+	/**
+	 * Truncate string or HTML and return a preview text with '...' by max length
+	 *
+	 * @param   string   $desc      Text or HTML input
+	 * @param   integer  $maxchars  Length of character to truncate
+	 * @param   string   $suffix    Ending '...'
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::truncateWithMaxLength() instead
+	 */
 	public function maxchar($desc = '', $maxchars = 0, $suffix = '')
 	{
-		$strdesc = '';
-
-		if ((int) $maxchars <= 0)
-		{
-			$strdesc = $desc;
-		}
-		else
-		{
-			$strdesc = $this->substrws($desc, $maxchars, $suffix);
-		}
-
-		return $strdesc;
+		return RedshopAppConfiguration::truncateWithMaxLength($desc, $maxchars, $suffix);
 	}
 
 	/**
