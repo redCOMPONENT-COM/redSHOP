@@ -90,6 +90,8 @@ class RedshopAppConfiguration
 	 * If success return true, else return false.
 	 *
 	 * @return  boolean
+	 *
+	 * @since  2.0.0.3
 	 */
 	public static function loadConfigFile()
 	{
@@ -99,6 +101,28 @@ class RedshopAppConfiguration
 		}
 
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
+
+		return true;
+	}
+
+	/**
+	 * Check table: redshop_configuration is existed in database or not,
+	 * return true if it is existed, else return false.
+	 *
+	 * @return  boolean
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function checkConfigTableExist()
+	{
+		$db    = JFactory::getDbo();
+		$query = 'SHOW TABLES LIKE ' . $db->qn('#__redshop_configuration');
+		$db->setQuery($query);
+
+		if (count($db->loadResult()) <= 0)
+		{
+			return false;
+		}
 
 		return true;
 	}

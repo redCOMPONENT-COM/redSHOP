@@ -108,20 +108,12 @@ class Redconfiguration
 	 * check table exist
 	 *
 	 * @return boolean
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::checkConfigTableExist() instead
 	 */
 	public function isCFGTable()
 	{
-		$db = JFactory::getDbo();
-		$query = 'show tables like "' . $db->getPrefix() . 'redshop_configuration"';
-		$db->setQuery($query);
-		$result = $db->loadResult();
-
-		if (count($result) <= 0)
-		{
-			return false;
-		}
-
-		return true;
+		return RedshopAppConfiguration::checkConfigTableExist();
 	}
 
 	/**
