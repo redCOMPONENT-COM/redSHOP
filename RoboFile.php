@@ -567,7 +567,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function checkForPhpParse()
 	{
-		$this->_exec('php tests/checkers/phpparseerrorchecker.php ../component ../libraries ../modules ../plugins');
+		$this->_exec('php tests/checkers/phpparseerrorchecker.php ../component ../libraries/redshop ../modules ../plugins');
 	}
 
 	/**
