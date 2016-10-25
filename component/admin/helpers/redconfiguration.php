@@ -214,41 +214,24 @@ class Redconfiguration
 	 * Try to find if temp configuration file is available. This function is for wizard.
 	 *
 	 * @return  boolean  True when file is exist.
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::loadTempConfigFile() instead
 	 */
 	public function isTmpFile()
 	{
-		if (file_exists($this->configTmpPath))
-		{
-			if ($this->isTMPFileWritable())
-			{
-				require_once $this->configTmpPath;
-
-				return true;
-			}
-		}
-		else
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND'), 'error');
-		}
-
-		return false;
+		return RedshopAppConfiguration::loadTempConfigFile();
 	}
 
 	/**
 	 * Check if temp file is writeable or not.
 	 *
 	 * @return  boolean  True if file is writeable.
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::checkTemConfigFileIsWritable() instead
 	 */
 	public function isTMPFileWritable()
 	{
-		if (!is_writable($this->configTmpPath))
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'), 'error');
-
-			return false;
-		}
-
-		return true;
+		return RedshopAppConfiguration::checkTemConfigFileIsWritable();
 	}
 
 	/**
