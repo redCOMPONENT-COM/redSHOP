@@ -388,84 +388,17 @@ class Redconfiguration
 	/**
 	 * Method to convert date according to format
 	 *
-	 * @access    public
+	 * @param   string  $date  Date input in string format
 	 *
 	 * @return    array
 	 *
 	 * @since    1.5
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::stringToDate() instead
 	 */
 	public function convertDateFormat($date)
 	{
-		if ($date <= 0)
-		{
-			$date = time();
-		}
-
-		if (Redshop::getConfig()->get('DEFAULT_DATEFORMAT'))
-		{
-			$convertformat = date(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), $date);
-
-			if (strpos(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), "M") !== false)
-			{
-				$convertformat = str_replace("Jan", JText::_('COM_REDSHOP_JAN'), $convertformat);
-				$convertformat = str_replace("Feb", JText::_('COM_REDSHOP_FEB'), $convertformat);
-				$convertformat = str_replace("Mar", JText::_('COM_REDSHOP_MAR'), $convertformat);
-				$convertformat = str_replace("Apr", JText::_('COM_REDSHOP_APR'), $convertformat);
-				$convertformat = str_replace("May", JText::_('COM_REDSHOP_MAY'), $convertformat);
-				$convertformat = str_replace("Jun", JText::_('COM_REDSHOP_JUN'), $convertformat);
-				$convertformat = str_replace("Jul", JText::_('COM_REDSHOP_JUL'), $convertformat);
-				$convertformat = str_replace("Aug", JText::_('COM_REDSHOP_AUG'), $convertformat);
-				$convertformat = str_replace("Sep", JText::_('COM_REDSHOP_SEP'), $convertformat);
-				$convertformat = str_replace("Oct", JText::_('COM_REDSHOP_OCT'), $convertformat);
-				$convertformat = str_replace("Nov", JText::_('COM_REDSHOP_NOV'), $convertformat);
-				$convertformat = str_replace("Dec", JText::_('COM_REDSHOP_DEC'), $convertformat);
-			}
-
-			if (strpos(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), "F") !== false)
-			{
-				$convertformat = str_replace("January", JText::_('COM_REDSHOP_JANUARY'), $convertformat);
-				$convertformat = str_replace("February", JText::_('COM_REDSHOP_FEBRUARY'), $convertformat);
-				$convertformat = str_replace("March", JText::_('COM_REDSHOP_MARCH'), $convertformat);
-				$convertformat = str_replace("April", JText::_('COM_REDSHOP_APRIL'), $convertformat);
-				$convertformat = str_replace("May", JText::_('COM_REDSHOP_MAY'), $convertformat);
-				$convertformat = str_replace("June", JText::_('COM_REDSHOP_JUNE'), $convertformat);
-				$convertformat = str_replace("July", JText::_('COM_REDSHOP_JULY'), $convertformat);
-				$convertformat = str_replace("August", JText::_('COM_REDSHOP_AUGUST'), $convertformat);
-				$convertformat = str_replace("September", JText::_('COM_REDSHOP_SEPTEMBER'), $convertformat);
-				$convertformat = str_replace("October", JText::_('COM_REDSHOP_OCTOBER'), $convertformat);
-				$convertformat = str_replace("November", JText::_('COM_REDSHOP_NOVEMBER'), $convertformat);
-				$convertformat = str_replace("December", JText::_('COM_REDSHOP_DECEMBER'), $convertformat);
-			}
-
-			if (strpos(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), "D") !== false)
-			{
-				$convertformat = str_replace("Mon", JText::_('COM_REDSHOP_MON'), $convertformat);
-				$convertformat = str_replace("Tue", JText::_('COM_REDSHOP_TUE'), $convertformat);
-				$convertformat = str_replace("Wed", JText::_('COM_REDSHOP_WED'), $convertformat);
-				$convertformat = str_replace("Thu", JText::_('COM_REDSHOP_THU'), $convertformat);
-				$convertformat = str_replace("Fri", JText::_('COM_REDSHOP_FRI'), $convertformat);
-				$convertformat = str_replace("Sat", JText::_('COM_REDSHOP_SAT'), $convertformat);
-				$convertformat = str_replace("Sun", JText::_('COM_REDSHOP_SUN'), $convertformat);
-			}
-
-			if (strpos(Redshop::getConfig()->get('DEFAULT_DATEFORMAT'), "l") !== false)
-			{
-				$convertformat = str_replace("Monday", JText::_('COM_REDSHOP_MONDAY'), $convertformat);
-				$convertformat = str_replace("Tuesday", JText::_('COM_REDSHOP_TUESDAY'), $convertformat);
-				$convertformat = str_replace("Wednesday", JText::_('COM_REDSHOP_WEDNESDAY'), $convertformat);
-				$convertformat = str_replace("Thursday", JText::_('COM_REDSHOP_THURSDAY'), $convertformat);
-				$convertformat = str_replace("Friday", JText::_('COM_REDSHOP_FRIDAY'), $convertformat);
-				$convertformat = str_replace("Saturday", JText::_('COM_REDSHOP_SATURDAY'), $convertformat);
-				$convertformat = str_replace("Sunday", JText::_('COM_REDSHOP_SUNDAY'), $convertformat);
-			}
-		}
-
-		else
-		{
-			$convertformat = date("Y-m-d", $date);
-		}
-
-		return $convertformat;
+		return RedshopAppConfiguration::stringToDate($date);
 	}
 
 	/**
@@ -474,18 +407,12 @@ class Redconfiguration
 	 * @param   int  $conid  country id
 	 *
 	 * @return  country
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::getCountryId() instead
 	 */
 	public function getCountryId($conid)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->qn('id'))
-			->from($db->qn('#__redshop_country'))
-			->where($db->qn('country_3_code') . ' LIKE ' . $db->q($conid));
-
-		$db->setQuery($query);
-
-		return $db->loadResult();
+		return RedshopAppConfiguration::getCountryId($conid);
 	}
 
 	/**
