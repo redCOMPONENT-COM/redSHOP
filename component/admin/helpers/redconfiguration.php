@@ -169,8 +169,6 @@ class Redconfiguration
 	public function defineCFGVars($data, $bypass = false)
 	{
 		$this->cfgData = RedshopAppConfiguration::defineConfigFromData($data, $bypass);
-
-		return;
 	}
 
 	/**
@@ -238,41 +236,24 @@ class Redconfiguration
 	 * Check if definition file is available or not.
 	 *
 	 * @return  boolean  True if file is exist.
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::loadDefConfigFile() instead
 	 */
 	public function isDEFFile()
 	{
-		if (file_exists($this->configDefPath))
-		{
-			if ($this->isDEFFileWritable())
-			{
-				require_once $this->configDefPath;
-
-				return true;
-			}
-		}
-		else
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_FOUND'), 'error');
-		}
-
-		return false;
+		return RedshopAppConfiguration::loadDefConfigFile();
 	}
 
 	/**
 	 * Check for def file is writeable or not.
 	 *
 	 * @return  boolean  True if file is writeable.
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::checkDefConfigFileIsWritable() instead
 	 */
 	public function isDEFFileWritable()
 	{
-		if (!is_writable($this->configDefPath))
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_WRITABLE'), 'error');
-
-			return false;
-		}
-
-		return true;
+		return RedshopAppConfiguration::checkDefConfigFileIsWritable();
 	}
 
 	/**

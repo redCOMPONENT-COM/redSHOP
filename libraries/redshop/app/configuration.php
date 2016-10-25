@@ -166,6 +166,34 @@ class RedshopAppConfiguration
 	}
 
 	/**
+	 * Try to find if def configuration file is available. This function is for wizard.
+	 *
+	 * @return  boolean  True when file is exist.
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function loadDefConfigFile()
+	{
+		$basePath = JPATH_SITE . '/administrator/components/com_redshop/helpers/';
+
+		if (file_exists($basepath . 'wizard/redshop.cfg.def.php'))
+		{
+			if (self::checkDefConfigFileIsWritable())
+			{
+				require_once $basepath . 'wizard/redshop.cfg.def.php';
+
+				return true;
+			}
+		}
+		else
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND'), 'error');
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check table: redshop_configuration is existed in database or not,
 	 * return true if it is existed, else return false.
 	 *
@@ -199,6 +227,18 @@ class RedshopAppConfiguration
 		$basePath = JPATH_SITE . '/administrator/components/com_redshop/helpers/';
 
 		return is_writable($basepath . 'wizard/redshop.cfg.tmp.php');
+	}
+
+	/**
+	 * Check for def file is writeable or not.
+	 *
+	 * @return  boolean  True if file is writeable.
+	 */
+	public static function checkDefConfigFileIsWritable()
+	{
+		$basePath = JPATH_SITE . '/administrator/components/com_redshop/helpers/';
+
+		return is_writable($basepath . 'wizard/redshop.cfg.def.php');
 	}
 
 	/**
