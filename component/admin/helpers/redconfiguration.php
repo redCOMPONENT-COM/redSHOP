@@ -202,26 +202,12 @@ class Redconfiguration
 	 * Backup Configuration file before running wizard.
 	 *
 	 * @return  boolean  True on successfully backed up.
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::backupConfigFile() instead
 	 */
 	public function backupCFGFile()
 	{
-		if ($this->isCFGFile())
-		{
-			if (!copy($this->configPath, $this->configBkpPath))
-			{
-				return false;
-			}
-		}
-
-		else
-		{
-			if (!copy($this->configDistPath, $this->configPath))
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return RedshopAppConfiguration::backupConfigFile();
 	}
 
 	/**

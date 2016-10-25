@@ -683,6 +683,34 @@ class RedshopAppConfiguration
 	}
 
 	/**
+	 * Backup Configuration file before running wizard.
+	 *
+	 * @return  boolean  True on successfully backed up.
+	 */
+	public static function backupConfigFile()
+	{
+		$basePath = JPATH_SITE . '/administrator/components/com_redshop/helpers/';
+
+		if (self::loadConfigFile())
+		{
+			if (!copy($basepath . 'redshop.cfg.php', $basepath . 'wizard/redshop.cfg.bkp.php'))
+			{
+				return false;
+			}
+		}
+
+		else
+		{
+			if (!copy($basepath . 'wizard/redshop.cfg.dist.php', $basepath . 'redshop.cfg.php'))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Write configuration from data in #__red_configuration to file
 	 *
 	 * @param   array  $org  Config additional variables to merge
