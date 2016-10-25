@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  1.6
+ * @since  2.0.0.4
  */
 class JFormFieldRcountries extends JFormFieldList
 {
@@ -22,7 +22,7 @@ class JFormFieldRcountries extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.6
+	 * @since  2.0.0.4
 	 */
 	protected $type = 'Rcountries';
 
