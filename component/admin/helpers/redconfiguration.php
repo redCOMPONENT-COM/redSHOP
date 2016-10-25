@@ -5,11 +5,21 @@
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
+ *
+ * @deprecated  2.0.0.3  Use RedshopAppConfiguration instead
  */
 
 defined('_JEXEC') or die;
 
-
+/**
+ * Configuration for application, this library help to store configuration in database,
+ * getting and converting date time, support to get country and state information...
+ * Using: RedshopAppConfiguration::<method>
+ *
+ * @since       1.5
+ *
+ * @deprecated  2.0.0.3  Use RedshopAppConfiguration instead
+ */
 class Redconfiguration
 {
 	public $defArray = null;
