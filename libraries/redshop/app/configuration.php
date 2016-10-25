@@ -961,4 +961,48 @@ class RedshopAppConfiguration
 			return Redshop::getConfig()->get('PRE_USE_AS_CATALOG');
 		}
 	}
+
+	/**
+	 * Get config status for DEFAULT_QUOTATION_MODE_PRE
+	 *
+	 * @return  boolean
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function cfgQuotationMode()
+	{
+		$db               = JFactory::getDbo();
+		$user             = JFactory::getUser();
+		$userHelper       = rsUserHelper::getInstance();
+		$shopperGroupId   = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
+
+		if ($user->id)
+		{
+			$getShopperGroupID = $userHelper->getShopperGroup($user->id);
+
+			if ($getShopperGroupID)
+			{
+				$shopperGroupId = $getShopperGroupID;
+			}
+		}
+
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_shopper_group'))
+					->where($db->qn('shopper_group_id') . ' = ' . (int) $shopperGroupId);
+		$db->setQuery($query);
+		$list = $db->loadObject();
+
+		if ($list)
+		{
+			if ($list->shopper_group_quotation_mode)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		return Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE');
+	}
 }

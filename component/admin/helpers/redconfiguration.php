@@ -333,39 +333,16 @@ class Redconfiguration
 		return RedshopAppConfiguration::cfgUseAsCatalog();
 	}
 
+	/**
+	 * Get config status for DEFAULT_QUOTATION_MODE_PRE
+	 *
+	 * @return  boolean
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::cfgQuotationMode() instead
+	 */
 	public function setQuotationMode()
 	{
-		$db = JFactory::getDbo();
-		$user             = JFactory::getUser();
-		$userhelper       = rsUserHelper::getInstance();
-		$shopper_group_id = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
-
-		if ($user->id)
-		{
-			$getShopperGroupID = $userhelper->getShopperGroup($user->id);
-
-			if ($getShopperGroupID)
-			{
-				$shopper_group_id = $getShopperGroupID;
-			}
-		}
-
-		$qurey = "SELECT * FROM #__redshop_shopper_group "
-			. "WHERE shopper_group_id = " . (int) $shopper_group_id;
-		$db->setQuery($qurey);
-		$list = $db->loadObject();
-
-		if ($list)
-		{
-			if ($list->shopper_group_quotation_mode)
-			{
-				return true;
-			}
-
-			return false;
-		}
-
-		return Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE');
+		return RedshopAppConfiguration::cfgQuotationMode();
 	}
 
 	public function maxchar($desc = '', $maxchars = 0, $suffix = '')
