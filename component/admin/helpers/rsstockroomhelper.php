@@ -39,23 +39,30 @@ class rsstockroomhelper
 	/**
 	 * Get stockroom detail
 	 *
-	 * @param   int  $stockroomId  stockroom id
+	 * @param   array   $stockroomId  stockroom id
+	 * @param   int     $published    published/unpublished
+	 * @param   boolen  $checked      checked use stockroom
 	 *
 	 * @return mixed
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getStockroomDetail($stockroomId) instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getStockroom($stockroomId, $published, $checked) instead
 	 */
-	public function getStockroomDetail($stockroomId = 0)
+	public function getStockroomDetail($stockroomId = array(), $published = null, $checked = false)
 	{
-		return RedshopHelperStockroom::getStockroomDetail($stockroomId);
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
+		{
+			$checked = true;
+		}
+
+		return RedshopHelperStockroom::getStockroom($stockroomId, $published, $checked);
 	}
 
 	/**
 	 * Check is stock exists
 	 *
-	 * @param   int  $sectionId    Section id
-	 * @param   int  $section      Section
-	 * @param   int  $stockroomId  Stockroom id
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $section      Section
+	 * @param   int     $stockroomId  Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -83,9 +90,9 @@ class rsstockroomhelper
 	/**
 	 * Check is pre-order stock exists
 	 *
-	 * @param   int  $sectionId    Section id
-	 * @param   int  $section      Section
-	 * @param   int  $stockroomId  Stockroom id
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $section      Section
+	 * @param   int     $stockroomId  Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -113,9 +120,9 @@ class rsstockroomhelper
 	/**
 	 * Get Stockroom Total amount
 	 *
-	 * @param   int  $sectionId    Section id
-	 * @param   int  $section      Section
-	 * @param   int  $stockroomId  Stockroom id
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $section      Section
+	 * @param   int     $stockroomId  Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -129,9 +136,9 @@ class rsstockroomhelper
 	/**
 	 * Get pre-order stockroom total amount
 	 *
-	 * @param   int  $sectionId    Section id
-	 * @param   int  $section      Section
-	 * @param   int  $stockroomId  Stockroom id
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $section      Section
+	 * @param   int     $stockroomId  Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -161,9 +168,9 @@ class rsstockroomhelper
 	/**
 	 * Get pre-order stockroom amount with reserve
 	 *
-	 * @param   int  $sectionId    Section id
-	 * @param   int  $section      Section
-	 * @param   int  $stockroomId  Stockroom id
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $section      Section
+	 * @param   int     $stockroomId  Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -177,9 +184,9 @@ class rsstockroomhelper
 	/**
 	 * Get stockroom amount detail list
 	 *
-	 * @param   int  $sectionId    Section id
-	 * @param   int  $section      Section
-	 * @param   int  $stockroomId  Stockroom id
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $section      Section
+	 * @param   int     $stockroomId  Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -193,9 +200,9 @@ class rsstockroomhelper
 	/**
 	 * Get pre-order stockroom amount detail list
 	 *
-	 * @param   int  $sectionId    Section id
-	 * @param   int  $section      Section
-	 * @param   int  $stockroomId  Stockroom id
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $section      Section
+	 * @param   int     $stockroomId  Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -210,10 +217,10 @@ class rsstockroomhelper
 	/**
 	 * Update stockroom quantity
 	 *
-	 * @param   int  $sectionId  Section id
-	 * @param   int  $quantity   Stockroom quantity
-	 * @param   int  $section    Section
-	 * @param   int  $productId  Product id
+	 * @param   int     $sectionId  Section id
+	 * @param   int     $quantity   Stockroom quantity
+	 * @param   string  $section    Section
+	 * @param   int     $productId  Product id
 	 *
 	 * @return mixed
 	 *
@@ -227,10 +234,10 @@ class rsstockroomhelper
 	/**
 	 * Update stockroom amount
 	 *
-	 * @param   int  $sectionId    Section id
-	 * @param   int  $quantity     Stockroom quantity
-	 * @param   int  $stockroomId  Stockroom id
-	 * @param   int  $section      Section
+	 * @param   int     $sectionId    Section id
+	 * @param   int     $quantity     Stockroom quantity
+	 * @param   int     $stockroomId  Stockroom id
+	 * @param   string  $section      Section
 	 *
 	 * @return mixed
 	 *
@@ -244,10 +251,10 @@ class rsstockroomhelper
 	/**
 	 * Update pre-order stock amount
 	 *
-	 * @param   int  $sectionId    Section id
-	 * @param   int  $quantity     Stockroom quantity
-	 * @param   int  $stockroomId  Stockroom id
-	 * @param   int  $section      Section
+	 * @param   int     $sectionId    Section id
+	 * @param   int     $quantity     Stockroom quantity
+	 * @param   int     $stockroomId  Stockroom id
+	 * @param   string  $section      Section
 	 *
 	 * @return mixed
 	 *
@@ -262,10 +269,10 @@ class rsstockroomhelper
 	/**
 	 * Manage stock amount
 	 *
-	 * @param   int  $sectionId    Section id
-	 * @param   int  $quantity     Stockroom quantity
-	 * @param   int  $stockroomId  Stockroom id
-	 * @param   int  $section      Section
+	 * @param   int     $sectionId    Section id
+	 * @param   int     $quantity     Stockroom quantity
+	 * @param   int     $stockroomId  Stockroom id
+	 * @param   string  $section      Section
 	 *
 	 * @return mixed
 	 *
@@ -279,9 +286,9 @@ class rsstockroomhelper
 	/**
 	 * Replace stockroom amount detail
 	 *
-	 * @param   int  $templateDesc  Template desciption
-	 * @param   int  $sectionId     Section id
-	 * @param   int  $section       Section
+	 * @param   int     $templateDesc  Template desciption
+	 * @param   int     $sectionId     Section id
+	 * @param   string  $section       Section
 	 *
 	 * @return mixed
 	 *
@@ -295,9 +302,9 @@ class rsstockroomhelper
 	/**
 	 * Get stock amount image
 	 *
-	 * @param   int  $sectionId    Section id
-	 * @param   int  $section      Section
-	 * @param   int  $stockAmount  Stockroom amount
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $section      Section
+	 * @param   int     $stockAmount  Stockroom amount
 	 *
 	 * @return mixed
 	 *
@@ -311,8 +318,8 @@ class rsstockroomhelper
 	/**
 	 * Get reserved Stock
 	 *
-	 * @param   int  $sectionId  Section id
-	 * @param   int  $section    Section
+	 * @param   int     $sectionId  Section id
+	 * @param   string  $section    Section
 	 *
 	 * @return mixed
 	 *
@@ -326,8 +333,8 @@ class rsstockroomhelper
 	/**
 	 * Get current User reserved stock
 	 *
-	 * @param   int  $sectionId  Section id
-	 * @param   int  $section    Section
+	 * @param   int     $sectionId  Section id
+	 * @param   string  $section    Section
 	 *
 	 * @return mixed
 	 *
@@ -353,9 +360,9 @@ class rsstockroomhelper
 	/**
 	 * Delete cart after empty
 	 *
-	 * @param   int  $sectionId  Section id
-	 * @param   int  $section    Section
-	 * @param   int  $quantity   Stockroom quantity
+	 * @param   int     $sectionId  Section id
+	 * @param   string  $section    Section
+	 * @param   int     $quantity   Stockroom quantity
 	 *
 	 * @return mixed
 	 *
@@ -369,9 +376,9 @@ class rsstockroomhelper
 	/**
 	 * Add reserved stock
 	 *
-	 * @param   int  $sectionId  Section id
-	 * @param   int  $quantity   Stockroom quantity
-	 * @param   int  $section    Section
+	 * @param   int     $sectionId  Section id
+	 * @param   int     $quantity   Stockroom quantity
+	 * @param   string  $section    Section
 	 *
 	 * @return mixed
 	 *
@@ -383,17 +390,19 @@ class rsstockroomhelper
 	}
 
 	/**
-	 * Get stockroom
+	 * Get stockroom detail
 	 *
-	 * @param   int  $stockroomId  Stockroom id
+	 * @param   array   $stockroomId  stockroom id
+	 * @param   int     $published    published/unpublished
+	 * @param   boolen  $checked      checked use stockroom
 	 *
 	 * @return mixed
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getStockroom($stockroomId) instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getStockroom($stockroomId, $published, $checked) instead
 	 */
-	public function getStockroom($stockroomId)
+	public function getStockroom($stockroomId = array(), $published = 1, $checked = true)
 	{
-		return RedshopHelperStockroom::getStockroom($stockroomId);
+		return RedshopHelperStockroom::getStockroom($stockroomId, $published, $checked);
 	}
 
 	/**
