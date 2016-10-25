@@ -860,4 +860,36 @@ class RedshopAppConfiguration
 
 		return true;
 	}
+
+	/**
+	 * Restore configuration file from temp file.
+	 *
+	 * @return  boolean  True if file is restored.
+	 *
+	 * @since  2.0.0.3
+	 */
+	public static function restoreFromTempConfigFile()
+	{
+		/**
+		 * @todo  Need to remove these global variables
+		 */
+		global $temparray;
+		global $defaultarray;
+
+		if (self::loadTempConfigFile() && self::loadDefConfigFile())
+		{
+			$data       = array_merge($defaultarray, $temparray);
+			$config     = self::prepareData($data);
+			$defineText = self::defineConfigFromData($config, true);
+
+			self::backupConfigFile();
+
+			if (!self::writeConfigToFile($defineText))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 }

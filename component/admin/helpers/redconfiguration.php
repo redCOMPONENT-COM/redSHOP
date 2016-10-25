@@ -260,26 +260,12 @@ class Redconfiguration
 	 * Restore configuration file from temp file.
 	 *
 	 * @return  boolean  True if file is restored.
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopAppConfiguration::restoreFromTempConfigFile() instead
 	 */
 	public function storeFromTMPFile()
 	{
-		global $temparray;
-		global $defaultarray;
-
-		if ($this->isTmpFile() && $this->isDEFFile())
-		{
-			$ncfgdata     = array_merge($defaultarray, $temparray);
-			$config_array = $this->redshopCFGData($ncfgdata);
-			$this->defineCFGVars($config_array, true);
-			$this->backupCFGFile();
-
-			if (!$this->writeCFGFile())
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return RedshopAppConfiguration::restoreFromTempConfigFile();
 	}
 
 	/**
