@@ -9,7 +9,26 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerZipcode extends RedshopController
+/**
+ * Controller Zipcode Detail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       2.0.0.8
+ */
+class RedshopControllerZipcode extends RedshopControllerForm
 {
+	/**
+	 * [ajaxGetState2Code function]
+	 * 
+	 * @return void;
+	 */
+	function ajaxGetState2Code()
+	{
+		$model = $this->getModel();
+		$form = $model->getForm();
+		echo $form->renderField('state_code');
+
+		exit;
+	}
 }
