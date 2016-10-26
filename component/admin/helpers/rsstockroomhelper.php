@@ -39,22 +39,15 @@ class rsstockroomhelper
 	/**
 	 * Get stockroom detail
 	 *
-	 * @param   array   $stockroomId  stockroom id
-	 * @param   int     $published    published/unpublished
-	 * @param   boolen  $checked      checked use stockroom
+	 * @param   int  $stockroomId  stockroom id
 	 *
-	 * @return mixed
+	 * @return  array
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getStockroom($stockroomId, $published, $checked) instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getStockroom($stockroomId, null, true) instead
 	 */
-	public function getStockroomDetail($stockroomId = array(), $published = null, $checked = false)
+	public function getStockroomDetail($stockroomId = 0)
 	{
-		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
-		{
-			$checked = true;
-		}
-
-		return RedshopHelperStockroom::getStockroom($stockroomId, $published, $checked);
+		return RedshopHelperStockroom::getStockroom($stockroomId, null, true);
 	}
 
 	/**
@@ -162,7 +155,7 @@ class rsstockroomhelper
 	 */
 	public function getStockAmountwithReserve($sectionId = 0, $section = 'product', $stockroomId = 0)
 	{
-		return RedshopHelperStockroom::getStockAmountwithReserve($sectionId, $section, $stockroomId);
+		return RedshopHelperStockroom::getStockAmountWithReserve($sectionId, $section, $stockroomId);
 	}
 
 	/**
@@ -176,7 +169,7 @@ class rsstockroomhelper
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getPreorderStockAmountwithReserve($sectionId, $section, $stockroomId) instead
 	 */
-	function getPreorderStockAmountwithReserve($sectionId = 0, $section = "product", $stockroomId = 0)
+	public function getPreorderStockAmountwithReserve($sectionId = 0, $section = "product", $stockroomId = 0)
 	{
 		return RedshopHelperStockroom::getPreorderStockAmountwithReserve($sectionId, $section, $stockroomId);
 	}
@@ -392,22 +385,20 @@ class rsstockroomhelper
 	/**
 	 * Get stockroom detail
 	 *
-	 * @param   array   $stockroomId  stockroom id
-	 * @param   int     $published    published/unpublished
-	 * @param   boolen  $checked      checked use stockroom
+	 * @param   mixed  $stockroomId  Stockroom ID in string
 	 *
-	 * @return mixed
+	 * @return  array
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getStockroom($stockroomId, $published, $checked) instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperStockroom::getStockroom($stockroomId, 1) instead
 	 */
-	public function getStockroom($stockroomId = array(), $published = 1, $checked = true)
+	public function getStockroom($stockroomId)
 	{
-		return RedshopHelperStockroom::getStockroom($stockroomId, $published, $checked);
+		return RedshopHelperStockroom::getStockroom($stockroomId, 1);
 	}
 
 	/**
 	 * Get min delivery time
-	 * 
+	 *
 	 * @param   int  $stockroomId  Stockroom id
 	 *
 	 * @return mixed
