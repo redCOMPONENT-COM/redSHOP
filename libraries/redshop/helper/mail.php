@@ -84,11 +84,11 @@ class RedshopHelperMail
 
 		if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
-			$mailInfo = self::getMailtemplate(0, "catalogue_order");
+			$mailInfo = self::getMailTemplate(0, "catalogue_order");
 		}
 		else
 		{
-			$mailInfo = self::getMailtemplate(0, "order");
+			$mailInfo = self::getMailTemplate(0, "order");
 		}
 
 		if (count($mailInfo) > 0)
@@ -300,7 +300,7 @@ class RedshopHelperMail
 		$productHelper  = productHelper::getInstance();
 		$config         = JFactory::getConfig();
 		$mailBcc        = array();
-		$mailInfo       = self::getMailtemplate(0, "order_special_discount");
+		$mailInfo       = self::getMailTemplate(0, "order_special_discount");
 
 		if (count($mailInfo) > 0)
 		{
@@ -584,7 +584,7 @@ class RedshopHelperMail
 	{
 		$config   = JFactory::getConfig();
 		$mailBcc  = null;
-		$mailInfo = self::getMailtemplate(0, "invoice_mail");
+		$mailInfo = self::getMailTemplate(0, "invoice_mail");
 
 		if (count($mailInfo) > 0)
 		{
@@ -604,7 +604,7 @@ class RedshopHelperMail
 		$mailTemplate    = self::replaceInvoiceMailTemplate($orderId, $message, $subject, 'html');
 		$mailBody        = $mailTemplate->body;
 		$subject         = $mailTemplate->subject;
-		$pdfTemplateFile = self::getMailtemplate(0, "invoicefile_mail");
+		$pdfTemplateFile = self::getMailTemplate(0, "invoicefile_mail");
 
 		// Init PDF template body
 		$pdfTemplate = $mailBody;
@@ -690,7 +690,7 @@ class RedshopHelperMail
 		$mailData     = "";
 		$mailSubject  = "";
 		$mailBcc      = array();
-		$mailTemplate = self::getMailtemplate(0, "register");
+		$mailTemplate = self::getMailTemplate(0, "register");
 
 		if (count($mailTemplate) > 0)
 		{
@@ -782,7 +782,7 @@ class RedshopHelperMail
 			$mailBcc        = null;
 			$mailData       = $section;
 			$mailSubject    = $section;
-			$mailTemplate   = self::getMailtemplate(0, $section);
+			$mailTemplate   = self::getMailTemplate(0, $section);
 
 			if (count($mailTemplate) > 0)
 			{
@@ -860,7 +860,7 @@ class RedshopHelperMail
 		$mailData       = "";
 		$mailSubject    = "";
 		$mailBcc        = null;
-		$mailTemplate   = self::getMailtemplate(0, "subscription_renewal_mail");
+		$mailTemplate   = self::getMailTemplate(0, "subscription_renewal_mail");
 
 		if (count($mailTemplate) > 0)
 		{
@@ -979,7 +979,7 @@ class RedshopHelperMail
 		$extraAdminField = extra_field::getInstance();
 		$quotationHelper = quotationHelper::getInstance();
 		$config          = JFactory::getConfig();
-		$mailInfo        = self::getMailtemplate(0, "quotation_mail");
+		$mailInfo        = self::getMailTemplate(0, "quotation_mail");
 		$mailBcc         = array();
 		$extraField      = extraField::getInstance();
 
@@ -1340,7 +1340,7 @@ class RedshopHelperMail
 			$url      = JURI::root();
 			$db       = JFactory::getDBO();
 			$mailBcc  = null;
-			$mailInfo = self::getMailtemplate(0, "newsletter_confirmation");
+			$mailInfo = self::getMailTemplate(0, "newsletter_confirmation");
 
 			if (count($mailInfo) > 0)
 			{
@@ -1403,7 +1403,7 @@ class RedshopHelperMail
 	public static function sendNewsletterCancellationMail($email = "")
 	{
 		$config   = JFactory::getConfig();
-		$mailInfo = self::getMailtemplate(0, "newsletter_cancellation");
+		$mailInfo = self::getMailTemplate(0, "newsletter_cancellation");
 		$mailBcc  = null;
 
 		if (count($mailInfo) > 0)
@@ -1454,7 +1454,7 @@ class RedshopHelperMail
 		$dataAdd       = "";
 		$mailBcc       = null;
 
-		$mailInfo = self::getMailtemplate(0, "ask_question_mail");
+		$mailInfo = self::getMailTemplate(0, "ask_question_mail");
 		$ans      = $productHelper->getQuestionAnswer($ansid);
 
 		if (count($mailInfo) > 0)
@@ -1545,7 +1545,7 @@ class RedshopHelperMail
 		$config         = JFactory::getConfig();
 		$from           = $config->get('mailfrom');
 		$fromName       = $config->get('fromname');
-		$mailInfo       = self::getMailtemplate(0, "economic_inoice");
+		$mailInfo       = self::getMailTemplate(0, "economic_inoice");
 		$dataAdd        = "economic inoice";
 		$subject        = "economic_inoice";
 		$mailBcc        = null;
@@ -1616,7 +1616,7 @@ class RedshopHelperMail
 		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
 			$orderFunctions = order_functions::getInstance();
-			$mailInfo       = self::getMailtemplate(0, "request_tax_exempt_mail");
+			$mailInfo       = self::getMailTemplate(0, "request_tax_exempt_mail");
 			$dataAdd        = "";
 			$subject        = "";
 			$mailBcc        = null;
@@ -1665,7 +1665,7 @@ class RedshopHelperMail
 	{
 		$data     = (object) $catalog;
 		$db       = JFactory::getDBO();
-		$mailInfo = self::getMailtemplate(0, "catalog");
+		$mailInfo = self::getMailTemplate(0, "catalog");
 		$dataAdd  = "";
 		$subject  = "";
 		$mailBcc  = null;
