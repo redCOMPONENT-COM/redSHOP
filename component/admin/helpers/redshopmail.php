@@ -47,7 +47,7 @@ class redshopMail
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::getMailTemplate($tId, $section, $extraCond) instead
 	 */
-	public static function getMailtemplate($tId = 0, $section = '', $extraCond = '')
+	public function getMailtemplate($tId = 0, $section = '', $extraCond = '')
 	{
 		return RedshopHelperMail::getMailTemplate($tId, $section, $extraCond);
 	}
@@ -55,10 +55,10 @@ class redshopMail
 	/**
 	 * sendOrderMail function.
 	 *
-	 * @param   int     $orderId    Order ID.
-	 * @param   boolen  $onlyAdmin  send mail only to admin
+	 * @param   int      $orderId    Order ID.
+	 * @param   boolean  $onlyAdmin  send mail only to admin
 	 *
-	 * @return boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendOrderMail($orderId, $onlyAdmin) instead
 	 */
@@ -72,7 +72,7 @@ class redshopMail
 	 *
 	 * @param   int  $orderId  Order ID.
 	 *
-	 * @return boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendOrderSpecialDiscountMail($orderId) instead
 	 */
@@ -86,7 +86,7 @@ class redshopMail
 	 *
 	 * @param   int  $oid  Order ID List.
 	 *
-	 * @return boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::createMultiprintInvoicePdf($oid) instead
 	 */
@@ -133,7 +133,7 @@ class redshopMail
 	 *
 	 * @param   array  &$data  registration data 
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendRegistrationMail(&$data) instead
 	 */
@@ -149,7 +149,7 @@ class redshopMail
 	 * @param   array   $userInfo  User info data
 	 * @param   string  $email     User email
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendTaxExemptMail($section, $userInfo, $email) instead
 	 */
@@ -161,9 +161,9 @@ class redshopMail
 	/**
 	 * Send subcription renewwal mail
 	 *
-	 * @param   object  $data  Mail data
+	 * @param   array  $data  Mail data
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendSubscriptionRenewalMail($data) instead
 	 */
@@ -192,7 +192,7 @@ class redshopMail
 	 * @param   int  $quotationId  Quotation id
 	 * @param   int  $status       Status
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendQuotationMail($quotationId, $status) instead
 	 */
@@ -206,7 +206,7 @@ class redshopMail
 	 *
 	 * @param   int  $subscriptionId  Subscription id
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendNewsletterConfirmationMail($subscriptionId) instead
 	 */
@@ -220,7 +220,7 @@ class redshopMail
 	 *
 	 * @param   string  $email  Email
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendNewsletterCancellationMail($email) instead
 	 */
@@ -234,7 +234,7 @@ class redshopMail
 	 *
 	 * @param   int  $ansid  Answer id
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendAskQuestionMail($ansid) instead
 	 */
@@ -249,7 +249,7 @@ class redshopMail
 	 * @param   int     $orderId         Order id
 	 * @param   string  $bookInvoicePdf  Book invoice PDF
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf) instead
 	 */
@@ -264,7 +264,7 @@ class redshopMail
 	 * @param   object  $data      Mail data
 	 * @param   string  $username  Username
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendRequestTaxExemptMail($data, $username) instead
 	 */
@@ -278,7 +278,7 @@ class redshopMail
 	 *
 	 * @param   array  $catalog  Catalog data
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendCatalogRequest($catalog) instead
 	 */

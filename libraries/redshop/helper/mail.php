@@ -18,21 +18,7 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperMail
 {
-	public $cartHelper = null;
-
-	public $redHelper = null;
-
 	protected static $mailTemplates = array();
-
-	/**
-	 * load initial files
-	 */
-	public function __construct()
-	{
-		self::$cartHelper     = rsCarthelper::getInstance();
-		self::$redHelper      = redhelper::getInstance();
-		self::$orderFunctions = order_functions::getInstance();
-	}
 
 	/**
 	 * Method to get mail section
@@ -79,18 +65,18 @@ class RedshopHelperMail
 	/**
 	 * sendOrderMail function.
 	 *
-	 * @param   int     $orderId    Order ID.
-	 * @param   boolen  $onlyAdmin  send mail only to admin
+	 * @param   int      $orderId    Order ID.
+	 * @param   boolean  $onlyAdmin  send mail only to admin
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	public static function sendOrderMail($orderId, $onlyAdmin = false)
 	{
-		$redConfig     = Redconfiguration::getInstance();
-		$productHelper = productHelper::getInstance();
-		$session       = JFactory::getSession();
-		$config        = JFactory::getConfig();
-		$user          = JFactory::getUser();
+		$cartHelper     = rsCarthelper::getInstance();
+		$orderFunctions = order_functions::getInstance();
+		$redConfig      = Redconfiguration::getInstance();
+		$productHelper  = productHelper::getInstance();
+		$config         = JFactory::getConfig();
 
 		// Set the e-mail parameters
 		$from     = $config->get('mailfrom');
@@ -115,19 +101,17 @@ class RedshopHelperMail
 			return false;
 		}
 
-		$row           = self::$orderFunctions->getOrderDetails($orderId);
-		$orderPayment  = self::$orderFunctions->getOrderPaymentDetail($orderId);
-		$paymentMethod = self::$orderFunctions->getPaymentMethodInfo($orderPayment[0]->payment_method_class);
-		$paymentMethod = $paymentMethod[0];
+		$row           = $orderFunctions->getOrderDetails($orderId);
+		$orderPayment  = $orderFunctions->getOrderPaymentDetail($orderId);
 
 		// It is necessory to take billing info from order user info table
 		// Order mail output should reflect the checkout process"
 
 		$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 		$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
-		$message = self::$cartHelper->replaceOrderTemplate($row, $message, true);
+		$message = $cartHelper->replaceOrderTemplate($row, $message, true);
 
-		$rowItem = self::$orderFunctions->getOrderItemDetail($orderId);
+		$rowItem = $orderFunctions->getOrderItemDetail($orderId);
 
 		$manufacturerEmail = array();
 		$supplierEmail = array();
@@ -156,7 +140,6 @@ class RedshopHelperMail
 			}
 		}
 
-		$arrDiscountType = array();
 		$arrDiscount = explode('@', $row->discount_type);
 		$discountType = '';
 
@@ -252,13 +235,13 @@ class RedshopHelperMail
 			{
 				if (!JFactory::getMailer()->sendMail($from, $fromName, $thirdPartyEmail, $subject, $body, 1, null, $bcc))
 				{
-					JError::raiseWarning(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+					JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
 			}
 
 			if (!JFactory::getMailer()->sendMail($from, $fromName, $email, $subject, $body, 1, null, $bcc))
 			{
-				JError::raiseWarning(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 			}
 		}
 
@@ -276,7 +259,7 @@ class RedshopHelperMail
 			{
 				if (!JFactory::getMailer()->sendMail($from, $fromName, $manufacturerEmail[$man], $subject, $body, 1))
 				{
-					JError::raiseWarning(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+					JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
 			}
 		}
@@ -289,7 +272,7 @@ class RedshopHelperMail
 			{
 				if (!JFactory::getMailer()->sendMail($from, $fromName, $supplierEmail[$sup], $subject, $body, 1))
 				{
-					JError::raiseWarning(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+					JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
 			}
 		}
@@ -308,14 +291,16 @@ class RedshopHelperMail
 	 *
 	 * @param   int  $orderId  Order ID.
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	public static function sendOrderSpecialDiscountMail($orderId)
 	{
-		$productHelper = productHelper::getInstance();
-		$config        = JFactory::getConfig();
-		$mailBcc       = array();
-		$mailInfo      = self::getMailtemplate(0, "order_special_discount");
+		$cartHelper     = rsCarthelper::getInstance();
+		$orderFunctions = order_functions::getInstance();
+		$productHelper  = productHelper::getInstance();
+		$config         = JFactory::getConfig();
+		$mailBcc        = array();
+		$mailInfo       = self::getMailtemplate(0, "order_special_discount");
 
 		if (count($mailInfo) > 0)
 		{
@@ -333,12 +318,12 @@ class RedshopHelperMail
 		}
 
 		$manufacturerEmail = array();
-		$row               = self::$orderFunctions->getOrderDetails($order_id);
+		$row               = $orderFunctions->getOrderDetails($order_id);
 		$billingAddresses  = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
-		$orderPayment      = self::$orderFunctions->getOrderPaymentDetail($order_id);
-		$paymentMethod     = self::$orderFunctions->getPaymentMethodInfo($orderPayment[0]->payment_method_class);
+		$orderPayment      = $orderFunctions->getOrderPaymentDetail($order_id);
+		$paymentMethod     = $orderFunctions->getPaymentMethodInfo($orderPayment[0]->payment_method_class);
 		$paymentMethod     = $paymentMethod[0];
-		$message           = self::$cartHelper->replaceOrderTemplate($row, $message, true);
+		$message           = $cartHelper->replaceOrderTemplate($row, $message, true);
 
 		// Set order paymethod name
 		$search[]       = "{shopname}";
@@ -392,7 +377,7 @@ class RedshopHelperMail
 			{
 				if (!JFactory::getMailer()->sendMail($from, $fromName, $email, $subject, $body, 1, null, $bcc))
 				{
-					JError::raiseWarning(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+					JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
 			}
 		}
@@ -405,7 +390,7 @@ class RedshopHelperMail
 			{
 				if (!JFactory::getMailer()->sendMail($from, $fromName, $manufacturerEmail[$man], $subject, $body, 1))
 				{
-					JError::raiseWarning(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+					JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
 			}
 		}
@@ -416,15 +401,17 @@ class RedshopHelperMail
 	/**
 	 * Create multiple print invoice PDF
 	 *
-	 * @param   int  $oid  Order ID List.
+	 * @param   array  $oid  Order ID List.
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	public static function createMultiprintInvoicePdf($oid)
 	{
-		$redTemplate = Redtemplate::getInstance();
-		$message     = "";
-		$pdfObj      = RedshopHelperPdf::getInstance();
+		$cartHelper     = rsCarthelper::getInstance();
+		$orderFunctions = order_functions::getInstance();
+		$redTemplate    = Redtemplate::getInstance();
+		$message        = "";
+		$pdfObj         = RedshopHelperPdf::getInstance();
 		$pdfObj->SetTitle('Shipped');
 
 		// Changed font to support Unicode Characters - Specially Polish Characters
@@ -434,13 +421,11 @@ class RedshopHelperMail
 
 		// Set font
 		$pdfObj->SetFont($font, "", 6);
-		$orderId = "";
 
 		for ($o = 0, $on = count($oid); $o < $on; $o++)
 		{
-			$message            = "";
 			$orderId            = $oid[$o];
-			$ordersDetail       = self::$orderFunctions->getOrderDetails($orderId);
+			$ordersDetail       = $orderFunctions->getOrderDetails($orderId);
 			$orderPrintTemplate = $redTemplate->getTemplate("order_print");
 
 			if (count($orderPrintTemplate) > 0 && $orderPrintTemplate[0]->template_desc != "")
@@ -485,7 +470,7 @@ class RedshopHelperMail
 			$message = str_replace("{print}", $printTag, $message);
 			$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 			$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
-			$message = self::$cartHelper->replaceOrderTemplate($ordersDetail, $message, true);
+			$message = $cartHelper->replaceOrderTemplate($ordersDetail, $message, true);
 			$pdfObj->AddPage();
 			$pdfObj->WriteHTML($message, true, false, true, false, '');
 		}
@@ -515,11 +500,13 @@ class RedshopHelperMail
 	 *
 	 * @return  object  Object having mail body and subject. subject can be null for PDF type.
 	 */
-	protected static function replaceInvoiceMailTemplate($orderId, $html, $subject = null, $type = 'pdf')
+	public static function replaceInvoiceMailTemplate($orderId, $html, $subject = null, $type = 'pdf')
 	{
+		$cartHelper      = rsCarthelper::getInstance();
+		$orderFunctions  = order_functions::getInstance();
 		$redConfig       = Redconfiguration::getInstance();
 		$arrDiscountType = array();
-		$row             = self::$orderFunctions->getOrderDetails($orderId);
+		$row             = $orderFunctions->getOrderDetails($orderId);
 		$arrDiscount     = explode('@', $row->discount_type);
 		$discountType    = '';
 
@@ -572,10 +559,10 @@ class RedshopHelperMail
 
 		$html = str_replace($search, $replace, $html);
 		$html = self::imgInMail($html);
-		$html = self::$cartHelper->replaceOrderTemplate($row, $html, true);
+		$html = $cartHelper->replaceOrderTemplate($row, $html, true);
 		$html = str_replace("{firstname}", $billingAddresses->firstname, $html);
 		$html = str_replace("{lastname}", $billingAddresses->lastname, $html);
-		$html = self::$cartHelper->replaceOrderTemplate($row, $html, true);
+		$html = $cartHelper->replaceOrderTemplate($row, $html, true);
 
 		$object          = new stdClass;
 		$object->subject = $subject;
@@ -596,8 +583,6 @@ class RedshopHelperMail
 	public static function sendInvoiceMail($orderId)
 	{
 		$config   = JFactory::getConfig();
-		$message  = "";
-		$subject  = "";
 		$mailBcc  = null;
 		$mailInfo = self::getMailtemplate(0, "invoice_mail");
 
@@ -661,7 +646,7 @@ class RedshopHelperMail
 		{
 			if (!JFactory::getMailer()->sendMail($from, $fromName, $email, $subject, $mailBody, 1, null, $mailBcc, $invoiceAttachment))
 			{
-				JError::raiseWarning(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 
 				return false;
 			}
@@ -675,7 +660,7 @@ class RedshopHelperMail
 
 			if (!JFactory::getMailer()->sendMail($from, $fromName, $sendTo, $subject, $mailBody, 1, null, $mailBcc, $invoiceAttachment))
 			{
-				JError::raiseWarning(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 
 				return false;
 			}
@@ -689,7 +674,7 @@ class RedshopHelperMail
 	 *
 	 * @param   array  &$data  registration data 
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 */
 	public static function sendRegistrationMail(&$data)
 	{
@@ -784,19 +769,20 @@ class RedshopHelperMail
 	 * @param   array   $userInfo  User info data
 	 * @param   string  $email     User email
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 */
 	public static function sendTaxExemptMail($section, $userInfo = array(), $email = "")
 	{
 		if (Redshop::getConfig()->get('USE_TAX_EXEMPT'))
 		{
-			$app          = JFactory::getApplication();
-			$mailFrom     = $app->getCfg('mailfrom');
-			$fromName     = $app->getCfg('fromname');
-			$mailBcc      = null;
-			$mailData     = $section;
-			$mailSubject  = $section;
-			$mailTemplate = self::getMailtemplate(0, $section);
+			$orderFunctions = order_functions::getInstance();
+			$app            = JFactory::getApplication();
+			$mailFrom       = $app->getCfg('mailfrom');
+			$fromName       = $app->getCfg('fromname');
+			$mailBcc        = null;
+			$mailData       = $section;
+			$mailSubject    = $section;
+			$mailTemplate   = self::getMailtemplate(0, $section);
 
 			if (count($mailTemplate) > 0)
 			{
@@ -837,7 +823,7 @@ class RedshopHelperMail
 			$replace[] = $userInfo['address'];
 			$replace[] = $userInfo['city'];
 			$replace[] = $userInfo['zipcode'];
-			$replace[] = self::$orderFunctions->getCountryName($userInfo['country_code']);
+			$replace[] = $orderFunctions->getCountryName($userInfo['country_code']);
 			$replace[] = $userInfo['phone'];
 
 			$mailData = str_replace($search, $replace, $mailData);
@@ -855,24 +841,26 @@ class RedshopHelperMail
 	/**
 	 * Send subcription renewwal mail
 	 *
-	 * @param   object  $data  Mail data
+	 * @param   array  $data  Mail data
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 */
 	public static function sendSubscriptionRenewalMail($data = array())
 	{
-		$app           = JFactory::getApplication();
-		$productHelper = productHelper::getInstance();
-		$redConfig     = Redconfiguration::getInstance();
-		$mailFrom      = $app->getCfg('mailfrom');
-		$fromName      = $app->getCfg('fromname');
-		$userEmail     = "";
-		$firstName     = "";
-		$lastName      = "";
-		$mailData      = "";
-		$mailSubject   = "";
-		$mailBcc       = null;
-		$mailTemplate  = self::getMailtemplate(0, "subscription_renewal_mail");
+		$data           = (object) $data;
+		$orderFunctions = order_functions::getInstance();
+		$app            = JFactory::getApplication();
+		$productHelper  = productHelper::getInstance();
+		$redConfig      = Redconfiguration::getInstance();
+		$mailFrom       = $app->getCfg('mailfrom');
+		$fromName       = $app->getCfg('fromname');
+		$userEmail      = "";
+		$firstName      = "";
+		$lastName       = "";
+		$mailData       = "";
+		$mailSubject    = "";
+		$mailBcc        = null;
+		$mailTemplate   = self::getMailtemplate(0, "subscription_renewal_mail");
 
 		if (count($mailTemplate) > 0)
 		{
@@ -890,9 +878,9 @@ class RedshopHelperMail
 			return false;
 		}
 
-		$userData = self::$orderFunctions->getBillingAddress($data->user_id);
+		$userData = $orderFunctions->getBillingAddress($data->user_id);
 
-		if (count($userdata) > 0)
+		if (count($userData) > 0)
 		{
 			$userEmail = $userData->user_email;
 			$firstName = $userData->firstname;
@@ -981,10 +969,11 @@ class RedshopHelperMail
 	 * @param   int  $quotationId  Quotation id
 	 * @param   int  $status       Status
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 */
 	public static function sendQuotationMail($quotationId, $status = 0)
 	{
+		$cartHelper      = rsCarthelper::getInstance();
 		$redConfig       = Redconfiguration::getInstance();
 		$productHelper   = productHelper::getInstance();
 		$extraAdminField = extra_field::getInstance();
@@ -1039,7 +1028,7 @@ class RedshopHelperMail
 
 		$row = $quotationHelper->getQuotationDetail($quotationId);
 
-		if (count($row) <= 0)
+		if (!$row)
 		{
 			return false;
 		}
@@ -1194,7 +1183,7 @@ class RedshopHelperMail
 
 		if ($row->user_id != 0)
 		{
-			$message = self::$cartHelper->replaceBillingAddress($message, $row, true);
+			$message = $cartHelper->replaceBillingAddress($message, $row, true);
 		}
 		else
 		{
@@ -1232,18 +1221,19 @@ class RedshopHelperMail
 		$message = str_replace('{total_lbl}', $totalLbl, $message);
 		$message = str_replace('{quotation_subtotal_lbl}', $subTotalLbl, $message);
 		$message = str_replace('{quotation_vat_lbl}', $vatLbl, $message);
-		$message = self::$cartHelper->replaceLabel($message);
+		$message = $cartHelper->replaceLabel($message);
 
 		$search[] = "{quotation_note}";
 		$replace[] = $row->quotation_note;
 
 		if ($row->quotation_status == 1 && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 		{
-			$quotationSubtotal        = " ";
-			$quotationTotal           = " ";
-			$quotationDiscount        = " ";
-			$quotationVat             = " ";
-			$quotationSubtotalExclVat = "";
+			$quotationSubtotal              = " ";
+			$quotationTotal                 = " ";
+			$quotationDiscount              = " ";
+			$quotationVat                   = " ";
+			$quotationSubtotalExclVat       = " ";
+			$quotationSubtotalMinusDiscount = " ";
 		}
 		else
 		{
@@ -1251,7 +1241,10 @@ class RedshopHelperMail
 
 			if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 			{
-				$Discountvat             = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $row->quotation_discount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
+				$Discountvat             = (
+					(float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $row->quotation_discount) /
+					(1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
+				);
 				$row->quotation_discount = $row->quotation_discount - $Discountvat;
 				$tax                     = $tax - $Discountvat;
 			}
@@ -1259,7 +1252,10 @@ class RedshopHelperMail
 			if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 			{
 				$sp_discount             = ($row->quotation_special_discount * ($row->quotation_subtotal + $row->quotation_tax)) / 100;
-				$Discountspvat           = ($sp_discount * (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
+				$Discountspvat           = (
+					$sp_discount * (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')) /
+					(1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
+				);
 				$DiscountspWithotVat     = $sp_discount - $Discountspvat;
 				$row->quotation_discount = $row->quotation_discount + $DiscountspWithotVat;
 				$tax                     = $tax - $Discountspvat;
@@ -1317,7 +1313,7 @@ class RedshopHelperMail
 
 			if (!JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
 			{
-				JError::raiseWarning(JText::_('ERROR_SENDING_QUOTATION_MAIL'));
+				JError::raiseWarning(21, JText::_('ERROR_SENDING_QUOTATION_MAIL'));
 			}
 		}
 
@@ -1334,7 +1330,7 @@ class RedshopHelperMail
 	 *
 	 * @param   int  $subscriptionId  Subscription id
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 */
 	public static function sendNewsletterConfirmationMail($subscriptionId)
 	{
@@ -1389,7 +1385,7 @@ class RedshopHelperMail
 			{
 				if (!JFactory::getMailer()->sendMail($from, $fromName, $email, $subject, $message, 1, null, $mailBcc))
 				{
-					JError::raiseWarning(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+					JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
 			}
 		}
@@ -1402,7 +1398,7 @@ class RedshopHelperMail
 	 *
 	 * @param   string  $email  Email
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 */
 	public static function sendNewsletterCancellationMail($email = "")
 	{
@@ -1447,7 +1443,7 @@ class RedshopHelperMail
 	 *
 	 * @param   int  $ansid  Answer id
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 */
 	public static function sendAskQuestionMail($ansid)
 	{
@@ -1459,7 +1455,7 @@ class RedshopHelperMail
 		$mailBcc       = null;
 
 		$mailInfo = self::getMailtemplate(0, "ask_question_mail");
-		$ans      = $producthelper->getQuestionAnswer($ansid);
+		$ans      = $productHelper->getQuestionAnswer($ansid);
 
 		if (count($mailInfo) > 0)
 		{
@@ -1520,12 +1516,9 @@ class RedshopHelperMail
 			$subject    = str_replace("{product_name}", $product->product_name, $subject);
 			$dataAdd    = self::imgInMail($dataAdd);
 
-			if ($email)
+			if ($email && JFactory::getMailer()->sendMail($from, $fromName, $email, $subject, $dataAdd, 1, null, $mailBcc))
 			{
-				if (JFactory::getMailer()->sendMail($from, $fromName, $email, $subject, $dataAdd, 1, null, $mailBcc))
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 
@@ -1538,7 +1531,7 @@ class RedshopHelperMail
 	 * @param   int     $orderId         Order id
 	 * @param   string  $bookInvoicePdf  Book invoice PDF
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 */
 	public static function sendEconomicBookInvoiceMail($orderId = 0, $bookInvoicePdf = "")
 	{
@@ -1547,16 +1540,15 @@ class RedshopHelperMail
 			return false;
 		}
 
-		$redConfig = Redconfiguration::getInstance();
-
-		$config    = JFactory::getConfig();
-		$from      = $config->get('mailfrom');
-		$fromName  = $config->get('fromname');
-
-		$mailInfo  = $self::getMailtemplate(0, "economic_inoice");
-		$dataAdd  = "economic inoice";
-		$subject   = "economic_inoice";
-		$mailBcc   = null;
+		$redConfig      = Redconfiguration::getInstance();
+		$orderFunctions = order_functions::getInstance();
+		$config         = JFactory::getConfig();
+		$from           = $config->get('mailfrom');
+		$fromName       = $config->get('fromname');
+		$mailInfo       = self::getMailtemplate(0, "economic_inoice");
+		$dataAdd        = "economic inoice";
+		$subject        = "economic_inoice";
+		$mailBcc        = null;
 
 		if (count($mailInfo) > 0)
 		{
@@ -1569,7 +1561,7 @@ class RedshopHelperMail
 			}
 		}
 
-		$orderDetail = self::$orderFunctions->getOrderDetails($orderId);
+		$orderDetail = $orderFunctions->getOrderDetails($orderId);
 		$userBillingInfo = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 
 		$search[] = "{name}";
@@ -1617,16 +1609,17 @@ class RedshopHelperMail
 	 * @param   object  $data      Mail data
 	 * @param   string  $username  Username
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 */
 	public static function sendRequestTaxExemptMail($data, $username = "")
 	{
 		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
-			$mailInfo = self::getMailtemplate(0, "request_tax_exempt_mail");
-			$dataAdd = "";
-			$subject  = "";
-			$mailBcc  = null;
+			$orderFunctions = order_functions::getInstance();
+			$mailInfo       = self::getMailtemplate(0, "request_tax_exempt_mail");
+			$dataAdd        = "";
+			$subject        = "";
+			$mailBcc        = null;
 
 			if (count($mailInfo) > 0)
 			{
@@ -1642,8 +1635,8 @@ class RedshopHelperMail
 			$config      = JFactory::getConfig();
 			$from        = $config->get('mailfrom');
 			$fromName    = $config->get('fromname');
-			$stateName   = self::$orderFunctions->getStateName($data->state_code);
-			$countryName = self::$orderFunctions->getCountryName($data->country_code);
+			$stateName   = $orderFunctions->getStateName($data->state_code);
+			$countryName = $orderFunctions->getCountryName($data->country_code);
 
 			$dataAdd = str_replace("{vat_number}", $data->vat_number, $dataAdd);
 			$dataAdd = str_replace("{username}", $username, $dataAdd);
@@ -1666,13 +1659,14 @@ class RedshopHelperMail
 	 *
 	 * @param   array  $catalog  Catalog data
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 */
 	public static function sendCatalogRequest($catalog = array())
 	{
+		$data     = (object) $catalog;
 		$db       = JFactory::getDBO();
 		$mailInfo = self::getMailtemplate(0, "catalog");
-		$dataAdd = "";
+		$dataAdd  = "";
 		$subject  = "";
 		$mailBcc  = null;
 
