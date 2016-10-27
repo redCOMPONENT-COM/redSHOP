@@ -1314,7 +1314,8 @@ class RedshopHelperExtrafields
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public static function rsBooleanList($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false, $yesValue = 'Days', $noValue = 'Weeks')
+	public static function rsBooleanList($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false,
+		$yesValue = 'Days', $noValue = 'Weeks')
 	{
 		$arr = array(
 			JHTML::_('select.option', $yesValue, JText::_($yes)),
@@ -1382,6 +1383,8 @@ class RedshopHelperExtrafields
 	public static function getSectionFieldDataList($fieldId, $section = 0, $orderItemId = 0, $userEmail = "")
 	{
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
+
+		/** @var RedshopModelFields $model */
 		$model = JModelLegacy::getInstance('Fields', 'RedshopModel');
 
 		return $model->getFieldDataList($fieldId, $section, $orderItemId, $userEmail);
