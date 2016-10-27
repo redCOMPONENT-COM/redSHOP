@@ -64,12 +64,12 @@ class RedshopModelState extends RedshopModel
 
 		if ($country_id_filter > 0 && $country_main_filter == '')
 		{
-			$andcondition = 'c.country_id = ' . $country_id_filter;
+			$andcondition = 'c.id = ' . $country_id_filter;
 		}
 
 		elseif ($country_id_filter > 0 && $country_main_filter != '')
 		{
-			$andcondition = "c.country_id = " . $country_id_filter . " and (s.state_name like '" . $country_main_filter . "%' || s.state_3_code = '"
+			$andcondition = "c.id = " . $country_id_filter . " and (s.state_name like '" . $country_main_filter . "%' || s.state_3_code = '"
 				. $country_main_filter . "' || s.state_2_code = '" . $country_main_filter . "')";
 		}
 		elseif ($country_id_filter == 0 && $country_main_filter != '')
@@ -78,14 +78,14 @@ class RedshopModelState extends RedshopModel
 				. "' || s.state_2_code='" . $country_main_filter . "'";
 		}
 		$query = 'SELECT distinct(s.state_id),s . * , c.country_name FROM `#__redshop_state` AS s '
-			. 'LEFT JOIN #__redshop_country AS c ON s.country_id = c.country_id WHERE ' . $andcondition . $orderby;
+			. 'LEFT JOIN #__redshop_country AS c ON s.country_id = c.id WHERE ' . $andcondition . $orderby;
 
 		return $query;
 	}
 
 	public function getCountryName($country_id)
 	{
-		$query = "SELECT  c.country_name from #__redshop_country AS c where c.country_id=" . $country_id;
+		$query = "SELECT  c.country_name from #__redshop_country AS c where c.id=" . $country_id;
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
