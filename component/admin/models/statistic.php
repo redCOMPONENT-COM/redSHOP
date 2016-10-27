@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopModelStatistic extends RedshopModel
+class RedshopModelStatistic extends RedshopModelList
 {
 	public $_table_prefix = null;
 
@@ -52,6 +52,9 @@ class RedshopModelStatistic extends RedshopModel
 		$this->_enddate = strtotime($jinput->getInt('enddate', 0));
 		$this->_filteroption = $jinput->getInt('filteroption', 0);
 		$this->_typeoption = $jinput->getInt('typeoption', 2);
+		$this->filterStartDate = $jinput->getString('filter_start_date', '');
+		$this->filterEndDate = $jinput->getString('filter_end_date', '');
+		$this->filterDateLabel = $jinput->getString('filter_date_label', '');
 
 		if (!$this->_filteroption && $jinput->getString('view', '') == "")
 		{
@@ -273,6 +276,81 @@ class RedshopModelStatistic extends RedshopModel
 		}
 
 		return $this->_neworders;
+	}
+
+	/**
+	 * get Order data for statistic
+	 *
+	 * @return  object.
+	 *
+	 * @since   2.0.0.3
+	 */
+	public function getOrders()
+	{
+		$format = $this->getDateFormat();
+		$db     = $this->getDBO();
+		$query = $db->getQuery(true)
+			->select('FROM_UNIXTIME(cdate,"' . $format . '") AS viewdate')
+			->select('SUM(order_total) AS order_total')
+			->select('COUNT(*) AS count')
+			->from($db->qn('#__redshop_orders'))
+			->order($db->qn('cdate') . ' DESC')
+			->group($db->qn('viewdate'));
+
+		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
+		{
+			$query->where($db->qn('cdate') . ' > ' . $db->q(strtotime($this->filterStartDate)))
+			->where($db->qn('cdate') . ' <= ' . $db->q(strtotime($this->filterEndDate) + 86400));
+		}
+
+		return $db->setQuery($query)->loadObjectList();
+	}
+
+	/**
+	 * get Order data for export
+	 *
+	 * @return  object.
+	 *
+	 * @since   2.0.0.3
+	 */
+	public function exportOrder()
+	{
+		$db = $this->getDBO();
+		$query = $db->getQuery(true)
+			->select('DISTINCT(o.cdate)')
+			->select('o.*')
+			->select('ouf.*')
+			->from($db->qn('#__redshop_orders', 'o'))
+			->leftjoin($db->qn('#__redshop_order_users_info', 'ouf') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('ouf.order_id'))
+			->where($db->qn('ouf.address_type') . ' = ' . $db->q('BT'))
+			->order($db->qn('o.order_id') . ' DESC');
+
+		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
+		{
+			$query->where($db->qn('o.cdate') . ' > ' . $db->q(strtotime($this->filterStartDate)))
+			->where($db->qn('o.cdate') . ' <= ' . $db->q(strtotime($this->filterEndDate) + 86400));
+		}
+
+		return $this->_getList($query);
+	}
+
+	/**
+	 * Count product by order
+	 *
+	 * @return  object.
+	 *
+	 * @since   2.0.0.3
+	 */
+	public function countProductByOrder()
+	{
+		$db = $this->getDBO();
+		$query = $db->getQuery(true)
+			->select($db->qn('order_id'))
+			->select('COUNT(order_item_id) AS noproduct')
+			->from($db->qn('#__redshop_order_item'))
+			->group($db->qn('order_id'));
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
@@ -902,6 +980,33 @@ class RedshopModelStatistic extends RedshopModel
 			default:
 				$return = "%Y";
 				break;
+		}
+
+		return $return;
+	}
+
+	public function getDateFormat()
+	{
+		$return = "";
+		$startDate = strtotime($this->filterStartDate);
+		$endDate = strtotime($this->filterEndDate);
+		$interval = $endDate - $startDate;
+
+		if ($interval == 0 && ($this->filterDateLabel == 'Today' || $this->filterDateLabel == 'Yesterday'))
+		{
+			$return = "%d %b %Y";
+		}
+		elseif ($interval <= 1209600)
+		{
+			$return = "%d %b, %Y";
+		}
+		elseif ($interval <= 7689600)
+		{
+			$return = "%b, %Y";
+		}
+		elseif ($interval <= 31536000)
+		{
+			$return = "%Y";
 		}
 
 		return $return;
