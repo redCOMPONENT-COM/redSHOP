@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
+$extraFields = RedshopHelperManufacturer::getExtraFields($this->item->manufacturer_id);
 ?>
 
 <div class="row">
@@ -18,9 +18,9 @@ defined('_JEXEC') or die;
 			</div>
 			<div class="box-body">
 				<?php
-					if ($this->lists['extra_field'] != "")
+					if ($extraFields != "")
 					{
-						echo $this->lists['extra_field'];
+						echo $this->extra_field;
 					}
 					else
 					{

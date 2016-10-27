@@ -9,63 +9,27 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerManufacturer extends RedshopController
+/**
+ * Manufacturer controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller.Manufacturer
+ * @since       2.0.0.3
+ */
+class RedshopControllerManufacturer extends RedshopControllerForm
 {
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
-
 	/**
-	 * logic for save an order
+	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @access public
-	 * @return void
-	 */
-	public function saveorder()
-	{
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
-
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
-
-		$model = $this->getModel('manufacturer');
-		$model->saveorder($cid);
-
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
-	}
-
-	/**
-	 * logic for orderup manufacturer
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
 	 *
-	 * @access public
-	 * @return void
-	 */
-	public function orderup()
-	{
-		$model = $this->getModel('manufacturer_detail');
-		$model->move(-1);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
-	}
-
-	/**
-	 * logic for orderdown manufacturer
+	 * @return	void
 	 *
-	 * @access public
-	 * @return void
+	 * @since	3.1
 	 */
-	public function orderdown()
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$model = $this->getModel('manufacturer_detail');
-		$model->move(1);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
+		return parent::postSaveHook($model, $validData);
 	}
 }
-

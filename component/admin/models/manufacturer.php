@@ -10,110 +10,129 @@
 defined('_JEXEC') or die;
 
 
-class RedshopModelManufacturer extends RedshopModel
+class RedshopModelManufacturer extends RedshopModelForm
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
+	/**
+	 * @var        string    The prefix to use with controller messages.
+	 * @since   1.6
+	 */
+	protected $text_prefix = 'COM_REDSHOP';
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Method to get a single record.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   integer  $pk  The id of the primary key.
+	 *
+	 * @return  mixed  Object on success, false on failure.
+	 */
+	public function getItem($pk = null)
+	{
+		return parent::getItem($pk);
+	}
+	/**
+	 * Prepare and sanitise the table data prior to saving.
+	 *
+	 * @param   JTable  $table  A JTable object.
 	 *
 	 * @return  void
 	 *
-	 * @note    Calling getState in this method will result in recursion.
+	 * @since   1.6
 	 */
-	protected function populateState($ordering = 'm.ordering', $direction = '')
+	protected function prepareTable($table)
 	{
-		$filter = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
-		$this->setState('filter', $filter);
+		// Reorder the articles within the category so the new article is first
+		if (empty($table->id))
+		{
+			$table->ordering = $table->getNextOrder();
+		}
 
-		parent::populateState($ordering, $direction);
+		$order_functions = order_functions::getInstance();
+		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
+
+		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
+		{
+			if (!$table->excluding_category_list)
+			{
+				$table->excluding_category_list = '';
+			}
+		}
 	}
 
 	/**
-	 * Method to get a store id based on model configuration state.
+	 * Method to save the form data.
 	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
+	 * @param   array  $data  The form data.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @return  boolean  True on success.
 	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.5
+	 * @since   2.0.0.3
 	 */
-	protected function getStoreId($id = '')
+	public function save($data)
 	{
-		$id .= ':' . $this->getState('filter');
+		$order_functions = order_functions::getInstance();
+		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 
-		return parent::getStoreId($id);
-	}
-
-	public function _buildQuery()
-	{
-		$filter = $this->getState('filter');
-		$orderby = $this->_buildContentOrderBy();
-		$where = '';
-
-		if ($filter)
+		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
 		{
-			$where = " WHERE m.manufacturer_name like '%" . $filter . "%' ";
+			$data['excluding_category_list'] = implode(',', $data['excluding_category_list']);
 		}
 
-		$query = 'SELECT  distinct(m.manufacturer_id),m.* FROM #__redshop_manufacturer m '
-			. $where
-			. $orderby;
-
-		return $query;
+		return parent::save($data);
 	}
 
-	public function getMediaId($mid)
+	/**
+	 * Copy manufacturer
+	 *
+	 * @param   int  $id  Manufacturer ID
+	 *
+	 * @return  bool
+	 *
+	 * @since   2.0.0.3
+	 */
+	public function copy($id)
 	{
-		$database = JFactory::getDbo();
-
-		$query = ' SELECT media_id '
-			. ' FROM #__redshop_media  WHERE media_section="manufacturer" AND section_id = ' . $mid;
-
-		$database->setQuery($query);
-
-		return $database->loadResult();
-	}
-
-	public function saveOrder(&$cid)
-	{
-		$db = JFactory::getDbo();
-		$row = $this->getTable('manufacturer_detail');
-
-		$total = count($cid);
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
-		JArrayHelper::toInteger($order, array(0));
-
-		// Update ordering values
-		for ($i = 0; $i < $total; $i++)
+		if (!$id)
 		{
-			$row->load((int) $cid[$i]);
-
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-
-				if (!$row->store())
-				{
-					throw new Exception($db->getErrorMsg());
-				}
-			}
+			return false;
 		}
 
-		$row->reorder();
+		$table = $this->getTable();
 
-		return true;
+		if ($table->load($id))
+		{
+			$table->manufacturer_id = null;
+			$table->published = 0;
+			$table->manufacturer_name = $this->generateNewName($table->manufacturer_name);
+		}
+
+		if ($table->check())
+		{
+			return $table->store();
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Method to change the title & alias.
+	 *
+	 * @param   string  $title  Manufacturer name
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.0.3
+	 */
+	protected function generateNewName($title)
+	{
+		// Alter the title & alias
+		$table = $this->getTable();
+
+		while ($table->load(array('manufacturer_name' => $title)))
+		{
+			$title = JString::increment($title);
+		}
+
+		return $title;
 	}
 }
-
