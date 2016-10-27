@@ -2034,10 +2034,10 @@ COMMENT = 'redSHOP Supplier';
 DROP TABLE IF EXISTS `#__redshop_tax_group` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_tax_group` (
-  `tax_group_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `tax_group_name` VARCHAR(255) NOT NULL,
   `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`tax_group_id`),
+  PRIMARY KEY (`id`),
   INDEX `idx_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
