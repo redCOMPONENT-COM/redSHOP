@@ -184,7 +184,7 @@ class shipping
 	 * List shipping rates
 	 *
 	 * @param   object  $shippingClass  Shipping class
-	 * @param   array   $usersInfoId    User info id
+	 * @param   int     $usersInfoId    User info id
 	 * @param   array   &$data          Shipping data
 	 *
 	 * @return  object  Shipping Rate
@@ -216,7 +216,7 @@ class shipping
 	 *
 	 * @param   int  $userId  User id
 	 *
-	 * @return  arrays
+	 * @return  array
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getShopperGroupDefaultShipping($userId) instead
 	 */
@@ -232,7 +232,7 @@ class shipping
 	 * @param   array   $needles   array to find
 	 * @param   int     $offset    position
 	 *
-	 * @return  arrays
+	 * @return  array
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::strposa($haystack, $needles, $offset) instead
 	 */
@@ -274,11 +274,11 @@ class shipping
 	 *
 	 * @return array
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getCartItemDimention() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getCartItemDimension() instead
 	 */
 	public function getCartItemDimention()
 	{
-		return RedshopHelperShipping::getCartItemDimention();
+		return RedshopHelperShipping::getCartItemDimension();
 	}
 
 	/**
@@ -326,13 +326,13 @@ class shipping
 	 *
 	 * @param   array  &$data  Cart data
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::isCartDimentionMatch($data) instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::isCartDimensionMatch($data) instead
 	 */
 	public function isCartDimentionMatch(&$data)
 	{
-		return RedshopHelperShipping::isCartDimentionMatch($data);
+		return RedshopHelperShipping::isCartDimensionMatch($data);
 	}
 
 	/**
@@ -340,7 +340,7 @@ class shipping
 	 *
 	 * @param   array  &$data  Cart data
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::isUserInfoMatch($data) instead
 	 */
@@ -352,7 +352,7 @@ class shipping
 	/**
 	 * Check product detail is matched
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::isProductDetailMatch() instead
 	 */
