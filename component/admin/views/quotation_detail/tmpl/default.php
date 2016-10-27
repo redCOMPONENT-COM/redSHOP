@@ -395,6 +395,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 								$tax = $quotation->quotation_tax;
 								$DiscountWithotVat = $quotation->quotation_discount;
 								$DiscountspWithotVat = ($quotation->quotation_special_discount * ($quotation->quotation_subtotal + $quotation->quotation_tax)) / 100;
+								$Discountvat = 0;
 
 								if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 								{

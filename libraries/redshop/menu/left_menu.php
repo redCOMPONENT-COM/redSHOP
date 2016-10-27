@@ -650,6 +650,11 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=statistic&layout=product_statistic',
 				'COM_REDSHOP_STATISTIC_PRODUCT',
 				(self::$view == 'statistic' && self::$layout == 'product_statistic') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=statistic&layout=quotation_statistic',
+				'COM_REDSHOP_STATISTIC_QUOTATION',
+				(self::$view == 'statistic' && self::$layout == 'quotation_statistic') ? true : false
 			);
 
 		$menu->group('STATISTIC');
