@@ -15,6 +15,7 @@ var baseTask  = 'components.redshop';
 var extPath      = '.';
 var mediaPath    = extPath + '/media/com_redshop';
 var assetsPath   = extPath + '/src/assets/com_redshop';
+var bowerPath    = extPath + '/bower_components';
 var wwwMediaPath = config.wwwDir + '/media/' + componentName;
 
 // Minified and deploy from Assets to Media.
@@ -38,7 +39,8 @@ gulp.task('scripts:' + baseTask, function() {
 gulp.task('sass:' + baseTask, function(){
     return gulp.src([
         assetsPath + "/scss/bootstrap-grid.scss",
-        assetsPath + "/scss/style.scss"
+        assetsPath + "/scss/style.scss",
+        assetsPath + "/scss/jquery.ezdz.scss"
     ])
         .pipe(rename(function (path) {
             path.basename += '-uncompressed';
@@ -96,13 +98,24 @@ gulp.task('clean:' + baseTask + ':media', function(cb) {
     );
 });
 
+// Clean: bower
+gulp.task('clean:' + baseTask + ':bower', function(cb) {
+    return del(
+        [
+            config.wwwDir + '/media/com_reditem/bower/**',
+        ],
+        {force : true}
+    );
+});
+
 // Copy
 gulp.task('copy:' + baseTask,
     [
         'clean:' + baseTask,
         'copy:' + baseTask + ':frontend',
         'copy:' + baseTask + ':backend',
-        'copy:' + baseTask + ':media'
+        'copy:' + baseTask + ':media',
+        'copy:' + baseTask + ':bower'
     ],
     function() {
     });
@@ -145,6 +158,12 @@ gulp.task('copy:' + baseTask + ':media', ['clean:' + baseTask + ':media'], funct
         .pipe(gulp.dest(config.wwwDir + '/media/com_reditem'));
 });
 
+// Copy: bower
+gulp.task('copy:' + baseTask + ':bower', ['clean:' + baseTask + ':bower'], function() {
+    return gulp.src(bowerPath + '/**')
+        .pipe(gulp.dest(config.wwwDir + '/media/com_reditem'));
+});
+
 // Watch
 gulp.task('watch:' + baseTask,
     [
@@ -184,7 +203,7 @@ gulp.task('watch:' + baseTask + ':backend', function() {
 gulp.task('watch:' + baseTask + ':sass',
     function() {
         gulp.watch([
-                './src/assets/com_redshop/sass/**'
+            assetsPath + '/scss/*.scss'
             ],
             ['sass:' + baseTask, browserSync.reload]
         );

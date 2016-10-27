@@ -4516,7 +4516,7 @@ button.close {
   border: 0;
   -webkit-appearance: none;
 }
-/*.modal-open {
+.modal-open {
   overflow: hidden;
 }
 .modal {
@@ -4621,7 +4621,7 @@ button.close {
   width: 50px;
   height: 50px;
   overflow: scroll;
-}*/
+}
 @media (min-width: 768px) {
   .modal-dialog {
     width: 600px;
@@ -10393,7 +10393,7 @@ table.text-center th {
  * ----------------
  */
 
-/*.modal {
+.modal {
   background: rgba(0, 0, 0, 0.3);
 }
 .modal-content {
@@ -10433,7 +10433,7 @@ table.text-center th {
 .modal-danger .modal-header,
 .modal-danger .modal-footer {
   border-color: #c23321;
-}*/
+}
 
 /*
  * Page: Mailbox
@@ -24723,7 +24723,7 @@ th .tooltip-inner {
   text-align: left;
 }
 
-div.modal {
+/*div.modal {
   position: fixed;
   top: 5%;
   left: 50%;
@@ -24790,7 +24790,7 @@ div.modal.fade.in {
   }
 
 }
-
+*/
 @font-face {
   font-family: 'IcoMoon';
   src: url('../fonts/IcoMoon.eot');

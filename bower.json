@@ -1,0 +1,27 @@
+{
+  "name": "redSHOP",
+  "description": "Release script for redSHOP",
+  "main": "gulpfile.js",
+  "authors": [
+    "redCOMPONENT-COM"
+  ],
+  "license": "GPLv2",
+  "keywords": [
+    "joomla",
+    "ecommerce",
+    "redshop"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "cropper": "^2.3.4",
+    "dropzone": "^4.3.0"
+  }
+}
