@@ -8,8 +8,7 @@
  */
 defined('_JEXEC') or die;
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
-$producthelper = productHelper::getInstance();
-$user = JFactory::getUser();
+$productHelper = productHelper::getInstance();
 
 $start = $this->pagination->limitstart;
 $end = $this->pagination->limit;
@@ -27,9 +26,11 @@ $end = $this->pagination->limit;
 	function drawChart() {
 		var data = google.visualization.arrayToDataTable([
 			['<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>', {role: 'style'}, {role: 'annotation'}],
-			<?php if (count($this->orders) > 0) :?>
-				<?php foreach ($this->orders as $row) : ?>
-	         		['<?php echo $row->viewdate ?>', <?php echo $row->order_total; ?>, 'blue', '<?php echo $producthelper->getProductFormattedPrice($row->order_total); ?>'],
+			<?php if (count($this->products) > 0) :?>
+				<?php foreach ($this->products as $row) : ?>
+					<?php if (!empty($row->total_sale)) : ?>
+	         		['<?php echo $row->product_name ?>', <?php echo $row->total_sale; ?>, 'blue', '<?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?>'],
+	         		<?php endif; ?>
 	       	 	<?php endforeach; ?>
 	       	 <?php else: ?>
 	       	 	[0, 0, 'blue', 0],
@@ -38,8 +39,8 @@ $end = $this->pagination->limit;
 
 		var options = {
 			  chart: {
-	            title: '<?php echo JText::_("COM_REDSHOP_STATISTIC_ORDER"); ?>',
-	            subtitle: '<?php echo JText::_("COM_REDSHOP_STATISTIC_ORDER"); ?>',
+	            title: '<?php echo JText::_("COM_REDSHOP_STATISTIC_PRODUCT"); ?>',
+	            subtitle: '<?php echo JText::_("COM_REDSHOP_STATISTIC_PRODUCT"); ?>',
 	          },
 			  annotations: {
 			    boxStyle: {
@@ -73,7 +74,7 @@ $end = $this->pagination->limit;
 			};
 
 		//Instantiate and draw our chart, passing in some options.
-		var chart = new google.visualization.ColumnChart(document.getElementById('order_statistic_chart'));
+		var chart = new google.visualization.ColumnChart(document.getElementById('product_statistic_chart'));
 		chart.draw(data, options);
 	}
 
@@ -128,7 +129,7 @@ $end = $this->pagination->limit;
 		  }
 	});
 </script>
-<form action="index.php?option=com_redshop&view=statistic&layout=order_statistic" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop&view=statistic&layout=product_statistic" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table width="100%">
 			<tr>
@@ -143,29 +144,35 @@ $end = $this->pagination->limit;
 				</td>
 			</tr>
 		</table>
-		<div id="order_statistic_chart"></div>
+		<div id="product_statistic_chart"></div>
 		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_DATE'); ?></th>
-				<th align="center"><?php echo JText::_('COM_REDSHOP_ORDER_COUNT'); ?></th>
-				<th align="center"><?php echo JText::_('COM_REDSHOP_TOTAL_LBL'); ?></th>
+				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
+				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_SKU'); ?></th>
+				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'); ?></th>
+				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_UNIT'); ?></th>
+				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'); ?></th>
 			</tr>
 			</thead>
 			<?php    $disdate = "";
 			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				if (!isset($this->orders[$i]) || !is_object($this->orders[$i]))
+				if (!isset($this->products[$i]) || !is_object($this->products[$i]))
 				{
 					break;
 				}
 
-				$row = $this->orders[$i];
+				$row = $this->products[$i];
 				?>
 				<tr>
 					<td align="center"><?php echo $row->viewdate; ?></td>
-					<td align="center"><?php echo $row->count; ?></td>
-					<td align="center"><?php  echo $producthelper->getProductFormattedPrice($row->order_total);?></td>
+					<td align="center"><a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]=<?php echo $row->product_id; ?>"><?php echo $row->product_name; ?></a></td>
+					<td align="center"><?php echo $row->product_number; ?></td>
+					<td align="center"><?php echo $row->manufacturer_name; ?></td>
+					<td align="center"><?php echo $row->unit_sold; ?></td>
+					<td align="center"><?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?></td>
 				</tr>
 			<?php }    ?>
 			<tfoot>

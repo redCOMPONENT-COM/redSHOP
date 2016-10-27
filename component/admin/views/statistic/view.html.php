@@ -143,8 +143,16 @@ class RedshopViewStatistic extends RedshopViewAdmin
 			$this->export = 'exportOrder';
 			$this->setLayout('order_statistic');
 			$title  = JText::_('COM_REDSHOP_STATISTIC_ORDER');
-			$orders = $this->get('Orders');
-			$total  = count($orders);
+			$this->orders = $this->get('Orders');
+			$total  = count($this->orders);
+		}
+		elseif ($layout == 'product_statistic')
+		{
+			$this->export = 'exportProduct';
+			$this->setLayout('product_statistic');
+			$title    = JText::_('COM_REDSHOP_STATISTIC_PRODUCT');
+			$this->products = $this->get('Products');
+			$total    = count($this->products);
 		}
 		else
 		{
@@ -178,11 +186,12 @@ class RedshopViewStatistic extends RedshopViewAdmin
 		$this->typeoption = $typeoption;
 		$this->layout = $layout;
 		$this->request_url = $uri->toString();
-		$this->orders = $orders;
+
+		// New featured
 		$this->filterStartDate = $app->input->getString('filter_start_date', '');
-		$this->filterEndDate = $app->input->getString('filter_end_date', '');
+		$this->filterEndDate   = $app->input->getString('filter_end_date', '');
 		$this->filterDateLabel = $app->input->getString('filter_date_label', '');
-		$this->title = $title;
+		$this->title           = $title;
 
 		$this->addToolbar();
 		parent::display($tpl);
