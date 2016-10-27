@@ -79,7 +79,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 				}
 				else
 				{
-					$stocknote .= $productData->product_name . " " . JText::_('PRODUCT_OUT_OF_STOCK') . "<br/>";
+					$stocknote .= $productData->product_name . " " . JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK') . "<br/>";
 					unset($orderItem[$i]);
 				}
 			}
@@ -88,7 +88,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 			if (count($orderItem) <= 0)
 			{
-				$msg = JText::_('PRODUCT_OUT_OF_STOCK');
+				$msg = JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK');
 				$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $post['user_id']
 						. '&shipping_users_info_id=' . $post['shipp_users_info_id'], $msg
 				);
