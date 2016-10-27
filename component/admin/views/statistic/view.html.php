@@ -18,8 +18,12 @@ class RedshopViewStatistic extends RedshopViewAdmin
 		global $context;
 
 		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();   
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
+		$document->addStyleSheet('components/com_redshop/assets/css/daterangepicker.css');
+		$document->addScript('components/com_redshop/assets/js/moment.min.js');
+		$document->addScript('components/com_redshop/assets/js/daterangepicker.js');
 
 		$layout = $app->input->getCmd('layout', '');
 
@@ -28,6 +32,7 @@ class RedshopViewStatistic extends RedshopViewAdmin
 
 		$filteroption = $app->input->getInt('filteroption', 0);
 		$typeoption = $app->input->getInt('typeoption', 2);
+
 		$lists = array();
 		$option = array();
 
@@ -133,6 +138,14 @@ class RedshopViewStatistic extends RedshopViewAdmin
 			$neworder = $this->get('NewOrders');
 			$total = count($neworder);
 		}
+		elseif ($layout == 'order_statistic')
+		{
+			$this->export = 'exportOrder';
+			$this->setLayout('order_statistic');
+			$title  = JText::_('COM_REDSHOP_STATISTIC_ORDER');
+			$orders = $this->get('Orders');
+			$total  = count($orders);
+		}
 		else
 		{
 			$this->setLayout('default');
@@ -142,8 +155,6 @@ class RedshopViewStatistic extends RedshopViewAdmin
 		}
 
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC'));
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $title, 'statistic redshop_statistic48');
 
 		$pagination = new JPagination($total, $limitstart, $limit);
 		$this->pagination = $pagination;
@@ -167,9 +178,41 @@ class RedshopViewStatistic extends RedshopViewAdmin
 		$this->typeoption = $typeoption;
 		$this->layout = $layout;
 		$this->request_url = $uri->toString();
+		$this->orders = $orders;
+		$this->filterStartDate = $app->input->getString('filter_start_date', '');
+		$this->filterEndDate = $app->input->getString('filter_end_date', '');
+		$this->filterDateLabel = $app->input->getString('filter_date_label', '');
+		$this->title = $title;
 
+		$this->addToolbar();
 		parent::display($tpl);
 	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+
+		// Prepare text for title
+		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $this->title, 'statistic redshop_statistic48');
+		RedshopToolbarHelper::custom(
+					$this->export,
+					'save.png',
+					'save_f2.png',
+					'COM_REDSHOP_EXPORT_DATA_LBL',
+					false
+				);
+		RedshopToolbarHelper::link(
+			'index.php?tmpl=component&option=com_redshop&view=statistic&layout=' . $this->layout,
+			'print',
+			'COM_REDSHOP_PRINT',
+			'_blank'
+		);
+	}
 }
-
-
