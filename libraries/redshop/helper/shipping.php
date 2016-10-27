@@ -1973,13 +1973,13 @@ class RedshopHelperShipping
 
 		if ($country)
 		{
-			$wherecountry = "AND (FIND_IN_SET(" . $db->q($country) . ", "
+			$whereCountry = "AND (FIND_IN_SET(" . $db->q($country) . ", "
 				. $db->qn('shipping_rate_country') . " ) OR " . $db->qn('shipping_rate_country') . " = 0 OR "
 				. $db->qn('shipping_rate_country') . " = '' )";
 		}
 		else
 		{
-			$wherecountry = "AND (FIND_IN_SET(" . $db->q(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", "
+			$whereCountry = "AND (FIND_IN_SET(" . $db->q(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", "
 				. $db->qn('shipping_rate_country') . " ) OR " . $db->qn('shipping_rate_country') . " = 0 OR "
 				. $db->qn('shipping_rate_country') . " = '')";
 		}
@@ -2012,7 +2012,7 @@ class RedshopHelperShipping
 								ON" . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element')
 								. "WHERE ( " . $db->qn('shipping_rate_value') . " = 0 OR "
 								. $db->qn('shipping_rate_value') . " = 0) "
-								. $wherecountry . $whereState . $whereShopper . $zipCond . $where
+								. $whereCountry . $whereState . $whereShopper . $zipCond . $where
 								. "ORDER BY " . $db->qn('s.ordering') . ", " . $db->qn('sr.shipping_rate_priority') . " LIMIT 0,1";
 
 		$shippingRate = $db->setQuery($sql)->loadObject();
