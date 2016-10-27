@@ -436,8 +436,8 @@ class RedshopModelStatistic extends RedshopModelList
 
 		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
 		{
-			$query->where($db->qn('u.registerDate') . ' > ' . $db->q(strtotime($this->filterStartDate)))
-			->where($db->qn('u.registerDate') . ' <= ' . $db->q(strtotime($this->filterEndDate) + 86400));
+			$query->where($db->qn('u.registerDate') . ' > ' . $db->q(date('Y-m-d H:i:s', strtotime($this->filterStartDate))))
+				->where($db->qn('u.registerDate') . ' <= ' . $db->q(date('Y-m-d H:i:s', strtotime($this->filterEndDate) + 86400)));
 		}
 
 		$customers = $db->setQuery($query)->loadObjectList();
@@ -468,6 +468,35 @@ class RedshopModelStatistic extends RedshopModelList
 		}
 
 		return $customers;
+	}
+
+	/**
+	 * get Quotation data for statistic
+	 *
+	 * @return  object.
+	 *
+	 * @since   2.0.0.3
+	 */
+	public function getQuotations()
+	{
+		$format = $this->getDateFormat();
+		$db     = $this->getDBO();
+		$query = $db->getQuery(true)
+			->select('FROM_UNIXTIME(quotation_cdate,"' . $format . '") AS viewdate')
+			->select('SUM(quotation_total) AS quotation_total')
+			->select('COUNT(*) AS count')
+			->from($db->qn('#__redshop_quotation'))
+			->where($db->qn('quotation_status') . ' = 5')
+			->order($db->qn('quotation_cdate') . ' DESC')
+			->group($db->qn('viewdate'));
+
+		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
+		{
+			$query->where($db->qn('quotation_cdate') . ' > ' . $db->q(strtotime($this->filterStartDate)))
+			->where($db->qn('quotation_cdate') . ' <= ' . $db->q(strtotime($this->filterEndDate) + 86400));
+		}
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**

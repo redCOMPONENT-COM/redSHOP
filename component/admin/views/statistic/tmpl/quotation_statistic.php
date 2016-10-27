@@ -8,7 +8,8 @@
  */
 defined('_JEXEC') or die;
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
-$productHelper = productHelper::getInstance();
+$producthelper = productHelper::getInstance();
+$user = JFactory::getUser();
 
 $start = $this->pagination->limitstart;
 $end = $this->pagination->limit;
@@ -26,11 +27,9 @@ $end = $this->pagination->limit;
 	function drawChart() {
 		var data = google.visualization.arrayToDataTable([
 			['<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>', {role: 'style'}, {role: 'annotation'}],
-			<?php if (count($this->customers) > 0) :?>
-				<?php foreach ($this->customers as $row) : ?>
-					<?php if (!empty($row->total_sale)) : ?>
-	         		['<?php echo $row->firstname . ' ' . $row->lastname ?>', <?php echo $row->total_sale; ?>, 'blue', '<?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?>'],
-	         		<?php endif; ?>
+			<?php if (count($this->quotations) > 0) :?>
+				<?php foreach ($this->quotations as $row) : ?>
+	         		['<?php echo $row->viewdate ?>', <?php echo $row->quotation_total; ?>, 'blue', '<?php echo $producthelper->getProductFormattedPrice($row->quotation_total); ?>'],
 	       	 	<?php endforeach; ?>
 	       	 <?php else: ?>
 	       	 	[0, 0, 'blue', 0],
@@ -39,8 +38,8 @@ $end = $this->pagination->limit;
 
 		var options = {
 			  chart: {
-	            title: '<?php echo JText::_("COM_REDSHOP_STATISTIC_PRODUCT"); ?>',
-	            subtitle: '<?php echo JText::_("COM_REDSHOP_STATISTIC_PRODUCT"); ?>',
+	            title: '<?php echo JText::_("COM_REDSHOP_STATISTIC_ORDER"); ?>',
+	            subtitle: '<?php echo JText::_("COM_REDSHOP_STATISTIC_ORDER"); ?>',
 	          },
 			  annotations: {
 			    boxStyle: {
@@ -74,7 +73,7 @@ $end = $this->pagination->limit;
 			};
 
 		//Instantiate and draw our chart, passing in some options.
-		var chart = new google.visualization.ColumnChart(document.getElementById('customer_statistic_chart'));
+		var chart = new google.visualization.ColumnChart(document.getElementById('quotation_statistic_chart'));
 		chart.draw(data, options);
 	}
 
@@ -129,7 +128,7 @@ $end = $this->pagination->limit;
 		  }
 	});
 </script>
-<form action="index.php?option=com_redshop&view=statistic&layout=product_statistic" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop&view=statistic&layout=order_statistic" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table width="100%">
 			<tr>
@@ -144,33 +143,29 @@ $end = $this->pagination->limit;
 				</td>
 			</tr>
 		</table>
-		<div id="customer_statistic_chart"></div>
+		<div id="quotation_statistic_chart"></div>
 		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_DATE'); ?></th>
-				<th align="center"><?php echo JText::_('COM_REDSHOP_USER_NAME'); ?></th>
-				<th align="center"><?php echo JText::_('COM_REDSHOP_USER_EMAIL'); ?></th>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_ORDER_COUNT'); ?></th>
-				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'); ?></th>
+				<th align="center"><?php echo JText::_('COM_REDSHOP_TOTAL_LBL'); ?></th>
 			</tr>
 			</thead>
 			<?php    $disdate = "";
 			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				if (!isset($this->customers[$i]) || !is_object($this->customers[$i]))
+				if (!isset($this->quotations[$i]) || !is_object($this->quotations[$i]))
 				{
 					break;
 				}
 
-				$row = $this->customers[$i];
+				$row = $this->quotations[$i];
 				?>
 				<tr>
 					<td align="center"><?php echo $row->viewdate; ?></td>
-					<td align="center"><a href="index.php?option=com_redshop&view=user_detail&task=edit&user_id=<?php echo $row->user_id ?>&cid[]=<?php echo $row->users_info_id; ?>"><?php echo $row->firstname . ' ' . $row->lastname; ?></a></td>
-					<td align="center"><?php echo $row->user_email; ?></td>
 					<td align="center"><?php echo $row->count; ?></td>
-					<td align="center"><?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?></td>
+					<td align="center"><?php  echo $producthelper->getProductFormattedPrice($row->quotation_total);?></td>
 				</tr>
 			<?php }    ?>
 			<tfoot>

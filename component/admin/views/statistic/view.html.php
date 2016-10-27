@@ -140,27 +140,35 @@ class RedshopViewStatistic extends RedshopViewAdmin
 		}
 		elseif ($layout == 'customer_statistic')
 		{
-			$this->export = 'exportCustomer';
 			$this->setLayout('customer_statistic');
-			$title  = JText::_('COM_REDSHOP_STATISTIC_CUSTOMER');
+			$this->export    = 'exportCustomer';
+			$title           = JText::_('COM_REDSHOP_STATISTIC_CUSTOMER');
 			$this->customers = $this->get('Customers');
-			$total  = count($this->customers);
+			$total           = count($this->customers);
 		}
 		elseif ($layout == 'order_statistic')
 		{
-			$this->export = 'exportOrder';
 			$this->setLayout('order_statistic');
-			$title  = JText::_('COM_REDSHOP_STATISTIC_ORDER');
+			$this->export = 'exportOrder';
+			$title        = JText::_('COM_REDSHOP_STATISTIC_ORDER');
 			$this->orders = $this->get('Orders');
-			$total  = count($this->orders);
+			$total        = count($this->orders);
 		}
 		elseif ($layout == 'product_statistic')
 		{
-			$this->export = 'exportProduct';
 			$this->setLayout('product_statistic');
-			$title    = JText::_('COM_REDSHOP_STATISTIC_PRODUCT');
+			$this->export   = 'exportProduct';
+			$title          = JText::_('COM_REDSHOP_STATISTIC_PRODUCT');
 			$this->products = $this->get('Products');
-			$total    = count($this->products);
+			$total          = count($this->products);
+		}
+		elseif ($layout == 'quotation_statistic')
+		{
+			$this->setLayout('quotation_statistic');
+			$this->export     = 'exportQuotation';
+			$title            = JText::_('COM_REDSHOP_STATISTIC_QUOTATION');
+			$this->quotations = $this->get('Quotations');
+			$total            = count($this->quotations);
 		}
 		else
 		{
