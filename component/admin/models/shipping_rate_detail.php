@@ -274,7 +274,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 	public function getVatGroup()
 	{
-		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE
+		$query = "SELECT tg.tax_group_name as text, tg.id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE
 		`published` = 1 ORDER BY tax_group_id ASC";
 		$this->_db->setQuery($query);
 

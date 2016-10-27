@@ -63,7 +63,7 @@ class RedshopModelTax_detail extends RedshopModel
 		{
 			$query = ' SELECT tr.*,tg.tax_group_name  '
 				. ' FROM ' . $this->_table_prefix . 'tax_rate as tr'
-				. ' LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg ON tr.tax_group_id = tg.tax_group_id '
+				. ' LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg ON tr.tax_group_id = tg.id '
 				. ' WHERE tr.tax_rate_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
