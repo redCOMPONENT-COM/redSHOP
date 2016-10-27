@@ -637,6 +637,11 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'statistic' && self::$layout == 'neworder') ? true : false
 			)
 			->addItem(
+				'index.php?option=com_redshop&view=statistic&layout=customer_statistic',
+				'COM_REDSHOP_STATISTIC_CUSTOMER',
+				(self::$view == 'statistic' && self::$layout == 'customer_statistic') ? true : false
+			)
+			->addItem(
 				'index.php?option=com_redshop&view=statistic&layout=order_statistic',
 				'COM_REDSHOP_STATISTIC_ORDER',
 				(self::$view == 'statistic' && self::$layout == 'order_statistic') ? true : false
