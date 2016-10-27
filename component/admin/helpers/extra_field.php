@@ -87,7 +87,7 @@ class extra_field
 	 */
 	public function extra_field_save($data, $field_section, $section_id = "", $user_email = "")
 	{
-		return RedshopHelperExtrafields::extraFieldSave($data, $field_section, $section_id, $user_email);
+		RedshopHelperExtrafields::extraFieldSave($data, $field_section, $section_id, $user_email);
 	}
 
 	/**
@@ -128,7 +128,7 @@ class extra_field
 	 * List all user fields
 	 *
 	 * @param   string  $field_section  Field Section
-	 * @param   string  $section_id     Section ID
+	 * @param   int     $section_id     Section ID
 	 * @param   string  $field_type     Field type
 	 * @param   string  $unique_id      Unique ID
 	 *
@@ -136,7 +136,7 @@ class extra_field
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::listAllUserFields() instead
 	 */
-	public function list_all_user_fields($field_section = "", $section_id = extraField::SECTION_PRODUCT_USERFIELD, $field_type = '', $unique_id)
+	public function list_all_user_fields($field_section = "", $section_id = extraField::SECTION_PRODUCT_USERFIELD, $field_type = '', $unique_id = '')
 	{
 		return RedshopHelperExtrafields::listAllUserFields($field_section, $section_id, $field_type, $unique_id);
 	}
@@ -169,14 +169,15 @@ class extra_field
 	 * @param   string   $yes        Option Days
 	 * @param   string   $no         Option Weeks
 	 * @param   boolean  $id         ID of radio checkbox
-	 * @param   boolean  $yes_value  ID of radio checkbox
-	 * @param   boolean  $no_value   ID of radio checkbox
+	 * @param   string   $yes_value  ID of radio checkbox
+	 * @param   string   $no_value   ID of radio checkbox
 	 *
 	 * @return  string
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::rsBooleanList() instead
 	 */
-	public function rs_booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false, $yes_value, $no_value)
+	public function rs_booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false,
+		$yes_value = 'Days', $no_value = 'Weeks')
 	{
 		return RedshopHelperExtrafields::rsBooleanList($name, $attribs, $selected, $yes, $no, $id, $yes_value, $no_value);
 	}
@@ -224,9 +225,7 @@ class extra_field
 	 */
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
 	{
-		$model =  JModelLegacy::getInstance('Fields', 'RedshopModel');
-
-		return $model->getFieldDataList($fieldid, $section, $orderitemid, $user_email);
+		return RedshopHelperExtrafields::getSectionFieldDataList($fieldid, $section, $orderitemid, $user_email);
 	}
 
 	/**
@@ -241,7 +240,7 @@ class extra_field
 	 */
 	public function copy_product_extra_field($oldproduct_id, $newPid)
 	{
-		return RedshopHelperExtrafields::copyProductExtraField($oldproduct_id, $newPid);
+		RedshopHelperExtrafields::copyProductExtraField($oldproduct_id, $newPid);
 	}
 
 	/**
@@ -255,6 +254,6 @@ class extra_field
 	 */
 	public function deleteExtraFieldData($data_id)
 	{
-		return RedshopHelperExtrafields::deleteExtraFieldData($data_id);
+		RedshopHelperExtrafields::deleteExtraFieldData($data_id);
 	}
 }
