@@ -190,19 +190,18 @@ COMMENT = 'redSHOP Category relation';
 DROP TABLE IF EXISTS `#__redshop_country` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_country` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`country_name` varchar(64) DEFAULT NULL,
-	`country_3_code` char(3) DEFAULT NULL,
-	`country_2_code` char(2) DEFAULT NULL,
-	`country_jtext` varchar(255) NOT NULL,
-	PRIMARY KEY (`id`),
-	KEY `idx_country_3_code` (`country_3_code`),
-	KEY `idx_country_2_code` (`country_2_code`),
-	KEY `id` (`id`)
-) 
-	ENGINE=InnoDB
-	DEFAULT CHARSET=utf8 
-	COMMENT='Country records';
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `country_name` VARCHAR(64) NOT NULL DEFAULT '',
+  `country_3_code` CHAR(3) NOT NULL,
+  `country_2_code` CHAR(2) NOT NULL,
+  `country_jtext` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `#__rs_idx_country_3_code` (`country_3_code` ASC),
+  UNIQUE INDEX `#__rs_idx_country_2_code` (`country_2_code` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'Country records';
+
 
 -- -----------------------------------------------------
 -- Table `#__redshop_coupons`
@@ -1928,27 +1927,27 @@ COMMENT = 'redSHOP Site Viewer';
 DROP TABLE IF EXISTS `#__redshop_state` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_state` (
-	`state_id` int(11) NOT NULL AUTO_INCREMENT,
-	`country_id` int(11) DEFAULT NULL,
-	`state_name` varchar(64) DEFAULT NULL,
-	`state_3_code` char(3) DEFAULT NULL,
-	`state_2_code` char(2) DEFAULT NULL,
-	`checked_out` int(11) NOT NULL,
-	`checked_out_time` datetime NOT NULL,
-	`show_state` int(11) NOT NULL DEFAULT '2',
-	PRIMARY KEY (`state_id`),
-	UNIQUE KEY `state_3_code` (`country_id`,`state_3_code`),
-	UNIQUE KEY `state_2_code` (`country_id`,`state_2_code`),
-	INDEX `#__rs_state_country_fk1` (`country_id` ASC),
-	CONSTRAINT `#__rs_state_country_fk1` 
-		FOREIGN KEY (`country_id`) 
-		REFERENCES `#__redshop_country` (`id`) 
-		ON DELETE SET NULL 
-		ON UPDATE CASCADE
-)
-	ENGINE=InnoDB 
-	DEFAULT CHARSET=utf8 
-	COMMENT='States that are assigned to a country';
+  `state_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `country_id` INT(11) NULL DEFAULT NULL,
+  `state_name` VARCHAR(64) NULL DEFAULT NULL,
+  `state_3_code` CHAR(3) NULL DEFAULT NULL,
+  `state_2_code` CHAR(2) NULL DEFAULT NULL,
+  `checked_out` INT(11) NOT NULL,
+  `checked_out_time` DATETIME NOT NULL,
+  `show_state` INT(11) NOT NULL DEFAULT '2',
+  PRIMARY KEY (`state_id`),
+  UNIQUE INDEX `#__rs_idx_state_3_code` (`country_id` ASC, `state_3_code` ASC),
+  UNIQUE INDEX `#__rs_idx_state_2_code` (`country_id` ASC, `state_2_code` ASC),
+  INDEX `#__rs_state_country_fk1` (`country_id` ASC),
+  CONSTRAINT `#__rs_state_country_fk1`
+    FOREIGN KEY (`country_id`)
+    REFERENCES `#__redshop_country` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'States that are assigned to a country';
+
 
 -- -----------------------------------------------------
 -- Table `#__redshop_stockroom`
