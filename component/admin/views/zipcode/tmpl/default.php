@@ -7,11 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+JHTML::_('behavior.tooltip');
 $uri = JURI::getInstance();
 $url = $uri->root();
 ?>
 <script>
-	function test()
+	function getState2Code()
 	{
 		var filterData = {};
 		filterData['<?php echo JSession::getFormToken(); ?>'] = 1;
@@ -23,11 +24,15 @@ $url = $uri->root();
 			url: 'index.php?option=com_redshop&task=zipcode.ajaxGetState2Code',
 			data: filterData,
 			type: 'POST',
-			dataType: 'text'
+			dataType: 'text',
+			beforeSend: function (xhr) {
+				jQuery('#stateCodeBox').addClass('opacity-40');
+				jQuery('#stateCodeBox .spinner').show();
+			}
 		}).done(function (data) {
-				jQuery('#replace_state_code').html(data);
-				jQuery('#jform_state_code').trigger("liszt:updated");
-			});
+			jQuery('#stateCodeWrapper').html(data);
+			jQuery('#jform_state_code').select2({ width: 'resolve' });
+		});
 	}
 </script>
 <form action="index.php?option=com_redshop&task=zipcode.edit&id=<?php echo $this->item->id; ?>"
@@ -40,11 +45,11 @@ $url = $uri->root();
 		<?php foreach ($this->form->getFieldset('details') as $field) : ?>
 			<?php if ($field->hidden) : ?>
 				<?php echo $field->input;?>
-			<?php elseif ($field->type == "state_code"): ?>
-				<div id="replace_state_code">
+			<?php elseif ($field->type == "RState2Code"): ?>
+				<div id="stateCodeWrapper">
 					<div class="control-group">
 						<div class="control-label"><?php echo $field->label;?></div>
-						<div class="controls"><?php echo $field->input;?></div>
+						<div class="controls" id="stateCodeBox"><?php echo $field->input;?></div>
 					</div>
 				</div>
 			<?php else: ?>

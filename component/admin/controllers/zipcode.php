@@ -25,10 +25,12 @@ class RedshopControllerZipcode extends RedshopControllerForm
 	 */
 	function ajaxGetState2Code()
 	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$model = $this->getModel();
 		$form = $model->getForm();
 		echo $form->renderField('state_code');
 
-		exit;
+		jexit();
 	}
 }

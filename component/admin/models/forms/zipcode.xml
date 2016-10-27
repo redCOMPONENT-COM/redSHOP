@@ -15,7 +15,7 @@
 			class="text_area"
 			default=""
 			required="true"
-			onchange="test();"
+			onchange="getState2Code();"
 			/>
 		<field
 			id="state_code"

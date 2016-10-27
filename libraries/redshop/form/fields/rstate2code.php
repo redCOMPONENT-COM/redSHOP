@@ -41,27 +41,28 @@ class JFormFieldRState2Code extends JFormFieldList
 		$app = JFactory::getApplication();
 		$country3Code = $app->input->get('country_code');
 
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true);
+		$query->select($db->qn('s.state_2_code', 'value'))
+			->select($db->qn('s.state_name', 'text'))
+			->from($db->qn('#__redshop_state', 's'))
+			->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('s.country_id'));
+
 		if ($country3Code)
 		{
-			$db = JFactory::getDbo();
+			$query->where($db->qn('c.country_3_code') . ' = ' . $db->q($country3Code));
+		}
 
-			$query = $db->getQuery(true);
-			$query->select($db->qn('s.state_2_code', 'value'))
-				->select($db->qn('s.state_name', 'text'))
-				->from($db->qn('#__redshop_state', 's'))
-				->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('s.country_id'))
-				->where($db->qn('c.country_3_code') . ' = ' . $db->q($country3Code));
+		$db->setQuery($query);
 
-			$db->setQuery($query);
-
-			try
-			{
-				$options = $db->loadObjectList();
-			}
-			catch (RuntimeException $e)
-			{
-				throw new Exception($e->getMessage());
-			}
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new Exception($e->getMessage());
 		}
 
 		// Get other options inserted in the XML file

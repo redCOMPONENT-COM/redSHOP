@@ -41,4 +41,38 @@ class RedshopModelZipcode extends RedshopModelForm
 
 		return $data;
 	}
+
+	/**
+	 * Save Zipcode
+	 * 
+	 * @param   array  $data  data collection
+	 * 
+	 * @return  bool
+	 */
+	public function save($data)
+	{
+		$table = $this->getTable('Zipcode');
+
+		if ($data['zipcodeto'] && ($data['zipcode'] > $data['zipcodeto']))
+		{
+			return false;
+		}
+
+		if (!$data['zipcodeto'])
+		{
+			$data['zipcodeto'] = $data['zipcode'];
+		}
+
+		for ($i = $data['zipcode']; $i <= $data['zipcodeto']; $i++)
+		{
+			$table->country_code = $data['country_code'];
+			$table->state_code = isset($data['state_code'])? $data['state_code'] : null;
+			$table->city_name = $data['city_name'];
+			$table->zipcode = is_numeric($data['zipcode'])? $i : $data['zipcode'];
+			$table->store();
+			$table->id = null;
+		}
+
+		return true;
+	}
 }

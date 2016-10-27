@@ -26,68 +26,6 @@ class RedshopTableZipcode extends RedshopTable
 
 	protected $_tableName = 'redshop_zipcode';
 
-	protected $zipcode;
-
-	protected $zipcodeto;
-
-	protected $state_code;
-
-	protected $country_name;
-
-	protected $country_code;
-
-	/**
-	 * Method to store a node in the database table.
-	 *
-	 * @param   boolean  $updateNulls  True to update null values as well.
-	 *
-	 * @return  boolean  True on success.
-	 */
-	public function store($updateNulls = false)
-	{
-		// Before store
-		if (!$this->beforeStore($updateNulls))
-		{
-			return false;
-		}
-
-		if ($this->zipcodeto && ($this->zipcode > $this->zipcodeto))
-		{
-			return false;
-		}
-
-		$db = JFactory::getDbo();
-
-		if (!$this->zipcodeto)
-		{
-			$this->zipcodeto = $this->zipcode;
-		}
-
-		$value = [];
-		$columns = $db->qn(['country_code', 'state_code', 'city_name', 'zipcode']);
-
-		for ($i = $this->zipcode; $i <= $this->zipcodeto; $i++)
-		{
-			$value = $db->q([$this->country_code, $this->state_code, $this->city_name, $i]);
-			$query = $db->getQuery(true);
-
-			$query->insert($db->qn('#__redshop_zipcode'))
-				->columns($columns)
-				->values(implode(',', $value));
-
-			$db->setQuery($query);
-			$db->execute();
-		}
-
-		// After store
-		if (!$this->afterStore($updateNulls))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
 	/**
 	 * Function display template
 	 *
