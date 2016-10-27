@@ -138,6 +138,14 @@ class RedshopViewStatistic extends RedshopViewAdmin
 			$neworder = $this->get('NewOrders');
 			$total = count($neworder);
 		}
+		elseif ($layout == 'customer_statistic')
+		{
+			$this->export = 'exportCustomer';
+			$this->setLayout('customer_statistic');
+			$title  = JText::_('COM_REDSHOP_STATISTIC_CUSTOMER');
+			$this->customers = $this->get('Customers');
+			$total  = count($this->customers);
+		}
 		elseif ($layout == 'order_statistic')
 		{
 			$this->export = 'exportOrder';

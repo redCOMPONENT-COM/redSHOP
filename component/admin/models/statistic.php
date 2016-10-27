@@ -354,7 +354,7 @@ class RedshopModelStatistic extends RedshopModelList
 	}
 
 	/**
-	 * get Order data for statistic
+	 * get Product data for statistic
 	 *
 	 * @return  object.
 	 *
@@ -408,6 +408,66 @@ class RedshopModelStatistic extends RedshopModelList
 		}
 
 		return $products;
+	}
+
+	/**
+	 * get Customer data for statistic
+	 *
+	 * @return  object.
+	 *
+	 * @since   2.0.0.3
+	 */
+	public function getCustomers()
+	{
+		$format = $this->getDateFormat();
+		$db     = $this->getDBO();
+		$query = $db->getQuery(true)
+			->select('DATE_FORMAT(u.registerDate,"' . $format . '") AS viewdate')
+			->select($db->qn('ui.user_email'))
+			->select($db->qn('ui.firstname'))
+			->select($db->qn('ui.lastname'))
+			->select($db->qn('ui.users_info_id'))
+			->select($db->qn('ui.user_id'))
+			->from($db->qn('#__redshop_users_info', 'ui'))
+			->leftjoin($db->qn('#__users', 'u') . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('ui.user_id'))
+			->where($db->qn('ui.address_type') . ' = ' . $db->q('BT'))
+			->order($db->qn('u.registerDate') . ' DESC')
+			->group($db->qn('ui.users_info_id'));
+
+		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
+		{
+			$query->where($db->qn('u.registerDate') . ' > ' . $db->q(strtotime($this->filterStartDate)))
+			->where($db->qn('u.registerDate') . ' <= ' . $db->q(strtotime($this->filterEndDate) + 86400));
+		}
+
+		$customers = $db->setQuery($query)->loadObjectList();
+
+		$query = $db->getQuery(true)
+			->select('COUNT(*) AS count')
+			->select('SUM(order_total) AS total_sale')
+			->select($db->qn('user_info_id'))
+			->from($db->qn('#__redshop_orders'))
+			->where($db->qn('order_payment_status') . ' = ' . $db->q('Paid'))
+			->group($db->qn('user_info_id'));
+
+		$orderCount = $db->setQuery($query)->loadObjectList();
+
+		foreach ($customers as $key => $customer)
+		{
+			$customers[$key]->total_sale = 0;
+			$customers[$key]->count = 0;
+
+			foreach ($orderCount as $value)
+			{
+				if ($customer->users_info_id == $value->user_info_id)
+				{
+					$customers[$key]->total_sale = $value->total_sale;
+					$customers[$key]->count = $value->count;
+				}
+			}
+		}
+
+		return $customers;
 	}
 
 	/**
@@ -1055,11 +1115,11 @@ class RedshopModelStatistic extends RedshopModelList
 		}
 		elseif ($interval <= 1209600)
 		{
-			$return = "%d %b, %Y";
+			$return = "%d %b. %Y";
 		}
 		elseif ($interval <= 7689600)
 		{
-			$return = "%b, %Y";
+			$return = "%b. %Y";
 		}
 		elseif ($interval <= 31536000)
 		{
