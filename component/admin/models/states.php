@@ -78,7 +78,7 @@ class RedshopModelStates extends RedshopModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.0.2.2
+	 * @since   2.0.0.4
 	 * @note    Calling getState in this method will result in recursion.
 	 */
 	protected function populateState($ordering = 'state_name', $direction = '')
@@ -86,8 +86,8 @@ class RedshopModelStates extends RedshopModelList
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$contryId = $this->getUserStateFromRequest($this->context . '.filter.country_id', 'filter_country_id');
-		$this->setState('filter.product_id', $search);
+		$countryId = $this->getUserStateFromRequest($this->context . '.filter.country_id', 'filter_country_id');
+		$this->setState('filter.country_id', $countryId);
 		parent::populateState($ordering, $direction);
 	}
 

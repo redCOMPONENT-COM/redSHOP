@@ -62,7 +62,7 @@ class RedshopViewState extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   2.0.0.4
 	 */
 	protected function addToolbar()
 	{
