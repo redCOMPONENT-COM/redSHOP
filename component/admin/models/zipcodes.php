@@ -36,12 +36,12 @@ class RedshopModelZipcodes extends RedshopModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
-				'country_code',
-				'state_code',
-				'city_name',
-				'zipcode',
-				'zipcodeto',
+				'id', 'z.id',
+				'country_code', 'z.country_code',
+				'state_code', 'z.state_code',
+				'city_name', 'z.city_name',
+				'zipcode', 'z.zipcode',
+				'zipcodeto', 'z.zipcodeto',
 			);
 		}
 
@@ -66,7 +66,7 @@ class RedshopModelZipcodes extends RedshopModelList
 		$this->setState('filter.search', $search);
 
 		// List state information.
-		parent::populateState('country_code', 'asc');
+		parent::populateState('zipcode', 'asc');
 	}
 
 	/**
@@ -121,6 +121,13 @@ class RedshopModelZipcodes extends RedshopModelList
 			. ' ON ' . $db->qn('z.state_code') . ' = ' . $db->qn('s.state_2_code')
 			. ' AND ' . $db->qn('c.id') . ' = ' . $db->qn('s.country_id')
 			);
+
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
+		{
+			$query->where($db->qn('z.zipcode') . ' LIKE ' . $db->q('%' . $search . '%'));
+		}
 
 		return $query;
 	}
