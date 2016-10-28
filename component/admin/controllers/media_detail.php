@@ -58,7 +58,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 
-		if (substr(Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT'), -1) != DIRECTORY_SEPARATOR)
+		if (substr(Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT '), -1) != DIRECTORY_SEPARATOR)
 		{
 			$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/';
 		}

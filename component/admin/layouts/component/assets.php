@@ -17,6 +17,7 @@ $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
 
 // $doc->addTopScript('//use.fontawesome.com/e9d00401af.js');
+$doc->addTopStylesheet('/media/com_reditem/components-font-awesome/css/font-awesome.min.css');
 
 $doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.js');
 $doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/icheck.min.js');

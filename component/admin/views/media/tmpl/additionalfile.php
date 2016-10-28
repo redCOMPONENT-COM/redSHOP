@@ -80,7 +80,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 								class="image"
 								style="padding-top: 0px !important">
 								<a
-									class="modal"
+									class=""
 									title="Image"
 							        href="index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1"
 							        rel="{handler: 'iframe', size: {x: 950, y: 450}}">
@@ -139,7 +139,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 									<?php if ($fileExt == 'gif' || $fileExt == 'png' || $fileExt == 'jpg' || $fileExt == 'jpeg') : ?>
 										<a
 											href="<?php echo $link; ?>"
-											class="modal"
+											class=""
 											rel="{handler: 'image', size: {}}"
 										>
 											<?php echo $filename;?>

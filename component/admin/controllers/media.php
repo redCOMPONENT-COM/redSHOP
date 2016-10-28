@@ -212,4 +212,35 @@ class RedshopControllerMedia extends RedshopController
 			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
 	}
+
+	/**
+	 * AJAX upload a file
+	 *
+	 * @return void
+	 */
+	public function ajaxUpload()
+	{
+		$file = $this->input->files->get('file', array(), 'array');
+
+		if (!empty($file))
+		{
+			$filename = RedShopHelperImages::cleanFileName($file['name'], time());
+
+			// Image Upload
+			$src = $file['tmp_name'];
+			$tempDir = REDSHOP_FRONT_IMAGES_RELPATH . 'tmp/';
+			JFolder::create($tempDir, 0755);
+			$dest = $tempDir . $filename;
+			JFile::upload($src, $dest);
+		}
+
+		echo new JResponseJson(
+			array(
+			'success' => true,
+			'file' => $filename
+			)
+		);
+
+		die;
+	}
 }
