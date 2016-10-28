@@ -271,7 +271,7 @@ $calendarFormat = '%d-%m-%Y';
 				<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
 
 				<div class="btn-toolbar">
-					<a class="btn btn-primary" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
+					<a class="btn btn-primary" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}" data-toggle="modal">
 						<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
 					</a>
 
