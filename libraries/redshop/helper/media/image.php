@@ -19,16 +19,27 @@ defined('_JEXEC') or die;
 class RedshopHelperMediaImage
 {
 	/**
-	 * Render HTML for image drag'n'drop
+	 * Render Drag n Drop template in site
+	 *
+	 * @param   string  $sectionId     Section ID, ex: <product ID>
+	 * @param   string  $mediaSection  Section for media, ex: 'product'
+	 * @param   string  $image         Current image in detail
 	 *
 	 * @return  void
 	 */
-	public static function render()
+	public static function render($sectionId, $mediaSection, $image)
 	{
 		if (self::requireDependencies())
 		{
+			$image = JRoute::_('/components/com_redshop/assets/images/' . $mediaSection . '/' . $image);
+
 			echo RedshopLayoutHelper::render(
-				'component.dropzone'
+				'component.dropzone',
+				array(
+					'sectionId'    => $sectionId,
+					'mediaSection' => $mediaSection,
+					'image'        => $image
+				)
 			);
 		}
 	}
@@ -49,7 +60,6 @@ class RedshopHelperMediaImage
 
 		if (file_exists($dropzonePath) && file_exists($cropperPath))
 		{
-			$document->addTopStylesheet('/media/com_reditem/components-font-awesome/css/font-awesome.min.css');
 			$document->addStylesheet('/media/com_reditem/dropzone/dist/min/dropzone.min.css');
 			$document->addStylesheet('/media/com_reditem/css/select2/select2.css');
 			$document->addStylesheet('/media/com_reditem/css/select2/select2-bootstrap.css');
