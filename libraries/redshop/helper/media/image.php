@@ -41,8 +41,7 @@ class RedshopHelperMediaImage
 	 */
 	public static function requireDependencies()
 	{
-		$document = JFactory::getDocument();
-		$doc      = new RedshopHelperDocument;
+		$document      = new RedshopHelperDocument;
 		$basepath = JPATH_SITE . '/media/com_reditem/';
 
 		$dropzonePath = $basepath . 'dropzone';
@@ -50,12 +49,17 @@ class RedshopHelperMediaImage
 
 		if (file_exists($dropzonePath) && file_exists($cropperPath))
 		{
+			$document->addTopStylesheet('/media/com_reditem/components-font-awesome/css/font-awesome.min.css');
 			$document->addStylesheet('/media/com_reditem/dropzone/dist/min/dropzone.min.css');
+			$document->addStylesheet('/media/com_reditem/css/select2/select2.css');
+			$document->addStylesheet('/media/com_reditem/css/select2/select2-bootstrap.css');
 			$document->addStylesheet('/media/com_reditem/cropper/dist/cropper.min.css');
+
 			$document->addScript('/media/com_reditem/dropzone/dist/min/dropzone.min.js');
 			$document->addScript('/media/com_reditem/cropper/dist/cropper.min.js');
-			$doc->disableScript('/media/jui/js/bootstrap.min.js');
-			$doc->disableScript('/media/system/js/modal.js');
+			$document->addScript('/media/com_reditem/js/select2/select2.js');
+			$document->disableScript('/media/jui/js/bootstrap.min.js');
+			$document->disableScript('/media/system/js/modal.js');
 
 			return true;
 		}

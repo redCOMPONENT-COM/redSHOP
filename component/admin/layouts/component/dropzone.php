@@ -18,7 +18,15 @@ extract($displayData);
 	.dropzone .dz-preview.dz-image-preview{padding: 0; margin: 0; width: 100%; overflow: hidden;}
 	.dropzone .dz-preview.dz-image-preview .dz-details{opacity: 1; padding: 0; max-width: initial; min-height: auto; position: relative;}
 
-	.modal-content .modal-body{max-height: initial;}
+	.modal-content{border-radius: 6px; box-sizing: border-box; width: 100%;}
+	.modal-content .modal-body{max-height: initial; margin: 20px; padding: 0; width: auto;}
+
+	.btn-toolbar .btn-primary{background-color: #286090; color: #fff;}
+	.btn-toolbar .btn-danger{background-color: #d9534f; color: #fff;}
+
+	.text-center{text-align: center;}
+
+	.btn-toolbar .float-none{float: none;}
 </style>
 
 <!-- Dropzone Container -->
@@ -26,6 +34,17 @@ extract($displayData);
 	<div class="fallback">
 		<input name="file" type="file"/>
 	</div>
+</div>
+<div class="btn-toolbar">
+	<button type="button" class="btn btn-small btn-primary cropping">
+		<span class="fa fa-crop"></span>
+		Crop Picture
+	</button>
+	<!-- button -->
+	<button type="button" class="btn btn-small btn-danger removing">
+		<span class="fa fa-trash"></span>
+		Remove
+	</button>
 </div>
 <!-- End Dropzone Container -->
 
@@ -46,24 +65,43 @@ extract($displayData);
 <!-- End Dropzone Template -->
 
 <!-- Cropper Modal -->
-<div id="cropModal" class="modal" tabindex="-1" role="dialog">
+<div id="cropModal" class="modal fade in" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Modal title</h4>
+				<h4 class="modal-title">Cropping Image</h4>
 			</div>
 			<div class="modal-body">
 				<div class="image-container"></div>
 			</div>
-			<div class="modal-footer btn-toolbar">
-				<button type="button" class="btn btn-small" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-small btn-success crop-upload">Crop Image</button>
+			<div class="modal-footer btn-toolbar text-center">
+				<button type="button" class="btn btn-small float-none" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-small btn-success float-none crop-upload">Crop</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End Cropper Modal -->
+
+<!-- Alert Modal -->
+<div id="alertModal" class="modal fade in" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title"><i class="fa fa-warning text-yellow"></i> Warning</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert-text text-center"></div>
+			</div>
+			<div class="modal-footer btn-toolbar text-center">
+				<button type="button" class="btn btn-small float-none" data-dismiss="modal">Close</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End Alert Modal -->
 
 <script>
 	//$(function(){
@@ -114,9 +152,18 @@ extract($displayData);
 				}
 			});
 
-			jDropzone.on('thumbnail',  function(file) {
+			$(document).on('click', 'button.cropping',function(e) {
+				e.preventDefault();
 				// ignore files which were already cropped and re-rendered
 				// to prevent infinite loop
+				var file = jDropzone.files[0];
+
+				if (!file) {
+					$('#alertModal').find('.alert-text').text('Please insert an image!!!');
+					$('#alertModal').modal('show');
+					return;
+				}
+
 				if (file.cropped) {
 					return;
 				}
@@ -127,8 +174,6 @@ extract($displayData);
 				}
 				// cache filename to re-assign it to cropped file
 				var cachedFilename = file.name;
-				// remove not cropped file from dropzone (we will replace it later)
-				jDropzone.removeFile(file);
 
 				// dynamically create modals to allow multiple files processing
 				// var $cropperModal = $($.parseHTML(modalTemplate));
@@ -151,7 +196,7 @@ extract($displayData);
 						autoCropArea: 1,
 						movable: false,
 						cropBoxResizable: true,
-						minContainerWidth: "100%",
+						// minContainerWidth: "auto",
 						viewMode: 1,
 						zoomable: false
 					});
@@ -171,13 +216,18 @@ extract($displayData);
 					newFile.cropped = true;
 					// assign original filename
 					newFile.name = cachedFilename;
-
+					// remove not cropped file from dropzone (we will replace it later)
+					jDropzone.removeFile(file);
 					// add cropped file to dropzone
 					jDropzone.addFile(newFile);
 					// upload cropped file with dropzone
 					/*jDropzone.processQueue();*/
 					$cropperModal.modal('hide');
 				});
+			});
+
+			$(document).on('click', 'button.removing',function(e) {
+				jDropzone.removeAllFiles();
 			});
 		}
 	//});

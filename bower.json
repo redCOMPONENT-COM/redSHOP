@@ -22,6 +22,8 @@
   ],
   "dependencies": {
     "cropper": "^2.3.4",
-    "dropzone": "^4.3.0"
+    "dropzone": "^4.3.0",
+    "components-font-awesome": "^4.7.0",
+    "select2": "^4.0.3"
   }
 }
