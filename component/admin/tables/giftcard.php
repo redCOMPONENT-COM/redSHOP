@@ -23,7 +23,7 @@ class RedshopTableGiftcard extends RedshopTable
 	 *
 	 * @var  string
 	 */
-	protected $_tableName = '#__redshop_giftcard';
+	protected $_tableName = 'redshop_giftcard';
 
 	/**
 	 * The table key column. Usually: id
