@@ -42,6 +42,9 @@ node_modules/
 vendor/*
 tests/vendor/*
 
+# Bower
+bower_components/
+
 # Test related files
 tests/system/servers/configdef.php
 tests/system/webdriver/tests/logs/

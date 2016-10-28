@@ -16,7 +16,7 @@ extract($displayData);
 	.dropzone{ border: 1px dashed #ccc; display: flex; align-items: center; }
 	.dropzone .dz-message{margin: 0 auto;}
 	.dropzone .dz-preview.dz-image-preview{padding: 0; margin: 0; width: 100%; overflow: hidden;}
-	.dropzone .dz-preview.dz-image-preview .dz-details{opacity: 1; padding: 0; max-width: initial; min-height: auto;}
+	.dropzone .dz-preview.dz-image-preview .dz-details{opacity: 1; padding: 0; max-width: initial; min-height: auto; position: relative;}
 
 	.modal-content .modal-body{max-height: initial;}
 </style>
@@ -89,6 +89,8 @@ extract($displayData);
 				{
 					autoProcessQueue: false,
 					maxFiles: 1,
+					thumbnailWidth: null,
+					thumbnailHeight: null,
 					previewTemplate: $("#j-dropzone-tpl").html(),
 					// initialize
 					/*init: function() {
