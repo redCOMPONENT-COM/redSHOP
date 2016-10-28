@@ -437,11 +437,11 @@ class order_functions
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getUserFullname() instead
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getUserFullName() instead
 	 */
 	public function getUserFullname($user_id)
 	{
-		return RedshopHelperOrder::getUserFullname($user_id);
+		return RedshopHelperOrder::getUserFullName($user_id);
 	}
 
 	/**
