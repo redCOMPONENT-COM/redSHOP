@@ -15,7 +15,9 @@
  */
 class StateManagerJ3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=state';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=states';
+
+	public static $editUrl = '/administrator/index.php?option=com_redshop&view=state&layout=edit';
 
 	public static $countryIdDropDown = "//div[@id='country_id_chzn']/a";
 

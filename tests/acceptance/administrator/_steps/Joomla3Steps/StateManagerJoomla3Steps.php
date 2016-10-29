@@ -33,7 +33,7 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$stateManagerPage = new \StateManagerJ3Page;
-		$I->amOnPage(\StateManagerJ3Page::$URL);
+		$I->amOnPage(\StateManagerJ3Page::$editUrl);
 		$I->see('States');
 		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Page');
 		$I->click('New');
