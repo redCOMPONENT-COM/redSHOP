@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
 JHTML::_('behavior.tooltip');
 $model = $this->getModel('template_detail');
 $redtemplate = Redtemplate::getInstance();
@@ -49,79 +50,73 @@ $title = JText::_('COM_REDSHOP_AVAILABLE_TEMPLATE_TAGS');
 // Category Template Start
 if ($this->detail->template_section == "category")
 {
-	echo JHtml::_('tabs.panel', $title, 'category-fields'); ?>
-	<table class="adminlist table table-striped">
-		<tr>
-			<td>
-				<?php
-				$tags_front   = $extra_field->getSectionFieldList(2, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(2, 0);
-				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
-				$numberOfTags = count($tags);
+echo JHtml::_('tabs.panel', $title, 'category-fields'); ?>
+<table class="adminlist table table-striped">
+	<?php
+	$tags_front = RedshopHelperExtrafields::getSectionFieldList(2, 1);
+	$tags_admin = RedshopHelperExtrafields::getSectionFieldList(2, 0);
+	$tags       = array_merge((array) $tags_admin, (array) $tags_front);
+	?>
+	<?php if (!empty($tags)): ?>
+	<tr>
+		<td>
+			<h3><?php echo JText::_("COM_REDSHOP_FIELDS") ?></h3>
+			<?php foreach ($tags as $tag): ?>
+				<div style="margin-left:10px;">{<?php echo $tag->field_name ?>} -- <?php echo $tag->field_title ?></div>
+			<?php endforeach; ?>
+		</td>
+	</tr>
+	<?php endif; ?>
+	<?php
+	$tags_front = RedshopHelperExtrafields::getSectionFieldList(1, 1);
+	$tags_admin = RedshopHelperExtrafields::getSectionFieldList(1, 0);
+	$tags       = array_merge((array) $tags_admin, (array) $tags_front);
+	?>
+	<?php if (!empty($tags)): ?>
+	<tr>
+		<td>
+			<h3><?php echo JText::_("COM_REDSHOP_TEMPLATE_PRODUCT_FIELDS_TITLE") ?></h3>
+			<?php foreach ($tags as $tag): ?>
+				<div style="margin-left:10px;">{producttag:<?php echo $tag->field_name ?>} -- <?php echo $tag->field_title ?></div>
+			<?php endforeach; ?>
+		</td>
+	</tr>
+	<?php endif; ?>
+	<tr>
+		<td><?php echo Redtemplate::getTemplateValues('category') ?></td>
+	</tr>
+	<tr>
+		<td>
+			<?php $availableAddtocart = $model->availableaddtocart('add_to_cart'); ?>
+			<?php if (count($availableAddtocart) == 0): ?>
+			<strong><?php echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE"); ?></strong>
+			<?php else: ?>
+				<?php foreach ($availableAddtocart as $tag): ?>
+					<div style="margin-left:10px;">{form_addtocart:<?php echo $tag->template_name ?>} -- <?php echo JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') ?></div>
+				<?php endforeach; ?>
+			<?php endif; ?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?php
+			$related_product = $redtemplate->getTemplate('related_product');
+			if (count($related_product) == 0) echo JText::_("COM_REDSHOP_NO_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE");
+			else echo JText::_("COM_REDSHOP_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE_HINT") . "<br />";
+			for ($i = 0, $in = count($related_product); $i < $in; $i++)
+			{
+				echo '<br /><div style="margin-left:10px;">{related_product_lightbox:' . $related_product[$i]->template_name . '[:lightboxwidth][:lightboxheight]}</div><br />';
 
-				if ($numberOfTags)
+				if ($i == count($related_product) - 1)
 				{
-					echo '<b>' . JText::_("COM_REDSHOP_FIELDS") . '</b>';
+					echo JText::_("COM_REDSHOP_EXAMPLE_TEMPLATE");
+					echo '<br /><div style="margin-left:10px;">{related_product_lightbox:' . $related_product[0]->template_name . ':600:300}</div>';
 				}
-
-				for ($i = 0; $i < $numberOfTags; $i++)
-				{
-					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
-				}    ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php
-				$tags_front   = $extra_field->getSectionFieldList(1, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(1, 0);
-				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
-				$numberOfTags = count($tags);
-
-				if ($numberOfTags)
-				{
-					echo '<b>' . JText::_("COM_REDSHOP_TEMPLATE_PRODUCT_FIELDS_TITLE") . '</b>';
-				}
-
-				for ($i = 0; $i < $numberOfTags; $i++)
-				{
-					echo '<div style="margin-left:10px;">{producttag:' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
-				}    ?>
-			</td>
-		</tr>
-		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('category'); ?></td>
-		</tr>
-		<tr>
-			<td>
-				<?php    $availableaddtocart = $model->availableaddtocart('add_to_cart');
-				if (count($availableaddtocart) == 0) echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
-				for ($i = 0, $in = count($availableaddtocart); $i < $in; $i++)
-				{
-					echo '<div style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</div>';
-				}    ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php
-				$related_product = $redtemplate->getTemplate('related_product');
-				if (count($related_product) == 0) echo JText::_("COM_REDSHOP_NO_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE");
-				else echo JText::_("COM_REDSHOP_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE_HINT") . "<br />";
-				for ($i = 0, $in = count($related_product); $i < $in; $i++)
-				{
-					echo '<br /><div style="margin-left:10px;">{related_product_lightbox:' . $related_product[$i]->template_name . '[:lightboxwidth][:lightboxheight]}</div><br />';
-
-					if ($i == count($related_product) - 1)
-					{
-						echo JText::_("COM_REDSHOP_EXAMPLE_TEMPLATE");
-						echo '<br /><div style="margin-left:10px;">{related_product_lightbox:' . $related_product[0]->template_name . ':600:300}</div>';
-					}
-				}
-				?>
-			</td>
-		</tr>
-	</table>
+			}
+			?>
+		</td>
+	</tr>
+</table>
 	<?php
 	$cat_desc = $redtemplate->getInstallSectionTemplate("category", $setflag = True);
 
@@ -147,10 +142,14 @@ if ($this->detail->template_section == "giftcard")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(13, 1);
-				$tags_admin = $extra_field->getSectionFieldList(13, 0);
+				$tags_front = RedshopHelperExtrafields::getSectionFieldList(13, 1);
+				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(13, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+
+				if (count($tags) == 0):
+					echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				endif;
+
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</div>';
@@ -188,8 +187,8 @@ if ($this->detail->template_section == "product")
 		<tr>
 			<td>
 				<?php
-				$tags_front   = $extra_field->getSectionFieldList(1, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(1, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(1, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(1, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -207,8 +206,8 @@ if ($this->detail->template_section == "product")
 		<tr>
 			<td>
 				<?php
-				$tags_front   = $extra_field->getSectionFieldList(12, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(12, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(12, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(12, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -306,8 +305,8 @@ if ($this->detail->template_section == "product_sample")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(9, 1);
-				$tags_admin = $extra_field->getSectionFieldList(9, 0);
+				$tags_front = RedshopHelperExtrafields::getSectionFieldList(9, 1);
+				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(9, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
@@ -345,8 +344,8 @@ if ($this->detail->template_section == "manufacturer")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(10, 1);
-				$tags_admin = $extra_field->getSectionFieldList(10, 0);
+				$tags_front = RedshopHelperExtrafields::getSectionFieldList(10, 1);
+				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(10, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
@@ -729,8 +728,8 @@ if ($this->detail->template_section == "order_detail")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(14, 1);
-				$tags_admin = $extra_field->getSectionFieldList(14, 0);
+				$tags_front = RedshopHelperExtrafields::getSectionFieldList(14, 1);
+				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(14, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
@@ -743,8 +742,8 @@ if ($this->detail->template_section == "order_detail")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(15, 1);
-				$tags_admin = $extra_field->getSectionFieldList(15, 0);
+				$tags_front = RedshopHelperExtrafields::getSectionFieldList(15, 1);
+				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(15, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
@@ -786,8 +785,8 @@ if ($this->detail->template_section == "order_receipt")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(14, 1);
-				$tags_admin = $extra_field->getSectionFieldList(14, 0);
+				$tags_front = RedshopHelperExtrafields::getSectionFieldList(14, 1);
+				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(14, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
@@ -800,8 +799,8 @@ if ($this->detail->template_section == "order_receipt")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(15, 1);
-				$tags_admin = $extra_field->getSectionFieldList(15, 0);
+				$tags_front = RedshopHelperExtrafields::getSectionFieldList(15, 1);
+				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(15, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
@@ -892,8 +891,8 @@ if ($this->detail->template_section == "order_print")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(14, 1);
-				$tags_admin = $extra_field->getSectionFieldList(14, 0);
+				$tags_front = RedshopHelperExtrafields::getSectionFieldList(14, 1);
+				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(14, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
@@ -906,8 +905,8 @@ if ($this->detail->template_section == "order_print")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(15, 1);
-				$tags_admin = $extra_field->getSectionFieldList(15, 0);
+				$tags_front = RedshopHelperExtrafields::getSectionFieldList(15, 1);
+				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(15, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
@@ -1028,8 +1027,8 @@ if ($this->detail->template_section == "related_product")
 		<tr>
 			<td>
 				<?php
-				$tags_front   = $extra_field->getSectionFieldList(1, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(1, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(1, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(1, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -1047,8 +1046,8 @@ if ($this->detail->template_section == "related_product")
 		<tr>
 			<td>
 				<?php
-				$tags_front   = $extra_field->getSectionFieldList(12, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(12, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(12, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(12, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -1066,8 +1065,8 @@ if ($this->detail->template_section == "related_product")
 		<tr>
 			<td>
 				<?php
-				$tags_front   = $extra_field->getSectionFieldList(1, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(1, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(1, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(1, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -1085,8 +1084,8 @@ if ($this->detail->template_section == "related_product")
 		<tr>
 			<td>
 				<?php
-				$tags_front   = $extra_field->getSectionFieldList(12, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(12, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(12, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(12, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -1104,8 +1103,8 @@ if ($this->detail->template_section == "related_product")
 		<tr>
 			<td>
 				<?php
-				$tags_front   = $extra_field->getSectionFieldList(1, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(1, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(1, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(1, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -1123,8 +1122,8 @@ if ($this->detail->template_section == "related_product")
 		<tr>
 			<td>
 				<?php
-				$tags_front   = $extra_field->getSectionFieldList(12, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(12, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(12, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(12, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -1142,8 +1141,8 @@ if ($this->detail->template_section == "related_product")
 		<tr>
 			<td>
 				<?php
-				$tags_front   = $extra_field->getSectionFieldList(1, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(1, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(1, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(1, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -1161,8 +1160,8 @@ if ($this->detail->template_section == "related_product")
 		<tr>
 			<td>
 				<?php
-				$tags_front   = $extra_field->getSectionFieldList(12, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(12, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(12, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(12, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -1180,8 +1179,8 @@ if ($this->detail->template_section == "related_product")
 		<tr>
 			<td>
 				<?php
-				$tags_front   = $extra_field->getSectionFieldList(1, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(1, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(1, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(1, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -1199,8 +1198,8 @@ if ($this->detail->template_section == "related_product")
 		<tr>
 			<td>
 				<?php
-				$tags_front   = $extra_field->getSectionFieldList(12, 1);
-				$tags_admin   = $extra_field->getSectionFieldList(12, 0);
+				$tags_front   = RedshopHelperExtrafields::getSectionFieldList(12, 1);
+				$tags_admin   = RedshopHelperExtrafields::getSectionFieldList(12, 0);
 				$tags         = array_merge((array) $tags_admin, (array) $tags_front);
 				$numberOfTags = count($tags);
 
@@ -1559,8 +1558,8 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 		<tr>
 			<td>
 				<?php
-				$tags_front = $extra_field->getSectionFieldList(6, 1);
-				$tags_admin = $extra_field->getSectionFieldList(6, 0);
+				$tags_front = RedshopHelperExtrafields::getSectionFieldList(6, 1);
+				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(6, 0);
 				$tags = array_merge((array) $tags_admin, (array) $tags_front);
 				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
 
