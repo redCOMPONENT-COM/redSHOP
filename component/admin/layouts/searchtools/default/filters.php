@@ -13,11 +13,13 @@ $data = $displayData;
 
 // Check for show on fields.
 $filters = $data['view']->filterForm->getGroup('filter');
+
 foreach ($filters as $field)
 {
 	if ($showonstring = $field->getAttribute('showon'))
 	{
 		$showonarr = array();
+
 		foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield)
 		{
 			$showon   = explode(':', $showonfield, 2);
@@ -27,6 +29,7 @@ foreach ($filters as $field)
 				'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
 			);
 		}
+
 		$data['view']->filterForm->setFieldAttribute($field->fieldname, 'dataShowOn', json_encode($showonarr), $field->group);
 	}
 }
