@@ -28,13 +28,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				'view' => $this,
 				'options' => array(
 					'searchField' => 'search',
-					'filtersHidden' => false,
 					'searchFieldSelector' => '#filter_search',
-					'countryIdFieldSelector' => '#filter_country_id',
 					'limitFieldSelector' => '#list_users_limit',
 					'activeOrder' => $listOrder,
 					'activeDirection' => $listDirn,
-					'showListNumber' => false
 				)
 			)
 		);
