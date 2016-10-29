@@ -21,7 +21,7 @@ class ManageAdministratorNoticesCest
 	{
 		$this->allExtensionPages = array (
 			'Category Manager' => '/administrator/index.php?option=com_redshop&view=category',
-			'Country Manager' => '/administrator/index.php?option=com_redshop&view=country',
+			'Country Manager' => '/administrator/index.php?option=com_redshop&view=countries',
 			'Product Manager' => '/administrator/index.php?option=com_redshop&view=product',
 			'Manufacturer Manager' => '/administrator/index.php?option=com_redshop&view=manufacturer',
 			'Media Manager' => '/administrator/index.php?option=com_redshop&view=media',

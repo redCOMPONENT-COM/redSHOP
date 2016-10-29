@@ -39,7 +39,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 		</div>
 		<?php if ($filterButton) : ?>
 			<div class="btn-wrapper hidden-phone">
-				<button type="button" class="btn hasTooltip js-stools-btn-filter" title="<?php echo JHtml::tooltipText('JSEARCH_TOOLS_DESC'); ?>">
+				<button type="button" class="btn js-stools-btn-filter btn-large btn-primary">
 					<?php echo JText::_('JSEARCH_TOOLS');?> <span class="caret"></span>
 				</button>
 			</div>
