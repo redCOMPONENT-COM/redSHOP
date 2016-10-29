@@ -22,8 +22,6 @@ JHTML::_('behavior.tooltip');
  */
 class order_functions
 {
-	public $_orderstatuslist = null;
-
 	protected static $instance = null;
 
 	/**
@@ -53,7 +51,7 @@ class order_functions
 	 */
 	public function resetOrderId()
 	{
-		return RedshopHelperOrder::resetOrderId();
+		RedshopHelperOrder::resetOrderId();
 	}
 
 	/**
@@ -82,7 +80,7 @@ class order_functions
 	 */
 	public function updateOrderStatus($order_id, $newstatus)
 	{
-		return RedshopHelperOrder::updateOrderStatus($order_id, $newstatus);
+		RedshopHelperOrder::updateOrderStatus($order_id, $newstatus);
 	}
 
 	/**
@@ -110,7 +108,7 @@ class order_functions
 	 */
 	public function changeorderstatus($data)
 	{
-		return RedshopHelperOrder::changeOrderStatus($data);
+		RedshopHelperOrder::changeOrderStatus($data);
 	}
 
 	/**
@@ -125,7 +123,7 @@ class order_functions
 	 */
 	public function updateOrderPaymentStatus($order_id, $newstatus)
 	{
-		return RedshopHelperOrder::updateOrderPaymentStatus($order_id, $newstatus);
+		RedshopHelperOrder::updateOrderPaymentStatus($order_id, $newstatus);
 	}
 
 	/**
@@ -140,7 +138,7 @@ class order_functions
 	 */
 	public function updateOrderComment($order_id, $comment = '')
 	{
-		return RedshopHelperOrder::updateOrderComment($order_id, $comment);
+		RedshopHelperOrder::updateOrderComment($order_id, $comment);
 	}
 
 	/**
@@ -155,7 +153,7 @@ class order_functions
 	 */
 	public function updateOrderRequisitionNumber($order_id, $requisition_number = '')
 	{
-		return RedshopHelperOrder::updateOrderRequisitionNumber($order_id, $requisition_number);
+		RedshopHelperOrder::updateOrderRequisitionNumber($order_id, $requisition_number);
 	}
 
 	/**
@@ -173,7 +171,7 @@ class order_functions
 	 */
 	public function updateOrderItemStatus($orderId = 0, $productId = 0, $newStatus = '', $comment = '', $orderItemId = 0)
 	{
-		return RedshopHelperOrder::updateOrderItemStatus($orderId, $productId, $newStatus, $comment, $orderItemId);
+		RedshopHelperOrder::updateOrderItemStatus($orderId, $productId, $newStatus, $comment, $orderItemId);
 	}
 
 	/**
@@ -245,7 +243,7 @@ class order_functions
 	 */
 	public function update_status()
 	{
-		return RedshopHelperOrder::updateStatus();
+		RedshopHelperOrder::updateStatus();
 	}
 
 	/**
@@ -309,27 +307,21 @@ class order_functions
 	/**
 	 * Get Order Payment Detail
 	 *
-	 * @param   integer  $order_id          Order Id
-	 * @param   integer  $payment_order_id  Payment order id
+	 * @param   integer  $orderId         Order Id
+	 * @param   integer  $paymentOrderId  Payment order id
 	 *
-	 * @deprecated 1.5   Use RedshopHelperOrder::getPaymentInfo instead
+	 * @deprecated 1.5   Use RedshopHelperOrder::getPaymentInfo or RedshopHelperOrder::getOrderPaymentDetail instead
 	 *
 	 * @return  array    order payment info
 	 */
-	public function getOrderPaymentDetail($order_id, $payment_order_id = 0)
+	public function getOrderPaymentDetail($orderId, $paymentOrderId = 0)
 	{
-		if (!$payment_order_id)
+		if (!$paymentOrderId)
 		{
-			return array(RedshopHelperOrder::getPaymentInfo($order_id));
+			return array(RedshopHelperOrder::getPaymentInfo($orderId));
 		}
-		else
-		{
-			$db = JFactory::getDbo();
-			$query = 'SELECT * FROM #__redshop_order_payment WHERE payment_order_id = ' . (int) $payment_order_id;
-			$db->setQuery($query);
 
-			return $db->loadObjectlist();
-		}
+		return RedshopHelperOrder::getOrderPaymentDetail($paymentOrderId);
 	}
 
 	/**
@@ -351,7 +343,7 @@ class order_functions
 	 *
 	 * @param   string  $shipping_class  Shipping class
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getShippingMethodInfo() instead
 	 */
@@ -365,7 +357,7 @@ class order_functions
 	 *
 	 * @param   string  $payment_method_class  Payment method class
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getPaymentMethodInfo() instead
 	 */
@@ -379,7 +371,7 @@ class order_functions
 	 *
 	 * @param   integer  $user_id  User ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getBillingAddress() instead
 	 */
@@ -407,7 +399,7 @@ class order_functions
 	 *
 	 * @param   integer  $user_id  User Id
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getShippingAddress() instead
 	 */
@@ -497,7 +489,7 @@ class order_functions
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::generateOrderNumber() instead
 	 */
-	function generateOrderNumber()
+	public function generateOrderNumber()
 	{
 		return RedshopHelperOrder::generateOrderNumber();
 	}
@@ -550,7 +542,7 @@ class order_functions
 	 *
 	 * @param   integer  $order_id  Order ID
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::sendDownload() instead
 	 */
@@ -614,7 +606,7 @@ class order_functions
 	 */
 	public function getpaymentinformation($row, $post)
 	{
-		return RedshopHelperOrder::getPaymentInformation($row, $post);
+		RedshopHelperOrder::getPaymentInformation($row, $post);
 	}
 
 	/**
@@ -626,7 +618,7 @@ class order_functions
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getShippingLocationInfo() instead
 	 */
-	function getshippinglocationinfo($shippingname)
+	public function getshippinglocationinfo($shippingname)
 	{
 		return RedshopHelperOrder::getShippingLocationInfo($shippingname);
 	}
@@ -634,16 +626,16 @@ class order_functions
 	/**
 	 * Generate barcode
 	 *
-	 * @param   integer  $lenth       Length
+	 * @param   integer  $length      Length
 	 * @param   integer  $barcodekey  Key
 	 *
 	 * @return  object
 	 *
 	 * @deprecated  __DEPLOY_VERSION__
 	 */
-	public function barcode_randon_number($lenth = 12, $barcodekey = 0)
+	public function barcode_randon_number($length = 12, $barcodekey = 0)
 	{
-		return "";
+		return null;
 	}
 
 	/**
@@ -652,13 +644,13 @@ class order_functions
 	 * @param   integer  $oid      Length
 	 * @param   integer  $barcode  Key
 	 *
-	 * @return  object
+	 * @return  null
 	 *
 	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public function updatebarcode($oid, $barcode)
 	{
-		return "";
+		return null;
 	}
 
 	/**
@@ -688,7 +680,7 @@ class order_functions
 	 */
 	public function changeOrderStatusMail($order_id, $newstatus, $order_comment = '')
 	{
-		return RedshopHelperOrder::changeOrderStatusMail($order_id, $newstatus, $order_comment);
+		RedshopHelperOrder::changeOrderStatusMail($order_id, $newstatus, $order_comment);
 	}
 
 	/**
@@ -703,7 +695,7 @@ class order_functions
 	 */
 	public function createBookInvoice($order_id, $order_status)
 	{
-		return RedshopHelperOrder::createBookInvoice($order_id, $order_status);
+		RedshopHelperOrder::createBookInvoice($order_id, $order_status);
 	}
 
 	/**
@@ -731,7 +723,7 @@ class order_functions
 	 */
 	public static function generateInvoicePDF($orderId)
 	{
-		return RedshopHelperOrder::generateInvoicePdf($orderId);
+		RedshopHelperOrder::generateInvoicePdf($orderId);
 	}
 
 	/**
@@ -739,15 +731,15 @@ class order_functions
 	 *
 	 * @param   integer  $order_id       Order Information ID
 	 * @param   string   $order_status   Order Status Code
-	 * @param   string   $paymentstatus  Order Payment Status Code
+	 * @param   string   $paymentStatus  Order Payment Status Code
 	 *
 	 * @return  void
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::createWebPackLabel() instead
 	 */
-	public function createWebPacklabel($order_id, $order_status, $paymentstatus)
+	public function createWebPacklabel($order_id, $order_status, $paymentStatus)
 	{
-		return RedshopHelperOrder::createWebPackLabel($order_id, $order_status, $paymentstatus);
+		RedshopHelperOrder::createWebPackLabel($order_id, $order_status, $paymentStatus);
 	}
 
 	/**
