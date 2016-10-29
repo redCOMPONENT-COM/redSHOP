@@ -42,7 +42,8 @@ class RedshopModelStates extends RedshopModelList
 				'state_2_code',
 				'check_out',
 				'check_out_time',
-				'show_state'
+				'show_state',
+				'c.country_name', 'country_name'
 			);
 		}
 
@@ -135,17 +136,21 @@ class RedshopModelStates extends RedshopModelList
 			$query->where($db->qn('s.country_id') . ' = ' . $db->q($countryId));
 		}
 
-		$query->order($db->qn('s.id'), 'ASC');
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering', 'id');
+		$orderDirn = $this->state->get('list.direction', 'asc');
+
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
 	}
 
 	/**
 	 * Method to get country name
-	 * 
+	 *
 	 * @param   int  $countryId  An optional ordering field.
 	 *
-	 * @return  void
+	 * @return  object
 	 *
 	 * @note    Calling getState in this method will result in recursion.
 	 */
