@@ -1251,7 +1251,7 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'countries') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=country',
+				'index.php?option=com_redshop&task=country.add',
 				'COM_REDSHOP_ADD_COUNTRY',
 				(self::$view == 'country') ? true : false
 			);
@@ -1273,7 +1273,7 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'states') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=state',
+				'index.php?option=com_redshop&task=state.add',
 				'COM_REDSHOP_ADD_STATE',
 				(self::$view == 'state') ? true : false
 			);

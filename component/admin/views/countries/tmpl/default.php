@@ -33,7 +33,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					'limitFieldSelector' => '#list_users_limit',
 					'activeOrder' => $listOrder,
 					'activeDirection' => $listDirn,
-					'showFilter' => false
+					'showFilter' => false,
+					'showListNumber' => false
 				)
 			)
 		);
@@ -44,7 +45,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 	<?php else : ?>
-	<table class="adminlist table table-striped">
+	<table class="adminlist table table-striped table-hover">
 		<thead>
 		<tr>
 			<th width="5"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
@@ -84,11 +85,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</tbody>
 		<tfoot>
 		<td colspan="9">
-			<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-				<div class="redShopLimitBox">
-					<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
-			<?php endif; ?>
 			<?php echo $this->pagination->getListFooter(); ?>
 		</td>
 		</tfoot>
