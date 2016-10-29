@@ -1,6 +1,7 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
+
 -- -----------------------------------------------------
 -- Table `#__redshop_accessmanager`
 -- -----------------------------------------------------
@@ -1927,7 +1928,7 @@ COMMENT = 'redSHOP Site Viewer';
 DROP TABLE IF EXISTS `#__redshop_state` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_state` (
-  `state_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `country_id` INT(11) NULL DEFAULT NULL,
   `state_name` VARCHAR(64) NULL DEFAULT NULL,
   `state_3_code` CHAR(3) NULL DEFAULT NULL,
@@ -1935,7 +1936,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_state` (
   `checked_out` INT(11) NOT NULL,
   `checked_out_time` DATETIME NOT NULL,
   `show_state` INT(11) NOT NULL DEFAULT '2',
-  PRIMARY KEY (`state_id`),
+  PRIMARY KEY (`id`),
   UNIQUE INDEX `#__rs_idx_state_3_code` (`country_id` ASC, `state_3_code` ASC),
   UNIQUE INDEX `#__rs_idx_state_2_code` (`country_id` ASC, `state_2_code` ASC),
   INDEX `#__rs_state_country_fk1` (`country_id` ASC),

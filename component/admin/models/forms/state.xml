@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field
+			name="id"
+			type="hidden"
+			/>
+		<field
+            name="country_id"
+            type="rcountries"
+            label="COM_REDSHOP_COUNTRY"
+            description="COM_REDSHOP_COUNTRY_DESC"
+            required="true">
+        	<option value="">COM_REDSHOP_SELECT_COUNTRY</option>
+        </field>
+		<field
+			name="state_name"
+			type="text"
+			label="COM_REDSHOP_STATE_NAME"
+			description="COM_REDSHOP_STATE_NAME_TOOLTIP"
+			size="40"
+			class="inputbox"
+			default=""
+			required="true"
+			/>
+		<field
+			name="state_3_code"
+			type="text"
+			label="COM_REDSHOP_STATE_3_CODE"
+			description="COM_REDSHOP_STATE_3_CODE_TOOLTIP"
+			size="40"
+			class="inputbox"
+			default=""
+			required="true"
+			/>
+		<field
+			name="state_2_code"
+			type="text"
+			label="COM_REDSHOP_STATE_2_CODE"
+			description="COM_REDSHOP_STATE_2_CODE_TOOLTIP"
+			size="40"
+			class="inputbox"
+			default=""
+			required="true"
+			/>
+		<field
+			name="show_state"
+			type="radio"
+			label="COM_REDSHOP_SHOW_STATE"
+			description="COM_REDSHOP_SHOW_STATE_TOOLTIP"
+			class="btn-group btn-group-yesno"
+			default="2"
+			required="true"
+		>
+			<option value="2">COM_REDSHOP_TWO_LETTER_ABBRIVATION</option>
+			<option value="3">COM_REDSHOP_THREE_LETTER_ABBRIVATION</option>
+		</field>
+	</fieldset>
+</form>
