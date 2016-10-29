@@ -210,8 +210,8 @@ class RedshopMenuLeft_Menu
 				return array('VAT_AND_CURRENCY', 'country');
 				break;
 
+			case "states":
 			case "state":
-			case "state_detail":
 				return array('VAT_AND_CURRENCY', 'state');
 				break;
 
@@ -1268,14 +1268,14 @@ class RedshopMenuLeft_Menu
 		$menu->section('state')
 			->title('COM_REDSHOP_STATE')
 			->addItem(
-				'index.php?option=com_redshop&view=state',
+				'index.php?option=com_redshop&view=states',
 				'COM_REDSHOP_STATE_LISTING',
-				(self::$view == 'state') ? true : false
+				(self::$view == 'states') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=state_detail',
+				'index.php?option=com_redshop&view=state',
 				'COM_REDSHOP_ADD_STATE',
-				(self::$view == 'state_detail') ? true : false
+				(self::$view == 'state') ? true : false
 			);
 	}
 
