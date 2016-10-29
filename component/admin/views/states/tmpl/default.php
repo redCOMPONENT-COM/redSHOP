@@ -13,24 +13,22 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 ?>
 
-<form 
-	action="<?php echo 'index.php?option=com_redshop&view=states'; ?>" 
-	class="admin" 
-	method="post" 
-	name="adminForm" 
+<form
+	action="<?php echo 'index.php?option=com_redshop&view=states'; ?>"
+	class="admin"
+	method="post"
+	name="adminForm"
 	id="adminForm"
 >
 	<div class="filterTool">
 		<?php
-		echo JLayoutHelper::render(
-			'joomla.searchtools.default',
+		echo RedshopLayoutHelper::render(
+			'searchtools.default',
 			array(
 				'view' => $this,
 				'options' => array(
 					'searchField' => 'search',
-					'filtersHidden' => false,
 					'searchFieldSelector' => '#filter_search',
-					'countryIdFieldSelector' => '#filter_country_id',
 					'limitFieldSelector' => '#list_users_limit',
 					'activeOrder' => $listOrder,
 					'activeDirection' => $listDirn,
@@ -52,11 +50,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<th width="10">
 				<?php echo JHtml::_('redshopgrid.checkall'); ?>
 			</th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_NAME'), 's.state_name', $listDirn, $listOrder);?></th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_COUNTRY_NAME'), 'c.country_name', $listDirn, $listOrder);?></th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_3_CODE'), 's.state_3_code', $listDirn, $listOrder);?></th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_2_CODE'), 's.state_2_code', $listDirn, $listOrder);?></th>
-			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ID'), 's.id', $listDirn, $listOrder); ?></th>
+			<th width="auto"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_NAME'), 'state_name', $listDirn, $listOrder);?></th>
+			<th nowrap="nowrap" width="20%">
+				<?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_COUNTRY_NAME'), 'country_name', $listDirn, $listOrder);?>
+			</th>
+			<th width="10%">
+				<?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_3_CODE'), 'state_3_code', $listDirn, $listOrder) ?>
+			</th>
+			<th width="10%">
+				<?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_STATE_2_CODE'), 'state_2_code', $listDirn, $listOrder) ?>
+			</th>
+			<th align="right" width="1"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ID'), 'id', $listDirn, $listOrder); ?></th>
 		</tr>
 		</thead>
 		<?php
@@ -64,9 +68,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		$k = 0;
 		for ($i = 0, $n = count($this->items); $i < $n; $i++)
 		{
-			$row = $this->items[$i];
-			$row->id = $row->id;
-
+			$row  = $this->items[$i];
 			$link = JRoute::_('index.php?option=com_redshop&task=state.edit&id=' . $row->id);
 
 			?>
@@ -77,11 +79,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<a href="<?php echo $link; ?>"
 					   title="<?php echo JText::_('COM_REDSHOP_EDIT_state'); ?>"><?php echo $row->state_name ?></a></td>
 
-				<td align="center" width="10%"><?php echo $row->country_name; ?></td>
-				<td align="center" width="10%"><?php echo $row->state_3_code; ?></td>
-				<td align="center" width="10%"><?php echo $row->state_2_code; ?></td>
+				<td><?php echo $row->country_name; ?></td>
+				<td><?php echo $row->state_3_code; ?></td>
+				<td><?php echo $row->state_2_code; ?></td>
 
-				<td align="center" width="10%"><?php echo $row->id;?></td>
+				<td><?php echo $row->id;?></td>
 
 			</tr>
 			<?php
@@ -91,11 +93,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		?>
 		<tfoot>
 			<td colspan="14">
-				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-					<div class="redShopLimitBox">
-						<?php echo $this->pagination->getLimitBox(); ?>
-					</div>
-				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 		</tfoot>
@@ -105,5 +102,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<input type="hidden" name="view" value="states">
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
+	<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

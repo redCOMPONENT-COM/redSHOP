@@ -11,7 +11,7 @@ JHtml::_('behavior.formvalidator');
 ?>
 
 <form
-	action="index.php?option=com_redshop&task=state.edit&id=<?php echo $this->item->id; ?>"
+	action="index.php?option=com_redshop&task=state.edit&id=<?php echo $this->item->id ?>"
 	method="post"
 	id="adminForm"
 	name="adminForm"
@@ -19,21 +19,17 @@ JHtml::_('behavior.formvalidator');
 	enctype="multipart/form-data"
 >
 	<fieldset class="adminform">
-		<?php foreach ($this->form->getFieldset('details') as $field) : ?>
-			<?php if ($field->hidden) : ?>
-				<?php echo $field->input;?>
-			<?php endif; ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $field->label; ?>
-				</div>
-				<div class="controls">
-					<?php echo $field->input; ?>
-				</div>
-			</div>
-		<?php endforeach; ?>
+        <div class="row-fluid">
+            <div class="col-sm-12">
+				<?php echo $this->form->renderField('state_name') ?>
+				<?php echo $this->form->renderField('country_id') ?>
+				<?php echo $this->form->renderField('state_3_code') ?>
+				<?php echo $this->form->renderField('state_2_code') ?>
+				<?php echo $this->form->renderField('show_state') ?>
+            </div>
+        </div>
 	</fieldset>
 	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="id" value="<?php echo $this->item->id; ?>" />
+	<input type="hidden" name="id" value="<?php echo $this->item->id ?>" />
 </form>

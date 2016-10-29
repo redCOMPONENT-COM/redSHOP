@@ -44,11 +44,11 @@ $showFilter = isset($data['options']['showFilter']) ? (boolean) $data['options']
 		</div>
 	</div>
 	<!-- Filters div -->
-    <?php if ($showFilter): ?>
+	<?php if ($showFilter): ?>
 	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersClass; ?>">
 		<?php echo RedshopLayoutHelper::render('searchtools.default.filters', $data); ?>
 	</div>
-    <?php endif; ?>
+	<?php endif; ?>
 </div>
 <?php if ($data['options']['totalResults'] === 0) : ?>
 	<?php echo RedshopLayoutHelper::render('searchtools.default.noitems', $data); ?>
