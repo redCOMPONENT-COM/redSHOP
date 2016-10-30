@@ -80,7 +80,13 @@ gulp.task('clean:' + baseTask + ':frontend', function(cb) {
 gulp.task('clean:' + baseTask + ':backend', function(cb) {
     del(config.wwwDir + '/administrator/language/**/*.com_redshop.*', {force: true});
 
-    return del(config.wwwDir + '/administrator/components/com_redshop', {force : true});
+    return del([
+        config.wwwDir + '/administrator/components/com_redshop/**',
+        '!' + config.wwwDir + '/administrator/components/com_redshop',
+        '!' + config.wwwDir + '/administrator/components/com_redshop/config',
+        '!' + config.wwwDir + '/administrator/components/com_redshop/config/*.php'
+
+        ], {force : true});
 });
 
 // Clean: media
