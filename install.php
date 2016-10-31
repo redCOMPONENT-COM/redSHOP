@@ -868,6 +868,7 @@ class Com_RedshopInstallerScript
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/update';
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/sef_ext';
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/meta_ext';
+		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/barcode';
 
 		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/update.php';
 		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php';
