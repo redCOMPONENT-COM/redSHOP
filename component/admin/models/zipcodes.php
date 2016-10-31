@@ -66,7 +66,7 @@ class RedshopModelZipcodes extends RedshopModelList
 		$this->setState('filter.search', $search);
 
 		// List state information.
-		parent::populateState('zipcode', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -128,6 +128,12 @@ class RedshopModelZipcodes extends RedshopModelList
 		{
 			$query->where($db->qn('z.zipcode') . ' LIKE ' . $db->q('%' . $search . '%'));
 		}
+
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering', 'z.id');
+		$orderDirn = $this->state->get('list.direction', 'asc');
+
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
 	}
