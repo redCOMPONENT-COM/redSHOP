@@ -63,7 +63,7 @@ class RedshopModelCurrencies extends RedshopModelList
 		$this->setState('filter.search', $search);
 
 		// List state information.
-		parent::populateState('currency_name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**

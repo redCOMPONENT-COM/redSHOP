@@ -14,9 +14,8 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller
- * @since       [version> [<description>]
+ * @since       __DEPLOY_VERSION__
  */
-
 class RedshopControllerCountry extends RedshopControllerForm
 {
 }
