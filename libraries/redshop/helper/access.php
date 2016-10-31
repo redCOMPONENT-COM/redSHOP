@@ -91,9 +91,9 @@ class RedshopHelperAccess
 		{
 			$view = "shipping";
 		}
-		elseif ($view == "tax_group_detail" || $view == "tax_detail" || $view == "tax")
+		elseif ($view == "taxgroup" || $view == "tax_detail" || $view == "tax")
 		{
-			$view = "tax_group";
+			$view = "taxgroup";
 		}
 		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
 		{

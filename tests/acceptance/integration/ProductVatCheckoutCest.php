@@ -41,11 +41,11 @@ class ProductVatCheckoutCest
 		$I->wantTo('Test to Verify the Vat Integration with product checkout');
 		$I->doAdministratorLogin();
 
-		$I->amOnPage('/administrator/index.php?option=com_redshop&view=tax_group');
+		$I->amOnPage('/administrator/index.php?option=com_redshop&view=taxgroups');
 		$I->waitForText('VAT / Tax Group Management', 30, ['xpath' => "//h1"]);
 		$I->click("New");
-		$I->waitForElement(['id' => "tax_group_name"], 30);
-		$I->fillField(['id' => "tax_group_name"], $this->vatGroupName);
+		$I->waitForElement(['id' => "jform_tax_group_name"], 30);
+		$I->fillField(['id' => "jform_tax_group_name"], $this->vatGroupName);
 		$I->click(["xpath" => "//input[@name='published' and @value='1']"]);
 		$I->click("Save & Close");
 		$I->waitForText("VAT Group Detail saved", 10, '.alert-message');
@@ -99,7 +99,7 @@ class ProductVatCheckoutCest
 		$I->see("$ 2,40", ['class' => "lc-vat"]);
 		$I->see("$ 26,40", ['class' => "lc-total"]);
 		$I->doAdministratorLogin();
-		$I->amOnPage("/administrator/index.php?option=com_redshop&view=tax_group");
+		$I->amOnPage("/administrator/index.php?option=com_redshop&view=taxgroups");
 		$I->waitForText('VAT / Tax Group Management', 30, ['xpath' => "//h1"]);
 		$I->click("ID");
 		$I->see($this->vatGroupName, ['xpath' => "//div[@id='editcell']/table/tbody/tr[1]"]);

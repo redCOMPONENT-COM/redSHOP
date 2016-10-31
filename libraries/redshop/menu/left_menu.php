@@ -194,8 +194,8 @@ class RedshopMenuLeft_Menu
 				return array('USER', 'accessmanager');
 				break;
 
-			case "tax_group":
-			case "tax_group_detail":
+			case "taxgroups":
+			case "taxgroup":
 			case "tax":
 				return array('VAT_AND_CURRENCY', 'tax');
 				break;
@@ -1202,14 +1202,14 @@ class RedshopMenuLeft_Menu
 		$menu->section('tax_group')
 			->title('COM_REDSHOP_TAX_GROUP')
 			->addItem(
-				'index.php?option=com_redshop&view=tax_group',
+				'index.php?option=com_redshop&view=taxgroups',
 				'COM_REDSHOP_TAX_GROUP_LISTING',
-				(self::$view == 'tax_group') ? true : false
+				(self::$view == 'taxgroups') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=tax_group_detail',
+				'index.php?option=com_redshop&task=taxgroup.add',
 				'COM_REDSHOP_TAX_GROUP_DETAIL',
-				(self::$view == 'tax_group_detail') ? true : false
+				(self::$view == 'taxgroup') ? true : false
 			);
 	}
 
