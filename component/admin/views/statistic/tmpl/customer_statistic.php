@@ -9,9 +9,6 @@
 defined('_JEXEC') or die;
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
 $productHelper = productHelper::getInstance();
-
-$start = $this->pagination->limitstart;
-$end = $this->pagination->limit;
 ?>
 <script type="text/javascript">
 	//Load the Visualization API and the piechart package.
@@ -155,16 +152,8 @@ $end = $this->pagination->limit;
 				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'); ?></th>
 			</tr>
 			</thead>
-			<?php    $disdate = "";
-			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
-			{
-				if (!isset($this->customers[$i]) || !is_object($this->customers[$i]))
-				{
-					break;
-				}
-
-				$row = $this->customers[$i];
-				?>
+			<?php foreach ($this->customers as $i => $row) : ?>
+				<?php if (!empty($row->total_sale)) : ?>
 				<tr>
 					<td align="center"><?php echo $row->viewdate; ?></td>
 					<td align="center"><a href="index.php?option=com_redshop&view=user_detail&task=edit&user_id=<?php echo $row->user_id ?>&cid[]=<?php echo $row->users_info_id; ?>"><?php echo $row->firstname . ' ' . $row->lastname; ?></a></td>
@@ -172,16 +161,8 @@ $end = $this->pagination->limit;
 					<td align="center"><?php echo $row->count; ?></td>
 					<td align="center"><?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?></td>
 				</tr>
-			<?php }    ?>
-			<tfoot>
-			<td colspan="4">
-				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-					<div class="redShopLimitBox">
-						<?php echo $this->pagination->getLimitBox(); ?>
-					</div>
 				<?php endif; ?>
-				<?php echo $this->pagination->getListFooter(); ?></td>
-			</tfoot>
+			<?php endforeach; ?>
 		</table>
 	</div>
 	<input type="hidden" name="view" value="statistic"/>

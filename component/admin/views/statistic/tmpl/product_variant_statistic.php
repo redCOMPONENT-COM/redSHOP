@@ -9,6 +9,12 @@
 defined('_JEXEC') or die;
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
 $productHelper = productHelper::getInstance();
+$total = 0;
+
+foreach ($this->productVariants as $itemId => $data) 
+{
+	$total += $data['total_sale'];
+}
 ?>
 <script type="text/javascript">
 	//Load the Visualization API and the piechart package.
@@ -23,10 +29,11 @@ $productHelper = productHelper::getInstance();
 	function drawChart() {
 		var data = google.visualization.arrayToDataTable([
 			['<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>', {role: 'style'}, {role: 'annotation'}],
-			<?php if (count($this->products) > 0) :?>
-				<?php foreach ($this->products as $row) : ?>
+			<?php if ($total > 0) :?>
+				<?php foreach ($this->productVariants as $row) : ?>
+					<?php $row = (object) $row; ?>
 					<?php if (!empty($row->total_sale)) : ?>
-	         		['<?php echo $row->product_name ?>', <?php echo $row->total_sale; ?>, 'blue', '<?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?>'],
+	         		['<?php echo $row->product_name . '(' . $row->product_attribute . ')'; ?>', <?php echo $row->total_sale; ?>, 'blue', '<?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?>'],
 	         		<?php endif; ?>
 	       	 	<?php endforeach; ?>
 	       	 <?php else: ?>
@@ -71,7 +78,7 @@ $productHelper = productHelper::getInstance();
 			};
 
 		//Instantiate and draw our chart, passing in some options.
-		var chart = new google.visualization.ColumnChart(document.getElementById('product_statistic_chart'));
+		var chart = new google.visualization.ColumnChart(document.getElementById('product_variant_statistic_chart'));
 		chart.draw(data, options);
 	}
 
@@ -141,30 +148,35 @@ $productHelper = productHelper::getInstance();
 				</td>
 			</tr>
 		</table>
-		<div id="product_statistic_chart"></div>
+		<div id="product_variant_statistic_chart"></div>
 		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_DATE'); ?></th>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
-				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_SKU'); ?></th>
-				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'); ?></th>
+				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTES'); ?></th>
+				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE_SKU'); ?></th>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_UNIT'); ?></th>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'); ?></th>
 			</tr>
 			</thead>
-			<?php foreach ($this->products as $i => $row) : ?>
-				<?php if (!empty($row->total_sale)) : ?>
-				<tr>
-					<td align="center"><?php echo $row->viewdate; ?></td>
-					<td align="center"><a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]=<?php echo $row->product_id; ?>"><?php echo $row->product_name; ?></a></td>
-					<td align="center"><?php echo $row->product_number; ?></td>
-					<td align="center"><?php echo $row->manufacturer_name; ?></td>
-					<td align="center"><?php echo $row->unit_sold; ?></td>
-					<td align="center"><?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?></td>
-				</tr>
-				<?php endif; ?>
-			<?php endforeach; ?>
+			<?php if ($total > 0) :?>
+				<?php
+				foreach ($this->productVariants as $itemId => $data) :
+					$row = (object) $data;
+				?>
+					<?php if (!empty($row->total_sale)) : ?>
+					<tr>
+						<td align="center"><?php echo $row->viewdate; ?></td>
+						<td align="center"><a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]=<?php echo $row->product_id; ?>"><?php echo $row->product_name; ?></a></td>
+						<td align="center"><?php echo $row->product_attribute; ?></td>
+						<td align="center"><?php echo $row->product_attribute_sku; ?></td>
+						<td align="center"><?php echo $row->unit_sold; ?></td>
+						<td align="center"><?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?></td>
+					</tr>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			<?php endif; ?>
 		</table>
 	</div>
 	<input type="hidden" name="view" value="statistic"/>

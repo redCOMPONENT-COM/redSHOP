@@ -176,6 +176,42 @@ class RedshopControllerStatistic extends RedshopControllerAdmin
 	}
 
 	/**
+	 * Export products CSV.
+	 *
+	 * @return  mixed.
+	 *
+	 * @since   2.0.0.3
+	 */
+	public function exportProductVariant()
+	{
+		$productHelper = productHelper::getInstance();
+		$model         = $this->getModel();
+		$data          = $model->getProductVariants();
+
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header("Content-type: text/x-csv");
+		header("Content-type: text/csv");
+		header("Content-type: application/csv");
+		header('Content-Disposition: attachment; filename=ProductVariant.csv');
+
+		ob_clean();
+
+		echo "Date, Product name, Product attributes, Product attribute SKU, Unit sold, Total sale\n";
+
+		foreach ($data as $key => $value)
+		{
+			echo $value->viewdate . " ,";
+			echo $value->product_name . " ,";
+			echo $value->section_name . " ,";
+			echo $value->property_number . " ,";
+			echo $value->unit_sold . " ,";
+			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . ' ' . $value->total_sale . "\n";
+		}
+
+		exit ();
+	}
+
+	/**
 	 * Export customers CSV.
 	 *
 	 * @return  mixed.
