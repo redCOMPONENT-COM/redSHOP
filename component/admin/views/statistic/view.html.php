@@ -162,6 +162,14 @@ class RedshopViewStatistic extends RedshopViewAdmin
 			$this->products = $this->get('Products');
 			$total          = count($this->products);
 		}
+		elseif ($layout == 'product_variant_statistic')
+		{
+			$this->setLayout('product_variant_statistic');
+			$this->export          = 'exportProductVariant';
+			$title                 = JText::_('COM_REDSHOP_STATISTIC_PRODUCT_VARIANT');
+			$this->productVariants = $this->get('ProductVariants');
+			$total                 = count($this->productVariants);
+		}
 		elseif ($layout == 'quotation_statistic')
 		{
 			$this->setLayout('quotation_statistic');
