@@ -85,7 +85,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
 		$I->filterListBySearching($deleteItem);
-		$I->click('//*[@id="editcell"]/div[2]/table/tbody/tr[1]/td[2]/div/ins');
+		$I->click('//*[@id="editcell"]/div[2]/table/tbody/tr/td[2]/div');
 		$I->click('Delete');
 		$I->dontSeeElement(['link' => $deleteItem]);
 	}
