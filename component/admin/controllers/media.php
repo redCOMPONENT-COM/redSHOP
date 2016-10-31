@@ -237,7 +237,7 @@ class RedshopControllerMedia extends RedshopController
 		echo new JResponseJson(
 			array(
 			'success' => true,
-			'file' => $filename
+			'file' => '/components/com_redshop/assets/images/tmp/' . $filename
 			)
 		);
 

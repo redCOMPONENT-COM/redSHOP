@@ -144,7 +144,7 @@ $ilink = JRoute::_(
 <!-- End Media Modal -->
 
 <script>
-	//$(function(){
+	// jQuery(function($){
 
 		// transform cropper dataURI output to a Blob which Dropzone accepts
 		function dataURItoBlob(dataURI) {
@@ -154,15 +154,12 @@ $ilink = JRoute::_(
 			for (var i = 0; i < byteString.length; i++) {
 				ia[i] = byteString.charCodeAt(i);
 			}
-			return new Blob([ab], { type: 'image/jpeg' });
+			return new Blob([ab], { type: 'image/jpg' });
 		}
 
 		Dropzone.autoDiscover = false;
 
 		var mediaUrl = 'index.php?option=com_redshop&view=media&task=ajaxUpload';
-
-		var image    =  '<?php echo $image ?>';
-		console.log(image);
 
 		var dropzoneFromHtml = $("#j-dropzone-form").html();
 		$('body').append(dropzoneFromHtml);
@@ -176,14 +173,25 @@ $ilink = JRoute::_(
 					thumbnailWidth: null,
 					thumbnailHeight: null,
 					previewTemplate: $("#j-dropzone-tpl").html(),
+					<?php if (!empty($file)) { ?>
 					// initialize
-					/*init: function() {
-						this.on('addedfile', function(file) {
-							if (this.files.length > 1) {
-								this.removeFile(this.files[0]);
-							}
-						})
-					}*/
+					init: function() {
+						var file = {
+							    name: "<?php echo $file['name'] ?>",
+							    size: <?php echo $file['size'] ?>,
+							    status: Dropzone.ADDED,
+							    accepted: true,
+							    url: "<?php echo $file['path'] ?>",
+							    blob: "<?php echo $file['blob'] ?>",
+							    preload: true
+							};
+						newfile = dataURItoBlob(file.blob);
+						this.emit("addedfile", file);
+						// And optionally show the thumbnail of the file:
+						this.emit("thumbnail", file, file.url);
+						this.files.push(file);
+					}
+					<?php } ?>
 				}
 			);
 
@@ -204,9 +212,10 @@ $ilink = JRoute::_(
 				}
 			});
 
-			jDropzone.on('complete', function(file, response){
+			jDropzone.on('success', function(file, response){
+				response = JSON.parse(response);
 				if (response.success) {
-					$(".img-select").val(response.file);
+					$(".img-select").val(response.data.file);
 				}
 			});
 
@@ -221,10 +230,6 @@ $ilink = JRoute::_(
 					$('#alertModal').modal('show');
 					return;
 				}
-
-				// if (file.cropped) {
-				// 	return;
-				// }
 
 				if (file.width < 100) {
 					// validate width to prevent too small files to be uploaded
@@ -245,24 +250,28 @@ $ilink = JRoute::_(
 				var reader = new FileReader();
 				reader.onloadend = function () {
 					// add uploaded and read image to modal
-					$cropperModal.find('.image-container').html($img);
 					$img.attr('src', reader.result);
+					$cropperModal.find('.image-container').html($img);
 
 					// initialize cropper for uploaded image
 					$img.cropper({
 						// aspectRatio: 16 / 9,
 						dragMode: 'move',
-						autoCropArea: 1,
+						autoCropArea: .5,
 						movable: false,
 						cropBoxResizable: true,
-						minCropBoxWidth: 200,
-						// minContainerWidth: "auto",
-						viewMode: 1,
+						// minCropBoxWidth: 200,
+						// minContainerWidth: 400,
+						viewMode: 2,
 						zoomable: false
 					});
 				};
 				// read uploaded file (triggers code above)
-				reader.readAsDataURL(file);
+				if (file.preload) {
+					reader.readAsDataURL(dataURItoBlob(file.blob));
+				} else {
+					reader.readAsDataURL(file);
+				}
 
 				// unbind event click Crop button
 				$uploadCrop.off('click');
@@ -298,5 +307,5 @@ $ilink = JRoute::_(
 		// 	console.log(e);
   //           $("#mediaModal").find(".media-lib").load($(e.relatedTarget).data('href'));
   //       });
-	//});
+	// });
 </script>

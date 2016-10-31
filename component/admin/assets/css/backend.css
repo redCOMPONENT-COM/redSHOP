@@ -161,7 +161,7 @@ input[type="search"]::-webkit-search-decoration {
 }
 
 input, button, select, textarea {
-  ont-family: 'Roboto', sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 fieldset {
@@ -17537,7 +17537,7 @@ sub {
 
 img {
   max-width: 100%;
-  width: auto \9;
+  width: auto;
   height: auto;
   vertical-align: middle;
   border: 0;
