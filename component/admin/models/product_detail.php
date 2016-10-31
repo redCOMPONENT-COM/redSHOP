@@ -346,7 +346,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$src = JPATH_ROOT . '/' . $data['product_image'];
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
 
-				copy($src, $dest);
+				rename($src, $dest);
 			}
 		}
 

@@ -31,14 +31,27 @@ class RedshopHelperMediaImage
 	{
 		if (self::requireDependencies())
 		{
-			$image = JRoute::_('/components/com_redshop/assets/images/' . $mediaSection . '/' . $image);
+			$imgUrl = JRoute::_('/components/com_redshop/assets/images/' . $mediaSection . '/' . $image);
+			$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $mediaSection . '/' . $image;
+
+			$file = array();
+
+			if (file_exists($imgFile))
+			{
+				$file = array(
+					'path' => $imgUrl,
+					'name' => $image,
+					'size' => filesize($imgFile) ? filesize($imgFile) : 0,
+					'blob' => 'data: ' . mime_content_type($imgFile) . ';base64,' . base64_encode(file_get_contents($imgFile))
+				);
+			}
 
 			echo RedshopLayoutHelper::render(
 				'component.dropzone',
 				array(
 					'sectionId'    => $sectionId,
 					'mediaSection' => $mediaSection,
-					'image'        => $image
+					'file'         => $file
 				)
 			);
 		}
@@ -61,13 +74,14 @@ class RedshopHelperMediaImage
 		if (file_exists($dropzonePath) && file_exists($cropperPath))
 		{
 			$document->addStylesheet('/media/com_reditem/dropzone/dist/min/dropzone.min.css');
-			$document->addStylesheet('/media/com_reditem/css/select2/select2.css');
-			$document->addStylesheet('/media/com_reditem/css/select2/select2-bootstrap.css');
+			// $document->addStylesheet('/media/com_reditem/css/select2/select2.css');
+			// $document->addStylesheet('/media/com_reditem/css/select2/select2-bootstrap.css');
 			$document->addStylesheet('/media/com_reditem/cropper/dist/cropper.min.css');
 
 			$document->addScript('/media/com_reditem/dropzone/dist/min/dropzone.min.js');
 			$document->addScript('/media/com_reditem/cropper/dist/cropper.min.js');
-			$document->addScript('/media/com_reditem/js/select2/select2.js');
+			$document->addScript('/media/com_redshop/js/modal-uncompressed.js');
+			// $document->addScript('/media/com_reditem/js/select2/select2.js');
 			$document->disableScript('/media/jui/js/bootstrap.min.js');
 			$document->disableScript('/media/system/js/modal.js');
 
