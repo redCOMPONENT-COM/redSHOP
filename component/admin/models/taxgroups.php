@@ -36,9 +36,9 @@ class RedshopModelTaxgroups extends RedshopModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
-				'tax_group_name',
-				'published',
+				'id', 'id',
+				'tax_group_name', 'tax_group_name',
+				'published', 'published',
 			);
 		}
 
@@ -63,7 +63,7 @@ class RedshopModelTaxgroups extends RedshopModelList
 		$this->setState('filter.search', $search);
 
 		// List state information.
-		parent::populateState('tax_group_name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -114,6 +114,12 @@ class RedshopModelTaxgroups extends RedshopModelList
 				$query->where($db->qn('tax_group_name') . ' LIKE ' . $search);
 			}
 		}
+
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering', 'id');
+		$orderDirn = $this->state->get('list.direction', 'asc');
+
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
 	}

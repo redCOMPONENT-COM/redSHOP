@@ -422,7 +422,7 @@ VALUES
 	(16, 'PRT', 'Partially Returned', 1),
 	(17, 'PRC', 'Partially Reclamation', 1);
 
-INSERT IGNORE INTO `#__redshop_state` (`state_id`, `country_id`, `state_name`, `state_3_code`, `state_2_code`) VALUES
+INSERT IGNORE INTO `#__redshop_state` (`id`, `country_id`, `state_name`, `state_3_code`, `state_2_code`) VALUES
 	(1, 223, 'Alabama', 'ALA', 'AL'),
 	(2, 223, 'Alaska', 'ALK', 'AK'),
 	(3, 223, 'Arizona', 'ARZ', 'AZ'),

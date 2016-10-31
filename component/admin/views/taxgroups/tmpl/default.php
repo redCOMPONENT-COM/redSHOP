@@ -19,17 +19,20 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	name="adminForm">
 	<div class="filterTool">
 		<?php
-		echo JLayoutHelper::render(
-			'joomla.searchtools.default',
+		echo RedshopLayoutHelper::render(
+			'searchtools.default',
 			array(
 				'view' => $this,
 				'options' => array(
 					'searchField' => 'search',
 					'filtersHidden' => false,
+					'filterButton' => false,
 					'searchFieldSelector' => '#filter_search',
 					'limitFieldSelector' => '#list_users_limit',
 					'activeOrder' => $listOrder,
 					'activeDirection' => $listDirn,
+					'showFilter' => false,
+					'showListNumber' => false
 				)
 			)
 		);
@@ -107,4 +110,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<input type="hidden" name="view" value="taxgroups"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
+	<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn ?>" />
 </form>
