@@ -88,7 +88,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		//$I->fillField(\CustomFieldManagerJoomla3Page::$optionValueField,$option);
 		$I->click('Save & Close');
 		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage,10,\CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
-        //$I->click('//*[@id="editcell"]/div[1]/div[1]/div/input[3]');
+       // $I->click('//*[@id="editcell"]/div[1]/div[1]/div/input[3]');
 		if ($type == "Country selection box")
 		{
 			$I->executeJS('window.scrollTo(0,0)');
@@ -122,10 +122,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName,30);
 		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $updatedTitle);
 		$I->click('Save & Close');
-		// $I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage,10,\CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
-		// $I->see($updatedTitle, \CustomFieldManagerJoomla3Page::$firstResultRow);
-		// $I->executeJS('window.scrollTo(0,0)');
-		// $I->click(['link' => 'ID']);
+		
 	}
 
 	/**

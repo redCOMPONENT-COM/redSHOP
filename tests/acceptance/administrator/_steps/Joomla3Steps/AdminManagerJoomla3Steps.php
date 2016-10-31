@@ -158,7 +158,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	public function filterListBySearching($text, $searchField = ['id' => 'filter'])
 	{
 		$I = $this;
-		$I->click('//*[@id="editcell"]/div[1]/div[1]/div/input[3]');
+		$I->click('Reset');
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
