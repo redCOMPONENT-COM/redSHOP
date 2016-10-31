@@ -762,7 +762,7 @@ if(!JRequest::getvar('ajaxtask')) {    ?>
 <input type="hidden" name="cdate" value="<?php echo time(); ?>"/>
 <input type="hidden" name="mdate" value="<?php echo time(); ?>"/>
 <input type="hidden" name="encr_key" value="<?php echo $order_functions->random_gen_enc_key(); ?>"/>
-
+<input type="hidden" name="token" value="<?php echo JSession::getFormToken(); ?>"/>
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->order_id; ?>"/>
 <input type="hidden" name="task" value=""/>
 <input type="hidden" name="option" value="com_redshop"/>
