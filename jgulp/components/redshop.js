@@ -80,9 +80,15 @@ gulp.task('clean:' + baseTask + ':frontend', function(cb) {
 
 // Clean: backend
 gulp.task('clean:' + baseTask + ':backend', function(cb) {
-    del(config.wwwDir + '/administrator/language/**/*.com_reditem.*', {force: true});
+    del(config.wwwDir + '/administrator/language/**/*.com_redshop.*', {force: true});
 
-    return del(config.wwwDir + '/administrator/components/com_reditem', {force : true});
+    return del([
+        config.wwwDir + '/administrator/components/com_redshop/**',
+        '!' + config.wwwDir + '/administrator/components/com_redshop',
+        '!' + config.wwwDir + '/administrator/components/com_redshop/config',
+        '!' + config.wwwDir + '/administrator/components/com_redshop/config/*.php'
+
+        ], {force : true});
 });
 
 // Clean: media
@@ -155,7 +161,7 @@ gulp.task('copy:' + baseTask + ':backend', ['clean:' + baseTask + ':backend'], f
 // Copy: media
 gulp.task('copy:' + baseTask + ':media', ['clean:' + baseTask + ':media'], function() {
     return gulp.src(mediaPath + '/**')
-        .pipe(gulp.dest(config.wwwDir + '/media/com_reditem'));
+        .pipe(gulp.dest(config.wwwDir + '/media/com_redshop'));
 });
 
 // Copy: bower

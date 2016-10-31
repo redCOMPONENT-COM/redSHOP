@@ -328,17 +328,31 @@ class RedshopModelCategory extends RedshopModel
 			$query->where('p.manufacturer_id = ' . (int) $manufacturerId);
 		}
 
-		$query->select('p.product_id')
+		$query->select($db->qn('p.product_id'))
 			->from($db->qn('#__redshop_product', 'p'))
-			->leftJoin('#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
-			->where(
-				array(
-					'p.published = 1', 'p.expired = 0',
-					'pc.category_id = ' . (int) $this->_id,
-					'p.product_parent_id = 0'
-				)
-			)
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id'))
+			->where($db->qn('p.published') . ' = 1')
+			->where($db->qn('p.expired') . ' = 0')
+			->where($db->qn('p.product_parent_id') . ' = 0')
 			->order($orderBy);
+
+		$filterIncludeProductFromSubCat = $this->getState('include_sub_categories_products', false);
+		$categories = array($this->_id);
+
+		if ($filterIncludeProductFromSubCat === true)
+		{
+			$tmpCategories = RedshopHelperCategory::getCategoryTree($this->_id);
+
+			if (!empty($tmpCategories))
+			{
+				foreach ($tmpCategories as $child)
+				{
+					$categories[] = $child->category_id;
+				}
+			}
+		}
+
+		$query->where($db->qn('pc.category_id') . ' IN (' . implode(',', $categories) . ')');
 
 		$finder_condition = $this->getredproductfindertags();
 
@@ -380,7 +394,7 @@ class RedshopModelCategory extends RedshopModel
 				)
 				->leftJoin('#__redshop_category AS c ON c.category_id = pc.category_id')
 				->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id')
-				->where('pc.category_id = ' . (int) $this->_id);
+				->where('pc.category_id IN (' . implode(',', $categories) . ')');
 
 			if ($products = $db->setQuery($query)->loadObjectList('concat_id'))
 			{
