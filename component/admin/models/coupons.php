@@ -37,19 +37,15 @@ class RedshopModelCoupons extends RedshopModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
-				'coupon_code',
-				'percent_or_total',
-				'coupon_value',
-				'start_date',
-				'end_date',
-				'coupon_type',
-				'userid',
-				'coupon_left',
-				'published',
-				'subtotal',
-				'order_id',
-				'free_shipping'
+				'id', 'id',
+				'coupon_code', 'coupon_code',
+				'percent_or_total', 'percent_or_total',
+				'coupon_value', 'coupon_value',
+				'userid', 'userid',
+				'coupon_type', 'coupon_type',
+				'coupon_value', 'coupon_value',
+				'coupon_left', ' coupon_left',
+				'published', 'published',
 			);
 		}
 
@@ -74,7 +70,7 @@ class RedshopModelCoupons extends RedshopModelList
 		$this->setState('filter.search', $search);
 
 		// List state information.
-		parent::populateState('coupon_code', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**

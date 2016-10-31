@@ -17,13 +17,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<div id="editcell">
 		<div class="filterTool">
 			<?php
-				echo JLayoutHelper::render(
-					'joomla.searchtools.default',
+				echo RedshopLayoutHelper::render(
+					'searchtools.default',
 					array(
 						'view' => $this,
 						'options' => array(
 							'searchField' => 'search',
-							'filtersHidden' => false,
 							'searchFieldSelector' => '#filter_search',
 							'limitFieldSelector' => '#list_users_limit',
 							'activeOrder' => $listOrder,
@@ -162,5 +161,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="coupons"/>
 	<input type="hidden" name="boxchecked" value="0"/>
+	<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
