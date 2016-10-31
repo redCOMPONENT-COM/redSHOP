@@ -44,7 +44,7 @@ function pluginRelease(group, name) {
                 fileName += '-v' + result.extension.version[0] + '.zip';
 
                 // We will output where release package is going so it is easier to find
-                console.log('Creating new plugin release file in: ' + path.join(config.releaseDir + '/plugins', fileName));
+                console.log('Plugin release file in: ' + path.join(config.releaseDir + '/plugins', fileName));
 
                 return gulp.src('./plugins/' + group + '/' + name + '/**')
                     .pipe(zip(fileName))
@@ -74,7 +74,7 @@ function moduleRelease(group, name) {
                 fileName += '-v' + result.extension.version[0] + '.zip';
 
                 // We will output where release package is going so it is easier to find
-                console.log('Creating new module release file in: ' + path.join(config.releaseDir + '/modules/' + group, fileName));
+                console.log('Module release file in: ' + path.join(config.releaseDir + '/modules/' + group, fileName));
 
                 return gulp.src('./modules/' + group + '/' + name + '/**')
                     .pipe(zip(fileName))
@@ -236,6 +236,8 @@ gulp.task("release:redshop", ["composer:libraries.redshop"], function (cb) {
         parser.parseString(data, function (err, result) {
             var version  = result.extension.version[0];
             var fileName = argv.skipVersion ? "redshop.zip" : "redshop-v" + version + ".zip";
+
+            console.log('Create redSHOP release file in: ' + path.join(config.releaseDir + '/', fileName));
 
             return gulp.src([
                 "./component/**/*",

@@ -9,7 +9,13 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerState extends RedshopController
+/**
+ * The state controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller.State
+ * @since       2.0.0.4
+ */
+class RedshopControllerState extends RedshopControllerForm
 {
 }

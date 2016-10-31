@@ -69,7 +69,7 @@ class RedshopHelperText
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function replaceTexts($data)
+	public static function replaceTexts($data)
 	{
 		if ($textData = self::getTextLibraryData())
 		{

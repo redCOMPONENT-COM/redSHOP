@@ -22,25 +22,22 @@ JFactory::getDocument()->addScriptDeclaration('
 ');
 ?>
 
-<form action="index.php?option=com_redshop&task=country.edit&id=<?php echo $this->item->id; ?>"
+<form action="index.php?option=com_redshop&task=country.edit&id=<?php echo $this->item->id ?>"
 	method="post"
 	id="adminForm"
 	name="adminForm"
 	class="form-validate form-horizontal"
 	enctype="multipart/form-data">
 	<fieldset class="adminform">
-		<table class="admintable table">
-			<?php foreach ($this->form->getFieldset('details') as $field) : ?>
-				<?php if ($field->hidden) : ?>
-					<?php echo $field->input;?>
-				<?php endif; ?>
-				<tr>
-					<td class="key"><?php echo $field->label; ?></td>
-					<td><?php echo $field->input; ?></td>
-				</tr>
-			<?php endforeach; ?>
-		</table>
-		<input type="hidden" name="id" value="<?php echo $this->item->id; ?>" />
+		<div class="row-fluid">
+			<div class="col-sm-12">
+				<?php echo $this->form->renderField('country_name') ?>
+				<?php echo $this->form->renderField('country_3_code') ?>
+				<?php echo $this->form->renderField('country_2_code') ?>
+				<?php echo $this->form->renderField('country_jtext') ?>
+			</div>
+		</div>
+		<input type="hidden" name="id" value="<?php echo $this->item->id ?>" />
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
