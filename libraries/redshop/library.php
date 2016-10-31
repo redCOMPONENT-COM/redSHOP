@@ -35,6 +35,9 @@ if (file_exists($composerAutoload))
 $lang = JFactory::getLanguage();
 $lang->load('lib_redshop', JPATH_SITE);
 
+// Load redSHOP language
+$lang->load('com_redshop', JPATH_SITE);
+
 // Load redSHOP factory file
 JLoader::import('redshop.redshop');
 
