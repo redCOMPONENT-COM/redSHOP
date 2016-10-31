@@ -43,7 +43,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($couponManagerPage->couponValueIn($couponValueIn));
 		$I->click('Save & Close');
 		$I->waitForElement(['id' => 'system-message-container'], 60);
-		$I->see('Coupon detail saved', '.alert-success');
+		$I->see('Item successfully saved.', '.alert-success');
 		$I->seeElement(['link' => $couponCode]);
 	}
 
@@ -59,17 +59,15 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CouponManagerJ3Page::$URL);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-		$I->see($couponCode, \CouponManagerJ3Page::$firstResultRow);
-		$I->click(\CouponManagerJ3Page::$selectFirst);
-		$I->click('Edit');
+		$I->filterListBySearching($couponCode);
+		$I->click(['link' => $couponCode]);
+		$I->waitForText('Coupon Management:', 60, ['css' => 'H1']);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Coupon Edit View');
-		$I->waitForElement(\CouponManagerJ3Page::$couponCode, 20);
 		$I->fillField(\CouponManagerJ3Page::$couponCode, $newCouponCode);
 		$I->click('Save & Close');
-		$I->waitForElement(['id' => 'system-message-container'], 60);
-		$I->see('Coupon detail saved', '.alert-success');
+		$I->waitForText('Coupon Management', 10, 'h1');
+		$I->see('Item successfully saved', ['id' => 'system-message-container']);
+		$I->filterListBySearching($newCouponCode);
 		$I->seeElement(['link' => $newCouponCode]);
 	}
 
@@ -82,7 +80,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCoupon($couponCode = 'Test Coupon')
 	{
-		$this->delete(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$firstResultRow, \CouponManagerJ3Page::$selectFirst);
+		$this->delete(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$couponResultRow, \CouponManagerJ3Page::$selectFirst);
 	}
 
 	/**
@@ -95,6 +93,6 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchCoupon($couponCode = 'Test Coupon', $functionName = 'Search')
 	{
-		$this->search(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$firstResultRow, $functionName);
+		$this->search(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$couponResultRow, $functionName);
 	}
 }

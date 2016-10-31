@@ -115,9 +115,9 @@ class RedshopHelperAccess
 		{
 			$view = "voucher";
 		}
-		elseif ($view == "coupon_detail")
+		elseif ($view == "coupon")
 		{
-			$view = "coupon";
+			$view = "coupons";
 		}
 
 		$query = $db->getQuery(true)
@@ -179,9 +179,9 @@ class RedshopHelperAccess
 		{
 			$view = "voucher";
 		}
-		elseif ($view == "coupon_detail")
+		elseif ($view == "coupon")
 		{
-			$view = "coupon";
+			$view = "coupons";
 		}
 
 		$query = $db->getQuery(true)
@@ -243,9 +243,9 @@ class RedshopHelperAccess
 		{
 			$view = "voucher";
 		}
-		elseif ($view == "coupon_detail")
+		elseif ($view == "coupon")
 		{
-			$view = "coupon";
+			$view = "coupons";
 		}
 
 		$query = $db->getQuery(true)
@@ -307,9 +307,9 @@ class RedshopHelperAccess
 		{
 			$view = "voucher";
 		}
-		elseif ($view == "coupon_detail")
+		elseif ($view == "coupon")
 		{
-			$view = "coupon";
+			$view = "coupons";
 		}
 
 		$query = $db->getQuery(true)

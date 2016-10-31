@@ -210,7 +210,7 @@ COMMENT = 'Country records';
 DROP TABLE IF EXISTS `#__redshop_coupons` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_coupons` (
-  `coupon_id` INT(16) NOT NULL AUTO_INCREMENT,
+  `id` INT(16) NOT NULL AUTO_INCREMENT,
   `coupon_code` VARCHAR(32) NOT NULL DEFAULT '',
   `percent_or_total` TINYINT(4) NOT NULL,
   `coupon_value` DECIMAL(12,2) NOT NULL DEFAULT '0.00',
@@ -223,17 +223,17 @@ CREATE TABLE IF NOT EXISTS `#__redshop_coupons` (
   `subtotal` INT(11) NOT NULL,
   `order_id` INT(11) NOT NULL,
   `free_shipping` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`coupon_id`),
-  INDEX `idx_coupon_code` (`coupon_code` ASC),
-  INDEX `idx_percent_or_total` (`percent_or_total` ASC),
-  INDEX `idx_start_date` (`start_date` ASC),
-  INDEX `idx_end_date` (`end_date` ASC),
-  INDEX `idx_coupon_type` (`coupon_type` ASC),
-  INDEX `idx_userid` (`userid` ASC),
-  INDEX `idx_coupon_left` (`coupon_left` ASC),
-  INDEX `idx_published` (`published` ASC),
-  INDEX `idx_subtotal` (`subtotal` ASC),
-  INDEX `idx_order_id` (`order_id` ASC))
+  PRIMARY KEY (`id`),
+  INDEX `#__rs_idx_coupon_code` (`coupon_code` ASC),
+  INDEX `#__rs_idx_percent_or_total` (`percent_or_total` ASC),
+  INDEX `#__rs_idx_start_date` (`start_date` ASC),
+  INDEX `#__rs_idx_end_date` (`end_date` ASC),
+  INDEX `#__rs_idx_coupon_type` (`coupon_type` ASC),
+  INDEX `#__rs_idx_userid` (`userid` ASC),
+  INDEX `#__rs_idx_coupon_left` (`coupon_left` ASC),
+  INDEX `#__rs_idx_published` (`published` ASC),
+  INDEX `#__rs_idx_subtotal` (`subtotal` ASC),
+  INDEX `#__rs_idx_order_id` (`order_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Coupons';

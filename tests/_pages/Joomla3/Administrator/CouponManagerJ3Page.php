@@ -15,22 +15,25 @@
  */
 class CouponManagerJ3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=coupon';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=coupons';
 
-	public static $couponCode = "//input[@id='coupon_code']";
+	public static $couponCode = "//input[@id='jform_coupon_code']";
 
-	public static $couponValue = "//input[@id='coupon_value']";
+	public static $couponValue = "//input[@id='jform_coupon_value']";
 
-	public static $couponLeft = "//input[@id='coupon_left']";
+	public static $couponLeft = "//input[@id='jform_coupon_left']";
 
-	public static $couponValueInDropDown = "//div[@id='s2id_percent_or_total']/a";
+	public static $couponValueInDropDown = "//div[@id='s2id_jform_percent_or_total']/a";
 
-	public static $couponTypeDropDown = "//div[@id='coupon_type_chzn']/a";
+	public static $couponTypeDropDown = "//div[@id='jform_coupon_type_chzn']/a";
 
 	public static $selectFirst = "//input[@id='cb0']/following-sibling::ins";
 
-	// //table[@class='test-redshop-table']//tr[@class='test-redshop-table'][1]//td[@class='test-redshop-coupon-checkall']
-	public static $firstResultRow = ['class' => "test-redshop-table-row"];
+	public static $searchField = "//input[@id='filter_search']";
+
+	public static $searchButton = "//input[@value='Search']";
+
+	public static $couponResultRow = "//form[@id='adminForm']/table/tbody/tr[1]";
 
 	/**
 	 * Function to get path for CouponValueIn
@@ -53,9 +56,9 @@ class CouponManagerJ3Page
 	 *
 	 * @return string
 	 */
-	public function couponType($couponType)
+	public static function couponType($couponType)
 	{
-		$path = "//div[@id='coupon_type_chzn']/div/ul/li[contains(text(), '" . $couponType . "')]";
+		$path = "//div[@id='jform_coupon_type_chzn']/div/ul/li[contains(text(), '" . $couponType . "')]";
 
 		return $path;
 	}

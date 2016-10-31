@@ -1231,7 +1231,7 @@ class RedshopModelCheckout extends RedshopModel
 			$giftcardmailsub   = str_replace('{giftcard_value}', $giftcard_value, $giftcardmailsub);
 			$giftcardmailsub   = str_replace('{giftcard_validity}', $giftcardData->giftcard_validity, $giftcardmailsub);
 			$gift_code         = $this->_order_functions->random_gen_enc_key(12);
-			$couponItems       = $this->getTable('coupon_detail');
+			$couponItems       = $this->getTable('Coupon');
 
 			if ($giftcardData->customer_amount)
 			{
@@ -1943,7 +1943,7 @@ class RedshopModelCheckout extends RedshopModel
 				$transaction_coupon_id = 0;
 				$coupontype[]          = 'c:' . $cart['coupon'][$i]['coupon_code'];
 
-				$rowcouponDetail = $this->getTable('coupon_detail');
+				$rowcouponDetail = $this->getTable('Coupon');
 				$sql             = "UPDATE " . $this->_table_prefix . "coupons SET coupon_left = coupon_left - " . (int) $coupon_volume . " "
 					. "WHERE coupon_id  = " . (int) $coupon_id;
 				$this->_db->setQuery($sql);

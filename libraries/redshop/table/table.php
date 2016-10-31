@@ -561,17 +561,15 @@ class RedshopTable extends JTable
 	}
 
 	/**
-	 * Method for store data to db. Use for extended class can override this function.
+	 * Method to store a node in the database table.
 	 *
 	 * @param   boolean  $updateNulls  True to update null values as well.
 	 *
-	 * @return  boolean
-	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @return  boolean  True on success.
 	 */
 	public function doStore($updateNulls = false)
 	{
-		return parent::store();
+		return parent::store($updateNulls);
 	}
 
 	/**
