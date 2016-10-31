@@ -1040,7 +1040,7 @@ class RedshopHelperShipping
 
 			$sql = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " WHERE " . $db->qn('shipping_class') . " = " . $db->q($shippingClass) . $whereCountry . $whereState . $whereShopper . $zipCond . "
 				AND (( " . $db->q($volume) . " BETWEEN " . $db->qn('shipping_rate_volume_start')
-					. " AND " . $db->qn('shipping_rate_volume_end') . ") OR ( . " . $db->qn('shipping_rate_volume_end') . " = 0) )
+					. " AND " . $db->qn('shipping_rate_volume_end') . ") OR ( " . $db->qn('shipping_rate_volume_end') . " = 0) )
 				AND (( " . $db->q($orderSubtotal) . " BETWEEN " . $db->qn('shipping_rate_ordertotal_start')
 					. " AND " . $db->qn('shipping_rate_ordertotal_end') . ") OR (" . $db->qn('shipping_rate_ordertotal_end') . " = 0))
 				AND (( " . $db->q($weightTotal) . " BETWEEN " . $db->qn('shipping_rate_weight_start')
