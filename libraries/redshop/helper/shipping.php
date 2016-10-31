@@ -117,8 +117,8 @@ class RedshopHelperShipping
 
 			for ($i = 0; $i < $idx; $i++)
 			{
-				$product_id = $cart[$i]['product_id'];
-				$pWhere     .= 'FIND_IN_SET(' . $db->qn((int) $product_id) . ', ' . $db->qn('shipping_rate_on_product') . ')';
+				$product_id  = (int) $cart[$i]['product_id'];
+				$pWhere     .= 'FIND_IN_SET(' . $product_id . ', ' . $db->quoteName('shipping_rate_on_product') . ')';
 
 				if ($i != $idx - 1)
 				{
@@ -128,17 +128,30 @@ class RedshopHelperShipping
 
 			$pWhere    .= ")";
 			$newPwhere = str_replace("AND (", "OR (", $pWhere);
-			$sql       = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " AS sr "
-						. "LEFT JOIN " . $db->qn('#__extensions') . " AS s ON " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . "
-	 	     				 WHERE " . $db->qn('s.folder') . " = " . $db->qn('redshop_shipping') . " AND " . $db->qn('s.enabled') . " = 1 AND " . $whereCountry . $isWhere . "
-							 AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->q($volume) . " AND " . $db->qn('shipping_rate_volume_end') . " >= "
-				. $db->q($volume) . ") OR (" . $db->qn('shipping_rate_volume_end') . " = 0) )
-							 AND ((" . $db->qn('shipping_rate_ordertotal_start') . " <= " . $db->q($orderSubtotal) . " AND " . $db->qn('shipping_rate_ordertotal_end') . " >= "
-				. $db->q($orderSubtotal) . ")  OR (" . $db->qn('shipping_rate_ordertotal_end') . " = 0))
-							 AND ((" . $db->qn('shipping_rate_weight_start') . " <= " . $db->q($weightTotal) . " AND " . $db->qn('shipping_rate_weight_end') . " >= "
-				. $db->q($weightTotal) . ")  OR (" . $db->qn('shipping_rate_weight_end') . " = 0))"
-				. $pWhere . $whereState . $whereShopper . "
-							   ORDER BY " . $db->qn('s.ordering') . ", " . $db->qn('sr.shipping_rate_priority') . " LIMIT 0,1";
+			$sql       = ' SELECT ' . ' * '
+				. ' FROM ' . $db->quoteName('#__redshop_shipping_rate', 'sr')
+				. ' LEFT JOIN ' . $db->quoteName('#__extensions', 's')
+				. ' ON ' . $db->quoteName('sr.shipping_class') . ' = ' . $db->quoteName('s.element')
+				. ' WHERE ' . $db->quoteName('s.folder') . ' = ' . $db->quote('redshop_shipping')
+				. ' AND ' . $db->quoteName('s.enabled') . ' = 1 '
+				. ' AND ' . $whereCountry . $isWhere
+				. ' AND ( '
+				. ' ( ' . $db->quoteName('shipping_rate_volume_start') . ' <= ' . $db->quote($volume) . ' AND ' . $db->quoteName('shipping_rate_volume_end') . ' >= ' . $db->quote($volume) . ' ) '
+				. ' OR ( ' . $db->quoteName('shipping_rate_volume_end') . ' = 0) '
+				. ' ) '
+				. ' AND ( '
+				. ' ( ' . $db->quoteName('shipping_rate_ordertotal_start') . ' <= ' . $db->quote($orderSubtotal) . ' AND ' . $db->quoteName('shipping_rate_ordertotal_end') . ' >= ' . $db->quote($orderSubtotal) . ' ) '
+				. ' OR ( ' . $db->quoteName('shipping_rate_ordertotal_end') . ' = 0 '
+				. ' ) '
+				. ' ) '
+				. ' AND ( '
+				. ' ( ' . $db->quoteName('shipping_rate_weight_start') . ' <= ' . $db->quote($weightTotal)
+				. ' AND ' . $db->quoteName('shipping_rate_weight_end') . ' >= ' . $db->quote($weightTotal)
+				. ' ) '
+				. ' OR ( ' . $db->quoteName('shipping_rate_weight_end') . ' = 0 ' . ' ) '
+				. ' ) '
+				. $pWhere . $whereState . $whereShopper
+				. ' ORDER BY ' . $db->quoteName('s.ordering') . ' , ' . $db->quoteName('sr.shipping_rate_priority') . ' LIMIT 0,1 ';
 
 			$shippingRate = $db->setQuery($sql)->loadObject();
 		}
@@ -176,7 +189,7 @@ class RedshopHelperShipping
 								 LEFT JOIN " . $db->qn('#__extensions') . " AS s
 								 ON
 								 " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . "
-		 	     				 WHERE " . $db->qn('s.folder') . " = " . $db->qn('redshop_shipping') . " AND " . $db->qn('s.enabled') . " = 1 AND" . $whereCountry . $whereShopper . $isWhere . "
+		 	     				 WHERE " . $db->qn('s.folder') . " = " . $db->q('redshop_shipping') . " AND " . $db->qn('s.enabled') . " = 1 AND" . $whereCountry . $whereShopper . $isWhere . "
 								 AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->q($volume) . " AND " . $db->qn('shipping_rate_volume_end') . " >= "
 						. $db->q($volume) . ") OR (" . $db->qn('shipping_rate_volume_end') . " = 0) )
 								 AND ((" . $db->qn('shipping_rate_ordertotal_start') . " <= " . $db->q($orderSubtotal) . " AND " . $db->qn('shipping_rate_ordertotal_end') . " >= "
@@ -197,7 +210,7 @@ class RedshopHelperShipping
 							 LEFT JOIN " . $db->qn('#__extensions') . " AS s
 							 ON
 							 " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . "
-	 	     		WHERE " . $db->qn('s.folder') . " = " . $db->qn('redshop_shipping') . " AND " . $db->qn('s.enabled') . " = 1 AND " . $whereCountry . $whereShopper . $isWhere . $whereState . "
+	 	     		WHERE " . $db->qn('s.folder') . " = " . $db->q('redshop_shipping') . " AND " . $db->qn('s.enabled') . " = 1 AND " . $whereCountry . $whereShopper . $isWhere . $whereState . "
 					AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->q($volume) . " AND " . $db->qn('shipping_rate_volume_end') . " >= "
 				. $db->q($volume) . ") OR (" . $db->qn('shipping_rate_volume_end') . " = 0) )
 					AND ((" . $db->qn('shipping_rate_ordertotal_start') . " <= " . $db->q($orderSubtotal) . " AND " . $db->qn('shipping_rate_ordertotal_end') . " >= "
@@ -1027,7 +1040,7 @@ class RedshopHelperShipping
 
 			$sql = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " WHERE " . $db->qn('shipping_class') . " = " . $db->q($shippingClass) . $whereCountry . $whereState . $whereShopper . $zipCond . "
 				AND (( " . $db->q($volume) . " BETWEEN " . $db->qn('shipping_rate_volume_start')
-					. " AND " . $db->qn('shipping_rate_volume_end') . ") OR ( . " . $db->qn('shipping_rate_volume_end') . " = 0) )
+					. " AND " . $db->qn('shipping_rate_volume_end') . ") OR ( " . $db->qn('shipping_rate_volume_end') . " = 0) )
 				AND (( " . $db->q($orderSubtotal) . " BETWEEN " . $db->qn('shipping_rate_ordertotal_start')
 					. " AND " . $db->qn('shipping_rate_ordertotal_end') . ") OR (" . $db->qn('shipping_rate_ordertotal_end') . " = 0))
 				AND (( " . $db->q($weightTotal) . " BETWEEN " . $db->qn('shipping_rate_weight_start')
