@@ -110,7 +110,11 @@ class RedshopModelCurrencies extends RedshopModelList
 			);
 		}
 
-		$query->order('id');
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering', 'currency_code');
+		$orderDirn = $this->state->get('list.direction', 'asc');
+
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
 	}
