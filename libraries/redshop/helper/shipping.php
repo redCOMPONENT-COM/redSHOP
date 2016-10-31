@@ -342,7 +342,7 @@ class RedshopHelperShipping
 			$newPwhere = str_replace("AND (", "OR (", $pWhere);
 
 			$sql = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " AS sr "
-				. "LEFT JOIN " . $db->qn('#__extensions') . " AS s ON " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . " WHERE " . $db->qn('s.folder') . " = " . $db->qn('redshop_shipping') . " AND "
+				. "LEFT JOIN " . $db->qn('#__extensions') . " AS s ON " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . " WHERE " . $db->qn('s.folder') . " = " . $db->quote('redshop_shipping') . " AND "
 				. $whereCountry . $isWhere . "
 						 AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->q($volume) . " AND "
 					. $db->qn('shipping_rate_volume_end') . " >= "
@@ -388,7 +388,7 @@ class RedshopHelperShipping
 									 LEFT JOIN " . $db->qn('#__extensions') . " AS s
 									 ON
 									 " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . "
-			 	     				 WHERE " . $db->qn('s.folder') . " = " . $db->qn('redshop_shipping') . " AND "
+									 WHERE " . $db->qn('s.folder') . " = " . $db->quote('redshop_shipping') . " AND "
 						. $whereCountry . $whereShopper . $isWhere . "
 									 AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->q($volume) . " AND "
 							. $db->qn('shipping_rate_volume_end') . " >= "
@@ -412,7 +412,7 @@ class RedshopHelperShipping
 								 LEFT JOIN " . $db->qn('#__extensions') . " AS s
 								 ON
 								 " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . "
-		 	     		WHERE " . $db->qn('s.folder') . " = " . $db->qn('redshop_shipping') . " AND "
+						WHERE " . $db->qn('s.folder') . " = " . $db->quote('redshop_shipping') . " AND "
 					. $whereCountry . $whereShopper . $isWhere . $whereState . "
 						AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->q($volume) . " AND "
 						. $db->qn('shipping_rate_volume_end') . " >= "
@@ -615,7 +615,7 @@ class RedshopHelperShipping
 				LEFT JOIN " . $db->qn('#__extensions') . " AS s
 				ON
 				" . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element')
-			. " WHERE 1=1 AND " . $db->qn('s.folder') . " = " . $db->qn('redshop_shipping')
+			. " WHERE 1=1 AND " . $db->qn('s.folder') . " = " . $db->quote('redshop_shipping')
 			. " AND " . $whereCountry . $whereState . $zipCond . "
 				AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->q($volume) . " AND "
 				. $db->qn('shipping_rate_volume_end') . " >= "
