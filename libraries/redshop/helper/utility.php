@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Behat\Transliterator\Transliterator;
+
 /**
  * Utility functions for redSHOP
  *
@@ -79,5 +81,30 @@ class RedshopHelperUtility
 			},
 			$values
 		);
+	}
+
+	/**
+	 * Method for convert utf8 string with special chars to normal ASCII char.
+	 *
+	 * @param   string   $text         String for convert
+	 * @param   boolean  $isUrlEncode  Target for convert. True for url alias, False for normal.
+	 *
+	 * @return  string         Normal ASCI string.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function convertToNonSymbol($text = '', $isUrlEncode = true)
+	{
+		if (empty($text))
+		{
+			return '';
+		}
+
+		if ($isUrlEncode === false)
+		{
+			return Transliterator::utf8ToAscii($text);
+		}
+
+		return Transliterator::transliterate($text);
 	}
 }
