@@ -85,7 +85,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
 		$I->filterListBySearching($deleteItem);
-		$I->click('//*[@id="editcell"]/div[2]/table/tbody/tr/td[2]/div');
+		$I->click('//tbody/tr[1]/td[2]/div');
 		$I->click('Delete');
 		$I->dontSeeElement(['link' => $deleteItem]);
 	}
@@ -138,14 +138,30 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->amOnPage($pageClass::$URL);
 		$I->filterListBySearching($item, $searchField);
 		var_dump($check);
-		$I->click('//*[@id="editcell"]/div[2]/table/tbody/tr[1]/td[3]/a');
+		$I->click('//tbody/tr[1]/td[3]/a');
 		if ($state == 'unpublish')
 		{
-			$I->click('//*[@id="published0-lbl"]');
+			$I->click('//*[@id="published0-lbl"]/div');
 		}
 		else
 		{
-			$I->click('//*[@id="published1-lbl"]');
+			$I->click('//*[@id="published1-lbl"]/div');
+		}
+	}
+
+	public function changeState1($pageClass, $item, $state, $resultRow, $check, $searchField = ['id' => 'filter'])
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching($item, $searchField);
+		$I->click('//tbody/tr[1]/td[3]/div/a');
+		if ($state == 'unpublish')
+		{
+			$I->click('//*[@id="jform_published"]/div[2]');
+		}
+		else
+		{
+			$I->click('//*[@id="jform_published"]/div[1]');
 		}
 	}
 

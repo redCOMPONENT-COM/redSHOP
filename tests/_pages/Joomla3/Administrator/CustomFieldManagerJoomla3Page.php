@@ -29,7 +29,7 @@ class CustomFieldManagerJoomla3Page
 
 	public static $fieldSectionDropDown = "//*[@id='select2-chosen-2']";
 	
-	public static $checkAll = "//*[@id='editcell']/div[2]/table/tbody/tr[1]/td[3]/a";
+	public static $checkAll = "//tbody/tr[1]/td[3]/a";
 
 	public static $fieldSectionSearchField = "//div[@id='field_section_chzn']/div/div/input";
 
@@ -37,11 +37,11 @@ class CustomFieldManagerJoomla3Page
 
 	public static $fieldMessagesLocation = "//*[@class='alert-message']";
 
-	public static $firstResultRow = "//*[@id='editcell']/div[2]/table/tbody/tr[1]/td[3]/a";
+	public static $firstResultRow = "//tbody/tr[1]/td[3]/a";
 
-	public static $selectFirst = "//*[@id='editcell']/div[2]/table/tbody/tr[1]/td[3]/a";
+	public static $selectFirst = "//tbody/tr[1]/td[3]/a";
 
-	public static $fieldStatePath = "//div[@id='editcell']/table/tbody/tr[1]/td[8]/a";
+	public static $fieldStatePath = "//tbody/tr[1]/td[8]/a";
 
 	public static $optionValueField = "//input[@name='extra_value[]']";
 
