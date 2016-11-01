@@ -251,7 +251,7 @@ class RedshopHelperCategory
 
 		if ($cats)
 		{
-			$selected_categories[] = $cats[0]->category_parent_id;
+			$selectedCategories[] = $cats[0]->category_parent_id;
 		}
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
