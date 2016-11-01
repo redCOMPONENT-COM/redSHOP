@@ -256,40 +256,15 @@ $calendarFormat = '%d-%m-%Y';
 			</div>
 			<div class="box-body">
 				<?php
-				// echo RedshopLayoutHelper::render(
-				// 	'component.image',
-				// 	array(
-				// 		'id'        => 'product_full_image',
-				// 		'deleteid'  => 'image_delete',
-				// 		'displayid' => 'image_display',
-				// 		'type' 	    => 'product',
-				// 		'image'     => $this->detail->product_full_image
-				// 	)
-				// );
-				?>
-
-				<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
-
-				<!-- <div class="btn-toolbar">
-					<a class="btn btn-primary" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}" data-toggle="modal">
-						<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
-					</a>
-
-					<input type="hidden" name="product_image" id="product_image"/>
-
-					<?php if ($this->detail->product_id > 0) : ?>
-					<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $this->detail->product_id . '&showbuttons=1&media_section=product'); ?>
-
-					<a class="btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
-						<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?>
-					</a>
-					<?php endif; ?>
-				</div> -->
-
-				<?php
 				$section_id = $this->detail->product_id;
 				$media_section = 'product';
-				RedshopHelperMediaImage::render($section_id, $media_section, $this->detail->product_full_image);
+				RedshopHelperMediaImage::render(
+					'product_full_image',
+					'product',
+					$section_id,
+					$media_section,
+					$this->detail->product_full_image
+				);
 				?>
 			</div>
 		</div>

@@ -179,17 +179,19 @@ $ilink = JRoute::_(
 						var file = {
 							    name: "<?php echo $file['name'] ?>",
 							    size: <?php echo $file['size'] ?>,
-							    status: Dropzone.ADDED,
+							    // status: Dropzone.QUEUED,
 							    accepted: true,
 							    url: "<?php echo $file['path'] ?>",
 							    blob: "<?php echo $file['blob'] ?>",
 							    preload: true
 							};
 						newfile = dataURItoBlob(file.blob);
-						this.emit("addedfile", file);
+						newfile.name = file.name;
+						// this.emit("addedfile", file);
 						// And optionally show the thumbnail of the file:
 						this.emit("thumbnail", file, file.url);
-						this.files.push(file);
+						// this.files.push(file);
+						this.addFile(newfile);
 					}
 					<?php } ?>
 				}
@@ -206,14 +208,15 @@ $ilink = JRoute::_(
 				}
 			});
 
-			jDropzone.on('thumbnail',  function(file) {
-				if (file) {
-					jDropzone.processQueue();
-				}
-			});
+			// jDropzone.on('thumbnail',  function(file) {
+			// 	if (file) {
+			// 		jDropzone.processQueue();
+			// 	}
+			// });
 
 			jDropzone.on('success', function(file, response){
 				response = JSON.parse(response);
+				console.log(response.data.file);
 				if (response.success) {
 					$(".img-select").val(response.data.file);
 				}
@@ -261,8 +264,9 @@ $ilink = JRoute::_(
 						movable: false,
 						cropBoxResizable: true,
 						// minCropBoxWidth: 200,
-						// minContainerWidth: 400,
-						viewMode: 2,
+						minContainerWidth: 560,
+						minContainerHeight: 560,
+						viewMode: 3,
 						zoomable: false
 					});
 				};
