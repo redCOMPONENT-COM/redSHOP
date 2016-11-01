@@ -37,7 +37,7 @@ class RedshopHelperStockroom
 			->where('product_id = ' . (int) $productId)
 			->where('property_id = ' . (int) $propertyId)
 			->where('subproperty_id = ' . (int) $subPropertyId)
-			->where('user_id =' . (int) $userId)
+			->where('user_id = ' . (int) $userId)
 			->where('notification_status = 0');
 
 		return $db->setQuery($query)->loadResult();
@@ -966,7 +966,7 @@ class RedshopHelperStockroom
 				->where($db->qn('sx.product_id') . ' = ' . $db->q('sectionId'));
 
 			$query1 = $query->where($db->qn('stock_option') . ' = 2')
-				->where($db->qn('stock_quantity') . ' = ' . $db->q((int) $stockAmount));
+				->where($db->qn('stock_quantity') . ' = ' . (int) $stockAmount);
 
 			$list = $db->setQuery($query1)->loadObjectList();
 
@@ -1041,8 +1041,8 @@ class RedshopHelperStockroom
 			$query = $db->getQuery(true)
 				->select('SUM(qty)')
 				->from($db->qn('#__redshop_cart'))
-				->where($db->qn('product_id') . ' = ' . $db->q((int) $sectionId))
-				->where($db->qn('session_id') . $db->q($sessionId))
+				->where($db->qn('product_id') . ' = ' . (int) $sectionId)
+				->where($db->qn('session_id') . ' = ' . $db->q($sessionId))
 				->where($db->qn('section') . ' = ' . $db->q($section));
 
 			return (int) $db->setQuery($query)->loadResult();
@@ -1204,7 +1204,7 @@ class RedshopHelperStockroom
 			->from($db->qn('#__redshop_stockroom'))
 			->where($db->qn('stockroom_id') . ' IN (' . implode(',', $stockroomId) . ')')
 			->where($db->qn('published') . ' = 1')
-			->order($db->qn('max_del_time') . 'DESC');
+			->order($db->qn('max_del_time') . ' DESC');
 
 		return $db->setQuery($query)->loadObjectlist();
 	}
