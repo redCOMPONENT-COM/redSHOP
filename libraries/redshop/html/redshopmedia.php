@@ -34,7 +34,7 @@ abstract class JHtmlRedshopMedia
 	 *
 	 * @return  void
 	 */
-	public static function show($mediaSection, $sectionId, $sectionName, $count, $class = 'modal', $handler = 'iframe', $width = 1050, $height = 450)
+	public static function showButton($mediaSection, $sectionId, $sectionName, $count, $class = 'modal', $handler = 'iframe', $width = 1050, $height = 450)
 	{
 		JHTMLBehavior::modal();
 
@@ -49,6 +49,6 @@ abstract class JHtmlRedshopMedia
 			'height'		=> $height,
 		];
 
-		return JLayoutHelper::render('component.full.media.button', $displayData);
+		return RedshopLayoutHelper::render('html.media.button', $displayData);
 	}
 }
