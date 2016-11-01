@@ -118,7 +118,13 @@ JHTMLBehavior::modal();
 				}
 			}
 		}
-		submitform(pressbutton);
+
+		$.when(jDropzone.processQueue()).then(function(){
+			setTimeout(function(){
+				submitform(pressbutton);
+			}, 500);
+		});
+		// submitform(pressbutton);
 	};
 
 	function oprand_check(s) {

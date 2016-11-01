@@ -27,16 +27,16 @@ class RedshopHelperMediaImage
 	 *
 	 * @return  void
 	 */
-	public static function render($sectionId, $mediaSection, $image)
+	public static function render($id, $type, $sectionId, $mediaSection, $image)
 	{
 		if (self::requireDependencies())
 		{
-			$imgUrl = JRoute::_('/components/com_redshop/assets/images/' . $mediaSection . '/' . $image);
-			$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $mediaSection . '/' . $image;
+			$imgUrl = JRoute::_('/components/com_redshop/assets/images/' . $type . '/' . $image);
+			$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
 
 			$file = array();
 
-			if (file_exists($imgFile))
+			if (!empty($image) && file_exists($imgFile))
 			{
 				$file = array(
 					'path' => $imgUrl,
@@ -49,6 +49,8 @@ class RedshopHelperMediaImage
 			echo RedshopLayoutHelper::render(
 				'component.dropzone',
 				array(
+					'id'           => $id,
+					'type'         => $type,
 					'sectionId'    => $sectionId,
 					'mediaSection' => $mediaSection,
 					'file'         => $file
@@ -74,16 +76,13 @@ class RedshopHelperMediaImage
 		if (file_exists($dropzonePath) && file_exists($cropperPath))
 		{
 			$document->addStylesheet('/media/com_reditem/dropzone/dist/min/dropzone.min.css');
-			// $document->addStylesheet('/media/com_reditem/css/select2/select2.css');
-			// $document->addStylesheet('/media/com_reditem/css/select2/select2-bootstrap.css');
 			$document->addStylesheet('/media/com_reditem/cropper/dist/cropper.min.css');
 
 			$document->addScript('/media/com_reditem/dropzone/dist/min/dropzone.min.js');
 			$document->addScript('/media/com_reditem/cropper/dist/cropper.min.js');
 			$document->addScript('/media/com_redshop/js/modal-uncompressed.js');
-			// $document->addScript('/media/com_reditem/js/select2/select2.js');
-			$document->disableScript('/media/jui/js/bootstrap.min.js');
-			$document->disableScript('/media/system/js/modal.js');
+			// $document->disableScript('/media/jui/js/bootstrap.min.js');
+			// $document->disableScript('/media/system/js/modal.js');
 
 			return true;
 		}
