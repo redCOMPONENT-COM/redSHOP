@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  HTML
  * @since       2.0.0.4
  */
-abstract class JHtmlRedshopmedia
+abstract class JHtmlRedshopMedia
 {
 	/**
 	 * Show modal media
@@ -38,10 +38,17 @@ abstract class JHtmlRedshopmedia
 	{
 		JHTMLBehavior::modal();
 
-		return '<a class="modal"
-			   href="index.php?option=com_redshop&view=media&section_id=' . $sectionId . '&showbuttons=1&media_section=' . $mediaSection . '&section_name=' . $sectionName . '&tmpl=component"
-			   rel="{handler: \'' . $handler . '\', size: {x: ' . $width . ', y: ' . $height . '}}" title=""><img
-					src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'media16.png" align="absmiddle"
-					alt="media"> (' . $count . ')</a>';
+		$displayData = [
+			'mediaSection'		=> $mediaSection,
+			'sectionId' 	=> $sectionId,
+			'sectionName'	=> $sectionName,
+			'count'			=> $count,
+			'class'			=> $class,
+			'handler'		=> $handler,
+			'width'			=> $width,
+			'height'		=> $height,
+		];
+
+		return JLayoutHelper::render('component.full.media.button', $displayData);
 	}
 }
