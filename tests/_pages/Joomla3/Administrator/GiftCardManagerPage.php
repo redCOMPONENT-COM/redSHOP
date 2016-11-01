@@ -25,9 +25,11 @@ class GiftCardManagerPage
 
 	public static $giftCardValidity = "//input[@id='jform_giftcard_validity']";
 
-	public static $giftCardResultRow = "//table[@id='articleList']/tbody/tr[1]";
+	public static $giftCardResultRow = "//tbody/tr[1]";
 
-	public static $firstResult = "//input[@id='cb0']";
+	public static $firstResult = "//tbody/tr[1]/td[3]/div/a";
+
+	public static $firstcheckbox = "//tbody/tr[1]/td[1]/div";
 
 	public static $giftCardState = "//table[@id='articleList']/tbody/tr[1]//td[2]//a";
 }

@@ -32,9 +32,9 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\GiftCardManagerPage::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
 		$I->click('New');
-		$I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager New');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager New');
 		$I->waitForElement(\GiftCardManagerPage::$giftCardName);
 		$I->fillField(\GiftCardManagerPage::$giftCardName, $cardName);
 		$I->fillField(\GiftCardManagerPage::$giftCardPrice, $cardPrice);
@@ -60,7 +60,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\GiftCardManagerPage::$URL);
 		$I->filterListBySearching($cardName, ['id' => 'filter_search']);
 		$I->click(['link' => $cardName]);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Edit View');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Edit View');
 		$I->waitForElement(\GiftCardManagerPage::$giftCardName);
 		$I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
 		$I->click('Save & Close');
@@ -81,7 +81,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\GiftCardManagerPage::$URL);
 		$I->filterListBySearching($cardName, ['id' => 'filter_search']);
-		$I->click(\GiftCardManagerPage::$firstResult);
+		$I->click(\GiftCardManagerPage::$firstcheckbox);
 		$I->click('Delete');
 		$I->dontSeeElement(['link' => $cardName]);
 	}
@@ -109,7 +109,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeCardState($cardName = 'Sample Card', $state = 'unpublish')
 	{
-		$this->changeState(
+		$this->changeState1(
 			new \GiftCardManagerPage,
 			$cardName,
 			$state,
