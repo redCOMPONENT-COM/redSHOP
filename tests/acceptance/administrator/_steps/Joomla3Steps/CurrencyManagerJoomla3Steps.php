@@ -36,7 +36,7 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText('Currency Management',60,'h1');
 		$I->see('Currency detail saved', ['id' => 'system-message-container']);
-		$I->filterListBySearching($currencyName);
+		$I->filterListBySearching1($currencyName);
 		$I->seeElement(['link' => $currencyName]);
 	}
 
@@ -52,14 +52,14 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CurrencyManagerPage::$URL);
-		$I->filterListBySearching($currencyName);
+		$I->filterListBySearching1($currencyName);
 		$I->click(['link' => $currencyName]);
 		$I->waitForElement(\CurrencyManagerPage::$currencyNameField);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Currency Edit View');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Currency Edit View');
 		$I->fillField(\CurrencyManagerPage::$currencyNameField, $newCurrencyName);
 		$I->click('Save & Close');
 		$I->waitForText('Currency Management',10,'h1');
-		$I->filterListBySearching($newCurrencyName);
+		$I->filterListBySearching1($newCurrencyName);
 		$I->seeElement(['link' => $newCurrencyName]);
 	}
 
@@ -72,7 +72,7 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCurrency($currencyName = 'TestDeletingCurrency')
 	{
-		$this->delete(new \CurrencyManagerPage, $currencyName, \CurrencyManagerPage::$currencyResultRow, \CurrencyManagerPage::$firstResult);
+		$this->deleteCp(new \CurrencyManagerPage, $currencyName, \CurrencyManagerPage::$currencyResultRow, \CurrencyManagerPage::$firstResult);
 	}
 
 	/**

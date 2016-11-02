@@ -34,17 +34,15 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CountryManagerPage::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager Page');
 		$I->click('New');
-		$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager New');
 		$I->fillField(\CountryManagerPage::$countryName, $countryName);
 		$I->fillField(\CountryManagerPage::$countryThreeCode, $threeCode);
 		$I->fillField(\CountryManagerPage::$countryTwoCode, $twoCode);
 		$I->fillField(\CountryManagerPage::$country, $country);
 		$I->click('Save & Close');
 		$I->waitForText('Country Management',60,'h1');
-		$I->see('Item successfully saved', ['id' => 'system-message-container']);
-		$I->filterListBySearching($countryName);
+		$I->see('Item successfully saved.', ['id' => 'system-message-container']);
+		$I->filterListBySearching2($countryName);
 		$I->seeElement(['link' => $countryName]);
 	}
 
@@ -61,15 +59,15 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CountryManagerPage::$URL);
-		$I->filterListBySearching($countryName);
+		$I->filterListBySearching2($countryName);
 		$I->click(['link' => $countryName]);
-		$I->waitForText('Country Management:', 60, ['css' => 'H1']);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager Edit View');
+		$I->waitForText('Country:', 60, ['css' => 'H1']);
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager Edit View');
 		$I->fillField(\CountryManagerPage::$countryName, $newCountryName);
 		$I->click('Save & Close');
 		$I->waitForText('Country Management',10,'h1');
-		$I->see('Item successfully saved', ['id' => 'system-message-container']);
-		$I->filterListBySearching($newCountryName);
+		$I->see('Country detail saved', ['id' => 'system-message-container']);
+		$I->filterListBySearching2($newCountryName);
 		$I->seeElement(['link' => $newCountryName]);
 	}
 
@@ -96,6 +94,6 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCountry($countryName)
 	{
-		$this->delete(new \CountryManagerPage, $countryName, \CountryManagerPage::$countryResultRow, \CountryManagerPage::$countryCheck);
+		$this->deleteCp(new \CountryManagerPage, $countryName, \CountryManagerPage::$countryResultRow, \CountryManagerPage::$countryCheck);
 	}
 }

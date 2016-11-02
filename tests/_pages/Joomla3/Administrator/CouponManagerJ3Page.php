@@ -14,13 +14,13 @@
  */
 class CouponManagerJ3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=coupon';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=coupon';//*[@id="reset"]
 	public static $couponCode = "//input[@id='coupon_code']";
 	public static $couponValue = "//input[@id='coupon_value']";
 	public static $couponLeft = "//input[@id='coupon_left']";
 	public static $couponValueInDropDown = "//div[@id='s2id_percent_or_total']/a";
 	public static $couponTypeDropDown = "//*[@id='select2-drop']/div";
-	public static $selectFirst = "//input[@id='cb0']/following-sibling::ins";
+	public static $selectFirst = "//table[contains(@class, 'test-redshop-table')]//tr[contains(@class,'test-redshop-table-row')][1]//td[@class='test-redshop-coupon-checkall']//div//ins[@class='iCheck-helper']";
 	// //table[@class='test-redshop-table']//tr[@class='test-redshop-table'][1]//td[@class='test-redshop-coupon-checkall']
 	public static $firstResultRow = ['class' => "test-redshop-table-row"];
 	/**

@@ -23,9 +23,11 @@ class ManufacturerManagerJoomla3Page
 
 	public static $manufacturerSuccessMessage = 'Manufacturer Detail Saved';
 
-	public static $firstResultRow = "//div[@id='editcell']//table[2]//tbody/tr[1]";
+	public static $firstResultRow = "//tbody/tr[1]/td[3]/a";
 
-	public static $selectFirst = "//input[@id='cb0']";
+	public static $selectFirst = "//tbody/tr[1]/td[3]/a";
 
 	public static $manufacturerStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[7]/a";
+	
+	public static $selectFirst1 = "//tbody/tr[1]/td[2]/div";
 }

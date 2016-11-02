@@ -33,7 +33,6 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\CouponManagerJ3Page::$URL);
 		$couponManagerPage = new \CouponManagerJ3Page;
-		//$I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager Page');
 		$I->click('New');
 		//$I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager New');
 		$I->fillField(\CouponManagerJ3Page::$couponCode, $couponCode);

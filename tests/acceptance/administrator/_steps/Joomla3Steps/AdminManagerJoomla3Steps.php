@@ -42,6 +42,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 			$I->verifyNotices(false, $this->checkForNotices(), $page . ' New');
 			$I->click('Cancel');
 		}
+
 	}
 
 	/**
@@ -95,7 +96,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->filterListBySearching1($deleteItem);
 		$I->click('//tbody/tr[1]/td[2]/div');
 		$I->click('Delete');
-		//$I->dontSeeElement(['link' => $deleteItem]);
+		
 	}
 
 	/**
@@ -172,16 +173,30 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 			$I->click('//*[@id="jform_published"]/div[1]');
 		}
 	}
+	public function changeState2($pageClass, $item, $state, $resultRow, $check, $searchField = ['id' => 'filter'])
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching($item, $searchField);
+		$I->click('//tbody/tr[1]/td[3]/a');
+		if ($state == 'unpublish')
+		{
+			$I->click('//*[@id="published0-lbl"]');
+		}
+		else
+		{
+			$I->click('//*[@id="published1-lbl"]');
+		}
+		$I->click('Save & Close');
+	}
 
 	/**
 	 * Filters an administrator list by searching for a given string
 	 *
-	 * @param   String  $text         text to be searched to filter the administrator list
-	 * @param   String  $searchField  id of field to search
-	 *
-	 * @return void
+	 * @param   Object  $pageClass  Page Class on which we are performing the Operation
+	 * @param   String  $text  text to be searched to filter the administrator list
 	 */
-	public function filterListBySearching($text, $searchField = ['id' => 'filter_search'])
+	public function filterListBySearching($text, $searchField = ['id' => 'filter'])
 	{
 		$I = $this;
 		$I->click('Reset');
@@ -194,6 +209,14 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->click('//*[@id="reset"]');
+		$I->fillField($searchField, $text);
+		$I->pressKey($searchField, \WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $text]);
+	}
+	public function filterListBySearching2($text, $searchField = ['id' => 'filter_search'])
+	{
+		$I = $this;
+		$I->click('Reset');
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);

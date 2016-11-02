@@ -23,7 +23,7 @@ class MailCenterManagerJoomla3Page
 
 	public static $mailBcc = "//input[@id='mail_bcc']";
 
-	public static $mailSectionDropDown = "//div[@id='mail_section_chzn']/a";
+	public static $mailSectionDropDown = "//*[@id='select2-chosen-1']";
 
 	public static $mailSuccessMessage = 'Mail template saved';
 
@@ -44,7 +44,7 @@ class MailCenterManagerJoomla3Page
 	 */
 	public function mailSection($section)
 	{
-		$path = "//div[@id='mail_section_chzn']/div/ul/li[contains(text(), '" . $section . "')]";
+		$path = "//*[@id='select2-results-1']/li[2]";
 
 		return $path;
 	}
