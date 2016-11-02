@@ -265,6 +265,13 @@ $calendarFormat = '%d-%m-%Y';
 					$media_section,
 					$this->detail->product_full_image
 				);
+				RedshopHelperMediaImage::renderGallery(
+					'product_full_image',
+					'product',
+					$section_id,
+					$media_section,
+					$this->detail->product_full_image
+				);
 				?>
 			</div>
 		</div>

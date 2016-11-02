@@ -80,13 +80,76 @@ class RedshopHelperMediaImage
 
 			$document->addScript('/media/com_reditem/dropzone/dist/min/dropzone.min.js');
 			$document->addScript('/media/com_reditem/cropper/dist/cropper.min.js');
-			$document->addScript('/media/com_redshop/js/modal-uncompressed.js');
-			// $document->disableScript('/media/jui/js/bootstrap.min.js');
-			// $document->disableScript('/media/system/js/modal.js');
+			$document->addScript('/media/com_reditem/fuse.js/src/fuse.min.js');
 
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Render Gallery
+	 *
+	 * @return  void
+	 */
+	public static function renderGallery($id, $type, $sectionId, $mediaSection, $image)
+	{
+		$imgUrl = JRoute::_('/components/com_redshop/assets/images/' . $type . '/' . $image);
+		$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
+
+		$file = array();
+
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
+		$media   = JModelLegacy::getInstance('Media', 'RedshopModel');
+
+		$listMedia = $media->all($type);
+		$gallery = array();
+
+		if (!empty($listMedia))
+		{
+			foreach ($listMedia as $lk => $lm)
+			{
+				$tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $lm->media_name;
+				$dimension = getimagesize($tmpFile);
+				$tmpImg = array(
+					'id'  => $lm->media_id,
+					'url' => JRoute::_('/components/com_redshop/assets/images/' . $type . '/' . $lm->media_name, true, -1),
+					'name' => $lm->media_name,
+					'size' => self::sizeFilter(filesize($tmpFile)),
+					'dimension' => $dimension[0] . ' x ' . $dimension[1]
+				);
+				$gallery[] = $tmpImg;
+			}
+		}
+
+		if (!empty($image) && file_exists($imgFile))
+		{
+			$file = array(
+				'path' => $imgUrl,
+				'name' => $image,
+				'size' => filesize($imgFile),
+				'blob' => 'data: ' . mime_content_type($imgFile) . ';base64,' . base64_encode(file_get_contents($imgFile))
+			);
+		}
+
+		echo RedshopLayoutHelper::render(
+			'component.gallery',
+			array(
+				'id'           => $id,
+				'type'         => $type,
+				'sectionId'    => $sectionId,
+				'mediaSection' => $mediaSection,
+				'file'         => $file,
+				'gallery'      => $gallery
+			)
+		);
+	}
+
+	public static function sizeFilter( $bytes )
+	{
+		$label = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+		for($i = 0; $bytes >= 1024 && $i < (count( $label ) -1 ); $bytes /= 1024, $i++);
+		return(round( $bytes, 2 ) . " " . $label[$i]);
 	}
 }
