@@ -816,6 +816,20 @@ switch ($view)
 			shRemoveFromGETVarsList('task');
 		}
 
+		if ($layout)
+		{
+			if ($layout == 'viewloginwishlist')
+			{
+				$title[] = 'login';
+			}
+			elseif ($layout == 'viewwishlist')
+			{
+				$title[] = 'all';
+			}
+
+			shRemoveFromGETVarsList('layout');
+		}
+
 		break;
 }
 
