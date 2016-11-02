@@ -89,6 +89,15 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->click('Delete');
 		$I->dontSeeElement(['link' => $deleteItem]);
 	}
+		public function deleteCp($pageClass, $deleteItem, $resultRow, $check)
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching1($deleteItem);
+		$I->click('//tbody/tr[1]/td[2]/div');
+		$I->click('Delete');
+		//$I->dontSeeElement(['link' => $deleteItem]);
+	}
 
 	/**
 	 * Function to get State of an Item in the Administrator
@@ -180,4 +189,12 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->waitForElement(['link' => $text]);
 	}
 	
+	public function filterListBySearching1($text, $searchField = ['id' => 'filter_search'])
+	{
+		$I = $this;
+		$I->click('//*[@id="reset"]');
+		$I->fillField($searchField, $text);
+		$I->pressKey($searchField, \WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $text]);
+	}
 }
