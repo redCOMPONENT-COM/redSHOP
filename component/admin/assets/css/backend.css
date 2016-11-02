@@ -15991,9 +15991,9 @@ Searchtools
   margin: 15px 0 0 0;
 }
 
-.js-stools-field-list span {
+/*.js-stools-field-list span {
   margin-right: 30px !important;
-}
+}*/
 
 @media (min-width:480px) and (max-width:992px) {
   .js-stools-container-filters:nth-child(n + 1) {
@@ -27212,4 +27212,8 @@ body.modal-open {
  font-weight: bold;
  display: inline-block;
  border-radius: 3px;
+}
+
+.js-stools-container-bar .js-stools-btn-filter.btn-primary {
+  color: #fff;
 }

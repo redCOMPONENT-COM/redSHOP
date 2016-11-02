@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Behat\Transliterator\Transliterator;
+
 /**
  * Utility functions for redSHOP
  *
@@ -16,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperUtility
 {
+	/**
+	 * The dispatcher.
+	 *
+	 * @var  JEventDispatcher
+	 */
+	public static $dispatcher = null;
+
 	/**
 	 * Get SSL link for backend or applied for ssl link
 	 *
@@ -38,5 +47,64 @@ class RedshopHelperUtility
 		}
 
 		return $link;
+	}
+
+	/**
+	 * Get the event dispatcher
+	 *
+	 * @return  JEventDispatcher
+	 */
+	public static function getDispatcher()
+	{
+		if (!self::$dispatcher)
+		{
+			self::$dispatcher = version_compare(JVERSION, '3.0', 'lt') ? JDispatcher::getInstance() : JEventDispatcher::getInstance();
+		}
+
+		return self::$dispatcher;
+	}
+
+	/**
+	 * Quote an array of values.
+	 *
+	 * @param   array  $values  The values.
+	 *
+	 * @return  array  The quoted values
+	 */
+	public static function quote(array $values)
+	{
+		$db = JFactory::getDbo();
+
+		return array_map(
+			function ($value) use ($db) {
+				return $db->quote($value);
+			},
+			$values
+		);
+	}
+
+	/**
+	 * Method for convert utf8 string with special chars to normal ASCII char.
+	 *
+	 * @param   string   $text         String for convert
+	 * @param   boolean  $isUrlEncode  Target for convert. True for url alias, False for normal.
+	 *
+	 * @return  string         Normal ASCI string.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function convertToNonSymbol($text = '', $isUrlEncode = true)
+	{
+		if (empty($text))
+		{
+			return '';
+		}
+
+		if ($isUrlEncode === false)
+		{
+			return Transliterator::utf8ToAscii($text);
+		}
+
+		return Transliterator::transliterate($text);
 	}
 }

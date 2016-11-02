@@ -5,112 +5,80 @@
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
+ *
+ * @deprecated  2.0.0.3  Use RedshopHelperCategory instead
  */
 
 defined('_JEXEC') or die;
 
+/**
+ * A Helper Class for Product Category
+ *
+ * @deprecated  2.0.0.3  Use RedshopHelperCategory instead
+ */
 class product_category
 {
+	/**
+	 * @deprecated  2.0.0.3
+	 */
 	public $_cats = array();
 
+	/**
+	 * @deprecated  2.0.0.3
+	 */
 	public $_table_prefix = null;
 
+	/**
+	 * Constructor
+	 *
+	 * @deprecated  2.0.0.3
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 	}
 
-	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = false, $multiple = false, $disabledFields = array(), $width = 250)
+	/**
+	 * List all categories and return HTML format
+	 *
+	 * @param   string   $name                 Name of list
+	 * @param   integer  $category_id          Only category to show
+	 * @param   array    $selected_categories  Only select categories from this
+	 * @param   integer  $size                 Size of dropdown
+	 * @param   boolean  $toplevel             Add option '-Top-'
+	 * @param   boolean  $multiple             Dropdown is multiple or not
+	 * @param   array    $disabledFields       Fields need to be disabled
+	 * @param   integer  $width                Width in pixel
+	 *
+	 * @return  string   HTML of dropdown
+	 *
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::listAll() instead
+	 */
+	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = false,
+		$multiple = false, $disabledFields = array(), $width = 250)
 	{
-		$db = JFactory::getDbo();
-		$html = '';
-		$q = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref ";
-
-		if ($category_id)
-		{
-			$q .= "WHERE category_child_id = " . (int) $category_id;
-		}
-
-		$db->setQuery($q);
-		$cats = $db->loadObjectList();
-
-		if ($cats)
-		{
-			$selected_categories[] = $cats[0]->category_parent_id;
-		}
-
-		$multiple = $multiple ? "multiple=\"multiple\"" : "";
-		$id = str_replace('[]', '', $name);
-		$html .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
-
-		if ($toplevel)
-		{
-			$html .= "<option value=\"0\"> -Top- </option>\n";
-		}
-
-		$html .= $this->list_tree($category_id, '0', '0', $selected_categories, $disabledFields);
-		$html .= "</select>\n";
-
-		return $html;
+		return RedshopHelperCategory::listAll($name, $category_id, $selected_categories, $size, $toplevel, $multiple, $disabledFields, $width);
 	}
 
-	public function list_tree($category_id = "", $cid = '0', $level = '0', $selected_categories = Array(), $disabledFields = Array(), $html = '')
+	/**
+	 * List children of category into dropdown with level,
+	 * this is a function will be called resursively.
+	 *
+	 * @param   string  $category_id          Exclude this category ID
+	 * @param   string  $cid                  Parent category ID
+	 * @param   string  $level                Default is 0
+	 * @param   array   $selected_categories  Only show selected categories
+	 * @param   array   $disabledFields       Didable fields
+	 * @param   string  $html                 Before HTML
+	 *
+	 * @return String   HTML of <option></option>
+	 *
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::listTree() instead
+	 */
+	public function list_tree($category_id = "", $cid = '0', $level = '0', $selected_categories = Array(),
+		$disabledFields = Array(), $html = '')
 	{
-		$db = JFactory::getDbo();
-		$level++;
-
-		$q = "SELECT category_id, category_child_id,category_name "
-			. "FROM " . $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx "
-			. "WHERE cx.category_parent_id='$cid' "
-			. "AND c.category_id=cx.category_child_id "
-			. "AND c.category_id != " . (int) $category_id . " "
-			. "ORDER BY c.category_name ASC";
-		$db->setQuery($q);
-		$cats = $db->loadObjectList();
-
-		for ($x = 0, $xn = count($cats); $x < $xn; $x++)
-		{
-			$cat = $cats[$x];
-			$child_id = $cat->category_child_id;
-
-			if ($child_id != $cid)
-			{
-				$selected = ($child_id == $category_id) ? "selected=\"selected\"" : "";
-
-				if ($selected == "" && @$selected_categories[$child_id] == "1")
-				{
-					$selected = "selected=\"selected\"";
-				}
-
-				if (is_array($selected_categories))
-				{
-					if (in_array($child_id, $selected_categories))
-					{
-						$selected = "selected=\"selected\"";
-					}
-				}
-
-				$disabled = '';
-
-				if (in_array($child_id, $disabledFields))
-				{
-					$disabled = 'disabled="disabled"';
-				}
-
-				if ($disabled != '' && stristr($_SERVER['HTTP_USER_AGENT'], 'msie'))
-				{
-					// IE7 suffers from a bug, which makes disabled option fields selectable
-				}
-				else
-				{
-					$html .= "<option $selected $disabled value=\"$child_id\">" . str_repeat('- ', $level) . $cat->category_name . "</option>";
-				}
-			}
-
-			$html .= $this->list_tree($category_id, $child_id, $level, $selected_categories, $disabledFields);
-		}
-
-		return $html;
+		return RedshopHelperCategory::listTree($category_id, $cid, $level, $selected_categories, $disabledFields, $html);
 	}
 
 	/**
@@ -142,106 +110,70 @@ class product_category
 		return RedshopHelperCategory::getCategoryListReverseArray($cid);
 	}
 
+	/**
+	 * Build content order by user state from request
+	 *
+	 * @return string
+	 *
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::buildContentOrderBy() instead
+	 */
 	public function _buildContentOrderBy()
 	{
-		$db = JFactory::getDbo();
-		global $context;
-		$app = JFactory::getApplication();
-
-		$filter_order = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
-		$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
+		return RedshopHelperCategory::buildContentOrderBy();
 	}
 
+	/**
+	 * Get root parent categories
+	 *
+	 * @return object
+	 *
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::getParentCategories() instead
+	 */
 	public function getParentCategories()
 	{
-		$db = JFactory::getDbo();
-		$query = 'SELECT DISTINCT c.category_name, c.category_id'
-			. ' FROM ' . $this->_table_prefix . 'category c '
-			. ' LEFT JOIN ' . $this->_table_prefix . 'category_xref AS x ON c.category_id = x.category_child_id '
-			. 'WHERE x.category_parent_id=0 ';
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return RedshopHelperCategory::getParentCategories();
 	}
 
 	/**
 	 * Get category tree
 	 *
-	 * @param :$cid - categoryid
+	 * @param   string  $cid  Category ID
 	 *
-	 * @return: array - categoryid
+	 * @return  array
 	 *
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::getCategoryTree() instead
 	 */
-
 	public function getCategoryTree($cid = '0')
 	{
-		if (!isset($GLOBALS['catlist']))
-		{
-			$GLOBALS['catlist'] = array();
-		}
-
-		$db = JFactory::getDbo();
-		$q = "SELECT c.category_id,c.category_name "
-			. ",cx.category_child_id,cx.category_parent_id "
-			. "FROM " . $this->_table_prefix . "category_xref as cx, " . $this->_table_prefix . "category as c "
-			. "WHERE cx.category_parent_id = " . (int) $cid . " "
-			. "AND c.category_id = cx.category_child_id";
-
-		$db->setQuery($q);
-
-		$cats = $db->loadObjectList();
-
-		for ($x = 0, $xn = count($cats); $x < $xn; $x++)
-		{
-			$cat = $cats[$x];
-			$parent_id = $cat->category_child_id;
-			$GLOBALS['catlist'][] = $cat;
-			$this->getCategoryTree($parent_id);
-		}
-
-		return $GLOBALS['catlist'];
+		return RedshopHelperCategory::getCategoryTree($cid);
 	}
 
+	/**
+	 * Get category product list
+	 *
+	 * @param   string  $cid  Category ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::getCategoryProductList() instead
+	 */
 	public function getCategoryProductList($cid)
 	{
-		$db = JFactory::getDbo();
-		$query = "SELECT p.product_id AS id "
-			. "FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id = p.product_id "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id "
-			. "WHERE c.category_id = " . (int) $cid . " and p.published =1 ";
-
-		$db->setQuery($query);
-
-		$result = $db->loadObjectList();
-
-		return $result;
+		return RedshopHelperCategory::getCategoryProductList();
 	}
 
+	/**
+	 * Check if Accessory is existed
+	 *
+	 * @param   integer  $product_id    Product ID
+	 * @param   integer  $accessory_id  Accessory ID
+	 *
+	 * @return integer
+	 *
+	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::checkAccessoryExists() instead
+	 */
 	public function CheckAccessoryExists($product_id, $accessory_id)
 	{
-		$db = JFactory::getDbo();
-
-		$query = "SELECT accessory_id,product_id "
-			. "FROM " . $this->_table_prefix . "product_accessory  "
-			. "WHERE product_id = " . (int) $product_id . " and child_product_id = " . (int) $accessory_id;
-
-		$db->setQuery($query);
-		$result = $db->loadObjectList();
-
-		if (count($result) > 0)
-		{
-			$return = $result[0]->accessory_id;
-		}
-		else
-		{
-			$return = 0;
-		}
-
-		return $return;
+		return RedshopHelperCategory::checkAccessoryExists($product_id, $accessory_id);
 	}
 }

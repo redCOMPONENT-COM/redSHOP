@@ -24,25 +24,13 @@ class RedshopHelperJs
 	public static function init()
 	{
 		$doc     = JFactory::getDocument();
-		$tmpl    = JRequest::getCmd('tmpl');
-		$view    = JRequest::getCmd('view');
-		$layout  = JRequest::getCmd('layout');
-		$config = Redshop::getConfig();
+		$input   = JFactory::getApplication()->input;
 		$session = JFactory::getSession();
 
-		$post   = JRequest::get('POST');
-		$redhelper   = redhelper::getInstance();
-		$cart_Itemid = $redhelper->getCartItemid();
-
-		if ($cart_Itemid == "" || $cart_Itemid == 0)
-		{
-			$cItemid   = $redhelper->getItemid();
-			$tmpItemid = $cItemid;
-		}
-		else
-		{
-			$tmpItemid = $cart_Itemid;
-		}
+		$view   = $input->getCmd('view');
+		$layout = $input->getCmd('layout');
+		$config = Redshop::getConfig();
+		$post   = $input->post->getArray();
 
 		$currency_symbol  = $config->get('REDCURRENCY_SYMBOL');
 		$currency_convert = 1;
@@ -98,10 +86,22 @@ class RedshopHelperJs
 			'ZERO_PRICE_REPLACE'                => $config->get('ZERO_PRICE_REPLACE')
 		);
 
+		$backwardJS = array();
+
 		// Now looping to add dynamic vars into javascript stack
 		foreach ($dynamicVars as $key => $value)
 		{
+			if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_JS') == 1)
+			{
+				$backwardJS[] = 'window.' . $key . ' = "' . $value . '";';
+			}
+
 			RedshopHelperConfig::script($key, $value);
+		}
+
+		if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_JS') == 1)
+		{
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $backwardJS));
 		}
 
 		// Prepare language string to add in javascript store
@@ -136,21 +136,36 @@ class RedshopHelperJs
 			'COM_REDSHOP_AVAILABLE_STOCK'
 		);
 
+		$backwardJS = array();
+
 		// Now looping to add language strings into javascript store
 		foreach ($languages as $value)
 		{
 			JText::script($value);
+
+			if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_JS') == 1)
+			{
+				$backwardJS[] = 'window.' . $value . ' = "' . JText::_($value) . '";';
+			}
+		}
+
+		if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_JS') == 1)
+		{
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $backwardJS));
 		}
 
 		if ($view == 'product')
 		{
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE')))
 			{
-				$slimboxCloseButton = "#sbox-btn-close {background: transparent url( \"" . REDSHOP_FRONT_IMAGES_ABSPATH . "slimbox/" . $config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE') . "\" ) no-repeat center;}";
+				$slimboxCloseButton = "#sbox-btn-close {background: transparent url( \""
+					. REDSHOP_FRONT_IMAGES_ABSPATH . "slimbox/" . $config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE')
+					. "\" ) no-repeat center;}";
 			}
 			else
 			{
-				$slimboxCloseButton = "#sbox-btn-close {background: transparent url( \"" . REDSHOP_FRONT_IMAGES_ABSPATH . "slimbox/closelabel.gif\" ) no-repeat center;}";
+				$slimboxCloseButton = "#sbox-btn-close {background: transparent url( \""
+					. REDSHOP_FRONT_IMAGES_ABSPATH . "slimbox/closelabel.gif\" ) no-repeat center;}";
 			}
 
 			$doc->addStyleDeclaration($slimboxCloseButton);

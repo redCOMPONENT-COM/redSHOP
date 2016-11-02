@@ -20,7 +20,7 @@ class CouponManagerJ3Page
 	public static $couponLeft = "//input[@id='coupon_left']";
 	public static $couponValueInDropDown = "//div[@id='s2id_percent_or_total']/a";
 	public static $couponTypeDropDown = "//*[@id='select2-drop']/div";
-	public static $selectFirst = "//table[contains(@class, 'test-redshop-table')]//tr[contains(@class,'test-redshop-table-row')][1]//td[@class='test-redshop-coupon-checkall']//div//ins[@class='iCheck-helper']";
+	public static $selectFirst = "//input[@id='cb0']/following-sibling::ins";
 	// //table[@class='test-redshop-table']//tr[@class='test-redshop-table'][1]//td[@class='test-redshop-coupon-checkall']
 	public static $firstResultRow = ['class' => "test-redshop-table-row"];
 	/**

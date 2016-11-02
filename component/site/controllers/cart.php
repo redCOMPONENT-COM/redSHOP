@@ -213,7 +213,7 @@ class RedshopControllerCart extends RedshopController
 			}
 			else
 			{
-				if (ADDTOCART_BEHAVIOUR == 1)
+				if (Redshop::getConfig()->get('ADDTOCART_BEHAVIOUR') == 1)
 				{
 					$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
 				}
@@ -228,6 +228,14 @@ class RedshopControllerCart extends RedshopController
 					$link = JRoute::_($_SERVER['HTTP_REFERER'], false);
 				}
 			}
+		}
+
+		$userDocuments = $session->get('userDocument', array());
+
+		if (isset($userDocuments[$post['product_id']]))
+		{
+			unset($userDocuments[$post['product_id']]);
+			$session->set('userDocument', $userDocuments);
 		}
 
 		$this->setRedirect($link);

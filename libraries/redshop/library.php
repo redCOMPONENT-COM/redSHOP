@@ -10,42 +10,74 @@
 
 defined('JPATH_PLATFORM') or die;
 
-if (!defined('JPATH_REDSHOP_LIBRARY'))
+use \Doctrine\Common\Annotations\AnnotationRegistry;
+
+// Define redSHOP Library Folder Path
+define('JPATH_REDSHOP_LIBRARY', __DIR__);
+
+// Define redSHOP Template Path
+define('JPATH_REDSHOP_TEMPLATE', JPATH_SITE . "/components/com_redshop/templates");
+
+// Require our Composer libraries
+$composerAutoload = __DIR__ . '/vendor/autoload.php';
+
+if (file_exists($composerAutoload))
 {
-	// Define redSHOP Library Folder Path
-	define('JPATH_REDSHOP_LIBRARY', __DIR__);
+	$loader = require_once $composerAutoload;
 
-	// Load library language
-	$lang = JFactory::getLanguage();
-	$lang->load('lib_redshop', JPATH_SITE);
+	if (is_callable(array($loader, 'loadClass')))
+	{
+		AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
+	}
+}
 
-	// Load redSHOP factory file
-	JLoader::import('redshop.redshop');
+// Load library language
+$lang = JFactory::getLanguage();
+$lang->load('lib_redshop', JPATH_SITE);
 
-	// Register library prefix
-	JLoader::registerPrefix('Redshop', JPATH_REDSHOP_LIBRARY);
+// Load redSHOP language
+$lang->load('com_redshop', JPATH_SITE);
 
-	// Make available the redSHOP forms
-	JForm::addFormPath(JPATH_REDSHOP_LIBRARY . '/form/forms');
+// Load redSHOP factory file
+JLoader::import('redshop.redshop');
 
-	// Make available the redSHOP fields
-	JFormHelper::addFieldPath(JPATH_REDSHOP_LIBRARY . '/form/fields');
+// Register library prefix
+JLoader::registerPrefix('Redshop', JPATH_REDSHOP_LIBRARY);
 
-	// Make available the redSHOP form rules
-	JFormHelper::addRulePath(JPATH_REDSHOP_LIBRARY . '/form/rules');
+// Make available the redSHOP forms
+JForm::addFormPath(JPATH_REDSHOP_LIBRARY . '/form/forms');
 
-	// Load helpers pathes in JLoader
-	JLoader::discover('', JPATH_SITE . '/components/com_redshop/helpers', false);
-	JLoader::discover('', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
-	JLoader::discover('RedshopSite', JPATH_SITE . '/components/com_redshop/helpers', false);
-	JLoader::discover('RedshopAdmin', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
+// Make available the redSHOP fields
+JFormHelper::addFieldPath(JPATH_REDSHOP_LIBRARY . '/form/fields');
 
-	// HTML helpers
-	JHtml::addIncludePath(JPATH_REDSHOP_LIBRARY . '/html');
+// Make available the redSHOP form rules
+JFormHelper::addRulePath(JPATH_REDSHOP_LIBRARY . '/form/rules');
 
-	// Include all tables
-	JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+// Load helpers pathes in JLoader
+JLoader::discover('', JPATH_SITE . '/components/com_redshop/helpers', false);
+JLoader::discover('', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
+JLoader::discover('RedshopSite', JPATH_SITE . '/components/com_redshop/helpers', false);
+JLoader::discover('RedshopAdmin', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
 
-	// Setup dynamic variables like show price etc...
-	Redconfiguration::getInstance()->defineDynamicVars();
+// HTML helpers
+JHtml::addIncludePath(JPATH_REDSHOP_LIBRARY . '/html');
+
+// Include all tables
+JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+
+// Setup dynamic variables like show price etc...
+Redconfiguration::getInstance()->defineDynamicVars();
+
+// Load backward compatible php defined config.
+if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_PHP') == 1)
+{
+	$configs = Redshop::getConfig()->toArray();
+
+	foreach ($configs as $key => $value)
+	{
+		if (!defined($key))
+		{
+			define($key, $value);
+		}
+	}
 }

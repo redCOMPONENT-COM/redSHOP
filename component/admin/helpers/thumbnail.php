@@ -5,62 +5,43 @@
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
+ *
+ * @deprecated  2.0.0.3  Use RedshopHelperMedia instead
  */
 
 defined('_JEXEC') or die;
 
+/**
+ * Class Helper for thumbnail
+ *
+ * @deprecated  2.0.0.3  Use RedshopHelperMedia instead
+ */
 class thumbnail
 {
-	public function CreatThumb($filetype, $tsrc, $dest, $n_width, $n_height)
+	/**
+	 * Create thumbnail from gif/jpg/png image
+	 *
+	 * @param   string   $filetype  Have 3 options: gif, png, jpg
+	 * @param   string   $tsrc      Source image
+	 * @param   string   $dest      Destination to create thumbnail
+	 * @param   integer  $nWidth    Width in pixel
+	 * @param   integer  $nHeight   Height in pixel
+	 *
+	 * @return  string   Destination of new thumbnail
+	 *
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::createThumb() instead
+	 */
+	public function createThumb($filetype, $tsrc, $dest, $nWidth, $nHeight)
 	{
-		if ($filetype == "gif")
-		{
-			$im = ImageCreateFromGIF($dest);
-
-			// Original picture width is stored
-			$width = ImageSx($im);
-
-			// Original picture height is stored
-			$height = ImageSy($im);
-			$newimage = imagecreatetruecolor($n_width, $n_height);
-			imageCopyResized($newimage, $im, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
-
-			ImageGIF($newimage, $tsrc);
-			chmod("$tsrc", 0755);
-		}
-
-		if ($filetype == "jpg")
-		{
-			$im = ImageCreateFromJPEG($dest);
-
-			// Original picture width is stored
-			$width = ImageSx($im);
-
-			// Original picture height is stored
-			$height = ImageSy($im);
-			$newimage = imagecreatetruecolor($n_width, $n_height);
-			imageCopyResized($newimage, $im, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
-			ImageJpeg($newimage, $tsrc);
-			chmod("$tsrc", 0755);
-		}
-
-		if ($filetype == "png")
-		{
-			$im = ImageCreateFromPNG($dest);
-
-			// Original picture width is stored
-			$width = ImageSx($im);
-
-			// Original picture height is stored
-			$height = ImageSy($im);
-			$newimage = imagecreatetruecolor($n_width, $n_height);
-			imageCopyResized($newimage, $im, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
-			imagepng($newimage, $tsrc);
-			chmod("$tsrc", 0755);
-		}
+		return RedshopHelperMedia::createThumb($filetype, $tsrc, $dest, $nWidth, $nHeight);
 	}
 }
 
+/**
+ * Class Helper for thumbnail images
+ *
+ * @deprecated  2.0.0.3
+ */
 class thumbnail_images
 {
 	public $PathImgOld;

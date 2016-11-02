@@ -418,11 +418,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			$selected_state_code = "'" . $selected_state_code . "'";
 		}
 
-		$db->setQuery("SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
+		$db->setQuery("SELECT c.id, c.country_3_code, s.state_name, s.state_2_code
 						FROM #__redshop_country c
 						LEFT JOIN #__redshop_state s
-						ON c.country_id=s.country_id OR s.country_id IS NULL
-						ORDER BY c.country_id, s.state_name");
+						ON c.id=s.country_id OR s.country_id IS NULL
+						ORDER BY c.id, s.state_name");
 		$states = $db->loadObjectList();
 
 		// Build the State lists for each Country
@@ -826,6 +826,14 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$lists['enable_stockroom_notification']              = JHTML::_('redshopselect.booleanlist', 'enable_stockroom_notification', 'class="inputbox" size="1"', $this->config->get('ENABLE_STOCKROOM_NOTIFICATION'));
 
+		$lists['backward_compatible_js'] = JHTML::_(
+			'redshopselect.booleanlist', 'backward_compatible_js', 'class="inputbox" size="1"', $this->config->get('BACKWARD_COMPATIBLE_JS')
+		);
+
+		$lists['backward_compatible_php'] = JHTML::_(
+			'redshopselect.booleanlist', 'backward_compatible_php', 'class="inputbox" size="1"', $this->config->get('BACKWARD_COMPATIBLE_PHP')
+		);
+
 		$current_version      = $model->getcurrentversion();
 		$getinstalledmodule   = $model->getinstalledmodule();
 		$getinstalledplugins  = $model->getinstalledplugins();
@@ -955,6 +963,12 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 						'COM_REDSHOP_ABOUT',
 						($selectedTabPosition == 'redshopabout') ? true : false,
 						'redshopabout'
+					)
+					->addItem(
+						'#backward_compatible',
+						'COM_REDSHOP_BACKWARD_COMPATIBLE',
+						($selectedTabPosition == 'backward_compatible') ? true : false,
+						'backward_compatible'
 					);
 
 		return $tabMenu;
