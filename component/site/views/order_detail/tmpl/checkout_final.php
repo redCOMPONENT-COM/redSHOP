@@ -115,7 +115,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 			if (is_array($results) && $key !== false)
 			{
 				$app = JFactory::getApplication();
-				$app->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid));
 			}
 		}
 	}
@@ -123,7 +123,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 else
 {
 	$app = JFactory::getApplication();
-	$app->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
+	$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid));
 }
 ?>
 </div>
