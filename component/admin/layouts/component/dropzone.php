@@ -58,10 +58,9 @@ $ilink = JRoute::_(
 	<!-- button -->
 	<button type="button" class="btn btn-small btn-success choosing pull-right"
 	data-toggle="modal"
-	data-target="#mediaModal"
-	data-href="<?php echo $ilink ?>">
+	data-target="#galleryModal">
 		<span class="fa fa-picture-o"></span>
-		Media
+		Insert Media
 	</button>
 </div>
 <input type="hidden" name="<?php echo $mediaSection ?>_image" id="<?php echo $mediaSection ?>_image" class="img-select">
