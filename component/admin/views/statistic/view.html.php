@@ -231,21 +231,24 @@ class RedshopViewStatistic extends RedshopViewAdmin
 	protected function addToolbar()
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
+		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $this->title, 'statistic redshop_statistic48');
 
 		// Prepare text for title
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $this->title, 'statistic redshop_statistic48');
-		RedshopToolbarHelper::custom(
-					$this->export,
-					'save.png',
-					'save_f2.png',
-					'COM_REDSHOP_EXPORT_DATA_LBL',
-					false
-				);
-		RedshopToolbarHelper::link(
-			'index.php?tmpl=component&option=com_redshop&view=statistic&layout=' . $this->layout,
-			'print',
-			'COM_REDSHOP_PRINT',
-			'_blank'
-		);
+		if (!empty($this->export))
+		{
+			RedshopToolbarHelper::custom(
+						$this->export,
+						'save.png',
+						'save_f2.png',
+						'COM_REDSHOP_EXPORT_DATA_LBL',
+						false
+					);
+			RedshopToolbarHelper::link(
+				'index.php?tmpl=component&option=com_redshop&view=statistic&layout=' . $this->layout,
+				'print',
+				'COM_REDSHOP_PRINT',
+				'_blank'
+			);
+		}
 	}
 }
