@@ -221,9 +221,9 @@ class RedshopHelperTemplate
 
 			else
 			{
-				$templateDir = JPATH_REDSHOP_TEMPLATE . '/' . $section;
+				$templateDir = Redshop::getConfig()->get('JPATH_REDSHOP_TEMPLATE') . '/' . $section;
 
-				@chmod(JPATH_REDSHOP_TEMPLATE, 0755);
+				@chmod(Redshop::getConfig()->get('JPATH_REDSHOP_TEMPLATE'), 0755);
 			}
 
 			if (!is_dir($templateDir))
