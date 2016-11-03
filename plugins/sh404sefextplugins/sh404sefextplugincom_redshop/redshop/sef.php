@@ -122,7 +122,7 @@ switch ($view)
 			$sql = "SELECT sef_url,manufacturer_name FROM #__redshop_manufacturer WHERE manufacturer_id = '$manufacturer_id'";
 			$db->setQuery($sql);
 			$manufacturer = $db->loadObject();
-			$title[]      = JFilterOutput::stringURLSafe($manufacturer->manufacturer_name);
+			$title[]      = RedshopHelperUtility::convertToNonSymbol($manufacturer->manufacturer_name);
 		}
 
 		if (!$cid)
@@ -264,15 +264,15 @@ switch ($view)
 						$catname = $categoryData->category_name;
 					}
 
-					$title[] = JFilterOutput::stringURLSafe($catname);
+					$title[] = RedshopHelperUtility::convertToNonSymbol($catname);
 				}
 
 				if (Redshop::getConfig()->get('ENABLE_SEF_PRODUCT_NUMBER'))
 				{
-					$title[] = JFilterOutput::stringURLSafe($product->product_number);
+					$title[] = RedshopHelperUtility::convertToNonSymbol($product->product_number);
 				}
 
-				$title[] = JFilterOutput::stringURLSafe($product->product_name);
+				$title[] = RedshopHelperUtility::convertToNonSymbol($product->product_name);
 			}
 			else
 			{
@@ -437,7 +437,7 @@ switch ($view)
 		{
 			if ($wishlist)
 			{
-				$title[] = JFilterOutput::stringURLSafe($wishlist->wishlist_name);
+				$title[] = RedshopHelperUtility::convertToNonSymbol($wishlist->wishlist_name);
 			}
 
 			shRemoveFromGETVarsList('wishlist_id');
@@ -722,11 +722,11 @@ switch ($view)
 			{
 				if ($url->sef_url == "")
 				{
-					$title[] = JFilterOutput::stringURLSafe($url->manufacturer_name);
+					$title[] = RedshopHelperUtility::convertToNonSymbol($url->manufacturer_name);
 				}
 				else
 				{
-					$title[] = JFilterOutput::stringURLSafe($url->sef_url);
+					$title[] = RedshopHelperUtility::convertToNonSymbol($url->sef_url);
 				}
 			}
 
@@ -814,6 +814,20 @@ switch ($view)
 		{
 			$title[] = $task;
 			shRemoveFromGETVarsList('task');
+		}
+
+		if ($layout)
+		{
+			if ($layout == 'viewloginwishlist')
+			{
+				$title[] = 'login';
+			}
+			elseif ($layout == 'viewwishlist')
+			{
+				$title[] = 'all';
+			}
+
+			shRemoveFromGETVarsList('layout');
 		}
 
 		break;
