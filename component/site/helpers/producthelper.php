@@ -2822,7 +2822,7 @@ class productHelper
 		{
 			if (!empty($result->categories))
 			{
-				return implode(',', $result->categories);
+				return is_array($result->categories) ? implode(',', $result->categories) : $result->categories;
 			}
 			elseif (!empty($result->category_id))
 			{
