@@ -36,8 +36,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 	{
 		$quotationHelper = quotationHelper::getInstance();
 		$post = JRequest::get('post');
-
-
+		$status = $post['quotation_status'];
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['quotation_id'] = $cid [0];
@@ -90,6 +89,11 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		$post['quotation_item'] = $quotation_item;
 		$row = $model->store($post);
+
+		if ($status == 5 && empty($post['order_id']))
+		{
+			$model->storeOrder($post);
+		}
 
 		if ($row)
 		{
