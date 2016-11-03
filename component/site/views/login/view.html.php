@@ -47,7 +47,7 @@ class RedshopViewLogin extends RedshopView
 			else
 			{
 				$app->enqueuemessage(JText::_('COM_REDSHOP_SHOPPER_GROUP_PORTAL_IS_DISABLE'));
-				$app->redirect('index.php?option=com_redshop');
+				$app->redirect(JRoute::_('index.php?option=com_redshop'));
 			}
 		}
 		else
