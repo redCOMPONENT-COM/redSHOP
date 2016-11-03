@@ -152,7 +152,7 @@ class RedshopHelperQuotation
 		$db    = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('COUNT(*)')
+			->select('COUNT(' . $db->qn('quotation_id') . ')')
 			->from($db->qn('#__redshop_quotation', 'q'));
 
 		$db->setQuery($query);
