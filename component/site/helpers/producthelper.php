@@ -288,8 +288,16 @@ class productHelper
 				->select('dp.*')
 				->from($db->qn('#__redshop_discount_product', 'dp'))
 				->where('dp.published = 1')
-				->where('(dp.discount_product_id IN (' . implode(',', $discountIds) . ')')
-				->where('FIND_IN_SET("' . implode(',', $catIds) . '", dp.category_ids))')
+				->where('(dp.discount_product_id IN (' . implode(',', $discountIds) . ')');
+
+			$categoriesSub = '';
+
+			foreach ($catIds as $categoryId)
+			{
+				$categoriesSub[] = ('FIND_IN_SET(' . $categoryId . ', dp.category_ids)');
+			}
+
+			$query->where('((' . implode(') OR (', $categoriesSub) . ')))')
 				->where('dp.start_date <= ' . $db->q($time))
 				->where('dp.end_date >= ' . $db->q($time))
 				->order('dp.amount DESC');
@@ -298,7 +306,6 @@ class productHelper
 				->select('dps.discount_product_id')
 				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
 				->where('dps.shopper_group_id = ' . (int) $shopperGroupId);
-
 			$query->where('dp.discount_product_id IN (' . $subQuery . ')');
 
 			$db->setQuery($query);
@@ -2813,7 +2820,14 @@ class productHelper
 	{
 		if ($result = $this->getProductById($productId))
 		{
-			return $result->category_id;
+			if (!empty($result->categories))
+			{
+				return implode(',', $result->categories);
+			}
+			elseif (!empty($result->category_id))
+			{
+				return $result->category_id;
+			}
 		}
 
 		return '';
@@ -10163,7 +10177,7 @@ class productHelper
 
 					$related_template_data = $this->getProductOnSaleComment($related_product[$r], $related_template_data);
 					$related_template_data = $this->getSpecialProductComment($related_product[$r], $related_template_data);
-					
+
 					$isCategorypage = (JFactory::getApplication()->input->getCmd('view') == "category") ? 1 : 0;
 
 					//  Extra field display
