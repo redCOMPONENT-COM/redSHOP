@@ -129,9 +129,9 @@ if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 		 * get redSHOP Google Analytics Plugin is Enable?
 		 * If it is Disable than load Google Analytics From redSHOP
 		 */
-		$isredGoogleAnalytics = JPluginHelper::isEnabled('system', 'redgoogleanalytics');
+		$isRedGoogleAnalytics = JPluginHelper::isEnabled('system', 'redgoogleanalytics');
 
-		if (!$isredGoogleAnalytics && Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY') != "")
+		if (!$isRedGoogleAnalytics && Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY') != "")
 		{
 			$ga = new RedshopHelperGoogleanalytics;
 			$ga->placeTrans();

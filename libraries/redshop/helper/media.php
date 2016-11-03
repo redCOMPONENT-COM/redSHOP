@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.0.3
  */
 
 defined('_JEXEC') or die;
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper for Media
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.0.3
  */
 class RedshopHelperMedia
 {
@@ -25,7 +25,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0.3
 	 */
 	public static function isImage($fileName)
 	{
@@ -41,7 +41,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0.3
 	 */
 	public static function getTypeIcon($fileName)
 	{
@@ -56,7 +56,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0.3
 	 */
 	public static function parseSize($size)
 	{
@@ -87,7 +87,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0.3
 	 */
 	public static function imageResize($width, $height, $target)
 	{
@@ -120,7 +120,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0.3
 	 */
 	public static function countFiles($dir)
 	{
@@ -159,14 +159,14 @@ class RedshopHelperMedia
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0.3
 	 */
 	public static function cleanFileName($fileName, $id = null)
 	{
 		$fileExt       = strtolower(JFile::getExt($fileName));
 		$fileNameNoExt = JFile::stripExt(basename($fileName));
 		$fileNameNoExt = preg_replace("/[&'#]/", '', $fileNameNoExt);
-		$fileNameNoExt = JApplication::stringURLSafe($fileNameNoExt);
+		$fileNameNoExt = JApplicationHelper::stringURLSafe($fileNameNoExt);
 		$fileName      = JPath::clean($fileName);
 		$segments      = explode(DIRECTORY_SEPARATOR, $fileName);
 
@@ -203,7 +203,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  string   Thumbnail Live path
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
 	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50,
 		$height = 50, $proportional = -1)
@@ -239,7 +239,7 @@ class RedshopHelperMedia
 		}
 
 		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
-		$physiclePath = self::generateImages($filePath, $dest, $command, $width, $height, $proportional);
+		$physiclePath = self::generateImages($filePath, $dest, $width, $height, $command, $proportional);
 		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physiclePath);
 
 		return $thumbUrl;
@@ -257,7 +257,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  string   Return destination of new thumbnail
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
 	public static function generateImages($filePath, $dest, $width, $height, $command = 'upload', $proportional = -1)
 	{
@@ -333,7 +333,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  string   Return destination path
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
 	public static function writeImage($src, $dest, $altDest, $width, $height, $proportional = -1)
 	{
@@ -373,7 +373,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  boolean  Return true or false
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
 	public static function createDir($path)
 	{
@@ -411,7 +411,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  mixed    If $output is set by 'return': Return new file path, else return boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
 	public static function resizeImage($file, $width = 0, $height = 0, $proportional = -1, $output = 'file',
 		$deleteOriginal = true, $useLinuxCommands = false)
@@ -543,7 +543,7 @@ class RedshopHelperMedia
 
 			else
 			{
-				@unlink($file);
+				unlink($file);
 			}
 		}
 
@@ -592,61 +592,63 @@ class RedshopHelperMedia
 	 * Create thumbnail from gif/jpg/png image
 	 *
 	 * @param   string   $fileType  Have 3 options: gif, png, jpg
-	 * @param   string   $tsrc      Source image
-	 * @param   string   $dest      Destination to create thumbnail
+	 * @param   string   $srcImg    Source image
+	 * @param   string   $destImg   Destination to create thumbnail
 	 * @param   integer  $nWidth    Width in pixel
 	 * @param   integer  $nHeight   Height in pixel
 	 *
 	 * @return  string   Destination of new thumbnail
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.0.3
 	 */
-	public function createThumb($fileType, $tsrc, $dest, $nWidth, $nHeight)
+	public function createThumb($fileType, $srcImg, $destImg, $nWidth, $nHeight)
 	{
+		$newImg = null;
+
 		if ($fileType === "gif")
 		{
-			$im    = imagecreatefromgif($dest);
+			$im    = imagecreatefromgif($destImg);
 
 			// Original picture width is stored
 			$width = imagesx($im);
 
 			// Original picture height is stored
 			$height   = imagesy($im);
-			$newimage = imagecreatetruecolor($nWidth, $nHeight);
-			imagecopyresized($newimage, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
+			$newImg = imagecreatetruecolor($nWidth, $nHeight);
+			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
 
-			imagegif($newimage, $tsrc);
-			chmod("$tsrc", 0755);
+			imagegif($newImg, $srcImg);
+			chmod("$srcImg", 0755);
 		}
 
 		if ($fileType === "jpg")
 		{
-			$im    = imagecreatefromjpeg($dest);
+			$im    = imagecreatefromjpeg($destImg);
 
 			// Original picture width is stored
 			$width = imagesx($im);
 
 			// Original picture height is stored
 			$height   = imagesy($im);
-			$newimage = imagecreatetruecolor($nWidth, $nHeight);
-			imagecopyresized($newimage, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
-			imagejpeg($newimage, $tsrc);
-			chmod("$tsrc", 0755);
+			$newImg = imagecreatetruecolor($nWidth, $nHeight);
+			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
+			imagejpeg($newImg, $srcImg);
+			chmod("$srcImg", 0755);
 		}
 
 		if ($fileType === "png")
 		{
-			$im    = ImageCreateFromPNG($dest);
+			$im    = imagecreatefrompng($destImg);
 
 			// Original picture width is stored
 			$width = imagesx($im);
 
 			// Original picture height is stored
 			$height   = imagesy($im);
-			$newimage = imagecreatetruecolor($nWidth, $nHeight);
-			imagecopyresized($newimage, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
-			imagepng($newimage, $tsrc);
-			chmod("$tsrc", 0755);
+			$newImg = imagecreatetruecolor($nWidth, $nHeight);
+			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
+			imagepng($newImg, $srcImg);
+			chmod("$srcImg", 0755);
 		}
 
 		return $newimage;

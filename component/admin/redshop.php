@@ -106,7 +106,7 @@ elseif ($command != '' && strpos($command, '.') !== false)
 if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php'))
 {
 	$view = 'redshop';
-	JRequest::setVar('view', $view);
+	JFactory::getApplication()->input->set('view', $view);
 }
 
 RedshopHelperConfig::script('SITE_URL', JURI::root());

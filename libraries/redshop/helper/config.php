@@ -284,7 +284,7 @@ class RedshopHelperConfig
 				// Old config file
 				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
-				$configClass = new RedshopConfig();
+				$configClass = new RedshopConfig;
 				$properties = get_object_vars($configClass);
 				$defined = get_defined_constants();
 

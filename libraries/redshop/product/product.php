@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.log.log');
+
 /**
  * Product architecture
  *
@@ -35,28 +37,33 @@ class RedshopProduct
 	/**
 	 * Protected product constructor. Must use getInstance() method.
 	 *
-	 * @param  integer  $id  Product Id
+	 * @param   int  $id  Product Id
+	 *
+	 * @throws Exception
 	 */
-	protected function __construct($id)
+	protected function __construct($id = null)
 	{
-		if (!is_int($id))
+		try
 		{
-			throw new InvalidArgumentException(
-				JText::sprintf('LIB_REDSHOP_PRODUCT_ID_NOT_VALID_INTEGER', $id, __CLASS__, gettype($id)),
-				1
-			);
+			if ($id)
+			{
+				$this->info = RedshopHelperProduct::getProductById($id);
+			}
+			else
+			{
+				$this->info = new JObject;
+			}
 		}
-
-		$this->info = RedshopHelperProduct::getProductById($id);
-
-		if (empty($this->info))
+		catch (Exception $e)
 		{
-			throw new Exception(JText::sprintf('LIB_REDSHOP_PRODUCT_NOT_FOUND_ERROR', __CLASS__), 404);
+			JLog::add(JText::_('COM_REDSHOP_ERROR_INVALID_PRODUCT_ID'), JLog::WARNING, 'com_redshop');
 		}
 	}
 
 	/**
 	 * Returns product instance
+	 *
+	 * @param   int  $id  Product Id
 	 *
 	 * @return  object  product Object
 	 */
@@ -73,8 +80,8 @@ class RedshopProduct
 	/**
 	 * Set variables in info
 	 *
-	 * @param  string  $name   Name of information property
-	 * @param  mixed   $value  Value of property
+	 * @param   string  $name   Name of information property
+	 * @param   mixed   $value  Value of property
 	 */
 	public function __set($name, $value)
 	{
@@ -86,7 +93,7 @@ class RedshopProduct
 	 *
 	 * @param   string  $name  Name of property
 	 *
-	 * @return  mixed         value of property
+	 * @return  mixed          Value of property
 	 */
 	public function __get($name)
 	{
@@ -101,7 +108,7 @@ class RedshopProduct
 	/**
 	 * Check for property exists
 	 *
-	 * @param   string   $name  Property name
+	 * @param   string  $name  Property name
 	 *
 	 * @return  boolean  True if property found
 	 */

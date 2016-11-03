@@ -69,7 +69,7 @@ class RedshopHelperWorld
 			return $this->countries;
 		}
 
-		// Load allowed contries from config
+		// Load allowed countries from config
 		$countriesList = Redshop::getConfig()->get('COUNTRY_LIST');
 
 		if ($countriesList)
@@ -134,13 +134,13 @@ class RedshopHelperWorld
 				array(
 					$db->qn('s.state_2_code', 'value'),
 					$db->qn('s.state_name', 'text'),
-					$db->qn('c.country_id'),
+					$db->qn('c.id'),
 					$db->qn('c.country_3_code')
 				)
 			)
 			->from($db->qn('#__redshop_state', 's'))
 			->from($db->qn('#__redshop_country', 'c'))
-			->where($db->qn('c.country_id') . ' = ' . $db->qn('s.country_id'))
+			->where($db->qn('c.id') . ' = ' . $db->qn('s.country_id'))
 			->where($db->qn('c.country_3_code') . ' = ' . $db->q($country))
 			->order($db->qn('s.state_name'));
 

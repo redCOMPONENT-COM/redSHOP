@@ -10,12 +10,33 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use \Doctrine\Common\Annotations\AnnotationRegistry;
+
 // Define redSHOP Library Folder Path
 define('JPATH_REDSHOP_LIBRARY', __DIR__);
+
+// Define redSHOP Template Path
+define('JPATH_REDSHOP_TEMPLATE', JPATH_SITE . "/components/com_redshop/templates");
+
+// Require our Composer libraries
+$composerAutoload = __DIR__ . '/vendor/autoload.php';
+
+if (file_exists($composerAutoload))
+{
+	$loader = require_once $composerAutoload;
+
+	if (is_callable(array($loader, 'loadClass')))
+	{
+		AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
+	}
+}
 
 // Load library language
 $lang = JFactory::getLanguage();
 $lang->load('lib_redshop', JPATH_SITE);
+
+// Load redSHOP language
+$lang->load('com_redshop', JPATH_SITE);
 
 // Load redSHOP factory file
 JLoader::import('redshop.redshop');

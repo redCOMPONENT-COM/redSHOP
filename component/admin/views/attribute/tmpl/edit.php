@@ -23,8 +23,7 @@ JHtml::_('behavior.formvalidator');
 			<div class="span12">
 				<fieldset class="details">
 					<legend><?php echo JText::_('COM_REDSHOP_DETAIL'); ?></legend>
-
-					<?php foreach ($this->form->getFieldset('details') as $field) : ?>
+					<?php foreach ($this->form->getFieldset('details') as $field): ?>
 						<?php if ($field->hidden) : ?>
 							<?php echo $field->input;?>
 						<?php endif; ?>

@@ -16,8 +16,6 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperGoogleanalytics
 {
-	public $_data = null;
-
 	/**
 	 * The analytics.js JavaScript snippet is a new way to measure how users interact with your website.
 	 * It is similar to the previous tracking code, ga.js,
@@ -25,7 +23,7 @@ class RedshopHelperGoogleanalytics
 	 *
 	 * @return  string  PageView tracking code
 	 */
-	public function pageTrackerView()
+	public static function pageTrackerView()
 	{
 		// The first line of the tracking script should always initialize the page tracker object.
 		$pagecode = "

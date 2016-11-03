@@ -30,29 +30,19 @@ $filters = $data['view']->filterForm->getGroup('filter');
 
 <?php if (!empty($filters['filter_search'])) : ?>
 	<?php if ($searchButton) : ?>
-		<label for="filter_search" class="element-invisible">
-			<?php echo JText::_('JSEARCH_FILTER'); ?>
-		</label>
-		<div class="btn-wrapper input-append">
-			<?php echo $filters['filter_search']->input; ?>
-			<?php if ($filters['filter_search']->description) : ?>
-				<?php JHtmlBootstrap::tooltip('#filter_search', array('title' => JText::_($filters['filter_search']->description))); ?>
-			<?php endif; ?>
-			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-				<span class="icon-search"></span>
-			</button>
+		<div class="filterItem">
+			<div class="btn-wrapper input-append">
+				<?php echo $filters['filter_search']->input; ?>
+				<input type="submit" class="btn" value="<?php echo JText::_('JSEARCH_FILTER_SUBMIT') ?>" />
+                <input type="button" class="btn reset js-stools-btn-clear" value="<?php echo JText::_('COM_REDSHOP_RESET');?>" />
+			</div>
 		</div>
 		<?php if ($filterButton) : ?>
 			<div class="btn-wrapper hidden-phone">
-				<button type="button" class="btn hasTooltip js-stools-btn-filter" title="<?php echo JHtml::tooltipText('JSEARCH_TOOLS_DESC'); ?>">
+				<button type="button" class="btn js-stools-btn-filter btn-large btn-primary">
 					<?php echo JText::_('JSEARCH_TOOLS');?> <span class="caret"></span>
 				</button>
 			</div>
 		<?php endif; ?>
-		<div class="btn-wrapper">
-			<button type="button" class="btn hasTooltip js-stools-btn-clear" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
-				<?php echo JText::_('JSEARCH_FILTER_CLEAR');?>
-			</button>
-		</div>
 	<?php endif; ?>
 <?php endif;
