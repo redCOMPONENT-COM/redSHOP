@@ -88,7 +88,13 @@ $now = JFactory::getDate();
 					<td>
 						<?php
 						if ($this->detail->discount_enddate)
+						{
 							$date = date("d-m-Y", $this->detail->discount_enddate);
+						}
+						else
+						{
+							$date = null;
+						}
 
 						echo JHTML::_('calendar', $date, 'discount_enddate', 'discount_enddate', $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => '32', 'maxlength' => '19')); ?>
 					</td>

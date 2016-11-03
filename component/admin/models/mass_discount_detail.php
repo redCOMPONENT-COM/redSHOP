@@ -95,7 +95,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 				$detail->discount_amount = 0;
 				$detail->discount_type = 0;
 				$detail->discount_startdate = time();
-				$detail->discount_enddate = time();
+				$detail->discount_enddate = null;
 			}
 
 			$detail->cid = null;
