@@ -206,9 +206,16 @@ class RedshopControllerUser_detail extends RedshopController
 		die($encoded);
 	}
 
+	/**
+	 * Validate username method
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.0.4
+	 */
 	public function ajaxValidationUsername()
 	{
-		JSession::checkToken('get') or die( 'Invalid Token' );
+		RedshopHelperAjax::validateAjaxRequest('get');
 
 		$username = JFactory::getApplication()->input->getString('username', '');
 		$user_id = JFactory::getApplication()->input->getInt('user_id', 0);
