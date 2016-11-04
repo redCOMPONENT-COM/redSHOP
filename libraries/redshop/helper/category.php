@@ -128,7 +128,7 @@ class RedshopHelperCategory
 				$db->qn(
 					array(
 						'c.category_id', 'cx.category_child_id', 'cx.category_parent_id', 'c.category_name',
-						'c.category_description', 'c.published', 'c.ordering'
+						'c.category_description', 'c.published', 'c.ordering', 'c.category_full_image'
 					)
 				)
 			)
@@ -196,7 +196,7 @@ class RedshopHelperCategory
 				$db->qn(
 					array(
 						'c.category_id', 'cx.category_child_id', 'cx.category_parent_id', 'c.category_name',
-						'c.category_description', 'c.published', 'c.ordering'
+						'c.category_description', 'c.published', 'c.ordering', 'c.category_full_image'
 					)
 				)
 			)
@@ -233,7 +233,7 @@ class RedshopHelperCategory
 	 * @since  2.0.0.3
 	 */
 	public static function listAll($name, $categoryId, $selectedCategories = array(), $size = 1, $topLevel = false,
-		$multiple = false, $disabledFields = array(), $width = 250)
+	                               $multiple = false, $disabledFields = array(), $width = 250)
 	{
 		$db    = JFactory::getDbo();
 		$html  = '';
@@ -285,7 +285,7 @@ class RedshopHelperCategory
 	 * @since  2.0.0.3
 	 */
 	public static function listTree($categoryId = "", $cid = '0', $level = '0', $selectedCategories = array(),
-		$disabledFields = array(), $html = '')
+	                                $disabledFields = array(), $html = '')
 	{
 		$db = JFactory::getDbo();
 		$level++;
