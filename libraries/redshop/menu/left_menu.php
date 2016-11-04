@@ -88,7 +88,6 @@ class RedshopMenuLeft_Menu
 			case "product":
 			case "product_detail":
 			case "prices":
-			case "mass_discount_detail":
 			case "mass_discount":
 				return array('PRODUCT_MANAGEMENT', 'product');
 				break;
@@ -909,11 +908,6 @@ class RedshopMenuLeft_Menu
 	{
 		self::$menu->section('discount')
 			->title('COM_REDSHOP_DISCOUNT')
-			->addItem(
-				'index.php?option=com_redshop&view=mass_discount_detail',
-				'COM_REDSHOP_ADD_MASS_DISCOUNT',
-				(self::$view == 'mass_discount_detail') ? true : false
-			)
 			->addItem(
 				'index.php?option=com_redshop&view=mass_discount',
 				'COM_REDSHOP_MASS_DISCOUNT',
