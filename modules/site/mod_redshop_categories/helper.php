@@ -321,7 +321,7 @@ class modProMenuHelper
 		$categories = $this->getCategoryTreeArray(1, "", $shopper_group_id, $parent_selected_remove);
 
 		// Sort array of category objects
-		$result       = $this->sortCategoryTreeArray($categories, $category_id);
+		$result       = $this->sortCategoryTreeArray($categories, $parent_selected);
 		$row_list     = $result['row_list'];
 		$depth_list   = $result['depth_list'];
 		$category_tmp = $result['category_tmp'];
