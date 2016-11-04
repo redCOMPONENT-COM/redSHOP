@@ -40,7 +40,7 @@ class RedshopHelperProduct
 	 */
 	public static function getList()
 	{
-		if (empty(self::$allProducts))
+		if (empty(static::$allProducts))
 		{
 			$db    = JFactory::getDbo();
 			$query = self::getMainProductQuery();
@@ -53,10 +53,10 @@ class RedshopHelperProduct
 
 			$db->setQuery($query);
 
-			self::$allProducts = $db->loadObjectList('product_id');
+			static::$allProducts = $db->loadObjectList('product_id');
 		}
 
-		return self::$allProducts;
+		return static::$allProducts;
 	}
 
 	/**
@@ -77,12 +77,12 @@ class RedshopHelperProduct
 
 		$key = $productId . '.' . $userId;
 
-		if (!array_key_exists($key, self::$products))
+		if (!array_key_exists($key, static::$products))
 		{
 			// Check if data is already loaded while getting list
-			if (array_key_exists($productId, self::$allProducts))
+			if (array_key_exists($productId, static::$allProducts))
 			{
-				self::$products[$key] = self::$allProducts[$productId];
+				static::$products[$key] = static::$allProducts[$productId];
 			}
 
 			// Otheriwise load product info
@@ -95,16 +95,16 @@ class RedshopHelperProduct
 				$query->where($db->qn('p.product_id') . ' = ' . (int) $productId);
 
 				$db->setQuery($query);
-				self::$products[$key] = $db->loadObject();
+				static::$products[$key] = $db->loadObject();
 			}
 
-			if (self::$products[$key])
+			if (static::$products[$key])
 			{
-				self::setProductRelates(array($key => self::$products[$key]), $userId);
+				self::setProductRelates(array($key => static::$products[$key]), $userId);
 			}
 		}
 
-		return self::$products[$key];
+		return static::$products[$key];
 	}
 
 	/**
@@ -250,10 +250,15 @@ class RedshopHelperProduct
 		{
 			if (isset($product->product_id))
 			{
+				if (array_key_exists($product->product_id . '.' . $userId, static::$products))
+				{
+					continue;
+				}
+
 				$keys[] = $product->product_id;
-				self::$products[$product->product_id . '.' . $userId]->attributes = array();
-				self::$products[$product->product_id . '.' . $userId]->extraFields = array();
-				self::$products[$product->product_id . '.' . $userId]->categories = explode(',', $product->categories);
+				static::$products[$product->product_id . '.' . $userId]->attributes = array();
+				static::$products[$product->product_id . '.' . $userId]->extraFields = array();
+				static::$products[$product->product_id . '.' . $userId]->categories = explode(',', $product->categories);
 			}
 		}
 
@@ -279,8 +284,8 @@ class RedshopHelperProduct
 			{
 				foreach ($results as $result)
 				{
-					self::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id] = $result;
-					self::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id]->properties = array();
+					static::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id] = $result;
+					static::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id]->properties = array();
 				}
 
 				$query->clear()
@@ -300,14 +305,14 @@ class RedshopHelperProduct
 				{
 					foreach ($results as $result)
 					{
-						self::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id]->properties[$result->property_id] = $result;
+						static::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id]->properties[$result->property_id] = $result;
 					}
 				}
 			}
 
 			$query = $db->getQuery(true)
 				->select('fd.*, f.field_title')
-				->from($db->qn('#__redshop_fields_data', 'fd'))
+				->from($db->qn('#__redshop_fields_data', 'fd') . ' FORCE INDEX (idx_itemid)')
 				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.field_id')
 				->where('fd.itemid IN (' . implode(',', $keys) . ')')
 				->where('fd.section = 1');
@@ -316,7 +321,7 @@ class RedshopHelperProduct
 			{
 				foreach ($results as $result)
 				{
-					self::$products[$result->itemid . '.' . $userId]->extraFields[$result->fieldid] = $result;
+					static::$products[$result->itemid . '.' . $userId]->extraFields[$result->fieldid] = $result;
 				}
 			}
 		}
@@ -331,7 +336,7 @@ class RedshopHelperProduct
 	 */
 	public static function setProduct($products)
 	{
-		self::$products = $products + self::$products;
+		static::$products = $products + static::$products;
 		self::setProductRelates($products);
 	}
 
