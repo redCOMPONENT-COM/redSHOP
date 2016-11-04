@@ -182,6 +182,7 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
+		$row = (object) $row;
 
 		$redHelper = redhelper::getInstance();
 
@@ -278,8 +279,6 @@ class RedshopEconomic
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
 
-		$redHelper = redhelper::getInstance();
-
 		$eco['product_desc']   = utf8_encode(substr(strip_tags($row->product_desc), 0, 499));
 		$eco['product_s_desc'] = utf8_encode(substr(strip_tags($row->product_s_desc), 0, 499));
 
@@ -294,8 +293,9 @@ class RedshopEconomic
 		$eco['product_name']   = addslashes($row->product_name);
 		$eco['product_price']  = $row->product_price;
 		$eco['product_volume'] = $row->product_volume;
-		$eco['eco_prd_number'] = "";
+
 		$debtorHandle          = self::$dispatcher->trigger('Product_FindByNumber', array($eco));
+		$eco['eco_prd_number'] = "";
 
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
 		{
@@ -373,8 +373,8 @@ class RedshopEconomic
 		}
 
 		$eco['product_volume'] = 1;
-		$eco['eco_prd_number'] = "";
 		$debtorHandle          = self::$dispatcher->trigger('Product_FindByNumber', array($eco));
+		$eco['eco_prd_number'] = "";
 
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
 		{
@@ -400,6 +400,7 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
+		$eco = array();
 
 		$eco['product_desc']   = '';
 		$eco['product_s_desc'] = '';
@@ -426,8 +427,8 @@ class RedshopEconomic
 		}
 
 		$eco['product_volume'] = 1;
-		$eco['eco_prd_number'] = "";
 		$debtorHandle          = self::$dispatcher->trigger('Product_FindByNumber', array($eco));
+		$eco['eco_prd_number'] = "";
 
 		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
 		{
@@ -625,10 +626,16 @@ class RedshopEconomic
 
 					$isVatDiscount = 0;
 
-					if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0' && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && $orderDetail->order_discount != "0.00" && $orderDetail->order_tax && !empty($orderDetail->order_discount))
+					if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0'
+						&& (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
+						&& $orderDetail->order_discount != "0.00"
+						&& $orderDetail->order_tax
+						&& !empty($orderDetail->order_discount))
 					{
 						$totalDiscount               = $orderDetail->order_discount;
-						$discountVat                 = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totalDiscount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
+						$vatRateTotalDiscount        = (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totalDiscount;
+						$vatRateAfterDiscount        = 1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT');
+						$discountVat                 = $vatRateTotalDiscount / $vatRateAfterDiscount;
 						$orderDetail->order_discount = $totalDiscount - $discountVat;
 						$isVatDiscount               = 1;
 					}
@@ -651,7 +658,7 @@ class RedshopEconomic
 
 			else
 			{
-				return "USRE_NOT_SAVED_IN_ECONOMIC";
+				return JText::_('COM_REDSHOP_USER_NOT_SAVED_IN_ECONOMIC');
 			}
 		}
 
@@ -665,7 +672,7 @@ class RedshopEconomic
 	 * @param   string   $invoiceNo  Invoice Number
 	 * @param   integer  $userId     User ID
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -688,7 +695,7 @@ class RedshopEconomic
 			// Create Gift Card Entry for invoice
 			if ($orderItem[$i]->is_giftcard)
 			{
-				self::createGFInvoiceLineInEconomic($orderItem[$i], $invoiceNo);
+				self::createGiftCardInvoiceLineInEconomic($orderItem[$i], $invoiceNo);
 				continue;
 			}
 
@@ -704,9 +711,9 @@ class RedshopEconomic
 				if (count($wrapper) > 0)
 				{
 					$wrapperName = $wrapper[0]->wrapper_name;
-				}
 
-				$displayWrapper = "\n" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapperName . "(" . $orderItem[$i]->wrapper_price . ")";
+					$displayWrapper = "\n" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapperName . "(" . $orderItem[$i]->wrapper_price . ")";
+				}
 			}
 
 			$eco['updateInvoice']  = 0;
@@ -770,7 +777,7 @@ class RedshopEconomic
 	 * @param   array   $orderItem  Order Item
 	 * @param   string  $invoiceNo  Invoice Number
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -812,7 +819,7 @@ class RedshopEconomic
 	 * @param   string   $invoiceNo  Invoice Number
 	 * @param   integer  $userId     User ID
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -982,11 +989,11 @@ class RedshopEconomic
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function createInvoiceDiscountLineInEconomic($orderDetail = array(), $invoiceNo = "", $data = array(), $isPaymentDiscount = 0, $isVatDiscount = 0)
+	public static function createInvoiceDiscountLineInEconomic($orderDetail = array(), $invoiceNo = "", $data = array(), $isPaymentDiscount = 0,
+		$isVatDiscount = 0)
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
-		$productHelper = productHelper::getInstance();
 		$redHelper     = redhelper::getInstance();
 
 		if (Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'))
@@ -1002,6 +1009,7 @@ class RedshopEconomic
 					$eco['product_group'] = $ecoProductGroupNumber[0]->Number;
 				}
 
+				$orderDetail  = (object) $orderDetail;
 				$discount     = $orderDetail->order_discount + $orderDetail->special_discount_amount;
 				$productName  = JText::_('COM_REDSHOP_ORDER_DISCOUNT');
 
@@ -1046,7 +1054,7 @@ class RedshopEconomic
 	/**
 	 * Method to create Invoice and send mail in E-conomic
 	 *
-	 * @param   array  $orderData  Order data
+	 * @param   object  $orderData  Order data
 	 *
 	 * @return  array
 	 *
@@ -1054,8 +1062,6 @@ class RedshopEconomic
 	 */
 	public static function renewInvoiceInEconomic($orderData)
 	{
-		$invoiceHandle = array();
-
 		if ($orderData->is_booked == 0)
 		{
 			$data        = array();
@@ -1120,7 +1126,7 @@ class RedshopEconomic
 	/**
 	 * Method to check invoice is draft or booked in E-conomic
 	 *
-	 * @param   array  $orderDetail  Order detail
+	 * @param   object  $orderDetail  Order detail
 	 *
 	 * @return  array
 	 *
@@ -1144,16 +1150,16 @@ class RedshopEconomic
 				$bookInvoiceNumber = $bookInvoiceData->Number;
 				self::updateBookInvoice($orderDetail->order_id);
 				self::updateBookInvoiceNumber($orderDetail->order_id, $bookInvoiceNumber);
-				$invoiceData[0]->invoiceStatus = "booked";
+				$bookInvoiceData[0]->invoiceStatus = "booked";
 			}
 		}
 
 		else
 		{
-			$invoiceData[0]->invoiceStatus = "draft";
+			$bookInvoiceData[0]->invoiceStatus = "draft";
 		}
 
-		return $invoiceData;
+		return $bookInvoiceData;
 	}
 
 	/**
@@ -1171,7 +1177,9 @@ class RedshopEconomic
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
 
-		$db = JFactory::getDbo();
+		$db  = JFactory::getDbo();
+		$eco = array();
+
 		$eco['invoiceHandle'] = $orderDetail->invoice_no;
 
 		if ($bookInvoiceDate != 0)
@@ -1219,7 +1227,9 @@ class RedshopEconomic
 
 			if ($orderDetail->invoice_no != '' && $orderDetail->is_booked == 0)
 			{
-				if ((Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2 && $orderDetail->order_status == Redshop::getConfig()->get('BOOKING_ORDER_STATUS')) || $checkOrderStatus == 0)
+				if ((Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2
+					&& $orderDetail->order_status == Redshop::getConfig()->get('BOOKING_ORDER_STATUS'))
+					|| $checkOrderStatus == 0)
 				{
 					$userBillingInfo = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 
@@ -1384,7 +1394,7 @@ class RedshopEconomic
 	 *
 	 * @param   string  $productNumber  Product Number
 	 *
-	 * @return  array
+	 * @return  object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -1395,7 +1405,7 @@ class RedshopEconomic
 		$query = $db->getQuery(true)
 					->select('*')
 					->from($db->qn('#__redshop_product'))
-					->where($db->qn('roduct_number') . ' = ' . $db->quote($productNumber));
+					->where($db->qn('product_number') . ' = ' . $db->quote($productNumber));
 		$db->setQuery($query);
 
 		return $db->loadObject();
@@ -1426,33 +1436,28 @@ class RedshopEconomic
 
 			for ($i = 0, $in = count($orderItemdata); $i < $in; $i++)
 			{
-				if (true)
-				{
-					$product = self::getProductByNumber($orderItemdata[$i]->order_acc_item_sku);
+				$product = self::getProductByNumber($orderItemdata[$i]->order_acc_item_sku);
 
-					if (count($product) > 0)
-					{
-						self::createProductInEconomic($product);
-					}
+				if (count($product) > 0)
+				{
+					self::createProductInEconomic($product);
 				}
 
 				$accessoryQuantity = " (" . JText::_('COM_REDSHOP_ACCESSORY_QUANTITY_LBL') . " " . $orderItemdata[$i]->product_quantity . ") ";
-				$displayAccessory .= "\n" . urldecode($orderItemdata[$i]->order_acc_item_name) . " (" . ($orderItemdata[$i]->order_acc_price + $orderItemdata[$i]->order_acc_vat) . ")" . $accessoryQuantity;
+				$displayAccessory .= "\n" . urldecode($orderItemdata[$i]->order_acc_item_name)
+				. " (" . ($orderItemdata[$i]->order_acc_price + $orderItemdata[$i]->order_acc_vat) . ")" . $accessoryQuantity;
 
-				if (true)
-				{
-					$setPrice += $orderItemdata[$i]->product_acc_item_price;
+				$setPrice += $orderItemdata[$i]->product_acc_item_price;
 
-					$eco['updateInvoice']    = 0;
-					$eco['invoiceHandle']    = $invoiceNo;
-					$eco['order_item_id']    = $orderItem->order_item_id;
-					$eco['product_number']   = $orderItemdata[$i]->order_acc_item_sku;
-					$eco['product_name']     = $orderItemdata[$i]->order_acc_item_name;
-					$eco['product_price']    = $orderItemdata[$i]->product_acc_item_price;
-					$eco['product_quantity'] = $orderItemdata[$i]->product_quantity;
-					$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
-					$invoiceLineNo           = self::$dispatcher->trigger('createInvoiceLine', array($eco));
-				}
+				$eco['updateInvoice']    = 0;
+				$eco['invoiceHandle']    = $invoiceNo;
+				$eco['order_item_id']    = $orderItem->order_item_id;
+				$eco['product_number']   = $orderItemdata[$i]->order_acc_item_sku;
+				$eco['product_name']     = $orderItemdata[$i]->order_acc_item_name;
+				$eco['product_price']    = $orderItemdata[$i]->product_acc_item_price;
+				$eco['product_quantity'] = $orderItemdata[$i]->product_quantity;
+				$eco['delivery_date']    = date("Y-m-d") . "T" . date("h:i:s");
+				$invoiceLineNo           = self::$dispatcher->trigger('createInvoiceLine', array($eco));
 
 				$displayAttribute = self::makeAttributeOrder($invoiceNo, $orderItem, 1, $orderItemdata[$i]->product_id, $userId);
 				$displayAccessory .= $displayAttribute;
@@ -1463,7 +1468,7 @@ class RedshopEconomic
 					$displayAttribute = '';
 				}
 
-				if (true && count($invoiceLineNo) > 0 && $invoiceLineNo[0]->Number)
+				if (count($invoiceLineNo) > 0 && $invoiceLineNo[0]->Number)
 				{
 					$eco['updateInvoice']    = 1;
 					$eco['invoiceHandle']    = $invoiceNo;
@@ -1520,7 +1525,11 @@ class RedshopEconomic
 				}
 
 				$displayAttribute .= "\n" . urldecode($orderItemAttData[$i]->section_name) . " : ";
-				$orderPropData = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "property", $orderItemAttData[$i]->section_id);
+				$orderPropData = RedshopHelperOrder::getOrderItemAttributeDetail(
+					$orderItem->order_item_id,
+					$isAccessory, "property",
+					$orderItemAttData[$i]->section_id
+				);
 
 				for ($p = 0, $pn = count($orderPropData); $p < $pn; $p++)
 				{
@@ -1560,7 +1569,12 @@ class RedshopEconomic
 						self::createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, array($orderPropData[$p]));
 					}
 
-					$orderSubpropdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "subproperty", $orderPropData[$p]->section_id);
+					$orderSubpropdata = RedshopHelperOrder::getOrderItemAttributeDetail(
+						$orderItem->order_item_id,
+						$isAccessory,
+						"subproperty",
+						$orderPropData[$p]->section_id
+					);
 
 					if (count($orderSubpropdata) > 0)
 					{
@@ -1623,7 +1637,7 @@ class RedshopEconomic
 	 * Create Attribute Invoice Line In Economic
 	 *
 	 * @param   string  $invoiceNo     Invoice number
-	 * @param   array   $orderItem     Order Item
+	 * @param   object  $orderItem     Order Item
 	 * @param   array   $orderAttitem  Ordere Attribute Item
 	 *
 	 * @return  void

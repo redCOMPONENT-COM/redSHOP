@@ -237,13 +237,13 @@ class economic
 	 * @param   string   $invoice_no  Invoice Number
 	 * @param   integer  $user_id     User ID
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createInvoiceLineInEconomic() instead
 	 */
 	public function createInvoiceLineInEconomic($orderitem = array(), $invoice_no = "", $user_id = 0)
 	{
-		return RedshopEconomic::createInvoiceLineInEconomic($orderitem, $invoice_no, $user_id);
+		RedshopEconomic::createInvoiceLineInEconomic($orderitem, $invoice_no, $user_id);
 	}
 
 	/**
@@ -252,13 +252,13 @@ class economic
 	 * @param   array   $orderitem   Order Item
 	 * @param   string  $invoice_no  Invoice Number
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createGiftCardInvoiceLineInEconomic() instead
 	 */
 	public function createGFInvoiceLineInEconomic($orderitem = array(), $invoice_no = "")
 	{
-		return RedshopEconomic::createGiftCardInvoiceLineInEconomic($orderitem, $invoice_no);
+		RedshopEconomic::createGiftCardInvoiceLineInEconomic($orderitem, $invoice_no);
 	}
 
 	/**
@@ -283,13 +283,13 @@ class economic
 	 * @param   string  $ship_method_id  Shipping method ID
 	 * @param   string  $invoice_no      Invoice Number
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createInvoiceShippingLineInEconomic() instead
 	 */
 	public function createInvoiceShippingLineInEconomic($ship_method_id = "", $invoice_no = "")
 	{
-		return RedshopEconomic::createInvoiceShippingLineInEconomic($ship_method_id, $invoice_no);
+		RedshopEconomic::createInvoiceShippingLineInEconomic($ship_method_id, $invoice_no);
 	}
 
 	/**
@@ -301,14 +301,14 @@ class economic
 	 * @param   integer  $isPaymentDiscount  Is payment discount or not
 	 * @param   integer  $isVatDiscount      Is VAT discount or not
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createInvoiceDiscountLineInEconomic() instead
 	 */
 	public function createInvoiceDiscountLineInEconomic($orderdetail = array(), $invoice_no = "", $data = array(), $isPaymentDiscount = 0,
 		$isVatDiscount = 0)
 	{
-		return RedshopEconomic::createInvoiceDiscountLineInEconomic($orderdetail, $invoice_no, $data, $isPaymentDiscount, $isVatDiscount);
+		RedshopEconomic::createInvoiceDiscountLineInEconomic($orderdetail, $invoice_no, $data, $isPaymentDiscount, $isVatDiscount);
 	}
 
 	/**
@@ -336,7 +336,7 @@ class economic
 	 */
 	public function deleteInvoiceInEconomic($orderdata = array())
 	{
-		return RedshopEconomic::deleteInvoiceInEconomic($orderdata);
+		RedshopEconomic::deleteInvoiceInEconomic($orderdata);
 	}
 
 	/**
@@ -446,7 +446,7 @@ class economic
 	 * Make Accessory Order
 	 *
 	 * @param   string   $invoice_no  Invoice number
-	 * @param   array    $orderItem   Order item
+	 * @param   object   $orderItem   Order item
 	 * @param   integer  $user_id     User ID
 	 *
 	 * @return  integer
@@ -462,7 +462,7 @@ class economic
 	 * Make Attribute Order
 	 *
 	 * @param   string   $invoice_no         Invoice number
-	 * @param   integer  $orderItem          Order Item
+	 * @param   object   $orderItem          Order Item
 	 * @param   integer  $is_accessory       Is accessory
 	 * @param   integer  $parent_section_id  Parent Section ID
 	 * @param   integer  $user_id            User ID
