@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia instead
+ * @deprecated  2.0.0.3  Use RedshopHelperMedia instead
  */
 
 defined('_JEXEC') or die;
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Class RedShopHelperImages
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia instead
+ * @deprecated  2.0.0.3  Use RedshopHelperMedia instead
  */
 class RedShopHelperImages extends JObject
 {
@@ -26,7 +26,7 @@ class RedShopHelperImages extends JObject
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::cleanFileName() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::cleanFileName() instead
 	 */
 	public static function cleanFileName($fileName, $id = null)
 	{
@@ -46,7 +46,7 @@ class RedShopHelperImages extends JObject
 	 *
 	 * @return  string   Thumbnail Live path
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::getImagePath() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::getImagePath() instead
 	 */
 	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50,
 		$height = 50, $proportional = -1)
@@ -66,7 +66,7 @@ class RedShopHelperImages extends JObject
 	 *
 	 * @return  string   Return destination of new thumbnail
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::generateImages() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::generateImages() instead
 	 */
 	public static function generateImages($filePath, $dest, $width, $height, $command = 'upload', $proportional = -1)
 	{
@@ -85,7 +85,7 @@ class RedShopHelperImages extends JObject
 	 *
 	 * @return  string   Return destination path
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::writeImage() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::writeImage() instead
 	 */
 	public static function writeImage($src, $dest, $altDest, $width, $height, $proportional = -1)
 	{
@@ -99,7 +99,7 @@ class RedShopHelperImages extends JObject
 	 *
 	 * @return  boolean        Return true or false
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::createDir() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::createDir() instead
 	 */
 	public static function createDir($path)
 	{
@@ -119,7 +119,7 @@ class RedShopHelperImages extends JObject
 	 *
 	 * @return  mixed    If $output is set by 'return': Return new file path, else return boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::resizeImage() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::resizeImage() instead
 	 */
 	public static function resizeImage($file, $width = 0, $height = 0, $proportional = -1, $output = 'file',
 		$deleteOriginal = true, $useLinuxCommands = false)

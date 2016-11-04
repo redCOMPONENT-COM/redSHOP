@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia instead
+ * @deprecated  2.0.0.3  Use RedshopHelperMedia instead
  */
 
 defined('_JEXEC') or die;
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Class redMedia Helper
  *
- * @deprecated  __DEPLOY_VERSION__
+ * @deprecated  2.0.0.3
  */
 class redMediahelper
 {
@@ -25,7 +25,7 @@ class redMediahelper
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::isImage() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::isImage() instead
 	 */
 	public function isImage($fileName)
 	{
@@ -39,7 +39,7 @@ class redMediahelper
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::getTypeIcon() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::getTypeIcon() instead
 	 */
 	public function getTypeIcon($fileName)
 	{
@@ -53,7 +53,7 @@ class redMediahelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::parseSize() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::parseSize() instead
 	 */
 	public function parseSize($size)
 	{
@@ -69,7 +69,7 @@ class redMediahelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::imageResize() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::imageResize() instead
 	 */
 	public function imageResize($width, $height, $target)
 	{
@@ -83,7 +83,7 @@ class redMediahelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::countFiles() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::countFiles() instead
 	 */
 	public function countFiles($dir)
 	{

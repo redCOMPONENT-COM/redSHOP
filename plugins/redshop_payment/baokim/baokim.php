@@ -51,7 +51,7 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 	protected function preparePaymentInput($orderInfo)
 	{
 		$inputs = array(
-				'action' 	  => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=baokim&orderid=" . $orderInfo['order_id'],
+				'action' 	  => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=process_payment&payment_method_id=baokim&order_id=" . $orderInfo['order_id'],
 				'firstname'   => $orderInfo['billinginfo']->firstname,
 				'lastname'    => $orderInfo['billinginfo']->lastname,
 				'email'       => $orderInfo['billinginfo']->user_email,
@@ -72,7 +72,7 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 	 *
 	 * @return  object  Contains the information of order success of falier in object
 	 */
-	public function onNotifyPaymentBaokim($element, $request)
+	public function onPrePayment_Baokim($element, $request)
 	{
 		if ($element != 'baokim')
 		{
@@ -82,7 +82,7 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 		$app                            = JFactory::getApplication();
 		$input                          = $app->input;
 		$orderHelper                    = order_functions::getInstance();
-		$orderId                        = $input->getInt('orderid');
+		$orderId                        = $input->getInt('order_id');
 		$itemId                         = $input->getInt('Itemid');
 		$order                          = $orderHelper->getOrderDetails($orderId);
 		$price                          = $order->order_total;
@@ -95,8 +95,8 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 		$data['payer_email']            = $input->post->getString('payer_email');
 		$data['payer_phone_no']         = $input->post->get('payer_phone_no');
 		$data['address']                = $input->post->getString('address');
-		$data['return']                 = $this->getReturnUrl($orderId);
-		$data['cancel']                 = $this->getNotifyUrl($orderId);
+		$data['return']                 = $this->getNotifyUrl($orderId);
+		$data['cancel']                 = $this->getReturnUrl($orderId);
 		$data['detail']                 = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&Itemid=' . $itemId, true);
 		$data['shipping_fee']           = $order->order_shipping;
 		$data['tax_fee']                = $order->order_tax;
@@ -131,31 +131,49 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 			$baokimUrl = $baokim->createRequestUrl($data);
 		}
 
-		$this->redirect = (string) $baokimUrl;
+		$redirect = (string) $baokimUrl;
+		$app->redirect($redirect);
 
 		$values      = new stdClass;
-
-		// Initialize response
-		$values->order_id                  = $orderId;
-		$values->order_status_code         = $this->params->get('invalid_status', '');
-		$values->order_payment_status_code = 'Unpaid';
-		$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_NOT_PLACED');
-		$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_NOT_PLACED');
-
-		return $values;
 	}
 
 	/**
-	 * Redirecting after payment notify
+	 * Notify payment
 	 *
-	 * @param   string   $name     Name of plugin
-	 * @param   integer  $orderId  Order Information Id
+	 * @param   string  $element  Name of plugin
+	 * @param   array   $request  HTTP request data
 	 *
-	 * @return  void
+	 * @return  object  Contains the information of order success of falier in object
 	 */
-	public function onAfterNotifyPaymentBaokim($name, $orderId)
+	public function onNotifyPaymentBaokim($element, $request)
 	{
-		$app    = JFactory::getApplication();
-		$app->redirect($this->redirect);
+		if ($element != 'baokim')
+		{
+			return;
+		}
+
+		$app              = JFactory::getApplication();
+		$input            = $app->input;
+		$orderId          = $input->getInt('order_id');
+		$errorCode        = $input->getInt('transaction_status');
+		$values           = new stdClass;
+		$values->order_id = $orderId;
+
+		if ($errorCode == 4)
+		{
+			$values->order_status_code         = $this->params->get('verify_status', 'C');
+			$values->order_payment_status_code = 'Paid';
+			$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_PLACED');
+			$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_PLACED');
+		}
+		else
+		{
+			$values->order_status_code         = $this->params->get('invalid_status', 'P');
+			$values->order_payment_status_code = 'Unpaid';
+			$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_NOT_PLACED');
+			$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_NOT_PLACED');
+		}
+
+		return $values;
 	}
 }

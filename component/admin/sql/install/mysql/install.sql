@@ -1,6 +1,7 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
+
 -- -----------------------------------------------------
 -- Table `#__redshop_accessmanager`
 -- -----------------------------------------------------
@@ -190,14 +191,14 @@ COMMENT = 'redSHOP Category relation';
 DROP TABLE IF EXISTS `#__redshop_country` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_country` (
-  `country_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `country_name` VARCHAR(64) NULL DEFAULT NULL,
-  `country_3_code` CHAR(3) NULL DEFAULT NULL,
-  `country_2_code` CHAR(2) NULL DEFAULT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `country_name` VARCHAR(64) NOT NULL DEFAULT '',
+  `country_3_code` CHAR(3) NOT NULL,
+  `country_2_code` CHAR(2) NOT NULL,
   `country_jtext` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`country_id`),
-  INDEX `idx_country_3_code` (`country_3_code` ASC),
-  INDEX `idx_country_2_code` (`country_2_code` ASC))
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `#__rs_idx_country_3_code` (`country_3_code` ASC),
+  UNIQUE INDEX `#__rs_idx_country_2_code` (`country_2_code` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'Country records';
@@ -1927,18 +1928,23 @@ COMMENT = 'redSHOP Site Viewer';
 DROP TABLE IF EXISTS `#__redshop_state` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_state` (
-  `state_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `country_id` INT(11) NOT NULL DEFAULT '1',
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `country_id` INT(11) NULL DEFAULT NULL,
   `state_name` VARCHAR(64) NULL DEFAULT NULL,
   `state_3_code` CHAR(3) NULL DEFAULT NULL,
   `state_2_code` CHAR(2) NULL DEFAULT NULL,
   `checked_out` INT(11) NOT NULL,
   `checked_out_time` DATETIME NOT NULL,
   `show_state` INT(11) NOT NULL DEFAULT '2',
-  PRIMARY KEY (`state_id`),
-  UNIQUE INDEX `state_3_code` (`country_id` ASC, `state_3_code` ASC),
-  UNIQUE INDEX `state_2_code` (`country_id` ASC, `state_2_code` ASC),
-  INDEX `idx_country_id` (`country_id` ASC))
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `#__rs_idx_state_3_code` (`country_id` ASC, `state_3_code` ASC),
+  UNIQUE INDEX `#__rs_idx_state_2_code` (`country_id` ASC, `state_2_code` ASC),
+  INDEX `#__rs_state_country_fk1` (`country_id` ASC),
+  CONSTRAINT `#__rs_state_country_fk1`
+    FOREIGN KEY (`country_id`)
+    REFERENCES `#__redshop_country` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'States that are assigned to a country';

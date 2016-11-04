@@ -670,12 +670,17 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 					'COM_REDSHOP_DISCOUNT_CALCULATOR',
 					($selectedTabPosition == 'calculator') ? true : false,
 					'calculator'
-				)->addItem(
-					'#economic_settings',
-					'COM_REDSHOP_ECONOMIC_SETTINGS',
-					($selectedTabPosition == 'economic_settings') ? true : false,
-					'economic_settings'
 				);
+
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION'))
+		{
+			$tabMenu->addItem(
+				'#economic_settings',
+				'COM_REDSHOP_ECONOMIC_SETTINGS',
+				($selectedTabPosition == 'economic_settings') ? true : false,
+				'economic_settings'
+			);
+		}
 
 		return $tabMenu;
 	}
