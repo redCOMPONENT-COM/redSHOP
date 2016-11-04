@@ -33,7 +33,7 @@ class JFormFieldRMailSections extends JFormFieldList
 	 */
 	public function getInput()
 	{
-		$items = RedshopHelperTemplate::getMailSections($this->value);
+		$items = RedshopHelperTemplate::getMailSections();
 		array_shift($items);
 		$options = array();
 
