@@ -1,0 +1,238 @@
+// dropzone CSS
+.dropzone {
+	align-items: center;
+	border: 1px dashed #ccc;
+	display: flex;
+	position: relative;
+
+	.dz-message {
+		margin: 0 auto;
+	}
+
+	.dz-preview {
+
+		&.dz-image-preview {
+			margin: 0;
+			overflow: hidden;
+			padding: 0;
+			width: 100%;
+
+			.dz-details {
+				max-width: initial;
+				min-height: auto;
+				opacity: 1;
+				padding: 0;
+				position: relative;
+			}
+		}
+
+		.dz-progress {
+			background: transparent;
+			height: 4px;
+			left: 0;
+			margin: 0;
+			top: 0;
+			width: 100%;
+		}
+
+		.dz-progress  {
+
+			.dz-upload{
+				background: linear-gradient(to bottom, #286090, #5bc0de);
+			}
+		}
+	}
+}
+
+// Bootstrap Modal CSS
+.modal-content{
+	border-radius: 6px;
+	box-sizing: border-box;
+	width: 100%;
+
+	.modal-body{
+		margin: 20px;
+		max-height: initial;
+		overflow: initial;
+		padding: 0;
+		width: auto;
+	}
+}
+
+// Toolbar custom
+.btn-toolbar  {
+
+	.btn-primary {
+		background-color: #286090;
+		color: #fff;
+	}
+
+	.btn-danger {
+		background-color: #d9534f;
+		color: #fff;
+	}
+
+	.float-none {
+		float: none;
+	}
+}
+
+// Cropper CSS
+.cropper-container {
+	overflow: hidden;
+}
+
+// Gallery modal
+#galleryModal {
+
+	.list-pane{
+		padding: 15px 0;
+	}
+
+	.tab-content {
+
+		.tab-pane {
+			position: relative;
+		}
+	}
+
+	// specific modal custom
+	.modal-dialog {
+		bottom: 0;
+		left: 30px;
+		position: absolute;
+		right: 30px;
+		top: 0;
+		width: 1024px;
+
+		.modal-content {
+			bottom: 0;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+
+		.modal-body {
+			bottom: 64px;
+			margin: 0;
+			max-height: initial;
+			overflow: auto !important;
+			padding: 0;
+			position: absolute;
+			top: 40px;
+			width: 100%;
+
+			.nav-tabs {
+				height: 37px;
+				left: 0;
+				margin: 0 !important;
+				position: absolute;
+				right: 25%;
+				top: 0;
+				width: 100%;
+			}
+
+			.tab-content {
+				bottom: 0;
+				height: auto;
+				left: 0;
+				overflow: auto;
+				position: absolute;
+				top: 37px;
+			}
+
+			.tab-pane {
+				height: 100%;
+				overflow: hidden;
+				position: relative;
+			}
+
+			.thumbnail-pane {
+				height: 100%;
+				overflow: auto;
+				padding: 15px;
+				position: relative;
+			}
+
+			.preview-pane {
+				background: #f3f3f3;
+				border-left: 1px solid #ddd;
+				bottom: 0;
+				box-shadow: inset 1px 0 0 #fff;
+				overflow: auto;
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+		}
+
+		.modal-footer {
+			bottom: 0;
+			left: 0;
+			margin-bottom: 0;
+			position: absolute;
+			right: 0;
+		}
+	}
+}
+
+.modal-backdrop,
+.modal-backdrop.fade.in {
+	opacity: 0.4
+}
+
+
+#alertGModal {
+
+	.modal-sm {
+		width: 360px;
+	}
+}
+
+.img-obj {
+	cursor: pointer;
+	height: 88px;
+	overflow: hidden;
+	width: 88px;
+
+	&:hover {
+		box-shadow: 1px 1px 3px #ddd;
+	}
+
+	&.selected {
+		border-color: #0073aa;
+		box-shadow: 0px 0px 5px #0073aa;
+	}
+}
+
+.pv-wrapper {
+	padding: 15px;
+
+	.pv-title {
+		margin-bottom: 5px;
+	}
+
+	.pv-img {
+		margin-bottom: 5px;
+	}
+
+	.pv-info {
+
+		ul {
+			color: #666;
+			font-size: 12px;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+
+			li {
+				margin-bottom: 5px;
+			}
+		}
+	}
+
+	.pv-name {
+		font-weight: bold;
+	}
+}

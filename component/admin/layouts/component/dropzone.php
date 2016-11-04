@@ -10,34 +10,7 @@
 defined('_JEXEC') or die;
 
 extract($displayData);
-
-$ilink = JRoute::_(
-	'index.php?tmpl=component&option=com_redshop&view=media&section_id='
-	. $sectionId . '&showbuttons=1&media_section='
-	. $mediaSection
-	);
-
 ?>
-<style type="text/css">
-	.dropzone{ border: 1px dashed #ccc; display: flex; align-items: center; position: relative;}
-	.dropzone .dz-message{margin: 0 auto;}
-	.dropzone .dz-preview.dz-image-preview{padding: 0; margin: 0; width: 100%; overflow: hidden;}
-	.dropzone .dz-preview.dz-image-preview .dz-details{opacity: 1; padding: 0; max-width: initial; min-height: auto; position: relative;}
-	.dropzone .dz-preview .dz-progress{top: 0; left: 0; height: 4px; background: transparent; margin: 0; width: 100%;}
-	.dropzone .dz-preview .dz-progress .dz-upload{background: linear-gradient(to bottom, #286090, #5bc0de);}
-
-	.modal-content{border-radius: 6px; box-sizing: border-box; width: 100%;}
-	.modal-content .modal-body{max-height: initial; margin: 20px; padding: 0; width: auto;overflow: initial;}
-
-	.btn-toolbar .btn-primary{background-color: #286090; color: #fff;}
-	.btn-toolbar .btn-danger{background-color: #d9534f; color: #fff;}
-
-	.text-center{text-align: center;}
-
-	.btn-toolbar .float-none{float: none;}
-
-	.cropper-container{overflow: hidden;}
-</style>
 
 <!-- Dropzone Container -->
 <div action="/" class="dropzone" id="j-dropzone" enctype="multipart/form-data">
@@ -48,19 +21,19 @@ $ilink = JRoute::_(
 <div class="btn-toolbar">
 	<button type="button" class="btn btn-small btn-primary cropping">
 		<span class="fa fa-crop"></span>
-		Crop Picture
+		<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_CROP'); ?>
 	</button>
 	<!-- button -->
 	<button type="button" class="btn btn-small btn-danger removing">
 		<span class="fa fa-trash"></span>
-		Remove
+		<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_REMOVE'); ?>
 	</button>
 	<!-- button -->
 	<button type="button" class="btn btn-small btn-success choosing pull-right"
 	data-toggle="modal"
 	data-target="#galleryModal">
 		<span class="fa fa-picture-o"></span>
-		Insert Media
+		<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_INSERT'); ?>
 	</button>
 </div>
 <input type="hidden" name="<?php echo $mediaSection ?>_image" id="<?php echo $mediaSection ?>_image" class="img-select">
@@ -88,14 +61,18 @@ $ilink = JRoute::_(
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Cropping Image</h4>
+				<h4 class="modal-title"><?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_CROPPER_TITLE'); ?></h4>
 			</div>
 			<div class="modal-body">
 				<div class="image-container"></div>
 			</div>
 			<div class="modal-footer btn-toolbar text-center">
-				<button type="button" class="btn btn-small float-none" data-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-small btn-success float-none crop-upload">Crop</button>
+				<button type="button" class="btn btn-small float-none" data-dismiss="modal">
+					<?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_BTN_CANCEL'); ?>
+				</button>
+				<button type="button" class="btn btn-small btn-success float-none crop-upload">
+					<?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_BTN_CROP'); ?>
+				</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -108,207 +85,33 @@ $ilink = JRoute::_(
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title"><i class="fa fa-warning text-yellow"></i> Warning</h4>
+				<h4 class="modal-title"><i class="fa fa-warning text-yellow"></i> <?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_ALERT_TITLE'); ?></h4>
 			</div>
 			<div class="modal-body">
 				<div class="alert-text text-center"></div>
 			</div>
 			<div class="modal-footer btn-toolbar text-center">
-				<button type="button" class="btn btn-small float-none" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-small float-none" data-dismiss="modal"><?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_BTN_CLOSE'); ?></button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End Alert Modal -->
-
-<!-- Media Modal -->
-<div id="mediaModal" class="modal fade in" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title"><i class="fa fa-picture-o"></i> Media Library</h4>
-			</div>
-			<div class="modal-body">
-				<div class="media-lib">
-					<iframe src="<?php echo $ilink ?>" width="100%" height="400px"></iframe>
-				</div>
-			</div>
-			<div class="modal-footer btn-toolbar text-center">
-				<button type="button" class="btn btn-small float-none" data-dismiss="modal">Close</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<!-- End Media Modal -->
-
 <script>
-	// jQuery(function($){
+	rsMedia.dropzone();
 
-		// transform cropper dataURI output to a Blob which Dropzone accepts
-		function dataURItoBlob(dataURI) {
-			var byteString = atob(dataURI.split(',')[1]);
-			var ab = new ArrayBuffer(byteString.length);
-			var ia = new Uint8Array(ab);
-			for (var i = 0; i < byteString.length; i++) {
-				ia[i] = byteString.charCodeAt(i);
-			}
-			return new Blob([ab], { type: 'image/jpg' });
-		}
-
-		Dropzone.autoDiscover = false;
-
-		var mediaUrl = 'index.php?option=com_redshop&view=media&task=ajaxUpload';
-
-		var dropzoneFromHtml = $("#j-dropzone-form").html();
-		$('body').append(dropzoneFromHtml);
-		if ($('#j-dropzone').length) {
-			var jDropzone = new Dropzone(
-				"#j-dropzone",
-				{
-					url: mediaUrl,
-					autoProcessQueue: false,
-					maxFiles: 1,
-					thumbnailWidth: null,
-					thumbnailHeight: null,
-					previewTemplate: $("#j-dropzone-tpl").html(),
-					<?php if (!empty($file)) { ?>
-					// initialize
-					init: function() {
-						var file = {
-							    name: "<?php echo $file['name'] ?>",
-							    size: <?php echo $file['size'] ?>,
-							    // status: Dropzone.QUEUED,
-							    accepted: true,
-							    url: "<?php echo $file['path'] ?>",
-							    blob: "<?php echo $file['blob'] ?>",
-							    preload: true
-							};
-						newfile = dataURItoBlob(file.blob);
-						newfile.name = file.name;
-						// this.emit("addedfile", file);
-						// And optionally show the thumbnail of the file:
-						this.emit("thumbnail", file, file.url);
-						// this.files.push(file);
-						this.addFile(newfile);
-					}
-					<?php } ?>
-				}
-			);
-
-			jDropzone.on("maxfilesexceeded", function(file) {
-				this.removeAllFiles();
-				this.addFile(file);
-			});
-
-			jDropzone.on('addedfile',  function(file) {
-				if (this.files.length > 1) {
-					this.removeFile(this.files[0]);
-				}
-			});
-
-			// jDropzone.on('thumbnail',  function(file) {
-			// 	if (file) {
-			// 		jDropzone.processQueue();
-			// 	}
-			// });
-
-			jDropzone.on('success', function(file, response){
-				response = JSON.parse(response);
-				console.log(response.data.file);
-				if (response.success) {
-					$(".img-select").val(response.data.file);
-				}
-			});
-
-			$(document).on('click', 'button.cropping',function(e) {
-				e.preventDefault();
-				// ignore files which were already cropped and re-rendered
-				// to prevent infinite loop
-				var file = jDropzone.files[0];
-
-				if (!file) {
-					$('#alertModal').find('.alert-text').text('Please insert an image!!!');
-					$('#alertModal').modal('show');
-					return;
-				}
-
-				if (file.width < 100) {
-					// validate width to prevent too small files to be uploaded
-					// .. add some error message here
-					return;
-				}
-				// cache filename to re-assign it to cropped file
-				var cachedFilename = file.name;
-
-				// dynamically create modals to allow multiple files processing
-				// var $cropperModal = $($.parseHTML(modalTemplate));
-				var $cropperModal = $("#cropModal");
-				// 'Crop and Upload' button in a modal
-				var $uploadCrop = $cropperModal.find('.crop-upload');
-
-				var $img = $('<img />');
-				// initialize FileReader which reads uploaded file
-				var reader = new FileReader();
-				reader.onloadend = function () {
-					// add uploaded and read image to modal
-					$img.attr('src', reader.result);
-					$cropperModal.find('.image-container').html($img);
-
-					// initialize cropper for uploaded image
-					$img.cropper({
-						// aspectRatio: 16 / 9,
-						dragMode: 'move',
-						autoCropArea: .5,
-						movable: false,
-						cropBoxResizable: true,
-						// minCropBoxWidth: 200,
-						minContainerWidth: 560,
-						minContainerHeight: 560,
-						viewMode: 3,
-						zoomable: false
-					});
-				};
-				// read uploaded file (triggers code above)
-				if (file.preload) {
-					reader.readAsDataURL(dataURItoBlob(file.blob));
-				} else {
-					reader.readAsDataURL(file);
-				}
-
-				// unbind event click Crop button
-				$uploadCrop.off('click');
-
-				$cropperModal.modal('show');
-
-				// listener for 'Crop and Upload' button in modal
-				$uploadCrop.on('click', function() {
-					// get cropped image data
-					var blob = $img.cropper('getCroppedCanvas').toDataURL();
-					// transform it to Blob object
-					var newFile = dataURItoBlob(blob);
-					// set 'cropped to true' (so that we don't get to that listener again)
-					newFile.cropped = true;
-					// assign original filename
-					newFile.name = cachedFilename;
-					// remove not cropped file from dropzone (we will replace it later)
-					jDropzone.removeFile(file);
-					// add cropped file to dropzone
-					jDropzone.addFile(newFile);
-					// upload cropped file with dropzone
-					/*jDropzone.processQueue();*/
-					$cropperModal.modal('hide');
-				});
-			});
-
-			$(document).on('click', 'button.removing',function(e) {
-				jDropzone.removeAllFiles();
-			});
-		}
-
-		// $("#mediaModal").on('show.bs.modal', function (e) {
-		// 	console.log(e);
-  //           $("#mediaModal").find(".media-lib").load($(e.relatedTarget).data('href'));
-  //       });
-	// });
+	// preload file
+	var file = false;
+	<?php if (!empty($file)) { ?>
+	file = {
+		name: "<?php echo $file['name'] ?>",
+		size: <?php echo $file['size'] ?>,
+		// status: Dropzone.QUEUED,
+		accepted: true,
+		url: "<?php echo $file['path'] ?>",
+		blob: "<?php echo $file['blob'] ?>",
+		preload: true
+	};
+	<?php } ?>
+	rsMedia.dropzonePreload(rsMedia.dropzoneInstance, file);
 </script>
