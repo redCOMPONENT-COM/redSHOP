@@ -119,7 +119,7 @@ JHTMLBehavior::modal();
 			}
 		}
 
-		$.when(jDropzone.processQueue()).then(function(){
+		$.when(rsMedia.dropzoneInstance.processQueue()).then(function(){
 			setTimeout(function(){
 				submitform(pressbutton);
 			}, 500);

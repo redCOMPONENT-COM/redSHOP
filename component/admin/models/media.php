@@ -415,17 +415,22 @@ class RedshopModelMedia extends RedshopModel
 		}
 	}
 
-	public function all($type = '')
+	/**
+	 * Get all media items
+	 *
+	 * @return  array
+	 */
+	public function all()
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 					->select('*')
 					->from($db->qn("#__redshop_media"));
 
-		if ($type !== '')
-		{
-			$query->where($db->qn('media_section') . '=' . $db->quote($type));
-		}
+		// if ($type !== '')
+		// {
+		// 	$query->where($db->qn('media_section') . '=' . $db->quote($type));
+		// }
 
 		$db->setQuery($query);
 

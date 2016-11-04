@@ -28,7 +28,7 @@ gulp.task('scripts:' + baseTask, function() {
             path.basename += '-uncompressed';
         }))
         .pipe(gulp.dest(mediaPath + '/js'))
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(rename(function (path) {
             path.basename = path.basename.replace('-uncompressed', '');
         }))
@@ -40,7 +40,7 @@ gulp.task('sass:' + baseTask, function(){
     return gulp.src([
         assetsPath + "/scss/bootstrap-grid.scss",
         assetsPath + "/scss/style.scss",
-        assetsPath + "/scss/jquery.ezdz.scss"
+        assetsPath + "/scss/media.scss"
     ])
         .pipe(rename(function (path) {
             path.basename += '-uncompressed';
@@ -161,6 +161,7 @@ gulp.task('copy:' + baseTask + ':backend', ['clean:' + baseTask + ':backend'], f
 // Copy: media
 gulp.task('copy:' + baseTask + ':media', ['clean:' + baseTask + ':media'], function() {
     return gulp.src(mediaPath + '/**')
+        .pipe(gulp.dest(config.wwwDir + '/media/com_reditem'))
         .pipe(gulp.dest(config.wwwDir + '/media/com_redshop'));
 });
 
@@ -211,7 +212,9 @@ gulp.task('watch:' + baseTask + ':sass',
         gulp.watch([
             assetsPath + '/scss/*.scss'
             ],
-            ['sass:' + baseTask, browserSync.reload]
+            ['sass:' + baseTask,
+                //browserSync.reload
+            ]
         );
     });
 
@@ -219,13 +222,16 @@ gulp.task('watch:' + baseTask + ':sass',
 gulp.task('watch:' + baseTask + ':scripts', function() {
     gulp.watch([
         assetsPath + '/js/*.js'
-    ], ['scripts:' + baseTask, browserSync.reload]);
+    ], ['scripts:' + baseTask,
+        //browserSync.reload
+    ]);
 });
 
 // Watch: media
 gulp.task('watch:' + baseTask + ':media', function() {
     gulp.watch([
-            mediaPath + '/**/*',
+            mediaPath + '/**/*.js',
+            mediaPath + '/**/*.css',
             // Do not handle redCORE stuff
             '!' + mediaPath + '/translations/**/*'
         ],

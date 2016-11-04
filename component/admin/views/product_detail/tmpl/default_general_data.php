@@ -10,6 +10,8 @@ defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 
+RedshopHelperMediaImage::requireDependencies();
+
 $editor = JFactory::getEditor();
 $calendarFormat = '%d-%m-%Y';
 ?>
