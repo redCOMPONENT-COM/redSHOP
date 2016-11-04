@@ -318,9 +318,9 @@ class RedshopHelperMail
 		}
 
 		$manufacturerEmail = array();
-		$row               = $orderFunctions->getOrderDetails($order_id);
-		$billingAddresses  = RedshopHelperOrder::getOrderBillingUserInfo($order_id);
-		$orderPayment      = $orderFunctions->getOrderPaymentDetail($order_id);
+		$row               = $orderFunctions->getOrderDetails($orderId);
+		$billingAddresses  = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+		$orderPayment      = $orderFunctions->getOrderPaymentDetail($orderId);
 		$paymentMethod     = $orderFunctions->getPaymentMethodInfo($orderPayment[0]->payment_method_class);
 		$paymentMethod     = $paymentMethod[0];
 		$message           = $cartHelper->replaceOrderTemplate($row, $message, true);
@@ -338,8 +338,7 @@ class RedshopHelperMail
 		$replace[]      = $productHelper->getProductFormattedPrice($row->special_discount_amount);
 		$search[]       = "{special_discount_lbl}";
 		$replace[]      = JText::_('COM_REDSHOP_SPECIAL_DISCOUNT');
-		$orderDetailUrl = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid='
-			. $order_id . '&encr=' . $row->encr_key;
+		$orderDetailUrl = JURI::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $row->encr_key;
 		$search[]       = "{order_detail_link}";
 		$replace[]      = "<a href='" . $orderDetailUrl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
@@ -672,7 +671,7 @@ class RedshopHelperMail
 	/**
 	 * Send registration mail
 	 *
-	 * @param   array  &$data  registration data 
+	 * @param   array  &$data  registration data
 	 *
 	 * @return  boolean
 	 */
