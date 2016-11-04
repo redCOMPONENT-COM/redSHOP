@@ -118,8 +118,18 @@ class RedshopHelperMail
 
 		for ($i = 0, $in = count($rowItem); $i < $in; $i++)
 		{
-			$product          = Redshop::product((int) $rowItem[$i]->product_id);
-			$manufacturerData = $productHelper->getSection("manufacturer", $product->manufacturer_id);
+			if ($rowItem[$i]->is_giftcard == '1')
+			{
+				$product          = $productHelper->getGiftcardData((int) $rowItem[$i]->product_id);
+				$manufacturerData = array();
+				$supplierData     = array();
+			}
+			else
+			{
+				$product          = Redshop::product((int) $rowItem[$i]->product_id);
+				$manufacturerData = $productHelper->getSection("manufacturer", $product->manufacturer_id);
+				$supplierData     = $productHelper->getSection("supplier", $product->supplier_id);
+			}
 
 			if (count($manufacturerData) > 0)
 			{
@@ -128,8 +138,6 @@ class RedshopHelperMail
 					$manufacturerEmail[$i] = $manufacturerData->manufacturer_email;
 				}
 			}
-
-			$supplierData = $productHelper->getSection("supplier", $product->supplier_id);
 
 			if (count($supplierData) > 0)
 			{
@@ -672,7 +680,7 @@ class RedshopHelperMail
 	/**
 	 * Send registration mail
 	 *
-	 * @param   array  &$data  registration data 
+	 * @param   array  &$data  registration data
 	 *
 	 * @return  boolean
 	 */
