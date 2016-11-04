@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia instead
+ * @deprecated  2.0.0.3  Use RedshopHelperMedia instead
  */
 
 defined('_JEXEC') or die;
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Class Helper for thumbnail
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia instead
+ * @deprecated  2.0.0.3  Use RedshopHelperMedia instead
  */
 class thumbnail
 {
@@ -29,7 +29,7 @@ class thumbnail
 	 *
 	 * @return  string   Destination of new thumbnail
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperMedia::createThumb() instead
+	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::createThumb() instead
 	 */
 	public function createThumb($filetype, $tsrc, $dest, $nWidth, $nHeight)
 	{
@@ -40,7 +40,7 @@ class thumbnail
 /**
  * Class Helper for thumbnail images
  *
- * @deprecated  __DEPLOY_VERSION__
+ * @deprecated  2.0.0.3
  */
 class thumbnail_images
 {
