@@ -163,15 +163,15 @@ class plgRedshop_PaymentBaokim extends RedshopPayment
 		{
 			$values->order_status_code         = $this->params->get('verify_status', 'C');
 			$values->order_payment_status_code = 'Paid';
-			$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_PLACED');
-			$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_PLACED');
+			$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_PLACED');
+			$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_PLACED');
 		}
 		else
 		{
 			$values->order_status_code         = $this->params->get('invalid_status', 'P');
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_NOT_PLACED');
-			$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_NGANLUONG_ORDER_NOT_PLACED');
+			$values->log                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_NOT_PLACED');
+			$values->msg                       = JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_NOT_PLACED');
 		}
 
 		return $values;
