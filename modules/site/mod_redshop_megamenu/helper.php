@@ -72,6 +72,7 @@ class ModRedshopMegaMenuHelper
 
 				$category->category_name = str_replace('- ', '', $category->category_name);
 				$category->image = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
+				$category->sub_cat = array();
 
 				if (!empty($category->category_full_image)
 					&& (strpos($category->category_full_image, '.jpg') == true
