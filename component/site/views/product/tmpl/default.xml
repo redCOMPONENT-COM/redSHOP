@@ -13,7 +13,7 @@
                    label="COM_REDSHOP_SELECT_PRODUCTS"
                    required="true"
                    description="COM_REDSHOP_A_PRODUCT"
-                    />
+            />
         </fieldset>
     </fields>
 </metadata>

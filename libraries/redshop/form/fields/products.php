@@ -59,14 +59,13 @@ class JFormFieldProducts extends JFormField
 
 		$value = htmlspecialchars($product->product_name, ENT_QUOTES, 'UTF-8');
 		$attributes [] = 'style="background: #ffffff;"';
-		$attributes [] = 'disabled="disabled"';
 		$attributes [] = ($this->required) ? 'required="required"' : '';
 		$class [] = ($this->required) ? 'required=' : '';
 		$attributes = array_merge($attributes, $class);
 		$attributes = trim(implode(' ', array_unique($attributes)));
 
 		$html = '<div style="float: left;">';
-		$html .= '<input type="text" id="' . $name . '_name" value="' . $value . '" ' . $attributes . ' />';
+		$html .= '<input type="text" id="' . $name . '_name" value="' . $value . '" ' . 'disabled="disabled"' . ' />';
 		$html .= '</div>';
 		$html .= '<div class="button2-left">';
 		$html .= '<div class="blank">';
