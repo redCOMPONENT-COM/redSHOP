@@ -30,6 +30,29 @@
                         description="MOD_REDSHOP_MEGAMENU_PARAMS_CATEGORY_DESC"
                         multiple="false"
                         />
+                <field
+                        name="ordering"
+                        type="list"
+                        label="MOD_REDSHOP_MEGAMENU_PARAMS_ORDERING"
+                        description="MOD_REDSHOP_MEGAMENU_PARAMS_ORDERING_DESC"
+                        multiple="false"
+                        default="name">
+                    <option value="name">MOD_REDSHOP_MEGAMENU_PARAMS_ORDERING_OPTION_NAME</option>
+                    <option value="ordering">MOD_REDSHOP_MEGAMENU_PARAMS_ORDERING_OPTION_ORDERING</option>
+                    <option value="id">MOD_REDSHOP_MEGAMENU_PARAMS_ORDERING_OPTION_ID</option>
+                </field>
+                <field
+                        name="destination"
+                        type="list"
+                        default="asc"
+                        class="btn-group"
+                        label="MOD_REDSHOP_MEGAMENU_PARAMS_DESTINATION"
+                        description="MOD_REDSHOP_MEGAMENU_PARAMS_DESTINATION_DESC"
+                        multiple="false"
+                        >
+                    <option value="asc">MOD_REDSHOP_MEGAMENU_PARAMS_DESTINATION_OPTION_ASCENDING</option>
+                    <option value="desc">MOD_REDSHOP_MEGAMENU_PARAMS_DESTINATION_OPTION_DESCENDING</option>
+                </field>
             </fieldset>
         </fields>
     </config>
