@@ -30,11 +30,12 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=template');
 		$I->waitForText('Template Management', 30, ['css' => 'h1']);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Template Manager Page');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Template Manager Page');
 		$I->click('New');
 		$I->waitForElement(\TemplateManagerJoomla3Page::$templateName,30);
 		$I->fillField(\TemplateManagerJoomla3Page::$templateName, $templateName);
-		$I->selectOptionInChosenById('template_section', $templateSection);
+		$I->click('//*[@id="select2-chosen-1"]');
+		$I->click('//*[@id="select2-results-1"]/li[4]');
 		$I->click('Save & Close');
 		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage,60,['id' => 'system-message-container']);
 		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage, ['id' => 'system-message-container']);
@@ -82,7 +83,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=template');
 		$I->waitForText('Template Management', 30, ['css' => 'h1']);
-		$this->changeState(new \TemplateManagerJoomla3Page, $name, $state, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst);
+		$this->changeState2(new \TemplateManagerJoomla3Page, $name, $state, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst);
 	}
 
 	/**

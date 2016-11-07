@@ -28,7 +28,7 @@ class TemplateManagerJoomla3Page
 
 	public static $firstResultRow = "//div[@id='editcell']//table[1]//tbody/tr[1]";
 
-	public static $selectFirst = "//input[@id='cb0']";
+	public static $selectFirst = "//tbody/tr[1]/td[2]/div";
 
 	public static $templateStatePath = "//div[@id='editcell']//table[1]//tbody/tr[1]/td[5]/a";
 

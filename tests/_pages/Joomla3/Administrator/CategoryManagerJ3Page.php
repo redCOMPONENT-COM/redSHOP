@@ -20,20 +20,19 @@ class CategoryManagerJ3Page
 
 	public static $categoryName = "#category_name";
 
-	public static $categoryFilter = ['id' => 'category_main_filter'];
+	public static $categoryFilter = "//*[@id='category_main_filter']";
 
 	public static $categoryTemplateDropDown = "//div[@id='category_template_chzn']/a";
 
-	public static $categorySearch = "//button[@onclick=\"document.adminForm.submit();\"]";
+	public static $categorySearch = "//*[@id='editcell']/div[1]/div[1]/div/input[3]";
 
-	public static $categoryResultRow = "//div[@id='editcell']/div[2]/table/tbody/tr/td[3]";
+	public static $categoryResultRow = "//*[@id='editcell']/div[2]/table/tbody/tr/td[3]/a"; //update
 
-	public static $categoryStatePath = "//tbody/tr/td[7]/a";
+	public static $categoryStatePath = "//tbody/tr[1]/td[7]/a";
 
-	public static $checkAll = "//input[@id='cb0']/following-sibling::ins";
+	public static $checkAll = "//*[@id='editcell']/div[2]/table/tbody/tr[1]/td[3]/a"; 
 
-	public static $categoryTemplateIDDropDown = "//div[@id='compare_template_id_chzn']/a";
-
+	public static $categoryTemplateIDDropDown = ['id' => 's2id_category_parent_id']; 
 	/**
 	 * Function to get the Path for Template ID
 	 *

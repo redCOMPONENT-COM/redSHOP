@@ -42,6 +42,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 			$I->verifyNotices(false, $this->checkForNotices(), $page . ' New');
 			$I->click('Cancel');
 		}
+
 	}
 
 	/**
@@ -84,9 +85,38 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
 		$I->filterListBySearching($deleteItem);
-		$I->click($check);
+		$I->click('//tbody/tr[1]/td[2]/div');
 		$I->click('Delete');
 		$I->dontSeeElement(['link' => $deleteItem]);
+	}
+		public function deleteCp($pageClass, $deleteItem, $resultRow, $check)
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching1($deleteItem);
+		$I->click('//tbody/tr[1]/td[2]/div');
+		$I->click('Delete');
+		
+	}
+		public function deleteCt($pageClass, $deleteItem, $resultRow, $check)
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching2($deleteItem);
+		$I->click('//tbody/tr[1]/td[2]/div');
+		$I->click('Delete');
+		
+	}
+		public function deleteDc($pageClass, $deleteItem, $resultRow, $check)
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching3($deleteItem);
+		$I->click('//tbody/tr[1]/td[2]/div');
+		$I->click('Delete');
+		$I->waitForText('Discount Detail Deleted Successfully', 60, ['id' => 'system-message-container']);
+		$I->dontSeeElement(['link' => $name]);
+		
 	}
 
 	/**
@@ -136,32 +166,87 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
 		$I->filterListBySearching($item, $searchField);
-		$I->click($check);
-
+		var_dump($check);
+		$I->click('//tbody/tr[1]/td[3]/a');
 		if ($state == 'unpublish')
 		{
-			$I->click("Unpublish");
+			$I->click('//*[@id="published0-lbl"]/div');
 		}
 		else
 		{
-			$I->click("Publish");
+			$I->click('//*[@id="published1-lbl"]/div');
 		}
+	}
+
+	public function changeState1($pageClass, $item, $state, $resultRow, $check, $searchField = ['id' => 'filter'])
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching($item, $searchField);
+		$I->click('//tbody/tr[1]/td[3]/div/a');
+		if ($state == 'unpublish')
+		{
+			$I->click('//*[@id="jform_published"]/div[2]');
+		}
+		else
+		{
+			$I->click('//*[@id="jform_published"]/div[1]');
+		}
+	}
+	public function changeState2($pageClass, $item, $state, $resultRow, $check, $searchField = ['id' => 'filter'])
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching($item, $searchField);
+		$I->click('//tbody/tr[1]/td[3]/a');
+		if ($state == 'unpublish')
+		{
+			$I->click('//*[@id="published0-lbl"]');
+		}
+		else
+		{
+			$I->click('//*[@id="published1-lbl"]');
+		}
+		$I->click('Save & Close');
 	}
 
 	/**
 	 * Filters an administrator list by searching for a given string
 	 *
-	 * @param   String  $text         text to be searched to filter the administrator list
-	 * @param   String  $searchField  id of field to search
-	 *
-	 * @return void
+	 * @param   Object  $pageClass  Page Class on which we are performing the Operation
+	 * @param   String  $text  text to be searched to filter the administrator list
 	 */
-	public function filterListBySearching($text, $searchField = ['id' => 'filter_search'])
+	public function filterListBySearching($text, $searchField = ['id' => 'filter'])
 	{
 		$I = $this;
-		$I->executeJS('window.scrollTo(0,0)');
+		$I->click('Reset');
 		$I->fillField($searchField, $text);
-		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->pressKey($searchField, \WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $text]);
+	}
+	
+	public function filterListBySearching1($text, $searchField = ['id' => 'filter_search'])
+	{
+		$I = $this;
+		$I->click('//*[@id="reset"]');
+		$I->fillField($searchField, $text);
+		$I->pressKey($searchField, \WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $text]);
+	}
+	public function filterListBySearching2($text, $searchField = ['id' => 'filter_search'])
+	{
+		$I = $this;
+		$I->click('Reset');
+		$I->fillField($searchField, $text);
+		$I->pressKey($searchField, \WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $text]);
+	}
+	public function filterListBySearching3($text, $searchField = ['id' => 'name_filter'])
+	{
+		$I = $this;
+		$I->click('Reset');
+		$I->fillField($searchField, $text);
+		$I->pressKey($searchField, \WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
 	}
 }

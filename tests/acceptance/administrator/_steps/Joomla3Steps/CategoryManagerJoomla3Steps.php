@@ -32,7 +32,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->click("New");
-		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
 		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
 		$I->click('//*[@id="s2id_category_more_template"]/ul');
@@ -54,16 +54,14 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
-		$I->wait(3);
+		$I->click(\CategoryManagerJ3Page::$categorySearch);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
 		$I->click(\CategoryManagerJ3Page::$checkAll);
-		$I->click(['link' => $categoryName]);
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
-		$I->fillField(\CategoryManagerJ3Page::$categoryName, $updatedName);
+		//$I->click('//*[@id="editcell"]/div[2]/table/tbody/tr[1]/td[3]/a');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
+		$I->fillField('#category_name', $updatedName);
 		$I->click("Save & Close");
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+		//$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
 	}
 
 	/**
@@ -79,19 +77,22 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
-		$I->wait(3);
+		$I->click(\CategoryManagerJ3Page::$categorySearch);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
+		//$I->click('//*[@id="editcell"]/div[2]/table/tbody/tr[1]/td[3]/a'); //update
 		$I->click(\CategoryManagerJ3Page::$checkAll);
 
 		if ($state == 'unpublish')
 		{
-			$I->click(\CategoryManagerJ3Page::$categoryStatePath);
+			$I->click('//*[@id="published0-lbl"]/div/ins');
 		}
 		else
 		{
-			$I->click(\CategoryManagerJ3Page::$categoryStatePath);
+			$I->click('//*[@id="published1-lbl"]/div/ins');
 		}
+
+		$I->click("Save & Close");
+
 	}
 
 	/**
@@ -108,8 +109,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
 		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
-		$I->wait(3);
+		$I->click(\CategoryManagerJ3Page::$categorySearch);
 
 		if ($functionName == 'Search')
 		{
@@ -134,8 +134,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
 		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
-		$I->wait(3);
+		$I->click(\CategoryManagerJ3Page::$categorySearch);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
 		$text = $I->grabAttributeFrom(\CategoryManagerJ3Page::$categoryStatePath, 'onclick');
 
@@ -165,10 +164,10 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
 		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
-		$I->wait(3);
+		$I->click(\CategoryManagerJ3Page::$categorySearch);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
-		$I->click(\CategoryManagerJ3Page::$checkAll);
+		$I->click('//tbody/tr[1]/td[2]/div');
+		//$I->click(\CategoryManagerJ3Page::$checkAll);
 		$I->click("Delete");
 		$I->acceptPopup();
 	}
