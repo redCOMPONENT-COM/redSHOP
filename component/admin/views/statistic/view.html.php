@@ -21,10 +21,6 @@ class RedshopViewStatistic extends RedshopViewAdmin
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
-		$document->addStyleSheet('components/com_redshop/assets/css/daterangepicker.css');
-		$document->addScript('components/com_redshop/assets/js/moment.min.js');
-		$document->addScript('components/com_redshop/assets/js/daterangepicker.js');
-
 		$layout = $app->input->getCmd('layout', '');
 
 		$startdate = $app->input->getInt('startdate', 0);
@@ -138,46 +134,6 @@ class RedshopViewStatistic extends RedshopViewAdmin
 			$neworder = $this->get('NewOrders');
 			$total = count($neworder);
 		}
-		elseif ($layout == 'customer_statistic')
-		{
-			$this->setLayout('customer_statistic');
-			$this->export    = 'exportCustomer';
-			$title           = JText::_('COM_REDSHOP_STATISTIC_CUSTOMER');
-			$this->customers = $this->get('Customers');
-			$total           = count($this->customers);
-		}
-		elseif ($layout == 'order_statistic')
-		{
-			$this->setLayout('order_statistic');
-			$this->export = 'exportOrder';
-			$title        = JText::_('COM_REDSHOP_STATISTIC_ORDER');
-			$this->orders = $this->get('Orders');
-			$total        = count($this->orders);
-		}
-		elseif ($layout == 'product_statistic')
-		{
-			$this->setLayout('product_statistic');
-			$this->export   = 'exportProduct';
-			$title          = JText::_('COM_REDSHOP_STATISTIC_PRODUCT');
-			$this->products = $this->get('Products');
-			$total          = count($this->products);
-		}
-		elseif ($layout == 'product_variant_statistic')
-		{
-			$this->setLayout('product_variant_statistic');
-			$this->export          = 'exportProductVariant';
-			$title                 = JText::_('COM_REDSHOP_STATISTIC_PRODUCT_VARIANT');
-			$this->productVariants = $this->get('ProductVariants');
-			$total                 = count($this->productVariants);
-		}
-		elseif ($layout == 'quotation_statistic')
-		{
-			$this->setLayout('quotation_statistic');
-			$this->export     = 'exportQuotation';
-			$title            = JText::_('COM_REDSHOP_STATISTIC_QUOTATION');
-			$this->quotations = $this->get('Quotations');
-			$total            = count($this->quotations);
-		}
 		else
 		{
 			$this->setLayout('default');
@@ -188,34 +144,29 @@ class RedshopViewStatistic extends RedshopViewAdmin
 
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC'));
 
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination       = new JPagination($total, $limitstart, $limit);
 		$this->pagination = $pagination;
 
 		$this->startdate = $startdate;
-		$this->enddate = $enddate;
+		$this->enddate   = $enddate;
 
-		$this->popularsell = $popularsell;
-		$this->bestsell = $bestsell;
-		$this->avgorderamount = $avgorderamount;
-		$this->newprod = $newprod;
-		$this->neworder = $neworder;
-		$this->totalturnover = $totalturnover;
-		$this->amountorder = $amountorder;
-		$this->amountprice = $amountprice;
+		$this->popularsell        = $popularsell;
+		$this->bestsell           = $bestsell;
+		$this->avgorderamount     = $avgorderamount;
+		$this->newprod            = $newprod;
+		$this->neworder           = $neworder;
+		$this->totalturnover      = $totalturnover;
+		$this->amountorder        = $amountorder;
+		$this->amountprice        = $amountprice;
 		$this->amountspentintotal = $amountspentintotal;
-		$this->redshopviewer = $redshopviewer;
-		$this->pageviewer = $pageviewer;
-		$this->lists = $lists;
-		$this->filteroption = $filteroption;
-		$this->typeoption = $typeoption;
-		$this->layout = $layout;
-		$this->request_url = $uri->toString();
-
-		// New featured
-		$this->filterStartDate = $app->input->getString('filter_start_date', '');
-		$this->filterEndDate   = $app->input->getString('filter_end_date', '');
-		$this->filterDateLabel = $app->input->getString('filter_date_label', '');
-		$this->title           = $title;
+		$this->redshopviewer      = $redshopviewer;
+		$this->pageviewer         = $pageviewer;
+		$this->lists              = $lists;
+		$this->filteroption       = $filteroption;
+		$this->typeoption         = $typeoption;
+		$this->layout             = $layout;
+		$this->request_url        = $uri->toString();
+		$this->title              = $title;
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -232,23 +183,5 @@ class RedshopViewStatistic extends RedshopViewAdmin
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $this->title, 'statistic redshop_statistic48');
-
-		// Prepare text for title
-		if (!empty($this->export))
-		{
-			RedshopToolbarHelper::custom(
-						$this->export,
-						'save.png',
-						'save_f2.png',
-						'COM_REDSHOP_EXPORT_DATA_LBL',
-						false
-					);
-			RedshopToolbarHelper::link(
-				'index.php?tmpl=component&option=com_redshop&view=statistic&layout=' . $this->layout,
-				'print',
-				'COM_REDSHOP_PRINT',
-				'_blank'
-			);
-		}
 	}
 }

@@ -33,9 +33,6 @@ class RedshopModelStatistic extends RedshopModelList
 		$input                 = JFactory::getApplication()->input;
 		$this->_filteroption   = $input->getInt('filteroption', 0);
 		$this->_typeoption     = $input->getInt('typeoption', 2);
-		$this->filterStartDate = $input->getString('filter_start_date', '');
-		$this->filterEndDate   = $input->getString('filter_end_date', '');
-		$this->filterDateLabel = $input->getString('filter_date_label', '');
 
 		if (!$this->_filteroption && $input->getString('view', '') == "")
 		{
@@ -204,7 +201,8 @@ class RedshopModelStatistic extends RedshopModelList
 			->order($db->qn('publish_date') . ' ASC');
 		$minDate = $db->setQuery($query)->loadResult();
 
-		$query->getQuery(true)
+		$query = $db->getQuery(true)
+			->clear()
 			->select($db->qn('product_id'))
 			->select($db->qn('product_name'))
 			->select($db->qn('product_price'))
@@ -308,307 +306,6 @@ class RedshopModelStatistic extends RedshopModelList
 		}
 
 		return $newOrders;
-	}
-
-	/**
-	 * get Order data for statistic
-	 *
-	 * @return  object.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function getOrders()
-	{
-		$format = $this->getDateFormat();
-		$db     = $this->getDBO();
-		$query = $db->getQuery(true)
-			->select('FROM_UNIXTIME(cdate,"' . $format . '") AS viewdate')
-			->select('SUM(order_total) AS order_total')
-			->select('COUNT(*) AS count')
-			->from($db->qn('#__redshop_orders'))
-			->order($db->qn('cdate') . ' DESC')
-			->group($db->qn('viewdate'));
-
-		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
-		{
-			$query->where($db->qn('cdate') . ' > ' . $db->q(strtotime($this->filterStartDate)))
-			->where($db->qn('cdate') . ' <= ' . $db->q(strtotime($this->filterEndDate) + 86400));
-		}
-
-		return $db->setQuery($query)->loadObjectList();
-	}
-
-	/**
-	 * get Order data for export
-	 *
-	 * @return  object.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function exportOrder()
-	{
-		$db = $this->getDBO();
-		$query = $db->getQuery(true)
-			->select('DISTINCT(o.cdate)')
-			->select('o.*')
-			->select('ouf.*')
-			->from($db->qn('#__redshop_orders', 'o'))
-			->leftjoin($db->qn('#__redshop_order_users_info', 'ouf') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('ouf.order_id'))
-			->where($db->qn('ouf.address_type') . ' = ' . $db->q('BT'))
-			->order($db->qn('o.order_id') . ' DESC');
-
-		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
-		{
-			$query->where($db->qn('o.cdate') . ' > ' . $db->q(strtotime($this->filterStartDate)))
-				->where($db->qn('o.cdate') . ' <= ' . $db->q(strtotime($this->filterEndDate) + 86400));
-		}
-
-		return $this->_getList($query);
-	}
-
-	/**
-	 * Count product by order
-	 *
-	 * @return  object.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function countProductByOrder()
-	{
-		$db = $this->getDBO();
-		$query = $db->getQuery(true)
-			->select($db->qn('order_id'))
-			->select('COUNT(order_item_id) AS noproduct')
-			->from($db->qn('#__redshop_order_item'))
-			->group($db->qn('order_id'));
-
-		return $db->setQuery($query)->loadObjectList();
-	}
-
-	/**
-	 * get Product data for statistic
-	 *
-	 * @return  object.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function getProducts()
-	{
-		$format = $this->getDateFormat();
-		$db     = $this->getDBO();
-		$query = $db->getQuery(true)
-			->select('DATE_FORMAT(p.publish_date,"' . $format . '") AS viewdate')
-			->select('p.*')
-			->select('COUNT(*) AS count')
-			->select('m.manufacturer_name')
-			->from($db->qn('#__redshop_product', 'p'))
-			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
-			->order($db->qn('p.publish_date') . ' DESC')
-			->group($db->qn('product_id'));
-
-		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
-		{
-			$query->where($db->qn('p.publish_date') . ' > ' . $db->q(date('Y-m-d H:i:s', strtotime($this->filterStartDate))))
-				->where($db->qn('p.publish_date') . ' <= ' . $db->q(date('Y-m-d H:i:s', strtotime($this->filterEndDate) + 86400)));
-		}
-
-		$products = $db->setQuery($query)->loadObjectList();
-
-		$query = $db->getQuery(true)
-			->select('SUM(product_final_price) AS total_sale')
-			->select('COUNT(*) AS unit_sold')
-			->select($db->qn('product_id'))
-			->from($db->qn('#__redshop_order_item'))
-			->where($db->qn('order_status') . ' = ' . $db->q('S'))
-			->group($db->qn('product_id'));
-
-		$items = $db->setQuery($query)->loadObjectList();
-
-		foreach ($products as $key => $product)
-		{
-			$products[$key]->unit_sold  = 0;
-			$products[$key]->total_sale = 0;
-
-			foreach ($items as $item)
-			{
-				if ($product->product_id == $item->product_id)
-				{
-					$products[$key]->unit_sold  = $item->unit_sold;
-					$products[$key]->total_sale = $item->total_sale;
-				}
-			}
-		}
-
-		return $products;
-	}
-
-	/**
-	 * get Product variants data for statistic
-	 *
-	 * @return  object.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function getProductVariants()
-	{
-		$format = $this->getDateFormat();
-		$db     = $this->getDBO();
-		$query = $db->getQuery(true)
-			->select('FROM_UNIXTIME(oi.cdate,"' . $format . '") AS viewdate')
-			->select('oai.*')
-			->select($db->qn('p.product_name'))
-			->select($db->qn('p.product_id'))
-			->select($db->qn('pap.property_number'))
-			->from($db->qn('#__redshop_order_attribute_item', 'oai'))
-			->leftjoin($db->qn('#__redshop_order_item', 'oi') . ' ON ' . $db->qn('oai.order_item_id') . ' = ' . $db->qn('oi.order_item_id'))
-			->leftjoin($db->qn('#__redshop_product_attribute_property', 'pap') . ' ON ' . $db->qn('oai.section_id') . ' = ' . $db->qn('property_id'))
-			->leftjoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('oi.product_id') . ' = ' . $db->qn('p.product_id'))
-			->where($db->qn('oai.section') . ' = ' . $db->q('property'))
-			->order($db->qn('oi.order_item_id') . ' DESC,' . $db->qn('oai.parent_section_id') . ' ASC');
-
-		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
-		{
-			$query->where($db->qn('p.publish_date') . ' > ' . $db->q(date('Y-m-d H:i:s', strtotime($this->filterStartDate))))
-				->where($db->qn('p.publish_date') . ' <= ' . $db->q(date('Y-m-d H:i:s', strtotime($this->filterEndDate) + 86400)));
-		}
-
-		$variants = $db->setQuery($query)->loadObjectList();
-		$data = array();
-		$result = array();
-
-		foreach ($variants as $key => $variant)
-		{
-			$data[$variant->order_item_id]['attribute'][] = $variant->section_name;
-			$data[$variant->order_item_id]['attribute_sku'][] = $variant->property_number;
-			$data[$variant->order_item_id]['viewdate'] = $variant->viewdate;
-			$data[$variant->order_item_id]['product_name'] = $variant->product_name;
-			$data[$variant->order_item_id]['product_id'] = $variant->product_id;
-		}
-
-		foreach ($data as $key => $value)
-		{
-			$result[$key]['product_attribute'] = implode(' - ', $value['attribute']);
-			$result[$key]['product_attribute_sku'] = implode(' - ', $value['attribute_sku']);
-			$result[$key]['viewdate'] = $value['viewdate'];
-			$result[$key]['product_name'] = $value['product_name'];
-			$result[$key]['product_id'] = $value['product_id'];
-		}
-
-		$query = $db->getQuery(true)
-			->select('SUM(product_final_price) AS total_sale')
-			->select('COUNT(*) AS unit_sold')
-			->select($db->qn('order_item_id'))
-			->from($db->qn('#__redshop_order_item'))
-			->where($db->qn('order_status') . ' = ' . $db->q('S'))
-			->group($db->qn('order_item_id'));
-
-		$items = $db->setQuery($query)->loadObjectList();
-
-		foreach ($result as $itemId => $value)
-		{
-			$result[$itemId]['unit_sold']  = 0;
-			$result[$itemId]['total_sale'] = 0;
-
-			foreach ($items as $item)
-			{
-				if ($itemId == $item->order_item_id)
-				{
-					$result[$itemId]['unit_sold']  = $item->unit_sold;
-					$result[$itemId]['total_sale'] = $item->total_sale;
-				}
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * get Customer data for statistic
-	 *
-	 * @return  object.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function getCustomers()
-	{
-		$format = $this->getDateFormat();
-		$db     = $this->getDBO();
-		$query = $db->getQuery(true)
-			->select('DATE_FORMAT(u.registerDate,"' . $format . '") AS viewdate')
-			->select($db->qn('ui.user_email'))
-			->select($db->qn('ui.firstname'))
-			->select($db->qn('ui.lastname'))
-			->select($db->qn('ui.users_info_id'))
-			->select($db->qn('ui.user_id'))
-			->from($db->qn('#__redshop_users_info', 'ui'))
-			->leftjoin($db->qn('#__users', 'u') . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('ui.user_id'))
-			->where($db->qn('ui.address_type') . ' = ' . $db->q('BT'))
-			->order($db->qn('u.registerDate') . ' DESC')
-			->group($db->qn('ui.users_info_id'));
-
-		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
-		{
-			$query->where($db->qn('u.registerDate') . ' > ' . $db->q(date('Y-m-d H:i:s', strtotime($this->filterStartDate))))
-				->where($db->qn('u.registerDate') . ' <= ' . $db->q(date('Y-m-d H:i:s', strtotime($this->filterEndDate) + 86400)));
-		}
-
-		$customers = $db->setQuery($query)->loadObjectList();
-
-		$query = $db->getQuery(true)
-			->select('COUNT(*) AS count')
-			->select('SUM(order_total) AS total_sale')
-			->select($db->qn('user_info_id'))
-			->from($db->qn('#__redshop_orders'))
-			->where($db->qn('order_payment_status') . ' = ' . $db->q('Paid'))
-			->group($db->qn('user_info_id'));
-
-		$orderCount = $db->setQuery($query)->loadObjectList();
-
-		foreach ($customers as $key => $customer)
-		{
-			$customers[$key]->total_sale = 0;
-			$customers[$key]->count = 0;
-
-			foreach ($orderCount as $value)
-			{
-				if ($customer->users_info_id == $value->user_info_id)
-				{
-					$customers[$key]->total_sale = $value->total_sale;
-					$customers[$key]->count = $value->count;
-				}
-			}
-		}
-
-		return $customers;
-	}
-
-	/**
-	 * get Quotation data for statistic
-	 *
-	 * @return  object.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function getQuotations()
-	{
-		$format = $this->getDateFormat();
-		$db     = $this->getDBO();
-		$query = $db->getQuery(true)
-			->select('FROM_UNIXTIME(quotation_cdate,"' . $format . '") AS viewdate')
-			->select('SUM(quotation_total) AS quotation_total')
-			->select('COUNT(*) AS count')
-			->from($db->qn('#__redshop_quotation'))
-			->where($db->qn('quotation_status') . ' = 5')
-			->order($db->qn('quotation_cdate') . ' DESC')
-			->group($db->qn('viewdate'));
-
-		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
-		{
-			$query->where($db->qn('quotation_cdate') . ' > ' . $db->q(strtotime($this->filterStartDate)))
-			->where($db->qn('quotation_cdate') . ' <= ' . $db->q(strtotime($this->filterEndDate) + 86400));
-		}
-
-		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
@@ -754,16 +451,17 @@ class RedshopModelStatistic extends RedshopModelList
 		$today    = $this->getStartDate();
 		$formate  = $this->getDateFormate();
 		$result   = array();
+		$db       = $this->getDbo();
 		$query    = $db->getQuery(true)
 			->select($db->qn('cdate'))
 			->from($db->qn('#__redshop_orders'))
-			->where($db->qn('o.order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
+			->where($db->qn('order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
 			->order($db->qn('cdate') . ' ASC');
 		$minDate = $db->setQuery($query)->loadResult();
 
 		$query = $db->getQuery(true)
 			->clear()
-			->select('FROM_UNIXTIME(o.cdate,"' . $format . '") AS viewdate')
+			->select('FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate')
 			->select('SUM(o.order_total) AS turnover')
 			->from($db->qn('#__redshop_orders', 'o'))
 			->leftjoin($db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id'))
@@ -1146,11 +844,11 @@ class RedshopModelStatistic extends RedshopModelList
 	public function getRedshopViewer()
 	{
 		$siteViewer = array();
-		$today = $this->getStartDate();
-		$formate = $this->getDateFormate();
-		$result = array();
-		$db          = JFactory::getDbo();
-		$query       = $db->getQuery(true)
+		$today      = $this->getStartDate();
+		$formate    = $this->getDateFormate();
+		$result     = array();
+		$db         = JFactory::getDbo();
+		$query      = $db->getQuery(true)
 			->select('created_date')
 			->from($db->qn('#__redshop_siteviewer'))
 			->order($db->qn('created_date') . ' ASC');
@@ -1323,40 +1021,6 @@ class RedshopModelStatistic extends RedshopModelList
 			default:
 				$return = "%Y";
 				break;
-		}
-
-		return $return;
-	}
-
-	/**
-	 * get date Format for new statistic
-	 *
-	 * @return  object.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function getDateFormat()
-	{
-		$return = "";
-		$startDate = strtotime($this->filterStartDate);
-		$endDate = strtotime($this->filterEndDate);
-		$interval = $endDate - $startDate;
-
-		if ($interval == 0 && ($this->filterDateLabel == 'Today' || $this->filterDateLabel == 'Yesterday'))
-		{
-			$return = "%d %b %Y";
-		}
-		elseif ($interval <= 1209600)
-		{
-			$return = "%d %b. %Y";
-		}
-		elseif ($interval <= 7689600)
-		{
-			$return = "%b. %Y";
-		}
-		elseif ($interval <= 31536000)
-		{
-			$return = "%Y";
 		}
 
 		return $return;
