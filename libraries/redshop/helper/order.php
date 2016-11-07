@@ -2657,6 +2657,8 @@ class RedshopHelperOrder
 			return;
 		}
 
+        jimport('joomla.filesystem.folder');
+
 		$redTemplate = Redtemplate::getInstance();
 		$pdfObj      = RedshopHelperPdf::getInstance();
 		$cartHelper  = rsCarthelper::getInstance();
