@@ -209,22 +209,6 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		}
 		$I->click('Save & Close');
 	}
-	public function changeState2($pageClass, $item, $state, $resultRow, $check, $searchField = ['id' => 'filter'])
-	{
-		$I = $this;
-		$I->amOnPage($pageClass::$URL);
-		$I->filterListBySearching($item, $searchField);
-		$I->click('//tbody/tr[1]/td[3]/a');
-		if ($state == 'unpublish')
-		{
-			$I->click('//*[@id="published0-lbl"]');
-		}
-		else
-		{
-			$I->click('//*[@id="published1-lbl"]');
-		}
-		$I->click('Save & Close');
-	}
 
 	/**
 	 * Filters an administrator list by searching for a given string
