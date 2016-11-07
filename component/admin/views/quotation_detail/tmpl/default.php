@@ -578,6 +578,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 <input type="hidden" name="option" value="com_redshop"/>
 <input type="hidden" name="view" value="quotation_detail"/>
 <input type="hidden" name="quotation_mdate" value="<?php echo time(); ?>"/>
+<input type="hidden" name="order_id" value="<?php echo $quotation->order_id; ?>"/>
 
 </form>
 
