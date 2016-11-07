@@ -41,7 +41,7 @@ class JFormFieldRTextTagSections extends JFormFieldList
 			'0' 			=> JText::_('COM_REDSHOP_SELECT'),
 			'product' 		=> JText::_('COM_REDSHOP_PRODUCT'),
 			'category' 		=> JText::_('COM_REDSHOP_CATEGORY'),
-			'newsletter'	=> JText::_('COM_REDSHOP_Newsletter')
+			'newsletter'	=> JText::_('COM_REDSHOP_NEWSLETTER')
 		];
 
 		// Get other options inserted in the XML file
