@@ -90,4 +90,44 @@ class ModRedshopMegaMenuHelper
 
 		return static::$categories[$categoryId];
 	}
+
+	/**
+	 * Method for sort categories
+	 *
+	 * @param   array   &$categories      Categories for sort.
+	 * @param   string  $sortBy           Sort ordering.
+	 * @param   string  $sortDestination  Sort destination.
+	 *
+	 * @return  void
+	 */
+	public static function sortCategories(&$categories = array(), $sortBy = 'name', $sortDestination = 'asc')
+	{
+		if (empty($categories))
+		{
+			return;
+		}
+
+		usort(
+			$categories,
+			function($a, $b) use (&$sortBy) {
+				if ($sortBy == 'id')
+				{
+					return (int) $a->category_id > (int) $b->category_id;
+				}
+				elseif ($sortBy == 'ordering')
+				{
+					return (int) $a->ordering > (int) $b->ordering;
+				}
+				else
+				{
+					return strcmp($a->category_name, $b->category_name);
+				}
+			}
+		);
+
+		if ($sortDestination == 'desc')
+		{
+			array_reverse($categories);
+		}
+	}
 }
