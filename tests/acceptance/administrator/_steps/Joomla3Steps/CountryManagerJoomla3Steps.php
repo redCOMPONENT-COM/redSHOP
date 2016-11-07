@@ -61,12 +61,12 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\CountryManagerPage::$URL);
 		$I->filterListBySearching2($countryName);
 		$I->click(['link' => $countryName]);
-		$I->waitForText('Country:', 60, ['css' => 'H1']);
+		//$I->waitForText('Country:', 60, ['css' => 'H1']);
 		//$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager Edit View');
 		$I->fillField(\CountryManagerPage::$countryName, $newCountryName);
 		$I->click('Save & Close');
 		$I->waitForText('Country Management',10,'h1');
-		$I->see('Country detail saved', ['id' => 'system-message-container']);
+		$I->see('Item successfully saved.', ['id' => 'system-message-container']);
 		$I->filterListBySearching2($newCountryName);
 		$I->seeElement(['link' => $newCountryName]);
 	}
@@ -94,6 +94,6 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCountry($countryName)
 	{
-		$this->deleteCp(new \CountryManagerPage, $countryName, \CountryManagerPage::$countryResultRow, \CountryManagerPage::$countryCheck);
+		$this->deleteCt(new \CountryManagerPage, $countryName, \CountryManagerPage::$countryResultRow, \CountryManagerPage::$countryCheck);
 	}
 }

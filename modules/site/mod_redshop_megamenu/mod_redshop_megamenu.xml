@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="site" method="upgrade">
+    <name>MOD_REDSHOP_MEGAMENU</name>
+    <creationDate>September 2015</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <version>1.0.0</version>
+    <description>MOD_REDSHOP_MEGAMENU_DESCRIPTION</description>
+    <files>
+        <folder>language</folder>
+        <folder>tmpl</folder>
+        <filename>helper.php</filename>
+        <filename module="mod_redshop_megamenu">mod_redshop_megamenu.php</filename>
+        <filename>mod_redshop_megamenu.xml</filename>
+    </files>
+    <media folder="media">
+        <folder>mod_redshop_megamenu</folder>
+    </media>
+    <config>
+        <fields name="params" addfieldpath="/libraries/redshop/form/fields">
+            <fieldset name="basic">
+                <field
+                        name="category"
+                        type="redshopcategory"
+                        default=""
+                        label="MOD_REDSHOP_MEGAMENU_PARAMS_CATEGORY"
+                        required="true"
+                        description="MOD_REDSHOP_MEGAMENU_PARAMS_CATEGORY_DESC"
+                        multiple="false"
+                        />
+            </fieldset>
+        </fields>
+    </config>
+</extension>

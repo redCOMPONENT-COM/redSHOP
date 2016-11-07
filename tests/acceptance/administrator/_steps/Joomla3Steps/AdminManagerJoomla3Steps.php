@@ -98,6 +98,26 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->click('Delete');
 		
 	}
+		public function deleteCt($pageClass, $deleteItem, $resultRow, $check)
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching2($deleteItem);
+		$I->click('//tbody/tr[1]/td[2]/div');
+		$I->click('Delete');
+		
+	}
+		public function deleteDc($pageClass, $deleteItem, $resultRow, $check)
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching3($deleteItem);
+		$I->click('//tbody/tr[1]/td[2]/div');
+		$I->click('Delete');
+		$I->waitForText('Discount Detail Deleted Successfully', 60, ['id' => 'system-message-container']);
+		$I->dontSeeElement(['link' => $name]);
+		
+	}
 
 	/**
 	 * Function to get State of an Item in the Administrator
@@ -189,6 +209,22 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		}
 		$I->click('Save & Close');
 	}
+	public function changeState2($pageClass, $item, $state, $resultRow, $check, $searchField = ['id' => 'filter'])
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching($item, $searchField);
+		$I->click('//tbody/tr[1]/td[3]/a');
+		if ($state == 'unpublish')
+		{
+			$I->click('//*[@id="published0-lbl"]');
+		}
+		else
+		{
+			$I->click('//*[@id="published1-lbl"]');
+		}
+		$I->click('Save & Close');
+	}
 
 	/**
 	 * Filters an administrator list by searching for a given string
@@ -214,6 +250,14 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->waitForElement(['link' => $text]);
 	}
 	public function filterListBySearching2($text, $searchField = ['id' => 'filter_search'])
+	{
+		$I = $this;
+		$I->click('Reset');
+		$I->fillField($searchField, $text);
+		$I->pressKey($searchField, \WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $text]);
+	}
+	public function filterListBySearching3($text, $searchField = ['id' => 'name_filter'])
 	{
 		$I = $this;
 		$I->click('Reset');

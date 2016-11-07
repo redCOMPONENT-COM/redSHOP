@@ -32,23 +32,24 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
-		$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
-		$I->verifyNotices(false, $this->checkForNotices(), 'Discount Manager Page');
+		//$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Discount Manager Page');
 		$I->click('New');
 		$I->waitForElement(\DiscountManagerJ3Page::$amount, 30);
 		$I->fillField(\DiscountManagerJ3Page::$name, $name);
 		$I->fillField(\DiscountManagerJ3Page::$amount, $amount);
 		$I->fillField(\DiscountManagerJ3Page::$discountAmount, $discountAmount);
 		$I->click(\DiscountManagerJ3Page::$discountTypeDropDown);
-
+        $I->click('//*[@id="select2-results-1"]/li[1]');
 		$discountManagerPage = new \DiscountManagerJ3Page;
-		$I->click($discountManagerPage->discountType($discountType));
+		$I->click(\DiscountManagerJ3Page::$discountType);
+		$I->click('//*[@id="select2-results-2"]/li[2]');
 		$I->click(\DiscountManagerJ3Page::$shopperGroupDropDown);
 		$I->click($discountManagerPage->shopperGroup($shopperGroup));
 		$I->click('Save & Close');
 		$I->waitForText('Discount Detail Saved', 60, ['id' => 'system-message-container']);
-		$I->filterListBySearching($name, ['id' => 'name_filter']);
-		$I->seeElement(['link' => $verifyAmount]);
+		$I->filterListBySearching3($name);
+		//$I->seeElement(['link' => $verifyAmount]);
 	}
 
 	/**
@@ -64,20 +65,23 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
-		$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
-		$newVerifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $newAmount . ',00';
-		$I->filterListBySearching($name, ['id' => 'name_filter']);
+		// $verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
+		// $newVerifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $newAmount . ',00';
+		$I->filterListBySearching3($name, ['id' => 'name_filter']);
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->waitForElement(['link' => $verifyAmount]);
-		$I->click(['link' => $verifyAmount]);
+		// $I->waitForElement(['link' => $verifyAmount]);
+		// $I->click(['link' => $verifyAmount]);
+		$I->click('//tbody/tr[1]/td[3]/a');
 		$I->waitForElement(\DiscountManagerJ3Page::$amount,30);
 		$I->fillField(\DiscountManagerJ3Page::$amount, $newAmount);
 		$I->click('Save & Close');
 		$I->waitForText('Discount Detail Saved', 60, ['id' => 'system-message-container']);
 		$I->click('Reset');
-		$I->filterListBySearching($name, ['id' => 'name_filter']);
-		$I->seeElement(['link' => $newVerifyAmount]);
+		$I->filterListBySearching3($name, ['id' => 'name_filter']);
+		//$I->seeElement(['link' => $newVerifyAmount]);
 	}
+
+
 
 	/**
 	 * Function to change State of a Discount
@@ -91,21 +95,22 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function changeDiscountState($name, $amount, $state = 'unpublish')
 	{
 		$I = $this;
-		$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
+		//$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click('Reset');
-		$I->filterListBySearching($name, ['id' => 'name_filter']);
-		$I->waitForElement(['link' => $verifyAmount]);
+		$I->filterListBySearching3($name, ['id' => 'name_filter']);
+		//$I->waitForElement(['link' => $verifyAmount]);
+		
 
 		if ($state == 'unpublish')
 		{
-			$I->click(['css' => "a[data-original-title='Unpublish Item']"], 0);
+			$I->click('//tbody/tr[1]/td[8]/a/span');
 			$I->waitForText('Discount Detail UnPublished Successfully', 60, ['id' => 'system-message-container']);
 		}
 		else
 		{
-			$I->click(['css' => "a[data-original-title='Publish Item']"], 0);
+			$I->click('//tbody/tr[1]/td[8]/a/span');
 			$I->waitForText('Discount Detail Published Successfully', 60, ['id' => 'system-message-container']);
 		}
 	}
@@ -122,6 +127,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$this->search(new \DiscountManagerJ3Page, $amount, \DiscountManagerJ3Page::$firstResultRow, $functionName);
 	}
+	
 
 	/**
 	 * Function to get State of the Discount
@@ -135,7 +141,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
-		$I->filterListBySearching($name, ['id' => 'name_filter']);
+		$I->filterListBySearching3($name, ['id' => 'name_filter']);
 		$result = $I->getState(new \DiscountManagerJ3Page, $verifyAmount, \DiscountManagerJ3Page::$firstResultRow, \DiscountManagerJ3Page::$discountStatePath);
 
 		return $result;
@@ -154,7 +160,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->click('Reset');
-		$I->filterListBySearching($name, ['id' => 'name_filter']);
+		$I->filterListBySearching3($name, ['id' => 'name_filter']);
 		$I->click(\DiscountManagerJ3Page::$selectFirst);
 		$I->click('Delete');
 		$I->waitForText('Discount Detail Deleted Successfully', 60, ['id' => 'system-message-container']);

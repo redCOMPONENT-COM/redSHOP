@@ -221,6 +221,12 @@ class RedshopHelperTemplate
 
 			else
 			{
+				if (!defined('JPATH_REDSHOP_TEMPLATE'))
+				{
+					// Define redSHOP Template Path
+					define('JPATH_REDSHOP_TEMPLATE', JPATH_SITE . "/components/com_redshop/templates");
+				}
+
 				$templateDir = JPATH_REDSHOP_TEMPLATE . '/' . $section;
 
 				@chmod(JPATH_REDSHOP_TEMPLATE, 0755);

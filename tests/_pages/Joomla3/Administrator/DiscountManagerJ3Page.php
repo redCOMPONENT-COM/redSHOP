@@ -19,19 +19,21 @@ class DiscountManagerJ3Page
 
 	public static $name = "//input[@id='name']";
 
-	public static $amount = "//input[@id='amount']";
+	public static $amount = "#amount";
 
 	public static $discountSuccessMessage = 'Discount Detail Saved';
 
 	public static $discountAmount = "//input[@id='discount_amount']";
 
-	public static $discountTypeDropDown = "//div[@id='discount_type_chzn']/a";
+	public static $discountTypeDropDown = "//*[@id='select2-chosen-1']";
 
-	public static $shopperGroupDropDown = "//div[@id='shopper_group_id_chzn']/ul/li/input";
+	public static $discountType = "//*[@id='select2-chosen-2']";
+
+	public static $shopperGroupDropDown = "//*[@id='s2id_shopper_group_id']/ul";
 
 	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
 
-	public static $selectFirst = "//input[@id='cb0']";
+	public static $selectFirst = "//tbody/tr[1]/td[2]/div";
 
 	public static $discountStatePath = "//div[@id='editcell']/table/tbody/tr/td[7]/a";
 
@@ -58,7 +60,7 @@ class DiscountManagerJ3Page
 	 */
 	public function shopperGroup($groupType)
 	{
-		$path = "//div[@id='shopper_group_id_chzn']/div/ul/li[contains(text(), '" . $groupType . "')]";
+		$path = "//*[@id='select2-drop']/ul/li[2]";
 
 		return $path;
 	}

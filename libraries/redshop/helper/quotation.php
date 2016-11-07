@@ -152,7 +152,7 @@ class RedshopHelperQuotation
 		$db    = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('COUNT' . $db->qn('q.quotation_id'))
+			->select('COUNT(' . $db->qn('quotation_id') . ')')
 			->from($db->qn('#__redshop_quotation', 'q'));
 
 		$db->setQuery($query);
@@ -363,9 +363,9 @@ class RedshopHelperQuotation
 		$query->select('fd.*')
 			->select($db->qn(array('f.field_title', 'f.field_type', 'field_name')))
 			->from($db->qn('#__redshop_quotation_fields_data', 'fd'))
-			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('qf.fieldid'))
-			->where($db->qn('qf.quotation_item_id') . ' = ' . (int) $quotationItemId)
-			->where($db->qn('fd.section') . ' = ' . $db->quote($section_id));
+			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('fd.fieldid'))
+			->where($db->qn('fd.quotation_item_id') . ' = ' . $db->q((int) $quotationItemId))
+			->where($db->qn('fd.section') . ' = ' . $db->q((int) $sectionId));
 
 		$db->setQuery($query);
 		$userField = $db->loadObjectlist();
