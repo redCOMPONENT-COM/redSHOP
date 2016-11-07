@@ -76,6 +76,7 @@ class RedshopModelAsk_Question extends RedshopModelForm
 		$data['question_date'] = time();
 
 		$row              = $this->getTable('question_detail');
+
 		$data['ordering'] = $this->MaxOrdering();
 
 		if (!$row->bind($data))
