@@ -268,13 +268,13 @@ class economic
 	 * @param   string   $invoice_no  Invoice Number
 	 * @param   integer  $user_id     User ID
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createInvoiceLineInEconomicAsProduct() instead
 	 */
 	public function createInvoiceLineInEconomicAsProduct($orderitem = array(), $invoice_no = "", $user_id = 0)
 	{
-		return RedshopEconomic::createInvoiceLineInEconomicAsProduct($orderitem, $invoice_no, $user_id);
+		RedshopEconomic::createInvoiceLineInEconomicAsProduct($orderitem, $invoice_no, $user_id);
 	}
 
 	/**
@@ -359,7 +359,7 @@ class economic
 	 * @param   array    $orderdetail      Order detail
 	 * @param   integer  $bookinvoicedate  Booking invoice date
 	 *
-	 * @return  array
+	 * @return  object
 	 *
 	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::updateInvoiceDateInEconomic() instead
 	 */

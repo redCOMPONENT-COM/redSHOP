@@ -279,6 +279,7 @@ class RedshopEconomic
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
 
+		$eco                   = array();
 		$eco['product_desc']   = utf8_encode(substr(strip_tags($row->product_desc), 0, 499));
 		$eco['product_s_desc'] = utf8_encode(substr(strip_tags($row->product_s_desc), 0, 499));
 
@@ -476,6 +477,7 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
+		$eco = array();
 
 		$eco['product_desc']   = "";
 		$eco['product_s_desc'] = "";
@@ -556,6 +558,7 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
+		$eco = array();
 
 		$orderDetail = RedshopHelperOrder::getOrderDetails($orderId);
 
@@ -685,6 +688,7 @@ class RedshopEconomic
 
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
+		$eco = array();
 
 		for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 		{
@@ -788,6 +792,7 @@ class RedshopEconomic
 		$productHelper = productHelper::getInstance();
 
 		$product                 = new stdClass;
+		$orderItem               = (object) $orderItem;
 		$product->product_id     = $orderItem->product_id;
 		$product->product_number = $orderItem->order_item_sku = "gift_" . $orderItem->product_id . "_" . $orderItem->order_item_name;
 		$product->product_name   = $orderItem->order_item_name;
@@ -828,6 +833,7 @@ class RedshopEconomic
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
 		$productHelper = productHelper::getInstance();
+		$eco = array();
 
 		for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 		{
@@ -845,9 +851,9 @@ class RedshopEconomic
 				if (count($wrapper) > 0)
 				{
 					$wrapperName = $wrapper[0]->wrapper_name;
-				}
 
-				$displayWrapper = "\n" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapperName . "(" . $orderItem[$i]->wrapper_price . ")";
+					$displayWrapper = "\n" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapperName . "(" . $orderItem[$i]->wrapper_price . ")";
+				}
 			}
 
 			// Fetch Accessory from Order Item
@@ -915,7 +921,7 @@ class RedshopEconomic
 	 * @param   string  $shipMethodId  Shipping method ID
 	 * @param   string  $invoiceNo     Invoice Number
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -923,6 +929,7 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
+		$eco = array();
 
 		if ($shipMethodId != "")
 		{
@@ -994,7 +1001,8 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
-		$redHelper     = redhelper::getInstance();
+		$eco       = array();
+		$redHelper = redhelper::getInstance();
 
 		if (Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'))
 		{
@@ -1114,6 +1122,7 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
+		$eco = array();
 
 		if ($orderData->invoice_no)
 		{
@@ -1136,6 +1145,7 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
+		$eco = array();
 
 		$eco['invoiceHandle'] = $orderDetail->invoice_no;
 		$eco['order_number']  = $orderDetail->order_number;
@@ -1168,7 +1178,7 @@ class RedshopEconomic
 	 * @param   array    $orderDetail      Order detail
 	 * @param   integer  $bookInvoiceDate  Booking invoice date
 	 *
-	 * @return  array
+	 * @return  object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -1220,6 +1230,7 @@ class RedshopEconomic
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
 		$file = '';
+		$eco  = array();
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
@@ -1426,8 +1437,10 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
+		$eco              = array();
 		$displayAccessory = "";
 		$setPrice         = 0;
+		$orderItem        = (object) $orderItem;
 		$orderItemdata    = RedshopHelperOrder::getOrderItemAccessoryDetail($orderItem->order_item_id);
 
 		if (count($orderItemdata) > 0)
@@ -1507,6 +1520,7 @@ class RedshopEconomic
 		$productHelper = productHelper::getInstance();
 		$displayAttribute = "";
 		$setPrice         = 0;
+		$orderItem        = (object) $orderItem;
 		$chktag           = $productHelper->getApplyattributeVatOrNot('', $userId);
 		$orderItemAttData = RedshopHelperOrder::getOrderItemAttributeDetail($orderItem->order_item_id, $isAccessory, "attribute", $parentSectionId);
 
@@ -1648,6 +1662,8 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
+		$eco       = array();
+		$orderItem = (object) $orderItem;
 
 		for ($i = 0, $in = count($orderAttitem); $i < $in; $i++)
 		{
