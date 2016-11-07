@@ -107,4 +107,44 @@ class RedshopHelperUtility
 
 		return Transliterator::transliterate($text);
 	}
+
+	/**
+	 * Build the list representing the menu tree
+	 *
+	 * @param   integer  $id        Id of the menu item
+	 * @param   string   $indent    The indentation string
+	 * @param   array    $list      The list to process
+	 * @param   array    &$childs   The children of the current item
+	 * @param   integer  $maxLevel  The maximum number of levels in the tree
+	 * @param   integer  $level     The starting level
+	 * @param   string   $key       The name of primary key.
+	 * @param   string   $nameKey   The name of key for item title.
+	 * @param   string   $spacer    Spacer for sub-item.
+	 *
+	 * @return  array
+	 *
+	 * @since   1.5
+	 */
+	public static function createTree($id, $indent, $list, &$childs, $maxLevel = 9999, $level = 0, $key = 'id', $nameKey = 'title',
+		$spacer = '&#160;&#160;&#160;&#160;&#160;&#160;')
+	{
+		if (empty($childs[$id]) || $level > $maxLevel)
+		{
+			return $list;
+		}
+
+		foreach ($childs[$id] as $item)
+		{
+			$nextId = $item->{$key};
+			$itemIndent = ($item->parent_id > 0) ? str_repeat($spacer, $level) . $indent : '';
+
+			$list[$nextId] = $item;
+			$list[$nextId]->treename = $itemIndent . $item->{$nameKey};
+			$list[$nextId]->indent   = $itemIndent;
+			$list[$nextId]->children = count(@$childs[$nextId]);
+			$list = static::createTree($nextId, $indent, $list, $childs, $maxLevel, $level + 1, $key, $nameKey, $spacer);
+		}
+
+		return $list;
+	}
 }
