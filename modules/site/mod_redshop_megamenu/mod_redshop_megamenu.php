@@ -20,6 +20,8 @@ require_once __DIR__ . '/helper.php';
 
 $categories = ModRedshopMegaMenuHelper::getCategories($params->get('category', 0));
 
+ModRedshopMegaMenuHelper::sortCategories($categories, $params->get('ordering', 'name'), $params->get('destination', 'asc'));
+
 if (count($categories))
 {
 	$class_sfx	= htmlspecialchars($params->get('class_sfx'));
