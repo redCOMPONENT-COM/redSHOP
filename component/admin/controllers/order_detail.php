@@ -545,20 +545,20 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		if ($redshopMail->sendOrderMail($orderId))
 		{
-			$msg = JText::_('COM_REDSHOP_SEND_ORDER_MAIL');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_SEND_ORDER_MAIL'), 'success');
 		}
 		else
 		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SENDING_ORDER_MAIL');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ERROR_SENDING_ORDER_MAIL'), 'error');
 		}
 
 		if ($tmpl)
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $orderId . '&tmpl=' . $tmpl, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $orderId . '&tmpl=' . $tmpl);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $orderId, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $orderId);
 		}
 	}
 

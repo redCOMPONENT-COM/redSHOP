@@ -195,11 +195,15 @@ class RedshopHelperMail
 			if (!empty($thirdPartyEmail) && !self::sendEmail($from, $fromName, $thirdPartyEmail, $subject, $body, true, null, $bcc))
 			{
 				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+
+				return false;
 			}
 
 			if (!self::sendEmail($from, $fromName, $email, $subject, $body, true, null, $bcc))
 			{
 				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+
+				return false;
 			}
 		}
 

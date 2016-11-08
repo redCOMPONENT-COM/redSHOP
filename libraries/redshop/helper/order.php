@@ -344,7 +344,11 @@ class RedshopHelperOrder
 						'redshop_payment',
 						self::$payment[$orderId]->payment_method_class
 					);
-			$plugin->params = new Registry($plugin->params);
+
+			if ($plugin)
+			{
+				$plugin->params = new Registry($plugin->params);
+			}
 
 			// Set plugin information
 			self::$payment[$orderId]->plugin = $plugin;
