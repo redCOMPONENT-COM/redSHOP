@@ -111,7 +111,7 @@ class RedshopViewCategory extends RedshopView
 			// Restrict category if category not published
 			if ($maincat->published == 0)
 			{
-				JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_CATEGORY_IS_NOT_PUBLISHED'), $maincat->category_name, $maincat->category_id));
+				$this->setLayout('notfound');
 			}
 
 			$isSlider = false;
