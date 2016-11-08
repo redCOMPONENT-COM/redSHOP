@@ -1405,7 +1405,7 @@ class RedshopHelperExtrafields
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('*')
-			->form($db->qn('#__redshop_fields_data'))
+			->from($db->qn('#__redshop_fields_data'))
 			->where($db->qn('itemid') . ' = ' . (int) $oldProductId)
 			->where(
 				$db->qn('section') . ' = ' . $db->quote('1')
