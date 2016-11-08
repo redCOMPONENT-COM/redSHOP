@@ -14,21 +14,21 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       2.0.0.2.1
+ * @since       2.0.0.5
  */
-class RedshopTablequestion_detail extends RedshopTable
+class RedshopTableQuestion extends RedshopTable
 {
-	/**
-	 * The table key column. Usually: id
-	 *
-	 * @var  string
-	 */
-	protected $_tableKey = 'question_id';
-
 	/**
 	 * The table name without the prefix. Ex: cursos_courses
 	 *
 	 * @var  string
 	 */
 	protected $_tableName = 'redshop_customer_question';
+
+	/**
+	 * Field name to publish/unpublish/trash table registers. Ex: state
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldState = 'published';
 }
