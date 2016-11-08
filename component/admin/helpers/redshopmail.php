@@ -16,6 +16,34 @@ defined('_JEXEC') or die;
  */
 class redshopMail
 {
+	/**
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
+	public $_table_prefix = null;
+
+	/**
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
+	public $db = null;
+
+	/**
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
+	public $_carthelper = null;
+
+	/**
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
+	public $_redhelper = null;
+
+	/**
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
+	protected static $mailTemplates = array();
+
+	/**
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
 	protected static $instance = null;
 
 	/**
@@ -34,6 +62,22 @@ class redshopMail
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @since   1.6
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
+	public function __construct()
+	{
+		$this->_db              = JFactory::getDbo();
+		$this->_table_prefix    = '#__redshop_';
+		$this->_carthelper      = rsCarthelper::getInstance();
+		$this->_redhelper       = redhelper::getInstance();
+		$this->_order_functions = order_functions::getInstance();
 	}
 
 	/**
@@ -131,7 +175,7 @@ class redshopMail
 	/**
 	 * Send registration mail
 	 *
-	 * @param   array  &$data  registration data 
+	 * @param   array  &$data  registration data
 	 *
 	 * @return  boolean
 	 *
