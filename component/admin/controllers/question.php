@@ -49,21 +49,20 @@ class RedshopControllerQuestion extends RedshopControllerForm
 		$jinput = JFactory::getApplication()->input;
 
 		$post = $jinput->post->getArray();
-		$question = $jinput->post->get('question', '', 'RAW');
-		$post["question"] = $question;
+		$data = $post['jform'];
+		$data['id'] = $post['id']? $post['id']: 0;
 
-		$cid = $jinput->post->get('cid', array(0), 'ARRAY');
+		//echo '<pre>'; var_dump($data); exit;
 
-		$post['id'] = $cid [0];
 		$model = $this->getModel('Question');
 
-		if ($post['id'] == 0)
+		if ($data['id'] == 0)
 		{
-			$post['question_date'] = time();
-			$post['parent_id'] = 0;
+			$data['question_date'] = time();
+			$data['parent_id'] = 0;
 		}
 
-		$row = $model->save($post);
+		$row = $model->save($data);
 
 		if ($row)
 		{
@@ -79,7 +78,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 			redshopMail::getInstance()->sendAskQuestionMail($post['question_id']);
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
 	}
 
 	/**

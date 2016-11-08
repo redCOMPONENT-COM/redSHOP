@@ -19,35 +19,6 @@ defined('_JEXEC') or die;
 
 class RedshopModelQuestion extends RedshopModelForm
 {
-	public $_id = null;
-
-	public $_data = null;
-
-	public $_answers = null;
-
-	/**
-	 * Construct Class
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-
-		$this->setId(JFactory::getApplication()->input->getInt('id', 0));
-	}
-
-	/**
-	 * Set ID function
-	 * 
-	 * @param   int  $id  ID
-	 *
-	 * @return void
-	 */
-	public function setId($id)
-	{
-		$this->_id = $id;
-		$this->_data = null;
-	}
-
 	/**
 	 * [getanswers description]
 	 * 
@@ -55,19 +26,7 @@ class RedshopModelQuestion extends RedshopModelForm
 	 */
 	public function getanswers()
 	{
-		$this->_loadAnswer();
-
-		return $this->_answers;
-	}
-
-	/**
-	 * [_loadAnswer description]
-	 * 
-	 * @return object
-	 */
-	public function _loadAnswer()
-	{
-		if ($this->_id > 0)
+		if ($this->id > 0)
 		{
 			$query = "SELECT q.* FROM #__redshop_customer_question AS q "
 				. "WHERE q.parent_id=" . $this->_id;
@@ -76,10 +35,10 @@ class RedshopModelQuestion extends RedshopModelForm
 		}
 		else
 		{
-			$this->_answers = array();
+			$this->answers = array();
 		}
 
-		return $this->_answers;
+		return $this->answers;
 	}
 
 	/**
@@ -99,29 +58,14 @@ class RedshopModelQuestion extends RedshopModelForm
 		{
 			// Prepare array for answer
 			$answerData                = $data;
-			$answerData['question_id'] = 0;
-			$answerData['parent_id']   = (int) $this->state->get($this->getName() . '.id');
+			$answerData['id'] = 0;
+			$answerData['parent_id']   = $data['id'];
 			$answerData['question']    = $data['answer'];
 
 			parent::save($answerData);
 		}
 
 		return true;
-	}
-
-	/**
-	 * Method to get max ordering
-	 *
-	 * @access public
-	 * @return boolean
-	 */
-	public function MaxOrdering()
-	{
-		$query = "SELECT (MAX(ordering)+1) FROM #__redshop_customer_question "
-			. "WHERE parent_id=0 ";
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
 	}
 
 	/**
