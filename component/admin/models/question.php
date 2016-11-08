@@ -9,131 +9,166 @@
 
 defined('_JEXEC') or die;
 
-class RedshopModelQuestion extends RedshopModel
+/**
+ * Model Country
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       [version> [<description>]
+ */
+
+class RedshopModelQuestion extends RedshopModelForm
 {
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.5
-	 */
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id .= ':' . $this->getState('filter');
-		$id .= ':' . $this->getState('product_id');
+	public $_id = null;
 
-		return parent::getStoreId($id);
+	public $_data = null;
+
+	public $_answers = null;
+
+	/**
+	 * Construct Class
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->setId(JFactory::getApplication()->input->getInt('id', 0));
 	}
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Set ID function
+	 * 
+	 * @param   int  $id  ID
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
+	 * @return void
 	 */
-	protected function populateState($ordering = 'question_date', $direction = 'desc')
+	public function setId($id)
 	{
-		$filter = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-		$product_id = $this->getUserStateFromRequest($this->context . '.product_id', 'product_id', 0);
-
-		$this->setState('filter', $filter);
-		$this->setState('product_id', $product_id);
-
-		parent::populateState($ordering, $direction);
+		$this->_id = $id;
+		$this->_data = null;
 	}
 
 	/**
-	 * Get product with questions
-	 *
-	 * @return mixed
+	 * [getanswers description]
+	 * 
+	 * @return object
 	 */
-	public function getProduct()
+	public function getanswers()
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('p.product_id, p.product_name')
-			->from($db->qn('#__redshop_product', 'p'))
-			->leftJoin($db->qn('#__redshop_customer_question', 'cq') . ' ON cq.product_id = p.product_id')
-			->where('cq.question_id > 0')
-			->group('p.product_id');
+		$this->_loadAnswer();
 
-		return $db->setQuery($query)->loadObjectList();
+		return $this->_answers;
 	}
 
-	public function _buildQuery()
+	/**
+	 * [_loadAnswer description]
+	 * 
+	 * @return object
+	 */
+	public function _loadAnswer()
 	{
-		$where = "";
-		$filter = $this->getState('filter');
-		$product_id = $this->getState('product_id');
-
-		if ($filter)
+		if ($this->_id > 0)
 		{
-			$where .= " AND q.question LIKE '%" . $filter . "%' ";
+			$query = "SELECT q.* FROM #__redshop_customer_question AS q "
+				. "WHERE q.parent_id=" . $this->_id;
+			$this->_db->setQuery($query);
+			$this->_answers = $this->_db->loadObjectList();
+		}
+		else
+		{
+			$this->_answers = array();
 		}
 
-		if ($product_id != 0)
-		{
-			$where .= " AND q.product_id ='" . $product_id . "' ";
-		}
-
-		$orderby = $this->_buildContentOrderBy();
-
-		$query = "SELECT q.*, p.product_name FROM #__redshop_customer_question AS q "
-			. "LEFT JOIN #__redshop_product AS p ON p.product_id = q.product_id "
-			. "WHERE q.parent_id = 0 "
-			. $where
-			. $orderby;
-
-		return $query;
+		return $this->_answers;
 	}
 
-	public function saveorder($cid = array(), $order)
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @since   12.2
+	 */
+	public function save($data)
 	{
-		$row = $this->getTable('question_detail');
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
-		$groupings = array();
-
-		// Update ordering values
-		for ($i = 0, $in = count($cid); $i < $in; $i++)
+		// Store Answer
+		if (parent::save($data)
+			&& (isset($data['answer']) && trim($data['answer']) != ''))
 		{
-			$row->load((int) $cid[$i]);
+			// Prepare array for answer
+			$answerData                = $data;
+			$answerData['question_id'] = 0;
+			$answerData['parent_id']   = (int) $this->state->get($this->getName() . '.id');
+			$answerData['question']    = $data['answer'];
 
-			// Track categories
-			$groupings[] = $row->question_id;
-
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-
-				if (!$row->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-			}
-		}
-
-		// Execute updateOrder for each parent group
-		$groupings = array_unique($groupings);
-
-		foreach ($groupings as $group)
-		{
-			$row->reorder((int) $group);
+			parent::save($answerData);
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to get max ordering
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function MaxOrdering()
+	{
+		$query = "SELECT (MAX(ordering)+1) FROM #__redshop_customer_question "
+			. "WHERE parent_id=0 ";
+		$this->_db->setQuery($query);
+
+		return $this->_db->loadResult();
+	}
+
+	/**
+	 * Method to up order
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function orderup()
+	{
+		$row = $this->getTable();
+		$row->load($this->id);
+		$row->move(-1);
+		$row->store();
+
+		return true;
+	}
+
+	/**
+	 * Method to down the order
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function orderdown()
+	{
+		$row = $this->getTable();
+		$row->load($this->id);
+		$row->move(1);
+		$row->store();
+
+		return true;
+	}
+
+	/**
+	 * Transparent proxy to get table
+	 *
+	 * @param   string  $name    Table name
+	 * @param   string  $prefix  Class prefix
+	 * @param   array   $config  Config
+	 *
+	 * @return  JTable
+	 *
+	 * @since   2.0.0.4
+	 */
+	public function getTable($name = 'Question', $prefix = 'RedshopTable', $config = array())
+	{
+		return parent::getTable($name, $prefix, $config);
 	}
 }

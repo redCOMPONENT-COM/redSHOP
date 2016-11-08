@@ -12,49 +12,47 @@ defined('_JEXEC') or die;
 
 class RedshopViewQuestion extends RedshopViewAdmin
 {
-	public $state;
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
 
 	public function display($tpl = null)
 	{
-		$uri      = JFactory::getURI();
 		$document = JFactory::getDocument();
+		$document->setTitle(JText::_('COM_REDSHOP_QUESTION'));
 
-		$document->setTitle(JText::_('COM_REDSHOP_question'));
-		$model = $this->getModel('question');
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_MANAGEMENT'), 'redshop_question48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-
-		$this->state = $this->get('State');
-		$lists['order']     = $this->state->get('list.ordering', 'question_date');
-		$lists['order_Dir'] = $this->state->get('list.direction', 'desc');
-
-		$question   = $this->get('Data');
+		$uri        = JFactory::getURI();
+		$lists      = array();
+		$detail     = $this->get('data');
+		$answers    = $this->get('answers');
 		$pagination = $this->get('Pagination');
+		$isNew      = ($detail->question_id < 1);
 
-		$option                         = $model->getProduct();
-		$optionsection                  = array();
-		$optionsection[0]               = new stdClass;
-		$optionsection[0]->product_id   = 0;
-		$optionsection[0]->product_name = JText::_('COM_REDSHOP_SELECT');
+		$text       = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		if (count($option) > 0)
+		JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_DETAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_question48');
+		JToolBarHelper::save();
+		JToolBarHelper::custom('send', 'send.png', 'send.png', JText::_('COM_REDSHOP_SEND'), false);
+
+		if ($isNew)
 		{
-			$optionsection = @array_merge($optionsection, $option);
+			JToolBarHelper::cancel();
+		}
+		else
+		{
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$lists['product_id'] = JHTML::_('select.genericlist', $optionsection, 'product_id',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'product_id', 'product_name', $this->state->get('product_id')
-		);
+		$lists['published']  = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->lists       = $lists;
-		$this->question    = $question;
-		$this->pagination  = $pagination;
-		$this->request_url = $uri->toString();
+		$this->lists         = $lists;
+		$this->detail        = $detail;
+		$this->answers       = $answers;
+		$this->pagination    = $pagination;
+		$this->request_url   = $uri->toString();
 
 		parent::display($tpl);
 	}

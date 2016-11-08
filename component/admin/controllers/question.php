@@ -9,12 +9,158 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerQuestion extends RedshopController
+/**
+ * Controller Country Detail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopControllerQuestion extends RedshopControllerForm
 {
-	public function cancel()
+	/**
+	 * The URL view item variable.
+	 *
+	 * @var    string
+	 * @since  12.2
+	 */
+	protected $view_item = 'question';
+
+	/**
+	 * The URL view item variable.
+	 *
+	 * @var    string
+	 * @since  12.2
+	 */
+	protected $view_list = 'questions';
+
+	/**
+	 * Save question
+	 *
+	 * @param   integer  $send    Send Question?
+	 * @param   string   $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @todo    I know, I know this is not a proper way. But we needs to move to form way.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 */
+	public function save($send = 0, $urlVar = null)
 	{
-		$this->setRedirect('index.php');
+		$jinput = JFactory::getApplication()->input;
+
+		$post = $jinput->post->getArray();
+		$question = $jinput->post->get('question', '', 'RAW');
+		$post["question"] = $question;
+
+		$cid = $jinput->post->get('cid', array(0), 'ARRAY');
+
+		$post['id'] = $cid [0];
+		$model = $this->getModel('Question');
+
+		if ($post['id'] == 0)
+		{
+			$post['question_date'] = time();
+			$post['parent_id'] = 0;
+		}
+
+		$row = $model->save($post);
+
+		if ($row)
+		{
+			$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_SAVED');
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUESTION_DETAIL');
+		}
+
+		if ($send == 1)
+		{
+			redshopMail::getInstance()->sendAskQuestionMail($post['question_id']);
+		}
+
+		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
+	}
+
+	/**
+	 * Send function
+	 * 
+	 * @return void
+	 */
+	public function send()
+	{
+		$this->save(1);
+	}
+
+	/**
+	 * Remove function
+	 * 
+	 * @return void
+	 */
+	public function remove()
+	{
+		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+		}
+
+		$model = $this->getModel('Question');
+
+		if (!$model->delete($cid))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_DELETED_SUCCESSFULLY');
+		$this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
+	}
+
+	/**
+	 * Remove Answer function
+	 *  
+	 * @return void
+	 */
+	public function removeanswer()
+	{
+		$cid = JRequest::getVar('aid', array(0), 'post', 'array');
+		$qid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+		}
+
+		$model = $this->getModel('Question');
+
+		if (!$model->delete($cid))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_DELETED_SUCCESSFULLY');
+		$this->setRedirect('index.php?option=com_redshop&task=question.edit&id=' . $qid[0], $msg);
+	}
+
+	/**
+	 * Send Answer
+	 * 
+	 * @return void
+	 */
+	public function sendanswer()
+	{
+		$cid = JRequest::getVar('aid', array(0), 'post', 'array');
+		$qid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+		for ($i = 0, $in = count($cid); $i < $in; $i++)
+		{
+			$redshopMail = redshopMail::getInstance();
+			$redshopMail->sendAskQuestionMail($cid[$i]);
+		}
+
+		$msg = JText::_('COM_REDSHOP_ANSWER_MAIL_SENT');
+		$this->setRedirect('index.php?option=com_redshop$task=question.edit&id=' . $qid[0], $msg);
 	}
 
 	/**
@@ -30,78 +176,10 @@ class RedshopControllerQuestion extends RedshopController
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
-		$model = $this->getModel('question');
+		$model = $this->getModel('Question');
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
-	}
-
-	public function publish()
-	{
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-		}
-
-		$model = $this->getModel('question_detail');
-
-		if (!$model->publish($cid, 1))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
-	}
-
-	public function unpublish()
-	{
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-		}
-
-		$model = $this->getModel('question_detail');
-
-		if (!$model->publish($cid, 0))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
-	}
-
-	/**
-	 * Logic for orderup
-	 *
-	 * @return void
-	 */
-	public function orderup()
-	{
-		$this->getModel('question_detail')->orderup();
-		$this->setRedirect(
-			'index.php?option=com_redshop&view=question',
-			JText::_('COM_REDSHOP_NEW_ORDERING_SAVED')
-		);
-	}
-
-	/**
-	 * Logic for orderdown
-	 *
-	 * @return void
-	 */
-	public function orderdown()
-	{
-		$this->getModel('question_detail')->orderdown();
-		$this->setRedirect(
-			'index.php?option=com_redshop&view=question',
-			JText::_('COM_REDSHOP_NEW_ORDERING_SAVED')
-		);
+		$this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
 	}
 }
