@@ -11,21 +11,6 @@ defined('_JEXEC') or die;
 $editor = JFactory::getEditor();
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-
-		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
-			submitform(pressbutton);
-			return;
-		}
-
-		if (form.product_id.value == 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT_NAME', true); ?>");
-		} else {
-			submitform(pressbutton);
-		}
-	}
-
 	function deleteanswer() {
 		submitform('removeanswer');
 	}
@@ -34,70 +19,38 @@ $editor = JFactory::getEditor();
 		submitform('sendanswer');
 	}
 </script>
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_($this->requestUrl) ?>" method="post" name="adminForm" id="adminForm">
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
-
 			<table class="admintable table">
 				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>:</td>
 					<td>
-						<?php
-							$productname = '';
-
-							if ($this->detail->product_id)
-							{
-								$product       = Redshop::product((int) $this->detail->product_id);
-								$productname   = (count($product) > 0) ? $product->product_name : '';
-							}
-						?>
-						<?php
-						$productObject = new stdClass;
-
-						if ($this->detail->product_id && ($productData = productHelper::getInstance()->getProductById($this->detail->product_id)))
-						{
-							$productObject->value = $this->detail->product_id;
-							$productObject->text = $productData->product_name;
-						}
-
-						echo JHTML::_('redshopselect.search', $productObject, 'product_id',
-							array(
-								'select2.options' => array(
-									'placeholder' => JText::_('COM_REDSHOP_PRODUCT_NAME')
-								)
-							)
-						);
-						?>
+						<?php echo $this->form->renderField('product_id') ?>
 					</td>
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USER_NAME'); ?>:</td>
 					<td><?php echo $this->detail->user_name; ?>
-						<input type="hidden" name="user_name" id="user_name"
-						       value="<?php echo $this->detail->user_name; ?>"/>
+						<?php echo $this->form->renderField('user_name') ?>
 					</td>
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USER_EMAIL'); ?>:</td>
 					<td><?php echo $this->detail->user_email; ?>
-						<input type="hidden" name="user_email" id="user_email"
-						       value="<?php echo $this->detail->user_email; ?>"/>
+						<?php echo $this->form->renderField('user_email') ?>
 					</td>
 				</tr>
 				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USER_PHONE_NO'); ?>:</td>
-					<td><input type="text" name="telephone" id="telephone" value="<?php echo $this->detail->telephone; ?>"/></td>
+					<td><?php echo $this->form->renderField('telephone') ?></td>
 				</tr>
 				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USER_ADRESS'); ?>:</td>
-					<td><input type="text" name="address" id="address" value="<?php echo $this->detail->address; ?>"/>
+					<td><?php echo $this->form->renderField('address') ?>
 					</td>
 				</tr>
 
 				<tr>
-					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>:</td>
-					<td><?php echo $this->lists['published']; ?></td>
+					<td><?php echo $this->form->renderField('published') ?></td>
 				</tr>
 			</table>
 		</fieldset>
@@ -107,7 +60,7 @@ $editor = JFactory::getEditor();
 			<legend><?php echo JText::_('COM_REDSHOP_QUESTION'); ?></legend>
 			<table class="admintable table">
 				<tr>
-					<td><?php echo $editor->display("question", $this->detail->question, '$widthPx', '$heightPx', '100', '20', '1'); ?></td>
+					<td><?php echo $this->form->renderField('question') ?></td>
 				</tr>
 			</table>
 		</fieldset>
@@ -136,7 +89,7 @@ $editor = JFactory::getEditor();
 				<tr class="row<?php echo $k; ?>">
 					<td align="center"><?php echo $i + 1; ?></td>
 					<td class="order"
-					    width="5%"><?php echo JHTML::_('grid.id', $i, $answer->question_id, false, 'aid'); ?></td>
+					    width="5%"><?php echo JHTML::_('grid.id', $i, $answer->id, false, 'aid'); ?></td>
 					<td><?php echo $answer->question; ?></td>
 					<td><?php echo $answer->user_name; ?></td>
 					<td><?php echo $answer->user_email; ?></td>
@@ -164,17 +117,15 @@ $editor = JFactory::getEditor();
 			<table class="admintable table">
 				<tr>
 					<td>
-						<?php
-							echo $editor->display("answer", '', '$widthPx', '$heightPx', '100', '20', '1');
-						?>
+						<?php echo $this->form->renderField('answer') ?>
 					</td>
 				</tr>
 			</table>
 		</fieldset>
 	</div>
 	<div class="clr"></div>
-	<input type="hidden" name="cid[]" value="<?php echo $this->detail->question_id; ?>"/>
+	<input type="hidden" name="id" value="<?php echo $this->detail->id; ?>"/>
 	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="view" value="question_detail"/>
+	<input type="hidden" name="view" value="questions"/>
 	<?php echo JHtml::_('form.token'); ?>
 </form>

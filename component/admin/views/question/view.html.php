@@ -9,51 +9,69 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * View Country
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.0.2.1
+ */
 class RedshopViewQuestion extends RedshopViewAdmin
 {
 	/**
-	 * Do we have to display a sidebar ?
+	 * Function display template
 	 *
-	 * @var  boolean
+	 * @param   string  $tpl  name of template
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.0.5
 	 */
-	protected $displaySidebar = false;
 
 	public function display($tpl = null)
 	{
-		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('COM_REDSHOP_QUESTION'));
+		JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_MANAGEMENT'), 'redshop_question_48');
 
-		$uri        = JFactory::getURI();
-		$lists      = array();
-		$detail     = $this->get('data');
-		$answers    = $this->get('answers');
-		$pagination = $this->get('Pagination');
-		$isNew      = ($detail->question_id < 1);
+		$this->form       = $this->get('Form');
+		$this->detail     = $this->get('Item');
+		$this->item       = $this->detail;
+		$this->state      = $this->get('State');
+		$this->answers	  = $this->get('answers');
+		$this->lists['published']  = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $this->detail->published);
+		$this->requestUrl = JUri::getInstance()->toString();
 
-		$text       = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$this->addToolBar();
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_DETAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_question48');
-		JToolBarHelper::save();
-		JToolBarHelper::custom('send', 'send.png', 'send.png', JText::_('COM_REDSHOP_SEND'), false);
+		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+
+		$isNew = ($this->item->id < 1);
+
+		// Prepare text for title
+		$title = JText::_('COM_REDSHOP_QUESTION_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+
+		JToolBarHelper::title($title, 'redshop_question_48');
+		JToolBarHelper::apply('question.apply');
+		JToolBarHelper::save('question.save');
 
 		if ($isNew)
 		{
-			JToolBarHelper::cancel();
+			JToolBarHelper::cancel('question.cancel');
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+			JToolBarHelper::cancel('question.cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
-
-		$lists['published']  = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-
-		$this->lists         = $lists;
-		$this->detail        = $detail;
-		$this->answers       = $answers;
-		$this->pagination    = $pagination;
-		$this->request_url   = $uri->toString();
-
-		parent::display($tpl);
 	}
 }
