@@ -251,6 +251,11 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		$row = $this->getTable('order_detail');
 
+		if (!$row->check())
+		{
+			return false;
+		}
+
 		if (!$row->bind($postdata))
 		{
 			$this->setError($this->_db->getErrorMsg());
