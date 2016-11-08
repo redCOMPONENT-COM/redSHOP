@@ -19,6 +19,11 @@ defined('_JEXEC') or die;
 class Redaccesslevel
 {
 	/**
+	 * @deprecated  2.0.0.3
+	 */
+	public $_table_prefix = null;
+
+	/**
 	 * define default path
 	 *
 	 */
