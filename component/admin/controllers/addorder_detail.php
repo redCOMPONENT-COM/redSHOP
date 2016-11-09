@@ -200,7 +200,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
-			$type = '';
+			$type = 'success';
 		}
 		else
 		{
