@@ -122,7 +122,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 		if (!$userRow->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($userRow->getErrorMsg());
 
 			return false;
 		}
