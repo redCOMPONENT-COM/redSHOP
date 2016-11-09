@@ -13,13 +13,12 @@ $editor = JFactory::getEditor();
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
 		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
-			submitform(pressbutton);
-			return;
-		}
-		if (form.jform_product_id.value == 0) {
+		if ((pressbutton != 'question.cancel') && (form.jform_product_id.value == 0)) 
+		{
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT_NAME', true); ?>");
-		} else {
+		} 
+		else 
+		{
 			submitform(pressbutton);
 		}
 	}
