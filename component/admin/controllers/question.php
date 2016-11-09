@@ -47,19 +47,21 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	public function save($send = 0, $urlVar = null)
 	{
 		$jinput = JFactory::getApplication()->input;
-
 		$post = $jinput->post->getArray();
 		$data = $post['jform'];
-		$data['id'] = $post['id']? $post['id']: 0;
 
-		//echo '<pre>'; var_dump($data); exit;
+		$data['id'] = $post['id']? $post['id']: 0;
 
 		$model = $this->getModel('Question');
 
 		if ($data['id'] == 0)
 		{
-			$data['question_date'] = time();
-			$data['parent_id'] = 0;
+			$user = JFactory::getDbo();
+
+			$data['user_name'] 		= $user->username;
+			$data['user_email']		= $user->email;
+			$data['question_date'] 	= time();
+			$data['parent_id'] 		= 0;
 		}
 
 		$row = $model->save($data);
@@ -75,7 +77,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 		if ($send == 1)
 		{
-			redshopMail::getInstance()->sendAskQuestionMail($post['question_id']);
+			redshopMail::getInstance()->sendAskQuestionMail($data['id']);
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
@@ -121,10 +123,10 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 *  
 	 * @return void
 	 */
-	public function removeanswer()
+	public function removeAnswer()
 	{
 		$cid = JRequest::getVar('aid', array(0), 'post', 'array');
-		$qid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$qid = JRequest::getVar('id', 0, 'post', 'int');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -139,7 +141,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 		}
 
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&task=question.edit&id=' . $qid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&task=question.edit&id=' . $qid, $msg);
 	}
 
 	/**
@@ -147,10 +149,10 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 * 
 	 * @return void
 	 */
-	public function sendanswer()
+	public function sendAnswer()
 	{
 		$cid = JRequest::getVar('aid', array(0), 'post', 'array');
-		$qid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$qid = JRequest::getVar('id', 0, 'post', 'int');
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
@@ -159,7 +161,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 		}
 
 		$msg = JText::_('COM_REDSHOP_ANSWER_MAIL_SENT');
-		$this->setRedirect('index.php?option=com_redshop$task=question.edit&id=' . $qid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&task=question.edit&id=' . $qid, $msg);
 	}
 
 	/**

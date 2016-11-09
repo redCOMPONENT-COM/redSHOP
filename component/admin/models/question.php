@@ -21,17 +21,32 @@ class RedshopModelQuestion extends RedshopModelForm
 {
 	/**
 	 * [getanswers description]
+	 *
+	 * @param   int  $id  Question ID
 	 * 
-	 * @return object
+	 * @return objectList
 	 */
-	public function getanswers()
+	public function getAnswers($id = 0)
 	{
-		if ($this->id > 0)
+		if ($id > 0)
 		{
-			$query = "SELECT q.* FROM #__redshop_customer_question AS q "
-				. "WHERE q.parent_id=" . $this->_id;
-			$this->_db->setQuery($query);
-			$this->_answers = $this->_db->loadObjectList();
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+
+			$query ->select(
+				$db->qn(
+					[
+						'id', 'parent_id', 'question', 'user_id',
+						'user_name', 'user_email', 'published', 'question_date',
+						'ordering', 'telephone', 'address'
+					]
+				)
+			)
+			->from($db->qn('#__redshop_customer_question'))
+			->where($db->qn('parent_id') . ' = ' . $id);
+
+			$db->setQuery($query);
+			$this->answers = $db->loadObjectList();
 		}
 		else
 		{
@@ -48,18 +63,20 @@ class RedshopModelQuestion extends RedshopModelForm
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   12.2
+	 * @since   2.0.0.4
 	 */
 	public function save($data)
 	{
+		$table = $this->getTable();
+
 		// Store Answer
-		if (parent::save($data)
+		if ($table->save($data)
 			&& (isset($data['answer']) && trim($data['answer']) != ''))
 		{
 			// Prepare array for answer
 			$answerData                = $data;
 			$answerData['id'] = 0;
-			$answerData['parent_id']   = $data['id'];
+			$answerData['parent_id']   = $data['id']? $data['id']: $table->id;
 			$answerData['question']    = $data['answer'];
 
 			parent::save($answerData);
