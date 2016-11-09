@@ -11,8 +11,8 @@
         <field
                 name="product_id"
                 type="rproducts"
-                label="COM_REDSHOP_COUNTRY"
-                description="COM_REDSHOP_COUNTRY_DESC"
+                label="COM_REDSHOP_SELECT_PRODUCT"
+                description="COM_REDSHOP_SELECT_PRODUCT"
                 onchange="this.form.submit();">
             <option value="">COM_REDSHOP_SELECT_PRODUCT</option>
         </field>
