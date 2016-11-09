@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Class Redshop Helper for Quotation
  *
@@ -79,7 +81,7 @@ class RedshopHelperQuotation
 	 * @param   integer  $quotationId      Quotation ID
 	 * @param   integer  $quotationItemId  Quotation Item ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -96,7 +98,7 @@ class RedshopHelperQuotation
 		{
 			// Sanitize ids
 			$quotationId = explode(',', $quotationId);
-			JArrayHelper::toInteger($quotationId);
+			$quotationId = ArrayHelper::toInteger($quotationId);
 
 			$query->where($db->qn('q.quotation_id') . " IN (" . implode(',', $quotationId) . ")");
 		}
@@ -174,6 +176,11 @@ class RedshopHelperQuotation
 	 */
 	public static function updateQuotationStatus($quotationId, $status = 1)
 	{
+		if (!$quotationId)
+		{
+			return;
+		}
+
 		// Initialize variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -230,7 +237,7 @@ class RedshopHelperQuotation
 	 *
 	 * @param   string  $pLength  Length of string to generate
 	 *
-	 * @return  $string
+	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -350,10 +357,9 @@ class RedshopHelperQuotation
 	public static function displayQuotationUserField($quotationItemId = 0, $sectionId = 12)
 	{
 		/**
-		 * @TODO: Redtemplate and productHelper will be deprecated,
+		 * @TODO: ProductHelper will be deprecated,
 		 * replace them with approriated classes
 		 */
-		$redTemplate   = Redtemplate::getInstance();
 		$productHelper = productHelper::getInstance();
 
 		$resultArr = array();
@@ -372,11 +378,11 @@ class RedshopHelperQuotation
 
 		if (count($userField) > 0)
 		{
-			$quotationItem   = self::getQuotationProduct(0, $quotation_item_id);
+			$quotationItem   = self::getQuotationProduct(0, $quotationItemId);
 			$productId       = $quotationItem[0]->product_id;
 
 			$productDetail   = Redshop::product((int) $productId);
-			$productTemplate = $redTemplate->getTemplate("product", $productDetail->product_template);
+			$productTemplate = RedshopHelperTemplate::getTemplate("product", $productDetail->product_template);
 
 			$returnArr       = $productHelper->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
 			$userFieldTag    = $returnArr[1];
@@ -476,7 +482,7 @@ class RedshopHelperQuotation
 		{
 			// Sanitize ids
 			$orderId = explode(',', $orderId);
-			JArrayHelper::toInteger($orderId);
+			$orderId = ArrayHelper::toInteger($orderId);
 
 			if (is_array($orderId))
 			{
