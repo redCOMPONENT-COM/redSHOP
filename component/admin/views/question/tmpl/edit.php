@@ -11,12 +11,24 @@ defined('_JEXEC') or die;
 $editor = JFactory::getEditor();
 ?>
 <script language="javascript" type="text/javascript">
+	Joomla.submitbutton = function (pressbutton) {
+		var form = document.adminForm;
+		if (pressbutton == 'cancel') {
+			submitform(pressbutton);
+			return;
+		}
+		if (form.jform_product_id.value == 0) {
+			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT_NAME', true); ?>");
+		} else {
+			submitform(pressbutton);
+		}
+	}
 	function deleteanswer() {
-		submitform('removeanswer');
+		submitform('removeAnswer');
 	}
 
 	function sendanswer() {
-		submitform('sendanswer');
+		submitform('sendAnswer');
 	}
 </script>
 <form action="<?php echo JRoute::_($this->requestUrl) ?>" method="post" name="adminForm" id="adminForm">
@@ -126,6 +138,6 @@ $editor = JFactory::getEditor();
 	<div class="clr"></div>
 	<input type="hidden" name="id" value="<?php echo $this->detail->id; ?>"/>
 	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="view" value="questions"/>
+	<input type="hidden" name="view" value="question"/>
 	<?php echo JHtml::_('form.token'); ?>
 </form>

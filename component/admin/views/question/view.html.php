@@ -36,9 +36,17 @@ class RedshopViewQuestion extends RedshopViewAdmin
 		$this->detail     = $this->get('Item');
 		$this->item       = $this->detail;
 		$this->state      = $this->get('State');
-		$this->answers	  = $this->get('answers');
-		$this->lists['published']  = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $this->detail->published);
+
+		$model = $this->getModel('Question');
+		$this->answers = $model->getAnswers($this->item->id);
 		$this->requestUrl = JUri::getInstance()->toString();
+
+		if (!$this->item->id)
+		{
+			$user = JFactory::getUser();
+			$this->item->user_email = $user->email;
+			$this->item->user_name 	= $user->username;
+		}
 
 		$this->addToolBar();
 
