@@ -52,19 +52,19 @@ $ordering  = ($this->ordering == 'q.ordering');
 				<th class="title" width="15%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'p.product_name', $listDirn, $listOrder); ?></th>
 				<th class="title" width="50%">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_QUESTION', 'question', $listDirn, $listOrder); ?></th>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_QUESTION', 'q.question', $listDirn, $listOrder); ?></th>
 				<th class="title" width="5%">
 					<?php echo JText::_('COM_REDSHOP_ANSWERS'); ?></th>
 				<th class="title" width="10%">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USER_NAME', 'user_name', $listDirn, $listOrder); ?></th>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USER_NAME', 'q.user_name', $listDirn, $listOrder); ?></th>
 				<th class="title" width="10%">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USER_EMAIL', 'user_email', $listDirn, $listOrder); ?></th>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USER_EMAIL', 'q.user_email', $listDirn, $listOrder); ?></th>
 				<th nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'q.ordering', $listDirn, $listOrder); ?>
 					<?php  if ($ordering) echo JHTML::_('grid.order', $this->items); ?>
 				</th>
 				<th class="title" width="5%">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $listDirn, $listOrder); ?></th>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'q.published', $listDirn, $listOrder); ?></th>
 				<th width="5%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'id', $listDirn, $listOrder); ?></th>
 			</tr>

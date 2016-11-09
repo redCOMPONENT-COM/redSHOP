@@ -36,8 +36,19 @@ class RedshopModelQuestions extends RedshopModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id', 'id',
-				'product_id', 'product_id',
+				'id', 'q.id',
+				'parent_id', 'q.parent_id',
+				'product_id', 'q.product_id',
+				'question', 'q.question',
+				'user_id', 'q.user_id',
+				'user_name', 'q.user_name',
+				'user_email', 'q.user_email',
+				'published', 'q.published',
+				'question_date', 'q.question_date',
+				'ordering', 'q.ordering',
+				'telephone', 'q.telephone',
+				'address', 'q.address',
+				'product_name', 'p.product_name'
 			);
 		}
 
@@ -98,8 +109,8 @@ class RedshopModelQuestions extends RedshopModelList
 		$query = $db->getQuery(true)
 			->select($db->qn(['p.product_id', 'p.product_name']))
 			->from($db->qn('#__redshop_product', 'p'))
-			->leftJoin($db->qn('#__redshop_customer_question', 'cq') . ' ON ' . $db->qn('cq.product_id') . ' = ' . $db->qn('p.product_id'))
-			->where($db->qn('cq.id') . ' > 0')
+			->leftJoin($db->qn('#__redshop_customer_question', 'q') . ' ON ' . $db->qn('q.product_id') . ' = ' . $db->qn('p.product_id'))
+			->where($db->qn('q.id') . ' > 0')
 			->group($db->qn('p.product_id'));
 
 		return $db->setQuery($query)->loadObjectList();
