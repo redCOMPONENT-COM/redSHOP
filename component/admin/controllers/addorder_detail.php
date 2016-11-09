@@ -200,10 +200,12 @@ class RedshopControllerAddorder_detail extends RedshopController
 		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
+			$type = '';
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
+			$type = 'error';
 		}
 
 		if ($apply == 1)
@@ -213,7 +215,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stocknote);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stocknote, $type);
 		}
 	}
 
