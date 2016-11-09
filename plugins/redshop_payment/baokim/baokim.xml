@@ -57,14 +57,24 @@
 		</fieldset>
      	<fieldset name="advanced">
 			<field
+					name="verify_status"
+					type="sql"
+					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+					key_field="st_value"
+					value_field="st_title"
+					default="C"
+					label="PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_STATUS"
+					description="PLG_REDSHOP_BAOKIM_PAYGATE_ORDER_STATUS_DESC">
+				</field>
+			<field
 				name="invalid_status"
 				type="sql"
 				query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
 				key_field="st_value"
 				value_field="st_title"
 				default="P"
-				label="PLG_REDSHOP_PAYMENT_NGANLUONG_SUCCESS_FAILED_STATUS"
-				description="PLG_REDSHOP_PAYMENT_NGANLUONG_SUCCESS_FAILED_STATUS_DESC"
+				label="PLG_REDSHOP_PAYMENT_BAOKIM_SUCCESS_FAILED_STATUS"
+				description="PLG_REDSHOP_BAOKIM_NGANLUONG_SUCCESS_FAILED_STATUS_DESC"
 			/>
 		</fieldset>
     </fields>
