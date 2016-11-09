@@ -615,6 +615,31 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=statistic&layout=neworder',
 				'COM_REDSHOP_NEWEST_ORDERS',
 				(self::$view == 'statistic' && self::$layout == 'neworder') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=statistic_customer',
+				'COM_REDSHOP_STATISTIC_CUSTOMER',
+				(self::$view == 'statistic_customer' && self::$layout == '') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=statistic_order',
+				'COM_REDSHOP_STATISTIC_ORDER',
+				(self::$view == 'statistic_order' && self::$layout == '') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=statistic_product',
+				'COM_REDSHOP_STATISTIC_PRODUCT',
+				(self::$view == 'statistic_product' && self::$layout == '') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=statistic_variant',
+				'COM_REDSHOP_STATISTIC_PRODUCT_VARIANT',
+				(self::$view == 'statistic_variant' && self::$layout == '') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=statistic_quotation',
+				'COM_REDSHOP_STATISTIC_QUOTATION',
+				(self::$view == 'statistic_quotation' && self::$layout == '') ? true : false
 			);
 
 		self::$menu->group('STATISTIC');
