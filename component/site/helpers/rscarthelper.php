@@ -3967,10 +3967,20 @@ class rsCarthelper
 		return $productArr;
 	}
 
+	/**
+	 * Apply coupon
+	 *
+	 * @param   array  $c_data  Array data
+	 *
+	 * @return  array|bool
+	 *
+	 * @since   2.0.0.4
+	 */
 	public function coupon($c_data = array())
 	{
-		$coupon_code = JRequest::getVar('discount_code', '');
-		$view        = JRequest::getVar('view', '');
+		$jinput = JFactory::getApplication()->input;
+		$coupon_code = $jinput->getRaw('discount_code', '');
+		$view        = $jinput->get('view', '');
 		$user        = JFactory::getUser();
 		$db          = JFactory::getDbo();
 		$return      = false;
@@ -3991,6 +4001,7 @@ class rsCarthelper
 				$return      = true;
 				$counter     = 0;
 
+				// TODO INVALID array key
 				foreach ($cart['coupon'] as $key => $val)
 				{
 					if ($val['coupon_code'] == $coupon_code)
