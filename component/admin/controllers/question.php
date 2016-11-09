@@ -50,13 +50,11 @@ class RedshopControllerQuestion extends RedshopControllerForm
 		$post = $jinput->post->getArray();
 		$data = $post['jform'];
 
-		$data['id'] = $post['id']? $post['id']: 0;
-
 		$model = $this->getModel('Question');
 
 		if ($data['id'] == 0)
 		{
-			$user = JFactory::getDbo();
+			$user = JFactory::getUser();
 
 			$data['user_name'] 		= $user->username;
 			$data['user_email']		= $user->email;

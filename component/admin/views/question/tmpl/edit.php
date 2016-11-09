@@ -31,57 +31,49 @@ $editor = JFactory::getEditor();
 		submitform('sendAnswer');
 	}
 </script>
-<form action="<?php echo JRoute::_($this->requestUrl) ?>" method="post" name="adminForm" id="adminForm">
-	<div class="col50">
-		<fieldset class="adminform">
+<form action="<?php echo JRoute::_($this->requestUrl) ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-horizontal">
+	<div class="row-fluid">
+		<div class="col-sm-12">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
-			<table class="admintable table">
-				<tr>
-					<td>
-						<?php echo $this->form->renderField('product_id') ?>
-					</td>
-				</tr>
-				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USER_NAME'); ?>:</td>
-					<td><?php echo $this->detail->user_name; ?>
-						<?php echo $this->form->renderField('user_name') ?>
-					</td>
-				</tr>
-				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USER_EMAIL'); ?>:</td>
-					<td><?php echo $this->detail->user_email; ?>
-						<?php echo $this->form->renderField('user_email') ?>
-					</td>
-				</tr>
-				<tr>
-					<td><?php echo $this->form->renderField('telephone') ?></td>
-				</tr>
-				<tr>
-					<td><?php echo $this->form->renderField('address') ?>
-					</td>
-				</tr>
-
-				<tr>
-					<td><?php echo $this->form->renderField('published') ?></td>
-				</tr>
-			</table>
-		</fieldset>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getField('product_id')->label ?></div>
+				<div class="controls"><?php echo $this->form->getField('product_id')->input ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo JText::_('COM_REDSHOP_USER_NAME'); ?>:</div>
+				<div class="controls"><?php echo $this->detail->user_name; ?></div>
+				<?php echo $this->form->renderField('user_name') ?>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo JText::_('COM_REDSHOP_USER_EMAIL'); ?>:</div>
+				<div class="controls"><?php echo $this->detail->user_email; ?></div>
+				<?php echo $this->form->renderField('user_email') ?>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getField('telephone')->label ?></div>
+				<div class="controls"><?php echo $this->form->getField('telephone')->input ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getField('address')->label ?></div>
+				<div class="controls"><?php echo $this->form->getField('address')->input ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getField('published')->label ?></div>
+				<div class="controls"><?php echo $this->form->getField('published')->input ?></div>
+			</div>
+		</div>
 	</div>
-	<div class="col50">
+	<div class="col-sm-12">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_QUESTION'); ?></legend>
-			<table class="admintable table">
-				<tr>
-					<td><?php echo $this->form->renderField('question') ?></td>
-				</tr>
-			</table>
+				<?php echo $this->form->renderField('question') ?>
 		</fieldset>
 	</div>
 	<?php
 		$k = 0;
 		$i = 0;
 	?>
-	<div class="col50" id='answerlists'>
+	<div class="col-sm-12" id='answerlists'>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_PREVIOUS_ANSWERS'); ?></legend>
 			<table class="adminlist table table-striped">
@@ -123,20 +115,14 @@ $editor = JFactory::getEditor();
 			</table>
 		</fieldset>
 	</div>
-	<div class="col50">
+	<div class="col-sm-12">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_ANSWERS'); ?></legend>
-			<table class="admintable table">
-				<tr>
-					<td>
-						<?php echo $this->form->renderField('answer') ?>
-					</td>
-				</tr>
-			</table>
+				<?php echo $this->form->renderField('answer') ?>
 		</fieldset>
 	</div>
 	<div class="clr"></div>
-	<input type="hidden" name="id" value="<?php echo $this->detail->id; ?>"/>
+	<?php echo $this->form->renderField('id') ?>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="question"/>
 	<?php echo JHtml::_('form.token'); ?>
