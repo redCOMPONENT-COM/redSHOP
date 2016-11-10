@@ -19,110 +19,128 @@ defined('_JEXEC') or die;
 class RedshopModelStatistic_Customer extends RedshopModelList
 {
 	/**
-	 * Constructor
+	 * constructor (registers additional tasks to methods)
 	 *
-	 * @deprecated  2.0.0.3
+	 * @param   array  $config  config params
 	 */
-	public function __construct()
+	public function __construct($config = array())
 	{
 		parent::__construct();
-		$input                 = JFactory::getApplication()->input;
-		$this->filterStartDate = $input->getString('filter_start_date', '');
-		$this->filterEndDate   = $input->getString('filter_end_date', '');
-		$this->filterDateLabel = $input->getString('filter_date_label', '');
+
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'customer_name',
+				'count',
+				'total_sale',
+				'ui.user_email'
+			);
+		}
+
+		parent::__construct($config);
 	}
 
 	/**
-	 * get Customer data for statistic
+	 * Method to get a store id based on model configuration state.
 	 *
-	 * @return  object.
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
 	 *
-	 * @since   2.0.0.3
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   2.0.0.4
 	 */
-	public function getCustomers()
+	protected function getStoreId($id = '')
 	{
-		$format = $this->getDateFormat();
-		$db     = $this->getDBo();
-		$query  = $db->getQuery(true)
-			->select('DATE_FORMAT(u.registerDate,"' . $format . '") AS viewdate')
-			->select($db->qn('ui.user_email'))
-			->select($db->qn('ui.firstname'))
+		$id .= ':' . $this->getState('filter.dates');
+		$id .= ':' . $this->getState('filter.order_status');
+
+		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.0.4
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'ui.users_info_id', $direction = '')
+	{
+		$startDate = $this->getUserStateFromRequest($this->context . '.filter.start_date', 'filter_start_date');
+		$this->setState('filter.start_date', $startDate);
+
+		$endDate = $this->getUserStateFromRequest($this->context . '.filter.end_date', 'filter_end_date');
+		$this->setState('filter.end_date', $endDate);
+
+		$orderStatus = $this->getUserStateFromRequest($this->context . '.filter.order_status', 'filter_order_status');
+		$this->setState('filter.order_status', $orderStatus);
+
+		parent::populateState($ordering, $direction);
+	}
+
+	/**
+	 * Method to buil query string
+	 *
+	 * @return  String
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	public function getListQuery()
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('ui.user_email'))
+			->select('COUNT(' . $db->qn('o.order_id') . ') AS ' . $db->qn('count'))
+			->select('SUM(' . $db->qn('o.order_total') . ') AS ' . $db->qn('total_sale'))
+			->select('CONCAT(' . $db->qn('ui.firstname') . ',' . $db->quote(' ') . ',' . $db->qn('ui.lastname') . ') AS ' . $db->qn('customer_name'))
 			->select($db->qn('ui.lastname'))
+			->select($db->qn('ui.firstname'))
 			->select($db->qn('ui.users_info_id'))
 			->select($db->qn('ui.user_id'))
 			->from($db->qn('#__redshop_users_info', 'ui'))
 			->leftjoin($db->qn('#__users', 'u') . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('ui.user_id'))
 			->where($db->qn('ui.address_type') . ' = ' . $db->q('BT'))
-			->order($db->qn('u.registerDate') . ' DESC')
-			->group($db->qn('ui.users_info_id'));
+			->leftJoin(
+				$db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('o.user_info_id') . ' = ' . $db->qn('ui.users_info_id')
+				. ' AND ' . $db->qn('o.order_payment_status') . ' = ' . $db->quote('Paid')
+			);
 
-		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
+		// Filter: Start Date
+		$startDate = $this->state->get('filter.start_date', 0);
+
+		if ($startDate)
 		{
-			$query->where($db->qn('u.registerDate') . ' > ' . $db->q(date('Y-m-d H:i:s', strtotime($this->filterStartDate))))
-				->where($db->qn('u.registerDate') . ' <= ' . $db->q(date('Y-m-d H:i:s', strtotime($this->filterEndDate) + 86400)));
+			$startDate = strtotime($startDate);
+			$query->where($db->qn('o.cdate') . ' >= ' . (int) $startDate);
 		}
 
-		$customers = $db->setQuery($query)->loadObjectList();
+		// Filter: Start Date
+		$endDate = $this->state->get('filter.end_date', 0);
 
-		$query = $db->getQuery(true)
-			->select('COUNT(*) AS count')
-			->select('SUM(order_total) AS total_sale')
-			->select($db->qn('user_info_id'))
-			->from($db->qn('#__redshop_orders'))
-			->where($db->qn('order_payment_status') . ' = ' . $db->q('Paid'))
-			->group($db->qn('user_info_id'));
-
-		$orderCount = $db->setQuery($query)->loadObjectList();
-
-		foreach ($customers as $key => $customer)
+		if ($endDate)
 		{
-			$customers[$key]->total_sale = 0;
-			$customers[$key]->count = 0;
-
-			foreach ($orderCount as $value)
-			{
-				if ($customer->users_info_id == $value->user_info_id)
-				{
-					$customers[$key]->total_sale = $value->total_sale;
-					$customers[$key]->count = $value->count;
-				}
-			}
+			$endDate = strtotime($endDate);
+			$query->where($db->qn('o.cdate') . ' <= ' . (int) $endDate);
 		}
 
-		return $customers;
-	}
+		$query->group($db->qn('ui.users_info_id'));
+		$query->having($db->qn('count') . ' > 0');
 
-	/**
-	 * get date Format for new statistic
-	 *
-	 * @return  object.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function getDateFormat()
-	{
-		$return = "";
-		$startDate = strtotime($this->filterStartDate);
-		$endDate = strtotime($this->filterEndDate);
-		$interval = $endDate - $startDate;
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering', 'ui.users_info_id');
+		$orderDirn = $this->state->get('list.direction', 'asc');
 
-		if ($interval == 0 && ($this->filterDateLabel == 'Today' || $this->filterDateLabel == 'Yesterday'))
-		{
-			$return = "%d %b %Y";
-		}
-		elseif ($interval <= 1209600)
-		{
-			$return = "%d %b. %Y";
-		}
-		elseif ($interval <= 7689600)
-		{
-			$return = "%b. %Y";
-		}
-		elseif ($interval <= 31536000)
-		{
-			$return = "%Y";
-		}
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-		return $return;
+		return $query;
 	}
 }

@@ -29,12 +29,12 @@ class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 	 *
 	 * @since   2.0.0.3
 	 */
-	public function getModel($name = 'Statistic_Customer', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+	/*public function getModel($name = 'Statistic_Customer', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 
 		return $model;
-	}
+	}*/
 
 	/**
 	 * Export customers CSV.
