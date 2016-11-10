@@ -30,9 +30,9 @@ class RedshopViewStates extends RedshopViewAdmin
 		// Get data from the model
 		$model = $this->getModel();
 
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
 		$this->activeFilters = $model->getActiveFilters();
 		$this->filterForm    = $model->getForm();
 
