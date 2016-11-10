@@ -573,6 +573,7 @@ class redhelper
 		switch ($case)
 		{
 			case 'name':
+			default:
 				$orderBy->ordering = 'p.product_name';
 				$orderBy->direction = 'ASC';
 
@@ -616,11 +617,6 @@ class redhelper
 				$orderBy->ordering = 'pc.ordering';
 				$orderBy->direction = 'DESC';
 
-				break;
-			default:
-				$tmpOrderBy = explode(' ', JFactory::getApplication()->input->getRaw('order_by', 'p.product_name ASC'));
-				$orderBy->ordering = $tmpOrderBy[0];
-				$orderBy->direction = (isset($tmpOrderBy[1])) ? $tmpOrderBy[1] : 'ASC';
 				break;
 		}
 
