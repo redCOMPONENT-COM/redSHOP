@@ -22,6 +22,13 @@ class ComposerStaticInita4db40e21c09e0f9ca16326720c217a7
                 0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
             ),
         ),
+        'B' => 
+        array (
+            'Behat\\Transliterator' => 
+            array (
+                0 => __DIR__ . '/..' . '/behat/transliterator/src',
+            ),
+        ),
     );
 
     public static function getInitializer(ClassLoader $loader)

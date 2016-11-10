@@ -16,6 +16,12 @@ defined('_JEXEC') or die;
  */
 class RedshopAdminProduct
 {
+	public $_data = null;
+
+	public $_table_prefix = null;
+
+	public $_product_level = 0;
+
 	protected static $instance = null;
 
 	/**
@@ -34,6 +40,16 @@ class RedshopAdminProduct
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @since   1.6
+	 **/
+	public function __construct()
+	{
+		$this->_table_prefix = '#__redshop_';
 	}
 
 	/**

@@ -31,6 +31,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	<fieldset class="adminform">
 		<div class="row-fluid">
 			<div class="col-sm-12">
+				<legend><?php echo JText::_('COM_REDSHOP_DETAILS') ?></legend>
 				<?php echo $this->form->renderField('country_name') ?>
 				<?php echo $this->form->renderField('country_3_code') ?>
 				<?php echo $this->form->renderField('country_2_code') ?>
