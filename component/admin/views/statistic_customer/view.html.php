@@ -18,6 +18,8 @@ defined('_JEXEC') or die;
  */
 class RedshopViewStatistic_Customer extends RedshopViewAdmin
 {
+	protected $state = array();
+
 	/**
 	 * Display the Statistic Customer view
 	 *
@@ -27,22 +29,23 @@ class RedshopViewStatistic_Customer extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
-		global $context;
-
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC_CUSTOMER'));
 		$document->addStyleSheet('components/com_redshop/assets/css/daterangepicker.css');
 		$document->addScript('components/com_redshop/assets/js/moment.min.js');
 		$document->addScript('components/com_redshop/assets/js/daterangepicker.js');
 
-		$this->customers       = $this->get('Customers');
-		$this->filterStartDate = $app->input->getString('filter_start_date', '');
-		$this->filterEndDate   = $app->input->getString('filter_end_date', '');
-		$this->filterDateLabel = $app->input->getString('filter_date_label', '');
+		/** @var RedshopModelStatistic_Customer $model */
+		$model = $this->getModel();
+
+		$this->state     = $this->get('State');
+		$this->customers = $model->getItems();
+
+		$this->filterStartDate = $this->state->get('filter.start_date');
+		$this->filterEndDate   = $this->state->get('filter.end_date');
 
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 
