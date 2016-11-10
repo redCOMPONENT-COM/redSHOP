@@ -9,100 +9,70 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Model Country
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       2.0.0.8
+ */
 
-class RedshopModelZipcode extends RedshopModel
+class RedshopModelZipcode extends RedshopModelForm
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  mixed  The data for the form.
+	 *
+	 * @since   1.6
+	 */
+	protected function loadFormData()
 	{
-		parent::__construct();
-
+		// Check the session for previously entered form data.
 		$app = JFactory::getApplication();
+		$data = $app->getUserState('com_redshop.edit.zipcode.data', array());
 
-		$this->_context = 'zipcode_id';
-
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-	}
-
-	public function getData()
-	{
-		if (empty($this->_data))
+		if (empty($data))
 		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
-		return $this->_data;
-	}
-
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
+			$data = $this->getItem();
 		}
 
-		return $this->_total;
+		$this->preprocessData('com_redshop.zipcode', $data);
+
+		return $data;
 	}
 
-	public function getPagination()
+	/**
+	 * Save Zipcode
+	 * 
+	 * @param   array  $data  data collection
+	 * 
+	 * @return  bool
+	 */
+	public function save($data)
 	{
-		if (empty($this->_pagination))
+		$table = $this->getTable('Zipcode');
+
+		if ($data['zipcodeto'] && ($data['zipcode'] > $data['zipcodeto']))
 		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+			return false;
 		}
 
-		return $this->_pagination;
-	}
+		if (!$data['zipcodeto'])
+		{
+			$data['zipcodeto'] = $data['zipcode'];
+		}
 
-	public function _buildQuery()
-	{
-		$orderby = $this->_buildContentOrderBy();
+		for ($i = $data['zipcode']; $i <= $data['zipcodeto']; $i++)
+		{
+			$table->country_code = $data['country_code'];
+			$table->state_code = isset($data['state_code'])? $data['state_code'] : null;
+			$table->city_name = $data['city_name'];
+			$table->zipcode = is_numeric($data['zipcode'])? $i : $data['zipcode'];
+			$table->store();
+			$table->id = null;
+		}
 
-		$query = 'SELECT z . * , c.country_name, s.state_name '
-			. ' FROM `' . $this->_table_prefix . 'zipcode` AS z '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON z.country_code = c.country_3_code '
-			. ' LEFT JOIN ' . $this->_table_prefix . 'state AS s ON z.state_code = s.state_2_code '
-			. ' AND c.id = s.country_id '
-			. ' WHERE 1 =1 '
-			. $orderby;
-
-		return $query;
-	}
-
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'zipcode_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
-	}
-
-	public function getCountryName($country_id)
-	{
-		$query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.id=" . $country_id;
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
+		return true;
 	}
 }

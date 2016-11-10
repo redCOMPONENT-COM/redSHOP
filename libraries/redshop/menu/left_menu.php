@@ -1249,14 +1249,14 @@ class RedshopMenuLeft_Menu
 		self::$menu->section('zipcode')
 			->title('COM_REDSHOP_ZIPCODE')
 			->addItem(
-				'index.php?option=com_redshop&view=zipcode',
+				'index.php?option=com_redshop&view=zipcodes',
 				'COM_REDSHOP_ZIPCODE_LISTING',
 				(self::$view == 'zipcode') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=zipcode_detail',
+				'index.php?option=com_redshop&task=zipcode.add',
 				'COM_REDSHOP_ADD_ZIPCODE',
-				(self::$view == 'zipcode_detail') ? true : false
+				(self::$view == 'zipcode') ? true : false
 			);
 	}
 
