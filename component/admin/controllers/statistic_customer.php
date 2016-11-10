@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller.Statistic Customer
- * @since       2.0.0.3
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 {
@@ -23,12 +23,13 @@ class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 	 *
 	 * @return  mixed.
 	 *
-	 * @since   2.0.0.3
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function exportCustomer()
 	{
 		$model = $this->getModel();
 		$data  = $model->getItems();
+		$productHelper = productHelper::getInstance();
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");
@@ -38,17 +39,16 @@ class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 
 		ob_clean();
 
-		echo "Date, Name, Email, Order count, Total sale\n";
+		echo "Name, Email, Order count, Total sale\n";
 
-		foreach ($data as $key => $value)
+		foreach ($data as $value)
 		{
-			echo $value->viewdate . " ,";
-			echo $value->firstname . ' ' . $value->lastname . " ,";
-			echo $value->user_email . " ,";
-			echo $value->count . " ,";
-			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . ' ' . $value->total_sale . "\n";
+			echo trim($value->customer_name) . ",";
+			echo trim($value->user_email) . ",";
+			echo $value->count . ",";
+			echo $productHelper->getProductFormattedPrice($value->total_sale) . "\n";
 		}
 
-		exit ();
+		JFactory::getApplication()->close();
 	}
 }

@@ -14,10 +14,17 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Backend
  * @subpackage  Models.Statistic Customer
- * @since       2.0.0.2
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopModelStatistic_Customer extends RedshopModelList
 {
+	/**
+	 * Name of the filter form to load
+	 *
+	 * @var  string
+	 */
+	protected $filterFormName = 'filter_statistic_customer';
+
 	/**
 	 * constructor (registers additional tasks to methods)
 	 *
@@ -55,8 +62,7 @@ class RedshopModelStatistic_Customer extends RedshopModelList
 	 */
 	protected function getStoreId($id = '')
 	{
-		$id .= ':' . $this->getState('filter.dates');
-		$id .= ':' . $this->getState('filter.order_status');
+		$id .= ':' . $this->getState('filter.date_range');
 
 		return parent::getStoreId($id);
 	}
@@ -74,14 +80,8 @@ class RedshopModelStatistic_Customer extends RedshopModelList
 	 */
 	protected function populateState($ordering = 'ui.users_info_id', $direction = '')
 	{
-		$startDate = $this->getUserStateFromRequest($this->context . '.filter.start_date', 'filter_start_date');
-		$this->setState('filter.start_date', $startDate);
-
-		$endDate = $this->getUserStateFromRequest($this->context . '.filter.end_date', 'filter_end_date');
-		$this->setState('filter.end_date', $endDate);
-
-		$orderStatus = $this->getUserStateFromRequest($this->context . '.filter.order_status', 'filter_order_status');
-		$this->setState('filter.order_status', $orderStatus);
+		$dateRange = $this->getUserStateFromRequest($this->context . '.filter.date_range', 'filter_date_range');
+		$this->setState('filter.date_range', $dateRange);
 
 		parent::populateState($ordering, $direction);
 	}
@@ -114,22 +114,18 @@ class RedshopModelStatistic_Customer extends RedshopModelList
 				. ' AND ' . $db->qn('o.order_payment_status') . ' = ' . $db->quote('Paid')
 			);
 
-		// Filter: Start Date
-		$startDate = $this->state->get('filter.start_date', 0);
+		// Filter: Date Range
+		$filterDateRange = $this->state->get('filter.date_range', '');
 
-		if ($startDate)
+		if (!empty($filterDateRange))
 		{
-			$startDate = strtotime($startDate);
-			$query->where($db->qn('o.cdate') . ' >= ' . (int) $startDate);
-		}
+			$filterDateRange = explode('-', $filterDateRange);
 
-		// Filter: Start Date
-		$endDate = $this->state->get('filter.end_date', 0);
+			$startDate = (isset($filterDateRange[0])) ? (int) $filterDateRange[0] : '';
+			$endDate   = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
 
-		if ($endDate)
-		{
-			$endDate = strtotime($endDate);
-			$query->where($db->qn('o.cdate') . ' <= ' . (int) $endDate);
+			$query->where($db->qn('o.cdate') . ' >= ' . $startDate)
+				->where($db->qn('o.cdate') . ' <= ' . $endDate);
 		}
 
 		$query->group($db->qn('ui.users_info_id'));
