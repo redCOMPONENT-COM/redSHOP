@@ -86,10 +86,12 @@ class RedshopHelperMediaImage
 		{
 			$document->addStylesheet('/media/com_reditem/dropzone/dist/min/dropzone.min.css');
 			$document->addStylesheet('/media/com_reditem/cropper/dist/cropper.min.css');
+			$document->addStylesheet('/media/com_reditem/lightbox2/dist/css/lightbox.min.css');
 			$document->addBottomStylesheet('/media/com_reditem/css/media.css');
 
 			$document->addScript('/media/com_reditem/dropzone/dist/min/dropzone.min.js');
 			$document->addScript('/media/com_reditem/cropper/dist/cropper.min.js');
+			$document->addScript('/media/com_reditem/lightbox2/dist/js/lightbox.min.js');
 			$document->addScript('/media/com_reditem/fuse.js/src/fuse.min.js');
 			$document->addScript('/media/com_reditem/js/media.js');
 
@@ -132,13 +134,23 @@ class RedshopHelperMediaImage
 				if (file_exists($tmpFile))
 				{
 					$dimension = getimagesize($tmpFile);
+					$mime      = mime_content_type($tmpFile);
+
+					if ($mime)
+					{
+						$mime = explode('/', $mime);
+						$mime = $mime[0];
+					}
+
 					$tmpImg    = array(
 						'id'        => $lm->media_id,
 						'url'       => JRoute::_('/components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name, true, -1),
 						'name'      => $lm->media_name,
 						'size'      => self::sizeFilter(filesize($tmpFile)),
 						'dimension' => $dimension[0] . ' x ' . $dimension[1],
-						'media'     => $lm->media_section
+						'media'     => $lm->media_section,
+						'mime'      => $mime,
+						'status'    => $lm->published ? '' : '-slash'
 					);
 
 					if ($image === $lm->media_name)
