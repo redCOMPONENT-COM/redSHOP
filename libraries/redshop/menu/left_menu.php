@@ -107,7 +107,10 @@ class RedshopMenuLeft_Menu
 				return array('PRODUCT_MANAGEMENT', 'media');
 				break;
 
+			/*
+			 @TODO: Enable this menu when Product Variants ready
 			case "attributes":
+			*/
 			case "attribute_detail":
 				return array('PRODUCT_MANAGEMENT', 'attribute');
 				break;
@@ -288,10 +291,13 @@ class RedshopMenuLeft_Menu
 				break;
 
 			case "statistic_customer":
-			case "statistic_order":
+			case 'statistic':
+				// @TODO: Would enable these statistic when done.
+
+			/*case "statistic_order":
 			case "statistic_product":
 			case "statistic_quotation":
-			case "statistic_variant":
+			case "statistic_variant":*/
 				return array('STATISTIC', 'statistic');
 				break;
 
@@ -317,7 +323,7 @@ class RedshopMenuLeft_Menu
 		self::setCategory();
 		self::setManufacturer();
 		self::setMedia();
-		self::setAttributes();
+		// self::setAttributes(); @TODO: Enable when Product Variants ready
 
 		self::$menu->group('PRODUCT_MANAGEMENT');
 	}
@@ -570,6 +576,8 @@ class RedshopMenuLeft_Menu
 				'COM_REDSHOP_STATISTIC_CUSTOMER',
 				(self::$view == 'statistic_customer' && self::$layout == '') ? true : false
 			)
+			/*
+			@TODO: Enable this menu when done.
 			->addItem(
 				'index.php?option=com_redshop&view=statistic_order',
 				'COM_REDSHOP_STATISTIC_ORDER',
@@ -589,7 +597,7 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=statistic_quotation',
 				'COM_REDSHOP_STATISTIC_QUOTATION',
 				(self::$view == 'statistic_quotation' && self::$layout == '') ? true : false
-			)
+			)*/
 			->addItem(
 				'index.php?option=com_redshop&view=statistic',
 				'COM_REDSHOP_TOTAL_VISITORS',
