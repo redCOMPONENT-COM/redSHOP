@@ -20,6 +20,13 @@ class RedshopViewStatistic_Customer extends RedshopViewAdmin
 {
 	protected $state = array();
 
+	public $customers = array();
+
+	/**
+	 * @var  JForm
+	 */
+	public $filterForm = null;
+
 	/**
 	 * Display the Statistic Customer view
 	 *
@@ -31,18 +38,13 @@ class RedshopViewStatistic_Customer extends RedshopViewAdmin
 	{
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC_CUSTOMER'));
-		$document->addStyleSheet('components/com_redshop/assets/css/daterangepicker.css');
-		$document->addScript('components/com_redshop/assets/js/moment.min.js');
-		$document->addScript('components/com_redshop/assets/js/daterangepicker.js');
 
 		/** @var RedshopModelStatistic_Customer $model */
 		$model = $this->getModel();
 
-		$this->state     = $this->get('State');
-		$this->customers = $model->getItems();
-
-		$this->filterStartDate = $this->state->get('filter.start_date');
-		$this->filterEndDate   = $this->state->get('filter.end_date');
+		$this->customers  = $model->getItems();
+		$this->state      = $model->getState();
+		$this->filterForm = $model->getForm();
 
 		$this->addToolbar();
 
