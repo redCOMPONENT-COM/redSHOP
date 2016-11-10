@@ -36,13 +36,8 @@ class ManageAdministratorNoticesCest
 			'Wrapping  Manager' => '/administrator/index.php?option=com_redshop&view=wrapper',
 			'User Manager' => '/administrator/index.php?option=com_redshop&view=user',
 			'Vat/Tax Group Manager' => '/administrator/index.php?option=com_redshop&view=tax_group',
-<<<<<<< HEAD
 			'Currency Manager' => '/administrator/index.php?option=com_redshop&view=currencies',
 			'State Manager' => '/administrator/index.php?option=com_redshop&view=state',
-=======
-			'Currency Manager' => '/administrator/index.php?option=com_redshop&view=currency',
-			'State Manager' => '/administrator/index.php?option=com_redshop&view=states',
->>>>>>> upstream/develop
 			'Custom Field Manager' => '/administrator/index.php?option=com_redshop&view=fields',
 			'Template Manager' => '/administrator/index.php?option=com_redshop&view=template',
 			'Text Library Manager' => '/administrator/index.php?option=com_redshop&view=textlibrary',
