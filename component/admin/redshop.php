@@ -25,7 +25,6 @@ $config = Redshop::getConfig();
 
 if (!$config->isExists())
 {
-	error_reporting(0);
 	$controller = 'redshop';
 	JRequest::setVar('view', 'redshop');
 	JRequest::setVar('layout', 'noconfig');
