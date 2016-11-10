@@ -34,8 +34,8 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CurrencyManagerPage::$currencyNameField, $currencyName);
 		$I->fillField(\CurrencyManagerPage::$currencyCodeField, $currencyCode);
 		$I->click('Save & Close');
-		$I->waitForText('Currency Management',60,'h1');
-		$I->see('Currency detail saved', ['id' => 'system-message-container']);
+		$I->waitForText('Currency Management', 60, 'h1');
+		$I->see('Item successfully saved.', ['id' => 'system-message-container']);
 		$I->filterListBySearching($currencyName);
 		$I->seeElement(['link' => $currencyName]);
 	}
@@ -58,7 +58,7 @@ class CurrencyManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'Currency Edit View');
 		$I->fillField(\CurrencyManagerPage::$currencyNameField, $newCurrencyName);
 		$I->click('Save & Close');
-		$I->waitForText('Currency Management',10,'h1');
+		$I->waitForText('Currency Management', 10, 'h1');
 		$I->filterListBySearching($newCurrencyName);
 		$I->seeElement(['link' => $newCurrencyName]);
 	}
