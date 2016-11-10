@@ -47,144 +47,51 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		]);
 
 		var options = {
-			  chart: {
+			chart: {
 				title: '<?php echo JText::_("COM_REDSHOP_STATISTIC_PRODUCT"); ?>',
 				subtitle: '<?php echo JText::_("COM_REDSHOP_STATISTIC_PRODUCT"); ?>',
-			  },
-			  annotations: {
+			},
+			annotations: {
 				boxStyle: {
-				  // Color of the box outline.
-				  stroke: '#888',
-				  // Thickness of the box outline.
-				  strokeWidth: 1,
-				  // x-radius of the corner curvature.
-				  rx: 10,
-				  // y-radius of the corner curvature.
-				  ry: 10,
-				  // Attributes for linear gradient fill.
-				  gradient: {
-					// Start color for gradient.
-					color1: '#fbf6a7',
-					// Finish color for gradient.
-					color2: '#33b679',
-					// Where on the boundary to start and
-					// end the color1/color2 gradient,
-					// relative to the upper left corner
-					// of the boundary.
-					x1: '0%', y1: '0%',
-					x2: '100%', y2: '100%',
-					// If true, the boundary for x1,
-					// y1, x2, and y2 is the box. If
-					// false, it's the entire chart.
-					useObjectBoundingBoxUnits: true
-				  }
+					// Color of the box outline.
+					stroke: '#888',
+					// Thickness of the box outline.
+					strokeWidth: 1,
+					// x-radius of the corner curvature.
+					rx: 10,
+					// y-radius of the corner curvature.
+					ry: 10,
+					// Attributes for linear gradient fill.
+					gradient: {
+						// Start color for gradient.
+						color1: '#fbf6a7',
+						// Finish color for gradient.
+						color2: '#33b679',
+						// Where on the boundary to start and
+						// end the color1/color2 gradient,
+						// relative to the upper left corner
+						// of the boundary.
+						x1: '0%', y1: '0%',
+						x2: '100%', y2: '100%',
+						// If true, the boundary for x1,
+						// y1, x2, and y2 is the box. If
+						// false, it's the entire chart.
+						useObjectBoundingBoxUnits: true
+					}
 				}
-			  }
-			};
+			}
+		};
 
 		//Instantiate and draw our chart, passing in some options.
 		var chart = new google.visualization.ColumnChart(document.getElementById('customer_statistic_chart'));
 		chart.draw(data, options);
 	}
-
-	$(document).ready(function() {
-		updateConfig();
-
-		function updateConfig() {
-			var options = {};
-
-			options.locale = {
-				format: 'MM/DD/YYYY',
-				separator: ' - ',
-				applyLabel: 'Apply',
-				cancelLabel: 'Cancel',
-				fromLabel: 'From',
-				toLabel: 'To',
-				customRangeLabel: 'Custom',
-				daysOfWeek: [
-					'<?php echo JText::_('COM_REDSHOP_SUN') ?>',
-					'<?php echo JText::_('COM_REDSHOP_MON') ?>',
-					'<?php echo JText::_('COM_REDSHOP_TUE') ?>',
-					'<?php echo JText::_('COM_REDSHOP_WED') ?>',
-					'<?php echo JText::_('COM_REDSHOP_THU') ?>',
-					'<?php echo JText::_('COM_REDSHOP_FRI') ?>',
-					'<?php echo JText::_('COM_REDSHOP_SAT') ?>'
-				],
-				monthNames: [
-					'<?php echo JText::_('COM_REDSHOP_MONTH_JANUARY') ?>',
-					'<?php echo JText::_('COM_REDSHOP_MONTH_FEBRUARY') ?>',
-					'<?php echo JText::_('COM_REDSHOP_MONTH_MARCH') ?>',
-					'<?php echo JText::_('COM_REDSHOP_MONTH_APRIL') ?>',
-					'<?php echo JText::_('COM_REDSHOP_MONTH_MAY') ?>',
-					'<?php echo JText::_('COM_REDSHOP_MONTH_JUNE') ?>',
-					'<?php echo JText::_('COM_REDSHOP_MONTH_JULY') ?>',
-					'<?php echo JText::_('COM_REDSHOP_MONTH_AUGUST') ?>',
-					'<?php echo JText::_('COM_REDSHOP_MONTH_SEPTEMBER') ?>',
-					'<?php echo JText::_('COM_REDSHOP_MONTH_OCTOBER') ?>',
-					'<?php echo JText::_('COM_REDSHOP_MONTH_NOVEMBER') ?>',
-					'<?php echo JText::_('COM_REDSHOP_MONTH_DECEMBER') ?>'
-				],
-				firstDay: 1
-			};
-
-			<?php if (!empty($this->filterStartDate)): ?>
-			options.startDate = $('input[name="filter[start_date]').val();
-			<?php endif; ?>
-			<?php if (!empty($this->filterEndDate)): ?>
-			options.endDate = $('input[name="filter[end_date]"]').val();
-			<?php endif; ?>
-
-			options.autoApply = true;
-			options.ranges = {
-				'<?php echo JText::_('COM_REDSHOP_STATISTIC_TODAY') ?>': [moment(), moment()],
-				'<?php echo JText::_('COM_REDSHOP_STATISTIC_YESTERDAY') ?>': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-				'<?php echo JText::_('COM_REDSHOP_STATISTIC_THIS_WEEK') ?>': [moment().startOf('isoWeek'), moment().endOf('isoWeek')],
-				'<?php echo JText::_('COM_REDSHOP_STATISTIC_LAST_WEEK') ?>': [
-					moment().subtract(1, 'weeks').startOf('isoWeek'), moment().subtract(1, 'weeks').endOf('isoWeek')
-				],
-				'<?php echo JText::_('COM_REDSHOP_STATISTIC_THIS_MONTH') ?>': [moment().startOf('month'), moment().endOf('month')],
-				'<?php echo JText::_('COM_REDSHOP_STATISTIC_LAST_MONTH') ?>': [
-					moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')
-				],
-				'<?php echo JText::_('COM_REDSHOP_STATISTIC_THIS_YEAR') ?>': [moment().startOf('year'), moment().endOf('year')],
-				'<?php echo JText::_('COM_REDSHOP_STATISTIC_LAST_YEAR') ?>': [
-					moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')
-				],
-				'<?php echo JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', 7) ?>': [moment().subtract(6, 'days'), moment()],
-				'<?php echo JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', 15) ?>': [moment().subtract(14, 'days'), moment()],
-				'<?php echo JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', 30) ?>': [moment().subtract(29, 'days'), moment()],
-				'<?php echo JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', 60) ?>': [moment().subtract(59, 'days'), moment()],
-				'<?php echo JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', 90) ?>': [moment().subtract(89, 'days'), moment()]
-			};
-
-			options.linkedCalendars = true;
-			options.autoUpdateInput = true;
-			options.showDropdowns = true;
-			options.alwaysShowCalendars = true;
-
-			$('#filter_dates').daterangepicker(options, function(start, end, label) {
-				$('input[name="filter[start_date]"]').val(start.format('MM/DD/YYYY'));
-				$('input[name="filter[end_date]"]').val(end.format('MM/DD/YYYY'));
-				document.adminForm.submit();
-			});
-
-			$('#btn-filter-date').click(function(e){
-				e.preventDefault();
-				$('#filter_dates').click();
-			});
-		  }
-	});
 </script>
 <form action="index.php?option=com_redshop&view=statistic_customer" method="post" name="adminForm" id="adminForm">
 	<div class="filterTool">
 		<div class="filterItem">
 			<div class="js-stools clearfix">
-				<div class="input-append">
-					<input type="text" id="filter_dates" class="form-control" autocomplete="false" />
-					<button class="btn btn-success" id="btn-filter-date"><i class="fa fa-calendar"></i></button>
-					<input type="hidden" name="filter[start_date]" value="<?php echo $this->filterStartDate ?>" />
-					<input type="hidden" name="filter[end_date]" value="<?php echo $this->filterEndDate ?>" />
-				</div>
+				<?php echo $this->filterForm->getInput('date_range', 'filter') ?>
 			</div>
 		</div>
 	</div>
