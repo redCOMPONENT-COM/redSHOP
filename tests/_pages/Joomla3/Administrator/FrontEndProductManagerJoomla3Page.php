@@ -75,6 +75,7 @@ class FrontEndProductManagerJoomla3Page
 	public static $checkoutFinalStep = "//input[@id='checkout_final']";
 
 	public static $orderReceiptTitle = "//div[@id='redshopcomponent']/div";
+	
 
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page

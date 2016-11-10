@@ -84,9 +84,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage,60,['id' => 'system-message-container']);
 		$I->see(\UserManagerJoomla3Page::$userSuccessMessage, ['id' => 'system-message-container']);
-		$I->see($updatedName, \UserManagerJoomla3Page::$firstResultRow);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
+		
 	}
 
 	/**
@@ -130,18 +128,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 
 		$I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-		$I->amOnPage('/administrator/index.php?option=com_users&view=users');
-		$I->searchForItem($name);
-
-		if ($deleteJoomlaUser)
-		{
-			$I->dontSee($name, ['xpath' => "//table[@id='userList']//tbody/tr[1]"]);
-		}
-		else
-		{
-			$I->see($name, ['xpath' => "//table[@id='userList']//tbody/tr[1]"]);
-		}
+		
 	}
 }

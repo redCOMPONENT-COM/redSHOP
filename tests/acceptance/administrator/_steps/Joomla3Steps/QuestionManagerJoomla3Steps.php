@@ -26,33 +26,30 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function addQuestion($productName = 'redSHOEMANIAC', $userPhoneNumber = '123456', $question = 'Why is this Happening')
+	public function addQuestion($productName = 'TestingCategory554', $userPhoneNumber = '123456', $question = 'Why is this Happening')
 	{
 		$I = $this;
+		$I->wantTo('Create a Category');
 		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
 		$questionManagerPage = new \QuestionManagerJoomla3Page;
-		$I->verifyNotices(false, $this->checkForNotices(), 'Question Manager Page');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Question Manager Page');
 		$I->click('New');
 		$I->waitForElement(\QuestionManagerJoomla3Page::$userPhone,30);
 		$I->fillField(\QuestionManagerJoomla3Page::$userPhone, $userPhoneNumber);
 		$I->click(\QuestionManagerJoomla3Page::$productNameDropDown);
-		$I->fillField(\QuestionManagerJoomla3Page::$productNameSearchField, $productName);
-		$I->waitForElement($questionManagerPage->productName($productName),60);
-		$I->click($questionManagerPage->productName($productName));
+		$I->fillField(['id' => 's2id_autogen1_search'], 'Product 1');
+		$I->waitForElement(['css' => 'span.select2-match'], 60);
+		$I->click(['css' => 'span.select2-match']);
 		$I->scrollTo(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor,0,-200);
 		$I->click(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
-		$I->fillField(\QuestionManagerJoomla3Page::$question, $question);
+		$I->fillField(\QuestionManagerJoomla3Page::$newquestion, $question, 60);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
+		
 		$I->click('Save & Close');
 		$I->waitForText(\QuestionManagerJoomla3Page::$questionSuccessMessage,60,['id' => 'system-message-container']);
 		$I->see(\QuestionManagerJoomla3Page::$questionSuccessMessage,['id' => 'system-message-container']);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click('Reset');
-		$I->wait(1);
-		$I->fillField(['id' => 'filter'], $question);
-		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $productName]);
-		$I->seeElement(['link' => $productName]);
+		
 	}
 
 	/**
@@ -68,20 +65,23 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-		$I->see($question, \QuestionManagerJoomla3Page::$firstResultRow);
+		$I->click('//*[@id="reset"]');
+		$I->wait(1);
+		$I->fillField(['id' => 'filter'], $question);
+		$I->pressKey(['id' => 'filter'], \WebDriverKeys::ENTER);
 		$I->click(\QuestionManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
 		$I->waitForElement(\QuestionManagerJoomla3Page::$userPhone,30);
 		$I->scrollTo(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor,0,-200);
 		$I->click(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
-		$I->fillField(\QuestionManagerJoomla3Page::$question, $updatedQuestion);
+		$I->fillField(\QuestionManagerJoomla3Page::$newquestion, $updatedQuestion, 60);
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(\QuestionManagerJoomla3Page::$toggleQuestionDescriptionEditor);
 		$I->click('Save & Close');
 		$I->waitForText(\QuestionManagerJoomla3Page::$questionSuccessMessage,60,['id' => 'system-message-container']);
 		$I->see(\QuestionManagerJoomla3Page::$questionSuccessMessage, ['id' => 'system-message-container']);
-		$I->see($updatedQuestion, \QuestionManagerJoomla3Page::$firstResultRow);
-		$I->click(['link' => 'ID']);
+		
+		
 	}
 
 	/**
@@ -92,25 +92,28 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function changeQuestionState($question, $state = 'unpublish')
+	public function changeQuestionState($updatedQuestion, $state = 'unpublish')
 	{
 		$I = $this;
 		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click('Reset');
-		$I->wait(1);
-		$I->fillField(['id' => 'filter'], $question);
-		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->wait(1);
-		$I->checkOption(\QuestionManagerJoomla3Page::$selectFirst);
+		$I->click('//*[@id="reset"]');
+		$I->fillField(['id' => 'filter'], $updatedQuestion);
+		$I->pressKey(['id' => 'filter'], \WebDriverKeys::ENTER);		
+		$I->click(\QuestionManagerJoomla3Page::$selectFirst);
 
 		if ($state == 'unpublish')
 		{
 			$I->click("Unpublish");
+			$I->waitForText(\QuestionManagerJoomla3Page::$Messagechangestate,60,['id' => 'system-message-container']);
+		    $I->see(\QuestionManagerJoomla3Page::$Messagechangestate, ['id' => 'system-message-container']); 
+
 		}
 		else
 		{
-			$I->click("Publish");
+			$I->click("Unpublish");
+			$I->waitForText(\QuestionManagerJoomla3Page::$Messagechangestate,60,['id' => 'system-message-container']);
+		    $I->see(\QuestionManagerJoomla3Page::$Messagechangestate, ['id' => 'system-message-container']);
 		}
 	}
 
@@ -148,19 +151,18 @@ class QuestionManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function deleteQuestion($question)
+	public function deleteQuestion($updatedQuestion)
 	{
 		$I = $this;
 		$I->amOnPage(\QuestionManagerJoomla3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click('Reset');
-		$I->wait(1);
-		$I->fillField(['id' => 'filter'], $question);
-		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->wait(1);
-		$I->checkOption(\QuestionManagerJoomla3Page::$selectFirst);
+		$I->click('//*[@id="reset"]');
+		$I->fillField(['id' => 'filter'], $updatedQuestion);
+		$I->pressKey(['id' => 'filter'], \WebDriverKeys::ENTER);		
+		$I->click(\QuestionManagerJoomla3Page::$selectFirst);
 		$I->click('Delete');
-		$I->wait(1);
-		$I->dontSee($question, ['id' => 'adminform']);
+		$I->waitForText(\QuestionManagerJoomla3Page::$Messagedeletestate,60,['id' => 'system-message-container']);
+		$I->see(\QuestionManagerJoomla3Page::$Messagedeletestate, ['id' => 'system-message-container']);
+		$I->dontSee($updatedQuestion);
 	}
 }

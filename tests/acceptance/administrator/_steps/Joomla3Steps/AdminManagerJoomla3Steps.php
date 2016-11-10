@@ -114,8 +114,18 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->filterListBySearching3($deleteItem);
 		$I->click('//tbody/tr[1]/td[2]/div');
 		$I->click('Delete');
-		$I->waitForText('Discount Detail Deleted Successfully', 60, ['id' => 'system-message-container']);
+		$I->waitForText('Discount Detail Deleted Successfully', 60, '//*[@id="system-message-container"]/div/div');
 		$I->dontSeeElement(['link' => $name]);
+		
+	}
+		public function deleteStockR($pageClass, $deleteItem, $resultRow, $check)
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching4($deleteItem);
+		$I->click('//tbody/tr[1]/td[2]/div');
+		$I->click('Delete');
+		$I->dontSeeElement(['link' => $deleteItem]);
 		
 	}
 
@@ -210,6 +220,22 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->click('Save & Close');
 	}
 
+    public function changeState3($pageClass, $item, $state, $resultRow, $check, $searchField = ['id' => 'filter'])
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching1($item, $searchField);
+		$I->click('//tbody/tr[1]/td[3]/a');
+		if ($state == 'unpublish')
+		{
+			$I->click('//*[@id="published0-lbl"]/div');
+		}
+		else
+		{
+			$I->click('//*[@id="published1-lbl"]/div');
+		}
+		$I->click('Save & Close');
+	}
 	/**
 	 * Filters an administrator list by searching for a given string
 	 *
@@ -245,6 +271,14 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->click('Reset');
+		$I->fillField($searchField, $text);
+		$I->pressKey($searchField, \WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $text]);
+	}
+	public function filterListBySearching4($text, $searchField = ['id' => 'filter'])
+	{
+		$I = $this;
+		$I->click('//*[@id="reset"]');
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);

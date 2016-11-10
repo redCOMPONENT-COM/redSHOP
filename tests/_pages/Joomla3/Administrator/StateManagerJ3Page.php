@@ -17,9 +17,8 @@ class StateManagerJ3Page
 {
 	public static $URL = '/administrator/index.php?option=com_redshop&view=states';
 
-	public static $editUrl = '/administrator/index.php?option=com_redshop&view=state&layout=edit';
-
-	public static $countryIdDropDown = "//div[@id='country_id_chzn']/a";
+	
+	public static $countryIdDropDown = "//*[@id='select2-chosen-1']";
 
 	public static $stateName = "#jform_state_name";
 
@@ -27,11 +26,11 @@ class StateManagerJ3Page
 
 	public static $stateThreeCode = "#jform_state_3_code";
 
-	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
+	public static $checkAll = "//tbody/tr[1]/td[2]/div";
 
-	public static $stateResultRow = "//form[@id='adminForm']/table/tbody/tr[1]";
+	public static $stateResultRow = "//tbody/tr[1]/td[3]/a";
 
-	public static $searchField = "//input[@id='filter_search']";
+	public static $searchField = "//input[@id='country_main_filter']";
 
 	public static $searchButton = "//input[@value='Search']";
 
