@@ -109,6 +109,24 @@ class RedshopModelAddquotation_detail extends RedshopModel
 		$rsCarthelper = rsCarthelper::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
+		$userRow = $this->getTable('user_detail');
+		$userRow->load($data['user_info_id']);
+		$userRow->firstname    = $data['firstname'];
+		$userRow->lastname     = $data['lastname'];
+		$userRow->address      = $data['address'];
+		$userRow->zipcode      = $data['zipcode'];
+		$userRow->country_code = $data['country_code'];
+		$userRow->phone        = $data['phone'];
+		$userRow->city         = $data['city'];
+		$userRow->state_code   = $data['state_code'];
+
+		if (!$userRow->store())
+		{
+			$this->setError($userRow->getErrorMsg());
+
+			return false;
+		}
+
 		$extra_field->extra_field_save($data, 16, $data['user_info_id'], $data['user_email']);
 
 		$row = $this->getTable('quotation_detail');
