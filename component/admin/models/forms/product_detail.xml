@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                id="product_image"
+                name="product_image"
+                type="mediadragdrop"
+                />
+    </fieldset>
+</form>

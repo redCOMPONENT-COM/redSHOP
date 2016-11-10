@@ -21,16 +21,25 @@ extract($displayData);
 				<h4 class="modal-title"> <i class="fa fa-picture-o"></i> Gallery</h4>
 			</div>
 			<div class="modal-body">
-				<ul class="nav nav-tabs" role="tablist">
+				<ul class="nav nav-tabs" id="g-tab" role="tablist">
 					<li role="presentation"><a href="#upload-media" aria-controls="upload-media" role="tab" data-toggle="tab">Upload Files</a></li>
 					<li role="presentation" class="active"><a href="#upload-lib" aria-controls="upload-lib" role="tab" data-toggle="tab">Library Media</a></li>
 				</ul>
 
 				<!-- Tab panes -->
 				<div class="tab-content">
-					<div role="tabpanel" class="tab-pane" id="upload-media">...</div>
+					<div role="tabpanel" class="tab-pane fade" id="upload-media">
+						<div class="col-md-12 dropzone-pane">
+							<div class="row">
+								<div action="/" class="dropzone" id="g-dropzone" enctype="multipart/form-data">
+									<div class="dz-cons">&#11015;</div>
+									<div class="dz-cons-addon"><i class="fa fa-folder-o"></i></div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-					<div role="tabpanel" class="tab-pane active" id="upload-lib">
+					<div role="tabpanel" class="tab-pane fade in active" id="upload-lib">
 						<div class="col-md-9 thumbnail-pane">
 							<div class="row">
 								<div class="col-md-4">
@@ -92,6 +101,32 @@ extract($displayData);
 </div><!-- /.modal -->
 <!-- End Cropper Modal -->
 
+<!-- Dropzone Template -->
+<div id="g-dropzone-tpl" style="display: none">
+	<div class="dz-preview dz-file-preview">
+		<div class="dz-details">
+			<!-- <div class="dz-filename"><span data-dz-name></span></div> -->
+			<!-- <div class="dz-size" data-dz-size></div> -->
+			<img data-dz-thumbnail />
+		</div>
+		<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+		<!-- <div class="dz-success-mark"><span>✔</span></div> -->
+		<!-- <div class="dz-error-mark"><span>✘</span></div> -->
+		<!-- <div class="dz-error-message"><span data-dz-errormessage></span></div> -->
+	</div>
+</div>
+<!-- End Dropzone Template -->
+
+<!-- Gallery Item Template -->
+<div id="g-item-tpl" style="display: none">
+	<div class="col-md-2">
+		<div class="thumbnail img-obj">
+			<img src="" alt="" data-id="" data-size="" data-dimension="" data-media="" data-attached="false">
+		</div>
+	</div>
+</div>
+<!-- Gallery Item Template -->
+
 <!-- Alert Modal -->
 <div id="alertGModal" class="modal fade in" tabindex="-1" role="dialog">
 	<div class="modal-dialog modal-sm" role="document">
@@ -116,5 +151,6 @@ extract($displayData);
 <!-- End Alert Modal -->
 <script>
 	rsMedia.customizeModal();
+	rsMedia.galleryDropzone();
 	rsMedia.galleryEvents();
 </script>

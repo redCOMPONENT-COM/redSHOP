@@ -19,21 +19,21 @@ extract($displayData);
 	</div>
 </div>
 <div class="btn-toolbar">
-	<button type="button" class="btn btn-small btn-primary cropping">
+	<button type="button" class="btn btn-small btn-primary cropping" data-toggle="tooltip"
+	title="<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_CROP'); ?>">
 		<span class="fa fa-crop"></span>
-		<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_CROP'); ?>
 	</button>
 	<!-- button -->
-	<button type="button" class="btn btn-small btn-danger removing">
+	<button type="button" class="btn btn-small btn-danger removing" data-toggle="tooltip"
+	title="<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_REMOVE'); ?>">
 		<span class="fa fa-trash"></span>
-		<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_REMOVE'); ?>
 	</button>
 	<!-- button -->
-	<button type="button" class="btn btn-small btn-success choosing pull-right"
+	<button type="button" class="btn btn-small btn-success pull-right hasTooltip choosing"
 	data-toggle="modal"
-	data-target="#galleryModal">
+	data-target="#galleryModal"
+	data-original-title="<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_INSERT'); ?>">
 		<span class="fa fa-picture-o"></span>
-		<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_INSERT'); ?>
 	</button>
 </div>
 <input type="hidden" name="<?php echo $mediaSection ?>_image" id="<?php echo $mediaSection ?>_image" class="img-select">

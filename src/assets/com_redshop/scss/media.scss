@@ -42,6 +42,39 @@
 			}
 		}
 	}
+
+	.dz-cons {
+		position: absolute;
+		right: 48%;
+		top: 65%;
+		font-size: 50px;
+		-webkit-animation: bounce 2s infinite ease-in-out;
+		animation: bounce 2s infinite ease-in-out;
+		opacity: 0;
+		color: #888;
+	}
+
+	.dz-cons-addon {
+		position: absolute;
+		right: 48%;
+		top: 75%;
+		font-size: 50px;
+		opacity: 0;
+		color: #888;
+	}
+
+	&.dz-drag-hover {
+
+		.dz-cons {
+			opacity: 1;
+		}
+
+		.dz-cons-addon {
+			opacity: 1;
+			-webkit-transition: opacity 0.5 ease-in-out;
+			-transition: opacity 0.5 ease-in-out;
+		}
+	}
 }
 
 // Bootstrap Modal CSS
@@ -128,7 +161,6 @@
 				left: 0;
 				margin: 0 !important;
 				position: absolute;
-				right: 25%;
 				top: 0;
 				width: 100%;
 			}
@@ -140,12 +172,28 @@
 				overflow: auto;
 				position: absolute;
 				top: 37px;
+				width: 100%;
 			}
 
 			.tab-pane {
 				height: 100%;
 				overflow: hidden;
 				position: relative;
+			}
+
+			.dropzone-pane {
+				height: 100%;
+				overflow: auto;
+				padding: 15px;
+				position: relative;
+
+				.dropzone {
+					position: absolute;
+					top: 15px;
+					bottom: 15px;
+					left: 15px;
+					right: 15px;
+				}
 			}
 
 			.thumbnail-pane {
@@ -235,4 +283,18 @@
 	.pv-name {
 		font-weight: bold;
 	}
+}
+
+.btn-wrap {
+	display: block;
+
+	&.btn-wrap-right {
+		float: right;
+	}
+}
+
+@-webkit-keyframes bounce {
+	0%, 20%, 60%, 100%  { -webkit-transform: translateY(0); }
+    40%  { -webkit-transform: translateY(-20px); }
+	80% { -webkit-transform: translateY(-10px); }
 }
