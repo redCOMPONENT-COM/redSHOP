@@ -19,24 +19,6 @@ defined('_JEXEC') or die;
 class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 {
 	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  object  The model.
-	 *
-	 * @since   2.0.0.3
-	 */
-	/*public function getModel($name = 'Statistic_Customer', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
-	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
-	}*/
-
-	/**
 	 * Export customers CSV.
 	 *
 	 * @return  mixed.
@@ -45,9 +27,8 @@ class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 	 */
 	public function exportCustomer()
 	{
-		$productHelper = productHelper::getInstance();
-		$model         = $this->getModel();
-		$data          = $model->getCustomers();
+		$model = $this->getModel();
+		$data  = $model->getItems();
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");
