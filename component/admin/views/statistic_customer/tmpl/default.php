@@ -101,8 +101,29 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				fromLabel: 'From',
 				toLabel: 'To',
 				customRangeLabel: 'Custom',
-				daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
-				monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+				daysOfWeek: [
+					'<?php echo JText::_('COM_REDSHOP_SUN') ?>',
+					'<?php echo JText::_('COM_REDSHOP_MON') ?>',
+					'<?php echo JText::_('COM_REDSHOP_TUE') ?>',
+					'<?php echo JText::_('COM_REDSHOP_WED') ?>',
+					'<?php echo JText::_('COM_REDSHOP_THU') ?>',
+					'<?php echo JText::_('COM_REDSHOP_FRI') ?>',
+					'<?php echo JText::_('COM_REDSHOP_SAT') ?>'
+				],
+				monthNames: [
+					'<?php echo JText::_('COM_REDSHOP_MONTH_JANUARY') ?>',
+					'<?php echo JText::_('COM_REDSHOP_MONTH_FEBRUARY') ?>',
+					'<?php echo JText::_('COM_REDSHOP_MONTH_MARCH') ?>',
+					'<?php echo JText::_('COM_REDSHOP_MONTH_APRIL') ?>',
+					'<?php echo JText::_('COM_REDSHOP_MONTH_MAY') ?>',
+					'<?php echo JText::_('COM_REDSHOP_MONTH_JUNE') ?>',
+					'<?php echo JText::_('COM_REDSHOP_MONTH_JULY') ?>',
+					'<?php echo JText::_('COM_REDSHOP_MONTH_AUGUST') ?>',
+					'<?php echo JText::_('COM_REDSHOP_MONTH_SEPTEMBER') ?>',
+					'<?php echo JText::_('COM_REDSHOP_MONTH_OCTOBER') ?>',
+					'<?php echo JText::_('COM_REDSHOP_MONTH_NOVEMBER') ?>',
+					'<?php echo JText::_('COM_REDSHOP_MONTH_DECEMBER') ?>'
+				],
 				firstDay: 1
 			};
 
@@ -115,19 +136,25 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 			options.autoApply = true;
 			options.ranges = {
-				'Today': [moment(), moment()],
-				'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-				'This week': [moment().startOf('isoWeek'), moment().endOf('isoWeek')],
-				'Last Week': [moment().subtract(1, 'weeks').startOf('isoWeek'), moment().subtract(1, 'weeks').endOf('isoWeek')],
-				'This Month': [moment().startOf('month'), moment().endOf('month')],
-				'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-				'This Year': [moment().startOf('year'), moment().endOf('year')],
-				'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
-				'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-				'Last 15 Days': [moment().subtract(14, 'days'), moment()],
-				'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-				'Last 60 Days': [moment().subtract(59, 'days'), moment()],
-				'Last 90 Days': [moment().subtract(89, 'days'), moment()]
+				'<?php echo JText::_('COM_REDSHOP_STATISTIC_TODAY') ?>': [moment(), moment()],
+				'<?php echo JText::_('COM_REDSHOP_STATISTIC_YESTERDAY') ?>': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+				'<?php echo JText::_('COM_REDSHOP_STATISTIC_THIS_WEEK') ?>': [moment().startOf('isoWeek'), moment().endOf('isoWeek')],
+				'<?php echo JText::_('COM_REDSHOP_STATISTIC_LAST_WEEK') ?>': [
+					moment().subtract(1, 'weeks').startOf('isoWeek'), moment().subtract(1, 'weeks').endOf('isoWeek')
+				],
+				'<?php echo JText::_('COM_REDSHOP_STATISTIC_THIS_MONTH') ?>': [moment().startOf('month'), moment().endOf('month')],
+				'<?php echo JText::_('COM_REDSHOP_STATISTIC_LAST_MONTH') ?>': [
+					moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')
+				],
+				'<?php echo JText::_('COM_REDSHOP_STATISTIC_THIS_YEAR') ?>': [moment().startOf('year'), moment().endOf('year')],
+				'<?php echo JText::_('COM_REDSHOP_STATISTIC_LAST_YEAR') ?>': [
+					moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')
+				],
+				'<?php echo JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', 7) ?>': [moment().subtract(6, 'days'), moment()],
+				'<?php echo JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', 15) ?>': [moment().subtract(14, 'days'), moment()],
+				'<?php echo JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', 30) ?>': [moment().subtract(29, 'days'), moment()],
+				'<?php echo JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', 60) ?>': [moment().subtract(59, 'days'), moment()],
+				'<?php echo JText::sprintf('COM_REDSHOP_STATISTIC_LAST_DAYS', 90) ?>': [moment().subtract(89, 'days'), moment()]
 			};
 
 			options.linkedCalendars = true;
