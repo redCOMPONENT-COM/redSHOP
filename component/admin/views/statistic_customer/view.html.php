@@ -60,9 +60,8 @@ class RedshopViewStatistic_Customer extends RedshopViewAdmin
 	 */
 	protected function addToolbar()
 	{
-		$title           = JText::_('COM_REDSHOP_STATISTIC_CUSTOMER');
 		JFactory::getApplication()->input->set('hidemainmenu', true);
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_CUSTOMER') . " :: " . $title, 'statistic redshop_statistic48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_CUSTOMER'), 'statistic redshop_statistic48');
 
 		RedshopToolbarHelper::custom(
 			'exportCustomer',
