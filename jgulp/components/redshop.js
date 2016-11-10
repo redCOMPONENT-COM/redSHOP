@@ -235,6 +235,9 @@ gulp.task('watch:' + baseTask + ':media', function() {
             // Do not handle redCORE stuff
             '!' + mediaPath + '/translations/**/*'
         ],
-        ['copy:' + baseTask + ':media', reload]
+        [
+        'copy:' + baseTask + ':media'
+        //, reload
+        ]
     );
 });

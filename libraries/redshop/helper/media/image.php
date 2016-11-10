@@ -54,7 +54,7 @@ class RedshopHelperMediaImage
 		}
 
 		echo RedshopLayoutHelper::render(
-			'component.dropzone',
+			'html.dropzone',
 			array(
 				'id'           => $id,
 				'type'         => $type,
@@ -166,7 +166,7 @@ class RedshopHelperMediaImage
 		}
 
 		echo RedshopLayoutHelper::render(
-			'component.gallery',
+			'html.gallery',
 			array(
 				'id'           => $id,
 				'type'         => $type,
