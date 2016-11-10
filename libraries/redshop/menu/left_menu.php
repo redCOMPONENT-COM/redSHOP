@@ -287,7 +287,11 @@ class RedshopMenuLeft_Menu
 				return array('ACCOUNTING', 'accountgroup');
 				break;
 
-			case "statistic":
+			case "statistic_customer":
+			case "statistic_order":
+			case "statistic_product":
+			case "statistic_quotation":
+			case "statistic_variant":
 				return array('STATISTIC', 'statistic');
 				break;
 
@@ -562,6 +566,31 @@ class RedshopMenuLeft_Menu
 		self::$menu->section('statistic')
 			->title('COM_REDSHOP_STATISTIC')
 			->addItem(
+				'index.php?option=com_redshop&view=statistic_customer',
+				'COM_REDSHOP_STATISTIC_CUSTOMER',
+				(self::$view == 'statistic_customer' && self::$layout == '') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=statistic_order',
+				'COM_REDSHOP_STATISTIC_ORDER',
+				(self::$view == 'statistic_order' && self::$layout == '') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=statistic_product',
+				'COM_REDSHOP_STATISTIC_PRODUCT',
+				(self::$view == 'statistic_product' && self::$layout == '') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=statistic_variant',
+				'COM_REDSHOP_STATISTIC_PRODUCT_VARIANT',
+				(self::$view == 'statistic_variant' && self::$layout == '') ? true : false
+			)
+			->addItem(
+				'index.php?option=com_redshop&view=statistic_quotation',
+				'COM_REDSHOP_STATISTIC_QUOTATION',
+				(self::$view == 'statistic_quotation' && self::$layout == '') ? true : false
+			)
+			->addItem(
 				'index.php?option=com_redshop&view=statistic',
 				'COM_REDSHOP_TOTAL_VISITORS',
 				(self::$view == 'statistic' && self::$layout == '') ? true : false
@@ -615,31 +644,6 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=statistic&layout=neworder',
 				'COM_REDSHOP_NEWEST_ORDERS',
 				(self::$view == 'statistic' && self::$layout == 'neworder') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=statistic_customer',
-				'COM_REDSHOP_STATISTIC_CUSTOMER',
-				(self::$view == 'statistic_customer' && self::$layout == '') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=statistic_order',
-				'COM_REDSHOP_STATISTIC_ORDER',
-				(self::$view == 'statistic_order' && self::$layout == '') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=statistic_product',
-				'COM_REDSHOP_STATISTIC_PRODUCT',
-				(self::$view == 'statistic_product' && self::$layout == '') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=statistic_variant',
-				'COM_REDSHOP_STATISTIC_PRODUCT_VARIANT',
-				(self::$view == 'statistic_variant' && self::$layout == '') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=statistic_quotation',
-				'COM_REDSHOP_STATISTIC_QUOTATION',
-				(self::$view == 'statistic_quotation' && self::$layout == '') ? true : false
 			);
 
 		self::$menu->group('STATISTIC');
