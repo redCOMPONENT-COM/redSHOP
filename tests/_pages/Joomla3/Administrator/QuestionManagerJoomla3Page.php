@@ -19,19 +19,23 @@ class QuestionManagerJoomla3Page
 
 	public static $userPhone = "//input[@id='telephone']";
 
-	public static $productNameDropDown = "//div[@id='s2id_product_id']/a";
+	public static $productNameDropDown = "//*[@id='select2-chosen-1']";
 
-	public static $productNameSearchField = "//input[@id='s2id_autogen1_search']";
+	public static $productNameSearchField = "//*[@id='s2id_autogen1_search']";
 
-	public static $toggleQuestionDescriptionEditor = "//div[@class='editor']//textarea[@id='question']/../div//div//a[@title='Toggle editor']";
+	public static $toggleQuestionDescriptionEditor = "//div[2]/fieldset/div/table/tbody/tr/td/div/div[2]/div/a";
 
-	public static $question = "//textarea[@id='question']";
+	public static $newquestion = "//*[@id='question']";
 
 	public static $questionSuccessMessage = 'Question Detail Saved';
 
-	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
+	public static $Messagechangestate = 'Question Detail Unpublished Successfully';
 
-	public static $selectFirst = "//input[@id='cb0']";
+	public static $Messagedeletestate = 'Question Detail Deleted Successfully';
+
+	public static $firstResultRow = "//tbody/tr[1]/td[3]/a";
+
+	public static $selectFirst = "//tbody/tr[1]/td[2]/div";
 
 	public static $questionStatePath = "//div[@id='editcell']//table//tbody/tr[1]/td[9]/a";
 

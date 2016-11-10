@@ -35,7 +35,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\UserManagerJoomla3Page::$URL);
 		$userManagerPage = new \UserManagerJoomla3Page;
-		$I->verifyNotices(false, $this->checkForNotices(), 'User Manager Page');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'User Manager Page');
 		$I->click('New');
 		$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 		$I->waitForElement(\UserManagerJoomla3Page::$userName,30);
@@ -43,17 +43,16 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
 		$I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
 		$I->fillField(\UserManagerJoomla3Page::$email, $email);
-		$I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+		$I->click('//tbody/tr[6]/td[2]/div[1]/div/label/div');
 		$I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-		$I->waitForElement($userManagerPage->shopperGroup($shopperGroup),30);
-		$I->click($userManagerPage->shopperGroup($shopperGroup));
+		$I->click('//*[@id="select2-results-1"]/li[2]');
 		$I->click(\UserManagerJoomla3Page::$billingInformationTab);
 		$I->waitForElement(\UserManagerJoomla3Page::$firstName,30);
 		$I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
 		$I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
 		$I->click('Save & Close');
-		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage,60,'.alert-success');
-		$I->see(\UserManagerJoomla3Page::$userSuccessMessage, '.alert-success');
+		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage,60,['id' => 'system-message-container']);
+		$I->see(\UserManagerJoomla3Page::$userSuccessMessage, ['id' => 'system-message-container']);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->see($firstName, \UserManagerJoomla3Page::$firstResultRow);
@@ -83,11 +82,9 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\UserManagerJoomla3Page::$firstName, $updatedName);
 		$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 		$I->click('Save & Close');
-		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage,60,'.alert-success');
-		$I->see(\UserManagerJoomla3Page::$userSuccessMessage, '.alert-success');
-		$I->see($updatedName, \UserManagerJoomla3Page::$firstResultRow);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
+		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage,60,['id' => 'system-message-container']);
+		$I->see(\UserManagerJoomla3Page::$userSuccessMessage, ['id' => 'system-message-container']);
+		
 	}
 
 	/**
@@ -131,18 +128,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 
 		$I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-		$I->amOnPage('/administrator/index.php?option=com_users&view=users');
-		$I->searchForItem($name);
-
-		if ($deleteJoomlaUser)
-		{
-			$I->dontSee($name, ['xpath' => "//table[@id='userList']//tbody/tr[1]"]);
-		}
-		else
-		{
-			$I->see($name, ['xpath' => "//table[@id='userList']//tbody/tr[1]"]);
-		}
+		
 	}
 }

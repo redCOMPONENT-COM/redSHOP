@@ -21,9 +21,9 @@ class VoucherManagerPage
 
 	public static $voucherAmount = "#voucher_amount";
 
-	public static $voucherLeft = "#voucher_left";
+	public static $voucherLeft = "//*[@id='voucher_left']";
 
-	public static $voucherCheck = "#cb0";
+	public static $voucherCheck = "//tbody/tr[1]/td[2]/div";
 
 	public static $voucherResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
 

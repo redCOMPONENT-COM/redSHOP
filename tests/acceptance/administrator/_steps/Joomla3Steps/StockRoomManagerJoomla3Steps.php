@@ -29,7 +29,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Stock Room Manager Page');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Stock Room Manager Page');
 		$I->click('New');
 		$I->waitForElement(\StockRoomManagerJoomla3Page::$stockRoomName,30);
 		$I->fillField(\StockRoomManagerJoomla3Page::$stockRoomName, $name);
@@ -60,7 +60,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($name, \StockRoomManagerJoomla3Page::$firstResultRow);
 		$I->click(\StockRoomManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
-		$I->verifyNotices(false, $this->checkForNotices(), 'Stock Room Edit View Manager Page');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Stock Room Edit View Manager Page');
 		$I->waitForElement(\StockRoomManagerJoomla3Page::$stockRoomName,30);
 		$I->fillField(\StockRoomManagerJoomla3Page::$stockRoomName, $newName);
 		$I->click('Save & Close');
@@ -81,7 +81,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeStockRoomState($name, $state = 'unpublish')
 	{
-		$this->changeState(new \StockRoomManagerJoomla3Page, $name, $state, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$selectFirst);
+		$this->changeState3(new \StockRoomManagerJoomla3Page, $name, $state, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$selectFirst);
 	}
 
 	/**
@@ -120,6 +120,6 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteStockRoom($name)
 	{
-		$this->delete(new \StockRoomManagerJoomla3Page, $name, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$selectFirst);
+		$this->deleteStockR(new \StockRoomManagerJoomla3Page, $name, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$selectFirst);
 	}
 }

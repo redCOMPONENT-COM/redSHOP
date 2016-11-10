@@ -32,7 +32,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
 		$mailCenterManagerPage = new \MailCenterManagerJoomla3Page;
-		$I->verifyNotices(false, $this->checkForNotices(), 'Mail Center Manager Page');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Mail Center Manager Page');
 		$I->click('New');
 		$I->waitForElement(\MailCenterManagerJoomla3Page::$mailName,30);
 		$I->fillField(\MailCenterManagerJoomla3Page::$mailName, $mailName);

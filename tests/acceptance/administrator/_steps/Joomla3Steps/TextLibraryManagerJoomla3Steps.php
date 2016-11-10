@@ -32,13 +32,13 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=textlibrary');
 		$textLibraryManagerPage = new \TextLibraryManagerJoomla3Page;
 		$verifyName = '{' . $textTagName . '}';
-		$I->verifyNotices(false, $this->checkForNotices(), 'Text Library  Manager Page');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Text Library  Manager Page');
 		$I->click('New');
 		$I->waitForElement(\TextLibraryManagerJoomla3Page::$textTagName,30);
 		$I->fillField(\TextLibraryManagerJoomla3Page::$textTagName, $textTagName);
 		$I->fillField(\TextLibraryManagerJoomla3Page::$textTagDescription, $textTagDescription);
 		$I->click(\TextLibraryManagerJoomla3Page::$sectionDropDown);
-		$I->click($textLibraryManagerPage->section($textTagSection));
+		$I->click('//*[@id="select2-results-1"]/li[2]');
 		$I->click('Save & Close');
 		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage,60,'.alert-success');
 		$I->see(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage, '.alert-success');
@@ -75,9 +75,9 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\TextLibraryManagerJoomla3Page::$textTagName,30);
 		$I->fillField(\TextLibraryManagerJoomla3Page::$textTagName, $newTextTagName);
 		$I->click('Save & Close');
-		$I->waitForText('Text Library Detail Saved', 60, ['id' => 'system-message-container']);
+		$I->waitForText(\TextLibraryManagerJoomla3Page::$textCreationSuccessMessage,60,'.alert-success');
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click('Reset');
+		$I->click('//button[2]');
 		$I->fillField(['id' => 'filter'], $newTextTagName);
 		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $newVerifyName]);
@@ -148,7 +148,7 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(['id' => 'filter'], $textTagName);
 		$I->pressKey(['id' => 'filter'], \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForText('Text Library Management', 60, ['css' => 'h1']);
-		$I->click(['css' => "input[name='checkall-toggle']"]);
+		$I->click('//tbody/tr/td[2]/div');
 		$I->click('Delete');
 		$I->waitForText('Text Library Detail Deleted Successfully', 60, ['id' => 'system-message-container']);
 		$I->dontSeeElement(['link' => $verifyName]);

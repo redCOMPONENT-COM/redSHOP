@@ -22,15 +22,16 @@ class TextLibraryManagerJoomla3Page
 
 	public static $textTagDescription = "#text_desc";
 
-	public static $sectionDropDown = "//div[@id='section_chzn']/a";
+	public static $sectionDropDown = "//*[@id='select2-chosen-1']";
 
 	public static $textResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
 
 	public static $textLibraryStatePath = "//tbody/tr/td[6]/a";
+	public static $textTagSection = "//*[@id='select2-results-1']/li[2]";
 
 	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
 
-	public static $firstResult = "//input[@id='cb0']";
+	public static $firstResult = "//tbody/tr/td[2]/div";
 
 	public static $textCreationSuccessMessage = "Text Library Detail Saved";
 

@@ -28,14 +28,15 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Page');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Page');
 		$I->click('New');
 		$I->waitForElement(\ManufacturerManagerJoomla3Page::$detailsTab,30);
 		$I->click(\ManufacturerManagerJoomla3Page::$detailsTab);
 		$I->fillField(\ManufacturerManagerJoomla3Page::$manufacturerName, $manufacturerName);
+		$I->fillField('#product_per_page','23');
 		$I->click('Save & Close');
-		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,60,'.alert-success');
-		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,'.alert-success');
+		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,60,['id' => 'system-message-container']);
+		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,['id' => 'system-message-container']);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 		$I->executeJS('window.scrollTo(0,0)');
@@ -65,11 +66,11 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Edit');
 		$I->waitForElement(\ManufacturerManagerJoomla3Page::$detailsTab,30);
 		$I->click(\ManufacturerManagerJoomla3Page::$detailsTab);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Edit Page');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Edit Page');
 		$I->fillField(\ManufacturerManagerJoomla3Page::$manufacturerName, $updatedName);
 		$I->click('Save & Close');
-		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,60,'.alert-success');
-		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, '.alert-success');
+		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,60,['id' => 'system-message-container']);
+		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, ['id' => 'system-message-container']);
 		$I->see($updatedName, \ManufacturerManagerJoomla3Page::$firstResultRow);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
@@ -95,15 +96,15 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		if ($state == 'unpublish')
 		{
-			$I->click("Unpublish");
+			$I->click("//*[@id='published0-lbl']/div");
 		}
 		else
 		{
-			$I->click("Publish");
+			$I->click("//*[@id='published1-lbl']/div");
 		}
 
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
+		
 	}
 
 	/**
@@ -181,7 +182,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(['link' => 'ID']);
 		$I->click(['link' => 'ID']);
 		$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
-		$I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
+		$I->click(\ManufacturerManagerJoomla3Page::$selectFirst1);
 		$I->click('Delete');
 		$I->dontSee($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
 		$I->executeJS('window.scrollTo(0,0)');

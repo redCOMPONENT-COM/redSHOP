@@ -20,7 +20,7 @@ class UserManagerJoomla3Page
 
 	public static $generalUserInformationTab = "//a[contains(text(), 'General User Information')]";
 
-	public static $billingInformationTab = "//a[contains(text(), 'Billing Information')]";
+	public static $billingInformationTab = "//*[@id='user-pane']/dt[3]/span/h3/a";
 
 	public static $userName = "//input[@id='username']";
 
@@ -32,7 +32,7 @@ class UserManagerJoomla3Page
 
 	public static $groupRadioButton = "//form[@id='adminForm']/div[1]/dd[1]/div/fieldset/table/tbody/tr[6]/td[2]";
 
-	public static $shopperGroupDropDown = "//div[@id='shopper_group_id_chzn']/a";
+	public static $shopperGroupDropDown = "//*[@id='select2-chosen-1']";
 
 	public static $firstName = "//input[@id='firstname']";
 
@@ -40,9 +40,9 @@ class UserManagerJoomla3Page
 
 	public static $userSuccessMessage = 'User detail saved';
 
-	public static $firstResultRow = "//div[@id='editcell']//table[1]//tbody/tr[1]";
+	public static $firstResultRow = "//tbody/tr[1]/td[3]/a";
 
-	public static $selectFirst = "//input[@id='cb0']";
+	public static $selectFirst = "//tbody/tr[1]/td[2]/div";
 
 	/**
 	 * Function to get the path for Shopper Group
