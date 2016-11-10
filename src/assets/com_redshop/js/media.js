@@ -416,7 +416,11 @@ var rsMedia = {
 		var $img = $(elem).find('img').clone();
 
 		var $pane = $(".preview-pane");
-		$pane.find('.pv-img').html($img);
+		$pane.find('.pv-img img').remove();
+		$pane.find('.pv-img').append($img);
+		$pane.find('.pv-zoom').attr('href', info.url);
+		$pane.find('.pv-zoom').attr('data-title', info.name);
+		$pane.find('.pv-link').attr('href', info.url);
 		$pane.find('.pv-name').text(info.name);
 		$pane.find('.pv-size').text(info.size);
 		$pane.find('.pv-dimension').text(info.dimension);

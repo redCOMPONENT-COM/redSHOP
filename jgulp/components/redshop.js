@@ -15,7 +15,6 @@ var baseTask  = 'components.redshop';
 var extPath      = '.';
 var mediaPath    = extPath + '/media/com_redshop';
 var assetsPath   = extPath + '/src/assets/com_redshop';
-var bowerPath    = extPath + '/bower_components';
 var wwwMediaPath = config.wwwDir + '/media/' + componentName;
 
 // Minified and deploy from Assets to Media.
@@ -104,16 +103,6 @@ gulp.task('clean:' + baseTask + ':media', function(cb) {
     );
 });
 
-// Clean: bower
-gulp.task('clean:' + baseTask + ':bower', function(cb) {
-    return del(
-        [
-            config.wwwDir + '/media/com_reditem/bower/**',
-        ],
-        {force : true}
-    );
-});
-
 // Copy
 gulp.task('copy:' + baseTask,
     [
@@ -121,7 +110,6 @@ gulp.task('copy:' + baseTask,
         'copy:' + baseTask + ':frontend',
         'copy:' + baseTask + ':backend',
         'copy:' + baseTask + ':media',
-        'copy:' + baseTask + ':bower'
     ],
     function() {
     });
@@ -163,12 +151,6 @@ gulp.task('copy:' + baseTask + ':media', ['clean:' + baseTask + ':media'], funct
     return gulp.src(mediaPath + '/**')
         .pipe(gulp.dest(config.wwwDir + '/media/com_reditem'))
         .pipe(gulp.dest(config.wwwDir + '/media/com_redshop'));
-});
-
-// Copy: bower
-gulp.task('copy:' + baseTask + ':bower', ['clean:' + baseTask + ':bower'], function() {
-    return gulp.src(bowerPath + '/**')
-        .pipe(gulp.dest(config.wwwDir + '/media/com_reditem'));
 });
 
 // Watch

@@ -1,5 +1,5 @@
 {
-  "name": "redSHOP",
+  "name": "redshop",
   "description": "Release script for redSHOP",
   "main": "gulpfile.js",
   "authors": [
@@ -12,6 +12,7 @@
     "redshop"
   ],
   "homepage": "",
+  "directory": "src/assets/com_redshop",
   "private": true,
   "ignore": [
     "**/.*",
@@ -25,6 +26,7 @@
     "dropzone": "^4.3.0",
     "components-font-awesome": "^4.7.0",
     "select2": "^4.0.3",
-    "fuse.js": "^2.5.0"
+    "fuse.js": "^2.5.0",
+    "lightbox2": "^2.9.0"
   }
 }

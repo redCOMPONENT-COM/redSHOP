@@ -66,7 +66,9 @@ extract($displayData);
 										data-size="<?php echo $thumb['size'] ?>"
 										data-dimension="<?php echo $thumb['dimension'] ?>"
 										data-media="<?php echo $thumb['media'] ?>"
-										data-attached="<?php echo $thumb['attached'] ?>"	>
+										data-attached="<?php echo $thumb['attached'] ?>">
+										<span class="img-status"><i class="fa fa-eye<?php echo $thumb['status'] ?>"></i></span>
+										<span class="img-mime" data-mime="<?php echo $thumb['mime'] ?>"><i class="fa fa-file-<?php echo $thumb['mime'] ?>-o"></i></span>
 									</div>
 								</div>
 								<?php } ?>
@@ -77,7 +79,12 @@ extract($displayData);
 						<div class="col-md-3 preview-pane">
 							<div class="pv-wrapper hidden">
 								<div class="pv-title">ATTACHMENT DETAILS</div>
-								<div class="pv-img thumbnail"></div>
+								<div class="pv-img thumbnail">
+									<div class="pv-overlay">
+										<a href="#" class="pv-zoom" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a>
+										<a href="#" class="pv-link" target="_blank"><i class="fa fa-external-link"></i></a>
+									</div>
+								</div>
 								<div class="pv-info">
 									<ul>
 										<li class="pv-name"></li>
