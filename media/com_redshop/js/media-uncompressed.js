@@ -249,6 +249,12 @@ var rsMedia = {
 
 		$(document).on('click', 'button.removing',function(e) {
 			jDropzone.removeAllFiles();
+			$(".img-select").val('');
+				if ($('#image_delete').length <= 0) {
+				var hidden = $('<input/>');
+				hidden.attr('id', 'image_delete').attr('name', 'image_delete').attr('type', 'hidden').val(true);
+				$("#adminForm").append(hidden[0]);
+			}
 		});
 	},
 
