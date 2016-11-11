@@ -19,15 +19,16 @@ JHtml::_('behavior.formvalidator');
 	enctype="multipart/form-data"
 >
 	<fieldset class="adminform">
-        <div class="row-fluid">
-            <div class="col-sm-12">
+		<div class="row-fluid">
+			<div class="col-sm-12">
+				<legend><?php echo JText::_('COM_REDSHOP_DETAILS') ?></legend>
 				<?php echo $this->form->renderField('state_name') ?>
 				<?php echo $this->form->renderField('country_id') ?>
 				<?php echo $this->form->renderField('state_3_code') ?>
 				<?php echo $this->form->renderField('state_2_code') ?>
 				<?php echo $this->form->renderField('show_state') ?>
-            </div>
-        </div>
+			</div>
+		</div>
 	</fieldset>
 	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" name="task" value=""/>

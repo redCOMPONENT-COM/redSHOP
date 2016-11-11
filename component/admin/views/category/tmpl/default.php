@@ -138,33 +138,35 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 					<td><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
 					<td>
-						<?php
-						if (property_exists($row, 'treename') && $row->treename != "")
-						{
-							?>
-							<a href="<?php echo $link; ?>"
-							   title="<?php echo JText::_('COM_REDSHOP_EDIT_CATEGORY'); ?>"><?php echo $row->treename; ?></a>
-						<?php
-						}
-						else
-						{
-							?>
-							<a href="<?php echo $link; ?>"
-							   title="<?php echo JText::_('COM_REDSHOP_EDIT_CATEGORY'); ?>"><?php echo $row->category_name; ?></a>
-						<?php
-						}
-						?>
+						<?php if (property_exists($row, 'treename') && $row->treename != ""): ?>
+							<?php echo $row->indent ?>
+							<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_CATEGORY'); ?>">
+								<?php echo $row->category_name ?>
+							</a>
+						<?php else: ?>
+							<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_CATEGORY'); ?>">
+								<?php echo $row->category_name; ?>
+							</a>
+						<?php endif; ?>
 					</td>
-					<td><?php    $shortdesc = substr(strip_tags($row->category_description), 0, 50);echo $shortdesc; ?></td>
-					<td align="center" width="5%"><?php echo $model->getProducts($row->category_id); ?></td>
+					<td>
+						<?php echo substr(strip_tags($row->category_description), 0, 50); ?>
+					</td>
+					<td align="center" width="5%">
+						<?php echo $model->getProducts($row->category_id); ?>
+					</td>
 					<td class="order">
 						<?php if ($ordering) :
 							$orderDir = strtoupper($this->lists['order_Dir']);
 							?>
 							<div class="input-prepend">
 								<?php if ($orderDir == 'ASC' || $orderDir == '') : ?>
-									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, ($row->category_parent_id == @$this->categories[$i - 1]->category_parent_id), 'orderup'); ?></span>
-									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, ($row->category_parent_id == @$this->categories[$i + 1]->category_parent_id), 'orderdown'); ?></span>
+									<span class="add-on">
+										<?php echo $this->pagination->orderUpIcon($i, ($row->category_parent_id == @$this->categories[$i - 1]->category_parent_id), 'orderup'); ?>
+									</span>
+									<span class="add-on">
+										<?php echo $this->pagination->orderDownIcon($i, $n, ($row->category_parent_id == @$this->categories[$i + 1]->category_parent_id), 'orderdown'); ?>
+									</span>
 								<?php elseif ($orderDir == 'DESC') : ?>
 									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, ($row->category_parent_id == @$this->categories[$i - 1]->category_parent_id), 'orderdown'); ?></span>
 									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, ($row->category_parent_id == @$this->categories[$i + 1]->category_parent_id), 'orderup'); ?></span>
