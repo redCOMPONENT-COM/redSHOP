@@ -76,6 +76,20 @@ abstract class RedshopTagsAbstract
 	abstract public function init();
 
 	/**
+	 * Check if tag is exists or not
+	 *
+	 * @param   string  $tag  Tag
+	 *
+	 * @return  bool
+	 *
+	 * @since   2.1
+	 */
+	public function isTagExists($tag)
+	{
+		return isset($this->tags[$tag]);
+	}
+
+	/**
 	 * Get available tags
 	 *
 	 * @return array
@@ -115,8 +129,12 @@ abstract class RedshopTagsAbstract
 	{
 		if (strpos($this->template, $tag) !== false)
 		{
-			$this->search [] = $tag;
-			$this->replace[] = $value;
+			// Make sure this tag is exists before adding replace
+			if ($this->isTagExists($tag))
+			{
+				$this->search [] = $tag;
+				$this->replace[] = $value;
+			}
 		}
 	}
 }

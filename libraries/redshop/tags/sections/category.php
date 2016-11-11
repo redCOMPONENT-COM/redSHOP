@@ -16,6 +16,19 @@ defined('_JEXEC') or die;
  */
 class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 {
+	/**
+	 * @var    array
+	 *
+	 * @since  2.1
+	 */
+	public $tags = array(
+		'{category_name}',
+		'{category_short_description}',
+		'{category_short_desc}',
+		'{categoryshortdesc}',
+		'{category_description}',
+		'{categorydesc}',
+	);
 
 	/**
 	 * Init
