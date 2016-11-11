@@ -94,6 +94,23 @@ class Tableorder_detail extends JTable
 		parent::__construct($this->_table_prefix . 'orders', 'order_id', $db);
 	}
 
+	/**
+	 * Validate all table fields before saving
+	 *
+	 * @return  bool
+	 *
+	 * @since  2.0.0.4
+	 */
+	public function check()
+	{
+		if ($this->order_status == null || $this->order_status == 0)
+		{
+			return false;
+		}
+
+		return parent::check();
+	}
+
 	public function bind($array, $ignore = '')
 	{
 		if (array_key_exists('params', $array) && is_array($array['params']))
