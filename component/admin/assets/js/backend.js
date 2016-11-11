@@ -16323,11 +16323,13 @@ Licensed under the BSD-2-Clause License.
 			e.preventDefault();
 		});
 
-		$('#toolbar').affix({
-			offset: {
-				top: 200
-			}
-		});
+		if ($(window).width() > 768) {
+			$('#toolbar').affix({
+				offset: {
+					top: $('#toolbar').height() + 120
+				}
+			});
+		}
 
 		$('table').each(function(){
 			$(this).wrap( "<div class='table-responsive'></div>" );
