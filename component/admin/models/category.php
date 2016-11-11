@@ -124,7 +124,7 @@ class RedshopModelCategory extends RedshopModel
 			}
 
 			// Second pass - get an indent list of the items
-			$treelist = JHTML::_('menu.treerecurse', $category_id, '', array(), $children, 9999);
+			$treelist = RedshopHelperUtility::createTree($category_id, '<sup>|_</sup>&nbsp;', array(), $children);
 
 			$total = count($treelist);
 		}

@@ -37,7 +37,7 @@ class RedshopHelperStockroom
 			->where('product_id = ' . (int) $productId)
 			->where('property_id = ' . (int) $propertyId)
 			->where('subproperty_id = ' . (int) $subPropertyId)
-			->where('user_id =' . (int) $userId)
+			->where('user_id = ' . (int) $userId)
 			->where('notification_status = 0');
 
 		return $db->setQuery($query)->loadResult();
@@ -612,14 +612,14 @@ class RedshopHelperStockroom
 
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
-			$list = self::getStockroomAmountDetailList($sectionId, $section);
+			$stockrooms = self::getStockroomAmountDetailList($sectionId, $section);
 
-			for ($i = 0, $in = count($list); $i < $in; $i++)
+			foreach ($stockrooms as $stockroom)
 			{
-				if ($list[$i]->quantity < $quantity)
+				if ($stockroom->quantity < $quantity)
 				{
-					$quantity          = $quantity - $list[$i]->quantity;
-					$remainingQuantity = $list[$i]->quantity;
+					$quantity          = $quantity - $stockroom->quantity;
+					$remainingQuantity = $stockroom->quantity;
 				}
 				else
 				{
@@ -629,12 +629,12 @@ class RedshopHelperStockroom
 
 				if ($remainingQuantity > 0)
 				{
-					self::updateStockAmount($sectionId, $remainingQuantity, $list[$i]->stockroom_id, $section);
-					$affectedRow[]       = $list[$i]->stockroom_id;
+					self::updateStockAmount($sectionId, $remainingQuantity, $stockroom->stockroom_id, $section);
+					$affectedRow[]       = $stockroom->stockroom_id;
 					$stockroomQuantity[] = $remainingQuantity;
 				}
 
-				$stockroomDetail = self::getStockroomAmountDetailList($sectionId, $section, $list[$i]->stockroom_id);
+				$stockroomDetail = self::getStockroomAmountDetailList($sectionId, $section, $stockroom->stockroom_id);
 				$remaining       = $stockroomDetail[0]->quantity - $quantity;
 
 				if (Redshop::getConfig()->get('ENABLE_STOCKROOM_NOTIFICATION') == 1
@@ -691,7 +691,7 @@ class RedshopHelperStockroom
 
 						if ($remainingQuantity > 0)
 						{
-							self::updatePreorderStockAmount($sectionId, $remainingQuantity, $preorderList[$i]->stockroom_id, $section);
+							self::updatePreorderStockAmount($sectionId, $remainingQuantity, $stockroom->stockroom_id, $section);
 						}
 					}
 				}
@@ -721,48 +721,45 @@ class RedshopHelperStockroom
 	 */
 	public static function updateStockAmount($sectionId = 0, $quantity = 0, $stockroomId = 0, $section = "product")
 	{
-		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
+		if (!Redshop::getConfig()->get('USE_STOCKROOM') || !$sectionId)
 		{
-			$table = "#__redshop_product_stockroom_xref";
-
-			if ($section != "product")
-			{
-				$table = "#__redshop_product_attribute_stockroom_xref";
-			}
-
-			$db = JFactory::getDbo();
-
-			if ($sectionId != 0)
-			{
-				$fields = array(
-					$db->qn('quantity') . ' = ' . $db->q('quantity - ' . (int) $quantity)
-				);
-
-				$conditions = array(
-					$db->qn('stockroom_id') . ' = ' . $db->q((int) $stockroomId),
-					$db->qn('quantity') . ' > 0'
-				);
-
-				if ($section != "product")
-				{
-					$conditions[] = $db->qn('section') . ' = ' . $db->q($section);
-					$conditions[] = $db->qn('section_id') . ' = ' . $db->q((int) $sectionId);
-				}
-				else
-				{
-					$conditions[] = $db->qn('product_id') . ' = ' . $db->q((int) $sectionId);
-				}
-
-				$query = $db->getQuery(true)
-					->update($db->qn($table))
-					->set($fields)
-					->where($conditions);
-
-				$db->setQuery($query)->execute();
-			}
+			return true;
 		}
 
-		return true;
+		$table = "#__redshop_product_stockroom_xref";
+
+		if ($section != "product")
+		{
+			$table = "#__redshop_product_attribute_stockroom_xref";
+		}
+
+		$db = JFactory::getDbo();
+
+		$fields = array(
+			$db->qn('quantity') . ' = ' . $db->qn('quantity') . ' - ' . (int) $quantity
+		);
+
+		$conditions = array(
+			$db->qn('stockroom_id') . ' = ' . (int) $stockroomId,
+			$db->qn('quantity') . ' > 0'
+		);
+
+		if ($section != "product")
+		{
+			$conditions[] = $db->qn('section') . ' = ' . $db->quote($section);
+			$conditions[] = $db->qn('section_id') . ' = ' . (int) $sectionId;
+		}
+		else
+		{
+			$conditions[] = $db->qn('product_id') . ' = ' . (int) $sectionId;
+		}
+
+		$query = $db->getQuery(true)
+			->update($db->qn($table))
+			->set($fields)
+			->where($conditions);
+
+		return $db->setQuery($query)->execute();
 	}
 
 	/**
@@ -966,7 +963,7 @@ class RedshopHelperStockroom
 				->where($db->qn('sx.product_id') . ' = ' . $db->q('sectionId'));
 
 			$query1 = $query->where($db->qn('stock_option') . ' = 2')
-				->where($db->qn('stock_quantity') . ' = ' . $db->q((int) $stockAmount));
+				->where($db->qn('stock_quantity') . ' = ' . (int) $stockAmount);
 
 			$list = $db->setQuery($query1)->loadObjectList();
 
@@ -1041,8 +1038,8 @@ class RedshopHelperStockroom
 			$query = $db->getQuery(true)
 				->select('SUM(qty)')
 				->from($db->qn('#__redshop_cart'))
-				->where($db->qn('product_id') . ' = ' . $db->q((int) $sectionId))
-				->where($db->qn('session_id') . $db->q($sessionId))
+				->where($db->qn('product_id') . ' = ' . (int) $sectionId)
+				->where($db->qn('session_id') . ' = ' . $db->q($sessionId))
 				->where($db->qn('section') . ' = ' . $db->q($section));
 
 			return (int) $db->setQuery($query)->loadResult();
@@ -1204,7 +1201,7 @@ class RedshopHelperStockroom
 			->from($db->qn('#__redshop_stockroom'))
 			->where($db->qn('stockroom_id') . ' IN (' . implode(',', $stockroomId) . ')')
 			->where($db->qn('published') . ' = 1')
-			->order($db->qn('max_del_time') . 'DESC');
+			->order($db->qn('max_del_time') . ' DESC');
 
 		return $db->setQuery($query)->loadObjectlist();
 	}

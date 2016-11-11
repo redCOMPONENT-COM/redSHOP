@@ -17,6 +17,19 @@ defined('_JEXEC') or die;
  */
 class Redtemplate
 {
+	/**
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
+	public $redshop_template_path;
+
+	/**
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
+	protected static $templatesArray = array();
+
+	/**
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
 	protected static $instance = null;
 
 	/**
@@ -38,6 +51,21 @@ class Redtemplate
 	}
 
 	/**
+	 * Load initial files
+	 */
+	public function __construct()
+	{
+		$this->redshop_template_path = JPATH_SITE . '/components/com_redshop/templates';
+
+		if (!is_dir($this->redshop_template_path))
+		{
+			jimport('joomla.filesystem.folder');
+			chmod(JPATH_SITE . '/components/com_redshop', 0755);
+			JFolder::create($this->redshop_template_path, 0755);
+		}
+	}
+
+	/**
 	 * Get Template Values
 	 *
 	 * @param   string  $name                  Name template hint
@@ -47,7 +75,7 @@ class Redtemplate
 	 *
 	 * @return array|string
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperTemplate::getTemplateValues($name, $templateSection, $descriptionSeparator, 
+	 * @deprecated  2.0.0.3  Use RedshopHelperTemplate::getTemplateValues($name, $templateSection, $descriptionSeparator,
 	 * $lineSeparator) instead
 	 */
 	public static function getTemplateValues($name, $templateSection = '', $descriptionSeparator = '-', $lineSeparator = '<br />')
