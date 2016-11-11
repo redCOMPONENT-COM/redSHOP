@@ -2717,6 +2717,9 @@ class rsCarthelper
 		$search[]   = "{special_discount_lbl}";
 		$replace[]  = JText::_('COM_REDSHOP_SPECIAL_DISCOUNT');
 
+		$search[]   = "{shipping_address_info_lbl}";
+		$replace[]  = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION');
+
 		$search[]   = "{order_detail_link}";
 		$replace[]  = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
