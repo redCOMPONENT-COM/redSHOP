@@ -39,7 +39,7 @@ gulp.task('sass:' + baseTask, function(){
     return gulp.src([
         assetsPath + "/scss/bootstrap-grid.scss",
         assetsPath + "/scss/style.scss",
-        assetsPath + "/scss/media.scss"
+        assetsPath + "/scss/**/*.scss"
     ])
         .pipe(rename(function (path) {
             path.basename += '-uncompressed';
