@@ -812,11 +812,11 @@ class redhelper
 	/**
 	 *  Generate thumb image
 	 *
-	 *  @param   string  $section          Image section
-	 *  @param   string  $ImageName        Image name
-	 *  @param   string  $thumbWidth       Thumb width
-	 *  @param   string  $thumbHeight      Thumb height
-	 *  @param   string  $enableWatermark  Enable watermark
+	 * @param   string  $section          Image section
+	 * @param   string  $ImageName        Image name
+	 * @param   string  $thumbWidth       Thumb width
+	 * @param   string  $thumbHeight      Thumb height
+	 * @param   string  $enableWatermark  Enable watermark
 	 *
 	 * @return  string
 	 */
@@ -839,14 +839,16 @@ class redhelper
 			}
 
 			// If watermark not exists or disable - display simple thumb
-			if ($enableWatermark <= 0
+			if ($enableWatermark < 0
 				|| !file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . Redshop::getConfig()->get('WATERMARK_IMAGE')))
 			{
 				throw new Exception;
 			}
 
 			// If width and height not set - use with and height original image
-			if ((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
+			if (((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
+				|| ((int) $thumbWidth != 0 && (int) $thumbHeight == 0)
+				|| ((int) $thumbWidth == 0 && (int) $thumbHeight != 0))
 			{
 				list($thumbWidth, $thumbHeight) = getimagesize(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage);
 			}
