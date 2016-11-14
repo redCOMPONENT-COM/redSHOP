@@ -1199,12 +1199,8 @@ class RedshopModelSearch extends RedshopModel
 	 */
 	function getListQuery()
 	{
-		$pk              = $this->getState('filter.data', array());
-		JLoader::import('joomla.application.module.helper');
-		$module          = JModuleHelper::getModule('mod_redshop_filter');
-		$params          = new JRegistry($module->params);
-		$categoryForSale = $params->get('category_for_sale');
-		$db              = JFactory::getDbo();
+		$pk    = $this->getState('filter.data', array());
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn("p.product_id"))
 			->from($db->qn("#__redshop_product", "p"))
@@ -1217,13 +1213,14 @@ class RedshopModelSearch extends RedshopModel
 			->where($db->qn('p.expired') . ' = 0')
 			->group($db->qn('p.product_id'));
 
-		$productOnSale = $pk['product_on_sale'] ? $pk['product_on_sale'] : 0;
-		$cid           = !empty($pk['cid']) ? $pk['cid'] : 0;
-		$mid           = !empty($pk['mid']) ? $pk['mid'] : 0;
-		$rootCategory  = $params->get('root_category');
-		$categories    = !empty($pk['category']) ? $pk['category'] : array();
-		$manufacturers = !empty($pk['manufacturer']) ? $pk['manufacturer'] : array();
-		$keyword       = !empty($pk['keyword']) ? $pk['keyword'] : "";
+		$productOnSale   = !empty($pk['product_on_sale']) ? $pk['product_on_sale'] : 0;
+		$cid             = !empty($pk['cid']) ? $pk['cid'] : 0;
+		$mid             = !empty($pk['mid']) ? $pk['mid'] : 0;
+		$rootCategory    = !empty($pk['root_category']) ? $pk['root_category'] : 0;
+		$categoryForSale = !empty($pk['category_for_sale']) ? $pk['category_for_sale'] : array();
+		$categories      = !empty($pk['category']) ? $pk['category'] : array();
+		$manufacturers   = !empty($pk['manufacturer']) ? $pk['manufacturer'] : array();
+		$keyword         = !empty($pk['keyword']) ? $pk['keyword'] : "";
 
 		if (isset($pk["filterprice"]))
 		{
@@ -1231,7 +1228,7 @@ class RedshopModelSearch extends RedshopModel
 			$max = $pk["filterprice"]['max'];
 		}
 
-		if (isset($categories))
+		if (!empty($categories))
 		{
 			if (in_array($rootCategory, $categories))
 			{
@@ -1241,7 +1238,7 @@ class RedshopModelSearch extends RedshopModel
 
 			$categoryList = implode(',', $categories);
 		}
-		elseif (isset($cid))
+		elseif (!empty($cid))
 		{
 			$catList = RedshopHelperCategory::getCategoryListArray($cid);
 
@@ -1274,7 +1271,7 @@ class RedshopModelSearch extends RedshopModel
 			$orderBy = 'p.product_id DESC';
 		}
 
-		if (!empty($filter))
+		if (!empty($pk["filterprice"]))
 		{
 			$productPrices = $db->qn("p.product_price") . " + " . $db->qn('p.product_price');
 			$productDiscountPrices = $db->qn("p.discount_price") . " + " . $db->qn('p.discount_price');
@@ -1297,7 +1294,15 @@ class RedshopModelSearch extends RedshopModel
 				->where('(' . $db->qn('p.product_name') . ' LIKE ' . $search . ' OR ' . $db->qn('m.manufacturer_name') . ' LIKE ' . $search . ')');
 		}
 
-		if (!empty($categoryForSale) && in_array($cid, $categoryForSale))
+		$catList = RedshopHelperCategory::getCategoryListArray($categoryForSale);
+		$childCat = array($categoryForSale);
+
+		foreach ($catList as $key => $value)
+		{
+			$childCat[] = $value->category_id;
+		}
+
+		if (!empty($categoryForSale) && in_array($cid, $childCat))
 		{
 			if (!empty($categories))
 			{
