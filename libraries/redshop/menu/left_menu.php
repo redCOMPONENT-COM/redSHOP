@@ -590,11 +590,6 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=shopper_group',
 				'COM_REDSHOP_SHOPPER_GROUP_LISTING',
 				(self::$view == 'shopper_group') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=shopper_group_detail',
-				'COM_REDSHOP_ADD_SHOPPER_GROUP',
-				(self::$view == 'shopper_group_detail') ? true : false
 			);
 
 		JFactory::getDocument()->addScriptDeclaration('
