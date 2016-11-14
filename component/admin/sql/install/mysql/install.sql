@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_cart` (
   INDEX `idx_session_id` (`session_id` ASC),
   INDEX `idx_product_id` (`product_id` ASC),
   INDEX `idx_section` (`section` ASC),
-  INDEX `idx_time` (`time` ASC))
+  INDEX `idx_time` (`time` ASC),
+  PRIMARY KEY (`session_id`, `product_id`, `section`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Cart';
@@ -1135,7 +1136,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_pageviewer` (
   INDEX `idx_section` (`section` ASC),
   INDEX `idx_section_id` (`section_id` ASC),
   INDEX `idx_created_date` (`created_date` ASC))
-ENGINE = MyISAM
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Page Viewer';
 
@@ -1921,7 +1922,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_siteviewer` (
   PRIMARY KEY (`id`),
   INDEX `idx_session_id` (`session_id` ASC),
   INDEX `idx_created_date` (`created_date` ASC))
-ENGINE = MyISAM
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Site Viewer';
 
