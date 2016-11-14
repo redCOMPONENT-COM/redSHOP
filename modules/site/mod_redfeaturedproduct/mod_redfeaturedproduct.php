@@ -21,4 +21,15 @@ JLoader::import('helper', __DIR__);
 $list = ModRedFeaturedProductHelper::getList($params);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
+$Redconfiguration = Redconfiguration::getInstance();
+$uri = JURI::getInstance();
+$url = $uri->root();
+$user = JFactory::getUser();
+$producthelper = productHelper::getInstance();
+$redhelper = redhelper::getInstance();
+$app = JFactory::getApplication();
+$Itemid = $app->input->getInt('Itemid', 0);
+$view = $app->input->getCmd('view', 'category');
+$cid = $app->input->getInt('cid');
+
 require JModuleHelper::getLayoutPath('mod_redfeaturedproduct', $params->get('layout', 'default'));
