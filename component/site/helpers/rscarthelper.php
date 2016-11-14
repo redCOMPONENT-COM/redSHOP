@@ -5064,7 +5064,7 @@ class rsCarthelper
 
 			$rowItem->product_subscription_id = $cart[$i]['subscription_id'];
 
-			if (!$rowItem->store(false))
+			if (!$rowItem->store())
 			{
 				return JError::raiseWarning('', $rowItem->getError());
 			}
