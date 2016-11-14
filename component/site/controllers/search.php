@@ -155,7 +155,7 @@ class RedshopControllerSearch extends RedshopController
 		}
 		else
 		{
-			echo JText::_('COM_REDPRODUCTFINDER_NOT_FOUND');
+			echo JText::_('COM_REDSHOP_MSG_SORRY_NO_RESULT_FOUND');
 		}
 
 		$app->close();

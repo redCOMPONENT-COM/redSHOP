@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     RedSHOP.Frontend
- * @subpackage  mod_redshop_fitler
+ * @subpackage  mod_redshop_filter
  *
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 					<ul class='taglist'>
 						<?php foreach ($categories as $key => $cat) :?>
 							<li>
-								<?php if (($view == 'search') || (!empty($cid) && in_array($cid, $categoryForSale)) || !empty($mid)) : ?>
+								<?php if (($view == 'search') || (!empty($cid) && in_array($cid, $childCat)) || !empty($mid)) : ?>
 								<label>
 									<span class='taginput' data-aliases='cat-<?php echo $cat->category_id;?>'>
 										<input type="checkbox" name="redform[category][]" value="<?php echo $cat->category_id ?>" onclick="javascript: checkclick(this);" />
@@ -112,11 +112,13 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="order_by" value="" >
 	<input type="hidden" name="redform[product_on_sale]" value="<?php echo $productOnSale; ?>" >
 	<input type="hidden" name="redform[template_id]" value="<?php echo $template; ?>" />
+	<input type="hidden" name="redform[root_category]" value="<?php echo $rootCategory; ?>" />
+	<input type="hidden" name="redform[category_for_sale]" value="<?php echo $categoryForSale; ?>" />
 </form>
 </div>
 
-<link rel="stylesheet" type="text/css" href="<?php echo JURI::root() . 'templates/' . $app->getTemplate().'/css/jqui.css'; ?>">
-<script type="text/javascript" src="<?php echo JURI::root() . 'templates/' . $app->getTemplate() . '/js/jquery-ui.min.js'; ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo JUri::root() . 'modules/mod_redshop_filter/lib/css/jqui.css'; ?>">
+<script type="text/javascript" src="<?php echo JUri::root() . 'modules/mod_redshop_filter/lib/js/jquery-ui.min.js'; ?>"></script>
 <script type="text/javascript">
 	function range_slide (min_range, max_range , cur_min , cur_max, callback) {
 		jQuery.ui.slider.prototype.widgetEventPrefix = 'slider';

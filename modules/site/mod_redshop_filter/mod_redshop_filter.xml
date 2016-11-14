@@ -12,6 +12,7 @@
     <files>
         <filename>helper.php</filename>
         <filename module="mod_redshop_filter">mod_redshop_filter.php</filename>
+        <folder>lib</folder>
         <folder>tmpl</folder>
     </files>
     <languages>
@@ -51,7 +52,7 @@
                     label="MOD_REDSHOP_FILTER_CATEGORY_FOR_SALE"
                     required="true"
                     description="MOD_REDSHOP_FILTER_CATEGORY_FOR_SALE_DESC"
-                    multiple="true"
+                    multiple="false"
                     />
                 <field
                     name="keyword"

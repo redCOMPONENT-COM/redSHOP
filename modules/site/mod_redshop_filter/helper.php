@@ -295,4 +295,101 @@ abstract class ModRedshopFilter
 
 		return $db->setQuery($query)->loadObjectList();
 	}
+
+	/**
+	 * This method will get parent category redshop
+	 *
+	 * @return array
+	 */
+	public static function getCategorybyPids($pids = array())
+	{
+		$data = array();
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+
+		if (!empty($pids))
+		{
+			$query->select('category_id')
+				->from($db->qn('#__redshop_product_category_xref'))
+				->where($db->qn('product_id') . ' IN (' . implode(',', $pids) . ')');
+
+			$cids = $db->setQuery($query)->loadColumn();
+			$cids = array_merge(array(), array_unique($cids));
+
+			$query = $db->getQuery(true)
+				->clear()
+				->select($db->qn('c.category_id'))
+				->select($db->qn('c.category_name'))
+				->from($db->qn("#__redshop_category", "c"))
+				->join("LEFT", $db->qn("#__redshop_category_xref", "cx") . " ON " . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
+				->where($db->qn("cx.category_parent_id") . ' = 15526');
+
+			if (!empty($cids))
+			{
+				$query->where($db->qn('c.category_id') . ' IN (' . implode(',', $cids) . ')')
+					->where($db->qn('c.category_id') . ' != 15527');
+			}
+
+			$data = $db->setQuery($query)->loadObjectList();
+
+			foreach ($data as $key => $value)
+			{
+				if (!empty($value) && $value->category_id != 0)
+				{
+					$child = self::getChildCategory($value->category_id);
+					$data[$key]->child = $child;
+
+					foreach ($child as $k => $subChild)
+					{
+						$sub = self::getChildCategory($subChild->category_id);
+						$data[$key]->child[$k]->sub = $sub;
+					}
+				}
+			}
+
+			return $data;
+		}
+
+		return $data;
+	}
+
+	/**
+	 * get Manufacturer by id
+	 *
+	 * @param   $mid  manufacturer id
+	 *
+	 * @return  object
+	 */
+	public function getManufacturerById($mid)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('m.media_name, ma.manufacturer_name, ma.manufacturer_id')
+			->from($db->qn('#__redshop_manufacturer', 'ma'))
+			->leftJoin($db->qn('#__redshop_media', 'm') . ' ON m.section_id = ma.manufacturer_id')
+			->where('m.media_section = ' . $db->q('manufacturer'))
+			->where('m.published = 1')
+			->where($db->qn('ma.manufacturer_id') . ' = ' . $db->q((int) $mid))
+			->where('ma.published = 1');
+
+		return $db->setQuery($query)->loadObjectList();
+	}
+
+	/**
+	 * Get products by manufacturer id
+	 *
+	 * @param   $mid  manufacturer id
+	 *
+	 * @return  array
+	 */
+	public function getProductByManufacturer($mid)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('product_id'))
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('manufacturer_id') . ' = ' . $db->q((int) $mid));
+
+		return $db->setQuery($query)->loadColumn();
+	}
 }

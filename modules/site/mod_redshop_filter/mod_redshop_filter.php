@@ -18,7 +18,7 @@ $cid                = $input->getInt('cid', 0);
 $mid                = $input->getInt('mid', 0);
 $moduleClassSfx     = $params->get("moduleclass_sfx");
 $rootCategory       = $params->get('root_category', 0);
-$categoryForSale    = $params->get('category_for_sale', array());
+$categoryForSale    = $params->get('category_for_sale', 0);
 $enableCategory     = $params->get('category');
 $enableManufacturer = $params->get('manufacturer');
 $enablePrice        = $params->get('price');
@@ -28,19 +28,28 @@ $view               = $input->getString('view', '');
 $layout             = $input->getString('layout', '');
 $keyword            = $input->post->getString('keyword', '');
 $productOnSale      = 0;
+$action             = JRoute::_("index.php?option=com_redshop&view=search");
 
 if (!empty($cid))
 {
-	if (in_array($cid, $categoryForSale))
+	$list = RedshopHelperCategory::getCategoryListArray($categoryForSale);
+	$childCat = array($categoryForSale);
+
+	foreach ($list as $key => $value)
+	{
+		$childCat[] = $value->category_id;
+	}
+
+	if (in_array($cid, $childCat))
 	{
 		$productList = array();
 		$catList     = array();
 		$manuList    = array();
 		$pids        = array();
 
-		if ($cid == $rootCategory)
+		if ($cid == $categoryForSale)
 		{
-			foreach ($categoryForSale as $k => $value)
+			foreach ($childCat as $k => $value)
 			{
 				$productCats = $productHelper->getProductCategory($value);
 
@@ -67,17 +76,6 @@ if (!empty($cid))
 			$pids[]     = $value->product_id;
 		}
 
-		foreach ($catList as $key => $value)
-		{
-			if (!empty($value))
-			{
-				foreach ($value as $val)
-				{
-					$cats[] = $val;
-				}
-			}
-		}
-
 		$cats          = implode(',', $catList);
 		$manufacturers = ModRedshopFilter::getManufacturerOnSale(array_unique($manuList));
 		$categories    = ModRedshopFilter::getParentCategoryOnSale(array_unique(explode(',', $cats)));
@@ -89,8 +87,40 @@ if (!empty($cid))
 		$rangePrice    = ModRedshopFilter::getRangeMaxMin($cid);
 		$manufacturers = ModRedshopFilter::getManufacturers($cid);
 	}
+}
+elseif (!empty($mid))
+{
+	$manufacturers = ModRedshopFilter::getManufacturerById($mid);
+	$pids          = ModRedshopFilter::getProductByManufacturer($mid);
+	$categories    = ModRedshopFilter::getCategorybyPids($pids);
+	$rangePrice    = ModRedshopFilter::getRange($pids);
+}
+elseif ($view == 'search') 
+{
+	$modelSearch = JModelLegacy::getInstance("Search", "RedshopModel");
+	$products    = $modelSearch->getData();
+	$manuList    = array();
+	$catList     = array();
+	$pids        = array();
 
-	$action = JRoute::_("index.php?option=com_redshop&view=search");
+	foreach ($products as $key => $value)
+	{
+		$pids[] = $value->product_id;
+
+		if (!empty($value->manufacturer_id))
+		{
+			$manuList[] = $value->manufacturer_id;
+		}
+
+		if (!empty($value->category_id))
+		{
+			$catList[] = $value->category_id;
+		}
+	}
+
+	$manufacturers = ModRedshopFilter::getManufacturerOnSale(array_unique($manuList));
+	$categories    = ModRedshopFilter::getParentCategoryOnSale(array_unique($catList));
+	$rangePrice    = ModRedshopFilter::getRange($pids);
 }
 
 $rangeMin = $rangePrice['min'];
