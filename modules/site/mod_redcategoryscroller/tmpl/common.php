@@ -8,41 +8,34 @@
  */
 
 defined('_JEXEC') or die;
+?>
 
-if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right'))
-{
-	echo '<table><tr>';
-}
+<?php if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right')): ?>
+	<table><tr>
+<?php endif ?>
 
-$i = 0;
+<?php $i = 0 ?>
 
-foreach ($rows as $row)
-{
-	if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right'))
-	{
-		echo '<td style="vertical-align:top;padding: 2px 5px 2px 5px;"><table width="' . $this->boxwidth . '">';
-	}
+<?php foreach ($rows as $row): ?>
 
-	// Display Product
-	$categorydata = $this->ShowCategory($row, $i);
-	echo $categorydata;
+	<?php if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right')): ?>
+		<td style="vertical-align:top;padding: 2px 5px 2px 5px;"><table width="<?php echo $this->boxwidth ?>">
+	<?php endif ?>
 
-	if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right'))
-	{
-		echo '</table></td>';
-	}
-	else
-	{
-		for ($i = 0; $i < $this->ScrollLineCharTimes; $i++)
-		{
-			echo $this->ScrollLineChar;
-		}
-	}
+	<?php echo $this->ShowCategory($row, $i); ?>
 
-	$i++;
-}
+	<?php if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right')): ?>
+		</table></td>
+	<?php else: ?>
+		<?php for ($i = 0; $i < $this->ScrollLineCharTimes; $i++): ?>
+			<?php echo $this->ScrollLineChar; ?>
+		<?php endfor ?>
+	<?php endif ?>
 
-if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right'))
-{
-	echo '</tr></table>';
-}
+	<?php $i++; ?>
+
+<?php endforeach ?>
+
+<?php if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right')): ?>
+	</tr></table>
+<?php endif ?>
