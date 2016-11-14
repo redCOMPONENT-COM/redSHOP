@@ -55,8 +55,8 @@ $document->addStyleDeclaration('
 <?php if ($list): ?>
 <div class="flexslider">
 	<ul class="slides">
-		<?php foreach ($list as $slide):
-			$thumbUrl = RedShopHelperImages::getImagePath(
+		<?php foreach ($list as $slide): ?>
+			<?php $thumbUrl = RedShopHelperImages::getImagePath(
 				$slide->media_name,
 				'',
 				'thumb',
@@ -64,13 +64,14 @@ $document->addStyleDeclaration('
 				$ImageWidth,
 				$ImageHeight,
 				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-			);
-			$link = JRoute::_(
+			); ?>
+
+			<?php $link = JRoute::_(
 				'index.php?option=com_redshop&view=manufacturers&layout='
 				. $PageLink . '&mid=' . $slide->manufacturer_id . '&Itemid=' . $slide->item_id, false
-			);
-			$title = $slide->manufacturer_name;
-			?>
+			); ?>
+
+			<?php $title = $slide->manufacturer_name; ?>
 		<li>
 			<?php if ($showImage): ?>
 				<div class="slideImage">
