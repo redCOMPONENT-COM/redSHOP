@@ -129,7 +129,7 @@ class RedshopControllerSearch extends RedshopController
 			$products[] = $value;
 		}
 
-		$pagination = $model->getPagination();
+		$pagination = $model->getFilterPagination();
 		$orderBy    = $model->getState('order_by');
 		$total      = $model->getFilterTotal();
 

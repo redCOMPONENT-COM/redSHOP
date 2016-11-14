@@ -16,7 +16,6 @@ $model       = $displayData["model"];
 $app         = JFactory::getApplication();
 $input       = $app->input;
 
-
 $productHelper    = productHelper::getInstance();
 $objHelper        = redhelper::getInstance();
 $redConfiguration = Redconfiguration::getInstance();
