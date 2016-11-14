@@ -132,7 +132,8 @@ class RedshopHelperExtrafields
 				self::$fieldsData[$key] = $product->extraFields[$fieldId];
 			}
 		}
-		else
+
+		if (($section == 1 && !self::$fieldsData[$key]) || $section != 1)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
