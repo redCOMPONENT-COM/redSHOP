@@ -226,13 +226,13 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		return $this->_db->loadObject();
 	}
 
-	public function saveOrder(&$cid)
+	public function saveOrder(&$cid, $order = array())
 	{
 		$db = JFactory::getDbo();
 		$row = $this->getTable();
 
 		$total = count($cid);
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
+		$order = (empty($order)) ? JRequest::getVar('order', array(0), 'post', 'array') : $order;
 		JArrayHelper::toInteger($order, array(0));
 
 		// Update ordering values
