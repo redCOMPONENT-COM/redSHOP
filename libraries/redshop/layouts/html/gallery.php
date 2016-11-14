@@ -157,7 +157,6 @@ extract($displayData);
 </div><!-- /.modal -->
 <!-- End Alert Modal -->
 <script>
-	rsMedia.customizeModal();
 	rsMedia.galleryDropzone();
 	rsMedia.galleryEvents();
 </script>
