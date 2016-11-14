@@ -307,7 +307,7 @@ function validateUserDetail() {
 			</tr>
 			<tr id="trCreateAccount">
 				<td width="300" align="right"><?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>:</td>
-				<td><?php echo JHTML::_('select.booleanlist', 'guestuser', 'class="inputbox" onchange="createAccount(this.value);" ', $create_account);?></td>
+				<td><?php echo JHTML::_('select.booleanlist', 'guestuser', 'class="inputbox" onclick="createAccount(this.value);" ', $create_account);?></td>
 			</tr>
 			</tbody>
 		</table>
@@ -373,10 +373,13 @@ function validateUserDetail() {
 						<script type="text/javascript" language="javascript">
 							///alert(document.getElementById('state_code').options[1].value);
 
-
-							if (document.getElementById('state_code').options[1] == undefined) {
-								document.getElementById('div_state_txt').style.display = 'none';
+							if (document.getElementById('state_code'))
+							{
+								if (document.getElementById('state_code').options[1] == undefined) {
+									document.getElementById('div_state_txt').style.display = 'none';
+								}
 							}
+
 						</script>
 						<tr>
 							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
@@ -487,10 +490,14 @@ function validateUserDetail() {
 								<td><?php echo $this->lists['state_code_ST']; ?></td>
 							</tr>
 							<script type="text/javascript" language="javascript">
-								if (document.getElementById('state_code_ST').options[1] == undefined)
+								if (document.getElementById('state_code_ST'))
 								{
-									document.getElementById('div_state_st_txt').style.display = 'none';
+									if (document.getElementById('state_code_ST').options[1] == undefined)
+									{
+										document.getElementById('div_state_st_txt').style.display = 'none';
+									}
 								}
+
 							</script>
 							<tr>
 								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
