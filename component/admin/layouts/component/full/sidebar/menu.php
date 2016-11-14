@@ -22,15 +22,41 @@ $menuhide = explode(",", Redshop::getConfig()->get('MENUHIDE', ''));
 		</a>
 	</li>
 	<?php foreach ($items as $group => $sections) : ?>
-		<?php if(count($sections) > 0) : ?>
-		<li class="treeview <?php echo ($active[0] == $group ? 'active': '') ?>">
-			<a href="#">
-				<i class="<?php echo strtolower($group)?>"></i>
-				<span><?php echo JText::_('COM_REDSHOP_' . $group); ?></span>
-			</a>
-			<ul class="treeview-menu">
-			<?php if(count($sections) == 1) : ?>
-			<?php $curSection = reset($sections); ?>
+		<?php if(count($sections['items']) > 0) : ?>
+			<?php if ($sections['style'] == 'header'): ?>
+				<?php foreach ($sections['items'] as $section): ?>
+					<?php foreach ($section->items as $item): ?>
+						<li class="<?php echo ($item->active) ? 'active' : '' ?>">
+							<?php
+							echo JLayoutHelper::render(
+								'component.full.sidebar.link',
+								array(
+									'link'   => $item->link,
+									'title'  => JText::_($item->title),
+									'active' => JText::_($item->active),
+									'icon'   => isset($item->icon) ? $item->icon : ''
+								)
+							);
+							?>
+						</li>
+					<?php endforeach; ?>
+				<?php endforeach; ?>
+			<?php else: ?>
+			<li class="treeview <?php echo ($active[0] == $group ? 'active': '') ?>">
+				<a href="#">
+					<?php if (strtolower($group) == 'stockroom'): ?>
+						<i class="<?php echo (strtolower($group) == 'stockroom') ? 'fa fa-archive' : strtolower($group) ?>"></i>
+					<?php elseif (strtolower($group) == 'product_listing'): ?>
+						<i class="fa fa-briefcase"></i>
+					<?php else: ?>
+						<i class="<?php echo strtolower($group) ?>"></i>
+					<?php endif; ?>
+					<span><?php echo JText::_('COM_REDSHOP_' . $group); ?></span>
+					<i class="fa fa-angle-right pull-right" style="margin-right: 0px;"></i>
+				</a>
+				<ul class="treeview-menu">
+			<?php if(count($sections['items']) == 1) : ?>
+			<?php $curSection = reset($sections['items']); ?>
 			<?php foreach ($curSection->items as $item) : ?>
 				<li>
 					<?php
@@ -46,7 +72,7 @@ $menuhide = explode(",", Redshop::getConfig()->get('MENUHIDE', ''));
 				</li>
 				<?php endforeach; ?>
 			<?php else : ?>
-				<?php foreach ($sections as $sectionKey => $section) : ?>
+				<?php foreach ($sections['items'] as $sectionKey => $section) : ?>
 					<?php if(count($section->items) == 1) : ?>
 					<?php $item = reset($section->items); ?>
 					<li>
@@ -54,9 +80,10 @@ $menuhide = explode(",", Redshop::getConfig()->get('MENUHIDE', ''));
 						echo JLayoutHelper::render(
 							'component.full.sidebar.link',
 							array(
-								'link'        => $item->link,
-								'title'       => JText::_($item->title),
-								'active' => JText::_($item->active)
+								'link'   => $item->link,
+								'title'  => JText::_($item->title),
+								'active' => JText::_($item->active),
+								'icon'   => isset($item->icon) ? $item->icon : ''
 							)
 						);
 						?>
@@ -74,9 +101,10 @@ $menuhide = explode(",", Redshop::getConfig()->get('MENUHIDE', ''));
 								echo JLayoutHelper::render(
 									'component.full.sidebar.link',
 									array(
-										'link'        => $item->link,
-										'title'       => JText::_($item->title),
-										'active' => JText::_($item->active)
+										'link'   => $item->link,
+										'title'  => JText::_($item->title),
+										'active' => JText::_($item->active),
+										'icon'   => isset($item->icon) ? $item->icon : ''
 									)
 								);
 								?>
@@ -89,7 +117,8 @@ $menuhide = explode(",", Redshop::getConfig()->get('MENUHIDE', ''));
 
 			<?php endif; ?>
 			</ul>
-		</li>
+			</li>
+			<?php endif; ?>
 		<?php endif; ?>
 	<?php endforeach; ?>
 </ul>
