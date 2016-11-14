@@ -8,9 +8,25 @@
  */
 defined('_JEXEC') or die;
 extract($displayData);
+$url = JRoute::_(JURI::base() . 'index.php?tmpl=component&option=com_redshop&amp;view=media_detail&amp;cid[]=' . $mediaId . '&amp;section_id=' . $sectionId . '&amp;showbuttons=1&amp;media_section=' . $mediaSection . '&amp;section_name=' . $sectionName);
+
+JFactory::getDocument()->addScriptDeclaration('
+(function($){
+	jQuery(document).ready(function(){
+		jQuery("#btnWrapperDetail_' . $sectionId . '").on("click", function(){
+			html = \'<iframe src="' . $url . '" frameborder="0" width="' . $width . '" height="' . $height . '"></iframe>\';
+
+			$("#wrapperModalDetail_' . $sectionId . '").html(html);
+			$("#wrapperModalDetail_' . $sectionId . '").modal("show");
+		});
+	});
+})(jQuery);');
 ?>
-<a class="<?php echo $class ?>"
-	href="index.php?tmpl=component&option=com_redshop&amp;view=media_detail&amp;cid[]=<?php echo $mediaId; ?>&amp;section_id=<?php echo $sectionId; ?>&amp;showbuttons=1&amp;media_section=<?php echo $mediaSection ?>&amp;section_name=<?php echo $sectionName; ?>"
-	rel="{handler: '<?php echo $handler ?>', size: {x: <?php echo $width ?>, y: <?php echo $height ?>}}" title=""><img
-		src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
-		alt="media"></a>
+<a style="cursor: pointer" id="btnWrapperDetail_<?php echo $sectionId ?>"><img
+	src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
+	alt="media"></a>
+<div class="<?php echo $class ?> fade shadow" 
+	id="wrapperModalDetail_<?php echo $sectionId?>"
+	style="overflow-y: hidden; width: <?php echo $width ?>px; padding: 5px;">
+</div>
+
