@@ -158,7 +158,7 @@ class quotationHelper
 	 */
 	public function updateQuotationStatus($quotation_id, $status = 1)
 	{
-		return RedshopHelperQuotation::updateQuotationStatus($quotation_id, $status);
+		RedshopHelperQuotation::updateQuotationStatus($quotation_id, $status);
 	}
 
 	/**
@@ -178,7 +178,7 @@ class quotationHelper
 	 *
 	 * @param   string  $p_length  Length of string to generate
 	 *
-	 * @return  $string
+	 * @return  string
 	 *
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::randomQuotationEncryptKey() instead
 	 */

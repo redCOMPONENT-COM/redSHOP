@@ -279,7 +279,7 @@ class rsstockroomhelper
 	/**
 	 * Replace stockroom amount detail
 	 *
-	 * @param   int     $templateDesc  Template desciption
+	 * @param   string  $templateDesc  Template desciption
 	 * @param   int     $sectionId     Section id
 	 * @param   string  $section       Section
 	 *

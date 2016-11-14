@@ -241,4 +241,20 @@ class RedshopModelQuestion_detail extends RedshopModelForm
 
 		return true;
 	}
+
+	/**
+	 * Transparent proxy to get table
+	 *
+	 * @param   string  $name    Table name
+	 * @param   string  $prefix  Class prefix
+	 * @param   array   $config  Config
+	 *
+	 * @return  JTable
+	 *
+	 * @since   2.0.0.4
+	 */
+	public function getTable($name = 'question_detail', $prefix = 'Table', $config = array())
+	{
+		return parent::getTable($name, $prefix, $config);
+	}
 }
