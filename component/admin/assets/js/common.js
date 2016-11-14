@@ -1112,7 +1112,7 @@ function reverseString(string) {
 }
 
 function createAccount(val) {
-
+	jQuery('#user_valid').html('');
 	if (!document.getElementById("tblcreat")) {
 		return;
 	}
