@@ -243,4 +243,38 @@ class RedshopControllerMedia extends RedshopController
 
 		die;
 	}
+
+	/**
+	 * AJAX delete a file
+	 *
+	 * @return void
+	 */
+	public function ajaxDelete()
+	{
+		$id = $this->input->post->get('id');
+
+		if (!empty($id))
+		{
+			$model = $this->getModel('media');
+
+			if ($model->deleteFile($id))
+			{
+				echo new JResponseJson(
+					array(
+					'success' => true
+					)
+				);
+
+				die;
+			}
+		}
+
+		echo new JResponseJson(
+			array(
+			'success' => false
+			)
+		);
+
+		die;
+	}
 }

@@ -427,13 +427,52 @@ class RedshopModelMedia extends RedshopModel
 					->select('*')
 					->from($db->qn("#__redshop_media"));
 
-		// if ($type !== '')
-		// {
-		// 	$query->where($db->qn('media_section') . '=' . $db->quote($type));
-		// }
-
 		$db->setQuery($query);
 
 		return $db->loadObjectlist();
+	}
+
+	/**
+	 * Delete media item by ID
+	 *
+	 * @param   integer  $id  [description]
+	 *
+	 * @return  boolean
+	 */
+	public function deleteFile($id)
+	{
+		$db = JFactory::getDbo();
+
+		// Check item is existed
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn("#__redshop_media"))
+					->where($db->qn('media_id') . ' = ' . $id);
+		$db->setQuery($query);
+		$file = $db->loadObject();
+
+		if ($file)
+		{
+			$path = JPATH_ROOT . '/components/com_redshop/assets/images/' . $file->media_section . '/' . $file->media_name;
+
+			if (is_file($path))
+			{
+				unlink($path);
+			}
+		}
+
+		$query = $db->getQuery(true)
+					->delete($db->qn('#__redshop_media'))
+					->where($db->qn('media_id') . ' = ' . $id);
+		$db->setQuery($query);
+
+		if (!$db->execute())
+		{
+			$this->setError($db->getErrorMsg());
+
+			return false;
+		}
+
+		return true;
 	}
 }
