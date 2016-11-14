@@ -1399,7 +1399,7 @@ class RedshopModelSearch extends RedshopModel
 	 *
 	 * @return pagination
 	 */
-	public function getPagination()
+	public function getFilterPagination()
 	{
 		$endlimit          = $this->getState('list.limit');
 		$limitstart        = $this->getState('list.start');
