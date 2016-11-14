@@ -70,17 +70,6 @@ var rsMedia = {
 	galleryItems: [],
 
 	/**
-	 * Customize bootstrap modal
-	 *
-	 * @return  {void}
-	 */
-	customizeModal: function() {
-		$(".modal").on("show.bs.modal", function(e){
-			$(document).find(".modal-backdrop").remove();
-		});
-	},
-
-	/**
 	 * [cropper description]
 	 *
 	 * @return  {[type]}  [description]
@@ -302,9 +291,12 @@ var rsMedia = {
 	 * @return  {void}
 	 */
 	init: function() {
+		// set limit for backdrop
+		$.fn.modalmanager.defaults.backdropLimit = 1;
+
 		// load dropzone
 		this.dropzone();
-		this.customizeModal();
+
 		this.galleryEvents();
 	},
 
@@ -341,6 +333,13 @@ var rsMedia = {
 	 * @return  {void}
 	 */
 	galleryEvents: function() {
+		// open gallery modal
+		$(".choosing").on('click', function(e){
+			e.preventDefault();
+
+			$("#galleryModal").modal('show');
+		});
+
 		// Click on gallery items
 		$(".img-obj").on('click', function(e){
 			e.preventDefault();
@@ -372,6 +371,34 @@ var rsMedia = {
 			$(".img-obj > img:not([data-media="+value+"])").parent().parent().addClass('hidden');
 			$(".img-obj > img[data-media="+value+"]").parent().parent().removeClass('hidden');
 		});
+
+		// insert and image
+		$(".btn-insert").on('click', function(e) {
+			e.preventDefault();
+
+			var imgObj = $(".img-obj.selected").find('img').first();
+			var imgUrl = imgObj.attr('src');
+
+			$(".img-select").val(imgUrl);
+
+			var xhr = new XMLHttpRequest()
+			xhr.open("GET", imgUrl);
+			xhr.responseType = "blob";
+			xhr.send();
+			xhr.addEventListener("load", function() {
+				var reader = new FileReader();
+				reader.readAsDataURL(xhr.response);
+				reader.addEventListener("loadend", function() {
+					var newFile = rsMedia.dataURItoBlob(reader.result);
+					rsMedia.dropzoneInstance.addFile(newFile);
+					$("#galleryModal").modal('hide');
+				});
+			});
+		});
+
+		// $("#galleryModal").on("hide.bs.modal", function(e){
+		// 	$(".modal-open").removeClass("modal-open");
+		// });
 	},
 
 	galleryDropzoneEvents: function(gDropzone) {

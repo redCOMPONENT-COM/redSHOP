@@ -30,8 +30,6 @@ extract($displayData);
 	</button>
 	<!-- button -->
 	<button type="button" class="btn btn-small btn-success pull-right hasTooltip choosing"
-	data-toggle="modal"
-	data-target="#galleryModal"
 	data-original-title="<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_INSERT'); ?>">
 		<span class="fa fa-picture-o"></span>
 	</button>

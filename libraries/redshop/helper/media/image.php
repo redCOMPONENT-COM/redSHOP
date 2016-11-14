@@ -101,7 +101,7 @@ class RedshopHelperMediaImage
 	 */
 	public static function renderGallery($id, $type, $sectionId, $mediaSection, $image)
 	{
-		$imgUrl  = JRoute::_('/components/com_redshop/assets/images/' . $type . '/' . $image);
+		$imgUrl  = JUri::root() . 'components/com_redshop/assets/images/' . $type . '/' . $image;
 		$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
 
 		$file = array();
@@ -131,7 +131,7 @@ class RedshopHelperMediaImage
 
 					$tmpImg    = array(
 						'id'        => $lm->media_id,
-						'url'       => JUri::root() . '/components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
+						'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
 						'name'      => $lm->media_name,
 						'size'      => self::sizeFilter(filesize($tmpFile)),
 						'dimension' => $dimension[0] . ' x ' . $dimension[1],
