@@ -91,7 +91,7 @@ extract($displayData);
 										<li class="pv-size"></li>
 										<li class="pv-dimension"></li>
 										<li class="pv-url"></li>
-										<li class="pv-remove"><a href="" class="btn btn-small btn-danger" data-toggle="modal" data-target="#alertGModal"><i class="fa fa-times"></i> Delete Permanently</a></li>
+										<li class="pv-remove btn-toolbar"><a href="#" class="btn btn-small btn-danger btn-del-g" data-id=""><i class="fa fa-times"></i> Delete Permanently</a></li>
 									</ul>
 								</div>
 							</div>
@@ -149,7 +149,7 @@ extract($displayData);
 				</div>
 			</div>
 			<div class="modal-footer btn-toolbar text-center">
-				<button type="button" class="btn btn-small btn-danger float-none" style="margin-right: 10px;" >Yes</button>
+				<button type="button" class="btn btn-small btn-danger float-none btn-confirm-del-g" style="margin-right: 10px;" data-url="" data-id="">Yes</button>
 				<button type="button" class="btn btn-small float-none" data-dismiss="modal">No</button>
 			</div>
 		</div><!-- /.modal-content -->

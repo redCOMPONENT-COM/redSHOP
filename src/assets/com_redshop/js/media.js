@@ -49,6 +49,13 @@ var rsMedia = {
 	url: 'index.php?option=com_redshop&view=media&task=ajaxUpload',
 
 	/**
+	 * URL to delete item in media gallery
+	 *
+	 * @type  {String}
+	 */
+	delUrl: 'index.php?option=com_redshop&view=media&task=ajaxDelete',
+
+	/**
 	 * Get html of dropzone DOM
 	 *
 	 * @type  {jQueryObject}
@@ -396,9 +403,38 @@ var rsMedia = {
 			});
 		});
 
-		// $("#galleryModal").on("hide.bs.modal", function(e){
-		// 	$(".modal-open").removeClass("modal-open");
-		// });
+		// open delete gallery modal
+		$(".btn-del-g").on('click', function(e){
+			e.preventDefault();
+
+			$("#alertGModal").find(".btn-confirm-del-g").data('id', $(this).data('id'));
+			$("#alertGModal").modal('show');
+
+			// bootbox.confirm("This is the default confirm!", function(result){
+			// 	console.log('This was logged in the callback: ' + result);
+			// });
+		});
+
+		// confirm delete item
+		$(".btn-confirm-del-g").on('click', function(e){
+			e.preventDefault();
+
+			var id = $(this).data('id');
+			if (id) {
+				$.ajax({
+					url: rsMedia.delUrl,
+					method: 'post',
+					data: {id: id}
+				})
+				.done(function(response){
+					$("#galleryModal").find(".img-obj.selected").parent().remove();
+					$(".pv-wrapper").addClass('hidden');
+				})
+				.always(function(e){
+					$("#alertGModal").modal('hide');
+				});
+			}
+		});
 	},
 
 	galleryDropzoneEvents: function(gDropzone) {
@@ -440,6 +476,7 @@ var rsMedia = {
 	showInfoThumbnail: function(elem)
 	{
 		var info = {
+			id: $(elem).find('img').data('id'),
 			url: $(elem).find('img').attr('src'),
 			name: $(elem).find('img').attr('alt'),
 			size: $(elem).find('img').data('size'),
@@ -458,6 +495,7 @@ var rsMedia = {
 		$pane.find('.pv-size').text(info.size);
 		$pane.find('.pv-dimension').text(info.dimension);
 		$pane.find('.pv-url').html('<input type="text" value="'+info.url+'" class="form-control" readonly="true">');
+		$pane.find('.pv-remove > a').data('id', info.id);
 
 		$pane.find('.pv-wrapper').removeClass('hidden');
 	},
