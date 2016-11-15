@@ -98,7 +98,8 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 */
 	public function remove()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$jinput = JFactory::getApplication()->input;
+		$cid = $jinput->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -123,8 +124,9 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 */
 	public function removeAnswer()
 	{
-		$cid = JRequest::getVar('aid', array(0), 'post', 'array');
-		$qid = JRequest::getVar('id', 0, 'post', 'int');
+		$jinput = JFactory::getApplication()->input;
+		$cid = $jinput->get('aid', array(0), 'array');
+		$qid = $jinput->get('id', 0, 'int');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -149,8 +151,9 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 */
 	public function sendAnswer()
 	{
-		$cid = JRequest::getVar('aid', array(0), 'post', 'array');
-		$qid = JRequest::getVar('id', 0, 'post', 'int');
+		$jinput = JFactory::getApplication()->input;
+		$cid = $jinput->get('aid', array(0), 'array');
+		$qid = $jinput->get('id', 0, 'int');
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
@@ -170,8 +173,9 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 */
 	public function saveorder()
 	{
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$jinput = JFactory::getApplication()->input;
+		$cid = $jinput->get('cid', array(), 'array');
+		$order = $jinput->get('order', array(), 'array');
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
