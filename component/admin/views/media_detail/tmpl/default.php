@@ -36,7 +36,6 @@ JFactory::getDocument()->addScriptDeclaration('
 		$("#youtube-wrapper").hide();
 		$("select[name=media_type]").on("change", function(){
 			var value = $(this).val();
-			console.log(value);
 			if (value == "youtube"){
 				$("#youtube-wrapper").show();
 				$("#media_data").hide();
