@@ -20,7 +20,7 @@ $allowOrder = ($orderCol == 'm.ordering' && strtolower($orderDir) == 'asc');
 if ($allowOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_redshop&view=manufacturer&task=saveOrderAjax&tmpl=component';
-	JHtml::_('redshopsortable.sortable', 'adminForm', 'adminForm', 'asc', $saveOrderingUrl, false, true);
+	JHtml::_('redshopsortable.sortable', 'adminForm', 'adminForm', 'asc', $saveOrderingUrl, false);
 }
 ?>
 <script language="javascript" type="text/javascript">
