@@ -874,6 +874,22 @@ class Com_RedshopInstallerScript
 		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php';
 		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php';
 
+		if (version_compare($this->getOldParam('version'), '2.0.0.4', '<='))
+		{
+			array_push(
+				$files,
+				JPATH_ADMINISTRATOR . '/component/admin/controllers/question_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/models/question_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/tables/question_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/views/question/tmpl/default.php'
+			);
+
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/component/admin/views/question_detail'
+			);
+		}
+
 		if (version_compare($this->getOldParam('version'), '2.0', '<='))
 		{
 			array_push(
