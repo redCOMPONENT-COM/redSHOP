@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$category = $params->get('category', array());
+JLoader::import('helper', __DIR__);
 
 $count                  = trim($params->get('count', 2));
 $stageWidth             = trim($params->get('stageWidth', 600));
@@ -24,25 +24,6 @@ $enableimageStroke      = trim($params->get('enableimageStroke', 'yes'));
 $enableMouseOverToolTip = trim($params->get('enableMouseOverToolTip', 'yes'));
 $enableMouseOverEffects = trim($params->get('enableMouseOverEffects', 'yes'));
 
-$db = JFactory::getDbo();
-JLoader::import('redshop.library');
-
-$leftjoin = "";
-$and      = "";
-
-if (is_array($category) && count($category) > 0)
-{
-	JArrayHelper::toInteger($category);
-	$leftjoin .= "LEFT JOIN #__redshop_product_category_xref cx ON cx.product_id = p.product_id ";
-	$and .= "AND cx.category_id IN (" . implode(',', $category) . ") ";
-}
-
-$sql = "SELECT * FROM #__redshop_product p "
-	. $leftjoin
-	. "WHERE p.published=1 "
-	. $and
-	. "LIMIT 0," . (int) $count;
-$db->setQuery($sql);
-$rows = $db->loadObjectList();
+$rows = ModRedProducts3d::getList($params);
 
 require JModuleHelper::getLayoutPath('mod_redproducts3d');

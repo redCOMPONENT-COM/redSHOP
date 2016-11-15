@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDPRODUCTS3D</name>
-    <version>1.5.0.7</version>
+    <version>1.5.0.8</version>
     <redshop>2.0</redshop>
     <creationDate>Sep 2016</creationDate>
     <author>redCOMPONENT.com</author>
@@ -11,6 +11,8 @@
     <description>Product 3D 360 Module for redSHOP</description>
     <files>
         <filename module="mod_redproducts3d">mod_redproducts3d.php</filename>
+        <filename module="mod_redproducts3d">helper.php</filename>
+        <filename module="mod_redproducts3d">index.html</filename>
         <folder>tmpl</folder>
         <folder>js</folder>
     </files>
