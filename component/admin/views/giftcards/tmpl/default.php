@@ -58,10 +58,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_GIFTCARD_NAME', 'giftcard_name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="hidden-phone">
+					<th width="10%" class="hidden-phone">
 						<?php echo JText::_('COM_REDSHOP_GIFTCARD_IMAGE'); ?>
 					</th>
-					<th width="5%" class="hidden-phone">
+					<th width="15%" class="hidden-phone">
 						<?php echo JText::_('COM_REDSHOP_GIFTCARD_BGIMAGE'); ?>
 					</th>
 					<th width="10%" class="center">
