@@ -35,6 +35,15 @@ class RedshopHelperExtrafields
 	protected static $fieldsName = array();
 
 	/**
+	 * List of fields
+	 *
+	 * @var   array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $sectionFields = array();
+
+	/**
 	 * Get list of fields.
 	 *
 	 * @param   integer  $published   Published Status which needs to be get. Default -1 will ignore any status.
@@ -132,7 +141,8 @@ class RedshopHelperExtrafields
 				self::$fieldsData[$key] = $product->extraFields[$fieldId];
 			}
 		}
-		else
+
+		if (($section == 1 && !self::$fieldsData[$key]) || $section != 1)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -1354,18 +1364,23 @@ class RedshopHelperExtrafields
 	 */
 	public static function getSectionFieldList($section = extraField::SECTION_PRODUCT_USERFIELD, $front = 1)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('*')
-			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('published') . ' = 1')
-			->where($db->qn('field_show_in_front') . ' = ' . (int) $front)
-			->where($db->qn('field_section') . ' = ' . (int) $section)
-			->order($db->qn('ordering'));
-		$db->setQuery($query);
-		$list = $db->loadObjectlist();
+		$key = $section . '_' . $front;
 
-		return $list;
+		if (!array_key_exists($key, static::$sectionFields))
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select('*')
+				->from($db->qn('#__redshop_fields'))
+				->where($db->qn('published') . ' = 1')
+				->where($db->qn('field_show_in_front') . ' = ' . (int) $front)
+				->where($db->qn('field_section') . ' = ' . (int) $section)
+				->order($db->qn('ordering'));
+
+			static::$sectionFields[$key] = $db->setQuery($query)->loadObjectlist();
+		}
+
+		return static::$sectionFields[$key];
 	}
 
 	/**
