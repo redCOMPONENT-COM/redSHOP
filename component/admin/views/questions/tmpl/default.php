@@ -45,7 +45,6 @@ $ordering  = ($this->ordering == 'q.ordering');
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
-				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th width="5%" class="title">
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
@@ -71,7 +70,6 @@ $ordering  = ($this->ordering == 'q.ordering');
 			</thead>
 			<?php
 			$k = 0;
-
 			for ($i = 0, $n = count($this->items); $i < $n; $i++)
 			{
 				$row       = $this->items[$i];
@@ -84,7 +82,6 @@ $ordering  = ($this->ordering == 'q.ordering');
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 			?>
 				<tr class="<?php echo "row$k"; ?>">
-					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
 					<td align="center">
 						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_VIEW_QUESTION'); ?>"><?php echo $row->product_name; ?></a>

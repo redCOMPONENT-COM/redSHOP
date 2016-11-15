@@ -1683,7 +1683,7 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 				}
 			}
 
-			$product_answer = $producthelper->getQuestionAnswer($product_question [$q]->question_id, 0, 1, 1);
+			$product_answer = $producthelper->getQuestionAnswer($product_question [$q]->id, 0, 1, 1);
 			$answerloop     = "";
 
 			for ($a = 0, $an = count($product_answer); $a < $an; $a++)
