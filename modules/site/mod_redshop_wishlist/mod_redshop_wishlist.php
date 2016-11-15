@@ -15,6 +15,9 @@ $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 if (Redshop::getConfig()->get('MY_WISHLIST'))
 {
-	$rows = ModRedWishList::getList($params);
+	$result = ModRedWishList::getList($params);
+
+	extract($result);
+
 	require JModuleHelper::getLayoutPath('mod_redshop_wishlist', $params->get('layout', 'default'));
 }
