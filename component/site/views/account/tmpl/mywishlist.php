@@ -241,6 +241,26 @@ if ($mail == 0)
 
 			$attribute_template = $producthelper->getAttributeTemplate($wishlist_data);
 
+			foreach ($attributes as $attribute)
+			{
+				if (empty($attribute->properties))
+				{
+					continue;
+				}
+
+				foreach ($attribute->properties as $property)
+				{
+					if ($property->property_id == 10 && $property->attribute_id == 5)
+					{
+						$property->setdefault_selected = 1;
+					}
+					else
+					{
+						$property->setdefault_selected = 0;
+					}
+				}
+			}
+
 			// Check product for not for sale
 			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);
 

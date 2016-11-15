@@ -43,12 +43,12 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		{
 			// TODO Allow to use alias tag instead duplicate tags
 			$category = $this->data['category'];
-			$this->_addReplace('{category_name}', $category->category_name);
-			$this->_addReplace('{category_short_description}', $category->category_short_description);
-			$this->_addReplace('{category_short_desc}', $category->category_short_description);
-			$this->_addReplace('{categoryshortdesc}', $category->category_short_description);
-			$this->_addReplace('{category_description}', $category->category_description);
-			$this->_addReplace('{categorydesc}', $category->category_description);
+			$this->addReplace('{category_name}', $category->category_name);
+			$this->addReplace('{category_short_description}', $category->category_short_description);
+			$this->addReplace('{category_short_desc}', $category->category_short_description);
+			$this->addReplace('{categoryshortdesc}', $category->category_short_description);
+			$this->addReplace('{category_description}', $category->category_description);
+			$this->addReplace('{categorydesc}', $category->category_description);
 		}
 	}
 }

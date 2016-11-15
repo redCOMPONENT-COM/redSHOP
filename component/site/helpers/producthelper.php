@@ -4036,7 +4036,6 @@ class productHelper
 			}
 
 			$data_add = $this->GetProductShowPrice($product->product_id, $data_add, $seoTemplate, 0, $is_relatedproduct, $attributes);
-
 		}
 		else
 		{
@@ -4985,7 +4984,8 @@ class productHelper
 			{
 				$subdisplay = false;
 
-				$property_all = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+				$property_all = empty($attributes[$a]->properties) ? $this->getAttibuteProperty(0, $attributes[$a]->attribute_id) : $attributes[$a]->properties;
+				$property_all = array_values($property_all);
 
 				if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 				{
@@ -5763,39 +5763,39 @@ class productHelper
 			return $product_showprice;
 		}
 
-		for ($a = 0, $an = count($attributes); $a < $an; $a++)
+		foreach ($attributes as $attribute)
 		{
-			$property = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+			$properties = empty($attribute->properties) ? $this->getAttibuteProperty(0, $attribute->attribute_id) : $attribute->properties;
 
-			if ($attributes[$a]->text != "" && count($property) > 0)
+			if ($attribute->text != "" && count($properties) > 0)
 			{
 				$selectedPropertyId = array();
 				$proprice           = array();
 				$prooprand          = array();
 
-				for ($i = 0, $in = count($property); $i < $in; $i++)
+				foreach ($properties as $property)
 				{
-					if ($property[$i]->setdefault_selected)
+					if ($property->setdefault_selected)
 					{
-						if ($property[$i]->property_price > 0)
+						if ($property->property_price > 0)
 						{
 							$attributes_property_vat = 0;
 
 							if ($applyTax)
 							{
-								$attributes_property_vat = $this->getProducttax($product_id, $property [$i]->property_price, $user_id);
+								$attributes_property_vat = $this->getProducttax($product_id, $property->property_price, $user_id);
 							}
 
-							$property [$i]->property_price += $attributes_property_vat;
+							$property->property_price += $attributes_property_vat;
 						}
 
-						$proprice[]           = $property[$i]->property_price;
-						$prooprand[]          = $property[$i]->oprand;
-						$selectedPropertyId[] = $property[$i]->property_id;
+						$proprice[]           = $property->property_price;
+						$prooprand[]          = $property->oprand;
+						$selectedPropertyId[] = $property->property_id;
 					}
 				}
 
-				if (!$attributes [$a]->allow_multiple_selection && count($proprice) > 0)
+				if (!$attribute->allow_multiple_selection && count($proprice) > 0)
 				{
 					$proprice           = array($proprice[count($proprice) - 1]);
 					$prooprand          = array($prooprand[count($prooprand) - 1]);
@@ -6948,67 +6948,21 @@ class productHelper
 		return $data_add;
 	}
 
-	public function replaceWishlistButton($product_id = 0, $data_add = "")
+	/**
+	 * Method for replace wishlist tag in template.
+	 *
+	 * @param   int     $productId        Product ID
+	 * @param   string  $templateContent  HTML data of template content
+	 *
+	 * @return  string                    HTML data of replaced content.
+	 *
+	 * @since   1.5
+	 *
+	 * @deprecated  __DEPLOY_VERSION__    Use RedshopHelperWishlist::replaceWishlistTag() instead
+	 */
+	public function replaceWishlistButton($productId = 0, $templateContent = "")
 	{
-		if (Redshop::getConfig()->get('MY_WISHLIST') != 0)
-		{
-			$u           = JFactory::getURI();
-			$user        = JFactory::getUser();
-
-			// Product Wishlist - New Feature Like Magento Store
-			if ($user->id)
-			{
-				$mywishlist_link = JURI::root()
-					. 'index.php?tmpl=component&option=com_redshop&view=wishlist&task=addtowishlist&tmpl=component&product_id='
-					. $product_id;
-
-				$wishListButton = "<input type='button' value='" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "'>";
-
-				$wishListLink = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
-				$wishPrefix = "<a  class=\"modal btn btn-primary\" href=\"" . $mywishlist_link
-					. "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" >";
-				$wishSuffix = '</a>';
-			}
-			else
-			{
-				$wishListButton = "<input type='submit' name='btnwishlist' id='btnwishlist' value='"
-					. JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "'>";
-
-				if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0)
-				{
-					$mywishlist_link = (string) JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewloginwishlist&tmpl=component');
-					$wishListLink = JText::_("COM_REDSHOP_ADD_TO_WISHLIST");
-					$wishPrefix = "<a class=\"modal btn btn-primary\" href=\"" . $mywishlist_link
-						. "\" rel=\"{handler:'iframe',size:{x:450,y:350}}\" >";
-					$wishSuffix = '</a>';
-				}
-				else
-				{
-					$wishListLink = "<a href=\"#\" onclick=\"document.getElementById('form_wishlist_" . $product_id
-						. "').submit();return false;\" class='wishlistlink btn btn-primary'>" . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . "</a>";
-					$wishPrefix = "<form method='post' action='' id='form_wishlist_" . $product_id
-						. "' name='form_wishlist_" . $product_id . "'>
-								<input type='hidden' name='task' value='addtowishlist' />
-							    <input type='hidden' name='product_id' value='" . $product_id . "' />
-								<input type='hidden' name='view' value='product' />
-								<input type='hidden' name='rurl' value='" . base64_encode($u->toString()) . "' />";
-					$wishSuffix = '</form>';
-				}
-			}
-
-			$wishListLink = $wishPrefix . $wishListLink . $wishSuffix;
-			$wishListButton = $wishPrefix . $wishListButton . $wishSuffix;
-		}
-		else
-		{
-			$wishListButton = '';
-			$wishListLink = '';
-		}
-
-		$data_add = str_replace('{wishlist_button}', $wishListButton, $data_add);
-		$data_add = str_replace('{wishlist_link}', $wishListLink, $data_add);
-
-		return $data_add;
+		return RedshopHelperWishlist::replaceWishlistTag($productId, $templateContent);
 	}
 
 	public function replaceCompareProductsButton($product_id = 0, $category_id = 0, $data_add = "", $is_relatedproduct = 0)
@@ -8379,12 +8333,12 @@ class productHelper
 
 	/**
 	 * Function Get Question Answers
-	 * 
+	 *
 	 * @param   int  $questionId  default 0
 	 * @param   int  $productId   default 0
 	 * @param   int  $faq         is FAQ
 	 * @param   int  $front       show in Front or Not
-	 * 
+	 *
 	 * @return  Object List
 	 */
 	public function getQuestionAnswer($questionId = 0, $productId = 0, $faq = 0, $front = 0)

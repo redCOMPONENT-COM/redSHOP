@@ -104,9 +104,9 @@ class RedshopHelperTemplate
 	/**
 	 * Method to get Template
 	 *
-	 * @param   string   $section     Set section Template
-	 * @param   int      $templateId  Template Id
-	 * @param   string   $name        Template Name
+	 * @param   string  $section     Set section Template
+	 * @param   int     $templateId  Template Id
+	 * @param   string  $name        Template Name
 	 *
 	 * @return  array              Template Array
 	 *
