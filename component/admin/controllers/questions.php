@@ -16,34 +16,6 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       2.0.0.5
  */
-
 class RedshopControllerQuestions extends RedshopControllerAdmin
 {
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  object  The model.
-	 *
-	 * @since   1.6
-	 */
-	public function getModel($name = 'Question', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
-	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
-	}
-
-	/**
-	 * Save Ordering function
-	 * 
-	 * @return void
-	 */
-	public function saveorder()
-	{
-		parent::saveorder();
-	}
 }
