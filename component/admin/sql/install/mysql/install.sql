@@ -403,7 +403,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_customer_question` (
   CONSTRAINT `#__rs_customer_question_fk1`
     FOREIGN KEY (`product_id`)
     REFERENCES `#__redshop_product` (`product_id`)
-    ON DELETE RESTRICT
+    ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
