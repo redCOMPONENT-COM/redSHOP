@@ -19,23 +19,79 @@ defined('_JEXEC') or die;
 class RedshopViewQuestions extends RedshopViewAdmin
 {
 	/**
+	 * List of questions
+	 *
+	 * @var   array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $items = array();
+
+	/**
+	 * Pagination
+	 *
+	 * @var   JPagination
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $pagination = null;
+
+	/**
+	 * Model state
+	 *
+	 * @var   array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $state = null;
+
+	/**
+	 * Ordering
+	 *
+	 * @var   string
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $ordering = '';
+
+	/**
+	 * Active filters
+	 *
+	 * @var   array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public $activeFilters = array();
+
+	/**
+	 * Filter form
+	 *
+	 * @var   array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public $filterForm = array();
+
+	/**
 	 * Display the States view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
 		// Get data from the model
 		$model = $this->getModel();
 
-		$this->items			= $this->get('Items');
-		$this->pagination		= $this->get('Pagination');
-		$this->state			= $this->get('State');
-		$this->ordering			= $this->state->get('list.ordering', 'q.ordering');
-		$this->activeFilters 	= $model->getActiveFilters();
-		$this->filterForm    	= $model->getForm();
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->ordering      = $this->state->get('list.ordering', 'q.ordering');
+		$this->activeFilters = $model->getActiveFilters();
+		$this->filterForm    = $model->getForm();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
