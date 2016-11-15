@@ -486,12 +486,14 @@ function display_products($rows)
 					}
 
 					$mysesspro = "productuserfield_" . $ui;
+					$sess = JFactory::getSession();
+					$numProd = $sess->get('no_of_prod', 0);
 
-					for ($check_i = 1; $check_i <= $_SESSION ["no_of_prod"]; $check_i++)
+					for ($i = 1; $i <= $numProd; $i++)
 					{
-						if ($_SESSION ['wish_' . $check_i]->product_id == $row->product_id)
+						if ($sess->get('wish_' . $i)->product_id == $row->product_id)
 						{
-							$productUserFieldsFinal = $_SESSION['wish_' . $check_i]->$mysesspro;
+							$productUserFieldsFinal = $sess->get('wish_' . $check_i)->$mysesspro;
 						}
 					}
 
@@ -553,7 +555,7 @@ function display_products($rows)
 			$wishlist_data = str_replace('{product_s_desc}', $pdesc, $wishlist_data);
 
 			$wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
-			$wishlist_data = $producthelper->replaceCartTemplate($row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
+			$wishlist_data = $producthelper->replaceCartTemplate($row->product_id, (isset($row->category_id)?$row->category_id:0), 0, 0, $wishlist_data, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 
 			$rmore         = "<a href='" . $link . "' title='" . $row->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 			$wishlist_data = str_replace("{read_more}", $rmore, $wishlist_data);

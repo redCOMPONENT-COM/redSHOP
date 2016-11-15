@@ -331,32 +331,51 @@ class RedshopModelProduct extends RedshopModel
 		return $row;
 	}
 
+	/**
+	 * Add Wishlist to Session
+	 * 
+	 * @param   Array  $data  data input
+	 * 
+	 * @return  bool
+	 */
 	public function addtowishlist2session($data)
 	{
 		ob_clean();
 		$extraField = extraField::getInstance();
 		$section    = 12;
-		$row_data   = $extraField->getSectionFieldList($section);
+		$rowData   = $extraField->getSectionFieldList($section);
+		$session 	= JFactory::getSession();
+		$numberProd = $session->get('no_of_prod', 0);
 
-		for ($check_i = 1; $check_i <= $_SESSION ["no_of_prod"]; $check_i++)
-			if ($_SESSION ['wish_' . $check_i]->product_id == $data ['product_id'])
+		for ($i = 1; $i <= $numberProd; $i++)
+		{
+			if ($session->get('wish_' . $i)->product_id == $data ['product_id'])
+			{
 				if ($data['task'] != "")
 				{
-					unset($_SESSION["no_of_prod"]);
+					$session->clear("no_of_prod");
+					$numberProd = 0;
 				}
-
-		$_SESSION ["no_of_prod"] += 1;
-		$no_prod_i = 'wish_' . $_SESSION ["no_of_prod"];
-
-		$_SESSION [$no_prod_i]->product_id = $data ['product_id'];
-		$_SESSION [$no_prod_i]->comment    = isset ($data ['comment']) ? $data ['comment'] : "";
-		$_SESSION [$no_prod_i]->cdate      = $data ['cdate'];
-
-		for ($k = 0, $kn = count($row_data); $k < $kn; $k++)
-		{
-			$myfield                        = "productuserfield_" . $k;
-			$_SESSION[$no_prod_i]->$myfield = $data['productuserfield_' . $k];
+			}
 		}
+
+		$numberProd ++;
+
+		$session->set('no_of_prod', $numberProd);
+		$numberProductI = 'wish_' . $numberProd;
+
+		$item 				= new stdClass;
+		$item->product_id 	= $data ['product_id'];
+		$item->comment 		= isset ($data ['comment']) ? $data ['comment'] : "";
+		$item->cdate 		= $data['cdate'];
+
+		for ($k = 0, $kn = count($rowData); $k < $kn; $k++)
+		{
+			$myfield 		= "productuserfield_" . $k;
+			$item->$myfield = $data['productuserfield_' . $k];
+		}
+
+		$session->set($numberProductI, $item);
 
 		return true;
 	}
