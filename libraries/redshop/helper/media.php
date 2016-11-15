@@ -267,6 +267,11 @@ class RedshopHelperMedia
 			$proportional = Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
 		}
 
+		if (!JFile::exists($filePath))
+		{
+			return false;
+		}
+
 		$ret = false;
 
 		switch (exif_imagetype($filePath))
