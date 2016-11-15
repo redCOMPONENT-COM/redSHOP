@@ -19,5 +19,12 @@ if (Redshop::getConfig()->get('MY_WISHLIST'))
 
 	extract($result);
 
+	$uri = JURI::getInstance();
+	$url = $uri->root();
+
+	$user      = JFactory::getUser();
+	$redhelper = redhelper::getInstance();
+	$Itemid    = $redhelper->getItemid();
+
 	require JModuleHelper::getLayoutPath('mod_redshop_wishlist', $params->get('layout', 'default'));
 }
