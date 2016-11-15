@@ -281,8 +281,8 @@ class RedshopMenuLeft_Menu
 				return array('CUSTOMIZATION', 'attribute_set');
 				break;
 
+			case "questions":
 			case "question":
-			case "question_detail":
 				return array('CUSTOMER_INPUT', 'question');
 				break;
 
@@ -729,10 +729,10 @@ class RedshopMenuLeft_Menu
 	 */
 	protected static function setCustomerInputGroup()
 	{
-		self::$menu->section('question')
+		self::$menu->section('questions')
 			->title('COM_REDSHOP_QUESTION')
 			->addItem(
-				'index.php?option=com_redshop&view=question',
+				'index.php?option=com_redshop&view=questions',
 				'COM_REDSHOP_QUESTION_LISTING',
 				(self::$view == 'question') ? true : false
 			);
