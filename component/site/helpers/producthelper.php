@@ -8377,24 +8377,37 @@ class productHelper
 		return $list;
 	}
 
-	public function getQuestionAnswer($questionid = 0, $productid = 0, $faq = 0, $front = 0)
+	/**
+	 * Function Get Question Answers
+	 * 
+	 * @param   int  $questionId  default 0
+	 * @param   int  $productId   default 0
+	 * @param   int  $faq         is FAQ
+	 * @param   int  $front       show in Front or Not
+	 * 
+	 * @return  Object List
+	 */
+	public function getQuestionAnswer($questionId = 0, $productId = 0, $faq = 0, $front = 0)
 	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
 		$and = "";
 
-		if ($questionid != 0)
+		if ($questionId != 0)
 		{
 			if ($faq != 0)
 			{
-				$and .= " AND q.parent_id = " . (int) $questionid . " ";
+				$and .= " AND " . $db->qn('q.parent_id') . " = " . $db->q($questionId);
 			}
 			else
 			{
-				$and .= " AND q.question_id = " . (int) $questionid . " ";
+				$and .= " AND " . $db->qn('q.id') . " = " . $db->q($questionId);
 			}
 		}
 		else
 		{
-			$and .= " AND q.product_id = " . (int) $productid . " AND q.parent_id=0 ";
+			$and .= " AND " . $db->qn('q.product_id') . " = " . $db->q($productId) . " AND " . $db->q('q.parent_id') . " = 0 ";
 		}
 
 		if ($front != 0)
@@ -8405,13 +8418,23 @@ class productHelper
 		// Avoid db killing
 		if (!empty($and))
 		{
-			$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
-				. "WHERE question_id <> 0 "
-				. $and
-				. "ORDER BY q.ordering ";
-			$this->_db->setQuery($query);
+			$query->select(
+				$db->qn(
+					[
+						'q.id', 'q.parent_id', 'q.product_id',
+						'q.question', 'q.user_id', 'q.user_name',
+						'q.user_email', 'q.published', 'q.question_date',
+						'q.ordering', 'q.telephone', 'q.address'
+					]
+				)
+			)
+			->from($db->qn('#__redshop_customer_question', 'q'))
+			->where($db->qn('q.id') . ' > 0 ' . $and)
+			->order($db->qn('q.ordering'));
 
-			return $this->_db->loadObjectList();
+			$db->setQuery($query);
+
+			return $db->loadObjectList();
 		}
 
 		return null;
