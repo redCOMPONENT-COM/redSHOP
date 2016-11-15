@@ -15,4 +15,11 @@ ALTER TABLE `#__redshop_customer_question` ADD CONSTRAINT `#__rs_customer_questi
     REFERENCES `#__redshop_product` (`product_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE;
+
+ALTER TABLE `#__redshop_siteviewer` ENGINE = InnoDB;
+
+ALTER TABLE `#__redshop_pageviewer` ENGINE = InnoDB;
+
+ALTER TABLE `#__redshop_cart` ADD PRIMARY KEY(`session_id`, `product_id`, `section`);
+
 SET FOREIGN_KEY_CHECKS = 1;
