@@ -780,6 +780,22 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 			}
 		}
+
+		if ($post['media_type'] == 'youtube')
+		{
+			$post['media_name'] = $post['youtube_id'];
+			
+			if ($model->store($post))
+			{
+				$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+				$this->setRedirect('index.php?option=com_redshop&view=media', $msg, 'success');
+			}
+			else
+			{
+				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MEDIA_DETAIL');
+				$this->setRedirect('index.php?option=com_redshop&view=media', $msg, 'warning');
+			}
+		}
 	}
 
 	/**

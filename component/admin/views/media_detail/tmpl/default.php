@@ -21,8 +21,6 @@ jimport('joomla.filesystem.file');
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-
-
 $showbuttons = JRequest::getVar('showbuttons');
 $section_id = JRequest::getVar('section_id');
 $section_name = JRequest::getVar('section_name');
@@ -34,6 +32,19 @@ JFactory::getDocument()->addScriptDeclaration('
 	$(document).ready(function () {
 		$("#media_section").on("change", function(){
 			$("#section_id").select2("val","");
+		});
+		$("#youtube-wrapper").hide();
+		$("select[name=media_type]").on("change", function(){
+			var value = $(this).val();
+			console.log(value);
+			if (value == "youtube"){
+				$("#youtube-wrapper").show();
+				$("#media_data").hide();
+			}
+			else{
+				$("#youtube-wrapper").hide();
+				$("#media_data").show();
+			}
 		});
 	});
 })(jQuery);
@@ -96,11 +107,14 @@ if ($showbuttons)
 
 				return false;
 			}
-			else if (form.file.value == '' && form.media_bank_image.value == '')
+			else if (form.media_type.value != "youtube") 
 			{
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
-
-				return false;
+				if (form.file.value == '' && form.media_bank_image.value == '')
+				{
+					alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
+					console.log(this);
+					return false;
+				}
 			}
 			<?php if ($media_section == 'product') : ?>
 			else if (form.hdn_download_file.value == '' && form.file == '')
@@ -351,6 +365,17 @@ if ($showbuttons)
 					<?php
 					}
 					?>
+				</tr>
+				<tr id="youtube-wrapper">
+					<td valign="top" align="right" class="key">
+						<label for="volume">
+							<?php echo JText::_('COM_REDSHOP_MEDIA_YOUTUBE_ID'); ?>:
+						</label>
+					</td>
+					<td><input type="text" value="<?php echo $this->detail->media_name; ?>"
+					           name="youtube_id">
+						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MEDIA_YOUTUBE_ID'), JText::_('COM_REDSHOP_MEDIA_YOUTUBE_ID'), 'tooltip.png', '', '', false); ?>
+					</td>
 				</tr>
 				<tr>
 					<td valign="top" align="right" class="key">

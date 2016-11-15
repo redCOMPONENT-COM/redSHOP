@@ -1111,6 +1111,25 @@ if (strstr($template_desc, $mpimg_tag))
 
 // More images end
 
+// More videos
+if (strstr($template_desc, "{more_videos}"))
+{
+	$media_videos = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "youtube");
+	$insertStr = '';
+
+	for ($m = 0, $mn = count($media_videos); $m < $mn; $m++)
+	{
+		$more_vid = '<iframe width="510" height="315" src="http://www.youtube.com/embed/' . $media_videos[$m]->media_name . '" />';
+		$more_vid .= '</iframe>';
+
+		$insertStr .= "<div id='additional_vids_" . $media_videos[$m]->media_id . "'><a class='additional_video' href='#video-" . $media_videos[$m]->media_id . "'><img src='https://img.youtube.com/vi/" . $media_videos[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+		$insertStr .= "<div class='hide'><div class='content' id='video-" . $media_videos[$m]->media_id . "'>" . $more_vid . "</div></div>";
+	}
+
+	$template_desc = str_replace("{more_videos}", $insertStr, $template_desc);
+}
+// More videos end
+
 // More documents
 if (strstr($template_desc, "{more_documents}"))
 {
@@ -1801,6 +1820,9 @@ echo eval("?>" . $template_desc . "<?php ");
 ?>
 
 <script type="text/javascript">
+	jQuery(document).ready(function($) {
+        $(".product_more_images .additional_video").colorbox({inline:true, width:"510px", iframe:true});
+    });
 
 function setsendImagepath(elm) {
 	var path = document.getElementById('<?php echo "main_image" . $this->pid;?>').src;
