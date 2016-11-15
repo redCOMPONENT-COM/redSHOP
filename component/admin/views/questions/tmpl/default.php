@@ -21,9 +21,10 @@ $allowOrder = ($listOrder == 'q.ordering' && strtolower($listDirn) == 'asc');
 if ($allowOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_redshop&task=questions.saveOrderAjax';
-	JHtml::_('redshopsortable.sortable', 'adminForm', 'adminForm', 'asc', $saveOrderingUrl, false, true);
+	JHtml::_('redshopsortable.sortable', 'adminForm', 'adminForm', 'asc', $saveOrderingUrl);
 }
 ?>
+
 <form action="index.php?option=com_redshop&view=questions" class="admin" id="adminForm" method="post" name="adminForm">
 	<div class="filterTool">
 		<?php echo RedshopLayoutHelper::render(
@@ -40,6 +41,7 @@ if ($allowOrder)
 			)
 		) ?>
 	</div>
+
 	<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
@@ -135,8 +137,9 @@ if ($allowOrder)
 			</tfoot>
 		</table>
 	<?php endif; ?>
-	</div>
+
 	<?php echo JHtml::_('form.token') ?>
+	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn ?>" />
