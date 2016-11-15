@@ -11,6 +11,8 @@
     <description>WishList Module for redSHOP</description>
     <files>
         <filename module="mod_redshop_wishlist">mod_redshop_wishlist.php</filename>
+        <filename module="mod_redshop_wishlist">helper.php</filename>
+        <filename module="mod_redshop_wishlist">index.html</filename>
         <folder>tmpl</folder>
     </files>
     <languages>
