@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field
+                name="date_range"
+                type="Rdaterange"
+                label="COM_REDSHOP_STATISTIC_CUSTOMER_FILTER_DATE_RANGE"
+                placeholder="COM_REDSHOP_STATISTIC_CUSTOMER_FILTER_DATE_RANGE_DESC"
+                format="DD.MM.YYYY"
+                phpFormat="d.m.Y"
+                first_day="1"
+                auto_apply="true"
+                class="form-control"
+                onChange="document.adminForm.submit();"
+                />
+    </fields>
+</form>
