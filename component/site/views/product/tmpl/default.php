@@ -1821,7 +1821,7 @@ echo eval("?>" . $template_desc . "<?php ");
 
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
-        $(".product_more_images .additional_video").colorbox({inline:true, width:"510px", iframe:true});
+        $(".product_more_images .additional_video").colorbox({inline:true, width:"510px", iframe:false});
     });
 
 function setsendImagepath(elm) {
