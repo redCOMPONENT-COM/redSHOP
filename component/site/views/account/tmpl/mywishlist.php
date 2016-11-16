@@ -241,22 +241,57 @@ if ($mail == 0)
 
 			$attribute_template = $producthelper->getAttributeTemplate($wishlist_data);
 
-			foreach ($attributes as $attribute)
-			{
-				if (empty($attribute->properties))
-				{
-					continue;
-				}
+			$wishlistData = RedshopHelperWishlist::getWishlist($row->wishlist_id);
 
-				foreach ($attribute->properties as $property)
+			if ($wishlistData && !empty($wishlistData->product_items))
+			{
+				foreach ($wishlistData->product_items as $wishlistProductItem)
 				{
-					if ($property->property_id == 10 && $property->attribute_id == 5)
+					if (empty($wishlistProductItem->attribute_id) || empty($wishlistProductItem->property_id))
 					{
-						$property->setdefault_selected = 1;
+						continue;
 					}
-					else
+
+					// Get necessary data for attributes, properties and sub-attributes.
+					foreach ($attributes as $attribute)
 					{
-						$property->setdefault_selected = 0;
+						if ($wishlistProductItem->attribute_id != $attribute->attribute_id || empty($attribute->properties))
+						{
+							continue;
+						}
+
+						foreach ($attribute->properties as $property)
+						{
+							$property->setdefault_selected = 0;
+
+							if ($property->property_id != $wishlistProductItem->property_id)
+							{
+								continue;
+							}
+
+							$property->setdefault_selected = 1;
+
+							if (empty($wishlistProductItem->subattribute_id))
+							{
+								continue;
+							}
+
+							if (empty($property->sub_properties))
+							{
+								$property->sub_properties = $producthelper->getAttibuteSubProperty(0, $property->value);
+							}
+
+							foreach ($property->sub_properties as $subProperty)
+							{
+								$subProperty->setdefault_selected = 0;
+
+								if ($subProperty->subattribute_color_id == $wishlistProductItem->subattribute_id
+									&& $subProperty->subattribute_id == $wishlistProductItem->attribute_id)
+								{
+									$subProperty->setdefault_selected = 1;
+								}
+							}
+						}
 					}
 				}
 			}

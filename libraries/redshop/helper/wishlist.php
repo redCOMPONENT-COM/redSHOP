@@ -17,6 +17,15 @@ defined('_JEXEC') or die;
 class RedshopHelperWishlist
 {
 	/**
+	 * List of Wishlist.
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $wishLists = array();
+
+	/**
 	 * Method for replace wishlist tag in template.
 	 *
 	 * @param   int     $productId        Product ID
@@ -37,5 +46,50 @@ class RedshopHelperWishlist
 		}
 
 		return RedshopTagsReplacer::_('wishlist', $templateContent, array('productId' => $productId));
+	}
+
+	/**
+	 * Method for get product items of specific Wishlist Product.
+	 *
+	 * @param   int  $wishlistId  ID of Wishlist ID.
+	 *
+	 * @return  bool|mixed        Data if success. False otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getWishlist($wishlistId = 0)
+	{
+		$wishlistId = (int) $wishlistId;
+
+		if (!$wishlistId)
+		{
+			return false;
+		}
+
+		if (!array_key_exists($wishlistId, static::$wishLists))
+		{
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_wishlist'))
+				->where($db->qn('wishlist_id') . ' = ' . $wishlistId);
+
+			$wishlist = $db->setQuery($query)->loadObject();
+
+			$query->clear()
+				->select($db->qn('wpi.attribute_id'))
+				->select($db->qn('wpi.property_id'))
+				->select($db->qn('wpi.subattribute_id'))
+				->from($db->qn('#__redshop_wishlist_product_item', 'wpi'))
+				->leftJoin($db->qn('#__redshop_wishlist_product', 'wp') . ' ON ' . $db->qn('wp.wishlist_product_id') . ' = ' . $db->qn('wpi.ref_id'))
+				->where($db->qn('wp.wishlist_id') . ' = ' . $wishlistId);
+
+			$wishlist->product_items = $db->setQuery($query)->loadObjectList();
+
+			static::$wishLists[$wishlistId] = $wishlist;
+		}
+
+		return static::$wishLists[$wishlistId];
 	}
 }

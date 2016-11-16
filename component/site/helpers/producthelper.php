@@ -5042,7 +5042,14 @@ class productHelper
 							}
 						}
 
-						$subproperty_all = $this->getAttibuteSubProperty(0, $property[$i]->value);
+						if (isset($property[$i]->sub_properties))
+						{
+							$subproperty_all = $property[$i]->sub_properties;
+						}
+						else
+						{
+							$subproperty_all = $this->getAttibuteSubProperty(0, $property[$i]->value);
+						}
 
 						// filter Out of stock data
 						if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
