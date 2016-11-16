@@ -82,39 +82,48 @@ abstract class ModRedProductTabHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('p.product_id')
+			->select($db->qn('p.product_id'))
 			->from($db->qn('#__redshop_product', 'p'))
 			->where($db->qn('p.published') . ' = 1')
-			->group('p.product_id');
+			->group($db->qn('p.product_id'));
 
 		if ($categories = self::getCategories($params, $moduleId))
 		{
-			$query->leftJoin($db->qn('#__redshop_product_category_xref', 'cpx') . ' ON cpx.product_id = p.product_id')
-				->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.category_id = cpx.category_id')
+			$query->leftJoin(
+						$db->qn('#__redshop_product_category_xref', 'cpx')
+						. ' ON ' . $db->qn('cpx.product_id') . ' = ' . $db->qn('p.product_id')
+					)
+				->leftJoin(
+						$db->qn('#__redshop_category', 'c')
+						. ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('cpx.category_id')
+					)
 				->where($db->qn('c.published') . ' = 1')
-				->where('cpx.category_id IN (' . $categories . ')');
+				->where($db->qn('cpx.category_id') . ' IN (' . $db->q($categories) . ')');
 		}
 
 		switch ($type)
 		{
 			case 'special':
-				$query->where('p.product_special = 1')
-					->order('publish_date DESC');
+				$query->where($db->qn('p.product_special') . ' = 1')
+					->order($db->qn('publish_date') . ' DESC');
 				break;
 			case 'most_sold':
 				$subQuery = $db->getQuery(true)
-					->select('SUM(' . $db->qn('oi.product_quantity') . ') AS qty, oi.product_id')
+					->select('SUM(' . $db->qn('oi.product_quantity') . ') AS ' . $db->qn('qty') . ', ' . $db->qn('oi.product_id'))
 					->from($db->qn('#__redshop_order_item', 'oi'))
-					->group('oi.product_id');
-				$query->leftJoin('(' . $subQuery . ') orderItems ON orderItems.product_id = p.product_id')
+					->group($db->qn('oi.product_id'));
+				$query->leftJoin(
+						'(' . $subQuery . ') ' . $db->qn('orderItems')
+						. ' ON ' . $db->qn('orderItems.product_id') . ' = ' . $db->qn('p.product_id')
+					)
 					->order($db->qn('orderItems.qty') . ' DESC');
 				break;
 			case 'latest':
-				$query->order('p.product_id DESC');
+				$query->order($db->qn('p.product_id') . ' DESC');
 				break;
 			case 'newest':
 			default:
-				$query->order('publish_date DESC');
+				$query->order($db->qn('p.publish_date') . ' DESC');
 				break;
 		}
 
@@ -124,12 +133,12 @@ abstract class ModRedProductTabHelper
 		{
 			// Third steep get all product relate info
 			$query->clear()
-				->where('p.product_id IN (' . implode(',', $productIds) . ')')
-				->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
+				->where($db->qn('p.product_id') . ' IN (' . implode(',', $db->q($productIds)) . ')')
+				->order('FIELD(' . $db->qn('p.product_id') . ', ' . implode(',', $db->q($productIds)) . ')');
 
 			$user = JFactory::getUser();
 			$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
-				->select('CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id');
+				->select('CONCAT_WS(' . $db->q('.') . ', ' . $db->qn('p.product_id') . ', ' . (int) $user->id . ') AS ' . $db->qn('concat_id'));
 
 			if ($rows = $db->setQuery($query)->loadObjectList('concat_id'))
 			{
