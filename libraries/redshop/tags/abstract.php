@@ -86,7 +86,7 @@ abstract class RedshopTagsAbstract
 	 */
 	public function isTagExists($tag)
 	{
-		return isset($this->tags[$tag]);
+		return in_array($tag, $this->tags);
 	}
 
 	/**
