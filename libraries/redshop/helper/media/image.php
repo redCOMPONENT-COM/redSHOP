@@ -121,12 +121,10 @@ class RedshopHelperMediaImage
 				if (file_exists($tmpFile))
 				{
 					$dimension = getimagesize($tmpFile);
-					$mime      = mime_content_type($tmpFile);
 
-					if ($mime)
+					if ($dimension)
 					{
-						$mime = explode('/', $mime);
-						$mime = $mime[0];
+						$dimension = $dimension[0] . ' x ' . $dimension[1];
 					}
 
 					$tmpImg    = array(
@@ -134,9 +132,9 @@ class RedshopHelperMediaImage
 						'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
 						'name'      => $lm->media_name,
 						'size'      => self::sizeFilter(filesize($tmpFile)),
-						'dimension' => $dimension[0] . ' x ' . $dimension[1],
+						'dimension' => $dimension,
 						'media'     => $lm->media_section,
-						'mime'      => $mime,
+						'mime'      => substr($lm->media_type, 0, -1),
 						'status'    => $lm->published ? '' : '-slash'
 					);
 

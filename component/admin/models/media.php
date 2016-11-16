@@ -475,4 +475,32 @@ class RedshopModelMedia extends RedshopModel
 
 		return true;
 	}
+
+	/**
+	 * Create a media item by ID
+	 *
+	 * @param   array  $file  File array data
+	 *
+	 * @return  boolean
+	 */
+	public function newFile($file)
+	{
+		$db = JFactory::getDbo();
+		$fileObj = new stdClass;
+
+		$fileObj->media_name     = $file['media_name'];
+		$fileObj->media_section  = $file['media_section'];
+		$fileObj->media_type     = $file['media_type'];
+		$fileObj->media_mimetype = $file['media_mimetype'];
+		$fileObj->published      = 1;
+
+		if (!$db->insertObject('#__redshop_media', $fileObj))
+		{
+			$this->setError($db->getErrorMsg());
+
+			return false;
+		}
+
+		return $db->insertid();
+	}
 }
