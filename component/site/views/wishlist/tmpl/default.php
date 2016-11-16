@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
-$url = JUri::base();
-$wishlist = $this->wishlist;
-$product_id = JFactory::getApplication()->input->getInt('product_id', 0);
-$hasWishlist = ($product_id && count($wishlist) > 0) ? true : false;
-$Itemid = JFactory::getApplication()->input->getInt('Itemid', 0);
 JHtml::_('behavior.framework');
+
+$url = JUri::base();
+$input = JFactory::getApplication()->input;
+$wishlist = $this->wishlist;
+$productId = $input->getInt('product_id', 0);
+$hasWishlist = ($productId && count($wishlist) > 0) ? true : false;
+$Itemid = $input->getInt('Itemid', 0);
 ?>
 <div class="divnewwishlist">
 <?php if ($hasWishlist) : ?>
@@ -50,18 +52,23 @@ JHtml::_('behavior.framework');
 				<?php
 				$mywishlist_link = JRoute::_('index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=' . $Itemid);
 				?>
-				<a href="<?PHP echo $mywishlist_link; ?>"><input type="button" class="btn btn-primary"
-																 value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"/></a>
+				<a href="<?PHP echo $mywishlist_link; ?>">
+					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"/>
+				</a>
 			<?php else : ?>
 				<input type="button" class="btn" value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"
 					   onclick="window.parent.SqueezeBox.close();"/>
 			<?php endif; ?>
 			</div>
 		</div>
-
-		<input type="hidden" name="view" value="wishlist"/>
-		<input type="hidden" name="option" value="com_redshop"/>
-		<input type="hidden" name="task" value="createsave"/>
+		<input type="hidden" name="<?php echo JSession::getFormToken() ?>" value="1" />
+		<input type="hidden" name="product_id" value="<?php echo $input->getInt('product_id', 0) ?>" />
+		<input type="hidden" name="attribute_id" value="<?php echo $input->getRaw('attribute_id', '') ?>" />
+		<input type="hidden" name="property_id" value="<?php echo $input->getRaw('property_id', '') ?>" />
+		<input type="hidden" name="subattribute_id" value="<?php echo $input->getRaw('subattribute_id', '') ?>" />
+		<input type="hidden" name="view" value="wishlist" />
+		<input type="hidden" name="option" value="com_redshop" />
+		<input type="hidden" name="task" value="createsave" />
 	</form>
 </div>
 <?php if ($hasWishlist) : ?>
@@ -124,6 +131,11 @@ JHtml::_('behavior.framework');
 					</tbody>
 				</table>
 			</div>
+			<input type="hidden" name="<?php echo JSession::getFormToken() ?>" value="1" />
+            <input type="hidden" name="product_id" value="<?php echo $input->getInt('product_id', 0) ?>" />
+			<input type="hidden" name="attribute_id" value="<?php echo $input->getRaw('attribute_id', '') ?>" />
+			<input type="hidden" name="property_id" value="<?php echo $input->getRaw('property_id', '') ?>" />
+			<input type="hidden" name="subattribute_id" value="<?php echo $input->getRaw('subattribute_id', '') ?>" />
 			<input type="hidden" name="view" value="wishlist" />
 			<input type="hidden" name="boxchecked" value="0" />
 			<input type="hidden" name="option" value="com_redshop" />
