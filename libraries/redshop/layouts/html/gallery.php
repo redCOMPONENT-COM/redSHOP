@@ -59,16 +59,39 @@ extract($displayData);
 							<div class="row list-pane">
 								<?php if(!empty($gallery)) { ?>
 								<?php foreach($gallery as $thumb) { ?>
-								<div class="col-md-2">
+								<div class="col-md-3">
 									<div class="thumbnail img-obj">
-										<img src="<?php echo $thumb['url'] ?>" alt="<?php echo $thumb['name'] ?>"
+										<?php if($thumb['mime'] == 'image') { ?>
+										<img src="<?php echo $thumb['url'] ?>" alt="<?php echo $thumb['name'] ?>" class="img-type"
 										data-id="<?php echo $thumb['id'] ?>"
 										data-size="<?php echo $thumb['size'] ?>"
 										data-dimension="<?php echo $thumb['dimension'] ?>"
 										data-media="<?php echo $thumb['media'] ?>"
 										data-attached="<?php echo $thumb['attached'] ?>">
+										<?php } else { ?>
+										<span class="img-type img-icon img-file"
+										src="<?php echo $thumb['url'] ?>" alt="<?php echo $thumb['name'] ?>"
+										data-id="<?php echo $thumb['id'] ?>"
+										data-size="<?php echo $thumb['size'] ?>"
+										data-dimension="<?php echo $thumb['dimension'] ?>"
+										data-media="<?php echo $thumb['media'] ?>"
+										data-attached="<?php echo $thumb['attached'] ?>">
+											<?php if (!empty($thumb['mime'])) { ?>
+											<i class="fa fa-file-<?php echo $thumb['mime'] ?>-o"></i>
+											<?php } else { ?>
+											<i class="fa fa-file-o"></i>
+											<?php } ?>
+										</span>
+										<?php } ?>
 										<span class="img-status"><i class="fa fa-eye<?php echo $thumb['status'] ?>"></i></span>
-										<span class="img-mime" data-mime="<?php echo $thumb['mime'] ?>"><i class="fa fa-file-<?php echo $thumb['mime'] ?>-o"></i></span>
+										<span class="img-mime" data-mime="<?php echo $thumb['mime'] ?>">
+											<?php if (!empty($thumb['mime'])) { ?>
+											<i class="fa fa-file-<?php echo $thumb['mime'] ?>-o"></i>
+											<?php } else { ?>
+											<i class="fa fa-file-o"></i>
+											<?php } ?>
+										</span>
+										<span class="img-name"><?php echo $thumb['name'] ?></span>
 									</div>
 								</div>
 								<?php } ?>
@@ -126,9 +149,15 @@ extract($displayData);
 
 <!-- Gallery Item Template -->
 <div id="g-item-tpl" style="display: none">
-	<div class="col-md-2">
+	<div class="col-md-3">
 		<div class="thumbnail img-obj">
-			<img src="" alt="" data-id="" data-size="" data-dimension="" data-media="" data-attached="false">
+			<img src="" alt="" class="img-type" data-id="" data-size="" data-dimension="" data-media="" data-attached="false">
+			<span class="img-type img-icon img-file" src="" alt="" data-id="" data-size="" data-dimension="" data-media="" data-attached="">
+				<i class="fa fa-file-o"></i>
+			</span>
+			<span class="img-status"><i class="fa fa-eye"></i></span>
+			<span class="img-mime" data-mime=""><i class="fa fa-file-o"></i></span>
+			<span class="img-name"></span>
 		</div>
 	</div>
 </div>

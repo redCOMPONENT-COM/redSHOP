@@ -81,7 +81,7 @@ var rsMedia = {
 	 *
 	 * @return  {[type]}  [description]
 	 */
-	cropper: function(jDropzone) {
+	cropping: function(jDropzone) {
 
 		$(document).on('click', 'button.cropping',function(e) {
 			e.preventDefault();
@@ -102,6 +102,7 @@ var rsMedia = {
 			}
 			// cache filename to re-assign it to cropped file
 			var cachedFilename = file.name;
+			console.log(file);
 
 			// dynamically create modals to allow multiple files processing
 			// var $cropperModal = $($.parseHTML(modalTemplate));
@@ -125,8 +126,8 @@ var rsMedia = {
 					movable: false,
 					cropBoxResizable: true,
 					// minCropBoxWidth: 200,
-					minContainerWidth: 560,
-					minContainerHeight: 560,
+					minContainerWidth: 320,
+					minContainerHeight: 320,
 					viewMode: 3,
 					zoomable: false
 				});
@@ -153,6 +154,8 @@ var rsMedia = {
 				newFile.cropped = true;
 				// assign original filename
 				newFile.name = cachedFilename;
+				console.log(cachedFilename);
+				console.log(newFile);
 				// remove not cropped file from dropzone (we will replace it later)
 				jDropzone.removeFile(file);
 				// add cropped file to dropzone
@@ -193,9 +196,9 @@ var rsMedia = {
 
 			this.dropzoneInstance = jDropzone;
 
-			this.dropzoneEvents(jDropzone);
+			this.dropzoneEvents(this.dropzoneInstance);
 
-			this.cropper(jDropzone);
+			this.cropping(this.dropzoneInstance);
 		}
 	},
 
@@ -230,7 +233,7 @@ var rsMedia = {
 		jDropzone.on('success', function(file, response){
 			response = JSON.parse(response);
 			if (response.success) {
-				$(".img-select").val(response.data.file);
+				$(".img-select").val(response.data.file.url);
 			}
 		});
 
@@ -321,8 +324,8 @@ var rsMedia = {
 				{
 					url: rsMedia.url,
 					// acceptedFiles: ".png,.jpg,.jpeg,.bmp",
-					autoProcessQueue: false,
-					// maxFiles: 1,
+					// autoProcessQueue: false,
+					maxFiles: 1,
 					thumbnailWidth: null,
 					thumbnailHeight: null,
 					previewTemplate: $("#g-dropzone-tpl").html()
@@ -348,7 +351,7 @@ var rsMedia = {
 		});
 
 		// Click on gallery items
-		$(".img-obj").on('click', function(e){
+		$(document).on('click', ".img-obj", function(e){
 			e.preventDefault();
 			if ($(this).hasClass('selected')) {
 				$(this).removeClass('selected');
@@ -397,6 +400,7 @@ var rsMedia = {
 				reader.readAsDataURL(xhr.response);
 				reader.addEventListener("loadend", function() {
 					var newFile = rsMedia.dataURItoBlob(reader.result);
+					newFile.name = imgObj.attr('alt');
 					rsMedia.dropzoneInstance.addFile(newFile);
 					$("#galleryModal").modal('hide');
 				});
@@ -438,31 +442,43 @@ var rsMedia = {
 	},
 
 	galleryDropzoneEvents: function(gDropzone) {
-		// gDropzone.on('dragenter', function(file, res) {
-		// 	console.log(file);
-		// 	console.log(res);
-		// });
-		//
+		gDropzone.on("sending", function(file, xhr, data) {
+            data.append("new", true);
+        });
 
-		var fileExt = '';
-
-		gDropzone.on('addedfile', function(file) {
-			fileExt = file;
+		gDropzone.on('success', function(file, res) {
+			res = JSON.parse(res);
+			var file = res.data.file;
+			var item = $('#g-item-tpl').html();
+			var $item = $(item);
+			var $itemObj = {};
+			if (file.mime == 'image') {
+				$item.find('span.img-type').remove();
+				$itemObj = $item.find('img.img-type');
+			} else {
+				$item.find('img.img-type').remove();
+				$itemObj = $item.find('span.img-type');
+			}
+			$itemObj.attr('src', '/' + file.url);
+			$itemObj.attr('alt', file.name);
+			$itemObj.data('id', file.id);
+			$itemObj.data('size', file.size);
+			$itemObj.data('dimension', file.dimension);
+			$itemObj.data('media', file.media);
+			$item.find('.img-mime').data('mime', file.mime);
+			if (file.mime != '') {
+				$itemObj.find('i.fa')
+				.removeClass('fa-file-o')
+				.addClass('fa-file-' + file.mime + '-o');
+				$item.find('.img-mime i.fa')
+				.removeClass('fa-file-o')
+				.addClass('fa-file-' + file.mime + '-o');
+			}
+			$item.find('.img-name').text(file.name);
+			$("#upload-lib .list-pane").append($item[0]);
 			$('#g-tab a[href="#upload-lib"]').tab("show");
-		});
 
-		$('#g-tab a[href="#upload-lib"]').on("shown.bs.tab", function(e) {
 			gDropzone.removeAllFiles();
-
-			var mediaItem = $('#g-item-tpl').html();
-			// initialize FileReader which reads uploaded file
-			var reader = new FileReader();
-			reader.onloadend = function () {
-				var img = $('#g-item-tpl').find('img');
-				img.attr('src', reader.result);
-				$('#galleryModal .list-pane').append($('#g-item-tpl').html());
-			};
-			reader.readAsDataURL(fileExt);
 		});
 	},
 
@@ -475,18 +491,20 @@ var rsMedia = {
 	 */
 	showInfoThumbnail: function(elem)
 	{
+		var $imgObj = $(elem).find('.img-type');
+
 		var info = {
-			id: $(elem).find('img').data('id'),
-			url: $(elem).find('img').attr('src'),
-			name: $(elem).find('img').attr('alt'),
-			size: $(elem).find('img').data('size'),
-			dimension: $(elem).find('img').data('dimension')
+			id: $imgObj.data('id'),
+			url: $imgObj.attr('src'),
+			name: $imgObj.attr('alt'),
+			size: $imgObj.data('size'),
+			dimension: $imgObj.data('dimension')
 		};
 
-		var $img = $(elem).find('img').clone();
+		$img = $imgObj.clone();
 
 		var $pane = $(".preview-pane");
-		$pane.find('.pv-img img').remove();
+		$pane.find('.pv-img .img-type').remove();
 		$pane.find('.pv-img').append($img);
 		$pane.find('.pv-zoom').attr('href', info.url);
 		$pane.find('.pv-zoom').attr('data-title', info.name);
