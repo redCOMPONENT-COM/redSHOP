@@ -111,7 +111,7 @@ if ($showbuttons)
 				if (form.file.value == '' && form.media_bank_image.value == '')
 				{
 					alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
-					console.log(this);
+
 					return false;
 				}
 			}
