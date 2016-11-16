@@ -76,6 +76,11 @@ class RedshopHelperStockroom
 
 		$stockroomId = ArrayHelper::toInteger($stockroomId);
 
+		if (empty($stockroomId))
+		{
+			return array();
+		}
+
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true)
 			->select('*')

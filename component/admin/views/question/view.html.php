@@ -9,53 +9,77 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * View Country
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.0.2.1
+ */
 class RedshopViewQuestion extends RedshopViewAdmin
 {
-	public $state;
+	/**
+	 * Function display template
+	 *
+	 * @param   string  $tpl  name of template
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.0.5
+	 */
 
 	public function display($tpl = null)
 	{
-		$uri      = JFactory::getURI();
-		$document = JFactory::getDocument();
+		JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_MANAGEMENT'), 'redshop_question_48');
 
-		$document->setTitle(JText::_('COM_REDSHOP_question'));
-		$model = $this->getModel('question');
+		$this->form       = $this->get('Form');
+		$this->detail     = $this->get('Item');
+		$this->item       = $this->detail;
+		$this->state      = $this->get('State');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_MANAGEMENT'), 'redshop_question48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
+		$model = $this->getModel('Question');
+		$this->answers = $model->getAnswers($this->item->id);
+		$this->requestUrl = JUri::getInstance()->toString();
 
-		$this->state = $this->get('State');
-		$lists['order']     = $this->state->get('list.ordering', 'question_date');
-		$lists['order_Dir'] = $this->state->get('list.direction', 'desc');
-
-		$question   = $this->get('Data');
-		$pagination = $this->get('Pagination');
-
-		$option                         = $model->getProduct();
-		$optionsection                  = array();
-		$optionsection[0]               = new stdClass;
-		$optionsection[0]->product_id   = 0;
-		$optionsection[0]->product_name = JText::_('COM_REDSHOP_SELECT');
-
-		if (count($option) > 0)
+		if (!$this->item->id)
 		{
-			$optionsection = @array_merge($optionsection, $option);
+			$user = JFactory::getUser();
+			$this->item->user_email = $user->email;
+			$this->item->user_name 	= $user->username;
 		}
 
-		$lists['product_id'] = JHTML::_('select.genericlist', $optionsection, 'product_id',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'product_id', 'product_name', $this->state->get('product_id')
-		);
-
-		$this->lists       = $lists;
-		$this->question    = $question;
-		$this->pagination  = $pagination;
-		$this->request_url = $uri->toString();
+		$this->addToolBar();
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+
+		$isNew = ($this->item->id < 1);
+
+		// Prepare text for title
+		$title = JText::_('COM_REDSHOP_QUESTION_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+
+		JToolBarHelper::title($title, 'redshop_question_48');
+		JToolBarHelper::apply('question.apply');
+		JToolBarHelper::save('question.save');
+
+		if ($isNew)
+		{
+			JToolBarHelper::cancel('question.cancel');
+		}
+		else
+		{
+			JToolBarHelper::cancel('question.cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
 	}
 }
