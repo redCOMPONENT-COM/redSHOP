@@ -84,7 +84,7 @@ abstract class ModRedshopFilter
 		$allProductPrices = array();
 
 		if (!empty($pids))
-		{		
+		{
 			// Get product price
 			foreach ($pids as $k => $id)
 			{
