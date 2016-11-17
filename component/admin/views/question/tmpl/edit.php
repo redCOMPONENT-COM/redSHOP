@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-$editor = JEditor::getInstance();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
