@@ -114,32 +114,32 @@ class RedshopControllerSearch extends RedshopController
 	 */
 	public function findProducts()
 	{
-		$app      = JFactory::getApplication();
-		$input    = $app->input;
-		$model    = $this->getModel('Search');
-		$post     = $input->post->get('redform', array(), 'filter');
+		$app   = JFactory::getApplication();
+		$input = $app->input;
+		$model = $this->getModel('Search');
+		$post  = $input->post->get('redform', array(), 'filter');
 
 		$model->setState("filter.data", $post);
 
 		$list = $model->getItem();
 
 		// Get all product from here
-		foreach ( $list as $k => $value )
+		/*foreach ( $list as $k => $value )
 		{
 			$products[] = $value;
-		}
+		}*/
 
 		$pagination = $model->getFilterPagination();
 		$orderBy    = $model->getState('order_by');
 		$total      = $model->getFilterTotal();
 
 		// Get layout HTML
-		if (isset($products))
+		if (!empty($list))
 		{
 			echo RedshopLayoutHelper::render(
 				'filter.result',
 				array(
-					"products"    => $products,
+					"products"    => $list,
 					"model"       => $model,
 					"post"        => $post,
 					"pagination"  => $pagination,

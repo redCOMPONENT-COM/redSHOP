@@ -1197,9 +1197,10 @@ class RedshopModelSearch extends RedshopModel
 	 *
 	 * @return array
 	 */
-	function getListQuery()
+	public function getListQuery()
 	{
 		$pk    = $this->getState('filter.data', array());
+
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn("p.product_id"))
@@ -1273,8 +1274,8 @@ class RedshopModelSearch extends RedshopModel
 
 		if (!empty($pk["filterprice"]))
 		{
-			$productPrices = $db->qn("p.product_price") . " + " . $db->qn('p.product_price');
-			$productDiscountPrices = $db->qn("p.discount_price") . " + " . $db->qn('p.discount_price');
+			$productPrices = $db->qn('p.product_price');
+			$productDiscountPrices = $db->qn('p.discount_price');
 			$comparePrice = "(" . $productPrices . ' >= ' . $db->q($min) . ' AND ' . $productPrices . ' <= ' . $db->q(($max)) . ")";
 			$compareDiscountPrice = "(" . $productDiscountPrices . ' >= ' . $db->q($min) . ' AND ' . $productDiscountPrices . ' <= ' . $db->q(($max)) . ")";
 			$priceNormal = $comparePrice;
@@ -1288,7 +1289,7 @@ class RedshopModelSearch extends RedshopModel
 			$search = $db->q('%' . $db->escape(trim($keyword, true) . '%'));
 			$query->leftjoin(
 				$db->qn('#__redshop_manufacturer', 'm') . ' ON '
-				. $db->qn('m.manufacturer_id') . ' = ' 
+				. $db->qn('m.manufacturer_id') . ' = '
 				. $db->qn('p.manufacturer_id')
 			)
 				->where('(' . $db->qn('p.product_name') . ' LIKE ' . $search . ' OR ' . $db->qn('m.manufacturer_name') . ' LIKE ' . $search . ')');
@@ -1350,13 +1351,14 @@ class RedshopModelSearch extends RedshopModel
 	}
 
 	/**
-	 * Get Items 
+	 * Get Items
 	 *
 	 * @return array
 	 */
 	public function getItem()
 	{
 		$query      = $this->getListQuery();
+
 		$db         = JFactory::getDbo();
 		$start      = $this->getState('list.start');
 		$limit      = $this->getState('list.limit');
@@ -1382,16 +1384,7 @@ class RedshopModelSearch extends RedshopModel
 			$db->setQuery($query);
 		}
 
-		$data = $db->loadAssocList();
-
-		$temp = array();
-
-		foreach ($data as $k => $value)
-		{
-			$temp[] = $value["product_id"];
-		}
-
-		return $temp;
+		return $db->loadColumn();
 	}
 
 	/**
