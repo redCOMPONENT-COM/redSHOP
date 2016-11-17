@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-global $root_label, $jscook_type, $jscookMenu_style, $jscookTree_style, $mm_action_url, $urlpath, $Itemid, $redproduct_menu, $categorysorttype;
-
 $uri = JURI::getInstance();
 $urlpath = $uri->root();
 $user = JFactory::getUser();
@@ -27,9 +25,6 @@ $Itemid = JRequest::getInt('Itemid', '1');
 
 JLoader::import('helper', __DIR__);
 
-
-$redproduct_menu = new modProMenuHelper;
-
 /* Get module parameters */
 $show_noofproducts = $params->get('show_noofproducts', 'yes');
 $menutype = $params->get('menutype', "links");
@@ -38,9 +33,9 @@ $pretext = $params->get('pretext', '');
 $posttext = $params->get('posttext', '');
 $menu_orientation = $params->get('menu_orientation', 'hbr');
 $root_label = $params->get('root_label', 'Shop');
-$categorysorttype = $params->get('categorysorttype', 'catname');
+$categorySortType = $params->get('categorysorttype', 'catname');
 $use_shoppergroup = $params->get('use_shoppergroup', 'no');
 
-$shopperGroupId = $redproduct_menu->getShopperGroupId($use_shoppergroup, $user);
+$shopperGroupId = ModProMenuHelper::getShopperGroupId($use_shoppergroup, $user);
 
 require_once __DIR__ . '/controllers/controller.php';

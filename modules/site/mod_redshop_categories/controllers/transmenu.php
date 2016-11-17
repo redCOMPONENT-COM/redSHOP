@@ -10,5 +10,5 @@
 defined('_JEXEC') or die;
 
 require JModuleHelper::getLayoutPath('mod_redshop_categories', $params->get('layout', 'transmenu/Shop_Menu'));
-$mbtmenu = new Shop_Menu($db, $params, $shopper_group_id);
+$mbtmenu = new Shop_Menu($db, $params, $shopperGroupId);
 $mbtmenu->genMenu();

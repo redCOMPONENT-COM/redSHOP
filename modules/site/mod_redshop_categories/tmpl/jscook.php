@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 $menuHtml = '<div align="left" class="mainlevel" id="div_' . $varname . '"></div>
 <script type="text/javascript">
-//<!--
 function ' . $varname . '_addEvent( obj, type, fn )
 {
    if (obj.addEventListener) {
@@ -39,7 +38,7 @@ function ' . $varname . '_removeEvent( obj, type, fn )
 var ' . $varname . ' =
 [
 ';
-redshopJscookCategoryMenuHelper::traverseTreeDown($menuHtml, '0', '0', $params, $shopperGroupId);
+RedshopJscookCategoryMenuHelper::traverseTreeDown($menuHtml, '0', '0', $params, $shopperGroupId);
 $menuHtml .= "];
 ";
 
@@ -54,7 +53,6 @@ else
 }
 
 $menuHtml .= "
-//-->
 </script>\n";
 
 if ($jscookType == "tree")
@@ -67,6 +65,7 @@ if ($jscookType == "tree")
 }
 
 $menuHtml .= "<noscript>";
-$menuHtml .= $redproduct_menu->get_category_tree($params, $categoryId, $classMainLevel, $listCssClass = "mm123", $highlightedStyle = "font-style:italic;", $shopperGroupId);
+$menuHtml = ModProMenuHelper::getCategoryTree($params, $categoryId, $classMainLevel, $listCssClass = "mm123", $highlightedStyle = "font-style:italic;", $shopperGroupId);
 $menuHtml .= "\n</noscript>\n";
+
 echo $menuHtml;

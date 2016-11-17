@@ -16,7 +16,7 @@ echo $pretext;
 
 if ($menutype == 'links')
 {
-	echo $redproduct_menu->get_category_tree($params, $categoryId, $classMainLevel, $listCssClass = "mm123", $highlightedStyle = "font-style:italic;", $shopperGroupId);
+	echo ModProMenuHelper::getCategoryTree($params, $categoryId, $classMainLevel, $listCssClass = "mm123", $highlightedStyle = "font-style:italic;", $shopperGroupId);
 }
 else
 {

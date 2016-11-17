@@ -1,64 +1,85 @@
 <?php
+/**
+ * @package     RedSHOP.Frontend
+ * @subpackage  mod_redshop_categories
+ *
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
-abstract class redshopJscookCategoryMenuHelper
+defined('_JEXEC') or die;
+
+/**
+ * Helper for mod_articles_latest
+ *
+ * @since  1.5.3
+ */
+abstract class RedshopJscookCategoryMenuHelper
 {
-	/***************************************************
-	 * function traverse_tree_down
+	/**
+	 * traverseTreeDown description
+	 * 
+	 * @param   [type]  &$mymenuContent  [description]
+	 * @param   string  $categoryId      [description]
+	 * @param   string  $level           [description]
+	 * @param   string  $params          [description]
+	 * @param   [type]  $shopperGroupId  [description]
+	 * 
+	 * @return  [type]                  [description]
 	 */
-	public static function traverseTreeDown(&$mymenu_content, $category_id = '0', $level = '0', $params = '', $shopperGroupId)
+	public static function traverseTreeDown(&$mymenuContent, $categoryId = '0', $level = '0', $params = '', $shopperGroupId = '0')
 	{
 		static $ibg = 0;
-		global $redproduct_menu;
-		$db = JFactory::getDbo();
-		$level++;
-		$redproduct_menu = new modProMenuHelper;
 
-		if ($params->get('categorysorttype') == "catnameasc")
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn(['c.category_name', 'c.category_id', 'xf.category_child_id']))
+			->from($db->qn('#__redshop_category', 'c'))
+			->leftJoin($db->qn('#__redshop_category_xref', 'xf') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('xf.category_parent_id'))
+			->where($db->qn('c.published') . ' = 1')
+			->where($db->qn('xf.category_parent_id') . ' = ' . $db->q((int) $categoryId));
+
+		$level++;
+
+		switch ($params->get('categorysorttype'))
 		{
-			$sortparam = "category_name ASC";
-		}
-		elseif ($params->get('categorysorttype') == "catnamedesc")
-		{
-			$sortparam = "category_name DESC";
-		}
-		elseif ($params->get('categorysorttype') == "newest")
-		{
-			$sortparam = "category_id DESC";
-		}
-		elseif ($params->get('categorysorttype') == "catorder")
-		{
-			$sortparam = "ordering ASC";
+			case 'catnameasc':
+				$query->order($db->qn('c.category_name') . ' ASC');
+				break;
+			case 'catnamedesc':
+				$query->order($db->qn('c.category_name') . ' DESC');
+				break;
+			case 'newest':
+				$query->order($db->qn('c.category_id') . ' DESC');
+				break;
+			case 'catorder':
+				$query->order($db->qn('c.ordering') . ' ASC');
+				break;
 		}
 
 		if ($shopperGroupId)
 		{
-			$shoppergroup_cat = $redproduct_menu->get_shoppergroup_cat($shopperGroupId);
+			$shoppergroupCat = ModProMenuHelper::get_shoppergroup_cat($shopperGroupId);
 		}
 		else
 		{
-			$shoppergroup_cat = 0;
+			$shoppergroupCat = 0;
 		}
-
-		$query = "SELECT category_name, category_id, category_child_id FROM #__redshop_category AS a "
-			. "LEFT JOIN #__redshop_category_xref as b ON a.category_id=b.category_child_id "
-			. "WHERE a.published='1' "
-			. "AND b.category_parent_id= " . (int) $category_id;
 
 		if ($shopperGroupId && $shoppergroup_cat)
 		{
-			$query .= " and category_id IN(" . $shoppergroup_cat . ")";
+			$query->where($db->qn('c.category_id') . ' IN(' . $db->q($shoppergroupCat) . ')');
 		}
 
-		$query .= " ORDER BY " . $sortparam . "";
-
 		$db->setQuery($query);
-		$traverse_results = $db->loadObjectList();
+		$traverseResults = $db->loadObjectList();
 		$objhelper        = redhelper::getInstance();
 		$Itemid           = JRequest::getInt('Itemid');
 
-		foreach ($traverse_results as $traverse_result)
+		foreach ($traverseResults as $traverseResult)
 		{
-			$cItemid = $objhelper->getCategoryItemid($traverse_result->category_id);
+			$cItemid = $objhelper->getCategoryItemid($traverseResult->category_id);
 
 			if ($cItemid != "")
 			{
@@ -70,17 +91,17 @@ abstract class redshopJscookCategoryMenuHelper
 			}
 
 			if ($ibg != 0)
-				$mymenu_content .= ",";
+				$mymenuContent .= ",";
 
-			$mymenu_content .= "\n[ '<img src=\"' + ctThemeXPBase + 'darrow.png\" alt=\"arr\" />','" . $traverse_result->category_name . "','" . JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $traverse_result->category_id . '&Itemid=' . $tmpItemid) . "',null,'" . $traverse_result->category_name . "'\n ";
+			$mymenuContent .= "\n[ '<img src=\"' + ctThemeXPBase + 'darrow.png\" alt=\"arr\" />','" . $traverseResult->category_name . "','" . JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $traverseResult->category_id . '&Itemid=' . $tmpItemid) . "',null,'" . $traverseResult->category_name . "'\n ";
 
 			$ibg++;
 
 			/* recurse through the subcategories */
-			self::traverseTreeDown($mymenu_content, $traverse_result->category_child_id, $level, $params, $shopperGroupId);
+			self::traverseTreeDown($mymenuContent, $traverseResult->category_child_id, $level, $params, $shopperGroupId);
 
 			/* let's see if the loop has reached its end */
-			$mymenu_content .= "]";
+			$mymenuContent .= "]";
 		}
 	}
 }
