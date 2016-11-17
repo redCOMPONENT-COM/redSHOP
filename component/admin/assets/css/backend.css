@@ -1727,7 +1727,7 @@ input[type="search"] {
 }
 input[type="radio"],
 input[type="checkbox"] {
-  margin: 4px 0 0;
+  margin: 0px 4px 0px 0px;
   margin-top: 1px \9;
   line-height: normal;
 }
@@ -16563,75 +16563,6 @@ div.current select {
   float: none !important;
 }
 
-/* iCheck plugin Minimal skin, blue
------------------------------------ */
-.icheckbox_minimal-blue,
-.iradio_minimal-blue {
-  display: inline-block;
-  *display: inline;
-  vertical-align: middle;
-  margin: 0 5px 0 0;
-  padding: 0;
-  width: 19px;
-  height: 21px;
-  background: url(blue.png) no-repeat;
-  border: none;
-  cursor: pointer;
-}
-
-.icheckbox_minimal-blue {
-  background-position: -48px 0;
-}
-
-.icheckbox_minimal-blue.hover {
-  background-position: -68px 0;
-}
-
-.icheckbox_minimal-blue.checked {
-  background-position: -68px 0;
-}
-
-.icheckbox_minimal-blue.disabled {
-  background-position: -60px 0;
-  cursor: default;
-}
-
-.icheckbox_minimal-blue.checked.disabled {
-  background-position: -68px 0;
-}
-
-.iradio_minimal-blue {
-  background-position: -145px 0;
-}
-
-.iradio_minimal-blue.hover {
-  background-position: -165px 0;
-}
-
-.iradio_minimal-blue.checked {
-  background-position: -165px 0;
-}
-
-.iradio_minimal-blue.disabled {
-  background-position: -160px 0;
-  cursor: default;
-}
-
-.iradio_minimal-blue.checked.disabled {
-  background-position: -180px 0;
-}
-
-/* HiDPI support */
-@media (-o-min-device-pixel-ratio:5/4), (-webkit-min-device-pixel-ratio:1.25), (min-resolution:120dpi) {
-  .icheckbox_minimal-blue,
-  .iradio_minimal-blue {
-    background-image: url(blue@2x.png);
-    -webkit-background-size: 200px 20px;
-    background-size: 200px 20px;
-  }
-
-}
-
 table.admintable td .input-append button.btn,
 .form-group .input-append button.btn,
 .filterItem.calendar-div .input-append button.btn {
@@ -18644,14 +18575,6 @@ input[type="color"]:focus,
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(82, 168, 236, .6);
 }
 
-input[type="radio"],
-input[type="checkbox"] {
-  margin: 4px 0 0;
-  *margin-top: 0;
-  margin-top: 1px \9;
-  line-height: normal;
-}
-
 input[type="file"],
 input[type="image"],
 input[type="submit"],
@@ -18734,7 +18657,6 @@ textarea::-webkit-input-placeholder {
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
   float: left;
-  margin-left: -20px;
 }
 
 .controls > .radio:first-child,
