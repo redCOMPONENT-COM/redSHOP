@@ -68,17 +68,18 @@ if (!empty($cid))
 				$productList[$key] = $productHelper->getProductById($value->product_id);
 			}
 		}
-		
+
 		foreach ($productList as $k => $value)
 		{
-			$catList[]  = $value->categories;
+			$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
+			$catList = array_merge($catList, $tmpCategories);
 			$manuList[] = $value->manufacturer_id;
 			$pids[]     = $value->product_id;
 		}
 
-		$cats          = implode(',', $catList);
+		$catList = array_unique($catList);
 		$manufacturers = ModRedshopFilter::getManufacturerOnSale(array_unique($manuList));
-		$categories    = ModRedshopFilter::getParentCategoryOnSale(array_unique(explode(',', $cats)));
+		$categories    = ModRedshopFilter::getParentCategoryOnSale($catList);
 		$rangePrice    = ModRedshopFilter::getRange($pids);
 	}
 	else
@@ -95,7 +96,7 @@ elseif (!empty($mid))
 	$categories    = ModRedshopFilter::getCategorybyPids($pids);
 	$rangePrice    = ModRedshopFilter::getRange($pids);
 }
-elseif ($view == 'search') 
+elseif ($view == 'search')
 {
 	$modelSearch = JModelLegacy::getInstance("Search", "RedshopModel");
 	$products    = $modelSearch->getData();

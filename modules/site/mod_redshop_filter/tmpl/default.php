@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<form action="<?php echo $action; ?>" method="post" name="adminForm-<?php echo $module->id;?>" id="redproductfinder-form-<?php echo $module->id;?>" class="form-validate">
 	<div class="form-horizontal">
 		<div class="row-fluid">
-			<?php if ($enableCategory == 1): ?>
+			<?php if ($enableCategory == 1 && !empty($categories)): ?>
 				<div id="categories">
 					<h3><?php echo JText::_('MOD_REDSHOP_FILTER_CATEGORY_LABEL');?></h3>
 					<ul class='taglist'>
@@ -69,11 +69,11 @@ defined('_JEXEC') or die;
 			<div id="slider-range"></div>
 			<div id="filter-price">
 				<div id="amount-min">
-					<div><?php echo JText::_('TEXT_CURRENCY_CODE')?></div>
+					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
 					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][min]" value="<?php echo $rangeMin; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
 				</div>
 				<div id="amount-max">
-					<div><?php echo JText::_('TEXT_CURRENCY_CODE')?></div>
+					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
 					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][max]" value="<?php echo $rangeMax; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
 				</div>
 			</div>
@@ -171,7 +171,7 @@ defined('_JEXEC') or die;
 		 		jQuery('.category_wrapper.parent .category_main_toolbar, .category_wrapper.parent .category_product_list').css('display', 'block');
                 jQuery('select#orderBy').select2();
                 jQuery('.category-list').hide();
-                
+
 		 	},
 		 	complete: function() {
 			    jQuery('#wait').css('display', 'none');
@@ -201,7 +201,7 @@ defined('_JEXEC') or die;
 				jQuery('input[name="check_list"]').val(JSON.stringify(check));
 			});
 		}
-		
+
 		checkList();
 
 		jQuery('input[name="keyword-manufacturer"]').on('keyup', function(){
@@ -216,9 +216,9 @@ defined('_JEXEC') or die;
 					new_arr.push(value);
 				}
 			});
-			
+
 			var html = '';
-			
+
 			jQuery.each(new_arr, function(key, data){
 				var check = Object.keys(data).length;
 				if (check > 0){
@@ -226,13 +226,13 @@ defined('_JEXEC') or die;
 					    var is_check = 'checked="checked"';
 					} else {
 					    var is_check = '';
-					} 
+					}
 					html += '<li style="list-style: none"><label>';
 					html += '<span class="taginput" data-aliases="'+data.manufacturer_id+'">';
 					html += '<input type="checkbox" '+is_check+' value="'+data.manufacturer_id+'" name="redform[manufacturer][]" />';
 					html += '</span>'
 					html += '<span class="tagname">'+data.manufacturer_name+'</span>';
-					html += '</label></li>';	
+					html += '</label></li>';
 				}
 			});
 
