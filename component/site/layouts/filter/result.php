@@ -5,7 +5,8 @@
  * @copyright  Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
-defined('JPATH_REDCORE') or die;
+defined('_JEXEC') or die;
+
 JLoader::import('redshop.library');
 
 $products    = $displayData["products"];
@@ -51,7 +52,7 @@ $start = $input->get('limitstart', 0, '', 'int');
 
 $fieldArray = $extraField->getSectionFieldList(17, 0, 0);
 
-$templateArray = $redTemplate->getTemplate("redproductfinder", $template_id);
+$templateArray = RedshopHelperTemplate::getTemplate("redproductfinder", $template_id);
 $templateDesc = $templateArray[0]->template_desc;
 $attributeTemplate = $productHelper->getAttributeTemplate($templateDesc);
 
@@ -59,7 +60,7 @@ $attributeTemplate = $productHelper->getAttributeTemplate($templateDesc);
 $templateDesc = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $templateDesc);
 $templateDesc = str_replace("{total_product}", $displayData['total'], $templateDesc);
 
-if (strstr($templateDesc, "{product_loop_start}") && strstr($templateDesc, "{product_loop_end}"))
+if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateDesc, "{product_loop_end}") !== false)
 {
 	// Get only Product template
 	$templateD1 = explode("{product_loop_start}", $templateDesc);
