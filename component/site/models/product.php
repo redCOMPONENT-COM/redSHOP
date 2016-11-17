@@ -331,31 +331,83 @@ class RedshopModelProduct extends RedshopModel
 		return $row;
 	}
 
+	/**
+	 * Method for store wishlist in session.
+	 *
+	 * @param   array  $data  List of data.
+	 *
+	 * @return  bool          True on success. False otherwise.
+	 */
 	public function addtowishlist2session($data)
 	{
+		$attributes    = null;
+		$properties    = null;
+		$subAttributes = null;
+
+		if (array_key_exists('attribute_id', $data))
+		{
+			$attributes = explode('##', $data['attribute_id']);
+		}
+
+		if (array_key_exists('property_id', $data))
+		{
+			$properties = explode('##', $data['property_id']);
+		}
+
+		if (array_key_exists('subattribute_id', $data))
+		{
+			$subAttributes = explode('##', $data['subattribute_id']);
+		}
+
 		ob_clean();
 		$extraField = extraField::getInstance();
 		$section    = 12;
 		$row_data   = $extraField->getSectionFieldList($section);
 
-		for ($check_i = 1; $check_i <= $_SESSION ["no_of_prod"]; $check_i++)
-			if ($_SESSION ['wish_' . $check_i]->product_id == $data ['product_id'])
-				if ($data['task'] != "")
-				{
-					unset($_SESSION["no_of_prod"]);
-				}
+		for ($index = 1; $index <= $_SESSION['no_of_prod']; $index++)
+		{
+			if ($_SESSION['wish_' . $index]->product_id == $data['product_id'] && !empty($data['task']))
+			{
+				unset($_SESSION['no_of_prod']);
+			}
+		}
 
-		$_SESSION ["no_of_prod"] += 1;
-		$no_prod_i = 'wish_' . $_SESSION ["no_of_prod"];
+		$_SESSION['no_of_prod'] += 1;
+		$productNumber = 'wish_' . $_SESSION['no_of_prod'];
 
-		$_SESSION [$no_prod_i]->product_id = $data ['product_id'];
-		$_SESSION [$no_prod_i]->comment    = isset ($data ['comment']) ? $data ['comment'] : "";
-		$_SESSION [$no_prod_i]->cdate      = $data ['cdate'];
+		$_SESSION[$productNumber]->product_id = $data['product_id'];
+		$_SESSION[$productNumber]->comment    = isset($data ['comment']) ? $data ['comment'] : "";
+		$_SESSION[$productNumber]->cdate      = $data['cdate'];
 
 		for ($k = 0, $kn = count($row_data); $k < $kn; $k++)
 		{
-			$myfield                        = "productuserfield_" . $k;
-			$_SESSION[$no_prod_i]->$myfield = $data['productuserfield_' . $k];
+			$field = "productuserfield_" . $k;
+			$_SESSION[$productNumber]->{$field} = $data['productuserfield_' . $k];
+		}
+
+		if (!$attributes)
+		{
+			return false;
+		}
+
+		$_SESSION[$productNumber]->product_items = array();
+
+		foreach ($attributes as $index => $attribute)
+		{
+			$item = new stdClass;
+			$item->attribute_id = $attribute;
+
+			if (isset($properties[$index]))
+			{
+				$item->property_id = $properties[$index];
+			}
+
+			if (isset($subAttributes[$index]))
+			{
+				$item->subattribute_id = $subAttributes[$index];
+			}
+
+			$_SESSION[$productNumber]->product_items[] = $item;
 		}
 
 		return true;

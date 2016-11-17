@@ -350,10 +350,10 @@ class RedshopHelperExtrafields
 					break;
 
 				case extraField::TYPE_WYSIWYG:
-					$editor          = JEditor::getInstance();
+					$editor          = JFactory::getEditor();
 					$exField         .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
 					$textareaValue  = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
-					$extraFieldValue = $editor->display($rowData[$i]->field_name, $textareaValue, '200', '50', '100', '20');
+					$extraFieldValue = $editor->display($rowData[$i]->field_name, $textareaValue, '200', '50', '100', '20', false);
 					$exField         .= '<td>' . $extraFieldValue;
 					break;
 
