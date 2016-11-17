@@ -147,9 +147,12 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 
 		$payment_detail = RedshopHelperOrder::getPaymentInfo($detail->order_id);
 
-		if (count($payment_detail) > 0)
+		if (is_array($payment_detail))
 		{
-			$payment_detail = $payment_detail[0];
+			if (count($payment_detail) > 0)
+			{
+				$payment_detail = $payment_detail[0];
+			}
 		}
 
 		$isNew = ($detail->order_id < 1);
