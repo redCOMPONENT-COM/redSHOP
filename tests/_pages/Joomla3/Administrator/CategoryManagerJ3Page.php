@@ -30,7 +30,7 @@ class CategoryManagerJ3Page
 
 	public static $categoryStatePath = "//tbody/tr/td[7]/a";
 
-	public static $checkAll = "//tbody/tr/td[2]/div";
+	public static $checkAll = "//input[@id='cb0']";
 
 	public static $categoryTemplateIDDropDown = "//div[@id='compare_template_id_chzn']/a";
 
