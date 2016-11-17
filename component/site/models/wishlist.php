@@ -219,36 +219,104 @@ class RedshopModelWishlist extends RedshopModel
 		return true;
 	}
 
-	public function savewishlist()
+	/**
+	 * Method for save wishlist.
+	 *
+	 * @param   array  $data  List of data
+	 *
+	 * @return  boolean       True if success. False otherwise.
+	 */
+	public function savewishlist($data)
 	{
-		$cid        = JRequest::getVar('wishlist_id', '', 'request', 'array');
-		$db         = JFactory::getDbo();
-		$product_id = JRequest::getInt('product_id');
-
-		for ($i = 0, $in = count($cid); $i < $in; $i++)
+		if (empty($data))
 		{
-			$query = "SELECT wishlist_product_id FROM " . $this->_table_prefix . "wishlist_product "
-				. " WHERE wishlist_id=" . (int) $cid[$i] . " AND product_id=" . (int) $product_id;
-			$db->setQuery($query);
+			$input = JFactory::getApplication()->input;
 
-			if (count($db->loadResult()) > 0)
+			$wishlistIds     = $input->get('wishlist_id', array(), 'Array');
+			$productId       = $input->getInt('product_id', 0);
+			$attributeIds    = $input->getString('attribute_id', 0);
+			$propertyIds     = $input->getString('property_id', 0);
+			$subAttributeIds = $input->getString('subattribute_id', 0);
+		}
+		else
+		{
+			$wishlistIds     = isset($data['wishlist_id']) ? $data['wishlist_id'] : array();
+			$productId       = isset($data['product_id']) ? $data['product_id'] : 0;
+			$attributeIds    = isset($data['attribute_id']) ? $data['attribute_id'] : '';
+			$propertyIds     = isset($data['property_id']) ? $data['property_id'] : '';
+			$subAttributeIds = isset($data['subattribute_id']) ? $data['subattribute_id'] : '';
+		}
+
+		if (empty($wishlistIds))
+		{
+			return false;
+		}
+
+		$attributeIds    = explode('##', $attributeIds);
+		$propertyIds     = explode('##', $propertyIds);
+		$subAttributeIds = explode('##', $subAttributeIds);
+
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+
+		foreach ($wishlistIds as $wishlistId)
+		{
+			/** @var RedshopTableWishlist_Product $table */
+			$wishlistProductTable = JTable::getInstance('Wishlist_Product', 'RedshopTable');
+
+			$tmpData = array(
+				'wishlist_id' => $wishlistId,
+				'product_id' => $productId
+			);
+
+			// If wishlist product has already exist. Skip it.
+			if ($wishlistProductTable->load($tmpData))
 			{
 				continue;
 			}
 
-			$ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product "
-				. " SET wishlist_id=" . (int) $cid[$i]
-				. ", product_id=" . (int) $product_id
-				. ", cdate = " . $db->quote(time());
-			$db->setQuery($ins_query);
+			$tmpData['cdate'] = time();
 
-			if ($db->execute())
+			if (!$wishlistProductTable->save($tmpData))
 			{
-				continue;
+				throw new Exception($wishlistProductTable->getError());
 			}
-			else
+
+			// If there are not attribute with product.
+			if (empty($attributeIds))
 			{
-				return false;
+				return true;
+			}
+
+			foreach ($attributeIds as $index => $attributeId)
+			{
+				/** @var RedshopTableWishlist_Product_Item $table */
+				$wishlistProductItemTable = JTable::getInstance('Wishlist_Product_Item', 'RedshopTable');
+
+				$tmpData = array(
+					'ref_id'       => (int) $wishlistProductTable->get('wishlist_product_id'),
+					'attribute_id' => $attributeId
+				);
+
+				if (!empty($propertyIds[$index]))
+				{
+					$tmpData['property_id'] = (int) $propertyIds[$index];
+				}
+
+				if (!empty($subAttributeIds[$index]))
+				{
+					$tmpData['subattribute_id'] = (int) $subAttributeIds[$index];
+				}
+
+				// If wishlist product item has already exist. Skip it.
+				if ($wishlistProductItemTable->load($tmpData))
+				{
+					continue;
+				}
+
+				if (!$wishlistProductItemTable->save($tmpData))
+				{
+					throw new Exception($wishlistProductItemTable->getError());
+				}
 			}
 		}
 
