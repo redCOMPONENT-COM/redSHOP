@@ -23,15 +23,26 @@ class ModRedshopMegaMenuHelper
 	/**
 	 * Get a list of parents categories items.
 	 *
-	 * @param   int  $categoryId  ID of parent category.
+	 * @param   object  $params  module params
 	 *
-	 * @return  array             Categories tree
+	 * @return  array            Categories tree
 	 */
-	public static function getCategories($categoryId)
+	public static function getCategories($params)
 	{
+		$categoryId = $params->get('category', 0);
+
 		if (isset(static::$categories[$categoryId]))
 		{
 			return static::$categories[$categoryId];
+		}
+
+		$menu = JFactory::getApplication()->getMenu();
+		$joomlaMenu = array_unique($params->get('menu', array()));
+		$items = array();
+	
+		foreach ($joomlaMenu as $key => $value)
+		{
+			$items[]   = $menu->getItems('id', $value, true);
 		}
 
 		$categories = RedshopHelperCategory::getCategoryListArray($categoryId);
@@ -44,6 +55,7 @@ class ModRedshopMegaMenuHelper
 		}
 
 		$subCategories = array();
+		$ordering = array();
 
 		// Get first sub-categories of parent category
 		foreach ($categories as $category)
@@ -53,9 +65,15 @@ class ModRedshopMegaMenuHelper
 				continue;
 			}
 
+			$categoryMenuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $category->category_id . '&manufacturer_id=0', true);
+
 			$category->category_name = str_replace('- ', '', $category->category_name);
+			$category->link = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
+				. $category->category_id . '&manufacturer_id=0&Itemid='
+				. !empty($categoryMenuItem ? $categoryMenuItem->id : 0));
 
 			$subCategories[] = $category;
+			$ordering[] = $category->ordering;
 		}
 
 		// Get 1 more sub-level of sub-categories
@@ -70,7 +88,12 @@ class ModRedshopMegaMenuHelper
 					continue;
 				}
 
+				$categoryMenuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $subCategory->category_id . '&manufacturer_id=0', true);
+
 				$category->category_name = str_replace('- ', '', $category->category_name);
+				$category->link = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
+				. $subCategory->category_id . '&manufacturer_id=0&Itemid='
+				. !empty($categoryMenuItem ? $categoryMenuItem->id : 0));
 				$category->image = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
 				$category->sub_cat = array();
 
@@ -84,11 +107,54 @@ class ModRedshopMegaMenuHelper
 
 				$subCategory->sub_cat[] = $category;
 			}
+
+			foreach ($subCategory->sub_cat as $key => $subCat)
+			{
+				foreach ($categories as $category)
+				{
+					if ($category->category_parent_id != $subCat->category_id)
+					{
+						continue;
+					}
+
+					$categoryMenuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $subCategory->category_id . '&manufacturer_id=0', true);
+
+					$category->category_name = str_replace('- ', '', $category->category_name);
+					$category->link = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
+					. $subCat->category_id . '&manufacturer_id=0&Itemid='
+					. !empty($categoryMenuItem ? $categoryMenuItem->id : 0));
+					$category->image = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
+					$category->sub_cat = array();
+
+					if (!empty($category->category_full_image)
+						&& (strpos($category->category_full_image, '.jpg') == true
+						|| strpos($category->category_full_image, '.png') == true
+						|| strpos($category->category_full_image, '.jpeg') == true))
+					{
+						$category->image = $category->category_full_image;
+					}
+
+					$subCategory->sub_cat[$key]->sub_cat[] = $category;
+				}
+			}
 		}
 
 		static::$categories[$categoryId] = $subCategories;
 
-		return static::$categories[$categoryId];
+		$menuItem = array();
+		$k = max($ordering);
+
+		foreach ($items as $i => $item)
+		{
+			$menuItem[$i] = new StdClass;
+			$menuItem[$i]->category_id = $item->id;
+			$menuItem[$i]->category_name = $item->title;
+			$menuItem[$i]->link = $item->link . '&Itemid=' . $item->id;
+			$menuItem[$i]->ordering = $k++;
+			$menuItem[$i]->published = 1;
+		}
+
+		return array_merge(static::$categories[$categoryId], $menuItem);
 	}
 
 	/**
