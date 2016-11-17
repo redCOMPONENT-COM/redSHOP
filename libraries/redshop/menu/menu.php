@@ -136,14 +136,16 @@ class RedshopMenu
 	 * Set data to group
 	 *
 	 * @param   string  $group  Group name
+	 * @param   string  $style  Group display
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function group($group)
+	public function group($group, $style = 'tree')
 	{
-		$this->items[$group] = $this->data;
+		$this->items[$group]['items'] = $this->data;
+		$this->items[$group]['style'] = $style;
 		$this->data = array();
 	}
 
@@ -154,10 +156,11 @@ class RedshopMenu
 	 * @param   string   $title   Title of item
 	 * @param   boolean  $active  Active or not
 	 * @param   array    $param   Other options
+	 * @param   string   $icon    Icon class
 	 *
 	 * @return  self
 	 */
-	public function addItem($link, $title, $active = null, $param = null)
+	public function addItem($link, $title, $active = null, $param = null, $icon = '')
 	{
 		if ($this->disableMenu || !in_array($title, $this->menuhide))
 		{
@@ -166,6 +169,7 @@ class RedshopMenu
 			$item->title  = $title;
 			$item->active = $active;
 			$item->param  = $param;
+			$item->icon   = $icon;
 
 			if ($this->section)
 			{

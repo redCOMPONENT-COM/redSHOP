@@ -2717,6 +2717,9 @@ class rsCarthelper
 		$search[]   = "{special_discount_lbl}";
 		$replace[]  = JText::_('COM_REDSHOP_SPECIAL_DISCOUNT');
 
+		$search[]   = "{shipping_address_info_lbl}";
+		$replace[]  = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION');
+
 		$search[]   = "{order_detail_link}";
 		$replace[]  = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
@@ -4988,6 +4991,13 @@ class rsCarthelper
 		return $cartoutputArray;
 	}
 
+	/**
+	 * Store Cart to Database
+	 *
+	 * @param   array  $cart   Cart
+	 *
+	 * @return null
+	 */
 	public function carttodb($cart = array())
 	{
 		if (count($cart) <= 0)
@@ -4999,20 +5009,26 @@ class rsCarthelper
 
 		if (isset($cart['idx']))
 		{
-			$idx  = $cart['idx'];
+			$idx = (int) ($cart['idx']);
 		}
 
 		$user = JFactory::getUser();
 
-		$cart_accessory = array();
-
 		// If user is not logged in don't save in db
 		if ($user->id <= 0)
+		{
 			return false;
+		}
 
-		$query = "SELECT cart_id FROM " . $this->_table_prefix . "usercart WHERE user_id='" . $user->id . "'";
-		$this->_db->setQuery($query);
-		$cart_id = $this->_db->loadResult();
+        $db = JFactory::getDbo();
+
+        $query = $db->getQuery(true)
+            ->select($db->qn('cart_id'))
+            ->from($db->qn('#__redshop_usercart'))
+            ->where($db->qn('user_id') . ' = ' . (int) $user->id);
+
+		$db->setQuery($query);
+		$cart_id = $db->loadResult();
 
 		if (!$cart_id)
 		{
@@ -5029,7 +5045,16 @@ class rsCarthelper
 			$cart_id = $row->cart_id;
 		}
 
-		$this->removecartfromdb($cart_id, $user->id);
+        if ($idx <= 0)
+        {
+            $delCart = true;
+        }
+        else
+        {
+            $delCart = false;
+        }
+
+        $this->removecartfromdb($cart_id, $user->id, $delCart);
 
 		for ($i = 0; $i < $idx; $i++)
 		{
@@ -5078,7 +5103,9 @@ class rsCarthelper
 			/* store attribute in db */
 			$this->attributetodb($cart_attribute, $cart_item_id, $rowItem->product_id);
 
-			if(isset($cart[$i]['cart_accessory']))
+            $cart_accessory = array();
+
+            if(isset($cart[$i]['cart_accessory']))
 			{
 				$cart_accessory = $cart[$i]['cart_accessory'];
 			}
@@ -5173,51 +5200,81 @@ class rsCarthelper
 	 *
 	 * @return bool
 	 */
-	public function removecartfromdb($cart_id = 0, $userid = 0, $delCart = false)
-	{
-		/*if($cart_id==0)
-		{
-			return false;
-		}*/
+    public function removecartfromdb($cart_id = 0, $userid = 0, $delCart = false)
+    {
+        if ($userid == 0)
+        {
+            $user   = JFactory::getUser();
+            $userid = $user->id;
+        }
 
-		if ($userid == 0)
-		{
-			$user   = JFactory::getUser();
-			$userid = $user->id;
-		}
+        $db = JFactory::getDbo();
 
-		if ($cart_id == 0)
-		{
-			$query = "SELECT cart_id FROM " . $this->_table_prefix . "usercart WHERE user_id=" . (int) $userid;
-			$this->_db->setQuery($query);
-			$cart_id = $this->_db->loadResult();
-		}
+        if ($cart_id == 0)
+        {
+            $query = $db->getQuery(true)
+                ->select($db->qn('cart_id'))
+                ->from($db->qn('#__redshop_usercart'))
+                ->where($db->qn('user_id') . ' = ' . (int) $userid);
 
-		$query = "SELECT cart_item_id FROM " . $this->_table_prefix . "usercart_item WHERE cart_id=" . (int) $cart_id;
-		$this->_db->setQuery($query);
-		$cart_item_id = $this->_db->loadResult();
+            $db->setQuery($query);
+            $cart_id = $db->loadResult();
+        }
 
-		$query = "DELETE FROM " . $this->_table_prefix . "usercart_accessory_item WHERE cart_item_id=" . (int) $cart_item_id;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+        if ($cart_id == 0)
+        {
+            return true;
+        }
 
-		$query = "DELETE FROM " . $this->_table_prefix . "usercart_attribute_item WHERE cart_item_id=" . (int) $cart_item_id;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+        $query = $db->getQuery(true)
+            ->select($db->qn('cart_item_id'))
+            ->from($db->qn('#__redshop_usercart_item'))
+            ->where($db->qn('cart_id') . ' = ' . (int) $cart_id);
 
-		$query = "DELETE FROM " . $this->_table_prefix . "usercart_item WHERE cart_id=" . (int) $cart_id;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+        $db->setQuery($query);
+        $cartItemIds = $db->loadColumn();
 
-		if ($delCart)
-		{
-			$query = "DELETE FROM " . $this->_table_prefix . "usercart WHERE cart_id=" . (int) $cart_id;
-			$this->_db->setQuery($query);
-			$this->_db->execute();
-		}
+        if ($cartItemIds)
+        {
+            JArrayHelper::toInteger($cartItemIds);
 
-		return true;
-	}
+            // Delete accessory
+            $query = $db->getQuery(true)
+                ->delete($db->qn('#__redshop_usercart_accessory_item'))
+                ->where($db->qn('cart_item_id') . ' IN (' . implode(',', $cartItemIds) . ')');
+
+            $db->setQuery($query);
+            $db->execute();
+
+            // Delete attribute
+            $query = $db->getQuery(true)
+                ->delete($db->qn('#__redshop_usercart_attribute_item'))
+                ->where($db->qn('cart_item_id') . ' IN (' . implode(',', $cartItemIds) . ')');
+
+            $db->setQuery($query);
+            $db->execute();
+        }
+
+        // Delete cart item
+        $query = $db->getQuery(true)
+            ->delete($db->qn('#__redshop_usercart_item'))
+            ->where($db->qn('cart_id') . ' = ' . (int) $cart_id);
+
+        $db->setQuery($query);
+        $db->execute();
+
+        if ($delCart)
+        {
+            $query = $db->getQuery(true)
+                ->delete($db->qn('#__redshop_usercart'))
+                ->where($db->qn('cart_id') . ' = ' . (int) $cart_id);
+
+            $db->setQuery($query);
+            $db->execute();
+        }
+
+        return true;
+    }
 
 	public function dbtocart($userId = 0)
 	{

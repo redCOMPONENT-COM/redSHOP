@@ -57,30 +57,37 @@ class RedshopControllerWishlist extends RedshopController
 	}
 
 	/**
-	 * savewishlist function
+	 * Save wishlist function
 	 *
 	 * @access public
+	 *
 	 * @return void
 	 */
-function savewishlist()
-{
-	$model  = $this->getModel("wishlist");
-
-	if ($model->savewishlist())
+	public function savewishlist()
 	{
-		echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
-	}
-	else
-	{
-		echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
-	}
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-	?>
-	<script language="javascript">
-		var t = setTimeout("window.parent.SqueezeBox.close();window.parent.location.reload()", 2000);
-	</script>
-<?php
-}
+		/** @var RedshopModelWishlist $model */
+		$model = $this->getModel("wishlist");
+
+		$data = JFactory::getApplication()->input->post->getArray();
+
+		if ($model->savewishlist($data))
+		{
+			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
+		}
+		else
+		{
+			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
+		}
+
+		?>
+		<script language="javascript">
+			var t = setTimeout("window.parent.SqueezeBox.close();window.parent.location.reload()", 2000);
+		</script>
+		<?php
+	}
 
 	/**
 	 * delete wishlist function
