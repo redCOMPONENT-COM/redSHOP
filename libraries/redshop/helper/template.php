@@ -104,17 +104,17 @@ class RedshopHelperTemplate
 	/**
 	 * Method to get Template
 	 *
-	 * @param   string   $section  Set section Template
-	 * @param   integer  $tId      Template Id
-	 * @param   string   $name     Template Name
+	 * @param   string  $section     Set section Template
+	 * @param   int     $templateId  Template Id
+	 * @param   string  $name        Template Name
 	 *
 	 * @return  array              Template Array
 	 *
 	 * @since  2.0.0.3
 	 */
-	public static function getTemplate($section = '', $tId = 0, $name = "")
+	public static function getTemplate($section = '', $templateId = 0, $name = "")
 	{
-		if (!array_key_exists($section . '_' . $tId . '_' . $name, self::$templatesArray))
+		if (!array_key_exists($section . '_' . $templateId . '_' . $name, self::$templatesArray))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -124,10 +124,10 @@ class RedshopHelperTemplate
 				->where('published = 1')
 				->order('template_id ASC');
 
-			if ($tId != 0)
+			if ($templateId != 0)
 			{
 				// Sanitize ids
-				$arrayTid = explode(',', $tId);
+				$arrayTid = explode(',', $templateId);
 				JArrayHelper::toInteger($arrayTid);
 
 				$query->where('template_id IN (' . implode(',', $arrayTid) . ')');
@@ -139,17 +139,17 @@ class RedshopHelperTemplate
 			}
 
 			$db->setQuery($query);
-			self::$templatesArray[$section . '_' . $tId . '_' . $name] = $db->loadObjectList();
+			self::$templatesArray[$section . '_' . $templateId . '_' . $name] = $db->loadObjectList();
 		}
 
-		$re = self::$templatesArray[$section . '_' . $tId . '_' . $name];
+		$templates = self::$templatesArray[$section . '_' . $templateId . '_' . $name];
 
-		for ($i = 0, $in = count($re); $i < $in; $i++)
+		foreach ($templates as $key => $template)
 		{
-			$re[$i]->template_desc = self::readTemplateFile($re[$i]->template_section, $re[$i]->template_name);
+			$templates[$key]->template_desc = self::readTemplateFile($template->template_section, $template->template_name);
 		}
 
-		return $re;
+		return $templates;
 	}
 
 	/**

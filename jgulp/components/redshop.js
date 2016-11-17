@@ -73,7 +73,16 @@ gulp.task('clean:' + baseTask,
 gulp.task('clean:' + baseTask + ':frontend', function(cb) {
     del(config.wwwDir + '/language/**/*.com_redshop.*', {force: true});
 
-    return del(config.wwwDir + '/components/com_redshop', {force : true});
+    return del([
+        config.wwwDir + '/components/com_redshop/controllers',
+        config.wwwDir + '/components/com_redshop/helpers',
+        config.wwwDir + '/components/com_redshop/language',
+        config.wwwDir + '/components/com_redshop/layouts',
+        config.wwwDir + '/components/com_redshop/models',
+        config.wwwDir + '/components/com_redshop/templates',
+        config.wwwDir + '/components/com_redshop/views/**/*.html.php',
+        config.wwwDir + '/components/com_redshop/views/**/tmpl/*.php'
+    ], {force : true});
 });
 
 // Clean: backend

@@ -401,6 +401,69 @@ function display_products($rows)
 				$attributes = array_merge($attributes, $attributes_set);
 			}
 
+			$wishlistDataSession = array();
+
+			for ($index = 1; $index <= $_SESSION["no_of_prod"]; $index++)
+			{
+				if (!empty($_SESSION['wish_' . $index]) && $_SESSION['wish_' . $index]->product_id == $row->product_id)
+				{
+					$wishlistDataSession = $_SESSION['wish_' . $index];
+				}
+			}
+
+			if (!empty($wishlistDataSession) && !empty($wishlistDataSession->product_items))
+			{
+				foreach ($wishlistDataSession->product_items as $wishlistProductItem)
+				{
+					if (empty($wishlistProductItem->attribute_id) || empty($wishlistProductItem->property_id))
+					{
+						continue;
+					}
+
+					// Get necessary data for attributes, properties and sub-attributes.
+					foreach ($attributes as $attribute)
+					{
+						if ($wishlistProductItem->attribute_id != $attribute->attribute_id || empty($attribute->properties))
+						{
+							continue;
+						}
+
+						foreach ($attribute->properties as $property)
+						{
+							$property->setdefault_selected = 0;
+
+							if ($property->property_id != $wishlistProductItem->property_id)
+							{
+								continue;
+							}
+
+							$property->setdefault_selected = 1;
+
+							if (empty($wishlistProductItem->subattribute_id))
+							{
+								continue;
+							}
+
+							if (empty($property->sub_properties))
+							{
+								$property->sub_properties = $producthelper->getAttibuteSubProperty(0, $property->value);
+							}
+
+							foreach ($property->sub_properties as $subProperty)
+							{
+								$subProperty->setdefault_selected = 0;
+
+								if ($subProperty->subattribute_color_id == $wishlistProductItem->subattribute_id
+									&& $subProperty->subattribute_id == $wishlistProductItem->attribute_id)
+								{
+									$subProperty->setdefault_selected = 1;
+								}
+							}
+						}
+					}
+				}
+			}
+
 			$attribute_template = $producthelper->getAttributeTemplate($wishlist_data);
 
 			// Check product for not for sale

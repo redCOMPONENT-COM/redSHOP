@@ -187,7 +187,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$field = extra_field::getInstance();
 
 			// Field_section 1 :Product
-			$field->extra_field_save($post, 1, $row->product_id);
+			RedshopHelperExtrafields::extraFieldSave($post, 1, $row->product_id);
 
 			// Field_section 12 :Product Userfield
 			$field->extra_field_save($post, 12, $row->product_id);
