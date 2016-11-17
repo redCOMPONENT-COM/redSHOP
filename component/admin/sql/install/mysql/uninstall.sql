@@ -108,5 +108,6 @@ DROP TABLE IF EXISTS `#__redshop_xml_import_log`;
 DROP TABLE IF EXISTS `#__redshop_zipcode`;
 DROP TABLE IF EXISTS `#__redshop_notifystock_users`;
 DROP TABLE IF EXISTS `#__redshop_alerts`;
+DROP TABLE IF EXISTS `#__redshop_wishlist_product_item`;
 
 SET FOREIGN_KEY_CHECKS=1;
