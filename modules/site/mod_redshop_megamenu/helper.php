@@ -129,5 +129,13 @@ class ModRedshopMegaMenuHelper
 		{
 			array_reverse($categories);
 		}
+
+		foreach ($categories as $category)
+		{
+			if (!empty($category->sub_cat))
+			{
+				self::sortCategories($category->sub_cat, $sortBy, $sortDestination);
+			}
+		}
 	}
 }
