@@ -63,6 +63,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 		$optiontype[] = JHTML::_('select.option', 'images', JText::_('COM_REDSHOP_IMAGE'));
 		$optiontype[] = JHTML::_('select.option', 'video', JText::_('COM_REDSHOP_VIDEO'));
 		$optiontype[] = JHTML::_('select.option', 'document', JText::_('COM_REDSHOP_DOCUMENT'));
+		$optiontype[] = JHTML::_('select.option', 'youtube', JText::_('COM_REDSHOP_YOUTUBE'));
 
 		if ($media_section == 'product' && $showbuttons == 1)
 		{
