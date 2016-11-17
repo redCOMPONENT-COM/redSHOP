@@ -84,6 +84,31 @@ class ModRedshopMegaMenuHelper
 
 				$subCategory->sub_cat[] = $category;
 			}
+
+			foreach ($subCategory->sub_cat as $key => $subCat)
+			{
+				foreach ($categories as $category)
+				{
+					if ($category->category_parent_id != $subCat->category_id)
+					{
+						continue;
+					}
+
+					$category->category_name = str_replace('- ', '', $category->category_name);
+					$category->image = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
+					$category->sub_cat = array();
+
+					if (!empty($category->category_full_image)
+						&& (strpos($category->category_full_image, '.jpg') == true
+						|| strpos($category->category_full_image, '.png') == true
+						|| strpos($category->category_full_image, '.jpeg') == true))
+					{
+						$category->image = $category->category_full_image;
+					}
+
+					$subCategory->sub_cat[$key]->sub_cat[] = $category;
+				}
+			}
 		}
 
 		static::$categories[$categoryId] = $subCategories;
