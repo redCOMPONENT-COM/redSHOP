@@ -1100,9 +1100,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 	</div>
 
 </div>
-
 <?php echo $this->loadTemplate('plugin');?>
-
 <div id="divCalc"></div>
 <script type="text/javascript">
 	function hideDownloadLimit(val, tid) {

@@ -12,6 +12,9 @@ defined('JPATH_PLATFORM') or die;
 
 use \Doctrine\Common\Annotations\AnnotationRegistry;
 
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+
 // Define redSHOP Library Folder Path
 define('JPATH_REDSHOP_LIBRARY', __DIR__);
 
