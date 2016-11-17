@@ -8,47 +8,50 @@
         <field
                 name="country_id"
                 type="rcountries"
-                label="COM_REDSHOP_COUNTRY"
-                description="COM_REDSHOP_COUNTRY"
+                label="COM_REDSHOP_STATE_COUNTRY"
+                class="form-control"
+                description="COM_REDSHOP_COUNTRY_DESC"
                 required="true">
             <option value="">COM_REDSHOP_SELECT_COUNTRY</option>
         </field>
         <field
                 name="state_name"
-                type="text"
+                type="rstext"
                 label="COM_REDSHOP_STATE_NAME"
-                description="COM_REDSHOP_STATE_NAME"
-                size="40"
-                class="inputbox"
+                description="COM_REDSHOP_STATE_NAME_DESC"
+                placeholder="COM_REDSHOP_STATE_NAME_DESC"
+                class="form-control"
                 default=""
                 required="true"
                 />
         <field
                 name="state_3_code"
-                type="text"
+                type="rstext"
                 label="COM_REDSHOP_STATE_3_CODE"
-                description="COM_REDSHOP_STATE_3_CODE"
-                size="40"
-                class="inputbox"
+                description="COM_REDSHOP_STATE_3_CODE_DESC"
+                placeholder="COM_REDSHOP_STATE_3_CODE_DESC"
+                size="3"
+                class="input-xs"
                 default=""
                 required="true"
                 />
         <field
                 name="state_2_code"
-                type="text"
+                type="rstext"
                 label="COM_REDSHOP_STATE_2_CODE"
-                description="COM_REDSHOP_STATE_2_CODE"
-                size="40"
-                class="inputbox"
+                description="COM_REDSHOP_STATE_2_CODE_DESC"
+                placeholder="COM_REDSHOP_STATE_2_CODE_DESC"
+                size="2"
+                class="input-xs"
                 default=""
                 required="true"
                 />
         <field
                 name="show_state"
                 type="radio"
-                label="COM_REDSHOP_SHOW_STATE"
-                description="COM_REDSHOP_SHOW_STATE_DESC"
-                class="btn-group btn-group-yesno"
+                label="COM_REDSHOP_STATE_DISPLAY_ABBERVIATION"
+                description="COM_REDSHOP_STATE_DISPLAY_ABBERVIATION_DESC"
+                class="radio-button"
                 default="2"
                 required="true">
             <option value="2">COM_REDSHOP_TWO_LETTER_ABBRIVATION</option>
