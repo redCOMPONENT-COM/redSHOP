@@ -33,6 +33,13 @@ class RedshopTableGiftcard extends RedshopTable
 	protected $_tableKey = 'giftcard_id';
 
 	/**
+	 * Field name to publish/unpublish/trash table registers. Ex: state
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldState = 'published';
+
+	/**
 	 * Deletes this row in database (or if provided, the row of key $pk)
 	 *
 	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.

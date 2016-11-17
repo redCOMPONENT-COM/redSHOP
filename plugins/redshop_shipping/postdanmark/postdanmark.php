@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.4
  */
-class Plgredshop_ShippingPostdanmark extends JPlugin
+class PlgRedshop_ShippingPostdanmark extends JPlugin
 {
 	protected $autoloadLanguage = true;
 
@@ -142,7 +142,7 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 			if ($useMap)
 			{
 				$document->addStyleSheet('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/magnific-popup.css');
-				$document->addScript('//maps.googleapis.com/maps/api/js?libraries=places&key' . $this->params->get('mapKey'));
+				$document->addScript('//maps.googleapis.com/maps/api/js?libraries=places&key=' . $this->params->get('mapKey'));
 				$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/map_functions.js');
 				$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/jquery.magnific-popup.min.js');
 			}
