@@ -103,8 +103,10 @@ class Tableorder_detail extends JTable
 	 */
 	public function check()
 	{
-		if ($this->order_status == null || $this->order_status == 0)
+		if (empty($this->order_status) || $this->order_status === 0)
 		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_TABLE_ORDER_REDSHOP_INVALID_ORDER_STATUS'), 'warning');
+
 			return false;
 		}
 
