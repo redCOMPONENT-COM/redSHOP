@@ -356,6 +356,7 @@ class RedshopHelperConfig
 				var RedshopStrings = ' . json_encode(self::script()) . ';
 				if (typeof redSHOP == "undefined") {
 					redSHOP = {};
+					redSHOP.RSConfig = {};
 					redSHOP.RSConfig.strings = RedshopStrings;
 				}
 				else {
