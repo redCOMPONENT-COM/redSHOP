@@ -8921,6 +8921,7 @@ a:focus {
   border-radius: 3px;
   background: #ffffff;
   border: 1px solid #e5e5e5;
+  border-top-width: 3px;
   margin-bottom: 20px;
   width: 100%;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -16437,18 +16438,8 @@ table.admintable td {
   padding: 5px;
 }
 
-table.admintable td label,
-.adminform .form-group label {
-  display: block;
-  font-size: 14px;
-  float: none;
-}
-
 table.admintable td input[type="text"],
 .adminform .form-group input[type="text"] {
-  width: 220px;
-  border: 0;
-  background-color: #f7f7f7;
   box-shadow: none;
   padding: 8px 10px;
 }
@@ -19425,13 +19416,6 @@ legend + .control-group {
 
 .form-horizontal .control-group:after {
   clear: both;
-}
-
-.form-horizontal .control-label {
-  float: left;
-  width: 160px;
-  padding-top: 5px;
-  text-align: right;
 }
 
 .form-horizontal .controls {
@@ -26556,12 +26540,6 @@ h6 {
 
 .alert-joomlaupdate button {
   vertical-align: baseline;
-}
-
-.form-horizontal .control-label {
-  width: auto;
-  padding-right: 5px;
-  text-align: left;
 }
 
 .form-horizontal .control-label .spacer hr {
