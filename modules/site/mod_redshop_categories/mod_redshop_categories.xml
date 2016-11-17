@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>redSHOP Category Module</name>
-    <version>1.5.2</version>
+    <version>1.5.3</version>
     <redshop>2.0</redshop>
     <creationDate>Sep 2016</creationDate>
     <author>redCOMPONENT.com</author>
@@ -11,21 +11,11 @@
     <description>Product Category for redSHOP with different display style</description>
     <files>
         <filename module="mod_redshop_categories">mod_redshop_categories.php</filename>
-        <filename module="mod_redshop_categories">JSCookTree.js</filename>
-        <filename module="mod_redshop_categories">JSCook.php</filename>
-        <filename module="mod_redshop_categories">dtree.php</filename>
-        <filename module="mod_redshop_categories">tigratree.php</filename>
-        <filename module="mod_redshop_categories">transmenu.php</filename>
         <filename module="mod_redshop_categories">helper.php</filename>
         <filename module="mod_redshop_categories">index.html</filename>
-        <folder module="mod_redshop_categories">ThemeNavy</folder>
-        <folder module="mod_redshop_categories">ThemeXP</folder>
-        <folder module="mod_redshop_categories">dtree</folder>
-        <folder module="mod_redshop_categories">tigratree</folder>
-        <folder module="mod_redshop_categories">transmenu</folder>
-        <folder module="mod_redshop_categories">JSCook</folder>
-        <folder module="mod_redshop_categories">elements</folder>
-        <folder module="mod_redshop_categories">ThemeOffice</folder>
+        <folder module="mod_redshop_categories">tmpl</folder>
+        <folder module="mod_redshop_categories">controllers</folder>
+        <folder module="mod_redshop_categories">helpers</folder>
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_categories.ini</language>

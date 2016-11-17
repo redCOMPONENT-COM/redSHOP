@@ -312,6 +312,17 @@ class modProMenuHelper
 
 	}
 
+	/**
+	 * [get_category_tree description]
+	 * 
+	 * @param   [type]   $params             [description]
+	 * @param   integer  $category_id        [description]
+	 * @param   string   $links_css_class    [description]
+	 * @param   string   $highlighted_style  [description]
+	 * @param   integer  $shopper_group_id   [description]
+	 * 
+	 * @return [type]                     [description]
+	 */
 	function get_category_tree($params, $category_id = 0, $links_css_class = "mainlevel", $highlighted_style = "font-style:italic;", $shopper_group_id = 0)
 	{
 		$objhelper              = redhelper::getInstance();
@@ -417,7 +428,6 @@ class modProMenuHelper
 			$append = "";
 			$class  = "";
 
-
 			if ($allowed)
 			{
 				if ($n == 0)
@@ -503,5 +513,47 @@ class modProMenuHelper
 		$cat_id_arr = $db->loadResult();
 
 		return $cat_id_arr;
+	}
+
+	/**
+	 * getShopperGroupId description
+	 * 
+	 * @param   boolean  $useShopperGroup  use ShopperGroup or not
+	 * @param   object   $user             User information
+	 * 
+	 * @return  int
+	 */
+	function getShopperGroupId($useShopperGroup, $user)
+	{
+		global $db;
+
+		if ($useShopperGroup == "yes")
+		{
+			$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
+
+			if ($user->id)
+			{
+				$query = $db->getQuery(true);
+				$query->clear();
+
+				$query->select($db->qn('shopper_group_id'))
+					->from($db->qn('#__redshop_users_info'))
+					->where($db->qn('user_id') . ' = ' . $db->q($user->id));
+
+				$db->setQuery($query);
+				$getShopperGroupID = $db->loadResult();
+
+				if ($getShopperGroupID)
+				{
+					$shopperGroupId = $getShopperGroupID;
+				}
+			}
+		}
+		else
+		{
+			$shopperGroupId = 0;
+		}
+
+		return $shopperGroupId;
 	}
 }
