@@ -29,12 +29,11 @@ class RedshopTableCountry extends RedshopTable
 
 	/**
 	 * Function display template
-	 * 
+	 *
 	 * @return  boolean
-	 * 
+	 *
 	 * @since   1.x
 	 */
-
 	public function check()
 	{
 		if (!parent::check())

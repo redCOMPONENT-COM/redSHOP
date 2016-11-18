@@ -31,4 +31,26 @@ class RedshopTableQuestion extends RedshopTable
 	 * @var  string
 	 */
 	protected $_tableFieldState = 'published';
+
+	/**
+	 * Function display template
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function check()
+	{
+		if (!parent::check())
+		{
+			return false;
+		}
+
+		if (isset($this->question_date) || empty($this->question_date))
+		{
+			$this->question_date = time();
+		}
+
+		return true;
+	}
 }
