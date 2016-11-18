@@ -79,7 +79,7 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 		<?php endif; ?>
-		<?php if ($enableManufacturer == 1): ?>
+		<?php if ($enableManufacturer == 1 && count($manufacturers) > 0): ?>
 			<div id='manu'>
 				<label class="title"><?php echo JText::_("MOD_REDSHOP_FILTER_MANUFACTURER_LABEL"); ?></label>
 				<div class="brand-input">
@@ -133,9 +133,19 @@ defined('_JEXEC') or die;
 			jQuery('[name="redform[filterprice][max]"]').attr('value', ui.values[ 1 ]);
 			},change: function(event, ui){
 				if (callback && typeof(callback) === "function") {
+					jQuery('input[name="limitstart"]').val(0);
 					callback();
 				}
 			}
+		});
+	}
+
+	function modalCompare()
+	{
+		redSHOP = window.redSHOP || {};
+		redSHOP.compareAction(jQuery('[id^="rsProductCompareChk"]'), "getItems");
+		jQuery('[id^="rsProductCompareChk"]').click(function(event) {
+		    redSHOP.compareAction(jQuery(this), "add");
 		});
 	}
 
@@ -167,10 +177,10 @@ defined('_JEXEC') or die;
 		 		jQuery('.category_product_list #productlist').empty();
 		 		jQuery('#main-content .category_main_toolbar').first().remove();
 		 		jQuery('.category_product_list #productlist').html(data);
-		 		//jQuery('.category_wrapper.parent .category_main_toolbar, .category_wrapper.parent .category_product_list, .category_wrapper.parent .pagination').css('display', 'block');
 		 		jQuery('.category_wrapper.parent .category_main_toolbar, .category_wrapper.parent .category_product_list').css('display', 'block');
                 jQuery('select#orderBy').select2();
                 jQuery('.category-list').hide();
+                modalCompare();
 
 		 	},
 		 	complete: function() {
@@ -238,9 +248,7 @@ defined('_JEXEC') or die;
 
 			jQuery('#redproductfinder-form-<?php echo $module->id;?> #manu #manufacture-list').html('');
 			jQuery('#redproductfinder-form-<?php echo $module->id;?> #manu #manufacture-list').append(html);
-			//submitform();
 			checkList();
-			//submitpriceform();
 		});
 
 		submitform();

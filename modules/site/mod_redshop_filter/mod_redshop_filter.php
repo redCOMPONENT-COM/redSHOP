@@ -79,7 +79,7 @@ if (!empty($cid))
 
 		$catList = array_unique($catList);
 		$manufacturers = ModRedshopFilter::getManufacturerOnSale(array_unique($manuList));
-		$categories    = ModRedshopFilter::getParentCategoryOnSale($catList);
+		$categories    = ModRedshopFilter::getParentCategoryOnSale($catList, $rootCategory, $categoryForSale);
 		$rangePrice    = ModRedshopFilter::getRange($pids);
 	}
 	else
@@ -93,7 +93,7 @@ elseif (!empty($mid))
 {
 	$manufacturers = ModRedshopFilter::getManufacturerById($mid);
 	$pids          = ModRedshopFilter::getProductByManufacturer($mid);
-	$categories    = ModRedshopFilter::getCategorybyPids($pids);
+	$categories    = ModRedshopFilter::getCategorybyPids($pids, $rootCategory, $categoryForSale);
 	$rangePrice    = ModRedshopFilter::getRange($pids);
 }
 elseif ($view == 'search')

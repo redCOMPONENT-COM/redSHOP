@@ -277,7 +277,7 @@ abstract class ModRedshopFilter
 	 *
 	 * @return array
 	 */
-	public static function getParentCategoryOnSale($catList = null)
+	public static function getParentCategoryOnSale($catList = null, $rootCategory = 0, $saleCategory = null)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -285,12 +285,16 @@ abstract class ModRedshopFilter
 			->select($db->qn('c.category_name'))
 			->from($db->qn("#__redshop_category", "c"))
 			->join("LEFT", $db->qn("#__redshop_category_xref", "cx") . " ON " . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
-			->where($db->qn("cx.category_parent_id") . ' = 15526');
+			->where($db->qn("cx.category_parent_id") . ' = ' . $db->q((int) $rootCategory));
 
 		if (!empty($catList))
 		{
-			$query->where($db->qn('c.category_id') . ' IN (' . implode(',', $catList) . ')')
-				->where($db->qn('c.category_id') . ' != 15527');
+			$query->where($db->qn('c.category_id') . ' IN (' . implode(',', $catList) . ')');
+
+			if (!empty($saleCategory))
+			{
+				$query->where($db->qn('c.category_id') . ' != ' . $db->q((int) $saleCategory));
+			}
 		}
 
 		return $db->setQuery($query)->loadObjectList();
@@ -301,7 +305,7 @@ abstract class ModRedshopFilter
 	 *
 	 * @return array
 	 */
-	public static function getCategorybyPids($pids = array())
+	public static function getCategorybyPids($pids = array(), $rootCategory = 0, $saleCategory = null)
 	{
 		$data = array();
 		$db = JFactory::getDBO();
@@ -322,12 +326,16 @@ abstract class ModRedshopFilter
 				->select($db->qn('c.category_name'))
 				->from($db->qn("#__redshop_category", "c"))
 				->join("LEFT", $db->qn("#__redshop_category_xref", "cx") . " ON " . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
-				->where($db->qn("cx.category_parent_id") . ' = 15526');
+				->where($db->qn("cx.category_parent_id") . ' = ' . $db->q((int) $rootCategory));
 
 			if (!empty($cids))
 			{
-				$query->where($db->qn('c.category_id') . ' IN (' . implode(',', $cids) . ')')
-					->where($db->qn('c.category_id') . ' != 15527');
+				$query->where($db->qn('c.category_id') . ' IN (' . implode(',', $cids) . ')');
+
+				if (!empty($saleCategory))
+				{
+					$query->where($db->qn('c.category_id') . ' != ' . $db->q((int) $saleCategory));
+				}
 			}
 
 			$data = $db->setQuery($query)->loadObjectList();
