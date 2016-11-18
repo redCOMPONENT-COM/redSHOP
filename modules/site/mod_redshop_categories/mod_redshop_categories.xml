@@ -16,6 +16,7 @@
         <folder module="mod_redshop_categories">tmpl</folder>
         <folder module="mod_redshop_categories">controllers</folder>
         <folder module="mod_redshop_categories">helpers</folder>
+        <folder module="mod_redshop_categories">elements</folder>
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_categories.ini</language>
@@ -34,8 +35,6 @@
                 <field name="pretext" type="textarea" rows="3" cols="30" default=""
                        label="COM_REDSHOP_PRETEXT_DESC_LABEL"
                        description="COM_REDSHOP_PRETEXT_DESC"/>
-
-
                 <field name="show_noofproducts" type="radio" default="yes"
                        label="COM_REDSHOP_SHOWNOOFPROD_LABEL"
                        class="btn-group btn-group-yesno"
@@ -50,13 +49,12 @@
                     <option value="yes">JYES</option>
                     <option value="no">JNO</option>
                 </field>
-                <field name="redshop_category" type="redshopcategory" default=""
+                <field name="redshop_category" type="redshopcategory" default="0"
                        label="COM_REDSHOP_CATEGORIES_SELECTION"
                        description="COM_REDSHOP_CATEGORIES_SELECTION_DESC"></field>
                 <field name="redshop_category_remove" type="redshopcategoryremove" default=""
                        label="COM_REDSHOP_CATEGORIES_SELECTION_REMOVE"
                        description="COM_REDSHOP_CATEGORIES_SELECTION_REMOVE_DESC"></field>
-
                 <field name="menutype" type="list" default="links"
                        label="COM_REDSHOP_MENU_LABEL"
                        description="COM_REDSHOP_MENU_DESC">
@@ -66,7 +64,6 @@
                     <option value="transmenu">COM_REDSHOP_TRANSMENU</option>
                     <option value="dtree">COM_REDSHOP_DTREE</option>
                 </field>
-
                 <field name="categorysorttype" type="list" default="links"
                        label="COM_REDSHOP_CATSORT_LABEL"
                        description="COM_REDSHOP_CATSORT_DESC">
@@ -75,7 +72,6 @@
                     <option value="newest">COM_REDSHOP_NEWEST</option>
                     <option value="catorder">COM_REDSHOP_CATORDER</option>
                 </field>
-
                 <field name="jscook_type" type="list" default="menu" label="COM_REDSHOP_JSCOOKTYPE_LABEL"
                        description="COM_REDSHOP_JSCOOKTYPE_DESC">
                     <option value="menu">COM_REDSHOP_MENU</option>
@@ -98,7 +94,6 @@
                        description="COM_REDSHOP_ROOT_DESC"/>
                 <field name="posttext" type="textarea" default="" rows="3" cols="30" label="COM_REDSHOP_POSTTEXT_LABEL"
                        description="COM_REDSHOP_POSTTEXT_DESC"/>
-
             </fieldset>
         </fields>
     </config>

@@ -1,40 +1,88 @@
 <?php
+/**
+ * @package     RedSHOP.Frontend
+ * @subpackage  mod_redshop_categories
+ *
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
-class redTigraTreeMenu
+defined('_JEXEC') or die;
+
+/**
+ * Helper for mod_articles_latest
+ *
+ * @since  1.5.3
+ */
+
+abstract class RedTigraTreeMenuHelper
 {
-	/***************************************************
-	 * function traverse_tree_down
+	/**
+	 * traverseTreeDown
+	 * 
+	 * @param   html     &$myMenuContent  content HTML
+	 * @param   string   $categoryId      Id of category
+	 * @param   string   $level           Tree level
+	 * @param   integer  $shopperGroupId  Id of shopper group
+	 * 
+	 * @return  void
 	 */
-	function traverse_tree_down(&$mymenu_content, $category_id = '0', $level = '0', $shopper_group_id)
+	public static function traverseTreeDown(&$myMenuContent, $categoryId = '0', $level = '0', $shopperGroupId = 0)
 	{
 		static $ibg = 0;
-		global $Itemid, $sortparam;
+		global $itemId, $sortType;
 
 		$db        = JFactory::getDbo();
 		$objhelper = redhelper::getInstance();
 		$Itemid    = JRequest::getInt('Itemid');
 		$level++;
 
-		if ($shopper_group_id)
+		if ($shopperGroupId)
 		{
-			$shoppergroup_cat = ModProMenuHelper::get_shoppergroup_cat($shopper_group_id);
+			$shopperGroupCat = ModProMenuHelper::getShopperGroupCat($shopperGroupId);
 		}
 		else
 		{
-			$shoppergroup_cat = 0;
+			$shopperGroupCat = 0;
 		}
 
-		$query = "SELECT category_name as cname, category_id as cid, category_child_id as ccid FROM #__redshop_category as a "
-			. "LEFT JOIN #__redshop_category_xref as b ON a.category_id=b.category_child_id "
-			. "WHERE a.published=1 "
-			. "AND b.category_parent_id=" . (int) $category_id;
+		$query = $db->getQuery(true);
 
-		if ($shopper_group_id && $shoppergroup_cat)
+		$query->select(
+				[
+					$db->qn('category_name', 'cname'),
+					$db->qn('category_id', 'cid'),
+					$db->qn('category_child_id', 'ccid')
+				]
+			)
+			->from($db->qn('#__redshop_category', 'c'))
+			->leftJoin($db->qn('#__redshop_category_xref', 'xf') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('xf.category_child_id'))
+			->where($db->qn('c.published') . ' = ' . $db->q('1'))
+			->where($db->qn('xf.category_parent_id') . ' = ' . $db->q($categoryId));
+
+		if ($shopperGroupId && $shopperGroupCat)
 		{
-			$query .= " and category_id in (" . $shoppergroup_cat . ")";
+			/*$query .= " and category_id in (" . $shopperGroupCat . ")";*/
+			$query->where($db->qn('c.category_id') . ' IN (' . $db->q($shopperGroupCat) . ')');
 		}
 
-		$query .= " ORDER BY " . $sortparam . "";
+		switch ($sortType)
+		{
+			case 'catnameasc':
+				$query->order($db->qn('c.category_name') . ' ASC');
+				break;
+			case 'catnamedesc':
+				$query->order($db->qn('c.category_name') . ' DESC');
+				break;
+			case 'newest':
+				$query->order($db->qn('c.category_id') . ' DESC');
+				break;
+			case 'catorder':
+			default:
+				$query->order($db->qn('c.ordering') . ' ASC');
+				break;
+		}
+
 		$db->setQuery($query);
 		$categories = $db->loadObjectList();
 
@@ -57,31 +105,29 @@ class redTigraTreeMenu
 					$tmpItemid = $Itemid;
 				}
 
-				$mymenu_content .= str_repeat("\t", $level - 1);
+				$myMenuContent .= str_repeat("\t", $level - 1);
 
 				if ($level > 1 && $i == 1)
 				{
-					$mymenu_content .= ",";
+					$myMenuContent .= ",";
 				}
 
-				$mymenu_content .= "['" . $category->cname;
+				$myMenuContent .= "['" . $category->cname;
 
-				//$mymenu_content.= "','href='".JRoute::_($urlpath.'index.php?option=com_redshop&view=category&layout=detail&cid='.$category->cid.'&Treeid='.$Treeid.$itemid)."\''\n ";
-
-				$mymenu_content .= "','href=\'" . JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $category->cid . '&Treeid=' . $Treeid . '&Itemid=' . $tmpItemid) . "\''\n ";
+				$myMenuContent .= "','href=\'" . JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $category->cid . '&Treeid=' . $Treeid . '&Itemid=' . $tmpItemid) . "\''\n ";
 
 				/* recurse through the subcategories */
-				$this->traverse_tree_down($mymenu_content, $category->ccid, $level, $shopper_group_id);
-				$mymenu_content .= str_repeat("\t", $level - 1);
+				self::traverseTreeDown($myMenuContent, $category->ccid, $level, $shopperGroupId);
+				$myMenuContent .= str_repeat("\t", $level - 1);
 
 				/* let's see if the loop has reached its end */
 				if ($i == sizeof($categories) && $level == 1)
 				{
-					$mymenu_content .= "]\n";
+					$myMenuContent .= "]\n";
 				}
 				else
 				{
-					$mymenu_content .= "],\n";
+					$myMenuContent .= "],\n";
 				}
 
 				$i++;

@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-$classMainLevel = "mainlevel_redshop" . $class_sfx;
+$classMainLevel = "mainlevel_redshop" . $classSfx;
 
 echo $pretext;
 

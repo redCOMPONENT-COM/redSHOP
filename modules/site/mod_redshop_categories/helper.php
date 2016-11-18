@@ -184,7 +184,7 @@ abstract class ModProMenuHelper
 	 * 
 	 * @return  [type]
 	 */
-	public static function getCategoryTreeArray($onlyPublished = 1, $keyword = "", $shopperGroupId, $parentSelectedRemove)
+	public static function getCategoryTreeArray($onlyPublished = 1, $keyword = "", $shopperGroupId = '0', $parentSelectedRemove = [])
 	{
 		global $categorySortType;
 		$db = JFactory::getDbo();
@@ -238,25 +238,23 @@ abstract class ModProMenuHelper
 				$query->where($db->qn('ref.category_parent_id') . ' = ' . $cid);
 			}
 
-			if ($categorySortType == "catnameasc")
+			switch ($categorySortType)
 			{
-				$query->order($db->qn('c.category_name') . ' ASC');
-			}
-			elseif ($categorySortType == "catnamedesc")
-			{
-				$query->order($db->qn('c.category_name') . ' DESC');
-			}
-			elseif ($categorySortType == "newest")
-			{
-				$query->order($db->qn('c.category_id') . ' DESC');
-			}
-			elseif ($categorySortType == "catorder")
-			{
-				$query->order($db->qn('c.ordering') . ' ASC');
-			}
-			else
-			{
-				$query->order($db->qn('c.category_name') . ' ASC');
+				case "catnameasc":
+					$query->order($db->qn('c.category_name') . ' ASC');
+					break;
+				case "catnamedesc":
+					$query->order($db->qn('c.category_name') . ' DESC');
+					break;
+				case "newest":
+					$query->order($db->qn('c.category_id') . ' DESC');
+					break;
+				case "catorder":
+					$query->order($db->qn('c.ordering') . ' ASC');
+					break;
+				default:
+					$query->order($db->qn('c.category_name') . ' ASC');
+					break;
 			}
 
 			$db->setQuery($query);
@@ -329,9 +327,9 @@ abstract class ModProMenuHelper
 	{
 		$db = JFactory::getDbo();
 
-		$show_noofproducts = $params->get('show_noofproducts', 'yes');
+		$showCountProducts = $params->get('show_noofproducts', 'yes');
 
-		if ($show_noofproducts == 'yes')
+		if ($showCountProducts == 'yes')
 		{
 			$num = self::productCount($categoryId);
 
@@ -348,8 +346,8 @@ abstract class ModProMenuHelper
 
 				foreach ($catresults as $catresult)
 				{
-					$child_product_id = $catresult->category_child_id;
-					$num += self::productCount($child_product_id);
+					$childProductId = $catresult->category_child_id;
+					$num += self::productCount($childProductId);
 				}
 			}
 

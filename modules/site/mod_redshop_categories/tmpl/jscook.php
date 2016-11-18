@@ -48,7 +48,7 @@ if ($jscookType == "tree")
 }
 else
 {
-	$menuHtml .= "cmDrawNow =function() { cmDraw ('div_$varname', $varname, '$menu_orientation', cm$jscookMenuStyle, '$jscookMenuStyle'); };
+	$menuHtml .= "cmDrawNow =function() { cmDraw ('div_$varname', $varname, '$menuOrientation', cm$jscookMenuStyle, '$jscookMenuStyle'); };
 	" . $varname . "_addEvent( window, \"load\", cmDrawNow, false );";
 }
 
