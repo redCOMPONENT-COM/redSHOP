@@ -23,7 +23,8 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 */
 	public $tags = array(
 		'{wishlist_button}',
-		'{wishlist_link}'
+		'{wishlist_link}',
+		'{property_wishlist_link}'
 	);
 
 	/**
@@ -41,6 +42,8 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 		}
 
 		$productId = $this->data['productId'];
+		$formId    = $this->data['formId'];
+
 		$user      = JFactory::getUser();
 
 		JHtml::script('com_redshop/redshop.wishlist.js', false, true, false, false);
@@ -53,12 +56,12 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 		{
 			$link = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=wishlist&task=addtowishlist&tmpl=component';
 
-			$wishListButton = '<a class="redshop-wishlist-link" href="' . $link . '" data-productid="' . $productId . '" >
+			$wishListButton = '<a class="redshop-wishlist-link" href="' . $link . '" data-productid="' . $productId . '" data-formid="' . $formId . '" >
 				<input class="redshop-wishlist-button" data-productid="' . $productId . '"'
 				. ' type="button" value="' . JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . '"'
 				. ' data-href="' . $link . '" /></a>';
 
-			$wishListLink = '<a class="redshop-wishlist-link" href="' . $link . '" data-productid="' . $productId . '" >'
+			$wishListLink = '<a class="redshop-wishlist-link" href="' . $link . '" data-productid="' . $productId . '" data-formid="' . $formId . '" >'
 				. JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . '</a>';
 		}
 		else
@@ -84,7 +87,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 					<input type='hidden' name='property_id' value='' />
 					<input type='hidden' name='subattribute_id' value='' />
 					<input type='hidden' name='rurl' value='" . base64_encode(JUri::getInstance()->toString()) . "' />";
-				$wishListButton .= '<input type="submit" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist" value="'
+				$wishListButton .= '<input type="submit" data-productid="' . $productId . '" data-formid="' . $formId . '" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist" value="'
 					. JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . '" /></form>';
 
 				$wishListLink = "<form method='post' action='' id='form_wishlist_" . $productId . "_link'
@@ -96,7 +99,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 					<input type='hidden' name='property_id' value='' />
 					<input type='hidden' name='subattribute_id' value='' />
 					<input type='hidden' name='rurl' value='" . base64_encode(JUri::getInstance()->toString()) . "' />";
-				$wishListLink .= '<a href="javascript:void(0);" data-productid="' . $productId . '"
+				$wishListLink .= '<a href="javascript:void(0);" data-productid="' . $productId . '" data-formid="' . $formId . '"
 					class="redshop-wishlist-form-link" data-target="form_wishlist_' . $productId . '_link">'
 					. JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . '</a></form>';
 			}
@@ -104,5 +107,6 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 
 		$this->addReplace('{wishlist_button}', $wishListButton);
 		$this->addReplace('{wishlist_link}', $wishListLink);
+		$this->addReplace('{property_wishlist_link}', $wishListLink);
 	}
 }
