@@ -36,47 +36,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				<span class="menuLinkTitle"><?php echo $category->category_name ?></span>
 			</a>
 			<?php if (!empty($category->sub_cat)) : ?>
-				<div class="dropdown lv1">
-					<ul class="nav-child unstyled small container lv1">
-						<?php if(!empty($category->image)):?>
-							<div class="left-image row">
-						<?php else:?>
-							<div class="left-image-relative row">
-						<?php endif;?>
-						<?php foreach ($category->sub_cat as $sub_cat): ?>
-							<li class="item-<?php echo $sub_cat->category_id ?> level-item-2 col-sm-3">
-								<a href="<?php echo $sub_cat->link; ?>">
-									<span class="menuLinkTitle"><?php echo $sub_cat->category_name ?></span>
-									<?php if(!empty($sub_cat->image)):?>
-										<img src="<?php echo JUri::root() . 'components/com_redshop/assets/images/category/' . $sub_cat->image; ?>" />
-									<?php endif;?>
-								</a>
-								<?php if (!empty($sub_cat->sub_cat)) : ?>
-									<div class="dropdown lv2">
-										<ul class="nav-child unstyled small lv2">
-											<?php foreach ($sub_cat->sub_cat as $child_cat): ?>
-												<li class="item-<?php echo $child_cat->category_id ?> level-item-3">
-													<a href="<?php $child_cat->link; ?>">
-														<span class="menuLinkTitle"><?php echo $child_cat->category_name ?></span>
-														<?php if(!empty($child_cat->image)):?>
-															<img src="<?php echo JUri::root() . 'components/com_redshop/assets/images/category/' . $child_cat->image; ?>" />
-														<?php endif;?>
-													</a>
-												</li>
-											<?php endforeach; ?>
-										</ul>
-									</div>
-								<?php endif;?>
-							</li>
-						<?php endforeach; ?>
-					</div>
-					</ul>
-					<div class="container" style="display:none;">
-						<?php if(!empty($category->image)):?>
-							<img src="<?php echo JUri::root() . 'components/com_redshop/assets/images/category/' . $category->image; ?>" />
-						<?php endif;?>
-					</div>
-				</div>
+				<?php ModRedshopMegaMenuHelper::displayLevel($category->sub_cat, $category); ?>
 			<?php endif;?>
 		</li>
 		<?php endif;?>
