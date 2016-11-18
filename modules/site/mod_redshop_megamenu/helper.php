@@ -23,17 +23,38 @@ class ModRedshopMegaMenuHelper
 	/**
 	 * Get a list of parents categories items.
 	 *
-	 * @param   int  $categoryId  ID of parent category.
+	 * @param   object  $params  module params
 	 *
-	 * @return  array             Categories tree
+	 * @return  array            Categories tree
 	 */
-	public static function getCategories($categoryId)
+	public static function getCategories($params)
 	{
+		$categoryId = $params->get('category', 0);
+
 		if (isset(static::$categories[$categoryId]))
 		{
 			return static::$categories[$categoryId];
 		}
 
+		$menu  = JFactory::getApplication()->getMenu();
+		$items = $menu->getItems('menutype', $params->get('menutype'));
+		$firstItem = array();
+
+		foreach ($items as $i => $item)
+		{
+			if ($item->level == 1)
+			{
+				$firstItem[$i] = new StdClass;
+				$firstItem[$i]->category_id = !empty($item->query['cid']) ? $item->query['cid'] : 0;
+				$firstItem[$i]->category_name = $item->title;
+				$firstItem[$i]->link = JRoute::_($item->link . '&Itemid=' . $item->id);
+				$firstItem[$i]->published = 1;
+				$firstItem[$i]->menu_parent_id = $item->id;
+			}
+		}
+
+		$firstItem = array_merge(array(), $firstItem);
+	
 		$categories = RedshopHelperCategory::getCategoryListArray($categoryId);
 
 		if (empty($categories))
@@ -53,65 +74,126 @@ class ModRedshopMegaMenuHelper
 				continue;
 			}
 
+			$categoryMenuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $category->category_id . '&manufacturer_id=0', true);
+
 			$category->category_name = str_replace('- ', '', $category->category_name);
+			$category->link = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
+				. $category->category_id . '&manufacturer_id=0&Itemid='
+				. !empty($categoryMenuItem ? $categoryMenuItem->id : 0));
 
 			$subCategories[] = $category;
 		}
 
-		// Get 1 more sub-level of sub-categories
-		foreach ($subCategories as $subCategory)
+		foreach ($firstItem as $k => $item)
 		{
-			$subCategory->sub_cat = array();
-
-			foreach ($categories as $category)
+			foreach ($subCategories as $i => $subCat)
 			{
-				if ($category->category_parent_id != $subCategory->category_id)
+				if ($item->category_id == $subCat->category_id)
 				{
-					continue;
-				}
-
-				$category->category_name = str_replace('- ', '', $category->category_name);
-				$category->image = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
-				$category->sub_cat = array();
-
-				if (!empty($category->category_full_image)
-					&& (strpos($category->category_full_image, '.jpg') == true
-					|| strpos($category->category_full_image, '.png') == true
-					|| strpos($category->category_full_image, '.jpeg') == true))
-				{
-					$category->image = $category->category_full_image;
-				}
-
-				$subCategory->sub_cat[] = $category;
-			}
-
-			foreach ($subCategory->sub_cat as $key => $subCat)
-			{
-				foreach ($categories as $category)
-				{
-					if ($category->category_parent_id != $subCat->category_id)
-					{
-						continue;
-					}
-
-					$category->category_name = str_replace('- ', '', $category->category_name);
-					$category->image = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
-					$category->sub_cat = array();
-
-					if (!empty($category->category_full_image)
-						&& (strpos($category->category_full_image, '.jpg') == true
-						|| strpos($category->category_full_image, '.png') == true
-						|| strpos($category->category_full_image, '.jpeg') == true))
-					{
-						$category->image = $category->category_full_image;
-					}
-
-					$subCategory->sub_cat[$key]->sub_cat[] = $category;
+					$firstItem[$k]->category_child_id = $subCat->category_child_id;
 				}
 			}
 		}
 
-		static::$categories[$categoryId] = $subCategories;
+		// Get 1 more sub-level of sub-categories
+		foreach ($firstItem as $subCategory)
+		{
+			$subCategory->sub_cat = array();
+
+			if ($subCategory->category_id != 0)
+			{
+				foreach ($categories as $category)
+				{
+					if ($category->category_parent_id == $subCategory->category_id)
+					{
+
+						$categoryMenuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $subCategory->category_id . '&manufacturer_id=0', true);
+
+						$category->category_name = str_replace('- ', '', $category->category_name);
+						$category->link = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
+						. $subCategory->category_id . '&manufacturer_id=0&Itemid='
+						. !empty($categoryMenuItem ? $categoryMenuItem->id : 0));
+						$category->image = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
+						$category->sub_cat = array();
+
+						if (!empty($category->category_full_image)
+							&& (strpos($category->category_full_image, '.jpg') == true
+							|| strpos($category->category_full_image, '.png') == true
+							|| strpos($category->category_full_image, '.jpeg') == true))
+						{
+							$category->image = $category->category_full_image;
+						}
+
+						$subCategory->sub_cat[] = $category;
+					}
+				}
+
+				foreach ($subCategory->sub_cat as $key => $subCat)
+				{
+					foreach ($categories as $category)
+					{
+						if ($category->category_parent_id == $subCat->category_id)
+						{
+							$categoryMenuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $subCategory->category_id . '&manufacturer_id=0', true);
+
+							$category->category_name = str_replace('- ', '', $category->category_name);
+							$category->link = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
+							. $subCat->category_id . '&manufacturer_id=0&Itemid='
+							. !empty($categoryMenuItem ? $categoryMenuItem->id : 0));
+							$category->image = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
+							$category->sub_cat = array();
+
+							if (!empty($category->category_full_image)
+								&& (strpos($category->category_full_image, '.jpg') == true
+								|| strpos($category->category_full_image, '.png') == true
+								|| strpos($category->category_full_image, '.jpeg') == true))
+							{
+								$category->image = $category->category_full_image;
+							}
+
+							$subCategory->sub_cat[$key]->sub_cat[] = $category;
+						}
+
+					}
+				}
+			}
+			else
+			{
+				$subMenu = $menu->getItems('parent_id', $subCategory->menu_parent_id);
+
+				if (!empty($subMenu))
+				{
+					foreach ($subMenu as $menuItem)
+					{
+						$subMenuItem = new StdClass;
+						$subMenuItem->category_id = $menuItem->id;
+						$subMenuItem->category_name = $menuItem->title;
+						$subMenuItem->link = JRoute::_($menuItem->link . '&Itemid=' . $menuItem->id);
+						$subMenuItem->image = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
+						$subMenuItem->menu_parent_id = $menuItem->id;
+						$childMenu = $menu->getItems('parent_id', $menuItem->id);
+
+						if (!empty($childMenu))
+						{
+							foreach ($childMenu as $childItem)
+							{
+								$childMenuItem = new StdClass;
+								$childMenuItem->category_id = $childItem->id;
+								$childMenuItem->category_name = $childItem->title;
+								$childMenuItem->link = JRoute::_($childItem->link . '&Itemid=' . $childItem->id);
+								$childMenuItem->image = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
+								$subMenuItem->sub_cat[] = $childMenuItem;
+							}
+						}
+
+						$subCategory->sub_cat[] = $subMenuItem;
+					}
+				}
+			}
+		}
+
+		static::$categories[$categoryId] = $firstItem;
+
 
 		return static::$categories[$categoryId];
 	}
@@ -139,11 +221,7 @@ class ModRedshopMegaMenuHelper
 				{
 					return (int) $a->category_id > (int) $b->category_id;
 				}
-				elseif ($sortBy == 'ordering')
-				{
-					return (int) $a->ordering > (int) $b->ordering;
-				}
-				else
+				elseif ($sortBy == 'name')
 				{
 					return strcmp($a->category_name, $b->category_name);
 				}
