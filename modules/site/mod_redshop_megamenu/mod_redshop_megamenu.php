@@ -18,7 +18,7 @@ $lang->load('mod_redshop_megamenu', __DIR__);
 // Include the syndicate functions only once
 require_once __DIR__ . '/helper.php';
 
-$categories = ModRedshopMegaMenuHelper::getCategories($params);
+$categories = ModRedshopMegaMenuHelper::getCategories($params->get('category', 0));
 
 ModRedshopMegaMenuHelper::sortCategories($categories, $params->get('ordering', 'name'), $params->get('destination', 'asc'));
 
