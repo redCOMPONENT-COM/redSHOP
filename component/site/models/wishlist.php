@@ -225,6 +225,8 @@ class RedshopModelWishlist extends RedshopModel
 	 * @param   array  $data  List of data
 	 *
 	 * @return  boolean       True if success. False otherwise.
+	 *
+	 * @throws  Exception
 	 */
 	public function savewishlist($data)
 	{
@@ -265,21 +267,31 @@ class RedshopModelWishlist extends RedshopModel
 
 			$tmpData = array(
 				'wishlist_id' => $wishlistId,
-				'product_id' => $productId
+				'product_id'  => $productId
 			);
 
-			// If wishlist product has already exist. Skip it.
+			// If wishlist product has already exist.
 			if ($wishlistProductTable->load($tmpData))
 			{
-				continue;
+				// Start check on product's attribute data. If this has different. Keep process for store as new.
+				if ($this->isProductDataExist($wishlistId, $productId, $attributeIds, $propertyIds, $subAttributeIds))
+				{
+					continue;
+				}
 			}
 
-			$tmpData['cdate'] = time();
+			$wishlistProductTable->reset();
+			$wishlistProductTable->set('wishlist_product_id', null);
+			$wishlistProductTable->set('wishlist_id', $wishlistId);
+			$wishlistProductTable->set('product_id', $productId);
+			$wishlistProductTable->set('cdate', time());
 
-			if (!$wishlistProductTable->save($tmpData))
+			if (!$wishlistProductTable->store())
 			{
 				throw new Exception($wishlistProductTable->getError());
 			}
+
+			$attributeIds = array_filter($attributeIds);
 
 			// If there are not attribute with product.
 			if (empty($attributeIds))
@@ -387,5 +399,54 @@ class RedshopModelWishlist extends RedshopModel
 				}
 			}
 		}
+	}
+
+	/**
+	 * Method for check if product data has been exist.
+	 *
+	 * @param   int    $wishlistId     Wishlist ID.
+	 * @param   int    $productId      Product ID.
+	 * @param   array  $attributes     Attributes data.
+	 * @param   array  $properties     Properties data.
+	 * @param   array  $subAttributes  Sub-properties data.
+	 *
+	 * @return  boolean       True on exist. False otherwise.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function isProductDataExist($wishlistId, $productId, $attributes = null, $properties = null, $subAttributes = null)
+	{
+		if (!$wishlistId || !$productId)
+		{
+			return false;
+		}
+
+		$wishlistData = RedshopHelperWishlist::getWishlist($wishlistId);
+
+		// Check: If this product is not exist in this wishlist.
+		//        Or this product is exist but new product doesn't have attribute data.
+		if (!isset($wishlistData->products[$productId]) || !$attributes)
+		{
+			return false;
+		}
+
+		$attributes    = !is_array($attributes) ? array($attributes) : $attributes;
+		$properties    = !is_array($properties) ? array($properties) : $properties;
+		$subAttributes = !is_array($subAttributes) ? array($subAttributes) : $subAttributes;
+
+		foreach ($wishlistData->products[$productId] as $wishlistProduct)
+		{
+			// Check: If attributes has different.
+			//        Or properties has different.
+			//        Or sub-attributes has different.
+			if (!empty(array_diff($attributes, $wishlistProduct->attributes))
+				|| !empty(array_diff($properties, $wishlistProduct->properties))
+				|| !empty(array_diff($subAttributes, $wishlistProduct->subAttributes)))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
