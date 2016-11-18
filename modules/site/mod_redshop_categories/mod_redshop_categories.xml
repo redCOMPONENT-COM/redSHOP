@@ -77,18 +77,15 @@
                     <option value="menu">COM_REDSHOP_MENU</option>
                     <option value="tree">COM_REDSHOP_TREE</option>
                 </field>
-                <field name="jscookMenu_style" type="text" default="ThemeOffice"
-                       label="COM_REDSHOP_JSCOOKSTYLE_LABEL"
-                       description="COM_REDSHOP_JSCOOKSTYLE_DESC"/>
                 <field name="menu_orientation" type="list" default="hbr"
                        label="COM_REDSHOP_MENUORIENT_LABEL"
                        description="COM_REDSHOP_MENUORIENT_DESC">
                     <option value="hbr">COM_REDSHOP_HORIZONTAL</option>
                     <option value="vbr">COM_REDSHOP_VERTICAL</option>
                 </field>
-                <field name="jscookTree_style" type="text" default="ThemeXP"
-                       label="COM_REDSHOP_JSCOOKTREESTYLE_LABEL"
-                       description="COM_REDSHOP_JSCOOKTREESTYLE_DESC"/>
+                <field name="jscook_style" type="text" default="ThemeXP"
+                       label="COM_REDSHOP_JSCOOKSTYLE_LABEL"
+                       description="COM_REDSHOP_JSCOOKSTYLE_DESC"/>
                 <field name="root_label" type="text" default="Shop"
                        label="COM_REDSHOP_ROOT_LABEL"
                        description="COM_REDSHOP_ROOT_DESC"/>

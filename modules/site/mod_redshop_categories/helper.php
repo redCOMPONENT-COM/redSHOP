@@ -235,7 +235,7 @@ abstract class ModProMenuHelper
 
 			if (!empty($cid))
 			{
-				$query->where($db->qn('ref.category_parent_id') . ' = ' . $cid);
+				$query->where($db->qn('ref.category_parent_id') . ' = ' . $db->q($cid));
 			}
 
 			switch ($categorySortType)
@@ -372,9 +372,9 @@ abstract class ModProMenuHelper
 	 */
 	public static function getCategoryTree($params, $categoryId = 0, $linksCssClass = "mainlevel", $highlightedStyle = "font-style:italic;", $shopperGroupId = 0)
 	{
-		$objhelper              = redhelper::getInstance();
-		$parentSelected        = $params->get('redshop_category', 0);
-		$parentSelectedRemove   = $params->get('redshop_category_remove', '');
+		$objhelper            = redhelper::getInstance();
+		$parentSelected       = $params->get('redshop_category', 0);
+		$parentSelectedRemove = $params->get('redshop_category_remove', '');
 
 		$categories = self::getCategoryTreeArray(1, "", $shopperGroupId, $parentSelectedRemove);
 

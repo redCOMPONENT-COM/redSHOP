@@ -9,47 +9,46 @@
 
 defined('_JEXEC') or die;
 
-global $jscookType, $jscookMenuStyle, $jscookTreeStyle;
-
 require_once $absoluteModulePath . '/helpers/jscook.php';
 
-$jscookMenuStyle = $params->get('jscookMenu_style', 'ThemeOffice');
-$jscookTreeStyle = $params->get('jscookTree_style', 'ThemeXP');
+$jscookStyle = $params->get('jscook_style', 'ThemeOffice');
 $jscookType = $params->get('jscook_type', 'menu');
 
 $Itemid = JRequest::getInt('Itemid');
 $TreeId = JRequest::getInt('TreeId');
+$jscookTree = 'cmThemeOffice';
+$iconName = 'categories.png';
 
 $document = JFactory::getDocument();
-$document->addScript($liveModulePath . '/tmpl/JSCook/JSCookMenu.js');
-
-$document->addScriptDeclaration('var ctThemeXPBase = "' . $liveModulePath . '/tmpl/ThemeXP/";');
 
 if ($jscookType == "tree")
 {
-	switch ($jscookTreeStyle)
+	switch ($jscookStyle)
 	{
 		case "ThemeXP":
 				$jscookTree = "ctThemeXP1";
 			break;
 		case "ThemeNavy":
 				$jscookTree = "ctThemeNavy";
+				$iconName = "open.gif";
 			break;
 	}
 
+	$document->addScript($liveModulePath . '/tmpl/JSCook/JSCookMenu.js');
 	$document->addScript($liveModulePath . '/tmpl/JSCook/JSCookTree.js');
+	$document->addScript($liveModulePath . '/tmpl/' . $jscookStyle . '/theme.js');
 
 	$document->addScriptDeclaration(
 		RedshopLayoutHelper::render(
-			$jscookTreeStyle . '.theme',
+			$jscookStyle . '.theme',
 			array(
-				'ctThemeXPBase' => $liveModulePath . '/tmpl/' . $jscookTreeStyle . '/'
+				'ct' . $jscookStyle . 'Base' => $liveModulePath . '/tmpl/' . $jscookStyle . '/'
 			),
 			'modules/mod_redshop_categories/'
 		)
 	);
 
-	$document->addStyleSheet($liveModulePath . '/tmpl/' . $jscookTreeStyle . '/theme.css');
+	$document->addStyleSheet($liveModulePath . '/tmpl/' . $jscookStyle . '/theme.css');
 }
 else
 {
@@ -59,7 +58,7 @@ else
 		RedshopLayoutHelper::render(
 			'JSCook.theme',
 			array(
-				'cmThemeOfficeBase' => $liveModulePath . '/tmpl/ThemeOffice/'
+				'ct' . $jscookStyle . 'Base' => $liveModulePath . '/tmpl/ThemeOffice/'
 			),
 			'modules/mod_redshop_categories/'
 		)

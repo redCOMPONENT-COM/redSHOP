@@ -24,19 +24,25 @@ abstract class RedshopJscookCategoryMenuHelper
 	 * @param   string  $level           [description]
 	 * @param   string  $params          [description]
 	 * @param   [type]  $shopperGroupId  [description]
+	 * @param   string  $iconName        icon's name
 	 * 
 	 * @return  [type]                  [description]
 	 */
-	public static function traverseTreeDown(&$mymenuContent, $categoryId = '0', $level = '0', $params = '', $shopperGroupId = '0')
+	public static function traverseTreeDown(&$mymenuContent, $categoryId = '0', $level = '0', $params = '', $shopperGroupId = '0', $iconName = "categories.png")
 	{
 		static $ibg = 0;
+
+		$uri = JURI::getInstance();
+		$urlpath = $uri->root();
+		$jscookStyle = $params->get('jscook_style', 'ThemeOffice');
+		$liveModulePath     = $urlpath . 'modules/mod_redshop_categories';
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select($db->qn(['c.category_name', 'c.category_id', 'xf.category_child_id']))
 			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'xf') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('xf.category_parent_id'))
+			->leftJoin($db->qn('#__redshop_category_xref', 'xf') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('xf.category_child_id'))
 			->where($db->qn('c.published') . ' = 1')
 			->where($db->qn('xf.category_parent_id') . ' = ' . $db->q((int) $categoryId));
 
@@ -93,7 +99,7 @@ abstract class RedshopJscookCategoryMenuHelper
 			if ($ibg != 0)
 				$mymenuContent .= ",";
 
-			$mymenuContent .= "\n[ '<img src=\"' + ctThemeXPBase + 'darrow.png\" alt=\"arr\" />','" . $traverseResult->category_name . "','" . JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $traverseResult->category_id . '&Itemid=' . $tmpItemid) . "',null,'" . $traverseResult->category_name . "'\n ";
+			$mymenuContent .= "\n[ '<img src=\"$liveModulePath/tmpl/$jscookStyle/$iconName\" alt=\"arr\" />','" . $traverseResult->category_name . "','" . JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $traverseResult->category_id . '&Itemid=' . $tmpItemid) . "',null,'" . $traverseResult->category_name . "'\n ";
 
 			$ibg++;
 

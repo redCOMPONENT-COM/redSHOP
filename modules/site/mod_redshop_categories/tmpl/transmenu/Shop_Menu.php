@@ -32,8 +32,6 @@ class Shop_Menu
 
 	function  loadMenu($shopper_group_id)
 	{
-		$redproduct_menu = new modProMenuHelper;
-
 		if ($this->_params->get('categorysorttype') == "catnameasc")
 		{
 			$sortparam = "category_name ASC";
@@ -53,7 +51,7 @@ class Shop_Menu
 
 		if ($shopper_group_id)
 		{
-			$shoppergroup_cat = $redproduct_menu->get_shoppergroup_cat($shopper_group_id);
+			$shoppergroup_cat = ModProMenuHelper::getShopperGroupCat($shopper_group_id);
 		}
 		else
 		{

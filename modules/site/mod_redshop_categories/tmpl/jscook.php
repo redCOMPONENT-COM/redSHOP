@@ -10,62 +10,18 @@
  */
 
 defined('_JEXEC') or die;
+?>
+<div id="myMenuID"></div>
+<script language="JavaScript" type="text/javascript"><!--
+   var cmMainVSplit = [_cmNoAction, '&nbsp;'];
+   var cmHSplit = [_cmNoAction, '<td class="ThemeOfficeMenuItemLeft"></td><td colspan="2"><div class="ThemeOfficeMenuSplit"></div></td>'];
+   var cmMainHSplit = [_cmNoAction, '<td class="ThemeOfficeMainItemLeft"></td><td colspan="2"><div class="ThemeOfficeMenuSplit"></div></td>'];
 
-$menuHtml = '<div align="left" class="mainlevel" id="div_' . $varname . '"></div>
-<script type="text/javascript">
-function ' . $varname . '_addEvent( obj, type, fn )
-{
-   if (obj.addEventListener) {
-      obj.addEventListener( type, fn, false );
-   } else if (obj.attachEvent) {
-      obj["e"+type+fn] = fn;
-      obj[type+fn] = function() { obj["e"+type+fn]( window.event ); }
-      obj.attachEvent( "on"+type, obj[type+fn] );
-   }
-}
+   var <?php echo $varname ?> =
+   [  
+      <?php RedshopJscookCategoryMenuHelper::traverseTreeDown($menuHtml, '0', '0', $params, $shopperGroupId, $iconName); ?>
+      <?php echo $menuHtml; ?>
+   ]
 
-function ' . $varname . '_removeEvent( obj, type, fn )
-{
-   if (obj.removeEventListener) {
-      obj.removeEventListener( type, fn, false );
-   } else if (obj.detachEvent) {
-      obj.detachEvent( "on"+type, obj[type+fn] );
-      obj[type+fn] = null;
-      obj["e"+type+fn] = null;
-   }
-}
-
-var ' . $varname . ' =
-[
-';
-RedshopJscookCategoryMenuHelper::traverseTreeDown($menuHtml, '0', '0', $params, $shopperGroupId);
-$menuHtml .= "];
-";
-
-if ($jscookType == "tree")
-{
-	$menuHtml .= "var treeindex = ctDraw ('div_$varname', $varname, $jscookTree, '$jscookTreeStyle', 0, 0);";
-}
-else
-{
-	$menuHtml .= "cmDrawNow =function() { cmDraw ('div_$varname', $varname, '$menuOrientation', cm$jscookMenuStyle, '$jscookMenuStyle'); };
-	" . $varname . "_addEvent( window, \"load\", cmDrawNow, false );";
-}
-
-$menuHtml .= "
-</script>\n";
-
-if ($jscookType == "tree")
-{
-	if ($TreeId)
-	{
-		$menuHtml .= "<input type=\"hidden\" id=\"TreeId\" name=\"TreeId\" value=\"$TreeId\" />\n";
-		$menuHtml .= "<script language=\"JavaScript\" type=\"text/javascript\">ctExposeTreeIndex( treeindex, parseInt(ctGetObject('TreeId').value));</script>\n";
-	}
-}
-
-$menuHtml .= "<noscript>";
-$menuHtml = ModProMenuHelper::getCategoryTree($params, $categoryId, $classMainLevel, $listCssClass = "mm123", $highlightedStyle = "font-style:italic;", $shopperGroupId);
-$menuHtml .= "\n</noscript>\n";
-
-echo $menuHtml;
+   cmDraw ('myMenuID', <?php echo $varname ?>, '<?php echo $menuOrientation ?>', <?php echo $jscookTree ?>);
+--></script>
