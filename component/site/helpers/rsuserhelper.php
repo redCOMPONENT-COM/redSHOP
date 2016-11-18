@@ -1050,7 +1050,6 @@ class rsUserHelper
 
 		$read_only = "";
 
-
 		$template_desc = str_replace("{email_lbl}", JText::_('COM_REDSHOP_EMAIL'), $template_desc);
 		$template_desc = str_replace("{email}", '<input class="inputbox required" type="text" title="' . JTEXT::_('COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS') . '" name="email1" id="email1" size="32" maxlength="250" value="' . @$post ["email1"] . '" />', $template_desc);
 
