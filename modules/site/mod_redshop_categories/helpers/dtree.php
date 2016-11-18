@@ -30,48 +30,44 @@ abstract class ModDtreeMenuHelper
 	 */
 	public static function traverseTreeDown(&$mymenuContent, $categoryId = '0', $level = '0', $params = '', $shopperGroupId = '0')
 	{
-		$db              = JFactory::getDbo();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		if ($params->get('categorysorttype') == "catnameasc")
-		{
-			$sortparam = "category_name ASC";
-		}
+		$query->select($db->qn(['c.category_name', 'c.category_id', 'xf.category_parent_id']))
+			->from($db->qn('#__redshop_category', 'c'))
+			->leftJoin($db->qn('#__redshop_category_xref', 'xf') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('xf.category_child_id'))
+			->where($db->qn('c.published') . ' = 1');
 
-		if ($params->get('categorysorttype') == "catnamedesc")
+		switch ($params->get('categorysorttype'))
 		{
-			$sortparam = "category_name DESC";
-		}
-
-		if ($params->get('categorysorttype') == "newest")
-		{
-			$sortparam = "category_id DESC";
-		}
-
-		if ($params->get('categorysorttype') == "catorder")
-		{
-			$sortparam = "ordering ASC";
+			case 'catnameasc':
+				$query->order($db->qn('c.category_name') . ' ASC');
+				break;
+			case 'catnamedesc':
+				$query->order($db->qn('c.category_name') . ' DESC');
+				break;
+			case 'newest':
+				$query->order($db->qn('c.category_id') . ' DESC');
+				break;
+			case 'catorder':
+				$query->order($db->qn('c.ordering') . ' ASC');
+				break;
 		}
 
 		if ($shopperGroupId)
 		{
-			$shopperGroupCat = ModProMenuHelper::getShoppergroupCat($shopperGroupId);
+			$shoppergroupCat = ModProMenuHelper::get_shoppergroup_cat($shopperGroupId);
 		}
 		else
 		{
-			$shopperGroupCat = 0;
+			$shoppergroupCat = 0;
 		}
 
-		// Select menu items from database
-		$query = "SELECT category_id,category_parent_id,category_name FROM #__redshop_category AS c "
-			. "LEFT JOIN #__redshop_category_xref AS cx ON c.category_id=cx.category_child_id "
-			. "WHERE c.published=1 ";
-
-		if ($shopperGroupId && $shopperGroupCat)
+		if ($shopperGroupId && $shoppergroup_cat)
 		{
-			$query .= " and category_id IN(" . $shopperGroupCat . ")";
+			$query->where($db->qn('c.category_id') . ' IN(' . $db->q($shoppergroupCat) . ')');
 		}
 
-		$query .= " ORDER BY " . $sortparam . "";
 		$db->setQuery($query);
 		$catdatas = $db->loadObjectList();
 
