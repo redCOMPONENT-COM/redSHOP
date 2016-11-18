@@ -1,91 +1,109 @@
-(function($){
-    $(document).ready(function(){
-        $('.redshop-wishlist-button, .redshop-wishlist-link').click(function(event){
-            event.preventDefault();
+(function($) {
+	$(document).ready(function() {
 
-            var productId = $(this).attr('data-productid');
-            var link      = $(this).attr('data-href');
+		// User
+		$('.redshop-wishlist-button, .redshop-wishlist-link').click(function(event) {
+			event.preventDefault();
 
-            if (link == '' || typeof link == 'undefined') {
-                link = $(this).attr('href');
-            }
+			var productId = $(this).attr('data-productid');
+			var formId = $(this).attr('data-formid');
+			var link = $(this).attr('data-href');
 
-            if (productId == '' || isNaN(productId)) {
-                return false;
-            }
+			if (link == '' || typeof link == 'undefined') {
+				link = $(this).attr('href');
+			}
 
-            link += '&product_id=' + productId;
+			if (productId == '' || isNaN(productId)) {
+				return false;
+			}
 
-            var $form = $('form#addtocart_prd_' + productId);
+			link += '&product_id=' + productId;
 
-            if (!$form.length) {
-                SqueezeBox.open(link, {handler: 'iframe'});
+			if (formId == '') {
+				var $form = $('form#addtocart_prd_' + productId);
+			} else {
+				var $form = $('form#' + formId);
+			}
 
-                return true;
-            }
 
-            $form = $($form[0]);
+			if (!$form.length) {
+				SqueezeBox.open(link, {
+					handler: 'iframe'
+				});
 
-            var attribute = $form.children('input#attribute_data');
-            var property = $form.children('input#property_data');
-            var subAttribute = $form.children('input#subproperty_data');
+				return true;
+			}
 
-            if (attribute.length) {
-                link += '&attribute_id=' + encodeURIComponent($(attribute[0]).val());
-            }
+			$form = $($form[0]);
 
-            if (property.length) {
-               link += '&property_id=' + encodeURIComponent($(property[0]).val());
-            }
+			var attribute = $form.children('input#attribute_data');
+			var property = $form.children('input#property_data');
+			var subAttribute = $form.children('input#subproperty_data');
 
-            if (subAttribute.length)
-                link += '&subattribute_id=' + encodeURIComponent($(subAttribute[0]).val());
+			if (attribute.length) {
+				link += '&attribute_id=' + encodeURIComponent($(attribute[0]).val());
+			}
 
-            SqueezeBox.open(link, {handler: 'iframe'});
+			if (property.length) {
+				link += '&property_id=' + encodeURIComponent($(property[0]).val());
+			}
 
-            return true;
-        });
+			if (subAttribute.length)
+				link += '&subattribute_id=' + encodeURIComponent($(subAttribute[0]).val());
 
-        $('.redshop-wishlist-form-button, .redshop-wishlist-form-link').click(function(event){
-            event.preventDefault();
-            var productId = $(this).attr('data-productid');
+			SqueezeBox.open(link, {
+				handler: 'iframe'
+			});
 
-            if (productId == '' || isNaN(productId))
-                return false;
+			return true;
+		});
 
-            var $wishlistForm = $('form#' + $(this).attr('data-target'));
+		// Guest
+		$('.redshop-wishlist-form-button, .redshop-wishlist-form-link').click(function(event) {
+			event.preventDefault();
+			var productId = $(this).attr('data-productid');
+			var formId = $(this).attr('data-formid');
 
-            if (!$wishlistForm.length)
-                return false;
+			if (productId == '' || isNaN(productId))
+				return false;
 
-            var $form = $('form#addtocart_prd_' + productId);
+			var $wishlistForm = $('form#' + $(this).attr('data-target'));
 
-            if (!$form.length) {
-                $wishlistForm.submit();
-                return true;
-            }
+			if (!$wishlistForm.length)
+				return false;
 
-            $form = $($form[0]);
+			if (formId == '') {
+				var $form = $('form#addtocart_prd_' + productId);
+			} else {
+				var $form = $('form#' + formId);
+			}
 
-            var attribute = $form.children('input#attribute_data');
-            var property = $form.children('input#property_data');
-            var subAttribute = $form.children('input#subproperty_data');
+			if (!$form.length) {
+				$wishlistForm.submit();
+				return true;
+			}
 
-            if (attribute.length) {
-                $wishlistForm.children("input[name='attribute_id']").val($(attribute[0]).val());
-            }
+			$form = $($form[0]);
 
-            if (property.length) {
-                $wishlistForm.children("input[name='property_id']").val($(property[0]).val());
-            }
+			var attribute = $form.children('input#attribute_data');
+			var property = $form.children('input#property_data');
+			var subAttribute = $form.children('input#subproperty_data');
 
-            if (subAttribute.length) {
-                $wishlistForm.children("input[name='subattribute_id']").val($(subAttribute[0]).val());
-            }
+			if (attribute.length) {
+				$wishlistForm.children("input[name='attribute_id']").val($(attribute[0]).val());
+			}
 
-            $wishlistForm.submit();
+			if (property.length) {
+				$wishlistForm.children("input[name='property_id']").val($(property[0]).val());
+			}
 
-            return true;
-        });
-    });
+			if (subAttribute.length) {
+				$wishlistForm.children("input[name='subattribute_id']").val($(subAttribute[0]).val());
+			}
+
+			$wishlistForm.submit();
+
+			return true;
+		});
+	});
 })(jQuery);

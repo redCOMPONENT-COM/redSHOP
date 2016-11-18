@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Controller Country Detail
+ * Question Detail controller
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller
@@ -18,22 +18,6 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerQuestion extends RedshopControllerForm
 {
-	/**
-	 * The URL view item variable.
-	 *
-	 * @var    string
-	 * @since  12.2
-	 */
-	protected $view_item = 'question';
-
-	/**
-	 * The URL view item variable.
-	 *
-	 * @var    string
-	 * @since  12.2
-	 */
-	protected $view_list = 'questions';
-
 	/**
 	 * Save question
 	 *
@@ -83,7 +67,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 	/**
 	 * Send function
-	 * 
+	 *
 	 * @return void
 	 */
 	public function send()
@@ -93,7 +77,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 	/**
 	 * Remove function
-	 * 
+	 *
 	 * @return void
 	 */
 	public function remove()
@@ -119,7 +103,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 	/**
 	 * Remove Answer function
-	 *  
+	 *
 	 * @return void
 	 */
 	public function removeAnswer()
@@ -146,7 +130,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 	/**
 	 * Send Answer
-	 * 
+	 *
 	 * @return void
 	 */
 	public function sendAnswer()
