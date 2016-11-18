@@ -331,7 +331,7 @@ class RedshopConfig {
 	public $POSTDANMARK_POSTALCODE = '123456';
 	public $MENUHIDE = '';
 	public $AJAX_CART_DISPLAY_TIME = '3000';
-	public $IMAGE_QUALITY_OUTPUT = '100';
+	public $IMAGE_QUALITY_OUTPUT = '70';
 	public $SEND_CATALOG_REMINDER_MAIL = '0';
 	public $CATEGORY_IN_SEF_URL = '0';
 	public $USE_BLANK_AS_INFINITE = '0';

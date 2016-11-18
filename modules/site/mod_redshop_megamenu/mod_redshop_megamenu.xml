@@ -22,19 +22,16 @@
         <fields name="params" addfieldpath="/libraries/redshop/form/fields">
             <fieldset name="basic">
                 <field
-                        name="menu"
-                        type="firstlevelmenuitem"
-                        label="MOD_REDSHOP_MEGAMENU_JOOMLA_MENU"
-                        description="MOD_REDSHOP_MEGAMENU_JOOMLA_MENU_DESC"
-                        menuTypeField="menutype"
-                        multiple="true">
-                </field>
+                        name="menutype"
+                        type="menu"
+                        label="MOD_REDSHOP_MEGAMENU_MENU_TYPE"
+                        description="MOD_REDSHOP_MEGAMENU_MENU_TYPE_DESC"
+                        />
                 <field
                         name="category"
                         type="redshopcategory"
                         default=""
                         label="MOD_REDSHOP_MEGAMENU_PARAMS_CATEGORY"
-                        required="true"
                         description="MOD_REDSHOP_MEGAMENU_PARAMS_CATEGORY_DESC"
                         multiple="false"
                         />

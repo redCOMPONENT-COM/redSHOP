@@ -35,17 +35,18 @@ class RedshopHelperWishlist
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function replaceWishlistTag($productId = 0, $templateContent = '')
+	public static function replaceWishlistTag($productId = 0, $templateContent = '', $formId = '')
 	{
 		if (Redshop::getConfig()->get('MY_WISHLIST') == 0)
 		{
 			$templateContent = str_replace('{wishlist_button}', '', $templateContent);
 			$templateContent = str_replace('{wishlist_link}', '', $templateContent);
+			$templateContent = str_replace('{property_wishlist_link}', '', $templateContent);
 
 			return $templateContent;
 		}
 
-		return RedshopTagsReplacer::_('wishlist', $templateContent, array('productId' => $productId));
+		return RedshopTagsReplacer::_('wishlist', $templateContent, array('productId' => $productId, 'formId' => $formId));
 	}
 
 	/**
