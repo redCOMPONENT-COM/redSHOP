@@ -17,7 +17,6 @@ $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
 
 $doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.js');
-$doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/icheck.min.js');
 $doc->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.css');
 $doc->addStyleSheet(JURI::root() . 'media/com_redshop/css/font-awesome.css');
 

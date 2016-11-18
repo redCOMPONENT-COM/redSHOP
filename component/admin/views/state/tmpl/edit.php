@@ -19,18 +19,24 @@ JHtml::_('behavior.formvalidator');
 	enctype="multipart/form-data"
 >
 	<fieldset class="adminform">
-		<div class="row-fluid">
-			<div class="col-sm-12">
-				<legend><?php echo JText::_('COM_REDSHOP_DETAILS') ?></legend>
-				<?php echo $this->form->renderField('state_name') ?>
-				<?php echo $this->form->renderField('country_id') ?>
-				<?php echo $this->form->renderField('state_3_code') ?>
-				<?php echo $this->form->renderField('state_2_code') ?>
-				<?php echo $this->form->renderField('show_state') ?>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DETAIL') ?></h3>
+					</div>
+					<div class="box-body">
+						<?php echo $this->form->renderField('state_name') ?>
+						<?php echo $this->form->renderField('country_id') ?>
+						<?php echo $this->form->renderField('state_3_code') ?>
+						<?php echo $this->form->renderField('state_2_code') ?>
+						<?php echo $this->form->renderField('show_state') ?>
+					</div>
+				</div>
 			</div>
 		</div>
 	</fieldset>
 	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="id" value="<?php echo $this->item->id ?>" />
+	<?php echo $this->form->getInput('id') ?>
 </form>
