@@ -170,7 +170,7 @@ else
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+	<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid); ?>" method="post" name="adminForm" id="redshopRegistrationForm" enctype="multipart/form-data">
 
 		<?php if (Redshop::getConfig()->get('REGISTER_METHOD') == 2) :
 			$checked_style = (Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1) ? 'checked="checked"' : "''";
