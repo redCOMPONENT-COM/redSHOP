@@ -22,14 +22,37 @@
         <fields name="params" addfieldpath="/libraries/redshop/form/fields">
             <fieldset name="basic">
                 <field
+                        name="menutype"
+                        type="menu"
+                        label="MOD_REDSHOP_MEGAMENU_MENU_TYPE"
+                        description="MOD_REDSHOP_MEGAMENU_MENU_TYPE_DESC"
+                />
+                <field
+                        name="endLevel"
+                        type="list"
+                        default="999"
+                        label="MOD_REDSHOP_MEGAMENU_MENU_END_LEVEL"
+                        description="MOD_REDSHOP_MEGAMENU_MENU_END_LEVEL_DESC">
+                    <option value="999">JALL</option>
+                    <option value="1">J1</option>
+                    <option value="2">J2</option>
+                    <option value="3">J3</option>
+                    <option value="4">J4</option>
+                    <option value="5">J5</option>
+                    <option value="6">J6</option>
+                    <option value="7">J7</option>
+                    <option value="8">J8</option>
+                    <option value="9">J9</option>
+                    <option value="10">J10</option>
+                </field>
+                <field
                         name="category"
                         type="redshopcategory"
                         default=""
                         label="MOD_REDSHOP_MEGAMENU_PARAMS_CATEGORY"
-                        required="true"
                         description="MOD_REDSHOP_MEGAMENU_PARAMS_CATEGORY_DESC"
                         multiple="false"
-                        />
+                />
                 <field
                         name="ordering"
                         type="list"
@@ -49,7 +72,7 @@
                         label="MOD_REDSHOP_MEGAMENU_PARAMS_DESTINATION"
                         description="MOD_REDSHOP_MEGAMENU_PARAMS_DESTINATION_DESC"
                         multiple="false"
-                        >
+                >
                     <option value="asc">MOD_REDSHOP_MEGAMENU_PARAMS_DESTINATION_OPTION_ASCENDING</option>
                     <option value="desc">MOD_REDSHOP_MEGAMENU_PARAMS_DESTINATION_OPTION_DESCENDING</option>
                 </field>
