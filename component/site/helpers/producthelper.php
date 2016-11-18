@@ -4991,6 +4991,8 @@ class productHelper
 				$property_all = empty($attributes[$a]->properties) ? $this->getAttibuteProperty(0, $attributes[$a]->attribute_id) : $attributes[$a]->properties;
 				$property_all = array_values($property_all);
 
+
+
 				if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 				{
 					$property = $this->getAttibutePropertyWithStock($property_all);

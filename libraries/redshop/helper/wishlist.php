@@ -30,6 +30,7 @@ class RedshopHelperWishlist
 	 *
 	 * @param   int     $productId        Product ID
 	 * @param   string  $templateContent  HTML data of template content
+	 * @param   string  $formId           DOM ID of add to cart form.
 	 *
 	 * @return  string                    HTML data of replaced content.
 	 *
@@ -76,17 +77,68 @@ class RedshopHelperWishlist
 				->from($db->qn('#__redshop_wishlist'))
 				->where($db->qn('wishlist_id') . ' = ' . $wishlistId);
 
-			$wishlist = $db->setQuery($query)->loadObject();
+			$wishlist           = $db->setQuery($query)->loadObject();
+			$wishlist->products = array();
+
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_wishlist_product'))
+				->where($db->qn('wishlist_id') . ' = ' . $wishlistId);
+
+			$wishlistProducts = $db->setQuery($query)->loadObjectList();
+
+			if (empty($wishlistProducts))
+			{
+				static::$wishLists[$wishlistId] = $wishlist;
+
+				return static::$wishLists[$wishlistId];
+			}
 
 			$query->clear()
+				->select($db->qn('wpi.ref_id'))
 				->select($db->qn('wpi.attribute_id'))
 				->select($db->qn('wpi.property_id'))
 				->select($db->qn('wpi.subattribute_id'))
 				->from($db->qn('#__redshop_wishlist_product_item', 'wpi'))
 				->leftJoin($db->qn('#__redshop_wishlist_product', 'wp') . ' ON ' . $db->qn('wp.wishlist_product_id') . ' = ' . $db->qn('wpi.ref_id'))
 				->where($db->qn('wp.wishlist_id') . ' = ' . $wishlistId);
+			$wishlistProductItems = $db->setQuery($query)->loadObjectList();
 
-			$wishlist->product_items = $db->setQuery($query)->loadObjectList();
+			foreach ($wishlistProducts as $wishlistProduct)
+			{
+				if (!array_key_exists($wishlistProduct->product_id, $wishlist->products))
+				{
+					$wishlist->products[$wishlistProduct->product_id] = array();
+				}
+
+				$wishlistProduct->product_items = array();
+				$wishlistProduct->attributes = array();
+				$wishlistProduct->properties = array();
+				$wishlistProduct->subAttributes = array();
+
+				foreach ($wishlistProductItems as $key => $wishlistProductItem)
+				{
+					if ($wishlistProductItem->ref_id == $wishlistProduct->wishlist_product_id)
+					{
+						$wishlistProduct->product_items[] = $wishlistProductItem;
+
+						unset($wishlistProductItems[$key]);
+					}
+				}
+
+				foreach ($wishlistProduct->product_items as $productItem)
+				{
+					$wishlistProduct->attributes[]    = $productItem->attribute_id;
+					$wishlistProduct->properties[]    = $productItem->property_id;
+					$wishlistProduct->subAttributes[] = $productItem->subattribute_id;
+				}
+
+				$wishlistProduct->attributes    = array_filter($wishlistProduct->attributes);
+				$wishlistProduct->properties    = array_filter($wishlistProduct->properties);
+				$wishlistProduct->subAttributes = array_filter($wishlistProduct->subAttributes);
+
+				$wishlist->products[$wishlistProduct->product_id][] = $wishlistProduct;
+			}
 
 			static::$wishLists[$wishlistId] = $wishlist;
 		}
