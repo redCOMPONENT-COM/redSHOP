@@ -4793,6 +4793,10 @@ class productHelper
 							. '" value="' . $property_stock . '" />';
 						$property_data .= '<input type="hidden" id="' . $propertyid . '_preorderstock'
 							. $property[$i]->value . '" value="' . $preorder_property_stock . '" />';
+
+						$formId = 'addtocart_' . $propertyid . '_' . $property[$i]->value;
+
+						$property_data = $this->replaceWishlistButton($product_id, $property_data, $formId);
 					}
 
 					if ($attributes[$a]->attribute_required > 0)
@@ -5946,8 +5950,8 @@ class productHelper
 			<input type='hidden' name='max_quantity' id='max_quantity' value='" . $max_quantity . "' requiredtext='"
 			. JText::_('COM_REDSHOP_MAXIMUM_QUANTITY_SHOULD_BE') . "'>
 
-			<input type='hidden' name='attribute_data' id='attribute_data' value='0'>
-			<input type='hidden' name='property_data' id='property_data' value='0'>
+			<input type='hidden' name='attribute_data' id='attribute_data' value='" . $attribute_id . "'>
+			<input type='hidden' name='property_data' id='property_data' value='" . $property_id . "'>
 			<input type='hidden' name='subproperty_data' id='subproperty_data' value='0'>
 
 			<input type='hidden' name='calcHeight' id='hidden_calc_height' value='' />
@@ -6967,9 +6971,9 @@ class productHelper
 	 *
 	 * @deprecated  __DEPLOY_VERSION__    Use RedshopHelperWishlist::replaceWishlistTag() instead
 	 */
-	public function replaceWishlistButton($productId = 0, $templateContent = "")
+	public function replaceWishlistButton($productId = 0, $templateContent = '', $formId = '')
 	{
-		return RedshopHelperWishlist::replaceWishlistTag($productId, $templateContent);
+		return RedshopHelperWishlist::replaceWishlistTag($productId, $templateContent, $formId);
 	}
 
 	public function replaceCompareProductsButton($product_id = 0, $category_id = 0, $data_add = "", $is_relatedproduct = 0)
