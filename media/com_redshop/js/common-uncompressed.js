@@ -64,7 +64,7 @@ jQuery(document).ready(function() {
 
 	// Handle add (remove) product to (from) comparision list
 	jQuery('[id^="rsProductCompareChk"]').click(function(event) {
-	    redSHOP.compareAction(jQuery(this), "");
+		redSHOP.compareAction(jQuery(this), "");
 	});
 
 	// Hide some checkout view stuff
@@ -355,7 +355,7 @@ function showhidebox(obj)
 	{
 		if(document.getElementById('td_password'))
 		{
-           document.getElementById('td_password').style.display='';
+		   document.getElementById('td_password').style.display='';
 		}
 		if(document.getElementById('td_b_password'))
 		{
@@ -460,31 +460,31 @@ function showcustomfields()
 		{
 			document.getElementById('register_company').style.display='';
 		}
-	 	if(document.getElementById('register_private'))
-	 	{
-	 		document.getElementById('register_private').style.display='none';
-	 	}
-	 	var frm = document.adminForm2;
-	 	if(frm.createaccount)
-	 	{
-	 		showhidebox(frm.createaccount);
-	 	}
+		if(document.getElementById('register_private'))
+		{
+			document.getElementById('register_private').style.display='none';
+		}
+		var frm = document.adminForm2;
+		if(frm.createaccount)
+		{
+			showhidebox(frm.createaccount);
+		}
 	}
 	else
 	{
-	    if(document.getElementById('register_private'))
-	    {
-	    	document.getElementById('register_private').style.display='';
-	    }
-	 	if(document.getElementById('register_company'))
-	 	{
-	 		document.getElementById('register_company').style.display='none';
-	 	}
-	 	var frm = document.adminForm;
-	 	if(frm.createaccount)
-	 	{
-	 		showhidebox(frm.createaccount);
-	 	}
+		if(document.getElementById('register_private'))
+		{
+			document.getElementById('register_private').style.display='';
+		}
+		if(document.getElementById('register_company'))
+		{
+			document.getElementById('register_company').style.display='none';
+		}
+		var frm = document.adminForm;
+		if(frm.createaccount)
+		{
+			showhidebox(frm.createaccount);
+		}
 	}
 }
 
@@ -506,7 +506,7 @@ function billingIsShipping(obj)
 	{
 		if(document.getElementById('divShipping'))
 		{
-           document.getElementById('divShipping').style.display='none';
+		   document.getElementById('divShipping').style.display='none';
 		}
 	} else {
 		if(document.getElementById('divShipping'))
@@ -522,7 +522,7 @@ function createUserAccount(obj)
 	{
 		if(obj && obj.checked)
 		{
-           document.getElementById('tdUsernamePassword').style.display='';
+		   document.getElementById('tdUsernamePassword').style.display='';
 		}
 		else
 		{
@@ -541,9 +541,9 @@ function searchByPhone()
 	if(value)
 	{
 		if (window.XMLHttpRequest)
-	  	{// code for IE7+, Firefox, Chrome, Opera, Safari
-	  		xmlhttp=new XMLHttpRequest();
-	  	}
+		{// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp=new XMLHttpRequest();
+		}
 		else
 		{// code for IE6, IE5
 			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
@@ -653,9 +653,25 @@ function showCompanyOrCustomer(obj)
 	var linktocontroller = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
 		linktocontroller += "&is_company="+obj.value+"&template_id="+template_id;
 
+	var postData = jQuery("#redshopRegistrationForm").serializeArray();
+
+	postData = jQuery.grep(postData, function(value) {
+		if (
+			value.name != 'task' &&
+			value.name != 'view' &&
+			value.name != 'option' &&
+			value.name != 'is_company'
+		)
+		{
+			return true;
+		}
+	});
+
+
 	jQuery.ajax({
 		url: linktocontroller,
-		type: 'GET'
+		type: 'GET',
+		data: postData
 	})
 	.done(function(response) {
 
@@ -715,7 +731,7 @@ function displaytextarea(obj)
 	{
 		if(document.getElementById('rs_Divcustomer_messageTA'))
 		{
-           document.getElementById('rs_Divcustomer_messageTA').style.display='block';
+		   document.getElementById('rs_Divcustomer_messageTA').style.display='block';
 		}
 	} else {
 		if(document.getElementById('rs_Divcustomer_messageTA'))
@@ -900,9 +916,9 @@ function onestepCheckoutProcess(objectname,classname)
 			data: postParams,
 		})
 		.done(function(txtresponse) {
-		    var arrResponse = txtresponse.split("`_`");
+			var arrResponse = txtresponse.split("`_`");
 
-		    document.getElementById('responceonestep').innerHTML = arrResponse[1];
+			document.getElementById('responceonestep').innerHTML = arrResponse[1];
 
 			if(arrResponse[2] && document.getElementById('mod_cart_total_value_ajax'))
 			{
@@ -1005,9 +1021,9 @@ function autoFillCity(str,isShipping)
 	if(str)
 	{
 		if (window.XMLHttpRequest)
-	  	{// code for IE7+, Firefox, Chrome, Opera, Safari
-	  		xmlhttp=new XMLHttpRequest();
-	  	}
+		{// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp=new XMLHttpRequest();
+		}
 		else
 		{// code for IE6, IE5
 			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
