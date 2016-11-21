@@ -8,9 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
-$productHelper = productHelper::getInstance();
-
 ?>
 <div class="mod_discount_main">
 	<table class="table table-striped table-condensed">
@@ -21,34 +18,28 @@ $productHelper = productHelper::getInstance();
 		</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($data as $oneData):
-			switch ($oneData->condition)
-			{
-				case '1':
-					$cond = '<';
-					break;
-				case '3':
-					$cond = '>';
-					break;
-				default:
-					$cond = '=';
-					break;
-			}
+		<?php foreach ($data as $oneData): ?>
+			<?php switch ($oneData->condition): case '1': ?>
+					<?php $cond = '<'; ?>
+					<?php break; ?>
+				<?php case '3': ?>
+					<?php $cond = '>'; ?>
+					<?php break; ?>
+				<?php default: ?>
+					<?php $cond = '='; ?>
+					<?php break; ?>
+			<?php endswitch ?>
 
-			$amount = $oneData->amount;
+			<?php $amount = $oneData->amount; ?>
 
-			if ($oneData->discount_type == '1')
-			{
-				$discount_amount = number_format((double) $oneData->discount_amount, Redshop::getConfig()->get('PRICE_DECIMAL'), Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR')) . ' %';
-			}
-			else
-			{
-				$discount_amount = $productHelper->getProductFormattedPrice($oneData->discount_amount);
-			}
-			?>
+			<?php if ($oneData->discount_type == '1'): ?>
+				<?php $discountAmount = number_format((double) $oneData->discount_amount, Redshop::getConfig()->get('PRICE_DECIMAL'), Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR')) . ' %'; ?>
+			<?php else: ?>
+				<?php $discountAmount = $productHelper->getProductFormattedPrice($oneData->discount_amount); ?>
+			<?php endif ?>
 		<tr>
 			<td><?php echo JText::sprintf('MOD_REDSHOP_DISCOUNT_CONDITION_TEMPLATE', $cond, $amount); ?></td>
-			<td><?php echo $discount_amount; ?></td>
+			<td><?php echo $discountAmount; ?></td>
 		</tr>
 		<?php endforeach; ?>
 		</tbody>
