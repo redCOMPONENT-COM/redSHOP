@@ -258,6 +258,11 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
+		if (!$row->check())
+		{
+			return false;
+		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());

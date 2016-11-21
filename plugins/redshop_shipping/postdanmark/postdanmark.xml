@@ -1,59 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
-	<name>PLG_REDSHOP_SHIPPING_POSTDANMARK</name>
-	<version>1.5.2</version>
+    <name>PLG_REDSHOP_SHIPPING_POSTDANMARK</name>
+    <version>1.6.0</version>
     <redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
-	<author>redCOMPONENT.com</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<authorUrl>http://www.redcomponent.com</authorUrl>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>GNU General Public License v2</license>
-	<description>PLG_REDSHOP_SHIPPING_POSTDANMARK_DESC</description>
-	<files>
-		<filename plugin="postdanmark">postdanmark.php</filename>
-		<folder>includes</folder>
-	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_postdanmark.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_shipping_postdanmark.sys.ini</language>
-	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field name="is_shipper" type="hidden" default="1" value="0" />
-				<field
-					name="allowPacsoftLabel"
-					type="radio"
-					class="btn-group"
-					default="0"
-					label="PLG_DEFAULT_SHIPPING_ALLOW_PACSOFT_LABEL"
-					description="PLG_DEFAULT_SHIPPING_ALLOW_PACSOFT_LABEL_DESC"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="consumerId"
-					type="text"
-					default=""
-					value=""
-					size="45"
-					label="PLG_REDSHOP_SHIPPING_POSTDANMARK_CONSUMERID"
-					desc="PLG_REDSHOP_SHIPPING_POSTDANMARK_CONSUMERID_DESC"
-				/>
-				<field
-					name="useMap"
-					type="radio"
-					class="btn-group"
-					default="1"
-					label="PLG_DEFAULT_SHIPPING_USE_MAP_LABEL"
-					description="PLG_DEFAULT_SHIPPING_USE_MAP_DESC"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-			</fieldset>
-		</fields>
-	</config>
+    <creationDate>November 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>http://www.redcomponent.com</authorUrl>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>PLG_REDSHOP_SHIPPING_POSTDANMARK_DESC</description>
+    <files>
+        <folder>language</folder>
+        <folder>includes</folder>
+        <filename plugin="postdanmark">postdanmark.php</filename>
+    </files>
+    <scriptfile>install.php</scriptfile>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="is_shipper"
+                        type="hidden"
+                        default="1"
+                        value="0"
+                        />
+                <field
+                    name="allowPacsoftLabel"
+                    type="radio"
+                    class="btn-group"
+                    default="0"
+                    label="PLG_DEFAULT_SHIPPING_ALLOW_PACSOFT_LABEL"
+                    description="PLG_DEFAULT_SHIPPING_ALLOW_PACSOFT_LABEL_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="consumerId"
+                        type="text"
+                        default=""
+                        value=""
+                        size="45"
+                        label="PLG_REDSHOP_SHIPPING_POSTDANMARK_CONSUMERID"
+                        desc="PLG_REDSHOP_SHIPPING_POSTDANMARK_CONSUMERID_DESC"
+                        />
+                <field
+                        name="useMap"
+                        type="radio"
+                        class="btn-group"
+                        default="1"
+                        label="PLG_DEFAULT_SHIPPING_USE_MAP_LABEL"
+                        description="PLG_DEFAULT_SHIPPING_USE_MAP_DESC">
+                        <option value="1">JYES</option>
+                        <option value="0">JNO</option>
+                </field>
+                <field
+                        name="mapKey"
+                        type="text"
+                        default=""
+                        label="PLG_REDSHOP_SHIPPING_POSTDANMARK_MAP_KEY"
+                        description="PLG_REDSHOP_SHIPPING_POSTDANMARK_MAP_DESC"
+                        />
+            </fieldset>
+        </fields>
+    </config>
 </extension>

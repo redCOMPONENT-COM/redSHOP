@@ -28,7 +28,7 @@ class RedshopHelperWorld
 	 *
 	 * @var  array
 	 */
-	protected $countries = array();
+	protected static $countries = array();
 
 	/**
 	 * States based on given country
@@ -39,7 +39,7 @@ class RedshopHelperWorld
 
 	/**
 	 * Returns the RedshopHelperWorld object, only creating it
-	 * if it doesn't already exist.
+	 * if it does not already exist.
 	 *
 	 * @return  RedshopHelperWorld  The RedshopHelperWorld object
 	 *
@@ -64,9 +64,9 @@ class RedshopHelperWorld
 	{
 		$db = JFactory::getDbo();
 
-		if (!empty($this->countries))
+		if (!empty(self::$countries))
 		{
-			return $this->countries;
+			return self::$countries;
 		}
 
 		// Load allowed countries from config
@@ -85,20 +85,20 @@ class RedshopHelperWorld
 				}, $db);
 
 				$query = $db->getQuery(true)
-							->select(
-								array(
-									$db->qn('country_3_code', 'value'),
-									$db->qn('country_name', 'text'),
-									$db->qn('country_jtext'),
-								)
+						->select(
+							array(
+								$db->qn('country_3_code', 'value'),
+								$db->qn('country_name', 'text'),
+								$db->qn('country_jtext'),
 							)
-							->from($db->qn('#__redshop_country'))
-							->where($db->qn('country_3_code') . ' IN (' . implode(',', $countriesList) . ')')
-							->order($db->qn('country_name'));
+						)
+						->from($db->qn('#__redshop_country'))
+						->where($db->qn('country_3_code') . ' IN (' . implode(',', $countriesList) . ')')
+						->order($db->qn('country_name'));
 
 				// Set the query and load the result.
 				$db->setQuery($query);
-				$this->countries = redhelper::getInstance()->convertLanguageString($db->loadObjectList());
+				self::$countries = redhelper::getInstance()->convertLanguageString($db->loadObjectList());
 
 				// Check for a database error.
 				if ($db->getErrorNum())
@@ -110,11 +110,11 @@ class RedshopHelperWorld
 			}
 		}
 
-		return $this->countries;
+		return self::$countries;
 	}
 
 	/**
-	 * Get states based on coutnry
+	 * Get states based on country
 	 *
 	 * @param   string  $country  Country Code
 	 *
@@ -133,15 +133,12 @@ class RedshopHelperWorld
 			->select(
 				array(
 					$db->qn('s.state_2_code', 'value'),
-					$db->qn('s.state_name', 'text'),
-					$db->qn('c.id'),
-					$db->qn('c.country_3_code')
+					$db->qn('s.state_name', 'text')
 				)
 			)
 			->from($db->qn('#__redshop_state', 's'))
-			->from($db->qn('#__redshop_country', 'c'))
-			->where($db->qn('c.id') . ' = ' . $db->qn('s.country_id'))
-			->where($db->qn('c.country_3_code') . ' = ' . $db->q($country))
+			->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('s.country_id'))
+			->where($db->qn('c.country_3_code') . ' = ' . $db->quote($country))
 			->order($db->qn('s.state_name'));
 
 		// Set the query and load the result.
@@ -169,6 +166,7 @@ class RedshopHelperWorld
 	 * @param   string  $countryListName  Name of the select element
 	 * @param   string  $addressType      Address type. BT or ST
 	 * @param   string  $class            Country select list class name
+	 * @param   string  $stateListId      State list.
 	 *
 	 * @return  array                     Country list information
 	 */
@@ -229,10 +227,10 @@ class RedshopHelperWorld
 	/**
 	 * This function will get state list from country code and return HTML of state (both billing and shipping)
 	 *
-	 * @param   array   $post             $post get from $_POST request
-	 * @param   string  $stateListName    State Code from billing or Shipping
-	 * @param   string  $addressType      Distinguish billing or shipping
-	 * @param   string  $class            Class of state of selected field
+	 * @param   array   $post           $post get from $_POST request
+	 * @param   string  $stateListName  State Code from billing or Shipping
+	 * @param   string  $addressType    Distinguish billing or shipping
+	 * @param   string  $class          Class of state of selected field
 	 *
 	 * @return array
 	 */
@@ -276,15 +274,15 @@ class RedshopHelperWorld
 			'statelist'      => $states,
 			'is_states'      => $totalStates,
 			'state_dropdown' => JHTML::_(
-								'select.genericlist',
-								$states,
-								$stateListName,
-								array('class' => $class),
-								'value',
-								'text',
-								$selectedStateCode,
-								'rs_state_' . $stateListName
-							)
+				'select.genericlist',
+				$states,
+				$stateListName,
+				array('class' => $class),
+				'value',
+				'text',
+				$selectedStateCode,
+				'rs_state_' . $stateListName
+			)
 		);
 	}
 
