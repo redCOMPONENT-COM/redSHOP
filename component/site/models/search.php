@@ -1358,7 +1358,6 @@ class RedshopModelSearch extends RedshopModel
 	public function getItem()
 	{
 		$query      = $this->getListQuery();
-		echo $query->dump();
 		$db         = JFactory::getDbo();
 		$start      = $this->getState('list.start');
 		$limit      = $this->getState('list.limit');
