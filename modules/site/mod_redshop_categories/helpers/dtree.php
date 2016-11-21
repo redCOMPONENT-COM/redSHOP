@@ -56,14 +56,14 @@ abstract class ModDtreeMenuHelper
 
 		if ($shopperGroupId)
 		{
-			$shoppergroupCat = ModProMenuHelper::get_shoppergroup_cat($shopperGroupId);
+			$shoppergroupCat = ModProMenuHelper::getShopperGroupCat($shopperGroupId);
 		}
 		else
 		{
 			$shoppergroupCat = 0;
 		}
 
-		if ($shopperGroupId && $shoppergroup_cat)
+		if ($shopperGroupId && $shoppergroupCat)
 		{
 			$query->where($db->qn('c.category_id') . ' IN(' . $db->q($shoppergroupCat) . ')');
 		}
