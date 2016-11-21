@@ -18,8 +18,8 @@ JFactory::getDocument()->addScriptDeclaration('
 		jQuery(\'#redshopbMegaMenu_' . $module->id . '\').shopbMegaMenu({
 			effect: \'' . $params->get('effect', 'fade') . '\', animation: \'' . $params->get('animation', 'none') . '\',
 			indicatorFirstLevel: \'' . $params->get('indicatorFirstLevel', '+') . '\', indicatorSecondLevel: \'' . $params->get('indicatorSecondLevel', '+') . '\',
-			showSpeed: ' . (int) $params->get('showSpeed', 300) . ', hideSpeed: ' . (int) $params->get('hideSpeed', 300) . ',
-			showOverlay: ' . ($params->get('showOverlay', 1) ? 'true' : 'false') . '
+			showSpeed: ' . (int) $params->get('showSpeed', 300) . ', hideSpeed: ' . (int) $params->get('hideSpeed', 100) . ',
+			showOverlay: ' . ($params->get('showOverlay', 0) ? 'true' : 'false') . '
 		});
 	});
 })(jQuery);
@@ -29,31 +29,17 @@ JFactory::getDocument()->addScriptDeclaration('
 	<ul class="nav shopbMegaMenu-menu menu<?php
 	echo $class_sfx; ?>">
 	<?php foreach ($categories as $key => $category): ?>
-		<li class="item-<?php echo $category->category_id ?> level-item-1 current active deeper parent">
-			<a href="#">
+		<?php if($category->published == 1):?>
+		<?php $clsdeeper = !empty($category->sub_cat) ? 'deeper' : ''; ?>
+		<li class="item-<?php echo $category->category_id ?> level-item-1 current parent <?php echo $clsdeeper;?>">
+			<a href="<?php echo $category->link; ?>">
 				<span class="menuLinkTitle"><?php echo $category->category_name ?></span>
 			</a>
-			<ul class="nav-child unstyled small dropdown">
-				<?php foreach ($category->sub_cat as $sub_cat): ?>
-					<li class="item-<?php echo $sub_cat->category_id ?> level-item-2">
-						<a href="#">
-							<span class="menuLinkTitle"><?php echo $sub_cat->category_name ?></span>
-						</a>
-						<img src="<?php echo JUri::root() . 'components/com_redshop/assets/images/category/' . $sub_cat->image; ?>" />
-						<ul class="nav-child unstyled small dropdown">
-							<?php foreach ($sub_cat->sub_cat as $child_cat): ?>
-								<li class="item-<?php echo $child_cat->category_id ?> level-item-3">
-									<a href="#">
-										<span class="menuLinkTitle"><?php echo $child_cat->category_name ?></span>
-									</a>
-									<img src="<?php echo JUri::root() . 'components/com_redshop/assets/images/category/' . $child_cat->image; ?>" />
-								</li>
-							<?php endforeach; ?>
-						</ul>
-					</li>
-				<?php endforeach; ?>
-			</ul>
+			<?php if (!empty($category->sub_cat)) : ?>
+				<?php ModRedshopMegaMenuHelper::displayLevel($category->sub_cat, $category); ?>
+			<?php endif;?>
 		</li>
+		<?php endif;?>
 	<?php endforeach; ?>
 	</ul>
 	<div class="clearfix"></div>
