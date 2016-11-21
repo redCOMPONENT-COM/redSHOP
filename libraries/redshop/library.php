@@ -12,6 +12,9 @@ defined('JPATH_PLATFORM') or die;
 
 use \Doctrine\Common\Annotations\AnnotationRegistry;
 
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+
 // Define redSHOP Library Folder Path
 define('JPATH_REDSHOP_LIBRARY', __DIR__);
 
@@ -34,6 +37,9 @@ if (file_exists($composerAutoload))
 // Load library language
 $lang = JFactory::getLanguage();
 $lang->load('lib_redshop', JPATH_SITE);
+
+// Load redSHOP language
+$lang->load('com_redshop', JPATH_SITE);
 
 // Load redSHOP factory file
 JLoader::import('redshop.redshop');

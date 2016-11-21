@@ -49,7 +49,7 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 	protected function preparePaymentInput($orderInfo)
 	{
 		$inputs = array(
-				'action' 	  => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=nganluong&orderid=" . $orderInfo['order_id'],
+				'action' 	  => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=process_payment&payment_method_id=nganluong&order_id=" . $orderInfo['order_id'],
 				'firstname'   => $orderInfo['billinginfo']->firstname,
 				'lastname'    => $orderInfo['billinginfo']->lastname,
 				'email'       => $orderInfo['billinginfo']->user_email,
@@ -70,7 +70,7 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 	 *
 	 * @return  object  Contains the information of order success of falier in object
 	 */
-	public function onNotifyPaymentNganluong($element, $request)
+	public function onPrePayment_Nganluong($element, $request)
 	{
 		if ($element != 'nganluong')
 		{
@@ -80,7 +80,7 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 		$app         = JFactory::getApplication();
 		$input       = $app->input;
 		$orderHelper = order_functions::getInstance();
-		$orderId     = $input->getInt('orderid');
+		$orderId     = $input->getInt('order_id');
 		$order       = $orderHelper->getOrderDetails($orderId);
 		$price       = $order->order_total;
 
@@ -100,8 +100,8 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 		$orderDescription = '';
 		$taxAmount = $order->order_tax;
 		$feeshipping = $order->order_shipping;
-		$returnUrl = $this->getReturnUrl($orderId);
-		$cancelUrl = urlencode($this->getNotifyUrl($orderId));
+		$returnUrl = urlencode($this->getNotifyUrl($orderId));
+		$cancelUrl = urlencode($this->getReturnUrl($orderId));
 
 		$buyerFullname = $input->post->get('fullname');
 		$buyerEmail = $input->post->get('email');
@@ -136,13 +136,41 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 			}
 		}
 
-		$this->redirect   = (string) $nlResult->checkout_url;
+		$redirect   = (string) $nlResult->checkout_url;
+		$app->redirect($redirect);
+	}
+
+	/**
+	 * Notify payment
+	 *
+	 * @param   string  $element  Name of plugin
+	 * @param   array   $request  HTTP request data
+	 *
+	 * @return  object  Contains the information of order success of falier in object
+	 */
+	public function onNotifyPaymentNganluong($element, $request)
+	{
+		if ($element != 'nganluong')
+		{
+			return;
+		}
+
+		$app   = JFactory::getApplication();
+		$input = $app->input;
+		$token = $input->getString('token');
+
+		$merchantId = $this->params->get('nganluong_merchant_id');
+		$merchantPass = $this->params->get('nganluong_merchant_password');
+		$email = $this->params->get('nganluong_email');
+		$url = $this->params->get('nganluong_url_api');
+
+		$nlCheckout       = new NL_CheckOutV3($merchantId, $merchantPass, $email, $url);
+		$nlResult         = $nlCheckout->GetTransactionDetail($token);
+		$nlErrorCode      = (string) $nlResult->error_code;
 		$values           = new stdClass;
-		$values->order_id = $orderId;
+		$values->order_id = (int) $nlResult->order_code;
 
-		return $values;
-
-		if ($nlResult->error_code == '00')
+		if ($nlErrorCode == '00')
 		{
 			$values->order_status_code         = $this->params->get('verify_status', '');
 			$values->order_payment_status_code = 'Paid';
@@ -158,19 +186,5 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 		}
 
 		return $values;
-	}
-
-	/**
-	 * Redirecting after payment notify
-	 *
-	 * @param   string   $name     Name of plugin
-	 * @param   integer  $orderId  Order Information Id
-	 *
-	 * @return  void
-	 */
-	public function onAfterNotifyPaymentNganluong($name, $orderId)
-	{
-		$app    = JFactory::getApplication();
-		$app->redirect($this->redirect);
 	}
 }

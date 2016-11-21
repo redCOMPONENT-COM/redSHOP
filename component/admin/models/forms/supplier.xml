@@ -28,14 +28,12 @@
 			required="false"
 			/>
 		<field
-			name="published"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
-			label="COM_REDSHOP_PUBLISHED">
-				<option value="1">JPUBLISHED</option>
-				<option value="0">JUNPUBLISHED</option>
-		</field>
+            name="published"
+            type="rpublished"
+            label="JOPTION_SELECT_PUBLISHED"
+            statuses="0,1">
+        	<option value="">JOPTION_SELECT_PUBLISHED</option>
+    	</field>
 		<field
 			name="supplier_desc"
 			type="editor"

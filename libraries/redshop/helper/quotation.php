@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Class Redshop Helper for Quotation
  *
@@ -79,7 +81,7 @@ class RedshopHelperQuotation
 	 * @param   integer  $quotationId      Quotation ID
 	 * @param   integer  $quotationItemId  Quotation Item ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -96,7 +98,7 @@ class RedshopHelperQuotation
 		{
 			// Sanitize ids
 			$quotationId = explode(',', $quotationId);
-			JArrayHelper::toInteger($quotationId);
+			$quotationId = ArrayHelper::toInteger($quotationId);
 
 			$query->where($db->qn('q.quotation_id') . " IN (" . implode(',', $quotationId) . ")");
 		}
@@ -152,7 +154,7 @@ class RedshopHelperQuotation
 		$db    = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('COUNT' . $db->qn('q.quotation_id'))
+			->select('COUNT(' . $db->qn('quotation_id') . ')')
 			->from($db->qn('#__redshop_quotation', 'q'));
 
 		$db->setQuery($query);
@@ -174,6 +176,11 @@ class RedshopHelperQuotation
 	 */
 	public static function updateQuotationStatus($quotationId, $status = 1)
 	{
+		if (!$quotationId)
+		{
+			return;
+		}
+
 		// Initialize variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -230,7 +237,7 @@ class RedshopHelperQuotation
 	 *
 	 * @param   string  $pLength  Length of string to generate
 	 *
-	 * @return  $string
+	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -350,10 +357,9 @@ class RedshopHelperQuotation
 	public static function displayQuotationUserField($quotationItemId = 0, $sectionId = 12)
 	{
 		/**
-		 * @TODO: Redtemplate and productHelper will be deprecated,
+		 * @TODO: ProductHelper will be deprecated,
 		 * replace them with approriated classes
 		 */
-		$redTemplate   = Redtemplate::getInstance();
 		$productHelper = productHelper::getInstance();
 
 		$resultArr = array();
@@ -363,20 +369,20 @@ class RedshopHelperQuotation
 		$query->select('fd.*')
 			->select($db->qn(array('f.field_title', 'f.field_type', 'field_name')))
 			->from($db->qn('#__redshop_quotation_fields_data', 'fd'))
-			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('qf.fieldid'))
-			->where($db->qn('qf.quotation_item_id') . ' = ' . (int) $quotationItemId)
-			->where($db->qn('fd.section') . ' = ' . $db->quote($section_id));
+			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('fd.fieldid'))
+			->where($db->qn('fd.quotation_item_id') . ' = ' . $db->q((int) $quotationItemId))
+			->where($db->qn('fd.section') . ' = ' . $db->q((int) $sectionId));
 
 		$db->setQuery($query);
 		$userField = $db->loadObjectlist();
 
 		if (count($userField) > 0)
 		{
-			$quotationItem   = self::getQuotationProduct(0, $quotation_item_id);
+			$quotationItem   = self::getQuotationProduct(0, $quotationItemId);
 			$productId       = $quotationItem[0]->product_id;
 
 			$productDetail   = Redshop::product((int) $productId);
-			$productTemplate = $redTemplate->getTemplate("product", $productDetail->product_template);
+			$productTemplate = RedshopHelperTemplate::getTemplate("product", $productDetail->product_template);
 
 			$returnArr       = $productHelper->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
 			$userFieldTag    = $returnArr[1];
@@ -476,7 +482,7 @@ class RedshopHelperQuotation
 		{
 			// Sanitize ids
 			$orderId = explode(',', $orderId);
-			JArrayHelper::toInteger($orderId);
+			$orderId = ArrayHelper::toInteger($orderId);
 
 			if (is_array($orderId))
 			{

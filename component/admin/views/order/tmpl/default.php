@@ -485,18 +485,16 @@ JPluginHelper::importPlugin('redshop_product');
 			</td>
 		</tfoot>
 	</table>
-</div>
 
-<input type="hidden" name="return" value="order"/>
-<input type="hidden" name="view" value="order"/>
-<input type="hidden" name="task" value=""/>
-<input type="hidden" name="boxchecked" value="0"/>
-<input type="hidden" name="filter_order" value="order_id"/>
-<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+	<input type="hidden" name="return" value="order"/>
+	<input type="hidden" name="view" value="order"/>
+	<input type="hidden" name="task" value=""/>
+	<input type="hidden" name="boxchecked" value="0"/>
+	<input type="hidden" name="filter_order" value="order_id"/>
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
 </form>
 
 <form name='invoice' method="post">
-
 	<input name="view" value="order" type="hidden">
 	<input name="order_id" value="" type="hidden">
 	<input name="option" value="com_redshop" type="hidden">
