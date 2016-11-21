@@ -3301,51 +3301,74 @@ class rsCarthelper
 
 	public function getGLSLocation($users_info_id, $classname, $shop_id = 0)
 	{
-		$output = '';
-		$sql    = "SELECT  enabled FROM #__extensions WHERE element ='default_shipping_gls'";
-		$this->_db->setQuery($sql);
-		$isEnabled = $this->_db->loadResult();
+		$output           = '';
+		$shippingGLS      = $this->_order_functions->getparameters('default_shipping_gls');
 		$selected_shop_id = null;
 
-		if ($isEnabled && $classname == 'default_shipping_gls')
+		if (count($shippingGLS) > 0 && $shippingGLS[0]->enabled && $classname == 'default_shipping_gls')
 		{
 			JPluginHelper::importPlugin('redshop_shipping');
 			$dispatcher = JDispatcher::getInstance();
-			$values = RedshopHelperUser::getUserInformation(0, '', $users_info_id, false);
-			$shopList = array();
-			$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
+			$values     = RedshopHelperUser::getUserInformation(0, '', $users_info_id, false);
 
-			if($ShopResponses && isset($ShopResponses[0]) && is_array($ShopResponses[0]))
+			if ($shop_id)
 			{
-				$ShopRespons = $ShopResponses[0];
+				$shopOrderdetail = explode("###", $shop_id);
 
-				for ($i = 0, $n = count($ShopRespons); $i < $n; $i++)
+				// zipcode
+				if (isset($shopOrderdetail[2]) && !empty($shopOrderdetail[2]))
+				{
+					$values->zipcode = $shopOrderdetail[2];
+				}
+
+				// phone
+				if (isset($shopOrderdetail[1]) && !empty($shopOrderdetail[1]))
+				{
+					$values->phone = $shopOrderdetail[1];
+				}
+			}
+
+			$shopList   = array();
+			$response   = $dispatcher->trigger('GetNearstParcelShops', array($values));
+
+			if($response && isset($response[0]) && is_array($response[0]))
+			{
+				$shopResponses = $response[0];
+
+				foreach ($shopResponses as $shopResponse)
 				{
 					$shopList[] = JHTML::_(
 						'select.option',
-						$ShopRespons[$i]->shop_id,
-						$ShopRespons[$i]->CompanyName . ', ' . $ShopRespons[$i]->Streetname . ', ' . $ShopRespons[$i]->ZipCode . ', ' . $ShopRespons[$i]->CityName
+						$shopResponse->shop_id,
+						$shopResponse->CompanyName . ', ' . $shopResponse->Streetname . ', ' . $shopResponse->ZipCode . ', ' . $shopResponse->CityName
 					);
 				}
 			}
 
-			if ($shop_id)
-			{
-				$selected_shop_id = $shop_id;
 
-				$shop_id = explode("###", $shop_id);
-				$output .= JText::_('COM_REDSHOP_SHIPPING_LOCATION') . " : ";
-				$output .= $shop_id = str_replace("|", "<br>", $shop_id[0]) . "<br/>";
+			// Get selected shop id
+			if ($shop_id && (isset($shopResponses) && count($shopResponses) > 0))
+			{
+				foreach ($shopResponses as $shopResponse)
+				{
+					$shopDetail = explode("|", $shop_id);
+
+					if ($shopDetail[0] == $shopResponse->Number)
+					{
+						$selected_shop_id = $shopResponse->shop_id;
+						break;
+					}
+				}
 			}
 
-			$output .= JText::_('COM_REDSHOP_PROVIDE_ZIPCODE_TO_PICKUP_PARCEL') . " : ";
-			$output .= "<input type='text' id='gls_zipcode' name='gls_zipcode' value='" . $values->zipcode . "' onblur='javascript:updateGLSLocation(this.value);' ><br/>";
-			$output .= JText::_('COM_REDSHOP_SELECT_GLS_LOCATION') . " : ";
-			$output .= "<span id='rs_locationdropdown'>";
-			$output .= $lists['shopList'] = JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selected_shop_id);
-			$output .= "</span><br>";
-			$output .= JText::_('COM_REDSHOP_ENTER_GLS_MOBILE') . " : ";
-			$output .= "<input type='text' id='gls_mobile' name='gls_mobile' /><br/>";
+			$output = RedshopLayoutHelper::render(
+						'order.glslocation',
+						array(
+							'shopList' => '<span id="rs_locationdropdown">' . JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selected_shop_id, false, true) . '</span>',
+							'zipcode'  => '<input type="text" id="gls_zipcode" name="gls_zipcode" value="' . $values->zipcode . '"" onblur="javascript:updateGLSLocation(this.value);"" />',
+							'phone'    => '<input type="text" id="gls_mobile" name="gls_mobile"  value="' . $values->phone . '" />'
+						)
+					);
 		}
 
 		return $output;

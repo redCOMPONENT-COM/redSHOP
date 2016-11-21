@@ -699,31 +699,31 @@ function showCompanyOrCustomer(obj)
 
 function updateGLSLocation(zipcode)
 {
-	xmlhttp1=GetXmlHttpObject();
-	var url1= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
+	var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
 	var users_info_id = '';
 	var propName = document.getElementsByName('users_info_id');
-	for(var p=0;p<propName.length;p++){
-		if(propName[p].checked){
+
+	for (var p = 0; p < propName.length; p++)
+	{
+		if (propName[p].checked)
+		{
 			users_info_id = propName[p].value;
 		}
 	}
-	url1 = url1 + "&zipcode=" + zipcode + '&users_info_id=' + users_info_id;
 
-	xmlhttp1.onreadystatechange=function()
-	{
-		if (xmlhttp1.readyState==4)
-		{
-			if(document.getElementById('rs_locationdropdown'))
-			{
-				document.getElementById('rs_locationdropdown').innerHTML = xmlhttp1.responseText;
+	url += "&zipcode=" + zipcode + '&users_info_id=' + users_info_id;
 
-			}
-		}
-	};
-	xmlhttp1.open("GET",url1,true);
-	xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-	xmlhttp1.send(null);
+	jQuery.ajax({
+		url: url,
+		type: 'GET'
+	})
+	.done(function(response) {
+		jQuery('#rs_locationdropdown').html(response);
+		jQuery('select:not(".disableBootstrapChosen")').select2();
+	})
+	.fail(function() {
+		console.warn("error");
+	});
 }
 function displaytextarea(obj)
 {
