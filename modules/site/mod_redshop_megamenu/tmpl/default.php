@@ -31,7 +31,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	<?php foreach ($categories as $key => $category): ?>
 		<?php if($category->published == 1):?>
 		<?php $clsdeeper = !empty($category->sub_cat) ? 'deeper' : ''; ?>
-		<li class="item-<?php echo $category->category_id ?> level-item-1 current parent <?php echo $clsdeeper;?>">
+		<li class="item-<?php echo $category->category_id ?> level-item-1 current parent <?php echo $clsdeeper;?> <?php echo $category->menu_anchor_css ?>">
 			<a href="<?php echo $category->link; ?>">
 				<span class="menuLinkTitle"><?php echo $category->category_name ?></span>
 			</a>
