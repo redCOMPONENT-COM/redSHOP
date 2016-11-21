@@ -1292,7 +1292,7 @@ class RedshopModelSearch extends RedshopModel
 				. $db->qn('m.manufacturer_id') . ' = '
 				. $db->qn('p.manufacturer_id')
 			)
-				->where('(' . $db->qn('p.product_name') . ' LIKE ' . $search . ' OR ' . $db->qn('m.manufacturer_name') . ' LIKE ' . $search . ')');
+				->where('(' . $this->getSearchCondition('p.product_name', $keyword) . ' OR ' . $db->qn('m.manufacturer_name') . ' LIKE ' . $search . ')');
 		}
 
 		$catList = RedshopHelperCategory::getCategoryListArray($categoryForSale);

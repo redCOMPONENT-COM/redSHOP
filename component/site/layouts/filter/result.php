@@ -73,7 +73,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	foreach ($products as $k => $pid)
 	{
 		$product = $productHelper->getProductById($pid);
-		$catid   = $productHelper->getCategoryProduct($pid);
+		$catid   = $product->category_id;
 
 		// Count accessory
 		$accessorylist = $productHelper->getProductAccessory(0, $product->product_id);
@@ -198,6 +198,19 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			{
 				$dataAdd = str_replace("{manufacturer_name}", "", $dataAdd);
 			}
+		}
+
+		$extraFieldsForCurrentTemplate = $productHelper->getExtraFieldsForCurrentTemplate($extraFieldName, $templateProduct, 1);
+
+		/*
+		 * product loop template extra field
+		 * lat arg set to "1" for indetify parsing data for product tag loop in category
+		 * last arg will parse {producttag:NAMEOFPRODUCTTAG} nameing tags.
+		 * "1" is for section as product
+		 */
+		if ($extraFieldsForCurrentTemplate)
+		{
+			$dataAdd = $extraField->extra_field_display(1, $product->product_id, $extraFieldsForCurrentTemplate, $dataAdd, 1);
 		}
 
 		if (strstr($dataAdd, "{product_thumb_image_3}"))
@@ -398,14 +411,6 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			{
 				$dataAdd = str_replace($templateAttribute, "", $dataAdd);
 			}
-		}
-
-		$cartTemplate = $redTemplate->getTemplate("add_to_cart");
-		$countTemplate = count($cartTemplate);
-
-		for ($i = 0; $i < $countTemplate; $i++)
-		{
-			$dataAdd = str_replace("{form_addtocart:" . $cartTemplate[$i]->template_name . "}", "", $dataAdd);
 		}
 
 		/* get cart tempalte */
