@@ -8,33 +8,51 @@
  */
 defined('_JEXEC') or die;
 
+
+/**
+ * Helper for mod_redshop_categories
+ *
+ * @since  1.5.3
+ */
 class TransMenu
 {
 	var $parent = null;
 
+	/**
+	 * [TransMenu description]
+	 * 
+	 * @param   [type]  &$parent  [description]
+	 *
+	 * @return  void
+	 */
 	function TransMenu(&$parent)
 	{
 		$this->parent = $parent;
 	}
 
+	/**
+	 * [beginMenu description]
+	 * 
+	 * @return [type] [description]
+	 */
 	function beginMenu()
 	{
-		if ($this->parent->_params->get('menu_style', 'vertical') == 'vertical')
+		if ($this->parent->params->get('menu_style', 'vertical') == 'vertical')
 			$cssfile = "transmenuv.css";
 		else
 			$cssfile = "transmenuh.css";
 		echo '
-			<link rel="stylesheet" type="text/css" href="', $this->parent->_params->get('LSPath'), '/', $cssfile, '" />
-			<script type="text/javascript" src="', $this->parent->_params->get('LSPath'), '/transmenu.js"></script>
+			<link rel="stylesheet" type="text/css" href="', $this->parent->params->get('LSPath'), '/', $cssfile, '" />
+			<script type="text/javascript" src="', $this->parent->params->get('LSPath'), '/transmenu.js"></script>
 		';
-		$direction = "TransMenu.direction." . $this->parent->_params->get('menu_direction', "right");
-		$position  = "TransMenu.reference." . $this->parent->_params->get('menu_position', "topRight");
-		$top       = $this->parent->_params->get('p_t', 0);
-		$left      = $this->parent->_params->get('p_l', 0);
-		$subpad_x  = $this->parent->_params->get('subpad_x', 1);
-		$subpad_y  = $this->parent->_params->get('subpad_y', 0);
+		$direction = "TransMenu.direction." . $this->parent->params->get('menu_direction', "right");
+		$position  = "TransMenu.reference." . $this->parent->params->get('menu_position', "topRight");
+		$top       = $this->parent->params->get('p_t', 0);
+		$left      = $this->parent->params->get('p_l', 0);
+		$subpad_x  = $this->parent->params->get('subpad_x', 1);
+		$subpad_y  = $this->parent->params->get('subpad_y', 0);
 
-		switch ($this->parent->_params->get('menu_style', "vertical"))
+		switch ($this->parent->params->get('menu_style', "vertical"))
 		{
 			case 'vertical':
 				echo '<div id="wrap"><div id="menu">';
@@ -70,7 +88,7 @@ class TransMenu
 		echo '
 			<script type="text/javascript">
 			if (TransMenu.isSupported()) {
-				TransMenu.updateImgPath(\'', $this->parent->_params->get('LSPath'), '/\');
+				TransMenu.updateImgPath(\'', $this->parent->params->get('LSPath'), '/\');
 				var ms = new TransMenuSet(', $direction, ', ', $left, ', ', $top, ', ', $position, ');
 				TransMenu.subpad_x = ', $subpad_x, ';
 				TransMenu.subpad_y = ', $subpad_y, ';
@@ -78,6 +96,11 @@ class TransMenu
 			';
 	}
 
+	/**
+	 * [endMenu description]
+	 * 
+	 * @return [type] [description]
+	 */
 	function endMenu()
 	{
 		echo '
@@ -93,6 +116,15 @@ class TransMenu
 		';
 	}
 
+	/**
+	 * [genMenuItem description]
+	 * 
+	 * @param   [type]  &$row   [description]
+	 * @param   [type]  $level  [description]
+	 * @param   [type]  $pos    [description]
+	 * 
+	 * @return  [type]          [description]
+	 */
 	function genMenuItem(&$row, $level, $pos)
 	{
 		$app = JFactory::getApplication();
@@ -175,6 +207,13 @@ class TransMenu
 		}
 	}
 
+	/**
+	 * [getFirstLevelItem description]
+	 * 
+	 * @param   [type]  $mitem  [description]
+	 * 
+	 * @return  [type]          [description]
+	 */
 	function getFirstLevelItem($mitem)
 	{
 		global $Itemid, $urlpath;
@@ -214,11 +253,11 @@ class TransMenu
 			$mitem->link = JRoute::_($mitem->link);
 		}
 
-		$menuclass = 'mainlevel' . $this->parent->_params->get('class_sfx');
+		$menuclass = 'mainlevel' . $this->parent->params->get('class_sfx');
 
 		if (in_array($mitem->id, $this->parent->open))
 		{
-			$menuclass = 'mainlevel_active' . $this->parent->_params->get('class_sfx');
+			$menuclass = 'mainlevel_active' . $this->parent->params->get('class_sfx');
 		}
 
 		switch ($mitem->browserNav)
@@ -244,22 +283,22 @@ class TransMenu
 				// Open in parent window
 				$txt = '<a href="' . $mitem->link . '" class="' . $menuclass . '" ' . $id . '>' . $mitem->name;
 				if ($this->parent->hasSubItems($mitem->id))
-					$txt .= '&nbsp;&nbsp;<img border="0" src="' . $this->parent->_params->get('LSPath') . '/img/tabarrow.gif" alt="arrow" />';
+					$txt .= '&nbsp;&nbsp;<img border="0" src="' . $this->parent->params->get('LSPath') . '/img/tabarrow.gif" alt="arrow" />';
 				$txt .= '</a>';
 				break;
 		}
 
-		if ($this->parent->_params->get('menu_images'))
+		if ($this->parent->params->get('menu_images'))
 		{
-			$menu_params = new stdClass;
-			$menu_params = new mosParameters($mitem->params);
+			$params = new stdClass;
+			$params = new mosParameters($mitem->params);
 			$menu_image  = $menu_params->def('menu_image', -1);
 
 			if (($menu_image <> '-1') && $menu_image)
 			{
 				$image = '<img src="' . $urlpath . 'images/stories/' . $menu_image . '" border="0" alt="' . $mitem->name . '"/>';
 
-				if ($this->parent->_params->get('menu_images_align'))
+				if ($this->parent->params->get('menu_images_align'))
 				{
 					$txt = $txt . ' ' . $image;
 				}

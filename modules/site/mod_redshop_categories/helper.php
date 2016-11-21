@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::import('redshop.library');
 
 /**
- * Helper for mod_articles_latest
+ * Helper for mod_redshop_categories
  *
  * @since  1.5.3
  */
@@ -31,8 +31,9 @@ abstract class ModProMenuHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$sess = JFactory::getSession();
+		$sessCatInfo = $sess->get('category_info');
 
-		if (empty($GLOBALS['category_info'][$categoryId]['has_childs']))
+		if (empty($sessCatInfo[$categoryId]['has_childs']))
 		{
 			$query->select($db->qn('category_child_id'))
 				->from($db->qn('#__redshop_category_xref'))
@@ -42,15 +43,17 @@ abstract class ModProMenuHelper
 
 			if ($db->loadObjectList() > 0)
 			{
-				$GLOBALS['category_info'][$categoryId]['has_childs'] = true;
+				$sessCatInfo[$categoryId]['has_childs'] = true;
 			}
 			else
 			{
-				$GLOBALS['category_info'][$categoryId]['has_childs'] = false;
+				$sessCatInfo[$categoryId]['has_childs'] = false;
 			}
 		}
 
-		return $GLOBALS['category_info'][$categoryId]['has_childs'];
+		$sess->set('category_info', $sessCatInfo);
+
+		return $sessCatInfo[$categoryId]['has_childs'];
 	}
 
 	/**
@@ -190,7 +193,10 @@ abstract class ModProMenuHelper
 		$db = JFactory::getDbo();
 		$cid = JFactory::getApplication()->input->getInt('cid');
 
-		if (empty($GLOBALS['category_info']['category_tree']))
+		$sess = JFactory::getSession();
+		$sessCatInfo = $sess->get('category_info');
+
+		if (empty($sessCatInfo['category_tree']))
 		{
 			// Get only published categories;
 			$query = $db->getQuery(true)
@@ -275,13 +281,14 @@ abstract class ModProMenuHelper
 				}
 			}
 
-			$GLOBALS['category_info']['category_tree'] = $categories;
+			$sessCatInfo['category_tree'] = $categories;
+			$sess->set('category_info', $sessCatInfo);
 
-			return $GLOBALS['category_info']['category_tree'];
+			return $categories;
 		}
 		else
 		{
-			return $GLOBALS['category_info']['category_tree'];
+			return $sessCatInfo['category_tree'];
 		}
 	}
 
@@ -296,23 +303,27 @@ abstract class ModProMenuHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
+		$sess = JFactory::getSession();
+		$sessCatInfo = $sess->get('category_info');
 
-		if (!isset($GLOBALS['category_info'][$categoryId]['product_count']))
+		if (!isset($sessCatInfo[$categoryId]['product_count']))
 		{
 			$query->select('COUNT(' . $db->qn('p.product_id') . ') AS ' . $db->qn('num_rows'))
 				->from($db->qn('#__redshop_product', 'p'))
 				->innerJoin($db->qn('#__redshop_product_category_xref', 'xf') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('xf.product_id'))
 				->innerJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('xf.category_id'))
-				->where($db->qn('p.published') . ' = 1');
+				->where($db->qn('p.published') . ' = 1')
+				->where($db->qn('xf.category_id') . ' = ' . $db->q($categoryId));
 
 			$db->setQuery($query);
 
 			$noofrows = $db->loadObject();
 
-			$GLOBALS['category_info'][$categoryId]['product_count'] = $noofrows->num_rows;
+			$sessCatInfo[$categoryId]['product_count'] = $noofrows->num_rows;
+			$sess->set('category_info', $sessCatInfo);
 		}
 
-		return $GLOBALS['category_info'][$categoryId]['product_count'];
+		return $sessCatInfo[$categoryId]['product_count'];
 	}
 
 	/**
