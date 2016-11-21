@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 /**
- * Helper for mod_menu
+ * Helper for mod_redshop_megamenu
  *
  * @package     Redshopb.Site
- * @subpackage  mod_redshopb_megamenu
+ * @subpackage  mod_redshop_megamenu
  * @since       1.6.21
  */
 class ModRedshopMegaMenuHelper
@@ -23,7 +23,7 @@ class ModRedshopMegaMenuHelper
 	/**
 	 * Get a list of parents categories items.
 	 *
-	 * @param   object  $params  module params
+	 * @param   \Joomla\Registry\Registry  &$params  The module options.
 	 *
 	 * @return  array            Categories tree
 	 */
@@ -119,8 +119,10 @@ class ModRedshopMegaMenuHelper
 	/**
 	 * Get Joomla menu
 	 *
-	 * @param   array   $items     Menu list
+	 * @param   object  $items     Menu list
 	 * @param   string  $parentId  Product parent id
+	 * @param   int     $level     Menu level
+	 * @param   int     $end       Last menu level
 	 *
 	 * @return  array
 	 */
@@ -168,8 +170,10 @@ class ModRedshopMegaMenuHelper
 	/**
 	 * Get redSHOP Categories 
 	 *
-	 * @param   array   $items     Categories list
+	 * @param   object  $items     Category list
 	 * @param   string  $parentId  Product parent id
+	 * @param   int     $level     Category level
+	 * @param   int     $end       Last Category level
 	 *
 	 * @return  array
 	 */
