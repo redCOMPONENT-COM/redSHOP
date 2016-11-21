@@ -51,6 +51,8 @@ class ModRedshopMegaMenuHelper
 				$firstItem[$i]->link = JRoute::_($item->link . '&Itemid=' . $item->id);
 				$firstItem[$i]->published = 1;
 				$firstItem[$i]->menu_parent_id = $item->id;
+				$firstItem[$i]->menu_anchor_css = $item->anchor_css;
+				$firstItem[$i]->menu_anchor_title = $item->anchor_title;
 			}
 		}
 
