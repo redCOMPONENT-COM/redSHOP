@@ -2486,7 +2486,7 @@ COMMENT = 'redSHOP Notification Alert';
 DROP TABLE IF EXISTS `#__redshop_wishlist_product_item` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_wishlist_product_item` (
-  `id` INT(11) NOT NULL COMMENT 'Primary key',
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
   `ref_id` INT(11) NOT NULL COMMENT 'Wishlist Reference ID',
   `attribute_id` INT(11) NULL DEFAULT NULL COMMENT 'Product Attribute ID',
   `property_id` INT(11) NULL DEFAULT NULL COMMENT 'Product Attribute Property ID',
