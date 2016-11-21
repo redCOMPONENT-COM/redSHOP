@@ -1318,12 +1318,12 @@ class RedshopModelSearch extends RedshopModel
 						->where($db->qn("pc.category_id") . " = " . $db->q((int) $cid));
 				}
 			}
-			else
+			elseif (!empty($cid) || !empty($categories))
 			{
 				$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 			}
 		}
-		else
+		elseif (!empty($cid) || !empty($categories))
 		{
 			$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 		}
@@ -1358,7 +1358,7 @@ class RedshopModelSearch extends RedshopModel
 	public function getItem()
 	{
 		$query      = $this->getListQuery();
-
+		echo $query->dump();
 		$db         = JFactory::getDbo();
 		$start      = $this->getState('list.start');
 		$limit      = $this->getState('list.limit');

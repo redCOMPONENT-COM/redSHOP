@@ -419,7 +419,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$productTmpl = $productData;
 	$catName = "";
 
-	if ($cid)
+	if (!empty($cid))
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -460,6 +460,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		$templateDesc = str_replace("{product_display_limit}", $limitBox, $templateDesc);
 	}
 
+	$templateDesc = str_replace("{order_by_lbl}", JText::_('COM_REDSHOP_SELECT_ORDER_BY'), $templateDesc);
 	$templateDesc = str_replace("{order_by}", $lists['order_select'], $templateDesc);
 	$templateDesc = str_replace("{product_loop_start}", "", $templateDesc);
 	$templateDesc = str_replace("{product_loop_end}", "", $templateDesc);
