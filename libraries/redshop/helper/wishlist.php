@@ -87,7 +87,7 @@ class RedshopHelperWishlist
 
 			$wishlistProducts = $db->setQuery($query)->loadObjectList();
 
-			if (empty($wishlistProducts))
+			if (empty($wishlistProducts) || !Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
 			{
 				static::$wishLists[$wishlistId] = $wishlist;
 
@@ -120,7 +120,7 @@ class RedshopHelperWishlist
 				{
 					if ($wishlistProductItem->ref_id == $wishlistProduct->wishlist_product_id)
 					{
-						$wishlistProduct->product_items[] = $wishlistProductItem;
+						$wishlistProduct->product_items[$wishlistProductItem->attribute_id] = $wishlistProductItem;
 
 						unset($wishlistProductItems[$key]);
 					}

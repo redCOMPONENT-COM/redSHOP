@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 
 
 /**
@@ -106,32 +108,62 @@ class RedshopModelWishlist extends RedshopModel
 
 	public function getWishlistProductFromSession()
 	{
-		$db      = JFactory::getDbo();
-		$rows    = array();
-
+		$db         = JFactory::getDbo();
+		$session    = JFactory::getSession();
+		$wishlist   = $session->get('wishlist');
 		$productIds = array();
 
-		if (isset($_SESSION["no_of_prod"]))
+		if (empty($wishlist))
 		{
-			for ($add_i = 1; $add_i <= $_SESSION["no_of_prod"]; $add_i++)
-			{
-				if (isset($_SESSION['wish_' . $add_i]->product_id))
-				{
-					$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
-				}
-			}
+			return array();
+		}
 
-			if (count($productIds))
-			{
-				// Sanitize ids
-				JArrayHelper::toInteger($productIds);
+		foreach ($wishlist as $productId => $wish)
+		{
+			$productIds[] = $productId;
+		}
 
-				$sql = "SELECT DISTINCT p.*, pcx.category_id "
-					. "FROM #__redshop_product as p "
-					. 'LEFT JOIN #__redshop_product_category_xref AS pcx on pcx.product_id = p.product_id '
-					. "WHERE p.product_id IN( " . implode(',', $productIds) . ")";
-				$db->setQuery($sql);
-				$rows = $db->loadObjectList();
+		if (empty($productIds))
+		{
+			return array();
+		}
+
+		// Sanitize ids
+		$productIds = ArrayHelper::toInteger($productIds);
+
+		$query = $db->getQuery(true)
+			->select($db->qn('p.product_id', 'index'))
+			->select('p.*')
+			->select($db->qn('pcx.category_id'))
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('pcx.product_id') . ' = ' . $db->qn('p.product_id'))
+			->where($db->qn('p.product_id') . ' IN (' . implode(',', $productIds) . ')')
+			->group($db->qn('index'));
+
+		$products = $db->setQuery($query)->loadObjectList('index');
+
+		if (empty($products))
+		{
+			return array();
+		}
+
+		if (!Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
+		{
+			$products = array_filter($products);
+
+			return $products;
+		}
+
+		$rows = array();
+
+		foreach ($wishlist as $productId => $wishes)
+		{
+			foreach ($wishes as $wish)
+			{
+				$newWish = clone $products[$productId];
+				$newWish->product_items = $wish->product_items;
+
+				$rows[] = $newWish;
 			}
 		}
 
@@ -254,10 +286,6 @@ class RedshopModelWishlist extends RedshopModel
 			return false;
 		}
 
-		$attributeIds    = explode('##', $attributeIds);
-		$propertyIds     = explode('##', $propertyIds);
-		$subAttributeIds = explode('##', $subAttributeIds);
-
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
 		foreach ($wishlistIds as $wishlistId)
@@ -270,15 +298,21 @@ class RedshopModelWishlist extends RedshopModel
 				'product_id'  => $productId
 			);
 
-			// If wishlist product has already exist.
-			if ($wishlistProductTable->load($tmpData))
+			/*
+			 * Check: If there are already has product in this wishlist. Continue with:
+			 *        1. In case "Add to cart per product"   -> Skip this process.
+			 *        2. In case "Add to cart per attribute" -> Check on product attributes exist. If not, start create new wishlist item.
+			 */
+			if ($wishlistProductTable->load($tmpData)
+				&& (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE') == 0
+				|| $this->isProductDataExist($wishlistId, $productId, $attributeIds, $propertyIds, $subAttributeIds)))
 			{
-				// Start check on product's attribute data. If this has different. Keep process for store as new.
-				if ($this->isProductDataExist($wishlistId, $productId, $attributeIds, $propertyIds, $subAttributeIds))
-				{
-					continue;
-				}
+				continue;
 			}
+
+			$attributeIds    = explode('##', $attributeIds);
+			$propertyIds     = explode('##', $propertyIds);
+			$subAttributeIds = explode('##', $subAttributeIds);
 
 			$wishlistProductTable->reset();
 			$wishlistProductTable->set('wishlist_product_id', null);
@@ -387,18 +421,57 @@ class RedshopModelWishlist extends RedshopModel
 		}
 	}
 
-	public function mysessdelwishlist($wishlist_id)
+	public function mysessdelwishlist($data)
 	{
-		if (!empty($_SESSION["no_of_prod"]))
+		if (is_int($data))
 		{
-			for ($k = 1; $k <= $_SESSION["no_of_prod"]; $k++)
+			$productId = (int) $data;
+		}
+		else
+		{
+			$productId = isset($data['wishlist_id']) ? (int) $data['wishlist_id'] : 0;
+			$attributeId = isset($data['attribute_id']) ? (int) $data['attribute_id'] : 0;
+			$propertyId = isset($data['property_id']) ? (int) $data['property_id'] : 0;
+			$subAttributeId = isset($data['subattribute_id']) ? (int) $data['subattribute_id'] : 0;
+		}
+
+		$session = JFactory::getSession();
+		$wishlist = $session->get('wishlist');
+
+		if (empty($wishlist) || !isset($wishlist[$productId]))
+		{
+			return true;
+		}
+
+		if (!Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
+		{
+			if (isset($wishlist[$productId]))
 			{
-				if ($_SESSION['wish_' . $k]->product_id == $wishlist_id)
-				{
-					unset($_SESSION['wish_' . $k]);
-				}
+				unset($wishlist[$productId]);
+			}
+
+			$session->set('wishlist', $wishlist);
+
+			return true;
+		}
+
+		$checkObject = new stdClass;
+		$checkObject->attribute_id = $attributeId;
+		$checkObject->property_id = $propertyId;
+		$checkObject->subattribute_id = $subAttributeId;
+
+		foreach ($wishlist[$productId] as $key => $wish)
+		{
+			if ($wish->product_items == $checkObject)
+			{
+				unset($wishlist[$productId][$key]);
 			}
 		}
+
+		$wishlist[$productId] = array_values($wishlist[$productId]);
+		$session->set('wishlist', $wishlist);
+
+		return true;
 	}
 
 	/**
@@ -436,9 +509,10 @@ class RedshopModelWishlist extends RedshopModel
 
 		foreach ($wishlistData->products[$productId] as $wishlistProduct)
 		{
-			// Check: If attributes has different.
-			//        Or properties has different.
-			//        Or sub-attributes has different.
+			/* Check: If attributes has different.
+			          Or properties has different.
+			          Or sub-attributes has different.
+			*/
 			if (!empty(array_diff($attributes, $wishlistProduct->attributes))
 				|| !empty(array_diff($properties, $wishlistProduct->properties))
 				|| !empty(array_diff($subAttributes, $wishlistProduct->subAttributes)))
