@@ -31,6 +31,7 @@ $model         = $this->getModel('account');
 $user          = JFactory::getUser();
 
 $pagetitle     = JText::_('COM_REDSHOP_MY_WISHLIST');
+$isIndividualAddToCart = (boolean) Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE');
 
 if ($window == 1)
 {
@@ -150,10 +151,16 @@ if ($mail == 0)
 		{
 			$wishlistuserfielddata  = $producthelper->getwishlistuserfieldata($row->wishlist_id, $row->product_id);
 			$link                   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
-			$link_remove            = JRoute::_(
-					'index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id=' . $wishlist_id
-					. '&pid=' . $row->product_id . '&wishlist_product_id=' . $row->wishlistData->wishlist_product_id . '&remove=1&Itemid=' . $Itemid
-			);
+			$link_remove            = 'index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id=' . $wishlist_id
+				. '&pid=' . $row->product_id . '&remove=1';
+
+			if ($isIndividualAddToCart)
+			{
+				$link_remove .= '&wishlist_product_id=' . $row->wishlistData->wishlist_product_id;
+			}
+
+			$link_remove = JRoute::_($link_remove . '&Itemid=' . $Itemid, false);
+
 			$thum_image             = $producthelper->getProductImage($row->product_id, $link, $w_thumb, $h_thumb);
 			$product_price          = $producthelper->getProductPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
@@ -279,57 +286,63 @@ if ($mail == 0)
 
 			$wishlistData = $row->wishlistData;
 
-			if ($wishlistData && !empty($wishlistData->product_items))
+			if ($wishlistData)
 			{
-				foreach ($wishlistData->product_items as $wishlistProductItem)
+				// Get necessary data for attributes, properties and sub-attributes.
+				foreach ($attributes as $key => $attribute)
 				{
-					if (empty($wishlistProductItem->attribute_id) || empty($wishlistProductItem->property_id))
+					if (empty($attribute->properties))
 					{
 						continue;
 					}
 
-					// Get necessary data for attributes, properties and sub-attributes.
-					foreach ($attributes as $attribute)
+					if (!isset($wishlistData->product_items[$attribute->attribute_id]))
 					{
-						if ($wishlistProductItem->attribute_id != $attribute->attribute_id || empty($attribute->properties))
+						if ($isIndividualAddToCart)
+						{
+							unset($attributes[$key]);
+						}
+
+						continue;
+					}
+
+					$wishlistProductItem = $wishlistData->product_items[$attribute->attribute_id];
+
+					foreach ($attribute->properties as $property)
+					{
+						$property->setdefault_selected = 0;
+
+						if ($property->property_id != $wishlistProductItem->property_id)
 						{
 							continue;
 						}
 
-						foreach ($attribute->properties as $property)
+						$property->setdefault_selected = 1;
+
+						if (empty($wishlistProductItem->subattribute_id))
 						{
-							$property->setdefault_selected = 0;
+							continue;
+						}
 
-							if ($property->property_id != $wishlistProductItem->property_id)
+						if (empty($property->sub_properties))
+						{
+							$property->sub_properties = $producthelper->getAttibuteSubProperty(0, $property->value);
+						}
+
+						foreach ($property->sub_properties as $subProperty)
+						{
+							$subProperty->setdefault_selected = 0;
+
+							if ($subProperty->subattribute_color_id == $wishlistProductItem->subattribute_id
+								&& $subProperty->subattribute_id == $wishlistProductItem->attribute_id)
 							{
-								continue;
-							}
-
-							$property->setdefault_selected = 1;
-
-							if (empty($wishlistProductItem->subattribute_id))
-							{
-								continue;
-							}
-
-							if (empty($property->sub_properties))
-							{
-								$property->sub_properties = $producthelper->getAttibuteSubProperty(0, $property->value);
-							}
-
-							foreach ($property->sub_properties as $subProperty)
-							{
-								$subProperty->setdefault_selected = 0;
-
-								if ($subProperty->subattribute_color_id == $wishlistProductItem->subattribute_id
-									&& $subProperty->subattribute_id == $wishlistProductItem->attribute_id)
-								{
-									$subProperty->setdefault_selected = 1;
-								}
+								$subProperty->setdefault_selected = 1;
 							}
 						}
 					}
 				}
+
+				$attributes = array_values($attributes);
 			}
 
 			// Check product for not for sale
@@ -339,7 +352,9 @@ if ($mail == 0)
 
 			// Product attribute  Start
 			$totalatt      = count($attributes);
-			$wishlist_data = $producthelper->replaceAttributeData($row->product_id, 0, 0, $attributes, $wishlist_data, $attribute_template, $isChilds);
+			$wishlist_data = RedshopHelperAttribute::replaceAttributeData(
+				$row->product_id, 0, 0, $attributes, $wishlist_data, $attribute_template, $isChilds, array(), 1, true
+			);
 
 			// Product attribute  End
 			// Checking for child products end
@@ -443,8 +458,21 @@ if ($mail == 0)
 				$row->category_id = 0;
 			}
 
-			$wishlist_data = $producthelper->replaceCartTemplate($row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds,
-                $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $row->wishlistData->wishlist_product_id);
+			if ($isIndividualAddToCart)
+			{
+				$wishlist_data = $producthelper->replaceCartTemplate(
+					$row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds,
+					$userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $row->wishlistData->wishlist_product_id
+				);
+			}
+			else
+			{
+				$wishlist_data = $producthelper->replaceCartTemplate(
+					$row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds,
+					$userfieldArr, $totalatt, $totalAccessory, $count_no_user_field
+				);
+			}
+
 			$mainid .= $row->product_id . ",";
 			$totattid .= $totalatt . ",";
 			$totcount_no_user_field .= $count_no_user_field . ",";
