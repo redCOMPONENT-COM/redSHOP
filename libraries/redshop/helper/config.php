@@ -45,7 +45,7 @@ class RedshopHelperConfig
 	/**
 	 * Constructor
 	 *
-	 * @param   mixed $namespace Namespace.
+	 * @param   mixed  $namespace  Namespace.
 	 */
 	public function __construct($namespace = '')
 	{
@@ -55,8 +55,8 @@ class RedshopHelperConfig
 	/**
 	 * Magic method to transparently use registry methods on config
 	 *
-	 * @param   string $name      Name of the function.
-	 * @param   array  $arguments [0] The name of the variable [1] The default value.
+	 * @param   string  $name       Name of the function.
+	 * @param   array   $arguments  [0] The name of the variable [1] The default value.
 	 *
 	 * @return  mixed
 	 */
@@ -105,7 +105,7 @@ class RedshopHelperConfig
 	/**
 	 * Default loading is trying to use the associated table
 	 *
-	 * @param   mixed $namespace Namespace.
+	 * @param   mixed  $namespace  Namespace.
 	 *
 	 * @return  self
 	 */
@@ -147,7 +147,7 @@ class RedshopHelperConfig
 	/**
 	 * Save configuration to file
 	 *
-	 * @param   mixed $config Null to avoid binding any data | JRegistry to bind config and save
+	 * @param   mixed  $config  Null to avoid binding any data | JRegistry to bind config and save
 	 *
 	 * @throws  Exception
 	 * @return  boolean
@@ -199,7 +199,7 @@ class RedshopHelperConfig
 	/**
 	 * Save new config file using legacy or legacy styled custom configuration files.
 	 *
-	 * @param   string $configFile Path to legacy styled configuration file
+	 * @param   string  $configFile  Path to legacy styled configuration file
 	 *
 	 * @throws  exception  Throw invalid argument and exception if file is not exist and invalid.
 	 * @return  boolean    True on success
