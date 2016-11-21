@@ -8831,27 +8831,18 @@ class productHelper
 
 		if (strpos($data_add, "{product_stock_amount_image}") !== false)
 		{
-			$stockamountList  = $stockroomhelper->getStockAmountImage($Id, $sec, $productinstock);
+			$stockamountList  = $stockroomhelper->getStockAmountImage($product_id, $sec, $productinstock);
 			$stockamountImage = "";
 
 			if (count($stockamountList) > 0)
 			{
-				$thumbUrl = RedShopHelperImages::getImagePath(
-					$stockamountList[0]->stock_amount_image,
-					'',
-					'thumb',
-					'stockroom',
-					Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_WIDTH'),
-					Redshop::getConfig()->get('DEFAULT_STOCKAMOUNT_THUMB_HEIGHT'),
-					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+				$stockamountImage = RedshopLayoutHelper::render(
+					'product.stock_amount_image',
+					array(
+						'product_id' => $product_id,
+						'stockamountImage' => $stockamountList[0]
+					)
 				);
-
-				$stockamountImage = '<a class="imgtooltip"><span>';
-				$stockamountImage .= '<div class="spnheader">' . JText::_('COM_REDSHOP_STOCK_AMOUNT') . '</div>';
-				$stockamountImage .= '<div class="spnalttext" id="stockImageTooltip' . $product_id . '">'
-					. $stockamountList[0]->stock_amount_image_tooltip . '</div></span>';
-				$stockamountImage .= '<img src="' . $thumbUrl . '" alt="'
-					. $stockamountList[0]->stock_amount_image_tooltip . '" id="stockImage' . $product_id . '" /></a>';
 			}
 
 			$data_add = str_replace("{product_stock_amount_image}", $stockamountImage, $data_add);
