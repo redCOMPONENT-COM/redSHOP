@@ -23,7 +23,6 @@ $itemId 		= $input->get('Itemid', 0, 'int');
 $uri 			= JURI::getInstance();
 $url 			= $uri->root();
 
-$ScrollSortMethod = trim($params->get('ScrollSortMethod', 'random'));
 $showProductName  = trim($params->get('show_product_name', 1));
 $showAddToCart    = trim($params->get('show_addtocart', 1));
 $showPrice        = trim($params->get('show_price', 1));

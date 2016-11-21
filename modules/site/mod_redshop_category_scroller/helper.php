@@ -27,7 +27,7 @@ abstract class ModRedshopCategoryScrollerHelper
 	 */
 	public static function getList(&$params)
 	{
-		$ScrollSortMethod  = trim($params->get('ScrollSortMethod', 'random'));
+		$scrollSortMethod  = trim($params->get('ScrollSortMethod', 'random'));
 		$cid = JFactory::getApplication()->input->getInt('cid', 0);
 		$NumberOfProducts  = trim($params->get('NumberOfProducts', 5));
 
@@ -39,7 +39,7 @@ abstract class ModRedshopCategoryScrollerHelper
 			->where($db->qn('p.published') . ' = ' . $db->q('1'))
 			->group($db->qn('p.product_id'));
 
-		switch ($ScrollSortMethod)
+		switch ($scrollSortMethod)
 		{
 			case 'random':
 				$query->order("RAND()");
