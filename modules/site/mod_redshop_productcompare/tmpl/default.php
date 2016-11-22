@@ -23,10 +23,10 @@ defined('_JEXEC') or die;
 					<?php $cid = $productHelper->getCategoryProduct($row->product_id); ?>
 				<?php endif ?>
 
-				<?php $ItemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id); ?>
+				<?php $itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id); ?>
 
-				<?php if (count($ItemData) > 0): ?>
-					<?php $itemId = $ItemData->id; ?>
+				<?php if (count($itemData) > 0): ?>
+					<?php $itemId = $itemData->id; ?>
 				<?php else: ?>
 					<?php $itemId = $redHelper->getItemid($row->product_id); ?>
 				<?php endif ?>
@@ -47,14 +47,14 @@ defined('_JEXEC') or die;
 		<?php endif ?>
 
 		<?php if (isset($cid)): ?>
-			<?php $cid_main = "&cid=" . $cid; ?>
+			<?php $cidMain = "&cid=" . $cid; ?>
 		<?php else: ?>
-			<?php $cid_main = ""; ?>
+			<?php $cidMain = ""; ?>
 		<?php endif ?>
 	</table>
 </div>
 <div id="mod_compare">
-	<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $itemId . $cid_main) ?>"><?php echo JText::_('COM_REDSHOP_COMPARE'); ?></a>
+	<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $itemId . $cidMain) ?>"><?php echo JText::_('COM_REDSHOP_COMPARE'); ?></a>
 </div>
 <script language='javascript'>
 	function modGetXmlHttpObject() {
