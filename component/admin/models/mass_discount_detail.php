@@ -209,7 +209,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 					// Update fields
 					$update = array(
-						$this->_db->quoteName('product_on_sale') . ' = ' . (int) 1,
+						$this->_db->quoteName('product_on_sale') . ' = ' . 1,
 						$this->_db->quoteName('discount_price') . ' = ' . (float) $p_price,
 						$this->_db->quoteName('discount_stratdate') . ' = ' . (int) $data['discount_startdate'],
 						$this->_db->quoteName('discount_enddate') . ' = ' . (int) $data['discount_enddate']
