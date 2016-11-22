@@ -1274,25 +1274,25 @@ class RedshopModelSearch extends RedshopModel
 
 		if (!empty($pk["filterprice"]))
 		{
-			$productPrices = $db->qn('p.product_price');
-			$productDiscountPrices = $db->qn('p.discount_price');
-			$comparePrice = "(" . $productPrices . ' >= ' . $db->q($min) . ' AND ' . $productPrices . ' <= ' . $db->q(($max)) . ")";
-			$compareDiscountPrice = "(" . $productDiscountPrices . ' >= ' . $db->q($min) . ' AND ' . $productDiscountPrices . ' <= ' . $db->q(($max)) . ")";
-			$priceNormal = $comparePrice;
-			$priceDiscount = $compareDiscountPrice;
+			$priceNormal = "(" . $db->qn('p.product_price') . ' >= ' . $db->q($min) 
+			. ' AND ' . $db->qn('p.product_price') . ' <= ' . $db->q(($max)) . ")";
+			$priceDiscount = "(" . $db->qn('p.discount_price') . ' >= ' . $db->q($min) 
+			. ' AND ' . $db->qn('p.discount_price') . ' <= ' . $db->q(($max)) . ")";
 			$saleTime = $db->qn('p.discount_stratdate') . ' AND ' . $db->qn('p.discount_enddate');
-			$query->where('IF(' . $db->qn('p.product_on_sale') . ' = 1 && UNIX_TIMESTAMP() BETWEEN ' . $saleTime . ', ' . $priceDiscount . ', ' . $priceNormal . ')');
+			$query->where('( CASE WHEN( ' . $db->qn('p.product_on_sale') . ' = 1 AND UNIX_TIMESTAMP() BETWEEN '
+				. $saleTime . ') THEN '
+				. $priceDiscount . ' ELSE '
+				. $priceNormal . ' END )');
 		}
 
 		if (!empty($keyword))
 		{
-			$search = $db->q('%' . $db->escape(trim($keyword, true) . '%'));
 			$query->leftjoin(
 				$db->qn('#__redshop_manufacturer', 'm') . ' ON '
 				. $db->qn('m.manufacturer_id') . ' = '
 				. $db->qn('p.manufacturer_id')
 			)
-				->where('(' . $db->qn('p.product_name') . ' LIKE ' . $search . ' OR ' . $db->qn('m.manufacturer_name') . ' LIKE ' . $search . ')');
+				->where('(' . $this->getSearchCondition('p.product_name', $keyword) . ' OR ' . $this->getSearchCondition('m.manufacturer_name', $keyword) . ')');
 		}
 
 		$catList = RedshopHelperCategory::getCategoryListArray($categoryForSale);
