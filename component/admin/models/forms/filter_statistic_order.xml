@@ -13,5 +13,17 @@
             class="form-control"
             onChange="document.adminForm.submit();"
             />
+        <field
+            name="date_group"
+            type="list"
+            label="COM_REDSHOP_FILTER"
+            class="form-control"
+            onChange="document.adminForm.submit();"
+            >
+            <option value="">COM_REDSHOP_Select</option>
+            <option value="1">COM_REDSHOP_WEEKLY</option>
+            <option value="2">COM_REDSHOP_MONTHLY</option>
+            <option value="3">COM_REDSHOP_YEARLY</option>
+        </field>
     </fields>
 </form>

@@ -19,17 +19,113 @@ defined('_JEXEC') or die;
 class RedshopModelStatistic_Product extends RedshopModelList
 {
 	/**
-	 * Constructor
+	 * Name of the filter form to load
 	 *
-	 * @deprecated  2.0.0.3
+	 * @var  string
 	 */
-	public function __construct()
+	protected $filterFormName = 'filter_statistic_product';
+
+	/**
+	 * constructor (registers additional tasks to methods)
+	 *
+	 * @param   array  $config  config params
+	 */
+	public function __construct($config = array())
 	{
 		parent::__construct();
-		$input                 = JFactory::getApplication()->input;
-		$this->filterStartDate = $input->getString('filter_start_date', '');
-		$this->filterEndDate   = $input->getString('filter_end_date', '');
-		$this->filterDateLabel = $input->getString('filter_date_label', '');
+
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'view_date',
+				'count',
+				'manufacturer_name'
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   2.0.0.4
+	 */
+	protected function getStoreId($id = '')
+	{
+		$id .= ':' . $this->getState('filter.date_range');
+
+		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.0.4
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'p.publish_date', $direction = '')
+	{
+		$dateRange = $this->getUserStateFromRequest($this->context . '.filter.date_range', 'filter_date_range');
+		$this->setState('filter.date_range', $dateRange);
+
+		parent::populateState($ordering, $direction);
+	}
+
+	/**
+	 * Method to buil query string
+	 *
+	 * @return  String
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	public function getListQuery()
+	{
+		$format = $this->getDateFormat();
+		$db     = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('DATE_FORMAT(p.publish_date,"' . $format . '") AS viewdate')
+			->select('p.*')
+			->select('COUNT(*) AS count')
+			->select('m.manufacturer_name')
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
+			->group($db->qn('p.product_id'));
+
+		// Filter: Date Range
+		$filterDateRange = $this->state->get('filter.date_range', '');
+
+		if (!empty($filterDateRange))
+		{
+			$filterDateRange = explode('-', $filterDateRange);
+
+			$startDate = (isset($filterDateRange[0])) ? (int) $filterDateRange[0] : '';
+			$endDate   = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
+
+			$query->where($db->qn('p.publish_date') . ' >= ' . date($startDate, 'Y-m-d H:i:s'))
+				->where($db->qn('p.publish_date') . ' <= ' . date($endDate, 'Y-m-d H:i:s'));
+		}
+
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering', 'p.publish_date');
+		$orderDirn = $this->state->get('list.direction', 'desc');
+
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+
+		return $query;
 	}
 
 	/**
@@ -41,27 +137,9 @@ class RedshopModelStatistic_Product extends RedshopModelList
 	 */
 	public function getProducts()
 	{
-		$format = $this->getDateFormat();
-		$db     = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('DATE_FORMAT(p.publish_date,"' . $format . '") AS viewdate')
-			->select('p.*')
-			->select('COUNT(*) AS count')
-			->select('m.manufacturer_name')
-			->from($db->qn('#__redshop_product', 'p'))
-			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
-			->order($db->qn('p.publish_date') . ' DESC')
-			->group($db->qn('product_id'));
-
-		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
-		{
-			$query->where($db->qn('p.publish_date') . ' > ' . $db->q(date('Y-m-d H:i:s', strtotime($this->filterStartDate))))
-				->where($db->qn('p.publish_date') . ' <= ' . $db->q(date('Y-m-d H:i:s', strtotime($this->filterEndDate) + 86400)));
-		}
-
-		$products = $db->setQuery($query)->loadObjectList();
-
-		$query = $db->getQuery(true)
+		$products = $this->getItems();
+		$db       = $this->getDbo();
+		$query    = $db->getQuery(true)
 			->select('SUM(product_final_price) AS total_sale')
 			->select('COUNT(*) AS unit_sold')
 			->select($db->qn('product_id'))
@@ -99,11 +177,21 @@ class RedshopModelStatistic_Product extends RedshopModelList
 	public function getDateFormat()
 	{
 		$return = "";
-		$startDate = strtotime($this->filterStartDate);
-		$endDate = strtotime($this->filterEndDate);
+		$startDate = 0;
+		$endDate = 0;
+		$filterDateRange = $this->state->get('filter.date_range', '');
+
+		if (!empty($filterDateRange))
+		{
+			$filterDateRange = explode('-', $filterDateRange);
+
+			$startDate = (isset($filterDateRange[0])) ? (int) $filterDateRange[0] : '';
+			$endDate   = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
+		}
+
 		$interval = $endDate - $startDate;
 
-		if ($interval == 0 && ($this->filterDateLabel == 'Today' || $this->filterDateLabel == 'Yesterday'))
+		if ($interval == 86399)
 		{
 			$return = "%d %b %Y";
 		}
@@ -118,6 +206,10 @@ class RedshopModelStatistic_Product extends RedshopModelList
 		elseif ($interval <= 31536000)
 		{
 			$return = "%Y";
+		}
+		else
+		{
+			$return = "%d %b %Y";
 		}
 
 		return $return;
