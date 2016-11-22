@@ -27,22 +27,17 @@ class RedshopViewStatistic_Order extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
-		global $context;
-
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC_ORDER'));
-		$document->addStyleSheet('components/com_redshop/assets/css/daterangepicker.css');
-		$document->addScript('components/com_redshop/assets/js/moment.min.js');
-		$document->addScript('components/com_redshop/assets/js/daterangepicker.js');
 
-		$this->orders          = $this->get('Orders');
-		$this->filterStartDate = $app->input->getString('filter_start_date', '');
-		$this->filterEndDate   = $app->input->getString('filter_end_date', '');
-		$this->filterDateLabel = $app->input->getString('filter_date_label', '');
+		$model = $this->getModel();
+
+		$this->orders     = $model->getItems();
+		$this->state      = $model->getState();
+		$this->filterForm = $model->getForm();
 
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 
@@ -55,9 +50,8 @@ class RedshopViewStatistic_Order extends RedshopViewAdmin
 	 */
 	protected function addToolbar()
 	{
-		$title           = JText::_('COM_REDSHOP_STATISTIC_ORDER');
 		JFactory::getApplication()->input->set('hidemainmenu', true);
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_ORDER') . " :: " . $title, 'statistic redshop_statistic48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_ORDER'), 'statistic redshop_statistic48');
 
 		RedshopToolbarHelper::custom(
 			'exportOrder',

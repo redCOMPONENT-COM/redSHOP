@@ -19,27 +19,84 @@ defined('_JEXEC') or die;
 class RedshopModelStatistic_Order extends RedshopModelList
 {
 	/**
-	 * Constructor
+	 * Name of the filter form to load
 	 *
-	 * @deprecated  2.0.0.3
+	 * @var  string
 	 */
-	public function __construct()
+	protected $filterFormName = 'filter_statistic_order';
+
+	/**
+	 * constructor (registers additional tasks to methods)
+	 *
+	 * @param   array  $config  config params
+	 */
+	public function __construct($config = array())
 	{
 		parent::__construct();
-		$input                 = JFactory::getApplication()->input;
-		$this->filterStartDate = $input->getString('filter_start_date', '');
-		$this->filterEndDate   = $input->getString('filter_end_date', '');
-		$this->filterDateLabel = $input->getString('filter_date_label', '');
+
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'view_date',
+				'count',
+				'order_total'
+			);
+		}
+
+		parent::__construct($config);
 	}
 
 	/**
-	 * get Order data for statistic
+	 * Method to get a store id based on model configuration state.
 	 *
-	 * @return  object.
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
 	 *
-	 * @since   2.0.0.3
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   2.0.0.4
 	 */
-	public function getOrders()
+	protected function getStoreId($id = '')
+	{
+		$id .= ':' . $this->getState('filter.date_range');
+		$id .= ':' . $this->getState('filter.date_group');
+
+		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.0.4
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'cdate', $direction = '')
+	{
+		$dateRange = $this->getUserStateFromRequest($this->context . '.filter.date_range', 'filter_date_range');
+		$this->setState('filter.date_range', $dateRange);
+
+		$dateGroup = $this->getUserStateFromRequest($this->context . '.filter.date_group', 'filter_date_group');
+		$this->setState('filter.date_group', $dateGroup);
+
+		parent::populateState($ordering, $direction);
+	}
+
+	/**
+	 * Method to buil query string
+	 *
+	 * @return  String
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	public function getListQuery()
 	{
 		$format = $this->getDateFormat();
 		$db     = $this->getDbo();
@@ -48,16 +105,29 @@ class RedshopModelStatistic_Order extends RedshopModelList
 			->select('SUM(order_total) AS order_total')
 			->select('COUNT(*) AS count')
 			->from($db->qn('#__redshop_orders'))
-			->order($db->qn('cdate') . ' DESC')
 			->group($db->qn('viewdate'));
 
-		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
+		// Filter: Date Range
+		$filterDateRange = $this->state->get('filter.date_range', '');
+
+		if (!empty($filterDateRange))
 		{
-			$query->where($db->qn('cdate') . ' > ' . $db->q(strtotime($this->filterStartDate)))
-			->where($db->qn('cdate') . ' <= ' . $db->q(strtotime($this->filterEndDate) + 86400));
+			$filterDateRange = explode('-', $filterDateRange);
+
+			$startDate = (isset($filterDateRange[0])) ? (int) $filterDateRange[0] : '';
+			$endDate   = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
+
+			$query->where($db->qn('cdate') . ' >= ' . $startDate)
+				->where($db->qn('cdate') . ' <= ' . $endDate);
 		}
 
-		return $db->setQuery($query)->loadObjectList();
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering', 'cdate');
+		$orderDirn = $this->state->get('list.direction', 'desc');
+
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		
+		return $query;
 	}
 
 	/**
@@ -117,11 +187,21 @@ class RedshopModelStatistic_Order extends RedshopModelList
 	public function getDateFormat()
 	{
 		$return = "";
-		$startDate = strtotime($this->filterStartDate);
-		$endDate = strtotime($this->filterEndDate);
+		$startDate = 0;
+		$endDate = 0;
+		$filterDateRange = $this->state->get('filter.date_range', '');
+
+		if (!empty($filterDateRange))
+		{
+			$filterDateRange = explode('-', $filterDateRange);
+
+			$startDate = (isset($filterDateRange[0])) ? (int) $filterDateRange[0] : '';
+			$endDate   = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
+		}
+
 		$interval = $endDate - $startDate;
 
-		if ($interval == 0 && ($this->filterDateLabel == 'Today' || $this->filterDateLabel == 'Yesterday'))
+		if ($interval == 86399)
 		{
 			$return = "%d %b %Y";
 		}
@@ -136,6 +216,10 @@ class RedshopModelStatistic_Order extends RedshopModelList
 		elseif ($interval <= 31536000)
 		{
 			$return = "%Y";
+		}
+		else
+		{
+			$return = "%d %b %Y";
 		}
 
 		return $return;
