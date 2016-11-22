@@ -13,8 +13,8 @@ JLoader::import('redshop.library');
 $app  = JFactory::getApplication();
 $user = JFactory::getUser();
 
-$minslider                = trim($params->get('minslider', 0));
-$maxslider                = trim($params->get('maxslider', 5000));
+$minSlider                = trim($params->get('minslider', 0));
+$maxSlider                = trim($params->get('maxslider', 5000));
 $category                 = $params->get('category', 0);
 
 if (is_array($category))
@@ -39,8 +39,8 @@ $showDesc                = trim($params->get('show_desc', 1));
 global $context;
 
 $context      = 'product_id';
-$textPriceMin = $app->getUserStateFromRequest($context . 'texpricemin', 'texpricemin', $minslider);
-$textPriceMax = $app->getUserStateFromRequest($context . 'texpricemax', 'texpricemax', $maxslider);
+$textPriceMin = $app->getUserStateFromRequest($context . 'texpricemin', 'texpricemin', $minSlider);
+$textPriceMax = $app->getUserStateFromRequest($context . 'texpricemax', 'texpricemax', $maxSlider);
 
 $uri 		= JURI::getInstance()->root();
 $itemId 	= JRequest::getInt('Itemid');
