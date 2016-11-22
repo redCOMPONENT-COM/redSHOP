@@ -1036,7 +1036,8 @@ class Com_RedshopInstallerScript
 				JPATH_SITE . '/components/com_redshop/helpers/thumb.php',
 				JPATH_SITE . '/components/com_redshop/models/password.php',
 				JPATH_SITE . '/components/com_redshop/views/price_filter/view.html.php',
-				JPATH_SITE . '/components/com_redshop/views/product/tmpl/default_askquestion.php'
+				JPATH_SITE . '/components/com_redshop/views/product/tmpl/default_askquestion.php',
+				JPATH_LIBRARIES . '/redshop/form/fields/rstext.php'
 			);
 		}
 
