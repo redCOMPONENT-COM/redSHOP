@@ -504,12 +504,17 @@ class Com_RedshopInstallerScript
 			// Since 1.6 we started moving to new config
 			if (version_compare($this->getOldParam('version'), '1.6', '<'))
 			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_LEGACY_MIGRATING'), 'notice');
+
 				// Load configuration file from legacy file.
-				Redshop::getConfig()->loadLegacy();
+				if (Redshop::getConfig()->loadLegacy())
+				{
+					return true;
+				}
 			}
 
 			// Try to load distinct if no config found.
-			Redshop::getConfig()->loadDist();
+			return Redshop::getConfig()->loadDist();
 		}
 		catch (Exception $e)
 		{
@@ -914,7 +919,6 @@ class Com_RedshopInstallerScript
 				JPATH_SITE . '/components/com_redshop/helpers/cron.php',
 				JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php',
 				JPATH_SITE . '/components/com_redshop/helpers/zipfile.php',
-				JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/answer.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/answer_detail.php',
 				JPATH_ADMINISTRATOR . '/components/com_redshop/models/answer.php',
@@ -1032,7 +1036,8 @@ class Com_RedshopInstallerScript
 				JPATH_SITE . '/components/com_redshop/helpers/thumb.php',
 				JPATH_SITE . '/components/com_redshop/models/password.php',
 				JPATH_SITE . '/components/com_redshop/views/price_filter/view.html.php',
-				JPATH_SITE . '/components/com_redshop/views/product/tmpl/default_askquestion.php'
+				JPATH_SITE . '/components/com_redshop/views/product/tmpl/default_askquestion.php',
+				JPATH_LIBRARIES . '/redshop/form/fields/rstext.php'
 			);
 		}
 
