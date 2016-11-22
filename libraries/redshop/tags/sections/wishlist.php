@@ -43,13 +43,9 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 
 		$productId = $this->data['productId'];
 		$formId    = $this->data['formId'];
-
 		$user      = JFactory::getUser();
 
 		JHtml::script('com_redshop/redshop.wishlist.js', false, true, false, false);
-
-		$wishListButton = '';
-		$wishListLink   = '';
 
 		// Product Wishlist - New Feature Like Magento Store
 		if (!$user->guest)
@@ -87,7 +83,8 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 					<input type='hidden' name='property_id' value='' />
 					<input type='hidden' name='subattribute_id' value='' />
 					<input type='hidden' name='rurl' value='" . base64_encode(JUri::getInstance()->toString()) . "' />";
-				$wishListButton .= '<input type="submit" data-productid="' . $productId . '" data-formid="' . $formId . '" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist" value="'
+				$wishListButton .= '<input type="submit" data-productid="' . $productId . '" data-formid="'
+					. $formId . '" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist" value="'
 					. JText::_("COM_REDSHOP_ADD_TO_WISHLIST") . '" /></form>';
 
 				$wishListLink = "<form method='post' action='' id='form_wishlist_" . $productId . "_link'
