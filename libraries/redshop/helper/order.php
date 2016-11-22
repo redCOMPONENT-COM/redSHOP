@@ -96,6 +96,15 @@ class RedshopHelperOrder
 	protected static $shippingAddresses = array();
 
 	/**
+	 * Shipping methods
+	 *
+	 * @var   array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $shippingMethods = array();
+
+	/**
 	 * Get order information from order id.
 	 *
 	 * @param   integer  $orderId  Order Id
@@ -1705,23 +1714,28 @@ class RedshopHelperOrder
 	 */
 	public static function getShippingMethodInfo($shippingClass = '')
 	{
-		$db = JFactory::getDbo();
+		$key = (!empty($shippingClass)) ? $shippingClass : '0';
 
-		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__extensions'))
-					->where($db->qn('enabled') . ' = ' . $db->quote('1'))
-					->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote('redshop_shipping'))
-					->order($db->qn('ordering') . ' ASC');
-
-		if ($shippingClass != '')
+		if (!array_key_exists($key, static::$shippingMethods))
 		{
-			$query->where($db->qn('element') . ' = ' . $db->quote($shippingClass));
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__extensions'))
+				->where($db->qn('enabled') . ' = ' . $db->quote('1'))
+				->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote('redshop_shipping'))
+				->order($db->qn('ordering') . ' ASC');
+
+			if (!empty($shippingClass))
+			{
+				$query->where($db->qn('element') . ' = ' . $db->quote($shippingClass));
+			}
+
+			static::$shippingMethods = $db->setQuery($query)->loadObjectList();
 		}
 
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return static::$shippingMethods;
 	}
 
 	/**

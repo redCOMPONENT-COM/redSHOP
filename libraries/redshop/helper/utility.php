@@ -147,4 +147,30 @@ class RedshopHelperUtility
 
 		return $list;
 	}
+
+	/**
+	 * Convert associative array into attributes.
+	 * Example:
+	 * 		array('size' => '50', 'name' => 'myfield')
+	 * 	would be:
+	 * 		size="50" name="myfield"
+	 *
+	 * @param   array  $array  Associative array to convert
+	 *
+	 * @return  string
+	 */
+	public static function toAttributes(array $array)
+	{
+		$attributes = '';
+
+		foreach ($array as $attribute => $value)
+		{
+			if (null !== $value)
+			{
+				$attributes .= ' ' . $attribute . '="' . (string) $value . '"';
+			}
+		}
+
+		return trim($attributes);
+	}
 }
