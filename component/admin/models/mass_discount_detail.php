@@ -77,27 +77,15 @@ class RedshopModelMass_discount_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			// Get stored post data from user state
-			$tmpPost = JFactory::getApplication()->getUserState('com_redshop.edit.product.data', false);
+			// Or create new object if it's not exists before
+			$detail = new stdClass;
 
-			// Convert it back to object if possible
-			if ($tmpPost)
-			{
-				$detail = json_decode($tmpPost);
-			}
-			else
-			{
-				// Or create new object if it's not exists before
-				$detail = new stdClass;
-
-				$detail->mass_discount_id = 0;
-				$detail->discount_name = null;
-				$detail->discount_amount = 0;
-				$detail->discount_type = 0;
-				$detail->discount_startdate = time();
-				$detail->discount_enddate = time();
-			}
-
+			$detail->mass_discount_id = 0;
+			$detail->discount_name = null;
+			$detail->discount_amount = 0;
+			$detail->discount_type = 0;
+			$detail->discount_startdate = time();
+			$detail->discount_enddate = time();
 			$detail->cid = null;
 			$detail->discount_product = null;
 
