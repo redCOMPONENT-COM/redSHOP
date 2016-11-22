@@ -3303,12 +3303,12 @@ class rsCarthelper
 	{
 		$output           = '';
 		$shippingGLS      = $this->_order_functions->getparameters('default_shipping_gls');
-		$selected_shop_id = null;
+		$selectedShopId = null;
 
 		if (count($shippingGLS) > 0 && $shippingGLS[0]->enabled && $classname == 'default_shipping_gls')
 		{
 			JPluginHelper::importPlugin('redshop_shipping');
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = RedshopHelperUtility::getDispatcher();
 			$values     = RedshopHelperUser::getUserInformation(0, '', $users_info_id, false);
 
 			if ($shop_id)
@@ -3355,7 +3355,7 @@ class rsCarthelper
 
 					if ($shopDetail[0] == $shopResponse->Number)
 					{
-						$selected_shop_id = $shopResponse->shop_id;
+						$selectedShopId = $shopResponse->shop_id;
 						break;
 					}
 				}
@@ -3364,7 +3364,7 @@ class rsCarthelper
 			$output = RedshopLayoutHelper::render(
 						'order.glslocation',
 						array(
-							'shopList' => '<span id="rs_locationdropdown">' . JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selected_shop_id, false, true) . '</span>',
+							'shopList' => '<span id="rs_locationdropdown">' . JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selectedShopId, false, true) . '</span>',
 							'zipcode'  => '<input type="text" id="gls_zipcode" name="gls_zipcode" value="' . $values->zipcode . '"" onblur="javascript:updateGLSLocation(this.value);"" />',
 							'phone'    => '<input type="text" id="gls_mobile" name="gls_mobile"  value="' . $values->phone . '" />'
 						)
