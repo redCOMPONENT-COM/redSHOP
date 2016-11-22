@@ -5190,6 +5190,11 @@ class productHelper
 
 		$product = $this->getProductById($product_id);
 
+		// Process the product plugin for property
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$dispatcher->trigger('onPropertyAddtoCart', array(&$property_data, &$cart_template, &$property_stock, $property_id, $product));
+
 		if ($property_stock <= 0)
 		{
 			$property_data = str_replace("{form_addtocart:$cart_template->template_name}", JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'), $property_data);
