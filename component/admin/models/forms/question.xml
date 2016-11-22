@@ -28,7 +28,7 @@
         <field
                 id="telephone"
                 name="telephone"
-                type="rstext"
+                type="redshop.text"
                 label="COM_REDSHOP_QUESTION_TELEPHONE"
                 description="COM_REDSHOP_QUESTION_TELEPHONE_DESC"
                 placeholder="COM_REDSHOP_QUESTION_TELEPHONE_DESC"
@@ -39,7 +39,7 @@
         <field
                 id="address"
                 name="address"
-                type="rstext"
+                type="redshop.text"
                 label="COM_REDSHOP_QUESTION_USER_ADDRESS"
                 description="COM_REDSHOP_QUESTION_USER_ADDRESS_DESC"
                 placeholder="COM_REDSHOP_QUESTION_USER_ADDRESS_DESC"
