@@ -1078,60 +1078,50 @@ class extraField
 		return $list;
 	}
 
+	/**
+	 * Get Section Field List
+	 *
+	 * @param   integer  $section    Section ID
+	 * @param   integer  $front      Field show in front
+	 * @param   integer  $published  Field show in front
+	 * @param   integer  $required   Field show in front
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::getSectionFieldList() instead
+	 */
 	public function getSectionFieldList($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
 	{
-		$db = JFactory::getDbo();
-
-		$and = "";
-
-		if ($published == 1)
-		{
-			$and .= "AND published=" . (int) $published . " ";
-		}
-
-		if ($required == 1)
-		{
-			$and .= "AND required=" . (int) $required . " ";
-		}
-
-		if ($front == 1)
-		{
-			$and .= "AND field_show_in_front=" . (int) $front . " ";
-		}
-
-		$query = "SELECT * FROM #__redshop_fields "
-			. "WHERE field_section=" . $db->quote($section) . " "
-			. $and
-			. "ORDER BY ordering ";
-		$db->setQuery($query);
-		$list = $db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperExtrafields::getSectionFieldList($section, $front, $published, $required);
 	}
 
+	/**
+	 * Method for get section field names.
+	 *
+	 * @param   int  $section    Section ID
+	 * @param   int  $front      Is show on front?
+	 * @param   int  $published  Is published?
+	 * @param   int  $required   Is required?
+	 *
+	 * @return  array            List of field
+	 */
 	public function getSectionFieldNameArray($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
 	{
-		$db = JFactory::getDbo();
+		$fields = RedshopHelperExtrafields::getSectionFieldList($section, $front, $published, $required);
 
-		$and = "";
-
-		if ($published == 1)
+		if (empty($fields))
 		{
-			$and .= "AND published=" . (int) $published . " ";
+			return array();
 		}
 
-		if ($required == 1)
+		$result = array();
+
+		foreach ($fields as $field)
 		{
-			$and .= "AND required=" . (int) $required . " ";
+			$result[] = $field->field_name;
 		}
 
-		$query = "SELECT field_name FROM #__redshop_fields "
-			. "WHERE field_section = " . $db->quote($section) . " "
-			. $and;
-		$db->setQuery($query);
-		$list = $db->loadColumn();
-
-		return $list;
+		return $result;
 	}
 
 	public function getSectionFieldIdArray($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
