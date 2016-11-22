@@ -51,6 +51,8 @@ class ModRedshopMegaMenuHelper
 				$firstItem[$i]->link = JRoute::_($item->link . '&Itemid=' . $item->id);
 				$firstItem[$i]->published = 1;
 				$firstItem[$i]->menu_parent_id = $item->id;
+				$firstItem[$i]->menu_anchor_css = $item->anchor_css;
+				$firstItem[$i]->menu_anchor_title = $item->anchor_title;
 			}
 		}
 
@@ -261,7 +263,8 @@ class ModRedshopMegaMenuHelper
 
 		for ($i = 0, $ci = count($items); $i < $ci; $i++)
 		{
-			echo '<li class="item-' . $items[$i]->category_id . ' level-item-' . $level . ' col-sm-3">';
+			$subLevel = $level + 1;
+			echo '<li class="item-' . $items[$i]->category_id . ' level-item-' . $subLevel . ' col-sm-3">';
 			echo '<a href="' . $items[$i]->link . '">';
 			echo '<span class="menuLinkTitle">' . $items[$i]->category_name . '</span>';
 
@@ -274,7 +277,7 @@ class ModRedshopMegaMenuHelper
 
 			if (!empty($items[$i]->sub_cat[0]->category_id))
 			{
-				echo self::displayLevel($items[$i]->sub_cat, $items[$i], $level + 1);
+				echo self::displayLevel($items[$i]->sub_cat, $items[$i], $subLevel + 1);
 			}
 
 			echo '</li>';

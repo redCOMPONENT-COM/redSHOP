@@ -63,22 +63,6 @@ defined('_JEXEC') or die;
 				</div>
 			<?php endif; ?>
 		</div>
-		<?php if ($enablePrice == 1) : ?>
-		<div class="row-fluid">
-			<div class="price"><?php echo JText::_("MOD_REDSHOP_FILTER_PRICE_LABEL"); ?></div>
-			<div id="slider-range"></div>
-			<div id="filter-price">
-				<div id="amount-min">
-					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
-					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][min]" value="<?php echo $rangeMin; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
-				</div>
-				<div id="amount-max">
-					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
-					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][max]" value="<?php echo $rangeMax; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
-				</div>
-			</div>
-		</div>
-		<?php endif; ?>
 		<?php if ($enableManufacturer == 1 && count($manufacturers) > 0): ?>
 			<div id='manu'>
 				<label class="title"><?php echo JText::_("MOD_REDSHOP_FILTER_MANUFACTURER_LABEL"); ?></label>
@@ -101,6 +85,22 @@ defined('_JEXEC') or die;
 					<?php endif; ?>
 				</ul>
 			</div>
+		<?php endif; ?>
+		<?php if ($enablePrice == 1) : ?>
+		<div class="row-fluid">
+			<div class="price"><?php echo JText::_("MOD_REDSHOP_FILTER_PRICE_LABEL"); ?></div>
+			<div id="slider-range"></div>
+			<div id="filter-price">
+				<div id="amount-min">
+					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
+					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][min]" value="<?php echo $rangeMin; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
+				</div>
+				<div id="amount-max">
+					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
+					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][max]" value="<?php echo $rangeMax; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
+				</div>
+			</div>
+		</div>
 		<?php endif; ?>
 	</div>
 	<input type="hidden" name="redform[cid]" value="<?php echo !empty($cid) ? $cid : 0; ?>" />

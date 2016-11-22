@@ -69,7 +69,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	foreach ($products as $k => $pid)
 	{
 		$product = $productHelper->getProductById($pid);
-		$catid   = $productHelper->getCategoryProduct($pid);
+		$catid   = $product->category_id;
 
 		// Count accessory
 		$accessorylist = $productHelper->getProductAccessory(0, $product->product_id);
@@ -211,6 +211,19 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			{
 				$dataAdd = str_replace("{manufacturer_name}", "", $dataAdd);
 			}
+		}
+
+		$extraFieldsForCurrentTemplate = $productHelper->getExtraFieldsForCurrentTemplate($extraFieldName, $templateProduct, 1);
+
+		/*
+		 * product loop template extra field
+		 * lat arg set to "1" for indetify parsing data for product tag loop in category
+		 * last arg will parse {producttag:NAMEOFPRODUCTTAG} nameing tags.
+		 * "1" is for section as product
+		 */
+		if ($extraFieldsForCurrentTemplate)
+		{
+			$dataAdd = $extraField->extra_field_display(1, $product->product_id, $extraFieldsForCurrentTemplate, $dataAdd, 1);
 		}
 
 		if (strstr($dataAdd, "{product_thumb_image_3}"))
@@ -413,14 +426,6 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			}
 		}
 
-		$cartTemplate = $redTemplate->getTemplate("add_to_cart");
-		$countTemplate = count($cartTemplate);
-
-		for ($i = 0; $i < $countTemplate; $i++)
-		{
-			$dataAdd = str_replace("{form_addtocart:" . $cartTemplate[$i]->template_name . "}", "", $dataAdd);
-		}
-
 		/* get cart tempalte */
 		$dataAdd = $productHelper->replaceCartTemplate($product->product_id, $catid, 0, 0, $dataAdd, $isChilds, $userfieldArr, $totalatt, $totacc, $count_no_user_field, "");
 
@@ -432,7 +437,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$productTmpl = $productData;
 	$catName = "";
 
-	if ($cid)
+	if (!empty($cid))
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -473,6 +478,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		$templateDesc = str_replace("{product_display_limit}", $limitBox, $templateDesc);
 	}
 
+	$templateDesc = str_replace("{order_by_lbl}", JText::_('COM_REDSHOP_SELECT_ORDER_BY'), $templateDesc);
 	$templateDesc = str_replace("{order_by}", $lists['order_select'], $templateDesc);
 	$templateDesc = str_replace("{product_loop_start}", "", $templateDesc);
 	$templateDesc = str_replace("{product_loop_end}", "", $templateDesc);
