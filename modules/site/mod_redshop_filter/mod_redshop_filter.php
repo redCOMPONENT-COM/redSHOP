@@ -29,6 +29,8 @@ $layout             = $input->getString('layout', '');
 $keyword            = $input->post->getString('keyword', '');
 $productOnSale      = 0;
 $action             = JRoute::_("index.php?option=com_redshop&view=search");
+$manufacturers 		= [];
+$document           = JFactory::getDocument();
 
 if (!empty($cid))
 {
@@ -124,7 +126,7 @@ elseif ($view == 'search')
 	$rangePrice    = ModRedshopFilter::getRange($pids);
 }
 
-$rangeMin = $rangePrice['min'];
-$rangeMax = $rangePrice['max'];
+$rangeMin = isset($rangePrice['min'])? $rangePrice['min']: '';
+$rangeMax = isset($rangePrice['max'])? $rangePrice['max']: '';
 
 require JModuleHelper::getLayoutPath('mod_redshop_filter', $params->get('layout', 'default'));

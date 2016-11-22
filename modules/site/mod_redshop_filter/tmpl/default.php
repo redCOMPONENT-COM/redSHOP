@@ -268,7 +268,7 @@ defined('_JEXEC') or die;
 					jQuery(this).addClass('active').next('ul.collapse').addClass('in');
 				}
 			});
-			range_slide(<?php echo $rangeMin;?>, <?php echo $rangeMax;?>, <?php echo $rangeMin;?>, <?php echo $rangeMax;?>, submitpriceform );
+			range_slide(<?php echo $rangeMin;?>, <?php echo $rangeMax;?>, <?php echo $rangeMin;?>, <?php echo $rangeMax;?>, submitpriceform);
 		});
 	});
 </script>
