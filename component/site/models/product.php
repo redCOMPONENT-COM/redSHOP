@@ -343,6 +343,7 @@ class RedshopModelProduct extends RedshopModel
 		$attributes    = null;
 		$properties    = null;
 		$subAttributes = null;
+		$session       = JFactory::getSession();
 
 		if (array_key_exists('attribute_id', $data))
 		{
@@ -363,34 +364,38 @@ class RedshopModelProduct extends RedshopModel
 		$extraField = extraField::getInstance();
 		$section    = 12;
 		$row_data   = $extraField->getSectionFieldList($section);
+		$wishlistSession = $session->get('wishlist');
 
-		for ($index = 1; $index <= $_SESSION['no_of_prod']; $index++)
+		if (!empty($wishlistData) && !Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
 		{
-			if ($_SESSION['wish_' . $index]->product_id == $data['product_id'] && !empty($data['task']))
-			{
-				unset($_SESSION['no_of_prod']);
-			}
+			$wishlistSession[$data['product_id']] = null;
 		}
 
-		$_SESSION['no_of_prod'] += 1;
-		$productNumber = 'wish_' . $_SESSION['no_of_prod'];
-
-		$_SESSION[$productNumber]->product_id = $data['product_id'];
-		$_SESSION[$productNumber]->comment    = isset($data ['comment']) ? $data ['comment'] : "";
-		$_SESSION[$productNumber]->cdate      = $data['cdate'];
+		$wishlist = new stdClass;
+		$wishlist->product_id = $data['product_id'];
+		$wishlist->comment    = isset($data ['comment']) ? $data ['comment'] : "";
+		$wishlist->cdate      = $data['cdate'];
 
 		for ($k = 0, $kn = count($row_data); $k < $kn; $k++)
 		{
 			$field = "productuserfield_" . $k;
-			$_SESSION[$productNumber]->{$field} = $data['productuserfield_' . $k];
+			$wishlist->{$field} = $data['productuserfield_' . $k];
 		}
 
-		if (!$attributes)
+		if (!$attributes || !Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
 		{
-			return false;
+			$wishlistSession[$data['product_id']] = $wishlist;
+			$session->set('wishlist', $wishlistSession);
+
+			return true;
 		}
 
-		$_SESSION[$productNumber]->product_items = array();
+		if (empty($wishlistSession[$data['product_id']]) || !is_array($wishlistSession[$data['product_id']]))
+		{
+			$wishlistSession[$data['product_id']] = array();
+		}
+
+		$wishlist->product_items = array();
 
 		foreach ($attributes as $index => $attribute)
 		{
@@ -407,8 +412,22 @@ class RedshopModelProduct extends RedshopModel
 				$item->subattribute_id = $subAttributes[$index];
 			}
 
-			$_SESSION[$productNumber]->product_items[] = $item;
+			$wishlist->product_items = $item;
 		}
+
+		if (!empty($wishlistSession[$data['product_id']]))
+		{
+			foreach ($wishlistSession[$data['product_id']] as $wishlistItem)
+			{
+				if ($wishlistItem->product_items == $wishlist->product_items)
+				{
+					return true;
+				}
+			}
+		}
+
+		$wishlistSession[$data['product_id']][] = $wishlist;
+		$session->set('wishlist', $wishlistSession);
 
 		return true;
 	}
