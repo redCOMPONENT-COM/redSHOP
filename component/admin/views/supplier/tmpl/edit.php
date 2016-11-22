@@ -29,19 +29,25 @@ JFactory::getDocument()->addScriptDeclaration('
 	class="form-validate form-horizontal"
 	enctype="multipart/form-data">
 	<fieldset class="adminform">
-		<?php foreach ($this->form->getFieldset('details') as $field) : ?>
-			<?php if ($field->hidden) : ?>
-				<?php echo $field->input;?>
-			<?php endif; ?>
-			<div class="control-group">
-				<div class="control-label"><?php echo $field->label; ?></div>
-				<div class="controls"><?php echo $field->input; ?></div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DETAIL') ?></h3>
+					</div>
+					<div class="box-body">
+						<?php echo $this->form->renderField('name') ?>
+						<?php echo $this->form->renderField('email') ?>
+						<?php echo $this->form->renderField('published') ?>
+						<?php echo $this->form->renderField('description') ?>
+					</div>
+				</div>
 			</div>
-		<?php endforeach; ?>
+		</div>
 	</fieldset>
-	<input type="hidden" name="id" value="<?php echo $this->item->id; ?>" />
-	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
+	<input type="hidden" name="task" value=""/>
+	<?php echo $this->form->getInput('id') ?>
 </form>
 
 

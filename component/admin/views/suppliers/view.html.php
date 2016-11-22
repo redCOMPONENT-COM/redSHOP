@@ -19,17 +19,44 @@ defined('_JEXEC') or die;
 class RedshopViewSuppliers extends RedshopViewAdmin
 {
 	/**
+	 * @var  array
+	 */
+	public $items;
+
+	/**
+	 * @var  JPagination
+	 */
+	public $pagination;
+
+	/**
+	 * @var  array
+	 */
+	public $state;
+
+	/**
+	 * @var  array
+	 */
+	public $activeFilters;
+
+	/**
+	 * @var  JForm
+	 */
+	public $filterForm;
+
+	/**
 	 * Display template function
 	 *
 	 * @param   object  $tpl  template variable
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 2.0.0.7
+	 * @throws  Exception
+	 *
+	 * @since   2.0.0.7
 	 */
-
 	public function display($tpl = null)
 	{
+		/** @var RedshopModelSuppliers $model */
 		$model = $this->getModel();
 
 		// Get data from the model
@@ -72,7 +99,7 @@ class RedshopViewSuppliers extends RedshopViewAdmin
 
 		JToolBarHelper::title($title, 'redshop_supplier_48');
 		JToolBarHelper::addNew('supplier.add');
-		JToolBarHelper::editList('suppier.edit');
+		JToolBarHelper::editList('supplier.edit');
 		JToolBarHelper::deleteList('', 'suppliers.delete');
 		JToolbarHelper::publish('suppliers.publish', 'JTOOLBAR_PUBLISH', true);
 		JToolbarHelper::unpublish('suppliers.unpublish', 'JTOOLBAR_UNPUBLISH', true);

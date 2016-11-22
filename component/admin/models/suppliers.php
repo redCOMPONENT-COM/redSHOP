@@ -36,11 +36,11 @@ class RedshopModelSuppliers extends RedshopModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id', 'id',
-				'supplier_name', 'supplier_name',
-				'supplier_desc', 'supplier_desc',
-				'supplier_email', 'supplier_email',
-				'published', 'published'
+				'id', 's.id',
+				'name', 's.name',
+				'description', 's.description',
+				'email', 's.email',
+				'published', 's.published'
 			);
 		}
 
@@ -59,7 +59,7 @@ class RedshopModelSuppliers extends RedshopModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 's.id', $direction = 'asc')
 	{
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -99,8 +99,8 @@ class RedshopModelSuppliers extends RedshopModelList
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn(['id', 'supplier_name', 'supplier_desc', 'supplier_email', 'published']))
-			->from($db->qn('#__redshop_supplier'));
+		$query->select('s.*')
+			->from($db->qn('#__redshop_supplier', 's'));
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
@@ -109,17 +109,17 @@ class RedshopModelSuppliers extends RedshopModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('id = ' . (int) substr($search, 3));
+				$query->where($db->qn('s.id') . ' = ' . (int) substr($search, 3));
 			}
 			else
 			{
 				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where($db->qn('supplier_name') . ' LIKE ' . $search);
+				$query->where($db->qn('name') . ' LIKE ' . $search);
 			}
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'id');
+		$orderCol  = $this->state->get('list.ordering', 'id');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
