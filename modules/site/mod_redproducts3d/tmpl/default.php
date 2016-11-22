@@ -14,7 +14,7 @@ $url = $uri->root();
 $Itemid = JRequest::getInt('Itemid');
 
 $document = JFactory::getDocument();
-JHTML::script('modules/mod_redproducts3d/js/redproduct360.js');
+JHtml::script('mod_redproducts3d/redproduct360.js', false, true);
 
 $enableImageReflection = 0;
 $enableimageStroke = 0;
