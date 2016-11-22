@@ -256,9 +256,13 @@ class RedshopHelperCron
 		$date            = JFactory::getDate();
 		$fdate           = $date->format('Y-m-d');
 
-		$query = "SELECT * FROM #__redshop_orders where order_payment_status ='Paid' and order_status = 'C'";
-		$db->setQuery($query);
-		$data = $db->loadObjectList();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_orders'))
+			->where($db->qn('order_payment_status') . ' = ' . $db->quote('Paid'))
+			->where($db->qn('order_status') . ' = ' . $db->quote('C'));
+
+		$data = $db->setQuery($query)->loadObjectList();
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
 
