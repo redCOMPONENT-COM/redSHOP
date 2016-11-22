@@ -120,15 +120,7 @@ class RedshopControllerSearch extends RedshopController
 		$post  = $input->post->get('redform', array(), 'filter');
 
 		$model->setState("filter.data", $post);
-
-		$list = $model->getItem();
-
-		// Get all product from here
-		/*foreach ( $list as $k => $value )
-		{
-			$products[] = $value;
-		}*/
-
+		$list       = $model->getItem();
 		$pagination = $model->getFilterPagination();
 		$orderBy    = $model->getState('order_by');
 		$total      = $model->getFilterTotal();

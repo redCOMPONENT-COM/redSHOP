@@ -31,14 +31,20 @@ abstract class ModRedshopFilter
 		$min = 0;
 		$max = 0;
 
-		$query = $db->getQuery(true);
+		$list = RedshopHelperCategory::getCategoryListArray($cid);
+		$childCat = array($cid);
+
+		foreach ($list as $key => $value)
+		{
+			$childCat[] = $value->category_id;
+		}
 
 		if (intval($cid) != 0)
 		{
 			$query->select($db->qn("cat.product_id"))
 				->from($db->qn("#__redshop_product", "p"))
-				->join("LEFT", $db->qn("#__redshop_product_category_xref", "cat") . " ON " . $db->qn("p.product_id") . ' = ' . $db->qn("cat.product_id"))
-				->where($db->qn("cat.category_id") . " = " . $db->q($cid));
+				->join("LEFT", $db->qn("#__redshop_product_category_xref", "cat") . " ON p.product_id = cat.product_id")
+				->where($db->qn("cat.category_id") . " IN ( " . implode(',', $childCat) . ' )');
 
 			// Filter by manufacture
 			if (intval($manufacturer_id) !== 0)

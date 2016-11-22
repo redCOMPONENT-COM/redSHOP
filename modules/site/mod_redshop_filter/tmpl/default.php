@@ -10,6 +10,10 @@
 defined('_JEXEC') or die;
 
 ?>
+
+<?php JHtml::stylesheet('mod_redshop_filter/jqui.css', false, true);?>
+<?php JHtml::script('mod_redshop_filter/query-ui.min.js', false, true); ?>
+
 <div class="<?php echo $moduleClassSfx; ?>">
 	<form action="<?php echo $action; ?>" method="post" name="adminForm-<?php echo $module->id;?>" id="redproductfinder-form-<?php echo $module->id;?>" class="form-validate">
 	<div class="form-horizontal">
@@ -63,22 +67,6 @@ defined('_JEXEC') or die;
 				</div>
 			<?php endif; ?>
 		</div>
-		<?php if ($enablePrice == 1) : ?>
-		<div class="row-fluid">
-			<div class="price"><?php echo JText::_("MOD_REDSHOP_FILTER_PRICE_LABEL"); ?></div>
-			<div id="slider-range"></div>
-			<div id="filter-price">
-				<div id="amount-min">
-					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
-					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][min]" value="<?php echo $rangeMin; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
-				</div>
-				<div id="amount-max">
-					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
-					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][max]" value="<?php echo $rangeMax; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
-				</div>
-			</div>
-		</div>
-		<?php endif; ?>
 		<?php if ($enableManufacturer == 1 && count($manufacturers) > 0): ?>
 			<div id='manu'>
 				<label class="title"><?php echo JText::_("MOD_REDSHOP_FILTER_MANUFACTURER_LABEL"); ?></label>
@@ -102,6 +90,22 @@ defined('_JEXEC') or die;
 				</ul>
 			</div>
 		<?php endif; ?>
+		<?php if ($enablePrice == 1) : ?>
+		<div class="row-fluid">
+			<div class="price"><?php echo JText::_("MOD_REDSHOP_FILTER_PRICE_LABEL"); ?></div>
+			<div id="slider-range"></div>
+			<div id="filter-price">
+				<div id="amount-min">
+					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
+					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][min]" value="<?php echo $rangeMin; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
+				</div>
+				<div id="amount-max">
+					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
+					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][max]" value="<?php echo $rangeMax; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
+				</div>
+			</div>
+		</div>
+		<?php endif; ?>
 	</div>
 	<input type="hidden" name="redform[cid]" value="<?php echo !empty($cid) ? $cid : 0; ?>" />
 	<input type="hidden" name="redform[mid]" value="<?php echo !empty($mid) ? $mid : 0; ?>" />
@@ -116,9 +120,6 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="redform[category_for_sale]" value="<?php echo $categoryForSale; ?>" />
 </form>
 </div>
-
-<link rel="stylesheet" type="text/css" href="<?php echo JUri::root() . 'modules/mod_redshop_filter/lib/css/jqui.css'; ?>">
-<script type="text/javascript" src="<?php echo JUri::root() . 'modules/mod_redshop_filter/lib/js/jquery-ui.min.js'; ?>"></script>
 <script type="text/javascript">
 	function range_slide (min_range, max_range , cur_min , cur_max, callback) {
 		jQuery.ui.slider.prototype.widgetEventPrefix = 'slider';
@@ -268,7 +269,7 @@ defined('_JEXEC') or die;
 					jQuery(this).addClass('active').next('ul.collapse').addClass('in');
 				}
 			});
-			range_slide(<?php echo $rangeMin;?>, <?php echo $rangeMax;?>, <?php echo $rangeMin;?>, <?php echo $rangeMax;?>, submitpriceform);
+			range_slide(<?php echo $rangeMin;?>, <?php echo $rangeMax;?>, <?php echo $rangeMin;?>, <?php echo $rangeMax;?>, submitpriceform );
 		});
 	});
 </script>
