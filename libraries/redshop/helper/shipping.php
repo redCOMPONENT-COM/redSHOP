@@ -795,7 +795,7 @@ class RedshopHelperShipping
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->select($db->qn('extension_id'))
+			->select($db->qn('extension_id', 'id'))
 			->from($db->qn('#__extensions'))
 			->where('LOWER(' . $db->qn('folder') . ')' . ' = ' . $db->q($folder))
 			->where($db->qn('extension_id') . ' = ' . $db->q((int) $id));
