@@ -48,7 +48,7 @@ $user = JFactory::getUser();
 	<?php else : ?>
 		<form method="post" action="" id="form_wishlist_<?php echo $productId ?>_link" name="form_wishlist_<?php echo $productId ?>_link">
 				<input type='hidden' name='task' value='addtowishlist' />
-			    <input type='hidden' name='product_id' value='<?php echo $productId ?>' />
+				<input type='hidden' name='product_id' value='<?php echo $productId ?>' />
 				<input type='hidden' name='view' value='product' />
 				<input type='hidden' name='attribute_id' value='' />
 				<input type='hidden' name='property_id' value='' />
