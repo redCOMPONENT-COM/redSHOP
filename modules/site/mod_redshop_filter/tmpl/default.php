@@ -149,6 +149,113 @@ defined('_JEXEC') or die;
 		});
 	}
 
+	function modalWishlist(){
+		// User
+        jQuery('.redshop-wishlist-button, .redshop-wishlist-link').click(function(event) {
+            event.preventDefault();
+
+            var productId = jQuery(this).attr('data-productid');
+            var formId = jQuery(this).attr('data-formid');
+            var link = jQuery(this).attr('data-href');
+
+            if (link == '' || typeof link == 'undefined') {
+                link = jQuery(this).attr('href');
+            }
+
+            if (productId == '' || isNaN(productId)) {
+                return false;
+            }
+
+            link += '&product_id=' + productId;
+
+            if (formId == '') {
+                var $form = jQuery('form#addtocart_prd_' + productId);
+            } else {
+                var $form = jQuery('form#' + formId);
+            }
+
+
+            if (!$form.length) {
+                SqueezeBox.open(link, {
+                    handler: 'iframe'
+                });
+
+                return true;
+            }
+
+            $form = jQuery($form[0]);
+
+            var attribute = $form.children('input#attribute_data');
+            var property = $form.children('input#property_data');
+            var subAttribute = $form.children('input#subproperty_data');
+
+            if (attribute.length) {
+                link += '&attribute_id=' + encodeURIComponent(jQuery(attribute[0]).val());
+            }
+
+            if (property.length) {
+                link += '&property_id=' + encodeURIComponent(jQuery(property[0]).val());
+            }
+
+            if (subAttribute.length)
+                link += '&subattribute_id=' + encodeURIComponent(jQuery(subAttribute[0]).val());
+
+            SqueezeBox.open(link, {
+                handler: 'iframe'
+            });
+
+            return true;
+        });
+
+        // Guest
+        jQuery('.redshop-wishlist-form-button, .redshop-wishlist-form-link').click(function(event) {
+            event.preventDefault();
+            var productId = jQuery(this).attr('data-productid');
+            var formId = jQuery(this).attr('data-formid');
+
+            if (productId == '' || isNaN(productId))
+                return false;
+
+            var $wishlistForm = jQuery('form#' + jQuery(this).attr('data-target'));
+
+            if (!$wishlistForm.length)
+                return false;
+
+            if (formId == '') {
+                var $form = jQuery('form#addtocart_prd_' + productId);
+            } else {
+                var $form = jQuery('form#' + formId);
+            }
+
+            if (!$form.length) {
+                $wishlistForm.submit();
+                return true;
+            }
+
+            $form = $($form[0]);
+
+            var attribute = $form.children('input#attribute_data');
+            var property = $form.children('input#property_data');
+            var subAttribute = $form.children('input#subproperty_data');
+
+            if (attribute.length) {
+                $wishlistForm.children("input[name='attribute_id']").val(jQuery(attribute[0]).val());
+            }
+
+            if (property.length) {
+                $wishlistForm.children("input[name='property_id']").val(jQuery(property[0]).val());
+            }
+
+            if (subAttribute.length) {
+                $wishlistForm.children("input[name='subattribute_id']").val(jQuery(subAttribute[0]).val());
+            }
+
+            $wishlistForm.submit();
+
+            return true;
+        });
+	}
+
 	function checkclick(obj) {
 		if (jQuery(obj).prop("checked") == true) {
 			jQuery(obj).prev('.icon').addClass('active');
@@ -181,6 +288,7 @@ defined('_JEXEC') or die;
                 jQuery('select#orderBy').select2();
                 jQuery('.category-list').hide();
                 modalCompare();
+                modalWishlist();
 
 		 	},
 		 	complete: function() {
