@@ -344,10 +344,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							?>
 							<tr>
 								<td align="left">
-									<div
-										id="rs_glslocationId" <?php echo $disp_style?>><?php //echo JText::_('COM_REDSHOP_SHIPPING_MODE') ?>
-										<?php
-										echo $carthelper->getGLSLocation($billing->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
+									<div id="rs_glslocationId" <?php echo $disp_style?>>
+									<?php echo $carthelper->getGLSLocation($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
 									</div>
 								</td>
 							</tr>
@@ -1100,9 +1098,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 	</div>
 
 </div>
-
 <?php echo $this->loadTemplate('plugin');?>
-
 <div id="divCalc"></div>
 <script type="text/javascript">
 	function hideDownloadLimit(val, tid) {
