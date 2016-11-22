@@ -41,7 +41,7 @@
                     type="redshopcategory"
                     default=""
                     label="MOD_REDSHOP_FILTER_ROOT_CATEGORY"
-                    required="true"
+                    required="false"
                     description="MOD_REDSHOP_FILTER_ROOT_CATEGORY_DESC"
                     multiple="false"
                     />
@@ -50,7 +50,7 @@
                     type="redshopcategory"
                     default=""
                     label="MOD_REDSHOP_FILTER_CATEGORY_FOR_SALE"
-                    required="true"
+                    required="false"
                     description="MOD_REDSHOP_FILTER_CATEGORY_FOR_SALE_DESC"
                     multiple="false"
                     />
