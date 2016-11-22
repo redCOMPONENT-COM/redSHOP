@@ -188,23 +188,33 @@ class RedshopModelMass_discount_detail extends RedshopModel
 				{
 					$productData = Redshop::product((int) $arr_diff[$i]);
 
-					if ($productData->product_on_sale != 1)
+					// Ticket ONKELP-161: Temporary comment these code to by pass product_on_sale check before apply another mass discount
+					$p_price = ($data['discount_type'] == 1) ?
+						($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) :
+						$productData->product_price - ($data['discount_amount']);
+					$p_price = $producthelper->productPriceRound($p_price);
+					$query = $this->_db->getQuery(true);
+
+					// Update fields
+					$update = array(
+						$this->_db->quoteName('product_on_sale') . ' = ' . 1,
+						$this->_db->quoteName('discount_price') . ' = ' . (float) $p_price,
+						$this->_db->quoteName('discount_stratdate') . ' = ' . (int) $data['discount_startdate'],
+						$this->_db->quoteName('discount_enddate') . ' = ' . (int) $data['discount_enddate']
+					);
+
+					// By condition
+					$conditions = array (
+						$this->_db->quoteName('product_id') . ' = ' . (int) $arr_diff[$i]
+					);
+					$query->update($this->_db->quoteName('#__redshop_product'))->set($update)->where($conditions);
+					$this->_db->setQuery($query);
+
+					if (!$this->_db->execute())
 					{
-						$p_price = ($data['discount_type'] == 1) ?
-							($productData->product_price - ($productData->product_price * $data['discount_amount'] / 100)) :
-							$productData->product_price - ($data['discount_amount']);
-						$p_price = $producthelper->productPriceRound($p_price);
-						$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="1" , discount_price="'
-							. $p_price . '" , discount_stratdate="' . $data['discount_startdate'] . '" , discount_enddate="'
-							. $data['discount_enddate'] . '" WHERE product_id="' . $arr_diff[$i] . '" ';
-						$this->_db->setQuery($query);
+						$this->setError($this->_db->getErrorMsg());
 
-						if (!$this->_db->execute())
-						{
-							$this->setError($this->_db->getErrorMsg());
-
-							return false;
-						}
+						return false;
 					}
 				}
 				catch (Exception $e)
