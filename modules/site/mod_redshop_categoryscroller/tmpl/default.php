@@ -21,8 +21,8 @@ defined('_JEXEC') or die;
 <?php JHtml::script('com_redshop/attribute.js', false, true); ?>
 <?php JHtml::script('com_redshop/common.js', false, true); ?>
 
-<?php $document->addStyleSheet("modules/mod_redshop_category_scroller/tmpl/css/jquery.css"); ?>
-<?php $document->addStyleSheet("modules/mod_redshop_category_scroller/tmpl/css/skin_002.css"); ?>
+<?php JHtml::stylesheet('mod_redshop_category_scroller/jquery.css', false, true); ?>
+<?php JHtml::stylesheet('mod_redshop_category_scroller/skin_002.css', false, true); ?>
 
 <?php if ($view == 'category'): ?>
 
