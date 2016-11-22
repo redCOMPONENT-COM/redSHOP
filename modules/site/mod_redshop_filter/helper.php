@@ -37,7 +37,7 @@ abstract class ModRedshopFilter
 		{
 			$query->select($db->qn("cat.product_id"))
 				->from($db->qn("#__redshop_product", "p"))
-				->join("LEFT", $db->qn("#__redshop_product_category_xref", "cat") . " ON p.product_id = cat.product_id")
+				->join("LEFT", $db->qn("#__redshop_product_category_xref", "cat") . " ON " . $db->qn("p.product_id") . ' = ' . $db->qn("cat.product_id"))
 				->where($db->qn("cat.category_id") . " = " . $db->q($cid));
 
 			// Filter by manufacture
@@ -382,7 +382,7 @@ abstract class ModRedshopFilter
 		$query = $db->getQuery(true)
 			->select('m.media_name, ma.manufacturer_name, ma.manufacturer_id')
 			->from($db->qn('#__redshop_manufacturer', 'ma'))
-			->leftJoin($db->qn('#__redshop_media', 'm') . ' ON m.section_id = ma.manufacturer_id')
+			->leftJoin($db->qn('#__redshop_media', 'm') . ' ON ' . $db->qn('m.section_id') . ' = ' . $db->qn('ma.manufacturer_id'))
 			->where('m.media_section = ' . $db->q('manufacturer'))
 			->where('m.published = 1')
 			->where($db->qn('ma.manufacturer_id') . ' = ' . $db->q((int) $mid))
