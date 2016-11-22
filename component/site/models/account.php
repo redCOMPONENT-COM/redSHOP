@@ -133,7 +133,8 @@ class RedshopModelAccount extends RedshopModel
 			case 'mywishlist':
 				if ($userid && $wishlist_id)
 				{
-					$query->select(array('DISTINCT w.*','p.*'))
+					$query->select('DISTINCT(' . $db->qn('w.wishlist_id') . ')')
+						->select(array('w.*','p.*'))
 						->from($db->quoteName('#__redshop_wishlist', 'w'))
 						->leftJoin($db->quoteName('#__redshop_wishlist_product', 'pw') . ' ON w.wishlist_id = pw.wishlist_id')
 						->leftJoin($db->quoteName('#__redshop_product', 'p') . ' ON p.product_id = pw.product_id')
@@ -253,9 +254,10 @@ class RedshopModelAccount extends RedshopModel
 		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();
 
-		$Itemid      = $app->input->getInt('Itemid', 0);
-		$wishlist_id = $app->input->getInt('wishlist_id', 0);
-		$pid         = $app->input->getInt('pid', 0);
+		$Itemid            = $app->input->getInt('Itemid', 0);
+		$wishlist_id       = $app->input->getInt('wishlist_id', 0);
+		$pid               = $app->input->getInt('pid', 0);
+		$wishlistProductId = $app->input->getInt('wishlist_product_id', 0);
 
 		$user = JFactory::getUser();
 
@@ -276,6 +278,11 @@ class RedshopModelAccount extends RedshopModel
 				->delete($db->quoteName('#__redshop_wishlist_product'))
 				->where('product_id = ' . (int) $pid)
 				->where('wishlist_id = ' . (int) $wishlist_id);
+
+			if ($wishlistProductId)
+			{
+				$query->where($db->qn('wishlist_product_id') . ' = ' . $wishlistProductId);
+			}
 
 			$db->setQuery($query);
 

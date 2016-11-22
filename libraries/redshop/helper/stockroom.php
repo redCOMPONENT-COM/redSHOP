@@ -914,14 +914,12 @@ class RedshopHelperStockroom
 			{
 				$list = self::getStockroomAmountDetailList($sectionId, $section);
 
-				for ($i = 0, $in = count($list); $i < $in; $i++)
-				{
-					$productinstock .= "<div><span>"
-						. $list[$i]->stockroom_name
-						. "</span>:<span>"
-						. $list[$i]->quantity
-						. "</span></div>";
-				}
+				$productinstock = RedshopLayoutHelper::render(
+									'product.stockroom_detail',
+                                    array(
+                                        'stockroomDetails' => $list
+                                    )
+                                );
 			}
 
 			$templateDesc = str_replace('{stockroom_detail}', $productinstock, $templateDesc);
@@ -964,31 +962,30 @@ class RedshopHelperStockroom
 					$db->qn('#__redshop_stockroom', 's') . ' ON '
 					. $db->qn('sx.stockroom_id') . ' = ' . $db->qn('s.stockroom_id')
 				)
-				->where($db->qn('sx.quantity') . ' > 0')
-				->where($db->qn('sx.product_id') . ' = ' . $db->q('sectionId'));
-
-			$query1 = $query->where($db->qn('stock_option') . ' = 2')
+				->where($db->qn('stock_option') . ' = 2')
 				->where($db->qn('stock_quantity') . ' = ' . (int) $stockAmount);
 
-			$list = $db->setQuery($query1)->loadObjectList();
+			$list = $db->setQuery($query)->loadObjectList();
 
 			if (count($list) <= 0)
 			{
-				$query1 = $query->where($db->qn('stock_option') . ' = 1')
+				$query->clear('where')
+					->where($db->qn('stock_option') . ' = 1')
 					->where($db->qn('stock_quantity') . ' < ' . $db->q((int) $stockAmount))
 					->order($db->qn('stock_quantity') . ' DESC')
 					->order($db->qn('s.max_del_time') . ' ASC');
 
-				$list = $db->setQuery($query1)->loadObjectList();
+				$list = $db->setQuery($query)->loadObjectList();
 
 				if (count($list) <= 0)
 				{
-					$query1 = $query->where($db->qn('stock_option') . ' = 3')
+					$query->clear('where')
+						->where($db->qn('stock_option') . ' = 3')
 						->where($db->qn('stock_quantity') . ' > ' . $db->q((int) $stockAmount))
 						->order($db->qn('stock_quantity') . ' ASC')
 						->order($db->qn('s.max_del_time') . ' ASC');
 
-					$list = $db->setQuery($query1)->loadObjectList();
+					$list = $db->setQuery($query)->loadObjectList();
 				}
 			}
 		}

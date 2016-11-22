@@ -1292,7 +1292,7 @@ class RedshopModelSearch extends RedshopModel
 				. $db->qn('m.manufacturer_id') . ' = '
 				. $db->qn('p.manufacturer_id')
 			)
-				->where('(' . $db->qn('p.product_name') . ' LIKE ' . $search . ' OR ' . $db->qn('m.manufacturer_name') . ' LIKE ' . $search . ')');
+				->where('(' . $this->getSearchCondition('p.product_name', $keyword) . ' OR ' . $db->qn('m.manufacturer_name') . ' LIKE ' . $search . ')');
 		}
 
 		$catList = RedshopHelperCategory::getCategoryListArray($categoryForSale);
@@ -1318,12 +1318,12 @@ class RedshopModelSearch extends RedshopModel
 						->where($db->qn("pc.category_id") . " = " . $db->q((int) $cid));
 				}
 			}
-			else
+			elseif (!empty($cid) || !empty($categories))
 			{
 				$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 			}
 		}
-		else
+		elseif (!empty($cid) || !empty($categories))
 		{
 			$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 		}
@@ -1358,7 +1358,6 @@ class RedshopModelSearch extends RedshopModel
 	public function getItem()
 	{
 		$query      = $this->getListQuery();
-
 		$db         = JFactory::getDbo();
 		$start      = $this->getState('list.start');
 		$limit      = $this->getState('list.limit');
