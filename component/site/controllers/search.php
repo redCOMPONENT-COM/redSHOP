@@ -144,8 +144,9 @@ class RedshopControllerSearch extends RedshopController
 					"post"        => $post,
 					"pagination"  => $pagination,
 					"orderby"     => $orderBy,
-					'total'       => $total,
-					'template_id' => $post['template_id']
+					"total"       => $total,
+					"template_id" => $post['template_id'],
+					"keyword"     => $post['keyword']
 				),
 				'',
 				array(
