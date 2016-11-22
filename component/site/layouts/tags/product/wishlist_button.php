@@ -18,6 +18,8 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
+$user = JFactory::getUser();
+
 ?>
 
 <input
