@@ -60,7 +60,7 @@ class RedshopControllerProduct extends RedshopController
 					if (JError::isError(JError::getError()))
 					{
 						$error = JError::getError();
-						$errmsg = $error->message;
+						$errmsg = $error->getMessage();
 					}
 
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
@@ -171,7 +171,7 @@ class RedshopControllerProduct extends RedshopController
 					if (JError::isError(JError::getError()))
 					{
 						$error = JError::getError();
-						$errmsg = $error->message;
+						$errmsg = $error->getMessage();
 					}
 
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";

@@ -21,6 +21,244 @@ jimport('joomla.filesystem.file');
 class RedshopHelperExtrafields
 {
 	/**
+	 * Extra Field Type for Input Text Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_TEXT = 1;
+
+	/**
+	 * Extra Field Type for Input Text Area Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_TEXT_AREA = 2;
+
+	/**
+	 * Extra Field Type for Checkboxes Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_CHECK_BOX = 3;
+
+	/**
+	 * Extra Field Type for Input Radio Button Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_RADIO_BUTTON = 4;
+
+	/**
+	 * Extra Field Type for Input Single Select Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_SELECT_BOX_SINGLE = 5;
+
+	/**
+	 * Extra Field Type for Input Multi Select Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_SELECT_BOX_MULTIPLE = 6;
+
+	/**
+	 * Extra Field Type for Country Select List Element
+	 *
+	 * @var  int
+	 */
+	const TYPE_SELECT_COUNTRY_BOX = 7;
+
+	/**
+	 * Extra Field Type for WYSIWYG Editor
+	 *
+	 * @var  int
+	 */
+	const TYPE_WYSIWYG = 8;
+
+	/**
+	 * Extra Field Type for Input Media element
+	 *
+	 * @var  int
+	 */
+	const TYPE_MEDIA = 9;
+
+	/**
+	 * Extra Field Type for Document
+	 *
+	 * @var  int
+	 */
+	const TYPE_DOCUMENTS = 10;
+
+	/**
+	 * Extra Field Type for Image select
+	 *
+	 * @var  int
+	 */
+	const TYPE_IMAGE_SELECT = 11;
+
+	/**
+	 * Extra Field Type for Date Picket element.
+	 *
+	 * @var  int
+	 */
+	const TYPE_DATE_PICKER = 12;
+
+	/**
+	 * Extra Field Type for with link
+	 *
+	 * @var  int
+	 */
+	const TYPE_IMAGE_WITH_LINK = 13;
+
+	/**
+	 * Extra Field Type for selection based on selected condition.
+	 *
+	 * @var  int
+	 */
+	const TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS = 15;
+
+	/**
+	 * Extra Field Type for product finder date picker.
+	 *
+	 * @var  int
+	 */
+	const TYPE_PRODUCT_FINDER_DATE_PICKER = 17;
+
+	/**
+	 * Extra Field Section Id for Product
+	 *
+	 * @var  integer
+	 */
+	const SECTION_PRODUCT =	1;
+
+	/**
+	 * Extra Field Section Id for Category
+	 *
+	 * @var  integer
+	 */
+	const SECTION_CATEGORY = 2;
+
+	/**
+	 * Extra Field Section Id for Form
+	 *
+	 * @var  integer
+	 */
+	const SECTION_FORM = 3;
+
+	/**
+	 * Extra Field Section Id for Email
+	 *
+	 * @var  integer
+	 */
+	const SECTION_EMAIL = 4;
+
+	/**
+	 * Extra Field Section Id for Confirmation
+	 *
+	 * @var  integer
+	 */
+	const SECTION_CONFIRMATION = 5;
+
+	/**
+	 * Extra Field Section Id for User information
+	 *
+	 * @var  integer
+	 */
+	const SECTION_USER_INFORMATIONS = 6;
+
+	/**
+	 * Extra Field Section Id for Private Billing Address
+	 *
+	 * @var  integer
+	 */
+	const SECTION_PRIVATE_BILLING_ADDRESS = 7;
+
+	/**
+	 * Extra Field Section Id for Private Billing Address
+	 *
+	 * @var  integer
+	 */
+	const SECTION_COMPANY_BILLING_ADDRESS = 8;
+
+	/**
+	 * Extra Field Section Id for Color Sample
+	 *
+	 * @var  integer
+	 */
+	const SECTION_COLOR_SAMPLE = 9;
+
+	/**
+	 * Extra Field Section Id for Manufacturer
+	 *
+	 * @var  integer
+	 */
+	const SECTION_MANUFACTURER = 10;
+
+	/**
+	 * Extra Field Section Id for Shipping
+	 *
+	 * @var  integer
+	 */
+	const SECTION_SHIPPING = 11;
+
+	/**
+	 * Extra Field Section Id for Product User Field
+	 *
+	 * @var  integer
+	 */
+	const SECTION_PRODUCT_USERFIELD = 12;
+
+	/**
+	 * Extra Field Section Id for Gift Card User Field
+	 *
+	 * @var  integer
+	 */
+	const SECTION_GIFT_CARD_USER_FIELD = 13;
+
+	/**
+	 * Extra Field Section Id for Private Shipping Address
+	 *
+	 * @var  integer
+	 */
+	const SECTION_PRIVATE_SHIPPING_ADDRESS = 14;
+
+	/**
+	 * Extra Field Section Id for Company Shipping Address
+	 *
+	 * @var  integer
+	 */
+	const SECTION_COMPANY_SHIPPING_ADDRESS = 15;
+
+	/**
+	 * Extra Field Section Id for Quotation
+	 *
+	 * @var  integer
+	 */
+	const SECTION_QUOTATION = 16;
+
+	/**
+	 * Extra Field Section Id for Date Picker
+	 *
+	 * @var  integer
+	 */
+	const SECTION_PRODUCT_FINDER_DATE_PICKER = 17;
+
+	/**
+	 * Extra Field Section Id for Payment Gateways
+	 *
+	 * @var  integer
+	 */
+	const SECTION_PAYMENT_GATEWAY = 18;
+
+	/**
+	 * Extra Field Section Id for Shipping Gateways
+	 *
+	 * @var  integer
+	 */
+	const SECTION_SHIPPING_GATEWAY = 19;
+
+	/**
 	 * List of fields data
 	 *
 	 * @var  array
@@ -350,10 +588,10 @@ class RedshopHelperExtrafields
 					break;
 
 				case extraField::TYPE_WYSIWYG:
-					$editor          = JEditor::getInstance();
+					$editor          = JFactory::getEditor();
 					$exField         .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
 					$textareaValue  = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
-					$extraFieldValue = $editor->display($rowData[$i]->field_name, $textareaValue, '200', '50', '100', '20');
+					$extraFieldValue = $editor->display($rowData[$i]->field_name, $textareaValue, '200', '50', '100', '20', false);
 					$exField         .= '<td>' . $extraFieldValue;
 					break;
 
@@ -1355,16 +1593,18 @@ class RedshopHelperExtrafields
 	/**
 	 * Get Section Field List
 	 *
-	 * @param   integer  $section  Section ID
-	 * @param   integer  $front    Field show in front
+	 * @param   integer  $section    Section ID
+	 * @param   integer  $front      Field show in front
+	 * @param   integer  $published  Field show in front
+	 * @param   integer  $required   Field show in front
 	 *
 	 * @return  object
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public static function getSectionFieldList($section = extraField::SECTION_PRODUCT_USERFIELD, $front = 1)
+	public static function getSectionFieldList($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
 	{
-		$key = $section . '_' . $front;
+		$key = $section . '_' . $front . '_' . $published . '_' . $required;
 
 		if (!array_key_exists($key, static::$sectionFields))
 		{
@@ -1372,10 +1612,23 @@ class RedshopHelperExtrafields
 			$query = $db->getQuery(true);
 			$query->select('*')
 				->from($db->qn('#__redshop_fields'))
-				->where($db->qn('published') . ' = 1')
-				->where($db->qn('field_show_in_front') . ' = ' . (int) $front)
 				->where($db->qn('field_section') . ' = ' . (int) $section)
 				->order($db->qn('ordering'));
+
+			if ($front)
+			{
+				$query->where($db->qn('field_show_in_front') . ' = ' . (int) $front);
+			}
+
+			if ($published)
+			{
+				$query->where($db->qn('published') . ' = ' . (int) $published);
+			}
+
+			if ($required)
+			{
+				$query->where($db->qn('required') . ' = ' . (int) $required);
+			}
 
 			static::$sectionFields[$key] = $db->setQuery($query)->loadObjectlist();
 		}
