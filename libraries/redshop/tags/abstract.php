@@ -12,42 +12,42 @@ defined('_JEXEC') or die;
 /**
  * Tags replacer abstract class
  *
- * @since  2.1
+ * @since  2.0.0.5
  */
 abstract class RedshopTagsAbstract
 {
 	/**
 	 * @var    array
 	 *
-	 * @since  2.1
+	 * @since   2.0.0.5
 	 */
 	public $tags = array();
 
 	/**
 	 * @var    array
 	 *
-	 * @since  2.1
+	 * @since   2.0.0.5
 	 */
-	protected $search = array();
+	public $search = array();
 
 	/**
 	 * @var    array
 	 *
-	 * @since  2.1
+	 * @since   2.0.0.5
 	 */
-	protected $replace = array();
+	public $replace = array();
 
 	/**
 	 * @var    string
 	 *
-	 * @since  2.1
+	 * @since   2.0.0.5
 	 */
 	protected $template = '';
 
 	/**
 	 * @var   array
 	 *
-	 * @since  2.1
+	 * @since   2.0.0.5
 	 */
 	protected $data = array ();
 
@@ -57,7 +57,7 @@ abstract class RedshopTagsAbstract
 	 * @param   string  $template  Template
 	 * @param   array   $data      Data
 	 *
-	 * @since  2.1
+	 * @since   2.0.0.5
 	 */
 	public function __construct($template, $data)
 	{
@@ -71,7 +71,7 @@ abstract class RedshopTagsAbstract
 	 *
 	 * @return mixed
 	 *
-	 * @since  2.1
+	 * @since   2.0.0.5
 	 */
 	abstract public function init();
 
@@ -94,7 +94,7 @@ abstract class RedshopTagsAbstract
 	 *
 	 * @return array
 	 *
-	 * @since  2.1
+	 * @since   2.0.0.5
 	 */
 	public function getTags()
 	{
@@ -106,13 +106,11 @@ abstract class RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since  2.1
+	 * @since   2.0.0.5
 	 */
 	public function replace()
 	{
-		$content = str_replace($this->search, $this->replace, $this->template);
-
-		return $content;
+		return str_replace($this->search, $this->replace, $this->template);
 	}
 
 	/**
@@ -123,18 +121,17 @@ abstract class RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since version
+	 * @since   2.0.0.5
 	 */
-	protected function _addReplace ($tag, $value)
+	protected function addReplace($tag, $value)
 	{
-		if (strpos($this->template, $tag) !== false)
+		// Make sure this tag is exists before adding replace
+		if (strpos($this->template, $tag) === false || !$this->isTagExists($tag))
 		{
-			// Make sure this tag is exists before adding replace
-			if ($this->isTagExists($tag))
-			{
-				$this->search [] = $tag;
-				$this->replace[] = $value;
-			}
+			return;
 		}
+
+		$this->search[]  = $tag;
+		$this->replace[] = $value;
 	}
 }

@@ -1,23 +1,31 @@
 <?php
 /**
- * @package     Redshop
- * @subpackage  Fields
+ * @package     RedSHOP.Library
+ * @subpackage  Form.Field
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later, see LICENSE.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
+require_once JPATH_LIBRARIES . '/redshop/library.php';
+
 /**
- * Text field.
+ * Text field override
  *
- * @package     Redshop
- * @subpackage  Fields
- * @since       __DEPLOY_VERSION__
+ * @since  1.0
  */
-class JFormFieldRstext extends JFormField
+class RedshopFormFieldText extends JFormField
 {
+	/**
+	 * The form field type.
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
+	public $type = 'Text';
+
 	/**
 	 * Input field attributes
 	 *
@@ -34,13 +42,6 @@ class JFormFieldRstext extends JFormField
 		'id', 'default', 'description', 'disabled', 'name', 'multiple',
 		'placeholder', 'readonly', 'required', 'type', 'value'
 	);
-
-	/**
-	 * The form field type.
-	 *
-	 * @var  string
-	 */
-	protected $type = 'RSText';
 
 	/**
 	 * Add an attribute to the input field
@@ -94,7 +95,7 @@ class JFormFieldRstext extends JFormField
 			foreach ($this->value AS $value)
 			{
 				$this->attribs['value'] = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
-				$html .= '<div class="multiple_input_wrapper"><input ' . $this->parseAttributes() . ' /></div>';
+				$html .= '<div class="multiple_input_wrapper"><input ' . RedshopHelperUtility::toAttributes($this->attribs) . ' /></div>';
 			}
 
 			return $html;
@@ -102,31 +103,6 @@ class JFormFieldRstext extends JFormField
 
 		$this->attribs['value'] = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
 
-		return '<input ' . $this->parseAttributes() . ' />';
-	}
-
-	/**
-	 * Function to parse the attributes of the input field
-	 *
-	 * @return  string  Attributes in format: type="text" name="name" value="2"
-	 */
-	protected function parseAttributes()
-	{
-		$attributes = array();
-
-		if (!empty($this->attribs))
-		{
-			foreach ($this->attribs as $name => $value)
-			{
-				if (!is_null($value))
-				{
-					$attributes[] = $name . '="' . $value . '"';
-				}
-			}
-
-			$attributes = implode(' ', $attributes);
-		}
-
-		return $attributes;
+		return '<input ' . RedshopHelperUtility::toAttributes($this->attribs) . ' />';
 	}
 }
