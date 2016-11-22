@@ -17,7 +17,6 @@ $buttonText        = trim($params->get('button_text', ''));
 $showShippingLine = ($params->get('show_shipping_line', 0));
 $showWithDiscount = ($params->get('show_with_discount', 0));
 
-$document = JFactory::getDocument()->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
 $showEmptyBtn = 0;
 
 if ($params->get("checkout_empty") != 0)

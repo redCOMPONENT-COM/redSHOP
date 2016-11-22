@@ -14,13 +14,11 @@
 		<filename module="mod_redshop_cart">helper.php</filename>
 		<filename module="mod_redshop_cart">index.html</filename>
 		<folder module="mod_redshop_cart">tmpl</folder>
-		<folder module="mod_redshop_cart">images</folder>
-		<folder module="mod_redshop_cart">css</folder>
+		<folder module="mod_redshop_cart">language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.sys.ini</language>
-	</languages>
+	<media folder="media">
+		<folder>mod_redshop_cart</folder>
+	</media>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

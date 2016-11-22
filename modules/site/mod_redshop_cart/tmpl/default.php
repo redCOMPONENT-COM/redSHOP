@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+JHtml::stylesheet('mod_redshop_cart/cart.css', false, true);
 ?>
 
 <?php JFactory::getDocument()->addStyleDeclaration('.mod_cart_checkout{background-color:' . Redshop::getConfig()->get('ADDTOCART_BACKGROUND') . ';}'); ?>
