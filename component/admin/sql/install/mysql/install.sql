@@ -296,6 +296,30 @@ COMMENT = 'redSHOP Currency Detail';
 
 
 -- -----------------------------------------------------
+-- Table `#__redshop_supplier`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__redshop_supplier` ;
+
+CREATE TABLE IF NOT EXISTS `#__redshop_supplier` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
+  `description` TEXT NOT NULL DEFAULT '',
+  `email` VARCHAR(255) NOT NULL DEFAULT '',
+  `published` TINYINT(4) NOT NULL DEFAULT 0,
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  INDEX `#__rs_idx_supplier_published` (`published` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'redSHOP Supplier';
+
+
+-- -----------------------------------------------------
 -- Table `#__redshop_product`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `#__redshop_product` ;
@@ -373,7 +397,13 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   INDEX `idx_product_on_sale` (`product_on_sale` ASC),
   INDEX `idx_product_special` (`product_special` ASC),
   INDEX `idx_product_parent_id` (`product_parent_id` ASC),
-  INDEX `idx_common` (`published` ASC, `expired` ASC, `product_parent_id` ASC))
+  INDEX `idx_common` (`published` ASC, `expired` ASC, `product_parent_id` ASC),
+  INDEX `#__rs_product_supplier_fk1` (`supplier_id` ASC),
+  CONSTRAINT `#__rs_product_supplier_fk1`
+    FOREIGN KEY (`supplier_id`)
+    REFERENCES `#__redshop_supplier` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Products';
@@ -2014,23 +2044,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_subscription_renewal` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Subscription Renewal';
-
-
--- -----------------------------------------------------
--- Table `#__redshop_supplier`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__redshop_supplier` ;
-
-CREATE TABLE IF NOT EXISTS `#__redshop_supplier` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `supplier_name` VARCHAR(250) NOT NULL,
-  `supplier_desc` LONGTEXT NOT NULL,
-  `supplier_email` VARCHAR(255) NOT NULL,
-  `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'redSHOP Supplier';
 
 
 -- -----------------------------------------------------

@@ -42,9 +42,9 @@ class RedshopViewSupplier extends RedshopViewAdmin
 	 * Function display template
 	 *
 	 * @param   string  $tpl  name of template
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   2.0.0.2.1
 	 */
 
@@ -54,9 +54,9 @@ class RedshopViewSupplier extends RedshopViewAdmin
 
 		$uri = JFactory::getURI();
 
-		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
-		$this->state	= $this->get('State');
+		$this->form       = $this->get('Form');
+		$this->item       = $this->get('Item');
+		$this->state      = $this->get('State');
 		$this->requestUrl = $uri->toString();
 
 		$this->addToolBar();
