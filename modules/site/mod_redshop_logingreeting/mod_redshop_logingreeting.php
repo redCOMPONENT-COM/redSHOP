@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-$orderHelper = order_functions::getInstance();
-$user        = JFactory::getUser();
-$maintext    = $params->def('greeting_text', 1);
-$classSuffix = htmlspecialchars($params->get('moduleclass_sfx'));
+$orderHelper 	 = order_functions::getInstance();
+$user        	 = JFactory::getUser();
+$greetingText    = $params->def('greeting_text', 1);
+$classSuffix 	 = htmlspecialchars($params->get('moduleclass_sfx'));
 
 JHtml::stylesheet('mod_redshop_logingreeting/logingreeting.css', array(), true);
 
