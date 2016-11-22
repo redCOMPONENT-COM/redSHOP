@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>COM_REDSHOP_REDSHOP_CATEGORY_SCROLLER</name>
-    <version>1.5.4</version>
+    <version>1.5.3</version>
     <redshop>2.0.0.6</redshop>
     <creationDate>November 2016</creationDate>
     <author>redCOMPONENT.com</author>
@@ -16,10 +16,10 @@
         <folder>tmpl</folder>
         <folder>language</folder>
     </files>
-    <media>
-      <folder folder="media">mod_redshop_category_scroller</folder>
-    </media>
     <scriptfile>install.php</scriptfile>
+    <media folder="media">
+        <folder>mod_redshop_category_scroller</folder>
+    </media>
     <config>
         <fields name="params">
             <fieldset name="basic">
