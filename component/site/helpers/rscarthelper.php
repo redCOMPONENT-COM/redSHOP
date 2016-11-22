@@ -5019,199 +5019,30 @@ class rsCarthelper
 	 *
 	 * @param   array  $cart   Cart
 	 *
-	 * @return null
+	 * @return  null
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperCart::addCartToDatabase() instead.
 	 */
 	public function carttodb($cart = array())
 	{
-		if (count($cart) <= 0)
-		{
-			$cart = $this->_session->get('cart');
-		}
-
-		$idx = 0;
-
-		if (isset($cart['idx']))
-		{
-			$idx = (int) ($cart['idx']);
-		}
-
-		$user = JFactory::getUser();
-
-		// If user is not logged in don't save in db
-		if ($user->id <= 0)
-		{
-			return false;
-		}
-
-        $db = JFactory::getDbo();
-
-        $query = $db->getQuery(true)
-            ->select($db->qn('cart_id'))
-            ->from($db->qn('#__redshop_usercart'))
-            ->where($db->qn('user_id') . ' = ' . (int) $user->id);
-
-		$db->setQuery($query);
-		$cart_id = $db->loadResult();
-
-		if (!$cart_id)
-		{
-			$row          = JTable::getInstance('usercart', 'Table');
-			$row->user_id = $user->id;
-			$row->cdate   = time();
-			$row->mdate   = time();
-
-			if (!$row->store())
-			{
-				return JError::raiseWarning('', $row->getError());
-			}
-
-			$cart_id = $row->cart_id;
-		}
-
-        if ($idx <= 0)
-        {
-            $delCart = true;
-        }
-        else
-        {
-            $delCart = false;
-        }
-
-        $this->removecartfromdb($cart_id, $user->id, $delCart);
-
-		for ($i = 0; $i < $idx; $i++)
-		{
-			$rowItem = JTable::getInstance('usercart_item', 'Table');
-
-			$rowItem->cart_idx                = $i;
-			$rowItem->cart_id                 = $cart_id;
-			$rowItem->product_id              = $cart[$i]['product_id'];
-			$rowItem->attribs = serialize($cart[$i]);
-
-			if (isset($cart[$i]['giftcard_id']) === false)
-			{
-				$cart[$i]['giftcard_id'] = 0;
-			}
-
-			if(isset($cart[$i]['wrapper_id']) === false)
-			{
-				$cart[$i]['wrapper_id'] = 0;
-			}
-
-			$rowItem->giftcard_id             = $cart[$i]['giftcard_id'];
-			$rowItem->product_quantity        = $cart[$i]['quantity'];
-			$rowItem->product_wrapper_id      = $cart[$i]['wrapper_id'];
-
-			if (isset($cart[$i]['subscription_id']) === false)
-			{
-				$cart[$i]['subscription_id'] = 0;
-			}
-
-			$rowItem->product_subscription_id = $cart[$i]['subscription_id'];
-
-			if (!$rowItem->store())
-			{
-				return JError::raiseWarning('', $rowItem->getError());
-			}
-
-			$cart_item_id = $rowItem->cart_item_id;
-
-			$cart_attribute = array();
-
-			if(isset($cart[$i]['cart_attribute']))
-			{
-				$cart_attribute = $cart[$i]['cart_attribute'];
-			}
-
-			/* store attribute in db */
-			$this->attributetodb($cart_attribute, $cart_item_id, $rowItem->product_id);
-
-            $cart_accessory = array();
-
-            if(isset($cart[$i]['cart_accessory']))
-			{
-				$cart_accessory = $cart[$i]['cart_accessory'];
-			}
-
-			for ($j = 0, $jn = count($cart_accessory); $j < $jn; $j++)
-			{
-				$rowAcc               = JTable::getInstance('usercart_accessory_item', 'Table');
-				$rowAcc->accessory_id = $cart_accessory[$j]['accessory_id'];
-
-				// Store product quantity as accessory quantity.
-				$rowAcc->accessory_quantity = $cart[$i]['quantity'];
-
-				if (!$rowAcc->store())
-				{
-					return JError::raiseWarning('', $rowAcc->getError());
-				}
-
-				$accessory_childs = $cart_accessory[$j]['accessory_childs'];
-				$this->attributetodb($accessory_childs, $cart_item_id, $rowAcc->accessory_id, true);
-			}
-		}
+		return RedshopHelperCart::addCartToDatabase($cart);
 	}
 
+	/**
+	 * Store Cart Attribute to Database
+	 *
+	 * @param   array    $attribute      Cart attribute data.
+	 * @param   int      $cart_item_id   Cart item ID
+	 * @param   int      $product_id     Cart product ID.
+	 * @param   boolean  $isAccessary    Is this accessory?
+	 *
+	 * @return  boolean       True on success. False otherwise.
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperCart::addCartToDatabase() instead.
+	 */
 	public function attributetodb($attribute = array(), $cart_item_id = 0, $product_id = 0, $isAccessary = false)
 	{
-		if ($cart_item_id == 0)
-		{
-			return false;
-		}
-
-		for ($j = 0, $jn = count($attribute); $j < $jn; $j++)
-		{
-			$rowAtt = JTable::getInstance('usercart_attribute_item', 'Table');
-
-			$rowAtt->cart_item_id		= $cart_item_id;
-			$rowAtt->section_id        = $attribute[$j]['attribute_id'];
-			$rowAtt->section           = 'attribute';
-			$rowAtt->parent_section_id = $product_id;
-			$rowAtt->is_accessory_att  = $isAccessary;
-
-			if (!$rowAtt->store())
-			{
-				return JError::raiseWarning('', $rowAtt->getError());
-			}
-
-			$attribute_childs = $attribute[$j]['attribute_childs'];
-
-			for ($k = 0, $kn = count($attribute_childs); $k < $kn; $k++)
-			{
-				$rowProp = JTable::getInstance('usercart_attribute_item', 'Table');
-
-				$rowProp->cart_item_id		= $cart_item_id;
-				$rowProp->section_id        = $attribute_childs[$k]['property_id'];
-				$rowProp->section           = 'property';
-				$rowProp->parent_section_id = $attribute[$j]['attribute_id'];
-				$rowProp->is_accessory_att  = $isAccessary;
-
-				if (!$rowProp->store())
-				{
-					return JError::raiseWarning('', $rowProp->getError());
-				}
-
-				$property_childs = $attribute_childs[$k]['property_childs'];
-
-				if (count($property_childs) > 0)
-				{
-					for ($i = 0, $in = count($property_childs); $i < $in; $i++)
-					{
-						$rowProp = JTable::getInstance('usercart_attribute_item', 'Table');
-
-						$rowProp->section_id        = $property_childs[$i]['subproperty_id'];
-						$rowProp->section           = 'subproperty';
-						$rowProp->parent_section_id = $attribute_childs[$k]['property_id'];
-						$rowProp->is_accessory_att  = $isAccessary;
-
-						if (!$rowProp->store())
-						{
-							return JError::raiseWarning('', $rowProp->getError());
-						}
-					}
-				}
-			}
-		}
+		return RedshopHelperCart::addCartAttributeToDatabase($attribute, $cart_item_id, $product_id, $isAccessary);
 	}
 
 	/**
@@ -5222,82 +5053,13 @@ class rsCarthelper
 	 * @param   bool $delCart   remove cart from #__redshop_usercart table
 	 *
 	 * @return bool
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use edshopHelperCart::removeCartFromDatabase() instead.
 	 */
-    public function removecartfromdb($cart_id = 0, $userid = 0, $delCart = false)
-    {
-        if ($userid == 0)
-        {
-            $user   = JFactory::getUser();
-            $userid = $user->id;
-        }
-
-        $db = JFactory::getDbo();
-
-        if ($cart_id == 0)
-        {
-            $query = $db->getQuery(true)
-                ->select($db->qn('cart_id'))
-                ->from($db->qn('#__redshop_usercart'))
-                ->where($db->qn('user_id') . ' = ' . (int) $userid);
-
-            $db->setQuery($query);
-            $cart_id = $db->loadResult();
-        }
-
-        if ($cart_id == 0)
-        {
-            return true;
-        }
-
-        $query = $db->getQuery(true)
-            ->select($db->qn('cart_item_id'))
-            ->from($db->qn('#__redshop_usercart_item'))
-            ->where($db->qn('cart_id') . ' = ' . (int) $cart_id);
-
-        $db->setQuery($query);
-        $cartItemIds = $db->loadColumn();
-
-        if ($cartItemIds)
-        {
-            JArrayHelper::toInteger($cartItemIds);
-
-            // Delete accessory
-            $query = $db->getQuery(true)
-                ->delete($db->qn('#__redshop_usercart_accessory_item'))
-                ->where($db->qn('cart_item_id') . ' IN (' . implode(',', $cartItemIds) . ')');
-
-            $db->setQuery($query);
-            $db->execute();
-
-            // Delete attribute
-            $query = $db->getQuery(true)
-                ->delete($db->qn('#__redshop_usercart_attribute_item'))
-                ->where($db->qn('cart_item_id') . ' IN (' . implode(',', $cartItemIds) . ')');
-
-            $db->setQuery($query);
-            $db->execute();
-        }
-
-        // Delete cart item
-        $query = $db->getQuery(true)
-            ->delete($db->qn('#__redshop_usercart_item'))
-            ->where($db->qn('cart_id') . ' = ' . (int) $cart_id);
-
-        $db->setQuery($query);
-        $db->execute();
-
-        if ($delCart)
-        {
-            $query = $db->getQuery(true)
-                ->delete($db->qn('#__redshop_usercart'))
-                ->where($db->qn('cart_id') . ' = ' . (int) $cart_id);
-
-            $db->setQuery($query);
-            $db->execute();
-        }
-
-        return true;
-    }
+	public function removecartfromdb($cart_id = 0, $userid = 0, $delCart = false)
+	{
+		return RedshopHelperCart::removeCartFromDatabase($cart_id, $userid, $delCart);
+	}
 
 	public function dbtocart($userId = 0)
 	{
