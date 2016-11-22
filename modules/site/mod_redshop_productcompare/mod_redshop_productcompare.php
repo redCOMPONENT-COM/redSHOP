@@ -13,16 +13,16 @@ JLoader::import('redshop.library');
 
 
 $isCompare = (int) Redshop::getConfig()->get('COMPARE_PRODUCTS', 0);
+$uri = JURI::getInstance();
+$url = $uri->root();
+$productHelper = productHelper::getInstance();
+$redHelper = redhelper::getInstance();
+$itemId = JRequest::getInt('Itemid');
+$cid = JRequest::getInt('cid');
+
 
 if ($isCompare === 1)
 {
-	$uri = JURI::getInstance();
-	$url = $uri->root();
-	$productHelper = productHelper::getInstance();
-	$redHelper = redhelper::getInstance();
-	$itemId = JRequest::getInt('Itemid');
-	$cid = JRequest::getInt('cid');
-
 	require JModuleHelper::getLayoutPath('mod_redshop_productcompare', $params->get('layout', 'default'));
 }
 else
