@@ -18,7 +18,7 @@
             type="list"
             label="COM_REDSHOP_FILTER"
             class="form-control"
-            onChange="document.adminForm.submit();"
+            onchange="document.adminForm.submit();"
             >
             <option value="">COM_REDSHOP_Select</option>
             <option value="1">COM_REDSHOP_WEEKLY</option>

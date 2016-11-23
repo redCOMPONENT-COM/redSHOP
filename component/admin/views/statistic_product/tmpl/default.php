@@ -95,9 +95,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<table class="adminlist table table-striped" width="100%">
 		<thead>
 		<tr>
-			<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
-			<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_SKU'); ?></th>
-			<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'); ?></th>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_NAME'), 'p.product_name', $listDirn, $listOrder) ?></th>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_SKU'), 'p.product_number', $listDirn, $listOrder) ?></th>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'), 'm.manufacturer_name', $listDirn, $listOrder) ?></th>
 			<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_UNIT'); ?></th>
 			<th align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'); ?></th>
 		</tr>

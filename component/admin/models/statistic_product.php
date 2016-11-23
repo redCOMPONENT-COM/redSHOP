@@ -38,8 +38,10 @@ class RedshopModelStatistic_Product extends RedshopModelList
 		{
 			$config['filter_fields'] = array(
 				'view_date',
+				'p.product_name', 'product_name',
+				'p.product_number', 'product_number',
 				'count',
-				'manufacturer_name'
+				'm.manufacturer_name', 'manufacturer_name'
 			);
 		}
 
@@ -96,13 +98,25 @@ class RedshopModelStatistic_Product extends RedshopModelList
 	{
 		$format = $this->getDateFormat();
 		$db     = $this->getDbo();
+		$subQuery = $db->getQuery(true)
+			->select('SUM(product_final_price) AS total_sale')
+			->select('COUNT(*) AS unit_sold')
+			->select($db->qn('product_id'))
+			->from($db->qn('#__redshop_order_item'))
+			->where($db->qn('order_status') . ' = ' . $db->q('S'))
+			->group($db->qn('product_id'));
+
 		$query = $db->getQuery(true)
 			->select('DATE_FORMAT(p.publish_date,"' . $format . '") AS viewdate')
 			->select('p.*')
 			->select('COUNT(*) AS count')
 			->select('m.manufacturer_name')
+			->select($db->qn('oi.total_sale'))
+			->select($db->qn('oi.unit_sold'))
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
+			->leftjoin('(' . $subQuery . ') AS oi ' . ' ON ' . $db->qn('oi.product_id') . ' = ' . $db->qn('p.product_id')
+				)
 			->group($db->qn('p.product_id'));
 
 		// Filter: Date Range
@@ -126,45 +140,6 @@ class RedshopModelStatistic_Product extends RedshopModelList
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
-	}
-
-	/**
-	 * get Product data for statistic
-	 *
-	 * @return  object.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function getProducts()
-	{
-		$products = $this->getItems();
-		$db       = $this->getDbo();
-		$query    = $db->getQuery(true)
-			->select('SUM(product_final_price) AS total_sale')
-			->select('COUNT(*) AS unit_sold')
-			->select($db->qn('product_id'))
-			->from($db->qn('#__redshop_order_item'))
-			->where($db->qn('order_status') . ' = ' . $db->q('S'))
-			->group($db->qn('product_id'));
-
-		$items = $db->setQuery($query)->loadObjectList();
-
-		foreach ($products as $key => $product)
-		{
-			$products[$key]->unit_sold  = 0;
-			$products[$key]->total_sale = 0;
-
-			foreach ($items as $item)
-			{
-				if ($product->product_id == $item->product_id)
-				{
-					$products[$key]->unit_sold  = $item->unit_sold;
-					$products[$key]->total_sale = $item->total_sale;
-				}
-			}
-		}
-
-		return $products;
 	}
 
 	/**

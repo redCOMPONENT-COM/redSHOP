@@ -97,7 +97,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<table class="adminlist table table-striped" width="100%">
 		<thead>
 		<tr>
-
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_DATE'), 'cdate', $listDirn, $listOrder) ?></th>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ORDER_COUNT'), 'count', $listDirn, $listOrder) ?></th>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_TOTAL_LBL'), 'order_total', $listDirn, $listOrder) ?></th>

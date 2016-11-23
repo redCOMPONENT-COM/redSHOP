@@ -47,7 +47,7 @@ class RedshopControllerStatistic_Product extends RedshopControllerAdmin
 	{
 		$productHelper = productHelper::getInstance();
 		$model         = $this->getModel();
-		$data          = $model->getProducts();
+		$data          = $model->getItems();
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");
