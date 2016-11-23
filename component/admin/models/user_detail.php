@@ -257,6 +257,9 @@ class RedshopModelUser_detail extends RedshopModel
 				$db->setQuery($queryAllJuserIds);
 				$allJuserIds = $db->loadResult();
 
+				// REDSHOP-3553. It should not bug by logic but would cause by specific site case
+				$allJuserIds = trim($allJuserIds, ',');
+
 				$queryCustom = $db->getQuery(true)
 						->select($db->qn('user_id'))
 						->from($db->qn('#__redshop_users_info'))

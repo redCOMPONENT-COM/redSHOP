@@ -20,16 +20,8 @@ $menuhide = explode(",", $this->config->get('MENUHIDE'));
 <ul id="menuhide">
 	<?php foreach ($items as $group => $sections) : ?>
 		<li>
-			<label>
-				<input type="checkbox"
-					value="<?php echo $group ?>" name="menuhide[]"
-					<?php echo (in_array($group, $menuhide) ? 'checked' : ''); ?>
-				>
-				<?php echo JText::_('COM_REDSHOP_' . $group); ?>
-			</label>
-
 			<ul>
-			<?php foreach ($sections as $sectionKey => $section) : ?>
+			<?php foreach ($sections['items'] as $sectionKey => $section) : ?>
 				<li>
 					<label>
 						<input type="checkbox"
