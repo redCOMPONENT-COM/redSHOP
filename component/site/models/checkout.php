@@ -151,6 +151,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		$Itemid     = JRequest::getVar('Itemid');
 		$shop_id    = JRequest::getVar('shop_id');
+		$gls_zipcode = JRequest::getVar('gls_zipcode');
 		$gls_mobile = JRequest::getVar('gls_mobile');
 
 		$customer_message = JRequest::getVar('rs_customer_message_ta');
@@ -158,7 +159,12 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($gls_mobile)
 		{
-			$shop_id = $shop_id . '###' . $gls_mobile;
+			$shop_id .= '###' . $gls_mobile;
+		}
+
+		if ($gls_zipcode)
+		{
+			$shop_id .= '###' . $gls_zipcode;
 		}
 
 		$user    = JFactory::getUser();

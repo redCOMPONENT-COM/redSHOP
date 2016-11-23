@@ -9,9 +9,14 @@
 
 defined('_JEXEC') or die;
 
-
-
-class RedshopViewOrder_detail extends RedshopViewAdmin
+/**
+ * Order detail view
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopViewOrder_Detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -27,13 +32,20 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	/**
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 */
 	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
+		$input    = JFactory::getApplication()->input;
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
-		$order_functions = order_functions::getInstance();
 
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance();
 
 		// Load payment languages
 		RedshopHelperPayment::loadLanguages();
@@ -50,7 +62,7 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 			$language->load($extension, $base_dir);
 		}
 
-		$layout = JRequest::getVar('layout');
+		$layout = $input->getCmd('layout', '');
 		$document->addScript('components/com_redshop/assets/js/order.js');
 		$document->addScript('components/com_redshop/assets/js/common.js');
 		$document->addScript('components/com_redshop/assets/js/validation.js');
@@ -62,10 +74,10 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 
 		$detail = $this->get('data');
 
-		$billing = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
+		$billing  = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
 		$shipping = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
 
-		$task = JRequest::getVar('task');
+		$task = $input->getCmd('task', '');
 
 		if ($task == 'ccdetail')
 		{
@@ -133,9 +145,9 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 			$this->setLayout('default');
 		}
 
-		$payment_detail = $order_functions->getOrderPaymentDetail($detail->order_id);
+		$payment_detail = RedshopHelperOrder::getPaymentInfo($detail->order_id);
 
-		if (count($payment_detail) > 0)
+		if (is_array($payment_detail) && count($payment_detail))
 		{
 			$payment_detail = $payment_detail[0];
 		}

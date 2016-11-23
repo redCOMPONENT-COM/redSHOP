@@ -210,6 +210,13 @@ class RedshopHelperConfig
 		{
 			return false;
 		}
+
+		// Try to migrate old configuration
+		if ($this->loadOldConfig())
+		{
+			return true;
+		}
+
 		// Check if custom file path is given and exist
 		if ($configFile && !file_exists($configFile))
 		{
@@ -276,35 +283,8 @@ class RedshopHelperConfig
 		{
 			jimport('joomla.filesystem.file');
 
-			// Old configuration file
-			if (JFile::exists(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php'))
+			if ($this->loadOldConfig())
 			{
-				require_once $this->getConfigurationDistFilePath();
-
-				// Old config file
-				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
-				$configClass = new RedshopConfig;
-				$properties = get_object_vars($configClass);
-				$defined = get_defined_constants();
-
-				foreach ($properties as $name => $value)
-				{
-					if (in_array($name, $defined))
-					{
-						if (isset($defined[$name]))
-						{
-							$properties[$name] = $defined[$name];
-						}
-					}
-				}
-
-				// Save to config file
-				$this->save(new JRegistry($properties));
-
-				// Delete old config file
-				JFile::delete(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php');
-
 				return true;
 			}
 
@@ -312,6 +292,58 @@ class RedshopHelperConfig
 		}
 
 		return true;
+	}
+
+	/**
+	 * Load previous configuration
+	 *
+	 * @return  bool
+	 *
+	 * @since   2.0.0.5
+	 */
+	protected function loadOldConfig()
+	{
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_TRY_TO_MIGRATE_PREVIOUS_CONFIGURATION'), 'notice');
+		$oldConfigFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+
+		// Old configuration file
+		if (JFile::exists($oldConfigFile))
+		{
+			// New configuration file
+			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.dist.php';
+
+			// Old configuration file
+			require_once $oldConfigFile;
+
+			// Get new configuration properties
+			$configClass = new RedshopConfig;
+			$properties  = get_object_vars($configClass);
+
+			// Get old configiration properties
+			$defined = get_defined_constants();
+
+			// Replace new configuration values with old one
+			foreach ($properties as $name => $value)
+			{
+				if (in_array($name, $defined))
+				{
+					if (isset($defined[$name]))
+					{
+						$properties[$name] = $defined[$name];
+					}
+				}
+			}
+
+			// Save to config file
+			$this->save(new JRegistry($properties));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MIGRATED_PREVIOUS_CONFIGURATION'), 'notice');
+
+			return JFile::delete($oldConfigFile);
+		}
+
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PREVIOUS_CONFIGURATION_NOT_FOUND'), 'warning');
+
+		return false;
 	}
 
 	/**
@@ -356,6 +388,7 @@ class RedshopHelperConfig
 				var RedshopStrings = ' . json_encode(self::script()) . ';
 				if (typeof redSHOP == "undefined") {
 					redSHOP = {};
+					redSHOP.RSConfig = {};
 					redSHOP.RSConfig.strings = RedshopStrings;
 				}
 				else {
