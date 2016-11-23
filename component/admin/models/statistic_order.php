@@ -190,6 +190,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 		$startDate = 0;
 		$endDate = 0;
 		$filterDateRange = $this->state->get('filter.date_range', '');
+		$filterDateGroup = $this->state->get('filter.date_group', '');
 
 		if (!empty($filterDateRange))
 		{
@@ -211,11 +212,30 @@ class RedshopModelStatistic_Order extends RedshopModelList
 		}
 		elseif ($interval <= 7689600)
 		{
-			$return = "%b. %Y";
+			if ($filterDateGroup == 1)
+			{
+				$return = "%d %b. %Y";
+			}
+			else
+			{
+				$return = "%b. %Y";
+			}
 		}
 		elseif ($interval <= 31536000)
 		{
-			$return = "%Y";
+			if ($filterDateGroup == 1)
+			{
+				$return = "%d %b. %Y";
+			}
+			elseif ($filterDateGroup == 2)
+			{
+				$return = "%b. %Y";
+			}
+			else
+			{
+				$return = "%Y";
+			}
+			
 		}
 		else
 		{

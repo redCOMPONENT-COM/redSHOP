@@ -32,7 +32,7 @@ class RedshopViewStatistic_Product extends RedshopViewAdmin
 
 		$model = $this->getModel();
 
-		$this->products   = $model->getProducts();
+		$this->products   = $model->getItems();
 		$this->state      = $model->getState();
 		$this->filterForm = $model->getForm();
 
