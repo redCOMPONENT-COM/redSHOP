@@ -373,7 +373,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   INDEX `idx_product_on_sale` (`product_on_sale` ASC),
   INDEX `idx_product_special` (`product_special` ASC),
   INDEX `idx_product_parent_id` (`product_parent_id` ASC),
-  INDEX `idx_common` (`published` ASC, `expired` ASC, `product_parent_id` ASC))
+  INDEX `idx_common` (`published` ASC, `expired` ASC, `product_parent_id` ASC),
+  INDEX `#__rs_product_supplier_fk1` (`supplier_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Products';
@@ -2022,12 +2023,13 @@ COMMENT = 'redSHOP Subscription Renewal';
 DROP TABLE IF EXISTS `#__redshop_supplier` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_supplier` (
-  `supplier_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `supplier_name` VARCHAR(250) NOT NULL,
-  `supplier_desc` LONGTEXT NOT NULL,
-  `supplier_email` VARCHAR(255) NOT NULL,
-  `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`supplier_id`))
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
+  `description` TEXT NOT NULL DEFAULT '',
+  `email` VARCHAR(255) NOT NULL DEFAULT '',
+  `published` TINYINT(4) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  INDEX `#__rs_idx_supplier_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Supplier';
@@ -2486,7 +2488,7 @@ COMMENT = 'redSHOP Notification Alert';
 DROP TABLE IF EXISTS `#__redshop_wishlist_product_item` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_wishlist_product_item` (
-  `id` INT(11) NOT NULL COMMENT 'Primary key',
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
   `ref_id` INT(11) NOT NULL COMMENT 'Wishlist Reference ID',
   `attribute_id` INT(11) NULL DEFAULT NULL COMMENT 'Product Attribute ID',
   `property_id` INT(11) NULL DEFAULT NULL COMMENT 'Product Attribute Property ID',
