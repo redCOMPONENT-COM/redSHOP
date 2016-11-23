@@ -2063,14 +2063,19 @@ COMMENT = 'redSHOP Tax Group';
 DROP TABLE IF EXISTS `#__redshop_tax_rate` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_tax_rate` (
-  `tax_rate_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
   `tax_state` VARCHAR(64) NULL DEFAULT NULL,
   `tax_country` VARCHAR(64) NULL DEFAULT NULL,
   `mdate` INT(11) NULL DEFAULT NULL,
   `tax_rate` DECIMAL(10,4) NULL DEFAULT NULL,
   `tax_group_id` INT(11) NOT NULL,
   `is_eu_country` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`tax_rate_id`),
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
   INDEX `idx_tax_group_id` (`tax_group_id` ASC),
   INDEX `idx_tax_country` (`tax_country` ASC),
   INDEX `idx_tax_state` (`tax_state` ASC),
