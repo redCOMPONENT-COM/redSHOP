@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  * @package  Redshopb.Plugin
  * @since    1.7.0
  */
-class Mod_Redshop_WishlistInstallerScript
+class Mod_Redshop_Promote_Free_ShippingInstallerScript
 {
 	/**
 	 * Method to run before an install/update/uninstall method
@@ -37,7 +37,7 @@ class Mod_Redshop_WishlistInstallerScript
 					->select($db->qn('manifest_cache'))
 					->from($db->qn('#__extensions'))
 					->where($db->qn('type') . ' = ' . $db->quote('module'))
-					->where($db->qn('element') . ' = ' . $db->quote('mod_redshop_wishlist'))
+					->where($db->qn('element') . ' = ' . $db->quote('mod_redshop_promote_free_shipping'))
 			)
 				->loadResult();
 
