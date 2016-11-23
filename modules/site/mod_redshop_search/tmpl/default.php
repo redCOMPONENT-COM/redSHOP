@@ -10,31 +10,26 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-$templateid = $params->get('templateid');
-$defaultSearchType = trim($params->get('defaultSearchType', 'product_name'));
-$perpageproduct = $params->get('productperpage');
-$search_type = $app->input->getWord('search_type', $defaultSearchType);
-$keyword = $app->input->getString('keyword', $standardkeyword);
+$templateId = $params->get('templateid');
+$productPerPage = $params->get('productperpage');
+$keyword = $app->input->getString('keyword', $standardKeyword);
 
-// Manufacturer Select Id
-$manufac_data = $app->input->getInt('manufacture_id', '');
+$redHelper       = redhelper::getInstance();
+$itemId          = $redHelper->getItemid();
+$modSearchItemId = trim($params->get('modsearchitemid', ''));
 
-$redhelper       = redhelper::getInstance();
-$Itemid          = $redhelper->getItemid();
-$modsearchitemid = trim($params->get('modsearchitemid', ''));
-
-if ($modsearchitemid != "")
+if ($modSearchItemId != '')
 {
-	$Itemid = $modsearchitemid;
+	$itemId = $modSearchItemId;
 }
 
 ?>
 <form
-	action="<?php echo JRoute::_('index.php?option=com_redshop&view=search&Itemid=' . $Itemid); ?>"
+	action="<?php echo JRoute::_('index.php?option=com_redshop&view=search&Itemid=' . $itemId); ?>"
 	method="get"
     name="redSHOPSEARCH">
 	<div class="product_search">
-		<?php if ($showProductsearchtitle == 'yes'): ?>
+		<?php if ($showProductSearchTitle == 'yes'): ?>
 			<div class="product_search_title">
 				<?php echo JText::_('COM_REDSHOP_PRODUCT_SEARCH'); ?>
 			</div>
@@ -68,18 +63,18 @@ if ($modsearchitemid != "")
 		<?php endif; ?>
 
 		<?php if ($showSearchField == 'yes'): ?>
-			<?php if ($showKeywordtitle == 'yes'): ?>
+			<?php if ($showKeywordTitle == 'yes'): ?>
 				<div class="product_search_input">
 					<?php echo JText::_('COM_REDSHOP_KEYWORD'); ?>
 				<?php endif; ?>
 					<br>
 					<input type="text" class="span12" name="keyword" id="keyword" value="<?php echo $keyword; ?>" onclick="this.value=''"/>
-			<?php if ($showKeywordtitle == 'yes'): ?>
+			<?php if ($showKeywordTitle == 'yes'): ?>
 				</div>
 			<?php endif; ?>
 		<?php endif; ?>
 
-		<?php if (!$enableAjaxsearch):?>
+		<?php if (!$enableAjaxSearch):?>
 			<div class="product_search_button">
 				<input type="submit" name="Search" value=<?php echo JText::_('COM_REDSHOP_SEARCH'); ?> id="Search" />
 			</div>
@@ -88,27 +83,23 @@ if ($modsearchitemid != "")
 	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="view" value="search"/>
 	<input type="hidden" name="layout" value="default"/>
-	<input type="hidden" name="templateid" value="<?php echo $templateid; ?>"/>
-	<input type="hidden" name="perpageproduct" value="<?php echo $perpageproduct; ?>"/>
-	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>"/>
+	<input type="hidden" name="templateid" value="<?php echo $templateId; ?>"/>
+	<input type="hidden" name="perpageproduct" value="<?php echo $productPerPage; ?>"/>
+	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $itemId; ?>"/>
 </form>
 
 <script type="text/javascript">
 	var selbox = document.getElementById('category_id') ? document.getElementById('category_id') : "";
 
 	if (selbox) {
-		var OnLoadfunc = 'loadProducts(selbox.options[selbox.selectedIndex].value,"<?php echo $manufac_data;?>")';
+		var OnLoadfunc = 'loadProducts(selbox.options[selbox.selectedIndex].value,"<?php echo $manufactureId;?>")';
 		window.onload = function () {
 			eval(OnLoadfunc);
 		};
 	}
 </script>
-<?php
-
-if ($enableAjaxsearch)
-{
-	$document = JFactory::getDocument();
-	$document->addScriptDeclaration("
+<?php if ($enableAjaxSearch): ?>
+	<?php $document->addScriptDeclaration("
 		function makeUrl()
 		{
 			var urlArg = new Array();
@@ -149,7 +140,7 @@ if ($enableAjaxsearch)
 				cache: false,
 				shownoresults: true,
 				callback: function (obj) {
-					location.href = base_url + 'index.php?option=com_redshop&view=product&pid=' + obj.id + '&Itemid=" . $Itemid . "';
+					location.href = base_url + 'index.php?option=com_redshop&view=product&pid=' + obj.id + '&Itemid=" . $itemId . "';
 				}
 			});
 		}
@@ -157,5 +148,5 @@ if ($enableAjaxsearch)
 		window.addEvent('domready', function(){
 			makeUrl();
 		});
-	");
-}
+	"); ?>
+<?php endif ?>
