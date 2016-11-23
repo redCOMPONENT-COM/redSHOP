@@ -168,36 +168,31 @@ class rsUserHelper
 	/**
 	 * This function is used to check if the 'username' already exist in the database with any other ID
 	 *
-	 * @param     $username
-	 * @param int $id
+	 * @param   string  $username
+	 * @param   int     $id
 	 *
-	 * @return int|void
+	 * @deprecated  1.5  Use RedshopHelperUser::validateUser instead
+	 *
+	 * @return  int|void
 	 */
 	public function validate_user($username, $id = 0)
 	{
-		$db = JFactory::getDbo();
-
-		$query = "SELECT username FROM #__users "
-			. "WHERE username = " . $db->quote($username)
-			. " AND id != " . (int) $id;
-
-		$this->_db->setQuery($query);
-		$users = $db->loadObjectList();
-
-		return count($users);
+		return RedshopHelperUser::validateUser($username, $id);
 	}
 
+	/**
+	 * This function is used to check if the 'email' already exist in the database with any other ID
+	 *
+	 * @param   string  $username
+	 * @param   int     $id
+	 *
+	 * @deprecated  1.5  Use RedshopHelperUser::validateEmail instead
+	 *
+	 * @return  int|void
+	 */
 	public function validate_email($email, $id = 0)
 	{
-		$db = JFactory::getDbo();
-
-		$query = "SELECT email FROM #__users "
-			. "WHERE email = " . $db->quote($email) . " "
-			. "AND id <> " . (int) $id;
-		$db->setQuery($query);
-		$emails = $db->loadObjectList();
-
-		return count($emails);
+		return RedshopHelperUser::validateEmail($email, $id);
 	}
 
 	public function updateJoomlaUser($data)
@@ -1056,7 +1051,7 @@ class rsUserHelper
 		$read_only = "";
 
 		$template_desc = str_replace("{email_lbl}", JText::_('COM_REDSHOP_EMAIL'), $template_desc);
-		$template_desc = str_replace("{email}", '<input class="inputbox required" type="text" title="' . JTEXT::_('COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS') . '" name="email1" id="email1" size="32" maxlength="250" value="' . @$post ["email1"] . '" />', $template_desc);
+		$template_desc = str_replace("{email}", '<input class="inputbox required" type="text" title="' . JTEXT::_('COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS') . '" name="email1" id="email1" size="32" maxlength="250" value="' . (isset($post["email1"]) ? $post["email1"] : '') . '" />', $template_desc);
 
 		if (strstr($template_desc, "{retype_email_start}") && strstr($template_desc, "{retype_email_end}"))
 		{
@@ -1075,24 +1070,24 @@ class rsUserHelper
 		}
 
 		$template_desc = str_replace("{company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $template_desc);
-		$template_desc = str_replace("{company_name}", '<input class="inputbox required" type="text" name="company_name" id="company_name" size="32" maxlength="250" value="' . @$post ["company_name"] . '" />', $template_desc);
+		$template_desc = str_replace("{company_name}", '<input class="inputbox required" type="text" name="company_name" id="company_name" size="32" maxlength="250" value="' . (isset($post["company_name"]) ? $post["company_name"] : '') . '" />', $template_desc);
 		$template_desc = str_replace("{firstname_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $template_desc);
-		$template_desc = str_replace("{firstname}", '<input class="inputbox required" type="text" name="firstname" id="firstname" size="32" maxlength="250" value="' . @$post ["firstname"] . '" />', $template_desc);
+		$template_desc = str_replace("{firstname}", '<input class="inputbox required" type="text" name="firstname" id="firstname" size="32" maxlength="250" value="' . (isset($post["firstname"]) ? $post["firstname"] : '') . '" />', $template_desc);
 		$template_desc = str_replace("{lastname_lbl}", JText::_('COM_REDSHOP_LASTNAME'), $template_desc);
-		$template_desc = str_replace("{lastname}", '<input class="inputbox required" type="text" name="lastname" id="lastname" size="32" maxlength="250" value="' . @$post ["lastname"] . '" />', $template_desc);
+		$template_desc = str_replace("{lastname}", '<input class="inputbox required" type="text" name="lastname" id="lastname" size="32" maxlength="250" value="' . (isset($post["lastname"]) ? $post["lastname"] : '') . '" />', $template_desc);
 		$template_desc = str_replace("{address_lbl}", JText::_('COM_REDSHOP_ADDRESS'), $template_desc);
-		$template_desc = str_replace("{address}", '<input class="inputbox required" type="text" name="address" id="address" size="32" maxlength="250" value="' . @$post ["address"] . '" />', $template_desc);
+		$template_desc = str_replace("{address}", '<input class="inputbox required" type="text" name="address" id="address" size="32" maxlength="250" value="' . (isset($post["address"]) ? $post["address"] : '') . '" />', $template_desc);
 		$template_desc = str_replace("{zipcode_lbl}", JText::_('COM_REDSHOP_ZIP'), $template_desc);
-		$template_desc = str_replace("{zipcode}", '<input class="inputbox required"  type="text" name="zipcode" id="zipcode" size="32" maxlength="10" value="' . @$post['zipcode'] . '" onblur="return autoFillCity(this.value,\'BT\');" />', $template_desc);
+		$template_desc = str_replace("{zipcode}", '<input class="inputbox required"  type="text" name="zipcode" id="zipcode" size="32" maxlength="10" value="' . (isset($post["zipcode"]) ? $post["zipcode"] : '') . '" onblur="return autoFillCity(this.value,\'BT\');" />', $template_desc);
 		$template_desc = str_replace("{city_lbl}", JText::_('COM_REDSHOP_CITY'), $template_desc);
-		$template_desc = str_replace("{city}", '<input class="inputbox required" type="text" name="city" ' . $read_only . ' id="city" value="' . @$post['city'] . '" size="32" maxlength="250" />', $template_desc);
+		$template_desc = str_replace("{city}", '<input class="inputbox required" type="text" name="city" ' . $read_only . ' id="city" value="' . (isset($post["city"]) ? $post["city"] : '') . '" size="32" maxlength="250" />', $template_desc);
 
 		// Allow phone number to be optional using template tags.
 		$phoneIsRequired = ((boolean) strstr($template_desc, '{phone_optional}')) ? '' : 'required';
 		$template_desc = str_replace("{phone_optional}",'', $template_desc);
 		$template_desc = str_replace(
 			"{phone}",
-			'<input class="inputbox ' . $phoneIsRequired . '" type="text" name="phone" id="phone" size="32" maxlength="250" value="' . @$post ["phone"] . '" onblur="return searchByPhone(this.value,\'BT\');" />',
+			'<input class="inputbox ' . $phoneIsRequired . '" type="text" name="phone" id="phone" size="32" maxlength="250" value="' . (isset($post["phone"]) ? $post["phone"] : '') . '" onblur="return searchByPhone(this.value,\'BT\');" />',
 			$template_desc
 		);
 		$template_desc = str_replace("{phone_lbl}", JText::_('COM_REDSHOP_PHONE'), $template_desc);

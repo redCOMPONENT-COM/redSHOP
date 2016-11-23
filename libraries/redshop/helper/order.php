@@ -78,6 +78,33 @@ class RedshopHelperOrder
 	public static $orderStatusList = null;
 
 	/**
+	 * Billing addresses
+	 *
+	 * @var   array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $billingAddresses = array();
+
+	/**
+	 * Shipping addresses
+	 *
+	 * @var   array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $shippingAddresses = array();
+
+	/**
+	 * Shipping methods
+	 *
+	 * @var   array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $shippingMethods = array();
+
+	/**
 	 * Get order information from order id.
 	 *
 	 * @param   integer  $orderId  Order Id
@@ -1687,23 +1714,28 @@ class RedshopHelperOrder
 	 */
 	public static function getShippingMethodInfo($shippingClass = '')
 	{
-		$db = JFactory::getDbo();
+		$key = (!empty($shippingClass)) ? $shippingClass : '0';
 
-		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__extensions'))
-					->where($db->qn('enabled') . ' = ' . $db->quote('1'))
-					->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote('redshop_shipping'))
-					->order($db->qn('ordering') . ' ASC');
-
-		if ($shippingClass != '')
+		if (!array_key_exists($key, static::$shippingMethods))
 		{
-			$query->where($db->qn('element') . ' = ' . $db->quote($shippingClass));
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__extensions'))
+				->where($db->qn('enabled') . ' = ' . $db->quote('1'))
+				->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote('redshop_shipping'))
+				->order($db->qn('ordering') . ' ASC');
+
+			if (!empty($shippingClass))
+			{
+				$query->where($db->qn('element') . ' = ' . $db->quote($shippingClass));
+			}
+
+			static::$shippingMethods = $db->setQuery($query)->loadObjectList();
 		}
 
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return static::$shippingMethods;
 	}
 
 	/**
@@ -1758,16 +1790,21 @@ class RedshopHelperOrder
 			return false;
 		}
 
-		$db = JFactory::getDbo();
+		if (!array_key_exists($userId, static::$billingAddresses))
+		{
+			$db = JFactory::getDbo();
 
-		$query = $db->getQuery(true)
-			->select('*')
-			->select('CONCAT(' . $db->qn('firstname') . '," ",' . $db->qn('lastname') . ') AS text')
-			->from($db->qn('#__redshop_users_info'))
-			->where($db->qn('address_type') . ' = ' . $db->quote('BT'))
-			->where($db->qn('user_id') . ' = ' . (int) $userId);
+			$query = $db->getQuery(true)
+				->select('*')
+				->select('CONCAT(' . $db->qn('firstname') . '," ",' . $db->qn('lastname') . ') AS text')
+				->from($db->qn('#__redshop_users_info'))
+				->where($db->qn('address_type') . ' = ' . $db->quote('BT'))
+				->where($db->qn('user_id') . ' = ' . (int) $userId);
 
-		return $db->setQuery($query)->loadObject();
+			static::$billingAddresses[$userId] = $db->setQuery($query)->loadObject();
+		}
+
+		return static::$billingAddresses[$userId];
 	}
 
 	/**
@@ -1781,23 +1818,32 @@ class RedshopHelperOrder
 	 */
 	public static function getShippingAddress($userId = 0)
 	{
-		$db   = JFactory::getDbo();
-		$user = JFactory::getUser();
-
 		if ($userId == 0)
 		{
+			$user   = JFactory::getUser();
 			$userId = $user->id;
 		}
 
-		$query = $db->getQuery(true)
-					->select('*')
-					->select('CONCAT(' . $db->qn('firstname') . '," ",' . $db->qn('lastname') . ') AS text')
-					->from($db->qn('#__redshop_users_info'))
-					->where($db->qn('address_type') . ' = ' . $db->quote('ST'))
-					->where($db->qn('user_id') . ' = ' . (int) $userId);
-		$db->setQuery($query);
+		if (!$userId)
+		{
+			return false;
+		}
 
-		return $db->loadObjectlist();
+		if (!array_key_exists($userId, static::$shippingAddresses))
+		{
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select('*')
+				->select('CONCAT(' . $db->qn('firstname') . '," ",' . $db->qn('lastname') . ') AS text')
+				->from($db->qn('#__redshop_users_info'))
+				->where($db->qn('address_type') . ' = ' . $db->quote('ST'))
+				->where($db->qn('user_id') . ' = ' . (int) $userId);
+
+			static::$shippingAddresses[$userId] = $db->setQuery($query)->loadObjectList();
+		}
+
+		return static::$shippingAddresses[$userId];
 	}
 
 	/**

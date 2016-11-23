@@ -48,7 +48,7 @@ class RedshopTagsReplacer
 		{
 			$class = new $className($template, $data);
 
-			return $class->$execute[1]();
+			return call_user_func(array($class, $execute[1]));
 		}
 
 		return $template;
