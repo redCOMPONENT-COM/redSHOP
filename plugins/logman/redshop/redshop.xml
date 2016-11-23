@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="3.0" group="logman" method="upgrade" overwrite="true">
+    <identifier>plg:logman.redshop</identifier>
+    <name>plg_logman_redshop</name>
+    <author>Joomlatools</author>
+    <creationDate>October 2016</creationDate>
+    <copyright>Copyright (C) 2011 - 2016 Timble CVBA (http://www.timble.net)</copyright>
+    <license>GNU GPLv3 - http://www.gnu.org/licenses/gpl.html</license>
+    <authorEmail>support@joomlatools.com</authorEmail>
+    <authorUrl>www.joomlatools.com</authorUrl>
+    <version>3.0.0</version>
+    <description>PLG_LOGMAN_REDSHOP_DESC</description>
+
+    <scriptfile>install.php</scriptfile>
+
+    <files>
+        <filename plugin="redshop">redshop.php</filename>
+        <folder>language</folder>
+        <folder>activity</folder>
+    </files>
+
+    <config>
+        <fields name="params" />
+    </config>
+
+    <resources>
+        <resource name="component">
+            <actions>
+                <action>save</action>
+            </actions>
+        </resource>
+    </resources>
+</extension>
