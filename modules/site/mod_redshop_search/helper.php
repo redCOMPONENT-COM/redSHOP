@@ -60,26 +60,26 @@ abstract class ModRedshopSearchHelper
 		$result = ['catadata' => [], 'manufacturedata' => []];
 
 		$query = $db->getQuery(true)
-			->select('category_id as value, category_name as text')
+			->select([$db->qn('category_id', 'value'), $db->qn('category_name', 'text')])
 			->from($db->qn('#__redshop_category'))
-			->where('published = 1')
-			->order('category_name asc');
+			->where($db->qn('published') . ' = 1')
+			->order($db->qn('category_name') . ' ASC');
 
 		if ($shopperGroupData && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
 		{
-			$query->where('category_id IN(' . $shopperGroupData[0]->shopper_group_categories . ')');
+			$query->where($db->qn('category_id') . ' IN(' . $db->q($shopperGroupData[0]->shopper_group_categories) . ')');
 		}
 
 		$catData = $db->setQuery($query)->LoadObjectList();
 
 		$query->clear()
-			->select('manufacturer_id as value,manufacturer_name AS text')
+			->select([$db->qn('manufacturer_id', 'value'), $db->qn('manufacturer_name', 'text')])
 			->from($db->qn('#__redshop_manufacturer'))
-			->where('published = 1');
+			->where($db->qn('published') . ' = 1');
 
 		if ($shopperGroupData && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_manufactures)
 		{
-			$query->where('manufacturer_id IN(' . $shopperGroupData[0]->shopper_group_manufactures . ')');
+			$query->where($db->qn('manufacturer_id') . ' IN(' . $db->q($shopperGroupData[0]->shopper_group_manufactures) . ')');
 		}
 
 		$manufactureData = $db->setQuery($query)->LoadObjectList();
