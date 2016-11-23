@@ -1713,7 +1713,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getsupplier()
 	{
-		$query = 'SELECT supplier_id as value,supplier_name as text FROM ' . $this->table_prefix . 'supplier ';
+		$query = 'SELECT id as value,name as text FROM ' . $this->table_prefix . 'supplier ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();

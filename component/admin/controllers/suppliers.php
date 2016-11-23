@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 /**
- * Controller Supplier Detail
+ * Suppliers controller
  *
- * @package     RedSHOP.Backend
+ * @package     RedSHOP.backend
  * @subpackage  Controller
  * @since       2.0.0.7
  */
-class RedshopControllerSupplier extends RedshopControllerForm
+class RedshopControllerSuppliers extends RedshopControllerAdmin
 {
 }
