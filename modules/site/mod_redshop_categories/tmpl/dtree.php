@@ -9,21 +9,21 @@
  */
 
 defined('_JEXEC') or die;
+JHtml::stylesheet('mod_redshop_categories/dtree.css', false, true);
+JHtml::script('mod_redshop_categories/dtree.js', false, true);
 
 $menuHtml = "";
 
 // Start creating the content
 // Create left aligned table, load the CSS stylesheet and dTree code
 $menuHtml .= "<table border=\"0\" cellspacing=\"1\" cellpadding=\"0\" width=\"100%\"><tr><td align=\"left\">\n";
-$menuHtml .= "<link rel=\"stylesheet\" href=\"$liveModulePath/tmpl/dtree/dtree.css\" type=\"text/css\" />\n";
-$menuHtml .= "<script type=\"text/javascript\" src=\"$liveModulePath/tmpl/dtree/dtree.js\"></script>\n";
 $menuHtml .= "<script type=\"text/javascript\">\n";
 
 /**
  * create the tree, using the unique name
  * pass the live_site parameter on so dTree can find the icons
  **/
-$menuHtml .= "$tree = new dTree('$tree',\"$liveModulePath/tmpl/\");\n";
+$menuHtml .= "$tree = new dTree('$tree',\"" . JUri::root() . "media/mod_redshop_categories/\");\n";
 
 // Pass on the dTree API parameters
 $menuHtml .= "$tree.config.useSelection=" . $useSelection . ";\n";

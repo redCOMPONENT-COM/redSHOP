@@ -24,11 +24,10 @@ $sortType = $params->get('categorysorttype', '');
 // A unique name for our tree (to support multiple instances of the menu)
 $varname = uniqid("TigraTree_");
 
-$iconPath = JURI::root() . 'modules/mod_redshop_categories/tmpl/tigratree/icons/';
+$iconPath = JURI::root() . 'media/mod_redshop_categories/tigratree/icons/';
 
 $document = JFactory::getDocument();
-
-$document->addscript(JURI::root() . 'modules/mod_redshop_categories/tmpl/tigratree/tree.js');
+JHtml::script('mod_redshop_categories/tree.js', false, true);
 
 $document->addScriptDeclaration("var TREE_TPL = {
 'target'  : '_self',    // name of the frame links will be opened in

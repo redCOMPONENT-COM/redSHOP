@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 require_once $absoluteModulePath . '/helpers/jscook.php';
 
 $jscookStyle = $params->get('jscook_style', 'ThemeOffice');
-$jscookType = $params->get('jscook_type', 'menu');
+$jscookType = $params->get('jscook_type', 'tree');
 
 $Itemid = JRequest::getInt('Itemid');
 $TreeId = JRequest::getInt('TreeId');
@@ -34,37 +34,37 @@ if ($jscookType == "tree")
 			break;
 	}
 
-	$document->addScript($liveModulePath . '/tmpl/JSCook/JSCookMenu.js');
-	$document->addScript($liveModulePath . '/tmpl/JSCook/JSCookTree.js');
-	$document->addScript($liveModulePath . '/tmpl/' . $jscookStyle . '/theme.js');
+	JHtml::script('mod_redshop_categories/JSCookMenu.js', false, true);
+	JHtml::script('mod_redshop_categories/JSCookTree.js', false, true);
+	JHtml::script('mod_redshop_categories/' . strtolower($jscookStyle) . '.js', false, true);
 
 	$document->addScriptDeclaration(
 		RedshopLayoutHelper::render(
 			$jscookStyle . '.theme',
 			array(
-				'ct' . $jscookStyle . 'Base' => $liveModulePath . '/tmpl/' . $jscookStyle . '/'
+				'ct' . $jscookStyle . 'Base' => JURI::root() . '/media/mod_redshop_categories/' . $jscookStyle . '/'
 			),
 			'modules/mod_redshop_categories/'
 		)
 	);
 
-	$document->addStyleSheet($liveModulePath . '/tmpl/' . $jscookStyle . '/theme.css');
+	JHtml::stylesheet('mod_redshop_categories/' . strtolower($jscookStyle) . '.css', false, true);
 }
 else
 {
-	$document->addScript($liveModulePath . '/tmpl/JSCook/JSCookMenu.js');
+	JHtml::script('mod_redshop_categories/JSCookMenu.js', false, true);
 
 	$document->addScriptDeclaration(
 		RedshopLayoutHelper::render(
 			'JSCook.theme',
 			array(
-				'ct' . $jscookStyle . 'Base' => $liveModulePath . '/tmpl/ThemeOffice/'
+				'ct' . $jscookStyle . 'Base' => JURI::root() . '/media/mod_redshop_categories/' . $jscookStyle . '/'
 			),
 			'modules/mod_redshop_categories/'
 		)
 	);
 
-	$document->addStyleSheet($liveModulePath . '/tmpl/JSCook/theme.css');
+	JHtml::stylesheet('mod_redshop_categories/jscook.css', false, true);
 }
 
 // Create a unique tree identifier, in case multiple trees are used

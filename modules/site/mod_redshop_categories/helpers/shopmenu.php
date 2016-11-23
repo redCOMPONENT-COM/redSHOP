@@ -62,20 +62,22 @@ class ShopMenu
 		$this->db     =& $database;
 
 		$this->loadMenu($shopperGroupId);
-		$this->createmenuObj();
+		$this->createmenuObj($params);
 	}
 
 	/**
 	 * [createmenuObj description]
 	 * 
+	 * @param   [type]  $params  [description]
+	 * 
 	 * @return [type] [descriptsion]
 	 */
-	function createmenuObj()
+	function createmenuObj($params)
 	{
 		switch ($this->params->get('menutype'))
 		{
 			default:
-				include_once "transmenu.php";
+				require JModuleHelper::getLayoutPath('mod_redshop_categories', $params->get('layout', 'transmenu'));
 				$this->menuObj = new TransMenu($this);
 				break;
 		}

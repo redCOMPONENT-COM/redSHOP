@@ -99,7 +99,7 @@ abstract class RedshopJscookCategoryMenuHelper
 			if ($ibg != 0)
 				$mymenuContent .= ",";
 
-			$mymenuContent .= "\n[ '<img src=\"$liveModulePath/tmpl/$jscookStyle/$iconName\" alt=\"arr\" />','" . $traverseResult->category_name . "','" . JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $traverseResult->category_id . '&Itemid=' . $tmpItemid) . "',null,'" . $traverseResult->category_name . "'\n ";
+			$mymenuContent .= "\n[ '<img src=\"" . JURI::root() . "media/mod_redshop_categories/$jscookStyle/$iconName\" alt=\"arr\" />','" . $traverseResult->category_name . "','" . JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $traverseResult->category_id . '&Itemid=' . $tmpItemid) . "',null,'" . $traverseResult->category_name . "'\n ";
 
 			$ibg++;
 
