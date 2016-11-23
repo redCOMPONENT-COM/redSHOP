@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::import('redshop.library');
 
 /**
- * Helper for mod_redmanufacturer
+ * Helper for mod_redshop_discount
  *
  * @since  1.7.0
  */
