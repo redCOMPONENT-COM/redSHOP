@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 /**
- * Controller Supplier Detail
+ * Tax Rates controller
  *
- * @package     RedSHOP.Backend
+ * @package     RedSHOP.backend
  * @subpackage  Controller
- * @since       2.0.0.7
+ * @since       2.0.0.6
  */
-class RedshopControllerSupplier extends RedshopControllerForm
+class RedshopControllerTax_Rates extends RedshopControllerAdmin
 {
 }

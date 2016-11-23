@@ -7938,6 +7938,10 @@ class productHelper
 					array(
 						'product_id' => $product_id,
 						'stockamountImage' => $stockamountList[0]
+					),
+					'',
+					array(
+						'component' => 'com_redshop'
 					)
 				);
 			}
