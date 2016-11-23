@@ -14,4 +14,6 @@ ALTER TABLE `#__redshop_supplier` ADD `created_date` DATETIME NOT NULL DEFAULT '
 ALTER TABLE `#__redshop_supplier` ADD `modified_by` INT(11) NULL DEFAULT NULL AFTER `created_date`;
 ALTER TABLE `#__redshop_supplier` ADD `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `modified_by`;
 
+ALTER TABLE `#__redshop_product` ADD INDEX `#__rs_product_supplier_fk1` (`supplier_id` ASC);
+
 SET FOREIGN_KEY_CHECKS = 1;
