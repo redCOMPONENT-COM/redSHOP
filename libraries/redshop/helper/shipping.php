@@ -18,6 +18,10 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperShipping
 {
+	protected static $shippingBoxes;
+
+	protected static $users = array();
+
 	/**
 	 * Get Shipping rate for cart
 	 *
@@ -30,7 +34,6 @@ class RedshopHelperShipping
 	public static function getDefaultShipping($data)
 	{
 		$productHelper = productHelper::getInstance();
-		$userHelper    = rsUserHelper::getInstance();
 		$session       = JFactory::getSession();
 		$orderSubtotal = $data['order_subtotal'];
 		$user          = JFactory::getUser();
@@ -41,8 +44,7 @@ class RedshopHelperShipping
 		$weightTotal     = $totalDimention['totalweight'];
 		$volume          = $totalDimention['totalvolume'];
 
-		$orderFunctions = order_functions::getInstance();
-		$userInfo       = $orderFunctions->getBillingAddress($userId);
+		$userInfo       = RedshopHelperOrder::getBillingAddress($userId);
 		$country        = '';
 		$state          = '';
 		$isCompany      = '';
@@ -59,7 +61,7 @@ class RedshopHelperShipping
 			$state     = $userInfo->state_code;
 		}
 
-		$shopperGroup = $userHelper->getShoppergroupData($userId);
+		$shopperGroup = RedshopHelperUser::getShopperGroupData($userId);
 
 		if (count($shopperGroup) > 0)
 		{
@@ -160,27 +162,25 @@ class RedshopHelperShipping
 		{
 			for ($i = 0; $i < $idx; $i++)
 			{
-				$productId = $cart[$i]['product_id'];
-				$query = $db->getQuery(true)
-				->select($db->qn('category_id'))
-				->from($db->qn('#__redshop_product_category_xref'))
-				->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+				$productId  = (int) $cart[$i]['product_id'];
+				$product    = RedshopHelperProduct::getProductById($productId);
+				$categories = $product->categories;
 
-				$categoryData = $db->setQuery($query)->loadObjectList();
-				$where = ' ';
-
-				if ($categoryData)
+				if (!empty($categories))
 				{
 					$where = 'AND ( ';
+					$index = 0;
 
-					for ($c = 0, $cn = count($categoryData); $c < $cn; $c++)
+					foreach ($categories as $category)
 					{
-						$where .= " FIND_IN_SET(" . $db->q((int) $categoryData[$c]->category_id) . ", " . $db->qn('shipping_rate_on_category') . ") ";
+						$where .= " FIND_IN_SET(" . (int) $category . ", " . $db->qn('shipping_rate_on_category') . ") ";
 
-						if ($c != count($categoryData) - 1)
+						if ($index != count($categories) - 1)
 						{
 							$where .= " OR ";
 						}
+
+						$index++;
 					}
 
 					$where .= ")";
@@ -189,7 +189,7 @@ class RedshopHelperShipping
 								 LEFT JOIN " . $db->qn('#__extensions') . " AS s
 								 ON
 								 " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . "
-		 	     				 WHERE " . $db->qn('s.folder') . " = " . $db->q('redshop_shipping') . " AND " . $db->qn('s.enabled') . " = 1 AND" . $whereCountry . $whereShopper . $isWhere . "
+								 WHERE " . $db->qn('s.folder') . " = " . $db->q('redshop_shipping') . " AND " . $db->qn('s.enabled') . " = 1 AND" . $whereCountry . $whereShopper . $isWhere . "
 								 AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->q($volume) . " AND " . $db->qn('shipping_rate_volume_end') . " >= "
 						. $db->q($volume) . ") OR (" . $db->qn('shipping_rate_volume_end') . " = 0) )
 								 AND ((" . $db->qn('shipping_rate_ordertotal_start') . " <= " . $db->q($orderSubtotal) . " AND " . $db->qn('shipping_rate_ordertotal_end') . " >= "
@@ -210,7 +210,7 @@ class RedshopHelperShipping
 							 LEFT JOIN " . $db->qn('#__extensions') . " AS s
 							 ON
 							 " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . "
-	 	     		WHERE " . $db->qn('s.folder') . " = " . $db->q('redshop_shipping') . " AND " . $db->qn('s.enabled') . " = 1 AND " . $whereCountry . $whereShopper . $isWhere . $whereState . "
+					WHERE " . $db->qn('s.folder') . " = " . $db->q('redshop_shipping') . " AND " . $db->qn('s.enabled') . " = 1 AND " . $whereCountry . $whereShopper . $isWhere . $whereState . "
 					AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->q($volume) . " AND " . $db->qn('shipping_rate_volume_end') . " >= "
 				. $db->q($volume) . ") OR (" . $db->qn('shipping_rate_volume_end') . " = 0) )
 					AND ((" . $db->qn('shipping_rate_ordertotal_start') . " <= " . $db->q($orderSubtotal) . " AND " . $db->qn('shipping_rate_ordertotal_end') . " >= "
@@ -753,13 +753,23 @@ class RedshopHelperShipping
 	 */
 	public static function getShippingAddress($userInfoId)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_users_info'))
-			->where($db->qn('users_info_id') . ' = ' . $db->q((int) $userInfoId));
+		if (!$userInfoId)
+		{
+			return null;
+		}
 
-		return $db->setQuery($query)->loadObject();
+		if (!array_key_exists($userInfoId, static::$users))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_users_info'))
+				->where($db->qn('users_info_id') . ' = ' . $db->q((int) $userInfoId));
+
+			static::$users[$userInfoId] = $db->setQuery($query)->loadObject();
+		}
+
+		return static::$users[$userInfoId];
 	}
 
 	/**
@@ -799,7 +809,7 @@ class RedshopHelperShipping
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->select($db->qn('extension_id'))
+			->select($db->qn('extension_id', 'id'))
 			->from($db->qn('#__extensions'))
 			->where('LOWER(' . $db->qn('folder') . ')' . ' = ' . $db->q($folder))
 			->where($db->qn('extension_id') . ' = ' . $db->q((int) $id));
@@ -1547,39 +1557,49 @@ class RedshopHelperShipping
 	 */
 	public static function getShippingBox()
 	{
-		$volumeShipping      = self::getProductVolumeShipping();
-		$db                  = JFactory::getDbo();
-		$whereShippingVolume = "";
-
-		if (count($volumeShipping) > 0)
+		if (is_null(static::$shippingBoxes))
 		{
-			$whereShippingVolume .= " AND ( ";
+			$volumesShipping     = self::getProductVolumeShipping();
+			$db                  = JFactory::getDbo();
+			$whereShippingVolume = "";
 
-			for ($g = 0, $gn = count($volumeShipping); $g < $gn; $g++)
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_shipping_boxes'))
+				->where($db->qn('published') . ' = 1')
+				->order($db->qn('shipping_box_priority') . ' ASC');
+
+			if (!empty($volumesShipping))
 			{
-				$length = $volumeShipping[$g]['length'];
-				$width  = $volumeShipping[$g]['width'];
-				$height = $volumeShipping[$g]['height'];
+				$whereShippingVolume .= '( ';
+				$index = 0;
 
-				if ($g != 0)
+				foreach ($volumesShipping as $volumeShipping)
 				{
-					$whereShippingVolume .= " OR ";
+					$length = $volumeShipping['length'];
+					$width  = $volumeShipping['width'];
+					$height = $volumeShipping['height'];
+
+					if ($index != 0)
+					{
+						$whereShippingVolume .= " OR ";
+					}
+
+					$whereShippingVolume .= " ( " . $db->qn('shipping_box_length') . " >= " . $length . " AND "
+						. $db->qn('shipping_box_width') . " >= " . $width . " AND " . $db->qn('shipping_box_height') . " >= " . $height . ") ";
+
+					$index++;
 				}
 
-				$whereShippingVolume .= " ( " . $db->qn('shipping_box_length') . " >= " . $db->q($length) . " AND "
-					. $db->qn('shipping_box_width') . " >= "
-					. $db->q($width) . " AND " . $db->qn('shipping_box_height') . " >= " . $db->q($height) . ") ";
+				$whereShippingVolume .= " ) ";
+
+				$query->where($whereShippingVolume);
 			}
 
-			$whereShippingVolume .= " ) ";
+			static::$shippingBoxes = $db->setQuery($query)->loadObjectList();
 		}
 
-		$query = "SELECT * FROM " . $db->qn('#__redshop_shipping_boxes')
-			. "WHERE " . $db->qn('published') . " = 1 "
-			. $whereShippingVolume
-			. " ORDER BY " . $db->qn('shipping_box_priority') . " ASC ";
-
-		return $db->setQuery($query)->loadObjectList();
+		return static::$shippingBoxes;
 	}
 
 	/**

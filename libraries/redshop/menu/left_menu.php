@@ -141,11 +141,9 @@ class RedshopMenuLeft_Menu
 				return array('ORDER', 'stockroom');
 				break;
 
+			case "suppliers":
 			case "supplier":
-			case "supplier_detail":
-				return array('PRODUCT_LISTING', 'supplier');
-				break;
-
+				return array('PRODUCT_LISTING', 'suppliers');
 			case "discount":
 			case "discount_detail":
 			case "mass_discount":
@@ -281,8 +279,8 @@ class RedshopMenuLeft_Menu
 				return array('CUSTOMIZATION', 'attribute_set');
 				break;
 
+			case "questions":
 			case "question":
-			case "question_detail":
 				return array('CUSTOMER_INPUT', 'question');
 				break;
 
@@ -369,9 +367,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'manufacturer') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=supplier',
+				'index.php?option=com_redshop&view=suppliers',
 				'COM_REDSHOP_SUPPLIER_LISTING',
-				(self::$view == 'supplier') ? true : false
+				(self::$view == 'suppliers') ? true : false
 			);
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && JPluginHelper::isEnabled('economic'))
@@ -590,11 +588,6 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=shopper_group',
 				'COM_REDSHOP_SHOPPER_GROUP_LISTING',
 				(self::$view == 'shopper_group') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=shopper_group_detail',
-				'COM_REDSHOP_ADD_SHOPPER_GROUP',
-				(self::$view == 'shopper_group_detail') ? true : false
 			);
 
 		JFactory::getDocument()->addScriptDeclaration('
@@ -729,10 +722,10 @@ class RedshopMenuLeft_Menu
 	 */
 	protected static function setCustomerInputGroup()
 	{
-		self::$menu->section('question')
+		self::$menu->section('questions')
 			->title('COM_REDSHOP_QUESTION')
 			->addItem(
-				'index.php?option=com_redshop&view=question',
+				'index.php?option=com_redshop&view=questions',
 				'COM_REDSHOP_QUESTION_LISTING',
 				(self::$view == 'question') ? true : false
 			);
@@ -949,50 +942,5 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'stockroom_detail' && self::$layout == 'importstock') ? true : false
 			);
 		}
-	}
-
-	/**
-	 * Set Newsletter menu
-	 *
-	 * @return  void
-	 */
-	protected static function setNewsLetter()
-	{
-		self::$menu->section('newsletter')
-			->title('COM_REDSHOP_NEWSLETTER')
-
-			->addItem(
-				'index.php?option=com_redshop&view=newsletter_detail',
-				'COM_REDSHOP_ADD_NEWSLETTER',
-				(self::$view == 'newsletter_detail' && self::$layout == '') ? true : false
-			)
-
-			->addItem(
-				'index.php?option=com_redshop&view=newslettersubscr_detail',
-				'COM_REDSHOP_ADD_NEWSLETTER_SUBSCR',
-				(self::$view == 'newslettersubscr_detail') ? true : false
-			)
-			;
-	}
-
-	/**
-	 * Set Attribute Bank menu
-	 *
-	 * @return  void
-	 */
-	protected static function setAttributes()
-	{
-		self::$menu->section('attributes')
-			->title('COM_REDSHOP_ATTRIBUTES')
-			->addItem(
-				'index.php?option=com_redshop&view=attributes',
-				'COM_REDSHOP_ATTRIBUTE_LISTING',
-				(self::$view == 'attributes') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=properties',
-				'COM_REDSHOP_ADD_PROPERTY_LISTING',
-				(self::$view == 'attribute_detail') ? true : false
-			);
 	}
 }

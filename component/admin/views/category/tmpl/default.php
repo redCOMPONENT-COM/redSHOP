@@ -134,7 +134,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 				$link = JRoute::_('index.php?option=com_redshop&view=category_detail&task=edit&cid[]=' . $row->category_id);
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				?>
-				<tr class="<?php echo "row$k"; ?>">
+				<tr class="<?php echo "row$k"; ?> ">
 					<td><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
 					<td>
