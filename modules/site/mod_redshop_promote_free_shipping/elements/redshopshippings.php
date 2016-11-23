@@ -35,7 +35,7 @@ class JFormFieldRedshopShippings extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('*')
+			->select($db->qn(['shipping_rate_id', 'shipping_rate_name']))
 			->from($db->qn('#__redshop_shipping_rate'));
 		$items = $db->setQuery($query)->loadObjectList();
 
