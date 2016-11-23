@@ -2028,6 +2028,12 @@ CREATE TABLE IF NOT EXISTS `#__redshop_supplier` (
   `description` TEXT NOT NULL DEFAULT '',
   `email` VARCHAR(255) NOT NULL DEFAULT '',
   `published` TINYINT(4) NOT NULL DEFAULT 0,
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` VARCHAR(45) NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   INDEX `#__rs_idx_supplier_published` (`published` ASC))
 ENGINE = InnoDB
