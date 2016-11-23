@@ -1052,10 +1052,16 @@ CREATE TABLE IF NOT EXISTS `#__redshop_order_status` (
   `order_status_id` INT(11) NOT NULL AUTO_INCREMENT,
   `order_status_code` VARCHAR(64) NOT NULL,
   `order_status_name` VARCHAR(64) NULL DEFAULT NULL,
-  `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`order_status_id`),
-  UNIQUE INDEX `order_status_code` (`order_status_code` ASC),
-  INDEX `idx_published` (`published` ASC))
+  `published` TINYINT(4) NOT NULL DEFAULT 0,
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `#__rs_idx_order_status_code` (`order_status_code` ASC),
+  INDEX `#__rs_idx_order_status_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Orders Status';
