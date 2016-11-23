@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Redshop.Modules
- * @subpackage  Wishlist
+ * @subpackage  Discount
  *
  * @copyright   Copyright (C) 2012 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
@@ -11,7 +11,7 @@ defined('_JEXEC') or die();
 use Joomla\Registry\Registry;
 
 /**
- * Mod_Redshop_Wishlist installer class.
+ * Mod_Redshop_Discount installer class.
  *
  * @package  Redshopb.Plugin
  * @since    1.7.0

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     RedSHOP.Frontend
- * @subpackage  mod_redshop_redmanufacturer
+ * @subpackage  mod_redshop_discount
  *
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -14,7 +14,7 @@ JLoader::import('redshop.library');
 /**
  * Helper for mod_redmanufacturer
  *
- * @since  1.5
+ * @since  1.7.0
  */
 abstract class ModRedshopDiscountHelper
 {
