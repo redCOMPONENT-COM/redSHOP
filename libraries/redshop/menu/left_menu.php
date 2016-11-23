@@ -207,8 +207,12 @@ class RedshopMenuLeft_Menu
 
 			case "tax_group":
 			case "tax_group_detail":
-			case "tax":
-				return array('PRODUCT_LISTING', 'tax');
+				return array('PRODUCT_LISTING', 'tax_group');
+				break;
+
+			case "tax_rates":
+			case "tax_rate":
+				return array('PRODUCT_LISTING', 'tax_rate');
 				break;
 
 			case "currency":
@@ -394,6 +398,12 @@ class RedshopMenuLeft_Menu
 			'index.php?option=com_redshop&view=tax_group',
 			'COM_REDSHOP_TAX_GROUP_LISTING',
 			(self::$view == 'tax_group') ? true : false
+		);
+
+		self::$menu->addItem(
+			'index.php?option=com_redshop&view=tax_rates',
+			'COM_REDSHOP_TAX_RATES_SIDEBAR',
+			(self::$view == 'tax_rates') ? true : false
 		);
 
 		/*@TODO: Enable when Product Variants ready
