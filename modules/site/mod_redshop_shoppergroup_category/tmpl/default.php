@@ -12,80 +12,61 @@ defined('_JEXEC') or die;
 // Note. It is important to remove spaces between elements.
 ?>
 
-<ul class="menu<?php echo $class_sfx; ?>"<?php
-	$tag = '';
+<ul class="menu<?php echo $classSuffix; ?>"
+	<?php $tag = ''; ?>
+	<?php if ($params->get('tag_id') != null): ?>
+		<?php $tag = $params->get('tag_id') . ''; ?>
+		id="<?php echo $tag ?>"
+	<?php endif ?>
+>
+	<?php foreach ($list as $i => &$item): ?>
+		<?php $class = 'item-' . $item->id; ?>
 
-	if ($params->get('tag_id') != null)
-	{
-		$tag = $params->get('tag_id') . '';
-		echo ' id="' . $tag . '"';
-	}
-	?>>
-	<?php
-	foreach ($list as $i => &$item) :
-		$class = 'item-' . $item->id;
+		<?php if ($item->id == $activeId): ?>
+			<?php $class .= ' current'; ?>
+		<?php endif ?>
 
-		if ($item->id == $active_id)
-		{
-			$class .= ' current';
-		}
+		<?php if ($item->type == 'alias' && in_array($item->params->get('aliasoptions'), $path) || in_array($item->id, $path)): ?>
+			<?php $class .= ' active'; ?>
+		<?php endif ?>
 
-		if ($item->type == 'alias'
-			&& in_array($item->params->get('aliasoptions'), $path)
-			|| in_array($item->id, $path))
-		{
-			$class .= ' active';
-		}
+		<?php if ($item->deeper): ?>
+			<?php $class .= ' deeper'; ?>
+		<?php endif ?>
 
-		if ($item->deeper)
-		{
-			$class .= ' deeper';
-		}
+		<?php if ($item->parent): ?>
+			<?php $class .= ' parent'; ?>
+		<?php endif ?>
 
-		if ($item->parent)
-		{
-			$class .= ' parent';
-		}
+		<?php if (!empty($class)): ?>
+			<?php $class = ' class="' . trim($class) . '"'; ?>
+		<?php endif ?>
 
-		if (!empty($class))
-		{
-			$class = ' class="' . trim($class) . '"';
-		}
+		<li<?php echo $class ?>>
 
-		echo '<li' . $class . '>';
+		<!-- Render the menu item. -->
+		<?php switch ($item->type): case 'separator': ?>
+			<?php case 'url': ?>
+			<?php case 'component': ?>
+				<?php require JModuleHelper::getLayoutPath('mod_redshop_shoppergroup_category', 'default_' . $item->type); ?>
+				<?php break; ?>
+			<?php default: ?>
+				<?php require JModuleHelper::getLayoutPath('mod_redshop_shoppergroup_category', 'default_url'); ?>
+				<?php break; ?>
+		<?php endswitch ?>
 
-		// Render the menu item.
-		switch ($item->type)
-		{
-			case 'separator':
-			case 'url':
-			case 'component':
-				require JModuleHelper::getLayoutPath('mod_redshop_shoppergroup_category', 'default_' . $item->type);
-				break;
+		<!-- The next item is deeper. -->
+		<?php if ($item->deeper): ?>
+			<ul>
+		<!-- The next item is shallower. -->
+		<?php elseif ($item->shallower): ?>
+			</li>
+			<?php echo str_repeat('</ul></li>', $item->level_diff); ?>
 
-			default:
-				require JModuleHelper::getLayoutPath('mod_redshop_shoppergroup_category', 'default_url');
-				break;
-		}
+		<!-- The next item is on the same level.-->
+		<?php else: ?>
+			</li>
+		<?php endif ?>
 
-		// The next item is deeper.
-		if ($item->deeper)
-		{
-			echo '<ul>';
-		}
-
-		// The next item is shallower.
-		elseif ($item->shallower)
-		{
-			echo '</li>';
-			echo str_repeat('</ul></li>', $item->level_diff);
-		}
-
-		// The next item is on the same level.
-		else
-		{
-			echo '</li>';
-		}
-
-	endforeach;
-	?></ul>
+	<?php endforeach;?>
+</ul>

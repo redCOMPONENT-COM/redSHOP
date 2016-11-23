@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.7" client="site" method="upgrade">
 	<name>MOD_REDSHOP_SHOPPERGROUP_CATEGORY</name>
-	<version>1.6</version>
-	<redshop>2.0</redshop>
+	<version>1.6.1</version>
+	<redshop>2.0.0.6</redshop>
 	<creationDate>Sep 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
@@ -11,15 +11,12 @@
 	<description>MOD_REDSHOP_SHOPPERGROUP_CATEGORY_DESC</description>
 	<files>
 		<filename module="mod_redshop_shoppergroup_category">mod_redshop_shoppergroup_category.php</filename>
+		<filename module="mod_redshop_shoppergroup_category">helper.php</filename>
+		<filename module="mod_redshop_shoppergroup_category">index.html</filename>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
-		<filename>index.html</filename>
-		<filename>mod_redshop_shoppergroup_category.xml</filename>
+		<folder>language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_shoppergroup_category.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_shoppergroup_category.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MENU"/>
 	<config>
 		<fields name="params">
