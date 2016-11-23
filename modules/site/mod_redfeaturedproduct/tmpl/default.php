@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 $document = JFactory::getDocument();
-JHTML::stylesheet('modules/mod_redfeaturedproduct/css/jquery.css');
-JHTML::stylesheet('modules/mod_redfeaturedproduct/css/skin_002.css');
+JHtml::stylesheet('mod_redfeaturedproduct/jquery.css', false, true);
+JHtml::stylesheet('mod_redfeaturedproduct/skin_002.css', false, true);
 JHtml::_('redshopjquery.framework');
 
 if ($view == 'category')
