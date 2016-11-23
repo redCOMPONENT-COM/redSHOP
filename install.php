@@ -879,6 +879,23 @@ class Com_RedshopInstallerScript
 		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php';
 		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php';
 
+		// Remove old Supplier stuff since Refactor.
+		if (version_compare($this->getOldParam('version'), '2.0.0.7', '<='))
+		{
+			array_push(
+				$files,
+				JPATH_ADMINISTRATOR . '/component/admin/controllers/supplier_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/models/supplier_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/tables/supplier_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/views/supplier/tmpl/default.php'
+			);
+
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/component/admin/views/supplier_detail'
+			);
+		}
+
 		if (version_compare($this->getOldParam('version'), '2.0.0.4', '<='))
 		{
 			array_push(
