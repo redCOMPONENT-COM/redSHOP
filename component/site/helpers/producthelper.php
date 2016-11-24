@@ -1827,70 +1827,7 @@ class productHelper
 
 	public function getDiscountId($subtotal = 0, $user_id = 0)
 	{
-		$db   = JFactory::getDbo();
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		$userArr = $this->_userhelper->createUserSession($user_id);
-		$shopperGroupId = $userArr['rs_user_shopperGroup'];
-
-		$sql = "SELECT ds.discount_id FROM " . $this->_table_prefix . "discount_shoppers AS ds "
-			. " WHERE ds.shopper_group_id = " . (int) $shopperGroupId;
-
-		$this->_db->setQuery($sql);
-
-		if ($list = $this->_db->loadColumn())
-		{
-			$list = array_merge(array(0 => '0'), $list);
-		}
-
-		if (!empty($list))
-		{
-			// Secure ids
-			JArrayHelper::toInteger($list);
-
-			$query   = "SELECT * FROM " . $this->_table_prefix . "discount "
-				. "WHERE published =1 "
-				. "AND discount_id IN (" . implode(',', $list) . ") "
-				. "AND `start_date`<=" . $db->quote(time()) . " "
-				. "AND `end_date` >=" . $db->quote(time()) . " ";
-			$orderby = " ORDER BY `amount` DESC LIMIT 0,1";
-
-			if (!$subtotal)
-			{
-				$query1 = $query . $orderby;
-				$this->_db->setQuery($query1);
-				$result = $this->_db->loadObject();
-
-				return $result;
-			}
-
-			$query1 = $query . "AND `condition`=2 AND amount=" . (int) $subtotal . " " . $orderby;
-			$this->_db->setQuery($query1);
-			$result = $this->_db->loadObject();
-
-			if (count($result) <= 0)
-			{
-				$query1 = $query . "AND `condition`=1 AND amount > " . (int) $subtotal . " " . $orderby;
-				$this->_db->setQuery($query1);
-				$result = $this->_db->loadObject();
-
-				if (count($result) <= 0)
-				{
-					$query1 = $query . "AND `condition`=3 AND amount < " . (int) $subtotal . " " . $orderby;
-					$this->_db->setQuery($query1);
-					$result = $this->_db->loadObject();
-				}
-			}
-
-			return $result;
-		}
-
-		return;
+		return RedshopHelperDiscount::getDiscount($subtotal, $user_id);
 	}
 
 	public function getDiscountAmount($cart = array(), $user_id = 0)
@@ -8133,7 +8070,7 @@ class productHelper
 
 		if ($tmp_name == '')
 		{
-			$tmp_name = COMPARE_TEMPLATE_ID;
+			$tmp_name = Redshop::getConfig()->get('COMPARE_TEMPLATE_ID');
 		}
 
 		return $tmp_name;
