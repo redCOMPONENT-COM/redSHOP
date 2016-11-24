@@ -10,38 +10,35 @@
 defined('_JEXEC') or die;
 
 /**
- * Model Countries
+ * Model Order Statuses
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
  * @since       __DEPLOY_VERSION__
  */
-
-class RedshopModelCountries extends RedshopModelList
+class RedshopModelOrder_Statuses extends RedshopModelList
 {
 	/**
 	 * Name of the filter form to load
 	 *
 	 * @var  string
 	 */
-	protected $filterFormName = 'filter_countries';
+	protected $filterFormName = 'filter_order_statuses';
 
 	/**
 	 * Construct class
 	 *
 	 * @since 1.x
 	 */
-
 	public function __construct()
 	{
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id', 'id',
-				'country_name', 'country_name',
-				'country_3_code', 'country_3_code',
-				'country_2_code', 'country_2_code',
-				'country_jtext', 'country_jtext'
+				'order_status_id', 'order_status_id',
+				'order_status_code', 'order_status_code',
+				'order_status_name', 'order_status_name',
+				'published', 'published'
 			);
 		}
 
@@ -60,13 +57,13 @@ class RedshopModelCountries extends RedshopModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'order_status_id', $direction = 'asc')
 	{
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		// List state information.
-		parent::populateState('country_name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -101,26 +98,19 @@ class RedshopModelCountries extends RedshopModelList
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 				->select('*')
-				->from($db->qn('#__redshop_country'));
+				->from($db->qn('#__redshop_order_status'));
 
 		// Filter by search in name.
-		$search = $this->getState('filter.search');
+		$search = $this->getState('filter.search', '');
 
 		if (!empty($search))
 		{
-			if (stripos($search, 'id:') === 0)
-			{
-				$query->where('id = ' . (int) substr($search, 3));
-			}
-			else
-			{
-				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where($db->qn('country_name') . ' LIKE ' . $search);
-			}
+			$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+			$query->where($db->qn('order_status_name') . ' LIKE ' . $search);
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'id');
+		$orderCol  = $this->state->get('list.ordering', 'order_status_id');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));

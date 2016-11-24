@@ -39,8 +39,7 @@ class RedshopFormFieldText extends JFormField
 	 * @var  array
 	 */
 	protected $forbiddenAttributes = array(
-		'id', 'default', 'description', 'disabled', 'name', 'multiple',
-		'placeholder', 'readonly', 'required', 'type', 'value'
+		'id', 'default', 'description', 'disabled', 'name', 'multiple', 'placeholder', 'type', 'value'
 	);
 
 	/**
