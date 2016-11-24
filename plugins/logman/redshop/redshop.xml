@@ -3,12 +3,12 @@
     <identifier>plg:logman.redshop</identifier>
     <name>plg_logman_redshop</name>
     <author>Joomlatools</author>
-    <creationDate>October 2016</creationDate>
-    <copyright>Copyright (C) 2011 - 2016 Timble CVBA (http://www.timble.net)</copyright>
-    <license>GNU GPLv3 - http://www.gnu.org/licenses/gpl.html</license>
-    <authorEmail>support@joomlatools.com</authorEmail>
-    <authorUrl>www.joomlatools.com</authorUrl>
-    <version>3.0.0</version>
+    <creationDate>November 2016</creationDate>
+    <copyright>Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later, see LICENSE.</license>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <version>1.0.0</version>
     <description>PLG_LOGMAN_REDSHOP_DESC</description>
 
     <scriptfile>install.php</scriptfile>

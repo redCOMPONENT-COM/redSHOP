@@ -1,19 +1,28 @@
 <?php
 /**
- * @package     LOGman
- * @copyright   Copyright (C) 2011 - 2016 Timble CVBA. (http://www.timble.net)
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.joomlatools.com
+ * @package    LOGman
+ * @copyright  Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * User/Users Activity Entity
+ * redSHOP LOGman plugin.
  *
- * @author  Arunas Mazeika <https://github.com/amazeika>
- * @package Joomlatools\Plugin\LOGman
+ * @package  Joomlatools\Plugin\LOGman\Activity
+ *
+ * @since    1.0.0
  */
 class PlgLogmanRedshopActivityConfiguration extends ComLogmanModelEntityActivity
 {
+	/**
+	 * Init
+	 *
+	 * @param   KObjectConfig  $config  Config
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.0
+	 */
 	protected function _initialize(KObjectConfig $config)
 	{
 		$config->append(
@@ -23,6 +32,15 @@ class PlgLogmanRedshopActivityConfiguration extends ComLogmanModelEntityActivity
 		parent::_initialize($config);
 	}
 
+	/**
+	 * Init object
+	 *
+	 * @param   KObjectConfig  $config  Config
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.0
+	 */
 	protected function _objectConfig(KObjectConfig $config)
 	{
 		$config->append(array('url' => array('admin' => 'option=com_redshop&view=configuration')));
