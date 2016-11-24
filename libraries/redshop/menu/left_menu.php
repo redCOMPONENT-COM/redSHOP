@@ -123,11 +123,14 @@ class RedshopMenuLeft_Menu
 			case "order":
 			case "order_detail":
 			case "addorder_detail":
-			case "orderstatus":
-			case "orderstatus_detail":
 			case "opsearch":
 			case "barcode":
 				return array('ORDER', 'order');
+				break;
+
+			case "order_status":
+			case "order_statuses":
+				return array('ORDER', 'order_status');
 				break;
 
 			case "quotation":
@@ -432,9 +435,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'order' && self::$layout == 'labellisting') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=orderstatus',
+				'index.php?option=com_redshop&view=order_statuses',
 				'COM_REDSHOP_ORDERSTATUS_LISTING',
-				(self::$view == 'orderstatus') ? true : false
+				(self::$view == 'order_statuses') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=opsearch',
