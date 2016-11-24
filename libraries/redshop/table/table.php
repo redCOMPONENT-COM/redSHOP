@@ -470,6 +470,20 @@ class RedshopTable extends JTable
 	}
 
 	/**
+	 * Method to perform sanity checks on the JTable instance properties to ensure they are safe to store in the database.
+	 *
+	 * Child classes should override this method to make sure the data they are storing in the database is safe and as expected before storage.
+	 *
+	 * @return  boolean  True if the instance is sane and able to be stored in the database.
+	 *
+	 * @since   11.1
+	 */
+	protected function doCheck()
+	{
+		return parent::check();
+	}
+
+	/**
 	 * Checks that the object is valid and able to be stored.
 	 *
 	 * This method checks that the parent_id is non-zero and exists in the database.
@@ -486,7 +500,7 @@ class RedshopTable extends JTable
 		}
 
 		// Check
-		if (!parent::check())
+		if (!$this->doCheck())
 		{
 			return false;
 		}
@@ -571,7 +585,7 @@ class RedshopTable extends JTable
 	 */
 	public function doStore($updateNulls = false)
 	{
-		return parent::store();
+		return parent::store($updateNulls);
 	}
 
 	/**
