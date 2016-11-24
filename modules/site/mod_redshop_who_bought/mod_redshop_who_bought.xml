@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDSHOP_WHO_BOUGHT</name>
-    <version>1.6</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <version>1.7.0</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>November 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Customers Who Bought This Item Also Bought</description>
+    <description>MOD_REDSHOP_WHO_BOUGHT</description>
     <files>
         <filename module="mod_redshop_who_bought">mod_redshop_who_bought.php</filename>
         <filename module="mod_redshop_who_bought">index.html</filename>
+        <filename module="mod_redshop_who_bought">helper.php</filename>
         <folder module="mod_redshop_who_bought">tmpl</folder>
-        <folder module="mod_redshop_who_bought">assets</folder>
+        <folder module="mod_redshop_who_bought">language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_who_bought.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_who_bought.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_who_bought.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_who_bought.sys.ini</language>
-    </languages>
+    <media folder="media">
+        <folder>mod_redshop_who_bought</folder>
+    </media>
+    <scriptfile>install.php</scriptfile>
     <config>
         <fields name="params"  addfieldpath="/libraries/redshop/form/fields">
             <fieldset name="basic">
