@@ -103,6 +103,7 @@ $Itemid = $input->getInt('Itemid', 0);
 
 					foreach ($wishlists as $wishlist)
 					{
+						$i = 0;
 						?>
 						<tr class="<?php echo "row$i"; ?>">
 							<td align="center">
@@ -116,7 +117,7 @@ $Itemid = $input->getInt('Itemid', 0);
 							</td>
 						</tr>
 						<?php
-						$k = 1 - $k;
+						$i++;
 					}
 					?>
 					<tr>
