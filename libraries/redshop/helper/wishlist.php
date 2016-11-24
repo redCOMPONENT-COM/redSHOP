@@ -26,6 +26,15 @@ class RedshopHelperWishlist
 	protected static $wishLists = array();
 
 	/**
+	 * List of Wishlist.
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $usersWishlist = array();
+
+	/**
 	 * Method for replace wishlist tag in template.
 	 *
 	 * @param   int     $productId        Product ID
@@ -144,5 +153,55 @@ class RedshopHelperWishlist
 		}
 
 		return static::$wishLists[$wishlistId];
+	}
+
+	/**
+	 * Method for get Wishlist data of specific user.
+	 *
+	 * @param   int  $userId  ID of user.
+	 *
+	 * @return  bool|mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUserWishlist($userId)
+	{
+		$userId = (int) $userId;
+
+		if (!$userId)
+		{
+			$userId = JFactory::getUser()->id;
+		}
+
+		if (!$userId)
+		{
+			return false;
+		}
+
+		if (!array_key_exists($userId, static::$usersWishlist))
+		{
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select('wishlist_id')
+				->from($db->qn('#__redshop_wishlist'))
+				->where($db->qn('user_id') . ' = ' . $userId);
+
+			$wishList = $db->setQuery($query)->loadObjectList();
+
+			if (empty($wishList))
+			{
+				static::$usersWishlist[$userId] = array();
+
+				return static::$usersWishlist[$userId];
+			}
+
+			foreach ($wishList as $wish)
+			{
+				static::$usersWishlist[$userId][$wish->wishlist_id] = self::getWishlist($wish->wishlist_id);
+			}
+		}
+
+		return static::$usersWishlist[$userId];
 	}
 }
