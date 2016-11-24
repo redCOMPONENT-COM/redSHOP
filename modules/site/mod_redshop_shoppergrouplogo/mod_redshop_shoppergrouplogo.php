@@ -10,7 +10,8 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-$thumbwidth  = (int) $params->get('thumbwidth', 100);
-$thumbheight = (int) $params->get('thumbheight', 100);
+JLoader::import('helper', __DIR__);
+
+$portalLogo = ModRedshopShopperGroupLogoHelper::getPortalLogo($params);
 
 require JModuleHelper::getLayoutPath('mod_redshop_shoppergrouplogo');
