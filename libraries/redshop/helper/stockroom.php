@@ -506,13 +506,12 @@ class RedshopHelperStockroom
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('*')
+				->select('DISTINCT(s.stockroom_id), s.*, x.*')
 				->from($db->qn($table, 'x'))
 				->leftJoin(
 					$db->qn('#__redshop_stockroom', 's') . ' ON '
 					. $db->qn('x.stockroom_id') . ' = ' . $db->qn('s.stockroom_id')
 				)
-				->where($db->qn('x.quantity') . ' > 0')
 				->order($db->qn('s.min_del_time'));
 
 			if ($sectionId != 0)
@@ -565,7 +564,7 @@ class RedshopHelperStockroom
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('*')
+				->select('DISTINCT(s.stockroom_id), s.*, x.*')
 				->from($db->qn($table, 'x'))
 				->leftJoin(
 					$db->qn('#__redshop_stockroom', 's') . ' ON '
@@ -945,14 +944,9 @@ class RedshopHelperStockroom
 
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
-			if ($stockAmount == 0)
-			{
-				$stockAmount = self::getStockAmountwithReserve($sectionId, $section);
-			}
-
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('*')
+				->select('DISTINCT(sm.stock_amount_id), sm.*')
 				->from($db->qn('#__redshop_stockroom_amount_image', 'sm'))
 				->leftJoin(
 					$db->qn('#__redshop_product_stockroom_xref', 'sx') . ' ON '
