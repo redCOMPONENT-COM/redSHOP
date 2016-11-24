@@ -13,9 +13,9 @@ JHtml::_('behavior.framework');
 
 $url = JUri::base();
 $input = JFactory::getApplication()->input;
-$wishlist = $this->wishlist;
+$wishlists = $this->wishlist;
 $productId = $input->getInt('product_id', 0);
-$hasWishlist = ($productId && count($wishlist) > 0) ? true : false;
+$hasWishlist = ($productId && count($wishlists) > 0) ? true : false;
 $Itemid = $input->getInt('Itemid', 0);
 ?>
 <div class="divnewwishlist">
@@ -101,19 +101,18 @@ $Itemid = $input->getInt('Itemid', 0);
 					<?php
 					$k = 0;
 
-					for ($i = 0, $n = count($wishlist); $i < $n; $i++)
+					foreach ($wishlists as $wishlist)
 					{
-						$row = $wishlist[$i];
 						?>
-						<tr class="<?php echo "row$k"; ?>">
+						<tr class="<?php echo "row$i"; ?>">
 							<td align="center">
 								<?php echo ($i + 1); ?>
 							</td>
 							<td align="center">
-								<?php echo JHTML::_('grid.id', $i, $row->wishlist_id, false, 'wishlist_id'); ?>
+								<?php echo JHTML::_('grid.id', $i, $wishlist->wishlist_id, false, 'wishlist_id'); ?>
 							</td>
 							<td>
-								<?php echo $row->wishlist_name; ?>
+								<?php echo $wishlist->wishlist_name; ?>
 							</td>
 						</tr>
 						<?php
