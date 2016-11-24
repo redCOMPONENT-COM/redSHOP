@@ -137,7 +137,8 @@ abstract class RedshopHelperProduct_Attribute
 					->from($db->qn('#__redshop_product_attribute_property', 'ap'))
 					->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.attribute_id = ap.attribute_id')
 					->where('ap.property_published = 1')
-					->order('ap.ordering ASC');
+					->order('ap.ordering ASC')
+					->order('ap.property_number ASC');
 
 				if ($attributeId != 0)
 				{
