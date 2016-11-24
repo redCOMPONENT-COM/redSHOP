@@ -73,13 +73,13 @@ class RedshopHelperShipping
 
 		if ($country)
 		{
-			$whereCountry = '(FIND_IN_SET(' . $db->q($country) . ', ' . $db->qn('shipping_rate_country') . ') OR '
+			$whereCountry = '(FIND_IN_SET(' . $db->quote($country) . ', ' . $db->qn('shipping_rate_country') . ') OR '
 				. $db->qn('shipping_rate_country') . ' = 0 OR '
 				. $db->qn('shipping_rate_country') . ' = "")';
 		}
 		else
 		{
-			$whereCountry = '(FIND_IN_SET(' . $db->q(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ', '
+			$whereCountry = '(FIND_IN_SET(' . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ', '
 				. $db->qn('shipping_rate_country') . ') OR '
 				. $db->qn('shipping_rate_country') . ' = 0 OR '
 				. $db->qn('shipping_rate_country') . ' = "")';
@@ -87,7 +87,7 @@ class RedshopHelperShipping
 
 		if ($state)
 		{
-			$whereState = ' AND (FIND_IN_SET(' . $db->q($state) . ', '
+			$whereState = ' AND (FIND_IN_SET(' . $db->quote($state) . ', '
 				. $db->qn('shipping_rate_state') . ') OR '
 				. $db->qn('shipping_rate_state') . ' = 0 OR '
 				. $db->qn('shipping_rate_state') . ' = "")';

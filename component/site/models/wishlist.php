@@ -41,15 +41,16 @@ class RedshopModelWishlist extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * Method for get User Wishlist
+	 *
+	 * @return  bool|mixed
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperWishlist::getUserWishlist() instead.
+	 */
 	public function getUserWishlist()
 	{
-		$user = JFactory::getUser();
-		$db   = JFactory::getDbo();
-
-		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist WHERE user_id=" . (int) $user->id;
-		$db->setQuery($query);
-
-		return $db->loadObjectlist();
+		return RedshopHelperWishlist::getUserWishlist();
 	}
 
 	public function getWishlistProduct()
