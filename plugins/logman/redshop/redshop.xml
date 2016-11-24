@@ -2,6 +2,7 @@
 <extension type="plugin" version="3.0" group="logman" method="upgrade" overwrite="true">
     <identifier>plg:logman.redshop</identifier>
     <name>plg_logman_redshop</name>
+    <author>redCOMPONENT</author>
     <creationDate>November 2016</creationDate>
     <copyright>Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later, see LICENSE.</license>
