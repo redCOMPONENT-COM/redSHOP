@@ -7928,7 +7928,7 @@ class productHelper
 
 		if (strpos($data_add, "{product_stock_amount_image}") !== false)
 		{
-			$stockamountList  = $stockroomhelper->getStockAmountImage($product_id, $sec, $productinstock);
+			$stockamountList  = $stockroomhelper->getStockAmountImage($Id, $sec, $productinstock);
 			$stockamountImage = "";
 
 			if (count($stockamountList) > 0)
