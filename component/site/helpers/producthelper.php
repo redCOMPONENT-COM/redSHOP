@@ -8289,8 +8289,6 @@ class productHelper
 
 		if (!empty($imagename) && !empty($type))
 		{
-			$imagename = JFile::makeSafe($imagename);
-
 			if ((Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE')) && $type == 'product')
 			{
 				$productmainimg = $redhelper->watermark('product', $imagename, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
