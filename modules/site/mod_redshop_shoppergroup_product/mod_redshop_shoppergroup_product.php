@@ -10,23 +10,39 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
-$image                    = trim($params->get('image', 0));
-$show_price               = trim($params->get('show_price', 0));
-$thumbwidth               = trim($params->get('thumbwidth', 100));
-$thumbheight              = trim($params->get('thumbheight', 100));
-$show_short_description   = trim($params->get('show_short_description', 1));
-$show_readmore            = trim($params->get('show_readmore', 1));
-$show_addtocart           = trim($params->get('show_addtocart', 1));
-$show_discountpricelayout = trim($params->get('show_discountpricelayout', 1));
-$show_desc                = trim($params->get('show_desc', 1));
-$show_vat                 = trim($params->get('show_vat', 1));
+$image                   = trim($params->get('image', 0));
+$showPrice               = trim($params->get('show_price', 0));
+$thumbWidth              = trim($params->get('thumbwidth', 100));
+$thumbHeight             = trim($params->get('thumbheight', 100));
+$showShortDescription    = trim($params->get('show_short_description', 1));
+$showReadmore            = trim($params->get('show_readmore', 1));
+$showAddToCart           = trim($params->get('show_addtocart', 1));
+$showDiscountPriceLayout = trim($params->get('show_discountpricelayout', 1));
+$showDesc                = trim($params->get('show_desc', 1));
+$showVat                 = trim($params->get('show_vat', 1));
+
+$productHelper = productHelper::getInstance();
+$redHelper     = redhelper::getInstance();
+$redTemplate   = Redtemplate::getInstance();
+$extraField    = extraField::getInstance();
+
+$uri = JURI::getInstance();
+$url = $uri->root();
+
+$itemId    = JRequest::getInt('Itemid');
+$user      = JFactory::getUser();
+$view      = JRequest::getCmd('view');
+$getOption = JRequest::getCmd('option');
+$moduleId  = "mod_" . $module->id;
+
+$document = JFactory::getDocument();
 
 // Include the syndicate functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::import('helper', __DIR__);
 
 $rows = ModRedshopShopperGroupProduct::getList($params);
 
-if ($rows)
+if (count($rows))
 {
 	require JModuleHelper::getLayoutPath('mod_redshop_shoppergroup_product', $params->get('layout', 'default'));
 }

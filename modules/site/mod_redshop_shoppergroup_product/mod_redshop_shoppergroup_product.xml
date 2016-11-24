@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
 	<name>MOD_REDSHOP_SHOPPERGROUP_PRODUCT</name>
-	<version>1.6</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>November 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<copyright>redCOMPONENT.com</copyright>
@@ -12,16 +12,14 @@
 	<files>
 		<filename module="mod_redshop_shoppergroup_product">mod_redshop_shoppergroup_product.php</filename>
 		<folder>tmpl</folder>
-		<folder>css</folder>
+		<folder>language</folder>
 		<filename>index.html</filename>
 		<filename>helper.php</filename>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_shoppergroup_product.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_shoppergroup_product.sys.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redshop_shoppergroup_product.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redshop_shoppergroup_product.sys.ini</language>
-	</languages>
+	<media folder="media">
+		<folder>mod_redshop_shoppergroup_product</folder>
+	</media>
+	<scriptfile>install.php</scriptfile>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
