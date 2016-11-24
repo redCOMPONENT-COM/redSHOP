@@ -712,7 +712,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_media` (
   INDEX `idx_media_section` (`media_section` ASC),
   INDEX `idx_media_type` (`media_type` ASC),
   INDEX `idx_media_name` (`media_name` ASC),
-  INDEX `idx_published` (`published` ASC))
+  INDEX `idx_published` (`published` ASC),
+  INDEX `#__rs_idx_media_common` USING BTREE (`section_id` ASC, `media_section` ASC, `media_type` ASC, `published` ASC, `ordering` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Media';
