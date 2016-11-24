@@ -17,7 +17,7 @@ extract($displayData);
 	<div class="redshop_stockrooms">
 	<?php foreach ($stockroomDetails as $stockroomDetail) : ?>
 		<div class="redshop_stockroom">
-			<span><?php echo $stockroomDetail->stockroom_name ?></span>:<span><?php echo $stockroomDetail->quantity ?>"</span>
+			<span><?php echo $stockroomDetail->stockroom_name ?></span>:<span><?php echo $stockroomDetail->quantity ?></span>
 		</div>
 	<?php endforeach; ?>
 	</div>
