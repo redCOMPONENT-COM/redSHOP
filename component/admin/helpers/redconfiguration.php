@@ -1089,7 +1089,7 @@ class Redconfiguration
 		{
 			$spacepos = strrpos($truncate, ' ');
 
-			if (isset($spacepos))
+			if ($spacepos > -1)
 			{
 				if ($considerHtml)
 				{
@@ -1260,7 +1260,7 @@ class Redconfiguration
 	 * Method to get Country by ID
 	 *
 	 * @param   int  $conid  country id
-	 * 
+	 *
 	 * @return  country
 	 */
 	public function getCountryId($conid)
@@ -1280,7 +1280,7 @@ class Redconfiguration
 	 * Method to get Country by ID
 	 *
 	 * @param   int  $conid  country id
-	 * 
+	 *
 	 * @return  country
 	 */
 	public function getCountryCode2($conid)
