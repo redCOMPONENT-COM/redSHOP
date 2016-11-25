@@ -11,9 +11,24 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgAcymailingRedshop extends JPlugin
+/**
+ * Helper for 
+ *
+ * @package     Redshop.Site
+ * @subpackage  PlgAcymailingRedshop
+ * @since       1.5.3
+ */
+class PlgAcymailingRedshop extends JPlugin
 {
-	public function plgAcymailingRedshop(&$subject, $config)
+	/**
+	 * PlgAcymailingRedshop description
+	 * 
+	 * @param   string  &$subject  subject of mail
+	 * @param   array   $config    [description]
+	 *
+	 * @return  void
+	 */
+	public function PlgAcymailingRedshop(&$subject, $config)
 	{
 		$lang  = JFactory::getLanguage();
 		$lang->load('plg_acymailing_redshop', JPATH_ADMINISTRATOR);
@@ -21,17 +36,27 @@ class plgAcymailingRedshop extends JPlugin
 		parent::__construct($subject, $config);
 	}
 
+	/**
+	 * acymailing_getPluginType description
+	 * 
+	 * @return  object
+	 */
 	public function acymailing_getPluginType()
 	{
 		$onePlugin           = new stdClass;
 		$onePlugin->name     = JText::_('PLG_ACYMAILING_REDSHOP_REDSHOP');
-		$onePlugin->function = 'acymailingredSHOP_show';
+		$onePlugin->function = 'acymailingRedshopShow';
 		$onePlugin->help     = 'plugin-redSHOP';
 
 		return $onePlugin;
 	}
 
-	public function acymailingredSHOP_show()
+	/**
+	 * acymailingredSHOP_show description
+	 * 
+	 * @return  void  display email template
+	 */
+	public function acymailingRedshopShow()
 	{
 		$app = JFactory::getApplication();
 		$paramBase = ACYMAILING_COMPONENT . '.tagredshop';
@@ -54,18 +79,18 @@ class plgAcymailingRedshop extends JPlugin
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('p.product_id, p.product_name, p.product_number, c.category_id, c.category_name')
+			->select($db->qn(['p.product_id', 'p.product_name', 'p.product_number', 'c.category_id', 'c.category_name']))
 			->from($db->qn('#__redshop_product', 'p'))
-			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON p.product_id = pc.product_id')
-			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON pc.category_id = c.category_id')
-			->group('p.product_id')
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('pc.category_id') . ' = ' . $db->qn('c.category_id'))
+			->group($db->qn('p.product_id'))
 			->order($pageInfo->filter->order->value . ' ' . $pageInfo->filter->order->dir);
 
 		if (!empty($pageInfo->search))
 		{
 			$searchFields = array('p.product_name', 'p.product_id', 'p.product_number');
 			$searchVal = '\'%' . acymailing_getEscaped($pageInfo->search, true) . '%\'';
-			$query->where(implode(" LIKE $searchVal OR ", $searchFields) . " LIKE $searchVal");
+			$query->where(implode(" LIKE " . $db->q($searchVal) . " OR ", $searchFields) . " LIKE " . $db->q("$searchVal"));
 		}
 
 		$rs = $db->setQuery($query, $pageInfo->limit->start, $pageInfo->limit->value)->loadObjectlist();
@@ -73,69 +98,36 @@ class plgAcymailingRedshop extends JPlugin
 		$query->clear('select')
 			->clear('limit')
 			->clear('group')
-			->select('COUNT(p.product_id)');
+			->select('COUNT(' . $db->qn('p.product_id') . ')');
 		$pageInfo->elements->total = $db->setQuery($query)->loadResult();
 		$pageInfo->elements->page = count($rs);
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($pageInfo->elements->total, $pageInfo->limit->start, $pageInfo->limit->value);
-		?>
-		<?php acymailing_listingsearch($pageInfo->search); ?>
-		<table class="adminlist table table-striped table-hover" cellpadding="1">
-			<thead>
-			<tr>
-				<th class="title">
-					<?php echo JHTML::_('grid.sort', JText::_('PLG_ACYMAILING_REDSHOP_PRODUCT_NAME'), 'p.product_name', $pageInfo->filter->order->dir, $pageInfo->filter->order->value); ?>
-				</th>
-				<th class="title">
-					<?php echo JHTML::_('grid.sort', JText::_('PLG_ACYMAILING_REDSHOP_PRODUCT_NUMBER'), 'p.product_number', $pageInfo->filter->order->dir, $pageInfo->filter->order->value); ?>
-				</th>
-				<th class="title"><?php echo JText::_('PLG_ACYMAILING_REDSHOP_CATEGORY_NAME'); ?></th>
-				<th class="title">
-					<?php echo JHTML::_('grid.sort', JText::_('PLG_ACYMAILING_REDSHOP_PRODUCT_ID'), 'p.product_id', $pageInfo->filter->order->dir, $pageInfo->filter->order->value); ?>
-				</th>
-			</tr>
-			</thead>
-			<tfoot>
-			<tr style="cursor:pointer">
-				<td colspan="4">
-					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-						<div style="float: left; margin: 0 10px 0 0;">
-							<?php echo $pagination->getLimitBox(); ?>
-						</div>
-					<?php endif; ?>
-					<?php echo $pagination->getListFooter(); ?>
-				</td>
-			</tr>
-			</tfoot>
-		<?php
-		$k = 0;
 
-		for ($i = 0, $countProducts = count($rs); $i < $countProducts; $i++):
-			$row = $rs[$i];
-			?>
-			<tr style="cursor:pointer" class="row<?php echo $k; ?>" onclick="setTag('{product:<?php
-			echo $row->product_id; ?>}');insertTag();">
-				<td><?php echo $row->product_name; ?></td>
-				<td><?php echo $row->product_number; ?></td>
-				<td><?php echo $row->category_name; ?></td>
-				<td><?php echo $row->product_id; ?></td>
-			</tr>
-		<?php
-			$k = 1 - $k;
-		endfor; ?>
-		</table>
-		<input type="hidden" name="filter_order" value="<?php echo $pageInfo->filter->order->value; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $pageInfo->filter->order->dir; ?>" />
-		<?php
+		require_once JPluginHelper::getLayoutPath('content', 'pagenavigation');
 	}
 
-	public function acymailing_replaceusertagspreview(&$email)
+	/**
+	 * [acymailing_replaceusertagspreview description]
+	 * 
+	 * @param   string  &$email  description
+	 * 
+	 * @return  mixed
+	 */
+	public function acymailingReplaceUserTagsPreview(&$email)
 	{
-		return $this->acymailing_replaceusertags($email);
+		return $this->acymailingReplaceUserTags($email);
 	}
 
-	public function acymailing_replaceusertags(&$email)
+	/**
+	 * [acymailing_replaceusertags description]
+	 * 
+	 * @param   [string]  &$email  [description]
+	 * 
+	 * @return  [mixed]            [description]
+	 */
+	public function acymailingReplaceUserTags(&$email)
 	{
 		$match = '#{product(?:_name|_price|_thumb_image|):?([^:]*)}#Ui';
 		$variables = array('subject', 'body', 'altbody');
@@ -189,7 +181,8 @@ class plgAcymailingRedshop extends JPlugin
 	/**
 	 * Get redSHOP product information for Tag Replacement.
 	 *
-	 * @param   int  $product_id  The product ID
+	 * @param   int     $productId  The product ID
+	 * @param   string  $tag        The product ID
 	 *
 	 * @return mixed  Product Main Image,Product Name,Product Formatted Price
 	 */
@@ -199,18 +192,20 @@ class plgAcymailingRedshop extends JPlugin
 		$productHelper = productHelper::getInstance();
 		$helper        = redhelper::getInstance();
 
-		$templateId = trim($this->params->get('product_template', 1));
+		$templateId 	= trim($this->params->get('product_template', 1));
 		$templateDetail = $template->getTemplate('product_content_template', $templateId);
-		$product    = RedshopHelperProduct::getProductById($productId);
+		$product    	= RedshopHelperProduct::getProductById($productId);
 
 		// Get Product Formatted price as per redshop configuration
 		$productPrices = $productHelper->getProductNetPrice($productId);
 		$price         = $productPrices['productPrice'] + $productPrices['productVat'];
 		$price         = $productHelper->getProductFormattedPrice($price);
 
-		$link = JUri::root()
-			. 'index.php?option=com_redshop&view=product&pid=' . $productId
-			. '&Itemid=' . $helper->getItemid($productId);
+		$link = JRoute::_(
+					JUri::root()
+					. 'index.php?option=com_redshop&view=product&pid=' . $productId
+					. '&Itemid=' . $helper->getItemid($productId)
+				);
 
 		// Get product Image
 		$productImage = $productHelper->getProductImage(
@@ -220,11 +215,12 @@ class plgAcymailingRedshop extends JPlugin
 							Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT'),
 							0
 						);
+
 		$productImageLink = '<a href="' . $link . '">' . $productImage . '</a>';
 
 		$text = "<div>" . $productImageLink . "</div>"
-			. "<div>" . $product->product_name . "</div>"
-			. "<div>" . $price . "</div>";
+				. "<div>" . $product->product_name . "</div>"
+				. "<div>" . $price . "</div>";
 
 		if ($templateDetail[0]->template_desc && strpos($tag, 'product:') !== false)
 		{
@@ -238,18 +234,18 @@ class plgAcymailingRedshop extends JPlugin
 			$text = str_replace("{product_desc}", "", $text);
 
 			// Replace attribute template to null
-			$attribute_tag_arr = explode("attribute_template:", $text);
-			$attribute_tag_arr = explode("}", $attribute_tag_arr[1]);
-			$attribute_tag = "{attribute_template:" . $attribute_tag_arr[0] . "}";
-			$text = str_replace($attribute_tag, "", $text);
+			$attributeTagArr = explode("attribute_template:", $text);
+			$attributeTagArr = explode("}", $attributeTagArr[1]);
+			$attributeTag = "{attribute_template:" . $attributeTagArr[0] . "}";
+			$text = str_replace($attributeTag, "", $text);
 
 			// Replace add to cart template to null
 			if (strstr($text, 'form_addtocart:'))
 			{
-				$cart_tag_arr = explode("form_addtocart:", $text);
-				$cart_tag_arr = explode("}", $cart_tag_arr[1]);
-				$cart_tag     = "{form_addtocart:" . $cart_tag_arr[0] . "}";
-				$text         = str_replace($cart_tag, "", $text);
+				$cartTagArr = explode("form_addtocart:", $text);
+				$cartTagArr = explode("}", $cartTagArr[1]);
+				$cartTag     = "{form_addtocart:" . $cartTagArr[0] . "}";
+				$text         = str_replace($cartTag, "", $text);
 			}
 		}
 		elseif (strpos($tag, 'name:') !== false)
