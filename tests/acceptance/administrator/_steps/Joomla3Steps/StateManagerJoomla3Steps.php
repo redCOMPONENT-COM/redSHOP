@@ -34,10 +34,8 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$stateManagerPage = new \StateManagerJ3Page;
 		$I->amOnPage(\StateManagerJ3Page::$editUrl);
-		$I->see('States');
-		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Page');
-		$I->click('New');
-		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager New');
+		$I->see('State Management');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'States Manager New');
 		$I->click(\StateManagerJ3Page::$countryIdDropDown);
 		$I->click($stateManagerPage->countryID($countryName));
 		$I->fillField(\StateManagerJ3Page::$stateName, $stateName);
