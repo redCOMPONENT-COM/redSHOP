@@ -78,6 +78,33 @@ class RedshopHelperOrder
 	public static $orderStatusList = null;
 
 	/**
+	 * Billing addresses
+	 *
+	 * @var   array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $billingAddresses = array();
+
+	/**
+	 * Shipping addresses
+	 *
+	 * @var   array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $shippingAddresses = array();
+
+	/**
+	 * Shipping methods
+	 *
+	 * @var   array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $shippingMethods = array();
+
+	/**
 	 * Get order information from order id.
 	 *
 	 * @param   integer  $orderId  Order Id
@@ -118,7 +145,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $orderId  Order Id
 	 *
-	 * @return  object   Invoice number clean and formatted value
+	 * @return  mixed              Invoice number clean and formatted value
 	 */
 	public static function generateInvoiceNumber($orderId)
 	{
@@ -138,7 +165,7 @@ class RedshopHelperOrder
 		// Don't generate invoice number for free orders if disabled from config
 		if ($orderInfo->order_total <= 0 && ! (boolean) Redshop::getConfig()->get('INVOICE_NUMBER_FOR_FREE_ORDER'))
 		{
-			return;
+			return false;
 		}
 
 		$number          = $orderInfo->invoice_number_chrono;
@@ -344,7 +371,11 @@ class RedshopHelperOrder
 						'redshop_payment',
 						self::$payment[$orderId]->payment_method_class
 					);
-			$plugin->params = new JRegistry($plugin->params);
+
+			if ($plugin)
+			{
+				$plugin->params = new Registry($plugin->params);
+			}
 
 			// Set plugin information
 			self::$payment[$orderId]->plugin = $plugin;
@@ -1433,7 +1464,7 @@ class RedshopHelperOrder
 					$prodqty = $orderProducts[$i]->stockroom_quantity;
 
 					// When the order is set to "cancelled",product will return to stock
-					$stockroomHelper->manageStockAmount($prodid, $prodqty, $orderProducts[$i]->stockroom_id);
+					RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$i]->stockroom_id);
 					$productHelper->makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
 				}
 				break;
@@ -1592,24 +1623,30 @@ class RedshopHelperOrder
 	}
 
 	/**
-	 * Get order item detail
+	 * Get list item of an specific order.
 	 *
-	 * @param   integer  $orderId      Order ID
+	 * @param   mixed    $orderId      Order ID
 	 * @param   integer  $productId    Product ID
 	 * @param   integer  $orderItemId  Order Item ID
 	 *
-	 * @return  boolean/array
+	 * @return  mixed
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getOrderItemDetail($orderId = 0, $productId = 0, $orderItemId = 0)
 	{
+		// Make sure at least one options has been pass.
+		if (empty($orderId) && !$productId && !$orderItemId)
+		{
+			return false;
+		}
+
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_order_item'));
+			->select('*')
+			->from($db->qn('#__redshop_order_item'));
 
-		if ($orderId != 0)
+		if (!empty($orderId))
 		{
 			$orderId = explode(',', $orderId);
 			$orderId = ArrayHelper::toInteger($orderId);
@@ -1677,23 +1714,28 @@ class RedshopHelperOrder
 	 */
 	public static function getShippingMethodInfo($shippingClass = '')
 	{
-		$db = JFactory::getDbo();
+		$key = (!empty($shippingClass)) ? $shippingClass : '0';
 
-		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__extensions'))
-					->where($db->qn('enabled') . ' = ' . $db->quote('1'))
-					->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote('redshop_shipping'))
-					->order($db->qn('ordering') . ' ASC');
-
-		if ($shippingClass != '')
+		if (!array_key_exists($key, static::$shippingMethods))
 		{
-			$query->where($db->qn('element') . ' = ' . $db->quote($shippingClass));
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__extensions'))
+				->where($db->qn('enabled') . ' = ' . $db->quote('1'))
+				->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote('redshop_shipping'))
+				->order($db->qn('ordering') . ' ASC');
+
+			if (!empty($shippingClass))
+			{
+				$query->where($db->qn('element') . ' = ' . $db->quote($shippingClass));
+			}
+
+			static::$shippingMethods = $db->setQuery($query)->loadObjectList();
 		}
 
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return static::$shippingMethods;
 	}
 
 	/**
@@ -1731,33 +1773,38 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User ID
 	 *
-	 * @return  array
+	 * @return  mixed             Object data if success. False otherwise.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getBillingAddress($userId = 0)
 	{
-		$db     = JFactory::getDbo();
-		$user   = JFactory::getUser();
-		$list    = array();
-
 		if ($userId == 0)
 		{
+			$user = JFactory::getUser();
 			$userId = $user->id;
 		}
 
-		if ($userId)
+		if (!$userId)
 		{
+			return false;
+		}
+
+		if (!array_key_exists($userId, static::$billingAddresses))
+		{
+			$db = JFactory::getDbo();
+
 			$query = $db->getQuery(true)
 				->select('*')
 				->select('CONCAT(' . $db->qn('firstname') . '," ",' . $db->qn('lastname') . ') AS text')
 				->from($db->qn('#__redshop_users_info'))
 				->where($db->qn('address_type') . ' = ' . $db->quote('BT'))
 				->where($db->qn('user_id') . ' = ' . (int) $userId);
-			$list = $db->setQuery($query)->loadObject();
+
+			static::$billingAddresses[$userId] = $db->setQuery($query)->loadObject();
 		}
 
-		return $list;
+		return static::$billingAddresses[$userId];
 	}
 
 	/**
@@ -1771,23 +1818,32 @@ class RedshopHelperOrder
 	 */
 	public static function getShippingAddress($userId = 0)
 	{
-		$db   = JFactory::getDbo();
-		$user = JFactory::getUser();
-
 		if ($userId == 0)
 		{
+			$user   = JFactory::getUser();
 			$userId = $user->id;
 		}
 
-		$query = $db->getQuery(true)
-					->select('*')
-					->select('CONCAT(' . $db->qn('firstname') . '," ",' . $db->qn('lastname') . ') AS text')
-					->from($db->qn('#__redshop_users_info'))
-					->where($db->qn('address_type') . ' = ' . $db->quote('ST'))
-					->where($db->qn('user_id') . ' = ' . (int) $userId);
-		$db->setQuery($query);
+		if (!$userId)
+		{
+			return false;
+		}
 
-		return $db->loadObjectlist();
+		if (!array_key_exists($userId, static::$shippingAddresses))
+		{
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select('*')
+				->select('CONCAT(' . $db->qn('firstname') . '," ",' . $db->qn('lastname') . ') AS text')
+				->from($db->qn('#__redshop_users_info'))
+				->where($db->qn('address_type') . ' = ' . $db->quote('ST'))
+				->where($db->qn('user_id') . ' = ' . (int) $userId);
+
+			static::$shippingAddresses[$userId] = $db->setQuery($query)->loadObjectList();
+		}
+
+		return static::$shippingAddresses[$userId];
 	}
 
 	/**
@@ -1956,14 +2012,13 @@ class RedshopHelperOrder
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') && JPluginHelper::isEnabled('economic'))
 		{
 			$query = $db->getQuery(true)
-						->select($db->qn('order_number'))
-						->from($db->qn('#__redshop_orders'))
-						->where($db->qn('order_id') . ' = ' . (int) $maxId);
+				->select($db->qn('order_number'))
+				->from($db->qn('#__redshop_orders'))
+				->where($db->qn('order_id') . ' = ' . (int) $maxId);
 			$db->setQuery($query);
 
 			$maxOrderNumber = $db->loadResult();
-			$economic       = economic::getInstance();
-			$maxInvoice     = $economic->getMaxOrderNumberInEconomic();
+			$maxInvoice     = RedshopEconomic::getMaxOrderNumberInEconomic();
 			$maxId          = max(intval($maxOrderNumber), $maxInvoice);
 		}
 		elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
@@ -2103,7 +2158,7 @@ class RedshopHelperOrder
 		$mailData    = "";
 		$mailSubject = "";
 		$mailBcc     = null;
-		$mailInfo    = $redshopMail->getMailtemplate(0, "downloadable_product_mail");
+		$mailInfo    = RedshopHelperMail::getMailTemplate(0, "downloadable_product_mail");
 
 		if (count($mailInfo) > 0)
 		{
@@ -2174,7 +2229,7 @@ class RedshopHelperOrder
 
 		$mailData = $productStart . $pMiddle . $productEnd;
 		$mailBody = $mailData;
-		$mailBody = $redshopMail->imginmail($mailBody);
+		$mailBody = RedshopHelperMail::imgInMail($mailBody);
 		$mailSubject = str_replace("{order_number}", $orderDetail->order_number, $mailSubject);
 
 		if ($mailBody && $userEmail != "")
@@ -2414,7 +2469,9 @@ class RedshopHelperOrder
 		$mailFrom     = $app->get('mailfrom');
 		$fromName     = $app->get('fromname');
 		$mailBcc      = null;
-		$mailTemplate = $redshopMail->getMailtemplate(0, '', '`mail_section` LIKE "order_status" AND `mail_order_status` LIKE "' . $newStatus . '"');
+		$mailTemplate = RedshopHelperMail::getMailTemplate(
+			0, '', '`mail_section` LIKE "order_status" AND `mail_order_status` LIKE "' . $newStatus . '"'
+		);
 
 		if (count($mailTemplate) > 0)
 		{
@@ -2585,11 +2642,10 @@ class RedshopHelperOrder
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 1)
 		{
-			$economic = economic::getInstance();
-
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2 && $orderStatus == Redshop::getConfig()->get('BOOKING_ORDER_STATUS'))
 			{
-				$paymentInfo = self::getPaymentInfo($orderId);
+				$paymentInfo  = self::getPaymentInfo($orderId);
+				$economicData = array();
 
 				if (count($paymentInfo) > 0)
 				{
@@ -2601,28 +2657,26 @@ class RedshopHelperOrder
 						$paymentName = $paymentArr[1];
 					}
 
-					$economicData  = array();
 					$economicData['economic_payment_method'] = $paymentName;
 					$paymentMethod = self::getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
 
 					if (count($paymentMethod) > 0)
 					{
-						$paymentParams = new JRegistry($paymentMethod[0]->params);
+						$paymentParams = new Registry($paymentMethod[0]->params);
 						$economicData['economic_payment_terms_id'] = $paymentParams->get('economic_payment_terms_id');
 						$economicData['economic_design_layout']    = $paymentParams->get('economic_design_layout');
 						$economicData['economic_is_creditcard']    = $paymentParams->get('is_creditcard');
 					}
 				}
 
-				$economic->createInvoiceInEconomic($orderId, $economicData);
+				RedshopEconomic::createInvoiceInEconomic($orderId, $economicData);
 			}
 
-			$bookInvoicePdf = $economic->bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
+			$bookInvoicePdf = RedshopEconomic::bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
 
 			if (is_file($bookInvoicePdf))
 			{
-				$redshopMail = redshopMail::getInstance();
-				$redshopMail->sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
+				RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
 			}
 		}
 	}
@@ -2638,7 +2692,7 @@ class RedshopHelperOrder
 	 */
 	public static function createMultiPrintInvoicePdf($orderId)
 	{
-		return redshopMail::getInstance()->createMultiprintInvoicePdf($orderId);
+		return RedshopHelperMail::createMultiprintInvoicePdf($orderId);
 	}
 
 	/**
@@ -2657,9 +2711,10 @@ class RedshopHelperOrder
 			return;
 		}
 
-		$redTemplate = Redtemplate::getInstance();
-		$pdfObj      = RedshopHelperPdf::getInstance();
-		$cartHelper  = rsCarthelper::getInstance();
+		jimport('joomla.filesystem.folder');
+
+		$pdfObj     = RedshopHelperPdf::getInstance();
+		$cartHelper = rsCarthelper::getInstance();
 
 		$pdfObj->SetTitle('Invoice ' . $orderId);
 
@@ -2675,7 +2730,7 @@ class RedshopHelperOrder
 		$pdfObj->SetFont($font, "", 6);
 
 		$orderDetail   = self::getOrderDetails($orderId);
-		$orderTemplate = $redTemplate->getTemplate("order_print");
+		$orderTemplate = RedshopHelperTemplate::getTemplate(0, "order_print");
 
 		if (count($orderTemplate) > 0 && $orderTemplate[0]->template_desc != "")
 		{
@@ -2771,7 +2826,7 @@ class RedshopHelperOrder
 			$orderDetails   = self::getOrderDetails($orderId);
 			$details        = RedshopShippingRate::decrypt($orderDetails->ship_method_id);
 
-			$shippingParams = new JRegistry(
+			$shippingParams = new Registry(
 								JPluginHelper::getPlugin(
 									'redshop_shipping',
 									str_replace(
@@ -2870,7 +2925,7 @@ class RedshopHelperOrder
 				$prodqty = $orderProducts[$j]->stockroom_quantity;
 
 				// When the order is set to "cancelled",product will return to stock
-				$stockroomHelper->manageStockAmount($prodid, $prodqty, $orderProducts[$j]->stockroom_id);
+				RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$j]->stockroom_id);
 				$productHelper->makeAttributeOrder($orderProducts[$j]->order_item_id, 0, $prodid, 1);
 			}
 		}

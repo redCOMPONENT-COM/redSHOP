@@ -1,7 +1,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
-
 -- -----------------------------------------------------
 -- Table `#__redshop_accessmanager`
 -- -----------------------------------------------------
@@ -57,7 +56,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_cart` (
   INDEX `idx_session_id` (`session_id` ASC),
   INDEX `idx_product_id` (`product_id` ASC),
   INDEX `idx_section` (`section` ASC),
-  INDEX `idx_time` (`time` ASC))
+  INDEX `idx_time` (`time` ASC),
+  PRIMARY KEY (`session_id`, `product_id`, `section`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Cart';
@@ -296,12 +296,97 @@ COMMENT = 'redSHOP Currency Detail';
 
 
 -- -----------------------------------------------------
+-- Table `#__redshop_product`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__redshop_product` ;
+
+CREATE TABLE IF NOT EXISTS `#__redshop_product` (
+  `product_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `product_parent_id` INT(11) NOT NULL,
+  `manufacturer_id` INT(11) NOT NULL,
+  `supplier_id` INT(11) NOT NULL,
+  `product_on_sale` TINYINT(4) NOT NULL,
+  `product_special` TINYINT(4) NOT NULL,
+  `product_download` TINYINT(4) NOT NULL,
+  `product_template` INT(11) NOT NULL,
+  `product_name` VARCHAR(250) NOT NULL,
+  `product_price` DOUBLE NOT NULL,
+  `discount_price` DOUBLE NOT NULL,
+  `discount_stratdate` INT(11) NOT NULL,
+  `discount_enddate` INT(11) NOT NULL,
+  `product_number` VARCHAR(250) NOT NULL,
+  `product_type` VARCHAR(20) NOT NULL,
+  `product_s_desc` LONGTEXT NOT NULL,
+  `product_desc` LONGTEXT NOT NULL,
+  `product_volume` DOUBLE NOT NULL,
+  `product_tax_id` INT(11) NOT NULL,
+  `published` TINYINT(4) NOT NULL,
+  `product_thumb_image` VARCHAR(250) NOT NULL,
+  `product_full_image` VARCHAR(250) NOT NULL,
+  `publish_date` DATETIME NOT NULL,
+  `update_date` TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `visited` INT(11) NOT NULL,
+  `metakey` TEXT NOT NULL,
+  `metadesc` TEXT NOT NULL,
+  `metalanguage_setting` TEXT NOT NULL,
+  `metarobot_info` TEXT NOT NULL,
+  `pagetitle` TEXT NOT NULL,
+  `pageheading` TEXT NOT NULL,
+  `sef_url` TEXT NOT NULL,
+  `cat_in_sefurl` INT(11) NOT NULL,
+  `weight` FLOAT(10,3) NOT NULL,
+  `expired` TINYINT(4) NOT NULL,
+  `not_for_sale` TINYINT(4) NOT NULL,
+  `use_discount_calc` TINYINT(4) NOT NULL,
+  `discount_calc_method` VARCHAR(255) NOT NULL,
+  `min_order_product_quantity` INT(11) NOT NULL,
+  `attribute_set_id` INT(11) NOT NULL,
+  `product_length` DECIMAL(10,2) NOT NULL,
+  `product_height` DECIMAL(10,2) NOT NULL,
+  `product_width` DECIMAL(10,2) NOT NULL,
+  `product_diameter` DECIMAL(10,2) NOT NULL,
+  `product_availability_date` INT(11) NOT NULL,
+  `use_range` TINYINT(4) NOT NULL,
+  `product_tax_group_id` INT(11) NOT NULL,
+  `product_download_days` INT(11) NOT NULL,
+  `product_download_limit` INT(11) NOT NULL,
+  `product_download_clock` INT(11) NOT NULL,
+  `product_download_clock_min` INT(11) NOT NULL,
+  `accountgroup_id` INT(11) NOT NULL,
+  `canonical_url` TEXT NOT NULL,
+  `minimum_per_product_total` INT(11) NOT NULL,
+  `allow_decimal_piece` INT(4) NOT NULL,
+  `quantity_selectbox_value` VARCHAR(255) NOT NULL,
+  `checked_out` INT(11) NOT NULL,
+  `checked_out_time` DATETIME NOT NULL,
+  `max_order_product_quantity` INT(11) NOT NULL,
+  `product_download_infinite` TINYINT(4) NOT NULL,
+  `product_back_full_image` VARCHAR(250) NOT NULL,
+  `product_back_thumb_image` VARCHAR(250) NOT NULL,
+  `product_preview_image` VARCHAR(250) NOT NULL,
+  `product_preview_back_image` VARCHAR(250) NOT NULL,
+  `preorder` VARCHAR(255) NOT NULL,
+  `append_to_global_seo` ENUM('append', 'prepend', 'replace') NOT NULL DEFAULT 'append',
+  PRIMARY KEY (`product_id`),
+  UNIQUE INDEX `idx_product_number` (`product_number` ASC),
+  INDEX `idx_manufacturer_id` (`manufacturer_id` ASC),
+  INDEX `idx_product_on_sale` (`product_on_sale` ASC),
+  INDEX `idx_product_special` (`product_special` ASC),
+  INDEX `idx_product_parent_id` (`product_parent_id` ASC),
+  INDEX `idx_common` (`published` ASC, `expired` ASC, `product_parent_id` ASC),
+  INDEX `#__rs_product_supplier_fk1` (`supplier_id` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'redSHOP Products';
+
+
+-- -----------------------------------------------------
 -- Table `#__redshop_customer_question`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `#__redshop_customer_question` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_customer_question` (
-  `question_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `parent_id` INT(11) NOT NULL,
   `product_id` INT(11) NOT NULL,
   `question` LONGTEXT NOT NULL,
@@ -313,10 +398,15 @@ CREATE TABLE IF NOT EXISTS `#__redshop_customer_question` (
   `ordering` INT(11) NOT NULL,
   `telephone` VARCHAR(50) NOT NULL,
   `address` VARCHAR(250) NOT NULL,
-  PRIMARY KEY (`question_id`),
-  INDEX `idx_published` (`published` ASC),
-  INDEX `idx_product_id` (`product_id` ASC),
-  INDEX `idx_parent_id` (`parent_id` ASC))
+  PRIMARY KEY (`id`),
+  INDEX `#__rs_idx_published` (`published` ASC),
+  INDEX `#__rs_idx_product_id` (`product_id` ASC),
+  INDEX `#__rs_idx_parent_id` (`parent_id` ASC),
+  CONSTRAINT `#__rs_customer_question_fk1`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `#__redshop_product` (`product_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Customer Question';
@@ -622,7 +712,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_media` (
   INDEX `idx_media_section` (`media_section` ASC),
   INDEX `idx_media_type` (`media_type` ASC),
   INDEX `idx_media_name` (`media_name` ASC),
-  INDEX `idx_published` (`published` ASC))
+  INDEX `idx_published` (`published` ASC),
+  INDEX `#__rs_idx_media_common` USING BTREE (`section_id` ASC, `media_section` ASC, `media_type` ASC, `published` ASC, `ordering` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Media';
@@ -962,10 +1053,16 @@ CREATE TABLE IF NOT EXISTS `#__redshop_order_status` (
   `order_status_id` INT(11) NOT NULL AUTO_INCREMENT,
   `order_status_code` VARCHAR(64) NOT NULL,
   `order_status_name` VARCHAR(64) NULL DEFAULT NULL,
-  `published` TINYINT(4) NOT NULL,
+  `published` TINYINT(4) NOT NULL DEFAULT 0,
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`order_status_id`),
-  UNIQUE INDEX `order_status_code` (`order_status_code` ASC),
-  INDEX `idx_published` (`published` ASC))
+  UNIQUE INDEX `#__rs_idx_order_status_code` (`order_status_code` ASC),
+  INDEX `#__rs_idx_order_status_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Orders Status';
@@ -1047,93 +1144,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_pageviewer` (
   INDEX `idx_section` (`section` ASC),
   INDEX `idx_section_id` (`section_id` ASC),
   INDEX `idx_created_date` (`created_date` ASC))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'redSHOP Page Viewer';
-
-
--- -----------------------------------------------------
--- Table `#__redshop_product`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__redshop_product` ;
-
-CREATE TABLE IF NOT EXISTS `#__redshop_product` (
-  `product_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `product_parent_id` INT(11) NOT NULL,
-  `manufacturer_id` INT(11) NOT NULL,
-  `supplier_id` INT(11) NOT NULL,
-  `product_on_sale` TINYINT(4) NOT NULL,
-  `product_special` TINYINT(4) NOT NULL,
-  `product_download` TINYINT(4) NOT NULL,
-  `product_template` INT(11) NOT NULL,
-  `product_name` VARCHAR(250) NOT NULL,
-  `product_price` DOUBLE NOT NULL,
-  `discount_price` DOUBLE NOT NULL,
-  `discount_stratdate` INT(11) NOT NULL,
-  `discount_enddate` INT(11) NOT NULL,
-  `product_number` VARCHAR(250) NOT NULL,
-  `product_type` VARCHAR(20) NOT NULL,
-  `product_s_desc` LONGTEXT NOT NULL,
-  `product_desc` LONGTEXT NOT NULL,
-  `product_volume` DOUBLE NOT NULL,
-  `product_tax_id` INT(11) NOT NULL,
-  `published` TINYINT(4) NOT NULL,
-  `product_thumb_image` VARCHAR(250) NOT NULL,
-  `product_full_image` VARCHAR(250) NOT NULL,
-  `publish_date` DATETIME NOT NULL,
-  `update_date` TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `visited` INT(11) NOT NULL,
-  `metakey` TEXT NOT NULL,
-  `metadesc` TEXT NOT NULL,
-  `metalanguage_setting` TEXT NOT NULL,
-  `metarobot_info` TEXT NOT NULL,
-  `pagetitle` TEXT NOT NULL,
-  `pageheading` TEXT NOT NULL,
-  `sef_url` TEXT NOT NULL,
-  `cat_in_sefurl` INT(11) NOT NULL,
-  `weight` FLOAT(10,3) NOT NULL,
-  `expired` TINYINT(4) NOT NULL,
-  `not_for_sale` TINYINT(4) NOT NULL,
-  `use_discount_calc` TINYINT(4) NOT NULL,
-  `discount_calc_method` VARCHAR(255) NOT NULL,
-  `min_order_product_quantity` INT(11) NOT NULL,
-  `attribute_set_id` INT(11) NOT NULL,
-  `product_length` DECIMAL(10,2) NOT NULL,
-  `product_height` DECIMAL(10,2) NOT NULL,
-  `product_width` DECIMAL(10,2) NOT NULL,
-  `product_diameter` DECIMAL(10,2) NOT NULL,
-  `product_availability_date` INT(11) NOT NULL,
-  `use_range` TINYINT(4) NOT NULL,
-  `product_tax_group_id` INT(11) NOT NULL,
-  `product_download_days` INT(11) NOT NULL,
-  `product_download_limit` INT(11) NOT NULL,
-  `product_download_clock` INT(11) NOT NULL,
-  `product_download_clock_min` INT(11) NOT NULL,
-  `accountgroup_id` INT(11) NOT NULL,
-  `canonical_url` TEXT NOT NULL,
-  `minimum_per_product_total` INT(11) NOT NULL,
-  `allow_decimal_piece` INT(4) NOT NULL,
-  `quantity_selectbox_value` VARCHAR(255) NOT NULL,
-  `checked_out` INT(11) NOT NULL,
-  `checked_out_time` DATETIME NOT NULL,
-  `max_order_product_quantity` INT(11) NOT NULL,
-  `product_download_infinite` TINYINT(4) NOT NULL,
-  `product_back_full_image` VARCHAR(250) NOT NULL,
-  `product_back_thumb_image` VARCHAR(250) NOT NULL,
-  `product_preview_image` VARCHAR(250) NOT NULL,
-  `product_preview_back_image` VARCHAR(250) NOT NULL,
-  `preorder` VARCHAR(255) NOT NULL,
-  `append_to_global_seo` ENUM('append', 'prepend', 'replace') NOT NULL DEFAULT 'append',
-  PRIMARY KEY (`product_id`),
-  UNIQUE INDEX `idx_product_number` (`product_number` ASC),
-  INDEX `idx_manufacturer_id` (`manufacturer_id` ASC),
-  INDEX `idx_product_on_sale` (`product_on_sale` ASC),
-  INDEX `idx_product_special` (`product_special` ASC),
-  INDEX `idx_product_parent_id` (`product_parent_id` ASC),
-  INDEX `idx_common` (`published` ASC, `expired` ASC, `product_parent_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
-COMMENT = 'redSHOP Products';
+COMMENT = 'redSHOP Page Viewer';
 
 
 -- -----------------------------------------------------
@@ -1917,7 +1930,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_siteviewer` (
   PRIMARY KEY (`id`),
   INDEX `idx_session_id` (`session_id` ASC),
   INDEX `idx_created_date` (`created_date` ASC))
-ENGINE = MyISAM
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Site Viewer';
 
@@ -2017,12 +2030,19 @@ COMMENT = 'redSHOP Subscription Renewal';
 DROP TABLE IF EXISTS `#__redshop_supplier` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_supplier` (
-  `supplier_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `supplier_name` VARCHAR(250) NOT NULL,
-  `supplier_desc` LONGTEXT NOT NULL,
-  `supplier_email` VARCHAR(255) NOT NULL,
-  `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`supplier_id`))
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
+  `description` TEXT NOT NULL DEFAULT '',
+  `email` VARCHAR(255) NOT NULL DEFAULT '',
+  `published` TINYINT(4) NOT NULL DEFAULT 0,
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` VARCHAR(45) NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  INDEX `#__rs_idx_supplier_published` (`published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Supplier';
@@ -2050,14 +2070,19 @@ COMMENT = 'redSHOP Tax Group';
 DROP TABLE IF EXISTS `#__redshop_tax_rate` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_tax_rate` (
-  `tax_rate_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
   `tax_state` VARCHAR(64) NULL DEFAULT NULL,
   `tax_country` VARCHAR(64) NULL DEFAULT NULL,
   `mdate` INT(11) NULL DEFAULT NULL,
   `tax_rate` DECIMAL(10,4) NULL DEFAULT NULL,
   `tax_group_id` INT(11) NOT NULL,
   `is_eu_country` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`tax_rate_id`),
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
   INDEX `idx_tax_group_id` (`tax_group_id` ASC),
   INDEX `idx_tax_country` (`tax_country` ASC),
   INDEX `idx_tax_state` (`tax_state` ASC),
@@ -2473,6 +2498,48 @@ CREATE TABLE IF NOT EXISTS `#__redshop_alerts` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Notification Alert';
+
+
+-- -----------------------------------------------------
+-- Table `#__redshop_wishlist_product_item`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__redshop_wishlist_product_item` ;
+
+CREATE TABLE IF NOT EXISTS `#__redshop_wishlist_product_item` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
+  `ref_id` INT(11) NOT NULL COMMENT 'Wishlist Reference ID',
+  `attribute_id` INT(11) NULL DEFAULT NULL COMMENT 'Product Attribute ID',
+  `property_id` INT(11) NULL DEFAULT NULL COMMENT 'Product Attribute Property ID',
+  `subattribute_id` INT(11) NULL DEFAULT NULL COMMENT 'Product Sub-Attribute ID',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `#__idx_wishlist_prod_item_unique` (`ref_id` ASC, `attribute_id` ASC, `property_id` ASC, `subattribute_id` ASC),
+  INDEX `#__wishlist_prod_item_fk2` (`attribute_id` ASC),
+  INDEX `#__wishlist_prod_item_fk3` (`property_id` ASC),
+  INDEX `#__wishlist_prod_item_fk4` (`subattribute_id` ASC),
+  INDEX `#__wishlist_prod_item_fk1` (`ref_id` ASC),
+  CONSTRAINT `#__wishlist_prod_item_fk1`
+    FOREIGN KEY (`ref_id`)
+    REFERENCES `#__redshop_wishlist_product` (`wishlist_product_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `#__wishlist_prod_item_fk2`
+    FOREIGN KEY (`attribute_id`)
+    REFERENCES `#__redshop_product_attribute` (`attribute_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `#__wishlist_prod_item_fk3`
+    FOREIGN KEY (`property_id`)
+    REFERENCES `#__redshop_product_attribute_property` (`property_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `#__wishlist_prod_item_fk4`
+    FOREIGN KEY (`subattribute_id`)
+    REFERENCES `#__redshop_product_subattribute_color` (`subattribute_color_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'Wishlist product item';
 
 
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

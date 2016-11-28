@@ -15,5 +15,5 @@
  */
 class SupplierManagerPage
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=supplier';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=suppliers';
 }

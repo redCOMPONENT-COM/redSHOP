@@ -21,6 +21,7 @@
       "redshop_currencies",
       "redshop_discount",
       "redshop_logingreeting",
+      "redshop_megamenu",
       "redshop_newsletter",
       "redshop_pricefilter",
       "redshop_productcompare",
@@ -52,6 +53,9 @@
       "product"
     ],
     "finder": [
+      "redshop"
+    ],
+    "logman": [
       "redshop"
     ],
     "quickicon": [

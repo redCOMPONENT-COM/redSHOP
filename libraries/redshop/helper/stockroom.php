@@ -76,6 +76,11 @@ class RedshopHelperStockroom
 
 		$stockroomId = ArrayHelper::toInteger($stockroomId);
 
+		if (empty($stockroomId))
+		{
+			return array();
+		}
+
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true)
 			->select('*')
@@ -501,13 +506,12 @@ class RedshopHelperStockroom
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('*')
+				->select('DISTINCT(s.stockroom_id), s.*, x.*')
 				->from($db->qn($table, 'x'))
 				->leftJoin(
 					$db->qn('#__redshop_stockroom', 's') . ' ON '
 					. $db->qn('x.stockroom_id') . ' = ' . $db->qn('s.stockroom_id')
 				)
-				->where($db->qn('x.quantity') . ' > 0')
 				->order($db->qn('s.min_del_time'));
 
 			if ($sectionId != 0)
@@ -560,7 +564,7 @@ class RedshopHelperStockroom
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('*')
+				->select('DISTINCT(s.stockroom_id), s.*, x.*')
 				->from($db->qn($table, 'x'))
 				->leftJoin(
 					$db->qn('#__redshop_stockroom', 's') . ' ON '
@@ -612,14 +616,14 @@ class RedshopHelperStockroom
 
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
-			$list = self::getStockroomAmountDetailList($sectionId, $section);
+			$stockrooms = self::getStockroomAmountDetailList($sectionId, $section);
 
-			for ($i = 0, $in = count($list); $i < $in; $i++)
+			foreach ($stockrooms as $stockroom)
 			{
-				if ($list[$i]->quantity < $quantity)
+				if ($stockroom->quantity < $quantity)
 				{
-					$quantity          = $quantity - $list[$i]->quantity;
-					$remainingQuantity = $list[$i]->quantity;
+					$quantity          = $quantity - $stockroom->quantity;
+					$remainingQuantity = $stockroom->quantity;
 				}
 				else
 				{
@@ -629,12 +633,12 @@ class RedshopHelperStockroom
 
 				if ($remainingQuantity > 0)
 				{
-					self::updateStockAmount($sectionId, $remainingQuantity, $list[$i]->stockroom_id, $section);
-					$affectedRow[]       = $list[$i]->stockroom_id;
+					self::updateStockAmount($sectionId, $remainingQuantity, $stockroom->stockroom_id, $section);
+					$affectedRow[]       = $stockroom->stockroom_id;
 					$stockroomQuantity[] = $remainingQuantity;
 				}
 
-				$stockroomDetail = self::getStockroomAmountDetailList($sectionId, $section, $list[$i]->stockroom_id);
+				$stockroomDetail = self::getStockroomAmountDetailList($sectionId, $section, $stockroom->stockroom_id);
 				$remaining       = $stockroomDetail[0]->quantity - $quantity;
 
 				if (Redshop::getConfig()->get('ENABLE_STOCKROOM_NOTIFICATION') == 1
@@ -691,7 +695,7 @@ class RedshopHelperStockroom
 
 						if ($remainingQuantity > 0)
 						{
-							self::updatePreorderStockAmount($sectionId, $remainingQuantity, $preorderList[$i]->stockroom_id, $section);
+							self::updatePreorderStockAmount($sectionId, $remainingQuantity, $stockroom->stockroom_id, $section);
 						}
 					}
 				}
@@ -721,48 +725,45 @@ class RedshopHelperStockroom
 	 */
 	public static function updateStockAmount($sectionId = 0, $quantity = 0, $stockroomId = 0, $section = "product")
 	{
-		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
+		if (!Redshop::getConfig()->get('USE_STOCKROOM') || !$sectionId)
 		{
-			$table = "#__redshop_product_stockroom_xref";
-
-			if ($section != "product")
-			{
-				$table = "#__redshop_product_attribute_stockroom_xref";
-			}
-
-			$db = JFactory::getDbo();
-
-			if ($sectionId != 0)
-			{
-				$fields = array(
-					$db->qn('quantity') . ' = ' . $db->q('quantity - ' . (int) $quantity)
-				);
-
-				$conditions = array(
-					$db->qn('stockroom_id') . ' = ' . $db->q((int) $stockroomId),
-					$db->qn('quantity') . ' > 0'
-				);
-
-				if ($section != "product")
-				{
-					$conditions[] = $db->qn('section') . ' = ' . $db->q($section);
-					$conditions[] = $db->qn('section_id') . ' = ' . $db->q((int) $sectionId);
-				}
-				else
-				{
-					$conditions[] = $db->qn('product_id') . ' = ' . $db->q((int) $sectionId);
-				}
-
-				$query = $db->getQuery(true)
-					->update($db->qn($table))
-					->set($fields)
-					->where($conditions);
-
-				$db->setQuery($query)->execute();
-			}
+			return true;
 		}
 
-		return true;
+		$table = "#__redshop_product_stockroom_xref";
+
+		if ($section != "product")
+		{
+			$table = "#__redshop_product_attribute_stockroom_xref";
+		}
+
+		$db = JFactory::getDbo();
+
+		$fields = array(
+			$db->qn('quantity') . ' = ' . $db->qn('quantity') . ' - ' . (int) $quantity
+		);
+
+		$conditions = array(
+			$db->qn('stockroom_id') . ' = ' . (int) $stockroomId,
+			$db->qn('quantity') . ' > 0'
+		);
+
+		if ($section != "product")
+		{
+			$conditions[] = $db->qn('section') . ' = ' . $db->quote($section);
+			$conditions[] = $db->qn('section_id') . ' = ' . (int) $sectionId;
+		}
+		else
+		{
+			$conditions[] = $db->qn('product_id') . ' = ' . (int) $sectionId;
+		}
+
+		$query = $db->getQuery(true)
+			->update($db->qn($table))
+			->set($fields)
+			->where($conditions);
+
+		return $db->setQuery($query)->execute();
 	}
 
 	/**
@@ -912,14 +913,12 @@ class RedshopHelperStockroom
 			{
 				$list = self::getStockroomAmountDetailList($sectionId, $section);
 
-				for ($i = 0, $in = count($list); $i < $in; $i++)
-				{
-					$productinstock .= "<div><span>"
-						. $list[$i]->stockroom_name
-						. "</span>:<span>"
-						. $list[$i]->quantity
-						. "</span></div>";
-				}
+				$productinstock = RedshopLayoutHelper::render(
+									'product.stockroom_detail',
+                                    array(
+                                        'stockroomDetails' => $list
+                                    )
+                                );
 			}
 
 			$templateDesc = str_replace('{stockroom_detail}', $productinstock, $templateDesc);
@@ -945,14 +944,9 @@ class RedshopHelperStockroom
 
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
-			if ($stockAmount == 0)
-			{
-				$stockAmount = self::getStockAmountwithReserve($sectionId, $section);
-			}
-
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('*')
+				->select('DISTINCT(sm.stock_amount_id), sm.*')
 				->from($db->qn('#__redshop_stockroom_amount_image', 'sm'))
 				->leftJoin(
 					$db->qn('#__redshop_product_stockroom_xref', 'sx') . ' ON '
@@ -962,31 +956,30 @@ class RedshopHelperStockroom
 					$db->qn('#__redshop_stockroom', 's') . ' ON '
 					. $db->qn('sx.stockroom_id') . ' = ' . $db->qn('s.stockroom_id')
 				)
-				->where($db->qn('sx.quantity') . ' > 0')
-				->where($db->qn('sx.product_id') . ' = ' . $db->q('sectionId'));
-
-			$query1 = $query->where($db->qn('stock_option') . ' = 2')
+				->where($db->qn('stock_option') . ' = 2')
 				->where($db->qn('stock_quantity') . ' = ' . (int) $stockAmount);
 
-			$list = $db->setQuery($query1)->loadObjectList();
+			$list = $db->setQuery($query)->loadObjectList();
 
 			if (count($list) <= 0)
 			{
-				$query1 = $query->where($db->qn('stock_option') . ' = 1')
+				$query->clear('where')
+					->where($db->qn('stock_option') . ' = 1')
 					->where($db->qn('stock_quantity') . ' < ' . $db->q((int) $stockAmount))
 					->order($db->qn('stock_quantity') . ' DESC')
 					->order($db->qn('s.max_del_time') . ' ASC');
 
-				$list = $db->setQuery($query1)->loadObjectList();
+				$list = $db->setQuery($query)->loadObjectList();
 
 				if (count($list) <= 0)
 				{
-					$query1 = $query->where($db->qn('stock_option') . ' = 3')
+					$query->clear('where')
+						->where($db->qn('stock_option') . ' = 3')
 						->where($db->qn('stock_quantity') . ' > ' . $db->q((int) $stockAmount))
 						->order($db->qn('stock_quantity') . ' ASC')
 						->order($db->qn('s.max_del_time') . ' ASC');
 
-					$list = $db->setQuery($query1)->loadObjectList();
+					$list = $db->setQuery($query)->loadObjectList();
 				}
 			}
 		}
