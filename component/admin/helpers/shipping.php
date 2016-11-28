@@ -39,15 +39,15 @@ class shipping
 	/**
 	 * Get Shipping rate for cart
 	 *
-	 * @param   array  $d  Shipping data
+	 * @param   array  $data  Shipping data
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperShipping::getDefaultShipping($d) instead
 	 */
-	public function getDefaultShipping($d)
+	public function getDefaultShipping($data)
 	{
-		return RedshopHelperShipping::getDefaultShipping($d);
+		return RedshopHelperShipping::getDefaultShipping($data);
 	}
 
 	/**

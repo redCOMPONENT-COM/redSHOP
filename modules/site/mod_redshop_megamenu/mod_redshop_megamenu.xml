@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="site" method="upgrade">
+    <name>MOD_REDSHOP_MEGAMENU</name>
+    <creationDate>September 2015</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <version>1.0.0</version>
+    <description>MOD_REDSHOP_MEGAMENU_DESCRIPTION</description>
+    <files>
+        <folder>language</folder>
+        <folder>tmpl</folder>
+        <filename>helper.php</filename>
+        <filename module="mod_redshop_megamenu">mod_redshop_megamenu.php</filename>
+        <filename>mod_redshop_megamenu.xml</filename>
+    </files>
+    <media folder="media">
+        <folder>mod_redshop_megamenu</folder>
+    </media>
+    <config>
+        <fields name="params" addfieldpath="/libraries/redshop/form/fields">
+            <fieldset name="basic">
+                <field
+                        name="menutype"
+                        type="menu"
+                        label="MOD_REDSHOP_MEGAMENU_MENU_TYPE"
+                        description="MOD_REDSHOP_MEGAMENU_MENU_TYPE_DESC"
+                        />
+                <field
+                        name="endLevel"
+                        type="list"
+                        default="999"
+                        label="MOD_REDSHOP_MEGAMENU_MENU_END_LEVEL"
+                        description="MOD_REDSHOP_MEGAMENU_MENU_END_LEVEL_DESC">
+                        <option value="999">JALL</option>
+                        <option value="1">J1</option>
+                        <option value="2">J2</option>
+                        <option value="3">J3</option>
+                        <option value="4">J4</option>
+                        <option value="5">J5</option>
+                        <option value="6">J6</option>
+                        <option value="7">J7</option>
+                        <option value="8">J8</option>
+                        <option value="9">J9</option>
+                        <option value="10">J10</option>
+                </field>
+                <field
+                        name="category"
+                        type="redshopcategory"
+                        default=""
+                        label="MOD_REDSHOP_MEGAMENU_PARAMS_CATEGORY"
+                        description="MOD_REDSHOP_MEGAMENU_PARAMS_CATEGORY_DESC"
+                        multiple="false"
+                        />
+                <field
+                        name="ordering"
+                        type="list"
+                        label="MOD_REDSHOP_MEGAMENU_PARAMS_ORDERING"
+                        description="MOD_REDSHOP_MEGAMENU_PARAMS_ORDERING_DESC"
+                        multiple="false"
+                        default="name">
+                    <option value="name">MOD_REDSHOP_MEGAMENU_PARAMS_ORDERING_OPTION_NAME</option>
+                    <option value="ordering">MOD_REDSHOP_MEGAMENU_PARAMS_ORDERING_OPTION_ORDERING</option>
+                    <option value="id">MOD_REDSHOP_MEGAMENU_PARAMS_ORDERING_OPTION_ID</option>
+                </field>
+                <field
+                        name="destination"
+                        type="list"
+                        default="asc"
+                        class="btn-group"
+                        label="MOD_REDSHOP_MEGAMENU_PARAMS_DESTINATION"
+                        description="MOD_REDSHOP_MEGAMENU_PARAMS_DESTINATION_DESC"
+                        multiple="false"
+                        >
+                    <option value="asc">MOD_REDSHOP_MEGAMENU_PARAMS_DESTINATION_OPTION_ASCENDING</option>
+                    <option value="desc">MOD_REDSHOP_MEGAMENU_PARAMS_DESTINATION_OPTION_DESCENDING</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

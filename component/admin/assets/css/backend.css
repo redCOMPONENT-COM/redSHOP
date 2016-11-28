@@ -1727,7 +1727,7 @@ input[type="search"] {
 }
 input[type="radio"],
 input[type="checkbox"] {
-  margin: 4px 0 0;
+  margin: 0px 4px 0px 0px;
   margin-top: 1px \9;
   line-height: normal;
 }
@@ -2199,6 +2199,7 @@ select[multiple].input-lg {
   margin-top: 0;
   margin-bottom: 0;
   padding-top: 7px;
+  padding-left: 0px;
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox {
@@ -8921,6 +8922,7 @@ a:focus {
   border-radius: 3px;
   background: #ffffff;
   border: 1px solid #e5e5e5;
+  border-top-width: 3px;
   margin-bottom: 20px;
   width: 100%;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -13438,7 +13440,6 @@ fieldset[disabled] .btn-yahoo.active {
 
 .skin-black .sidebar-menu > li a {
   font-size: 14px;
-  text-transform: uppercase;
 }
 
 .skin-black .sidebar-menu .treeview-menu {
@@ -16438,18 +16439,8 @@ table.admintable td {
   padding: 5px;
 }
 
-table.admintable td label,
-.adminform .form-group label {
-  display: block;
-  font-size: 14px;
-  float: none;
-}
-
 table.admintable td input[type="text"],
 .adminform .form-group input[type="text"] {
-  width: 220px;
-  border: 0;
-  background-color: #f7f7f7;
   box-shadow: none;
   padding: 8px 10px;
 }
@@ -16562,75 +16553,6 @@ div.current textarea,
 div.current select {
   margin: 0 3px 0 0 !important;
   float: none !important;
-}
-
-/* iCheck plugin Minimal skin, blue
------------------------------------ */
-.icheckbox_minimal-blue,
-.iradio_minimal-blue {
-  display: inline-block;
-  *display: inline;
-  vertical-align: middle;
-  margin: 0 5px 0 0;
-  padding: 0;
-  width: 19px;
-  height: 21px;
-  background: url(blue.png) no-repeat;
-  border: none;
-  cursor: pointer;
-}
-
-.icheckbox_minimal-blue {
-  background-position: -48px 0;
-}
-
-.icheckbox_minimal-blue.hover {
-  background-position: -68px 0;
-}
-
-.icheckbox_minimal-blue.checked {
-  background-position: -68px 0;
-}
-
-.icheckbox_minimal-blue.disabled {
-  background-position: -60px 0;
-  cursor: default;
-}
-
-.icheckbox_minimal-blue.checked.disabled {
-  background-position: -68px 0;
-}
-
-.iradio_minimal-blue {
-  background-position: -145px 0;
-}
-
-.iradio_minimal-blue.hover {
-  background-position: -165px 0;
-}
-
-.iradio_minimal-blue.checked {
-  background-position: -165px 0;
-}
-
-.iradio_minimal-blue.disabled {
-  background-position: -160px 0;
-  cursor: default;
-}
-
-.iradio_minimal-blue.checked.disabled {
-  background-position: -180px 0;
-}
-
-/* HiDPI support */
-@media (-o-min-device-pixel-ratio:5/4), (-webkit-min-device-pixel-ratio:1.25), (min-resolution:120dpi) {
-  .icheckbox_minimal-blue,
-  .iradio_minimal-blue {
-    background-image: url(blue@2x.png);
-    -webkit-background-size: 200px 20px;
-    background-size: 200px 20px;
-  }
-
 }
 
 table.admintable td .input-append button.btn,
@@ -18645,14 +18567,6 @@ input[type="color"]:focus,
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(82, 168, 236, .6);
 }
 
-input[type="radio"],
-input[type="checkbox"] {
-  margin: 4px 0 0;
-  *margin-top: 0;
-  margin-top: 1px \9;
-  line-height: normal;
-}
-
 input[type="file"],
 input[type="image"],
 input[type="submit"],
@@ -18735,7 +18649,6 @@ textarea::-webkit-input-placeholder {
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
   float: left;
-  margin-left: -20px;
 }
 
 .controls > .radio:first-child,
@@ -19426,13 +19339,6 @@ legend + .control-group {
 
 .form-horizontal .control-group:after {
   clear: both;
-}
-
-.form-horizontal .control-label {
-  float: left;
-  width: 160px;
-  padding-top: 5px;
-  text-align: right;
 }
 
 .form-horizontal .controls {
@@ -26557,12 +26463,6 @@ h6 {
 
 .alert-joomlaupdate button {
   vertical-align: baseline;
-}
-
-.form-horizontal .control-label {
-  width: auto;
-  padding-right: 5px;
-  text-align: left;
 }
 
 .form-horizontal .control-label .spacer hr {

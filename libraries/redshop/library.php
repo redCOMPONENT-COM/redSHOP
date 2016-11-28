@@ -12,6 +12,9 @@ defined('JPATH_PLATFORM') or die;
 
 use \Doctrine\Common\Annotations\AnnotationRegistry;
 
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+
 // Define redSHOP Library Folder Path
 define('JPATH_REDSHOP_LIBRARY', __DIR__);
 
@@ -49,6 +52,7 @@ JForm::addFormPath(JPATH_REDSHOP_LIBRARY . '/form/forms');
 
 // Make available the redSHOP fields
 JFormHelper::addFieldPath(JPATH_REDSHOP_LIBRARY . '/form/fields');
+JFormHelper::addFieldPath(JPATH_REDSHOP_LIBRARY . '/form/field');
 
 // Make available the redSHOP form rules
 JFormHelper::addRulePath(JPATH_REDSHOP_LIBRARY . '/form/rules');
