@@ -7,5 +7,10 @@
     "doctrine/annotations": "^1.2",
     "doctrine/inflector": "^1.0.1",
     "behat/transliterator": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Redshop\\": "src/"
+    }
   }
 }
