@@ -26,22 +26,16 @@ class RedshopTableQuestion extends RedshopTable
 	protected $_tableName = 'redshop_customer_question';
 
 	/**
-	 * Field name to publish/unpublish/trash table registers. Ex: state
+	 * Checks that the object is valid and able to be stored.
 	 *
-	 * @var  string
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  boolean  True if all checks pass.
 	 */
-	protected $_tableFieldState = 'published';
-
-	/**
-	 * Function display template
-	 *
-	 * @return  boolean
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function check()
+	protected function doCheck()
 	{
-		if (!parent::check())
+		if (!parent::doCheck())
 		{
 			return false;
 		}

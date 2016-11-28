@@ -34,13 +34,6 @@ class RedshopTableOrder_Status extends RedshopTable
 	protected $_tableKey = 'order_status_id';
 
 	/**
-	 * Field name to publish/unpublish/trash table registers. Ex: state
-	 *
-	 * @var  string
-	 */
-	protected $_tableFieldState = 'published';
-
-	/**
 	 * Checks that the object is valid and able to be stored.
 	 *
 	 * This method checks that the parent_id is non-zero and exists in the database.

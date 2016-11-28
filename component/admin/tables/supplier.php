@@ -25,11 +25,4 @@ class RedshopTableSupplier extends RedshopTable
 	 */
 
 	protected $_tableName = 'redshop_supplier';
-
-	/**
-	 * Field name to publish/unpublish/trash table registers. Ex: state
-	 *
-	 * @var  string
-	 */
-	protected $_tableFieldState = 'published';
 }
