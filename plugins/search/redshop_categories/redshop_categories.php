@@ -11,17 +11,24 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgSearchRedshop_categories extends JPlugin
+/**
+ *  PlgSearchRedshop_Categories plugin
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgSearchRedshop_Categories extends JPlugin
 {
 	/**
 	 * Constructor
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An array that holds the plugin configuration
+	 *
+	 * @access protected
+	 * @since   1.5
 	 */
-	public function __construct(& $subject, $config)
+	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
@@ -92,7 +99,7 @@ class plgSearchRedshop_categories extends JPlugin
 						)
 					)
 					->from($db->qn('#__redshop_category'))
-					->where($db->qn('published') . ' = 1');
+					->where($db->qn('published') . ' = ' . $db->q('1'));
 
 		switch ($phrase)
 		{
@@ -101,16 +108,16 @@ class plgSearchRedshop_categories extends JPlugin
 				$text = $db->q('%' . $db->escape($text, true) . '%', false);
 
 				$where = array();
-				$where[] = $db->qn('category_name') . ' LIKE ' . $text;
+				$where[] = $db->qn('category_name') . ' LIKE ' . $db->q($text);
 
 				if ($searchShortDesc)
 				{
-					$where[] = $db->qn('category_short_description') . ' LIKE ' . $text;
+					$where[] = $db->qn('category_short_description') . ' LIKE ' . $db->q($text);
 				}
 
 				if ($searchFullDesc)
 				{
-					$where[] = $db->qn('category_description') . ' LIKE ' . $text;
+					$where[] = $db->qn('category_description') . ' LIKE ' . $db->q($text);
 				}
 
 				$query->where('(' . implode(' OR ', $where) . ')');
@@ -128,16 +135,16 @@ class plgSearchRedshop_categories extends JPlugin
 					$word = $db->q('%' . $db->escape($word, true) . '%', false);
 
 					$where = array();
-					$where[] = $db->qn('category_name') . ' LIKE ' . $word;
+					$where[] = $db->qn('category_name') . ' LIKE ' . $db->q($word);
 
 					if ($searchShortDesc)
 					{
-						$where[] = $db->qn('category_short_description') . ' LIKE ' . $word;
+						$where[] = $db->qn('category_short_description') . ' LIKE ' . $db->q($word);
 					}
 
 					if ($searchFullDesc)
 					{
-						$where[] = $db->qn('category_description') . ' LIKE ' . $word;
+						$where[] = $db->qn('category_description') . ' LIKE ' . $db->q($word);
 					}
 
 					$wheres[] = implode(' OR ', $where);
@@ -180,8 +187,8 @@ class plgSearchRedshop_categories extends JPlugin
 
 		foreach ($rows as $key => $row)
 		{
-			$Itemid    = $redhelper->getItemid(0, $row->category_id);
-			$row->href = "index.php?option=com_redshop&view=category&cid=" . $row->category_id . "&Itemid=" . $Itemid;
+			$itemId    = $redhelper->getItemid(0, $row->category_id);
+			$row->href = "index.php?option=com_redshop&view=category&cid=" . $row->category_id . "&Itemid=" . $itemId;
 
 			$return[]  = $row;
 		}
