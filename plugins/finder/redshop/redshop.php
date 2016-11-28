@@ -223,24 +223,31 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 	{
 		$db = JFactory::getDbo();
 
-		// Check if we can use the supplied SQL query.
-		$query = is_a($query, 'JDatabaseQuery') ? $query : $this->db->getQuery(true);
-		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $query->charLength('p.product_name', '!=', '0');
-		$case_when_item_alias .= ' THEN ';
-		$p_id = $query->castAsChar('p.product_id');
-		$case_when_item_alias .= $query->concatenate(array($p_id, 'p.product_name'), ':');
-		$case_when_item_alias .= ' ELSE ';
-		$case_when_item_alias .= $p_id . ' END as slug';
-		$query->select('p.product_id as id, p.product_name AS title, p.product_price, p.discount_price')
-			->select('p.product_s_desc AS body, p.product_desc AS summary, p.manufacturer_id AS manu_id')
-			->select('p.published AS state, 0 AS publish_start_date, p.update_date')
-			->select('pc.category_id AS catid, 1 AS access, 0 AS publish_end_date, c.published AS cat_state')
-			->select($case_when_item_alias)
-			->from('#__redshop_product AS p')
-			->join('LEFT', '#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
-			->join('LEFT', '#__redshop_category AS c ON c.category_id = pc.category_id')
-			->where($this->db->quoteName('p.published') . ' = 1');
+		$query = $db->getQuery(true);
+
+		$caseWhenItemAlias = ' CASE WHEN ';
+		$caseWhenItemAlias .= $query->charLength($db->qn('p.product_name'), '!=', '0');
+		$caseWhenItemAlias .= ' THEN ';
+
+		$pid = $query->castAsChar($db->qn('p.product_id'));
+
+		$caseWhenItemAlias .= $query->concatenate(array($pid, $db->qn('p.product_name')), ':');
+		$caseWhenItemAlias .= ' ELSE ';
+		$caseWhenItemAlias .= $pid . ' END as slug';
+
+		$query->select(
+				[
+					$db->qn('p.product_id', 'id'), $db->qn('p.product_name', 'title'), $db->qn('p.product_price'), $db->qn('p.discount_price'),
+					$db->qn('p.product_s_desc', 'body'), $db->qn('p.product_desc', 'summary'), $db->qn('p.manufacturer_id', 'manu_id'),
+					$db->qn('p.published', 'state'), $db->qn(0, 'publish_start_date'), $db->qn('p.update_date'),
+					$db->qn('pc.category_id', 'catid'), $db->qn(1, 'access'), $db->qn(0, 'publish_end_date'), $db->qn('c.published', 'cat_state')
+				]
+			)
+			->select($caseWhenItemAlias)
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id'))
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('pc.category_id'))
+			->where($this->db->qn('p.published') . ' = ' . $db->q('1'));
 
 		return $query;
 	}
@@ -272,10 +279,12 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 	 */
 	protected function getStateQuery()
 	{
-		$sql = $this->db->getQuery(true);
-		$sql->select($this->db->quoteName('p.product_id'));
-		$sql->select($this->db->quoteName('p.' . $this->state_field, 'state'));
-		$sql->from($this->db->quoteName($this->table, 'p'));
+		$db = JFactory::getDbo();
+
+		$sql = $db->getQuery(true);
+		$sql->select($db->qn('p.product_id'));
+		$sql->select($db->qn('p.' . $this->state_field, 'state'));
+		$sql->from($db->qn($this->table, 'p'));
 
 		return $sql;
 	}
