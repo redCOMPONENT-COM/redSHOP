@@ -61,22 +61,22 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 		}
 
 		$wishListButton = RedshopLayoutHelper::render(
-							'tags.product.wishlist_button',
-								array(
-									'link'      => $link,
-									'productId' => $productId,
-									'formId'    => $formId
-								)
-							);
+			'tags.product.wishlist_button',
+				array(
+					'link'      => $link,
+					'productId' => $productId,
+					'formId'    => $formId
+				)
+			);
 
 		$wishListLink = RedshopLayoutHelper::render(
-							'tags.product.wishlist_link',
-							array(
-								'link'      => $link,
-								'productId' => $productId,
-								'formId'    => $formId
-							)
-						);
+			'tags.product.wishlist_link',
+			array(
+				'link'      => $link,
+				'productId' => $productId,
+				'formId'    => $formId
+			)
+		);
 
 		$this->addReplace('{wishlist_button}', $wishListButton);
 		$this->addReplace('{wishlist_link}', $wishListLink);
