@@ -98,9 +98,18 @@ class PlgLogmanRedshopInstallerScript
 	{
 		$version = null;
 
-		$query = "SELECT manifest_cache FROM #__extensions WHERE element = '{$element}'";
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		if ($result = JFactory::getDBO()->setQuery($query)->loadResult())
+		$query->select($db->qn('manifest_cache'))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('type') . ' = ' . $db->q('plugin'))
+			->where($db->qn('element') . ' = ' . $db->q('redshop'))
+			->where($db->qn('folder')) . ' = ' . $db->q('logman');
+
+		$db->setQuery($query);
+
+		if ($result = $db->loadResult())
 		{
 			$manifest = new JRegistry($result);
 			$version  = $manifest->get('version', null);
