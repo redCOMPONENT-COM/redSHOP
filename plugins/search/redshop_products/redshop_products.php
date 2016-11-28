@@ -11,17 +11,24 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgSearchRedshop_products extends JPlugin
+/**
+ *  PlgSearchRedshop_Products class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgSearchRedshop_Products extends JPlugin
 {
 	/**
 	 * Constructor
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An array that holds the plugin configuration\
+	 *
+	 * @access  protected
+	 * @since   1.5
 	 */
-	public function __construct(& $subject, $config)
+	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -83,7 +90,7 @@ class plgSearchRedshop_products extends JPlugin
 		$extraQuery = $db->getQuery(true)
 						->select('DISTINCT(' . $db->qn('itemid') . ')')
 						->from($db->qn('#__redshop_fields_data'))
-						->where($db->qn('section') . ' = 1');
+						->where($db->qn('section') . ' = ' . $db->q('1'));
 
 		// Create the base select statement.
 		$query = $db->getQuery(true)
@@ -108,21 +115,21 @@ class plgSearchRedshop_products extends JPlugin
 				$text = $db->Quote('%' . $db->escape($text, true) . '%', false);
 
 				// Also search in Extra Field Data
-				$extraQuery->where($db->qn('data_txt') . ' LIKE ' . $text);
+				$extraQuery->where($db->qn('data_txt') . ' LIKE ' . $db->q($text));
 				$whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery . ')';
 
 				$wheres = array();
-				$wheres[] = $db->qn('product_name') . ' LIKE ' . $text;
-				$wheres[] = $db->qn('product_number') . ' LIKE ' . $text;
+				$wheres[] = $db->qn('product_name') . ' LIKE ' . $db->q($text);
+				$wheres[] = $db->qn('product_number') . ' LIKE ' . $db->q($text);
 
 				if ($searchShortDesc)
 				{
-					$wheres[] = $db->qn('product_s_desc') . ' LIKE ' . $text;
+					$wheres[] = $db->qn('product_s_desc') . ' LIKE ' . $db->q($text);
 				}
 
 				if ($searchFullDesc)
 				{
-					$wheres[] = $db->qn('product_desc') . ' LIKE ' . $text;
+					$wheres[] = $db->qn('product_desc') . ' LIKE ' . $db->q($text);
 				}
 
 				$where = '('
@@ -146,23 +153,23 @@ class plgSearchRedshop_products extends JPlugin
 					$word = $db->Quote('%' . $db->escape($word, true) . '%', false);
 
 					$ors = array();
-					$ors[] = $db->qn('product_name') . ' LIKE ' . $word;
-					$ors[] = $db->qn('product_number') . ' LIKE ' . $word;
+					$ors[] = $db->qn('product_name') . ' LIKE ' . $db->q($word);
+					$ors[] = $db->qn('product_number') . ' LIKE ' . $db->q($word);
 
 					if ($searchShortDesc)
 					{
-						$ors[] = $db->qn('product_s_desc') . ' LIKE ' . $word;
+						$ors[] = $db->qn('product_s_desc') . ' LIKE ' . $db->q($word);
 					}
 
 					if ($searchFullDesc)
 					{
-						$ors[] = $db->qn('product_desc') . ' LIKE ' . $word;
+						$ors[] = $db->qn('product_desc') . ' LIKE ' . $db->q($word);
 					}
 
 					$wheres[] = implode(' OR ', $ors);
 
 					// Prepare extra field info where clause
-					$orsField[] = $db->qn('data_txt') . ' LIKE ' . $word;
+					$orsField[] = $db->qn('data_txt') . ' LIKE ' . $db->q($word);
 				}
 
 				// Also search in Extra Field Data
@@ -202,14 +209,14 @@ class plgSearchRedshop_products extends JPlugin
 		}
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
-		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$rsUserhelper             = rsUserHelper::getInstance();
+		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		$whereaclProduct = "";
 
-		if ($shopper_group_manufactures != "")
+		if ($shopperGroupManufactures != "")
 		{
-			$query->where($db->qn('manufacturer_id') . ' IN (' . $shopper_group_manufactures . ')');
+			$query->where($db->qn('manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
 		}
 
 		// Only published products
@@ -227,13 +234,13 @@ class plgSearchRedshop_products extends JPlugin
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		$redhelper = redhelper::getInstance();
+		$redHelper = redhelper::getInstance();
 		$return    = array();
 
 		foreach ($rows as $key => $row)
 		{
-			$Itemid    = $redhelper->getItemid($row->product_id, $row->cat_in_sefurl);
-			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->cat_in_sefurl . "&Itemid=" . $Itemid;
+			$itemId    = $redHelper->getItemid($row->product_id, $row->cat_in_sefurl);
+			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->cat_in_sefurl . "&Itemid=" . $itemId;
 
 			$return[]  = $row;
 		}
