@@ -66,6 +66,10 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 									'link'      => $link,
 									'productId' => $productId,
 									'formId'    => $formId
+								),
+								'',
+								array(
+									'component' => 'com_redshop'
 								)
 							);
 
@@ -75,6 +79,10 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 								'link'      => $link,
 								'productId' => $productId,
 								'formId'    => $formId
+							),
+							'',
+							array(
+								'component' => 'com_redshop'
 							)
 						);
 

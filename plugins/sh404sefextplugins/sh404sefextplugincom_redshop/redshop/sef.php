@@ -435,6 +435,8 @@ switch ($view)
 
 		if ($wishlist_id)
 		{
+			$title[] = $wishlist_id;
+
 			if ($wishlist)
 			{
 				$title[] = RedshopHelperUtility::convertToNonSymbol($wishlist->wishlist_name);
