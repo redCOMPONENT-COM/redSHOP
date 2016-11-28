@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="1.0" type="plugin" group="redshop_user" method="upgrade">
 	<name>PLG_REDSHOP_USER_REGISTRATION_ACYMAILING</name>
-	<creationDate>April 2014</creationDate>
+	<creationDate>November 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>www.redcomponent.com</authorUrl>
-	<copyright>(C) 2014 redCOMPONENT.com</copyright>
+	<copyright>(C) 2016 redCOMPONENT.com</copyright>
 	<license>GNU/GPL</license>
-	<version>1.0</version>
+	<version>1.7.0</version>
+  <reshop>2.0.0.6</reshop>
   <description>PLG_REDSHOP_USER_REGISTRATION_ACYMAILING_DESC</description>
   <files>
     <filename plugin="registration_acymailing">registration_acymailing.php</filename>
     <folder>language</folder>
   </files>
+  <scriptfile>install.php</scriptfile>
   <config>
   	<fields name="params">
       <fieldset name="basic" addfieldpath="/components/com_acymailing/params">
-			   <field name="listschecked" type="lists" default="All" label="Lists checked by default" description="The selected lists will be checked by default on your registration form." />
+			   <field 
+          name="listschecked"
+          type="lists" 
+          default="All" 
+          label="PLG_REDSHOP_USER_REGISTRATION_ACYMAILING_LIST_CHECKED_DEFAULT_LBL" 
+          description="PLG_REDSHOP_USER_REGISTRATION_ACYMAILING_LIST_CHECKED_DEFAULT_DESC" />
       </fieldset>
   	</fields>
   </config>
