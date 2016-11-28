@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension version="3.0" client="site" type="plugin" group="economic" method="upgrade">
     <name>PLG_E-CONOMIC</name>
-    <version>1.6</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <version>1.7.0</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>November 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>COM_REDSHOP_PROVIDES_ECONOMIC_INTEGRATION</description>
     <files>
         <filename plugin="economic">economic.php</filename>
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_economic_economic.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_economic_economic.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">

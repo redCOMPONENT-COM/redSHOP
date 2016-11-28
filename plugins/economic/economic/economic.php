@@ -9,7 +9,12 @@
 
 defined('_JEXEC') or die;
 
-class plgEconomicEconomic extends JPlugin
+/**
+ * PlgEconomicEconomic
+ * 
+ * @since  1.7.0
+ */
+class PlgEconomicEconomic extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -24,7 +29,7 @@ class plgEconomicEconomic extends JPlugin
 	 *
 	 * @var JRegistry object
 	 */
-	public $_conn = false;
+	public $conn = false;
 
 	public $error = 0;
 
@@ -32,7 +37,7 @@ class plgEconomicEconomic extends JPlugin
 
 	public $client = '';
 
-	public $termofpayment = null;
+	public $termOfPayment = null;
 
 	public $contraAccount = 0;
 
@@ -40,12 +45,18 @@ class plgEconomicEconomic extends JPlugin
 
 	public $LayoutHandle = null;
 
-	public $UnitHandle;
+	public $unitHandle;
 
 	public $debtorGroupHandles = null;
 
-	public $ecoparams = null;
+	public $ecoParams = null;
 
+	/**
+	 * __construct
+	 * 
+	 * @param   string  &$subject  Subject
+	 * @param   array   $config    config params
+	 */
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
@@ -111,7 +122,7 @@ class plgEconomicEconomic extends JPlugin
 					'userName'        => $this->params->get('economic_username', ''),
 					'password'        => $this->params->get('economic_password', '')
 				);
-				$this->_conn = $this->client->Connect($conn);
+				$this->conn = $this->client->Connect($conn);
 			}
 			catch (Exception $exception)
 			{
@@ -153,6 +164,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to find debtor number in economic
 	 *
+	 * @param   array  $d  user info
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -165,9 +178,9 @@ class plgEconomicEconomic extends JPlugin
 
 		try
 		{
-			$Handle = $this->client->Debtor_FindByNumber(array('number' => $d ['user_info_id']))->Debtor_FindByNumberResult;
+			$handle = $this->client->Debtor_FindByNumber(array('number' => $d['user_info_id']))->Debtor_FindByNumberResult;
 
-			return $Handle;
+			return $handle;
 		}
 		catch (Exception $exception)
 		{
@@ -186,7 +199,9 @@ class plgEconomicEconomic extends JPlugin
 
 	/**
 	 * Method to find debtor email in economic.
-	 *
+	 * 
+	 * @param   array  $d  user info
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -199,9 +214,9 @@ class plgEconomicEconomic extends JPlugin
 
 		try
 		{
-			$Handle = $this->client->Debtor_FindByEmail(array('email' => $d ['email']))->Debtor_FindByEmailResult;
+			$handle = $this->client->Debtor_FindByEmail(array('email' => $d['email']))->Debtor_FindByEmailResult;
 
-			return $Handle;
+			return $handle;
 		}
 		catch (Exception $exception)
 		{
@@ -221,6 +236,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to get debtor group in economic.
 	 *
+	 * @param   array  $d  user info
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -234,10 +251,10 @@ class plgEconomicEconomic extends JPlugin
 		try
 		{
 			$debtorHandle = new stdclass;
-			$debtorHandle->Number = $d ['user_info_id'];
-			$Handle = $this->client->Debtor_GetDebtorGroup(array('debtorHandle' => $debtorHandle))->Debtor_GetDebtorGroupResult;
+			$debtorHandle->Number = $d['user_info_id'];
+			$handle = $this->client->Debtor_GetDebtorGroup(array('debtorHandle' => $debtorHandle))->Debtor_GetDebtorGroupResult;
 
-			return $Handle;
+			return $handle;
 		}
 		catch (Exception $exception)
 		{
@@ -317,6 +334,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to get term of payment
 	 *
+	 * @param   array  $d  user info
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -336,48 +355,55 @@ class plgEconomicEconomic extends JPlugin
 			$checkpaymentId = $this->params->get('economic_payment_terms', 2);
 		}
 
-		if ($this->termofpayment && $this->termofpayment == $checkpaymentId)
+		if ($this->termOfPayment && $this->termOfPayment == $checkpaymentId)
 		{
-			return $this->termofpayment;
+			return $this->termOfPayment;
 		}
 
-		$termsarr = array();
+		$termsArr = array();
 		$termofresultall = $this->client->TermOfPayment_GetAll()->TermOfPayment_GetAllResult;
-		$termofpayments = $termofresultall->TermOfPaymentHandle;
+		$termOfPayments = $termofresultall->TermOfPaymentHandle;
 
-		if (is_object($termofpayments))
+		if (is_object($termOfPayments))
 		{
-			if (isset($termofpayments->Id))
+			if (isset($termOfPayments->Id))
 			{
-				$termsarr[] = $termofpayments->Id;
+				$termsArr[] = $termOfPayments->Id;
 			}
 		}
 		else
 		{
-			for ($i = 0, $in = count($termofpayments); $i < $in; $i++)
+			for ($i = 0, $in = count($termOfPayments); $i < $in; $i++)
 			{
-				if ($termofpayments[$i]->Id)
+				if ($termOfPayments[$i]->Id)
 				{
-					$termsarr[] = $termofpayments[$i]->Id;
+					$termsArr[] = $termOfPayments[$i]->Id;
 				}
 			}
 		}
 
-		if (count($termsarr) > 0)
+		if (count($termsArr) > 0)
 		{
-			if (in_array($checkpaymentId, $termsarr))
+			if (in_array($checkpaymentId, $termsArr))
 			{
-				$this->termofpayment = $checkpaymentId;
+				$this->termOfPayment = $checkpaymentId;
 			}
 			else
 			{
-				$this->termofpayment = $termsarr[0];
+				$this->termOfPayment = $termsArr[0];
 			}
 		}
 
-		return $this->termofpayment;
+		return $this->termOfPayment;
 	}
 
+	/**
+	 * getTermOfPaymentContraAccount description
+	 * 
+	 * @param   array  $d  user info
+	 * 
+	 * @return  void
+	 */
 	public function getTermOfPaymentContraAccount($d)
 	{
 		if ($this->error)
@@ -385,9 +411,9 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 
-		if (!$this->termofpayment)
+		if (!$this->termOfPayment)
 		{
-			$this->termofpayment = $this->getTermOfPayment($d);
+			$this->termOfPayment = $this->getTermOfPayment($d);
 		}
 
 		try
@@ -395,13 +421,13 @@ class plgEconomicEconomic extends JPlugin
 			$this->contraAccount = 0;
 
 			$termOfPaymentHandle = new stdclass;
-			$termOfPaymentHandle->Id = $this->termofpayment;
+			$termOfPaymentHandle->Id = $this->termOfPayment;
 
-			$contra_account = $this->client->TermOfPayment_GetContraAccount(array('termOfPaymentHandle' => $termOfPaymentHandle))->TermOfPayment_GetContraAccountResult;
+			$contraAccountObj = $this->client->TermOfPayment_GetContraAccount(array('termOfPaymentHandle' => $termOfPaymentHandle))->TermOfPayment_GetContraAccountResult;
 
-			if (isset($contra_account->Number))
+			if (isset($contraAccountObj->Number))
 			{
-				$this->contraAccount = $contra_account->Number;
+				$this->contraAccount = $contraAccountObj->Number;
 			}
 
 			return $this->contraAccount;
@@ -421,6 +447,11 @@ class plgEconomicEconomic extends JPlugin
 		}
 	}
 
+	/**
+	 * getCashBookAll function
+	 * 
+	 * @return void
+	 */
 	public function getCashBookAll()
 	{
 		if ($this->error)
@@ -487,6 +518,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to get layout template
 	 *
+	 * @param   array  $d  template
+	 *
 	 * @access public
 	 * @return array
 	 */
@@ -502,25 +535,25 @@ class plgEconomicEconomic extends JPlugin
 			return $this->LayoutHandle;
 		}
 
-		$LayoutHandleId = 0;
+		$layoutHandleId = 0;
 		$arr = array();
 		$resultall = $this->client->TemplateCollection_GetAll()->TemplateCollection_GetAllResult;
-		$termofpayments = $resultall->TemplateCollectionHandle;
+		$termOfPayments = $resultall->TemplateCollectionHandle;
 
-		if (is_object($termofpayments))
+		if (is_object($termOfPayments))
 		{
-			if (isset($termofpayments->Id))
+			if (isset($termOfPayments->Id))
 			{
-				$arr[] = $termofpayments->Id;
+				$arr[] = $termOfPayments->Id;
 			}
 		}
 		else
 		{
-			for ($i = 0, $in = count($termofpayments); $i < $in; $i++)
+			for ($i = 0, $in = count($termOfPayments); $i < $in; $i++)
 			{
-				if ($termofpayments[$i]->Id)
+				if ($termOfPayments[$i]->Id)
 				{
-					$arr[] = $termofpayments[$i]->Id;
+					$arr[] = $termOfPayments[$i]->Id;
 				}
 			}
 		}
@@ -538,24 +571,26 @@ class plgEconomicEconomic extends JPlugin
 
 			if (in_array($checkId, $arr))
 			{
-				$LayoutHandleId = $checkId;
+				$layoutHandleId = $checkId;
 			}
 			else
 			{
-				$LayoutHandleId = $arr[0];
+				$layoutHandleId = $arr[0];
 			}
 		}
 
-		$LayoutHandle = new stdclass;
-		$LayoutHandle->Id = $LayoutHandleId;
+		$layoutHandle = new stdclass;
+		$layoutHandle->Id = $layoutHandleId;
 
-		$this->LayoutHandle = $LayoutHandle;
+		$this->layoutHandle = $layoutHandle;
 
-		return $LayoutHandle;
+		return $layoutHandle;
 	}
 
 	/**
 	 * Method to store debtor in economic
+	 *
+	 * @param   array  $d  economic params
 	 *
 	 * @access public
 	 * @return array
@@ -567,13 +602,13 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 
-		$DebtorGroupHandle = $this->getDebtorGroup();
+		$debtorGroupHandle = $this->getDebtorGroup();
 
 		if (isset($d['eco_user_number']) && $d['eco_user_number'] != "")
 		{
 			$tmpDebtorGroup = $this->Debtor_GetDebtorGroup($d);
 
-			if (isset($tmpDebtorGroup->Number) && $tmpDebtorGroup->Number == $DebtorGroupHandle->Number)
+			if (isset($tmpDebtorGroup->Number) && $tmpDebtorGroup->Number == $debtorGroupHandle->Number)
 			{
 			}
 			else
@@ -582,46 +617,46 @@ class plgEconomicEconomic extends JPlugin
 			}
 		}
 
-		$TermOfPaymentHandle = new stdclass;
-		$TermOfPaymentHandle->Id = $this->getTermOfPayment($d);
+		$termOfPaymentHandle = new stdclass;
+		$termOfPaymentHandle->Id = $this->getTermOfPayment($d);
 
-		$CurrencyHandle = new stdclass;
-		$CurrencyHandle->Code = $d ['currency_code'];
+		$currencyHandle = new stdclass;
+		$currencyHandle->Code = $d['currency_code'];
 
 		// Changes for store debtor error
-		$d ['user_info_id'] = ($d ['eco_user_number'] != "") ? $d ['eco_user_number'] : $d ['user_info_id'];
+		$d['user_info_id'] = ($d['eco_user_number'] != "") ? $d['eco_user_number'] : $d['user_info_id'];
 
 		if ($d['newuserFlag'])
 		{
 			$maxDebtor = $this->getMaxDebtor();
-			$d ['user_info_id'] = $maxDebtor + 1;
+			$d['user_info_id'] = $maxDebtor + 1;
 		}
 
-		$Handle = new stdclass;
-		$Handle->Number = $d ['user_info_id'];
+		$handle = new stdclass;
+		$handle->Number = $d['user_info_id'];
 
-		$LayoutHandle = $this->getLayoutTemplate($d);
+		$layoutHandle = $this->getLayoutTemplate($d);
 
 		try
 		{
 			$userinfo = array
 			(
-				'Handle'                => $Handle,
-				'Number'                => $d ['user_info_id'],
-				'DebtorGroupHandle'     => $DebtorGroupHandle,
+				'Handle'                => $handle,
+				'Number'                => $d['user_info_id'],
+				'DebtorGroupHandle'     => $debtorGroupHandle,
 				'Name'                  => $d['name'],
 				'VatZone'               => $d['vatzone'],
 				'CINumber'              => $d['vatnumber'],
-				'CurrencyHandle'        => $CurrencyHandle,
+				'CurrencyHandle'        => $currencyHandle,
 				'IsAccessible'          => 1,
-				'Email'                 => $d ['email'],
-				'TelephoneAndFaxNumber' => $d ['phone'],
-				'Address'               => $d ['address'],
-				'PostalCode'            => $d ['zipcode'],
-				'City'                  => $d ['city'],
-				'Country'               => $d ['country'],
-				'TermOfPaymentHandle'   => $TermOfPaymentHandle,
-				'LayoutHandle'          => $LayoutHandle
+				'Email'                 => $d['email'],
+				'TelephoneAndFaxNumber' => $d['phone'],
+				'Address'               => $d['address'],
+				'PostalCode'            => $d['zipcode'],
+				'City'                  => $d['city'],
+				'Country'               => $d['country'],
+				'TermOfPaymentHandle'   => $termOfPaymentHandle,
+				'LayoutHandle'          => $layoutHandle
 			);
 
 			// Get Employee to set Our Reference Number
@@ -640,7 +675,7 @@ class plgEconomicEconomic extends JPlugin
 				$userinfo = array_merge($userinfo, array('CreditMaximum' => $d['maximumcredit']));
 			}
 
-			if ($d ['eco_user_number'] != "")
+			if ($d['eco_user_number'] != "")
 			{
 				$newDebtorHandle = $this->client->Debtor_UpdateFromData(array("data" => $userinfo))->Debtor_UpdateFromDataResult;
 			}
@@ -762,6 +797,13 @@ class plgEconomicEconomic extends JPlugin
 		return $employee;
 	}
 
+	/**
+	 * ProductGroup_FindByNumber description
+	 *
+	 * @param   array  $d  user info
+	 * 
+	 * @return  void
+	 */
 	public function ProductGroup_FindByNumber($d)
 	{
 		if ($this->error)
@@ -793,6 +835,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to find product number in economic
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -805,9 +849,9 @@ class plgEconomicEconomic extends JPlugin
 
 		try
 		{
-			$Handle = $this->client->Product_FindByNumber(array('number' => $d ['product_number']))->Product_FindByNumberResult;
+			$handle = $this->client->Product_FindByNumber(array('number' => $d['product_number']))->Product_FindByNumberResult;
 
-			return $Handle;
+			return $handle;
 		}
 		catch (Exception $exception)
 		{
@@ -827,6 +871,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to get stock of product in economic
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -841,9 +887,9 @@ class plgEconomicEconomic extends JPlugin
 		{
 			$productHandle = new stdclass;
 			$productHandle->Number = $d['product_number'];
-			$Handle = $this->client->Product_GetInStock(array('productHandle' => $productHandle))->Product_GetInStockResult;
+			$handle = $this->client->Product_GetInStock(array('productHandle' => $productHandle))->Product_GetInStockResult;
 
-			return $Handle;
+			return $handle;
 		}
 		catch (Exception $exception)
 		{
@@ -863,6 +909,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to get product group
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -892,6 +940,11 @@ class plgEconomicEconomic extends JPlugin
 		return $productGroupHandles;
 	}
 
+	/**
+	 * getMaxDebtor
+	 * 
+	 * @return void
+	 */
 	public function getMaxDebtor()
 	{
 		if ($this->error)
@@ -913,7 +966,7 @@ class plgEconomicEconomic extends JPlugin
 
 			for ($i = 0, $in = count($debtors); $i < $in; $i++)
 			{
-				$dbt[] = $debtors [$i]->Number;
+				$dbt[] = $debtors[$i]->Number;
 			}
 
 			return max($dbt);
@@ -933,6 +986,11 @@ class plgEconomicEconomic extends JPlugin
 		}
 	}
 
+	/**
+	 * getMaxInvoiceNumber
+	 * 
+	 * @return void
+	 */
 	public function getMaxInvoiceNumber()
 	{
 		if ($this->error)
@@ -981,6 +1039,11 @@ class plgEconomicEconomic extends JPlugin
 		}
 	}
 
+	/**
+	 * getMaxDraftInvoiceNumber
+	 * 
+	 * @return void
+	 */
 	public function getMaxDraftInvoiceNumber()
 	{
 		if ($this->error)
@@ -1044,6 +1107,11 @@ class plgEconomicEconomic extends JPlugin
 		}
 	}
 
+	/**
+	 * getUnitGroup
+	 * 
+	 * @return void
+	 */
 	public function getUnitGroup()
 	{
 		if ($this->error)
@@ -1051,18 +1119,18 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 
-		if ($this->UnitHandle)
+		if ($this->unitHandle)
 		{
-			return $this->UnitHandle;
+			return $this->unitHandle;
 		}
 
 		try
 		{
-			$UnitHandle = new stdclass;
+			$unitHandle = new stdclass;
 
-			$UnitHandleId = 1;
+			$unitHandleId = 1;
 			$arr = array();
-			$unitall = $this->client->Unit_GetAll()->Unit_GetAllResult->UnitHandle;
+			$unitall = $this->client->Unit_GetAll()->Unit_GetAllResult->unitHandle;
 
 			if (is_array($unitall))
 			{
@@ -1082,21 +1150,13 @@ class plgEconomicEconomic extends JPlugin
 			if (count($arr) > 0)
 			{
 				$checkId = $this->params->get('economic_units_id', 1);
-
-				if (in_array($checkId, $arr))
-				{
-					$UnitHandleId = $checkId;
-				}
-				else
-				{
-					$UnitHandleId = $arr[0];
-				}
+				$unitHandleId = (in_array($checkId, $arr))? $checkId: $arr[0];
 			}
 
-			$UnitHandle->Number = $UnitHandleId;
-			$this->UnitHandle = $UnitHandle;
+			$unitHandle->Number = $unitHandleId;
+			$this->unitHandle = $unitHandle;
 
-			return $UnitHandle;
+			return $unitHandle;
 		}
 		catch (Exception $exception)
 		{
@@ -1116,6 +1176,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to store product in economic
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1144,31 +1206,31 @@ class plgEconomicEconomic extends JPlugin
 				}
 			}
 
-			$UnitHandle = $this->getUnitGroup();
+			$unitHandle = $this->getUnitGroup();
 
-			$Handle = new stdclass;
-			$Handle->Number = $d ['product_number'];
+			$handle = new stdclass;
+			$handle->Number = $d['product_number'];
 
 			$prdinfo = array
 			(
-				'Handle'             => $Handle,
-				'Number'             => $d ['product_number'],
+				'Handle'             => $handle,
+				'Number'             => $d['product_number'],
 				'ProductGroupHandle' => $productGroupHandle,
 				'Name'               => $d['product_name'],
 				'BarCode'            => '',
-				'SalesPrice'         => $d ['product_price'],
-				'CostPrice'          => $d ['product_price'],
-				'RecommendedPrice'   => $d ['product_price'],
-				'Description'        => $d ['product_s_desc'],
-				'UnitHandle'         => $UnitHandle,
-				'Volume'             => $d ['product_volume'],
+				'SalesPrice'         => $d['product_price'],
+				'CostPrice'          => $d['product_price'],
+				'RecommendedPrice'   => $d['product_price'],
+				'Description'        => $d['product_s_desc'],
+				'UnitHandle'         => $unitHandle,
+				'Volume'             => $d['product_volume'],
 				'IsAccessible'       => 1,
 				'InStock'            => $d['product_stock']
 			);
 
 			if ($d['eco_prd_number'] != '')
 			{
-				$prdinfo['BarCode'] = $this->productGetBarCode($Handle);
+				$prdinfo['BarCode'] = $this->productGetBarCode($handle);
 
 				return $this->client->Product_UpdateFromData(array('data' => $prdinfo))->Product_UpdateFromDataResult;
 			}
@@ -1223,6 +1285,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to store product group in economic
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1241,13 +1305,13 @@ class plgEconomicEconomic extends JPlugin
 			$nonaccountHandle = new stdclass;
 			$nonaccountHandle->Number = $d['novataccount'];
 
-			$Handle = new stdclass;
-			$Handle->Number = $d ['productgroup_id'];
+			$handle = new stdclass;
+			$handle->Number = $d['productgroup_id'];
 
 			$prdgrpinfo = array
 			(
-				'Handle'                                         => $Handle,
-				'Number'                                         => $d ['productgroup_id'],
+				'Handle'                                         => $handle,
+				'Number'                                         => $d['productgroup_id'],
 				'Name'                                           => $d['productgroup_name'],
 				'AccountForVatLiableDebtorInvoicesCurrentHandle' => $accountHandle,
 				'AccountForVatExemptDebtorInvoicesCurrentHandle' => $nonaccountHandle
@@ -1283,6 +1347,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to get debtor contact handle
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1295,7 +1361,7 @@ class plgEconomicEconomic extends JPlugin
 
 		try
 		{
-			$contacts = $this->client->DebtorContact_FindByExternalId(array('externalId' => $d ['user_info_id']))->DebtorContact_FindByExternalIdResult->DebtorContactHandle;
+			$contacts = $this->client->DebtorContact_FindByExternalId(array('externalId' => $d['user_info_id']))->DebtorContact_FindByExternalIdResult->DebtorContactHandle;
 
 			if (count($contacts) > 0)
 			{
@@ -1343,6 +1409,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to get debtor contact handle
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1356,7 +1424,7 @@ class plgEconomicEconomic extends JPlugin
 		try
 		{
 			$entityHandle = new stdclass;
-			$entityHandle->Id = $d ['updateDebtorContact'];
+			$entityHandle->Id = $d['updateDebtorContact'];
 			$contacts = $this->client->DebtorContact_GetData(array('entityHandle' => $entityHandle))->DebtorContact_GetDataResult;
 		}
 		catch (Exception $exception)
@@ -1377,6 +1445,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to delete debtor contact handle
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1390,7 +1460,7 @@ class plgEconomicEconomic extends JPlugin
 		try
 		{
 			$debtorContactHandle = new stdclass;
-			$debtorContactHandle->Id = $d ['user_info_id'];
+			$debtorContactHandle->Id = $d['user_info_id'];
 			$contacts = $this->client->DebtorContact_Delete(array('debtorContactHandle' => $debtorContactHandle));
 		}
 		catch (Exception $exception)
@@ -1411,6 +1481,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to create debtor contact in economic
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1425,25 +1497,25 @@ class plgEconomicEconomic extends JPlugin
 		{
 			if (isset($d['updateDebtorContact']) && $d['updateDebtorContact'] != "")
 			{
-				$Id = $d ['updateDebtorContact'];
+				$id = $d['updateDebtorContact'];
 			}
 			else
 			{
-				$Id = $d ['user_info_id'];
+				$id = $d['user_info_id'];
 			}
 
-			$Handle = new stdclass;
-			$Handle->Id = $Id;
+			$handle = new stdclass;
+			$handle->Id = $Id;
 
 			$debtorHandle = new stdclass;
-			$debtorHandle->Number = $d ['debtorHandle'];
+			$debtorHandle->Number = $d['debtorHandle'];
 
 			$info = array
 			(
-				'Handle'                        => $Handle,
+				'Handle'                        => $handle,
 				'DebtorHandle'                  => $debtorHandle,
-				'Id'                            => $Id,
-				'Number'                        => $Id,
+				'Id'                            => $id,
+				'Number'                        => $id,
 				'Name'                          => $d['name'],
 				'Email'                         => $d['email'],
 				'TelephoneNumber'               => $d['phone'],
@@ -1481,6 +1553,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to create invoice in economic
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1491,8 +1565,8 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 
-		$CurrencyHandle = new stdclass;
-		$CurrencyHandle->Code = $d ['currency_code'];
+		$currencyHandle = new stdclass;
+		$currencyHandle->Code = $d['currency_code'];
 
 		$TermOfPaymentHandle = new stdclass;
 		$TermOfPaymentHandle->Id = $this->getTermOfPayment($d);
@@ -1513,7 +1587,7 @@ class plgEconomicEconomic extends JPlugin
 
 			$invoiceHandle = $this->client->CurrentInvoice_Create(array('debtorHandle' => $debtorHandle))->CurrentInvoice_CreateResult;
 
-			$this->client->CurrentInvoice_SetCurrency(array('currentInvoiceHandle' => $invoiceHandle, 'valueHandle' => $CurrencyHandle));
+			$this->client->CurrentInvoice_SetCurrency(array('currentInvoiceHandle' => $invoiceHandle, 'valueHandle' => $currencyHandle));
 
 			$this->client->CurrentInvoice_SetTermOfPayment(array('currentInvoiceHandle' => $invoiceHandle, 'valueHandle' => $TermOfPaymentHandle));
 
@@ -1568,6 +1642,13 @@ class plgEconomicEconomic extends JPlugin
 		}
 	}
 
+	/**
+	 * deleteInvoice
+	 * 
+	 * @param   array  $d  economic params
+	 * 
+	 * @return void
+	 */
 	public function deleteInvoice($d)
 	{
 		if ($this->error)
@@ -1576,7 +1657,7 @@ class plgEconomicEconomic extends JPlugin
 		}
 
 		$invoiceHandle = new stdclass;
-		$invoiceHandle->Id = $d ['invoiceHandle'];
+		$invoiceHandle->Id = $d['invoiceHandle'];
 
 		try
 		{
@@ -1590,6 +1671,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to set Delivery Address in economic
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1605,32 +1688,32 @@ class plgEconomicEconomic extends JPlugin
 			$invoiceHandle = new stdclass;
 			$invoiceHandle->Id = $d['invoiceHandle'];
 
-			if ($d ['address_ST'] != '')
+			if ($d['address_ST'] != '')
 			{
 				$this->client
-					->CurrentInvoice_SetDeliveryAddress(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['address_ST']));
+					->CurrentInvoice_SetDeliveryAddress(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d['address_ST']));
 			}
 
-			if ($d ['name_ST'] != '')
+			if ($d['name_ST'] != '')
 			{
 			}
 
-			if ($d ['city_ST'] != '')
-			{
-				$this->client
-					->CurrentInvoice_SetDeliveryCity(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['city_ST']));
-			}
-
-			if ($d ['country_ST'] != '')
+			if ($d['city_ST'] != '')
 			{
 				$this->client
-					->CurrentInvoice_SetDeliveryCountry(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['country_ST']));
+					->CurrentInvoice_SetDeliveryCity(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d['city_ST']));
 			}
 
-			if ($d ['zipcode_ST'] != '')
+			if ($d['country_ST'] != '')
 			{
 				$this->client
-					->CurrentInvoice_SetDeliveryPostalCode(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d ['zipcode_ST']));
+					->CurrentInvoice_SetDeliveryCountry(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d['country_ST']));
+			}
+
+			if ($d['zipcode_ST'] != '')
+			{
+				$this->client
+					->CurrentInvoice_SetDeliveryPostalCode(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d['zipcode_ST']));
 			}
 		}
 		catch (Exception $exception)
@@ -1651,6 +1734,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to create invoice line in economic
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1661,30 +1746,30 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 
-		$order_item_id = $d ['order_item_id'];
+		$orderItemId = $d['order_item_id'];
 		$invoiceHandle = new stdclass;
 		$invoiceHandle->Id = $d['invoiceHandle'];
 
-		$Handle = new stdclass;
-		$Handle->Id = $d['invoiceHandle'];
-		$Handle->Number = $order_item_id;
+		$handle = new stdclass;
+		$handle->Id = $d['invoiceHandle'];
+		$handle->Number = $orderItemId;
 
-		$UnitHandle = $this->getUnitGroup();
+		$unitHandle = $this->getUnitGroup();
 
 		$ProductHandle = new stdclass;
-		$ProductHandle->Number = $d ['product_number'];
+		$ProductHandle->Number = $d['product_number'];
 
 		try
 		{
 			$info = array
 			(
-				'Handle'            => $Handle,
+				'Handle'            => $handle,
 				'InvoiceHandle'     => $invoiceHandle,
-				'Number'            => $order_item_id,
+				'Number'            => $orderItemId,
 				'Id'                => $d['invoiceHandle'],
-				'Description'       => $d ['product_name'],
-				'DeliveryDate'      => $d ['delivery_date'],
-				'UnitHandle'        => $UnitHandle,
+				'Description'       => $d['product_name'],
+				'DeliveryDate'      => $d['delivery_date'],
+				'UnitHandle'        => $unitHandle,
 				'ProductHandle'     => $ProductHandle,
 				'UnitNetPrice'      => $d['product_price'],
 				'Quantity'          => $d['product_quantity'],
@@ -1726,8 +1811,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to create invoice Array in economic.
 	 *
-	 * @param $d
-	 * @param $darray
+	 * @param   array  $d       economic params
+	 * @param   array  $darray  data array
 	 *
 	 * @return null|string
 	 */
@@ -1738,15 +1823,15 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 
-		$order_item_id = $d ['order_item_id'];
+		$orderItemId = $d['order_item_id'];
 		$invoiceHandle = new stdclass;
 		$invoiceHandle->Id = $d['invoiceHandle'];
 
-		$Handle = new stdclass;
-		$Handle->Id = $d['invoiceHandle'];
-		$Handle->Number = $order_item_id;
+		$handle = new stdclass;
+		$handle->Id = $d['invoiceHandle'];
+		$handle->Number = $orderItemId;
 
-		$UnitHandle = $this->getUnitGroup();
+		$unitHandle = $this->getUnitGroup();
 
 		try
 		{
@@ -1757,13 +1842,13 @@ class plgEconomicEconomic extends JPlugin
 				$info[] = array(
 					'CurrentInvoiceLineData' => array
 					(
-						'Handle'            => $Handle,
+						'Handle'            => $handle,
 						'InvoiceHandle'     => $invoiceHandle,
-						'Number'            => $order_item_id,
+						'Number'            => $orderItemId,
 						'Id'                => $d['invoiceHandle'],
 						'Description'       => $darray[$i]['product_name'],
 						'DeliveryDate'      => $darray[$i]['delivery_date'],
-						'UnitHandle'        => $UnitHandle,
+						'UnitHandle'        => $unitHandle,
 						'ProductHandle'     => $ProductHandle,
 						'UnitNetPrice'      => $darray[$i]['product_price'],
 						'Quantity'          => $darray[$i]['product_quantity'],
@@ -1793,7 +1878,6 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>createInvoiceLineArray:" . $exception->getMessage() . "</i></p>");
 
-
 			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "createInvoiceLineArray:" . $exception->getMessage());
@@ -1808,6 +1892,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to check invoice draft in economic
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1845,6 +1931,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to check invoice booked in economic
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1879,6 +1967,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to update invoice in economic
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1918,6 +2008,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to book invoice
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -1947,7 +2039,7 @@ class plgEconomicEconomic extends JPlugin
 			}
 
 			// Cashbook Entry for Creditor Payment to Paypal
-			if($makeCashbook && isset($d['order_transfee']) && $this->params->get('economicCreditorNumber', false))
+			if ($makeCashbook && isset($d['order_transfee']) && $this->params->get('economicCreditorNumber', false))
 			{
 				$this->createCashbookEntryCreditorPayment($d, $bookHandle);
 			}
@@ -1959,7 +2051,7 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to find current book invoice number in economic.
 	 *
-	 * @param $d
+	 * @param   array  $d  economic params
 	 *
 	 * @return null|string
 	 */
@@ -2002,6 +2094,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to find current book invoice in economic
 	 *
+	 * @param   array  $d  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -2043,6 +2137,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to get pdf invoice
 	 *
+	 * @param   array  $invoiceHandle  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -2077,6 +2173,9 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Method to create cash book entry in economic
 	 *
+	 * @param   array  $d           economic params
+	 * @param   array  $bookHandle  economic params
+	 * 
 	 * @access public
 	 * @return array
 	 */
@@ -2096,7 +2195,7 @@ class plgEconomicEconomic extends JPlugin
 		}
 
 		$cashbooknumber = intval($this->getCashBookAll());
-		$contraaccount = intval($this->getTermOfPaymentContraAccount($d));
+		$contraAccount = intval($this->getTermOfPaymentContraAccount($d));
 
 		$cashBookHandle = new stdclass;
 		$cashBookHandle->Number = $cashbooknumber;
@@ -2107,12 +2206,12 @@ class plgEconomicEconomic extends JPlugin
 		$contraAccountHandle = new stdclass;
 		$contraAccountHandle->Number = $contraaccount;
 
-		$CurrencyHandle = new stdclass;
-		$CurrencyHandle->Code = $d ['currency_code'];
+		$currencyHandle = new stdclass;
+		$currencyHandle->Code = $d['currency_code'];
 
 		try
 		{
-			if ($contraaccount)
+			if ($contraAccount)
 			{
 				$info = array(
 					'cashBookHandle'      => $cashBookHandle,
@@ -2130,7 +2229,7 @@ class plgEconomicEconomic extends JPlugin
 
 			$cashBookEntryHandle = $this->client->CashBookEntry_CreateDebtorPayment($info)->CashBookEntry_CreateDebtorPaymentResult;
 
-			$this->client->CashBookEntry_SetAmount(array('cashBookEntryHandle' => $cashBookEntryHandle, 'value' => (0 - $d ['amount'])));
+			$this->client->CashBookEntry_SetAmount(array('cashBookEntryHandle' => $cashBookEntryHandle, 'value' => (0 - $d['amount'])));
 
 			$this->client->CashBookEntry_SetDebtorInvoiceNumber(array('cashBookEntryHandle' => $cashBookEntryHandle, 'value' => $bookHandle->Number));
 
@@ -2138,11 +2237,11 @@ class plgEconomicEconomic extends JPlugin
 				->CashBookEntry_SetText(
 					array(
 						'cashBookEntryHandle' => $cashBookEntryHandle,
-						'value' => 'INV (' . $bookHandle->Number . ') ORDERID (' . $d ['order_id'] . ') CUST (' . $d['name'] . ')'
+						'value' => 'INV (' . $bookHandle->Number . ') ORDERID (' . $d['order_id'] . ') CUST (' . $d['name'] . ')'
 					)
 				);
 
-			$this->client->CashBookEntry_SetCurrency(array('cashBookEntryHandle' => $cashBookEntryHandle, 'valueHandle' => $CurrencyHandle));
+			$this->client->CashBookEntry_SetCurrency(array('cashBookEntryHandle' => $cashBookEntryHandle, 'valueHandle' => $currencyHandle));
 
 			$this->client->CashBook_Book(array('cashBookHandle' => $cashBookHandle));
 		}
@@ -2180,17 +2279,17 @@ class plgEconomicEconomic extends JPlugin
 		$debtorHandle                = new stdclass;
 		$debtorHandle->Number        = $this->params->get('economicCreditorNumber');
 
-		$contraaccount               = intval($this->getTermOfPaymentContraAccount($d));
+		$contraAccount               = intval($this->getTermOfPaymentContraAccount($d));
 
 		$contraAccountHandle         = new stdclass;
-		$contraAccountHandle->Number = $contraaccount;
+		$contraAccountHandle->Number = $contraAccount;
 
-		$CurrencyHandle              = new stdclass;
-		$CurrencyHandle->Code        = $d ['currency_code'];
+		$currencyHandle              = new stdclass;
+		$currencyHandle->Code        = $d['currency_code'];
 
 		try
 		{
-			if ($contraaccount)
+			if ($contraAccount)
 			{
 				$info = array(
 					'cashBookHandle'      => $cashBookHandle,
@@ -2233,7 +2332,7 @@ class plgEconomicEconomic extends JPlugin
 			$this->client->CashBookEntry_SetCurrency(
 				array(
 					'cashBookEntryHandle' => $cashBookEntryHandle,
-					'valueHandle'         => $CurrencyHandle
+					'valueHandle'         => $currencyHandle
 				)
 			);
 
