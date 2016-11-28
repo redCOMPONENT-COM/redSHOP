@@ -33,20 +33,13 @@ class RedshopTableGiftcard extends RedshopTable
 	protected $_tableKey = 'giftcard_id';
 
 	/**
-	 * Field name to publish/unpublish/trash table registers. Ex: state
+	 * Delete one or more registers
 	 *
-	 * @var  string
+	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfuly?
 	 */
-	protected $_tableFieldState = 'published';
-
-	/**
-	 * Deletes this row in database (or if provided, the row of key $pk)
-	 *
-	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
-	 *
-	 * @return  boolean  True on success.
-	 */
-	public function doDelete($pk = null)
+	protected function doDelete($pk = null)
 	{
 		if ($this->giftcard_image != '' && file(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image))
 		{
@@ -62,13 +55,13 @@ class RedshopTableGiftcard extends RedshopTable
 	}
 
 	/**
-	 * Method to store a node in the database table.
+	 * Do the database store.
 	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update null values as well.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean
 	 */
-	public function doStore($updateNulls = false)
+	protected function doStore($updateNulls = false)
 	{
 		$productHelper = productHelper::getInstance();
 
