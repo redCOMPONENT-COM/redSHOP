@@ -19,17 +19,10 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 $user = JFactory::getUser();
-
 ?>
 
-<input
-	type="button"
-	class="redshop-wishlist-button"
-	data-productid="<?php echo $productId ?>"
-	data-href="<?php echo $link ?>"
-	data-formid="<?php echo $formId ?>"
-	value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"
-/>
+<input type="button" class="redshop-wishlist-button" data-productid="<?php echo $productId ?>" data-href="<?php echo $link ?>"
+	data-formid="<?php echo $formId ?>" value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>" />
 
 <?php if (!$user->guest) :?>
 	<input
@@ -43,7 +36,8 @@ $user = JFactory::getUser();
 <?php else : ?>
 	<?php if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0) :?>
 		<a class="redshop-wishlist-link-login" href="<?php echo $link ?>">
-			<input type="submit" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist" value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST")  ?>">
+			<input type="submit" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist"
+				   value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST")  ?>" />
 		</a>
 	<?php else : ?>
 		<form method="post" action="" id="form_wishlist_<?php echo $productId ?>_link" name="form_wishlist_<?php echo $productId ?>_link">
@@ -55,7 +49,9 @@ $user = JFactory::getUser();
 				<input type='hidden' name='subattribute_id' value='' />
 				<input type='hidden' name='rurl' value='<?php echo base64_encode(JUri::getInstance()->toString()) ?>' />"
 
-				<input type="submit" data-productid="<?php echo $productId ?>" data-formid="<?php echo $formId ?>" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist" value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST")  ?>" />
+				<input type="submit" data-productid="<?php echo $productId ?>" data-formid="<?php echo $formId ?>"
+                       class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist"
+                       value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST")  ?>" />
 		</form>
 	<?php endif; ?>
 <?php endif; ?>

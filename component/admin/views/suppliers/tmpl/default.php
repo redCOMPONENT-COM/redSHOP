@@ -46,7 +46,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<thead>
 				<tr>
 					<th width="1">#</th>
-					<th width="5%">
+					<th width="1">
 						<?php echo JHtml::_('redshopgrid.checkall'); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
