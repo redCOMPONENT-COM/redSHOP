@@ -2,9 +2,9 @@
 <extension version="3.0" type="plugin" group="ajax" method="upgrade">
 	<name>PLG_AJAX_XMLCRON</name>
 	<author>redCOMPONENT.com</author>
-	<version>1.1</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>November 2016</creationDate>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>GNU/GPL</license>
 	<authorEmail>email@redcomponent.com</authorEmail>
@@ -12,9 +12,7 @@
 	<description>PLG_AJAX_XMLCRON_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="xmlcron">xmlcron.php</filename>
+		<folder>language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_ajax_xmlcron.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_ajax_xmlcron.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 </extension>
