@@ -21,6 +21,8 @@ class StateManagerJ3Page
 
 	public static $countryIdDropDown = "//div[@id='s2id_jform_country_id']/a";
 
+	public static $countrySearchInputField = "//input[@id='s2id_autogen1_search']";
+
 	public static $stateName = "#jform_state_name";
 
 	public static $stateTwoCode = "#jform_state_2_code";
@@ -44,7 +46,9 @@ class StateManagerJ3Page
 	 */
 	public function countryID($countryName)
 	{
-		$path = "//ul[@class='select2-results']/li/div[@class='select2-result-label' ][contains(text(), '" . $countryName . "')]";
+		$path = "//span[contains(text(), '" . $countryName . "')]";
+
+		//$path = "//ul[@class='select2-results']/li/div[@class='select2-result-label' ][contains(text(), '" . $countryName . "')]";
 
 		return $path;
 	}
