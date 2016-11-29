@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 /**
- * Mass discount detail controller
+ * Mass Discounts controller
  *
- * @package     RedSHOP.Backend
+ * @package     RedSHOP.backend
  * @subpackage  Controller
  * @since       __DEPLOY_VERSION__
  */
-class RedshopControllerMass_Discount extends RedshopControllerForm
+class RedshopControllerMass_Discounts extends RedshopControllerAdmin
 {
 }

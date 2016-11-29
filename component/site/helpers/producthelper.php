@@ -2136,6 +2136,7 @@ class productHelper
 		{
 			// Convert discount_enddate to middle night
 			$productData->discount_enddate = RedshopHelperDatetime::generateTimestamp($productData->discount_enddate);
+
 			if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
 				|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today)
 				|| ($productData->discount_enddate == '0' && (int) $productData->discount_stratdate <= $today))
