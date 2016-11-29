@@ -619,7 +619,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 													<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped" width="100%">
 														<tr>
 															<td width="20%">
-																<a href="<?php echo $productLink;?>" target="_blank">
+																<a href="<?php echo $productFrontendLink;?>" target="_blank">
 																	<?php echo $Product_name;?>
 																<a/>
 															</td>
