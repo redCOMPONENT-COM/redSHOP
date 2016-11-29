@@ -9,7 +9,13 @@
 
 defined('_JEXEC') or die;
 
-class plgRedshop_paymentCielo extends JPlugin
+/**
+ *  PlgRedshop_PaymentCielo class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentCielo extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -21,12 +27,17 @@ class plgRedshop_paymentCielo extends JPlugin
 
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
+	 *
+	 * @param   Object  $element  element object
+	 * @param   Object  $data     data params
+	 *
+	 * @return  $values
 	 */
 	public function onPrePayment_Cielo($element, $data)
 	{
-		$app = JFactory::getApplication();
-		$session       = JFactory::getSession();
-		$ccdata        = $session->get('ccdata');
+		$app 		= JFactory::getApplication();
+		$session 	= JFactory::getSession();
+		$ccdata 	= $session->get('ccdata');
 
 		if ($element != 'cielo')
 		{
@@ -109,10 +120,14 @@ class plgRedshop_paymentCielo extends JPlugin
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_POST, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($order));
-		curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-		    'MerchantId: ' . $this->params->get('merchantId'),
-		    'Content-Type: application/json'
-		));
+		curl_setopt(
+			$curl,
+			CURLOPT_HTTPHEADER,
+			[
+				'MerchantId: ' . $this->params->get('merchantId'),
+				'Content-Type: application/json'
+			]
+		);
 
 		$response = curl_exec($curl);
 
@@ -139,40 +154,48 @@ class plgRedshop_paymentCielo extends JPlugin
 		return $values;
 	}
 
+	/**
+	 * onCapture_PaymentCielo description
+	 * 
+	 * @param   Object  $element  element
+	 * @param   Object  $data     data params
+	 * 
+	 * @return  $values
+	 */
 	public function onCapture_PaymentCielo($element, $data)
 	{
 		// Store number
-		$cielo_loja_id = $this->params->get('cielo_loja_id', '');
+		$cieloLojaId = $this->params->get('cielo_loja_id', '');
 
 		// Key
-		$cielo_loja_chave = $this->params->get('cielo_loja_chave', '');
+		$cieloLojaChave = $this->params->get('cielo_loja_chave', '');
 
 		// Add request-specific fields to the request string.
 		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/cielo/includes/include.php';
 		include $paymentpath;
 
 		$objResposta = null;
-		$Pedido = new Pedido;
+		$pedido = new Pedido;
 
 		$amount = number_format($data['order_amount'], 2, '.', '') * 100;
 
-		$Pedido->dadosEcNumero          = $cielo_loja_id;
-		$Pedido->dadosEcChave           = $cielo_loja_chave;
-		$Pedido->tid                    = $data['order_transactionid'];
-		$Pedido->dadosPedidoNumero      = $data['order_number'];
+		$pedido->dadosEcNumero          = $cieloLojaId;
+		$pedido->dadosEcChave           = $cieloLojaChave;
+		$pedido->tid                    = $data['order_transactionid'];
+		$pedido->dadosPedidoNumero      = $data['order_number'];
 
-		$Pedido->dadosPedidoValor       = $amount;
-		$Pedido->formaPagamentoProduto  = 1;
-		$Pedido->formaPagamentoParcelas = 1;
-		$PercentualCaptura              = $Pedido->dadosPedidoValor;
-		$objResposta                    = $Pedido->RequisicaoCaptura($PercentualCaptura, null);
+		$pedido->dadosPedidoValor       = $amount;
+		$pedido->formaPagamentoProduto  = 1;
+		$pedido->formaPagamentoParcelas = 1;
+		$percentualCaptura              = $pedido->dadosPedidoValor;
+		$objResposta                    = $pedido->RequisicaoCaptura($percentualCaptura, null);
 
-		$Pedido->status = $objResposta->status;
+		$pedido->status = $objResposta->status;
 
 		// Call function to post an order ------
 		$values = new stdClass;
 
-		if ($Pedido->status == 6)
+		if ($pedido->status == 6)
 		{
 			$message = $objResposta->captura->mensagem;
 			$values->responsestatus = 'Success';
