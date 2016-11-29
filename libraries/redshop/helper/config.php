@@ -416,4 +416,24 @@ class RedshopHelperConfig
 		');
 		self::$isLoadScriptDeclaration = true;
 	}
+
+	/**
+	 * Method for get config variable of redshop
+	 *
+	 * @param   string  $name     Name of variable.
+	 * @param   mixed   $default  Default data if not found.
+	 *
+	 * @return  mixed
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function get($name = '', $default = null)
+	{
+		if (empty($this->config))
+		{
+			return $default;
+		}
+
+		return $this->config->get($name, $default);
+	}
 }
