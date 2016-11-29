@@ -11,7 +11,13 @@ defined('_JEXEC') or die;
 // Load nganluong library
 require_once dirname(__DIR__) . '/nganluong/library/init.php';
 
-class plgRedshop_PaymentNganluong extends RedshopPayment
+/**
+ *  PlgRedshop_PaymentNganLuong class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentNganLuong extends RedshopPayment
 {
 	/**
 	 * Load the language file on instantiation.
