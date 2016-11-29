@@ -1104,29 +1104,26 @@ class RedshopHelperExtrafields
 				{
 					$list = self::getSectionFieldDataList($rowData[$i]->field_id, $sect[$h], $sectionId, $userEmail);
 
-					if ($dataTxt != '' || (count($list) > 0 && $list->dataTxt != ''))
+					if (count($list) > 0)
 					{
-						if (count($list) > 0)
-						{
-							$sql = $db->getQuery(true);
-							$sql->update($db->qn('#__redshop_fields_data'))
-								->set($db->qn('data_txt') . ' = ' . $db->quote($dataTxt))
-								->where($db->qn('itemid') . ' = ' . (int) $sectionId)
-								->where($db->qn('section') . ' = ' . (int) $sect[$h])
-								->where($db->qn('user_email') . ' = ' . $db->quote($userEmail))
-								->where($db->qn('fieldid') . ' = ' . (int) $rowData[$i]->field_id);
-						}
-						else
-						{
-							$sql = $db->getQuery(true);
-							$sql->insert($db->qn('#__redshop_fields_data'))
-								->columns($db->qn(array('fieldid', 'data_txt', 'itemid', 'section', 'user_email')))
-								->values(implode(',', array((int) $rowData[$i]->field_id, $db->quote($dataTxt), (int) $sectionId, (int) $sect[$h], $db->quote($userEmail))));
-						}
-
-						$db->setQuery($sql);
-						$db->execute();
+						$sql = $db->getQuery(true);
+						$sql->update($db->qn('#__redshop_fields_data'))
+							->set($db->qn('data_txt') . ' = ' . $db->quote($dataTxt))
+							->where($db->qn('itemid') . ' = ' . (int) $sectionId)
+							->where($db->qn('section') . ' = ' . (int) $sect[$h])
+							->where($db->qn('user_email') . ' = ' . $db->quote($userEmail))
+							->where($db->qn('fieldid') . ' = ' . (int) $rowData[$i]->field_id);
 					}
+					else
+					{
+						$sql = $db->getQuery(true);
+						$sql->insert($db->qn('#__redshop_fields_data'))
+							->columns($db->qn(array('fieldid', 'data_txt', 'itemid', 'section', 'user_email')))
+							->values(implode(',', array((int) $rowData[$i]->field_id, $db->quote($dataTxt), (int) $sectionId, (int) $sect[$h], $db->quote($userEmail))));
+					}
+
+					$db->setQuery($sql);
+					$db->execute();
 				}
 			}
 		}
