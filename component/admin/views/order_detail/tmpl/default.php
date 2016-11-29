@@ -589,25 +589,34 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									$subtotal_excl_vat += $products[$i]->product_item_price_excl_vat * $quantity;
 									$vat = ($products[$i]->product_item_price - $products[$i]->product_item_price_excl_vat);
 
-									// Generate frontend link
-									$itemData = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $productdetail->product_id);
-									$catIdMain = $productdetail->cat_in_sefurl;
-
-									if (count($itemData) > 0)
+									// Make sure this variable is object before we can use it
+									if (is_object($productdetail))
 									{
-										$pItemid = $itemData->id;
+										// Generate frontend link
+										$itemData = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $productdetail->product_id);
+										$catIdMain = $productdetail->cat_in_sefurl;
+
+										if (count($itemData) > 0)
+										{
+											$pItemid = $itemData->id;
+										}
+										else
+										{
+											$objhelper = redhelper::getInstance();
+											$pItemid = $objhelper->getItemid($productdetail->product_id, $catIdMain);
+										}
+
+										$productFrontendLink  = JURI::root();
+										$productFrontendLink .= 'index.php?option=com_redshop';
+										$productFrontendLink .= '&view=product&pid=' . $productdetail->product_id;
+										$productFrontendLink .= '&cid=' . $catIdMain;
+										$productFrontendLink .= '&Itemid=' . $pItemid;
 									}
 									else
 									{
-										$objhelper = redhelper::getInstance();
-										$pItemid = $objhelper->getItemid($productdetail->product_id, $catIdMain);
+										$productFrontendLink = '#';
 									}
 
-									$productFrontendLink  = JURI::root();
-									$productFrontendLink .= 'index.php?option=com_redshop';
-									$productFrontendLink .= '&view=product&pid=' . $productdetail->product_id;
-									$productFrontendLink .= '&cid=' . $catIdMain;
-									$productFrontendLink .= '&Itemid=' . $pItemid;
 								?>
 							<tr>
 								<td>
