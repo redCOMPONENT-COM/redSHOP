@@ -13,7 +13,13 @@ require_once dirname(__DIR__) . '/baokim/library/constants.php';
 require_once dirname(__DIR__) . '/baokim/library/baokim_payment_pro.php';
 require_once dirname(__DIR__) . '/baokim/library/baokim_payment.php';
 
-class plgRedshop_PaymentBaokim extends RedshopPayment
+/**
+ *  PlgRedshop_PaymentBaoKim installer class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentBaoKim extends RedshopPayment
 {
 	/**
 	 * Load the language file on instantiation.
