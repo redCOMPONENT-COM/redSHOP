@@ -1114,7 +1114,7 @@ class RedshopHelperExtrafields
 							->where($db->qn('user_email') . ' = ' . $db->quote($userEmail))
 							->where($db->qn('fieldid') . ' = ' . (int) $rowData[$i]->field_id);
 					}
-					else
+					else if (!empty($dataTxt))
 					{
 						$sql = $db->getQuery(true);
 						$sql->insert($db->qn('#__redshop_fields_data'))
