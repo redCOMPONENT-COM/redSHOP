@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
 	<name>PLG_REDSHOP_PAYMENT_DOTPAY</name>
-	<version>1.5</version>
+	<version>1.7.0</version>
 	<redshop>1.5</redshop>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
@@ -13,12 +13,12 @@
 	<files>
 		<filename plugin="dotpay">dotpay.php</filename>
 		<folder>layouts</folder>
-		<folder>media</folder>
+		<folder>language</folder>
 	</files>
-	<languages>
-			<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_dotpay.ini</language>
-			<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_dotpay.sys.ini</language>
-	</languages>
+	<media folder="media">
+		<folder>plg_redshop_payment_dotpay</folder>
+	</media>
+	<scriptfile>install.php</scriptfile>
 	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">
 			<fieldset name="basic">
