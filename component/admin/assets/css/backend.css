@@ -16151,10 +16151,6 @@ Searchtools
   width: auto;
 }
 
-.select2-container.select2-container-multi {
-  width: 220px !important;
-}
-
 .select2-container .select2-choice {
   background-image: none !important;
   background-color: #f7f7f7 !important;
