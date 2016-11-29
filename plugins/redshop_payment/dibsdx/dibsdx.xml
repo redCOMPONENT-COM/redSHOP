@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
 	<name>PLG_RS_PAYMENT_DIBSDX</name>
-	<version>1.5.1</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>November 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>http://www.redcomponent.com</authorUrl>
@@ -17,10 +17,7 @@
 		<folder>language</folder>
 		<folder>dibsdx</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_dibsdx.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_dibsdx.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">
 			<fieldset name="basic">
@@ -37,7 +34,7 @@
 					 label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INTEGRATION_ID" description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_INTEGRATION_ID_DESC"/>
 				<field name="dibs_currency" type="list" default="1" label="PLG_RS_PAYMENT_DIBSDX_PAYMENT_CURRENCY"
 					 description="PLG_RS_PAYMENT_DIBSDX_PAYMENT_CURRENCY">
-					 <option value="DKK" selected="selected">Danish Kroner (DKK)</option>
+					 <option value="DKK" selected="selected">PLG_RS_PAYMENT_DIBSDX_PAYMENT_DKK</option>
 					 <option value="EUR">PLG_RS_PAYMENT_DIBSDX_PAYMENT_EUR</option>
 					 <option value="USD">PLG_RS_PAYMENT_DIBSDX_PAYMENT_USD</option>
 					 <option value="GBP">PLG_RS_PAYMENT_DIBSDX_PAYMENT_GBP</option>
