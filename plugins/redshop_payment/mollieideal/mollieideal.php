@@ -11,7 +11,13 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_paymentMollieideal extends JPlugin
+/**
+ *  PlgRedshop_PaymentMollieIdeal class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentMollieIdeal extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -44,9 +50,8 @@ class plgRedshop_paymentMollieideal extends JPlugin
 
 		$step = $app->input->getInt('step', 1);
 
-		if (1 == $step)
+		if ($step == 1)
 		{
-			//$this->showBanks($mollie);
 			echo RedshopLayoutHelper::render(
 				'form',
 				array(
@@ -57,7 +62,7 @@ class plgRedshop_paymentMollieideal extends JPlugin
 				__DIR__ . '/layouts'
 			);
 		}
-		else if (2 == $step)
+		elseif ($step == 2)
 		{
 			// Determine the url parts to these example files.
 			$protocol    = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
@@ -76,17 +81,17 @@ class plgRedshop_paymentMollieideal extends JPlugin
 			 *   metadata      Custom metadata that is stored with the payment.
 			 *   issuer        The customer's bank. If empty the customer can select it later.
 			 */
-			$payment = $mollie->payments->create(array(
+			$payment = $mollie->payments->create(
+				[
 					"amount"      => $data['order']->order_total,
 					"method"      => Mollie_API_Object_Method::IDEAL,
 					"description" => JText::_('PLG_REDSHOP_PAYMENT_MOLLIEIDEAL_PAYMENT_DESCRIPTION'),
 					"webhookUrl"  => $webhookUrl,
 					"redirectUrl" => $redirectUrl,
-					"metadata"    => array(
-					"order_id"    => $data['order_id'],
-				),
-				"issuer" => !empty($_POST["issuer"]) ? $_POST["issuer"] : NULL
-			));
+					"metadata"    => ["order_id" => $data['order_id']],
+					"issuer" 	  => !empty($_POST["issuer"]) ? $_POST["issuer"] : null
+				]
+			);
 
 			// Send the customer off to complete the payment.
 			$app->redirect($payment->getPaymentUrl());
@@ -123,14 +128,14 @@ class plgRedshop_paymentMollieideal extends JPlugin
 
 		$values = new stdClass;
 
-		if ($payment->isPaid() == TRUE)
+		if ($payment->isPaid() == true)
 		{
 			$values->order_status_code         = $this->params->get('verify_status', '');
 			$values->order_payment_status_code = 'Paid';
 			$values->log                       = JText::_('COM_REDSHOP_ORDER_PLACED');
 			$values->msg                       = JText::_('COM_REDSHOP_ORDER_PLACED');
 		}
-		elseif ($payment->isOpen() == FALSE)
+		elseif ($payment->isOpen() == false)
 		{
 			$values->order_status_code         = $this->params->get('invalid_status', '');
 			$values->order_payment_status_code = 'Unpaid';
