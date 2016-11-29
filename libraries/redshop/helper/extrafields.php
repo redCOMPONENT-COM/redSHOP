@@ -1113,6 +1113,9 @@ class RedshopHelperExtrafields
 							->where($db->qn('section') . ' = ' . (int) $sect[$h])
 							->where($db->qn('user_email') . ' = ' . $db->quote($userEmail))
 							->where($db->qn('fieldid') . ' = ' . (int) $rowData[$i]->field_id);
+
+						$db->setQuery($sql);
+						$db->execute();
 					}
 					else if (!empty($dataTxt))
 					{
@@ -1120,10 +1123,10 @@ class RedshopHelperExtrafields
 						$sql->insert($db->qn('#__redshop_fields_data'))
 							->columns($db->qn(array('fieldid', 'data_txt', 'itemid', 'section', 'user_email')))
 							->values(implode(',', array((int) $rowData[$i]->field_id, $db->quote($dataTxt), (int) $sectionId, (int) $sect[$h], $db->quote($userEmail))));
-					}
 
-					$db->setQuery($sql);
-					$db->execute();
+						$db->setQuery($sql);
+						$db->execute();
+					}
 				}
 			}
 		}
