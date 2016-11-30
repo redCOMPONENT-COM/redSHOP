@@ -16,7 +16,7 @@ jimport('redshop.library');
 JLoader::import('helper', __DIR__ . '/helper');
 
 /**
- * PlgRedshop_PdfTcPDF class.
+ * PlgRedshop_PdfMPdf class.
  *
  * @package  Redshopb.Plugin
  * @since    1.0.0
@@ -114,7 +114,9 @@ class PlgRedshop_PdfMPdf extends JPlugin
 		}
 
 		$invoicePdfName = "multiprintorder" . round(microtime(true) * 1000);
+
 		ob_end_clean();
+
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoicePdfName . ".pdf", "F");
 		$storeFiles = array('index.html', '' . $invoicePdfName . '.pdf');
 
