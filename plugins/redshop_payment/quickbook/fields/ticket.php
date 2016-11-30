@@ -15,9 +15,9 @@ JLoader::import('redshop.library');
 /**
  * Renders a Productfinder Form
  *
- * @package        RedSHOP.Backend
- * @subpackage     Element
- * @since          1.5
+ * @package     RedSHOP.Backend
+ * @subpackage  Element
+ * @since       1.5
  */
 class JFormFieldTicket extends JFormFieldText
 {
@@ -66,26 +66,31 @@ class JFormFieldTicket extends JFormFieldText
 			RedshopHelperConfig::script('SECRET_WORD', $this->secretWord);
 		}
 
-		JFactory::getDocument()->addScript(JUri::root(true) . '/plugins/redshop_payment/quickbook/media/js/quickbook.js');
-		JFactory::getDocument()->addStyleSheet(
-			JUri::root(true) . '/plugins/redshop_payment/quickbook/media/css/quickbook.css'
-		);
+		JHtml::stylesheet('plg_redshop_payment_quickbook/quickbook.css', false, true);
+		JHtml::script('plg_redshop_payment_quickbook/quickbook.js', false, true);
 
-		$html[] = '<div class="input-append">';
+		$parentInput = parent::getInput();
 
-		$html[] = '<a href="#getTicketModal" role="button" id="get_connection_button" class="btn btn-primary" data-toggle="modal">'
-					. JText::_('PLG_REDSHOP_PAYMENT_QUICKBOOK_GET_CONNECTION_TICKET_BUTTON')
-				. '</a>';
-
-		$html[] = parent::getInput();
-
-		$html[] = '</div>';
+		$html[] = RedshopLayoutHelper::render(
+				'ticket',
+				[
+					'parentInput' => $parentInput
+				],
+				JPATH_SITE . '/plugins/redshop_payment/quickbook/layouts'
+			);
 
 		$html[] = $this->getModalHtml();
 
 		return implode($html);
 	}
 
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   11.1
+	 */
 	private function getModalHtml()
 	{
 		$title = JText::_('PLG_REDSHOP_PAYMENT_QUICKBOOK_GET_CONNECTION_TICKET_TITLE');
@@ -94,37 +99,16 @@ class JFormFieldTicket extends JFormFieldText
 
 		$subscriptionUrl = JUri::root() . 'index.php?option=com_redshop&tmpl=component&secret=' . $this->secretWord . '&control=setConnectionTicket';
 
-		$html = <<<EOF
-<div id="getTicketModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="getTicketModalLabel" aria-hidden="true">
-	<div class="modal-header">
-	  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	  <h1 id="getTicketModalLabel">$title</h1>
-	</div>
-	<div class="modal-body">
-		<ol>
-			<li>Copy following URL which you need to add as a <b>Subscription URL</b> while you will create QBMS Application in next step.
-				<pre>$subscriptionUrl</pre>
-			</li>
-			<li>
-				<p>Follow the steps on the application registration page here: https://developer.intuit.com/Application/Create/QBMS</p>
-			</li>
-			<li>
-				<p>After you have developed your QBMS application, you need to attach your QBMS account to your application registration. You can do that by visiting the links below in a web browser.</p>
-				<p>
-					For <span class="label label-success">Production</span> applications visit this page in a web browser: <a target="_blank" id="app_id_link_production" href="">Click me to get connection ticket for Production</a>
-				</p>
-				<p>
-					For <span class="label label-important">Development</span> applications, visit this page in a web browser: <a target="_blank" id="app_id_link_develop" href="">Click me to get connection ticket for Development</a>
-				</p>
-			</li>
-		</ol>
-	</div>
-	<div class="modal-footer" style="text-align:left;">
-		<span>$userAgreementText</span>
-		<a href="#" class="btn btn-primary" id="generate_conn_ticket">$connectionTicketButtonTxt</a>
-	</div>
-</div>
-EOF;
+		$html = RedshopLayoutHelper::render(
+				'modal_certificate',
+				[
+					'title' 					=> $title,
+					'connectionTicketButtonTxt' => $connectionTicketButtonTxt,
+					'subscriptionUrl' 			=> $subscriptionUrl,
+					'userAgreementText'			=> $userAgreementText
+				],
+				JPATH_SITE . 'plugins/redshop_payment/quickbook/layouts/layouts'
+			);
 
 		return $html;
 	}
