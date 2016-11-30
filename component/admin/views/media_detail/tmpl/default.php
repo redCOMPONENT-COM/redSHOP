@@ -106,7 +106,7 @@ if ($showbuttons)
 
 				return false;
 			}
-			else if (form.media_type.value != "youtube") 
+			else if (form.media_type.value != "youtube")
 			{
 				if (form.file.value == '' && form.media_bank_image.value == '')
 				{
@@ -141,10 +141,8 @@ if ($showbuttons)
 
 				return false;
 			}
-			else
-			{
-				submitform(pressbutton);
-			}
+
+			submitform(pressbutton);
 		}
 	</script>
 
