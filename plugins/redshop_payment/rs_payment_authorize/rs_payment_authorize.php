@@ -11,10 +11,28 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_paymentrs_payment_authorize extends JPlugin
+/**
+ *  PlgRedshop_PaymentRs_Payment_Authorize class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentRs_Payment_Authorize extends JPlugin
 {
 	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * Load the language file on instantiation.
+	 *
+	 * @var  boolean
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
+	 * onPrePayment_rs_payment_authorize Plugin method with the same name as the event will be called automatically.
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data array]
+	 *
+	 * @return  [$values]           [array]
 	 */
 	public function onPrePayment_rs_payment_authorize($element, $data)
 	{
@@ -34,35 +52,56 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		$cart    = $session->get('cart');
 
 		// For total amount
-		$cal_no = 2;
+		$calNo = 2;
 
 		if (Redshop::getConfig()->get('PRICE_DECIMAL') != '')
 		{
-			$cal_no = Redshop::getConfig()->get('PRICE_DECIMAL');
+			$calNo = Redshop::getConfig()->get('PRICE_DECIMAL');
 		}
 
-		$order_total = round($data['order_total'], $cal_no);
+		$orderTotal = round($data['order_total'], $calNo);
 
-		$item_details = "";
+		$itemDetails = "";
 
 		for ($p = 0; $p < $cart['idx']; $p++)
 		{
 			if (isset($cart[$p]['product_id']) && $cart[$p]['product_id'] != "")
 			{
-				$product_id   = $cart[$p]['product_id'];
-				$query        = "SELECT product_name,product_s_desc FROM `#__redshop_product` WHERE `product_id` = '" . $cart[$p]['product_id'] . "'";
+				$productId   = $cart[$p]['product_id'];
+
+				$query = $db->getQuery(true);
+				$query->select($db->qn(['product_name', 'product_s_desc']))
+					->from($db->qn('#__redshop_product'))
+					->where($db->qn('product_id') . ' = ' . $db->q($cart[$p]['product_id']));
+
 				$db->setQuery($query);
-				$proinfo      = $db->loadObjectlist();
-				$product_name = substr(str_replace("&", "and", $proinfo[0]->product_name), 0, 30);
+				$productInfo = $db->loadObjectlist();
+				$productName = substr(str_replace("&", "and", $productInfo[0]->product_name), 0, 30);
 			}
 
 			if (isset($cart[$p]['giftcard_id']) && $cart[$p]['giftcard_id'] != "")
 			{
-				$product_id   = $cart[$p]['giftcard_id'];
-				$query_gift   = "SELECT * FROM `#__redshop_giftcard` WHERE `giftcard_id` = '" . $cart[$p]['giftcard_id'] . "'";
+				$productId   = $cart[$p]['giftcard_id'];
+
+				$query = $db->getQuery(true);
+				$query->select(
+						$db->qn(
+							[
+								'giftcard_id', 'giftcard_name', 'giftcard_price',
+								'giftcard_value', 'giftcard_validity', 'giftcard_date',
+								'giftcard_bgimage', 'giftcard_image', 'published',
+								'giftcard_desc', 'customer_amount', 'accountgroup_id',
+								'free_shipping'
+							]
+						)
+					)
+					->from($db->qn('#__redshop_giftcard'))
+					->where($db->qn('giftcard_id') . ' = ' . $db->q($cart[$p]['giftcard_id']));
+
 				$db->setQuery($query_gift);
-				$giftinfoinfo = $db->loadObjectlist();
-				$product_name = substr(str_replace("&", "and", $giftinfoinfo[0]->giftcard_name), 0, 30);
+
+				$giftCardInfo = $db->loadObjectlist();
+				$productName = substr(str_replace("&", "and", $giftCardInfo[0]->giftcard_name), 0, 30);
 			}
 
 			if ($cart[$p]['product_price_excl_vat'] == $cart[$p]['product_price'])
@@ -74,28 +113,21 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 				$taxable = "Y";
 			}
 
-			$product_price = round($cart[$p]['product_price'], $cal_no);
+			$productPrice = round($cart[$p]['product_price'], $calNo);
 
-			$item_details[] = $product_id . "<|>" . $product_name . "<|><|>" . $cart[$p]['quantity'] . "<|>" . $product_price . "<|>" . $taxable;
+			$itemDetails[] = $productId . "<|>" . $productName . "<|><|>" . $cart[$p]['quantity'] . "<|>" . $productPrice . "<|>" . $taxable;
 		}
 
-		$item_str = implode("&x_line_item=", $item_details);
+		$itemString = implode("&x_line_item=", $itemDetails);
 
 		// For Email Receipt
-		if ($this->params->get("emailreceipt_to_customer") == 1)
-		{
-			$x_merchant_email = $data['billinginfo']->user_email;
-		}
-		else
-		{
-			$x_merchant_email = "";
-		}
+		$merchantEmail = ($this->params->get("emailreceipt_to_customer") == 1)? $data['billinginfo']->user_email: '';
 
-		$view_table_format = $this->params->get("view_table_format");
+		$viewTableFormat = $this->params->get("view_table_format");
 
 		// Authnet vars to send
 
-		$formdata = array(
+		$formData = array(
 			'x_version'            => '3.1',
 			'x_login'              => $this->params->get("access_id"),
 			'x_tran_key'           => $this->params->get("transaction_id"),
@@ -135,7 +167,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			// Email Settings
 			'x_email'              => $data['billinginfo']->user_email,
 			'x_email_customer'     => $this->params->get("emailreceipt_to_customer"),
-			'x_merchant_email'     => $x_merchant_email,
+			'x_merchant_email'     => $merchantEmail,
 
 			// Invoice Information
 			'x_invoice_num'        => substr($data['order_number'], 0, 20),
@@ -143,10 +175,10 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 			// Item information
 
-			'x_line_item'          => $item_str,
+			'x_line_item'          => $itemString,
 
 			// Transaction Data
-			'x_amount'             => $order_total,
+			'x_amount'             => $orderTotal,
 			'x_currency_code'      => Redshop::getConfig()->get('CURRENCY_CODE'),
 			'x_method'             => 'CC',
 			'x_type'               => $this->params->get("auth_type"),
@@ -164,91 +196,92 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 		);
 
-		if ($view_table_format == 0)
+		if ($viewTableFormat == 0)
 		{
-			unset($formdata['x_line_item']);
+			unset($formData['x_line_item']);
 		}
 
 		// Build the post string
-		$poststring = '';
+		$postString = '';
 
-		foreach ($formdata AS $key => $val)
+		foreach ($formData AS $key => $val)
 		{
-			$poststring .= urlencode($key) . "=" . $val . "&";
+			$postString .= urlencode($key) . "=" . $val . "&";
 		}
 
 		// Strip off trailing ampersand
-		$poststring = substr($poststring, 0, -1);
+		$postString = substr($postString, 0, -1);
 
-		if ($this->params->get("is_test") == 'TRUE')
-		{
-			$host = 'test.authorize.net';
-		}
-		else
-		{
-			$host = 'secure2.authorize.net';
-		}
+		$host = ($this->params->get("is_test") == 'TRUE')? 'test.authorize.net': 'secure2.authorize.net';
 
 		$url = "https://$host/gateway/transact.dll";
 
 		$urlParts = parse_url($url);
 
-		$CR = curl_init();
+		$curl = curl_init();
 
-		curl_setopt($CR, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_URL, $url);
 
-		curl_setopt($CR, CURLOPT_TIMEOUT, 30);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 30);
 
-		curl_setopt($CR, CURLOPT_FAILONERROR, true);
+		curl_setopt($curl, CURLOPT_FAILONERROR, true);
 
-		if ($poststring)
+		if ($postString)
 		{
-			curl_setopt($CR, CURLOPT_POSTFIELDS, $poststring);
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $postString);
 
-			curl_setopt($CR, CURLOPT_POST, 1);
+			curl_setopt($curl, CURLOPT_POST, 1);
 		}
 
-		curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
 		if ($urlParts['scheme'] == 'https')
 		{
-			curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		}
 
-		$result = curl_exec($CR);
+		$result = curl_exec($curl);
 
-		$error = curl_error($CR);
+		$error = curl_error($curl);
 
-		curl_close($CR);
+		curl_close($curl);
 
 		if (!$result || !empty($error))
 		{
 			return false;
 		}
 
-		$response_vars = explode('|', $result);
+		$responseVars = explode('|', $result);
 
-		$response_vars[0] = str_replace('"', '', $response_vars[0]);
-		$transaction_id = $response_vars[6];
+		$responseVars[0] = str_replace('"', '', $responseVars[0]);
+		$transactionId = $responseVars[6];
 
-		if ($response_vars[0] == '1' || $response_vars[0] == 1)
+		if ($responseVars[0] == '1' || $responseVars[0] == 1)
 		{
 			$values->responsestatus = 'Success';
-			$message = $response_vars[3];
+			$message = $responseVars[3];
 		}
 		else
 		{
 			// Catch Transaction ID
-			$message = "ERROR RESPONCE CODE : " . $response_vars[0] . "<br>" . $response_vars[3];
+			$message = "ERROR RESPONCE CODE : " . $responseVars[0] . "<br>" . $responseVars[3];
 			$values->responsestatus = 'Fail';
 		}
 
-		$values->transaction_id = $transaction_id;
+		$values->transaction_id = $transactionId;
 		$values->message = $message;
 
 		return $values;
 	}
 
+	/**
+	 * onCapture_Paymentrs_payment_authorize
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data array]
+	 *
+	 * @return  [$values]           [array]
+	 */
 	public function onCapture_Paymentrs_payment_authorize($element, $data)
 	{
 		if ($element != 'rs_payment_authorize')
@@ -256,16 +289,33 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			return;
 		}
 
-		$order_id      = $data['order_id'];
-		$tid           = $data['order_transactionid'];
-		$db            = JFactory::getDbo();
-		$billing_info  = $data['billinginfo'];
-		$shipping_info = $data['shippinginfo'];
+		$db           = JFactory::getDbo();
+		$orderId      = $data['order_id'];
+		$tranId          = $data['order_transactionid'];
+		$billingInfo  = $data['billinginfo'];
+		$shippingInfo = $data['shippinginfo'];
 
 		// Fetch the Credit Card information from Order Id
-		$sql = "SELECT op.*,o.order_total,o.user_id FROM `#__redshop_order_payment` AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $order_id . "' AND op.order_payment_trans_id='" . $tid . "' ";
-		$db->setQuery($sql);
-		$order_details = $db->loadObject();
+		$query = $db->getQuery(true);
+		$query->select(
+				$db->qn(
+					[
+						'o.order_total', 'o.user_id',
+						'op.payment_order_id', 'op.order_id', 'op.payment_method_id',
+						'op.order_payment_code', 'op.order_payment_cardname', 'op.order_payment_number',
+						'op.order_payment_ccv', 'op.order_payment_amount', 'op.order_payment_expire',
+						'op.order_payment_name', 'op.payment_method_class', 'op.order_payment_trans_id',
+						'op.authorize_status', 'op.order_transfee'
+					]
+				)
+			)
+			->from($db->qn('#__redshop_order_payment', 'op'))
+			->leftJoin($db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('op.order_id') . ' = ' . $db->qn('o.order_id'))
+			->where($db->qn('o.order_id') . ' = ' . $db->q('orderId'))
+			->where($db->qn('op.order_payment_trans_id') . ' = ' . $db->q($tranId));
+
+		$db->setQuery($query);
+		$orderDetails = $db->loadObject();
 
 		// For Email Receipt
 		if ($this->params->get("emailreceipt_to_customer") == 1)
@@ -278,17 +328,17 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		}
 
 		// For total amount
-		$cal_no = 2;
+		$calNo = 2;
 
 		if (Redshop::getConfig()->get('PRICE_DECIMAL') != '')
 		{
-			$cal_no = Redshop::getConfig()->get('PRICE_DECIMAL');
+			$calNo = Redshop::getConfig()->get('PRICE_DECIMAL');
 		}
 
-		$order_total = round($order_details->order_total, $cal_no);
+		$orderTotal = round($orderDetails->order_total, $calNo);
 
 		// Authnet vars to send
-		$formdata = array(
+		$formData = array(
 			'x_version'            => '3.1',
 			'x_login'              => $this->params->get("access_id"),
 			'x_tran_key'           => $this->params->get("transaction_id"),
@@ -297,103 +347,96 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			'x_delim_char'         => '|',
 			'x_relay_response'     => 'FALSE',
 			// Customer Name and Billing Address
-			'x_first_name'         => substr($billing_info->firstname, 0, 50),
-			'x_last_name'          => substr($billing_info->lastname, 0, 50),
-			'x_company'            => substr(@$billing_info->company, 0, 50),
-			'x_address'            => substr($billing_info->address, 0, 60),
-			'x_city'               => substr($billing_info->city, 0, 40),
-			'x_state'              => substr($billing_info->state_code, 0, 40),
-			'x_zip'                => substr($billing_info->zipcode, 0, 20),
-			'x_country'            => substr($billing_info->country_code, 0, 60),
-			'x_phone'              => substr($billing_info->phone, 0, 25),
-			'x_fax'                => substr(@$billing_info->fax, 0, 25),
+			'x_first_name'         => substr($billingInfo->firstname, 0, 50),
+			'x_last_name'          => substr($billingInfo->lastname, 0, 50),
+			'x_company'            => substr(@$billingInfo->company, 0, 50),
+			'x_address'            => substr($billingInfo->address, 0, 60),
+			'x_city'               => substr($billingInfo->city, 0, 40),
+			'x_state'              => substr($billingInfo->state_code, 0, 40),
+			'x_zip'                => substr($billingInfo->zipcode, 0, 20),
+			'x_country'            => substr($billingInfo->country_code, 0, 60),
+			'x_phone'              => substr($billingInfo->phone, 0, 25),
+			'x_fax'                => substr(@$billingInfo->fax, 0, 25),
 			// Customer Shipping Address
-			'x_ship_to_first_name' => substr($shipping_info->firstname, 0, 50),
-			'x_ship_to_last_name'  => substr($shipping_info->lastname, 0, 50),
-			'x_ship_to_company'    => substr(@$shipping_info->company, 0, 50),
-			'x_ship_to_address'    => substr($shipping_info->address, 0, 60),
-			'x_ship_to_city'       => substr($shipping_info->city, 0, 40),
-			'x_ship_to_state'      => substr($shipping_info->state_code, 0, 40),
-			'x_ship_to_zip'        => substr($shipping_info->zipcode, 0, 20),
-			'x_ship_to_country'    => substr($shipping_info->country_code, 0, 60),
+			'x_ship_to_first_name' => substr($shippingInfo->firstname, 0, 50),
+			'x_ship_to_last_name'  => substr($shippingInfo->lastname, 0, 50),
+			'x_ship_to_company'    => substr(@$shippingInfo->company, 0, 50),
+			'x_ship_to_address'    => substr($shippingInfo->address, 0, 60),
+			'x_ship_to_city'       => substr($shippingInfo->city, 0, 40),
+			'x_ship_to_state'      => substr($shippingInfo->state_code, 0, 40),
+			'x_ship_to_zip'        => substr($shippingInfo->zipcode, 0, 20),
+			'x_ship_to_country'    => substr($shippingInfo->country_code, 0, 60),
 			// Additional Customer Data
-			'x_cust_id'            => $billing_info->user_id,
+			'x_cust_id'            => $billingInfo->user_id,
 			'x_customer_ip'        => $_SERVER["REMOTE_ADDR"],
 			// Email Settings
-			'x_email'              => $billing_info->user_email,
+			'x_email'              => $billingInfo->user_email,
 			'x_email_customer'     => $this->params->get("emailreceipt_to_customer"),
 			'x_merchant_email'     => $x_merchant_email,
 			// Invoice Information
 			'x_invoice_num'        => substr($data['order_number'], 0, 20),
 			'x_description'        => JText::_('COM_REDSHOP_AUTHORIZENET_ORDER_PRINT_PO_LBL'),
 			// Transaction Data
-			'x_amount'             => $order_total,
+			'x_amount'             => $orderTotal,
 			'x_currency_code'      => Redshop::getConfig()->get('CURRENCY_CODE'),
 			'x_method'             => 'CC',
 			'x_type'               => "PRIOR_AUTH_CAPTURE",
-			'x_card_num'           => base64_decode($order_details->order_payment_number),
-			'x_card_code'          => base64_decode($order_details->order_payment_ccv),
-			'x_exp_date'           => $order_details->order_payment_expire,
-			'x_trans_id'           => $tid,
+			'x_card_num'           => base64_decode($orderDetails->order_payment_number),
+			'x_card_code'          => base64_decode($orderDetails->order_payment_ccv),
+			'x_exp_date'           => $orderDetails->order_payment_expire,
+			'x_trans_id'           => $tranId,
 			// Level 2 data
-			'x_po_num'             => substr($order_id, 0, 20),
+			'x_po_num'             => substr($orderId, 0, 20),
 		);
 
 		// Build the post string
-		$poststring = '';
+		$postString = '';
 
-		foreach ($formdata AS $key => $val)
+		foreach ($formData AS $key => $val)
 		{
-			$poststring .= urlencode($key) . "=" . urlencode($val) . "&";
+			$postString .= urlencode($key) . "=" . urlencode($val) . "&";
 		}
 
 		// Strip off trailing ampersand
-		$poststring = substr($poststring, 0, -1);
+		$postString = substr($postString, 0, -1);
 
-		if ($this->params->get("is_test") == 'TRUE')
-		{
-			$host = 'test.authorize.net';
-		}
-		else
-		{
-			$host = 'secure2.authorize.net';
-		}
+		$host = ($this->params->get("is_test") == 'TRUE')? 'test.authorize.net': 'secure2.authorize.net';
 
 		$url = "https://$host/gateway/transact.dll";
 		$urlParts = parse_url($url);
-		$poststring = substr($poststring, 0, -1);
-		$CR = curl_init();
-		curl_setopt($CR, CURLOPT_URL, $url);
-		curl_setopt($CR, CURLOPT_TIMEOUT, 30);
-		curl_setopt($CR, CURLOPT_FAILONERROR, true);
+		$postString = substr($postString, 0, -1);
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+		curl_setopt($curl, CURLOPT_FAILONERROR, true);
 
-		if ($poststring)
+		if ($postString)
 		{
-			curl_setopt($CR, CURLOPT_POSTFIELDS, $poststring);
-			curl_setopt($CR, CURLOPT_POST, 1);
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $postString);
+			curl_setopt($curl, CURLOPT_POST, 1);
 		}
 
-		curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
 		if ($urlParts['scheme'] == 'https')
 		{
-			curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, 0);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		}
 
-		$result = curl_exec($CR);
-		curl_close($CR);
-		$response_vars = explode('|', $result);
-		$x_response_code = $response_vars[0];
+		$result = curl_exec($curl);
+		curl_close($curl);
+		$responseVars = explode('|', $result);
+		$responseCode = $responseVars[0];
 
-		if ($x_response_code == '1')
+		if ($responseCode == '1')
 		{
-			$values->responsestatus = 'Success';
-			$message = $response_vars[3];
+			$values->responseStatus = 'Success';
+			$message = $responseVars[3];
 		}
 		else
 		{
-			$values->responsestatus = 'Fail';
-			$message = "ERROR RESPONCE CODE : " . $response_vars[0] . "<br>" . $response_vars[3];
+			$values->responseStatus = 'Fail';
+			$message = "ERROR RESPONCE CODE : " . $responseVars[0] . "<br>" . $responseVars[3];
 		}
 
 		$values->message = $message;
@@ -401,7 +444,15 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		return $values;
 	}
 
-	public function onAuthorizeStatus_Paymentrs_payment_authorize($element, $order_id)
+	/**
+	 * onCapture_Paymentrs_payment_authorize
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [int]     $orderId  [data array]
+	 *
+	 * @return  [void]
+	 */
+	public function onAuthorizeStatus_Paymentrs_payment_authorize($element, $orderId)
 	{
 		if ($element != 'rs_payment_authorize')
 		{
@@ -414,18 +465,19 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		}
 
 		// Update authorize_status
-		if ($this->params->get("auth_type") == "AUTH_ONLY")
-		{
-			$authorize_status = "Authorized";
-		}
-		else
-		{
-			$authorize_status = "Captured";
-		}
+		$authorizeStatus = ($this->params->get("auth_type") == "AUTH_ONLY")? "Authorized": "Captured";
 
 		$db = JFactory::getDbo();
-		$query = "UPDATE `#__redshop_order_payment` SET  authorize_status = '"
-			. $authorize_status . "' where order_id = '" . $order_id . "'";
+		$query = $db->getQuery(true);
+
+		$fields = [
+			$db->qn('authorize_status') . ' = ' . $db->q($authorizeStatus),
+		];
+
+		$query->update($db->qn('#__redshop_order_payment'))
+			->set($fields)
+			->where($db->qn('order_id') . ' = ' . $db->q($orderId));
+
 		$db->setQuery($query);
 		$db->execute();
 	}
