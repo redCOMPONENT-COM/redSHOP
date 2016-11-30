@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
 	<name>PLG_RS_PAYMENT_2CHECKOUT</name>
-	<version>1.5.3</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>November 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>http://www.redcomponent.com</authorUrl>
@@ -12,150 +12,148 @@
 	<description>PLG_RS_PAYMENT_2CHECKOUT_DESC</description>
 
 	<files>
-	<filename plugin="rs_payment_2checkout">rs_payment_2checkout.php</filename>
+		<filename plugin="rs_payment_2checkout">rs_payment_2checkout.php</filename>
+		<folder>language</folder>
 	</files>
 
-	<languages>
-	<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_2checkout.ini</language>
-	<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_2checkout.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 
-  <config addfieldpath="/libraries/redshop/form/fields">
-	<fields name="params">
-	  <fieldset name="basic">
-		<field
-		  name="payment_oprand"
-		  type="text"
-		  size="10"
-		  default="-"
-		  label="PLG_RS_PAYMENT_2CHECKOUT_PAYMENT_OPERAND"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_PAYMENT_OPERAND"
-		/>
-		<field
-		  name="payment_price"
-		  type="text"
-		  size="30"
-		  default=""
-		  label="PLG_RS_PAYMENT_2CHECKOUT_PAYMENT_PRICE"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_PAYMENT_PRICE_DESC"
-		/>
-		<field
-		  name="payment_discount_is_percent"
-		  type="radio"
-		  default="1"
-		  class="btn-group"
-		  label="PLG_RS_PAYMENT_2CHECKOUT_DISCOUNT_TYPE"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_DISCOUNT_TYPE_DESC"
-		>
-		  <option value="1">PLG_RS_PAYMENT_PERCENTAGE</option>
-		  <option value="0">PLG_RS_PAYMENT_TOTAL</option>
-		</field>
-		<field
-		  name="is_test"
-		  type="radio"
-		  default="1"
-		  class="btn-group"
-		  label="PLG_RS_PAYMENT_2CHECKOUT_TEST_MODE"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_TEST_MODE_DESC"
-		>
-		  <option value="1">JYES</option>
-		  <option value="0">JNO</option>
-		</field>
-		<field
-		  name="vendor_id"
-		  type="text"
-		  default=""
-		  label="PLG_RS_PAYMENT_2CHECKOUT_SELLER_ID"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_SELLER_ID_DESC"
-		/>
-		<field
-		  name="secret_words"
-		  type="text"
-		  default=""
-		  label="PLG_RS_PAYMENT_2CHECKOUT_SECRET_WORD"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_SECRET_WORD_DESC"
-		/>
-		<field
-		  name="verify_status"
-		  type="sql"
-		  query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-		  key_field="st_value"
-		  value_field="st_title"
-		  default="C"
-		  label="PLG_RS_PAYMENT_2CHECKOUT_SECRET_ORDER_SUCCESS_STATUS"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_SECRET_ORDER_SUCCESS_STATUS_DESC"
-		/>
-		<field
-		  name="invalid_status"
-		  type="sql"
-		  query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-		  key_field="st_value"
-		  value_field="st_title"
-		  default="P"
-		  label="PLG_RS_PAYMENT_2CHECKOUT_SECRET_ORDER_FAILED_STATUS"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_SECRET_ORDER_FAILED_STATUS_DESC"
-		/>
-	  </fieldset>
+  	<config addfieldpath="/libraries/redshop/form/fields">
+		<fields name="params">
+		  	<fieldset name="basic">
+				<field
+				  name="payment_oprand"
+				  type="text"
+				  size="10"
+				  default="-"
+				  label="PLG_RS_PAYMENT_2CHECKOUT_PAYMENT_OPERAND"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_PAYMENT_OPERAND"
+				/>
+				<field
+				  name="payment_price"
+				  type="text"
+				  size="30"
+				  default=""
+				  label="PLG_RS_PAYMENT_2CHECKOUT_PAYMENT_PRICE"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_PAYMENT_PRICE_DESC"
+				/>
+				<field
+				  name="payment_discount_is_percent"
+				  type="radio"
+				  default="1"
+				  class="btn-group"
+				  label="PLG_RS_PAYMENT_2CHECKOUT_DISCOUNT_TYPE"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_DISCOUNT_TYPE_DESC"
+				>
+				  <option value="1">PLG_RS_PAYMENT_PERCENTAGE</option>
+				  <option value="0">PLG_RS_PAYMENT_TOTAL</option>
+				</field>
+				<field
+				  name="is_test"
+				  type="radio"
+				  default="1"
+				  class="btn-group"
+				  label="PLG_RS_PAYMENT_2CHECKOUT_TEST_MODE"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_TEST_MODE_DESC"
+				>
+				  <option value="1">JYES</option>
+				  <option value="0">JNO</option>
+				</field>
+				<field
+				  name="vendor_id"
+				  type="text"
+				  default=""
+				  label="PLG_RS_PAYMENT_2CHECKOUT_SELLER_ID"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_SELLER_ID_DESC"
+				/>
+				<field
+				  name="secret_words"
+				  type="text"
+				  default=""
+				  label="PLG_RS_PAYMENT_2CHECKOUT_SECRET_WORD"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_SECRET_WORD_DESC"
+				/>
+				<field
+				  name="verify_status"
+				  type="sql"
+				  query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+				  key_field="st_value"
+				  value_field="st_title"
+				  default="C"
+				  label="PLG_RS_PAYMENT_2CHECKOUT_SECRET_ORDER_SUCCESS_STATUS"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_SECRET_ORDER_SUCCESS_STATUS_DESC"
+				/>
+				<field
+				  name="invalid_status"
+				  type="sql"
+				  query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+				  key_field="st_value"
+				  value_field="st_title"
+				  default="P"
+				  label="PLG_RS_PAYMENT_2CHECKOUT_SECRET_ORDER_FAILED_STATUS"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_SECRET_ORDER_FAILED_STATUS_DESC"
+				/>
+		  	</fieldset>
 
-	  <fieldset name="advanced">
-		<field
-		  name="extrafield_payment"
-		  type="extrafields"
-		  field_section="18"
-		  multiple="multiple"
-		  label="PLG_RS_PAYMENT_EXTRA_FIELD"
-		  description="PLG_RS_PAYMENT_EXTRA_FIELD_DESC"
-		/>
-		<field
-		  name="private_person"
-		  type="radio"
-		  class="btn-group"
-		  default="1"
-		  label="PLG_RS_PAYMENT_2CHECKOUT_SHOW_ON_PRIVATE_PERSON"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_SHOW_ON_PRIVATE_PERSON_DESC"
-		>
-		  <option value="1">JYES</option>
-		  <option value="0">JNO</option>
-		</field>
-		<field
-		  name="business"
-		  type="radio"
-		  class="btn-group"
-		  default="1"
-		  label="PLG_RS_PAYMENT_2CHECKOUT_SHOW_ON_BUSINESS_PERSON"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_SHOW_ON_BUSINESS_PERSON_DESC"
-		>
-		  <option value="1">JYES</option>
-		  <option value="0">JNO</option>
-		</field>
-		<field
-		  name="shopper_group_id"
-		  type="shoppergrouplist"
-		  multiple="multiple"
-		  default="0"
-		  label="PLG_RS_PAYMENT_2CHECKOUT_SHOPPER_GROUP_ID"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_SHOPPER_GROUP_ID_DESC"
-		/>
-		<field
-		  name="is_creditcard"
-		  type="hidden"
-		  default="0"
-		/>
-		<field
-		  name="economic_payment_terms_id"
-		  type="text"
-		  default="2"
-		  label="PLG_RS_PAYMENT_2CHECKOUT_ECONOMIC_PAYMENT_TERMS"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_ECONOMIC_PAYMENT_TERMS_DESC"
-		/>
-		<field
-		  name="economic_design_layout"
-		  type="text"
-		  default=""
-		  label="PLG_RS_PAYMENT_2CHECKOUT_ECONOMIC_DESIGN_ID"
-		  description="PLG_RS_PAYMENT_2CHECKOUT_ECONOMIC_DESIGN_ID_DESC"
-		/>
-	  </fieldset>
-	</fields>
-  </config>
+		  	<fieldset name="advanced">
+				<field
+				  name="extrafield_payment"
+				  type="extrafields"
+				  field_section="18"
+				  multiple="multiple"
+				  label="PLG_RS_PAYMENT_EXTRA_FIELD"
+				  description="PLG_RS_PAYMENT_EXTRA_FIELD_DESC"
+				/>
+				<field
+				  name="private_person"
+				  type="radio"
+				  class="btn-group"
+				  default="1"
+				  label="PLG_RS_PAYMENT_2CHECKOUT_SHOW_ON_PRIVATE_PERSON"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_SHOW_ON_PRIVATE_PERSON_DESC"
+				>
+				  <option value="1">JYES</option>
+				  <option value="0">JNO</option>
+				</field>
+				<field
+				  name="business"
+				  type="radio"
+				  class="btn-group"
+				  default="1"
+				  label="PLG_RS_PAYMENT_2CHECKOUT_SHOW_ON_BUSINESS_PERSON"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_SHOW_ON_BUSINESS_PERSON_DESC"
+				>
+				  <option value="1">JYES</option>
+				  <option value="0">JNO</option>
+				</field>
+				<field
+				  name="shopper_group_id"
+				  type="shoppergrouplist"
+				  multiple="multiple"
+				  default="0"
+				  label="PLG_RS_PAYMENT_2CHECKOUT_SHOPPER_GROUP_ID"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_SHOPPER_GROUP_ID_DESC"
+				/>
+				<field
+				  name="is_creditcard"
+				  type="hidden"
+				  default="0"
+				/>
+				<field
+				  name="economic_payment_terms_id"
+				  type="text"
+				  default="2"
+				  label="PLG_RS_PAYMENT_2CHECKOUT_ECONOMIC_PAYMENT_TERMS"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_ECONOMIC_PAYMENT_TERMS_DESC"
+				/>
+				<field
+				  name="economic_design_layout"
+				  type="text"
+				  default=""
+				  label="PLG_RS_PAYMENT_2CHECKOUT_ECONOMIC_DESIGN_ID"
+				  description="PLG_RS_PAYMENT_2CHECKOUT_ECONOMIC_DESIGN_ID_DESC"
+				/>
+		  	</fieldset>
+		</fields>
+  	</config>
 </extension>
