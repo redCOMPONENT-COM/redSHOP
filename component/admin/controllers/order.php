@@ -27,45 +27,67 @@ class RedshopControllerOrder extends RedshopController
 			$this->setMessage(JText::_('COM_REDSHOP_ORDER_DOWNLOAD_ERROR_MISSING_ORDER_ID'), 'error');
 			$this->setRedirect('index.php?option=com_redshop&view=order');
 		}
-		else
+
+		// Check pdf plugins
+		if (!RedshopHelperPdf::isAvailablePdfPlugins())
 		{
-			order_functions::generateInvoicePDF($orderId);
+			$this->setMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order'));
 		}
+
+		RedshopHelperOrder::generateInvoicePdf($orderId);
 
 		$app->close();
 	}
 
 	public function multiprint_order()
 	{
-		$mypost         = $this->input->get('cid');
-		$order_function = order_functions::getInstance();
-		ob_start();
-		$invoicePdf = $order_function->createMultiprintInvoicePdf($mypost);
-		ob_end_clean();
+		$orderIds = $this->input->get('cid');
+
+		if (empty($orderIds))
+		{
+			$this->setMessage(JText::_('COM_REDSHOP_ORDER_DOWNLOAD_ERROR_MISSING_ORDER_ID'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order'));
+		}
+
+		// Check pdf plugins
+		if (!RedshopHelperPdf::isAvailablePdfPlugins())
+		{
+			$this->setMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order', false));
+		}
+
+		$invoicePdf = RedshopHelperPdf::createMultiInvoice($orderIds);
+
+		if (empty($invoicePdf))
+		{
+			$this->setMessage(JText::_('COM_REDSHOP_ERROR_GENERATE_PDF'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order', false));
+		}
+
 		$invoiceLink = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'invoice/' . $invoicePdf . '.pdf';
 		$this->setMessage(JText::sprintf('COM_REDSHOP_ORDER_DOWNLOAD_INVOICE_LINK', $invoiceLink, $invoicePdf . '.pdf'));
 
-		for ($i = 0, $in = count($mypost); $i < $in; $i++)
+		foreach ($orderIds as $orderId)
 		{
-			if (file_exists(JPATH_COMPONENT_SITE . "/assets/labels/label_" . $mypost[$i] . ".pdf"))
+			if (file_exists(JPATH_COMPONENT_SITE . "/assets/labels/label_" . $orderId . ".pdf"))
 			{
-				$labelLink = JURI::root() . '/components/com_redshop/assets/labels/label_' . $mypost[$i] . '.pdf';
-				$this->setMessage(JText::sprintf('COM_REDSHOP_ORDER_DOWNLOAD_LABEL', $labelLink, 'label_' . $mypost[$i] . '.pdf'));
+				$labelLink = JURI::root() . '/components/com_redshop/assets/labels/label_' . $orderId . '.pdf';
+				$this->setMessage(JText::sprintf('COM_REDSHOP_ORDER_DOWNLOAD_LABEL', $labelLink, 'label_' . $orderId . '.pdf'));
 			}
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=order');
+		$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order', false));
 	}
 
 	public function cancel()
 	{
-
 		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 
 	public function update_status()
 	{
-		order_functions::getInstance()->update_status();
+		RedshopHelperOrder::updateStatus();
 	}
 
 	/**

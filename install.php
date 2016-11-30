@@ -877,6 +877,7 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/component/admin/tables/tax_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/views/supplier/tmpl/default.php',
 				JPATH_ADMINISTRATOR . '/component/admin/views/mass_discount/tmpl/default.php'
+				JPATH_ADMINISTRATOR . '/component/admin/views/order_detail/view.tcpdf.php'
 			);
 
 			array_push(

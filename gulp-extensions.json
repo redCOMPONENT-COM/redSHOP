@@ -3,8 +3,7 @@
     "redshop"
   ],
   "libraries": [
-    "redshop",
-    "tcpdf"
+    "redshop"
   ],
   "modules": {
     "frontend": [
@@ -106,6 +105,9 @@
       "rs_payment_sagepay_vps",
       "rs_payment_worldpay",
       "stripe"
+    ],
+    "redshop_pdf": [
+      "tcpdf"
     ],
     "redshop_product": [
       "CreateColorImage",
