@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,13 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_paymentrs_payment_braintree extends JPlugin
+/**
+ * PlgRedshop_PaymentRs_Payment_Braintree class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentRs_Payment_Braintree extends JPlugin
 {
 	/**
 	 * Constructor
@@ -31,6 +37,14 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		parent::__construct($subject, $config);
 	}
 
+	/**
+	 * [onPrePayment description]
+	 *
+	 * @param   [type]  $element  [description]
+	 * @param   [type]  $data     [description]
+	 *
+	 * @return  [type]            [description]
+	 */
 	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_braintree')
@@ -48,6 +62,14 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/creditcardform.php';
 	}
 
+	/**
+	 * [getCredicardForm description]
+	 *
+	 * @param   [type]  $element  [description]
+	 * @param   [type]  $data     [description]
+	 *
+	 * @return  [type]            [description]
+	 */
 	public function getCredicardForm($element, $data)
 	{
 		$objOrder         = order_functions::getInstance();
@@ -218,7 +240,12 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 	}
 
 	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * [getOrderAndCcdata description]
+	 *
+	 * @param   [type]  $element  [description]
+	 * @param   [type]  $data     [description]
+	 *
+	 * @return  [type]            [description]
 	 */
 	public function getOrderAndCcdata($element, $data)
 	{
@@ -310,6 +337,14 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		$results = $this->onAfterCreditcardInfo($values['payment_plugin'], $values);
 	}
 
+	/**
+	 * [onAfterCreditcardInfo description]
+	 *
+	 * @param   [type]  $element  [description]
+	 * @param   [type]  $data     [description]
+	 *
+	 * @return  [type]            [description]
+	 */
 	public function onAfterCreditcardInfo($element, $data)
 	{
 		$order_functions = order_functions::getInstance();
@@ -480,6 +515,14 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
 	}
 
+	/**
+	 * [onNotifyPaymentrs_payment_braintree description]
+	 *
+	 * @param   [type]  $element  [description]
+	 * @param   [type]  $request  [description]
+	 *
+	 * @return  [type]            [description]
+	 */
 	public function onNotifyPaymentrs_payment_braintree($element, $request)
 	{
 		if ($element != 'rs_payment_braintree')
@@ -544,6 +587,14 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		return $values;
 	}
 
+	/**
+	 * [onCapture_Paymentrs_payment_braintree description]
+	 *
+	 * @param   [type]  $element  [description]
+	 * @param   [type]  $data     [description]
+	 *
+	 * @return  [type]            [description]
+	 */
 	public function onCapture_Paymentrs_payment_braintree($element, $data)
 	{
 		// Get the class
@@ -581,6 +632,13 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		return $values;
 	}
 
+	/**
+	 * [getUser_BraintreeVault_ref description]
+	 *
+	 * @param   [type]  $user_id  [description]
+	 *
+	 * @return  [type]            [description]
+	 */
 	public function getUser_BraintreeVault_ref($user_id)
 	{
 		$db = JFactory::getDbo();
@@ -594,6 +652,13 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		return $BraintreeVault_ref->braintree_vault_number;
 	}
 
+	/**
+	 * [generate_BraintreeVault_ref description]
+	 *
+	 * @param   [type]  $user_id  [description]
+	 *
+	 * @return  [type]            [description]
+	 */
 	public function generate_BraintreeVault_ref($user_id)
 	{
 		$BraintreeVault_ref = rand(11111, 9999999999);
@@ -601,6 +666,14 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		return $BraintreeVault_ref;
 	}
 
+	/**
+	 * [updateUsertovault_token description]
+	 *
+	 * @param   [type]  $user_id         [description]
+	 * @param   [type]  $user_vault_ref  [description]
+	 *
+	 * @return  [type]                   [description]
+	 */
 	public function updateUsertovault_token($user_id, $user_vault_ref)
 	{
 		$db = JFactory::getDbo();
