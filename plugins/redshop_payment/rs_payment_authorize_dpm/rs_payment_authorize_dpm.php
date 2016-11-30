@@ -3,21 +3,28 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/plugins/redshop_payment/rs_payment_authorize_dpm/rs_payment_authorize_dpm/authorize_lib/AuthorizeNet.php';
+require_once JPATH_SITE . '/plugins/redshop_payment/rs_payment_authorize_dpm/libraries/authorize_lib/AuthorizeNet.php';
 
 /**
- * Class plgRedshop_paymentrs_payment_authorize_dpm
+ * Class PlgRedshop_PaymentRs_Payment_Authorize_Dpm
  *
- * @since  1.5
+ * @since  1.7.0
  */
-class PlgRedshop_Paymentrs_Payment_Authorize_Dpm extends JPlugin
+class PlgRedshop_PaymentRs_Payment_Authorize_Dpm extends JPlugin
 {
+	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var  boolean
+	 */
+	protected $autoloadLanguage = true;
+
 	/**
 	 * Constructor
 	 *
@@ -57,7 +64,7 @@ class PlgRedshop_Paymentrs_Payment_Authorize_Dpm extends JPlugin
 			return;
 		}
 
-		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
+		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/libraries/extra_info.php';
 	}
 
 	/**
@@ -77,36 +84,37 @@ class PlgRedshop_Paymentrs_Payment_Authorize_Dpm extends JPlugin
 		}
 
 		$app      = JFactory::getApplication();
-		$Itemid   = $app->input->getInt('Itemid', 0);
+		$itemId   = $app->input->getInt('Itemid', 0);
 
 		// Where the user will end up.
-		$redirect_url = JURI::base()
-			. "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_authorize_dpm&Itemid=$Itemid&orderid="
+		$redirectUrl = JURI::base()
+			. "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_authorize_dpm&Itemid=$itemId&orderid="
 			. $data['order_id'];
-		$api_login_id = $this->params->get("access_id");
+
+		$accessId 	= $this->params->get("access_id");
 
 		// Your MD5 Setting
-		$md5_setting = $this->params->get("md5_key");
-		$response    = new AuthorizeNetSIM($api_login_id, $md5_setting);
+		$md5Key 	= $this->params->get("md5_key");
+		$response 	= new AuthorizeNetSIM($accessId, $md5Key);
 
 		if ($response->isAuthorizeNet())
 		{
 			if ($response->approved)
 			{
 				// Do your processing here.
-				$redirect_url .= '&response_code=1&transaction_id=' . $response->transaction_id;
+				$redirectUrl .= '&response_code=1&transaction_id=' . $response->transaction_id;
 			}
 			else
 			{
-				$redirect_url .= '&response_code=' . $response->response_code . '&response_reason_text=' . $response->response_reason_text;
+				$redirectUrl .= '&response_code=' . $response->response_code . '&response_reason_text=' . $response->response_reason_text;
 			}
 		}
 		else
 		{
-			$redirect_url .= '&response_code=' . $response->response_code . '&response_reason_text=' . $response->response_reason_text;
+			$redirectUrl .= '&response_code=' . $response->response_code . '&response_reason_text=' . $response->response_reason_text;
 		}
 
-		echo AuthorizeNetDPM::getRelayResponseSnippet($redirect_url);
+		echo AuthorizeNetDPM::getRelayResponseSnippet($redirectUrl);
 	}
 
 	/**
@@ -129,20 +137,20 @@ class PlgRedshop_Paymentrs_Payment_Authorize_Dpm extends JPlugin
 		$input = JFactory::getApplication()->input;
 
 		// Result Response
-		$tid             = $input->get('transaction_id');
-		$response_code   = htmlentities($input->getString('response_code'));
-		$response_reason = htmlentities($input->getString('response_reason_text'));
-		$order_id        = $input->get("orderid");
+		$tranId         = $input->get('transaction_id');
+		$responseCode   = htmlentities($input->getString('response_code'));
+		$responseReason = htmlentities($input->getString('response_reason_text'));
+		$orderId        = $input->get("orderid");
 
 		JPlugin::loadLanguage('com_redshop');
 
-		$verify_status  = $this->params->get('verify_status', '');
-		$invalid_status = $this->params->get('invalid_status', '');
+		$verifyStatus  = $this->params->get('verify_status', '');
+		$invalidStatus = $this->params->get('invalid_status', '');
 		$values = new stdClass;
 
-		if (isset($tid) && $response_code == 1)
+		if (isset($tranId) && $responseCode == 1)
 		{
-			$values->order_status_code = $verify_status;
+			$values->order_status_code = $verifyStatus;
 			$values->order_payment_status_code = 'Paid';
 
 			$values->log = JTEXT::_('COM_REDSHOP_ORDER_PLACED');
@@ -150,14 +158,14 @@ class PlgRedshop_Paymentrs_Payment_Authorize_Dpm extends JPlugin
 		}
 		else
 		{
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code = $invalidStatus;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = $response_reason;
-			$values->msg = $response_reason;
+			$values->log = $responseReason;
+			$values->msg = $responseReason;
 		}
 
-		$values->transaction_id = $tid;
-		$values->order_id       = $order_id;
+		$values->transaction_id = $tranId;
+		$values->order_id       = $orderId;
 
 		return $values;
 	}
