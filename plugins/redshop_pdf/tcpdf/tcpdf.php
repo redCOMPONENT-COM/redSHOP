@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
 jimport('redshop.library');
 
 // Load tcPDF library
-JLoader::import('tcpdf', __DIR__ . '/helper');
+JLoader::import('helper', __DIR__ . '/helper');
 
 /**
  * PlgRedshop_PdfTcPDF class.
@@ -92,9 +92,6 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		{
 			return '';
 		}
-
-		// Load tcPDF library
-		JLoader::import('tcpdf', __DIR__ . '/tcpdf');
 
 		$cartHelper = rsCarthelper::getInstance();
 

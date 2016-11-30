@@ -107,7 +107,8 @@
       "stripe"
     ],
     "redshop_pdf": [
-      "tcpdf"
+      "tcpdf",
+      "mpdf"
     ],
     "redshop_product": [
       "CreateColorImage",
