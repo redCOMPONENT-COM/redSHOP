@@ -16,15 +16,9 @@
 
     <files>
         <filename plugin="rs_payment_banktransfer_discount">rs_payment_banktransfer_discount.php</filename>
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_banktransfer_discount.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_banktransfer_discount.sys.ini
-        </language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_banktransfer_discount.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_banktransfer_discount.sys.ini
-        </language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
