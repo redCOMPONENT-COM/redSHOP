@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
 	<name>PLG_RS_PAYMENT_AMAZONCHECKOUT</name>
-	<version>1.5.3</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>November 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>http://www.redcomponent.com</authorUrl>
@@ -13,12 +13,10 @@
 	<files>
 		<filename plugin="rs_payment_amazoncheckout">rs_payment_amazoncheckout.php</filename>
 		<filename>index.html</filename>
-		<folder>rs_payment_amazoncheckout</folder>
+		<folder>libraries</folder>
+		<folder>language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_amazoncheckout.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_amazoncheckout.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">
 			<fieldset name="basic">
@@ -40,14 +38,14 @@
 				<field name="amazon_payment_method" type="list" default="STANDARD"
 					   label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_PAYMENT_METHOD_LBL"
 					   description="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_PAYMENT_METHOD_DESC">
-					<option value="STANDARD">Standard</option>
-					<option value="MARKETPLACE">Marketplace</option>
+					<option value="STANDARD">PLG_RS_PAYMENT_AMAZONCHECKOUT_PAYMENT_STANDARD</option>
+					<option value="MARKETPLACE">PLG_RS_PAYMENT_AMAZONCHECKOUT_PAYMENT_MARKETPLACE</option>
 				</field>
 				<field name="amazon_signature_method" type="list" default="HmacSHA256"
 					   label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_SIGNATURE_METHOD_LBL"
 					   description="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZON_SIGNATURE_METHOD_DESC">
-					<option value="HmacSHA256">HmacSHA256</option>
-					<option value="HmacSHA1">HmacSHA1</option>
+					<option value="HmacSHA256">PLG_RS_PAYMENT_AMAZONCHECKOUT_PAYMENT_SIGNATURE_HMACSHA256</option>
+					<option value="HmacSHA1">PLG_RS_PAYMENT_AMAZONCHECKOUT_PAYMENT_SIGNATURE_HMACSHA1</option>
 				</field>
 				<field name="amazonPaymentsAccountId" type="text" default="SHJYUFXKZTCI466UMU95SICXH5CLZLM3LMRG3Z"
 					   label="PLG_RS_PAYMENT_AMAZONCHECKOUT_AMAZONPAYMENTSACCOUNTID_LBL"
