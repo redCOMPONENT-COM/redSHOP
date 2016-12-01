@@ -41,7 +41,8 @@ class RedshopModelStatistic_Product extends RedshopModelList
 				'p.product_name', 'product_name',
 				'p.product_number', 'product_number',
 				'count',
-				'm.manufacturer_name', 'manufacturer_name'
+				'm.manufacturer_name', 'manufacturer_name',
+				'total_sale', 'unit_sold'
 			);
 		}
 
@@ -79,7 +80,7 @@ class RedshopModelStatistic_Product extends RedshopModelList
 	 * @since   2.0.0.4
 	 * @note    Calling getState in this method will result in recursion.
 	 */
-	protected function populateState($ordering = 'p.publish_date', $direction = '')
+	protected function populateState($ordering = 'p.product_name', $direction = 'asc')
 	{
 		$dateRange = $this->getUserStateFromRequest($this->context . '.filter.date_range', 'filter_date_range');
 		$this->setState('filter.date_range', $dateRange);
@@ -96,23 +97,27 @@ class RedshopModelStatistic_Product extends RedshopModelList
 	 */
 	public function getListQuery()
 	{
-		$format = $this->getDateFormat();
 		$db     = $this->getDbo();
 		$subQuery = $db->getQuery(true)
-			->select('SUM(product_final_price) AS total_sale')
+			->select('SUM(oi.product_final_price) AS total_sale')
 			->select('COUNT(*) AS unit_sold')
-			->select($db->qn('product_id'))
-			->from($db->qn('#__redshop_order_item'))
-			->where($db->qn('order_status') . ' = ' . $db->q('S'))
-			->group($db->qn('product_id'));
+			->select($db->qn('oi.product_id'))
+			->select($db->qn('o.cdate', 'order_create_date'))
+			->from($db->qn('#__redshop_order_item', 'oi'))
+			->leftJoin($db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('o.order_id'))
+			->where($db->qn('oi.order_status') . ' = ' . $db->quote('S'))
+			->group($db->qn('oi.product_id'));
 
 		$query = $db->getQuery(true)
-			->select('DATE_FORMAT(p.publish_date,"' . $format . '") AS viewdate')
-			->select('p.*')
+			->select(
+				$db->qn(
+					array(
+						'p.product_id', 'p.product_name', 'p.product_number', 'm.manufacturer_name',
+						'oi.order_create_date', 'oi.total_sale', 'oi.unit_sold'
+					)
+				)
+			)
 			->select('COUNT(*) AS count')
-			->select('m.manufacturer_name')
-			->select($db->qn('oi.total_sale'))
-			->select($db->qn('oi.unit_sold'))
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
 			->leftjoin('(' . $subQuery . ') AS oi ' . ' ON ' . $db->qn('oi.product_id') . ' = ' . $db->qn('p.product_id')
@@ -127,66 +132,27 @@ class RedshopModelStatistic_Product extends RedshopModelList
 			$filterDateRange = explode('-', $filterDateRange);
 
 			$startDate = (isset($filterDateRange[0])) ? (int) $filterDateRange[0] : '';
-			$endDate   = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
 
-			$query->where($db->qn('p.publish_date') . ' >= ' . date($startDate, 'Y-m-d H:i:s'))
-				->where($db->qn('p.publish_date') . ' <= ' . date($endDate, 'Y-m-d H:i:s'));
+			if ($startDate)
+			{
+				$query->having($db->qn('oi.order_create_date') . ' >= ' . $db->quote(JFactory::getDate($startDate)->toUnix()));
+			}
+
+			$endDate = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
+
+			if ($startDate)
+			{
+				$query->having($db->qn('oi.order_create_date') . ' <= ' . $db->quote(JFactory::getDate($endDate)->toUnix()));
+			}
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'p.publish_date');
-		$orderDirn = $this->state->get('list.direction', 'desc');
+		$orderCol  = $this->state->get('list.ordering', 'p.product_name');
+		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$query->having($db->qn('oi.total_sale') . ' > 0');
 
 		return $query;
-	}
-
-	/**
-	 * get date Format for new statistic
-	 *
-	 * @return  object.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function getDateFormat()
-	{
-		$return = "";
-		$startDate = 0;
-		$endDate = 0;
-		$filterDateRange = $this->state->get('filter.date_range', '');
-
-		if (!empty($filterDateRange))
-		{
-			$filterDateRange = explode('-', $filterDateRange);
-
-			$startDate = (isset($filterDateRange[0])) ? (int) $filterDateRange[0] : '';
-			$endDate   = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
-		}
-
-		$interval = $endDate - $startDate;
-
-		if ($interval == 86399)
-		{
-			$return = "%d %b %Y";
-		}
-		elseif ($interval <= 1209600)
-		{
-			$return = "%d %b. %Y";
-		}
-		elseif ($interval <= 7689600)
-		{
-			$return = "%b. %Y";
-		}
-		elseif ($interval <= 31536000)
-		{
-			$return = "%Y";
-		}
-		else
-		{
-			$return = "%d %b %Y";
-		}
-
-		return $return;
 	}
 }
