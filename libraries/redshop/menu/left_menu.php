@@ -123,11 +123,14 @@ class RedshopMenuLeft_Menu
 			case "order":
 			case "order_detail":
 			case "addorder_detail":
-			case "orderstatus":
-			case "orderstatus_detail":
 			case "opsearch":
 			case "barcode":
 				return array('ORDER', 'order');
+				break;
+
+			case "order_status":
+			case "order_statuses":
+				return array('ORDER', 'order_status');
 				break;
 
 			case "quotation":
@@ -141,11 +144,9 @@ class RedshopMenuLeft_Menu
 				return array('ORDER', 'stockroom');
 				break;
 
+			case "suppliers":
 			case "supplier":
-			case "supplier_detail":
-				return array('PRODUCT_LISTING', 'supplier');
-				break;
-
+				return array('PRODUCT_LISTING', 'suppliers');
 			case "discount":
 			case "discount_detail":
 			case "mass_discount":
@@ -209,8 +210,12 @@ class RedshopMenuLeft_Menu
 
 			case "tax_group":
 			case "tax_group_detail":
-			case "tax":
-				return array('PRODUCT_LISTING', 'tax');
+				return array('PRODUCT_LISTING', 'tax_group');
+				break;
+
+			case "tax_rates":
+			case "tax_rate":
+				return array('PRODUCT_LISTING', 'tax_rate');
 				break;
 
 			case "currency":
@@ -369,9 +374,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'manufacturer') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=supplier',
+				'index.php?option=com_redshop&view=suppliers',
 				'COM_REDSHOP_SUPPLIER_LISTING',
-				(self::$view == 'supplier') ? true : false
+				(self::$view == 'suppliers') ? true : false
 			);
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && JPluginHelper::isEnabled('economic'))
@@ -396,6 +401,12 @@ class RedshopMenuLeft_Menu
 			'index.php?option=com_redshop&view=tax_group',
 			'COM_REDSHOP_TAX_GROUP_LISTING',
 			(self::$view == 'tax_group') ? true : false
+		);
+
+		self::$menu->addItem(
+			'index.php?option=com_redshop&view=tax_rates',
+			'COM_REDSHOP_TAX_RATES_SIDEBAR',
+			(self::$view == 'tax_rates') ? true : false
 		);
 
 		/*@TODO: Enable when Product Variants ready
@@ -424,9 +435,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'order' && self::$layout == 'labellisting') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=orderstatus',
+				'index.php?option=com_redshop&view=order_statuses',
 				'COM_REDSHOP_ORDERSTATUS_LISTING',
-				(self::$view == 'orderstatus') ? true : false
+				(self::$view == 'order_statuses') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=opsearch',
@@ -944,50 +955,5 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'stockroom_detail' && self::$layout == 'importstock') ? true : false
 			);
 		}
-	}
-
-	/**
-	 * Set Newsletter menu
-	 *
-	 * @return  void
-	 */
-	protected static function setNewsLetter()
-	{
-		self::$menu->section('newsletter')
-			->title('COM_REDSHOP_NEWSLETTER')
-
-			->addItem(
-				'index.php?option=com_redshop&view=newsletter_detail',
-				'COM_REDSHOP_ADD_NEWSLETTER',
-				(self::$view == 'newsletter_detail' && self::$layout == '') ? true : false
-			)
-
-			->addItem(
-				'index.php?option=com_redshop&view=newslettersubscr_detail',
-				'COM_REDSHOP_ADD_NEWSLETTER_SUBSCR',
-				(self::$view == 'newslettersubscr_detail') ? true : false
-			)
-			;
-	}
-
-	/**
-	 * Set Attribute Bank menu
-	 *
-	 * @return  void
-	 */
-	protected static function setAttributes()
-	{
-		self::$menu->section('attributes')
-			->title('COM_REDSHOP_ATTRIBUTES')
-			->addItem(
-				'index.php?option=com_redshop&view=attributes',
-				'COM_REDSHOP_ATTRIBUTE_LISTING',
-				(self::$view == 'attributes') ? true : false
-			)
-			->addItem(
-				'index.php?option=com_redshop&view=properties',
-				'COM_REDSHOP_ADD_PROPERTY_LISTING',
-				(self::$view == 'attribute_detail') ? true : false
-			);
 	}
 }

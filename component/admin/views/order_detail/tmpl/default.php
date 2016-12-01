@@ -588,6 +588,35 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
 									$subtotal_excl_vat += $products[$i]->product_item_price_excl_vat * $quantity;
 									$vat = ($products[$i]->product_item_price - $products[$i]->product_item_price_excl_vat);
+
+									// Make sure this variable is object before we can use it
+									if (is_object($productdetail))
+									{
+										// Generate frontend link
+										$itemData = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $productdetail->product_id);
+										$catIdMain = $productdetail->cat_in_sefurl;
+
+										if (count($itemData) > 0)
+										{
+											$pItemid = $itemData->id;
+										}
+										else
+										{
+											$objhelper = redhelper::getInstance();
+											$pItemid = $objhelper->getItemid($productdetail->product_id, $catIdMain);
+										}
+
+										$productFrontendLink  = JURI::root();
+										$productFrontendLink .= 'index.php?option=com_redshop';
+										$productFrontendLink .= '&view=product&pid=' . $productdetail->product_id;
+										$productFrontendLink .= '&cid=' . $catIdMain;
+										$productFrontendLink .= '&Itemid=' . $pItemid;
+									}
+									else
+									{
+										$productFrontendLink = '#';
+									}
+
 								?>
 							<tr>
 								<td>
@@ -599,7 +628,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 													<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped" width="100%">
 														<tr>
 															<td width="20%">
-																<?php echo $Product_name; ?>
+																<a href="<?php echo $productFrontendLink;?>" target="_blank">
+																	<?php echo $Product_name;?>
+																<a/>
 															</td>
 															<td width="15%">
 																<?php
