@@ -89,6 +89,7 @@ class RedshopModelStates extends RedshopModelList
 
 		$countryId = $this->getUserStateFromRequest($this->context . '.filter.country_id', 'filter_country_id');
 		$this->setState('filter.country_id', $countryId);
+
 		parent::populateState($ordering, $direction);
 	}
 
