@@ -44,6 +44,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 		$productId = $this->data['productId'];
 		$formId    = $this->data['formId'];
 		$user      = JFactory::getUser();
+		$link      = '';
 
 		JHtml::script('com_redshop/redshop.wishlist.js', false, true, false, false);
 
@@ -60,22 +61,30 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 		}
 
 		$wishListButton = RedshopLayoutHelper::render(
-							'tags.product.wishlist_button',
-								array(
-									'link'      => $link,
-									'productId' => $productId,
-									'formId'    => $formId
-								)
-							);
+			'tags.product.wishlist_button',
+				array(
+					'link'      => $link,
+					'productId' => $productId,
+					'formId'    => $formId
+				),
+				'',
+				array(
+					'component' => 'com_redshop'
+				)
+			);
 
 		$wishListLink = RedshopLayoutHelper::render(
-							'tags.product.wishlist_link',
-							array(
-								'link'      => $link,
-								'productId' => $productId,
-								'formId'    => $formId
-							)
-						);
+			'tags.product.wishlist_link',
+			array(
+				'link'      => $link,
+				'productId' => $productId,
+				'formId'    => $formId
+			),
+			'',
+			array(
+				'component' => 'com_redshop'
+			)
+		);
 
 		$this->addReplace('{wishlist_button}', $wishListButton);
 		$this->addReplace('{wishlist_link}', $wishListLink);

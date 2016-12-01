@@ -942,6 +942,17 @@ class productHelper
 			}
 		}
 
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+
+		// Trigger to change product image.
+		$dispatcher->trigger('changeProductImage', array(&$thum_image, $result, $link, $width, $height, $Product_detail_is_light, $enableHover, $suffixid));
+
+		if (!empty($thum_image))
+		{
+			return $thum_image;
+		}
+
 		if (!$isStockExists && Redshop::getConfig()->get('USE_PRODUCT_OUTOFSTOCK_IMAGE') == 1)
 		{
 			if (Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE')))
@@ -1827,70 +1838,7 @@ class productHelper
 
 	public function getDiscountId($subtotal = 0, $user_id = 0)
 	{
-		$db   = JFactory::getDbo();
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		$userArr = $this->_userhelper->createUserSession($user_id);
-		$shopperGroupId = $userArr['rs_user_shopperGroup'];
-
-		$sql = "SELECT ds.discount_id FROM " . $this->_table_prefix . "discount_shoppers AS ds "
-			. " WHERE ds.shopper_group_id = " . (int) $shopperGroupId;
-
-		$this->_db->setQuery($sql);
-
-		if ($list = $this->_db->loadColumn())
-		{
-			$list = array_merge(array(0 => '0'), $list);
-		}
-
-		if (!empty($list))
-		{
-			// Secure ids
-			JArrayHelper::toInteger($list);
-
-			$query   = "SELECT * FROM " . $this->_table_prefix . "discount "
-				. "WHERE published =1 "
-				. "AND discount_id IN (" . implode(',', $list) . ") "
-				. "AND `start_date`<=" . $db->quote(time()) . " "
-				. "AND `end_date` >=" . $db->quote(time()) . " ";
-			$orderby = " ORDER BY `amount` DESC LIMIT 0,1";
-
-			if (!$subtotal)
-			{
-				$query1 = $query . $orderby;
-				$this->_db->setQuery($query1);
-				$result = $this->_db->loadObject();
-
-				return $result;
-			}
-
-			$query1 = $query . "AND `condition`=2 AND amount=" . (int) $subtotal . " " . $orderby;
-			$this->_db->setQuery($query1);
-			$result = $this->_db->loadObject();
-
-			if (count($result) <= 0)
-			{
-				$query1 = $query . "AND `condition`=1 AND amount > " . (int) $subtotal . " " . $orderby;
-				$this->_db->setQuery($query1);
-				$result = $this->_db->loadObject();
-
-				if (count($result) <= 0)
-				{
-					$query1 = $query . "AND `condition`=3 AND amount < " . (int) $subtotal . " " . $orderby;
-					$this->_db->setQuery($query1);
-					$result = $this->_db->loadObject();
-				}
-			}
-
-			return $result;
-		}
-
-		return;
+		return RedshopHelperDiscount::getDiscount($subtotal, $user_id);
 	}
 
 	public function getDiscountAmount($cart = array(), $user_id = 0)
@@ -4026,7 +3974,17 @@ class productHelper
 					$aw_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
 				}
 
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_main_image))
+				$thumbUrl = "";
+
+				JPluginHelper::importPlugin('redshop_product');
+				$dispatcher = RedshopHelperUtility::getInstance();
+
+				$product = $this->getProductById($ac_id);
+
+				// Trigger to change product image.
+				$dispatcher->trigger('changeProductImage', array(&$thumbUrl, $product, $acc_prod_link, $aw_thumb, $ah_thumb, Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX'), ''));
+
+				if (empty($thumbUrl) && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_main_image))
 				{
 					$thumbUrl = RedShopHelperImages::getImagePath(
 						$accessory_main_image,
@@ -4049,7 +4007,6 @@ class productHelper
 					{
 						$accessorymainimage = "<img id='main_image' class='redAttributeImage' src='" . $thumbUrl . "' />";
 					}
-
 				}
 
 				$accessory_middle = str_replace($aimg_tag, $accessorymainimage, $accessory_middle);
@@ -7928,7 +7885,7 @@ class productHelper
 
 		if (strpos($data_add, "{product_stock_amount_image}") !== false)
 		{
-			$stockamountList  = $stockroomhelper->getStockAmountImage($product_id, $sec, $productinstock);
+			$stockamountList  = $stockroomhelper->getStockAmountImage($Id, $sec, $productinstock);
 			$stockamountImage = "";
 
 			if (count($stockamountList) > 0)
@@ -8133,7 +8090,7 @@ class productHelper
 
 		if ($tmp_name == '')
 		{
-			$tmp_name = COMPARE_TEMPLATE_ID;
+			$tmp_name = Redshop::getConfig()->get('COMPARE_TEMPLATE_ID');
 		}
 
 		return $tmp_name;
@@ -8289,8 +8246,6 @@ class productHelper
 
 		if (!empty($imagename) && !empty($type))
 		{
-			$imagename = JFile::makeSafe($imagename);
-
 			if ((Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE')) && $type == 'product')
 			{
 				$productmainimg = $redhelper->watermark('product', $imagename, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
