@@ -37,7 +37,8 @@ class RedshopModelStatistic_Order extends RedshopModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'view_date',
+				'viewdate',
+				'orderdate',
 				'count',
 				'order_total'
 			);
@@ -78,7 +79,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 	 * @since   2.0.0.4
 	 * @note    Calling getState in this method will result in recursion.
 	 */
-	protected function populateState($ordering = 'cdate', $direction = '')
+	protected function populateState($ordering = 'cdate', $direction = 'asc')
 	{
 		$dateRange = $this->getUserStateFromRequest($this->context . '.filter.date_range', 'filter_date_range');
 		$this->setState('filter.date_range', $dateRange);
@@ -101,7 +102,8 @@ class RedshopModelStatistic_Order extends RedshopModelList
 		$format = $this->getDateFormat();
 		$db     = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('FROM_UNIXTIME(cdate,"' . $format . '") AS viewdate')
+			->select('FROM_UNIXTIME(cdate, "' . $format . '") AS viewdate')
+			->select('FROM_UNIXTIME(cdate, "%Y%m%d") AS orderdate')
 			->select('SUM(order_total) AS order_total')
 			->select('COUNT(*) AS count')
 			->from($db->qn('#__redshop_orders'))
@@ -123,17 +125,17 @@ class RedshopModelStatistic_Order extends RedshopModelList
 
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering', 'cdate');
-		$orderDirn = $this->state->get('list.direction', 'desc');
+		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
-		
+
 		return $query;
 	}
 
 	/**
 	 * get Order data for export
 	 *
-	 * @return  object.
+	 * @return  array.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -180,13 +182,12 @@ class RedshopModelStatistic_Order extends RedshopModelList
 	/**
 	 * get date Format for new statistic
 	 *
-	 * @return  object.
+	 * @return  string.
 	 *
 	 * @since   2.0.0.3
 	 */
 	public function getDateFormat()
 	{
-		$return = "";
 		$startDate = 0;
 		$endDate = 0;
 		$filterDateRange = $this->state->get('filter.date_range', '');
@@ -198,6 +199,23 @@ class RedshopModelStatistic_Order extends RedshopModelList
 
 			$startDate = (isset($filterDateRange[0])) ? (int) $filterDateRange[0] : '';
 			$endDate   = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
+		}
+
+		if ($filterDateGroup == 3)
+		{
+			return '%Y';
+		}
+		elseif ($filterDateGroup == 2)
+		{
+			return '%M %Y';
+		}
+		elseif ($filterDateGroup == 1)
+		{
+			return JText::_('COM_REDSHOP_WEEK') . ' %v - %x';
+		}
+		else
+		{
+			return '%d %M %Y';
 		}
 
 		$interval = $endDate - $startDate;
@@ -235,7 +253,6 @@ class RedshopModelStatistic_Order extends RedshopModelList
 			{
 				$return = "%Y";
 			}
-			
 		}
 		else
 		{
