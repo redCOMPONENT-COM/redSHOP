@@ -16,11 +16,21 @@ defined('_JEXEC') or die;
 		<div class="row-fluid">
 			<?php if ($enableCategory == 1 && !empty($categories)): ?>
 				<div id="categories">
-					<h3><?php echo JText::_('MOD_REDSHOP_FILTER_CATEGORY_LABEL');?></h3>
+					<?php if (($view == 'search') || (!empty($cid) && in_array($cid, $childCat)) || !empty($mid)) : ?>
+						<?php if (!empty($categories)): ?>
+							<h3><?php echo JText::_('MOD_REDSHOP_FILTER_CATEGORY_LABEL');?></h3>
+						<?php else : ?>
+						<?php endif; ?>
+					<?php else : ?>
+						<?php if (!empty($categories[0]->child)): ?>
+							<h3><?php echo JText::_('MOD_REDSHOP_FILTER_CATEGORY_LABEL');?></h3>
+						<?php else : ?>
+						<?php endif; ?>
+					<?php endif ?>
 					<ul class='taglist'>
 						<?php foreach ($categories as $key => $cat) :?>
 							<li>
-								<?php if (($view == 'search') || (!empty($cid) && in_array($cid, $childCat)) || !empty($mid)) : ?>
+								<?php if (($view == 'search') || (!empty($cid) && in_array($cid, $childCat))) : ?>
 								<label>
 									<span class='taginput' data-aliases='cat-<?php echo $cat->category_id;?>'>
 										<input type="checkbox" name="redform[category][]" value="<?php echo $cat->category_id ?>" onclick="javascript: checkclick(this);" />
@@ -140,6 +150,7 @@ defined('_JEXEC') or die;
 		});
 	}
 
+	// function to enable modal compare after search
 	function modalCompare()
 	{
 		redSHOP = window.redSHOP || {};
@@ -149,6 +160,7 @@ defined('_JEXEC') or die;
 		});
 	}
 
+	// function to enable modal wishlist after search
 	function modalWishlist(){
 		// User
         jQuery('.redshop-wishlist-button, .redshop-wishlist-link').click(function(event) {
@@ -281,19 +293,15 @@ defined('_JEXEC') or die;
 				jQuery('.category_header').css('display', 'none');
 			},
 		 	success: function(data) {
-		 		jQuery('.category_product_list #productlist').empty();
+		 		jQuery('#productlist').empty();
 		 		jQuery('#main-content .category_main_toolbar').first().remove();
-		 		jQuery('.category_product_list #productlist').html(data);
+		 		jQuery('#productlist').html(data);
 		 		jQuery('.category_wrapper.parent .category_main_toolbar, .category_wrapper.parent .category_product_list').css('display', 'block');
-                jQuery('select#orderBy').select2();
                 jQuery('.category-list').hide();
-                modalCompare();
-                modalWishlist();
 
 		 	},
 		 	complete: function() {
 			    jQuery('#wait').css('display', 'none');
-			    jQuery('.cate_redshop_products_wrapper').responsiveEqualHeightGrid();
 			    jQuery('.category_wrapper .category_main_toolbar').insertBefore('#sidebar1');
 			}
 		 });

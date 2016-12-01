@@ -32,12 +32,16 @@ $action             = JRoute::_("index.php?option=com_redshop&view=search");
 
 if (!empty($cid))
 {
-	$list = RedshopHelperCategory::getCategoryListArray($categoryForSale);
 	$childCat = array($categoryForSale);
 
-	foreach ($list as $key => $value)
+	if ($categoryForSale > 0)
 	{
-		$childCat[] = $value->category_id;
+		$list = RedshopHelperCategory::getCategoryListArray($categoryForSale);
+
+		foreach ($list as $key => $value)
+		{
+			$childCat[] = $value->category_id;
+		}
 	}
 
 	if (in_array($cid, $childCat))
