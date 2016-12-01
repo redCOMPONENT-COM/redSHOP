@@ -164,7 +164,7 @@ class RedshopHelperWishlist
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getUserWishlist($userId)
+	public static function getUserWishlist($userId = 0)
 	{
 		$userId = (int) $userId;
 
