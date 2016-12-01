@@ -879,6 +879,30 @@ class Com_RedshopInstallerScript
 		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php';
 		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php';
 
+		// Remove old Supplier stuff since Refactor.
+		if (version_compare($this->getOldParam('version'), '2.0.0.6', '<='))
+		{
+			array_push(
+				$files,
+				JPATH_ADMINISTRATOR . '/component/admin/controllers/supplier_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/controllers/tax.php',
+				JPATH_ADMINISTRATOR . '/component/admin/controllers/tax_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/models/supplier_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/models/tax.php',
+				JPATH_ADMINISTRATOR . '/component/admin/models/tax_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/tables/supplier_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/tables/tax_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/views/supplier/tmpl/default.php'
+			);
+
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/component/admin/views/supplier_detail',
+				JPATH_ADMINISTRATOR . '/component/admin/views/tax',
+				JPATH_ADMINISTRATOR . '/component/admin/views/tax_detail'
+			);
+		}
+
 		if (version_compare($this->getOldParam('version'), '2.0.0.4', '<='))
 		{
 			array_push(
@@ -1036,7 +1060,8 @@ class Com_RedshopInstallerScript
 				JPATH_SITE . '/components/com_redshop/helpers/thumb.php',
 				JPATH_SITE . '/components/com_redshop/models/password.php',
 				JPATH_SITE . '/components/com_redshop/views/price_filter/view.html.php',
-				JPATH_SITE . '/components/com_redshop/views/product/tmpl/default_askquestion.php'
+				JPATH_SITE . '/components/com_redshop/views/product/tmpl/default_askquestion.php',
+				JPATH_LIBRARIES . '/redshop/form/fields/rstext.php'
 			);
 		}
 

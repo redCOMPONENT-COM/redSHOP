@@ -78,6 +78,13 @@ class Tablemass_discount_detail extends JTable
 			return false;
 		}
 
+		if ($this->discount_startdate > $this->discount_enddate)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_ENDDATE_LOWER_STARTDATE'), 'error');
+
+			return false;
+		}
+
 		return parent::check();
 	}
 }
