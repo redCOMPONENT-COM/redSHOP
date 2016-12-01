@@ -9,37 +9,18 @@
 
 defined('_JEXEC') or die;
 
-class Tablerating_detail extends JTable
+class RedshopTableRating_detail extends JTable
 {
-	public $rating_id = 0;
-
-	public $product_id = 0;
-
-	public $title = null;
-
-	public $comment = null;
-
-	public $userid = 0;
-
-	public $time = 0;
-
-	public $user_rating = 0;
-
-	public $favoured = 0;
-
-	public $published = null;
-
-	public $email = null;
-
-	public $username = null;
-
-	public $company_name = null;
-
-	public function __construct(&$db)
+	/**
+	 * Constructor
+	 *
+	 * @param   JDatabaseDriver  $db  Database driver object.
+	 *
+	 * @since  11.1
+	 */
+	public function __construct($db)
 	{
-		$this->_table_prefix = '#__redshop_';
-
-		parent::__construct($this->_table_prefix . 'product_rating', 'rating_id', $db);
+		parent::__construct('#__redshop_product_rating', 'rating_id', $db);
 	}
 
 	public function bind($array, $ignore = '')
