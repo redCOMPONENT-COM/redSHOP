@@ -942,6 +942,17 @@ class productHelper
 			}
 		}
 
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+
+		// Trigger to change product image.
+		$dispatcher->trigger('changeProductImage', array(&$thum_image, $result, $link, $width, $height, $Product_detail_is_light, $enableHover, $suffixid));
+
+		if (!empty($thum_image))
+		{
+			return $thum_image;
+		}
+
 		if (!$isStockExists && Redshop::getConfig()->get('USE_PRODUCT_OUTOFSTOCK_IMAGE') == 1)
 		{
 			if (Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE')))
@@ -1827,70 +1838,7 @@ class productHelper
 
 	public function getDiscountId($subtotal = 0, $user_id = 0)
 	{
-		$db   = JFactory::getDbo();
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		$userArr = $this->_userhelper->createUserSession($user_id);
-		$shopperGroupId = $userArr['rs_user_shopperGroup'];
-
-		$sql = "SELECT ds.discount_id FROM " . $this->_table_prefix . "discount_shoppers AS ds "
-			. " WHERE ds.shopper_group_id = " . (int) $shopperGroupId;
-
-		$this->_db->setQuery($sql);
-
-		if ($list = $this->_db->loadColumn())
-		{
-			$list = array_merge(array(0 => '0'), $list);
-		}
-
-		if (!empty($list))
-		{
-			// Secure ids
-			JArrayHelper::toInteger($list);
-
-			$query   = "SELECT * FROM " . $this->_table_prefix . "discount "
-				. "WHERE published =1 "
-				. "AND discount_id IN (" . implode(',', $list) . ") "
-				. "AND `start_date`<=" . $db->quote(time()) . " "
-				. "AND `end_date` >=" . $db->quote(time()) . " ";
-			$orderby = " ORDER BY `amount` DESC LIMIT 0,1";
-
-			if (!$subtotal)
-			{
-				$query1 = $query . $orderby;
-				$this->_db->setQuery($query1);
-				$result = $this->_db->loadObject();
-
-				return $result;
-			}
-
-			$query1 = $query . "AND `condition`=2 AND amount=" . (int) $subtotal . " " . $orderby;
-			$this->_db->setQuery($query1);
-			$result = $this->_db->loadObject();
-
-			if (count($result) <= 0)
-			{
-				$query1 = $query . "AND `condition`=1 AND amount > " . (int) $subtotal . " " . $orderby;
-				$this->_db->setQuery($query1);
-				$result = $this->_db->loadObject();
-
-				if (count($result) <= 0)
-				{
-					$query1 = $query . "AND `condition`=3 AND amount < " . (int) $subtotal . " " . $orderby;
-					$this->_db->setQuery($query1);
-					$result = $this->_db->loadObject();
-				}
-			}
-
-			return $result;
-		}
-
-		return;
+		return RedshopHelperDiscount::getDiscount($subtotal, $user_id);
 	}
 
 	public function getDiscountAmount($cart = array(), $user_id = 0)
@@ -2000,40 +1948,20 @@ class productHelper
 		return $product_price;
 	}
 
+	/**
+	 * Method for get additional media images
+	 *
+	 * @param   int     $section_id  Section Id
+	 * @param   string  $section     Section name
+	 * @param   string  $mediaType   Media type
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function getAdditionMediaImage($section_id = 0, $section = "", $mediaType = "images")
 	{
-		$db = JFactory::getDbo();
-
-		$left = "";
-
-		if ($section == "product")
-		{
-			$left = "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = m.section_id ";
-		}
-		elseif ($section == "property")
-		{
-			$left = "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS p ON p.property_id = m.section_id ";
-		}
-		elseif ($section == "subproperty")
-		{
-			$left = "LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS p ON p.subattribute_color_id = m.section_id ";
-		}
-		elseif ($section == "manufacturer")
-		{
-			$left = "LEFT JOIN " . $this->_table_prefix . "manufacturer AS p ON p.manufacturer_id = m.section_id ";
-		}
-
-		$query = "SELECT * FROM " . $this->_table_prefix . "media AS m "
-			. $left
-			. "WHERE m.media_section = " . $db->quote($section) . " "
-			. "AND m.media_type=" . $db->quote($mediaType) . " "
-			. "AND m.section_id=" . (int) $section_id . " "
-			. "AND m.published=1 "
-			. "ORDER BY m.ordering,m.media_id ASC";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
-
-		return $list;
+		return RedshopHelperMedia::getAdditionMediaImage($section_id, $section, $mediaType);
 	}
 
 	/**
@@ -3311,88 +3239,15 @@ class productHelper
 	 * @param   int  $notAttributeId     Not attribute id
 	 *
 	 * @return mixed
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct_Attribute::getProductAttribute() instead.
 	 */
-	public function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0, $notAttributeId = 0)
+	public function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0,
+		$notAttributeId = 0)
 	{
-		if ($productId)
-		{
-			$selectedAttributes = array();
-			$productData = $this->getProductById($productId);
-
-			if ($productData && isset($productData->attributes))
-			{
-				foreach ($productData->attributes as $attribute)
-				{
-					if (($attributeSetId && ($attributeSetId != $attribute->attribute_set_id))
-						|| ($attributeId && ($attributeId != $attribute->attribute_id))
-						|| ($published && ($published != $attribute->attribute_published))
-						|| ($published && $attributeSetId && ($published != $attribute->attribute_set_published))
-						|| ($attributeRequired && ($attributeRequired != $attribute->attribute_required)))
-					{
-						continue;
-					}
-
-					if ($notAttributeId)
-					{
-						$notAttributeIds = explode(',', $notAttributeId);
-						JArrayHelper::toInteger($notAttributeIds);
-
-						if (in_array($attribute->attribute_id, $notAttributeIds))
-						{
-							continue;
-						}
-					}
-
-					$selectedAttributes[] = $attribute;
-				}
-			}
-
-			return $selectedAttributes;
-		}
-		else
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select(array('a.attribute_id AS value', 'a.attribute_name AS text', 'a.*', 'ast.attribute_set_name'))
-				->from($db->qn('#__redshop_product_attribute', 'a'))
-				->leftJoin($db->qn('#__redshop_attribute_set', 'ast') . ' ON ast.attribute_set_id = a.attribute_set_id')
-				->where('a.attribute_name != ' . $db->q(''))
-				->where('a.attribute_published = 1')
-				->order('a.ordering ASC');
-
-			if ($attributeSetId != 0)
-			{
-				$query->where('a.attribute_set_id = ' . (int) $attributeSetId);
-			}
-
-			if ($attributeId != 0)
-			{
-				$query->where('a.attribute_id = ' . (int) $attributeId);
-			}
-
-			if ($published != 0)
-			{
-				$query->where('ast.published = ' . (int) $published);
-			}
-
-			if ($attributeRequired != 0)
-			{
-				$query->where('a.attribute_required = ' . (int) $attributeRequired);
-			}
-
-			if ($notAttributeId != 0)
-			{
-				// Sanitize ids
-				$notAttributeIds = explode(',', $notAttributeId);
-				JArrayHelper::toInteger($notAttributeIds);
-
-				$query->where('a.attribute_id NOT IN (' . implode(',', $notAttributeIds) . ')');
-			}
-
-			$db->setQuery($query);
-
-			return $db->loadObjectlist();
-		}
+		return RedshopHelperProduct_Attribute::getProductAttribute(
+			$productId, $attributeSetId, $attributeId, $published, $attributeRequired, $notAttributeId
+		);
 	}
 
 	/**
@@ -3406,136 +3261,14 @@ class productHelper
 	 * @param   int  $notPropertyId   Not property id
 	 *
 	 * @return  mixed
+	 *
+	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperProduct_Attribute::getAttributeProperties() instead.
 	 */
 	public function getAttibuteProperty($propertyId = 0, $attributeId = 0, $productId = 0, $attributeSetId = 0, $required = 0, $notPropertyId = 0)
 	{
-		if ($productId)
-		{
-			$selectedProperties = array();
-			$productId = explode(',', $productId);
-			JArrayHelper::toInteger($productId);
-
-			if ($attributeId)
-			{
-				$attributeId = explode(',', $attributeId);
-				JArrayHelper::toInteger($attributeId);
-			}
-
-			foreach ($productId as $item)
-			{
-				if ($productData = $this->getProductById($item))
-				{
-					foreach ($productData->attributes as $attribute)
-					{
-						if ($attributeId && !in_array($attribute->attribute_id, $attributeId))
-						{
-							continue;
-						}
-
-						foreach ($attribute->properties as $property)
-						{
-							if ($propertyId)
-							{
-								$propertyIds = explode(',', $propertyId);
-								JArrayHelper::toInteger($propertyIds);
-
-								if (!in_array($property->property_id, $propertyIds))
-								{
-									continue;
-								}
-							}
-
-							if ($attributeSetId)
-							{
-								$attributeSetIds = explode(',', $attributeSetId);
-								JArrayHelper::toInteger($attributeSetIds);
-
-								if (!in_array($property->attribute_set_id, $attributeSetIds))
-								{
-									continue;
-								}
-							}
-
-							if ($required && $required != $property->setrequire_selected)
-							{
-								continue;
-							}
-
-							if ($notPropertyId)
-							{
-								$notPropertyIds = explode(',', $notPropertyId);
-								JArrayHelper::toInteger($notPropertyIds);
-
-								if (in_array($property->property_id, $notPropertyIds))
-								{
-									continue;
-								}
-							}
-
-							$selectedProperties[] = $property;
-						}
-					}
-				}
-			}
-
-			return $selectedProperties;
-		}
-		else
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select(array('ap.property_id AS value', 'ap.property_name AS text', 'ap.*', 'a.attribute_name'))
-				->from($db->qn('#__redshop_product_attribute_property', 'ap'))
-				->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.attribute_id = ap.attribute_id')
-				->where('ap.property_published = 1')
-				->order('ap.ordering ASC');
-
-			if ($attributeId != 0)
-			{
-				// Sanitize ids
-				$attributeIds = explode(',', $attributeId);
-				JArrayHelper::toInteger($attributeIds);
-
-				$query->where('ap.attribute_id IN (' . implode(',', $attributeIds) . ')');
-			}
-
-			if ($attributeSetId != 0)
-			{
-				// Sanitize ids
-				$attributeSetIds = explode(',', $attributeSetId);
-				JArrayHelper::toInteger($attributeSetIds);
-
-				$query->where('a.attribute_set_id IN (' . implode(',', $attributeSetIds) . ')');
-			}
-
-			if ($propertyId != 0)
-			{
-				// Sanitize ids
-				$propertyIds = explode(',', $propertyId);
-				JArrayHelper::toInteger($propertyIds);
-
-				$query->where('ap.property_id IN (' . implode(',', $propertyIds) . ')');
-			}
-
-			if ($required != 0)
-			{
-				$query->where('ap.setrequire_selected = ' . (int) $required);
-			}
-
-			if ($notPropertyId != 0)
-			{
-				// Sanitize ids
-				$notPropertyIds = explode(',', $notPropertyId);
-				JArrayHelper::toInteger($notPropertyIds);
-
-				$query->where('ap.property_id NOT IN (' . implode(',', $notPropertyIds) . ')');
-			}
-
-			$db->setQuery($query);
-			$list = $db->loadObjectlist();
-
-			return $list;
-		}
+		return RedshopHelperProduct_Attribute::getAttributeProperties(
+			$propertyId, $attributeId, $productId, $attributeSetId, $required, $notPropertyId
+		);
 	}
 
 	public function getAttibutePropertyWithStock($property)
@@ -3586,31 +3319,19 @@ class productHelper
 		return $subproperty_with_stock;
 	}
 
+	/**
+	 * Method for get sub properties
+	 *
+	 * @param   int  $subproperty_id  Sub-Property ID
+	 * @param   int  $property_id     Property ID
+	 *
+	 * @return  mixed                List of sub-properties data.
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct_Attribute::getAttributeSubProperties() instead
+	 */
 	public function getAttibuteSubProperty($subproperty_id = 0, $property_id = 0)
 	{
-		$and = "";
-
-		if ($subproperty_id != 0)
-		{
-			$and .= "AND sp.subattribute_color_id = " . (int) $subproperty_id . " ";
-		}
-
-		if ($property_id != 0)
-		{
-			$and .= "AND sp.subattribute_id = " . (int) $property_id . " ";
-		}
-
-		$query = "SELECT sp.subattribute_color_id AS value, sp.subattribute_color_name AS text"
-			. ",sp.*,p.property_name,p.setrequire_selected,p.setmulti_selected,p.setdisplay_type FROM " . $this->_table_prefix
-			. "product_subattribute_color AS sp "
-			. "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS p ON p.property_id=sp.subattribute_id "
-			. "WHERE sp.subattribute_published = 1 "
-			. $and
-			. " ORDER BY sp.ordering ASC";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperProduct_Attribute::getAttributeSubProperties($subproperty_id, $property_id);
 	}
 
 	public function getAttributeTemplate($data_add = "", $display = true)
@@ -4253,7 +3974,17 @@ class productHelper
 					$aw_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
 				}
 
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_main_image))
+				$thumbUrl = "";
+
+				JPluginHelper::importPlugin('redshop_product');
+				$dispatcher = RedshopHelperUtility::getInstance();
+
+				$product = $this->getProductById($ac_id);
+
+				// Trigger to change product image.
+				$dispatcher->trigger('changeProductImage', array(&$thumbUrl, $product, $acc_prod_link, $aw_thumb, $ah_thumb, Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX'), ''));
+
+				if (empty($thumbUrl) && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_main_image))
 				{
 					$thumbUrl = RedShopHelperImages::getImagePath(
 						$accessory_main_image,
@@ -4276,7 +4007,6 @@ class productHelper
 					{
 						$accessorymainimage = "<img id='main_image' class='redAttributeImage' src='" . $thumbUrl . "' />";
 					}
-
 				}
 
 				$accessory_middle = str_replace($aimg_tag, $accessorymainimage, $accessory_middle);
@@ -5189,6 +4919,11 @@ class productHelper
 		$Itemid          = JRequest::getInt('Itemid');
 
 		$product = $this->getProductById($product_id);
+
+		// Process the product plugin for property
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$dispatcher->trigger('onPropertyAddtoCart', array(&$property_data, &$cart_template, &$property_stock, $property_id, $product));
 
 		if ($property_stock <= 0)
 		{
@@ -8150,7 +7885,7 @@ class productHelper
 
 		if (strpos($data_add, "{product_stock_amount_image}") !== false)
 		{
-			$stockamountList  = $stockroomhelper->getStockAmountImage($product_id, $sec, $productinstock);
+			$stockamountList  = $stockroomhelper->getStockAmountImage($Id, $sec, $productinstock);
 			$stockamountImage = "";
 
 			if (count($stockamountList) > 0)
@@ -8160,6 +7895,10 @@ class productHelper
 					array(
 						'product_id' => $product_id,
 						'stockamountImage' => $stockamountList[0]
+					),
+					'',
+					array(
+						'component' => 'com_redshop'
 					)
 				);
 			}
@@ -8351,7 +8090,7 @@ class productHelper
 
 		if ($tmp_name == '')
 		{
-			$tmp_name = COMPARE_TEMPLATE_ID;
+			$tmp_name = Redshop::getConfig()->get('COMPARE_TEMPLATE_ID');
 		}
 
 		return $tmp_name;
@@ -8507,8 +8246,6 @@ class productHelper
 
 		if (!empty($imagename) && !empty($type))
 		{
-			$imagename = JFile::makeSafe($imagename);
-
 			if ((Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE')) && $type == 'product')
 			{
 				$productmainimg = $redhelper->watermark('product', $imagename, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');

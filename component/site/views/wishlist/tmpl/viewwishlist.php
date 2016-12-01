@@ -149,11 +149,11 @@ else
 		// Send mail link
 		echo "<table>";
 
-		for ($j = 0, $jn = count($wishlists); $j < $jn; $j++)
+		foreach ($wishlists as $wishlist)
 		{
-			$wishlist_link = JRoute::_("index.php?view=account&layout=mywishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=com_redshop&Itemid=" . $Itemid);
-			$del_wishlist  = JRoute::_("index.php?view=wishlist&task=delwishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=com_redshop&Itemid=" . $Itemid);
-			echo "<tr><td><a href=\"" . $wishlist_link . "\">" . $wishlists[$j]->wishlist_name . "</a></td>"
+			$wishlist_link = JRoute::_("index.php?view=account&layout=mywishlist&wishlist_id=" . $wishlist->wishlist_id . "&option=com_redshop&Itemid=" . $Itemid);
+			$del_wishlist  = JRoute::_("index.php?view=wishlist&task=delwishlist&wishlist_id=" . $wishlist->wishlist_id . "&option=com_redshop&Itemid=" . $Itemid);
+			echo "<tr><td><a href=\"" . $wishlist_link . "\">" . $wishlist->wishlist_name . "</a></td>"
 				. "<td><a href=\"" . $del_wishlist . "\">" . JText::_('COM_REDSHOP_DELETE') . "</a></td></tr>";
 		}
 

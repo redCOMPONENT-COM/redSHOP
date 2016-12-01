@@ -28,7 +28,7 @@ class RedshopModelWizard extends RedshopModelConfiguration
         $query->select(
             $db->quoteName(array(
                 'tax_group_id',
-                'tax_rate_id',
+                'id',
                 'tax_country',
                 'tax_rate'
             ))
