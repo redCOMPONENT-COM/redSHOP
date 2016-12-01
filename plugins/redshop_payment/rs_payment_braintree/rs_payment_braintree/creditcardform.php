@@ -14,8 +14,8 @@ $request = JRequest::get('request');
 if (isset($request['ccinfo']) && $request['ccinfo'] == 1)
 {
 	$post           = JRequest::get('post');
-	$Itemid         = JRequest::getInt('Itemid');
-	$post['Itemid'] = $Itemid;
+	$itemId         = JRequest::getInt('Itemid');
+	$post['Itemid'] = $itemId;
 
 	$this->getOrderAndCcdata("rs_payment_braintree", $post);
 }
@@ -23,8 +23,3 @@ else
 {
 	$this->getCredicardForm("rs_payment_braintree", $data);
 }
-?>
-<script
-	type="text/javascript"
-	src="<?php echo JURI::base() ?>media/com_redshop/js/credit_card.js">
-</script>

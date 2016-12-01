@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_BRAINTREE</name>
-    <version>1.5.4</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <version>1.7.0</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>Nov 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
@@ -15,11 +15,10 @@
         <filename plugin="rs_payment_braintree">rs_payment_braintree.php</filename>
         <filename>index.html</filename>
         <folder>rs_payment_braintree</folder>
+        <folder>tmpl</folder>
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_braintree.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_braintree.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
