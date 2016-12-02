@@ -100,63 +100,59 @@ if ($showbuttons)
 			history.go(-1);
 		}
 
+		/**
+		 * Cancel submit and also alert with message
+		 *
+		 * @param message
+		 * @returns {boolean}
+		 */
+		function cancelSubmit(message) {
+			alert(message);
+			return false;
+		}
+
 		Joomla.submitbutton = function (pressbutton) {
-
 			var form = document.adminForm;
+			var mediaSection = '<?php echo $media_section;?>';
 
-			if (pressbutton == 'cancel')
-			{
+			if (pressbutton == 'cancel') {
 				submitform(pressbutton);
 				return;
 			}
 
-			if (form.bulk.value == 0)
-			{
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_BULK_OPTION', true ); ?>");
-
-				return false;
+			// Upload zip images
+			if (form.bulk.value == 0) {
+				return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_BULK_OPTION', true); ?>');
 			}
-			else if (form.media_type.value != "youtube") 
-			{
-				if (form.file.value == '' && form.media_bank_image.value == '')
+			else {
+				// None zip images
+				switch (form.media_type.value)
 				{
-					alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
-
-					return false;
+					case 'youtube':
+						break;
+					default:
+						if (form.file.value == '' && form.media_bank_image.value == '') {
+							return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
+						}
+						if (mediaSection == 'product')
+						{
+							if (form.hdn_download_file.value == '' && form.file == '') {
+								return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
+							}
+						}
+						// Make sure media type is selected
+						if (form.media_type.value == 0) {
+							return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_MEDIA_TYPE', true); ?>');
+						}
+						// Make sure section is selected
+						if (form.media_section.value == 0) {
+							return cancelSubmit('<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true); ?>');
+						}
+						if (form.section_id.value == '' && form.media_section.value != 'media') {
+							return cancelSubmit('<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true); ?>');
+						}
 				}
-				else
-				{
-					submitform(pressbutton);
-				}
-			}
-			<?php if ($media_section == 'product') : ?>
-			else if (form.hdn_download_file.value == '' && form.file == '')
-			{
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
-
-				return false;
-			}
-			<?php endif;?>
-			else if (form.media_type.value == 0)
-			{
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_MEDIA_TYPE', true ); ?>");
-
-				return false;
-			}
-			else if (form.media_section.value == 0)
-			{
-				alert("<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true ); ?>");
-
-				return false;
-			}
-			else if (form.section_id.value == '' && form.media_section.value != 'media')
-			{
-				alert("<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true ); ?>");
-
-				return false;
-			}
-			else
-			{
+				// Have done now submit it
 				submitform(pressbutton);
 			}
 		}
