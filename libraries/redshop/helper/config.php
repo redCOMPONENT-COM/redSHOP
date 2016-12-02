@@ -349,7 +349,7 @@ class RedshopHelperConfig
 			return false;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
