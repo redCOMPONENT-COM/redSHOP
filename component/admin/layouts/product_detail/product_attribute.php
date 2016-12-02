@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-JHtmlBehavior::modal();
+JHtmlBehavior::modal('a.joom-box');
 $data = $displayData['this'];
 $productId = 0;
 $attributeSetId = 0;
@@ -23,7 +23,6 @@ if (isset($data->detail->attribute_set_id))
 	$attributeSetId = $data->detail->attribute_set_id;
 }
 
-JHtml::_('behavior.modal', 'a.modal-thumb');
 JText::script('COM_REDSHOP_TITLE');
 JText::script('COM_REDSHOP_ATTRIBUTE_REQUIRED');
 JText::script('COM_REDSHOP_PUBLISHED');
@@ -226,19 +225,19 @@ if ($data->lists['attributes'])
 			<br/>
 			<div class="row-fluid">
 				<div class="span2">
-					<a class="modal-thumb btn btn-small" rel="{handler: 'iframe', size: {x: 950, y: 500}}"
+					<a class="joom-box btn btn-small" rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 					   title=""
 					   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id='
 						. $propertyId . '&showbuttons=1&media_section=property'); ?>">
 						<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" alt=""/>
 					</a>
-					<a class="modal-thumb btn btn-small"
+					<a class="joom-box btn btn-small"
 					   rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 					   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $propertyId . '&cid=' . $productId . '&section=property'); ?>">
 						<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>discountmanagmenet16.png"/>
 					</a>
 					<?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
-						<a class="modal-thumb btn btn-small"
+						<a class="joom-box btn btn-small"
 						   rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 						   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $propertyId . '&cid=' . $productId . '&layout=productstockroom&property=property'); ?>">
 							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>stockroom16.png"/>
@@ -248,7 +247,7 @@ if ($data->lists['attributes'])
 				<div class="span3">
 					<div class="button2-left">
 						<div class="image">
-							<a class="modal-thumb"
+							<a class="joom-box"
 							   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&fsec=property&fid=' . $keyAttr . $keyProperty . '&layout=thumbs'); ?>"
 							   rel="{handler: 'iframe', size: {x: 900, y: 500}}"></a>
 						</div>
@@ -271,7 +270,7 @@ if ($data->lists['attributes'])
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 						?>
-						<a class="modal-thumb"
+						<a class="joom-box"
 						   rel="{handler: 'image', size: {}}"
 						   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' . $property->property_image; ?>">
 							<img id="propertyImage<?php echo $keyAttr . $keyProperty; ?>"
@@ -444,7 +443,7 @@ if ($data->lists['attributes'])
 													<div class="span12 subAttrMedia">
 														<div class="row-fluid">
 															<div class="span2">
-																<a class="modal-thumb btn btn-small"
+																<a class="joom-box btn btn-small"
 																   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id='
 																	. $subProperty->subattribute_color_id . '&showbuttons=1&media_section=subproperty'); ?>"
 																   rel="{handler: 'iframe', size: {x: 950, y: 500}}"
@@ -453,7 +452,7 @@ if ($data->lists['attributes'])
 																		src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png"
 																		alt=""/>
 																</a>
-																<a class="modal-thumb btn btn-small"
+																<a class="joom-box btn btn-small"
 																   rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 																   title=""
 																   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId . '&section=subproperty'); ?>">
@@ -462,7 +461,7 @@ if ($data->lists['attributes'])
 																		alt=""/>
 																</a>
 																<?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
-																	<a class="modal-thumb btn btn-small"
+																	<a class="joom-box btn btn-small"
 																	   rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 																	   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId); ?>&layout=productstockroom&property=subproperty">
 																		<img
@@ -473,7 +472,7 @@ if ($data->lists['attributes'])
 															<div class="span3">
 																<div class="button2-left">
 																	<div class="image">
-																		<a class="modal-thumb"
+																		<a class="joom-box"
 																		   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&fsec=subproperty&fid=' . $keyAttr . $keySubProp . '&layout=thumbs'); ?>"
 																		   rel="{handler: 'iframe', size: {x: 900, y: 500}}"
 																			></a>
@@ -496,7 +495,7 @@ if ($data->lists['attributes'])
 																		Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 																	);
 																	?>
-																	<a class="modal-thumb"
+																	<a class="joom-box"
 																	   rel="{handler: 'image', size: {}}"
 																	   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $subProperty->subattribute_color_image; ?>">
 																		<img id="subpropertyImage<?php echo $keyAttr . $keySubProp; ?>"
