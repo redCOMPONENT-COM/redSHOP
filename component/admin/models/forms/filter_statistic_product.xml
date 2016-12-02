@@ -23,6 +23,6 @@
                 description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
                 onchange="this.form.submit();"
                 class="form-control"
-                />
+        />
     </fields>
 </form>
