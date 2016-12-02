@@ -2,9 +2,9 @@
 <extension version="3.0" type="plugin" group="redshop_payment"
 		   method="upgrade">
 	<name>PLG_RS_PAYMENT_EWAY3DSECURE</name>
-	<version>1.3.6</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>DEC 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>http://www.redcomponent.com</authorUrl>
@@ -14,11 +14,9 @@
 	<files>
 		<filename plugin="rs_payment_eway3dsecure">rs_payment_eway3dsecure.php</filename>
 		<folder>rs_payment_eway3dsecure</folder>
+		<folder>language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_eway3dsecure.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_eway3dsecure.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -44,12 +42,12 @@
 				</field>
 				<field name="paymentCurrency" type="list" default="GBP"
 						label="PLG_RS_PAYMENT_EWAY3DSECURE_PAYMENTCURRENCY_LBL">
-					<option value="CAD">CAD</option>
-					<option value="EUR">EUR</option>
-					<option value="GBP">GBP</option>
-					<option value="NZD">NZD</option>
-					<option value="AUD">AUD</option>
-					<option value="USD">USD</option>
+					<option value="CAD">PLG_RS_PAYMENT_EWAY3DSECURE_LANGUAGE_CAD</option>
+					<option value="EUR">PLG_RS_PAYMENT_EWAY3DSECURE_LANGUAGE_EUR</option>
+					<option value="GBP">PLG_RS_PAYMENT_EWAY3DSECURE_LANGUAGE_GBP</option>
+					<option value="NZD">PLG_RS_PAYMENT_EWAY3DSECURE_LANGUAGE_NZD</option>
+					<option value="AUD">PLG_RS_PAYMENT_EWAY3DSECURE_LANGUAGE_AUD</option>
+					<option value="USD">PLG_RS_PAYMENT_EWAY3DSECURE_LANGUAGE_USD</option>
 				</field>
 
 				<field name="verify_status" type="sql"

@@ -3,18 +3,19 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Class PlgRedshop_Paymentrs_Payment_Eway3dsecure
+ * PlgRedshop_PaymentRs_Payment_Eway3dSecure class.
  *
- * @since  1.5
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
  */
-class PlgRedshop_Paymentrs_Payment_Eway3dsecure extends JPlugin
+class PlgRedshop_PaymentRs_Payment_Eway3dSecure extends JPlugin
 {
 	/**
 	 * Constructor
@@ -26,7 +27,8 @@ class PlgRedshop_Paymentrs_Payment_Eway3dsecure extends JPlugin
 	 */
 	public function __construct(&$subject, $config = array())
 	{
-		JPlugin::loadLanguage('plg_redshop_payment_rs_payment_eway3dsecure');
+		JPlugin::loadLanguage('plg_redshop_payment_rs_payment_eway3dsecure', __DIR__);
+
 		parent::__construct($subject, $config);
 	}
 
@@ -63,17 +65,18 @@ class PlgRedshop_Paymentrs_Payment_Eway3dsecure extends JPlugin
 			return;
 		}
 
-		$app = JFactory::getApplication();
-		$input = $app->input;
-		$accessCode = $input->getString('AccessCode', '');
-		$order_id = $input->getString('orderid', '');
-		$verify_status  = $this->params->get('verify_status', '');
-		$invalid_status = $this->params->get('invalid_status', '');
-		$values = new stdClass;
-		$values->order_status_code = $invalid_status;
-		$values->order_payment_status_code = 'UNPAID';
-		$values->log = JText::_('PLG_RS_PAYMENT_EWAY3DSECURE_ORDER_NOT_PLACED.');
-		$values->msg = JText::_('PLG_RS_PAYMENT_EWAY3DSECURE_ORDER_NOT_PLACED');
+		$app 			= JFactory::getApplication();
+		$input 			= $app->input;
+		$accessCode 	= $input->getString('AccessCode', '');
+		$orderId 		= $input->getString('orderid', '');
+		$verifyStatus   = $this->params->get('verify_status', '');
+		$invalidStatus  = $this->params->get('invalid_status', '');
+
+		$values 							= new stdClass;
+		$values->order_status_code 			= $invalidStatus;
+		$values->order_payment_status_code 	= 'UNPAID';
+		$values->log 						= JText::_('PLG_RS_PAYMENT_EWAY3DSECURE_ORDER_NOT_PLACED.');
+		$values->msg 						= JText::_('PLG_RS_PAYMENT_EWAY3DSECURE_ORDER_NOT_PLACED');
 
 		if ($accessCode)
 		{
@@ -81,8 +84,8 @@ class PlgRedshop_Paymentrs_Payment_Eway3dsecure extends JPlugin
 			require 'rs_payment_eway3dsecure/RapidAPI.php';
 
 			// Call RapidAPI
-			$eway_params = array('sandbox' => $this->params->get('test_mode', true));
-			$service = new eWAY\RapidAPI($this->params->get("APIKey"), $this->params->get("APIPassword"), $eway_params);
+			$ewayParams = array('sandbox' => $this->params->get('test_mode', true));
+			$service = new eWAY\RapidAPI($this->params->get("APIKey"), $this->params->get("APIPassword"), $ewayParams);
 
 			$request = new eWAY\GetAccessCodeResultRequest;
 			$request->AccessCode = $accessCode;
@@ -90,9 +93,9 @@ class PlgRedshop_Paymentrs_Payment_Eway3dsecure extends JPlugin
 
 			if (isset($result->Errors))
 			{
-				$ErrorArray = explode(",", $result->Errors);
+				$errors = explode(",", $result->Errors);
 
-				foreach ($ErrorArray as $error)
+				foreach ($errors as $error)
 				{
 					$error = $service->getMessage($error);
 					$app->enqueueMessage($error, 'warning');
@@ -100,7 +103,7 @@ class PlgRedshop_Paymentrs_Payment_Eway3dsecure extends JPlugin
 			}
 			else
 			{
-				$values->order_status_code = $verify_status;
+				$values->order_status_code = $verifyStatus;
 				$values->order_payment_status_code = 'PAID';
 				$values->log = JText::_('PLG_RS_PAYMENT_EWAY3DSECURE_ORDER_PLACED');
 				$values->msg = JText::_('PLG_RS_PAYMENT_EWAY3DSECURE_ORDER_PLACED');
@@ -108,11 +111,19 @@ class PlgRedshop_Paymentrs_Payment_Eway3dsecure extends JPlugin
 			}
 		}
 
-		$values->order_id = $order_id;
+		$values->order_id = $orderId;
 
 		return $values;
 	}
 
+	/**
+	 * [onCapture_Paymentrs_payment_eway3dsecure]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [void]
+	 */
 	public function onCapture_Paymentrs_payment_eway3dsecure($element, $data)
 	{
 		return;
