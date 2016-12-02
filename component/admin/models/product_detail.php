@@ -503,6 +503,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$mediapost = array();
 				$mediapost['media_id'] = $media_id;
 				$mediapost['media_name'] = $row->product_full_image;
+				$mediapost['media_alternate_text'] = preg_replace('#\.[^/.]+$#', '', $mediapost['media_name']);
 				$mediapost['media_section'] = "product";
 				$mediapost['section_id'] = $row->product_id;
 				$mediapost['media_type'] = "images";
