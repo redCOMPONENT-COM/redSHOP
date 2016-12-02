@@ -35,7 +35,7 @@ class RedshopControllerOrder extends RedshopController
 			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order'));
 		}
 
-		RedshopHelperOrder::generateInvoicePdf($orderId);
+		RedshopHelperOrder::generateInvoicePdf($orderId, 'I');
 
 		$app->close();
 	}
