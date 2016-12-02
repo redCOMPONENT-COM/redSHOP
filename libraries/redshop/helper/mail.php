@@ -12,7 +12,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Class Redshop Helper for Mail
@@ -515,7 +514,7 @@ class RedshopHelperMail
 		$mailTemplate    = self::replaceInvoiceMailTemplate($orderId, $message, $subject);
 		$mailBody        = $mailTemplate->body;
 		$subject         = $mailTemplate->subject;
-		$pdfTemplateFile = self::getMailTemplate(0, "invoicefile_mail");
+		$pdfTemplateFile = self::getMailTemplate(0, 'invoicefile_mail');
 
 		// Init PDF template body
 		$pdfTemplate = $mailBody;
@@ -533,11 +532,11 @@ class RedshopHelperMail
 		if (RedshopHelperPdf::isAvailablePdfPlugins())
 		{
 			JPluginHelper::importPlugin('redshop_pdf');
-			$result = RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderCreateInvoicePdf', array($orderId, $pdfTemplate));
+			$result = RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderCreateInvoicePdf', array($orderId, $pdfTemplate, 'F', true));
 
-			if ($result)
+			if (!in_array(false, $result, true))
 			{
-				$invoiceAttachment = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $result[0] . ".pdf";
+				$invoiceAttachment = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $orderId . '/' . $result[0] . ".pdf";
 			}
 		}
 

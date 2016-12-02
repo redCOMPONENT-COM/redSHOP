@@ -33,14 +33,16 @@ class PlgRedshop_PdfMPdf extends JPlugin
 	/**
 	 * Event for create PDF file of order.
 	 *
-	 * @param   int     $orderId  Id of order.
-	 * @param   string  $pdfHtml  Html template of PDF
+	 * @param   int      $orderId  Id of order.
+	 * @param   string   $pdfHtml  Html template of PDF
+	 * @param   string   $code     Code when generate PDF.
+	 * @param   boolean  $isEmail  Is generate for use in Email?
 	 *
 	 * @return  string            Name of PDF file.
 	 *
 	 * @since   1.0.0
 	 */
-	public function onRedshopOrderCreateInvoicePdf($orderId = 0, $pdfHtml = '')
+	public function onRedshopOrderCreateInvoicePdf($orderId = 0, $pdfHtml = '', $code = 'F', $isEmail = false)
 	{
 		if (!$orderId || empty($pdfHtml))
 		{
@@ -56,8 +58,18 @@ class PlgRedshop_PdfMPdf extends JPlugin
 		$pdfObj->AddPage();
 		$pdfObj->writeHTML($pdfHtml);
 
+		$invoiceFolder = JPATH_SITE . '/components/com_redshop/assets/document/invoice/';
+
+		if (!$isEmail)
+		{
+			ob_end_clean();
+			$pdfObj->Output($invoiceFolder . '/' . $orderId . ".pdf", $code);
+
+			return $orderId;
+		}
+
+		$invoiceFolder .= $orderId;
 		$invoicePdf = 'invoice-' . round(microtime(true) * 1000);
-		$invoiceFolder = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $orderId;
 
 		// Delete currently order invoice
 		if (JFolder::exists($invoiceFolder))
@@ -68,7 +80,7 @@ class PlgRedshop_PdfMPdf extends JPlugin
 		JFolder::create($invoiceFolder);
 
 		ob_end_clean();
-		$pdfObj->Output($invoiceFolder . '/' . $invoicePdf . ".pdf", 'I');
+		$pdfObj->Output($invoiceFolder . '/' . $invoicePdf . ".pdf", $code);
 
 		return $invoicePdf;
 	}

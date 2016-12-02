@@ -2698,13 +2698,15 @@ class RedshopHelperOrder
 	/**
 	 * Method for generate Invoice PDF of specific Order
 	 *
-	 * @param   int  $orderId  ID of order.
+	 * @param   int      $orderId  ID of order.
+	 * @param   string   $code     Code when generate PDF.
+	 * @param   boolean  $isEmail  Is generate for use in Email?
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function generateInvoicePdf($orderId)
+	public static function generateInvoicePdf($orderId, $code = 'F', $isEmail = false)
 	{
 		if (!$orderId)
 		{
@@ -2768,7 +2770,7 @@ class RedshopHelperOrder
 		$message = $cartHelper->replaceOrderTemplate($orderDetail, $message, true);
 
 		JPluginHelper::importPlugin('redshop_pdf');
-		RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderCreateInvoicePdf', array($orderId, $message));
+		RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderCreateInvoicePdf', array($orderId, $message, $code, $isEmail));
 	}
 
 	/**
