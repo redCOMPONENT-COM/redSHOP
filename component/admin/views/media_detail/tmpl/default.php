@@ -33,7 +33,17 @@ JFactory::getDocument()->addScriptDeclaration('
 		$("#media_section").on("change", function(){
 			$("#section_id").select2("val","");
 		});
-		$("#youtube-wrapper").hide();
+		var media_type = $("select[name=media_type]").val();
+
+		if (media_type == "youtube"){
+			$("#youtube-wrapper").show();
+			$("#media_data").hide();
+		}
+		else{
+			$("#youtube-wrapper").hide();
+			$("#media_data").show();
+		}
+
 		$("select[name=media_type]").on("change", function(){
 			var value = $(this).val();
 			if (value == "youtube"){
@@ -106,13 +116,17 @@ if ($showbuttons)
 
 				return false;
 			}
-			else if (form.media_type.value != "youtube")
+			else if (form.media_type.value != "youtube") 
 			{
 				if (form.file.value == '' && form.media_bank_image.value == '')
 				{
 					alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
 
 					return false;
+				}
+				else
+				{
+					submitform(pressbutton);
 				}
 			}
 			<?php if ($media_section == 'product') : ?>
@@ -141,8 +155,10 @@ if ($showbuttons)
 
 				return false;
 			}
-
-			submitform(pressbutton);
+			else
+			{
+				submitform(pressbutton);
+			}
 		}
 	</script>
 
