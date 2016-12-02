@@ -3,31 +3,36 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$uri  = JURI::getInstance();
-$url  = $uri->root();
-$user = JFactory::getUser();
-$db   = JFactory::getDbo();
+defined('_JEXEC') or die();
 
 JLoader::import('redshop.library');
 
-$sql           = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_shipping FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
-$db->setQuery($sql);
-$order_details = $db->loadObjectList();
-$request       = JRequest::get('REQUEST');
-$task          = $request['task'];
+$db    = JFactory::getDbo();
+$query = $db->getQuery(true);
 
-$db = JFactory::getDbo();
+$query->select($db->qn('o.order_total'))
+	->from($db->qn('#__redshop_order_payment', 'op'))
+	->leftJoin($db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('op.order_id') . ' = ' . $db->qn('o.order_id'))
+	->where($db->qn('o.order_id') . ' = ' . $db->q($data['order_id']));
 
-$q = "SELECT * FROM #__redshop_order_item WHERE order_id=" . $data['order_id'];
-$db->setQuery($q);
+$db->setQuery($query);
+$orderDetails = $db->loadObjectList();
+
+$query = $db->getQuery(true);
+
+$query->select($db->qn(['product_id', 'order_item_name', 'product_quantity', 'product_item_price']))
+	->from($db->qn('#__redshop_order_item'))
+	->where($db->qn('order_id') . ' = ' . $db->q($data['order_id']));
+$db->setQuery($query);
+
 $rs = $db->loadObjectlist();
 
 // Authenticate vars to send
-$formdata = array(
+$formData = array(
 	'merchant'          => $this->params->get("seller_id"),
 	'orderid'           => $data['order_id'],
 	'currency'          => $this->params->get("dibs_currency"),
@@ -57,24 +62,24 @@ $formdata = array(
 
 for ($p = 0, $pn = count($rs); $p < $pn; $p++)
 {
-	$formdata['ordline' . ($p + 1) . '-1'] = $rs[$p]->product_id;
-	$formdata['ordline' . ($p + 1) . '-2'] = $rs[$p]->order_item_name;
-	$formdata['ordline' . ($p + 1) . '-3'] = $rs[$p]->product_quantity;
-	$formdata['ordline' . ($p + 1) . '-4'] = $rs[$p]->product_item_price;
+	$formData['ordline' . ($p + 1) . '-1'] = $rs[$p]->product_id;
+	$formData['ordline' . ($p + 1) . '-2'] = $rs[$p]->order_item_name;
+	$formData['ordline' . ($p + 1) . '-3'] = $rs[$p]->product_quantity;
+	$formData['ordline' . ($p + 1) . '-4'] = $rs[$p]->product_item_price;
 }
 
 if ($this->params->get("is_test") == "1")
 {
-	$formdata['test'] = "yes";
+	$formData['test'] = "yes";
 }
 
 $version            = "2";
 $dibsurl            = "https://payment.architrade.com/paymentweb/start.action";
 $currencyClass      = CurrencyHelper::getInstance();
-$formdata['amount'] = $currencyClass->convert($order_details[0]->order_total, '', $this->params->get("dibs_currency"));
-$formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
+$formData['amount'] = $currencyClass->convert($orderDetails[0]->order_total, '', $this->params->get("dibs_currency"));
+$formData['amount'] = number_format($formData['amount'], 2, '.', '') * 100;
 
-if ($formdata['flexlang'] == "Auto")
+if ($formData['flexlang'] == "Auto")
 {
 	$dibs_lang_arr = array(
 		'Denmark'       => 'da',
@@ -91,57 +96,38 @@ if ($formdata['flexlang'] == "Auto")
 
 	if (isset($lang) && $lang != '')
 	{
-		$formdata["lang"] = $lang;
+		$formData["lang"] = $lang;
 	}
 	else
 	{
 		$lang = 'en';
-		$formdata["lang"] = $lang;
+		$formData["lang"] = $lang;
 	}
 }
 
-if ($formdata['flexlang'] != "Auto")
+if ($formData['flexlang'] != "Auto")
 {
-	$formdata["lang"] = $formdata['flexlang'];
+	$formData["lang"] = $formData['flexlang'];
 }
 
-if ($formdata["flexwin_decorator"] != "Own Decorator")
+if ($formData["flexwin_decorator"] != "Own Decorator")
 {
-	$formdata["decorator"] = $formdata["flexwin_decorator"];
-	$formdata["color"]     = $formdata["flexwin_color"];
+	$formData["decorator"] = $formData["flexwin_decorator"];
+	$formData["color"]     = $formData["flexwin_color"];
 }
 
-if ($formdata["md5key1"] != "" && $formdata["md5key2"] != "")
+if ($formData["md5key1"] != "" && $formData["md5key2"] != "")
 {
-	$md5key                    = md5($formdata["md5key2"] . md5($formdata["md5key1"] . 'merchant=' . $formdata["merchant"] . '&orderid=' . $data['order_id'] . '&currency=' . $formdata['currency'] . '&amount=' . $formdata['amount']));
-	$formdata["md5key"]        = $md5key;
-	$formdata["dibs_uniqueid"] = 'yes';
+	$md5key                    = md5($formData["md5key2"] . md5($formData["md5key1"] . 'merchant=' . $formData["merchant"] . '&orderid=' . $data['order_id'] . '&currency=' . $formData['currency'] . '&amount=' . $formData['amount']));
+	$formData["md5key"]        = $md5key;
+	$formData["dibs_uniqueid"] = 'yes';
 }
 
 // Build the post string
-$poststring = '';
-?>
-<form action="<?php echo $dibsurl ?>" id='dibscheckout' name="dibscheckout" target="myNewWin" method="post">
-	<?php foreach ($formdata as $name => $value): ?>
-		<input type="hidden" name="<?php echo $name ?>" value="<?php echo urlencode($value) ?>"/>
-	<?php endforeach; ?>
-	<?php echo $poststring; ?>
-	<?php
-	$accepturl = JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibspaymentmethod&orderid=" . $data['order_id'];
-	$cancelurl = JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibspaymentmethod&orderid=" . $data['order_id'];
+$postString = '';
 
-	?>
-	<input type="hidden" name="accepturl" value="<?php echo $accepturl; ?>"/>
-	<input type="hidden" name="cancelurl" value="<?php echo $cancelurl; ?>"/>
-</form>
-<script>
-	function redirectOutput() {
-		var w = window.open('', 'Popup_Window', "width=700,height=500,toolbar=1");
-		document.dibscheckout.target = 'Popup_Window';
-		document.dibscheckout.submit();
-		return true;
-	}
-</script>
-<script type="text/javascript">
-	window.onload = redirectOutput;
-</script>
+$acceptUrl = JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibspaymentmethod&orderid=" . $data['order_id'];
+
+$cancelUrl = JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibspaymentmethod&orderid=" . $data['order_id'];
+
+include_once JPluginHelper::getLayoutPath('redshop_payment', 'rs_payment_dibspaymentmethod');

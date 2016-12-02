@@ -11,10 +11,21 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
+/**
+ * PlgRedshop_PaymentRs_Payment_DibsPaymentMethod installer class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentRs_Payment_DibsPaymentMethod extends JPlugin
 {
 	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * [onPrePayment Plugin method with the same name as the event will be called automatically.]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [voice]
 	 */
 	public function onPrePayment($element, $data)
 	{
@@ -23,16 +34,19 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
-		include $paymentpath;
+
+		require_once JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 	}
 
+	/**
+	 * [onNotifyPaymentrs_payment_dibspaymentmethod]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $request  [data array]
+	 *
+	 * @return  [object]  $array_values(input)
+	 */
 	public function onNotifyPaymentrs_payment_dibspaymentmethod($element, $request)
 	{
 		$db = JFactory::getDbo();
@@ -44,14 +58,11 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 
 		$key2           = $this->params->get("dibs_md5key2");
 		$key1           = $this->params->get("dibs_md5key1");
-		$seller_id      = $this->params->get("seller_id");
-		$order_id       = $request['orderid'];
-		$transact       = $request['transact'];
-		$amount         = $request['amount'];
+		$orderId        = $request['orderid'];
 		$status         = $request['status'];
 		$currency       = $this->params->get("dibs_currency");
-		$verify_status  = $this->params->get('verify_status', '');
-		$invalid_status = $this->params->get('invalid_status', '');
+		$verifyStatus   = $this->params->get('verify_status', '');
+		$invalidStatus  = $this->params->get('invalid_status', '');
 
 		$db = JFactory::getDbo();
 
@@ -61,11 +72,11 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 
 		if (isset($request['transact']))
 		{
-			$tid = $request['transact'];
+			$tranId = $request['transact'];
 
-			if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
+			if ($this->orderPaymentNotYetUpdated($db, $orderId, $tranId))
 			{
-				$values->order_status_code = $verify_status;
+				$values->order_status_code = $verifyStatus;
 				$values->order_payment_status_code = 'Paid';
 				$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
@@ -73,34 +84,61 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		}
 		else
 		{
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code = $invalidStatus;
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
 			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 		}
 
 		$values->transaction_id = $request['transact'];
-		$values->order_id       = $order_id;
+		$values->order_id       = $orderId;
 
 		return $values;
 	}
 
-	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	/**
+	 * [orderPaymentNotYetUpdated description]
+	 *
+	 * @param   [obj]  $db       [db connection object]
+	 * @param   [int]  $orderId  [ID of order]
+	 * @param   [int]  $tranId   [ID of transaction]
+	 *
+	 * @return  [bool]
+	 */
+	public function orderPaymentNotYetUpdated($db, $orderId, $tranId)
 	{
-		$db            = JFactory::getDbo();
-		$res           = false;
-		$query         = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
-		$db->setQuery($query);
-		$order_payment = $db->loadResult();
-
-		if ($order_payment == 0)
+		if (!isset($db))
 		{
-			$res = true;
+			$db = JFactory::getDbo();
 		}
 
-		return $res;
+		$result = false;
+		$query  = $db->getQuery(true);
+
+		$query->select('COUNT(' . $db->qn('payment_order_id') . ')')
+			->from($db->qn('#__redshop_order_payment'))
+			->where($db->qn('order_id') . ' = ' . $db->getEscaped($orderId))
+			->where($db->qn('order_payment_trans_id') . ' = ' . $db->getEscaped($tranId));
+
+		$db->setQuery($query);
+		$orderPayment = $db->loadResult();
+
+		if ($orderPayment == 0)
+		{
+			$result = true;
+		}
+
+		return $result;
 	}
 
+	/**
+	 * [onCapture_Paymentrs_payment_dibspaymentmethod]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [object]  $values
+	 */
 	public function onCapture_Paymentrs_payment_dibspaymentmethod($element, $data)
 	{
 		if ($element != 'rs_payment_dibspaymentmethod')
@@ -108,45 +146,45 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 			return;
 		}
 
-
 		$objOrder   = order_functions::getInstance();
 		$db         = JFactory::getDbo();
-		$order_id   = $data['order_id'];
+		$orderId    = $data['order_id'];
 
 		JPlugin::loadLanguage('com_redshop');
 
-		$dibsurl    = "https://payment.architrade.com/cgi-bin/capture.cgi?";
-		$orderid    = $data['order_id'];
+		$dibsUrl    = "https://payment.architrade.com/cgi-bin/capture.cgi?";
+		$orderId    = $data['order_id'];
 		$key2       = $this->params->get("dibs_md5key2");
 		$key1       = $this->params->get("dibs_md5key1");
-		$merchantid = $this->params->get("seller_id");
+		$merchantId = $this->params->get("seller_id");
 
 		$currencyClass      = CurrencyHelper::getInstance();
-		$formdata['amount'] = $currencyClass->convert($data['order_amount'], '', $this->params->get("dibs_currency"));
-		$formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
+		$formData['amount'] = $currencyClass->convert($data['order_amount'], '', $this->params->get("dibs_currency"));
+		$formData['amount'] = number_format($formData['amount'], 2, '.', '') * 100;
 
 		$md5key = md5(
 			$key2 . md5(
 				$key1
-					. 'merchant=' . $merchantid
-					. '&orderid=' . $order_id
+					. 'merchant=' . $merchantId
+					. '&orderid=' . $orderId
 					. '&transact=' . $data["order_transactionid"]
-					. '&amount=' . $formdata['amount']
+					. '&amount=' . $formData['amount']
 			)
 		);
 
-		$dibsurl .= "merchant=" . urlencode($this->params->get("seller_id")) . "&amount=" . urlencode($formdata['amount']) . "&transact=" . $data["order_transactionid"] . "&orderid=" . $order_id . "&force=yes&textreply=yes&md5key=" . $md5key;
+		$dibsUrl .= "merchant=" . urlencode($this->params->get("seller_id")) . "&amount=" . urlencode($formData['amount']) . "&transact=" . $data["order_transactionid"] . "&orderid=" . $orderId . "&force=yes&textreply=yes&md5key=" . $md5key;
 
-		$data = $dibsurl;
+		$data = $dibsUrl;
 		$ch   = curl_init($data);
 
 		// 	Execute
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		$data           = curl_exec($ch);
-		$data           = explode('&', $data);
-		$capture_status = explode('=', $data[0]);
 
-		if ($capture_status[1] == 'ACCEPTED')
+		$data          = curl_exec($ch);
+		$data          = explode('&', $data);
+		$captureStatus = explode('=', $data[0]);
+
+		if ($captureStatus[1] == 'ACCEPTED')
 		{
 			$values->responsestatus = 'Success';
 			$message = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
