@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal');
+JHtml::_('behavior.modal', 'a.joom-box');
 
 // Create product Helper object
 $productHelper = productHelper::getInstance();
@@ -116,12 +116,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 								?>
-								<a
-									class="modal"
-									href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $giftCardPath; ?>"
-									title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
-									rel="{handler: 'image', size: {}}"
-								>
+								<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $giftCardPath; ?>"
+									title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>" rel="{handler: 'image', size: {}}">
 									<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
 								</a>
 							<?php endif; ?>
@@ -141,12 +137,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 								?>
-								<a
-									class="modal"
-									href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $giftCardPath; ?>"
-									title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
-									rel="{handler: 'image', size: {}}"
-								>
+								<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $giftCardPath; ?>"
+									title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>" rel="{handler: 'image', size: {}}">
 									<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
 								</a>
 							<?php endif; ?>
