@@ -85,6 +85,12 @@ class Tablemass_discount_detail extends JTable
 			return false;
 		}
 
+		// Convert startdate to same day but at early morning
+		$this->discount_startdate = RedshopHelperDatetime::generateTimestamp($this->discount_startdate, false);
+
+		// Convert enddate to same day but at middle night
+		$this->discount_enddate = RedshopHelperDatetime::generateTimestamp($this->discount_enddate);
+
 		return parent::check();
 	}
 }

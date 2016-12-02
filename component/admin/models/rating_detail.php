@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopModelRating_detail extends RedshopModel
+class RedshopModelRating_detail extends RedshopModelForm
 {
 	public $_id = null;
 
