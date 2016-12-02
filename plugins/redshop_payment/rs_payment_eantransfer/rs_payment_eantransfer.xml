@@ -1,52 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_EANTRANSFER</name>
-    <version>1.5.1</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <version>1.7.0</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>Dec 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>This plugin enables standard ean Transfer payments</description>
+    <description>PLG_RS_PAYMENT_EANTRANSFER</description>
     <files>
         <filename plugin="rs_payment_eantransfer">rs_payment_eantransfer.php</filename>
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_eantransfer.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_eantransfer.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_eantransfer.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_eantransfer.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
 
-                <field name="private_person" type="radio" default="1" label="Show on Private Person"
-                       description="Show on Private Person">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="private_person" type="radio" default="1" label="PLG_RS_PAYMENT_EANTRANSFER_PRIVATE_PERSION"
+                       description="PLG_RS_PAYMENT_EANTRANSFER_PRIVATE_PERSION">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="business" type="radio" default="1" label="Show on Business" description="Show on Business">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="business" type="radio" default="1" label="PLG_RS_PAYMENT_EANTRANSFER_BUSINESS" description="PLG_RS_PAYMENT_EANTRANSFER_BUSINESS">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="is_creditcard" type="hidden" default="0" value="0"/>
                 <field name="economic_payment_terms_id" type="text" default=""
-                       label="Enter E-conomic Payment Conditions ID"/>
+                       label="PLG_RS_PAYMENT_EANTRANSFER_ECONOMIC_TERM_ID"/>
                 <field name="economic_design_layout" type="text" default=""
-                       label="Enter E-conomic Design and Layout ID"/>
+                       label="PLG_RS_PAYMENT_EANTRANSFER_ECONOMIC_DESIGN_ID"/>
                 <field name="verify_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-                       key_field="st_value" value_field="st_title" default="C" label="Order Status transactions"
-                       description="Select the order status to which the actual order is set.">
+                       key_field="st_value" value_field="st_title" default="C" label="PLG_RS_PAYMENT_EANTRANSFER_ORDER_STATUS_TRANS"
+                       description="PLG_RS_PAYMENT_EANTRANSFER_ORDER_STATUS_TRANS_DESC">
                 </field>
-                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="" label="Select Shopper Group"
-                       description="Displays the shopper groups"/>
+                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="" label="PLG_RS_PAYMENT_EANTRANSFER_SHOPPER_GROUP"
+                       description="PLG_RS_PAYMENT_EANTRANSFER_SHOPPER_GROUP"/>
                 <field name="txtextra_info" type="extrainfo" default="Please enter your Extra Info"
-                       label="Enter Extra Info"
-                       description="Enter description for your extra info. You also can use HTML tags."/>
+                       label="PLG_RS_PAYMENT_EANTRANSFER_EXTRA_INFO"
+                       description="PLG_RS_PAYMENT_EANTRANSFER_EXTRA_INFO_DESC"/>
             </fieldset>
         </fields>
     </config>
