@@ -49,7 +49,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			bars: 'vertical',
 			height: 500,
 			vAxis: {
-				format: 'decimal'
+				format: 'decimal',
+				minValue: 0
 			},
 			legend: {
 				position: 'top'
@@ -88,28 +89,30 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_NAME'), 'p.product_name', $listDirn, $listOrder) ?></th>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_SKU'), 'p.product_number', $listDirn, $listOrder) ?></th>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'), 'm.manufacturer_name', $listDirn, $listOrder) ?></th>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ORDER_COUNT'), 'order_count', $listDirn, $listOrder) ?></th>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_UNIT'), 'unit_sold', $listDirn, $listOrder) ?></th>
 			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_PRODUCT_TOTAL_SALE'), 'total_sale', $listDirn, $listOrder) ?></th>
 		</tr>
 		</thead>
-        <tbody>
+		<tbody>
 		<?php foreach ($this->products as $i => $row) : ?>
 			<tr>
 				<td align="center"><a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]=<?php echo $row->product_id; ?>">
 						<?php echo $row->product_name; ?></a>
 				</td>
-				<td align="center"><?php echo $row->product_number; ?></td>
-				<td align="center"><?php echo $row->manufacturer_name; ?></td>
-				<td align="center"><?php echo $row->unit_sold; ?></td>
+				<td align="center"><?php echo $row->product_number ?></td>
+				<td align="center"><?php echo $row->manufacturer_name ?></td>
+				<td align="center"><?php echo $row->order_count ?></td>
+				<td align="center"><?php echo $row->unit_sold ?></td>
 				<td align="center"><?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?></td>
 			</tr>
 		<?php endforeach; ?>
-        </tbody>
-        <tfoot>
-        <td colspan="4">
+		</tbody>
+		<tfoot>
+		<td colspan="4">
 			<?php echo $this->pagination->getListFooter(); ?>
-        </td>
-        </tfoot>
+		</td>
+		</tfoot>
 	</table>
 	<?php endif; ?>
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />

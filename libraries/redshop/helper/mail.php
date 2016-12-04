@@ -291,10 +291,10 @@ class RedshopHelperMail
 			return false;
 		}
 
-		$cartHelper     = rsCarthelper::getInstance();
-		$productHelper  = productHelper::getInstance();
-		$config         = JFactory::getConfig();
-		$mailBcc        = array();
+		$cartHelper    = rsCarthelper::getInstance();
+		$productHelper = productHelper::getInstance();
+		$config        = JFactory::getConfig();
+		$mailBcc       = array();
 
 		$message = $mailInfo[0]->mail_body;
 		$subject = $mailInfo[0]->mail_subject;
@@ -307,7 +307,7 @@ class RedshopHelperMail
 		$order             = RedshopHelperOrder::getOrderDetails($orderId);
 		$billingAddresses  = RedshopHelperOrder::getOrderBillingUserInfo($orderId);
 		$orderPayment      = RedshopHelperOrder::getPaymentInfo($orderId);
-		$paymentMethod     = RedshopHelperOrder::getPaymentMethodInfo($orderPayment[0]->payment_method_class);
+		$paymentMethod     = RedshopHelperOrder::getPaymentMethodInfo($orderPayment->payment_method_class);
 		$paymentMethod     = $paymentMethod[0];
 		$message           = $cartHelper->replaceOrderTemplate($order, $message, true);
 
