@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
+JHtmlBehavior::modal('.joom-box');
+
 $uri = JURI::getInstance();
 $url = $uri->root();
 $link_path = "/components/com_redshop/assets/images/";
@@ -69,7 +72,7 @@ $link_path = "/components/com_redshop/assets/images/";
 		<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imagePreviousLinkFind))
 		{ ?>
 			<div id="prvlinkdiv">
-				<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"
+				<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"
 				   title="<?php echo $imagePreviousLinkFind; ?>" rel="{handler: 'image', size: {}}"><img
 						alt="<?php echo $imagePreviousLinkFind; ?>"
 						src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"/></a>
@@ -96,7 +99,7 @@ $link_path = "/components/com_redshop/assets/images/";
 		<?php  if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imageNextLinkFind))
 		{ ?>
 			<div id="nxtlinkdiv">
-			<a class="modal" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"
+			<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"
 			   title="<?php echo $imageNextLinkFind; ?>" rel="{handler: 'image', size: {}}"><img
 					alt="<?php echo $imageNextLinkFind; ?>"
 					src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"/></a>
