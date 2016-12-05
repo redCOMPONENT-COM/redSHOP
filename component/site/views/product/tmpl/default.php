@@ -1119,11 +1119,7 @@ if (strstr($template_desc, "{more_videos}"))
 
 	for ($m = 0, $mn = count($media_videos); $m < $mn; $m++)
 	{
-		$more_vid = '<iframe width="510" height="315" src="http://www.youtube.com/embed/' . $media_videos[$m]->media_name . '" />';
-		$more_vid .= '</iframe>';
-
-		$insertStr .= "<div id='additional_vids_" . $media_videos[$m]->media_id . "'><a class='additional_video' href='#video-" . $media_videos[$m]->media_id . "'><img src='https://img.youtube.com/vi/" . $media_videos[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
-		$insertStr .= "<div class='hide'><div class='content' id='video-" . $media_videos[$m]->media_id . "'>" . $more_vid . "</div></div>";
+		$insertStr .= "<div id='additional_vids_" . $media_videos[$m]->media_id . "'><a class='modal' href='http://www.youtube.com/embed/" . $media_videos[$m]->media_name . "' rel='{handler: \"iframe\", size: {x: 800, y: 500}}'><img src='https://img.youtube.com/vi/" . $media_videos[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
 	}
 
 	$template_desc = str_replace("{more_videos}", $insertStr, $template_desc);
@@ -1820,9 +1816,6 @@ echo eval("?>" . $template_desc . "<?php ");
 ?>
 
 <script type="text/javascript">
-	jQuery(document).ready(function($) {
-        $(".product_more_images .additional_video").colorbox({inline:true, width:"510px", iframe:false});
-    });
 
 function setsendImagepath(elm) {
 	var path = document.getElementById('<?php echo "main_image" . $this->pid;?>').src;

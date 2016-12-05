@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.modal', 'a.joom-box');
+
 $editor = JFactory::getEditor();
 $order_functions = order_functions::getInstance();
 $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
@@ -125,7 +127,7 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 				</div>
 
 				<div class="btn-toolbar">
-					<a class="modal btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
+					<a class="joom-box btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
 						<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?>
 					</a>
 				</div>
