@@ -342,7 +342,15 @@ class RedshopTableMass_Discount extends RedshopTable
 					continue;
 				}
 
-				$price = ($this->type == 1) ? ($productData->product_price - ($productData->product_price * $this->amount / 100)) : $this->amount;
+				if ($this->type == 1)
+				{
+					$price = $productData->product_price - ($productData->product_price * $this->amount / 100);
+				}
+				else
+				{
+					$price = $productData->product_price - $this->amount;
+				}
+
 				$price = $productHelper->productPriceRound($price);
 
 				$query->clear()
@@ -433,7 +441,14 @@ class RedshopTableMass_Discount extends RedshopTable
 					continue;
 				}
 
-				$price = ($this->type == 1) ? ($productData->product_price - ($productData->product_price * $this->amount / 100)) : $this->amount;
+				if ($this->type == 1)
+				{
+					$price = $productData->product_price - ($productData->product_price * $this->amount / 100);
+				}
+				else
+				{
+					$price = $productData->product_price - $this->amount;
+				}
 
 				$price = $productHelper->productPriceRound($price);
 
@@ -593,9 +608,15 @@ class RedshopTableMass_Discount extends RedshopTable
 				$productData = Redshop::product($newDiffProduct);
 
 				// Ticket ONKELP-161: Temporary comment these code to by pass product_on_sale check before apply another mass discount
-				$price = ($this->type == 1) ?
-					($productData->product_price - ($productData->product_price * $this->amount / 100)) :
-					$productData->product_price - ($this->amount);
+				if ($this->type == 1)
+				{
+					$price = $productData->product_price - ($productData->product_price * $this->amount / 100);
+				}
+				else
+				{
+					$price = $productData->product_price - $this->amount;
+				}
+
 				$price = $productHelper->productPriceRound($price);
 				$query->clear();
 
