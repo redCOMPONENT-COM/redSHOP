@@ -393,12 +393,19 @@ class RedshopModelConfiguration extends RedshopModel
 
 		JFactory::getApplication()->setUserState('com_redshop.config.global.data', $this->configData);
 
+		JPluginHelper::importPlugin('redshop');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onBeforeAdminSaveConfiguration', array(&$this->configData));
+
 		// Temporary new way to save config
 		$config = Redshop::getConfig();
 
 		try
 		{
-			$config->save(new Registry($this->configData));
+			if ($config->save(new Registry($this->configData)))
+			{
+				$dispatcher->trigger('onAfterAdminSaveConfiguration', array($config));
+			}
 		}
 		catch (Exception $e)
 		{

@@ -9,33 +9,35 @@
 
 defined('_JEXEC') or die;
 
-class RedshopModelSupplier extends RedshopModel
+/**
+ * Model Supplier
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       2.0.0.7
+ */
+class RedshopModelSupplier extends RedshopModelForm
 {
 	/**
-	 * Method to auto-populate the model state.
+	 * Method to get the data that should be injected in the form.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @return  mixed  The data for the form.
 	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
+	 * @since   1.6
 	 */
-	protected function populateState($ordering = 'supplier_id', $direction = '')
+	protected function loadFormData()
 	{
-		parent::populateState($ordering, $direction);
-	}
+		// Check the session for previously entered form data.
+		$app = JFactory::getApplication();
+		$data = $app->getUserState('com_redshop.edit.supplier.data', array());
 
-	public function _buildQuery()
-	{
-		$filterOrderDir = $this->getState('list.direction');
-		$filterOrder = $this->getState('list.ordering');
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('s.*')
-			->from($db->qn('#__redshop_supplier', 's'))
-			->order($db->escape($filterOrder . ' ' . $filterOrderDir));
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
 
-		return $query;
+		$this->preprocessData('com_redshop.supplier', $data);
+
+		return $data;
 	}
 }

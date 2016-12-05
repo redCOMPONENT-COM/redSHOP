@@ -110,6 +110,15 @@ abstract class RedshopTagsAbstract
 	 */
 	public function replace()
 	{
+		JPluginHelper::importPlugin('redshop');
+		$dispatcher = JEventDispatcher::getInstance();
+
+		// Trigger event and cancel replace if event return false
+		if ($dispatcher->trigger('onBeforeReplaceTags', array (&$this->search, &$this->replace, &$this->template)) === false)
+		{
+			return $this->template;
+		}
+
 		return str_replace($this->search, $this->replace, $this->template);
 	}
 
@@ -119,16 +128,25 @@ abstract class RedshopTagsAbstract
 	 * @param   string  $tag    Tag
 	 * @param   string  $value  Value
 	 *
-	 * @return  void
+	 * @return  bool
 	 *
 	 * @since   2.0.0.5
 	 */
 	protected function addReplace($tag, $value)
 	{
+		JPluginHelper::importPlugin('redshop');
+		$dispatcher = JEventDispatcher::getInstance();
+
+		// Trigger event and cancel addReplace if event return false
+		if ($dispatcher->trigger('onBeforeAddReplaceTag', array(&$tag, &$value) === false))
+		{
+			return false;
+		}
+
 		// Make sure this tag is exists before adding replace
 		if (strpos($this->template, $tag) === false || !$this->isTagExists($tag))
 		{
-			return;
+			return true;
 		}
 
 		$this->search[]  = $tag;

@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerMass_discount extends RedshopController
+/**
+ * Mass discount detail controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopControllerMass_Discount extends RedshopControllerForm
 {
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
 }

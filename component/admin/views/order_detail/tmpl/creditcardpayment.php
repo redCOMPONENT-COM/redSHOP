@@ -12,8 +12,6 @@ $url = JURI::base();
 $user = JFactory::getUser();
 $app = JFactory::getApplication();
 JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
-
 
 $carthelper = rsCarthelper::getInstance();
 $producthelper = productHelper::getInstance();

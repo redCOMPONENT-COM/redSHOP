@@ -93,6 +93,7 @@ class RedshopHelperPayment
 		{
 			$extension = 'plg_redshop_payment_' . $paymentsLangList[$index]->element;
 			$language->load($extension, JPATH_ADMINISTRATOR, $language->getTag(), true);
+			$language->load($extension, JPATH_PLUGINS . '/' . $paymentsLangList[$index]->folder . '/' . $paymentsLangList[$index]->element, $language->getTag(), true);
 		}
 	}
 }
