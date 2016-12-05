@@ -46,7 +46,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			bars: 'vertical',
 			height: 500,
 			vAxis: {
-				format: 'decimal'
+				format: 'decimal',
+				minValue: 0
 			},
 			legend: {
 				position: 'top'
