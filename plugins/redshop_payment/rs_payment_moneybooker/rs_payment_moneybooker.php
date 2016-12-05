@@ -9,7 +9,13 @@
 
 defined('_JEXEC') or die;
 
-class plgRedshop_paymentrs_payment_moneybooker extends JPlugin
+/**
+ * PlgRedshop_PaymentRs_Payment_MoneyBooker class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentRs_Payment_MoneyBooker extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -20,24 +26,12 @@ class plgRedshop_paymentrs_payment_moneybooker extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Constructor
+	 * [onPrePayment]
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
 	 *
-	 * @since   11.1
-	 */
-	public function __construct(&$subject, $config = array())
-	{
-		JFactory::getLanguage()->load('plg_redshop_payment_rs_payment_moneybooker', JPATH_ADMINISTRATOR);
-
-		parent::__construct($subject, $config);
-	}
-
-	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * @return  [void]
 	 */
 	public function onPrePayment($element, $data)
 	{
@@ -46,16 +40,19 @@ class plgRedshop_paymentrs_payment_moneybooker extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
 		$app = JFactory::getApplication();
 
-		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
+		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 	}
 
+	/**
+	 * [onNotifyPaymentrs_payment_moneybooker]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $request  [request params]
+	 *
+	 * @return  [object]  $values
+	 */
 	public function onNotifyPaymentrs_payment_moneybooker($element, $request)
 	{
 		if ($element != 'rs_payment_moneybooker')
@@ -66,11 +63,11 @@ class plgRedshop_paymentrs_payment_moneybooker extends JPlugin
 		JPlugin::loadLanguage('com_redshop');
 
 		$db             = JFactory::getDbo();
-		$request        = JRequest::get('request');
+		$request        = JFactory::getApplication()->input;
 		$verify_status  = $this->params->get('verify_status', '');
 		$invalid_status = $this->params->get('invalid_status', '');
 
-		if ($request['status'] == "2")
+		if ($request->get('status', 0) == "2")
 		{
 			$values->order_status_code = $verify_status;
 			$values->order_payment_status_code = 'Paid';
@@ -85,13 +82,21 @@ class plgRedshop_paymentrs_payment_moneybooker extends JPlugin
 			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 		}
 
-		$values->transaction_id = $request['mb_transaction_id'];
-		$values->order_id       = $request['transaction_id'];
-		$values->order_id_temp  = $request['orderid'];
+		$values->transaction_id = $request->get('mb_transaction_id', 0);
+		$values->order_id       = $request->get('transaction_id', 0);
+		$values->order_id_temp  = $request->get('orderid', 0);
 
 		return $values;
 	}
 
+	/**
+	 * [onStatus_Paymentrs_payment_moneybooker description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [void]
+	 */
 	public function onStatus_Paymentrs_payment_moneybooker($element, $data)
 	{
 		ob_clean();
@@ -99,13 +104,12 @@ class plgRedshop_paymentrs_payment_moneybooker extends JPlugin
 		jimport('joomla.http');
 
 		// Prepare for refund
-		$urlQuery = array(
+		$urlQuery = [
 			'action' => 'prepare',
 			'email' => $this->params->get('pay_to_email', ''),
 			'password' => strtolower(md5($this->params->get('pay_to_password'))),
-			//'transaction_id' => $data['order_id'],
 			'mb_transaction_id' => $data['order_transactionid']
-		);
+		];
 
 		$http = new JHttp(new JRegistry);
 
@@ -121,16 +125,16 @@ class plgRedshop_paymentrs_payment_moneybooker extends JPlugin
 			$sid = simplexml_load_string($response->body)->sid;
 
 			// Execute refund.
-			$urlQuery = array(
+			$urlQuery = [
 				'action' => 'refund',
 				'sid' => (string) $sid
-			);
+			];
 
 			$http = new JHttp(new JRegistry);
 
 			$refundStatus = $http->get('https://www.moneybookers.com/app/refund.pl?' . http_build_query($urlQuery));
 
-			if (200 == $refundStatus->code)
+			if ($refundStatus->code == 200)
 			{
 				$responseData = simplexml_load_string($refundStatus->body);
 
