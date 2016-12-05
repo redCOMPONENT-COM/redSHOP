@@ -295,4 +295,50 @@ class RedshopHelperUser
 
 		return $total;
 	}
+
+	/**
+	 * This function is used to check if the 'username' already exist in the database with any other ID
+	 *
+	 * @param   string  $username
+	 * @param   int     $id
+	 *
+	 * @return  int|void
+     * @since   2.0.0.6
+	 */
+	public function validateUser($username, $id = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('COUNT(id)')
+					->from($db->qn('#__users'))
+					->where($db->qn('username') . ' = ' . $db->q($username))
+					->where($db->qn('id') . ' != ' . (int) $id);
+
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
+
+	/**
+	 * This function is used to check if the 'email' already exist in the database with any other ID
+	 *
+	 * @param   string  $username
+	 * @param   int     $id
+	 *
+	 * @return  int|void
+     * @since   2.0.0.6
+	 */
+	public function validateEmail($email, $id = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('COUNT(id)')
+					->from($db->qn('#__users'))
+					->where($db->qn('email') . ' = ' . $db->q($email))
+					->where($db->qn('id') . ' != ' . (int) $id);
+
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
 }

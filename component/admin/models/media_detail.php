@@ -89,6 +89,11 @@ class RedshopModelMedia_detail extends RedshopModel
 	{
 		$row = $this->getTable();
 
+		if (empty($data['media_alternate_text']))
+		{
+			$data['media_alternate_text'] = preg_replace('#\.[^/.]+$#', '', $data['media_name']);
+		}
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());

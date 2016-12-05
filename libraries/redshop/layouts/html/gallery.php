@@ -114,7 +114,10 @@ extract($displayData);
 										<li class="pv-size"></li>
 										<li class="pv-dimension"></li>
 										<li class="pv-url"></li>
-										<li class="pv-remove btn-toolbar"><a href="#" class="btn btn-small btn-danger btn-del-g" data-id=""><i class="fa fa-times"></i> Delete Permanently</a></li>
+										<li class="pv-remove btn-toolbar">
+											<a href="#" class="btn btn-small btn-danger btn-del-g" data-id="">
+												<i class="fa fa-times"></i> Delete Permanently</a>
+										</li>
 									</ul>
 								</div>
 							</div>

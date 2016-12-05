@@ -3,7 +3,7 @@
     <fields name="filter">
         <field
                 name="search"
-                type="rstext"
+                type="redshop.text"
                 label="COM_REDSHOP_FILTER_SEARCH_DESC"
                 placeholder="JSEARCH_FILTER"
                 class="js-enter-submits"
@@ -13,6 +13,7 @@
                 type="rcountries"
                 label="COM_REDSHOP_COUNTRY"
                 description="COM_REDSHOP_COUNTRY_DESC"
+                class="form-control"
                 onchange="this.form.submit();">
             <option value="">COM_REDSHOP_SELECT_COUNTRY</option>
         </field>
@@ -26,6 +27,7 @@
                 label="JGLOBAL_ORDERING_LIST_LIMIT"
                 description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
                 onchange="this.form.submit();"
+                class="form-control"
                 />
     </fields>
 </form>

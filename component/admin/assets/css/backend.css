@@ -2199,6 +2199,7 @@ select[multiple].input-lg {
   margin-top: 0;
   margin-bottom: 0;
   padding-top: 7px;
+  padding-left: 0px;
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox {
@@ -16150,10 +16151,6 @@ Searchtools
   width: auto;
 }
 
-.select2-container.select2-container-multi {
-  width: 220px !important;
-}
-
 .select2-container .select2-choice {
   background-image: none !important;
   background-color: #f7f7f7 !important;
@@ -17390,12 +17387,13 @@ fieldset.redRadioGroup .iradio_minimal-blue {
 #catdiv,
 .divimages {
   margin-top: 10px;
+}
 
-  .remove_link {
+#usrdiv .remove_link,
+#catdiv .remove_link,
+.divimages .remove_link {
     display: block;
     margin-top: 5px;
-  }
-
 }
 
 article,
@@ -21842,7 +21840,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 .modal-body {
-  width: 98%;
+  width: 100%;
   position: relative;
   max-height: 400px;
   padding: 1%;
