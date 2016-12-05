@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.modal', 'a.joom-box');
+
 $editor = JFactory::getEditor();
 $calendarFormat = '%d-%m-%Y';
 ?>
@@ -269,7 +271,7 @@ $calendarFormat = '%d-%m-%Y';
 				<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
 
 				<div class="btn-toolbar">
-					<a class="modal btn btn-primary" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
+					<a class="joom-box btn btn-primary" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
 						<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
 					</a>
 
@@ -278,7 +280,7 @@ $calendarFormat = '%d-%m-%Y';
 					<?php if ($this->detail->product_id > 0) : ?>
 					<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $this->detail->product_id . '&showbuttons=1&media_section=product'); ?>
 
-					<a class="modal btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
+					<a class="joom-box btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
 						<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?>
 					</a>
 					<?php endif; ?>

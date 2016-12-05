@@ -7,8 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
 JHTML::_('behavior.tooltip');
-JHTML::_('behavior.modal');
+JHtml::_('behavior.joom-box', 'a.joom-box');
 
 
 $producthelper = productHelper::getInstance();
@@ -156,7 +157,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									<?php if (count($model->getccdetail($order_id)) > 0)
 									{ ?>
 										<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $order_id); ?>"
-										   class="modal btn btn-primary"
+										   class="joom-box btn btn-primary"
 										   rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo JText::_('COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL');?></a>
 									<?php } ?>
 								</td>
@@ -373,7 +374,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION'); ?></h3>
 					<?php if (!$tmpl)
 					{ ?>
-						<a class="modal btn btn-primary"
+						<a class="joom-box btn btn-primary"
 						   href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=billing&cid[]=<?php echo $order_id; ?>"
 						   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
 					<?php } ?>
@@ -461,7 +462,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'); ?></h3>
 					<?php if (!$tmpl)
 					{ ?>
-						<a class="modal btn btn-primary"
+						<a class="joom-box btn btn-primary"
 						   href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=shipping&cid[]=<?php echo $order_id; ?>"
 						   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
 					<?php } ?>
