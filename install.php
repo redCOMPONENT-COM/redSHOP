@@ -169,25 +169,9 @@ class Com_RedshopInstallerScript
 	 */
 	public function getOldParam($name)
 	{
-		if (is_null(self::$oldManifest))
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('manifest_cache')
-				->from($db->qn('#__extensions'))
-				->where('type = ' . $db->q('component'))
-				->where('element = ' . $db->q('com_redshop'));
-			self::$oldManifest = json_decode($db->setQuery($query)->loadResult(), true);
-		}
+		require_once __DIR__ . '/libraries/redshop/helper/joomla.php';
 
-		if (isset(self::$oldManifest[$name]))
-		{
-			return self::$oldManifest[$name];
-		}
-		else
-		{
-			return null;
-		}
+		return RedshopHelperJoomla::getManifestValue($name);
 	}
 
 	/**

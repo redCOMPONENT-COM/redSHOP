@@ -139,7 +139,6 @@ class ModRedshopMegaMenuHelper
 		$subItem = array();
 		$key = 0;
 		$level++;
-		$end = 2;
 
 		foreach ($items as $item)
     	{
@@ -241,50 +240,100 @@ class ModRedshopMegaMenuHelper
 	 */
 	public static function displayLevel(&$items, $parentItem, $level = 1)
 	{
-		echo '<div class="dropdown lv' . $level . '">';
-
-		if ($level > 1)
+		if ($level != 1)
 		{
-			echo '<ul class="nav-child unstyled small lv' . $level . '">';
-		}
-		else
-		{
-			echo '<ul class="nav-child unstyled small container lv' . $level . '">';
-
-			if (!empty($parentItem->image))
-			{
-				echo '<div class="left-image row">';
-			}
-			else
-			{
-				echo '<div class="left-image-relative row">';
-			}
+			echo '<ul class="unstyled">';
 		}
 
 		for ($i = 0, $ci = count($items); $i < $ci; $i++)
 		{
+			$parent = (!empty($items[$i]->sub_cat[0]->category_id)) ? ' parent ' : '';
 			$subLevel = $level + 1;
-			echo '<li class="item-' . $items[$i]->category_id . ' level-item-' . $subLevel . ' col-sm-3">';
-			echo '<a href="' . $items[$i]->link . '">';
-			echo '<span class="menuLinkTitle">' . $items[$i]->category_name . '</span>';
 
-			if (!empty($items[$i]->image))
+			if ($level == 1)
 			{
-				echo '<img src="' . JUri::root() . 'components/com_redshop/assets/images/category/' . $items[$i]->image . '" />';
+				echo '<div id="accordion' . $items[$i]->category_id . '-' . $parentItem->category_id . '" class="accordion span3">';
+				echo '<div class="accordion-group item-' . $items[$i]->category_id . '-' . $parentItem->category_id . ' level-item-' . $subLevel . $parent . '">';
+				echo '<div class="accordion-heading">';
+				echo '<a class="categoryLink" href="' . $items[$i]->link . '">';
+				echo '<div class="thumbnail">';
+				echo '<div class="megaMenuEmptyBox">';
+
+				if (!empty($items[$i]->image))
+				{
+					echo '<img src="' . JUri::root() . 'components/com_redshop/assets/images/category/' . $items[$i]->image . '" />';
+				}
+
+				echo '</div>';
+				echo '</div>';
+				echo '<span class="menuLinkTitle">' . $items[$i]->category_name . '</span>';
+
+				if (!empty($items[$i]->sub_cat[0]->category_id))
+				{
+					$attr = array(
+						'href' => '#collapseAnchor' . $items[$i]->category_id . '-' . $parentItem->category_id . '-' . $subLevel,
+						'data-parent' => '#accordion' . $items[$i]->category_id . '-' . $parentItem->category_id,
+						'data-toggle' => 'collapse',
+						'class' => 'accordion-toggle collapsed'
+					);
+					echo '<a ' . self::getLinkAttributes($attr) . '>+</a>';
+				}
+
+				echo '</a>';
+				echo '<div id="collapseAnchor' . $items[$i]->category_id . '-' . $parentItem->category_id . '-' . $subLevel . '" class="accordion-body collapse">';
+				echo '<div class="accordion-inner">';
+
+				if (!empty($items[$i]->sub_cat[0]->category_id))
+				{
+					echo self::displayLevel($items[$i]->sub_cat, $items[$i], $subLevel);
+				}
+			}
+			else
+			{
+				echo '<li class="item-' . $items[$i]->category_id . '-' . $parentItem->category_id . ' level-item-' . $subLevel . '">';
+				echo '<a class="categoryLink" href="' . $items[$i]->link . '">';
+				echo $items[$i]->category_name;
+				echo '</a>';
+
+				if (!empty($items[$i]->sub_cat[0]->category_id))
+				{
+					echo self::displayLevel($items[$i]->sub_cat, $items[$i], $subLevel);
+				}
+
+				echo '</li>';	
 			}
 
-			echo '</a>';
-
-			if (!empty($items[$i]->sub_cat[0]->category_id))
+			if ($level == 1)
 			{
-				echo self::displayLevel($items[$i]->sub_cat, $items[$i], $subLevel + 1);
+				echo '</div></div></div></div></div>';
 			}
-
-			echo '</li>';
 		}
 
-		echo '</ul>';
-		echo '</div>';
+		if ($level != 1)
+		{
+			echo '</ul>';
+		}
+	}
+
+	/**
+	 * Build link attributes to string
+	 *
+	 * @param   array  $attr  Array link attributes
+	 *
+	 * @return  string
+	 */
+	public static function getLinkAttributes($attr)
+	{
+		return implode(' ',
+			array_map(
+				function ($v, $k)
+				{
+					return sprintf('%s="%s"', $k, $v);
+				},
+				$attr,
+				array_keys($attr)
+			)
+		);
 	}
 
 	/**
