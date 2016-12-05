@@ -8,16 +8,17 @@
  */
 defined('_JEXEC') or die;
 
-JHTMLBehavior::modal();
 
 RedshopHelperMediaImage::requireDependencies();
+
+JHtml::_('behavior.modal', 'a.joom-box');
 
 $editor = JFactory::getEditor();
 $calendarFormat = '%d-%m-%Y';
 ?>
 
 <div class="row">
-	<div class="col-sm-8">
+	<div class="col-sm-6">
 		<div class="box box-primary">
 			<div class="box-header with-border">
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?></h3>
@@ -251,7 +252,7 @@ $calendarFormat = '%d-%m-%Y';
 
 	</div>
 
-	<div class="col-sm-4">
+	<div class="col-sm-6">
 		<div class="box box-primary">
 			<div class="box-header with-border">
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGE'); ?></h3>
@@ -275,6 +276,13 @@ $calendarFormat = '%d-%m-%Y';
 					$this->detail->product_full_image
 				);
 				?>
+					<?php if ($this->detail->product_id > 0) : ?>
+					<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $this->detail->product_id . '&showbuttons=1&media_section=product'); ?>
+
+					<a class="joom-box btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
+						<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?>
+					</a>
+					<?php endif; ?>
 			</div>
 		</div>
 

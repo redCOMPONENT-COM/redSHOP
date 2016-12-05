@@ -56,6 +56,7 @@ JForm::addFormPath(JPATH_REDSHOP_LIBRARY . '/form/forms');
 
 // Make available the redSHOP fields
 JFormHelper::addFieldPath(JPATH_REDSHOP_LIBRARY . '/form/fields');
+JFormHelper::addFieldPath(JPATH_REDSHOP_LIBRARY . '/form/field');
 
 // Make available the redSHOP form rules
 JFormHelper::addRulePath(JPATH_REDSHOP_LIBRARY . '/form/rules');

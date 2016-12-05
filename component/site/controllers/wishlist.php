@@ -130,22 +130,33 @@ class RedshopControllerWishlist extends RedshopController
 	 */
 	public function mysessdelwishlist()
 	{
-		$post   = array();
-		$mydel  = JRequest::getVar('mydel');
-		$model  = $this->getModel("wishlist");
+		$input = JFactory::getApplication()->input;
+		$post  = array();
+		$mydel = $input->get('mydel');
+		$model = $this->getModel("wishlist");
 
-		$Itemid = JRequest::getVar('Itemid');
-		$post['wishlist_id'] = JRequest::getVar('wishlist_id');
+		$Itemid = $input->getInt('Itemid', 0);
+		$post['wishlist_id'] = $input->getInt('wishlist_id');
 
-		if ($mydel != '')
+		if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
 		{
-			if ($model->mysessdelwishlist($post["wishlist_id"]))
+			$post['attribute_id'] = $input->getInt('attribute_id', 0);
+			$post['property_id'] = $input->getInt('property_id', 0);
+			$post['subattribute_id'] = $input->getInt('subattribute_id', 0);
+		}
+
+		$link = JRoute::_("index.php?mydel=1&option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
+
+		if (!empty($mydel))
+		{
+			if ($model->mysessdelwishlist($post))
 			{
 				$msg = JText::_('COM_REDSHOP_WISHLIST_DELETED_SUCCESSFULLY');
 			}
 
-			$link = JRoute::_("index.php?mydel=1&option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
 			$this->setRedirect($link, $msg);
 		}
+
+		$this->setRedirect($link);
 	}
 }

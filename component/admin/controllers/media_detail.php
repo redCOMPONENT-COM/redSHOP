@@ -784,16 +784,25 @@ class RedshopControllerMedia_Detail extends RedshopController
 		if ($post['media_type'] == 'youtube')
 		{
 			$post['media_name'] = $post['youtube_id'];
+
+			$link = 'index.php?option=com_redshop&view=media';
+
+			if (isset($post['set']))
+			{
+				$link = 'index.php?option=com_redshop&view=media&tmpl=component';
+			}
 			
 			if ($model->store($post))
 			{
 				$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
-				$this->setRedirect('index.php?option=com_redshop&view=media', $msg, 'success');
+				$this->setRedirect($link, $msg, 'success');
 			}
 			else
 			{
+				
+
 				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MEDIA_DETAIL');
-				$this->setRedirect('index.php?option=com_redshop&view=media', $msg, 'warning');
+				$this->setRedirect($link, $msg, 'warning');
 			}
 		}
 	}

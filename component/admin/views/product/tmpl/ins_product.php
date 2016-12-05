@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-JHTMLBehavior::modal();
-
-
+defined('_JEXEC') or die;
 
 $model = $this->getModel('product');
 $eName = JRequest::getVar('e_name');

@@ -43,6 +43,7 @@ class RedshopViewStatistic_Customer extends RedshopViewAdmin
 		$model = $this->getModel();
 
 		$this->customers  = $model->getItems();
+		$this->pagination = $model->getPagination();
 		$this->state      = $model->getState();
 		$this->filterForm = $model->getForm();
 
