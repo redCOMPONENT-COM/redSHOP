@@ -11,21 +11,35 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
+/**
+ * PlgRedshop_PaymentRs_Payment_PayFlowPro class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentRs_Payment_PayFlowPro extends JPlugin
 {
 	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
+	 * [onPrePayment_rs_payment_payflowpro description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [object]  $values
 	 */
 	public function onPrePayment_rs_payment_payflowpro($element, $data)
 	{
 		if ($element != 'rs_payment_payflowpro')
 		{
 			return;
-		}
-
-		if (empty($plugin))
-		{
-			$plugin = $element;
 		}
 
 		$app               = JFactory::getApplication();
@@ -35,30 +49,30 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		$ccdata            = $session->get('ccdata');
 
 		// Get Payment Params
-		$partner           = $this->params->get("partner");
-		$merchant_id       = $this->params->get("merchant_id");
-		$merchant_password = $this->params->get("merchant_password");
-		$merchant_user     = $this->params->get("merchant_user");
-		$paymentType       = $this->params->get("sales_auth_only");
-		$is_test           = $this->params->get("is_test");
+		$partner          = $this->params->get("partner");
+		$merchantId       = $this->params->get("merchant_id");
+		$merchantPassword = $this->params->get("merchant_password");
+		$merchantUser     = $this->params->get("merchant_user");
+		$paymentType      = $this->params->get("sales_auth_only");
+		$isTest           = $this->params->get("is_test");
 
 		// Get Customer Data
-		$firstName         = urlencode($data['billinginfo']->firstname);
-		$lastName          = urlencode($data['billinginfo']->lastname);
-		$address           = urlencode($data['billinginfo']->address);
-		$city              = urlencode($data['billinginfo']->city);
-		$state             = urlencode($data['billinginfo']->state_code);
-		$zip               = urlencode($data['billinginfo']->zipcode);
-		$country           = urlencode($data['billinginfo']->country_2_code);
-		$user_email        = $data['billinginfo']->user_email;
+		$firstName        = urlencode($data['billinginfo']->firstname);
+		$lastName         = urlencode($data['billinginfo']->lastname);
+		$address          = urlencode($data['billinginfo']->address);
+		$city             = urlencode($data['billinginfo']->city);
+		$state            = urlencode($data['billinginfo']->state_code);
+		$zip              = urlencode($data['billinginfo']->zipcode);
+		$country          = urlencode($data['billinginfo']->country_2_code);
+		$userEmail        = $data['billinginfo']->user_email;
 
-		$shfirstName       = urlencode($data['shippinginfo']->firstname);
-		$shlastName        = urlencode($data['shippinginfo']->lastname);
-		$shaddress         = urlencode($data['shippinginfo']->address);
-		$shcity            = urlencode($data['shippinginfo']->city);
-		$shstate           = urlencode($data['shippinginfo']->state_code);
-		$shzip             = urlencode($data['shippinginfo']->zipcode);
-		$shcountry         = urlencode($data['shippinginfo']->country_2_code);
+		$shippingFirstName = urlencode($data['shippinginfo']->firstname);
+		$shippingLastName  = urlencode($data['shippinginfo']->lastname);
+		$shippingAddress   = urlencode($data['shippinginfo']->address);
+		$shippingCity      = urlencode($data['shippinginfo']->city);
+		$shippingState     = urlencode($data['shippinginfo']->state_code);
+		$shippingZipcode   = urlencode($data['shippinginfo']->zipcode);
+		$shippingCountry   = urlencode($data['shippinginfo']->country_2_code);
 
 		// Get CreditCard Data
 		$strCardHolder    = substr($ccdata['order_payment_name'], 0, 100);
@@ -84,35 +98,35 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 
 		/*
 		As per the email error no need to remove shipping - tmp fix
-		$order_total = $data['order_total'] - $data['order_shipping'] - $data['order_tax'];
-		$order_total = $data['order_total'] - $data['order_tax'];
+		$orderTotal = $data['order_total'] - $data['order_shipping'] - $data['order_tax'];
+		$orderTotal = $data['order_total'] - $data['order_tax'];
 		*/
-		$order_total     = $data['order_total'];
-		$amount          = $currencyClass->convert($order_total, '', $currencyID);
+		$orderTotal     = $data['order_total'];
+		$amount          = $currencyClass->convert($orderTotal, '', $currencyID);
 		$amount          = urlencode(number_format($amount, 2));
 
-		$shipping_amount = $data['order_shipping'];
-		$shipping_amount = $currencyClass->convert($shipping_amount, '', $currencyID);
-		$shipping_amount = urlencode(number_format($shipping_amount, 2));
+		$shippingAmount = $data['order_shipping'];
+		$shippingAmount = $currencyClass->convert($shippingAmount, '', $currencyID);
+		$shippingAmount = urlencode(number_format($shippingAmount, 2));
 
-		$tax_amount      = $data['order_tax'];
-		$tax_amount      = $currencyClass->convert($tax_amount, '', $currencyID);
-		$tax_amount      = urlencode(number_format($tax_amount, 2));
+		$taxAmount      = $data['order_tax'];
+		$taxAmount      = $currencyClass->convert($taxAmount, '', $currencyID);
+		$taxAmount      = urlencode(number_format($taxAmount, 2));
 
-		if ($is_test)
+		if ($isTest)
 		{
-			$api_url = "https://pilot-payflowpro.paypal.com";
+			$apiUrl = "https://pilot-payflowpro.paypal.com";
 		}
 		else
 		{
-			$api_url = "https://payflowpro.paypal.com";
+			$apiUrl = "https://payflowpro.paypal.com";
 		}
 
 		$params = array(
-			'USER'      => $merchant_user,
-			'VENDOR'    => $merchant_id,
+			'USER'      => $merchantUser,
+			'VENDOR'    => $merchantId,
 			'PARTNER'   => $partner,
-			'PWD'       => $merchant_password,
+			'PWD'       => $merchantPassword,
 			'TENDER'    => 'C',
 			'TRXTYPE'   => $paymentType,
 			'AMT'       => $amount,
@@ -125,49 +139,49 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			'COUNTRY'   => $country,
 			'ZIP'       => $zip,
 			'CLIENTIP'  => $_SERVER['REMOTE_ADDR'],
-			'EMAIL'     => $user_email,
+			'EMAIL'     => $userEmail,
 			'ACCT'      => $creditCardNumber,
 			'EXPDATE'   => $strExpiryDate,
 			'CVV2'      => $strCV2
 		);
 
-		if ($tax_amount > 0)
+		if ($taxAmount > 0)
 		{
-			$params['TAXAMT'] = $tax_amount;
+			$params['TAXAMT'] = $taxAmount;
 		}
 
-		if ($shipping_amount > 0)
+		if ($shippingAmount > 0)
 		{
-			$params['FREIGHTAMT'] = $shipping_amount;
+			$params['FREIGHTAMT'] = $shippingAmount;
 		}
 
 		if (count($data['shippinginfo']) > 0)
 		{
-			$ship_params = array(
-				'SHIPTOFIRSTNAME' => $shfirstName,
-				'SHIPTOLASTNAME'  => $shlastName,
-				'SHIPTOCOUNTRY'   => $shcountry,
-				'SHIPTOCITY'      => $shcity,
-				'SHIPTOSTREET'    => $shaddress,
-				'SHIPTOZIP'       => $shzip
+			$shippingParams = array(
+				'SHIPTOFIRSTNAME' => $shippingFirstName,
+				'SHIPTOLASTNAME'  => $shippingLastName,
+				'SHIPTOCOUNTRY'   => $shippingCountry,
+				'SHIPTOCITY'      => $shippingCity,
+				'SHIPTOSTREET'    => $shippingAddress,
+				'SHIPTOZIP'       => $shippingZipcode
 			);
 		}
 
-		$params = array_merge($params, $ship_params);
+		$params = array_merge($params, $shippingParams);
 
-		$post_string = '';
+		$postString = '';
 
 		foreach ($params as $key => $value)
 		{
-			$post_string .= $key . '[' . strlen(urlencode(utf8_encode(trim($value)))) . ']=' . urlencode(utf8_encode(trim($value))) . '&';
+			$postString .= $key . '[' . strlen(urlencode(utf8_encode(trim($value)))) . ']=' . urlencode(utf8_encode(trim($value))) . '&';
 		}
 
-		$post_string    = substr($post_string, 0, -1);
-		$response       = $this->sendTransactionToGateway($api_url, $post_string, array('X-VPS-REQUEST-ID: ' . md5($creditCardNumber . rand())));
-		$response_array = array();
-		parse_str($response, $response_array);
+		$postString    = substr($postString, 0, -1);
+		$response       = $this->sendTransactionToGateway($apiUrl, $postString, array('X-VPS-REQUEST-ID: ' . md5($creditCardNumber . rand())));
+		$responseArray = array();
+		parse_str($response, $responseArray);
 
-		if ($response_array['RESULT'] == 0 && $response_array['RESPMSG'] == 'Approved')
+		if ($responseArray['RESULT'] == 0 && $responseArray['RESPMSG'] == 'Approved')
 		{
 			$values->responsestatus = 'Success';
 			$message = JText::_('COM_REDSHOP_ORDER_PLACED');
@@ -175,15 +189,24 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		else
 		{
 			$values->responsestatus = 'Fail';
-			$message = $response_array['RESPMSG'];
+			$message = $responseArray['RESPMSG'];
 		}
 
-		$values->transaction_id = $response_array['PNREF'];
+		$values->transaction_id = $responseArray['PNREF'];
 		$values->message = $message;
 
 		return $values;
 	}
 
+	/**
+	 * [sendTransactionToGateway description]
+	 *
+	 * @param   [string]  $url         [url string]
+	 * @param   [array]   $parameters  [params]
+	 * @param   [html]    $headers     [header html]
+	 *
+	 * @return  [html]
+	 */
 	public function sendTransactionToGateway($url, $parameters, $headers = null)
 	{
 		$header = array();
@@ -233,8 +256,13 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		return $result;
 	}
 
-	/*
-	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
+	/**
+	 * [onNotifyPaymentrs_payment_payflowpro description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [string]  $request  [request params]
+	 *
+	 * @return  [void]
 	 */
 	public function onNotifyPaymentrs_payment_payflowpro($element, $request)
 	{
@@ -246,18 +274,26 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		return;
 	}
 
+	/**
+	 * [onCapture_Paymentrs_payment_payflowpro description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [object]  $values
+	 */
 	public function onCapture_Paymentrs_payment_payflowpro($element, $data)
 	{
 		// Get Payment Params
-		$partner           = $this->params->get("partner");
-		$merchant_id       = $this->params->get("merchant_id");
-		$merchant_password = $this->params->get("merchant_password");
-		$merchant_user     = $this->params->get("merchant_user");
-		$paymentType       = $this->params->get("sales_auth_only");
-		$is_test           = $this->params->get("is_test");
+		$partner          = $this->params->get("partner");
+		$merchantId       = $this->params->get("merchant_id");
+		$merchantPassword = $this->params->get("merchant_password");
+		$merchantUser     = $this->params->get("merchant_user");
+		$paymentType      = $this->params->get("sales_auth_only");
+		$isTest           = $this->params->get("is_test");
 
-		$order_id = $data['order_id'];
-		$tid      = $data['order_transactionid'];
+		$orderId = $data['order_id'];
+		$tid     = $data['order_transactionid'];
 
 		if ($this->params->get("currency") != "")
 		{
@@ -273,42 +309,42 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		}
 
 		$currencyClass = CurrencyHelper::getInstance();
-		$order_amount = $currencyClass->convert($data['order_amount'], '', $currencyID);
-		$order_amount = urlencode(number_format($order_amount, 2));
+		$orderAmount = $currencyClass->convert($data['order_amount'], '', $currencyID);
+		$orderAmount = urlencode(number_format($orderAmount, 2));
 
-		if ($is_test)
+		if ($isTest)
 		{
-			$api_url = "https://pilot-payflowpro.paypal.com";
+			$apiUrl = "https://pilot-payflowpro.paypal.com";
 		}
 		else
 		{
-			$api_url = "https://payflowpro.paypal.com";
+			$apiUrl = "https://payflowpro.paypal.com";
 		}
 
 		$params = array(
-			'USER'    => $merchant_user,
-			'VENDOR'  => $merchant_id,
+			'USER'    => $merchantUser,
+			'VENDOR'  => $merchantId,
 			'PARTNER' => $partner,
-			'PWD'     => $merchant_password,
+			'PWD'     => $merchantPassword,
 			'TENDER'  => 'C',
 			'TRXTYPE' => 'D',
-			'AMT'     => $order_amount,
+			'AMT'     => $orderAmount,
 			'ORIGID'  => $tid
 		);
-		$post_string = '';
+		$postString = '';
 
 		foreach ($params as $key => $value)
 		{
-			$post_string .= $key . '[' . strlen(urlencode(utf8_encode(trim($value)))) . ']=' . urlencode(utf8_encode(trim($value))) . '&';
+			$postString .= $key . '[' . strlen(urlencode(utf8_encode(trim($value)))) . ']=' . urlencode(utf8_encode(trim($value))) . '&';
 		}
 
-		$post_string = substr($post_string, 0, -1);
-		$response = $this->sendTransactionToGateway($api_url, $post_string, array('X-VPS-REQUEST-ID: ' . md5($order_id . rand())));
+		$postString = substr($postString, 0, -1);
+		$response = $this->sendTransactionToGateway($apiUrl, $postString, array('X-VPS-REQUEST-ID: ' . md5($orderId . rand())));
 
-		$response_array = array();
-		parse_str($response, $response_array);
+		$responseArray = array();
+		parse_str($response, $responseArray);
 
-		if ($response_array['RESULT'] == 0 && $response_array['RESPMSG'] == 'Approved')
+		if ($responseArray['RESULT'] == 0 && $responseArray['RESPMSG'] == 'Approved')
 		{
 			$values->responsestatus = 'Success';
 			$message = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
@@ -316,7 +352,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		else
 		{
 			$values->responsestatus = 'Fail';
-			$message = $response_array['RESPMSG'];
+			$message = $responseArray['RESPMSG'];
 		}
 
 		$values->message = $message;
@@ -324,17 +360,25 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		return $values;
 	}
 
+	/**
+	 * [onStatus_Paymentrs_payment_payflowpro description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [object]  $values
+	 */
 	public function onStatus_Paymentrs_payment_payflowpro($element, $data)
 	{
 		// Get Payment Params
 		$partner           = $this->params->get("partner");
-		$merchant_id       = $this->params->get("merchant_id");
-		$merchant_password = $this->params->get("merchant_password");
-		$merchant_user     = $this->params->get("merchant_user");
+		$merchantId       = $this->params->get("merchant_id");
+		$merchantPassword = $this->params->get("merchant_password");
+		$merchantUser     = $this->params->get("merchant_user");
 		$paymentType       = $this->params->get("sales_auth_only");
-		$is_test           = $this->params->get("is_test");
+		$isTest           = $this->params->get("is_test");
 
-		$order_id = $data['order_id'];
+		$orderId = $data['order_id'];
 		$tid      = $data['order_transactionid'];
 
 		if ($this->params->get("currency") != "")
@@ -351,42 +395,42 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		}
 
 		$currencyClass = CurrencyHelper::getInstance();
-		$order_amount = $currencyClass->convert($data['order_amount'], '', $currencyID);
-		$order_amount = urlencode(number_format($order_amount, 2));
+		$orderAmount = $currencyClass->convert($data['order_amount'], '', $currencyID);
+		$orderAmount = urlencode(number_format($orderAmount, 2));
 
-		if ($is_test)
+		if ($isTest)
 		{
-			$api_url = "https://pilot-payflowpro.paypal.com";
+			$apiUrl = "https://pilot-payflowpro.paypal.com";
 		}
 		else
 		{
-			$api_url = "https://payflowpro.paypal.com";
+			$apiUrl = "https://payflowpro.paypal.com";
 		}
 
 		$params = array(
-			'USER'    => $merchant_user,
-			'VENDOR'  => $merchant_id,
+			'USER'    => $merchantUser,
+			'VENDOR'  => $merchantId,
 			'PARTNER' => $partner,
-			'PWD'     => $merchant_password,
+			'PWD'     => $merchantPassword,
 			'TENDER'  => 'C',
 			'TRXTYPE' => 'C',
-			'AMT'     => $order_amount,
+			'AMT'     => $orderAmount,
 			'ORIGID'  => $tid
 		);
-		$post_string = '';
+		$postString = '';
 
 		foreach ($params as $key => $value)
 		{
-			$post_string .= $key . '[' . strlen(urlencode(utf8_encode(trim($value)))) . ']=' . urlencode(utf8_encode(trim($value))) . '&';
+			$postString .= $key . '[' . strlen(urlencode(utf8_encode(trim($value)))) . ']=' . urlencode(utf8_encode(trim($value))) . '&';
 		}
 
-		$post_string = substr($post_string, 0, -1);
-		$response = $this->sendTransactionToGateway($api_url, $post_string, array('X-VPS-REQUEST-ID: ' . md5($order_id . rand())));
+		$postString = substr($postString, 0, -1);
+		$response = $this->sendTransactionToGateway($apiUrl, $postString, array('X-VPS-REQUEST-ID: ' . md5($orderId . rand())));
 
-		$response_array = array();
-		parse_str($response, $response_array);
+		$responseArray = array();
+		parse_str($response, $responseArray);
 
-		if ($response_array['RESULT'] == 0 && $response_array['RESPMSG'] == 'Approved')
+		if ($responseArray['RESULT'] == 0 && $responseArray['RESPMSG'] == 'Approved')
 		{
 			$values->responsestatus = 'Success';
 			$message = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
@@ -394,7 +438,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		else
 		{
 			$values->responsestatus = 'Fail';
-			$message = $response_array['RESPMSG'];
+			$message = $responseArray['RESPMSG'];
 		}
 
 		$values->message = $message;

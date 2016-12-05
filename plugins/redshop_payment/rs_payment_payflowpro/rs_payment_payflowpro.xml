@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
   <name>PLG_RS_PAYMENT_PAYFLOWPRO</name>
-  <version>1.5.1</version>
-  <redshop>2.0</redshop>
+  <version>1.7.0</version>
+  <redshop>2.0.0.6</redshop>
   <creationDate>Sep 2016</creationDate>
   <author>redCOMPONENT.com</author>
   <authorEmail>email@redcomponent.com</authorEmail>
@@ -12,13 +12,9 @@
   <description>PLG_RS_PAYMENT_PAYFLOWPRO_DESC</description>
   <files>
       <filename plugin="rs_payment_payflowpro">rs_payment_payflowpro.php</filename>
+      <folder>language</folder>
   </files>
-  <languages>
-      <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_payflowpro.ini</language>
-      <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_payflowpro.sys.ini</language>
-      <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_payflowpro.ini</language>
-      <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_payflowpro.sys.ini</language>
-  </languages>
+  <scriptfile>install.php</scriptfile>
   <config addfieldpath="/libraries/redshop/form/fields">
     <fields name="params">
       <fieldset name="basic">
@@ -45,8 +41,8 @@
           label="PLG_RS_PAYMENT_PAYFLOWPRO_DISCOUNT_TYPE"
           description="PLG_RS_PAYMENT_PAYFLOWPRO_DISCOUNT_TYPE_DESC"
         >
-          <option value="1">Percentage</option>
-          <option value="0">Total</option>
+          <option value="1">PLG_RS_PAYMENT_PAYFLOWPRO_DISCOUNT_TYPE_PERCENTAGE</option>
+          <option value="0">PLG_RS_PAYMENT_PAYFLOWPRO_DISCOUNT_TYPE_TOTAL</option>
         </field>
         <field
           name="is_test"
@@ -112,12 +108,12 @@
           label="PLG_RS_PAYMENT_PAYFLOWPRO_CURRENCY"
           description="PLG_RS_PAYMENT_PAYFLOWPRO_CURRENCY_DESC"
         >
-          <option value="EUR">Euro (EUR)</option>
-          <option value="USD">US Dollar $ (USD)</option>
-          <option value="GBP">English Pound £ (GBP)</option>
-          <option value="AUD">Australian Dollar (AUD)</option>
-          <option value="CAD">Canadian Dollar (CAD)</option>
-          <option value="JPY">Japanese Yen (JPY)</option>
+          <option value="EUR">PLG_RS_PAYMENT_PAYFLOWPRO_CURRENCY_EUR</option>
+          <option value="USD">PLG_RS_PAYMENT_PAYFLOWPRO_CURRENCY_USD</option>
+          <option value="GBP">PLG_RS_PAYMENT_PAYFLOWPRO_CURRENCY_GBP</option>
+          <option value="AUD">PLG_RS_PAYMENT_PAYFLOWPRO_CURRENCY_AUD</option>
+          <option value="CAD">PLG_RS_PAYMENT_PAYFLOWPRO_CURRENCY_CAD</option>
+          <option value="JPY">PLG_RS_PAYMENT_PAYFLOWPRO_CURRENCY_JPY</option>
         </field>
         <field
           name="verify_status"
