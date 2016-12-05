@@ -98,13 +98,11 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 
 			$this->setLayout($layout);
 
-			$world = RedshopHelperWorld::getInstance();
-
-			$countryarray           = $world->getCountryList((array) $shipping);
+			$countryarray           = RedshopHelperWorld::getCountryList((array) $shipping);
 			$shipping->country_code = $countryarray['country_code'];
 			$lists['country_code']  = $countryarray['country_dropdown'];
 
-			$statearray             = $world->getStateList((array) $shipping);
+			$statearray             = RedshopHelperWorld::getStateList((array) $shipping);
 			$lists['state_code']    = $statearray['state_dropdown'];
 
 			$showcountry = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 0 : 1;

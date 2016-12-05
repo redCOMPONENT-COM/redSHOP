@@ -90,13 +90,11 @@ class RedshopViewUser_detail extends RedshopViewAdmin
 		$this->lists['shipping_customer_field'] = $extra_field->list_all_field(14, $this->detail->users_info_id, "", "notable");
 		$this->lists['shipping_company_field']  = $extra_field->list_all_field(15, $this->detail->users_info_id, "", "notable");
 
-		$world = RedshopHelperWorld::getInstance();
-
-		$countryarray                = $world->getCountryList((array) $this->detail);
+		$countryarray                = RedshopHelperWorld::getCountryList((array) $this->detail);
 		$this->detail->country_code  = $countryarray['country_code'];
 		$this->lists['country_code'] = $countryarray['country_dropdown'];
 
-		$statearray                  = $world->getStateList((array) $this->detail);
+		$statearray                  = RedshopHelperWorld::getStateList((array) $this->detail);
 		$this->lists['state_code']   = $statearray['state_dropdown'];
 
 		$this->request_url           = JFactory::getURI()->toString();
