@@ -95,7 +95,7 @@ class RedshopHelperAccess
 		{
 			$view = "tax_group";
 		}
-		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
+		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discounts")
 		{
 			$view = "product";
 		}
@@ -159,7 +159,7 @@ class RedshopHelperAccess
 		{
 			$view = "tax_group";
 		}
-		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
+		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discounts")
 		{
 			$view = "product";
 		}
@@ -223,7 +223,7 @@ class RedshopHelperAccess
 		{
 			$view = "tax_group";
 		}
-		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
+		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discounts")
 		{
 			$view = "product";
 		}
@@ -287,7 +287,7 @@ class RedshopHelperAccess
 		{
 			$view = "tax_group";
 		}
-		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discount_detail")
+		elseif ($view == "prices_detail" || $view == "prices" || $view == "mass_discount" || $view == "mass_discounts")
 		{
 			$view = "product";
 		}

@@ -677,19 +677,25 @@ COMMENT = 'redSHOP Manufacturer';
 DROP TABLE IF EXISTS `#__redshop_mass_discount` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_mass_discount` (
-  `mass_discount_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `discount_product` LONGTEXT NOT NULL,
-  `category_id` LONGTEXT NOT NULL,
-  `manufacturer_id` LONGTEXT NOT NULL,
-  `discount_type` TINYINT(4) NOT NULL,
-  `discount_amount` DOUBLE(10,2) NOT NULL,
-  `discount_startdate` INT(11) NOT NULL,
-  `discount_enddate` INT(11) NOT NULL,
-  `discount_name` LONGTEXT NOT NULL,
-  PRIMARY KEY (`mass_discount_id`))
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `discount_product` LONGTEXT NOT NULL DEFAULT '',
+  `category_id` LONGTEXT NOT NULL DEFAULT '',
+  `manufacturer_id` LONGTEXT NOT NULL DEFAULT '',
+  `type` TINYINT(4) NOT NULL,
+  `amount` DOUBLE(10,2) NOT NULL,
+  `start_date` INT(11) NOT NULL,
+  `end_date` INT(11) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `checked_out` INT(11) NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
-COMMENT = 'redSHOP Page Viewer';
+COMMENT = 'redSHOP Mass Discount.';
 
 
 -- -----------------------------------------------------
