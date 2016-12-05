@@ -9,10 +9,29 @@
 
 defined('_JEXEC') or die;
 
-class plgRedshop_paymentrs_payment_googlecheckout extends JPlugin
+/**
+ * PlgRedshop_PaymentRs_Payment_GoogleCheckout class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentRs_Payment_GoogleCheckout extends JPlugin
 {
 	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
+	 * [onPrePayment Plugin method with the same name as the event will be called automatically.]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [void]
 	 */
 	public function onPrePayment($element, $data)
 	{
@@ -21,13 +40,8 @@ class plgRedshop_paymentrs_payment_googlecheckout extends JPlugin
 			return;
 		}
 
-		if (empty($this->plugin))
-		{
-			$this->plugin = $element;
-		}
-
 		$app = JFactory::getApplication();
 
-		include_once JPATH_SITE . '/plugins/redshop_payment/rs_payment_googlecheckout/rs_payment_googlecheckout/extra_info.php';
+		include_once JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 	}
 }
