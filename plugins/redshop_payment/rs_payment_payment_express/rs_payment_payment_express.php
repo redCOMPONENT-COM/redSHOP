@@ -10,10 +10,24 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
+
 require_once JPATH_SITE . '/plugins/redshop_payment/rs_payment_payment_express/rs_payment_payment_express/PxPay_Curl.inc.php';
 
-class plgRedshop_paymentrs_payment_payment_express extends JPlugin
+/**
+ * PlgRedshop_PaymentRs_Payment_Payment_Express installer class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentRs_Payment_Payment_Express extends JPlugin
 {
+	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 */
+	protected $autoloadLanguage = true;
+
 	/**
 	 * onNotify Payment rs_payment_payment_express
 	 *
@@ -29,40 +43,40 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			return;
 		}
 
-		$enc_hex = $request["result"];
+		$encryptHex = $request["result"];
 
-		$verify_status = $this->params->get('verify_status', '');
-		$px_post_username = $this->params->get('px_post_username', '');
-		$px_post_label_key = $this->params->get('px_post_label_key', '');
-		$invalid_status = $this->params->get('invalid_status', '');
-		$debug_mode = $this->params->get('debug_mode', 0);
+		$verifyStatus = $this->params->get('verify_status', '');
+		$pxPostUsername = $this->params->get('px_post_username', '');
+		$pxPostLabelKey = $this->params->get('px_post_label_key', '');
+		$invalidStatus = $this->params->get('invalid_status', '');
+		$debugMode = $this->params->get('debug_mode', 0);
 
 		// GetResponse method in PxPay object returns PxPayResponse object
-		$PxPay_Url = "https://sec2.paymentexpress.com/pxpay/pxaccess.aspx";
-		$pxpay = new PxPay_Curl($PxPay_Url, $px_post_username, $px_post_label_key);
+		$pxPayUrl = "https://sec2.paymentexpress.com/pxpay/pxaccess.aspx";
+		$pxpay = new PxPay_Curl($pxPayUrl, $pxPostUsername, $pxPostLabelKey);
 
 		// Which encapsulates all the response data
-		$rsp = $pxpay->getResponse($enc_hex);
+		$rsp = $pxpay->getResponse($encryptHex);
 
 		// The following are the fields available in the PxPayResponse object
-		$BillingId = $rsp->getBillingId();
-		$DpsTxnRef = $rsp->getDpsTxnRef();
-		$ResponseText = $rsp->getResponseText();
+		$billingId = $rsp->getBillingId();
+		$dpsTxnRef = $rsp->getDpsTxnRef();
+		$responseText = $rsp->getResponseText();
 
-		$order_id = $BillingId;
+		$orderId = $billingId;
 		$values = new stdClass;
 
 		// Update the order status to 'CONFIRMED'
 		if ($rsp->getSuccess() == "1")
 		{
 			// Success: update the order status to 'CONFIRMED'
-			$values->order_status_code = $verify_status;
+			$values->order_status_code = $verifyStatus;
 			$values->order_payment_status_code = 'Paid';
 
-			if ($debug_mode == 1)
+			if ($debugMode == 1)
 			{
-				$values->log = $ResponseText;
-				$values->msg = $ResponseText;
+				$values->log = $responseText;
+				$values->msg = $responseText;
 			}
 			else
 			{
@@ -70,19 +84,19 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 			}
 
-			$values->order_id = $order_id;
-			$values->transaction_id = $DpsTxnRef;
+			$values->order_id = $orderId;
+			$values->transaction_id = $dpsTxnRef;
 		}
 		else
 		{
 			// Failed: update the order status to 'PENDING'
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code = $invalidStatus;
 			$values->order_payment_status_code = 'Unpaid';
 
-			if ($debug_mode == 1)
+			if ($debugMode == 1)
 			{
-				$values->log = $ResponseText;
-				$values->msg = $ResponseText;
+				$values->log = $responseText;
+				$values->msg = $responseText;
 			}
 			else
 			{
@@ -90,13 +104,21 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			}
 
-			$values->order_id = $order_id;
-			$values->transaction_id = $DpsTxnRef;
+			$values->order_id = $orderId;
+			$values->transaction_id = $dpsTxnRef;
 		}
 
 		return array($values);
 	}
 
+	/**
+	 * [onPrePayment description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data array]
+	 *
+	 * @return  [void]
+	 */
 	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_payment_express')
@@ -104,27 +126,22 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
-		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
+		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 	}
 
 	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * [onPrePayment_rs_payment_payment_express description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data array]
+	 *
+	 * @return  [object/void]  $values
 	 */
 	public function onPrePayment_rs_payment_payment_express($element, $data)
 	{
 		if ($element != 'rs_payment_payment_express')
 		{
 			return;
-		}
-
-		if (empty($plugin))
-		{
-			$plugin = $element;
 		}
 
 		if ($this->params->get("px_post_txnmethod") == 'PxPost')
@@ -211,54 +228,68 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		else
 		{
 			$app = JFactory::getApplication();
-			$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
+			$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 			include $paymentpath;
 		}
-
 	}
 
+	/**
+	 * [parse_xml description]
+	 *
+	 * @param   [array]  $data  [data params]
+	 *
+	 * @return  [xml]
+	 */
 	public function parse_xml($data)
 	{
-		$xml_parser = xml_parser_create();
-		xml_parse_into_struct($xml_parser, $data, $vals, $index);
-		xml_parser_free($xml_parser);
+		$xmlParser = xml_parser_create();
+		xml_parse_into_struct($xmlParser, $data, $vals, $index);
+		xml_parser_free($xmlParser);
 
 		$params = array();
 		$level = array();
 
-		foreach ($vals as $xml_elem)
+		foreach ($vals as $xmlElem)
 		{
-			if ($xml_elem['type'] == 'open')
+			if ($xmlElem['type'] == 'open')
 			{
-				if (array_key_exists('attributes', $xml_elem))
+				if (array_key_exists('attributes', $xmlElem))
 				{
-					list($level[$xml_elem['level']], $extra) = array_values($xml_elem['attributes']);
+					list($level[$xmlElem['level']], $extra) = array_values($xmlElem['attributes']);
 				}
 				else
 				{
-					$level[$xml_elem['level']] = $xml_elem['tag'];
+					$level[$xmlElem['level']] = $xmlElem['tag'];
 				}
 			}
 
-			if ($xml_elem['type'] == 'complete')
+			if ($xmlElem['type'] == 'complete')
 			{
-				$start_level = 1;
-				$php_stmt = '$params';
+				$startLevel = 1;
+				$phpStmt = '$params';
 
-				while ($start_level < $xml_elem['level'])
+				while ($startLevel < $xmlElem['level'])
 				{
-					$php_stmt .= '[$level[' . $start_level . ']]';
-					$start_level++;
+					$phpStmt .= '[$level[' . $startLevel . ']]';
+					$startLevel++;
 				}
 
-				$php_stmt .= '[$xml_elem[\'tag\']] = $xml_elem[\'value\'];';
-				@eval($php_stmt);
+				$phpStmt .= '[$xmlElem[\'tag\']] = $xmlElem[\'value\'];';
+				@eval($phpStmt);
 			}
 		}
 
 		return $params;
 	}
 
+	/**
+	 * [onCapture_Paymentrs_payment_payment_express description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data array]
+	 *
+	 * @return  [object]  $values
+	 */
 	public function onCapture_Paymentrs_payment_payment_express($element, $data)
 	{
 		if ($element != 'rs_payment_payment_express')
@@ -269,8 +300,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		$objOrder = order_functions::getInstance();
 		$db = JFactory::getDbo();
 		JPlugin::loadLanguage('com_redshop');
-		$order_id = $data['order_id'];
-		$Itemid = $_REQUEST['Itemid'];
+		$orderId = $data['order_id'];
 
 		if ($this->params->get("px_post_txntype") == 'Auth')
 		{
@@ -281,10 +311,10 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			// Get user billing information
 
 			// Calculate AmountInput
-			$amount = $order_total;
+			$amount = $orderTotal;
 
-			$order_payment_amount = $orderDetail[0]->order_payment_amount;
-			$order_payment_trans_id = $orderDetail[0]->order_payment_trans_id;
+			$orderPaymentAmount  = $orderDetail[0]->order_payment_amount;
+			$orderPaymentTransid = $orderDetail[0]->order_payment_trans_id;
 
 			$currency = Redshop::getConfig()->get('CURRENCY_CODE');
 			$cmdDoTxnTransaction .= "<Txn>";
@@ -294,9 +324,9 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 
 			// Insert your DPS Password here
 			$cmdDoTxnTransaction .= "<PostPassword>" . $this->params->get("px_post_password") . "</PostPassword>";
-			$cmdDoTxnTransaction .= "<Amount>$order_payment_amount</Amount>";
+			$cmdDoTxnTransaction .= "<Amount>$orderPaymentAmount</Amount>";
 			$cmdDoTxnTransaction .= "<InputCurrency>$currency</InputCurrency>";
-			$cmdDoTxnTransaction .= "<DpsTxnRef>$order_payment_trans_id</DpsTxnRef>";
+			$cmdDoTxnTransaction .= "<DpsTxnRef>$orderPaymentTransid</DpsTxnRef>";
 			$cmdDoTxnTransaction .= "<TxnType>Complete</TxnType>";
 			$cmdDoTxnTransaction .= "</Txn>";
 
@@ -323,7 +353,6 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 				return false;
 			}
 
-			$PX_msg = $params['TXN']['RESPONSETEXT'];
 			$authorized = $params['TXN']['SUCCESS'];
 			$message = $params['TXN'][$response]['CARDHOLDERHELPTEXT'];
 
