@@ -25,7 +25,9 @@ class VoucherManagerPage
 
 	public static $voucherCheck = "#cb0";
 
-	public static $voucherResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
+	public static $voucherResultRow = "//div[@id='editcell']/div[2]/table/tbody/tr[1]";
 
-	public static $voucherStatePath = "//div[@id='editcell']/table/tbody/tr[1]//td[9]//a";
+	public static $voucherStatePath = "//div[@id='editcell']/div[2]/table/tbody/tr/td[9]/a";
+
+	public static $voucherSearchField = "#filter";
 }
