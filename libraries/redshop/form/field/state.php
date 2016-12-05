@@ -43,6 +43,21 @@ class RedshopFormFieldState extends JFormFieldList
 			->from($db->qn('#__redshop_state'));
 		$options = $db->setQuery($query)->loadObjectList();
 
+		$fieldName = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
+
+		foreach ($options as $option)
+		{
+			$option->text     = JText::alt((string) $option->text, $fieldName);
+			$option->value    = (string) $option->value;
+			$option->disable  = false;
+			$option->class    = '';
+			$option->selected = false;
+			$option->checked  = false;
+			$option->country  = $option->country_id;
+		}
+
+		reset($options);
+
 		$parentOptions = parent::getOptions();
 		$options = array_merge($parentOptions, $options);
 

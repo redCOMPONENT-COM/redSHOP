@@ -11,6 +11,37 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.formvalidator');
 ?>
 
+<script type="text/javascript">
+	function updateState(countryValue)
+	{
+		(function($){
+			var url = 'index.php?option=com_redshop&view=state&task=ajaxGetState';
+
+			$.ajax({
+				url: url,
+				data: {
+					country: countryValue,
+					"<?php echo JSession::getFormToken() ?>": 1
+				},
+				method: "POST",
+				cache: false
+			})
+			.success(function(data){
+				if ($("#jform_tax_state").length)
+				{
+					$("#jform_tax_state").parent().html(data);
+					$("#jform_tax_state").select2({width:"auto", dropdownAutoWidth:"auto"});
+				}
+				else if ($("#rs_state_jform_state_code").length)
+				{
+					$("#rs_state_jform_state_code").parent().html(data);
+					$("#rs_state_jform_state_code").select2({width:"auto", dropdownAutoWidth:"auto"});
+				}
+			});
+		})(jQuery);
+	}
+</script>
+
 <form
 	action="index.php?option=com_redshop&task=tax_rate.edit&id=<?php echo $this->item->id ?>"
 	method="post"
