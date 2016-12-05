@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 $editor = JFactory::getEditor();
 
 JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
 $model = $this->getModel('newslettersubscr_detail');
 ?>
 <script language="javascript" type="text/javascript">

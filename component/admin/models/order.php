@@ -379,7 +379,8 @@ class RedshopModelOrder extends RedshopModel
 					'A',
 					$billingDetails->firstname . ' ' . $billingDetails->lastname,
 					$ordersInfo[$i]->customer_note,
-					'',
+					Redshop::getConfig()->get('GLS_CUSTOMER_ID'),
+					$billingDetails->user_email,
 					$shippingDetails->phone
 				);
 

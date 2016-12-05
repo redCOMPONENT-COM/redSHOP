@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
-JHTMLBehavior::modal();
 
 $uri = JURI::getInstance();
 $url = $uri->root();
