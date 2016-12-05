@@ -11,12 +11,12 @@ defined('_JEXEC') or die;
 $items = RedshopMenuLeft_Menu::render(true);
 
 $menuhide = explode(",", $this->config->get('MENUHIDE'));
-
 ?>
 
-<legend><?php echo JText::_('COM_REDSHOP_MENUHIDE'); ?></legend>
+<legend><?php echo JText::_('COM_REDSHOP_MENUHIDE') ?></legend>
 
-<?php if(isset($items)) { ?>
+<?php if (isset($items)): ?>
+
 <ul id="menuhide">
 	<?php foreach ($items as $group => $sections) : ?>
 		<li>
@@ -26,7 +26,7 @@ $menuhide = explode(",", $this->config->get('MENUHIDE'));
 					<label>
 						<input type="checkbox"
 							value="<?php echo $section->title ?>" name="menuhide[]"
-							<?php echo (in_array($section->title, $menuhide) ? 'checked' : ''); ?>
+							<?php echo in_array($section->title, $menuhide) ? 'checked' : '' ?>
 						>
 						<?php echo JText::_($section->title); ?>
 					</label>
@@ -37,7 +37,7 @@ $menuhide = explode(",", $this->config->get('MENUHIDE'));
 							<label>
 								<input type="checkbox"
 									value="<?php echo $item->title ?>" name="menuhide[]"
-									<?php echo (in_array($item->title, $menuhide) ? 'checked' : ''); ?>
+									<?php echo in_array($item->title, $menuhide) ? 'checked' : '' ?>
 								>
 								<?php echo JText::_($item->title)?>
 							</label>
@@ -56,12 +56,12 @@ $menuhide = explode(",", $this->config->get('MENUHIDE'));
 	$(document).ready(function()
 	{
 		$('#menuhide').find('input[type=checkbox]').click(function(){
-			console.log(this.checked);
-
-			$(this).parent().parent().parent().find('input[type=checkbox]').prop('checked', this.checked);
+			if ($(this).parent().parent().find('ul').length) {
+				$(this).parent().parent().children('ul').find('input[type=checkbox]').prop('checked', this.checked);
+			}
 		});
 	});
 })(jQuery);
 </script>
 
-<?php } ?>
+<?php endif; ?>
