@@ -12,27 +12,29 @@ defined('_JEXEC') or die;
 
 class RedshopControllerAttributeprices_detail extends RedshopController
 {
+	protected $jinput;
+
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
+		$this->jinput = JFactory::getApplication()->input;
 	}
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'attributeprices_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
-
+		$this->jinput->set('view', 'attributeprices_detail');
+		$this->jinput->set('layout', 'default');
+		$this->jinput->set('hidemainmenu', 1);
 		parent::display();
 	}
 
 	public function save()
 	{
-		$post = JRequest::get('post');
+		$post = $this->jinput->getArray($_POST);
 
-		$section_id = JRequest::getVar('section_id');
-		$section = JRequest::getVar('section');
+		$section_id = $this->jinput->get('section_id');
+		$section = $this->jinput->getString('section');
 
 		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$post['cdate'] = time();
@@ -43,7 +45,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 			$post ['discount_end_date'] = strtotime($post['discount_end_date']) + (23 * 59 * 59);
 		}
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->jinput->get('cid', array(0), 'array');
 		$post ['price_id'] = $cid [0];
 
 		$model = $this->getModel('attributeprices_detail');
@@ -62,10 +64,9 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 
 	public function remove()
 	{
-
-		$section_id = JRequest::getVar('section_id');
-		$section = JRequest::getVar('section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$section_id = $this->jinput->get('section_id');
+		$section = $this->jinput->getString('section');
+		$cid = $this->jinput->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -85,8 +86,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 
 	public function cancel()
 	{
-
-		$section_id = JRequest::getVar('section_id');
+		$section_id = $this->jinput->get('section_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=attributeprices&section_id=' . $section_id, $msg);

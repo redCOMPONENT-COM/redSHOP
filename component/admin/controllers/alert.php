@@ -16,6 +16,14 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerAlert extends RedshopController
 {
+	protected $jinput;
+
+	public function __construct($default = array())
+	{
+		parent::__construct($default);
+		$this->jinput = JFactory::getApplication()->input;
+	}
+
 	/**
 	 * Proxy for getModel
 	 *
@@ -34,7 +42,7 @@ class RedshopControllerAlert extends RedshopController
 
 	public function remove()
 	{
-		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->jinput->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -55,7 +63,7 @@ class RedshopControllerAlert extends RedshopController
 
 	public function publish()
 	{
-		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->jinput->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -76,7 +84,7 @@ class RedshopControllerAlert extends RedshopController
 
 	public function unpublish()
 	{
-		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->jinput->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

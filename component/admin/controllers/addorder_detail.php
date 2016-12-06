@@ -11,10 +11,13 @@ defined('_JEXEC') or die;
 
 class RedshopControllerAddorder_detail extends RedshopController
 {
+	protected $jinput;
+
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		JRequest::setVar('hidemainmenu', 1);
+		$this->jinput = JFactory::getApplication()->input;
+		$this->jinput->set('hidemainmenu', 1);
 	}
 
 	public function savepay()
@@ -29,14 +32,13 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
+		$post = $this->jinput->getArray($_POST);
 
 		$adminproducthelper = RedshopAdminProduct::getInstance();
 		$order_functions = order_functions::getInstance();
 		$shippinghelper = shipping::getInstance();
 
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->jinput->get('cid', array(0), 'array');
 		$post ['order_id'] = $cid [0];
 		$model = $this->getModel('addorder_detail');
 		$post['order_number'] = $order_functions->generateOrderNumber();
@@ -228,13 +230,12 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 	public function guestuser()
 	{
-		$post = JRequest::get('post');
+		$post = $this->jinput->getArray($_POST);
 
 		if (!isset($post['billisship']))
 		{
-			JRequest::setVar('billisship', 0);
+			$this->jinput->set('billisship', 0);
 		}
-
 
 		$model = $this->getModel('addorder_detail');
 
@@ -257,11 +258,10 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 	public function changeshippingaddress()
 	{
-		$shippingadd_id = JRequest::getVar('shippingadd_id', 0);
-		$user_id = JRequest::getVar('user_id', 0);
-		$is_company = JRequest::getVar('is_company', 0);
+		$shippingadd_id = $this->jinput->get('shippingadd_id', 0);
+		$user_id = $this->jinput->set('user_id', 0);
+		$is_company = $this->jinput->set('is_company', 0);
 		$model = $this->getModel('addorder_detail');
-
 
 		$htmlshipping = $model->changeshippingaddress($shippingadd_id, $user_id, $is_company);
 
@@ -272,7 +272,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 	public function getShippingRate()
 	{
 		$shippinghelper = shipping::getInstance();
-		$get = JRequest::get('get');
+		$get = $this->jinput->getArray($_GET);
 		$shipping = RedshopShippingRate::decrypt($get['shipping_rate_id']);
 		$order_shipping = 0;
 		$order_shipping_class = '';
