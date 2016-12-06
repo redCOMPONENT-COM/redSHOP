@@ -57,8 +57,8 @@ else
 	$template_desc .= "</div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
 
-// New tags replacement
-$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat));
+// New tags replacement for category template section
+$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat, 'subCategories' => $this->detail));
 
 $endlimit = $this->state->get('list.limit');
 
