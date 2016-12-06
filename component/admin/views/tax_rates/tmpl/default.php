@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal');
-
 $user = JFactory::getUser();
 
 $listOrder = $this->escape($this->state->get('list.ordering'));

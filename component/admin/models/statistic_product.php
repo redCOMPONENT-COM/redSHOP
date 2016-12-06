@@ -99,13 +99,14 @@ class RedshopModelStatistic_Product extends RedshopModelList
 	{
 		$db     = $this->getDbo();
 		$subQuery = $db->getQuery(true)
-			->select('SUM(oi.product_final_price) AS total_sale')
-			->select('COUNT(*) AS unit_sold')
+			->select('SUM(' . $db->qn('oi.product_final_price') . ') AS ' . $db->qn('total_sale'))
+			->select('SUM(' . $db->qn('oi.product_quantity') . ') AS unit_sold')
+			->select('COUNT(*) AS order_count')
 			->select($db->qn('oi.product_id'))
 			->select($db->qn('o.cdate', 'order_create_date'))
 			->from($db->qn('#__redshop_order_item', 'oi'))
-			->leftJoin($db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('o.order_id'))
-			->where($db->qn('oi.order_status') . ' = ' . $db->quote('S'))
+			->leftJoin($db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('oi.order_id'))
+			->where($db->qn('o.order_payment_status') . ' = ' . $db->quote('Paid'))
 			->group($db->qn('oi.product_id'));
 
 		$query = $db->getQuery(true)
@@ -113,7 +114,7 @@ class RedshopModelStatistic_Product extends RedshopModelList
 				$db->qn(
 					array(
 						'p.product_id', 'p.product_name', 'p.product_number', 'm.manufacturer_name',
-						'oi.order_create_date', 'oi.total_sale', 'oi.unit_sold'
+						'oi.order_create_date', 'oi.total_sale', 'oi.unit_sold', 'oi.order_count'
 					)
 				)
 			)

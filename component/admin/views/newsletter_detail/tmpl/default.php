@@ -8,9 +8,10 @@
  */
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.modal', 'a.joom-box');
+
 $editor = JFactory::getEditor();
 JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
 $model = $this->getModel('newsletter_detail');
 ?>
 <script language="javascript" type="text/javascript">
@@ -81,7 +82,7 @@ $model = $this->getModel('newsletter_detail');
 						{
 							?>
 							<span style="width:10%;">
-					<a class="modal"
+					<a class="joom-box"
 					   href="index.php?tmpl=component&option=com_redshop&view=template_detail&task=edit&showbuttons=1&cid[]=<?php echo $this->detail->template_id; ?>"
 					   rel="{handler: 'iframe', size: {x: 900, y: 500}}">
 						<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATE'); ?>

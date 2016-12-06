@@ -8,8 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-JHTMLBehavior::modal();
 JHTML::_('behavior.tooltip');
+
 $editor        = JFactory::getEditor();
 $uri           = JURI::getInstance();
 $url           = $uri->root();

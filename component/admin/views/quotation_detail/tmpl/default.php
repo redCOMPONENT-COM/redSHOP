@@ -7,8 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
 JHTML::_('behavior.tooltip');
-JHTML::_('behavior.modal');
+JHtml::_('behavior.modal', 'a.joom-box');
 
 $producthelper   = productHelper::getInstance();
 
@@ -96,7 +97,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 {
 	$edit_addlink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=quotation_detail&layout=account');
 	?>
-	<a class="modal btn btn-primary" href="<?php echo $edit_addlink; ?>" rel="{handler: 'iframe', size: {x: 670, y: 500}}">
+	<a class="joom-box btn btn-primary" href="<?php echo $edit_addlink; ?>" rel="{handler: 'iframe', size: {x: 670, y: 500}}">
 		<?php echo JText::_('COM_REDSHOP_ADD_USER'); ?>
 	</a>
 <?php
