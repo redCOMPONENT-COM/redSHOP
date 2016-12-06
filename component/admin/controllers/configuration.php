@@ -13,6 +13,14 @@ jimport('joomla.filesystem.folder');
 
 class RedshopControllerConfiguration extends RedshopController
 {
+	protected $jinput;
+
+	public function __construct($default = array())
+	{
+		parent::__construct($default);
+		$this->jinput = JFactory::getApplication()->input;
+	}
+
 	public function apply()
 	{
 		$this->save(1);
@@ -47,21 +55,21 @@ class RedshopControllerConfiguration extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
+		$post = $this->jinput->getArray($_POST);
 
 		$app = JFactory::getApplication();
 		$selectedTabPosition = $app->input->get('selectedTabPosition');
 		$app->setUserState('com_redshop.configuration.selectedTabPosition', $selectedTabPosition);
 
-		$post['custom_previous_link'] = JRequest::getVar('custom_previous_link', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['custom_previous_link'] = $this->jinput->getString('custom_previous_link', '');
 
-		$post['custom_next_link'] = JRequest::getVar('custom_next_link', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['custom_next_link'] = $this->jinput->getString('custom_next_link', '');
 
-		$post['default_next_suffix'] = JRequest::getVar('default_next_suffix', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['default_next_suffix'] = $this->jinput->getString('default_next_suffix', '');
 
-		$post['default_previous_prefix'] = JRequest::getVar('default_previous_prefix', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['default_previous_prefix'] = $this->jinput->getString('default_previous_prefix', '');
 
-		$post['return_to_category_prefix'] = JRequest::getVar('return_to_category_prefix', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['return_to_category_prefix'] = $this->jinput->getString('return_to_category_prefix', '');
 
 		// Administrator email notifications ids
 		if (is_array($post['administrator_email']))
@@ -71,7 +79,7 @@ class RedshopControllerConfiguration extends RedshopController
 
 		$msg                   = null;
 		$model                 = $this->getModel('configuration');
-		$newsletter_test_email = JRequest::getVar('newsletter_test_email');
+		$newsletter_test_email = $this->jinput->get('newsletter_test_email');
 
 		$post['country_list'] = implode(',', $app->input->post->get('country_list', array(), 'ARRAY'));
 
@@ -175,9 +183,9 @@ class RedshopControllerConfiguration extends RedshopController
 	public function removeimg()
 	{
 		ob_clean();
-		$imname = JRequest::getString('imname', '');
-		$spath = JRequest::getString('spath', '');
-		$data_id = JRequest::getInt('data_id', 0);
+		$imname = $this->jinput->getString('imname', '');
+		$spath = $this->jinput->getString('spath', '');
+		$data_id = $this->jinput->getInt('data_id', 0);
 		$extra_field = extra_field::getInstance();
 
 		if ($data_id)
