@@ -11,7 +11,6 @@ var config     = require("./gulp-config.json");
 var extension  = require("./package.json");
 var joomlaGulp = requireDir("./node_modules/joomla-gulp", {recurse: true});
 var jgulp      = requireDir("./jgulp", {recurse: true});
-var md5        = require("gulp-md5");
 var hashsum    = require("gulp-hashsum");
 var fsWriteFile = require("writefile");
 
