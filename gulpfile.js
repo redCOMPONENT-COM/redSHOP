@@ -316,6 +316,7 @@ function generateMD5()
 function getMd5FileContent()
 {
     var fileContent = fs.readFileSync("checksum.md5", "utf8");
+    fileContent = fileContent.trim();
 
     return gulp.src(['./checksum.md5'], {base: "./"})
         .pipe(generateJsonMD5(fileContent));
@@ -329,8 +330,12 @@ function generateJsonMD5(fileContent)
 
     for (var i = 0; i < temp.length; i++) {
         t1 = temp[i].split(' ');
-        item = {'md5': t1[0], 'path': t1[2]};
-        result.push(item);
+
+        if (t1[0].trim().length)
+        {
+            item = {'md5': t1[0], 'path': t1[2]};
+            result.push(item);
+        }
     }
 
     var rs = JSON.stringify(result);
