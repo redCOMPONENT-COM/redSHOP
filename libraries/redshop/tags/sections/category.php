@@ -126,17 +126,23 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	private function replaceSubCategories ($subCategories)
 	{
 		$subTemplate = $this->getTemplateBetweenLoop('{category_loop_start}', '{category_loop_end}');
-		$template = array ();
 
-
-		// Replace all sub categories
-		foreach ($subCategories as $category)
+		if ($subTemplate)
 		{
-			$categoryTemplate = $subTemplate['template'];
-			$categoryTemplate = $this->replaceCategory($category, $categoryTemplate);
-			$template[] = $categoryTemplate;
+			$template = array ();
+
+			// Replace all sub categories
+			foreach ($subCategories as $category)
+			{
+				$categoryTemplate = $subTemplate['template'];
+				$categoryTemplate = $this->replaceCategory($category, $categoryTemplate);
+				$template[] = $categoryTemplate;
+			}
+
+			// Return all template after replaced
+			return $subTemplate['begin'] . implode(PHP_EOL, $template) . $subTemplate['end'];
 		}
 
-		return $subTemplate['begin'] . implode(PHP_EOL, $template) . $subTemplate['end'];
+		return $this->template;
 	}
 }

@@ -198,7 +198,7 @@ abstract class RedshopTagsAbstract
 	 * @param   string  $beginTag  Begin tag
 	 * @param   string  $endTag    End tag
 	 *
-	 * @return  array
+	 * @return  array|bool
 	 *
 	 * @since   2.0.0.6
 	 */
@@ -221,10 +221,6 @@ abstract class RedshopTagsAbstract
 			);
 		}
 
-		return array(
-			'begin' => '',
-			'template' => '',
-			'end' => ''
-		);
+		return false;
 	}
 }
