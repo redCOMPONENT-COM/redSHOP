@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-JHtml::_('behavior.joom-box', 'a.joom-box');
+JHtml::_('behavior.modal', 'a.joom-box');
 
 
 $producthelper = productHelper::getInstance();
