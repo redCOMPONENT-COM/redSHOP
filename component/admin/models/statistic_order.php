@@ -107,6 +107,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 			->select('SUM(order_total) AS order_total')
 			->select('COUNT(*) AS count')
 			->from($db->qn('#__redshop_orders'))
+			->where($db->qn('order_payment_status') . ' = ' . $db->quote('Paid'))
 			->group($db->qn('viewdate'));
 
 		// Filter: Date Range

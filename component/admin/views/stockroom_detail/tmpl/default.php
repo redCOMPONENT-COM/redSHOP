@@ -10,10 +10,9 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
-$editor = JFactory::getEditor();
 
-$date = JFactory::getDate();
+$editor = JFactory::getEditor();
+$date   = JFactory::getDate();
 ?>
 
 <script language="javascript" type="text/javascript">
