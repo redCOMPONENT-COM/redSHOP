@@ -176,7 +176,7 @@ abstract class RedshopTagsAbstract
 		}
 
 		// Make sure this tag is exists before adding replace
-		if (strpos($this->template, $tag) === false || !$this->isTagRegistered($tag))
+		if ($this->isTagExists($tag) === false || $this->isTagRegistered($tag) === false)
 		{
 			return true;
 		}
