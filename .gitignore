@@ -66,3 +66,6 @@ component/admin/config/config.php
 
 # Releases folder
 releases/*
+
+checksum.md5
+checksum.md5.json
