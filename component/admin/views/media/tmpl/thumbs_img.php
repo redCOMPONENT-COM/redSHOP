@@ -13,15 +13,15 @@ $fdl    = JRequest::getVar('fdownload', '');
 $fsec   = JRequest::getVar('fsec', '');
 $folder = JRequest::getVar('folder', '');
 
+$basePath = "components/com_redshop/assets/images/";
+
+if ($fdl)
+{
+	$basePath = str_replace(JPATH_ROOT . '/', '', Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT')) . '/';
+}
+
 if ($folder == '')
 {
-	$basePath = "components" . DIRECTORY_SEPARATOR . "com_redshop" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR. "images" . DIRECTORY_SEPARATOR;
-
-	if ($fdl)
-	{
-		$basePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR, '', Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT')) . DIRECTORY_SEPARATOR;
-	}
-
 	$thumb_path = JURI::root() . $basePath . $this->_tmp_img->path_relative;
 }
 else
