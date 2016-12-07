@@ -14,7 +14,7 @@ $editor = JFactory::getEditor();
 
 $post = JRequest::get('post');
 
-JHTMLBehavior::modal();
+JHtml::_('behavior.modal', 'a.joom-box');
 
 jimport('joomla.filesystem.file');
 
@@ -33,7 +33,17 @@ JFactory::getDocument()->addScriptDeclaration('
 		$("#media_section").on("change", function(){
 			$("#section_id").select2("val","");
 		});
-		$("#youtube-wrapper").hide();
+		var media_type = $("select[name=media_type]").val();
+
+		if (media_type == "youtube"){
+			$("#youtube-wrapper").show();
+			$("#media_data").hide();
+		}
+		else{
+			$("#youtube-wrapper").hide();
+			$("#media_data").show();
+		}
+
 		$("select[name=media_type]").on("change", function(){
 			var value = $(this).val();
 			if (value == "youtube"){
@@ -90,66 +100,66 @@ if ($showbuttons)
 			history.go(-1);
 		}
 
+		/**
+		 * Cancel submit and also alert with message
+		 *
+		 * @param message
+		 * @returns {boolean}
+		 */
+		function cancelSubmit(message) {
+			alert(message);
+			return false;
+		}
+
 		Joomla.submitbutton = function (pressbutton) {
-
 			var form = document.adminForm;
+			var mediaSection = '<?php echo $media_section;?>';
 
-			if (pressbutton == 'cancel')
-			{
+			if (pressbutton == 'cancel') {
 				submitform(pressbutton);
 				return;
 			}
 
-			if (form.bulk.value == 0)
-			{
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_BULK_OPTION', true ); ?>");
-
-				return false;
+			// Upload zip images
+			if (form.bulk.value == 0) {
+				return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_BULK_OPTION', true); ?>');
 			}
-			else if (form.media_type.value != "youtube") 
-			{
-				if (form.file.value == '' && form.media_bank_image.value == '')
+			else {
+				// None zip images
+				switch (form.media_type.value)
 				{
-					alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
-
-					return false;
+					case 'youtube':
+						break;
+					default:
+						if (form.file.value == '' && form.media_bank_image.value == '') {
+							return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
+						}
+						if (mediaSection == 'product')
+						{
+							if (form.hdn_download_file.value == '' && form.file == '') {
+								return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
+							}
+						}
+						// Make sure media type is selected
+						if (form.media_type.value == 0) {
+							return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_MEDIA_TYPE', true); ?>');
+						}
+						// Make sure section is selected
+						if (form.media_section.value == 0) {
+							return cancelSubmit('<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true); ?>');
+						}
+						if (form.section_id.value == '' && form.media_section.value != 'media') {
+							return cancelSubmit('<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true); ?>');
+						}
 				}
-			}
-			<?php if ($media_section == 'product') : ?>
-			else if (form.hdn_download_file.value == '' && form.file == '')
-			{
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true ); ?>");
-
-				return false;
-			}
-			<?php endif;?>
-			else if (form.media_type.value == 0)
-			{
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_MEDIA_TYPE', true ); ?>");
-
-				return false;
-			}
-			else if (form.media_section.value == 0)
-			{
-				alert("<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true ); ?>");
-
-				return false;
-			}
-			else if (form.section_id.value == '' && form.media_section.value != 'media')
-			{
-				alert("<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true ); ?>");
-
-				return false;
-			}
-			else
-			{
+				// Have done now submit it
 				submitform(pressbutton);
 			}
 		}
 	</script>
 
 	<form action="<?php echo JRoute::_($this->request_url) ?>" method="post"
-	      name="adminForm" id="adminForm" enctype="multipart/form-data">
+		  name="adminForm" id="adminForm" enctype="multipart/form-data">
 
 	<div class="col50" id="media_data">
 
@@ -215,7 +225,7 @@ if ($showbuttons)
 													Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 												);
 									?>
-									<a class="modal btn btn-primary"
+									<a class="joom-box btn btn-primary"
 									   href="<?php echo $url . 'components/com_redshop/assets/' . $this->detail->media_type . '/' . $this->detail->media_section . '/' . $this->detail->media_name; ?>"
 									   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
 									   rel="{handler: 'image', size: {}}">
@@ -256,7 +266,7 @@ if ($showbuttons)
 						<td width="2%"><?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
 							<div class="button2-left">
 								<div class="image">
-									<a class="modal btn btn-primary"
+									<a class="joom-box btn btn-primary"
 										title="Image" href="<?php echo $ilink; ?>"
 										rel="{handler: 'iframe', size: {x: 1050, y: 450}}">
 										<?php echo JText::_('COM_REDSHOP_IMAGE'); ?>
@@ -276,7 +286,7 @@ if ($showbuttons)
 								<?php $down_ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs&fdownload=1'); ?>
 								<div class="button2-left">
 									<div class="image">
-										<a class="modal btn btn-primary"
+										<a class="joom-box btn btn-primary"
 											title="Image"
 											href="<?php echo $down_ilink; ?>"
 											rel="{handler: 'iframe', size: {x: 950, y: 450}}">
@@ -307,8 +317,8 @@ if ($showbuttons)
 							<td><input type="file" name="file[]" id="file" size="75">
 								<?php if ($media_section != 'manufacturer'): ?>
 								<input type="button" name="addvalue" id="addvalue" class="button btn btn-primary"
-								       Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
-								       onclick="addNewRow('extra_table');"/>
+									   Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
+									   onclick="addNewRow('extra_table');"/>
 								<?php endif; ?>
 							</td>
 
@@ -349,7 +359,7 @@ if ($showbuttons)
 						</td>
 						<td>
 							<?php echo $this->lists['type']; ?><input type="hidden" name="oldtype"
-							                                          value="<?php echo $this->detail->media_type; ?>"/>
+																	  value="<?php echo $this->detail->media_type; ?>"/>
 							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MEDIA_TYPE'), JText::_('COM_REDSHOP_MEDIA_TYPE'), 'tooltip.png', '', '', false); ?>
 						</td>
 					<?php
@@ -358,8 +368,8 @@ if ($showbuttons)
 					{
 						?>
 						<td colspan="2"><input type="hidden" name="media_type" value="images"/><input type="hidden"
-						                                                                              name="oldtype"
-						                                                                              value="images"/>
+																									  name="oldtype"
+																									  value="images"/>
 						</td>
 					<?php
 					}
@@ -372,7 +382,7 @@ if ($showbuttons)
 						</label>
 					</td>
 					<td><input type="text" value="<?php echo $this->detail->media_name; ?>"
-					           name="youtube_id">
+							   name="youtube_id">
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MEDIA_YOUTUBE_ID'), JText::_('COM_REDSHOP_MEDIA_YOUTUBE_ID'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>
@@ -383,7 +393,7 @@ if ($showbuttons)
 						</label>
 					</td>
 					<td><input type="text" value="<?php echo $this->detail->media_alternate_text; ?>"
-					           name="media_alternate_text">
+							   name="media_alternate_text">
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MEDIA_ALTERNATE_TEXT'), JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>

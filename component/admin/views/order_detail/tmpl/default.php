@@ -7,8 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
 JHTML::_('behavior.tooltip');
-JHTML::_('behavior.modal');
+JHtml::_('behavior.modal', 'a.joom-box');
 
 
 $producthelper = productHelper::getInstance();
@@ -156,7 +157,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									<?php if (count($model->getccdetail($order_id)) > 0)
 									{ ?>
 										<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $order_id); ?>"
-										   class="modal btn btn-primary"
+										   class="joom-box btn btn-primary"
 										   rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo JText::_('COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL');?></a>
 									<?php } ?>
 								</td>
@@ -373,7 +374,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION'); ?></h3>
 					<?php if (!$tmpl)
 					{ ?>
-						<a class="modal btn btn-primary"
+						<a class="joom-box btn btn-primary"
 						   href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=billing&cid[]=<?php echo $order_id; ?>"
 						   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
 					<?php } ?>
@@ -461,7 +462,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'); ?></h3>
 					<?php if (!$tmpl)
 					{ ?>
-						<a class="modal btn btn-primary"
+						<a class="joom-box btn btn-primary"
 						   href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=shipping&cid[]=<?php echo $order_id; ?>"
 						   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
 					<?php } ?>
@@ -588,6 +589,35 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
 									$subtotal_excl_vat += $products[$i]->product_item_price_excl_vat * $quantity;
 									$vat = ($products[$i]->product_item_price - $products[$i]->product_item_price_excl_vat);
+
+									// Make sure this variable is object before we can use it
+									if (is_object($productdetail))
+									{
+										// Generate frontend link
+										$itemData = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $productdetail->product_id);
+										$catIdMain = $productdetail->cat_in_sefurl;
+
+										if (count($itemData) > 0)
+										{
+											$pItemid = $itemData->id;
+										}
+										else
+										{
+											$objhelper = redhelper::getInstance();
+											$pItemid = $objhelper->getItemid($productdetail->product_id, $catIdMain);
+										}
+
+										$productFrontendLink  = JURI::root();
+										$productFrontendLink .= 'index.php?option=com_redshop';
+										$productFrontendLink .= '&view=product&pid=' . $productdetail->product_id;
+										$productFrontendLink .= '&cid=' . $catIdMain;
+										$productFrontendLink .= '&Itemid=' . $pItemid;
+									}
+									else
+									{
+										$productFrontendLink = '#';
+									}
+
 								?>
 							<tr>
 								<td>
@@ -599,7 +629,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 													<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped" width="100%">
 														<tr>
 															<td width="20%">
-																<?php echo $Product_name; ?>
+																<a href="<?php echo $productFrontendLink;?>" target="_blank">
+																	<?php echo $Product_name;?>
+																<a/>
 															</td>
 															<td width="15%">
 																<?php

@@ -503,6 +503,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$mediapost = array();
 				$mediapost['media_id'] = $media_id;
 				$mediapost['media_name'] = $row->product_full_image;
+				$mediapost['media_alternate_text'] = preg_replace('#\.[^/.]+$#', '', $mediapost['media_name']);
 				$mediapost['media_section'] = "product";
 				$mediapost['section_id'] = $row->product_id;
 				$mediapost['media_type'] = "images";
@@ -598,7 +599,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$category_array = array_diff($oldcategory, $data['product_category']);
 		}
 
-		$sel = "SELECT * FROM " . $this->table_prefix . "mass_discount WHERE " . $where_cat_discount . " ORDER BY mass_discount_id desc limit 0,1";
+		$sel = "SELECT * FROM " . $this->table_prefix . "mass_discount WHERE " . $where_cat_discount . " ORDER BY id desc limit 0,1";
 		$this->_db->setQuery($sel);
 		$mass_discount = $this->_db->loadObject();
 
@@ -608,7 +609,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		$sel = "SELECT * FROM " . $this->table_prefix . "mass_discount WHERE FIND_IN_SET('" . $row->manufacturer_id .
-			"',manufacturer_id) ORDER BY mass_discount_id desc limit 0,1";
+			"',manufacturer_id) ORDER BY id desc limit 0,1";
 		$this->_db->setQuery($sel);
 		$mass_discount = $this->_db->loadObject();
 

@@ -6,6 +6,28 @@ namespace Composer\Autoload;
 
 class ComposerStaticInita4db40e21c09e0f9ca16326720c217a7
 {
+    public static $prefixLengthsPsr4 = array (
+        'R' => 
+        array (
+            'Redshop\\' => 8,
+        ),
+        'D' => 
+        array (
+            'Doctrine\\Common\\Annotations\\' => 28,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'Redshop\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
+        'Doctrine\\Common\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
+        ),
+    );
+
     public static $prefixesPsr0 = array (
         'D' => 
         array (
@@ -16,10 +38,6 @@ class ComposerStaticInita4db40e21c09e0f9ca16326720c217a7
             'Doctrine\\Common\\Inflector\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
-            ),
-            'Doctrine\\Common\\Annotations\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
             ),
         ),
         'B' => 
@@ -34,6 +52,8 @@ class ComposerStaticInita4db40e21c09e0f9ca16326720c217a7
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInita4db40e21c09e0f9ca16326720c217a7::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita4db40e21c09e0f9ca16326720c217a7::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInita4db40e21c09e0f9ca16326720c217a7::$prefixesPsr0;
 
         }, null, ClassLoader::class);

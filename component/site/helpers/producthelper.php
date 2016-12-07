@@ -942,6 +942,17 @@ class productHelper
 			}
 		}
 
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+
+		// Trigger to change product image.
+		$dispatcher->trigger('changeProductImage', array(&$thum_image, $result, $link, $width, $height, $Product_detail_is_light, $enableHover, $suffixid));
+
+		if (!empty($thum_image))
+		{
+			return $thum_image;
+		}
+
 		if (!$isStockExists && Redshop::getConfig()->get('USE_PRODUCT_OUTOFSTOCK_IMAGE') == 1)
 		{
 			if (Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('PRODUCT_OUTOFSTOCK_IMAGE')))
@@ -2123,6 +2134,9 @@ class productHelper
 
 		if ($productData = $this->getProductById($productId))
 		{
+			// Convert discount_enddate to middle night
+			$productData->discount_enddate = RedshopHelperDatetime::generateTimestamp($productData->discount_enddate);
+
 			if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
 				|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today)
 				|| ($productData->discount_enddate == '0' && (int) $productData->discount_stratdate <= $today))
@@ -3963,7 +3977,17 @@ class productHelper
 					$aw_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
 				}
 
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_main_image))
+				$thumbUrl = "";
+
+				JPluginHelper::importPlugin('redshop_product');
+				$dispatcher = RedshopHelperUtility::getInstance();
+
+				$product = $this->getProductById($ac_id);
+
+				// Trigger to change product image.
+				$dispatcher->trigger('changeProductImage', array(&$thumbUrl, $product, $acc_prod_link, $aw_thumb, $ah_thumb, Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX'), ''));
+
+				if (empty($thumbUrl) && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_main_image))
 				{
 					$thumbUrl = RedShopHelperImages::getImagePath(
 						$accessory_main_image,
@@ -3986,7 +4010,6 @@ class productHelper
 					{
 						$accessorymainimage = "<img id='main_image' class='redAttributeImage' src='" . $thumbUrl . "' />";
 					}
-
 				}
 
 				$accessory_middle = str_replace($aimg_tag, $accessorymainimage, $accessory_middle);
@@ -8226,8 +8249,6 @@ class productHelper
 
 		if (!empty($imagename) && !empty($type))
 		{
-			$imagename = JFile::makeSafe($imagename);
-
 			if ((Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE')) && $type == 'product')
 			{
 				$productmainimg = $redhelper->watermark('product', $imagename, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
