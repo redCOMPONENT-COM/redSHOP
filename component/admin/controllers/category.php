@@ -12,14 +12,6 @@ defined('_JEXEC') or die;
 
 class RedshopControllerCategory extends RedshopController
 {
-	protected $jinput;
-
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-		$this->jinput = JFactory::getApplication()->input;
-	}
-
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
@@ -31,7 +23,7 @@ class RedshopControllerCategory extends RedshopController
 	 */
 	public function assignTemplate()
 	{
-		$post = $this->jinput->getArray($_POST);
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('category');
 
@@ -49,8 +41,8 @@ class RedshopControllerCategory extends RedshopController
 
 	public function saveorder()
 	{
-		$cid = $this->jinput->get('cid', array(), 'array');
-		$order = $this->jinput->get('order', array(), 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -65,7 +57,7 @@ class RedshopControllerCategory extends RedshopController
 	{
 		$db = JFactory::getDbo();
 		ob_clean();
-		$mainzipcode = $this->jinput->getString('q', '');
+		$mainzipcode = $this->input->request->getString('q', '');
 		$sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";
 		$db->setQuery($sel_zipcode);
 

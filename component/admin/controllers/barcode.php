@@ -12,17 +12,9 @@ defined('_JEXEC') or die;
 
 class RedshopControllerBarcode extends RedshopController
 {
-	protected $jinput;
-
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-		$this->jinput = JFactory::getApplication()->input;
-	}
-
 	public function getsearch()
 	{
-		$post = $this->jinput->getArray($_POST);
+		$post = $this->input->post->getArray();
 
 		if (strlen($post['barcode']) != 13)
 		{
@@ -68,7 +60,7 @@ class RedshopControllerBarcode extends RedshopController
 
 	public function changestatus()
 	{
-		$post = $this->jinput->getArray($_POST);
+		$post = $this->input->post->getArray();
 
 		if (strlen($post['barcode']) != 13)
 		{

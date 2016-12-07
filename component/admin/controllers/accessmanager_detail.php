@@ -12,29 +12,26 @@ defined('_JEXEC') or die;
 
 class RedshopControllerAccessmanager_detail extends RedshopController
 {
-	protected $jinput;
-
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
-		$this->jinput = JFactory::getApplication()->input;
 	}
 
 	public function edit()
 	{
-		$this->jinput->set('view', 'accessmanager_detail');
-		$this->jinput->set('layout', 'default');
-		$this->jinput->set('hidemainmenu', 1);
+		$this->input->set('view', 'accessmanager_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
 	public function save($apply)
 	{
-		$post = $this->jinput->getArray($_POST);
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('accessmanager_detail');
-		$section = $this->jinput->getString('section');
+		$section = $this->input->request->getString('section');
 		$row = $model->store($post);
 
 		if ($row)

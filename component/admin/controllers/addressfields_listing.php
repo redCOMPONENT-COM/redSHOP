@@ -12,14 +12,6 @@ defined('_JEXEC') or die;
 
 class RedshopControllerAddressfields_listing extends RedshopController
 {
-	protected $jinput;
-
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-		$this->jinput = JFactory::getApplication()->input;
-	}
-
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
@@ -27,8 +19,8 @@ class RedshopControllerAddressfields_listing extends RedshopController
 
 	public function saveorder()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
-		$order = $this->jinput->get('order', array(), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 		$model = $this->getModel('addressfields_listing');
 
 		if ($model->saveorder($cid, $order))
@@ -54,7 +46,7 @@ class RedshopControllerAddressfields_listing extends RedshopController
 
 		$app = JFactory::getApplication();
 
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$up = 1;
 
@@ -82,7 +74,7 @@ class RedshopControllerAddressfields_listing extends RedshopController
 
 		$app = JFactory::getApplication();
 
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$down = -1;
 

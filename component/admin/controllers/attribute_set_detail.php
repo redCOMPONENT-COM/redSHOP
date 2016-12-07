@@ -13,20 +13,17 @@ jimport('joomla.filesystem.file');
 
 class RedshopControllerAttribute_set_detail extends RedshopController
 {
-	protected $jinput;
-
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
-		$this->jinput = JFactory::getApplication()->input;
 	}
 
 	public function edit()
 	{
-		$this->jinput->set('view', 'attribute_set_detail');
-		$this->jinput->set('layout', 'default');
-		$this->jinput->set('hidemainmenu', 1);
+		$this->input->set('view', 'attribute_set_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -37,7 +34,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = $this->jinput->getArray($_POST);
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('attribute_set_detail');
 
@@ -60,7 +57,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function remove()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -80,7 +77,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function publish()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -100,7 +97,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -140,7 +137,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$attribute = array_merge(array(), $post['attribute']);
 
-		$files = $this->jinput->getArray($_FILES);
+		$files = $this->input->files->getArray();
 
 		for ($a = 0; $a < count($attribute); $a++)
 		{
@@ -281,11 +278,11 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$url = $uri->root();
 
-		$post = $this->jinput->getArray($_POST);
+		$post = $this->input->post->getArray();
 
-		$main_img = $this->jinput->get('property_main_img', array(), 'array');
+		$main_img = $this->input->files->get('property_main_img', array(), 'array');
 
-		$sub_img = $this->jinput->get('property_sub_img', array(), 'array');
+		$sub_img = $this->input->files->get('property_sub_img', array(), 'array');
 
 		$model = $this->getModel('product_detail');
 
@@ -312,11 +309,6 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			</script>
 		<?php
 		}
-
-		echo "<pre>";
-		var_dump($this->jinput->getArray());
-		echo "</pre>";
-		die;
 	}
 
 	public function deleteimage()
@@ -325,9 +317,9 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$url = $uri->root();
 
-		$mediaid = $this->jinput->get('mediaid');
-		$section_id = $this->jinput->get('section_id');
-		$cid = $this->jinput->get('cid');
+		$mediaid = $this->input->request->get('mediaid');
+		$section_id = $this->input->request->get('section_id');
+		$cid = $this->input->request->get('cid');
 
 		$model = $this->getModel('product_detail');
 
@@ -342,7 +334,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function subattribute_color()
 	{
-		$post = $this->jinput->getArray($_POST);
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('product_detail');
 
@@ -352,7 +344,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$model->delsubattr_diff($subattr_diff);
 
-		$sub_img = $this->jinput->get('property_sub_img', 'array');
+		$sub_img = $this->input->files->get('property_sub_img', 'array');
 
 		$model->subattribute_color($post, $sub_img);
 
@@ -365,7 +357,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function removepropertyImage()
 	{
-		$get = $this->jinput->getArray($_GET);
+		$get = $this->input->get->getArray();
 
 		$pid = $get['pid'];
 
@@ -381,7 +373,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function removesubpropertyImage()
 	{
-		$get = $this->jinput->getArray($_GET);
+		$get = $this->input->get->getArray();
 
 		$pid = $get['pid'];
 
@@ -397,7 +389,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function saveAttributeStock()
 	{
-		$post = $this->jinput->getArray($_POST);
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('attribute_set_detail');
 
@@ -418,7 +410,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function copy()
 	{
-		$cid = $this->jinput->get('cid', array(0));
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->copy($cid))

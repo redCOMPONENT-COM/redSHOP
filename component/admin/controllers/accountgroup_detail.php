@@ -12,20 +12,17 @@ defined('_JEXEC') or die;
 
 class RedshopControllerAccountgroup_detail extends RedshopController
 {
-	protected $jinput;
-
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
-		$this->jinput = JFactory::getApplication()->input;
 	}
 
 	public function edit()
 	{
-		$this->jinput->set('view', 'accountgroup_detail');
-		$this->jinput->set('layout', 'default');
-		$this->jinput->set('hidemainmenu', 1);
+		$this->input->set('view', 'accountgroup_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -36,8 +33,8 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = $this->jinput->getArray($_POST);
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$post = $this->input->post->getArray();
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$post ['accountgroup_id'] = $cid [0];
 		$model = $this->getModel('accountgroup_detail');
 		$row = $model->store($post);
@@ -69,7 +66,7 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 
 	public function remove()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -89,7 +86,7 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 
 	public function publish()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -109,7 +106,7 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

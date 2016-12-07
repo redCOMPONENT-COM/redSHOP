@@ -11,13 +11,10 @@ defined('_JEXEC') or die;
 
 class RedshopControllerAddquotation_detail extends RedshopController
 {
-	protected $jinput;
-
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->jinput = JFactory::getApplication()->input;
-		$this->jinput->set('hidemainmenu', 1);
+		$this->input->set('hidemainmenu', 1);
 		$this->_db = JFactory::getDbo();
 	}
 
@@ -28,10 +25,10 @@ class RedshopControllerAddquotation_detail extends RedshopController
 
 	public function save($send = 0, $apply = 0)
 	{
-		$post = $this->jinput->getArray($_POST);
+		$post = $this->input->post->getArray();
 		$adminproducthelper = RedshopAdminProduct::getInstance();
 
-		$cid = $this->get('cid', array(0));
+		$cid = $this->input->post->get('cid', array(0));
 		$post ['quotation_id'] = $cid [0];
 		$model = $this->getModel('addquotation_detail');
 
@@ -40,9 +37,9 @@ class RedshopControllerAddquotation_detail extends RedshopController
 			$name = $post['firstname'] . ' ' . $post['lastname'];
 			$post['usertype'] = "Registered";
 			$post['email'] = $post['user_email'];
-			$post['username'] = $this->jinput->getUsername('username', '');
+			$post['username'] = $this->input->post->getUsername('username', '');
 			$post['name'] = $name;
-			$this->jinput->set('password1', $post['password']);
+			$this->input->set('password1', $post['password']);
 
 			$post['groups'] = array(0 => 2);
 
@@ -126,7 +123,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 
 	public function displayOfflineSubProperty()
 	{
-		$get = $this->jinput->getArray($_GET);
+		$get = $this->input->get->getArray();
 		$model = $this->getModel('addquotation_detail');
 
 		$product_id = $get['product_id'];

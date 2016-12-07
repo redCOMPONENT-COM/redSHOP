@@ -12,14 +12,6 @@ defined('_JEXEC') or die;
 
 class RedshopControllerCatalog_request extends RedshopController
 {
-	protected $jinput;
-
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-		$this->jinput = JFactory::getApplication()->input;
-	}
-
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
@@ -27,7 +19,7 @@ class RedshopControllerCatalog_request extends RedshopController
 
 	public function publish()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -47,7 +39,7 @@ class RedshopControllerCatalog_request extends RedshopController
 
 	public function remove()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -67,7 +59,7 @@ class RedshopControllerCatalog_request extends RedshopController
 
 	public function unpublish()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

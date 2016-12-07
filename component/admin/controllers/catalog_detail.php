@@ -12,27 +12,24 @@ defined('_JEXEC') or die;
 
 class RedshopControllerCatalog_detail extends RedshopController
 {
-	protected $jinput;
-
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
-		$this->jinput = JFactory::getApplication()->input;
 	}
 
 	public function edit()
 	{
-		$this->jinput->set('view', 'catalog_detail');
-		$this->jinput->set('hidemainmenu', 1);
+		$this->input->set('view', 'catalog_detail');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
 	public function save()
 	{
-		$post = $this->jinput->getArray($_POST);
+		$post = $this->input->post->getArray();
 
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$post ['catalog_id'] = $cid [0];
 		$link = 'index.php?option=com_redshop&view=catalog';
@@ -53,7 +50,7 @@ class RedshopControllerCatalog_detail extends RedshopController
 
 	public function remove()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
