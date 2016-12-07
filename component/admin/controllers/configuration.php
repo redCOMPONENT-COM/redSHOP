@@ -13,14 +13,6 @@ jimport('joomla.filesystem.folder');
 
 class RedshopControllerConfiguration extends RedshopController
 {
-	protected $jinput;
-
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-		$this->jinput = JFactory::getApplication()->input;
-	}
-
 	public function apply()
 	{
 		$this->save(1);
@@ -55,21 +47,21 @@ class RedshopControllerConfiguration extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = $this->jinput->getArray($_POST);
+		$post = $this->input->post->getArray();
 
 		$app = JFactory::getApplication();
 		$selectedTabPosition = $app->input->get('selectedTabPosition');
 		$app->setUserState('com_redshop.configuration.selectedTabPosition', $selectedTabPosition);
 
-		$post['custom_previous_link'] = $this->jinput->getString('custom_previous_link', '');
+		$post['custom_previous_link'] = $this->input->post->getString('custom_previous_link', '');
 
-		$post['custom_next_link'] = $this->jinput->getString('custom_next_link', '');
+		$post['custom_next_link'] = $this->input->post->getString('custom_next_link', '');
 
-		$post['default_next_suffix'] = $this->jinput->getString('default_next_suffix', '');
+		$post['default_next_suffix'] = $this->input->post->getString('default_next_suffix', '');
 
-		$post['default_previous_prefix'] = $this->jinput->getString('default_previous_prefix', '');
+		$post['default_previous_prefix'] = $this->input->post->getString('default_previous_prefix', '');
 
-		$post['return_to_category_prefix'] = $this->jinput->getString('return_to_category_prefix', '');
+		$post['return_to_category_prefix'] = $this->input->post->getString('return_to_category_prefix', '');
 
 		// Administrator email notifications ids
 		if (is_array($post['administrator_email']))
@@ -79,7 +71,7 @@ class RedshopControllerConfiguration extends RedshopController
 
 		$msg                   = null;
 		$model                 = $this->getModel('configuration');
-		$newsletter_test_email = $this->jinput->get('newsletter_test_email');
+		$newsletter_test_email = $this->input->request->get('newsletter_test_email');
 
 		$post['country_list'] = implode(',', $app->input->post->get('country_list', array(), 'ARRAY'));
 

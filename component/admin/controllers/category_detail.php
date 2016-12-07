@@ -12,20 +12,17 @@ defined('_JEXEC') or die;
 
 class RedshopControllerCategory_detail extends RedshopController
 {
-	protected $jinput;
-
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
-		$this->jinput = JFactory::getApplication()->input;
 	}
 
 	public function edit()
 	{
-		$this->jinput->set('view', 'category_detail');
-		$this->jinput->set('layout', 'default');
-		$this->jinput->set('hidemainmenu', 1);
+		$this->input->set('view', 'category_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -41,10 +38,10 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = $this->jinput->getArray($_POST);
+		$post = $this->input->post->getArray();
 
-		$category_description = $this->jinput->getString('category_description', '');
-		$category_short_description = $this->jinput->getString('category_short_description', '');
+		$category_description = $this->input->post->getString('category_description', '');
+		$category_short_description = $this->input->post->getString('category_short_description', '');
 
 		$post["category_description"] = $category_description;
 
@@ -55,7 +52,7 @@ class RedshopControllerCategory_detail extends RedshopController
 			$post["category_more_template"] = implode(",", $post["category_more_template"]);
 		}
 
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$post ['category_id'] = $cid [0];
 		$model = $this->getModel('category_detail');
 
@@ -84,7 +81,7 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function remove()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -112,7 +109,7 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function publish()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -132,7 +129,7 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function unpublish()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -176,8 +173,8 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function saveorder()
 	{
-		$cid = $this->jinput->get('cid', array(), 'array');
-		$order = $this->jinput->get('order', array(), 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -190,7 +187,7 @@ class RedshopControllerCategory_detail extends RedshopController
 
 	public function copy()
 	{
-		$cid = $this->jinput->get('cid', array(0), 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$model = $this->getModel('category_detail');
 
 		if ($model->copy($cid))
