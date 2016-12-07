@@ -9,8 +9,14 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewWrapper_detail extends RedshopViewAdmin
+/**
+ * Wrapper_Detail View
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.0.6
+ */
+class RedshopViewWrapper_Detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -26,6 +32,13 @@ class RedshopViewWrapper_detail extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	/**
+	 * [display description]
+	 *
+	 * @param   [string]  $tpl  [layout name]
+	 *
+	 * @return  [void]
+	 */
 	public function display($tpl = null)
 	{
 		global $context;
@@ -33,13 +46,35 @@ class RedshopViewWrapper_detail extends RedshopViewAdmin
 		$context = "wrapper";
 		$uri = JFactory::getURI();
 		$lists = array();
-		$detail = $this->get('data');
+
+		$task = JFactory::getApplication()->input->get('task');
+
+		if ($task != 'add')
+		{
+			$detail = $this->get('data');
+		}
+		else
+		{
+			$detail = new stdClass;
+
+			$detail->wrapper_id = 0;
+			$detail->published = 0;
+			$detail->product_id = 0;
+			$detail->wrapper_use_to_all = 1;
+			$detail->category_id = 0;
+			$detail->wrapper_image = '';
+			$detail->wrapper_name = '';
+			$detail->wrapper_price = 0.00;
+		}
+
 		$model = $this->getModel('wrapper_detail');
 
 		$isNew = ($detail->wrapper_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_WRAPPER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_wrapper48');
+
+		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
 		if ($isNew)
