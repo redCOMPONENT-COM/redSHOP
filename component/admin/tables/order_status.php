@@ -94,7 +94,7 @@ class RedshopTableOrder_Status extends RedshopTable
 		{
 			$msg = JText::_('COM_REDSHOP_ORDER_STAUS_FAIL_DELETE');
 			$app = JFactory::getApplication();
-			$app->redirect('index.php?option=com_redshop&view=order_statuses', $msg);
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_statuses', false), $msg);
 		}
 		else
 		{
