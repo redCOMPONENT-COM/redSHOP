@@ -22,6 +22,7 @@ defined('JPATH_BASE') or die;
  * @var   string         $component        Component
  * @var   boolean        $isGlobalConfig   Is global configuration
  */
+
 extract($displayData);
 ?>
 <?php foreach ($groups as $group): ?>
