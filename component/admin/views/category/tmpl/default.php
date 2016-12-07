@@ -110,6 +110,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 				<th><?php echo JText::_('COM_REDSHOP_PRODUCTS'); ?></th>
 				<th width="15%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'c.ordering', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php  if ($ordering) echo JHTML::_('grid.order', $this->categories); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $this->lists['order_Dir'], $this->lists['order']); ?>
