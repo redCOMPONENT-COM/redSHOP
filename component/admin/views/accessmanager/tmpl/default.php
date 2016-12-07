@@ -151,8 +151,7 @@ $views = array(
 		<div>
 			<div class="icon">
 				<a href="index.php?option=com_redshop&view=accessmanager_detail&section=<?php echo $view; ?>">
-					<img
-						alt="<?php echo $view; ?>"
+					<img alt="<?php echo $view; ?>"
 						src="components/com_redshop/assets/images/<?php echo $info['icon']; ?>"
 					><span><?php echo JText::_($info['text']); ?></span>
 				</a>
