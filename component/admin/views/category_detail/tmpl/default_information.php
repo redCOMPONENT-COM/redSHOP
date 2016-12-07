@@ -100,29 +100,32 @@ $editor = JFactory::getEditor();
 			</div>
 			<div class="box-body">
 				<div class="form-group">
+					<div id="image_dis">
 					<?php
-					echo RedshopLayoutHelper::render(
-						'component.image',
-						array(
-							'id'        => 'category_full_image',
-							'deleteid'  => 'image_delete',
-							'displayid' => 'image_display',
-							'type' 	    => 'category',
-							'image'     => $this->detail->category_full_image
-						)
-					);
+						if ($this->detail->category_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->detail->category_full_image))
+						{
+							echo RedshopLayoutHelper::render(
+								'component.image',
+								array(
+									'id'        => 'category_full_image',
+									'deleteid'  => 'image_delete',
+									'displayid' => 'image_display',
+									'type' 	    => 'category',
+									'image'     => $this->detail->category_full_image
+								)
+							);
+						}
 					?>
-
+					<input type="hidden" name="category_image" id="category_image"/>
+					</div>
 					<div class="btn-toolbar">
 						<?php
-						$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
+							$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
 						?>
 						<a class="joom-box btn btn-primary inline" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
 							<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
 						</a>
 					</div>
-
-					<input type="hidden" name="category_image" id="category_image"/>
 				</div>
 
 			</div>
