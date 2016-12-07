@@ -67,7 +67,38 @@ class RedshopTableOrder_Status extends RedshopTable
 			return false;
 		}
 
-
 		return true;
+	}
+
+	/**
+	 * Delete one or more registers
+	 *
+	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfuly?
+	 */
+	protected function doDelete($pk = null)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn(['s.order_status_id', 's.order_status_code']))
+			->from($db->qn('#__redshop_order_status', 's'))
+			->innerJoin($db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('s.order_status_code') . ' = ' . $db->qn('o.order_status'))
+			->where($db->qn('order_status_id') . ' = ' . $db->q($pk));
+		$db->setQuery($query);
+
+		$check = $db->loadObjectList();
+
+		if (count($check) > 0)
+		{
+			$msg = JText::_('COM_REDSHOP_ORDER_STAUS_FAIL_DELETE');
+			$app = JFactory::getApplication();
+			$app->redirect('index.php?option=com_redshop&view=order_statuses', $msg);
+		}
+		else
+		{
+			return parent::doDelete($pk);
+		}
 	}
 }
