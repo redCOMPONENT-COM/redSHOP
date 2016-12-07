@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHTMLBehavior::modal();
-
 ?>
 
 <script type="text/javascript">

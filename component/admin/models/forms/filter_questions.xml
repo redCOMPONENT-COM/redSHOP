@@ -13,11 +13,11 @@
                 type="rproducts"
                 label="COM_REDSHOP_SELECT_PRODUCT"
                 description="COM_REDSHOP_SELECT_PRODUCT"
+                class="form-control"
                 onchange="this.form.submit();">
             <option value="">COM_REDSHOP_SELECT_PRODUCT</option>
         </field>
     </fields>
-
     <fields name="list">
         <field
                 name="limit"
@@ -26,6 +26,7 @@
                 label="JGLOBAL_ORDERING_LIST_LIMIT"
                 description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
                 onchange="this.form.submit();"
+                class="form-control"
                 />
     </fields>
 </form>

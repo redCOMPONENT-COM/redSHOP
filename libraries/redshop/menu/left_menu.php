@@ -149,6 +149,7 @@ class RedshopMenuLeft_Menu
 				return array('PRODUCT_LISTING', 'suppliers');
 			case "discount":
 			case "discount_detail":
+			case "mass_discounts":
 			case "mass_discount":
 				return array('DISCOUNT', 'discount');
 				break;
@@ -303,12 +304,13 @@ class RedshopMenuLeft_Menu
 
 			case "statistic_customer":
 			case 'statistic':
-				// @TODO: Would enable these statistic when done.
-
-			/*case "statistic_order":
+			case "statistic_order":
 			case "statistic_product":
+			/*
+			 * @TODO: Would enable these statistic when done.
 			case "statistic_quotation":
-			case "statistic_variant":*/
+			case "statistic_variant":
+			*/
 				return array('STATISTIC', 'statistic');
 				break;
 
@@ -474,9 +476,9 @@ class RedshopMenuLeft_Menu
 		self::$menu->section('discount')
 			->title('COM_REDSHOP_DISCOUNT')
 			->addItem(
-				'index.php?option=com_redshop&view=mass_discount',
+				'index.php?option=com_redshop&view=mass_discounts',
 				'COM_REDSHOP_MASS_DISCOUNT',
-				(self::$view == 'mass_discount') ? true : false
+				(self::$view == 'mass_discounts') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=discount',
@@ -794,8 +796,6 @@ class RedshopMenuLeft_Menu
 				'COM_REDSHOP_STATISTIC_CUSTOMER',
 				(self::$view == 'statistic_customer' && self::$layout == '') ? true : false
 			)
-			/*
-			@TODO: Enable this menu when done.
 			->addItem(
 				'index.php?option=com_redshop&view=statistic_order',
 				'COM_REDSHOP_STATISTIC_ORDER',
@@ -806,6 +806,8 @@ class RedshopMenuLeft_Menu
 				'COM_REDSHOP_STATISTIC_PRODUCT',
 				(self::$view == 'statistic_product' && self::$layout == '') ? true : false
 			)
+			/*
+			 * @TODO: Enable this menu when done.
 			->addItem(
 				'index.php?option=com_redshop&view=statistic_variant',
 				'COM_REDSHOP_STATISTIC_PRODUCT_VARIANT',

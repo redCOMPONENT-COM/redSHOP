@@ -169,25 +169,9 @@ class Com_RedshopInstallerScript
 	 */
 	public function getOldParam($name)
 	{
-		if (is_null(self::$oldManifest))
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('manifest_cache')
-				->from($db->qn('#__extensions'))
-				->where('type = ' . $db->q('component'))
-				->where('element = ' . $db->q('com_redshop'));
-			self::$oldManifest = json_decode($db->setQuery($query)->loadResult(), true);
-		}
+		require_once __DIR__ . '/libraries/redshop/helper/joomla.php';
 
-		if (isset(self::$oldManifest[$name]))
-		{
-			return self::$oldManifest[$name];
-		}
-		else
-		{
-			return null;
-		}
+		return RedshopHelperJoomla::getManifestValue($name);
 	}
 
 	/**
@@ -887,18 +871,23 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/component/admin/controllers/supplier_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/controllers/tax.php',
 				JPATH_ADMINISTRATOR . '/component/admin/controllers/tax_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/controllers/mass_discount_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/models/supplier_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/models/mass_discount_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/models/tax.php',
 				JPATH_ADMINISTRATOR . '/component/admin/models/tax_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/tables/supplier_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/tables/mass_discount_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/tables/tax_detail.php',
-				JPATH_ADMINISTRATOR . '/component/admin/views/supplier/tmpl/default.php'
+				JPATH_ADMINISTRATOR . '/component/admin/views/supplier/tmpl/default.php',
+				JPATH_ADMINISTRATOR . '/component/admin/views/mass_discount/tmpl/default.php'
 			);
 
 			array_push(
 				$folders,
 				JPATH_ADMINISTRATOR . '/component/admin/views/supplier_detail',
 				JPATH_ADMINISTRATOR . '/component/admin/views/tax',
+				JPATH_ADMINISTRATOR . '/component/admin/views/mass_discount_detail',
 				JPATH_ADMINISTRATOR . '/component/admin/views/tax_detail'
 			);
 		}

@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$config = Redconfiguration::getInstance();
 
-JHTMLBehavior::modal();
+JHtml::_('behavior.modal', 'a.joom-box');
+
+$config = Redconfiguration::getInstance();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -91,7 +92,7 @@ JHTMLBehavior::modal();
 				<td><?php echo  $row->name; ?></td>
 				<td><?php echo  $row->email; ?></td>
 				<td align="center"><?php echo $config->convertDateFormat($row->registerdate); ?></td>
-				<td align="center"><a class="modal"
+				<td align="center"><a class="joom-box"
 				                      href="index.php?tmpl=component&option=com_redshop&amp;view=sample_catalog&amp;cid[]=<?php echo $row->request_id; ?>&amp;showbuttons=1"
 				                      rel="{handler: 'iframe', size: {x: 400, y: 400}}" title="">
 						<?php echo JText::_('COM_REDSHOP_DETAIL'); ?></a>
