@@ -9,8 +9,14 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewWrapper_detail extends RedshopViewAdmin
+/**
+ * Wrapper_Detail View
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.0.6
+ */
+class RedshopViewWrapper_Detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -26,6 +32,13 @@ class RedshopViewWrapper_detail extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	/**
+	 * [display description]
+	 *
+	 * @param   [string]  $tpl  [layout name]
+	 *
+	 * @return  [void]
+	 */
 	public function display($tpl = null)
 	{
 		global $context;
@@ -40,6 +53,8 @@ class RedshopViewWrapper_detail extends RedshopViewAdmin
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_WRAPPER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_wrapper48');
+
+		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
 		if ($isNew)

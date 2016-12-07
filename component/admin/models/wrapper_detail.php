@@ -256,7 +256,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 			return false;
 		}
 
-		return true;
+		return $row;
 	}
 
 	public function delete($cid = array())
