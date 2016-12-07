@@ -90,6 +90,7 @@ class RedshopViewSupplier extends RedshopViewAdmin
 		}
 		else
 		{
+			JToolBarHelper::save2copy('supplier.save2copy');
 			JToolBarHelper::cancel('supplier.cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 	}
