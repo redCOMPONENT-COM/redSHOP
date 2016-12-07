@@ -138,10 +138,10 @@ class PlgRedshop_PaymentRs_Payment_PayMill extends JPlugin
 	{
 		$input = JFactory::getApplication()->input;
 		$itemId = $input->getInt('Itemid', 0);
-		$paymill_public_key = $this->params->get('paymill_public_key', '0');
+		$paymillPublicKey = $this->params->get('paymill_public_key', '0');
 
 		$document = JFactory::getDocument();
-		$document->addScriptDeclaration('var PAYMILL_PUBLIC_KEY = "' . $paymill_public_key . '"; var VALIDATE_CVC = true;');
+		$document->addScriptDeclaration('var PAYMILL_PUBLIC_KEY = "' . $paymillPublicKey . '"; var VALIDATE_CVC = true;');
 		$document->addScript('https://bridge.paymill.com/');
 
 		JText::script('PLG_RS_PAYMENT_PAYMILL_INVALID_CARD_NUMBER');
@@ -171,15 +171,15 @@ class PlgRedshop_PaymentRs_Payment_PayMill extends JPlugin
 
 		$paymillPrivateKey = $this->params->get('paymill_private_key', '0');
 		$environment = $this->params->get('environment', 'sandbox');
-		$order_functions = order_functions::getInstance();
-		$orderDetails = $order_functions->getOrderDetails($data['order_id']);
-		$order_amount = number_format($orderDetails->order_total, 2, '.', '') * 100;
+		$orderFunctions = order_functions::getInstance();
+		$orderDetails = $orderFunctions->getOrderDetails($data['order_id']);
+		$orderAmount = number_format($orderDetails->order_total, 2, '.', '') * 100;
 		$itemId = $app->input->getInt('Itemid', 0);
 		$redirect_url = "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=" . $itemId . "&oid=" . $data['order_id'];
 
 		if ($paymillToken = $app->input->get('paymillToken', ''))
 		{
-			$request = new Paymill\Request($paymill_private_key);
+			$request = new Paymill\Request($paymillPrivateKey);
 			$payment = new Paymill\Models\Request\Payment;
 			$transaction = new Paymill\Models\Request\Transaction;
 
@@ -188,14 +188,13 @@ class PlgRedshop_PaymentRs_Payment_PayMill extends JPlugin
 				$payment->setToken($paymillToken);
 				$response = $request->create($payment);
 				$transaction->setPayment($response->getId());
-				$transaction->setAmount($order_amount);
+				$transaction->setAmount($orderAmount);
 				$transaction->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'));
 				$transaction->setDescription('Order: ' . $data['order_id']);
 				$response = $request->create($transaction);
 				$transactionId = $response->getId();
-				$key = md5(implode('/', array($data['order_id'], $paymill_private_key, $transactionId, $environment)));
-				$redirect_url = "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paymill&Itemid="
-					. $app->input->getInt('Itemid', 0) . "&orderid=" . $data['order_id'] . '&transactionId=' . $transactionId . '&key=' . $key;
+				$key = md5(implode('/', array($data['order_id'], $paymillPrivateKey, $transactionId, $environment)));
+				$redirectUrl = JRoute::_("index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paymill&Itemid=" . $app->input->getInt('Itemid', 0) . "&orderid=" . $data['order_id'] . '&transactionId=' . $transactionId . '&key=' . $key);
 			}
 			catch (\Paymill\Services\PaymillException $e)
 			{
@@ -203,7 +202,7 @@ class PlgRedshop_PaymentRs_Payment_PayMill extends JPlugin
 			}
 		}
 
-		$app->redirect(JRoute::_($redirect_url, false));
+		$app->redirect(JRoute::_($redirectUrl, false));
 	}
 
 	/**
@@ -221,25 +220,25 @@ class PlgRedshop_PaymentRs_Payment_PayMill extends JPlugin
 			return;
 		}
 
-		$order_id = $request['orderid'];
+		$orderId = $request['orderid'];
 		$transactionId = $request['transactionId'];
-		$paymill_private_key = $this->params->get('paymill_private_key', '0');
-		$verify_status = $this->params->get('verify_status');
-		$invalid_status = $this->params->get('invalid_status');
+		$paymillPrivateKey = $this->params->get('paymill_private_key', '0');
+		$verifyStatus = $this->params->get('verify_status');
+		$invalidStatus = $this->params->get('invalid_status');
 		$environment = $this->params->get('environment', 'sandbox');
 		$values = new stdClass;
-		$key = md5(implode('/', array($order_id, $paymill_private_key, $transactionId, $environment)));
+		$key = md5(implode('/', array($orderId, $paymillPrivateKey, $transactionId, $environment)));
 
 		if ($key == $request['key'])
 		{
-			$values->order_status_code = $verify_status;
+			$values->order_status_code = $verifyStatus;
 			$values->order_payment_status_code = 'Paid';
 			$values->log = JTEXT::_('PLG_RS_PAYMENT_PAYMILL_ORDER_PLACED');
 			$values->msg = JTEXT::_('PLG_RS_PAYMENT_PAYMILL_ORDER_PLACED');
 		}
 		else
 		{
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code = $invalidStatus;
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JText::_('PLG_RS_PAYMENT_PAYMILL_ORDER_NOT_PLACED');
 			$values->msg = JText::_('PLG_RS_PAYMENT_PAYMILL_ORDER_NOT_PLACED');

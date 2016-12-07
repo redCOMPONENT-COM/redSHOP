@@ -15,6 +15,7 @@
         <filename>index.html</filename>
         <folder>rs_payment_paymill</folder>
         <folder>language</folder>
+        <folder>tmpl</folder>
     </files>
     <scriptfile>install.php</scriptfile>
     <config addfieldpath="/libraries/redshop/form/fields">
