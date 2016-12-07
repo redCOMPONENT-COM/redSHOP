@@ -66,8 +66,6 @@ class RedshopControllerWrapper_detail extends RedshopController
 		}
 		else
 		{
-			echo '11';
-			die;
 			$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
 		}
 	}
