@@ -69,6 +69,7 @@ $Itemid = JRequest::getVar('Itemid');
 			if (!testEmail)
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
+				return false;
 			}
 			
     		return testEmail;
