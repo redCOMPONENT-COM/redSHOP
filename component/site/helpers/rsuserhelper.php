@@ -168,8 +168,8 @@ class rsUserHelper
 	/**
 	 * This function is used to check if the 'username' already exist in the database with any other ID
 	 *
-	 * @param   string  $username
-	 * @param   int     $id
+	 * @param   string  $username  User Name
+	 * @param   int     $id        User ID
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::validateUser instead
 	 *
@@ -177,14 +177,16 @@ class rsUserHelper
 	 */
 	public function validate_user($username, $id = 0)
 	{
-		return RedshopHelperUser::validateUser($username, $id);
+		$userHelper = new RedshopHelperUser;
+
+		return $userHelper->validateUser($username, $id);
 	}
 
 	/**
 	 * This function is used to check if the 'email' already exist in the database with any other ID
 	 *
-	 * @param   string  $username
-	 * @param   int     $id
+	 * @param   string  $email  User Email
+	 * @param   int     $id     User ID
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::validateEmail instead
 	 *
@@ -192,7 +194,9 @@ class rsUserHelper
 	 */
 	public function validate_email($email, $id = 0)
 	{
-		return RedshopHelperUser::validateEmail($email, $id);
+		$userHelper = new RedshopHelperUser;
+
+		return $userHelper->validateEmail($email, $id);
 	}
 
 	public function updateJoomlaUser($data)
