@@ -122,13 +122,13 @@ function setChildElement()
 {
 	JHTMLBehavior::modal();
 
-	$xmlhelper = new xmlHelper;
-	$post = JRequest::get('post');
-	$session = JFactory::getSession();
+	$xmlhelper    = new xmlHelper;
+	$post         = $this->input->post->getArray();
+	$session      = JFactory::getSession();
 	$childelement = $session->get('childelement');
-	$resarray = array();
-	$uarray = array();
-	$columns = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
+	$resarray     = array();
+	$uarray       = array();
+	$columns      = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
 
 	for ($i = 0, $in = count($columns); $i < $in; $i++)
 	{
@@ -161,7 +161,7 @@ function setChildElement()
 }
 	public function removeIpAddress()
 	{
-		$xmlexport_ip_id = JRequest::getVar('xmlexport_ip_id', 0);
+		$xmlexport_ip_id = $this->input->request->get('xmlexport_ip_id', 0);
 
 		$model = $this->getModel('xmlexport_detail');
 		$model->deleteIpAddress($xmlexport_ip_id);
@@ -170,8 +170,7 @@ function setChildElement()
 
 	public function remove()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -191,7 +190,6 @@ function setChildElement()
 
 	public function cancel()
 	{
-
 		$session = JFactory::getSession();
 		$session->set('childelement', null);
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_DETAIL_EDITING_CANCELLED');
@@ -206,8 +204,7 @@ function setChildElement()
 	 */
 	public function auto_syncpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -233,8 +230,7 @@ function setChildElement()
 	 */
 	public function auto_syncunpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -260,8 +256,7 @@ function setChildElement()
 	 */
 	public function usetoallpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -287,8 +282,7 @@ function setChildElement()
 	 */
 	public function usetoallunpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -314,8 +308,7 @@ function setChildElement()
 	 */
 	public function publish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -341,8 +334,7 @@ function setChildElement()
 	 */
 	public function unpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
