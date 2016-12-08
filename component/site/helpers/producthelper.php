@@ -1910,10 +1910,14 @@ class productHelper
 				{
 					$product_price_array = $this->getProductNetPrice($cart[$i]['product_id']);
 
-					// Restore to the origigal price
-					$cart[$i]['product_price'] = $product_price_array['product_old_price'];
-					$cart[$i]['product_price_excl_vat'] = $product_price_array['product_old_price_excl_vat'];
-					$cart[$i]['product_vat']= $product_price_array['product_old_price'] - $product_price_array['product_old_price_excl_vat'];
+					// Product already discount
+					if ($product_price_array['product_discount_price'] > 0)
+					{
+						// Restore to the origigal price
+						$cart[$i]['product_price'] = $product_price_array['product_old_price'];
+						$cart[$i]['product_price_excl_vat'] = $product_price_array['product_old_price_excl_vat'];
+						$cart[$i]['product_vat']= $product_price_array['product_old_price'] - $product_price_array['product_old_price_excl_vat'];
+					}
 
 					// Checking the product discount < total discount => get total discount
 					if ($product_price_array['product_price_saving_percentage'] <= $discount_percent)
