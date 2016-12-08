@@ -736,9 +736,8 @@ jQuery(document).ready(function(){
 
     jQuery(document).ready(function(){
         jQuery(document).on('keydown', "input[name*='phone']", function (e) {
-            console.log(e.keyCode);
             // Allow: backspace, delete, tab, escape, enter and .
-            if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 109, 110, 190]) !== -1 ||
+            if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 107, 109, 110, 190]) !== -1 ||
                  // Allow: Ctrl+A, Command+A
                 (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
                  // Allow: home, end, left, right, down, up
@@ -753,9 +752,8 @@ jQuery(document).ready(function(){
         });
 
         jQuery(document).on('keydown', "input[name*='phone_ST']", function (e) {
-            console.log(e.keyCode);
             // Allow: backspace, delete, tab, escape, enter and .
-            if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 109, 110, 190]) !== -1 ||
+            if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 107, 109, 110, 190]) !== -1 ||
                  // Allow: Ctrl+A, Command+A
                 (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
                  // Allow: home, end, left, right, down, up
