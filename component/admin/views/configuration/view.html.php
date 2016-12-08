@@ -501,7 +501,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		);
 
 		$tmp   = array();
-		$tmp[] = JHTML::_('select.option', 0, JText::_('SELECT'));
+		$tmp[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
 		$tmp   = array_merge($tmp, $shopper_Group_private, $shopper_Group_company);
 		$lists['shopper_group_default_unregistered'] = JHTML::_('select.genericlist', $tmp, 'shopper_group_default_unregistered',
 			'class="inputbox" ', 'value', 'text', $this->config->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED')

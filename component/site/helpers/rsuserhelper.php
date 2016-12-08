@@ -227,7 +227,7 @@ class rsUserHelper
 
 		if (trim($data['username']) == "")
 		{
-			JError::raiseWarning('', JText::_('EMPTY_USERNAME'));
+			JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_USERNAME'));
 
 			return false;
 		}

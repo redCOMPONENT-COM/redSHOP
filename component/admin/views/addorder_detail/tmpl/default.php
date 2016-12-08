@@ -136,12 +136,12 @@ $DEFAULT_QUANTITY = Redshop::getConfig()->get('DEFAULT_QUANTITY');
 			}
 			if (form.shipping_rate_id) {
 				if (form.shipping_rate_id.value == '' || form.shipping_rate_id.value == 0) {
-					alert("<?php echo JText::_('SELECT_SHIPPING');?>");
+					alert("<?php echo JText::_('COM_REDSHOP_SELECT_SHIPPING');?>");
 					return;
 				}
 			} else {
 				if (<?php echo Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE');?>) {
-					alert("<?php echo JText::_('SELECT_SHIPPING');?>");
+					alert("<?php echo JText::_('COM_REDSHOP_SELECT_SHIPPING');?>");
 					return;
 				}
 			}
