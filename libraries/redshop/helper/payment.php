@@ -86,13 +86,13 @@ class RedshopHelperPayment
 	public static function loadLanguages()
 	{
 		// Load payment plugin language file
-		$paymentsLangList = redhelper::getInstance()->getPlugins("redshop_payment");
+		$paymentsLangList = redhelper::getInstance()->getPlugins("redshop_payment", -1);
 		$language         = JFactory::getLanguage();
 
 		for ($index = 0, $ln = count($paymentsLangList); $index < $ln; $index++)
 		{
 			$extension = 'plg_redshop_payment_' . $paymentsLangList[$index]->element;
-			$language->load($extension, JPATH_ADMINISTRATOR, $language->getTag(), true);
+			$language->load($extension, JPATH_SITE, $language->getTag(), true);
 			$language->load($extension, JPATH_PLUGINS . '/' . $paymentsLangList[$index]->folder . '/' . $paymentsLangList[$index]->element, $language->getTag(), true);
 		}
 	}

@@ -2073,4 +2073,26 @@ class RedshopHelperShipping
 
 		return $text;
 	}
+
+	/**
+	 * Load payment languages
+	 *
+	 * @return   void
+	 *
+	 * @since   2.0.2
+	 */
+	public static function loadLanguages()
+	{
+		// Load shipping plugin language file
+		$paymentsLangList = redhelper::getInstance()->getPlugins("redshop_shipping", -1);
+		$language         = JFactory::getLanguage();
+
+		for ($index = 0, $ln = count($paymentsLangList); $index < $ln; $index++)
+		{
+			$extension = 'plg_redshop_shipping_' . $paymentsLangList[$index]->element;
+			$language->load($extension, JPATH_SITE, $language->getTag(), true);
+
+			$language->load($extension, JPATH_PLUGINS . '/' . $paymentsLangList[$index]->folder . '/' . $paymentsLangList[$index]->element, $language->getTag(), true);
+		}
+	}
 }

@@ -27,6 +27,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
+		$world = RedshopHelperWorld::getInstance();
+
 		$db = JFactory::getDbo();
 
 		$document = JFactory::getDocument();
@@ -54,6 +56,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		// Load payment languages
 		RedshopHelperPayment::loadLanguages();
+		RedshopHelperShipping::loadLanguages();
+		RedshopHelperModule::loadLanguages();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
 		JToolBarHelper::save();
