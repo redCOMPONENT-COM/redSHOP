@@ -27,6 +27,12 @@ JHtml::_('redshopjquery.framework');
 	Joomla.submitform = submitform = Joomla.submitbutton = submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
+		/*jQuery("a.delete-item").on('click', function(e){
+    if (confirm("Do you want to delete this image?") != true) {
+        e.preventDefault();
+    }
+});*/
+
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
@@ -38,6 +44,15 @@ JHtml::_('redshopjquery.framework');
 		if ((pressbutton == 'assignCategory') || (pressbutton == 'removeCategory')) {
 			form.view.value = "product_category";
 		}
+
+		if (pressbutton == 'remove')
+		{
+			if (confirm("<?php echo JText::_('COM_REDSHOP_PRODUCT_DELETE_CONFIRM') ?>") != true)
+			{
+        		return false;
+        	}
+		}
+
 
 		try {
 			form.onsubmit();
