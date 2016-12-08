@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @since       2.0.0.3
+ * @since       2.0.0.6
  */
 
 defined('_JEXEC') or die;
