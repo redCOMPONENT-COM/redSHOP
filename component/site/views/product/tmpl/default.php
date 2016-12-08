@@ -796,7 +796,7 @@ $template_desc = $producthelper->replaceProductInStock($this->data->product_id, 
 
 // Product attribute  Start
 $totalatt = count($attributes);
-$template_desc = $producthelper->replaceAttributeData($this->data->product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds);
+$template_desc = RedshopHelperAttribute::replaceAttributeData($this->data->product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds);
 
 // Product attribute  End
 
