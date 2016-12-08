@@ -63,7 +63,7 @@ JText::script('COM_REDSHOP_DELETE');
 	function jimage_insert(main_path) {
 		var path_url = "<?php echo $url;?>";
 		if (main_path) {
-			if (!document.getElementById("image_display")) {
+			if (document.getElementById("image_display") == null) {
 				var img = new Image();
 				img.id = "image_display";
 				document.getElementById("image_dis").appendChild(img);
