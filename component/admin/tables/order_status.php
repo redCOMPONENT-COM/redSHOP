@@ -92,13 +92,11 @@ class RedshopTableOrder_Status extends RedshopTable
 
 		if (count($check) > 0)
 		{
-			$msg = JText::_('COM_REDSHOP_ORDER_STAUS_FAIL_DELETE');
-			$app = JFactory::getApplication();
-			$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_statuses', false), $msg);
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ORDER_STAUS_FAIL_DELETE'), 'error');
+
+			return false;
 		}
-		else
-		{
-			return parent::doDelete($pk);
-		}
+
+		return parent::doDelete($pk);
 	}
 }
