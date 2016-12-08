@@ -27,14 +27,19 @@ class RedshopControllerTax_group_detail extends RedshopController
 		parent::display();
 	}
 
-	public function save()
+	public function apply()
+	{
+		$this->save(1);
+	}
+
+	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
 
 
 		$model = $this->getModel('tax_group_detail');
 
-		if ($model->store($post))
+		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_SAVED');
 		}
@@ -43,7 +48,14 @@ class RedshopControllerTax_group_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TAX_GROUP_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
+		if ($apply == 1)
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=tax_group_detail&task=edit&cid[]=' . $row->tax_group_id, $msg);
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
+		}
 	}
 
 	public function remove()
