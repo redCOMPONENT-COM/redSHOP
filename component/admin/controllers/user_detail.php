@@ -22,9 +22,9 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'user_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'user_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -35,8 +35,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('user_detail');
 		$shipping = isset($post["shipping"]) ? true : false;
@@ -52,8 +51,8 @@ class RedshopControllerUser_detail extends RedshopController
 
 		if ($shipping)
 		{
-			$info_id = JRequest::getVar('info_id', '', 'request', 'string');
-			$link = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
+			$info_id = $this->input->request->getString('info_id', '');
+			$link    = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
 		}
 		else
 		{
@@ -83,10 +82,9 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function remove()
 	{
-
-		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
-		$cid = JRequest::getVar('cid', array(0), 'request', 'array');
-		$app = JFactory::getApplication();
+		$shipping            = $this->input->request->getString('shipping', '');
+		$cid                 = $this->input->request->get('cid', array(0), 'array');
+		$app                 = JFactory::getApplication();
 		$delete_joomla_users = $app->input->getBool('delete_joomla_users', false);
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -105,7 +103,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 		if ($shipping)
 		{
-			$info_id = JRequest::getVar('info_id', '', 'request', 'int');
+			$info_id = $this->input->request->getInt('info_id');
 			$this->setRedirect('index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id, $msg);
 		}
 		else
@@ -116,8 +114,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function publish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -138,8 +135,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function unpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -167,8 +163,8 @@ class RedshopControllerUser_detail extends RedshopController
 	 */
 	public function cancel()
 	{
-		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
-		$info_id = JRequest::getVar('info_id', '', 'request', 'string');
+		$shipping = $this->input->request->getString('shipping', '');
+		$info_id  = $this->input->request->getString('info_id', '');
 
 		if ($shipping)
 		{
@@ -186,23 +182,22 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function order()
 	{
-
-		$user_id = JRequest::getVar('user_id', 0, 'request', 'string');
+		$user_id = $this->input->request->getInt('user_id', 0);
 		$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $user_id);
 	}
 
 	public function validation()
 	{
-		$json = JRequest::getVar('json', '');
-		$decoded = json_decode($json);
-		$model = $this->getModel('user_detail');
-		$username = $model->validate_user($decoded->username, $decoded->userid);
-		$email = $model->validate_email($decoded->email, $decoded->userid);
-		$json = array();
-		$json['ind'] = $decoded->ind;
+		$json             = $this->input->request->get('json', '');
+		$decoded          = json_decode($json);
+		$model            = $this->getModel('user_detail');
+		$username         = $model->validate_user($decoded->username, $decoded->userid);
+		$email            = $model->validate_email($decoded->email, $decoded->userid);
+		$json             = array();
+		$json['ind']      = $decoded->ind;
 		$json['username'] = $username;
-		$json['email'] = $email;
-		$encoded = json_encode($json);
+		$json['email']    = $email;
+		$encoded          = json_encode($json);
 		die($encoded);
 	}
 

@@ -19,9 +19,9 @@ class RedshopControllerXmlexport_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'xmlexport_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'xmlexport_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -33,9 +33,9 @@ class RedshopControllerXmlexport_detail extends RedshopController
 	public function save($export = 0)
 	{
 		$session = JFactory::getSession();
-		$post = JRequest::get('post');
+		$post    = $this->input->post->getArray();
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$post['xmlexport_id'] = $cid [0];
 		$model = $this->getModel('xmlexport_detail');

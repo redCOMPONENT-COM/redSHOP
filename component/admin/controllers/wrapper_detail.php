@@ -20,28 +20,28 @@ class RedshopControllerWrapper_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'wrapper_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'wrapper_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
 		parent::display();
 	}
 
 	public function save()
 	{
-		$showall = JRequest::getVar('showall', '0');
-		$tmpl = '';
+		$showall = $this->input->request->get('showall', '0');
+		$tmpl    = '';
 
 		if ($showall)
 		{
 			$tmpl = '&tmpl=component';
 		}
 
-		$post = JRequest::get('post');
+		$post               = $this->input->post->getArray();
 		$post['product_id'] = (isset($post['container_product'])) ? explode(',', $post['container_product']) : 0;
-		$product_id = JRequest::getInt('product_id', 0);
+		$product_id         = $this->input->request->getInt('product_id', 0);
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid                 = $this->input->post->get('cid', array(0), 'array');
 		$post ['wrapper_id'] = $cid [0];
 
 		$model = $this->getModel('wrapper_detail');
@@ -60,15 +60,15 @@ class RedshopControllerWrapper_detail extends RedshopController
 
 	public function cancel()
 	{
-		$showall = JRequest::getVar('showall', '0');
-		$tmpl = '';
+		$showall = $this->input->request->get('showall', '0');
+		$tmpl    = '';
 
 		if ($showall)
 		{
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = JRequest::getVar('product_id');
+		$product_id = $this->input->request->get('product_id');
 
 		$msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);

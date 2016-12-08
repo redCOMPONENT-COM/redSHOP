@@ -280,9 +280,9 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$post = $this->input->post->getArray();
 
-		$main_img = $this->input->files->get('property_main_img', array(), 'array');
+		$main_img = $this->input->files->get('property_main_img', 'array', 'array');
 
-		$sub_img = $this->input->files->get('property_sub_img', array(), 'array');
+		$sub_img = $this->input->files->get('property_sub_img', 'array', 'array');
 
 		$model = $this->getModel('product_detail');
 
@@ -317,9 +317,9 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$url = $uri->root();
 
-		$mediaid = $this->input->request->get('mediaid');
+		$mediaid    = $this->input->request->get('mediaid');
 		$section_id = $this->input->request->get('section_id');
-		$cid = $this->input->request->get('cid');
+		$cid        = $this->input->request->get('cid');
 
 		$model = $this->getModel('product_detail');
 
@@ -344,7 +344,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$model->delsubattr_diff($subattr_diff);
 
-		$sub_img = $this->input->files->get('property_sub_img', 'array');
+		$sub_img = $this->input->files->get('property_sub_img', 'array', 'array');
 
 		$model->subattribute_color($post, $sub_img);
 

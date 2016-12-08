@@ -21,9 +21,9 @@ class RedshopControllerManufacturer_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'manufacturer_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'manufacturer_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -34,13 +34,11 @@ class RedshopControllerManufacturer_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post', JREQUEST_ALLOWRAW);
-		$manufacturer_desc = JRequest::getVar('manufacturer_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post = $this->input->post->getArray();
+		$manufacturer_desc = $this->input->post->get('manufacturer_desc', '');
 		$post["manufacturer_desc"] = $manufacturer_desc;
 
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$post ['manufacturer_id'] = $cid [0];
 
@@ -70,9 +68,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 
 	public function remove()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -92,9 +88,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 
 	public function publish()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -114,9 +108,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 
 	public function unpublish()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -143,9 +135,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 
 	public function copy()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$model = $this->getModel('manufacturer_detail');
 

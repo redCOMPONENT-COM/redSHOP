@@ -18,8 +18,8 @@ class RedshopControllerFields extends RedshopController
 	 */
 	public function saveorder()
 	{
-		$cid   = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$cid   = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -65,7 +65,7 @@ class RedshopControllerFields extends RedshopController
 	 */
 	public function publish()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -90,7 +90,7 @@ class RedshopControllerFields extends RedshopController
 	 */
 	public function unpublish()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0) 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
