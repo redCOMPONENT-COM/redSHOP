@@ -15,8 +15,21 @@ $productHelper = productHelper::getInstance();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
+<script language="javascript" type="text/javascript">
+	Joomla.submitbutton = function (pressbutton) {
+		var form = document.adminForm;
 
-<form action="<?php echo 'index.php?option=com_redshop&view=mass_discounts' ?>" class="admin" method="post" name="adminForm" id="adminForm">
+		if (pressbutton == 'mass_discounts.delete') {
+			var r = confirm('<?php echo JText::_("COM_REDSHOP_MASS_DISCOUNT_DELETE_MASS_DISCOUNTS")?>');
+			if (r == true)
+				form.submit();
+			else return false;
+		}
+
+		form.submit();
+	}
+</script>
+<form action="index.php?option=com_redshop&view=mass_discounts" class="admin" method="post" name="adminForm" id="adminForm">
 	<div class="filterTool">
 		<?php
 		echo RedshopLayoutHelper::render(
