@@ -7,6 +7,7 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\Registry\Registry;
 
 /**
  * Script file of redSHOP component
@@ -115,9 +116,6 @@ class Com_RedshopInstallerScript
 		{
 			// Remove unused files from older than 1.3.3.1 redshop
 			$this->cleanUpgradeFiles($parent);
-
-			// Update helper class name in template and MVC override
-			$this->updateOverrideTemplate();
 			$this->updateschema();
 		}
 
@@ -221,6 +219,9 @@ class Com_RedshopInstallerScript
 			require_once __DIR__ . '/libraries/redshop/install/database.php';
 			$installDatabase = new RedshopInstallDatabase;
 			$installDatabase->install();
+
+			// Update helper class name in template and MVC override
+			$this->updateOverrideTemplate();
 		}
 
 		// Demo content insert
@@ -1068,6 +1069,7 @@ class Com_RedshopInstallerScript
 	 */
 	private function updateOverrideTemplate()
 	{
+		JLoader::import('redshop.library');
 		$dir                  = JPATH_SITE . "/templates/";
 		$codeDir              = JPATH_SITE . "/code/";
 		$files                = JFolder::folders($dir);
@@ -1117,6 +1119,7 @@ class Com_RedshopInstallerScript
 		}
 
 		$override = array();
+		$jsOverride = array();
 
 		foreach ($templates as $key => $value)
 		{
@@ -1132,6 +1135,11 @@ class Com_RedshopInstallerScript
 					if (JFolder::exists($key . '/html'))
 					{
 						$override[$key . '/html'] = JFolder::folders($key . '/html');
+					}
+
+					if (JFolder::exists($key . '/js/com_redshop'))
+					{
+						$jsOverride[$key . '/js/com_redshop'] = JFolder::files($key . '/js/com_redshop');
 					}
 
 					if (JFolder::exists($key . '/code/com_redshop'))
@@ -1164,7 +1172,7 @@ class Com_RedshopInstallerScript
 				{
 					$overrideLayoutFolders[$key . '/' . $name] = JFolder::folders($key . '/' . $name);
 				}
-				elseif (!JFile::exists($key . '/' . $name) && $name != 'layouts')
+				elseif (!JFile::exists($key . '/' . $name) && $name != 'layouts' && $name == 'com_redshop' || strpos($name, 'mod_redshop') !== false)
 				{
 					// Read all files and folders in parent folder
 					$overrideFolders[$key . '/' . $name] = array_diff(scandir($key . '/' . $name), array('.', '..'));
@@ -1241,6 +1249,20 @@ class Com_RedshopInstallerScript
 				'require_once JPATH_SITE . \'/components/com_redshop/helpers/redshop.js.php\'' => '',
 			);
 
+		$data   = Redshop::getConfig()->toArray();
+		$temp = JFactory::getApplication()->getUserState('com_redshop.config.global.data');
+
+		if (!empty($temp))
+		{
+			$data = array_merge($data, $temp);
+		}
+
+		$data['BACKWARD_COMPATIBLE_PHP'] = 0;
+		$data['BACKWARD_COMPATIBLE_JS'] = 0;
+		$configData['BACKWARD_COMPATIBLE_PHP'] = 0;
+		$configData['BACKWARD_COMPATIBLE_JS'] = 0;
+		$config = Redshop::getConfig();
+
 		if (!empty($overrideFiles))
 		{
 			foreach ($overrideFiles as $path => $files)
@@ -1259,7 +1281,21 @@ class Com_RedshopInstallerScript
 					}
 				}
 			}
+
+			// Check site used MVC && Templates Override
+			$data['BACKWARD_COMPATIBLE_PHP'] = 1;
+			$configData['BACKWARD_COMPATIBLE_PHP'] = 1;
 		}
+
+		if (!empty($jsOverride))
+		{
+			// Check site used JS Override
+			$data['BACKWARD_COMPATIBLE_JS'] = 1;
+			$configData['BACKWARD_COMPATIBLE_JS'] = 1;
+		}
+
+		JFactory::getApplication()->setUserState('com_redshop.config.global.data', $data);
+		$config->save(new Registry($configData));
 
 		$replaceAdminHelper = array(
 			'adminorder.php'         => 'order_functions.php',
