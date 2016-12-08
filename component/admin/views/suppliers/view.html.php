@@ -103,5 +103,6 @@ class RedshopViewSuppliers extends RedshopViewAdmin
 		JToolBarHelper::deleteList('', 'suppliers.delete');
 		JToolbarHelper::publish('suppliers.publish', 'JTOOLBAR_PUBLISH', true);
 		JToolbarHelper::unpublish('suppliers.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+		JToolbarHelper::custom('suppliers.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 	}
 }
