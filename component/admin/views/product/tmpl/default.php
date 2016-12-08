@@ -27,12 +27,6 @@ JHtml::_('redshopjquery.framework');
 	Joomla.submitform = submitform = Joomla.submitbutton = submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
-		/*jQuery("a.delete-item").on('click', function(e){
-    if (confirm("Do you want to delete this image?") != true) {
-        e.preventDefault();
-    }
-});*/
-
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
