@@ -1851,19 +1851,23 @@ class productHelper
 		}
 
 		if (count($cart) <= 0)
+		{
 			$cart = $this->_session->get('cart');
+		}
 
 		$discount = $this->getDiscountId($cart['product_subtotal'], $user_id);
 
-		$discount_amount = 0;
+		$discount_amount_final = 0;
 		$discountVAT     = 0;
 
 		if (count($discount) > 0)
 		{
 			$product_subtotal = $cart['product_subtotal'] + $cart['shipping'];
 
+			// Discount total type
 			if ($discount->discount_type == 0)
 			{
+				// 100% discount
 				if ($discount->discount_amount > $product_subtotal)
 				{
 					$discount_amount = $product_subtotal;
@@ -1873,22 +1877,72 @@ class productHelper
 					$discount_amount = $discount->discount_amount;
 				}
 
-				if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
-				{
-					$discountVAT = $discount_amount * (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT');
-				}
+				$discount_percent = ($discount_amount * 100) / $product_subtotal;
+			}
+			// Disocunt percentage price
+			else
+			{
+				$discount_percent = $discount->discount_amount;
+			}
 
-				$cart['discount_tax'] = $discountVAT;
+			// Apply even products already on discount
+			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
+			{
+				$discount_amount_final = $discount_percent * $product_subtotal / 100;
 			}
 			else
 			{
-				$discount_amount = $product_subtotal * $discount->discount_amount / 100;
+				/*
+					Checking which discount is the best
+					Example 2 products in cart, 1 product 0% - 1 product 15%
+					Cart total order discount of 10% for value over 1000, now that discount will be added to both products, so the product with 15% will now have 25% and the product with 0% will have 10%.
+					The product with 25% should only have 15% discount as it's best practice and most logical setup
+				*/
+
+				$idx = 0;
+
+				if (isset($cart['idx']))
+				{
+					$idx = $cart['idx'];
+				}
+
+				for ($i = 0; $i < $idx; $i++)
+				{
+					$product_price_array = $this->getProductNetPrice($cart[$i]['product_id']);
+
+					// Product already discount
+					if ($product_price_array['product_discount_price'] > 0)
+					{
+						// Restore to the origigal price
+						$cart[$i]['product_price'] = $product_price_array['product_old_price'];
+						$cart[$i]['product_price_excl_vat'] = $product_price_array['product_old_price_excl_vat'];
+						$cart[$i]['product_vat']= $product_price_array['product_old_price'] - $product_price_array['product_old_price_excl_vat'];
+					}
+
+					// Checking the product discount < total discount => get total discount
+					if ($product_price_array['product_price_saving_percentage'] <= $discount_percent)
+					{
+						$discount_amount_final += $discount_percent * $product_price_array['product_old_price'] / 100;
+					}
+					// Keep product discount
+					else
+					{
+						$discount_amount_final += $product_price_array['product_price_saving'];
+					}
+				}
 			}
+
+			if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
+			{
+				$discountVAT = $discount_amount_final * (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT');
+			}
+
+			$cart['discount_tax'] = $discountVAT;
 
 			$this->_session->set('cart', $cart);
 		}
 
-		return $discount_amount;
+		return $discount_amount_final;
 	}
 
 	public function getProductPrice($product_id, $show_price_with_vat = 1, $user_id = 0)
