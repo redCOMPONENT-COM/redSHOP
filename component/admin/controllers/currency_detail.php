@@ -20,9 +20,9 @@ class RedshopControllerCurrency_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'currency_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'currency_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
 		parent::display();
 	}
@@ -34,15 +34,13 @@ class RedshopControllerCurrency_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-
-		$currency_name = JRequest::getVar('currency_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post                  = $this->input->post->getArray();
+		$currency_name         = $this->input->post->getString('currency_name', '');
 		$post["currency_name"] = $currency_name;
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$post ['currency_id'] = $cid [0];
-		$model = $this->getModel('currency_detail');
-		$row = $model->store($post);
+		$cid                   = $this->input->post->get('cid', array(0), 'array');
+		$post ['currency_id']  = $cid [0];
+		$model                 = $this->getModel('currency_detail');
+		$row                   = $model->store($post);
 
 		if ($row)
 		{
@@ -72,9 +70,7 @@ class RedshopControllerCurrency_detail extends RedshopController
 
 	public function remove()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

@@ -28,7 +28,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 		$post = $this->input->post->getArray();
 		$adminproducthelper = RedshopAdminProduct::getInstance();
 
-		$cid = $this->input->post->get('cid', array(0));
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$post ['quotation_id'] = $cid [0];
 		$model = $this->getModel('addquotation_detail');
 

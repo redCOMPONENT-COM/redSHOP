@@ -40,8 +40,8 @@ class RedshopControllerCategory_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$category_description = $this->input->post->getString('category_description', '');
-		$category_short_description = $this->input->post->getString('category_short_description', '');
+		$category_description = $this->input->post->get('category_description', '', 'raw');
+		$category_short_description = $this->input->post->get('category_short_description', '', 'raw');
 
 		$post["category_description"] = $category_description;
 

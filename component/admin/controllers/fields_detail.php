@@ -20,9 +20,9 @@ class RedshopControllerFields_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'fields_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'fields_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -33,11 +33,11 @@ class RedshopControllerFields_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post               = JRequest::get('post');
-		$field_desc         = JRequest::getVar('field_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post               = $this->input->post->getArray();
+		$field_desc         = $this->input->post->getString('field_desc', '');
 		$post["field_desc"] = $field_desc;
 
-		$cid                = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid                = $this->input->post->get('cid', array(0), 'array');
 
 		$post['field_name'] = strtolower($post['field_name']);
 
@@ -95,7 +95,7 @@ class RedshopControllerFields_detail extends RedshopController
 
 	public function remove()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

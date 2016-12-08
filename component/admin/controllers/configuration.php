@@ -53,15 +53,15 @@ class RedshopControllerConfiguration extends RedshopController
 		$selectedTabPosition = $app->input->get('selectedTabPosition');
 		$app->setUserState('com_redshop.configuration.selectedTabPosition', $selectedTabPosition);
 
-		$post['custom_previous_link'] = $this->input->post->getString('custom_previous_link', '');
+		$post['custom_previous_link'] = $this->input->post->get('custom_previous_link', '', 'raw');
 
-		$post['custom_next_link'] = $this->input->post->getString('custom_next_link', '');
+		$post['custom_next_link'] = $this->input->post->get('custom_next_link', '', 'raw');
 
-		$post['default_next_suffix'] = $this->input->post->getString('default_next_suffix', '');
+		$post['default_next_suffix'] = $this->input->post->get('default_next_suffix', '', 'raw');
 
-		$post['default_previous_prefix'] = $this->input->post->getString('default_previous_prefix', '');
+		$post['default_previous_prefix'] = $this->input->post->get('default_previous_prefix', '', 'raw');
 
-		$post['return_to_category_prefix'] = $this->input->post->getString('return_to_category_prefix', '');
+		$post['return_to_category_prefix'] = $this->input->post->get('return_to_category_prefix', '', 'raw');
 
 		// Administrator email notifications ids
 		if (is_array($post['administrator_email']))
@@ -175,9 +175,9 @@ class RedshopControllerConfiguration extends RedshopController
 	public function removeimg()
 	{
 		ob_clean();
-		$imname = $this->jinput->getString('imname', '');
-		$spath = $this->jinput->getString('spath', '');
-		$data_id = $this->jinput->getInt('data_id', 0);
+		$imname = $this->input->request->getString('imname', '');
+		$spath = $this->input->request->getString('spath', '');
+		$data_id = $this->input->request->getInt('data_id', 0);
 		$extra_field = extra_field::getInstance();
 
 		if ($data_id)

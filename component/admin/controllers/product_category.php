@@ -14,7 +14,7 @@ class RedshopControllerProduct_category extends RedshopController
 {
 	public function assignCategory()
 	{
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 

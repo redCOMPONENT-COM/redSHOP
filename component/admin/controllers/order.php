@@ -37,7 +37,7 @@ class RedshopControllerOrder extends RedshopController
 
 	public function multiprint_order()
 	{
-		$mypost = JRequest::getVar('cid');
+		$mypost = $this->input->request->get('cid');
 		$order_function = order_functions::getInstance();
 		ob_start();
 		$invoicePdf = $order_function->createMultiprintInvoicePdf($mypost);
@@ -137,9 +137,9 @@ class RedshopControllerOrder extends RedshopController
 
 	public function bookInvoice()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 		$bookInvoiceDate = $post ['bookInvoiceDate'];
-		$order_id = JRequest::getCmd('order_id');
+		$order_id = $this->input->request->getCmd('order_id');
 		$ecomsg = JText::_('COM_REDSHOP_INVOICE_NOT_BOOKED_IN_ECONOMIC');
 		$msgType = 'warning';
 
@@ -166,7 +166,7 @@ class RedshopControllerOrder extends RedshopController
 	{
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
-			$order_id = JRequest::getCmd('order_id');
+			$order_id = $this->input->request->getCmd('order_id');
 			$order_function = order_functions::getInstance();
 			$paymentInfo = RedshopHelperOrder::getPaymentInfo($order_id);
 
@@ -344,7 +344,7 @@ class RedshopControllerOrder extends RedshopController
 		$product_count = array();
 		$db = JFactory::getDbo();
 
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		$cid = $this->input->request->get('cid', array(0), 'array');
 		$data = $model->export_data($cid);
 		$order_id = implode(',', $cid);
 		$where = "";
@@ -447,7 +447,7 @@ class RedshopControllerOrder extends RedshopController
 	public function generateParcel()
 	{
 		$order_function = order_functions::getInstance();
-		$order_id = JRequest::getCmd('order_id');
+		$order_id = $this->input->request->getCmd('order_id');
 
 		$generate_label = $order_function->generateParcel($order_id);
 
@@ -464,8 +464,8 @@ class RedshopControllerOrder extends RedshopController
 
 	public function download_token()
 	{
-		$post = JRequest::get('post');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post = $this->input->post->getArray();
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$model = $this->getModel('order');
 
@@ -510,14 +510,14 @@ class RedshopControllerOrder extends RedshopController
 
 	public function gls_export()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		$cid = $this->input->request->get('cid', array(0), 'array');
 		$model = $this->getModel('order');
 		$model->gls_export($cid);
 	}
 
 	public function business_gls_export()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		$cid = $this->input->request->get('cid', array(0), 'array');
 		$model = $this->getModel('order');
 		$model->business_gls_export($cid);
 	}
