@@ -42,6 +42,7 @@ class RedshopViewTax_group_detail extends RedshopViewAdmin
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'tags redshop_vatgroup48');
 
+		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
 		if ($isNew)

@@ -2588,7 +2588,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		// 1. Get all types.
-		$q = "SELECT id, type_name FROM #__redproductfinder_types where type_select!='Productfinder datepicker' ORDER by ordering";
+		$q = "SELECT id, type_name FROM #__redproductfinder_types where type_select!='Productfinder_datepicker' ORDER by ordering";
 		$this->_db->setQuery($q);
 		$types = $this->_db->loadAssocList('id');
 
