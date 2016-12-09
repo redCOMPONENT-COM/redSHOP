@@ -3711,7 +3711,9 @@ class productHelper
 			. "FROM " . $this->_table_prefix . "product_related AS r "
 			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = r.related_id ";
 
-		if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC')
+		if (!empty($finaltypetype_result) && !empty($finaltypetype_result->extrafield)
+			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
+				|| Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
 			$query .= " LEFT JOIN " . $this->_table_prefix . "fields_data  AS e ON p.product_id = e.itemid ";
 		}
