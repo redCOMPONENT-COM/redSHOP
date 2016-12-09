@@ -36,20 +36,23 @@ class ManageWrapperAdministratorCest
 		$I->doAdministratorLogin();
 
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=wrapper');
-		$I->waitForText('Wrapping Management', 60, ['css' => 'h1']);
+		$I->waitForText('Wrapping', 60, ['css' => 'h1']);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->click('New');
 		$I->waitForElement(['xpath' => "//input[@id='wrapper_name']"],60);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(['xpath' => "//input[@id='wrapper_name']"], $this->name);
 		$I->fillField(['xpath' => "//input[@id='wrapper_price']"], $this->price);
-		$I->click("//div[@id='categoryid_chzn']/ul/li/input");
-		$I->click("//div[@id='categoryid_chzn']/div/ul/li[contains(text(), '" . $this->category . "')]");
+
+		$I->fillField(['id' => 's2id_autogen2'], 'Events and Forms');
+		$I->waitForElement(['css' => 'span.select2-match'], 60);
+		$I->click(['css' => 'span.select2-match']);
+
 		$I->click('Save & Close');
 		$I->waitForText("Wrapping detail saved", 60, ['id' => 'system-message-container']);
 		$I->see("Wrapping detail saved", ['id' => 'system-message-container']);
-		$I->click('Reset');
-		$I->filterListBySearching($this->name);
+		$I->click(['id' => "reset"]);
+		$I->filterListBySearching($this->name, ['id' => "filter"]);
 		$I->seeElement(['link' => $this->name]);
 	}
 
@@ -63,16 +66,16 @@ class ManageWrapperAdministratorCest
 		$I->wantTo('Test if Wrapper gets updated in Administrator');
 		$I->doAdministratorLogin();
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=wrapper');
-		$I->waitForText('Wrapping Management', 60, ['css' => 'h1']);
-		$I->click('Reset');
-		$I->filterListBySearching($this->name);
+		$I->waitForText('Wrapping', 60, ['css' => 'h1']);
+		$I->click(['id' => "reset"]);
+		$I->filterListBySearching($this->name, ['id' => "filter"]);
 		$I->click(['link' => $this->name]);
 		$I->waitForElement(['xpath' => "//input[@id='wrapper_name']"],60);
 		$I->fillField(['xpath' => "//input[@id='wrapper_name']"], $this->newName);
 		$I->click('Save & Close');
 		$I->waitForText("Wrapping detail saved", 60, ['id' => 'system-message-container']);
-		$I->click('Reset');
-		$I->filterListBySearching($this->newName);
+		$I->click(['id' => "reset"]);
+		$I->filterListBySearching($this->newName, ['id' => "filter"]);
 		$I->dontSeeElement(['link' => $this->name]);
 		$I->seeElement(['link' => $this->newName]);
 	}
@@ -82,15 +85,17 @@ class ManageWrapperAdministratorCest
 	 *
 	 * @depends updateWrapper
 	 */
-	public function changeWrapperState(AcceptanceTester $I, $scenario)
+	public function changeWrapperState(\AcceptanceTester\AdminManagerJoomla3Steps $I, $scenario)
 	{
 		$I->am('administrator');
 		$I->wantTo('Test if State of a Wrapper gets Updated in Administrator');
 		$I->doAdministratorLogin();
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=wrapper');
-		$I->waitForText('Wrapping Management', 60, ['css' => 'h1']);
+		$I->waitForText('Wrapping', 60, ['css' => 'h1']);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->executeJS('window.scrollTo(0,0)');
+		$I->click(['id' => "reset"]);
+		$I->filterListBySearching($this->newName, ['id' => "filter"]);
 		$I->waitForElement(['link' => $this->newName],60);
 		$I->click(['xpath' => "//a[contains(text(), '$this->newName')]/ancestor::*[1]/preceding-sibling::*[1]/input"]);
 		$I->click('Unpublish');
@@ -107,14 +112,17 @@ class ManageWrapperAdministratorCest
 	 *
 	 * @depends changeWrapperState
 	 */
-	public function deleteWrapper(AcceptanceTester $I, $scenario)
+	public function deleteWrapper(\AcceptanceTester\AdminManagerJoomla3Steps $I, $scenario)
 	{
 		$I->am('administrator');
 		$I->wantTo('Deletion of Wrapper in Administrator');
 		$I->doAdministratorLogin();
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=wrapper');
-		$I->waitForText('Wrapping Management', 60, ['css' => 'h1']);
+		$I->waitForText('Wrapping', 60, ['css' => 'h1']);
 		$I->executeJS('window.scrollTo(0,0)');
+		$I->click(['id' => "reset"]);
+		$I->filterListBySearching($this->newName, ['id' => "filter"]);
+		$I->waitForElement(['link' => $this->newName],60);
 		$I->click(['xpath' => "//a[contains(text(), '$this->newName')]/ancestor::*[1]/preceding-sibling::*[1]/input"]);
 		$I->click('Delete');
 		$I->waitForText('Wrapping detail deleted successfully',60, ['id' => 'system-message-container']);
