@@ -678,42 +678,41 @@ class RedshopModelImport extends RedshopModel
 							{
 								foreach ($stockrooms as $stockroom)
 								{
-									$headers[] = $stockroom->stockroom_name;
+									if (isset($rawdata[$stockroom->stockroom_name]))
+									{
+										$product_stock = $rawdata[$stockroom->stockroom_name];
+
+										$query = $db->getQuery(true)
+											->select('COUNT(*) AS total')
+											->from($db->quoteName('#__redshop_product_stockroom_xref'))
+											->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
+											->where($db->quoteName('stockroom_id') . ' = ' . $db->quote($stockroom->stockroom_id));
+
+										$db->setQuery($query);
+										$total = $db->loadresult();
+
+										if ($total <= 0)
+										{
+											$insert = new stdClass;
+											$insert->product_id = $product_id;
+											$insert->stockroom_id = $stockroom->stockroom_id;
+											$insert->quantity = $product_stock;
+											$db->insertObject("#__redshop_product_stockroom_xref", $insert);
+										}
+										else
+										{
+											$query = $db->getQuery(true)
+												->update($db->quoteName('#__redshop_product_stockroom_xref'))
+												->set($db->quoteName('quantity') . ' = ' . $db->quote($product_stock))
+												->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
+												->where($db->quoteName('stockroom_id') . ' = ' . $db->quote($stockroom->stockroom_id));
+
+											$db->setQuery($query);
+											$db->execute();
+										}
+									}
 								}
 							}
-
-							/*$product_stock = $rawdata['product_stock'];
-							$query = $db->getQuery(true)
-								->select('COUNT(*) AS total')
-								->from($db->quoteName('#__redshop_product_stockroom_xref'))
-								->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
-								->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(Redshop::getConfig()->get('DEFAULT_STOCKROOM')));
-
-							$db->setQuery($query);
-							$total = $db->loadresult();
-
-							if ($product_stock && Redshop::getConfig()->get('DEFAULT_STOCKROOM') != 0)
-							{
-								if ($total <= 0)
-								{
-									$insert = new stdClass;
-									$insert->product_id = $product_id;
-									$insert->stockroom_id = Redshop::getConfig()->get('DEFAULT_STOCKROOM');
-									$insert->quantity = $product_stock;
-									$db->insertObject("#__redshop_product_stockroom_xref", $insert);
-								}
-								else
-								{
-									$query = $db->getQuery(true)
-										->update($db->quoteName('#__redshop_product_stockroom_xref'))
-										->set($db->quoteName('quantity') . ' = ' . $db->quote($product_stock))
-										->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
-										->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(Redshop::getConfig()->get('DEFAULT_STOCKROOM')));
-
-									$db->setQuery($query);
-									$db->execute();
-								}
-							}*/
 
 							// Import image section
 							$section_images = explode("#", $section_images);
