@@ -61,8 +61,8 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 
 	public function remove()
 	{
-		$section_id = $this->input->request->get('section_id');
-		$section = $this->input->request->getString('section');
+		$section_id = $this->input->get('section_id');
+		$section = $this->input->getString('section');
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -83,7 +83,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 
 	public function cancel()
 	{
-		$section_id = $this->input->request->get('section_id');
+		$section_id = $this->input->get('section_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=attributeprices&section_id=' . $section_id, $msg);
