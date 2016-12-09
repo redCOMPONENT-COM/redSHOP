@@ -12,7 +12,10 @@ $hacked    = 0;
 $overrides = 0;
 $missing   = 0;
 ?>
-<form class="bs-example bs-example-form">
+<form class="">
+	<?php if (JPluginHelper::isEnabled('system', 'mvcoverride')): ?>
+		<span class="label label-danger"><?php JText::_('COM_REDSHOP_MVCOVERRIDE_PLUGIN_IS_ENABLED'); ?></span>
+	<?php endif; ?>
 	<table class="table table-bordered">
 		<thead>
 		<tr>
