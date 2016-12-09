@@ -29,8 +29,10 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function store($data)
 	{
+		$jinput = JFactory::getApplication()->input;
+
 		// Product Default Image upload
-		$productImg = JRequest::getVar('productImg', null, 'files', 'array');
+		$productImg = $jinput->files->get('productImg', null, 'array');
 
 		if ($productImg['name'] != "")
 		{
@@ -54,7 +56,7 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		// 	Watermark Image upload
-		$watermarkImg = JRequest::getVar('watermarkImg', null, 'files', 'array');
+		$watermarkImg = $jinput->files->get('watermarkImg', null, 'array');
 
 		if ($watermarkImg['name'] != "")
 		{
@@ -78,7 +80,7 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		// Shopper Group default portal upload
-		$default_portalLogo = JRequest::getVar('default_portal_logo', null, 'files', 'array');
+		$default_portalLogo = $jinput->files->get('default_portal_logo', null, 'array');
 
 		if ($default_portalLogo['name'] != "")
 		{
@@ -107,7 +109,7 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		// Product image which is out of stock
-		$productoutofstockImg = JRequest::getVar('productoutofstockImg', null, 'files', 'array');
+		$productoutofstockImg = $jinput->files->get('productoutofstockImg', null, 'array');
 
 		if ($productoutofstockImg['name'] != "")
 		{
@@ -132,7 +134,7 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		// Category Default Image upload
-		$categoryImg = JRequest::getVar('categoryImg', null, 'files', 'array');
+		$categoryImg = $jinput->files->get('categoryImg', null, 'array');
 
 		if ($categoryImg['name'] != "")
 		{
@@ -157,7 +159,7 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		// Cart image upload
-		$cartimg = JRequest::getVar('cartimg', null, 'files', 'array');
+		$cartimg = $jinput->files->get('cartimg', null, 'array');
 
 		if ($cartimg['name'] != "")
 		{
@@ -181,7 +183,7 @@ class RedshopModelConfiguration extends RedshopModel
 			}
 		}
 
-		$quoteimg = JRequest::getVar('quoteimg', null, 'files', 'array');
+		$quoteimg = $jinput->files->get('quoteimg', null, 'array');
 
 		if ($quoteimg['name'] != "")
 		{
@@ -206,7 +208,7 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		// Cart delete image upload
-		$cartdelete = JRequest::getVar('cartdelete', null, 'files', 'array');
+		$cartdelete = $jinput->files->get('cartdelete', null, 'array');
 
 		if ($cartdelete['name'] != "")
 		{
@@ -231,7 +233,7 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		// Cart update image upload
-		$cartupdate = JRequest::getVar('cartupdate', null, 'files', 'array');
+		$cartupdate = $jinput->files->get('cartupdate', null, 'array');
 
 		if ($cartupdate['name'] != "")
 		{
@@ -256,7 +258,7 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		// Pre Order image upload
-		$preorderimg = JRequest::getVar('file_pre_order_image', null, 'files', 'array');
+		$preorderimg = $jinput->files->get('file_pre_order_image', null, 'array');
 
 		if ($preorderimg['name'] != "")
 		{
@@ -281,7 +283,7 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		// Image next link
-		$imgnext = JRequest::getVar('imgnext', null, 'files', 'array');
+		$imgnext = $jinput->files->get('imgnext', null, 'array');
 
 		if ($imgnext['name'] != "")
 		{
@@ -306,7 +308,7 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		// Image previous link
-		$imgpre = JRequest::getVar('imgpre', null, 'files', 'array');
+		$imgpre = $jinput->files->get('imgpre', null, 'array');
 
 		if ($imgpre['name'] != "")
 		{
@@ -331,7 +333,7 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		// Product Detail Lightbox close button Image Start
-		$imgpre = JRequest::getVar('imgslimbox', null, 'files', 'array');
+		$imgpre = $jinput->files->get('imgslimbox', null, 'array');
 
 		if ($imgpre['name'] != "")
 		{
@@ -357,19 +359,19 @@ class RedshopModelConfiguration extends RedshopModel
 
 		// Product Detail Lightbox close button Image End
 		// Save the HTML tags into the tables
-		$data["welcomepage_introtext"] = JRequest::getVar('welcomepage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["category_frontpage_introtext"] = JRequest::getVar('category_frontpage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["registration_introtext"] = JRequest::getVar('registration_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["registration_comp_introtext"] = JRequest::getVar('registration_comp_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["vat_introtext"] = JRequest::getVar('vat_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["welcomepage_introtext"] = JRequest::getVar('welcomepage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["product_expire_text"] = JRequest::getVar('product_expire_text', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["cart_reservation_message"] = JRequest::getVar('cart_reservation_message', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["with_vat_text_info"] = JRequest::getVar('with_vat_text_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["without_vat_text_info"] = JRequest::getVar('without_vat_text_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["show_price_user_group_list"] = @implode(",", $data['show_price_user_group_list']);
+		$data["welcomepage_introtext"]         = $jinput->post->get('welcomepage_introtext', '', 'raw');
+		$data["category_frontpage_introtext"]  = $jinput->post->get('category_frontpage_introtext', '', 'raw');
+		$data["registration_introtext"]        = $jinput->post->get('registration_introtext', '', 'raw');
+		$data["registration_comp_introtext"]   = $jinput->post->get('registration_comp_introtext', '', 'raw');
+		$data["vat_introtext"]                 = $jinput->post->get('vat_introtext', '', 'raw');
+		$data["welcomepage_introtext"]         = $jinput->post->get('welcomepage_introtext', '', 'raw');
+		$data["product_expire_text"]           = $jinput->post->get('product_expire_text', '', 'raw');
+		$data["cart_reservation_message"]      = $jinput->post->get('cart_reservation_message', '', 'raw');
+		$data["with_vat_text_info"]            = $jinput->post->get('with_vat_text_info', '', 'raw');
+		$data["without_vat_text_info"]         = $jinput->post->get('without_vat_text_info', '', 'raw');
+		$data["show_price_user_group_list"]    = @implode(",", $data['show_price_user_group_list']);
 		$data["show_price_shopper_group_list"] = @implode(",", $data['show_price_shopper_group_list']);
-		$data["show_price_user_group_list"] = $data["show_price_user_group_list"] ? $data["show_price_user_group_list"] : '';
+		$data["show_price_user_group_list"]    = $data["show_price_user_group_list"] ? $data["show_price_user_group_list"] : '';
 		$data["show_price_shopper_group_list"] = $data["show_price_shopper_group_list"] ? $data["show_price_shopper_group_list"] : '';
 
 		if ($data['image_quality_output'] <= 10)

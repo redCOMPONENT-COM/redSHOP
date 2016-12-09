@@ -26,7 +26,7 @@ class RedshopModelTextlibrary_detail extends RedshopModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
 		$this->setId((int) $array[0]);
 	}

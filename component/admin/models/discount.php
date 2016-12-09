@@ -87,7 +87,7 @@ class RedshopModelDiscount extends RedshopModel
 	{
 		$where = "";
 		$orderby = $this->_buildContentOrderBy();
-		$layout = JRequest::getVar('layout');
+		$layout = JFactory::getApplication()->input->get('layout');
 		$spgrpdis_filter = $this->getState('spgrpdis_filter');
 		$discount_type = $this->getState('discount_type');
 		$name_filter = $this->getState('name_filter');

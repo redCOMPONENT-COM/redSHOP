@@ -30,7 +30,7 @@ class RedshopModelAccessmanager extends RedshopModel
 		$this->_context = 'question_id';
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('parent_id', 0, '', 'array');
+		$array = $app->input->get('parent_id', 0, 'array');
 		$this->setId((int) $array[0]);
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);

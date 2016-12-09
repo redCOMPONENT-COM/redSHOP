@@ -92,7 +92,7 @@ class RedshopModelManufacturer extends RedshopModel
 		$row = $this->getTable('manufacturer_detail');
 
 		$total = count($cid);
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
+		$order = JFactory::getApplication()->input->post->get('order', array(0), 'array');
 		JArrayHelper::toInteger($order, array(0));
 
 		// Update ordering values

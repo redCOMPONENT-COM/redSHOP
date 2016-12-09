@@ -31,7 +31,7 @@ class RedshopModelAccessmanager_detail extends RedshopModel
 	{
 		$db = JFactory::getDbo();
 
-		$section = JRequest::getVar('section');
+		$section = JFactory::getApplication()->input->get('section');
 		$query = "SELECT a.* FROM " . $this->_table_prefix . "accessmanager AS a "
 			. "WHERE a.section_name = " . $db->quote($section);
 		$this->_db->setQuery($query);

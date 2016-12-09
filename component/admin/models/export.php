@@ -41,7 +41,7 @@ class RedshopModelExport extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 
-		$exportname = JRequest::getVar('export');
+		$exportname = $app->input->get('export');
 
 		if (!$exportname)
 		{
@@ -87,7 +87,7 @@ class RedshopModelExport extends RedshopModel
 		}
 
 		/* Load the data */
-		$export = JRequest::getVar('export');
+		$export = $app->input->get('export');
 
 		switch ($export)
 		{

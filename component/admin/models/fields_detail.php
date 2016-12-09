@@ -27,7 +27,7 @@ class RedshopModelFields_detail extends RedshopModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
 		$this->setId((int) $array[0]);
 	}
@@ -129,20 +129,21 @@ class RedshopModelFields_detail extends RedshopModel
 		$value_id = array();
 		$extra_name = array();
 		$extra_value = array();
+		$jinput = JFactory::getApplication()->input;
 
 		if (array_key_exists("value_id", $post))
 		{
-			$extra_value = JRequest::getVar('extra_value', '', 'post', 'string', JREQUEST_ALLOWRAW);
+			$extra_value = $jinput->post->get('extra_value', '', 'raw');
 			$value_id = $post["value_id"];
 
 			if ($post["field_type"] == 11 || $post["field_type"] == 13)
 			{
-				$extra_name = JRequest::getVar('extra_name_file', '', 'files', 'array');
+				$extra_name = $jinput->files->get('extra_name_file', '', 'array');
 				$total = count($extra_name['name']);
 			}
 			else
 			{
-				$extra_name = JRequest::getVar('extra_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
+				$extra_name = $jinput->post->get('extra_name', '', 'raw');
 				$total = count($extra_name);
 			}
 		}
