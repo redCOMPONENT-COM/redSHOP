@@ -1259,8 +1259,6 @@ class Com_RedshopInstallerScript
 
 		$data['BACKWARD_COMPATIBLE_PHP'] = 0;
 		$data['BACKWARD_COMPATIBLE_JS'] = 0;
-		$configData['BACKWARD_COMPATIBLE_PHP'] = 0;
-		$configData['BACKWARD_COMPATIBLE_JS'] = 0;
 		$config = Redshop::getConfig();
 
 		if (!empty($overrideFiles))
@@ -1284,18 +1282,16 @@ class Com_RedshopInstallerScript
 
 			// Check site used MVC && Templates Override
 			$data['BACKWARD_COMPATIBLE_PHP'] = 1;
-			$configData['BACKWARD_COMPATIBLE_PHP'] = 1;
 		}
 
 		if (!empty($jsOverride))
 		{
 			// Check site used JS Override
 			$data['BACKWARD_COMPATIBLE_JS'] = 1;
-			$configData['BACKWARD_COMPATIBLE_JS'] = 1;
 		}
 
 		JFactory::getApplication()->setUserState('com_redshop.config.global.data', $data);
-		$config->save(new Registry($configData));
+		$config->save(new Registry($data));
 
 		$replaceAdminHelper = array(
 			'adminorder.php'         => 'order_functions.php',
