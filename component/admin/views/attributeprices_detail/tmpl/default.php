@@ -8,7 +8,7 @@
  */
 JHTML::_('behavior.tooltip');
 
-$section = JRequest::getVar('section');
+$section = JFactory::getApplication()->input->get('section');
 $producthelper = productHelper::getInstance();
 ?>
 <fieldset>

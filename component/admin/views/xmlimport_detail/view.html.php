@@ -45,7 +45,7 @@ class RedshopViewXmlimport_detail extends RedshopViewAdmin
 		$model                 = $this->getModel();
 
 		$detail                = $this->get('data');
-		$detail->section_type  = JRequest::getVar('section_type', $detail->section_type);
+		$detail->section_type  = JFactory::getApplication()->input->get('section_type', $detail->section_type);
 
 		$xmlimport_url         = $model->updateFile();
 

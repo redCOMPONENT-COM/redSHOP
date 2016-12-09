@@ -24,7 +24,7 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
 	{
 		$quotationHelper = quotationHelper::getInstance();
 
-		$layout = JRequest::getVar('layout', 'default');
+		$layout = JFactory::getApplication()->input->getCmd('layout', 'default');
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION'));

@@ -38,7 +38,7 @@ class RedshopViewDiscount_detail extends RedshopViewAdmin
 
 		$detail = $this->get('data');
 
-		$layout = JRequest::getVar('layout');
+		$layout = JFactory::getApplication()->input->getCmd('layout', '');
 
 		if ($layout == 'product')
 		{

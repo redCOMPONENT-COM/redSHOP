@@ -22,7 +22,7 @@ class RedshopViewAccessmanager_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$section = JRequest::getVar('section');
+		$section = JFactory::getApplication()->input->get('section');
 		$model = $this->getModel('accessmanager_detail');
 		$accessmanager = $model->getaccessmanager();
 

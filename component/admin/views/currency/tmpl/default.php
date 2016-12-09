@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 
-$filter = JRequest::getVar('filter_search');
+$filter = JFactory::getApplication()->input->get('filter_search');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {

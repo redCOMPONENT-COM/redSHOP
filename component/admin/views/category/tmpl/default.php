@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 
 $model = $this->getModel('category');
-$category_main_filter = JRequest::getVar('category_main_filter');
+$category_main_filter = JFactory::getApplication()->input->get('category_main_filter');
 $ordering = ($this->lists['order'] == 'c.ordering');
 ?>
 <script language="javascript" type="text/javascript">

@@ -56,11 +56,13 @@ class RedshopViewWrapper_detail extends RedshopViewAdmin
 		$product_id = 0;
 		$category_id = 0;
 
-		$showall = JRequest::getVar('showall', '0');
+		$jinput = JFactory::getApplication()->input;
+
+		$showall = $jinput->get('showall', '0');
 
 		if ($showall)
 		{
-			$product_id = JRequest::getVar('product_id');
+			$product_id = $jinput->get('product_id');
 		}
 
 		$category = $model->getCategoryInfo($category_id);

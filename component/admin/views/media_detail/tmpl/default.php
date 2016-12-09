@@ -12,7 +12,9 @@ JHTML::_('behavior.tooltip');
 
 $editor = JFactory::getEditor();
 
-$post = JRequest::get('post');
+$jinput = JFactory::getApplication()->input;
+
+$post = $jinput->post->getArray();
 
 JHtml::_('behavior.modal', 'a.joom-box');
 
@@ -21,10 +23,10 @@ jimport('joomla.filesystem.file');
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$showbuttons = JRequest::getVar('showbuttons');
-$section_id = JRequest::getVar('section_id');
-$section_name = JRequest::getVar('section_name');
-$media_section = JRequest::getVar('media_section');
+$showbuttons   = $jinput->get('showbuttons');
+$section_id    = $jinput->get('section_id');
+$section_name  = $jinput->get('section_name');
+$media_section = $jinput->get('media_section');
 $k = 0;
 
 JFactory::getDocument()->addScriptDeclaration('

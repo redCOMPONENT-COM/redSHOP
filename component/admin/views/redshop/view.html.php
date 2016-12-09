@@ -18,7 +18,7 @@ class RedshopViewRedshop extends RedshopViewAdmin
 	{
 		$user = JFactory::getUser();
 
-		$this->layout = JRequest::getCmd('layout', 'default');
+		$this->layout = JFactory::getApplication()->input->getCmd('layout', 'default');
 
 		$menuhide = explode(",", Redshop::getConfig()->get('MENUHIDE'));
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $producthelper = productHelper::getInstance();
 $redhelper     = redhelper::getInstance();
 $userhelper    = rsUserHelper::getInstance();
-$filter        = JRequest::getVar('filter');
+$filter        = JFactory::getApplication()->input->get('filter');
 $model         = $this->getModel('user');
 ?>
 <script language="javascript" type="text/javascript">

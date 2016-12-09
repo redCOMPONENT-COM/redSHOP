@@ -8,16 +8,17 @@
  */
 defined('_JEXEC') or die;
 
+$jinput = JFactory::getApplication()->input;
 
-$product_total = JRequest::getVar('product_total', 0);
-$product_inserted = JRequest::getVar('product_inserted', 0);
-$product_updated = JRequest::getVar('product_updated', 0);
-$shopper_total = JRequest::getVar('shopper_total', 0);
-$orders_total = JRequest::getVar('orders_total', 0);
-$customer_total = JRequest::getVar('customer_total', 0);
-$status_total = JRequest::getVar('status_total', 0);
-$category_total = JRequest::getVar('category_total', 0);
-$manufacturer_total = JRequest::getVar('manufacturer_total', 0);
+$product_total      = $jinput->getInt('product_total', 0);
+$product_inserted   = $jinput->getInt('product_inserted', 0);
+$product_updated    = $jinput->getInt('product_updated', 0);
+$shopper_total      = $jinput->getInt('shopper_total', 0);
+$orders_total       = $jinput->getInt('orders_total', 0);
+$customer_total     = $jinput->getInt('customer_total', 0);
+$status_total       = $jinput->getInt('status_total', 0);
+$category_total     = $jinput->getInt('category_total', 0);
+$manufacturer_total = $jinput->getInt('manufacturer_total', 0);
 ?>
 <div id="element-box">
 	<div class="t">

@@ -12,7 +12,7 @@ JHtml::_('behavior.modal', 'a.joom-box');
 
 $producthelper = productHelper::getInstance();
 
-$showall = JRequest::getVar('showall', '0');
+$showall = JFactory::getApplication()->input->get('showall', '0');
 $tmpl = '';
 
 $uri = JURI::getInstance();

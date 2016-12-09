@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 
-$newsid = JRequest::getInt('newsid', 0);
+$newsid = JFactory::getApplication()->input->getInt('newsid', 0);
 $model = $this->getModel('newsletter_detail');
 
 $newsletter_list = $model->getNewsletterList();

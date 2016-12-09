@@ -25,7 +25,7 @@ class RedshopViewExport extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
-		$task = JRequest::getVar('task');
+		$task = JFactory::getApplication()->input->getCmd('task', '');
 		$product_category = new product_category;
 		$model = $this->getModel('export');
 
