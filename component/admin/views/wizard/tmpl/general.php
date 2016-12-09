@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$params = JFactory::getApplication()->input->get('params');
+$params = JFactory::getApplication()->input->get('params', '', 'raw');
 ?>
 <style type="text/css">
 fieldset.adminform label.radiobtn, table.admintable label.radiobtn
