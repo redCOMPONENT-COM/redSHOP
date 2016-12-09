@@ -676,13 +676,16 @@ class redhelper
 		$order_data[7]->value = "r.ordering DESC";
 		$order_data[7]->text  = JText::_('COM_REDSHOP_ORDERING_DESC');
 
-		$order_data[8] = new stdClass;
-		$order_data[8]->value = "e.data_txt ASC";
-		$order_data[8]->text  = JText::_('COM_REDSHOP_DATEPICKER_ASC');
+		if (redHelper::getInstance()->isredProductfinder())
+		{
+			$order_data[8]        = new stdClass;
+			$order_data[8]->value = "e.data_txt ASC";
+			$order_data[8]->text  = JText::_('COM_REDSHOP_DATEPICKER_ASC');
 
-		$order_data[9] = new stdClass;
-		$order_data[9]->value = "e.data_txt DESC";
-		$order_data[9]->text  = JText::_('COM_REDSHOP_DATEPICKER_DESC');
+			$order_data[9]        = new stdClass;
+			$order_data[9]->value = "e.data_txt DESC";
+			$order_data[9]->text  = JText::_('COM_REDSHOP_DATEPICKER_DESC');
+		}
 
 		return $order_data;
 	}
