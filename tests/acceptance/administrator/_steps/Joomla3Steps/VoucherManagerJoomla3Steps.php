@@ -82,7 +82,15 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteVoucher($voucherCode)
 	{
-		$this->delete(new \VoucherManagerPage, $voucherCode, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherCheck);
+		$I = $this;
+		$I->amOnPage(\VoucherManagerPage::$URL);
+		$I->waitForElement(\VoucherManagerPage::$voucherResultRow, 30);
+		$I->fillField(\VoucherManagerPage::$voucherSearchField, $voucherCode);
+		$I->pressKey(\VoucherManagerPage::$voucherSearchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $voucherCode]);
+		$I->click(\VoucherManagerPage::$voucherCheck);
+		$I->click('Delete');
+		$I->dontSeeElement(['link' => $voucherCode]);
 	}
 
 	/**
