@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 $model       = $this->getModel('product');
 $category_id = $this->state->get('category_id', 0);
 
+$jinput = JFactory::getApplication()->input;
 ?>
 <script language="javascript" type="text/javascript">
 
@@ -29,7 +30,7 @@ $category_id = $this->state->get('category_id', 0);
 	}
 </script>
 <form
-	action="<?php echo 'index.php?option=com_redshop&view=product&amp;layout=element&amp;tmpl=component&amp;object=' . JRequest::getVar('object'); ?>"
+	action="<?php echo 'index.php?option=com_redshop&view=product&amp;layout=element&amp;tmpl=component&amp;object=' . $jinput->get('object'); ?>"
 	method="post" name="adminForm" id="adminForm">
 
 	<div class="filterItem">
@@ -103,7 +104,7 @@ $category_id = $this->state->get('category_id', 0);
 					</td>
 					<td>
 						<a style="cursor: pointer;"
-						   onclick="window.parent.jSelectProduct('<?php echo $row->product_id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""), $row->product_name); ?>', '<?php echo JRequest::getVar('object'); ?>');">
+						   onclick="window.parent.jSelectProduct('<?php echo $row->product_id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""), $row->product_name); ?>', '<?php echo $jinput->get('object'); ?>');">
 							<?php echo $row->product_name; ?></a>
 					</td>
 					<td>

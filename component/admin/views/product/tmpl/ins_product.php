@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $model = $this->getModel('product');
-$eName = JRequest::getVar('e_name');
+$eName = JFactory::getApplication()->input->get('e_name');
 $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 ?>
 <script language="javascript" type="text/javascript">

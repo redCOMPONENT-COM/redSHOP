@@ -43,7 +43,7 @@ class RedshopViewSample_detail extends RedshopViewAdmin
 
 		$detail = $this->get('data');
 
-		$layout = JRequest::getVar('layout', 'default');
+		$layout = JFactory::getApplication()->input->getCmd('layout', 'default');
 
 		$this->setLayout($layout);
 

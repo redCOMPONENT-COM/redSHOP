@@ -7,8 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$fid = JRequest::getVar('fid');
-$fsec = JRequest::getVar('fsec');
+$jinput = JFactory::getApplication()->input;
+
+$fid = $jinput->get('fid');
+$fsec = $jinput->get('fsec');
 $link = "index.php?tmpl=component&option=com_redshop&amp;view=media&amp;layout=thumbs";
 if (isset($fsec))
 	$link .= "&amp;fsec=" . $fsec;
@@ -17,7 +19,7 @@ if (isset($fid))
 
 $link .= "&amp;folder=" . $this->state->parent;
 
-$fdownload = JRequest::getInt('fdownload');
+$fdownload = $jinput->getInt('fdownload');
 $extra_arg = "";
 if ($fdownload)
 	$extra_arg = "&fdownload=1";

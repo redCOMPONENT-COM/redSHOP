@@ -16,7 +16,9 @@ class RedshopViewImport extends RedshopViewAdmin
 	{
 		$document = JFactory::getDocument();
 
-		$isvm = JRequest::getVar('vm');
+		$jinput = JFactory::getApplication()->input;
+
+		$isvm = $jinput->get('vm');
 
 		if ($isvm || $isvm == 1)
 		{
@@ -32,14 +34,14 @@ class RedshopViewImport extends RedshopViewAdmin
 		}
 		else
 		{
-			$layout = JRequest::getVar('layout');
+			$layout = $jinput->getCmd('layout', '');
 
 			if ($layout == 'importlog')
 			{
 				$this->setLayout($layout);
 			}
 
-			$task   = JRequest::getVar('task');
+			$task   = $jinput->getCmd('task', '');
 			$result = '';
 
 			if ($task == 'importfile')

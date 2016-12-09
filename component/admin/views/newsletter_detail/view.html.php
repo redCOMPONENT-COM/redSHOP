@@ -28,7 +28,9 @@ class RedshopViewNewsletter_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$layout = JRequest::getVar('layout');
+		$jinput = JFactory::getApplication()->input;
+
+		$layout = $jinput->getCmd('layout', '');
 
 		$model = $this->getModel('newsletter_detail');
 		$templates = $model->gettemplates();
@@ -54,7 +56,7 @@ class RedshopViewNewsletter_detail extends RedshopViewAdmin
 		{
 			$document->addScript('//www.google.com/jsapi');
 			$text = "statistics";
-			JRequest::setVar('hidemainmenu', 1);
+			$jinput->set('hidemainmenu', 1);
 			$this->setLayout($layout);
 		}
 		else

@@ -24,7 +24,7 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 
 
-$tmpl = JRequest::getVar('tmpl');
+$tmpl = JFactory::getApplication()->input->getCmd('tmpl', '');
 $model = $this->getModel('order_detail');
 $session = JFactory::getSession();
 $billing = $this->billing;

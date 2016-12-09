@@ -9,14 +9,14 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-
+$jinput                = JFactory::getApplication()->input;
 $this->producthelper   = productHelper::getInstance();
 $this->order_functions = order_functions::getInstance();
 $this->config          = Redconfiguration::getInstance();
 $this->model           = $this->getModel('user_detail');
-$this->flag            = JRequest::getVar('flag', '', 'request', 'string');
-$this->shipping        = JRequest::getVar('shipping', '', 'request', 'string');
-$cancel                = JRequest::getVar('cancel', '', 'cancel', 'string');
+$this->flag            = $jinput->getString('flag', '');
+$this->shipping        = $jinput->getString('shipping', '');
+$cancel                = $jinput->getString('cancel', '');
 $this->silerntuser     = ($this->detail->users_info_id) ? true : false;
 
 if ($this->detail->users_info_id && $this->detail->user_id && $this->detail->username)
@@ -183,7 +183,7 @@ if ($this->pagination->limitstart > 0)
 
 	if ($this->shipping)
 	{
-		$info_id = JRequest::getVar('info_id', '', 'request', 'string');
+		$info_id = $jinput->getString('info_id', '');
 		echo '<input type="hidden" name="address_type" id="address_type" value="ST"  />
 		<input type="hidden" name="shipping" value="' . $this->shipping . '" />
 		<input type="hidden" name="info_id" value="' . $info_id . '" />';

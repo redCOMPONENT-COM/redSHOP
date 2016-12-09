@@ -8,10 +8,12 @@
  */
 $shippinghelper = shipping::getInstance();
 
-$download = JRequest::getVar('download');
+$jinput = JFactory::getApplication()->input;
+
+$download = $jinput->get('download');
 if ($download)
 {
-	$oid = JRequest::getInt('oid');
+	$oid = $jinput->getInt('oid');
 	$baseURL = JURI::root();
 
 	$name = 'label_' . $oid . '.pdf';

@@ -30,7 +30,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$db = JFactory::getDbo();
 
 		$document = JFactory::getDocument();
-		$layout   = JRequest::getVar('layout');
+		$layout   = JFactory::getApplication()->input->getCmd('layout', '');
 
 		if ($layout == "resettemplate")
 		{
