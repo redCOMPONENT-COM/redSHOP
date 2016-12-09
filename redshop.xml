@@ -74,6 +74,8 @@
             <filename>controller.php</filename>
             <filename>index.html</filename>
             <filename>redshop.php</filename>
+            <filename>checksum.md5</filename>
+            <filename>checksum.md5.json</filename>
         </files>
         <languages folder="component/admin/language">
             <language tag="en-GB">en-GB/en-GB.com_redshop.ini</language>

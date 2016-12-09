@@ -69,3 +69,5 @@ releases/*
 
 checksum.md5
 checksum.md5.json
+component/admin/checksum.md5
+component/admin/checksum.md5.json
