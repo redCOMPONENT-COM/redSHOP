@@ -53,26 +53,36 @@ JPluginHelper::importPlugin('redshop_product');
 
 		if (pressbutton == 'add')
 		{
-		<?php
-			$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail');
-		?>
+			<?php $link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail'); ?>
 			window.location = '<?php echo $link;?>';
-			return;
-			// form.view.value="addorder_detail";
-		}
-		if ((pressbutton == 'allstatus'))
-		{
-			if (document.getElementById('order_status_all').value == '0') {
-				alert("<?php echo JText::_('COM_REDSHOP_SELECT_NEW_STATUS'); ?>");
-				return false;
-			}
 
+			return;
 		}
-		else if ((pressbutton == 'edit') || (pressbutton == 'remove')) {
-			form.view.value = "order_detail";
-		}
-		else if (pressbutton == 'multiprint_order') {
-			form.view.value = "order";
+
+		switch (pressbutton) {
+			case 'allstatus':
+				if (document.getElementById('order_status_all').value == '0') {
+					alert("<?php echo JText::_('COM_REDSHOP_SELECT_NEW_STATUS'); ?>");
+					return false;
+				}
+				break;
+			case 'edit':
+				form.view.value = "order_detail";
+				break;
+			case 'multiprint_order':
+				form.view.value = "order";
+				break;
+			case 'remove':
+				form.view.value = "order_detail";
+
+				var r = confirm('<?php echo JText::_("COM_REDSHOP_ORDER_DELETE_ORDERS_CONFIRM")?>');
+
+				if (r == false) {
+					return false;
+				}
+				break;
+			default:
+				break;
 		}
 
 		try
@@ -80,8 +90,7 @@ JPluginHelper::importPlugin('redshop_product');
 			form.onsubmit();
 		}
 		catch (e)
-		{
-		}
+		{}
 
 		form.submit();
 	}

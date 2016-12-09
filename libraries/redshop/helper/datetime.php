@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper for Datetime
  *
+ * @since  __DEPLOY_VERSION__
  */
 class RedshopHelperDatetime
 {
@@ -23,8 +24,7 @@ class RedshopHelperDatetime
 	 * @param   int   $inputTimestamp  Input timestamp
 	 * @param   bool  $night           At middle night
 	 *
-	 * @return int
-	 *
+	 * @return  int
 	 */
 	public static function generateTimestamp($inputTimestamp, $night = true)
 	{
