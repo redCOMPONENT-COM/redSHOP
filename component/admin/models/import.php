@@ -671,7 +671,18 @@ class RedshopModelImport extends RedshopModel
 								}
 							}
 
-							$product_stock = $rawdata['product_stock'];
+							// Product stock
+							$stockrooms = RedshopHelperStockroom::getStockroom();
+
+							if (count($stockrooms) > 0)
+							{
+								foreach ($stockrooms as $stockroom)
+								{
+									$headers[] = $stockroom->stockroom_name;
+								}
+							}
+
+							/*$product_stock = $rawdata['product_stock'];
 							$query = $db->getQuery(true)
 								->select('COUNT(*) AS total')
 								->from($db->quoteName('#__redshop_product_stockroom_xref'))
@@ -702,7 +713,7 @@ class RedshopModelImport extends RedshopModel
 									$db->setQuery($query);
 									$db->execute();
 								}
-							}
+							}*/
 
 							// Import image section
 							$section_images = explode("#", $section_images);
