@@ -29,7 +29,7 @@ class RedshopControllerWrapper_detail extends RedshopController
 
 	public function save()
 	{
-		$showall = $this->input->request->get('showall', '0');
+		$showall = $this->input->get('showall', '0');
 		$tmpl    = '';
 
 		if ($showall)
@@ -39,7 +39,7 @@ class RedshopControllerWrapper_detail extends RedshopController
 
 		$post               = $this->input->post->getArray();
 		$post['product_id'] = (isset($post['container_product'])) ? explode(',', $post['container_product']) : 0;
-		$product_id         = $this->input->request->getInt('product_id', 0);
+		$product_id         = $this->input->getInt('product_id', 0);
 
 		$cid                 = $this->input->post->get('cid', array(0), 'array');
 		$post ['wrapper_id'] = $cid [0];
@@ -60,7 +60,7 @@ class RedshopControllerWrapper_detail extends RedshopController
 
 	public function cancel()
 	{
-		$showall = $this->input->request->get('showall', '0');
+		$showall = $this->input->get('showall', '0');
 		$tmpl    = '';
 
 		if ($showall)
@@ -68,7 +68,7 @@ class RedshopControllerWrapper_detail extends RedshopController
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = $this->input->request->get('product_id');
+		$product_id = $this->input->get('product_id');
 
 		$msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);

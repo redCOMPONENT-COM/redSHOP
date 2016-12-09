@@ -57,7 +57,7 @@ class RedshopControllerCategory extends RedshopController
 	{
 		$db = JFactory::getDbo();
 		ob_clean();
-		$mainzipcode = $this->input->request->getString('q', '');
+		$mainzipcode = $this->input->getString('q', '');
 		$sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";
 		$db->setQuery($sel_zipcode);
 

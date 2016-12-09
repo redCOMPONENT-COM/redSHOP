@@ -99,8 +99,8 @@ class RedshopControllerMedia extends RedshopController
 
 	public function deleteAddtionalFiles()
 	{
-		$media_id = $this->input->request->getInt('media_id');
-		$fileId = $this->input->request->getInt('fileId');
+		$media_id = $this->input->getInt('media_id');
+		$fileId = $this->input->getInt('fileId');
 		$model = $this->getModel('media');
 
 		if ($model->deleteAddtionalFiles($fileId))
@@ -119,9 +119,9 @@ class RedshopControllerMedia extends RedshopController
 
 	public function saveorder()
 	{
-		$section_id = $this->input->request->get('section_id');
-		$section_name = $this->input->request->get('section_name');
-		$media_section = $this->input->request->get('media_section');
+		$section_id = $this->input->getInt('section_id');
+		$section_name = $this->input->get('section_name');
+		$media_section = $this->input->get('media_section');
 		$cid = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
@@ -171,8 +171,8 @@ class RedshopControllerMedia extends RedshopController
 	{
 		$app = JFactory::getApplication();
 		$post = $this->input->post->getArray();
-		$section_id = $this->input->request->get('section_id');
-		$media_section = $this->input->request->get('media_section');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');

@@ -34,7 +34,7 @@ class RedshopControllerTextlibrary_detail extends RedshopController
 	public function save($apply = 0)
 	{
 		$post               = $this->input->post->getArray();
-		$text_field         = $this->input->post->getString('text_field', '');
+		$text_field         = $this->input->post->get('text_field', '', 'raw');
 		$post["text_field"] = $text_field;
 
 		$cid = $this->input->post->get('cid', array(0), 'array');

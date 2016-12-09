@@ -34,7 +34,7 @@ class RedshopControllerDiscount extends RedshopController
 
 	public function remove()
 	{
-		$layout = $this->input->request->get('layout');
+		$layout = $this->input->getCmd('layout', '');
 		$cid    = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -63,7 +63,7 @@ class RedshopControllerDiscount extends RedshopController
 
 	public function publish()
 	{
-		$layout = $this->input->request->get('layout');
+		$layout = $this->input->getCmd('layout', '');
 		$cid    = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -92,7 +92,7 @@ class RedshopControllerDiscount extends RedshopController
 
 	public function unpublish()
 	{
-		$layout = $this->input->request->get('layout');
+		$layout = $this->input->getCmd('layout', '');
 		$cid    = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)

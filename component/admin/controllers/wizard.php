@@ -106,7 +106,7 @@ class RedshopControllerWizard extends RedshopController
 
 		if ($substep == 2)
 		{
-			$country_list = $this->input->request->get('country_list');
+			$country_list = $this->input->get('country_list');
 
 			$i = 0;
 			$country_listCode = '';

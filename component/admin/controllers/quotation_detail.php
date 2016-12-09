@@ -153,8 +153,8 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function deleteitem()
 	{
-		$qitemid = $this->input->request->getInt('qitemid', 0);
-		$cid     = $this->input->request->get('cid', array(0), 'array');
+		$qitemid = $this->input->getInt('qitemid', 0);
+		$cid     = $this->input->get('cid', array(0), 'array');
 
 		$model = $this->getModel('quotation_detail');
 

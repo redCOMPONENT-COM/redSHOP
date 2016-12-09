@@ -31,7 +31,7 @@ class RedshopControllerAccessmanager_detail extends RedshopController
 		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('accessmanager_detail');
-		$section = $this->input->request->getString('section', '');
+		$section = $this->input->getString('section', '');
 		$row = $model->store($post);
 
 		if ($row)

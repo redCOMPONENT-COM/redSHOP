@@ -35,7 +35,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 	public function save($apply = 0)
 	{
 		$post = $this->input->post->getArray();
-		$body = $this->input->post->getString('body', '');
+		$body = $this->input->post->get('body', '', 'raw');
 		$post["body"] = $body;
 
 		$cid = $this->input->post->get('cid', array(0), 'array');

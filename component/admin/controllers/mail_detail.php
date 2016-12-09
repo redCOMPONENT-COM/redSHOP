@@ -36,7 +36,7 @@ class RedshopControllerMail_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$mail_body = $this->input->post->get('mail_body', '');
+		$mail_body = $this->input->post->get('mail_body', '', 'raw');
 
 		$post["mail_body"] = $mail_body;
 

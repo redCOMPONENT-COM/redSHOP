@@ -31,9 +31,9 @@ class RedshopControllerPrices_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$product_id = $this->input->request->get('product_id');
-		$price_quantity_start = $this->input->request->get('price_quantity_start');
-		$price_quantity_end = $this->input->request->get('price_quantity_end');
+		$product_id = $this->input->get('product_id');
+		$price_quantity_start = $this->input->get('price_quantity_start');
+		$price_quantity_end = $this->input->get('price_quantity_end');
 
 		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$post['cdate'] = time();
@@ -85,7 +85,7 @@ class RedshopControllerPrices_detail extends RedshopController
 
 	public function remove()
 	{
-		$product_id = $this->input->request->get('product_id');
+		$product_id = $this->input->get('product_id');
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -106,7 +106,7 @@ class RedshopControllerPrices_detail extends RedshopController
 
 	public function cancel()
 	{
-		$product_id = $this->input->request->get('product_id');
+		$product_id = $this->input->get('product_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);

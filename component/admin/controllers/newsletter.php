@@ -31,7 +31,7 @@ class RedshopControllerNewsletter extends RedshopController
 		$userid = $this->input->post->get('userid', array(0), 'array');
 		$username = $this->input->post->get('username', array(0), 'array');
 
-		$newsletter_id = $this->input->request->get('newsletter_id');
+		$newsletter_id = $this->input->get('newsletter_id');
 
 		$tmpcid = array_chunk($cid, Redshop::getConfig()->get('NEWSLETTER_MAIL_CHUNK'));
 		$tmpuserid = array_chunk($userid, Redshop::getConfig()->get('NEWSLETTER_MAIL_CHUNK'));
@@ -50,7 +50,7 @@ class RedshopControllerNewsletter extends RedshopController
 	public function sendRecursiveNewsletter()
 	{
 		$session = JFactory::getSession();
-		$newsletter_id = $this->input->request->get('newsletter_id');
+		$newsletter_id = $this->input->get('newsletter_id');
 
 		$model = $this->getModel('newsletter');
 

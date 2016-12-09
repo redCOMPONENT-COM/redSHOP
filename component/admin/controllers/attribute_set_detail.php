@@ -317,9 +317,9 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$url = $uri->root();
 
-		$mediaid    = $this->input->request->get('mediaid');
-		$section_id = $this->input->request->get('section_id');
-		$cid        = $this->input->request->get('cid');
+		$mediaid    = $this->input->get('mediaid');
+		$section_id = $this->input->get('section_id');
+		$cid        = $this->input->get('cid');
 
 		$model = $this->getModel('product_detail');
 

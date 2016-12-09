@@ -30,8 +30,8 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$section_id = $this->input->request->get('section_id');
-		$section = $this->input->request->getString('section');
+		$section_id = $this->input->get('section_id');
+		$section = $this->input->getString('section');
 
 		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$post['cdate'] = time();

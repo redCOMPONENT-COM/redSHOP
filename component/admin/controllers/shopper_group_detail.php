@@ -37,8 +37,8 @@ class RedshopControllerShopper_group_detail extends RedshopController
 	{
 		$cid                             = $this->input->post->get('cid', array(0), 'array');
 		$post                            = $this->input->post->getArray();
-		$post["shopper_group_introtext"] = $this->input->post->getString('shopper_group_introtext', '');
-		$post["shopper_group_desc"]      = $this->input->post->getString('shopper_group_desc', '');
+		$post["shopper_group_introtext"] = $this->input->post->get('shopper_group_introtext', '', 'raw');
+		$post["shopper_group_desc"]      = $this->input->post->get('shopper_group_desc', '', 'raw');
 		$post["shopper_group_url"]       = "";
 		$post["shopper_group_id"]        = $cid [0];
 

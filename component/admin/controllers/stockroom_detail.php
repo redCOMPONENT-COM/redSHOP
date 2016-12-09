@@ -42,7 +42,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 	public function save($apply = 0)
 	{
 		$post                   = $this->input->post->getArray();
-		$stockroom_desc         = $this->input->post->getString('stockroom_desc', '');
+		$stockroom_desc         = $this->input->post->get('stockroom_desc', '', 'raw');
 		$post["stockroom_desc"] = $stockroom_desc;
 
 		if ($post["delivery_time"] == 'Weeks')
@@ -122,8 +122,8 @@ class RedshopControllerStockroom_detail extends RedshopController
 	public function importStockFromEconomic()
 	{
 		// Add product stock from economic
-		$cnt          = $this->input->request->getInt('cnt', 0);
-		$stockroom_id = $this->input->request->getInt('stockroom_id', 0);
+		$cnt          = $this->input->getInt('cnt', 0);
+		$stockroom_id = $this->input->getInt('stockroom_id', 0);
 		$totalprd     = 0;
 		$msg          = '';
 
