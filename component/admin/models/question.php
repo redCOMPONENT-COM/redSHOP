@@ -74,15 +74,18 @@ class RedshopModelQuestion extends RedshopModelForm
 			return true;
 		}
 
-		$table = clone $this->getTable();
+		$user = JFactory::getUser();
 
 		// Store Answer
 		$answerData = $data;
 		$answerData['id'] = 0;
-		$answerData['parent_id'] = $data['id']? $data['id']: $table->id;
+		$answerData['parent_id'] = $data['id']? $data['id']: $this->_db->insertid();
 		$answerData['question']  = $data['answer'];
 		$answerData['cdate']     = time();
+		$answerData['answer']    = '';
+		$answerData['user_email'] = $user->mail;
+		$answerData['user_name'] = $user->name;
 
-		return $table->store($data);
+		return $this->save($answerData);
 	}
 }
