@@ -16595,7 +16595,7 @@ table.admintable td .input-append button.btn .icon-calendar::before,
 }
 
 .saveorder {
-  background: rgba(0, 0, 0, 0) url("../images/j3ready/filesave.png") no-repeat scroll 0 0 !important;
+  background: rgba(0, 0, 0, 0) url("../images/save.png") no-repeat scroll 0 0 !important;
   display: inline-block;
   float: left;
   height: 16px;

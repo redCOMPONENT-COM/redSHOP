@@ -18,7 +18,7 @@ $calendarFormat = '%d-%m-%Y';
 ?>
 
 <div class="row">
-	<div class="col-sm-6">
+	<div class="col-sm-8">
 		<div class="box box-primary">
 			<div class="box-header with-border">
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_INFORMATION'); ?></h3>
@@ -252,7 +252,7 @@ $calendarFormat = '%d-%m-%Y';
 
 	</div>
 
-	<div class="col-sm-6">
+	<div class="col-sm-4">
 		<div class="box box-primary">
 			<div class="box-header with-border">
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGE'); ?></h3>
