@@ -141,8 +141,6 @@ class RedshopHelperConfig
 			$this->config->loadObject($class);
 		}
 
-		var_dump($this->config);
-
 		return $this;
 	}
 
