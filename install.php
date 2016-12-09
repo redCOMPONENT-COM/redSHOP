@@ -492,20 +492,15 @@ class Com_RedshopInstallerScript
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_LEGACY_MIGRATING'), 'notice');
 
 				// Load configuration file from legacy file.
-				if (Redshop::getConfig()->loadLegacy())
-				{
-					return true;
-				}
+				Redshop::getConfig()->loadLegacy();
 			}
 
 			// Try to load distinct if no config found.
-			return Redshop::getConfig()->loadDist();
+			Redshop::getConfig()->loadDist();
 		}
 		catch (Exception $e)
 		{
 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-			return false;
 		}
 	}
 
