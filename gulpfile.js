@@ -234,7 +234,7 @@ gulp.task("release",
 
 gulp.task("release:md5:generate", function(){
 
-    console.log("Create checksum.md5 file in: component/admin/checksum.md5");
+    console.log("Create checksum.md5 file in: component/admin/assets/checksum.md5");
 
     var stream = gulp.src([
         "./component/**/*",
@@ -269,13 +269,13 @@ gulp.task("release:md5:generate", function(){
         "./plugins/redshop_shipping/default_shipping/**",
         "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**"
     ],{ base: "./" })
-        .pipe(hashsum({dest: "./component/admin/", filename: "checksum.md5", hash: "md5"}))
+        .pipe(hashsum({dest: "./component/admin/assets/", filename: "checksum.md5", hash: "md5"}))
 
     return stream;
 });
 
 gulp.task("release:md5:json", ["release:md5:generate"], function(cb){
-    var fileContent = fs.readFileSync(path.join("./component/admin/checksum.md5"), "utf8");
+    var fileContent = fs.readFileSync(path.join("./component/admin/assets/checksum.md5"), "utf8");
     var temp = fileContent.split('\n');
     var result = [];
     var t1;
@@ -290,11 +290,11 @@ gulp.task("release:md5:json", ["release:md5:generate"], function(cb){
         }
     }
     
-    console.log("Create checksum.md5.json file in: component/admin/checksum.md5.json");
+    console.log("Create checksum.md5.json file in: component/admin/assets/checksum.md5.json");
 
     rs = JSON.stringify(result);
 
-    fs.writeFile("./component/admin/checksum.md5.json", rs);
+    fs.writeFile("./component/admin/assets/checksum.md5.json", rs);
 
     return cb();
 });
@@ -316,8 +316,6 @@ gulp.task("release:redshop", ["composer:libraries.redshop", "release:md5"], func
 
             return gulp.src([
                 "./component/**/*",
-                "./component/**/checksum.md5",
-                "./component/**/checksum.md5.json",
                 "./component/**/.gitkeep",
                 "./libraries/redshop/**/*",
                 "./libraries/redshop/vendor/**/*",
