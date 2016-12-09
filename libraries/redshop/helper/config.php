@@ -180,7 +180,7 @@ class RedshopHelperConfig
 		}
 
 		// Attempt to write the configuration file as a PHP class named RedshopConfig.
-		$configuration = $this->config->toString('PHP', array('class' => 'RedshopConfig', 'closingtag' => false));
+		$configuration = $config->toString('PHP', array('class' => 'RedshopConfig', 'closingtag' => false));
 
 		if (!JFile::write($file, $configuration))
 		{
