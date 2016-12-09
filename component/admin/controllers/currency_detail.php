@@ -35,7 +35,7 @@ class RedshopControllerCurrency_detail extends RedshopController
 	public function save($apply = 0)
 	{
 		$post                  = $this->input->post->getArray();
-		$currency_name         = $this->input->post->getString('currency_name', '');
+		$currency_name         = $this->input->post->get('currency_name', '', 'raw');
 		$post["currency_name"] = $currency_name;
 		$cid                   = $this->input->post->get('cid', array(0), 'array');
 		$post ['currency_id']  = $cid [0];

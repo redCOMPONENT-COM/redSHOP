@@ -27,7 +27,7 @@ class RedshopControllerProduct extends RedshopController
 	public function importeconomic()
 	{
 		// Add product to economic
-		$cnt = $this->input->request->getInt('cnt', 0);
+		$cnt = $this->input->getInt('cnt', 0);
 		$totalprd = 0;
 		$msg = '';
 
@@ -86,7 +86,7 @@ class RedshopControllerProduct extends RedshopController
 	public function importatteco()
 	{
 		// Add product attribute to economic
-		$cnt = $this->input->request->getInt('cnt', 0);
+		$cnt = $this->input->getInt('cnt', 0);
 		$totalprd = 0;
 		$msg = '';
 
@@ -230,9 +230,9 @@ class RedshopControllerProduct extends RedshopController
 
 	public function template()
 	{
-		$template_id = $this->input->request->get('template_id', '');
-		$product_id = $this->input->request->get('product_id', '');
-		$section = $this->input->request->get('section', '');
+		$template_id = $this->input->get('template_id', '');
+		$product_id = $this->input->get('product_id', '');
+		$section = $this->input->get('section', '');
 		$model = $this->getModel('product');
 
 		$data_product = $model->product_template($template_id, $product_id, $section);
@@ -299,7 +299,7 @@ class RedshopControllerProduct extends RedshopController
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$ids = $this->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel('product_detail');
 		$return = $model->checkin($ids);

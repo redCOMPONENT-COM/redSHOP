@@ -27,7 +27,7 @@ class RedshopControllerProduct_price extends RedshopController
 	public function saveprice()
 	{
 		$db                   = JFactory::getDbo();
-		$product_id           = $this->input->request->get('pid');
+		$product_id           = $this->input->get('pid');
 		$shopper_group_id     = $this->input->post->get('shopper_group_id', array(), 'array');
 		$price                = $this->input->post->get('price', array(), 'array');
 		$price_quantity_start = $this->input->post->get('price_quantity_start', array(), 'array');
@@ -84,9 +84,9 @@ class RedshopControllerProduct_price extends RedshopController
 
 	public function template()
 	{
-		$template_id = $this->input->request->get('template_id', '');
-		$product_id  = $this->input->request->get('product_id', '');
-		$section     = $this->input->request->get('section', '');
+		$template_id = $this->input->get('template_id', '');
+		$product_id  = $this->input->get('product_id', '');
+		$section     = $this->input->get('section', '');
 		$model       = $this->getModel('product');
 
 		$data_product = $model->product_template($template_id, $product_id, $section);

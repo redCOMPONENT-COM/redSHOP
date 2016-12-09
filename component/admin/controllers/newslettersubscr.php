@@ -30,7 +30,7 @@ class RedshopControllerNewslettersubscr extends RedshopController
 
 		$filetype = strtolower(JFile::getExt($file['name']));
 
-		$separator = $this->input->request->get('separator', ",");
+		$separator = $this->input->get('separator', ",");
 
 		if ($filetype == 'csv')
 		{

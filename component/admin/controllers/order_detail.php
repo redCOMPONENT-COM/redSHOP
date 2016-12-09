@@ -36,7 +36,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$text_field = $this->input->post->getString('text_field', '');
+		$text_field = $this->input->post->get('text_field', '', 'raw');
 		$post["text_field"] = $text_field;
 
 		$cid = $this->input->post->get('cid', array(0), 'array');
@@ -282,7 +282,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function updateShippingAdd()
 	{
 		$post = $this->input->post->getArray();
-		$suboption = $this->input->request->getString('suboption', 'com_redshop');
+		$suboption = $this->input->getString('suboption', 'com_redshop');
 		$view = ($suboption == 'com_redshop') ? 'order_detail' : 'order';
 
 		$cid = $this->input->post->get('cid', array(0), 'array');
@@ -356,7 +356,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function send_downloadmail()
 	{
 		$cid  = $this->input->get->get('cid', array(0), 'array');
-		$tmpl = $this->input->request->getString('tmpl', '');
+		$tmpl = $this->input->getCmd('tmpl', '');
 
 		$order_functions = new order_functions;
 
@@ -380,13 +380,13 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function displayProductItemInfo()
 	{
 		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$get = $this->input->get->getArray();
+		$get                = $this->input->get->getArray();
 
 		$product_id = $get['product'];
-		$quantity = $get['quantity'];
-		$unique_id = $get['unique_id'];
-		$user_id = $get['user_id'];
-		$newprice = $get['newprice'];
+		$quantity   = $get['quantity'];
+		$unique_id  = $get['unique_id'];
+		$user_id    = $get['user_id'];
+		$newprice   = $get['newprice'];
 
 		$response = $adminproducthelper->getProductItemInfo($product_id, $quantity, $unique_id, $user_id, $newprice);
 		echo $response;
@@ -395,14 +395,14 @@ class RedshopControllerOrder_detail extends RedshopController
 
 	public function checkoutnext()
 	{
-		$app = JFactory::getApplication();
+		$app     = JFactory::getApplication();
 		$session = JFactory::getSession();
 
-		$redconfig = Redconfiguration::getInstance();
-		$model = $this->getModel('order_detail');
+		$redconfig       = Redconfiguration::getInstance();
+		$model           = $this->getModel('order_detail');
 		$order_functions = order_functions::getInstance();
 
-		$request = $this->input->request->getArray();
+		$request = $this->input->getArray();
 
 		if ($request['ccinfo'] == 0)
 		{
@@ -459,7 +459,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$ccdata['order_payment_expire_month'] = $request['order_payment_expire_month'];
 		$ccdata['order_payment_expire_year'] = $request['order_payment_expire_year'];
 		$ccdata['credit_card_code'] = $request['credit_card_code'];
-		$ccdata['selectedCardId'] = $app->input->getString('selectedCard', '');
+		$ccdata['selectedCardId'] = $this->input->getString('selectedCard', '');
 		$session->set('ccdata', $ccdata);
 
 		$values['order_shipping'] = $order->order_shipping;
@@ -502,8 +502,8 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		$redshopMail = redshopMail::getInstance();
 
-		$cid = $this->input->get->get('cid', array(0), 'array');
-		$tmpl = $this->input->request->getString('tmpl', '');
+		$cid  = $this->input->get->get('cid', array(0), 'array');
+		$tmpl = $this->input->getCmd('tmpl', '');
 
 		if ($redshopMail->sendInvoiceMail($cid[0]))
 		{
@@ -533,9 +533,8 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		$redshopMail = redshopMail::getInstance();
 
-		$input   = JFactory::getApplication()->input;
-		$orderId = $input->getInt('orderid');
-		$tmpl    = $input->getCmd('tmpl');
+		$orderId = $this->input->getInt('orderid');
+		$tmpl    = $this->input->getCmd('tmpl', '');
 
 		if ($redshopMail->sendOrderMail($orderId))
 		{
@@ -565,9 +564,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	 */
 	public function pay()
 	{
-		$app = JFactory::getApplication();
-
-		$orderId = $app->input->getInt('orderId');
+		$orderId = $this->input->getInt('orderId');
 
 		JPluginHelper::importPlugin('redshop_payment');
 		JEventDispatcher::getInstance()->trigger('onBackendPayment', array($orderId));

@@ -38,7 +38,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 		// Include extra field class
 
 		$post['shipping_rate_on_product'] = explode(',', $post['container_product']);
-		$post["shipping_location_info"] = $this->input->post->getString('shipping_location_info', '');
+		$post["shipping_location_info"] = $this->input->post->get('shipping_location_info', '', 'raw');
 		$model = $this->getModel('shipping_rate_detail');
 
 		if ($row = $model->store($post))

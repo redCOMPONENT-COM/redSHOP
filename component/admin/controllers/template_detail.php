@@ -37,7 +37,7 @@ class RedshopControllerTemplate_detail extends RedshopController
 		$app  = JFactory::getApplication();
 		$post = $this->input->post->getArray();
 
-		$post["template_desc"] = $this->input->post->getString('template_desc', '');
+		$post["template_desc"] = $this->input->post->get('template_desc', '', 'raw');
 
 		$model = $this->getModel('template_detail');
 		$row   = $model->store($post);

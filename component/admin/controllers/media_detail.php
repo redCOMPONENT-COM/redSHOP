@@ -816,8 +816,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$section_id = $this->input->request->get('section_id');
-		$media_section = $this->input->request->get('media_section');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -862,8 +862,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$section_id = $this->input->request->get('section_id');
-		$media_section = $this->input->request->get('media_section');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -909,8 +909,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$section_id = $this->input->request->get('section_id');
-		$media_section = $this->input->request->get('media_section');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -987,8 +987,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$section_id = $this->input->request->get('section_id');
-		$media_section = $this->input->request->get('media_section');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
 		$cid = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -1036,9 +1036,9 @@ class RedshopControllerMedia_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$section_id = $this->input->request->get('section_id');
-		$media_section = $this->input->request->get('media_section');
-		$cid = $this->input->request->get('cid', array(), 'array');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -1082,8 +1082,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$section_id = $this->input->request->get('section_id');
-		$media_section = $this->input->request->get('media_section');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
 		$cid = $this->input->post->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)

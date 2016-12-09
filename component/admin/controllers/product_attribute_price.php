@@ -27,9 +27,9 @@ class RedshopControllerProduct_attribute_price extends RedshopController
 	public function saveprice()
 	{
 		$db = JFactory::getDbo();
-		$section_id = $this->input->request->get('section_id');
-		$section = $this->input->request->get('section');
-		$cid = $this->input->request->get('cid');
+		$section_id = $this->input->get('section_id');
+		$section = $this->input->get('section');
+		$cid = $this->input->get('cid');
 		$shopper_group_id = $this->input->post->get('shopper_group_id', array(), 'array');
 		$price = $this->input->post->get('price', array(), 'array');
 		$price_quantity_start = $this->input->post->get('price_quantity_start', array(), 'array');

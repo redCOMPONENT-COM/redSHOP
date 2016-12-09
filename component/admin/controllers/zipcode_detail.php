@@ -36,7 +36,7 @@ class RedshopControllerZipcode_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$city_name         = $this->input->post->getString('city_name', '');
+		$city_name         = $this->input->post->get('city_name', '', 'raw');
 		$post["city_name"] = $city_name;
 
 		$cid                 = $this->input->post->get('cid', array(0), 'array');

@@ -35,7 +35,7 @@ class RedshopControllerWrapper extends RedshopController
 
 	public function remove()
 	{
-		$showall = $this->input->request->get('showall', '0');
+		$showall = $this->input->get('showall', '0');
 		$tmpl    = '';
 
 		if ($showall)
@@ -43,7 +43,7 @@ class RedshopControllerWrapper extends RedshopController
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = $this->input->request->get('product_id');
+		$product_id = $this->input->get('product_id');
 		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -70,7 +70,7 @@ class RedshopControllerWrapper extends RedshopController
 	 */
 	public function publish()
 	{
-		$showall = $this->input->request->get('showall', '0');
+		$showall = $this->input->get('showall', '0');
 		$tmpl    = '';
 
 		if ($showall)
@@ -78,7 +78,7 @@ class RedshopControllerWrapper extends RedshopController
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = $this->input->request->get('product_id');
+		$product_id = $this->input->get('product_id');
 		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -105,7 +105,7 @@ class RedshopControllerWrapper extends RedshopController
 	 */
 	public function unpublish()
 	{
-		$showall = $this->input->request->get('showall', '0');
+		$showall = $this->input->get('showall', '0');
 		$tmpl    = '';
 
 		if ($showall)
@@ -113,7 +113,7 @@ class RedshopControllerWrapper extends RedshopController
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = $this->input->request->get('product_id');
+		$product_id = $this->input->get('product_id');
 		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -134,7 +134,7 @@ class RedshopControllerWrapper extends RedshopController
 
 	public function enable_defaultpublish()
 	{
-		$showall = $this->input->request->get('showall', '0');
+		$showall = $this->input->get('showall', '0');
 		$tmpl    = '';
 
 		if ($showall)
@@ -142,7 +142,7 @@ class RedshopControllerWrapper extends RedshopController
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = $this->input->request->get('product_id');
+		$product_id = $this->input->get('product_id');
 		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -163,7 +163,7 @@ class RedshopControllerWrapper extends RedshopController
 
 	public function enable_defaultunpublish()
 	{
-		$showall = $this->input->request->get('showall', '0');
+		$showall = $this->input->get('showall', '0');
 		$tmpl    = '';
 
 		if ($showall)
@@ -171,7 +171,7 @@ class RedshopControllerWrapper extends RedshopController
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = $this->input->request->get('product_id');
+		$product_id = $this->input->get('product_id');
 		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)

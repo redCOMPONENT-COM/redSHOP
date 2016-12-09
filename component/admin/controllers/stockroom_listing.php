@@ -38,9 +38,9 @@ class RedshopControllerStockroom_listing extends RedshopControllerAdmin
 	public function ResetPreorderStock()
 	{
 		$model          = $this->getModel('stockroom_listing');
-		$stockroom_type = $this->input->request->get('stockroom_type', 'product');
-		$pid            = $this->input->request->get('product_id');
-		$sid            = $this->input->request->get('stockroom_id');
+		$stockroom_type = $this->input->get('stockroom_type', 'product');
+		$pid            = $this->input->get('product_id');
+		$sid            = $this->input->get('stockroom_id');
 
 		$model->ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid);
 

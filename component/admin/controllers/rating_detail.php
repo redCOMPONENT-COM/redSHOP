@@ -36,7 +36,7 @@ class RedshopControllerRating_detail extends RedshopController
 	public function save()
 	{
 		$post            = $this->input->post->getArray();
-		$comment         = $this->input->post->getString('comment', '');
+		$comment         = $this->input->post->get('comment', '', 'raw');
 		$post["comment"] = $comment;
 
 		$cid = $this->input->post->get('cid', array(0), 'array');

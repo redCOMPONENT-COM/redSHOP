@@ -161,7 +161,7 @@ function setChildElement()
 }
 	public function removeIpAddress()
 	{
-		$xmlexport_ip_id = $this->input->request->get('xmlexport_ip_id', 0);
+		$xmlexport_ip_id = $this->input->get('xmlexport_ip_id', 0);
 
 		$model = $this->getModel('xmlexport_detail');
 		$model->deleteIpAddress($xmlexport_ip_id);
