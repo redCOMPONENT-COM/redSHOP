@@ -38,7 +38,7 @@ class RedshopHelperConfig
 	/**
 	 * Configuration
 	 *
-	 * @var  stdClass
+	 * @var  Registry
 	 */
 	protected $config;
 
