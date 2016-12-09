@@ -2196,20 +2196,20 @@ class RedshopModelImport extends RedshopModel
 		}
 		else
 		{
-			$product_total = $this->Product_sync();
-			$shopper_total = $this->Shopper_Group_Insert();
-			$status_total = $this->Order_status_insert();
-			$customer_total = $this->customerInformation();
-			$orders_total = $this->Orders_insert();
+			$product_total      = $this->Product_sync();
+			$shopper_total      = $this->Shopper_Group_Insert();
+			$status_total       = $this->Order_status_insert();
+			$customer_total     = $this->customerInformation();
+			$orders_total       = $this->Orders_insert();
 			$manufacturer_total = $this->Manufacturer_insert();
-			$jinput = JFactory::getApplication()->input;
+			$jinput             = JFactory::getApplication()->input;
 
-			$jinput->get('product_total', $product_total);
-			$jinput->get('shopper_total', $shopper_total);
-			$jinput->get('customer_total', $customer_total);
-			$jinput->get('orders_total', $orders_total);
-			$jinput->get('status_total', $status_total);
-			$jinput->get('manufacturer_total', $manufacturer_total);
+			$jinput->set('product_total', $product_total);
+			$jinput->set('shopper_total', $shopper_total);
+			$jinput->set('customer_total', $customer_total);
+			$jinput->set('orders_total', $orders_total);
+			$jinput->set('status_total', $status_total);
+			$jinput->set('manufacturer_total', $manufacturer_total);
 
 			return true;
 		}
