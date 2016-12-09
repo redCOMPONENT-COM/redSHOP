@@ -18,7 +18,7 @@ class RedshopModelUser extends RedshopModel
 	{
 		parent::__construct();
 
-		$array = JRequest::getVar('user_id', 0, '', 'array');
+		$array = JFactory::getApplication()->input->get('user_id', 0, 'array');
 
 		$this->setId((int) $array[0]);
 	}

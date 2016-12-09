@@ -31,14 +31,14 @@ class RedshopModelImport extends RedshopModel
 	public function getData()
 	{
 		ob_clean();
-		$app = JFactory::getApplication();
+		$app     = JFactory::getApplication();
 		$session = JFactory::getSession();
-		$import = $app->input->get('import', '');
-		$task = explode('.', $app->input->get('task', ''));
-		$task = $task[count($task) - 1];
-		$post = JRequest::get('post');
-		$files = JRequest::get('files');
-		$msg = '';
+		$import  = $app->input->get('import', '');
+		$task    = explode('.', $app->input->get('task', ''));
+		$task    = $task[count($task) - 1];
+		$post    = $app->input->post->getArray();
+		$files   = $app->input->files->getArray();
+		$msg     = '';
 
 		if (isset($files[$task . $import]))
 		{
@@ -91,7 +91,7 @@ class RedshopModelImport extends RedshopModel
 		$db      = JFactory::getDbo();
 
 		/* Get all posted data */
-		$new_line = JRequest::getVar('new_line');
+		$new_line = JFactory::getApplication()->input->get('new_line');
 		$post = $session->get('ImportPost');
 
 		$file_name = $session->get('Importfilename');
@@ -2202,13 +2202,14 @@ class RedshopModelImport extends RedshopModel
 			$customer_total = $this->customerInformation();
 			$orders_total = $this->Orders_insert();
 			$manufacturer_total = $this->Manufacturer_insert();
+			$jinput = JFactory::getApplication()->input;
 
-			JRequest::setVar('product_total', $product_total);
-			JRequest::setVar('shopper_total', $shopper_total);
-			JRequest::setVar('customer_total', $customer_total);
-			JRequest::setVar('orders_total', $orders_total);
-			JRequest::setVar('status_total', $status_total);
-			JRequest::setVar('manufacturer_total', $manufacturer_total);
+			$jinput->get('product_total', $product_total);
+			$jinput->get('shopper_total', $shopper_total);
+			$jinput->get('customer_total', $customer_total);
+			$jinput->get('orders_total', $orders_total);
+			$jinput->get('status_total', $status_total);
+			$jinput->get('manufacturer_total', $manufacturer_total);
 
 			return true;
 		}
@@ -2442,17 +2443,18 @@ class RedshopModelImport extends RedshopModel
 
 			$this->related_product_sync($vmproarr, $redproarr);
 			$category_total = $this->Category_sync($product_array);
+			$jinput         = JFactory::getApplication()->input;
 
-			JRequest::setVar('category_total', $category_total);
+			$jinput->set('category_total', $category_total);
 
 			if (isset($inserted))
 			{
-				JRequest::setVar('product_inserted', count($inserted));
+				$jinput->set('product_inserted', count($inserted));
 			}
 
 			if (isset($updated))
 			{
-				JRequest::setVar('product_updated', count($updated));
+				$jinput->set('product_updated', count($updated));
 			}
 
 			return count($product_array);

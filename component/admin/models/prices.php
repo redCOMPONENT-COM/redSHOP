@@ -38,7 +38,7 @@ class RedshopModelPrices extends RedshopModel
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
-		$pid = JRequest::getVar('product_id');
+		$pid = $app->input->get('product_id');
 		$this->setProductId((int) $pid);
 	}
 

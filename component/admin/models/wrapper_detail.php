@@ -26,8 +26,10 @@ class RedshopModelWrapper_detail extends RedshopModel
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
-		$this->_sectionid = JRequest::getVar('product_id', 0, '', 'int');
+		$jinput = JFactory::getApplication()->input;
+
+		$array            = $jinput->get('cid', 0, 'array');
+		$this->_sectionid = $jinput->get('product_id', 0, 'int');
 		$this->setId((int) $array[0]);
 	}
 
@@ -196,8 +198,10 @@ class RedshopModelWrapper_detail extends RedshopModel
 			return false;
 		}
 
-		$wrapperfile = JRequest::getVar('wrapper_image', '', 'files', 'array');
-		$wrapperimg = "";
+		$jinput = JFactory::getApplication()->input;
+
+		$wrapperfile = $jinput->files->get('wrapper_image', '', 'array');
+		$wrapperimg  = "";
 
 		if ($wrapperfile['name'] != "")
 		{
@@ -240,7 +244,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 		$categoryid = 0;
 
-		if (count(JRequest::getvar('categoryid')) > 0)
+		if (count($jinput->get('categoryid')) > 0)
 		{
 			$categoryid = implode(",", $_POST['categoryid']);
 		}

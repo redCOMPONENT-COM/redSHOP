@@ -107,7 +107,7 @@ class RedshopModelNewsletter extends RedshopModel
 
 	public function listallsubscribers($n = 0)
 	{
-		$post = JRequest::get('post');
+		$post = JFactory::getApplication()->input->post->getArray();
 		$where = "";
 
 		$zipstart = (isset($post['zipstart'])) ? $post['zipstart'] : "";
@@ -215,7 +215,7 @@ class RedshopModelNewsletter extends RedshopModel
 	public function category($uid)
 	{
 		$return = 1;
-		$categories = JRequest::getVar('product_category');
+		$categories = JFactory::getApplication()->input->get('product_category');
 
 		if (count($categories) > 0)
 		{
@@ -240,7 +240,7 @@ class RedshopModelNewsletter extends RedshopModel
 	public function product($user_id)
 	{
 		$return = 1;
-		$product = JRequest::getVar('product');
+		$product = JFactory::getApplication()->input->get('product');
 
 		if (count($product) > 0)
 		{
@@ -267,8 +267,8 @@ class RedshopModelNewsletter extends RedshopModel
 		$number_order = $jInput->getInt('number_order', 0);
 		$oprand = $jInput->getCmd('oprand', 'select');
 
-		$start = JRequest::getVar('total_start', '');
-		$end = JRequest::getVar('total_end', '');
+		$start = $jInput->get('total_start', '');
+		$end = $jInput->get('total_end', '');
 		$order_total = '';
 
 		if ($start != '' && $end != '')
@@ -368,7 +368,7 @@ class RedshopModelNewsletter extends RedshopModel
 		$producthelper = productHelper::getInstance();
 		$jconfig = new jconfig;
 		$db = JFactory::getDbo();
-		$newsletter_id = JRequest::getVar('newsletter_id');
+		$newsletter_id = JFactory::getApplication()->input->get('newsletter_id');
 
 		$uri = JURI::getInstance();
 		$url = $uri->root();

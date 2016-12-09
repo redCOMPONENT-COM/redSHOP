@@ -137,7 +137,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$detail = new stdClass;
 
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$data                               = $this->input->getArray($_POST);
+		$data                               = $this->input->post->getArray();
 		$data['product_desc']               = JFilterInput::getInstance(null, null, 1, 1)->clean($this->input->get('product_desc', '', 'RAW'), 'html');
 		$data['product_s_desc']             = JFilterInput::getInstance(null, null, 1, 1)->clean($this->input->get('product_s_desc', '', 'RAW'), 'html');
 		$detail->product_id                 = (isset($data['product_id'])) ? $data['product_id'] : 0;
@@ -1365,7 +1365,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 			else
 			{
-				$post = $this->input->getArray($_POST);
+				$post = $this->input->post->getArray();
 				$this->_initData();
 				$post = array_merge($post, (array) $this->data);
 			}
@@ -2588,7 +2588,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		// 1. Get all types.
-		$q = "SELECT id, type_name FROM #__redproductfinder_types where type_select!='Productfinder_datepicker' ORDER by ordering";
+		$q = "SELECT id, type_name FROM #__redproductfinder_types where type_select!='Productfinder datepicker' ORDER by ordering";
 		$this->_db->setQuery($q);
 		$types = $this->_db->loadAssocList('id');
 

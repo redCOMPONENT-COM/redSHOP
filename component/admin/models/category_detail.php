@@ -27,7 +27,7 @@ class RedshopModelCategory_detail extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
@@ -139,7 +139,7 @@ class RedshopModelCategory_detail extends RedshopModel
 	 */
 	public function setPostData($details, $excludes = array())
 	{
-		$postData  = JFactory::getApplication()->input->getArray($_POST);
+		$postData  = JFactory::getApplication()->input->post->getArray();
 		$details = (array) $details;
 
 		foreach ($details as $key => $detail)
@@ -167,7 +167,7 @@ class RedshopModelCategory_detail extends RedshopModel
 		$filename = "";
 
 		// Get File name, tmp_name
-		$file = JRequest::getVar('category_full_image', array(), 'files', 'array');
+		$file = JFactory::getApplication()->input->files->get('category_full_image', array(), 'array');
 
 		if (count($file) > 0)
 		{
@@ -228,7 +228,7 @@ class RedshopModelCategory_detail extends RedshopModel
 		}
 
 		// Get File name, tmp_name
-		$backfile = JRequest::getVar('category_back_full_image', '', 'files', 'array');
+		$backfile = JFactory::getApplication()->input->files->get('category_back_full_image', '', 'array');
 
 		if (isset($data['image_back_delete']))
 		{
@@ -513,7 +513,7 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function orderup()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = JFactory::getApplication()->input->post->get('cid', array(0), 'array');
 		$cid = $cid[0];
 		$q = "SELECT ordering,category_parent_id FROM " . $this->_table_prefix . "category," . $this->_table_prefix . "category_xref ";
 		$q .= "WHERE category_id='" . $cid . "' ";
@@ -552,7 +552,7 @@ class RedshopModelCategory_detail extends RedshopModel
 
 	public function orderdown()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = JFactory::getApplication()->input->post->get('cid', array(0), 'array');
 		$cid = $cid[0];
 
 		$q = "SELECT ordering,category_parent_id FROM " . $this->_table_prefix . "category," . $this->_table_prefix . "category_xref ";
