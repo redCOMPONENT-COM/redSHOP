@@ -29,6 +29,8 @@ class RedshopViewTroubleshoots extends RedshopViewAdmin
 	{
 		$this->list = $this->get('Data');
 
+		$this->displayToolbar();
+
 		parent::display($tpl);
 	}
 
@@ -41,6 +43,6 @@ class RedshopViewTroubleshoots extends RedshopViewAdmin
 	 */
 	protected function displayToolbar ()
 	{
-		JToolBarHelper::title('COM_REDSHOP_TITLE_TROUBLESHOOTS');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_TITLE_TROUBLESHOOTS'));
 	}
 }

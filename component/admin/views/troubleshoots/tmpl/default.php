@@ -12,59 +12,69 @@ $hacked    = 0;
 $overrides = 0;
 $missing   = 0;
 ?>
-<table class="table table-bordered">
-	<thead>
-	<tr>
-		<th>#</th>
-		<th><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_FILE');?></th>
-		<th><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_HACKING');?></th>
-		<th><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_OVERRIDES');?></th>
-		<th><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_MISSING');?></th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php foreach ($this->list as $index => $item): ?>
-		<?php if (is_array($item)): ?>
-			<tr>
-				<th scope="row"><?php echo $index++; ?></th>
-				<td>
-					<span class="text"><small><?php echo $item['original']; ?></small></span>
-					<?php if (isset($item['overrides'])): ?>
-						<?php foreach ($item['overrides'] as $override): ?>
-							<span class="text-danger"><small><?php echo $override; ?></small></span>
-						<?php endforeach; ?>
-					<?php endif; ?>
-
-				</td>
-				<td class="center">
-					<?php if ($item['hacking']): ?>
-						<?php $hacked++; ?>
-						<span class="label label-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
-					<?php endif; ?>
-				</td>
-				<td class="center">
-					<?php if (isset($item['overrides'])): ?>
-						<?php $overrides++; ?>
-						<span class="label label-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
-					<?php endif; ?>
-				</td>
-				<td class="center">
-					<?php if ($item['missing']): ?>
-						<?php $missing++; ?>
-						<span class="label label-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
-					<?php endif; ?>
-				</td>
-			</tr>
-		<?php else: ?>
-			<?php continue; ?>
+<form class="bs-example bs-example-form">
+	<table class="table table-bordered">
+		<thead>
+		<tr>
+			<th>#</th>
+			<th><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_FILE'); ?></th>
+			<th><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_HACKING'); ?></th>
+			<th><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_OVERRIDES'); ?></th>
+			<th><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_MISSING'); ?></th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php if ($this->list): ?>
+			<?php foreach ($this->list as $index => $item): ?>
+				<?php if (is_object($item)): ?>
+					<tr class="<?php echo $item->getMissingClass(); ?>">
+						<th scope="row"><?php echo $index++; ?></th>
+						<td>
+							<span class="text"><?php echo $item->getOriginalFile(); ?></span>
+							<!-- Modified time -->
+							<?php if ($item->isModified()): ?>
+								<br/>
+								<span class="label label-default">
+									<small>
+										<?php echo $item->getModifiedTime(); ?>
+									</small>
+								</span>
+							<?php endif; ?>
+						</td>
+						<td class="center">
+							<?php if ($item->isModified()): ?>
+								<?php $hacked++; ?>
+								<?php echo $item->renderCheckmark(); ?>
+							<?php endif; ?>
+						</td>
+						<td class="center">
+							<?php if ($item->isOverrided()): ?>
+								<?php $overrides++; ?>
+								<<?php echo $item->renderCheckmark(); ?>
+							<?php endif; ?>
+						</td>
+						<td class="center">
+							<?php if ($item->isMissing()): ?>
+								<?php $missing++; ?>
+								<?php echo $item->renderCheckmark(); ?>
+							<?php endif; ?>
+						</td>
+					</tr>
+				<?php else: ?>
+					<?php continue; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
 		<?php endif; ?>
-	<?php endforeach; ?>
-	</tbody>
-</table>
-<div class="" style="margin-top:15px">
-	<div class="well well-sm">
-		<div class=""><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_HACKING');?>: <span class="badge"><?php echo $hacked; ?></span></div>
-		<div class=""><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_OVERRIDES');?>: <span class="badge"><?php echo $overrides; ?></span></div>
-		<div class=""><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_MISSING');?>: <span class="badge"><?php echo $missing; ?></span></div>
+		</tbody>
+	</table>
+	<div class="" style="margin-top:15px">
+		<div class="well well-sm">
+			<div class=""><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_HACKING'); ?>: <span
+					class="badge"><?php echo $hacked; ?></span></div>
+			<div class=""><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_OVERRIDES'); ?>: <span
+					class="badge"><?php echo $overrides; ?></span></div>
+			<div class=""><?php echo JText::_('COM_REDSHOP_TROUBLESHOOT_HEADING_MISSING'); ?>: <span
+					class="badge"><?php echo $missing; ?></span></div>
+		</div>
 	</div>
-</div>
+</form>
