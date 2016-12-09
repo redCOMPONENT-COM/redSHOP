@@ -400,7 +400,7 @@ class RedshopHelperQuotation
 
 							for ($f = 0, $fn = count($files); $f < $fn; $f++)
 							{
-								$uLink   = Redshop::getConfig()->get('REDSHOP_FRONT_DOCUMENT_ABSPATH') . "product/" . $files[$f];
+								$uLink   = REDSHOP_FRONT_DOCUMENT_ABSPATH . "product/" . $files[$f];
 								$dataTxt .= "<a href='" . $uLink . "'>" . $files[$f] . "</a> ";
 							}
 
