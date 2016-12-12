@@ -19,9 +19,9 @@ class RedshopControllerVoucher_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'voucher_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'voucher_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
 		parent::display();
 	}
@@ -33,10 +33,10 @@ class RedshopControllerVoucher_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$app = JFactory::getApplication();
-		$post = JRequest::get('post');
+		$app  = JFactory::getApplication();
+		$post = $this->input->post->getArray();
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$post['start_date'] = strtotime($post['start_date']);
 
 		if ($post ['end_date'])
@@ -90,9 +90,7 @@ class RedshopControllerVoucher_detail extends RedshopController
 
 	public function remove()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -112,9 +110,7 @@ class RedshopControllerVoucher_detail extends RedshopController
 
 	public function publish()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -134,9 +130,7 @@ class RedshopControllerVoucher_detail extends RedshopController
 
 	public function unpublish()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -156,7 +150,6 @@ class RedshopControllerVoucher_detail extends RedshopController
 
 	public function cancel()
 	{
-
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=voucher', $msg);
 	}
