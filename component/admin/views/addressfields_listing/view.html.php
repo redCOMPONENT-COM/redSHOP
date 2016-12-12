@@ -42,7 +42,7 @@ class RedshopViewAddressfields_listing extends RedshopViewAdmin
 			JHTML::_('select.option', '15', JText::_('COM_REDSHOP_COMPANY_SHIPPING_ADDRESS'))
 		);
 
-		$option = array();
+		$option = array(new stdClass);
 		$option[0]->value = "0";
 		$option[0]->text = JText::_('COM_REDSHOP_SELECT');
 
