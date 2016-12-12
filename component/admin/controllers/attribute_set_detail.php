@@ -21,10 +21,9 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'attribute_set_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
-
+		$this->input->set('view', 'attribute_set_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -35,9 +34,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-
-
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('attribute_set_detail');
 
@@ -60,9 +57,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function remove()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -82,9 +77,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function publish()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -104,9 +97,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function unpublish()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -146,7 +137,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$attribute = array_merge(array(), $post['attribute']);
 
-		$files = JRequest::get('files');
+		$files = $this->input->files->getArray();
 
 		for ($a = 0; $a < count($attribute); $a++)
 		{
@@ -287,11 +278,11 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$url = $uri->root();
 
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$main_img = JRequest::getVar('property_main_img', 'array', 'files', 'array');
+		$main_img = $this->input->files->get('property_main_img', 'array', 'array');
 
-		$sub_img = JRequest::getVar('property_sub_img', 'array', 'files', 'array');
+		$sub_img = $this->input->files->get('property_sub_img', 'array', 'array');
 
 		$model = $this->getModel('product_detail');
 
@@ -326,9 +317,9 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$url = $uri->root();
 
-		$mediaid = JRequest::getVar('mediaid');
-		$section_id = JRequest::getVar('section_id');
-		$cid = JRequest::getVar('cid');
+		$mediaid    = $this->input->get('mediaid');
+		$section_id = $this->input->get('section_id');
+		$cid        = $this->input->get('cid');
 
 		$model = $this->getModel('product_detail');
 
@@ -343,7 +334,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function subattribute_color()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('product_detail');
 
@@ -353,7 +344,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$model->delsubattr_diff($subattr_diff);
 
-		$sub_img = JRequest::getVar('property_sub_img', 'array', 'files', 'array');
+		$sub_img = $this->input->files->get('property_sub_img', 'array', 'array');
 
 		$model->subattribute_color($post, $sub_img);
 
@@ -366,7 +357,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function removepropertyImage()
 	{
-		$get = JRequest::get('get');
+		$get = $this->input->get->getArray();
 
 		$pid = $get['pid'];
 
@@ -382,7 +373,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function removesubpropertyImage()
 	{
-		$get = JRequest::get('get');
+		$get = $this->input->get->getArray();
 
 		$pid = $get['pid'];
 
@@ -398,7 +389,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function saveAttributeStock()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('attribute_set_detail');
 
@@ -419,8 +410,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 	public function copy()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$model = $this->getModel('attribute_set_detail');
 
 		if ($model->copy($cid))
@@ -435,4 +425,3 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
 	}
 }
-
