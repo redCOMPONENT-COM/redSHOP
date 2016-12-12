@@ -31,7 +31,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$this->_order_functions = order_functions::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
-		JRequest::setVar('layout', 'default');
+		$this->input->set('layout', 'default');
 		parent::__construct($default);
 	}
 
@@ -42,8 +42,8 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function checkoutprocess()
 	{
-		$post   = JRequest::get('post');
-		$Itemid = JRequest::getVar('Itemid');
+		$post   = $this->input->post->getArray();
+		$Itemid = $this->input->get('Itemid');
 		$model  = $this->getModel('checkout');
 
 		if ($model->store($post))
@@ -54,8 +54,8 @@ class RedshopControllerCheckout extends RedshopController
 		}
 		else
 		{
-			JRequest::setVar('view', 'checkout');
-			JRequest::setVar('task', '');
+			$this->input->set('view', 'checkout');
+			$this->input->set('task', '');
 			parent::display('default');
 		}
 	}
@@ -69,7 +69,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$app     = JFactory::getApplication();
 		$session = JFactory::getSession();
-		$post    = JRequest::get('post');
+		$post    = $this->input->post->getArray();
 		$user    = JFactory::getUser();
 		$cart    = $session->get('cart');
 
@@ -87,8 +87,8 @@ class RedshopControllerCheckout extends RedshopController
 			}
 		}
 
-		$Itemid        = JRequest::getInt('Itemid');
-		$users_info_id = JRequest::getInt('users_info_id');
+		$Itemid        = $this->input->getInt('Itemid');
+		$users_info_id = $this->input->getInt('users_info_id');
 		$helper        = redhelper::getInstance();
 		$chk           = $this->chkvalidation($users_info_id);
 
@@ -106,8 +106,8 @@ class RedshopControllerCheckout extends RedshopController
 			$app->redirect(JRoute::_($link, false));
 		}
 
-		$Itemid = JRequest::getVar('Itemid');
-		$ccinfo = JRequest::getVar('ccinfo');
+		$Itemid = $this->input->get('Itemid');
+		$ccinfo = $this->input->get('ccinfo');
 
 		$errormsg = "";
 
@@ -364,14 +364,14 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$app        = JFactory::getApplication();
 		$dispatcher = JDispatcher::getInstance();
-		$post       = JRequest::get('post');
-		$Itemid     = JRequest::getVar('Itemid');
+		$post       = $this->input->post->getArray();
+		$Itemid     = $this->input->get('Itemid');
 		$model      = $this->getModel('checkout');
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart');
 		$user       = JFactory::getUser();
 		$producthelper   = productHelper::getInstance();
-		$payment_method_id = JRequest::getCmd('payment_method_id', '');
+		$payment_method_id = $this->input->getCmd('payment_method_id', '');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
 		{
@@ -421,7 +421,7 @@ class RedshopControllerCheckout extends RedshopController
 
 			if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 			{
-				$users_info_id = JRequest::getInt('users_info_id');
+				$users_info_id = $this->input->getInt('users_info_id');
 				$chk           = $this->chkvalidation($users_info_id);
 
 				if (!empty($chk))
@@ -469,7 +469,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 			else
 			{
-				JRequest::setVar('order_id', $order_id);
+				$this->input->set('order_id', $order_id);
 			}
 
 			if ($order_id)
@@ -545,7 +545,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$model             = $this->getModel('checkout');
 		$session           = JFactory::getSession();
-		$payment_method_id = JRequest::getCmd('payment_method_id', '');
+		$payment_method_id = $this->input->getCmd('payment_method_id', '');
 		$errormsg          = "";
 		$paymentmethod     = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentparams     = new JRegistry($paymentmethod[0]->params);
@@ -553,13 +553,13 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($is_creditcard)
 		{
-			$ccdata['order_payment_name']         = JRequest::getVar('order_payment_name');
-			$ccdata['creditcard_code']            = JRequest::getVar('creditcard_code');
-			$ccdata['order_payment_number']       = JRequest::getVar('order_payment_number');
-			$ccdata['order_payment_expire_month'] = JRequest::getVar('order_payment_expire_month');
-			$ccdata['order_payment_expire_year']  = JRequest::getVar('order_payment_expire_year');
-			$ccdata['credit_card_code']           = JRequest::getVar('credit_card_code');
-			$ccdata['selectedCardId'] = JFactory::getApplication()->input->getString('selectedCard', '');
+			$ccdata['order_payment_name']         = $this->input->get('order_payment_name');
+			$ccdata['creditcard_code']            = $this->input->get('creditcard_code');
+			$ccdata['order_payment_number']       = $this->input->get('order_payment_number');
+			$ccdata['order_payment_expire_month'] = $this->input->get('order_payment_expire_month');
+			$ccdata['order_payment_expire_year']  = $this->input->get('order_payment_expire_year');
+			$ccdata['credit_card_code']           = $this->input->get('credit_card_code');
+			$ccdata['selectedCardId']             = $this->input->getString('selectedCard', '');
 			$session->set('ccdata', $ccdata);
 
 			$validpayment = $model->validatepaymentccinfo();
@@ -586,7 +586,7 @@ class RedshopControllerCheckout extends RedshopController
 		$order_functions = order_functions::getInstance();
 
 		$model   = $this->getModel('checkout');
-		$post    = JRequest::get('post');
+		$post    = $this->input->post->getArray();
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 
@@ -727,7 +727,7 @@ class RedshopControllerCheckout extends RedshopController
 	public function displayshippingextrafield()
 	{
 		ob_clean();
-		$shipping_rate_id    = JRequest::getCmd('shipping_rate_id', '');
+		$shipping_rate_id    = $this->input->getCmd('shipping_rate_id', '');
 		$shippingmethod      = $this->_order_functions->getShippingMethodInfo($shipping_rate_id);
 		$shippingparams      = new JRegistry($shippingmethod[0]->params);
 		$extrafield_shipping = $shippingparams->get('extrafield_shipping', '');
