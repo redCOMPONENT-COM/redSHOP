@@ -95,7 +95,7 @@ class RedshopControllerWizard extends RedshopController
 
 	function save()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$substep = $post['substep'];
 		$go = $post['go'];
@@ -106,7 +106,7 @@ class RedshopControllerWizard extends RedshopController
 
 		if ($substep == 2)
 		{
-			$country_list = JRequest::getVar('country_list');
+			$country_list = $this->input->get('country_list');
 
 			$i = 0;
 			$country_listCode = '';
@@ -166,7 +166,7 @@ class RedshopControllerWizard extends RedshopController
 	{
 		$Redconfiguration = Redconfiguration::getInstance();
 
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$msg = "";
 
