@@ -23,7 +23,7 @@ $producthelper = productHelper::getInstance();
 
 $compare       = $displayData['object'];
 
-$cmd           = JRequest::getVar('cmd');
+$cmd           = JFactory::getApplication()->input->get('cmd');
 
 $total         = $compare->getItemsTotal();
 ?>
