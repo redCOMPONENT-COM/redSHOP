@@ -268,25 +268,20 @@ $calendarFormat = '%d-%m-%Y';
 					$media_section,
 					$this->detail->product_full_image
 				);
-				RedshopHelperMediaImage::renderGallery(
-					'product_full_image',
-					'product',
-					$section_id,
-					$media_section,
-					$this->detail->product_full_image
-				);
 				?>
-					<?php if ($this->detail->product_id > 0) : ?>
-					<?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $this->detail->product_id . '&showbuttons=1&media_section=product'); ?>
+				<?php if ($this->detail->product_id > 0) : ?>
+					<?php $ilink = 'index.php?tmpl=component&option=com_redshop&view=media&section_id='
+						. $this->detail->product_id . '&showbuttons=1&media_section=product'; ?>
 
-					<a class="joom-box btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
+					<a class="joom-box btn btn-primary" title="Image" href="<?php echo JRoute::_($ilink, false) ?>"
+						rel="{handler: 'iframe', size: {x: 950, y: 500}}">
 						<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?>
 					</a>
-					<?php endif; ?>
+				<?php endif; ?>
 			</div>
 		</div>
 
-			<div class="box box-primary">
+		<div class="box box-primary">
 			<div class="box-header with-border">
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_MEASURES'); ?></h3>
 			</div>

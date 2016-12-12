@@ -9,6 +9,17 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Layout variables
+ * =======================
+ * @var  array   $displayData   List of data.
+ * @var  string  $id            ID
+ * @var  string  $type          Type of section (Ex: product)
+ * @var  string  $sectionId     Section ID (Ex: Product ID if $type is product)
+ * @var  string  $mediaSection  Section media (Ex: product)
+ * @var  array   $file          Files data as array
+ * @var  array   $gallery       List of data
+ */
 extract($displayData);
 
 ?>
