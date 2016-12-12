@@ -14,7 +14,7 @@ class RedshopControllerBarcode extends RedshopController
 {
 	public function getsearch()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		if (strlen($post['barcode']) != 13)
 		{
@@ -60,7 +60,7 @@ class RedshopControllerBarcode extends RedshopController
 
 	public function changestatus()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		if (strlen($post['barcode']) != 13)
 		{
