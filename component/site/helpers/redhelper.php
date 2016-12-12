@@ -201,8 +201,8 @@ class redhelper
 		$query = $db->getQuery(true);
 
 		$oldStyleName = [
-				'mod_redcategoryscroller', 'mod_redcategoryscroller', 'mod_redmasscart',
-				'mod_redproducts3d', 'mod_redproductscroller', 'mod_redproducttab'
+				'mod_redcategoryscroller', 'mod_redmasscart', 'mod_redfeaturedproduct',
+				'mod_redproducts3d', 'mod_redproductscroller', 'mod_redproducttab', 'mod_redmanufacturer'
 			];
 
 		$query->select('*')
