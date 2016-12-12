@@ -8,9 +8,10 @@
  */
 $producthelper = productHelper::getInstance();
 
-$config = Redconfiguration::getInstance();
-$section = JFactory::getApplication()->input->get('section');
-$view = JFactory::getApplication()->input->getCmd('view', '');
+$config  = Redconfiguration::getInstance();
+$jinput  = JFactory::getApplication()->input;
+$section = $jinput->get('section');
+$view    = $jinput->getCmd('view', '');
 
 ?>
 <script language="javascript" type="text/javascript">

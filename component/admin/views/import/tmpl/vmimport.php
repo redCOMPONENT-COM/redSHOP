@@ -10,15 +10,15 @@ defined('_JEXEC') or die;
 
 $jinput = JFactory::getApplication()->input;
 
-$product_total      = $jinput->getInt('product_total', 0);
-$product_inserted   = $jinput->getInt('product_inserted', 0);
-$product_updated    = $jinput->getInt('product_updated', 0);
-$shopper_total      = $jinput->getInt('shopper_total', 0);
-$orders_total       = $jinput->getInt('orders_total', 0);
-$customer_total     = $jinput->getInt('customer_total', 0);
-$status_total       = $jinput->getInt('status_total', 0);
-$category_total     = $jinput->getInt('category_total', 0);
-$manufacturer_total = $jinput->getInt('manufacturer_total', 0);
+$product_total      = $jinput->get('product_total', 0);
+$product_inserted   = $jinput->get('product_inserted', 0);
+$product_updated    = $jinput->get('product_updated', 0);
+$shopper_total      = $jinput->get('shopper_total', 0);
+$orders_total       = $jinput->get('orders_total', 0);
+$customer_total     = $jinput->get('customer_total', 0);
+$status_total       = $jinput->get('status_total', 0);
+$category_total     = $jinput->get('category_total', 0);
+$manufacturer_total = $jinput->get('manufacturer_total', 0);
 ?>
 <div id="element-box">
 	<div class="t">

@@ -215,7 +215,9 @@ function validateProductQuantity()
 }
 </script>
 <?php
-if (!JFactory::getApplication()->input->get('ajaxtask'))
+$jinput = JFactory::getApplication()->input;
+
+if (!$jinput->get('ajaxtask'))
 {
 ?>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
@@ -329,8 +331,6 @@ if (!JFactory::getApplication()->input->get('ajaxtask'))
 					</table>
 				<?php
 				}
-
-				$jinput = JFactory::getApplication()->input;
 
 				if ($jinput->get('ajaxtask') == "getuser")
 				{
