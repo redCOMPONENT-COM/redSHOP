@@ -28,17 +28,19 @@ class RedshopModelImport extends RedshopModel
 	 */
 	private $usersInfo = null;
 
+	private $app;
+
 	public function getData()
 	{
 		ob_clean();
-		$app     = JFactory::getApplication();
-		$session = JFactory::getSession();
-		$import  = $app->input->get('import', '');
-		$task    = explode('.', $app->input->get('task', ''));
-		$task    = $task[count($task) - 1];
-		$post    = $app->input->post->getArray();
-		$files   = $app->input->files->getArray();
-		$msg     = '';
+		$this->app = $app = JFactory::getApplication();
+		$session   = JFactory::getSession();
+		$import    = $app->input->get('import', '');
+		$task      = explode('.', $app->input->getCmd('task', ''));
+		$task      = $task[count($task) - 1];
+		$post      = $app->input->post->getArray();
+		$files     = $app->input->files->getArray();
+		$msg       = '';
 
 		if (isset($files[$task . $import]))
 		{
@@ -60,7 +62,7 @@ class RedshopModelImport extends RedshopModel
 			}
 
 			// Upload csv file
-			$src = $files['tmp_name'];
+			$src  = $files['tmp_name'];
 			$dest = JPATH_ROOT . '/components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $files['name'];
 			JFile::upload($src, $dest);
 
@@ -91,8 +93,8 @@ class RedshopModelImport extends RedshopModel
 		$db      = JFactory::getDbo();
 
 		/* Get all posted data */
-		$new_line = JFactory::getApplication()->input->get('new_line');
-		$post = $session->get('ImportPost');
+		$new_line = $this->app->input->get('new_line');
+		$post     = $session->get('ImportPost');
 
 		$file_name = $session->get('Importfilename');
 
@@ -109,10 +111,10 @@ class RedshopModelImport extends RedshopModel
 
 		/* Loop through the CSV file */
 		/* First line first as that is the column headers */
-		$line = 1;
-		$headers = array();
+		$line         = 1;
+		$headers      = array();
 		$correctlines = 0;
-		$handle = fopen(JPATH_ROOT . '/components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $file_name, "r");
+		$handle       = fopen(JPATH_ROOT . '/components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $file_name, "r");
 
 		$separator = ",";
 
@@ -135,7 +137,7 @@ class RedshopModelImport extends RedshopModel
 					foreach ($data as $key => $name)
 					{
 						/* Set the column headers and remove any non-ASCII characters from a string */
-						$headers[$key] = preg_replace ('/[^(\x20-\x7F)]*/', '', $name);
+						$headers[$key] = preg_replace('/[^(\x20-\x7F)]*/', '', $name);
 					}
 				}
 				else
@@ -154,7 +156,7 @@ class RedshopModelImport extends RedshopModel
 							// Bind the data
 							if ($headers[$key] == 'category_full_image' && $post['import'] == 'categories')
 							{
-								$image_name = basename($name);
+								$image_name              = basename($name);
 								$rawdata[$headers[$key]] = $image_name;
 
 								if ($image_name != "")
@@ -201,24 +203,24 @@ class RedshopModelImport extends RedshopModel
 								$row->category_id = $category_id;
 							}
 
-							$row->category_name = $rawdata['category_name'];
+							$row->category_name              = $rawdata['category_name'];
 							$row->category_short_description = $rawdata['category_short_description'];
-							$row->category_description = $rawdata['category_description'];
-							$row->category_template = $rawdata['category_template'];
-							$row->category_more_template = $rawdata['category_more_template'];
-							$row->products_per_page = $rawdata['products_per_page'];
-							$row->category_thumb_image = $rawdata['category_thumb_image'];
-							$row->category_full_image = $rawdata['category_full_image'];
-							$row->metakey = $rawdata['metakey'];
-							$row->metadesc = $rawdata['metadesc'];
-							$row->metalanguage_setting = $rawdata['metalanguage_setting'];
-							$row->metarobot_info = $rawdata['metarobot_info'];
-							$row->pagetitle = $rawdata['pagetitle'];
-							$row->pageheading = $rawdata['pageheading'];
-							$row->sef_url = $rawdata['sef_url'];
-							$row->published = $rawdata['published'];
-							$row->category_pdate = $rawdata['category_pdate'];
-							$row->ordering = $rawdata['ordering'];
+							$row->category_description       = $rawdata['category_description'];
+							$row->category_template          = $rawdata['category_template'];
+							$row->category_more_template     = $rawdata['category_more_template'];
+							$row->products_per_page          = $rawdata['products_per_page'];
+							$row->category_thumb_image       = $rawdata['category_thumb_image'];
+							$row->category_full_image        = $rawdata['category_full_image'];
+							$row->metakey                    = $rawdata['metakey'];
+							$row->metadesc                   = $rawdata['metadesc'];
+							$row->metalanguage_setting       = $rawdata['metalanguage_setting'];
+							$row->metarobot_info             = $rawdata['metarobot_info'];
+							$row->pagetitle                  = $rawdata['pagetitle'];
+							$row->pageheading                = $rawdata['pageheading'];
+							$row->sef_url                    = $rawdata['sef_url'];
+							$row->published                  = $rawdata['published'];
+							$row->category_pdate             = $rawdata['category_pdate'];
+							$row->ordering                   = $rawdata['ordering'];
 
 							if ($cidCount > 0)
 							{
@@ -294,7 +296,7 @@ class RedshopModelImport extends RedshopModel
 									->where($db->quoteName('manufacturer_name') . ' = ' . $db->quote($rawdata['manufacturer_name']));
 
 								$db->setQuery($query);
-								$manufacturer_id = $db->loadResult();
+								$manufacturer_id            = $db->loadResult();
 								$rawdata['manufacturer_id'] = $manufacturer_id;
 							}
 
@@ -330,7 +332,7 @@ class RedshopModelImport extends RedshopModel
 
 							if (isset($rawdata['discount_enddate']) && '' != trim($rawdata['discount_enddate']))
 							{
-								$rawdata['discount_enddate']   = strtotime($rawdata['discount_enddate']);
+								$rawdata['discount_enddate'] = strtotime($rawdata['discount_enddate']);
 							}
 
 							if (!isset($rawdata['product_on_sale']))
@@ -341,7 +343,8 @@ class RedshopModelImport extends RedshopModel
 
 							// Setting product on sale when discount dates are set
 							if ((isset($rawdata['discount_stratdate']) && (bool) $rawdata['discount_stratdate'])
-								|| (isset($rawdata['discount_enddate']) && (bool) $rawdata['discount_enddate']))
+								|| (isset($rawdata['discount_enddate']) && (bool) $rawdata['discount_enddate'])
+							)
 							{
 								$rawdata['product_on_sale'] = 1;
 							}
@@ -365,7 +368,7 @@ class RedshopModelImport extends RedshopModel
 							{
 								// Insert
 								$row->product_id = $product_id;
-								$ret = $db->insertObject('#__redshop_product', $row, 'product_id');
+								$ret             = $db->insertObject('#__redshop_product', $row, 'product_id');
 
 								if (!$ret)
 								{
@@ -394,7 +397,7 @@ class RedshopModelImport extends RedshopModel
 								}
 
 								$section_images = $rawdata['images'];
-								$image_name = explode("#", $section_images);
+								$image_name     = explode("#", $section_images);
 
 								if (is_array($image_name))
 								{
@@ -415,12 +418,12 @@ class RedshopModelImport extends RedshopModel
 									}
 								}
 
-								$section_images_order = $rawdata['images_order'];
+								$section_images_order        = $rawdata['images_order'];
 								$section_images_alternattext = $rawdata['images_alternattext'];
 
 								// Section videos
 								$section_video = $rawdata['video'];
-								$image_name = explode("#", $section_video);
+								$image_name    = explode("#", $section_video);
 
 								if (is_array($image_name))
 								{
@@ -441,12 +444,12 @@ class RedshopModelImport extends RedshopModel
 									}
 								}
 
-								$section_video_order = $rawdata['video_order'];
+								$section_video_order        = $rawdata['video_order'];
 								$section_video_alternattext = $rawdata['video_alternattext'];
 
 								// Section document
 								$section_document = $rawdata['document'];
-								$image_name = explode("#", $section_document);
+								$image_name       = explode("#", $section_document);
 
 								if (is_array($image_name))
 								{
@@ -467,14 +470,14 @@ class RedshopModelImport extends RedshopModel
 									}
 								}
 
-								$section_document_order = $rawdata['document_order'];
+								$section_document_order        = $rawdata['document_order'];
 								$section_document_alternattext = $rawdata['document_alternattext'];
 
 								// Section Download
 								if (isset($rawdata['download']))
 								{
 									$section_download = $rawdata['download'];
-									$image_name = explode("#", $section_download);
+									$image_name       = explode("#", $section_download);
 
 									if (is_array($image_name))
 									{
@@ -496,9 +499,9 @@ class RedshopModelImport extends RedshopModel
 									}
 								}
 
-								$section_download_order = $rawdata['download_order'];
+								$section_download_order        = $rawdata['download_order'];
 								$section_download_alternattext = $rawdata['download_alternattext'];
-								$category_id = $rawdata['category_id'];
+								$category_id                   = $rawdata['category_id'];
 
 								$query = $db->getQuery(true)
 									->select("count(*)")
@@ -514,14 +517,14 @@ class RedshopModelImport extends RedshopModel
 
 								if ($count <= 0)
 								{
-									$rows = $this->getTable('media_detail');
-									$rows->media_id = 0;
-									$rows->media_name = $product_full_image;
-									$rows->media_section = 'product';
-									$rows->section_id = $product_id;
-									$rows->media_type = 'images';
+									$rows                 = $this->getTable('media_detail');
+									$rows->media_id       = 0;
+									$rows->media_name     = $product_full_image;
+									$rows->media_section  = 'product';
+									$rows->section_id     = $product_id;
+									$rows->media_type     = 'images';
 									$rows->media_mimetype = '';
-									$rows->published = 1;
+									$rows->published      = 1;
 
 									if (!$rows->store())
 									{
@@ -544,7 +547,7 @@ class RedshopModelImport extends RedshopModel
 							}
 
 							// Category product relation insert
-							$category_id = '';
+							$category_id   = '';
 							$category_name = '';
 
 							if (isset($rawdata['category_id']))
@@ -568,7 +571,7 @@ class RedshopModelImport extends RedshopModel
 								else
 								{
 									$categoryArr = explode("###", $rawdata['category_name']);
-									$category = true;
+									$category    = true;
 								}
 
 								// Remove all current product category
@@ -607,9 +610,9 @@ class RedshopModelImport extends RedshopModel
 
 									if ($count <= 0)
 									{
-										$insert = new stdClass;
+										$insert              = new stdClass;
 										$insert->category_id = $category_id;
-										$insert->product_id = $product_id;
+										$insert->product_id  = $product_id;
 										$db->insertObject('#__redshop_product_category_xref', $insert);
 									}
 								}
@@ -624,9 +627,9 @@ class RedshopModelImport extends RedshopModel
 
 								for ($i = 0, $in = count($accessory_products); $i < $in; $i++)
 								{
-									$accids = explode("~", $accessory_products[$i]);
+									$accids                = explode("~", $accessory_products[$i]);
 									$accessory_product_sku = $accids[0];
-									$accessory_price = $accids[1];
+									$accessory_price       = $accids[1];
 
 									$query = $db->getQuery(true)
 										->select('COUNT(*) AS total')
@@ -649,11 +652,11 @@ class RedshopModelImport extends RedshopModel
 
 									if ($total <= 0)
 									{
-										$insert = new stdClass;
-										$insert->accessory_id = '';
-										$insert->product_id = $product_id;
+										$insert                   = new stdClass;
+										$insert->accessory_id     = '';
+										$insert->product_id       = $product_id;
 										$insert->child_product_id = $child_product_id;
-										$insert->accessory_price = $accessory_price;
+										$insert->accessory_price  = $accessory_price;
 
 										$db->insertObject('#__redshop_product_accessory', $insert);
 									}
@@ -672,7 +675,7 @@ class RedshopModelImport extends RedshopModel
 							}
 
 							$product_stock = $rawdata['product_stock'];
-							$query = $db->getQuery(true)
+							$query         = $db->getQuery(true)
 								->select('COUNT(*) AS total')
 								->from($db->quoteName('#__redshop_product_stockroom_xref'))
 								->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
@@ -685,10 +688,10 @@ class RedshopModelImport extends RedshopModel
 							{
 								if ($total <= 0)
 								{
-									$insert = new stdClass;
-									$insert->product_id = $product_id;
+									$insert               = new stdClass;
+									$insert->product_id   = $product_id;
 									$insert->stockroom_id = Redshop::getConfig()->get('DEFAULT_STOCKROOM');
-									$insert->quantity = $product_stock;
+									$insert->quantity     = $product_stock;
 									$db->insertObject("#__redshop_product_stockroom_xref", $insert);
 								}
 								else
@@ -705,8 +708,8 @@ class RedshopModelImport extends RedshopModel
 							}
 
 							// Import image section
-							$section_images = explode("#", $section_images);
-							$section_images_order = explode("#", $section_images_order);
+							$section_images              = explode("#", $section_images);
+							$section_images_order        = explode("#", $section_images_order);
 							$section_images_alternattext = explode("#", $section_images_alternattext);
 
 							if (is_array($section_images))
@@ -742,16 +745,16 @@ class RedshopModelImport extends RedshopModel
 
 										if ($count <= 0)
 										{
-											$rows = $this->getTable('media_detail');
-											$rows->media_id = 0;
-											$rows->media_name = trim($section_images[$s]);
-											$rows->media_section = 'product';
-											$rows->section_id = $product_id;
-											$rows->media_type = 'images';
-											$rows->media_mimetype = '';
-											$rows->published = 1;
+											$rows                       = $this->getTable('media_detail');
+											$rows->media_id             = 0;
+											$rows->media_name           = trim($section_images[$s]);
+											$rows->media_section        = 'product';
+											$rows->section_id           = $product_id;
+											$rows->media_type           = 'images';
+											$rows->media_mimetype       = '';
+											$rows->published            = 1;
 											$rows->media_alternate_text = $media_alternate_text;
-											$rows->ordering = $ordering;
+											$rows->ordering             = $ordering;
 
 											if (!$rows->store())
 											{
@@ -762,9 +765,9 @@ class RedshopModelImport extends RedshopModel
 										{
 											$query = $db->getQuery(true)
 												->update($db->quoteName('#__redshop_media'))
-												->set($db->quoteName('media_alternate_text') . ' = '. $db->quote($media_alternate_text))
-												->set($db->quoteName('ordering') . ' = '. $db->quote($ordering))
-												->where($db->quoteName('media_id') . ' = '. $db->quote($count));
+												->set($db->quoteName('media_alternate_text') . ' = ' . $db->quote($media_alternate_text))
+												->set($db->quoteName('ordering') . ' = ' . $db->quote($ordering))
+												->where($db->quoteName('media_id') . ' = ' . $db->quote($count));
 											$db->setQuery($query);
 											$db->execute();
 										}
@@ -773,8 +776,8 @@ class RedshopModelImport extends RedshopModel
 							}
 
 							// Import video section
-							$section_video = explode("#", $section_video);
-							$section_video_order = explode("#", $section_video_order);
+							$section_video              = explode("#", $section_video);
+							$section_video_order        = explode("#", $section_video_order);
 							$section_video_alternattext = explode("#", $section_video_alternattext);
 
 							if (is_array($section_video))
@@ -810,16 +813,16 @@ class RedshopModelImport extends RedshopModel
 
 										if ($count <= 0)
 										{
-											$rows = $this->getTable('media_detail');
-											$rows->media_id = 0;
-											$rows->media_name = trim($section_video[$s]);
-											$rows->media_section = 'product';
-											$rows->section_id = $product_id;
-											$rows->media_type = 'video';
-											$rows->media_mimetype = '';
-											$rows->published = 1;
+											$rows                       = $this->getTable('media_detail');
+											$rows->media_id             = 0;
+											$rows->media_name           = trim($section_video[$s]);
+											$rows->media_section        = 'product';
+											$rows->section_id           = $product_id;
+											$rows->media_type           = 'video';
+											$rows->media_mimetype       = '';
+											$rows->published            = 1;
 											$rows->media_alternate_text = $media_alternate_text;
-											$rows->ordering = $ordering;
+											$rows->ordering             = $ordering;
 
 											if (!$rows->store())
 											{
@@ -831,8 +834,8 @@ class RedshopModelImport extends RedshopModel
 							}
 
 							// Import document section
-							$section_document = explode("#", $section_document);
-							$section_document_order = explode("#", $section_document_order);
+							$section_document              = explode("#", $section_document);
+							$section_document_order        = explode("#", $section_document_order);
 							$section_document_alternattext = explode("#", $section_document_alternattext);
 
 							if (is_array($section_document))
@@ -868,16 +871,16 @@ class RedshopModelImport extends RedshopModel
 
 										if ($count <= 0)
 										{
-											$rows = $this->getTable('media_detail');
-											$rows->media_id = 0;
-											$rows->media_name = trim($section_download[$s]);
-											$rows->media_section = 'product';
-											$rows->section_id = $product_id;
-											$rows->media_type = 'document';
-											$rows->media_mimetype = '';
-											$rows->published = 1;
+											$rows                       = $this->getTable('media_detail');
+											$rows->media_id             = 0;
+											$rows->media_name           = trim($section_download[$s]);
+											$rows->media_section        = 'product';
+											$rows->section_id           = $product_id;
+											$rows->media_type           = 'document';
+											$rows->media_mimetype       = '';
+											$rows->published            = 1;
 											$rows->media_alternate_text = $media_alternate_text;
-											$rows->ordering = $ordering;
+											$rows->ordering             = $ordering;
 
 											if (!$rows->store())
 											{
@@ -889,8 +892,8 @@ class RedshopModelImport extends RedshopModel
 							}
 
 							// Import download section
-							$section_download = explode("#", $section_download);
-							$section_download_order = explode("#", $section_download_order);
+							$section_download              = explode("#", $section_download);
+							$section_download_order        = explode("#", $section_download_order);
 							$section_download_alternattext = explode("#", $section_download_alternattext);
 
 							if (is_array($section_download))
@@ -926,16 +929,16 @@ class RedshopModelImport extends RedshopModel
 
 										if ($count <= 0)
 										{
-											$rows = $this->getTable('media_detail');
-											$rows->media_id = 0;
-											$rows->media_name = trim($section_download[$s]);
-											$rows->media_section = 'product';
-											$rows->section_id = $product_id;
-											$rows->media_type = 'download';
-											$rows->media_mimetype = '';
-											$rows->published = 1;
+											$rows                       = $this->getTable('media_detail');
+											$rows->media_id             = 0;
+											$rows->media_name           = trim($section_download[$s]);
+											$rows->media_section        = 'product';
+											$rows->section_id           = $product_id;
+											$rows->media_type           = 'download';
+											$rows->media_mimetype       = '';
+											$rows->published            = 1;
 											$rows->media_alternate_text = $media_alternate_text;
-											$rows->ordering = $ordering;
+											$rows->ordering             = $ordering;
 
 											if (!$rows->store())
 											{
@@ -951,28 +954,28 @@ class RedshopModelImport extends RedshopModel
 						if ($post['import'] == 'manufacturer')
 						{
 							$manufacturer_id = $rawdata['manufacturer_id'];
-							$product_id = $rawdata['product_id'];
-							$prd = explode('|', $product_id);
-							$prd_final = implode(',', $prd);
+							$product_id      = $rawdata['product_id'];
+							$prd             = explode('|', $product_id);
+							$prd_final       = implode(',', $prd);
 
 							// Updating manufacturer
 							$row = $this->getTable('manufacturer_detail');
 							$row->load($manufacturer_id);
-							$row->manufacturer_name = $rawdata['manufacturer_name'];
-							$row->manufacturer_desc = $rawdata['manufacturer_desc'];
-							$row->manufacturer_email = $rawdata['manufacturer_email'];
-							$row->product_per_page = $rawdata['product_per_page'];
-							$row->template_id = $rawdata['template_id'];
-							$row->metakey = $rawdata['metakey'];
-							$row->metadesc = $rawdata['metadesc'];
+							$row->manufacturer_name    = $rawdata['manufacturer_name'];
+							$row->manufacturer_desc    = $rawdata['manufacturer_desc'];
+							$row->manufacturer_email   = $rawdata['manufacturer_email'];
+							$row->product_per_page     = $rawdata['product_per_page'];
+							$row->template_id          = $rawdata['template_id'];
+							$row->metakey              = $rawdata['metakey'];
+							$row->metadesc             = $rawdata['metadesc'];
 							$row->metalanguage_setting = $rawdata['metalanguage_setting'];
-							$row->metarobot_info = $rawdata['metarobot_info'];
-							$row->pagetitle = $rawdata['pagetitle'];
-							$row->pageheading = $rawdata['pageheading'];
-							$row->sef_url = $rawdata['sef_url'];
-							$row->published = $rawdata['published'];
-							$row->ordering = $rawdata['ordering'];
-							$row->manufacturer_url = $rawdata['manufacturer_url'];
+							$row->metarobot_info       = $rawdata['metarobot_info'];
+							$row->pagetitle            = $rawdata['pagetitle'];
+							$row->pageheading          = $rawdata['pageheading'];
+							$row->sef_url              = $rawdata['sef_url'];
+							$row->published            = $rawdata['published'];
+							$row->ordering             = $rawdata['ordering'];
+							$row->manufacturer_url     = $rawdata['manufacturer_url'];
 
 							if (!$row->store())
 							{
@@ -981,23 +984,23 @@ class RedshopModelImport extends RedshopModel
 
 							else
 							{
-								$rows = $this->getTable('manufacturer_detail');
-								$rows->manufacturer_id = $manufacturer_id;
-								$rows->manufacturer_name = $rawdata['manufacturer_name'];
-								$rows->manufacturer_desc = $rawdata['manufacturer_desc'];
-								$rows->manufacturer_email = $rawdata['manufacturer_email'];
-								$rows->product_per_page = $rawdata['product_per_page'];
-								$rows->template_id = $rawdata['template_id'];
-								$rows->metakey = $rawdata['metakey'];
-								$rows->metadesc = $rawdata['metadesc'];
+								$rows                       = $this->getTable('manufacturer_detail');
+								$rows->manufacturer_id      = $manufacturer_id;
+								$rows->manufacturer_name    = $rawdata['manufacturer_name'];
+								$rows->manufacturer_desc    = $rawdata['manufacturer_desc'];
+								$rows->manufacturer_email   = $rawdata['manufacturer_email'];
+								$rows->product_per_page     = $rawdata['product_per_page'];
+								$rows->template_id          = $rawdata['template_id'];
+								$rows->metakey              = $rawdata['metakey'];
+								$rows->metadesc             = $rawdata['metadesc'];
 								$rows->metalanguage_setting = $rawdata['metalanguage_setting'];
-								$rows->metarobot_info = $rawdata['metarobot_info'];
-								$rows->pagetitle = $rawdata['pagetitle'];
-								$rows->pageheading = $rawdata['pageheading'];
-								$rows->sef_url = $rawdata['sef_url'];
-								$rows->published = $rawdata['published'];
-								$rows->ordering = $rawdata['ordering'];
-								$rows->manufacturer_url = $rawdata['manufacturer_url'];
+								$rows->metarobot_info       = $rawdata['metarobot_info'];
+								$rows->pagetitle            = $rawdata['pagetitle'];
+								$rows->pageheading          = $rawdata['pageheading'];
+								$rows->sef_url              = $rawdata['sef_url'];
+								$rows->published            = $rawdata['published'];
+								$rows->ordering             = $rawdata['ordering'];
+								$rows->manufacturer_url     = $rawdata['manufacturer_url'];
 
 								if (!$rows->store())
 								{
@@ -1030,7 +1033,7 @@ class RedshopModelImport extends RedshopModel
 							$product_id = $this->getProductIdByNumber($rawdata['product_number']);
 
 							// Insert product attributes
-							$attribute_id = "";
+							$attribute_id             = "";
 							$attribute_name           = mb_convert_encoding($rawdata['attribute_name'], 'UTF-8', $post['encoding']);
 							$attribute_ordering       = isset($rawdata['attribute_ordering']) ? $rawdata['attribute_ordering'] : '';
 							$allow_multiple_selection = isset($rawdata['allow_multiple_selection']) ? $rawdata['allow_multiple_selection'] : '';
@@ -1085,20 +1088,20 @@ class RedshopModelImport extends RedshopModel
 								$att_insert_id = $attrow->attribute_id;
 
 								// Insert product attributes property
-								$property_id = 0;
+								$property_id   = 0;
 								$property_name = isset($rawdata['property_name']) ? mb_convert_encoding($rawdata['property_name'], 'UTF-8', $post['encoding']) : '';
 
 								if ($property_name != "")
 								{
-									$property_ordering      = isset($rawdata['property_ordering']) ? $rawdata['property_ordering'] : '';
-									$property_price         = isset($rawdata['property_price']) ? $rawdata['property_price'] : '';
-									$property_number        = isset($rawdata['property_virtual_number']) ? $rawdata['property_virtual_number'] : '';
-									$setdefault_selected    = isset($rawdata['setdefault_selected']) ? $rawdata['setdefault_selected'] : '';
-									$setdisplay_type        = isset($rawdata['setdisplay_type']) ? $rawdata['setdisplay_type'] : '';
-									$setrequire_selected    = isset($rawdata['required_sub_attribute']) ? $rawdata['required_sub_attribute'] : '';
-									$oprand                 = isset($rawdata['oprand']) ? $rawdata['oprand'] : '';
-									$property_image         = basename(isset($rawdata['property_image']) ? $rawdata['property_image'] : '');
-									$property_main_image    = basename(isset($rawdata['property_main_image']) ? $rawdata['property_main_image'] : '');
+									$property_ordering   = isset($rawdata['property_ordering']) ? $rawdata['property_ordering'] : '';
+									$property_price      = isset($rawdata['property_price']) ? $rawdata['property_price'] : '';
+									$property_number     = isset($rawdata['property_virtual_number']) ? $rawdata['property_virtual_number'] : '';
+									$setdefault_selected = isset($rawdata['setdefault_selected']) ? $rawdata['setdefault_selected'] : '';
+									$setdisplay_type     = isset($rawdata['setdisplay_type']) ? $rawdata['setdisplay_type'] : '';
+									$setrequire_selected = isset($rawdata['required_sub_attribute']) ? $rawdata['required_sub_attribute'] : '';
+									$oprand              = isset($rawdata['oprand']) ? $rawdata['oprand'] : '';
+									$property_image      = basename(isset($rawdata['property_image']) ? $rawdata['property_image'] : '');
+									$property_main_image = basename(isset($rawdata['property_main_image']) ? $rawdata['property_main_image'] : '');
 
 									$query = $db->getQuery(true)
 										->select($db->quoteName('property_id'))
@@ -1112,7 +1115,7 @@ class RedshopModelImport extends RedshopModel
 									// Get Table Instance
 									$proprow = $this->getTable('attribute_property');
 									$proprow->load($property_id);
-									$proprow->attribute_id = $att_insert_id;
+									$proprow->attribute_id  = $att_insert_id;
 									$proprow->property_name = $property_name;
 
 									if ($property_price != "")
@@ -1202,7 +1205,7 @@ class RedshopModelImport extends RedshopModel
 															{
 																$update_row_query = $db->getQuery(true)
 																	->update($db->quoteName('#__redshop_product_attribute_stockroom_xref'))
-																	->set($db->quoteName('quantity') . ' = ' . $db->quote($mainquaexplode[1]) )
+																	->set($db->quoteName('quantity') . ' = ' . $db->quote($mainquaexplode[1]))
 																	->where($db->quoteName('stockroom_id') . ' = ' . $db->quote($mainquaexplode[0]))
 																	->where($db->quoteName('section') . ' = ' . $db->quote('property'))
 																	->where($db->quoteName('section_id') . ' = ' . $db->quote($prop_insert_id));
@@ -1212,11 +1215,11 @@ class RedshopModelImport extends RedshopModel
 															}
 															else
 															{
-																$insert_row_query = new stdClass();
-																$insert_row_query->quantity = $mainquaexplode[1];
+																$insert_row_query               = new stdClass();
+																$insert_row_query->quantity     = $mainquaexplode[1];
 																$insert_row_query->stockroom_id = $mainquaexplode[0];
-																$insert_row_query->section = 'property';
-																$insert_row_query->section_id = $prop_insert_id;
+																$insert_row_query->section      = 'property';
+																$insert_row_query->section_id   = $prop_insert_id;
 																$db->insertObject('#__redshop_product_attribute_stockroom_xref', $insert_row_query);
 
 															}
@@ -1255,7 +1258,7 @@ class RedshopModelImport extends RedshopModel
 										}
 
 										// Redshop product attribute subproperty
-										$subattribute_color_id = "";
+										$subattribute_color_id   = "";
 										$subattribute_color_name = mb_convert_encoding($rawdata['subattribute_color_name'], 'UTF-8', $post['encoding']);
 
 										if ($subattribute_color_name != "")
@@ -1266,7 +1269,7 @@ class RedshopModelImport extends RedshopModel
 											$subattribute_color_number        = isset($rawdata['subattribute_virtual_number']) ? $rawdata['subattribute_virtual_number'] : '';
 											$subattribute_color_price         = isset($rawdata['subattribute_color_price']) ? $rawdata['subattribute_color_price'] : '';
 											$oprand                           = isset($rawdata['subattribute_color_oprand']) ? $rawdata['subattribute_color_oprand'] : '';
-											$subattribute_color_image         = basename( isset($rawdata['subattribute_color_image']) ? $rawdata['subattribute_color_image'] : '' );
+											$subattribute_color_image         = basename(isset($rawdata['subattribute_color_image']) ? $rawdata['subattribute_color_image'] : '');
 
 											$query = $db->getQuery(true)
 												->select(array('subattribute_color_id'))
@@ -1369,11 +1372,11 @@ class RedshopModelImport extends RedshopModel
 																	}
 																	else
 																	{
-																		$insert_row_query = new stdClass;
-																		$insert_row_query->quantity = $mainquaexplode[1];
+																		$insert_row_query               = new stdClass;
+																		$insert_row_query->quantity     = $mainquaexplode[1];
 																		$insert_row_query->stockroom_id = $mainquaexplode[0];
-																		$insert_row_query->section_id = $prop_insert_id_sub;
-																		$insert_row_query->section = 'subproperty';
+																		$insert_row_query->section_id   = $prop_insert_id_sub;
+																		$insert_row_query->section      = 'subproperty';
 																		$db->insertObject('#__redshop_product_attribute_stockroom_xref', $insert_row_query);
 																	}
 																}
@@ -1463,20 +1466,20 @@ class RedshopModelImport extends RedshopModel
 
 							if (isset($rawdata['field_title']) && $rawdata['field_title'] != '')
 							{
-								$fieldObject = new stdClass;
-								$fieldObject->field_title = $rawdata['field_title'];
-								$fieldObject->field_name = $rawdata['field_name_field'];
-								$fieldObject->field_type = $rawdata['field_type'];
-								$fieldObject->field_desc = $rawdata['field_desc'];
-								$fieldObject->field_class = $rawdata['field_class'];
-								$fieldObject->field_section = $field_section;
-								$fieldObject->field_maxlength = $field_maxlength;
-								$fieldObject->field_cols = $field_cols;
-								$fieldObject->field_rows = $field_rows;
-								$fieldObject->field_size = $field_size;
+								$fieldObject                      = new stdClass;
+								$fieldObject->field_title         = $rawdata['field_title'];
+								$fieldObject->field_name          = $rawdata['field_name_field'];
+								$fieldObject->field_type          = $rawdata['field_type'];
+								$fieldObject->field_desc          = $rawdata['field_desc'];
+								$fieldObject->field_class         = $rawdata['field_class'];
+								$fieldObject->field_section       = $field_section;
+								$fieldObject->field_maxlength     = $field_maxlength;
+								$fieldObject->field_cols          = $field_cols;
+								$fieldObject->field_rows          = $field_rows;
+								$fieldObject->field_size          = $field_size;
 								$fieldObject->field_show_in_front = $field_show_in_front;
-								$fieldObject->required = $required;
-								$fieldObject->published = $published;
+								$fieldObject->required            = $required;
+								$fieldObject->published           = $published;
 
 								if ($field_id_dv)
 								{
@@ -1494,11 +1497,11 @@ class RedshopModelImport extends RedshopModel
 
 							if (isset($rawdata['data_txt']) && $rawdata['data_txt'] != '')
 							{
-								$fieldObject = new stdClass;
-								$fieldObject->fieldid = $field_id_dv;
+								$fieldObject           = new stdClass;
+								$fieldObject->fieldid  = $field_id_dv;
 								$fieldObject->data_txt = $rawdata['data_txt'];
-								$fieldObject->itemid = $itemid;
-								$fieldObject->section = $section;
+								$fieldObject->itemid   = $itemid;
+								$fieldObject->section  = $section;
 
 								if (!$ch_data_id)
 								{
@@ -1513,10 +1516,10 @@ class RedshopModelImport extends RedshopModel
 
 							if (isset($rawdata['field_name']) && $rawdata['field_name'] != '')
 							{
-								$fieldObject = new stdClass;
-								$fieldObject->field_id = $field_id_dv;
+								$fieldObject              = new stdClass;
+								$fieldObject->field_id    = $field_id_dv;
 								$fieldObject->field_value = $field_value;
-								$fieldObject->field_name = $field_name_value;
+								$fieldObject->field_name  = $field_name_value;
 
 								if (!$ch_value_id)
 								{
@@ -1535,9 +1538,9 @@ class RedshopModelImport extends RedshopModel
 						// Import fields
 						if ($post['import'] == 'fields_data')
 						{
-							$field_id = $rawdata['field_id'];
+							$field_id             = $rawdata['field_id'];
 							$field_product_number = $rawdata['data_number'];
-							$field_data_txt = $rawdata['data_txt'];
+							$field_data_txt       = $rawdata['data_txt'];
 
 							if ($field_product_number && $field_id)
 							{
@@ -1580,8 +1583,8 @@ class RedshopModelImport extends RedshopModel
 						if ($post['import'] == 'related_product')
 						{
 							$relpid = $this->getProductIdByNumber($rawdata['related_sku']);
-							$pid = $this->getProductIdByNumber($rawdata['product_sku']);
-							$query = "INSERT IGNORE INTO `#__redshop_product_related` (`related_id`, `product_id`) VALUES ('"
+							$pid    = $this->getProductIdByNumber($rawdata['product_sku']);
+							$query  = "INSERT IGNORE INTO `#__redshop_product_related` (`related_id`, `product_id`) VALUES ('"
 								. $relpid . "', '" . $pid . "')";
 							$db->setQuery($query);
 
@@ -1601,7 +1604,7 @@ class RedshopModelImport extends RedshopModel
 							if (array_key_exists(trim($rawdata['shopper_group_name']), $this->shopperGroups->name))
 							{
 								$shopperGroupId = $this->shopperGroups->name[trim($rawdata['shopper_group_name'])]
-																->shopper_group_id;
+									->shopper_group_id;
 							}
 							// Create new shopper group
 							else
@@ -1638,9 +1641,9 @@ class RedshopModelImport extends RedshopModel
 							}
 
 							// Setting default for new users
-							$jUserId   = 0;
+							$jUserId    = 0;
 							$newRedUser = true;
-							$redUserId = $csvRSUserId;
+							$redUserId  = $csvRSUserId;
 
 							// Using email to map users as unique
 							if (isset($this->usersInfo[trim($rawdata['email'])]))
@@ -1683,7 +1686,7 @@ class RedshopModelImport extends RedshopModel
 
 							if (isset($rawdata['password']) && '' != trim($rawdata['password']))
 							{
-								$jUserInfo['password'] = trim($rawdata['password']);
+								$jUserInfo['password']  = trim($rawdata['password']);
 								$jUserInfo['password2'] = trim($rawdata['password']);
 							}
 
@@ -1801,9 +1804,9 @@ class RedshopModelImport extends RedshopModel
 						// Import stockroom data
 						if ($post['import'] == 'product_stockroom_data')
 						{
-							$product_number = $rawdata['Product_SKU'];
-							$product_stock = $rawdata['stock'];
-							$preorder_stock = 0;
+							$product_number   = $rawdata['Product_SKU'];
+							$product_stock    = $rawdata['stock'];
+							$preorder_stock   = 0;
 							$ordered_preorder = 0;
 
 							$stockroom_id = $rawdata['stockroom_id'];
@@ -1853,7 +1856,7 @@ class RedshopModelImport extends RedshopModel
 						if ($post['import'] == 'economic_group_product')
 						{
 							$product_number = $rawdata['product_number'];
-							$product_group = $rawdata['product_group'];
+							$product_group  = $rawdata['product_group'];
 
 							if ($product_group == "")
 							{
@@ -1885,16 +1888,16 @@ class RedshopModelImport extends RedshopModel
 			else
 			{
 				$blank = "";
-				$text = "" . $line . "`_`" . $blank . "";
+				$text  = "" . $line . "`_`" . $blank . "";
 				ob_clean();
-				echo  $text;
+				echo $text;
 				exit;
 			}
 		}
 
 		fclose($handle);
 		$blank = "";
-		$text = "`_`" . $line . "`_`" . $line . "";
+		$text  = "`_`" . $line . "`_`" . $line . "";
 		ob_clean();
 		echo $text;
 		exit;
@@ -1943,7 +1946,7 @@ class RedshopModelImport extends RedshopModel
 	/**
 	 * Get Shopper Group Id from input
 	 *
-	 * @param   integer  $shopperGroupInputId  Shopper Group Id from CSV File
+	 * @param   integer $shopperGroupInputId Shopper Group Id from CSV File
 	 *
 	 * @return  integer  Shopper Group Id
 	 */
@@ -1974,7 +1977,7 @@ class RedshopModelImport extends RedshopModel
 	/**
 	 * Get Shopper Group Id from input
 	 *
-	 * @param   integer  $shopperGroupInputId  Shopper Group Id from CSV File
+	 * @param   integer $shopperGroupInputId Shopper Group Id from CSV File
 	 *
 	 * @return  integer  Shopper Group Id
 	 */
@@ -2009,7 +2012,7 @@ class RedshopModelImport extends RedshopModel
 	/**
 	 * Import Shopper Group Product price data
 	 *
-	 * @param   array  $rawdata  CSV raw data
+	 * @param   array $rawdata CSV raw data
 	 *
 	 * @return  boolean            True on success
 	 */
@@ -2080,7 +2083,7 @@ class RedshopModelImport extends RedshopModel
 	/**
 	 * Import Shopper Group Product price data
 	 *
-	 * @param   array  $rawdata  CSV raw data
+	 * @param   array $rawdata CSV raw data
 	 *
 	 * @return  boolean   True on success
 	 */
@@ -2202,14 +2205,13 @@ class RedshopModelImport extends RedshopModel
 			$customer_total     = $this->customerInformation();
 			$orders_total       = $this->Orders_insert();
 			$manufacturer_total = $this->Manufacturer_insert();
-			$jinput             = JFactory::getApplication()->input;
 
-			$jinput->set('product_total', $product_total);
-			$jinput->set('shopper_total', $shopper_total);
-			$jinput->set('customer_total', $customer_total);
-			$jinput->set('orders_total', $orders_total);
-			$jinput->set('status_total', $status_total);
-			$jinput->set('manufacturer_total', $manufacturer_total);
+			$this->app->input->set('product_total', $product_total);
+			$this->app->input->set('shopper_total', $shopper_total);
+			$this->app->input->set('customer_total', $customer_total);
+			$this->app->input->set('orders_total', $orders_total);
+			$this->app->input->set('status_total', $status_total);
+			$this->app->input->set('manufacturer_total', $manufacturer_total);
 
 			return true;
 		}
@@ -2232,46 +2234,46 @@ class RedshopModelImport extends RedshopModel
 
 			foreach ($data as $product_data)
 			{
-				$product_name = addslashes($product_data->product_name);
-				$product_s_desc = $product_data->product_s_desc;
-				$product_number = $product_data->product_sku;
+				$product_name     = addslashes($product_data->product_name);
+				$product_s_desc   = $product_data->product_s_desc;
+				$product_number   = $product_data->product_sku;
 				$product_in_stock = $product_data->product_in_stock;
-				$product_desc = $product_data->product_desc;
-				$product_tax_id = $product_data->product_tax_id;
+				$product_desc     = $product_data->product_desc;
+				$product_tax_id   = $product_data->product_tax_id;
 				$product_data->product_publish == 'Y' ? $published = 1 : $published = 0;
 				$product_full_image = $product_data->product_full_image;
 
-				$publish_date = date('Y-m-d h:i:s', $product_data->publish_date);
-				$update_date = date('Y-m-d h:i:s', $product_data->update_date);
-				$product_price = $product_data->product_price;
-				$parent_id = $product_data->product_parent_id;
-				$weight = $product_data->product_weight;
-				$length = $product_data->product_length;
-				$height = $product_data->product_height;
-				$width = $product_data->product_width;
-				$red_product_id = $product_data->rdp_product_id;
+				$publish_date           = date('Y-m-d h:i:s', $product_data->publish_date);
+				$update_date            = date('Y-m-d h:i:s', $product_data->update_date);
+				$product_price          = $product_data->product_price;
+				$parent_id              = $product_data->product_parent_id;
+				$weight                 = $product_data->product_weight;
+				$length                 = $product_data->product_length;
+				$height                 = $product_data->product_height;
+				$width                  = $product_data->product_width;
+				$red_product_id         = $product_data->rdp_product_id;
 				$red_product_full_image = $product_data->rdp_product_full_image;
 
 				if ($product_data->red_product_number == null)
 				{
-					$rows = $this->getTable('product_detail');
-					$rows->product_id = 0;
-					$rows->product_parent_id = $parent_id;
-					$rows->product_name = $product_name;
-					$rows->product_number = $product_number;
-					$rows->product_s_desc = mysql_escape_string($product_s_desc);
-					$rows->product_desc = mysql_escape_string($product_desc);
-					$rows->product_tax_id = $product_tax_id;
-					$rows->published = $published;
+					$rows                     = $this->getTable('product_detail');
+					$rows->product_id         = 0;
+					$rows->product_parent_id  = $parent_id;
+					$rows->product_name       = $product_name;
+					$rows->product_number     = $product_number;
+					$rows->product_s_desc     = mysql_escape_string($product_s_desc);
+					$rows->product_desc       = mysql_escape_string($product_desc);
+					$rows->product_tax_id     = $product_tax_id;
+					$rows->published          = $published;
 					$rows->product_full_image = $product_full_image;
-					$rows->publish_date = $publish_date;
-					$rows->update_date = $update_date;
-					$rows->weight = $weight;
-					$rows->product_price = $product_price;
-					$rows->product_template = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
-					$rows->product_length = $length;
-					$rows->product_height = $height;
-					$rows->product_width = $width;
+					$rows->publish_date       = $publish_date;
+					$rows->update_date        = $update_date;
+					$rows->weight             = $weight;
+					$rows->product_price      = $product_price;
+					$rows->product_template   = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
+					$rows->product_length     = $length;
+					$rows->product_height     = $height;
+					$rows->product_width      = $width;
 
 					if (!$rows->store())
 					{
@@ -2295,14 +2297,14 @@ class RedshopModelImport extends RedshopModel
 
 					if ($product_full_image)
 					{
-						$rows = $this->getTable('media_detail');
-						$rows->media_id = 0;
-						$rows->media_name = $product_full_image;
-						$rows->media_section = 'product';
-						$rows->section_id = $last_insert;
-						$rows->media_type = 'images';
+						$rows                 = $this->getTable('media_detail');
+						$rows->media_id       = 0;
+						$rows->media_name     = $product_full_image;
+						$rows->media_section  = 'product';
+						$rows->section_id     = $last_insert;
+						$rows->media_type     = 'images';
 						$rows->media_mimetype = '';
-						$rows->published = 1;
+						$rows->published      = 1;
 
 						if (!$rows->store())
 						{
@@ -2313,7 +2315,7 @@ class RedshopModelImport extends RedshopModel
 					// Copy product images to redshop
 					if ($product_full_image != "")
 					{
-						$src = JPATH_ROOT . "/components/com_virtuemart/shop_image/product/" . $product_full_image;
+						$src  = JPATH_ROOT . "/components/com_virtuemart/shop_image/product/" . $product_full_image;
 						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product_full_image;
 
 						if (is_file($src))
@@ -2330,22 +2332,22 @@ class RedshopModelImport extends RedshopModel
 					foreach ($product_more_img as $more_img)
 					{
 						$filename = basename($more_img->file_name);
-						$src = JPATH_ROOT . $more_img->file_name;
-						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $filename;
+						$src      = JPATH_ROOT . $more_img->file_name;
+						$dest     = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $filename;
 
 						if (is_file($src) && file_exists($src))
 						{
 							@copy($src, $dest);
 						}
 
-						$rows = $this->getTable('media_detail');
-						$rows->media_id = 0;
-						$rows->media_name = $filename;
-						$rows->media_section = 'product';
-						$rows->section_id = $last_insert;
-						$rows->media_type = 'images';
-						$rows->media_mimetype = $more_img->file_mimetype;
-						$rows->published = 1;
+						$rows                       = $this->getTable('media_detail');
+						$rows->media_id             = 0;
+						$rows->media_name           = $filename;
+						$rows->media_section        = 'product';
+						$rows->section_id           = $last_insert;
+						$rows->media_type           = 'images';
+						$rows->media_mimetype       = $more_img->file_mimetype;
+						$rows->published            = 1;
 						$rows->media_alternate_text = $more_img->file_title;
 
 						if (!$rows->store())
@@ -2355,28 +2357,28 @@ class RedshopModelImport extends RedshopModel
 					}
 
 					$product_array[] = array($product_data->product_id => $last_insert);
-					$inserted[] = array($last_insert);
+					$inserted[]      = array($last_insert);
 				}
 				else
 				{
-					$last_insert = $red_product_id;
-					$rows = $this->getTable('product_detail');
-					$rows->product_id = $red_product_id;
-					$rows->product_parent_id = $parent_id;
-					$rows->product_name = $product_name;
-					$rows->product_s_desc = mysql_escape_string($product_s_desc);
-					$rows->product_desc = mysql_escape_string($product_desc);
-					$rows->product_tax_id = $product_tax_id;
-					$rows->published = $published;
+					$last_insert              = $red_product_id;
+					$rows                     = $this->getTable('product_detail');
+					$rows->product_id         = $red_product_id;
+					$rows->product_parent_id  = $parent_id;
+					$rows->product_name       = $product_name;
+					$rows->product_s_desc     = mysql_escape_string($product_s_desc);
+					$rows->product_desc       = mysql_escape_string($product_desc);
+					$rows->product_tax_id     = $product_tax_id;
+					$rows->published          = $published;
 					$rows->product_full_image = $product_full_image;
-					$rows->publish_date = $publish_date;
-					$rows->update_date = $update_date;
-					$rows->weight = $weight;
-					$rows->product_price = $product_price;
-					$rows->product_template = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
-					$rows->product_length = $length;
-					$rows->product_height = $height;
-					$rows->product_width = $width;
+					$rows->publish_date       = $publish_date;
+					$rows->update_date        = $update_date;
+					$rows->weight             = $weight;
+					$rows->product_price      = $product_price;
+					$rows->product_template   = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
+					$rows->product_length     = $length;
+					$rows->product_height     = $height;
+					$rows->product_width      = $width;
 
 					if (!$rows->store())
 					{
@@ -2443,18 +2445,17 @@ class RedshopModelImport extends RedshopModel
 
 			$this->related_product_sync($vmproarr, $redproarr);
 			$category_total = $this->Category_sync($product_array);
-			$jinput         = JFactory::getApplication()->input;
 
-			$jinput->set('category_total', $category_total);
+			$this->app->input->set('category_total', $category_total);
 
 			if (isset($inserted))
 			{
-				$jinput->set('product_inserted', count($inserted));
+				$this->app->input->set('product_inserted', count($inserted));
 			}
 
 			if (isset($updated))
 			{
-				$jinput->set('product_updated', count($updated));
+				$this->app->input->set('product_updated', count($updated));
 			}
 
 			return count($product_array);
@@ -2472,14 +2473,14 @@ class RedshopModelImport extends RedshopModel
 		rdc.category_full_image as rdc_category_full_image  FROM ( #__vm_category as vmc,#__vm_product_category_xref as vmpcx) "
 			. "LEFT JOIN #__redshop_category AS rdc ON rdc.category_name = vmc.category_name ";
 		$db->setQuery($query);
-		$data = $db->loadObjectList();
-		$vmcatarr = array();
+		$data      = $db->loadObjectList();
+		$vmcatarr  = array();
 		$redcatarr = array();
 
 		foreach ($data as $cat_data)
 		{
-			$category_pdate = date('Y-m-d h:i:s', $cat_data->category_pdate);
-			$category_name = addslashes($cat_data->category_name);
+			$category_pdate       = date('Y-m-d h:i:s', $cat_data->category_pdate);
+			$category_name        = addslashes($cat_data->category_name);
 			$category_description = mysql_escape_string($cat_data->category_description);
 			$category_thumb_image = $cat_data->category_thumb_image;
 
@@ -2498,16 +2499,16 @@ class RedshopModelImport extends RedshopModel
 			if ($cat_data->rdc_catname == null)
 			{
 				// Inserting category to redshop
-				$rows = $this->getTable('category_detail');
-				$rows->category_id = 0;
-				$rows->category_name = $category_name;
+				$rows                       = $this->getTable('category_detail');
+				$rows->category_id          = 0;
+				$rows->category_name        = $category_name;
 				$rows->category_description = $category_description;
 				$rows->category_thumb_image = $category_thumb_image;
-				$rows->category_full_image = $category_full_image;
-				$rows->published = $category_publish;
-				$rows->category_pdate = $category_pdate;
-				$rows->products_per_page = $products_per_row;
-				$rows->category_template = Redshop::getConfig()->get('CATEGORY_TEMPLATE');
+				$rows->category_full_image  = $category_full_image;
+				$rows->published            = $category_publish;
+				$rows->category_pdate       = $category_pdate;
+				$rows->products_per_page    = $products_per_row;
+				$rows->category_template    = Redshop::getConfig()->get('CATEGORY_TEMPLATE');
 
 				if (!$rows->store())
 				{
@@ -2522,7 +2523,7 @@ class RedshopModelImport extends RedshopModel
 			else
 			{
 				$last_insert = $cat_data->rdc_catid;
-				$rowcat = $this->getTable('category_detail');
+				$rowcat      = $this->getTable('category_detail');
 				$rowcat->load($last_insert);
 				$rowcat->category_thumb_image = $cat_data->category_thumb_image;
 
@@ -2541,7 +2542,7 @@ class RedshopModelImport extends RedshopModel
 			// Copy images to redshop
 			if ($cat_data->category_full_image != "")
 			{
-				$src = JPATH_ROOT . "/components/com_virtuemart/shop_image/category/" . $cat_data->category_full_image;
+				$src  = JPATH_ROOT . "/components/com_virtuemart/shop_image/category/" . $cat_data->category_full_image;
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . "category/" . $cat_data->category_full_image;
 
 				if (is_file($src))
@@ -2553,7 +2554,7 @@ class RedshopModelImport extends RedshopModel
 			{
 				if ($cat_data->category_thumb_image != "")
 				{
-					$src = JPATH_ROOT . "/components/com_virtuemart/shop_image/category/" . $cat_data->category_thumb_image;
+					$src  = JPATH_ROOT . "/components/com_virtuemart/shop_image/category/" . $cat_data->category_thumb_image;
 					$dest = REDSHOP_FRONT_IMAGES_RELPATH . "category/" . $cat_data->category_thumb_image;
 
 					if (is_file($src))
@@ -2564,7 +2565,7 @@ class RedshopModelImport extends RedshopModel
 			}
 
 			// Insert category Xref
-			$vmcatarr[] = $cat_data->category_id;
+			$vmcatarr[]  = $cat_data->category_id;
 			$redcatarr[] = $last_insert;
 
 			// Inserting/updating category product relation
@@ -2652,14 +2653,14 @@ class RedshopModelImport extends RedshopModel
 		$query = "SELECT vmsg.shopper_group_id,vmsg.shopper_group_name,vmsg.shopper_group_desc,rdsg.shopper_group_name as rdsp_shopper_group_name FROM `#__vm_shopper_group` as vmsg left join #__redshop_shopper_group as rdsg on  rdsg.shopper_group_name = vmsg.shopper_group_name";
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
-		$k = 0;
+		$k    = 0;
 
 		for ($i = 0; $i <= (count($data) - 1); $i++)
 		{
 			if ($data[$i]->rdsp_shopper_group_name == null)
 			{
-				$rows = $this->getTable('shopper_group_detail');
-				$rows->shopper_group_id = 0;
+				$rows                     = $this->getTable('shopper_group_detail');
+				$rows->shopper_group_id   = 0;
 				$rows->shopper_group_name = $data[$i]->shopper_group_name;
 				$rows->shopper_group_desc = $data[$i]->shopper_group_desc;
 
@@ -2700,7 +2701,7 @@ class RedshopModelImport extends RedshopModel
 		$db = JFactory::getDbo();
 
 		$order_functions = order_functions::getInstance();
-		$query = "SELECT vmui.* , vmsvx.shopper_group_id FROM `#__vm_user_info` AS vmui "
+		$query           = "SELECT vmui.* , vmsvx.shopper_group_id FROM `#__vm_user_info` AS vmui "
 			. "LEFT JOIN #__vm_shopper_vendor_xref AS vmsvx ON vmui.user_id = vmsvx.user_id ";
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
@@ -2716,19 +2717,19 @@ class RedshopModelImport extends RedshopModel
 				if (count($redshopUser) > 0)
 				{
 					$redUserId = $redshopUser->users_info_id;
-					$row = $this->getTable('user_detail');
+					$row       = $this->getTable('user_detail');
 					$row->load($redUserId);
-					$row->user_email = $data[$i]->user_email;
+					$row->user_email       = $data[$i]->user_email;
 					$row->shopper_group_id = $data[$i]->shopper_group_id;
-					$row->firstname = $data[$i]->first_name;
-					$row->lastname = $data[$i]->last_name;
-					$row->company_name = $data[$i]->company;
-					$row->address = $data[$i]->address_1;
-					$row->city = $data[$i]->city;
-					$row->country_code = $data[$i]->country;
-					$row->state_code = $data[$i]->state;
-					$row->zipcode = $data[$i]->zip;
-					$row->phone = $data[$i]->phone_1;
+					$row->firstname        = $data[$i]->first_name;
+					$row->lastname         = $data[$i]->last_name;
+					$row->company_name     = $data[$i]->company;
+					$row->address          = $data[$i]->address_1;
+					$row->city             = $data[$i]->city;
+					$row->country_code     = $data[$i]->country;
+					$row->state_code       = $data[$i]->state;
+					$row->zipcode          = $data[$i]->zip;
+					$row->phone            = $data[$i]->phone_1;
 
 					if ($row->store())
 					{
@@ -2739,19 +2740,19 @@ class RedshopModelImport extends RedshopModel
 				{
 					$rows = $this->getTable('user_detail');
 					$rows->load();
-					$rows->user_id = $data[$i]->user_id;
-					$rows->user_email = $data[$i]->user_email;
+					$rows->user_id          = $data[$i]->user_id;
+					$rows->user_email       = $data[$i]->user_email;
 					$rows->shopper_group_id = $data[$i]->shopper_group_id;
-					$rows->firstname = $data[$i]->first_name;
-					$rows->address_type = $data[$i]->address_type;
-					$rows->lastname = $data[$i]->last_name;
-					$rows->company_name = $data[$i]->company;
-					$rows->address = $data[$i]->address_1;
-					$rows->city = $data[$i]->city;
-					$rows->country_code = $data[$i]->country;
-					$rows->state_code = $data[$i]->state;
-					$rows->zipcode = $data[$i]->zip;
-					$rows->phone = $data[$i]->phone_1;
+					$rows->firstname        = $data[$i]->first_name;
+					$rows->address_type     = $data[$i]->address_type;
+					$rows->lastname         = $data[$i]->last_name;
+					$rows->company_name     = $data[$i]->company;
+					$rows->address          = $data[$i]->address_1;
+					$rows->city             = $data[$i]->city;
+					$rows->country_code     = $data[$i]->country;
+					$rows->state_code       = $data[$i]->state;
+					$rows->zipcode          = $data[$i]->zip;
+					$rows->phone            = $data[$i]->phone_1;
 
 					if ($rows->store())
 					{
@@ -2763,19 +2764,19 @@ class RedshopModelImport extends RedshopModel
 			{
 				$rows = $this->getTable('user_detail');
 				$rows->load();
-				$rows->user_id = $data[$i]->user_id;
-				$rows->user_email = $data[$i]->user_email;
+				$rows->user_id          = $data[$i]->user_id;
+				$rows->user_email       = $data[$i]->user_email;
 				$rows->shopper_group_id = $data[$i]->shopper_group_id;
-				$rows->firstname = $data[$i]->first_name;
-				$rows->address_type = $data[$i]->address_type;
-				$rows->lastname = $data[$i]->last_name;
-				$rows->company_name = $data[$i]->company;
-				$rows->address = $data[$i]->address_1;
-				$rows->city = $data[$i]->city;
-				$rows->country_code = $data[$i]->country;
-				$rows->state_code = $data[$i]->state;
-				$rows->zipcode = $data[$i]->zip;
-				$rows->phone = $data[$i]->phone_1;
+				$rows->firstname        = $data[$i]->first_name;
+				$rows->address_type     = $data[$i]->address_type;
+				$rows->lastname         = $data[$i]->last_name;
+				$rows->company_name     = $data[$i]->company;
+				$rows->address          = $data[$i]->address_1;
+				$rows->city             = $data[$i]->city;
+				$rows->country_code     = $data[$i]->country;
+				$rows->state_code       = $data[$i]->state;
+				$rows->zipcode          = $data[$i]->zip;
+				$rows->phone            = $data[$i]->phone_1;
 
 				if ($rows->store())
 				{
@@ -2789,7 +2790,7 @@ class RedshopModelImport extends RedshopModel
 
 	public function Orders_insert()
 	{
-		$db = JFactory::getDbo();
+		$db            = JFactory::getDbo();
 		$producthelper = productHelper::getInstance();
 
 		$query = "SELECT rui.users_info_id AS rui_users_info_id, vmo . * , rdo.vm_order_number AS rdo_order_number
@@ -2998,8 +2999,8 @@ class RedshopModelImport extends RedshopModel
 		$query = "SELECT vmmf.*,vmpmf.product_id,vmp.product_sku,rdp.product_id as rdp_product_id,rdmf.manufacturer_id as rdmf_manufacturer_id,rdmf.manufacturer_name as rdmf_manufacturer_name  FROM (((`#__vm_manufacturer` as vmmf LEFT JOIN #__vm_product_mf_xref as vmpmf ON vmmf.`manufacturer_id` = vmpmf.manufacturer_id) LEFT JOIN #__vm_product as vmp ON vmpmf.product_id = vmp.product_id) LEFT JOIN #__redshop_product as rdp ON rdp.product_number = vmp.product_sku) "
 			. "LEFT JOIN #__redshop_manufacturer AS rdmf ON rdmf.manufacturer_name = vmmf.`mf_name` ";
 		$db->setQuery($query);
-		$data = $db->loadObjectList();
-		$k = 0;
+		$data   = $db->loadObjectList();
+		$k      = 0;
 		$tmp_id = 0;
 
 		for ($i = 0; $i <= (count($data) - 1); $i++)
@@ -3018,7 +3019,7 @@ class RedshopModelImport extends RedshopModel
 
 			$manufacturer_name = $data[$i]->mf_name;
 			$manufacturer_desc = $data[$i]->mf_desc;
-			$rdp_product_id = $data[$i]->rdp_product_id;
+			$rdp_product_id    = $data[$i]->rdp_product_id;
 
 			if ($data[$i]->rdmf_manufacturer_id == null || $data[$i]->rdmf_manufacturer_name == null)
 			{
@@ -3066,7 +3067,7 @@ class RedshopModelImport extends RedshopModel
 		for ($v = 0, $vn = count($vmproarr); $v < $vn; $v++)
 		{
 			$redparent = $redproarr[$v];
-			$query = "SELECT `related_products` FROM `#__vm_product_relations` WHERE `product_id`= '" . $vmproarr[$v] . "'";
+			$query     = "SELECT `related_products` FROM `#__vm_product_relations` WHERE `product_id`= '" . $vmproarr[$v] . "'";
 			$db->setQuery($query);
 			$vmrel = $db->loadResult();
 
@@ -3116,7 +3117,7 @@ class RedshopModelImport extends RedshopModel
 	/**
 	 * Get Extra Field Names
 	 *
-	 * @param   array  $keyProducts  Array key products
+	 * @param   array $keyProducts Array key products
 	 *
 	 * @return  array
 	 */
@@ -3143,15 +3144,15 @@ class RedshopModelImport extends RedshopModel
 	/**
 	 * Update/insert product extra field data
 	 *
-	 * @param   string   $fieldname  Extra Field Names
-	 * @param   array    $rawdata    CSV rawdata
-	 * @param   integer  $productId  Product Id
+	 * @param   string  $fieldname Extra Field Names
+	 * @param   array   $rawdata   CSV rawdata
+	 * @param   integer $productId Product Id
 	 *
 	 * @return  void
 	 */
 	public function importProductExtrafieldData($fieldname, $rawdata, $productId)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$value = $rawdata[$fieldname];
 		$query = $db->getQuery(true)
 			->select('field_id')
@@ -3179,11 +3180,11 @@ class RedshopModelImport extends RedshopModel
 			{
 				if (trim($value) != '')
 				{
-					$queryObject = new stdClass;
-					$queryObject->fieldid = $fieldId;
+					$queryObject           = new stdClass;
+					$queryObject->fieldid  = $fieldId;
 					$queryObject->data_txt = $value;
-					$queryObject->itemid = $productId;
-					$queryObject->section = 1;
+					$queryObject->itemid   = $productId;
+					$queryObject->section  = 1;
 					$db->insertObject('#__redshop_fields_data', $queryObject);
 				}
 			}
@@ -3215,13 +3216,13 @@ class RedshopModelImport extends RedshopModel
 		$micro_time = ((float) $usec + (float) $sec);
 
 		// $start_micro_time = $_SESSION['start_micro_time'];
-		$session = JFactory::getSession();
+		$session          = JFactory::getSession();
 		$start_micro_time = $session->get('start_micro_time');
 
 		$start_micro_time;
 
 		$running_time = $micro_time - $start_micro_time;
-		$retun = $php_max_exec - $running_time;
+		$retun        = $php_max_exec - $running_time;
 
 		return $retun;
 	}

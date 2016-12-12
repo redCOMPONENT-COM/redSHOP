@@ -29,7 +29,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 		$jinput = JFactory::getApplication()->input;
 
 		$array            = $jinput->get('cid', 0, 'array');
-		$this->_sectionid = $jinput->get('product_id', 0, 'int');
+		$this->_sectionid = $jinput->getInt('product_id', 0);
 		$this->setId((int) $array[0]);
 	}
 
