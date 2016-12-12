@@ -20,9 +20,9 @@ class RedshopViewNewsletter extends RedshopView
 		$cid = $app->input->post->get('cid', array(0), 'array');
 
 		$selected_product = $app->input->get('product', '');
-		$n = $cid[0];
-		$model = $this->getModel('newsletter');
-		$subscribers = $model->listallsubscribers($n);
+		$n                = $cid[0];
+		$model            = $this->getModel('newsletter');
+		$subscribers      = $model->listallsubscribers($n);
 		$product_category = new product_category;
 
 		$document = JFactory::getDocument();
