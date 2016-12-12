@@ -47,21 +47,21 @@ class RedshopControllerConfiguration extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$app = JFactory::getApplication();
-		$selectedTabPosition = $app->input->get('selectedTabPosition');
+		$selectedTabPosition = $this->input->get('selectedTabPosition');
 		$app->setUserState('com_redshop.configuration.selectedTabPosition', $selectedTabPosition);
 
-		$post['custom_previous_link'] = JRequest::getVar('custom_previous_link', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['custom_previous_link'] = $this->input->post->get('custom_previous_link', '', 'raw');
 
-		$post['custom_next_link'] = JRequest::getVar('custom_next_link', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['custom_next_link'] = $this->input->post->get('custom_next_link', '', 'raw');
 
-		$post['default_next_suffix'] = JRequest::getVar('default_next_suffix', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['default_next_suffix'] = $this->input->post->get('default_next_suffix', '', 'raw');
 
-		$post['default_previous_prefix'] = JRequest::getVar('default_previous_prefix', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['default_previous_prefix'] = $this->input->post->get('default_previous_prefix', '', 'raw');
 
-		$post['return_to_category_prefix'] = JRequest::getVar('return_to_category_prefix', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['return_to_category_prefix'] = $this->input->post->get('return_to_category_prefix', '', 'raw');
 
 		// Administrator email notifications ids
 		if (is_array($post['administrator_email']))
@@ -71,9 +71,9 @@ class RedshopControllerConfiguration extends RedshopController
 
 		$msg                   = null;
 		$model                 = $this->getModel('configuration');
-		$newsletter_test_email = JRequest::getVar('newsletter_test_email');
+		$newsletter_test_email = $this->input->get('newsletter_test_email');
 
-		$post['country_list'] = implode(',', $app->input->post->get('country_list', array(), 'ARRAY'));
+		$post['country_list'] = implode(',', $this->input->post->get('country_list', array(), 'ARRAY'));
 
 		if (!isset($post['seo_page_short_description']))
 		{
@@ -90,7 +90,7 @@ class RedshopControllerConfiguration extends RedshopController
 			$post['allow_multiple_discount'] = 0;
 		}
 
-		$post['menuhide'] = implode(',', $app->input->post->get('menuhide', array(), 'ARRAY'));
+		$post['menuhide'] = implode(',', $this->input->post->get('menuhide', array(), 'ARRAY'));
 
 		if (isset($post['product_download_root']))
 		{
@@ -175,9 +175,9 @@ class RedshopControllerConfiguration extends RedshopController
 	public function removeimg()
 	{
 		ob_clean();
-		$imname = JRequest::getString('imname', '');
-		$spath = JRequest::getString('spath', '');
-		$data_id = JRequest::getInt('data_id', 0);
+		$imname      = $this->input->getString('imname', '');
+		$spath       = $this->input->getString('spath', '');
+		$data_id     = $this->input->getInt('data_id', 0);
 		$extra_field = extra_field::getInstance();
 
 		if ($data_id)
