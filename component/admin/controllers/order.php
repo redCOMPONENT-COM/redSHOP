@@ -20,7 +20,7 @@ class RedshopControllerOrder extends RedshopController
 	public function printPDF()
 	{
 		$app = JFactory::getApplication();
-		$orderId = $app->input->getInt('id', 0);
+		$orderId = $this->input->getInt('id', 0);
 
 		if (!$orderId)
 		{
@@ -37,7 +37,7 @@ class RedshopControllerOrder extends RedshopController
 
 	public function multiprint_order()
 	{
-		$mypost = JRequest::getVar('cid');
+		$mypost         = $this->input->get('cid');
 		$order_function = order_functions::getInstance();
 		ob_start();
 		$invoicePdf = $order_function->createMultiprintInvoicePdf($mypost);
@@ -82,7 +82,7 @@ class RedshopControllerOrder extends RedshopController
 		$app = JFactory::getApplication();
 
 		// @todo This needs to be fixed in better way
-		$postData              = $app->input->getArray($_POST);
+		$postData              = $this->input->post->getArray();
 		$postData['isPacsoft'] = $isPacsoft;
 
 		$app->setUserState("com_redshop.order.batch.postdata", serialize($postData));
@@ -115,7 +115,7 @@ class RedshopControllerOrder extends RedshopController
 		$app             = JFactory::getApplication();
 		$serialized      = $app->getUserState("com_redshop.order.batch.postdata");
 		$post            = unserialize($serialized);
-		$orderId         = $app->input->getInt('oid', 0);
+		$orderId         = $this->input->getInt('oid', 0);
 		$order_functions = order_functions::getInstance();
 
 		// Change Order Status
@@ -137,11 +137,11 @@ class RedshopControllerOrder extends RedshopController
 
 	public function bookInvoice()
 	{
-		$post = JRequest::get('post');
+		$post            = $this->input->post->getArray();
 		$bookInvoiceDate = $post ['bookInvoiceDate'];
-		$order_id = JRequest::getCmd('order_id');
-		$ecomsg = JText::_('COM_REDSHOP_INVOICE_NOT_BOOKED_IN_ECONOMIC');
-		$msgType = 'warning';
+		$order_id        = $this->input->getInt('order_id');
+		$ecomsg          = JText::_('COM_REDSHOP_INVOICE_NOT_BOOKED_IN_ECONOMIC');
+		$msgType         = 'warning';
 
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
@@ -166,9 +166,9 @@ class RedshopControllerOrder extends RedshopController
 	{
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
-			$order_id = JRequest::getCmd('order_id');
+			$order_id       = $this->input->getInt('order_id');
 			$order_function = order_functions::getInstance();
-			$paymentInfo = RedshopHelperOrder::getPaymentInfo($order_id);
+			$paymentInfo    = RedshopHelperOrder::getPaymentInfo($order_id);
 
 			if ($paymentInfo)
 			{
@@ -337,17 +337,17 @@ class RedshopControllerOrder extends RedshopController
 			exit;
 		}
 
-		$producthelper = productHelper::getInstance();
+		$producthelper  = productHelper::getInstance();
 		$order_function = order_functions::getInstance();
-		$model = $this->getModel('order');
+		$model          = $this->getModel('order');
 
 		$product_count = array();
-		$db = JFactory::getDbo();
+		$db            = JFactory::getDbo();
 
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$data = $model->export_data($cid);
+		$cid      = $this->input->get('cid', array(0), 'array');
+		$data     = $model->export_data($cid);
 		$order_id = implode(',', $cid);
-		$where = "";
+		$where    = "";
 
 		if ($order_id != 0)
 		{
@@ -447,7 +447,7 @@ class RedshopControllerOrder extends RedshopController
 	public function generateParcel()
 	{
 		$order_function = order_functions::getInstance();
-		$order_id = JRequest::getCmd('order_id');
+		$order_id       = $this->input->getInt('order_id');
 
 		$generate_label = $order_function->generateParcel($order_id);
 
@@ -464,8 +464,8 @@ class RedshopControllerOrder extends RedshopController
 
 	public function download_token()
 	{
-		$post = JRequest::get('post');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post = $this->input->post->getArray();
+		$cid  = $this->input->post->get('cid', array(0), 'array');
 
 		$model = $this->getModel('order');
 
@@ -510,14 +510,14 @@ class RedshopControllerOrder extends RedshopController
 
 	public function gls_export()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		$cid   = $this->input->get('cid', array(0), 'array');
 		$model = $this->getModel('order');
 		$model->gls_export($cid);
 	}
 
 	public function business_gls_export()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		$cid   = $this->input->get('cid', array(0), 'array');
 		$model = $this->getModel('order');
 		$model->business_gls_export($cid);
 	}
