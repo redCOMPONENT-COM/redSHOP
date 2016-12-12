@@ -44,7 +44,7 @@ class RedshopControllerAccount_billto extends RedshopController
 		$billingaddresses            = $order_functions->getBillingAddress($user->id);
 		$GLOBALS['billingaddresses'] = $billingaddresses;
 
-		$task = JRequest::getVar('submit', 'post');
+		$task = $this->input->get('submit', 'post');
 
 		if ($task == 'Cancel')
 		{
@@ -62,16 +62,16 @@ class RedshopControllerAccount_billto extends RedshopController
 	public function save()
 	{
 		$user   = JFactory::getUser();
-		$post   = JRequest::get('post');
-		$return = JRequest::getVar('return');
-		$Itemid = JRequest::getInt('Itemid');
+		$post   = $this->input->post->getArray();
+		$return = $this->input->get('return');
+		$Itemid = $this->input->getInt('Itemid');
 
-		$post['users_info_id'] = JRequest::getInt('cid');
+		$post['users_info_id'] = $this->input->getInt('cid');
 		$post['id']            = $post['user_id'];
 		$post['address_type']  = "BT";
 		$post['email']         = $post['email1'];
-		$post['password']      = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post['password2']     = JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['password']      = $this->input->post->get('password1', '', 'raw');
+		$post['password2']     = $this->input->post->get('password2', '', 'raw');
 
 		if (isset($user->username))
 		{
@@ -89,7 +89,7 @@ class RedshopControllerAccount_billto extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_BILLING_INFORMATION');
 		}
 
-		$setexit = JRequest::getInt('setexit', 1);
+		$setexit = $this->input->getInt('setexit', 1);
 		$link = '';
 
 		if ($return != "")
@@ -121,10 +121,10 @@ class RedshopControllerAccount_billto extends RedshopController
 	 */
 	function cancel()
 	{
-		$Itemid  = JRequest::getVar('Itemid');
+		$Itemid  = $this->input->get('Itemid');
 		$msg     = JText::_('COM_REDSHOP_BILLING_INFORMATION_EDITING_CANCELLED');
-		$return  = JRequest::getVar('return');
-		$setexit = JRequest::getInt('setexit', 1);
+		$return  = $this->input->get('return');
+		$setexit = $this->input->getInt('setexit', 1);
 		$link    = '';
 
 		if ($return != "")

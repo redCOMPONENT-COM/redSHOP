@@ -27,7 +27,7 @@ class RedshopControllerAccount extends RedshopController
 	public function editTag()
 	{
 		$app    = JFactory::getApplication();
-		$post   = JRequest::get('post');
+		$post   = $app->input->post->getArray();
 		$model  = $this->getModel('account');
 
 		if ($model->editTag($post))
@@ -49,7 +49,7 @@ class RedshopControllerAccount extends RedshopController
 	 */
 	public function sendWishlist()
 	{
-		$post = JRequest::get('post');
+		$post       = JFactory::getApplication()->input->post->getArray();
 		$emailto    = $post['emailto'];
 		$sender     = $post['sender'];
 		$email      = $post['email'];
