@@ -23,7 +23,7 @@ class RedshopControllerCategory extends RedshopController
 	 */
 	public function assignTemplate()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('category');
 
@@ -41,10 +41,8 @@ class RedshopControllerCategory extends RedshopController
 
 	public function saveorder()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -59,7 +57,7 @@ class RedshopControllerCategory extends RedshopController
 	{
 		$db = JFactory::getDbo();
 		ob_clean();
-		$mainzipcode = JRequest::getString('q', '');
+		$mainzipcode = $this->input->getString('q', '');
 		$sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";
 		$db->setQuery($sel_zipcode);
 

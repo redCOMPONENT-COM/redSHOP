@@ -24,8 +24,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 {
 	public $app;
 
-	public $input;
-
 	/**
 	 * Constructor to set the right model
 	 *
@@ -38,8 +36,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$this->registerTask('add', 'edit');
 
 		$this->app    = JFactory::getApplication();
-		$this->input  = $this->app->input;
-		$this->option = $this->input->getString('option', 'com_redshop');
+		$this->option = $this->input->getCmd('option', 'com_redshop');
 	}
 
 	/**
@@ -121,7 +118,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	public function save($apply = 0)
 	{
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$post                 = $this->input->getArray($_POST);
+		$post                 = $this->input->post->getArray();
 		$cid                  = $this->input->post->get('cid', array(), 'array');
 		$post ['product_id']  = $cid[0];
 		$post['product_name'] = $this->input->post->get('product_name', null, 'string');
@@ -315,7 +312,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	public function cancel()
 	{
 		$model = $this->getModel('product_detail');
-		$recordId = JFactory::getApplication()->input->get('cid');
+		$recordId = $this->input->get('cid');
 		$model->checkin($recordId);
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
@@ -618,7 +615,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$url = $uri->root();
 
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$post = $this->input->getArray($_POST);
+		$post = $this->input->post->getArray();
 		$main_img = $this->input->files->get('property_main_img', null);
 		$sub_img = $this->input->files->get('property_sub_img', null);
 
@@ -659,9 +656,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		$url = $uri->root();
 
-		$mediaid = $this->input->getInt('mediaid', null);
+		$mediaid    = $this->input->getInt('mediaid', null);
 		$section_id = $this->input->getInt('section_id', null);
-		$cid = $this->input->getInt('cid', null);
+		$cid        = $this->input->getInt('cid', null);
 
 		$model = $this->getModel('product_detail');
 
@@ -681,7 +678,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function subattribute_color()
 	{
-		$post = $this->input->getArray($_POST);
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('product_detail');
 
@@ -745,7 +742,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	public function saveAttributeStock()
 	{
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$post = $this->input->getArray($_POST);
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('product_detail');
 
