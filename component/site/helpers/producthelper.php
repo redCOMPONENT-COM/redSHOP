@@ -3414,7 +3414,7 @@ class productHelper
 		{
 			if (is_null($this->_attribute_template))
 			{
-				$this->_attribute_template = $attribute_template = $redTemplate->getTemplate($displayname);
+				$this->_attribute_template = $attribute_template = RedshopHelperTemplate::getTemplate($displayname);
 			}
 			else
 			{
@@ -3425,7 +3425,7 @@ class productHelper
 		{
 			if (is_null($this->_attributewithcart_template))
 			{
-				$this->_attributewithcart_template = $attribute_template = $redTemplate->getTemplate($displayname);
+				$this->_attributewithcart_template = $attribute_template = RedshopHelperTemplate::getTemplate($displayname);
 			}
 			else
 			{
@@ -3449,7 +3449,7 @@ class productHelper
 
 	public function getProductAccessory($accessory_id = 0, $product_id = 0, $child_product_id = 0, $cid = 0)
 	{
-		$orderby = "ORDER BY child_product_id ASC";
+		$orderby = " ORDER BY child_product_id ASC";
 
 		if (Redshop::getConfig()->get('DEFAULT_ACCESSORY_ORDERING_METHOD'))
 		{
@@ -3630,7 +3630,7 @@ class productHelper
 
 			if ($helper->isredProductfinder())
 			{
-				$q = "SELECT extrafield  FROM #__redproductfinder_types where type_select='Productfinder datepicker'";
+				$q = "SELECT extrafield  FROM #__redproductfinder_types where type_select='Productfinder_datepicker'";
 				$this->_db->setQuery($q);
 				$finaltypetype_result = $this->_db->loadObject();
 			}
@@ -3711,9 +3711,9 @@ class productHelper
 			. "FROM " . $this->_table_prefix . "product_related AS r "
 			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = r.related_id ";
 
-		if (count($finaltypetype_result) > 0
-			&& $finaltypetype_result->extrafield != ''
-			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
+		if (!empty($finaltypetype_result) && !empty($finaltypetype_result->extrafield)
+			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
+				|| Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
 			$query .= " LEFT JOIN " . $this->_table_prefix . "fields_data  AS e ON p.product_id = e.itemid ";
 		}
@@ -5193,6 +5193,10 @@ class productHelper
 
 		$cartform = str_replace($cartTag, '<span id="stockaddtocart' . $stockId . '"></span>' . $cartIcon, $cartform);
 		$cartform .= "</form>";
+
+		// Trigger event on Add to Cart
+		$dispatcher->trigger('onAddtoCart', array(&$cartform, $product));
+
 		$property_data = str_replace("{form_addtocart:$cart_template->template_name}", $cartform, $property_data);
 
 		return $property_data;
@@ -8008,13 +8012,16 @@ class productHelper
 	/**
 	 * Get formatted number
 	 *
-	 * @param   int  $price
+	 * @param   float    $price          Price amount
+	 * @param   boolean  $convertSigned  True for convert negative price to absolution price.
 	 *
-	 * @return  string
+	 * @return  string                   Formatted price.
 	 */
-	public function redpriceDecimal($price)
+	public function redpriceDecimal($price, $convertSigned = true)
 	{
-		return number_format(abs($price), Redshop::getConfig()->get('PRICE_DECIMAL'), '.', '');
+		$price = ($convertSigned == true) ? abs($price) : $price;
+
+		return number_format($price, Redshop::getConfig()->get('PRICE_DECIMAL'), '.', '');
 	}
 
 	public function redunitDecimal($price)
