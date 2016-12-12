@@ -9,6 +9,17 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Layout variables
+ * =======================
+ * @var  array   $displayData   List of data.
+ * @var  string  $id            ID
+ * @var  string  $type          Type of section (Ex: product)
+ * @var  string  $sectionId     Section ID (Ex: Product ID if $type is product)
+ * @var  string  $mediaSection  Section media (Ex: product)
+ * @var  array   $file          File data as array
+ * @var  bool    $showMedia     Show pop-up for select image from media or not
+ */
 extract($displayData);
 ?>
 
@@ -18,21 +29,28 @@ extract($displayData);
 		<input name="file" type="file"/>
 	</div>
 </div>
-<div class="btn-toolbar">
-	<button type="button" class="btn btn-small btn-primary cropping" data-toggle="tooltip"
-	title="<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_CROP'); ?>">
-		<span class="fa fa-crop"></span>
-	</button>
-	<!-- button -->
-	<button type="button" class="btn btn-small btn-danger removing" data-toggle="tooltip"
-	title="<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_REMOVE'); ?>">
-		<span class="fa fa-trash"></span>
-	</button>
-	<!-- button -->
-	<button type="button" class="btn btn-small btn-success pull-right hasTooltip choosing"
-	data-original-title="<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_INSERT'); ?>">
-		<span class="fa fa-picture-o"></span>
-	</button>
+<hr />
+<div class="btn-group btn-group-justified" role="group">
+	<div class="btn-group" role="group">
+		<button type="button" class="btn btn-primary cropping" data-toggle="tooltip"
+				title="<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_CROP'); ?>">
+			<i class="fa fa-crop"></i> <?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_CROP') ?>
+		</button>
+	</div>
+	<div class="btn-group" role="group">
+		<button type="button" class="btn btn-danger removing" data-toggle="tooltip"
+				title="<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_REMOVE'); ?>">
+			<i class="fa fa-trash"></i> <?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_REMOVE') ?>
+		</button>
+	</div>
+	<?php if ($showMedia): ?>
+	<div class="btn-group" role="group">
+		<button type="button" class="btn btn-success hasTooltip choosing"
+				data-original-title="<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_INSERT'); ?>">
+			<i class="fa fa-picture-o"></i> <?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_INSERT'); ?>
+		</button>
+	</div>
+	<?php endif; ?>
 </div>
 <input type="hidden" name="<?php echo $mediaSection ?>_image" id="<?php echo $mediaSection ?>_image" class="img-select">
 <!-- End Dropzone Container -->
@@ -95,12 +113,30 @@ extract($displayData);
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End Alert Modal -->
-<script>
+
+<?php if ($showMedia): ?>
+	<?php
+	$selectedImage = !empty($file) ? $file['name'] : '';
+
+	echo RedshopLayoutHelper::render(
+		'media.media_files',
+		array(
+			'id'           => $id,
+			'type'         => $type,
+			'sectionId'    => $sectionId,
+			'mediaSection' => $mediaSection,
+			'gallery'  => RedshopHelperMediaImage::getMediaFiles($selectedImage)
+		)
+	);
+	?>
+<?php endif; ?>
+
+<script type="text/javascript">
 	rsMedia.dropzone();
 
-	// preload file
+	// Preload file
 	var file = false;
-	<?php if (!empty($file)) { ?>
+	<?php if (!empty($file)): ?>
 	file = {
 		name: "<?php echo $file['name'] ?>",
 		size: <?php echo $file['size'] ?>,
@@ -110,6 +146,6 @@ extract($displayData);
 		blob: "<?php echo $file['blob'] ?>",
 		preload: true
 	};
-	<?php } ?>
+	<?php endif; ?>
 	rsMedia.dropzonePreload(rsMedia.dropzoneInstance, file);
 </script>
