@@ -268,13 +268,6 @@ $calendarFormat = '%d-%m-%Y';
 					$media_section,
 					$this->detail->product_full_image
 				);
-				/*RedshopHelperMediaImage::renderGallery(
-					'product_full_image',
-					'product',
-					$section_id,
-					$media_section,
-					$this->detail->product_full_image
-				);*/
 				?>
 				<?php if ($this->detail->product_id > 0) : ?>
 					<?php $ilink = 'index.php?tmpl=component&option=com_redshop&view=media&section_id='

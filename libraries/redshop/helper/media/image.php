@@ -196,6 +196,15 @@ class RedshopHelperMediaImage
 		return round($bytes, 2) . " " . $label[$i];
 	}
 
+	/**
+	 * Method for get all media files of redSHOP
+	 *
+	 * @param   string  $selectedImage  Selected file.
+	 *
+	 * @return  array                   List of media files.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public static function getMediaFiles($selectedImage = '')
 	{
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
