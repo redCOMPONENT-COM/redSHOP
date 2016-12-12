@@ -200,10 +200,18 @@ class redhelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
+		$oldStyleName = [
+				'mod_redcategoryscroller', 'mod_redcategoryscroller', 'mod_redmasscart',
+				'mod_redproducts3d', 'mod_redproductscroller', 'mod_redproducttab'
+			];
+
 		$query->select('*')
 			->from('#__extensions')
 			->where($db->qn('type') . ' = ' . $db->quote('module'))
-			->where('LOWER(' . $db->qn('element') . ')' . ' LIKE ' . $db->q('mod_red%'))
+			->where(
+					'LOWER(' . $db->qn('element') . ')' . ' LIKE ' . $db->q('mod_redshop%')
+					. ' OR LOWER(' . $db->qn('element') . ') IN (' . implode(',', $db->q($oldStyleName)) . ')'
+				)
 			->order($db->qn('ordering') . ' ASC');
 
 		if ($enabled > 0)
