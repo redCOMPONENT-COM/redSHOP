@@ -1922,13 +1922,16 @@ class productHelper
 					// Checking the product discount < total discount => get total discount
 					if ($product_price_array['product_price_saving_percentage'] <= $discount_percent)
 					{
-						$discount_amount_final += $discount_percent * $product_price_array['product_old_price'] / 100;
+						$discount_amount = $discount_percent * $product_price_array['product_price'] / 100;
 					}
 					// Keep product discount
 					else
 					{
-						$discount_amount_final += $product_price_array['product_price_saving'];
+						$discount_amount = $product_price_array['product_price_saving'];
 					}
+
+					// With quantity
+					$discount_amount_final += $discount_amount * $cart[$i]['quantity'];
 				}
 			}
 
