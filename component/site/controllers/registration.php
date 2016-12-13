@@ -27,8 +27,8 @@ class RedshopControllerRegistration extends RedshopController
 	public function newregistration()
 	{
 		$app        = JFactory::getApplication();
-		$post       = JRequest::get('post');
-		$Itemid     = JRequest::getInt('Itemid', 0);
+		$post       = $this->input->post->getArray();
+		$Itemid     = $this->input->getInt('Itemid', 0);
 		$dispatcher = JDispatcher::getInstance();
 
 		$prodhelperobj = productHelper::getInstance();
@@ -87,7 +87,7 @@ class RedshopControllerRegistration extends RedshopController
 	public function searchUserdetailByPhone()
 	{
 		ob_clean();
-		$get = JRequest::get('get');
+		$get = $this->input->get->getArray();
 		$return = "";
 
 		JPluginHelper::importPlugin('telesearch');
@@ -120,7 +120,7 @@ class RedshopControllerRegistration extends RedshopController
 		$rsUserhelper = rsUserHelper::getInstance();
 		$extraField   = extraField::getInstance();
 
-		$get = JRequest::get('get');
+		$get = $this->input->get->getArray();
 		$template_id = $get['template_id'];
 		$is_company  = $get['is_company'];
 		$lists['isAjax']                  = 1;

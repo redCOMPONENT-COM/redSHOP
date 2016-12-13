@@ -286,7 +286,7 @@ class RedshopControllerCategory extends RedshopController
 	public function generateXMLExportFile()
 	{
 		$app      = JFactory::getApplication();
-		$exportId = $app->getInt('xmlexport_id');
+		$exportId = $this->input->getInt('xmlexport_id');
 
 		if ($exportId)
 		{

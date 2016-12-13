@@ -38,7 +38,7 @@ class RedshopControllerSearch extends RedshopController
 	 */
 	public function loadProducts()
 	{
-		$get = JRequest::get('get');
+		$get = $this->input->get->getArray();
 		$taskid = $get['taskid'];
 
 		$model = $this->getModel('search');
@@ -46,7 +46,7 @@ class RedshopControllerSearch extends RedshopController
 		$brands = $model->loadCatProductsManufacturer($taskid);
 
 		// Manufacture Select Id
-		$manufac_data = (JRequest::getInt('manufacture_id', 0));
+		$manufac_data = ($this->input->getInt('manufacture_id', 0));
 
 		JLoader::import('joomla.application.module.helper');
 		$module           = JModuleHelper::getModule('redshop_search');
@@ -98,13 +98,9 @@ class RedshopControllerSearch extends RedshopController
 		// Only verify token for frontend
 		RedshopHelperAjax::validateAjaxRequest('get');
 
-		$app = JFactory::getApplication();
-
 		ob_clean();
 
-		echo RedshopHelperWorld::getInstance()->getStatesAjax($app->input->getCmd('country'));
-
-		$app->close();
+		echo RedshopHelperWorld::getInstance()->getStatesAjax($this->input->getCmd('country'));
 	}
 
 	/**
@@ -114,10 +110,8 @@ class RedshopControllerSearch extends RedshopController
 	 */
 	public function findProducts()
 	{
-		$app   = JFactory::getApplication();
-		$input = $app->input;
 		$model = $this->getModel('Search');
-		$post  = $input->post->get('redform', array(), 'filter');
+		$post  = $this->input->post->get('redform', array());
 
 		$model->setState("filter.data", $post);
 		$list       = $model->getItem();
@@ -149,7 +143,5 @@ class RedshopControllerSearch extends RedshopController
 		{
 			echo JText::_('COM_REDSHOP_MSG_SORRY_NO_RESULT_FOUND');
 		}
-
-		$app->close();
 	}
 }

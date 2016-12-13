@@ -28,9 +28,9 @@ class RedshopControllerQuotation extends RedshopController
 	public function addquotation()
 	{
 
-		$Itemid = JRequest::getVar('Itemid');
-		$return = JRequest::getVar('return');
-		$post   = JRequest::get('post');
+		$Itemid = $this->input->get('Itemid');
+		$return = $this->input->get('return');
+		$post   = $this->input->post->getArray();
 
 		if (!$post['user_email'])
 		{
@@ -93,10 +93,10 @@ class RedshopControllerQuotation extends RedshopController
 	public function usercreate()
 	{
 
-		$Itemid = JRequest::getVar('Itemid');
-		$return = JRequest::getVar('return');
+		$Itemid = $this->input->get('Itemid');
+		$return = $this->input->get('return');
 		$model  = $this->getModel('quotation');
-		$post   = JRequest::get('post');
+		$post   = $this->input->post->getArray();
 
 		$model->usercreate($post);
 
@@ -113,8 +113,8 @@ class RedshopControllerQuotation extends RedshopController
 	public function cancel()
 	{
 
-		$Itemid = JRequest::getVar('Itemid');
-		$return = JRequest::getVar('return');
+		$Itemid = $this->input->get('Itemid');
+		$return = $this->input->get('return');
 
 		if ($return != "")
 		{

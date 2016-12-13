@@ -135,13 +135,12 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function updateGLSLocation()
 	{
-		$app = JFactory::getApplication();
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = JDispatcher::getInstance();
-		$usersInfoId = $app->input->getInt('users_info_id', 0);
-		$values = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
-		$values->zipcode = $app->input->get('zipcode', '');
-		$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
+		$dispatcher      = JDispatcher::getInstance();
+		$usersInfoId     = $this->input->getInt('users_info_id', 0);
+		$values          = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
+		$values->zipcode = $this->input->get('zipcode', '');
+		$ShopResponses   = $dispatcher->trigger('GetNearstParcelShops', array($values));
 
 		if ($ShopResponses && isset($ShopResponses[0]) && $ShopResponses[0])
 		{
@@ -162,8 +161,6 @@ class RedshopControllerCheckout extends RedshopController
 				echo $ShopResponses[0];
 			}
 		}
-
-		$app->close();
 	}
 
 	/**
@@ -173,14 +170,10 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function getShippingInformation()
 	{
-		$app = JFactory::getApplication();
-		$jInput = $app->input;
-		$plugin = $jInput->getCmd('plugin', '');
+		$plugin = $this->input->getCmd('plugin', '');
 		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('on' . $plugin . 'AjaxRequest');
-
-		$app->close();
 	}
 
 	/**
@@ -389,7 +382,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
-			$shipping_rate_id = JFactory::getApplication()->input->getString('shipping_rate_id');
+			$shipping_rate_id = $this->input->getString('shipping_rate_id');
 			$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);
 
 			if (count($shippingdetail) < 4)
@@ -674,7 +667,6 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function displaycreditcard()
 	{
-		$app        = JFactory::getApplication();
 		$cart       = JFactory::getSession()->get('cart');
 		$carthelper = rsCarthelper::getInstance();
 
@@ -682,7 +674,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($cart['total'] > 0)
 		{
-			$paymentMethodId = $app->input->getCmd('payment_method_id');
+			$paymentMethodId = $this->input->getCmd('payment_method_id');
 
 			if ($paymentMethodId != "")
 			{
@@ -706,8 +698,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		RedshopHelperAjax::validateAjaxRequest('get');
 
-		$app = JFactory::getApplication();
-		$plugin = RedshopHelperPayment::info($app->input->getCmd('paymentMethod'));
+		$plugin = RedshopHelperPayment::info($this->input->getCmd('paymentMethod'));
 
 		$layoutFile = new JLayoutFile('order.payment.extrafields');
 
@@ -716,7 +707,6 @@ class RedshopControllerCheckout extends RedshopController
 
 		ob_clean();
 		echo $layoutFile->render(array('plugin' => $plugin));
-		$app->close();
 	}
 
 	/**

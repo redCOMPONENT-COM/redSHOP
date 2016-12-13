@@ -27,7 +27,7 @@ class RedshopControllerAccount extends RedshopController
 	public function editTag()
 	{
 		$app    = JFactory::getApplication();
-		$post   = $app->input->post->getArray();
+		$post   = $this->input->post->getArray();
 		$model  = $this->getModel('account');
 
 		if ($model->editTag($post))
@@ -49,7 +49,7 @@ class RedshopControllerAccount extends RedshopController
 	 */
 	public function sendWishlist()
 	{
-		$post       = JFactory::getApplication()->input->post->getArray();
+		$post       = $this->input->post->getArray();
 		$emailto    = $post['emailto'];
 		$sender     = $post['sender'];
 		$email      = $post['email'];
@@ -97,7 +97,7 @@ class RedshopControllerAccount extends RedshopController
 		$userhelper = rsUserHelper::getInstance();
 		$userhelper->newsletterSubscribe(0, array(), 1);
 
-		$Itemid = JFactory::getApplication()->input->getInt('Itemid');
+		$Itemid = $this->input->getInt('Itemid');
 		$this->setRedirect(
 			"index.php?option=com_redshop&view=account&Itemid=" . $Itemid,
 			JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS')
@@ -112,7 +112,7 @@ class RedshopControllerAccount extends RedshopController
 	public function newsletterUnsubscribe()
 	{
 		$user       = JFactory::getUser();
-		$Itemid     = JFactory::getApplication()->input->getInt('Itemid');
+		$Itemid     = $this->input->getInt('Itemid');
 		$userhelper = rsUserHelper::getInstance();
 
 		$userhelper->newsletterUnsubscribe($user->email);
