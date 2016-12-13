@@ -37,7 +37,7 @@ class PlgRedshop_PaymentRs_Payment_PaypalInstallerScript
 					->select($db->qn('manifest_cache'))
 					->from($db->qn('#__extensions'))
 					->where($db->qn('type') . ' = ' . $db->q('plugin'))
-					->where($db->qn('element') . ' = ' . $db->q('rs_payment_payment_paypall'))
+					->where($db->qn('element') . ' = ' . $db->q('rs_payment_paypall'))
 					->where($db->qn('folder')) . ' = ' . $db->q('redshop_payment')
 			)->loadResult();
 
