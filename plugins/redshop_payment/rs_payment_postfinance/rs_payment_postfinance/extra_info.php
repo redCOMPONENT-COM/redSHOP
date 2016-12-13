@@ -9,27 +9,35 @@
 
 JLoader::import('redshop.library');
 
-$objOrder         = order_functions::getInstance();
-$objconfiguration = Redconfiguration::getInstance();
-$user = JFactory::getUser();
-$shipping_address = RedshopHelperOrder::getOrderShippingUserInfo($data['order_id']);
-$redhelper = redhelper::getInstance();
-$db = JFactory::getDbo();
-$user = JFActory::getUser();
-$task = JRequest::getVar('task');
-$app = JFactory::getApplication();
+$db 				= JFactory::getDbo();
+$app 				= JFactory::getApplication();
+$input              = $app->input;
+$task 				= $input->get('task');
 
-$sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order_shipping,o.order_number,o.payment_discount FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
-$db->setQuery($sql);
+$query = $db->getQuery(true);
+
+$query->select(
+	[
+		'op.*',
+		$db->qn('o.order_total'), $db->qn('o.user_id'), $db->qn('o.order_tax'),
+		$db->qn('o.order_subtotal'), $db->qn('o.order_shipping'), $db->qn('o.order_number'),
+		$db->qn('o.payment_discount')
+	]
+)
+->from($db->qn('#__redshop_order_payment', 'op'))
+->leftJoin($db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('op.order_id') . ' = ' . $db->qn('o.order_id'))
+->where($db->qn('o.order_id') . ' = ' . $db->q((int) $data['order_id']));
+
+$db->setQuery($query);
 $order_details = $db->loadObjectList();
 
-$buyeremail     = $data['billinginfo']->user_email;
-$buyerfirstname = $data['billinginfo']->firstname;
-$buyerlastname  = $data['billinginfo']->lastname;
-$CN             = $buyerfirstname . "&nbsp;" . $buyerlastname;
-$ownerZIP       = $data['billinginfo']->zipcode;
-$owneraddress   = $data['billinginfo']->address;
-$ownercty       = $data['billinginfo']->city;
+$buyerEmail     = $data['billinginfo']->user_email;
+$buyerFirstName = $data['billinginfo']->firstname;
+$buyerLastName  = $data['billinginfo']->lastname;
+$cn             = $buyerFirstName . "&nbsp;" . $buyerLastName;
+$ownerZip       = $data['billinginfo']->zipcode;
+$ownerAddress   = $data['billinginfo']->address;
+$ownerCty       = $data['billinginfo']->city;
 
 if ($this->params->get("is_test") == '1')
 {
@@ -44,37 +52,21 @@ $currencyClass = CurrencyHelper::getInstance();
 
 $order->order_subtotal = round($currencyClass->convert($order_details[0]->order_total, '', 'USD'), 2) * 100;
 
-$post_variables = Array(
+$postVariables = Array(
 	"orderID"      => $data['order_id'],
 	"currency"     => "USD",
 	"PSPID"        => $this->params->get("postpayment_shopid"),
 	"amount"       => $order->order_subtotal,
 	"language"     => "en_US",
-	"CN"           => $CN,
-	"EMAIL"        => $buyeremail,
-	"ownerZIP"     => $ownerZIP,
-	"owneraddress" => $owneraddress,
-	"ownercty"     => $ownercty,
+	"CN"           => $cn,
+	"EMAIL"        => $buyerEmail,
+	"ownerZIP"     => $ownerZip,
+	"owneraddress" => $ownerAddress,
+	"ownercty"     => $ownerCty,
 	"accepturl"    => JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_postfinance",
 	"declineurl"   => JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_postfinance",
 	"exceptionurl" => "http://www.google.com",
 	"cancelurl"    => JURI::base() . "index.php"
 );
 
-?>
-<form id='postfinanacefrm' name='postfinanacefrm' action='<?php echo $postfinanceurl; ?>' method='post'>
-<input type="button" onclick="sendPostFinanace()" value="Submit">
-<?php foreach ($post_variables as $name => $value): ?>
-	<input type='hidden' name='<?php echo $name; ?>' value='<?php echo $value; ?>' />
-<?php endforeach; ?>
-</form>
-<?php
-JFactory::getDocument()->addScriptDeclaration('
-	window.onload = function(){
-		sendPostFinanace();
-	};
-
-	var sendPostFinanace = function(){
-		document.postfinanacefrm.submit();
-	};
-');
+require_once JPluginHelper::getLayoutPath('redshop_payment', 'rs_payment_postfinance');

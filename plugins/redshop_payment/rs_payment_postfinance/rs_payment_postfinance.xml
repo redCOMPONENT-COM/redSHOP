@@ -2,53 +2,52 @@
 <extension version="3.0" client="site" type="plugin" group="redshop_payment"
            method="upgrade">
     <name>PLG_RS_PAYMENT_POSTFINANCE</name>
-    <version>1.4.3</version>
-    <creationDate>Sep 2016</creationDate>
+    <version>1.7.0</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>Dec 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>This plugin enables standard Post Finance payments
-    </description>
+    <description>PLG_RS_PAYMENT_POSTFINANCE_DESC</description>
 
     <files>
         <filename plugin="rs_payment_postfinance">rs_payment_postfinance.php</filename>
         <folder>rs_payment_postfinance</folder>
+        <folder>language</folder>
+        <folder>tmpl</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_postfinance.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_postfinance.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_postfinance.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_postfinance.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
 
                 <field name="payment_oprand" type="text" size="10" default="-"
-                       label="Payment operand" description="Payment Operand"/>
+                       label="PLG_RS_PAYMENT_POSTFINANCE_PAYMENT_OPERAND" description="PLG_RS_PAYMENT_POSTFINANCE_PAYMENT_OPERAND"/>
                 <field name="payment_price" type="text" size="30" default=""
-                       label="Payment price" description="Payment price"/>
-                <field name="debug_mode" type="radio" default="1" label="Debug Mode: "
-                       description="Debug Mode">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                       label="PLG_RS_PAYMENT_POSTFINANCE_PAYMENT_PRICE" description="PLG_RS_PAYMENT_POSTFINANCE_PAYMENT_PRICE"/>
+                <field name="debug_mode" type="radio" default="1" label="PLG_RS_PAYMENT_POSTFINANCE_DEBUG_MODE"
+                       description="PLG_RS_PAYMENT_POSTFINANCE_DEBUG_MODE">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="payment_discount_is_percent" type="radio" default="1"
-                       label="Discount Type: " description="Discount Type">
-                    <option value="1">Percentage</option>
-                    <option value="0">Total</option>
+                       label="PLG_RS_PAYMENT_POSTFINANCE_DISCOUNT_TYPE" description="PLG_RS_PAYMENT_POSTFINANCE_DISCOUNT_TYPE">
+                    <option value="1">PLG_RS_PAYMENT_POSTFINANCE_DISCOUNT_TYPE_PERCENTAGE</option>
+                    <option value="0">PLG_RS_PAYMENT_POSTFINANCE_DISCOUNT_TYPE_TOTAL</option>
                 </field>
-                <field name="is_test" type="list" default="1" label="Testmode: "
-                       description="Use test mode?">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="is_test" type="list" default="1" label="PLG_RS_PAYMENT_POSTFINANCE_TEST_MODE"
+                       description="PLG_RS_PAYMENT_POSTFINANCE_TEST_MODE">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="postpayment_shopid" type="text" size="30" default=""
-                       label="Post Finance Shop ID" description="Post Finance Shop ID"/>
+                       label="PLG_RS_PAYMENT_POSTFINANCE_POST_FINANCE_SHOP_ID" description="PLG_RS_PAYMENT_POSTFINANCE_POST_FINANCE_SHOP_ID"/>
                 <field name="sha_out_pass_phrase" type="text" size="30" default=""
-                       label="SHA-OUT Pass phrase" description="SHA-OUT Pass phrase"/>
+                       label="PLG_RS_PAYMENT_POSTFINANCE_SHA_OUT_PASS_PHRASE" description="PLG_RS_PAYMENT_POSTFINANCE_SHA_OUT_PASS_PHRASE"/>
+
+                <!-- @TODO: Not sure why there is comments -->
                 <!--<field name="hash_string" type="list" default="1"
                     label="Compose Hash
                     String: " description="Compose Hash String">
@@ -64,47 +63,48 @@
                     <option value="256">SHA-256 </option>
                     <option value="512">SHA-512 </option>
                 </field>-->
+
                 <field name="verify_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="C"
-                       label="Order Status for successful transactions"
-                       description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+                       label="PLG_RS_PAYMENT_POSTFINANCE_VERIFY_STATUS"
+                       description="PLG_RS_PAYMENT_POSTFINANCE_VERIFY_STATUS_DESC">
                 </field>
                 <field name="invalid_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="P"
-                       label="Order Status for failed transactions"
-                       description="Select an order status for failed payment transactions.">
+                       label="PLG_RS_PAYMENT_POSTFINANCE_INVALID_STATUS"
+                       description="PLG_RS_PAYMENT_POSTFINANCE_INVALID_STATUS_DESC">
                 </field>
                 <field name="capture_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="S"
-                       label="Capture Payment Status" description="Select an capture status for capturing payment.">
+                       label="PLG_RS_PAYMENT_POSTFINANCE_CAPTURE_STATUS" description="PLG_RS_PAYMENT_POSTFINANCE_CAPTURE_STATUS_DESC">
                 </field>
                 <field type="spacer"/>
             </fieldset>
             <fieldset name="advanced">
                 <field name="private_person" type="radio" default="1"
-                       label="Show on Private Person" description="Show on Private Person">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                       label="PLG_RS_PAYMENT_POSTFINANCE_PRIVATE_PERSION" description="PLG_RS_PAYMENT_POSTFINANCE_PRIVATE_PERSION">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="business" type="radio" default="1" label="Show on Business"
-                       description="Show on Business">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="business" type="radio" default="1" label="PLG_RS_PAYMENT_POSTFINANCE_BUSINESS"
+                       description="PLG_RS_PAYMENT_POSTFINANCE_BUSINESS">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="is_creditcard" type="radio" default="0"
-                       label="Is Credit Card?" description="Is Credit Card?">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                       label="PLG_RS_PAYMENT_POSTFINANCE_IS_CREDIT_CARD" description="PLG_RS_PAYMENT_POSTFINANCE_IS_CREDIT_CARD">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="economic_payment_terms_id" type="text" default="2"
-                       label="Enter E-conomic Payment Conditions ID"/>
+                       label="PLG_RS_PAYMENT_POSTFINANCE_ECONOMIC_TERM_ID"/>
                 <field name="economic_design_layout" type="text" default=""
-                       label="Enter E-conomic Design and Layout ID"/>
+                       label="PLG_RS_PAYMENT_POSTFINANCE_ECONOMIC_DESIGN_AND_LAYOUT_ID"/>
                 <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0"
-                       label="Select Shopper Group" description="Displays the shopper groups"/>
+                       label="PLG_RS_PAYMENT_POSTFINANCE_SHOPPER_GROUP" description=""/>
             </fieldset>
         </fields>
     </config>
