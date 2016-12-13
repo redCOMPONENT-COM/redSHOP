@@ -28,7 +28,7 @@ class RedshopControllerWishlist extends RedshopController
 	{
 		$user  = JFactory::getUser();
 		$model = $this->getModel("wishlist");
-		$post['wishlist_name'] = JRequest::getVar('txtWishlistname');
+		$post['wishlist_name'] = $this->input->get('txtWishlistname');
 		$post['user_id']       = $user->id;
 		$post['cdate']         = time();
 
@@ -41,9 +41,9 @@ class RedshopControllerWishlist extends RedshopController
 			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
 		}
 
-		if (JRequest::getVar('loginwishlist') == 1)
+		if ($this->input->get('loginwishlist') == 1)
 		{
-			$wishreturn = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . JRequest::getVar('Itemid'), false);
+			$wishreturn = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . $this->input->get('Itemid'), false);
 			$this->setRedirect($wishreturn);
 		}
 		else
@@ -100,8 +100,8 @@ class RedshopControllerWishlist extends RedshopController
 		$app    = JFactory::getApplication();
 		$user   = JFactory::getUser();
 		$model  = $this->getModel("wishlist");
-		$Itemid = JRequest::getVar('Itemid');
-		$post   = JRequest::get('request');
+		$Itemid = $this->input->get('Itemid');
+		$post   = $this->input->getArray();
 		$link = JRoute::_("index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
 
 		if ($model->check_user_wishlist_authority($user->id, $post["wishlist_id"]))

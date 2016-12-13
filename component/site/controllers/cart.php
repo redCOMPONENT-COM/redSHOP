@@ -616,12 +616,10 @@ class RedshopControllerCart extends RedshopController
 	{
 		RedshopHelperAjax::validateAjaxRequest('get');
 
-		$app          = JFactory::getApplication();
-
-		$productId    = $app->input->getInt('id', 0);
-		$productPrice = $app->input->getFloat('price', 0);
-		$userId       = $app->input->getInt('userId', 0);
-		$taxExempt    = $app->input->getBool('taxExempt', false);
+		$productId    = $this->input->getInt('id', 0);
+		$productPrice = $this->input->getFloat('price', 0);
+		$userId       = $this->input->getInt('userId', 0);
+		$taxExempt    = $this->input->getBool('taxExempt', false);
 
 		$product = new JRegistry;
 		$product->set(
@@ -636,6 +634,5 @@ class RedshopControllerCart extends RedshopController
 
 		ob_clean();
 		echo $product;
-		$app->close();
 	}
 }
