@@ -191,7 +191,7 @@ class RedshopModelWishlist extends RedshopModel
 		else
 		{
 			$db         = JFactory::getDbo();
-			$product_id = JRequest::getInt('product_id');
+			$product_id = JFactory::getApplication()->input->getInt('product_id');
 
 			if ($product_id)
 			{

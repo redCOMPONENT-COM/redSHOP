@@ -147,15 +147,15 @@ class RedshopModelCheckout extends RedshopModel
 		$shippinghelper  = shipping::getInstance();
 		$order_functions = order_functions::getInstance();
 
-		$post = JRequest::get('post');
+		$post = $app->input->post->getArray();
 
-		$Itemid     = JRequest::getVar('Itemid');
-		$shop_id    = JRequest::getVar('shop_id');
-		$gls_zipcode = JRequest::getVar('gls_zipcode');
-		$gls_mobile = JRequest::getVar('gls_mobile');
+		$Itemid      = $app->input->get('Itemid');
+		$shop_id     = $app->input->get('shop_id');
+		$gls_zipcode = $app->input->get('gls_zipcode');
+		$gls_mobile  = $app->input->get('gls_mobile');
 
-		$customer_message = JRequest::getVar('rs_customer_message_ta');
-		$referral_code    = JRequest::getVar('txt_referral_code');
+		$customer_message = $app->input->get('rs_customer_message_ta');
+		$referral_code    = $app->input->get('txt_referral_code');
 
 		if ($gls_mobile)
 		{
@@ -194,7 +194,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$order_paymentstatus = 'Unpaid';
-		$users_info_id       = JRequest::getInt('users_info_id');
+		$users_info_id       = $app->input->getInt('users_info_id');
 		$shippingaddresses   = $this->shipaddress($users_info_id);
 		$billingaddresses    = $this->billingaddresses();
 
@@ -237,10 +237,10 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($cart['free_shipping'] != 1)
 		{
-			$shipping_rate_id = JRequest::getVar('shipping_rate_id');
+			$shipping_rate_id = $app->input->get('shipping_rate_id');
 		}
 
-		$payment_method_id = JRequest::getVar('payment_method_id');
+		$payment_method_id = $app->input->get('payment_method_id');
 
 		if ($shipping_rate_id && $cart['free_shipping'] != 1)
 		{
@@ -300,7 +300,7 @@ class RedshopModelCheckout extends RedshopModel
 			$order_total = $order_total / 2;
 		}
 
-		JRequest::setVar('order_ship', $order_shipping [3]);
+		$app->input->set('order_ship', $order_shipping [3]);
 
 		$paymentElementName = $paymentMethod->element;
 
@@ -334,7 +334,7 @@ class RedshopModelCheckout extends RedshopModel
 		$is_creditcard             = $paymentMethod->params->get('is_creditcard', '');
 		$is_redirected             = $paymentMethod->params->get('is_redirected', 0);
 
-		JRequest::setVar('payment_status', $order_paymentstatus);
+		$app->input->set('payment_status', $order_paymentstatus);
 
 		$d['order_shipping']         = $order_shipping [3];
 		$GLOBALS['billingaddresses'] = $billingaddresses;
@@ -526,8 +526,8 @@ class RedshopModelCheckout extends RedshopModel
 		$rowOrderStatus->customer_note = $order_status_log;
 		$rowOrderStatus->store();
 
-		JRequest::setVar('order_id', $row->order_id);
-		JRequest::setVar('order_number', $row->order_number);
+		$app->input->set('order_id', $row->order_id);
+		$app->input->set('order_number', $row->order_number);
 
 		if (!isset($order_shipping [5]))
 		{
@@ -535,7 +535,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$product_delivery_time = $this->_producthelper->getProductMinDeliveryTime($cart[0]['product_id']);
-		JRequest::setVar('order_delivery', $product_delivery_time);
+		$app->input->set('order_delivery', $product_delivery_time);
 
 		$idx = $cart ['idx'];
 
@@ -2206,7 +2206,7 @@ class RedshopModelCheckout extends RedshopModel
 		$checkout .= '<input type="hidden" name="option" value="com_redshop" />';
 		$checkout .= '<input type="hidden" name="Itemid" id="onestepItemid" value="' . $Itemid . '" />';
 		$checkout .= '<input type="hidden" name="users_info_id" value="' . $users_info_id . '" />';
-		$checkout .= '<input type="hidden" name="order_id" value="' . JRequest::getVar('order_id') . '" />';
+		$checkout .= '<input type="hidden" name="order_id" value="' . $app->input->get('order_id') . '" />';
 
 		if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{

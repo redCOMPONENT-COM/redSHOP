@@ -46,7 +46,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 
-		$Itemid  = JRequest::getVar("Itemid");
+		$Itemid  = $app->input->get("Itemid");
 		$session = JFactory::getSession();
 		$db      = JFactory::getDbo();
 
