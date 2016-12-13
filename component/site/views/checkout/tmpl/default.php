@@ -27,8 +27,8 @@ $redTemplate     = Redtemplate::getInstance();
 $telesearch      = $order_functions->getparameters('rs_telesearch');
 $Itemid          = $redhelper->getCheckoutItemid();
 $auth            = $session->get('auth');
-$l               = JRequest::getInt('l', 1);
 $jinput          = JFactory::getApplication()->input;
+$l               = $jinput->getInt('l', 1);
 
 /*
  * REGISTER_METHOD

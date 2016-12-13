@@ -22,7 +22,7 @@ class RedshopViewAccount_shipto extends RedshopView
 		// Extra_field;
 		$extra_field     = extraField::getInstance();
 
-		$task = JRequest::getCmd('task');
+		$task = $app->input->getCmd('task');
 		$user = JFactory::getUser();
 		$uri  = JFactory::getURI();
 
@@ -43,7 +43,7 @@ class RedshopViewAccount_shipto extends RedshopView
 		}
 		else
 		{
-			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
 			exit;
 		}
 

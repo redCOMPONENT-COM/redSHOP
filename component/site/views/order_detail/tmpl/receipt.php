@@ -9,19 +9,19 @@
 
 defined('_JEXEC') or die;
 
-
-$carthelper = rsCarthelper::getInstance();
-$redconfig = Redconfiguration::getInstance();
-$configobj = Redconfiguration::getInstance();
-$redTemplate = Redtemplate::getInstance();
-$producthelper = productHelper::getInstance();
+$app             = JFactory::getApplication();
+$carthelper      = rsCarthelper::getInstance();
+$redconfig       = Redconfiguration::getInstance();
+$configobj       = Redconfiguration::getInstance();
+$redTemplate     = Redtemplate::getInstance();
+$producthelper   = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = redhelper::getInstance();
+$redhelper       = redhelper::getInstance();
 
-$db = JFactory::getDbo();
-$url = JURI::base();
-$Itemid = $redhelper->getCheckoutItemid();
-$order_id = JRequest::getInt('oid');
+$db       = JFactory::getDbo();
+$url      = JURI::base();
+$Itemid   = $redhelper->getCheckoutItemid();
+$order_id = $app->input->getInt('oid');
 
 // For barcode
 $model = $this->getModel('order_detail');
@@ -67,7 +67,7 @@ $orderitem = $order_functions->getOrderItemDetail($order_id);
 // Replace Reorder Button
 $this->replaceReorderButton($ReceiptTemplate);
 
-$print = JRequest::getInt('print');
+$print = $app->input->getInt('print');
 
 if ($print)
 {

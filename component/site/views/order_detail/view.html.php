@@ -19,7 +19,7 @@ class RedshopViewOrder_detail extends RedshopView
 
 		$order_functions = order_functions::getInstance();
 
-		$print = JRequest::getInt('print');
+		$print = $app->input->getInt('print');
 
 		if ($print)
 		{
@@ -60,7 +60,7 @@ class RedshopViewOrder_detail extends RedshopView
 		{
 			if ($OrdersDetail->user_id != $user->id)
 			{
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
 
 				return;
 			}
@@ -83,7 +83,7 @@ class RedshopViewOrder_detail extends RedshopView
 			// Preform security checks
 			elseif (!$user->id && !isset($auth['users_info_id']))
 			{
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
 
 				return;
 			}

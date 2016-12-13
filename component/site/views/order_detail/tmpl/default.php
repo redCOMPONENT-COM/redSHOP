@@ -13,7 +13,7 @@ $url         = JURI::base();
 $redconfig   = Redconfiguration::getInstance();
 $extra_field = extra_field::getInstance();
 
-
+$app             = JFactory::getApplication();
 $producthelper   = productHelper::getInstance();
 $redhelper       = redhelper::getInstance();
 $order_functions = order_functions::getInstance();
@@ -21,9 +21,9 @@ $redTemplate     = Redtemplate::getInstance();
 $shippinghelper  = shipping::getInstance();
 $carthelper      = rsCarthelper::getInstance();
 
-$Itemid = JRequest::getInt('Itemid');
-$oid    = JRequest::getInt('oid');
-$print  = JRequest::getInt('print');
+$Itemid = $app->input->getInt('Itemid');
+$oid    = $app->input->getInt('oid');
+$print  = $app->input->getInt('print');
 
 $getshm    = $uri->getScheme();
 $config    = JFactory::getConfig();
@@ -75,7 +75,7 @@ if ($print)
 }
 else
 {
-	$print_url = $url . "index.php?option=com_redshop&view=order_detail&oid=" . $oid . "&print=1&tmpl=component&Itemid=" . $Itemid . "&encr=" . JRequest::getCmd('encr', '');
+	$print_url = $url . "index.php?option=com_redshop&view=order_detail&oid=" . $oid . "&print=1&tmpl=component&Itemid=" . $Itemid . "&encr=" . $app->input->getCmd('encr', '');
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 

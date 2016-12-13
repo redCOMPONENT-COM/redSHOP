@@ -24,24 +24,23 @@ defined('_JEXEC') or die;
 	}
 </script>
 <?php
-$url = JURI::base();
+$url  = JURI::base();
 $user = JFactory::getUser();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-
-
-$carthelper = rsCarthelper::getInstance();
-$producthelper = productHelper::getInstance();
+$app             = JFactory::getApplication();
+$carthelper      = rsCarthelper::getInstance();
+$producthelper   = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = redhelper::getInstance();
-$userhelper = rsUserHelper::getInstance();
-$redTemplate = Redtemplate::getInstance();
-$dispatcher = JDispatcher::getInstance();
+$redhelper       = redhelper::getInstance();
+$userhelper      = rsUserHelper::getInstance();
+$redTemplate     = Redtemplate::getInstance();
+$dispatcher      = JDispatcher::getInstance();
 
-$user = JFactory::getUser();
+$user    = JFactory::getUser();
 $session = JFactory::getSession();
-$cart = $session->get('cart');
+$cart    = $session->get('cart');
 $user_id = $user->id;
 
 // Get redshop helper
@@ -50,15 +49,15 @@ $Itemid = $redhelper->getCheckoutItemid();
 
 if ($Itemid == 0)
 {
-	$Itemid = JRequest::getInt('Itemid');
+	$Itemid = $app->input->getInt('Itemid');
 }
 
-$ccinfo = JRequest::getInt('ccinfo');
-$print = JRequest::getInt('print');
-$gls_mobile = JRequest::getString('gls_mobile');
+$ccinfo     = $app->input->getInt('ccinfo');
+$print      = $app->input->getInt('print');
+$gls_mobile = $app->input->getString('gls_mobile');
 
-$shop_id = JRequest::getString('shop_id') . '###' . $gls_mobile;
-$model = $this->getModel('checkout');
+$shop_id = $app->input->getString('shop_id') . '###' . $gls_mobile;
+$model   = $this->getModel('checkout');
 
 $is_creditcard = $this->is_creditcard;
 
