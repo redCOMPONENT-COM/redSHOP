@@ -23,8 +23,8 @@ class RedshopViewNewsletter extends RedshopView
 
 		$pathway->addItem(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCRIPTION'), '');
 
-		$userdata = JRequest::getString('userdata');
-		$layout   = JRequest::getCmd('layout');
+		$userdata = $app->input->getString('userdata');
+		$layout   = $app->input->getCmd('layout');
 		$user     = JFactory::getUser();
 
 		$this->user = $user;

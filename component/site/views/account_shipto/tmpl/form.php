@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$Itemid = JRequest::getInt('Itemid');
+$Itemid     = JFactory::getApplication()->input->getInt('Itemid');
 $userhelper = rsUserHelper::getInstance();
 
 $post = (array) $this->shippingaddresses;

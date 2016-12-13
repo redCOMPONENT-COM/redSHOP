@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 $app        = JFactory::getApplication();
-$Itemid     = JRequest::getInt('Itemid');
+$Itemid     = $app->input->getInt('Itemid');
 $loginlink  = 'index.php?option=com_redshop&view=login&Itemid=' . $Itemid;
-$mywishlist = JRequest::getString('wishlist');
+$mywishlist = $app->input->getString('wishlist');
 
 if ($mywishlist != '')
 {
@@ -57,7 +57,7 @@ $returnitemid = $params->get('login', $Itemid);
 	</div>
 
 	<input type="hidden" name="task" id="task" value="setlogin">
-	<input type="hidden" name="mywishlist" id="mywishlist" value="<?php echo JRequest::getString('wishlist'); ?>">
+	<input type="hidden" name="mywishlist" id="mywishlist" value="<?php echo $app->input->getString('wishlist'); ?>">
 	<input type="hidden" name="returnitemid" id="returnitemid" value="<?php echo $returnitemid; ?>">
 	<input type="hidden" name="option" id="option" value="com_redshop"/>
 </form>

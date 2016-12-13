@@ -11,18 +11,19 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-$Itemid = JRequest::getInt('Itemid');
+$app = JFactory::getApplication();
 
-$texpricemin              = JRequest::getFloat('texpricemin');
-$texpricemax              = JRequest::getFloat('texpricemax');
-$count                    = JRequest::getInt('count');
-$image                    = JRequest::getString('image');
-$thumbwidth               = JRequest::getInt('thumbwidth');
-$thumbheight              = JRequest::getInt('thumbheight');
-$show_price               = JRequest::getFloat('show_price');
-$show_readmore            = JRequest::getBool('show_readmore');
-$show_addtocart           = JRequest::getBool('show_addtocart');
-$show_discountpricelayout = JRequest::getBool('show_discountpricelayout');
+$Itemid                   = $app->input->getInt('Itemid');
+$texpricemin              = $app->input->getFloat('texpricemin');
+$texpricemax              = $app->input->getFloat('texpricemax');
+$count                    = $app->input->getInt('count');
+$image                    = $app->input->getString('image');
+$thumbwidth               = $app->input->getInt('thumbwidth');
+$thumbheight              = $app->input->getInt('thumbheight');
+$show_price               = $app->input->getFloat('show_price');
+$show_readmore            = $app->input->getBool('show_readmore');
+$show_addtocart           = $app->input->getBool('show_addtocart');
+$show_discountpricelayout = $app->input->getBool('show_discountpricelayout');
 
 $k = 0;
 $configobj = Redconfiguration::getInstance();

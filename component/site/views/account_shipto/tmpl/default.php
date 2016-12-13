@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$Itemid = JRequest::getInt('Itemid');
+$Itemid = JFactory::getApplication()->input->getInt('Itemid');
 
 $add_addlink = "index.php?option=com_redshop&view=account_shipto&task=addshipping&Itemid=" . $Itemid;
 $backlink = "index.php?option=com_redshop&view=account&Itemid=" . $Itemid;

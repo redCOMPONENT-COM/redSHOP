@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
-$user = JFactory::getUser();
-$email = JRequest::getString('email');
-$name = JRequest::getString('name');
-$Itemid = JRequest::getInt('Itemid');
+$app    = JFactory::getApplication();
+$user   = JFactory::getUser();
+$email  = $app->input->getString('email');
+$name   = $app->input->getString('name');
+$Itemid = $app->input->getInt('Itemid');
 
 if ($user->id != "")
 {
