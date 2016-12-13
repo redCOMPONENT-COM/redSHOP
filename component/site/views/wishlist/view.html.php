@@ -19,11 +19,11 @@ class RedshopViewWishlist extends RedshopView
 		// Request variables
 
 		$params = $app->getParams('com_redshop');
-		$task   = JRequest::getCmd('task', 'com_redshop');
+		$task   = $app->input->getCmd('task', 'com_redshop');
 
-		$Itemid = JRequest::getInt('Itemid');
-		$pid    = JRequest::getInt('product_id');
-		$layout = JRequest::getCmd('layout');
+		$Itemid = $app->input->getInt('Itemid');
+		$pid    = $app->input->getInt('product_id');
+		$layout = $app->input->getCmd('layout');
 
 		$config = Redconfiguration::getInstance();
 

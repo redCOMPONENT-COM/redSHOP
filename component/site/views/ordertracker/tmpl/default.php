@@ -10,15 +10,16 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-$url = JURI::base();
+$url             = JURI::base();
+$app             = JFactory::getApplication();
 $order_functions = order_functions::getInstance();
-$redconfig = Redconfiguration::getInstance();
-$producthelper = productHelper::getInstance();
+$redconfig       = Redconfiguration::getInstance();
+$producthelper   = productHelper::getInstance();
 
-$Itemid = JRequest::getInt('Itemid');
-$order_id = JRequest::getInt('order_id', 0);
+$Itemid   = $app->input->getInt('Itemid');
+$order_id = $app->input->getInt('order_id', 0);
 
-$order_detail = array();
+$order_detail  = array();
 $OrderProducts = array();
 
 if ($order_id != 0)

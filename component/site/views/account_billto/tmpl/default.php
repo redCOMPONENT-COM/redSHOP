@@ -8,9 +8,10 @@
  */
 
 defined('_JEXEC') or die;
+
 $userhelper = rsUserHelper::getInstance();
 $user       = JFactory::getUser();
-$Itemid     = JRequest::getInt('Itemid');
+$Itemid     = JFactory::getApplication()->input->getInt('Itemid');
 
 $post = (array) $this->billingaddresses;
 $post["email1"] = $post["email"] = $post ["user_email"];

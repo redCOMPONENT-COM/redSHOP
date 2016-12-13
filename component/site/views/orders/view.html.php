@@ -21,11 +21,11 @@ class RedshopViewOrders extends RedshopView
 		// Preform security checks
 		if ($user->id == 0)
 		{
-			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
 			exit;
 		}
 
-		$layout = JRequest::getCmd('layout', 'default');
+		$layout = $app->input->getCmd('layout', 'default');
 		$this->setLayout($layout);
 
 		$params        = $app->getParams('com_redshop');
@@ -34,7 +34,7 @@ class RedshopViewOrders extends RedshopView
 
 		// Request variables
 		$limit      = $app->getUserStateFromRequest('com_redshop' . 'limit', 'limit', 10, 'int');
-		$limitstart = JRequest::getInt('limitstart', 0, '', 'int');
+		$limitstart = $app->input->getInt('limitstart', 0, '', 'int');
 
 		$detail           = $this->get('data');
 		$this->pagination = $this->get('Pagination');

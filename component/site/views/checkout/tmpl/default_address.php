@@ -140,7 +140,7 @@ $cart      = $session->get('cart');
 	<div class="clr"></div>
 	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
-	<input type="hidden" name="order_id" value="<?php echo JRequest::getInt('order_id'); ?>"/>
+	<input type="hidden" name="order_id" value="<?php echo JFactory::getApplication()->input->getInt('order_id'); ?>"/>
 	<input type="hidden" name="task" value="checkoutnext"/>
 	<input type="hidden" name="view" value="checkout"/>
 
