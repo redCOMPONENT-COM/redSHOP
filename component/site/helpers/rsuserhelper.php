@@ -325,8 +325,10 @@ class rsUserHelper
 			return $user;
 		}
 
-		$data['password']  = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data['password2'] = JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$input = JFactory::getApplication()->input;
+
+		$data['password']  = $input->get('password1', '', 'raw');
+		$data['password2'] = $input->get('password2', '', 'raw');
 		$data['email']     = $data['email1'];
 		$data['name']      = $name = $data['firstname'];
 
@@ -347,7 +349,7 @@ class rsUserHelper
 			$data['username']  = $data['email'];
 			$data['password']  = $better_token;
 			$data['password2'] = $better_token;
-			JRequest::setVar('password1', $better_token);
+			$input->set('password1', $better_token);
 		}
 
 
@@ -509,7 +511,7 @@ class rsUserHelper
 		else
 		{
 			$isNew            = true;
-			$data['password'] = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
+			$data['password'] = JFactory::getApplication()->input->get('password1', '', 'raw');
 			$app              = JFactory::getApplication();
 			$is_admin         = $app->isAdmin();
 
