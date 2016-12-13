@@ -10,27 +10,19 @@
 defined('_JEXEC') or die;
 
 /**
- * Class PlgRedshop_Paymentrs_Payment_Rapid_Eway
+ * Class PlgRedshop_PaymentRs_Payment_Rapid_Eway
  *
  * @since  1.5
  */
-class PlgRedshop_Paymentrs_Payment_Rapid_Eway extends JPlugin
+class PlgRedshop_PaymentRs_Payment_Rapid_Eway extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
+	 * @var    boolean
+	 * @since  1.7.0
 	 */
-	public function __construct(&$subject, $config = array())
-	{
-		$lang = JFactory::getLanguage();
-		$lang->load('plg_redshop_payment_rs_payment_rapid_eway', JPATH_ADMINISTRATOR);
-
-		parent::__construct($subject, $config);
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
@@ -47,12 +39,7 @@ class PlgRedshop_Paymentrs_Payment_Rapid_Eway extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
-		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
+		include_once JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 	}
 
 	/**
@@ -79,8 +66,8 @@ class PlgRedshop_Paymentrs_Payment_Rapid_Eway extends JPlugin
 		$req             = new eWAY\GetAccessCodeResultRequest;
 		$req->AccessCode = $AccessCode;
 		$result          = $service->GetAccessCodeResult($req);
-		$order_id        = $request['orderid'];
-		$lblError = '';
+		$orderId         = $request['orderid'];
+		$lblError        = '';
 
 		// Check if any error returns
 		if (isset($result->Errors))
@@ -122,7 +109,7 @@ class PlgRedshop_Paymentrs_Payment_Rapid_Eway extends JPlugin
 			$values->msg = JText::_('PLG_RS_PAYMENT_RAPID_EWAY_ORDER_PLACED');
 		}
 
-		$values->order_id = $order_id;
+		$values->order_id = $orderId;
 
 		return $values;
 	}

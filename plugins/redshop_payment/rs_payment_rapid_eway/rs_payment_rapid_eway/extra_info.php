@@ -10,8 +10,8 @@ JLoader::import('redshop.library');
 
 $app = JFactory::getApplication();
 $Redconfiguration = Redconfiguration::getInstance();
-$order_functions  = order_functions::getInstance();
-$order_items      = $order_functions->getOrderItemDetail($data['order_id']);
+$orderFunctions   = order_functions::getInstance();
+$orderItems       = $orderFunctions->getOrderItemDetail($data['order_id']);
 $session          = JFactory::getSession();
 $ccdata           = $session->get('ccdata');
 $app              = JFactory::getApplication();
@@ -41,10 +41,10 @@ else
 	$currency_main = "USD";
 }*/
 
-$currency_main = "GBP";
+$currencyMain  = "GBP";
 
-$currencyClass  = CurrencyHelper::getInstance();
-$order_subtotal = $currencyClass->convert($data['order']->order_total, '', $currency_main);
+$currencyClass = CurrencyHelper::getInstance();
+$orderSubtotal = $currencyClass->convert($data['order']->order_total, '', $currencyMain);
 
 // Create DirectPayment Request Object
 $request = new eWAY\CreateDirectPaymentRequest;
@@ -71,40 +71,40 @@ $request->ShippingAddress->PostalCode = $data['billinginfo']->zipcode;
 $request->ShippingAddress->Email = $data['billinginfo']->user_email;
 $request->ShippingAddress->Phone = $data['billinginfo']->phone;
 
-if (count($order_items) > 0)
+if (count($orderItems) > 0)
 {
-	foreach ($order_items as $order_item)
+	foreach ($orderItems as $orderItem)
 	{
 		// Populate values for LineItems
 		$item = new eWAY\LineItem;
-		$item->SKU = $order_item->order_item_sku;
-		$item->Description = $order_item->order_item_name;
+		$item->SKU = $orderItem->order_item_sku;
+		$item->Description = $orderItem->order_item_name;
 		$request->Items->LineItem[] = $item;
 	}
 }
 
 // Populate values for Payment Object
-$request->Payment->TotalAmount = round($order_subtotal * 100, 0, PHP_ROUND_HALF_UP);
+$request->Payment->TotalAmount = round($orderSubtotal * 100, 0, PHP_ROUND_HALF_UP);
 $request->Payment->InvoiceNumber = $data['order']->order_number;
-$request->Payment->CurrencyCode = $currency_main;
+$request->Payment->CurrencyCode = $currencyMain;
 
 // Url to the page for getting the result with an AccessCode
 $request->RedirectUrl = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_rapid_eway&orderid=" . $data['order_id'];
 $request->Method = "ProcessPayment";
 
-$eway_params = array('sandbox' => $this->params->get('test_mode', true));
+$ewayParams = array('sandbox' => $this->params->get('test_mode', true));
 
-$service = new eWAY\RapidAPI($this->params->get("APIKey"), $this->params->get("APIPassword"), $eway_params);
+$service = new eWAY\RapidAPI($this->params->get("APIKey"), $this->params->get("APIPassword"), $ewayParams);
 $result = $service->CreateAccessCode($request);
 
 // Check if any error returns
 if (isset($result->Errors))
 {
 	// Get Error Messages from Error Code.
-	$ErrorArray = explode(",", $result->Errors);
+	$errors = explode(",", $result->Errors);
 	$lblError = "";
 
-	foreach ($ErrorArray as $error)
+	foreach ($errors as $error)
 	{
 		$error = $service->getMessage($error);
 		$lblError .= $error . "<br />\n";
@@ -114,21 +114,4 @@ if (isset($result->Errors))
 	$app->redirect($link, $lblError);
 }
 
-// Redirection after full page load
-JHtml::_('redshopjquery.framework');
-$document = JFactory::getDocument();
-$document->addScriptDeclaration(
-	'jQuery(document).ready(function(){
-		jQuery("#ewayfrm").submit();
-	});'
-);
-?>
-<h3><?php echo JText::_('PLG_RS_PAYMENT_RAPID_EWAY_WAIT_MESSAGE'); ?></h3>
-<form method="POST" action="<?php echo $result->FormActionURL ?>" id="ewayfrm" name="ewayfrm">
-	<input type="hidden" name="EWAY_ACCESSCODE" value="<?php echo $result->AccessCode ?>"/>
-	<input type="hidden" name="EWAY_CARDNAME" value="<?php echo $ccdata['order_payment_name'] ?>"/>
-	<input type="hidden" name="EWAY_CARDNUMBER" value="<?php echo $ccdata['order_payment_number'] ?>"/>
-	<input type="hidden" name="EWAY_CARDEXPIRYMONTH" value="<?php echo $ccdata['order_payment_expire_month'] ?>"/>
-	<input type="hidden" name="EWAY_CARDEXPIRYYEAR" value="<?php echo $ccdata['order_payment_expire_year'] ?>"/>
-	<input type="hidden" name="EWAY_CARDCVN" value="<?php echo $ccdata['credit_card_code'] ?>"/>
-</form>
+require_once JPluginHelper::getLayoutPath('redshop_payment', 'rs_payment_rapid_eway');
