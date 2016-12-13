@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package  RedSHOP.Backend
  * @since    1.3.3.1
  */
-// @ToDo Shoudn't this extend JControllerLegacy like the other Redshop controllers ?
+// @ToDo Shouldn't this extend JControllerLegacy like the other Redshop controllers ?
 class RedshopController extends RedshopControllerLegacy
 {
 }
