@@ -34,7 +34,7 @@ $list = array(
 			JHtml::_('select.option', 'p.product_id', JText::_('COM_REDSHOP_NEWEST'))
 		);
 $orderData = $list;
-$getOrderBy = JRequest::getString('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+$getOrderBy = $input->getString('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 $lists['order_select'] = JHTML::_('select.genericlist', $orderData, 'orderBy', 'class="inputbox" size="1" onchange="order(this);" ', 'value', 'text', $getOrderBy);
 
 $count_no_user_field = 0;
@@ -88,7 +88,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 		$ItemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 
-		$catidmain = JRequest::getVar("cid");
+		$catidmain = $input->get("cid");
 
 		if (count($ItemData) > 0)
 		{
