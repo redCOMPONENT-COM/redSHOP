@@ -11,14 +11,15 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
+$app           = JFactory::getApplication();
 $producthelper = productHelper::getInstance();
-$redTemplate = Redtemplate::getInstance();
-$extraField = extraField::getInstance();
-$config = Redconfiguration::getInstance();
-$url = JURI::base();
-$print = JRequest::getInt('print');
-$Itemid = JRequest::getInt('Itemid');
-$redhelper = redhelper::getInstance();
+$redTemplate   = Redtemplate::getInstance();
+$extraField    = extraField::getInstance();
+$config        = Redconfiguration::getInstance();
+$url           = JURI::base();
+$print         = $app->input->getInt('print');
+$Itemid        = $app->input->getInt('Itemid');
+$redhelper     = redhelper::getInstance();
 
 // Page Title Start
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER');

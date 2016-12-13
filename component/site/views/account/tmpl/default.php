@@ -21,8 +21,8 @@ $extraField      = extraField::getInstance();
 $carthelper      = rsCarthelper::getInstance();
 
 $user         = JFactory::getUser();
-$Itemid       = JRequest::getInt('Itemid');
 $app          = JFactory::getApplication();
+$Itemid       = $app->input->getInt('Itemid');
 $params       = $app->getParams('com_redshop');
 $returnitemid = $params->get('logout', $Itemid);
 

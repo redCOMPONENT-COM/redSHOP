@@ -12,8 +12,8 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $url = JURI::base();
 
-$user = JFactory::getUser();
-$pid = JRequest::getInt('pid');
+$user     = JFactory::getUser();
+$pid      = JFactory::getApplication()->input->getInt('pid');
 $document = JFactory::getDocument();
 JHtml::_('redshopjquery.framework');
 JHtml::script('com_redshop/jquery.tools.min.js', false, true);

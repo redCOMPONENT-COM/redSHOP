@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$eName = JRequest::getString('e_name');
+$eName = JFactory::getApplication()->input->getString('e_name');
 $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 ?>
 <script language="javascript" type="text/javascript">

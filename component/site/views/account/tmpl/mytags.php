@@ -12,10 +12,11 @@ $url = JURI::base();
 
 // Get product helper
 $extra_data = productHelper::getInstance();
+$app        = JFactory::getApplication();
 
-$Itemid = JRequest::getInt('Itemid');
-$tagid  = JRequest::getInt('tagid');
-$edit   = JRequest::getInt('edit');
+$Itemid = $app->input->getInt('Itemid');
+$tagid  = $app->input->getInt('tagid');
+$edit   = $app->input->getInt('edit');
 
 $model = $this->getModel('account');
 $user  = JFactory::getUser();
