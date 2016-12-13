@@ -25,11 +25,11 @@ class RedshopControllerAccount_shipto extends RedshopController
 	 */
 	public function save()
 	{
-		$post   = JRequest::get('post');
-		$return = JRequest::getVar('return');
-		$Itemid = JRequest::getVar('Itemid');
+		$post   = $this->input->post->getArray();
+		$return = $this->input->get('return');
+		$Itemid = $this->input->get('Itemid');
 
-		$post['users_info_id'] = JRequest::getInt('cid');
+		$post['users_info_id'] = $this->input->getInt('cid');
 		$post['id']            = $post['user_id'];
 		$post['address_type']  = "ST";
 
@@ -45,8 +45,8 @@ class RedshopControllerAccount_shipto extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING_INFORMATION');
 		}
 
-		$return  = JRequest::getVar('return');
-		$setexit = JRequest::getInt('setexit', 1);
+		$return  = $this->input->get('return');
+		$setexit = $this->input->getInt('setexit', 1);
 
 		if ($return != "")
 		{
@@ -78,8 +78,8 @@ class RedshopControllerAccount_shipto extends RedshopController
 	 */
 	public function remove()
 	{
-		$Itemid = JRequest::getVar('Itemid');
-		$infoid = JRequest::getInt('infoid', 0);
+		$Itemid = $this->input->get('Itemid');
+		$infoid = $this->input->getInt('infoid', 0);
 		$model  = $this->getModel('account_shipto');
 
 		if (!$infoid)
@@ -93,7 +93,7 @@ class RedshopControllerAccount_shipto extends RedshopController
 		}
 
 		$msg    = JText::_('COM_REDSHOP_ACCOUNT_SHIPPING_DELETED_SUCCESSFULLY');
-		$return = JRequest::getVar('return');
+		$return = $this->input->get('return');
 
 		if ($return != "")
 		{
@@ -114,11 +114,11 @@ class RedshopControllerAccount_shipto extends RedshopController
 	 */
 	function cancel()
 	{
-		$Itemid                = JRequest::getInt('Itemid');
-		$post['users_info_id'] = JRequest::getInt('cid');
+		$Itemid                = $this->input->getInt('Itemid');
+		$post['users_info_id'] = $this->input->getInt('cid');
 		$msg                   = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_EDITING_CANCELLED');
-		$return                = JRequest::getVar('return');
-		$setexit               = JRequest::getInt('setexit', 1);
+		$return                = $this->input->get('return');
+		$setexit               = $this->input->getInt('setexit', 1);
 		$link                  = '';
 
 		if ($return != "")
