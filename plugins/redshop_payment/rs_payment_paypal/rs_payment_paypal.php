@@ -9,24 +9,29 @@
 
 defined('_JEXEC') or die;
 
-class plgRedshop_paymentrs_payment_paypal extends JPlugin
+/**
+ * PlgRedshop_PaymentRs_Payment_Paypall class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentRs_Payment_PaypalInstallerScript extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
+	 * @var    boolean
+	 * @since  1.7.0
 	 */
-	public function __construct(&$subject, $config = array())
-	{
-		JPlugin::loadLanguage('plg_redshop_payment_rs_payment_paypal');
-		parent::__construct($subject, $config);
-	}
+	protected $autoloadLanguage = true;
 
 	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * [onPrePayment description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [void]
 	 */
 	public function onPrePayment($element, $data)
 	{
@@ -38,6 +43,14 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 	}
 
+	/**
+	 * [onNotifyPaymentrs_payment_paypal description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $request  [request data]
+	 *
+	 * @return  [object]  $values
+	 */
 	public function onNotifyPaymentrs_payment_paypal($element, $request)
 	{
 		if ($element != 'rs_payment_paypal')
@@ -45,34 +58,34 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 			return;
 		}
 
-		$request        = JRequest::get('request');
-		$verify_status  = $this->params->get('verify_status', '');
-		$invalid_status = $this->params->get('invalid_status', '');
-		$order_id       = $request["orderid"];
-		$status         = $request['payment_status'];
-		$tid            = $request['txn_id'];
-		$pending_reason = $request['pending_reason'];
+		$request       = JFactory::getApplication()->input;
+		$verifyStatus  = $this->params->get('verify_status', '');
+		$invalidStatus = $this->params->get('invalid_status', '');
+		$orderId       = $request["orderid"];
+		$status        = $request['payment_status'];
+		$tid           = $request['txn_id'];
+		$pendingReason = $request['pending_reason'];
 		$values         = new stdClass;
-		$key = array($order_id, (int) $this->params->get("sandbox"), $this->params->get("merchant_email"));
+		$key = array($orderId, (int) $this->params->get("sandbox"), $this->params->get("merchant_email"));
 		$key = md5(implode('|', $key));
 
-		if (($status == 'Completed' || $pending_reason == 'authorization') && $request['key'] == $key)
+		if (($status == 'Completed' || $pendingReason == 'authorization') && $request->get('key', '') == $key)
 		{
-			$values->order_status_code = $verify_status;
+			$values->order_status_code = $verifyStatus;
 			$values->order_payment_status_code = 'Paid';
 			$values->log = JText::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
 			$values->msg = JText::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
 		}
 		else
 		{
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code = $invalidStatus;
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
 			$values->msg = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
 		}
 
 		$values->transaction_id = $tid;
-		$values->order_id = $order_id;
+		$values->order_id = $orderId;
 
 		return $values;
 	}

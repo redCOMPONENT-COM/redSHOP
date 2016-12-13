@@ -132,36 +132,4 @@ for ($i = 0, $countItems = count($items); $i < $countItems; $i++)
 
 $paypalCartItems['shipping_1']  = round($currencyClass->convert($shipping, '', $paymentCurrency), 2);
 
-echo '<form action="' . $paypalurl . '" method="post" name="paypalfrm" id="paypalfrm">';
-echo "<h3>" . JText::_('PLG_RS_PAYMENT_PAYPAL_WAIT_MESSAGE') . "</h3>";
-
-foreach ($paypalPostData as $name => $value)
-{
-	echo "<input type='hidden' name='$name' value='$value' />";
-}
-
-if (is_array($paypalCartItems) && count($paypalCartItems))
-{
-	foreach ($paypalCartItems as $name => $value)
-	{
-		echo '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
-	}
-}
-
-if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
-{
-	if (is_array($paypalShippingData) && count($paypalShippingData))
-	{
-		foreach ($paypalShippingData as $name => $value)
-		{
-			echo '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
-		}
-	}
-}
-
-echo '<input type="hidden" name="charset" value="utf-8">';
-echo "</form>";
-?>
-<script type='text/javascript'>
-	document.getElementById('paypalfrm').submit();
-</script>
+require_once JPluginHelper::getLayoutPath('redshop_payment', 'rs_payment_paypall');
