@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedSHOP.Backend
+ * @package     RedSHOP.Plugins
  * @subpackage  Template
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.

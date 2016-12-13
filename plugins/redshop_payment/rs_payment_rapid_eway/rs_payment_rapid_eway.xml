@@ -15,6 +15,7 @@
 		<filename plugin="rs_payment_rapid_eway">rs_payment_rapid_eway.php</filename>
 		<folder>rs_payment_rapid_eway</folder>
 		<folder>language</folder>
+		<folder>tmpl</folder>
 	</files>
 	<scriptfile>install.php</scriptfile>
 	<config addfieldpath="/libraries/redshop/form/fields">
