@@ -791,7 +791,7 @@ class redhelper
 
 		if ($Itemid == 0)
 		{
-			$Itemid = JRequest::getInt('Itemid');
+			$Itemid = JFactory::getApplication()->input->getInt('Itemid');
 		}
 
 		return $Itemid;

@@ -57,6 +57,8 @@ class productHelper
 
 	protected static $instance = null;
 
+	protected $input;
+
 	/**
 	 * Returns the productHelper object, only creating it
 	 * if it doesn't already exist.
@@ -81,6 +83,7 @@ class productHelper
 		$this->_table_prefix = '#__redshop_';
 		$this->_userhelper   = rsUserHelper::getInstance();
 		$this->_session      = JFactory::getSession();
+		$this->input         = JFactory::getApplication()->input;
 	}
 
 	public function getWishlistmodule($menu_id)
@@ -2352,7 +2355,7 @@ class productHelper
 			}
 			else
 			{
-				$tmpItemid = JRequest::getVar('Itemid');
+				$tmpItemid = $this->input->get('Itemid');
 			}
 
 			$category_list[$i]['category_id']   = $categorylist->category_id;
@@ -2373,10 +2376,10 @@ class productHelper
 	{
 		$app     = JFactory::getApplication();
 		$pathway       = $app->getPathway();
-		$view          = JRequest::getVar('view');
-		$layout        = JRequest::getVar('layout');
-		$Itemid        = JRequest::getInt('Itemid');
-		$catid         = JRequest::getInt('cid');
+		$view          = $this->input->get('view');
+		$layout        = $this->input->get('layout');
+		$Itemid        = $this->input->getInt('Itemid');
+		$catid         = $this->input->getInt('cid');
 		$custompathway = array();
 
 		$patharr = $pathway->getPathWay();
@@ -3924,9 +3927,9 @@ class productHelper
 		$url       = JURI::base();
 		$redconfig = Redconfiguration::getInstance();
 
-		$viewacc = JRequest::getVar('viewacc', 1);
-		$layout  = JRequest::getVar('layout');
-		$Itemid  = JRequest::getVar('Itemid');
+		$viewacc = $this->input->get('viewacc', 1);
+		$layout  = $this->input->get('layout');
+		$Itemid  = $this->input->get('Itemid');
 
 		$isAjax = 0;
 		$prefix = "";
@@ -4973,7 +4976,7 @@ class productHelper
 		$user_id         = 0;
 		$url             = JURI::base();
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$Itemid          = JRequest::getInt('Itemid');
+		$Itemid          = $this->input->getInt('Itemid');
 
 		$product = $this->getProductById($product_id);
 
@@ -5076,7 +5079,7 @@ class productHelper
 
 		if ($product->product_type == "subscription")
 		{
-			$sub_id = JRequest::getInt('subscription_id', 0);
+			$sub_id = $this->input->getInt('subscription_id', 0);
 			$cartform .= "<input type='hidden' name='subscription_id' id='hidden_subscription_id' value='" . $sub_id .
 				"' />";
 			$cartform .= "<input type='hidden' name='subscription_prize' id='hidden_subscription_prize' value='0' />";
@@ -5209,8 +5212,8 @@ class productHelper
 		$extraField      = extraField::getInstance();
 		$stockroomhelper = rsstockroomhelper::getInstance();
 
-		$product_quantity = JRequest::getVar('product_quantity');
-		$Itemid           = JRequest::getInt('Itemid');
+		$product_quantity = $this->input->get('product_quantity');
+		$Itemid           = $this->input->getInt('Itemid');
 		$user             = JFactory::getUser();
 		$product_preorder = "";
 
@@ -5267,7 +5270,7 @@ class productHelper
 			$data_add                     = "{form_addtocart:$cart_template->template_name}";
 		}
 
-		$layout = JRequest::getVar('layout');
+		$layout = $this->input->get('layout');
 		$cart   = $this->_session->get('cart');
 
 		$isAjax                 = 0;
@@ -5729,7 +5732,7 @@ class productHelper
 			{
 				if ($product->product_type == "subscription")
 				{
-					$sub_id = JRequest::getInt('subscription_id', 0);
+					$sub_id = $this->input->getInt('subscription_id', 0);
 					$cartform .= "<input type='hidden' name='subscription_id' id='hidden_subscription_id' value='"
 						. $sub_id . "' />";
 					$cartform .= "<input type='hidden' name='subscription_prize' id='hidden_subscription_prize' value='0' />";
@@ -7619,8 +7622,8 @@ class productHelper
 
 	public function makeCompareProductDiv()
 	{
-		$Itemid          = JRequest::getVar('Itemid');
-		$cmd             = JRequest::getVar('cmd');
+		$Itemid          = $this->input->get('Itemid');
+		$cmd             = $this->input->get('cmd');
 		$compare_product = $this->_session->get('compare_product');
 
 		if (!$compare_product)
