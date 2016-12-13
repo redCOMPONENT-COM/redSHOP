@@ -167,7 +167,7 @@ if (version_compare(JVERSION, '3.0', '<'))
 }
 else
 {
-	$task = $app->input->get('task', '');
+	$task = $app->input->getCmd('task', '');
 }
 
 $controller->execute($task);
