@@ -266,7 +266,7 @@ class RedshopModelSearch extends RedshopModel
 			return $this->cache[$store];
 		}
 
-		$post = JRequest::get('POST');
+		$post = JFactory::getApplication()->input->post->getArray();
 		$db = JFactory::getDbo();
 		$items = array();
 		$query = $this->_buildQuery($post);
@@ -449,10 +449,10 @@ class RedshopModelSearch extends RedshopModel
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id')
 			->where('p.published = 1');
 
-		$layout = JRequest::getVar('layout', 'default');
+		$layout = $app->input->getCmd('layout', 'default');
 
 		$category_helper = new product_category;
-		$manufacture_id = JRequest::getInt('manufacture_id', 0);
+		$manufacture_id = $app->input->getInt('manufacture_id', 0);
 		$cat_group = array();
 
 		if ($category_id = $app->input->get('category_id', 0))
@@ -668,7 +668,9 @@ class RedshopModelSearch extends RedshopModel
 		// Get filter types and tags
 		$getredfilter = $session->get('redfilter');
 
-		$type_id_main = explode('.', JRequest::getVar('tagid'));
+		$app = JFactory::getApplication();
+
+		$type_id_main = explode('.', $app->input->get('tagid'));
 
 		// Initialise variables
 		$lstproduct_id = array();
@@ -683,9 +685,9 @@ class RedshopModelSearch extends RedshopModel
 			$main_sal_type = array();
 			$main_sal_tag  = array();
 
-			if (JRequest::getVar('main_sel') != "")
+			if ($app->input->get('main_sel') != "")
 			{
-				$main_sal_sp = explode(",", JRequest::getVar('main_sel'));
+				$main_sal_sp = explode(",", $app->input->get('main_sel'));
 
 				for ($f = 0, $fn = count($main_sal_sp); $f < $fn; $f++)
 				{
@@ -742,7 +744,7 @@ class RedshopModelSearch extends RedshopModel
 
 			$q .= implode(" AND ", $dep_cond);
 
-			$q .= ") AND p.published = '1' AND x.category_id = " . (int) JRequest::getInt('cid', 0) . " order by p.product_name ";
+			$q .= ") AND p.published = '1' AND x.category_id = " . (int) $app->input->getInt('cid', 0) . " order by p.product_name ";
 			$product = $this->_getList($q);
 
 			for ($i = 0, $in = count($product); $i < $in; $i++)

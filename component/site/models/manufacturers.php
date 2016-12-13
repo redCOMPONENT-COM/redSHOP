@@ -69,14 +69,14 @@ class RedshopModelManufacturers extends RedshopModel
 		}
 		else
 		{
-			$manid = (int) JRequest::getInt('mid', 0);
+			$manid = (int) $app->input->getInt('mid', 0);
 		}
 
 		$this->setId($manid);
 
 		$limit = $app->getUserStateFromRequest($this->context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
 
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart = $app->input->getInt('limitstart', 0);
 
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -145,7 +145,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function getData()
 	{
-		$layout = JRequest::getVar('layout');
+		$layout = JFactory::getApplication()->input->getCmd('layout');
 		$query  = $this->_buildQuery();
 
 		if ($layout == "products")
@@ -236,7 +236,7 @@ class RedshopModelManufacturers extends RedshopModel
 	public function getManufacturerProducts($template_data = '')
 	{
 		$limit          = $this->getProductLimit();
-		$limitstart     = JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart     = JFactory::getApplication()->input->getInt('limitstart', 0);
 		$query          = $this->_buildProductQuery($template_data);
 		$this->products = $this->_getList($query, $limitstart, $limit);
 
@@ -245,7 +245,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildProductQuery($template_data = '')
 	{
-		$filter_by = JRequest::getVar('filter_by', 0);
+		$filter_by = JFactory::getApplication()->input->get('filter_by', 0);
 		$and       = '';
 
 		// Shopper group - choose from manufactures Start
@@ -325,7 +325,7 @@ class RedshopModelManufacturers extends RedshopModel
 	public function getProductPagination()
 	{
 		$limit             = $this->getProductLimit();
-		$limitstart        = JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart        = JFactory::getApplication()->input->getInt('limitstart', 0);
 		$productpagination = new JPagination($this->getProductTotal(), $limitstart, $limit);
 
 		return $productpagination;
