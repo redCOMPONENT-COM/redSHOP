@@ -550,7 +550,7 @@ class RedshopModelCategory extends RedshopModel
 		$app = JFactory::getApplication();
 		$endlimit   = $this->getState('list.limit');
 		$limitstart = $this->getState('list.start');
-		$layout     = JRequest::getVar('layout');
+		$layout     = $app->input->getCmd('layout');
 		$query      = $this->_buildQuery();
 
 		if ($layout == "categoryproduct")
@@ -685,7 +685,7 @@ class RedshopModelCategory extends RedshopModel
 	public function getManufacturer($mid = 0)
 	{
 		$and = "";
-		$cid = JRequest::getVar('cid');
+		$cid = JFactory::getApplication()->input->get('cid');
 
 		if ($mid != 0)
 		{

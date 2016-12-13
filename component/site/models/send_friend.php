@@ -37,7 +37,7 @@ class RedshopModelSend_friend extends RedshopModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$this->setId((int) JRequest::getVar('pid', 0));
+		$this->setId((int) JFactory::getApplication()->input->getInt('pid', 0));
 	}
 
 	public function setId($id)

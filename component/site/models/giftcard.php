@@ -40,7 +40,7 @@ class RedshopModelGiftcard extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$Id                  = JRequest::getInt('gid', 0);
+		$Id                  = $app->input->getInt('gid', 0);
 
 		$this->setId((int) $Id);
 	}
