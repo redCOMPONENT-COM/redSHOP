@@ -90,6 +90,7 @@ class RedshopHelperTemplate
 							str_replace(array('{', '}'), array('_AA_', '_BB_'), JText::sprintf($replace, $descriptionSeparator)) . $lineSeparator,
 							$result
 						);
+
 						$countItems++;
 					}
 				}
