@@ -878,7 +878,9 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/component/admin/views/supplier/tmpl/default.php',
 				JPATH_ADMINISTRATOR . '/component/admin/views/mass_discount/tmpl/default.php',
 				JPATH_SITE . '/media/com_redshop/css/media.css',
-				JPATH_SITE . '/media/com_redshop/css/media-uncompressed.css'
+				JPATH_SITE . '/media/com_redshop/css/media-uncompressed.css',
+				JPATH_SITE . '/media/com_redshop/js/media.js',
+				JPATH_SITE . '/media/com_redshop/js/media-uncompressed.js'
 			);
 
 			array_push(
