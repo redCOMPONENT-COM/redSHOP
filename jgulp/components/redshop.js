@@ -300,7 +300,7 @@ gulp.task('watch:' + baseTask + ':sass',
 /// Watcher will watching for js changes in Src/assets,
 /// then minify its and copy to Media
 gulp.task('watch:' + baseTask + ':scripts', function() {
-	gulp.watch([assetsPath + '/js/*.js'], ['scripts:' + baseTask]);
+	gulp.watch([assetsPath + '/js/*.js', assetsPath + 'js/**/*.js'], ['scripts:' + baseTask]);
 });
 
 /// Watcher will watching for changes in Media,

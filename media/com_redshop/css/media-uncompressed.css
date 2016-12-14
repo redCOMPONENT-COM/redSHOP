@@ -12,7 +12,7 @@
     width: 100%; }
     .dropzone .dz-preview.dz-image-preview .dz-details {
       max-width: initial;
-      min-height: auto;
+      min-height: initial;
       opacity: 1;
       padding: 0;
       position: relative; }
@@ -45,8 +45,8 @@
     opacity: 1; }
   .dropzone.dz-drag-hover .dz-cons-addon {
     opacity: 1;
-    -webkit-transition: opacity 0.5 ease-in-out;
-    -transition: opacity 0.5 ease-in-out; }
+    -webkit-transition: opacity 0.5ms ease-in-out;
+    -transition: opacity 0.5ms ease-in-out; }
 
 .modal-content {
   border-radius: 6px;
@@ -159,7 +159,7 @@
 #alertGModal .modal-sm {
   width: 360px; }
 
-.img-obj {
+.thumbnail.img-obj {
   cursor: pointer;
   height: 0;
   overflow: hidden;
@@ -169,12 +169,12 @@
   -webkit-box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
   border-radius: 0; }
-  .img-obj:hover {
+  .thumbnail.img-obj:hover {
     box-shadow: 1px 1px 3px #ddd; }
-  .img-obj.selected {
+  .thumbnail.img-obj.selected {
     border-color: #0073aa;
     box-shadow: 0px 0px 5px #0073aa; }
-  .img-obj .img-mime {
+  .thumbnail.img-obj .img-mime {
     background: #469e49;
     color: #fff;
     font-size: 10px;
@@ -184,7 +184,7 @@
     position: absolute;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
     top: 0; }
-  .img-obj .img-status {
+  .thumbnail.img-obj .img-status {
     background: lightgray;
     color: #000;
     font-size: 11px;
@@ -194,7 +194,7 @@
     right: 0;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
     top: 0; }
-  .img-obj .img-name {
+  .thumbnail.img-obj .img-name {
     -webkit-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
     background: white;
     bottom: 0;
@@ -209,17 +209,19 @@
     white-space: nowrap;
     width: 100%;
     text-align: center; }
-  .img-obj .img-icon {
+  .thumbnail.img-obj .img-icon {
     width: 100%;
     display: flex;
     height: 135px;
     align-items: center;
     justify-content: center; }
-    .img-obj .img-icon .fa {
+    .thumbnail.img-obj .img-icon .fa {
       font-size: 60px; }
 
 .pv-wrapper {
-  padding: 15px; }
+  padding: 15px;
+  background: #e0e0e0;
+  border-radius: 4px; }
   .pv-wrapper .pv-title {
     margin-bottom: 5px; }
   .pv-wrapper .pv-img {

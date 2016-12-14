@@ -83,7 +83,7 @@ var rsMedia = {
      */
     cropping: function(jDropzone) {
 
-        $(document).on('click', 'button.cropping',function(e) {
+        $(document).on('click', 'button.rs-media-cropping',function(e) {
             e.preventDefault();
             // ignore files which were already cropped and re-rendered
             // to prevent infinite loop
@@ -183,12 +183,12 @@ var rsMedia = {
         // check if Dropzone HTML was included
         if ($('#j-dropzone').length) {
             // Initialize new Dropzone
-            var jDropzone = new Dropzone(
+            this.dropzoneInstance = new Dropzone(
                 "#j-dropzone",
                 {
                     url: rsMedia.url,
                     // acceptedFiles: ".png,.jpg,.jpeg,.bmp",
-                    autoProcessQueue: false,
+                    autoProcessQueue: true,
                     // maxFiles: 1,
                     thumbnailWidth: null,
                     thumbnailHeight: null,
@@ -196,10 +196,7 @@ var rsMedia = {
                 }
             );
 
-            this.dropzoneInstance = jDropzone;
-
             this.dropzoneEvents(this.dropzoneInstance);
-
             this.cropping(this.dropzoneInstance);
         }
     },
@@ -227,9 +224,13 @@ var rsMedia = {
                 $('#alertModal').modal('show');
                 return;
             }
+
             if (this.files.length > 1) {
                 this.removeFile(this.files[0]);
             }
+
+            $('#j-dropzone').parent().find('.btn.rs-media-removing').removeClass('disabled').prop('disabled', false);
+            $('#j-dropzone').parent().find('.btn.rs-media-cropping').removeClass('disabled').prop('disabled', false);
         });
 
         jDropzone.on('success', function(file, response){
@@ -248,10 +249,13 @@ var rsMedia = {
         // 	$('#alertModal').modal('show');
         // });
 
-        $(document).on('click', 'button.removing',function(e) {
+        $(document).on('click', 'button.rs-media-removing',function(e) {
             jDropzone.removeAllFiles();
             $(".img-select").val('');
-                if ($('#image_delete').length <= 0) {
+            $('#j-dropzone').parent().find('.btn.rs-media-removing').addClass('disabled').prop('disabled', true);
+            $('#j-dropzone').parent().find('.btn.rs-media-cropping').addClass('disabled').prop('disabled', true);
+
+            if ($('#image_delete').length <= 0) {
                 var hidden = $('<input/>');
                 hidden.attr('id', 'image_delete').attr('name', 'image_delete').attr('type', 'hidden').val(true);
                 $("#adminForm").append(hidden[0]);

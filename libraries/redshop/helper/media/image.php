@@ -19,13 +19,6 @@ defined('_JEXEC') or die;
 class RedshopHelperMediaImage
 {
 	/**
-	 * Dependencies flag variable
-	 *
-	 * @var requireDependencies
-	 **/
-	protected $requireDependencies;
-
-	/**
 	 * Render Drag n Drop template in site
 	 *
 	 * @param   string  $id            ID of media input name
@@ -35,10 +28,12 @@ class RedshopHelperMediaImage
 	 * @param   string  $image         URL of featured image
 	 * @param   bool    $showMedia     Show pop-up of media or not.
 	 *
-	 * @return  void
+	 * @return  string
 	 */
 	public static function render($id, $type, $sectionId, $mediaSection, $image, $showMedia = true)
 	{
+		self::requireDependencies();
+
 		$imgUrl  = JRoute::_('/components/com_redshop/assets/images/' . $type . '/' . $image);
 		$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
 
@@ -54,7 +49,7 @@ class RedshopHelperMediaImage
 			);
 		}
 
-		echo RedshopLayoutHelper::render(
+		return RedshopLayoutHelper::render(
 			'media.dropzone',
 			array(
 				'id'           => $id,
@@ -75,17 +70,15 @@ class RedshopHelperMediaImage
 	 */
 	public static function requireDependencies()
 	{
-		$doc = new RedshopHelperDocument;
+		JHtml::stylesheet('com_redshop/dropzone/dropzone.css', array(), true);
+		JHtml::stylesheet('com_redshop/cropper/cropper.css', array(), true);
+		JHtml::stylesheet('com_redshop/lightbox2/css/lightbox.css', array(), true);
+		JHtml::stylesheet('com_redshop/media.css', array(), true);
 
-		$doc->addStylesheet(JUri::root() . '/media/com_redshop/css/dropzone/dropzone.css');
-		$doc->addStylesheet(JUri::root() . '/media/com_redshop/css/cropper/cropper.css');
-		$doc->addStylesheet(JUri::root() . '/media/com_redshop/css/lightbox2/css/lightbox.css');
-		$doc->addBottomStylesheet(JUri::root() . '/media/com_redshop/css/media.css');
-
-		$doc->addScript(JUri::root() . '/media/com_redshop/js/dropzone/dropzone.js');
-		$doc->addScript(JUri::root() . '/media/com_redshop/js/cropper/cropper.js');
-		$doc->addScript(JUri::root() . '/media/com_redshop/js/lightbox2/lightbox.js');
-		$doc->addScript(JUri::root() . '/media/com_redshop/js/media.js');
+		JHtml::script('com_redshop/dropzone/dropzone.js', false, true);
+		JHtml::script('com_redshop/cropper/cropper.js', false, true);
+		JHtml::script('com_redshop/lightbox2/lightbox.js', false, true);
+		JHtml::script('com_redshop/redshop.media.js', false, true);
 
 		return true;
 	}
