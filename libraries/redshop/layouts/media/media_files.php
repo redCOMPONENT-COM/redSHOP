@@ -20,8 +20,8 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 ?>
-<!-- Cropper Modal -->
-<div id="galleryModal<?php echo $id ?>" class="modal fade in" tabindex="-1" role="dialog" data-backdrop="static">
+
+<div class="rs-media-gallery-modal modal fade in" tabindex="-1" role="dialog" data-backdrop="static">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -52,32 +52,31 @@ extract($displayData);
 					</div>
 				</div>
 				<div class="col-md-4 preview-pane">
-					<div class="pv-wrapper hidden well">
-						<div class="pv-title"><h4><?php echo JText::_('COM_REDSHOP_MEDIA_ATTACHMENT_DETAIL') ?></h4></div>
-						<div class="pv-img thumbnail">
-							<div class="pv-overlay">
-								<a href="#" class="pv-zoom" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a>
-								<a href="#" class="pv-link" target="_blank"><i class="fa fa-external-link"></i></a>
-							</div>
-						</div>
-						<div class="pv-info">
-							<ul>
-								<li class="pv-name"></li>
-								<li class="pv-size"></li>
-								<li class="pv-dimension"></li>
-								<li class="pv-url"></li>
-								<li class="pv-remove">
-									<a href="#" class="btn btn-danger btn-del-g" data-id="">
-										<i class="fa fa-times"></i> <?php echo JText::_('JTOOLBAR_DELETE') ?></a>
-								</li>
-							</ul>
+				<div class="pv-wrapper hidden">
+					<div class="pv-title"><h4><?php echo JText::_('COM_REDSHOP_MEDIA_ATTACHMENT_DETAIL') ?></h4></div>
+					<div class="pv-img thumbnail">
+						<div class="pv-overlay">
+							<a href="#" class="pv-zoom" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a>
+							<a href="#" class="pv-link" target="_blank"><i class="fa fa-external-link"></i></a>
 						</div>
 					</div>
+					<div class="pv-info">
+						<ul>
+							<li class="pv-name"></li>
+							<li class="pv-size"></li>
+							<li class="pv-dimension"></li>
+							<li class="pv-url"></li>
+							<li class="pv-remove">
+								<a href="#" class="btn btn-danger btn-del-g" data-id="">
+									<i class="fa fa-times"></i> <?php echo JText::_('JTOOLBAR_DELETE') ?></a>
+							</li>
+						</ul>
+					</div>
 				</div>
-				<div class="clearfix"></div>
+			</div>
 			</div>
 			<div class="modal-footer btn-toolbar text-center">
-				<button type="button" class="btn btn-small btn-success pull-right btn-insert" disabled="true">
+				<button type="button" class="btn btn-small btn-success pull-right rs-media-gallery-insert-btn" disabled="true">
 					<i class="fa fa-anchor"></i> Insert to <?php echo $type ?>
 				</button>
 			</div>
@@ -87,7 +86,7 @@ extract($displayData);
 <!-- End Cropper Modal -->
 
 <!-- Gallery Item Template -->
-<div id="g-item-tpl" style="display: none">
+<div class="rs-media-gallery-preview hidden">
 	<div class="col-md-3">
 		<div class="thumbnail img-obj">
 			<img src="" alt="" class="img-type" data-id="" data-size="" data-dimension="" data-media="" data-attached="false">
@@ -103,7 +102,7 @@ extract($displayData);
 <!-- Gallery Item Template -->
 
 <!-- Alert Modal -->
-<div id="galleryModal<?php echo $id ?>Delete" class="modal fade in" tabindex="-1" role="dialog">
+<div class="rs-media-gallery-delete-modal modal fade in" tabindex="-1" role="dialog">
 	<div class="modal-dialog modal-sm" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -112,18 +111,16 @@ extract($displayData);
 			</div>
 			<div class="modal-body">
 				<div class="alert-text text-center">
-					<p>You are about to delete permanently this item.</p>
-					<p>Are you sure to continue?</p>
+					<p><?php echo JText::_('COM_REDSHOP_MEDIA_ASK_DELETE_PERMANENTLY_FILE') ?></p>
 				</div>
 			</div>
 			<div class="modal-footer btn-toolbar text-center">
-				<button type="button" class="btn btn-small btn-danger float-none btn-confirm-del-g" data-url="" data-id="">Yes</button>
-				<button type="button" class="btn btn-small float-none" data-dismiss="modal">No</button>
+				<button type="button" class="btn btn-small btn-success float-none btn-confirm-del-g" data-url="" data-id="">
+					<?php echo JText::_('JYES') ?>
+				</button>
+				<button type="button" class="btn btn-small btn-danger float-none" data-dismiss="modal"><?php echo JText::_('JNO') ?></button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End Alert Modal -->
-<script>
-	rsMedia.galleryEvents("galleryModal<?php echo $id ?>");
-</script>
