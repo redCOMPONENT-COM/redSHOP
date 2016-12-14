@@ -117,12 +117,7 @@ defined('_JEXEC') or die;
 			}
 		}
 
-		$.when(rsMedia.dropzoneInstance.processQueue()).then(function(){
-			setTimeout(function(){
-				submitform(pressbutton);
-			}, 500);
-		});
-		// submitform(pressbutton);
+		submitform(pressbutton);
 	};
 
 	function oprand_check(s) {
