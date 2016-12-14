@@ -73,7 +73,7 @@ class RedshopHelperMediaImage
 		JHtml::stylesheet('com_redshop/dropzone/dropzone.css', array(), true);
 		JHtml::stylesheet('com_redshop/cropper/cropper.css', array(), true);
 		JHtml::stylesheet('com_redshop/lightbox2/css/lightbox.css', array(), true);
-		JHtml::stylesheet('com_redshop/media.css', array(), true);
+		JHtml::stylesheet('com_redshop/redshop.media.css', array(), true);
 
 		JHtml::script('com_redshop/dropzone/dropzone.js', false, true);
 		JHtml::script('com_redshop/cropper/cropper.js', false, true);
