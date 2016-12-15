@@ -270,7 +270,8 @@ gulp.task("release:redshop", ["composer:libraries.redshop"], function (cb) {
                 "./plugins/finder/redshop/**",
                 "./plugins/redshop_alert/alert/**",
                 "./plugins/redshop_shipping/default_shipping/**",
-                "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**"
+                "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**",
+                "./plugins/redshop_pdf/tcpdf/**"
             ],{ base: "./" })
                 .pipe(zip(fileName))
                 .pipe(gulp.dest(config.releaseDir))
