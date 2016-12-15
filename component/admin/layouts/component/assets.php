@@ -22,7 +22,6 @@ $doc->addStyleSheet(JURI::root() . 'media/com_redshop/css/font-awesome.css');
 
 // Disable template shit
 $doc->disableStylesheet('administrator/templates/isis/css/template.css');
-$doc->disableStylesheet('media/com_reditem/css/reditem.backend.min.css');
 $doc->disableScript('administrator/templates/isis/js/template.js');
 
 // We will apply our own searchtools styles

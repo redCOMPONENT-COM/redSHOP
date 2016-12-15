@@ -283,7 +283,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		// Get File name, tmp_name
 		$file = $this->input->files->get('product_full_image', array(), 'array');
 
-		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_image'] != null)
+		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_full_image'] != null)
 		{
 			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $data['old_image'];
 
@@ -312,7 +312,17 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
-		if ($file['name'] != "")
+		if (isset($data['product_full_image_delete']))
+		{
+			$row->product_thumb_image = '';
+			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_full_image'];
+
+			if (is_file($unlink_path))
+			{
+				unlink($unlink_path);
+			}
+		}
+		elseif ($file['name'] != "")
 		{
 			$filename = RedShopHelperImages::cleanFileName($file['name'], $row->product_id);
 			$row->product_full_image = $filename;
@@ -323,31 +333,28 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			JFile::upload($src, $dest);
 		}
-		else
+		elseif ($data['product_full_image'] != null)
 		{
-			if ($data['product_image'] != null)
+			$image_split = explode('/', $data['product_full_image']);
+			$image_name = $image_split[count($image_split) - 1];
+			$image_name = explode("_", $image_name, 2);
+
+			if (strlen($image_name[0]) == 10 && preg_match("/^(\d+)/", $image_name[0]))
 			{
-				$image_split = explode('/', $data['product_image']);
-				$image_name = $image_split[count($image_split) - 1];
-				$image_name = explode("_", $image_name, 2);
-
-				if (strlen($image_name[0]) == 10 && preg_match("/^(\d+)/", $image_name[0]))
-				{
-					$new_image_name = $image_name[1];
-				}
-				else
-				{
-					$new_image_name = $image_split[count($image_split) - 1];
-				}
-
-				$filename = $new_image_name;
-				$row->product_full_image = $filename;
-
-				$src = JPATH_ROOT . '/' . $data['product_image'];
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
-
-				copy($src, $dest);
+				$new_image_name = $image_name[1];
 			}
+			else
+			{
+				$new_image_name = $image_split[count($image_split) - 1];
+			}
+
+			$filename = $new_image_name;
+			$row->product_full_image = $filename;
+
+			$src = JPATH_ROOT . '/' . $data['product_full_image'];
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
+
+			copy($src, $dest);
 		}
 
 		if (isset($data['back_thumb_image_delete']))

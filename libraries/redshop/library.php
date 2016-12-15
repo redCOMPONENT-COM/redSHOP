@@ -38,6 +38,10 @@ if (file_exists($composerAutoload))
 $lang = JFactory::getLanguage();
 $lang->load('lib_redshop', JPATH_SITE);
 
+// Load Joomla File & Folder Library
+jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.file');
+
 // Load redSHOP language
 $lang->load('com_redshop', JPATH_SITE);
 
