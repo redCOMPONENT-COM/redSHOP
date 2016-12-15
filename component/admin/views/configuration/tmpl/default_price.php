@@ -9,7 +9,14 @@
 defined('_JEXEC') or die;
 
 ?>
+<script type='text/javascript'>
+	function changeRedshopCurrencyList(obj)
+	{
+		var x = (obj.value || obj.options[obj.selectedIndex].value);
 
+		jQuery('#currency_symbol').val(x);
+	}
+</script>
 <legend><?php echo JText::_('COM_REDSHOP_MAIN_PRICE'); ?></legend>
 
 <div class="form-group">
