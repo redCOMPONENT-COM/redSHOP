@@ -842,7 +842,6 @@ class RedshopModelExport extends RedshopModel
 					{
 						$value = str_replace("\n", '', $oneRow[$oneHeader]);
 						$value = str_replace("\r", '', $value);
-						$value = strip_tags($value);
 						echo '"' . str_replace('"', "'", $value) . '"';
 					}
 
