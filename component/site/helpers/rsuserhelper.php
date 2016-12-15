@@ -1038,12 +1038,10 @@ class rsUserHelper
 
 	public function replaceBillingCommonFields($template_desc, $post = array(), $lists)
 	{
-		$world = RedshopHelperWorld::getInstance();
-
-		$countryarray          = $world->getCountryList($post);
+		$countryarray          = RedshopHelperWorld::getCountryList($post);
 		$post['country_code']  = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
-		$statearray            = $world->getStateList($post);
+		$statearray            = RedshopHelperWorld::getStateList($post);
 		$lists['state_code']   = $statearray['state_dropdown'];
 		$countrystyle          = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
 		$statestyle            = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
@@ -1180,7 +1178,6 @@ class rsUserHelper
 
 	public function getShippingTable($post = array(), $is_company = 0, $lists)
 	{
-		$world             = RedshopHelperWorld::getInstance();
 		$redTemplate       = Redtemplate::getInstance();
 		$shipping_template = $redTemplate->getTemplate("shipping_template");
 
@@ -1211,11 +1208,11 @@ class rsUserHelper
 		}
 
 		$read_only                = "";
-		$countryarray             = $world->getCountryList($post, 'country_code_ST', 'ST', 'inputbox billingRequired valid', 'state_code_ST');
+		$countryarray             = RedshopHelperWorld::getCountryList($post, 'country_code_ST', 'ST', 'inputbox billingRequired valid', 'state_code_ST');
 		$post['country_code_ST']  = $countryarray['country_code_ST'];
 		$lists['country_code_ST'] = $countryarray['country_dropdown'];
 
-		$statearray               = $world->getStateList($post, 'state_code_ST', 'ST');
+		$statearray               = RedshopHelperWorld::getStateList($post, 'state_code_ST', 'ST');
 		$lists['state_code_ST']   = $statearray['state_dropdown'];
 
 		$countrystyle = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
