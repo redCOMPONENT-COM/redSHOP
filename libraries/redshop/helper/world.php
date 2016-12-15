@@ -38,6 +38,24 @@ abstract class RedshopHelperWorld
 	protected static $states = array();
 
 	/**
+	 * Returns the RedshopHelperWorld object, only creating it
+	 * if it does not already exist.
+	 *
+	 * @return  RedshopHelperWorld  The RedshopHelperWorld object
+	 *
+	 * @since   1.6
+	 */
+	public static function getInstance()
+	{
+		if (self::$instance === null)
+		{
+			self::$instance = new static;
+		}
+
+		return self::$instance;
+	}
+
+	/**
 	 * Get all the countries supported by shop
 	 *
 	 * @return  array  Countries
