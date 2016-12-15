@@ -136,7 +136,7 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
 		$billing->country_code = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
 
-		$statearray          = RedshopHelperWorld::getStateList((array) $billing, "state_code", "country_code", "BT", 1);
+		$statearray          = RedshopHelperWorld::getStateList((array) $billing, "state_code", "country_code", "BT");
 		$lists['state_code'] = $statearray['state_dropdown'];
 
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code;
