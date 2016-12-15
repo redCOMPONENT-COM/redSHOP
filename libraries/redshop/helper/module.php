@@ -34,7 +34,7 @@ class RedshopHelperModule
 		for ($index = 0, $ln = count($paymentsLangList); $index < $ln; $index++)
 		{
 			$extension = $paymentsLangList[$index]->element;
-			$language->load($extension, JPATH_SITE, $language->getTag(), true);
+			$language->load($extension, JPATH_ADMINISTRATOR, $language->getTag(), true);
 			$language->load($extension, JPATH_ROOT . '/modules/' . $extension, $language->getTag(), true);
 		}
 	}
