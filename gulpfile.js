@@ -11,6 +11,7 @@ var config     = require("./gulp-config.json");
 var extension  = require("./package.json");
 var joomlaGulp = requireDir("./node_modules/joomla-gulp", {recurse: true});
 var jgulp      = requireDir("./jgulp", {recurse: true});
+var hashsum    = require("gulp-hashsum");
 
 var parser     = new xml2js.Parser();
 
@@ -231,7 +232,81 @@ gulp.task("release",
     ]
 );
 
-gulp.task("release:redshop", ["composer:libraries.redshop"], function (cb) {
+gulp.task("release:md5:generate", function(){
+
+    console.log("Create checksum.md5 file in: component/admin/assets/checksum.md5");
+
+    var stream = gulp.src([
+        "./component/**/*",
+        "./component/**/.gitkeep",
+        "./libraries/redshop/**/*",
+        "./libraries/redshop/vendor/**/*",
+        "./libraries/redshop/.gitkeep",
+        "!./libraries/redshop/composer.*",
+        "!./libraries/redshop/vendor/**/tests/**/*",
+        "!./libraries/redshop/vendor/**/tests",
+        "!./libraries/redshop/vendor/**/Tests/**/*",
+        "!./libraries/redshop/vendor/**/Tests",
+        "!./libraries/redshop/vendor/**/docs/**/*",
+        "!./libraries/redshop/vendor/**/docs",
+        "!./libraries/redshop/vendor/**/doc/**/*",
+        "!./libraries/redshop/vendor/**/doc",
+        "!./libraries/redshop/vendor/**/composer.*",
+        "!./libraries/redshop/vendor/**/phpunit*",
+        "!./libraries/redshop/vendor/**/Vagrantfile",
+        "./media/**/*",
+        "./media/**/.gitkeep",
+        "!./media/com_redshop/scss",
+        "!./media/com_redshop/scss/**",
+        "./*(install.php|LICENSE.txt|redshop.xml)",
+        "./modules/site/mod_redshop_cart/**",
+        "./plugins/system/redshop/**",
+        "./plugins/redshop_payment/rs_payment_banktransfer/**",
+        "./plugins/redshop_payment/rs_payment_paypal/**",
+        "./plugins/redshop_payment/klarna/**",
+        "./plugins/finder/redshop/**",
+        "./plugins/redshop_alert/alert/**",
+        "./plugins/redshop_shipping/default_shipping/**",
+        "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**"
+    ],{ base: "./" })
+        .pipe(hashsum({dest: "./component/admin/assets/", filename: "checksum.md5", hash: "md5"}))
+
+    return stream;
+});
+
+gulp.task("release:md5:json", ["release:md5:generate"], function(cb){
+    var fileContent = fs.readFileSync(path.join("./component/admin/assets/checksum.md5"), "utf8");
+    var temp = fileContent.split('\n');
+    var result = [];
+    var t1;
+
+    for (var i = 0; i < temp.length; i++) {
+        t1 = temp[i].split(' ');
+
+        if (t1[0].trim().length)
+        {
+            item = {'md5': t1[0], 'path': t1[2]};
+            result.push(item);
+        }
+    }
+    
+    console.log("Create checksum.md5.json file in: component/admin/assets/checksum.md5.json");
+
+    rs = JSON.stringify(result);
+
+    fs.writeFile("./component/admin/assets/checksum.md5.json", rs);
+
+    return cb();
+});
+
+gulp.task("release:md5",
+    [
+        "release:md5:generate",
+        "release:md5:json"
+    ]
+);
+
+gulp.task("release:redshop", ["composer:libraries.redshop", "release:md5"], function (cb) {
     fs.readFile( "./redshop.xml", function(err, data) {
         parser.parseString(data, function (err, result) {
             var version  = result.extension.version[0];
@@ -270,7 +345,8 @@ gulp.task("release:redshop", ["composer:libraries.redshop"], function (cb) {
                 "./plugins/finder/redshop/**",
                 "./plugins/redshop_alert/alert/**",
                 "./plugins/redshop_shipping/default_shipping/**",
-                "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**"
+                "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**",
+                "./plugins/redshop_pdf/tcpdf/**"
             ],{ base: "./" })
                 .pipe(zip(fileName))
                 .pipe(gulp.dest(config.releaseDir))

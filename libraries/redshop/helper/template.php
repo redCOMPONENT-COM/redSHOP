@@ -90,6 +90,7 @@ class RedshopHelperTemplate
 							str_replace(array('{', '}'), array('_AA_', '_BB_'), JText::sprintf($replace, $descriptionSeparator)) . $lineSeparator,
 							$result
 						);
+
 						$countItems++;
 					}
 				}
@@ -114,7 +115,9 @@ class RedshopHelperTemplate
 	 */
 	public static function getTemplate($section = '', $templateId = 0, $name = "")
 	{
-		if (!array_key_exists($section . '_' . $templateId . '_' . $name, self::$templatesArray))
+		$key = $section . '_' . $templateId . '_' . $name;
+
+		if (!array_key_exists($key, self::$templatesArray))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -139,14 +142,20 @@ class RedshopHelperTemplate
 			}
 
 			$db->setQuery($query);
-			self::$templatesArray[$section . '_' . $templateId . '_' . $name] = $db->loadObjectList();
+
+			self::$templatesArray[$key] = $db->loadObjectList();
 		}
 
-		$templates = self::$templatesArray[$section . '_' . $templateId . '_' . $name];
+		$templates = self::$templatesArray[$key];
 
-		foreach ($templates as $key => $template)
+		foreach ($templates as $index => $template)
 		{
-			$templates[$key]->template_desc = self::readTemplateFile($template->template_section, $template->template_name);
+			$userContent = self::readTemplateFile($template->template_section, $template->template_name);
+
+			if ($userContent !== false)
+			{
+				$templates[$index]->template_desc = $userContent;
+			}
 		}
 
 		return $templates;
@@ -174,7 +183,7 @@ class RedshopHelperTemplate
 			return $content;
 		}
 
-		return "";
+		return false;
 	}
 
 	/**
