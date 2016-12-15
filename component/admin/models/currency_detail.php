@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 
 class RedshopModelCurrency_detail extends RedshopModel
 {
@@ -108,16 +110,44 @@ class RedshopModelCurrency_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		if (count($cid))
+		if (empty($cid))
 		{
-			$cids = implode(',', $cid);
+			return false;
+		}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'currency WHERE currency_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+		$app = JFactory::getApplication();
 
-			if (!$this->_db->execute())
+		if (is_string($cid))
+		{
+			$cid = explode(',', $cid);
+		}
+		elseif (is_numeric($cid))
+		{
+			$cid = array($cid);
+		}
+
+		$cid = ArrayHelper::toInteger($cid);
+		$notAllow = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
+
+		foreach ($cid as $currencyId)
+		{
+			$table = $this->getTable();
+
+			if (!$table->load($currencyId))
 			{
-				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+
+			if ($notAllow && $table->currency_code == $notAllow)
+			{
+				$app->enqueueMessage(JText::_('COM_REDSHOP_CURRENCY_ERROR_DELETE_CURRENCY_SET_IN_CONFIG'), 'error');
+
+				return false;
+			}
+
+			if (!$table->delete())
+			{
+				$app->enqueueMessage(JText::sprintf('COM_REDSHOP_CURRENCY_ERROR_DELETE', $table->currency_name), 'error');
 
 				return false;
 			}
