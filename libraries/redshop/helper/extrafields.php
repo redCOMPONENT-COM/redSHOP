@@ -1001,7 +1001,7 @@ class RedshopHelperExtrafields
 							$name = RedshopHelperMedia::cleanFileName($file);
 
 							$src = $_FILES[$rowData[$i]->field_name]['tmp_name'][$ij];
-							$destination = Redshop::getConfig()->get('REDSHOP_FRONT_DOCUMENT_RELPATH') . 'extrafields/' . $name;
+							$destination = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $name;
 
 							JFile::upload($src, $destination);
 

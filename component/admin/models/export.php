@@ -163,11 +163,22 @@ class RedshopModelExport extends RedshopModel
 		$headers = array_keys((array) $cur[0]);
 		$headers = array_merge(
 			$headers,
-			array('sitepath','category_id','category_name','accessory_products','product_stock',
+			array('sitepath','category_id','category_name','accessory_products',
 				'images','images_order','images_alternattext','video','video_order','video_alternattext',
 				'document','document_order','document_alternattext','download','download_order',
 				'download_alternattext')
 		);
+
+		// Product stockroom list
+		$stockrooms = RedshopHelperStockroom::getStockroom();
+
+		if (count($stockrooms) > 0)
+		{
+			foreach ($stockrooms as $stockroom)
+			{
+				$headers[] = $stockroom->stockroom_name;
+			}
+		}
 
 		// Product extra fields data
 		if ($exportProductExtraField = $jInput->getInt('export_product_extra_field', 0))
@@ -236,15 +247,13 @@ class RedshopModelExport extends RedshopModel
 				$oneProduct->accessory_products = implode("###", $accs);
 			}
 
-			$query->clear()
-				->select('quantity')
-				->from($db->qn('#__redshop_product_stockroom_xref'))
-				->where('product_id = ' . (int) $oneProduct->product_id)
-				->where('stockroom_id = ' . $db->q(Redshop::getConfig()->get('DEFAULT_STOCKROOM')));
-
-			if ($stock = $db->setQuery($query)->loadResult())
+			if (count($stockrooms) > 0)
 			{
-				$oneProduct->product_stock = $stock;
+				foreach ($stockrooms as $stockroom)
+				{
+					$stockroomAmount = RedshopHelperStockroom::getStockroomAmountDetailList($oneProduct->product_id, "product", $stockroom->stockroom_id);
+					$oneProduct->{$stockroom->stockroom_name} = $stockroomAmount[0]->quantity;
+				}
 			}
 
 			$query->clear()

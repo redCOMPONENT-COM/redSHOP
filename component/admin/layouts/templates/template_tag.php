@@ -327,7 +327,7 @@ switch ($name)
 		break;
 	case 'product':
 		?>
-		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_PRODUCT_HINT'); ?></b><br /><br />
+		<h4><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_PRODUCT_HINT'); ?></h4>
 		{product_name} {manufacturer_name} {supplier_name} {publish_date} {update_date} <br />
 		{discount_start_date} {discount_end_date} {product_discount_price} {product_old_price} {product_price_saving} {product_price_saving_percentage} {if product_on_sale} <br />
 		{product_on_sale end if} {product_price_lbl} {if product_special} {product_special end if} {product_name} {product_price} <br />

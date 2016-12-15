@@ -881,6 +881,8 @@ class Com_RedshopInstallerScript
 				JPATH_SITE . '/media/com_redshop/css/media-uncompressed.css',
 				JPATH_SITE . '/media/com_redshop/js/media.js',
 				JPATH_SITE . '/media/com_redshop/js/media-uncompressed.js'
+				JPATH_ADMINISTRATOR . '/component/admin/views/order_detail/view.tcpdf.php',
+				JPATH_LIBRARIES . '/redshop/helper/tcpdf.php'
 			);
 
 			array_push(
