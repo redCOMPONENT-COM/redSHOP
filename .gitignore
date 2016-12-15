@@ -42,6 +42,9 @@ node_modules/
 vendor/*
 tests/vendor/*
 
+# Bower
+bower_components/
+
 # Test related files
 tests/system/servers/configdef.php
 tests/system/webdriver/tests/logs/
@@ -66,3 +69,9 @@ component/admin/config/config.php
 
 # Releases folder
 releases/*
+
+# Checksum MD5 Files
+checksum.md5
+checksum.md5.json
+component/admin/assets/checksum.md5
+component/admin/assets/checksum.md5.json
