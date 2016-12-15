@@ -90,7 +90,7 @@ class PlgSearchRedshop_Products extends JPlugin
 		$extraQuery = $db->getQuery(true)
 						->select('DISTINCT(' . $db->qn('itemid') . ')')
 						->from($db->qn('#__redshop_fields_data'))
-						->where($db->qn('section') . ' = ' . $db->q('1'));
+						->where($db->qn('section') . ' = 1');
 
 		// Create the base select statement.
 		$query = $db->getQuery(true)
@@ -115,21 +115,21 @@ class PlgSearchRedshop_Products extends JPlugin
 				$text = $db->Quote('%' . $db->escape($text, true) . '%', false);
 
 				// Also search in Extra Field Data
-				$extraQuery->where($db->qn('data_txt') . ' LIKE ' . $db->q($text));
+				$extraQuery->where($db->qn('data_txt') . ' LIKE ' . $text);
 				$whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery . ')';
 
 				$wheres = array();
-				$wheres[] = $db->qn('product_name') . ' LIKE ' . $db->q($text);
-				$wheres[] = $db->qn('product_number') . ' LIKE ' . $db->q($text);
+				$wheres[] = $db->qn('product_name') . ' LIKE ' . $text;
+				$wheres[] = $db->qn('product_number') . ' LIKE ' . $text;
 
 				if ($searchShortDesc)
 				{
-					$wheres[] = $db->qn('product_s_desc') . ' LIKE ' . $db->q($text);
+					$wheres[] = $db->qn('product_s_desc') . ' LIKE ' . $text;
 				}
 
 				if ($searchFullDesc)
 				{
-					$wheres[] = $db->qn('product_desc') . ' LIKE ' . $db->q($text);
+					$wheres[] = $db->qn('product_desc') . ' LIKE ' . $text;
 				}
 
 				$where = '('
@@ -153,23 +153,23 @@ class PlgSearchRedshop_Products extends JPlugin
 					$word = $db->Quote('%' . $db->escape($word, true) . '%', false);
 
 					$ors = array();
-					$ors[] = $db->qn('product_name') . ' LIKE ' . $db->q($word);
-					$ors[] = $db->qn('product_number') . ' LIKE ' . $db->q($word);
+					$ors[] = $db->qn('product_name') . ' LIKE ' . $word;
+					$ors[] = $db->qn('product_number') . ' LIKE ' . $word;
 
 					if ($searchShortDesc)
 					{
-						$ors[] = $db->qn('product_s_desc') . ' LIKE ' . $db->q($word);
+						$ors[] = $db->qn('product_s_desc') . ' LIKE ' . $word;
 					}
 
 					if ($searchFullDesc)
 					{
-						$ors[] = $db->qn('product_desc') . ' LIKE ' . $db->q($word);
+						$ors[] = $db->qn('product_desc') . ' LIKE ' . $word;
 					}
 
 					$wheres[] = implode(' OR ', $ors);
 
 					// Prepare extra field info where clause
-					$orsField[] = $db->qn('data_txt') . ' LIKE ' . $db->q($word);
+					$orsField[] = $db->qn('data_txt') . ' LIKE ' . $word;
 				}
 
 				// Also search in Extra Field Data
