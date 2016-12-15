@@ -39,14 +39,29 @@ class RedshopViewMedia extends RedshopViewAdmin
 		$uri      = JFactory::getURI();
 		$document = JFactory::getDocument();
 
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'camera redshop_media48');
+
+		$layout = JFactory::getApplication()->input->getCmd('layout');
+
+		if ($layout == 'sanitise')
+		{
+			$this->setLayout($layout);
+
+			return parent::display($tpl);
+		}
+
 		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/medialist-thumbs.css');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'camera redshop_media48');
 		JToolbarHelper::addNew();
 		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
+
+		// Add custom media button
+		JPluginHelper::importPlugin('redshop_media');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onMediaSanitiseButton', array(new stdClass, array(), 0));
 
 		$this->state = $this->get('State');
 

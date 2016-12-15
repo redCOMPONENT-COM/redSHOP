@@ -211,4 +211,16 @@ class RedshopControllerMedia extends RedshopController
 			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
 	}
+
+	/**
+	 * [renameMedia description]
+	 *
+	 * @return  [type]  [description]
+	 */
+	public function renameMedia()
+	{
+		JPluginHelper::importPlugin('redshop_media');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onMediaSanitise', array(new stdClass, array(), 0));
+	}
 }

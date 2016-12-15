@@ -6,6 +6,8 @@ var xml2js     = require("xml2js");
 var fs         = require("fs");
 var sass       = require("gulp-sass");
 var path       = require("path");
+var gutil      = require('gulp-util');
+
 
 var config     = require("./gulp-config.json");
 var extension  = require("./package.json");
@@ -45,7 +47,7 @@ function pluginRelease(group, name) {
                 fileName += '-v' + result.extension.version[0] + '.zip';
 
                 // We will output where release package is going so it is easier to find
-                console.log('Plugin release file in: ' + path.join(config.releaseDir + '/plugins', fileName));
+                gutil.log('Plugin release file in: ' + path.join(config.releaseDir + '/plugins', fileName));
 
                 return gulp.src('./plugins/' + group + '/' + name + '/**')
                     .pipe(zip(fileName))
