@@ -54,7 +54,7 @@ class RedshopModelTroubleshoots extends RedshopModel
 	 */
 	public function getData()
 	{
-		$jsonFile = JPATH_ADMINISTRATOR . '/components/com_redshop/redshop.json';
+		$jsonFile = JPATH_ADMINISTRATOR . '/components/com_redshop/assets/checksum.md5.json';
 
 		$list = array ();
 
