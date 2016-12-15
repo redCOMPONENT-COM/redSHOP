@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtmlBehavior::modal('a.joom-box');
-
 $editor = JFactory::getEditor();
 ?>
 
@@ -99,35 +97,17 @@ $editor = JFactory::getEditor();
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_IMAGES'); ?></h3>
 			</div>
 			<div class="box-body">
-				<div class="form-group">
-					<div id="image_dis">
-					<?php
-						if ($this->detail->category_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->detail->category_full_image))
-						{
-							echo RedshopLayoutHelper::render(
-								'component.image',
-								array(
-									'id'        => 'category_full_image',
-									'deleteid'  => 'image_delete',
-									'displayid' => 'image_display',
-									'type' 	    => 'category',
-									'image'     => $this->detail->category_full_image
-								)
-							);
-						}
-					?>
-					<input type="hidden" name="category_image" id="category_image"/>
-					</div>
-					<div class="btn-toolbar">
-						<?php
-							$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
-						?>
-						<a class="joom-box btn btn-primary inline" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
-							<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
-						</a>
-					</div>
-				</div>
-
+				<?php
+				$section_id = $this->detail->category_id;
+				$media_section = 'category';
+				echo RedshopHelperMediaImage::render(
+					'category_full_image',
+					'category',
+					$section_id,
+					$media_section,
+					$this->detail->category_full_image
+				);
+				?>
 			</div>
 		</div>
 
@@ -136,20 +116,17 @@ $editor = JFactory::getEditor();
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_BACK_IMAGE'); ?></h3>
 			</div>
 			<div class="box-body">
-				<div class="form-group">
-					<?php
-					echo RedshopLayoutHelper::render(
-						'component.image',
-						array(
-							'id'        => 'category_back_full_image',
-							'deleteid'  => 'image_back_delete',
-							'displayid' => 'image_back',
-							'type' 	    => 'category',
-							'image'     => $this->detail->category_back_full_image
-						)
-					);
-					?>
-				</div>
+				<?php
+				$section_id = $this->detail->category_id;
+				$media_section = 'category';
+				echo RedshopHelperMediaImage::render(
+					'category_back_full_image',
+					'category',
+					$section_id,
+					$media_section,
+					$this->detail->category_back_full_image
+				);
+				?>
 			</div>
 		</div>
 	</div>
