@@ -134,18 +134,19 @@ gulp.task('release:plugin', function(cb) {
     var basePath = './plugins';
     var plgGroup = argv.group ? argv.group : false;
     var plgName  = argv.name ? argv.name : false;
+    var plugins  = [];
 
     // No group specific, release all of them.
     if (!plgGroup) {
         var groups = getFolders(basePath);
 
         for (var i = 0; i < groups.length; i++) {
-            var plugins = getFolders(basePath + '/' + groups[i]);
+            plugins = getFolders(basePath + '/' + groups[i]);
 
             for (j = 0; j < plugins.length; j++) {
                 pluginRelease(groups[i], plugins[j]);
             }
-        };
+        }
     }
     else if (plgGroup && !plgName) {
         try {
@@ -156,7 +157,7 @@ gulp.task('release:plugin', function(cb) {
             return;
         }
 
-        var plugins = getFolders(basePath + '/' + plgGroup);
+        plugins = getFolders(basePath + '/' + plgGroup);
 
         for (i = 0; i < plugins.length; i++) {
             pluginRelease(plgGroup, plugins[i]);
@@ -181,29 +182,30 @@ gulp.task('release:module', function(cb) {
     var basePath  = './modules';
     var modSource = argv.group ? argv.group : false;
     var modName   = argv.name ? argv.name : false;
+    var modules   = [];
 
     // No group specific, release all of them.
     if (!modSource) {
         var groups = getFolders(basePath);
 
         for (var i = 0; i < groups.length; i++) {
-            var modules = getFolders(basePath + '/' + groups[i]);
+            modules = getFolders(basePath + '/' + groups[i]);
 
             for (j = 0; j < modules.length; j++) {
                 moduleRelease(groups[i], modules[j]);
             }
-        };
+        }
     }
     else if (modSource && !modName) {
         try {
-            fs.statSync('./modules/' + plgGroup);
+            fs.statSync('./modules/' + modSource);
         }
         catch (e) {
             console.error("Folder not exist: " + basePath + '/' + plgGroup);
             return;
         }
 
-        var modules = getFolders(basePath + '/' + modSource);
+        modules = getFolders(basePath + '/' + modSource);
 
         for (i = 0; i < modules.length; i++) {
             moduleRelease(modSource, modules[i]);
@@ -236,7 +238,7 @@ gulp.task("release:md5:generate", function(){
 
     console.log("Create checksum.md5 file in: component/admin/assets/checksum.md5");
 
-    var stream = gulp.src([
+    return gulp.src([
         "./component/**/*",
         "./component/**/.gitkeep",
         "./libraries/redshop/**/*",
@@ -269,9 +271,7 @@ gulp.task("release:md5:generate", function(){
         "./plugins/redshop_shipping/default_shipping/**",
         "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**"
     ],{ base: "./" })
-        .pipe(hashsum({dest: "./component/admin/assets/", filename: "checksum.md5", hash: "md5"}))
-
-    return stream;
+        .pipe(hashsum({dest: "./component/admin/assets/", filename: "checksum.md5", hash: "md5"}));
 });
 
 gulp.task("release:md5:json", ["release:md5:generate"], function(cb){
@@ -285,11 +285,11 @@ gulp.task("release:md5:json", ["release:md5:generate"], function(cb){
 
         if (t1[0].trim().length)
         {
-            item = {'md5': t1[0], 'path': t1[2]};
+            var item = {'md5': t1[0], 'path': t1[2]};
             result.push(item);
         }
     }
-    
+
     console.log("Create checksum.md5.json file in: component/admin/assets/checksum.md5.json");
 
     rs = JSON.stringify(result);
