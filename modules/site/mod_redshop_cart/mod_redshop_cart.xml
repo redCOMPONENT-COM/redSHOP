@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.0" client="site" method="upgrade">
 	<name>MOD_REDSHOP_CART</name>
-	<version>1.6</version>
+	<version>1.6.1</version>
 	<redshop>2.0</redshop>
 	<creationDate>Sep 2016</creationDate>
 	<author>redCOMPONENT.com</author>
@@ -11,15 +11,14 @@
 	<description>MOD_REDSHOP_CART_DESC</description>
 	<files>
 		<filename module="mod_redshop_cart">mod_redshop_cart.php</filename>
-		<filename>index.html</filename>
-		<folder>tmpl</folder>
-		<folder module="mod_redshop_cart">images</folder>
-		<folder module="mod_redshop_cart">css</folder>
+		<filename module="mod_redshop_cart">helper.php</filename>
+		<filename module="mod_redshop_cart">index.html</filename>
+		<folder module="mod_redshop_cart">tmpl</folder>
+		<folder module="mod_redshop_cart">language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.sys.ini</language>
-	</languages>
+	<media folder="media">
+		<folder>mod_redshop_cart</folder>
+	</media>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

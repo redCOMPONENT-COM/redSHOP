@@ -8,42 +8,11 @@
  */
 
 defined('_JEXEC') or die;
-
-$redhelper     = redhelper::getInstance();
-$app           = JFactory::getApplication();
-$itemId        = (int) $redhelper->getCartItemid();
-
-$getNewItemId = true;
-
-if ($itemId != 0)
-{
-	$menu = $app->getMenu();
-	$item = $menu->getItem($itemId);
-
-	$getNewItemId = false;
-
-	if (isset($item->id) === false)
-	{
-		$getNewItemId = true;
-	}
-}
-
-if ($getNewItemId)
-{
-	$itemId = (int) $redhelper->getCategoryItemid();
-}
-
-$displayButton = JText::_('MOD_REDSHOP_CART_CHECKOUT');
-
-if ($button_text != "")
-{
-	$displayButton = $button_text;
-}
-
-JFactory::getDocument()->addStyleDeclaration(
-	'.mod_cart_checkout{background-color:' . Redshop::getConfig()->get('ADDTOCART_BACKGROUND') . ';}'
-);
+JHtml::stylesheet('mod_redshop_cart/cart.css', false, true);
 ?>
+
+<?php JFactory::getDocument()->addStyleDeclaration('.mod_cart_checkout{background-color:' . Redshop::getConfig()->get('ADDTOCART_BACKGROUND') . ';}'); ?>
+
 <div class="mod_cart_main">
 	<div class="mod_cart_top">
 		<div class="mod_cart_image"></div>
@@ -54,12 +23,12 @@ JFactory::getDocument()->addStyleDeclaration(
 		echo RedshopLayoutHelper::render(
 				'cart.cart',
 				array(
-					'cartOutput'       => $output_view,
+					'cartOutput'       => $outputView,
 					'totalQuantity'    => $count,
 					'cart'             => $cart,
-					'showWithVat'      => $show_with_vat,
-					'showShippingLine' => $show_shipping_line,
-					'showWithDiscount' => $show_with_discount
+					'showWithVat'      => $showWithVat,
+					'showShippingLine' => $showShippingLine,
+					'showWithDiscount' => $showWithDiscount
 				),
 				'',
 				array(
@@ -69,9 +38,9 @@ JFactory::getDocument()->addStyleDeclaration(
 		?>
 	</div>
     <div class="mod_cart_checkout" id="mod_cart_checkout_ajax">
-		<?php if ($count || $show_empty_btn): ?>
+		<?php if ($count || $showEmptyBtn): ?>
         <a href="<?php echo JRoute::_("index.php?option=com_redshop&view=cart&Itemid=" . $itemId); ?>">
-            <?php echo $displayButton;?>
+            <?php echo $buttonText? $buttonText: JText::_('MOD_REDSHOP_CART_CHECKOUT');?>
 		</a>
 		<?php endif; ?>
     </div>

@@ -10,50 +10,24 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
+JLoader::import('helper', __DIR__);
 
-$show_with_vat      = trim($params->get('show_with_vat', 0));
-$button_text        = trim($params->get('button_text', ''));
-$show_shipping_line = ($params->get('show_shipping_line', 0));
-$show_with_discount = ($params->get('show_with_discount', 0));
+$showWithVat      = trim($params->get('show_with_vat', 0));
+$buttonText        = trim($params->get('button_text', ''));
+$showShippingLine = ($params->get('show_shipping_line', 0));
+$showWithDiscount = ($params->get('show_with_discount', 0));
 
-$document = JFactory::getDocument()->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
-$show_empty_btn = 0;
+$showEmptyBtn = 0;
 
 if ($params->get("checkout_empty") != 0)
 {
-	$show_empty_btn = 1;
+	$showEmptyBtn = 1;
 }
 
-// Helper object
-$helper = redhelper::getInstance();
-$helper->dbtocart();
+$outputView = $params->get('cart_output', 'simple');
+$cart = ModRedshopCartHelper::processCart();
+$count = isset($cart['idx'])? $cart['idx']: 0;
 
-$output_view = $params->get('cart_output', 'simple');
-$session     = JFactory::getSession();
-$cart        = $session->get('cart');
-
-if (count($cart) <= 0 || $cart == "")
-{
-	$cart = array();
-}
-
-$idx = 0;
-
-if (is_array($cart) && !array_key_exists("quotation_id", $cart))
-{
-	if (isset($cart['idx']))
-	{
-		$idx = $cart['idx'];
-	}
-}
-
-$count = 0;
-
-for ($i = 0; $i < $idx; $i++)
-{
-	$count += $cart[$i]['quantity'];
-}
-
-$session->set('cart', $cart);
+$itemId = ModRedshopCartHelper::getItemId();
 
 require JModuleHelper::getLayoutPath('mod_redshop_cart');
