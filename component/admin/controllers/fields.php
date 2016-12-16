@@ -87,10 +87,12 @@ class RedshopControllerFields extends RedshopController
 	 * Unpublish the fields
 	 *
 	 * @return  void
+	 *
+	 * @throws  Exception
 	 */
 	public function unpublish()
 	{
-		$cid = $this->input->post->get('cid', array(0) 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
