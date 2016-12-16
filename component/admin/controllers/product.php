@@ -129,7 +129,7 @@ class RedshopControllerProduct extends RedshopController
 					if (JError::isError(JError::getError()))
 					{
 						$error = JError::getError();
-						$errmsg = $error->message;
+						$errmsg = $error->getMessage();
 					}
 
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
@@ -215,7 +215,7 @@ class RedshopControllerProduct extends RedshopController
 	{
 		$db = JFactory::getDbo();
 		$pid = $this->input->post->get('pid', array(), 'array');
-		$discount_price = $this->input->post->get('discount_price', array(),, 'array');
+		$discount_price = $this->input->post->get('discount_price', array(), 'array');
 
 		for ($i = 0, $in = count($pid); $i < $in; $i++)
 		{
