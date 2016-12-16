@@ -52,71 +52,136 @@ foreach ($characterSets as $char => $name)
 	Joomla.submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
+		if (pressbutton)
+		{
+			form.task.value = pressbutton;
+		}
+
 		if (form.separator.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_CSV_COLUMN_SEPARATOR_NOT_NULL', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_CSV_COLUMN_SEPARATOR_NOT_NULL', true) ?>");
+
 			return false;
 		}
-		else {
-			submitform(pressbutton);
-		}
+
+		submitform(pressbutton);
 	}
 </script>
-<h1><?php echo JText::_('COM_REDSHOP_DATA_IMPORT'); ?></h1>
-<p>
-<?php echo $this->result; ?>
-</p>
-<form
-	action="index.php?option=com_redshop"
-	method="post"
-	name="adminForm"
-	id="adminForm"
-    enctype="multipart/form-data"
->
-	<table class="adminlist table table-striped">
-		<tr>
-			<td colspan="2">
-				<?php echo JText::_('COM_REDSHOP_SEPRATOR');?>
-				<input type="text" name="separator" maxlength="1" size="1" value=","/>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<?php
-				echo JText::_('COM_REDSHOP_IMPORT_ENCODING');
-				echo JHTML::_(
-						'select.genericlist',
-						$encodings,
-						'encoding',
-						'class="inputbox"',
-						'value',
-						'text',
-						'UTF-8'
-					);
-				?>
-			</td>
-		</tr>
-		<?php $i = 0; ?>
-		<?php foreach ($data as $value => $text): ?>
-		<tr class="row<?php echo $i % 2; ?>">
-			<td width="30%">
-				<label class="radio inline">
-				<input
-					type="radio"
-					value="<?php echo $value; ?>"
-					id="import<?php echo $value; ?>"
-					name="import"
-				>
-					<?php echo JText::_($text); ?>
-				</label>
-			</td>
-			<td>
-				<input type="file" name="importfile<?php echo $value; ?>" size="75"/>
-			</td>
-		</tr>
-		<?php $i++; ?>
-		<?php endforeach; ?>
-	</table>
-	<input type="hidden" name="view" value="import"/>
+<?php if (!empty($this->result)): ?>
+	<p><?php echo $this->result; ?></p>
+	<hr />
+<?php endif; ?>
+<form action="index.php?option=com_redshop&view=import" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+	<fieldset class="adminform form-vertical">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_IMPORT_CONFIGURATION') ?></h3>
+					</div>
+					<div class="box-body">
+						<div class="form-group">
+							<label class="control-label"><?php echo JText::_('COM_REDSHOP_SEPRATOR') ?></label>
+							<input class="form-control" type="text" name="separator" maxlength="1" size="1" value=","/>
+						</div>
+						<div class="form-group">
+							<label class="control-label"><?php echo JText::_('COM_REDSHOP_IMPORT_ENCODING') ?></label>
+							<?php echo JHTML::_(
+								'select.genericlist',
+								$encodings,
+								'encoding',
+								'class="form-control disableBootstrapChosen"',
+								'value',
+								'text',
+								'UTF-8'
+								);
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_IMPORT_SELECT_TYPE') ?></h3>
+					</div>
+					<div class="box-body">
+						<table class="adminlist table table-hover" id="table-importtype">
+							<?php foreach ($data as $value => $text): ?>
+								<tr class="disabled">
+									<td width="30%">
+										<label class="lbl-select-type form-control no-border radio-inline" style="background: transparent;">
+											<strong><?php echo JText::_($text) ?></strong>
+											<input type="radio" value="<?php echo $value ?>" id="import<?php echo $value ?>" name="import" class="hidden" />
+										</label>
+									</td>
+									<td>
+										<div class="input-group input-upload-file hidden">
+											<label class="input-group-btn">
+												<span class="btn btn-primary">Browse&hellip;<i class="fa fa-folder"></i>
+													<input type="file" style="display: none;" name="importfile<?php echo $value ?>" />
+												</span>
+											</label>
+											<input type="text" class="form-control readonly input-lg" readonly />
+										</div>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<?php echo JHtml::_('form.token') ?>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
 </form>
+
+<script type="text/javascript">
+	(function($){
+		$(document).ready(function(){
+			$("#encoding").select2();
+
+			$("#table-importtype tr label.lbl-select-type").click(function(event){
+				event.preventDefault();
+
+				$("#table-importtype tr.active input[type='radio']:checked").prop("checked", false);
+				$("#table-importtype tr.active .input-upload-file").addClass("hidden");
+				$("#table-importtype tr.active").removeClass("active").addClass("disabled");
+
+				var $tr = $(this).parent().parent();
+
+				// Add class active for row.
+				$tr.addClass("active").removeClass("disabled");
+
+				// Produce checked for radio button.
+				$tr.find("input[type='radio']").prop("checked", true);
+
+				// Display upload button.
+				$tr.find(".input-upload-file").removeClass("hidden");
+			});
+
+			// We can attach the `fileselect` event to all file inputs on the page
+			$("#table-importtype input[type='file']").on("change", function(){
+				var input = $(this);
+				var numFiles = input.get(0).files ? input.get(0).files.length : 1;
+				var label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+				input.trigger('fileselect', [numFiles, label]);
+			});
+
+			// We can watch for our custom `fileselect` event like this
+			$(':file').on('fileselect', function(event, numFiles, label) {
+
+				var input = $(this).parents('.input-group').find(':text'),
+					log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+				if( input.length ) {
+					input.val(log);
+				} else {
+					if( log ) alert(log);
+				}
+
+			});
+		});
+	})(jQuery);
+</script>
