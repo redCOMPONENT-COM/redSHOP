@@ -3303,7 +3303,7 @@ class productHelper
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct_Attribute::getProductAttribute() instead.
 	 */
 	public function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0,
-		$notAttributeId = 0)
+	                                    $notAttributeId = 0)
 	{
 		return RedshopHelperProduct_Attribute::getProductAttribute(
 			$productId, $attributeSetId, $attributeId, $published, $attributeRequired, $notAttributeId
@@ -4382,7 +4382,7 @@ class productHelper
 	 * @deprecated   __DEPLOY_VERSION__     Use RedshopHelperAttribute::replaceAttributeWithCartData() instead
 	 */
 	public function replaceAttributewithCartData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(),
-		$templateContent, $attributeTemplate = null, $isChild = false, $onlySelected = false)
+	                                             $templateContent, $attributeTemplate = null, $isChild = false, $onlySelected = false)
 	{
 		return RedshopHelperAttribute::replaceAttributeWithCartData($productId, $accessoryId, $relatedProductId, $attributes, $templateContent,
 			$attributeTemplate, $isChild, $onlySelected);
@@ -4438,7 +4438,7 @@ class productHelper
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperAttribute::replaceAttributeData() instead.
 	 */
 	public function replaceAttributeData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(), $templateContent,
-		$attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1,$onlySelected = false)
+	                                     $attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1,$onlySelected = false)
 	{
 		return RedshopHelperAttribute::replaceAttributeData($productId, $accessoryId, $relatedProductId, $attributes, $templateContent,
 			$attributeTemplate, $isChild, $selectedAttributes, $displayIndCart, $onlySelected);
@@ -7462,9 +7462,9 @@ class productHelper
 					]
 				)
 			)
-			->from($db->qn('#__redshop_customer_question', 'q'))
-			->where($db->qn('q.id') . ' > 0 ' . $and)
-			->order($db->qn('q.ordering'));
+				->from($db->qn('#__redshop_customer_question', 'q'))
+				->where($db->qn('q.id') . ' > 0 ' . $and)
+				->order($db->qn('q.ordering'));
 
 			$db->setQuery($query);
 
