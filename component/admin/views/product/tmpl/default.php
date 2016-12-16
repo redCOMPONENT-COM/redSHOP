@@ -39,6 +39,15 @@ JHtml::_('redshopjquery.framework');
 			form.view.value = "product_category";
 		}
 
+		if (pressbutton == 'remove')
+		{
+			if (confirm("<?php echo JText::_('COM_REDSHOP_PRODUCT_DELETE_CONFIRM') ?>") != true)
+			{
+        		return false;
+        	}
+		}
+
+
 		try {
 			form.onsubmit();
 		}
