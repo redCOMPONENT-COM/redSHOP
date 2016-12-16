@@ -27046,3 +27046,8 @@ body.modal-open {
 .js-stools-container-bar .js-stools-btn-filter.btn-primary {
   color: #fff;
 }
+
+.thumbnail-pane .list-pane {
+  max-height: 600px;
+  overflow-y: auto;
+}
