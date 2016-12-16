@@ -969,8 +969,10 @@ class RedshopHelperShipping
 
 		if ($country)
 		{
-			$whereCountry = "AND (FIND_IN_SET(" . $db->q($country) . ", " . $db->qn('shipping_rate_country') . ") OR "
-				. $db->qn('shipping_rate_country') . " = 0 OR " . $db->qn('shipping_rate_country') . " = '' )";
+			$whereCountry = "AND (FIND_IN_SET(" . $db->q($country) . ", " . $db->qn('shipping_rate_country') . ")"
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote(0)
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote('')
+				. " )";
 		}
 		else
 		{
