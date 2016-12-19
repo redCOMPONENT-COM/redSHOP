@@ -162,14 +162,15 @@ class RedshopMenu
 	 */
 	public function addItem($link, $title, $active = null, $param = null, $icon = '')
 	{
-		if ($this->disableMenu || !in_array($title, $this->menuhide))
+		if (!$this->disableMenu)
 		{
-			$item         = new stdClass;
-			$item->link   = $link;
-			$item->title  = $title;
-			$item->active = $active;
-			$item->param  = $param;
-			$item->icon   = $icon;
+			$item          = new stdClass;
+			$item->link    = $link;
+			$item->title   = $title;
+			$item->active  = $active;
+			$item->param   = $param;
+			$item->icon    = $icon;
+			$item->disable = in_array($title, $this->menuhide);
 
 			if ($this->section)
 			{
