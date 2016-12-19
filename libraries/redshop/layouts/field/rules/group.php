@@ -12,189 +12,339 @@ defined('JPATH_BASE') or die;
 /**
  * Layout variables
  * -----------------
- * @var   array          $displayData  List of available data.
- * @var   array          $groups       List of available user groups.
- * @var   array          $actions      List of available actions.
- * @var   JFormField     $field        Field object data.
- * @var   boolean        $newItem      Is that new item.
- * @var   JAccessRules   $assetRules   Access Rules
- * @var   integer        $assetId      Asset ID
- * @var   string         $component    Component
+ * @var   array          $displayData      List of available data.
+ * @var   array          $groups           List of available user groups.
+ * @var   array          $actions          List of available actions.
+ * @var   JFormField     $field            Field object data.
+ * @var   boolean        $newItem          Is that new item.
+ * @var   JAccessRules   $assetRules       Access Rules
+ * @var   integer        $assetId          Asset ID
+ * @var   string         $component        Component
+ * @var   boolean        $isGlobalConfig   Is global configuration
  */
-
 extract($displayData);
 ?>
-
 <?php foreach ($groups as $group): ?>
-	<?php
-	// Initial Active Pane
-	$active = ($group->value == 1) ? ' active' : '';
-	?>
-	<div class="tab-pane<?php echo $active ?>" id="permission-<?php echo $group->value ?>">
+<?php $active = ($group->value == 1) ? ' active' : ''; ?>
+<div class="tab-pane<?php echo $active ?>" id="permission-<?php echo $group->value ?>">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-4">
-					<div class="actions" id="actions-th<?php echo $group->value ?>">
-						<h4 class="acl-action"><?php echo JText::_('JLIB_RULES_ACTION') ?></h4>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="settings" id="settings-th<?php echo $group->value ?>">
-						<h4 class="acl-action"><?php echo JText::_('JLIB_RULES_SELECT_SETTING') ?></h4>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div id="aclactionth<?php echo $group->value ?>">
-						<h4 class="acl-action"><?php echo JText::_('JLIB_RULES_CALCULATED_SETTING') ?></h4>
-					</div>
-				</div>
-			</div>
-			<?php
-			// Check if this group has super user permissions
-			$isSuperUserGroup = JAccess::checkGroup($group->value, 'core.admin');
-			?>
-			<div class="panel-group" role="tablist">
-				<?php foreach ($actions as $actionGroupName => $groupActions): ?>
-				<div class="panel panel-default">
-					<div class="panel-heading" role="tab">
-						<strong role="button" data-toggle="collapse" href="#group-<?php echo $actionGroupName ?>-<?php echo $group->value ?>"
-								aria-expanded="true" aria-controls="group-<?php echo $actionGroupName ?>">
-							<?php echo JText::_('COM_REDSHOP_ACTION_MANAGE_' . strtoupper($actionGroupName)) ?>
-						</strong>
-					</div>
-					<div id="group-<?php echo $actionGroupName ?>-<?php echo $group->value ?>" class="panel-collapse collapse in" role="tabpanel">
-						<div class="panel-body">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th width="1" style="text-align: center;">#</th>
+							<th class="actions" id="actions-th<?php echo $group->value ?>">
+								<span class="acl-action"><?php echo JText::_('JLIB_RULES_ACTION') ?></span>
+							</th>
+							<th class="settings" id="settings-th<?php echo $group->value ?>-view" width="15%" style="text-align: center;">
+								<span class="acl-action"><?php echo JText::_('COM_REDSHOP_ACTION_VIEW') ?></span>
+							</th>
+							<th class="settings" id="settings-th<?php echo $group->value ?>-create" width="15%" style="text-align: center;">
+								<span class="acl-action"><?php echo JText::_('COM_REDSHOP_ACTION_CREATE') ?></span>
+							</th>
+							<th class="settings" id="settings-th<?php echo $group->value ?>-edit" width="15%" style="text-align: center;">
+								<span class="acl-action"><?php echo JText::_('COM_REDSHOP_ACTION_EDIT') ?></span>
+							</th>
+							<th class="settings" id="settings-th<?php echo $group->value ?>-delete" width="15%" style="text-align: center;">
+								<span class="acl-action"><?php echo JText::_('COM_REDSHOP_ACTION_DELETE') ?></span>
+							</th>
+						</tr>
+					</thead>
+					<?php $isSuperUserGroup = JAccess::checkGroup($group->value, 'core.admin'); ?>
+					<tbody>
+					<?php $index = 1; ?>
+					<?php foreach ($actions as $actionGroupName => $groupActions): ?>
+						<tr>
+							<td style="text-align: center;">
+								<?php echo $index ?>
+							</td>
+							<td>
+								<div class="pull-left"><?php echo JText::_('COM_REDSHOP_ACTION_MANAGE_' . strtoupper($actionGroupName)) ?></div>
+								<?php if (!$isSuperUserGroup): ?>
+									<select class="input-sm input-medium disableBootstrapChosen select-permission-all-row pull-right">
+										<option value="" selected><?php echo JText::_('COM_REDSHOP_RULES_SET_ALL_FOR_ROW') ?></option>
+										<option value="inherit"><?php echo JText::_('JLIB_RULES_INHERITED') ?></option>
+										<option value="allow"><?php echo JText::_('JLIB_RULES_ALLOWED') ?></option>
+										<option value="denied"><?php echo JText::_('JLIB_RULES_DENIED') ?></option>
+									</select>
+								<?php endif; ?>
+							</td>
 							<?php foreach ($groupActions as $action): ?>
-								<?php
-								$inheritedRule = JAccess::checkGroup($group->value, $action->name, $assetId);
-								/**
-								 * Possible values:
-								 * null = not set means inherited
-								 * false = denied
-								 * true = allowed
-								 */
-
-								// Get the actual setting for the action for this group.
-								$assetRule = ($newItem === false) ? $assetRules->allow($action->name, $group->value) : null;
-
-								// Build the dropdowns for the permissions sliders
-								// The parent group has "Not Set", all children can rightly "Inherit" from that.
-								?>
-								<div class="row">
-									<div class="col-md-1">
-									</div>
-									<div class="col-md-3">
-										<label for="<?php echo $field->id . '_' . $action->name . '_' . $group->value ?>" class="hasTooltip"
-											title="<?php echo htmlspecialchars(JText::_($action->title) . ' ' . JText::_($action->description), ENT_COMPAT, 'UTF-8') ?>">
-                                            <span class="level">–</span>&nbsp;<?php echo JText::_($action->title) ?>
-										</label>
-									</div>
-									<div class="col-md-4">
-										<label class="radio-inline" style="padding-top: 0px;">
-											<input type="radio" name="<?php echo $field->name . '[' . $action->name . '][' . $group->value . ']' ?>"
-												   id="option1" autocomplete="off" value="" <?php echo $assetRule === null ? 'checked' : '' ?>>
+								<?php $actionMethod = explode('.', $action->name); ?>
+								<?php $actionMethod = $actionMethod[count($actionMethod) - 1]; ?>
+								<td nowrap style="text-align: center;" class="cell-permission cell-permission-<?php echo $actionMethod ?>">
+									<?php
+									$inheritedRule = JAccess::checkGroup($group->value, $action->name, $assetId);
+									$assetRule = ($newItem === false) ? $assetRules->allow($action->name, $group->value) : null;
+									?>
+									<select class="input-sm input-medium disableBootstrapChosen select-permission"
+											name="<?php echo $field->name . '[' . $action->name . '][' . $group->value . ']' ?>"
+											id="<?php echo $field->id . '_' . $action->name . '_' . $group->value ?>"
+											style="display: none;"
+											title="<?php echo JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) ?>">
+										<?php
+										$inheritedRule = JAccess::checkGroup($group->value, $action->name, $assetId);
+										$assetRule = ($newItem === false) ? $assetRules->allow($action->name, $group->value) : null;
+										?>
+										<option value="" <?php echo $assetRule === null ? ' selected="selected"' : '' ?>>
 											<?php echo JText::_(empty($group->parent_id) && empty($component) ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') ?>
-										</label>
-										<label class="radio-inline" style="padding-top: 0px;">
-											<input type="radio" name="<?php echo $field->name . '[' . $action->name . '][' . $group->value . ']' ?>"
-												   id="option2" autocomplete="off" value="1" <?php echo $assetRule === true ? 'checked' : '' ?>>
+										</option>
+										<option value="1"<?php echo $assetRule === true ? ' selected="selected"' : '' ?>>
 											<?php echo JText::_('JLIB_RULES_ALLOWED') ?>
-										</label>
-										<label class="radio-inline" style="padding-top: 0px;">
-											<input type="radio" name="<?php echo $field->name . '[' . $action->name . '][' . $group->value . ']' ?>"
-												   id="option3" autocomplete="off" value="0" <?php echo $assetRule === false ? 'checked' : '' ?>>
+										</option>
+										<option value="0"<?php echo $assetRule === false ? ' selected="selected"' : '' ?>>
 											<?php echo JText::_('JLIB_RULES_DENIED') ?>
-										</label>
-										<?php
-										// If this asset's rule is allowed, but the inherited rule is deny, we have a conflict.
-										if ($assetRule === true && $inheritedRule === false): ?>
-											<?php echo JText::_('JLIB_RULES_CONFLICT') ?>
-										<?php endif; ?>
-									</div>
-									<div class="col-md-4">
-										<?php
-										$result = array();
+										</option>
+									</select>
+									<?php
+									if (($assetRule === true) && ($inheritedRule === false)): ?>
+										<?php echo JText::_('JLIB_RULES_CONFLICT') ?>
+									<?php endif; ?>
+									<?php
+									$result = array();
+									$inheritedGroupRule            = JAccess::checkGroup((int) $group->value, $action->name, $assetId);
+									$inheritedGroupParentAssetRule = !empty($parentAssetId) ? JAccess::checkGroup($group->value, $action->name, $parentAssetId) : null;
+									$inheritedParentGroupRule      = !empty($group->parent_id) ? JAccess::checkGroup($group->parent_id, $action->name, $assetId) : null;
 
-										// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-										$inheritedGroupRule            = JAccess::checkGroup((int) $group->value, $action->name, $assetId);
-										$inheritedGroupParentAssetRule = !empty($parentAssetId) ? JAccess::checkGroup($group->value, $action->name, $parentAssetId) : null;
-										$inheritedParentGroupRule      = !empty($group->parent_id) ? JAccess::checkGroup($group->parent_id, $action->name, $assetId) : null;
-
-										// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
-										if ($isSuperUserGroup)
+									if ($isSuperUserGroup)
+									{
+										$result['class'] = 'text-primary';
+										$result['text'] = '<span class="icon-lock"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
+									}
+									else
+									{
+										if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 										{
-											$result['class'] = 'badge badge-success';
-											$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
+											$result['class'] = 'text-danger';
+											$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 										}
-										// Not super user.
 										else
 										{
-											// First get the real recursive calculated setting and add (Inherited) to it.
-
-											// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
-											if ($inheritedGroupRule === null || $inheritedGroupRule === false)
-											{
-												$result['class'] = 'badge badge-important';
-												$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
-											}
-											// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
-											else
-											{
-												$result['class'] = 'badge badge-success';
-												$result['text']  = JText::_('JLIB_RULES_ALLOWED_INHERITED');
-											}
-
-											// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
-
-											/**
-											 * @to do: incorrect info
-											 * If a component as a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
-											 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
-											 */
-
-											// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
-											if ($assetRule === false)
-											{
-												$result['class'] = 'badge badge-important';
-												$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
-											}
-											// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
-											elseif ($assetRule === true)
-											{
-												$result['class'] = 'badge badge-success';
-												$result['text']  = JText::_('JLIB_RULES_ALLOWED');
-											}
-
-											// Third part: Overwrite the calculated permissions labels for special cases.
-
-											// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
-											if (empty($group->parent_id) && $isGlobalConfig === true && $assetRule === null)
-											{
-												$result['class'] = 'badge badge-important';
-												$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
-											}
-
-											/**
-											 * Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
-											 * Or some parent group has an explicit "Denied".
-											 * Calculated permission is "Not Allowed (Locked)".
-											 */
-											elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
-											{
-												$result['class'] = 'badge badge-important';
-												$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
-											}
+											$result['class'] = 'text-success';
+											$result['text']  = JText::_('JLIB_RULES_ALLOWED_INHERITED');
 										}
-										?>
-										<label class="<?php echo $result['class'] ?>"><?php echo $result['text'] ?></label>
-									</div>
-								</div>
+
+										if ($assetRule === false)
+										{
+											$result['class'] = 'text-danger';
+											$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
+										}
+										elseif ($assetRule === true)
+										{
+											$result['class'] = 'text-success';
+											$result['text']  = JText::_('JLIB_RULES_ALLOWED');
+										}
+
+										if (empty($group->parent_id) && $isGlobalConfig === true && $assetRule === null)
+										{
+											$result['class'] = 'text-danger';
+											$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
+										}
+										elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
+										{
+											$result['class'] = 'text-muted';
+											$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+										}
+									}
+									?>
+									<label class="<?php echo $result['class'] ?> label-permission"><strong><?php echo $result['text'] ?></strong></label>
+								</td>
 							<?php endforeach; ?>
-						</div>
-					</div>
-				</div>
-				<?php endforeach; ?>
+							<?php $count = abs(count($groupActions) - 4); ?>
+							<?php if ($count): ?>
+								<td colspan="<?php echo $count ?>">&nbsp;</td>
+							<?php endif; ?>
+						</tr>
+						<?php $index++; ?>
+					<?php endforeach; ?>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2">
+								&nbsp;
+							</td>
+							<td style="text-align: center;">
+                                <?php if (!$isSuperUserGroup): ?>
+								<select class="input-sm input-medium disableBootstrapChosen select-permission-all-view">
+									<option value="" selected><?php echo JText::_('COM_REDSHOP_RULES_SET_ALL_FOR_COLUMN') ?></option>
+									<option value="inherit"><?php echo JText::_('JLIB_RULES_INHERITED') ?></option>
+									<option value="allow"><?php echo JText::_('JLIB_RULES_ALLOWED') ?></option>
+									<option value="denied"><?php echo JText::_('JLIB_RULES_DENIED') ?></option>
+								</select>
+                                <?php endif; ?>
+							</td>
+							<td style="text-align: center;">
+								<?php if (!$isSuperUserGroup): ?>
+								<select class="input-sm input-medium disableBootstrapChosen select-permission-all-create">
+									<option value="" selected><?php echo JText::_('COM_REDSHOP_RULES_SET_ALL_FOR_COLUMN') ?></option>
+									<option value="inherit"><?php echo JText::_('JLIB_RULES_INHERITED') ?></option>
+									<option value="allow"><?php echo JText::_('JLIB_RULES_ALLOWED') ?></option>
+									<option value="denied"><?php echo JText::_('JLIB_RULES_DENIED') ?></option>
+								</select>
+								<?php endif; ?>
+							</td>
+							<td style="text-align: center;">
+								<?php if (!$isSuperUserGroup): ?>
+								<select class="input-sm input-medium disableBootstrapChosen select-permission-all-edit">
+									<option value="" selected><?php echo JText::_('COM_REDSHOP_RULES_SET_ALL_FOR_COLUMN') ?></option>
+									<option value="inherit"><?php echo JText::_('JLIB_RULES_INHERITED') ?></option>
+									<option value="allow"><?php echo JText::_('JLIB_RULES_ALLOWED') ?></option>
+									<option value="denied"><?php echo JText::_('JLIB_RULES_DENIED') ?></option>
+								</select>
+								<?php endif; ?>
+							</td>
+							<td style="text-align: center;">
+								<?php if (!$isSuperUserGroup): ?>
+								<select class="input-sm input-medium disableBootstrapChosen select-permission-all-delete">
+									<<option value="" selected><?php echo JText::_('COM_REDSHOP_RULES_SET_ALL_FOR_COLUMN') ?></option>
+									<option value="inherit"><?php echo JText::_('JLIB_RULES_INHERITED') ?></option>
+									<option value="allow"><?php echo JText::_('JLIB_RULES_ALLOWED') ?></option>
+									<option value="denied"><?php echo JText::_('JLIB_RULES_DENIED') ?></option>
+								</select>
+								<?php endif; ?>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
 			</div>
 		</div>
 	</div>
 <?php endforeach; ?>
+
+<script type="text/javascript">
+	(function($){
+		$(document).ready(function(){
+			$("label.label-permission").click(function(event){
+				var $select = $(this).parent().find("select.select-permission").first();
+				$(this).animate({width:'toggle'}, 'fast', 'swing', function(){
+					$select.animate({width:'toggle'}, 'fast', 'swing');
+				});
+			});
+
+			// Set permission for row
+			$("select.select-permission-all-row").on("change", function(){
+				var $row = $(this).parent().parent();
+				var $labels = $row.find("td.cell-permission label.label-permission:visible");
+				var $selects = $row.find("td.cell-permission select.select-permission");
+
+				switch ($(this).val())
+				{
+					case "inherit":
+						$labels.click();
+						$selects.val("");
+						break;
+					case "allow":
+						$labels.click();
+						$selects.val("1");
+						break;
+					case "denied":
+						$labels.click();
+						$selects.val("0");
+						break;
+					default:
+						break;
+				}
+			});
+
+			// All views select
+			$(".select-permission-all-view").on("change", function(){
+				var $table = $(this).parent().parent().parent().parent();
+				var $labels = $table.find("td.cell-permission-view label.label-permission:visible");
+				var $selects = $table.find("td.cell-permission-view select.select-permission");
+
+				switch ($(this).val())
+				{
+					case "inherit":
+						$labels.click();
+						$selects.val("");
+						break;
+					case "allow":
+						$labels.click();
+						$selects.val("1");
+						break;
+					case "denied":
+						$labels.click();
+						$selects.val("0");
+						break;
+					default:
+						break;
+				}
+			});
+
+			// All create select
+			$(".select-permission-all-create").on("change", function(){
+				var $table = $(this).parent().parent().parent().parent();
+				var $labels = $table.find("td.cell-permission-create label.label-permission:visible");
+				var $selects = $table.find("td.cell-permission-create select.select-permission");
+
+				switch ($(this).val())
+				{
+					case "inherit":
+						$labels.click();
+						$selects.val("");
+						break;
+					case "allow":
+						$labels.click();
+						$selects.val("1");
+						break;
+					case "denied":
+						$labels.click();
+						$selects.val("0");
+						break;
+					default:
+						break;
+				}
+			});
+
+			// All edit select
+			$(".select-permission-all-edit").on("change", function(){
+				var $table = $(this).parent().parent().parent().parent();
+				var $labels = $table.find("td.cell-permission-edit label.label-permission:visible");
+				var $selects = $table.find("td.cell-permission-edit select.select-permission");
+
+				switch ($(this).val())
+				{
+					case "inherit":
+						$labels.click();
+						$selects.val("");
+						break;
+					case "allow":
+						$labels.click();
+						$selects.val("1");
+						break;
+					case "denied":
+						$labels.click();
+						$selects.val("0");
+						break;
+					default:
+						break;
+				}
+			});
+
+			// All delete select
+			$(".select-permission-all-delete").on("change", function(){
+				var $table = $(this).parent().parent().parent().parent();
+				var $labels = $table.find("td.cell-permission-delete label.label-permission:visible");
+				var $selects = $table.find("td.cell-permission-delete select.select-permission");
+
+				switch ($(this).val())
+				{
+					case "inherit":
+						$labels.click();
+						$selects.val("");
+						break;
+					case "allow":
+						$labels.click();
+						$selects.val("1");
+						break;
+					case "denied":
+						$labels.click();
+						$selects.val("0");
+						break;
+					default:
+						break;
+				}
+			});
+		});
+	})(jQuery);
+</script>
