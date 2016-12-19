@@ -86,6 +86,8 @@ class RedshopFormFieldRules extends JFormField
 			$actions = $newActions;
 		}
 
+		ksort($actions);
+
 		// Get the asset id.
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
 		$assetId       = $this->form->getValue($assetField);
