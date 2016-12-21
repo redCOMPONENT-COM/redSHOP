@@ -10,10 +10,7 @@ defined('_JEXEC') or die;
 
 $producthelper = productHelper::getInstance();
 
-$model = $this->getModel();
-
-$statistic = $model->getStatisticDashboard();
-
+$statistic = $this->model->getStatisticDashboard();
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -41,7 +38,6 @@ $user           = JFactory::getUser();
 $userType       = array_keys($user->groups);
 $user->usertype = $userType[0];
 $user->gid      = $user->groups[$user->usertype];
-
 ?>
 
 <div class="row">
