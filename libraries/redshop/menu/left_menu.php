@@ -199,8 +199,8 @@ class RedshopMenuLeft_Menu
 
 			case "user":
 			case 'user_detail':
+			case "shopper_groups":
 			case "shopper_group":
-			case "shopper_group_detail":
 				return array('USER', 'user');
 				break;
 
@@ -593,9 +593,9 @@ class RedshopMenuLeft_Menu
 				'COM_REDSHOP_USER_SYNC'
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=shopper_group',
+				'index.php?option=com_redshop&view=shopper_groups',
 				'COM_REDSHOP_SHOPPER_GROUP_LISTING',
-				(self::$view == 'shopper_group') ? true : false
+				(self::$view == 'shopper_groups') ? true : false
 			);
 
 		JFactory::getDocument()->addScriptDeclaration('

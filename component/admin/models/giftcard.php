@@ -19,5 +19,3 @@ defined('_JEXEC') or die;
 class RedshopModelGiftcard extends RedshopModelForm
 {
 }
-
-

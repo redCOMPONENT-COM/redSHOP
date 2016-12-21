@@ -880,7 +880,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_orders` (
   `order_payment_status` VARCHAR(25) NOT NULL,
   `cdate` INT(11) NULL DEFAULT NULL,
   `mdate` INT(11) NULL DEFAULT NULL,
-  `ship_method_id` VARCHAR(255) NULL DEFAULT NULL,
+  `ship_method_id` VARCHAR(1000) NULL DEFAULT NULL,
   `customer_note` TEXT NOT NULL,
   `ip_address` VARCHAR(15) NOT NULL DEFAULT '',
   `encr_key` VARCHAR(255) NOT NULL,

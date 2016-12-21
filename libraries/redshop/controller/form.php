@@ -23,6 +23,14 @@ jimport('joomla.application.component.controllerform');
 class RedshopControllerForm extends JControllerForm
 {
 	/**
+	 * Latest saved item id
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $savedId;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -222,6 +230,60 @@ class RedshopControllerForm extends JControllerForm
 		}
 
 		return parent::getModel($name, $prefix, $config);
+	}
+
+	/**
+	 * Validates the form and displays the error per field.
+	 *
+	 * {
+	 *  "error": "error", => global error
+	 *  "field_name": "error"
+	 * }
+	 *
+	 * @return  void
+	 */
+	public function validateFormAjax()
+	{
+		/** @var RModelAdmin $model */
+		$model = $this->getModel();
+		$data = $this->input->post->get('jform', array(), 'array');
+
+		$form = $model->getForm($data, false);
+
+		// Filter and validate the form data.
+		$data = $form->filter($data);
+		$return = $form->validate($data);
+
+		// Prepare the json array.
+		$jsonArray = array();
+
+		// Check for an error.
+		if ($return instanceof Exception)
+		{
+			$jsonArray['error'] = $return->getMessage();
+		}
+
+		// Check the validation results.
+		elseif ($return === false)
+		{
+			// Get the validation messages from the form.
+			foreach ($form->getErrors() as $key => $message)
+			{
+				if ($message instanceof Exception)
+				{
+					$jsonArray[$key] = $message->getMessage();
+				}
+
+				else
+				{
+					$jsonArray[$key] = $message;
+				}
+			}
+		}
+
+		echo json_encode($jsonArray);
+
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -683,7 +745,7 @@ class RedshopControllerForm extends JControllerForm
 	 *
 	 * @param   string  $append  An optionnal string to append to the route
 	 *
-	 * @return  JRoute  The JRoute object
+	 * @return  string  The JRoute object
 	 */
 	protected function getRedirectToListRoute($append = null)
 	{
@@ -704,9 +766,9 @@ class RedshopControllerForm extends JControllerForm
 	/**
 	 * Get the JRoute object for a redirect to item.
 	 *
-	 * @param   string  $append  An optionnal string to append to the route
+	 * @param   string  $append  An optional string to append to the route
 	 *
-	 * @return  string           The url string
+	 * @return  string  The JRoute object
 	 */
 	protected function getRedirectToItemRoute($append = null)
 	{
@@ -714,5 +776,22 @@ class RedshopControllerForm extends JControllerForm
 			'index.php?option=' . $this->option . '&view=' . $this->view_item
 			. $append, false
 		);
+	}
+
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function postSaveHook(\JModelLegacy $model, $validData = array())
+	{
+		$this->savedId = $model->getState($model->getName() . '.id', 0);
+
+		return;
 	}
 }

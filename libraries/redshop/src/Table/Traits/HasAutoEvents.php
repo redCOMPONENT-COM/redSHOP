@@ -11,6 +11,7 @@ namespace Redshop\Table\Traits;
 
 defined('_JEXEC') or die;
 
+use Dompdf\Exception;
 use Joomla\String\StringHelper;
 use Joomla\Registry\Registry;
 
@@ -310,6 +311,50 @@ trait HasAutoEvents
 		{
 			return false;
 		}
+
+		return true;
+	}
+
+	/**
+	 * Override the parent checkin method to set checked_out = null instead of 0 so the foreign key doesn't fail.
+	 *
+	 * @param   mixed  $pk  An optional primary key value to check out.  If not set the instance property value is used.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @throws  Exception
+	 */
+	public function checkIn($pk = null)
+	{
+		// If there is no checked_out or checked_out_time field, just return true.
+		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		{
+			return true;
+		}
+
+		$k = $this->_tbl_key;
+		$pk = (is_null($pk)) ? $this->$k : $pk;
+
+		// If no primary key is given, return false.
+		if ($pk === null)
+		{
+			throw new Exception('Null primary key not allowed.');
+		}
+
+		// Check the row in by primary key.
+		$query = $this->_db->getQuery(true);
+		$query->update($this->_tbl);
+		$query->set($this->_db->quoteName('checked_out') . ' = NULL');
+		$query->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
+		$this->_db->setQuery($query);
+
+		// Check for a database error.
+		$this->_db->execute();
+
+		// Set table values in the object.
+		$this->checked_out = null;
+		$this->checked_out_time = '';
 
 		return true;
 	}
