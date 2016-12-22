@@ -67,10 +67,10 @@
                haltonfailure="true">
             <property name="package.delete" value="false" />
         </phing>
-		<phing phingfile="${project.basedir}/packages_packager.xml" target="autopack"
-			   haltonfailure="true">
-			<property name="package.delete" value="false" />
-		</phing>
+        <phing phingfile="${project.basedir}/packages_packager.xml" target="autopack"
+               haltonfailure="true">
+            <property name="package.delete" value="false" />
+        </phing>
 
         <echo msg="Creating full ZIP package..." />
         <zip destfile="${package.dir}/${extension}-v${version}_fullpackage-unzipfirst.zip">
@@ -81,7 +81,7 @@
         </zip>
         <delete dir="${tmpdir}/${extension}-${version}-plugins"  />
         <delete dir="${tmpdir}/${extension}-${version}-modules"  />
-		<delete dir="${tmpdir}/${extension}-${version}-packages"  />
+        <delete dir="${tmpdir}/${extension}-${version}-packages"  />
         <delete file="${tmpdir}/${extension}-v${version}_${joomla.version}.zip"  />
     </target>
 
