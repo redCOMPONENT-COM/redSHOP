@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 extract($displayData);
 ?>
-<?php if(isset($items)): ?>
+<?php if (isset($items)): ?>
 <ul class="sidebar-menu">
 	<li>
 		<a href="index.php?option=com_redshop">
@@ -19,6 +19,22 @@ extract($displayData);
 		</a>
 	</li>
 	<?php foreach ($items as $group => $sections): ?>
+		<?php if (is_object($sections)): ?>
+			<?php if ($sections->disable === false): ?>
+				<li class="<?php echo ($sections->active) ? 'active' : '' ?>">
+				<?php echo JLayoutHelper::render(
+					'component.full.sidebar.link',
+					array(
+						'link'   => $sections->link,
+						'title'  => JText::_($sections->title),
+						'active' => JText::_($sections->active),
+						'icon'   => isset($sections->icon) ? $sections->icon : ''
+					)
+				); ?>
+				</li>
+			<?php endif; ?>
+			<?php continue; ?>
+		<?php endif; ?>
 		<?php if (count($sections['items']) > 0) : ?>
 			<?php if ($sections['style'] == 'header'): ?>
 				<?php foreach ($sections['items'] as $section): ?>

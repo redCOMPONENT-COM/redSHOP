@@ -19,9 +19,19 @@ $menuhide = explode(",", $this->config->get('MENUHIDE'));
 
 <ul id="menuhide">
 	<?php foreach ($items as $group => $sections) : ?>
+		<?php if (is_object($sections)): ?>
+			<li>
+				<label>
+					<input type="checkbox" value="<?php echo $sections->title ?>" name="menuhide[]"
+						<?php echo in_array($sections->title, $menuhide) ? 'checked' : '' ?>>
+					<?php echo JText::_($sections->title); ?>
+				</label>
+			</li>
+			<?php continue; ?>
+		<?php endif; ?>
 		<li>
 			<ul>
-			<?php foreach ($sections['items'] as $sectionKey => $section) : ?>
+				<?php foreach ($sections['items'] as $sectionKey => $section) : ?>
 				<li>
 					<label>
 						<input type="checkbox"
