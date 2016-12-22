@@ -185,4 +185,33 @@ class RedshopMenu
 
 		return $this;
 	}
+
+	/**
+	 * Add new menu header item
+	 *
+	 * @param   string   $link    Link of item
+	 * @param   string   $title   Title of item
+	 * @param   boolean  $active  Active or not
+	 * @param   array    $param   Other options
+	 * @param   string   $icon    Icon class
+	 *
+	 * @return  self
+	 */
+	public function addHeaderItem($link, $title, $active = null, $param = null, $icon = '')
+	{
+		if (!$this->disableMenu)
+		{
+			$item          = new stdClass;
+			$item->link    = $link;
+			$item->title   = $title;
+			$item->active  = $active;
+			$item->param   = $param;
+			$item->icon    = $icon;
+			$item->disable = in_array($title, $this->menuhide);
+
+			array_push($this->items, $item);
+		}
+
+		return $this;
+	}
 }

@@ -332,23 +332,20 @@ class RedshopMenuLeft_Menu
 	 */
 	protected static function setShop()
 	{
-		self::$menu->section('shop')
-			->addItem(
+		self::$menu->addHeaderItem(
 				'index.php?option=com_redshop&view=category',
 				'COM_REDSHOP_CATEGORY_LISTING',
 				(self::$view == 'category') ? true : false,
 				null,
 				'fa fa-sitemap'
 			)
-			->addItem(
+			->addHeaderItem(
 				'index.php?option=com_redshop&view=media',
 				'COM_REDSHOP_MEDIA_LISTING',
 				(self::$view == 'media') ? true : false,
 				null,
 				'fa fa-picture-o'
 			);
-
-		self::$menu->group('SHOP', 'header');
 	}
 
 	/**
