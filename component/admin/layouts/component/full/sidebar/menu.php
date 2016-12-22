@@ -135,7 +135,6 @@ extract($displayData);
 					</li>
 					<?php endif; ?>
 				<?php endforeach; ?>
-
 			<?php endif; ?>
 			</ul>
 			</li>
