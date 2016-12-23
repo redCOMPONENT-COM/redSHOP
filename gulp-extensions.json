@@ -133,7 +133,9 @@
       "uspsv4"
     ],
     "redshop_user": [
-      "registration_acymailing"
+      "cmc_integrate".
+      "registration_acymailing",
+      "joomlamailer_integrate"
     ],
     "redshop_vies_registration": [
       "rs_vies_registration"

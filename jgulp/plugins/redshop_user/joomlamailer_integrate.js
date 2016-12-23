@@ -8,7 +8,7 @@ var browserSync = require('browser-sync');
 var del         = require('del');
 
 var group = 'redshop_user';
-var name  = 'registration_mailchimp';
+var name  = 'joomlamailer_integrate';
 
 var baseTask   = 'plugins.' + group + '.' + name;
 var extPath    = './plugins/' + group + '/' + name;
