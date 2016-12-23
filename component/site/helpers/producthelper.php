@@ -1922,13 +1922,16 @@ class productHelper
 					// Checking the product discount < total discount => get total discount
 					if ($product_price_array['product_price_saving_percentage'] <= $discount_percent)
 					{
-						$discount_amount_final += $discount_percent * $product_price_array['product_old_price'] / 100;
+						$discount_amount = $discount_percent * $product_price_array['product_price'] / 100;
 					}
 					// Keep product discount
 					else
 					{
-						$discount_amount_final += $product_price_array['product_price_saving'];
+						$discount_amount = $product_price_array['product_price_saving'];
 					}
+
+					// With quantity
+					$discount_amount_final += $discount_amount * $cart[$i]['quantity'];
 				}
 			}
 
@@ -3300,7 +3303,7 @@ class productHelper
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct_Attribute::getProductAttribute() instead.
 	 */
 	public function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0,
-		$notAttributeId = 0)
+	                                    $notAttributeId = 0)
 	{
 		return RedshopHelperProduct_Attribute::getProductAttribute(
 			$productId, $attributeSetId, $attributeId, $published, $attributeRequired, $notAttributeId
@@ -3447,70 +3450,21 @@ class productHelper
 		return $attribute_template_data;
 	}
 
-	public function getProductAccessory($accessory_id = 0, $product_id = 0, $child_product_id = 0, $cid = 0)
+	/**
+	 * Method for get Product Accessories.
+	 *
+	 * @param   string  $accessory_id      ID of accessory.
+	 * @param   string  $product_id        ID of product.
+	 * @param   int     $child_product_id  ID of child product.
+	 * @param   int     $cid               ID of category.
+	 *
+	 * @return  array                 List of accessories.
+	 *
+	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperAccessory::getProductAccessories() instead.
+	 */
+	public function getProductAccessory($accessory_id = '', $product_id = '', $child_product_id = 0, $cid = 0)
 	{
-		$orderby = " ORDER BY child_product_id ASC";
-
-		if (Redshop::getConfig()->get('DEFAULT_ACCESSORY_ORDERING_METHOD'))
-		{
-			$orderby = " ORDER BY " . Redshop::getConfig()->get('DEFAULT_ACCESSORY_ORDERING_METHOD');
-		}
-
-		$and     = "";
-		$groupby = "";
-
-		if ($accessory_id != 0)
-		{
-			// Sanitize ids
-			$accesoryIds = explode(',', $accessory_id);
-			JArrayHelper::toInteger($accesoryIds);
-
-			$and .= "AND a.accessory_id IN (" . implode(',', $accesoryIds) . ") ";
-		}
-
-		if ($product_id != 0)
-		{
-			// Sanitize ids
-			$productIds = explode(',', $product_id);
-			JArrayHelper::toInteger($productIds);
-
-			$and .= "AND a.product_id IN (" . implode(',', $productIds) . ") ";
-		}
-
-		if ($child_product_id != 0)
-		{
-			$and .= "AND a.child_product_id = " . (int) $child_product_id . " ";
-		}
-
-		if ($cid != 0)
-		{
-			$and .= "AND a.category_id = " . (int) $cid . " ";
-			$groupby = " GROUP BY a.child_product_id";
-		}
-
-		$switchquery = ", CASE a.oprand "
-			. "WHEN '+' THEN IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
-			. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) + accessory_price "
-			. "WHEN '-' THEN IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
-			. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) - accessory_price "
-			. "WHEN '=' THEN accessory_price "
-			. "END AS newaccessory_price ";
-
-		$mainpricequery = "IF ( (p.product_on_sale>0 && ((p.discount_enddate='' AND p.discount_stratdate='') OR ( p.discount_enddate>='"
-			. time() . "' AND p.discount_stratdate<='" . time() . "'))), p.discount_price, p.product_price ) AS accessory_main_price ";
-
-		$query = "SELECT a.*,p.product_number, p.product_name, " . $mainpricequery
-			. ", p.product_s_desc, p.product_full_image, p.product_on_sale "
-			. $switchquery
-			. "FROM " . $this->_table_prefix . "product_accessory AS a "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = a.child_product_id "
-			. "WHERE p.published = 1 "
-			. $and . $groupby
-			. $orderby;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperAccessory::getProductAccessories($accessory_id, $product_id, $child_product_id, $cid);
 	}
 
 	public function getAddtoCartTemplate($data_add = "")
@@ -4428,7 +4382,7 @@ class productHelper
 	 * @deprecated   __DEPLOY_VERSION__     Use RedshopHelperAttribute::replaceAttributeWithCartData() instead
 	 */
 	public function replaceAttributewithCartData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(),
-		$templateContent, $attributeTemplate = null, $isChild = false, $onlySelected = false)
+	                                             $templateContent, $attributeTemplate = null, $isChild = false, $onlySelected = false)
 	{
 		return RedshopHelperAttribute::replaceAttributeWithCartData($productId, $accessoryId, $relatedProductId, $attributes, $templateContent,
 			$attributeTemplate, $isChild, $onlySelected);
@@ -4484,7 +4438,7 @@ class productHelper
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperAttribute::replaceAttributeData() instead.
 	 */
 	public function replaceAttributeData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(), $templateContent,
-		$attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1,$onlySelected = false)
+	                                     $attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1,$onlySelected = false)
 	{
 		return RedshopHelperAttribute::replaceAttributeData($productId, $accessoryId, $relatedProductId, $attributes, $templateContent,
 			$attributeTemplate, $isChild, $selectedAttributes, $displayIndCart, $onlySelected);
@@ -7508,9 +7462,9 @@ class productHelper
 					]
 				)
 			)
-			->from($db->qn('#__redshop_customer_question', 'q'))
-			->where($db->qn('q.id') . ' > 0 ' . $and)
-			->order($db->qn('q.ordering'));
+				->from($db->qn('#__redshop_customer_question', 'q'))
+				->where($db->qn('q.id') . ' > 0 ' . $and)
+				->order($db->qn('q.ordering'));
 
 			$db->setQuery($query);
 

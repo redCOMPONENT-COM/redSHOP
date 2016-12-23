@@ -20,9 +20,9 @@ class RedshopControllerMail_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'mail_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'mail_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
 		parent::display();
 	}
@@ -34,15 +34,13 @@ class RedshopControllerMail_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$mail_body = JRequest::getVar('mail_body', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$mail_body = $this->input->post->get('mail_body', '', 'raw');
 
 		$post["mail_body"] = $mail_body;
 
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$post ['mail_id'] = $cid [0];
 
@@ -78,9 +76,7 @@ class RedshopControllerMail_detail extends RedshopController
 
 	public function remove()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -102,7 +98,7 @@ class RedshopControllerMail_detail extends RedshopController
 	{
 
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -122,9 +118,7 @@ class RedshopControllerMail_detail extends RedshopController
 
 	public function unpublish()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

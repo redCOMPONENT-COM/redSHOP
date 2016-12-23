@@ -28,10 +28,6 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$document = JFactory::getDocument();
-
-		$document->addScript('components/com_redshop/assets/js/media.js');
-
 		$uri = JFactory::getURI();
 
 		$this->setLayout('default');

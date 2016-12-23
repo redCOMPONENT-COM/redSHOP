@@ -24,6 +24,9 @@ if ($params->get("checkout_empty") != 0)
 	$show_empty_btn = 1;
 }
 
+// Load Model Cart to calculate Cart Total
+$model = JModelLegacy::getInstance("Cart", "RedshopModel");
+
 // Helper object
 $helper = redhelper::getInstance();
 $helper->dbtocart();

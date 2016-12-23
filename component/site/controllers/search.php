@@ -102,7 +102,7 @@ class RedshopControllerSearch extends RedshopController
 
 		ob_clean();
 
-		echo RedshopHelperWorld::getInstance()->getStatesAjax($app->input->getCmd('country'));
+		echo RedshopHelperWorld::getStatesAjax($app->input->getCmd('country'));
 
 		$app->close();
 	}

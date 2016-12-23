@@ -812,9 +812,9 @@ class RedshopHelperExtrafields
 					{
 						if ($dataValue->data_txt)
 						{
-							$mainSplitDateTotal = preg_split(" ", $dataValue->data_txt);
-							$mainSplitDate      = preg_split(":", $mainSplitDateTotal[0]);
-							$mainSplitDateExtra = preg_split(":", $mainSplitDateTotal[1]);
+							$mainSplitDateTotal = explode(" ", $dataValue->data_txt);
+							$mainSplitDate      = explode(":", $mainSplitDateTotal[0]);
+							$mainSplitDateExtra = explode(":", $mainSplitDateTotal[1]);
 							$datePublish        = date("d-m-Y", $mainSplitDate[0]);
 							$dateExpiry         = date("d-m-Y", $mainSplitDate[1]);
 						}
@@ -1001,7 +1001,7 @@ class RedshopHelperExtrafields
 							$name = RedshopHelperMedia::cleanFileName($file);
 
 							$src = $_FILES[$rowData[$i]->field_name]['tmp_name'][$ij];
-							$destination = Redshop::getConfig()->get('REDSHOP_FRONT_DOCUMENT_RELPATH') . 'extrafields/' . $name;
+							$destination = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $name;
 
 							JFile::upload($src, $destination);
 
