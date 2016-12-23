@@ -36,22 +36,34 @@ class RedshopHelperNewsletter
 		$userId     = (int) $userId;
 		$user       = JFactory::getUser();
 
-		if (!$userId)
-		{
-			$userId = $user->id;
-		}
-
 		if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') > 0)
 		{
 			$newsletter = Redshop::getConfig()->get('DEFAULT_NEWSLETTER');
 		}
 
+		if (!$userId)
+		{
+			$userId = $user->id;
+		}
+
 		if (empty($data))
 		{
-			$data['user_id']  = $user->id;
-			$data['username'] = $user->username;
-			$data['email']    = $user->email;
-			$data['name']     = $user->name . " (" . $user->username . ")";
+			if (!$user->guest)
+			{
+				$data['user_id']  = $user->id;
+				$data['username'] = $user->username;
+				$data['email']    = $user->email;
+				$data['name']     = $user->name . " (" . $user->username . ")";
+			}
+			else
+			{
+				$redshopUser = RedshopHelperUser::getUserInformation();
+
+				$data['user_id']  = $redshopUser->user_id;
+				$data['username'] = $redshopUser->username;
+				$data['email']    = $redshopUser->user_email;
+				$data['name']     = $redshopUser->firstname . ' ' . $redshopUser->lastname;
+			}
 		}
 		else
 		{
