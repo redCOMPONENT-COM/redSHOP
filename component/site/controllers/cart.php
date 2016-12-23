@@ -129,7 +129,6 @@ class RedshopControllerCart extends RedshopController
 						$cartData['accessory_id']                = $accessory_data[$i];
 
 						$result = $this->_carthelper->addProductToCart($cartData);
-						$this->_carthelper->cartFinalCalculation();
 
 						$cart = $session->get('cart');
 

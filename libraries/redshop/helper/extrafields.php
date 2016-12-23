@@ -812,9 +812,9 @@ class RedshopHelperExtrafields
 					{
 						if ($dataValue->data_txt)
 						{
-							$mainSplitDateTotal = preg_split(" ", $dataValue->data_txt);
-							$mainSplitDate      = preg_split(":", $mainSplitDateTotal[0]);
-							$mainSplitDateExtra = preg_split(":", $mainSplitDateTotal[1]);
+							$mainSplitDateTotal = explode(" ", $dataValue->data_txt);
+							$mainSplitDate      = explode(":", $mainSplitDateTotal[0]);
+							$mainSplitDateExtra = explode(":", $mainSplitDateTotal[1]);
 							$datePublish        = date("d-m-Y", $mainSplitDate[0]);
 							$dateExpiry         = date("d-m-Y", $mainSplitDate[1]);
 						}

@@ -158,19 +158,23 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 		JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
 		$order_id = $detail->order_id;
-		RedshopToolbarHelper::link(
-			'index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id,
-			'redshop_export_export32',
-			'COM_REDSHOP_CREATE_STOCKNOTE',
-			'_blank'
-		);
 
-		RedshopToolbarHelper::link(
-			'index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id,
-			'redshop_export_export32',
-			'COM_REDSHOP_CREATE_SHIPPING_LABEL',
-			'_blank'
-		);
+		if (RedshopHelperPdf::isAvailablePdfPlugins())
+		{
+			RedshopToolbarHelper::link(
+				'index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id,
+				'redshop_export_export32',
+				'COM_REDSHOP_CREATE_STOCKNOTE',
+				'_blank'
+			);
+
+			RedshopToolbarHelper::link(
+				'index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id,
+				'redshop_export_export32',
+				'COM_REDSHOP_CREATE_SHIPPING_LABEL',
+				'_blank'
+			);
+		}
 
 		$tmpl = JFactory::getApplication()->input->get('tmpl', '');
 		$appendTmpl = ($tmpl) ? '&tmpl=component' : '';
