@@ -15,11 +15,11 @@ jimport('joomla.plugin.plugin');
 use Joomla\Registry\Registry;
 
 /**
- * Plugins RedSHOP Registration Mailchimp
+ * Plugins RedSHOP User - Joomlamailer Integrate
  *
  * @since  1.0.0
  */
-class PlgRedshop_UserRegistration_Mailchimp extends JPlugin
+class PlgRedshop_UserJoomlamailer_Integrate extends JPlugin
 {
 	/**
 	 * @var  bool  True for auto-load language
@@ -64,10 +64,6 @@ class PlgRedshop_UserRegistration_Mailchimp extends JPlugin
 		{
 			return false;
 		}
-
-		$email  = '';
-		$name   = '';
-		$userId = 0;
 
 		// Prepare data for subscriber
 		if (empty($data))
