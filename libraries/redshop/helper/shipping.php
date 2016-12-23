@@ -969,8 +969,10 @@ class RedshopHelperShipping
 
 		if ($country)
 		{
-			$whereCountry = "AND (FIND_IN_SET(" . $db->q($country) . ", " . $db->qn('shipping_rate_country') . ") OR "
-				. $db->qn('shipping_rate_country') . " = 0 OR " . $db->qn('shipping_rate_country') . " = '' )";
+			$whereCountry = "AND (FIND_IN_SET(" . $db->q($country) . ", " . $db->qn('shipping_rate_country') . ")"
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote(0)
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote('')
+				. " )";
 		}
 		else
 		{
@@ -1202,9 +1204,10 @@ class RedshopHelperShipping
 			$userData->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
 			$userData->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 
-			if ($usersInfoId && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get('REGISTER_METHOD') == 2) && (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
+			if ($usersInfoId && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get('REGISTER_METHOD') == 2)
+				&& (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
 			{
-				$query = $db->getQuery(true)
+				$userQuery = $db->getQuery(true)
 					->select($db->qn('country_code'))
 					->select($db->qn('state_code'))
 					->from($db->qn('#__redshop_users_info', 'u'))
@@ -1213,9 +1216,9 @@ class RedshopHelperShipping
 						. ' ON ' . $db->qn('sh.shopper_group_id') . ' = ' . $db->qn('u.shopper_group_id')
 					)
 					->where($db->qn('u.users_info_id') . ' = ' . $db->q((int) $usersInfoId))
-					->order($db->qn('u.users_info_id') . 'ASC')
+					->order($db->qn('u.users_info_id') . ' ASC')
 					->setLimit(1);
-				$userData = $db->setQuery($query)->loadObject();
+				$userData = $db->setQuery($userQuery)->loadObject();
 			}
 		}
 

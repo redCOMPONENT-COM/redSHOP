@@ -38,9 +38,9 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function edit()
 	{
-		JRequest::setVar('view', 'media_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'media_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -51,21 +51,21 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function save()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$model = $this->getModel('media_detail');
 
 		$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 
-		if (substr(Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT'), -1) != DIRECTORY_SEPARATOR)
+		if (substr(Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT '), -1) != DIRECTORY_SEPARATOR)
 		{
 			$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/';
 		}
 
-		$bulkfile = JRequest::getVar('bulkfile', null, 'files', 'array');
+		$bulkfile = $this->input->files->get('bulkfile', null, 'array');
 		$bulkfiletype = strtolower(JFile::getExt($bulkfile['name']));
-		$file = JRequest::getVar('file', 'array', 'files', 'array');
+		$file = $this->input->files->get('file', array(), 'array');
 
 		if ($bulkfile['name'] == null && $file['name'][0] == null && $post['oldmedia'] != "")
 		{
@@ -814,11 +814,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function remove()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -860,11 +860,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function publish()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -907,11 +907,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function unpublish()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -985,12 +985,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function saveorder()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -1034,11 +1034,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function orderup()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -1080,11 +1080,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function orderdown()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid = $this->input->post->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
