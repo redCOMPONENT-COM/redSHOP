@@ -11,10 +11,32 @@
     <description>PLG_REDSHOP_USER_CMC_INTEGRATE_DESC</description>
     <files>
         <filename plugin="cmc_integrate">cmc_integrate.php</filename>
+        <filename>index.html</filename>
         <folder>language</folder>
     </files>
     <config>
         <fields name="params">
+            <fieldset name="basic" addfieldpath="/plugins/redshop_user/cmc_integrate/form/fields">
+                <field
+                        name="listId"
+                        type="cmclist"
+                        class="input"
+                        label="PLG_REDSHOP_USER_CMC_INTEGRATE_LIST"
+                        description="PLG_REDSHOP_USER_CMC_INTEGRATE_LIST_DESC"
+                        required="true">
+                    <option value="">PLG_REDSHOP_USER_CMC_INTEGRATE_LIST_OPTION_SELECT</option>
+                </field>
+                <field
+                        name="mapping"
+                        type="textarea"
+                        class="input"
+                        label="PLG_REDSHOP_USER_CMC_INTEGRATE_MAPPING_FIELDS"
+                        description="PLG_REDSHOP_USER_CMC_INTEGRATE_MAPPING_FIELDS_DESC"
+                        />
+                <field
+                        type="cmctags"
+                        />
+            </fieldset>
         </fields>
     </config>
 </extension>
