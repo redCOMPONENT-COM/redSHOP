@@ -297,7 +297,7 @@ class productHelper
 
 			if (!empty($catIds))
 			{
-				$categoriesSub = '';
+				$categoriesSub = array();
 
 				foreach ($catIds as $categoryId)
 				{
