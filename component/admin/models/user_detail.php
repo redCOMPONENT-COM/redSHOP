@@ -253,7 +253,7 @@ class RedshopModelUser_detail extends RedshopModel
 				$queryAllUserIds = $db->getQuery(true)
 							->select($db->qn('id'))
 							->from($db->qn('#__users'));
-				$allUserIds = $db->setQuery($queryAllUserIds)->loadResult();
+				$allUserIds = $db->setQuery($queryAllUserIds)->loadColumn();
 
 				$queryCustom = $db->getQuery(true)
 						->select($db->qn('user_id'))
