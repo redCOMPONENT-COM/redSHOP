@@ -12,6 +12,7 @@
     <files>
         <filename plugin="cmc_integrate">cmc_integrate.php</filename>
         <filename>index.html</filename>
+        <folder>form</folder>
         <folder>language</folder>
     </files>
     <config>
