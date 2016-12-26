@@ -144,8 +144,36 @@ class RedshopMenu
 	 */
 	public function group($group, $style = 'tree')
 	{
+		// Check if all of sub-menu is disabled => Disable this menu too.
+		$isDisable = true;
+
+		foreach ($this->data as $groupData)
+		{
+			if (empty($groupData->items))
+			{
+				continue;
+			}
+
+			foreach ($groupData->items as $item)
+			{
+				if ($item->disable === false)
+				{
+					$isDisable = false;
+
+					break;
+				}
+			}
+
+			if (!$isDisable)
+			{
+				break;
+			}
+		}
+
 		$this->items[$group]['items'] = $this->data;
 		$this->items[$group]['style'] = $style;
+		$this->items[$group]['disable'] = $isDisable;
+
 		$this->data = array();
 	}
 
