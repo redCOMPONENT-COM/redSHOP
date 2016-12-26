@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
-// Import library dependencies
-jimport('joomla.plugin.plugin');
+jimport('redshop.library');
+JLoader::import('list', JPATH_ADMINISTRATOR . '/components/com_cmc/helpers');
+JLoader::import('chimp', JPATH_ADMINISTRATOR . '/components/com_cmc/helpers');
 
 use Joomla\Registry\Registry;
 
@@ -32,11 +33,6 @@ class PlgRedshop_UserCmc_Integrate extends JPlugin
 	protected $mailchimpConfig;
 
 	/**
-	 * @var  string
-	 */
-	protected $listId;
-
-	/**
 	 * autoAcymailingSubscription function
 	 *
 	 * @param   bool   $isNew  To know that user is new or not
@@ -52,78 +48,47 @@ class PlgRedshop_UserCmc_Integrate extends JPlugin
 		}
 
 		// Prepare data for subscriber
-		if (empty($data))
+		if (empty($data) || empty($data['user_id']))
 		{
-			$user = JFactory::getUser();
+			$userId = JFactory::getUser()->get('id');
+		}
+		else
+		{
+			$userId = $data['user_id'];
+		}
 
-			// In case: Current user don't have email.
-			if (empty($user->email))
+		$userInfor = RedshopHelperUser::getUserInformation($userId);
+
+		if (empty($userInfor->email))
+		{
+			if (empty($userInfor->user_email))
 			{
 				return false;
 			}
 
-			$data = array(
-				'user_id'       => $user->id,
-				'email'         => $user->email,
-				'email_address' => $user->email,
-				'name'          => $user->name
-			);
+			$userInfor->email = $userInfor->user_email;
 		}
 
-		if (empty($data['email']))
-		{
-			if (empty($data['email_address']))
-			{
-				return false;
-			}
-
-			$data['email'] = $data['email_address'];
-		}
-
-		$name      = explode(' ', $data['name']);
-		$firstName = $name[0];
-		$lastName  = '';
-
-		if (count($name) > 1)
-		{
-			unset($name[0]);
-			$lastName = implode(' ', $name);
-		}
-
-		$mergeVars = array(
-			'FNAME'     => $firstName,
-			'LNAME'     => $lastName,
-			'INTERESTS' => '',
-			'GROUPINGS' => array()
-		);
+		$userInfor->merge_fields = $this->getMapping($this->params->get('mapping', ''), (array) $userInfor);
 
 		// Get the users ip address unless the admin is saving his profile in backend
 		if (JFactory::getApplication()->isSite())
 		{
-			$mergeVars['OPTINIP'] = $this->getIpAddress();
+			$userInfor->merge_fields['OPTINIP'] = $this->getIpAddress();
 		}
-
-		$mappedData = $this->getMapping($this->mailchimpConfig->get('mapfields'), $data);
-
-		if (!empty($mappedData))
-		{
-			$mergeVars = array_merge($mappedData, $mergeVars);
-		}
-
-		$data = array_merge($data, $mergeVars);
 
 		// Create mapped data.
-		$subscription = CmcHelperUsers::getSubscription($data['email'], $this->listId);
+		$subscription = CmcHelperUsers::getSubscription($userInfor->email, $this->params->get('listId'));
 
 		// Updating it to mailchimp
 		$update = $subscription ? true : false;
 
 		CmcHelperList::subscribe(
-			$this->listId,
-			$data['email'],
-			$firstName,
-			$lastName,
-			CmcHelperList::mergeVars($data, $this->listId),
+			$this->params->get('listId'),
+			$userInfor->email,
+			$userInfor->firstname,
+			$userInfor->lastname,
+			$userInfor->merge_fields,
 			'html',
 			$update,
 			true
@@ -161,18 +126,36 @@ class PlgRedshop_UserCmc_Integrate extends JPlugin
 
 		// Load Mailchimp List ID configuration
 		$pluginParam = JPluginHelper::getPlugin('user', 'cmc');
-		$pluginParam = new Registry($pluginParam->params);
-		$listId      = $pluginParam->get('listid', '');
+		$this->mailchimpConfig = new Registry($pluginParam->params);
+
+		return true;
+	}
+
+	/**
+	 * Method for get available merge Fields of List
+	 *
+	 * @return  mixed|string
+	 *
+	 * @since   1.0.0
+	 */
+	public function onAjaxCmcIntegrateListSelect()
+	{
+		RedshopHelperAjax::validateAjaxRequest();
+
+		$app = JFactory::getApplication();
+
+		$listId = $app->input->get('listId', '');
 
 		if (empty($listId))
 		{
-			return false;
+			echo json_encode(array());
 		}
 
-		$this->listId = $listId;
-		$this->mailchimpConfig = $pluginParam;
+		$mergeFields = CmcHelperList::getMergeFields($listId);
 
-		return true;
+		echo json_encode($mergeFields);
+
+		$app->close();
 	}
 
 	/**

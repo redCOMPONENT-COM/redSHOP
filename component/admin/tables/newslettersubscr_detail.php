@@ -70,4 +70,29 @@ class Tablenewslettersubscr_detail extends JTable
 
 		return true;
 	}
+
+	/**
+	 * Method to delete a row from the database table by primary key value.
+	 *
+	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$data = $this->getProperties();
+
+		if (!parent::delete($pk))
+		{
+			return false;
+		}
+
+		JPluginHelper::importPlugin('redshop_user');
+		RedshopHelperUtility::getDispatcher()->trigger('removeNewsLetterSubscription', array($data));
+
+		return true;
+	}
 }
