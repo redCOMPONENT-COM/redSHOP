@@ -250,21 +250,16 @@ class RedshopModelUser_detail extends RedshopModel
 
 			if ($deleteJoomlaUsers)
 			{
-				$queryAllJuserIds = $db->getQuery(true)
-							->select('GROUP_CONCAT(id) AS ids')
+				$queryAllUserIds = $db->getQuery(true)
+							->select($db->qn('id'))
 							->from($db->qn('#__users'));
-
-				$db->setQuery($queryAllJuserIds);
-				$allJuserIds = $db->loadResult();
-
-				// REDSHOP-3553. It should not bug by logic but would cause by specific site case
-				$allJuserIds = trim($allJuserIds, ',');
+				$allUserIds = $db->setQuery($queryAllUserIds)->loadResult();
 
 				$queryCustom = $db->getQuery(true)
 						->select($db->qn('user_id'))
 						->from($db->qn('#__redshop_users_info'))
 						->where($db->qn('users_info_id') . ' IN (' . $cids . ' )')
-						->where($db->qn('user_id') . ' IN (' . $allJuserIds . ' )');
+						->where($db->qn('user_id') . ' IN (' . implode(',', $allUserIds) . ' )');
 
 				$db->setQuery($queryCustom);
 				$juserIds = $db->loadRowList();
