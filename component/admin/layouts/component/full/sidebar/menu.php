@@ -35,7 +35,7 @@ extract($displayData);
 			<?php endif; ?>
 			<?php continue; ?>
 		<?php endif; ?>
-		<?php if (count($sections['items']) > 0) : ?>
+		<?php if ($sections['disable'] === false && count($sections['items']) > 0) : ?>
 			<?php if ($sections['style'] == 'header'): ?>
 				<?php foreach ($sections['items'] as $section): ?>
 					<?php foreach ($section->items as $item): ?>
