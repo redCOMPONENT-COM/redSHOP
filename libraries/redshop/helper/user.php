@@ -51,7 +51,7 @@ class RedshopHelperUser
 	 * @param   string  $addressType     Type user address BT (Billing Type) or ST (Shipping Type)
 	 * @param   int     $userInfoId      Id redshop user
 	 * @param   bool    $useAddressType  Select user info relate with address type
-	 * @param   bool    $force           Force to get user infromation from DB instead of cache
+	 * @param   bool    $force           Force to get user information from DB instead of cache
 	 *
 	 * @return  object  Redshop user information
 	 */

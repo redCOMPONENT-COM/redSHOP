@@ -442,4 +442,24 @@ class RedshopHelperConfig
 
 		return $this->config->get($name, $default);
 	}
+
+	/**
+	 * Method for get config force boolean variable of redshop
+	 *
+	 * @param   string  $name     Name of variable.
+	 * @param   mixed   $default  Default data if not found.
+	 *
+	 * @return  mixed
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getBool($name = '', $default = false)
+	{
+		if (empty($this->config))
+		{
+			return boolval($default);
+		}
+
+		return boolval($this->config->get($name, $default));
+	}
 }
