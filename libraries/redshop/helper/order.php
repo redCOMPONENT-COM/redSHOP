@@ -2845,11 +2845,11 @@ class RedshopHelperOrder
 		$helper          = redhelper::getInstance();
 		$stockroomHelper = rsstockroomhelper::getInstance();
 		$productHelper   = productHelper::getInstance();
-		$newStatus       = $post['order_status_all'];
+		$newStatus       = $post['mass_change_order_status'];
 		$customerNote    = $post['customer_note' . $orderId];
 		$isProduct       = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
 		$productId       = (isset($post['product_id'])) ? $post['product_id'] : 0;
-		$paymentStatus   = $post['order_paymentstatus' . $orderId];
+		$paymentStatus   = $post['mass_change_payment_status'];
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
@@ -2949,7 +2949,11 @@ class RedshopHelperOrder
 		}
 
 		// Mail to customer of order status change
-		self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
+		if ($post['mass_mail_sending'] == "Yes")
+		{
+			self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
+		}
+
 		self::createBookInvoice($orderId, $newStatus);
 
 		// GENERATE PDF CODE WRITE
