@@ -163,21 +163,16 @@ $calendarFormat = '%d-%m-%Y';
 						<div class="form-group">
 							<label for="discount_stratdate"><?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE'); ?></label>
 							<?php
-							$sdate = "";
+							$startDate = null;
 
 							if ($this->detail->discount_stratdate)
 							{
-								if ($startDateTimeStamp = strtotime($this->detail->discount_stratdate))
-								{
-									$this->detail->discount_stratdate = $startDateTimeStamp;
-								}
-
-								$sdate = date("d-m-Y", $this->detail->discount_stratdate);
+								$startDate = JFactory::getDate($this->detail->discount_stratdate)->format("d-m-Y");
 							}
 
 							echo JHtml::_(
 								'calendar',
-								$sdate,
+								$startDate,
 								'discount_stratdate',
 								'discount_stratdate',
 								$calendarFormat,
@@ -189,21 +184,16 @@ $calendarFormat = '%d-%m-%Y';
 						<div class="form-group">
 							<label for="discount_enddate"><?php echo JText::_('COM_REDSHOP_DISCOUNT_END_DATE'); ?></label>
 							<?php
-							$edate = "";
+							$endDate = null;
 
 							if ($this->detail->discount_enddate)
 							{
-								if ($endDateTimeStamp = strtotime($this->detail->discount_enddate))
-								{
-									$this->detail->discount_enddate = $endDateTimeStamp;
-								}
-
-								$edate = date("d-m-Y", $this->detail->discount_enddate);
+								$endDate = JFactory::getDate($this->detail->discount_enddate)->format("d-m-Y");
 							}
 
 							echo JHtml::_(
 								'calendar',
-								$edate,
+								$endDate,
 								'discount_enddate',
 								'discount_enddate',
 								$calendarFormat,
