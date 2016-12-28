@@ -99,7 +99,8 @@ class ManageProductsAdministratorCest
 		$I->see($productName, ['xpath' => "//table[contains(@class, 'adminlist')]//tbody//tr[1]"]);
 		$I->checkAllResults();
 		$I->click("Delete");
-		$I->waitForText('Product deleted successfully', 30);
+		$I->acceptPopup();
+		$I->waitForText('Product deleted successfully', 30, ['class' => 'alert-success']);
 		$this->searchProduct($I, $productName, 'Delete');
 		$I->dontSee($productName);
 	}
