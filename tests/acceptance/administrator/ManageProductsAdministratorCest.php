@@ -72,8 +72,10 @@ class ManageProductsAdministratorCest
 		$I->fillField(['id' => "product_name"], $productName);
 		$I->fillField(['id' => "product_number"], $productNumber);
 		$I->fillField(['id' => "product_price"], $price);
-		$I->click(['xpath' => "//div[@id='product_category_chzn']//ul/li"]);
-		$I->click(['xpath' => "//div[@id='product_category_chzn']//ul/li[text()='- " . $productCategory . "']"]);
+		$I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
+		$I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
+		$I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+		$I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
 		$I->click("Save & Close");
 		$I->waitForText('Product details saved', 30, ['class' => 'alert-message']);
 		$I->see('Product details saved', ['class' => 'alert-message']);
@@ -94,7 +96,7 @@ class ManageProductsAdministratorCest
 		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
 		$I->fillField(['xpath' => "//div[@class='filterItem']//div//input[@name='keyword']"], $productName);
 		$I->click(['xpath' => "//div[@class='filterItem']//div//input[@value='Search']"]);
-		$I->see($productName, ['xpath' => "//div[@id='editcell']/table/tbody/tr[1]"]);
+		$I->see($productName, ['xpath' => "//table[contains(@class, 'adminlist')]//tbody//tr[1]"]);
 		$I->checkAllResults();
 		$I->click("Delete");
 		$I->waitForText('Product deleted successfully', 30, ['class' => 'alert-success']);
@@ -121,11 +123,11 @@ class ManageProductsAdministratorCest
 
 		if ($functionName == 'Search')
 		{
-			$I->see($productName, ['xpath' => "//div[@id='editcell']/table/tbody/tr[1]"]);
+			$I->see($productName, ['xpath' => "//table[contains(@class, 'adminlist')]//tbody//tr[1]"]);
 		}
 		else
 		{
-			$I->dontSee($productName, ['xpath' => "//div[@id='editcell']/table/tbody/tr[1]"]);
+			$I->dontSee($productName, ['xpath' => "//table[contains(@class, 'adminlist')]//tbody//tr[1]"]);
 		}
 	}
 }
