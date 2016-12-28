@@ -763,7 +763,7 @@ function collectAttributes(productId, accessoryId, relatedProductId)
     {
         jQuery('#attribute_data').val(attributeIds.join("##"));
         jQuery('#property_data').val(allProperties.join("##"));
-        jQuery('#subproperty_data').val(totalSu);
+        jQuery('#subproperty_data').val(totalSubProperties.join("##"));
         jQuery('#tmp_product_price').val(mainprice);
         jQuery('#productprice_notvat').val(price_without_vat);
         jQuery('#tmp_product_old_price').val(old_price);
@@ -952,16 +952,31 @@ function calculateTotalPrice(productId, relatedProductId) {
 
     var mainprice                = 0,
         price_without_vat        = 0,
-        old_price                = (jQuery('#tmp_product_old_price').length > 0) ? parseFloat(jQuery('#tmp_product_old_price').val()) : 0,
-        accfinalprice_withoutvat = (jQuery('#accessory_price_withoutvat').length > 0) ? parseFloat(jQuery('#accessory_price_withoutvat').val()) : 0,
+        old_price                = 0,
+        accfinalprice_withoutvat = 0,
         product_old_price        = 0,
-        qty                      = (jQuery('#quantity' + prefix).length > 0) ? jQuery('#quantity' + prefix).val() : 1,
+        qty                      = 1,
         accfinalprice            = parseFloat(collectAccessory(productId, relatedProductId)),
         prefix                   = (relatedProductId != 0) ? relatedProductId : productId,
         wprice                   = 0,
         wrapper_price_withoutvat = 0;
 
     collectAttributes(productId, 0, relatedProductId);
+
+    if (jQuery('#tmp_product_old_price').length)
+    {
+        product_old_price = parseFloat(jQuery('#tmp_product_old_price').val());
+    }
+
+    if (jQuery('#accessory_price_withoutvat').length)
+    {
+        accfinalprice_withoutvat = parseFloat(jQuery('#accessory_price_withoutvat').val());
+    }
+
+    if (jQuery('#quantity' + prefix).length)
+    {
+        qty = jQuery('#quantity' + prefix).val();
+    }
 
     if (jQuery('#tmp_product_price').length)
     {
