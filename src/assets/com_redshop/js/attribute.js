@@ -1007,15 +1007,18 @@ function calculateTotalPrice(productId, relatedProductId) {
             || (redSHOP.RSConfig._('DEFAULT_QUOTATION_MODE') == '1' && redSHOP.RSConfig._('SHOW_QUOTATION_PRICE') != '1'))
         {
             final_price = getPriceReplacement(final_price_f);
+            final_price_novat = getPriceReplacement(product_price_without_vat);
         }
         else
         {
             final_price = number_format(final_price_f, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
+            final_price_novat = number_format(product_price_without_vat, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
         }
     }
     else
     {
         final_price = getPriceReplacement(final_price_f);
+        final_price_novat = getPriceReplacement(product_price_without_vat);
     }
 
     if (redSHOP.RSConfig._('SHOW_PRICE') == '1'
@@ -1024,8 +1027,13 @@ function calculateTotalPrice(productId, relatedProductId) {
             )
         )
     {
-        jQuery('#produkt_kasse_hoejre_pris_indre' + productId).html(final_price);
-        jQuery('#display_product_discount_price' + productId).html(final_price);
+        if (redSHOP.RSConfig._('SHOW_PRICE_WITHOUT_VAT') == '1') {
+            jQuery('#produkt_kasse_hoejre_pris_indre' + productId).html(final_price_novat);
+            jQuery('#display_product_discount_price' + productId).html(final_price_novat);
+        } else {
+            jQuery('#produkt_kasse_hoejre_pris_indre' + productId).html(final_price);
+            jQuery('#display_product_discount_price' + productId).html(final_price);
+        }
 
         if (!product_price_without_vat)
         {
