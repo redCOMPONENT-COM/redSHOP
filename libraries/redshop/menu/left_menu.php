@@ -204,11 +204,6 @@ class RedshopMenuLeft_Menu
 				return array('USER', 'user');
 				break;
 
-			case "accessmanager":
-			case 'accessmanager_detail':
-				return array('USER', 'accessmanager');
-				break;
-
 			case "tax_group":
 			case "tax_group_detail":
 				return array('PRODUCT_LISTING', 'tax_group');
@@ -316,6 +311,8 @@ class RedshopMenuLeft_Menu
 
 			case "configuration":
 			case 'update':
+			case "accessmanager":
+			case 'accessmanager_detail':
 				return array('CONFIG', 'configuration');
 				break;
 
@@ -332,23 +329,20 @@ class RedshopMenuLeft_Menu
 	 */
 	protected static function setShop()
 	{
-		self::$menu->section('shop')
-			->addItem(
+		self::$menu->addHeaderItem(
 				'index.php?option=com_redshop&view=category',
 				'COM_REDSHOP_CATEGORY_LISTING',
 				(self::$view == 'category') ? true : false,
 				null,
 				'fa fa-sitemap'
 			)
-			->addItem(
+			->addHeaderItem(
 				'index.php?option=com_redshop&view=media',
 				'COM_REDSHOP_MEDIA_LISTING',
 				(self::$view == 'media') ? true : false,
 				null,
 				'fa fa-picture-o'
 			);
-
-		self::$menu->group('SHOP', 'header');
 	}
 
 	/**
@@ -403,13 +397,12 @@ class RedshopMenuLeft_Menu
 			'index.php?option=com_redshop&view=tax_group',
 			'COM_REDSHOP_TAX_GROUP_LISTING',
 			(self::$view == 'tax_group') ? true : false
-		);
-
-		self::$menu->addItem(
-			'index.php?option=com_redshop&view=tax_rates',
-			'COM_REDSHOP_TAX_RATES_SIDEBAR',
-			(self::$view == 'tax_rates') ? true : false
-		);
+		)
+			->addItem(
+				'index.php?option=com_redshop&view=tax_rates',
+				'COM_REDSHOP_TAX_RATES_SIDEBAR',
+				(self::$view == 'tax_rates') ? true : false
+			);
 
 		/*@TODO: Enable when Product Variants ready
 		self::setAttributes();*/
@@ -516,7 +509,7 @@ class RedshopMenuLeft_Menu
 	protected static function setCommunicationGroup()
 	{
 		self::$menu->section('communication')
-			->title('COM_REDSHOP_MAIL_CENTER')
+			->title('COM_REDSHOP_COMMUNICATION')
 			->addItem(
 				'index.php?option=com_redshop&view=mail',
 				'COM_REDSHOP_MAIL_CENTER_LISTING',
@@ -548,7 +541,7 @@ class RedshopMenuLeft_Menu
 	protected static function setShippingGroup()
 	{
 		self::$menu->section('shipping')
-			->title('COM_REDSHOP_SHIPPING_METHOD')
+			->title('COM_REDSHOP_SHIPPING')
 			->addItem(
 				'index.php?option=com_redshop&view=shipping',
 				'COM_REDSHOP_SHIPPING_METHOD_LISTING',
@@ -667,6 +660,7 @@ class RedshopMenuLeft_Menu
 	protected static function setCustomisationGroup()
 	{
 		self::$menu->section('custom')
+			->title('COM_REDSHOP_CUSTOMIZATION')
 			->addItem(
 				'index.php?option=com_redshop&view=fields',
 				'COM_REDSHOP_FIELDS_LISTING',
@@ -738,15 +732,12 @@ class RedshopMenuLeft_Menu
 	protected static function setCustomerInputGroup()
 	{
 		self::$menu->section('questions')
-			->title('COM_REDSHOP_QUESTION')
+			->title('COM_REDSHOP_CUSTOMER_INPUT')
 			->addItem(
 				'index.php?option=com_redshop&view=questions',
 				'COM_REDSHOP_QUESTION_LISTING',
 				(self::$view == 'question') ? true : false
-			);
-
-		self::$menu->section('rating')
-			->title('COM_REDSHOP_REVIEW')
+			)
 			->addItem(
 				'index.php?option=com_redshop&view=rating',
 				'COM_REDSHOP_RATING_REVIEW',
@@ -890,26 +881,17 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=configuration',
 				'COM_REDSHOP_RESHOP_CONFIGURATION',
 				(self::$view == 'configuration' && self::$layout == '') ? true : false
-			);
-
-		self::$menu->section('resettemplate')
-			->title('COM_REDSHOP_RESET_TEMPLATE_LBL')
+			)
 			->addItem(
 				'index.php?option=com_redshop&view=configuration&layout=resettemplate',
 				'COM_REDSHOP_RESET_TEMPLATE_LBL',
 				(self::$view == 'configuration' && self::$layout == 'resettemplate') ? true : false
-			);
-
-		self::$menu->section('accessmanager')
-			->title('COM_REDSHOP_ACCESS_MANAGER')
+			)
 			->addItem(
 				'index.php?option=com_redshop&view=accessmanager',
 				'COM_REDSHOP_ACCESS_MANAGER',
 				(self::$view == 'accessmanager') ? true : false
-			);
-
-		self::$menu->section('redshopbackendaccess')
-			->title('COM_REDSHOP_BACKEND_ACCESS_CONFIG')
+			)
 			->addItem(
 				'index.php?option=com_config&view=component&component=com_redshop',
 				'COM_REDSHOP_BACKEND_ACCESS_CONFIG',
