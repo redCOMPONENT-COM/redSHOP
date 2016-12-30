@@ -87,8 +87,6 @@ class RedshopViewShopper_Groups extends RedshopViewAdmin
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode('<br />', $errors));
-
-			return false;
 		}
 
 		// Set the tool-bar and number of found items

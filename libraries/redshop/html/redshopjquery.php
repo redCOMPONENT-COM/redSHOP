@@ -329,6 +329,7 @@ abstract class JHtmlRedshopjquery
 		$options = static::options2Jregistry($options);
 
 		$options->def('width', 'resolve');
+		$options->def('allowClear', 'true');
 		$options->def('formatNoMatches', 'function () { return "' . JText::_("LIB_REDSHOP_SELECT2_NO_MATHES") . '"; }');
 		$options->def('formatInputTooShort', 'function (input, min) { var n = min - input.length; return "'
 			. JText::_("LIB_REDSHOP_SELECT2_INPUT_TO_SHORT") . '" + (n == 1? "" : "' . JText::_("LIB_REDSHOP_SELECT2_PREFIX") . '"); }');
@@ -341,7 +342,7 @@ abstract class JHtmlRedshopjquery
 
 		$return = array();
 		$functions = array('ajax', 'initSelection', 'formatNoMatches', 'formatInputTooShort', 'formatInputTooLong',
-			'formatSelectionTooBig', 'formatLoadMore', 'formatSearching', 'escapeMarkup', 'multiple', 'allowClear');
+			'formatSelectionTooBig', 'formatLoadMore', 'formatSearching', 'escapeMarkup', 'multiple');
 		$exclude = array('events');
 
 		foreach ($options->toArray() as $key => $option)

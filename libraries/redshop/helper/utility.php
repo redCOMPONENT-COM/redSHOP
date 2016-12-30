@@ -140,9 +140,10 @@ class RedshopHelperUtility
 
 			$list[$nextId] = $item;
 			$list[$nextId]->treename = $itemIndent . $item->{$nameKey};
+			$list[$nextId]->treepart = $itemIndent;
 			$list[$nextId]->indent   = $itemIndent;
 			$list[$nextId]->children = count(@$childs[$nextId]);
-			$list = static::createTree($nextId, $indent, $list, $childs, $maxLevel, $level + 1, $key, $nameKey, $spacer);
+			$list = self::createTree($nextId, $indent, $list, $childs, $maxLevel, $level + 1, $key, $nameKey, $spacer);
 		}
 
 		return $list;

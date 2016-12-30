@@ -35,10 +35,11 @@ class RedshopFormFieldShoppergroup extends JFormFieldList
 	{
 		$exclude = !empty($this->element['exclude']) ? $this->element['exclude'] : null;
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('shopper_group_id', 'value'))
-			->select($db->qn('shopper_group_name', 'text'))
+			->select($db->qn('shopper_group_id'))
+			->select($db->qn('shopper_group_name'))
+			->select($db->qn('parent_id'))
 			->from($db->qn('#__redshop_shopper_group'));
 
 		if ($exclude)
@@ -53,8 +54,37 @@ class RedshopFormFieldShoppergroup extends JFormFieldList
 
 		$options = $db->setQuery($query)->loadObjectList();
 
+		if (!empty($options))
+		{
+			// Establish the hierarchy of the menu
+			$children = array();
+
+			// First pass - collect children
+			foreach ($options as $item)
+			{
+				$item->title = $item->shopper_group_name;
+				$item->id    = $item->shopper_group_id;
+				$parentItem  = $item->parent_id;
+				$list        = @$children[$parentItem] ? $children[$parentItem] : array();
+				array_push($list, $item);
+				$children[$parentItem] = $list;
+			}
+
+			// Second pass - get an indent list of the items
+			$options = RedshopHelperUtility::createTree(0, '-- ', array(), $children);
+
+			foreach ($options as $key => $option)
+			{
+				$shopperGroup        = new stdClass;
+				$shopperGroup->text  = $option->treename;
+				$shopperGroup->value = $option->shopper_group_id;
+
+				$options[$key] = $shopperGroup;
+			}
+		}
+
 		$parentOptions = parent::getOptions();
-		$options = array_merge($parentOptions, $options);
+		$options       = array_merge($parentOptions, $options);
 
 		return $options;
 	}

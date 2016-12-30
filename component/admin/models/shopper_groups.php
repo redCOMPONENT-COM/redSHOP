@@ -40,7 +40,9 @@ class RedshopModelShopper_Groups extends RedshopModelList
 			$config['filter_fields'] = array(
 				'shopper_group_id', 'sg.shopper_group_id',
 				'shopper_group_name', 'sg.shopper_group_name',
-				'published', 'sg.published'
+				'published', 'sg.published',
+				'shopper_group_customer_type', 'sg.shopper_group_customer_type',
+				'shopper_group_portal', 'sg.shopper_group_portal'
 			);
 		}
 
@@ -64,8 +66,11 @@ class RedshopModelShopper_Groups extends RedshopModelList
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
+		$filter = $this->getUserStateFromRequest($this->context . '.filter.customer_type', 'filter_customer_type');
+		$this->setState('filter.customer_type', $filter);
+
 		// List state information.
-		parent::populateState('shopper_group_id', 'asc');
+		parent::populateState('sg.shopper_group_id', 'asc');
 	}
 
 	/**
@@ -86,6 +91,7 @@ class RedshopModelShopper_Groups extends RedshopModelList
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.published');
+		$id .= ':' . $this->getState('filter.customer_type');
 
 		return parent::getStoreId($id);
 	}
@@ -112,6 +118,14 @@ class RedshopModelShopper_Groups extends RedshopModelList
 			$query->where($db->qn('sg.shopper_group_name') . ' LIKE ' . $search);
 		}
 
+		// Filter by customer_type
+		$filterCustomerType = $this->getState('filter.customer_type', null);
+
+		if (is_numeric($filterCustomerType))
+		{
+			$query->where($db->qn('sg.shopper_group_customer_type') . ' = ' . (int) $filterCustomerType);
+		}
+
 		// Filter by published.
 		$filterPublished = $this->getState('filter.published', null);
 
@@ -121,11 +135,45 @@ class RedshopModelShopper_Groups extends RedshopModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.ordering', 'shopper_group_id');
+		$orderCol  = $this->state->get('list.ordering', 'sg.shopper_group_id');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
+	}
+
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   12.2
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		if (!empty($items))
+		{
+			// Establish the hierarchy of the menu
+			$children = array();
+
+			// First pass - collect children
+			foreach ($items as $item)
+			{
+				$item->title = $item->shopper_group_name;
+				$item->id = $item->shopper_group_id;
+				$parentItem = $item->parent_id;
+				$list = @$children[$parentItem] ? $children[$parentItem] : array();
+				array_push($list, $item);
+				$children[$parentItem] = $list;
+			}
+
+			// Second pass - get an indent list of the items
+			$items = RedshopHelperUtility::createTree(0, '<sup>|_</sup>&nbsp;', array(), $children);
+		}
+
+		return $items;
 	}
 }

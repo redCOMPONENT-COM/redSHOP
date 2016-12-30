@@ -104,7 +104,6 @@
                 placeholder="COM_REDSHOP_SHOPPER_GROUP_DEFAULT_SHIPPING_RATE_DESCRIPTION"
                 class="form-control"
                 default=""
-                validate="nullinteger"
                 />
         <field
                 name="published"
@@ -123,7 +122,6 @@
                 placeholder="COM_REDSHOP_SHOPPER_GROUP_CART_CHECKOUT_ITEMID_DESCRIPTION"
                 class="form-control"
                 default=""
-                validate="nullinteger"
                 />
         <field
                 name="shopper_group_cart_itemid"
@@ -133,7 +131,6 @@
                 placeholder="COM_REDSHOP_SHOPPER_GROUP_CART_ITEMID_DESCRIPTION"
                 class="form-control"
                 default=""
-                validate="nullinteger"
                 />
         <field
                 name="shopper_group_quotation_mode"

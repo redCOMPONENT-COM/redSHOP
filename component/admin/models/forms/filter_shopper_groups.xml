@@ -8,6 +8,17 @@
                 placeholder="JSEARCH_FILTER"
                 class="js-enter-submits"
                 />
+        <field
+                name="customer_type"
+                type="list"
+                label="COM_REDSHOP_SHOPPER_GROUP_CUSTOMER_TYPE"
+                class="form-control"
+                default=""
+                onchange="this.form.submit();">
+            <option value="">COM_REDSHOP_SHOPPER_GROUP_CUSTOMER_TYPE</option>
+            <option value="0">COM_REDSHOP_COMPANY</option>
+            <option value="1">COM_REDSHOP_PRIVATE</option>
+        </field>
     </fields>
     <fields name="list">
         <field
