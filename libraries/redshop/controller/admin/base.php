@@ -220,9 +220,6 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 			}
 			catch (Exception $e)
 			{
-				var_dump($e);
-				exit;
-
 				$this->setMessage(JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'), 'error');
 			}
 		}
