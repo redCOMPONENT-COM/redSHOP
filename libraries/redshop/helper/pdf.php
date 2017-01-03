@@ -108,6 +108,8 @@ class RedshopHelperPdf
 	 */
 	public static function isAvailablePdfPlugins()
 	{
-		return !empty(JPluginHelper::getPlugin('redshop_pdf'));
+		$pdfPlugins = JPluginHelper::getPlugin('redshop_pdf');
+
+		return empty($pdfPlugins) ? false : true;
 	}
 }
