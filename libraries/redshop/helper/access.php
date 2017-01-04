@@ -360,18 +360,15 @@ class RedshopHelperAccess
 
 		foreach ($product->categories as $cid)
 		{
-			$checkPermission = redhelper::getInstance()->checkPortalCategoryPermission($cid);
+			$checkPermission = self::checkPortalCategoryPermission($cid);
 
-			/**
-			 * In case product has multiple categories, and if shopper group can access this category. Product access granted.
-			 */
-			if ($checkPermission)
+			if (!$checkPermission)
 			{
-				return true;
+				return false;
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
