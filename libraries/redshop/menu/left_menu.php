@@ -883,6 +883,11 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'configuration' && self::$layout == '') ? true : false
 			)
 			->addItem(
+				'index.php?option=com_redshop&view=troubleshoots',
+				'COM_REDSHOP_TITLE_TROUBLESHOOTS',
+				(self::$view == 'troubleshoots' && self::$layout == '') ? true : false
+			)
+			->addItem(
 				'index.php?option=com_redshop&view=configuration&layout=resettemplate',
 				'COM_REDSHOP_RESET_TEMPLATE_LBL',
 				(self::$view == 'configuration' && self::$layout == 'resettemplate') ? true : false
