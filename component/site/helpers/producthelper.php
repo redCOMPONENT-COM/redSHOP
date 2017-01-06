@@ -301,7 +301,11 @@ class productHelper
 
 				foreach ($catIds as $categoryId)
 				{
-					$categoriesSub[] = ('FIND_IN_SET(' . $categoryId . ', dp.category_ids)');
+					// Search by categories if configured or just take all
+					$categoriesSub[] = (
+						'FIND_IN_SET(' . $categoryId . ', dp.category_ids)'
+						. ' OR ' . $db->quoteName('dp.category_ids') . '=' . $db->quote('')
+					);
 				}
 
 				if (!empty($discountIds))
@@ -326,10 +330,13 @@ class productHelper
 				->where('dp.end_date >= ' . (int) $time)
 				->order('dp.amount DESC');
 
+			// Get all discount based on current shopper group
 			$subQuery = $db->getQuery(true)
 				->select('dps.discount_product_id')
 				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
 				->where('dps.shopper_group_id = ' . (int) $shopperGroupId);
+
+			// Filter by requested discounts only
 			$query->where('dp.discount_product_id IN (' . $subQuery . ')');
 
 			$db->setQuery($query);
