@@ -34,6 +34,7 @@
                 placeholder="COM_REDSHOP_MASS_DISCOUNT_AMOUNT_DESC"
                 class="form-control"
                 default=""
+                filter="integer"
                 required="true"
                 />
         <field
