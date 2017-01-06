@@ -74,14 +74,14 @@ class RedshopHelperShipping
 		if ($country)
 		{
 			$whereCountry = '(FIND_IN_SET(' . $db->quote($country) . ', ' . $db->qn('shipping_rate_country') . ') OR '
-				. $db->qn('shipping_rate_country') . ' = 0 OR '
+				. $db->qn('shipping_rate_country') . ' = ' . $db->q(0) . ' OR '
 				. $db->qn('shipping_rate_country') . ' = "")';
 		}
 		else
 		{
 			$whereCountry = '(FIND_IN_SET(' . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ', '
 				. $db->qn('shipping_rate_country') . ') OR '
-				. $db->qn('shipping_rate_country') . ' = 0 OR '
+				. $db->qn('shipping_rate_country') . ' = ' . $db->q(0) . ' OR '
 				. $db->qn('shipping_rate_country') . ' = "")';
 		}
 
@@ -89,7 +89,7 @@ class RedshopHelperShipping
 		{
 			$whereState = ' AND (FIND_IN_SET(' . $db->quote($state) . ', '
 				. $db->qn('shipping_rate_state') . ') OR '
-				. $db->qn('shipping_rate_state') . ' = 0 OR '
+				. $db->qn('shipping_rate_state') . ' = ' . $db->q(0) . ' OR '
 				. $db->qn('shipping_rate_state') . ' = "")';
 		}
 
@@ -306,14 +306,14 @@ class RedshopHelperShipping
 		{
 			$whereCountry = '(FIND_IN_SET(' . $db->q($country) . ', '
 				. $db->qn('shipping_rate_country') . ') OR '
-				. $db->qn('shipping_rate_country') . ' = 0 OR '
+				. $db->qn('shipping_rate_country') . ' = ' . $db->q(0) . ' OR '
 				. $db->qn('shipping_rate_country') . ' = "")';
 		}
 		else
 		{
 			$whereCountry = '(FIND_IN_SET(' . $db->q(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ', '
 				. $db->qn('shipping_rate_country') . ') OR '
-				. $db->qn('shipping_rate_country') . ' = 0 OR '
+				. $db->qn('shipping_rate_country') . ' = ' . $db->q(0) . ' OR '
 				. $db->qn('shipping_rate_country') . ' = "")';
 		}
 
@@ -321,7 +321,7 @@ class RedshopHelperShipping
 		{
 			$whereState = ' AND (FIND_IN_SET(' . $db->q($state) . ', '
 				. $db->qn('shipping_rate_state') . ') OR '
-				. $db->qn('shipping_rate_state') . ' = 0 OR '
+				. $db->qn('shipping_rate_state') . ' = ' . $db->q(0) . ' OR '
 				. $db->qn('shipping_rate_state') . ' = "")';
 		}
 
@@ -583,7 +583,7 @@ class RedshopHelperShipping
 		{
 			$zipCond = ' AND ( ( ' . $db->qn('shipping_rate_zip_start') . ' <= ' . $db->q($zip) . ' AND '
 				. $db->qn('shipping_rate_zip_end') . ' >= ' . $db->q($zip) . ' )
-			OR (' . $db->qn('shipping_rate_zip_start') . ' = 0 AND ' . $db->qn('shipping_rate_zip_end') . ' = 0)
+			OR (' . $db->qn('shipping_rate_zip_start') . ' = ' . $db->q(0) . ' AND ' . $db->qn('shipping_rate_zip_end') . ' = ' . $db->q(0) . ')
 			OR (' . $db->qn('shipping_rate_zip_start') . ' = "" AND ' . $db->qn('shipping_rate_zip_end') . ' = "") ) ';
 		}
 
@@ -594,7 +594,7 @@ class RedshopHelperShipping
 		{
 			$whereCountry = ' AND (FIND_IN_SET(' . $db->q($country) . ', '
 				. $db->qn('shipping_rate_country') . ') OR ('
-				. $db->qn('shipping_rate_country') . ' = 0 OR '
+				. $db->qn('shipping_rate_country') . ' = ' . $db->q(0) . ' OR '
 				. $db->qn('shipping_rate_country') . ' = "") )';
 		}
 
@@ -602,7 +602,7 @@ class RedshopHelperShipping
 		{
 			$whereState = ' AND (FIND_IN_SET(' . $db->q($state) . ', '
 				. $db->qn('shipping_rate_state') . ') OR '
-				. $db->qn('shipping_rate_state') . ' = 0 OR '
+				. $db->qn('shipping_rate_state') . ' = ' . $db->q(0) . ' OR '
 				. $db->qn('shipping_rate_state') . ' = "")';
 		}
 
@@ -983,7 +983,7 @@ class RedshopHelperShipping
 		if ($state)
 		{
 			$whereState = " AND (FIND_IN_SET(" . $db->q($state) . ", " . $db->qn('shipping_rate_state') . ") OR "
-				. $db->qn('shipping_rate_state') . " = 0 OR " . $db->qn('shipping_rate_state') . " = '')";
+				. $db->qn('shipping_rate_state') . " = " . $db->q(0) . " OR " . $db->qn('shipping_rate_state') . " = '')";
 		}
 
 		$pWhere = "";
@@ -1046,7 +1046,7 @@ class RedshopHelperShipping
 			{
 				$zipCond = " AND ( ( " . $db->qn('shipping_rate_zip_start') . " <= " . $db->q($zip) . " AND "
 					. $db->qn('shipping_rate_zip_end') . " >= " . $db->q($zip) . " )
-				OR (" . $db->qn('shipping_rate_zip_start') . " = 0 AND " . $db->qn('shipping_rate_zip_end') . " = 0)
+				OR (" . $db->qn('shipping_rate_zip_start') . " = " . $db->q(0) . " AND " . $db->qn('shipping_rate_zip_end') . " = " . $db->q(0) . ")
 				OR (" . $db->qn('shipping_rate_zip_start') . " = '' AND " . $db->qn('shipping_rate_zip_end') . " = '') ) ";
 			}
 
@@ -1785,7 +1785,7 @@ class RedshopHelperShipping
 		if ($country)
 		{
 			$whereCountry = "AND (FIND_IN_SET(" . $db->q($country) . ", " . $db->qn('shipping_rate_country') . " ) OR "
-				. $db->qn('shipping_rate_country') . " = 0 OR "
+				. $db->qn('shipping_rate_country') . " = ' . $db->q(0) . ' OR "
 				. $db->qn('shipping_rate_country') . " = '') ";
 		}
 		else
@@ -1807,7 +1807,7 @@ class RedshopHelperShipping
 		if ($state)
 		{
 			$whereState = "AND (FIND_IN_SET(" . $db->q($state) . ", " . $db->qn('shipping_rate_state') . " ) OR "
-				. $db->qn('shipping_rate_state') . " = 0 OR "
+				. $db->qn('shipping_rate_state') . " = " . $db->q(0) . " OR "
 				. $db->qn('shipping_rate_state') . " = '') ";
 		}
 
@@ -1819,7 +1819,7 @@ class RedshopHelperShipping
 		{
 			$zipCond = "AND ( ( " . $db->qn('shipping_rate_zip_start') . " <= " . $db->q($zip) . " AND "
 				. $db->qn('shipping_rate_zip_end') . " >= " . $db->q($zip) . " ) "
-				. "OR (" . $db->qn('shipping_rate_zip_start') . " = 0 AND " . $db->qn('shipping_rate_zip_end') . " = 0) "
+				. "OR (" . $db->qn('shipping_rate_zip_start') . " = " . $db->q(0) . " AND " . $db->qn('shipping_rate_zip_end') . " = " . $db->q(0) . ") "
 				. "OR (" . $db->qn('shipping_rate_zip_start') . " = '' AND " . $db->qn('shipping_rate_zip_end') . " = '') ) ";
 		}
 
@@ -2010,20 +2010,20 @@ class RedshopHelperShipping
 		if ($country)
 		{
 			$whereCountry = "AND (FIND_IN_SET(" . $db->q($country) . ", "
-				. $db->qn('shipping_rate_country') . " ) OR " . $db->qn('shipping_rate_country') . " = 0 OR "
+				. $db->qn('shipping_rate_country') . " ) OR " . $db->qn('shipping_rate_country') . " = " . $db->q(0) . " OR "
 				. $db->qn('shipping_rate_country') . " = '' )";
 		}
 		else
 		{
 			$whereCountry = "AND (FIND_IN_SET(" . $db->q(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", "
-				. $db->qn('shipping_rate_country') . " ) OR " . $db->qn('shipping_rate_country') . " = 0 OR "
+				. $db->qn('shipping_rate_country') . " ) OR " . $db->qn('shipping_rate_country') . " = " . $db->q(0) . " OR "
 				. $db->qn('shipping_rate_country') . " = '')";
 		}
 
 		if ($state)
 		{
 			$whereState = " AND (FIND_IN_SET(" . $db->q($state) . ", "
-				. $db->qn('shipping_rate_state') . " ) OR " . $db->qn('shipping_rate_state') . " = 0 OR "
+				. $db->qn('shipping_rate_state') . " ) OR " . $db->qn('shipping_rate_state') . " = " . $db->q(0) . " OR "
 				. $db->qn('shipping_rate_state') . " = '')";
 		}
 
@@ -2034,7 +2034,7 @@ class RedshopHelperShipping
 		{
 			$zipCond = " AND ( ( " . $db->qn('shipping_rate_zip_start') . " <= " . $db->q($zip) . " AND "
 				. $db->qn('shipping_rate_zip_end') . " >= " . $db->q($zip) . " )
-				OR (" . $db->qn('shipping_rate_zip_start') . " = 0 AND " . $db->qn('shipping_rate_zip_end') . " = 0)
+				OR (" . $db->qn('shipping_rate_zip_start') . " = " . $db->q(0) . " AND " . $db->qn('shipping_rate_zip_end') . " = " . $db->q(0) . ")
 				OR (" . $db->qn('shipping_rate_zip_start') . " = '' AND " . $db->qn('shipping_rate_zip_end') . " = '') ) ";
 		}
 

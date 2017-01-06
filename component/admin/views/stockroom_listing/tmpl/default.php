@@ -57,7 +57,7 @@ $showbuttons    = JFactory::getApplication()->input->getInt('showbuttons', 0);
 		document.adminForm.task.value = "";
 	}
 </script>
-<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop&view=stockroom_listing" method="post" name="adminForm" id="adminForm">
 	<div class="filterTool">
 		<div class="filterItem">
 			<div class="btn-wrapper input-append">
