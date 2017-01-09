@@ -415,7 +415,13 @@ JPluginHelper::importPlugin('redshop_product');
 						<?php echo $config->convertDateFormat($row->cdate); ?>
 					</td>
 					<td>
-						<a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+						<?php if (RedshopHelperPdf::isAvailablePdfPlugins()): ?>
+							<a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>" target="_blank">
+								<i class="fa fa-file-pdf-o"></i>
+							</a>
+						<?php else: ?>
+							<span class="disabled"><i class="fa fa-file-pdf-o"></i></span>
+						<?php endif; ?>
 					</td>
 					<td>
 						<?php if ($row->invoice_no != ''): ?>

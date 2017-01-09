@@ -28,20 +28,11 @@ defined('_JEXEC') or die;
 	<input type="text" name="product_download_days" id="product_download_days" value="<?php echo $this->config->get('PRODUCT_DOWNLOAD_DAYS'); ?>">
 </div>
 
-<?php
-		echo RedshopLayoutHelper::render(
-			'system.message',
-			array(
-				'msgList' => array(
-					'notice' => array(
-						JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_ROOT_WARNING')
-					)
-				),
-				'showHeading' => true,
-				'allowClose' => false
-			)
-		);
-	?>
+<div class="alert alert-warning alert-dismissible" role="alert">
+    <button class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <h4 class="alert-heading"><i class="fa fa-exclamation-triangle"></i> <?php echo JText::_('WARNING') ?></h4>
+    <p><?php echo JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_ROOT_WARNING') ?></p>
+</div>
 
 <div class="form-group">
 

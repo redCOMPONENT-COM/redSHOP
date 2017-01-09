@@ -297,7 +297,7 @@ class productHelper
 
 			if (!empty($catIds))
 			{
-				$categoriesSub = '';
+				$categoriesSub = array();
 
 				foreach ($catIds as $categoryId)
 				{
@@ -3303,7 +3303,7 @@ class productHelper
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct_Attribute::getProductAttribute() instead.
 	 */
 	public function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0,
-		$notAttributeId = 0)
+	                                    $notAttributeId = 0)
 	{
 		return RedshopHelperProduct_Attribute::getProductAttribute(
 			$productId, $attributeSetId, $attributeId, $published, $attributeRequired, $notAttributeId
@@ -3878,6 +3878,9 @@ class productHelper
 		$url       = JURI::base();
 		$redconfig = Redconfiguration::getInstance();
 
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+
 		$viewacc = JRequest::getVar('viewacc', 1);
 		$layout  = JRequest::getVar('layout');
 		$Itemid  = JRequest::getVar('Itemid');
@@ -3985,17 +3988,7 @@ class productHelper
 					$aw_thumb = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
 				}
 
-				$thumbUrl = "";
-
-				JPluginHelper::importPlugin('redshop_product');
-				$dispatcher = RedshopHelperUtility::getInstance();
-
-				$product = $this->getProductById($ac_id);
-
-				// Trigger to change product image.
-				$dispatcher->trigger('changeProductImage', array(&$thumbUrl, $product, $acc_prod_link, $aw_thumb, $ah_thumb, Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX'), ''));
-
-				if (empty($thumbUrl) && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_main_image))
+				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_main_image))
 				{
 					$thumbUrl = RedShopHelperImages::getImagePath(
 						$accessory_main_image,
@@ -4108,71 +4101,77 @@ class productHelper
 						. $aw_thumb . "'><input type='hidden' name='acc_main_imgheight' id='acc_main_imgheight' value='"
 						. $ah_thumb . "'>";
 
-					if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1)
+					// Trigger to change product image.
+					$dispatcher->trigger('changeProductImage', array(&$accessoryimage, $accessory [$a], $acc_prod_link, $aw_thumb, $ah_thumb, Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX'), ''));
+
+					if (empty($accessoryimage))
 					{
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_image))
+						if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1)
 						{
-							$thumbUrl = RedShopHelperImages::getImagePath(
-								$accessory_image,
-								'',
-								'thumb',
-								'product',
-								$aw_thumb,
-								$ah_thumb,
-								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
-							$accessoryimage = "<a id='a_main_image" . $accessory [$a]->accessory_id
-								. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $accessory_image
-								. "' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\">"
-								. "<img id='main_image" . $accessory [$a]->accessory_id . "' class='redAttributeImage' src='" . $thumbUrl . "' />"
-								. "</a>";
+							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_image))
+							{
+								$thumbUrl = RedShopHelperImages::getImagePath(
+									$accessory_image,
+									'',
+									'thumb',
+									'product',
+									$aw_thumb,
+									$ah_thumb,
+									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+								);
+								$accessoryimage = "<a id='a_main_image" . $accessory [$a]->accessory_id
+									. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $accessory_image
+									. "' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\">"
+									. "<img id='main_image" . $accessory [$a]->accessory_id . "' class='redAttributeImage' src='" . $thumbUrl . "' />"
+									. "</a>";
+							}
+							else
+							{
+								$thumbUrl = RedShopHelperImages::getImagePath(
+									'noimage.jpg',
+									'',
+									'thumb',
+									'',
+									$aw_thumb,
+									$ah_thumb,
+									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+								);
+								$accessoryimage = "<a id='a_main_image" . $accessory [$a]->accessory_id
+									. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH
+									. "noimage.jpg' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\">"
+									. "<img id='main_image" . $accessory [$a]->accessory_id . "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
+							}
 						}
 						else
 						{
-							$thumbUrl = RedShopHelperImages::getImagePath(
-								'noimage.jpg',
-								'',
-								'thumb',
-								'',
-								$aw_thumb,
-								$ah_thumb,
-								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
-							$accessoryimage = "<a id='a_main_image" . $accessory [$a]->accessory_id
-								. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH
-								. "noimage.jpg' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\">"
-								. "<img id='main_image" . $accessory [$a]->accessory_id . "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
-						}
-					}
-					else
-					{
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_image))
-						{
-							$thumbUrl = RedShopHelperImages::getImagePath(
-								$accessory_image,
-								'',
-								'thumb',
-								'product',
-								$aw_thumb,
-								$ah_thumb,
-								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
-							$accessoryimage = "<a href='$acc_prod_link'><img id='main_image" . $accessory [$a]->accessory_id
-								. "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
-						}
-						else
-						{
-							$thumbUrl = RedShopHelperImages::getImagePath(
-								'noimage.jpg',
-								'',
-								'thumb',
-								'',
-								$aw_thumb,
-								$ah_thumb,
-								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
-							$accessoryimage = "<a href='$acc_prod_link'><img id='main_image" . $accessory [$a]->accessory_id
-								. "' class='redAttributeImage' src='" . $thumbUrl. "' /></a>";
+							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_image))
+							{
+								$thumbUrl = RedShopHelperImages::getImagePath(
+									$accessory_image,
+									'',
+									'thumb',
+									'product',
+									$aw_thumb,
+									$ah_thumb,
+									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+								);
+								$accessoryimage = "<a href='$acc_prod_link'><img id='main_image" . $accessory [$a]->accessory_id
+									. "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
+							}
+							else
+							{
+								$thumbUrl = RedShopHelperImages::getImagePath(
+									'noimage.jpg',
+									'',
+									'thumb',
+									'',
+									$aw_thumb,
+									$ah_thumb,
+									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+								);
+								$accessoryimage = "<a href='$acc_prod_link'><img id='main_image" . $accessory [$a]->accessory_id
+									. "' class='redAttributeImage' src='" . $thumbUrl. "' /></a>";
+							}
 						}
 					}
 
@@ -4382,7 +4381,7 @@ class productHelper
 	 * @deprecated   __DEPLOY_VERSION__     Use RedshopHelperAttribute::replaceAttributeWithCartData() instead
 	 */
 	public function replaceAttributewithCartData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(),
-		$templateContent, $attributeTemplate = null, $isChild = false, $onlySelected = false)
+	                                             $templateContent, $attributeTemplate = null, $isChild = false, $onlySelected = false)
 	{
 		return RedshopHelperAttribute::replaceAttributeWithCartData($productId, $accessoryId, $relatedProductId, $attributes, $templateContent,
 			$attributeTemplate, $isChild, $onlySelected);
@@ -4438,7 +4437,7 @@ class productHelper
 	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperAttribute::replaceAttributeData() instead.
 	 */
 	public function replaceAttributeData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(), $templateContent,
-		$attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1,$onlySelected = false)
+	                                     $attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1,$onlySelected = false)
 	{
 		return RedshopHelperAttribute::replaceAttributeData($productId, $accessoryId, $relatedProductId, $attributes, $templateContent,
 			$attributeTemplate, $isChild, $selectedAttributes, $displayIndCart, $onlySelected);
@@ -7462,9 +7461,9 @@ class productHelper
 					]
 				)
 			)
-			->from($db->qn('#__redshop_customer_question', 'q'))
-			->where($db->qn('q.id') . ' > 0 ' . $and)
-			->order($db->qn('q.ordering'));
+				->from($db->qn('#__redshop_customer_question', 'q'))
+				->where($db->qn('q.id') . ' > 0 ' . $and)
+				->order($db->qn('q.ordering'));
 
 			$db->setQuery($query);
 

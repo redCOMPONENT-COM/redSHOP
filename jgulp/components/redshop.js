@@ -169,49 +169,15 @@ gulp.task('copy:' + baseTask + ':frontend', ['clean:' + baseTask + ':frontend'],
 
 /// Copy: backend
 gulp.task('copy:' + baseTask + ':backend', ['clean:' + baseTask + ':backend'], function(cb) {
-	gulp.src(extPath + '/component/admin/language/**')
-		.pipe(gulp.dest(config.wwwDir + '/administrator/language'));
-
 	return (
 		gulp.src([
-			extPath + '/component/admin/**',
-			'!' + extPath + '/component/admin/language',
-			'!' + extPath + '/component/admin/language/**'
+			extPath + '/component/admin/**'
 		])
 			.pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName)) &&
 		gulp.src(extPath + '/redshop.xml')
 			.pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName)) &&
 		gulp.src(extPath + '/install.php')
 			.pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName))
-	);
-});
-
-/// Copy: backend without clean
-gulp.task('copy:' + baseTask + ':backend-noclean', [], function(cb) {
-	gulp.src(extPath + '/component/admin/language/**')
-		.pipe(gulp.dest(config.wwwDir + '/administrator/language'));
-
-	return (
-		gulp.src([
-			extPath + '/component/admin/**',
-			'!' + extPath + '/component/admin/language',
-			'!' + extPath + '/component/admin/language/**'
-		])
-			.pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName)) &&
-		gulp.src(extPath + '/redshop.xml')
-			.pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName)) &&
-		gulp.src(extPath + '/install.php')
-			.pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName))
-	);
-});
-
-/// Copy: libraries without clean
-gulp.task('copy:' + baseTask + ':library-noclean', function(cb) {
-	return (
-		gulp.src([
-			extPath + '/libraries/redshop/**/*.php'
-		])
-		.pipe(gulp.dest(config.wwwDir + '/libraries/redshop'))
 	);
 });
 
@@ -283,8 +249,7 @@ gulp.task('watch:' + baseTask + ':backend',
 				extPath + '/redshop.xml',
 				extPath + '/install.php'
 			],
-			['copy:' + baseTask + ':backend-noclean',
-			 'copy:' + baseTask + ':library-noclean']
+			['copy:' + baseTask + ':backend']
 		);
 	}
 );
