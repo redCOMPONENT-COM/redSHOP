@@ -1686,6 +1686,12 @@ class RedshopHelperExtrafields
 		$db->setQuery($query);
 		$list = $db->loadObjectList();
 
+		// Skip process if there are no custom fields.
+		if (empty($list))
+		{
+			return;
+		}
+
 		$query->clear()
 			->insert($db->qn('#__redshop_fields_data'))
 			->columns($db->qn(array('fieldid', 'data_txt', 'itemid', 'section', 'alt_text', 'image_link', 'user_email')));
