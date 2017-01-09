@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-
 /**
  * Class Model Export
  *
@@ -194,7 +192,6 @@ class RedshopModelExport extends RedshopModel
 				$fieldHeader
 			);
 		}
-
 
 		$export = array();
 
@@ -919,7 +916,7 @@ class RedshopModelExport extends RedshopModel
 			$headings = array();
 
 			// Then loop through the rows
-			foreach($usersInfo as $userId => $user)
+			foreach ($usersInfo as $userId => $user)
 			{
 				$user = (array) $user;
 				$user['usertype'] = implode(',', $groupIds[$userId]);
@@ -1369,5 +1366,31 @@ class RedshopModelExport extends RedshopModel
 		$return->data   = self::$productExtraFieldsData;
 
 		return $return;
+	}
+
+	/**
+	 * Method for get all available exports features.
+	 *
+	 * @return  array  List of available exports.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getExports()
+	{
+		$plugins = JPluginHelper::getPlugin('redshop_export');
+
+		if (empty($plugins))
+		{
+			return array();
+		}
+
+		$language = JFactory::getLanguage();
+
+		foreach ($plugins as $plugin)
+		{
+			$language->load('plg_redshop_export_' . $plugin->name, JPATH_SITE . '/plugins/redshop_export/' . $plugin->name);
+		}
+
+		return $plugins;
 	}
 }

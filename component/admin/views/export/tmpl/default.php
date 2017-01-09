@@ -7,88 +7,120 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
-$data = array(
-	'categories'                 => 'COM_REDSHOP_EXPORT_CATEGORIES',
-	'products'                   => 'COM_REDSHOP_EXPORT_PRODUCTS',
-	'attributes'                 => 'COM_REDSHOP_EXPORT_ATTRIBUTES',
-	'related_product'            => 'COM_REDSHOP_EXPORT_RELATED_PRODUCTS',
-	'fields'                     => 'COM_REDSHOP_EXPORT_FIELDS',
-	'users'                      => 'COM_REDSHOP_EXPORT_USERS',
-	'shipping_address'           => 'COM_REDSHOP_EXPORT_SHIPPING_ADDRESS',
-	'shopperGroupProductPrice'   => 'COM_REDSHOP_EXPORT_SHOPPER_GROUP_PRODUCT_SPECIFIC_PRICE',
-	'shopperGroupAttributePrice' => 'COM_REDSHOP_EXPORT_SHOPPER_GROUP_ATTRIBUTE_SPECIFIC_PRICE',
-	'manufacturer'               => 'COM_REDSHOP_EXPORT_MANUFACTURER'
-);
 ?>
-<h1><?php echo JText::_('COM_REDSHOP_DATA_EXPORT'); ?></h1>
-<form
-	action="<?php echo 'index.php?option=com_redshop'; ?>"
-	method="post"
-	name="adminForm"
-	id="adminForm"
->
-	<!-- Render Export list -->
-	<?php foreach ($data as $value => $text): ?>
 
-		<!-- Shopper Group Attribute Price Hint -->
-		<?php if ($value == 'shopperGroupAttributePrice')
-		{
-			$msgList = array('msgList' => array('message' => array(JText::_('COM_REDSHOP_EXPORT_SHOPPER_GROUP_ATTRIBUTE_SPECIFIC_PRICE_HINT'))));
-			echo RedshopLayoutHelper::render('system.message', $msgList);
-		} ?>
-		<p>
-			<label class="radio">
-			<input
-				type="radio"
-				onclick="return product_export(this.value)"
-				value="<?php echo $value; ?>"
-				id="export<?php echo $value; ?>"
-				name="export"
-			>
-				<?php echo JText::_($text); ?>
-			</label>
-		</p>
+<?php if (empty($this->exports)): ?>
+    <div class="alert alert-info">
+        <a class="close" data-dismiss="alert">×</a>
+        <div>
+            <p><?php echo JText::_('COM_REDSHOP_EXPORT_NO_AVAILABLE_EXPORT_FEATURES') ?></p>
+        </div>
+    </div>
+<?php else: ?>
+    <script type="text/javascript">
+        var plugin = '';
 
-		<!-- Display Product Export options -->
-		<?php if ($value == 'products') : ?>
-			<span id="product_export" style="display: none;">
-				<p>
-					<b><?php echo JText::_('COM_REDSHOP_EXPORT_PRODUCT_EXTRAFIELD');?></b>
-					<?php echo JHtml::_('select.booleanlist', 'export_product_extra_field'); ?>
-				</p>
-				<p>
-					<div><b><?php echo JText::_('COM_REDSHOP_PRODUCT_CATEGORY'); ?></b></div>
-					<div>
-						<?php echo $this->lists['categories']; ?>
-					</div>
-				</p>
-				<p>
-					<div><b><?php echo JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'); ?></b></div>
-					<div>
-						<?php echo $this->lists['manufacturers']; ?>
-					</div>
-				</p>
-			</span>
-		<?php endif; ?>
-	<?php endforeach; ?>
+        (function ($) {
+            $(document).ready(function () {
+                $("#export_plugins input[type='radio']").change(function (e) {
+                    plugin = $("#export_plugins input[type='radio']").val();
 
-	<!-- Hidden field -->
-	<input type="hidden" name="view" value="export"/>
-	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="boxchecked" value="0"/>
-</form>
+                    // Load specific configuration of plugin
+                    $.post(
+                        "index.php?option=com_ajax&plugin=" + plugin + "_config&group=redshop_export&format=raw",
+                        {
+                            "<?php echo JSession::getFormToken() ?>": 1
+                        },
+                        function (response) {
+                            if (response == '')
+                                response = '<p class="text-info"><?php echo JText::_('COM_REDSHOP_EXPORT_NO_CONFIG') ?></p>';
 
-<script type=" text/javascript">
-function product_export(val)
-{
-	if (val == "products")
-	{
-		document.getElementById('product_export').style.display = "";
-	}
-	else
-	{
-		document.getElementById('product_export').style.display = "none";
-	}
-}
-</script>
+                            $("#export_config_body").empty().html(response);
+                        }
+                    );
+
+                    $("#export_config").collapse('show');
+                });
+
+                $("#export_btn_start").click(function(event){
+                    $("#export_plugins").addClass("disabled");
+                    $("#export_config").addClass("disabled");
+                    $("#export_process_panel").collapse('show');
+
+                    $.post(
+                        "index.php?option=com_ajax&plugin=" + plugin + "_start&group=redshop_export&format=raw",
+                        {
+                            "<?php echo JSession::getFormToken() ?>": 1
+                        },
+                        function (response) {
+                            $("#export_process_title span").empty().html('(' + response + ')');
+                        }
+                    );
+
+                    event.preventDefault();
+                });
+            });
+        })(jQuery);
+    </script>
+
+    <form action="<?php echo 'index.php?option=com_redshop' ?>" method="post" name="adminForm" id="adminForm">
+        <div class="panel-group" id="export_step" role="tablist" aria-multiselectable="true">
+            <!-- Step 1. Choose plugin -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+						<?php echo JText::_('COM_REDSHOP_EXPORT_STEP_1') ?>
+                    </h4>
+                </div>
+                <div class="panel-body" id="export_plugins">
+					<?php foreach ($this->exports as $export): ?>
+                        <label>
+                            <input type="radio" value="<?php echo $export->name ?>"
+                                   name="plugin_name"/> <?php echo JText::_('PLG_REDSHOP_EXPORT_' . strtoupper($export->name) . '_TITLE') ?>
+                        </label>
+					<?php endforeach; ?>
+                </div>
+            </div>
+            <!-- Step 1. End -->
+
+            <!-- Step 2. Config -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="export_config_heading">
+                    <h4 class="panel-title">
+						<?php echo JText::_('COM_REDSHOP_EXPORT_STEP_2') ?>
+                    </h4>
+                </div>
+                <div id="export_config" class="panel-collapse collapse" role="tabpanel" aria-labelledby="export_config_heading">
+                    <div class="panel-body" id="">
+                        <div id="export_config_body"></div>
+                        <hr/>
+                        <button class="btn btn-primary btn-large" id="export_btn_start" type="button">
+                            <?php echo JText::_('COM_REDSHOP_EXPORT_START') ?>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Step 2. End -->
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingThree">
+                    <h4 class="panel-title" id="export_process_title">
+						<?php echo JText::_('COM_REDSHOP_EXPORT_STEP_3') ?> <span class="small"></span>
+                    </h4>
+                </div>
+                <div id="export_process_panel" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body" id="export_process">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                0% Complete
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Hidden field -->
+        <input type="hidden" name="task" value=""/>
+        <input type="hidden" name="boxchecked" value="0"/>
+    </form>
+<?php endif; ?>
