@@ -19,6 +19,8 @@ defined('_JEXEC') or die;
 <?php else: ?>
     <script type="text/javascript">
         var plugin = '';
+        var total = 0;
+        var itemRun = 10;
 
         (function ($) {
             $(document).ready(function () {
@@ -53,6 +55,7 @@ defined('_JEXEC') or die;
                             "<?php echo JSession::getFormToken() ?>": 1
                         },
                         function (response) {
+                            total = parseInt(response);
                             $("#export_process_title span").empty().html('(' + response + ')');
                         }
                     );
@@ -61,6 +64,28 @@ defined('_JEXEC') or die;
                 });
             });
         })(jQuery);
+
+        function export(startIndex)
+        {
+            (function($){
+                var url = "index.php?option=com_ajax&plugin=" + plugin + "_export&group=redshop_export&format=raw";
+
+                $.post(
+                    url,
+                    {
+                        "start": startIndex,
+                        "limit": itemRun,
+                        "<?php echo JSession::getFormToken() ?>": 1
+                    },
+                    function (response) {
+                        var success = startIndex * itemRun;
+
+                        if (success < total)
+
+                    }
+                );
+            })(jQuery);
+        }
     </script>
 
     <form action="<?php echo 'index.php?option=com_redshop' ?>" method="post" name="adminForm" id="adminForm">
@@ -109,9 +134,9 @@ defined('_JEXEC') or die;
                     </h4>
                 </div>
                 <div id="export_process_panel" class="panel-collapse collapse" role="tabpanel">
-                    <div class="panel-body" id="export_process">
+                    <div class="panel-body">
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                            <div id="export_process_bar" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
                                 0% Complete
                             </div>
                         </div>
