@@ -26,9 +26,9 @@ JHtml::_('behavior.formvalidator');
 						<?php echo $this->form->renderField('amount') ?>
 						<?php echo $this->form->renderField('start_date') ?>
 						<?php echo $this->form->renderField('end_date') ?>
-						<?php echo $this->form->renderField('discount_product') ?>
-						<?php echo $this->form->renderField('category_id') ?>
 						<?php echo $this->form->renderField('manufacturer_id') ?>
+						<?php echo $this->form->renderField('category_id') ?>
+						<?php echo $this->form->renderField('discount_product') ?>
 					</div>
 				</div>
 			</div>
