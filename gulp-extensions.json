@@ -63,6 +63,9 @@
     "redshop_alert": [
       "alert"
     ],
+    "redshop_export": [
+      "category"
+    ],
     "redshop_payment": [
       "baokim",
       "cielo",
