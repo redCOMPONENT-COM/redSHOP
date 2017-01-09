@@ -584,7 +584,7 @@ class RedshopModelExport extends RedshopModel
 			for ($e = 0, $en = count($manufacturers); $e < $en; $e++)
 			{
 				$row = $manufacturers[$e];
-				$manufacturers[$e]->manufacturer_desc = strip_tags($manufacturers[$e]->manufacturer_desc);
+				$manufacturers[$e]->manufacturer_desc = $manufacturers[$e]->manufacturer_desc;
 				$row = (array) $row;
 				$fields = count($row);
 
