@@ -19,20 +19,20 @@ class RedshopControllerProduct_price extends RedshopController
 
 	public function listing()
 	{
-		JRequest::setVar('layout', 'listing');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('layout', 'listing');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
 	public function saveprice()
 	{
-		$db = JFactory::getDbo();
-		$product_id = JRequest::getVar('pid');
-		$shopper_group_id = JRequest::getVar('shopper_group_id', array(), 'post', 'array');
-		$price = JRequest::getVar('price', array(), 'post', 'array');
-		$price_quantity_start = JRequest::getVar('price_quantity_start', array(), 'post', 'array');
-		$price_quantity_end = JRequest::getVar('price_quantity_end', array(), 'post', 'array');
-		$price_id = JRequest::getVar('price_id', array(), 'post', 'array');
+		$db                   = JFactory::getDbo();
+		$product_id           = $this->input->get('pid');
+		$shopper_group_id     = $this->input->post->get('shopper_group_id', array(), 'array');
+		$price                = $this->input->post->get('price', array(), 'array');
+		$price_quantity_start = $this->input->post->get('price_quantity_start', array(), 'array');
+		$price_quantity_end   = $this->input->post->get('price_quantity_end', array(), 'array');
+		$price_id             = $this->input->post->get('price_id', array(), 'array');
 
 		for ($i = 0, $in = count($price); $i < $in; $i++)
 		{
@@ -84,10 +84,10 @@ class RedshopControllerProduct_price extends RedshopController
 
 	public function template()
 	{
-		$template_id = JRequest::getVar('template_id', '');
-		$product_id = JRequest::getVar('product_id', '');
-		$section = JRequest::getVar('section', '');
-		$model = $this->getModel('product');
+		$template_id = $this->input->get('template_id', '');
+		$product_id  = $this->input->get('product_id', '');
+		$section     = $this->input->get('section', '');
+		$model       = $this->getModel('product');
 
 		$data_product = $model->product_template($template_id, $product_id, $section);
 		echo $data_product;
