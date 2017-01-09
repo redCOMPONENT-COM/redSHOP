@@ -492,20 +492,15 @@ class Com_RedshopInstallerScript
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_LEGACY_MIGRATING'), 'notice');
 
 				// Load configuration file from legacy file.
-				if (Redshop::getConfig()->loadLegacy())
-				{
-					return true;
-				}
+				Redshop::getConfig()->loadLegacy();
 			}
 
 			// Try to load distinct if no config found.
-			return Redshop::getConfig()->loadDist();
+			Redshop::getConfig()->loadDist();
 		}
 		catch (Exception $e)
 		{
 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-			return false;
 		}
 	}
 
@@ -881,7 +876,13 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/component/admin/tables/mass_discount_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/tables/tax_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/views/supplier/tmpl/default.php',
-				JPATH_ADMINISTRATOR . '/component/admin/views/mass_discount/tmpl/default.php'
+				JPATH_ADMINISTRATOR . '/component/admin/views/mass_discount/tmpl/default.php',
+				JPATH_SITE . '/media/com_redshop/css/media.css',
+				JPATH_SITE . '/media/com_redshop/css/media-uncompressed.css',
+				JPATH_SITE . '/media/com_redshop/js/media.js',
+				JPATH_SITE . '/media/com_redshop/js/media-uncompressed.js',
+				JPATH_ADMINISTRATOR . '/component/admin/views/order_detail/view.tcpdf.php',
+				JPATH_LIBRARIES . '/redshop/helper/tcpdf.php'
 			);
 
 			array_push(
@@ -1259,8 +1260,6 @@ class Com_RedshopInstallerScript
 
 		$data['BACKWARD_COMPATIBLE_PHP'] = 0;
 		$data['BACKWARD_COMPATIBLE_JS'] = 0;
-		$configData['BACKWARD_COMPATIBLE_PHP'] = 0;
-		$configData['BACKWARD_COMPATIBLE_JS'] = 0;
 		$config = Redshop::getConfig();
 
 		if (!empty($overrideFiles))
@@ -1284,18 +1283,16 @@ class Com_RedshopInstallerScript
 
 			// Check site used MVC && Templates Override
 			$data['BACKWARD_COMPATIBLE_PHP'] = 1;
-			$configData['BACKWARD_COMPATIBLE_PHP'] = 1;
 		}
 
 		if (!empty($jsOverride))
 		{
 			// Check site used JS Override
 			$data['BACKWARD_COMPATIBLE_JS'] = 1;
-			$configData['BACKWARD_COMPATIBLE_JS'] = 1;
 		}
 
 		JFactory::getApplication()->setUserState('com_redshop.config.global.data', $data);
-		$config->save(new Registry($configData));
+		$config->save(new Registry($data));
 
 		$replaceAdminHelper = array(
 			'adminorder.php'         => 'order_functions.php',

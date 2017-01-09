@@ -38,9 +38,9 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function edit()
 	{
-		JRequest::setVar('view', 'media_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'media_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -56,32 +56,32 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid   = $this->input->post->get('cid', array(0), 'array');
 		$model = $this->getModel('media_detail');
 
 		$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 
-		if (substr(Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT'), -1) != DIRECTORY_SEPARATOR)
+		if (substr(Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT '), -1) != DIRECTORY_SEPARATOR)
 		{
 			$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/';
 		}
 
-		$bulkfile = JRequest::getVar('bulkfile', null, 'files', 'array');
+		$bulkfile     = $this->input->files->get('bulkfile', null, 'array');
 		$bulkfiletype = strtolower(JFile::getExt($bulkfile['name']));
-		$file = JRequest::getVar('file', 'array', 'files', 'array');
+		$file         = $this->input->files->get('file', array(), 'array');
 
-		if ($bulkfile['name'] == null && $file['name'][0] == null && $post['oldmedia'] != "")
+		if (!empty($bulkfile) && $bulkfile['name'] == null && $file[0]['name'] == null && $post['oldmedia'] != "")
 		{
 			if ($post['media_bank_image'] == "")
 			{
-				$post ['media_id'] = $cid[0];
+				$post ['media_id']  = $cid[0];
 				$post['media_name'] = $post['oldmedia'];
 
 				if ($post['media_type'] != $post['oldtype'])
 				{
-					$old_path = JPATH_COMPONENT_SITE . '/assets/' . $post['oldtype'] . '/' . $post['media_section'] . '/' . $post['media_name'];
+					$old_path       = JPATH_COMPONENT_SITE . '/assets/' . $post['oldtype'] . '/' . $post['media_section'] . '/' . $post['media_name'];
 					$old_thumb_path = JPATH_COMPONENT_SITE . '/assets/' . $post['oldtype']
 						. '/' . $post['media_section'] . '/thumb/' . $post['media_name'];
 
@@ -122,10 +122,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 						elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 						{
-							$link = 'index.php?option=com_redshop&view=manufacturer';        ?>
-							<script language="javascript" type="text/javascript">
-								window.parent.document.location = '<?php echo $link; ?>';
-							</script><?php
+							$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+                            <script language="javascript" type="text/javascript">
+                                window.parent.document.location = '<?php echo $link; ?>';
+                            </script><?php
 						}
 						else
 						{
@@ -191,7 +191,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 				if ($cid [0] != 0)
 				{
 					$model->delete($cid);
-					$post['bulk'] = 'no';
+					$post['bulk']      = 'no';
 					$post ['media_id'] = 0;
 				}
 
@@ -206,12 +206,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 				if ($post['media_type'] == 'download')
 				{
 					$post['media_name'] = $product_download_root . str_replace(" ", "_", $filename);
-					$dest = $post['media_name'];
+					$dest               = $post['media_name'];
 				}
 				else
 				{
 					$post['media_name'] = $filename;
-					$dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $filename;
+					$dest               = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $filename;
 				}
 
 				$row = $model->store($post);
@@ -220,7 +220,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 				$src = JPATH_ROOT . '/' . $post['media_bank_image'];
 				copy($src, $dest);
 
-				// 	Media Bank End
+				// Media Bank End
 				if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 				{
 					if ($apply == 1)
@@ -241,10 +241,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 				elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 				{
-					$link = 'index.php?option=com_redshop&view=manufacturer';        ?>
-					<script language="javascript" type="text/javascript">
-						window.parent.document.location = '<?php echo $link; ?>';
-					</script><?php
+					$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+                    <script language="javascript" type="text/javascript">
+                        window.parent.document.location = '<?php echo $link; ?>';
+                    </script><?php
 				}
 				else
 				{
@@ -272,16 +272,16 @@ class RedshopControllerMedia_Detail extends RedshopController
 			{
 				if ($post['media_type'] == 'download')
 				{
-					$download_path = $product_download_root . $post['hdn_download_file_path'];
+					$download_path      = $product_download_root . $post['hdn_download_file_path'];
 					$post['media_name'] = $post['hdn_download_file'];
 				}
 				else
 				{
-					$download_path = "product" . '/' . $post['hdn_download_file'];
+					$download_path      = "product" . '/' . $post['hdn_download_file'];
 					$post['media_name'] = $post['hdn_download_file'];
 				}
 
-				$filenewtype = strtolower(JFile::getExt($post['hdn_download_file']));
+				$filenewtype            = strtolower(JFile::getExt($post['hdn_download_file']));
 				$post['media_mimetype'] = $filenewtype;
 
 				if ($post['hdn_download_file_path'] != $download_path)
@@ -331,9 +331,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 							);
 						}
 					}
-
 					// Set First Image as product Main Imaged
-					else if ($save->media_section == 'product')
+					elseif ($save->media_section == 'product')
 					{
 						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail', $msg);
 					}
@@ -367,12 +366,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 				if ($post['media_type'] == 'download')
 				{
 					$post['media_name'] = $product_download_root . str_replace(" ", "_", $filename);
-					$dest = $post['media_name'];
+					$dest               = $post['media_name'];
 				}
 				else
 				{
 					$post['media_name'] = $filename;
-					$dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $filename;
+					$dest               = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $filename;
 				}
 
 				$model->store($post);
@@ -400,10 +399,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 				elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 				{
-					$link = 'index.php?option=com_redshop&view=manufacturer';        ?>
-					<script language="javascript" type="text/javascript">
-						window.parent.document.location = '<?php echo $link; ?>';
-					</script><?php
+					$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+                    <script language="javascript" type="text/javascript">
+                        window.parent.document.location = '<?php echo $link; ?>';
+                    </script><?php
 				}
 				else
 				{
@@ -414,7 +413,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 			// Media Bank End
 			$post ['media_id'] = 0;
-			$directory = self::writableCell('components/com_redshop/assets');
+			$directory         = self::writableCell('components/com_redshop/assets');
 
 			if ($directory == 0)
 			{
@@ -427,8 +426,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 				if ($bulkfiletype == "zip" || $bulkfiletype == "gz" || $bulkfiletype == "tar" || $bulkfiletype == "tgz" || $bulkfiletype == "gzip")
 				{
 					// Fix the width of the thumb nail images
-					$src = $bulkfile['tmp_name'];
-					$dest = JPATH_ROOT . '/components/com_redshop/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/'
+					$src         = $bulkfile['tmp_name'];
+					$dest        = JPATH_ROOT . '/components/com_redshop/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/'
 						. $bulkfile['name'];
 					$file_upload = JFile::upload($src, $dest);
 
@@ -451,9 +450,9 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 							for ($j = 2, $jn = count($newscan); $j < $jn; $j++)
 							{
-								$filenewtype = strtolower(JFile::getExt($newscan[$j]));
-								$btsrc = $target . '/' . $scan[$i] . '/' . $newscan[$j];
-								$post['media_name'] = RedShopHelperImages::cleanFileName($newscan[$j]);
+								$filenewtype            = strtolower(JFile::getExt($newscan[$j]));
+								$btsrc                  = $target . '/' . $scan[$i] . '/' . $newscan[$j];
+								$post['media_name']     = RedShopHelperImages::cleanFileName($newscan[$j]);
 								$post['media_mimetype'] = $filenewtype;
 
 								if ($post['media_type'] == 'download')
@@ -488,10 +487,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 										}
 										elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 										{
-											$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-											<script language="javascript" type="text/javascript">
-												window.parent.document.location = '<?php echo $link; ?>';
-											</script><?php
+											$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+                                            <script language="javascript" type="text/javascript">
+                                                window.parent.document.location = '<?php echo $link; ?>';
+                                            </script><?php
 										}
 										else
 										{
@@ -549,10 +548,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 											elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 											{
-												$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-												<script language="javascript" type="text/javascript">
-													window.parent.document.location = '<?php echo $link; ?>';
-												</script><?php
+												$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+                                                <script language="javascript" type="text/javascript">
+                                                    window.parent.document.location = '<?php echo $link; ?>';
+                                                </script><?php
 											}
 											else
 											{
@@ -581,9 +580,9 @@ class RedshopControllerMedia_Detail extends RedshopController
 						}
 						else
 						{
-							$filenewtype = strtolower(JFile::getExt($scan[$i]));
-							$btsrc = $target . '/' . $scan[$i];
-							$post['media_name'] = RedShopHelperImages::cleanFileName($scan[$i]);
+							$filenewtype            = strtolower(JFile::getExt($scan[$i]));
+							$btsrc                  = $target . '/' . $scan[$i];
+							$post['media_name']     = RedShopHelperImages::cleanFileName($scan[$i]);
 							$post['media_mimetype'] = $filenewtype;
 
 							if ($post['media_type'] == 'download')
@@ -618,10 +617,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 									elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 									{
-										$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-										<script language="javascript" type="text/javascript">
-											window.parent.document.location = '<?php echo $link; ?>';
-										</script><?php
+										$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+                                        <script language="javascript" type="text/javascript">
+                                            window.parent.document.location = '<?php echo $link; ?>';
+                                        </script><?php
 									}
 									else
 									{
@@ -693,10 +692,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 										}
 										elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 										{
-											$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-											<script language="javascript" type="text/javascript">
-												window.parent.document.location = '<?php echo $link; ?>';
-											</script><?php
+											$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+                                            <script language="javascript" type="text/javascript">
+                                                window.parent.document.location = '<?php echo $link; ?>';
+                                            </script><?php
 										}
 										else
 										{
@@ -726,7 +725,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 				elseif ($bulkfiletype == 'png' || $bulkfiletype == 'gif' || $bulkfiletype == 'jpg' || $bulkfiletype == 'pdf'
 					|| $bulkfiletype != 'mpeg' || $bulkfiletype != 'mp4' || $bulkfiletype != 'avi' || $bulkfiletype != '3gp'
-					|| $bulkfiletype != 'swf' || $bulkfiletype != 'jpeg')
+					|| $bulkfiletype != 'swf' || $bulkfiletype != 'jpeg'
+				)
 				{
 					$msg = JText::_('COM_REDSHOP_PLEASE_SELECT_NO');
 
@@ -760,13 +760,13 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 			}
 
-			if ($file['name'][0] != '')
+			if ($file[0]['name'] != '')
 			{
-				$num = count($file['name']);
+				$num = count($file);
 
 				for ($i = 0; $i < $num; $i++)
 				{
-					$filetype = strtolower(JFile::getExt($file['name'][$i]));
+					$filetype = strtolower(JFile::getExt($file[$i]['name']));
 
 					if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg' && $filetype != 'zip'
 						&& $filetype != 'mpeg' && $filetype != 'mp4' && $filetype != 'avi' && $filetype != '3gp'
@@ -837,25 +837,25 @@ class RedshopControllerMedia_Detail extends RedshopController
 					}
 					else
 					{
-						$src = $file['tmp_name'][$i];
+						$src = $file[$i]['tmp_name'];
 
-						$file['name'][$i] = str_replace(" ", "_", $file['name'][$i]);
+						$file[$i]['name'] = str_replace(" ", "_", $file[$i]['name']);
 
 						// Download product changes
 						if ($post['media_type'] == 'download')
 						{
-							$post['media_name'] = $product_download_root . RedShopHelperImages::cleanFileName($file['name'][$i]);
-							$dest = $post['media_name'];
+							$post['media_name'] = $product_download_root . RedShopHelperImages::cleanFileName($file[$i]['name']);
+							$dest               = $post['media_name'];
 						}
 						else
 						{
-							$post['media_name'] = RedShopHelperImages::cleanFileName($file['name'][$i]);
-							$dest = JPATH_ROOT . '/components/com_redshop/assets/' . $post['media_type'] . '/'
-								. $post['media_section'] . '/' . RedShopHelperImages::cleanFileName($file['name'][$i]);
+							$post['media_name'] = RedShopHelperImages::cleanFileName($file[$i]['name']);
+							$dest               = JPATH_ROOT . '/components/com_redshop/assets/' . $post['media_type'] . '/'
+								. $post['media_section'] . '/' . RedShopHelperImages::cleanFileName($file[$i]['name']);
 						}
 
-						$post['media_mimetype'] = $file['type'][$i];
-						$file_upload = JFile::upload($src, $dest);
+						$post['media_mimetype'] = $file[$i]['type'];
+						$file_upload            = JFile::upload($src, $dest);
 
 						if ($file_upload == 1 && $row = $model->store($post))
 						{
@@ -881,10 +881,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 							}
 							elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 							{
-								$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-								<script language="javascript" type="text/javascript">
-									window.parent.document.location = '<?php echo $link; ?>';
-								</script><?php
+								$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+                                <script language="javascript" type="text/javascript">
+                                    window.parent.document.location = '<?php echo $link; ?>';
+                                </script><?php
 							}
 							else
 							{
@@ -962,11 +962,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function remove()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$section_id    = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid           = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -990,10 +990,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-			<script language="javascript" type="text/javascript">
-				window.parent.document.location = '<?php echo $link; ?>';
-			</script><?php
+			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+            <script language="javascript" type="text/javascript">
+                window.parent.document.location = '<?php echo $link; ?>';
+            </script><?php
 		}
 		else
 		{
@@ -1008,11 +1008,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function publish()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$section_id    = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid           = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -1037,10 +1037,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-			<script language="javascript" type="text/javascript">
-				window.parent.document.location = '<?php echo $link; ?>';
-			</script><?php
+			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+            <script language="javascript" type="text/javascript">
+                window.parent.document.location = '<?php echo $link; ?>';
+            </script><?php
 		}
 		else
 		{
@@ -1055,11 +1055,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function unpublish()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$section_id    = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid           = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -1083,10 +1083,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-			<script language="javascript" type="text/javascript">
-				window.parent.document.location = '<?php echo $link; ?>';
-			</script><?php
+			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+            <script language="javascript" type="text/javascript">
+                window.parent.document.location = '<?php echo $link; ?>';
+            </script><?php
 		}
 		else
 		{
@@ -1101,7 +1101,6 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function cancel()
 	{
-
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 	}
@@ -1110,9 +1109,9 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 * Check Media Folder is Writable?
 	 *
 	 * @param   string   $folder    Folder Name
-	 * @param   integer  $relative  folder is in relative directory then 1 else 0
+	 * @param   integer  $relative  Folder is in relative directory then 1 else 0
 	 *
-	 * @return  [type]              [description]
+	 * @return  boolean             [description]
 	 */
 	public function writableCell($folder, $relative = 1)
 	{
@@ -1133,12 +1132,12 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function saveorder()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$section_id    = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid           = $this->input->post->get('cid', array(), 'array');
+		$order         = $this->input->post->get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -1164,10 +1163,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-			<script language="javascript" type="text/javascript">
-				window.parent.document.location = '<?php echo $link; ?>';
-			</script><?php
+			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+            <script language="javascript" type="text/javascript">
+                window.parent.document.location = '<?php echo $link; ?>';
+            </script><?php
 		}
 		else
 		{
@@ -1182,11 +1181,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function orderup()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$section_id    = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid           = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -1210,10 +1209,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-			<script language="javascript" type="text/javascript">
-				window.parent.document.location = '<?php echo $link; ?>';
-			</script><?php
+			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+            <script language="javascript" type="text/javascript">
+                window.parent.document.location = '<?php echo $link; ?>';
+            </script><?php
 		}
 		else
 		{
@@ -1228,11 +1227,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 */
 	public function orderdown()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$section_id    = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid           = $this->input->post->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -1254,10 +1253,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-	        <script language="javascript" type="text/javascript">
-	            window.parent.document.location = '<?php echo $link; ?>';
-	        </script><?php
+			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+            <script language="javascript" type="text/javascript">
+                window.parent.document.location = '<?php echo $link; ?>';
+            </script><?php
 		}
 		else
 		{
