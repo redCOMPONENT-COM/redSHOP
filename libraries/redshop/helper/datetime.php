@@ -44,4 +44,19 @@ class RedshopHelperDatetime
 
 		return $date->getTimestamp();
 	}
+
+	/**
+	 * Get current day timestamp
+	 *
+	 * @return  int
+	 *
+	 * @since   2.0.0.6
+	 */
+	public static function getCurrentDayTimestamp()
+	{
+		$now = new DateTime();
+		$now->setTime(0,0,1);
+
+		return $now->getTimestamp();
+	}
 }
