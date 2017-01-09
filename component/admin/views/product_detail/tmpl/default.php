@@ -116,6 +116,7 @@ defined('_JEXEC') or die;
 				}
 			}
 		}
+
 		submitform(pressbutton);
 	};
 

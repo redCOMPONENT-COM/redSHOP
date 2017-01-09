@@ -183,7 +183,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 			$options = array_merge($options, $attribs);
 		}
 
-		$initSelection = '';
+		$initSelection = null;
 		$value = array();
 
 		if (is_array($data) && count($data) > 0)
