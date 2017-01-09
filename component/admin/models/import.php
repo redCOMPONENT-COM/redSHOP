@@ -1829,7 +1829,7 @@ class RedshopModelImport extends RedshopModel
 
 									if ($stockroom_id > 0)
 									{
-										$productStockroom                   = new stdClass();
+										$productStockroom                   = new stdClass;
 										$productStockroom->product_id       = $product_id;
 										$productStockroom->stockroom_id     = $stockroom_id;
 										$productStockroom->quantity         = $quantity;
@@ -2169,9 +2169,9 @@ class RedshopModelImport extends RedshopModel
 		$reduser->set('section_id', $sectionId);
 		$reduser->set('section', trim($rawdata['section']));
 
-		if (!$priceId)
+		if (!$price_id)
 		{
-			$priceId = 0;
+			$price_id = 0;
 		}
 
 		$reduser->set('product_price', trim($rawdata['attribute_price']));
