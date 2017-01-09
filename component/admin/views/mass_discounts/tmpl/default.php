@@ -19,6 +19,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	Joomla.submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
+		if (pressbutton)
+		{
+			form.task.value = pressbutton;
+		}
+
 		if (pressbutton == 'mass_discounts.delete') {
 			var r = confirm('<?php echo JText::_("COM_REDSHOP_MASS_DISCOUNT_DELETE_MASS_DISCOUNTS")?>');
 			if (r == true)
