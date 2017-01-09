@@ -93,11 +93,11 @@ class RedshopViewMass_Discount extends RedshopViewAdmin
 
 		if ($isNew)
 		{
-			$suffix =JText::_('COM_REDSHOP_NEW');
+			$suffix = JText::_('COM_REDSHOP_NEW');
 		}
 		else
 		{
-			$suffix =	JText::_('COM_REDSHOP_EDIT');
+			$suffix = JText::_('COM_REDSHOP_EDIT');
 		}
 
 		// Prepare text for title
