@@ -305,7 +305,7 @@ class RedshopHelperUser
 	 * @return  int|void
      * @since   2.0.0.6
 	 */
-	public function validateUser($username, $id = 0)
+	public static function validateUser($username, $id = 0)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -328,7 +328,7 @@ class RedshopHelperUser
 	 * @return  int|void
      * @since   2.0.0.6
 	 */
-	public function validateEmail($email, $id = 0)
+	public static function validateEmail($email, $id = 0)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
