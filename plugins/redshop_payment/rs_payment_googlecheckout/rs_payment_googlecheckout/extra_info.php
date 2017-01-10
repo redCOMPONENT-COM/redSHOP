@@ -9,7 +9,6 @@
 
 JLoader::import('redshop.library');
 
-$shippinghelper = shipping::getInstance();
 $currencyClass  = CurrencyHelper::getInstance();
 
 // Currency accepted by Google
@@ -114,7 +113,7 @@ $cart->SetMerchantPrivateData(
 );
 
 // Add shipping options
-$shipping_method_name = explode("|", $shippinghelper->decryptShipping($order->ship_method_id));
+$shipping_method_name = RedshopHelperShipping::decryptShipping(str_replace(" ", "+", $order->ship_method_id));
 
 if (isset ($shipping_method_name [1]) && $shipping_method_name [1] != "")
 {
