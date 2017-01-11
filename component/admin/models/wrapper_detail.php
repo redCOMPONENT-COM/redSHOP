@@ -26,9 +26,21 @@ class RedshopModelWrapper_detail extends RedshopModel
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 
-		$array = JRequest::getVar('cid', 0, '', 'array');
+		/**
+		 * Only setup ID from cid if not add task
+		 * TODO Refactor this form into right Joomla! standard
+		 */
+		if (JFactory::getApplication()->input->getCmd('task') != 'add')
+		{
+			$array = JRequest::getVar('cid', 0, '', 'array');
+			$this->setId((int) $array[0]);
+		}
+		else
+		{
+			$this->setId(0);
+		}
+
 		$this->_sectionid = JRequest::getVar('product_id', 0, '', 'int');
-		$this->setId((int) $array[0]);
 	}
 
 	public function setId($id)
@@ -256,7 +268,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 			return false;
 		}
 
-		return $row;
+		return true;
 	}
 
 	public function delete($cid = array())
