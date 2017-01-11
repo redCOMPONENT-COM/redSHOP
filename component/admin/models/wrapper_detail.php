@@ -35,7 +35,9 @@ class RedshopModelWrapper_detail extends RedshopModel
 		if ($jinput->getCmd('task') != 'add')
 		{
 			$array = $jinput->getInt('cid', 0);
-			$this->setId((int) $array[0]);
+
+			// Set record Id from cid
+			$this->setId((is_array($array)) ? (int) $array[0] : $array);
 		}
 		else
 		{
