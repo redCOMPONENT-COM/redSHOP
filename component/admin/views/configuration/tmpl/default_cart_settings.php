@@ -154,13 +154,6 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 
 <div class="form-group">
 	<span class="editlinktip hasTip"
-						      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_AS_PRODUCT_IN_CART_ENABLE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_AS_PRODUCT_IN_CART_ENABLE_LBL'); ?>">
-		<label><?php echo JText::_('COM_REDSHOP_ACCESSORY_AS_PRODUCT_IN_CART_ENABLE_LBL');?></label></span>
-	<?php echo $this->lists ['accessory_as_product_in_cart_enable'];?>
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
 						      title="<?php echo JText::_('COM_REDSHOP_QUANTITY_TEXT_DISPLAY_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_QUANTITY_TEXT_DISPLAY_LBL'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_QUANTITY_TEXT_DISPLAY_LBL');?></label></span>
 	<?php echo $this->lists ['quantity_text_display']; ?>

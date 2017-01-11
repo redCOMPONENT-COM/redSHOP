@@ -705,7 +705,7 @@ class RedshopHelperMedia
 				case 'property':
 					$query->select('p.*')
 						->leftJoin(
-							$db->qn('#_redshop_product_attribute_property', 'p')
+							$db->qn('#__redshop_product_attribute_property', 'p')
 							. ' ON ' . $db->qn('p.property_id') . ' = ' . $db->qn('m.section_id')
 						);
 					break;
