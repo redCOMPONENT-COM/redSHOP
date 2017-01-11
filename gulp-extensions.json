@@ -64,7 +64,11 @@
       "alert"
     ],
     "redshop_export": [
-      "category"
+      "attribute",
+      "category",
+      "manufacturer",
+      "shipping_address",
+      "user"
     ],
     "redshop_payment": [
       "baokim",

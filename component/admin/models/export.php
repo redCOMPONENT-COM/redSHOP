@@ -360,7 +360,7 @@ class RedshopModelExport extends RedshopModel
 	 *
 	 * @return  void
 	 */
-	private function loadCategories()
+	/*private function loadCategories()
 	{
 		$db = JFactory::getDbo();
 		$q = "SELECT c.*,cx.category_parent_id
@@ -437,7 +437,7 @@ class RedshopModelExport extends RedshopModel
 				mysql_free_result($cur);
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * Load the attributes for export
@@ -559,7 +559,7 @@ class RedshopModelExport extends RedshopModel
 	 *
 	 * @return  void
 	 */
-	private function loadManufacturer()
+	/*private function loadManufacturer()
 	{
 		$db = JFactory::getDbo();
 		$query = "SELECT m.* "
@@ -623,7 +623,7 @@ class RedshopModelExport extends RedshopModel
 				echo "\r\n";
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * Load the Related Products for export
@@ -848,7 +848,7 @@ class RedshopModelExport extends RedshopModel
 	 *
 	 * @return  void
 	 */
-	private function loadUsers()
+	/*private function loadUsers()
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -937,7 +937,7 @@ class RedshopModelExport extends RedshopModel
 
 			JFactory::getApplication()->close();
 		}
-	}
+	}*/
 
 	/**
 	 * Get Joomla User and Group relation
@@ -946,7 +946,7 @@ class RedshopModelExport extends RedshopModel
 	 *
 	 * @return  array  UserId index array for group ids
 	 */
-	private function getJGroupIds($userIds)
+	/*private function getJGroupIds($userIds)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -974,14 +974,14 @@ class RedshopModelExport extends RedshopModel
 		}
 
 		return $groupIds;
-	}
+	}*/
 
 	/**
 	 * Load the Shipping Address for export
 	 *
 	 * @return  void
 	 */
-	private function loadshippingaddress()
+	/*private function loadshippingaddress()
 	{
 		$db = JFactory::getDbo();
 		$query = "SELECT  IFNULL( u.email, ui.user_email ) as email , u.username, ui.company_name, ui.firstname,
@@ -1045,7 +1045,7 @@ class RedshopModelExport extends RedshopModel
 				mysql_free_result($cur);
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * Export Shopper Group based price for Product

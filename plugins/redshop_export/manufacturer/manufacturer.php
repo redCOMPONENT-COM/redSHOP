@@ -14,11 +14,11 @@ use Redshop\Plugin\AbstractExportPlugin;
 JLoader::import('redshop.library');
 
 /**
- * Plugins redSHOP Export Category
+ * Plugins redSHOP Export Manufacturer
  *
  * @since  1.0
  */
-class PlgRedshop_ExportCategory extends AbstractExportPlugin
+class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 {
 	/**
 	 * Event run when user load config for export this data.
@@ -26,8 +26,10 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 * @return  string
 	 *
 	 * @since  __DEPLOY_VERSION__
+	 *
+	 * @TODO   : Need to load XML File instead
 	 */
-	public function onAjaxCategory_Config()
+	public function onAjaxManufacturer_Config()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
@@ -41,7 +43,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function onAjaxCategory_Start()
+	public function onAjaxManufacturer_Start()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
@@ -62,7 +64,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function onAjaxCategory_Export()
+	public function onAjaxManufacturer_Export()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
@@ -80,7 +82,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function onAjaxCategory_Complete()
+	public function onAjaxManufacturer_Complete()
 	{
 		$this->downloadFile();
 
@@ -97,14 +99,22 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	protected function getQuery()
 	{
 		return $this->db->getQuery(true)
-			->select('c.*')
-			->select($this->db->qn('cx.category_parent_id'))
-			->from($this->db->qn('#__redshop_category', 'c'))
-			->leftJoin(
-				$this->db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $this->db->qn('c.category_id') . ' = ' . $this->db->qn('cx.category_child_id')
+			->select('m.*')
+			->select(
+				'GROUP_CONCAT(' . $this->db->qn('p.product_id') . ' SEPARATOR ' . $this->db->quote('|') . ') AS ' . $this->db->qn('product_id')
 			)
-			->where($this->db->qn('cx.category_parent_id') . ' IS NOT NULL')
-			->order($this->db->qn('c.category_id'));
+			->select($this->db->qn('md.media_name', 'manufacturer_image'))
+			->from($this->db->qn('#__redshop_manufacturer', 'm'))
+			->innerJoin(
+				$this->db->qn('#__redshop_product', 'p') . ' ON ' . $this->db->qn('m.manufacturer_id') . ' = ' . $this->db->qn('p.manufacturer_id')
+			)
+			->leftJoin(
+				$this->db->qn('#__redshop_media', 'md') . ' ON ('
+				. $this->db->qn('m.manufacturer_id') . ' = ' . $this->db->qn('md.section_id')
+				. ' AND ' . $this->db->qn('md.media_section') . ' = ' . $this->db->quote('manufacturer')
+				. ' AND ' . $this->db->qn('md.media_type') . ' = ' . $this->db->quote('images') . ')'
+			)
+			->group($this->db->qn('m.manufacturer_id'));
 	}
 
 	/**
@@ -129,11 +139,11 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 
 			foreach ($item as $column => $value)
 			{
-				if ($column == 'category_full_image' && $value != "")
+				if ($column == 'manufacturer_image' && $value != "")
 				{
-					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $value))
+					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . $value))
 					{
-						$item[$column] = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $value;
+						$item[$column] = REDSHOP_FRONT_IMAGES_ABSPATH . 'manufacturer/' . $value;
 					}
 					else
 					{
