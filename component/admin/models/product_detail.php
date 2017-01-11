@@ -37,6 +37,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 	public $input;
 
+	protected static $childproductlist = array();
+
 	/**
 	 * Constructor to set the right model
 	 */
@@ -4448,19 +4450,22 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$producthelper = productHelper::getInstance();
-		$info = $producthelper->getChildProduct($parentid);
+		$productHelper = productHelper::getInstance();
+		$info = $productHelper->getChildProduct($parentid);
 
-		for ($i = 0, $in = count($info); $i < $in; $i++)
+		if (empty(static::$childproductlist))
 		{
-			if ($childid != $info[$i]->product_id)
+			for ($i = 0, $in = count($info); $i < $in; $i++)
 			{
-				$GLOBALS['childproductlist'][] = $info[$i];
-				$this->getAllChildProductArrayList($childid, $info[$i]->product_id);
+				if ($childid != $info[$i]->product_id)
+				{
+					static::$childproductlist[] = $info[$i];
+					$this->getAllChildProductArrayList($childid, $info[$i]->product_id);
+				}
 			}
 		}
 
-		return $GLOBALS['childproductlist'];
+		return static::$childproductlist;
 	}
 
 	/**
