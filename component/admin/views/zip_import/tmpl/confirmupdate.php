@@ -36,7 +36,7 @@
 		</tr>
 		<tr>
 			<td style="display:none;" id="loaderimg" align="center"><img
-					src='<?php echo Redshop::getConfig()->get('REDSHOP_ADMIN_IMAGES_ABSPATH'); ?>ajax-loader.gif'/></td>
+					src='<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>ajax-loader.gif'/></td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>

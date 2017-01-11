@@ -141,7 +141,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="inputbox" size="1" ', 'value', 'text', $this->config->get('DEFAULT_NEWSLETTER')
 		);
 		$lists['currency_data'] = JHTML::_('select.genericlist', $currency_data, 'currency_code',
-			'class="inputbox" size="1" ', 'value', 'text', $this->config->get('CURRENCY_CODE')
+			'class="inputbox" size="1" onchange="changeRedshopCurrencyList(this);"', 'value', 'text', $this->config->get('CURRENCY_CODE')
 		);
 
 		$lists['use_encoding'] = JHTML::_('redshopselect.booleanlist', 'use_encoding', 'class="inputbox" ', $this->config->get('USE_ENCODING'));
@@ -826,14 +826,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$lists['enable_stockroom_notification']              = JHTML::_('redshopselect.booleanlist', 'enable_stockroom_notification', 'class="inputbox" size="1"', $this->config->get('ENABLE_STOCKROOM_NOTIFICATION'));
 
-		$lists['backward_compatible_js'] = JHTML::_(
-			'redshopselect.booleanlist', 'backward_compatible_js', 'class="inputbox" size="1"', $this->config->get('BACKWARD_COMPATIBLE_JS')
-		);
-
-		$lists['backward_compatible_php'] = JHTML::_(
-			'redshopselect.booleanlist', 'backward_compatible_php', 'class="inputbox" size="1"', $this->config->get('BACKWARD_COMPATIBLE_PHP')
-		);
-
 		$current_version      = $model->getcurrentversion();
 		$getinstalledmodule   = $model->getinstalledmodule();
 		$getinstalledplugins  = $model->getinstalledplugins();
@@ -963,12 +955,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 						'COM_REDSHOP_ABOUT',
 						($selectedTabPosition == 'redshopabout') ? true : false,
 						'redshopabout'
-					)
-					->addItem(
-						'#backward_compatible',
-						'COM_REDSHOP_BACKWARD_COMPATIBLE',
-						($selectedTabPosition == 'backward_compatible') ? true : false,
-						'backward_compatible'
 					);
 
 		return $tabMenu;
