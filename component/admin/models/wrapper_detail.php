@@ -30,9 +30,11 @@ class RedshopModelWrapper_detail extends RedshopModel
 		 * Only setup ID from cid if not add task
 		 * TODO Refactor this form into right Joomla! standard
 		 */
-		if (JFactory::getApplication()->input->getCmd('task') != 'add')
+		$jinput = JFactory::getApplication()->input;
+
+		if ($jinput->getCmd('task') != 'add')
 		{
-			$array = JRequest::getVar('cid', 0, '', 'array');
+			$array = $jinput->getInt('cid', 0, '', 'array');
 			$this->setId((int) $array[0]);
 		}
 		else
