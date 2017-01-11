@@ -653,7 +653,7 @@ function showCompanyOrCustomer(obj)
 	var linktocontroller = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
 		linktocontroller += "&is_company="+obj.value+"&template_id="+template_id;
 
-	var postData = jQuery("#redshopRegistrationForm").serializeArray();
+	var postData = jQuery("#redshopRegistrationForm #adminForm").serializeArray();
 
 	postData = jQuery.grep(postData, function(value) {
 		if (

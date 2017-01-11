@@ -12,7 +12,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Class Redshop Helper for Mail
@@ -400,95 +399,13 @@ class RedshopHelperMail
 	 *
 	 * @param   array  $orderIds  Order ID List.
 	 *
-	 * @return  boolean
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use
 	 */
 	public static function createMultiprintInvoicePdf($orderIds)
 	{
-		if (empty($orderIds))
-		{
-			return false;
-		}
-
-		$orderIds       = ArrayHelper::toInteger($orderIds);
-		$cartHelper     = rsCarthelper::getInstance();
-		$pdfObj         = RedshopHelperPdf::getInstance();
-		$pdfObj->SetTitle('Shipped');
-
-		// Changed font to support Unicode Characters - Specially Polish Characters
-		$font = 'times';
-		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		$pdfObj->setHeaderFont(array($font, '', 8));
-
-		$defaultTemplate = '<table style="width: 100%;" border="0" cellpadding="5" cellspacing="0">
-				<tbody><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody>
-				<tr style="background-color: #cccccc;"><th align="left">{order_information_lbl}{print}</th></tr><tr></tr
-				><tr><td>{order_id_lbl} : {order_id}</td></tr><tr><td>{order_number_lbl} : {order_number}</td></tr><tr>
-				<td>{order_date_lbl} : {order_date}</td></tr><tr><td>{order_status_lbl} : {order_status}</td></tr><tr>
-				<td>{shipping_method_lbl} : {shipping_method} : {shipping_rate_name}</td></tr><tr><td>{payment_lbl} : {payment_method}</td>
-				</tr></tbody></table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0">
-				<tbody><tr style="background-color: #cccccc;"><th align="left">{billing_address_information_lbl}</th>
-				</tr><tr></tr><tr><td>{billing_address}</td></tr></tbody></table></td></tr><tr><td colspan="2">
-				<table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody><tr style="background-color: #cccccc;">
-				<th align="left">{shipping_address_info_lbl}</th></tr><tr></tr><tr><td>{shipping_address}</td></tr></tbody>
-				</table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0">
-				<tbody><tr style="background-color: #cccccc;"><th align="left">{order_detail_lbl}</th></tr><tr></tr><tr><td>
-				<table style="width: 100%;" border="0" cellpadding="2" cellspacing="2"><tbody><tr><td>{product_name_lbl}</td><td>{note_lbl}</td>
-				<td>{price_lbl}</td><td>{quantity_lbl}</td><td align="right">Total Price</td></tr>{product_loop_start}<tr>
-				<td><p>{product_name}<br />{product_attribute}{product_accessory}{product_userfields}</p></td>
-				<td>{product_wrapper}{product_thumb_image}</td><td>{product_price}</td><td>{product_quantity}</td>
-				<td align="right">{product_total_price}</td></tr>{product_loop_end}</tbody></table></td></tr><tr>
-				<td></td></tr><tr><td><table style="width: 100%;" border="0" cellpadding="2" cellspacing="2"><tbody>
-				<tr align="left"><td align="left"><strong>{order_subtotal_lbl} : </strong></td><td align="right">{order_subtotal}</td>
-				</tr>{if vat}<tr align="left"><td align="left"><strong>{vat_lbl} : </strong></td><td align="right">{order_tax}</td>
-				</tr>{vat end if}{if discount}<tr align="left"><td align="left"><strong>{discount_lbl} : </strong></td>
-				<td align="right">{order_discount}</td></tr>{discount end if}<tr align="left"><td align="left">
-				<strong>{shipping_lbl} : </strong></td><td align="right">{order_shipping}</td></tr><tr align="left">
-				<td colspan="2" align="left"><hr /></td></tr><tr align="left"><td align="left"><strong>{total_lbl} :</strong>
-				</td><td align="right">{order_total}</td></tr><tr align="left"><td colspan="2" align="left"><hr /><br />
-				 <hr /></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table>';
-
-		// Set font
-		$pdfObj->SetFont($font, "", 6);
-
-		foreach ($orderIds as $orderId)
-		{
-			$ordersDetail       = RedshopHelperOrder::getOrderDetails($orderId);
-			$orderPrintTemplate = RedshopHelperTemplate::getTemplate('order_print');
-
-			if (!empty($orderPrintTemplate) > 0 && !empty($orderPrintTemplate[0]->template_desc))
-			{
-				$message = $orderPrintTemplate[0]->template_desc;
-			}
-			else
-			{
-				$message = $defaultTemplate;
-			}
-
-			$printTag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT') . "'>"
-				. "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT') . "' title='"
-				. JText::_('COM_REDSHOP_PRINT') . "' /></a>";
-
-			$message = str_replace("{print}", $printTag, $message);
-			$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
-			$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
-			$message = $cartHelper->replaceOrderTemplate($ordersDetail, $message, true);
-			$pdfObj->AddPage();
-			$pdfObj->WriteHTML($message, true, false, true, false, '');
-		}
-
-		$invoicePdfName = "multiprintorder" . round(microtime(true) * 1000);
-		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoicePdfName . ".pdf", "F");
-		$storeFiles = array('index.html', '' . $invoicePdfName . '.pdf');
-
-		foreach (glob(JPATH_SITE . "/components/com_redshop/assets/document/invoice/*") as $file)
-		{
-			if (!in_array(basename($file), $storeFiles))
-			{
-				unlink($file);
-			}
-		}
-
-		return $invoicePdfName;
+		return RedshopHelperPdf::createMultiInvoice($orderIds);
 	}
 
 	/**
@@ -597,7 +514,7 @@ class RedshopHelperMail
 		$mailTemplate    = self::replaceInvoiceMailTemplate($orderId, $message, $subject);
 		$mailBody        = $mailTemplate->body;
 		$subject         = $mailTemplate->subject;
-		$pdfTemplateFile = self::getMailTemplate(0, "invoicefile_mail");
+		$pdfTemplateFile = self::getMailTemplate(0, 'invoicefile_mail');
 
 		// Init PDF template body
 		$pdfTemplate = $mailBody;
@@ -610,20 +527,18 @@ class RedshopHelperMail
 
 		ob_clean();
 
-		$options = array(
-			'format' => 'A4'
-		);
-		$pdfObj = RedshopHelperPdf::getInstance('tcpdf', $options);
-		$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $orderId);
-		$pdfObj->SetMargins(PDF_MARGIN_LEFT, 5, PDF_MARGIN_RIGHT);
-		$pdfObj->setHeaderFont(array('times', '', 10));
-		$pdfObj->AddPage();
-		$pdfObj->WriteHTML($pdfTemplate, true, false, true, false, '');
+		$invoiceAttachment = null;
 
-		$invoicePdfName = $orderId;
+		if (RedshopHelperPdf::isAvailablePdfPlugins())
+		{
+			JPluginHelper::importPlugin('redshop_pdf');
+			$result = RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderCreateInvoicePdf', array($orderId, $pdfTemplate, 'F', true));
 
-		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoicePdfName . ".pdf", "F");
-		$invoiceAttachment = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoicePdfName . ".pdf";
+			if (!in_array(false, $result, true))
+			{
+				$invoiceAttachment = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $orderId . '/' . $result[0] . ".pdf";
+			}
+		}
 
 		// Set the e-mail parameters
 		$from     = $config->get('mailfrom');

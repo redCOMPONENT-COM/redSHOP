@@ -414,4 +414,93 @@ class RedshopModelMedia extends RedshopModel
 			$row->reorder($cond[1]);
 		}
 	}
+
+	/**
+	 * Get all media items
+	 *
+	 * @return  array
+	 */
+	public function all()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn("#__redshop_media"));
+
+		$db->setQuery($query);
+
+		return $db->loadObjectlist();
+	}
+
+	/**
+	 * Delete media item by ID
+	 *
+	 * @param   integer  $id  [description]
+	 *
+	 * @return  boolean
+	 */
+	public function deleteFile($id)
+	{
+		$db = JFactory::getDbo();
+
+		// Check item is existed
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn("#__redshop_media"))
+					->where($db->qn('media_id') . ' = ' . $id);
+		$db->setQuery($query);
+		$file = $db->loadObject();
+
+		if ($file)
+		{
+			$path = JPATH_ROOT . '/components/com_redshop/assets/images/' . $file->media_section . '/' . $file->media_name;
+
+			if (is_file($path))
+			{
+				unlink($path);
+			}
+		}
+
+		$query = $db->getQuery(true)
+					->delete($db->qn('#__redshop_media'))
+					->where($db->qn('media_id') . ' = ' . $id);
+		$db->setQuery($query);
+
+		if (!$db->execute())
+		{
+			$this->setError($db->getErrorMsg());
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Create a media item by ID
+	 *
+	 * @param   array  $file  File array data
+	 *
+	 * @return  boolean
+	 */
+	public function newFile($file)
+	{
+		$db = JFactory::getDbo();
+		$fileObj = new stdClass;
+
+		$fileObj->media_name     = $file['media_name'];
+		$fileObj->media_section  = $file['media_section'];
+		$fileObj->media_type     = $file['media_type'];
+		$fileObj->media_mimetype = $file['media_mimetype'];
+		$fileObj->published      = 1;
+
+		if (!$db->insertObject('#__redshop_media', $fileObj))
+		{
+			$this->setError($db->getErrorMsg());
+
+			return false;
+		}
+
+		return $db->insertid();
+	}
 }
