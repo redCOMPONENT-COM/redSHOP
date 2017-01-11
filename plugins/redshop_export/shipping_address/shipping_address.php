@@ -14,11 +14,11 @@ use Redshop\Plugin\AbstractExportPlugin;
 JLoader::import('redshop.library');
 
 /**
- * Plugins redSHOP Export Category
+ * Plugins redSHOP Export Shipping_Address
  *
  * @since  1.0
  */
-class PlgRedshop_ExportCategory extends AbstractExportPlugin
+class PlgRedshop_ExportShipping_Address extends AbstractExportPlugin
 {
 	/**
 	 * Event run when user load config for export this data.
@@ -26,8 +26,10 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 * @return  string
 	 *
 	 * @since  __DEPLOY_VERSION__
+	 *
+	 * @TODO: Need to load XML File instead
 	 */
-	public function onAjaxCategory_Config()
+	public function onAjaxShipping_Address_Config()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
@@ -41,16 +43,11 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function onAjaxCategory_Start()
+	public function onAjaxShipping_Address_Start()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$headers = $this->getHeader();
-
-		if (!empty($headers))
-		{
-			$this->writeData($headers, 'w+');
-		}
+		$this->writeData($this->getHeader(), 'w+');
 
 		return (int) $this->getTotal();
 	}
@@ -62,7 +59,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function onAjaxCategory_Export()
+	public function onAjaxShipping_Address_Export()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
@@ -80,7 +77,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function onAjaxCategory_Complete()
+	public function onAjaxShipping_Address_Complete()
 	{
 		$this->downloadFile();
 
@@ -97,56 +94,33 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	protected function getQuery()
 	{
 		return $this->db->getQuery(true)
-			->select('c.*')
-			->select($this->db->qn('cx.category_parent_id'))
-			->from($this->db->qn('#__redshop_category', 'c'))
-			->leftJoin(
-				$this->db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $this->db->qn('c.category_id') . ' = ' . $this->db->qn('cx.category_child_id')
+			->select('IFNULL(' . $this->db->qn('u.email') . ',' . $this->db->qn('ui.user_email') . ') AS ' . $this->db->qn('email'))
+			->select(
+				$this->db->qn(
+					array(
+						'u.username', 'ui.company_name', 'ui.firstname', 'ui.lastname', 'ui.address', 'ui.city', 'ui.state_code',
+						'ui.zipcode', 'ui.country_code', 'ui.phone'
+					)
+				)
 			)
-			->where($this->db->qn('cx.category_parent_id') . ' IS NOT NULL')
-			->order($this->db->qn('c.category_id'));
+			->from($this->db->qn('#__redshop_users_info', 'ui'))
+			->leftJoin(
+				$this->db->qn('#__users', 'u') . ' ON ' . $this->db->qn('u.id') . ' = ' . $this->db->qn('ui.user_id')
+			)
+			->where($this->db->qn('ui.address_type') . ' = ' . $this->db->quote('ST'));
 	}
 
 	/**
-	 * Method for do some stuff for data return. (Like image path,...)
+	 * Method for get headers data.
 	 *
-	 * @param   array  &$data  Array of data.
-	 *
-	 * @return  void
+	 * @return array|bool
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function processData(&$data)
+	protected function getHeader()
 	{
-		if (empty($data))
-		{
-			return;
-		}
-
-		foreach ($data as $index => $item)
-		{
-			$item = (array) $item;
-
-			foreach ($item as $column => $value)
-			{
-				if ($column == 'category_full_image' && $value != "")
-				{
-					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $value))
-					{
-						$item[$column] = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $value;
-					}
-					else
-					{
-						$item[$column] = "";
-					}
-				}
-				else
-				{
-					$item[$column] = str_replace(array("\n", "\r"), "", $value);
-				}
-			}
-
-			$data[$index] = $item;
-		}
+		return array(
+			'email', 'username', 'company_name', 'firstname', 'lastname', 'address', 'city', 'state_code', 'zipcode', 'country_code', 'phone'
+		);
 	}
 }

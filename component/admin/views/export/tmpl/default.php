@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
+$formToken = JSession::getFormToken();
 ?>
 
 <?php if (empty($this->exports)): ?>
@@ -25,7 +27,7 @@ defined('_JEXEC') or die;
         (function ($) {
             $(document).ready(function () {
                 $("#export_plugins input[type='radio']").change(function (e) {
-                    plugin = $("#export_plugins input[type='radio']").val();
+                    plugin = $(this).val();
 
                     // Load specific configuration of plugin
                     $.post(
@@ -45,18 +47,23 @@ defined('_JEXEC') or die;
                 });
 
                 $("#export_btn_start").click(function(event){
-                    $("#export_plugins").addClass("disabled");
-                    $("#export_config").addClass("disabled");
+                    $("#export_config").hide('fast', function(){
+                        $("#export_plugins").hide('fast');
+                    });
+
+                    $("#export_process_bar").html('0%').css("width", "0%");
                     $("#export_process_panel").collapse('show');
 
                     $.post(
                         "index.php?option=com_ajax&plugin=" + plugin + "_start&group=redshop_export&format=raw",
                         {
-                            "<?php echo JSession::getFormToken() ?>": 1
+                            "<?php echo $formToken ?>": 1
                         },
                         function (response) {
                             total = parseInt(response);
-                            $("#export_process_title span").empty().html('(' + response + ')');
+                            $("#export_process_title span").empty().html('(' + total + ')');
+
+                            run_export(0);
                         }
                     );
 
@@ -64,8 +71,10 @@ defined('_JEXEC') or die;
                 });
             });
         })(jQuery);
+    </script>
 
-        function export(startIndex)
+    <script type="text/javascript">
+        function run_export(startIndex)
         {
             (function($){
                 var url = "index.php?option=com_ajax&plugin=" + plugin + "_export&group=redshop_export&format=raw";
@@ -75,13 +84,38 @@ defined('_JEXEC') or die;
                     {
                         "start": startIndex,
                         "limit": itemRun,
-                        "<?php echo JSession::getFormToken() ?>": 1
+                        "<?php echo $formToken ?>": 1
                     },
                     function (response) {
-                        var success = startIndex * itemRun;
+                        var success = startIndex + itemRun;
+                        var percent = 0;
+                        var $bar = $("#export_process_bar");
 
-                        if (success < total)
+                        if (success > total) {
+                            percent = 100;
+                        } else {
+                            percent = (success / total) * 100;
+                        }
 
+                        console.log(percent);
+
+                        if (percent > 100) {
+                            percent = 100;
+                        }
+
+                        $bar.css("width", percent + "%");
+                        $bar.html(percent + "%");
+
+                        if (response == 0 || success > total) {
+                            total = 0;
+                            $("#export_plugins").show('fast', function(){
+                                $("#export_config").show('fast', function() {
+                                    window.open("index.php?option=com_ajax&plugin=" + plugin + "_complete&group=redshop_export&format=raw");
+                                });
+                            });
+                        } else {
+                            run_export(success);
+                        }
                     }
                 );
             })(jQuery);
@@ -137,7 +171,7 @@ defined('_JEXEC') or die;
                     <div class="panel-body">
                         <div class="progress">
                             <div id="export_process_bar" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-                                0% Complete
+                                0%
                             </div>
                         </div>
                     </div>

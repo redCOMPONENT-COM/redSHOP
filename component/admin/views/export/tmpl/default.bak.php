@@ -9,16 +9,16 @@
 defined('_JEXEC') or die;
 
 $data = array(
-	'categories'                 => 'COM_REDSHOP_EXPORT_CATEGORIES',
+	// 'categories'                 => 'COM_REDSHOP_EXPORT_CATEGORIES',
 	'products'                   => 'COM_REDSHOP_EXPORT_PRODUCTS',
-	'attributes'                 => 'COM_REDSHOP_EXPORT_ATTRIBUTES',
+	// 'attributes'                 => 'COM_REDSHOP_EXPORT_ATTRIBUTES',
 	'related_product'            => 'COM_REDSHOP_EXPORT_RELATED_PRODUCTS',
 	'fields'                     => 'COM_REDSHOP_EXPORT_FIELDS',
-	'users'                      => 'COM_REDSHOP_EXPORT_USERS',
-	'shipping_address'           => 'COM_REDSHOP_EXPORT_SHIPPING_ADDRESS',
+	// 'users'                      => 'COM_REDSHOP_EXPORT_USERS',
+	// 'shipping_address'           => 'COM_REDSHOP_EXPORT_SHIPPING_ADDRESS',
 	'shopperGroupProductPrice'   => 'COM_REDSHOP_EXPORT_SHOPPER_GROUP_PRODUCT_SPECIFIC_PRICE',
 	'shopperGroupAttributePrice' => 'COM_REDSHOP_EXPORT_SHOPPER_GROUP_ATTRIBUTE_SPECIFIC_PRICE',
-	'manufacturer'               => 'COM_REDSHOP_EXPORT_MANUFACTURER'
+	// 'manufacturer'               => 'COM_REDSHOP_EXPORT_MANUFACTURER'
 );
 ?>
 <h1><?php echo JText::_('COM_REDSHOP_DATA_EXPORT'); ?></h1>
