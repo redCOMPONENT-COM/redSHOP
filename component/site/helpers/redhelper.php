@@ -487,85 +487,29 @@ class redhelper
 	/**
 	 * Check permission for Categories shopper group can access or can't access
 	 *
-	 * @param   number  $cid  category id that need to be checked
+	 * @param   int  $cid  category id that need to be checked
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopHelperAccess::checkPortalCategoryPermission() instead.
 	 */
 	public function checkPortalCategoryPermission($cid = 0)
 	{
-		static $categories = array();
-
-		if (array_key_exists($cid, $categories))
-		{
-			return true;
-		}
-
-		$user = JFactory::getUser();
-		$userHelper = rsUserHelper::getInstance();
-		$shopperGroupId = $userHelper->getShopperGroup($user->id);
-
-		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
-		{
-			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
-			{
-				$categories = explode(',', $shopperGroupData[0]->shopper_group_categories);
-
-				if (array_search((int) $cid, $categories) !== false)
-				{
-					return true;
-				}
-			}
-		}
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('shopper_group_id')
-			->from($db->qn('#__redshop_shopper_group'))
-			->where('FIND_IN_SET(' . $db->quote($cid) . ', shopper_group_categories)')
-			->where('shopper_group_id != ' . (int) $shopperGroupId);
-
-		if ($db->setQuery($query)->loadResult())
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return RedshopHelperAccess::checkPortalCategoryPermission($cid);
 	}
 
 	/**
-	 * Check permission for Products shopper group can accesss or can't access
+	 * Check permission for Products shopper group can access or can't access
 	 *
-	 * @param   number  $pid  Product id that need to be checked
+	 * @param   int  $pid  Product id that need to be checked
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperAccess::checkPortalProductPermission() instead
 	 */
 	public function checkPortalProductPermission($pid = 0)
 	{
-		$db = $this->_db;
-		$query = $db->getQuery(true);
-
-		$query->select("cx.category_id")
-			->from($db->qn("#__redshop_product", "p"))
-			->join("LEFT", $db->qn("#__redshop_product_category_xref", "cx") . " ON p.product_id=cx.product_id")
-			->where($db->qn("p.product_id") . "=" . (int) $pid);
-
-		$this->_db->setQuery($query);
-
-		$prodctcat = $this->_db->loadColumn();
-
-		foreach ($prodctcat as $key => $cid)
-		{
-			$checkPermission = $this->checkPortalCategoryPermission($cid);
-
-			if (!$checkPermission)
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return RedshopHelperAccess::checkPortalProductPermission($pid);
 	}
 
 	public function getShopperGroupProductCategory($pid = 0)
@@ -728,13 +672,16 @@ class redhelper
 		$order_data[7]->value = "r.ordering DESC";
 		$order_data[7]->text  = JText::_('COM_REDSHOP_ORDERING_DESC');
 
-		$order_data[8] = new stdClass;
-		$order_data[8]->value = "e.data_txt ASC";
-		$order_data[8]->text  = JText::_('COM_REDSHOP_DATEPICKER_ASC');
+		if (redHelper::getInstance()->isredProductfinder())
+		{
+			$order_data[8]        = new stdClass;
+			$order_data[8]->value = "e.data_txt ASC";
+			$order_data[8]->text  = JText::_('COM_REDSHOP_DATEPICKER_ASC');
 
-		$order_data[9] = new stdClass;
-		$order_data[9]->value = "e.data_txt DESC";
-		$order_data[9]->text  = JText::_('COM_REDSHOP_DATEPICKER_DESC');
+			$order_data[9]        = new stdClass;
+			$order_data[9]->value = "e.data_txt DESC";
+			$order_data[9]->text  = JText::_('COM_REDSHOP_DATEPICKER_DESC');
+		}
 
 		return $order_data;
 	}

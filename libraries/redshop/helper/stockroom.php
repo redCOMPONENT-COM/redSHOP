@@ -54,7 +54,7 @@ class RedshopHelperStockroom
 	 *
 	 * @since  2.0.0.3
 	 */
-	public static function getStockroom($stockroomId, $published = null, $isChecked = false)
+	public static function getStockroom($stockroomId = null, $published = null, $isChecked = false)
 	{
 		/**
 		 * Check: If "Check stockroom config" is true, skip process if stockroom config is not use stockroom.
@@ -64,30 +64,23 @@ class RedshopHelperStockroom
 			return array();
 		}
 
-		// Convert stockroom ID to array
-		if (is_string($stockroomId))
-		{
-			$stockroomId = explode(',', $stockroomId);
-		}
-		elseif (is_int($stockroomId))
-		{
-			$stockroomId = array($stockroomId);
-		}
-
-		$stockroomId = ArrayHelper::toInteger($stockroomId);
-
-		if (empty($stockroomId))
-		{
-			return array();
-		}
-
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_stockroom'));
 
+		// Convert stockroom ID to array
 		if (!empty($stockroomId))
 		{
+			if (is_string($stockroomId))
+			{
+				$stockroomId = explode(',', $stockroomId);
+			}
+			elseif (is_int($stockroomId))
+			{
+				$stockroomId = array($stockroomId);
+			}
+
 			$query->where($db->qn('stockroom_id') . ' IN (' . implode(',', $stockroomId) . ')');
 		}
 
@@ -966,7 +959,7 @@ class RedshopHelperStockroom
 				$query->clear('where')
 					->where($db->qn('stock_option') . ' = 1')
 					->where($db->qn('stock_quantity') . ' < ' . $db->q((int) $stockAmount))
-					->order($db->qn('stock_quantity') . ' DESC')
+					->order($db->qn('stock_quantity') . ' ASC')
 					->order($db->qn('s.max_del_time') . ' ASC');
 
 				$list = $db->setQuery($query)->loadObjectList();

@@ -30,8 +30,8 @@ class RedshopControllerManufacturer extends RedshopController
 	 */
 	public function saveorder()
 	{
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);

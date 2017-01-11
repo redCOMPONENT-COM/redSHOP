@@ -51,7 +51,7 @@ class RedshopHelperUser
 	 * @param   string  $addressType     Type user address BT (Billing Type) or ST (Shipping Type)
 	 * @param   int     $userInfoId      Id redshop user
 	 * @param   bool    $useAddressType  Select user info relate with address type
-	 * @param   bool    $force           Force to get user infromation from DB instead of cache
+	 * @param   bool    $force           Force to get user information from DB instead of cache
 	 *
 	 * @return  object  Redshop user information
 	 */
@@ -305,7 +305,7 @@ class RedshopHelperUser
 	 * @return  int|void
      * @since   2.0.0.6
 	 */
-	public function validateUser($username, $id = 0)
+	public static function validateUser($username, $id = 0)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -328,7 +328,7 @@ class RedshopHelperUser
 	 * @return  int|void
      * @since   2.0.0.6
 	 */
-	public function validateEmail($email, $id = 0)
+	public static function validateEmail($email, $id = 0)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)

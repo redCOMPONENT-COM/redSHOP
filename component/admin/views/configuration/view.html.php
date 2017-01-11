@@ -145,7 +145,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="inputbox" size="1" ', 'value', 'text', $this->config->get('DEFAULT_NEWSLETTER')
 		);
 		$lists['currency_data'] = JHTML::_('select.genericlist', $currency_data, 'currency_code',
-			'class="inputbox" size="1" ', 'value', 'text', $this->config->get('CURRENCY_CODE')
+			'class="inputbox" size="1" onchange="changeRedshopCurrencyList(this);"', 'value', 'text', $this->config->get('CURRENCY_CODE')
 		);
 
 		$lists['use_encoding'] = JHTML::_('redshopselect.booleanlist', 'use_encoding', 'class="inputbox" ', $this->config->get('USE_ENCODING'));
