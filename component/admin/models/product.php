@@ -423,14 +423,6 @@ class RedshopModelProduct extends RedshopModel
 		}
 	}
 
-	public function getmanufacturername($mid)
-	{
-		$query = 'SELECT manufacturer_name FROM #__redshop_manufacturer  WHERE manufacturer_id="' . $mid . '" ';
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
-	}
-
 	public function assignTemplate($data)
 	{
 		$cid = $data['cid'];
