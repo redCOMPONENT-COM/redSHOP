@@ -87,7 +87,7 @@ class RedshopViewMass_Discounts extends RedshopViewAdmin
 	 */
 	protected function addToolBar()
 	{
-		$title = JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT');
+		$title = JText::_('COM_REDSHOP_MASS_DISCOUNT_MANAGEMENT');
 
 		if ($this->pagination->total)
 		{

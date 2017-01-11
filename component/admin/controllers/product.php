@@ -19,15 +19,15 @@ class RedshopControllerProduct extends RedshopController
 
 	public function ins_product()
 	{
-		JRequest::setVar('layout', 'ins_product');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('layout', 'ins_product');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
 	public function importeconomic()
 	{
 		// Add product to economic
-		$cnt = JRequest::getInt('cnt', 0);
+		$cnt = $this->input->getInt('cnt', 0);
 		$totalprd = 0;
 		$msg = '';
 
@@ -86,7 +86,7 @@ class RedshopControllerProduct extends RedshopController
 	public function importatteco()
 	{
 		// Add product attribute to economic
-		$cnt = JRequest::getInt('cnt', 0);
+		$cnt = $this->input->getInt('cnt', 0);
 		$totalprd = 0;
 		$msg = '';
 
@@ -129,7 +129,7 @@ class RedshopControllerProduct extends RedshopController
 					if (JError::isError(JError::getError()))
 					{
 						$error = JError::getError();
-						$errmsg = $error->message;
+						$errmsg = $error->getMessage();
 					}
 
 					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
@@ -197,8 +197,8 @@ class RedshopControllerProduct extends RedshopController
 	public function saveprice()
 	{
 		$db = JFactory::getDbo();
-		$pid = JRequest::getVar('pid', array(), 'post', 'array');
-		$price = JRequest::getVar('price', array(), 'post', 'array');
+		$pid = $this->input->post->get('pid', array(), 'array');
+		$price = $this->input->post->get('price', array(), 'array');
 
 		for ($i = 0, $in = count($pid); $i < $in; $i++)
 		{
@@ -214,8 +214,8 @@ class RedshopControllerProduct extends RedshopController
 	public function savediscountprice()
 	{
 		$db = JFactory::getDbo();
-		$pid = JRequest::getVar('pid', array(), 'post', 'array');
-		$discount_price = JRequest::getVar('discount_price', array(), 'post', 'array');
+		$pid = $this->input->post->get('pid', array(), 'array');
+		$discount_price = $this->input->post->get('discount_price', array(), 'array');
 
 		for ($i = 0, $in = count($pid); $i < $in; $i++)
 		{
@@ -230,9 +230,9 @@ class RedshopControllerProduct extends RedshopController
 
 	public function template()
 	{
-		$template_id = JRequest::getVar('template_id', '');
-		$product_id = JRequest::getVar('product_id', '');
-		$section = JRequest::getVar('section', '');
+		$template_id = $this->input->get('template_id', '');
+		$product_id = $this->input->get('product_id', '');
+		$section = $this->input->get('section', '');
 		$model = $this->getModel('product');
 
 		$data_product = $model->product_template($template_id, $product_id, $section);
@@ -255,7 +255,7 @@ class RedshopControllerProduct extends RedshopController
 
 	public function assignTemplate()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('product');
 
@@ -275,8 +275,8 @@ class RedshopControllerProduct extends RedshopController
 	{
 
 
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -299,7 +299,7 @@ class RedshopControllerProduct extends RedshopController
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$ids = $this->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel('product_detail');
 		$return = $model->checkin($ids);

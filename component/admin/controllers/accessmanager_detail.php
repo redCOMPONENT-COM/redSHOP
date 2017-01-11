@@ -20,18 +20,18 @@ class RedshopControllerAccessmanager_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'accessmanager_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'accessmanager_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
 	public function save($apply)
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('accessmanager_detail');
-		$section = JRequest::getVar('section', '', 'request', 'string');
+		$section = $this->input->getString('section', '');
 		$row = $model->store($post);
 
 		if ($row)
