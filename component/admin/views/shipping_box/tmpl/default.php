@@ -18,9 +18,23 @@ $producthelper = productHelper::getInstance();
 		}
 
 		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
+			|| (pressbutton == 'copy')) {
 			form.view.value = "shipping_box_detail";
 		}
+
+		if (pressbutton == 'shipping_box.remove') {
+			var r = confirm('<?php echo JText::_("COM_REDSHOP_DELETE_SHIPPING_BOXES")?>');
+
+			if (r == true)    
+			{
+				form.submit();
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 		try {
 			form.onsubmit();
 		}
