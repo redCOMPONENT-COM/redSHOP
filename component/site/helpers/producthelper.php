@@ -2104,12 +2104,11 @@ class productHelper
 			$userInformation = $this->GetdefaultshopperGroupData();
 		}
 
-		if (!empty($userInformation))
+		if (!empty($userInformation)
+			&& isset($userInformation->show_price_without_vat)
+			&& $userInformation->show_price_without_vat)
 		{
-			if (isset($userInformation->show_price_without_vat) && $userInformation->show_price_without_vat)
-			{
-				return false;
-			}
+			return false;
 		}
 
 		if (strpos($data_add, "{without_vat}") !== false)
@@ -2142,7 +2141,10 @@ class productHelper
 		{
 			$userInformation = $this->GetdefaultshopperGroupData();
 		}
-		else if (isset($userInformation->show_price_without_vat) && $userInformation->show_price_without_vat)
+
+		if (!empty($userInformation)
+			&& isset($userInformation->show_price_without_vat)
+			&& $userInformation->show_price_without_vat)
 		{
 			return false;
 		}
@@ -6021,6 +6023,10 @@ class productHelper
 			$cartform = str_replace($cartTag, '<span class="stockaddtocart" id="stockaddtocart' . $stockId . '" ' . $stockstyle
 				. ' class="stock_addtocart">' . $display_text . '</span>' . $cartIconPreorder . $cartIcon, $cartform);
 			$cartform .= "</form>";
+
+			// Trigger event on Add to Cart
+			$dispatcher->trigger('onAddtoCart', array(&$cartform, $product));
+
 			$data_add = str_replace("{form_addtocart:$cart_template->template_name}", $cartform, $data_add);
 		}
 
@@ -6576,7 +6582,7 @@ class productHelper
 			$productVatPrice = $this->getProducttax($productId, $productPrice, $userId);
 		}
 
-		if (!$this->getApplyVatOrNot($data, $userId))
+		if ($this->getApplyVatOrNot($data, $userId))
 		{
 			$productPrice += $productVatPrice;
 		}
