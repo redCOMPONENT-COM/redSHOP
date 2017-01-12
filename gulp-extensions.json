@@ -66,6 +66,7 @@
     "redshop_export": [
       "attribute",
       "category",
+      "field",
       "manufacturer",
       "shipping_address",
       "user"
