@@ -2104,12 +2104,11 @@ class productHelper
 			$userInformation = $this->GetdefaultshopperGroupData();
 		}
 
-		if (!empty($userInformation))
+		if (!empty($userInformation)
+			&& isset($userInformation->show_price_without_vat)
+			&& $userInformation->show_price_without_vat)
 		{
-			if (isset($userInformation->show_price_without_vat) && $userInformation->show_price_without_vat)
-			{
-				return false;
-			}
+			return false;
 		}
 
 		if (strpos($data_add, "{without_vat}") !== false)
@@ -2143,12 +2142,11 @@ class productHelper
 			$userInformation = $this->GetdefaultshopperGroupData();
 		}
 
-		if (!empty($userInformation))
+		if (!empty($userInformation)
+			&& isset($userInformation->show_price_without_vat)
+			&& $userInformation->show_price_without_vat)
 		{
-			if (isset($userInformation->show_price_without_vat) && $userInformation->show_price_without_vat)
-			{
-				return false;
-			}
+			return false;
 		}
 
 		if (strpos($template, "{attribute_price_without_vat}") !== false)
