@@ -16314,7 +16314,7 @@ Licensed under the BSD-2-Clause License.
 
 		if ($(window).width() > 768) {
 			$('#toolbar').affix({
-				offset: { top: $('#toolbar').offset().top + 100}
+				offset: { top: $('#toolbar').offset().top + 200}
 			});
 		}
 
