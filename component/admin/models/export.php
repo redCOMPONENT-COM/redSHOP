@@ -444,7 +444,7 @@ class RedshopModelExport extends RedshopModel
 	 *
 	 * @return  void
 	 */
-	private function loadAttributes()
+	/*private function loadAttributes()
 	{
 		$producthelper = productHelper::getInstance();
 
@@ -552,7 +552,7 @@ class RedshopModelExport extends RedshopModel
 				}
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * Load the manufacturer for export
@@ -700,7 +700,7 @@ class RedshopModelExport extends RedshopModel
 	 *
 	 * @return  void
 	 */
-	private function loadFields()
+	/*private function loadFields()
 	{
 		$extra_field   = extra_field::getInstance();
 		$producthelper = productHelper::getInstance();
@@ -785,7 +785,7 @@ class RedshopModelExport extends RedshopModel
 		}
 
 		$this->displayCsvData($export, $headers);
-	}
+	}*/
 
 	/**
 	 * Check File Exists

@@ -13,10 +13,10 @@ $data = array(
 	'products'                   => 'COM_REDSHOP_EXPORT_PRODUCTS',
 	// 'attributes'                 => 'COM_REDSHOP_EXPORT_ATTRIBUTES',
 	'related_product'            => 'COM_REDSHOP_EXPORT_RELATED_PRODUCTS',
-	'fields'                     => 'COM_REDSHOP_EXPORT_FIELDS',
+	// 'fields'                     => 'COM_REDSHOP_EXPORT_FIELDS',
 	// 'users'                      => 'COM_REDSHOP_EXPORT_USERS',
 	// 'shipping_address'           => 'COM_REDSHOP_EXPORT_SHIPPING_ADDRESS',
-	'shopperGroupProductPrice'   => 'COM_REDSHOP_EXPORT_SHOPPER_GROUP_PRODUCT_SPECIFIC_PRICE',
+	// 'shopperGroupProductPrice'   => 'COM_REDSHOP_EXPORT_SHOPPER_GROUP_PRODUCT_SPECIFIC_PRICE',
 	'shopperGroupAttributePrice' => 'COM_REDSHOP_EXPORT_SHOPPER_GROUP_ATTRIBUTE_SPECIFIC_PRICE',
 	// 'manufacturer'               => 'COM_REDSHOP_EXPORT_MANUFACTURER'
 );
