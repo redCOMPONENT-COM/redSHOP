@@ -159,14 +159,66 @@ class redhelper
 		}
 	}
 
-	public function getPlugins($folder = 'redshop')
+	/**
+	 * [getPlugins description]
+	 *
+	 * @param   string  $folder   [folder of plugins]
+	 * @param   string  $enabled  [-1: All, 0: not enable, 1: enabled]
+	 *
+	 * @return  [objectList]
+	 */
+	public function getPlugins($folder = 'redshop', $enabled = '1')
 	{
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		$query = "SELECT * FROM #__extensions "
-			. "WHERE  enabled = '1' "
-			. "AND LOWER(`folder`) = " . $db->quote(strtolower($folder)) . " "
-			. "ORDER BY ordering ASC ";
+		$query->select('*')
+			->from('#__extensions')
+			->where('LOWER(' . $db->qn('folder') . ')' . ' = ' . $db->q(strtolower($folder)))
+			->order($db->qn('ordering') . ' ASC');
+
+		if ($enabled > 0)
+		{
+			$query->where($db->qn('enabled') . ' = ' . $db->q($enabled));
+		}
+
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
+
+		return $data;
+	}
+
+	/**
+	 * [getModules description]
+	 *
+	 * @param   string  $enabled  [-1: All, 0: not enable, 1: enabled]
+	 *
+	 * @return  [objectList]
+	 */
+	public function getModules($enabled = '1')
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$oldStyleName = [
+				'mod_redcategoryscroller', 'mod_redmasscart', 'mod_redfeaturedproduct',
+				'mod_redproducts3d', 'mod_redproductscroller', 'mod_redproducttab', 'mod_redmanufacturer'
+			];
+
+		$query->select('*')
+			->from('#__extensions')
+			->where($db->qn('type') . ' = ' . $db->quote('module'))
+			->where(
+					'LOWER(' . $db->qn('element') . ')' . ' LIKE ' . $db->q('mod_redshop%')
+					. ' OR LOWER(' . $db->qn('element') . ') IN (' . implode(',', $db->q($oldStyleName)) . ')'
+				)
+			->order($db->qn('ordering') . ' ASC');
+
+		if ($enabled > 0)
+		{
+			$query->where($db->qn('enabled') . ' = ' . $db->q($enabled));
+		}
+
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
 
