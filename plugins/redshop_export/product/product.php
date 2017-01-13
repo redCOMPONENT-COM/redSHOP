@@ -341,6 +341,18 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 					$item[$column] = str_replace(array("\n", "\r"), "", $value);
 				}
 
+				// Discount start date
+				if (!empty($item['discount_stratdate']))
+				{
+					$item['discount_stratdate'] = RedshopHelperDatetime::convertDateFormat($item['discount_stratdate']);
+				}
+
+				// Discount end date
+				if (!empty($item['discount_enddate']))
+				{
+					$item['discount_enddate'] = RedshopHelperDatetime::convertDateFormat($item['discount_enddate']);
+				}
+
 				// Stockroom process
 				if (!empty($stockrooms))
 				{
