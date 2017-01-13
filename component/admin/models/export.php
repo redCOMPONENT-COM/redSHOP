@@ -565,8 +565,11 @@ class RedshopModelExport extends RedshopModel
 	private function loadManufacturer()
 	{
 		$db = JFactory::getDbo();
-		$query = "SELECT m.* "
-			. "FROM `#__redshop_manufacturer` AS m ";
+		$query = $db->getQuery(true);
+
+		$query->select('*')
+			->from($db->qn('#__redshop_manufacturer'));
+
 		$db->setQuery($query);
 
 		if (!($manufacturers = $db->LoadObjectList()))
@@ -581,6 +584,7 @@ class RedshopModelExport extends RedshopModel
 			for ($e = 0, $en = count($manufacturers); $e < $en; $e++)
 			{
 				$row = $manufacturers[$e];
+				$manufacturers[$e]->manufacturer_desc = $manufacturers[$e]->manufacturer_desc;
 				$row = (array) $row;
 				$fields = count($row);
 
@@ -588,7 +592,7 @@ class RedshopModelExport extends RedshopModel
 				{
 					foreach ($row as $id => $value)
 					{
-						echo $this->_text_qul . str_replace('"', '""', $id) . $this->_text_qul;
+						echo str_replace('"', '""', $id);
 
 						if ($i < ($fields - 1))
 						{
@@ -598,21 +602,24 @@ class RedshopModelExport extends RedshopModel
 						$i++;
 					}
 
-					echo ',' . $this->_text_qul . 'product_id' . $this->_text_qul;
+					echo ',product_id';
 					echo "\r\n";
 				}
 
 				$i = 0;
-				$query = "SELECT p.product_id "
-					. "FROM `#__redshop_product` AS p "
-					. "WHERE p.manufacturer_id=" . $manufacturers[$e]->manufacturer_id;
+				$query = $db->getQuery(true);
+
+				$query->select($db->qn('product_id'))
+					->from($db->qn('#__redshop_product'))
+					->where($db->qn('manufacturer_id') . ' = ' . $db->q($manufacturers[$e]->manufacturer_id));
+
 				$db->setQuery($query);
 				$pids = $db->loadColumn();
 				$pids = implode("|", $pids);
 
 				foreach ($row as $id => $value)
 				{
-					echo $this->_text_qul . str_replace('"', '""', $value) . $this->_text_qul;
+					echo str_replace('"', '""', $value);
 
 					if ($i < ($fields - 1))
 					{
@@ -622,7 +629,7 @@ class RedshopModelExport extends RedshopModel
 					$i++;
 				}
 
-				echo ',' . $this->_text_qul . $pids . $this->_text_qul;
+				echo ',' . $pids;
 				echo "\r\n";
 			}
 		}
