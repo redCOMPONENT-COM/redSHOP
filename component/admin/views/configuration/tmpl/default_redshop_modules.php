@@ -20,22 +20,17 @@ defined('_JEXEC') or die;
 		</tr>
 		</thead>
 		<tbody>
-		<?php if (count($this->getinstalledmodule) > 0)
-		{
-			foreach ($this->getinstalledmodule as $getinstalledmodule)
-			{
-
-				?>
+		<?php if (count($this->getinstalledmodule) > 0): ?>
+			<?php foreach ($this->getinstalledmodule as $getinstalledmodule): ?>
 				<tr>
-					<td><strong><?php echo $getinstalledmodule->element?></strong></td>
+					<td><strong><?php echo JText::_($getinstalledmodule->element) ?></strong></td>
 					<td><?php echo (is_null(JModuleHelper::getModule($getinstalledmodule->element))) ? JText::_('COM_REDSHOP_NOT_INSTALLED') : JText::_('COM_REDSHOP_INSTALLED');?></td>
 
 					<td align="center"><?php echo ($getinstalledmodule->enabled) ? "<img src='../administrator/components/com_redshop/assets/images/tick.png' />" : "<img src='../administrator/components/com_redshop/assets//images/publish_x.png' />";?></td>
 
 				</tr>
-			<?php
-			}
-		}?>
+			<?php endforeach ?>
+		<?php endif ?>
 		</tbody>
 	</table>
 </div>

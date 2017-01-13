@@ -1611,7 +1611,7 @@ class RedshopModelImport extends RedshopModel
 							if (array_key_exists(trim($rawdata['shopper_group_name']), $this->shopperGroups->name))
 							{
 								$shopperGroupId = $this->shopperGroups->name[trim($rawdata['shopper_group_name'])]
-																->shopper_group_id;
+									->shopper_group_id;
 							}
 							// Create new shopper group
 							else
@@ -1811,50 +1811,52 @@ class RedshopModelImport extends RedshopModel
 						// Import stockroom data
 						if ($post['import'] == 'product_stockroom_data')
 						{
-							$product_number = $rawdata['Product_SKU'];
-							$product_stock = $rawdata['stock'];
-							$preorder_stock = 0;
-							$ordered_preorder = 0;
+							$product_id = $this->getProductIdByNumber(trim($rawdata['product_number']));
 
-							$stockroom_id = $rawdata['stockroom_id'];
-
-							if ($product_number)
+							if ($product_id > 0)
 							{
-								$product_id = $this->getProductIdByNumber($product_number);
+								array_shift($rawdata);
 
-								if ($product_id)
+								foreach ($rawdata as $stockroom_name => $quantity)
 								{
-									echo $q = "SELECT product_id FROM `#__redshop_product_stockroom_xref` where product_id ='"
-										. $product_id . "' and stockroom_id ='" . $stockroom_id . "'";
-									$db->setQuery($q);
-									$stock_exists = $db->loadResult();
+									$query = $db->getQuery(true)
+										->select('stockroom_id')
+										->from($db->qn('#__redshop_stockroom'))
+										->where($db->qn('stockroom_name') . ' = ' . $db->quote($stockroom_name));
 
-									if ($stock_exists == 0)
+									$db->setQuery($query);
+									$stockroom_id = $db->loadResult();
+
+									if ($stockroom_id > 0)
 									{
-										$query = 'INSERT INTO #__redshop_product_stockroom_xref '
-											. '(product_id,stockroom_id,quantity,preorder_stock,	ordered_preorder) '
-											. 'VALUE("' . $product_id . '","' . $stockroom_id . '","' . $product_stock . '","' . $preorder_stock
-											. '","' . $ordered_preorder . '")';
-										$db->setQuery($query);
+										$productStockroom                   = new stdClass;
+										$productStockroom->product_id       = $product_id;
+										$productStockroom->stockroom_id     = $stockroom_id;
+										$productStockroom->quantity         = $quantity;
 
-										if (!$db->execute())
+										$query = $db->getQuery(true)
+											->select('product_id')
+											->from($db->qn('#__redshop_product_stockroom_xref'))
+											->where($db->qn('product_id') . ' = ' . $db->quote($product_id))
+											->where($db->qn('stockroom_id') . ' = ' . $db->quote($stockroom_id));
+
+										$db->setQuery($query);
+										$stockExists = $db->loadResult();
+
+										if ($stockExists)
 										{
-											$this->setError($db->getErrorMsg());
-
-											return false;
+											$db->updateObject('#__redshop_product_stockroom_xref', $productStockroom, array('product_id', 'stockroom_id'));
 										}
-									}
-									else
-									{
-										$query = "UPDATE `#__redshop_product_stockroom_xref` SET
-											`quantity` = '" . $product_stock . "'
-											 WHERE `product_id` = '" . $product_id . "' and stockroom_id = '" . $stockroom_id . "'";
+										else
+										{
+											$productStockroom->preorder_stock   = 0;
+											$productStockroom->ordered_preorder = 0;
 
-										$db->setQuery($query);
-										$db->execute();
-									}
+											$db->insertObject('#__redshop_product_stockroom_xref', $productStockroom);
+										}
 
-									$correctlines++;
+										$correctlines++;
+									}
 								}
 							}
 						}
@@ -1904,7 +1906,7 @@ class RedshopModelImport extends RedshopModel
 
 		fclose($handle);
 		$blank = "";
-		$text = "`_`" . $line . "`_`" . $line . "";
+		$text = "`_`" . $correctlines . "`_`" . $correctlines . "";
 		ob_clean();
 		echo $text;
 		exit;
