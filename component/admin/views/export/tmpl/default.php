@@ -12,17 +12,20 @@ $formToken = JSession::getFormToken();
 ?>
 
 <?php if (empty($this->exports)): ?>
-    <div class="alert alert-info">
-        <a class="close" data-dismiss="alert">×</a>
+    <div class="alert alert-warning">
+        <span class="close" data-dismiss="alert">×</span>
+        <h4 class="alert-heading">
+            <i class="fa fa-exclamation-triangle"></i> <?php echo JText::_('WARNING') ?>
+        </h4>
         <div>
-            <p><?php echo JText::_('COM_REDSHOP_EXPORT_NO_AVAILABLE_EXPORT_FEATURES') ?></p>
+            <p><?php echo JText::_('COM_REDSHOP_EXPORT_WARNING_MISSING_PLUGIN') ?></p>
         </div>
     </div>
 <?php else: ?>
     <script type="text/javascript">
         var plugin = '';
         var total = 0;
-        var itemRun = 10;
+        var itemRun = 100;
 
         (function ($) {
             $(document).ready(function () {
@@ -32,16 +35,12 @@ $formToken = JSession::getFormToken();
                     $("#export_process_msg").removeClass("alert-success").removeClass("alert-danger");
                     $("#export_process_msg_body").html("");
                     $("#export_process_bar").html('0%').css("width", "0%");
-                    $("#export_process_panel").collapse('hide');
 
                     // Load specific configuration of plugin
                     $.post(
                         "index.php?option=com_ajax&plugin=" + plugin + "_config&group=redshop_export&format=raw",
                         $("#adminForm").serialize(),
                         function (response) {
-                            if (response == '')
-                                response = '<p class="text-info"><?php echo JText::_('COM_REDSHOP_EXPORT_NO_CONFIG') ?></p>';
-
                             $("#export_config_body").empty().html(response);
                             $("select").select2({});
                             $("#export_config").removeClass('disabled muted');
@@ -49,7 +48,7 @@ $formToken = JSession::getFormToken();
                     );
                 });
 
-                $("#export_btn_start").click(function(event){
+                $("#export_btn_start").click(function (event) {
                     $("#export_plugins").addClass("disabled muted");
                     $("#export_config").addClass("disabled muted");
 
@@ -57,7 +56,6 @@ $formToken = JSession::getFormToken();
                     $("#export_process_msg_body").html("");
 
                     $("#export_process_bar").html('0%').css("width", "0%");
-                    $("#export_process_panel").collapse('show');
 
                     $.post(
                         "index.php?option=com_ajax&plugin=" + plugin + "_start&group=redshop_export&format=raw",
@@ -77,9 +75,8 @@ $formToken = JSession::getFormToken();
     </script>
 
     <script type="text/javascript">
-        function run_export(startIndex)
-        {
-            (function($){
+        function run_export(startIndex) {
+            (function ($) {
                 var url = "index.php?option=com_ajax&plugin=" + plugin + "_export&group=redshop_export&format=raw";
                 var data = $("#adminForm").serialize();
                 data += "&start=" + startIndex + "&limit=" + itemRun;
@@ -89,7 +86,7 @@ $formToken = JSession::getFormToken();
                     data,
                     function (response) {
                         var success = startIndex + itemRun;
-                        var percent = 0;
+                        var percent = 0.0;
                         var $bar = $("#export_process_bar");
 
                         if (success > total) {
@@ -103,7 +100,7 @@ $formToken = JSession::getFormToken();
                         }
 
                         $bar.css("width", percent + "%");
-                        $bar.html(percent + "%");
+                        $bar.html(percent.toFixed(2) + "%");
 
                         if (response == 1) {
                             run_export(success);
@@ -114,8 +111,8 @@ $formToken = JSession::getFormToken();
                             $("#export_process_msg_body").html("<?php echo JText::_('COM_REDSHOP_EXPORT_DONE') ?>");
                             $("#export_plugins").removeClass("disabled muted");
                             $("#export_config").removeClass("disabled muted");
-
-                            window.open("index.php?option=com_ajax&plugin=" + plugin + "_complete&group=redshop_export&format=raw");
+                            $("#export_iframe")
+                                .attr("src", "index.php?option=com_ajax&plugin=" + plugin + "_complete&group=redshop_export&format=raw");
                         }
                         else {
                             total = 0;
@@ -137,16 +134,16 @@ $formToken = JSession::getFormToken();
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-				            <?php echo JText::_('COM_REDSHOP_EXPORT_STEP_1') ?>
+							<?php echo JText::_('COM_REDSHOP_EXPORT_STEP_1') ?>
                         </h4>
                     </div>
                     <div class="panel-body" id="export_plugins">
-			            <?php foreach ($this->exports as $export): ?>
+						<?php foreach ($this->exports as $export): ?>
                             <label>
                                 <input type="radio" value="<?php echo $export->name ?>"
                                        name="plugin_name"/> <?php echo JText::_('PLG_REDSHOP_EXPORT_' . strtoupper($export->name) . '_TITLE') ?>
                             </label>
-			            <?php endforeach; ?>
+						<?php endforeach; ?>
                     </div>
                 </div>
                 <!-- Step 1. End -->
@@ -156,15 +153,25 @@ $formToken = JSession::getFormToken();
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-				            <?php echo JText::_('COM_REDSHOP_EXPORT_STEP_2') ?>
+							<?php echo JText::_('COM_REDSHOP_EXPORT_STEP_2') ?>
                         </h4>
                     </div>
                     <div class="panel-body">
                         <div id="export_config">
-                            <div id="export_config_body" class="form-horizontal"></div>
+                            <fieldset class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        <?php echo JText::_('COM_REDSHOP_EXPORT_CONFIG_SEPARATOR') ?>
+                                    </label>
+                                    <div class="col-md-10">
+                                        <input type="text" value="," class="form-control" maxlength="1" name="separator" />
+                                    </div>
+                                </div>
+                                <div id="export_config_body"></div>
+                            </fieldset>
                             <hr/>
                             <button class="btn btn-primary btn-large" id="export_btn_start" type="button">
-					            <?php echo JText::_('COM_REDSHOP_EXPORT_START') ?>
+								<?php echo JText::_('COM_REDSHOP_EXPORT_START') ?>
                             </button>
                         </div>
                     </div>
@@ -176,12 +183,12 @@ $formToken = JSession::getFormToken();
             <div class="col-md-12">
                 <!-- Step 3. Process -->
                 <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingThree">
+                    <div class="panel-heading">
                         <h4 class="panel-title" id="export_process_title">
-				            <?php echo JText::_('COM_REDSHOP_EXPORT_STEP_3') ?> <span class="small"></span>
+							<?php echo JText::_('COM_REDSHOP_EXPORT_STEP_3') ?> <span class="small"></span>
                         </h4>
                     </div>
-                    <div id="export_process_panel" class="panel-collapse collapse" role="tabpanel">
+                    <div id="export_process_panel">
                         <div class="panel-body">
                             <div class="progress">
                                 <div id="export_process_bar" class="progress-bar progress-bar-striped active" role="progressbar"
@@ -194,6 +201,7 @@ $formToken = JSession::getFormToken();
                                     <h4><?php echo JText::_('COM_REDSHOP_EXPORT_LOG') ?></h4>
                                     <div id="export_process_msg_body"></div>
                                 </div>
+                                <iframe id="export_iframe" src="" class="hidden"></iframe>
                             </div>
                         </div>
                     </div>
@@ -205,6 +213,6 @@ $formToken = JSession::getFormToken();
         <!-- Hidden field -->
         <input type="hidden" name="task" value=""/>
         <input type="hidden" name="boxchecked" value="0"/>
-        <?php echo JHtml::_('form.token') ?>
+		<?php echo JHtml::_('form.token') ?>
     </form>
 <?php endif; ?>

@@ -270,6 +270,7 @@ gulp.task("release:md5:generate", function(){
         "./plugins/redshop_alert/alert/**",
         "./plugins/redshop_shipping/default_shipping/**",
         "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**",
+        "./plugins/redshop_pdf/tcpdf/**",
         "./plugins/redshop_export/attribute/**",
         "./plugins/redshop_export/category/**",
         "./plugins/redshop_export/field/**",
@@ -356,7 +357,17 @@ gulp.task("release:redshop", ["composer:libraries.redshop", "release:md5"], func
                 "./plugins/redshop_alert/alert/**",
                 "./plugins/redshop_shipping/default_shipping/**",
                 "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**",
-                "./plugins/redshop_pdf/tcpdf/**"
+                "./plugins/redshop_pdf/tcpdf/**",
+                "./plugins/redshop_export/attribute/**",
+                "./plugins/redshop_export/category/**",
+                "./plugins/redshop_export/field/**",
+                "./plugins/redshop_export/manufacturer/**",
+                "./plugins/redshop_export/product/**",
+                "./plugins/redshop_export/related_product/**",
+                "./plugins/redshop_export/shipping_address/**",
+                "./plugins/redshop_export/shopper_group_attribute_price/**",
+                "./plugins/redshop_export/shopper_group_product_price/**",
+                "./plugins/redshop_export/user/**"
             ],{ base: "./" })
                 .pipe(zip(fileName))
                 .pipe(gulp.dest(config.releaseDir))
