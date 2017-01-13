@@ -166,6 +166,13 @@
                 <exclude name=".*" />
             </fileset>
         </copy>
+        <echo msg="Copying all redSHOP Export plugin" />
+        <copy todir="${tmpdir}/${extension}/plugins/redshop_export">
+            <fileset dir="${extpath}/plugins/redshop_export">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
     </target>
 
     <target name="compress">

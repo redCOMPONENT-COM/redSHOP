@@ -25,7 +25,7 @@ class PlgRedshop_ExportUser extends AbstractExportPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 *
 	 * @TODO: Need to load XML File instead
 	 */
@@ -41,7 +41,7 @@ class PlgRedshop_ExportUser extends AbstractExportPlugin
 	 *
 	 * @return  number
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function onAjaxUser_Start()
 	{
@@ -57,7 +57,7 @@ class PlgRedshop_ExportUser extends AbstractExportPlugin
 	 *
 	 * @return  int
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function onAjaxUser_Export()
 	{
@@ -75,7 +75,7 @@ class PlgRedshop_ExportUser extends AbstractExportPlugin
 	 *
 	 * @return  number
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function onAjaxUser_Complete()
 	{
@@ -89,7 +89,7 @@ class PlgRedshop_ExportUser extends AbstractExportPlugin
 	 *
 	 * @return \JDatabaseQuery
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	protected function getQuery()
 	{
@@ -147,7 +147,7 @@ class PlgRedshop_ExportUser extends AbstractExportPlugin
 	 *
 	 * @return array|bool
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	protected function getHeader()
 	{

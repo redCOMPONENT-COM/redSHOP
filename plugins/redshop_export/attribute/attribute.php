@@ -25,7 +25,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 *
 	 * @TODO: Need to load XML File instead
 	 */
@@ -41,7 +41,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 *
 	 * @return  number
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function onAjaxAttribute_Start()
 	{
@@ -57,7 +57,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 *
 	 * @return  int
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function onAjaxAttribute_Export()
 	{
@@ -75,7 +75,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 *
 	 * @return  number
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function onAjaxAttribute_Complete()
 	{
@@ -89,7 +89,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 *
 	 * @return \JDatabaseQuery
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	protected function getQuery()
 	{
@@ -230,7 +230,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 *
 	 * @return array|bool
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	protected function getHeader()
 	{
@@ -248,7 +248,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 *
 	 * @return int
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	protected function getTotal()
 	{
@@ -268,7 +268,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	protected function processData(&$data)
 	{
