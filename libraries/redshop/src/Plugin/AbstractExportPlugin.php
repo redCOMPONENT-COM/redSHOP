@@ -21,7 +21,7 @@ class AbstractExportPlugin extends \JPlugin
 	/**
 	 * @var  string
 	 */
-	protected $delimiter = ',';
+	protected $separator = ',';
 
 	/**
 	 * @var  \JDatabaseDriver
@@ -76,6 +76,8 @@ class AbstractExportPlugin extends \JPlugin
 			return false;
 		}
 
+		$separator = \JFactory::getApplication()->input->getString('separator', $this->separator);
+
 		$row = (array) $row;
 
 		foreach ($row as $index => $column)
@@ -86,12 +88,12 @@ class AbstractExportPlugin extends \JPlugin
 		if (is_null($handle))
 		{
 			$fileHandle = fopen($this->getFilePath(), $mode);
-			fwrite($fileHandle, implode($this->delimiter, $row) . "\r\n");
+			fwrite($fileHandle, implode($separator, $row) . "\r\n");
 			fclose($fileHandle);
 		}
 		else
 		{
-			fwrite($handle, implode($this->delimiter, $row) . "\r\n");
+			fwrite($handle, implode($separator, $row) . "\r\n");
 		}
 
 		return true;

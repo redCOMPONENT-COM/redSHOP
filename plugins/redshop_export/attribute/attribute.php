@@ -73,7 +73,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	/**
 	 * Event run on export process
 	 *
-	 * @return  number
+	 * @return  void
 	 *
 	 * @since  1.0.0
 	 */
@@ -126,8 +126,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_image'))
 			->select($db->quote('0') . ' AS ' . $db->qn('delete'))
 			->from($db->qn('#__redshop_product', 'p'))
-			->innerJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id'))
-			->where($db->qn('a.attribute_published') . ' = 1');
+			->innerJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id'));
 
 		// Attributes query
 		$propertiesQuery = $db->getQuery(true)
@@ -170,7 +169,6 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->innerJoin(
 				$db->qn('#__redshop_product_attribute_property', 'ap') . ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
 			)
-			->where($db->qn('ap.property_published') . ' = 1')
 			->order($db->qn('product_number') . ',' . $db->qn('property_ordering'));
 
 		// Attributes query
@@ -217,7 +215,6 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->innerJoin(
 				$db->qn('#__redshop_product_subattribute_color', 'sp') . ' ON ' . $db->qn('ap.property_id') . ' = ' . $db->qn('sp.subattribute_id')
 			)
-			->where($db->qn('sp.subattribute_published') . ' = 1')
 			->order($db->qn('product_number') . ',' . $db->qn('subattribute_color_ordering'));
 
 		$attributeQuery->union($propertiesQuery)->union($subPropertiesQuery);
@@ -281,11 +278,13 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 		{
 			$item = (array) $item;
 
+			// Property image
 			if (!empty($item['property_image']))
 			{
 				$item['property_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' . $item['property_image'];
 			}
 
+			// Property main image
 			if (!empty($item['property_main_image']))
 			{
 				$item['property_main_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $item['property_main_image'];

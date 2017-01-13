@@ -359,7 +359,9 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 					foreach ($stockrooms as $stockroom)
 					{
 						$amount = RedshopHelperStockroom::getStockroomAmountDetailList($item['product_id'], "product", $stockroom->stockroom_id);
-						$item[$stockroom->stockroom_name] = $amount[0]->quantity;
+						$amount = !empty($amount) ? $amount[0]->quantity : 0;
+
+						$item[$stockroom->stockroom_name] = $amount;
 					}
 				}
 
