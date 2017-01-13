@@ -1043,7 +1043,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		if ($data['shipping_rate_id'] != "")
 		{
 			// Get Shipping rate info Info
-			$neworder_shipping = RedshopHelperShipping::decryptShipping(str_replace(" ", "+", $data['shipping_rate_id']));
+			$neworder_shipping = RedshopHelperShipping::decryptShipping($data['shipping_rate_id']);
 
 			if ($data['shipping_rate_id'] != $orderdata->ship_method_id || $neworder_shipping[0] == 'plgredshop_shippingdefault_shipping_gls')
 			{
