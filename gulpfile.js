@@ -269,7 +269,17 @@ gulp.task("release:md5:generate", function(){
         "./plugins/finder/redshop/**",
         "./plugins/redshop_alert/alert/**",
         "./plugins/redshop_shipping/default_shipping/**",
-        "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**"
+        "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**",
+        "./plugins/redshop_export/attribute/**",
+        "./plugins/redshop_export/category/**",
+        "./plugins/redshop_export/field/**",
+        "./plugins/redshop_export/manufacturer/**",
+        "./plugins/redshop_export/product/**",
+        "./plugins/redshop_export/related_product/**",
+        "./plugins/redshop_export/shipping_address/**",
+        "./plugins/redshop_export/shopper_group_attribute_price/**",
+        "./plugins/redshop_export/shopper_group_product_price/**",
+        "./plugins/redshop_export/user/**"
     ],{ base: "./" })
         .pipe(hashsum({dest: "./component/admin/assets/", filename: "checksum.md5", hash: "md5"}));
 });

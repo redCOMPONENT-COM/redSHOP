@@ -14,11 +14,11 @@ use Redshop\Plugin\AbstractExportPlugin;
 JLoader::import('redshop.library');
 
 /**
- * Plugins redSHOP Export Shopper Group Product Price
+ * Plugins redSHOP Export Related Product
  *
  * @since  1.0
  */
-class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
+class PlgRedshop_ExportRelated_Product extends AbstractExportPlugin
 {
 	/**
 	 * Event run when user load config for export this data.
@@ -29,7 +29,7 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
 	 *
 	 * @TODO: Need to load XML File instead
 	 */
-	public function onAjaxShopper_Group_Product_Price_Config()
+	public function onAjaxRelated_Product_Config()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
@@ -43,7 +43,7 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
 	 *
 	 * @since  1.0.0
 	 */
-	public function onAjaxShopper_Group_Product_Price_Start()
+	public function onAjaxRelated_Product_Start()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
@@ -59,7 +59,7 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
 	 *
 	 * @since  1.0.0
 	 */
-	public function onAjaxShopper_Group_Product_Price_Export()
+	public function onAjaxRelated_Product_Export()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
@@ -77,7 +77,7 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
 	 *
 	 * @since  1.0.0
 	 */
-	public function onAjaxShopper_Group_Product_Price_Complete()
+	public function onAjaxRelated_Product_Complete()
 	{
 		$this->downloadFile();
 
@@ -96,28 +96,12 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
 		$db = $this->db;
 
 		$query = $db->getQuery(true)
-			->select(
-				array(
-					$db->qn('p.product_number'),
-					$db->qn('p.product_name'),
-					$db->qn('pp.product_price'),
-					$db->qn('pp.price_quantity_start'),
-					$db->qn('pp.price_quantity_end'),
-					$db->qn('pp.discount_price'),
-					$db->qn('pp.discount_start_date'),
-					$db->qn('pp.discount_end_date'),
-					$db->qn('s.shopper_group_id'),
-					$db->qn('s.shopper_group_name')
-				)
-			)
-			->from($db->qn('#__redshop_product_price', 'pp'))
-			->leftjoin(
-				$db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . '=' . $db->qn('pp.product_id')
-			)
-			->leftjoin(
-				$db->qn('#__redshop_shopper_group', 's') . ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn('pp.shopper_group_id')
-			)
-			->where($db->qn('p.product_number') . ' != ' . $db->quote(''));
+			->select($db->qn('p1.product_number', 'related_sku'))
+			->select($db->qn('p2.product_number', 'product_sku'))
+			->from($db->qn('#__redshop_product_related', 'rp'))
+			->innerJoin($db->qn('#__redshop_product', 'p1') . ' ON ' . $db->qn('p1.product_id') . ' = ' . $db->qn('rp.related_id'))
+			->innerJoin($db->qn('#__redshop_product', 'p2') . ' ON ' . $db->qn('p2.product_id') . ' = ' . $db->qn('rp.product_id'))
+			->order($db->qn('p2.product_number'));
 
 		return $query;
 	}
@@ -125,15 +109,14 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
 	/**
 	 * Method for get headers data.
 	 *
-	 * @return array|bool
+	 * @return array
 	 *
 	 * @since  1.0.0
 	 */
 	protected function getHeader()
 	{
 		return array(
-			'product_number','product_name','product_price','price_quantity_start','price_quantity_end','discount_price',
-			'discount_start_date','discount_end_date','shopper_group_id','shopper_group_name'
+			'related_sku','product_sku'
 		);
 	}
 }

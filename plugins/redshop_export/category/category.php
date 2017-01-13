@@ -25,7 +25,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function onAjaxCategory_Config()
 	{
@@ -39,7 +39,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @return  number
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function onAjaxCategory_Start()
 	{
@@ -60,7 +60,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @return  int
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function onAjaxCategory_Export()
 	{
@@ -78,7 +78,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @return  number
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function onAjaxCategory_Complete()
 	{
@@ -92,7 +92,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @return \JDatabaseQuery
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	protected function getQuery()
 	{
@@ -114,7 +114,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	protected function processData(&$data)
 	{

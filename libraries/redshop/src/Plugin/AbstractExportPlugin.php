@@ -246,7 +246,7 @@ class AbstractExportPlugin extends \JPlugin
 	 * @param   int  $start  Start row for write.
 	 * @param   int  $limit  Limit for row.
 	 *
-	 * @return array|mixed
+	 * @return  int
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -267,5 +267,7 @@ class AbstractExportPlugin extends \JPlugin
 		}
 
 		fclose($handle);
+
+		return 1;
 	}
 }
