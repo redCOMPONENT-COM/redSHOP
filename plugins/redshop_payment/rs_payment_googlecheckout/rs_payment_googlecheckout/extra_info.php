@@ -13,12 +13,16 @@ $shippinghelper = shipping::getInstance();
 $currencyClass  = CurrencyHelper::getInstance();
 
 // Currency accepted by Google
-$currency_code = "USD";
-$order         = $data['order'];
+$currencyCode = "USD";
+$order        = $data['order'];
 
 $db = JFactory::getDbo();
-$q = "SELECT * FROM #__redshop_order_item WHERE order_id=" . $order->order_id;
-$db->setQuery($q);
+$query = $db->getQuery(true);
+$query->select('*')
+	->from($db->qn('#__redshop_order_item'))
+	->where($db->qn('order_id') . ' = ' . $db->q($order->order_id));
+
+$db->setQuery($query);
 $rs = $db->loadObjectlist();
 
 $url = JURI::root();
@@ -29,51 +33,44 @@ require_once 'library/googleitem.php';
 require_once 'library/googleshipping.php';
 require_once 'library/googletax.php';
 
-$servertype  = $this->params->get("is_test", "sandbox");
-$merchantid  = $this->params->get("merchant_id", "");
-$merchantkey = $this->params->get("merchant_key", "");
-$buttonsize  = $this->params->get("button_size", "medium");
-$buttonstyle = $this->params->get("button_style", "white");
+$buttonSize  = $this->params->get("button_size", "medium");
+$buttonStyle = $this->params->get("button_style", "white");
 
-if ($buttonsize == "medium")
+switch ($buttonSize)
 {
-	$width = "168";
-
-	$height = "44";
+	case 'large':
+		$width = "180";
+		$height = "46";
+		break;
+	case 'small':
+		$width = "160";
+		$height = "43";
+		break;
+	case 'medium':
+	default:
+		$width = "168";
+		$height = "44";
+		break;
 }
 
-elseif ($buttonsize == "small")
-{
-	$width = "160";
-
-	$height = "43";
-}
-
-elseif ($buttonsize == "large")
-{
-	$width = "180";
-
-	$height = "46";
-}
-
-$conurl = $url . "index.php?option=com_redshop&view=order_detail&oid=" . $order->order_id;
-$editurl = $url . "index.php?option=com_redshop&view=cart";
+$connectUrl = $url . "index.php?option=com_redshop&view=order_detail&oid=" . $order->order_id;
+$editUrl = $url . "index.php?option=com_redshop&view=cart";
 
 // Changing start
 // Your Merchant ID
-$merchant_id = $this->params->get("merchant_id", "");
+$merchantId = $this->params->get("merchant_id", "");
 
 // Your Merchant Key
-$merchant_key = $this->params->get("merchant_key", "");
-$server_type = $this->params->get("is_test", "sandbox");
+$merchantKey = $this->params->get("merchant_key", "");
+$serverType = $this->params->get("is_test", "sandbox");
 
 $currency = "USD";
-$cart = new GoogleCart($merchant_id, $merchant_key, $server_type, $currency);
+$cart = new GoogleCart($merchantId, $merchantKey, $serverType, $currency);
 
 // Add product items
 for ($p = 0, $pn = count($rs); $p < $pn; $p++)
 {
-	$item_price = $currencyClass->convert($rs [$p]->product_item_price, '', $currency_code);
+	$itemPrice = $currencyClass->convert($rs [$p]->product_item_price, '', $currencyCode);
 
 	$item = new GoogleItem(
 		// Item name
@@ -83,15 +80,15 @@ for ($p = 0, $pn = count($rs); $p < $pn; $p++)
 		// Quantity
 		$rs [$p]->product_quantity,
 		// Unit price
-		$item_price
+		$itemPrice
 	);
 
 	$cart->AddItem($item);
 }
 
-$discount_price = (0 - $currencyClass->convert($order->order_discount, '', $currency_code));
+$discountPrice = (0 - $currencyClass->convert($order->order_discount, '', $currencyCode));
 
-$disoucnt_item = new GoogleItem(
+$discountItem = new GoogleItem(
 	// Item name
 	JText::_('COM_REDSHOP_DISCOUNT'),
 	// Item description
@@ -99,12 +96,12 @@ $disoucnt_item = new GoogleItem(
 	// Quantity
 	1,
 	// Unit price
-	$discount_price
+	$discountPrice
 );
 
-if ($discount_price > 0)
+if ($discountPrice > 0)
 {
-	$cart->AddItem($disoucnt_item);
+	$cart->AddItem($discountItem);
 }
 
 $cart->SetMerchantPrivateData(
@@ -114,21 +111,21 @@ $cart->SetMerchantPrivateData(
 );
 
 // Add shipping options
-$shipping_method_name = explode("|", $shippinghelper->decryptShipping($order->ship_method_id));
+$shippingMethodName = explode("|", $shippinghelper->decryptShipping($order->ship_method_id));
 
-if (isset ($shipping_method_name [1]) && $shipping_method_name [1] != "")
+if (isset ($shippingMethodName [1]) && $shippingMethodName [1] != "")
 {
-	$shipping_price = $currencyClass->convert($order->order_shipping, '', $currency_code);
-	$ship_1 = new GoogleFlatRateShipping($shipping_method_name [1], $shipping_price);
+	$shippingPrice = $currencyClass->convert($order->order_shipping, '', $currencyCode);
+	$shipping = new GoogleFlatRateShipping($shippingMethodName [1], $shippingPrice);
 
-	$cart->AddShipping($ship_1);
+	$cart->AddShipping($shipping);
 }
 
 // Specify "Return to xyz" link
-$cart->SetContinueShoppingUrl($conurl);
+$cart->SetContinueShoppingUrl($connectUrl);
 
 // Request buyer's phone number
 $cart->SetRequestBuyerPhone(false);
 
 // Display Google Checkout button
-echo $cart->CheckoutButtonCode(strtoupper($buttonsize));
+echo $cart->CheckoutButtonCode(strtoupper($buttonSize));
