@@ -1142,7 +1142,7 @@ class Redconfiguration
 		$wk     = JText::_(strtoupper(date("D")));
 		$week   = JText::_(strtoupper(date("l")));
 
-		$option[] = JHTML::_('select.option', '0', JText::_('SELECT'));
+		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$option[] = JHTML::_('select.option', 'Y-m-d', date("Y-m-d"));
 		$option[] = JHTML::_('select.option', 'd-m-Y', date("d-m-Y"));
 		$option[] = JHTML::_('select.option', 'd.m.Y', date("d.m.Y"));

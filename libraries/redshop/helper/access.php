@@ -19,6 +19,13 @@ defined('_JEXEC') or die;
 class RedshopHelperAccess
 {
 	/**
+	 * @var  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $portalCategories = array();
+
+	/**
 	 * Check access level of an user
 	 *
 	 * @param   integer  $groupId  Group ID of an user
@@ -326,5 +333,91 @@ class RedshopHelperAccess
 			$msg = JText::_('COM_REDSHOP_DONT_HAVE_PERMISSION');
 			$app->redirect($_SERVER['HTTP_REFERER'], $msg);
 		}
+	}
+
+	/**
+	 * Check permission for Products shopper group can access or can't access
+	 *
+	 * @param   int  $pid  Product id that need to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function checkPortalProductPermission($pid = 0)
+	{
+		if (!$pid)
+		{
+			return false;
+		}
+
+		$product = RedshopProduct::getInstance($pid);
+
+		if (empty($product) || empty($product->categories))
+		{
+			return false;
+		}
+
+		foreach ($product->categories as $cid)
+		{
+			$checkPermission = self::checkPortalCategoryPermission($cid);
+
+			if (!$checkPermission)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Check permission for Categories shopper group can access or can't access
+	 *
+	 * @param   int  $cid  Category id that need to be checked.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function checkPortalCategoryPermission($cid = 0)
+	{
+		if (array_key_exists($cid, static::$portalCategories))
+		{
+			return true;
+		}
+
+		$user           = JFactory::getUser();
+		$userHelper     = rsUserHelper::getInstance();
+		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
+
+		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
+		{
+			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
+			{
+				$shopperCategories = explode(',', $shopperGroupData[0]->shopper_group_categories);
+
+				if (array_search((int) $cid, $shopperCategories) !== false)
+				{
+					static::$portalCategories = $shopperCategories;
+
+					return true;
+				}
+			}
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('shopper_group_id'))
+			->from($db->qn('#__redshop_shopper_group'))
+			->where('FIND_IN_SET(' . $db->quote($cid) . ', shopper_group_categories)')
+			->where($db->qn('shopper_group_id') . ' != ' . (int) $shopperGroupId);
+
+		if ($db->setQuery($query)->loadResult())
+		{
+			return false;
+		}
+
+		return true;
 	}
 }
