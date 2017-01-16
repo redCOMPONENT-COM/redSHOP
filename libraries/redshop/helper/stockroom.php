@@ -1358,40 +1358,69 @@ class RedshopHelperStockroom
 			}
 			else
 			{
-				$table = 'product';
-				$db    = JFactory::getDbo();
+				$db         = JFactory::getDbo();
+				$isInfinite = (boolean) Redshop::getConfig()->get('USE_BLANK_AS_INFINITE', 0);
+				$query      = $db->getQuery(true);
+
+				$column     = 'p.product_id';
+				$table      = '#__redshop_product';
+				$stockTable = '#__redshop_product_stockroom_xref';
+				$stockColumn = 'x.product_id';
+
+				if ($section == 'property')
+				{
+					$column = 'p.property_id';
+					$table  = '#__redshop_product_attribute_property';
+					$stockTable = '#__redshop_product_attribute_stockroom_xref';
+					$stockColumn = 'x.section_id';
+				}
+				elseif ($section == 'subproperty')
+				{
+					$column = 'p.subattribute_color_id';
+					$table  = '#__redshop_product_subattribute_color';
+					$stockTable = '#__redshop_product_attribute_stockroom_xref';
+					$stockColumn = 'x.section_id';
+				}
+
+				$query->select($db->qn($column, 'id'))
+					->from($db->qn($table, 'p'))
+					->group($db->qn('id'));
 
 				if ($section != 'product')
 				{
-					$table = 'product_attribute';
+					$query->leftJoin(
+						$db->qn($stockTable, 'x') . ' ON ' . $db->qn($stockColumn) . ' = ' . $db->qn($column)
+						. ' AND ' . $db->qn('x.section') . ' = ' . $db->quote($section)
+					);
+				}
+				else
+				{
+					$query->leftJoin($db->qn($stockTable, 'x') . ' ON ' . $db->qn($stockColumn) . ' = ' . $db->qn($column));
 				}
 
-				$query = $db->getQuery(true)
-					->select('SUM(x.quantity) AS ' . $db->qn('quantity'))
-					->select($db->qn('x.section_id'))
-					->from($db->qn('#__redshop_' . $table . '_stockroom_xref', 'x'))
-					->leftJoin($db->qn('#__redshop_stockroom', 's') . ' ON s.stockroom_id = x.stockroom_id')
-					->where('x.quantity >= 0');
+				$query->leftJoin($db->qn('#__redshop_stockroom', 's') . ' ON ' . $db->qn('s.stockroom_id') . ' = ' . $db->qn('x.stockroom_id'));
 
 				if ($sectionIds)
 				{
-					if ($section != 'product')
-					{
-						$query->where('x.section = ' . $db->quote($section))
-							->where('x.section_id IN (' . implode(',', $sectionIds) . ')');
-					}
-					else
-					{
-						$query->where('x.product_id IN (' . implode(',', $sectionIds) . ')');
-					}
+					$query->where($db->qn($column) . ' IN (' . implode(',', $sectionIds) . ')');
+				}
+
+				if (!$isInfinite)
+				{
+					$query->select($db->qn('x.quantity'))
+						->where($db->qn('x.quantity') . ' >= 0');
+				}
+				else
+				{
+					$query->select(
+						'IF(SUM(' . $db->qn('x.quantity') . ') IS NULL, 1000000000, SUM(' . $db->qn('x.quantity') . ')) AS ' . $db->qn('quantity')
+					);
 				}
 
 				if ($stockroomId != 0)
 				{
-					$query->where('x.stockroom_id = ' . (int) $stockroomId);
+					$query->where($db->qn('x.stockroom_id') . ' = ' . (int) $stockroomId);
 				}
-
-				$query->group($db->qn('x.section_id'));
 
 				$db->setQuery($query);
 				$results = $db->loadObjectList();
@@ -1400,19 +1429,8 @@ class RedshopHelperStockroom
 				{
 					foreach ($results as $result)
 					{
-						$quantities[$result->section_id] = $result->quantity;
+						$quantities[$result->id] = $result->quantity;
 					}
-				}
-			}
-		}
-
-		if (Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
-		{
-			foreach ($sectionIds as $sectionId)
-			{
-				if (!isset($quantities[$sectionId]) || $quantities[$sectionId] == '')
-				{
-					$quantities[$sectionId] = 1000000000;
 				}
 			}
 		}
