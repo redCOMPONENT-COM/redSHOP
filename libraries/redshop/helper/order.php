@@ -2491,7 +2491,7 @@ class RedshopHelperOrder
 			$mailData = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $mailData);
 			$mailData = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $mailData);
 
-			$mailData = $cartHelper->replaceOrderTemplate($row, $mailData);
+			$mailData = $cartHelper->replaceOrderTemplate($row, $mailData, true);
 
 			$arrDiscountType = array();
 			$arrDiscount     = explode('@', $row->discount_type);
