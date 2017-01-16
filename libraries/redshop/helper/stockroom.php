@@ -1406,11 +1406,14 @@ class RedshopHelperStockroom
 			}
 		}
 
-		if (empty($quantities) && Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
+		if (Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 		{
 			foreach ($sectionIds as $sectionId)
 			{
-				$quantities[$sectionId] = 1000000000;
+				if (!isset($quantities[$sectionId]) || $quantities[$sectionId] == '')
+				{
+					$quantities[$sectionId] = 1000000000;
+				}
 			}
 		}
 
