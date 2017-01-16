@@ -1016,7 +1016,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_order_item` (
   INDEX `idx_product_id` (`product_id` ASC),
   INDEX `idx_order_status` (`order_status` ASC),
   INDEX `idx_cdate` (`cdate` ASC),
-  INDEX `idx_is_giftcard` (`is_giftcard` ASC))
+  INDEX `idx_is_giftcard` (`is_giftcard` ASC),
+  INDEX `idx_product_quantity` USING BTREE (`product_id` ASC, `product_quantity` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Order Item Detail';
