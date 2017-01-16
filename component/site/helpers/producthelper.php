@@ -6582,10 +6582,11 @@ class productHelper
 			$productVatPrice = $this->getProducttax($productId, $productPrice, $userId);
 		}
 
-		if ($this->getApplyVatOrNot($data, $userId))
+		// Todo: For QA to check all cases.
+		/*if ($this->getApplyVatOrNot($data, $userId))
 		{
 			$productPrice += $productVatPrice;
-		}
+		}*/
 
 		return array(
 			$displayattribute,
