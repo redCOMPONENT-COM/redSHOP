@@ -114,5 +114,6 @@
         <plugin name="shopper_group_attribute_price" group="redshop_export" published="published" />
         <plugin name="shopper_group_product_price" group="redshop_export" published="published" />
         <plugin name="user" group="redshop_export" published="published" />
+        <plugin group="redshop_import" name="category" published="published" />
     </plugins>
 </extension>

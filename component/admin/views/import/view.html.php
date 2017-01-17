@@ -20,7 +20,12 @@ class RedshopViewImport extends RedshopViewAdmin
 {
 	protected $checkVirtuemart;
 
-	protected $result;
+	/**
+	 * @var   array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $imports;
 
 	/**
 	 * Function display template
@@ -58,35 +63,12 @@ class RedshopViewImport extends RedshopViewAdmin
 				$this->setLayout($layout);
 			}
 
-			$task   = $app->input->getCmd('task');
-			$result = '';
-
-			if ($task == 'importfile')
-			{
-				// Load the data to export
-				$result = $this->get('Data');
-			}
-
-			$this->result = $result;
+			/** @var RedshopModelImport $model */
+			$model = $this->getModel();
+			$this->imports = $model->getImports();
 
 			$document->setTitle(JText::_('COM_REDSHOP_DATA_IMPORT'));
-
-			JToolBarHelper::title(JText::_('COM_REDSHOP_DATA_IMPORT'), 'redshop_import48');
-
-			if ($layout == 'importlog')
-			{
-				JToolBarHelper::back();
-			}
-			else
-			{
-				JToolBarHelper::custom(
-					'importfile',
-					'redshop_import_import32.png',
-					JText::_('COM_REDSHOP_IMPORT'),
-					JText::_('COM_REDSHOP_IMPORT'),
-					false
-				);
-			}
+			JToolBarHelper::title(JText::_('COM_REDSHOP_DATA_IMPORT'));
 		}
 
 		parent::display($tpl);
