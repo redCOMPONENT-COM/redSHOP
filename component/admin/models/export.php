@@ -207,6 +207,8 @@ class RedshopModelExport extends RedshopModel
 			$oneProduct->product_preview_image = $this->checkFileExists($oneProduct->product_preview_image);
 			$oneProduct->product_preview_back_image = $this->checkFileExists($oneProduct->product_preview_back_image);
 			$oneProduct->sitepath = JURI::root();
+			$oneProduct->discount_stratdate = ((int)$oneProduct->discount_stratdate > 0) ? date("d-m-Y", $oneProduct->discount_stratdate) : "";
+			$oneProduct->discount_enddate   = ((int)$oneProduct->discount_enddate > 0) ? date("d-m-Y", $oneProduct->discount_enddate) : "";
 
 			$query->clear()
 				->select('pcx.category_id, c.category_name')
