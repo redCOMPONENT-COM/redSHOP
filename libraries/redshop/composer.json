@@ -1,5 +1,5 @@
 {
-  "name"       : "redcomponent-com/redshop",
+  "name"       : "redcomponent-com/redshop-libraries",
   "description": "a Joomla Webshop Component",
   "license"    : "GPL-2.0+",
   "require"    : {
