@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
-
+/**
+ * Import model
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 class RedshopModelImport extends RedshopModel
 {
 	/**
@@ -27,6 +29,34 @@ class RedshopModelImport extends RedshopModel
 	 * @var  array
 	 */
 	private $usersInfo = null;
+
+	/**
+	 * Method for get all available imports plugin.
+	 *
+	 * @return  array  List of available imports.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getImports()
+	{
+		$plugins = JPluginHelper::getPlugin('redshop_import');
+
+		if (empty($plugins))
+		{
+			return array();
+		}
+
+		asort($plugins);
+
+		$language = JFactory::getLanguage();
+
+		foreach ($plugins as $plugin)
+		{
+			$language->load('plg_redshop_import_' . $plugin->name, JPATH_SITE . '/plugins/redshop_import/' . $plugin->name);
+		}
+
+		return $plugins;
+	}
 
 	public function getData()
 	{
