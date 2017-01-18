@@ -123,7 +123,7 @@
         <plugin group="redshop_import" name="shopper_group_product_price" published="published" />
         <plugin group="redshop_import" name="shopper_group_attribute_price" published="published" />
         <plugin group="redshop_import" name="user" published="published" />
-        <plugin group="redshop_import" name="product_stockroom_data" published="published" />
+        <!--<plugin group="redshop_import" name="product_stockroom_data" published="published" />-->
         <plugin group="redshop_import" name="related_product" published="published" />
     </plugins>
 </extension>
