@@ -94,7 +94,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Process mapping data.
 	 *
-	 * @param   array  $header  Header array
+	 * @param   array  $header Header array
 	 * @param   array  $data    Data array
 	 *
 	 * @return  array           Mapping data.
@@ -158,7 +158,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		}
 
 		// Get product_id base on product_number
-		if (empty($data['product_id']) && !empty($data['product_number']))
+		if (!empty($data['product_number']))
 		{
 			$query = $db->getQuery(true)
 				->select($db->qn('product_id'))
@@ -185,19 +185,16 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	{
 		$isNew = false;
 		$db    = $this->db;
-		$query = $db->getQuery(true);
 
-		// Get product id
-		$query->clear()
-			->select($db->quoteName('product_id'))
-			->from($db->quoteName('#__redshop_product'))
-			->where($db->quoteName('product_number') . ' = ' . $db->quote($data['product_number']));
-		$productId = $db->setQuery($query)->loadResult();
+		if (empty($data['product_number']))
+		{
+			return false;
+		}
 
 		// Try to load old data.
-		if ($productId)
+		if (array_key_exists($this->primaryKey, $data) && $data[$this->primaryKey])
 		{
-			$isNew = $table->load($productId);
+			$isNew = $table->load($data[$this->primaryKey]);
 		}
 
 		// Bind data to table
