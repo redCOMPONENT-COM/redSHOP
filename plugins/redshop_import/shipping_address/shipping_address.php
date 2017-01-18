@@ -14,7 +14,7 @@ use Redshop\Plugin\AbstractImportPlugin;
 JLoader::import('redshop.library');
 
 /**
- * Plugin redSHOP Import Category
+ * Plugin redSHOP Import Shipping address
  *
  * @since  1.0
  */

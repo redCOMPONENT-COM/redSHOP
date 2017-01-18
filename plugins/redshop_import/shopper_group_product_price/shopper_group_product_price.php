@@ -14,7 +14,7 @@ use Redshop\Plugin\AbstractImportPlugin;
 JLoader::import('redshop.library');
 
 /**
- * Plugin redSHOP Import Category
+ * Plugin redSHOP Import Shopper group product price
  *
  * @since  1.0
  */
@@ -92,6 +92,13 @@ class PlgRedshop_ImportShopper_group_product_price extends AbstractImportPlugin
 		$isNew = false;
 		$db    = $this->db;
 
+		$shopperGroupId = $this->getShopperGroupId(trim($data['shopper_group_id']));
+
+		if (!$shopperGroupId)
+		{
+			return false;
+		}
+
 		if (!empty($data['discount_start_date']))
 		{
 			$data['discount_start_date'] = is_int($data['discount_start_date']) ? $data['discount_start_date'] : strtotime($data['discount_start_date']);
@@ -131,5 +138,36 @@ class PlgRedshop_ImportShopper_group_product_price extends AbstractImportPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get Shopper Group Id from input
+	 *
+	 * @param   integer  $shopperGroupInputId  Shopper Group Id from CSV File
+	 *
+	 * @return  integer  Shopper Group Id
+	 */
+	public function getShopperGroupId($shopperGroupInputId)
+	{
+		// Initialiase variables.
+		$db    = $this->db;
+		$query = $db->getQuery(true)
+			->select('shopper_group_id')
+			->from($db->qn('#__redshop_shopper_group'))
+			->where($db->qn('shopper_group_id') . ' = ' . $db->q((int) trim($shopperGroupInputId)));
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
+		{
+			$shopperGroupId = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
+		return $shopperGroupId;
 	}
 }
