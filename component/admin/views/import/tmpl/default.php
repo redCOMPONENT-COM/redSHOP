@@ -70,7 +70,7 @@ foreach ($characterSets as $char => $name)
         (function ($) {
             $(document).ready(function () {
                 var $uploadProgress = $("#import_upload_progress");
-                var $uploadWrapper  = $("#import_upload_progress_wrapper");
+                var $uploadWrapper = $("#import_upload_progress_wrapper");
 
                 $("#import_plugins input[type='radio']").change(function (e) {
                     plugin = $(this).val();
@@ -237,7 +237,7 @@ foreach ($characterSets as $char => $name)
                     },
                     "JSON"
                 )
-                    .fail(function(){
+                    .fail(function () {
                         total = 0;
                         $("#import_count").html("");
                         $("#import_plugins").removeClass("disabled muted");
@@ -365,3 +365,4 @@ foreach ($characterSets as $char => $name)
 		<?php echo JHtml::_('form.token') ?>
     </form>
 <?php endif; ?>
+

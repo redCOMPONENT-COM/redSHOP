@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper for Media
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopHelperNewsletter
 {
@@ -28,7 +28,7 @@ class RedshopHelperNewsletter
 	 *
 	 * @return  boolean             True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function subscribe($userId = 0, $data = array(), $sendMail = false, $isNew = null)
 	{

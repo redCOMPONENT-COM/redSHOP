@@ -68,7 +68,7 @@ class PlgRedshop_ImportRelated_product extends AbstractImportPlugin
 	 *
 	 * @return  \JTable
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function getTable()
 	{
@@ -85,7 +85,7 @@ class PlgRedshop_ImportRelated_product extends AbstractImportPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function processImport($table, $data)
 	{
@@ -102,7 +102,7 @@ class PlgRedshop_ImportRelated_product extends AbstractImportPlugin
 		{
 			return true;
 		}
-		
+
 		$query->clear()
 			->insert($db->qn('#__redshop_product_related'))
 			->columns($db->qn(array('related_id', 'product_id')))

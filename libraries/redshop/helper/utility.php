@@ -91,7 +91,7 @@ class RedshopHelperUtility
 	 *
 	 * @return  string         Normal ASCI string.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function convertToNonSymbol($text = '', $isUrlEncode = true)
 	{

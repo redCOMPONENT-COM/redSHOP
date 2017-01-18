@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Wishlist functions for redSHOP
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopHelperWishlist
 {
@@ -21,7 +21,7 @@ class RedshopHelperWishlist
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $wishLists = array();
 
@@ -30,7 +30,7 @@ class RedshopHelperWishlist
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $usersWishlist = array();
 
@@ -43,7 +43,7 @@ class RedshopHelperWishlist
 	 *
 	 * @return  string                    HTML data of replaced content.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function replaceWishlistTag($productId = 0, $templateContent = '', $formId = '')
 	{
@@ -66,7 +66,7 @@ class RedshopHelperWishlist
 	 *
 	 * @return  bool|mixed        Data if success. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getWishlist($wishlistId = 0)
 	{
@@ -162,7 +162,7 @@ class RedshopHelperWishlist
 	 *
 	 * @return  bool|mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getUserWishlist($userId = 0)
 	{

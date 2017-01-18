@@ -23,7 +23,7 @@ class RedshopHelperModule
 	 *
 	 * @return   void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function loadLanguages()
 	{
