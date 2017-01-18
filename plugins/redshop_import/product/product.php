@@ -94,8 +94,8 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Process mapping data.
 	 *
-	 * @param   array $header Header array
-	 * @param   array $data   Data array
+	 * @param   array  $header  Header array
+	 * @param   array  $data    Data array
 	 *
 	 * @return  array           Mapping data.
 	 *

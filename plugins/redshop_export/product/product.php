@@ -341,14 +341,9 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 					$item[$column] = str_replace(array("\n", "\r"), "", $value);
 				}
 
-				if (!empty($item['product_s_desc']))
+				if ($column == 'product_s_desc' || $column == 'product_desc')
 				{
-					$item['product_s_desc'] = 'thong' . $this->db->escape($item['product_s_desc']);
-				}
-
-				if (!empty($item['product_desc']))
-				{
-					$item['product_desc'] = $this->db->escape($item['product_desc']);
+					$item[$column] = str_replace($this->separator, '', $this->db->escape($value));
 				}
 
 				// Discount start date
