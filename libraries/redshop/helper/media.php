@@ -21,7 +21,7 @@ class RedshopHelperMedia
 	/**
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $medias = array();
 
@@ -675,7 +675,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getAdditionMediaImage($sectionId = 0, $section = '', $mediaType = 'images')
 	{

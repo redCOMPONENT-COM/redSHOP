@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop
  * @subpackage  Html
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 abstract class JHtmlRedshopSortable
 {
@@ -36,7 +36,7 @@ abstract class JHtmlRedshopSortable
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function main()
 	{

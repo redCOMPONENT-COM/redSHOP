@@ -320,7 +320,7 @@ class RedshopHelperWorld
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static function quoteArray($list = array())
 	{

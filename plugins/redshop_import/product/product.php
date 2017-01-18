@@ -82,7 +82,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  \JTable
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function getTable()
 	{
@@ -99,7 +99,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  array           Mapping data.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function processMapping($header, $data)
 	{
@@ -179,7 +179,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function processImport($table, $data)
 	{
@@ -376,7 +376,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function categoryRelation($productId = 0, $data = array())
 	{
@@ -450,7 +450,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function importAccessoriesProduct($productId = 0, $data = array())
 	{
@@ -522,7 +522,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function importProductStock($productId = 0, $data = array())
 	{
@@ -587,7 +587,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function importAdditionalImages($productId = 0, $data = array())
 	{
@@ -673,7 +673,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function importAdditionalVideos($productId = 0, $data = array())
 	{
@@ -759,7 +759,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function importAdditionalDocuments($productId = 0, $data = array())
 	{
@@ -845,7 +845,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function importAdditionalDownloads($productId = 0, $data = array())
 	{

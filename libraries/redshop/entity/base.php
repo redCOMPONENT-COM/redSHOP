@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Base Entity.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 abstract class RedshopEntityBase
 {

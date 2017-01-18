@@ -16,7 +16,7 @@ jimport('joomla.form.formfield');
  *
  * @package  Joomla
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.0.3
  */
 class JFormFieldMediadragdrop extends JFormField
 {
