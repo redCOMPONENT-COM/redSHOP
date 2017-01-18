@@ -190,7 +190,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 		$medias = array(
 			'images'   => array('images', 'images_order', 'images_alternattext'),
-			'video'    => array('video', 'video_order', 'images_alternattext'),
+			'video'    => array('video', 'video_order', 'video_alternattext'),
 			'document' => array('document', 'document_order', 'document_alternattext'),
 			'download' => array('download', 'download_order', 'download_alternattext'),
 		);
@@ -339,6 +339,16 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 				else
 				{
 					$item[$column] = str_replace(array("\n", "\r"), "", $value);
+				}
+
+				if (!empty($item['product_s_desc']))
+				{
+					$item['product_s_desc'] = 'thong' . $this->db->escape($item['product_s_desc']);
+				}
+
+				if (!empty($item['product_desc']))
+				{
+					$item['product_desc'] = $this->db->escape($item['product_desc']);
 				}
 
 				// Discount start date
