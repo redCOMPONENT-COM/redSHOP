@@ -185,11 +185,19 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	{
 		$isNew = false;
 		$db    = $this->db;
+		$query = $db->getQuery(true);
+
+		// Get product id
+		$query->clear()
+			->select($db->quoteName('product_id'))
+			->from($db->quoteName('#__redshop_product'))
+			->where($db->quoteName('product_number') . ' = ' . $db->quote($data['product_number']));
+		$productId = $db->setQuery($query)->loadResult();
 
 		// Try to load old data.
-		if (array_key_exists($this->primaryKey, $data) && $data[$this->primaryKey])
+		if ($productId)
 		{
-			$isNew = $table->load($data[$this->primaryKey]);
+			$isNew = $table->load($productId);
 		}
 
 		// Bind data to table
