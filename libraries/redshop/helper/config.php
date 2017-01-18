@@ -125,6 +125,9 @@ class RedshopHelperConfig
 			include_once $file;
 		}
 
+		// Load and migrate from saved old configuration file ( created via wizard )
+		$this->loadOldConfig(true);
+
 		// Sanitize the namespace.
 		$namespace = ucfirst((string) preg_replace('/[^A-Z_]/i', '', $namespace));
 
@@ -297,23 +300,37 @@ class RedshopHelperConfig
 	/**
 	 * Load previous configuration
 	 *
-	 * @return  bool
+	 * @param   bool  $force  Force load previous configuration without checks
 	 *
-	 * @since   2.0.0.5
+	 * @return  bool
 	 */
-	protected function loadOldConfig()
+	protected function loadOldConfig($force = false)
 	{
 		// Since 1.6 we started moving to new config than try to migrate it
-		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<'))
+		if ($force || version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<'))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_TRY_TO_MIGRATE_PREVIOUS_CONFIGURATION'), 'notice');
+			// Only show notice if we are not forcing. That's real migrate
+			if ($force === false)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_TRY_TO_MIGRATE_PREVIOUS_CONFIGURATION'), 'notice');
+			}
+
 			$oldConfigFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 			// Old configuration file
 			if (JFile::exists($oldConfigFile))
 			{
-				// New configuration file
-				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.dist.php';
+				// If we are forced than load default config file instead dist file
+				if ($force)
+				{
+					// New configuration file
+					require_once JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.php';
+				}
+				else
+				{
+					// New configuration file
+					require_once JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.dist.php';
+				}
 
 				// Old configuration file
 				require_once $oldConfigFile;
