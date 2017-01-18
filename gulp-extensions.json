@@ -82,7 +82,8 @@
       "shopper_group_product_price",
       "shopper_group_attribute_price",
       "user",
-      "product_stockroom_data"
+      "product_stockroom_data",
+      "related_product"
     ],
     "redshop_payment": [
       "baokim",
