@@ -25,6 +25,10 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		'{category_name}',
 		'{category_short_description}',
 		'{category_description}',
+		'{category_thumb_image}',
+		'{category_thumb_image_1}',
+		'{category_thumb_image_2}',
+		'{category_thumb_image_3}',
 	);
 
 	/**
@@ -85,6 +89,73 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 */
 	private function replaceCategory($category, $template)
 	{
+		// Specific cases
+		if ($this->isTagExists('{category_thumb_image}') && $this->isTagRegistered('{category_thumb_image}') && isset($category->category_full_image))
+		{
+			$thumbUrl = RedshopHelperMedia::getImagePath(
+				$category->category_full_image,
+				'',
+				'thumb',
+				'category',
+				200,
+				200,
+				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+			);
+
+			$categoryImage = "<img src='" . $thumbUrl . "' />";
+			$template = str_replace("{category_thumb_image}", $categoryImage, $template);
+		}
+
+		if ($this->isTagExists('{category_thumb_image_1}') && $this->isTagRegistered('{category_thumb_image_1}') && isset($category->category_full_image))
+		{
+			$thumbUrl = RedshopHelperMedia::getImagePath(
+				$category->category_full_image,
+				'',
+				'thumb',
+				'category',
+				Redshop::getConfig()->get('THUMB_WIDTH'),
+				Redshop::getConfig()->get('THUMB_HEIGHT'),
+				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+			);
+
+			$categoryImage = "<img src='" . $thumbUrl . "' />";
+			$template = str_replace("{category_thumb_image_1}", $categoryImage, $template);
+		}
+
+		// Specific cases
+		if ($this->isTagExists('{category_thumb_image_2}') && $this->isTagRegistered('{category_thumb_image_2}') && isset($category->category_full_image))
+		{
+			$thumbUrl = RedshopHelperMedia::getImagePath(
+				$category->category_full_image,
+				'',
+				'thumb',
+				'category',
+				Redshop::getConfig()->get('THUMB_WIDTH_2'),
+				Redshop::getConfig()->get('THUMB_HEIGHT_2'),
+				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+			);
+
+			$categoryImage = "<img src='" . $thumbUrl . "' />";
+			$template = str_replace("{category_thumb_image_2}", $categoryImage, $template);
+		}
+
+		// Specific cases
+		if ($this->isTagExists('{category_thumb_image_3}') && $this->isTagRegistered('{category_thumb_image_3}') && isset($category->category_full_image))
+		{
+			$thumbUrl = RedshopHelperMedia::getImagePath(
+				$category->category_full_image,
+				'',
+				'thumb',
+				'category',
+				Redshop::getConfig()->get('THUMB_WIDTH_3'),
+				Redshop::getConfig()->get('THUMB_HEIGHT_3'),
+				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+			);
+
+			$categoryImage = "<img src='" . $thumbUrl . "' />";
+			$template = str_replace("{category_thumb_image_3}", $categoryImage, $template);
+		}
+
 		// Replace all registered tag if category object have it
 		foreach ($this->tags as $tag)
 		{
