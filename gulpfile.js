@@ -290,7 +290,7 @@ gulp.task("release:md5:generate", function(){
         "./plugins/redshop_import/shopper_group_product_price/**",
         "./plugins/redshop_import/shopper_group_attribute_price/**",
         "./plugins/redshop_import/user/**",
-        "./plugins/redshop_import/product_stockroom_data/**",
+        /*"./plugins/redshop_import/product_stockroom_data/!**",*/
         "./plugins/redshop_import/related_product/**"
     ],{ base: "./" })
         .pipe(hashsum({dest: "./component/admin/assets/", filename: "checksum.md5", hash: "md5"}));
@@ -388,7 +388,7 @@ gulp.task("release:redshop", ["composer:libraries.redshop", "release:md5"], func
                 "./plugins/redshop_import/shopper_group_product_price/**",
                 "./plugins/redshop_import/shopper_group_attribute_price/**",
                 "./plugins/redshop_import/user/**",
-                "./plugins/redshop_import/product_stockroom_data/**",
+                /*"./plugins/redshop_import/product_stockroom_data/!**",*/
                 "./plugins/redshop_import/related_product/**"
             ],{ base: "./" })
                 .pipe(zip(fileName))

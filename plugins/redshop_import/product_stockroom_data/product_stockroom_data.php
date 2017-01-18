@@ -18,7 +18,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ImportProduct_stockroom_data extends AbstractImportPlugin
+class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 {
 	/**
 	 * @var string
@@ -94,44 +94,38 @@ class PlgRedshop_ImportProduct_stockroom_data extends AbstractImportPlugin
 
 		if ($productId > 0)
 		{
-			array_shift($data);
+			$query = $db->getQuery(true)
+				->select('stockroom_id')
+				->from($db->qn('#__redshop_stockroom'))
+				->where($db->qn('stockroom_name') . ' = ' . $db->q($data['stockroom_name']));
 
-			foreach ($data as $stockroomName => $quantity)
+			$stockroomId = $db->setQuery($query)->loadResult();
+
+			if ($stockroomId > 0)
 			{
-				$query = $db->getQuery(true)
-					->select('stockroom_id')
-					->from($db->qn('#__redshop_stockroom'))
-					->where($db->qn('stockroom_name') . ' = ' . $db->q($stockroomName));
+				$productStockroom               = new stdClass;
+				$productStockroom->product_id   = $productId;
+				$productStockroom->stockroom_id = $stockroomId;
+				$productStockroom->quantity     = $data['quantity'];
 
-				$stockroomId = $db->setQuery($query)->loadResult();
+				$query->clear()
+					->select($db->qn('product_id'))
+					->from($db->qn('#__redshop_product_stockroom_xref'))
+					->where($db->qn('product_id') . ' = ' . $db->q($productId))
+					->where($db->qn('stockroom_id') . ' = ' . $db->q($stockroomId));
 
-				if ($stockroom_id > 0)
+				$stockExists = $db->setQuery($query)->loadResult();
+
+				if ($stockExists)
 				{
-					$productStockroom               = new stdClass;
-					$productStockroom->product_id   = $productId;
-					$productStockroom->stockroom_id = $stockroomId;
-					$productStockroom->quantity     = $quantity;
+					$db->updateObject('#__redshop_product_stockroom_xref', $productStockroom, array('product_id', 'stockroom_id'));
+				}
+				else
+				{
+					$productStockroom->preorder_stock   = 0;
+					$productStockroom->ordered_preorder = 0;
 
-					$query = $db->clear()
-						->getQuery(true)
-						->select($db->qn('product_id'))
-						->from($db->qn('#__redshop_product_stockroom_xref'))
-						->where($db->qn('product_id') . ' = ' . $db->q($productId))
-						->where($db->qn('stockroom_id') . ' = ' . $db->q($stockroomId));
-
-					$stockExists = $db->setQuery($query)->loadResult();
-
-					if ($stockExists)
-					{
-						$db->updateObject('#__redshop_product_stockroom_xref', $productStockroom, array('product_id', 'stockroom_id'));
-					}
-					else
-					{
-						$productStockroom->preorder_stock   = 0;
-						$productStockroom->ordered_preorder = 0;
-
-						$db->insertObject('#__redshop_product_stockroom_xref', $productStockroom);
-					}
+					$db->insertObject('#__redshop_product_stockroom_xref', $productStockroom);
 				}
 			}
 		}
