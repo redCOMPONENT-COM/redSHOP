@@ -122,7 +122,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			$template = str_replace("{category_thumb_image_1}", $categoryImage, $template);
 		}
 
-		// Specific cases
 		if ($this->isTagExists('{category_thumb_image_2}') && $this->isTagRegistered('{category_thumb_image_2}') && isset($category->category_full_image))
 		{
 			$thumbUrl = RedshopHelperMedia::getImagePath(
@@ -138,8 +137,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			$categoryImage = "<img src='" . $thumbUrl . "' />";
 			$template = str_replace("{category_thumb_image_2}", $categoryImage, $template);
 		}
-
-		// Specific cases
+		
 		if ($this->isTagExists('{category_thumb_image_3}') && $this->isTagRegistered('{category_thumb_image_3}') && isset($category->category_full_image))
 		{
 			$thumbUrl = RedshopHelperMedia::getImagePath(
