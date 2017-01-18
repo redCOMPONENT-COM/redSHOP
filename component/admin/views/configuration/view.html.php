@@ -27,8 +27,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$world = RedshopHelperWorld::getInstance();
-
 		$db = JFactory::getDbo();
 
 		$document = JFactory::getDocument();
