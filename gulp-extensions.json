@@ -75,6 +75,19 @@
       "shopper_group_product_price",
       "user"
     ],
+    "redshop_import": [
+      "attribute",
+      "category",
+      "field",
+      "manufacturer",
+      "product",
+      "shipping_address",
+      "shopper_group_product_price",
+      "shopper_group_attribute_price",
+      "user",
+      "product_stockroom_data",
+      "related_product"
+    ],
     "redshop_payment": [
       "baokim",
       "cielo",
