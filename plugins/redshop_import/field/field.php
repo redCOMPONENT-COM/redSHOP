@@ -103,21 +103,13 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 			$productId = $db->setQuery($query)->loadResult();
 		}
 
-		// Prepare field ID
-		if (empty($data['field_id']))
-		{
-			// Get field id
-			$query->clear()
-				->select($db->qn('field_id'))
-				->from($db->qn('#__redshop_fields'))
-				->where($db->qn('field_section') . ' = ' . $db->quote($data['field_section']))
-				->where($db->qn('field_name') . ' = ' . $db->q($data['field_name_field']));
-			$fieldId = (int) $db->setQuery($query)->loadResult();
-		}
-		else
-		{
-			$fieldId = $data['field_id'];
-		}
+		// Get field id
+		$query->clear()
+			->select($db->qn('field_id'))
+			->from($db->qn('#__redshop_fields'))
+			->where($db->qn('field_section') . ' = ' . $db->quote($data['field_section']))
+			->where($db->qn('field_name') . ' = ' . $db->q($data['field_name_field']));
+		$fieldId = (int) $db->setQuery($query)->loadResult();
 
 		// Import field.
 		if (!empty($data['field_title']))
