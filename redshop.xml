@@ -114,6 +114,16 @@
         <plugin name="shopper_group_attribute_price" group="redshop_export" published="published" />
         <plugin name="shopper_group_product_price" group="redshop_export" published="published" />
         <plugin name="user" group="redshop_export" published="published" />
+        <plugin group="redshop_import" name="attribute" published="published" />
         <plugin group="redshop_import" name="category" published="published" />
+        <plugin group="redshop_import" name="field" published="published" />
+        <plugin group="redshop_import" name="manufacturer" published="published" />
+        <plugin group="redshop_import" name="product" published="published" />
+        <plugin group="redshop_import" name="shipping_address" published="published" />
+        <plugin group="redshop_import" name="shopper_group_product_price" published="published" />
+        <plugin group="redshop_import" name="shopper_group_attribute_price" published="published" />
+        <plugin group="redshop_import" name="user" published="published" />
+        <plugin group="redshop_import" name="product_stockroom_data" published="published" />
+        <plugin group="redshop_import" name="related_product" published="published" />
     </plugins>
 </extension>
