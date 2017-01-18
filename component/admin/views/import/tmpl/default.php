@@ -196,10 +196,16 @@ foreach ($characterSets as $char => $name)
                         $bar.css("width", percent + "%");
                         $bar.html(percent.toFixed(2) + "%");
 
-                        if (response == 1) {
+                        if (response.data.length) {
+                            for (i = 0; i < response.data.length; i++) {
+                                $("#import_process_msg_body").append("<p>" + response.data[i].message + "</p>");
+                            }
+                        }
+
+                        if (response.status == 1) {
                             run_import(success);
                         }
-                        else if (response == 0 || success > total) {
+                        else if (response.status == 0 || success > total) {
                             total = 0;
                             // $("#import_process_msg").addClass("alert-success").removeClass("alert-danger");
                             // $("#import_process_msg_body").append("<?php echo JText::_('COM_REDSHOP_IMPORT_DONE') ?>");
@@ -213,7 +219,8 @@ foreach ($characterSets as $char => $name)
                             // $("#import_process_msg").removeClass("alert-success").addClass("alert-danger");
                             $("#import_process_msg_body").html(response);
                         }
-                    }
+                    },
+                    "JSON"
                 );
             })(jQuery);
         }
@@ -318,7 +325,7 @@ foreach ($characterSets as $char => $name)
                                     <div class="form-group">
                                         <div id="import_process_msg" class="alert">
                                             <h4><?php echo JText::_('COM_REDSHOP_IMPORT_LOG') ?></h4>
-                                            <div id="import_process_msg_body"></div>
+                                            <div id="import_process_msg_body" style="max-height: 300px; overflow-x: hidden;"></div>
                                         </div>
                                     </div>
                                 </div>

@@ -184,7 +184,7 @@ class RedshopModelImport extends RedshopModel
 							// Bind the data
 							if ($headers[$key] == 'category_full_image' && $post['import'] == 'categories')
 							{
-								$image_name = basename($name);
+								/*$image_name = basename($name);
 								$rawdata[$headers[$key]] = $image_name;
 
 								if ($image_name != "")
@@ -197,7 +197,7 @@ class RedshopModelImport extends RedshopModel
 									{
 										copy($name, $dest);
 									}
-								}
+								}*/
 							}
 
 							elseif ($headers[$key] == 'sitepath' && $post['import'] == 'products')
@@ -213,7 +213,7 @@ class RedshopModelImport extends RedshopModel
 						// Import categories
 						if ($post['import'] == 'categories')
 						{
-							$category_id = $rawdata['category_id'];
+							/*$category_id = $rawdata['category_id'];
 
 							$query = "SELECT COUNT(*) FROM #__redshop_category WHERE category_id = '" . $category_id . "'";
 							$db->setQuery($query);
@@ -288,7 +288,7 @@ class RedshopModelImport extends RedshopModel
 								$db->execute();
 							}
 
-							$correctlines++;
+							$correctlines++;*/
 						}
 
 						// Import products

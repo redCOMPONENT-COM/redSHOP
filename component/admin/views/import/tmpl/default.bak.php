@@ -9,10 +9,10 @@
 defined('_JEXEC') or die;
 
 $data = array(
-	'categories'                 => 'COM_REDSHOP_IMPORT_CATEGORIES',
+	// 'categories'                 => 'COM_REDSHOP_IMPORT_CATEGORIES',
 	'products'                   => 'COM_REDSHOP_IMPORT_PRODUCTS',
 	'attributes'                 => 'COM_REDSHOP_IMPORT_ATTRIBUTES',
-	'manufacturer'               => 'COM_REDSHOP_IMPORT_MANUFACTURER',
+	// 'manufacturer'               => 'COM_REDSHOP_IMPORT_MANUFACTURER',
 	'related_product'            => 'COM_REDSHOP_IMPORT_RELATED_PRODUCTS',
 	'fields'                     => 'COM_REDSHOP_IMPORT_FIELDS',
 	'users'                      => 'COM_REDSHOP_IMPORT_USERS',

@@ -76,7 +76,8 @@
       "user"
     ],
     "redshop_import": [
-      "category"
+      "category",
+      "manufacturer"
     ],
     "redshop_payment": [
       "baokim",
