@@ -9,66 +9,71 @@
 defined('_JEXEC') or die;
 
 ?>
-<legend><?php echo JText::_('COM_REDSHOP_STORE_SETTINGS'); ?></legend>
+<div class="box box-primary form-vertical">
+    <div class="box-header with-border">
+        <h3><?php echo JText::_('COM_REDSHOP_STORE_SETTINGS'); ?></h3>
+    </div>
+    <div class="box-body">
+        <div class="form-group">
+            <label for="shop_name" class="hasTip"
+                   title="<?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOP_NAME_LBL'); ?>">
+				<?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL'); ?>
+            </label>
+            <input type="text" name="shop_name" id="shop_name" value="<?php echo $this->config->get('SHOP_NAME') ?>" class="form-control"/>
+        </div>
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		  title="<?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOP_NAME_LBL'); ?>">
-	<label for="name"><?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL');?></label></span>
-	<input type="text" name="shop_name" id="shop_name" value="<?php echo $this->config->get('SHOP_NAME'); ?>">
-</div>
+        <div class="form-group">
+            <label for="shop_country" class="hasTip"
+                   title="<?php echo JText::_('COM_REDSHOP_SHOP_COUNTRY') ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOP_COUNTRY') ?>">
+				<?php echo JText::_('COM_REDSHOP_SHOP_COUNTRY_LBL'); ?>
+            </label>
+			<?php echo $this->lists ['shop_country']; ?>
+        </div>
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		  title="<?php echo JText::_('COM_REDSHOP_SHOP_COUNTRY'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOP_COUNTRY'); ?>">
-	<label for="name"><?php echo JText::_('COM_REDSHOP_SHOP_COUNTRY_LBL'); ?></label></span>
-	<?php echo $this->lists ['shop_country'];?>
-</div>
+        <div class="form-group">
+            <label for="default_shipping_country" class="hasTip"
+                   title="<?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_COUNTRY_LBL') ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_SHIPPING_COUNTRY_LBL') ?>">
+				<?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_COUNTRY_LBL'); ?>
+            </label>
+			<?php echo $this->lists ['default_shipping_country']; ?>
+        </div>
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		  title="<?php echo JText::_('COM_REDSHOP_COUNTRY_LIST_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_COUNTRY_LIST_LBL'); ?>">
-	<label for="countryList"><?php echo JText::_('COM_REDSHOP_COUNTRY_LIST_LBL');?></label></span>
-	<?php echo $this->lists ['country_list'];?>
-</div>
+        <div class="form-group">
+            <label for="default_dateformat" class="hasTip"
+                   title="<?php echo JText::_('COM_REDSHOP_DEFAULT_DATEFORMAT_LBL') ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_DATEFORMAT_LBL') ?>">
+				<?php echo JText::_('COM_REDSHOP_DEFAULT_DATEFORMAT_LBL'); ?>
+            </label>
+			<?php echo $this->lists ['default_dateformat']; ?>
+        </div>
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		  title="<?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_COUNTRY_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_SHIPPING_COUNTRY_LBL'); ?>">
-	<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_COUNTRY_LBL');?></label></span>
-	<?php echo $this->lists ['default_shipping_country']; ?>
-</div>
-
-<div class="form-group">
-	<span
-		class="editlinktip hasTip"
-		title="<?php echo JText::_('COM_REDSHOP_DEFAULT_DATEFORMAT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_DATEFORMAT_LBL'); ?>"
-	   >
-		<label for="default_dateformat">
-			<?php echo JText::_('COM_REDSHOP_DEFAULT_DATEFORMAT_LBL');?>
-		</label>
-	</span>
-	<?php echo $this->lists ['default_dateformat'];    ?>
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		  title="<?php echo JText::_('COM_REDSHOP_WELCOME_MESSAGE'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WELCOME_MESSAGE'); ?>">
-	<label for="name"><?php echo JText::_('COM_REDSHOP_WELCOME_MESSAGE');?></label>
-	<input type="text" name="welcome_msg" id="welcome_msg" value="<?php echo $this->config->get('WELCOME_MSG'); ?>">
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		  title="<?php echo JText::_('COM_REDSHOP_ADMINISTRATOR_EMAIL_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADMINISTRATOR_EMAIL_LBL'); ?>">
-	<label for="name"><?php echo JText::_('COM_REDSHOP_ADMINISTRATOR_EMAIL_LBL'); ?></label></span>
-	<input type="text" name="administrator_email" id="administrator_email"
-				   value="<?php echo $this->config->get('ADMINISTRATOR_EMAIL'); ?>">
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_USE_ENCODING_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_ENCODING'); ?>">
-	<label for="invoice_mail_send_option"><?php echo JText::_('COM_REDSHOP_USE_ENCODING_LBL');?></label></span>
-	<?php echo $this->lists ['use_encoding'];?>
+        <div class="form-group">
+            <label for="welcome_msg" class="hasTip"
+                   title="<?php echo JText::_('COM_REDSHOP_WELCOME_MESSAGE') ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WELCOME_MESSAGE') ?>">
+				<?php echo JText::_('COM_REDSHOP_WELCOME_MESSAGE'); ?>
+            </label>
+            <input type="text" name="welcome_msg" id="welcome_msg" value="<?php echo $this->config->get('WELCOME_MSG') ?>" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="administrator_email" class="hasTip"
+                   title="<?php echo JText::_('COM_REDSHOP_ADMINISTRATOR_EMAIL_LBL') ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADMINISTRATOR_EMAIL_LBL') ?>">
+				<?php echo JText::_('COM_REDSHOP_ADMINISTRATOR_EMAIL_LBL'); ?>
+            </label>
+            <input type="text" name="administrator_email" id="administrator_email" value="<?php echo $this->config->get('ADMINISTRATOR_EMAIL'); ?>"
+                   class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="invoice_mail_send_option" class="hasTip"
+                   title="<?php echo JText::_('COM_REDSHOP_USE_ENCODING_LBL') ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_ENCODING') ?>">
+				<?php echo JText::_('COM_REDSHOP_USE_ENCODING_LBL'); ?>
+            </label>
+			<?php echo $this->lists ['use_encoding']; ?>
+        </div>
+        <div class="form-group">
+            <label for="country_list" class="hasTip"
+                   title="<?php echo JText::_('COM_REDSHOP_COUNTRY_LIST_LBL') ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_COUNTRY_LIST_LBL') ?>">
+				<?php echo JText::_('COM_REDSHOP_COUNTRY_LIST_LBL'); ?>
+            </label>
+			<?php echo $this->lists ['country_list']; ?>
+        </div>
+    </div>
 </div>
