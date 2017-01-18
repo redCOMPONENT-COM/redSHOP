@@ -94,7 +94,6 @@ foreach ($characterSets as $char => $name)
                     dataType: "json",
                     singleFileUploads: true,
                     done: function (e, data) {
-                        $("#import_process_msg").removeClass("alert-danger").addClass("alert-success");
                         $("#import_process_msg_body").empty();
 
                         if (data.result.status == 1) {
@@ -106,6 +105,8 @@ foreach ($characterSets as $char => $name)
 
                             run_import(0);
                         } else {
+                            $("#import_plugins").removeClass("disabled muted");
+                            $("#import_config").removeClass("disabled muted");
                             $("#import_process_msg").addClass("alert-danger");
                             $("#import_process_msg_body").append("<p>" + data.result.msg + "</p>");
                             $("#import_count").empty();
