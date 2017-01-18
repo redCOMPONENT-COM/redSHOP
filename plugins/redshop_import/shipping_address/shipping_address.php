@@ -18,7 +18,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ImportShipping_address extends AbstractImportPlugin
+class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
 {
 	/**
 	 * @var string
@@ -28,7 +28,7 @@ class PlgRedshop_ImportShipping_address extends AbstractImportPlugin
 	/**
 	 * @var string
 	 */
-	protected $nameKey = 'user_email';
+	protected $nameKey = 'email';
 
 	/**
 	 * Event run when user load config for export this data.
