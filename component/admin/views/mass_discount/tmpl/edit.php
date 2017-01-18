@@ -26,9 +26,21 @@ JHtml::_('behavior.formvalidator');
 						<?php echo $this->form->renderField('amount') ?>
 						<?php echo $this->form->renderField('start_date') ?>
 						<?php echo $this->form->renderField('end_date') ?>
-						<?php echo $this->form->renderField('discount_product') ?>
-						<?php echo $this->form->renderField('category_id') ?>
-						<?php echo $this->form->renderField('manufacturer_id') ?>
+                        <div class="description">
+                            <div class="description-header">
+                                <small><?php echo JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_CHOOSE_ONE_OF_THESE_FIELDS_DESCRIPTION');?></small>
+                            </div>
+                            <div class="description-content">
+                                <small>
+									<?php echo JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_PRODUCTS_DESCRIPTION');?><br />
+									<?php echo JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_CATEGORIES_DESCRIPTION');?><br />
+									<?php echo JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_MANUFACTURERS_DESCRIPTION');?><br />
+                                </small>
+                            </div>
+							<?php echo $this->form->renderField('discount_product') ?>
+							<?php echo $this->form->renderField('category_id') ?>
+							<?php echo $this->form->renderField('manufacturer_id') ?>
+                        </div>
 					</div>
 				</div>
 			</div>
