@@ -128,7 +128,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->from($db->qn('#__redshop_product', 'p'))
 			->innerJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id'));
 
-		// Attributes query
+		// Properties query
 		$propertiesQuery = $db->getQuery(true)
 			->select($db->qn('p.product_number'))
 			->select($db->qn('a.attribute_name'))
@@ -171,7 +171,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			)
 			->order($db->qn('product_number') . ',' . $db->qn('property_ordering'));
 
-		// Attributes query
+		// Sub-properties query
 		$subPropertiesQuery = $db->getQuery(true)
 			->select($db->qn('p.product_number'))
 			->select($db->qn('a.attribute_name'))
@@ -180,7 +180,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('hide_attribute_price'))
 			->select($db->quote('') . ' AS ' . $db->qn('attribute_required'))
 			->select($db->quote('') . ' AS ' . $db->qn('display_type'))
-			->select($db->quote('') . ' AS ' . $db->qn('property_name'))
+			->select($db->qn('ap.property_name'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_stock'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_ordering'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_virtual_number'))
