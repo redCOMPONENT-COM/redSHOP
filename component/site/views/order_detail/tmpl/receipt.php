@@ -27,6 +27,9 @@ $order_id = JRequest::getInt('oid');
 $model = $this->getModel('order_detail');
 
 $order = $this->OrdersDetail;
+
+// Load payment languages
+RedshopHelperPayment::loadLanguages();
 ?>
 <?php
 if ($this->params->get('show_page_title', 1))
