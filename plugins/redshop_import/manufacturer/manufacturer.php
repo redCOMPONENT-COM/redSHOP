@@ -14,16 +14,21 @@ use Redshop\Plugin\AbstractImportPlugin;
 JLoader::import('redshop.library');
 
 /**
- * Plugin redSHOP Import Category
+ * Plugin redSHOP Import Manufacturer
  *
  * @since  1.0
  */
-class PlgRedshop_ImportCategory extends AbstractImportPlugin
+class PlgRedshop_ImportManufacturer extends AbstractImportPlugin
 {
 	/**
 	 * @var string
 	 */
-	protected $primaryKey = 'category_id';
+	protected $primaryKey = 'manufacturer_id';
+
+	/**
+	 * @var string
+	 */
+	protected $nameKey = 'manufacturer_name';
 
 	/**
 	 * Event run when user load config for export this data.
@@ -32,7 +37,7 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 	 *
 	 * @since  1.0.0
 	 */
-	public function onAjaxCategory_Config()
+	public function onAjaxManufacturer_Config()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
@@ -46,7 +51,7 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 	 *
 	 * @since  1.0.0
 	 */
-	public function onAjaxCategory_Import()
+	public function onAjaxManufacturer_Import()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
@@ -69,7 +74,7 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 	{
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
-		return JTable::getInstance('Category_Detail', 'Table');
+		return JTable::getInstance('Manufacturer_Detail', 'Table');
 	}
 
 	/**
@@ -97,47 +102,24 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 			return false;
 		}
 
-		if ((!$isNew && !$db->insertObject('#__redshop_category', $table, 'category_id')) || !$table->store())
+		if ((!$isNew && !$db->insertObject('#__redshop_manufacturer', $table, $this->primaryKey)) || !$table->store())
 		{
 			return false;
 		}
 
-		// Image process
-		if (!empty($data['category_full_image']))
-		{
-			$categoryImage = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . basename($data['category_full_image']);
-
-			if (!JFile::exists($categoryImage))
-			{
-				JFile::copy($data['category_full_image'], $categoryImage);
-			}
-		}
-
-		// Update category parent
-		$query = $db->getQuery(true)
-			->select('COUNT(*)')
-			->from($db->qn('#__redshop_category_xref'))
-			->where($db->qn('category_parent_id') . ' = ' . $data['category_parent_id'])
-			->where($db->qn('category_child_id') . ' = ' . $table->category_id);
-		$result = $db->setQuery($query)->loadResult();
-
-		if ($result)
+		if (empty($data['product_id']))
 		{
 			return true;
 		}
 
-		// Remove existing
-		$query->clear()
-			->delete($db->qn('#__redshop_category_xref'))
-			->where($db->qn('category_child_id') . ' = ' . $table->category_id);
-		$db->setQuery($query)->execute();
+		// Update product reference
+		$productIds = explode('|', $data['product_id']);
 
-		$query->clear()
-			->insert($db->qn('#__redshop_category_xref'))
-			->values($data['category_parent_id'] . ',' . $table->category_id);
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_product'))
+			->set($db->qn('manufacturer_id') . ' = ' . $db->quote($table->{$this->primaryKey}))
+			->where($db->qn('product_id') . ' IN(' . implode(',', $productIds) . ')');
 
-		$db->setQuery($query)->execute();
-
-		return true;
+		return $db->setQuery($query)->execute();
 	}
 }

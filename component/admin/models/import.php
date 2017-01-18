@@ -988,7 +988,7 @@ class RedshopModelImport extends RedshopModel
 						}
 
 						// Import Manufacturers
-						if ($post['import'] == 'manufacturer')
+						/*if ($post['import'] == 'manufacturer')
 						{
 							$manufacturer_id = $rawdata['manufacturer_id'];
 							$product_id = $rawdata['product_id'];
@@ -1062,7 +1062,7 @@ class RedshopModelImport extends RedshopModel
 							}
 
 							$correctlines++;
-						}
+						}*/
 
 						// Import attributes
 						if ($post['import'] == 'attributes')

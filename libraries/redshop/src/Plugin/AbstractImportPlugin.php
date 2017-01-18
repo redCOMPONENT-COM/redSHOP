@@ -46,15 +46,20 @@ class AbstractImportPlugin extends \JPlugin
 	/**
 	 * @var string
 	 */
-	protected $primaryKey = null;
+	protected $primaryKey = 'id';
+
+	/**
+	 * @var string
+	 */
+	protected $nameKey = 'name';
 
 	/**
 	 * Constructor
 	 *
 	 * @param   object  &$subject  The object to observe
 	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
+	 *                              Recognized key values include 'name', 'group', 'params', 'language'
+	 *                              (this list is not meant to be comprehensive).
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -81,7 +86,7 @@ class AbstractImportPlugin extends \JPlugin
 	{
 		if (empty($plugin) || $plugin != $this->_name || empty($file))
 		{
-			return false;
+			return null;
 		}
 
 		$this->folder = md5(time());
@@ -142,10 +147,10 @@ class AbstractImportPlugin extends \JPlugin
 	 */
 	public function importing()
 	{
-		$files = \JFolder::files($this->getPath() . '/' . $this->folder, '.', true);
-		$result = new \stdClass;
+		$files          = \JFolder::files($this->getPath() . '/' . $this->folder, '.', true);
+		$result         = new \stdClass;
 		$result->status = 0;
-		$result->data = array();
+		$result->data   = array();
 
 		if (empty($files))
 		{
@@ -161,19 +166,25 @@ class AbstractImportPlugin extends \JPlugin
 		while ($data = fgetcsv($handle, null, $this->separator, '"'))
 		{
 			$table = $this->getTable();
-			$data = $this->processMapping($header, $data);
+			$data  = $this->processMapping($header, $data);
 
 			$rowResult = new \stdClass;
 
 			if ($this->processImport($table, $data))
 			{
-				$rowResult->status = 1;
-				$rowResult->message = \JText::sprintf('PLG_REDSHOP_IMPORT_' . strtoupper($this->_name) . '_SUCCESS_IMPORT', $data['category_name']);
+				$rowResult->status  = 1;
+				$rowResult->message = \JText::sprintf(
+					'PLG_REDSHOP_IMPORT_' . strtoupper($this->_name) . '_SUCCESS_IMPORT',
+					$data[$this->nameKey]
+				);
 			}
 			else
 			{
-				$rowResult->status = 0;
-				$rowResult->message = \JText::sprintf('PLG_REDSHOP_IMPORT_' . strtoupper($this->_name) . '_FAIL_IMPORT', $data['category_name']);
+				$rowResult->status  = 0;
+				$rowResult->message = \JText::sprintf(
+					'PLG_REDSHOP_IMPORT_' . strtoupper($this->_name) . '_FAIL_IMPORT',
+					$data[$this->nameKey]
+				);
 			}
 
 			$result->data[] = $rowResult;
@@ -249,9 +260,9 @@ class AbstractImportPlugin extends \JPlugin
 
 		fclose($handler);
 
-		$headers  = array_shift($rows);
-		$rows     = array_chunk($rows, $this->maxLine);
-		$fileExt  = \JFile::getExt($file);
+		$headers = array_shift($rows);
+		$rows    = array_chunk($rows, $this->maxLine);
+		$fileExt = \JFile::getExt($file);
 
 		// Remove old file
 		unlink($file);
