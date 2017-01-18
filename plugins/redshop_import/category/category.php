@@ -26,6 +26,11 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 	protected $primaryKey = 'category_id';
 
 	/**
+	 * @var string
+	 */
+	protected $nameKey = 'category_name';
+
+	/**
 	 * Event run when user load config for export this data.
 	 *
 	 * @return  string
