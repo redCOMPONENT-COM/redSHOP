@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6.1
  */
-abstract class RedshopHelperWorld
+class RedshopHelperWorld
 {
 	/**
 	 * Static instance of class
@@ -49,7 +49,7 @@ abstract class RedshopHelperWorld
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new static;
+			self::$instance = new self;
 		}
 
 		return self::$instance;

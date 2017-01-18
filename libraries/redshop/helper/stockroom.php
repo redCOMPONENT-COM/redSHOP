@@ -959,7 +959,7 @@ class RedshopHelperStockroom
 				$query->clear('where')
 					->where($db->qn('stock_option') . ' = 1')
 					->where($db->qn('stock_quantity') . ' < ' . $db->q((int) $stockAmount))
-					->order($db->qn('stock_quantity') . ' DESC')
+					->order($db->qn('stock_quantity') . ' ASC')
 					->order($db->qn('s.max_del_time') . ' ASC');
 
 				$list = $db->setQuery($query)->loadObjectList();

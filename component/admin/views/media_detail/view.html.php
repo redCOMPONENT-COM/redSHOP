@@ -41,6 +41,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIAS') . ': <small><small>[ ' . $text . ' ]</small></small>', 'camera redshop_media48');
 
+		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
 		if ($isNew)

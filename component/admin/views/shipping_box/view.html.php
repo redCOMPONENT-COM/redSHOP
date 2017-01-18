@@ -40,7 +40,7 @@ class RedshopViewShipping_box extends RedshopViewAdmin
 
 		JToolbarHelper::addNew();
 		JToolbarHelper::EditList();
-		JToolBarHelper::deleteList();
+		JToolBarHelper::deleteList('', 'shipping_box.remove');
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 

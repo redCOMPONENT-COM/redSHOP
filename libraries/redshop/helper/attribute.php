@@ -740,7 +740,7 @@ abstract class RedshopHelperAttribute
 
 						$priceWithoutVat = $property->property_price;
 
-						if (strpos($templateContent, "{without_vat}") === false)
+						if ($productHelper->getApplyattributeVatOrNot($propertyData))
 						{
 							$priceWithVat = $productHelper->getProducttax($productId, $property->property_price, $user_id);
 						}

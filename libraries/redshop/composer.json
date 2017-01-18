@@ -4,8 +4,8 @@
   "license"    : "GPL-2.0+",
   "require"    : {
     "php": ">=5.3.10",
-    "doctrine/annotations": "^1.2",
-    "doctrine/inflector": "^1.0.1",
+    "doctrine/annotations": "1.2.7",
+    "doctrine/inflector": "^1.1",
     "behat/transliterator": "^1.1"
   },
   "autoload": {
