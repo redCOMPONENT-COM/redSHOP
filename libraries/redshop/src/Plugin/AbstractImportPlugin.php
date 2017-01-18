@@ -54,6 +54,20 @@ class AbstractImportPlugin extends \JPlugin
 	protected $nameKey = 'name';
 
 	/**
+	 * List of columns for encoding UTF8
+	 *
+	 * @var array
+	 */
+	protected $encodingColumns = array();
+
+	/**
+	 * List of columns for number format
+	 *
+	 * @var array
+	 */
+	protected $numberColumns = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   object  &$subject  The object to observe
@@ -166,6 +180,14 @@ class AbstractImportPlugin extends \JPlugin
 		while ($data = fgetcsv($handle, null, $this->separator, '"'))
 		{
 			$table = $this->getTable();
+
+			// Do convert encoding.
+			$this->doEncodingData($data);
+
+			// Do format number.
+			$this->doFormatNumber($data);
+
+			// Do mapping data to table.
 			$data  = $this->processMapping($header, $data);
 
 			$rowResult = new \stdClass;
@@ -298,6 +320,7 @@ class AbstractImportPlugin extends \JPlugin
 	public function processMapping($header, $data)
 	{
 		$data = array_map("utf8_encode", $data);
+		$data = array_map("trim", $data);
 
 		return array_combine($header, $data);
 	}
@@ -330,5 +353,59 @@ class AbstractImportPlugin extends \JPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method for do encoding utf8 necessary column
+	 *
+	 * @param   array  &$data  Data.
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function doEncodingData(&$data = array())
+	{
+		if (empty($data) || empty($this->encodingColumns) || !function_exists('mb_convert_encoding'))
+		{
+			return;
+		}
+
+		foreach ($this->encodingColumns as $column)
+		{
+			if (empty($data[$column]))
+			{
+				continue;
+			}
+
+			$data[$column] = mb_convert_encoding($data[$column], 'UTF-8', $this->encoding);
+		}
+	}
+
+	/**
+	 * Method for do format number an column.
+	 *
+	 * @param   array  &$data  Data.
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function doFormatNumber(&$data = array())
+	{
+		if (empty($data) || empty($this->numberColumns))
+		{
+			return;
+		}
+
+		foreach ($this->numberColumns as $column)
+		{
+			if (empty($data[$column]))
+			{
+				continue;
+			}
+
+			$data[$column] = (float) str_replace(',', '.', $data[$column]);
+		}
 	}
 }

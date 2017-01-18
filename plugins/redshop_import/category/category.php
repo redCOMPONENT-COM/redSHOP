@@ -102,7 +102,7 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 			return false;
 		}
 
-		if ((!$isNew && !$db->insertObject('#__redshop_category', $table, 'category_id')) || !$table->store())
+		if ((!$isNew && !$db->insertObject('#__redshop_category', $table, $this->primaryKey)) || !$table->store())
 		{
 			return false;
 		}
