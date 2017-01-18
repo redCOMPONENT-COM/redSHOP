@@ -28,7 +28,7 @@ class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
 	/**
 	 * @var string
 	 */
-	protected $nameKey = 'email';
+	protected $nameKey = 'username';
 
 	/**
 	 * Event run when user load config for export this data.
@@ -78,6 +78,25 @@ class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
 	}
 
 	/**
+	 * Process mapping data.
+	 *
+	 * @param   array  $header  Header array
+	 * @param   array  $data    Data array
+	 *
+	 * @return  array           Mapping data.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function processMapping($header, $data)
+	{
+		$data = parent::processMapping($header, $data);
+
+		$data['user_email'] = empty($data['user_email']) ? $data['email'] : $data['user_email'];
+
+		return $data;
+	}
+
+	/**
 	 * Process import data.
 	 *
 	 * @param   \JTable  $table  Header array
@@ -89,32 +108,32 @@ class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
 	 */
 	public function processImport($table, $data)
 	{
-		$isNew = false;
-		$db    = $this->db;
-
-		if (!empty($data['email']))
+		if (empty($data['username']))
 		{
-			$data['user_email'] = $data['email'];
+			return false;
+		}
+
+		$db = $this->db;
+
+		$query = $db->getQuery(true)
+			->select($db->qn('id'))
+			->from($db->qn('#__users'))
+			->where($db->qn('username') . ' = ' . $db->quote($data['username']));
+
+		$data['user_id'] = $db->setQuery($query)->loadResult();
+
+		if (!$data['user_id'])
+		{
+			return false;
 		}
 
 		$data['address_type'] = 'ST';
-		$data['shopper_group_id'] = 1;
-
-		if (array_key_exists($this->primaryKey, $data) && $data[$this->primaryKey])
-		{
-			$isNew = $table->load($data[$this->primaryKey]);
-		}
 
 		if (!$table->bind($data))
 		{
 			return false;
 		}
 
-		if ((!$isNew && !$db->insertObject('#__redshop_users_info', $table, $this->primaryKey)) || !$table->store())
-		{
-			return false;
-		}
-
-		return true;
+		return $db->insertObject('#__redshop_users_info', $table, $this->primaryKey);
 	}
 }

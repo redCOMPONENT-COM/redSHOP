@@ -28,7 +28,7 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 	/**
 	 * @var string
 	 */
-	protected $nameKey = 'user_email';
+	protected $nameKey = 'email';
 
 	/**
 	 * Event run when user load config for export this data.
@@ -89,9 +89,7 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 	 */
 	public function processImport($table, $data)
 	{
-		$db    = $this->db;
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
-
+		$db = $this->db;
 		$shopperGroups = $this->getShopperGroupInfo();
 
 		if (array_key_exists(trim($data['shopper_group_name']), $shopperGroups->name))
@@ -194,6 +192,7 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 		$data['user_id'] = $jUserId;
 		$data['address_type'] = 'BT';
 		$data['shopper_group_id'] = $shopperGroupId;
+		$isNew = false;
 
 		if (array_key_exists($this->primaryKey, $data) && $data[$this->primaryKey])
 		{
