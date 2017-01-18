@@ -136,19 +136,22 @@ class AbstractImportPlugin extends \JPlugin
 	/**
 	 * Method for import data.
 	 *
-	 * @return  int
+	 * @return  mixed
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function importing()
 	{
 		$files = \JFolder::files($this->getPath() . '/' . $this->folder, '.', true);
+		$result = new \stdClass;
+		$result->status = 0;
+		$result->data = array();
 
 		if (empty($files))
 		{
 			\JFolder::delete($this->getPath() . '/' . $this->folder);
 
-			return 0;
+			return $result;
 		}
 
 		$file   = array_shift($files);
@@ -159,13 +162,29 @@ class AbstractImportPlugin extends \JPlugin
 		{
 			$table = $this->getTable();
 			$data = $this->processMapping($header, $data);
-			$this->processImport($table, $data);
+
+			$rowResult = new \stdClass;
+
+			if ($this->processImport($table, $data))
+			{
+				$rowResult->status = 1;
+				$rowResult->message = \JText::sprintf('PLG_REDSHOP_IMPORT_' . strtoupper($this->_name) . '_SUCCESS_IMPORT', $data['category_name']);
+			}
+			else
+			{
+				$rowResult->status = 0;
+				$rowResult->message = \JText::sprintf('PLG_REDSHOP_IMPORT_' . strtoupper($this->_name) . '_FAIL_IMPORT', $data['category_name']);
+			}
+
+			$result->data[] = $rowResult;
 		}
 
 		fclose($handle);
 		unlink($this->getPath() . '/' . $this->folder . '/' . $file);
 
-		return 1;
+		$result->status = 1;
+
+		return $result;
 	}
 
 	/**
