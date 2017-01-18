@@ -78,6 +78,7 @@
     "redshop_import": [
       "attribute",
       "category",
+      "field",
       "manufacturer",
       "product",
       "shipping_address",
