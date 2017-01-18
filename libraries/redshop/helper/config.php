@@ -361,8 +361,11 @@ class RedshopHelperConfig
 				return JFile::delete($oldConfigFile);
 			}
 
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PREVIOUS_CONFIGURATION_NOT_FOUND'), 'warning');
-
+			if ($force === false)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PREVIOUS_CONFIGURATION_NOT_FOUND'), 'warning');
+			}
+			
 			return false;
 		}
 
