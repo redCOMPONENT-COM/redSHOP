@@ -242,7 +242,6 @@ class PlgRedshop_ImportUser extends AbstractImportPlugin
 	 */
 	public function getShopperGroupInfo()
 	{
-
 		// Initialiase variables.
 		$db    = $this->db;
 		$query = $db->getQuery(true)
