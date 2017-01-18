@@ -77,7 +77,10 @@
     ],
     "redshop_import": [
       "category",
-      "manufacturer"
+      "manufacturer",
+      "shipping_address",
+      "shopper_group_product_price",
+      "shopper_group_attribute_price"
     ],
     "redshop_payment": [
       "baokim",
