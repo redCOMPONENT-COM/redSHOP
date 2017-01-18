@@ -12,6 +12,7 @@ var extension  = require("./package.json");
 var joomlaGulp = requireDir("./node_modules/joomla-gulp", {recurse: true});
 var jgulp      = requireDir("./jgulp", {recurse: true});
 var hashsum    = require("gulp-hashsum");
+var clean      = require('gulp-clean');
 
 var parser     = new xml2js.Parser();
 
@@ -236,7 +237,7 @@ gulp.task("release",
 
 gulp.task("release:md5:generate", function(){
 
-    console.log("Create checksum.md5 file in: component/admin/assets/checksum.md5");
+    console.log("Create checksum.md5 file in: checksum.md5");
 
     return gulp.src([
         "./component/**/*",
@@ -282,11 +283,11 @@ gulp.task("release:md5:generate", function(){
         "./plugins/redshop_export/shopper_group_product_price/**",
         "./plugins/redshop_export/user/**"
     ],{ base: "./" })
-        .pipe(hashsum({dest: "./component/admin/assets/", filename: "checksum.md5", hash: "md5"}));
+        .pipe(hashsum({dest: "./", filename: "checksum.md5", hash: "md5"}));
 });
 
 gulp.task("release:md5:json", ["release:md5:generate"], function(cb){
-    var fileContent = fs.readFileSync(path.join("./component/admin/assets/checksum.md5"), "utf8");
+    var fileContent = fs.readFileSync(path.join("./checksum.md5"), "utf8");
     var temp = fileContent.split('\n');
     var result = [];
     var t1;
@@ -313,9 +314,15 @@ gulp.task("release:md5:json", ["release:md5:generate"], function(cb){
 gulp.task("release:md5",
     [
         "release:md5:generate",
-        "release:md5:json"
+        "release:md5:json",
+        'release:md5:clean'
     ]
 );
+
+gulp.task('release:md5:clean', ["release:md5:json"], function () {
+    return gulp.src('./checksum.md5')
+        .pipe(clean({force: true}));
+});
 
 gulp.task("release:redshop", ["composer:libraries.redshop", "release:md5"], function (cb) {
     fs.readFile( "./redshop.xml", function(err, data) {
