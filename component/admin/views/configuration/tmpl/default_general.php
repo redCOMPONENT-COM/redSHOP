@@ -10,23 +10,21 @@ defined('_JEXEC') or die;
 
 ?>
 <fieldset class="adminform">
-	<div class="row">
-		<div class="col-sm-4">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('settings');?>
-			</fieldset>
-		</div>
+    <div class="row">
+        <div class="col-sm-4">
+			<?php echo $this->loadTemplate('settings'); ?>
+        </div>
 
-		<div class="col-sm-4">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('modules');?>
-			</fieldset>
-		</div>
+        <div class="col-sm-4">
+            <fieldset class="adminform">
+				<?php echo $this->loadTemplate('modules'); ?>
+            </fieldset>
+        </div>
 
-		<div class="col-sm-4">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('general_layout_settings');?>
-			</fieldset>
-		</div>
-	</div>
+        <div class="col-sm-4">
+            <fieldset class="adminform">
+				<?php echo $this->loadTemplate('general_layout_settings'); ?>
+            </fieldset>
+        </div>
+    </div>
 </fieldset>
