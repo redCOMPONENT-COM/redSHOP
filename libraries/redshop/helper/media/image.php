@@ -196,7 +196,7 @@ class RedshopHelperMediaImage
 	 *
 	 * @return  array                   List of media files.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getMediaFiles($selectedImage = '')
 	{

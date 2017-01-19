@@ -408,7 +408,7 @@ class RedshopHelperMail
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use
+	 * @deprecated  2.0.3  Use
 	 */
 	public static function createMultiprintInvoicePdf($orderIds)
 	{

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Category detail table.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class TableCategory_Detail extends JTable
 {
