@@ -224,6 +224,12 @@ class RedshopTroubleshootItem
 			$return->original = str_replace('component/site/', JPATH_ROOT . '/components/com_redshop/', $originalFile->path);
 		}
 
+		// Frontend file
+		if (strpos($originalFile->path, 'modules/site/') !== false)
+		{
+			$return->original = str_replace('modules/site/', JPATH_ROOT . '/modules/', $originalFile->path);
+		}
+
 		// Another file
 		if (strpos($originalFile->path, 'component/admin') === false && strpos($originalFile->path, 'component/site') === false)
 		{
