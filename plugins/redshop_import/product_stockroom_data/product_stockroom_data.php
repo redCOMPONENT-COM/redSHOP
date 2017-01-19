@@ -23,12 +23,7 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 	/**
 	 * @var string
 	 */
-	protected $primaryKey = 'stockroom_id';
-
-	/**
-	 * @var string
-	 */
-	protected $nameKey = 'stockroom_name';
+	protected $nameKey = 'product_name';
 
 	/**
 	 * Event run when user load config for export this data.
@@ -90,44 +85,48 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 	public function processImport($table, $data)
 	{
 		$db        = $this->db;
-		$productId = $this->getProductIdByNumber(trim($data['product_number']));
+		$productId = $this->getProductIdByNumber($data['product_number']);
 
-		if ($productId > 0)
+		if (!$productId)
 		{
-			$query = $db->getQuery(true)
-				->select('stockroom_id')
-				->from($db->qn('#__redshop_stockroom'))
-				->where($db->qn('stockroom_name') . ' = ' . $db->q($data['stockroom_name']));
+			return false;
+		}
 
-			$stockroomId = $db->setQuery($query)->loadResult();
+		$query = $db->getQuery(true)
+			->select($db->qn('stockroom_id'))
+			->from($db->qn('#__redshop_stockroom'))
+			->where($db->qn('stockroom_name') . ' = ' . $db->quote($data['stockroom_name']));
 
-			if ($stockroomId > 0)
-			{
-				$productStockroom               = new stdClass;
-				$productStockroom->product_id   = $productId;
-				$productStockroom->stockroom_id = $stockroomId;
-				$productStockroom->quantity     = $data['quantity'];
+		$stockroomId = $db->setQuery($query)->loadResult();
 
-				$query->clear()
-					->select($db->qn('product_id'))
-					->from($db->qn('#__redshop_product_stockroom_xref'))
-					->where($db->qn('product_id') . ' = ' . $db->q($productId))
-					->where($db->qn('stockroom_id') . ' = ' . $db->q($stockroomId));
+		if (!$stockroomId)
+		{
+			return false;
+		}
 
-				$stockExists = $db->setQuery($query)->loadResult();
+		$productStockroom                   = new stdClass;
+		$productStockroom->product_id       = $productId;
+		$productStockroom->stockroom_id     = $stockroomId;
+		$productStockroom->quantity         = $data['quantity'];
+		$productStockroom->preorder_stock   = $data['preorder_stock'];
+		$productStockroom->ordered_preorder = isset($data['ordered_preorder']) ? $data['ordered_preorder'] : 0;
 
-				if ($stockExists)
-				{
-					$db->updateObject('#__redshop_product_stockroom_xref', $productStockroom, array('product_id', 'stockroom_id'));
-				}
-				else
-				{
-					$productStockroom->preorder_stock   = 0;
-					$productStockroom->ordered_preorder = 0;
+		$query->clear()
+			->select($db->qn('product_id'))
+			->from($db->qn('#__redshop_product_stockroom_xref'))
+			->where($db->qn('product_id') . ' = ' . $db->quote($productId))
+			->where($db->qn('stockroom_id') . ' = ' . $db->quote($stockroomId));
 
-					$db->insertObject('#__redshop_product_stockroom_xref', $productStockroom);
-				}
-			}
+		if ($db->setQuery($query)->loadResult())
+		{
+			$db->updateObject('#__redshop_product_stockroom_xref', $productStockroom, array('product_id', 'stockroom_id'));
+		}
+		else
+		{
+			$productStockroom->preorder_stock   = 0;
+			$productStockroom->ordered_preorder = 0;
+
+			$db->insertObject('#__redshop_product_stockroom_xref', $productStockroom);
 		}
 
 		return true;
@@ -136,7 +135,7 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 	/**
 	 * Get product id by product number.
 	 *
-	 * @param   string  $productNumber  product number
+	 * @param   string  $productNumber  Product number
 	 *
 	 * @return  int
 	 *
@@ -144,7 +143,7 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 	 */
 	public function getProductIdByNumber($productNumber)
 	{
-		$db = $this->db;
+		$db    = $this->db;
 		$query = $db->getQuery(true)
 			->select($db->qn('product_id'))
 			->from($db->qn('#__redshop_product'))
