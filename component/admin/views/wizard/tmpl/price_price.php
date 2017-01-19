@@ -35,7 +35,7 @@ defined('_JEXEC') or die;
 			<label for="name"><?php    echo JText::_('COM_REDSHOP_CURRENCY_SYMBOL');?></label>
 		</td>
 		<td>
-			<input type="text" name="currency_symbol" id="currency_symbol"
+			<input type="text" name="redcurrency_symbol" id="currency_symbol"
 			       value="<?php echo $this->temparray['REDCURRENCY_SYMBOL']; ?>">
 		</td>
 	</tr>
