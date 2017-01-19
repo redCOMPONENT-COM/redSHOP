@@ -97,8 +97,8 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 				'',
 				'thumb',
 				'category',
-				200,
-				200,
+				Redshop::getConfig()->get('THUMB_WIDTH'),
+				Redshop::getConfig()->get('THUMB_HEIGHT'),
 				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 			);
 
