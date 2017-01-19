@@ -25,7 +25,7 @@ class JFormFieldMediadragdrop extends JFormField
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION
+	 * @since  2.0.3
 	 */
 	protected $type = 'mediadragdrop';
 
