@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopControllerImport extends RedshopControllerAdmin
 {
@@ -23,7 +23,7 @@ class RedshopControllerImport extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function importdata()
 	{
@@ -37,7 +37,7 @@ class RedshopControllerImport extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function uploadFile()
 	{

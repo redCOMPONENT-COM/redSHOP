@@ -73,7 +73,7 @@ class RedshopHelperOrder
 	 *
 	 * @var    null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static $orderStatusList = null;
 
@@ -82,7 +82,7 @@ class RedshopHelperOrder
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $billingAddresses = array();
 
@@ -91,7 +91,7 @@ class RedshopHelperOrder
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $shippingAddresses = array();
 
@@ -100,7 +100,7 @@ class RedshopHelperOrder
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $shippingMethods = array();
 
@@ -615,7 +615,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function resetOrderId()
 	{
@@ -665,7 +665,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderStatusTitle($orderStatusCode)
 	{
@@ -687,7 +687,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateOrderStatus($orderId, $newStatus)
 	{
@@ -791,7 +791,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string   'success' or error message
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function generateParcel($orderId)
 	{
@@ -1044,7 +1044,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function changeOrderStatus($data)
 	{
@@ -1157,7 +1157,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateOrderPaymentStatus($orderId, $newStatus)
 	{
@@ -1180,7 +1180,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateOrderComment($orderId, $comment = '')
 	{
@@ -1202,7 +1202,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateOrderRequisitionNumber($orderId, $requisitionNumber = '')
 	{
@@ -1247,7 +1247,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateOrderItemStatus($orderId = 0, $productId = 0, $newStatus = '', $comment = '', $orderItemId = 0)
 	{
@@ -1285,7 +1285,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string  HTML of status list
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getStatusList($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
@@ -1310,7 +1310,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string  HTML of filter list
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getFilterByList($name = 'filterbylist', $selected = 'all', $attributes = ' class="inputbox" size="1" ')
 	{
@@ -1337,7 +1337,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string  HTML of payment status list
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getPaymentStatusList($name = 'paymentstatuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
@@ -1354,7 +1354,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 *
 	 * @throws  Exception
 	 */
@@ -1556,7 +1556,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderDetails($orderId)
 	{
@@ -1578,7 +1578,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getMultiOrderDetails($orderId)
 	{
@@ -1600,7 +1600,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getUserOrderDetails($userId = 0)
 	{
@@ -1631,7 +1631,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderItemDetail($orderId = 0, $productId = 0, $orderItemId = 0)
 	{
@@ -1677,7 +1677,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderPartialPayment($orderId)
 	{
@@ -1710,7 +1710,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getShippingMethodInfo($shippingClass = '')
 	{
@@ -1745,7 +1745,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getPaymentMethodInfo($paymentMethodClass = '')
 	{
@@ -1775,7 +1775,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  mixed             Object data if success. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getBillingAddress($userId = 0)
 	{
@@ -1814,7 +1814,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getShippingAddress($userId = 0)
 	{
@@ -1853,7 +1853,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getUserFullName($userId)
 	{
@@ -1903,7 +1903,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  null/array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderItemAccessoryDetail($orderItemId = 0)
 	{
@@ -1933,7 +1933,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderItemAttributeDetail($orderItemId = 0, $isAccessory = 0, $section = "attribute", $parentSectionId = 0)
 	{
@@ -1968,7 +1968,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderUserFieldData($orderItemId = 0, $section = 0)
 	{
@@ -1991,7 +1991,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function generateOrderNumber()
 	{
@@ -2041,7 +2041,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function randomGenerateEncryptKey($pLength = '30')
 	{
@@ -2067,7 +2067,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getCountryName($cnt3 = '')
 	{
@@ -2110,7 +2110,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getStateName($st3 = "", $cnt3 = "")
 	{
@@ -2143,7 +2143,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function sendDownload($orderId = 0)
 	{
@@ -2250,7 +2250,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getDownloadProduct($orderId)
 	{
@@ -2274,7 +2274,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getDownloadProductLog($orderId, $did = '')
 	{
@@ -2304,7 +2304,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getParameters($payment)
 	{
@@ -2326,7 +2326,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getPaymentInformation($row, $post)
 	{
@@ -2403,7 +2403,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getShippingLocationInfo($shippingName)
 	{
@@ -2426,7 +2426,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function checkUpdateOrders($data)
 	{
@@ -2456,7 +2456,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function changeOrderStatusMail($orderId, $newStatus, $orderComment = '')
 	{
@@ -2635,7 +2635,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createBookInvoice($orderId, $orderStatus)
 	{
@@ -2688,7 +2688,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string            File name of generated pdf.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createMultiPrintInvoicePdf($orderIds)
 	{
@@ -2704,7 +2704,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function generateInvoicePdf($orderId, $code = 'F', $isEmail = false)
 	{
@@ -2782,7 +2782,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createWebPackLabel($orderId, $orderStatus, $paymentStatus)
 	{
@@ -2838,7 +2838,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  boolean/mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function orderStatusUpdate($orderId, $post = array())
 	{
@@ -2963,7 +2963,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array    order payment info
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderPaymentDetail($orderPaymentId = 0)
 	{

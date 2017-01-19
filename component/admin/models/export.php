@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class Model Export
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopModelExport extends RedshopModel
 {
@@ -21,7 +21,7 @@ class RedshopModelExport extends RedshopModel
 	 *
 	 * @return  array  List of available exports.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function getExports()
 	{

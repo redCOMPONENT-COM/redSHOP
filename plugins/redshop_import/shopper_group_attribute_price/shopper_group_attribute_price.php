@@ -68,7 +68,7 @@ class PlgRedshop_ImportShopper_group_attribute_price extends AbstractImportPlugi
 	 *
 	 * @return  \JTable
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function getTable()
 	{
@@ -85,7 +85,7 @@ class PlgRedshop_ImportShopper_group_attribute_price extends AbstractImportPlugi
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function processImport($table, $data)
 	{

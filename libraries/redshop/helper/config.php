@@ -431,7 +431,7 @@ class RedshopHelperConfig
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function get($name = '', $default = null)
 	{
@@ -451,7 +451,7 @@ class RedshopHelperConfig
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function getBool($name = '', $default = false)
 	{

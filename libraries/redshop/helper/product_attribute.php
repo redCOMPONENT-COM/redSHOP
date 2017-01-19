@@ -14,28 +14,28 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Class Redshop Helper Product Attribute
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 abstract class RedshopHelperProduct_Attribute
 {
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $attributeProperties = array();
 
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $productAttributes = array();
 
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $subProperties = array();
 
@@ -298,7 +298,7 @@ abstract class RedshopHelperProduct_Attribute
 	 *
 	 * @return  mixed                List of sub-properties data.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getAttributeSubProperties($subPropertyId = 0, $propertyId = 0)
 	{

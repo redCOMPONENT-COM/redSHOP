@@ -17,7 +17,7 @@ use Joomla\Registry\Registry;
 /**
  * Table with automatic events support.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 trait HasAutoEvents
 {
