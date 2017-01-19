@@ -277,7 +277,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $sectionFields = array();
 
@@ -404,7 +404,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function listAllFieldInProduct($section = extraField::SECTION_PRODUCT)
 	{
@@ -435,7 +435,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  string   HTML <td></td>
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function listAllField($fieldSection = "", $sectionId = 0, $fieldName = "", $table = "", $templateDesc = "")
 	{
@@ -929,7 +929,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function extraFieldSave($data, $fieldSection, $sectionId = "", $userEmail = "")
 	{
@@ -1140,7 +1140,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function CheckExtraFieldValidation($fieldSection = "", $sectionId = 0)
 	{
@@ -1172,7 +1172,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function listAllFieldDisplay($fieldSection = "", $sectionId = 0, $flag = 0, $userEmail = "", $templateDesc = "", $sendmail = false)
 	{
@@ -1364,7 +1364,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function listAllUserFields($fieldSection = "", $sectionId = extraField::SECTION_PRODUCT_USERFIELD, $fieldType = '', $uniqueId = '')
 	{
@@ -1534,7 +1534,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function booleanList($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false)
 	{
@@ -1560,7 +1560,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function rsBooleanList($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false,
 		$yesValue = 'Days', $noValue = 'Weeks')
@@ -1580,7 +1580,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function getFieldValue($id)
 	{
@@ -1600,7 +1600,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function getSectionFieldList($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
 	{
@@ -1646,7 +1646,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function getSectionFieldDataList($fieldId, $section = 0, $orderItemId = 0, $userEmail = "")
 	{
@@ -1666,7 +1666,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function copyProductExtraField($oldProductId, $newPid)
 	{
@@ -1721,7 +1721,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function deleteExtraFieldData($dataId)
 	{

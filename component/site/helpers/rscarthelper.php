@@ -152,7 +152,7 @@ class rsCarthelper
 	 *
 	 * @return  float             Tax after apply discount.
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperCart::calculateTaxAfterDiscount() instead.
+	 * @deprecated   2.0.3  Use RedshopHelperCart::calculateTaxAfterDiscount() instead.
 	 **/
 	public function calculateTaxafterDiscount($tax = 0.0, $discount = 0.0)
 	{
@@ -2993,7 +2993,7 @@ class rsCarthelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperCart::generateCartOutput() instead.
+	 * @deprecated  2.0.3  Use RedshopHelperCart::generateCartOutput() instead.
 	 */
 	public function makeCart_output($cart)
 	{
@@ -4948,7 +4948,7 @@ class rsCarthelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperCart::cartFinalCalculation() instead.
+	 * @deprecated   2.0.3  Use RedshopHelperCart::cartFinalCalculation() instead.
 	 */
 	public function cartFinalCalculation($callmodify = true)
 	{
@@ -4962,7 +4962,7 @@ class rsCarthelper
 	 *
 	 * @return  null
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperCart::addCartToDatabase() instead.
+	 * @deprecated  2.0.3  Use RedshopHelperCart::addCartToDatabase() instead.
 	 */
 	public function carttodb($cart = array())
 	{
@@ -4979,7 +4979,7 @@ class rsCarthelper
 	 *
 	 * @return  boolean       True on success. False otherwise.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperCart::addCartToDatabase() instead.
+	 * @deprecated  2.0.3  Use RedshopHelperCart::addCartToDatabase() instead.
 	 */
 	public function attributetodb($attribute = array(), $cart_item_id = 0, $product_id = 0, $isAccessary = false)
 	{
@@ -4995,7 +4995,7 @@ class rsCarthelper
 	 *
 	 * @return bool
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use edshopHelperCart::removeCartFromDatabase() instead.
+	 * @deprecated  2.0.3  Use edshopHelperCart::removeCartFromDatabase() instead.
 	 */
 	public function removecartfromdb($cart_id = 0, $userid = 0, $delCart = false)
 	{
@@ -5007,7 +5007,7 @@ class rsCarthelper
 	 *
 	 * @param   int  $userId  ID of user.
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperCart::databaseToCart() instead.
+	 * @deprecated   2.0.3  Use RedshopHelperCart::databaseToCart() instead.
 	 */
 	public function dbtocart($userId = 0)
 	{
@@ -5024,7 +5024,7 @@ class rsCarthelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public function generateAttributeFromCart($cart_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quantity = 1)
 	{

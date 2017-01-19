@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Tables with instance name.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 trait HasInstancePrefix
 {

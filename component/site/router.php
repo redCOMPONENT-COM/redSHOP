@@ -14,7 +14,7 @@ JLoader::import('redshop.library');
 /**
  * Routing class from com_redshop
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopRouter extends JComponentRouterBase
 {
