@@ -27,7 +27,6 @@ class RedshopControllerQuotation extends RedshopController
 	 */
 	public function addquotation()
 	{
-
 		$Itemid = JRequest::getVar('Itemid');
 		$return = JRequest::getVar('return');
 		$post   = JRequest::get('post');
@@ -65,12 +64,13 @@ class RedshopControllerQuotation extends RedshopController
 			$session->set('userfield', null);
 			unset ($_SESSION ['ccdata']);
 
-			if ($return)
+			if ($return != "")
 			{
-				$link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid . '&quotemsg=' . $msg;    ?>
+				$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid . '&quotemsg=' . $msg, false);
+
+				?>
 				<script>
 					window.parent.location.href = "<?php echo $link ?>";
-					window.parent.reload();
 				</script>
 				<?php exit;
 			}
@@ -92,7 +92,6 @@ class RedshopControllerQuotation extends RedshopController
 	 */
 	public function usercreate()
 	{
-
 		$Itemid = JRequest::getVar('Itemid');
 		$return = JRequest::getVar('return');
 		$model  = $this->getModel('quotation');
@@ -112,13 +111,13 @@ class RedshopControllerQuotation extends RedshopController
 	 */
 	public function cancel()
 	{
-
 		$Itemid = JRequest::getVar('Itemid');
 		$return = JRequest::getVar('return');
 
 		if ($return != "")
 		{
-			$link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid;
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
+
 			?>
 			<script language="javascript">
 				window.parent.location.href = "<?php echo $link ?>";
