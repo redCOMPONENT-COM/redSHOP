@@ -36,7 +36,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="currency_symbol" id="currency_symbol"
-			       value="<?php echo $this->temparray['currency_symbol']; ?>">
+			       value="<?php echo $this->temparray['REDCURRENCY_SYMBOL']; ?>">
 		</td>
 	</tr>
 	<tr>
@@ -55,7 +55,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="price_seperator" id="price_seperator"
-			       value="<?php echo $this->temparray['price_seperator']; ?>">
+			       value="<?php echo $this->temparray['PRICE_SEPERATOR']; ?>">
 		</td>
 	</tr>
 
@@ -67,7 +67,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="thousand_seperator" id="thousand_seperator"
-			       value="<?php echo $this->temparray['thousand_seperator']; ?>">
+			       value="<?php echo $this->temparray['THOUSAND_SEPERATOR']; ?>">
 		</td>
 	</tr>
 	<tr>
@@ -78,7 +78,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="price_decimal" id="price_decimal"
-			       value="<?php echo $this->temparray['price_decimal']; ?>">
+			       value="<?php echo $this->temparray['PRICE_DECIMAL']; ?>">
 		</td>
 	</tr>
 </table>
