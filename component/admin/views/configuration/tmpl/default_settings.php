@@ -9,14 +9,14 @@
 defined('_JEXEC') or die;
 
 ?>
-<div class="box box-primary form-vertical">
-    <div class="box-header with-border">
-        <h3><?php echo JText::_('COM_REDSHOP_STORE_SETTINGS'); ?></h3>
+<div class="panel panel-primary form-vertical">
+    <div class="panel-heading">
+        <h3><?php echo JText::_('COM_REDSHOP_STORE_SETTINGS') ?></h3>
     </div>
-    <div class="box-body">
+    <div class="panel-body">
         <div class="form-group">
-            <label for="shop_name" class="hasTip"
-                   title="<?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOP_NAME_LBL'); ?>">
+            <label for="shop_name" class="hasPopover" title="<?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL'); ?>"
+                data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOP_NAME_LBL'); ?>">
 				<?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL'); ?>
             </label>
             <input type="text" name="shop_name" id="shop_name" value="<?php echo $this->config->get('SHOP_NAME') ?>" class="form-control"/>

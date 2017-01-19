@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
 ?>
-<div class="box box-primary form-vertical">
-    <div class="box-header with-border">
+<div class="panel panel-primary form-vertical">
+    <div class="panel-heading">
         <h3><?php echo JText::_('COM_REDSHOP_GENERAL_LAYOUT_SETTING'); ?></h3>
     </div>
-    <div class="box-body">
+    <div class="panel-body">
         <div class="form-group">
             <label for="load_redshop_style" class="hasTip"
                    title="<?php echo JText::_('COM_REDSHOP_CONFIG_LOAD_REDSHOP_STYLE_LBL') ?>::<?php echo JText::_('COM_REDSHOP_CONFIG_LOAD_REDSHOP_STYLE_DESC') ?>">
