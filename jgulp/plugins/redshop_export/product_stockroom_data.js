@@ -7,8 +7,8 @@ var config = require('../../../gulp-config.json');
 var browserSync = require('browser-sync');
 var del         = require('del');
 
-var group = 'redshop_import';
-var name  = 'related_product';
+var group = 'redshop_export';
+var name  = 'product_stockroom_data';
 
 var baseTask   = 'plugins.' + group + '.' + name;
 var extPath    = './plugins/' + group + '/' + name;

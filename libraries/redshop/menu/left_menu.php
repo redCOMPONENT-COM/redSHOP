@@ -141,7 +141,7 @@ class RedshopMenuLeft_Menu
 			case "stockroom":
 			case "stockroom_listing":
 			case "stockimage":
-				return array('ORDER', 'stockroom');
+				return array('STOCKROOM', 'stockroom');
 				break;
 
 			case "suppliers":

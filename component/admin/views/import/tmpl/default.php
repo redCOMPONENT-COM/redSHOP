@@ -69,13 +69,15 @@ foreach ($characterSets as $char => $name)
 
         (function ($) {
             $(document).ready(function () {
+                var $uploadProgress = $("#import_upload_progress");
+                var $uploadWrapper  = $("#import_upload_progress_wrapper");
+
                 $("#import_plugins input[type='radio']").change(function (e) {
                     plugin = $(this).val();
                     $("#import_config").addClass('disabled muted');
-                    $("#import_process_msg").removeClass("alert-success").removeClass("alert-danger");
                     $("#import_process_msg_body").html("");
                     $("#import_process_bar").html('0%').css("width", "0%");
-                    $("#import_upload_progress").html('0%').css("width", "0%");
+                    $uploadProgress.html('0%').css("width", "0%");
 
                     // Load specific configuration of plugin
                     $.post(
@@ -94,21 +96,20 @@ foreach ($characterSets as $char => $name)
                     dataType: "json",
                     singleFileUploads: true,
                     done: function (e, data) {
+                        $uploadWrapper.hide();
                         $("#import_process_msg_body").empty();
 
                         if (data.result.status == 1) {
-                            $("#import_process_msg").addClass("alert-success");
-                            $("#import_process_msg_body").append("<p>" + data.result.msg + "</p>");
+                            $("<p>").addClass("text-success").text(data.result.msg).appendTo($("#import_process_msg_body"));
                             total = data.result.lines - 1;
                             folder = data.result.folder;
                             $("#import_count").html(total);
-
+                            $("#import_process_bar").parent().show();
                             run_import(0);
                         } else {
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
-                            $("#import_process_msg").addClass("alert-danger");
-                            $("#import_process_msg_body").append("<p>" + data.result.msg + "</p>");
+                            $("<p>").addClass("text-danger").text(data.result.msg).appendTo($("#import_process_msg_body"));
                             $("#import_count").empty();
                         }
                     },
@@ -116,8 +117,9 @@ foreach ($characterSets as $char => $name)
                         if (allowFileType.indexOf(data.files[0].type) == -1) {
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
-                            $("#import_process_msg").removeClass("alert-success").addClass("alert-danger");
-                            $("#import_process_msg_body").text("<?php echo JText::_('COM_REDSHOP_IMPORT_ERROR_FILE_TYPE') ?>");
+                            $("<p>").addClass("text-danger")
+                                .text("<?php echo JText::_('COM_REDSHOP_IMPORT_ERROR_FILE_TYPE') ?>")
+                                .appendTo($("#import_process_msg_body"));
 
                             return false;
                         }
@@ -125,8 +127,9 @@ foreach ($characterSets as $char => $name)
                         if (data.files[0].size > allowMaxFileSize) {
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
-                            $("#import_process_msg").removeClass("alert-success").addClass("alert-danger");
-                            $("#import_process_msg_body").text("<?php echo JText::sprintf('COM_REDSHOP_IMPORT_ERROR_FILE_MAX_SIZE', $allowMaxFileSize) ?>");
+                            $("<p>").addClass("text-danger")
+                                .text("<?php echo JText::sprintf('COM_REDSHOP_IMPORT_ERROR_FILE_MAX_SIZE', $allowMaxFileSize) ?>")
+                                .appendTo($("#import_process_msg_body"));
 
                             return false;
                         }
@@ -134,25 +137,27 @@ foreach ($characterSets as $char => $name)
                         if (data.files[0].size < allowMinFileSize) {
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
-                            $("#import_process_msg").removeClass("alert-success").addClass("alert-danger");
-                            $("#import_process_msg_body").text("<?php echo JText::sprintf('COM_REDSHOP_IMPORT_ERROR_FILE_MIN_SIZE', $allowMinFileSize) ?>");
+                            $("<p>").addClass("text-danger")
+                                .text("<?php echo JText::sprintf('COM_REDSHOP_IMPORT_ERROR_FILE_MIN_SIZE', $allowMinFileSize) ?>")
+                                .appendTo($("#import_process_msg_body"));
 
                             return false;
                         }
+
+                        $uploadWrapper.show();
 
                         data.submit();
                     },
                     progressall: function (e, data) {
                         var progress = parseInt(data.loaded / data.total * 100, 10);
 
-                        $("#import_upload_progress").html(progress + "%").css("width", progress + "%");
+                        $uploadProgress.html(progress + "%").css("width", progress + "%");
                     },
                     error: function (e, text, error) {
+                        $uploadWrapper.hide();
                         $("#import_plugins").removeClass("disabled muted");
                         $("#import_config").removeClass("disabled muted");
-
-                        $("#import_process_msg").removeClass("alert-success").addClass("alert-danger");
-                        $("#import_process_msg_body").html(error);
+                        $("<p>").addClass("text-danger").text(error).appendTo($("#import_process_msg_body"));
                     }
                 });
 
@@ -205,7 +210,13 @@ foreach ($characterSets as $char => $name)
 
                         if (response.data.length) {
                             for (i = 0; i < response.data.length; i++) {
-                                $("#import_process_msg_body").append("<p>" + response.data[i].message + "</p>");
+                                var textClass = "text-success";
+
+                                if (response.data[i].status == 0) {
+                                    textClass = "text-danger";
+                                }
+
+                                $("<p>").addClass(textClass).text(response.data[i].message).appendTo($("#import_process_msg_body"));
                             }
                         }
 
@@ -221,12 +232,20 @@ foreach ($characterSets as $char => $name)
                             total = 0;
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
-                            // $("#import_process_msg").removeClass("alert-success").addClass("alert-danger");
-                            $("#import_process_msg_body").html(response);
+                            $("<p>").addClass("text-danger").text(response).appendTo($("#import_process_msg_body"));
                         }
                     },
                     "JSON"
-                );
+                )
+                    .fail(function(){
+                        total = 0;
+                        $("#import_count").html("");
+                        $("#import_plugins").removeClass("disabled muted");
+                        $("#import_config").removeClass("disabled muted");
+                        $("<p>").addClass("text-danger")
+                            .text("<?php echo JText::_('COM_REDSHOP_IMPORT_FAIL') ?>").appendTo($("#import_process_msg_body"));
+                        $("#import_process_bar").parent().hide();
+                    });
             })(jQuery);
         }
     </script>
@@ -312,14 +331,14 @@ foreach ($characterSets as $char => $name)
                                     <input id="fileupload" type="file" name="csv_file" class="hidden"
                                            data-url="index.php?option=com_redshop&task=import.uploadFile"/>
                                     <p></p>
-                                    <div class="progress">
+                                    <div class="progress" id="import_upload_progress_wrapper" style="display: none;">
                                         <div id="import_upload_progress" class="progress-bar" role="progressbar"
                                              aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%
                                         </div>
                                     </div>
                                     <hr/>
                                     <h3><?php echo JText::_('COM_REDSHOP_IMPORT_DATA_IMPORT') ?>: <span id="import_count"></span></h3>
-                                    <div class="progress">
+                                    <div class="progress" style="display: none;">
                                         <div id="import_process_bar" class="progress-bar progress-bar-success" role="progressbar"
                                              aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
                                             0%
@@ -328,10 +347,10 @@ foreach ($characterSets as $char => $name)
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <div id="import_process_msg" class="alert">
-                                            <h4><?php echo JText::_('COM_REDSHOP_IMPORT_LOG') ?></h4>
+                                        <fieldset id="import_process_msg">
+                                            <legend><?php echo JText::_('COM_REDSHOP_IMPORT_LOG') ?></legend>
                                             <div id="import_process_msg_body" style="max-height: 300px; overflow-x: hidden;"></div>
-                                        </div>
+                                        </fieldset>
                                     </div>
                                 </div>
                             </div>
