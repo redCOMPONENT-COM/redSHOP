@@ -15,6 +15,20 @@ defined('_JEXEC') or die;
 class RedshopControllerWizard extends RedshopController
 {
 	/**
+	 *
+	 * Copy temparory distinct file for enable config variable support
+	 */
+	public function copyTempFile()
+	{
+		jimport('joomla.filesystem.file');
+
+		$this->_temp_file_dist = JPATH_COMPONENT_ADMINISTRATOR . '/config/config.dist.php';
+		$this->_temp_file = JPATH_COMPONENT_ADMINISTRATOR . '/config/config.php';
+
+		JFile::copy($this->_temp_file_dist, $this->_temp_file);
+	}
+
+	/**
 	 * Save configuration
 	 */
 	public function save()
@@ -25,6 +39,7 @@ class RedshopControllerWizard extends RedshopController
 
 		// Get submit data
 		$post = $this->input->post->getArray();
+		$go = $post['go'];
 
 		$substep = $post['substep'];
 
@@ -65,6 +80,11 @@ class RedshopControllerWizard extends RedshopController
 		// Save back to session
 		$session->set('redshop.wizard', $post);
 
+		if ($go == 'pre')
+		{
+			$substep = $substep - 2;
+		}
+
 		if ($post['VATREMOVE'] == 1)
 		{
 			$tax_rate_id = $post['VATTAX_RATE_ID'];
@@ -72,7 +92,6 @@ class RedshopControllerWizard extends RedshopController
 
 			$this->setRedirect($vatlink);
 		}
-
 		else
 		{
 			$link = 'index.php?option=com_redshop&step=' . $substep;
