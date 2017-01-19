@@ -9,100 +9,24 @@
 
 defined('_JEXEC') or die;
 
-
-
+/**
+ * Class RedshopControllerWizard
+ */
 class RedshopControllerWizard extends RedshopController
 {
-	public $_temp_file = null;
-
-	public $_temp_array = null;
-
-	public $_temp_file_dist = null;
-
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-
-		$this->_temp_file = JPATH_BASE . '/components/com_redshop/helpers/wizard/redshop.cfg.tmp.php';
-		$this->_temp_file_dist = JPATH_BASE . '/components/com_redshop/helpers/wizard/redshop.cfg.tmp.dist.php';
-	}
-
-	public function isTmpFile()
-	{
-		if (file_exists($this->_temp_file))
-		{
-			if ($this->isWritable())
-			{
-				require_once $this->_temp_file;
-				return true;
-			}
-		}
-		else
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_FOUND'), 'error');
-		}
-
-		return false;
-	}
-
-	public function isWritable()
-	{
-		if (!is_writable($this->_temp_file))
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'), 'error');
-			return false;
-		}
-
-		return true;
-	}
-
-	public function WriteTmpFile()
-	{
-		$html = "<?php \n";
-
-		$html .= 'global $temparray;' . "\n" . '$temparray = array();' . "\n";
-
-		foreach ($this->_temp_array as $key => $val)
-		{
-			$html .= '$temparray["' . $key . '"] = \'' . addslashes($val) . "';\n";
-		}
-
-		$html .= "?>";
-
-		if ($fp = fopen($this->_temp_file, "w"))
-		{
-			fwrite($fp, $html, strlen($html));
-			fclose($fp);
-
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
 	/**
-	 *
-	 * Copy temparory distinct file for enable config variable support
+	 * Save configuration
 	 */
-	public function copyTempFile()
+	public function save()
 	{
-		jimport('joomla.filesystem.file');
+		// Get temporary saved config via wizard
+		$session = JFactory::getSession();
+		$wizardConfig = $session->get('redshop.wizard');
 
-		JFile::copy($this->_temp_file_dist, $this->_temp_file);
-	}
-
-	function save()
-	{
+		// Get submit data
 		$post = $this->input->post->getArray();
 
 		$substep = $post['substep'];
-		$go = $post['go'];
-
-		global $temparray;
-
-		$this->isTmpFile();
 
 		if ($substep == 2)
 		{
@@ -128,28 +52,22 @@ class RedshopControllerWizard extends RedshopController
 			$post['country_list'] = $country_listCode;
 		}
 
-		$post = array_merge($temparray, $post);
-
-		$this->_temp_array = $post;
-
-		if ($this->WriteTmpFile())
+		// Convert post data key to uppercase. Because we'll use uppercase in config file
+		foreach ($post as $key => $value)
 		{
-			$msg = JText::_('COM_REDSHOP_STEP_SAVED');
-
-			if ($go == 'pre')
-			{
-				$substep = $substep - 2;
-			}
-		}
-		else
-		{
-			$substep = $substep - 1;
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STEP_DETAIL');
+			$post[strtoupper($key)] = $value;
+			unset($post[$key]);
 		}
 
-		if ($post['vatremove'] == 1)
+		// Merge with saved config
+		$post = array_merge($wizardConfig, $post);
+
+		// Save back to session
+		$session->set('redshop.wizard', $post);
+
+		if ($post['VATREMOVE'] == 1)
 		{
-			$tax_rate_id = $post['vattax_rate_id'];
+			$tax_rate_id = $post['VATTAX_RATE_ID'];
 			$vatlink = 'index.php?option=com_redshop&view=tax_detail&task=removefromwizrd&cid[]=' . $tax_rate_id . '&tax_group_id=1';
 
 			$this->setRedirect($vatlink);
@@ -162,11 +80,12 @@ class RedshopControllerWizard extends RedshopController
 		}
 	}
 
+	/**
+	 * Final step and finish wizard
+	 */
 	public function finish()
 	{
-		$Redconfiguration = Redconfiguration::getInstance();
-
-		$post = $this->input->post->getArray();
+		$session = JFactory::getSession();
 
 		$msg = "";
 
@@ -181,10 +100,16 @@ class RedshopControllerWizard extends RedshopController
 			}
 		}
 
-		$this->isTmpFile();
+		// Convert array to JRegistry before saving
+		$configHelper = Redshop::getConfig();
+		$config = new JRegistry();
+		$config->loadArray($session->get('redshop.wizard'));
 
-		if ($Redconfiguration->storeFromTMPFile())
+		if ($configHelper->save($config))
 		{
+			// Clear temporary redshop wizard configuration
+			$session->clear('redshop.wizard');
+
 			$msg .= JText::_('COM_REDSHOP_FINISH_WIZARD');
 
 			$link = 'index.php?option=com_redshop';

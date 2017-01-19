@@ -125,9 +125,6 @@ class RedshopHelperConfig
 			include_once $file;
 		}
 
-		// Load and migrate from saved old configuration file ( created via wizard )
-		$this->loadOldConfig(true);
-
 		// Sanitize the namespace.
 		$namespace = ucfirst((string) preg_replace('/[^A-Z_]/i', '', $namespace));
 
@@ -300,37 +297,23 @@ class RedshopHelperConfig
 	/**
 	 * Load previous configuration
 	 *
-	 * @param   bool  $force  Force load previous configuration without checks
-	 *
-	 * @return  bool
+	 * @return bool
 	 */
-	protected function loadOldConfig($force = false)
+	protected function loadOldConfig()
 	{
 		// Since 1.6 we started moving to new config than try to migrate it
-		if ($force || version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<'))
+		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<'))
 		{
-			// Only show notice if we are not forcing. That's real migrate
-			if ($force === false)
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_TRY_TO_MIGRATE_PREVIOUS_CONFIGURATION'), 'notice');
-			}
+
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_TRY_TO_MIGRATE_PREVIOUS_CONFIGURATION'), 'notice');
 
 			$oldConfigFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 			// Old configuration file
 			if (JFile::exists($oldConfigFile))
 			{
-				// If we are forced than load default config file instead dist file
-				if ($force)
-				{
-					// New configuration file
-					require_once JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.php';
-				}
-				else
-				{
-					// New configuration file
-					require_once JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.dist.php';
-				}
+				// New configuration file
+				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.dist.php';
 
 				// Old configuration file
 				require_once $oldConfigFile;
@@ -361,10 +344,7 @@ class RedshopHelperConfig
 				return JFile::delete($oldConfigFile);
 			}
 
-			if ($force === false)
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PREVIOUS_CONFIGURATION_NOT_FOUND'), 'warning');
-			}
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PREVIOUS_CONFIGURATION_NOT_FOUND'), 'warning');
 			
 			return false;
 		}
