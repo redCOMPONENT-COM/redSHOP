@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Class RedshopControllerWizard
  */
@@ -108,6 +110,8 @@ class RedshopControllerWizard extends RedshopController
 
 		$msg = "";
 
+		$post = JFactory::getApplication()->input->post->getArray();
+
 		/**
 		 *    install sample data
 		 */
@@ -121,7 +125,7 @@ class RedshopControllerWizard extends RedshopController
 
 		// Convert array to JRegistry before saving
 		$configHelper = Redshop::getConfig();
-		$config = new JRegistry();
+		$config = new Registry;
 		$config->loadArray($session->get('redshop.wizard'));
 
 		if ($configHelper->save($config))
@@ -146,6 +150,7 @@ class RedshopControllerWizard extends RedshopController
 
 	public function demoContentInsert()
 	{
+		/** @var RedshopModelRedshop $model */
 		$model = $this->getModel('redshop', 'redshopModel');
 
 		if (!$model->demoContentInsert())
