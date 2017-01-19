@@ -16,15 +16,11 @@ defined('_JEXEC') or die;
         </div>
 
         <div class="col-sm-4">
-            <fieldset class="adminform">
-				<?php echo $this->loadTemplate('modules'); ?>
-            </fieldset>
+	        <?php echo $this->loadTemplate('modules'); ?>
         </div>
 
         <div class="col-sm-4">
-            <fieldset class="adminform">
-				<?php echo $this->loadTemplate('general_layout_settings'); ?>
-            </fieldset>
+	        <?php echo $this->loadTemplate('general_layout_settings'); ?>
         </div>
     </div>
 </fieldset>

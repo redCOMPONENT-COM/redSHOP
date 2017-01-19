@@ -18,10 +18,10 @@ $url = $uri->root();
     <div class="panel-body">
         <div class="form-group">
             <label for="statistics_enable" class="hasTip"
-                   title="<?php echo JText::_('COM_REDSHOP_STATISTICS_ENABLE_TEXT') ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_STATISTICS_ENABLE') ?>">
-				<?php echo JText::_('COM_REDSHOP_STATISTICS_ENABLE_TEXT'); ?>
+                title="<?php echo JText::_('COM_REDSHOP_STATISTICS_ENABLE_TEXT') ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_STATISTICS_ENABLE') ?>">
+		        <?php echo JText::_('COM_REDSHOP_STATISTICS_ENABLE_TEXT') ?>
             </label>
-			<?php echo $this->lists['statistics_enable'] ?>
+	        <?php echo $this->lists['statistics_enable'] ?>
         </div>
         <div class="form-group">
             <label for="name" class="hasTip"

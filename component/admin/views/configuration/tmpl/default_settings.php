@@ -15,8 +15,8 @@ defined('_JEXEC') or die;
     </div>
     <div class="panel-body">
         <div class="form-group">
-            <label for="shop_name" class="hasPopover" title="<?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL'); ?>"
-                data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOP_NAME_LBL'); ?>">
+            <label for="shop_country" class="hasTip"
+                   title="<?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL') ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOP_NAME_LBL') ?>">
 				<?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL'); ?>
             </label>
             <input type="text" name="shop_name" id="shop_name" value="<?php echo $this->config->get('SHOP_NAME') ?>" class="form-control"/>
@@ -27,7 +27,7 @@ defined('_JEXEC') or die;
                    title="<?php echo JText::_('COM_REDSHOP_SHOP_COUNTRY') ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOP_COUNTRY') ?>">
 				<?php echo JText::_('COM_REDSHOP_SHOP_COUNTRY_LBL'); ?>
             </label>
-			<?php echo $this->lists ['shop_country']; ?>
+			<?php echo $this->lists['shop_country']; ?>
         </div>
 
         <div class="form-group">

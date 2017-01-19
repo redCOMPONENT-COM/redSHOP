@@ -11,18 +11,13 @@ defined('_JEXEC') or die;
 ?>
 
 <fieldset class="adminform">
-	<div class="row">
-		<div class="col-sm-6">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('registration');?>
-			</fieldset>
-		</div>
+    <div class="row">
+        <div class="col-sm-6">
+			<?php echo $this->loadTemplate('registration'); ?>
+        </div>
 
-		<div class="col-sm-6">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('shopper_group');?>
-			</fieldset>
-		</div>
-
-	</div>
+        <div class="col-sm-6">
+			<?php echo $this->loadTemplate('shopper_group'); ?>
+        </div>
+    </div>
 </fieldset>
