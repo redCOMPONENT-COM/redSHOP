@@ -97,7 +97,7 @@ if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 1)
 				<td>
 					<textarea class="text_area" type="text" name="registration_comp_introtext"
 					          id="registration_comp_introtext" rows="4"
-					          cols="40"/><?php echo $this->temparray['REGISTRATION_COMP_INTROTEXT']; ?></textarea>
+					          cols="40"/><?php echo $this->temparray['REGISTRATION_COMPANY_INTROTEXT']; ?></textarea>
 				</td>
 			</tr>
 		</table>
