@@ -645,6 +645,9 @@ class Com_RedshopInstallerScript
 
 				// Force to enable redSHOP - System plugin by anyways
 				$this->enablePlugin('redshop', 'system');
+
+				// Force to enable redSHOP PDF - TcPDF plugin by anyways
+				$this->enablePlugin('tcpdf', 'redshop_pdf');
 			}
 		}
 	}
