@@ -229,24 +229,27 @@ class RedshopTroubleshootItem
 		{
 			$return->original = str_replace('modules/site/', JPATH_ROOT . '/modules/', $originalFile->path);
 		}
-
-		// Another file
-		if (strpos($originalFile->path, 'component/admin') === false && strpos($originalFile->path, 'component/site') === false)
+		else
 		{
-			// Administrator
-			if (strpos($originalFile->path, '/') === false)
+			// Another file
+			if (strpos($originalFile->path, 'component/admin') === false && strpos($originalFile->path, 'component/site') === false)
 			{
-				$return->original = JPATH_ADMINISTRATOR . '/components/com_redshop/' . '/' . $originalFile->path;
-			}
-			else
-			{
-				$return->original = JPATH_ROOT . '/' . $originalFile->path;
+				// Administrator
+				if (strpos($originalFile->path, '/') === false)
+				{
+					$return->original = JPATH_ADMINISTRATOR . '/components/com_redshop/' . '/' . $originalFile->path;
+				}
+				else
+				{
+					$return->original = JPATH_ROOT . '/' . $originalFile->path;
+				}
 			}
 		}
 
 		// Get trimmed file
 		$originalFile = str_replace('component/admin/', '', $originalFile->path);
 		$originalFile = str_replace('component/site/', '', $originalFile);
+		$originalFile = str_replace('modules/site/', '', $originalFile);
 		$return->trim = '/' . $originalFile;
 
 		// Clean up
