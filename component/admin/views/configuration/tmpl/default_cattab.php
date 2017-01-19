@@ -11,32 +11,20 @@ defined('_JEXEC') or die;
 ?>
 
 <fieldset class="adminform">
-	<div class="row">
-		<div class="col-sm-4">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('category');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('cattab_nplinks');?>
-			</fieldset>
-		</div>
+    <div class="row">
+        <div class="col-sm-4">
+			<?php echo $this->loadTemplate('category'); ?>
+			<?php echo $this->loadTemplate('cattab_nplinks'); ?>
+        </div>
 
-		<div class="col-sm-4">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('category_suffix');?>
-			</fieldset>
-		</div>
+        <div class="col-sm-4">
+			<?php echo $this->loadTemplate('category_suffix'); ?>
+        </div>
 
-		<div class="col-sm-4">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('category_template');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('image_setting');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('procat_images');?>
-			</fieldset>
-		</div>
-	</div>
+        <div class="col-sm-4">
+			<?php echo $this->loadTemplate('category_template'); ?>
+			<?php echo $this->loadTemplate('image_setting'); ?>
+			<?php echo $this->loadTemplate('procat_images'); ?>
+        </div>
+    </div>
 </fieldset>

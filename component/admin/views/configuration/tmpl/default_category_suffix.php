@@ -8,102 +8,106 @@
  */
 defined('_JEXEC') or die;
 ?>
-
-<legend><?php echo JText::_('COM_REDSHOP_CATEGORY_SUFFIXES'); ?></legend>
-
-<div class="form-group">
+<div class="panel panel-primary form-vertical">
+    <div class="panel-heading">
+        <h3><?php echo JText::_('COM_REDSHOP_CATEGORY_SUFFIXES'); ?></h3>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_CATEGORY_DESC_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_DESC_MAX_CHARS_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_DESC_MAX_CHARS_LBL');?></label></span>
-	<input type="text" name="category_desc_max_chars" id="category_desc_max_chars"
-				   value="<?php echo $this->config->get('CATEGORY_DESC_MAX_CHARS'); ?>">
-</div>
+          title="<?php echo JText::_('COM_REDSHOP_CATEGORY_DESC_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_DESC_MAX_CHARS_LBL'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_DESC_MAX_CHARS_LBL'); ?></label></span>
+            <input type="text" class="form-control" name="category_desc_max_chars" id="category_desc_max_chars"
+                   value="<?php echo $this->config->get('CATEGORY_DESC_MAX_CHARS'); ?>">
+        </div>
 
-<div class="form-group">
+        <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_CATEGORY_DESC_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_DESC_END_SUFFIX_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_DESC_END_SUFFIX_LBL');?></label></span>
-	<input type="text" name="category_desc_end_suffix" id="category_desc_end_suffix"
-				   value="<?php echo $this->config->get('CATEGORY_DESC_END_SUFFIX'); ?>">
-</div>
+          title="<?php echo JText::_('COM_REDSHOP_CATEGORY_DESC_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_DESC_END_SUFFIX_LBL'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_DESC_END_SUFFIX_LBL'); ?></label></span>
+            <input type="text" class="form-control" name="category_desc_end_suffix" id="category_desc_end_suffix"
+                   value="<?php echo $this->config->get('CATEGORY_DESC_END_SUFFIX'); ?>">
+        </div>
 
-<div class="form-group">
+        <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_SHORT_DESC_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_SHORT_DESC_MAX_CHARS'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESC_MAX_CHARS_LBL');?></label></span>
-	<input type="text" name="category_short_desc_max_chars" id="category_short_desc_max_chars"
-				   value="<?php echo $this->config->get('CATEGORY_SHORT_DESC_MAX_CHARS'); ?>">
-</div>
+          title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_SHORT_DESC_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_SHORT_DESC_MAX_CHARS'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESC_MAX_CHARS_LBL'); ?></label></span>
+            <input type="text" class="form-control" name="category_short_desc_max_chars" id="category_short_desc_max_chars"
+                   value="<?php echo $this->config->get('CATEGORY_SHORT_DESC_MAX_CHARS'); ?>">
+        </div>
 
-<div class="form-group">
+        <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESC_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_SHORT_DESC_END_SUFFIX_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESC_END_SUFFIX_LBL');?></label></span>
-	<input type="text" name="category_short_desc_end_suffix" id="category_short_desc_end_suffix"
-				   value="<?php echo $this->config->get('CATEGORY_SHORT_DESC_END_SUFFIX'); ?>">
-</div>
+          title="<?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESC_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_SHORT_DESC_END_SUFFIX_LBL'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_SHORT_DESC_END_SUFFIX_LBL'); ?></label></span>
+            <input type="text" class="form-control" name="category_short_desc_end_suffix" id="category_short_desc_end_suffix"
+                   value="<?php echo $this->config->get('CATEGORY_SHORT_DESC_END_SUFFIX'); ?>">
+        </div>
 
-<div class="form-group">
+        <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_CATEGORY_TITLE_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_TITLE_MAX_CHARS_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_TITLE_MAX_CHARS_LBL');?></label></span>
-	<input type="text" name="category_title_max_chars" id="category_title_max_chars"
-				   value="<?php echo $this->config->get('CATEGORY_TITLE_MAX_CHARS'); ?>">
-</div>
+          title="<?php echo JText::_('COM_REDSHOP_CATEGORY_TITLE_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_TITLE_MAX_CHARS_LBL'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_TITLE_MAX_CHARS_LBL'); ?></label></span>
+            <input type="text" class="form-control" name="category_title_max_chars" id="category_title_max_chars"
+                   value="<?php echo $this->config->get('CATEGORY_TITLE_MAX_CHARS'); ?>">
+        </div>
 
-<div class="form-group">
+        <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_CATEGORY_TITLE_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_TITLE_END_SUFFIX_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_TITLE_END_SUFFIX_LBL');?></label></span>
-	<input type="text" name="category_title_end_suffix" id="category_title_end_suffix"
-				   value="<?php echo $this->config->get('CATEGORY_TITLE_END_SUFFIX'); ?>">
-</div>
+          title="<?php echo JText::_('COM_REDSHOP_CATEGORY_TITLE_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_TITLE_END_SUFFIX_LBL'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_TITLE_END_SUFFIX_LBL'); ?></label></span>
+            <input type="text" class="form-control" name="category_title_end_suffix" id="category_title_end_suffix"
+                   value="<?php echo $this->config->get('CATEGORY_TITLE_END_SUFFIX'); ?>">
+        </div>
 
-<div class="form-group">
+        <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TITLE_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_TITLE_MAX_CHARS_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TITLE_MAX_CHARS_LBL');?></label></span>
-	<input type="text" name="category_product_title_max_chars" id="category_product_title_max_chars"
-				   value="<?php echo $this->config->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'); ?>">
-</div>
+          title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TITLE_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_TITLE_MAX_CHARS_LBL'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TITLE_MAX_CHARS_LBL'); ?></label></span>
+            <input type="text" class="form-control" name="category_product_title_max_chars" id="category_product_title_max_chars"
+                   value="<?php echo $this->config->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'); ?>">
+        </div>
 
-<div class="form-group">
+        <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TITLE_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_TITLE_END_SUFFIX_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TITLE_END_SUFFIX_LBL');?></label></span>
-	<input type="text" name="category_product_title_end_suffix" id="category_product_title_end_suffix"
-				   value="<?php echo $this->config->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'); ?>">
-</div>
+          title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TITLE_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_TITLE_END_SUFFIX_LBL'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TITLE_END_SUFFIX_LBL'); ?></label></span>
+            <input type="text" class="form-control" name="category_product_title_end_suffix" id="category_product_title_end_suffix"
+                   value="<?php echo $this->config->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'); ?>">
+        </div>
 
-<div class="form-group">
+        <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_DESC_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_DESC_MAX_CHARS_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_DESC_MAX_CHARS_LBL');?></label></span>
-	<input type="text" name="category_product_desc_max_chars" id="category_product_desc_max_chars"
-				   value="<?php echo $this->config->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'); ?>">
-</div>
+          title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_DESC_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_DESC_MAX_CHARS_LBL'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_DESC_MAX_CHARS_LBL'); ?></label></span>
+            <input type="text" class="form-control" name="category_product_desc_max_chars" id="category_product_desc_max_chars"
+                   value="<?php echo $this->config->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'); ?>">
+        </div>
 
-<div class="form-group">
+        <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_DESC_MAX_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_DESC_MAX_SUFFIX_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_DESC_MAX_SUFFIX_LBL');?></label></span>
-	<input type="text" name="category_product_desc_end_suffix" id="category_product_desc_end_suffix"
-				   value="<?php echo $this->config->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'); ?>">
-</div>
+          title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_DESC_MAX_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_DESC_MAX_SUFFIX_LBL'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_DESC_MAX_SUFFIX_LBL'); ?></label></span>
+            <input type="text" class="form-control" name="category_product_desc_end_suffix" id="category_product_desc_end_suffix"
+                   value="<?php echo $this->config->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'); ?>">
+        </div>
 
-<div class="form-group">
+        <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS_LBL'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS_LBL');?></label></span>
-	<input type="text" name="category_product_short_desc_max_chars" id="category_product_short_desc_max_chars"
-				   value="<?php echo $this->config->get('CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS'); ?>">
-</div>
+          title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS_LBL'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS_LBL'); ?></label></span>
+            <input type="text" class="form-control" name="category_product_short_desc_max_chars" id="category_product_short_desc_max_chars"
+                   value="<?php echo $this->config->get('CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS'); ?>">
+        </div>
 
-<div class="form-group">
+        <div class="form-group">
 	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX_LBL'); ?>">
+          title="<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX_LBL'); ?>">
 		<label
-			for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX_LBL');?></label></span>
-	<input type="text" name="category_product_short_desc_end_suffix" id="category_product_short_desc_end_suffix"
-				   value="<?php echo $this->config->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX'); ?>">
+                for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX_LBL'); ?></label></span>
+            <input type="text" class="form-control" name="category_product_short_desc_end_suffix" id="category_product_short_desc_end_suffix"
+                   value="<?php echo $this->config->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX'); ?>">
+        </div>
+    </div>
 </div>
