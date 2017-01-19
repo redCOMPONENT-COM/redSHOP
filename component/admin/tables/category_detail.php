@@ -9,7 +9,12 @@
 
 defined('_JEXEC') or die;
 
-class Tablecategory_detail extends JTable
+/**
+ * Category detail table.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+class TableCategory_Detail extends JTable
 {
 	public $category_id = null;
 

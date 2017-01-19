@@ -49,11 +49,11 @@ abstract class RedshopHelperAttribute
 
 		if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE') == 1 && $displayIndCart)
 		{
-			$tempAttributeTemplate = $productHelper->getAttributeTemplate($templateContent, false);
+			$attributeTemplate = empty($attributeTemplate) ? $productHelper->getAttributeTemplate($templateContent, false) : $attributeTemplate;
 
-			if (!empty($tempAttributeTemplate))
+			if (!empty($attributeTemplate))
 			{
-				$templateContent = str_replace("{attribute_template:$tempAttributeTemplate->template_name}", "", $templateContent);
+				$templateContent = str_replace("{attribute_template:$attributeTemplate->template_name}", "", $templateContent);
 			}
 
 			return self::replaceAttributewithCartData(
@@ -61,14 +61,14 @@ abstract class RedshopHelperAttribute
 			);
 		}
 
-		$tempAttributeTemplate = $productHelper->getAttributeTemplate($templateContent, false);
+		$attributeTemplate = empty($attributeTemplate) ? $productHelper->getAttributeTemplate($templateContent, false) : $attributeTemplate;
 
-		if (empty($tempAttributeTemplate))
+		if (empty($attributeTemplate))
 		{
 			return $templateContent;
 		}
 
-		$templateContent = str_replace("{attributewithcart_template:$tempAttributeTemplate->template_name}", "", $templateContent);
+		$templateContent = str_replace("{attributewithcart_template:$attributeTemplate->template_name}", "", $templateContent);
 
 		if ($isChild || count($attributes) <= 0)
 		{
@@ -652,7 +652,14 @@ abstract class RedshopHelperAttribute
 			$attributeTable = str_replace("{property_stock_lbl}", JText::_('COM_REDSHOP_PROPERTY_STOCK_LBL'), $attributeTable);
 			$attributeTable = str_replace("{add_to_cart_lbl}", JText::_('COM_REDSHOP_ADD_TO_CART_LBL'), $attributeTable);
 
-			$properties = empty($attribute->properties) ? $productHelper->getAttibuteProperty(0, $attribute->attribute_id) : $attribute->properties;
+			if (empty($attribute->properties))
+			{
+				$properties = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id);
+			}
+			else
+			{
+				$properties = $attribute->properties;
+			}
 
 			if (empty($attribute->text) || empty($properties)
 				|| strpos($attributeTable, "{property_start}") === false || strpos($attributeTable, "{property_start}") === false)
@@ -733,7 +740,7 @@ abstract class RedshopHelperAttribute
 
 						$priceWithoutVat = $property->property_price;
 
-						if (strpos($templateContent, "{without_vat}") === false)
+						if ($productHelper->getApplyattributeVatOrNot($propertyData))
 						{
 							$priceWithVat = $productHelper->getProducttax($productId, $property->property_price, $user_id);
 						}

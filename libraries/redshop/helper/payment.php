@@ -86,7 +86,7 @@ class RedshopHelperPayment
 	public static function loadLanguages()
 	{
 		// Load payment plugin language file
-		$paymentsLangList = redhelper::getInstance()->getPlugins("redshop_payment");
+		$paymentsLangList = redhelper::getInstance()->getPlugins("redshop_payment", -1);
 		$language         = JFactory::getLanguage();
 
 		for ($index = 0, $ln = count($paymentsLangList); $index < $ln; $index++)

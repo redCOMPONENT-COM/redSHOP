@@ -54,6 +54,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		// Load payment languages
 		RedshopHelperPayment::loadLanguages();
+		RedshopHelperShipping::loadLanguages();
+		RedshopHelperModule::loadLanguages();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
 		JToolBarHelper::save();
@@ -141,7 +143,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="inputbox" size="1" ', 'value', 'text', $this->config->get('DEFAULT_NEWSLETTER')
 		);
 		$lists['currency_data'] = JHTML::_('select.genericlist', $currency_data, 'currency_code',
-			'class="inputbox" size="1" ', 'value', 'text', $this->config->get('CURRENCY_CODE')
+			'class="inputbox" size="1" onchange="changeRedshopCurrencyList(this);"', 'value', 'text', $this->config->get('CURRENCY_CODE')
 		);
 
 		$lists['use_encoding'] = JHTML::_('redshopselect.booleanlist', 'use_encoding', 'class="inputbox" ', $this->config->get('USE_ENCODING'));
@@ -501,7 +503,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		);
 
 		$tmp   = array();
-		$tmp[] = JHTML::_('select.option', 0, JText::_('SELECT'));
+		$tmp[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
 		$tmp   = array_merge($tmp, $shopper_Group_private, $shopper_Group_company);
 		$lists['shopper_group_default_unregistered'] = JHTML::_('select.genericlist', $tmp, 'shopper_group_default_unregistered',
 			'class="inputbox" ', 'value', 'text', $this->config->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED')

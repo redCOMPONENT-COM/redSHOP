@@ -137,6 +137,12 @@ class RedshopViewOrder extends RedshopViewAdmin
 			$group->renderGroup();
 
 			RedshopToolbarHelper::deleteList();
+
+			// Check PDF plugin
+			if (!RedshopHelperPdf::isAvailablePdfPlugins())
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_WARNING_MISSING_PDF_PLUGIN'), 'warning');
+			}
 		}
 
 		$state                 = $this->get('State');

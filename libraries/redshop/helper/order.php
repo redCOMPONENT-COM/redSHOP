@@ -2491,7 +2491,7 @@ class RedshopHelperOrder
 			$mailData = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $mailData);
 			$mailData = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $mailData);
 
-			$mailData = $cartHelper->replaceOrderTemplate($row, $mailData);
+			$mailData = $cartHelper->replaceOrderTemplate($row, $mailData, true);
 
 			$arrDiscountType = array();
 			$arrDiscount     = explode('@', $row->discount_type);
@@ -2684,53 +2684,45 @@ class RedshopHelperOrder
 	/**
 	 * Create Multi Print Invoice PDF
 	 *
-	 * @param   integer  $orderId  Order ID
+	 * @param   array  $orderIds  Order ID
 	 *
-	 * @return  string
+	 * @return  string            File name of generated pdf.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function createMultiPrintInvoicePdf($orderId)
+	public static function createMultiPrintInvoicePdf($orderIds)
 	{
-		return RedshopHelperMail::createMultiprintInvoicePdf($orderId);
+		return RedshopHelperMail::createMultiprintInvoicePdf($orderIds);
 	}
 
 	/**
 	 * Method for generate Invoice PDF of specific Order
 	 *
-	 * @param   int  $orderId  ID of order.
+	 * @param   int      $orderId  ID of order.
+	 * @param   string   $code     Code when generate PDF.
+	 * @param   boolean  $isEmail  Is generate for use in Email?
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function generateInvoicePdf($orderId)
+	public static function generateInvoicePdf($orderId, $code = 'F', $isEmail = false)
 	{
 		if (!$orderId)
 		{
 			return;
 		}
 
-		jimport('joomla.filesystem.folder');
+		$plugins = JPluginHelper::getPlugin('redshop_pdf');
 
-		$pdfObj     = RedshopHelperPdf::getInstance();
-		$cartHelper = rsCarthelper::getInstance();
+		if (empty($plugins))
+		{
+			return;
+		}
 
-		$pdfObj->SetTitle('Invoice ' . $orderId);
-
-		// Load payment languages
-		RedshopHelperPayment::loadLanguages();
-
-		// Changed font to support Unicode Characters - Specially Polish Characters
-		$font = 'times';
-		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		$pdfObj->setHeaderFont(array($font, '', 8));
-
-		// Set font
-		$pdfObj->SetFont($font, "", 6);
-
+		$cartHelper    = rsCarthelper::getInstance();
 		$orderDetail   = self::getOrderDetails($orderId);
-		$orderTemplate = RedshopHelperTemplate::getTemplate(0, "order_print");
+		$orderTemplate = RedshopHelperTemplate::getTemplate('order_print');
 
 		if (count($orderTemplate) > 0 && $orderTemplate[0]->template_desc != "")
 		{
@@ -2777,22 +2769,8 @@ class RedshopHelperOrder
 
 		$message = $cartHelper->replaceOrderTemplate($orderDetail, $message, true);
 
-		$pdfObj->AddPage();
-		$pdfObj->writeHTML($message);
-
-		$invoicePdf = 'invoice-' . round(microtime(true) * 1000);
-		$invoiceFolder = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $orderId;
-
-		// Delete currently order invoice
-		if (JFolder::exists($invoiceFolder))
-		{
-			JFolder::delete($invoiceFolder);
-		}
-
-		JFolder::create($invoiceFolder);
-
-		ob_end_clean();
-		$pdfObj->Output($invoiceFolder . '/' . $invoicePdf . ".pdf", "FI");
+		JPluginHelper::importPlugin('redshop_pdf');
+		RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderCreateInvoicePdf', array($orderId, $message, $code, $isEmail));
 	}
 
 	/**
