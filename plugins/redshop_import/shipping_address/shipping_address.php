@@ -68,7 +68,7 @@ class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
 	 *
 	 * @return  \JTable
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function getTable()
 	{
@@ -85,7 +85,7 @@ class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
 	 *
 	 * @return  array           Mapping data.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function processMapping($header, $data)
 	{
@@ -104,7 +104,7 @@ class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function processImport($table, $data)
 	{

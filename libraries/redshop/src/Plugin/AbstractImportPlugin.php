@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Abstract class for import plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class AbstractImportPlugin extends \JPlugin
 {
@@ -75,7 +75,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *                              Recognized key values include 'name', 'group', 'params', 'language'
 	 *                              (this list is not meant to be comprehensive).
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -94,7 +94,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  mixed            Array of data (file path, lines) if success. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function onUploadFile($plugin = '', $file = array(), $data = array())
 	{
@@ -157,7 +157,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function importing()
 	{
@@ -225,7 +225,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  \JTable
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function getTable()
 	{
@@ -237,7 +237,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function getDataProperties()
 	{
@@ -249,7 +249,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function getPath()
 	{
@@ -263,7 +263,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function splitFiles($file)
 	{
@@ -315,7 +315,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  array           Mapping data.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function processMapping($header, $data)
 	{
@@ -333,7 +333,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function processImport($table, $data)
 	{
@@ -362,7 +362,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function doEncodingData(&$data = array())
 	{
@@ -389,7 +389,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function doFormatNumber(&$data = array())
 	{

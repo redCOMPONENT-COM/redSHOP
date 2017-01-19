@@ -12,9 +12,9 @@ jimport('joomla.filesystem.file');
 /**
  * Library for Redshop E-conomic.
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  *
- * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic instead
+ * @deprecated  2.0.3 Use RedshopEconomic instead
  */
 class economic
 {
@@ -78,7 +78,7 @@ class economic
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createUserInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createUserInEconomic() instead
 	 */
 	public function createUserInEconomic($row = array(), $data = array())
 	{
@@ -95,7 +95,7 @@ class economic
 	 *
 	 * @return  null/array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createProductGroupInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createProductGroupInEconomic() instead
 	 */
 	public function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isvat = 0)
 	{
@@ -109,7 +109,7 @@ class economic
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createProductInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createProductInEconomic() instead
 	 */
 	public function createProductInEconomic($row = array())
 	{
@@ -123,7 +123,7 @@ class economic
 	 *
 	 * @return  integer
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::getTotalProperty() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::getTotalProperty() instead
 	 */
 	public function getTotalProperty($productId)
 	{
@@ -138,7 +138,7 @@ class economic
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createPropertyInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createPropertyInEconomic() instead
 	 */
 	public function createPropertyInEconomic($prdrow = array(), $row = array())
 	{
@@ -153,7 +153,7 @@ class economic
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createSubpropertyInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createSubpropertyInEconomic() instead
 	 */
 	public function createSubpropertyInEconomic($prdrow = array(), $row = array())
 	{
@@ -167,7 +167,7 @@ class economic
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::importStockFromEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::importStockFromEconomic() instead
 	 */
 	public function importStockFromEconomic($prdrow = array())
 	{
@@ -184,7 +184,7 @@ class economic
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createShippingRateInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createShippingRateInEconomic() instead
 	 */
 	public function createShippingRateInEconomic($shipping_number, $shipping_name, $shipping_rate = 0, $isvat = 1)
 	{
@@ -196,7 +196,7 @@ class economic
 	 *
 	 * @return  integer
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::getMaxDebtorInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::getMaxDebtorInEconomic() instead
 	 */
 	public function getMaxDebtorInEconomic()
 	{
@@ -208,7 +208,7 @@ class economic
 	 *
 	 * @return  integer
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::getMaxOrderNumberInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::getMaxOrderNumberInEconomic() instead
 	 */
 	public function getMaxOrderNumberInEconomic()
 	{
@@ -223,7 +223,7 @@ class economic
 	 *
 	 * @return  boolean/string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createInvoiceInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createInvoiceInEconomic() instead
 	 */
 	public function createInvoiceInEconomic($order_id, $data = array())
 	{
@@ -239,7 +239,7 @@ class economic
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createInvoiceLineInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createInvoiceLineInEconomic() instead
 	 */
 	public function createInvoiceLineInEconomic($orderitem = array(), $invoice_no = "", $user_id = 0)
 	{
@@ -254,7 +254,7 @@ class economic
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createGiftCardInvoiceLineInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createGiftCardInvoiceLineInEconomic() instead
 	 */
 	public function createGFInvoiceLineInEconomic($orderitem = array(), $invoice_no = "")
 	{
@@ -270,7 +270,7 @@ class economic
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createInvoiceLineInEconomicAsProduct() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createInvoiceLineInEconomicAsProduct() instead
 	 */
 	public function createInvoiceLineInEconomicAsProduct($orderitem = array(), $invoice_no = "", $user_id = 0)
 	{
@@ -285,7 +285,7 @@ class economic
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createInvoiceShippingLineInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createInvoiceShippingLineInEconomic() instead
 	 */
 	public function createInvoiceShippingLineInEconomic($ship_method_id = "", $invoice_no = "")
 	{
@@ -303,7 +303,7 @@ class economic
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createInvoiceDiscountLineInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createInvoiceDiscountLineInEconomic() instead
 	 */
 	public function createInvoiceDiscountLineInEconomic($orderdetail = array(), $invoice_no = "", $data = array(), $isPaymentDiscount = 0,
 		$isVatDiscount = 0)
@@ -318,7 +318,7 @@ class economic
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::renewInvoiceInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::renewInvoiceInEconomic() instead
 	 */
 	public function renewInvoiceInEconomic($orderdata)
 	{
@@ -332,7 +332,7 @@ class economic
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::deleteInvoiceInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::deleteInvoiceInEconomic() instead
 	 */
 	public function deleteInvoiceInEconomic($orderdata = array())
 	{
@@ -346,7 +346,7 @@ class economic
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::checkInvoiceDraftorBookInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::checkInvoiceDraftorBookInEconomic() instead
 	 */
 	public function checkInvoiceDraftorBookInEconomic($orderdetail)
 	{
@@ -361,7 +361,7 @@ class economic
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::updateInvoiceDateInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::updateInvoiceDateInEconomic() instead
 	 */
 	public function updateInvoiceDateInEconomic($orderdetail, $bookinvoicedate = 0)
 	{
@@ -377,7 +377,7 @@ class economic
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::bookInvoiceInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::bookInvoiceInEconomic() instead
 	 */
 	public function bookInvoiceInEconomic($order_id, $checkOrderStatus = 1, $bookinvoicedate = 0)
 	{
@@ -392,7 +392,7 @@ class economic
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::updateInvoiceNumber() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::updateInvoiceNumber() instead
 	 */
 	public function updateInvoiceNumber($order_id = 0, $invoice_no = 0)
 	{
@@ -406,7 +406,7 @@ class economic
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::updateBookInvoice() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::updateBookInvoice() instead
 	 */
 	public function updateBookInvoice($order_id = 0)
 	{
@@ -421,7 +421,7 @@ class economic
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::updateBookInvoiceNumber() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::updateBookInvoiceNumber() instead
 	 */
 	public function updateBookInvoiceNumber($order_id = 0, $bookinvoice_number = 0)
 	{
@@ -435,7 +435,7 @@ class economic
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::getProductByNumber() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::getProductByNumber() instead
 	 */
 	public function getProductByNumber($product_number = '')
 	{
@@ -451,7 +451,7 @@ class economic
 	 *
 	 * @return  integer
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::makeAccessoryOrder() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::makeAccessoryOrder() instead
 	 */
 	public function makeAccessoryOrder($invoice_no, $orderItem, $user_id = 0)
 	{
@@ -469,7 +469,7 @@ class economic
 	 *
 	 * @return  integer
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::makeAttributeOrder() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::makeAttributeOrder() instead
 	 */
 	public function makeAttributeOrder($invoice_no, $orderItem, $is_accessory = 0, $parent_section_id = 0, $user_id = 0)
 	{
@@ -485,7 +485,7 @@ class economic
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::createAttributeInvoiceLineInEconomic() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::createAttributeInvoiceLineInEconomic() instead
 	 */
 	public function createAttributeInvoiceLineInEconomic($invoice_no, $orderItem, $orderAttitem)
 	{
@@ -499,7 +499,7 @@ class economic
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::getEconomicTaxZone() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::getEconomicTaxZone() instead
 	 */
 	public function getEconomicTaxZone($country_code = "")
 	{
@@ -513,7 +513,7 @@ class economic
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEconomic::isEuCountry() instead
+	 * @deprecated  2.0.3 Use RedshopEconomic::isEuCountry() instead
 	 */
 	public function isEUCountry($country)
 	{

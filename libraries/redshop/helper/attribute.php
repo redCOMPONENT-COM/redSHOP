@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Libraries
  * @subpackage  Helpers
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 abstract class RedshopHelperAttribute
 {
@@ -34,7 +34,7 @@ abstract class RedshopHelperAttribute
 	 *
 	 * @return  string                       HTML content with replaced data.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(), $templateContent = '',
 		$attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1, $onlySelected = false)
@@ -567,7 +567,7 @@ abstract class RedshopHelperAttribute
 	 *
 	 * @return  string                      HTML content with replaced data.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function replaceAttributeWithCartData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(),
 		$templateContent = '', $attributeTemplate = null, $isChild = false, $onlySelected = false)
