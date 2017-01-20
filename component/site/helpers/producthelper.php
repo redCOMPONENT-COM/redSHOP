@@ -2014,7 +2014,7 @@ class productHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function getAdditionMediaImage($section_id = 0, $section = "", $mediaType = "images")
 	{
@@ -3302,7 +3302,7 @@ class productHelper
 	 *
 	 * @return mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct_Attribute::getProductAttribute() instead.
+	 * @deprecated  2.0.3  Use RedshopHelperProduct_Attribute::getProductAttribute() instead.
 	 */
 	public function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0,
 	                                    $notAttributeId = 0)
@@ -3324,7 +3324,7 @@ class productHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperProduct_Attribute::getAttributeProperties() instead.
+	 * @deprecated   2.0.3  Use RedshopHelperProduct_Attribute::getAttributeProperties() instead.
 	 */
 	public function getAttibuteProperty($propertyId = 0, $attributeId = 0, $productId = 0, $attributeSetId = 0, $required = 0, $notPropertyId = 0)
 	{
@@ -3389,7 +3389,7 @@ class productHelper
 	 *
 	 * @return  mixed                List of sub-properties data.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperProduct_Attribute::getAttributeSubProperties() instead
+	 * @deprecated  2.0.3  Use RedshopHelperProduct_Attribute::getAttributeSubProperties() instead
 	 */
 	public function getAttibuteSubProperty($subproperty_id = 0, $property_id = 0)
 	{
@@ -3462,7 +3462,7 @@ class productHelper
 	 *
 	 * @return  array                 List of accessories.
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperAccessory::getProductAccessories() instead.
+	 * @deprecated   2.0.3  Use RedshopHelperAccessory::getProductAccessories() instead.
 	 */
 	public function getProductAccessory($accessory_id = '', $product_id = '', $child_product_id = 0, $cid = 0)
 	{
@@ -4380,7 +4380,7 @@ class productHelper
 	 *
 	 * @since   1.6.1
 	 *
-	 * @deprecated   __DEPLOY_VERSION__     Use RedshopHelperAttribute::replaceAttributeWithCartData() instead
+	 * @deprecated   2.0.3     Use RedshopHelperAttribute::replaceAttributeWithCartData() instead
 	 */
 	public function replaceAttributewithCartData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(),
 	                                             $templateContent, $attributeTemplate = null, $isChild = false, $onlySelected = false)
@@ -4436,7 +4436,7 @@ class productHelper
 	 *
 	 * @since  1.6.1
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperAttribute::replaceAttributeData() instead.
+	 * @deprecated  2.0.3  Use RedshopHelperAttribute::replaceAttributeData() instead.
 	 */
 	public function replaceAttributeData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(), $templateContent,
 	                                     $attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1,$onlySelected = false)
@@ -6043,7 +6043,7 @@ class productHelper
 	 *
 	 * @since   1.5
 	 *
-	 * @deprecated  __DEPLOY_VERSION__    Use RedshopHelperWishlist::replaceWishlistTag() instead
+	 * @deprecated  2.0.3    Use RedshopHelperWishlist::replaceWishlistTag() instead
 	 */
 	public function replaceWishlistButton($productId = 0, $templateContent = '', $formId = '')
 	{

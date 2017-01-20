@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Abstract class for export plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class AbstractExportPlugin extends \JPlugin
 {
@@ -51,7 +51,7 @@ class AbstractExportPlugin extends \JPlugin
 	 *
 	 * @return  string  Path of temporary file.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected function getFilePath()
 	{
@@ -67,7 +67,7 @@ class AbstractExportPlugin extends \JPlugin
 	 *
 	 * @return  boolean      True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected function writeData($row, $mode = 'a+', &$handle = null)
 	{
@@ -106,7 +106,7 @@ class AbstractExportPlugin extends \JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected function processData(&$data)
 	{
@@ -118,7 +118,7 @@ class AbstractExportPlugin extends \JPlugin
 	 *
 	 * @return \JDatabaseQuery
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected function getQuery()
 	{
@@ -130,7 +130,7 @@ class AbstractExportPlugin extends \JPlugin
 	 *
 	 * @return int
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected function getTotal()
 	{
@@ -150,7 +150,7 @@ class AbstractExportPlugin extends \JPlugin
 	 *
 	 * @return array|mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected function getData($start, $limit)
 	{
@@ -168,7 +168,7 @@ class AbstractExportPlugin extends \JPlugin
 	 *
 	 * @return array|bool
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected function getHeader()
 	{
@@ -188,7 +188,7 @@ class AbstractExportPlugin extends \JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	protected function downloadFile()
 	{
@@ -250,7 +250,7 @@ class AbstractExportPlugin extends \JPlugin
 	 *
 	 * @return  int
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected function exporting($start, $limit)
 	{

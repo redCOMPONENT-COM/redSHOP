@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table.Page_Viewer
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopTablePage_Viewer extends RedshopTable
 {

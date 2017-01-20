@@ -25,7 +25,7 @@ class RedshopControllerState extends RedshopControllerForm
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function ajaxGetState()
 	{

@@ -491,7 +491,7 @@ class redhelper
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopHelperAccess::checkPortalCategoryPermission() instead.
+	 * @deprecated  2.0.3 Use RedshopHelperAccess::checkPortalCategoryPermission() instead.
 	 */
 	public function checkPortalCategoryPermission($cid = 0)
 	{
@@ -505,7 +505,7 @@ class redhelper
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperAccess::checkPortalProductPermission() instead
+	 * @deprecated   2.0.3  Use RedshopHelperAccess::checkPortalProductPermission() instead
 	 */
 	public function checkPortalProductPermission($pid = 0)
 	{
