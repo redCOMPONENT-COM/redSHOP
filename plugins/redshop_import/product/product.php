@@ -385,7 +385,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			return;
 		}
 
-		$categoryId   = !empty($data['category_id']) ? $data['category_id'] : 0;
+		$categoryId   = !empty($data['category_id']) ? $data['category_id'] : '';
 		$categoryName = !empty($data['category_name']) ? $data['category_name'] : '';
 
 		if (empty($categoryId) && empty($categoryName))
