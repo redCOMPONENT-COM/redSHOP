@@ -648,6 +648,18 @@ class Com_RedshopInstallerScript
 
 				// Force to enable redSHOP PDF - TcPDF plugin by anyways
 				$this->enablePlugin('tcpdf', 'redshop_pdf');
+
+				// Force to enable redSHOP Export - Category plugin by anyways
+				$this->enablePlugin('category', 'redshop_export');
+
+				// Force to enable redSHOP Export - Product plugin by anyways
+				$this->enablePlugin('product', 'redshop_export');
+
+				// Force to enable redSHOP Import - Category plugin by anyways
+				$this->enablePlugin('category', 'redshop_import');
+
+				// Force to enable redSHOP Import - Product plugin by anyways
+				$this->enablePlugin('product', 'redshop_export');
 			}
 		}
 	}
