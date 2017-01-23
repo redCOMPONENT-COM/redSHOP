@@ -9,7 +9,14 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * The Questions view
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Questions.View
+ *
+ * @since       _DEPLOY_VERSION__
+ */
 class RedshopViewProduct extends RedshopViewAdmin
 {
 	/**
@@ -43,18 +50,39 @@ class RedshopViewProduct extends RedshopViewAdmin
 	protected function addToolbar()
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
-		$layout = JRequest::getVar('layout');
 
-		if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
+		$layout = JFactory::getApplication()->input->getCmd('layout');
+		$user   = JFactory::getUser();
+
+		if (!in_array($layout, array('importproduct', 'importattribute', 'listing', 'ins_product')))
 		{
-			JToolbarHelper::addNew('product_detail.addRedirect');
-			JToolbarHelper::editList('product_detail.editRedirect');
-			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-			JToolBarHelper::deleteList();
-			JToolBarHelper::publishList();
-			JToolBarHelper::unpublishList();
-			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
-			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
+			if ($user->authorise('product.create', 'backend'))
+			{
+				JToolbarHelper::addNew('product_detail.addRedirect');
+			}
+
+			if ($user->authorise('product.edit', 'backend'))
+			{
+				JToolbarHelper::editList('product_detail.editRedirect');
+			}
+
+			if ($user->authorise('product.create', 'backend') && $user->authorise('product.edit', 'backend'))
+			{
+				JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+			}
+
+			if ($user->authorise('product.edit', 'backend'))
+			{
+				JToolBarHelper::deleteList();
+			}
+
+			if ($user->authorise('product.edit', 'backend'))
+			{
+				JToolBarHelper::publishList();
+				JToolBarHelper::unpublishList();
+				JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
+				JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
+			}
 		}
 
 		if ($layout == 'listing')
@@ -63,9 +91,26 @@ class RedshopViewProduct extends RedshopViewAdmin
 		}
 	}
 
+	/**
+	 * Display the States view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
 	public function display($tpl = null)
 	{
 		global $context;
+
+		if (!JFactory::getUser()->authorise('product.view', 'backend'))
+		{
+			$app = JFactory::getApplication();
+
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
+			$app->redirect('index.php?option=com_redshop');
+		}
 
 		$context = 'product_id';
 
