@@ -659,7 +659,7 @@ class Com_RedshopInstallerScript
 				$this->enablePlugin('category', 'redshop_import');
 
 				// Force to enable redSHOP Import - Product plugin by anyways
-				$this->enablePlugin('product', 'redshop_export');
+				$this->enablePlugin('product', 'redshop_import');
 			}
 		}
 	}
