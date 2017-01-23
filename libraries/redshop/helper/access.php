@@ -28,7 +28,7 @@ class RedshopHelperAccess
 	/**
 	 * Check access level of an user
 	 *
-	 * @param   integer  $groupId  Group ID of an user
+	 * @param   integer $groupId Group ID of an user
 	 *
 	 * @return  array
 	 *
@@ -52,9 +52,9 @@ class RedshopHelperAccess
 	/**
 	 * Check access level of a group users
 	 *
-	 * @param   string   $view     View name
-	 * @param   string   $task     Have 3 options: add/ edit/ remove
-	 * @param   integer  $groupId  Group ID
+	 * @param   string  $view    View name
+	 * @param   string  $task    Have 3 options: add/ edit/ remove
+	 * @param   integer $groupId Group ID
 	 *
 	 * @return  void
 	 *
@@ -82,8 +82,8 @@ class RedshopHelperAccess
 	/**
 	 * Get access level of group users
 	 *
-	 * @param   string   $view     View name
-	 * @param   integer  $groupId  Group ID
+	 * @param   string  $view    View name
+	 * @param   integer $groupId Group ID
 	 *
 	 * @return  void
 	 *
@@ -146,8 +146,8 @@ class RedshopHelperAccess
 	/**
 	 * Get access level of group add users
 	 *
-	 * @param   string   $view     View name
-	 * @param   integer  $groupId  Group ID
+	 * @param   string  $view    View name
+	 * @param   integer $groupId Group ID
 	 *
 	 * @return  void
 	 *
@@ -210,8 +210,8 @@ class RedshopHelperAccess
 	/**
 	 * Get access level of group edit users
 	 *
-	 * @param   string   $view     View name
-	 * @param   integer  $groupId  Group ID
+	 * @param   string  $view    View name
+	 * @param   integer $groupId Group ID
 	 *
 	 * @return  void
 	 *
@@ -274,8 +274,8 @@ class RedshopHelperAccess
 	/**
 	 * Get access level of group delete users
 	 *
-	 * @param   string   $view     View name
-	 * @param   integer  $groupId  Group ID
+	 * @param   string  $view    View name
+	 * @param   integer $groupId Group ID
 	 *
 	 * @return  void
 	 *
@@ -338,7 +338,7 @@ class RedshopHelperAccess
 	/**
 	 * Check permission for Products shopper group can access or can't access
 	 *
-	 * @param   int  $pid  Product id that need to be checked
+	 * @param   int $pid Product id that need to be checked
 	 *
 	 * @return  boolean
 	 *
@@ -374,7 +374,7 @@ class RedshopHelperAccess
 	/**
 	 * Check permission for Categories shopper group can access or can't access
 	 *
-	 * @param   int  $cid  Category id that need to be checked.
+	 * @param   int $cid Category id that need to be checked.
 	 *
 	 * @return  boolean
 	 *
