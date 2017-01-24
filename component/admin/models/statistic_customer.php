@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Backend
  * @subpackage  Models.Statistic Customer
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopModelStatistic_Customer extends RedshopModelList
 {

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopViewImport extends RedshopViewAdmin
 {
@@ -23,7 +23,7 @@ class RedshopViewImport extends RedshopViewAdmin
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected $imports;
 
@@ -34,7 +34,7 @@ class RedshopViewImport extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function display($tpl = null)
 	{

@@ -77,7 +77,7 @@ class RedshopHelperAccessory
 	 *
 	 * @return  array                 List of accessories.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getProductAccessories($accessoryId = '', $productId = '', $childProductId = 0, $categoryId = 0)
 	{

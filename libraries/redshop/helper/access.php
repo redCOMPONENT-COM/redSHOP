@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 
 defined('_JEXEC') or die;
@@ -14,14 +14,14 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper for Access Level
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopHelperAccess
 {
 	/**
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $portalCategories = array();
 
@@ -32,7 +32,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function checkAccessOfUser($groupId)
 	{
@@ -58,7 +58,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function checkGroupAccess($view, $task, $groupId)
 	{
@@ -87,7 +87,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getGroupAccess($view, $groupId)
 	{
@@ -151,7 +151,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getGroupAccessTaskAdd($view, $groupId)
 	{
@@ -215,7 +215,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getGroupAccessTaskEdit($view, $groupId)
 	{
@@ -279,7 +279,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getGroupAccessTaskDelete($view, $groupId)
 	{
@@ -342,7 +342,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function checkPortalProductPermission($pid = 0)
 	{
@@ -378,7 +378,7 @@ class RedshopHelperAccess
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function checkPortalCategoryPermission($cid = 0)
 	{

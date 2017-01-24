@@ -8,7 +8,7 @@ var browserSync = require('browser-sync');
 var del         = require('del');
 
 var group = 'redshop_import';
-var name  = 'manufacturer';
+var name  = 'related_product';
 
 var baseTask   = 'plugins.' + group + '.' + name;
 var extPath    = './plugins/' + group + '/' + name;
