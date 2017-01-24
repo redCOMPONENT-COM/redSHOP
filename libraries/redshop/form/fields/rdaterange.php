@@ -16,7 +16,7 @@ JLoader::import('redshop.library');
  *
  * @package     Redshop
  * @subpackage  Fields
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class JFormFieldRdaterange extends JFormField
 {

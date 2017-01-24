@@ -794,7 +794,7 @@ class rsUserHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperNewsletter::subscribe() instead
+	 * @deprecated  2.0.3  Use RedshopHelperNewsletter::subscribe() instead
 	 */
 	public function newsletterSubscribe($userId = 0, $data = array(), $sendMail = 0, $isNew = null)
 	{

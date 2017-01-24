@@ -69,6 +69,7 @@
       "field",
       "manufacturer",
       "product",
+      "product_stockroom_data",
       "related_product",
       "shipping_address",
       "shopper_group_attribute_price",
@@ -81,11 +82,11 @@
       "field",
       "manufacturer",
       "product",
+      "product_stockroom_data",
       "shipping_address",
       "shopper_group_product_price",
       "shopper_group_attribute_price",
       "user",
-      "product_stockroom_data",
       "related_product"
     ],
     "redshop_payment": [

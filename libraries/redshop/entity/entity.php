@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Base Entity.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 abstract class RedshopEntity extends RedshopEntityBase
 {
@@ -20,7 +20,7 @@ abstract class RedshopEntity extends RedshopEntityBase
 	 * Option of the component containing the tables. Example: com_content
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected $component = 'com_redshop';
 
@@ -28,7 +28,7 @@ abstract class RedshopEntity extends RedshopEntityBase
 	 * Asset of this for this entity
 	 *
 	 * @var    JTable
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected $asset;
 
@@ -41,7 +41,7 @@ abstract class RedshopEntity extends RedshopEntityBase
 	 *
 	 * @throws  InvalidArgumentException  If an array of RedshopbEntity is not received
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function entitiesToObjects(array $entities)
 	{

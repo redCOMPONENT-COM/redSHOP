@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Import model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopModelImport extends RedshopModel
 {
@@ -35,7 +35,7 @@ class RedshopModelImport extends RedshopModel
 	 *
 	 * @return  array  List of available imports.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function getImports()
 	{

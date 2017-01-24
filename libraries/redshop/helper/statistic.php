@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper Statistic
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 abstract class RedshopHelperStatistic
 {
@@ -21,7 +21,7 @@ abstract class RedshopHelperStatistic
 	 *
 	 * @return  bool  True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function recordPage()
 	{
@@ -81,7 +81,7 @@ abstract class RedshopHelperStatistic
 	 *
 	 * @return  bool  True on success. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function recordVisitor()
 	{

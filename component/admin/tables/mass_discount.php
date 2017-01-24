@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopTableMass_Discount extends RedshopTable
 {
@@ -511,7 +511,7 @@ class RedshopTableMass_Discount extends RedshopTable
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function getProductsFromManufacturer($id)
 	{
@@ -539,7 +539,7 @@ class RedshopTableMass_Discount extends RedshopTable
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	protected function updateProductsBaseDiscountProduct($data, $isNew = false, $oldItem = null)
 	{
