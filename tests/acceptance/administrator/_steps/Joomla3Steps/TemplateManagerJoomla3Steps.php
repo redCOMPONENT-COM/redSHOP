@@ -34,11 +34,14 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('New');
 		$I->waitForElement(\TemplateManagerJoomla3Page::$templateName,30);
 		$I->fillField(\TemplateManagerJoomla3Page::$templateName, $templateName);
-		$I->selectOptionInChosenById('template_section', $templateSection);
+		$I->click(['xpath' => "//div[@id='s2id_template_section']"]);
+		$I->fillField(['id' => "s2id_autogen1_search"], $templateSection);
+		$I->waitForElement(['xpath' => "//span[contains(text(), '" . $templateSection . "')]"], 30);
+		$I->click(['xpath' => "//span[contains(text(), '" . $templateSection . "')]"]);
 		$I->click('Save & Close');
 		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage,60,['id' => 'system-message-container']);
 		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage, ['id' => 'system-message-container']);
-		$I->filterListBySearching($templateName);
+		$I->filterListBySearching($templateName, ['id' => "filter"]);
 		$I->seeElement(['link' => strtolower($templateName)]);
 	}
 
@@ -55,7 +58,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=template');
 		$I->waitForText('Template Management', 30, ['css' => 'h1']);
-		$I->filterListBySearching($templateName);
+		$I->filterListBySearching($templateName, ['id' => "filter"]);
 		$I->click(\TemplateManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
 		$I->waitForElement(\TemplateManagerJoomla3Page::$templateName,30);
@@ -64,7 +67,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(\TemplateManagerJoomla3Page::$templateSuccessMessage,60,['id' => 'system-message-container']);
 		$I->see(\TemplateManagerJoomla3Page::$templateSuccessMessage, ['id' => 'system-message-container']);
 		$I->click('Reset');
-		$I->filterListBySearching($templateUpdatedName);
+		$I->filterListBySearching($templateUpdatedName, ['id' => "filter"]);
 		$I->seeElement(['link' => strtolower($templateUpdatedName)]);
 		$I->dontSeeElement(['link' => strtolower($templateName)]);
 	}
