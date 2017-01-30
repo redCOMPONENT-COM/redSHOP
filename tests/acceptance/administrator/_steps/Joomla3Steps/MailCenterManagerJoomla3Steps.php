@@ -129,6 +129,6 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$this->delete(new \MailCenterManagerJoomla3Page, $name, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
+		$this->delete(new \MailCenterManagerJoomla3Page, $name, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst, ['id' => 'filter']);
 	}
 }

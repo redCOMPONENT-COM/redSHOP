@@ -79,7 +79,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	 *
 	 * @return void
 	 */
-	public function delete($pageClass, $deleteItem, $resultRow, $check, $filterId = ['id' => 'filter'])
+	public function delete($pageClass, $deleteItem, $resultRow, $check, $filterId = ['id' => 'filter_search'])
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);

@@ -127,6 +127,6 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage('/administrator/index.php?option=com_redshop&view=template');
 		$I->waitForText('Template Management', 30, ['css' => 'h1']);
-		$this->delete(new \TemplateManagerJoomla3Page, $name, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst);
+		$this->delete(new \TemplateManagerJoomla3Page, $name, \TemplateManagerJoomla3Page::$firstResultRow, \TemplateManagerJoomla3Page::$selectFirst, ['id' => 'filter']);
 	}
 }
