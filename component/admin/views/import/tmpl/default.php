@@ -14,6 +14,7 @@ JHtml::script('com_redshop/jquery.fileupload.js', false, true);
 
 // @TODO: Move to config
 $allowFileTypes = array('text/csv', 'application/vnd.ms-excel');
+$allowFileExtensions = array('.csv');
 
 // @TODO: Move to config. In bytes.
 $allowMaxFileSize = 1000000;
@@ -64,13 +65,14 @@ foreach ($characterSets as $char => $name)
         var folder = '';
         var itemRun = 1;
         var allowFileType = ["<?php echo implode('","', $allowFileTypes) ?>"];
+        var allowFileExt = ["<?php echo implode('","', $allowFileExtensions) ?>"];
         var allowMaxFileSize = <?php echo $allowMaxFileSize ?>;
         var allowMinFileSize = <?php echo $allowMinFileSize ?>;
 
         (function ($) {
             $(document).ready(function () {
                 var $uploadProgress = $("#import_upload_progress");
-                var $uploadWrapper = $("#import_upload_progress_wrapper");
+                var $uploadWrapper  = $("#import_upload_progress_wrapper");
 
                 $("#import_plugins input[type='radio']").change(function (e) {
                     plugin = $(this).val();
@@ -114,7 +116,8 @@ foreach ($characterSets as $char => $name)
                         }
                     },
                     add: function (e, data) {
-                        if (allowFileType.indexOf(data.files[0].type) == -1) {
+                        if (allowFileType.indexOf(data.files[0].type) == -1
+                            && data.files[0].name.indexOf(allowFileExt) == -1) {
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
                             $("<p>").addClass("text-danger")
@@ -154,7 +157,6 @@ foreach ($characterSets as $char => $name)
                         $uploadProgress.html(progress + "%").css("width", progress + "%");
                     },
                     error: function (e, text, error) {
-                        $uploadWrapper.hide();
                         $("#import_plugins").removeClass("disabled muted");
                         $("#import_config").removeClass("disabled muted");
                         $("<p>").addClass("text-danger").text(error).appendTo($("#import_process_msg_body"));
@@ -237,7 +239,7 @@ foreach ($characterSets as $char => $name)
                     },
                     "JSON"
                 )
-                    .fail(function () {
+                    .fail(function(){
                         total = 0;
                         $("#import_count").html("");
                         $("#import_plugins").removeClass("disabled muted");
@@ -365,4 +367,3 @@ foreach ($characterSets as $char => $name)
 		<?php echo JHtml::_('form.token') ?>
     </form>
 <?php endif; ?>
-
