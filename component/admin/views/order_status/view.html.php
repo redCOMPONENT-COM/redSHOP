@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopViewOrder_Status extends RedshopViewAdmin
 {
@@ -48,7 +48,7 @@ class RedshopViewOrder_Status extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function display($tpl = null)
 	{

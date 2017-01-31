@@ -301,12 +301,12 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 
 		?>
-    <script type="text/javascript">
+	<script type="text/javascript">
 
-        window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>";
+		window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>";
 
-        window.close();
-    </script>
+		window.close();
+	</script>
 	<?php
 		exit;
 	}
@@ -331,25 +331,51 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 
 		?>
-    <script type="text/javascript">
+	<script type="text/javascript">
 
-        window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>";
+		window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>";
 
-        window.close();
-    </script>
+		window.close();
+	</script>
 	<?php
 		exit;
 	}
 
+	/**
+	 * Method for create stock note pdf
+	 *
+	 * @return  void
+	 */
 	public function createpdf()
 	{
-		$this->getView('order_detail', 'tcpdf');
+		if (!RedshopHelperPdf::isAvailablePdfPlugins())
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
+		}
+		else
+		{
+			$this->getView('order_detail', 'pdf');
+		}
+
 		parent::display();
 	}
 
+	/**
+	 * Method for create stock note pdf
+	 *
+	 * @return  void
+	 */
 	public function createpdfstocknote()
 	{
-		$this->getView('order_detail', 'stocknotepdf');
+		if (!RedshopHelperPdf::isAvailablePdfPlugins())
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
+		}
+		else
+		{
+			$this->getView('order_detail', 'stocknotepdf');
+		}
+
 		parent::display();
 	}
 

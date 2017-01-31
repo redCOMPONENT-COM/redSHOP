@@ -645,6 +645,21 @@ class Com_RedshopInstallerScript
 
 				// Force to enable redSHOP - System plugin by anyways
 				$this->enablePlugin('redshop', 'system');
+
+				// Force to enable redSHOP PDF - TcPDF plugin by anyways
+				$this->enablePlugin('tcpdf', 'redshop_pdf');
+
+				// Force to enable redSHOP Export - Category plugin by anyways
+				$this->enablePlugin('category', 'redshop_export');
+
+				// Force to enable redSHOP Export - Product plugin by anyways
+				$this->enablePlugin('product', 'redshop_export');
+
+				// Force to enable redSHOP Import - Category plugin by anyways
+				$this->enablePlugin('category', 'redshop_import');
+
+				// Force to enable redSHOP Import - Product plugin by anyways
+				$this->enablePlugin('product', 'redshop_import');
 			}
 		}
 	}
@@ -876,7 +891,13 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/component/admin/tables/mass_discount_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/tables/tax_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/views/supplier/tmpl/default.php',
-				JPATH_ADMINISTRATOR . '/component/admin/views/mass_discount/tmpl/default.php'
+				JPATH_ADMINISTRATOR . '/component/admin/views/mass_discount/tmpl/default.php',
+				JPATH_SITE . '/media/com_redshop/css/media.css',
+				JPATH_SITE . '/media/com_redshop/css/media-uncompressed.css',
+				JPATH_SITE . '/media/com_redshop/js/media.js',
+				JPATH_SITE . '/media/com_redshop/js/media-uncompressed.js',
+				JPATH_ADMINISTRATOR . '/component/admin/views/order_detail/view.tcpdf.php',
+				JPATH_LIBRARIES . '/redshop/helper/tcpdf.php'
 			);
 
 			array_push(
