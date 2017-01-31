@@ -157,6 +157,7 @@ foreach ($characterSets as $char => $name)
                         $uploadProgress.html(progress + "%").css("width", progress + "%");
                     },
                     error: function (e, text, error) {
+			$uploadWrapper.hide();
                         $("#import_plugins").removeClass("disabled muted");
                         $("#import_config").removeClass("disabled muted");
                         $("<p>").addClass("text-danger").text(error).appendTo($("#import_process_msg_body"));
@@ -239,7 +240,7 @@ foreach ($characterSets as $char => $name)
                     },
                     "JSON"
                 )
-                    .fail(function(){
+                    .fail(function () {
                         total = 0;
                         $("#import_count").html("");
                         $("#import_plugins").removeClass("disabled muted");
