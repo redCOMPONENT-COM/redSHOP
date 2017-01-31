@@ -51,7 +51,7 @@ class statistic
 	 *
 	 * @return  bool  True on success. False otherwise.
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperStatistic::recordVisitor() instead.
+	 * @deprecated   2.0.3  Use RedshopHelperStatistic::recordVisitor() instead.
 	 */
 	public function reshop_visitors()
 	{
@@ -63,7 +63,7 @@ class statistic
 	 *
 	 * @return  bool  True on success. False otherwise.
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperStatistic::recordPage() instead.
+	 * @deprecated   2.0.3  Use RedshopHelperStatistic::recordPage() instead.
 	 */
 	public function reshop_pageview()
 	{

@@ -14,28 +14,28 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Class Redshop Helper Product Attribute
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 abstract class RedshopHelperProduct_Attribute
 {
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $attributeProperties = array();
 
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $productAttributes = array();
 
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $subProperties = array();
 
@@ -138,7 +138,7 @@ abstract class RedshopHelperProduct_Attribute
 					->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.attribute_id = ap.attribute_id')
 					->where('ap.property_published = 1')
 					->order('ap.ordering ASC')
-					->order('ap.property_number ASC');
+					->order('ap.property_name ASC');
 
 				if ($attributeId != 0)
 				{
@@ -251,7 +251,8 @@ abstract class RedshopHelperProduct_Attribute
 					->leftJoin($db->qn('#__redshop_attribute_set', 'ast') . ' ON ast.attribute_set_id = a.attribute_set_id')
 					->where('a.attribute_name != ' . $db->q(''))
 					->where('a.attribute_published = 1')
-					->order('a.ordering ASC');
+					->order('a.ordering ASC')
+					->order('a.attribute_name ASC');
 
 				if ($attributeSetId != 0)
 				{
@@ -297,7 +298,7 @@ abstract class RedshopHelperProduct_Attribute
 	 *
 	 * @return  mixed                List of sub-properties data.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getAttributeSubProperties($subPropertyId = 0, $propertyId = 0)
 	{
@@ -323,7 +324,8 @@ abstract class RedshopHelperProduct_Attribute
 					$db->qn('#__redshop_product_attribute_property', 'p') . ' ON ' . $db->qn('p.property_id') . ' = ' . $db->qn('sp.subattribute_id')
 				)
 				->where($db->qn('sp.subattribute_published') . ' = 1')
-				->order($db->qn('sp.ordering') . ' ASC');
+				->order($db->qn('sp.ordering') . ' ASC')
+				->order($db->qn('sp.subattribute_color_name') . ' ASC');
 
 			if ($subPropertyId)
 			{

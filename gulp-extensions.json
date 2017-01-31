@@ -3,8 +3,7 @@
     "redshop"
   ],
   "libraries": [
-    "redshop",
-    "tcpdf"
+    "redshop"
   ],
   "modules": {
     "frontend": [
@@ -64,6 +63,32 @@
     "redshop_alert": [
       "alert"
     ],
+    "redshop_export": [
+      "attribute",
+      "category",
+      "field",
+      "manufacturer",
+      "product",
+      "product_stockroom_data",
+      "related_product",
+      "shipping_address",
+      "shopper_group_attribute_price",
+      "shopper_group_product_price",
+      "user"
+    ],
+    "redshop_import": [
+      "attribute",
+      "category",
+      "field",
+      "manufacturer",
+      "product",
+      "product_stockroom_data",
+      "shipping_address",
+      "shopper_group_product_price",
+      "shopper_group_attribute_price",
+      "user",
+      "related_product"
+    ],
     "redshop_payment": [
       "baokim",
       "cielo",
@@ -107,6 +132,11 @@
       "rs_payment_worldpay",
       "stripe"
     ],
+    "redshop_pdf": [
+      "dompdf",
+      "mpdf",
+      "tcpdf"
+    ],
     "redshop_product": [
       "CreateColorImage",
       "canonical",
@@ -129,7 +159,9 @@
       "uspsv4"
     ],
     "redshop_user": [
-      "registration_acymailing"
+      "cmc_integrate",
+      "registration_acymailing",
+      "joomlamailer_integrate"
     ],
     "redshop_vies_registration": [
       "rs_vies_registration"
