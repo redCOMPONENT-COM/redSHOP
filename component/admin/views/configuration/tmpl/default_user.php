@@ -13,11 +13,27 @@ defined('_JEXEC') or die;
 <fieldset class="adminform">
     <div class="row">
         <div class="col-sm-6">
-			<?php echo $this->loadTemplate('registration'); ?>
+			<?php
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_REGISTRATION'),
+					'content' => $this->loadTemplate('registration')
+				)
+			);
+			?>
         </div>
 
         <div class="col-sm-6">
-			<?php echo $this->loadTemplate('shopper_group'); ?>
+	        <?php
+	        echo RedshopLayoutHelper::render(
+		        'config.group',
+		        array(
+			        'title'   => JText::_('COM_REDSHOP_SHOPPER_GROUP_TAB'),
+			        'content' => $this->loadTemplate('shopper_group')
+		        )
+	        );
+	        ?>
         </div>
     </div>
 </fieldset>
