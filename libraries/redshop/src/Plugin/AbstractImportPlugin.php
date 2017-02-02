@@ -318,8 +318,7 @@ class AbstractImportPlugin extends \JPlugin
 	 * @since   2.0.3
 	 */
 	public function processMapping($header, $data)
-	{
-		$data = array_map("utf8_encode", $data);
+	{		
 		$data = array_map("trim", $data);
 
 		return array_combine($header, $data);
