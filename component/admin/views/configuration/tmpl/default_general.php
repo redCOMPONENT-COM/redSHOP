@@ -11,16 +11,36 @@ defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform">
     <div class="row">
-        <div class="col-sm-4">
-			<?php echo $this->loadTemplate('settings'); ?>
+        <div class="col-sm-6">
+			<?php
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_STORE_SETTINGS'),
+					'content' => $this->loadTemplate('settings')
+				)
+			);
+			?>
         </div>
 
-        <div class="col-sm-4">
-	        <?php echo $this->loadTemplate('modules'); ?>
-        </div>
+        <div class="col-sm-6">
+			<?php
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_GENERAL_LAYOUT_SETTING'),
+					'content' => $this->loadTemplate('general_layout_settings')
+				)
+			);
 
-        <div class="col-sm-4">
-	        <?php echo $this->loadTemplate('general_layout_settings'); ?>
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_MODULES_AND_FEATURES'),
+					'content' => $this->loadTemplate('modules')
+				)
+			);
+			?>
         </div>
     </div>
 </fieldset>

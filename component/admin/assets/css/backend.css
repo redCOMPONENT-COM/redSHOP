@@ -13965,7 +13965,6 @@ fieldset[disabled] .btn-yahoo.active {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  width: auto !important;
   min-width: 100px !important;
 }
 
@@ -16436,7 +16435,8 @@ table.admintable td {
 }
 
 table.admintable td input[type="text"],
-.adminform .form-group input[type="text"] {
+.adminform .form-group input[type="text"],
+.adminform .form-group input[type="number"]{
   box-shadow: none;
   padding: 8px 10px;
 }
