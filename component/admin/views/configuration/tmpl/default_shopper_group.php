@@ -26,27 +26,33 @@ echo RedshopLayoutHelper::render(
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(
-		'title' => JText::_('COM_REDSHOP_URL_AFTER_PORTAL_LOGIN'),
-		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_URL_AFTER_PORTAL_LOGIN'),
-		'field' => $this->lists['url_after_portal_login']
+		'title'  => JText::_('COM_REDSHOP_URL_AFTER_PORTAL_LOGIN'),
+		'desc'   => JText::_('COM_REDSHOP_TOOLTIP_URL_AFTER_PORTAL_LOGIN'),
+		'showOn' => 'portal_shop:1',
+		'id'     => 'url_after_portal_login',
+		'field'  => $this->lists['url_after_portal_login']
 	)
 );
 
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(
-		'title' => JText::_('COM_REDSHOP_URL_AFTER_PORTAL_LOGOUT'),
-		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_URL_AFTER_PORTAL_LOGOUT'),
-		'field' => $this->lists['url_after_portal_logout']
+		'title'  => JText::_('COM_REDSHOP_URL_AFTER_PORTAL_LOGOUT'),
+		'desc'   => JText::_('COM_REDSHOP_TOOLTIP_URL_AFTER_PORTAL_LOGOUT'),
+		'showOn' => 'portal_shop:1',
+		'id'     => 'url_after_portal_logout',
+		'field'  => $this->lists['url_after_portal_logout']
 	)
 );
 
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(
-		'title' => JText::_('COM_REDSHOP_DEFAULT_PORTAL_NAME_LBL'),
-		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_PORTAL_NAME'),
-		'field' => '<input type="text" name="default_portal_name" id="default_portal_name" class="form-control"
+		'title'  => JText::_('COM_REDSHOP_DEFAULT_PORTAL_NAME_LBL'),
+		'desc'   => JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_PORTAL_NAME'),
+		'showOn' => 'portal_shop:1',
+		'id'     => 'default_portal_name',
+		'field'  => '<input type="text" name="default_portal_name" id="default_portal_name" class="form-control"
                    value="' . $this->config->get('DEFAULT_PORTAL_NAME') . '"/>'
 	)
 );
@@ -69,9 +75,11 @@ if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $defaultPortalLogo))
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(
-		'title' => JText::_('COM_REDSHOP_DEFAULT_PORTAL_LOGO_LBL'),
-		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_PORTAL_LOGO_LBL'),
-		'field' => $html
+		'title'  => JText::_('COM_REDSHOP_DEFAULT_PORTAL_LOGO_LBL'),
+		'desc'   => JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_PORTAL_LOGO_LBL'),
+		'showOn' => 'portal_shop:1',
+		'id'     => 'default_portal_logo',
+		'field'  => $html
 	)
 );
 
