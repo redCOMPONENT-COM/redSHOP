@@ -71,7 +71,6 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title'  => JText::_('COM_REDSHOP_APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT_LBL'),
 		'desc'   => JText::_('COM_REDSHOP_TOOLTIP_APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT_LBL'),
-		'line'   => false,
 		'field'  => $this->lists['apply_voucher_coupon_already_discount'],
 		'id'     => 'apply_voucher_coupon_already_discount',
 		'showOn' => 'discount_enable:1'

@@ -297,8 +297,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" size="1"', $this->config->get('WATERMARK_MANUFACTURER_IMAGE')
 		);
 		$lists['clickatell_enable']                   = JHtml::_('redshopselect.booleanlist', 'clickatell_enable', 'class="form-control" size="1"', $this->config->get('CLICKATELL_ENABLE'));
-		$lists['quotation_mode']                      = JHtml::_('redshopselect.booleanlist', 'default_quotation_mode',
-			'onclick="return quote_price(this.value);" class="form-control" size="1"',
+		$lists['quotation_mode']                      = JHtml::_('redshopselect.booleanlist', 'default_quotation_mode', 'class="form-control" size="1"',
 			$this->config->get('DEFAULT_QUOTATION_MODE_PRE'), $yes = JText::_('COM_REDSHOP_ON'),
 			$no = JText::_('COM_REDSHOP_OFF')
 		);
@@ -724,10 +723,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$order_mail_after[2]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT');
 
 		$lists['order_mail_after'] = JHtml::_(
-			'redshopselect.radiolist',
+			'select.genericlist',
 			$order_mail_after,
 			'order_mail_after',
-			'',
+			' class="form-control"',
 			'value',
 			'text',
 			$this->config->get('ORDER_MAIL_AFTER')
