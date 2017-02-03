@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 ?>
 <div class="row adminform">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
 		<?php
 		echo RedshopLayoutHelper::render(
 			'config.group',
@@ -18,6 +18,10 @@ defined('_JEXEC') or die;
 				'content' => $this->loadTemplate('rating_settings')
 			)
 		);
+		?>
+    </div>
+    <div class="col-sm-4">
+		<?php
 		echo RedshopLayoutHelper::render(
 			'config.group',
 			array(
@@ -27,7 +31,7 @@ defined('_JEXEC') or die;
 		);
 		?>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-4">
 		<?php
 		echo RedshopLayoutHelper::render(
 			'config.group',

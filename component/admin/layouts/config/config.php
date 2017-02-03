@@ -33,35 +33,9 @@ $id   = (isset($id)) ? $id : '';
 	$fieldValue = $showOn[1];
 	?>
     <script type="text/javascript">
-        (function ($) {
-            $(document).ready(function () {
-                if ($('input[name="<?php echo $fieldName ?>"]').length) {
-                    var inputType = $('input[name="<?php echo $fieldName ?>"]').attr('type');
-                    var inputVal  = '';
-
-                    if (inputType == "radio") {
-                        inputVal = $('input[name="<?php echo $fieldName ?>"]:checked').val();
-                    }
-                    else {
-                        inputVal = $('input[name="<?php echo $fieldName ?>"]').val();
-                    }
-
-                    if (inputVal == "<?php echo $fieldValue ?>") {
-                        $("#<?php echo $id ?>-wrapper").show().next("hr").show();
-                    }
-                    else {
-                        $("#<?php echo $id ?>-wrapper").hide().next("hr").hide();
-                    }
-
-                    $('input[name="<?php echo $fieldName ?>"]').on('change', function (event) {
-                        if ($(this).val() == "<?php echo $fieldValue ?>") {
-                            $("#<?php echo $id ?>-wrapper").show().next("hr").show();
-                        }
-                        else {
-                            $("#<?php echo $id ?>-wrapper").hide().next("hr").hide();
-                        }
-                    });
-                }
+        (function($){
+            $(document).ready(function(){
+                rsConfigShowOn("<?php echo $fieldName ?>","<?php echo $fieldValue ?>","<?php echo $id ?>-wrapper");
             });
         })(jQuery);
     </script>

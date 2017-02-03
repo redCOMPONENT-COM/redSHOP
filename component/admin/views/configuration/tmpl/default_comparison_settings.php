@@ -8,9 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-?>
-<legend class="no-border text-danger"><?php echo JText::_('COM_REDSHOP_COMPARISON_SETTINGS'); ?></legend>
-<?php
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(
@@ -25,7 +22,9 @@ echo RedshopLayoutHelper::render(
 		'title' => JText::_('COM_REDSHOP_PRODUCT_COMPARE_LIMIT_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_LIMIT_LBL'),
 		'field' => '<input type="number" name="product_compare_limit" id="product_compare_limit" class="form-control"
-					value="' . $this->config->get('PRODUCT_COMPARE_LIMIT') . '" />'
+					value="' . $this->config->get('PRODUCT_COMPARE_LIMIT') . '" />',
+		'id'     => 'product_compare_limit',
+		'showOn' => 'compare_products:1'
 	)
 );
 echo RedshopLayoutHelper::render(
@@ -33,22 +32,30 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_PRODUCT_COMPARISON_TYPE_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARISON_TYPE_LBL'),
-		'field' => $this->lists['product_comparison_type']
+		'field' => $this->lists['product_comparison_type'],
+		'id'     => 'product_comparison_type',
+		'showOn' => 'compare_products:1'
 	)
 );
-?>
-<legend class="no-border text-danger"><?php echo JText::_('COM_REDSHOP_COMPARISON_LAYOUT'); ?></legend>
-<?php
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(
 		'title' => JText::_('COM_REDSHOP_COMPARE_PRODUCT_TEMPLATE_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_COMPARE_PRODUCT_TEMPLATE'),
-		'field' => $this->lists['compare_template_id']
+		'field' => $this->lists['compare_template_id'],
+		'id'     => 'compare_template_id',
+		'showOn' => 'compare_products:1'
 	)
 );
 ?>
-<div class="row">
+<script type="text/javascript">
+    (function($){
+        $(document).ready(function(){
+            rsConfigShowOn("compare_products","1","compare_product_thumb_width_height-wrapper");
+        });
+    })(jQuery);
+</script>
+<div class="row" id="compare_product_thumb_width_height-wrapper">
     <div class="form-group">
         <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_COMPARE_PRODUCT_THUMB_WIDTH_LBL'); ?>">
 			<?php echo JText::_('COM_REDSHOP_COMPARE_PRODUCT_THUMB_WIDTH_HEIGHT'); ?>
