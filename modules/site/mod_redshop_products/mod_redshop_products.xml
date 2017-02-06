@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDSHOP_PRODUCTS</name>
-    <version>1.6</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <version>1.6.1</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>November 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Product Module for redSHOP</description>
+    <description>MOD_REDSHOP_PRODUCTS</description>
     <files>
         <filename module="mod_redshop_products">mod_redshop_products.php</filename>
-        <filename>index.html</filename>
-        <folder>tmpl</folder>
-        <folder>css</folder>
-        <folder>images</folder>
+        <filename module="mod_redshop_products">helper.php</filename>
+        <filename module="mod_redshop_products">index.html</filename>
+        <folder module="mod_redshop_products">tmpl</folder>
+        <folder module="mod_redshop_products">language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_products.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_products.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_products.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_products.sys.ini</language>
-        <language tag="de-DE">language/de-DE/de-DE.mod_redshop_products.ini</language>
-        <language tag="de-DE">language/de-DE/de-DE.mod_redshop_products.sys.ini</language>
-        <language tag="it-IT">language/it-IT/it-IT.mod_redshop_products.ini</language>
-        <language tag="it-IT">language/it-IT/it-IT.mod_redshop_products.sys.ini</language>
-    </languages>
+    <media folder="media">
+        <folder>mod_redshop_products</folder>
+    </media>
+    <scriptfile>install.php</scriptfile>
     <config>
         <fields name="params" addfieldpath="/libraries/redshop/form/fields">
             <fieldset name="basic">
