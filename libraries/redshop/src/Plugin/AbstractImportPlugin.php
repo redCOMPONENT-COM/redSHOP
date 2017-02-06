@@ -103,6 +103,11 @@ class AbstractImportPlugin extends \JPlugin
 			return null;
 		}
 
+		if (!empty($data) && !empty($data['separator']))
+		{
+			$this->separator = $data['separator'];
+		}
+
 		$this->folder = md5(time());
 
 		if (\JFolder::exists($this->getPath()))
