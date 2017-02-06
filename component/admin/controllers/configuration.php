@@ -92,36 +92,31 @@ class RedshopControllerConfiguration extends RedshopController
 
 		$post['menuhide'] = implode(',', $this->input->post->get('menuhide', array(), 'ARRAY'));
 
-		if (isset($post['product_download_root']))
+		if (isset($post['product_download_root']) && !is_dir($post['product_download_root']))
 		{
-			if (!is_dir($post['product_download_root']))
-			{
-				$msg = "";
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DIRECTORY_DOES_NO_EXIST'), 'error');
-			}
-			else
-			{
-				if ($model->store($post))
-				{
-					$msg = JText::_('COM_REDSHOP_CONFIG_SAVED');
+			$msg = "";
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DIRECTORY_DOES_NO_EXIST'), 'error');
+		}
+		elseif ($model->store($post))
+		{
+			$msg = JText::_('COM_REDSHOP_CONFIG_SAVED');
 
-					if ($newsletter_test_email)
-					{
-						$model->newsletterEntry($post);
-						$msg = JText::sprintf('COM_REDSHOP_NEWSLETTER_SEND_TO_TEST_EMAIL', $newsletter_test_email);
-					}
-
-					// Thumb folder deleted and created
-					if ($post['image_quality_output'] != IMAGE_QUALITY_OUTPUT || $post['use_image_size_swapping'] != Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'))
-					{
-						$this->removeThumbImages();
-					}
-				}
-				else
-				{
-					$msg = JText::_('COM_REDSHOP_ERROR_IN_CONFIG_SAVE');
-				}
+			if ($newsletter_test_email)
+			{
+				$model->newsletterEntry($post);
+				$msg = JText::sprintf('COM_REDSHOP_NEWSLETTER_SEND_TO_TEST_EMAIL', $newsletter_test_email);
 			}
+
+			// Thumb folder deleted and created
+			if ($post['image_quality_output'] != IMAGE_QUALITY_OUTPUT
+				|| $post['use_image_size_swapping'] != Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'))
+			{
+				$this->removeThumbImages();
+			}
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_IN_CONFIG_SAVE');
 		}
 
 		if ($apply)

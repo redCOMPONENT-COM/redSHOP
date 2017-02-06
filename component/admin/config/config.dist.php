@@ -362,4 +362,8 @@ class RedshopConfig {
 	public $LOAD_REDSHOP_STYLE = '0';
 	public $BACKWARD_COMPATIBLE_JS = '0';
 	public $BACKWARD_COMPATIBLE_PHP = '0';
+	public $IMPORT_MAX_FILE_SIZE = '2000000';
+	public $IMPORT_MAX_MIN_SIZE = '1';
+	public $IMPORT_FILE_MIME = 'text/csv,application/vnd.ms-excel';
+	public $IMPORT_FILE_EXTENSION = '.csv';
 }
