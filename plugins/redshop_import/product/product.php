@@ -45,16 +45,6 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	protected $numberColumns = array('product_price');
 
 	/**
-	 * Set the separator before anything else is called
-	 */
-	public function __construct(&$subject, $config = array())
-	{
-		parent::__construct($subject, $config);
-		$input           = JFactory::getApplication()->input;
-		$this->separator = $input->getString('separator', ',');
-	}
-
-	/**
 	 * Event run when user load config for export this data.
 	 *
 	 * @return  string
@@ -104,7 +94,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Process mapping data.
 	 *
-	 * @param   array  $header Header array
+	 * @param   array  $header  Header array
 	 * @param   array  $data    Data array
 	 *
 	 * @return  array           Mapping data.
