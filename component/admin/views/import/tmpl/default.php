@@ -279,38 +279,23 @@ foreach ($characterSets as $char => $name)
                     <div class="panel-body">
                         <div id="import_config">
                             <fieldset class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">
-										<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MIN_FILE_SIZE') ?>
-                                    </label>
-                                    <div class="col-md-10">
-										<?php echo number_format($allowMinFileSize) ?> bytes
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">
-										<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_FILE_SIZE') ?>
-                                    </label>
-                                    <div class="col-md-10">
-										<?php echo number_format($allowMaxFileSize) ?> bytes
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">
-										<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_MIME') ?>
-                                    </label>
-                                    <div class="col-md-10">
-										<?php echo implode(',', $allowFileTypes) ?>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-2 control-label">
-										<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_EXTENSION') ?>
-                                    </label>
-                                    <div class="col-md-10">
-										<?php echo implode(',', $allowFileExtensions) ?>
-                                    </div>
-                                </div>
+                                <p>
+									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MIN_FILE_SIZE') ?>:&nbsp;
+                                    <span class="text-primary"><?php echo number_format($allowMinFileSize) ?> bytes</span>
+                                </p>
+                                <p>
+									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_FILE_SIZE') ?>:&nbsp;
+                                    <span class="text-primary"><?php echo number_format($allowMaxFileSize) ?> bytes</span>
+                                </p>
+                                <p>
+									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_MIME') ?>:&nbsp;
+                                    <span class="text-primary"><?php echo implode(', ', $allowFileTypes) ?></span>
+                                </p>
+                                <p>
+									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_EXTENSION') ?>:&nbsp;
+                                    <span class="text-primary"><?php echo implode(', ', $allowFileExtensions) ?></span>
+                                </p>
+                                <p class="help-block"><?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_HELP') ?></p>
                                 <hr/>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">
