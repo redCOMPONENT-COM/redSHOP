@@ -157,12 +157,12 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			$data['product_on_sale'] = !isset($data['product_on_sale']) ? 0 : (int) $data['product_on_sale'];
 		}
 
-		if (false != strpos($data['product_price'], ','))
+		if (false !== strpos($data['product_price'], ','))
 		{
 			$data['product_price'] = str_replace(',', '.', $data['product_price']);
 		}
 
-		if (false != strpos($data['discount_price'], ','))
+		if (false !== strpos($data['discount_price'], ','))
 		{
 			$data['discount_price'] = str_replace(',', '.', $data['discount_price']);
 		}
