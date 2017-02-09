@@ -40,7 +40,14 @@ class RedshopFormFieldState extends JFormFieldList
 			->select($db->qn($key, 'value'))
 			->select($db->qn('state_name', 'text'))
 			->select($db->qn('country_id'))
-			->from($db->qn('#__redshop_state'));
+			->from($db->qn('#__redshop_state', 's'));
+
+		if (!empty($this->form->getData()->get('tax_country')))
+    	{
+    		$query->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('s.country_id') . ' = ' . $db->qn('c.id'))
+    		    ->where($db->qn('c.country_3_code') . ' = ' . $db->q($this->form->getData()->get('tax_country')));
+    	}
+
 		$options = $db->setQuery($query)->loadObjectList();
 
 		$fieldName = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
