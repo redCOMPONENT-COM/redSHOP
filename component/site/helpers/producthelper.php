@@ -1126,14 +1126,10 @@ class productHelper
 		}
 
 		$altText = $this->getAltText('product', $product_id, $product_image);
+		$altText = empty($altText) ? $product->product_name : $altText;
 
-		if ($altText)
-		{
-			$product->product_name = $altText;
-		}
-
-		$title = " title='" . $product->product_name . "' ";
-		$alt   = " alt='" . $product->product_name . "' ";
+		$title = " title='" . $altText . "' ";
+		$alt   = " alt='" . $altText . "' ";
 
 		$cat_product_hover = false;
 
