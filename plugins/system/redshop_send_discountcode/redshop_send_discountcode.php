@@ -69,7 +69,8 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 	 */
 	public function onAjaxRedShop_SendDiscountCodeByMail()
 	{
-		$config = JFactory::getConfig();
+		$productHelper = productHelper::getInstance();
+		$config        = JFactory::getConfig();
 
 		if (!$config->get('mailonline'))
 		{
@@ -105,16 +106,29 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 		$discountId = $jinput->getInt('discountId', '');
 
 		// Get Code
-		$discountCode = $this->getDiscountCode($discountId, $view);
+		$discountDetail = $this->getDiscountCode($discountId, $view);
 
-		$mailBody = str_replace('{discount_code}', $discountCode, $mailBody);
-
-		if (!RedshopHelperMail::sendEmail($from, $fromName, $email, $subject, $mailBody, true, null, $mailBcc))
+		if ($discountDetail)
 		{
-			JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+			$value = $productHelper->getProductFormattedPrice($discountDetail->value);
 
-			return false;
+			if ($discountDetail->type == '1' || $discountDetail->type == 'Percentage')
+			{
+				$value = number_format($discountDetail->value) . "%";
+			}
+
+			$mailBody = str_replace('{discount_code}', $discountDetail->code, $mailBody);
+			$mailBody = str_replace('{discount_value}', $value, $mailBody);
+
+			if (!RedshopHelperMail::sendEmail($from, $fromName, $email, $subject, $mailBody, true, null, $mailBcc))
+			{
+				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+
+				return false;
+			}
 		}
+
+
 
 		return true;
 	}
@@ -168,18 +182,32 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 
 		if ($type == "voucher")
 		{
-			$query->select($db->qn('voucher_code'))
+			$query->select(
+					array
+					(
+						$db->qn('voucher_code', 'code'),
+						$db->qn('amount', 'value'),
+						$db->qn('voucher_type', 'type'),
+					)
+				)
 				->from($db->qn('#__redshop_product_voucher'))
 				->where($db->qn('voucher_id') . ' = ' . (int) $id);
 		}
 		else
 		{
-			$query->select($db->qn('coupon_code'))
+			$query->select(
+					array
+					(
+						$db->qn('coupon_code', 'code'),
+						$db->qn('coupon_value', 'value'),
+						$db->qn('percent_or_total', 'type'),
+					)
+				)
 				->from($db->qn('#__redshop_coupons'))
 				->where($db->qn('coupon_id') . ' = ' . (int) $id);
 		}
 
-		$result = $db->setQuery($query)->loadResult();
+		$result = $db->setQuery($query)->loadObject();
 
 		return $result;
 	}
