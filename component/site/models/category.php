@@ -219,9 +219,7 @@ class RedshopModelCategory extends RedshopModel
 		$item            = $menu->getActive();
 		$manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
 		$manufacturer_id = $app->input->getInt('manufacturer_id', $manufacturer_id, '', 'int');
-
 		$layout          = $app->input->getCmd('layout');
-		$orderby         = ($layout != "categoryproduct") ? $this->_buildContentOrderBy() : "";
 
 		$query = $db->getQuery(true);
 		$query->select(
@@ -233,8 +231,12 @@ class RedshopModelCategory extends RedshopModel
 			->from($db->qn('#__redshop_category', 'c'))
 			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('cx.category_child_id') . ' = ' . $db->qn('c.category_id'))
 			->where($db->qn('c.published') . ' = 1')
-			->where($db->qn('cx.category_parent_id') . ' = ' . (int) $this->_id)
-			->order($orderby);
+			->where($db->qn('cx.category_parent_id') . ' = ' . (int) $this->_id);
+
+		if ($layout != 'categoryproduct')
+		{
+			$query->order($this->_buildContentOrderBy());
+		}
 
 		if ($manufacturer_id)
 		{
