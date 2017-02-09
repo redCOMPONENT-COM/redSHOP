@@ -44,19 +44,19 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 
 		if (!$app->isAdmin())
 		{
-			return;
+			return true;
 		}
 
 		$jinput = $app->input;
 
 		if ($jinput->get('option', '') != 'com_redshop')
 		{
-			return;
+			return true;
 		}
 
 		if ($jinput->get('view', '') != 'voucher')
 		{
-			return;
+			return true;
 		}
 
 		JToolBarHelper::modal('popupSendDiscountCode', 'icon-send', JText::_('PLG_SYSTEM_REDSHOP_SEND_EMAIL_BUTTON'));
@@ -100,11 +100,11 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 		$app = JFactory::getApplication();
 		$jinput = $app->input;
 
-		$email        = $jinput->get('email', '');
-		$discountId = $jinput->get('discountId', '');
+		$email        = $jinput->getString('email', '');
+		$discountId = $jinput->getInt('discountId', '');
 
 		// Get Code
-
+		$discountCode = $this->getDiscountCode($discountId);
 
 		$mailBody = str_replace('{discount_code}', $discountCode, $mailBody);
 
@@ -150,4 +150,37 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 			JPATH_SITE . '/plugins/' . $this->_type . '/' . $this->_name . '/layouts'
 		);
 	}
+
+	/**
+	 * [getDiscountCode description]
+	 *
+	 * @param   int     $id    Discount ID
+	 * @param   string  $type  Voucher or Coupon
+	 *
+	 * @return  string         Discount Code
+	 */
+	private function getDiscountCode($id, $type = "voucher")
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true);
+
+		if ($type == "voucher")
+		{
+			$query->select($db->qn('voucher_code'))
+				->from($db->qn('#__redshop_product_voucher'))
+				->where($db->qn('voucher_id') . ' = ' . (int) $id);
+		}
+		else
+		{
+			$query->select($db->qn('coupon_code'))
+				->from($db->qn('#__redshop_product_coupons'))
+				->where($db->qn('coupon_id') . ' = ' . (int) $id);
+		}
+
+		$result = $db->setQuery($query)->loadResult();
+
+		return $result;
+	}
 }
+
