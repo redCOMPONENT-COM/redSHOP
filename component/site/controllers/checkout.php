@@ -89,6 +89,15 @@ class RedshopControllerCheckout extends RedshopController
 
 		$Itemid        = JRequest::getInt('Itemid');
 		$users_info_id = JRequest::getInt('users_info_id');
+		$rs_user = $session->get('rs_user');
+
+		if ($users_info_id)
+		{
+			$rs_user['rs_user_info_id'] = $users_info_id;
+		}
+
+		$rs_user = $session->set('rs_user', $rs_user);
+
 		$helper        = redhelper::getInstance();
 		$chk           = $this->chkvalidation($users_info_id);
 
@@ -580,18 +589,26 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function oneStepCheckoutProcess()
 	{
+		$session = JFactory::getSession();
+		$rs_user = $session->get('rs_user');
+		$post    = JRequest::get('post');
+		$users_info_id    = $post['users_info_id'];
+
+		if ($users_info_id)
+		{
+			$rs_user['rs_user_info_id'] = $users_info_id;
+			$rs_user = $session->set('rs_user', $rs_user);
+		}
+
 		$producthelper   = productHelper::getInstance();
 		$redTemplate     = Redtemplate::getInstance();
 		$carthelper      = rsCarthelper::getInstance();
 		$order_functions = order_functions::getInstance();
 
 		$model   = $this->getModel('checkout');
-		$post    = JRequest::get('post');
 		$user    = JFactory::getUser();
-		$session = JFactory::getSession();
 
 		$cart = $session->get('cart');
-		$users_info_id    = $post['users_info_id'];
 		$shipping_box_id  = $post['shipping_box_id'];
 		$shipping_rate_id = $post['shipping_rate_id'];
 		$customer_note    = $post['customer_note'];
