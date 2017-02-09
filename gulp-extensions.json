@@ -179,7 +179,8 @@
       "redgoogleanalytics",
       "redlightbox_slideshow",
       "redproductzoom",
-      "redshop"
+      "redshop",
+      "redshop_send_discountcode"
     ],
     "user": [
       "highrise"
