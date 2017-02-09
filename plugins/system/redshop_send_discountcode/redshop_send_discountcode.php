@@ -54,7 +54,7 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 			return true;
 		}
 
-		if ($jinput->get('view', '') != 'voucher')
+		if ($jinput->get('view', '') != 'voucher' && $jinput->get('view', '') != 'coupon')
 		{
 			return true;
 		}
@@ -101,10 +101,11 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 		$jinput = $app->input;
 
 		$email        = $jinput->getString('email', '');
+		$view        = $jinput->getString('view', '');
 		$discountId = $jinput->getInt('discountId', '');
 
 		// Get Code
-		$discountCode = $this->getDiscountCode($discountId);
+		$discountCode = $this->getDiscountCode($discountId, $view);
 
 		$mailBody = str_replace('{discount_code}', $discountCode, $mailBody);
 
@@ -174,7 +175,7 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 		else
 		{
 			$query->select($db->qn('coupon_code'))
-				->from($db->qn('#__redshop_product_coupons'))
+				->from($db->qn('#__redshop_coupons'))
 				->where($db->qn('coupon_id') . ' = ' . (int) $id);
 		}
 
