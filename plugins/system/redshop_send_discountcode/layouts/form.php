@@ -41,7 +41,7 @@ extract($displayData);
 
 		if (typeof discountId === "undefined")
 		{
-			alert('choose');
+			alert('<?php echo JText::_('PLG_SYSTEM_REDSHOP_SEND_DISCOUNT_CODE_CHOOSE_DISCOUNT_CODE') ?>');
 			return;
 		}
 
@@ -49,14 +49,15 @@ extract($displayData);
 
 		if (sendDiscountCodeEmail == "")
 		{
-			alert('email');
+			alert('<?php echo JText::_('PLG_SYSTEM_REDSHOP_SEND_DISCOUNT_CODE_INPUT_EMAIL') ?>');
 			return;
 		}
 
 		$.ajax({
 			url: "<?php echo JURI::root() ?>index.php?option=com_ajax&plugin=RedShop_SendDiscountCodeByMail&format=json&email=" + sendDiscountCodeEmail + "&discountId=" + discountId + "&view=<?php echo $view ?>"
 		}).done(function(data) {
-			alert(data)
+			alert('<?php echo JText::_('PLG_SYSTEM_REDSHOP_SEND_DISCOUNT_CODE_SENT') ?>');
+			jQuery("[data-dismiss=modal]").trigger({ type: "click" });
 		})
 	}
 </script>

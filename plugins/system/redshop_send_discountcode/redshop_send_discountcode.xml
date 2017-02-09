@@ -13,6 +13,7 @@
 	<files>
 		<filename plugin="redshop_send_discountcode">redshop_send_discountcode.php</filename>
 		<filename>index.html</filename>
+		<folder>layouts</folder>
 	</files>
 
 	<languages folder="language">
