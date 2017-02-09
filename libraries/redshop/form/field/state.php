@@ -44,8 +44,8 @@ class RedshopFormFieldState extends JFormFieldList
 
 		if (!empty($this->form->getData()->get('tax_country')))
     	{
-    		$query->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('s.country_id') . ' = ' . $db->qn('c.id'))
-    		    ->where($db->qn('c.country_3_code') . ' = ' . $db->q($this->form->getData()->get('tax_country')));
+			$query->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('s.country_id') . ' = ' . $db->qn('c.id'))
+			      ->where($db->qn('c.country_3_code') . ' = ' . $db->q($this->form->getData()->get('tax_country')));
     	}
 
 		$options = $db->setQuery($query)->loadObjectList();
