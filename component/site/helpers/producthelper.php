@@ -301,12 +301,14 @@ class productHelper
 
 				foreach ($catIds as $categoryId)
 				{
-					// Search by categories if configured or just take all
+					// Search by categories if configured
 					$categoriesSub[] = (
 						'FIND_IN_SET(' . $categoryId . ', dp.category_ids)'
-						. ' OR ' . $db->quoteName('dp.category_ids') . '=' . $db->quote('')
 					);
 				}
+
+				// Or just take all categories if it's not provided
+				$categoriesSub[] = $db->quoteName('dp.category_ids') . '=' . $db->quote('');
 
 				if (!empty($discountIds))
 				{
