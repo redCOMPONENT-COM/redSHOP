@@ -189,19 +189,6 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 		}
 	}
 
-	if ($showWishlist)
-	{
-		$wishlistExist = 'icon icon-heart-2';
-		$checkWishlist = RedshopHelperWishlist::checkWishlistExist($row->product_id);
-
-		if ($checkWishlist > 0)
-		{
-			$wishlistExist = 'icon icon-heart';
-		}
-
-		echo "<div class=\"wishlist\"><i class=\"" . $wishlistExist . "\"></i>" . $producthelper->replaceWishlistButton($row->product_id, '{wishlist_link}') ."</div>";
-	}
-
 	if ($showReadmore)
 	{
 		echo "<div class=\"mod_redshop_products_readmore\"><a href=\"" . $link . "\">" . JText::_('COM_REDSHOP_TXT_READ_MORE') . "</a>&nbsp;</div>";
