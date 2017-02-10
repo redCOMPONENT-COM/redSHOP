@@ -21,9 +21,6 @@ extract($displayData);
 $user = JFactory::getUser();
 ?>
 
-<input type="button" class="redshop-wishlist-button" data-productid="<?php echo $productId ?>" data-href="<?php echo $link ?>"
-	data-formid="<?php echo $formId ?>" value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>" />
-
 <?php if (!$user->guest) :?>
 	<input
 		type="button"
