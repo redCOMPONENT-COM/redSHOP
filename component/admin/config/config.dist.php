@@ -87,7 +87,7 @@ class RedshopConfig {
 	public $CATEGORY_TEMPLATE = '5';
 	public $DEFAULT_CATEGORYLIST_TEMPLATE = '22';
 	public $MANUFACTURER_TEMPLATE = '14';
-	public $COUNTRY_LIST = '';
+	public $COUNTRY_LIST = 'DNK,VNM';
 	public $PRODUCT_DEFAULT_IMAGE = 'redCOMPONENTS.jpg';
 	public $PRODUCT_OUTOFSTOCK_IMAGE = '';
 	public $CATEGORY_DEFAULT_IMAGE = 'redSUBSCRIPTIONS-box.jpg';
