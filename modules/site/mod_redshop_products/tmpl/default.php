@@ -191,7 +191,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 
 	if ($showWishlist)
 	{
-		echo "<div class=\"wishlist\"><i class=\"" . $wishlistExist . "\"></i>" . $producthelper->replaceWishlistButton($row->product_id, '{wishlist_link}') ."</div>";
+		echo "<div class=\"wishlist\">" . $producthelper->replaceWishlistButton($row->product_id, '{wishlist_link}') ."</div>";
 	}
 
 	if ($showReadmore)
