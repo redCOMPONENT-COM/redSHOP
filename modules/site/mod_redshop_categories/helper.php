@@ -198,11 +198,6 @@ class modProMenuHelper
 				$query->where($db->qn('c.category_id') . ' NOT IN (' . implode(',', $parent_selected_remove) . ')');
 			}
 
-			if (!empty($cid))
-			{
-				$query->where($db->qn('ref.category_parent_id') . ' = ' . $cid);
-			}
-
 			if ($categorysorttype == "catnameasc")
 			{
 				$query->order($db->qn('c.category_name') . ' ASC');
