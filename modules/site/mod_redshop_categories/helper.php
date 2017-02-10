@@ -149,7 +149,7 @@ class modProMenuHelper
 		);
 	}
 
-	function getCategoryTreeArray($only_published = 1, $keyword = "", $shopper_group_id, $parent_selected_remove)
+	function getCategoryTreeArray($only_published = 1, $keyword = "", $shopper_group_id, $parent_selected_remove, $params)
 	{
 		global $categorysorttype;
 		$db = JFactory::getDbo();
@@ -196,6 +196,13 @@ class modProMenuHelper
 			if ($parent_selected_remove)
 			{
 				$query->where($db->qn('c.category_id') . ' NOT IN (' . implode(',', $parent_selected_remove) . ')');
+			}
+
+			$baseOnCategory = $params->get('base_on_category', 'no');
+
+			if (!empty($cid) && $baseOnCategory == 'yes')
+			{
+				$query->where($db->qn('ref.category_parent_id') . ' = ' . $cid);
 			}
 
 			if ($categorysorttype == "catnameasc")
@@ -313,7 +320,7 @@ class modProMenuHelper
 		$parent_selected        = $params->get('redshop_category', 0);
 		$parent_selected_remove = $params->get('redshop_category_remove', '');
 
-		$categories = $this->getCategoryTreeArray(1, "", $shopper_group_id, $parent_selected_remove);
+		$categories = $this->getCategoryTreeArray(1, "", $shopper_group_id, $parent_selected_remove, $params);
 
 		// Sort array of category objects
 		$result       = $this->sortCategoryTreeArray($categories, $parent_selected);
