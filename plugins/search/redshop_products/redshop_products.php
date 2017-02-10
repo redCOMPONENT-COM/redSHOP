@@ -169,10 +169,10 @@ class plgSearchRedshop_products extends JPlugin
 				$extraQuery->where('(' . implode(' OR ', $orsField) . ')');
 				$whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery->__toString() . ')';
 
-				$where = '('
+				$where = '(('
 						. implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres)
 						. $whereAppend
-						. ')';
+						. '))';
 
 				$query->where($where);
 
