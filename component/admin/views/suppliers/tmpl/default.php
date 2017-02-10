@@ -92,7 +92,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 					</td>
 					<td>
-						<?php echo $row->email; ?>
+						<?php echo JHTML::_('redshopgrid.inline', 'email', $row->email, $row->id) ?>
 					</td>
 					<td align="center">
 						<?php echo $row->id; ?>

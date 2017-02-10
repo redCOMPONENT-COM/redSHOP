@@ -21,9 +21,9 @@ abstract class JHtmlRedshopGrid
 	/**
 	 * Method to check all checkboxes in a grid
 	 *
-	 * @param   string  $name    The name of the form element
-	 * @param   string  $tip     The text shown as tooltip title instead of $tip
-	 * @param   string  $action  The action to perform on clicking the checkbox
+	 * @param   string $name   The name of the form element
+	 * @param   string $tip    The text shown as tooltip title instead of $tip
+	 * @param   string $action The action to perform on clicking the checkbox
 	 *
 	 * @return  string
 	 *
@@ -41,5 +41,76 @@ abstract class JHtmlRedshopGrid
 		{
 			return '<input type="checkbox" name="' . $name . '" value="" title="' . JText::_($tip) . '" onclick="' . $action . '" />';
 		}
+	}
+
+	public static function inline($name = '', $value = '', $id = 0, $type = 'text')
+	{
+		if ($type != 'text')
+		{
+			return $value;
+		}
+
+		JFactory::getDocument()->addScriptDeclaration('
+			(function($){
+				$(document).ready(function(){
+					$("#' . $name . '-' . $id . '").click(function(event){
+						event.preventDefault();
+						
+						var $label = $(this);
+						var $input = $("#" + $(this).data("target"));
+						
+						$label.hide("fast", function(){
+							$input.show("fast", function(){$input.focus().select();})
+								.on("blur", function(event) {
+									$input.hide("fast", function(){$label.show("fast");});
+								})
+								.on("keypress", function(event) {
+									var keyCode = event.keyCode || event.which;
+								
+									if (keyCode == 13) {
+										event.preventDefault();
+										// Enter key
+										document.adminForm.task.value = "ajaxInlineEdit";
+										formData = $("#adminForm").serialize();
+										formData += "&id=' . $id . '";
+										
+										$.ajax({
+											url: document.adminForm.action,
+											type: "POST",
+											data: formData,
+											dataType: "JSON",
+											beforeSend: function(jqXHR, settings) {
+												$input.prop("disabled", true).addClass("disabled"); 
+											},
+											complete: function() {
+												$input.prop("disabled", false).removeClass("disabled"); 
+											}
+										})
+											.done(function(response){
+												if (response == 1) {
+													$label.text($input.val());
+												}
+											
+												$input.hide("fast", function(){
+													$label.show("fast");
+												});
+											});
+									} else if (keyCode == 27) {
+										// Escape key
+										$input.val("' . $value . '");
+										$input.hide("fast", function(){$label.show("fast");});
+									}
+								});
+						});
+					});
+				});
+			})(jQuery);
+		');
+
+		$html = '<input type="text" id="' . $name . '-' . $id . '-edit-inline" value="' . $value . '"'
+			. 'name="jform_inline[' . $id . '][' . $name . ']" class="form-control edit-inline" style="display: none;" />';
+		$html .= '<label id="' . $name . '-' . $id . '" data-target="' . $name . '-' . $id . '-edit-inline">' . $value . '</label>';
+
+		return $html;
 	}
 }
