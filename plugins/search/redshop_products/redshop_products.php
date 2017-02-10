@@ -125,10 +125,10 @@ class plgSearchRedshop_products extends JPlugin
 					$wheres[] = $db->qn('product_desc') . ' LIKE ' . $text;
 				}
 
-				$where = '('
+				$where = '(('
 					. implode(' OR ', $wheres)
 					. $whereAppend
-					. ')';
+					. '))';
 
 				$query->where($where);
 
