@@ -9,4 +9,19 @@
 
 defined('_JEXEC') or die;
 
+$app = JFactory::getApplication();
+$user = JFactory::getUser();
+$email = JRequest::getString('email');
+$name = JRequest::getString('name');
+$itemId = JRequest::getInt('Itemid');
+$newsletterItemId = $params->get('redirectpage');
+
+if ($user->id != "")
+{
+	$email = $user->email;
+	$name  = $user->name;
+}
+
+$document = JFactory::getDocument();
+
 require JModuleHelper::getLayoutPath('mod_redshop_newsletter');

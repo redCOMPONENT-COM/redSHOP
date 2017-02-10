@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" type="module" client="site" method="upgrade">
     <name>MOD_REDSHOP_NEWSLETTER</name>
-    <version>1.5</version>
-    <redshop>1.5</redshop>
-    <creationDate>April 2013</creationDate>
+    <version>1.5.1</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>November 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Redshop Newsletter Subscription Module</description>
+    <description>MOD_REDSHOP_NEWSLETTER</description>
     <files>
         <filename module="mod_redshop_newsletter">mod_redshop_newsletter.php</filename>
         <filename module="mod_redshop_newsletter">index.html</filename>
-        <filename module="mod_redshop_newsletter">tmpl/default.php</filename>
-        <filename module="mod_redshop_newsletter">tmpl/index.html</filename>
+        <folder>tmpl</folder>
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_newsletter.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_newsletter.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_newsletter.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_newsletter.sys.ini</language>
-        <language tag="it-IT">language/it-IT/it-IT.mod_redshop_newsletter.ini</language>
-        <language tag="it-IT">language/it-IT/it-IT.mod_redshop_newsletter.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_PARAMMODULECLASSSUFFIX"
-                       description="COM_REDSHOP_PARAMMODULECLASSSUFFIX"/>
+                <field name="moduleclass_sfx" type="text" default="" label="MOD_REDSHOP_NEWSLETTER_CLASSSUFFIX"
+                       description="MOD_REDSHOP_NEWSLETTER_CLASSSUFFIX"/>
                 <field name="redirectpage" type="menuitem" default="" disable="separator"
-                       label="Newsletter Subscription Redirection URL"
-                       description="COM_REDSHOP_PARAMNEWSLETTERREDIRECTURL"/>
+                       label="MOD_REDSHOP_NEWSLETTER_REDIRECTURL"
+                       description="MOD_REDSHOP_NEWSLETTER_REDIRECTURL"/>
             </fieldset>
         </fields>
     </config>
