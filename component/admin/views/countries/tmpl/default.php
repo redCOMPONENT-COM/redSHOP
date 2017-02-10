@@ -72,8 +72,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<td><a href="<?php echo $link; ?>"
 					   title="<?php echo JText::_('COM_REDSHOP_EDIT_COUNTRY'); ?>"><?php echo $row->country_name ?></a>
 				</td>
-				<td align="center" width="10%"><?php echo $row->country_3_code ?></td>
-				<td align="center" width="10%"><?php echo $row->country_2_code ?></td>
+				<td align="center" width="10%">
+					<?php echo JHTML::_('redshopgrid.inline', 'country_3_code', $row->country_3_code, $row->id) ?>
+                </td>
+				<td align="center" width="10%">
+					<?php echo JHTML::_('redshopgrid.inline', 'country_2_code', $row->country_2_code, $row->id) ?>
+                </td>
 				<td align="right"><?php echo $row->id ?></td>
 			</tr>
 			<?php
