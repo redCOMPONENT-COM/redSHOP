@@ -375,4 +375,38 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 			return JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $append, false);
 		}
 	}
+
+	/**
+	 * Method to publish a list of items
+	 *
+	 * @return  boolean
+	 */
+	public function ajaxInlineEdit()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+
+		$editData = $this->input->get('jform_inline', array(), 'ARRAY');
+		$editKey  = $this->input->get('id', 0);
+
+		if (empty($editData) || empty($editData[$editKey]))
+		{
+			echo 0;
+		}
+
+		$editData = $editData[$editKey];
+
+		/** @var RedshopTable $table */
+		$table = $this->getModel()->getTable();
+		$result = true;
+
+		if (!$table->load($editKey) || !$table->bind($editData) || !$table->store())
+		{
+			$result = false;
+		}
+
+		echo (int) $result;
+
+		JFactory::getApplication()->close();
+	}
 }
