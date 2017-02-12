@@ -155,6 +155,24 @@ else
 		->where($db->qn('c.published') . ' = 1');
 }
 
+$stockrooms = $params->get('stockrooms', '');
+
+if (is_array($stockrooms))
+{
+	$stockrooms = implode(',', $stockrooms);
+}
+else
+{
+	$stockrooms = trim($stockrooms);
+}
+
+if ($stockrooms && Redshop::getConfig()->get('USE_STOCKROOM') == 1)
+{
+	$query->leftjoin($db->qn('#__redshop_product_stockroom_xref', 'sx') . ' ON p.product_id = sx.product_id')
+			->where($db->qn('sx.stockroom_id') . ' IN (' . $stockrooms . ')')
+			->where($db->qn('sx.quantity') . ' > 0');
+}
+
 $rows = array();
 
 if ($productIds = $db->setQuery($query, 0, $count)->loadColumn())
