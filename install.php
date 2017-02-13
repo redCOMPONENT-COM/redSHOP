@@ -117,41 +117,6 @@ class Com_RedshopInstallerScript
 			// Remove unused files from older than 1.3.3.1 redshop
 			$this->cleanUpgradeFiles($parent);
 			$this->updateschema();
-
-			if (!empty($version))
-			{
-				$version = new Registry($version);
-				$version = $version->get('version');
-
-				/** Fix old drag and drop images name, convert '%20' to ' ' */
-				if (version_compare($version, '2.0.4', '<'))
-				{
-					/** Update DB */
-					$fields = array(
-						$db->qn('product_full_image') . ' = REPLACE(' . $db->qn('product_full_image') . ", '%20', ' ')",
-						$db->qn('product_thumb_image') . ' = REPLACE(' . $db->qn('product_thumb_image') . ", '%20', ' ')"
-					);
-
-					$query = $db->getQuery(true);
-					$query->update($db->qn('#__redshop_product'))
-						->set($fields);
-
-					$db->setQuery($query);
-					$db->execute();
-
-					/** Update Image Name */
-
-					$path = JPATH_SITE . '/components/com_redshop/assets/images/product/';
-					$files = JFolder::files($path);
-
-					$this->changeImageFileName($files, $path);
-
-					$path = JPATH_SITE . '/components/com_redshop/assets/images/product/thumb/';
-					$files = JFolder::files($path);
-
-					$this->changeImageFileName($files, $path);
-				}
-			}
 		}
 
 		$this->getInstalledPlugin($parent);
@@ -276,6 +241,35 @@ class Com_RedshopInstallerScript
 
 			// Update helper class name in template and MVC override
 			$this->updateOverrideTemplate();
+
+			/** Fix old drag and drop images name, convert '%20' to ' ' */
+			if (version_compare($this->getOldParam('version'), '2.0.4', '<='))
+			{
+				/** Update DB */
+				$fields = array(
+					$db->qn('product_full_image') . ' = REPLACE(' . $db->qn('product_full_image') . ", '%20', ' ')",
+					$db->qn('product_thumb_image') . ' = REPLACE(' . $db->qn('product_thumb_image') . ", '%20', ' ')"
+				);
+
+				$query = $db->getQuery(true);
+				$query->update($db->qn('#__redshop_product'))
+					->set($fields);
+
+				$db->setQuery($query);
+				$db->execute();
+
+				/** Update Image Name */
+
+				$path = JPATH_SITE . '/components/com_redshop/assets/images/product/';
+				$files = JFolder::files($path);
+
+				$this->changeImageFileName($files, $path);
+
+				$path = JPATH_SITE . '/components/com_redshop/assets/images/product/thumb/';
+				$files = JFolder::files($path);
+
+				$this->changeImageFileName($files, $path);
+			}
 		}
 
 		// Demo content insert
