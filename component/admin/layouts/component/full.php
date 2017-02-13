@@ -19,9 +19,11 @@ $activeView = $view->getName();
 		<header class="main-header">
 			<?php echo JLayoutHelper::render('component.full.header', $displayData); ?>
 		</header>
+        <?php if (!$disableSidebar): ?>
 		<aside class="main-sidebar">
 			<?php echo JLayoutHelper::render('component.full.sidebar', array()); ?>
 		</aside>
+        <?php endif; ?>
 		<div class="content-wrapper">
 			<section class="content-header clearfix">
 				<?php echo JLayoutHelper::render('component.full.content.header', $displayData); ?>

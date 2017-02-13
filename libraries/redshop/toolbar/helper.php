@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  Application
  * @since       1.4
  */
-abstract class RedshopToolbarHelper extends JToolBarHelper
+abstract class RedshopToolbarHelper extends JToolbarHelper
 {
 	/**
 	 * Writes a custom option and task button for the button bar.

@@ -36,12 +36,9 @@ class RedshopToolbar extends JToolbar
 	 */
 	public function __construct($name = 'toolbar', $groupTitle = '')
 	{
-		$this->_name = $name;
-
 		$this->groupTitle = $groupTitle;
 
-		// Set base path to find buttons.
-		$this->_buttonPath[] = __DIR__ . '/button';
+		parent::__construct($name);
 	}
 
 	/**
@@ -53,10 +50,10 @@ class RedshopToolbar extends JToolbar
 	 */
 	public function renderGroup()
 	{
-		$dhtml = RedshopLayoutHelper::render('toolbar.redshopgroup', array('toolbar' => $this));
+		$html = RedshopLayoutHelper::render('toolbar.redshopgroup', array('toolbar' => $this));
 
-		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Custom', $dhtml);
+		$bar = JToolbar::getInstance('toolbar');
+		$bar->appendButton('Custom', $html);
 	}
 
 	/**

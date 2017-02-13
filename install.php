@@ -7,6 +7,7 @@
  */
 
 defined('_JEXEC') or die;
+
 use Joomla\Registry\Registry;
 
 /**
@@ -51,7 +52,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Method to install the component
 	 *
-	 * @param   object  $parent  class calling this method
+	 * @param   object  $parent  Class calling this method
 	 *
 	 * @return void
 	 */
@@ -72,22 +73,22 @@ class Com_RedshopInstallerScript
 	/**
 	 * method to uninstall the component
 	 *
-	 * @param   object  $parent  class calling this method
+	 * @param   object  $parent  Class calling this method
 	 *
 	 * @return void
 	 */
 	public function uninstall($parent)
 	{
 		// Uninstall extensions
-		$this->uninstallLibraries($parent);
-		$this->uninstallModules($parent);
 		$this->uninstallPlugins($parent);
+		$this->uninstallModules($parent);
+		$this->uninstallLibraries($parent);
 	}
 
 	/**
 	 * method to update the component
 	 *
-	 * @param   object  $parent  class calling this method
+	 * @param   object  $parent  Class calling this method
 	 *
 	 * @return void
 	 */
@@ -103,8 +104,8 @@ class Com_RedshopInstallerScript
 	/**
 	 * method to run before an install/update/uninstall method
 	 *
-	 * @param   object  $type    type of change (install, update or discover_install)
-	 * @param   object  $parent  class calling this method
+	 * @param   object  $type    Type of change (install, update or discover_install)
+	 * @param   object  $parent  Class calling this method
 	 *
 	 * @return void
 	 */
@@ -116,7 +117,7 @@ class Com_RedshopInstallerScript
 		{
 			// Remove unused files from older than 1.3.3.1 redshop
 			$this->cleanUpgradeFiles($parent);
-			$this->updateschema();
+			$this->updateSchema();
 		}
 
 		$this->getInstalledPlugin($parent);
@@ -133,7 +134,7 @@ class Com_RedshopInstallerScript
 	{
 		// Check if plugins are installed or not. Query here to prevent duplicate query inside another method
 		// Required objects
-		$manifest  = $parent->get('manifest');
+		$manifest = $parent->get('manifest');
 
 		if ($nodes = $manifest->plugins->plugin)
 		{
@@ -147,9 +148,9 @@ class Com_RedshopInstallerScript
 				$query = $db->getQuery(true)
 					->select('*')
 					->from($db->qn('#__extensions'))
-					->where('type = ' . $db->q('plugin'))
-					->where('element = ' . $db->q($extName))
-					->where('folder = ' . $db->q($extGroup));
+					->where('type = ' . $db->quote('plugin'))
+					->where('element = ' . $db->quote($extName))
+					->where('folder = ' . $db->quote($extGroup));
 
 				$this->installedPlugins[$extGroup][$extName] = $db->setQuery($query, 0, 1)->loadObject();
 			}
@@ -177,22 +178,31 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return void
 	 */
-	public function updateschema()
+	public function updateSchema()
 	{
 		$db = JFactory::getDbo();
-		$db->setQuery("SELECT extension_id FROM #__extensions WHERE element ='com_redshop' AND type = 'component'");
-		$component_Id = $db->loadResult();
+		$query = $db->getQuery(true)
+			->select($db->qn('extension_id'))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('element') . ' = ' . $db->quote('com_redshop'))
+			->where($db->qn('type') . ' = ' . $db->quote('component'));
+		$componentId = $db->setQuery($query)->loadResult();
 
-		if ($component_Id != "" && $component_Id != "0")
+		if (!empty($componentId))
 		{
-			$db->setQuery("SELECT * FROM #__schemas WHERE extension_id ='" . $component_Id . "'");
-			$total_result = $db->loadResult();
+			$query->clear()
+				->select('COUNT(*)')
+				->from($db->qn('#__schemas'))
+				->where($db->qn('extension_id') . ' = ' . $componentId);
+			$result = $db->setQuery($query)->loadResult();
 
-			if (count($total_result) == 0)
+			if (empty($result))
 			{
-				$insert_schema = "insert into #__schemas set extension_id='" . $component_Id . "',version_id='1.1.10'";
-				$db->setQuery($insert_schema);
-				$db->execute();
+				$query->clear()
+					->insert($db->qn('#__schemas'))
+					->columns($db->qn(array('extension_id', 'version_id')))
+					->values($componentId . ',' . $db->quote('1.1.10'));
+				$db->setQuery($query)->execute();
 			}
 		}
 	}
@@ -200,7 +210,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Main redSHOP installer Events
 	 *
-	 * @param   string  $type  type of change (install, update or discover_install)
+	 * @param   string  $type  Type of change (install, update or discover_install)
 	 *
 	 * @return  void
 	 */
@@ -211,7 +221,7 @@ class Com_RedshopInstallerScript
 		// The configuration creation or update
 		$this->redshopHandleCFGFile();
 
-		// Syncronise users
+		// Synchronize users
 		$this->userSynchronization();
 
 		if ($type == 'update')
@@ -366,11 +376,11 @@ class Com_RedshopInstallerScript
 
 		// For Blank component id in menu table-admin menu error solution - Get redSHOP extension id from the table
 		$query = $db->getQuery(true)
-					->select('extension_id')
-					->from($db->qn('#__extensions'))
-					->where($db->qn('name') . ' LIKE ' . $db->q('%redshop'))
-					->where($db->qn('element') . ' = ' . $db->q('com_redshop'))
-					->where($db->qn('type') . ' = ' . $db->q('component'));
+			->select('extension_id')
+			->from($db->qn('#__extensions'))
+			->where($db->qn('name') . ' LIKE ' . $db->quote('%redshop'))
+			->where($db->qn('element') . ' = ' . $db->quote('com_redshop'))
+			->where($db->qn('type') . ' = ' . $db->quote('component'));
 
 		// Set the query and load the result.
 		$db->setQuery($query);
@@ -378,11 +388,11 @@ class Com_RedshopInstallerScript
 
 		// Check for component menu item entry
 		$query = $db->getQuery(true)
-				->select('id,component_id')
-				->from($db->qn('#__menu'))
-				->where($db->qn('menutype') . ' = ' . $db->q('main'))
-				->where($db->qn('path') . ' LIKE ' . $db->q('%redshop'))
-				->where($db->qn('type') . ' = ' . $db->q('component'));
+			->select('id,component_id')
+			->from($db->qn('#__menu'))
+			->where($db->qn('menutype') . ' = ' . $db->quote('main'))
+			->where($db->qn('path') . ' LIKE ' . $db->quote('%redshop'))
+			->where($db->qn('type') . ' = ' . $db->quote('component'));
 
 		// Set the query and load the result.
 		$db->setQuery($query);
@@ -401,9 +411,9 @@ class Com_RedshopInstallerScript
 			$query = $db->getQuery(true)
 				->update($db->qn('#__menu'))
 				->set($db->qn('component_id') . ' = ' . (int) $extensionId)
-				->where($db->qn('menutype') . ' = ' . $db->q('main'))
-				->where($db->qn('path') . ' LIKE ' . $db->q('%redshop'))
-				->where($db->qn('type') . ' = ' . $db->q('component'));
+				->where($db->qn('menutype') . ' = ' . $db->quote('main'))
+				->where($db->qn('path') . ' LIKE ' . $db->quote('%redshop'))
+				->where($db->qn('type') . ' = ' . $db->quote('component'));
 
 			// Set the query and execute the update.
 			$db->setQuery($query)->execute();
@@ -413,7 +423,8 @@ class Com_RedshopInstallerScript
 			<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
 				<tr>
 					<td valign="top" width="270px">
-						<img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png" width="261" height="88" alt="redSHOP Logo"
+						<img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png" width="261" height="88"
+							 alt="redSHOP Logo"
 							 align="left">
 					</td>
 					<td valign="top">
@@ -423,19 +434,20 @@ class Com_RedshopInstallerScript
 
 						<p><?php echo JText::_('COM_REDSHOP_CHECK_UPDATES'); ?>:
 							<a href="http://redcomponent.com/" target="_new"><img
-									src="http://images.redcomponent.com/redcomponent.jpg" alt=""></a>
+										src="http://images.redcomponent.com/redcomponent.jpg" alt=""></a>
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
 						<?php if ($type != 'update'): ?>
-						<input type="button" class="btn btn-mini btn-primary" name="save" value="<?php echo JText::_('COM_REDSHOP_WIZARD');?>"
-							   onclick="location.href='index.php?option=com_redshop&wizard=1'"/>
-						<input type="button" class="btn btn-mini btn-info" name="content" value="<?php echo JText::_('COM_REDSHOP_INSTALL_DEMO_CONTENT');?>"
-							   onclick="location.href='index.php?option=com_redshop&wizard=0&task=demoContentInsert'"/>
-						<input type="button" class="btn btn-mini" name="cancel" value="<?php echo JText::_('JCANCEL');?>"
-							   onclick="location.href='index.php?option=com_redshop&wizard=0'"/>
+							<input type="button" class="btn btn-mini btn-primary" name="save" value="<?php echo JText::_('COM_REDSHOP_WIZARD'); ?>"
+								   onclick="location.href='index.php?option=com_redshop&wizard=1'"/>
+							<input type="button" class="btn btn-mini btn-info" name="content"
+								   value="<?php echo JText::_('COM_REDSHOP_INSTALL_DEMO_CONTENT'); ?>"
+								   onclick="location.href='index.php?option=com_redshop&wizard=0&task=demoContentInsert'"/>
+							<input type="button" class="btn btn-mini" name="cancel" value="<?php echo JText::_('JCANCEL'); ?>"
+								   onclick="location.href='index.php?option=com_redshop&wizard=0'"/>
 						<?php else: ?>
 
 						<?php endif; ?>
@@ -519,15 +531,15 @@ class Com_RedshopInstallerScript
 	/**
 	 * Install the package libraries
 	 *
-	 * @param   object  $parent  class calling this method
+	 * @param   object  $parent  Class calling this method
 	 *
 	 * @return  void
 	 */
 	private function installLibraries($parent)
 	{
 		// Required objects
-		$manifest  = $parent->get('manifest');
-		$src       = $parent->getParent()->getPath('source');
+		$manifest = $parent->get('manifest');
+		$src      = $parent->getParent()->getPath('source');
 
 		if ($nodes = $manifest->libraries->library)
 		{
@@ -550,15 +562,15 @@ class Com_RedshopInstallerScript
 	/**
 	 * Install the package modules
 	 *
-	 * @param   object  $parent  class calling this method
+	 * @param   object  $parent  Class calling this method
 	 *
 	 * @return  void
 	 */
 	private function installModules($parent)
 	{
 		// Required objects
-		$manifest  = $parent->get('manifest');
-		$src       = $parent->getParent()->getPath('source');
+		$manifest = $parent->get('manifest');
+		$src      = $parent->getParent()->getPath('source');
 
 		if ($nodes = $manifest->modules->module)
 		{
@@ -577,7 +589,7 @@ class Com_RedshopInstallerScript
 				$this->storeStatus(
 					'modules',
 					array(
-						'name' => $extName,
+						'name'   => $extName,
 						'client' => $extClient,
 						'result' => $result
 					)
@@ -589,15 +601,15 @@ class Com_RedshopInstallerScript
 	/**
 	 * Install the package libraries
 	 *
-	 * @param   object  $parent  class calling this method
+	 * @param   object  $parent  Class calling this method
 	 *
 	 * @return  void
 	 */
 	private function installPlugins($parent)
 	{
 		// Required objects
-		$manifest  = $parent->get('manifest');
-		$src       = $parent->getParent()->getPath('source');
+		$manifest = $parent->get('manifest');
+		$src      = $parent->getParent()->getPath('source');
 
 		if ($nodes = $manifest->plugins->plugin)
 		{
@@ -675,13 +687,13 @@ class Com_RedshopInstallerScript
 	 */
 	private function enablePlugin($extName, $extGroup, $state = 1)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->update($db->qn("#__extensions"))
 			->set("enabled = " . (int) $state)
-			->where('type = ' . $db->q('plugin'))
-			->where('element = ' . $db->q($extName))
-			->where('folder = ' . $db->q($extGroup));
+			->where('type = ' . $db->quote('plugin'))
+			->where('element = ' . $db->quote($extName))
+			->where('folder = ' . $db->quote($extGroup));
 
 		return $db->setQuery($query)->execute();
 	}
@@ -689,25 +701,23 @@ class Com_RedshopInstallerScript
 	/**
 	 * Uninstall the package libraries
 	 *
-	 * @param   object  $parent  class calling this method
+	 * @param   object  $parent  Class calling this method
 	 *
 	 * @return  void
 	 */
 	private function uninstallLibraries($parent)
 	{
 		// Required objects
-		$manifest  = $parent->get('manifest');
-		$src       = $parent->getParent()->getPath('source');
+		$manifest = $parent->get('manifest');
 
 		if ($nodes = $manifest->libraries->library)
 		{
 			foreach ($nodes as $node)
 			{
 				$extName = (string) $node->attributes()->name;
-				$extPath = $src . '/libraries/' . $extName;
 				$result  = 0;
 
-				$db = JFactory::getDbo();
+				$db    = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->select('extension_id')
 					->from($db->quoteName("#__extensions"))
@@ -730,15 +740,15 @@ class Com_RedshopInstallerScript
 	/**
 	 * Uninstall the package modules
 	 *
-	 * @param   object  $parent  class calling this method
+	 * @param   object  $parent  Class calling this method
 	 *
 	 * @return  void
 	 */
 	private function uninstallModules($parent)
 	{
 		// Required objects
-		$manifest  = $parent->get('manifest');
-		$src       = $parent->getParent()->getPath('source');
+		$manifest = $parent->get('manifest');
+		$src      = $parent->getParent()->getPath('source');
 
 		if ($nodes = $manifest->modules->module)
 		{
@@ -749,7 +759,7 @@ class Com_RedshopInstallerScript
 				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
 				$result    = 0;
 
-				$db = JFactory::getDbo();
+				$db    = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->select('extension_id')
 					->from($db->quoteName("#__extensions"))
@@ -767,7 +777,7 @@ class Com_RedshopInstallerScript
 				$this->storeStatus(
 					'modules',
 					array(
-						'name' => $extName,
+						'name'   => $extName,
 						'client' => $extClient,
 						'result' => $result
 					)
@@ -779,15 +789,15 @@ class Com_RedshopInstallerScript
 	/**
 	 * Uninstall the package plugins
 	 *
-	 * @param   object  $parent  class calling this method
+	 * @param   object  $parent  Class calling this method
 	 *
 	 * @return  void
 	 */
 	private function uninstallPlugins($parent)
 	{
 		// Required objects
-		$manifest  = $parent->get('manifest');
-		$src       = $parent->getParent()->getPath('source');
+		$manifest = $parent->get('manifest');
+		$src      = $parent->getParent()->getPath('source');
 
 		if ($nodes = $manifest->plugins->plugin)
 		{
@@ -798,7 +808,7 @@ class Com_RedshopInstallerScript
 				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
 				$result   = 0;
 
-				$db = JFactory::getDbo();
+				$db    = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->select('extension_id')
 					->from($db->quoteName("#__extensions"))
@@ -817,8 +827,8 @@ class Com_RedshopInstallerScript
 				$this->storeStatus(
 					'plugins',
 					array(
-						'name' => $extName,
-						'group' => $extGroup,
+						'name'   => $extName,
+						'group'  => $extGroup,
 						'result' => $result
 					)
 				);
@@ -870,9 +880,9 @@ class Com_RedshopInstallerScript
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/meta_ext';
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/barcode';
 
-		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/update.php';
-		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php';
-		$files[]   = JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/update.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php';
 
 		// Remove old Supplier stuff since Refactor.
 		if (version_compare($this->getOldParam('version'), '2.0.0.6', '<='))
@@ -1134,7 +1144,7 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		$override = array();
+		$override   = array();
 		$jsOverride = array();
 
 		foreach ($templates as $key => $value)
@@ -1176,9 +1186,9 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		$overrideFolders = array();
+		$overrideFolders       = array();
 		$overrideLayoutFolders = array();
-		$overrideLayoutFiles = array();
+		$overrideLayoutFiles   = array();
 
 		foreach ($override as $key => $value)
 		{
@@ -1239,33 +1249,33 @@ class Com_RedshopInstallerScript
 		}
 
 		$replaceString = array(
-				'new quotationHelper()'                            => 'quotationHelper::getInstance()',
-				'new order_functions()'                            => 'order_functions::getInstance()',
-				'new Redconfiguration()'                           => 'Redconfiguration::getInstance()',
-				'new Redconfiguration'                             => 'Redconfiguration::getInstance()',
-				'new Redtemplate()'                                => 'Redtemplate::getInstance()',
-				'new Redtemplate'                                  => 'Redtemplate::getInstance()',
-				'new extra_field()'                                => 'extra_field::getInstance()',
-				'new rsstockroomhelper()'                          => 'rsstockroomhelper::getInstance()',
-				'new rsstockroomhelper'                            => 'rsstockroomhelper::getInstance()',
-				'new shipping()'                                   => 'shipping::getInstance()',
-				'new CurrencyHelper()'                             => 'CurrencyHelper::getInstance()',
-				'new economic()'                                   => 'economic::getInstance()',
-				'new rsUserhelper()'                               => 'rsUserHelper::getInstance()',
-				'new rsUserhelper'                                 => 'rsUserHelper::getInstance()',
-				'GoogleAnalytics'                                  => 'RedshopHelperGoogleanalytics',
-				'new quotationHelper'                              => 'quotationHelper::getInstance()',
-				'new order_functions'                              => 'order_functions::getInstance()',
-				'new extra_field'                                  => 'extra_field::getInstance()',
-				'new shipping'                                     => 'shipping::getInstance()',
-				'new CurrencyHelper'                               => 'CurrencyHelper::getInstance()',
-				'new economic'                                     => 'economic::getInstance()',
-				'RedshopConfig::scriptDeclaration();'              => '',
-				'$redConfiguration'                                => '$Redconfiguration',
-				'require_once JPATH_SITE . \'/components/com_redshop/helpers/redshop.js.php\'' => '',
-			);
+			'new quotationHelper()'                                                        => 'quotationHelper::getInstance()',
+			'new order_functions()'                                                        => 'order_functions::getInstance()',
+			'new Redconfiguration()'                                                       => 'Redconfiguration::getInstance()',
+			'new Redconfiguration'                                                         => 'Redconfiguration::getInstance()',
+			'new Redtemplate()'                                                            => 'Redtemplate::getInstance()',
+			'new Redtemplate'                                                              => 'Redtemplate::getInstance()',
+			'new extra_field()'                                                            => 'extra_field::getInstance()',
+			'new rsstockroomhelper()'                                                      => 'rsstockroomhelper::getInstance()',
+			'new rsstockroomhelper'                                                        => 'rsstockroomhelper::getInstance()',
+			'new shipping()'                                                               => 'shipping::getInstance()',
+			'new CurrencyHelper()'                                                         => 'CurrencyHelper::getInstance()',
+			'new economic()'                                                               => 'economic::getInstance()',
+			'new rsUserhelper()'                                                           => 'rsUserHelper::getInstance()',
+			'new rsUserhelper'                                                             => 'rsUserHelper::getInstance()',
+			'GoogleAnalytics'                                                              => 'RedshopHelperGoogleanalytics',
+			'new quotationHelper'                                                          => 'quotationHelper::getInstance()',
+			'new order_functions'                                                          => 'order_functions::getInstance()',
+			'new extra_field'                                                              => 'extra_field::getInstance()',
+			'new shipping'                                                                 => 'shipping::getInstance()',
+			'new CurrencyHelper'                                                           => 'CurrencyHelper::getInstance()',
+			'new economic'                                                                 => 'economic::getInstance()',
+			'RedshopConfig::scriptDeclaration();'                                          => '',
+			'$redConfiguration'                                                            => '$Redconfiguration',
+			'require_once JPATH_SITE . \'/components/com_redshop/helpers/redshop.js.php\'' => '',
+		);
 
-		$data   = Redshop::getConfig()->toArray();
+		$data = Redshop::getConfig()->toArray();
 		$temp = JFactory::getApplication()->getUserState('com_redshop.config.global.data');
 
 		if (!empty($temp))
@@ -1274,8 +1284,8 @@ class Com_RedshopInstallerScript
 		}
 
 		$data['BACKWARD_COMPATIBLE_PHP'] = 0;
-		$data['BACKWARD_COMPATIBLE_JS'] = 0;
-		$config = Redshop::getConfig();
+		$data['BACKWARD_COMPATIBLE_JS']  = 0;
+		$config                          = Redshop::getConfig();
 
 		if (!empty($overrideFiles))
 		{

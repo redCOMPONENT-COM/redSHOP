@@ -35,6 +35,13 @@ class RedshopViewAdmin extends JViewLegacy
 	protected $displaySidebar = true;
 
 	/**
+	 * Do we have to disable a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $disableSidebar = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -48,7 +55,8 @@ class RedshopViewAdmin extends JViewLegacy
 			array(
 				'view' => $this,
 				'tpl' => $tpl,
-				'sidebar_display' => $this->displaySidebar
+				'sidebar_display' => $this->displaySidebar,
+				'disableSidebar'  => $this->disableSidebar
 			)
 		);
 
