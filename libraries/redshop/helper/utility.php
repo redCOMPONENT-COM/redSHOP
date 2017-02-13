@@ -140,9 +140,10 @@ class RedshopHelperUtility
 
 			$list[$nextId] = $item;
 			$list[$nextId]->treename = $itemIndent . $item->{$nameKey};
+			$list[$nextId]->treepart = $itemIndent;
 			$list[$nextId]->indent   = $itemIndent;
 			$list[$nextId]->children = count(@$childs[$nextId]);
-			$list = static::createTree($nextId, $indent, $list, $childs, $maxLevel, $level + 1, $key, $nameKey, $spacer);
+			$list = self::createTree($nextId, $indent, $list, $childs, $maxLevel, $level + 1, $key, $nameKey, $spacer);
 		}
 
 		return $list;
@@ -172,5 +173,51 @@ class RedshopHelperUtility
 		}
 
 		return trim($attributes);
+	}
+
+	/**
+	 * Transforms a string to a boolean.
+	 *
+	 * @param   string  $string  The string to transform.
+	 *
+	 * @return  boolean  The boolean value.
+	 */
+	public static function toBool($string)
+	{
+		$string = trim($string);
+
+		if ($string === 'true')
+		{
+			return true;
+		}
+
+		if ($string === 'false')
+		{
+			return false;
+		}
+
+		return (bool) $string;
+	}
+
+	/**
+	 * Replace tags delimited by $openingSeparator and $closingSeparator in string.
+	 *
+	 * @param   string  $string            The string to replace tags from.
+	 * @param   array   $tags              An associative array of tag names as key and their replacement value as values.
+	 * @param   string  $openingSeparator  The opening separator for the tag.
+	 * @param   string  $closingSeparator  The closing separator for the tag.
+	 *
+	 * @return string The string with tags replaced.
+	 */
+	public static function replace($string, array $tags, $openingSeparator = '{', $closingSeparator = '}')
+	{
+		$replace = array();
+
+		foreach ($tags as $key => $val)
+		{
+			$replace[$openingSeparator . $key . $closingSeparator] = $val;
+		}
+
+		return strtr($string, $replace);
 	}
 }

@@ -28,6 +28,20 @@ abstract class AbstractTable extends \JTable implements TableInterface
 	use HasInstancePrefix;
 
 	/**
+	 * The options.
+	 *
+	 * @var  array
+	 */
+	protected $_options = array();
+
+	/**
+	 * Prefix to add to log files
+	 *
+	 * @var  string
+	 */
+	protected $_logPrefix = 'redshop';
+
+	/**
 	 * The table name without the prefix. Ex: cursos_courses
 	 *
 	 * @var  string
@@ -47,6 +61,48 @@ abstract class AbstractTable extends \JTable implements TableInterface
 	 * @var    array
 	 */
 	protected $_columnAlias = array();
+
+	/**
+	 * Field name to publish/unpublish/trash table registers. Ex: state
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldState = 'state';
+
+	/**
+	 * Field name to keep creator user (created_by)
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldCreatedBy = 'created_by';
+
+	/**
+	 * Field name to keep latest modifier user (modified_by)
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldModifiedBy = 'modified_by';
+
+	/**
+	 * Field name to keep created date (created_date)
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldCreatedDate = 'created_date';
+
+	/**
+	 * Field name to keep latest modified user (modified_date)
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldModifiedDate = 'modified_date';
+
+	/**
+	 * Format for audit date fields (created_date, modified_date)
+	 *
+	 * @var  string
+	 */
+	protected $_auditDateFormat = 'Y-m-d H:i:s';
 
 	/**
 	 * Constructor

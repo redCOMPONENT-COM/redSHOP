@@ -11,6 +11,7 @@ namespace Redshop\Table\Traits;
 
 defined('_JEXEC') or die;
 
+use Dompdf\Exception;
 use Joomla\String\StringHelper;
 use Joomla\Registry\Registry;
 
@@ -100,7 +101,7 @@ trait HasAutoEvents
 	 * Called after load().
 	 *
 	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.  If not
-	 *                           set the instance property value is used.
+	 *                            set the instance property value is used.
 	 * @param   boolean  $reset  True to reset the default values before loading the new row.
 	 *
 	 * @return  boolean  True if successful. False if row not found.
@@ -315,6 +316,52 @@ trait HasAutoEvents
 	}
 
 	/**
+	 * Override the parent checkin method to set checked_out = null instead of 0 so the foreign key doesn't fail.
+	 *
+	 * @param   mixed  $pk  An optional primary key value to check out.  If not set the instance property value is used.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @throws  Exception
+	 */
+	public function checkIn($pk = null)
+	{
+		// If there is no checked_out or checked_out_time field, just return true.
+		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		{
+			return true;
+		}
+
+		$k  = $this->_tbl_key;
+		$pk = (is_null($pk)) ? $this->$k : $pk;
+
+		// If no primary key is given, return false.
+		if ($pk === null)
+		{
+			throw new Exception('Null primary key not allowed.');
+		}
+
+		$pk = !is_numeric($pk) ? intval($pk) : $pk;
+
+		// Check the row in by primary key.
+		$query = $this->_db->getQuery(true);
+		$query->update($this->_tbl);
+		$query->set($this->_db->quoteName('checked_out') . ' = NULL');
+		$query->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
+		$this->_db->setQuery($query);
+
+		// Check for a database error.
+		$this->_db->execute();
+
+		// Set table values in the object.
+		$this->checked_out      = null;
+		$this->checked_out_time = '';
+
+		return true;
+	}
+
+	/**
 	 * Method to bind an associative array or object to the JTable instance.This
 	 * method only binds properties that are publicly accessible and optionally
 	 * takes an array of properties to ignore when binding.
@@ -355,20 +402,20 @@ trait HasAutoEvents
 		}
 
 		// Auto-fill created_by and modified_by information
-		$now = \JDate::getInstance();
+		$now          = \JDate::getInstance();
 		$nowFormatted = $now->toSql();
-		$userId = \JFactory::getUser()->get('id');
+		$userId       = \JFactory::getUser()->get('id');
 
 		if (property_exists($this, 'created_by')
 			&& empty($src['created_by']) && (is_null($this->created_by) || empty($this->created_by)))
 		{
-			$src['created_by']   = $userId;
+			$src['created_by'] = $userId;
 		}
 
 		if (property_exists($this, 'created_user_id')
 			&& empty($src['created_user_id']) && empty($this->created_user_id))
 		{
-			$src['created_user_id']   = $userId;
+			$src['created_user_id'] = $userId;
 		}
 
 		if (property_exists($this, 'created_date')
@@ -387,12 +434,12 @@ trait HasAutoEvents
 
 		if (property_exists($this, 'modified_by') && empty($src['modified_by']))
 		{
-			$src['modified_by']   = $userId;
+			$src['modified_by'] = $userId;
 		}
 
 		if (property_exists($this, 'modified_user_id') && empty($src['modified_user_id']))
 		{
-			$src['modified_user_id']   = $userId;
+			$src['modified_user_id'] = $userId;
 		}
 
 		if (property_exists($this, 'modified_date')
@@ -549,7 +596,7 @@ trait HasAutoEvents
 			if (null === $event)
 			{
 				$eventParts = explode('_', str_replace('event_', '', $eventKey));
-				$eventName = implode('', array_map("ucfirst", $eventParts));
+				$eventName  = implode('', array_map("ucfirst", $eventParts));
 
 				$event = $eventsPrefix . ucfirst($eventName) . $eventsSuffix;
 			}

@@ -883,15 +883,19 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/component/admin/controllers/tax.php',
 				JPATH_ADMINISTRATOR . '/component/admin/controllers/tax_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/controllers/mass_discount_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/controllers/shopper_group_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/models/supplier_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/models/mass_discount_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/models/tax.php',
 				JPATH_ADMINISTRATOR . '/component/admin/models/tax_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/models/shopper_group_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/tables/supplier_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/tables/mass_discount_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/tables/tax_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/tables/shopper_group_detail.php',
 				JPATH_ADMINISTRATOR . '/component/admin/views/supplier/tmpl/default.php',
 				JPATH_ADMINISTRATOR . '/component/admin/views/mass_discount/tmpl/default.php',
+				JPATH_ADMINISTRATOR . '/component/admin/views/shopper_group_detail/tmpl/default.php',
 				JPATH_SITE . '/media/com_redshop/css/media.css',
 				JPATH_SITE . '/media/com_redshop/css/media-uncompressed.css',
 				JPATH_SITE . '/media/com_redshop/js/media.js',
@@ -905,7 +909,8 @@ class Com_RedshopInstallerScript
 				JPATH_ADMINISTRATOR . '/component/admin/views/supplier_detail',
 				JPATH_ADMINISTRATOR . '/component/admin/views/tax',
 				JPATH_ADMINISTRATOR . '/component/admin/views/mass_discount_detail',
-				JPATH_ADMINISTRATOR . '/component/admin/views/tax_detail'
+				JPATH_ADMINISTRATOR . '/component/admin/views/tax_detail',
+				JPATH_ADMINISTRATOR . '/component/admin/views/shopper_group_detail'
 			);
 		}
 

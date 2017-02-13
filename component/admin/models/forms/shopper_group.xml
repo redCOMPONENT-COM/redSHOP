@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="shopper_group_id"
+                type="hidden"
+                />
+        <field
+                name="shopper_group_name"
+                type="redshop.text"
+                label="COM_REDSHOP_SHOPPER_GROUP_NAME"
+                description="COM_REDSHOP_SHOPPER_GROUP_NAME_DESCRIPTION"
+                placeholder="COM_REDSHOP_SHOPPER_GROUP_NAME_DESCRIPTION"
+                class="form-control"
+                default=""
+                required="true"
+                />
+        <field
+                name="shopper_group_customer_type"
+                type="redshop.radio"
+                label="COM_REDSHOP_SHOPPER_GROUP_CUSTOMER_TYPE"
+                description="COM_REDSHOP_SHOPPER_GROUP_CUSTOMER_TYPE_DESCRIPTION"
+                label-class="radio-inline"
+                default="1">
+            <option value="0">COM_REDSHOP_COMPANY</option>
+            <option value="1">COM_REDSHOP_PRIVATE</option>
+        </field>
+        <field
+                name="shopper_group_portal"
+                type="redshop.radio"
+                label="COM_REDSHOP_SHOPPER_GROUP_PORTAL"
+                description="COM_REDSHOP_SHOPPER_GROUP_PORTAL_DESCRIPTION"
+                label-class="radio-inline"
+                default="0">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="shopper_group_categories"
+                type="redshopcategory"
+                label="COM_REDSHOP_SHOPPER_GROUP_CATEGORY"
+                description="COM_REDSHOP_SHOPPER_GROUP_CATEGORY_DESCRIPTION"
+                multiple="true"
+                default=""
+                class="form-control">
+            <option value="">COM_REDSHOP_SELECT</option>
+        </field>
+        <field
+                name="shopper_group_url"
+                type="text"
+                label="COM_REDSHOP_SHOPPER_GROUP_URL"
+                class="form-control"
+                default=""
+        />
+        <field
+                name="shopper_group_logo"
+                type="text"
+                label="COM_REDSHOP_SHOPPER_GROUP_LOGO"
+                class="form-control"
+                default=""
+        />
+        <field
+                name="shopper_group_introtext"
+                type="editor"
+                label="COM_REDSHOP_SHOPPER_GROUP_INTROTEXT"
+                description="COM_REDSHOP_SHOPPER_GROUP_INTROTEXT_DESCRIPTION"
+                class="form-control"
+                size="1"
+                filter="safehtml"
+        />
+        <field
+                name="shopper_group_desc"
+                type="editor"
+                label="COM_REDSHOP_SHOPPER_GROUP_DESCRIPTION"
+                description="COM_REDSHOP_SHOPPER_GROUP_DESCRIPTION_DESCRIPTION"
+                class="form-control"
+                size="1"
+                filter="safehtml"
+        />
+        <field
+                name="parent_id"
+                type="redshop.shoppergroup"
+                label="COM_REDSHOP_SHOPPER_GROUP_PARENT"
+                description="COM_REDSHOP_SHOPPER_GROUP_PARENT_DESCRIPTION"
+                class="form-control"
+                exclude="current">
+            <option value="">COM_REDSHOP_SHOPPER_GROUP_PARENT_OPTION_TOP</option>
+        </field>
+        <field
+                name="default_shipping"
+                type="redshop.radio"
+                label="COM_REDSHOP_SHOPPER_GROUP_DEFAULT_SHIPPING"
+                description="COM_REDSHOP_SHOPPER_GROUP_DEFAULT_SHIPPING_DESCRIPTION"
+                label-class="radio-inline"
+                default="0">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="default_shipping_rate"
+                type="redshop.text"
+                label="COM_REDSHOP_SHOPPER_GROUP_DEFAULT_SHIPPING_RATE"
+                description="COM_REDSHOP_SHOPPER_GROUP_DEFAULT_SHIPPING_RATE_DESCRIPTION"
+                placeholder="COM_REDSHOP_SHOPPER_GROUP_DEFAULT_SHIPPING_RATE_DESCRIPTION"
+                class="form-control"
+                default=""
+                />
+        <field
+                name="published"
+                type="redshop.radio"
+                label="JPUBLISHED"
+                label-class="radio-inline"
+                default="1">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="shopper_group_cart_checkout_itemid"
+                type="number"
+                label="COM_REDSHOP_SHOPPER_GROUP_CART_CHECKOUT_ITEMID"
+                description="COM_REDSHOP_SHOPPER_GROUP_CART_CHECKOUT_ITEMID_DESCRIPTION"
+                placeholder="COM_REDSHOP_SHOPPER_GROUP_CART_CHECKOUT_ITEMID_DESCRIPTION"
+                class="form-control"
+                default=""
+                />
+        <field
+                name="shopper_group_cart_itemid"
+                type="number"
+                label="COM_REDSHOP_SHOPPER_GROUP_CART_ITEMID"
+                description="COM_REDSHOP_SHOPPER_GROUP_CART_ITEMID_DESCRIPTION"
+                placeholder="COM_REDSHOP_SHOPPER_GROUP_CART_ITEMID_DESCRIPTION"
+                class="form-control"
+                default=""
+                />
+        <field
+                name="shopper_group_quotation_mode"
+                type="redshop.radio"
+                label="COM_REDSHOP_SHOPPER_GROUP_QUOTATION_MODE"
+                description="COM_REDSHOP_SHOPPER_GROUP_QUOTATION_MODE_DESCRIPTION"
+                label-class="radio-inline"
+                default="0">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="show_price_without_vat"
+                type="redshop.radio"
+                label="COM_REDSHOP_SHOPPER_GROUP_SHOW_PRICE_WITHOUT_VAT"
+                description="COM_REDSHOP_SHOPPER_GROUP_SHOW_PRICE_WITHOUT_VAT_DESCRIPTION"
+                label-class="radio-inline"
+                default="0">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="tax_group_id"
+                type="redshop.taxgroup"
+                label="COM_REDSHOP_SHOPPER_GROUP_TAX_GROUP"
+                description="COM_REDSHOP_SHOPPER_GROUP_TAX_GROUP_DESCRIPTION"
+                default=""
+                class="form-control">
+            <option value="">COM_REDSHOP_SELECT</option>
+        </field>
+        <field
+                name="apply_product_price_vat"
+                type="text"
+                default=""
+                />
+        <field
+                name="show_price"
+                type="redshop.radio"
+                label="COM_REDSHOP_SHOPPER_GROUP_SHOW_PRICE"
+                description="COM_REDSHOP_SHOPPER_GROUP_SHOW_PRICE_DESCRIPTION"
+                default="global"
+                label-class="radio-inline">
+            <option value="global">COM_REDSHOP_GLOBAL</option>
+            <option value="no">COM_REDSHOP_NO</option>
+            <option value="yes">COM_REDSHOP_YES</option>
+        </field>
+        <field
+                name="use_as_catalog"
+                type="redshop.radio"
+                label="COM_REDSHOP_SHOPPER_GROUP_USE_AS_CATALOG"
+                description="COM_REDSHOP_SHOPPER_GROUP_USE_AS_CATALOG_DESCRIPTION"
+                default="global"
+                label-class="radio-inline">
+            <option value="global">COM_REDSHOP_GLOBAL</option>
+            <option value="no">COM_REDSHOP_NO</option>
+            <option value="yes">COM_REDSHOP_YES</option>
+        </field>
+        <field
+                name="shopper_group_manufactures"
+                type="redshop.manufacturer"
+                label="COM_REDSHOP_SHOPPER_GROUP_MANUFACTURER"
+                description="COM_REDSHOP_SHOPPER_GROUP_MANUFACTURER_DESCRIPTION"
+                multiple="true"
+                class="form-control">
+            <option value="">COM_REDSHOP_SELECT</option>
+        </field>
+    </fieldset>
+</form>
