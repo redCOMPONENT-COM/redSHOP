@@ -21,9 +21,6 @@ extract($displayData);
 $user = JFactory::getUser();
 ?>
 
-<input type="button" class="redshop-wishlist-button" data-productid="<?php echo $productId ?>" data-href="<?php echo $link ?>"
-	data-formid="<?php echo $formId ?>" value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>" />
-
 <?php if (!$user->guest) :?>
 	<input
 		type="button"
@@ -35,10 +32,8 @@ $user = JFactory::getUser();
 	/>
 <?php else : ?>
 	<?php if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0) :?>
-		<a class="redshop-wishlist-link-login" href="<?php echo $link ?>">
-			<input type="submit" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist"
-				   value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST")  ?>" />
-		</a>
+		<input type="submit" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist"
+			   value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST")  ?>" onclick="window.location='<?php echo $link ?>'"/>
 	<?php else : ?>
 		<form method="post" action="" id="form_wishlist_<?php echo $productId ?>_link" name="form_wishlist_<?php echo $productId ?>_link">
 				<input type='hidden' name='task' value='addtowishlist' />
