@@ -320,7 +320,7 @@ class RedshopModelMedia_detail extends RedshopModel
 				}
 				else
 				{
-					$this->setError(JText::sprintf('COM_REDSHOP_ERROR_SET_DEFAULT_MEDIA', $rs->media_type));
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDSHOP_ERROR_SET_DEFAULT_MEDIA', $rs->media_type), 'warning');
 
 					return false;
 				}
