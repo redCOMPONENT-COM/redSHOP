@@ -19,9 +19,17 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 $user = JFactory::getUser();
+$wishlistExist = 'icon icon-heart-2';
+$checkWishlist = RedshopHelperWishlist::checkWishlistExist($productId);
+
+if ($checkWishlist > 0)
+{
+	$wishlistExist = 'icon icon-heart';
+}
 ?>
 
 <?php if (!$user->guest) :?>
+	<i class="<?php echo $wishlistExist; ?>"></i>
 	<input
 		type="button"
 		class="redshop-wishlist-button"
