@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * PlgSystemRedSHOP class.
  *
  * @extends JPlugin
- * @since  1.5.0.1
+ * @since  1.0.0
  */
 class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 {
@@ -108,27 +108,27 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 		// Get Code
 		$discountDetail = $this->getDiscountCode($discountId, $view);
 
-		if ($discountDetail)
+		if (empty($discountDetail))
 		{
-			$value = $productHelper->getProductFormattedPrice($discountDetail->value);
-
-			if ($discountDetail->type == '1' || $discountDetail->type == 'Percentage')
-			{
-				$value = number_format($discountDetail->value) . "%";
-			}
-
-			$mailBody = str_replace('{discount_code}', $discountDetail->code, $mailBody);
-			$mailBody = str_replace('{discount_value}', $value, $mailBody);
-
-			if (!RedshopHelperMail::sendEmail($from, $fromName, $email, $subject, $mailBody, true, null, $mailBcc))
-			{
-				JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
-
-				return false;
-			}
+			return true;
 		}
 
+		$value = $productHelper->getProductFormattedPrice($discountDetail->value);
 
+		if ($discountDetail->type == '1' || $discountDetail->type == 'Percentage')
+		{
+			$value = number_format($discountDetail->value) . "%";
+		}
+
+		$mailBody = str_replace('{discount_code}', $discountDetail->code, $mailBody);
+		$mailBody = str_replace('{discount_value}', $value, $mailBody);
+
+		if (!RedshopHelperMail::sendEmail($from, $fromName, $email, $subject, $mailBody, true, null, $mailBcc))
+		{
+			JError::raiseWarning(21, JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+
+			return false;
+		}
 
 		return true;
 	}
@@ -155,7 +155,23 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 	public function onRedshopAdminRender(&$render)
 	{
 		$app = JFactory::getApplication();
+
+		if (!$app->isAdmin())
+		{
+			return true;
+		}
+
 		$jinput = $app->input;
+
+		if ($jinput->get('option', '') != 'com_redshop')
+		{
+			return true;
+		}
+
+		if ($jinput->get('view', '') != 'voucher' && $jinput->get('view', '') != 'coupon')
+		{
+			return true;
+		}
 
 		$render .= RedshopLayoutHelper::render(
 			'form',
@@ -207,9 +223,7 @@ class PlgSystemRedSHOP_Send_Discountcode extends JPlugin
 				->where($db->qn('coupon_id') . ' = ' . (int) $id);
 		}
 
-		$result = $db->setQuery($query)->loadObject();
-
-		return $result;
+		return $db->setQuery($query)->loadObject();
 	}
 }
 
