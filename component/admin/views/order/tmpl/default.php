@@ -7,22 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$producthelper = productHelper::getInstance();
-
+$productHelper = productHelper::getInstance();
 
 global $context;
 
-$app = JFactory::getApplication();
-
-$order_function = order_functions::getInstance();
+$app    = JFactory::getApplication();
 $config = Redconfiguration::getInstance();
 
 $lists = $this->lists;
 $model = $this->getModel('order');
-$redhelper = redhelper::getInstance();
-$shippinghelper = shipping::getInstance();
-$stockroomhelper = rsstockroomhelper::getInstance();
-$dispatcher = JDispatcher::getInstance();
+$stockroomHelper = rsstockroomhelper::getInstance();
+$dispatcher = RedshopHelperUtility::getDispatcher();
 JPluginHelper::importPlugin('redshop_product');
 ?>
 <style type="text/css">
@@ -58,26 +53,36 @@ JPluginHelper::importPlugin('redshop_product');
 
 		if (pressbutton == 'add')
 		{
-		<?php
-			$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail');
-		?>
+			<?php $link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail'); ?>
 			window.location = '<?php echo $link;?>';
-			return;
-			// form.view.value="addorder_detail";
-		}
-		if ((pressbutton == 'allstatus'))
-		{
-			if (document.getElementById('order_status_all').value == '0') {
-				alert("<?php echo JText::_('COM_REDSHOP_SELECT_NEW_STATUS'); ?>");
-				return false;
-			}
 
+			return;
 		}
-		else if ((pressbutton == 'edit') || (pressbutton == 'remove')) {
-			form.view.value = "order_detail";
-		}
-		else if (pressbutton == 'multiprint_order') {
-			form.view.value = "order";
+
+		switch (pressbutton) {
+			case 'allstatus':
+				if (document.getElementById('order_status_all').value == '0') {
+					alert("<?php echo JText::_('COM_REDSHOP_SELECT_NEW_STATUS'); ?>");
+					return false;
+				}
+				break;
+			case 'edit':
+				form.view.value = "order_detail";
+				break;
+			case 'multiprint_order':
+				form.view.value = "order";
+				break;
+			case 'remove':
+				form.view.value = "order_detail";
+
+				var r = confirm('<?php echo JText::_("COM_REDSHOP_ORDER_DELETE_ORDERS_CONFIRM")?>');
+
+				if (r == false) {
+					return false;
+				}
+				break;
+			default:
+				break;
 		}
 
 		try
@@ -85,8 +90,7 @@ JPluginHelper::importPlugin('redshop_product');
 			form.onsubmit();
 		}
 		catch (e)
-		{
-		}
+		{}
 
 		form.submit();
 	}
@@ -167,13 +171,13 @@ JPluginHelper::importPlugin('redshop_product');
 		<thead>
 			<tr>
 				<th width="1">#</th>
-				<th width="1"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
+				<th width="1"><?php echo JHtml::_('redshopgrid.checkall') ?></th>
 				<th class="title" width="5%">
-					<?php echo JHTML::_('grid.sort', 'ID', 'order_id', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'ID', 'order_id', $this->lists['order_Dir'], $this->lists['order']) ?>
 				</th>
-				<?php if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT == 2): ?>
+				<?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2): ?>
 				<th width="10%">
-					<?php echo  JHTML::_('grid.sort', 'COM_REDSHOP_BOOKINVOICE_NUMBER', 'bookinvoice_number', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_BOOKINVOICE_NUMBER', 'bookinvoice_number', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<?php endif; ?>
 				<th>
@@ -185,16 +189,17 @@ JPluginHelper::importPlugin('redshop_product');
 				<th>
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CUSTOMER_TYPE', 'is_company', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
-				<th width="15%">
+				<th width="10%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_STATUS', 'order_status', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
-				<th width="7%">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_TOTAL', 'order_total', $this->lists['order_Dir'], $this->lists['order']); ?>
-				</th>
-				<th width="1">
+				<th width="10%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PAYMENT', 'order_payment_status', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
-				<?php if (USE_STOCKROOM == 1): ?>
+				<th width="10%">
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_TOTAL', 'order_total', $this->lists['order_Dir'], $this->lists['order']); ?>
+				</th>
+				<th width="1"></th>
+				<?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1): ?>
 					<th width="10%">
 						<?php echo JText::_('COM_REDSHOP_STOCKROOM_NAME'); ?>
 					</th>
@@ -202,22 +207,21 @@ JPluginHelper::importPlugin('redshop_product');
 						<?php echo JText::_('COM_REDSHOP_STOCKROOM_DELIVERY_TIME'); ?>
 					</th>
 				<?php endif; ?>
-				<th width="7%" nowrap="nowrap">
+				<th width="10%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_DATE', 'cdate', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th width="1">&nbsp;</th>
 				<th></th>
-				<?php if (POSTDK_INTEGRATION): ?>
+				<?php if (Redshop::getConfig()->get('POSTDK_INTEGRATION')): ?>
 					<th></th>
 				<?php endif; ?>
 			</tr>
 		</thead>
 		<tbody>
 			<?php
-			$send_mail_to_customer = SEND_MAIL_TO_CUSTOMER ? 'checked' : 0;
+			$send_mail_to_customer = Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER') ? 'checked' : 0;
 			$k = 0;
 			?>
-
 			<?php for ($i = 0, $n = count($this->orders); $i < $n; $i++): ?>
 				<?php
 				$row     = $this->orders[$i];
@@ -243,82 +247,29 @@ JPluginHelper::importPlugin('redshop_product');
 						<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 					</td>
 					<td align="center">
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>"><?php echo $row->order_id; ?></a>
+						<a href="<?php echo $link ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>"><?php echo $row->order_id ?></a>
 					</td>
-					<?php if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT == 2
+					<?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2
 						&& $row->invoice_no && $row->is_booked == 1 && $row->bookinvoice_number): ?>
-						<td align="center"><?php echo $row->bookinvoice_number; ?></td>
+						<td align="center"><?php echo $row->bookinvoice_number ?></td>
 					<?php endif; ?>
 					<td>
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>">
-							<?php echo $row->firstname . ' ' . $row->lastname; ?>
+						<a href="<?php echo $link ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER') ?>">
+							<?php echo $row->firstname . ' ' . $row->lastname ?>
 						</a>
 					</td>
 					<td>
-						<a href="mailto:<?php echo $row->user_email; ?>" target="_blank">
-							<i class="fa fa-envelope"></i>
-						</a>&nbsp;<?php echo $row->user_email; ?>
+						<a href="mailto:<?php echo $row->user_email ?>" target="_blank"><?php echo $row->user_email ?></a>
 					</td>
 					<td>
 						<?php if ($row->is_company): ?>
-							<p class="text-info"><?php echo $row->company_name; ?></p>
+							<span class="text-info"><?php echo $row->company_name; ?></span>
 						<?php else: ?>
-							<p class="text-muted"><?php echo JText::_('COM_REDSHOP_PRIVATE'); ?></p>
+							<span class="text-muted"><?php echo JText::_('COM_REDSHOP_PRIVATE'); ?></span>
 						<?php endif; ?>
 					</td>
 					<td>
-						<?php
-						$linkupdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id);
-						?>
-						<a href="javascript:void(0);" class="order_status_change" data-target="order_status_form<?php echo $row->id; ?>">
-							<i class="icon icon-edit"></i>
-						</a>
-						<span class="label order_status_<?php echo strtolower($row->order_status); ?>"><?php echo $row->order_status_name; ?></span>
-						<div id="order_status_form<?php echo $row->id; ?>" class="panel panel-default" style="display: none; margin-top: 15px;">
-							<div class="panel-body">
-								<div class="form-group">
-									<label><?php echo JText::_('COM_REDSHOP_ORDER_STATUS'); ?></label>
-									<?php
-									echo $order_function->getstatuslist(
-										'order_status' . $row->order_id,
-										$row->order_status,
-										"class=\"form-control inputbox\" size=\"1\" "
-									)
-									?>
-								</div>
-								<div class="form-group">
-									<label><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS'); ?></label>
-									<?php
-									echo $order_function->getpaymentstatuslist(
-										'order_paymentstatus' . $row->order_id,
-										$row->order_payment_status,
-										"class=\"form-control inputbox\" size=\"1\" "
-									);
-									?>
-								</div>
-								<div class="form-group">
-									<label><?php echo JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'); ?></label>
-									<textarea class="form-control" name="customer_note<?php echo $row->order_id ?>"><?php echo $row->customer_note;?></textarea>
-								</div>
-								<div class="form-group">
-									<label>
-										<input type="checkbox" <?php echo $send_mail_to_customer ?> value=""
-										       name="sendordermail<?php echo $row->order_id ?>"
-
-										       id="sendordermail<?php echo $row->order_id ?>" /> <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL') ?>
-									</label>
-								</div>
-								<div class="form-group">
-									<input class="button btn btn-success btn-block btn-small"
-									       onclick="location.href = '<?php echo $linkupdate; ?>&status='+document.adminForm.order_status<?php echo $row->order_id; ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id; ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id; ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id; ?>.value  ; "
-									       name="order_status" value="<?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON'); ?>"
-									       type="button" />
-								</div>
-							</div>
-						</div>
-					</td>
-					<td>
-						<?php echo $producthelper->getProductFormattedPrice($row->order_total); ?>
+						<span class="label order_status_<?php echo strtolower($row->order_status) ?>"><?php echo $row->order_status_name ?></span>
 					</td>
 					<td>
 						<?php $paymentStatusClass = 'label order_payment_status_' . strtolower($row->order_payment_status); ?>
@@ -332,67 +283,145 @@ JPluginHelper::importPlugin('redshop_product');
 							<?php endif; ?>
 						</span>
 					</td>
-					<?php if (USE_STOCKROOM == 1) : ?>
-						<td align="center">
-							<?php $order_items = $order_function->getOrderItemDetail($row->order_id);
-
-							$stockroom_id = "";
-
-							for ($st = 0; $st < count($order_items); $st++)
-							{
-								if ($order_items[$st]->stockroom_id != "")
-								{
-									$stockroom_id .= $order_items[$st]->stockroom_id . ",";
-								}
-							}
-
-							if ($stockroom_id != "")
-							{
-								$stockroom_list = $stockroomhelper->getStockroom(substr_replace($stockroom_id, "", -1));
-
-								for ($s = 0, $sn = count($stockroom_list); $s < $sn; $s++)
-								{
-									echo $stockroom_list[$s]->stockroom_name;
-									echo "<br>";
-									echo $delivery_time = $stockroom_list[$s]->min_del_time . "-" . $stockroom_list[$s]->max_del_time . " " . $stockroom_list[$s]->delivery_time;
-									echo "<br>";
-								}
-							}
-
-							?>
-
-						</td>
-						<td align="center">
+					<td>
+						<?php echo $productHelper->getProductFormattedPrice($row->order_total); ?>
+					</td>
+					<td>
 						<?php
-							$carthelper    = rsCarthelper::getInstance();
-							echo $shipping_name = $carthelper->replaceShippingMethod($row, "{shipping_method}");
-							echo "<br />";
+						$linkUpdate = 'index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id;
+						?>
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#order_status_form<?php echo $row->id ?>">
+							<i class="icon icon-edit"></i> <?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON') ?>
+						</button>
+						<div class="modal fade" id="order_status_form<?php echo $row->id ?>" role="dialog"
+							 aria-labelledby="order_status_form_label_<?php echo $row->id ?>">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<h3 class="modal-title" id="order_status_form_label_<?php echo $row->id ?>">
+											<?php echo JText::_('COM_REDSHOP_ORDER') . ': ' . $row->id ?>
+										</h3>
+									</div>
+									<div class="modal-body">
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?></label>
+														<?php echo RedshopHelperOrder::getStatusList(
+															'order_status' . $row->order_id,
+															$row->order_status,
+															"class=\"form-control inputbox\" size=\"1\" "
+														); ?>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?></label>
+														<?php echo RedshopHelperOrder::getPaymentStatusList(
+															'order_paymentstatus' . $row->order_id,
+															$row->order_payment_status,
+															"class=\"form-control inputbox\" size=\"1\" "
+														); ?>
+													</div>
+												</div>
+											</div>
+											<hr />
+											<div class="row">
+												<div class="col-md-12">
+													<div class="form-group">
+														<label><?php echo JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'); ?></label>
+														<textarea class="form-control" name="customer_note<?php echo $row->order_id ?>"
+															style="resize: none;"><?php echo $row->customer_note ?></textarea>
+													</div>
+													<div class="form-group">
+														<label>
+															<input type="checkbox" <?php echo $send_mail_to_customer ?> value="1"
+																   name="sendordermail<?php echo $row->order_id ?>" /> <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL') ?>
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger" data-dismiss="modal">
+											<?php echo JText::_('JTOOLBAR_CANCEL') ?>
+										</button>
+										<button type="button" class="button btn btn-primary" onclick="location.href='<?php echo JRoute::_($linkUpdate, false) ?>&status='+document.adminForm.order_status<?php echo $row->order_id ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id ?>.value;"
+												value="<?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON'); ?>">
+											<?php echo JText::_('JTOOLBAR_SAVE') ?>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
+					<?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1) : ?>
+					<td align="center">
+						<?php
+						$orderItems   = RedshopHelperOrder::getOrderItemDetail($row->order_id);
+						$stockroomIds = array();
 
-							if ($stockroom_id != "")
+						foreach ($orderItems as $orderItem)
+						{
+							if (!empty($orderItem->stockroom_id))
 							{
-								$max_delivery = $stockroomhelper->getStockroom_maxdelivery(substr_replace($stockroom_id, "", -1));
-								$orderdate = $config->convertDateFormat($row->cdate);
-
-								$stamp = mktime(0, 0, 0, date('m', $row->cdate), date('d', $row->cdate) + $max_delivery[0]->max_del_time, date('Y', $row->cdate));
-								$delivery_date = date('d/m/Y', $stamp);
-								$current_date = date('d/m/Y');
-								$datediff = $stockroomhelper->getdateDiff($stamp, time());
-
-								if ($datediff < 0)
-								{
-									$datediff = 0;
-								}
-
-								echo $datediff . " " . $max_delivery[0]->delivery_time;
+								$stockroomIds[] = (int) $orderItem->stockroom_id;
 							}
+						}
+						?>
+
+						<?php if (!empty($stockroomIds)): ?>
+							<?php
+							$stockrooms = RedshopHelperStockroom::getStockroom(implode(',', $stockroomIds), 1);
 							?>
-						</td>
+							<?php foreach ($stockrooms as $stockroom): ?>
+								<?php echo $stockroom->stockroom_name ?>
+								<br />
+								<?php echo $stockroom->min_del_time . "-" . $stockroom->max_del_time . " " . $stockroom->delivery_time ?>
+								<br />
+							<?php endforeach; ?>
+						<?php endif; ?>
+					</td>
+					<td align="center">
+						<?php
+						$carthelper    = rsCarthelper::getInstance();
+						echo $shipping_name = $carthelper->replaceShippingMethod($row, "{shipping_method}");
+						echo "<br />";
+
+						if ($stockroom_id != "")
+						{
+							$max_delivery = $stockroomHelper->getStockroom_maxdelivery(substr_replace($stockroom_id, "", -1));
+							$orderdate = $config->convertDateFormat($row->cdate);
+
+							$stamp = mktime(0, 0, 0, date('m', $row->cdate), date('d', $row->cdate) + $max_delivery[0]->max_del_time, date('Y', $row->cdate));
+							$delivery_date = date('d/m/Y', $stamp);
+							$current_date = date('d/m/Y');
+							$datediff = $stockroomHelper->getdateDiff($stamp, time());
+
+							if ($datediff < 0)
+							{
+								$datediff = 0;
+							}
+
+							echo $datediff . " " . $max_delivery[0]->delivery_time;
+						}
+						?>
+					</td>
 					<?php endif; ?>
 					<td align="center">
 						<?php echo $config->convertDateFormat($row->cdate); ?>
 					</td>
 					<td>
-						<a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+						<?php if (RedshopHelperPdf::isAvailablePdfPlugins()): ?>
+							<a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>" target="_blank">
+								<i class="fa fa-file-pdf-o"></i>
+							</a>
+						<?php else: ?>
+							<span class="disabled"><i class="fa fa-file-pdf-o"></i></span>
+						<?php endif; ?>
 					</td>
 					<td>
 						<?php if ($row->invoice_no != ''): ?>
@@ -411,7 +440,7 @@ JPluginHelper::importPlugin('redshop_product');
 									echo JHTML::_('calendar', date('Y-m-d'), 'bookDate' . $i, 'bookDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));    ?>
 									<br />
 									<input type="button" class="button" value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>"
-									       onclick="javascript:<?php echo $confirm; ?>"><br/>
+										   onclick="javascript:<?php echo $confirm; ?>"><br/>
 								<?php endif; ?>
 							<?php elseif ($row->bookinvoice_date > 0): ?>
 								<?php echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') ?><br />
@@ -420,7 +449,7 @@ JPluginHelper::importPlugin('redshop_product');
 						<?php endif; ?>
 					</td>
 					<?php
-						if (POSTDK_INTEGRATION)
+						if (Redshop::getConfig()->get('POSTDK_INTEGRATION'))
 						{
 							$details = RedshopShippingRate::decrypt($row->ship_method_id);
 
@@ -485,18 +514,16 @@ JPluginHelper::importPlugin('redshop_product');
 			</td>
 		</tfoot>
 	</table>
-</div>
 
-<input type="hidden" name="return" value="order"/>
-<input type="hidden" name="view" value="order"/>
-<input type="hidden" name="task" value=""/>
-<input type="hidden" name="boxchecked" value="0"/>
-<input type="hidden" name="filter_order" value="order_id"/>
-<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+	<input type="hidden" name="return" value="order"/>
+	<input type="hidden" name="view" value="order"/>
+	<input type="hidden" name="task" value=""/>
+	<input type="hidden" name="boxchecked" value="0"/>
+	<input type="hidden" name="filter_order" value="order_id"/>
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
 </form>
 
 <form name='invoice' method="post">
-
 	<input name="view" value="order" type="hidden">
 	<input name="order_id" value="" type="hidden">
 	<input name="option" value="com_redshop" type="hidden">

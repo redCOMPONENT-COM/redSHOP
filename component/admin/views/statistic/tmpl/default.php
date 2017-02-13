@@ -64,7 +64,7 @@ $end    = $this->pagination->limit;
 						}
 					?>
 					</td>
-					<td align="center"><?php echo $row->viewer;?></td>
+					<td align="center"><?php echo !empty($row->viewer) ? $row->viewer : 0;?></td>
 				</tr>
 			<?php
 			}

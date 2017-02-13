@@ -6,8 +6,9 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+defined('_JEXEC') or die;
 
-JHTMLBehavior::modal();
+JHtml::_('behavior.modal', 'a.joom-box');
 
 $producthelper = productHelper::getInstance();
 $model = $this->getModel('product');
@@ -102,9 +103,9 @@ $model = $this->getModel('product');
 						<?php echo $row->product_number;?>
 					</td>
 					<td width="20%"><input type="hidden" name='pid[]' value="<?php echo $row->product_id ?>"> <input
-							type="text" value="<?php echo $producthelper->redpriceDecimal($row->product_price); ?>"
+							type="text" value="<?php echo $producthelper->redpriceDecimal($row->product_price, false); ?>"
 							name="price[]" class="input-small" size=4>
-						<a class='modal' rel="{handler: 'iframe', size: {x: 750, y: 400}}"
+						<a class='joom-box' rel="{handler: 'iframe', size: {x: 750, y: 400}}"
 						   href="index.php?tmpl=component&option=com_redshop&view=product_price&pid=<?php echo $row->product_id ?>">+</a>
 					</td>
 					<td width="20%"><input type="text" class="input-small"

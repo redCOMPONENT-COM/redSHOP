@@ -12183,17 +12183,6 @@ function _init() {
 		// Tooltips
 		$('[data-toggle="tooltip"]').tooltip();
 
-		$('input:not([rel="noicheck"])').iCheck({
-			checkboxClass: 'icheckbox_minimal-blue',
-			radioClass: 'iradio_minimal-blue',
-			increaseArea: '20%' // optional
-		});
-
-		$('input:not([rel="noicheck"])').on('ifClicked', function(e) {
-			$(this).click();
-			$('input').iCheck('update');
-		});
-
 		$('img[src*="system/images/tooltip.png"]').each(function() {
 			var s = $(this).attr('src');
 			s = s.replace('system', 'com_redshop');
@@ -16285,7 +16274,7 @@ Licensed under the BSD-2-Clause License.
 			var divimage = $(this).parent().parent();
 
 			$(divimage).find('img').hide();
-			$(divimage).parent().find('input[rel="noicheck"]').click();
+			$(divimage).parent().find('input[type="checkbox"]').click();
 
 			$(divimage).prev().fadeIn('slow', function () {
 				$(this).delay(2000).fadeOut('slow');
@@ -16323,11 +16312,15 @@ Licensed under the BSD-2-Clause License.
 			e.preventDefault();
 		});
 
-		$('#toolbar').affix({
-			offset: {
-				top: 150
+		if ($(window).width() > 768) {
+			var $toolbar = $('#toolbar');
+			if ($toolbar.length)
+			{
+               $toolbar.affix({
+                    offset: { top: $toolbar.offset().top + 200}
+                });
 			}
-		});
+		}
 
 		$('table').each(function(){
 			$(this).wrap( "<div class='table-responsive'></div>" );

@@ -90,7 +90,7 @@ class RedshopModelCategory extends RedshopModel
 	{
 		$app = JFactory::getApplication();
 		$params = $app->getParams('com_redshop');
-		$selectedTemplate = DEFAULT_CATEGORYLIST_TEMPLATE;
+		$selectedTemplate = Redshop::getConfig()->get('DEFAULT_CATEGORYLIST_TEMPLATE');
 		$layout = $app->input->getCmd('layout', 'detail');
 
 		if ($this->_id)
@@ -131,7 +131,7 @@ class RedshopModelCategory extends RedshopModel
 		$this->setState('manufacturer_id', $manufacturerId);
 
 		// Get default ordering
-		$orderBySelect = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+		$orderBySelect = $params->get('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
 		$editTimestamp = $params->get('editTimestamp', 0);
 		$userTimestamp = $app->getUserState($this->context . '.editTimestamp', 0);
 
@@ -190,7 +190,7 @@ class RedshopModelCategory extends RedshopModel
 
 			if (!$limit)
 			{
-				$limit = MAXCATEGORY;
+				$limit = Redshop::getConfig()->get('MAXCATEGORY');
 			}
 		}
 
@@ -241,9 +241,9 @@ class RedshopModelCategory extends RedshopModel
 
 	public function _buildContentOrderBy()
 	{
-		if (DEFAULT_CATEGORY_ORDERING_METHOD)
+		if (Redshop::getConfig()->get('DEFAULT_CATEGORY_ORDERING_METHOD'))
 		{
-			$orderby = " ORDER BY " . DEFAULT_CATEGORY_ORDERING_METHOD;
+			$orderby = " ORDER BY " . Redshop::getConfig()->get('DEFAULT_CATEGORY_ORDERING_METHOD');
 		}
 		else
 		{
@@ -328,17 +328,31 @@ class RedshopModelCategory extends RedshopModel
 			$query->where('p.manufacturer_id = ' . (int) $manufacturerId);
 		}
 
-		$query->select('p.product_id')
+		$query->select($db->qn('p.product_id'))
 			->from($db->qn('#__redshop_product', 'p'))
-			->leftJoin('#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
-			->where(
-				array(
-					'p.published = 1', 'p.expired = 0',
-					'pc.category_id = ' . (int) $this->_id,
-					'p.product_parent_id = 0'
-				)
-			)
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id'))
+			->where($db->qn('p.published') . ' = 1')
+			->where($db->qn('p.expired') . ' = 0')
+			->where($db->qn('p.product_parent_id') . ' = 0')
 			->order($orderBy);
+
+		$filterIncludeProductFromSubCat = $this->getState('include_sub_categories_products', false);
+		$categories = array($this->_id);
+
+		if ($filterIncludeProductFromSubCat === true)
+		{
+			$tmpCategories = RedshopHelperCategory::getCategoryTree($this->_id);
+
+			if (!empty($tmpCategories))
+			{
+				foreach ($tmpCategories as $child)
+				{
+					$categories[] = $child->category_id;
+				}
+			}
+		}
+
+		$query->where($db->qn('pc.category_id') . ' IN (' . implode(',', $categories) . ')');
 
 		$finder_condition = $this->getredproductfindertags();
 
@@ -380,7 +394,7 @@ class RedshopModelCategory extends RedshopModel
 				)
 				->leftJoin('#__redshop_category AS c ON c.category_id = pc.category_id')
 				->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id')
-				->where('pc.category_id = ' . (int) $this->_id);
+				->where('pc.category_id IN (' . implode(',', $categories) . ')');
 
 			if ($products = $db->setQuery($query)->loadObjectList('concat_id'))
 			{
@@ -524,7 +538,7 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function buildProductOrderBy()
 	{
-		$orderBy        = redhelper::getInstance()->prepareOrderBy(DEFAULT_PRODUCT_ORDERING_METHOD);
+		$orderBy        = redhelper::getInstance()->prepareOrderBy(Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
 		$filterOrder    = $this->getState('list.ordering', $orderBy->ordering);
 		$filterOrderDir = $this->getState('list.direction', $orderBy->direction);
 
@@ -567,7 +581,7 @@ class RedshopModelCategory extends RedshopModel
 				}
 				else
 				{
-					$this->_data = $this->_getList($query, 0, MAXCATEGORY);
+					$this->_data = $this->_getList($query, 0, Redshop::getConfig()->get('MAXCATEGORY'));
 				}
 			}
 		}
@@ -646,7 +660,7 @@ class RedshopModelCategory extends RedshopModel
 	{
 		$redTemplate       = Redtemplate::getInstance();
 
-		$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
+		$selected_template = Redshop::getConfig()->get('DEFAULT_CATEGORYLIST_TEMPLATE');
 		$template_section  = "frontpage_category";
 
 		if ($this->_id)

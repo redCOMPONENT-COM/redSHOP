@@ -255,38 +255,43 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function addtowishlist()
 	{
+		$app           = JFactory::getApplication();
+		$extraField    = extraField::getInstance();
+		$productHelper = productHelper::getInstance();
+		$user          = JFactory::getUser();
+		$input         = $app->input;
+
 		ob_clean();
-		$app        = JFactory::getApplication();
-		$extraField = extraField::getInstance();
-		$section    = 12;
-		$row_data   = $extraField->getSectionFieldList($section);
+		$section  = 12;
+		$row_data = $extraField->getSectionFieldList($section);
 
 		// GetVariables
-		$producthelper = productHelper::getInstance();
-		$cid           = JRequest::getInt('cid');
-		$user          = JFactory::getUser();
-		$Itemid        = JRequest::getVar('Itemid');
-		$ajaxvar       = JRequest::getVar('ajaxon');
-		$mywid         = JRequest::getVar('wid');
+		$cid        = $input->getInt('cid', 0);
+		$Itemid     = $input->getInt('Itemid', 0);
+		$ajaxOn     = $input->getInt('ajaxon', 0);
+		$wishlistId = $input->getInt('wid', 0);
+		$attributeIds = $input->getString('attribute_id', '');
+		$propertyIds = $input->getString('property_id', '');
+		$subAttributeIds = $input->getString('subattribute_id', '');
 
-		if ($ajaxvar == 1 && ($mywid == 1 || $mywid == 2))
+		if ($ajaxOn == 1 && ($wishlistId == 1 || $wishlistId == 2))
 		{
-			$post = JRequest::get('post');
+			$post = $input->post->getArray();
 
-			$post['product_id'] = JRequest::getVar('product_id');
-			$proname            = $producthelper->getProductById($post['product_id']);
-			$post['view']       = JRequest::getVar('view');
-			$post['task']       = JRequest::getVar('task');
+			$post['product_id'] = $input->getInt('product_id', 0);
+			$proname            = RedshopHelperProduct::getProductById($post['product_id']);
+			$post['view']       = $input->getCmd('view', '');
+			$post['task']       = $input->getCmd('task', '');
+			$index              = 0;
 
-			for ($i = 0, $in = count($row_data); $i < $in; $i++)
+			foreach ($row_data as $data)
 			{
-				$field_name = $row_data[$i]->field_name;
+				$field_name = $data->field_name;
+				$type = $data->field_type;
 
-				$type = $row_data[$i]->field_type;
-
-				if (isset($post[$row_data[$i]->field_name]))
+				if (isset($post[$field_name]))
 				{
-					$data_txt = $post[$row_data[$i]->field_name];
+					$data_txt = $post[$field_name];
 				}
 				else
 				{
@@ -307,14 +312,15 @@ class RedshopControllerProduct extends RedshopController
 					}
 				}
 
-				$post['productuserfield_' . $i] = $data_txt;
+				$post['productuserfield_' . $index] = $data_txt;
+
+				$index++;
 			}
 		}
 		else
 		{
-			$post = JRequest::get('post');
-
-			$proname = $producthelper->getProductById($post['product_id']);
+			$post    = $input->post->getArray();
+			$proname = RedshopHelperProduct::getProductById($post['product_id']);
 
 			for ($i = 0, $in = count($row_data); $i < $in; $i++)
 			{
@@ -322,11 +328,15 @@ class RedshopControllerProduct extends RedshopController
 
 				$type = $row_data[$i]->field_type;
 
-				if (isset($post[$row_data[$i]->field_name]))
-
-					$data_txt = $post[$row_data[$i]->field_name];
+				if (isset($post[$field_name]))
+				{
+					$data_txt = $post[$field_name];
+				}
 				else
+				{
 					$data_txt = '';
+				}
+
 				$tmpstr = strpbrk($data_txt, '`');
 
 				if ($tmpstr)
@@ -348,16 +358,33 @@ class RedshopControllerProduct extends RedshopController
 		$rurl = "";
 
 		if (isset($post['rurl']))
+		{
 			$rurl = base64_decode($post['rurl']);
+		}
 
-		// Initiallize variable
+		// Initialize variable
 		$post['user_id'] = $user->id;
+		$post['cdate']   = time();
 
-		$post['cdate'] = time();
+		if (!empty($attributeIds))
+		{
+			$post['attribute_id'] = $attributeIds;
+		}
 
+		if (!empty($propertyIds))
+		{
+			$post['property_id'] = $propertyIds;
+		}
+
+		if (!empty($subAttributeIds))
+		{
+			$post['subattribute_id'] = $subAttributeIds;
+		}
+
+		/** @var RedshopModelProduct $model */
 		$model = $this->getModel('product');
 
-		if ($user->id && $ajaxvar != '1')
+		if ($user->id && $ajaxOn != '1')
 		{
 			if ($model->checkWishlist($post['product_id']) == null)
 			{
@@ -379,15 +406,19 @@ class RedshopControllerProduct extends RedshopController
 		{
 			// User can store wishlist in session
 			if ($model->addtowishlist2session($post))
+			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
+			}
 			else
+			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
+			}
 		}
 
-		if ($ajaxvar == 1)
+		if ($ajaxOn == 1)
 		{
 			sleep(2);
-			$getproductimage = $producthelper->getProductById($post['product_id']);
+			$getproductimage = $productHelper->getProductById($post['product_id']);
 			$finalproductimgname = $getproductimage->product_full_image;
 
 			if ($finalproductimgname != '')
@@ -399,18 +430,20 @@ class RedshopControllerProduct extends RedshopController
 				$mainimg = 'noimage.jpg';
 			}
 
-			echo "<span id='basketWrap' ><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=" . JRequest::getVar('Itemid') . "&pid=" . $post['product_id'] . "'><img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . $mainimg . "' height='30' width='30'/></a></span>:-:" . $proname->product_name . "";
+			echo "<span id='basketWrap' ><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=" . $Itemid . "&pid=" . $post['product_id'] . "'><img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . $mainimg . "' height='30' width='30'/></a></span>:-:" . $proname->product_name . "";
 			exit;
 		}
-		elseif ($mywid == 1)
+		elseif ($wishlistId == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshopwishlist=1&view=login&Itemid=' . $Itemid);
 		}
 
 		if ($rurl != "")
+		{
 			$this->setRedirect($rurl);
-		else
-			$this->setRedirect('index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
+		}
+
+		$this->setRedirect('index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
 	}
 
 	/**
@@ -819,7 +852,7 @@ class RedshopControllerProduct extends RedshopController
 
 			$uploadFilePath = JPath::clean($uploadDir . $fileName);
 
-			$legalExts = explode(',', MEDIA_ALLOWED_MIME_TYPE);
+			$legalExts = explode(',', Redshop::getConfig()->get('MEDIA_ALLOWED_MIME_TYPE'));
 
 			// If Extension is not legal than don't upload file
 			if (!in_array(strtolower($fileExtension), $legalExts))

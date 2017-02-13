@@ -104,7 +104,7 @@ for ($i = 0, $countRows = count($rows); $i < $countRows; $i++)
 		echo "<a href='" . $link . "' title='" . $row->product_name . "'>" . $pname . "</a>";
 	}
 
-	if (SHOW_PRICE && !USE_AS_CATALOG && !DEFAULT_QUOTATION_MODE && $show_price && !$row->not_for_sale)
+	if (Redshop::getConfig()->get('SHOW_PRICE') && !Redshop::getConfig()->get('USE_AS_CATALOG') && !Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && $show_price && !$row->not_for_sale)
 	{
 		$productArr           = $producthelper->getProductNetPrice($row->product_id);
 		$product_price        = $producthelper->getPriceReplacement($productArr['product_price']);
@@ -143,7 +143,7 @@ for ($i = 0, $countRows = count($rows); $i < $countRows; $i++)
 							'product',
 							$thumbwidth,
 							$thumbheight,
-							USE_IMAGE_SIZE_SWAPPING
+							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 		}
 		elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_thumb_image))
@@ -155,7 +155,7 @@ for ($i = 0, $countRows = count($rows); $i < $countRows; $i++)
 							'product',
 							$thumbwidth,
 							$thumbheight,
-							USE_IMAGE_SIZE_SWAPPING
+							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 		}
 		else

@@ -36,9 +36,9 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		// For total amount
 		$cal_no = 2;
 
-		if (defined('PRICE_DECIMAL'))
+		if (Redshop::getConfig()->get('PRICE_DECIMAL') != '')
 		{
-			$cal_no = PRICE_DECIMAL;
+			$cal_no = Redshop::getConfig()->get('PRICE_DECIMAL');
 		}
 
 		$order_total = round($data['order_total'], $cal_no);
@@ -147,7 +147,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 			// Transaction Data
 			'x_amount'             => $order_total,
-			'x_currency_code'      => CURRENCY_CODE,
+			'x_currency_code'      => Redshop::getConfig()->get('CURRENCY_CODE'),
 			'x_method'             => 'CC',
 			'x_type'               => $this->params->get("auth_type"),
 
@@ -280,9 +280,9 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		// For total amount
 		$cal_no = 2;
 
-		if (defined('PRICE_DECIMAL'))
+		if (Redshop::getConfig()->get('PRICE_DECIMAL') != '')
 		{
-			$cal_no = PRICE_DECIMAL;
+			$cal_no = Redshop::getConfig()->get('PRICE_DECIMAL');
 		}
 
 		$order_total = round($order_details->order_total, $cal_no);
@@ -328,7 +328,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			'x_description'        => JText::_('COM_REDSHOP_AUTHORIZENET_ORDER_PRINT_PO_LBL'),
 			// Transaction Data
 			'x_amount'             => $order_total,
-			'x_currency_code'      => CURRENCY_CODE,
+			'x_currency_code'      => Redshop::getConfig()->get('CURRENCY_CODE'),
 			'x_method'             => 'CC',
 			'x_type'               => "PRIOR_AUTH_CAPTURE",
 			'x_card_num'           => base64_decode($order_details->order_payment_number),

@@ -7,8 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
 JHTML::_('behavior.tooltip');
-JHTML::_('behavior.modal');
+JHtml::_('behavior.modal', 'a.joom-box');
 
 $producthelper   = productHelper::getInstance();
 
@@ -96,7 +97,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 {
 	$edit_addlink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=quotation_detail&layout=account');
 	?>
-	<a class="modal btn btn-primary" href="<?php echo $edit_addlink; ?>" rel="{handler: 'iframe', size: {x: 670, y: 500}}">
+	<a class="joom-box btn btn-primary" href="<?php echo $edit_addlink; ?>" rel="{handler: 'iframe', size: {x: 670, y: 500}}">
 		<?php echo JText::_('COM_REDSHOP_ADD_USER'); ?>
 	</a>
 <?php
@@ -395,18 +396,19 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 								$tax = $quotation->quotation_tax;
 								$DiscountWithotVat = $quotation->quotation_discount;
 								$DiscountspWithotVat = ($quotation->quotation_special_discount * ($quotation->quotation_subtotal + $quotation->quotation_tax)) / 100;
+								$Discountvat = 0;
 
-								if ((float) VAT_RATE_AFTER_DISCOUNT)
+								if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 								{
-									$Discountvat       = ((float) VAT_RATE_AFTER_DISCOUNT * $quotation->quotation_discount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+									$Discountvat       = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $quotation->quotation_discount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 									$DiscountWithotVat = $quotation->quotation_discount - $Discountvat;
 									$tax               = $tax - $Discountvat;
 								}
 
-								if ((float) VAT_RATE_AFTER_DISCOUNT)
+								if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 								{
 									$sp_discount         = ($quotation->quotation_special_discount * ($quotation->quotation_subtotal + $quotation->quotation_tax)) / 100;
-									$Discountspvat       = ($sp_discount * (float) VAT_RATE_AFTER_DISCOUNT) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+									$Discountspvat       = ($sp_discount * (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 									$DiscountspWithotVat = $sp_discount - $Discountspvat;
 									$tax                 = $tax - $Discountspvat;
 								}
@@ -577,6 +579,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 <input type="hidden" name="option" value="com_redshop"/>
 <input type="hidden" name="view" value="quotation_detail"/>
 <input type="hidden" name="quotation_mdate" value="<?php echo time(); ?>"/>
+<input type="hidden" name="order_id" value="<?php echo $quotation->order_id; ?>"/>
 
 </form>
 

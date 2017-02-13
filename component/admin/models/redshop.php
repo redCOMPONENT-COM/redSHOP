@@ -359,8 +359,6 @@ class RedshopModelRedshop extends RedshopModel
 				. $db->qn('order_status') . ' = ' . $db->q('PR')
 				. ' OR '
 				. $db->qn('order_status') . ' = ' . $db->q('S') . ')
-				AND '
-				. $db->qn('order_payment_status') . ' = ' . $db->q('Paid') . '
 			UNION ALL (
 				SELECT COUNT(' . $db->qn('order_id') . ')
 				FROM ' . $db->qn('#__redshop_orders') . '

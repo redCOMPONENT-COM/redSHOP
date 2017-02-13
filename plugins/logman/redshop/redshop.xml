@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="3.0" group="logman" method="upgrade" overwrite="true">
+    <identifier>plg:logman.redshop</identifier>
+    <name>plg_logman_redshop</name>
+    <author>redCOMPONENT</author>
+    <creationDate>November 2016</creationDate>
+    <copyright>Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later, see LICENSE.</license>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <version>1.0.0</version>
+    <description>PLG_LOGMAN_REDSHOP_DESC</description>
+
+    <scriptfile>install.php</scriptfile>
+
+    <files>
+        <filename plugin="redshop">redshop.php</filename>
+        <folder>language</folder>
+        <folder>activity</folder>
+    </files>
+
+    <config>
+        <fields name="params" />
+    </config>
+
+    <resources>
+        <resource name="component">
+            <actions>
+                <action>save</action>
+            </actions>
+        </resource>
+    </resources>
+</extension>

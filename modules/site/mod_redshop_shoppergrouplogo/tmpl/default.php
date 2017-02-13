@@ -14,10 +14,10 @@ $portalLogo = '';
 
 if (!$user->id)
 {
-	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . DEFAULT_PORTAL_LOGO))
+	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO')))
 	{
 		$portalLogo = RedShopHelperImages::getImagePath(
-			DEFAULT_PORTAL_LOGO,
+			Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO'),
 			'',
 			'thumb',
 			'shopperlogo',

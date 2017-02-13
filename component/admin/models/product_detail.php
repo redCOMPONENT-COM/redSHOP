@@ -37,6 +37,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 	public $input;
 
+	protected static $childproductlist = array();
+
 	/**
 	 * Constructor to set the right model
 	 */
@@ -283,7 +285,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		// Get File name, tmp_name
 		$file = $this->input->files->get('product_full_image', array(), 'array');
 
-		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_image'] != null)
+		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_full_image'] != null)
 		{
 			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $data['old_image'];
 
@@ -312,7 +314,17 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
-		if ($file['name'] != "")
+		if (isset($data['product_full_image_delete']))
+		{
+			$row->product_thumb_image = '';
+			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_full_image'];
+
+			if (is_file($unlink_path))
+			{
+				unlink($unlink_path);
+			}
+		}
+		elseif ($file['name'] != "")
 		{
 			$filename = RedShopHelperImages::cleanFileName($file['name'], $row->product_id);
 			$row->product_full_image = $filename;
@@ -323,31 +335,28 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			JFile::upload($src, $dest);
 		}
-		else
+		elseif ($data['product_full_image'] != null)
 		{
-			if ($data['product_image'] != null)
+			$image_split = explode('/', $data['product_full_image']);
+			$image_name = $image_split[count($image_split) - 1];
+			$image_name = explode("_", $image_name, 2);
+
+			if (strlen($image_name[0]) == 10 && preg_match("/^(\d+)/", $image_name[0]))
 			{
-				$image_split = explode('/', $data['product_image']);
-				$image_name = $image_split[count($image_split) - 1];
-				$image_name = explode("_", $image_name, 2);
-
-				if (strlen($image_name[0]) == 10 && preg_match("/^(\d+)/", $image_name[0]))
-				{
-					$new_image_name = $image_name[1];
-				}
-				else
-				{
-					$new_image_name = $image_split[count($image_split) - 1];
-				}
-
-				$filename = $new_image_name;
-				$row->product_full_image = $filename;
-
-				$src = JPATH_ROOT . '/' . $data['product_image'];
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
-
-				copy($src, $dest);
+				$new_image_name = $image_name[1];
 			}
+			else
+			{
+				$new_image_name = $image_split[count($image_split) - 1];
+			}
+
+			$filename = $new_image_name;
+			$row->product_full_image = $filename;
+
+			$src = JPATH_ROOT . '/' . $data['product_full_image'];
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
+
+			copy($src, $dest);
 		}
 
 		if (isset($data['back_thumb_image_delete']))
@@ -503,6 +512,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$mediapost = array();
 				$mediapost['media_id'] = $media_id;
 				$mediapost['media_name'] = $row->product_full_image;
+				$mediapost['media_alternate_text'] = preg_replace('#\.[^/.]+$#', '', $mediapost['media_name']);
 				$mediapost['media_section'] = "product";
 				$mediapost['section_id'] = $row->product_id;
 				$mediapost['media_type'] = "images";
@@ -598,7 +608,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$category_array = array_diff($oldcategory, $data['product_category']);
 		}
 
-		$sel = "SELECT * FROM " . $this->table_prefix . "mass_discount WHERE " . $where_cat_discount . " ORDER BY mass_discount_id desc limit 0,1";
+		$sel = "SELECT * FROM " . $this->table_prefix . "mass_discount WHERE " . $where_cat_discount . " ORDER BY id desc limit 0,1";
 		$this->_db->setQuery($sel);
 		$mass_discount = $this->_db->loadObject();
 
@@ -608,7 +618,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		$sel = "SELECT * FROM " . $this->table_prefix . "mass_discount WHERE FIND_IN_SET('" . $row->manufacturer_id .
-			"',manufacturer_id) ORDER BY mass_discount_id desc limit 0,1";
+			"',manufacturer_id) ORDER BY id desc limit 0,1";
 		$this->_db->setQuery($sel);
 		$mass_discount = $this->_db->loadObject();
 
@@ -641,7 +651,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 				else
 				{
-					if ($data['quantity'][$i] != "" || !USE_BLANK_AS_INFINITE)
+					if ($data['quantity'][$i] != "" || !Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 					{
 						$this->insertProductStock(
 													$product_id,
@@ -1686,7 +1696,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function gettax()
 	{
-		$query = 'SELECT tax_rate_id as value,tax_rate as text FROM ' . $this->table_prefix . 'tax_rate ';
+		$query = 'SELECT id as value,tax_rate as text FROM ' . $this->table_prefix . 'tax_rate ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -1713,7 +1723,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getsupplier()
 	{
-		$query = 'SELECT supplier_id as value,supplier_name as text FROM ' . $this->table_prefix . 'supplier ';
+		$query = 'SELECT id as value,name as text FROM ' . $this->table_prefix . 'supplier ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -2587,7 +2597,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		// 1. Get all types.
-		$q = "SELECT id, type_name FROM #__redproductfinder_types where type_select!='Productfinder datepicker' ORDER by ordering";
+		$q = "SELECT id, type_name FROM #__redproductfinder_types where type_select!='Productfinder_datepicker' ORDER by ordering";
 		$this->_db->setQuery($q);
 		$types = $this->_db->loadAssocList('id');
 
@@ -3187,7 +3197,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (count($list) > 0)
 			{
-				if ($quantity == "" && USE_BLANK_AS_INFINITE)
+				if ($quantity == "" && Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 				{
 					$query = "DELETE FROM " . $this->table_prefix . $table . "_stockroom_xref
 							  WHERE stockroom_id='" . $post['stockroom_id'][$i] . "' " . $product . $section;
@@ -3226,7 +3236,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				{
 					if ($preorder_stock != "" || $quantity != "")
 					{
-						if ($quantity != "" && !USE_BLANK_AS_INFINITE)
+						if ($quantity != "" && !Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 						{
 							if ($quantity == "")
 							{
@@ -4440,19 +4450,22 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$producthelper = productHelper::getInstance();
-		$info = $producthelper->getChildProduct($parentid);
+		$productHelper = productHelper::getInstance();
+		$info = $productHelper->getChildProduct($parentid);
 
-		for ($i = 0, $in = count($info); $i < $in; $i++)
+		if (empty(static::$childproductlist))
 		{
-			if ($childid != $info[$i]->product_id)
+			for ($i = 0, $in = count($info); $i < $in; $i++)
 			{
-				$GLOBALS['childproductlist'][] = $info[$i];
-				$this->getAllChildProductArrayList($childid, $info[$i]->product_id);
+				if ($childid != $info[$i]->product_id)
+				{
+					static::$childproductlist[] = $info[$i];
+					$this->getAllChildProductArrayList($childid, $info[$i]->product_id);
+				}
 			}
 		}
 
-		return $GLOBALS['childproductlist'];
+		return static::$childproductlist;
 	}
 
 	/**

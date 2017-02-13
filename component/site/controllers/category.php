@@ -285,17 +285,15 @@ class RedshopControllerCategory extends RedshopController
 	 */
 	public function generateXMLExportFile()
 	{
-		$app          = JFactory::getApplication();
-		$xmlexport_id = JRequest::getInt('xmlexport_id');
+		$app      = JFactory::getApplication();
+		$exportId = $app->input->getInt('xmlexport_id');
 
-		if ($xmlexport_id)
+		if ($exportId)
 		{
-
 			$xmlHelper = new xmlHelper;
-			$xmlHelper->writeXMLExportFile($xmlexport_id);
-
-			$row = $xmlHelper->getXMLExportInfo($xmlexport_id);
-			$link = JURI::root() . 'index.php?option=com_redshop&view=category&tmpl=component&task=download&file=' . $row->filename;
+			$xmlHelper->writeXMLExportFile($exportId);
+			$row = $xmlHelper->getXMLExportInfo($exportId);
+			$link = JRoute::_(JURI::root() . 'index.php?option=com_redshop&view=category&tmpl=component&task=download&file=' . $row->filename);
 			$app->redirect($link);
 		}
 	}

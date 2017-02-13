@@ -84,7 +84,7 @@ $producthelper = productHelper::getInstance();
 					</td>
 					<td align="center">
 						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_DISCOUNT'); ?>">
-							<?php echo $producthelper->getProductFormattedPrice($row->amount);//number_format($row->amount,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR).CURRENCY_SYMBOL; ?></a>
+							<?php echo $producthelper->getProductFormattedPrice($row->amount); ?></a>
 					</td>
 					<td align="center">
 						<?php

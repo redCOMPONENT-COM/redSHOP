@@ -71,9 +71,9 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		{
 			$currencyID = $this->params->get("currency");
 		}
-		elseif (CURRENCY_CODE != "")
+		elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
 		{
-			$currencyID = urlencode(CURRENCY_CODE);
+			$currencyID = urlencode(Redshop::getConfig()->get('CURRENCY_CODE'));
 		}
 		else
 		{
@@ -263,9 +263,9 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		{
 			$currencyID = $this->params->get("currency");
 		}
-		elseif (CURRENCY_CODE != "")
+		elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
 		{
-			$currencyID = urlencode(CURRENCY_CODE);
+			$currencyID = urlencode(Redshop::getConfig()->get('CURRENCY_CODE'));
 		}
 		else
 		{
@@ -341,9 +341,9 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		{
 			$currencyID = $this->params->get("currency");
 		}
-		elseif (CURRENCY_CODE != "")
+		elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
 		{
-			$currencyID = urlencode(CURRENCY_CODE);
+			$currencyID = urlencode(Redshop::getConfig()->get('CURRENCY_CODE'));
 		}
 		else
 		{

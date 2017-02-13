@@ -159,14 +159,66 @@ class redhelper
 		}
 	}
 
-	public function getPlugins($folder = 'redshop')
+	/**
+	 * [getPlugins description]
+	 *
+	 * @param   string  $folder   [folder of plugins]
+	 * @param   string  $enabled  [-1: All, 0: not enable, 1: enabled]
+	 *
+	 * @return  [objectList]
+	 */
+	public function getPlugins($folder = 'redshop', $enabled = '1')
 	{
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		$query = "SELECT * FROM #__extensions "
-			. "WHERE  enabled = '1' "
-			. "AND LOWER(`folder`) = " . $db->quote(strtolower($folder)) . " "
-			. "ORDER BY ordering ASC ";
+		$query->select('*')
+			->from('#__extensions')
+			->where('LOWER(' . $db->qn('folder') . ')' . ' = ' . $db->q(strtolower($folder)))
+			->order($db->qn('ordering') . ' ASC');
+
+		if ($enabled > 0)
+		{
+			$query->where($db->qn('enabled') . ' = ' . $db->q($enabled));
+		}
+
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
+
+		return $data;
+	}
+
+	/**
+	 * [getModules description]
+	 *
+	 * @param   string  $enabled  [-1: All, 0: not enable, 1: enabled]
+	 *
+	 * @return  [objectList]
+	 */
+	public function getModules($enabled = '1')
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$oldStyleName = [
+				'mod_redcategoryscroller', 'mod_redmasscart', 'mod_redfeaturedproduct',
+				'mod_redproducts3d', 'mod_redproductscroller', 'mod_redproducttab', 'mod_redmanufacturer'
+			];
+
+		$query->select('*')
+			->from('#__extensions')
+			->where($db->qn('type') . ' = ' . $db->quote('module'))
+			->where(
+					'LOWER(' . $db->qn('element') . ')' . ' LIKE ' . $db->q('mod_redshop%')
+					. ' OR LOWER(' . $db->qn('element') . ') IN (' . implode(',', $db->q($oldStyleName)) . ')'
+				)
+			->order($db->qn('ordering') . ' ASC');
+
+		if ($enabled > 0)
+		{
+			$query->where($db->qn('enabled') . ' = ' . $db->q($enabled));
+		}
+
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
 
@@ -435,85 +487,29 @@ class redhelper
 	/**
 	 * Check permission for Categories shopper group can access or can't access
 	 *
-	 * @param   number  $cid  category id that need to be checked
+	 * @param   int  $cid  category id that need to be checked
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @deprecated  2.0.3 Use RedshopHelperAccess::checkPortalCategoryPermission() instead.
 	 */
 	public function checkPortalCategoryPermission($cid = 0)
 	{
-		static $categories = array();
-
-		if (array_key_exists($cid, $categories))
-		{
-			return true;
-		}
-
-		$user = JFactory::getUser();
-		$userHelper = rsUserHelper::getInstance();
-		$shopperGroupId = $userHelper->getShopperGroup($user->id);
-
-		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
-		{
-			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
-			{
-				$categories = explode(',', $shopperGroupData[0]->shopper_group_categories);
-
-				if (array_search((int) $cid, $categories) !== false)
-				{
-					return true;
-				}
-			}
-		}
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('shopper_group_id')
-			->from($db->qn('#__redshop_shopper_group'))
-			->where('FIND_IN_SET(' . $db->quote($cid) . ', shopper_group_categories)')
-			->where('shopper_group_id != ' . (int) $shopperGroupId);
-
-		if ($db->setQuery($query)->loadResult())
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return RedshopHelperAccess::checkPortalCategoryPermission($cid);
 	}
 
 	/**
-	 * Check permission for Products shopper group can accesss or can't access
+	 * Check permission for Products shopper group can access or can't access
 	 *
-	 * @param   number  $pid  Product id that need to be checked
+	 * @param   int  $pid  Product id that need to be checked
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @deprecated   2.0.3  Use RedshopHelperAccess::checkPortalProductPermission() instead
 	 */
 	public function checkPortalProductPermission($pid = 0)
 	{
-		$db = $this->_db;
-		$query = $db->getQuery(true);
-
-		$query->select("cx.category_id")
-			->from($db->qn("#__redshop_product", "p"))
-			->join("LEFT", $db->qn("#__redshop_product_category_xref", "cx") . " ON p.product_id=cx.product_id")
-			->where($db->qn("p.product_id") . "=" . (int) $pid);
-
-		$this->_db->setQuery($query);
-
-		$prodctcat = $this->_db->loadColumn();
-
-		foreach ($prodctcat as $key => $cid)
-		{
-			$checkPermission = $this->checkPortalCategoryPermission($cid);
-
-			if (!$checkPermission)
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return RedshopHelperAccess::checkPortalProductPermission($pid);
 	}
 
 	public function getShopperGroupProductCategory($pid = 0)
@@ -676,13 +672,16 @@ class redhelper
 		$order_data[7]->value = "r.ordering DESC";
 		$order_data[7]->text  = JText::_('COM_REDSHOP_ORDERING_DESC');
 
-		$order_data[8] = new stdClass;
-		$order_data[8]->value = "e.data_txt ASC";
-		$order_data[8]->text  = JText::_('COM_REDSHOP_DATEPICKER_ASC');
+		if (redHelper::getInstance()->isredProductfinder())
+		{
+			$order_data[8]        = new stdClass;
+			$order_data[8]->value = "e.data_txt ASC";
+			$order_data[8]->text  = JText::_('COM_REDSHOP_DATEPICKER_ASC');
 
-		$order_data[9] = new stdClass;
-		$order_data[9]->value = "e.data_txt DESC";
-		$order_data[9]->text  = JText::_('COM_REDSHOP_DATEPICKER_DESC');
+			$order_data[9]        = new stdClass;
+			$order_data[9]->value = "e.data_txt DESC";
+			$order_data[9]->text  = JText::_('COM_REDSHOP_DATEPICKER_DESC');
+		}
 
 		return $order_data;
 	}
@@ -778,7 +777,7 @@ class redhelper
 	public function getCheckoutItemid()
 	{
 		$userhelper         = rsUserHelper::getInstance();
-		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
+		$Itemid             = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
 		if (count($shopper_group_data) > 0 && $shopper_group_data->shopper_group_cart_checkout_itemid != 0)
@@ -798,7 +797,7 @@ class redhelper
 	public function getCartItemid()
 	{
 		$userhelper         = rsUserHelper::getInstance();
-		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
+		$Itemid             = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
 		$shopper_group_data = $userhelper->getShoppergroupData();
 
 		if (count($shopper_group_data) > 0 && $shopper_group_data->shopper_group_cart_itemid != 0)
@@ -812,16 +811,21 @@ class redhelper
 	/**
 	 *  Generate thumb image
 	 *
-	 *  @param   string  $section          Image section
-	 *  @param   string  $ImageName        Image name
-	 *  @param   string  $thumbWidth       Thumb width
-	 *  @param   string  $thumbHeight      Thumb height
-	 *  @param   string  $enableWatermark  Enable watermark
+	 * @param   string  $section          Image section
+	 * @param   string  $ImageName        Image name
+	 * @param   string  $thumbWidth       Thumb width
+	 * @param   string  $thumbHeight      Thumb height
+	 * @param   string  $enableWatermark  Enable watermark
 	 *
 	 * @return  string
 	 */
-	public function watermark($section, $ImageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = WATERMARK_PRODUCT_IMAGE)
+	public function watermark($section, $ImageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = -1)
 	{
+		if ($enableWatermark == -1)
+		{
+			$enableWatermark = Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE');
+		}
+
 		$pathMainImage = $section . '/' . $ImageName;
 
 		try
@@ -834,20 +838,22 @@ class redhelper
 			}
 
 			// If watermark not exists or disable - display simple thumb
-			if ($enableWatermark <= 0
-				|| !file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . WATERMARK_IMAGE))
+			if ($enableWatermark < 0
+				|| !file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . Redshop::getConfig()->get('WATERMARK_IMAGE')))
 			{
 				throw new Exception;
 			}
 
 			// If width and height not set - use with and height original image
-			if ((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
+			if (((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
+				|| ((int) $thumbWidth != 0 && (int) $thumbHeight == 0)
+				|| ((int) $thumbWidth == 0 && (int) $thumbHeight != 0))
 			{
 				list($thumbWidth, $thumbHeight) = getimagesize(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage);
 			}
 
 			$imageNameWithPrefix = JFile::stripExt($ImageName) . '_w' . (int) $thumbWidth . '_h' . (int) $thumbHeight . '_i'
-				. JFile::stripExt(basename(WATERMARK_IMAGE)) . '.' . JFile::getExt($ImageName);
+				. JFile::stripExt(basename(Redshop::getConfig()->get('WATERMARK_IMAGE'))) . '.' . JFile::getExt($ImageName);
 			$destinationFile = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/thumb/' . $imageNameWithPrefix;
 
 			if (JFile::exists($destinationFile))
@@ -855,13 +861,15 @@ class redhelper
 				return REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $imageNameWithPrefix;
 			}
 
-			$file_path = JPATH_SITE . '/components/com_redshop/assets/images/product/' . WATERMARK_IMAGE;
-			$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbWidth, $thumbHeight, 1);
+			$file_path = JPATH_SITE . '/components/com_redshop/assets/images/product/' . Redshop::getConfig()->get('WATERMARK_IMAGE');
+			$filename = RedShopHelperImages::generateImages(
+				$file_path, '', $thumbWidth, $thumbHeight, 'thumb', Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+			);
 			$filename_path_info = pathinfo($filename);
 			$watermark = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $filename_path_info['basename'];
 			ob_start();
 			RedShopHelperImages::resizeImage(
-				REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage, $thumbWidth, $thumbHeight, USE_IMAGE_SIZE_SWAPPING, 'browser', false
+				REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage, $thumbWidth, $thumbHeight, Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'), 'browser', false
 			);
 			$contents = ob_get_contents();
 			ob_end_clean();
@@ -871,7 +879,7 @@ class redhelper
 				return REDSHOP_FRONT_IMAGES_ABSPATH . $section . "/" . $ImageName;
 			}
 
-			switch (JFile::getExt(WATERMARK_IMAGE))
+			switch (JFile::getExt(Redshop::getConfig()->get('WATERMARK_IMAGE')))
 			{
 				case 'gif':
 					$dest = imagecreatefromjpeg($destinationFile);
@@ -938,7 +946,9 @@ class redhelper
 			else
 			{
 				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/' . $pathMainImage;
-				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbWidth, $thumbHeight, USE_IMAGE_SIZE_SWAPPING);
+				$filename = RedShopHelperImages::generateImages(
+					$file_path, '', $thumbWidth, $thumbHeight, 'thumb', Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+				);
 				$filename_path_info = pathinfo($filename);
 				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $filename_path_info['basename'];
 			}
@@ -949,7 +959,7 @@ class redhelper
 
 	public function clickatellSMS($order_id)
 	{
-		if (CLICKATELL_ENABLE <= 0)
+		if (Redshop::getConfig()->get('CLICKATELL_ENABLE') <= 0)
 		{
 			return;
 		}
@@ -1011,7 +1021,7 @@ class redhelper
 			$this->sendmessage(urlencode($message), $to);
 		}
 
-		if (CLICKATELL_ORDER_STATUS == $orderData->order_status)
+		if (Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS') == $orderData->order_status)
 		{
 			$message = $this->replaceMessage($TemplateDetail[0]->template_desc, $orderData, $paymentName);
 
@@ -1025,13 +1035,13 @@ class redhelper
 	public function sendmessage($text, $to)
 	{
 		// Clickatell_username
-		$user     = CLICKATELL_USERNAME;
+		$user     = Redshop::getConfig()->get('CLICKATELL_USERNAME');
 
 		// Clickatell_password
-		$password = CLICKATELL_PASSWORD;
+		$password = Redshop::getConfig()->get('CLICKATELL_PASSWORD');
 
 		// Clickatell_api_id
-		$api_id   = CLICKATELL_API_ID;
+		$api_id   = Redshop::getConfig()->get('CLICKATELL_API_ID');
 		$baseurl  = "http://api.clickatell.com";
 
 		// Auth call

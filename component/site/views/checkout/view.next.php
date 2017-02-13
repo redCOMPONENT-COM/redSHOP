@@ -54,10 +54,10 @@ class RedshopViewCheckout extends RedshopView
 		if ($cart['idx'] < 1)
 		{
 			$msg = JText::_('COM_REDSHOP_EMPTY_CART');
-			$app->Redirect('index.php?option=com_redshop&Itemid=' . $Itemid, $msg);
+			$app->Redirect(JRoute::_('index.php?option=com_redshop&Itemid=' . $Itemid), $msg);
 		}
 
-		if (SHIPPING_METHOD_ENABLE)
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			if ($users_info_id < 1)
 			{
@@ -65,7 +65,7 @@ class RedshopViewCheckout extends RedshopView
 				$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
 					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 					. $payment_method_id;
-				$app->redirect($link, $msg);
+				$app->redirect(JRoute::_($link), $msg);
 			}
 
 			if ($shipping_rate_id == '' && $cart['free_shipping'] != 1)
@@ -74,7 +74,7 @@ class RedshopViewCheckout extends RedshopView
 				$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
 					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 					. $payment_method_id;
-				$app->redirect($link, $msg);
+				$app->redirect(JRoute::_($link), $msg);
 			}
 		}
 
@@ -84,7 +84,7 @@ class RedshopViewCheckout extends RedshopView
 			$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
 				. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 				. $payment_method_id;
-			$app->redirect($link, $msg, 'error');
+			$app->redirect(JRoute::_($link), $msg, 'error');
 		}
 
 		$paymentinfo     = $order_functions->getPaymentMethodInfo($payment_method_id);

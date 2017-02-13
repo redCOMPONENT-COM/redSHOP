@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field
+                name="search"
+                type="redshop.text"
+                label="COM_REDSHOP_FILTER_SEARCH_DESC"
+                placeholder="JSEARCH_FILTER"
+                class="js-enter-submits"
+                />
+        <field
+                name="country"
+                type="redshop.country"
+                label="COM_REDSHOP_TAX_RATE_FILTER_SELECT_COUNTRY"
+                default=""
+                class="form-control"
+                idfield="country_3_code"
+                onchange="this.form.submit();">
+            <option value="">COM_REDSHOP_TAX_RATE_FILTER_SELECT_COUNTRY</option>
+        </field>
+        <field
+                name="tax_group"
+                type="redshop.taxgroup"
+                label="COM_REDSHOP_TAX_RATE_FILTER_SELECT_TAX_GROUP"
+                default=""
+                class="form-control"
+                onchange="this.form.submit();">
+            <option value="">COM_REDSHOP_TAX_RATE_FILTER_SELECT_TAX_GROUP</option>
+        </field>
+        <field
+                name="eu"
+                type="list"
+                label="COM_REDSHOP_TAX_RATE_FILTER_EU"
+                default=""
+                class="form-control"
+                onchange="this.form.submit();">
+            <option value="">COM_REDSHOP_TAX_RATE_FILTER_EU</option>
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+    </fields>
+    <fields name="list">
+        <field
+                name="limit"
+                type="limitbox"
+                default="25"
+                label="JGLOBAL_ORDERING_LIST_LIMIT"
+                description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
+                onchange="this.form.submit();"
+                />
+    </fields>
+</form>

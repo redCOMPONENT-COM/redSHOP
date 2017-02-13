@@ -59,6 +59,7 @@ class RedshopViewMedia extends RedshopViewAdmin
 		$optiontype[] = JHTML::_('select.option', 'video', JText::_('COM_REDSHOP_VIDEO'));
 		$optiontype[] = JHTML::_('select.option', 'document', JText::_('COM_REDSHOP_DOCUMENT'));
 		$optiontype[] = JHTML::_('select.option', 'download', JText::_('COM_REDSHOP_DOWNLOAD'));
+		$optiontype[] = JHTML::_('select.option', 'youtube', JText::_('COM_REDSHOP_YOUTUBE'));
 
 		$optionsection = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));

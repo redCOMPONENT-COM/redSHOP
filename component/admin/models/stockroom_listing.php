@@ -277,7 +277,7 @@ class RedshopModelStockroom_Listing extends RedshopModelList
 
 		if (count($list) > 0)
 		{
-			if ($quantity == "" && USE_BLANK_AS_INFINITE)
+			if ($quantity == "" && Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 			{
 				$query = "DELETE FROM #__redshop_" . $table . "_stockroom_xref "
 					. " WHERE stockroom_id='" . $sid . "' " . $product . $section;
@@ -313,7 +313,7 @@ class RedshopModelStockroom_Listing extends RedshopModelList
 			{
 				if ($preorder_stock != "" || $quantity != "")
 				{
-					if ($quantity == "" && USE_BLANK_AS_INFINITE)
+					if ($quantity == "" && Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 					{
 						$query = "";
 					}

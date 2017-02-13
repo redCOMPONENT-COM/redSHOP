@@ -29,13 +29,13 @@ $image_path = $type . '/' . trim($image);
 		$type,
 		200,
 		200,
-		USE_IMAGE_SIZE_SWAPPING
+		Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 	);
 ?>
 <div class="divimage">
 	<img src="<?php echo $thumbUrl ?>" id="<?php echo $displayid ?>" border="0" width="200"/>
 
-	<input type="checkbox" name="<?php echo $deleteid ?>" id="<?php echo $deleteid ?>" rel="noicheck" class="hidden">
+	<input type="checkbox" name="<?php echo $deleteid ?>" id="<?php echo $deleteid ?>" class="hidden">
 
 	<div class="divimagebuttons">
 		<span id="editbtn" aria-hidden="true" class="fa-stack fa-lg">

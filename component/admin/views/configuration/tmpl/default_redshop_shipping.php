@@ -19,18 +19,16 @@ defined('_JEXEC') or die;
 			<th><?php echo JText::_('COM_REDSHOP_PUBLISHED');?></th>
 		</tr>
 		</thead>
-		<tbody><?php
-		for ($i = 0; $i < count($this->getinstalledshipping); $i++)
-		{
-			?>
+		<tbody>
+		<?php for ($i = 0; $i < count($this->getinstalledshipping); $i++): ?>
 			<tr>
-				<td><strong><?php echo $this->getinstalledshipping[$i]->name?></strong></td>
+				<td><strong><?php echo JText::_($this->getinstalledshipping[$i]->name); ?></strong></td>
 				<td><?php echo (JFile::exists(JPATH_PLUGINS . '/redshop_shipping/' . $this->getinstalledshipping[$i]->element . '/' . $this->getinstalledshipping[$i]->element . '.php')) ? JText::_('COM_REDSHOP_INSTALLED') : JText::_('COM_REDSHOP_NOT_INSTALLED');?></td>
 
 				<td align="center"><?php echo ($this->getinstalledshipping[$i]->enabled) ? "<img src='../administrator/components/com_redshop/assets/images/tick.png' />" : "<img src='../administrator/components/com_redshop/assets/images/publish_x.png' />";?></td>
 
 			</tr>
-		<?php }?>
+		<?php endfor ?>
 		</tbody>
 	</table>
 </div>

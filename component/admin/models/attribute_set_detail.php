@@ -859,7 +859,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		for ($i = 0; $i < count($post['quantity']); $i++)
 		{
-			if ($post['quantity'][$i] || (!USE_BLANK_AS_INFINITE))
+			if ($post['quantity'][$i] || (!Redshop::getConfig()->get('USE_BLANK_AS_INFINITE')))
 			{
 				$q = "INSERT IGNORE INTO " . $this->_table_prefix . "product_attribute_stockroom_xref VALUES ("
 					. $post['section_id'] . ",'" . $post['section'] . "'," . $post['stockroom_id'][$i] . ",'"

@@ -376,13 +376,14 @@ class RedshopModelNewsletter extends RedshopModel
 		$mailfrom = $jconfig->mailfrom;
 		$fromname = $jconfig->fromname;
 
-		if (NEWS_MAIL_FROM != "")
+		if (Redshop::getConfig()->get('NEWS_MAIL_FROM') != "")
 		{
-			$mailfrom = NEWS_MAIL_FROM;
+			$mailfrom = Redshop::getConfig()->get('NEWS_MAIL_FROM');
 		}
-		if (NEWS_FROM_NAME != "")
+
+		if (Redshop::getConfig()->get('NEWS_FROM_NAME') != "")
 		{
-			$fromname = NEWS_FROM_NAME;
+			$fromname = Redshop::getConfig()->get('NEWS_FROM_NAME');
 		}
 
 		// Getting newsletter content
@@ -434,9 +435,9 @@ class RedshopModelNewsletter extends RedshopModel
 									'',
 									'thumb',
 									'product',
-									PRODUCT_MAIN_IMAGE,
-									PRODUCT_MAIN_IMAGE,
-									USE_IMAGE_SIZE_SWAPPING
+									Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
+									Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
+									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 								);
 					$thum_image = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
 						. $product_id_list[$i]->product_full_image . "' title='' rel=\"lightbox[product7]\">";

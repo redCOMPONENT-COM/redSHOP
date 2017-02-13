@@ -87,7 +87,7 @@ class plgRedshop_PaymentStripe extends JPlugin
 			$charge = \Stripe\Charge::create(
 				array(
 					"amount"      => round($price * 100),
-					"currency"    => CURRENCY_CODE,
+					"currency"    => Redshop::getConfig()->get('CURRENCY_CODE'),
 					"source"      => $app->input->get('stripeToken'),
 					"description" => $orderId
 				)

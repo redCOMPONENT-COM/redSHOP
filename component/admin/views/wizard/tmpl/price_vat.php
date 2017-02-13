@@ -7,7 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-JHTMLBehavior::modal();
+
+JHtml::_('behavior.modal', 'a.joom-box');
 ?>
 
 <table class="admintable table">
@@ -85,7 +86,7 @@ JHTMLBehavior::modal();
 		<label for="name"><?php
 			echo JText::_('COM_REDSHOP_ADD_VAT_RATES_LBL');
 			?></label></span></td>
-		<td><a class="modal btn btn-small btn-info"
+		<td><a class="joom-box btn btn-small btn-info"
 		       href="index.php?option=com_redshop&view=tax_detail&task=edit&tax_group_id=1&tmpl=component"
 		       rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php
 				echo JText::_('COM_REDSHOP_ADD_RATES');
@@ -102,7 +103,7 @@ JHTMLBehavior::modal();
 
 					$tax = $this->taxrates [$i];
 
-					$tax_rate_id = $tax->tax_rate_id;
+					$tax_rate_id = $tax->id;
 					$tax_country = $tax->tax_country;
 					$tax_rate = $tax->tax_rate;
 					$tax_group_id = $tax->tax_group_id;
@@ -110,7 +111,7 @@ JHTMLBehavior::modal();
 					$rate_html = $tax_country . " (" . $tax_rate . ")";
 					?>
 					<li>
-						<a class="modal"
+						<a class="joom-box"
 						   href="index.php?option=com_redshop&view=tax_detail&task=edit&cid[]=<?php echo $tax_rate_id; ?>&tax_group_id=1&tmpl=component"
 						   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo $rate_html;?></a><!--
 				    <a href="index.php?option=com_redshop&view=tax_detail&task=removefromwizrd&cid[]=<?php echo $tax_rate_id;?>&tax_group_id=1" >Remove</a>

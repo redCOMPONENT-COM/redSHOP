@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="order_status_id"
+                type="hidden"
+                />
+        <field
+                name="order_status_code"
+                type="redshop.text"
+                label="COM_REDSHOP_ORDER_STATUS_CODE"
+                description="COM_REDSHOP_ORDER_STATUS_CODE_DESC"
+                placeholder="COM_REDSHOP_ORDER_STATUS_CODE_DESC"
+                class="form-control"
+                default=""
+                required="true"
+                />
+        <field
+                name="order_status_name"
+                type="redshop.text"
+                label="COM_REDSHOP_ORDER_STATUS_NAME"
+                description="COM_REDSHOP_ORDER_STATUS_NAME_DESC"
+                placeholder="COM_REDSHOP_ORDER_STATUS_NAME_DESC"
+                class="form-control"
+                default=""
+                required="true"
+        />
+        <field
+                name="published"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_ORDER_STATUS_PUBLISHED"
+                description="COM_REDSHOP_ORDER_STATUS_PUBLISHED_DESC"
+                required="true">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+        </field>
+    </fieldset>
+</form>

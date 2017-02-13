@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+                />
+        <field
+                id="country_name"
+                name="country_name"
+                type="redshop.text"
+                label="COM_REDSHOP_COUNTRY_NAME"
+                description="COM_REDSHOP_COUNTRY_NAME_DESCRIPTION"
+                placeholder="COM_REDSHOP_COUNTRY_NAME_DESCRIPTION"
+                size="30"
+                class="form-control"
+                default=""
+                required="true"
+                />
+        <field
+                name="country_3_code"
+                type="redshop.text"
+                label="COM_REDSHOP_COUNTRY_3_CODE"
+                description="COM_REDSHOP_COUNTRY_3_CODE_DESCRIPTION"
+                placeholder="COM_REDSHOP_COUNTRY_3_CODE_DESCRIPTION"
+                size="3"
+                class="input-xs"
+                default=""
+                required="true"
+                />
+        <field
+                name="country_2_code"
+                type="redshop.text"
+                label="COM_REDSHOP_COUNTRY_2_CODE"
+                description="COM_REDSHOP_COUNTRY_2_CODE_DESCRIPTION"
+                placeholder="COM_REDSHOP_COUNTRY_2_CODE_DESCRIPTION"
+                size="2"
+                class="input-xs"
+                default=""
+                required="true"
+                />
+        <field
+                name="country_jtext"
+                type="redshop.text"
+                label="COM_REDSHOP_COUNTRY_JTEXT"
+                description="COM_REDSHOP_COUNTRY_JTEXT_DESCRIPTION"
+                placeholder="COM_REDSHOP_COUNTRY_JTEXT_DESCRIPTION"
+                size="80"
+                class="form-control"
+                default=""
+                />
+    </fieldset>
+</form>

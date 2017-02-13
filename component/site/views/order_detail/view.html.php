@@ -60,7 +60,7 @@ class RedshopViewOrder_detail extends RedshopView
 		{
 			if ($OrdersDetail->user_id != $user->id)
 			{
-				$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
 
 				return;
 			}
@@ -83,7 +83,7 @@ class RedshopViewOrder_detail extends RedshopView
 			// Preform security checks
 			elseif (!$user->id && !isset($auth['users_info_id']))
 			{
-				$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
 
 				return;
 			}

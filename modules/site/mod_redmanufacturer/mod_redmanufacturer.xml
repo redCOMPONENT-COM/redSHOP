@@ -101,6 +101,14 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+				<field name="order_by" type="list" default="0"
+					   class="btn-group btn-group-yesno"
+					   label="MOD_REDMANUFACTURER_ORDER_BY"
+					   description="MOD_REDMANUFACTURER_ORDER_BY_DESC">
+					<option value="0">MOD_REDMANUFACTURER_ORDER_BY_DEFAULT</option>
+					<option value="1">MOD_REDMANUFACTURER_ORDER_BY_ORDERING_ASC</option>
+					<option value="2">MOD_REDMANUFACTURER_ORDER_BY_ORDERING_DESC</option>
+				</field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field

@@ -41,7 +41,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 
 		$model = $this->getModel('configuration');
-		$currency_data = $model->getCurrency();
+		$currency_data = $model->getCurrencies();
 
 		$this->config = $model->getData();
 
@@ -52,36 +52,16 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$userhelper  = rsUserHelper::getInstance();
 		$lists       = array();
 
-		// Load language file
-		$payment_lang_list = $redhelper->getallPlugins("redshop_payment");
-		$language          = JFactory::getLanguage();
-		$base_dir          = JPATH_ADMINISTRATOR;
-		$language_tag      = $language->getTag();
-
-		for ($l = 0, $ln = count($payment_lang_list); $l < $ln; $l++)
-		{
-			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
-			$language->load($extension, $base_dir, $language_tag, true);
-		}
-
-		$configpath = JPATH_COMPONENT . '/helpers/redshop.cfg.php';
-
-		if (!is_writable($configpath))
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'), 'error');
-		}
+		// Load payment languages
+		RedshopHelperPayment::loadLanguages();
+		RedshopHelperShipping::loadLanguages();
+		RedshopHelperModule::loadLanguages();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
-
-		if (is_writable($configpath))
-		{
-			JToolBarHelper::save();
-			JToolBarHelper::apply();
-		}
-
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
 		JToolBarHelper::cancel();
 
-		$uri = JFactory::getURI();
 		$this->setLayout('default');
 
 		$newsletters = $model->getnewsletters();
@@ -120,7 +100,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'new_shopper_group_get_value_from', 'class="inputbox" ', 'value',
 			'text', $this->config->get('NEW_SHOPPER_GROUP_GET_VALUE_FROM')
 		);
-		$lists['write_review_is_lightbox'] = JHTML::_('redshopselect.booleanlist', 'write_review_is_lightbox', 'class="inputbox" ', $this->config->get('WRITE_REVIEW_IS_LIGHTBOX'));
 		$lists['accessory_product_in_lightbox'] = JHTML::_('redshopselect.booleanlist', 'accessory_product_in_lightbox',
 			'class="inputbox" ', $this->config->get('ACCESSORY_PRODUCT_IN_LIGHTBOX')
 		);
@@ -164,7 +143,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="inputbox" size="1" ', 'value', 'text', $this->config->get('DEFAULT_NEWSLETTER')
 		);
 		$lists['currency_data'] = JHTML::_('select.genericlist', $currency_data, 'currency_code',
-			'class="inputbox" size="1" ', 'value', 'text', $this->config->get('CURRENCY_CODE')
+			'class="inputbox" size="1" onchange="changeRedshopCurrencyList(this);"', 'value', 'text', $this->config->get('CURRENCY_CODE')
 		);
 
 		$lists['use_encoding'] = JHTML::_('redshopselect.booleanlist', 'use_encoding', 'class="inputbox" ', $this->config->get('USE_ENCODING'));
@@ -178,7 +157,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$lists['supplier_mail_enable'] = JHTML::_('redshopselect.booleanlist', 'supplier_mail_enable', 'class="inputbox" ', $this->config->get('SUPPLIER_MAIL_ENABLE'));
 
-		$lists['splitable_payment']         = JHTML::_('redshopselect.booleanlist', 'splitable_payment', 'class="inputbox"', $this->config->get('SPLITABLE_PAYMENT'));
 		$lists['create_account_checkbox']   = JHTML::_('redshopselect.booleanlist', 'create_account_checkbox', 'class="inputbox"', $this->config->get('CREATE_ACCOUNT_CHECKBOX'));
 		$lists['show_email_verification']   = JHTML::_('redshopselect.booleanlist', 'show_email_verification', 'class="inputbox"', $this->config->get('SHOW_EMAIL_VERIFICATION'));
 		$lists['quantity_text_display']     = JHTML::_('redshopselect.booleanlist', 'quantity_text_display', 'class="inputbox"', $this->config->get('QUANTITY_TEXT_DISPLAY'));
@@ -442,11 +420,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			$selected_state_code = "'" . $selected_state_code . "'";
 		}
 
-		$db->setQuery("SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
+		$db->setQuery("SELECT c.id, c.country_3_code, s.state_name, s.state_2_code
 						FROM #__redshop_country c
 						LEFT JOIN #__redshop_state s
-						ON c.country_id=s.country_id OR s.country_id IS NULL
-						ORDER BY c.country_id, s.state_name");
+						ON c.id=s.country_id OR s.country_id IS NULL
+						ORDER BY c.id, s.state_name");
 		$states = $db->loadObjectList();
 
 		// Build the State lists for each Country
@@ -525,7 +503,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		);
 
 		$tmp   = array();
-		$tmp[] = JHTML::_('select.option', 0, JText::_('SELECT'));
+		$tmp[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
 		$tmp   = array_merge($tmp, $shopper_Group_private, $shopper_Group_company);
 		$lists['shopper_group_default_unregistered'] = JHTML::_('select.genericlist', $tmp, 'shopper_group_default_unregistered',
 			'class="inputbox" ', 'value', 'text', $this->config->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED')
@@ -848,6 +826,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$lists['load_redshop_style'] = JHTML::_('redshopselect.booleanlist', 'load_redshop_style', 'class="inputbox" size="1"', $this->config->get('LOAD_REDSHOP_STYLE'));
 
+		$lists['enable_stockroom_notification']              = JHTML::_('redshopselect.booleanlist', 'enable_stockroom_notification', 'class="inputbox" size="1"', $this->config->get('ENABLE_STOCKROOM_NOTIFICATION'));
+
 		$current_version      = $model->getcurrentversion();
 		$getinstalledmodule   = $model->getinstalledmodule();
 		$getinstalledplugins  = $model->getinstalledplugins();
@@ -869,7 +849,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$this->getinstalledshipping = $getinstalledshipping;
 		$this->current_version      = $current_version;
 		$this->lists                = $lists;
-		$this->request_url          = $uri->toString();
+		$this->request_url          = JUri::getInstance()->toString();
 		$this->tabmenu 				= $this->getTabMenu();
 
 		parent::display($tpl);

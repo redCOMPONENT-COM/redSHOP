@@ -28,18 +28,18 @@ class RedshopHelperWorld
 	 *
 	 * @var  array
 	 */
-	protected $countries = array();
+	protected static $countries = array();
 
 	/**
 	 * States based on given country
 	 *
 	 * @var  array
 	 */
-	protected $states = array();
+	protected static $states = array();
 
 	/**
 	 * Returns the RedshopHelperWorld object, only creating it
-	 * if it doesn't already exist.
+	 * if it does not already exist.
 	 *
 	 * @return  RedshopHelperWorld  The RedshopHelperWorld object
 	 *
@@ -49,7 +49,7 @@ class RedshopHelperWorld
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new static;
+			self::$instance = new self;
 		}
 
 		return self::$instance;
@@ -60,45 +60,44 @@ class RedshopHelperWorld
 	 *
 	 * @return  array  Countries
 	 */
-	public function countries()
+	public static function countries()
 	{
-		$db = JFactory::getDbo();
-
-		if (!empty($this->countries))
+		if (!empty(self::$countries))
 		{
-			return $this->countries;
+			return self::$countries;
 		}
 
-		// Load allowed contries from config
-		$countriesList = Redshop::getConfig()->get('COUNTRY_LIST');
+		$db = JFactory::getDbo();
 
-		if ($countriesList)
+		// Load allowed countries from config
+		$countries = Redshop::getConfig()->get('COUNTRY_LIST');
+
+		if (!empty($countries))
 		{
 			// Covert them into an array
-			$countriesList = explode(',', $countriesList);
+			$countries = explode(',', $countries);
 
-			if (!empty($countriesList))
+			if (!empty($countries))
 			{
 				// Quote them and prepare for query
-				array_walk($countriesList, function(&$country, $key, $db) {
-						$country = $db->quote($country);
-				}, $db);
+				$countries = self::quoteArray($countries);
 
 				$query = $db->getQuery(true)
-							->select(
-								array(
-									$db->qn('country_3_code', 'value'),
-									$db->qn('country_name', 'text'),
-									$db->qn('country_jtext'),
-								)
+						->select(
+							array(
+								$db->qn('country_3_code', 'value'),
+								$db->qn('country_name', 'text'),
+								$db->qn('country_jtext'),
 							)
-							->from($db->qn('#__redshop_country'))
-							->where($db->qn('country_3_code') . ' IN (' . implode(',', $countriesList) . ')')
-							->order($db->qn('country_name'));
+						)
+						->from($db->qn('#__redshop_country'))
+						->where($db->qn('country_3_code') . ' IN (' . implode(',', $countries) . ')')
+						->order($db->qn('country_name'));
 
 				// Set the query and load the result.
 				$db->setQuery($query);
-				$this->countries = redhelper::getInstance()->convertLanguageString($db->loadObjectList());
+
+				self::$countries = redhelper::getInstance()->convertLanguageString($db->loadObjectList());
 
 				// Check for a database error.
 				if ($db->getErrorNum())
@@ -110,21 +109,24 @@ class RedshopHelperWorld
 			}
 		}
 
-		return $this->countries;
+		return self::$countries;
 	}
 
 	/**
-	 * Get states based on coutnry
+	 * Get states based on country
 	 *
-	 * @param   string  $country  Country Code
+	 * @param   string  $country     Country Code
+	 * @param   string  $fieldValue  State field column for value
 	 *
 	 * @return  array             States information
 	 */
-	public function getStates($country)
+	public static function getStates($country, $fieldValue = 'state_2_code')
 	{
-		if (array_key_exists($country, $this->states))
+		$key = $country . '_' . $fieldValue;
+
+		if (array_key_exists($key, self::$states))
 		{
-			return $this->states[$country];
+			return self::$states[$key];
 		}
 
 		$db = JFactory::getDbo();
@@ -132,16 +134,13 @@ class RedshopHelperWorld
 		$query = $db->getQuery(true)
 			->select(
 				array(
-					$db->qn('s.state_2_code', 'value'),
-					$db->qn('s.state_name', 'text'),
-					$db->qn('c.country_id'),
-					$db->qn('c.country_3_code')
+					$db->qn('s.' . $fieldValue, 'value'),
+					$db->qn('s.state_name', 'text')
 				)
 			)
 			->from($db->qn('#__redshop_state', 's'))
-			->from($db->qn('#__redshop_country', 'c'))
-			->where($db->qn('c.country_id') . ' = ' . $db->qn('s.country_id'))
-			->where($db->qn('c.country_3_code') . ' = ' . $db->q($country))
+			->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('s.country_id'))
+			->where($db->qn('c.country_3_code') . ' = ' . $db->quote($country))
 			->order($db->qn('s.state_name'));
 
 		// Set the query and load the result.
@@ -157,9 +156,9 @@ class RedshopHelperWorld
 		}
 
 		// Store in states array
-		$this->states[$country] = $states;
+		self::$states[$key] = $states;
 
-		return $states;
+		return self::$states[$key];
 	}
 
 	/**
@@ -169,13 +168,15 @@ class RedshopHelperWorld
 	 * @param   string  $countryListName  Name of the select element
 	 * @param   string  $addressType      Address type. BT or ST
 	 * @param   string  $class            Country select list class name
+	 * @param   string  $stateListId      State list.
 	 *
 	 * @return  array                     Country list information
 	 */
-	public function getCountryList($post = array(), $countryListName = "country_code", $addressType = "BT", $class = "inputbox", $stateListId = "state_code")
+	public static function getCountryList($post = array(), $countryListName = "country_code", $addressType = "BT", $class = "inputbox",
+		$stateListId = "state_code")
 	{
 		$addressType     = ($addressType == "ST") ? "_ST" : "";
-		$countries       = $this->countries();
+		$countries       = self::countries();
 		$totalCountries  = count($countries);
 		$selectedCountry = Redshop::getConfig()->get('SHOP_COUNTRY');
 
@@ -214,29 +215,31 @@ class RedshopHelperWorld
 			'countrylist'                 => $countries,
 			'country_code' . $addressType => $countryCode,
 			'country_dropdown'            => JHTML::_(
-												'select.genericlist',
-												$countries,
-												$countryListName,
-												array('class' => $class, 'stateId' => 'rs_state_' . $stateListId),
-												'value',
-												'text',
-												$selectedCountry,
-												'rs_country_' . $countryListName
-											)
+				'select.genericlist',
+				$countries,
+				$countryListName,
+				array('class' => $class, 'stateId' => 'rs_state_' . $stateListId),
+				'value',
+				'text',
+				$selectedCountry,
+				'rs_country_' . $countryListName
+			)
 		);
 	}
 
 	/**
 	 * This function will get state list from country code and return HTML of state (both billing and shipping)
 	 *
-	 * @param   array   $post             $post get from $_POST request
-	 * @param   string  $stateListName    State Code from billing or Shipping
-	 * @param   string  $addressType      Distinguish billing or shipping
-	 * @param   string  $class            Class of state of selected field
+	 * @param   array   $post           $post get from $_POST request
+	 * @param   string  $stateListName  State Code from billing or Shipping
+	 * @param   string  $addressType    Distinguish billing or shipping
+	 * @param   string  $class          Class of state of selected field
+	 * @param   string  $fieldValue     Field column for value
 	 *
 	 * @return array
 	 */
-	public function getStateList($post = array(), $stateListName = "state_code", $addressType = "BT", $class = "inputbox")
+	public static function getStateList($post = array(), $stateListName = "state_code", $addressType = "BT", $class = "inputbox",
+		$fieldValue = 'state_2_code')
 	{
 		$selectedCountryCode = Redshop::getConfig()->get('SHOP_COUNTRY');
 
@@ -244,7 +247,7 @@ class RedshopHelperWorld
 		{
 			$selectedCountryCode = $post['country_code'];
 		}
-		else if (isset($post['country_code_ST']))
+		elseif (isset($post['country_code_ST']))
 		{
 			$selectedCountryCode = $post['country_code_ST'];
 		}
@@ -260,7 +263,7 @@ class RedshopHelperWorld
 			$selectedStateCode = $post['state_code_ST'];
 		}
 
-		$states = $this->getStates($selectedCountryCode);
+		$states = self::getStates($selectedCountryCode, $fieldValue);
 
 		$totalStates = count($states);
 
@@ -276,26 +279,28 @@ class RedshopHelperWorld
 			'statelist'      => $states,
 			'is_states'      => $totalStates,
 			'state_dropdown' => JHTML::_(
-								'select.genericlist',
-								$states,
-								$stateListName,
-								array('class' => $class),
-								'value',
-								'text',
-								$selectedStateCode,
-								'rs_state_' . $stateListName
-							)
+				'select.genericlist',
+				$states,
+				$stateListName,
+				array('class' => $class),
+				'value',
+				'text',
+				$selectedStateCode,
+				'rs_state_' . $stateListName
+			)
 		);
 	}
 
 	/**
 	 * AJAX Task to get states list
 	 *
-	 * @return  string  JSON encoded string of states list.
+	 * @param   string  $countryCode  Country code.
+	 *
+	 * @return  string                JSON encoded string of states list.
 	 */
-	public function getStatesAjax($countryCode)
+	public static function getStatesAjax($countryCode)
 	{
-		$states = $this->getStates($countryCode);
+		$states = self::getStates($countryCode);
 
 		if (!empty($states))
 		{
@@ -306,5 +311,31 @@ class RedshopHelperWorld
 		}
 
 		return json_encode($states);
+	}
+
+	/**
+	 * Method for quote array
+	 *
+	 * @param   array  $list  List of item for quote.
+	 *
+	 * @return  array
+	 *
+	 * @since  2.0.3
+	 */
+	protected static function quoteArray($list = array())
+	{
+		if (empty($list) || !is_array($list))
+		{
+			return array();
+		}
+
+		$db = JFactory::getDbo();
+
+		foreach ($list as $key => $item)
+		{
+			$list[$key] = $db->quote($item);
+		}
+
+		return $list;
 	}
 }

@@ -9,95 +9,36 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Model Country
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       2.0.3
+ */
 
-class RedshopModelCountry extends RedshopModel
+class RedshopModelCountry extends RedshopModelForm
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  mixed  The data for the form.
+	 *
+	 * @since   1.6
+	 */
+	protected function loadFormData()
 	{
-		parent::__construct();
-
+		// Check the session for previously entered form data.
 		$app = JFactory::getApplication();
+		$data = $app->getUserState('com_redshop.edit.country.data', array());
 
-		$this->_context = 'country_id';
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-		$this->setState('filter', $filter);
-	}
-
-	public function getData()
-	{
-		if (empty($this->_data))
+		if (empty($data))
 		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+			$data = $this->getItem();
 		}
 
-		return $this->_data;
-	}
+		$this->preprocessData('com_redshop.country', $data);
 
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
-
-		return $this->_pagination;
-	}
-
-	public function _buildQuery()
-	{
-		$filter = $this->getState('filter');
- 		$where = '';
- 		
- 		if ($filter)
- 		{
- 			$where = " WHERE country_name like '%" . $filter . "%' ";
- 		}
- 
-		$orderby = $this->_buildContentOrderBy();
-		$query = " SELECT distinct(c.country_id),c.*  FROM " . $this->_table_prefix . "country c " . $where . $orderby;
-
-		return $query;
-	}
-
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'country_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
+		return $data;
 	}
 }

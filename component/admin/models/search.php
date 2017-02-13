@@ -172,11 +172,11 @@ class RedshopModelSearch extends RedshopModel
 					$query->select(
 						array(
 							$db->qn('product_id', 'id'),
-							'CONCAT(' . $db->qn('product_name'). ', " (", ' . $db->qn('product_number') . ', ")") as text'
+							'CONCAT(' . $db->qn('product_name') . ', " (", ' . $db->qn('product_number') . ', ")") as text'
 						)
 					)
 						->from($db->qn('#__redshop_product'))
-						->where($db->qn('product_name') . $search);
+						->where($db->qn('product_name') . $search . ' OR ' . $db->qn('product_number') . $search);
 					break;
 			}
 		}
@@ -185,7 +185,7 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('p.product_id', 'id'),
-					'CONCAT(' . $db->qn('p.product_name'). ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
+					'CONCAT(' . $db->qn('p.product_name') . ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
 					$db->qn('p.supplier_id'),
 					$db->qn('p.product_volume', 'volume')
 				)
@@ -205,7 +205,7 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('p.product_id', 'id'),
-					'CONCAT(' . $db->qn('p.product_name'). ', " (", ' . $db->qn('p.product_number') . ', ")") as text'
+					'CONCAT(' . $db->qn('p.product_name') . ', " (", ' . $db->qn('p.product_number') . ', ")") as text'
 				)
 			)
 				->from($db->qn('#__redshop_product', 'p'))
@@ -311,19 +311,19 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('product_id', 'id'),
-					'CONCAT(' . $db->qn('product_name'). ', " (", ' . $db->qn('product_number') . ', ")") as text',
+					'CONCAT(' . $db->qn('product_name') . ', " (", ' . $db->qn('product_number') . ', ")") as text',
 					$db->qn('product_number', 'value_number')
 				)
 			)
 				->from($db->qn('#__redshop_product'))
-				->where($db->qn('product_name') . $search);
+				->where($db->qn('product_name') . $search . ' OR ' . $db->qn('product_number') . $search);
 		}
 		elseif ($jInput->getInt('related', 0) == 1)
 		{
 			$query->select(
 				array(
 					$db->qn('p.product_id', 'id'),
-					'CONCAT(' . $db->qn('p.product_name'). ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
+					'CONCAT(' . $db->qn('p.product_name') . ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
 					$db->qn('p.product_number', 'value_number')
 				)
 			)
@@ -342,7 +342,7 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('p.product_id', 'id'),
-					'CONCAT(' . $db->qn('p.product_name'). ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
+					'CONCAT(' . $db->qn('p.product_name') . ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
 				)
 			)
 				->from($db->qn('#__redshop_product', 'p'))
@@ -354,7 +354,7 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('p.product_id', 'id'),
-					'CONCAT(' . $db->qn('p.product_name'). ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
+					'CONCAT(' . $db->qn('p.product_name') . ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
 					$db->qn('p.product_number', 'value_number'),
 					$db->qn('p.product_price', 'price')
 				)
@@ -383,7 +383,7 @@ class RedshopModelSearch extends RedshopModel
 			$query->select(
 				array(
 					$db->qn('p.product_id', 'id'),
-					'CONCAT(' . $db->qn('p.product_name'). ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
+					'CONCAT(' . $db->qn('p.product_name') . ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
 					$db->qn('p.product_number', 'value_number'),
 					$db->qn('p.product_price', 'price')
 				)
@@ -446,7 +446,6 @@ class RedshopModelSearch extends RedshopModel
 			{
 				$query = "SELECT category_id as id,category_name as value FROM " . $this->_table_prefix . "category  WHERE category_name like '" .
 					$this->_search . "%'";
-
 			}
 			else
 			{
@@ -482,7 +481,6 @@ class RedshopModelSearch extends RedshopModel
 
 			$query = "SELECT distinct p.product_id as id,p.product_name as value FROM " . $this->_table_prefix . "product as p left join   "
 				. $this->_table_prefix . "product_voucher_xref as cp on cp.product_id=p.product_id WHERE 1=1 " . $where;
-
 		}
 		elseif ($this->_alert == 'termsarticle')
 		{
@@ -532,7 +530,6 @@ class RedshopModelSearch extends RedshopModel
 			$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
 			$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.firstname like '" .
 				$this->_search . "%' or  uf.lastname like '" . $this->_search . "%') and (uf.address_type like 'BT') ";
-
 		}
 		elseif ($this->_plgcustomview == 1)
 		{
@@ -564,7 +561,6 @@ class RedshopModelSearch extends RedshopModel
 				. "OR uf.firstname LIKE '" . $this->_search . "%' "
 				. "OR uf.lastname LIKE '" . $this->_search . "%') "
 				. "AND (uf.address_type LIKE 'BT')";
-
 		}
 		elseif ($this->_products == 1)
 		{
@@ -632,7 +628,6 @@ class RedshopModelSearch extends RedshopModel
 			$query = "SELECT distinct p.product_id as id,p.product_name as value ,p.product_number as value_number ,product_price as price FROM " .
 				$this->_table_prefix . "product as p left join   " . $this->_table_prefix . "product_accessory as cp on cp.product_id=p.product_id
 				WHERE 1=1 " . $where;
-
 		}
 
 		return $query;

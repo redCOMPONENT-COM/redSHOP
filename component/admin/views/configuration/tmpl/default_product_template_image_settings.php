@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
+JHtmlBehavior::modal('.joom-box');
+
 $ord_path = "/components/com_redshop/assets/images/";
 ?>
 
@@ -270,7 +273,7 @@ $ord_path = "/components/com_redshop/assets/images/";
 
 	<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $preOrderImage)) { ?>
 	<div class="divimages" id="preorddiv">
-		<a class="modal"
+		<a class="joom-box"
 		   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $preOrderImage; ?>"
 		   title="<?php echo $preOrderImage; ?>" rel="{handler: 'image', size: {}}">
 			<img alt="<?php echo $preOrderImage; ?>"

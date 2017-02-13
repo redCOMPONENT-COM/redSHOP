@@ -75,7 +75,8 @@ class RedshopModelAsk_Question extends RedshopModelForm
 		$data['published']     = 1;
 		$data['question_date'] = time();
 
-		$row              = $this->getTable('question_detail');
+		$row              = $this->getTable('Question');
+
 		$data['ordering'] = $this->MaxOrdering();
 
 		if (!$row->bind($data))
@@ -160,17 +161,17 @@ class RedshopModelAsk_Question extends RedshopModelForm
 		$data_add    = str_replace('{user_question}', $message, $data_add);
 		$data_add    = str_replace('{answer}', '', $data_add);
 		$subject     = str_replace('{user_question}', $message, $subject);
-		$subject     = str_replace('{shopname}', SHOP_NAME, $subject);
+		$subject     = str_replace('{shopname}', Redshop::getConfig()->get('SHOP_NAME'), $subject);
 		$data_add    = str_replace('{user_address}', $data['address'], $data_add);
 		$data_add    = str_replace('{user_telephone}', $data['telephone'], $data_add);
 		$data_add    = str_replace('{user_telephone_lbl}', JText::_('COM_REDSHOP_USER_PHONE_LBL'), $data_add);
 		$data_add    = str_replace('{user_address_lbl}', JText::_('COM_REDSHOP_USER_ADDRESS_LBL'), $data_add);
 		$data_add = $redshopMail->imginmail($data_add);
 
-		if (ADMINISTRATOR_EMAIL != '')
+		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != '')
 		{
 			if (JFactory::getMailer()->sendMail(
-				$data['your_email'], $data['your_name'], explode(',', ADMINISTRATOR_EMAIL),
+				$data['your_email'], $data['your_name'], explode(',', Redshop::getConfig()->get('ADMINISTRATOR_EMAIL')),
 				$subject, $data_add, $mode = 1, null, $mailbcc
 			))
 			{

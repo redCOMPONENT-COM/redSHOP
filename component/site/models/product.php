@@ -250,9 +250,9 @@ class RedshopModelProduct extends RedshopModel
 		$data_add    = str_replace("{username}", $username, $data_add);
 		$data_add = $redshopMail->imginmail($data_add);
 
-		if (ADMINISTRATOR_EMAIL != "")
+		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != "")
 		{
-			$sendto = explode(",", ADMINISTRATOR_EMAIL);
+			$sendto = explode(",", Redshop::getConfig()->get('ADMINISTRATOR_EMAIL'));
 
 			if (JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, $mode = 1, null, $mailbcc))
 			{
@@ -331,32 +331,103 @@ class RedshopModelProduct extends RedshopModel
 		return $row;
 	}
 
+	/**
+	 * Method for store wishlist in session.
+	 *
+	 * @param   array  $data  List of data.
+	 *
+	 * @return  bool          True on success. False otherwise.
+	 */
 	public function addtowishlist2session($data)
 	{
+		$attributes    = null;
+		$properties    = null;
+		$subAttributes = null;
+		$session       = JFactory::getSession();
+
+		if (array_key_exists('attribute_id', $data))
+		{
+			$attributes = explode('##', $data['attribute_id']);
+		}
+
+		if (array_key_exists('property_id', $data))
+		{
+			$properties = explode('##', $data['property_id']);
+		}
+
+		if (array_key_exists('subattribute_id', $data))
+		{
+			$subAttributes = explode('##', $data['subattribute_id']);
+		}
+
 		ob_clean();
 		$extraField = extraField::getInstance();
 		$section    = 12;
 		$row_data   = $extraField->getSectionFieldList($section);
+		$wishlistSession = $session->get('wishlist');
 
-		for ($check_i = 1; $check_i <= $_SESSION ["no_of_prod"]; $check_i++)
-			if ($_SESSION ['wish_' . $check_i]->product_id == $data ['product_id'])
-				if ($data['task'] != "")
-				{
-					unset($_SESSION["no_of_prod"]);
-				}
+		if (!empty($wishlistData) && !Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
+		{
+			$wishlistSession[$data['product_id']] = null;
+		}
 
-		$_SESSION ["no_of_prod"] += 1;
-		$no_prod_i = 'wish_' . $_SESSION ["no_of_prod"];
-
-		$_SESSION [$no_prod_i]->product_id = $data ['product_id'];
-		$_SESSION [$no_prod_i]->comment    = isset ($data ['comment']) ? $data ['comment'] : "";
-		$_SESSION [$no_prod_i]->cdate      = $data ['cdate'];
+		$wishlist = new stdClass;
+		$wishlist->product_id = $data['product_id'];
+		$wishlist->comment    = isset($data ['comment']) ? $data ['comment'] : "";
+		$wishlist->cdate      = $data['cdate'];
 
 		for ($k = 0, $kn = count($row_data); $k < $kn; $k++)
 		{
-			$myfield                        = "productuserfield_" . $k;
-			$_SESSION[$no_prod_i]->$myfield = $data['productuserfield_' . $k];
+			$field = "productuserfield_" . $k;
+			$wishlist->{$field} = $data['productuserfield_' . $k];
 		}
+
+		if (!$attributes || !Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
+		{
+			$wishlistSession[$data['product_id']] = $wishlist;
+			$session->set('wishlist', $wishlistSession);
+
+			return true;
+		}
+
+		if (empty($wishlistSession[$data['product_id']]) || !is_array($wishlistSession[$data['product_id']]))
+		{
+			$wishlistSession[$data['product_id']] = array();
+		}
+
+		$wishlist->product_items = array();
+
+		foreach ($attributes as $index => $attribute)
+		{
+			$item = new stdClass;
+			$item->attribute_id = $attribute;
+
+			if (isset($properties[$index]))
+			{
+				$item->property_id = $properties[$index];
+			}
+
+			if (isset($subAttributes[$index]))
+			{
+				$item->subattribute_id = $subAttributes[$index];
+			}
+
+			$wishlist->product_items = $item;
+		}
+
+		if (!empty($wishlistSession[$data['product_id']]))
+		{
+			foreach ($wishlistSession[$data['product_id']] as $wishlistItem)
+			{
+				if ($wishlistItem->product_items == $wishlist->product_items)
+				{
+					return true;
+				}
+			}
+		}
+
+		$wishlistSession[$data['product_id']][] = $wishlist;
+		$session->set('wishlist', $wishlistSession);
 
 		return true;
 	}

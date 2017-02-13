@@ -178,7 +178,7 @@ class RedshopModelManufacturers extends RedshopModel
 		}
 		else
 		{
-			$order_by = $params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
+			$order_by = $params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD'));
 		}
 
 		if ($layout == 'products')
@@ -193,13 +193,13 @@ class RedshopModelManufacturers extends RedshopModel
 			}
 
 			// User can get not allowed order_by, when url contain Itemid from another view, so it need check here
-			elseif (in_array($params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD), $this->filter_fields_manufacturer))
+			elseif (in_array($params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD')), $this->filter_fields_manufacturer))
 			{
-				$filter_order = $params->get('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
+				$filter_order = $params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD'));
 			}
 			else
 			{
-				$filter_order = DEFAULT_MANUFACTURER_ORDERING_METHOD;
+				$filter_order = Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD');
 			}
 		}
 
@@ -334,7 +334,7 @@ class RedshopModelManufacturers extends RedshopModel
 	public function _buildProductOrderBy($template_data = '')
 	{
 		$orderByObj  = redhelper::getInstance()->prepareOrderBy(
-			urldecode(JFactory::getApplication()->input->getString('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD))
+			urldecode(JFactory::getApplication()->input->getString('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD')))
 		);
 		$orderBy     = $orderByObj->ordering . ' ' . $orderByObj->direction;
 		$filterOrder = 'pc.ordering';

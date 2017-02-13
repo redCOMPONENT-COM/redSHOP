@@ -97,7 +97,7 @@ if (count($list) > 0)
 								'product',
 								$thumbWidth,
 								$thumbHeight,
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 						}
 						elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_thumb_image))
@@ -109,7 +109,7 @@ if (count($list) > 0)
 								'product',
 								$thumbWidth,
 								$thumbHeight,
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 						}
 						else
@@ -144,7 +144,7 @@ if (count($list) > 0)
 											$product_price_discount = $productArr['productPrice'];
 										}
 
-										if (SHOW_PRICE && !USE_AS_CATALOG && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+										if (Redshop::getConfig()->get('SHOW_PRICE') && !Redshop::getConfig()->get('USE_AS_CATALOG') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
 										{
 											if (!$product_price)
 											{

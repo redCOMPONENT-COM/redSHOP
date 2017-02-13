@@ -58,7 +58,7 @@ class PlgRedshop_PaymentQuickpay extends RedshopPayment
 			'agreement_id'    => $this->params->get("agreementId"),
 			'order_id'        => $orderId,
 			'amount'          => ($orderInfo['carttotal'] * 100),
-			'currency'        => CURRENCY_CODE,
+			'currency'        => Redshop::getConfig()->get('CURRENCY_CODE'),
 			'continueurl'     => $this->getReturnUrl($orderInfo['order_id']),
 			'cancelurl'       => $this->getNotifyUrl($orderInfo['order_id']),
 			'callbackurl'     => $this->getNotifyUrl($orderInfo['order_id']),

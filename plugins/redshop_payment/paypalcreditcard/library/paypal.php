@@ -44,8 +44,6 @@ class RedshopPaypalPayment extends JPlugin
 	 */
 	public function loadFramework()
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
 		JLoader::import('redshop.library');
 
 		//If the project is used as its own project, it would use rest-api-sdk-php composer autoloader.

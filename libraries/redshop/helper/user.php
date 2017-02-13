@@ -51,7 +51,7 @@ class RedshopHelperUser
 	 * @param   string  $addressType     Type user address BT (Billing Type) or ST (Shipping Type)
 	 * @param   int     $userInfoId      Id redshop user
 	 * @param   bool    $useAddressType  Select user info relate with address type
-	 * @param   bool    $force           Force to get user infromation from DB instead of cache
+	 * @param   bool    $force           Force to get user information from DB instead of cache
 	 *
 	 * @return  object  Redshop user information
 	 */
@@ -165,8 +165,6 @@ class RedshopHelperUser
 	 */
 	public static function getShopperGroup($userId = 0)
 	{
-		$session = JFactory::getSession();
-
 		if (0 == $userId)
 		{
 			$auth = JFactory::getSession()->get('auth');
@@ -177,11 +175,11 @@ class RedshopHelperUser
 			}
 		}
 
-		$shopperGroupId = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
+		$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
 		if ($userId)
 		{
-			$shopperGroupData = self::getShoppergroupData($userId);
+			$shopperGroupData = self::getShopperGroupData($userId);
 
 			if (count($shopperGroupData) > 0)
 			{
@@ -296,5 +294,51 @@ class RedshopHelperUser
 		self::$totalSales[$userInfoId] = $total;
 
 		return $total;
+	}
+
+	/**
+	 * This function is used to check if the 'username' already exist in the database with any other ID
+	 *
+	 * @param   string  $username
+	 * @param   int     $id
+	 *
+	 * @return  int|void
+     * @since   2.0.0.6
+	 */
+	public static function validateUser($username, $id = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('COUNT(id)')
+					->from($db->qn('#__users'))
+					->where($db->qn('username') . ' = ' . $db->q($username))
+					->where($db->qn('id') . ' != ' . (int) $id);
+
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
+
+	/**
+	 * This function is used to check if the 'email' already exist in the database with any other ID
+	 *
+	 * @param   string  $username
+	 * @param   int     $id
+	 *
+	 * @return  int|void
+     * @since   2.0.0.6
+	 */
+	public static function validateEmail($email, $id = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('COUNT(id)')
+					->from($db->qn('#__users'))
+					->where($db->qn('email') . ' = ' . $db->q($email))
+					->where($db->qn('id') . ' != ' . (int) $id);
+
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 }

@@ -385,7 +385,7 @@ if (!class_exists('redproductScroller'))
 								'product',
 								$this->thumbwidth,
 								$this->thumbheight,
-								USE_IMAGE_SIZE_SWAPPING
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 				$thum_image = "<div style='width:" . $this->thumbwidth . "px;height:" . $this->thumbheight . "px;'>
 									<a href='" . $link . "' title=''>
@@ -402,7 +402,7 @@ if (!class_exists('redproductScroller'))
 				$data_add .= $pname;
 			}
 
-			if (SHOW_PRICE == 1 && !$row->not_for_sale && !USE_AS_CATALOG && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+			if (Redshop::getConfig()->get('SHOW_PRICE') == 1 && !$row->not_for_sale && !Redshop::getConfig()->get('USE_AS_CATALOG') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
 			{
 				if ($this->show_price == 'yes')
 				{
