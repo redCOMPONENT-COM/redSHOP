@@ -128,8 +128,8 @@ class Com_RedshopInstallerScript
 				{
 					/** Update DB */
 					$fields = array(
-						$db->qn('product_full_image') . ' = UPDATE(' . $db->qn('product_full_image') . ", '%20', ' ')",
-						$db->qn('product_thumb_image') . ' = UPDATE(' . $db->qn('product_thumb_image') . ", '%20', ' ')"
+						$db->qn('product_full_image') . ' = REPLACE(' . $db->qn('product_full_image') . ", '%20', ' ')",
+						$db->qn('product_thumb_image') . ' = REPLACE(' . $db->qn('product_thumb_image') . ", '%20', ' ')"
 					);
 
 					$query = $db->getQuery(true);
