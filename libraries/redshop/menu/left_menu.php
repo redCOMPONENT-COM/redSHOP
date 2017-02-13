@@ -78,7 +78,7 @@ class RedshopMenuLeft_Menu
 		return RedshopLayoutHelper::render(
 			'component.full.sidebar.menu',
 			array(
-				'items' => self::$menu->items,
+				'items'  => self::$menu->items,
 				'active' => $active
 			)
 		);
