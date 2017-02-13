@@ -21,9 +21,9 @@ abstract class JHtmlRedshopGrid
 	/**
 	 * Method to check all checkboxes in a grid
 	 *
-	 * @param   string $name   The name of the form element
-	 * @param   string $tip    The text shown as tooltip title instead of $tip
-	 * @param   string $action The action to perform on clicking the checkbox
+	 * @param   string  $name    The name of the form element
+	 * @param   string  $tip     The text shown as tooltip title instead of $tip
+	 * @param   string  $action  The action to perform on clicking the checkbox
 	 *
 	 * @return  string
 	 *
@@ -35,7 +35,8 @@ abstract class JHtmlRedshopGrid
 		{
 			JHtml::_('bootstrap.tooltip');
 
-			return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip) . '" onclick="' . $action . '" />';
+			return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="'
+				. JHtml::tooltipText($tip) . '" onclick="' . $action . '" />';
 		}
 		else
 		{
@@ -43,6 +44,18 @@ abstract class JHtmlRedshopGrid
 		}
 	}
 
+	/**
+	 * Method for render HTML of inline edit field.
+	 *
+	 * @param   string  $name   DOM name of field
+	 * @param   string  $value  Value of field
+	 * @param   int     $id     DOM ID of field
+	 * @param   string  $type   Field type (text)
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public static function inline($name = '', $value = '', $id = 0, $type = 'text')
 	{
 		if ($type != 'text')
@@ -89,6 +102,16 @@ abstract class JHtmlRedshopGrid
 											.done(function(response){
 												if (response == 1) {
 													$label.text($input.val());
+													$.redshopAlert(
+														"' . JText::_('COM_REDSHOP_SUCCESS') . '",
+														"' . JText::_('COM_REDSHOP_DATA_UPDATE_SUCCESS') . '"
+													);
+												} else {
+													$.redshopAlert(
+														"' . JText::_('COM_REDSHOP_FAIL') . '",
+														"' . JText::_('COM_REDSHOP_DATA_UPDATE_FAIL') . '",
+														"error"
+													);
 												}
 											
 												$input.hide("fast", function(){
