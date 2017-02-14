@@ -61,7 +61,7 @@ class RedshopHelperUser
 		{
 			$userId     = JFactory::getUser()->id;
 			$auth       = JFactory::getSession()->get('auth');
-			$userInfoId = ($auth['users_info_id']) ? $auth['users_info_id'] : 0;
+			$userInfoId = $auth['users_info_id'];
 		}
 
 		// If both is not set return, as we also have silent user creating where joomla user id is not set
@@ -94,14 +94,15 @@ class RedshopHelperUser
 			{
 				$query->where('u.user_id = ' . (int) $userId);
 			}
+			
+			if ($useAddressType)
+			{
+				$query->where('u.address_type = ' . $db->q($addressType));
+			}
 
 			if ($userInfoId)
 			{
 				$query->where('u.users_info_id = ' . (int) $userInfoId);
-			}
-			else
-			{
-				$query->where('u.address_type = "BT"');
 			}
 
 			self::$redshopUserInfo[$key] = $db->setQuery($query)->loadObject();
@@ -141,16 +142,13 @@ class RedshopHelperUser
 
 			if (!isset($userArr['rs_user_info_id']))
 			{
+				$userInformation = self::getUserInformation($userId);
 				$shippingAddress = $order_functions->getShippingAddress($userId);
 
-				if (count($shippingAddress) > 0)
+				if (count($shippingAddress) > 0 && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST')
 				{
 					$users_info_id = $shippingAddress[0]->users_info_id;
-					$userInformation = self::getUserInformation($userId, '', $users_info_id);
-				}
-				else
-				{
-					$userInformation = self::getUserInformation($userId);
+					$userInformation = self::getUserInformation($userId, 'ST', $users_info_id, false);
 				}
 
 				$userArr['rs_user_info_id'] = isset($userInformation->users_info_id) ? $userInformation->users_info_id : 0;
