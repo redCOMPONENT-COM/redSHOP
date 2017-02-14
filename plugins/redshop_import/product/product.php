@@ -137,14 +137,14 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			$data['product_preview_back_image'] = null;
 		}
 
-		if (!empty($data['discount_stratdate']))
+		if (!empty($data['discount_stratdate']) && is_string($data['discount_stratdate']))
 		{
-			$data['discount_stratdate'] = is_int($data['discount_stratdate']) ? $data['discount_stratdate'] : strtotime($data['discount_stratdate']);
+			$data['discount_stratdate'] = JFactory::getDate(date('d-m-Y H:i:s', strtotime($data['discount_stratdate'])))->toUnix();
 		}
 
-		if (!empty($data['discount_enddate']))
+		if (!empty($data['discount_enddate']) && is_string($data['discount_enddate']))
 		{
-			$data['discount_enddate'] = is_int($data['discount_enddate']) ? $data['discount_enddate'] : strtotime($data['discount_enddate']);
+			$data['discount_enddate'] = JFactory::getDate(date('d-m-Y H:i:s', strtotime($data['discount_enddate'])))->toUnix();
 		}
 
 		// Setting product on sale when discount dates are set
