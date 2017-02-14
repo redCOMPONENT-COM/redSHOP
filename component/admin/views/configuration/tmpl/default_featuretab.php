@@ -30,6 +30,11 @@ echo JHtml::_('bootstrap.addTab', 'feature-pane', 'rating', JText::_('COM_REDSHO
 <fieldset class="adminform">
 	<?php echo $this->loadTemplate('stockroom_settings');?>
 </fieldset>
+<?php echo JHtml::_('bootstrap.endTab'); ?>
+<?php echo JHtml::_('bootstrap.addTab', 'feature-pane', 'import_export', JText::_('COM_REDSHOP_IMPORT_EXPORT_TAB', true));?>
+    <fieldset class="adminform">
+		<?php echo $this->loadTemplate('feature_import_export') ?>
+    </fieldset>
 <?php
 echo JHtml::_('bootstrap.endTab');
 echo JHtml::_('bootstrap.endTabSet');
