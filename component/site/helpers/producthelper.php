@@ -581,7 +581,7 @@ class productHelper
 	public function getVatUserinfo($user_id = 0)
 	{
 		// Let's create a common user session first.
-		RedshopHelperUser::createUserSession($user_id);
+		RedshopHelperUser::createUserSession();
 
 		$user = JFactory::getUser();
 
@@ -597,7 +597,7 @@ class productHelper
 
 			if ($userArr['rs_user_info_id'] && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST')
 			{
-				$userdata        = $this->getUserInformation($user_id, '', $userArr['rs_user_info_id']);
+				$userdata        = $this->getUserInformation($user_id, 'ST', $userArr['rs_user_info_id'], false);
 			}
 
 			if (count($userdata) > 0)
