@@ -148,7 +148,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		}
 
 		// Setting product on sale when discount dates are set
-		if (!empty($data['discount_stratdate']))
+		if (!empty($data['discount_stratdate']) || !empty($data['discount_enddate']))
 		{
 			$data['product_on_sale'] = 1;
 		}
