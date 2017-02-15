@@ -374,7 +374,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   INDEX `idx_product_special` (`product_special` ASC),
   INDEX `idx_product_parent_id` (`product_parent_id` ASC),
   INDEX `idx_common` (`published` ASC, `expired` ASC, `product_parent_id` ASC),
-  INDEX `#__rs_product_supplier_fk1` (`supplier_id` ASC))
+  INDEX `#__rs_product_supplier_fk1` (`supplier_id` ASC),
+  INDEX `#__rs_prod_publish_parent` (`product_parent_id` ASC, `published` ASC),
+  INDEX `#__rs_prod_publish_parent_special` (`product_parent_id` ASC, `published` ASC, `product_special` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Products';
@@ -1016,7 +1018,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_order_item` (
   INDEX `idx_product_id` (`product_id` ASC),
   INDEX `idx_order_status` (`order_status` ASC),
   INDEX `idx_cdate` (`cdate` ASC),
-  INDEX `idx_is_giftcard` (`is_giftcard` ASC))
+  INDEX `idx_is_giftcard` (`is_giftcard` ASC),
+  INDEX `idx_product_quantity` USING BTREE (`product_id` ASC, `product_quantity` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Order Item Detail';
@@ -1515,7 +1518,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_subattribute_color` (
   `subattribute_color_main_image` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`subattribute_color_id`),
   INDEX `idx_subattribute_id` (`subattribute_id` ASC),
-  INDEX `idx_subattribute_published` (`subattribute_published` ASC))
+  INDEX `idx_subattribute_published` (`subattribute_published` ASC),
+  INDEX `#__rs_sub_prop_common` (`subattribute_id` ASC, `subattribute_published` ASC, `ordering` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'Product Subattribute Color';
