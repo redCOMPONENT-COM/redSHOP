@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Libraries
  * @subpackage  Helpers
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 abstract class RedshopHelperAttribute
 {
@@ -34,7 +34,7 @@ abstract class RedshopHelperAttribute
 	 *
 	 * @return  string                       HTML content with replaced data.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(), $templateContent = '',
 		$attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1, $onlySelected = false)
@@ -148,6 +148,9 @@ abstract class RedshopHelperAttribute
 		{
 			$attribute_table = "<span id='attribute_ajax_span'>";
 
+			// Import plugin group
+			JPluginHelper::importPlugin('redshop_product');
+
 			for ($a = 0, $an = count($attributes); $a < $an; $a++)
 			{
 				$subdisplay = false;
@@ -164,6 +167,17 @@ abstract class RedshopHelperAttribute
 				{
 					$property = $property_all;
 				}
+
+				$propertyIds = array_map(
+					function($object)
+					{
+						return $object->value;
+					},
+					$property
+				);
+
+				$propertyStockrooms         = RedshopHelperStockroom::getMultiSectionsStock($propertyIds, 'property');
+				$propertyPreOrderStockrooms = RedshopHelperStockroom::getMultiSectionsPreOrderStock($propertyIds, 'property');
 
 				if ($attributes[$a]->text != "" && count($property) > 0)
 				{
@@ -233,17 +247,29 @@ abstract class RedshopHelperAttribute
 						$subpropertystock          = 0;
 						$preorder_subpropertystock = 0;
 
-						for ($sub = 0; $sub < count($subproperty); $sub++)
+						$subPropertyIds = array_map(
+							function ($item)
+							{
+								return $item->value;
+							},
+							$subproperty
+						);
+						$subPropertyStockrooms = RedshopHelperStockroom::getMultiSectionsStock($subPropertyIds, 'subproperty');
+						$subPropertyPreOrderStockrooms = RedshopHelperStockroom::getMultiSectionsPreOrderStock($subPropertyIds, 'subproperty');
+
+						foreach ($subproperty as $sub)
 						{
-							$subpropertystock += $stockroomHelper->getStockAmountwithReserve($subproperty[$sub]->value, "subproperty");
-							$preorder_subpropertystock += $stockroomHelper->getPreorderStockAmountwithReserve($subproperty[$sub]->value, "subproperty");
+							$subpropertystock += isset($subPropertyStockrooms[$sub->value]) ? (int) $subPropertyStockrooms[$sub->value] : 0;
+							$preorder_subpropertystock += isset($subPropertyPreOrderStockrooms[$sub->value]) ?
+								(int) $subPropertyPreOrderStockrooms[$sub->value] : 0;
 						}
 
-						$property_stock = $stockroomHelper->getStockAmountwithReserve($property[$i]->value, "property");
+						$property_stock = isset($propertyStockrooms[$property[$i]->value]) ? (int) $propertyStockrooms[$property[$i]->value] : 0;
 						$property_stock += $subpropertystock;
 
 						// Preorder stock data
-						$preorder_property_stock = $stockroomHelper->getPreorderStockAmountwithReserve($property[$i]->value, "property");
+						$preorder_property_stock = isset($propertyPreOrderStockrooms[$property[$i]->value]) ?
+							(int) $propertyPreOrderStockrooms[$property[$i]->value] : 0;
 						$preorder_property_stock += $preorder_subpropertystock;
 
 						if ($property[$i]->property_image)
@@ -335,6 +361,12 @@ abstract class RedshopHelperAttribute
 							$property[$i]->text = urldecode($property[$i]->property_name);
 						}
 
+						// Add stock data into property data.
+						$property[$i]->stock = $property_stock;
+
+						// Add pre-order stock data into property data.
+						$property[$i]->preorder_stock = $preorder_property_stock;
+
 						$attribute_table .= '<input type="hidden" id="' . $propertyid . '_oprand' . $property [$i]->value
 							. '" value="' . $property [$i]->oprand . '" />';
 						$attribute_table .= '<input type="hidden" id="' . $propertyid . '_proprice' . $property [$i]->value
@@ -390,6 +422,9 @@ abstract class RedshopHelperAttribute
 					{
 						$property_woscrollerdiv .= "</div>";
 					}
+
+					// Run event for prepare product properties.
+					RedshopHelperUtility::getDispatcher()->trigger('onPrepareProductProperties', array($product, &$property));
 
 					$properties = array_merge(
 						array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' ' . urldecode($attributes[$a]->text))),
@@ -567,7 +602,7 @@ abstract class RedshopHelperAttribute
 	 *
 	 * @return  string                      HTML content with replaced data.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function replaceAttributeWithCartData($productId = 0, $accessoryId = 0, $relatedProductId = 0, $attributes = array(),
 		$templateContent = '', $attributeTemplate = null, $isChild = false, $onlySelected = false)
@@ -740,7 +775,7 @@ abstract class RedshopHelperAttribute
 
 						$priceWithoutVat = $property->property_price;
 
-						if (strpos($templateContent, "{without_vat}") === false)
+						if ($productHelper->getApplyattributeVatOrNot($propertyData))
 						{
 							$priceWithVat = $productHelper->getProducttax($productId, $property->property_price, $user_id);
 						}

@@ -12,6 +12,7 @@ var extension  = require("./package.json");
 var joomlaGulp = requireDir("./node_modules/joomla-gulp", {recurse: true});
 var jgulp      = requireDir("./jgulp", {recurse: true});
 var hashsum    = require("gulp-hashsum");
+var clean      = require('gulp-clean');
 
 var parser     = new xml2js.Parser();
 
@@ -236,7 +237,7 @@ gulp.task("release",
 
 gulp.task("release:md5:generate", function(){
 
-    console.log("Create checksum.md5 file in: component/admin/assets/checksum.md5");
+    console.log("Create checksum.md5 file in: checksum.md5");
 
     return gulp.src([
         "./component/**/*",
@@ -265,17 +266,39 @@ gulp.task("release:md5:generate", function(){
         "./plugins/system/redshop/**",
         "./plugins/redshop_payment/rs_payment_banktransfer/**",
         "./plugins/redshop_payment/rs_payment_paypal/**",
-        "./plugins/redshop_payment/klarna/**",
         "./plugins/finder/redshop/**",
         "./plugins/redshop_alert/alert/**",
         "./plugins/redshop_shipping/default_shipping/**",
-        "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**"
+        "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**",
+        "./plugins/redshop_pdf/tcpdf/**",
+        "./plugins/redshop_export/attribute/**",
+        "./plugins/redshop_export/category/**",
+        "./plugins/redshop_export/field/**",
+        "./plugins/redshop_export/manufacturer/**",
+        "./plugins/redshop_export/product/**",
+        "./plugins/redshop_export/product_stockroom_data/**",
+        "./plugins/redshop_export/related_product/**",
+        "./plugins/redshop_export/shipping_address/**",
+        "./plugins/redshop_export/shopper_group_attribute_price/**",
+        "./plugins/redshop_export/shopper_group_product_price/**",
+        "./plugins/redshop_export/user/**",
+        "./plugins/redshop_import/attribute/**",
+        "./plugins/redshop_import/category/**",
+        "./plugins/redshop_import/field/**",
+        "./plugins/redshop_import/manufacturer/**",
+        "./plugins/redshop_import/product/**",
+        "./plugins/redshop_import/product_stockroom_data/**",
+        "./plugins/redshop_import/shipping_address/**",
+        "./plugins/redshop_import/shopper_group_product_price/**",
+        "./plugins/redshop_import/shopper_group_attribute_price/**",
+        "./plugins/redshop_import/user/**",
+        "./plugins/redshop_import/related_product/**"
     ],{ base: "./" })
-        .pipe(hashsum({dest: "./component/admin/assets/", filename: "checksum.md5", hash: "md5"}));
+        .pipe(hashsum({dest: "./", filename: "checksum.md5", hash: "md5"}));
 });
 
 gulp.task("release:md5:json", ["release:md5:generate"], function(cb){
-    var fileContent = fs.readFileSync(path.join("./component/admin/assets/checksum.md5"), "utf8");
+    var fileContent = fs.readFileSync(path.join("./checksum.md5"), "utf8");
     var temp = fileContent.split('\n');
     var result = [];
     var t1;
@@ -302,9 +325,15 @@ gulp.task("release:md5:json", ["release:md5:generate"], function(cb){
 gulp.task("release:md5",
     [
         "release:md5:generate",
-        "release:md5:json"
+        "release:md5:json",
+        'release:md5:clean'
     ]
 );
+
+gulp.task('release:md5:clean', ["release:md5:json"], function () {
+    return gulp.src('./checksum.md5')
+        .pipe(clean({force: true}));
+});
 
 gulp.task("release:redshop", ["composer:libraries.redshop", "release:md5"], function (cb) {
     fs.readFile( "./redshop.xml", function(err, data) {
@@ -341,12 +370,33 @@ gulp.task("release:redshop", ["composer:libraries.redshop", "release:md5"], func
                 "./plugins/system/redshop/**",
                 "./plugins/redshop_payment/rs_payment_banktransfer/**",
                 "./plugins/redshop_payment/rs_payment_paypal/**",
-                "./plugins/redshop_payment/klarna/**",
                 "./plugins/finder/redshop/**",
                 "./plugins/redshop_alert/alert/**",
                 "./plugins/redshop_shipping/default_shipping/**",
                 "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**",
-                "./plugins/redshop_pdf/tcpdf/**"
+                "./plugins/redshop_pdf/tcpdf/**",
+                "./plugins/redshop_export/attribute/**",
+                "./plugins/redshop_export/category/**",
+                "./plugins/redshop_export/field/**",
+                "./plugins/redshop_export/manufacturer/**",
+                "./plugins/redshop_export/product/**",
+                "./plugins/redshop_export/product_stockroom_data/**",
+                "./plugins/redshop_export/related_product/**",
+                "./plugins/redshop_export/shipping_address/**",
+                "./plugins/redshop_export/shopper_group_attribute_price/**",
+                "./plugins/redshop_export/shopper_group_product_price/**",
+                "./plugins/redshop_export/user/**",
+                "./plugins/redshop_import/attribute/**",
+                "./plugins/redshop_import/category/**",
+                "./plugins/redshop_import/field/**",
+                "./plugins/redshop_import/manufacturer/**",
+                "./plugins/redshop_import/product/**",
+                "./plugins/redshop_import/product_stockroom_data/**",
+                "./plugins/redshop_import/shipping_address/**",
+                "./plugins/redshop_import/shopper_group_product_price/**",
+                "./plugins/redshop_import/shopper_group_attribute_price/**",
+                "./plugins/redshop_import/user/**",
+                "./plugins/redshop_import/related_product/**"
             ],{ base: "./" })
                 .pipe(zip(fileName))
                 .pipe(gulp.dest(config.releaseDir))

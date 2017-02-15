@@ -45,7 +45,7 @@ class RedshopHelperMediaImage
 				'path' => $imgUrl,
 				'name' => $image,
 				'size' => filesize($imgFile) ? filesize($imgFile) : 0,
-				'blob' => 'data: ' . mime_content_type($imgFile) . ';base64,' . base64_encode(file_get_contents($imgFile))
+				'blob' => 'data: ' . self::getMimeType($imgFile) . ';base64,' . base64_encode(file_get_contents($imgFile))
 			);
 		}
 
@@ -196,7 +196,7 @@ class RedshopHelperMediaImage
 	 *
 	 * @return  array                   List of media files.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getMediaFiles($selectedImage = '')
 	{
@@ -249,5 +249,34 @@ class RedshopHelperMediaImage
 		}
 
 		return $gallery;
+	}
+
+	/**
+	 * Method for get MIME Type of specific file.
+	 *
+	 * @param   string  $path  Path of file.
+	 *
+	 * @return  mixed          Mime type of file.
+	 *
+	 * @since   2.0.3
+	 */
+	public static function getMimeType($path)
+	{
+		if (empty($path) || !JFile::exists($path))
+		{
+			return false;
+		}
+
+		if (function_exists('mime_content_type'))
+		{
+			return mime_content_type($path);
+		}
+
+		if (function_exists('finfo_file') && function_exists('finfo_open'))
+		{
+			return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
+		}
+
+		return false;
 	}
 }

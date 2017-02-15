@@ -1088,7 +1088,7 @@ class extraField
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperExtrafields::getSectionFieldList() instead
+	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::getSectionFieldList() instead
 	 */
 	public function getSectionFieldList($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
 	{

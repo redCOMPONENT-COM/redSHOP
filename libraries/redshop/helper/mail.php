@@ -77,6 +77,13 @@ class RedshopHelperMail
 	 */
 	public static function sendOrderMail($orderId, $onlyAdmin = false)
 	{
+		$config   = JFactory::getConfig();
+
+		if (!$config->get('mailonline'))
+		{
+			return false;
+		}
+
 		$mailInfo = Redshop::getConfig()->get('USE_AS_CATALOG') ? self::getMailTemplate(0, "catalogue_order") : self::getMailTemplate(0, "order");
 
 		if (empty($mailInfo))
@@ -401,7 +408,7 @@ class RedshopHelperMail
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use
+	 * @deprecated  2.0.3  Use
 	 */
 	public static function createMultiprintInvoicePdf($orderIds)
 	{
@@ -495,6 +502,12 @@ class RedshopHelperMail
 	public static function sendInvoiceMail($orderId)
 	{
 		$config   = JFactory::getConfig();
+
+		if (!$config->get('mailonline'))
+		{
+			return false;
+		}
+
 		$mailBcc  = null;
 		$mailInfo = self::getMailTemplate(0, "invoice_mail");
 
