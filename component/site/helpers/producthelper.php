@@ -6860,7 +6860,7 @@ class productHelper
 						$productAttributeCalculatedPrice
 					);
 					$productAttributeCalculatedPrice = JText::sprintf('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE', $productAttributeCalculatedPrice);
-					$tmp_attribute_middle_template   = str_replace(
+					$attribute_final_template   = str_replace(
 						"{product_attribute_calculated_price}",
 						$productAttributeCalculatedPrice,
 						$tmp_attribute_middle_template
