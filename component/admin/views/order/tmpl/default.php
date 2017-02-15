@@ -27,30 +27,30 @@ JPluginHelper::importPlugin('redshop_product');
     }
 </style>
 <script language="javascript" type="text/javascript">
-    jQuery(document).ready(function ($) {
-        jQuery("#search").click(function (event) {
-            document.adminForm.task.value = '';
-        });
+	jQuery(document).ready(function ($) {
+		jQuery("#search").click(function (event) {
+		    document.adminForm.task.value = '';
+		});
 
-        jQuery('#filter_by, #filter_payment_status, #filter_status').change(function (e) {
-            document.adminForm.task.value = '';
-        });
+		jQuery('#filter_by, #filter_payment_status, #filter_status').change(function (e) {
+		    document.adminForm.task.value = '';
+		});
 
-        jQuery('.order_status_change').click(function (event) {
-            event.preventDefault();
-            var target = jQuery(this).attr('data-target');
-            jQuery('#' + target).slideToggle();
-        })
-    });
+		jQuery('.order_status_change').click(function (event) {
+		    event.preventDefault();
+		    var target = jQuery(this).attr('data-target');
+		    jQuery('#' + target).slideToggle();
+		});
+	});
 
 	Joomla.submitbutton = function (pressbutton) {
-        var form = document.adminForm;
+        	var form = document.adminForm;
 
-        if (pressbutton) {
-            form.task.value = pressbutton;
-        }
+		if (pressbutton) {
+		    form.task.value = pressbutton;
+		}
 
-        if (pressbutton == 'add') {
+		if (pressbutton == 'add') {
 			<?php $link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail'); ?>
 			window.location = '<?php echo $link;?>';
 			return;
@@ -65,7 +65,6 @@ JPluginHelper::importPlugin('redshop_product');
 				break;
 			case 'remove':
 				form.view.value = "order_detail";
-
 				var r = confirm('<?php echo JText::_("COM_REDSHOP_ORDER_DELETE_ORDERS_CONFIRM")?>');
 
 				if (r == false) {
@@ -102,15 +101,15 @@ JPluginHelper::importPlugin('redshop_product');
 	}
 
 	resetFilter = function () {
-        document.adminForm.task.value = '';
-        document.getElementById('filter').value = '';
-        document.getElementById('filter_by').value = '';
-        document.getElementById('filter_payment_status').value = '';
-        document.getElementById('filter_status').value = '0';
-        document.getElementById('filter_from_date').value = '';
-        document.getElementById('filter_to_date').value = '';
-        document.adminForm.submit();
-    }
+		document.adminForm.task.value = '';
+		document.getElementById('filter').value = '';
+		document.getElementById('filter_by').value = '';
+		document.getElementById('filter_payment_status').value = '';
+		document.getElementById('filter_status').value = '0';
+		document.getElementById('filter_from_date').value = '';
+		document.getElementById('filter_to_date').value = '';
+		document.adminForm.submit();
+	}
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm" id="adminForm">
