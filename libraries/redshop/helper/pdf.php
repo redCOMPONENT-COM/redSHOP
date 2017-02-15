@@ -104,10 +104,12 @@ class RedshopHelperPdf
 	 *
 	 * @return  boolean  True if has available plugins. False other wise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function isAvailablePdfPlugins()
 	{
-		return !empty(JPluginHelper::getPlugin('redshop_pdf'));
+		$pdfPlugins = JPluginHelper::getPlugin('redshop_pdf');
+
+		return empty($pdfPlugins) ? false : true;
 	}
 }

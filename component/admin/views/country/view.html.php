@@ -49,7 +49,6 @@ class RedshopViewCountry extends RedshopViewAdmin
 	 *
 	 * @since   2.0.0.2.1
 	 */
-
 	public function display($tpl = null)
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT'), 'redshop_country_48');

@@ -18,17 +18,17 @@ defined('_JEXEC') or die;
 class Redtemplate
 {
 	/**
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public $redshop_template_path;
 
 	/**
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	protected static $templatesArray = array();
 
 	/**
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	protected static $instance = null;
 

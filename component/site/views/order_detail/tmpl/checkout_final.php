@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 $configobj = Redconfiguration::getInstance();
 $order_functions = order_functions::getInstance();
 $redhelper = redhelper::getInstance();

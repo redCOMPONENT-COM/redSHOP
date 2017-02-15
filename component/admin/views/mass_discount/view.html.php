@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopViewMass_Discount extends RedshopViewAdmin
 {
@@ -54,7 +54,7 @@ class RedshopViewMass_Discount extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function display($tpl = null)
 	{
@@ -83,7 +83,7 @@ class RedshopViewMass_Discount extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	protected function addToolbar()
 	{
