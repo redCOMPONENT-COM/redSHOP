@@ -327,8 +327,8 @@ class rsUserHelper
 			return $user;
 		}
 
-		$data['password']  = $input->get('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data['password2'] = $input->get('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data['password']  = $input->post->getRaw('password1', '');
+		$data['password2'] = $input->post->getRaw('password2', '');
 		$data['email']     = $data['email1'];
 		$data['name']      = $name = $data['firstname'];
 
