@@ -123,12 +123,12 @@ class Com_RedshopInstallerScript
 	}
 
 	/**
-	 * [changeImageFileName]
-	 * 
-	 * @param   [array]   &$files  [list files in image folder]
-	 * @param   [string]  &$path   [path to folder]
-	 * 
-	 * @return  [void]
+	 * Change images file name
+	 *
+	 * @param   array   &$files  List files in image folder
+	 * @param   string  &$path   Path to folder
+	 *
+	 * @return  void
 	 */
 	public function changeImageFileName(&$files, &$path)
 	{
@@ -230,7 +230,7 @@ class Com_RedshopInstallerScript
 		// The configuration creation or update
 		$this->redshopHandleCFGFile();
 
-		// Syncronise users
+		// Synchronize users
 		$this->userSynchronization();
 
 		if ($type == 'update')
@@ -243,7 +243,7 @@ class Com_RedshopInstallerScript
 			$this->updateOverrideTemplate();
 
 			/** Fix old drag and drop images name, convert '%20' to ' ' */
-			if (version_compare($this->getOldParam('version'), '2.0.4', '<='))
+			if (version_compare($this->getOldParam('version'), '2.0.3', '<='))
 			{
 				/** Update DB */
 				$fields = array(
@@ -260,12 +260,12 @@ class Com_RedshopInstallerScript
 
 				/** Update Image Name */
 
-				$path = JPATH_SITE . '/components/com_redshop/assets/images/product/';
+				$path  = JPATH_SITE . '/components/com_redshop/assets/images/product/';
 				$files = JFolder::files($path);
 
 				$this->changeImageFileName($files, $path);
 
-				$path = JPATH_SITE . '/components/com_redshop/assets/images/product/thumb/';
+				$path  = JPATH_SITE . '/components/com_redshop/assets/images/product/thumb/';
 				$files = JFolder::files($path);
 
 				$this->changeImageFileName($files, $path);
