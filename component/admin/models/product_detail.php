@@ -3171,34 +3171,36 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getQuantity($stockroom_type, $sid, $pid)
 	{
-		$product = " AND product_id='" . $pid . "' ";
-		$section = "";
-		$stock = "";
-		$table = "product";
+		$db = $this->_db;
+		$query = $this->_db->getQuery(true);
+
+		$query->select('*');
 
 		if ($stockroom_type != 'product')
 		{
-			$product = " AND section_id='" . $pid . "' ";
-			$section = " AND section = '" . $stockroom_type . "' ";
-			$table = "product_attribute";
+			$query->from($db->quoteName('#__redshop_product_attribute_stockroom_xref'))
+				->where($db->quoteName('section_id') . ' = ' . (int) $pid)
+				->where($db->quoteName('section') . ' = ' . $db->quote($stockroom_type));
+		}
+		else
+		{
+			$query->from($db->quoteName('#__redshop_product_stockroom_xref'));
 		}
 
 		if ($sid != 0)
 		{
-			$stock = "AND stockroom_id='" . $sid . "' ";
+			$query->where($db->quoteName('stockroom_id') . ' = ' . (int) $sid);
 		}
 
-		$query = "SELECT * FROM " . $this->table_prefix . $table . "_stockroom_xref
-				  WHERE 1=1 " . $stock . $product . $section;
-
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$list = $db->loadObjectlist();
 
 		return $list;
 	}
 
 	/**
 	 * Function SaveAttributeStockroom.
+	 * TODO Update functionName correctly
 	 *
 	 * @param   array  $post  Type.
 	 *
@@ -3206,31 +3208,48 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function SaveAttributeStockroom($post)
 	{
-		$product = " AND section_id='" . $post['section_id'] . "' ";
-		$section = " AND section = '" . $post['section'] . "' ";
-		$table = "product_attribute";
+		$db = $this->_db;
+		$query = $this->_db->getQuery(true);
 
 		for ($i = 0, $countQuantity = count($post['quantity']); $i < $countQuantity; $i++)
 		{
-			$preorder_stock = $post['preorder_stock'][$i];
-			$ordered_preorder = $post['ordered_preorder'][$i];
-			$sid = $post['stockroom_id'][$i];
-			$quantity = $post['quantity'][$i];
+			// Prepare variables
+			$preorder_stock = (int) $post['preorder_stock'][$i];
+			$ordered_preorder = (int) $post['ordered_preorder'][$i];
+			$sid = (int) $post['stockroom_id'][$i];
+			$quantity = (int) $post['quantity'][$i];
+			$section = $post['section'];
+			$sectionId = (int) $post['section_id'];
 			$stock_update = false;
-			$list = $this->getQuantity($post['section'], $sid, $post['section_id']);
+			$list = $this->getQuantity($section, $sid, $sectionId);
+
+			// Clear query before use it
+			$query->clear();
 
 			if (count($list) > 0)
 			{
-				if ($quantity == "" && Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
+				// No quantity used and Set Stock as Infinite (1)
+				if (
+					empty($quantity)
+					&& Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 				{
-					$query = "DELETE FROM " . $this->table_prefix . $table . "_stockroom_xref
-							  WHERE stockroom_id='" . $post['stockroom_id'][$i] . "' " . $product . $section;
-					$this->_db->setQuery($query);
-					$this->_db->execute();
+					// Delete a product attribute stockroom
+					$query->delete($db->quotename('#__redshop_product_attribute_stockroom_xref'))
+						->where($db->quoteName('stockroom_id') . ' = ' . (int) $sid)
+						->where($db->quoteName('section_id') . ' = ' . (int) $sectionId)
+						->where($db->quoteName('section') . ' = ' . $db->quote($section));
+
+					$db->setQuery($query);
+
+					return $db->execute();
 				}
 				else
 				{
-					if (($preorder_stock < $ordered_preorder) && $preorder_stock != "" && $ordered_preorder != "")
+					if (
+						!empty($preorder_stock)
+						&& !empty($ordered_preorder)
+						&& ($preorder_stock < $ordered_preorder)
+					)
 					{
 						$this->app->enqueueMessage(JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED'), 'notice');
 
@@ -3238,18 +3257,33 @@ class RedshopModelProduct_Detail extends RedshopModel
 					}
 					else
 					{
-						$query = "UPDATE " . $this->table_prefix . $table . "_stockroom_xref
-								  SET quantity='" . $quantity . "' , preorder_stock= '" . $preorder_stock . "'
-								  WHERE stockroom_id='" . $sid . "'" . $product . $section;
-						$this->_db->setQuery($query);
-						$this->_db->execute();
-						$stock_update = true;
+						$fields = array (
+							$db->quoteName('quantity') . ' = ' . (int) $quantity,
+							$db->quoteName('preorder_stock') . ' = ' . (int) $preorder_stock,
+						);
+
+						$conditions = array (
+							$db->quoteName('stockroom_id') . ' = ' . (int) $sid,
+							$db->quoteName('section_id') . ' = ' . (int) $sectionId,
+							$db->quoteName('section') . ' = ' . $db->quote($section)
+						);
+
+						$query->update($db->quotename('#__redshop_product_attribute_stockroom_xref'))
+							->set($fields)
+							->where($conditions);
+
+						$db->setQuery($query);
+						$stock_update = $db->execute();
 					}
 				}
 			}
 			else
 			{
-				if ($preorder_stock < $ordered_preorder && $preorder_stock != "" && $ordered_preorder != "")
+				if (
+					!empty($preorder_stock)
+					&& !empty($ordered_preorder)
+					&& ($preorder_stock < $ordered_preorder)
+				)
 				{
 					$msg = JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED');
 					JError::raiseWarning('', $msg);
@@ -3291,8 +3325,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 			{
 				// For stockroom Notify Email.
 				$stockroom_data = array();
-				$stockroom_data['section'] = $post['section'];
-				$stockroom_data['section_id'] = $post['section_id'];
+				$stockroom_data['section'] = $section;
+				$stockroom_data['section_id'] = $sectionId;
 				$stockroom_data['regular_stock'] = $quantity;
 				$stockroom_data['preorder_stock'] = $preorder_stock;
 
