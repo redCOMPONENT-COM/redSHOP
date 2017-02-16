@@ -1851,7 +1851,20 @@ if ($this->detail->template_section == "private_billing_template")
 // Billing Template Start
 if ($this->detail->template_section == "company_billing_template")
 {
+	$tags_front = RedshopHelperExtrafields::getSectionFieldList(8, 1);
+	$tags_admin = RedshopHelperExtrafields::getSectionFieldList(8, 0);
+	$tags       = array_merge((array) $tags_admin, (array) $tags_front);
 	echo JHtml::_('tabs.panel', $title, 'company_billing_template'); ?>
+	<?php if (!empty($tags)): ?>
+        <tr>
+            <td>
+                <h3><?php echo JText::_("COM_REDSHOP_FIELDS") ?></h3>
+				<?php foreach ($tags as $tag): ?>
+                    <div style="margin-left:10px;">{<?php echo $tag->field_name ?>} -- <?php echo $tag->field_title ?></div>
+				<?php endforeach; ?>
+            </td>
+        </tr>
+	<?php endif; ?>
     <table class="adminlist table table-striped">
         <tr>
             <td><?php echo Redtemplate::getTemplateValues('company_billing'); ?></td>
