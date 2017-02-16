@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
 				'content' => $this->loadTemplate('rating_settings')
 			)
 		);
+		echo RedshopLayoutHelper::render(
+			'config.group',
+			array(
+				'title'   => JText::_('COM_REDSHOP_IMPORT_EXPORT_TAB'),
+				'content' => $this->loadTemplate('feature_import_export')
+			)
+		);
 		?>
     </div>
     <div class="col-sm-4">
@@ -38,13 +45,6 @@ defined('_JEXEC') or die;
 			array(
 				'title'   => JText::_('COM_REDSHOP_STOCKROOM_TAB'),
 				'content' => $this->loadTemplate('stockroom_settings')
-			)
-		);
-		echo RedshopLayoutHelper::render(
-			'config.group',
-			array(
-				'title'   => JText::_('COM_REDSHOP_IMPORT_EXPORT_TAB'),
-				'content' => $this->loadTemplate('feature_import_export')
 			)
 		);
 		?>
