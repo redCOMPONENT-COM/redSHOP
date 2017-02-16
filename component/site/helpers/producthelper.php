@@ -6866,6 +6866,9 @@ class productHelper
 						$tmp_attribute_middle_template
 					);
 
+					// Assign tmp variable to looping variable to get copy of all texts
+					$attribute_final_template .= $tmp_attribute_middle_template;
+
 					// Initialize attribute child array
 					$attribute[0]->attribute_childs[] = $attributeChilds;
 				}

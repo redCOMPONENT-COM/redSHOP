@@ -119,22 +119,22 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 		if (empty($data['product_thumb_image']))
 		{
-			$data['product_thumb_image'] = null;
+			unset($data['product_thumb_image']);
 		}
 
 		if (empty($data['product_full_image']))
 		{
-			$data['product_full_image'] = null;
+			unset($data['product_full_image']);
 		}
 
 		if (empty($data['product_back_full_image']))
 		{
-			$data['product_back_full_image'] = null;
+			unset($data['product_back_full_image']);
 		}
 
 		if (empty($data['product_preview_back_image']))
 		{
-			$data['product_preview_back_image'] = null;
+			unset($data['product_preview_back_image']);
 		}
 
 		if (!empty($data['discount_stratdate']))
@@ -215,7 +215,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		}
 
 		// Insert for new data or update exist data.
-		if ((!$isNew && !$db->insertObject('#__redshop_product', $table, $this->primaryKey)) || !$table->store())
+		if ((!$isNew && !$db->insertObject('#__redshop_product', $table, $this->primaryKey)) || !$table->store(false))
 		{
 			return false;
 		}
