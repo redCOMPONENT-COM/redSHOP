@@ -33,6 +33,8 @@ $ord_path = "/components/com_redshop/assets/images/";
 					array(
 						'title' => JText::_('COM_REDSHOP_NEWSLETTER_CONFIRMATION_LBL'),
 						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_NEWSLETTER_CONFIRMATION_LBL'),
+						'id'     => 'newsletter_confirmation',
+						'showOn' => 'newsletter_enable:1',
 						'field' => $this->lists['newsletter_confirmation']
 					)
 				);
@@ -41,6 +43,8 @@ $ord_path = "/components/com_redshop/assets/images/";
 					array(
 						'title' => JText::_('COM_REDSHOP_NEWS_FROM_NAME'),
 						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_NEWS_FROM_NAME'),
+						'id'     => 'news_from_name',
+						'showOn' => 'newsletter_enable:1',
 						'field' => '<input type="text" name="news_from_name" id="news_from_name" class="form-control"
                             value="' . $this->config->get('NEWS_FROM_NAME') . '" size="50" />'
 					)
@@ -50,6 +54,8 @@ $ord_path = "/components/com_redshop/assets/images/";
 					array(
 						'title' => JText::_('COM_REDSHOP_NEWS_MAIL_FROM'),
 						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_NEWS_MAIL_FROM'),
+						'id'     => 'news_mail_from',
+						'showOn' => 'newsletter_enable:1',
 						'field' => '<input type="text" name="news_mail_from" id="news_mail_from" class="form-control"
                             value="' . $this->config->get('NEWS_MAIL_FROM') . '" size="50" />'
 					)
@@ -59,6 +65,8 @@ $ord_path = "/components/com_redshop/assets/images/";
 					array(
 						'title' => JText::_('COM_REDSHOP_DEFAULT_NEWSLETTER'),
 						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_NEWSLETTER'),
+						'id'     => 'newsletters',
+						'showOn' => 'newsletter_enable:1',
 						'field' => $this->lists['newsletters']
 					)
 				);
@@ -67,6 +75,8 @@ $ord_path = "/components/com_redshop/assets/images/";
 					array(
 						'title' => JText::_('COM_REDSHOP_NEWSLETTER_MAIL_BATCHES_SENT_AT_ONE_TIME_LBL'),
 						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_NEWSLETTER_MAIL_BATCHES_SENT_AT_ONE_TIME_LBL'),
+						'id'     => 'newsletter_mail_chunk',
+						'showOn' => 'newsletter_enable:1',
 						'field' => '<input type="number" name="newsletter_mail_chunk" id="newsletter_mail_chunk" class="form-control"
                             value="' . $this->config->get('NEWSLETTER_MAIL_CHUNK') . '" size="20" maxlength="3" />'
 					)
@@ -76,6 +86,8 @@ $ord_path = "/components/com_redshop/assets/images/";
 					array(
 						'title' => JText::_('COM_REDSHOP_PAUSE_SECONDS_EVERY_AMOUNT_OF_EMAILS_LBL'),
 						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_PAUSE_SECONDS_EVERY_AMOUNT_OF_EMAILS_LBL'),
+						'id'     => 'newsletter_mail_pause_time',
+						'showOn' => 'newsletter_enable:1',
 						'field' => '<input type="number" name="newsletter_mail_pause_time" id="newsletter_mail_pause_time" class="form-control"
                             value="' . $this->config->get('NEWSLETTER_MAIL_PAUSE_TIME') . '" size="20" maxlength="3" />'
 					)
