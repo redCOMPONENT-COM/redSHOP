@@ -3217,7 +3217,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$preorder_stock = (int) $post['preorder_stock'][$i];
 			$ordered_preorder = (int) $post['ordered_preorder'][$i];
 			$sid = (int) $post['stockroom_id'][$i];
-			$quantity = (int) $post['quantity'][$i];
+			// TODO Looking for better solution to use right variable type
+			$quantity = $post['quantity'][$i];
 			$section = $post['section'];
 			$sectionId = (int) $post['section_id'];
 			$stock_update = false;
@@ -3230,7 +3231,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			{
 				// No quantity used and Set Stock as Infinite (1)
 				if (
-					empty($quantity)
+					$quantity == ''
 					&& Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 				{
 					// Delete a product attribute stockroom
@@ -3285,8 +3286,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					&& ($preorder_stock < $ordered_preorder)
 				)
 				{
-					$msg = JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED');
-					JError::raiseWarning('', $msg);
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED'), 'error');
 
 					return false;
 				}
