@@ -7,28 +7,110 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
+$firstStep = $this->steps[0];
 ?>
-<table class="table table-bordered">
-	<thead>
-	<tr>
-		<th width="1">#</th>
-		<th>Task</th>
-		<th>Status</th>
-		<th>&nbsp;</th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php foreach ($this->steps as $i => $step): ?>
-		<tr>
-			<td><?php echo $i + 1 ?></td>
-			<td><?php echo $step['text'] ?><br /><?php echo $step['func'] ?></td>
-			<td>
-				<p class="text-muted">Not run</p>
-				<img src="components/com_redshop/assets/images/ajax-loader.gif" class="hidden loader" />
-			</td>
-			<td><button class="btn btn-info btn-large"><i class="fa fa-cog"></i>&nbsp;Run</button></td>
-		</tr>
-	<?php endforeach; ?>
-	</tbody>
-</table>
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            var $first = $($("#table-install").find("tr")[0]);
+            window.setTimeout(function(){
+                doProgress($first.attr("data-task"));
+            }, 1000);
+        });
+    })(jQuery);
+</script>
+<script type="text/javascript">
+    function doProgress(task) {
+        var $row = $("#row-" + task);
+        $row.find('img.loader').removeClass("hidden");
+
+        $.post(
+            "index.php?option=com_redshop&task=install." + task,
+            {
+                "<?php echo JSession::getFormToken() ?>": 1
+            },
+            function (response) {
+                $row.find('.text-result').text(response)
+                    .removeClass("text-muted").addClass("text-success");
+                $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-check text-success");
+                $row.find('.task-name').removeClass("text-muted").addClass("text-success");
+            }
+        )
+            .always(function () {
+                $row.find('img.loader').addClass("hidden");
+
+                var $next = $row.next("tr");
+
+                // Still have next progress
+                if ($next.length) {
+                    doProgress($next.attr("data-task"));
+                }
+
+                // This is final step
+                window.setTimeout(function () {
+                    $("#install-desc").slideDown('slow');
+                }, 1000);
+            })
+            .fail(function (response) {
+                $row.find('.text-result').text(response.responseText)
+                    .removeClass("text-muted").addClass("text-danger");
+                $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-remove text-danger");
+                $row.find('.task-name').removeClass("text-muted").addClass("text-danger");
+            });
+    }
+</script>
+<div class="container">
+    <div id="install-desc" style="display: none;">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png" width="261" height="88"
+                     alt="redSHOP Logo" align="left" class="img"/>
+            </div>
+            <div class="col-md-8">
+                <h3><?php echo JText::_('COM_REDSHOP_COMPONENT_NAME'); ?></h3>
+                <p><?php echo JText::_('COM_REDSHOP_BY_LINK') ?></p>
+                <p><?php echo JText::_('COM_REDSHOP_TERMS_AND_CONDITION') ?></p>
+                <p><?php echo JText::_('COM_REDSHOP_CHECK_UPDATES'); ?>:
+                    <a href="http://redcomponent.com/" target="_new"><img src="http://images.redcomponent.com/redcomponent.jpg" alt=""/></a>
+                </p>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-12 center panel-body">
+	            <?php if ($this->installType != 'update'): ?>
+                <button type="button" class="btn btn-large btn-primary" name="save"
+                        onclick="location.href='index.php?option=com_redshop&wizard=1'">
+                    <icon class="fa fa-cog"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_WIZARD') ?>
+                </button>
+                <button type="button" class="btn btn-large btn-warning" name="content"
+                        onclick="location.href='index.php?option=com_redshop&wizard=0&task=demoContentInsert'">
+                    <icon class="fa fa-laptop"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_INSTALL_DEMO_CONTENT') ?>
+                </button>
+	            <?php endif; ?>
+                <button type="button" class="btn btn-large btn-info" name="cancel"
+                        onclick="location.href='index.php?option=com_redshop&wizard=0'">
+                    <icon class="fa fa-bar-chart"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_DASHBOARD') ?>
+                </button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped" id="table-install">
+        <tbody>
+		<?php foreach ($this->steps as $i => $step): ?>
+            <tr data-task="<?php echo $step['func'] ?>" id="row-<?php echo $step['func'] ?>">
+                <td width="1">
+                    <i class="fa fa-tasks status-icon"></i>
+                </td>
+                <td>
+                    <span class="text-muted task-name"><?php echo $step['text'] ?></span>
+                </td>
+                <td width="20%" style="text-align: right;">
+                    <strong class="text-result text-muted">Pending</strong>
+                    <img src="components/com_redshop/assets/images/ajax-loader.gif" class="loader img hidden" width="128px" height="15px"/>
+                </td>
+            </tr>
+		<?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

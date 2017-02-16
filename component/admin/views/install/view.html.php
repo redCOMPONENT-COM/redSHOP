@@ -24,6 +24,11 @@ class RedshopViewInstall extends RedshopViewAdmin
 	public $steps;
 
 	/**
+	 * @var  string
+	 */
+	public $installType;
+
+	/**
 	 * Do we have to disable a sidebar ?
 	 *
 	 * @var  boolean
@@ -41,14 +46,14 @@ class RedshopViewInstall extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
-		$installType = JFactory::getApplication()->input->getString('install_type', 'install');
+		$this->installType = JFactory::getApplication()->input->getString('install_type', 'install');
 
 		JToolbarHelper::title(JText::_('COM_REDSHOP_INSTALL_TITLE'));
 
 		/** @var RedshopModelInstall $model */
 		$model = $this->getModel();
 
-		$this->steps = $model->getSteps($installType);
+		$this->steps = $model->getSteps($this->installType);
 
 		// Display the template
 		parent::display($tpl);

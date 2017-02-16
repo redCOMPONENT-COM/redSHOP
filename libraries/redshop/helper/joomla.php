@@ -16,7 +16,6 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperJoomla
 {
-
 	/**
 	 * Get redSHOP manifest value
 	 *

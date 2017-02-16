@@ -212,7 +212,7 @@ class RedshopInstallDatabase
 	/**
 	 * Get columns of table
 	 *
-	 * @param   string $table Table name
+	 * @param   string  $table  Table name
 	 *
 	 * @return mixed
 	 *
@@ -230,7 +230,7 @@ class RedshopInstallDatabase
 	/**
 	 * Get index of table
 	 *
-	 * @param   string $table Table name
+	 * @param   string  $table  Table name
 	 *
 	 * @return  mixed
 	 *
@@ -248,9 +248,9 @@ class RedshopInstallDatabase
 	/**
 	 * Apply ALTER query for drop column or index
 	 *
-	 * @param   array $fields  Fields information
-	 * @param   array $columns List of Columns
-	 * @param   bool  $isIndex Drop index column
+	 * @param   array  $fields   Fields information
+	 * @param   array  $columns  List of Columns
+	 * @param   bool   $isIndex  Drop index column
 	 *
 	 * @return  boolean          True on success.
 	 */
