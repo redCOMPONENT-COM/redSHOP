@@ -495,6 +495,9 @@ class RedshopControllerCheckout extends RedshopController
 				// Add Plugin support
 				$results = $dispatcher->trigger('afterOrderPlace', array($cart, $orderresult));
 
+				JPluginHelper::importPlugin('agile_crm');
+				$dispatcher->trigger('afterOrderCreated', array($orderresult));
+
 				// New checkout flow
 				/**
 				 * change redirection
