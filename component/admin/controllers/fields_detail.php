@@ -119,6 +119,7 @@ class RedshopControllerFields_detail extends RedshopController
 	{
 		$msg = JText::_('COM_REDSHOP_FIELD_EDITING_CANCELLED');
 		JFactory::getApplication()->setUserState('com_redshop.fields_detail.data', "");
-		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
+		$this->setMessage($msg, 'warning');
+		$this->setRedirect('index.php?option=com_redshop&view=fields');
 	}
 }
