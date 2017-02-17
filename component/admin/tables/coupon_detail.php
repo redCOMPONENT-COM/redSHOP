@@ -53,4 +53,21 @@ class Tablecoupon_detail extends JTable
 
 		return parent::bind($array, $ignore);
 	}
+
+	/**
+	 * Validate all fields
+	 *
+	 * @return  bool
+	 *
+	 * @since  2.0.2
+	 */
+	public function check ()
+	{
+		if (empty($this->coupon_code))
+		{
+			return false;
+		}
+
+		return parent::check();
+	}
 }

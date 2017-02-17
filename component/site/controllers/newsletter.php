@@ -46,7 +46,7 @@ class RedshopControllerNewsletter extends RedshopController
 		/*
 		  *  check if user has alreday subscribe.
 		  */
-		$alreadysubscriberbymail = $model->checksubscriptionbymail($post['email1']);
+		$alreadysubscriberbymail = $model->checksubscriptionbymail($post['email']);
 
 		if ($alreadysubscriberbymail)
 		{
@@ -58,7 +58,7 @@ class RedshopControllerNewsletter extends RedshopController
 
 			if ($userhelper->newsletterSubscribe(0, $post, 1))
 			{
-				if (NEWSLETTER_CONFIRMATION)
+				if (Redshop::getConfig()->get('NEWSLETTER_CONFIRMATION'))
 				{
 					$msg = JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
 				}
@@ -87,7 +87,7 @@ class RedshopControllerNewsletter extends RedshopController
 		$model = $this->getModel('newsletter');
 
 		$Itemid           = JRequest::getVar('Itemid');
-		$email            = JRequest::getVar('email1');
+		$email            = JRequest::getVar('email');
 		$newsletteritemid = JRequest::getVar('newsletteritemid');
 		$menu             = JFactory::getApplication()->getMenu();
 		$item             = $menu->getItem($newsletteritemid);

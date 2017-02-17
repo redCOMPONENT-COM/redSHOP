@@ -33,11 +33,11 @@ class RedshopModelCurrency extends RedshopModel
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
+		$filter = $app->getUserStateFromRequest($this->_context . 'filter_search', 'filter_search', '');
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-		$this->setState('filter', $filter);
+		$this->setState('filter_search', $filter);
 	}
 
 	public function getData()
@@ -78,7 +78,7 @@ class RedshopModelCurrency extends RedshopModel
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$filter = $this->getState('filter');
+		$filter = $this->getState('filter_search');
 
 		$query->select('distinct(c.currency_id)')
 			->select('c.*')

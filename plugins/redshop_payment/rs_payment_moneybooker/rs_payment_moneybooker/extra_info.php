@@ -28,7 +28,7 @@ $user   = JFactory::getUser();
 	<input type="hidden" name="pay_from_email" value="<?php echo $user->email ?>"/>
 	<input type="hidden" name="amount" value="<?php echo $data['carttotal']; ?>"/>
 
-	<input type="hidden" name="currency" value="<?php echo CURRENCY_CODE ?>"/>
+	<input type="hidden" name="currency" value="<?php echo Redshop::getConfig()->get('CURRENCY_CODE') ?>"/>
 	<input type="hidden" name="firstname" value="<?php echo $data['billinginfo']->firstname ?>"/>
 	<input type="hidden" name="lastname" value="<?php echo $data['billinginfo']->lastname ?>"/>
 	<input type="hidden" name="address" value="<?php echo $data['billinginfo']->address ?>&#10<?php

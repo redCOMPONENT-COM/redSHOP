@@ -79,13 +79,17 @@ class RedshopViewSearch extends RedshopView
 			{
 				$mypid = JRequest::getInt('pid', 0);
 
-				$app->redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid));
 			}
 		}
 
 		$redHelper = redhelper::getInstance();
 		$order_data            = $redHelper->getOrderByList();
-		$getorderby            = JRequest::getString('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+		$getorderby            = JRequest::getString('order_by',
+			$app->getUserState('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'))
+		);
+		$app->setUserState('order_by', $getorderby);
+		JFactory::getApplication()->input->set('order_by', $app->getUserState('order_by'));
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
 		$search     = $this->get('Data');
 		$pagination = $this->get('Pagination');
@@ -106,7 +110,7 @@ class RedshopViewSearch extends RedshopView
 		if (count($this->search) > 0)
 		{
 			$app = JFactory::getApplication();
-
+			JFactory::getApplication()->input->set('order_by', $app->getUserState('order_by'));
 
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = Redtemplate::getInstance();
@@ -211,7 +215,7 @@ class RedshopViewSearch extends RedshopView
 			{
 				$compareProductDiv = '';
 
-				if (PRODUCT_COMPARISON_TYPE != '')
+				if (Redshop::getConfig()->get('PRODUCT_COMPARISON_TYPE') != '')
 				{
 					$compareProductDiv = RedshopLayoutHelper::render('product.compare_product');
 				}
@@ -314,7 +318,7 @@ class RedshopViewSearch extends RedshopView
 			{
 				$data_add   = "";
 				$thum_image = "";
-				$pname      = $Redconfiguration->maxchar($this->search[$i]->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
+				$pname      = $Redconfiguration->maxchar($this->search[$i]->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
 
 				if ($search_type == 'product_number')
 				{
@@ -336,7 +340,7 @@ class RedshopViewSearch extends RedshopView
 					}
 				}
 
-				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
+				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
 				$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $Itemid);
 
 				if (strstr($template_desc, '{product_name}'))
@@ -461,26 +465,26 @@ class RedshopViewSearch extends RedshopView
 				if (strstr($data_add, "{product_thumb_image_3}"))
 				{
 					$cimg_tag = '{product_thumb_image_3}';
-					$ch_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_3;
-					$cw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_3;
+					$ch_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_3');
+					$cw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_3');
 				}
 				elseif (strstr($data_add, "{product_thumb_image_2}"))
 				{
 					$cimg_tag = '{product_thumb_image_2}';
-					$ch_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_2;
-					$cw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_2;
+					$ch_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_2');
+					$cw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_2');
 				}
 				elseif (strstr($data_add, "{product_thumb_image_1}"))
 				{
 					$cimg_tag = '{product_thumb_image_1}';
-					$ch_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
-					$cw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
+					$ch_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+					$cw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 				}
 				else
 				{
 					$cimg_tag = '{product_thumb_image}';
-					$ch_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
-					$cw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
+					$ch_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+					$cw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 				}
 
 				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $cw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ch_thumb . "'>";
@@ -554,7 +558,7 @@ class RedshopViewSearch extends RedshopView
 						$data_add = str_replace("{product_userfield end if}", "", $data_add);
 					}
 				}
-				elseif (AJAX_CART_BOX)
+				elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 				{
 					$ajax_detail_template_desc = "";
 					$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($this->search[$i]);
@@ -680,7 +684,7 @@ class RedshopViewSearch extends RedshopView
 			$app    = JFactory::getApplication();
 			$router = $app->getRouter();
 
-			$getorderby = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+			$getorderby = JRequest::getVar('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
 
 			$vars = array(
 				'option'         => 'com_redshop',

@@ -116,7 +116,7 @@ class RedshopModelGiftcards extends RedshopModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'giftcard_id');
+		$orderCol  = $this->state->get('list.ordering', 'giftcard_id');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));

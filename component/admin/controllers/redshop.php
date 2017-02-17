@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopControllerRedshop extends RedshopController
 {
 	public function demoContentInsert()
@@ -20,5 +19,24 @@ class RedshopControllerRedshop extends RedshopController
 		$msg = JText::_('COM_REDSHOP_SAMPLE_DATA_INSTALLED');
 
 		$this->setRedirect('index.php?option=com_redshop', $msg);
+	}
+
+	/**
+	 * Get default configuration file back
+	 *
+	 * @since   1.7
+	 *
+	 * @return  void
+	 */
+	public function getDefaultConfig()
+	{
+		$app = JFactory::getApplication();
+
+		if (!Redshop::getConfig()->loadDist())
+		{
+			$app->enqueueMessage(JText::_('LIB_REDSHOP_ERROR_WRITE_FAILED'), 'error');
+		}
+
+		$app->redirect('index.php?option=com_redshop');
 	}
 }

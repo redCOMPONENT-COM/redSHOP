@@ -32,9 +32,9 @@ $viewbutton = '<input type="button" name="viewcart" class="view_cart_button btn 
 /*
  * continue redirection link
  */
-if (CONTINUE_REDIRECT_LINK != '')
+if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '')
 {
-	$shopmorelink    = JRoute::_(CONTINUE_REDIRECT_LINK);
+	$shopmorelink    = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 	$countinuebutton = '<input type="button" name="continuecart" class="continue_cart_button btn" value="' . JText::_('COM_REDSHOP_CONTINUE_SHOPPING') . '" onclick="document.location=\'' . $shopmorelink . '\'" >';
 }
 else

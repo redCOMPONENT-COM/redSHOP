@@ -197,7 +197,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 			$attr = $this->_db->loadObjectlist();
 		}
 
-		$attribute_data = '';
+		$attribute_data = array();
 
 		for ($i = 0, $in = count($attr); $i < $in; $i++)
 		{
@@ -247,7 +247,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	public function getattributelist($data)
 	{
 		$db = $this->_db;
-		$attribute_data = '';
+		$attribute_data = array();
 		$producthelper = productHelper::getInstance();
 		$attr = $producthelper->getProductAttribute(0, $data);
 
@@ -859,7 +859,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		for ($i = 0; $i < count($post['quantity']); $i++)
 		{
-			if ($post['quantity'][$i] || (!USE_BLANK_AS_INFINITE))
+			if ($post['quantity'][$i] || (!Redshop::getConfig()->get('USE_BLANK_AS_INFINITE')))
 			{
 				$q = "INSERT IGNORE INTO " . $this->_table_prefix . "product_attribute_stockroom_xref VALUES ("
 					. $post['section_id'] . ",'" . $post['section'] . "'," . $post['stockroom_id'][$i] . ",'"

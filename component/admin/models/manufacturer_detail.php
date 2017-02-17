@@ -219,20 +219,20 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function getMediaId($mid)
 	{
-		$query = 'SELECT media_id,media_name FROM ' . $this->_table_prefix . 'media '
+		$query = 'SELECT media_id,media_name,media_alternate_text FROM ' . $this->_table_prefix . 'media '
 			. 'WHERE media_section="manufacturer" AND section_id = ' . $mid;
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObject();
 	}
 
-	public function saveOrder(&$cid)
+	public function saveOrder(&$cid, $order = array())
 	{
 		$db = JFactory::getDbo();
 		$row = $this->getTable();
 
 		$total = count($cid);
-		$order = JRequest::getVar('order', array(0), 'post', 'array');
+		$order = (empty($order)) ? JRequest::getVar('order', array(0), 'post', 'array') : $order;
 		JArrayHelper::toInteger($order, array(0));
 
 		// Update ordering values

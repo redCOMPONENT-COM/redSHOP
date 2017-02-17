@@ -34,16 +34,16 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 	 *
 	 * @var JParameter object
 	 */
-	function __construct( &$subject, $config = array() )
+	public function __construct( &$subject, $config = array() )
 	{
 		parent::__construct($subject, $config);
 
 		$this->onlabels_GLSConnection();
 	}
 
-	function onlabels_GLSConnection()
+	public function onlabels_GLSConnection()
 	{
-		$url = 'http://www.gls.dk/webservices_v2/wsPakkeshop.asmx?WSDL';
+		$url = 'http://www.gls.dk/webservices_v4/wsShopFinder.asmx?WSDL';
 
 		try
 		{
@@ -52,13 +52,14 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		catch ( Exception $exception )
 		{
 			$this->error = 1;
+
 			echo $this->errorMsg = "Unable to connect soap client";
 
 			JError::raiseWarning(21, $exception->getMessage());
 		}
 	}
 
-	function GetNearstParcelShops ($values)
+	public function GetNearstParcelShops ($values)
 	{
 		if ($this->error)
 		{
@@ -67,15 +68,12 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 
 		try
 		{
-			$d ['street'] 	= $values->address;
-			$d ['zipcode'] 	= $values->zipcode;
-			$d ['Amount'] 	= 4;
-
 			$Handle = $this->client->SearchNearestParcelShops(
 				array(
-					'street' => $d['street'],
-					'zipcode' => $d['zipcode'],
-					'Amount' => $d['Amount']
+					'street'           => (string) $values->address,
+					'zipcode'          => (string) $values->zipcode,
+					'countryIso3166A2' => Redconfiguration::getInstance()->getCountryCode2($values->country_code),
+					'Amount'           => $this->params->get('amount_shop', 10)
 				)
 			)->SearchNearestParcelShopsResult;
 
@@ -92,7 +90,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		}
 	}
 
-	function ShopArray($PakkeshopData)
+	public function ShopArray($PakkeshopData)
 	{
 		$j              = 0;
 		$returnArr      = array();
@@ -131,7 +129,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		return  $returnArr;
 	}
 
-	function WeekdaysTime($Weekday)
+	public function WeekdaysTime($Weekday)
 	{
 		$opningTime = Array();
 
@@ -170,7 +168,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 				$day = $Weekday[$i]->day;
 			}
 
-			$opningTime[] = "<B>" . $day . '</b> '
+			$opningTime[] = "<b>" . $day . '</b> '
 							. $Weekday[$i]->openAt->From . '-' . $Weekday[$i]->openAt->To;
 		}
 
@@ -179,7 +177,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		return $stropeningTime;
 	}
 
-	function onListRates(&$d)
+	public function onListRates(&$d)
 	{
 		$shippinghelper = shipping::getInstance();
 		$shippingrate   = array();

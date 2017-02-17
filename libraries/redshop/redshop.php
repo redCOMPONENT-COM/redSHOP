@@ -28,7 +28,7 @@ abstract class Redshop
 	/**
 	 * Component configuration
 	 *
-	 * @var  JRegistry
+	 * @var  RedshopHelperConfig
 	 */
 	protected static $config;
 
@@ -46,28 +46,29 @@ abstract class Redshop
 	 */
 	public static function getConfig()
 	{
-		if (null === static::$config)
+		if (null === self::$config)
 		{
-			static::$config = new RedshopHelperConfig;
+			self::$config = new RedshopHelperConfig;
 		}
 
-		return static::$config;
+		return self::$config;
 	}
 
 	/**
 	 * Gets the redSHOP manifest
 	 *
+	 * @throws  Exception
 	 * @return  SimpleXMLElement
 	 */
 	public static function getManifest()
 	{
-		if (null === static::$manifest)
+		if (null === self::$manifest)
 		{
 			$manifestFile = JPATH_ADMINISTRATOR . '/components/' . self::$component . '/redshop.xml';
 
 			if (file_exists($manifestFile))
 			{
-				static::$manifest = simplexml_load_file($manifestFile);
+				self::$manifest = simplexml_load_file($manifestFile);
 			}
 			else
 			{
@@ -75,7 +76,7 @@ abstract class Redshop
 			}
 		}
 
-		return static::$manifest;
+		return self::$manifest;
 	}
 
 	/**
@@ -85,11 +86,13 @@ abstract class Redshop
 	 */
 	public static function getVersion()
 	{
-		return (string) static::getManifest()->version;
+		return (string) self::getManifest()->version;
 	}
 
 	/**
 	 * Gets product object
+	 *
+	 * @param   int  $id  ID of product
 	 *
 	 * @return  RedshopProduct object
 	 */

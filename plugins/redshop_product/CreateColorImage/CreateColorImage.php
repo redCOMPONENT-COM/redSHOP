@@ -140,7 +140,7 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 			'product_attributes',
 			$main_imgwidth,
 			$main_imgheight,
-			USE_IMAGE_SIZE_SWAPPING
+			Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 		);
 
 		$arrReturn['mainImageResponse'] = $mainImageResponse;

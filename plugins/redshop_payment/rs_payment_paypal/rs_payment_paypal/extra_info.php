@@ -20,7 +20,7 @@ $task             = $input->getCmd('task');
 $layout           = $input->getCmd('layout');
 $Itemid           = $input->getInt('Itemid');
 
-$paymentCurrency  = $this->params->get("currency", CURRENCY_CODE);
+$paymentCurrency  = $this->params->get("currency", Redshop::getConfig()->get('CURRENCY_CODE'));
 
 if (1 == (int) $this->params->get("sandbox"))
 {
@@ -77,7 +77,7 @@ $paypalPostData = Array(
 	'bn'                 => 'redCOMPONENT_SP'
 );
 
-if (SHIPPING_METHOD_ENABLE)
+if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
 	$paypalShippingData = Array(
 		"address1"   => $data['shippinginfo']->address,
@@ -148,7 +148,7 @@ if (is_array($paypalCartItems) && count($paypalCartItems))
 	}
 }
 
-if (SHIPPING_METHOD_ENABLE)
+if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
 	if (is_array($paypalShippingData) && count($paypalShippingData))
 	{

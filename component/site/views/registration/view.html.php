@@ -24,7 +24,7 @@ class RedshopViewRegistration extends RedshopView
 
 		if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 		{
-			$app->redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid));
 		}
 
 		$params = $app->getParams('com_redshop');
@@ -43,7 +43,7 @@ class RedshopViewRegistration extends RedshopView
 		$openToStretcher = 0;
 		$isCompany = $jInput->getInt('is_company', 0);
 
-		if ($isCompany == 1 || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
+		if ($isCompany == 1 || Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$openToStretcher = 1;
 		}
@@ -54,19 +54,19 @@ class RedshopViewRegistration extends RedshopView
 		$lists['showCustomerdesc'] = "";
 		$lists['showCompanydesc'] = "style='display:none;'";
 
-		if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
 		{
 			$lists['allowCompany']      = "style='display:none;'";
 			$openToStretcher = 0;
 		}
-		elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$lists['allowCustomer']     = "style='display:none;'";
 			$lists['showCustomerdesc']  = "style='display:none;'";
 			$openToStretcher = 1;
 		}
 
-		if (DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
+		if (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$lists['showCompanydesc']  = '';
 			$lists['showCustomerdesc'] = "style='display:none;'";

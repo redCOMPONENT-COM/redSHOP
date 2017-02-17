@@ -22,17 +22,10 @@ class RedshopViewCheckout extends RedshopView
 		$field     = extraField::getInstance();
 		$session   = JFactory::getSession();
 
-		// Load language file
-		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
 		$language          = JFactory::getLanguage();
-		$base_dir          = JPATH_ADMINISTRATOR;
-		$language_tag      = $language->getTag();
 
-		for ($l = 0, $ln = count($payment_lang_list); $l < $ln; $l++)
-		{
-			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
-			$language->load($extension, $base_dir, $language_tag, true);
-		}
+		// Load payment languages
+		RedshopHelperPayment::loadLanguages();
 
 		// Load Shipping language file
 		$shippingPlugins = $redhelper->getPlugins("redshop_shipping");
@@ -69,7 +62,7 @@ class RedshopViewCheckout extends RedshopView
 		{
 			$msg  = JText::_('COM_REDSHOP_EMPTY_CART');
 			$link = 'index.php?option=com_redshop&Itemid=' . $Itemid;
-			$app->redirect($link, $msg);
+			$app->redirect(JRoute::_($link), $msg);
 		}
 
 		$lists = array();
@@ -80,7 +73,7 @@ class RedshopViewCheckout extends RedshopView
 		// Toggler settings
 		$openToStretcher = 0;
 
-		if ($isCompany == 1 || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
+		if ($isCompany == 1 || Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$openToStretcher = 1;
 		}
@@ -89,12 +82,12 @@ class RedshopViewCheckout extends RedshopView
 		$lists['allowCustomer'] = "";
 		$lists['allowCompany'] = "";
 
-		if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
 		{
 			$lists['allowCompany'] = "style='display:none;'";
 			$openToStretcher = 0;
 		}
-		elseif (ALLOW_CUSTOMER_REGISTER_TYPE == 2)
+		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$lists['allowCustomer'] = "style='display:none;'";
 			$openToStretcher = 1;
@@ -106,9 +99,9 @@ class RedshopViewCheckout extends RedshopView
 		{
 			$cart = $session->get('cart');
 
-			if (DEFAULT_QUOTATION_MODE == 1 && !array_key_exists("quotation_id", $cart))
+			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == 1 && !array_key_exists("quotation_id", $cart))
 			{
-				$app->redirect('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid);
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid));
 			}
 
 			$users_info_id     = JRequest::getInt('users_info_id');
@@ -127,7 +120,7 @@ class RedshopViewCheckout extends RedshopView
 				}
 				else
 				{
-					$app->redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid);
+					$app->redirect(JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid));
 				}
 			}
 
@@ -156,7 +149,7 @@ class RedshopViewCheckout extends RedshopView
 			}
 
 			$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
-			$subtotal       = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
+			$subtotal       = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
 
 			$this->users_info_id = $users_info_id;
 			$this->shipping_rate_id = $shipping_rate_id;
@@ -182,7 +175,7 @@ class RedshopViewCheckout extends RedshopView
 			$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
 		}
 
-		if (($user->id || $auth['users_info_id'] > 0) && ONESTEP_CHECKOUT_ENABLE)
+		if (($user->id || $auth['users_info_id'] > 0) && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{
 			$this->setLayout('onestepcheckout');
 		}

@@ -5,159 +5,88 @@
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
+ *
+ * @deprecated  2.0.3  Use RedshopHelperShopper_Group instead
  */
 
 defined('_JEXEC') or die;
 
+/**
+ * Class Redshop Helper for Shopper Group
+ *
+ * @since       1.6
+ *
+ * @deprecated  2.0.3  Use RedshopHelperShopper_Group instead
+ */
 class shoppergroup
 {
-	public function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true,
-	                         $multiple = false, $disabledFields = array())
+	/**
+	 * List all shopper group as dropdown list
+	 *
+	 * @param   string   $name              Name of dropdown list
+	 * @param   integer  $shopper_group_id  ID of shopper group to display
+	 * @param   array    $selected_groups   Array of selected group
+	 * @param   integer  $size              Size of dropdown list
+	 * @param   boolean  $toplevel          Position align from top
+	 * @param   boolean  $multiple          Is multiple select or not
+	 * @param   array    $disabledFields    Disable some groups
+	 *
+	 * @return string    HTML of dropdown list to render
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperShopper_Group::listAll() instead
+	 */
+	public function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true, $multiple = false,
+		$disabledFields = array())
 	{
-		$db = JFactory::getDbo();
-		$html = '';
-		$q = "SELECT parent_id,shopper_group_id FROM #__redshop_shopper_group ";
-
-		if ($shopper_group_id)
-		{
-			$q .= "WHERE shopper_group_id = " . (int) $shopper_group_id;
-		}
-
-		$db->setQuery($q);
-		$groups = $db->loadObjectList();
-
-		if ($groups)
-		{
-			$selected_groups[] = $groups[0]->parent_id;
-		}
-
-		$multiple = $multiple ? "multiple=\"multiple\"" : "";
-		$id = str_replace('[]', '', $name);
-		$html .= "<select class=\"inputbox\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
-
-		if ($toplevel)
-		{
-			$html .= "<option value=\"0\"> -Top- </option>\n";
-		}
-
-		$html .= $this->list_tree($shopper_group_id, '0', '0', $selected_groups, $disabledFields);
-		$html .= "</select>\n";
-
-		return $html;
+		return RedshopHelperShopper_Group::listAll($name, $shopper_group_id, $selected_groups, $size, $toplevel, $multiple, $disabledFields);
 	}
 
-	public function list_tree($shopper_group_id = "", $cid = '0', $level = '0', $selected_groups = Array(), $disabledFields = Array(), $html = '')
+	/**
+	 * List shopper group as option of dropdown list
+	 *
+	 * @param   integer  $shopper_group_id  Shopper group ID to display
+	 * @param   integer  $cid               Parent ID
+	 * @param   integer  $level             Position
+	 * @param   array    $selected_groups   Selected groups will be marked selected
+	 * @param   array    $disabledFields    Disable groups
+	 * @param   string   $html              Previous HTML
+	 *
+	 * @return  string  HTML to render <option></option>
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperShopper_Group::listTree() instead
+	 */
+	public function list_tree($shopper_group_id = 0, $cid = 0, $level = 0, $selected_groups = array(), $disabledFields = array(), $html = '')
 	{
-		$db = JFactory::getDbo();
-		$level++;
-
-		$q = "SELECT shopper_group_id, shopper_group_id,shopper_group_name,parent_id FROM  #__redshop_shopper_group ";
-		$q .= "WHERE parent_id = " . (int) $cid . " AND shopper_group_id != " . (int) $shopper_group_id;
-
-		$db->setQuery($q);
-		$groups = $db->loadObjectList();
-
-		for ($x = 0, $xn = count($groups); $x < $xn; $x++)
-		{
-			$group = $groups[$x];
-			$child_id = $group->shopper_group_id;
-
-			$selected = "";
-
-			if (is_array($selected_groups))
-			{
-				if (in_array($child_id, $selected_groups))
-				{
-					$selected = "selected=\"selected\"";
-				}
-
-				$disabled = '';
-
-				if (in_array($child_id, $disabledFields))
-				{
-					$disabled = 'disabled="disabled"';
-				}
-
-				else
-				{
-					$html .= "<option $selected $disabled value=\"$child_id\">\n";
-
-					for ($i = 0; $i < $level; $i++)
-					{
-						$html .= "&#151;";
-					}
-
-					$html .= "|$level|";
-					$html .= "&nbsp;" . $group->shopper_group_name . "</option>";
-				}
-			}
-
-			$html .= $this->list_tree($shopper_group_id, $child_id, $level, $selected_groups, $disabledFields);
-		}
-
-		return $html;
+		return RedshopHelperShopper_Group::listTree($shopper_group_id, $cid, $level, $selected_groups, $disabledFields, $html);
 	}
 
-	public function getshopperGroupListArray($shopper_group_id = "", $cid = '0', $level = '0')
+	/**
+	 * Get Shopper Group List as Array
+	 *
+	 * @param   integer  $shopper_group_id  Shopper Group ID to display
+	 * @param   integer  $cid               Parent ID
+	 * @param   integer  $level             Position
+	 *
+	 * @return array
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperShopper_Group::getShopperGroupListArray() instead
+	 */
+	public function getshopperGroupListArray($shopper_group_id = "", $cid = 0, $level = 0)
 	{
-		$db = JFactory::getDbo();
-		$level++;
-
-		$q = "SELECT * FROM  #__redshop_shopper_group ";
-		$q .= "WHERE parent_id = " . (int) $cid;
-
-		$db->setQuery($q);
-		$groups = $db->loadObjectList();
-
-		for ($x = 0, $xn = count($groups); $x < $xn; $x++)
-		{
-			$html = '';
-			$group = $groups[$x];
-			$child_id = $group->shopper_group_id;
-
-			if ($child_id != $cid)
-			{
-				for ($i = 0; $i < $level; $i++)
-				{
-					$html .= "&nbsp;&nbsp;&nbsp;";
-				}
-
-				$html .= "&nbsp;" . $group->shopper_group_name;
-			}
-
-			$group->shopper_group_name = $html;
-			$GLOBALS['grouplist'][] = $group;
-			$this->getshopperGroupListArray($shopper_group_id, $child_id, $level);
-		}
-
-		if (isset($GLOBALS['grouplist']))
-		{
-			return $GLOBALS['grouplist'];
-		}
-
-		return array();
+		return RedshopHelperShopper_Group::getShopperGroupListArray($shopper_group_id, $cid, $level);
 	}
 
-	public function getCategoryListReverceArray($cid = '0')
+	/**
+	 * Get Category List Reverce Array
+	 *
+	 * @param   integer  $cid  Parent ID
+	 *
+	 * @return  array
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperShopper_Group::getCategoryListReverceArray() instead
+	 */
+	public function getCategoryListReverceArray($cid = 0)
 	{
-		$db = JFactory::getDbo();
-
-		$q = "SELECT c.shopper_group_id,c.category_name,cx.shopper_group_id,cx.parent_id ";
-		$q .= " FROM  #__redshop_shopper_group as cx, #__redshop_shopper_group as c ";
-		$q .= " WHERE cx.shopper_group_id = " . (int) $cid;
-		$q .= " AND c.shopper_group_id = cx.parent_id";
-
-		$db->setQuery($q);
-		$groups = $db->loadObjectList();
-
-		for ($x = 0, $xn = count($groups); $x < $xn; $x++)
-		{
-			$group = $groups[$x];
-			$parent_id = $group->parent_id;
-			$GLOBALS['catlist_reverse'][] = $group;
-			$this->getCategoryListReverceArray($parent_id);
-		}
-
-		return $GLOBALS['catlist_reverse'];
+		return RedshopHelperShopper_Group::getCategoryListReverceArray($cid);
 	}
 }

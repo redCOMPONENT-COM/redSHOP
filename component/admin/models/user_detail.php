@@ -227,6 +227,16 @@ class RedshopModelUser_detail extends RedshopModel
 		return $reduser;
 	}
 
+	/**
+	 * Delete redSHOP and Joomla! users
+	 *
+	 * @param   array  $cid                Array of user ids
+	 * @param   bool   $deleteJoomlaUsers  Delete Joomla! users
+	 *
+	 * @return bool
+	 *
+	 * @since version
+	 */
 	public function delete($cid = array(), $deleteJoomlaUsers = false)
 	{
 		if (count($cid))
@@ -240,24 +250,31 @@ class RedshopModelUser_detail extends RedshopModel
 
 			if ($deleteJoomlaUsers)
 			{
-				$queryAllJuserIds = $db->getQuery(true)
-							->select('GROUP_CONCAT(id) AS ids')
+				$queryAllUserIds = $db->getQuery(true)
+							->select($db->qn('id'))
 							->from($db->qn('#__users'));
-
-				$db->setQuery($queryAllJuserIds);
-				$allJuserIds = $db->loadResult();
+				$allUserIds = $db->setQuery($queryAllUserIds)->loadColumn();
 
 				$queryCustom = $db->getQuery(true)
 						->select($db->qn('user_id'))
 						->from($db->qn('#__redshop_users_info'))
 						->where($db->qn('users_info_id') . ' IN (' . $cids . ' )')
-						->where($db->qn('user_id') . ' IN (' . $allJuserIds . ' )');
+						->where($db->qn('user_id') . ' IN (' . implode(',', $allUserIds) . ' )')
+						->group($db->qn('user_id'));
 
-				$db->setQuery($queryCustom);
-				$juserIds = $db->loadRowList();
+				$joomlaUserIds = $db->setQuery($queryCustom)->loadColumn();
 
-				foreach ($juserIds as $juserId) {
-					if (!JFactory::getUser($juserId[0])->delete())
+				foreach ($joomlaUserIds as $joomlaUserId)
+				{
+					$joomlaUser = JFactory::getUser($joomlaUserId);
+
+					// Skip this user whom in Super Administrator group.
+					if ($joomlaUser->authorise('core.admin'))
+					{
+						continue;
+					}
+
+					if (!JFactory::getUser($joomlaUser)->delete())
 					{
 						$this->setError($db->getErrorMsg());
 

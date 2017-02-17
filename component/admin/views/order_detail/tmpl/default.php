@@ -7,8 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
 JHTML::_('behavior.tooltip');
-JHTML::_('behavior.modal');
+JHtml::_('behavior.modal', 'a.joom-box');
 
 
 $producthelper = productHelper::getInstance();
@@ -156,7 +157,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									<?php if (count($model->getccdetail($order_id)) > 0)
 									{ ?>
 										<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $order_id); ?>"
-										   class="modal btn btn-primary"
+										   class="joom-box btn btn-primary"
 										   rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo JText::_('COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL');?></a>
 									<?php } ?>
 								</td>
@@ -195,7 +196,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									<?php
 
 									$send_mail_to_customer = 0;
-									if (SEND_MAIL_TO_CUSTOMER)
+									if (Redshop::getConfig()->get('SEND_MAIL_TO_CUSTOMER'))
 									{
 										$send_mail_to_customer = "checked";
 									}
@@ -221,13 +222,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									<?php
 									$partial_paid = $order_functions->getOrderPartialPayment($order_id);
 
-									$remaningtopay = $this->detail->order_total - $partial_paid;
-									$remaningtopay = $producthelper->getProductFormattedPrice($remaningtopay);//number_format($remaningtopay,2);
-									?>
-									<?php if ($this->detail->split_payment)
-									{
-										echo "<strong>" . JText::_('COM_REDSHOP_ORDER_DETAIL_PARTIALLY_PAID_AMOUNT') . ": " . $producthelper->getProductFormattedPrice($partial_paid) . "</strong>";
-									}
+
 									?>
 								</td>
 							</tr>
@@ -350,10 +345,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							?>
 							<tr>
 								<td align="left">
-									<div
-										id="rs_glslocationId" <?php echo $disp_style?>><?php //echo JText::_('COM_REDSHOP_SHIPPING_MODE') ?>
-										<?php
-										echo $carthelper->getGLSLocation($billing->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
+									<div id="rs_glslocationId" <?php echo $disp_style?>>
+									<?php echo $carthelper->getGLSLocation($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
 									</div>
 								</td>
 							</tr>
@@ -381,7 +374,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION'); ?></h3>
 					<?php if (!$tmpl)
 					{ ?>
-						<a class="modal btn btn-primary"
+						<a class="joom-box btn btn-primary"
 						   href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=billing&cid[]=<?php echo $order_id; ?>"
 						   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
 					<?php } ?>
@@ -450,17 +443,14 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								<td align="right"><?php echo JText::_('COM_REDSHOP_EAN_NUMBER'); ?>:</td>
 								<td><?php echo $billing->ean_number; ?></td>
 							</tr>
-							<!-- <tr>
-									<td align="right"><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER' ); ?>:</td>
-									<td><?php echo ($billing->requisition_number!="") ? $billing->requisition_number : "N/A"; ?></td>
-								</tr>-->
 							<?php    $fields = $extra_field->list_all_field_display(8, $billing->users_info_id);
 						}
 						else
 						{
 							$fields = $extra_field->list_all_field_display(7, $billing->users_info_id);
 						}
-						echo $fields; ?>
+						echo $fields;
+					?>
 					</table>
 				</div>
 			</div>
@@ -472,7 +462,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFORMATION'); ?></h3>
 					<?php if (!$tmpl)
 					{ ?>
-						<a class="modal btn btn-primary"
+						<a class="joom-box btn btn-primary"
 						   href="index.php?tmpl=component&option=com_redshop&view=order_detail&layout=shipping&cid[]=<?php echo $order_id; ?>"
 						   rel="{handler: 'iframe', size: {x: 500, y: 450}}"><?php echo JText::_('COM_REDSHOP_EDIT');?></a>
 					<?php } ?>
@@ -599,6 +589,35 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
 									$subtotal_excl_vat += $products[$i]->product_item_price_excl_vat * $quantity;
 									$vat = ($products[$i]->product_item_price - $products[$i]->product_item_price_excl_vat);
+
+									// Make sure this variable is object before we can use it
+									if (is_object($productdetail))
+									{
+										// Generate frontend link
+										$itemData = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $productdetail->product_id);
+										$catIdMain = $productdetail->cat_in_sefurl;
+
+										if (count($itemData) > 0)
+										{
+											$pItemid = $itemData->id;
+										}
+										else
+										{
+											$objhelper = redhelper::getInstance();
+											$pItemid = $objhelper->getItemid($productdetail->product_id, $catIdMain);
+										}
+
+										$productFrontendLink  = JURI::root();
+										$productFrontendLink .= 'index.php?option=com_redshop';
+										$productFrontendLink .= '&view=product&pid=' . $productdetail->product_id;
+										$productFrontendLink .= '&cid=' . $catIdMain;
+										$productFrontendLink .= '&Itemid=' . $pItemid;
+									}
+									else
+									{
+										$productFrontendLink = '#';
+									}
+
 								?>
 							<tr>
 								<td>
@@ -610,7 +629,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 													<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped" width="100%">
 														<tr>
 															<td width="20%">
-																<?php echo $Product_name; ?>
+																<a href="<?php echo $productFrontendLink;?>" target="_blank">
+																	<?php echo $Product_name;?>
+																<a/>
 															</td>
 															<td width="15%">
 																<?php
@@ -644,7 +665,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 																		size="10">
 																</div>
 															</td>
-															<td width="5%"><?php echo REDCURRENCY_SYMBOL . " " . $vat;?></td>
+															<td width="5%"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $vat;?></td>
 															<td width="10%"><?php echo $producthelper->getProductFormattedPrice($products[$i]->product_item_price) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
 															<td width="5%">
 																<input type="text" name="quantity" id="quantity" class="col-sm-12"
@@ -652,7 +673,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 															</td>
 															<td align="right" width="10%">
 																<?php
-																	echo REDCURRENCY_SYMBOL . "&nbsp;";
+																	echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . "&nbsp;";
 																	echo $producthelper->redpriceDecimal($products[$i]->product_final_price);
 																	?>
 															</td>
@@ -839,27 +860,27 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 													$special_discount_amount = $this->detail->special_discount_amount;
 													$vatOnDiscount           = false;
 
-													if ((int) APPLY_VAT_ON_DISCOUNT == 0 && (float) VAT_RATE_AFTER_DISCOUNT
+													if ((int) Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == 0 && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
 													&& (int) $this->detail->order_discount != 0 && (int) $order_tax
 													&& !empty($this->detail->order_discount))
 													{
 													$vatOnDiscount = true;
-													$Discountvat   = ((float) VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+													$Discountvat   = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $totaldiscount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 													$totaldiscount = $totaldiscount - $Discountvat;
 													}
 
-													if ((int) APPLY_VAT_ON_DISCOUNT == 0 && (float) VAT_RATE_AFTER_DISCOUNT
+													if ((int) Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == 0 && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
 													&& (int) $this->detail->special_discount_amount != 0 && (int) $order_tax
 													&& !empty($this->detail->special_discount_amount))
 													{
 													$vatOnDiscount           = true;
-													$Discountvat             = ((float) VAT_RATE_AFTER_DISCOUNT * $special_discount_amount) / (1 + (float) VAT_RATE_AFTER_DISCOUNT);
+													$Discountvat             = ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $special_discount_amount) / (1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 													$special_discount_amount = $special_discount_amount - $Discountvat;
 													}
 
 													if ($vatOnDiscount)
 													{
-													$order_tax = (float) VAT_RATE_AFTER_DISCOUNT * ($subtotal_excl_vat - ($totaldiscount + $special_discount_amount));
+													$order_tax = (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * ($subtotal_excl_vat - ($totaldiscount + $special_discount_amount));
 													}
 													?>
 												<td align="right" width="35%">
@@ -1109,9 +1130,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 	</div>
 
 </div>
-
 <?php echo $this->loadTemplate('plugin');?>
-
 <div id="divCalc"></div>
 <script type="text/javascript">
 	function hideDownloadLimit(val, tid) {

@@ -101,8 +101,8 @@ if ($this->detail && $template_middle != "")
 		if ($row != '')
 		{
 			$mimg_tag = '{manufacturer_image}';
-			$mh_thumb = MANUFACTURER_THUMB_HEIGHT;
-			$mw_thumb = MANUFACTURER_THUMB_WIDTH;
+			$mh_thumb = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
+			$mw_thumb = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
 
 			$link = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
 
@@ -110,7 +110,7 @@ if ($this->detail && $template_middle != "")
 			$manufacturer_name = "<a href='" . $manproducts . "'><b>" . $row->manufacturer_name . "</b></a>";
 
 			$middledata = $template_middle;
-			$manu_name  = $config->maxchar($manufacturer_name, MANUFACTURER_TITLE_MAX_CHARS, MANUFACTURER_TITLE_END_SUFFIX);
+			$manu_name  = $config->maxchar($manufacturer_name, Redshop::getConfig()->get('MANUFACTURER_TITLE_MAX_CHARS'), Redshop::getConfig()->get('MANUFACTURER_TITLE_END_SUFFIX'));
 			$middledata = str_replace("{manufacturer_name}", $manu_name, $middledata);
 
 			// Extra field display
@@ -132,9 +132,9 @@ if ($this->detail && $template_middle != "")
 							$altText = $media_image[$m]->media_name;
 						}
 
-						if (WATERMARK_MANUFACTURER_IMAGE || WATERMARK_MANUFACTURER_THUMB_IMAGE)
+						if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 						{
-							$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_IMAGE);
+							$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 						}
 						else
 						{
@@ -145,11 +145,11 @@ if ($this->detail && $template_middle != "")
 													'manufacturer',
 													$mw_thumb,
 													$mh_thumb,
-													USE_IMAGE_SIZE_SWAPPING
+													Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 												);
 						}
 
-						if (PRODUCT_IS_LIGHTBOX == 1)
+						if (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
 						{
 							$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "manufacturer/" . $media_image[$m]->media_name . "'   rel=\"{handler: 'image', size: {}}\">
 							<img alt='" . $altText . "' title='" . $altText . "' src='" . $manufacturer_img . "'></a>";

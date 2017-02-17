@@ -45,7 +45,7 @@ $url = JURI::base();
 		<div class="filterTool">
 			<div class="filterItem">
 				<div class="btn-wrapper input-append">
-					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
+					<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->filter; ?>"
 						   placeholder="<?php echo JText::_('COM_REDSHOP_COUPON_FILTER'); ?>">
 					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
 					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
@@ -54,7 +54,7 @@ $url = JURI::base();
 			</div>
 		</div>
 
-		<table class="adminlist table table-striped">
+		<table class="adminlist table table-striped test-redshop-table">
 			<thead>
 			<tr>
 				<th width="5%">
@@ -105,17 +105,17 @@ $url = JURI::base();
 					$username = "";
 
 				?>
-				<tr class="<?php echo "row$k"; ?>">
+				<tr class="<?php echo "row$k"; ?> test-redshop-table-row">
 					<td align="center">
 						<?php echo $this->pagination->getRowOffset($i); ?>
 					</td>
-					<td align="center">
+					<td align="center" class="test-redshop-coupon-checkall">
 						<?php echo JHTML::_('grid.id', $i, $row->id); ?>
 					</td>
-					<td align="center">
+					<td align="center" class="test-redshop-coupon-code">
 						<a href="<?php echo $link; ?>"><?php echo  $row->coupon_code; ?></a>
 					</td>
-					<td class="order">
+					<td class="order" class="test-redshop-coupon-value-in">
 						<?php
 						if ($row->percent_or_total == 0)
 							echo JText::_('COM_REDSHOP_TOTAL');
@@ -126,7 +126,7 @@ $url = JURI::base();
 					<td>
 						<?php if ($username != "") echo $username; ?>
 					</td>
-					<td>
+					<td class="test-redshop-coupon-type">
 						<?php
 						if ($row->coupon_type == 0)
 							echo JText::_('COM_REDSHOP_GLOBAL');
@@ -134,7 +134,7 @@ $url = JURI::base();
 							echo JText::_('COM_REDSHOP_USER_SPECIFIC');
 						?>
 					</td>
-					<td align="center">
+					<td align="center" class="test-redshop-coupon-value">
 						<?php if ($row->percent_or_total != 0)
 						{
 							echo $row->coupon_value . " %";
@@ -145,13 +145,13 @@ $url = JURI::base();
 							//number_format($row->coupon_value,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
 						}?>
 					</td>
-					<td align="center">
+					<td align="center" class="test-redshop-coupon-amount-left">
 						<?php echo $row->coupon_left; ?>
 					</td>
-					<td align="center">
+					<td align="center" class="test-redshop-coupon-state">
 						<?php echo $published;?>
 					</td>
-					<td align="center">
+					<td align="center" class="test-redshop-coupon-id">
 						<?php echo $row->coupon_id; ?>
 					</td>
 				</tr>

@@ -9,16 +9,10 @@
 
 defined('_JEXEC') or die;
 
-
+jimport('joomla.filesystem.folder');
 
 class RedshopControllerConfiguration extends RedshopController
 {
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-		$this->_configpath1 = JPATH_SITE . "/administrator/components/com_redshop/helpers/newtxt.php";
-	}
-
 	public function apply()
 	{
 		$this->save(1);
@@ -53,21 +47,21 @@ class RedshopControllerConfiguration extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$app = JFactory::getApplication();
-		$selectedTabPosition = $app->input->get('selectedTabPosition');
+		$selectedTabPosition = $this->input->get('selectedTabPosition');
 		$app->setUserState('com_redshop.configuration.selectedTabPosition', $selectedTabPosition);
 
-		$post['custom_previous_link'] = JRequest::getVar('custom_previous_link', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['custom_previous_link'] = $this->input->post->get('custom_previous_link', '', 'raw');
 
-		$post['custom_next_link'] = JRequest::getVar('custom_next_link', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['custom_next_link'] = $this->input->post->get('custom_next_link', '', 'raw');
 
-		$post['default_next_suffix'] = JRequest::getVar('default_next_suffix', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['default_next_suffix'] = $this->input->post->get('default_next_suffix', '', 'raw');
 
-		$post['default_previous_prefix'] = JRequest::getVar('default_previous_prefix', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['default_previous_prefix'] = $this->input->post->get('default_previous_prefix', '', 'raw');
 
-		$post['return_to_category_prefix'] = JRequest::getVar('return_to_category_prefix', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['return_to_category_prefix'] = $this->input->post->get('return_to_category_prefix', '', 'raw');
 
 		// Administrator email notifications ids
 		if (is_array($post['administrator_email']))
@@ -77,29 +71,9 @@ class RedshopControllerConfiguration extends RedshopController
 
 		$msg                   = null;
 		$model                 = $this->getModel('configuration');
-		$newsletter_test_email = JRequest::getVar('newsletter_test_email');
+		$newsletter_test_email = $this->input->get('newsletter_test_email');
 
-		$post['country_list'] = implode(',', $app->input->post->get('country_list', array(), 'ARRAY'));
-
-		if (!isset($post['default_vat_state']))
-		{
-			$post['default_vat_state'] = '';
-		}
-
-		if (!isset($post['write_review_is_lightbox']))
-		{
-			$post['write_review_is_lightbox'] = '';
-		}
-
-		if (!isset($post['splitable_payment']))
-		{
-			$post['splitable_payment'] = 0;
-		}
-
-		if (!isset($post['splitable_payment']))
-		{
-			$post['splitable_payment'] = 0;
-		}
+		$post['country_list'] = implode(',', $this->input->post->get('country_list', array(), 'ARRAY'));
 
 		if (!isset($post['seo_page_short_description']))
 		{
@@ -116,47 +90,33 @@ class RedshopControllerConfiguration extends RedshopController
 			$post['allow_multiple_discount'] = 0;
 		}
 
-		$post['menuhide'] = implode(',', $app->input->post->get('menuhide', array(), 'ARRAY'));
+		$post['menuhide'] = implode(',', $this->input->post->get('menuhide', array(), 'ARRAY'));
 
-		if (isset($post['product_download_root']))
+		if (isset($post['product_download_root']) && !is_dir($post['product_download_root']))
 		{
-			if (!is_dir($post['product_download_root']))
+			$msg = "";
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DIRECTORY_DOES_NO_EXIST'), 'error');
+		}
+		elseif ($model->store($post))
+		{
+			$msg = JText::_('COM_REDSHOP_CONFIG_SAVED');
+
+			if ($newsletter_test_email)
 			{
-				$msg = "";
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DIRECTORY_DOES_NO_EXIST'), 'error');
+				$model->newsletterEntry($post);
+				$msg = JText::sprintf('COM_REDSHOP_NEWSLETTER_SEND_TO_TEST_EMAIL', $newsletter_test_email);
 			}
 
-			elseif (!$model->configurationWriteable())
+			// Thumb folder deleted and created
+			if ($post['image_quality_output'] != IMAGE_QUALITY_OUTPUT
+				|| $post['use_image_size_swapping'] != Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_WRITABLE'), 'error');
+				$this->removeThumbImages();
 			}
-			elseif (!$model->configurationReadable())
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_READABLE'), 'error');
-			}
-			else
-			{
-				if ($model->store($post))
-				{
-					$msg = JText::_('COM_REDSHOP_CONFIG_SAVED');
-
-					if ($newsletter_test_email)
-					{
-						$model->newsletterEntry($post);
-						$msg = JText::sprintf('COM_REDSHOP_NEWSLETTER_SEND_TO_TEST_EMAIL', $newsletter_test_email);
-					}
-
-					// Thumb folder deleted and created
-					if ($post['image_quality_output'] != IMAGE_QUALITY_OUTPUT || $post['use_image_size_swapping'] != USE_IMAGE_SIZE_SWAPPING)
-					{
-						$this->removeThumbImages();
-					}
-				}
-				else
-				{
-					$msg = JText::_('COM_REDSHOP_ERROR_IN_CONFIG_SAVE');
-				}
-			}
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_IN_CONFIG_SAVE');
 		}
 
 		if ($apply)
@@ -210,9 +170,9 @@ class RedshopControllerConfiguration extends RedshopController
 	public function removeimg()
 	{
 		ob_clean();
-		$imname = JRequest::getString('imname', '');
-		$spath = JRequest::getString('spath', '');
-		$data_id = JRequest::getInt('data_id', 0);
+		$imname      = $this->input->getString('imname', '');
+		$spath       = $this->input->getString('spath', '');
+		$data_id     = $this->input->getInt('data_id', 0);
 		$extra_field = extra_field::getInstance();
 
 		if ($data_id)

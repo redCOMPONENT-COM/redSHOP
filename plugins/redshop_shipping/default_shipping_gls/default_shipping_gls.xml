@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
 	<name>PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS</name>
-	<version>1.5.1</version>
+	<version>2.0</version>
 	<redshop>2.0</redshop>
 	<creationDate>Sep 2016</creationDate>
 	<author>redCOMPONENT.com</author>
@@ -42,6 +42,14 @@
 						multiple="multiple"
 						label="PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS_EXTRAFIELD_SHIPPING_LBL"
 						description="PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS_EXTRAFIELD_SHIPPING_DESC"
+						/>
+				<field
+						name="amount_shop"
+						type="text"
+						default="10"
+						label="PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS_AMOUNT_LBL"
+						description="PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS_AMOUNT_DESC"
+						filter="integer"
 						/>
 			</fieldset>
 		</fields>

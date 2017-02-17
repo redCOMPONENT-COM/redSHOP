@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.modal');
+JHtml::_('behavior.modal', 'a.joom-box');
 
 // Create product Helper object
 $productHelper = productHelper::getInstance();
@@ -58,10 +58,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_GIFTCARD_NAME', 'giftcard_name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="hidden-phone">
+					<th width="10%" class="hidden-phone">
 						<?php echo JText::_('COM_REDSHOP_GIFTCARD_IMAGE'); ?>
 					</th>
-					<th width="5%" class="hidden-phone">
+					<th width="15%" class="hidden-phone">
 						<?php echo JText::_('COM_REDSHOP_GIFTCARD_BGIMAGE'); ?>
 					</th>
 					<th width="10%" class="center">
@@ -113,15 +113,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										'giftcard',
 										150,
 										150,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 								?>
-								<a
-									class="modal"
-									href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $giftCardPath; ?>"
-									title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
-									rel="{handler: 'image', size: {}}"
-								>
+								<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $giftCardPath; ?>"
+									title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>" rel="{handler: 'image', size: {}}">
 									<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
 								</a>
 							<?php endif; ?>
@@ -138,15 +134,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										'giftcard',
 										150,
 										150,
-										USE_IMAGE_SIZE_SWAPPING
+										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 									);
 								?>
-								<a
-									class="modal"
-									href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $giftCardPath; ?>"
-									title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
-									rel="{handler: 'image', size: {}}"
-								>
+								<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $giftCardPath; ?>"
+									title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>" rel="{handler: 'image', size: {}}">
 									<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
 								</a>
 							<?php endif; ?>

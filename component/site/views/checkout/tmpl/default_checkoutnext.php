@@ -64,7 +64,7 @@ $is_creditcard = $this->is_creditcard;
 
 $cart_data = "";
 
-if (USE_AS_CATALOG)
+if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
 	$carttempdata = $redTemplate->getTemplate("catalogue_cart");
 
@@ -144,10 +144,10 @@ $session->set('cart',$cart);*/
 <script type="text/javascript">
 	function chkvalidaion() {
 		<?php
-			if( MINIMUM_ORDER_TOTAL > 0 && $cart['total'] < MINIMUM_ORDER_TOTAL)
+			if( Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
 			{
 			?>
-		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . MINIMUM_ORDER_TOTAL . '';?>");
+		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') . '';?>");
 		return false;
 		<?php
 			}	?>

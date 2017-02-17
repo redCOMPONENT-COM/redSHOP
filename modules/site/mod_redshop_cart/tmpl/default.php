@@ -41,7 +41,7 @@ if ($button_text != "")
 }
 
 JFactory::getDocument()->addStyleDeclaration(
-	'.mod_cart_checkout{background-color:' . ADDTOCART_BACKGROUND . ';}'
+	'.mod_cart_checkout{background-color:' . Redshop::getConfig()->get('ADDTOCART_BACKGROUND') . ';}'
 );
 ?>
 <div class="mod_cart_main">
@@ -60,6 +60,10 @@ JFactory::getDocument()->addStyleDeclaration(
 					'showWithVat'      => $show_with_vat,
 					'showShippingLine' => $show_shipping_line,
 					'showWithDiscount' => $show_with_discount
+				),
+				'',
+				array(
+					'component' => 'com_redshop'
 				)
 			);
 		?>

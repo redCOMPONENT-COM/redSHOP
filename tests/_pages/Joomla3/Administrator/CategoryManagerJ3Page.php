@@ -26,11 +26,11 @@ class CategoryManagerJ3Page
 
 	public static $categorySearch = "//button[@onclick=\"document.adminForm.submit();\"]";
 
-	public static $categoryResultRow = "//div[@id='editcell']/table/tbody/tr/td[3]/a";
+	public static $categoryResultRow = "//div[@id='editcell']/div[2]/table/tbody/tr/td[3]";
 
 	public static $categoryStatePath = "//tbody/tr/td[7]/a";
 
-	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
+	public static $checkAll = "//input[@id='cb0']";
 
 	public static $categoryTemplateIDDropDown = "//div[@id='compare_template_id_chzn']/a";
 

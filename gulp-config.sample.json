@@ -1,20 +1,7 @@
 {
-	"name"         : "redshop",
-	"releasesDir"  : "/var/www/releases",
-	"buildDir"     : "/var/www/joomla",
-	"joomlaVersion": "j25-j3x",
-	"packageFiles" :[
-		"LICENSE.txt",
-		"redshop.xml",
-		"install.php",
-		"component/**",
-		"media/**",
-		"libraries/redshop/**",
-		"modules/site/mod_redshop_cart/**",
-		"plugins/system/redshop/**",
-		"plugins/redshop_payment/rs_payment_banktransfer/**",
-		"plugins/redshop_payment/rs_payment_paypal/**",
-		"plugins/redshop_payment/klarna/**",
-		"plugins/redshop_shipping/default_shipping/**"
-	]
+    "wwwDir"        : "/home/travis/build/redCOMPONENT-COM/redSHOP/tests/joomla-cms3",
+    "browserConfig" : {
+        "proxy" : "redshop.local"
+    },
+    "releaseDir"   : "./tests/releases/"
 }

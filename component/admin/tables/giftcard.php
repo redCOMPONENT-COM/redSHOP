@@ -16,28 +16,30 @@ defined('_JEXEC') or die;
  * @subpackage  Table.Giftcard
  * @since       1.6
  */
-class RedshopTableGiftcard extends JTable
+class RedshopTableGiftcard extends RedshopTable
 {
 	/**
-	 * Constructor
+	 * The table name without the prefix. Ex: cursos_courses
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
-	 *
-	 * @since  11.1
+	 * @var  string
 	 */
-	public function __construct($db)
-	{
-		parent::__construct('#__redshop_giftcard', 'giftcard_id', $db);
-	}
+	protected $_tableName = 'redshop_giftcard';
 
 	/**
-	 * Deletes this row in database (or if provided, the row of key $pk)
+	 * The table key column. Usually: id
 	 *
-	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
-	 *
-	 * @return  boolean  True on success.
+	 * @var  string
 	 */
-	public function delete($pk = null)
+	protected $_tableKey = 'giftcard_id';
+
+	/**
+	 * Delete one or more registers
+	 *
+	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfuly?
+	 */
+	protected function doDelete($pk = null)
 	{
 		if ($this->giftcard_image != '' && file(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image))
 		{
@@ -49,26 +51,26 @@ class RedshopTableGiftcard extends JTable
 			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage);
 		}
 
-		return parent::delete($pk);
+		return parent::doDelete($pk);
 	}
 
 	/**
-	 * Method to store a node in the database table.
+	 * Do the database store.
 	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update null values as well.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean
 	 */
-	public function store($updateNulls = false)
+	protected function doStore($updateNulls = false)
 	{
 		$productHelper = productHelper::getInstance();
 
 		// Get input
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 		$input = $app->input;
 
-		$giftcardfile = $input->files->get('jform');
-		$image        = $giftcardfile['giftcard_image_file'];
+		$giftCardFile = $input->files->get('jform');
+		$image        = $giftCardFile['giftcard_image_file'];
 
 		if ($image['name'] != '' && $this->giftcard_image != '')
 		{
@@ -84,7 +86,7 @@ class RedshopTableGiftcard extends JTable
 		}
 
 		// Get background image file
-		$bgImage = $giftcardfile['giftcard_bgimage_file'];
+		$bgImage = $giftCardFile['giftcard_bgimage_file'];
 
 		if (($bgImage['name'] != '' && $this->giftcard_bgimage != ''))
 		{
@@ -102,24 +104,23 @@ class RedshopTableGiftcard extends JTable
 		$this->giftcard_price = $productHelper->redpriceDecimal($this->giftcard_price);
 		$this->giftcard_value = $productHelper->redpriceDecimal($this->giftcard_value);
 
-		if (!parent::store($updateNulls))
+		if (!parent::doStore($updateNulls))
 		{
 			return false;
 		}
 
-		if (ECONOMIC_INTEGRATION == 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			$economic                  = economic::getInstance();
+			$giftData                  = new stdClass;
+			$giftData->product_id      = $this->giftcard_id;
+			$giftData->product_number  = "gift_" . $this->giftcard_id . "_" . $this->giftcard_name;
+			$giftData->product_name    = $this->giftcard_name;
+			$giftData->product_price   = $this->giftcard_price;
+			$giftData->accountgroup_id = $this->accountgroup_id;
+			$giftData->product_volume  = 0;
 
-			$giftdata                  = new stdClass;
-			$giftdata->product_id      = $this->giftcard_id;
-			$giftdata->product_number  = "gift_" . $this->giftcard_id . "_" . $this->giftcard_name;
-			$giftdata->product_name    = $this->giftcard_name;
-			$giftdata->product_price   = $this->giftcard_price;
-			$giftdata->accountgroup_id = $this->accountgroup_id;
-			$giftdata->product_volume  = 0;
-
-			$economic->createProductInEconomic($giftdata);
+			$economic->createProductInEconomic($giftData);
 		}
 
 		return true;

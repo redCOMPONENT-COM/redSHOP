@@ -705,23 +705,66 @@ function validateExtrafield(form) {
     }
 }
 
+// Validate username field
 jQuery(document).ready(function(){
     jQuery("#username").blur(function() {
-        jQuery.ajax({
-            url: "index.php?option=com_redshop&view=user_detail&task=ajaxValidationUsername",
-            type: "GET",
-            data:  {username: jQuery("#username").val(), user_id: jQuery("input[name=user_id").val()},
-            success: function(data){
-                data = JSON.parse('{' + data.substring(data.indexOf('{') + 1));
-                jQuery('#user_valid').html(data.message);
-                jQuery('#user_valid').css('color', 'green');
+        if (jQuery('input[name="guestuser"]:checked').val() == 1)
+        {
+            var dataAjax = {
+                username: jQuery("#username").val(), user_id: jQuery("input[name=user_id]").val()
+            };
+            // Add token field
+            dataAjax[jQuery('input[name=token]').val()] = 1
+            jQuery.ajax({
+                url: "index.php?option=com_redshop&view=user_detail&task=ajaxValidationUsername",
+                type: "GET",
+                data: dataAjax,
+                success: function(data){
+                    data = JSON.parse('{' + data.substring(data.indexOf('{') + 1));
+                    jQuery('#user_valid').html(data.message);
+                    jQuery('#user_valid').css('color', 'green');
 
-                if (data.type == 'error')
-                {
-                    jQuery('#user_valid').css('color', 'red');
-                }
-            },
-            error: function(){}
-       });
+                    if (data.type == 'error')
+                    {
+                        jQuery('#user_valid').css('color', 'red');
+                    }
+                },
+                error: function(){}
+            });
+        }
+    });
+
+    jQuery(document).ready(function(){
+        jQuery(document).on('keydown', "input[name*='phone']", function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 107, 109, 110, 190]) !== -1 ||
+                 // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+                 // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                     // let it happen, don't do anything
+                     return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+
+        jQuery(document).on('keydown', "input[name*='phone_ST']", function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 107, 109, 110, 190]) !== -1 ||
+                 // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+                 // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                     // let it happen, don't do anything
+                     return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
     });
 });

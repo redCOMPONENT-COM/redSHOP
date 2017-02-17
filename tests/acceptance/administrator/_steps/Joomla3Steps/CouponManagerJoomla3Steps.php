@@ -41,8 +41,6 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\CouponManagerJ3Page::$couponLeft, $couponLeft);
 		$I->click(\CouponManagerJ3Page::$couponValueInDropDown);
 		$I->click($couponManagerPage->couponValueIn($couponValueIn));
-		$I->click(\CouponManagerJ3Page::$couponTypeDropDown);
-		$I->click($couponManagerPage->couponType($couponType));
 		$I->click('Save & Close');
 		$I->waitForElement(['id' => 'system-message-container'], 60);
 		$I->see('Coupon detail saved', '.alert-success');

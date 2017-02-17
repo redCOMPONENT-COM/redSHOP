@@ -1,17 +1,30 @@
 {
   "name": "redSHOP",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Release script for redSHOP",
   "main": "gulpfile.js",
   "dependencies": {
     "gulp-install": "^0.6.0"
   },
   "devDependencies": {
-    "del": "^2.2.1",
-    "gulp": "^3.8.11",
+    "browser-sync": "^2.9.6",
+    "del": "^2.0.2",
+    "fs": "0.0.2",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-composer": "^0.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-hashsum": "^1.1.0",
+    "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",
-    "gulp-uglifyjs": "^0.6.2",
-    "joomla-gulp-release": "^1.0.9"
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7",
+    "gulp-zip": "^3.0.2",
+    "joomla-gulp": "^1.1.1",
+    "merge-stream": "^1.0.0",
+    "require-dir": "^0.3.0",
+    "xml2js": "^0.4.12",
+    "yargs": "^3.27.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

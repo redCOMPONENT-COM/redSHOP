@@ -103,7 +103,7 @@ class RedshopControllerCheckout extends RedshopController
 				$link = 'index.php?option=com_redshop&view=account_shipto&task=addshipping&setexit=0&return=checkout&infoid=' . $users_info_id . '&Itemid=' . $Itemid;
 			}
 
-			$app->redirect($link);
+			$app->redirect(JRoute::_($link, false));
 		}
 
 		$Itemid = JRequest::getVar('Itemid');
@@ -119,7 +119,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($errormsg != "")
 		{
-			$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $errormsg);
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid), $errormsg);
 		}
 		else
 		{
@@ -245,7 +245,7 @@ class RedshopControllerCheckout extends RedshopController
 
 				return $return;
 			}
-			elseif (ECONOMIC_INTEGRATION == 1 && trim($billingaddresses->ean_number) != '')
+			elseif (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && trim($billingaddresses->ean_number) != '')
 			{
 				$economic     = economic::getInstance();
 				$debtorHandle = $economic->createUserInEconomic($billingaddresses);
@@ -322,7 +322,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 		}
 
-		if (SHIPPING_METHOD_ENABLE && $users_info_id != $billingaddresses->users_info_id)
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE') && $users_info_id != $billingaddresses->users_info_id)
 		{
 			if ($billingaddresses->is_company == 1)
 			{
@@ -387,7 +387,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 		}
 
-		if (SHIPPING_METHOD_ENABLE)
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			$shipping_rate_id = JFactory::getApplication()->input->getString('shipping_rate_id');
 			$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);
@@ -400,7 +400,7 @@ class RedshopControllerCheckout extends RedshopController
 			if ($shipping_rate_id == '' && $cart['free_shipping'] != 1)
 			{
 				$msg = JText::_('LIB_REDSHOP_SELECT_SHIP_METHOD');
-				$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $msg);
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid), $msg);
 			}
 		}
 
@@ -414,12 +414,12 @@ class RedshopControllerCheckout extends RedshopController
 				}
 				else
 				{
-					$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
+					$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid));
 					exit;
 				}
 			}
 
-			if (ONESTEP_CHECKOUT_ENABLE)
+			if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 			{
 				$users_info_id = JRequest::getInt('users_info_id');
 				$chk           = $this->chkvalidation($users_info_id);
@@ -435,7 +435,7 @@ class RedshopControllerCheckout extends RedshopController
 						$link = 'index.php?option=com_redshop&view=account_shipto&task=addshipping&setexit=0&return=checkout&infoid=' . $users_info_id . '&Itemid=' . $Itemid;
 					}
 
-					$app->redirect($link);
+					$app->redirect(JRoute::_($link));
 
 					return;
 				}
@@ -447,7 +447,7 @@ class RedshopControllerCheckout extends RedshopController
 
 					if ($errormsg != "")
 					{
-						$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $errormsg);
+						$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid), $errormsg);
 
 						return;
 					}
@@ -526,13 +526,13 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$errorMsg = $model->getError();
 				JError::raiseWarning(21, $errorMsg);
-				$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid);
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid));
 			}
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
-			$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $msg, 'error');
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid), $msg, 'error');
 		}
 	}
 
@@ -602,7 +602,7 @@ class RedshopControllerCheckout extends RedshopController
 		$payment_method_id = $post['payment_method_id'];
 		$order_total       = $cart['total'];
 		$total_discount    = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
-		$order_subtotal    = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal_excl_vat'];
+		$order_subtotal    = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal_excl_vat'];
 		$Itemid            = $post['Itemid'];
 		$objectname        = $post['objectname'];
 		$rate_template_id  = $post['rate_template_id'];

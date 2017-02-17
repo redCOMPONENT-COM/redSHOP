@@ -264,5 +264,52 @@ class RedshopModelFields extends RedshopModel
 
 		return true;
 	}
+
+	public function getFieldsBySection($section, $fieldName = '')
+	{
+		$db = JFactory::getDbo();
+		$query  = ' SELECT *'
+			. ' FROM ' . $db->quoteName('#__redshop_fields')
+			. ' WHERE ' . $db->quoteName('field_section') . ' = ' . (int) $section . ' AND ' . $db->quoteName('published') . '= 1 ';
+
+		if ($fieldName != '')
+		{
+			$fieldName = redhelper::quote(explode(',', $fieldName));
+			$query .= ' AND ' . $db->quoteName('field_name') . ' IN (' . implode(',', $fieldName) . ') ';
+		}
+
+		$query .= ' ORDER BY ' . $db->quoteName('ordering');
+		$db->setQuery($query);
+		return $db->loadObjectlist();
+	}
+
+	public function getFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->quoteName('#__redshop_fields_data'))
+					->where($db->quoteName('itemid') . ' = ' . (int) $orderitemid)
+					->where($db->quoteName('fieldid') . ' = ' . (int) $fieldid)
+					->where($db->quoteName('user_email') . ' = ' . $db->quote($user_email))
+					->where($db->quoteName('section') . ' = ' . (int) $section);
+
+		$db->setQuery($query);
+
+		return $db->loadObject();
+	}
+
+	public function getFieldValue($id)
+	{
+		$db = JFactory::getDbo();
+
+		$q = ' SELECT * '
+			. ' FROM ' . $db->quoteName('#__redshop_fields_value')
+			. ' WHERE ' . $db->quoteName('field_id') . ' = ' . (int) $id
+			. ' ORDER BY ' . $db->quoteName('value_id') . ' ASC ';
+		$db->setQuery($q);
+		return $db->loadObjectlist();
+	}
 }
 

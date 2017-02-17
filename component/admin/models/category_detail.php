@@ -175,21 +175,19 @@ class RedshopModelCategory_detail extends RedshopModel
 			$filename = RedShopHelperImages::cleanFileName($file['name']);
 		}
 
-		if (isset($data['image_delete']))
+		if (isset($data['category_full_image_delete']))
 		{
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
 
-			$query = "UPDATE " . $this->_table_prefix . "category set category_thumb_image = '',category_full_image = ''  where category_id ="
-				. $row->category_id;
-			$this->_db->setQuery($query);
-			$this->_db->execute();
+			$row->category_full_image = '';
+			$row->category_thumb_image = '';
 		}
 
 		if (count($_FILES) > 0 && $_FILES['category_full_image']['name'] != "")
 		{
-			$newwidth = THUMB_WIDTH;
-			$newheight = THUMB_HEIGHT;
+			$newwidth = Redshop::getConfig()->get('THUMB_WIDTH');
+			$newheight = Redshop::getConfig()->get('THUMB_HEIGHT');
 
 			$row->category_full_image = $filename;
 			$row->category_thumb_image = $filename;
@@ -206,21 +204,17 @@ class RedshopModelCategory_detail extends RedshopModel
 		}
 		else
 		{
-			if (isset($data['category_image']) && $data['category_image'] != null)
+			if (isset($data['category_full_image']) && $data['category_full_image'] != null)
 			{
-
-				$image_split = explode('/', $data['category_image']);
+				$image_split = explode('/', $data['category_full_image']);
 
 				// Make the filename unique
-				$filename = RedShopHelperImages::cleanFileName($image_split[count($image_split) - 1]);
-				$row->category_full_image = $filename;
+				$filename = RedshopHelperMedia::cleanFileName($image_split[count($image_split) - 1]);
+				$row->category_full_image  = $filename;
 				$row->category_thumb_image = $filename;
 
-				// Image Upload
-				$newwidth = THUMB_WIDTH;
-				$newheight = THUMB_HEIGHT;
-
-				$src = JPATH_ROOT . '/' . $data['category_image'];
+				// Copy category full image file.
+				$src  = JPATH_ROOT . '/' . $data['category_full_image'];
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $filename;
 
 				copy($src, $dest);
@@ -228,16 +222,14 @@ class RedshopModelCategory_detail extends RedshopModel
 		}
 
 		// Get File name, tmp_name
-		$backfile = JRequest::getVar('category_back_full_image', '', 'files', 'array');
+		$backfile = JFactory::getApplication()->input->files->get('category_back_full_image', array());
 
-		if (isset($data['image_back_delete']))
+		if (isset($data['category_back_full_image_delete']))
 		{
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_back_image']);
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_back_image']);
 
-			$query = "UPDATE " . $this->_table_prefix . "category set category_back_full_image = ''  where category_id =" . $row->category_id;
-			$this->_db->setQuery($query);
-			$this->_db->execute();
+			$row->category_back_full_image = '';
 		}
 
 		if (count($backfile) > 0 && $backfile['name'] != "")
@@ -255,6 +247,20 @@ class RedshopModelCategory_detail extends RedshopModel
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $filename;
 
 			JFile::upload($src, $dest);
+		}
+		elseif (!empty($data['category_back_full_image']))
+		{
+			$image_split = explode('/', $data['category_back_full_image']);
+
+			// Make the filename unique
+			$filename = RedshopHelperMedia::cleanFileName($image_split[count($image_split) - 1]);
+			$row->category_back_full_image = $filename;
+
+			// Copy category full image file.
+			$src  = JPATH_ROOT . '/' . $data['category_back_full_image'];
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $filename;
+
+			copy($src, $dest);
 		}
 
 		// Upload back image end

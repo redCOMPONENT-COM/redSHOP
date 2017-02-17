@@ -118,7 +118,7 @@ class plgEconomicEconomic extends JPlugin
 				$this->error = 1;
 				echo $this->errorMsg = "e-conomic user is not authenticated. Access denied";
 
-				if (DETAIL_ERROR_MESSAGE_ON)
+				if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 				{
 					JError::raiseWarning(21, "onEconomicConnection:" . $exception->getMessage());
 				}
@@ -173,7 +173,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>error msg in Debtor_FindByNumber" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "Debtor_FindByNumber:" . $exception->getMessage());
 			}
@@ -207,7 +207,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>Debtor_FindByEmail:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "Debtor_FindByEmail:" . $exception->getMessage());
 			}
@@ -243,7 +243,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>Debtor_GetDebtorGroup:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "Debtor_GetDebtorGroup:" . $exception->getMessage());
 			}
@@ -410,7 +410,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>getTermOfPaymentContraAccount:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "getTermOfPaymentContraAccount:" . $exception->getMessage());
 			}
@@ -473,7 +473,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>getCashBookAll:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "getCashBookAll:" . $exception->getMessage());
 			}
@@ -655,7 +655,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>storeDebtor:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "storeDebtor:" . $exception->getMessage());
 			}
@@ -749,7 +749,7 @@ class plgEconomicEconomic extends JPlugin
 		}
 		catch (Exception $exception)
 		{
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, __METHOD__ . $exception->getMessage());
 			}
@@ -779,7 +779,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>ProductGroup_FindByNumber:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "ProductGroup_FindByNumber:" . $exception->getMessage());
 			}
@@ -813,7 +813,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>Product_FindByNumber:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "Product_FindByNumber:" . $exception->getMessage());
 			}
@@ -849,7 +849,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>getProductStock:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "getProductStock:" . $exception->getMessage());
 			}
@@ -922,7 +922,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>getMaxDebtor:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "getMaxDebtor:" . $exception->getMessage());
 			}
@@ -970,7 +970,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>getMaxInvoiceNumber: " . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "getMaxInvoiceNumber:" . $exception->getMessage());
 			}
@@ -1033,7 +1033,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>getMaxDraftInvoiceNumber: " . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "getMaxDraftInvoiceNumber:" . $exception->getMessage());
 			}
@@ -1102,7 +1102,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>getUnitGroup:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "getUnitGroup:" . $exception->getMessage());
 			}
@@ -1179,7 +1179,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>storeProduct:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "storeProduct:" . $exception->getMessage());
 			}
@@ -1209,7 +1209,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>ProductGetBarCode:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "Product_GetBarCode:" . $exception->getMessage());
 			}
@@ -1269,7 +1269,7 @@ class plgEconomicEconomic extends JPlugin
 			print("<p><i>error msg storeProductGroup:" . $exception->getMessage() . "</i></p>");
 			JError::raiseWarning(21, $exception->getMessage());
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "storeProductGroup:" . $exception->getMessage());
 			}
@@ -1329,7 +1329,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>error msg in getDebtorContactHandle::" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "getDebtorContactHandle:" . $exception->getMessage());
 			}
@@ -1363,7 +1363,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>error msg in DebtorContact_GetData::" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "DebtorContact_GetData:" . $exception->getMessage());
 			}
@@ -1397,7 +1397,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>error msg in DebtorContact_Delete::" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "DebtorContact_Delete:" . $exception->getMessage());
 			}
@@ -1467,7 +1467,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>storeDebtorContact:: " . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "storeDebtorContact:" . $exception->getMessage());
 			}
@@ -1557,7 +1557,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>createInvoice:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "createInvoice:" . $exception->getMessage());
 			}
@@ -1637,7 +1637,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>setDeliveryAddress:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "setDeliveryAddress:" . $exception->getMessage());
 			}
@@ -1712,7 +1712,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>createInvoiceLine:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "createInvoiceLine:" . $exception->getMessage());
 			}
@@ -1794,7 +1794,7 @@ class plgEconomicEconomic extends JPlugin
 			print("<p><i>createInvoiceLineArray:" . $exception->getMessage() . "</i></p>");
 
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "createInvoiceLineArray:" . $exception->getMessage());
 			}
@@ -1831,7 +1831,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>checkDraftInvoice:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "checkDraftInvoice:" . $exception->getMessage());
 			}
@@ -1865,7 +1865,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>checkBookInvoice:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "checkBookInvoice:" . $exception->getMessage());
 			}
@@ -1904,7 +1904,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>updateInvoiceDate:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "updateInvoiceDate:" . $exception->getMessage());
 			}
@@ -1988,7 +1988,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>CurrentInvoice_BookWithNumber:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "CurrentInvoice_BookWithNumber:" . $exception->getMessage());
 			}
@@ -2029,7 +2029,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>CurrentInvoice_Book:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "CurrentInvoice_Book:" . $exception->getMessage());
 			}
@@ -2063,7 +2063,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>Invoice_GetPdf:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "Invoice_GetPdf:" . $exception->getMessage());
 			}
@@ -2149,7 +2149,7 @@ class plgEconomicEconomic extends JPlugin
 		catch (Exception $exception)
 		{
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 			}
 			else
@@ -2247,7 +2247,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			print("<p><i>createCashbookEntry:" . $exception->getMessage() . "</i></p>");
 
-			if (DETAIL_ERROR_MESSAGE_ON)
+			if (Redshop::getConfig()->get('DETAIL_ERROR_MESSAGE_ON'))
 			{
 				JError::raiseWarning(21, "createCashbookEntry:" . $exception->getMessage());
 			}

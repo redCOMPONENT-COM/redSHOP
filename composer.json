@@ -1,12 +1,14 @@
 {
-    "name"       : "redCOMPONENT-COM/redSHOP",
+    "name"       : "redcomponent-com/redshop",
     "description": "a Joomla e-commerce solution",
     "license"    : "GPL-2.0+",
     "minimum-stability": "stable",
     "require"    : {
-        "php": ">=5.3.10"
+        "php": ">=5.3.10",
+        "phpmd/phpmd": "^2.4"
     },
     "require-dev": {
+        "squizlabs/php_codesniffer": "1.*",
         "codeception/codeception": "~2.2",
         "joomla-projects/joomla-browser": "v3.6.0.1",
         "codegyre/robo": "~0.5",

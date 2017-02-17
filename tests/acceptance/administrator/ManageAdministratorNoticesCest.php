@@ -21,7 +21,7 @@ class ManageAdministratorNoticesCest
 	{
 		$this->allExtensionPages = array (
 			'Category Manager' => '/administrator/index.php?option=com_redshop&view=category',
-			'Country Manager' => '/administrator/index.php?option=com_redshop&view=country',
+			'Country Manager' => '/administrator/index.php?option=com_redshop&view=countries',
 			'Product Manager' => '/administrator/index.php?option=com_redshop&view=product',
 			'Manufacturer Manager' => '/administrator/index.php?option=com_redshop&view=manufacturer',
 			'Media Manager' => '/administrator/index.php?option=com_redshop&view=media',
@@ -37,7 +37,7 @@ class ManageAdministratorNoticesCest
 			'User Manager' => '/administrator/index.php?option=com_redshop&view=user',
 			'Vat/Tax Group Manager' => '/administrator/index.php?option=com_redshop&view=tax_group',
 			'Currency Manager' => '/administrator/index.php?option=com_redshop&view=currency',
-			'State Manager' => '/administrator/index.php?option=com_redshop&view=state',
+			'State Manager' => '/administrator/index.php?option=com_redshop&view=states',
 			'Custom Field Manager' => '/administrator/index.php?option=com_redshop&view=fields',
 			'Template Manager' => '/administrator/index.php?option=com_redshop&view=template',
 			'Text Library Manager' => '/administrator/index.php?option=com_redshop&view=textlibrary',

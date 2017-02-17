@@ -74,7 +74,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			$this->params->get('sharedSecret'),
 			Country::fromCode($data['billinginfo']->country_2_code),
 			Language::fromCode($this->getLang()),
-			Currency::fromCode(strtolower(CURRENCY_CODE)),
+			Currency::fromCode(strtolower(Redshop::getConfig()->get('CURRENCY_CODE'))),
 			$server
 		);
 
@@ -395,7 +395,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			$this->params->get('sharedSecret'),
 			Country::fromCode($data['billinginfo']->country_code),
 			Language::fromCode($this->getLang()),
-			Currency::fromCode(strtolower(CURRENCY_CODE)),
+			Currency::fromCode(strtolower(Redshop::getConfig()->get('CURRENCY_CODE'))),
 			$server
 		);
 
@@ -491,7 +491,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			$this->params->get('sharedSecret'),
 			Country::fromCode($orderBilling->country_code),
 			Language::fromCode($this->getLang()),
-			Currency::fromCode(strtolower(CURRENCY_CODE)),
+			Currency::fromCode(strtolower(Redshop::getConfig()->get('CURRENCY_CODE'))),
 			$server
 		);
 

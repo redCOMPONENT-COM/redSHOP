@@ -13,17 +13,15 @@ $fdl    = JRequest::getVar('fdownload', '');
 $fsec   = JRequest::getVar('fsec', '');
 $folder = JRequest::getVar('folder', '');
 
-$mediaHelper = new redMediahelper;
+$basePath = "components/com_redshop/assets/images/";
+
+if ($fdl)
+{
+	$basePath = str_replace(JPATH_ROOT . '/', '', Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT')) . '/';
+}
 
 if ($folder == '')
 {
-	$basePath = "components" . DIRECTORY_SEPARATOR . "com_redshop" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR. "images" . DIRECTORY_SEPARATOR;
-
-	if ($fdl)
-	{
-		$basePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR, '', PRODUCT_DOWNLOAD_ROOT) . DIRECTORY_SEPARATOR;
-	}
-
 	$thumb_path = JURI::root() . $basePath . $this->_tmp_img->path_relative;
 }
 else
@@ -35,7 +33,7 @@ else
 					$folder,
 					$this->_tmp_img->width_60,
 					$this->_tmp_img->height_60,
-					USE_IMAGE_SIZE_SWAPPING
+					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 				);
 }
 ?>
@@ -48,7 +46,7 @@ else
 				<div class="image">
 					<img src="<?php echo $thumb_path; ?>" width="<?php echo $this->_tmp_img->width_60; ?>"
 					     height="<?php echo $this->_tmp_img->height_60; ?>"
-					     alt="<?php echo $this->_tmp_img->name; ?> - <?php echo $mediaHelper->parseSize($this->_tmp_img->size); ?>"
+					     alt="<?php echo $this->_tmp_img->name; ?> - <?php echo RedshopHelperMedia::parseSize($this->_tmp_img->size); ?>"
 					     border="0"/>
 				</div>
 			</a>

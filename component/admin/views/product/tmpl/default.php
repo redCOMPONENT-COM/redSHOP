@@ -6,9 +6,12 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+defined('_JEXEC') or die;
+
+JHtml::_('behavior.modal', 'a.joom-box');
+
 $app           = JFactory::getApplication();
 $extra_field   = extra_field::getInstance();
-JHTMLBehavior::modal();
 $producthelper = productHelper::getInstance();
 
 $model = $this->getModel('product');
@@ -35,6 +38,15 @@ JHtml::_('redshopjquery.framework');
 		if ((pressbutton == 'assignCategory') || (pressbutton == 'removeCategory')) {
 			form.view.value = "product_category";
 		}
+
+		if (pressbutton == 'remove')
+		{
+			if (confirm("<?php echo JText::_('COM_REDSHOP_PRODUCT_DELETE_CONFIRM') ?>") != true)
+			{
+        		return false;
+        	}
+		}
+
 
 		try {
 			form.onsubmit();
@@ -290,7 +302,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 		<td align="center">
 			<?php $mediadetail = $model->MediaDetail($row->product_id); ?>
-			<a class="modal"
+			<a class="joom-box"
 			   href="index.php?option=com_redshop&view=media&section_id=<?php echo $row->product_id; ?>&showbuttons=1&media_section=product&section_name=<?php echo $row->product_name; ?>&tmpl=component"
 			   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""> <img
 					src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
@@ -298,7 +310,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		</td>
 		<td align="center">
 			<?php $wrapper = $producthelper->getWrapper($row->product_id, 0, 1);?>
-			<a class="modal"
+			<a class="joom-box"
 			   href="index.php?option=com_redshop&showall=1&view=wrapper&product_id=<?php echo $row->product_id; ?>&tmpl=component"
 			   rel="{handler: 'iframe', size: {x: 700, y: 450}}">
 				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
@@ -317,7 +329,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			?>
 		</td>
 		<td>
-			<?php echo $model->getmanufacturername($row->manufacturer_id); ?>
+			<?php echo RedshopEntityManufacturer::getInstance($row->manufacturer_id)->get('name', ''); ?>
 		</td>
 		<td>
 			<a href="index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=0&pid=<?php echo $row->product_id ?>"><?php echo JText::_('COM_REDSHOP_ADD_REVIEW'); ?></a>

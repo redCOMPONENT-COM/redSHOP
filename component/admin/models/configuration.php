@@ -11,18 +11,12 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
+use Joomla\Registry\Registry;
+
 
 class RedshopModelConfiguration extends RedshopModel
 {
-	public $_id = null;
-
-	public $_data = null;
-
-	public $_table_prefix = null;
-
-	public $_configpath = null;
-
-	public $_configdata = null;
+	public $configData = null;
 
 	public $Redconfiguration = null;
 
@@ -30,11 +24,7 @@ class RedshopModelConfiguration extends RedshopModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
-
 		$this->Redconfiguration = Redconfiguration::getInstance();
-
-		$this->_configpath = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 	}
 
 	public function store($data)
@@ -392,20 +382,30 @@ class RedshopModelConfiguration extends RedshopModel
 			$data['image_quality_output'] = 100;
 		}
 
+		$data['backward_compatible_js'] = isset($data['backward_compatible_js']) ? $data['backward_compatible_js'] : 0;
+		$data['backward_compatible_php'] = isset($data['backward_compatible_php']) ? $data['backward_compatible_php'] : 0;
+
 		// Prepare post data to write
 		if (!$this->configurationPrepare($data))
 		{
 			return false;
 		}
 
-		JFactory::getApplication()->setUserState('com_redshop.config.global.data', $this->_configdata);
+		JFactory::getApplication()->setUserState('com_redshop.config.global.data', $this->configData);
+
+		JPluginHelper::importPlugin('redshop');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onBeforeAdminSaveConfiguration', array(&$this->configData));
 
 		// Temporary new way to save config
 		$config = Redshop::getConfig();
 
 		try
 		{
-			$config->save(new JRegistry($this->_configdata));
+			if ($config->save(new Registry($this->configData)))
+			{
+				$dispatcher->trigger('onAfterAdminSaveConfiguration', array($config));
+			}
 		}
 		catch (Exception $e)
 		{
@@ -414,75 +414,14 @@ class RedshopModelConfiguration extends RedshopModel
 			return false;
 		}
 
-		// Write data to file
-		if (!$this->configurationWrite())
-		{
-			return false;
-		}
-
 		return true;
-	}
-
-	/**
-	 * Returns the "is_writeable" status of the configuration file
-	 *
-	 * @param void
-	 *
-	 * @returns boolean True when the configuration file is writeable, false when not
-	 */
-	public function configurationWriteable()
-	{
-		return is_writeable($this->_configpath);
-	}
-
-	/**
-	 * Returns the "is_readable" status of the configuration file
-	 *
-	 * @param void
-	 *
-	 * @returns boolean True when the configuration file is writeable, false when not
-	 */
-	public function configurationReadable()
-	{
-		return is_readable($this->_configpath);
 	}
 
 	public function configurationPrepare($d)
 	{
-		$this->_configdata = $this->Redconfiguration->redshopCFGData($d);
+		$this->configData = $this->Redconfiguration->redshopCFGData($d);
 
-		return (boolean) $this->_configdata;
-	}
-
-	/**
-	 * Writes the configuration file for this payment method
-	 *
-	 * @param array An array of objects
-	 *
-	 * @returns boolean True when writing was successful
-	 */
-	public function configurationWrite()
-	{
-		$config = "<?php\n";
-
-		foreach ($this->_configdata as $key => $value)
-		{
-			$config .= "define('$key', '" . addslashes($value) . "');\n";
-		}
-
-		$config .= "";
-
-		if ($fp = fopen($this->_configpath, "w"))
-		{
-			fputs($fp, $config, strlen($config));
-			fclose($fp);
-
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return (boolean) $this->configData;
 	}
 
 	/**
@@ -492,15 +431,14 @@ class RedshopModelConfiguration extends RedshopModel
 	 * RedshopConfig. If configuration data has been saved in the session, that
 	 * data will be merged into the original data, overwriting it.
 	 *
-	 * @return	object  An object containg all redshop config data.
+	 * @return	object  An object containing all redshop config data.
 	 *
 	 * @since	1.6
 	 */
 	public function getData()
 	{
 		// Get the config data.
-		$config = Redshop::getConfig();
-		$data   = $config->toArray();
+		$data   = Redshop::getConfig()->toArray();
 
 		// Check for data in the session.
 		$temp = JFactory::getApplication()->getUserState('com_redshop.config.global.data');
@@ -511,7 +449,7 @@ class RedshopModelConfiguration extends RedshopModel
 			$data = array_merge($data, $temp);
 		}
 
-		$object = new JRegistry($data);
+		$object = new Registry($data);
 
 		return $object;
 	}
@@ -525,7 +463,7 @@ class RedshopModelConfiguration extends RedshopModel
 	 * currency_code as value
 	 * currency_name as text
 	 */
-	public function getCurrency($currency = "")
+	public function getCurrencies($currency = "")
 	{
 		$where = "";
 
@@ -534,7 +472,7 @@ class RedshopModelConfiguration extends RedshopModel
 			$where = " WHERE currency_code IN ('" . $currency . "')";
 		}
 
-		$query = 'SELECT currency_code as value, currency_name as text FROM ' . $this->_table_prefix . 'currency' . $where . ' ORDER BY currency_name ASC';
+		$query = 'SELECT currency_code as value, currency_name as text FROM #__redshop_currency' . $where . ' ORDER BY currency_name ASC';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -542,7 +480,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getnewsletters()
 	{
-		$query = 'SELECT newsletter_id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
+		$query = 'SELECT newsletter_id as value,name as text FROM #__redshop_newsletter WHERE published=1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -551,7 +489,7 @@ class RedshopModelConfiguration extends RedshopModel
 	public function getShopperGroupPrivate()
 	{
 		$query = "SELECT shopper_group_id as value , shopper_group_name as text "
-			. " FROM " . $this->_table_prefix . "shopper_group "
+			. " FROM #__redshop_shopper_group "
 			. " WHERE `shopper_group_customer_type` = '1'";
 		$this->_db->setQuery($query);
 
@@ -561,7 +499,7 @@ class RedshopModelConfiguration extends RedshopModel
 	public function getShopperGroupCompany()
 	{
 		$query = "SELECT shopper_group_id as value , shopper_group_name as text "
-			. " FROM " . $this->_table_prefix . "shopper_group "
+			. " FROM #__redshop_shopper_group "
 			. " WHERE `shopper_group_customer_type` = '0'";
 		$this->_db->setQuery($query);
 
@@ -570,8 +508,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getVatGroup()
 	{
-		$query = 'SELECT tg.tax_group_id as value,tg.tax_group_name as text FROM ' . $this->_table_prefix
-			. 'tax_group as tg WHERE tg.published=1 ';
+		$query = 'SELECT tg.tax_group_id as value,tg.tax_group_name as text FROM #__redshop_tax_group as tg WHERE tg.published=1 ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -579,8 +516,8 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getnewsletter_content($newsletter_id)
 	{
-		$query = 'SELECT n.template_id,n.body,n.subject,nt.template_desc FROM ' . $this->_table_prefix . 'newsletter AS n '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'template AS nt ON n.template_id=nt.template_id '
+		$query = 'SELECT n.template_id,n.body,n.subject,nt.template_desc FROM #__redshop_newsletter AS n '
+			. 'LEFT JOIN #__redshop_template AS nt ON n.template_id=nt.template_id '
 			. 'WHERE n.published=1 '
 			. 'AND n.newsletter_id="' . $newsletter_id . '" ';
 
@@ -592,7 +529,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getProductIdList()
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'product WHERE published=1';
+		$query = 'SELECT * FROM #__redshop_product WHERE published=1';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -600,7 +537,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getnewsletterproducts_content()
 	{
-		$query = 'SELECT nt.template_desc FROM ' . $this->_table_prefix . 'template as nt '
+		$query = 'SELECT nt.template_desc FROM #__redshop_template as nt '
 			. 'WHERE nt.template_section="newsletter_product" ';
 		$this->_db->setQuery($query);
 
@@ -668,9 +605,9 @@ class RedshopModelConfiguration extends RedshopModel
 									'',
 									'thumb',
 									'product',
-									PRODUCT_MAIN_IMAGE,
-									PRODUCT_MAIN_IMAGE,
-									USE_IMAGE_SIZE_SWAPPING
+									Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
+									Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
+									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 								);
 					$thum_image = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
 						. $product_id_list[$i]->product_full_image . "' title='' rel=\"lightbox[product7]\">";
@@ -701,7 +638,7 @@ class RedshopModelConfiguration extends RedshopModel
 		// Replacing the tags with the values
 		$name = explode('@', $to);
 
-		$query = "INSERT INTO `" . $this->_table_prefix . "newsletter_tracker` "
+		$query = "INSERT INTO `#__redshop_newsletter_tracker` "
 			. "(`tracker_id`, `newsletter_id`, `subscription_id`, `subscriber_name`, `user_id` , `read`, `date`)  "
 			. "VALUES ('', '" . $newsletter_id . "', '0', '" . $name . "', '0',0, '" . $today . "')";
 		$db->setQuery($query);
@@ -725,7 +662,7 @@ class RedshopModelConfiguration extends RedshopModel
 	public function getOrderstatus()
 	{
 		$query = "SELECT order_status_code AS value, order_status_name AS text"
-			. "\n FROM " . $this->_table_prefix . "order_status  where published = '1'";
+			. "\n FROM #__redshop_order_status  where published = '1'";
 
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
@@ -743,7 +680,7 @@ class RedshopModelConfiguration extends RedshopModel
 	 */
 	public function handleHtaccess($product_download_root)
 	{
-		$row_product_download_root = PRODUCT_DOWNLOAD_ROOT;
+		$row_product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 
 		$filecontent = "";
 

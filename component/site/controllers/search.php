@@ -102,7 +102,53 @@ class RedshopControllerSearch extends RedshopController
 
 		ob_clean();
 
-		echo RedshopHelperWorld::getInstance()->getStatesAjax($app->input->getCmd('country'));
+		echo RedshopHelperWorld::getStatesAjax($app->input->getCmd('country'));
+
+		$app->close();
+	}
+
+	/**
+	 * AJAX Task to filter products
+	 *
+	 * @return  mixed  product filter layout
+	 */
+	public function findProducts()
+	{
+		$app   = JFactory::getApplication();
+		$input = $app->input;
+		$model = $this->getModel('Search');
+		$post  = $input->post->get('redform', array(), 'filter');
+
+		$model->setState("filter.data", $post);
+		$list       = $model->getItem();
+		$pagination = $model->getFilterPagination();
+		$orderBy    = $model->getState('order_by');
+		$total      = $model->getFilterTotal();
+
+		// Get layout HTML
+		if (!empty($list))
+		{
+			echo RedshopLayoutHelper::render(
+				'filter.result',
+				array(
+					"products"    => $list,
+					"model"       => $model,
+					"post"        => $post,
+					"pagination"  => $pagination,
+					"orderby"     => $orderBy,
+					'total'       => $total,
+					'template_id' => $post['template_id']
+				),
+				'',
+				array(
+					'component' => 'com_redshop'
+				)
+			);
+		}
+		else
+		{
+			echo JText::_('COM_REDSHOP_MSG_SORRY_NO_RESULT_FOUND');
+		}
 
 		$app->close();
 	}

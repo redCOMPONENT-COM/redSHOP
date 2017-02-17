@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="sh404sefextplugins" method="upgrade">
+    <name>PLG_SH404SEFEXTPLUGINS_REDSHOP</name>
+    <author>redCOMPONENT.com</author>
+    <creationDate>October 2016</creationDate>
+    <copyright>Copyright (C) 2012 - 2016 redCOMPONENT.com. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <version>1.0</version>
+    <description>PLG_SH404SEFEXTPLUGINS_REDSHOP_DESC</description>
+    <files>
+        <folder>language</folder>
+        <folder>redshop</folder>
+        <filename plugin="sh404sefextplugincom_redshop">sh404sefextplugincom_redshop.php</filename>
+        <filename>sh404sefextplugincom_redshop.xml</filename>
+    </files>
+</extension>

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $formInput = $displayData['formInput'];
 $params    = $displayData['params'];
 $action    = $formInput['action'];
-$name      = $params->get('dataName', SHOP_NAME);
+$name      = $params->get('dataName', Redshop::getConfig()->get('SHOP_NAME'));
 ?>
 <h3><?php echo $name; ?></h3>
 <style>

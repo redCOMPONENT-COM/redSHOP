@@ -62,7 +62,7 @@ class RedshopModelNewsletter extends RedshopModel
 		{
 			$query = "SELECT subscription_id FROM  " . $this->_table_prefix . "newsletter_subscription "
 				. "WHERE email = " . $this->_db->quote($email) . " "
-				. "AND newsletter_id = " . (int) DEFAULT_NEWSLETTER . " "
+				. "AND newsletter_id = " . (int) Redshop::getConfig()->get('DEFAULT_NEWSLETTER') . " "
 				. $and;
 			$this->_db->setQuery($query);
 			$alreadysub = $this->_db->loadResult();
@@ -78,7 +78,7 @@ class RedshopModelNewsletter extends RedshopModel
 		}
 		else
 		{
-			$app->redirect($link, JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
+			$app->redirect(JRoute::_($link), JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
 		}
 	}
 
@@ -90,6 +90,6 @@ class RedshopModelNewsletter extends RedshopModel
 		$this->_db->execute();
 		$url  = JURI::root();
 		$link = $url . 'index.php?option=com_redshop&view=newsletter';
-		$app->redirect($link, JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));
+		$app->redirect(JRoute::_($link), JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));
 	}
 }

@@ -43,7 +43,7 @@ class RedshopViewAccount_shipto extends RedshopView
 		}
 		else
 		{
-			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
 			exit;
 		}
 

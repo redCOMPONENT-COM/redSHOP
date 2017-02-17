@@ -89,7 +89,7 @@ $statestyle = (isset($this->showstates) && $this->showstates == 0) ? ' style="di
 			           size="20" maxlength="250"/></td>
 		</tr>
 		<?php
-		if (USE_TAX_EXEMPT == 1)
+		if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1)
 		{
 			?>
 			<tr id="trVatNumber" <?php echo $allowCompany;?>>

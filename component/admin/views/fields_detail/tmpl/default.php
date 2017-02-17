@@ -128,13 +128,13 @@ $url = $uri->root();
 
 			if (jQuery.inArray(type, [11,13]) >= 0)
 			{
-				jQuery('.divfieldText').hide();
-				jQuery('.divfieldFile').show();
+				jQuery('.divfieldText').addClass('hide').hide();
+				jQuery('.divfieldFile').removeClass('hide').show();
 			}
 			else
 			{
-				jQuery('.divfieldText').show();
-				jQuery('.divfieldFile').hide();
+				jQuery('.divfieldText').removeClass('hide').show();
+				jQuery('.divfieldFile').addClass('hide').hide();
 			}
 		}
 	};

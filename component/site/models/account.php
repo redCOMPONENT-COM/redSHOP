@@ -133,7 +133,8 @@ class RedshopModelAccount extends RedshopModel
 			case 'mywishlist':
 				if ($userid && $wishlist_id)
 				{
-					$query->select(array('DISTINCT w.*','p.*'))
+					$query->select('DISTINCT(' . $db->qn('w.wishlist_id') . ')')
+						->select(array('w.*','p.*'))
 						->from($db->quoteName('#__redshop_wishlist', 'w'))
 						->leftJoin($db->quoteName('#__redshop_wishlist_product', 'pw') . ' ON w.wishlist_id = pw.wishlist_id')
 						->leftJoin($db->quoteName('#__redshop_product', 'p') . ' ON p.product_id = pw.product_id')
@@ -228,15 +229,21 @@ class RedshopModelAccount extends RedshopModel
 		return $db->loadResult();
 	}
 
+	/**
+	 * Get number of wishlist
+	 *
+	 * @return mixed
+	 *
+	 * @since  2.0.2
+	 */
 	public function countMyWishlist()
 	{
-		$user   = JFactory::getUser();
-		$userid = $user->id;
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query
+			->select('COUNT(*)')
 			->from($db->quoteName('#__redshop_wishlist', 'pw'))
-			->where('pw.user_id = ' . (int) $userid);
+			->where('pw.user_id = ' . (int) JFactory::getUser()->id);
 		$db->setQuery($query);
 
 		return $db->loadResult();
@@ -247,9 +254,10 @@ class RedshopModelAccount extends RedshopModel
 		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();
 
-		$Itemid      = $app->input->getInt('Itemid', 0);
-		$wishlist_id = $app->input->getInt('wishlist_id', 0);
-		$pid         = $app->input->getInt('pid', 0);
+		$Itemid            = $app->input->getInt('Itemid', 0);
+		$wishlist_id       = $app->input->getInt('wishlist_id', 0);
+		$pid               = $app->input->getInt('pid', 0);
+		$wishlistProductId = $app->input->getInt('wishlist_product_id', 0);
 
 		$user = JFactory::getUser();
 
@@ -271,6 +279,11 @@ class RedshopModelAccount extends RedshopModel
 				->where('product_id = ' . (int) $pid)
 				->where('wishlist_id = ' . (int) $wishlist_id);
 
+			if ($wishlistProductId)
+			{
+				$query->where($db->qn('wishlist_product_id') . ' = ' . $wishlistProductId);
+			}
+
 			$db->setQuery($query);
 
 			if ($db->execute())
@@ -287,7 +300,7 @@ class RedshopModelAccount extends RedshopModel
 			$app->enqueueMessage(JText::_('COM_REDSHOP_YOU_DONT_HAVE_ACCESS_TO_DELETE_THIS_PRODUCT'));
 		}
 
-		$app->redirect('index.php?option=com_redshop&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid);
+		$app->redirect(JRoute::_('index.php?option=com_redshop&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid));
 	}
 
 	public function removeTag()
@@ -306,7 +319,7 @@ class RedshopModelAccount extends RedshopModel
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_TAG'));
 		}
 
-		$app->redirect('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $Itemid);
+		$app->redirect(JRoute::_('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $Itemid));
 	}
 
 	public function removeTags($tagid)
@@ -408,7 +421,7 @@ class RedshopModelAccount extends RedshopModel
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_PRODUCT_FROM_COMPARE'));
 		}
 
-		$app->redirect('index.php?option=com_redshop&view=account&layout=compare&Itemid=' . $Itemid);
+		$app->redirect(JRoute::_('index.php?option=com_redshop&view=account&layout=compare&Itemid=' . $Itemid));
 	}
 
 	public function sendWishlist($post)
@@ -476,26 +489,26 @@ class RedshopModelAccount extends RedshopModel
 			if (strstr($data, '{product_thumb_image_2}'))
 			{
 				$tag     = '{product_thumb_image_2}';
-				$h_thumb = THUMB_HEIGHT_2;
-				$w_thumb = THUMB_WIDTH_2;
+				$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
+				$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
 			}
 			elseif (strstr($data, '{product_thumb_image_3}'))
 			{
 				$tag     = '{product_thumb_image_3}';
-				$h_thumb = THUMB_HEIGHT_3;
-				$w_thumb = THUMB_WIDTH_3;
+				$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
+				$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
 			}
 			elseif (strstr($data, '{product_thumb_image_1}'))
 			{
 				$tag     = '{product_thumb_image_1}';
-				$h_thumb = THUMB_HEIGHT;
-				$w_thumb = THUMB_WIDTH;
+				$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+				$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 			}
 			else
 			{
 				$tag     = '{product_thumb_image}';
-				$h_thumb = THUMB_HEIGHT;
-				$w_thumb = THUMB_WIDTH;
+				$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+				$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 			}
 
 			$temp_template = '';
@@ -552,7 +565,7 @@ class RedshopModelAccount extends RedshopModel
 					$pname = $row->product_name;
 					$link  = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
-					$thum_image = $producthelper->getProductImage($row->product_id, $link, THUMB_WIDTH, THUMB_HEIGHT);
+					$thum_image = $producthelper->getProductImage($row->product_id, $link, Redshop::getConfig()->get('THUMB_WIDTH'), Redshop::getConfig()->get('THUMB_HEIGHT'));
 					$data_add .= $thum_image;
 
 					$data_add .= "<div><a href='" . $link . "' >" . $pname . "</a></div>";

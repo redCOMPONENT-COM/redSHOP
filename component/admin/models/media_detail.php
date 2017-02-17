@@ -89,6 +89,11 @@ class RedshopModelMedia_detail extends RedshopModel
 	{
 		$row = $this->getTable();
 
+		if (empty($data['media_alternate_text']))
+		{
+			$data['media_alternate_text'] = preg_replace('#\.[^/.]+$#', '', $data['media_name']);
+		}
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -315,7 +320,7 @@ class RedshopModelMedia_detail extends RedshopModel
 				}
 				else
 				{
-					$this->setError(JText::sprintf('COM_REDSHOP_ERROR_SET_DEFAULT_MEDIA', $rs->media_type));
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDSHOP_ERROR_SET_DEFAULT_MEDIA', $rs->media_type), 'warning');
 
 					return false;
 				}

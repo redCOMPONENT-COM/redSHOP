@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
 $model = JModelLegacy::getInstance("Alert", "RedshopModel");
 $alertsCount = $model->countAlert();
 $alerts = $model->getAlert(5);

@@ -536,8 +536,8 @@ class PlgRedshop_ShippingUspsv4 extends JPlugin
 		include_once JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '/' . $shipping->element . '.cfg.php';
 
 		// Conversation of weight
-		$unitRatio       = $producthelper->getUnitConversation('pounds', DEFAULT_WEIGHT_UNIT);
-		$unitRatioVolume = $producthelper->getUnitConversation('inch', DEFAULT_VOLUME_UNIT);
+		$unitRatio       = $producthelper->getUnitConversation('pounds', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+		$unitRatioVolume = $producthelper->getUnitConversation('inch', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
 		$totaldimention  = $shippinghelper->getCartItemDimention();
 		$order_weight    = $totaldimention['totalweight'];
 

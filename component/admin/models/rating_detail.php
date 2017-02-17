@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopModelRating_detail extends RedshopModel
+class RedshopModelRating_detail extends RedshopModelForm
 {
 	public $_id = null;
 
@@ -101,17 +101,28 @@ class RedshopModelRating_detail extends RedshopModel
 
 		$row = $this->getTable();
 
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
+		// Check if this rate is rated before
+		$rtn = $row->load(array('userid' => $data['userid'], 'product_id' => $data['product_id']));
 
-			return false;
+		// This one is not rated before
+		if ($rtn === false)
+		{
+			if (!$row->bind($data))
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
+
+			if (!$row->store())
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
 		}
-
-		if (!$row->store())
+		else
 		{
-			$this->setError($this->_db->getErrorMsg());
-
 			return false;
 		}
 

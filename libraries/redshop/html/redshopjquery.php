@@ -271,6 +271,12 @@ abstract class JHtmlRedshopjquery
 					$('" . $selector . "').select2(
 						" . static::formatSelect2Options($options) . "
 					)" . static::formatSelect2Events($options) . $prefix . ";
+
+					$('" . $selector . "').on(\"select2-removed\", function(e) {
+						if ($(this).val() == null) {
+							$(this).val(\"\").trigger(\"change\");
+						}
+					});
 				});
 			})(jQuery);
 		";

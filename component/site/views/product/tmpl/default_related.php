@@ -41,26 +41,26 @@ if (count($relptemplate) > 0)
 		if (strstr($related_template_data, "{relproduct_image_3}"))
 		{
 			$rpimg_tag = '{relproduct_image_3}';
-			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT_3;
-			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH_3;
+			$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_3');
+			$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_3');
 		}
 		elseif (strstr($related_template_data, "{relproduct_image_2}"))
 		{
 			$rpimg_tag = '{relproduct_image_2}';
-			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT_2;
-			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH_2;
+			$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_2');
+			$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_2');
 		}
 		elseif (strstr($related_template_data, "{relproduct_image_1}"))
 		{
 			$rpimg_tag = '{relproduct_image_1}';
-			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT;
-			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH;
+			$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
+			$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
 		}
 		else
 		{
 			$rpimg_tag = '{relproduct_image}';
-			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT;
-			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH;
+			$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
+			$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
 		}
 
 		$hidden_thumb_image    = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='" . $rpw_thumb . "'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='" . $rph_thumb . "'>";
@@ -69,15 +69,15 @@ if (count($relptemplate) > 0)
 
 		if (strstr($related_template_data, "{relproduct_link}"))
 		{
-			$rpname = "<a href='" . $rlink . "' title='" . $related_product [$r]->product_name . "'>" . $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX) . "</a>";
+			$rpname = "<a href='" . $rlink . "' title='" . $related_product [$r]->product_name . "'>" . $config->maxchar($related_product [$r]->product_name, Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_END_SUFFIX')) . "</a>";
 		}
 		else
 		{
-			$rpname = $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX);
+			$rpname = $config->maxchar($related_product [$r]->product_name, Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_TITLE_END_SUFFIX'));
 		}
 
-		$rpdesc       = $config->maxchar($related_product [$r]->product_desc, RELATED_PRODUCT_DESC_MAX_CHARS, RELATED_PRODUCT_DESC_END_SUFFIX);
-		$rp_shortdesc = $config->maxchar($related_product [$r]->product_s_desc, RELATED_PRODUCT_SHORT_DESC_MAX_CHARS, RELATED_PRODUCT_SHORT_DESC_END_SUFFIX);
+		$rpdesc       = $config->maxchar($related_product [$r]->product_desc, Redshop::getConfig()->get('RELATED_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_DESC_END_SUFFIX'));
+		$rp_shortdesc = $config->maxchar($related_product [$r]->product_s_desc, Redshop::getConfig()->get('RELATED_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('RELATED_PRODUCT_SHORT_DESC_END_SUFFIX'));
 
 		$related_template_data = str_replace("{relproduct_link}", '', $related_template_data);
 

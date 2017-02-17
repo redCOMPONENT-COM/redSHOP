@@ -126,10 +126,10 @@ switch ($name)
 		break;
 	case 'category':
 		?>
-		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_CATEGORY_HINT'); ?></b><br /><br />
+		<h3><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_CATEGORY_HINT'); ?></h3>
 		{if subcats} {category_main_description} {category_main_short_desc} {category_main_name} {category_main_thumb_image} {subcats end if} <br />
 		{category_loop_start} {category_loop_end} {category_name} {category_description} {category_short_desc} {category_thumb_image} <br />
-		{product_price_lbl} {product_price_slider} {product_loop_start} {product_loop_end} {product_name} {product_price} {product_rating_summary} {product_s_desc} <br />
+		{product_price_lbl} {product_price_slider} {include_product_in_sub_cat} {product_loop_start} {product_loop_end} {product_name} {product_price} {product_rating_summary} {product_s_desc} <br />
 		{pagination} {perpagelimit:X} {product_display_limit} {show_all_products_in_category} {order_by} {if product_on_sale} {product_on_sale end if} {price_excluding_vat} <br />
 		{more_documents} {product_id_lbl} {product_id} {product_number_lbl} {product_number} {product_discount_price} {product_old_price} {product_price_saving} {product_price_saving_percentage} {with_vat} {without_vat} {filter_by} <br />
 		{template_selector_category_lbl} {template_selector_category} {manufacturer_link} {manufacturer_name} {stock_status:class for available stock : class for out of stock: class for pre order} {shopname} {read_more} {category_readmore} {category_main_thumb_image_2} {category_main_thumb_image_3} {category_thumb_image_2} {category_thumb_image_3} <br />
@@ -327,11 +327,11 @@ switch ($name)
 		break;
 	case 'product':
 		?>
-		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_PRODUCT_HINT'); ?></b><br /><br />
+		<h4><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_PRODUCT_HINT'); ?></h4>
 		{product_name} {manufacturer_name} {supplier_name} {publish_date} {update_date} <br />
 		{discount_start_date} {discount_end_date} {product_discount_price} {product_old_price} {product_price_saving} {product_price_saving_percentage} {if product_on_sale} <br />
 		{product_on_sale end if} {product_price_lbl} {if product_special} {product_special end if} {product_name} {product_price} <br />
-		{product_thumb_image} {product_thumb_image_2} {product_thumb_image_3} {product_s_desc} {product_rating} {more_images} {more_documents} <br />
+		{product_thumb_image} {product_thumb_image_2} {product_thumb_image_3} {product_s_desc} {product_rating} {more_images} {more_documents} {more_videos} <br />
 		{product_desc} {bookmark} {send_to_friend} {ask_question_about_product} {ask_question_about_product_without_lightbox} {manufacturer_product_link} {product_rating_summary} <br />
 		{product_delivery_time} {manufacturer_link} {form_rating} {form_rating_without_lightbox} {product_id_lbl} {product_id} <br />
 		{product_number_lbl} {product_number} {product_price_table} {products_in_stock} {if product_userfield} {product_userfield end if} <br />
@@ -389,7 +389,7 @@ switch ($name)
 	case 'redshop_payment':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_PAYMENT_METHOD_HINT'); ?></b><br /><br />
-		{payment_heading} {split_payment} {payment_loop_start} {payment_method_name} {creditcard_information} {payment_loop_end}
+		{payment_heading} {payment_loop_start} {payment_method_name} {creditcard_information} {payment_loop_end}
 		<?php
 		break;
 	case 'redshop_shipping':
@@ -411,7 +411,7 @@ switch ($name)
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_REVIEW_HINT'); ?></b><br /><br />
 		{product_loop_start} {product_title} <br />
-		{review_loop_start} {fullname} {title} {comment} {stars} {review_date} {review_loop_end} {product_loop_end}
+		{review_loop_start} {fullname} {title} {comment} {stars} {reviewdate} {review_loop_end} {product_loop_end}
 		<?php
 		break;
 	case 'shipment_invoice':

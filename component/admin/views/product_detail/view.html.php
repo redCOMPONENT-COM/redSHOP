@@ -385,7 +385,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		// For preselected.
 		if ($detail->product_template == "")
 		{
-			$default_preselected = PRODUCT_TEMPLATE;
+			$default_preselected = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
 			$detail->product_template = $default_preselected;
 		}
 
@@ -464,7 +464,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$selectOption[] = JHtml::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
 		$selectOption[] = JHtml::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
 		$lists['discount_calc_unit'] = JHtml::_('select.genericlist', $selectOption, 'discount_calc_unit[]',
-			'class="inputbox" size="1" ', 'value', 'text', DEFAULT_VOLUME_UNIT
+			'class="inputbox" size="1" ', 'value', 'text', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT')
 		);
 		$lists['discount_calc_unit'] = str_replace($remove_format['format.indent'], "", $lists['discount_calc_unit']);
 		$lists['discount_calc_unit'] = str_replace($remove_format['format.eol'], "", $lists['discount_calc_unit']);
@@ -481,9 +481,9 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			$productVatGroup = array_merge($temps, $productVatGroup);
 		}
 
-		if (DEFAULT_VAT_GROUP && !$detail->product_tax_group_id)
+		if (Redshop::getConfig()->get('DEFAULT_VAT_GROUP') && !$detail->product_tax_group_id)
 		{
-			$detail->product_tax_group_id = DEFAULT_VAT_GROUP;
+			$detail->product_tax_group_id = Redshop::getConfig()->get('DEFAULT_VAT_GROUP');
 		}
 
 		$append_to_global_seo = array();
@@ -655,7 +655,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 					'product_meta_data'
 				);
 
-		if (USE_STOCKROOM == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$tabMenu->addItem(
 					'#productstockroom',
@@ -670,12 +670,17 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 					'COM_REDSHOP_DISCOUNT_CALCULATOR',
 					($selectedTabPosition == 'calculator') ? true : false,
 					'calculator'
-				)->addItem(
-					'#economic_settings',
-					'COM_REDSHOP_ECONOMIC_SETTINGS',
-					($selectedTabPosition == 'economic_settings') ? true : false,
-					'economic_settings'
 				);
+
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION'))
+		{
+			$tabMenu->addItem(
+				'#economic_settings',
+				'COM_REDSHOP_ECONOMIC_SETTINGS',
+				($selectedTabPosition == 'economic_settings') ? true : false,
+				'economic_settings'
+			);
+		}
 
 		return $tabMenu;
 	}

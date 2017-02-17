@@ -63,8 +63,6 @@ class Tableorder_detail extends JTable
 
 	public $encr_key = null;
 
-	public $split_payment = null;
-
 	public $invoice_no = null;
 
 	public $discount_type = null;
@@ -94,6 +92,25 @@ class Tableorder_detail extends JTable
 		$this->_table_prefix = '#__redshop_';
 
 		parent::__construct($this->_table_prefix . 'orders', 'order_id', $db);
+	}
+
+	/**
+	 * Validate all table fields before saving
+	 *
+	 * @return  bool
+	 *
+	 * @since  2.0.0.4
+	 */
+	public function check()
+	{
+		if (empty($this->order_status) || $this->order_status === 0)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_TABLE_ORDER_REDSHOP_INVALID_ORDER_STATUS'), 'warning');
+
+			return false;
+		}
+
+		return parent::check();
 	}
 
 	public function bind($array, $ignore = '')
