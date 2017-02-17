@@ -3296,7 +3296,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED'), 'error');
 
-					return false;
+					// Something wrong than go to next
+					continue;
 				}
 				else
 				{
