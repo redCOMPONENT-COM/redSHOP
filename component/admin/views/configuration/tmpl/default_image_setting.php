@@ -33,121 +33,104 @@ echo RedshopLayoutHelper::render(
 	)
 );
 ?>
-<div class="row">
-    <div class="form-group">
-        <label class="col-md-4">
-			<?php echo JText::_('COM_REDSHOP_CATEGORY_THUMB_WIDTH_HEIGHT'); ?>
-        </label>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="number" class="form-control" name="thumb_width" id="thumb_width"
-                           value="<?php echo $this->config->get('THUMB_WIDTH'); ?>"/>
-                </div>
-                <div class="col-md-6">
-                    <input type="number" class="form-control" name="thumb_height" id="thumb_height"
-                           value="<?php echo $this->config->get('THUMB_HEIGHT'); ?>"/>
-                </div>
+<div class="form-group row-fluid">
+    <label class="col-md-4">
+		<?php echo JText::_('COM_REDSHOP_CATEGORY_THUMB_WIDTH_HEIGHT'); ?>
+    </label>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="number" class="form-control" name="thumb_width" id="thumb_width"
+                       value="<?php echo $this->config->get('THUMB_WIDTH'); ?>"/>
+            </div>
+            <div class="col-md-6">
+                <input type="number" class="form-control" name="thumb_height" id="thumb_height"
+                       value="<?php echo $this->config->get('THUMB_HEIGHT'); ?>"/>
             </div>
         </div>
     </div>
 </div>
-<hr/>
-<div class="row">
-    <div class="form-group">
-        <label class="col-md-4">
-			<?php echo JText::_('COM_REDSHOP_CATEGORY_THUMB_WIDTH_HEIGHT_TWO'); ?>
-        </label>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="number" class="form-control" name="thumb_width_2" id="thumb_width_2"
-                           value="<?php echo $this->config->get('THUMB_WIDTH_2'); ?>"/>
-                </div>
-                <div class="col-md-6">
-                    <input type="number" class="form-control" name="thumb_height_2" id="thumb_height_2"
-                           value="<?php echo $this->config->get('THUMB_HEIGHT_2'); ?>"/>
-                </div>
+<div class="form-group row-fluid">
+    <label class="col-md-4">
+		<?php echo JText::_('COM_REDSHOP_CATEGORY_THUMB_WIDTH_HEIGHT_TWO'); ?>
+    </label>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="number" class="form-control" name="thumb_width_2" id="thumb_width_2"
+                       value="<?php echo $this->config->get('THUMB_WIDTH_2'); ?>"/>
+            </div>
+            <div class="col-md-6">
+                <input type="number" class="form-control" name="thumb_height_2" id="thumb_height_2"
+                       value="<?php echo $this->config->get('THUMB_HEIGHT_2'); ?>"/>
             </div>
         </div>
     </div>
 </div>
-<hr/>
-<div class="row">
-    <div class="form-group">
-        <label class="col-md-4">
-			<?php echo JText::_('COM_REDSHOP_CATEGORY_THUMB_WIDTH_HEIGHT_THREE'); ?>
-        </label>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="number" class="form-control" name="thumb_width_3" id="thumb_width_3"
-                           value="<?php echo $this->config->get('THUMB_WIDTH_3'); ?>"/>
-                </div>
-                <div class="col-md-6">
-                    <input type="number" class="form-control" name="thumb_height_3" id="thumb_height_3"
-                           value="<?php echo $this->config->get('THUMB_HEIGHT_3'); ?>"/>
-                </div>
+<div class="form-group row-fluid">
+    <label class="col-md-4">
+		<?php echo JText::_('COM_REDSHOP_CATEGORY_THUMB_WIDTH_HEIGHT_THREE'); ?>
+    </label>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="number" class="form-control" name="thumb_width_3" id="thumb_width_3"
+                       value="<?php echo $this->config->get('THUMB_WIDTH_3'); ?>"/>
+            </div>
+            <div class="col-md-6">
+                <input type="number" class="form-control" name="thumb_height_3" id="thumb_height_3"
+                       value="<?php echo $this->config->get('THUMB_HEIGHT_3'); ?>"/>
             </div>
         </div>
     </div>
 </div>
-<hr/>
-<div class="row">
-    <div class="form-group">
-        <label class="col-md-4">
-			<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_HEIGHT_LBL'); ?>
-        </label>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="number" class="form-control" name="category_product_thumb_width" id="category_product_thumb_width"
-                           value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_WIDTH'); ?>"/>
-                </div>
-                <div class="col-md-6">
-                    <input type="number" class="form-control" name="category_product_thumb_height" id="category_product_thumb_height"
-                           value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_HEIGHT'); ?>"/>
-                </div>
+<div class="form-group row-fluid">
+    <label class="col-md-4">
+		<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_HEIGHT_LBL'); ?>
+    </label>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="number" class="form-control" name="category_product_thumb_width" id="category_product_thumb_width"
+                       value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_WIDTH'); ?>"/>
+            </div>
+            <div class="col-md-6">
+                <input type="number" class="form-control" name="category_product_thumb_height" id="category_product_thumb_height"
+                       value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_HEIGHT'); ?>"/>
             </div>
         </div>
     </div>
 </div>
-<hr/>
-<div class="row">
-    <div class="form-group">
-        <label class="col-md-4">
-			<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_HEIGHT_TWO'); ?>
-        </label>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="number" class="form-control" name="category_product_thumb_width_2" id="category_product_thumb_width_2"
-                           value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_WIDTH_2'); ?>"/>
-                </div>
-                <div class="col-md-6">
-                    <input type="number" class="form-control" name="category_product_thumb_height_2" id="category_product_thumb_height_2"
-                           value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_HEIGHT_2'); ?>"/>
-                </div>
+<div class="form-group row-fluid">
+    <label class="col-md-4">
+		<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_HEIGHT_TWO'); ?>
+    </label>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="number" class="form-control" name="category_product_thumb_width_2" id="category_product_thumb_width_2"
+                       value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_WIDTH_2'); ?>"/>
+            </div>
+            <div class="col-md-6">
+                <input type="number" class="form-control" name="category_product_thumb_height_2" id="category_product_thumb_height_2"
+                       value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_HEIGHT_2'); ?>"/>
             </div>
         </div>
     </div>
 </div>
-<hr/>
-<div class="row">
-    <div class="form-group">
-        <label class="col-md-4">
-			<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_HEIGHT_THREE'); ?>
-        </label>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="number" class="form-control" name="category_product_thumb_width_3" id="category_product_thumb_width_3"
-                           value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_WIDTH_3'); ?>"/>
-                </div>
-                <div class="col-md-6">
-                    <input type="number" class="form-control" name="category_product_thumb_height_3" id="category_product_thumb_height_3"
-                           value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_HEIGHT_3'); ?>"/>
-                </div>
+<div class="form-group row-fluid">
+    <label class="col-md-4">
+		<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_HEIGHT_THREE'); ?>
+    </label>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="number" class="form-control" name="category_product_thumb_width_3" id="category_product_thumb_width_3"
+                       value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_WIDTH_3'); ?>"/>
+            </div>
+            <div class="col-md-6">
+                <input type="number" class="form-control" name="category_product_thumb_height_3" id="category_product_thumb_height_3"
+                       value="<?php echo $this->config->get('CATEGORY_PRODUCT_THUMB_HEIGHT_3'); ?>"/>
             </div>
         </div>
     </div>

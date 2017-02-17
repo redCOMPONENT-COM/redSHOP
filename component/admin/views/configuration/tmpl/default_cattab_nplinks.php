@@ -10,8 +10,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal', '.joom-box');
 
-$uri       = JURI::getInstance();
-$url       = $uri->root();
+$url = JUri::root();
 $link_path = "/components/com_redshop/assets/images/";
 
 echo RedshopLayoutHelper::render(
@@ -73,58 +72,53 @@ echo RedshopLayoutHelper::render(
 	)
 );
 ?>
-<div class="row">
-    <div class="form-group">
-        <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_PREVIOUS_LINK'); ?>">
-			<?php echo JText::_('COM_REDSHOP_IMAGE_PREVIOUS_LINK'); ?>
-        </label>
-        <div class="col-md-8">
-			<?php $imagePreviousLinkFind = $this->config->get('IMAGE_PREVIOUS_LINK_FIND'); ?>
+<div class="form-group row-fluid">
+    <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_PREVIOUS_LINK'); ?>">
+		<?php echo JText::_('COM_REDSHOP_IMAGE_PREVIOUS_LINK'); ?>
+    </label>
+    <div class="col-md-8">
+		<?php $imagePreviousLinkFind = $this->config->get('IMAGE_PREVIOUS_LINK_FIND'); ?>
+        <div>
             <div>
-                <div>
-                    <input class="text_area" type="file" name="imgpre" id="imgpre" size="40"/>
-                    <input type="hidden" name="image_previous_link" id="image_previous_link"
-                           value="<?php echo $imagePreviousLinkFind; ?>"/>
-                    <a href="#123"
-                       onclick="delimg('<?php echo $imagePreviousLinkFind ?>','prvlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE'); ?></a>
-                </div>
-				<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imagePreviousLinkFind)): ?>
-                    <div id="prvlinkdiv">
-                        <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"
-                           title="<?php echo $imagePreviousLinkFind; ?>" rel="{handler: 'image', size: {}}"><img
-                                    alt="<?php echo $imagePreviousLinkFind; ?>"
-                                    src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"/></a>
-                    </div>
-				<?php endif; ?>
+                <input class="text_area" type="file" name="imgpre" id="imgpre" size="40"/>
+                <input type="hidden" name="image_previous_link" id="image_previous_link"
+                       value="<?php echo $imagePreviousLinkFind; ?>"/>
+                <a href="#123"
+                   onclick="delimg('<?php echo $imagePreviousLinkFind ?>','prvlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE'); ?></a>
             </div>
+			<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imagePreviousLinkFind)): ?>
+                <div id="prvlinkdiv">
+                    <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"
+                       title="<?php echo $imagePreviousLinkFind; ?>" rel="{handler: 'image', size: {}}"><img
+                                alt="<?php echo $imagePreviousLinkFind; ?>"
+                                src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"/></a>
+                </div>
+			<?php endif; ?>
         </div>
     </div>
 </div>
-<hr/>
-<div class="row">
-    <div class="form-group">
-        <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_NEXT_LINK'); ?>">
-			<?php echo JText::_('COM_REDSHOP_IMAGE_NEXT_LINK'); ?>
-        </label>
-        <div class="col-md-8">
-			<?php $imageNextLinkFind = $this->config->get('IMAGE_NEXT_LINK_FIND'); ?>
+<div class="form-group row-fluid">
+    <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_NEXT_LINK'); ?>">
+		<?php echo JText::_('COM_REDSHOP_IMAGE_NEXT_LINK'); ?>
+    </label>
+    <div class="col-md-8">
+		<?php $imageNextLinkFind = $this->config->get('IMAGE_NEXT_LINK_FIND'); ?>
+        <div>
             <div>
-                <div>
-                    <input class="text_area" type="file" name="imgnext" id="imgnext" size="40"/>
-                    <input type="hidden" name="image_next_link" id="image_next_link"
-                           value="<?php echo $imageNextLinkFind; ?>"/>
-                    <a href="#123"
-                       onclick="delimg('<?php echo $imageNextLinkFind ?>','nxtlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE'); ?></a>
-                </div>
-				<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imageNextLinkFind)): ?>
-                    <div id="nxtlinkdiv">
-                        <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"
-                           title="<?php echo $imageNextLinkFind; ?>" rel="{handler: 'image', size: {}}"><img
-                                    alt="<?php echo $imageNextLinkFind; ?>"
-                                    src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"/></a>
-                    </div>
-				<?php endif; ?>
+                <input class="text_area" type="file" name="imgnext" id="imgnext" size="40"/>
+                <input type="hidden" name="image_next_link" id="image_next_link"
+                       value="<?php echo $imageNextLinkFind; ?>"/>
+                <a href="#123"
+                   onclick="delimg('<?php echo $imageNextLinkFind ?>','nxtlinkdiv','<?php echo $link_path ?>');"><?php echo JText::_('COM_REDSHOP_REMOVE_FILE'); ?></a>
             </div>
+			<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imageNextLinkFind)): ?>
+                <div id="nxtlinkdiv">
+                    <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"
+                       title="<?php echo $imageNextLinkFind; ?>" rel="{handler: 'image', size: {}}"><img
+                                alt="<?php echo $imageNextLinkFind; ?>"
+                                src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"/></a>
+                </div>
+			<?php endif; ?>
         </div>
     </div>
 </div>
