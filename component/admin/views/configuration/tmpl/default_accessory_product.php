@@ -11,9 +11,11 @@ defined('_JEXEC') or die;
 ?>
 <div class="row adminform">
     <div class="col-sm-6">
-        <div class="panel panel-primary form-vertical">
-            <div class="panel-heading"><h3><?php echo JText::_('COM_REDSHOP_ACCESSORY_PRODUCT_SETTINGS'); ?></h3></div>
-            <div class="panel-body">
+        <div class="box box-primary form-vertical">
+            <div class="box-header with-border">
+                <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_ACCESSORY_PRODUCT_SETTINGS'); ?></h3>
+            </div>
+            <div class="box-body">
 				<?php
 				echo RedshopLayoutHelper::render(
 					'config.config',
@@ -82,66 +84,60 @@ defined('_JEXEC') or die;
     </div>
 
     <div class="col-sm-6">
-        <div class="panel panel-primary form-vertical">
-            <div class="panel-heading"><h3><?php echo JText::_('COM_REDSHOP_ACCESSORY_PRODUCT_IMAGE_SETTINGS'); ?></h3></div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="form-group">
-                        <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_THUMB_WIDTH_LBL'); ?>">
-							<?php echo JText::_('COM_REDSHOP_ACCESSORY_THUMB_WIDTH_HEIGHT'); ?>
-                        </label>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <input type="number" name="accessory_thumb_width" id="accessory_thumb_width" class="form-control"
-                                           value="<?php echo $this->config->get('ACCESSORY_THUMB_WIDTH'); ?>"/>
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="number" name="accessory_thumb_height" id="accessory_thumb_height" class="form-control"
-                                           value="<?php echo $this->config->get('ACCESSORY_THUMB_HEIGHT'); ?>"/>
-                                </div>
+        <div class="box box-primary form-vertical">
+            <div class="box-header with-border">
+                <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_ACCESSORY_PRODUCT_IMAGE_SETTINGS'); ?></h3>
+            </div>
+            <div class="box-body">
+                <div class="form-group row-fluid">
+                    <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_THUMB_WIDTH_LBL'); ?>">
+						<?php echo JText::_('COM_REDSHOP_ACCESSORY_THUMB_WIDTH_HEIGHT'); ?>
+                    </label>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="number" name="accessory_thumb_width" id="accessory_thumb_width" class="form-control"
+                                       value="<?php echo $this->config->get('ACCESSORY_THUMB_WIDTH'); ?>"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="number" name="accessory_thumb_height" id="accessory_thumb_height" class="form-control"
+                                       value="<?php echo $this->config->get('ACCESSORY_THUMB_HEIGHT'); ?>"/>
                             </div>
                         </div>
                     </div>
                 </div>
-                <hr/>
-                <div class="row">
-                    <div class="form-group">
-                        <label class="col-md-4 hasPopover"
-                               data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_THUMB_WIDTH_LBL_TWO'); ?>">
-							<?php echo JText::_('COM_REDSHOP_ACCESSORY_THUMB_WIDTH_HEIGHT_TWO'); ?>
-                        </label>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <input type="number" name="accessory_thumb_width_2" id="accessory_thumb_width_2" class="form-control"
-                                           value="<?php echo $this->config->get('ACCESSORY_THUMB_WIDTH_2'); ?>"/>
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="number" name="accessory_thumb_height_2" id="accessory_thumb_height_2" class="form-control"
-                                           value="<?php echo $this->config->get('ACCESSORY_THUMB_HEIGHT_2'); ?>"/>
-                                </div>
+                <div class="form-group row-fluid">
+                    <label class="col-md-4 hasPopover"
+                           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_THUMB_WIDTH_LBL_TWO'); ?>">
+						<?php echo JText::_('COM_REDSHOP_ACCESSORY_THUMB_WIDTH_HEIGHT_TWO'); ?>
+                    </label>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="number" name="accessory_thumb_width_2" id="accessory_thumb_width_2" class="form-control"
+                                       value="<?php echo $this->config->get('ACCESSORY_THUMB_WIDTH_2'); ?>"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="number" name="accessory_thumb_height_2" id="accessory_thumb_height_2" class="form-control"
+                                       value="<?php echo $this->config->get('ACCESSORY_THUMB_HEIGHT_2'); ?>"/>
                             </div>
                         </div>
                     </div>
                 </div>
-                <hr/>
-                <div class="row">
-                    <div class="form-group">
-                        <label class="col-md-4 hasPopover"
-                               data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_THUMB_WIDTH_LBL_THREE'); ?>">
-							<?php echo JText::_('COM_REDSHOP_ACCESSORY_THUMB_WIDTH_HEIGHT_THREE'); ?>
-                        </label>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <input type="number" name="accessory_thumb_width_3" id="accessory_thumb_width_3" class="form-control"
-                                           value="<?php echo $this->config->get('ACCESSORY_THUMB_WIDTH_3'); ?>"/>
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="number" name="accessory_thumb_height_3" id="accessory_thumb_height_3" class="form-control"
-                                           value="<?php echo $this->config->get('ACCESSORY_THUMB_HEIGHT_3'); ?>"/>
-                                </div>
+                <div class="form-group row-fluid">
+                    <label class="col-md-4 hasPopover"
+                           data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_THUMB_WIDTH_LBL_THREE'); ?>">
+						<?php echo JText::_('COM_REDSHOP_ACCESSORY_THUMB_WIDTH_HEIGHT_THREE'); ?>
+                    </label>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="number" name="accessory_thumb_width_3" id="accessory_thumb_width_3" class="form-control"
+                                       value="<?php echo $this->config->get('ACCESSORY_THUMB_WIDTH_3'); ?>"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="number" name="accessory_thumb_height_3" id="accessory_thumb_height_3" class="form-control"
+                                       value="<?php echo $this->config->get('ACCESSORY_THUMB_HEIGHT_3'); ?>"/>
                             </div>
                         </div>
                     </div>

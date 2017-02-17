@@ -212,7 +212,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['my_tags']                       = JHtml::_('redshopselect.booleanlist', 'my_tags', 'class="form-control" size="1"', $this->config->get('MY_TAGS'));
 		$lists['my_wishlist']                   = JHtml::_('redshopselect.booleanlist', 'my_wishlist', 'class="form-control" size="1"', $this->config->get('MY_WISHLIST'));
 		$lists['compare_products']              = JHtml::_('redshopselect.booleanlist', 'compare_products', 'class="form-control" size="1"', $this->config->get('COMPARE_PRODUCTS'));
-		$lists['country_list']                  = JHtml::_('select.genericlist', $countries, 'country_list[]', 'class="form-control disableBootstrapChosen" multiple="multiple" size="5"',
+		$lists['country_list']                  = JHtml::_('select.genericlist', $countries, 'country_list[]', 'class="form-control" multiple="multiple" size="5"',
 			'value', 'text', $country_list
 		);
 		$lists['product_detail_is_lightbox']    = JHtml::_('redshopselect.booleanlist', 'product_detail_is_lightbox',

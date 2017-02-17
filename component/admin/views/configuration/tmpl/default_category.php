@@ -41,7 +41,6 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_FRONTPAGE_CATEGORY_PAGE_INTROTEXT'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_FRONTPAGE_CATEGORY_PAGE_INTROTEXT'),
-		'line'  => false,
 		'field' => '<textarea class="form-control" type="text" name="category_frontpage_introtext" id="category_frontpage_introtext" rows="4"'
 			. 'cols="40" />' . stripslashes($this->config->get('CATEGORY_FRONTPAGE_INTROTEXT')) . '</textarea>'
 	)
