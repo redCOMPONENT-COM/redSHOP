@@ -131,7 +131,7 @@ class PlgRedshop_Paymentrs_Payment_Paymill extends JPlugin
 					<div class="clearfix"></div>
 					<div id="payment-form-cc">
 						<input class="card-amount-int" type="hidden" value="<?php echo $data['order']->order_total; ?>" name="amount"/>
-						<input class="card-currency" type="hidden" value="<?php echo CURRENCY_CODE; ?>" name="currency"/>
+						<input class="card-currency" type="hidden" value="<?php echo Redshop::getConfig()->get('CURRENCY_CODE'); ?>" name="currency"/>
 						<div class="row-fluid">
 							<div class="span4"><label for="card-number"><?php echo JText::_('PLG_RS_PAYMENT_PAYMILL_CARD_NUMBER'); ?></label>
 								<input class="card-number span12" id ="card-number" type="text" size="19" value=""
@@ -206,7 +206,7 @@ class PlgRedshop_Paymentrs_Payment_Paymill extends JPlugin
 				$response = $request->create($payment);
 				$transaction->setPayment($response->getId());
 				$transaction->setAmount($order_amount);
-				$transaction->setCurrency(CURRENCY_CODE);
+				$transaction->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'));
 				$transaction->setDescription('Order: ' . $data['order_id']);
 				$response = $request->create($transaction);
 				$transactionId = $response->getId();

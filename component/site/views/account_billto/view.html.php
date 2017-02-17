@@ -29,7 +29,7 @@ class RedshopViewAccount_billto extends RedshopView
 
 		$billingaddresses = $GLOBALS['billingaddresses'];
 
-		if (count($billingaddresses) <= 0)
+		if (empty($billingaddresses))
 		{
 			$model            = $this->getModel('account_billto');
 			$billingaddresses = $model->_initData();
@@ -56,7 +56,7 @@ class RedshopViewAccount_billto extends RedshopView
 		// Preform security checks
 		if ($user->id == 0 && $auth['users_info_id'] == 0)
 		{
-			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
 			exit;
 		}
 

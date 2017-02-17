@@ -5,19 +5,47 @@
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
+ *
+ * @deprecated  2.0.3  Use RedshopHelperQuotation instead
  */
 
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-
+/**
+ * Class Redshop Helper for Quotation
+ *
+ * @deprecated  2.0.3  Use RedshopHelperQuotation instead
+ */
 class quotationHelper
 {
+	/**
+	 * @var null
+	 *
+	 * @deprecated  2.0.3
+	 */
 	public $_data = null;
+
+	/**
+	 * @var null
+	 *
+	 * @deprecated  2.0.3
+	 */
 	public $_table_prefix = null;
+
+	/**
+	 * @var null
+	 *
+	 * @deprecated  2.0.3
+	 */
 	public $_db = null;
 
+	/**
+	 * @var null
+	 *
+	 * @deprecated  2.0.3
+	 */
 	protected static $instance = null;
 
 	/**
@@ -27,6 +55,8 @@ class quotationHelper
 	 * @return  quotationHelper  The quotationHelper object
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  2.0.3
 	 */
 	public static function getInstance()
 	{
@@ -38,99 +68,82 @@ class quotationHelper
 		return self::$instance;
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @deprecated  2.0.3
+	 */
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * Get list of quotation status
+	 *
+	 * @return  array  An array of status options
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationStatusList() instead
+	 */
 	public function getQuotationStatusList()
 	{
-		$status = array();
-		$status[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-		$status[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_REQUESTED'));
-		$status[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_REPLIED'));
-		$status[] = JHTML::_('select.option', 3, JText::_('COM_REDSHOP_ACCEPTED'));
-		$status[] = JHTML::_('select.option', 4, JText::_('COM_REDSHOP_REJECTED'));
-		$status[] = JHTML::_('select.option', 5, JText::_('COM_REDSHOP_ORDERED'));
-
-		return $status;
+		return RedshopHelperQuotation::getQuotationStatusList();
 	}
 
+	/**
+	 * Get name of quotation status
+	 *
+	 * @param   integer  $value  Have 5 options: REQUESTED/REPLIED/ACCEPTED/REJECTED/ORDERED
+	 *
+	 * @return  string   Name of Quotation status
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationStatusName() instead
+	 */
 	public function getQuotationStatusName($value = 0)
 	{
-		$name = "-";
-
-		switch ($value)
-		{
-			case 1:
-				$name = JText::_('COM_REDSHOP_REQUESTED');
-				break;
-			case 2:
-				$name = JText::_('COM_REDSHOP_REPLIED');
-				break;
-			case 3:
-				$name = JText::_('COM_REDSHOP_ACCEPTED');
-				break;
-			case 4:
-				$name = JText::_('COM_REDSHOP_REJECTED');
-				break;
-			case 5:
-				$name = JText::_('COM_REDSHOP_ORDERED');
-				break;
-		}
-
-		return $name;
+		return RedshopHelperQuotation::getQuotationStatusName($value);
 	}
 
+	/**
+	 * Get quotation product
+	 *
+	 * @param   integer  $quotation_id       Quotation ID
+	 * @param   integer  $quotation_item_id  Quotation Item ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationProduct() instead
+	 */
 	public function getQuotationProduct($quotation_id = 0, $quotation_item_id = 0)
 	{
-		$and = "";
-
-		if ($quotation_id != 0)
-		{
-			// Sanitize ids
-			$quotation_id = explode(',', $quotation_id);
-			JArrayHelper::toInteger($quotation_id);
-
-			$and .= "AND quotation_id IN (" . implode(',', $quotation_id) . ") ";
-		}
-
-		if ($quotation_item_id != 0)
-		{
-			$and .= "AND quotation_item_id = " . (int) $quotation_item_id . " ";
-		}
-
-		$query = "SELECT * FROM " . $this->_table_prefix . "quotation_item "
-			. "WHERE 1=1 "
-			. $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperQuotation::getQuotationProduct($quotation_id, $quotation_item_id);
 	}
 
+	/**
+	 * Get quotation detail
+	 *
+	 * @param   integer  $quotation_id  Quotation ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationDetail() instead
+	 */
 	public function getQuotationDetail($quotation_id)
 	{
-		$query = "SELECT q.*,q.user_email AS quotation_email,u.* FROM " . $this->_table_prefix . "quotation AS q "
-			. "LEFT JOIN " . $this->_table_prefix . "users_info AS u ON u.user_id=q.user_id AND u.address_type Like 'BT' "
-			. "WHERE q.quotation_id = " . (int) $quotation_id;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
-
-		return $list;
+		return RedshopHelperQuotation::getQuotationDetail($quotation_id);
 	}
 
+	/**
+	 * Generate a unique quotation number
+	 *
+	 * @return  integer
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::generateQuotationNumber() instead
+	 */
 	public function generateQuotationNumber()
 	{
-		/* Generated a unique quotation number */
-		$query = "SELECT COUNT(quotation_id) FROM " . $this->_table_prefix . "quotation ";
-		$this->_db->setQuery($query);
-		$maxId = $this->_db->loadResult();
-
-		$number = $maxId + 1;
-
-		return $number;
+		return RedshopHelperQuotation::generateQuotationNumber();
 	}
 
 	/**
@@ -140,244 +153,159 @@ class quotationHelper
 	 * @param   integer  $status        Quotation Change status
 	 *
 	 * @return  void
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::updateQuotationStatus() instead
 	 */
 	public function updateQuotationStatus($quotation_id, $status = 1)
 	{
-		// Initialize variables.
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Create the base update statement.
-		$query->update($db->quoteName('#__redshop_quotation'))
-			->set($db->quoteName('quotation_status') . ' = ' . (int) $status)
-			->where($db->quoteName('quotation_id') . ' = ' . (int) $quotation_id);
-
-		// Set the query and execute the update.
-		$db->setQuery($query);
-
-		try
-		{
-			$db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
-		}
+		RedshopHelperQuotation::updateQuotationStatus($quotation_id, $status);
 	}
 
+	/**
+	 * Get list of quotation users
+	 *
+	 * @return object
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationUserList() instead
+	 */
 	public function getQuotationUserList()
 	{
-		$user = JFactory::getUser();
-		$and = "";
-
-		if ($user->id)
-		{
-			$and = " AND q.user_id = " . (int) $user->id . " ";
-		}
-
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
-			. "WHERE 1=1 "
-			. $and
-			. "ORDER BY quotation_cdate DESC ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperQuotation::getQuotationUserList();
 	}
 
+	/**
+	 * Generate a random encrytion key for quotation
+	 *
+	 * @param   string  $p_length  Length of string to generate
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::randomQuotationEncryptKey() instead
+	 */
 	public function randomQuotationEncrkey($p_length = '30')
 	{
-		/* Generated a unique order number */
-		$char_list = "abcdefghijklmnopqrstuvwxyz";
-		$char_list .= "1234567890123456789012345678901234567890123456789012345678901234567890";
-
-		$random = "";
-		srand(( double ) microtime() * 1000000);
-
-		for ($i = 0; $i < $p_length; $i++)
-		{
-			$random .= substr($char_list, (rand() % (strlen($char_list))), 1);
-		}
-
-		return $random;
+		return RedshopHelperQuotation::randomQuotationEncryptKey($p_length);
 	}
 
+	/**
+	 * Inserting quotation user's fields
+	 *
+	 * @param   array    $cart               Array of fields to insert
+	 * @param   integer  $quotation_item_id  Item ID of Quotation to match
+	 * @param   integer  $section_id         Section to get field list
+	 *
+	 * @return  boolean  true/false when inserting success or fail
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::manageQuotationUserField() instead
+	 */
 	public function manageQuotationUserfield($cart = array(), $quotation_item_id = 0, $section_id = 12)
 	{
-		$extra_field = extra_field::getInstance();
-		$row_data = $extra_field->getSectionFieldList($section_id, 1);
-
-		for ($i = 0, $in = count($row_data); $i < $in; $i++)
-		{
-			if (array_key_exists($row_data[$i]->field_name, $cart) && $cart[$row_data[$i]->field_name])
-			{
-				$user_fields = $cart[$row_data[$i]->field_name];
-
-				if ($user_fields != '')
-				{
-					$this->insertQuotationUserfield($row_data[$i]->field_id, $quotation_item_id, $section_id, $user_fields);
-				}
-			}
-		}
-		return true;
+		return RedshopHelperQuotation::manageQuotationUserField($cart = array(), $quotation_item_id, $section_id);
 	}
 
+	/**
+	 * Insert quotation field with value
+	 *
+	 * @param   integer  $field_id           Field ID
+	 * @param   integer  $quotation_item_id  Quotation Item ID
+	 * @param   integer  $section_id         Section ID
+	 * @param   string   $value              Value to insert
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::insertQuotationUserField() instead
+	 */
 	public function insertQuotationUserfield($field_id = 0, $quotation_item_id = 0, $section_id = 12, $value = '')
 	{
-		$db = JFactory::getDbo();
-		$sql = "INSERT INTO " . $this->_table_prefix . "quotation_fields_data "
-			. "(fieldid,data_txt,quotation_item_id,section) "
-			. "VALUE (" . (int) $field_id . "," . $db->quote($value) . "," . (int) $quotation_item_id . "," . $db->quote($section_id) . ")";
-		$db->setQuery($sql);
-		$db->execute();
+		return RedshopHelperQuotation::insertQuotationUserField($field_id, $quotation_item_id, $section_id, $value);
 	}
 
+	/**
+	 * Get quotation item fields by field ID
+	 *
+	 * @param   integer  $quotation_item_id  Quotation Item ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationUserField() instead
+	 */
 	public function getQuotationUserfield($quotation_item_id)
 	{
-		$q = "SELECT qf.*,f.* FROM " . $this->_table_prefix . "quotation_fields_data AS qf "
-			. "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=qf.fieldid "
-			. "WHERE quotation_item_id = " . (int) $quotation_item_id;
-		$this->_db->setQuery($q);
-		$row_data = $this->_db->loadObjectlist();
-
-		return $row_data;
+		return RedshopHelperQuotation::getQuotationUserField();
 	}
 
+	/**
+	 * Display quotation user fields
+	 *
+	 * @param   integer  $quotation_item_id  Quotation Item ID
+	 * @param   integer  $section_id         Section ID
+	 *
+	 * @return  string   HTML to display
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::displayQuotationUserField() instead
+	 */
 	public function displayQuotationUserfield($quotation_item_id = 0, $section_id = 12)
 	{
-		$redTemplate = Redtemplate::getInstance();
-		$producthelper = productHelper::getInstance();
-		$resultArr = array();
-		$db = JFactory::getDbo();
-
-		$sql = "SELECT fd.*,f.field_title,f.field_type,f.field_name "
-			. "FROM " . $this->_table_prefix . "quotation_fields_data AS fd "
-			. "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=fd.fieldid "
-			. "WHERE fd.quotation_item_id= " . (int) $quotation_item_id . " AND fd.section = " . $db->quote($section_id);
-		$db->setQuery($sql);
-		$userfield = $db->loadObjectlist();
-
-		if (count($userfield) > 0)
-		{
-			$quotationItem = $this->getQuotationProduct(0, $quotation_item_id);
-			$product_id = $quotationItem[0]->product_id;
-
-			$productdetail = Redshop::product((int) $product_id);
-			$productTemplate = $redTemplate->getTemplate("product", $productdetail->product_template);
-
-			$returnArr = $producthelper->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
-			$userFieldTag = $returnArr[1];
-
-			for ($i = 0, $in = count($userFieldTag); $i < $in; $i++)
-			{
-				for ($j = 0, $jn = count($userfield); $j < $jn; $j++)
-				{
-					if ($userfield[$j]->field_name == $userFieldTag[$i])
-					{
-						if ($userfield[$j]->field_type == 10)
-						{
-							$files = explode(",", $userfield[$j]->data_txt);
-							$data_txt = "";
-							for ($f = 0, $fn = count($files); $f < $fn; $f++)
-							{
-								$u_link = REDSHOP_FRONT_DOCUMENT_ABSPATH . "product/" . $files[$f];
-								$data_txt .= "<a href='" . $u_link . "'>" . $files[$f] . "</a> ";
-							}
-							$resultArr[] = $userfield[$j]->field_title . " : " . $data_txt;
-						}
-						else
-						{
-							$resultArr[] = $userfield[$j]->field_title . " : " . $userfield[$j]->data_txt;
-						}
-					}
-				}
-			}
-		}
-		$resultstr = "";
-
-		if (count($resultArr) > 0)
-		{
-			$resultstr .= "<br/>" . implode("<br/>", $resultArr);
-		}
-
-		return $resultstr;
+		return RedshopHelperQuotation::displayQuotationUserField($quotation_item_id, $section_id);
 	}
 
+	/**
+	 * Update quotation with order ID
+	 *
+	 * @param   integer  $quotation_id  Quotation ID
+	 * @param   integer  $order_id      Order ID
+	 *
+	 * @return  boolean/void           Return true if success, alert error if fail
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::updateQuotationWithOrder() instead
+	 */
 	public function updateQuotationwithOrder($quotation_id, $order_id)
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'quotation '
-			. 'SET order_id = ' . (int) $order_id . ' '
-			. 'WHERE quotation_id = ' . (int) $quotation_id;
-		$this->_db->setQuery($query);
-		$this->_db->execute();
-		$this->updateQuotationStatus($quotation_id, 5);
-
-		return true;
+		return RedshopHelperQuotation::updateQuotationWithOrder($quotation_id, $order_id);
 	}
 
+	/**
+	 * Get quotation by order id
+	 *
+	 * @param   integer/array  $order_id  OrderID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationWithOrder() instead
+	 */
 	public function getQuotationwithOrder($order_id = 0)
 	{
-		$and = "";
-
-		if ($order_id != 0)
-		{
-			// Sanitize ids
-			$order_id = explode(',', $order_id);
-			JArrayHelper::toInteger($order_id);
-
-			$and = " AND q.order_id IN (" . implode(',', $order_id) . ") ";
-		}
-
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
-			. "WHERE 1=1 "
-			. $and
-			. "ORDER BY quotation_cdate DESC ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperQuotation::getQuotationWithOrder($order_id);
 	}
 
+	/**
+	 * Get quotation accesory item by ID
+	 *
+	 * @param   integer  $quotation_item_id  Quotation Item ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationItemAccessoryDetail() instead
+	 */
 	public function getQuotationItemAccessoryDetail($quotation_item_id = 0)
 	{
-		$and = "";
-
-		if ($quotation_item_id != 0)
-		{
-			$and .= " AND quotation_item_id = " . (int) $quotation_item_id . " ";
-		}
-
-		$query = "SELECT * FROM  " . $this->_table_prefix . "quotation_accessory_item "
-			. "WHERE 1=1 "
-			. $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperQuotation::getQuotationItemAccessoryDetail($quotation_item_id);
 	}
 
+	/**
+	 * Get Quotation Item Attribute Detail
+	 *
+	 * @param   integer  $quotation_item_id  Quotation Item ID
+	 * @param   integer  $is_accessory       Check Accessory Attribute
+	 * @param   string   $section            Section: default is "attribute"
+	 * @param   integer  $parent_section_id  Parent section ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationItemAttributeDetail() instead
+	 */
 	public function getQuotationItemAttributeDetail($quotation_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{
-		$and = "";
-		$db = JFactory::getDbo();
-
-		if ($quotation_item_id != 0)
-		{
-			$and .= " AND quotation_item_id = " . (int) $quotation_item_id . " ";
-		}
-
-		if ($parent_section_id != 0)
-		{
-			$and .= " AND parent_section_id = " . (int) $parent_section_id . " ";
-		}
-
-		$query = "SELECT * FROM  " . $this->_table_prefix . "quotation_attribute_item "
-			. "WHERE is_accessory_att = " . (int) $is_accessory . " "
-			. "AND section = " . $db->quote($section) . " "
-			. $and;
-		$db->setQuery($query);
-		$list = $db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperQuotation::getQuotationItemAttributeDetail($quotation_item_id, $is_accessory, $section, $parent_section_id);
 	}
 }

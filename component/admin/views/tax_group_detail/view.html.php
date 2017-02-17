@@ -38,15 +38,11 @@ class RedshopViewTax_group_detail extends RedshopViewAdmin
 
 		$isNew = ($detail->tax_group_id < 1);
 
-		if ($detail->tax_group_id > 0)
-		{
-			JToolBarHelper::custom('tax', 'redshop_tax_tax32', JText::_('COM_REDSHOP_TAX'), JText::_('COM_REDSHOP_TAX'), false, false);
-		}
-
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'tags redshop_vatgroup48');
 
+		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
 		if ($isNew)

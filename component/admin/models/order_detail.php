@@ -126,7 +126,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if (count($cid))
 		{
-			if (ECONOMIC_INTEGRATION == 1)
+			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
 				$economic = economic::getInstance();
 
@@ -337,7 +337,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$orderitemdata->product_item_price = $product_price;
 			$orderitemdata->product_item_price_excl_vat = $product_excl_price;
 			$orderitemdata->product_final_price = $product_price * $quantity;
-			$orderitemdata->order_item_currency = REDCURRENCY_SYMBOL;
+			$orderitemdata->order_item_currency = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
 			$orderitemdata->order_status = "P";
 			$orderitemdata->cdate = time();
 			$orderitemdata->mdate = time();
@@ -355,7 +355,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					$sql = "INSERT INTO " . $this->_table_prefix . "product_download "
 						. "(product_id, user_id, order_id, end_date, download_max, download_id, file_name) "
 						. "VALUES('" . $product_id . "', '" . $user_id . "', '" . $this->_id . "', "
-						. "'" . (time() + (PRODUCT_DOWNLOAD_DAYS * 23 * 59 * 59)) . "', '" . PRODUCT_DOWNLOAD_LIMIT . "', "
+						. "'" . (time() + (Redshop::getConfig()->get('PRODUCT_DOWNLOAD_DAYS') * 23 * 59 * 59)) . "', '" . Redshop::getConfig()->get('PRODUCT_DOWNLOAD_LIMIT') . "', "
 						. "'" . md5(uniqid(mt_rand(), true)) . "', '" . $medianame[$j]->media_name . "')";
 					$this->_db->setQuery($sql);
 					$this->_db->execute();
@@ -656,7 +656,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				return false;
 			}
 
-			if (ECONOMIC_INTEGRATION == 1)
+			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
 				economic::getInstance()->renewInvoiceInEconomic($orderdata);
 			}
@@ -721,7 +721,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$this->special_discount($tmpArr, true);
 
 			// Economic Integration start for invoice generate
-			if (ECONOMIC_INTEGRATION == 1)
+			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
 				economic::getInstance()->renewInvoiceInEconomic($orderdata);
 			}
@@ -775,7 +775,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		$new_added_qty = $data['quantity'] - $orderitemdata->product_quantity;
 
-		if ($currentStock >= $new_added_qty || USE_STOCKROOM == 0)
+		if ($currentStock >= $new_added_qty || Redshop::getConfig()->get('USE_STOCKROOM') == 0)
 		{
 			$quantity = (int) $data['quantity'];
 		}
@@ -930,9 +930,9 @@ class RedshopModelOrder_detail extends RedshopModel
 		{
 			$update_discount = $subtotal;
 		}
-		if (APPLY_VAT_ON_DISCOUNT == '0' && VAT_RATE_AFTER_DISCOUNT && $update_discount != "0.00" && $orderdata->order_tax && !empty($update_discount))
+		if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') == '0' && Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && $update_discount != "0.00" && $orderdata->order_tax && !empty($update_discount))
 		{
-			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $update_discount);
+			$Discountvat = (Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $update_discount);
 			$update_discount = $update_discount + $Discountvat;
 		}
 		if (abs($data['update_discount']) == 0)
@@ -955,7 +955,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 		// Economic Integration start for invoice generate
-		if (ECONOMIC_INTEGRATION == 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			economic::getInstance()->renewInvoiceInEconomic($orderdata);
 		}
@@ -1021,7 +1021,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 
-		if (ECONOMIC_INTEGRATION == 1)
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			economic::getInstance()->renewInvoiceInEconomic($orderdata);
 		}
@@ -1043,8 +1043,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		if ($data['shipping_rate_id'] != "")
 		{
 			// Get Shipping rate info Info
-			$decry = $shippinghelper->decryptShipping(str_replace(" ", "+", $data['shipping_rate_id']));
-			$neworder_shipping = explode("|", $decry);
+			$neworder_shipping = RedshopHelperShipping::decryptShipping($data['shipping_rate_id']);
 
 			if ($data['shipping_rate_id'] != $orderdata->ship_method_id || $neworder_shipping[0] == 'plgredshop_shippingdefault_shipping_gls')
 			{
@@ -1064,7 +1063,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					}
 
 					// Economic Integration start for invoice generate
-					if (ECONOMIC_INTEGRATION == 1)
+					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 					{
 						economic::getInstance()->renewInvoiceInEconomic($orderdata);
 					}
@@ -1234,18 +1233,5 @@ class RedshopModelOrder_detail extends RedshopModel
 		{
 			return false;
 		}
-	}
-
-	public function getStockNoteTemplate()
-	{
-		$redTemplate = Redtemplate::getInstance();
-
-		if (empty ($this->_template))
-		{
-			$this->_template = $redTemplate->getTemplate("stock_note");
-			$this->_template = $this->_template[0];
-		}
-
-		return $this->_template;
 	}
 }

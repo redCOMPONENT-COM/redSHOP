@@ -25,10 +25,6 @@ class plgSearchRedshop_products extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-		$Redconfiguration = Redconfiguration::getInstance();
-		$Redconfiguration->defineDynamicVars();
-
 		$this->loadLanguage();
 	}
 
@@ -129,10 +125,10 @@ class plgSearchRedshop_products extends JPlugin
 					$wheres[] = $db->qn('product_desc') . ' LIKE ' . $text;
 				}
 
-				$where = '('
+				$where = '(('
 					. implode(' OR ', $wheres)
 					. $whereAppend
-					. ')';
+					. '))';
 
 				$query->where($where);
 
@@ -173,10 +169,10 @@ class plgSearchRedshop_products extends JPlugin
 				$extraQuery->where('(' . implode(' OR ', $orsField) . ')');
 				$whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery->__toString() . ')';
 
-				$where = '('
+				$where = '(('
 						. implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres)
 						. $whereAppend
-						. ')';
+						. '))';
 
 				$query->where($where);
 

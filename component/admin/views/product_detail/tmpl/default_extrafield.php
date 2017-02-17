@@ -8,19 +8,18 @@
  */
 defined('_JEXEC') or die;
 
-$db            = JFactory::getDBO();
-$template_id   = $this->detail->product_template;
-$product_id    = $this->detail->product_id;
-$redTemplate   = Redtemplate::getInstance();
-$field         = extra_field::getInstance();
-$template_desc = $redTemplate->getTemplate("product", $template_id);
+$db          = JFactory::getDBO();
+$templateId  = $this->detail->product_template;
+$product_id  = $this->detail->product_id;
+$redTemplate = Redtemplate::getInstance();
+$template    = RedshopHelperTemplate::getTemplate("product", $templateId);
 
-if (count($template_desc) == 0)
+if (count($template) == 0)
 {
 	return;
 }
 
-$template   = $template_desc[0]->template_desc;
+$template = $template[0]->template_desc;
 
 $fieldModel = RedshopModel::getInstance('fields', 'RedshopModel');
 
@@ -29,21 +28,20 @@ $fields  = $fieldModel->getFieldInfoBySection($section);
 
 $html = '';
 
-for ($i = 0, $nf = count($fields); $i < $nf; $i++)
+foreach ($fields as $field)
 {
-	if (strstr($template, "{" . $fields[$i]->field_name . "}"))
+	if (strstr($template, "{" . $field->field_name . "}"))
 	{
 		$sectionId = 0;
 		$fieldName = '';
 
-		if (12 != $fields[$i]->field_section
-			|| (12 == $fields[$i]->field_section && 15 == $fields[$i]->field_type))
+		if (12 != $field->field_section || (12 == $field->field_section && 15 == $field->field_type))
 		{
-			$sectionId = $fields[$i]->field_section;
-			$fieldName = $fields[$i]->field_name;
+			$sectionId = $field->field_section;
+			$fieldName = $field->field_name;
 		}
 
-		$html .= $field->list_all_field($sectionId, $product_id, $fieldName);
+		$html .= RedshopHelperExtrafields::listAllField($sectionId, $product_id, $fieldName);
 	}
 }
 

@@ -63,7 +63,7 @@ $document->addStyleDeclaration('
 				'manufacturer',
 				$ImageWidth,
 				$ImageHeight,
-				USE_IMAGE_SIZE_SWAPPING
+				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 			);
 			$link = JRoute::_(
 				'index.php?option=com_redshop&view=manufacturers&layout='

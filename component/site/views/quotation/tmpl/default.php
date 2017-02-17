@@ -66,7 +66,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$template_end    = $template_edata[1];
 	$template_middle = $template_edata[0];
 
-	$template_middle = $carthelper->replaceCartItem($template_middle, $cart, 0, DEFAULT_QUOTATION_MODE);
+	$template_middle = $carthelper->replaceCartItem($template_middle, $cart, 0, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'));
 	$template_desc   = $template_start . $template_middle . $template_end;
 }
 

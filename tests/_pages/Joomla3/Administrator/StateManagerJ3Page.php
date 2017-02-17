@@ -15,21 +15,25 @@
  */
 class StateManagerJ3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=state';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=states';
 
-	public static $countryIdDropDown = "//div[@id='country_id_chzn']/a";
+	public static $editUrl = '/administrator/index.php?option=com_redshop&view=state&layout=edit';
 
-	public static $stateName = "#state_name";
+	public static $countryIdDropDown = "//div[@id='s2id_jform_country_id']/a";
 
-	public static $stateTwoCode = "#state_2_code";
+	public static $countrySearchInputField = "//input[@id='s2id_autogen1_search']";
 
-	public static $stateThreeCode = "#state_3_code";
+	public static $stateName = "#jform_state_name";
 
-	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
+	public static $stateTwoCode = "#jform_state_2_code";
 
-	public static $stateResultRow = "//form[@id='adminForm']/table/tbody/tr[1]";
+	public static $stateThreeCode = "#jform_state_3_code";
 
-	public static $searchField = "//input[@id='country_main_filter']";
+	public static $checkAll = "//input[@id='cb0']";
+
+	public static $stateResultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
+
+	public static $searchField = "//input[@id='filter_search']";
 
 	public static $searchButton = "//input[@value='Search']";
 
@@ -42,7 +46,9 @@ class StateManagerJ3Page
 	 */
 	public function countryID($countryName)
 	{
-		$path = "//div[@id='country_id_chzn']/div/ul/li[contains(text(), '" . $countryName . "')]";
+		$path = "//span[contains(text(), '" . $countryName . "')]";
+
+		//$path = "//ul[@class='select2-results']/li/div[@class='select2-result-label' ][contains(text(), '" . $countryName . "')]";
 
 		return $path;
 	}

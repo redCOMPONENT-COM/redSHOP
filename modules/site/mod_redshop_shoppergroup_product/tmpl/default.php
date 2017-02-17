@@ -55,7 +55,7 @@ foreach ($rows as $row)
 	$hidden_userfield    = "";
 	$userfieldArr        = array();
 
-	if (AJAX_CART_BOX)
+	if (Redshop::getConfig()->get('AJAX_CART_BOX'))
 	{
 		$ajax_detail_template_desc = "";
 		$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($row);
@@ -130,7 +130,7 @@ foreach ($rows as $row)
 
 	if (!$row->not_for_sale && $show_price)
 	{
-		if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+		if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 		{
 			if (!$product_price)
 			{

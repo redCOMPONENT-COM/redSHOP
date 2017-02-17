@@ -12,6 +12,11 @@ defined('_JEXEC') or die;
 
 class RedshopControllerManufacturer extends RedshopController
 {
+	/**
+	 * Method for cancel
+	 *
+	 * @return  void
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
@@ -25,8 +30,8 @@ class RedshopControllerManufacturer extends RedshopController
 	 */
 	public function saveorder()
 	{
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
@@ -66,6 +71,36 @@ class RedshopControllerManufacturer extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
+	}
+
+	/**
+	 * Method to save the submitted ordering values for records via AJAX.
+	 *
+	 * @return	void
+	 */
+	public function saveOrderAjax()
+	{
+		// Get the input
+		$pks   = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
+
+		// Sanitize the input
+		JArrayHelper::toInteger($pks);
+		JArrayHelper::toInteger($order);
+
+		// Get the model
+		$model = $this->getModel('Manufacturer_Detail', 'RedshopModel');
+
+		// Save the ordering
+		$return = $model->saveorder($pks, $order);
+
+		if ($return)
+		{
+			echo "1";
+		}
+
+		// Close the application
+		JFactory::getApplication()->close();
 	}
 }
 

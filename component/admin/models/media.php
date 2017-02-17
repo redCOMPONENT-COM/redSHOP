@@ -145,8 +145,6 @@ class RedshopModelMedia extends RedshopModel
 	{
 		static $list;
 
-		$mediaHelper = new redMediahelper;
-
 		// Only process the list once per request
 		if (is_array($list))
 		{
@@ -182,14 +180,14 @@ class RedshopModelMedia extends RedshopModel
 		{
 			if (strlen($current) > 0)
 			{
-				$basePath = PRODUCT_DOWNLOAD_ROOT . '/' . $current;
+				$basePath = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/' . $current;
 			}
 			else
 			{
-				$basePath = PRODUCT_DOWNLOAD_ROOT;
+				$basePath = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 			}
 
-			$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', PRODUCT_DOWNLOAD_ROOT . '/');
+			$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/');
 		}
 
 		$images = array();
@@ -233,7 +231,7 @@ class RedshopModelMedia extends RedshopModel
 
 							if (($info[0] > 60) || ($info[1] > 60))
 							{
-								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 60);
+								$dimensions = RedshopHelperMedia::imageResize($info[0], $info[1], 60);
 								$tmp->width_60 = $dimensions[0];
 								$tmp->height_60 = $dimensions[1];
 							}
@@ -245,7 +243,7 @@ class RedshopModelMedia extends RedshopModel
 
 							if (($info[0] > 16) || ($info[1] > 16))
 							{
-								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 16);
+								$dimensions = RedshopHelperMedia::imageResize($info[0], $info[1], 16);
 								$tmp->width_16 = $dimensions[0];
 								$tmp->height_16 = $dimensions[1];
 							}
@@ -298,7 +296,7 @@ class RedshopModelMedia extends RedshopModel
 				$tmp->name = basename($folder);
 				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
-				$count = $mediaHelper->countFiles($tmp->path);
+				$count = RedshopHelperMedia::countFiles($tmp->path);
 				$tmp->files = $count[0];
 				$tmp->folders = $count[1];
 
@@ -415,5 +413,94 @@ class RedshopModelMedia extends RedshopModel
 			$row->load($cond[0]);
 			$row->reorder($cond[1]);
 		}
+	}
+
+	/**
+	 * Get all media items
+	 *
+	 * @return  array
+	 */
+	public function all()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn("#__redshop_media"));
+
+		$db->setQuery($query);
+
+		return $db->loadObjectlist();
+	}
+
+	/**
+	 * Delete media item by ID
+	 *
+	 * @param   integer  $id  [description]
+	 *
+	 * @return  boolean
+	 */
+	public function deleteFile($id)
+	{
+		$db = JFactory::getDbo();
+
+		// Check item is existed
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn("#__redshop_media"))
+					->where($db->qn('media_id') . ' = ' . $id);
+		$db->setQuery($query);
+		$file = $db->loadObject();
+
+		if ($file)
+		{
+			$path = JPATH_ROOT . '/components/com_redshop/assets/images/' . $file->media_section . '/' . $file->media_name;
+
+			if (is_file($path))
+			{
+				unlink($path);
+			}
+		}
+
+		$query = $db->getQuery(true)
+					->delete($db->qn('#__redshop_media'))
+					->where($db->qn('media_id') . ' = ' . $id);
+		$db->setQuery($query);
+
+		if (!$db->execute())
+		{
+			$this->setError($db->getErrorMsg());
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Create a media item by ID
+	 *
+	 * @param   array  $file  File array data
+	 *
+	 * @return  boolean
+	 */
+	public function newFile($file)
+	{
+		$db = JFactory::getDbo();
+		$fileObj = new stdClass;
+
+		$fileObj->media_name     = $file['media_name'];
+		$fileObj->media_section  = $file['media_section'];
+		$fileObj->media_type     = $file['media_type'];
+		$fileObj->media_mimetype = $file['media_mimetype'];
+		$fileObj->published      = 1;
+
+		if (!$db->insertObject('#__redshop_media', $fileObj))
+		{
+			$this->setError($db->getErrorMsg());
+
+			return false;
+		}
+
+		return $db->insertid();
 	}
 }

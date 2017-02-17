@@ -29,6 +29,7 @@ $showDescription         = trim($params->get('show_desc', 1));
 $showVat                 = trim($params->get('show_vat', 1));
 $showStockroomStatus     = trim($params->get('show_stockroom_status', 1));
 $showChildProducts       = trim($params->get('show_childproducts', 1));
+$showWishlist            = trim($params->get('show_wishlist', 0));
 $isUrlCategoryId         = trim($params->get('urlCategoryId', 0));
 
 $user = JFactory::getUser();
@@ -153,6 +154,24 @@ else
 {
 	$query->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.category_id = pc.category_id')
 		->where($db->qn('c.published') . ' = 1');
+}
+
+$stockrooms = $params->get('stockrooms', '');
+
+if (is_array($stockrooms))
+{
+	$stockrooms = implode(',', $stockrooms);
+}
+else
+{
+	$stockrooms = trim($stockrooms);
+}
+
+if ($stockrooms && Redshop::getConfig()->get('USE_STOCKROOM') == 1)
+{
+	$query->leftjoin($db->qn('#__redshop_product_stockroom_xref', 'sx') . ' ON p.product_id = sx.product_id')
+			->where($db->qn('sx.stockroom_id') . ' IN (' . $stockrooms . ')')
+			->where($db->qn('sx.quantity') . ' > 0');
 }
 
 $rows = array();

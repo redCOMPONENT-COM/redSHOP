@@ -45,7 +45,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 				<div class="mod_cart_product_name">
 					<?php echo $name . ' x ' . $cart[$i]['quantity']; ?>
 				</div>
-				<?php if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)):
+				<?php if (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))):
 					if ($displayData['showWithVat'])
 					{
 						$price = $cart[$i]['product_price'];
@@ -64,7 +64,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 	<?php endif; ?>
 	</div>
 <?php endif; ?>
-<?php if ((!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)) && $displayData['totalQuantity']): ?>
+<?php if ((!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) && $displayData['totalQuantity']): ?>
 <div class="mod_cart_totalprice">
 	<?php if ($displayData['showShippingLine']):
 		$shippingValue = $cart['shipping'];

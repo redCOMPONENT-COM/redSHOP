@@ -37,7 +37,7 @@ fieldset.adminform label.radiobtn, table.admintable label.radiobtn
 				</td>
 				<td>
 					<input type="text" name="shop_name" id="shop_name"
-					       value="<?php echo $this->temparray['shop_name']; ?>">
+					       value="<?php echo $this->temparray['SHOP_NAME']; ?>">
 				</td>
 			</tr>
 			<tr style="display: none;">
@@ -48,7 +48,7 @@ fieldset.adminform label.radiobtn, table.admintable label.radiobtn
 				</td>
 				<td>
 					<input type="text" name="welcome_msg" id="welcome_msg"
-					       value="<?php echo $this->temparray['welcome_msg']; ?>">
+					       value="<?php echo $this->temparray['WELCOME_MSG']; ?>">
 				</td>
 			</tr>
 			<tr>
@@ -67,7 +67,7 @@ fieldset.adminform label.radiobtn, table.admintable label.radiobtn
 				</td>
 				<td>
 					<input type="text" name="administrator_email" id="administrator_email"
-					       value="<?php echo $this->temparray['administrator_email']; ?>">
+					       value="<?php echo $this->temparray['ADMINISTRATOR_EMAIL']; ?>">
 				</td>
 			</tr>
 			<tr>
@@ -170,7 +170,7 @@ fieldset.adminform label.radiobtn, table.admintable label.radiobtn
 </fieldset>
 <script>
 
-	window.onload = enableInvoice('<?php echo $this->temparray["invoice_mail_enable"];?>');
+	window.onload = enableInvoice('<?php echo $this->temparray["INVOICE_MAIL_ENABLE"];?>');
 
 	function enableInvoice(en) {
 		var send_opt_ele = document.getElementById('is_invoice_mail_enable');

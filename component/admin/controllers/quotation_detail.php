@@ -21,9 +21,9 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'quotation_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'quotation_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -35,13 +35,12 @@ class RedshopControllerQuotation_detail extends RedshopController
 	public function save($send = 0, $apply = 0)
 	{
 		$quotationHelper = quotationHelper::getInstance();
-		$post = JRequest::get('post');
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post            = $this->input->post->getArray();
+		$status          = $post['quotation_status'];
+		$cid             = $this->input->post->get('cid', array(0), 'array');
 
 		$post['quotation_id'] = $cid [0];
-		$model = $this->getModel('quotation_detail');
+		$model                = $this->getModel('quotation_detail');
 
 		if ($post['quotation_id'] == 0)
 		{
@@ -91,6 +90,11 @@ class RedshopControllerQuotation_detail extends RedshopController
 		$post['quotation_item'] = $quotation_item;
 		$row = $model->store($post);
 
+		if ($status == 5 && empty($post['order_id']))
+		{
+			$model->storeOrder($post);
+		}
+
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED');
@@ -129,8 +133,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function remove()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -150,9 +153,8 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function deleteitem()
 	{
-
-		$qitemid = JRequest::getVar('qitemid', 0, 'request', 'int');
-		$cid = JRequest::getVar('cid', array(0), 'request', 'array');
+		$qitemid = $this->input->getInt('qitemid', 0);
+		$cid     = $this->input->get('cid', array(0), 'array');
 
 		$model = $this->getModel('quotation_detail');
 
@@ -167,7 +169,6 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 	public function cancel()
 	{
-
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
@@ -175,9 +176,9 @@ class RedshopControllerQuotation_detail extends RedshopController
 	public function newQuotationItem()
 	{
 		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$post = JRequest::get('post');
+		$post               = $this->input->post->getArray();
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$model = $this->getModel('quotation_detail');
 
@@ -200,11 +201,11 @@ class RedshopControllerQuotation_detail extends RedshopController
 	public function getQuotationPriceTax()
 	{
 		$producthelper = productHelper::getInstance();
-		$get = JRequest::get('get');
-		$product_id = $get['product_id'];
-		$user_id = $get['user_id'];
-		$newprice = $get['newprice'];
-		$vatprice = 0;
+		$get           = $this->input->get->getArray();
+		$product_id    = $get['product_id'];
+		$user_id       = $get['user_id'];
+		$newprice      = $get['newprice'];
+		$vatprice      = 0;
 
 		if ($newprice > 0)
 		{

@@ -10,9 +10,8 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
 JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
-$producthelper = productHelper::getInstance();
 
+$producthelper = productHelper::getInstance();
 $now = JFactory::getDate();
 ?>
 <script language="javascript" type="text/javascript">

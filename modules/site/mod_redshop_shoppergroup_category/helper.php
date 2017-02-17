@@ -77,7 +77,7 @@ class RedmodMenuHelper
 						}
 					}
 
-					if (PORTAL_SHOP == 1 && $view == 'category' && $categoryid > 0)
+					if (Redshop::getConfig()->get('PORTAL_SHOP') == 1 && $view == 'category' && $categoryid > 0)
 					{
 						$shoppercat = $redHelper->checkPortalCategoryPermission($categoryid);
 

@@ -69,7 +69,7 @@ if (count($rows))
 		$hidden_userfield    = "";
 		$userfieldArr        = array();
 
-		if (AJAX_CART_BOX)
+		if (Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
 			$ajax_detail_template_desc = "";
 			$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($product);
@@ -116,13 +116,15 @@ if (count($rows))
 			if (!JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_full_image))
 			{
 				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/noimage.jpg';
-				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $thumbwidth, $thumbheight, USE_IMAGE_SIZE_SWAPPING);
+				$filename = RedShopHelperImages::generateImages(
+					$file_path, '', $thumbwidth, $thumbheight, 'thumb', Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+				);
 				$filename_path_info = pathinfo($filename);
 				$thumbImage = REDSHOP_FRONT_IMAGES_ABSPATH . 'thumb/' . $filename_path_info['basename'];
 			}
-			elseif (WATERMARK_PRODUCT_IMAGE)
+			elseif (Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'))
 			{
-				$thumbImage = $redhelper->watermark('product', $product->product_full_image, $thumbwidth, $thumbheight, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+				$thumbImage = $redhelper->watermark('product', $product->product_full_image, $thumbwidth, $thumbheight, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 			}
 			else
 			{
@@ -133,7 +135,7 @@ if (count($rows))
 					'product',
 					$thumbwidth,
 					$thumbheight,
-					USE_IMAGE_SIZE_SWAPPING
+					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 				);
 			}
 
@@ -172,7 +174,7 @@ if (count($rows))
 
 		if ($show_product_price && $product->product_price)
 		{
-			if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+			if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 			{
 				echo "<div class=\"priceWhoBought\">" . $producthelper->getProductFormattedPrice($product->product_price) . "</div>";
 			}

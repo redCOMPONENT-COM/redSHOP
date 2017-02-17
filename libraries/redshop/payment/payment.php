@@ -51,8 +51,6 @@ abstract class RedshopPayment extends JPlugin
 
 		$this->setPluginPath();
 
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
 		JLoader::import('redshop.library');
 	}
 

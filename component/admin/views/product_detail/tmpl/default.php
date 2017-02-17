@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHTMLBehavior::modal();
-
 ?>
 
 <script type="text/javascript">
@@ -105,7 +103,7 @@ JHTMLBehavior::modal();
 		} else if (parseDate(form.discount_stratdate.value) > parseDate(form.discount_enddate.value)) {
 			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
 			return;
-		} else if (parseInt(form.min_order_product_quantity.value) > parseInt(form.max_order_product_quantity.value)) {
+		} else if ((parseInt(form.min_order_product_quantity.value) > parseInt(form.max_order_product_quantity.value)) && parseInt(form.max_order_product_quantity.value) > 0) {
 			alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_QUANTITY_PER_ORDER_MUST_BE_LESS_THAN_MAXIMUM_QUANTITY_PER_ORDER', true); ?>");
 			return;
 		} else if (form.copy_attribute.length) {
@@ -118,6 +116,7 @@ JHTMLBehavior::modal();
 				}
 			}
 		}
+
 		submitform(pressbutton);
 	};
 
@@ -238,9 +237,22 @@ JHTMLBehavior::modal();
 		if (!fid && !fsec) {
 
 			if (main_path) {
-				document.getElementById("image_display").style.display = "block";
-				document.getElementById("product_image").value = main_path;
-				document.getElementById("image_display").src = path_url + main_path;
+				var elImageDisplay = document.getElementById("image_display");
+
+				// Make sure this el exists before apply
+				if (elImageDisplay !== null)
+				{
+					elImageDisplay.style.display = "block";
+					elImageDisplay.src = path_url + main_path;
+				}
+				else
+				{
+					// It's not exists than create and append it
+					elImageDisplay = document.createElement('img');
+					elImageDisplay.style.display = "block";
+					elImageDisplay.src = path_url + main_path;
+					jQuery('#product_image').parent().append(elImageDisplay);
+				}
 			}
 			else {
 				document.getElementById("product_image").value = "";

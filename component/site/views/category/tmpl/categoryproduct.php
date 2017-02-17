@@ -77,7 +77,7 @@ $print_tag .= "</a>";
 
 $template_desc = str_replace("{print}", $print_tag, $template_desc);
 
-$template_desc = str_replace("{category_frontpage_introtext}", CATEGORY_FRONTPAGE_INTROTEXT, $template_desc);
+$template_desc = str_replace("{category_frontpage_introtext}", Redshop::getConfig()->get('CATEGORY_FRONTPAGE_INTROTEXT'), $template_desc);
 
 if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{category_loop_end}"))
 {
@@ -90,26 +90,26 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 	if (strstr($middletemplate_desc, '{category_thumb_image_2}'))
 	{
 		$tag     = '{category_thumb_image_2}';
-		$h_thumb = THUMB_HEIGHT_2;
-		$w_thumb = THUMB_WIDTH_2;
+		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
+		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_2');
 	}
 	elseif (strstr($middletemplate_desc, '{category_thumb_image_3}'))
 	{
 		$tag     = '{category_thumb_image_3}';
-		$h_thumb = THUMB_HEIGHT_3;
-		$w_thumb = THUMB_WIDTH_3;
+		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
+		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
 	}
 	elseif (strstr($middletemplate_desc, '{category_thumb_image_1}'))
 	{
 		$tag     = '{category_thumb_image_1}';
-		$h_thumb = THUMB_HEIGHT;
-		$w_thumb = THUMB_WIDTH;
+		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 	else
 	{
 		$tag     = '{category_thumb_image}';
-		$h_thumb = THUMB_HEIGHT;
-		$w_thumb = THUMB_WIDTH;
+		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
@@ -141,16 +141,16 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 		if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 		{
-			$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-			$linkimage   = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+			$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
+			$linkimage   = $objhelper->watermark('category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
 		}
-		elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
+		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 		{
-			$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-			$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+			$product_img = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
+			$linkimage   = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
 		}
 
-		if (CAT_IS_LIGHTBOX)
+		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
 		{
 			$cat_thumb = "<a rel=\"myallimg\" href='" . $linkimage . "'  " . $title . ">";
 		}
@@ -177,13 +177,13 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 		if (strstr($data_add, '{category_description}'))
 		{
-			$cat_desc = $config->maxchar($row->category_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
+			$cat_desc = $config->maxchar($row->category_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
 			$data_add = str_replace("{category_description}", $cat_desc, $data_add);
 		}
 
 		if (strstr($data_add, '{category_short_desc}'))
 		{
-			$cat_s_desc = $config->maxchar($row->category_short_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
+			$cat_s_desc = $config->maxchar($row->category_short_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
 			$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
 		}
 
@@ -269,7 +269,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 						$prddata_add = str_replace("{product_userfield end if}", "", $prddata_add);
 					}
 				}
-				elseif (AJAX_CART_BOX)
+				elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 				{
 					$ajax_detail_template_desc = "";
 					$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($product);
@@ -331,11 +331,11 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$product_number_output = '<span id="product_number_variable' . $product->product_id . '">' . $product->product_number . '</span>';
 				$prddata_add           = str_replace("{product_number}", $product_number_output, $prddata_add);
 
-				$product_volume_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . "3" . '</span>';
+				$product_volume_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . "3" . '</span>';
 				$strToInsert = $producthelper->redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit;
 				$prddata_add = str_replace("{product_size}", $strToInsert, $prddata_add);
 
-				$product_unit = '<span class="product_unit_variable">' . DEFAULT_VOLUME_UNIT . '</span>';
+				$product_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
 				$strToInsert  = $producthelper->redunitDecimal($product->product_length) . "&nbsp;" . $product_unit;
 				$prddata_add  = str_replace("{product_length}", $strToInsert, $prddata_add);
 
@@ -353,7 +353,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				if (strstr($prddata_add, '{product_name}'))
 				{
-					$pname       = $config->maxchar($product->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
+					$pname       = $config->maxchar($product->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
 					$pname       = "<a href='" . $link . "' title='" . $product->product_name . "'>" . $pname . "</a>";
 					$prddata_add = str_replace("{product_name}", $pname, $prddata_add);
 				}
@@ -371,13 +371,13 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				if (strstr($prddata_add, '{product_s_desc}'))
 				{
-					$p_s_desc    = $config->maxchar($product->product_s_desc, CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS, CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX);
+					$p_s_desc    = $config->maxchar($product->product_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX'));
 					$prddata_add = str_replace("{product_s_desc}", $p_s_desc, $prddata_add);
 				}
 
 				if (strstr($prddata_add, '{product_desc}'))
 				{
-					$p_desc      = $config->maxchar($product->product_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
+					$p_desc      = $config->maxchar($product->product_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
 					$prddata_add = str_replace("{product_desc}", $p_desc, $prddata_add);
 				}
 
@@ -425,26 +425,26 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				if (strstr($prddata_add, "{product_thumb_image_3}"))
 				{
 					$pimg_tag = '{product_thumb_image_3}';
-					$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_3;
-					$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_3;
+					$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_3');
+					$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_3');
 				}
 				elseif (strstr($prddata_add, "{product_thumb_image_2}"))
 				{
 					$pimg_tag = '{product_thumb_image_2}';
-					$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_2;
-					$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_2;
+					$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_2');
+					$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_2');
 				}
 				elseif (strstr($prddata_add, "{product_thumb_image_1}"))
 				{
 					$pimg_tag = '{product_thumb_image_1}';
-					$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
-					$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
+					$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+					$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 				}
 				else
 				{
 					$pimg_tag = '{product_thumb_image}';
-					$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
-					$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
+					$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+					$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 				}
 
 				$hidden_thumb_image  = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'>";

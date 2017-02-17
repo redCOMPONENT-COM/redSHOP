@@ -38,12 +38,12 @@ if ($this->params->get('show_page_title', 1))
 <?php
 }
 
-if (!ONESTEP_CHECKOUT_ENABLE)
+if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 {
 	echo JLayoutHelper::render('cart.wizard', array('step' => '3'));
 }
 
-if (USE_AS_CATALOG)
+if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 {
 	$ReceiptTemplate = $redTemplate->getTemplate("catalogue_order_receipt");
 	$ReceiptTemplate = $ReceiptTemplate[0]->template_desc;
@@ -148,11 +148,11 @@ $googleanalytics = new RedshopHelperGoogleanalytics;
 
 $analytics_status = $order->analytics_status;
 
-if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
+if ($analytics_status == 0 && Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY') != "")
 {
 	$orderTrans                   = array();
 	$orderTrans['order_id']       = $order->order_id;
-	$orderTrans['shopname']       = SHOP_NAME;
+	$orderTrans['shopname']       = Redshop::getConfig()->get('SHOP_NAME');
 	$orderTrans['order_total']    = $order->order_total;
 	$orderTrans['order_tax']      = $order->order_tax;
 	$orderTrans['order_shipping'] = $order->order_shipping;

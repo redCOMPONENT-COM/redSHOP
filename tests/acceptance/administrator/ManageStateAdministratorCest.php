@@ -25,7 +25,7 @@ class ManageStateAdministratorCest
 		$this->randomStateName = $this->faker->bothify('ManageStateAdministratorCest State ?##?');
 		$this->updatedRandomStateName = 'New ' . $this->randomStateName;
 		$this->randomTwoCode = $this->faker->numberBetween(10, 99);
-		$this->randomThreeCode = $this->faker->numberBetween(99, 999);
+		$this->randomThreeCode = $this->faker->numberBetween(100, 999);
 		$this->randomCountry = 'Country ' . $this->faker->numberBetween(99, 999);
 	}
 
@@ -39,10 +39,9 @@ class ManageStateAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CountryManagerJoomla3Steps($scenario);
 		$I->addCountry($this->randomCountryName, $this->randomThreeCode, $this->randomTwoCode, $this->randomCountry);
-		$I->searchCountry($this->randomCountryName);
 		$I = new AcceptanceTester\StateManagerJoomla3Steps($scenario);
 		$I->wantTo('Add a new State');
-		$I->addState($this->randomCountry, $this->randomStateName, $this->randomTwoCode, $this->randomThreeCode);
+		$I->addState($this->randomCountryName, $this->randomStateName, $this->randomTwoCode, $this->randomThreeCode);
 	}
 
 	/**

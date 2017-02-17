@@ -20,16 +20,16 @@ class RedshopControllerMedia extends RedshopController
 
 	public function saveAdditionalFiles()
 	{
-		$post = JRequest::get('POST');
-		$file = JRequest::getVar('downloadfile', 'array', 'files', 'array');
+		$post = $this->input->post->getArray();
+		$file = $this->input->files->get('downloadfile', array(), 'array');
 		$totalFile = count($file['name']);
 		$model = $this->getModel('media');
 
-		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
+		$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 
-		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DIRECTORY_SEPARATOR)
+		if (substr(Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT'), -1) != DIRECTORY_SEPARATOR)
 		{
-			$product_download_root = PRODUCT_DOWNLOAD_ROOT . '/';
+			$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/';
 		}
 
 		if ($post['hdn_download_file'] != "")
@@ -99,8 +99,8 @@ class RedshopControllerMedia extends RedshopController
 
 	public function deleteAddtionalFiles()
 	{
-		$media_id = JRequest::getInt('media_id');
-		$fileId = JRequest::getInt('fileId');
+		$media_id = $this->input->getInt('media_id');
+		$fileId = $this->input->getInt('fileId');
 		$model = $this->getModel('media');
 
 		if ($model->deleteAddtionalFiles($fileId))
@@ -119,12 +119,11 @@ class RedshopControllerMedia extends RedshopController
 
 	public function saveorder()
 	{
-
-		$section_id = JRequest::getVar('section_id');
-		$section_name = JRequest::getVar('section_name');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$section_id = $this->input->getInt('section_id');
+		$section_name = $this->input->get('section_name');
+		$media_section = $this->input->get('media_section');
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
@@ -171,10 +170,10 @@ class RedshopControllerMedia extends RedshopController
 	public function setDefault()
 	{
 		$app = JFactory::getApplication();
-		$post = JRequest::get('post');
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post = $this->input->post->getArray();
+		$section_id = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
@@ -211,5 +210,160 @@ class RedshopControllerMedia extends RedshopController
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
+	}
+
+	/**
+	 * AJAX upload a file
+	 *
+	 * @return void
+	 */
+	public function ajaxUpload()
+	{
+		$file = $this->input->files->get('file', array(), 'array');
+		$new  = $this->input->post->get('new');
+
+		if (!empty($file))
+		{
+			$filename = $file['name'];
+
+			// Image Upload
+			$src = $file['tmp_name'];
+			$tempDir = REDSHOP_FRONT_IMAGES_RELPATH . 'tmp/';
+			JFolder::create($tempDir, 0755);
+			$dest = $tempDir . $filename;
+			JFile::upload($src, $dest);
+
+			$fileId = '';
+			$media_type = 'images';
+
+			if ($new)
+			{
+				// Create new media
+				$model = $this->getModel('media');
+
+				$fileinfo = pathinfo($dest);
+
+				switch ($fileinfo['extension'])
+				{
+					case 'zip':
+					case '7z':
+						$media_type = 'archives';
+						break;
+
+					case 'pdf':
+						$media_type = 'pdfs';
+						break;
+
+					case 'docx':
+					case 'doc':
+						$media_type = 'words';
+						break;
+
+					case 'xlsx':
+					case 'xls':
+						$media_type = 'excels';
+						break;
+
+					case 'pptx':
+					case 'ppt':
+						$media_type = 'powerpoints';
+						break;
+
+					case 'mp3':
+					case 'flac':
+						$media_type = 'sounds';
+						break;
+
+					case 'mp4':
+					case 'mkv':
+					case 'flv':
+						$media_type = 'videos';
+						break;
+
+					case 'txt':
+						$media_type = 'texts';
+						break;
+
+					case 'jpeg':
+					case 'jpg':
+					case 'png':
+					case 'gif':
+						$media_type = 'images';
+						break;
+
+					default:
+						$media_type = '';
+						break;
+				}
+
+				$fileId = $model->newFile(
+					[
+					'media_name'     => $filename,
+					'media_section'  => 'tmp',
+					'media_type'     => $media_type,
+					'media_mimetype' => $file['type']
+					]
+				);
+			}
+		}
+
+		$dimension = getimagesize($dest);
+
+		if ($dimension)
+		{
+			$dimension = $dimension[0] . ' x ' . $dimension[1];
+		}
+
+		echo new JResponseJson(
+			array(
+			'success' => true,
+			'file' => array(
+					'id'        => $fileId,
+					'url'       => 'components/com_redshop/assets/images/tmp/' . $filename,
+					'name'      => $filename,
+					'size'      => RedshopHelperMediaImage::sizeFilter(filesize($dest)),
+					'dimension' => $dimension,
+					'media'     => 'tmp',
+					'mime'      => substr($media_type, 0, -1),
+					'status'    => ''
+				)
+			)
+		);
+
+		die;
+	}
+
+	/**
+	 * AJAX delete a file
+	 *
+	 * @return void
+	 */
+	public function ajaxDelete()
+	{
+		$id = $this->input->post->get('id');
+
+		if (!empty($id))
+		{
+			$model = $this->getModel('media');
+
+			if ($model->deleteFile($id))
+			{
+				echo new JResponseJson(
+					array(
+					'success' => true
+					)
+				);
+
+				die;
+			}
+		}
+
+		echo new JResponseJson(
+			array(
+			'success' => false
+			)
+		);
+
+		die;
 	}
 }

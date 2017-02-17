@@ -153,7 +153,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$model->resetcart();
 
 		$link = 'index.php?option=com_redshop&view=order_detail&Itemid=' . $Itemid . '&oid=' . $request['order_id'];
-		$app->redirect($link, $paymentResponse->message);
+		$app->redirect(JRoute::_($link), $paymentResponse->message);
 
 	}
 
@@ -308,7 +308,7 @@ class RedshopControllerOrder_detail extends RedshopController
 				// Do final cart calculations
 				$this->_carthelper->cartFinalCalculation();
 
-				$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $this->_redhelper->getCartItemid());
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $this->_redhelper->getCartItemid()));
 			}
 		}
 		else
@@ -332,7 +332,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			}
 
 			$app->redirect(
-				'index.php?option=com_redshop&view=product&pid=' . $row['product_id'] . '&Itemid=' . $Itemid,
+				JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row['product_id'] . '&Itemid=' . $Itemid),
 				$errorMessage
 			);
 		}
@@ -367,7 +367,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$this->_carthelper->cartFinalCalculation();
 		}
 
-		$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $this->_redhelper->getCartItemid());
+		$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $this->_redhelper->getCartItemid()));
 	}
 
 	/**

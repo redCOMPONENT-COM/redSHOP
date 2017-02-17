@@ -23,13 +23,14 @@ class CouponManagerJ3Page
 
 	public static $couponLeft = "//input[@id='coupon_left']";
 
-	public static $couponValueInDropDown = "//div[@id='percent_or_total_chzn']/a";
+	public static $couponValueInDropDown = "//div[@id='s2id_percent_or_total']/a";
 
 	public static $couponTypeDropDown = "//div[@id='coupon_type_chzn']/a";
 
 	public static $selectFirst = "//input[@id='cb0']";
 
-	public static $firstResultRow = "//div[@id='editcell']//table[2]//tbody/tr[1]";
+	// //table[@class='test-redshop-table']//tr[@class='test-redshop-table'][1]//td[@class='test-redshop-coupon-checkall']
+	public static $firstResultRow = ['class' => "test-redshop-table-row"];
 
 	/**
 	 * Function to get path for CouponValueIn
@@ -40,7 +41,7 @@ class CouponManagerJ3Page
 	 */
 	public function couponValueIn($couponValue)
 	{
-		$path = "//div[@id='percent_or_total_chzn']/div/ul/li[contains(text(), '" . $couponValue . "')]";
+		$path = "//div[@id='select2-drop']//ul//li//div[contains(text(), '" . $couponValue . "')]";
 
 		return $path;
 	}

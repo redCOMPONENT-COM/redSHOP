@@ -17,20 +17,16 @@ $show_shipping_line = ($params->get('show_shipping_line', 0));
 $show_with_discount = ($params->get('show_with_discount', 0));
 
 $document = JFactory::getDocument()->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
-
-if (JFactory::getApplication()->input->getCmd('option') != 'com_redshop')
-{
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-
-	Redconfiguration::getInstance()->defineDynamicVars();
-}
-
 $show_empty_btn = 0;
 
 if ($params->get("checkout_empty") != 0)
 {
 	$show_empty_btn = 1;
 }
+
+// Load Model Cart to calculate Cart Total
+JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+$model = JModelLegacy::getInstance("Cart", "RedshopModel");
 
 // Helper object
 $helper = redhelper::getInstance();

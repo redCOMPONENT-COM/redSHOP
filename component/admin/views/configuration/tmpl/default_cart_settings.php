@@ -134,14 +134,6 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 	<?php echo $this->lists ['addtocart_behaviour'];?>
 </div>
 
-<div class="form-group">
-	<span class="addtocartbutton hasTip"
-					      title="<?php echo JText::_('COM_REDSHOP_ADDTOCART_BUTTON_BEHAVE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADDTOCART_BUTTON_BEHAVE'); ?>">
-					<?php echo JText::_('COM_REDSHOP_ADDTOCART_BUTTON_BEHAVE_LBL');?></span>
-	<?php echo $this->lists ['addtocart_behaviour'];?>
-</div>
-
-
 <legend><?php echo JText::_('COM_REDSHOP_CART_SETTINGS'); ?></legend>
 
 <div class="form-group">
@@ -158,13 +150,6 @@ $addtocart_path = "/components/com_redshop/assets/images/";
 		<label
 							for="name"><?php echo JText::_('COM_REDSHOP_WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART_LBL');?></label></span>
 	<?php echo $this->lists ['wanttoshowattributeimage']; ?>
-</div>
-
-<div class="form-group">
-	<span class="editlinktip hasTip"
-						      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_AS_PRODUCT_IN_CART_ENABLE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_AS_PRODUCT_IN_CART_ENABLE_LBL'); ?>">
-		<label><?php echo JText::_('COM_REDSHOP_ACCESSORY_AS_PRODUCT_IN_CART_ENABLE_LBL');?></label></span>
-	<?php echo $this->lists ['accessory_as_product_in_cart_enable'];?>
 </div>
 
 <div class="form-group">

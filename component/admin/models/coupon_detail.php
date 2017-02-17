@@ -87,6 +87,15 @@ class RedshopModelCoupon_detail extends RedshopModel
 		return true;
 	}
 
+	/**
+	 * Store an coupon record
+	 *
+	 * @param   array  $data  Data
+	 *
+	 * @return  bool|object
+	 *
+	 * @since   2.0.2
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -98,12 +107,18 @@ class RedshopModelCoupon_detail extends RedshopModel
 			return false;
 		}
 
+		if (!$row->check())
+		{
+			return false;
+		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		return $row;
 	}
 

@@ -153,69 +153,76 @@ class modProMenuHelper
 	{
 		global $categorysorttype;
 		$db = JFactory::getDbo();
+		$cid = JFactory::getApplication()->input->getInt('cid');
 
 		if (empty($GLOBALS['category_info']['category_tree']))
 		{
-			if ($categorysorttype == "catnameasc")
+			// Get only published categories;
+			$query = $db->getQuery(true)
+				->select($db->qn('c.category_id'))
+				->select($db->qn('c.category_description'))
+				->select($db->qn('c.category_name'))
+				->select($db->qn('c.ordering'))
+				->select($db->qn('c.published'))
+				->select($db->qn('ref.category_child_id', 'cid'))
+				->select($db->qn('ref.category_parent_id', 'pid'))
+				->from($db->qn('#__redshop_category', 'c'))
+				->leftJoin($db->qn('#__redshop_category_xref', 'ref') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('ref.category_child_id'));
+
+			// Only published
+			if ($only_published)
 			{
-				$sortparam = "#__redshop_category.category_name ASC";
-			}
-			elseif ($categorysorttype == "catnamedesc")
-			{
-				$sortparam = "#__redshop_category.category_name DESC";
-			}
-			elseif ($categorysorttype == "newest")
-			{
-				$sortparam = "#__redshop_category.category_id DESC";
-			}
-			elseif ($categorysorttype == "catorder")
-			{
-				$sortparam = "#__redshop_category.ordering ASC";
-			}
-			else
-			{
-				$sortparam = "#__redshop_category.category_name ASC";
+				$query->where($db->qn('c.published') . ' = 1');
 			}
 
+			// Filter via Shopper Group
 			if ($shopper_group_id)
 			{
 				$shoppergroup_cat = $this->get_shoppergroup_cat($shopper_group_id);
-			}
-			else
-			{
-				$shoppergroup_cat = 0;
+
+				if ($shoppergroup_cat)
+				{
+					$query->where($db->qn('c.category_id') . ' IN (' . implode(',', $shoppergroup_cat) . ')');
+				}
 			}
 
-			// Get only published categories
-			$query = "SELECT category_id, category_description, category_name,category_child_id as cid, category_parent_id as pid,ordering, published
-						FROM #__redshop_category, #__redshop_category_xref WHERE ";
-
-			if ($only_published)
+			// Filter by keyword
+			if (!empty($keyword))
 			{
-				$query .= "#__redshop_category.published='1' AND ";
+				$query->where('(' . $db->qn('c.category_name') . ' LIKE ' . $db->quote('%' . $keyword . '%')
+					. ' OR ' . $db->qn('c.category_description') . ' LIKE ' . $db->quote('%' . $keyword . '%') . ')');
 			}
 
 			if ($parent_selected_remove)
 			{
-				$parent_selected_remove = implode(',', $parent_selected_remove);
-				$query .= " category_id not in (" . $parent_selected_remove . ") and ";
+				$query->where($db->qn('c.category_id') . ' NOT IN (' . implode(',', $parent_selected_remove) . ')');
 			}
 
-			$query .= "#__redshop_category.category_id=#__redshop_category_xref.category_child_id ";
-
-			if (!empty($keyword))
+			if (!empty($cid))
 			{
-				$query .= "AND ( category_name LIKE '%$keyword%' ";
-				$query .= "OR category_description LIKE '%$keyword%' ";
-				$query .= ") ";
+				$query->where($db->qn('ref.category_parent_id') . ' = ' . $cid);
 			}
 
-			if ($shopper_group_id && $shoppergroup_cat)
+			if ($categorysorttype == "catnameasc")
 			{
-				$query .= " and category_id in (" . $shoppergroup_cat . ")";
+				$query->order($db->qn('c.category_name') . ' ASC');
 			}
-
-			$query .= "ORDER BY " . $sortparam . "";
+			elseif ($categorysorttype == "catnamedesc")
+			{
+				$query->order($db->qn('c.category_name') . ' DESC');
+			}
+			elseif ($categorysorttype == "newest")
+			{
+				$query->order($db->qn('c.category_id') . ' DESC');
+			}
+			elseif ($categorysorttype == "catorder")
+			{
+				$query->order($db->qn('c.ordering') . ' ASC');
+			}
+			else
+			{
+				$query->order($db->qn('c.category_name') . ' ASC');
+			}
 
 			$db->setQuery($query);
 			$cat_results = $db->loadObjectList();
@@ -308,7 +315,7 @@ class modProMenuHelper
 	function get_category_tree($params, $category_id = 0, $links_css_class = "mainlevel", $highlighted_style = "font-style:italic;", $shopper_group_id = 0)
 	{
 		$objhelper              = redhelper::getInstance();
-		$parent_selected        = $params->get('redshop_category', '');
+		$parent_selected        = $params->get('redshop_category', 0);
 		$parent_selected_remove = $params->get('redshop_category_remove', '');
 
 		$categories = $this->getCategoryTreeArray(1, "", $shopper_group_id, $parent_selected_remove);

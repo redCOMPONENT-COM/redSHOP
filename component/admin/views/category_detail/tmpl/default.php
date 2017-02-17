@@ -8,8 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-JHTMLBehavior::modal();
 JHTML::_('behavior.tooltip');
+
 $editor        = JFactory::getEditor();
 $uri           = JURI::getInstance();
 $url           = $uri->root();
@@ -26,9 +26,6 @@ JText::script('COM_REDSHOP_DELETE');
 		}
 		if (form.category_name.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_CATEGORY_ITEM_MUST_HAVE_A_NAME', true ); ?>");
-		}
-		else if (parseInt(form.products_per_page.value) <= 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_PRODUCTS_PER_PAGE_MUST_BE_GREATER_THAN_ZERO', true ); ?>");
 		}
 		else if ((form.category_template.value == "0" || form.category_template.value == "" ) && !<?php echo Redshop::getConfig()->get('CATEGORY_TEMPLATE');?>) {
 			alert("<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_TEMPLATE', true ); ?>");
@@ -66,7 +63,7 @@ JText::script('COM_REDSHOP_DELETE');
 	function jimage_insert(main_path) {
 		var path_url = "<?php echo $url;?>";
 		if (main_path) {
-			if (!document.getElementById("image_display")) {
+			if (document.getElementById("image_display") == null) {
 				var img = new Image();
 				img.id = "image_display";
 				document.getElementById("image_dis").appendChild(img);

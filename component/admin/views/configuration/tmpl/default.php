@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
-JHTMLBehavior::modal();
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -108,7 +107,6 @@ if ($app->input->getInt('dashboard', 0))
 </script>
 <form action="<?php echo 'index.php?option=com_redshop'; ?>" method="post" name="adminForm" id="adminForm"
 	  enctype="multipart/form-data">
-
 	<?php
 		echo RedshopLayoutHelper::render(
 			'component.full.tab.main',
@@ -118,7 +116,8 @@ if ($app->input->getInt('dashboard', 0))
 			)
 		);
 	?>
-
+	<input type="hidden" name="backward_compatible_js" value="<?php echo $this->config->get('BACKWARD_COMPATIBLE_JS') ?>" />
+	<input type="hidden" name="backward_compatible_php" value="<?php echo $this->config->get('BACKWARD_COMPATIBLE_PHP') ?>" />
 	<input type="hidden" name="view" value="configuration"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="selectedTabPosition" value=""/>

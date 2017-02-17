@@ -1,0 +1,1 @@
+ALTER TABLE `#__redshop_state` CHANGE `state_id` `id` INT(11) NOT NULL AUTO_INCREMENT;

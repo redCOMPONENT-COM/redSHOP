@@ -20,11 +20,6 @@ $end = $this->pagination->limit;
 			<tr>
 				<td><?php echo JText::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption'];?></td>
 			</tr>
-			<?php /*<tr><td><?php echo JText::_('COM_REDSHOP_STARTDATE');?></td>
-		<td><?php echo JHTML::_('calendar', $this->startdate , 'startdate', 'startdate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-	<tr><td><?php echo JText::_('COM_REDSHOP_ENDDATE');?></td>
-		<td><?php echo JHTML::_('calendar', $this->enddate , 'enddate', 'enddate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
-	<tr><td colspan="2"><input type="submit" name="filter" value=<?php echo JText::_('COM_REDSHOP_SUBMIT');?> /></td></tr><?php */?>
 		</table>
 		<table class="adminlist table table-striped" width="100%">
 			<thead>
@@ -46,7 +41,7 @@ $end = $this->pagination->limit;
 					{ ?>
 						<td align="center"><?php echo $row->viewdate;?></td>
 					<?php }        ?>
-					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->avg_order);//CURRENCY_SYMBOL.number_format($row->avg_order,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR);?></td>
+					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->avg_order);?></td>
 				</tr>
 			<?php }    ?>
 			<tfoot>

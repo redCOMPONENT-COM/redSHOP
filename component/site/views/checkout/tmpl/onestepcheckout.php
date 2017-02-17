@@ -37,7 +37,7 @@ $billingaddresses = $model->billingaddresses();
 if (!count($billingaddresses))
 {
 	$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-	$app->redirect("index.php?option=com_redshop&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
+	$app->redirect(JRoute::_("index.php?option=com_redshop&view=account_billto&return=checkout&Itemid=" . $Itemid), $msg);
 }
 
 $paymentmethod = $redhelper->getPlugins('redshop_payment');
@@ -133,13 +133,13 @@ for ($i = 0, $in = count($templatelist); $i < $in; $i++)
 	}
 }
 
-if (SHIPPING_METHOD_ENABLE)
+if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
 	if ($users_info_id > 0)
 	{
 		$ordertotal     = $cart['total'];
 		$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
-		$order_subtotal = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
+		$order_subtotal = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
 
 		$shippingbox_template_desc = $carthelper->replaceShippingBoxTemplate($shippingbox_template_desc, $shipping_box_post_id);
 		$onestep_template_desc     = str_replace($shippingbox_template, $shippingbox_template_desc, $onestep_template_desc);
@@ -191,12 +191,12 @@ $onestep_template_desc = $carthelper->replaceBillingAddress($onestep_template_de
 
 if (strstr($onestep_template_desc, "{shipping_address}"))
 {
-	if (SHIPPING_METHOD_ENABLE)
+	if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 	{
 		$shippingaddresses = $model->shippingaddresses();
 		$shipp             = '';
 
-		if ($billingaddresses && OPTIONAL_SHIPPING_ADDRESS)
+		if ($billingaddresses && Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
 		{
 			$ship_check = ($users_info_id == $billingaddresses->users_info_id) ? 'checked="checked"' : '';
 			$shipp .= '<div class="radio"><label class="radio"><input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');" name="users_info_id" value="' . $billingaddresses->users_info_id . '" ' . $ship_check . ' />' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label></div>';
@@ -240,7 +240,7 @@ echo eval("?>" . $onestep_template_desc . "<?php ");?>
 <script type="text/javascript">
 	function chkvalidaion() {
 		<?php
-			if (MINIMUM_ORDER_TOTAL > 0 && $cart['total'] < MINIMUM_ORDER_TOTAL)
+			if (Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
 			{
 			?>
 		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN');?>");

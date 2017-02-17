@@ -16,8 +16,8 @@ require_once 'vendor/autoload.php';
  */
 class RoboFile extends \Robo\Tasks
 {
-    // Load tasks from composer, see composer.json
-    use \redcomponent\robo\loadTasks;
+	// Load tasks from composer, see composer.json
+	use \redcomponent\robo\loadTasks;
 
 		/**
 		 * File extension for executables
@@ -53,51 +53,50 @@ class RoboFile extends \Robo\Tasks
 			date_default_timezone_set('UTC');
 		}
 
-    /**
-     * Hello World example task.
-     *
-     * @see  https://github.com/redCOMPONENT-COM/robo/blob/master/src/HelloWorld.php
-     * @link https://packagist.org/packages/redcomponent/robo
-     *
-     * @return object Result
-     */
-    public function sayHelloWorld()
-    {
-        $result = $this->taskHelloWorld()->run();
+	/**
+	 * Hello World example task.
+	 *
+	 * @see  https://github.com/redCOMPONENT-COM/robo/blob/master/src/HelloWorld.php
+	 * @link https://packagist.org/packages/redcomponent/robo
+	 *
+	 * @return object Result
+	 */
+	public function sayHelloWorld()
+	{
+		$result = $this->taskHelloWorld()->run();
 
-        return $result;
-    }
+		return $result;
+	}
 
-    /**
-     * Sends Codeception errors to Slack
-     *
-     * @param   string  $slackChannel             The Slack Channel ID
-     * @param   string  $slackToken               Your Slack authentication token.
-     * @param   string  $codeceptionOutputFolder  Optional. By default tests/_output
-     *
-     * @return mixed
-     */
-    public function sendCodeceptionOutputToSlack($slackChannel, $slackToken = null, $codeceptionOutputFolder = null)
-    {
-      if (is_null($slackToken))
-      {
-          $this->say('we are in Travis environment, getting token from ENV');
+	/**
+	 * Sends Codeception errors to Slack
+	 *
+	 * @param   string  $slackChannel             The Slack Channel ID
+	 * @param   string  $slackToken               Your Slack authentication token.
+	 * @param   string  $codeceptionOutputFolder  Optional. By default tests/_output
+	 *
+	 * @return mixed
+	 */
+	public function sendCodeceptionOutputToSlack($slackChannel, $slackToken = null, $codeceptionOutputFolder = null)
+	{
+		if (is_null($slackToken))
+		{
+			$this->say('we are in Travis environment, getting token from ENV');
 
-          // Remind to set the token in repo Travis settings,
-          // see: http://docs.travis-ci.com/user/environment-variables/#Using-Settings
-          $slackToken = getenv('SLACK_ENCRYPTED_TOKEN');
-      }
+			// Remind to set the token in repo Travis settings,
+			// see: http://docs.travis-ci.com/user/environment-variables/#Using-Settings
+			$slackToken = getenv('SLACK_ENCRYPTED_TOKEN');
+		}
 
-      $result = $this
-          ->taskSendCodeceptionOutputToSlack(
-              $slackChannel,
-              $slackToken,
-              $codeceptionOutputFolder
-          )
-          ->run();
+		$result = $this->taskSendCodeceptionOutputToSlack(
+			$slackChannel,
+			$slackToken,
+			$codeceptionOutputFolder
+			)
+			->run();
 
-      return $result;
-  }
+		return $result;
+	}
 
 	/**
 	 * Downloads and prepares a Joomla CMS site for testing
@@ -160,11 +159,11 @@ class RoboFile extends \Robo\Tasks
 	public function runTest($opts = [
 		'test|t'	    => null,
 		'suite|s'	    => 'acceptance'
-    ])
-  {
-    $this->getComposer();
+	])
+	{
+	$this->getComposer();
 
-    $this->taskComposerInstall()->run();
+	$this->taskComposerInstall()->run();
 
 		if (isset($opts['suite']) && 'api' === $opts['suite'])
 		{
@@ -174,48 +173,48 @@ class RoboFile extends \Robo\Tasks
 		{
 			$this->runSelenium();
 
-      $this->taskWaitForSeleniumStandaloneServer()
-           ->run()
-           ->stopOnFail();
-        }
+	  $this->taskWaitForSeleniumStandaloneServer()
+		   ->run()
+		   ->stopOnFail();
+		}
 
-        // Make sure to Run the Build Command to Generate AcceptanceTester
-        $this->_exec("vendor/bin/codecept build");
+		// Make sure to Run the Build Command to Generate AcceptanceTester
+		$this->_exec("vendor/bin/codecept build");
 
 		if (!$opts['test'])
-        {
-            $this->say('Available tests in the system:');
+		{
+			$this->say('Available tests in the system:');
 
-            $iterator = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator(
-                    'tests/' . $opts['suite'],
-                    RecursiveDirectoryIterator::SKIP_DOTS),
-                RecursiveIteratorIterator::SELF_FIRST);
+			$iterator = new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator(
+					'tests/' . $opts['suite'],
+					RecursiveDirectoryIterator::SKIP_DOTS),
+				RecursiveIteratorIterator::SELF_FIRST);
 
-            $tests = array();
+			$tests = array();
 
-            $iterator->rewind();
-            $i = 1;
+			$iterator->rewind();
+			$i = 1;
 
-            while ($iterator->valid())
-            {
-                if (strripos($iterator->getSubPathName(), 'cept.php')
-                    || strripos($iterator->getSubPathName(), 'cest.php'))
-                {
-                    $this->say('[' . $i . '] ' . $iterator->getSubPathName());
-                    $tests[$i] = $iterator->getSubPathName();
-                    $i++;
-                }
+			while ($iterator->valid())
+			{
+				if (strripos($iterator->getSubPathName(), 'cept.php')
+					|| strripos($iterator->getSubPathName(), 'cest.php'))
+				{
+					$this->say('[' . $i . '] ' . $iterator->getSubPathName());
+					$tests[$i] = $iterator->getSubPathName();
+					$i++;
+				}
 
-                $iterator->next();
-            }
+				$iterator->next();
+			}
 
-            $this->say('');
-            $testNumber     = $this->ask('Type the number of the test  in the list that you want to run...');
+			$this->say('');
+			$testNumber     = $this->ask('Type the number of the test  in the list that you want to run...');
 			$opts['test'] = $tests[$testNumber];
-        }
+		}
 
-        $pathToTestFile = 'tests/' . $opts['suite'] . '/' . $opts['test'];
+		$pathToTestFile = 'tests/' . $opts['suite'] . '/' . $opts['test'];
 
 		//loading the class to display the methods in the class
 		require 'tests/' . $opts['suite'] . '/' . $opts['test'];
@@ -244,59 +243,68 @@ class RoboFile extends \Robo\Tasks
 			}
 		}
 
-        $this->taskCodecept()
-             ->test($pathToTestFile)
-             ->arg('--steps')
-             ->arg('--debug')
-             ->arg('--fail-fast')
-             ->run()
-             ->stopOnFail();
+		$this->taskCodecept()
+			 ->test($pathToTestFile)
+			 ->arg('--steps')
+			 ->arg('--debug')
+			 ->arg('--fail-fast')
+			 ->run()
+			 ->stopOnFail();
 
 		if (!'api' == $opts['suite'])
-        {
-            $this->killSelenium();
-        }
-    }
+		{
+			$this->killSelenium();
+		}
+	}
 
-    /**
-     * Function to Run tests in a Group
-     *
-     * @return void
-     */
-    public function runTests($use_htaccess = 0)
-    {
-        $this->prepareSiteForSystemTests($use_htaccess);
+	/**
+	 * Function to Run tests in a Group
+	 *
+	 * @return void
+	 */
+	public function runTests($use_htaccess = 0)
+	{
+		$this->prepareSiteForSystemTests($use_htaccess);
 
-        $this->getComposer();
+		$this->getComposer();
 
-        $this->taskComposerInstall()->run();
+		$this->taskComposerInstall()->run();
 
-        $this->runSelenium();
+		$this->runSelenium();
 
-        $this->taskWaitForSeleniumStandaloneServer()
-             ->run()
-             ->stopOnFail();
+		$this->taskWaitForSeleniumStandaloneServer()
+			 ->run()
+			 ->stopOnFail();
 
-        // Make sure to Run the Build Command to Generate AcceptanceTester
-        $this->_exec("vendor/bin/codecept build");
+		// Make sure to Run the Build Command to Generate AcceptanceTester
+		$this->_exec("vendor/bin/codecept build");
 
-        $this->taskCodecept()
-            //  ->arg('--steps')
-            //  ->arg('--debug')
-             ->arg('--tap')
-             ->arg('--fail-fast')
-             ->arg('tests/acceptance/install/')
-             ->run()
-             ->stopOnFail();
+		$this->taskCodecept()
+			//  ->arg('--steps')
+			//  ->arg('--debug')
+			 ->arg('--tap')
+			 ->arg('--fail-fast')
+			 ->arg('tests/acceptance/install/')
+			 ->run()
+			 ->stopOnFail();
 
-        $this->taskCodecept()
-            //  ->arg('--steps')
-            //  ->arg('--debug')
-             ->arg('--tap')
-             ->arg('--fail-fast')
-             ->arg('tests/acceptance/administrator/')
-             ->run()
-             ->stopOnFail();
+		$this->taskCodecept()
+			  ->arg('--steps')
+			//  ->arg('--debug')
+			 ->arg('--tap')
+			 ->arg('--fail-fast')
+			 ->arg('tests/acceptance/administrator/')
+			 ->run()
+			 ->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/ManageProductsCheckoutFrontEndCest.php')
+			->run()
+			->stopOnFail();
 
 		/*
 		$this->taskCodecept()
@@ -309,65 +317,65 @@ class RoboFile extends \Robo\Tasks
 			// ->stopOnFail();
 		*/
 
-        $this->taskCodecept()
-            //  ->arg('--steps')
-            //  ->arg('--debug')
-             ->arg('--tap')
-             ->arg('--fail-fast')
-             ->arg('tests/acceptance/uninstall/')
-             ->run()
-             ->stopOnFail();
+		$this->taskCodecept()
+			//  ->arg('--steps')
+			//  ->arg('--debug')
+			 ->arg('--tap')
+			 ->arg('--fail-fast')
+			 ->arg('tests/acceptance/uninstall/')
+			 ->run()
+			 ->stopOnFail();
 
 		/* @todo: REDSHOP-2884
-        $this->say('preparing for update test');
-        $this->getDevelop();
-        $this->taskCodecept()
-             ->arg('--steps')
-             ->arg('--debug')
-             ->arg('--fail-fast')
-             ->arg('tests/acceptance/update/')
-             ->run()
-             ->stopOnFail();
+		$this->say('preparing for update test');
+		$this->getDevelop();
+		$this->taskCodecept()
+			 ->arg('--steps')
+			 ->arg('--debug')
+			 ->arg('--fail-fast')
+			 ->arg('tests/acceptance/update/')
+			 ->run()
+			 ->stopOnFail();
 		*/
 
-        $this->killSelenium();
-    }
+		$this->killSelenium();
+	}
 
 	/**
-     * Stops Selenium Standalone Server
-     *
-     * @return void
-     */
-    public function killSelenium()
-    {
-        $this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
-    }
+	 * Stops Selenium Standalone Server
+	 *
+	 * @return void
+	 */
+	public function killSelenium()
+	{
+		$this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
+	}
 
-    /**
-     * Downloads Composer
-     *
-     * @return void
-     */
-    private function getComposer()
-    {
-        // Make sure we have Composer
-        if (!file_exists('./composer.phar'))
-        {
-            $this->_exec('curl --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
-        }
-    }
+	/**
+	 * Downloads Composer
+	 *
+	 * @return void
+	 */
+	private function getComposer()
+	{
+		// Make sure we have Composer
+		if (!file_exists('./composer.phar'))
+		{
+			$this->_exec('curl --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
+		}
+	}
 
-    /**
-     * Runs Selenium Standalone Server
-     *
-     * @param   string  $path  Optional path to selenium standalone server
-     *
-     * @return void
-     */
-    public function runSelenium($path = null)
-    {
-        $this->_exec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &");
-    }
+	/**
+	 * Runs Selenium Standalone Server
+	 *
+	 * @param   string  $path  Optional path to selenium standalone server
+	 *
+	 * @return void
+	 */
+	public function runSelenium($path = null)
+	{
+		$this->_exec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &");
+	}
 
 		public function sendScreenshotFromTravisToGithub($cloudName, $apiKey, $apiSecret, $GithubToken, $repoOwner, $repo, $pull)
 		{
@@ -444,17 +452,17 @@ class RoboFile extends \Robo\Tasks
 			}
 		}
 
-    private function getDevelop()
-    {
-        // Get current develop branch of the extension for Extension update test
-        if (is_dir('tests/develop'))
-        {
-            $this->taskDeleteDir('tests/develop')->run();
-        }
+	private function getDevelop()
+	{
+		// Get current develop branch of the extension for Extension update test
+		if (is_dir('tests/develop'))
+		{
+			$this->taskDeleteDir('tests/develop')->run();
+		}
 
-        $this->_exec('git clone -b develop --single-branch --depth 1 git@github.com:redCOMPONENT-COM/redSHOP.git tests/develop');
-        $this->say('Downloaded Develop Branch for Update test');
-    }
+		$this->_exec('git clone -b develop --single-branch --depth 1 git@github.com:redCOMPONENT-COM/redSHOP.git tests/develop');
+		$this->say('Downloaded Develop Branch for Update test');
+	}
 
 		/**
 		 * Check if local OS is Windows
@@ -550,4 +558,52 @@ class RoboFile extends \Robo\Tasks
 
 			return "git" . $this->executableExtension . " clone -b $branch --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/cache";
 		}
+
+	/**
+	 * Looks for missed debug code like var_dump or console.log
+	 *
+	 * @return  void
+	 */
+	public function checkForMissedDebugCode()
+	{
+		$this->_exec('php tests/checkers/misseddebugcodechecker.php ../component ../libraries ../modules ../plugins');
+	}
+
+	/**
+	 * Looks for PHP parse error check
+	 *
+	 * @return  void
+	 */
+	public function checkForPhpParse()
+	{
+		$this->_exec('php tests/checkers/phpparseerrorchecker.php ../component ../libraries/redshop ../modules ../plugins');
+	}
+
+	/**
+	 * Check the code style of the project against a passed sniffers
+	 *
+	 * @return  void
+	 */
+	/*public function checkCodestyle()
+	{
+		if (!file_exists('.travis/phpcs/Joomla/ruleset.xml'))
+		{
+			$this->say('Downloading Joomla Coding Standards Sniffers');
+			$this->_exec("git clone -b master --single-branch --depth 1 https://github.com/joomla/coding-standards.git .travis/phpcs/Joomla");
+		}
+
+		$this->taskExec('php tests/checkers/phpcs.php')
+				->printed(true)
+				->run();
+	}*/
+
+	/**
+	 * Looks for Travis Webserver
+	 *
+	 * @return  void
+	 */
+	public function checkTravisWebserver()
+	{
+		$this->_exec('php tests/checkers/traviswebserverckecker.php http://localhost/tests/joomla-cms3/installation/index.php');
+	}
 }

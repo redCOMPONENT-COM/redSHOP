@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
 
 $order_functions = order_functions::getInstance();
 
@@ -23,14 +22,6 @@ if (count($paymentmethod) == 1)
 	$payment_method_id = $paymentmethod[0]->element;
 }?>
 <div>
-	<?php
-	if (SPLITABLE_PAYMENT == 1)
-	{
-		?>
-		<input type="checkbox" name="issplit" value="1"> <?php echo JText::_('COM_REDSHOP_SPLIT_PAYMENT'); ?>?
-	<?php
-	}    ?>
-	<br>
 	<?php
 	if (count($paymentmethod) > 0)
 	{

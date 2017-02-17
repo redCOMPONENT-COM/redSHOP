@@ -9,39 +9,102 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewMass_discount extends RedshopViewAdmin
+/**
+ * View Mass Discount
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.3
+ */
+class RedshopViewMass_Discount extends RedshopViewAdmin
 {
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
+	/**
+	 * @var  JForm
+	 */
+	protected $form;
+
+	/**
+	 * @var  object
+	 */
+	protected $item;
+
+	/**
+	 * @var  object
+	 */
+	protected $state;
+
+	/**
+	 * Function display template
+	 *
+	 * @param   string  $tpl  name of template
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.3
+	 */
 	public function display($tpl = null)
 	{
-		global $context;
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
 
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		if ($this->item->id)
+		{
+			$this->item->discount_product = explode(',', $this->item->discount_product);
+			$this->item->category_id = explode(',', $this->item->category_id);
+			$this->item->manufacturer_id = explode(',', $this->item->manufacturer_id);
+			$this->form->setValue('discount_product', null, $this->item->discount_product);
+			$this->form->setValue('category_id', null, $this->item->category_id);
+			$this->form->setValue('manufacturer_id', null, $this->item->manufacturer_id);
+		}
 
-		$document->setTitle(JText::_('COM_REDSHOP_DISCOUNT'));
+		$this->state = $this->get('State');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT'), 'redshop_discountmanagmenet48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::deleteList();
-
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'mass_discount_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-
-		$discounts  = $this->get('Data');
-		$pagination = $this->get('Pagination');
-
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->discounts = $discounts;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->addToolBar();
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.3
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+
+		$isNew = ($this->item->id < 1);
+
+		// Prepare text for title
+		$title = JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+
+		JToolBarHelper::title($title);
+		JToolBarHelper::apply('mass_discount.apply');
+		JToolBarHelper::save('mass_discount.save');
+
+		if ($isNew)
+		{
+			JToolBarHelper::cancel('mass_discount.cancel');
+		}
+		else
+		{
+			JToolBarHelper::cancel('mass_discount.cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
 	}
 }

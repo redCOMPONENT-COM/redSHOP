@@ -7,7 +7,7 @@
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>2.0</version>
+    <version>2.0.3</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -43,11 +43,13 @@
 
     <languages folder="component/site/language">
         <language tag="en-GB">en-GB/en-GB.com_redshop.ini</language>
+        <language tag="vi-VN">vi-VN/vi-VN.com_redshop.ini</language>
     </languages>
 
     <!-- Medias -->
     <media destination="com_redshop" folder="media/com_redshop">
         <folder>css</folder>
+        <folder>fonts</folder>
         <folder>images</folder>
         <folder>js</folder>
         <filename>index.html</filename>
@@ -57,6 +59,7 @@
         <menu img="components/com_redshop/assets/images/redshopcart16.png">COM_REDSHOP</menu>
         <files folder="component/admin">
             <folder>assets</folder>
+            <folder>config</folder>
             <folder>controllers</folder>
             <folder>extras</folder>
             <folder>help</folder>
@@ -75,12 +78,14 @@
         <languages folder="component/admin/language">
             <language tag="en-GB">en-GB/en-GB.com_redshop.ini</language>
             <language tag="en-GB">en-GB/en-GB.com_redshop.sys.ini</language>
+            <language tag="vi-VN">vi-VN/vi-VN.com_redshop.ini</language>
+            <language tag="vi-VN">vi-VN/vi-VN.com_redshop.sys.ini</language>
         </languages>
     </administration>
 
     <!-- Libraries to install with the component -->
     <libraries>
-		<library name="redshop"/>
+        <library name="redshop"/>
     </libraries>
 
     <!-- Modules to install with the component -->
@@ -96,5 +101,29 @@
         <plugin name="default_shipping" group="redshop_shipping" />
         <plugin name="redshop" group="finder" />
         <plugin name="alert" group="redshop_alert" />
+        <plugin name="sh404sefextplugincom_redshop" group="sh404sefextplugins" published="published" />
+        <plugin name="tcpdf" group="redshop_pdf" published="published" />
+        <plugin name="attribute" group="redshop_export" published="published" />
+        <plugin name="category" group="redshop_export" published="published" />
+        <plugin name="field" group="redshop_export" published="published" />
+        <plugin name="manufacturer" group="redshop_export" published="published" />
+        <plugin name="product" group="redshop_export" published="published" />
+        <plugin group="redshop_export" name="product_stockroom_data" published="published" />
+        <plugin name="related_product" group="redshop_export" published="published" />
+        <plugin name="shipping_address" group="redshop_export" published="published" />
+        <plugin name="shopper_group_attribute_price" group="redshop_export" published="published" />
+        <plugin name="shopper_group_product_price" group="redshop_export" published="published" />
+        <plugin name="user" group="redshop_export" published="published" />
+        <plugin group="redshop_import" name="attribute" published="published" />
+        <plugin group="redshop_import" name="category" published="published" />
+        <plugin group="redshop_import" name="field" published="published" />
+        <plugin group="redshop_import" name="manufacturer" published="published" />
+        <plugin group="redshop_import" name="product" published="published" />
+        <plugin group="redshop_import" name="shipping_address" published="published" />
+        <plugin group="redshop_import" name="shopper_group_product_price" published="published" />
+        <plugin group="redshop_import" name="shopper_group_attribute_price" published="published" />
+        <plugin group="redshop_import" name="user" published="published" />
+        <plugin group="redshop_import" name="product_stockroom_data" published="published" />
+        <plugin group="redshop_import" name="related_product" published="published" />
     </plugins>
 </extension>

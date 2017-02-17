@@ -15,17 +15,17 @@
  */
 class CountryManagerPage
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=country';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=countries';
 
-	public static $countryName = "#country_name";
+	public static $countryName = "#jform_country_name";
 
-	public static $countryTwoCode = "#country_2_code";
+	public static $countryTwoCode = "#jform_country_2_code";
 
-	public static $countryThreeCode = "#country_3_code";
+	public static $countryThreeCode = "#jform_country_3_code";
 
-	public static $country = "#country_jtext";
+	public static $country = "#jform_country_jtext";
 
-	public static $countryCheck = '#cb0';
+	public static $countryCheck = "//input[@id='cb0']";
 
 	public static $countryResultRow = "//form[@id='adminForm']/table/tbody/tr[1]";
 }

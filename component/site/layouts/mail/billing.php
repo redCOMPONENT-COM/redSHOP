@@ -105,7 +105,7 @@ $extra_section = ($billingaddresses->is_company == 1) ? extraField::SECTION_COMP
 		</tr>
 		<?php endif; ?>
 
-		<?php if (SHOW_TAX_EXEMPT_INFRONT) : ?>
+		<?php if (Redshop::getConfig()->get('SHOW_TAX_EXEMPT_INFRONT')) : ?>
 			<?php
 			if ($billingaddresses->tax_exempt == 1)
 			{

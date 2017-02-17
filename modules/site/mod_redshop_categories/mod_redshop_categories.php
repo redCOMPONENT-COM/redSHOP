@@ -21,15 +21,10 @@ unset($GLOBALS['category_info']['category_tree']);
 //get Item id
 $Itemid = JRequest::getInt('Itemid', '1');
 
-//get module path
-$mod_dir = dirname(__FILE__);
-
-
-define('CATEGORY_MODULE_PATH', $mod_dir);
-
 $js_src = $urlpath . 'modules/mod_redshop_categories';
 
-require_once CATEGORY_MODULE_PATH . '/helper.php';
+require_once dirname(__FILE__) . '/helper.php';
+
 $redproduct_menu = new modProMenuHelper;
 
 /* Get module parameters */
@@ -48,7 +43,7 @@ $use_shoppergroup = $params->get('use_shoppergroup', 'no');
 
 if ($use_shoppergroup == "yes")
 {
-	$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
+	$shopper_group_id = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
 	if ($user->id)
 	{

@@ -14,14 +14,15 @@ JLoader::import('redshop.library');
 /**
  * Helper for mod_redmanufacturer
  *
- * @since  1.5
+ * @since 1.5
  */
 abstract class ModRedManufacturerHelper
 {
+
 	/**
 	 * Retrieve a list of article
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters
+	 * @param   \Joomla\Registry\Registry  &$params  Module parameters
 	 *
 	 * @return  mixed
 	 */
@@ -35,6 +36,20 @@ abstract class ModRedManufacturerHelper
 			->where('m.media_section = ' . $db->q('manufacturer'))
 			->where('m.published = 1')
 			->where('ma.published = 1');
+		
+		// Ordering
+		switch ($params->get('order_by', 0))
+		{
+			case '1':
+				$query->order($db->quoteName('ma') . '.' . $db->quoteName('ordering') . ' ASC');
+				break;
+			case '2':
+				$query->order($db->quoteName('ma') . '.' . $db->quoteName('ordering') . ' DESC');
+				break;
+			default:
+				$query->order($db->quoteName('ma') . '.' . $db->quoteName('manufacturer_id') . ' ASC');
+				break;
+		}
 
 		return $db->setQuery($query, 0, (int) $params->get('NumberOfProducts', 5))->loadObjectList();
 	}
