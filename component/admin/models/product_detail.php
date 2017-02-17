@@ -3217,6 +3217,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$preorder_stock = (int) $post['preorder_stock'][$i];
 			$ordered_preorder = (int) $post['ordered_preorder'][$i];
 			$sid = (int) $post['stockroom_id'][$i];
+
 			// TODO Looking for better solution to use right variable type
 			$quantity = $post['quantity'][$i];
 			$section = $post['section'];
@@ -3227,6 +3228,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			// Clear query before use it
 			$query->clear();
 
+			// Already have attribute stock room
 			if (count($list) > 0)
 			{
 				// No quantity used and Set Stock as Infinite (1)
@@ -3242,7 +3244,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 					$db->setQuery($query);
 
-					return $db->execute();
+
+					// Can not delete this record. Go to next
+					if(!$db->execute())
+					{
+						continue;
+					}
 				}
 				else
 				{
