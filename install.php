@@ -123,6 +123,25 @@ class Com_RedshopInstallerScript
 	}
 
 	/**
+	 * Change images file name
+	 *
+	 * @param   array   &$files  List files in image folder
+	 * @param   string  &$path   Path to folder
+	 *
+	 * @return  void
+	 */
+	public function changeImageFileName(&$files, &$path)
+	{
+		$count = count($files);
+
+		for ($i = 0; $i < $count; ++$i)
+		{
+			$fileName = str_replace('%20', ' ', $files[$i]);
+			JFile::move($path . $files[$i], $path . $fileName);
+		}
+	}
+
+	/**
 	 * Get list array of installed plugins
 	 *
 	 * @param   object  $parent  Parent data
@@ -211,7 +230,7 @@ class Com_RedshopInstallerScript
 		// The configuration creation or update
 		$this->redshopHandleCFGFile();
 
-		// Syncronise users
+		// Synchronize users
 		$this->userSynchronization();
 
 		if ($type == 'update')
@@ -222,6 +241,35 @@ class Com_RedshopInstallerScript
 
 			// Update helper class name in template and MVC override
 			$this->updateOverrideTemplate();
+
+			/** Fix old drag and drop images name, convert '%20' to ' ' */
+			if (version_compare($this->getOldParam('version'), '2.0.3', '<='))
+			{
+				/** Update DB */
+				$fields = array(
+					$db->qn('product_full_image') . ' = REPLACE(' . $db->qn('product_full_image') . ", '%20', ' ')",
+					$db->qn('product_thumb_image') . ' = REPLACE(' . $db->qn('product_thumb_image') . ", '%20', ' ')"
+				);
+
+				$query = $db->getQuery(true);
+				$query->update($db->qn('#__redshop_product'))
+					->set($fields);
+
+				$db->setQuery($query);
+				$db->execute();
+
+				/** Update Image Name */
+
+				$path  = JPATH_SITE . '/components/com_redshop/assets/images/product/';
+				$files = JFolder::files($path);
+
+				$this->changeImageFileName($files, $path);
+
+				$path  = JPATH_SITE . '/components/com_redshop/assets/images/product/thumb/';
+				$files = JFolder::files($path);
+
+				$this->changeImageFileName($files, $path);
+			}
 		}
 
 		// Demo content insert
