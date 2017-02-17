@@ -3261,7 +3261,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 					{
 						$this->app->enqueueMessage(JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED'), 'notice');
 
-						return false;
+						// Something wrong than go to next
+						continue;
 					}
 					else
 					{
