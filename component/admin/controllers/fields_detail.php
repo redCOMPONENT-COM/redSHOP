@@ -54,7 +54,7 @@ class RedshopControllerFields_detail extends RedshopController
 		$post['field_id'] = $cid[0];
 
 		$model = $this->getModel('fields_detail');
-
+		JFactory::getApplication()->setUserState('com_redshop.fields_detail.data', $post);
 		$fieldexists = $model->checkFieldname($post['field_name'], $post ['field_id']);
 
 		if ($fieldexists)
@@ -76,6 +76,7 @@ class RedshopControllerFields_detail extends RedshopController
 				$model->field_save($row->field_id, $post);
 			}
 
+			JFactory::getApplication()->setUserState('com_redshop.fields_detail.data', "");
 			$msg = JText::_('COM_REDSHOP_FIELDS_DETAIL_SAVED');
 		}
 		else
@@ -116,6 +117,7 @@ class RedshopControllerFields_detail extends RedshopController
 	public function cancel()
 	{
 		$msg = JText::_('COM_REDSHOP_FIELD_EDITING_CANCELLED');
+		JFactory::getApplication()->setUserState('com_redshop.fields_detail.data', "");
 		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
 	}
 }
