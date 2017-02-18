@@ -72,10 +72,10 @@ class InstallRedShopCest
 		// $I->installExtensionFromFolder($I->getConfig('repo folder'));
 		$I->amOnPage('/administrator/index.php?option=com_installer');
 		$I->waitForText('Extensions: Install', '30', ['css' => 'H1']);
-		$I->click(['link' => 'Install from Folder']);
+		$I->click(['link' => 'Install from URL']);
 		// $I->wanTo('I enter the Path');
-		$I->fillField(['id' => 'install_directory'], $I->getConfig('repo folder'));
-		$I->click(['id' => 'installbutton_directory']);
+		$I->fillField(['id' => 'install_url'], $I->getConfig('redshop packages url') . '/redshop.zip');
+		$I->click(['id' => 'installbutton_url']);
 		$I->waitForText('installed successfully', '120', ['id' => 'system-message-container']);
 		// $I->debug("redSHOP successfully installed from " . $I->getConfig('repo folder'));
 
