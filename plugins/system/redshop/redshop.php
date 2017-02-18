@@ -26,7 +26,6 @@ class PlgSystemRedSHOP extends JPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		$app = JFactory::getApplication();
 		JLoader::import('redshop.library');
 
 		RedshopHelperJs::init();
