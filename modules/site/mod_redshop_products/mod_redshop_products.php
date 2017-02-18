@@ -29,6 +29,7 @@ $showDescription         = trim($params->get('show_desc', 1));
 $showVat                 = trim($params->get('show_vat', 1));
 $showStockroomStatus     = trim($params->get('show_stockroom_status', 1));
 $showChildProducts       = trim($params->get('show_childproducts', 1));
+$showWishlist            = trim($params->get('show_wishlist', 0));
 $isUrlCategoryId         = trim($params->get('urlCategoryId', 0));
 
 $user = JFactory::getUser();

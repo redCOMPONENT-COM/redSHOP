@@ -103,6 +103,11 @@ class AbstractImportPlugin extends \JPlugin
 			return null;
 		}
 
+		if (!empty($data) && !empty($data['separator']))
+		{
+			$this->separator = $data['separator'];
+		}
+
 		$this->folder = md5(time());
 
 		if (\JFolder::exists($this->getPath()))
@@ -181,14 +186,14 @@ class AbstractImportPlugin extends \JPlugin
 		{
 			$table = $this->getTable();
 
+			// Do mapping data to table.
+			$data = $this->processMapping($header, $data);
+
 			// Do convert encoding.
 			$this->doEncodingData($data);
 
 			// Do format number.
 			$this->doFormatNumber($data);
-
-			// Do mapping data to table.
-			$data  = $this->processMapping($header, $data);
 
 			$rowResult = new \stdClass;
 
@@ -298,6 +303,12 @@ class AbstractImportPlugin extends \JPlugin
 
 			foreach ($fileRows as $row)
 			{
+				// Add slash for data
+				foreach ($row as $index => $value)
+				{
+					$row[$index] = addslashes($value);
+				}
+
 				fwrite($fileHandle, '"' . implode('"' . $this->separator . '"', $row) . '"' . "\n");
 			}
 
@@ -319,7 +330,6 @@ class AbstractImportPlugin extends \JPlugin
 	 */
 	public function processMapping($header, $data)
 	{
-		$data = array_map("utf8_encode", $data);
 		$data = array_map("trim", $data);
 
 		return array_combine($header, $data);
@@ -366,7 +376,19 @@ class AbstractImportPlugin extends \JPlugin
 	 */
 	public function doEncodingData(&$data = array())
 	{
-		if (empty($data) || empty($this->encodingColumns) || !function_exists('mb_convert_encoding'))
+		if (empty($data))
+		{
+			return;
+		}
+
+		// Do remove strip slashes
+		foreach ($data as $index => $value)
+		{
+			$data[$index] = stripslashes($value);
+		}
+
+		// Do encoding column
+		if (empty($this->encodingColumns) || !function_exists('mb_convert_encoding'))
 		{
 			return;
 		}
