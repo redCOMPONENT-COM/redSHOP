@@ -7,13 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$firstStep = $this->steps[0];
+
 ?>
 <script type="text/javascript">
+    var runTasks = 0;
+
     (function ($) {
         $(document).ready(function () {
             var $first = $($("#table-install").find("tr")[0]);
-            window.setTimeout(function(){
+            window.setTimeout(function () {
                 doProgress($first.attr("data-task"));
             }, 1000);
         });
@@ -21,8 +23,15 @@ $firstStep = $this->steps[0];
 </script>
 <script type="text/javascript">
     function doProgress(task) {
+        runTasks++;
         var $row = $("#row-" + task);
+        $row.removeClass("hidden");
         $row.find('img.loader').removeClass("hidden");
+        $row.find('.text-result').addClass("hidden");
+
+        var percent = runTasks / <?php echo count($this->steps) ?> * 100;
+        $("#slider-install").css("width", percent + "%");
+        $("#slider-install").html(percent.toFixed(2) + "%");
 
         $.post(
             "index.php?option=com_redshop&task=install." + task,
@@ -31,12 +40,14 @@ $firstStep = $this->steps[0];
             },
             function (response) {
                 $row.find('.text-result').text(response)
-                    .removeClass("text-muted").addClass("text-success");
+                    .removeClass("text-muted hidden").addClass("text-success");
                 $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-check text-success");
                 $row.find('.task-name').removeClass("text-muted").addClass("text-success");
+                $row.addClass("hidden");
             }
         )
             .always(function () {
+
                 $row.find('img.loader').addClass("hidden");
 
                 var $next = $row.next("tr");
@@ -44,16 +55,21 @@ $firstStep = $this->steps[0];
                 // Still have next progress
                 if ($next.length) {
                     doProgress($next.attr("data-task"));
+
+                    return;
                 }
 
                 // This is final step
                 window.setTimeout(function () {
-                    $("#install-desc").slideDown('slow');
-                }, 1000);
+                    $("#slider-install").parent().fadeOut('slow', function () {
+                        $("#install-desc").fadeIn('slow');
+                        $("#system-message-container").removeClass("hidden");
+                    });
+                }, 500);
             })
             .fail(function (response) {
                 $row.find('.text-result').text(response.responseText)
-                    .removeClass("text-muted").addClass("text-danger");
+                    .removeClass("text-muted hidden").addClass("text-danger");
                 $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-remove text-danger");
                 $row.find('.task-name').removeClass("text-muted").addClass("text-danger");
             });
@@ -61,6 +77,15 @@ $firstStep = $this->steps[0];
 </script>
 <div class="container">
     <div id="install-desc" style="display: none;">
+        <div class="row">
+            <div id="system-message-container" class="hidden">
+                <div id="system-message">
+                    <div class="alert alert-success">
+						<?php echo JText::_('COM_REDSHOP_INSTALL_SUCCESS') ?>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-4">
                 <img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png" width="261" height="88"
@@ -75,19 +100,19 @@ $firstStep = $this->steps[0];
                 </p>
             </div>
         </div>
-        <hr />
+        <hr/>
         <div class="row">
             <div class="col-md-12 center panel-body">
-	            <?php if ($this->installType != 'update'): ?>
-                <button type="button" class="btn btn-large btn-primary" name="save"
-                        onclick="location.href='index.php?option=com_redshop&wizard=1'">
-                    <icon class="fa fa-cog"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_WIZARD') ?>
-                </button>
-                <button type="button" class="btn btn-large btn-warning" name="content"
-                        onclick="location.href='index.php?option=com_redshop&wizard=0&task=demoContentInsert'">
-                    <icon class="fa fa-laptop"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_INSTALL_DEMO_CONTENT') ?>
-                </button>
-	            <?php endif; ?>
+				<?php if ($this->installType != 'update'): ?>
+                    <button type="button" class="btn btn-large btn-primary" name="save"
+                            onclick="location.href='index.php?option=com_redshop&wizard=1'">
+                        <icon class="fa fa-cog"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_WIZARD') ?>
+                    </button>
+                    <button type="button" class="btn btn-large btn-warning" name="content" id="btn-demo-content"
+                            onclick="location.href='index.php?option=com_redshop&wizard=0&task=demoContentInsert'">
+                        <icon class="fa fa-laptop"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_INSTALL_DEMO_CONTENT') ?>
+                    </button>
+				<?php endif; ?>
                 <button type="button" class="btn btn-large btn-info" name="cancel"
                         onclick="location.href='index.php?option=com_redshop&wizard=0'">
                     <icon class="fa fa-bar-chart"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_DASHBOARD') ?>
@@ -95,10 +120,17 @@ $firstStep = $this->steps[0];
             </div>
         </div>
     </div>
-    <table class="table table-striped" id="table-install">
+    <div class="row">
+        <div class="progress">
+            <div id="slider-install" class="progress-bar progress-bar-striped active" role="progressbar"
+                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%
+            </div>
+        </div>
+    </div>
+    <table class="table" id="table-install">
         <tbody>
 		<?php foreach ($this->steps as $i => $step): ?>
-            <tr data-task="<?php echo $step['func'] ?>" id="row-<?php echo $step['func'] ?>">
+            <tr data-task="<?php echo $step['func'] ?>" id="row-<?php echo $step['func'] ?>" class="hidden">
                 <td width="1">
                     <i class="fa fa-tasks status-icon"></i>
                 </td>

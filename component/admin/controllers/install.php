@@ -70,7 +70,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		}
 
 		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_SUCCESS');
+		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
 		$app->close();
 	}
 
@@ -99,7 +99,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		}
 
 		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_SUCCESS');
+		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
 		$app->close();
 	}
 
@@ -122,12 +122,12 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_FAIL');
+			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
 			$app->close();
 		}
 
 		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_SUCCESS');
+		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
 		$app->close();
 	}
 
@@ -150,12 +150,12 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_FAIL');
+			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
 			$app->close();
 		}
 
 		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_SUCCESS');
+		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
 		$app->close();
 	}
 
@@ -178,12 +178,12 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_FAIL');
+			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
 			$app->close();
 		}
 
 		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_SUCCESS');
+		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
 		$app->close();
 	}
 
@@ -211,7 +211,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		}
 
 		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_SUCCESS');
+		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
 		$app->close();
 	}
 
@@ -234,12 +234,12 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_FAIL');
+			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
 			$app->close();
 		}
 
 		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_SUCCESS');
+		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
 		$app->close();
 	}
 
@@ -262,12 +262,12 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_FAIL');
+			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
 			$app->close();
 		}
 
 		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_SUCCESS');
+		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
 		$app->close();
 	}
 
@@ -290,12 +290,12 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_FAIL');
+			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
 			$app->close();
 		}
 
 		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_SUCCESS');
+		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
 		$app->close();
 	}
 
@@ -320,7 +320,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_FAIL');
+			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
 			$app->close();
 		}
 
