@@ -195,7 +195,6 @@ if ($showbuttons)
 
 						        if ($this->detail->media_name)
 						        {
-
 							        $filetype = strtolower(JFile::getExt($this->detail->media_name));
 
 							        if ($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif')
@@ -210,13 +209,19 @@ if ($showbuttons)
 									        Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 								        );
 								        ?>
-                                        <a class="joom-box btn btn-primary"
-                                           href="<?php echo $url . 'components/com_redshop/assets/' . $this->detail->media_type . '/' . $this->detail->media_section . '/' . $this->detail->media_name; ?>"
-                                           title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
-                                           rel="{handler: 'image', size: {}}">
-                                            <img
-                                                    src="<?php echo $thumbUrl; ?>"
-                                                    alt="image"/></a>
+								        <?php if ($thumbUrl): ?>
+                                            <a class="joom-box btn btn-primary"
+                                               href="<?php echo $url . 'components/com_redshop/assets/' . $this->detail->media_type . '/' . $this->detail->media_section . '/' . $this->detail->media_name; ?>"
+                                               title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
+                                               rel="{handler: 'image', size: {}}">
+                                                <img
+                                                        src="<?php echo $thumbUrl; ?>"
+                                                        alt="image"/>
+                                            </a>
+							            <?php else: ?>
+                                            <small><?php echo $this->detail->media_name; ?></small>
+                                            <input type="hidden" name="file[]" id="file" value="<?php echo $this->detail->media_name;?>">
+							            <?php endif; ?>
 								        <?php
 							        }
 						        }

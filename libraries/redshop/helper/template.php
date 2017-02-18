@@ -476,6 +476,9 @@ class RedshopHelperTemplate
 			'login'                      => JText::_('COM_REDSHOP_LOGIN_TEMPLATE')
 		);
 
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onTemplateSections', array(&$options));
+
 		return self::prepareSectionOptions($options, $sectionValue);
 	}
 
@@ -527,6 +530,9 @@ class RedshopHelperTemplate
 			'notify_stock_mail'                 => JText::_('COM_REDSHOP_NOTIFY_STOCK'),
 			'invoicefile_mail'                  => JText::_('COM_REDSHOP_INVOICE_FILE_MAIL')
 		);
+
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onMailSections', array(&$options));
 
 		return self::prepareSectionOptions($options, $sectionValue);
 	}
