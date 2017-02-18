@@ -24,7 +24,7 @@ $activeView = $view->getName();
 			<?php echo JLayoutHelper::render('component.full.sidebar', array()); ?>
 		</aside>
         <?php endif; ?>
-		<div class="content-wrapper">
+		<div class="content-wrapper" style="<?php echo $disableSidebar ? 'margin-left: 0px !important;' : '' ?>">
 			<section class="content-header clearfix">
 				<?php echo JLayoutHelper::render('component.full.content.header', $displayData); ?>
 			</section>
@@ -32,7 +32,7 @@ $activeView = $view->getName();
 				<?php echo JLayoutHelper::render('component.full.content.body', $displayData); ?>
 			</section>
 		</div>
-		<footer class="main-footer">
+		<footer class="main-footer" style="<?php echo $disableSidebar ? 'margin-left: 0px !important;' : '' ?>">
 			<?php echo JLayoutHelper::render('component.full.content.footer', $displayData); ?>
 		</footer>
 	</div>

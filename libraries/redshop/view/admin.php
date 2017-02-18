@@ -60,6 +60,9 @@ class RedshopViewAdmin extends JViewLegacy
 			)
 		);
 
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminRender', array(&$render));
+
 		if ($render instanceof Exception)
 		{
 			return $render;
