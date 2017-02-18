@@ -39,13 +39,6 @@ class Com_RedshopInstallerScript
 	protected $type = null;
 
 	/**
-	 * Manifest
-	 *
-	 * @var  SimpleXMLElement
-	 */
-	protected $manifest = null;
-
-	/**
 	 * Method to install the component
 	 *
 	 * @param   object  $parent  Class calling this method
@@ -58,8 +51,19 @@ class Com_RedshopInstallerScript
 		$this->installLibraries($parent);
 		$this->installModules($parent);
 		$this->installPlugins($parent);
+	}
 
-		JFactory::getApplication()->redirect(JRoute::_('index.php?option=com_redshop&view=install&install_type=install', false));
+	/**
+	 * method to run after an install/update/uninstall method
+	 *
+	 * @param   string  $type    Type of method
+	 * @param   object  $parent  Parent class call this method
+	 *
+	 * @return void
+	 */
+	public function postflight($type, $parent)
+	{
+		JFactory::getApplication()->redirect('index.php?option=com_redshop&view=install&install_type=' . $type);
 	}
 
 	/**
@@ -89,8 +93,6 @@ class Com_RedshopInstallerScript
 		$this->installLibraries($parent);
 		$this->installModules($parent);
 		$this->installPlugins($parent);
-
-		JFactory::getApplication()->redirect(JRoute::_('index.php?option=com_redshop&view=install&install_type=update', false));
 	}
 
 	/**
@@ -128,7 +130,7 @@ class Com_RedshopInstallerScript
 	protected function installLibraries($parent)
 	{
 		// Required objects
-		$manifest = $this->getManifest($parent);
+		$manifest = $parent->get('manifest');
 		$src      = $parent->getParent()->getPath('source');
 
 		if ($nodes = $manifest->libraries->library)
@@ -164,7 +166,7 @@ class Com_RedshopInstallerScript
 	protected function installModules($parent)
 	{
 		// Required objects
-		$manifest = $this->getManifest($parent);
+		$manifest = $parent->get('manifest');
 		$src      = $parent->getParent()->getPath('source');
 
 		if ($nodes = $manifest->modules->module)
@@ -178,6 +180,11 @@ class Com_RedshopInstallerScript
 				if (is_dir($extPath))
 				{
 					$this->getInstaller()->install($extPath);
+				}
+				// Discover install
+				elseif ($extId = $this->searchExtension($extName, 'module', '-1'))
+				{
+					$this->getInstaller()->discover_install($extId);
 				}
 			}
 		}
@@ -193,7 +200,7 @@ class Com_RedshopInstallerScript
 	protected function installPlugins($parent)
 	{
 		// Required objects
-		$manifest = $this->getManifest($parent);
+		$manifest = $parent->get('manifest');
 		$src      = $parent->getParent()->getPath('source');
 
 		if ($nodes = $manifest->plugins->plugin)
@@ -283,7 +290,7 @@ class Com_RedshopInstallerScript
 	protected function uninstallLibraries($parent)
 	{
 		// Required objects
-		$manifest = $this->getManifest($parent);
+		$manifest = $parent->get('manifest');
 
 		if ($nodes = $manifest->libraries->library)
 		{
@@ -291,7 +298,7 @@ class Com_RedshopInstallerScript
 			{
 				$extName = (string) $node->attributes()->name;
 
-				if ($extId = $this->searchExtension($extName, 'library', 0))
+				if ($extId = $this->searchExtension($extName, 'library'))
 				{
 					$this->getInstaller()->uninstall('library', $extId);
 				}
@@ -309,7 +316,7 @@ class Com_RedshopInstallerScript
 	protected function uninstallModules($parent)
 	{
 		// Required objects
-		$manifest = $this->getManifest($parent);
+		$manifest = $parent->get('manifest');
 
 		if ($nodes = $manifest->modules->module)
 		{
@@ -318,7 +325,7 @@ class Com_RedshopInstallerScript
 				$extName   = (string) $node->attributes()->name;
 				$extClient = (string) $node->attributes()->client;
 
-				if ($extId = $this->searchExtension($extName, 'module', 0))
+				if ($extId = $this->searchExtension($extName, 'module'))
 				{
 					$this->getInstaller()->uninstall('module', $extId);
 				}
@@ -336,7 +343,7 @@ class Com_RedshopInstallerScript
 	protected function uninstallPlugins($parent)
 	{
 		// Required objects
-		$manifest = $this->getManifest($parent);
+		$manifest = $parent->get('manifest');
 
 		if ($nodes = $manifest->plugins->plugin)
 		{
@@ -347,7 +354,7 @@ class Com_RedshopInstallerScript
 				$extName  = (string) $node->attributes()->name;
 				$extGroup = (string) $node->attributes()->group;
 
-				if ($extId = $this->searchExtension($extName, 'plugin', 0, $extGroup))
+				if ($extId = $this->searchExtension($extName, 'plugin', null, $extGroup))
 				{
 					$installer->uninstall('plugin', $extId);
 				}
@@ -387,22 +394,5 @@ class Com_RedshopInstallerScript
 		$db->setQuery($query);
 
 		return $db->loadResult();
-	}
-
-	/**
-	 * Getter with manifest cache support
-	 *
-	 * @param   JInstallerAdapter  $parent  Parent object
-	 *
-	 * @return  SimpleXMLElement
-	 */
-	protected function getManifest($parent)
-	{
-		if (null === $this->manifest)
-		{
-			$this->manifest = $parent->get('manifest');
-		}
-
-		return $this->manifest;
 	}
 }
