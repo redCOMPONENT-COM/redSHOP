@@ -11,8 +11,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 
-$uri = JURI::getInstance();
-$url = $uri->root();
+$uri = JUri::root();
 
 $app = JFactory::getApplication();
 $selectedTabPosition = $app->getUserState('com_redshop.configuration.selectedTabPosition', 'general');
