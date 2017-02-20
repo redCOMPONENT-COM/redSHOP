@@ -4039,6 +4039,11 @@ class productHelper
 
 			$accessory_div = '';
 
+			for ($a = 0, $an = count($accessory); $a < $an; $a++)
+			{
+				$accessory_div = str_replace("{accessory_preview_image}", $accessory[$a]->product_preview_image, $accessory_div);
+			}
+
 			if (strpos($acctemplate_data, "{accessory_product_start}") !== false && strpos($acctemplate_data, "{accessory_product_end}") !== false)
 			{
 				$acctemplate_data    = explode('{accessory_product_start}', $acctemplate_data);
@@ -4347,6 +4352,29 @@ class productHelper
 			else
 			{
 				$data_add = str_replace("{selected_accessory_price}", "", $data_add);
+			}
+
+			if (strpos($data_add, "{accessory_preview_image}") !== false)
+			{
+				$previewImage = '';
+
+				for ($a = 0, $an = count($accessory); $a < $an; $a++)
+				{
+					$acId    = $accessory[$a]->child_product_id;
+					$productInfo = $this->getProductById($acId);
+					$imageUrl = RedShopHelperImages::getImagePath(
+						$productInfo->product_preview_image,
+						'',
+						'thumb',
+						'product',
+						Redshop::getConfig()->get('PRODUCT_PREVIEW_IMAGE_WIDTH'),
+						Redshop::getConfig()->get('PRODUCT_PREVIEW_IMAGE_HEIGHT'),
+						Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+					);
+					$previewImage .= '<img id="accessory_preview_image_' . $acId . '" src="' . $imageUrl . '" alt="' . $productInfo->product_number . '"/>';
+				}
+
+				$data_add = str_replace("{accessory_preview_image}", $previewImage, $data_add);
 			}
 
 			$data_add = str_replace("{accessory_product_start}", "", $data_add);
