@@ -4,7 +4,7 @@
         <field
                 name="id"
                 type="hidden"
-                />
+        />
         <field
                 name="name"
                 type="redshop.text"
@@ -14,7 +14,9 @@
                 class="form-control"
                 default=""
                 required="true"
-                />
+                table-sortable="1"
+                table-inline="1"
+        />
         <field
                 name="email"
                 type="redshop.text"
@@ -25,14 +27,19 @@
                 class="form-control"
                 default=""
                 required="false"
-                />
+                table-sortable="1"
+                table-inline="1"
+                table-width="20%"
+        />
         <field
                 name="published"
                 type="redshop.radio"
                 label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
-                required="true">
+                required="true"
+                table-sortable="1"
+                table-width="5%">
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>
@@ -43,6 +50,8 @@
                 description=""
                 width="300"
                 filter="safehtml"
-                />
+                table-sortable="1"
+                table-width="20%"
+        />
     </fieldset>
 </form>
