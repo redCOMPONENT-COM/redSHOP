@@ -18,7 +18,7 @@ jimport('joomla.plugin.plugin');
  * @package  redFORM.Plugin
  * @since    3.0
  */
-class PlgAgile_CrmAgile_Crm extends JPlugin
+class PlgSystemAgile_Crm extends JPlugin
 {
 	/**
 	 * constructor
@@ -51,7 +51,7 @@ class PlgAgile_CrmAgile_Crm extends JPlugin
 	}
 
 	/**
-	 * Called when order is created
+	 * Called when order is notify
 	 *
 	 * @param   object  $data  redSHOP data
 	 *
@@ -77,7 +77,7 @@ class PlgAgile_CrmAgile_Crm extends JPlugin
 	/**
 	 * Function to create a contact on Agile CRM
 	 *
-	 * @param   array  $data  redFORM data
+	 * @param   array  $data  redSHOP data
 	 *
 	 * @return  void
 	 */
@@ -151,7 +151,7 @@ class PlgAgile_CrmAgile_Crm extends JPlugin
 	/**
 	 * Function to create a deal on Agile CRM
 	 *
-	 * @param   array  $data  redFORM data
+	 * @param   array  $data  redSHOP data
 	 *
 	 * @return  void
 	 */
@@ -210,9 +210,12 @@ class PlgAgile_CrmAgile_Crm extends JPlugin
 	}
 
 	/**
-	 * Triggered after a form submissin has been saved.
+	 * Send data to Agile CRM.
 	 *
-	 * @param   RdfCoreFormSubmission  $result  The result
+	 * @param   string  $entity       Entity
+	 * @param   string  $data         redSHOP json data
+	 * @param   string  $method       Method 
+	 * @param   string  $contentType  Content type
 	 *
 	 * @return  void
 	 */

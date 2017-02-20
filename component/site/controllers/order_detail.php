@@ -209,7 +209,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			)
 		);
 
-		JPluginHelper::importPlugin('agile_crm');
+		JPluginHelper::importPlugin('system');
 		$dispatcher->trigger('afterOrderNotify', array($result));
 
 		if ($request['payment_plugin'] == "rs_payment_payer")

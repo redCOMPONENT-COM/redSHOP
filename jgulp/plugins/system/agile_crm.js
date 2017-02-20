@@ -7,7 +7,7 @@ var config = require('../../../gulp-config.json');
 var browserSync = require('browser-sync');
 var del         = require('del');
 
-var group = 'agile_crm';
+var group = 'system';
 var name  = 'agile_crm';
 
 var baseTask   = 'plugins.' + group + '.' + name;
