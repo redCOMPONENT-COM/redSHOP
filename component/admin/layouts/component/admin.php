@@ -30,7 +30,7 @@ if ('raw' === $format)
 	/** @var RView $view */
 	$view = $data['view'];
 
-	if (!$view instanceof RedshopViewAdmin)
+	if (!($view instanceof RedshopViewAdmin || $view instanceof RedshopViewList))
 	{
 		throw new InvalidArgumentException(
 			sprintf(
@@ -76,7 +76,7 @@ if (!isset($data['view']))
 /** @var RView $view */
 $view = $data['view'];
 
-if (!$view instanceof RedshopViewAdmin)
+if (!($view instanceof RedshopViewAdmin || $view instanceof RedshopViewList))
 {
 	throw new InvalidArgumentException(
 		sprintf(
