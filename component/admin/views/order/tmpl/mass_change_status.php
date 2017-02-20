@@ -12,7 +12,7 @@
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function($) {
 		if (window.parent.document.adminForm.boxchecked.value == 0) {
-			alert('Please first make a selection from the list.');
+			alert("<?php echo JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');?>");
 			window.parent.SqueezeBox.close();
 			return false;
 	 	}
@@ -25,8 +25,7 @@
 		document.getElementById('checked_orders').innerHTML = checked_orders;
 	});
 
-	massStatusChange = function(option)
-	{
+	massStatusChange = function(option) {
 		var form = window.parent.document.adminForm;
 		var mass_change_status = document.getElementById('mass_change_status');
 		form.appendChild(mass_change_status);
@@ -51,10 +50,9 @@
 		<thead>
 			<th width="50%"><?php echo JText::_('COM_REDSHOP_ORDER_STATUS'); ?></th>
 			<th width="50%"><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS'); ?></th>
-
 		</thead>
+		
 		<tbody>
-
 		<tr>
 			<td>
 				<?php echo $massChangeStatus['mass_change_order_status']; ?>
@@ -62,8 +60,8 @@
 			<td>
 				<?php echo $massChangeStatus['mass_change_payment_status']; ?>
 			</td>
-
 		</tbody>
+		
 		<tfoot>
 			<td colspan="2">
 				<label>
