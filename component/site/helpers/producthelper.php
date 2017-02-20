@@ -4039,11 +4039,6 @@ class productHelper
 
 			$accessory_div = '';
 
-			for ($a = 0, $an = count($accessory); $a < $an; $a++)
-			{
-				$accessory_div = str_replace("{accessory_preview_image}", $accessory[$a]->product_preview_image, $accessory_div);
-			}
-
 			if (strpos($acctemplate_data, "{accessory_product_start}") !== false && strpos($acctemplate_data, "{accessory_product_end}") !== false)
 			{
 				$acctemplate_data    = explode('{accessory_product_start}', $acctemplate_data);
