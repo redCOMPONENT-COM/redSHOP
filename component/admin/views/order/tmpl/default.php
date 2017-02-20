@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JHtml::_('behavior.modal', 'a.joom-box');
 $productHelper = productHelper::getInstance();
 
 global $context;
@@ -15,7 +16,6 @@ $app    = JFactory::getApplication();
 $config = Redconfiguration::getInstance();
 
 $lists            = $this->lists;
-$massChangeStatus = $this->massChangeStatus;
 $model            = $this->getModel('order');
 $stockroomHelper  = rsstockroomhelper::getInstance();
 $dispatcher       = RedshopHelperUtility::getDispatcher();
@@ -28,6 +28,13 @@ JPluginHelper::importPlugin('redshop_product');
 </style>
 <script language="javascript" type="text/javascript">
     jQuery(document).ready(function ($) {
+    	jQuery(".multi-change-status").parent().addClass('joom-box').attr('rel', "{handler: 'iframe', iframeOptions: {scrolling: 'no'}}");
+
+		SqueezeBox.initialize({});
+			SqueezeBox.assign($('a.joom-box').get(), {
+				parse: 'rel'
+		});
+
         jQuery("#search").click(function (event) {
             document.adminForm.task.value = '';
         });
@@ -83,22 +90,6 @@ JPluginHelper::importPlugin('redshop_product');
 		}
 
 		form.submit();
-	}
-
-	massStatusChange = function(option)
-	{
-		if (document.adminForm.boxchecked.value==0) {
-			alert('Please first make a selection from the list.');
-			return false;
-		} else if (document.adminForm.mass_change_order_status.value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_SELECTED_ORDER_STATUS_TO_CHANGE');?>");
-			return false;
-		} else if (document.adminForm.mass_change_payment_status.value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_SELECTED_PAYMENT_STATUS_TO_CHANGE');?>");
-			return false;
-		} else {
-			Joomla.submitbutton(option);
-		}
 	}
 
 	resetFilter = function () {
@@ -169,31 +160,6 @@ JPluginHelper::importPlugin('redshop_product');
             <div class="filterItem">
 				<?php echo $lists['filter_status']; ?>
 			</div>
-		</div>
-	</div>
-
-	<div>
-		<div class="filterTool">
-			<div class="filterItem">
-				<?php echo JText::_('COM_REDSHOP_WITH_SELECTED_ORDERS'); ?>
-			</div>
-			<div class="filterItem">
-				<?php echo $massChangeStatus['mass_change_order_status']; ?>
-			</div>
-			<div class="filterItem">
-				<?php echo $massChangeStatus['mass_change_payment_status']; ?>
-			</div>
-			<div class="filterItem">
-				<?php echo $massChangeStatus['mass_mail_sending']; ?>
-			</div>
-			<div class="filterItem">
-				<input type="button" class="btn btn-success" onclick="massStatusChange('allStatusExceptPacsoft');" value="<?php echo JText::_('COM_REDSHOP_CHANGE_STATUS_TO_ALL_LBL'); ?>">
-			</div>
-			<?php if (Redshop::getConfig()->get('POSTDK_INTEGRATION')): ?>
-			<div class="filterItem">
-				<input type="button" class="btn btn-success" onclick="massStatusChange('allstatus');" value="<?php echo JText::_('COM_REDSHOP_CHANGE_STATUS_TO_ALL_WITH_PACSOFT_LBL'); ?>">
-			</div>
-			<?php endif; ?>
 		</div>
 	</div>
 

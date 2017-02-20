@@ -2949,7 +2949,7 @@ class RedshopHelperOrder
 		}
 
 		// Mail to customer of order status change
-		if ($post['mass_mail_sending'] == "Yes")
+		if ($post['mass_mail_sending'] == 1)
 		{
 			self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
 		}
