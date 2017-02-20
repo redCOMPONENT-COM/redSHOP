@@ -131,7 +131,7 @@ abstract class JHtmlRedshopGrid
 		');
 
 		$html = '<input type="text" id="' . $name . '-' . $id . '-edit-inline" value="' . $value . '"'
-			. 'name="jform_inline[' . $id . '][' . $name . ']" class="form-control edit-inline" style="display: none;" />';
+			. 'name="jform_inline[' . $id . '][' . $name . ']" class="form-control edit-inline no-border" style="display: none;" />';
 		$html .= '<label id="' . $name . '-' . $id . '" data-target="' . $name . '-' . $id . '-edit-inline">' . $value . '</label>';
 
 		return $html;
