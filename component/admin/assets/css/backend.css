@@ -27099,3 +27099,12 @@ body.modal-open {
   max-height: 600px;
   overflow-y: auto;
 }
+
+.label-edit-inline {
+  padding: 4px 6px;
+}
+
+.label-edit-inline:hover {
+  background-color: #fcf8e3;
+  cursor: text;
+}

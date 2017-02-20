@@ -68,10 +68,10 @@ abstract class JHtmlRedshopGrid
 				$(document).ready(function(){
 					$("#' . $name . '-' . $id . '").click(function(event){
 						event.preventDefault();
-						
+
 						var $label = $(this);
 						var $input = $("#" + $(this).data("target"));
-						
+
 						$label.hide("fast", function(){
 							$input.show("fast", function(){$input.focus().select();})
 								.on("blur", function(event) {
@@ -79,14 +79,14 @@ abstract class JHtmlRedshopGrid
 								})
 								.on("keypress", function(event) {
 									var keyCode = event.keyCode || event.which;
-								
+
 									if (keyCode == 13) {
 										event.preventDefault();
 										// Enter key
 										document.adminForm.task.value = "ajaxInlineEdit";
 										formData = $("#adminForm").serialize();
 										formData += "&id=' . $id . '";
-										
+
 										$.ajax({
 											url: document.adminForm.action,
 											type: "POST",
@@ -113,7 +113,7 @@ abstract class JHtmlRedshopGrid
 														"error"
 													);
 												}
-											
+
 												$input.hide("fast", function(){
 													$label.show("fast");
 												});
@@ -131,8 +131,8 @@ abstract class JHtmlRedshopGrid
 		');
 
 		$html = '<input type="text" id="' . $name . '-' . $id . '-edit-inline" value="' . $value . '"'
-			. 'name="jform_inline[' . $id . '][' . $name . ']" class="form-control edit-inline no-border" style="display: none;" />';
-		$html .= '<label id="' . $name . '-' . $id . '" data-target="' . $name . '-' . $id . '-edit-inline">' . $value . '</label>';
+			. 'name="jform_inline[' . $id . '][' . $name . ']" class="form-control edit-inline" style="display: none;" />';
+		$html .= '<div id="' . $name . '-' . $id . '" data-target="' . $name . '-' . $id . '-edit-inline" class="label-edit-inline">' . $value . '</div>';
 
 		return $html;
 	}
