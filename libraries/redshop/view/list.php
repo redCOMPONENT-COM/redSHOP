@@ -324,7 +324,7 @@ class RedshopViewList extends JViewLegacy
 
 		if ($config['dataCol'] == 'published')
 		{
-			return JHtml::_('grid.published', $row, $index);
+			return JHtml::_('jgrid.published', $row->published, $index);
 		}
 		elseif ($config['inline'] === true && !$isCheckedOut)
 		{
