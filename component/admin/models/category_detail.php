@@ -371,6 +371,16 @@ class RedshopModelCategory_detail extends RedshopModel
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
+			$existData = $this->getProductExist($cid[$i]);
+
+			if ($existData->total > 0)
+			{
+				$errorMSG = JText::sprintf('COM_REDSHOP_CATEGORY_EXIST_PRODUCT', $existData->category_name);
+				$this->setError($errorMSG);
+
+				return false;
+			}
+
 			$query = 'SELECT count( * ) as ctotal,c.category_name
 						FROM `' . $this->_table_prefix . 'category_xref` as cx LEFT JOIN `' . $this->_table_prefix
 				. 'category` as c ON c.category_id = "' . $cid[$i] . '"
@@ -667,5 +677,25 @@ class RedshopModelCategory_detail extends RedshopModel
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to check Category has product.
+	 *
+	 * @param   integer  $cid  Category ID
+	 *
+	 * @return  mixed    Object on success, false on failure.
+	 */
+	public function getProductExist($cid)
+	{
+		$db = $this->_db;
+		$query = $db->getQuery(true)
+			->select('COUNT(*) AS total')
+			->select($db->qn('c.category_name'))
+			->from($db->qn('#__redshop_product_category_xref', 'pc'))
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('pc.category_id') . ' = ' . $db->qn('c.category_id'))
+			->where($db->qn('c.category_id') . ' = ' . $db->q((int) $cid));
+
+		return $db->setQuery($query)->loadObject();
 	}
 }
