@@ -99,18 +99,20 @@ echo RedshopLayoutHelper::render(
         </div>
     </div>
 </div>
-<label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MAIN_IMAGE_LBL_THREE'); ?>">
-	<?php echo JText::_('COM_REDSHOP_PRODUCT_MAIN_IMAGE_THREE'); ?>
-</label>
-<div class="col-md-8">
-    <div class="row">
-        <div class="col-sm-6">
-            <input type="number" name="product_main_image_3" id="product_main_image_3" class="form-control"
-                   value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_3'); ?>"/>
-        </div>
-        <div class="col-sm-6">
-            <input type="number" name="product_main_image_height_3" id="product_main_image_height_3" class="form-control"
-                   value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_HEIGHT_3'); ?>"/>
+<div class="form-group row-fluid">
+    <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MAIN_IMAGE_LBL_THREE'); ?>">
+        <?php echo JText::_('COM_REDSHOP_PRODUCT_MAIN_IMAGE_THREE'); ?>
+    </label>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="number" name="product_main_image_3" id="product_main_image_3" class="form-control"
+                       value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_3'); ?>"/>
+            </div>
+            <div class="col-sm-6">
+                <input type="number" name="product_main_image_height_3" id="product_main_image_height_3" class="form-control"
+                       value="<?php echo $this->config->get('PRODUCT_MAIN_IMAGE_HEIGHT_3'); ?>"/>
+            </div>
         </div>
     </div>
 </div>
