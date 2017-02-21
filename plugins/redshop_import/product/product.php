@@ -129,7 +129,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$imageName = basename($url);
 				$fileName = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				file_put_contents($dest, file_get_contents($url));
+				JFile::write($dest, JFile::read($url));
 				$data['product_thumb_image'] = $fileName;
 			}
 			else
@@ -151,7 +151,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$imageName = basename($url);
 				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				file_put_contents($dest, file_get_contents($url));
+				JFile::write($dest, JFile::read($url));
 				$data['product_full_image'] = $fileName;
 			}
 			else
@@ -173,7 +173,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$imageName = basename($url);
 				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				file_put_contents($dest, file_get_contents($url));
+				JFile::write($dest, JFile::read($url));
 				$data['product_back_full_image'] = $fileName;
 			}
 			else
@@ -195,7 +195,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$imageName = basename($url);
 				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				file_put_contents($dest, file_get_contents($url));
+				JFile::write($dest, JFile::read($url));
 				$data['product_preview_back_image'] = $fileName;
 			}
 			else
@@ -217,7 +217,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$imageName = basename($url);
 				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				file_put_contents($dest, file_get_contents($url));
+				JFile::write($dest, JFile::read($url));
 				$data['product_back_thumb_image'] = $fileName;
 			}
 			else
@@ -239,7 +239,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$imageName = basename($url);
 				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				file_put_contents($dest, file_get_contents($url));
+				JFile::write($dest, JFile::read($url));
 				$data['product_preview_image'] = $fileName;
 			}
 			else
@@ -754,7 +754,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					$imageName = basename($image);
 					$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
 					$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-					file_put_contents($dest, file_get_contents($image));
+					JFile::write($dest, JFile::read($image));
 					$data['product_preview_image'] = $fileName;
 				}
 			}
