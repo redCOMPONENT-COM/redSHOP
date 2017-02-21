@@ -154,8 +154,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 			->order($db->qn('o.order_id') . ' DESC');
 
 		// Filter: Date Range
-		$filterDateRange = JFactory::getApplication()->input->post->get('filter', array());
-		$filterDateRange = $filterDateRange[0];
+		$filterDateRange = JFactory::getApplication()->input->getString('date_range', "");
 
 		if (!empty($filterDateRange))
 		{
