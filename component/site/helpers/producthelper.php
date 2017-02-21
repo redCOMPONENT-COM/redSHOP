@@ -4315,6 +4315,30 @@ class productHelper
 							$accessory_div = str_replace("{accessory_quantity_lbl}", "", $accessory_div);
 						}
 					}
+
+					$fieldArray = $extraField->getSectionFieldList(1, 1, 1);
+
+					if (count($fieldArray) > 0)
+					{
+						for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
+						{
+							$fieldValueArray = $extraField->getSectionFieldDataList($fieldArray[$i]->field_id, 1, $accessory [$a]->accessory_id);
+
+							if ($fieldValueArray->data_txt != ""
+								&& $fieldArray[$i]->field_show_in_front == 1
+								&& $fieldArray[$i]->published == 1
+								&& $giftcard == 0)
+							{
+								$accessory_div = str_replace('{' . $fieldArray[$i]->field_name . '}', $fieldValueArray->data_txt, $accessory_div);
+								$accessory_div = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', $fieldArray[$i]->field_title, $accessory_div);
+							}
+							else
+							{
+								$accessory_div = str_replace('{' . $fieldArray[$i]->field_name . '}', "", $accessory_div);
+								$accessory_div = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', "", $accessory_div);
+							}
+						}
+					}
 				}
 
 				$accessory_div = $accessory_div_start . $accessory_div . $accessory_div_end;
