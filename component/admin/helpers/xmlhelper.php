@@ -579,15 +579,20 @@ class xmlHelper
 
 					for ($j = 0, $jn = count($prdextrafieldlist); $j < $jn; $j++)
 					{
-						$xml_prdextradocument .= "<$xmlexportdata->prdextrafield_element_name>";
+						$xml_prdextradocument .= "<" . $prdextrafieldlist[$j]->name . ">";
 
 						while (list($prop, $val) = each($prdextrafieldlist[$j]))
 						{
+							if ($prop == 'name')
+							{
+								continue;
+							}
+
 							$val = html_entity_decode($val);
 							$xml_prdextradocument .= "<$prop><![CDATA[$val]]></$prop>";
 						}
 
-						$xml_prdextradocument .= "</$xmlexportdata->prdextrafield_element_name>";
+						$xml_prdextradocument .= "</" . $prdextrafieldlist[$j]->name . ">";
 					}
 
 					$xml_prdextradocument .= "</" . $xmlexportdata->prdextrafield_element_name . "s>";
@@ -1979,29 +1984,30 @@ class xmlHelper
 
 	public function getExtraFieldList($xmlarray = array(), $section_id = 0, $fieldsection = 0)
 	{
-		$list = array();
-		$field = array();
-		$strfield = "";
+		$db       = JFactory::getDbo();
+		$list     = array();
+		$field    = array();
 
 		if (count($xmlarray) > 0)
 		{
 			foreach ($xmlarray AS $key => $value)
 			{
-				$field[] = $key . " AS " . $value;
+				$field[] = $db->qn($key, $value);
 			}
 
 			if (count($field) > 0)
 			{
-				$strfield = implode(", ", $field);
-			}
+				$query = $db->getQuery(true)
+					->select($field)
+					->select($db->qn('f.field_name', 'name'))
+					->from($db->qn('#__redshop_fields_data', 'fd'))
+					->innerjoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.field_id')
+					->where($db->qn('fd.itemid') . ' = ' . (int) $section_id)
+					->where($db->qn('fd.section') . ' = ' . (int) $fieldsection);
 
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . " FROM " . $this->_table_prefix . "fields_data "
-					. "WHERE itemid=" . (int) $section_id . " "
-					. "AND section=" . (int) $fieldsection . " ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectList();
+				$db->setQuery($query);
+
+				$list = $db->loadObjectList();
 			}
 		}
 
