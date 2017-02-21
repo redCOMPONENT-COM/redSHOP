@@ -150,12 +150,22 @@ class RedshopModelStatistic_Order extends RedshopModelList
 			->from($db->qn('#__redshop_orders', 'o'))
 			->leftjoin($db->qn('#__redshop_order_users_info', 'ouf') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('ouf.order_id'))
 			->where($db->qn('ouf.address_type') . ' = ' . $db->q('BT'))
+			->where($db->qn('o.order_payment_status') . ' = ' . $db->quote('Paid'))
 			->order($db->qn('o.order_id') . ' DESC');
 
-		if (!empty($this->filterStartDate) && !empty($this->filterEndDate))
+		// Filter: Date Range
+		$filterDateRange = JFactory::getApplication()->input->post->get('filter', array());
+		$filterDateRange = $filterDateRange[0];
+
+		if (!empty($filterDateRange))
 		{
-			$query->where($db->qn('o.cdate') . ' > ' . $db->q(strtotime($this->filterStartDate)))
-				->where($db->qn('o.cdate') . ' <= ' . $db->q(strtotime($this->filterEndDate) + 86400));
+			$filterDateRange = explode('-', $filterDateRange);
+
+			$startDate = (isset($filterDateRange[0])) ? (int) $filterDateRange[0] : '';
+			$endDate   = (isset($filterDateRange[1])) ? (int) $filterDateRange[1] : '';
+
+			$query->where($db->qn('o.cdate') . ' >= ' . $startDate)
+				->where($db->qn('o.cdate') . ' <= ' . $endDate);
 		}
 
 		return $this->_getList($query);
