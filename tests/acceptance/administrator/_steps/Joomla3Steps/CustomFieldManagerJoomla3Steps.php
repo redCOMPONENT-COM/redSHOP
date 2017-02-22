@@ -31,23 +31,27 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function addField($name = 'SampleField', $title = 'Field Title', $type = 'Text area', $section = 'Category', $option = 'Testing Options')
 	{
 		$I = $this;
-		$fieldsForOptions = array("Check box", "Image", "Image with link", "Multiple select box", );
+		$fieldsForOptions = 
+		array("Check box",
+			"Country selection box");
+		if ($type == "Check box")
+		{
 		$I->amOnPage(\CustomFieldManagerJoomla3Page::$URL);
 		$customFieldsManagerPage = new \CustomFieldManagerJoomla3Page;
-		$I->verifyNotices(false, $this->checkForNotices(), 'Fields Manager Page');
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Fields Manager Page');
 		$I->click('New');
-		$I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName,30);
-		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldName, $name);
 		$I->click(\CustomFieldManagerJoomla3Page::$fieldTypeDropDown);
-		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldTypeSearchField, $type);
-		$I->waitForElement($customFieldsManagerPage->fieldType($type),60);
+		$I->fillField('//*[@id="s2id_autogen1_search"]', $type); 
+		$I->waitForElement($customFieldsManagerPage->fieldType($type),30);
 		$I->click($customFieldsManagerPage->fieldType($type));
-		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $title);
 		$I->click(\CustomFieldManagerJoomla3Page::$fieldSectionDropDown);
-		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldSectionSearchField, $section);
-		$I->waitForElement($customFieldsManagerPage->fieldSection($section),60);
+		$I->fillField('//*[@id="s2id_autogen2_search"]', $section);
+		$I->waitForElement($customFieldsManagerPage->fieldSection($section),30);
 		$I->click($customFieldsManagerPage->fieldSection($section));
-		//$I->fillField(\CustomFieldManagerJoomla3Page::$optionValueField, $option);
+		$I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName,30);
+		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldName, $name);		
+		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $title);
+		$I->fillField(\CustomFieldManagerJoomla3Page::$optionValueField,$option);
 		$I->click('Save & Close');
 		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage,10,\CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
 
@@ -62,6 +66,42 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
+	    }
+
+	    if ($type == "Country selection box")
+		{
+		$I->amOnPage(\CustomFieldManagerJoomla3Page::$URL);
+		$customFieldsManagerPage = new \CustomFieldManagerJoomla3Page;
+		//$I->verifyNotices(false, $this->checkForNotices(), 'Fields Manager Page');
+		$I->click('New');
+		$I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName,30);
+		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldName, $name);
+		$I->click(\CustomFieldManagerJoomla3Page::$fieldTypeDropDown);
+		$I->fillField('//*[@id="s2id_autogen1_search"]', $type); 
+		$I->waitForElement($customFieldsManagerPage->fieldType($type),30);
+		$I->click($customFieldsManagerPage->fieldType($type));
+		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $title);
+		$I->click(\CustomFieldManagerJoomla3Page::$fieldSectionDropDown);
+		$I->fillField('//*[@id="s2id_autogen2_search"]', $section);
+		$I->waitForElement($customFieldsManagerPage->fieldSection($section),30);
+		$I->click($customFieldsManagerPage->fieldSection($section));
+		//$I->fillField(\CustomFieldManagerJoomla3Page::$optionValueField,$option);
+		$I->click('Save & Close');
+		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage,10,\CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
+        $I->click('//*[@id="editcell"]/div[1]/div[1]/div/input[3]');
+		if ($type == "Country selection box")
+		{
+			$I->executeJS('window.scrollTo(0,0)');
+			$I->click(['link' => 'ID']);
+		}
+
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->click(['link' => 'ID']);
+		var_dump($title);
+		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->click(['link' => 'ID']);
+	    }
 	}
 
 	/**
@@ -79,14 +119,10 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(['link' => 'ID']);
 		$I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
 		$I->click(\CustomFieldManagerJoomla3Page::$selectFirst);
-		$I->click('Edit');
 		$I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName,30);
 		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $updatedTitle);
 		$I->click('Save & Close');
-		$I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage,10,\CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
-		$I->see($updatedTitle, \CustomFieldManagerJoomla3Page::$firstResultRow);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
+		
 	}
 
 	/**
@@ -99,7 +135,8 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeFieldState($title, $state = 'unpublish')
 	{
-		$this->changeState(new \CustomFieldManagerJoomla3Page, $title, $state, \CustomFieldManagerJoomla3Page::$firstResultRow, \CustomFieldManagerJoomla3Page::$selectFirst);
+		$this->changeState(new \CustomFieldManagerJoomla3Page, $title, $state, \CustomFieldManagerJoomla3Page::$firstResultRow, \CustomFieldManagerJoomla3Page::$selectFirst);	
+		
 	}
 
 	/**

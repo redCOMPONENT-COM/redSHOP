@@ -17,27 +17,31 @@ class CustomFieldManagerJoomla3Page
 {
 	public static $URL = '/administrator/index.php?option=com_redshop&view=fields';
 
-	public static $fieldName = "//input[@id='field_name']";
+	public static $fieldName = "#field_name";
 
-	public static $fieldTitle = "//input[@id='field_title']";
+	public static $fieldTitle = "//*[@id='field_title']";
 
-	public static $fieldTypeDropDown = "//div[@id='field_type_chzn']/a";
+	public static $fieldTypeDropDown = "//*[@id='select2-chosen-1']";
 
-	public static $fieldTypeSearchField = "//div[@id='field_type_chzn']/div/div/input";
+	public static $searchFilter = "//*[@id='filter']";	
 
-	public static $fieldSectionDropDown = "//div[@id='field_section_chzn']/a";
+	public static $fieldTypeSearchField = "//*[@id='s2id_autogen1_search']";
+
+	public static $fieldSectionDropDown = "//*[@id='select2-chosen-2']";
+	
+	public static $checkAll = "//tbody/tr[1]/td[3]/a";
 
 	public static $fieldSectionSearchField = "//div[@id='field_section_chzn']/div/div/input";
 
 	public static $fieldSuccessMessage = 'Field details saved';
 
-	public static $fieldMessagesLocation = "//div[@id='system-message-container']/div/p";
+	public static $fieldMessagesLocation = "//*[@class='alert-message']";
 
-	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
+	public static $firstResultRow = "//tbody/tr[1]/td[3]/a";
 
-	public static $selectFirst = "//input[@id='cb0']";
+	public static $selectFirst = "//tbody/tr[1]/td[3]/a";
 
-	public static $fieldStatePath = "//div[@id='editcell']/table/tbody/tr[1]/td[8]/a";
+	public static $fieldStatePath = "//tbody/tr[1]/td[8]/a";
 
 	public static $optionValueField = "//input[@name='extra_value[]']";
 
@@ -50,8 +54,7 @@ class CustomFieldManagerJoomla3Page
 	 */
 	public function fieldType($type)
 	{
-		$path = "//div[@id='field_type_chzn']/div/ul/li//em[contains(text(),'" . $type . "')]";
-
+		$path = "//*[@id='select2-results-1']";
 		return $path;
 	}
 
@@ -64,7 +67,7 @@ class CustomFieldManagerJoomla3Page
 	 */
 	public function fieldSection($section)
 	{
-		$path = "//div[@id='field_section_chzn']/div/ul/li//em[contains(text(),'" . $section . "')]";
+		$path = "//*[@id='select2-results-2']";
 
 		return $path;
 	}

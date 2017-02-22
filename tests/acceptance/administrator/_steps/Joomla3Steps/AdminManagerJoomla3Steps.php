@@ -84,7 +84,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
 		$I->filterListBySearching($deleteItem);
-		$I->click($check);
+		$I->click('//tbody/tr[1]/td[2]/div');
 		$I->click('Delete');
 		$I->dontSeeElement(['link' => $deleteItem]);
 	}
@@ -136,15 +136,31 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
 		$I->filterListBySearching($item, $searchField);
-		$I->click($check);
-
+		var_dump($check);
+		$I->click('//tbody/tr[1]/td[3]/a');
 		if ($state == 'unpublish')
 		{
-			$I->click("Unpublish");
+			$I->click('//*[@id="published0-lbl"]/div');
 		}
 		else
 		{
-			$I->click("Publish");
+			$I->click('//*[@id="published1-lbl"]/div');
+		}
+	}
+
+	public function changeState1($pageClass, $item, $state, $resultRow, $check, $searchField = ['id' => 'filter'])
+	{
+		$I = $this;
+		$I->amOnPage($pageClass::$URL);
+		$I->filterListBySearching($item, $searchField);
+		$I->click('//tbody/tr[1]/td[3]/div/a');
+		if ($state == 'unpublish')
+		{
+			$I->click('//*[@id="jform_published"]/div[2]');
+		}
+		else
+		{
+			$I->click('//*[@id="jform_published"]/div[1]');
 		}
 	}
 
@@ -159,9 +175,10 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	public function filterListBySearching($text, $searchField = ['id' => 'filter_search'])
 	{
 		$I = $this;
-		$I->executeJS('window.scrollTo(0,0)');
+		$I->click('Reset');
 		$I->fillField($searchField, $text);
-		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->pressKey($searchField, \WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
 	}
+	
 }
