@@ -464,14 +464,14 @@ class RedshopModelStatistic extends RedshopModelList
 		$minDate = $db->setQuery($query)->loadResult();
 
 		$query = $db->getQuery(true)
-					->clear()
-					->select('FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate')
-					->select('SUM(o.order_total) AS turnover')
-					->from($db->qn('#__redshop_orders', 'o'))
-					->leftjoin($db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id'))
-					->where($db->qn('uf.address_type') . ' = ' . $db->q('BT'))
-					->where($db->qn('o.order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ',' . $db->q('BMU') . ')')
-					->order($db->qn('o.cdate'));
+			->clear()
+			->select('FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate')
+			->select('SUM(o.order_total) AS turnover')
+			->from($db->qn('#__redshop_orders', 'o'))
+			->leftjoin($db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id'))
+			->where($db->qn('uf.address_type') . ' = ' . $db->q('BT'))
+			->where($db->qn('o.order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ',' . $db->q('BMU') . ')')
+			->order($db->qn('o.cdate'));
 
 		$turnOver = $this->_getList($query);
 
