@@ -3875,7 +3875,6 @@ class productHelper
 		$user_id    = 0;
 		$url        = JURI::base();
 		$redconfig  = Redconfiguration::getInstance();
-		$extraField = extraField::getInstance();
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 
@@ -4316,7 +4315,7 @@ class productHelper
 						}
 					}
 
-					$fieldArray = $extraField->getSectionFieldList(1, 1, 1);
+					$fieldArray = RedshopHelperExtrafields::getSectionFieldList(1, 1, 1);
 
 					if (count($fieldArray) > 0)
 					{
