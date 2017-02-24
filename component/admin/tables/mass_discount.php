@@ -499,6 +499,7 @@ class RedshopTableMass_Discount extends RedshopTable
 			->set($db->qn('product_on_sale') . ' = 0')
 			->set($db->qn('discount_stratdate') . ' = 0')
 			->set($db->qn('discount_enddate') . ' = 0')
+			->set($db->qn('discount_price') . ' = 0')
 			->where($db->qn('product_id') . ' IN (' . implode(',', $productIds) . ')');
 
 		return $db->setQuery($query)->execute();
