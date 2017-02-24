@@ -148,7 +148,7 @@ class RedshopHelperUser
 				if (count($shippingAddress) > 0 && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST')
 				{
 					$users_info_id = $shippingAddress[0]->users_info_id;
-					$userInformation = self::getUserInformation($userId, 'ST', $users_info_id, false);
+					$userInformation = self::getUserInformation($userId, 'ST', $users_info_id);
 				}
 
 				$userArr['rs_user_info_id'] = isset($userInformation->users_info_id) ? $userInformation->users_info_id : 0;
