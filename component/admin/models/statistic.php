@@ -94,7 +94,7 @@ class RedshopModelStatistic extends RedshopModelList
 				{
 					if ($this->_filteroption == 2)
 					{
-						$rs[$i]->viewdate = "Week " . date("W - Y", strtotime($list->preday) + 1);
+						$rs[$i]->viewdate = JText::_('COM_REDSHOP_WEEK') . " " . date("W - Y", strtotime($list->preday) + 1);
 					}
 
 					$result[] = $rs[$i];
@@ -166,7 +166,7 @@ class RedshopModelStatistic extends RedshopModelList
 				{
 					if ($this->_filteroption == 2)
 					{
-						$rs[$i]->viewdate = "Week " . date("W - Y", strtotime($list->preday) + 1);
+						$rs[$i]->viewdate = JText::_('COM_REDSHOP_WEEK') . " " . date("W - Y", strtotime($list->preday) + 1);
 					}
 
 					$result[] = $rs[$i];
@@ -229,7 +229,7 @@ class RedshopModelStatistic extends RedshopModelList
 				{
 					if ($this->_filteroption == 2)
 					{
-						$rs[$i]->viewdate = "Week " . date("W - Y", strtotime($list->preday) + 1);
+						$rs[$i]->viewdate = JText::_('COM_REDSHOP_WEEK') . " " . date("W - Y", strtotime($list->preday) + 1);
 					}
 
 					$result[] = $rs[$i];
@@ -294,7 +294,7 @@ class RedshopModelStatistic extends RedshopModelList
 				{
 					if ($this->_filteroption == 2)
 					{
-						$rs[$i]->viewdate = "Week " . date("W - Y", strtotime($list->preday) + 1);
+						$rs[$i]->viewdate = JText::_('COM_REDSHOP_WEEK') . " " . date("W - Y", strtotime($list->preday) + 1);
 					}
 
 					$result[] = $rs[$i];
@@ -491,7 +491,7 @@ class RedshopModelStatistic extends RedshopModelList
 				{
 					if ($this->_filteroption == 2)
 					{
-						$rs[0]->viewdate = "Week " . date("W - Y", strtotime($list->preday) + 1);
+						$rs[0]->viewdate = JText::_('COM_REDSHOP_WEEK') . " " . date("W - Y", strtotime($list->preday) + 1);
 					}
 
 					$result[] = $rs[0];
@@ -552,7 +552,7 @@ class RedshopModelStatistic extends RedshopModelList
 				{
 					if ($this->_filteroption == 2)
 					{
-						$rs[0]->viewdate = "Week " . date("W - Y", strtotime($list->preday) + 1);
+						$rs[0]->viewdate = JText::_('COM_REDSHOP_WEEK') . " " . date("W - Y", strtotime($list->preday) + 1);
 					}
 
 					$result[] = $rs[0];
@@ -623,7 +623,7 @@ class RedshopModelStatistic extends RedshopModelList
 				{
 					if ($this->_filteroption == 2)
 					{
-						$rs[$i]->viewdate = "Week " . date("W - Y", strtotime($list->preday) + 1);
+						$rs[$i]->viewdate = JText::_('COM_REDSHOP_WEEK') . " " . date("W - Y", strtotime($list->preday) + 1);
 					}
 
 					$result[] = $rs[$i];
@@ -689,7 +689,7 @@ class RedshopModelStatistic extends RedshopModelList
 				{
 					if ($this->_filteroption == 2)
 					{
-						$rs[$i]->viewdate = "Week " . date("W - Y", strtotime($list->preday) + 1);
+						$rs[$i]->viewdate = JText::_('COM_REDSHOP_WEEK') . " " . date("W - Y", strtotime($list->preday) + 1);
 					}
 
 					$result[] = $rs[$i];
@@ -757,7 +757,7 @@ class RedshopModelStatistic extends RedshopModelList
 				{
 					if ($this->_filteroption == 2)
 					{
-						$rs[$i]->viewdate = "Week " . date("W - Y", strtotime($list->preday) + 1);
+						$rs[$i]->viewdate = JText::_('COM_REDSHOP_WEEK') . " " . date("W - Y", strtotime($list->preday) + 1);
 					}
 
 					$result[] = $rs[$i];
@@ -822,7 +822,7 @@ class RedshopModelStatistic extends RedshopModelList
 				{
 					if ($this->_filteroption == 2)
 					{
-						$rs[$i]->viewdate = "Week " . date("W - Y", strtotime($list->preday) + 1);
+						$rs[$i]->viewdate = JText::_('COM_REDSHOP_WEEK') . " " . date("W - Y", strtotime($list->preday) + 1);
 					}
 
 					$result[] = $rs[$i];
@@ -889,7 +889,7 @@ class RedshopModelStatistic extends RedshopModelList
 
 					if ($this->_filteroption == 2)
 					{
-						$rs[0]->viewdate = "Week " . date("W - Y", strtotime($list->preday) + 1);
+						$rs[0]->viewdate = JText::_('COM_REDSHOP_WEEK') . " " . date("W - Y", strtotime($list->preday) + 1);
 					}
 
 					$result[] = $rs[0];
