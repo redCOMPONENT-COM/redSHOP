@@ -43,6 +43,17 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$orderItem = $adminproducthelper->redesignProductItem($post);
 		$post['order_item'] = $orderItem;
 
+		if (empty($orderItem[0]->product_id))
+		{
+			$msg = JText::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT');
+			$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $post['user_id']
+					. '&shipping_users_info_id=' . $post['shipp_users_info_id']
+			, $msg
+			, 'warning');
+
+			return;
+		}
+
 		// Check product Quantity
 		$stocknote = '';
 
@@ -89,7 +100,9 @@ class RedshopControllerAddorder_detail extends RedshopController
 			{
 				$msg = JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK');
 				$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $post['user_id']
-						. '&shipping_users_info_id=' . $post['shipp_users_info_id'], $msg
+						. '&shipping_users_info_id=' . $post['shipp_users_info_id']
+				, $msg
+				, 'warning'
 				);
 
 				return;
