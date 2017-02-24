@@ -9,14 +9,17 @@
 
 defined('_JEXEC') or die;
 
+extract($displayData);
+
 $logoLgUrl = JUri::root() . 'media/com_redshop/images/redshop_white_logo.png';
 
 ?>
-
+<?php if (!$disableSidebar): ?>
 <!-- Sidebar toggle button-->
 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
 	<span class="sr-only">Toggle navigation</span>
 </a>
+<?php endif; ?>
 
 <!-- Logo -->
 <a href="<?php echo JRoute::_('index.php?option=com_redshop'); ?>" class="logo">
