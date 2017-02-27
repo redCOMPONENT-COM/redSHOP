@@ -45,7 +45,7 @@ $url = $uri->root();
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
-							<?php echo JText::_('COM_REDSHOP_TAX_GROUP_NAME_LBL'); ?>:
+							<?php echo JText::_('COM_REDSHOP_TAX_GROUP_NAME_LBL'); ?><span class="star text-danger"> *</span>:
 						</label>
 					</td>
 					<td>

@@ -25,7 +25,8 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 			<div class="box-body">
 				<div class="form-group">
 					<label for="name">
-						<?php echo JText::_('COM_REDSHOP_NAME'); ?>:
+						<?php echo JText::_('COM_REDSHOP_NAME'); ?>
+						<span class="star text-danger"> *</span>:
 					</label>
 					<input class="text_area" type="text" name="manufacturer_name" id="manufacturer_name" size="32"
 						   maxlength="250" value="<?php echo $this->detail->manufacturer_name; ?>"/>
