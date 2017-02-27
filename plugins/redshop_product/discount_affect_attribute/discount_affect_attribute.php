@@ -20,8 +20,6 @@ class PlgRedshop_ProductDiscount_Affect_Attribute extends JPlugin
 {
 	protected $autoloadLanguage = true;
 
-	private static $productAttributeData = array();
-
 	/**
 	 * Constructor
 	 *
