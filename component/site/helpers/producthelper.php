@@ -597,7 +597,7 @@ class productHelper
 
 			if ($userArr['rs_user_info_id'] && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST')
 			{
-				$userdata        = $this->getUserInformation($user_id, '', $userArr['rs_user_info_id'], false);
+				$userdata        = RedshopHelperUser::getUserInformation($user_id, '', $userArr['rs_user_info_id'], false);
 			}
 
 			if (count($userdata) > 0)
