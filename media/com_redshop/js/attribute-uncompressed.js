@@ -652,9 +652,10 @@ function collectAttributes(productId, accessoryId, relatedProductId)
             {
                 var oprandElementId          = 'property_id_' + commonid + '_oprand',
                     priceElementId           = 'property_id_' + commonid + '_proprice',
-                    priceWithoutVatElementId = 'property_id_' + commonid + '_proprice_withoutvat';
+                    priceWithoutVatElementId = 'property_id_' + commonid + '_proprice_withoutvat'
+                    priceOldElementId        = 'property_id_' + commonid + '_prooldprice';
 
-                old_price         = calculateSingleProductPrice(old_price, oprandElementId, priceElementId, properties);
+                old_price         = calculateSingleProductPrice(old_price, oprandElementId, priceOldElementId, properties);
                 price_without_vat = calculateSingleProductPrice(price_without_vat, oprandElementId, priceWithoutVatElementId, properties);
             }
 
@@ -725,8 +726,9 @@ function collectAttributes(productId, accessoryId, relatedProductId)
                         var oprandElementId          = 'subproperty_id_' + subCommonId + '_oprand',
                             priceElementId           = 'subproperty_id_' + subCommonId + '_proprice',
                             priceWithoutVatElementId = 'subproperty_id_' + subCommonId + '_proprice_withoutvat';
+                            priceOldElementId        = 'subproperty_id_' + subCommonId + '_prooldprice';
 
-                        old_price         = calculateSingleProductPrice(old_price, oprandElementId, priceElementId, subProperties);
+                        old_price         = calculateSingleProductPrice(old_price, oprandElementId, priceOldElementId, subProperties);
                         price_without_vat = calculateSingleProductPrice(price_without_vat, oprandElementId, priceWithoutVatElementId, subProperties);
                     }
 
@@ -2154,20 +2156,20 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
     for (var ex = 0; ex < extrafields.length; ex++) {
 
         if (!extrafields[ex].value && extrafields[ex].type == 'text') {
-            extrafieldNames += extrafields[ex].id; 	// make Id as Name
+            extrafieldNames += extrafields[ex].id;  // make Id as Name
             if ((extrafields.length - 1) != ex) {
                 extrafieldNames += ',';
             }
         }
         else if (!extrafields[ex].value && extrafields[ex].type == 'select-one') {
-            extrafieldNames += extrafields[ex].id; 	// make Id as Name
+            extrafieldNames += extrafields[ex].id;  // make Id as Name
             if ((extrafields.length - 1) != ex) {
                 extrafieldNames += ',';
             }
         }
         else if (!extrafields[ex].value && extrafields[ex].type == 'hidden') {
             imgfieldNamefrmId = redSHOP.filterExtraFieldName(extrafields[ex].id);
-            extrafieldNames += imgfieldNamefrmId; 	// make Id as Name
+            extrafieldNames += imgfieldNamefrmId;   // make Id as Name
             if ((extrafields.length - 1) != ex) {
                 extrafieldNames += ',';
             }
@@ -2946,14 +2948,14 @@ function addmywishlist(frmCartName, product_id, myitemid) {
 
             imgfieldNamefrmId = redSHOP.filterExtraFieldName(extrafields[ex].id);
 
-            extrafieldName = imgfieldNamefrmId; 	// make Id as Name
-            extrafieldVal = extrafields[ex].value;	// get extra field value
+            extrafieldName = imgfieldNamefrmId;     // make Id as Name
+            extrafieldVal = extrafields[ex].value;  // get extra field value
             extrafieldpost += "&" + extrafieldName + "=" + extrafieldVal;
             extrafieldVal = "";
         } else if (extrafields[ex].type == 'text') {
 
-            extrafieldName = extrafields[ex].id; 	// make Id as Name
-            extrafieldVal = extrafields[ex].value;	// get extra field value
+            extrafieldName = extrafields[ex].id;    // make Id as Name
+            extrafieldVal = extrafields[ex].value;  // get extra field value
             extrafieldpost += "&" + extrafieldName + "=" + extrafieldVal;
 
         }
@@ -2967,8 +2969,8 @@ function addmywishlist(frmCartName, product_id, myitemid) {
             }
 
 
-            extrafieldName = extrafields[ex].id; 	// make Id as Name
-            extrafieldVal = extrafields[ex].value;	// get extra field value
+            extrafieldName = extrafields[ex].id;    // make Id as Name
+            extrafieldVal = extrafields[ex].value;  // get extra field value
             extrafieldpost += "&" + extrafieldName + "=" + extrafieldVal;
         }
 
