@@ -9105,7 +9105,6 @@ class productHelper
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = $this->getRelatedProductTemplate($template_desc);
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
-		$texts            = new text_library;
 
 		if (count($related_template) > 0)
 		{
@@ -9279,7 +9278,7 @@ class productHelper
 			}
 		}
 
-		$template_desc = $texts->replace_texts($template_desc);
+		$template_desc = RedshopHelperText::replaceTexts($template_desc);
 
 		return $template_desc;
 	}
