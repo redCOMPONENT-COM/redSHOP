@@ -3236,13 +3236,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 				{
 					if ($preorder_stock != "" || $quantity != "")
 					{
-						if ($quantity != "" && !Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
+						if ($quantity != "")
 						{
-							if ($quantity == "")
-							{
-								$quantity = 0;
-							}
-
 							$this->InsertStockroom(
 													$post['section_id'],
 													$post['section'],
