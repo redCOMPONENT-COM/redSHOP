@@ -134,7 +134,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			}
 			else
 			{
-				$imageName = basename($url);
+				$imageName = basename($data['product_thumb_image']);
 				$data['product_thumb_image'] = $imageName;
 			}
 		}
@@ -156,7 +156,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			}
 			else
 			{
-				$imageName = basename($url);
+				$imageName = basename($data['product_full_image']);
 				$data['product_full_image'] = $imageName;
 			}
 		}
@@ -178,7 +178,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			}
 			else
 			{
-				$imageName = basename($url);
+				$imageName = basename($data['product_back_full_image']);
 				$data['product_back_full_image'] = $imageName;
 			}
 		}
@@ -200,7 +200,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			}
 			else
 			{
-				$imageName = basename($url);
+				$imageName = basename($data['product_preview_back_image']);
 				$data['product_preview_back_image'] = $imageName;
 			}
 		}
@@ -222,7 +222,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			}
 			else
 			{
-				$imageName = basename($url);
+				$imageName = basename($data['product_back_thumb_image']);
 				$data['product_back_thumb_image'] = $imageName;
 			}
 		}
@@ -244,7 +244,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			}
 			else
 			{
-				$imageName = basename($url);
+				$imageName = basename($data['product_preview_image']);
 				$data['product_preview_image'] = $imageName;
 			}
 		}
