@@ -337,11 +337,6 @@ class RedshopTableMass_Discount extends RedshopTable
 			{
 				$productData = Redshop::product((int) $product->product_id);
 
-				if ($productData->product_on_sale == 1)
-				{
-					continue;
-				}
-
 				if ($this->type == 1)
 				{
 					$price = $productData->product_price - ($productData->product_price * $this->amount / 100);
@@ -435,11 +430,6 @@ class RedshopTableMass_Discount extends RedshopTable
 			foreach ($productIds as $productId)
 			{
 				$productData = Redshop::product((int) $productId);
-
-				if ($productData->product_on_sale == 1)
-				{
-					continue;
-				}
 
 				if ($this->type == 1)
 				{
