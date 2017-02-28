@@ -144,7 +144,8 @@
       "postdanmark",
       "shoppergroup_tags",
       "stock_notifyemail",
-      "stockroom_status"
+      "stockroom_status",
+      "custom_field_mapping"
     ],
     "redshop_shipping": [
       "bring",
