@@ -46,7 +46,7 @@ defined('_JEXEC') or die;
 					array(
 						'title' => JText::_('COM_REDSHOP_ACCESSORY_PRODUCT_DESC_MAX_CHARS_LBL'),
 						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_ACCESSORY_PRODUCT_DESC_MAX_CHARS_LBL'),
-						'field' => '<input type="text" name="accessory_product_desc_max_chars" class="form-control"'
+						'field' => '<input type="number" name="accessory_product_desc_max_chars" class="form-control"'
 							. ' id="accessory_product_desc_max_chars" value="' . $this->config->get('ACCESSORY_PRODUCT_DESC_MAX_CHARS') . '" />'
 					)
 				);

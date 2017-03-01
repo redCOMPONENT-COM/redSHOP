@@ -22,7 +22,7 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_MAXCATEGORY_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_MAXCATEGORY_LBL'),
-		'field' => '<input type="text" class="form-control" name="maxcategory" id="maxcategory" value="' . $this->config->get('MAXCATEGORY') . '" />'
+		'field' => '<input type="number" class="form-control" name="maxcategory" id="maxcategory" value="' . $this->config->get('MAXCATEGORY') . '"/>'
 	)
 );
 

@@ -420,6 +420,7 @@ class RedshopHelperConfig
 				});
 			})(jQuery);
 		');
+
 		self::$isLoadScriptDeclaration = true;
 	}
 

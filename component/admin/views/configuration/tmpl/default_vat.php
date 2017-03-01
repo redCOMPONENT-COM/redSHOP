@@ -53,7 +53,7 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_VAT_RATE_AFTER_DISCOUNT_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_VAT_RATE_AFTER_DISCOUNT_LBL'),
-		'field' => '<input type="text" name="vat_rate_after_discount" id="vat_rate_after_discount" class="form-control"
+		'field' => '<input type="number" name="vat_rate_after_discount" id="vat_rate_after_discount" class="form-control"
             value="' . $this->config->get('VAT_RATE_AFTER_DISCOUNT') . '" />'
 	)
 );
