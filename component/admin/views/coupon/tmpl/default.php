@@ -36,7 +36,7 @@ $url = JURI::base();
 	}
 	function clearreset() {
 		var form = document.adminForm;
-		form.filter.value = "";
+		form.filter_search.value = "";
 		form.submit();
 	}
 </script>
@@ -45,7 +45,7 @@ $url = JURI::base();
 		<div class="filterTool">
 			<div class="filterItem">
 				<div class="btn-wrapper input-append">
-					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
+					<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->filter; ?>"
 						   placeholder="<?php echo JText::_('COM_REDSHOP_COUPON_FILTER'); ?>">
 					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
 					<input type="reset" class="btn reset" name="reset" id="reset" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
