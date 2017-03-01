@@ -11,24 +11,28 @@ defined('_JEXEC') or die;
 ?>
 
 <fieldset class="adminform">
-	<div class="row">
-		<div class="col-sm-6">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('system_information');?>
-			</fieldset>
-
-		</div>
-
-		<div class="col-sm-6">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('redshop_modules');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('redshop_shipping');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('redshop_plugins');?>
-			</fieldset>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-sm-6">
+            <fieldset class="adminform">
+				<?php echo $this->loadTemplate('system_information') ?>
+            </fieldset>
+        </div>
+        <div class="col-sm-6">
+            <fieldset class="adminform">
+				<?php echo $this->loadTemplate('redshop_modules'); ?>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <fieldset class="adminform">
+				<?php echo $this->loadTemplate('redshop_shipping') ?>
+            </fieldset>
+        </div>
+        <div class="col-sm-6">
+            <fieldset class="adminform">
+				<?php echo $this->loadTemplate('redshop_plugins'); ?>
+            </fieldset>
+        </div>
+    </div>
 </fieldset>

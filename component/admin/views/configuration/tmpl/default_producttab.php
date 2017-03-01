@@ -13,33 +13,61 @@ defined('_JEXEC') or die;
 echo JHtml::_('bootstrap.startTabSet', 'product-pane', array('active' => 'product'));
 echo JHtml::_('bootstrap.addTab', 'product-pane', 'product', JText::_('COM_REDSHOP_PRODUCT', true));
 ?>
-<div class="row">
-	<div class="col-sm-6">
-		<fieldset class="adminform">
-			<?php echo $this->loadTemplate('product_unit');?>
-		</fieldset>
-		<fieldset class="adminform">
-			<?php echo $this->loadTemplate('download');?>
-		</fieldset>
-		<fieldset class="adminform">
-			<?php echo $this->loadTemplate('wrapping');?>
-		</fieldset>
-		<fieldset class="adminform">
-			<?php echo $this->loadTemplate('catalog');?>
-		</fieldset>
-		<fieldset class="adminform">
-			<?php echo $this->loadTemplate('color_sample');?>
-		</fieldset>
-	</div>
+    <div class="row adminform">
+        <div class="col-sm-6">
+			<?php
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_PRODUCT_UNIT'),
+					'content' => $this->loadTemplate('product_unit')
+				)
+			);
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_DOWNLOAD'),
+					'content' => $this->loadTemplate('download')
+				)
+			);
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_WRAPPING_MANAGEMENT'),
+					'content' => $this->loadTemplate('wrapping')
+				)
+			);
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_CATALOG_MANAGEMENT'),
+					'content' => $this->loadTemplate('catalog')
+				)
+			);
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_COLOR_SAMPLE_MANAGEMENT'),
+					'content' => $this->loadTemplate('color_sample')
+				)
+			);
+			?>
+        </div>
 
-	<div class="col-sm-6">
-		<fieldset class="adminform">
-			<?php echo $this->loadTemplate('product_template_image_settings');?>
-		</fieldset>
-	</div>
-</div>
-
+        <div class="col-sm-6">
+			<?php
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_PRODUCT_TEMPLATE'),
+					'content' => $this->loadTemplate('product_template_image_settings')
+				)
+			);
+			?>
+        </div>
+    </div>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
+
 <?php
 echo JHtml::_('bootstrap.addTab', 'product-pane', 'accessory', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT_TAB', true));
 echo $this->loadTemplate('accessory_product');
