@@ -86,9 +86,11 @@ JHtml::_('behavior.modal', 'a.joom-box');
 		<label for="name"><?php
 			echo JText::_('COM_REDSHOP_ADD_VAT_RATES_LBL');
 			?></label></span></td>
-        <td>
-            <a class="btn btn-small btn-info" href="index.php?option=com_redshop&task=tax_rate.edit"
-               target="_blank"><?php echo JText::_('COM_REDSHOP_ADD_RATES'); ?></a>
+        <td><a class="btn btn-small btn-info"
+               href="index.php?option=com_redshop&task=tax_rate.add&tmpl=component"
+               target="blank"><?php
+				echo JText::_('COM_REDSHOP_ADD_RATES');
+				?></a>
         </td>
     </tr>
     <tr>
