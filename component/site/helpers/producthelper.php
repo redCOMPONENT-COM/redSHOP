@@ -4321,7 +4321,7 @@ class productHelper
 					{
 						for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
 						{
-							$fieldValueArray = $extraField->getSectionFieldDataList($fieldArray[$i]->field_id, 1, $accessory [$a]->accessory_id);
+							$fieldValueArray = $extraField->getSectionFieldDataList($fieldArray[$i]->field_id, 1, $accessory [$a]->child_product_id);
 
 							if ($fieldValueArray->data_txt != ""
 								&& $fieldArray[$i]->field_show_in_front == 1
