@@ -76,7 +76,7 @@ echo RedshopLayoutHelper::render(
 		'desc'   => JText::_('COM_REDSHOP_TOOLTIP_PRICE_DECIMAL_LBL'),
 		'id'     => 'price_decimal',
 		'showOn' => 'show_price:1',
-		'field'  => '<input type="text" name="price_decimal" id="price_decimal" class="form-control"
+		'field'  => '<input type="number" name="price_decimal" id="price_decimal" class="form-control"
             value="' . $this->config->get('PRICE_DECIMAL') . '" />'
 	)
 );
@@ -87,7 +87,7 @@ echo RedshopLayoutHelper::render(
 		'desc'   => JText::_('COM_REDSHOP_TOOLTIP_CALCULATION_PRICE_DECIMAL'),
 		'id'     => 'calculation_price_decimal',
 		'showOn' => 'show_price:1',
-		'field'  => '<input type="text" name="calculation_price_decimal" id="calculation_price_decimal" class="form-control"
+		'field'  => '<input type="number" name="calculation_price_decimal" id="calculation_price_decimal" class="form-control"
             value="' . $this->config->get('CALCULATION_PRICE_DECIMAL') . '" />'
 	)
 );

@@ -29,6 +29,7 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_UNIT_DECIMAL_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_UNIT_DECIMAL_LBL'),
-		'field' => '<input type="text" name="unit_decimal" id="unit_decimal" value="' . $this->config->get('UNIT_DECIMAL') . '" class="form-control" />'
+		'field' => '<input type="number" name="unit_decimal" id="unit_decimal" value="'
+			. $this->config->get('UNIT_DECIMAL') . '" class="form-control" />'
 	)
 );

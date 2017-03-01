@@ -40,7 +40,7 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_DISCOUNT_PERCENTAGE_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_PERCENTAGE'),
-		'field' => '<input type="text" name="discount_percentage" id="discount_percentage" class="form-control"'
+		'field' => '<input type="number" name="discount_percentage" id="discount_percentage" class="form-control"'
 			. ' value="' . $this->config->get('DISCOUNT_PERCENTAGE') . '" />'
 	)
 );

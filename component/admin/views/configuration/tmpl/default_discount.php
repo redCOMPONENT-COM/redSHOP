@@ -102,7 +102,7 @@ echo RedshopLayoutHelper::render(
 		'title'  => JText::_('COM_REDSHOP_DISCOUNT_COUPON_VALUE_LBL'),
 		'desc'   => JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_COUPON_VALUE_LBL'),
 		'line'   => false,
-		'field'  => '<input type="text" class="form-control" name="discoupon_value" id="discoupon_value"
+		'field'  => '<input type="number" class="form-control" name="discoupon_value" id="discoupon_value"
 		        value="' . $this->config->get('DISCOUPON_VALUE') . '" />',
 		'id'     => 'discoupon_value',
 		'showOn' => 'discount_enable:1'

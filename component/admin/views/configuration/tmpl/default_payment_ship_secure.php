@@ -43,7 +43,7 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_SPLIT_DELIVERY_COST'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_SPLIT_DELIVERY_COST'),
-		'field' => '<input type="text" name="split_delivery_cost" id="split_delivery_cost" class="form-control"
+		'field' => '<input type="number" name="split_delivery_cost" id="split_delivery_cost" class="form-control"
             value="' . $this->config->get('SPLIT_DELIVERY_COST') . '" />'
 	)
 );
@@ -52,7 +52,7 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_TIME_DIFF_SPILT_CALCULATION'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_TIME_DIFF_SPILT_CALCULATION'),
-		'field' => '<input type="text" name="time_diff_split_delivery" id="time_diff_split_delivery" class="form-control"
+		'field' => '<input type="number" name="time_diff_split_delivery" id="time_diff_split_delivery" class="form-control"
             value="' . $this->config->get('TIME_DIFF_SPLIT_DELIVERY') . '" />'
 	)
 );
@@ -61,7 +61,7 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_DELIVERY_RULE'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_DELIVERY_RULE'),
-		'field' => '<input type="text" name="delivery_rule" id="delivery_rule" class="form-control"
+		'field' => '<input type="number" name="delivery_rule" id="delivery_rule" class="form-control"
             value="' . $this->config->get('DELIVERY_RULE') . '" />'
 	)
 );
