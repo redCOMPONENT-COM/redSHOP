@@ -297,14 +297,13 @@ class RedshopHelperConfig
 	/**
 	 * Load previous configuration
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	protected function loadOldConfig()
 	{
 		// Since 1.6 we started moving to new config than try to migrate it
 		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<'))
 		{
-
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_TRY_TO_MIGRATE_PREVIOUS_CONFIGURATION'), 'notice');
 
 			$oldConfigFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
@@ -462,5 +461,22 @@ class RedshopHelperConfig
 		}
 
 		return boolval($this->config->get($name, $default));
+	}
+
+	/**
+	 * Method for return all config in array format
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function toArray()
+	{
+		if (empty($this->config))
+		{
+			return array();
+		}
+
+		return $this->config->toArray();
 	}
 }
