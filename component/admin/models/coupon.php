@@ -31,11 +31,11 @@ class RedshopModelCoupon extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter_search', 'filter_search', '');
+		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-		$this->setState('filter_search', $filter);
+		$this->setState('filter', $filter);
 	}
 
 	public function getData()
