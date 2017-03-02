@@ -193,4 +193,4 @@ if ($productIds = $db->setQuery($query, 0, $count)->loadColumn())
 	}
 }
 
-require JModuleHelper::getLayoutPath('mod_redshop_products');
+require JModuleHelper::getLayoutPath('mod_redshop_products', $params->get('layout', 'default'));
