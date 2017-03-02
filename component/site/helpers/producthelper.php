@@ -9287,6 +9287,12 @@ class productHelper
 
 					// Related product attribute price list
 					$related_template_data = $this->replaceAttributePriceList($related_product[$r]->product_id, $related_template_data);
+
+					if (strpos($related_template_data, "{wishlist_link}") !== false)
+					{
+						$wishlistLink = "<div class=\"wishlist\">" . $this->replaceWishlistButton($related_product[$r]->product_id, '{wishlist_link}') ."</div>";
+						$related_template_data =  str_replace("{wishlist_link}", $wishlistLink, $related_template_data);
+					}
 				}
 
 				$related_template_data = $tempdata_div_start . $related_template_data . $tempdata_div_end;
