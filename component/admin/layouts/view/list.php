@@ -122,11 +122,11 @@ $user       = JFactory::getUser();
 						<?php if ($isCheckedOut && $canCheckIn || !$isCheckedOut): ?>
                             <a href="index.php?option=com_redshop&task=<?php echo $singleName ?>.edit&id=<?php echo $row->id ?>"
                                class="btn btn-primary">
-                                <i class="fa fa-edit"></i>&nbsp;<?php echo JText::_('JTOOLBAR_EDIT') ?>
+                                <i class="fa fa-edit"></i>
                             </a>
 						<?php else: ?>
                             <a href="javasript:void(0);" class="btn btn-default disabled">
-                                <i class="fa fa-edit"></i>&nbsp;<?php echo JText::_('JTOOLBAR_EDIT') ?>
+                                <i class="fa fa-edit"></i>
                             </a>
 						<?php endif; ?>
                     </td>
