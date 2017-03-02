@@ -9288,6 +9288,8 @@ class productHelper
 			}
 		}
 
+		$template_desc = RedshopHelperText::replaceTexts($template_desc);
+
 		return $template_desc;
 	}
 
