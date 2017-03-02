@@ -22,11 +22,11 @@ defined('_JEXEC') or die;
 			?>
         </div>
         <div class="col-md-6">
-            <div class="panel panel-primary form-vertical">
-                <div class="panel-heading">
-                    <h3><?php echo JText::_('COM_REDSHOP_AVAILABLE_SEO_TAGS') ?></h3>
+            <div class="box box-primary form-vertical">
+                <div class="box-header with-border">
+                    <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_AVAILABLE_SEO_TAGS') ?></h3>
                 </div>
-                <div class="panel-body">
+                <div class="box-body">
 					<?php
 					echo JHtml::_('bootstrap.startTabSet', 'seo-pane', array('active' => 'tags'));
 					echo JHtml::_('bootstrap.addTab', 'seo-pane', 'tags', JText::_('COM_REDSHOP_TITLE_AVAILABLE_SEO_TAGS', true));
