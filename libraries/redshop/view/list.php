@@ -37,6 +37,13 @@ class RedshopViewList extends JViewLegacy
 	protected $displaySidebar = true;
 
 	/**
+	 * Do we have to disable a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $disableSidebar = false;
+
+	/**
 	 * Is table data show column number or not?
 	 *
 	 * @var     bool
@@ -130,7 +137,8 @@ class RedshopViewList extends JViewLegacy
 			array(
 				'view'            => $this,
 				'tpl'             => $tpl,
-				'sidebar_display' => $this->displaySidebar
+				'sidebar_display' => $this->displaySidebar,
+				'disableSidebar'  => $this->disableSidebar
 			)
 		);
 
