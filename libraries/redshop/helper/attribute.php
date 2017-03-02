@@ -309,9 +309,12 @@ abstract class RedshopHelperAttribute
 
 						$attributes_property_vat_show   = 0;
 						$attributes_property_withoutvat = 0;
+						$attributes_property_oldprice   = 0;
 
 						if ($property [$i]->property_price > 0)
 						{
+							$attributes_property_oldprice = $property [$i]->property_price;
+
 							$pricelist = $productHelper->getPropertyPrice($property[$i]->value, 1, 'property');
 
 							if (count($pricelist) > 0)
@@ -332,10 +335,12 @@ abstract class RedshopHelperAttribute
 								if ($property [$i]->oprand != '*' && $property [$i]->oprand != '/')
 								{
 									$attributes_property_vat_show = $productHelper->getProducttax($productId, $property [$i]->property_price, $user_id);
+									$attributes_property_oldprice_vat = $productHelper->getProducttax($productId, $attributes_property_oldprice, $user_id);
 								}
 							}
 
 							$attributes_property_vat_show += $property [$i]->property_price;
+							$attributes_property_oldprice += $attributes_property_oldprice_vat;
 
 							/*
 							 * get product vat to include
@@ -367,12 +372,15 @@ abstract class RedshopHelperAttribute
 						// Add pre-order stock data into property data.
 						$property[$i]->preorder_stock = $preorder_property_stock;
 
+
 						$attribute_table .= '<input type="hidden" id="' . $propertyid . '_oprand' . $property [$i]->value
 							. '" value="' . $property [$i]->oprand . '" />';
 						$attribute_table .= '<input type="hidden" id="' . $propertyid . '_proprice' . $property [$i]->value
 							. '" value="' . $attributes_property_vat_show . '" />';
 						$attribute_table .= '<input type="hidden" id="' . $propertyid . '_proprice_withoutvat' . $property [$i]->value
 							. '" value="' . $attributes_property_withoutvat . '" />';
+						$attribute_table .= '<input type="hidden" id="' . $propertyid . '_prooldprice' . $property [$i]->value
+							. '" value="' . $attributes_property_oldprice . '" />';
 						$attribute_table .= '<input type="hidden" id="' . $propertyid . '_stock' . $property [$i]->value . '" value="'
 							. $property_stock . '" />';
 						$attribute_table .= '<input type="hidden" id="' . $propertyid . '_preorderstock' . $property [$i]->value
@@ -815,6 +823,7 @@ abstract class RedshopHelperAttribute
 					. '" value="' . $priceWithVat . '" />';
 				$propertyData .= '<input type="hidden" id="' . $propertyId . '_proprice_withoutvat'
 					. $property->value . '" value="' . $priceWithoutVat . '" />';
+
 				$propertyData .= '<input type="hidden" id="' . $propertyId . '_stock' . $property->value
 					. '" value="' . $propertyStock . '" />';
 				$propertyData .= '<input type="hidden" id="' . $propertyId . '_preorderstock'

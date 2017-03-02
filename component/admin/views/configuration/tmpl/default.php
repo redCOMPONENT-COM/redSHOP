@@ -10,10 +10,8 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
 
-$uri = JURI::getInstance();
-$url = $uri->root();
+$uri = JUri::root();
 
 $app = JFactory::getApplication();
 $selectedTabPosition = $app->getUserState('com_redshop.configuration.selectedTabPosition', 'general');
@@ -104,6 +102,51 @@ if ($app->input->getInt('dashboard', 0))
 
 		form.submit();
 	}
+</script>
+<script type="text/javascript">
+    function rsConfigShowOn(fieldName, fieldValue, wrapperId)
+    {
+        (function ($) {
+            var $input = $('input[name="' + fieldName + '"]');
+            var $wrapper = $("#" + wrapperId);
+
+            if ($input.length) {
+                var inputType = $input.attr('type');
+                var inputVal  = '';
+
+                if (inputType == "radio") {
+                    inputVal = $('input[name="' + fieldName + '"]:checked').val();
+                }
+                else {
+                    inputVal = $input.val();
+                }
+
+                if (inputVal == fieldValue) {
+                    $wrapper.show('normal', function(){
+                        $(this).next("hr").show();
+                    });
+                }
+                else {
+                    $wrapper.hide('normal', function(){
+                        $(this).next("hr").hide();
+                    })
+                }
+
+                $input.on('change', function (event) {
+                    if ($(this).val() == fieldValue) {
+                        $wrapper.show('normal', function(){
+                            $(this).next("hr").show();
+                        });
+                    }
+                    else {
+                        $wrapper.hide('normal', function(){
+                            $(this).next("hr").hide();
+                        })
+                    }
+                });
+            }
+        })(jQuery);
+    }
 </script>
 <form action="<?php echo 'index.php?option=com_redshop'; ?>" method="post" name="adminForm" id="adminForm"
 	  enctype="multipart/form-data">
