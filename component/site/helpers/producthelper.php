@@ -3872,10 +3872,9 @@ class productHelper
 
 	public function replaceAccessoryData($product_id = 0, $relproduct_id = 0, $accessory = array(), $data_add, $isChilds = false, $selectAcc = array())
 	{
-		$user_id   = 0;
-		$url       = JURI::base();
-		$redconfig = Redconfiguration::getInstance();
-
+		$user_id    = 0;
+		$url        = JURI::base();
+		$redconfig  = Redconfiguration::getInstance();
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 
@@ -4313,6 +4312,30 @@ class productHelper
 						{
 							$accessory_div = str_replace("{accessory_quantity}", "", $accessory_div);
 							$accessory_div = str_replace("{accessory_quantity_lbl}", "", $accessory_div);
+						}
+					}
+
+					$fieldArray = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_PRODUCT, 1, 1);
+
+					if (count($fieldArray) > 0)
+					{
+						for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
+						{
+							$fieldValueArray = $extraField->getSectionFieldDataList($fieldArray[$i]->field_id, 1, $accessory [$a]->child_product_id);
+
+							if ($fieldValueArray->data_txt != ""
+								&& $fieldArray[$i]->field_show_in_front == 1
+								&& $fieldArray[$i]->published == 1
+								&& $giftcard == 0)
+							{
+								$accessory_div = str_replace('{' . $fieldArray[$i]->field_name . '}', $fieldValueArray->data_txt, $accessory_div);
+								$accessory_div = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', $fieldArray[$i]->field_title, $accessory_div);
+							}
+							else
+							{
+								$accessory_div = str_replace('{' . $fieldArray[$i]->field_name . '}', "", $accessory_div);
+								$accessory_div = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', "", $accessory_div);
+							}
 						}
 					}
 				}
