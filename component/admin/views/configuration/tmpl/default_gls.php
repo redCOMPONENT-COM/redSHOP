@@ -8,22 +8,12 @@
  */
 defined('_JEXEC') or die;
 
-?>
-
-<legend><?php echo JText::_('COM_REDSHOP_CONFIG_GLS'); ?></legend>
-
-<div class="form-group">
-	<span
-		class="editlinktip hasTip"
-		title="<?php echo JText::_('COM_REDSHOP_GLS_CUSTOMER_ID_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_GLS_CUSTOMER_ID_LBL'); ?>"
-	>
-		<label for="name">
-			<?php echo JText::_('COM_REDSHOP_GLS_CUSTOMER_ID_LBL'); ?>
-		</label>
-	</span>
-	<input
-		type="text"
-		name="gls_customer_id"
-		id="gls_customer_id"
-		value="<?php echo $this->config->get('GLS_CUSTOMER_ID'); ?>">
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_GLS_CUSTOMER_ID_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_GLS_CUSTOMER_ID_LBL'),
+		'field' => '<input type="text" name="gls_customer_id" id="gls_customer_id"
+            value="' . $this->config->get('GLS_CUSTOMER_ID') . '" class="form-control" />'
+	)
+);
