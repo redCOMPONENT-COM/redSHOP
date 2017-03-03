@@ -9,15 +9,15 @@
 defined('_JEXEC') or die;
 
 ?>
-<legend><?php echo JText::_('COM_REDSHOP_REDSHOP_SHIPPING_PLUGINS'); ?></legend>
 <?php if (!empty($this->getinstalledshipping)): ?>
+    <?php RedshopHelperShipping::loadLanguages(); ?>
     <table class="table table-striped">
         <thead>
-        <tr>
-            <th><?php echo JText::_('COM_REDSHOP_CHECK'); ?></th>
-            <th width="15%" style="text-align: center"><?php echo JText::_('COM_REDSHOP_RESULT'); ?></th>
-            <th width="15%" style="text-align: center"><?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?></th>
-        </tr>
+            <tr>
+                <th><?php echo JText::_('COM_REDSHOP_CHECK'); ?></th>
+                <th width="15%" style="text-align: center"><?php echo JText::_('COM_REDSHOP_RESULT'); ?></th>
+                <th width="15%" style="text-align: center"><?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?></th>
+            </tr>
         </thead>
         <tbody>
 		<?php foreach ($this->getinstalledshipping as $plugin): ?>

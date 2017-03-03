@@ -28,7 +28,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
             <div class="divimages" id="catdiv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $categoryDefaultImage; ?>"
                    title="<?php echo $categoryDefaultImage; ?>" rel="{handler: 'image', size: {}}">
-                    <img height="40" width="40" alt="<?php echo $categoryDefaultImage ?>"
+                    <img height="40" width="40" alt="<?php echo $categoryDefaultImage ?>" class="thumbnail"
                          src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $categoryDefaultImage ?>"/>
                 </a>
                 <a class="remove_link" href="#"
@@ -53,7 +53,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $productDefaultImage ?>"
                    title="<?php echo $productDefaultImage ?>"
                    rel="{handler: 'image', size: {}}">
-                    <img height="40" width="40" alt="<?php echo $productDefaultImage ?>"
+                    <img height="40" width="40" alt="<?php echo $productDefaultImage ?>" class="thumbnail"
                          src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $productDefaultImage ?>"/>
                 </a>
                 <a class="remove_link" href="#"
@@ -77,7 +77,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
             <div class="divimages" id="prodwaterdiv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $watermarkImage; ?>"
                    title="<?php echo $watermarkImage; ?>" rel="{handler: 'image', size: {}}">
-                    <img height="40" width="40" alt="<?php echo Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'); ?>"
+                    <img height="40" width="40" alt="<?php echo Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'); ?>" class="thumbnail"
                          src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $watermarkImage; ?>"/>
                 </a>
                 <a class="remove_link" href="#"
@@ -100,7 +100,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
             <div class="divimages" id="prodstockdiv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $productOutofstockImage; ?>"
                    title="<?php echo $productOutofstockImage; ?>" rel="{handler: 'image', size: {}}">
-                    <img height="40" width="40" alt="<?php echo $productOutofstockImage; ?>"
+                    <img height="40" width="40" alt="<?php echo $productOutofstockImage; ?>" class="thumbnail"
                          src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $productOutofstockImage; ?>"/>
                 </a>
                 <a class="remove_link" href="#"
@@ -124,7 +124,7 @@ $slimbox_img_path = "/components/com_redshop/assets/images/slimbox/";
             <div class="divimages" id="slimboximglinkdiv">
                 <a class="joom-box" title="<?php echo $productDetailLightboxCloseBtnImage; ?>" rel="{handler: 'image', size: {}}"
                    href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'slimbox/' . $productDetailLightboxCloseBtnImage; ?>">
-                    <img alt="<?php echo $productDetailLightboxCloseBtnImage; ?>"
+                    <img alt="<?php echo $productDetailLightboxCloseBtnImage; ?>" class="thumbnail"
                          src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'slimbox/' . $productDetailLightboxCloseBtnImage; ?>"/>
                 </a>
                 <a class="remove_link" href="#"
