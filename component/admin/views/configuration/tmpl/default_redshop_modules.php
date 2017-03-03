@@ -7,10 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
 ?>
-<legend><?php echo JText::_('COM_REDSHOP_REDSHOP_MODULES'); ?></legend>
 <?php if (!empty($this->getinstalledmodule)): ?>
+    <?php RedshopHelperModule::loadLanguages(); ?>
     <table class="table table-striped">
         <thead>
         <tr>
