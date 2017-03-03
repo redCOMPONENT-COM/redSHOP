@@ -292,8 +292,12 @@ class RedshopModelFields extends RedshopModel
 					->from($db->quoteName('#__redshop_fields_data'))
 					->where($db->quoteName('itemid') . ' = ' . (int) $orderitemid)
 					->where($db->quoteName('fieldid') . ' = ' . (int) $fieldid)
-					->where($db->quoteName('user_email') . ' = ' . $db->quote($user_email))
 					->where($db->quoteName('section') . ' = ' . (int) $section);
+
+		if (!empty($user_email))
+		{
+			$query->where($db->quoteName('user_email') . ' = ' . $db->quote($user_email));
+		}
 
 		$db->setQuery($query);
 
