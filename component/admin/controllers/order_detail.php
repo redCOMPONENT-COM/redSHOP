@@ -598,6 +598,11 @@ class RedshopControllerOrder_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId);
 	}
 
+	/**
+	 * Store Extra field
+	 *
+	 * @return  void
+	 */
 	public function storeExtraField()
 	{
 		$data = $this->input->post->getArray();
