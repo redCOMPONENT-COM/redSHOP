@@ -49,11 +49,11 @@ defined('_JEXEC') or die;
 </script>
 <div class="row adminform">
     <div class="col-sm-6">
-        <div class="panel panel-primary form-vertical">
-            <div class="panel-heading">
-                <h3><?php echo JText::_('COM_REDSHOP_ORDER_MAIN_SETTINGS') ?></h3>
+        <div class="box box-primary form-vertical">
+            <div class="box-header with-border">
+                <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_ORDER_MAIN_SETTINGS') ?></h3>
             </div>
-            <div class="panel-body">
+            <div class="box-body">
 				<?php
 				echo RedshopLayoutHelper::render(
 					'config.config',
@@ -105,11 +105,11 @@ defined('_JEXEC') or die;
     </div>
 
     <div class="col-sm-6">
-        <div class="panel panel-primary form-vertical">
-            <div class="panel-heading">
-                <h3><?php echo JText::_('COM_REDSHOP_ORDER_INVOICE_SETTINGS') ?></h3>
+        <div class="box box-primary form-vertical">
+            <div class="box-header with-border">
+                <h3 class="text-primary center"><?php echo JText::_('COM_REDSHOP_ORDER_INVOICE_SETTINGS') ?></h3>
             </div>
-            <div class="panel-body">
+            <div class="box-body">
 				<?php
 				echo RedshopLayoutHelper::render(
 					'config.config',
