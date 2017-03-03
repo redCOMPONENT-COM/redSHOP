@@ -560,14 +560,17 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$bookinvoice[]                   = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_MANUALLY_BOOK'));
 		$bookinvoice[]                   = JHtml::_('select.option', '2', JText::_('COM_REDSHOP_BOOK_ON_ORDER_STATUS'));
 		$lists['economic_invoice_draft'] = JHtml::_('select.genericlist', $bookinvoice, 'economic_invoice_draft',
-			'class="form-control" onchange="javascript:changeBookInvoice(this.value);" ', 'value', 'text',
+			'class="form-control"', 'value', 'text',
 			$this->config->get('ECONOMIC_INVOICE_DRAFT')
 		);
 
-		$lists['economic_book_invoice_number'] = JHtml::_('redshopselect.booleanlist', 'economic_book_invoice_number',
-			'class="form-control" size="1"', $this->config->get('ECONOMIC_BOOK_INVOICE_NUMBER'),
-			JText::_('COM_REDSHOP_SEQUENTIALLY_IN_ECONOMIC_NO_MATCH_UP_WITH_ORDER_NUMBER'),
-			JText::_('COM_REDSHOP_SAME_AS_ORDER_NUMBER')
+		$bookInvoiceNumbers   = array(
+			JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SAME_AS_ORDER_NUMBER')),
+			JHtml::_('select.option', '1', JText::_('COM_REDSHOP_SEQUENTIALLY_IN_ECONOMIC_NO_MATCH_UP_WITH_ORDER_NUMBER'))
+		);
+		$lists['economic_book_invoice_number'] = JHtml::_('select.genericlist', $bookInvoiceNumbers, 'economic_book_invoice_number',
+			'class="form-control"', 'value', 'text',
+			$this->config->get('ECONOMIC_BOOK_INVOICE_NUMBER')
 		);
 
 		// NEXT-PREVIOUS LINK
