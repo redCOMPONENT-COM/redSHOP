@@ -92,6 +92,12 @@
                 </field>
                 <field name="stockrooms" type="stockroomlist" size="40" label="COM_REDSHOP_SELECT_STOCKROOM" multiple="true" description="COM_REDSHOP_SELECT_STOCKROOM_DESC" />
             </fieldset>
+            <fieldset name="advanced">
+                <field name="layout"
+                  type="modulelayout"
+                  label="JFIELD_ALT_LAYOUT_LABEL"
+                  description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+            </fieldset>
         </fields>
     </config>
 </extension>
