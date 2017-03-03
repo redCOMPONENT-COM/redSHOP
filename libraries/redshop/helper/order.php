@@ -2478,6 +2478,27 @@ class RedshopHelperOrder
 			$mailData    = $mailTemplate[0]->mail_body;
 			$mailSubject = $mailTemplate[0]->mail_subject;
 
+			$fieldArray = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_ORDER, 0);
+
+			if (count($fieldArray) > 0)
+			{
+				for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
+				{
+					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->field_id, RedshopHelperExtrafields::SECTION_ORDER, $orderId);
+
+					if ($fieldValueArray->data_txt != "")
+					{
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '}', $fieldValueArray->data_txt, $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', $fieldArray[$i]->field_title, $mailData);
+					}
+					else
+					{
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '}', "", $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', "", $mailData);
+					}
+				}
+			}
+
 			if (trim($mailTemplate[0]->mail_bcc) != "")
 			{
 				$mailBcc = explode(",", $mailTemplate[0]->mail_bcc);
