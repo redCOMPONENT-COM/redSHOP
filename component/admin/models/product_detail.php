@@ -3234,25 +3234,31 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 				else
 				{
-					if ($preorder_stock != "" || $quantity != "")
+					if (Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 					{
-						if ($quantity != "" && !Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
-						{
-							if ($quantity == "")
-							{
-								$quantity = 0;
-							}
+						$this->InsertStockroom(
+							$post['section_id'],
+							$post['section'],
+							$post['stockroom_id'][$i],
+							$post['quantity'][$i],
+							$preorder_stock,
+							$ordered_preorder
+						);
 
-							$this->InsertStockroom(
-													$post['section_id'],
-													$post['section'],
-													$post['stockroom_id'][$i],
-													$post['quantity'][$i],
-													$preorder_stock,
-													$ordered_preorder
-												);
-							$stock_update = true;
-						}
+						$stock_update = true;
+					}
+					elseif ($preorder_stock != "" || $quantity != "")
+					{
+						$this->InsertStockroom(
+							$post['section_id'],
+							$post['section'],
+							$post['stockroom_id'][$i],
+							(int) $post['quantity'][$i],
+							(int) $preorder_stock,
+							$ordered_preorder
+						);
+						
+						$stock_update = true;
 					}
 				}
 			}

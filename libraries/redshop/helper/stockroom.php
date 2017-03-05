@@ -1346,17 +1346,17 @@ class RedshopHelperStockroom
 		$quantities = array();
 		$sectionIds = ArrayHelper::toInteger($sectionIds);
 
-		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
+		if ($section == 'product' && $stockroomId == 0 && $sectionIds)
 		{
-			if ($section == 'product' && $stockroomId == 0 && $sectionIds)
+			foreach ($sectionIds as $item)
 			{
-				foreach ($sectionIds as $item)
-				{
-					$productData       = Redshop::product((int) $item);
-					$quantities[$item] = !empty($productData->sum_quanity) ? (int) $productData->sum_quanity : 0;
-				}
+				$productData       = Redshop::product((int) $item);
+				$quantities[$item] = !empty($productData->sum_quanity) ? (int) $productData->sum_quanity : 0;
 			}
-			else
+		}
+		else
+		{
+			if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 			{
 				$db         = JFactory::getDbo();
 				$isInfinite = (boolean) Redshop::getConfig()->get('USE_BLANK_AS_INFINITE', 0);
@@ -1431,6 +1431,13 @@ class RedshopHelperStockroom
 					{
 						$quantities[$result->id] = $result->quantity;
 					}
+				}
+			}
+			else
+			{
+				foreach ($sectionIds as $item)
+				{
+					$quantities[$item] = 1;
 				}
 			}
 		}
