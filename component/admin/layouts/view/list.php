@@ -146,6 +146,14 @@ $user       = JFactory::getUser();
                 </tr>
 			<?php endforeach; ?>
             </tbody>
+            <tfoot>
+                <?php
+                $colSpan = count($columns);
+                $colSpan += ($data->showNumber) ? 1 : 0;
+                $colSpan += ($data->showId) ? 1 : 0;
+                ?>
+                <td colspan="<?php echo $colSpan ?>"><?php echo $data->pagination->getListFooter() ?></td>
+            </tfoot>
         </table>
 	<?php endif; ?>
     <input type="hidden" name="view" value=" <?php echo $viewName ?>">
