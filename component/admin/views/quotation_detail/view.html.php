@@ -47,7 +47,7 @@ class RedshopViewQuotation_detail extends RedshopViewAdmin
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_DETAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_quotation48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_DETAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', '');
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 		JToolBarHelper::custom('send', 'send.png', 'send.png', JText::_('COM_REDSHOP_SEND'), false);

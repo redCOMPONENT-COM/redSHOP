@@ -1668,28 +1668,28 @@ COMMENT = 'redSHOP Products Voucher Relation';
 DROP TABLE IF EXISTS `#__redshop_quotation` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_quotation` (
-  `quotation_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `quotation_number` VARCHAR(50) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `number` VARCHAR(50) NOT NULL,
   `user_id` INT(11) NOT NULL,
   `user_info_id` INT(11) NOT NULL,
   `order_id` INT(11) NOT NULL,
-  `quotation_total` DECIMAL(15,2) NOT NULL,
-  `quotation_subtotal` DECIMAL(15,2) NOT NULL,
-  `quotation_tax` DECIMAL(15,2) NOT NULL,
-  `quotation_discount` DECIMAL(15,4) NOT NULL,
-  `quotation_status` INT(11) NOT NULL,
+  `total` DECIMAL(15,2) NOT NULL DEFAULT 0.00,
+  `subtotal` DECIMAL(15,2) NOT NULL DEFAULT 0.00,
+  `tax` DECIMAL(15,2) NOT NULL DEFAULT 0.00,
+  `discount` DECIMAL(15,4) NOT NULL DEFAULT 0.0000,
+  `status` INT(11) NOT NULL,
   `quotation_cdate` INT(11) NOT NULL,
   `quotation_mdate` INT(11) NOT NULL,
-  `quotation_note` TEXT NOT NULL,
-  `quotation_customer_note` TEXT NOT NULL,
-  `quotation_ipaddress` VARCHAR(20) NOT NULL,
-  `quotation_encrkey` VARCHAR(255) NOT NULL,
+  `note` TEXT NOT NULL,
+  `customer_note` TEXT NOT NULL,
+  `ipaddress` VARCHAR(20) NOT NULL,
+  `encrkey` VARCHAR(255) NOT NULL,
   `user_email` VARCHAR(255) NOT NULL,
-  `quotation_special_discount` DECIMAL(15,4) NOT NULL,
-  PRIMARY KEY (`quotation_id`),
+  `special_discount` DECIMAL(15,4) NOT NULL DEFAULT 0.0000,
+  PRIMARY KEY (`id`),
   INDEX `idx_user_id` (`user_id` ASC),
   INDEX `idx_order_id` (`order_id` ASC),
-  INDEX `idx_quotation_status` (`quotation_status` ASC))
+  INDEX `idx_quotation_status` (`status` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Quotation';

@@ -30,12 +30,12 @@ class RedshopHelperQuotation
 	public static function getQuotationStatusList()
 	{
 		$status = array();
-		$status[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-		$status[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_REQUESTED'));
-		$status[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_REPLIED'));
-		$status[] = JHTML::_('select.option', 3, JText::_('COM_REDSHOP_ACCEPTED'));
-		$status[] = JHTML::_('select.option', 4, JText::_('COM_REDSHOP_REJECTED'));
-		$status[] = JHTML::_('select.option', 5, JText::_('COM_REDSHOP_ORDERED'));
+		$status[] = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
+		$status[] = JHtml::_('select.option', 1, JText::_('COM_REDSHOP_REQUESTED'));
+		$status[] = JHtml::_('select.option', 2, JText::_('COM_REDSHOP_REPLIED'));
+		$status[] = JHtml::_('select.option', 3, JText::_('COM_REDSHOP_ACCEPTED'));
+		$status[] = JHtml::_('select.option', 4, JText::_('COM_REDSHOP_REJECTED'));
+		$status[] = JHtml::_('select.option', 5, JText::_('COM_REDSHOP_ORDERED'));
 
 		return $status;
 	}
@@ -135,7 +135,7 @@ class RedshopHelperQuotation
 				$db->qn('#__redshop_users_info', 'u') . ' ON ' . $db->qn('u.user_id') . ' = ' . $db->qn('q.user_id')
 				. ' AND ' . $db->qn('u.address_type') . ' LIKE ' . $db->quote('BT')
 			)
-			->where($db->qn('q.quotation_id') . ' = ' . (int) $quotationId);
+			->where($db->qn('q.id') . ' = ' . (int) $quotationId);
 
 		$db->setQuery($query);
 
@@ -154,7 +154,7 @@ class RedshopHelperQuotation
 		$db    = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('COUNT(' . $db->qn('quotation_id') . ')')
+			->select('COUNT(' . $db->qn('id') . ')')
 			->from($db->qn('#__redshop_quotation', 'q'));
 
 		$db->setQuery($query);
@@ -187,8 +187,8 @@ class RedshopHelperQuotation
 
 		// Create the base update statement.
 		$query->update($db->qn('#__redshop_quotation', 'q'))
-			->set($db->qn('q.quotation_status') . ' = ' . (int) $status)
-			->where($db->qn('q.quotation_id') . ' = ' . (int) $quotationId);
+			->set($db->qn('q.status') . ' = ' . (int) $status)
+			->where($db->qn('q.id') . ' = ' . (int) $quotationId);
 
 		// Set the query and execute the update.
 		$db->setQuery($query);
@@ -442,7 +442,7 @@ class RedshopHelperQuotation
 		// Create the base update statement.
 		$query->update($db->qn('#__redshop_quotation', 'q'))
 			->set($db->qn('q.order_id') . ' = ' . (int) $orderId)
-			->where($db->qn('q.quotation_id') . ' = ' . (int) $quotationId);
+			->where($db->qn('q.id') . ' = ' . (int) $quotationId);
 
 		// Set the query and execute the update.
 		$db->setQuery($query);

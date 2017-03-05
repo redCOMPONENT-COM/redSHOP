@@ -46,7 +46,7 @@ class RedshopControllerQuotation extends RedshopController
 
 		if ($row)
 		{
-			$sent = $model->sendQuotationMail($row->quotation_id);
+			$sent = $model->sendQuotationMail($row->id);
 
 			if ($sent)
 			{

@@ -1072,17 +1072,17 @@ class RedshopHelperMail
 		$message = $templateStart . $cart . $templateEnd;
 
 		$search[]  = "{quotation_note}";
-		$replace[] = $quotation->quotation_note;
+		$replace[] = $quotation->note;
 		$search[]  = "{shopname}";
 		$replace[] = Redshop::getConfig()->get('SHOP_NAME');
 		$search[]  = "{quotation_id}";
-		$replace[] = $quotation->quotation_id;
+		$replace[] = $quotation->id;
 		$search[]  = "{quotation_number}";
-		$replace[] = $quotation->quotation_number;
+		$replace[] = $quotation->number;
 		$search[]  = "{quotation_date}";
 		$replace[] = $redConfig->convertDateFormat($quotation->quotation_cdate);
 		$search[]  = "{quotation_status}";
-		$replace[] = RedshopHelperQuotation::getQuotationStatusName($quotation->quotation_status);
+		$replace[] = RedshopHelperQuotation::getQuotationStatusName($quotation->status);
 
 		$billAdd = '';
 

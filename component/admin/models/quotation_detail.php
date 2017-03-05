@@ -174,7 +174,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			if (array_key_exists("quotation_item_id", $quotation_item[$i]))
 			{
 				$rowitem = $this->getTable('quotation_item_detail');
-				$quotation_item[$i]->quotation_id = $row->quotation_id;
+				$quotation_item[$i]->quotation_id = $row->id;
 
 				if (!$rowitem->bind($quotation_item[$i]))
 				{

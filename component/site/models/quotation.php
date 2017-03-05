@@ -149,7 +149,7 @@ class RedshopModelQuotation extends RedshopModel
 		{
 			$rowitem                          = $this->getTable('quotation_item_detail');
 			$quotation_item[$i]               = new stdClass;
-			$quotation_item[$i]->quotation_id = $row->quotation_id;
+			$quotation_item[$i]->quotation_id = $row->id;
 
 			if (isset($data[$i]['giftcard_id']) && $data[$i]['giftcard_id'] != 0)
 			{
