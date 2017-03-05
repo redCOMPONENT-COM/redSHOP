@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     RedSHOP.Backend
- * @subpackage  Model
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 /**
- * Model Tax group
+ * Tax_Groups controller
  *
- * @package     RedSHOP.Backend
- * @subpackage  Model
+ * @package     RedSHOP.backend
+ * @subpackage  Controller
  * @since       __DEPLOY_VERSION__
  */
-class RedshopModelTax_Group extends RedshopModelForm
+class RedshopControllerTax_Groups extends RedshopControllerAdmin
 {
 }
