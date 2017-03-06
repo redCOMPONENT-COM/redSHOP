@@ -67,7 +67,7 @@ if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $defaultPortalLogo))
 		. '<a class="joom-box" href="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $defaultPortalLogo . '" title="' . $defaultPortalLogo . '"'
 		. ' rel="{handler: \'image\', size: {}}">'
 		. '<img width="100" height="100" alt="' . $defaultPortalLogo . '" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $defaultPortalLogo . '"'
-		. '/></a>'
+		. ' class="thumbnail"/></a>'
 		. '<a class="remove_link" href="#" onclick="delimg(\'' . $defaultPortalLogo . '\',\'usrdiv\',\'' . $shopperlogo_path . '\');">'
 		. JText::_('COM_REDSHOP_REMOVE_FILE') . '</a></div >';
 }

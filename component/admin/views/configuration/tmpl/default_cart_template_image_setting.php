@@ -53,7 +53,7 @@ echo RedshopLayoutHelper::render(
             <div class="divimages" id="cartdiv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_IMAGE') ?>"
                    title="<?php echo $this->config->get('ADDTOCART_IMAGE') ?>" rel="{handler: 'image', size: {}}">
-                    <img alt="<?php echo $this->config->get('ADDTOCART_IMAGE') ?>"
+                    <img alt="<?php echo $this->config->get('ADDTOCART_IMAGE') ?>" class="thumbnail"
                          src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $this->config->get('ADDTOCART_IMAGE') ?>"/>
                 </a>
                 <a class="remove_link" href="#"
@@ -87,8 +87,8 @@ echo RedshopLayoutHelper::render(
             <div class="divimages" id="quotediv">
                 <a class="joom-box" href="<?php echo $url . $addToCartPath . $requestquoteImage; ?>"
                    title="<?php echo $requestquoteImage; ?>" rel="{handler: 'image', size: {}}">
-                    <img alt="<?php echo $requestquoteImage; ?>"
-                         src="<?php echo $url . $addToCartPath . $requestquoteImage; ?>"/></a>
+                    <img alt="<?php echo $requestquoteImage; ?>" src="<?php echo $url . $addToCartPath . $requestquoteImage; ?>" class="thumbnail"/>
+                </a>
                 <a class="remove_link" href="#"
                    onclick="delimg('<?php echo $requestquoteImage ?>','quotediv','<?php echo $addToCartPath ?>');">
 					<?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE') ?>
@@ -121,7 +121,7 @@ echo RedshopLayoutHelper::render(
             <div class="divimages" id="cartupdatediv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartUpdate; ?>"
                    title="<?php echo $addtocartUpdate; ?>" rel="{handler: 'image', size: {}}">
-                    <img alt="<?php echo $addtocartUpdate; ?>"
+                    <img alt="<?php echo $addtocartUpdate; ?>" class="thumbnail"
                          src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartUpdate; ?>"/>
                 </a>
                 <a class="remove_link" href="#"
@@ -145,7 +145,7 @@ echo RedshopLayoutHelper::render(
             <div class="divimages" id="cartdeldiv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartDelete; ?>"
                    title="<?php echo $addtocartDelete; ?>" rel="{handler: 'image', size: {}}">
-                    <img alt="<?php echo $addtocartDelete; ?>"
+                    <img alt="<?php echo $addtocartDelete; ?>" class="thumbnail"
                          src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $addtocartDelete; ?>"/>
                 </a>
                 <a class="remove_link" href="#"

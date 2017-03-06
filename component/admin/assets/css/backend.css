@@ -2986,7 +2986,7 @@ tbody.collapse.in {
   color: #293235;
   padding: 8px 10px;
   width: auto;
-  border: 0;
+  /*border: 0;*/
   background-color: #ebebeb;
   background-image: none;
   text-shadow: none;
@@ -8642,7 +8642,6 @@ a:focus {
 }
 .form-control:focus {
   border-color: #337ab7;
-  box-shadow: none;
 }
 .form-control::-moz-placeholder,
 .form-control:-ms-input-placeholder,
@@ -9571,8 +9570,8 @@ a:focus {
  */
 .btn {
   border-radius: 5px;
-  box-shadow: none !important;
-  border: 0px !important;
+  /*box-shadow: none !important;
+  border: 0px !important;*/
 }
 .btn.uppercase {
   text-transform: uppercase;
@@ -16148,6 +16147,7 @@ Searchtools
 
 .select2-container {
   width: auto;
+  max-width: 100%;
 }
 
 .select2-container .select2-choice {
@@ -16436,8 +16436,8 @@ table.admintable td {
 
 table.admintable td input[type="text"],
 .adminform .form-group input[type="text"],
-.adminform .form-group input[type="number"]{
-  box-shadow: none;
+.adminform .form-group input[type="number"],
+.adminform .form-group input[type="password"] {
   padding: 8px 10px;
 }
 
@@ -17329,6 +17329,10 @@ dl.tabs dt h3 {
   width: auto;
   border: none;
   margin-bottom: 0;
+}
+
+.form-vertical .form-group fieldset.redRadioGroup {
+  padding-top: 0px;
 }
 
 fieldset.redRadioGroup {
@@ -27100,11 +27104,21 @@ body.modal-open {
   overflow-y: auto;
 }
 
-.label-edit-inline {
+.adminForm .label-edit-inline,
+.adminForm .normal-data{
   padding: 4px 6px;
 }
 
-.label-edit-inline:hover {
+.adminForm .label-edit-inline:hover {
   background-color: #fcf8e3;
   cursor: text;
+}
+
+.adminForm .label-edit-inline:hover:after {
+  content: "\f044";
+  font: normal normal normal 14px/1 FontAwesome;
+  float: right;
+  margin-top: 2px;
+  color: #ad312b;
+  text-shadow: 1px 1px 1px #942a25;
 }

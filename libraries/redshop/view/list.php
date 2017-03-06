@@ -44,14 +44,6 @@ class RedshopViewList extends JViewLegacy
 	protected $disableSidebar = false;
 
 	/**
-	 * Is table data show column id or not?
-	 *
-	 * @var     bool
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public $showId = true;
-
-	/**
 	 * @var  string
 	 */
 	protected $instancesName;
@@ -65,6 +57,14 @@ class RedshopViewList extends JViewLegacy
 	 * @var array
 	 */
 	protected $columns = array();
+
+	/**
+	 * Column for render published state.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $stateColumns = array('published', 'state');
 
 	/**
 	 * @var  RedshopModel
@@ -282,7 +282,7 @@ class RedshopViewList extends JViewLegacy
 		$form = simplexml_load_file($formPath);
 
 		// Get field set data
-		$fields = $form->xpath('(//fieldset[@name="table"]//field | //field[@fieldset="table"])[not(ancestor::field)]');
+		$fields = $form->xpath('(//fieldset[@name="details"]//field | //field[@fieldset="details"])[not(ancestor::field)]');
 
 		if (empty($fields))
 		{
@@ -300,9 +300,10 @@ class RedshopViewList extends JViewLegacy
 			$this->columns[] = array(
 				'sortable' => isset($field['table-sortable']) ? (boolean) $field['table-sortable'] : false,
 				'text'     => JText::_((string) $field['label']),
-				'dataCol'  => isset($field['table-data']) ? (string) $field['table-data'] : (string) $field['name'],
+				'dataCol'  => (string) $field['name'],
 				'width'    => isset($field['table-width']) ? (string) $field['table-width'] : 'auto',
-				'inline'   => isset($field['table-inline']) ? (boolean) $field['table-inline'] : false
+				'inline'   => isset($field['table-inline']) ? (boolean) $field['table-inline'] : false,
+				'type'     => (string) $field['type'],
 			);
 		}
 	}
@@ -322,15 +323,15 @@ class RedshopViewList extends JViewLegacy
 	{
 		$isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
 
-		if ($config['dataCol'] == 'published')
+		if (in_array($config['dataCol'], $this->stateColumns))
 		{
 			return JHtml::_('jgrid.published', $row->published, $index);
 		}
 		elseif ($config['inline'] === true && !$isCheckedOut)
 		{
-			return JHtml::_('redshopgrid.inline', $config['dataCol'], $row->{$config['dataCol']}, $row->id);
+			return JHtml::_('redshopgrid.inline', $config['dataCol'], $row->{$config['dataCol']}, $row->id, $config['type']);
 		}
 
-		return $row->{$config['dataCol']};
+		return '<div class="normal-data">' . $row->{$config['dataCol']} . '</div>';
 	}
 }
