@@ -17,6 +17,11 @@ defined('_JEXEC') or die;
  */
 class PlgSystemRedSHOP extends JPlugin
 {
+	/**
+	 * Auto load language
+	 *
+	 * @var  string
+	 */
 	protected $autoloadLanguage = true;
 
 	/**
@@ -26,7 +31,11 @@ class PlgSystemRedSHOP extends JPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		$app = JFactory::getApplication();
+		if (!JFactory::getApplication()->isSite())
+		{
+			return;
+		}
+
 		JLoader::import('redshop.library');
 
 		RedshopHelperJs::init();
