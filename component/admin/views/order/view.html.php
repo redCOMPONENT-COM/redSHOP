@@ -85,12 +85,7 @@ class RedshopViewOrder extends RedshopViewAdmin
 				true
 			);
 
-			RedshopToolbarHelper::link(
-				'index.php?tmpl=component&option=com_redshop&view=order&layout=mass_change_status&type=allStatusExceptPacsoft',
-				'save multi-change-status',
-				'COM_REDSHOP_CHANGE_STATUS_TO_ALL_LBL',
-				''
-			);
+			RedshopToolbarHelper::modal('massOrderStatusChange', 'fa fa-gears', 'COM_REDSHOP_CHANGE_STATUS_TO_ALL_LBL');
 
 			if (Redshop::getConfig()->get('POSTDK_INTEGRATION'))
 			{
