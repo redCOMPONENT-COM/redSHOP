@@ -14,8 +14,6 @@
                 class="form-control"
                 default=""
                 required="true"
-                table-sortable="1"
-                table-inline="1"
         />
         <field
                 name="email"
@@ -52,5 +50,12 @@
                 table-sortable="1"
                 table-width="20%"
         />
+    </fieldset>
+    <fieldset name="table">
+        <field
+                name="name"
+                table-sortable="1"
+                table-inline="1"
+                />
     </fieldset>
 </form>
