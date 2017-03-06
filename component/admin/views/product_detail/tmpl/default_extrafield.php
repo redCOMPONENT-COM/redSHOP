@@ -44,32 +44,31 @@ foreach ($fields as $field)
 		$html .= RedshopHelperExtrafields::listAllField($sectionId, $product_id, $fieldName);
 	}
 }
-
-if (empty($html))
-{
-	echo RedshopLayoutHelper::render(
-			'system.message',
-			array(
-				'msgList' => array(
-								'info' => array(JText::_('COM_REDSHOP_PRODUCT_NO_EXTRA_FIELD_HINT'))
-							),
-				'showHeading' => false,
-				'allowClose' => false
-			)
-		);
-}
-
 ?>
 
 <div class="row">
-	<div class="col-sm-12">
-		<div class="box box-primary">
-			<div class="box-header with-border">
-				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_FIELDS'); ?></h3>
-			</div>
-			<div class="box-body">
-				<?php echo $html; ?>
-			</div>
-		</div>
-	</div>
+    <div class="col-sm-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_FIELDS'); ?></h3>
+            </div>
+            <div class="box-body">
+				<?php if (empty($html)): ?>
+					<?php echo RedshopLayoutHelper::render(
+						'system.message',
+						array(
+							'msgList'     => array(
+								'info' => array(JText::_('COM_REDSHOP_PRODUCT_NO_EXTRA_FIELD_HINT'))
+							),
+							'showHeading' => false,
+							'allowClose'  => false
+						)
+					);
+					?>
+				<?php else: ?>
+					<?php echo $html; ?>
+				<?php endif; ?>
+            </div>
+        </div>
+    </div>
 </div>
