@@ -88,7 +88,7 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_SHOW_TERMS_AND_CONDITIONS_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_SHOW_TERMS_AND_CONDITIONS_LBL'),
-		'field' => $this->lists['show_terms_and_conditions'] . '<input type="button" class="btn btn-small"
+		'field' => $this->lists['show_terms_and_conditions'] . '<input type="button" class="btn pull-right btn-warning"
                    onclick="javascript:resetTermsCondition();" value="' . JText::_('COM_REDSHOP_RESET_FOR_ALL_USER') . '"/>'
 	)
 );
