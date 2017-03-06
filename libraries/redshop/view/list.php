@@ -44,14 +44,6 @@ class RedshopViewList extends JViewLegacy
 	protected $disableSidebar = false;
 
 	/**
-	 * Is table data show column number or not?
-	 *
-	 * @var     bool
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public $showNumber = true;
-
-	/**
 	 * Is table data show column id or not?
 	 *
 	 * @var     bool
@@ -290,7 +282,7 @@ class RedshopViewList extends JViewLegacy
 		$form = simplexml_load_file($formPath);
 
 		// Get field set data
-		$fields = $form->xpath('(//fieldset[@name="details"]//field | //field[@fieldset="details"])[not(ancestor::field)]');
+		$fields = $form->xpath('(//fieldset[@name="table"]//field | //field[@fieldset="table"])[not(ancestor::field)]');
 
 		if (empty($fields))
 		{
