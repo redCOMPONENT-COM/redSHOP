@@ -72,6 +72,10 @@ class RedshopViewOrder extends RedshopViewAdmin
 			$this->setLayout('labellisting');
 			RedshopToolbarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
+		elseif ($layout == 'batch')
+		{
+			RedshopToolbarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
+		}
 		else
 		{
 			RedshopToolbarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'stack redshop_order48');
@@ -89,12 +93,7 @@ class RedshopViewOrder extends RedshopViewAdmin
 
 			if (Redshop::getConfig()->get('POSTDK_INTEGRATION'))
 			{
-				RedshopToolbarHelper::link(
-					'index.php?tmpl=component&option=com_redshop&view=order&layout=mass_change_status&type=allstatus',
-					'save multi-change-status',
-					'COM_REDSHOP_CHANGE_STATUS_TO_ALL_WITH_PACSOFT_LBL',
-					''
-				);
+				RedshopToolbarHelper::modal('massOrderStatusPacsoft', 'fa fa-gears', 'COM_REDSHOP_CHANGE_STATUS_TO_ALL_WITH_PACSOFT_LBL');
 			}
 
 			$group = RedshopToolbarHelper::createGroup('export', 'COM_REDSHOP_EXPORT_DATA_LBL');

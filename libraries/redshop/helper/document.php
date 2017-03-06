@@ -22,7 +22,7 @@ class RedshopHelperDocument
 	 *
 	 * @var  array
 	 */
-	protected static $disabledScripts = array('media/jui/js/bootstrap.js');
+	protected static $disabledScripts = array('media/jui/js/bootstrap.js', 'media/jui/js/bootstrap.min.js');
 
 	/**
 	 * Stylesheets marked as disabled
