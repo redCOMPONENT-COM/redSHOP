@@ -17,6 +17,15 @@
  */
 class ManageSupplierAdministratorCest
 {
+	public function __construct()
+	{
+		$this->faker = Faker\Factory::create();
+		$this->supplierName = $this->faker->bothify('ManageSupplierAdministratorCest ?##?');
+		$this->supplierUpdatedName = $this->faker->bothify('Supplier Updated Name ?##?');
+		$this->supplierEmail = $this->faker->email();
+
+	}
+
 	/**
 	 * Function to Test Supplier Creation in Backend
 	 *
@@ -26,6 +35,32 @@ class ManageSupplierAdministratorCest
 		$I->wantTo('Test Supplier creation in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\SupplierManagerJoomla3Steps($scenario);
-		$I->addSupplier();
+		$I->addSupplier($this->supplierName, $this->supplierEmail);
+
 	}
+
+	/**
+	 * Function to Test Supplier Update in Backend
+	 *
+	 */
+	public function editSupplier(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Test Supplier update in Administrator');
+		$I->doAdministratorLogin();
+		$I = new AcceptanceTester\SupplierManagerJoomla3Steps($scenario);
+		$I->editSupplier($this->supplierName, $this->supplierUpdatedName);
+	}
+
+	/**
+	 * Function to Test Supplier Update in Backend
+	 *
+	 */
+	public function deleteSupplier(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Test Supplier Deletion in Administrator');
+		$I->doAdministratorLogin();
+		$I = new AcceptanceTester\SupplierManagerJoomla3Steps($scenario);
+		$I->deleteSupplier($this->supplierUpdatedName);
+	}
+
 }
