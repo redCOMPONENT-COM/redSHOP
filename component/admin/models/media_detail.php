@@ -94,6 +94,11 @@ class RedshopModelMedia_detail extends RedshopModel
 			$data['media_alternate_text'] = preg_replace('#\.[^/.]+$#', '', $data['media_name']);
 		}
 
+		if (isset($data['cid'][0]))
+		{
+			$data['media_id'] = $data['cid'][0];
+		}
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
