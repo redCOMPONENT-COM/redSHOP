@@ -53,21 +53,22 @@ class economic
 	}
 
 	/**
-	 * Constructor
+	 * Economic helper constructor
+	 * @TODO Move to library or use static methods instead
 	 */
 	public function __construct()
 	{
-		$db                     = JFactory::getDbo();
 		$this->_table_prefix    = '#__redshop_';
-		$this->_db              = $db;
+		$this->_db              = JFactory::getDbo();
 		$this->_producthelper   = productHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
 		$this->_redhelper       = redhelper::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_stockroomhelper = rsstockroomhelper::getInstance();
 
+		// init dispatcher
 		JPluginHelper::importPlugin('economic');
-		$this->_dispatcher = JDispatcher::getInstance();
+		$this->_dispatcher = JEventDispatcher::getInstance();
 	}
 
 	/**
