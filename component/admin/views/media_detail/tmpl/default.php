@@ -129,10 +129,7 @@ if ($showbuttons)
 
                     if (checkCid == 'false' && form.file.value == '' && form.media_bank_image.value == '')
                     {
-                        if (checkCid == 'false')
-                        {
-                            return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');   
-                        }
+                        return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');   
                     }
 
                     if (mediaSection == 'product') {
