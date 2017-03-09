@@ -1029,4 +1029,91 @@ class RedshopHelperProduct
 
 		return $productData;
 	}
+
+	/**
+	 * [getProductTemplateById]
+	 * 
+	 * @param   [int]  $id  [description]
+	 * 
+	 * @return  [Object]
+	 */
+	public static function getProductTemplateById($id)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('product_template'))
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('product_id') . ' = ' . (int) $id);
+
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
+
+	/**
+	 * [getProductDownloadById]
+	 * 
+	 * @param   [int]  $productId  [Product ID]
+	 * 
+	 * @return  [Object]
+	 */
+	public static function getProductDownloadById($productId)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+				$db->qn(
+						[
+							'product_download', 'product_download_days',
+							'product_download_limit', 'product_download_clock',
+							'product_download_clock_min', 'product_download_infinite'
+						]
+					)
+			)
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('product_id') . ' = ' . (int) $productId);
+
+		$query->setLimit('1');
+
+		$db->setQuery(true);
+
+		return $db->loadObject();
+	}
+
+	/**
+	 * [checkProductDownload description]
+	 * 
+	 * @param   [int]      $pid     [product id]
+	 * @param   [boolean]  $return  [flag]
+	 * 
+	 * @return  [type]
+	 */
+	public static function checkProductDownload($pid, $return = false)
+	{
+		$result = self::getProductDownloadById($pid);
+
+		if ($return)
+		{
+			return $result;
+		}
+		else
+		{
+			return $result->product_download;
+		}
+	}
+
+	/**
+	 * [getProductMediaNameByProductId]
+	 * 
+	 * @param   [int]  $pid  [product id]
+	 * 
+	 * @return  [type]
+	 */
+	public static function getProductMediaNameByProductId($pid)
+	{
+		return RedshopHelperMedia::getProductMediaNameByProductId($pid);
+	}
 }

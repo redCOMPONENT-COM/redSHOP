@@ -226,6 +226,11 @@ class RedshopControllerOrder extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 
+	/**
+	 * [export_fullorder_data]
+	 * 
+	 * @return [file]
+	 */
 	public function export_fullorder_data()
 	{
 		$extrafile = JPATH_SITE . '/administrator/components/com_redshop/extras/order_export.php';
@@ -244,11 +249,10 @@ class RedshopControllerOrder extends RedshopController
 		$model = $this->getModel('order');
 		$data = $model->export_data();
 		$product_count = array();
-		$db = JFactory::getDbo();
 
-		$where = "";
+		$no_products = RedshopHelperOrder::getCountMaxOrderItem();
 
-		$sql = "SELECT order_id,count(order_item_id) as noproduct FROM `#__redshop_order_item`  " . $where . " GROUP BY order_id";
+		$no_products = $no_product->maxcountproduct;
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");
@@ -256,17 +260,9 @@ class RedshopControllerOrder extends RedshopController
 		header("Content-type: application/csv");
 		header('Content-Disposition: attachment; filename=Order.csv');
 
-		$db->setQuery($sql);
-		$no_products = $db->loadObjectList();
-
-		for ($i = 0, $in = count($data); $i < $in; $i++)
-		{
-			$product_count [] = $no_products [$i]->noproduct;
-		}
-
-		$no_products = max($product_count);
 
 		$shipping_helper = shipping::getInstance();
+
 		ob_clean();
 
 		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
@@ -343,6 +339,11 @@ class RedshopControllerOrder extends RedshopController
 		exit ();
 	}
 
+	/**
+	 * [export_data description]
+	 * 
+	 * @return [file]
+	 */
 	public function export_data()
 	{
 		/**
@@ -368,31 +369,24 @@ class RedshopControllerOrder extends RedshopController
 
 		$cid      = $this->input->get('cid', array(0), 'array');
 		$data     = $model->export_data($cid);
-		$order_id = implode(',', $cid);
+
+		$order_id = implode(',', $db->q($cid));
 		$where    = "";
 
-		if ($order_id != 0)
+		if (count($cid) > 0)
 		{
-			$where .= " where order_id IN (" . $order_id . ") ";
+			$where = $db->qn('order_id') . ' IN (' . $order_id . ') ';
 		}
 
-		$sql = "SELECT order_id,count(order_item_id) as noproduct FROM `#__redshop_order_item`  " . $where . " GROUP BY order_id";
+		$no_products = RedshopHelperOrder::getCountMaxOrderItem($where);
+
+		$no_products = $no_product->maxcountproduct;
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");
 		header("Content-type: text/csv");
 		header("Content-type: application/csv");
 		header('Content-Disposition: attachment; filename=Order.csv');
-
-		$db->setQuery($sql);
-		$no_products = $db->loadObjectList();
-
-		for ($i = 0, $in = count($data); $i < $in; $i++)
-		{
-			$product_count [] = $no_products [$i]->noproduct;
-		}
-
-		$no_products = max($product_count);
 
 		echo "Order id,Buyer name,Email Id, PhoneNumber,Billing Address ,Billing City,Billing State,Billing Country,BillingPostcode,";
 		echo "Shipping Address,Shipping City,Shipping State,Shipping Country,ShippingPostCode,Order Status,Order Date,";

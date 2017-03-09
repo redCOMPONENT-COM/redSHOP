@@ -43,9 +43,27 @@ class RedshopControllerCategory extends RedshopController
 			return false;
 		}
 
-		$query = "SELECT x.* FROM " . $this->_table_prefix . "xml_export AS x "
-			. "WHERE x.published=1 "
-			. "AND x.filename='" . $filename . "' ";
+		$query = $db->getQuery(true);
+
+		$query->select(
+				$db->qn(
+					[
+						'xmlexport_id', 'filename', 'display_filename',
+						'parent_name', 'section_type', 'auto_sync',
+						'sync_on_request', 'auto_sync_interval', 'xmlexport_date',
+						'xmlexport_filetag', 'element_name', 'published',
+						'use_to_all_users', 'xmlexport_billingtag', 'billing_element_name',
+						'xmlexport_shippingtag', 'shipping_element_name',
+						'xmlexport_orderitemtag', 'orderitem_element_name',
+						'xmlexport_stocktag', 'stock_element_name', 'xmlexport_prdextrafieldtag',
+						'prdextrafield_element_name', 'xmlexport_on_category'
+					]
+				)
+			)
+			->from($db->qn('#__redshop_xml_export'))
+			->where($db->qn('published') . '= 1')
+			->where($db->qn('filename') . ' = ' . $db->q($filename));
+
 		$db->setQuery($query);
 		$data = $db->loadObject();
 
@@ -53,14 +71,45 @@ class RedshopControllerCategory extends RedshopController
 		{
 			if (!$data->use_to_all_users && $_SERVER['SERVER_ADDR'] != $_SERVER['REMOTE_ADDR'])
 			{
-				$query = "SELECT x.*,xl.*,xi.* FROM " . $this->_table_prefix . "xml_export AS x "
-					. "LEFT JOIN " . $this->_table_prefix . "xml_export_log AS xl ON x.xmlexport_id=xl.xmlexport_id "
-					. "LEFT JOIN " . $this->_table_prefix . "xml_export_ipaddress AS xi ON x.xmlexport_id=xi.xmlexport_id "
-					. "WHERE x.published=1 "
-					. "AND (x.filename=" . $db->quote((string) $filename) . " "
-					. "OR xl.xmlexport_filename=" . $db->quote((string) $filename) . ") "
-					. "AND xi.access_ipaddress=" . $db->quote((string) $_SERVER['REMOTE_ADDR']) . " "
-					. "ORDER BY xl.xmlexport_date DESC ";
+				$query = $db->getQuery(true);
+
+				$query->select(
+						$db->qn(
+							[
+								/* #__redshop_xml_export */
+								'x.xmlexport_id', 'x.filename', 'x.display_filename',
+								'x.parent_name', 'x.section_type', 'x.auto_sync',
+								'x.sync_on_request', 'x.auto_sync_interval', 'x.xmlexport_date',
+								'x.xmlexport_filetag', 'x.element_name', 'x.published',
+								'x.use_to_all_users', 'x.xmlexport_billingtag', 'x.billing_element_name',
+								'x.xmlexport_shippingtag', 'x.shipping_element_name',
+								'x.xmlexport_orderitemtag', 'x.orderitem_element_name',
+								'x.xmlexport_stocktag', 'x.stock_element_name', 'x.xmlexport_prdextrafieldtag',
+								'x.prdextrafield_element_name', 'x.xmlexport_on_category',
+								/* #__redshop_xml_export_log */
+								'xl.xmlexport_log_id', 'xl.xmlexport_filename', 'xl.xmlexport_date',
+								/* #__redshop_xml_export_ipaddress*/
+								'xi.xmlexport_ip_id', 'xi.access_ipaddress'
+							]
+						)
+					)
+					->from($db->qn('#__redshop_xml_export', 'x'))
+					->leftJoin(
+							$db->qn('#__redshop_xml_export_log', 'xl')
+							. ' ON ' . $db->qn('x.xmlexport_id') . ' = ' . $db->qn('xl.xmlexport_id')
+						)
+					->leftJoin(
+							$db->qn('#__redshop_xml_export_ipaddress', 'xi')
+							. ' ON ' . $db->qn('x.xmlexport_id') . ' = ' . $db->qn('xi.xmlexport_id')
+						)
+					->where($db->qn('x.published') . ' = 1')
+					->where(
+							$db->qn('x.filename') . ' = ' . $db->q($filename)
+							. ' OR ' . $db->qn('xl.xmlexport_filename') . ' = ' . $db->q($filename)
+						)
+					->where($db->qn('xi.access_ipaddress') . ' = ' . $db->q($_SERVER['REMOTE_ADDR']))
+					->order($db->qn('xl.xmlexport_date') . ' DESC');
+
 				$db->setQuery($query);
 				$data = $db->loadObject();
 
@@ -269,13 +318,11 @@ class RedshopControllerCategory extends RedshopController
 	 */
 	public function autofillcityname()
 	{
-		$db = JFactory::getDbo();
+		$input = JFactory::getApplication()->input;
+		$mainzipcode = $input->get('q', '');
+		$result = RedshopHelperZipcode::getCityNameByZipcode($mainzipcode);
 		ob_clean();
-		$mainzipcode = JRequest::getString('q', '');
-		$sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";
-		$db->setQuery($sel_zipcode);
-		echo $db->loadResult();
-		exit;
+		die($result);
 	}
 
 	/**
