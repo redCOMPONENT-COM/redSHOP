@@ -1078,7 +1078,7 @@ class RedshopHelperProduct
 
 		$query->setLimit('1');
 
-		$db->setQuery(true);
+		$db->setQuery($query);
 
 		return $db->loadObject();
 	}

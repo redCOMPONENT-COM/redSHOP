@@ -656,6 +656,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			if ($this->_producthelper->checkProductDownload($rowitem->product_id))
 			{
+				die('OMG');
 				$medianame = $this->_producthelper->getProductMediaName($rowitem->product_id);
 
 				for ($j = 0, $jn = count($medianame); $j < $jn; $j++)
