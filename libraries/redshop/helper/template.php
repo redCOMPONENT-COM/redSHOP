@@ -534,6 +534,14 @@ class RedshopHelperTemplate
 		JPluginHelper::importPlugin('system');
 		RedshopHelperUtility::getDispatcher()->trigger('onMailSections', array(&$options));
 
+		JPluginHelper::importPlugin('redshop_template');
+		$result = RedshopHelperUtility::getDispatcher()->trigger('getMoreTemplate');
+
+		if (!empty($result))
+		{
+			$options = array_merge($options, (array) $result[0]);
+		}
+
 		return self::prepareSectionOptions($options, $sectionValue);
 	}
 

@@ -449,6 +449,14 @@ class RedshopModelSearch extends RedshopModel
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id')
 			->where('p.published = 1');
 
+		JPluginHelper::importPlugin('redshop_search');
+		$result = RedshopHelperUtility::getDispatcher()->trigger('searchQuery', array($query));
+
+		if (!empty($result))
+		{
+			$query = $result[0];
+		}
+
 		$layout = JRequest::getVar('layout', 'default');
 
 		$category_helper = new product_category;

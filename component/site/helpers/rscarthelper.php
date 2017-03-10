@@ -3063,7 +3063,8 @@ class rsCarthelper
 					$cartArr['quotation'] = 0;
 				}
 
-				if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || $cartArr['quotation'] == 1)
+				if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || $cartArr['quotation'] == 1)
+					&& Redshop::getConfig()->get('ALLOW_QUOTATION') == 1 )
 				{
 					$price = $cartArr[$i]['product_price_excl_vat'];
 				}

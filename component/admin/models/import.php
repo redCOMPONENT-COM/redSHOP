@@ -872,6 +872,10 @@ class RedshopModelImport extends RedshopModel
 								$jUserInfo['password'] = trim($rawdata['password']);
 								$jUserInfo['password2'] = trim($rawdata['password']);
 							}
+							else
+							{
+								$rawdata['password'] = $jUserInfo['password'] = $jUserInfo['password2'] = JUserHelper::genRandomPassword()
+							}
 
 							// Bind the data.
 							if (!$user->bind($jUserInfo))

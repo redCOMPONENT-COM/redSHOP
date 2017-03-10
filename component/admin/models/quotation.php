@@ -83,7 +83,7 @@ class RedshopModelQuotation extends RedshopModelList
 	 */
 	public function getCsvColumns()
 	{
-		return array(
+		$result = array(
 			'quotation_id' => JText::_('COM_REDSHOP_QUOTATION_ID'),
 			'full_name' => JText::_('COM_REDSHOP_FULLNAME'),
 			'user_email' => JText::_('COM_REDSHOP_USEREMAIL'),
@@ -94,6 +94,16 @@ class RedshopModelQuotation extends RedshopModelList
 			'product_final_price' => JText::_('COM_REDSHOP_PRODUCT_PRICE'),
 			'product_attribute' => JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE')
 		);
+
+		JPluginHelper::importPlugin('redshop_quotation');
+		$data = RedshopHelperUtility::getDispatcher()->trigger('getQuotationColumn');
+
+		if (!empty($data))
+		{
+			$result = array_merge($result, (array) $data[0]);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -138,6 +148,14 @@ class RedshopModelQuotation extends RedshopModelList
 		$filterOrderDir = $this->getState('list.direction', 'desc');
 
 		$query->order($db->qn($db->escape($filterOrder)) . ' ' . $db->escape($filterOrderDir));
+
+		JPluginHelper::importPlugin('redshop_quotation');
+		$result = RedshopHelperUtility::getDispatcher()->trigger('getQuotationItem', array($query));
+
+		if (!empty($result))
+		{
+			$query = $result[0];
+		}
 
 		$items = $this->_getList($query);
 

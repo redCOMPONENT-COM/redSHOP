@@ -99,7 +99,9 @@ class RedshopViewCheckout extends RedshopView
 		{
 			$cart = $session->get('cart');
 
-			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == 1 && !array_key_exists("quotation_id", $cart))
+			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == 1
+				&& !array_key_exists("quotation_id", $cart)
+				&& Redshop::getConfig()->get('ALLOW_QUOTATION') == 1)
 			{
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid));
 			}

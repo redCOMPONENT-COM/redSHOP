@@ -836,6 +836,7 @@ class Redconfiguration
 			"IMPORT_MAX_FILE_SIZE"                  => $d['import_max_file_size'],
 			"IMPORT_FILE_MIME"                      => $d['import_file_mime'],
 			"IMPORT_FILE_EXTENSION"                 => $d['import_file_extension'],
+			"ALLOW_QUOTATION"                       => $d["allow_quotation"],
 		);
 
 		if ($d["cart_timeout"] <= 0)
