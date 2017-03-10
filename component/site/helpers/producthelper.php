@@ -2932,6 +2932,17 @@ class productHelper
 		return RedshopHelperGiftcard::getValidityDate($period, $data);
 	}
 
+	/**
+	 * [getAccessoryPrice]
+	 *
+	 * @param   int  $product_id            [description]
+	 * @param   int  $accessory_price       [description]
+	 * @param   int  $accessory_main_price  [description]
+	 * @param   int  $vat                   [description]
+	 * @param   int  $user_id               [description]
+	 * 
+	 * @return [$return]
+	 */
 	public function getAccessoryPrice($product_id = 0, $accessory_price = 0, $accessory_main_price = 0, $vat = 0, $user_id = 0)
 	{
 		$return = array();
@@ -2979,13 +2990,13 @@ class productHelper
 			$saved = 0;
 		}
 
-		//accessory Price
+		// Accessory Price
 		$return[0] = $accessory_price;
 
-		//accessory main price
+		// Accessory main price
 		$return[1] = $accessory_main_price;
 
-		//accessory saving price
+		// Accessory saving price
 		$return[2] = $saved;
 
 		return $return;
@@ -3564,149 +3575,17 @@ class productHelper
 		return $template_data;
 	}
 
-	public function getRelatedProduct($product_id = 0, $related_id = 0)
+	/**
+	 * [getRelatedProduct]
+	 * 
+	 * @param   int  $productId  [description]
+	 * @param   int  $relatedId  [description]
+	 * 
+	 * @return  [type]
+	 */
+	public function getRelatedProduct($productId = 0, $relatedId = 0)
 	{
-		$helper          = redhelper::getInstance();
-		$and             = "";
-		$orderby         = "ORDER BY p.product_id ASC ";
-		$orderby_related = "";
-
-		if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD'))
-		{
-			$orderby         = "ORDER BY " . Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
-			$orderby_related = "";
-		}
-
-		if ($product_id != 0)
-		{
-			// Sanitize ids
-			$productIds = explode(',', $product_id);
-			JArrayHelper::toInteger($productIds);
-
-			if ($helper->isredProductfinder())
-			{
-				$q = "SELECT extrafield  FROM #__redproductfinder_types where type_select='Productfinder_datepicker'";
-				$this->_db->setQuery($q);
-				$finaltypetype_result = $this->_db->loadObject();
-			}
-			else
-			{
-				$finaltypetype_result = array();
-			}
-
-			$and .= "AND r.product_id IN (" . implode(',', $productIds) . ") ";
-
-			if (Redshop::getConfig()->get('TWOWAY_RELATED_PRODUCT'))
-			{
-				if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == "r.ordering ASC" || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == "r.ordering DESC")
-				{
-					$orderby         = "";
-					$orderby_related = "ORDER BY " . Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
-				}
-
-				$InProduct = "";
-
-				$query = "SELECT * FROM " . $this->_table_prefix . "product_related AS r "
-					. "WHERE r.product_id IN (" . implode(',', $productIds) . ") OR r.related_id IN (" . implode(',', $productIds) . ")" . $orderby_related . "";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectlist();
-
-				$relatedArr = array();
-
-				for ($i = 0, $in = count($list); $i < $in; $i++)
-				{
-					if ($list[$i]->product_id == $product_id)
-					{
-						$relatedArr[] = $list[$i]->related_id;
-					}
-					else
-					{
-						$relatedArr[] = $list[$i]->product_id;
-					}
-				}
-
-				if (empty($relatedArr))
-				{
-					return array();
-				}
-
-				// Sanitize ids
-				JArrayHelper::toInteger($relatedArr);
-				$relatedArr = array_unique($relatedArr);
-
-				$query = "SELECT " . $product_id . " AS mainproduct_id,p.* "
-					. "FROM " . $this->_table_prefix . "product AS p "
-					. "WHERE p.published = 1 ";
-				$query .= ' AND p.product_id IN (' . implode(", ", $relatedArr) . ') ';
-				$query .= $orderby;
-
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectlist();
-
-				return $list;
-			}
-		}
-
-		if ($related_id != 0)
-		{
-			$and .= "AND r.related_id = " . (int) $related_id . " ";
-		}
-
-		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
-			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
-		{
-			$add_e = ",e.*";
-		}
-		else
-		{
-			$add_e = " ";
-		}
-
-		$query = "SELECT r.product_id AS mainproduct_id,p.* " . $add_e . " "
-			. "FROM " . $this->_table_prefix . "product_related AS r "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = r.related_id ";
-
-		if (!empty($finaltypetype_result) && !empty($finaltypetype_result->extrafield)
-			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
-				|| Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
-		{
-			$query .= " LEFT JOIN " . $this->_table_prefix . "fields_data  AS e ON p.product_id = e.itemid ";
-		}
-
-		$query .= " WHERE p.published = 1 ";
-
-		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
-			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
-		{
-			$query .= " AND e.fieldid = " . (int) $finaltypetype_result->extrafield . " AND e.section=17 ";
-		}
-
-		$query .= " $and GROUP BY r.related_id ";
-
-		if ((Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
-			|| Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
-		{
-			if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC')
-			{
-				$s = "STR_TO_DATE( e.data_txt, '%d-%m-%Y' ) ASC";
-			}
-			else
-			{
-				$s = "STR_TO_DATE( e.data_txt, '%d-%m-%Y' ) DESC";
-			}
-
-			$query .= " ORDER BY " . $s;
-		}
-		else
-		{
-			$query .= " $orderby ";
-		}
-
-		$this->_db->setQuery($query);
-
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperProduct::getRelatedProduct($productId, $relatedId);
 	}
 
 	public function makeTotalPriceByOprand($price = 0, $oprandArr = array(), $priceArr = array())
