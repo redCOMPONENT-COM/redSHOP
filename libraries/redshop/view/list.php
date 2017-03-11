@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Doctrine\Common\Inflector\Inflector;
+use Redshop\View\AbstractView;
 
 jimport('joomla.application.component.viewlegacy');
 
@@ -20,7 +20,7 @@ jimport('joomla.application.component.viewlegacy');
  * @subpackage  View
  * @since       1.5
  */
-class RedshopViewList extends JViewLegacy
+class RedshopViewList extends AbstractView
 {
 	/**
 	 * Layout used to render the component
@@ -105,75 +105,24 @@ class RedshopViewList extends JViewLegacy
 	public $filterForm;
 
 	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
-	 *
-	 * @throws  Exception
-	 */
-	public function display($tpl = null)
-	{
-		$this->beforeDisplay($tpl);
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new Exception(implode('<br />', $errors));
-		}
-
-		// Add page title
-		$this->addTitle();
-
-		// Add toolbar
-		$this->addToolbar();
-
-		// Prepare table data.
-		$this->prepareTable();
-
-		$render = RedshopLayoutHelper::render(
-			$this->componentLayout,
-			array(
-				'view'            => $this,
-				'tpl'             => $tpl,
-				'sidebar_display' => $this->displaySidebar,
-				'disableSidebar'  => $this->disableSidebar
-			)
-		);
-
-		JPluginHelper::importPlugin('system');
-		RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminRender', array(&$render));
-
-		if ($render instanceof Exception)
-		{
-			return $render;
-		}
-
-		echo $render;
-
-		return true;
-	}
-
-	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string  $tpl  Template name
+	 * @param   string  &$tpl  Template name
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function beforeDisplay($tpl)
+	public function beforeDisplay(&$tpl)
 	{
-		$this->model = $this->getModel();
-
 		// Get data from the model
 		$this->items         = $this->model->getItems();
 		$this->pagination    = $this->model->getPagination();
 		$this->state         = $this->model->getState();
 		$this->activeFilters = $this->model->getActiveFilters();
 		$this->filterForm    = $this->model->getForm();
+
+		$this->prepareTable();
 	}
 
 	/**
@@ -217,45 +166,11 @@ class RedshopViewList extends JViewLegacy
 	protected function addToolbar()
 	{
 		// Add common button
-		JToolBarHelper::addNew($this->getInstanceName() . '.add');
-		JToolBarHelper::deleteList('', $this->getInstancesName() . '.delete');
+		JToolbarHelper::addNew($this->getInstanceName() . '.add');
+		JToolbarHelper::deleteList('', $this->getInstancesName() . '.delete');
 		JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
 		JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		JToolbarHelper::checkin($this->getInstancesName() . '.publish', 'JTOOLBAR_CHECKIN', true);
-	}
-
-	/**
-	 * Method for get instance name with multi (Ex: products, categories,...) of current view
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getInstancesName()
-	{
-		if (is_null($this->instancesName))
-		{
-			$this->instancesName = strtolower(str_replace('RedshopView', '', get_class($this)));
-		}
-
-		return $this->instancesName;
-	}
-
-	/**
-	 * Method for get instance name with single (Ex: product, category,...) of current view
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getInstanceName()
-	{
-		if (is_null($this->instanceName))
-		{
-			$this->instanceName = Inflector::singularize($this->getInstancesName());
-		}
-
-		return $this->instanceName;
 	}
 
 	/**
