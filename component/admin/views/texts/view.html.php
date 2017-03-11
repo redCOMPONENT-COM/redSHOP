@@ -31,6 +31,22 @@ class RedshopViewTexts extends RedshopViewList
 	}
 
 	/**
+	 * Method for add toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function addToolbar()
+	{
+		parent::addToolbar();
+
+		$bar = JToolbar::getInstance('toolbar');
+
+		$bar->appendButton('Standard', 'copy', JText::_('COM_REDSHOP_COPY'), 'texts.copy', true);
+	}
+
+	/**
 	 * Method for render 'Published' column
 	 *
 	 * @param   array   $config  Row config.

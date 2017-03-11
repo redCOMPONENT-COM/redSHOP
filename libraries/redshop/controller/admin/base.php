@@ -409,4 +409,37 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 
 		JFactory::getApplication()->close();
 	}
+
+	/**
+	 * Copy function
+	 *
+	 * @return  void
+	 */
+	public function copy()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+
+		$pks = $this->input->get('cid', array(), 'array');
+		$pks = ArrayHelper::toInteger($pks);
+
+		if (count($pks))
+		{
+			$count = 0;
+
+			$model = $this->getModel();
+
+			foreach ($pks as $id)
+			{
+				if ($model->copy($id))
+				{
+					$count++;
+				}
+			}
+
+			$this->setMessage(JText::sprintf('COM_REDSHOP_COPY_ITEM_SUCCESS', $count));
+		}
+
+		$this->setRedirect($this->getRedirectToListRoute());
+	}
 }
