@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
  * Layout variables
  * ======================================
  *
- * @var  object $data        View object
- * @var  array  $displayData Layout data.
+ * @var  object  $data         View object
+ * @var  array   $displayData  Layout data.
  */
 extract($displayData);
 
