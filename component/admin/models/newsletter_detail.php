@@ -202,7 +202,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 	public function getnewslettertexts()
 	{
-		$query = 'SELECT text_name,text_desc FROM ' . $this->_table_prefix . 'textlibrary '
+		$query = 'SELECT `name`, `description` FROM ' . $this->_table_prefix . 'textlibrary '
 			. 'WHERE section="newsletter" '
 			. 'AND published=1';
 		$this->_db->setQuery($query);

@@ -53,7 +53,7 @@ class RedshopHelperText
 		{
 			foreach ($textData as $oneData)
 			{
-				$result[] = $oneData->text_name;
+				$result[] = $oneData->name;
 			}
 		}
 
@@ -75,7 +75,7 @@ class RedshopHelperText
 		{
 			foreach ($textData as $oneData)
 			{
-				$data = str_replace("{" . $oneData->text_name . "}", $oneData->text_field, $data);
+				$data = str_replace("{" . $oneData->name . "}", $oneData->text_field, $data);
 			}
 		}
 

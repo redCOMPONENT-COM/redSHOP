@@ -7,14 +7,14 @@
     <description>Translation definition for redSHOP ProduText Librarycts</description>
     <reference>
         <table name="redshop_textlibrary">
-            <field type="referenceid" name="textlibrary_id" translate="0">ID</field>
-            <field type="titletext" name="text_name" translate="1" >Name</field>
-            <field type="text" name="text_desc" translate="1">Description</field>
+            <field type="referenceid" name="id" translate="0">ID</field>
+            <field type="titletext" name="name" translate="1" >Name</field>
+            <field type="text" name="description" translate="1">Description</field>
             <field type="htmltext" name="text_field" translate="1" ebuttons="readmore,pagebreak">Content</field>
             <field type="state" name="published" stateoptions="0,1" translate="1">State</field>
         </table>
         <component>
-            <form>com_redshop#textlibrary#cid#task#!edit</form>
+            <form>com_redshop#text#id#task#!edit</form>
         </component>
     </reference>
 </contentelement>

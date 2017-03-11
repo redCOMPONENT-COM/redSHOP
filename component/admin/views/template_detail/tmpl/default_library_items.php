@@ -29,7 +29,7 @@ $totalCount = $categoryTagsCount + $newsletterTagsCount + $productTagsCount;
 	<table class="table table-hover table-striped">
 		<?php for ($i = 0; $i < $categoryTagsCount; $i++) : ?>
 		<tr>
-			<td>{<?php echo $categoryTags[$i]->text_name; ?>} -- <?php echo $categoryTags[$i]->text_desc; ?></td>
+			<td>{<?php echo $categoryTags[$i]->name; ?>} -- <?php echo $categoryTags[$i]->description; ?></td>
 		</tr>
 		<?php endfor; ?>
 
@@ -37,14 +37,14 @@ $totalCount = $categoryTagsCount + $newsletterTagsCount + $productTagsCount;
 
 		<?php for ($i = 0; $i < $newsletterTagsCount; $i++) : ?>
 		<tr>
-			<td>{<?php echo $newsletterTags[$i]->text_name; ?>} -- <?php echo $newsletterTags[$i]->text_desc; ?></td>
+			<td>{<?php echo $newsletterTags[$i]->name; ?>} -- <?php echo $newsletterTags[$i]->description; ?></td>
 		</tr>
 		<?php endfor; ?>
 
 		<?php echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_TEXTLIBRARY_ITEMS'), 'product-items'); ?>
 		<?php for ($i = 0; $i < $productTagsCount; $i++) : ?>
 		<tr>
-			<td>{<?php echo $productTags[$i]->text_name; ?>} -- <?php echo $productTags[$i]->text_desc; ?></td>
+			<td>{<?php echo $productTags[$i]->name; ?>} -- <?php echo $productTags[$i]->description; ?></td>
 		</tr>
 		<?php endfor; ?>
 	</table>

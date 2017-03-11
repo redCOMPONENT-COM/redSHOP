@@ -236,6 +236,11 @@ class RedshopViewList extends AbstractView
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
+		if (empty($config) || is_null($index) || is_null($row))
+		{
+			return '';
+		}
+
 		$isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
 
 		if (in_array($config['dataCol'], $this->stateColumns))

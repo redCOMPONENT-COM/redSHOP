@@ -257,9 +257,9 @@ class RedshopMenuLeft_Menu
 				return array('CUSTOMIZATION', 'template');
 				break;
 
-			case "textlibrary":
-			case "textlibrary_detail":
-				return array('CUSTOMIZATION', 'textlibrary');
+			case "texts":
+			case "text":
+				return array('CUSTOMIZATION', 'text');
 				break;
 
 			case "catalog":
@@ -672,9 +672,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'template') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=textlibrary',
+				'index.php?option=com_redshop&view=texts',
 				'COM_REDSHOP_TEXT_LIBRARY_LISTING',
-				(self::$view == 'textlibrary') ? true : false
+				(self::$view == 'text') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=catalog',

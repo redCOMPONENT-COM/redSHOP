@@ -672,13 +672,21 @@ class RedshopModelInstall extends RedshopModelList
 
 		// Clean up old Updates feature
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/update';
+		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/textlibrary';
+		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/textlibrary_detail';
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/sef_ext';
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/meta_ext';
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/barcode';
 
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/textlibrary.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/textlibrary_detail.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/text.php';
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/update.php';
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/models/textlibrary.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/models/textlibrary_detail.php';
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/tables/textlibrary_detail.php';
 
 		// Remove old Supplier stuff since Refactor.
 		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '2.0.0.6', '<='))
@@ -973,7 +981,7 @@ class RedshopModelInstall extends RedshopModelList
 	/**
 	 * Delete folder recursively
 	 *
-	 * @param   string $folder Folder to delete
+	 * @param   string  $folder  Folder to delete
 	 *
 	 * @return  boolean
 	 *
@@ -1012,7 +1020,7 @@ class RedshopModelInstall extends RedshopModelList
 	/**
 	 * Delete folders recursively.
 	 *
-	 * @param   array $folders Folders
+	 * @param   array  $folders  Folders
 	 *
 	 * @return  boolean
 	 *

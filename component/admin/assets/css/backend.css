@@ -27106,7 +27106,7 @@ body.modal-open {
 
 .adminForm .label-edit-inline,
 .adminForm .normal-data{
-  padding: 4px 6px;
+  padding: 6px 12px;
 }
 
 .adminForm .label-edit-inline:hover {

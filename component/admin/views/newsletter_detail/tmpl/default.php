@@ -128,10 +128,10 @@ $model = $this->getModel('newsletter_detail');
 						?>
 						<tr>
 							<td width="100" align="right" class="key">
-								<?php echo $tags[$i]->text_desc; ?>:
+								<?php echo $tags[$i]->description ?>:
 							</td>
 							<td>
-								<?php echo "{" . $tags[$i]->text_name . "}"; ?>
+								<?php echo "{" . $tags[$i]->name . "}" ?>
 							</td>
 						</tr>
 					<?php } ?>
