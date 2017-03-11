@@ -27104,11 +27104,21 @@ body.modal-open {
   overflow-y: auto;
 }
 
-.label-edit-inline {
+.adminForm .label-edit-inline,
+.adminForm .normal-data{
   padding: 4px 6px;
 }
 
-.label-edit-inline:hover {
+.adminForm .label-edit-inline:hover {
   background-color: #fcf8e3;
   cursor: text;
+}
+
+.adminForm .label-edit-inline:hover:after {
+  content: "\f044";
+  font: normal normal normal 14px/1 FontAwesome;
+  float: right;
+  margin-top: 2px;
+  color: #ad312b;
+  text-shadow: 1px 1px 1px #942a25;
 }

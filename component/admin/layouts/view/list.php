@@ -46,7 +46,7 @@ $user       = JFactory::getUser();
     }
 </script>
 
-<form action="index.php?option=com_redshop&view=<?php echo $viewName ?>" class="admin" id="adminForm" method="post" name="adminForm">
+<form action="index.php?option=com_redshop&view=<?php echo $viewName ?>" class="adminForm" id="adminForm" method="post" name="adminForm">
     <div class="filterTool">
 		<?php
 		echo RedshopLayoutHelper::render(
@@ -77,14 +77,9 @@ $user       = JFactory::getUser();
         <table class="adminlist table table-striped" id="table-<?php echo $viewName ?>">
             <thead>
             <tr>
-				<?php if ($data->showNumber): ?>
-                    <th width="1">#</th>
-				<?php endif; ?>
+                <th width="1">#</th>
                 <th width="1">
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
-                </th>
-                <th width="1">
-                    &nbsp;
                 </th>
                 <th width="1">
                     &nbsp;
@@ -98,41 +93,27 @@ $user       = JFactory::getUser();
 						<?php endif; ?>
                     </th>
 				<?php endforeach; ?>
-				<?php if ($data->showId): ?>
-                    <th width="1" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'id', $listDirn, $listOrder); ?>
-                    </th>
-				<?php endif; ?>
+                <th width="1">
+	                <?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ID'), 'id', $listDirn, $listOrder) ?>
+                </th>
             </tr>
             </thead>
             <tbody>
 			<?php foreach ($data->items as $i => $row): ?>
-				<?php
-				$isCheckedOut = $row->checked_out && $user->id != $row->checked_out;
-				$canCheckIn   = $user->authorise('core.manage', 'com_checkin') || $row->checked_out == $user->id || $row->checked_out == 0;
-				?>
+				<?php $canCheckIn = $user->authorise('core.manage', 'com_checkin') || $row->checked_out == $user->id || $row->checked_out == 0; ?>
                 <tr>
-					<?php if ($data->showNumber): ?>
-                        <td><?php echo $data->pagination->getRowOffset($i) ?></td>
-					<?php endif; ?>
+                    <td><?php echo $data->pagination->getRowOffset($i) ?></td>
                     <td align="center">
 						<?php echo JHtml::_('grid.id', $i, $row->id) ?>
                     </td>
-                    <td>
-						<?php if ($isCheckedOut && $canCheckIn || !$isCheckedOut): ?>
-                            <a href="index.php?option=com_redshop&task=<?php echo $singleName ?>.edit&id=<?php echo $row->id ?>"
-                               class="btn btn-primary">
-                                <i class="fa fa-edit"></i>
-                            </a>
+                    <td nowrap="nowrap">
+						<?php if ($row->checked_out): ?>
+							<?php echo JHtml::_('redshopgrid.checkedout', $i, $row->checked_out, $row->checked_out_time, $viewName . '.', $canCheckIn) ?>
 						<?php else: ?>
-                            <a href="javasript:void(0);" class="btn btn-default disabled">
+                            <a href="index.php?option=com_redshop&task=<?php echo $singleName ?>.edit&id=<?php echo $row->id ?>"
+                               class="btn btn-small btn-sm btn-primary">
                                 <i class="fa fa-edit"></i>
                             </a>
-						<?php endif; ?>
-                    </td>
-                    <td class="center">
-						<?php if ($isCheckedOut): ?>
-							<?php echo JHtml::_('jgrid.checkedout', $i, $row->checked_out, $row->checked_out_time, $viewName . '.', $canCheckIn) ?>
 						<?php endif; ?>
                     </td>
 					<?php foreach ($columns as $column): ?>
@@ -140,19 +121,14 @@ $user       = JFactory::getUser();
 							<?php echo $data->onRenderColumn($column, $i, $row) ?>
                         </td>
 					<?php endforeach; ?>
-					<?php if ($data->showId): ?>
-                        <td><?php echo $row->id ?></td>
-					<?php endif; ?>
+                    <td>
+		                <?php echo $row->id ?>
+                    </td>
                 </tr>
 			<?php endforeach; ?>
             </tbody>
             <tfoot>
-                <?php
-                $colSpan = count($columns);
-                $colSpan += ($data->showNumber) ? 1 : 0;
-                $colSpan += ($data->showId) ? 1 : 0;
-                ?>
-                <td colspan="<?php echo $colSpan ?>"><?php echo $data->pagination->getListFooter() ?></td>
+            <td colspan="<?php echo count($columns) + 4 ?>"><?php echo $data->pagination->getListFooter() ?></td>
             </tfoot>
         </table>
 	<?php endif; ?>
