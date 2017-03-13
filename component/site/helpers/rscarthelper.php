@@ -182,20 +182,20 @@ class rsCarthelper
 				if ($quotation_mode && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 				{
 					$data = str_replace("{discount}", "", $data);
-					$data = str_replace("{discount_in_percentage}", $percentage, $data);
+					$data = str_replace("{discount_in_percentage}", "-" . $percentage, $data);
 
 				}
 				else
 				{
 					$data = str_replace("{discount}", $this->_producthelper->getProductFormattedPrice($discount, true), $data);
-					$data = str_replace("{order_discount}", $this->_producthelper->getProductFormattedPrice($discount, true), $data);
+					$data = str_replace("{order_discount}", "-" . $this->_producthelper->getProductFormattedPrice($discount, true), $data);
 
 					if (!empty($subtotal) && $subtotal > 0)
 					{
 						$percentage = round(($discount * 100 / $subtotal), 2) . " %";
 					}
 
-					$data = str_replace("{discount_in_percentage}", $percentage, $data);
+					$data = str_replace("{discount_in_percentage}", "-" . $percentage, $data);
 				}
 
 				$data = str_replace("{discount_lbl}", JText::_('COM_REDSHOP_CHECKOUT_DISCOUNT_LBL'), $data);
