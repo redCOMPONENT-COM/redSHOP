@@ -524,6 +524,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 					return false;
 				}
 
+				$dispatcher->trigger('onBeforeProductMediaSave', array(&$row, &$mediarow));
+
 				if (!$mediarow->store())
 				{
 					return false;
