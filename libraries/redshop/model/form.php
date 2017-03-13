@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 jimport('joomla.application.component.modelform');
 
 /**
@@ -305,5 +307,53 @@ class RedshopModelForm extends JModelAdmin
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Method to copy an record.
+	 *
+	 * @param   integer  $pk  The ID of the primary key.
+	 *
+	 * @return  boolean  True if successful, false if an error occurs.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function copy($pk = null)
+	{
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
+
+		$table = $this->getTable();
+
+		if (!$table->load($pk))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
+
+		$newItem = clone $table;
+
+		$newItem->set($newItem->getKeyName(), null);
+
+		// Change name
+		if (property_exists($newItem, 'name'))
+		{
+			$newItem->name = StringHelper::increment($newItem->name);
+		}
+
+		// Change name
+		if (property_exists($newItem, 'title'))
+		{
+			$newItem->title = StringHelper::increment($newItem->title);
+		}
+
+		if (!$newItem->check())
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
+
+		return $newItem->store();
 	}
 }

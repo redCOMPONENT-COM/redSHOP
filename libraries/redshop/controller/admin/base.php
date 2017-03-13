@@ -375,4 +375,71 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 			return JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $append, false);
 		}
 	}
+
+	/**
+	 * Method to publish a list of items
+	 *
+	 * @return  boolean
+	 */
+	public function ajaxInlineEdit()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+
+		$editData = $this->input->get('jform_inline', array(), 'ARRAY');
+		$editKey  = $this->input->get('id', 0);
+
+		if (empty($editData) || empty($editData[$editKey]))
+		{
+			echo 0;
+		}
+
+		$editData = $editData[$editKey];
+
+		/** @var RedshopTable $table */
+		$table = $this->getModel()->getTable();
+		$result = true;
+
+		if (!$table->load($editKey) || !$table->bind($editData) || !$table->store())
+		{
+			$result = false;
+		}
+
+		echo (int) $result;
+
+		JFactory::getApplication()->close();
+	}
+
+	/**
+	 * Copy function
+	 *
+	 * @return  void
+	 */
+	public function copy()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+
+		$pks = $this->input->get('cid', array(), 'array');
+		$pks = ArrayHelper::toInteger($pks);
+
+		if (count($pks))
+		{
+			$count = 0;
+
+			$model = $this->getModel();
+
+			foreach ($pks as $id)
+			{
+				if ($model->copy($id))
+				{
+					$count++;
+				}
+			}
+
+			$this->setMessage(JText::sprintf('COM_REDSHOP_COPY_ITEM_SUCCESS', $count));
+		}
+
+		$this->setRedirect($this->getRedirectToListRoute());
+	}
 }

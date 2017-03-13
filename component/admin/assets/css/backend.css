@@ -27103,3 +27103,22 @@ body.modal-open {
   max-height: 600px;
   overflow-y: auto;
 }
+
+.adminForm .label-edit-inline,
+.adminForm .normal-data{
+  padding: 6px 12px;
+}
+
+.adminForm .label-edit-inline:hover {
+  background-color: #fcf8e3;
+  cursor: text;
+}
+
+.adminForm .label-edit-inline:hover:after {
+  content: "\f044";
+  font: normal normal normal 14px/1 FontAwesome;
+  float: right;
+  margin-top: 2px;
+  color: #ad312b;
+  text-shadow: 1px 1px 1px #942a25;
+}

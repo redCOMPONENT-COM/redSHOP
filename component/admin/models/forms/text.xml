@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+        />
+        <field
+                name="name"
+                type="redshop.text"
+                label="COM_REDSHOP_TAG_NAME"
+                description="COM_REDSHOP_TOOLTIP_TAG_NAME"
+                placeholder="COM_REDSHOP_TAG_NAME"
+                class="form-control"
+                default=""
+                required="true"
+                table-sortable="1"
+                table-inline="1"
+        />
+        <field
+                name="description"
+                type="redshop.text"
+                label="COM_REDSHOP_TEXT_DESCRIPTION"
+                description="COM_REDSHOP_TOOLTIP_TEXT_FIELD"
+                placeholder="COM_REDSHOP_TEXT_DESCRIPTION"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-inline="1"
+                table-width="20%"
+        />
+        <field
+                name="section"
+                type="redshop.text_library_section"
+                label="COM_REDSHOP_SECTION"
+                description="COM_REDSHOP_TOOLTIP_SECTION"
+                class="form-control"
+                table-sortable="1"
+                table-inline="1"
+                table-width="10%"
+                default="">
+            <option value="">COM_REDSHOP_SELECT</option>
+        </field>
+        <field
+                name="published"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_PUBLISHED"
+                required="true"
+                table-sortable="1"
+                table-width="5%">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="text_field"
+                type="editor"
+                label="COM_REDSHOP_TEXT_FIELD"
+                description=""
+                width="300"
+                filter="safehtml"
+                table-hide="1"
+        />
+    </fieldset>
+</form>

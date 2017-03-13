@@ -16,11 +16,11 @@
 class TextLibraryManagerJoomla3Page
 {
 	// Include url of current page
-	public static $URL = '/administrator/index.php?option=com_redshop&view=textlibrary';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=texts';
 
-	public static $textTagName = "#text_name";
+	public static $textTagName = "#jform_name";
 
-	public static $textTagDescription = "#text_desc";
+	public static $textTagDescription = "#jform_description";
 
 	public static $sectionDropDown = "//div[@id='section_chzn']/a";
 
