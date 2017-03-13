@@ -12,14 +12,10 @@ JHtml::_('redshopjquery.ui');
 JHtml::script('com_redshop/jquery.iframe-transport.js', false, true);
 JHtml::script('com_redshop/jquery.fileupload.js', false, true);
 
-// @TODO: Move to config
-$allowFileTypes = array('text/csv', 'application/vnd.ms-excel');
-
-// @TODO: Move to config. In bytes.
-$allowMaxFileSize = 1000000;
-
-// @TODO: Move to config. In bytes.
-$allowMinFileSize = 1;
+$allowFileTypes      = explode(',', Redshop::getConfig()->get('IMPORT_FILE_MIME', 'text/csv,application/vnd.ms-excel'));
+$allowMaxFileSize    = (int) Redshop::getConfig()->get('IMPORT_MAX_FILE_SIZE', 2000000);
+$allowMinFileSize    = (int) Redshop::getConfig()->get('IMPORT_MIN_FILE_SIZE', 1);
+$allowFileExtensions = explode(',', Redshop::getConfig()->get('IMPORT_FILE_EXTENSION', '.csv'));
 
 // Defines encoding used in import
 $characterSets = array(
@@ -64,6 +60,7 @@ foreach ($characterSets as $char => $name)
         var folder = '';
         var itemRun = 1;
         var allowFileType = ["<?php echo implode('","', $allowFileTypes) ?>"];
+        var allowFileExt = ["<?php echo implode('","', $allowFileExtensions) ?>"];
         var allowMaxFileSize = <?php echo $allowMaxFileSize ?>;
         var allowMinFileSize = <?php echo $allowMinFileSize ?>;
 
@@ -100,7 +97,7 @@ foreach ($characterSets as $char => $name)
                         $("#import_process_msg_body").empty();
 
                         if (data.result.status == 1) {
-                            $("<p>").addClass("text-success").text(data.result.msg).appendTo($("#import_process_msg_body"));
+                            $("<p>").addClass("text-success").html(data.result.msg).appendTo($("#import_process_msg_body"));
                             total = data.result.lines - 1;
                             folder = data.result.folder;
                             $("#import_count").html(total);
@@ -109,16 +106,17 @@ foreach ($characterSets as $char => $name)
                         } else {
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
-                            $("<p>").addClass("text-danger").text(data.result.msg).appendTo($("#import_process_msg_body"));
+                            $("<p>").addClass("text-danger").html(data.result.msg).appendTo($("#import_process_msg_body"));
                             $("#import_count").empty();
                         }
                     },
                     add: function (e, data) {
-                        if (allowFileType.indexOf(data.files[0].type) == -1) {
+                        if (allowFileType.indexOf(data.files[0].type) == -1
+                            && data.files[0].name.indexOf(allowFileExt) == -1) {
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
                             $("<p>").addClass("text-danger")
-                                .text("<?php echo JText::_('COM_REDSHOP_IMPORT_ERROR_FILE_TYPE') ?>")
+                                .html("<?php echo JText::_('COM_REDSHOP_IMPORT_ERROR_FILE_TYPE') ?>")
                                 .appendTo($("#import_process_msg_body"));
 
                             return false;
@@ -128,7 +126,7 @@ foreach ($characterSets as $char => $name)
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
                             $("<p>").addClass("text-danger")
-                                .text("<?php echo JText::sprintf('COM_REDSHOP_IMPORT_ERROR_FILE_MAX_SIZE', $allowMaxFileSize) ?>")
+                                .html("<?php echo JText::sprintf('COM_REDSHOP_IMPORT_ERROR_FILE_MAX_SIZE', $allowMaxFileSize) ?>")
                                 .appendTo($("#import_process_msg_body"));
 
                             return false;
@@ -138,7 +136,7 @@ foreach ($characterSets as $char => $name)
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
                             $("<p>").addClass("text-danger")
-                                .text("<?php echo JText::sprintf('COM_REDSHOP_IMPORT_ERROR_FILE_MIN_SIZE', $allowMinFileSize) ?>")
+                                .html("<?php echo JText::sprintf('COM_REDSHOP_IMPORT_ERROR_FILE_MIN_SIZE', $allowMinFileSize) ?>")
                                 .appendTo($("#import_process_msg_body"));
 
                             return false;
@@ -157,7 +155,7 @@ foreach ($characterSets as $char => $name)
                         $uploadWrapper.hide();
                         $("#import_plugins").removeClass("disabled muted");
                         $("#import_config").removeClass("disabled muted");
-                        $("<p>").addClass("text-danger").text(error).appendTo($("#import_process_msg_body"));
+                        $("<p>").addClass("text-danger").html(error).appendTo($("#import_process_msg_body"));
                     }
                 });
 
@@ -216,7 +214,7 @@ foreach ($characterSets as $char => $name)
                                     textClass = "text-danger";
                                 }
 
-                                $("<p>").addClass(textClass).text(response.data[i].message).appendTo($("#import_process_msg_body"));
+                                $("<p>").addClass(textClass).html(response.data[i].message).appendTo($("#import_process_msg_body"));
                             }
                         }
 
@@ -232,7 +230,7 @@ foreach ($characterSets as $char => $name)
                             total = 0;
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
-                            $("<p>").addClass("text-danger").text(response).appendTo($("#import_process_msg_body"));
+                            $("<p>").addClass("text-danger").html(response).appendTo($("#import_process_msg_body"));
                         }
                     },
                     "JSON"
@@ -243,13 +241,12 @@ foreach ($characterSets as $char => $name)
                         $("#import_plugins").removeClass("disabled muted");
                         $("#import_config").removeClass("disabled muted");
                         $("<p>").addClass("text-danger")
-                            .text("<?php echo JText::_('COM_REDSHOP_IMPORT_FAIL') ?>").appendTo($("#import_process_msg_body"));
+                            .html("<?php echo JText::_('COM_REDSHOP_IMPORT_FAIL') ?>").appendTo($("#import_process_msg_body"));
                         $("#import_process_bar").parent().hide();
                     });
             })(jQuery);
         }
     </script>
-
     <form action="index.php?option=com_redshop&view=import" method="post" name="adminForm" id="adminForm">
         <div class="row">
             <div class="col-md-6">
@@ -282,6 +279,24 @@ foreach ($characterSets as $char => $name)
                     <div class="panel-body">
                         <div id="import_config">
                             <fieldset class="form-horizontal">
+                                <p>
+									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MIN_FILE_SIZE') ?>:&nbsp;
+                                    <span class="text-primary"><?php echo number_format($allowMinFileSize) ?> bytes</span>
+                                </p>
+                                <p>
+									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_FILE_SIZE') ?>:&nbsp;
+                                    <span class="text-primary"><?php echo number_format($allowMaxFileSize) ?> bytes</span>
+                                </p>
+                                <p>
+									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_MIME') ?>:&nbsp;
+                                    <span class="text-primary"><?php echo implode(', ', $allowFileTypes) ?></span>
+                                </p>
+                                <p>
+									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_EXTENSION') ?>:&nbsp;
+                                    <span class="text-primary"><?php echo implode(', ', $allowFileExtensions) ?></span>
+                                </p>
+                                <p class="help-block"><?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_HELP') ?></p>
+                                <hr/>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">
 										<?php echo JText::_('COM_REDSHOP_IMPORT_CONFIG_SEPARATOR') ?>
@@ -364,5 +379,4 @@ foreach ($characterSets as $char => $name)
         <!-- Hidden field -->
 		<?php echo JHtml::_('form.token') ?>
     </form>
-<?php endif; ?>
-
+<?php endif;
