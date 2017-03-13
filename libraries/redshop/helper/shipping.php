@@ -2093,8 +2093,11 @@ class RedshopHelperShipping
 		{
 			$extension = 'plg_redshop_shipping_' . $paymentsLangList[$index]->element;
 			$language->load($extension, JPATH_ADMINISTRATOR, $language->getTag(), true);
-
-			$language->load($extension, JPATH_PLUGINS . '/' . $paymentsLangList[$index]->folder . '/' . $paymentsLangList[$index]->element, $language->getTag(), true);
+			$language->load(
+				$extension, JPATH_PLUGINS . '/' . $paymentsLangList[$index]->folder . '/' . $paymentsLangList[$index]->element,
+				$language->getTag(),
+				true
+			);
 		}
 	}
 }
