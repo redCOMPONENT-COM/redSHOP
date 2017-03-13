@@ -190,12 +190,6 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$post['order_payment_amount'] = $tmporder_total;
 		$post['order_payment_name'] = $paymentmethod->name;
 
-		if ($apply == 1)
-		{
-			$post['order_payment_status'] = 'Unpaid';
-			$post['order_status'] = 'P';
-		}
-
 		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
