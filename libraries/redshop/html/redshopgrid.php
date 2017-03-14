@@ -67,8 +67,6 @@ abstract class JHtmlRedshopGrid
 		}
 
 		$document = JFactory::getDocument();
-		$count    = (int) $count;
-		$more     = empty($more) ? JText::_('COM_REDSHOP_MORE') : $more;
 		$teaser   = JHtml::_('string.truncate', $data, $count, true, false);
 
 		$document->addStyleDeclaration('
@@ -100,6 +98,6 @@ abstract class JHtmlRedshopGrid
 
 		return "<span class='rs-teaser'>" . $teaser . "</span>
 			<span class='rs-full'>" . $data . "</span>
-			<span class='rs-more badge label-success'>" . $more . "</span>";
+			<span class='rs-more badge label-success'>" . JText::_('COM_REDSHOP_GRID_SLIDERTEXT_MORE') . "</span>";
 	}
 }
