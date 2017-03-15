@@ -7,9 +7,9 @@
 	method="upgrade"
 >
 	<name>PLG_REDSHOP_PAYMENT_BAOKIM</name>
-	<version>1.0.1</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>November 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>http://www.redcomponent.com</authorUrl>
@@ -21,14 +21,12 @@
 		<filename plugin="baokim">baokim.php</filename>
 		<folder>layouts</folder>
 		<folder>library</folder>
-		<folder>media</folder>
+		<folder>language</folder>
 	</files>
-
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_baokim.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_baokim.sys.ini</language>
-	</languages>
-
+	<media folder="media">
+		<folder>plg_redshop_payment_baokim</folder>
+	</media>
+	<scriptfile>install.php</scriptfile>
 	<config>
     <fields name="params">
 		<fieldset name="extra" label="extra">

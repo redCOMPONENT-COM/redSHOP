@@ -19,8 +19,8 @@ $formInput = $displayData['formInput'];
 $params    = $displayData['params'];
 $action    = $formInput['action'];
 $name      = $params->get('dataName', Redshop::getConfig()->get('SHOP_NAME'));
+JHtml::stylesheet('plg_redshop_payment_baokim/main.css', false, true);
 ?>
-<link type="text/css" rel="stylesheet" href="<?php echo JURI::root() . 'plugins/redshop_payment/baokim/media/css/main.css' ?>"/>
 <h3><?php echo $name; ?></h3>
 <div id="wrapper">
 	<!-- nav -->
@@ -34,7 +34,7 @@ $name      = $params->get('dataName', Redshop::getConfig()->get('SHOP_NAME'));
 		<div id="select_payment">
 			<form method="post" action="" id="form-action">
 				<div class="method row-fluid" id="2">
-					<div class="icon"><img src="<?php echo JURI::root() . 'plugins/redshop_payment/baokim/media/images/creditcard.png'; ?>" border="0"/></div>
+					<div class="icon"><img src="<?php echo JURI::root() . 'media/plg_redshop_payment_baokim/images/creditcard.png'; ?>" border="0"/></div>
 					<div class="info">
 						<span class="title"><?php echo JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ONLINE_VISA'); ?></span>
 						<div class="bank_list"
@@ -47,7 +47,7 @@ $name      = $params->get('dataName', Redshop::getConfig()->get('SHOP_NAME'));
 					<div class="check_box"></div>
 				</div>
 				<div class="row-fluid method" id="3">
-					<div class="icon"><img src="<?php echo JURI::root() . 'plugins/redshop_payment/baokim/media/images/transfer.png'; ?>" border="0"/></div>
+					<div class="icon"><img src="<?php echo JURI::root() . 'media/plg_redshop_payment_baokim/images/transfer.png'; ?>" border="0"/></div>
 					<div class="info">
 						<span class="title"><?php echo JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_INTERNET_BANKING'); ?></span>
 						<span class="desc"><?php echo JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_CHOOSE_BANK'); ?></span>
@@ -61,7 +61,7 @@ $name      = $params->get('dataName', Redshop::getConfig()->get('SHOP_NAME'));
 					<div class="check_box"></div>
 				</div>
 				<div class="row-fluid method" id="1">
-					<div class="icon"><img src="<?php echo JURI::root() . 'plugins/redshop_payment/baokim/media/images/atm.png'; ?>" border="0"/></div>
+					<div class="icon"><img src="<?php echo JURI::root() . 'media/plg_redshop_payment_baokim/images/atm.png'; ?>" border="0"/></div>
 					<div class="info">
 						<span class="title"><?php echo JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ATM'); ?></span>
 						<span class="desc"><?php echo JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_CHOOSE_BANK'); ?></span>
@@ -76,10 +76,10 @@ $name      = $params->get('dataName', Redshop::getConfig()->get('SHOP_NAME'));
 					<div class="check_box"></div>
 				</div>
 				<div class="row-fluid method" id="0">
-					<div class="icon"><img src="<?php echo JURI::root() . 'plugins/redshop_payment/baokim/media/images/sercurity.png'; ?>" border="0"/></div>
+					<div class="icon"><img src="<?php echo JURI::root() . 'media/plg_redshop_payment_baokim/images/sercurity.png'; ?>" border="0"/></div>
 					<div class="info">
 						<div class="bk_logo"><a href="http://baokim.vn" target="_blank"><img
-									src="<?php echo JURI::root() . 'plugins/redshop_payment/baokim/media/images/bk_logo.png'; ?>" border="0"/></a></div>
+									src="<?php echo JURI::root() . 'media/plg_redshop_payment_baokim/images/bk_logo.png'; ?>" border="0"/></a></div>
 						<span class="title"><?php echo JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_WALLET'); ?></span>
 						<span class="desc"><?php echo JText::_('PLG_REDSHOP_PAYMENT_BAOKIM_ACCOUNT'); ?></span>
 					</div>
