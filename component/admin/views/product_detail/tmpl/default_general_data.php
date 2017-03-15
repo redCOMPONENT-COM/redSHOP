@@ -25,7 +25,8 @@ $calendarFormat = '%d-%m-%Y';
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="product_number">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>
+								              <?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>
+                              <span class="star text-danger"> *</span>
                             </label>
                             <input class="form-control"
                                    type="text"
@@ -39,6 +40,7 @@ $calendarFormat = '%d-%m-%Y';
                         <div class="form-group">
                             <label for="product_number">
 								<?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER'); ?>
+                <span class="star text-danger"> *</span>
 								<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'), JText::_('COM_REDSHOP_PRODUCT_NUMBER'), 'tooltip.png', '', '', false); ?>
                             </label>
                             <input class="form-control"
@@ -54,6 +56,7 @@ $calendarFormat = '%d-%m-%Y';
                         <div class="form-group">
                             <label for="categories">
 								<?php echo JText::_('COM_REDSHOP_PRODUCT_CATEGORY'); ?>
+                <span class="star text-danger"> *</span>
 								<?php
 								echo JHtml::tooltip(
 									JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_CATEGORY'),
@@ -71,6 +74,7 @@ $calendarFormat = '%d-%m-%Y';
                         <div class="form-group">
                             <label for="product_template">
 								<?php echo JText::_('COM_REDSHOP_PRODUCT_TEMPLATE'); ?>
+                <span class="star text-danger"> *</span>
 								<?php
 								echo JHtml::tooltip(
 									JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TEMPLATE'),
