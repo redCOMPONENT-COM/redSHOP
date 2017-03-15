@@ -8,6 +8,15 @@
  */
 defined('_JEXEC') or die;
 ?>
+
+<script type="text/javascript">
+    (function($){
+        $(window).load(function(){
+            importdata(1);
+        });
+    })(jQuery);
+</script>
+
 <script language="javascript" type="text/javascript">
 	var xmlhttp;
 
@@ -25,11 +34,6 @@ defined('_JEXEC') or die;
 		}
 
 		return null;
-	}
-
-	window.onload = function ()
-	{
-		importdata(1);
 	}
 
 	function importdata(new_line)

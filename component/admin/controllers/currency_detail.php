@@ -78,13 +78,13 @@ class RedshopControllerCurrency_detail extends RedshopController
 		}
 
 		$model = $this->getModel('currency_detail');
+		$msg   = "";
 
-		if (!$model->delete($cid))
+		if ($model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			$msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_DELETED_SUCCESSFULLY');
 		}
 
-		$msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=currency', $msg);
 	}
 }
