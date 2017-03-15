@@ -45,6 +45,63 @@ abstract class JHtmlRedshopGrid
 	}
 
 	/**
+	 * Method for render text with slide if length is longer than count.
+	 *
+	 * @param   string  $data   String data
+	 * @param   int     $count  Count of maximum length
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function slideText($data = '', $count = 50)
+	{
+		if (empty($data))
+		{
+			return '';
+		}
+
+		if (strlen($data) <= $count)
+		{
+			return $data;
+		}
+
+		$document = JFactory::getDocument();
+		$teaser   = JHtml::_('string.truncate', $data, $count, true, false);
+
+		$document->addStyleDeclaration('
+			.rs-full { display: none; }
+			.rs-more { cursor: pointer; }
+			.rs-teaser { display: inline-block; }
+		');
+
+		$document->addScriptDeclaration('
+			(function($){
+				$(document).ready(function(){
+					$(".rs-more").click(function(e){
+						var $self = $(this);
+						var $teaser = $self.parent().find(".rs-teaser");
+						var $full = $self.parent().find(".rs-full");
+
+						$teaser.toggle();
+						$full.toggle("slow", function(){
+							if ($(this).css("display") == "none") {
+								$self.text("' . JText::_('COM_REDSHOP_GRID_SLIDERTEXT_MORE') . '");
+							} else {
+								$self.text("' . JText::_('COM_REDSHOP_GRID_SLIDERTEXT_LESS') . '");
+							}
+						});
+					});
+				});
+			})(jQuery);
+		');
+
+		return "<span class='rs-teaser'>" . $teaser . "</span>
+			<span class='rs-full'>" . $data . "</span>
+			<span class='rs-more badge label-success'>" . JText::_('COM_REDSHOP_GRID_SLIDERTEXT_MORE') . "</span>";
+	}
+
+	/**
 	 * Method for render HTML of inline edit field.
 	 *
 	 * @param   string  $name   DOM name of field
@@ -194,8 +251,8 @@ abstract class JHtmlRedshopGrid
 	 * @return  string         The Html code
 	 */
 	public static function action($i, $task, $prefix = '', $text = '', $active_title = '', $inactive_title = '',
-		$tip = false, $active_class = '', $inactive_class = '',
-		$enabled = true, $translate = true, $checkbox = 'cb', $formId = 'adminForm', $buttonClass = '')
+	                              $tip = false, $active_class = '', $inactive_class = '',
+	                              $enabled = true, $translate = true, $checkbox = 'cb', $formId = 'adminForm', $buttonClass = '')
 	{
 		if (is_array($prefix))
 		{
