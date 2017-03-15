@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Discount class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopHelperDiscount
 {
@@ -27,7 +27,7 @@ class RedshopHelperDiscount
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getDiscount($subTotal = 0, $userId = 0)
 	{

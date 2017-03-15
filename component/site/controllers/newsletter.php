@@ -46,7 +46,7 @@ class RedshopControllerNewsletter extends RedshopController
 		/*
 		  *  check if user has alreday subscribe.
 		  */
-		$alreadysubscriberbymail = $model->checksubscriptionbymail($post['email1']);
+		$alreadysubscriberbymail = $model->checksubscriptionbymail($post['email']);
 
 		if ($alreadysubscriberbymail)
 		{
@@ -87,7 +87,7 @@ class RedshopControllerNewsletter extends RedshopController
 		$model = $this->getModel('newsletter');
 
 		$Itemid           = $this->input->get('Itemid');
-		$email            = $this->input->get('email1');
+		$email            = $this->input->get('email');
 		$newsletteritemid = $this->input->get('newsletteritemid');
 		$menu             = JFactory::getApplication()->getMenu();
 		$item             = $menu->getItem($newsletteritemid);
@@ -155,5 +155,7 @@ class RedshopControllerNewsletter extends RedshopController
 		// Set image header
 		header("Content-type: image/gif");
 		readfile(JURI::root() . 'components/com_redshop/assets/images/spacer.gif');
+
+		JFactory::getApplication()->close();
 	}
 }

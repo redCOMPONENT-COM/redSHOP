@@ -32,6 +32,7 @@
                 description="COM_REDSHOP_TAX_RATE_COUNTRY_DESC"
                 class="form-control"
                 idfield="country_3_code"
+                onchange="javascript:updateState(this.value)"
                 default="">
             <option value="">COM_REDSHOP_TAX_RATE_COUNTRY_SELECT</option>
         </field>
