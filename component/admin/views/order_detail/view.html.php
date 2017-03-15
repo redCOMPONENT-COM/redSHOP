@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopViewOrder_Detail extends RedshopViewAdmin
 {
@@ -98,13 +98,11 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 
 			$this->setLayout($layout);
 
-			$world = RedshopHelperWorld::getInstance();
-
-			$countryarray           = $world->getCountryList((array) $shipping);
+			$countryarray           = RedshopHelperWorld::getCountryList((array) $shipping);
 			$shipping->country_code = $countryarray['country_code'];
 			$lists['country_code']  = $countryarray['country_dropdown'];
 
-			$statearray             = $world->getStateList((array) $shipping);
+			$statearray             = RedshopHelperWorld::getStateList((array) $shipping);
 			$lists['state_code']    = $statearray['state_dropdown'];
 
 			$showcountry = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 0 : 1;
@@ -160,19 +158,23 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 		JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
 		$order_id = $detail->order_id;
-		RedshopToolbarHelper::link(
-			'index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id,
-			'redshop_export_export32',
-			'COM_REDSHOP_CREATE_STOCKNOTE',
-			'_blank'
-		);
 
-		RedshopToolbarHelper::link(
-			'index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id,
-			'redshop_export_export32',
-			'COM_REDSHOP_CREATE_SHIPPING_LABEL',
-			'_blank'
-		);
+		if (RedshopHelperPdf::isAvailablePdfPlugins())
+		{
+			RedshopToolbarHelper::link(
+				'index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id,
+				'redshop_export_export32',
+				'COM_REDSHOP_CREATE_STOCKNOTE',
+				'_blank'
+			);
+
+			RedshopToolbarHelper::link(
+				'index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id,
+				'redshop_export_export32',
+				'COM_REDSHOP_CREATE_SHIPPING_LABEL',
+				'_blank'
+			);
+		}
 
 		$tmpl = JFactory::getApplication()->input->get('tmpl', '');
 		$appendTmpl = ($tmpl) ? '&tmpl=component' : '';

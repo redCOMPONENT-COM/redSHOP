@@ -56,13 +56,17 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		$model = $this->getModel('newslettersubscr_detail');
 		$userinfo = $model->getUserFromEmail($post['email']);
 
-		if (count($userinfo) > 0)
+		if (!empty($userinfo))
 		{
 			$post['email'] = $userinfo->user_email;
 			$post['user_id'] = $userinfo->user_id;
+			$post['name']    = $userinfo->firstname . ' ' . $userinfo->lastname;
 		}
 
-		$post ['name'] = $post['username'];
+		if (empty($post['name']))
+		{
+			$post['name'] = !empty($post['username']) ? $post['username'] : $post['email'];
+		}
 
 		if ($row = $model->store($post))
 		{

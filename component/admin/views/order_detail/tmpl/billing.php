@@ -61,6 +61,22 @@ $Itemid = JRequest::getVar('Itemid');
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
 			return false;
 		}
+		else
+		{
+			var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			var testEmail = re.test(frm.user_email.value);
+
+			if (!testEmail)
+			{
+				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
+
+				return false;
+			}
+			
+    		return testEmail;
+		}
+
+		
 
 		return true;
 	}

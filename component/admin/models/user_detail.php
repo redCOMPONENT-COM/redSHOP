@@ -252,38 +252,35 @@ class RedshopModelUser_detail extends RedshopModel
 
 			if ($deleteJoomlaUsers)
 			{
-				$queryAllJuserIds = $db->getQuery(true)
-							->select('GROUP_CONCAT(id) AS ids')
+				$queryAllUserIds = $db->getQuery(true)
+							->select($db->qn('id'))
 							->from($db->qn('#__users'));
-
-				$db->setQuery($queryAllJuserIds);
-				$allJuserIds = $db->loadResult();
-
-				// REDSHOP-3553. It should not bug by logic but would cause by specific site case
-				$allJuserIds = trim($allJuserIds, ',');
+				$allUserIds = $db->setQuery($queryAllUserIds)->loadColumn();
 
 				$queryCustom = $db->getQuery(true)
 						->select($db->qn('user_id'))
 						->from($db->qn('#__redshop_users_info'))
 						->where($db->qn('users_info_id') . ' IN (' . $cids . ' )')
-						->where($db->qn('user_id') . ' IN (' . $allJuserIds . ' )');
+						->where($db->qn('user_id') . ' IN (' . implode(',', $allUserIds) . ' )')
+						->group($db->qn('user_id'));
 
-				$db->setQuery($queryCustom);
-				$juserIds = $db->loadRowList();
+				$joomlaUserIds = $db->setQuery($queryCustom)->loadColumn();
 
-				foreach ($juserIds as $juserId)
+				foreach ($joomlaUserIds as $joomlaUserId)
 				{
-					$jUser = JFactory::getUser($juserId[0]);
+					$joomlaUser = JFactory::getUser($joomlaUserId);
 
-					// Do not delete Super Administrator user
-					if (!$jUser->authorise('core.admin'))
+					// Skip this user whom in Super Administrator group.
+					if ($joomlaUser->authorise('core.admin'))
 					{
-						if (!JFactory::getUser($juserId[0])->delete())
-						{
-							$this->setError($db->getErrorMsg());
+						continue;
+					}
 
-							return false;
-						}
+					if (!JFactory::getUser($joomlaUser)->delete())
+					{
+						$this->setError($db->getErrorMsg());
+
+						return false;
 					}
 				}
 			}

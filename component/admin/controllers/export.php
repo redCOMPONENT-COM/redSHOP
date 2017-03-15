@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerExport extends RedshopController
+/**
+ * Controller Export Detail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       2.0.3
+ */
+class RedshopControllerExport extends RedshopControllerAdmin
 {
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
 }
