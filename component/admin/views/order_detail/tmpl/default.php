@@ -1207,5 +1207,13 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
         jQuery("#special_discount").keydown(function (e) {
             validateInputFloat(e);
         });
+
+        jQuery("input[name=update_price]").keydown(function (e) {
+            validateInputFloat(e);
+        });
+
+        jQuery("input[name=quantity]").keydown(function (e) {
+            validateInputFloat(e);
+        });
     });
 </script>
