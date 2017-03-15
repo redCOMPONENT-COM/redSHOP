@@ -108,7 +108,7 @@ echo JRoute::_($this->request_url)?>" method="post"
 					<table>
 						<tr>
 							<td width="100" align="right" class="key">
-								<label for="name"> <?php echo JText::_('COM_REDSHOP_ATTRIBUTE_SET_NAME'); ?>: </label>
+								<label for="name"> <?php echo JText::_('COM_REDSHOP_ATTRIBUTE_SET_NAME'); ?><span class="star text-danger"> *</span>: </label>
 							</td>
 							<td>
 								<input class="text_area" type="text" name="attribute_set_name" id="attribute_set_name"

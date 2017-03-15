@@ -38,8 +38,9 @@ if (file_exists($composerAutoload))
 $lang = JFactory::getLanguage();
 $lang->load('lib_redshop', JPATH_SITE);
 
-// Load redSHOP language
-$lang->load('com_redshop', JPATH_SITE);
+// Load Joomla File & Folder Library
+jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.file');
 
 // Load redSHOP factory file
 JLoader::import('redshop.redshop');
@@ -70,7 +71,10 @@ JHtml::addIncludePath(JPATH_REDSHOP_LIBRARY . '/html');
 JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
 // Setup dynamic variables like show price etc...
-Redconfiguration::getInstance()->defineDynamicVars();
+if (class_exists('Redconfiguration'))
+{
+	Redconfiguration::getInstance()->defineDynamicVars();
+}
 
 // Load backward compatible php defined config.
 if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_PHP') == 1)

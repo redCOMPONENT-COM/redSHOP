@@ -25,6 +25,12 @@ abstract class RedshopTagsAbstract
 
 	/**
 	 * @var    array
+	 * @since  2.0.0.6
+	 */
+	public $tags_alias = array ();
+
+	/**
+	 * @var    array
 	 *
 	 * @since   2.0.0.5
 	 */
@@ -76,7 +82,7 @@ abstract class RedshopTagsAbstract
 	abstract public function init();
 
 	/**
-	 * Check if tag is exists or not
+	 * Check if tag is registered or not
 	 *
 	 * @param   string  $tag  Tag
 	 *
@@ -84,9 +90,33 @@ abstract class RedshopTagsAbstract
 	 *
 	 * @since   2.1
 	 */
-	public function isTagExists($tag)
+	public function isTagRegistered($tag)
 	{
+		if (in_array($tag, $this->tags_alias))
+		{
+			$tag = $this->tags_alias[$tag];
+		}
+
 		return in_array($tag, $this->tags);
+	}
+
+	/**
+	 * Check if this tag exists in main template
+	 *
+	 * @param   string  $tag  Tag
+	 *
+	 * @return  bool
+	 *
+	 * @since   2.1
+	 */
+	public function isTagExists ($tag)
+	{
+		if (strpos($this->template, $tag) === false)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -119,7 +149,9 @@ abstract class RedshopTagsAbstract
 			return $this->template;
 		}
 
-		return str_replace($this->search, $this->replace, $this->template);
+		$this->template = str_replace($this->search, $this->replace, $this->template);
+
+		return $this->template;
 	}
 
 	/**
@@ -144,12 +176,51 @@ abstract class RedshopTagsAbstract
 		}
 
 		// Make sure this tag is exists before adding replace
-		if (strpos($this->template, $tag) === false || !$this->isTagExists($tag))
+		if ($this->isTagExists($tag) === false || $this->isTagRegistered($tag) === false)
 		{
 			return true;
 		}
 
 		$this->search[]  = $tag;
 		$this->replace[] = $value;
+
+		// Check alias tag
+		if ($key = array_search($tag, $this->tags_alias) !== false)
+		{
+			$this->search[]  = $key;
+			$this->replace[] = $value;
+		}
+	}
+
+	/**
+	 * Get template between loop tags
+	 *
+	 * @param   string  $beginTag  Begin tag
+	 * @param   string  $endTag    End tag
+	 *
+	 * @return  array|bool
+	 *
+	 * @since   2.0.0.6
+	 */
+	protected function getTemplateBetweenLoop($beginTag, $endTag)
+	{
+		if ($this->isTagExists($beginTag) && $this->isTagExists($endTag))
+		{
+			$templateStartData = explode($beginTag, $this->template);
+			$templateStart        = $templateStartData [0];
+
+			$templateEndData    = explode($endTag, $templateStartData [1]);
+			$templateEnd = $templateEndData[1];
+
+			$templateMain = $templateEndData[0];
+
+			return array(
+				'begin' => $templateStart,
+				'template' => $templateMain,
+				'end' => $templateEnd
+			);
+		}
+
+		return false;
 	}
 }
