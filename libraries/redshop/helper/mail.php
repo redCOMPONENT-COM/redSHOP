@@ -177,9 +177,6 @@ class RedshopHelperMail
 		$message = str_replace("{lastname}", $billingAddresses->lastname, $message);
 		$body    = $message;
 
-		echo $body;
-		exit;
-
 		// Send the e-mail
 		if (!empty($email))
 		{
