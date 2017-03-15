@@ -11,24 +11,52 @@ defined('_JEXEC') or die;
 ?>
 
 <fieldset class="adminform">
-	<div class="row">
-		<div class="col-sm-6">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('system_information');?>
-			</fieldset>
-
-		</div>
-
-		<div class="col-sm-6">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('redshop_modules');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('redshop_shipping');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('redshop_plugins');?>
-			</fieldset>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-sm-6">
+			<?php
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_SYSTEM_INFORMATION'),
+					'content' => $this->loadTemplate('system_information')
+				)
+			);
+			?>
+        </div>
+        <div class="col-sm-6">
+			<?php
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_REDSHOP_MODULES'),
+					'content' => $this->loadTemplate('redshop_modules')
+				)
+			);
+			?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+	        <?php
+	        echo RedshopLayoutHelper::render(
+		        'config.group',
+		        array(
+			        'title'   => JText::_('COM_REDSHOP_REDSHOP_SHIPPING_PLUGINS'),
+			        'content' => $this->loadTemplate('redshop_shipping')
+		        )
+	        );
+	        ?>
+        </div>
+        <div class="col-sm-6">
+	        <?php
+	        echo RedshopLayoutHelper::render(
+		        'config.group',
+		        array(
+			        'title'   => JText::_('COM_REDSHOP_REDSHOP_PAYMENT_PLUGINS'),
+			        'content' => $this->loadTemplate('redshop_plugins')
+		        )
+	        );
+	        ?>
+        </div>
+    </div>
 </fieldset>

@@ -217,7 +217,7 @@ if ($data->lists['attributes'])
 				</div>
 				<div class="span3">
 					<?php echo JText::_('COM_REDSHOP_PROPERTY_NUMBER'); ?>
-					<input type="text" class="vpnrequired input-mini"
+					<input type="text" class="vpnrequired input-medium"
 						   value="<?php echo $property->property_number; ?>"
 						   name="<?php echo $propPref; ?>[number]"/>
 				</div>
@@ -299,7 +299,7 @@ if ($data->lists['attributes'])
 				</div>
 				<div class="span2">
 					<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD'); ?>
-					<input type="text" class="input-mini"
+					<input type="text" class="input-small"
 						   name="<?php echo $propPref; ?>[extra_field]"
 						   value="<?php echo $property->extra_field; ?>"/>
 				</div>
@@ -436,7 +436,7 @@ if ($data->lists['attributes'])
 													</div>
 													<div class="span3">
 														<?php echo JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER'); ?>
-														<input type="text" size="14" class="vpnrequired input-mini"
+														<input type="text" size="14" class="vpnrequired input-medium"
 															   value="<?php echo $subProperty->subattribute_color_number; ?>"
 															   name="<?php echo $subPropPref; ?>[number]"/>
 													</div>
@@ -529,7 +529,7 @@ if ($data->lists['attributes'])
 															</div>
 															<div class="span2">
 																<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD'); ?>
-																<input type="text" class="input-mini"
+																<input type="text" class="input-small"
 																	   name="<?php echo $subPropPref; ?>[extra_field]"
 																	   value="<?php echo $subProperty->extra_field; ?>"/>
 															</div>

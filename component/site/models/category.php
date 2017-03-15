@@ -206,35 +206,46 @@ class RedshopModelCategory extends RedshopModel
 		$this->_data = null;
 	}
 
+	/**
+	 * Build a query
+	 *
+	 * @return  JDatabaseQuery
+	 */
 	public function _buildQuery()
 	{
+		$db              = JFactory::getDbo();
 		$app             = JFactory::getApplication();
 		$menu            = $app->getMenu();
 		$item            = $menu->getActive();
 		$manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
 		$manufacturer_id = $app->input->getInt('manufacturer_id', $manufacturer_id, '', 'int');
+		$layout          = $app->input->getCmd('layout');
 
-		$layout  = $app->input->getCmd('layout');
-		$orderby = ($layout != "categoryproduct") ? $this->_buildContentOrderBy() : "";
-		$groupby = $and = $left = "";
+		$query = $db->getQuery(true);
+		$query->select(
+				array(
+					'DISTINCT(' . $db->qn('c.category_id') . ')',
+					'c.*'
+				)
+			)
+			->from($db->qn('#__redshop_category', 'c'))
+			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('cx.category_child_id') . ' = ' . $db->qn('c.category_id'))
+			->where($db->qn('c.published') . ' = 1')
+			->where($db->qn('cx.category_parent_id') . ' = ' . (int) $this->_id);
+
+		if ($layout != 'categoryproduct')
+		{
+			$query->order($this->_buildContentOrderBy());
+		}
 
 		if ($manufacturer_id)
 		{
-			$left    = "LEFT JOIN #__redshop_product_category_xref AS pcx ON pcx.category_id = c.category_id "
-				. "LEFT JOIN #__redshop_product AS p ON p.product_id = pcx.product_id "
-				. "LEFT JOIN #__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id ";
-			$and     = "AND m.manufacturer_id = " . (int) $manufacturer_id . " ";
-			$groupby = "GROUP BY c.category_id ";
+			$query->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('pcx.category_id') . ' = ' . $db->qn('c.category_id'))
+				->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
+				->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
+				->where($db->qn('m.manufacturer_id') . ' = ' . (int) $manufacturer_id)
+				->groupby($db->qn('c.category_id'));
 		}
-
-		$query = "SELECT c.* FROM #__redshop_category AS c "
-			. "LEFT JOIN #__redshop_category_xref AS cx ON cx.category_child_id=c.category_id "
-			. $left
-			. "WHERE c.published = 1 "
-			. "AND cx.category_parent_id = " . (int) $this->_id . " "
-			. $and
-			. $groupby
-			. $orderby;
 
 		return $query;
 	}
@@ -243,11 +254,11 @@ class RedshopModelCategory extends RedshopModel
 	{
 		if (Redshop::getConfig()->get('DEFAULT_CATEGORY_ORDERING_METHOD'))
 		{
-			$orderby = " ORDER BY " . Redshop::getConfig()->get('DEFAULT_CATEGORY_ORDERING_METHOD');
+			$orderby = Redshop::getConfig()->get('DEFAULT_CATEGORY_ORDERING_METHOD');
 		}
 		else
 		{
-			$orderby = " ORDER BY c.ordering";
+			$orderby = "c.ordering";
 		}
 
 		return $orderby;

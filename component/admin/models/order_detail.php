@@ -1043,8 +1043,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		if ($data['shipping_rate_id'] != "")
 		{
 			// Get Shipping rate info Info
-			$decry = $shippinghelper->decryptShipping(str_replace(" ", "+", $data['shipping_rate_id']));
-			$neworder_shipping = explode("|", $decry);
+			$neworder_shipping = RedshopHelperShipping::decryptShipping($data['shipping_rate_id']);
 
 			if ($data['shipping_rate_id'] != $orderdata->ship_method_id || $neworder_shipping[0] == 'plgredshop_shippingdefault_shipping_gls')
 			{
@@ -1234,18 +1233,5 @@ class RedshopModelOrder_detail extends RedshopModel
 		{
 			return false;
 		}
-	}
-
-	public function getStockNoteTemplate()
-	{
-		$redTemplate = Redtemplate::getInstance();
-
-		if (empty ($this->_template))
-		{
-			$this->_template = $redTemplate->getTemplate("stock_note");
-			$this->_template = $this->_template[0];
-		}
-
-		return $this->_template;
 	}
 }

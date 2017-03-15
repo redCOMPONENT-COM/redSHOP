@@ -155,7 +155,7 @@ class rsCarthelper
 	 *
 	 * @return  float             Tax after apply discount.
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperCart::calculateTaxAfterDiscount() instead.
+	 * @deprecated   2.0.3  Use RedshopHelperCart::calculateTaxAfterDiscount() instead.
 	 **/
 	public function calculateTaxafterDiscount($tax = 0.0, $discount = 0.0)
 	{
@@ -2996,7 +2996,7 @@ class rsCarthelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperCart::generateCartOutput() instead.
+	 * @deprecated  2.0.3  Use RedshopHelperCart::generateCartOutput() instead.
 	 */
 	public function makeCart_output($cart)
 	{
@@ -4043,11 +4043,6 @@ class rsCarthelper
 					$tmpsubtotal = $pSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
 				}
 
-				if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
-				{
-					$tmpsubtotal = $this->calcAlreadyDiscount($tmpsubtotal, $cart);
-				}
-
 				if ($dis_type == 0)
 				{
 					$avgVAT = 1;
@@ -4083,6 +4078,11 @@ class rsCarthelper
 					return;
 				}
 
+				if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
+				{
+					$couponValue = $this->calcAlreadyDiscount($couponValue, $cart);
+				}
+
 				$remaining_coupon_discount = 0;
 
 				if ($couponValue > $tmpsubtotal)
@@ -4095,6 +4095,7 @@ class rsCarthelper
 				{
 					$couponValue = 0;
 				}
+
 
 				$valueExist = 0;
 
@@ -4241,11 +4242,6 @@ class rsCarthelper
 					$p_quantity = $voucher->voucher_left;
 				}
 
-				if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
-				{
-					$product_price = $this->calcAlreadyDiscount($product_price, $cart);
-				}
-
 				if ($dis_type == 0)
 				{
 					$voucher->total *= $p_quantity;
@@ -4268,6 +4264,11 @@ class rsCarthelper
 				{
 					$oldarr        = $cart['voucher'];
 					$voucher_index = count($oldarr) + 1;
+				}
+
+				if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
+				{
+					$voucherValue = $this->calcAlreadyDiscount($voucherValue, $cart);
 				}
 
 				$remaining_voucher_discount = 0;
@@ -4359,7 +4360,15 @@ class rsCarthelper
 		}
 	}
 
-	public function calcAlreadyDiscount($tmpsubtotal, $cart)
+	/**
+	 * Re-calcualate the Voucher/Coupon value when the product is already discount
+	 *
+	 * @param   float  $value  Voucher/Coupon value
+	 * @param   array  $cart   Cart array
+	 *
+	 * @return  float          Voucher/Coupon value
+	 */
+	public function calcAlreadyDiscount($value, $cart)
 	{
 		$idx = 0;
 
@@ -4370,15 +4379,21 @@ class rsCarthelper
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			$product = $this->_producthelper->getProductById($cart[$i]['product_id']);
+			$product = $this->_producthelper->getProductNetPrice($cart[$i]['product_id']);
 
-			if ($product->product_price > $cart[$i]['product_price_excl_vat'])
+			// If the product is already discount
+			if ($product['product_price_saving'] > 0)
 			{
-				$tmpsubtotal = $tmpsubtotal - $cart[$i]['product_price'];
+				$value = $value - ($product['product_price_saving'] * $cart[$i]['quantity']);
 			}
 		}
 
-		return $tmpsubtotal;
+		if ($value < 0)
+		{
+			$value = 0;
+		}
+
+		return $value;
 	}
 
 	public function rs_multi_array_key_exists($needle, $haystack)
@@ -4951,7 +4966,7 @@ class rsCarthelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperCart::cartFinalCalculation() instead.
+	 * @deprecated   2.0.3  Use RedshopHelperCart::cartFinalCalculation() instead.
 	 */
 	public function cartFinalCalculation($callmodify = true)
 	{
@@ -4965,7 +4980,7 @@ class rsCarthelper
 	 *
 	 * @return  null
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperCart::addCartToDatabase() instead.
+	 * @deprecated  2.0.3  Use RedshopHelperCart::addCartToDatabase() instead.
 	 */
 	public function carttodb($cart = array())
 	{
@@ -4982,7 +4997,7 @@ class rsCarthelper
 	 *
 	 * @return  boolean       True on success. False otherwise.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperCart::addCartToDatabase() instead.
+	 * @deprecated  2.0.3  Use RedshopHelperCart::addCartToDatabase() instead.
 	 */
 	public function attributetodb($attribute = array(), $cart_item_id = 0, $product_id = 0, $isAccessary = false)
 	{
@@ -4998,7 +5013,7 @@ class rsCarthelper
 	 *
 	 * @return bool
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use edshopHelperCart::removeCartFromDatabase() instead.
+	 * @deprecated  2.0.3  Use edshopHelperCart::removeCartFromDatabase() instead.
 	 */
 	public function removecartfromdb($cart_id = 0, $userid = 0, $delCart = false)
 	{
@@ -5010,7 +5025,7 @@ class rsCarthelper
 	 *
 	 * @param   int  $userId  ID of user.
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperCart::databaseToCart() instead.
+	 * @deprecated   2.0.3  Use RedshopHelperCart::databaseToCart() instead.
 	 */
 	public function dbtocart($userId = 0)
 	{
@@ -5027,7 +5042,7 @@ class rsCarthelper
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public function generateAttributeFromCart($cart_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quantity = 1)
 	{
