@@ -227,7 +227,7 @@ class rsUserHelper
 
 		if (trim($data['username']) == "")
 		{
-			JError::raiseWarning('', JText::_('EMPTY_USERNAME'));
+			JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_USERNAME'));
 
 			return false;
 		}
@@ -650,11 +650,7 @@ class rsUserHelper
 
 		if (isset($data['newsletter_signup']) && $data['newsletter_signup'] == 1)
 		{
-			$this->newsletterSubscribe($row->user_id, $data);
-
-			JPluginHelper::importPlugin('redshop_user');
-			$dispatcher = JDispatcher::getInstance();
-			$hResponses = $dispatcher->trigger('addNewsLetterSubscription', array($isNew, $data));
+			$this->newsletterSubscribe($row->user_id, $data, 0, $isNew);
 		}
 
 		$billisship = 1;
@@ -699,7 +695,7 @@ class rsUserHelper
 		}
 
 		JPluginHelper::importPlugin('user');
-		JDispatcher::getInstance()->trigger('onAfterCreateRedshopUser', array($data, $isNew));
+		RedshopHelperUtility::getDispatcher()->trigger('onAfterCreateRedshopUser', array($data, $isNew));
 
 		return $row;
 	}
@@ -788,72 +784,21 @@ class rsUserHelper
 		return count($jusers);
 	}
 
-	public function newsletterSubscribe($user_id = 0, $data = array(), $sendmail = 0)
+	/**
+	 * Method for add an subscriber for Newsletter
+	 *
+	 * @param   int    $userId    ID of user.
+	 * @param   array  $data      Data of subscriber
+	 * @param   int    $sendMail  True for send mail.
+	 * @param   null   $isNew     Capability for old method.
+	 *
+	 * @return  boolean
+	 *
+	 * @deprecated  2.0.3  Use RedshopHelperNewsletter::subscribe() instead
+	 */
+	public function newsletterSubscribe($userId = 0, $data = array(), $sendMail = 0, $isNew = null)
 	{
-		$newsletter = 1;
-		$user       = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-		if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') > 0)
-		{
-			$newsletter = Redshop::getConfig()->get('DEFAULT_NEWSLETTER');
-		}
-		if (count($data) <= 0)
-		{
-			$data['user_id']  = $user->id;
-			$data['username'] = $user->username;
-			$data['email']    = $user->email;
-			$data['name']     = $user->name . " (" . $user->username . ")";
-		}
-		else
-		{
-			$data['user_id'] = $user_id;
-			$data['name']    = $data['name'];
-			$data['email']   = $data['email1'];
-
-			if (isset($data['username']))
-			{
-				$data['name'] = $data['username'];
-			}
-
-			if ($user->id && $user->email == $data['email'])
-			{
-				$data['name'] = $user->name . " (" . $user->username . ")";
-			}
-		}
-
-		$data['date']          = time();
-		$data['newsletter_id'] = $newsletter;
-		$data['published']     = 1;
-
-		if (Redshop::getConfig()->get('NEWSLETTER_CONFIRMATION') && $sendmail)
-		{
-			$data['published'] = 0;
-		}
-
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
-		$row = JTable::getInstance('newslettersubscr_detail', 'Table');
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
-		}
-
-		if (Redshop::getConfig()->get('NEWSLETTER_CONFIRMATION') && $sendmail)
-		{
-			$redshopMail = redshopMail::getInstance();
-			$redshopMail->sendNewsletterConfirmationMail($row->subscription_id);
-		}
-
-		return true;
+		return RedshopHelperNewsletter::subscribe($userId, $data, boolval($sendMail), $isNew);
 	}
 
 	public function newsletterUnsubscribe($email = "")
@@ -1038,12 +983,10 @@ class rsUserHelper
 
 	public function replaceBillingCommonFields($template_desc, $post = array(), $lists)
 	{
-		$world = RedshopHelperWorld::getInstance();
-
-		$countryarray          = $world->getCountryList($post);
+		$countryarray          = RedshopHelperWorld::getCountryList($post);
 		$post['country_code']  = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
-		$statearray            = $world->getStateList($post);
+		$statearray            = RedshopHelperWorld::getStateList($post);
 		$lists['state_code']   = $statearray['state_dropdown'];
 		$countrystyle          = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
 		$statestyle            = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
@@ -1180,7 +1123,6 @@ class rsUserHelper
 
 	public function getShippingTable($post = array(), $is_company = 0, $lists)
 	{
-		$world             = RedshopHelperWorld::getInstance();
 		$redTemplate       = Redtemplate::getInstance();
 		$shipping_template = $redTemplate->getTemplate("shipping_template");
 
@@ -1211,11 +1153,11 @@ class rsUserHelper
 		}
 
 		$read_only                = "";
-		$countryarray             = $world->getCountryList($post, 'country_code_ST', 'ST', 'inputbox billingRequired valid', 'state_code_ST');
+		$countryarray             = RedshopHelperWorld::getCountryList($post, 'country_code_ST', 'ST', 'inputbox billingRequired valid', 'state_code_ST');
 		$post['country_code_ST']  = $countryarray['country_code_ST'];
 		$lists['country_code_ST'] = $countryarray['country_dropdown'];
 
-		$statearray               = $world->getStateList($post, 'state_code_ST', 'ST');
+		$statearray               = RedshopHelperWorld::getStateList($post, 'state_code_ST', 'ST');
 		$lists['state_code_ST']   = $statearray['state_dropdown'];
 
 		$countrystyle = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';

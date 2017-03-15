@@ -29,7 +29,7 @@ class RedshopViewAccount_billto extends RedshopView
 
 		$billingaddresses = $GLOBALS['billingaddresses'];
 
-		if (count($billingaddresses) <= 0)
+		if (empty($billingaddresses))
 		{
 			$model            = $this->getModel('account_billto');
 			$billingaddresses = $model->_initData();

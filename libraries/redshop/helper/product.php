@@ -385,7 +385,7 @@ class RedshopHelperProduct
 	 *
 	 * @return mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function replaceAccessoryData($productId = 0, $accessory = array(), $userId = 0, $uniqueId = "")
 	{
@@ -461,7 +461,7 @@ class RedshopHelperProduct
 	 *
 	 * @return mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
 	{
@@ -599,7 +599,7 @@ class RedshopHelperProduct
 	 *
 	 * @return mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function replaceWrapperData($productId = 0, $userId = 0, $uniqueId = "")
 	{
@@ -662,7 +662,7 @@ class RedshopHelperProduct
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getProductItemInfo($productId = 0, $quantity = 1, $uniqueId = "", $userId = 0, $newProductPrice = 0)
 	{
@@ -740,7 +740,7 @@ class RedshopHelperProduct
 	 *
 	 * @return mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function replaceShippingMethod($data = array(), $shippUsersInfoId = 0, $shippingRateId = 0)
 	{
@@ -813,7 +813,7 @@ class RedshopHelperProduct
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function redesignProductItem($post = array())
 	{
@@ -922,7 +922,7 @@ class RedshopHelperProduct
 	 *
 	 * @return mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function replaceUserField($productId = 0, $templateId = 0, $uniqueId = "")
 	{
@@ -965,7 +965,7 @@ class RedshopHelperProduct
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function insertProductUserField($fieldId = 0, $orderItemId = 0, $sectionId = 12, $value = '')
 	{
@@ -986,7 +986,7 @@ class RedshopHelperProduct
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getProductsSortByList()
 	{

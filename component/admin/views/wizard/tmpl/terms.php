@@ -29,7 +29,7 @@ $params = JFactory::getApplication()->input->get('params', '', 'raw');
 					$doc = JFactory::getDocument();
 
 					$article = JTable::getInstance('content');
-					$article_id = $this->temparray['terms_article_id'];
+					$article_id = $this->temparray['TERMS_ARTICLE_ID'];
 					if ($article_id)
 					{
 						$article->load($article_id);
