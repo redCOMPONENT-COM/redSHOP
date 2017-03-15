@@ -11,17 +11,24 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgSearchRedshop_products extends JPlugin
+/**
+ *  PlgSearchRedshop_Products class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgSearchRedshop_Products extends JPlugin
 {
 	/**
 	 * Constructor
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An array that holds the plugin configuration\
+	 *
+	 * @access  protected
+	 * @since   1.5
 	 */
-	public function __construct(& $subject, $config)
+	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -202,14 +209,14 @@ class plgSearchRedshop_products extends JPlugin
 		}
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
-		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$rsUserhelper             = rsUserHelper::getInstance();
+		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		$whereaclProduct = "";
 
-		if ($shopper_group_manufactures != "")
+		if ($shopperGroupManufactures != "")
 		{
-			$query->where($db->qn('manufacturer_id') . ' IN (' . $shopper_group_manufactures . ')');
+			$query->where($db->qn('manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
 		}
 
 		// Only published products
@@ -227,13 +234,13 @@ class plgSearchRedshop_products extends JPlugin
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		$redhelper = redhelper::getInstance();
+		$redHelper = redhelper::getInstance();
 		$return    = array();
 
 		foreach ($rows as $key => $row)
 		{
-			$Itemid    = $redhelper->getItemid($row->product_id, $row->cat_in_sefurl);
-			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->cat_in_sefurl . "&Itemid=" . $Itemid;
+			$itemId    = $redHelper->getItemid($row->product_id, $row->cat_in_sefurl);
+			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->cat_in_sefurl . "&Itemid=" . $itemId;
 
 			$return[]  = $row;
 		}
