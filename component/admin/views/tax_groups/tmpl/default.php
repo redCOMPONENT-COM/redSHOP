@@ -71,6 +71,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_TAX_GROUP_NAME_LBL', 'name', $listDirn, $listOrder); ?>
                 </th>
                 <th nowrap="nowrap">
+					<?php echo JText::_('COM_REDSHOP_TAX_RATE') ?>
                 </th>
                 <th width="5%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'id', $listDirn, $listOrder); ?>
@@ -110,11 +111,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <td align="center">
 						<?php $taxRates = RedshopEntityTax_Group::getInstance($row->id)->getTaxRates()->count(); ?>
 						<?php if ($taxRates): ?>
-                            <a href="index.php?option=com_redshop&view=tax_rates&filter[tax_group]=<?php echo $row->id ?>">
-								<?php echo $taxRates . ' x ' . JText::_('COM_REDSHOP_TAX_RATE') ?>
+                            <a href="index.php?option=com_redshop&view=tax_rates&filter[tax_group]=<?php echo $row->id ?>"
+                               class="badge label-success">
+								<?php echo $taxRates ?>
                             </a>
 						<?php else: ?>
-                            <span class="muted">0 x <?php echo JText::_('COM_REDSHOP_TAX_RATE') ?></span>
+                            <span class="badge">0</span>
 						<?php endif; ?>
                     </td>
                     <td align="center">
