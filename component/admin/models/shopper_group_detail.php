@@ -322,7 +322,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 	public function getVatGroup()
 	{
-		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE `published` = 1 ";
+		$query = "SELECT tg.name as text, tg.id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE tg.published = 1 ";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();

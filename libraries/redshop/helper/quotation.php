@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 
 defined('_JEXEC') or die;
@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Class Redshop Helper for Quotation
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopHelperQuotation
 {
@@ -25,7 +25,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  array  An array of status options
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getQuotationStatusList()
 	{
@@ -47,7 +47,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  string   Name of Quotation status
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getQuotationStatusName($value = 0)
 	{
@@ -83,7 +83,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getQuotationProduct($quotationId = 0, $quotationItemId = 0)
 	{
@@ -120,7 +120,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getQuotationDetail($quotationId)
 	{
@@ -147,7 +147,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function generateQuotationNumber()
 	{
@@ -172,7 +172,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateQuotationStatus($quotationId, $status = 1)
 	{
@@ -208,7 +208,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getQuotationUserList()
 	{
@@ -239,7 +239,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function randomQuotationEncryptKey($pLength = '30')
 	{
@@ -267,7 +267,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  boolean  true/false when inserting success or fail
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function manageQuotationUserField($cart = array(), $quotationItemId = 0, $sectionId = 12)
 	{
@@ -305,7 +305,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function insertQuotationUserField($fieldId = 0, $quotationItemId = 0, $sectionId = 12, $value = '')
 	{
@@ -326,7 +326,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getQuotationUserField($quotationItemId)
 	{
@@ -352,7 +352,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  string   HTML to display
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function displayQuotationUserField($quotationItemId = 0, $sectionId = 12)
 	{
@@ -400,7 +400,7 @@ class RedshopHelperQuotation
 
 							for ($f = 0, $fn = count($files); $f < $fn; $f++)
 							{
-								$uLink   = Redshop::getConfig()->get('REDSHOP_FRONT_DOCUMENT_ABSPATH') . "product/" . $files[$f];
+								$uLink   = REDSHOP_FRONT_DOCUMENT_ABSPATH . "product/" . $files[$f];
 								$dataTxt .= "<a href='" . $uLink . "'>" . $files[$f] . "</a> ";
 							}
 
@@ -431,7 +431,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  boolean/void           Return true if success, alert error if fail
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateQuotationWithOrder($quotationId, $orderId)
 	{
@@ -467,7 +467,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getQuotationWithOrder($orderId = 0)
 	{
@@ -506,7 +506,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getQuotationItemAccessoryDetail($quotationItemId = 0)
 	{
@@ -537,7 +537,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function getQuotationItemAttributeDetail($quotationItemId = 0, $isAccessory = 0, $section = "attribute", $parentSectionId = 0)
 	{

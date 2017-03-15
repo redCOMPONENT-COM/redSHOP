@@ -43,7 +43,8 @@ $date   = JFactory::getDate();
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
-							<?php echo JText::_('COM_REDSHOP_NAME'); ?>:
+							<?php echo JText::_('COM_REDSHOP_NAME'); ?>
+							<span class="star text-danger"> *</span>:
 						</label>
 					</td>
 					<td>

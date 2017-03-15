@@ -26,11 +26,25 @@ class RedshopModelWrapper_detail extends RedshopModel
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 
+		/**
+		 * Only setup ID from cid if not add task
+		 * TODO Refactor this form into right Joomla! standard
+		 */
 		$jinput = JFactory::getApplication()->input;
 
-		$array            = $jinput->get('cid', 0, 'array');
-		$this->_sectionid = $jinput->getInt('product_id', 0);
-		$this->setId((int) $array[0]);
+		if ($jinput->getCmd('task') != 'add')
+		{
+			$array = $jinput->getInt('cid', 0);
+
+			// Set record Id from cid
+			$this->setId((is_array($array)) ? (int) $array[0] : $array);
+		}
+		else
+		{
+			$this->setId(0);
+		}
+
+		$this->_sectionid = JRequest::getVar('product_id', 0, '', 'int');
 	}
 
 	public function setId($id)
