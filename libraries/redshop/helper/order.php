@@ -366,19 +366,27 @@ class RedshopHelperOrder
 				return null;
 			}
 
-			// Get plugin information
-			$plugin = JPluginHelper::getPlugin(
-						'redshop_payment',
-						self::$payment[$orderId]->payment_method_class
-					);
-
-			if ($plugin)
+			if (!empty(self::$payment[$orderId]->payment_method_class))
 			{
-				$plugin->params = new Registry($plugin->params);
-			}
+				// Get plugin information
+				$plugin = JPluginHelper::getPlugin(
+					'redshop_payment',
+					self::$payment[$orderId]->payment_method_class
+				);
 
-			// Set plugin information
-			self::$payment[$orderId]->plugin = $plugin;
+				if ($plugin)
+				{
+					$plugin->params = new Registry($plugin->params);
+				}
+
+				// Set plugin information
+				self::$payment[$orderId]->plugin = $plugin;
+			}
+			else
+			{
+				// Set plugin information
+				self::$payment[$orderId]->plugin = null;
+			}
 		}
 
 		return self::$payment[$orderId];

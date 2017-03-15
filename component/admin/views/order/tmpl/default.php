@@ -226,6 +226,9 @@ JPluginHelper::importPlugin('redshop_product');
             <th>
 				<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CUSTOMER_TYPE', 'is_company', $this->lists['order_Dir'], $this->lists['order']); ?>
             </th>
+            <th width="20%">
+		        <?php echo JText::_('COM_REDSHOP_ORDERS_CUSTOMER_NOTE') ?>
+            </th>
             <th width="5%">
 				<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_STATUS', 'order_status', $this->lists['order_Dir'], $this->lists['order']); ?>
             </th>
@@ -305,6 +308,9 @@ JPluginHelper::importPlugin('redshop_product');
 					<?php else: ?>
                         <span class="text-muted"><?php echo JText::_('COM_REDSHOP_PRIVATE'); ?></span>
 					<?php endif; ?>
+                </td>
+                <td>
+                    <?php echo JHtml::_('redshopgrid.slidetext', $row->customer_note) ?>
                 </td>
                 <td>
                     <span class="label order_status_<?php echo strtolower($row->order_status) ?>"><?php echo $row->order_status_name ?></span>
