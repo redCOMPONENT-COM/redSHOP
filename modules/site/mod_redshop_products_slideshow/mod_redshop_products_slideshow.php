@@ -22,6 +22,6 @@ $id              = intval($params->get('category_id', 0));
 // Include the helper functions only once
 require_once __DIR__ . '/helper.php';
 
-RedshopProductSlideshow::create_smart_xml_files($params, $module->id);
+RedshopProductSlideshow::createSmartXmlFiles($params, $module->id);
 
 require JModuleHelper::getLayoutPath('mod_redshop_products_slideshow', $params->get('layout', 'default'));

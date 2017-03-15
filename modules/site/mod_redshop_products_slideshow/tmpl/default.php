@@ -8,12 +8,11 @@
  */
 
 defined('_JEXEC') or die;
-
 ?>
 <div class="slideshow-stage">
 	<script language="javascript">AC_FL_RunContent = 0;</script>
-	<script src="<?php echo JURI::root();?>modules/mod_redshop_products_slideshow/assets/AC_RunActiveContent.js"
-			language="javascript"></script>
+	<!-- Try to use JHtml::script for override but it not work -->
+	<script src="<?php echo JURI::root(); ?>media/mod_redshop_products_slideshow/js/AC_RunActiveContent.js"></script>
 	<script language="javascript">
 		if (AC_FL_RunContent == 0)
 		{
@@ -25,7 +24,7 @@ defined('_JEXEC') or die;
 				'codebase', 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0',
 				'width', '<?php echo $bannerWidth; ?>',
 				'height', '<?php echo $bannerHeight; ?>',
-				'src', '<?php echo JURI::root(); ?>modules/mod_redshop_products_slideshow/assets/slideshow',
+				'src', '<?php echo JURI::root(); ?>media/mod_redshop_products_slideshow/slideshow',
 				'quality', 'high',
 				'pluginspage', 'http://www.adobe.com/go/getflashplayer_cn',
 				'align', 'middle',
@@ -34,14 +33,14 @@ defined('_JEXEC') or die;
 				'scale', 'showall',
 				'wmode', '<?php echo $wmode; ?>',
 				'devicefont', 'false',
-				'flashvars','url=<?php echo JURI::root(); ?>modules/mod_redshop_products_slideshow/assets/data_<?php echo $module->id; ?>.xml',
+				'flashvars','url=<?php echo JURI::root(); ?>media/mod_redshop_products_slideshow/data_<?php echo $module->id; ?>.xml',
 				'id', 'AnimatedLines',
 				'bgcolor', '<?php echo $backgroundColor; ?>',
 				'name', 'AnimatedLines',
 				'menu', 'true',
 				'allowFullScreen', 'false',
 				'allowScriptAccess','sameDomain',
-				'movie', '<?php echo JURI::root(); ?>modules/mod_redshop_products_slideshow/assets/slideshow',
+				'movie', '<?php echo JURI::root(); ?>media/mod_redshop_products_slideshow/slideshow',
 				'salign', ''
 			);
 		}
@@ -54,13 +53,13 @@ defined('_JEXEC') or die;
 			<param name="allowScriptAccess" value="sameDomain"/>
 			<param name="allowFullScreen" value="false"/>
 			<param name="flashvars"
-				   value="url=modules/mod_redshop_products_slideshow/assets/data_<?php echo $module->id; ?>.xml"/>
-			<param name="movie" value="<?php echo JURI::root()?>modules/mod_redshop_products_slideshow/assets/slideshow.swf"/>
+				   value="url=media/mod_redshop_products_slideshow/data_<?php echo $module->id; ?>.xml"/>
+			<param name="movie" value="<?php echo JURI::root()?>media/mod_redshop_products_slideshow/slideshow.swf"/>
 			<param name="quality" value="high"/>
 			<param name="bgcolor" value="<?php echo $backgroundColor;?>"/>
 			<embed
-				src="<?php echo JURI::root(); ?>modules/mod_redshop_products_slideshow/assets/slideshow.swf"
-				flashvars="url=modules/mod_redshop_products_slideshow/assets/data_<?php echo $module->id; ?>.xml"
+				src="<?php echo JURI::root(); ?>media/mod_redshop_products_slideshow/slideshow.swf"
+				flashvars="url=media/mod_redshop_products_slideshow/data_<?php echo $module->id; ?>.xml"
 				quality="high"
 				bgcolor="<?php echo $backgroundColor; ?>"
 				width="<?php echo $bannerWidth; ?>"
