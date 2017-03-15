@@ -49,7 +49,8 @@ $producthelper = productHelper::getInstance();
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 			<table class="admintable" width="90%">
 				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_WRAPPER_NAME');?></td>
+					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_WRAPPER_NAME');?>
+					<span class="star text-danger"> *</span></td>
 					<td><input class="text_area" type="text" name="wrapper_name" id="wrapper_name" size="32"
 					           maxlength="250" value="<?php echo $this->detail->wrapper_name; ?>"/>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WRAPPER_NAME'), JText::_('COM_REDSHOP_WRAPPER_NAME'), 'tooltip.png', '', '', false); ?>

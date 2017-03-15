@@ -196,7 +196,8 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				$propertyTable->set('setdefault_selected', $data['setdefault_selected']);
 				$propertyTable->set('setrequire_selected', $data['required_sub_attribute']);
 				$propertyTable->set('setdisplay_type', $data['setdisplay_type']);
-				$oprand = in_array($data['oprand'], array('+', '-', '*', '/', '=')) ? $data['subattribute_color_oprand'] : '';
+				$oprand = in_array($data['oprand'], array('+', '-', '*', '/', '=')) ? $data['oprand'] : '';
+
 				$propertyTable->set('oprand', $oprand);
 				$propertyTable->set('property_image', isset($data['property_image']) ? basename($data['property_image']) : '');
 				$propertyTable->set('property_main_image', isset($data['property_main_image']) ? basename($data['property_main_image']) : '');
