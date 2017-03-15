@@ -24,8 +24,6 @@ $thumbheight    = trim($params->get('thumbheight', 100));
 $layout         = $params->get('layout', 'default');
 $productPerRow  = $params->get('number_of_row');
 
-JFactory::getDocument()->addStyleSheet("modules/mod_redproducttab/css/style.css");
-
 JLoader::import('redshop.library');
 
 require_once __DIR__ . '/helper.php';

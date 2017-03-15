@@ -19,6 +19,7 @@ $module_id = "mod_" . $module->id;
 $producthelper = productHelper::getInstance();
 $redhelper     = redhelper::getInstance();
 $extraField    = extraField::getInstance();
+JHtml::stylesheet('mod_redproducttab/style.css', false, true);
 
 // Create Pane
 echo JHtml::_('tabs.start', 'pane', array('startOffset' => 0));

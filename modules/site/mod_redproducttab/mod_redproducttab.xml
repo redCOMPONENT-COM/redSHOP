@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDPRODUCTTAB</name>
-    <version>1.5.0.8</version>
+    <version>1.5.0.9</version>
     <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <creationDate>Nov 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
@@ -14,12 +14,12 @@
         <filename>index.html</filename>
 		<filename>helper.php</filename>
         <folder>tmpl</folder>
-        <folder>css</folder>
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redproducttab.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redproducttab.sys.ini</language>
-    </languages>
+    <media folder="media">
+        <folder>mod_redproducttab</folder>
+    </media>
+    <scriptfile>install.php</scriptfile>
     <config>
         <fields name="params" addfieldpath="/libraries/redshop/form/fields">
             <fieldset name="basic">
