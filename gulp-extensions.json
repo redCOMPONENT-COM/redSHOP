@@ -144,7 +144,8 @@
       "postdanmark",
       "shoppergroup_tags",
       "stock_notifyemail",
-      "stockroom_status"
+      "stockroom_status",
+      "discount_affect_attribute"
     ],
     "redshop_shipping": [
       "bring",
@@ -179,7 +180,8 @@
       "redgoogleanalytics",
       "redlightbox_slideshow",
       "redproductzoom",
-      "redshop"
+      "redshop",
+      "redshop_send_discountcode"
     ],
     "user": [
       "highrise"

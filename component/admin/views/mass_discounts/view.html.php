@@ -98,7 +98,5 @@ class RedshopViewMass_Discounts extends RedshopViewAdmin
 		JToolBarHelper::addNew('mass_discount.add');
 		JToolBarHelper::editList('mass_discount.edit');
 		JToolBarHelper::deleteList('', 'mass_discounts.delete');
-		JToolbarHelper::publish('mass_discounts.publish', 'JTOOLBAR_PUBLISH', true);
-		JToolbarHelper::unpublish('mass_discounts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 	}
 }

@@ -94,7 +94,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Process mapping data.
 	 *
-	 * @param   array  $header Header array
+	 * @param   array  $header  Header array
 	 * @param   array  $data    Data array
 	 *
 	 * @return  array           Mapping data.
@@ -119,32 +119,32 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 		if (empty($data['product_thumb_image']))
 		{
-			$data['product_thumb_image'] = null;
+			unset($data['product_thumb_image']);
 		}
 
 		if (empty($data['product_full_image']))
 		{
-			$data['product_full_image'] = null;
+			unset($data['product_full_image']);
 		}
 
 		if (empty($data['product_back_full_image']))
 		{
-			$data['product_back_full_image'] = null;
+			unset($data['product_back_full_image']);
 		}
 
 		if (empty($data['product_preview_back_image']))
 		{
-			$data['product_preview_back_image'] = null;
+			unset($data['product_preview_back_image']);
 		}
 
 		if (!empty($data['discount_stratdate']))
 		{
-			$data['discount_stratdate'] = is_int($data['discount_stratdate']) ? $data['discount_stratdate'] : strtotime($data['discount_stratdate']);
+			$data['discount_stratdate'] = JFactory::getDate(date('d-m-Y H:i:s', strtotime($data['discount_stratdate'])))->toUnix();
 		}
 
 		if (!empty($data['discount_enddate']))
 		{
-			$data['discount_enddate'] = is_int($data['discount_enddate']) ? $data['discount_enddate'] : strtotime($data['discount_enddate']);
+			$data['discount_enddate'] = JFactory::getDate(date('d-m-Y H:i:s', strtotime($data['discount_enddate'])))->toUnix();
 		}
 
 		// Setting product on sale when discount dates are set
@@ -155,6 +155,16 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		else
 		{
 			$data['product_on_sale'] = !isset($data['product_on_sale']) ? 0 : (int) $data['product_on_sale'];
+		}
+
+		if (false !== strpos($data['product_price'], ','))
+		{
+			$data['product_price'] = str_replace(',', '.', $data['product_price']);
+		}
+
+		if (false !== strpos($data['discount_price'], ','))
+		{
+			$data['discount_price'] = str_replace(',', '.', $data['discount_price']);
 		}
 
 		// Get product_id base on product_number
@@ -186,6 +196,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		$isNew = false;
 		$db    = $this->db;
 
+
 		if (empty($data['product_number']))
 		{
 			return false;
@@ -204,7 +215,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		}
 
 		// Insert for new data or update exist data.
-		if ((!$isNew && !$db->insertObject('#__redshop_product', $table, $this->primaryKey)) || !$table->store())
+		if ((!$isNew && !$db->insertObject('#__redshop_product', $table, $this->primaryKey)) || !$table->store(false))
 		{
 			return false;
 		}
@@ -385,7 +396,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			return;
 		}
 
-		$categoryId   = !empty($data['category_id']) ? (int) $data['category_id'] : 0;
+		$categoryId   = !empty($data['category_id']) ? $data['category_id'] : '';
 		$categoryName = !empty($data['category_name']) ? $data['category_name'] : '';
 
 		if (empty($categoryId) && empty($categoryName))

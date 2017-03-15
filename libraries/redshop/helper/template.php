@@ -115,6 +115,8 @@ class RedshopHelperTemplate
 	 */
 	public static function getTemplate($section = '', $templateId = 0, $name = "")
 	{
+		JFactory::getLanguage()->load('com_redshop', JPATH_SITE);
+
 		$key = $section . '_' . $templateId . '_' . $name;
 
 		if (!array_key_exists($key, self::$templatesArray))
@@ -476,6 +478,9 @@ class RedshopHelperTemplate
 			'login'                      => JText::_('COM_REDSHOP_LOGIN_TEMPLATE')
 		);
 
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onTemplateSections', array(&$options));
+
 		return self::prepareSectionOptions($options, $sectionValue);
 	}
 
@@ -527,6 +532,9 @@ class RedshopHelperTemplate
 			'notify_stock_mail'                 => JText::_('COM_REDSHOP_NOTIFY_STOCK'),
 			'invoicefile_mail'                  => JText::_('COM_REDSHOP_INVOICE_FILE_MAIL')
 		);
+
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onMailSections', array(&$options));
 
 		return self::prepareSectionOptions($options, $sectionValue);
 	}

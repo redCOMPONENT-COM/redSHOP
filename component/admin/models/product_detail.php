@@ -3234,25 +3234,31 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 				else
 				{
-					if ($preorder_stock != "" || $quantity != "")
+					if (Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 					{
-						if ($quantity != "" && !Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
-						{
-							if ($quantity == "")
-							{
-								$quantity = 0;
-							}
+						$this->InsertStockroom(
+							$post['section_id'],
+							$post['section'],
+							$post['stockroom_id'][$i],
+							$post['quantity'][$i],
+							$preorder_stock,
+							$ordered_preorder
+						);
 
-							$this->InsertStockroom(
-													$post['section_id'],
-													$post['section'],
-													$post['stockroom_id'][$i],
-													$post['quantity'][$i],
-													$preorder_stock,
-													$ordered_preorder
-												);
-							$stock_update = true;
-						}
+						$stock_update = true;
+					}
+					elseif ($preorder_stock != "" || $quantity != "")
+					{
+						$this->InsertStockroom(
+							$post['section_id'],
+							$post['section'],
+							$post['stockroom_id'][$i],
+							(int) $post['quantity'][$i],
+							(int) $preorder_stock,
+							$ordered_preorder
+						);
+
+						$stock_update = true;
 					}
 				}
 			}
@@ -3282,9 +3288,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getVatGroup()
 	{
-		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->table_prefix . "tax_group` as tg
-				  WHERE `published` = 1
-				  ORDER BY tax_group_id ASC";
+		$query = "SELECT tg.name as text, tg.id as value FROM `" . $this->table_prefix . "tax_group` as tg
+				  WHERE tg.published = 1
+				  ORDER BY tg.id ASC";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();

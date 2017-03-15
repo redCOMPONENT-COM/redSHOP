@@ -29,8 +29,8 @@ abstract class ModRedshopCurrenciesHelper
 	{
 		$db = JFactory::getDbo();
 		$currencies = $params->get('product_currency', '');
-
 		$currenciess = array();
+		$currencyList = array();
 
 		if ($currencies)
 		{
@@ -45,7 +45,7 @@ abstract class ModRedshopCurrenciesHelper
 
 		for ($i = 0, $in = count($currenciess); $i < $in; $i++)
 		{
-			$currencies[$currenciess[$i]->currency_code] = $currenciess[$i]->currency_name;
+			$currencyList[$currenciess[$i]->currency_code] = $currenciess[$i]->currency_name;
 		}
 
 		$session = JFactory::getSession();
@@ -58,6 +58,6 @@ abstract class ModRedshopCurrenciesHelper
 			$session->set('product_currency', $productCurrency);
 		}
 
-		return $currencies;
+		return $currencyList;
 	}
 }
