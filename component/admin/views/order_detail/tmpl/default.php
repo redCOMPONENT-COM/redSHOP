@@ -910,7 +910,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												</td>
 												<td align="right" width="35%">
 													<form action="index.php?option=com_redshop" method="post"
-														name="update_discount<?php echo $order_id; ?>">
+														name="update_discount<?php echo $order_id; ?>" id="update_discount<?php echo $order_id; ?>">
 														<div class="input-group">
 															<span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?></span>
 															<input type="text" name="update_discount"
@@ -918,7 +918,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 																value="<?php echo $producthelper->redpriceDecimal($this->detail->order_discount); ?>"
 																size="10">
 															<span class="input-group-addon">
-															<a href="#" onclick="document.update_discount<?php echo $order_id; ?>.submit();">
+															<a href="#" onclick="javascript:validateDiscount('#update_discount<?php echo $order_id; ?>');">
 															<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>
 															</a>
 															</span>
@@ -936,7 +936,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												</td>
 												<td align="right" width="35%">
 													<form action="index.php?option=com_redshop" method="post"
-														name="special_discount<?php echo $order_id; ?>">
+														name="special_discount<?php echo $order_id; ?>" id="special_discount<?php echo $order_id; ?>">
 														<div class="input-group">
 															<span class="input-group-addon">%&nbsp;</span>
 															<input type="text" name="special_discount"
@@ -944,7 +944,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 																value="<?php echo $this->detail->special_discount; ?>"
 																size="10">
 															<span class="input-group-addon">
-															<a href="#" onclick="document.special_discount<?php echo $order_id; ?>.submit();">
+															<a href="#" onclick="javascript:validateDiscount('#special_discount<?php echo $order_id; ?>');">
 															<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>
 															</a>
 															</span>
@@ -1151,4 +1151,22 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 			downloadclock.style.display = 'table-row';
 		}
 	}
+
+    function validateDiscount(form)
+    {
+        console.log(form);
+        var subTotal = <?php echo $subtotal_excl_vat ?>;
+        var discount = parseFloat(jQuery('#update_discount').val());
+        var specialDiscount = parseFloat(jQuery('#special_discount').val());
+
+        var totalDiscount = discount + specialDiscount;
+
+        if (subTotal <= totalDiscount)
+        {
+            alert('<?php echo JText::_("COM_REDSHOP_ORDER_DISCOUNT_INVALID") ?>');
+            return false;
+        }
+
+        jQuery(form).submit();
+    }
 </script>
