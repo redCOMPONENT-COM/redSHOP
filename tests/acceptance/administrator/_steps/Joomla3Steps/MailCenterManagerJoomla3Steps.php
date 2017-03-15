@@ -38,11 +38,9 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\MailCenterManagerJoomla3Page::$mailName, $mailName);
 		$I->fillField(\MailCenterManagerJoomla3Page::$mailSubject, $mailSubject);
 		$I->fillField(\MailCenterManagerJoomla3Page::$mailBcc, $mailBcc);
-		$I->click(\MailCenterManagerJoomla3Page::$mailSectionDropDown);
-		$I->click($mailCenterManagerPage->mailSection($mailSection));
 		$I->click('Save & Close');
 		$I->waitForText('Mail template saved', 60, ['id' => 'system-message-container']);
-		$I->filterListBySearching($mailName);
+		$I->filterListBySearching($mailName, ['id' => 'filter']);
 		$I->seeElement(['link' => $mailName]);
 	}
 
@@ -58,7 +56,7 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$I->filterListBySearching($mailName);
+		$I->filterListBySearching($mailName, ['id' => 'filter']);
 		$I->waitForElement(['link' => $mailName],60);
 		$I->click(['link' => $mailName]);
 		$I->waitForElement(\MailCenterManagerJoomla3Page::$mailName,30);
@@ -131,6 +129,6 @@ class MailCenterManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MailCenterManagerJoomla3Page::$URL);
-		$this->delete(new \MailCenterManagerJoomla3Page, $name, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst);
+		$this->delete(new \MailCenterManagerJoomla3Page, $name, \MailCenterManagerJoomla3Page::$firstResultRow, \MailCenterManagerJoomla3Page::$selectFirst, ['id' => 'filter']);
 	}
 }
