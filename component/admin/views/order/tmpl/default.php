@@ -538,8 +538,12 @@ JPluginHelper::importPlugin('redshop_product');
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery(document).on('click', 'button', function(){
-            jQuery('#search').focus();
+        jQuery(document).on('keydown', '#filter', function(e){
+            if (e.keyCode == 13)
+            {
+                jQuery('input[name=task]').val('');
+                jQuery('#adminForm').submit();
+            }
         })
     });
 </script>
