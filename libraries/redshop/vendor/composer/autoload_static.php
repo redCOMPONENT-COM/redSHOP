@@ -11,20 +11,12 @@ class ComposerStaticInita4db40e21c09e0f9ca16326720c217a7
         array (
             'Redshop\\' => 8,
         ),
-        'D' => 
-        array (
-            'Doctrine\\Common\\Annotations\\' => 28,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'Redshop\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
-        ),
-        'Doctrine\\Common\\Annotations\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
         ),
     );
 
@@ -38,6 +30,10 @@ class ComposerStaticInita4db40e21c09e0f9ca16326720c217a7
             'Doctrine\\Common\\Inflector\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
+            ),
+            'Doctrine\\Common\\Annotations\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
             ),
         ),
         'B' => 

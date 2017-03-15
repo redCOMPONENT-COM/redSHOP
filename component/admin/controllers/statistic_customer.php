@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller.Statistic Customer
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 {
@@ -23,7 +23,7 @@ class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 	 *
 	 * @return  mixed.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function exportCustomer()
 	{

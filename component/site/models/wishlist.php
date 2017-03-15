@@ -46,7 +46,7 @@ class RedshopModelWishlist extends RedshopModel
 	 *
 	 * @return  bool|mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperWishlist::getUserWishlist() instead.
+	 * @deprecated  2.0.3  Use RedshopHelperWishlist::getUserWishlist() instead.
 	 */
 	public function getUserWishlist()
 	{
@@ -486,7 +486,7 @@ class RedshopModelWishlist extends RedshopModel
 	 *
 	 * @return  boolean       True on exist. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function isProductDataExist($wishlistId, $productId, $attributes = null, $properties = null, $subAttributes = null)
 	{

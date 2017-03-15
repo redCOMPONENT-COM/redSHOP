@@ -23,7 +23,8 @@ JLoader::import('redshop.library');
 
 $config = Redshop::getConfig();
 
-if (!$config->isExists())
+// Don't redirect view if current view is "install"
+if (!$config->isExists() && $app->input->getCmd('view') != 'install')
 {
 	$controller = 'redshop';
 	JFactory::getApplication()->input->set('view', 'redshop');

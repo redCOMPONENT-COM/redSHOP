@@ -130,7 +130,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @var  integer
 	 */
-	const SECTION_PRODUCT =	1;
+	const SECTION_PRODUCT = 1;
 
 	/**
 	 * Extra Field Section Id for Category
@@ -277,7 +277,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $sectionFields = array();
 
@@ -300,8 +300,8 @@ class RedshopHelperExtrafields
 		}
 
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_fields'));
+			->select('*')
+			->from($db->qn('#__redshop_fields'));
 
 		if ($published >= 0)
 		{
@@ -382,8 +382,8 @@ class RedshopHelperExtrafields
 
 		if (($section == 1 && !self::$fieldsData[$key]) || $section != 1)
 		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
+			$db                     = JFactory::getDbo();
+			$query                  = $db->getQuery(true)
 				->select('fd.*')
 				->select($db->qn('f.field_title'))
 				->from($db->qn('#__redshop_fields_data', 'fd'))
@@ -404,7 +404,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function listAllFieldInProduct($section = extraField::SECTION_PRODUCT)
 	{
@@ -435,13 +435,13 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  string   HTML <td></td>
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function listAllField($fieldSection = "", $sectionId = 0, $fieldName = "", $table = "", $templateDesc = "")
 	{
-		$db      = JFactory::getDbo();
+		$db = JFactory::getDbo();
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
-		$model   = JModelLegacy::getInstance('Fields', 'RedshopModel');
+		$model = JModelLegacy::getInstance('Fields', 'RedshopModel');
 
 		$rowData = $model->getFieldsBySection($fieldSection, $fieldName);
 		$exField = '';
@@ -453,9 +453,9 @@ class RedshopHelperExtrafields
 
 		for ($i = 0, $in = count($rowData); $i < $in; $i++)
 		{
-			$type            = $rowData[$i]->field_type;
-			$dataValue       = self::getSectionFieldDataList($rowData[$i]->field_id, $fieldSection, $sectionId);
-			$exField         .= '<tr>';
+			$type      = $rowData[$i]->field_type;
+			$dataValue = self::getSectionFieldDataList($rowData[$i]->field_id, $fieldSection, $sectionId);
+			$exField .= '<tr>';
 			$extraFieldValue = "";
 			$extraFieldLabel = JText::_($rowData[$i]->field_title);
 
@@ -479,10 +479,10 @@ class RedshopHelperExtrafields
 											class="' . $rowData[$i]->field_class . '"
 											type="text"
 											maxlength="' . $rowData[$i]->field_maxlength . '" '
-											. $required
-											. $reqlbl
-											. $errormsg
-											. ' name="' . $rowData[$i]->field_name . '"
+						. $required
+						. $reqlbl
+						. $errormsg
+						. ' name="' . $rowData[$i]->field_name . '"
 											id="' . $rowData[$i]->field_name . '"
 											value="' . htmlspecialchars($textValue) . '"
 											size="' . $size . '"
@@ -494,15 +494,15 @@ class RedshopHelperExtrafields
 				case extraField::TYPE_TEXT_AREA:
 					$textareaValue   = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
 					$extraFieldValue = '<textarea class="' . $rowData[$i]->field_class . '"  name="' . $rowData[$i]->field_name . '" ' . $required . $reqlbl . $errormsg . ' id="' . $rowData[$i]->field_name . '" cols="' . $rowData[$i]->field_cols . '" rows="' . $rowData[$i]->field_rows . '" >' . htmlspecialchars($textareaValue) . '</textarea>';
-					$exField         .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
-					$exField         .= '<td>' . $extraFieldValue;
+					$exField .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
+					$exField .= '<td>' . $extraFieldValue;
 					break;
 
 				case extraField::TYPE_CHECK_BOX:
-					$fieldChk       = self::getFieldValue($rowData[$i]->field_id);
-					$chkData        = @explode(",", $dataValue->data_txt);
+					$fieldChk = self::getFieldValue($rowData[$i]->field_id);
+					$chkData  = @explode(",", $dataValue->data_txt);
 
-					$exField         .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
+					$exField .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
 					$extraFieldValue = '';
 
 					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
@@ -515,10 +515,10 @@ class RedshopHelperExtrafields
 					break;
 
 				case extraField::TYPE_RADIO_BUTTON:
-					$fieldChk       = self::getFieldValue($rowData[$i]->field_id);
-					$chkData        = @explode(",", $dataValue->data_txt);
+					$fieldChk = self::getFieldValue($rowData[$i]->field_id);
+					$chkData  = @explode(",", $dataValue->data_txt);
 
-					$exField         .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
+					$exField .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
 					$extraFieldValue = '';
 
 					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
@@ -531,10 +531,10 @@ class RedshopHelperExtrafields
 					break;
 
 				case extraField::TYPE_SELECT_BOX_SINGLE:
-					$fieldChk       = self::getFieldValue($rowData[$i]->field_id);
-					$chkData        = @explode(",", $dataValue->data_txt);
+					$fieldChk = self::getFieldValue($rowData[$i]->field_id);
+					$chkData  = @explode(",", $dataValue->data_txt);
 
-					$exField         .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
+					$exField .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
 					$extraFieldValue = '<select name="' . $rowData[$i]->field_name . '">';
 					$extraFieldValue .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
 
@@ -549,10 +549,10 @@ class RedshopHelperExtrafields
 					break;
 
 				case extraField::TYPE_SELECT_BOX_MULTIPLE:
-					$fieldChk       = self::getFieldValue($rowData[$i]->field_id);
-					$chkData        = @explode(",", $dataValue->data_txt);
+					$fieldChk = self::getFieldValue($rowData[$i]->field_id);
+					$chkData  = @explode(",", $dataValue->data_txt);
 
-					$exField         .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
+					$exField .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
 					$extraFieldValue = '<select multiple size=10 name="' . $rowData[$i]->field_name . '[]">';
 
 					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
@@ -570,10 +570,10 @@ class RedshopHelperExtrafields
 						->select('*')
 						->from($db->qn('#__redshop_country'));
 					$db->setQuery($query);
-					$fieldChk       = $db->loadObjectlist();
-					$chkData        = @explode(",", $dataValue->data_txt);
+					$fieldChk = $db->loadObjectlist();
+					$chkData  = @explode(",", $dataValue->data_txt);
 
-					$exField         .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
+					$exField .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
 					$extraFieldValue = '<select name="' . $rowData[$i]->field_name . '">';
 
 					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
@@ -588,11 +588,11 @@ class RedshopHelperExtrafields
 					break;
 
 				case extraField::TYPE_WYSIWYG:
-					$editor          = JFactory::getEditor();
-					$exField         .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
-					$textareaValue  = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
+					$editor = JFactory::getEditor();
+					$exField .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
+					$textareaValue   = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
 					$extraFieldValue = $editor->display($rowData[$i]->field_name, $textareaValue, '200', '50', '100', '20', false);
-					$exField         .= '<td>' . $extraFieldValue;
+					$exField .= '<td>' . $extraFieldValue;
 					break;
 
 				case extraField::TYPE_DOCUMENTS:
@@ -631,7 +631,7 @@ class RedshopHelperExtrafields
 						if (preg_match('/\n/', $dataValue->data_txt))
 						{
 							$document_explode = explode("\n", $dataValue->data_txt);
-							$dataTxt = array($document_explode[0] => $document_explode[1]);
+							$dataTxt          = array($document_explode[0] => $document_explode[1]);
 						}
 						else
 						{
@@ -643,7 +643,7 @@ class RedshopHelperExtrafields
 					if (isset($dataTxt) && count($dataTxt) > 0)
 					{
 						$extraFieldValue = "";
-						$index = 0;
+						$index           = 0;
 
 						foreach ($dataTxt as $text_area_value_text => $text_area_value)
 						{
@@ -659,7 +659,7 @@ class RedshopHelperExtrafields
 							if (is_file($media_image))
 							{
 								$media_image = $destination_prefix . $text_area_value;
-								$media_type = strtolower(JFile::getExt($text_area_value));
+								$media_type  = strtolower(JFile::getExt($text_area_value));
 
 								if ($media_type == 'jpg' || $media_type == 'jpeg' || $media_type == 'png' || $media_type == 'gif')
 								{
@@ -737,10 +737,10 @@ class RedshopHelperExtrafields
 						}
 					}
 
-					$size            = ($rowData[$i]->field_size > 0) ? $rowData[$i]->field_size : 20;
-					$exField         .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
+					$size = ($rowData[$i]->field_size > 0) ? $rowData[$i]->field_size : 20;
+					$exField .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
 					$extraFieldValue = JHTML::_('calendar', $date, $rowData[$i]->field_name, $rowData[$i]->field_name, '%d-%m-%Y', array('class' => 'inputbox', 'size' => $size, 'maxlength' => '15'));
-					$exField         .= '<td>' . $extraFieldValue;
+					$exField .= '<td>' . $extraFieldValue;
 					break;
 
 				case extraField::TYPE_IMAGE_WITH_LINK:
@@ -776,16 +776,16 @@ class RedshopHelperExtrafields
 
 					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
 					{
-						$altText        = '';
-						$strImageLink  = '';
+						$altText      = '';
+						$strImageLink = '';
 						$extraFieldValue .= '<tr>';
 
 						if (in_array($fieldChk[$c]->value_id, $chkData))
 						{
-							$class          = ' class="pointer imgClass_' . $sectionId . ' selectedimg" ';
-							$style1         = "display:block;";
-							$strImageLink   = $imageLink[$fieldChk[$c]->value_id];
-							$altText        = $imageHover[$fieldChk[$c]->value_id];
+							$class        = ' class="pointer imgClass_' . $sectionId . ' selectedimg" ';
+							$style1       = "display:block;";
+							$strImageLink = $imageLink[$fieldChk[$c]->value_id];
+							$altText      = $imageHover[$fieldChk[$c]->value_id];
 						}
 						else
 						{
@@ -803,7 +803,7 @@ class RedshopHelperExtrafields
 
 					$extraFieldValue .= '<input type="hidden" name="imgFieldId' . $rowData[$i]->field_id . '" id="imgFieldId' . $rowData[$i]->field_id . '" value="' . $value . '"/>';
 					$extraFieldValue .= '</table>';
-					$exField         .= '<td>' . $extraFieldValue;
+					$exField .= '<td>' . $extraFieldValue;
 					break;
 
 				case extraField::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
@@ -812,9 +812,9 @@ class RedshopHelperExtrafields
 					{
 						if ($dataValue->data_txt)
 						{
-							$mainSplitDateTotal = preg_split(" ", $dataValue->data_txt);
-							$mainSplitDate      = preg_split(":", $mainSplitDateTotal[0]);
-							$mainSplitDateExtra = preg_split(":", $mainSplitDateTotal[1]);
+							$mainSplitDateTotal = explode(" ", $dataValue->data_txt);
+							$mainSplitDate      = explode(":", $mainSplitDateTotal[0]);
+							$mainSplitDateExtra = explode(":", $mainSplitDateTotal[1]);
 							$datePublish        = date("d-m-Y", $mainSplitDate[0]);
 							$dateExpiry         = date("d-m-Y", $mainSplitDate[1]);
 						}
@@ -841,7 +841,7 @@ class RedshopHelperExtrafields
 						$size = '20';
 					}
 
-					$exField         .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
+					$exField .= '<td valign="top" width="100" align="right" class="key">' . $extraFieldLabel . '</td>';
 					$extraFieldValue = 'Publish Date: ';
 
 					$extraFieldValue .= "<input type='text' name='" . $rowData[$i]->field_name . "' value='" . $datePublish . "'>";
@@ -876,7 +876,7 @@ class RedshopHelperExtrafields
 					}
 
 					$extraFieldValue .= "</table></fieldset></div><input type='hidden' value='" . $k . "' name='total_extra' id='total_extra'>";
-					$exField         .= '<td>' . $extraFieldValue;
+					$exField .= '<td>' . $extraFieldValue;
 					break;
 			}
 
@@ -929,7 +929,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function extraFieldSave($data, $fieldSection, $sectionId = "", $userEmail = "")
 	{
@@ -1000,7 +1000,7 @@ class RedshopHelperExtrafields
 						{
 							$name = RedshopHelperMedia::cleanFileName($file);
 
-							$src = $_FILES[$rowData[$i]->field_name]['tmp_name'][$ij];
+							$src         = $_FILES[$rowData[$i]->field_name]['tmp_name'][$ij];
 							$destination = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $name;
 
 							JFile::upload($src, $destination);
@@ -1117,7 +1117,7 @@ class RedshopHelperExtrafields
 						$db->setQuery($sql);
 						$db->execute();
 					}
-					else if (!empty($dataTxt))
+					elseif (!empty($dataTxt))
 					{
 						$sql = $db->getQuery(true);
 						$sql->insert($db->qn('#__redshop_fields_data'))
@@ -1140,7 +1140,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function CheckExtraFieldValidation($fieldSection = "", $sectionId = 0)
 	{
@@ -1148,7 +1148,7 @@ class RedshopHelperExtrafields
 
 		for ($i = 0, $in = count($rowData); $i < $in; $i++)
 		{
-			$required = $rowData[$i]->required;
+			$required  = $rowData[$i]->required;
 			$dataValue = self::getSectionFieldDataList($rowData[$i]->field_id, $fieldSection, $sectionId);
 
 			if (empty($dataValue) && $required)
@@ -1172,11 +1172,11 @@ class RedshopHelperExtrafields
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function listAllFieldDisplay($fieldSection = "", $sectionId = 0, $flag = 0, $userEmail = "", $templateDesc = "", $sendmail = false)
 	{
-		$db      = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$rowData = self::getSectionFieldList($fieldSection);
 
@@ -1204,12 +1204,12 @@ class RedshopHelperExtrafields
 			{
 				case extraField::TYPE_TEXT:
 					$extraFieldValue = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
-					$exField         .= $extraFieldValue;
+					$exField .= $extraFieldValue;
 					break;
 
 				case extraField::TYPE_TEXT_AREA:
 					$extraFieldValue = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
-					$exField         .= $extraFieldValue;
+					$exField .= $extraFieldValue;
 					break;
 
 				case extraField::TYPE_CHECK_BOX:
@@ -1310,7 +1310,7 @@ class RedshopHelperExtrafields
 				// 12 :- Date Picker
 				case extraField::TYPE_DATE_PICKER:
 					$extraFieldValue = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
-					$exField         .= $extraFieldValue;
+					$exField .= $extraFieldValue;
 					break;
 			}
 
@@ -1364,7 +1364,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function listAllUserFields($fieldSection = "", $sectionId = extraField::SECTION_PRODUCT_USERFIELD, $fieldType = '', $uniqueId = '')
 	{
@@ -1386,7 +1386,7 @@ class RedshopHelperExtrafields
 
 		for ($i = 0, $in = count($rowData); $i < $in; $i++)
 		{
-			$type = $rowData[$i]->field_type;
+			$type     = $rowData[$i]->field_type;
 			$asterisk = $rowData[$i]->required > 0 ? '* ' : '';
 
 			if ($fieldType != 'hidden')
@@ -1441,8 +1441,8 @@ class RedshopHelperExtrafields
 					case extraField::TYPE_SELECT_BOX_SINGLE:
 						$fieldChk = self::getFieldValue($rowData[$i]->field_id);
 						$chkData  = @explode(",", $cart[$idx][$rowData[$i]->field_name]);
-						$exField  .= '<div class="userfield_input"><select name="extrafieldname' . $uniqueId . '[]" ' . $req . ' id="' . $rowData[$i]->field_name . '" userfieldlbl="' . $rowData[$i]->field_title . '">';
-						$exField  .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
+						$exField .= '<div class="userfield_input"><select name="extrafieldname' . $uniqueId . '[]" ' . $req . ' id="' . $rowData[$i]->field_name . '" userfieldlbl="' . $rowData[$i]->field_title . '">';
+						$exField .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
 
 						for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
 						{
@@ -1459,7 +1459,7 @@ class RedshopHelperExtrafields
 					case extraField::TYPE_SELECT_BOX_MULTIPLE:
 						$fieldChk = self::getFieldValue($rowData[$i]->field_id);
 						$chkData  = @explode(",", $cart[$idx][$rowData[$i]->field_name]);
-						$exField  .= '<div class="userfield_input"><select multiple="multiple" size=10 name="extrafieldname' . $uniqueId . '[]" ' . $req . ' id="' . $rowData[$i]->field_name . '" userfieldlbl="' . $rowData[$i]->field_title . '">';
+						$exField .= '<div class="userfield_input"><select multiple="multiple" size=10 name="extrafieldname' . $uniqueId . '[]" ' . $req . ' id="' . $rowData[$i]->field_name . '" userfieldlbl="' . $rowData[$i]->field_title . '">';
 
 						for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
 						{
@@ -1483,7 +1483,7 @@ class RedshopHelperExtrafields
 
 					case extraField::TYPE_IMAGE_SELECT:
 						$fieldChk = self::getFieldValue($rowData[$i]->field_id);
-						$chkData = @explode(",", $cart[$idx][$rowData[$i]->field_name]);
+						$chkData  = @explode(",", $cart[$idx][$rowData[$i]->field_name]);
 						$exField .= '<table><tr>';
 
 						for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
@@ -1499,7 +1499,7 @@ class RedshopHelperExtrafields
 
 					case extraField::TYPE_DATE_PICKER:
 						$ajax = '';
-						$req = $rowData[$i]->required;
+						$req  = $rowData[$i]->required;
 
 						$exField .= '<div class="userfield_input">' . JHTML::_('calendar', $textValue, 'extrafieldname' . $uniqueId . '[]', $ajax . $rowData[$i]->field_name . '_' . $uniqueId, '%d-%m-%Y', array('class' => $rowData[$i]->field_class, 'size' => $rowData[$i]->field_size, 'maxlength' => $rowData[$i]->field_maxlength, 'required' => $req, 'userfieldlbl' => $rowData[$i]->field_title, 'errormsg' => '')) . '</div>';
 						break;
@@ -1534,7 +1534,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function booleanList($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false)
 	{
@@ -1560,7 +1560,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function rsBooleanList($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false,
 		$yesValue = 'Days', $noValue = 'Weeks')
@@ -1580,7 +1580,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function getFieldValue($id)
 	{
@@ -1600,7 +1600,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function getSectionFieldList($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
 	{
@@ -1646,7 +1646,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function getSectionFieldDataList($fieldId, $section = 0, $orderItemId = 0, $userEmail = "")
 	{
@@ -1666,7 +1666,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function copyProductExtraField($oldProductId, $newPid)
 	{
@@ -1676,26 +1676,42 @@ class RedshopHelperExtrafields
 			->from($db->qn('#__redshop_fields_data'))
 			->where($db->qn('itemid') . ' = ' . (int) $oldProductId)
 			->where(
-				$db->qn('section') . ' = ' . $db->quote('1')
+				'(' . $db->qn('section') . ' = ' . $db->quote('1')
 				. ' or ' .
 				$db->qn('section') . ' = ' . $db->quote('12')
 				. ' or ' .
-				$db->qn('section') . ' = ' . $db->quote('17')
+				$db->qn('section') . ' = ' . $db->quote('17') . ')'
 			);
 
 		$db->setQuery($query);
 		$list = $db->loadObjectList();
 
-		for ($i = 0, $in = count($list); $i < $in; $i++)
+		// Skip process if there are no custom fields.
+		if (empty($list))
 		{
-			$sql = $db->getQuery(true);
-			$sql->insert($db->qn('#__redshop_fields_data'))
-				->columns($db->qn(array('fieldid', 'data_txt', 'itemid', 'section', 'alt_text', 'image_link', 'user_email')))
-				->values(implode(',', array((int) $list[$i]->fieldid, $db->quote($list[$i]->data_txt), (int) $newPid, (int) $list[$i]->section, $db->quote($list[$i]->alt_text), $db->quote($list[$i]->image_link), $db->quote($list[$i]->user_email))));
-
-			$db->setQuery($sql);
-			$db->execute();
+			return;
 		}
+
+		$query->clear()
+			->insert($db->qn('#__redshop_fields_data'))
+			->columns($db->qn(array('fieldid', 'data_txt', 'itemid', 'section', 'alt_text', 'image_link', 'user_email')));
+
+		foreach ($list as $row)
+		{
+			$query->values(
+				implode(',', array(
+					(int) $row->fieldid,
+					$db->quote($row->data_txt),
+					(int) $newPid,
+					(int) $row->section,
+					$db->quote($row->alt_text),
+					$db->quote($row->image_link),
+					$db->quote($row->user_email))
+				)
+			);
+		}
+
+		$db->setQuery($query)->execute();
 	}
 
 	/**
@@ -1705,7 +1721,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function deleteExtraFieldData($dataId)
 	{
