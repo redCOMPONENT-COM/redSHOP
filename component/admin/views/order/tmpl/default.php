@@ -535,3 +535,11 @@ JPluginHelper::importPlugin('redshop_product');
     <input name="option" value="com_redshop" type="hidden">
     <input name="task" value="generateParcel" type="hidden">
 </form>
+
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery(document).on('click', 'button', function(){
+            jQuery('#search').focus();
+        })
+    });
+</script>
