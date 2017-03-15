@@ -8,13 +8,12 @@
  */
 defined('_JEXEC') or die;
 
-?>
-
-<legend><?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYTICS'); ?></legend>
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYTICS_TRACKER_KEY'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_GOOGLE_ANALYATICS_TRACKER_KEY'); ?>">
-		<label for="google_ana_tracking"><?php echo JText::_('COM_REDSHOP_GOOGLE_ANALYTICS_TRACKER_KEY'); ?></label>
-	</span>
-	<input type="text" name="google_ana_tracker" id="google_ana_tracker" value="<?php echo $this->config->get('GOOGLE_ANA_TRACKER_KEY'); ?>">
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_GOOGLE_ANALYTICS_TRACKER_KEY'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_GOOGLE_ANALYATICS_TRACKER_KEY'),
+		'field' => '<input type="text" name="google_ana_tracker" id="google_ana_tracker"
+            value="' . $this->config->get('GOOGLE_ANA_TRACKER_KEY') . '" class="form-control" />'
+	)
+);

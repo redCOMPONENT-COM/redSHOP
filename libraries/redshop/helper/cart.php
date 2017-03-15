@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Class Redshop Helper Cart
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 abstract class RedshopHelperCart
 {
@@ -27,7 +27,7 @@ abstract class RedshopHelperCart
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function removeCartFromDatabase($cartId = 0, $userId = 0, $delCart = false)
 	{
@@ -123,7 +123,7 @@ abstract class RedshopHelperCart
 	 *
 	 * @return  boolean       True on success. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function addCartToDatabase($cart = array())
 	{
@@ -273,7 +273,7 @@ abstract class RedshopHelperCart
 	 *
 	 * @return  boolean       True on success. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function addCartAttributeToDatabase($attributes = array(), $cartItemId = 0, $productId = 0, $isAccessory = false)
 	{
@@ -361,7 +361,7 @@ abstract class RedshopHelperCart
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function databaseToCart($userId = 0)
 	{
@@ -659,7 +659,7 @@ abstract class RedshopHelperCart
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function generateAttributeFromCart($cartItemId = 0, $isAccessory = 0, $parentSectionId = 0, $quantity = 1)
 	{
@@ -738,7 +738,7 @@ abstract class RedshopHelperCart
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function cartFinalCalculation($isModify = true)
 	{
@@ -773,7 +773,7 @@ abstract class RedshopHelperCart
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function generateCartOutput($cart = array())
 	{
@@ -835,7 +835,7 @@ abstract class RedshopHelperCart
 	 *
 	 * @return  float             Tax after apply discount.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function calculateTaxAfterDiscount($tax = 0.0, $discount = 0.0)
 	{

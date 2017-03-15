@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Describes methods required by Aesir tables.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 interface TableInterface
 {

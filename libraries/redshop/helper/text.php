@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 
 defined('_JEXEC') or die;
@@ -16,7 +16,7 @@ JHTML::_('behavior.tooltip');
 /**
  * Class Redshop Helper Text
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopHelperText
 {
@@ -25,7 +25,7 @@ class RedshopHelperText
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getTextLibraryData()
 	{
@@ -43,7 +43,7 @@ class RedshopHelperText
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getTextLibraryTagArray()
 	{
@@ -67,7 +67,7 @@ class RedshopHelperText
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function replaceTexts($data)
 	{

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       2.0.0.7
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopViewSuppliers extends RedshopViewAdmin
 {
@@ -52,7 +52,7 @@ class RedshopViewSuppliers extends RedshopViewAdmin
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   2.0.0.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
@@ -103,5 +103,6 @@ class RedshopViewSuppliers extends RedshopViewAdmin
 		JToolBarHelper::deleteList('', 'suppliers.delete');
 		JToolbarHelper::publish('suppliers.publish', 'JTOOLBAR_PUBLISH', true);
 		JToolbarHelper::unpublish('suppliers.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+		JToolbarHelper::custom('suppliers.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 	}
 }

@@ -90,6 +90,7 @@ class RedshopHelperTemplate
 							str_replace(array('{', '}'), array('_AA_', '_BB_'), JText::sprintf($replace, $descriptionSeparator)) . $lineSeparator,
 							$result
 						);
+
 						$countItems++;
 					}
 				}
@@ -114,7 +115,11 @@ class RedshopHelperTemplate
 	 */
 	public static function getTemplate($section = '', $templateId = 0, $name = "")
 	{
-		if (!array_key_exists($section . '_' . $templateId . '_' . $name, self::$templatesArray))
+		JFactory::getLanguage()->load('com_redshop', JPATH_SITE);
+
+		$key = $section . '_' . $templateId . '_' . $name;
+
+		if (!array_key_exists($key, self::$templatesArray))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -139,14 +144,20 @@ class RedshopHelperTemplate
 			}
 
 			$db->setQuery($query);
-			self::$templatesArray[$section . '_' . $templateId . '_' . $name] = $db->loadObjectList();
+
+			self::$templatesArray[$key] = $db->loadObjectList();
 		}
 
-		$templates = self::$templatesArray[$section . '_' . $templateId . '_' . $name];
+		$templates = self::$templatesArray[$key];
 
-		foreach ($templates as $key => $template)
+		foreach ($templates as $index => $template)
 		{
-			$templates[$key]->template_desc = self::readTemplateFile($template->template_section, $template->template_name);
+			$userContent = self::readTemplateFile($template->template_section, $template->template_name);
+
+			if ($userContent !== false)
+			{
+				$templates[$index]->template_desc = $userContent;
+			}
 		}
 
 		return $templates;
@@ -174,7 +185,7 @@ class RedshopHelperTemplate
 			return $content;
 		}
 
-		return "";
+		return false;
 	}
 
 	/**
@@ -467,6 +478,9 @@ class RedshopHelperTemplate
 			'login'                      => JText::_('COM_REDSHOP_LOGIN_TEMPLATE')
 		);
 
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onTemplateSections', array(&$options));
+
 		return self::prepareSectionOptions($options, $sectionValue);
 	}
 
@@ -518,6 +532,9 @@ class RedshopHelperTemplate
 			'notify_stock_mail'                 => JText::_('COM_REDSHOP_NOTIFY_STOCK'),
 			'invoicefile_mail'                  => JText::_('COM_REDSHOP_INVOICE_FILE_MAIL')
 		);
+
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onMailSections', array(&$options));
 
 		return self::prepareSectionOptions($options, $sectionValue);
 	}
