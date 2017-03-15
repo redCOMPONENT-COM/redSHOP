@@ -12,7 +12,13 @@ JLoader::import('redshop.library');
 
 require_once 'library/paysonapi.php';
 
-class plgRedshop_PaymentPayson extends JPlugin
+/**
+ *  PlgRedshop_PaymentPayson installer class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentPayson extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -95,10 +101,9 @@ class plgRedshop_PaymentPayson extends JPlugin
 			$receivers
 		);
 
-
 		$items = $orderHelper->getOrderItemDetail($data['order_id']);
 
-		//Set the list of products. For direct payment this is optional
+		// Set the list of products. For direct payment this is optional
 		$orderItems = array();
 
 		for ($i = 0, $n = count($items); $i < $n; $i++)
@@ -124,7 +129,7 @@ class plgRedshop_PaymentPayson extends JPlugin
 			'shipping-rate'
 		);
 
-		//$payData->setOrderItems($orderItems);
+		// $payData->setOrderItems($orderItems);
 
 		// Set the payment method
 		$constraints = array(FundingConstraint::BANK, FundingConstraint::CREDITCARD);
@@ -230,30 +235,31 @@ class plgRedshop_PaymentPayson extends JPlugin
 				$values->log = JText::_('PLG_REDSHOP_PAYMENT_PAYSON_ORDER_PLACED');
 				$values->msg = JText::_('PLG_REDSHOP_PAYMENT_PAYSON_ORDER_PLACED');
 			}
-			else if ($details->getStatus() == "ERROR")
+			elseif ($details->getStatus() == "ERROR")
 			{
-				// Handle errors here
+				// @TODO: Handle errors here
 			}
 
-			/*
-			  //More info
-			  $response->getPaymentDetails()->getCustom();
-			  $response->getPaymentDetails()->getShippingAddressName();
-			  $response->getPaymentDetails()->getShippingAddressStreetAddress();
-			  $response->getPaymentDetails()->getShippingAddressPostalCode();
-			  $response->getPaymentDetails()->getShippingAddressCity();
-			  $response->getPaymentDetails()->getShippingAddressCountry();
-			  $response->getPaymentDetails()->getToken();
-			  $response->getPaymentDetails()->getType();
-			  $response->getPaymentDetails()->getStatus();
-			  $response->getPaymentDetails()->getCurrencyCode();
-			  $response->getPaymentDetails()->getTrackingId();
-			  $response->getPaymentDetails()->getCorrelationId();
-			  $response->getPaymentDetails()->getPurchaseId();
-			  $response->getPaymentDetails()->getSenderEmail();
-			  $response->getPaymentDetails()->getInvoiceStatus();
-			  $response->getPaymentDetails()->getGuaranteeStatus();
-			  $details->getReceiverFee();
+			/* 	More info
+				@TODO: Keep comments. Don't know what is is!
+
+				$response->getPaymentDetails()->getCustom();
+				$response->getPaymentDetails()->getShippingAddressName();
+				$response->getPaymentDetails()->getShippingAddressStreetAddress();
+				$response->getPaymentDetails()->getShippingAddressPostalCode();
+				$response->getPaymentDetails()->getShippingAddressCity();
+				$response->getPaymentDetails()->getShippingAddressCountry();
+				$response->getPaymentDetails()->getToken();
+				$response->getPaymentDetails()->getType();
+				$response->getPaymentDetails()->getStatus();
+				$response->getPaymentDetails()->getCurrencyCode();
+				$response->getPaymentDetails()->getTrackingId();
+				$response->getPaymentDetails()->getCorrelationId();
+				$response->getPaymentDetails()->getPurchaseId();
+				$response->getPaymentDetails()->getSenderEmail();
+				$response->getPaymentDetails()->getInvoiceStatus();
+				$response->getPaymentDetails()->getGuaranteeStatus();
+				$details->getReceiverFee();
 			 */
 		}
 
