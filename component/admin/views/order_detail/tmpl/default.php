@@ -660,7 +660,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 															<td width="10%">
 																<div class="input-group">
 																	<span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?></span>
-																	<input type="text" name="update_price" id="update_price" class="form-control"
+																	<input type="number" min="0" name="update_price" id="update_price" class="form-control"
 																		value="<?php echo $producthelper->redpriceDecimal($products[$i]->product_item_price_excl_vat); ?>"
 																		size="10">
 																</div>
@@ -668,7 +668,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 															<td width="5%"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $vat;?></td>
 															<td width="10%"><?php echo $producthelper->getProductFormattedPrice($products[$i]->product_item_price) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
 															<td width="5%">
-																<input type="text" name="quantity" id="quantity" class="col-sm-12"
+																<input type="number" min="0" name="quantity" id="quantity" class="col-sm-12"
 																	value="<?php echo $quantity; ?>" size="3">
 															</td>
 															<td align="right" width="10%">
@@ -910,10 +910,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												</td>
 												<td align="right" width="35%">
 													<form action="index.php?option=com_redshop" method="post"
-														name="update_discount<?php echo $order_id; ?>" id="update_discount<?php echo $order_id; ?>">
+														name="update_discount<?php echo $order_id; ?>" min="0" id="update_discount<?php echo $order_id; ?>">
 														<div class="input-group">
 															<span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?></span>
-															<input type="text" name="update_discount"
+															<input type="number" name="update_discount"
 																id="update_discount" class="form-control"
 																value="<?php echo $producthelper->redpriceDecimal($this->detail->order_discount); ?>"
 																size="10">
@@ -936,10 +936,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												</td>
 												<td align="right" width="35%">
 													<form action="index.php?option=com_redshop" method="post"
-														name="special_discount<?php echo $order_id; ?>" id="special_discount<?php echo $order_id; ?>">
+														name="special_discount<?php echo $order_id; ?>" min="0" id="special_discount<?php echo $order_id; ?>">
 														<div class="input-group">
 															<span class="input-group-addon">%&nbsp;</span>
-															<input type="text" name="special_discount"
+															<input type="number" name="special_discount"
 																id="special_discount" class="form-control"
 																value="<?php echo $this->detail->special_discount; ?>"
 																size="10">
@@ -1154,7 +1154,6 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
     function validateDiscount(form)
     {
-        console.log(form);
         var subTotal = <?php echo $subtotal_excl_vat ?>;
         var discount = parseFloat(jQuery('#update_discount').val());
 
@@ -1179,28 +1178,15 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
     function validateInputFloat(e)
     {
-        // Allow: backspace, delete, tab, escape, enter and .
-        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-            // Allow: Ctrl/cmd+A
-            (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-            // Allow: Ctrl/cmd+C
-            (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
-            // Allow: Ctrl/cmd+X
-            (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
-            // Allow: home, end, left, right
-            (e.keyCode >= 35 && e.keyCode <= 39)) {
-            // let it happen, don't do anything
-            return;
-        }
-        // Ensure that it is a number and stop the keypress
-        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        if ((e.keyCode == 189) || (e.keyCode == 109))
+        {
             e.preventDefault();
         }
     }
 
     jQuery(document).ready(function() {
 
-        jQuery("#update_discount").keydown(function (e) {
+        jQuery("#update_discount").keydown(function(e){
             validateInputFloat(e);
         });
 
