@@ -33,9 +33,9 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function checkAuthorization($quoid, $encr)
 	{
-		$query = "SELECT COUNT(quotation_id) FROM " . $this->_table_prefix . "quotation "
-			. "WHERE quotation_id = " . (int) $quoid . " "
-			. "AND quotation_encrkey LIKE " . $this->_db->quote($encr);
+		$query = "SELECT COUNT(id) FROM " . $this->_table_prefix . "quotation "
+			. "WHERE id = " . (int) $quoid . " "
+			. "AND encrkey LIKE " . $this->_db->quote($encr);
 		$this->_db->setQuery($query);
 		$record = $this->_db->loadResult();
 
@@ -234,8 +234,8 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		// Create the base update statement.
 		$query->update($db->quoteName('#__redshop_quotation'))
-			->set($db->quoteName('quotation_customer_note') . ' = ' . $db->quote($data['quotation_customer_note']))
-			->where($db->quoteName('quotation_id') . ' = ' . (int) $data['quotation_id']);
+			->set($db->quoteName('customer_note') . ' = ' . $db->quote($data['customer_note']))
+			->where($db->quoteName('id') . ' = ' . (int) $data['quotation_id']);
 
 		// Set the query and execute the update.
 		$db->setQuery($query);

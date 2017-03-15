@@ -87,7 +87,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 
 			if ($send == 1)
 			{
-				if ($model->sendQuotationMail($row->quotation_id))
+				if ($model->sendQuotationMail($row->id))
 				{
 					$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
 				}
@@ -95,11 +95,11 @@ class RedshopControllerAddquotation_detail extends RedshopController
 
 			if ($apply == 1)
 			{
-				$this->setRedirect('index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id, $msg);
+				$this->setRedirect('index.php?option=com_redshop&task=quotation.edit&id=' . $row->id, $msg);
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=quotations', $msg);
 			}
 		}
 		else

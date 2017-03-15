@@ -210,7 +210,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			for ($q = 0, $qn = count($quotation); $q < $qn; $q++)
 			{
-				$quotation_item = $quotationHelper->getQuotationProduct($quotation[$q]->quotation_id);
+				$quotation_item = $quotationHelper->getQuotationProduct($quotation[$q]->id);
 
 				for ($j = 0, $jn = count($quotation_item); $j < $jn; $j++)
 				{
@@ -227,7 +227,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				}
 
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item '
-					. 'WHERE quotation_id=' . $quotation[$q]->quotation_id;
+					. 'WHERE quotation_id=' . $quotation[$q]->id;
 				$this->_db->setQuery($query);
 
 				if (!$this->_db->execute())

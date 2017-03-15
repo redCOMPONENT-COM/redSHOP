@@ -13,48 +13,61 @@ defined('_JEXEC') or die;
 class RedshopViewQuotation extends RedshopViewAdmin
 {
 	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
+
+	/**
 	 * The request url.
 	 *
 	 * @var  string
 	 */
-	public $request_url;
+	public $requestUrl;
 
-	public $state;
+	protected $form;
 
+	protected $item;
+
+	protected $state;
+
+	/**
+	 * Display template function
+	 *
+	 * @param   object  $tpl  template variable
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function display($tpl = null)
 	{
-		$quotationHelper = quotationHelper::getInstance();
+		$this->form       = $this->get('Form');
+		$this->item       = $this->get('Item');
+		$this->state      = $this->get('State');
+		$this->requestUrl = JUri::getInstance()->toString();
 
-		$uri      = JFactory::getURI();
-		$document = JFactory::getDocument();
-
-		$document->setTitle(JText::_('COM_REDSHOP_quotation'));
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'), 'redshop_quotation48');
-		JToolBarHelper::addNew();
-		RedshopToolbarHelper::link('index.php?option=com_redshop&view=quotation&format=csv', 'save', JText::_('COM_REDSHOP_EXPORT_DATA_LBL'));
-		JToolBarHelper::editList();
-		JToolBarHelper::deleteList();
-
-		$this->state = $this->get('State');
-		$filter_status    = $this->state->get('filter_status', 0);
-
-		$lists['order']     = $this->state->get('list.ordering', 'q.quotation_cdate');
-		$lists['order_Dir'] = $this->state->get('list.direction', 'desc');
-
-		$quotation  = $this->get('Items');
-		$pagination = $this->get('Pagination');
-
-		$optionsection = $quotationHelper->getQuotationStatusList();
-		$lists['filter_status'] = JHTML::_('select.genericlist', $optionsection, 'filter_status',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter_status
-		);
-
-		$this->lists = $lists;
-		$this->quotation = $quotation;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->addToolbar();
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_DETAIL'), 'redshop_quotation48');
+		JToolBarHelper::apply('quotation.apply');
+		JToolBarHelper::save('quotation.save');
+		JToolBarHelper::custom('quotation.send', 'send.png', 'send.png', JText::_('COM_REDSHOP_SEND'), false);
+		JToolBarHelper::cancel('quotation.cancel', JText::_('JTOOLBAR_CLOSE'));
 	}
 }

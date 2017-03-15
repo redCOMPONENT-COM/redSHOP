@@ -116,24 +116,13 @@ gulp.task('clean:' + baseTask + ':frontend', function (cb) {
 
 /// Clean: backend, will clean components from Administrator
 /// gulp clean:components.redshop:backend
-gulp.task('clean:' + baseTask + ':backend', ['clean:' + baseTask + ':backend:view'], function (cb) {
-    del(config.wwwDir + '/administrator/language/**/*.' + componentName + '.*', {force: true});
-
+gulp.task('clean:' + baseTask + ':backend', function (cb) {
     return del([
+        config.wwwDir + '/administrator/language/**/*.' + componentName + '.*',
         config.wwwDir + '/administrator/components/' + componentName + '/**',
         '!' + config.wwwDir + '/administrator/components/' + componentName,
         '!' + config.wwwDir + '/administrator/components/' + componentName + '/config',
-        '!' + config.wwwDir + '/administrator/components/' + componentName + '/config/*.php',
-        '!' + config.wwwDir + '/administrator/components/' + componentName + '/views',
-        '!' + config.wwwDir + '/administrator/components/' + componentName + '/views/**'
-
-    ], {force: true});
-});
-
-gulp.task('clean:' + baseTask + ':backend:view', function (cb) {
-    return del([
-        config.wwwDir + '/administrator/components/' + componentName + '/views/**'
-
+        '!' + config.wwwDir + '/administrator/components/' + componentName + '/config/*.php'
     ], {force: true});
 });
 
@@ -177,27 +166,18 @@ gulp.task('copy:' + baseTask + ':frontend', ['clean:' + baseTask + ':frontend'],
 });
 
 /// Copy: backend
-gulp.task('copy:' + baseTask + ':backend', ['clean:' + baseTask + ':backend', 'copy:' + baseTask + ':backend:view'], function (cb) {
+gulp.task('copy:' + baseTask + ':backend', function (cb) {
     return (
         gulp.src([
             extPath + '/component/admin/**',
-            '!' + extPath + '/component/admin/views',
-            '!' + extPath + '/component/admin/views/**'
+            "!" + extPath + '/component/admin/config',
+            "!" + extPath + '/component/admin/config/**'
         ])
             .pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName)) &&
         gulp.src(extPath + '/redshop.xml')
-            .pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName)) &&
+            .pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName, {force: true})) &&
         gulp.src(extPath + '/install.php')
             .pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName))
-    );
-})
-
-gulp.task('copy:' + baseTask + ':backend:view', ['clean:' + baseTask + ':backend:view'], function (cb) {
-    return (
-        gulp.src([
-            extPath + '/component/admin/views/**/*.php'
-        ])
-            .pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName + '/views'))
     );
 });
 
@@ -260,24 +240,15 @@ gulp.task('watch:' + baseTask + ':frontend', function () {
 });
 
 // Watch: backend
-gulp.task('watch:' + baseTask + ':backend', ['watch:' + baseTask + ':backend:view'],
+gulp.task('watch:' + baseTask + ':backend',
     function () {
         gulp.watch([
                 extPath + '/component/admin/**/*',
-                '!' + extPath + '/component/admin/views',
-                '!' + extPath + '/component/admin/views/**',
-                extPath + '/libraries/redshop/**/*.php',
                 extPath + '/redshop.xml',
                 extPath + '/install.php'
             ],
             ['copy:' + baseTask + ':backend']
         );
-    }
-);
-
-gulp.task('watch:' + baseTask + ':backend:view',
-    function () {
-        gulp.watch(extPath + '/component/admin/views/**/*', ['copy:' + baseTask + ':backend:view']);
     }
 );
 

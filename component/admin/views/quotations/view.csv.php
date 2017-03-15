@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * Companies View
+ * Quotations CSV View
  *
  * @package     Redshop
  * @subpackage  Views
- * @since       1.0
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopViewQuotation extends RedshopViewCsv
+class RedshopViewQuotations extends RedshopViewCsv
 {
 	/**
 	 * Delimiter character for CSV columns
@@ -32,6 +32,7 @@ class RedshopViewQuotation extends RedshopViewCsv
 	 */
 	protected function getColumns()
 	{
+		/** @var RedshopModelQuotations $model */
 		$model = $this->getModel();
 
 		return $model->getCsvColumns();

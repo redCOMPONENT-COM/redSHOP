@@ -313,11 +313,11 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 			}
 
 			$quotation_data .= $quotation_desc;
-			$quotationurl     = JRoute::_('index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotationlist[$j]->quotation_id . '&Itemid=' . $Itemid);
+			$quotationurl     = JRoute::_('index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotationlist[$j]->id . '&Itemid=' . $Itemid);
 			$quotation_detail = '<a href="' . $quotationurl . '" title="' . JText::_('COM_REDSHOP_VIEW_QUOTATION') . '"  alt="' . JText::_('COM_REDSHOP_VIEW_QUOTATION') . '">' . JText::_('COM_REDSHOP_DETAILS') . '</a>';
 
 			$quotation_data = str_replace('{quotation_index}', JText::_('COM_REDSHOP_QUOTATION') . " #", $quotation_data);
-			$quotation_data = str_replace('{quotation_id}', $quotationlist[$j]->quotation_id, $quotation_data);
+			$quotation_data = str_replace('{quotation_id}', $quotationlist[$j]->id, $quotation_data);
 			$quotation_data = str_replace('{quotation_detail_link}', $quotation_detail, $quotation_data);
 		}
 	}
