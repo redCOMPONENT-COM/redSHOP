@@ -24,7 +24,13 @@ use PayPal\Api\Authorization;
 use PayPal\Api\Capture;
 use PayPal\Api\Patch;
 
-class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
+/**
+ * PlgRedshop_PaymentPaypalCreditcard class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 {
 	/**
 	 * Load the language file on instantiation.
@@ -105,29 +111,32 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$card = $this->creditCard($data);
 
 		// FundingInstrument
-		$fi = new FundingInstrument();
+		$fi = new FundingInstrument;
 		$fi->setCreditCard($card);
 
-		// Payer
-		// A resource representing a Payer that funds a payment
-		// For direct credit card payments, set payment method
-		// to 'credit_card' and add an array of funding instruments.
-		$payer = new Payer();
+		/**
+		 * Payer
+		 * A resource representing a Payer that funds a payment
+		 * For direct credit card payments, set payment method
+		 * to 'credit_card' and add an array of funding instruments.
+		 */
+		$payer = new Payer;
 		$payer->setPaymentMethod("credit_card")
 			->setFundingInstruments(array($fi));
 
-		// Itemized information
-		// (Optional) Lets you specify item wise
-		// information
-		$cartItems = array();
+		/**
+		 * Itemized information
+		 * (Optional) Lets you specify item wise information
+		 */
+		$cartItems = [];
 
 		for ($i = 0; $i < $cart['idx']; $i++)
 		{
 			$cartItem    = $cart[$i];
 			$product     = RedshopHelperProduct::getProductById($cartItem['product_id']);
 			$tax         = ($cartItem['product_vat'] < 0) ? 0 : $cartItem['product_vat'];
-			$item        = new Item();
-			$cartItems[] =  $item->setName($product->product_name)
+			$item        = new Item;
+			$cartItems[] = $item->setName($product->product_name)
 								->setDescription($product->product_s_desc)
 								->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
 								->setQuantity($cartItem['quantity'])
@@ -135,49 +144,60 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 								->setPrice($cartItem['product_price']);
 		}
 
-		$itemList = new ItemList();
+		$itemList = new ItemList;
 		$itemList->setItems($cartItems);
 
 		$cartTax = ($cart['tax'] < 0) ? 0 : $cart['tax'];
 
 		// Additional payment details
-		$details = new Details();
+		$details = new Details;
 		$details->setShipping($cart['shipping'])
 				->setTax($cartTax)
 				->setSubtotal($cart['subtotal']);
 
-		// Amount
-		// Lets you specify a payment amount.
-		// You can also specify additional details
-		// such as shipping, tax.
-		$amount = new Amount();
+		/**
+		 * Amount
+		 * Lets you specify a payment amount.
+		 * You can also specify additional details
+		 * such as shipping, tax.
+		 */
+
+		$amount = new Amount;
 		$amount->setCurrency("USD")
 			->setTotal($cart['total'])
 			->setDetails($details);
 
-		// Transaction
-		// A transaction defines the contract of a
-		// payment - what is the payment for and who
-		// is fulfilling it.
-		$transaction = new Transaction();
+		/**
+		 * Transaction
+		 * A transaction defines the contract of a
+		 * payment - what is the payment for and who
+		 * is fulfilling it.
+		 */
+
+		$transaction = new Transaction;
 		$transaction->setAmount($amount)
 			->setItemList($itemList)
 			->setDescription(Redshop::getConfig()->get('SHOP_NAME') . ' Order No ' . $data['order_number'])
 			->setInvoiceNumber(uniqid());
 
+		/**
+		 * Payment
+		 * A Payment Resource; create one using
+		 * the above types and intent set to sale 'sale'
+		 */
 
-		// Payment
-		// A Payment Resource; create one using
-		// the above types and intent set to sale 'sale'
-		$payment = new Payment();
+		$payment = new Payment;
 		$payment->setIntent($this->params->get('paymentIntent'))
 			->setPayer($payer)
 			->setTransactions(array($transaction));
 
-		// Create Payment
-		// Create a payment by calling the payment->create() method
-		// with a valid ApiContext (See bootstrap.php for more on `ApiContext`)
-		// The return object contains the state.
+		/**
+		 * Create Payment
+		 * Create a payment by calling the payment->create() method
+		 * with a valid ApiContext (See bootstrap.php for more on `ApiContext`)
+		 * The return object contains the state.
+		 */
+
 		try
 		{
 			$payment->create($apiContext);
@@ -233,10 +253,13 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			$cardType = 'mastercard';
 		}
 
-		// CreditCard
-		// A resource representing a credit card that can be
-		// used to fund a payment.
-		$card = new CreditCard();
+		/**
+		 * CreditCard
+		 * A resource representing a credit card that can be
+		 * used to fund a payment.
+		 */
+
+		$card = new CreditCard;
 		$card->setType($cardType)
 			->setNumber($ccdata['order_payment_number'])
 			->setExpireMonth($ccdata['order_payment_expire_month'])
@@ -282,14 +305,14 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 		$apiContext  = $this->loadFramework();
 
-		$html =  RedshopLayoutHelper::render(
+		$html = RedshopLayoutHelper::render(
 				'cards',
 				array(
 					'apiContext' => $apiContext,
 					'params'    => $this->params,
 					'plugin' => $this,
 					'merchantId' => 'redSHOPPaypalCreditCard',
-					//'externalCardId' => $user->users_info_id,
+					/* 'externalCardId' => $user->users_info_id, */
 					'externalCustomerId' => $user->users_info_id,
 					'creditCardTypes' => $this->creditCardTypes(),
 					'selectable' => $selectable
@@ -347,7 +370,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		}
 		else
 		{
-			$card = new CreditCard();
+			$card = new CreditCard;
 		}
 
 		$card->setType($data['cardType'])
@@ -425,30 +448,30 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 		$card = $this->prepareCreditCard($data);
 
-		$pathRequest = new \PayPal\Api\PatchRequest();
+		$pathRequest = new \PayPal\Api\PatchRequest;
 
-		$name = new Patch();
+		$name = new Patch;
 		$name->setOp("replace")
 			->setPath('/first_name')
 			->setValue($firstName);
 
 		$pathRequest->addPatch($name);
 
-		$lastnamePatch = new Patch();
+		$lastnamePatch = new Patch;
 		$lastnamePatch->setOp("replace")
 			->setPath('/last_name')
 			->setValue($lastName);
 
 		$pathRequest->addPatch($lastnamePatch);
 
-		$month = new Patch();
+		$month = new Patch;
 		$month->setOp("replace")
 			->setPath('/expire_month')
 			->setValue((int) $data['cardExpireMonth']);
 
 		$pathRequest->addPatch($month);
 
-		$year = new Patch();
+		$year = new Patch;
 		$year->setOp("replace")
 			->setPath('/expire_year')
 			->setValue((int) $data['cardExpireYear']);
@@ -516,7 +539,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	protected function getSystemMessages()
 	{
 		$messages = JFactory::getApplication()->getMessageQueue();
-		$return['messages'] = array();
+		$return['messages'] = [];
 
 		if (is_array($messages))
 		{
@@ -643,12 +666,12 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 		try
 		{
-			$amount = new Amount();
+			$amount = new Amount;
 			$amount->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
 				->setTotal($data['order_amount']);
 
 			// Capture
-			$capture = new Capture();
+			$capture = new Capture;
 			$capture->setAmount($amount);
 
 			// Perform a capture
@@ -698,7 +721,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	{
 		$data = json_decode($ex->getData());
 
-		$errorMessage = array();
+		$errorMessage = [];
 		$errorMessage[] = $data->name;
 
 		if (isset($data->details))
@@ -782,7 +805,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			->setFundingInstruments(array($fi));
 
 		// Itemized information
-		$cartItems = array();
+		$cartItems = [];
 		$orderItems = order_functions::getInstance()->getOrderItemDetail($orderId);
 
 		for ($i = 0, $n = count($orderItems); $i < $n; $i++)
@@ -793,7 +816,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			$tax = ($tax < 0) ? 0 : $tax;
 
 			$item        = new Item;
-			$cartItems[] =  $item->setName($orderItem->order_item_name)
+			$cartItems[] = $item->setName($orderItem->order_item_name)
 								->setDescription('')
 								->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
 								->setQuantity($orderItem->product_quantity)
