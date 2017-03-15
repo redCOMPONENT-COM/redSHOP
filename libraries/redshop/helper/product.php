@@ -31,6 +31,13 @@ class RedshopHelperProduct
 	protected static $allProducts = array();
 
 	/**
+	 * @var array  List of available product number
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $productNumbers = array();
+
+	/**
 	 * Get all product information
 	 * Warning: This method is loading all the products from DB. Which can resulting
 	 * 			into memory issue. Use with caution.
@@ -1028,5 +1035,30 @@ class RedshopHelperProduct
 		$productData[8]->text = JText::_('COM_REDSHOP_PRODUCT_SOLD_OUT');
 
 		return $productData;
+	}
+
+	/**
+	 * Method for get all product number exist in system
+	 *
+	 * @param   int  $productId  If exist. Exclude product number from this product Id from list
+	 *
+	 * @return  array            List of product number
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getAllAvailableProductNumber($productId = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('product_number'))
+			->from($db->qn('#__redshop_product'));
+
+		if ($productId)
+		{
+			$query->where($db->qn('product_id') . ' <> ' . $db->quote($productId));
+		}
+
+		// Set the query and load the result.
+		return $db->setQuery($query)->loadColumn();
 	}
 }

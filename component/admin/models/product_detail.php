@@ -253,7 +253,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$row->check())
 		{
-			$this->app->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_NUMBER_ALREADY_EXISTS'), 'error');
+			$this->app->enqueueMessage($row->getError(), 'error');
 
 			return false;
 		}
@@ -3257,7 +3257,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 							(int) $preorder_stock,
 							$ordered_preorder
 						);
-						
+
 						$stock_update = true;
 					}
 				}
