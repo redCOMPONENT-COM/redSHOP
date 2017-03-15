@@ -910,10 +910,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												</td>
 												<td align="right" width="35%">
 													<form action="index.php?option=com_redshop" method="post"
-														name="update_discount<?php echo $order_id; ?>" min="0" id="update_discount<?php echo $order_id; ?>">
+														name="update_discount<?php echo $order_id; ?>" id="update_discount<?php echo $order_id; ?>">
 														<div class="input-group">
 															<span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?></span>
-															<input type="number" name="update_discount"
+															<input type="number" min="0" name="update_discount"
 																id="update_discount" class="form-control"
 																value="<?php echo $producthelper->redpriceDecimal($this->detail->order_discount); ?>"
 																size="10">
@@ -936,10 +936,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												</td>
 												<td align="right" width="35%">
 													<form action="index.php?option=com_redshop" method="post"
-														name="special_discount<?php echo $order_id; ?>" min="0" id="special_discount<?php echo $order_id; ?>">
+														name="special_discount<?php echo $order_id; ?>" id="special_discount<?php echo $order_id; ?>">
 														<div class="input-group">
 															<span class="input-group-addon">%&nbsp;</span>
-															<input type="number" name="special_discount"
+															<input type="number" min="0" name="special_discount"
 																id="special_discount" class="form-control"
 																value="<?php echo $this->detail->special_discount; ?>"
 																size="10">
