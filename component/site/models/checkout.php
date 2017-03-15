@@ -1200,9 +1200,16 @@ class RedshopModelCheckout extends RedshopModel
 		return $row;
 	}
 
+	/**
+	 * Method for send giftcard email to customer.
+	 *
+	 * @param   int  $order_id  ID of order.
+	 *
+	 * @return  void
+	 */
 	public function sendGiftCard($order_id)
 	{
-		$giftcardmail = $this->_redshopMail->getMailtemplate(0, "giftcard_mail");
+		$giftcardmail = RedshopHelperMail::getMailTemplate(0, "giftcard_mail");
 
 		if (count($giftcardmail) > 0)
 		{
@@ -1213,10 +1220,10 @@ class RedshopModelCheckout extends RedshopModel
 
 		foreach ($giftCards as $eachorders)
 		{
-			$giftcardmailsub = $giftcardmail->mail_subject;
-			$giftcardData    = $this->_producthelper->getGiftcardData($eachorders->product_id);
-			$giftcard_value  = $this->_producthelper->getProductFormattedPrice($giftcardData->giftcard_value, true);
-			$giftcard_price  = $eachorders->product_final_price;
+			$giftcardmailsub   = $giftcardmail->mail_subject;
+			$giftcardData      = $this->_producthelper->getGiftcardData($eachorders->product_id);
+			$giftcard_value    = $this->_producthelper->getProductFormattedPrice($giftcardData->giftcard_value, true);
+			$giftcard_price    = $eachorders->product_final_price;
 			$giftcardmail_body = $giftcardmail->mail_body;
 			$giftcardmail_body = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $giftcardmail_body);
 			$user_fields       = $this->_producthelper->GetProdcutUserfield($eachorders->order_item_id, 13);
@@ -1236,7 +1243,7 @@ class RedshopModelCheckout extends RedshopModel
 			$giftcardmailsub   = str_replace('{giftcard_price}', $this->_producthelper->getProductFormattedPrice($giftcard_price), $giftcardmailsub);
 			$giftcardmailsub   = str_replace('{giftcard_value}', $giftcard_value, $giftcardmailsub);
 			$giftcardmailsub   = str_replace('{giftcard_validity}', $giftcardData->giftcard_validity, $giftcardmailsub);
-			$gift_code         = $this->_order_functions->random_gen_enc_key(12);
+			$gift_code         = RedshopHelperOrder::randomGenerateEncryptKey(12);
 			$couponItems       = $this->getTable('coupon_detail');
 
 			if ($giftcardData->customer_amount)
@@ -1268,23 +1275,7 @@ class RedshopModelCheckout extends RedshopModel
 			ob_clean();
 			echo "<div id='redshopcomponent' class='redshop'>";
 			$is_giftcard = 1;
-			$pdf = RedshopHelperPdf::getInstance('tcpdf', array('format' => 'A4'));
-
-			if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_bgimage) && $giftcardData->giftcard_bgimage)
-			{
-				$pdf->img_file = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_bgimage;
-			}
-
-			$pdf->SetCreator(PDF_CREATOR);
-			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-			$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-			$pdf->SetHeaderMargin(0);
-			$pdf->SetFooterMargin(0);
-			$pdf->setPrintFooter(false);
-			$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
-			$pdf->SetFont('times', '', 18);
-			$pdf->AddPage();
+			$giftcard_attachment = null;
 			$pdfImage = "";
 			$mailImage = '';
 
@@ -1294,22 +1285,34 @@ class RedshopModelCheckout extends RedshopModel
 				$mailImage = '<img src="components/com_redshop/assets/images/giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
 			}
 
-			$pdfMailBody = $giftcardmail_body;
-			$pdfMailBody = str_replace("{giftcard_image}", $pdfImage, $pdfMailBody);
-			$giftcardmail_body = str_replace("{giftcard_image}", $mailImage, $giftcardmail_body);
-			$pdf->writeHTML($pdfMailBody, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
-			$g_pdfName = time();
-			$pdf->Output(JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf", "F");
+			if (RedshopHelperPdf::isAvailablePdfPlugins())
+			{
+				$pdfMailBody = $giftcardmail_body;
+				$pdfMailBody = str_replace("{giftcard_image}", $pdfImage, $pdfMailBody);
+
+				JPluginHelper::importPlugin('redshop_pdf');
+
+				$pdfFile = RedshopHelperUtility::getDispatcher()->trigger(
+					'onRedshopCreateGiftCardPdf',
+					array($giftcardData, $pdfMailBody, $backgroundImage)
+				);
+
+				if (!empty($pdfFile))
+				{
+					$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $pdfFile[0] . ".pdf";
+				}
+			}
+
 			$config              = JFactory::getConfig();
 			$from                = $config->get('mailfrom');
 			$fromname            = $config->get('fromname');
-			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf";
+			$giftcardmail_body = str_replace("{giftcard_image}", $mailImage, $giftcardmail_body);
+			$giftcardmail_body = RedshopHelperMail::imgInMail($giftcardmail_body);
 
-			$giftcardmail_body = $this->_redshopMail->imginmail($giftcardmail_body);
-
-			JFactory::getMailer()->sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, null, null, $giftcard_attachment);
+			JFactory::getMailer()->sendMail(
+				$from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, null, null, $giftcard_attachment
+			);
 		}
-
 	}
 
 	public function billingaddresses()
@@ -2200,7 +2203,7 @@ class RedshopModelCheckout extends RedshopModel
 		$template_desc = $this->_carthelper->replaceNewsletterSubscription($template_desc);
 
 		$checkout = '<div id="checkoutfinal" style="float: right;">';
-		$checkout .= '<input type="button" id="checkout_final" name="checkout_final" class="greenbutton btn btn-primary" value="' . JText::_("COM_REDSHOP_BTN_CHECKOUTFINAL") . '" onclick="if(chkvalidaion()){checkout_disable(\'checkout_final\');}"/>';
+		$checkout .= '<input type="submit" id="checkout_final" name="checkout_final" class="greenbutton btn btn-primary" value="' . JText::_("COM_REDSHOP_BTN_CHECKOUTFINAL") . '" onclick="if(chkvalidaion() && validation()){checkout_disable(\'checkout_final\');}"/>';
 		$checkout .= '<input type="hidden" name="task" value="checkoutfinal" />';
 		$checkout .= '<input type="hidden" name="view" value="checkout" />';
 		$checkout .= '<input type="hidden" name="option" value="com_redshop" />';

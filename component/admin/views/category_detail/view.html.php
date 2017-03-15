@@ -16,7 +16,7 @@ JLoader::import('joomla.application.component.view');
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopViewCategory_Detail extends RedshopViewAdmin
 {

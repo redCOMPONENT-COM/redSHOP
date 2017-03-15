@@ -44,7 +44,7 @@ function addNewproductRow(tblid)
 	var newTD7 = document.createElement('td');
 	var item   = new Array();
 
-	newTD.innerHTML  = '<img onclick="deleteOfflineProductRow(' + rowCount + ');" src="<?php echo Redshop::getConfig()->get('REDSHOP_FRONT_IMAGES_ABSPATH'); ?>cross.png" title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" alt="<?php echo JText::_('COM_REDSHOP_DELETE');?>">';
+	newTD.innerHTML  = '<img onclick="deleteOfflineProductRow(' + rowCount + ');" src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.png" title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" alt="<?php echo JText::_('COM_REDSHOP_DELETE');?>">';
 	newTD1.innerHTML = '<input type="text" name="product' + rowCount + '" id="product' + rowCount + '" value="0" /><div id="divAttproduct' + rowCount + '"></div><div id="divAccproduct' + rowCount + '"></div><div id="divUserFieldproduct' + rowCount + '"></div>';
 	newTD2.innerHTML = '';
 	newTD2.id        = 'tdnoteproduct' + rowCount;

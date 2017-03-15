@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * The state controller
  *
@@ -18,4 +20,31 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerState extends RedshopControllerForm
 {
+	/**
+	 * Method for get list of state base on specific country value.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.3
+	 */
+	public function ajaxGetState()
+	{
+		RedshopHelperAjax::validateAjaxRequest();
+
+		$app = JFactory::getApplication();
+
+		$country = $app->input->getString('country', '');
+		$html = RedshopHelperWorld::getStateList(array('country_code' => $country), 'jform_state_code', 'BT', 'form-control', 'state_3_code');
+
+		if (!empty($html))
+		{
+			echo $html['state_dropdown'];
+		}
+		else
+		{
+			echo '';
+		}
+
+		$app->close();
+	}
 }

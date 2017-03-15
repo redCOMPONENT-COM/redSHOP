@@ -52,7 +52,7 @@ class RedshopViewTax_Rates extends RedshopViewAdmin
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   2.0.0.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
