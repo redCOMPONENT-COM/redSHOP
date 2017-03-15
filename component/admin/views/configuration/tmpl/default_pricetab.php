@@ -9,31 +9,52 @@
 defined('_JEXEC') or die;
 
 ?>
-<fieldset class="adminform">
-	<div class="row">
-		<div class="col-sm-4">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('price');?>
-			</fieldset>
-		</div>
-
-		<div class="col-sm-4">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('vat');?>
-			</fieldset>
-		</div>
-
-		<div class="col-sm-4">
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('images_giftcard');?>
-			</fieldset>
-			<fieldset class="adminform">
-
-				<?php echo $this->loadTemplate('discount');?>
-			</fieldset>
-			<fieldset class="adminform">
-				<?php echo $this->loadTemplate('discount_mail');?>
-			</fieldset>
-		</div>
-	</div>
-</fieldset>
+<div class="row adminform">
+    <div class="col-sm-4">
+		<?php
+		echo RedshopLayoutHelper::render(
+			'config.group',
+			array(
+				'title'   => JText::_('COM_REDSHOP_MAIN_PRICE'),
+				'content' => $this->loadTemplate('price')
+			)
+		);
+		echo RedshopLayoutHelper::render(
+			'config.group',
+			array(
+				'title'   => JText::_('COM_REDSHOP_GIFTCARD_IMAGE_SETTING_TAB'),
+				'content' => $this->loadTemplate('images_giftcard')
+			)
+		);
+		?>
+    </div>
+    <div class="col-sm-4">
+		<?php
+		echo RedshopLayoutHelper::render(
+			'config.group',
+			array(
+				'title'   => JText::_('COM_REDSHOP_TAX_TAB'),
+				'content' => $this->loadTemplate('vat')
+			)
+		);
+		?>
+    </div>
+    <div class="col-sm-4">
+		<?php
+		echo RedshopLayoutHelper::render(
+			'config.group',
+			array(
+				'title'   => JText::_('COM_REDSHOP_DISCOUNT_SETTING_TAB'),
+				'content' => $this->loadTemplate('discount')
+			)
+		);
+		echo RedshopLayoutHelper::render(
+			'config.group',
+			array(
+				'title'   => JText::_('COM_REDSHOP_DISCOUNT_MAIL'),
+				'content' => $this->loadTemplate('discount_mail')
+			)
+		);
+		?>
+    </div>
+</div>

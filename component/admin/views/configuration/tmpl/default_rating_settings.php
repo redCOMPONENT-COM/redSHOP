@@ -8,38 +8,30 @@
  */
 defined('_JEXEC') or die;
 
-?>
-
-<div class="row">
-	<div class="col-sm-6">
-		<legend><?php echo JText::_('COM_REDSHOP_RATING_SETTING'); ?></legend>
-		<div class="form-group">
-			<span class="editlinktip hasTip"
-								      title="<?php echo JText::_('COM_REDSHOP_RATING_DONE_MSG'); ?>::<?php echo JText::_('TOOLTIP_RATING_DONE_MSG'); ?>">
-				<label for="name"><?php echo JText::_('COM_REDSHOP_RATING_DONE_MSG');?></label></span>
-			<input type="text" name="rating_msg" id="rating_msg" value="<?php echo $this->config->get('RATING_MSG'); ?>"
-										       size="50">
-		</div>
-
-		<div class="form-group">
-			<span class="editlinktip hasTip"
-								      title="<?php echo JText::_('COM_REDSHOP_FAVOURED_REVIEWS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_FAVOURED_REVIEWS_LBL'); ?>">
-								<label for="name"><?php echo JText::_('COM_REDSHOP_FAVOURED_REVIEWS_LBL');?></label>
-			</span>
-			<input type="text" name="favoured_reviews" id="favoured_reviews"
-										       value="<?php echo $this->config->get('FAVOURED_REVIEWS'); ?>">
-		</div>
-
-		<div class="form-group">
-			<span class="editlinktip hasTip"
-								      title="<?php echo JText::_('COM_REDSHOP_RATING_REVIEW_LOGIN_REQUIRED_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_RATING_REVIEW_LOGIN_REQUIRED_LBL'); ?>">
-								<label for="name"><?php echo JText::_('COM_REDSHOP_RATING_REVIEW_LOGIN_REQUIRED_LBL');?></label></span>
-			<?php echo $this->lists['rating_review_login_required'];?>
-		</div>
-	</div>
-
-	<div class="col-sm-6">
-
-	</div>
-</div>
-
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_RATING_DONE_MSG'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_RATING_DONE_MSG'),
+		'field' => '<input type="text" name="rating_msg" id="rating_msg" size="50"'
+			. ' class="form-control" value="' . $this->config->get('RATING_MSG') . '" />'
+	)
+);
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_FAVOURED_REVIEWS_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_FAVOURED_REVIEWS_LBL'),
+		'field' => '<input type="number" name="favoured_reviews" id="favoured_reviews"'
+			. ' class="form-control" value="' . $this->config->get('FAVOURED_REVIEWS') . '" />'
+	)
+);
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_RATING_REVIEW_LOGIN_REQUIRED_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_RATING_REVIEW_LOGIN_REQUIRED_LBL'),
+		'line'  => false,
+		'field' => $this->lists['rating_review_login_required']
+	)
+);

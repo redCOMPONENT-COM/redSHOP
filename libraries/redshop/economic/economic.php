@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 
 defined('_JEXEC') or die;
@@ -22,7 +22,7 @@ jimport('joomla.filesystem.file');
  * For more information about E-invoicing: https://en.wikipedia.org/wiki/Electronic_invoicing
  * Using: RedshopEconomic::<method>
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopEconomic
 {
@@ -39,7 +39,7 @@ class RedshopEconomic
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function importEconomic()
 	{
@@ -54,7 +54,7 @@ class RedshopEconomic
 	 *
 	 * @return  JEventDispatcher/JDispatcher
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getDispatcher()
 	{
@@ -74,7 +74,7 @@ class RedshopEconomic
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createUserInEconomic($row = array(), $data = array())
 	{
@@ -176,7 +176,7 @@ class RedshopEconomic
 	 *
 	 * @return  null/array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createProductGroupInEconomic($row = array(), $isShipping = 0, $isDiscount = 0, $isVat = 0)
 	{
@@ -267,7 +267,7 @@ class RedshopEconomic
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createProductInEconomic($row = array())
 	{
@@ -315,7 +315,7 @@ class RedshopEconomic
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getTotalProperty($productId)
 	{
@@ -339,7 +339,7 @@ class RedshopEconomic
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createPropertyInEconomic($productRow = array(), $row = array())
 	{
@@ -395,7 +395,7 @@ class RedshopEconomic
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createSubpropertyInEconomic($productRow = array(), $row = array())
 	{
@@ -448,7 +448,7 @@ class RedshopEconomic
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function importStockFromEconomic($productRow = array())
 	{
@@ -471,7 +471,7 @@ class RedshopEconomic
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createShippingRateInEconomic($shippingNumber, $shippingName, $shippingRate = 0, $isVat = 1)
 	{
@@ -516,7 +516,7 @@ class RedshopEconomic
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getMaxDebtorInEconomic()
 	{
@@ -531,7 +531,7 @@ class RedshopEconomic
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getMaxOrderNumberInEconomic()
 	{
@@ -552,7 +552,7 @@ class RedshopEconomic
 	 *
 	 * @return  boolean/string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createInvoiceInEconomic($orderId, $data = array())
 	{
@@ -677,7 +677,7 @@ class RedshopEconomic
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createInvoiceLineInEconomic($orderItem = array(), $invoiceNo = "", $userId = 0)
 	{
@@ -783,7 +783,7 @@ class RedshopEconomic
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createGiftCardInvoiceLineInEconomic($orderItem = array(), $invoiceNo = "")
 	{
@@ -826,7 +826,7 @@ class RedshopEconomic
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createInvoiceLineInEconomicAsProduct($orderItem = array(), $invoiceNo = "", $userId = 0)
 	{
@@ -923,7 +923,7 @@ class RedshopEconomic
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createInvoiceShippingLineInEconomic($shipMethodId = "", $invoiceNo = "")
 	{
@@ -994,7 +994,7 @@ class RedshopEconomic
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createInvoiceDiscountLineInEconomic($orderDetail = array(), $invoiceNo = "", $data = array(), $isPaymentDiscount = 0,
 		$isVatDiscount = 0)
@@ -1066,7 +1066,7 @@ class RedshopEconomic
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function renewInvoiceInEconomic($orderData)
 	{
@@ -1116,7 +1116,7 @@ class RedshopEconomic
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function deleteInvoiceInEconomic($orderData = array())
 	{
@@ -1139,7 +1139,7 @@ class RedshopEconomic
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function checkInvoiceDraftorBookInEconomic($orderDetail)
 	{
@@ -1180,7 +1180,7 @@ class RedshopEconomic
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateInvoiceDateInEconomic($orderDetail, $bookInvoiceDate = 0)
 	{
@@ -1223,7 +1223,7 @@ class RedshopEconomic
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function bookInvoiceInEconomic($orderId, $checkOrderStatus = 1, $bookInvoiceDate = 0)
 	{
@@ -1343,7 +1343,7 @@ class RedshopEconomic
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateInvoiceNumber($orderId = 0, $invoiceNo = 0)
 	{
@@ -1364,7 +1364,7 @@ class RedshopEconomic
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateBookInvoice($orderId = 0)
 	{
@@ -1386,7 +1386,7 @@ class RedshopEconomic
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateBookInvoiceNumber($orderId = 0, $bookInvoiceNumber = 0)
 	{
@@ -1407,7 +1407,7 @@ class RedshopEconomic
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getProductByNumber($productNumber = '')
 	{
@@ -1431,7 +1431,7 @@ class RedshopEconomic
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function makeAccessoryOrder($invoiceNo, $orderItem, $userId = 0)
 	{
@@ -1513,7 +1513,7 @@ class RedshopEconomic
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function makeAttributeOrder($invoiceNo, $orderItem, $isAccessory = 0, $parentSectionId = 0, $userId = 0)
 	{
@@ -1656,7 +1656,7 @@ class RedshopEconomic
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createAttributeInvoiceLineInEconomic($invoiceNo, $orderItem, $orderAttitem)
 	{
@@ -1686,7 +1686,7 @@ class RedshopEconomic
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getEconomicTaxZone($countryCode = "")
 	{
@@ -1714,7 +1714,7 @@ class RedshopEconomic
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function isEuCountry($country)
 	{

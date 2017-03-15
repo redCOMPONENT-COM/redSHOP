@@ -8,150 +8,131 @@
  */
 defined('_JEXEC') or die;
 
-JHtmlBehavior::modal('a.joom-box');
-
 $editor = JFactory::getEditor();
 ?>
 
 <div class="row">
-	<div class="col-sm-8">
-		<div class="box box-primary">
-			<div class="box-header with-border">
-				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_INFORMATION'); ?></h3>
-			</div>
-			<div class="box-body">
-				<div class="form-group">
-					<label for="category_name">
+    <div class="col-sm-8">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_INFORMATION'); ?></h3>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="category_name">
 						<?php echo JText::_('COM_REDSHOP_CATEGORY_NAME'); ?>
+                        <span class="star text-danger"> *</span>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'), JText::_('COM_REDSHOP_CATEGORY_NAME'), 'tooltip.png', '', '', false); ?>
-					</label>
-					<input class="text_area" type="text" name="category_name" id="category_name" size="32" maxlength="250" value="<?php echo $this->detail->category_name; ?>"/>
-				</div>
+                    </label>
+                    <input class="text_area" type="text" name="category_name" id="category_name" size="32" maxlength="250"
+                           value="<?php echo $this->detail->category_name; ?>"/>
+                </div>
 
-				<div class="form-group">
-					<label for="category_parent_id">
+                <div class="form-group">
+                    <label for="category_parent_id">
 						<?php echo JText::_('COM_REDSHOP_CATEGORY_PARENT'); ?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PARENT'), JText::_('COM_REDSHOP_CATEGORY_PARENT'), 'tooltip.png', '', '', false); ?>
-					</label>
+                    </label>
 					<?php echo $this->lists['categories']; ?>
-				</div>
+                </div>
 
-				<div class="form-group">
-					<label>
+                <div class="form-group">
+                    <label>
 						<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>
-					</label>
+                    </label>
 					<?php echo $this->lists['published']; ?>
-				</div>
+                </div>
 
-				<div class="form-group">
-					<label>
+                <div class="form-group">
+                    <label>
 						<?php echo JText::_('COM_REDSHOP_SHOW_PRODUCT_PER_PAGE'); ?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOW_PRODUCT_PER_PAGE'), JText::_('COM_REDSHOP_CATEGORY_NAME'), 'tooltip.png', '', '', false); ?>
-					</label>
-					<input class="text_area" type="text" name="products_per_page" id="products_per_page" size="32"
-				           maxlength="250"
-				           value="<?php echo $this->detail->products_per_page; ?>"/>
-				</div>
+                    </label>
+                    <input class="text_area" type="text" name="products_per_page" id="products_per_page" size="32"
+                           maxlength="250"
+                           value="<?php echo $this->detail->products_per_page; ?>"/>
+                </div>
 
-				<div class="form-group">
-					<label>
+                <div class="form-group">
+                    <label>
 						<?php echo JText::_('COM_REDSHOP_CATEGORY_TEMPLATE'); ?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_TEMPLATE'), JText::_('COM_REDSHOP_CATEGORY_TEMPLATE'), 'tooltip.png', '', '', false); ?>
-					</label>
+                    </label>
 					<?php echo $this->lists['category_template']; ?>
-				</div>
+                </div>
 
-				<div class="form-group">
-					<label>
+                <div class="form-group">
+                    <label>
 						<?php echo JText::_('COM_REDSHOP_CATEGORY_MORE_TEMPLATE'); ?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_MORE_TEMPLATE'), JText::_('COM_REDSHOP_CATEGORY_MORE_TEMPLATE'), 'tooltip.png', '', '', false); ?>
-					</label>
+                    </label>
 					<?php echo $this->lists['category_more_template']; ?>
-				</div>
+                </div>
 
-				<div class="form-group">
-					<label>
+                <div class="form-group">
+                    <label>
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY'); ?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY_LABEL'), JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY'), 'tooltip.png', '', '', false); ?>
-					</label>
+                    </label>
 					<?php echo $this->lists['compare_template_id']; ?>
-				</div>
+                </div>
 
-				<div class="form-group">
-					<label>
+                <div class="form-group">
+                    <label>
 						<?php echo JText::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?>
-					</label>
-					<?php echo $editor->display("category_short_description", $this->detail->category_short_description, '$widthPx', '$heightPx', '100', '20', false);    ?>
-				</div>
+                    </label>
+					<?php echo $editor->display("category_short_description", $this->detail->category_short_description, '$widthPx', '$heightPx', '100', '20', false); ?>
+                </div>
 
-				<div class="form-group">
-					<label>
+                <div class="form-group">
+                    <label>
 						<?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?>
-					</label>
-					<?php echo $editor->display("category_description", $this->detail->category_description, '$widthPx', '$heightPx', '100', '20', false);    ?>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-4">
-		<div class="box box-primary">
-			<div class="box-header with-border">
-				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_IMAGES'); ?></h3>
-			</div>
-			<div class="box-body">
-				<div class="form-group">
-					<div id="image_dis">
-					<?php
-						if ($this->detail->category_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->detail->category_full_image))
-						{
-							echo RedshopLayoutHelper::render(
-								'component.image',
-								array(
-									'id'        => 'category_full_image',
-									'deleteid'  => 'image_delete',
-									'displayid' => 'image_display',
-									'type' 	    => 'category',
-									'image'     => $this->detail->category_full_image
-								)
-							);
-						}
-					?>
-					<input type="hidden" name="category_image" id="category_image"/>
-					</div>
-					<div class="btn-toolbar">
-						<?php
-							$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
-						?>
-						<a class="joom-box btn btn-primary inline" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
-							<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
-						</a>
-					</div>
-				</div>
+                    </label>
+					<?php echo $editor->display("category_description", $this->detail->category_description, '$widthPx', '$heightPx', '100', '20', false); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_IMAGES'); ?></h3>
+            </div>
+            <div class="box-body">
+				<?php
+				$section_id    = $this->detail->category_id;
+				$media_section = 'category';
+				echo RedshopHelperMediaImage::render(
+					'category_full_image',
+					'category',
+					$section_id,
+					$media_section,
+					$this->detail->category_full_image,
+					false
+				);
+				?>
+            </div>
+        </div>
 
-			</div>
-		</div>
-
-		<div class="box box-primary">
-			<div class="box-header with-border">
-				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_BACK_IMAGE'); ?></h3>
-			</div>
-			<div class="box-body">
-				<div class="form-group">
-					<?php
-					echo RedshopLayoutHelper::render(
-						'component.image',
-						array(
-							'id'        => 'category_back_full_image',
-							'deleteid'  => 'image_back_delete',
-							'displayid' => 'image_back',
-							'type' 	    => 'category',
-							'image'     => $this->detail->category_back_full_image
-						)
-					);
-					?>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_BACK_IMAGE'); ?></h3>
+            </div>
+            <div class="box-body">
+				<?php
+				$section_id    = $this->detail->category_id;
+				$media_section = 'category';
+				echo RedshopHelperMediaImage::render(
+					'category_back_full_image',
+					'category',
+					$section_id,
+					$media_section,
+					$this->detail->category_back_full_image,
+					false
+				);
+				?>
+            </div>
+        </div>
+    </div>
 </div>
 

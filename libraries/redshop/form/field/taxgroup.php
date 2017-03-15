@@ -35,8 +35,8 @@ class RedshopFormFieldTaxgroup extends JFormFieldList
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('tax_group_id', 'value'))
-			->select($db->qn('tax_group_name', 'text'))
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
 			->from($db->qn('#__redshop_tax_group'));
 		$options = $db->setQuery($query)->loadObjectList();
 

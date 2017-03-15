@@ -73,7 +73,7 @@ class RedshopHelperOrder
 	 *
 	 * @var    null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static $orderStatusList = null;
 
@@ -82,7 +82,7 @@ class RedshopHelperOrder
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $billingAddresses = array();
 
@@ -91,7 +91,7 @@ class RedshopHelperOrder
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $shippingAddresses = array();
 
@@ -100,7 +100,7 @@ class RedshopHelperOrder
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $shippingMethods = array();
 
@@ -366,19 +366,27 @@ class RedshopHelperOrder
 				return null;
 			}
 
-			// Get plugin information
-			$plugin = JPluginHelper::getPlugin(
-						'redshop_payment',
-						self::$payment[$orderId]->payment_method_class
-					);
-
-			if ($plugin)
+			if (!empty(self::$payment[$orderId]->payment_method_class))
 			{
-				$plugin->params = new Registry($plugin->params);
-			}
+				// Get plugin information
+				$plugin = JPluginHelper::getPlugin(
+					'redshop_payment',
+					self::$payment[$orderId]->payment_method_class
+				);
 
-			// Set plugin information
-			self::$payment[$orderId]->plugin = $plugin;
+				if ($plugin)
+				{
+					$plugin->params = new Registry($plugin->params);
+				}
+
+				// Set plugin information
+				self::$payment[$orderId]->plugin = $plugin;
+			}
+			else
+			{
+				// Set plugin information
+				self::$payment[$orderId]->plugin = null;
+			}
 		}
 
 		return self::$payment[$orderId];
@@ -615,7 +623,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function resetOrderId()
 	{
@@ -665,7 +673,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderStatusTitle($orderStatusCode)
 	{
@@ -687,7 +695,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateOrderStatus($orderId, $newStatus)
 	{
@@ -791,7 +799,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string   'success' or error message
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function generateParcel($orderId)
 	{
@@ -1044,7 +1052,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function changeOrderStatus($data)
 	{
@@ -1157,7 +1165,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateOrderPaymentStatus($orderId, $newStatus)
 	{
@@ -1180,7 +1188,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateOrderComment($orderId, $comment = '')
 	{
@@ -1202,7 +1210,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateOrderRequisitionNumber($orderId, $requisitionNumber = '')
 	{
@@ -1247,7 +1255,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateOrderItemStatus($orderId = 0, $productId = 0, $newStatus = '', $comment = '', $orderItemId = 0)
 	{
@@ -1285,7 +1293,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string  HTML of status list
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getStatusList($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
@@ -1310,7 +1318,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string  HTML of filter list
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getFilterByList($name = 'filterbylist', $selected = 'all', $attributes = ' class="inputbox" size="1" ')
 	{
@@ -1337,7 +1345,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string  HTML of payment status list
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getPaymentStatusList($name = 'paymentstatuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
@@ -1354,7 +1362,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 *
 	 * @throws  Exception
 	 */
@@ -1556,7 +1564,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderDetails($orderId)
 	{
@@ -1578,7 +1586,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getMultiOrderDetails($orderId)
 	{
@@ -1600,7 +1608,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getUserOrderDetails($userId = 0)
 	{
@@ -1631,7 +1639,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderItemDetail($orderId = 0, $productId = 0, $orderItemId = 0)
 	{
@@ -1677,7 +1685,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderPartialPayment($orderId)
 	{
@@ -1710,7 +1718,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getShippingMethodInfo($shippingClass = '')
 	{
@@ -1745,7 +1753,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getPaymentMethodInfo($paymentMethodClass = '')
 	{
@@ -1775,7 +1783,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  mixed             Object data if success. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getBillingAddress($userId = 0)
 	{
@@ -1814,7 +1822,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getShippingAddress($userId = 0)
 	{
@@ -1853,7 +1861,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getUserFullName($userId)
 	{
@@ -1903,7 +1911,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  null/array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderItemAccessoryDetail($orderItemId = 0)
 	{
@@ -1933,7 +1941,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderItemAttributeDetail($orderItemId = 0, $isAccessory = 0, $section = "attribute", $parentSectionId = 0)
 	{
@@ -1968,7 +1976,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderUserFieldData($orderItemId = 0, $section = 0)
 	{
@@ -1991,7 +1999,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function generateOrderNumber()
 	{
@@ -2041,7 +2049,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function randomGenerateEncryptKey($pLength = '30')
 	{
@@ -2067,7 +2075,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getCountryName($cnt3 = '')
 	{
@@ -2110,7 +2118,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getStateName($st3 = "", $cnt3 = "")
 	{
@@ -2143,7 +2151,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function sendDownload($orderId = 0)
 	{
@@ -2250,7 +2258,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getDownloadProduct($orderId)
 	{
@@ -2274,7 +2282,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getDownloadProductLog($orderId, $did = '')
 	{
@@ -2304,7 +2312,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getParameters($payment)
 	{
@@ -2326,7 +2334,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getPaymentInformation($row, $post)
 	{
@@ -2403,7 +2411,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getShippingLocationInfo($shippingName)
 	{
@@ -2426,7 +2434,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function checkUpdateOrders($data)
 	{
@@ -2456,7 +2464,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function changeOrderStatusMail($orderId, $newStatus, $orderComment = '')
 	{
@@ -2491,7 +2499,7 @@ class RedshopHelperOrder
 			$mailData = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $mailData);
 			$mailData = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $mailData);
 
-			$mailData = $cartHelper->replaceOrderTemplate($row, $mailData);
+			$mailData = $cartHelper->replaceOrderTemplate($row, $mailData, true);
 
 			$arrDiscountType = array();
 			$arrDiscount     = explode('@', $row->discount_type);
@@ -2635,7 +2643,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createBookInvoice($orderId, $orderStatus)
 	{
@@ -2684,53 +2692,45 @@ class RedshopHelperOrder
 	/**
 	 * Create Multi Print Invoice PDF
 	 *
-	 * @param   integer  $orderId  Order ID
+	 * @param   array  $orderIds  Order ID
 	 *
-	 * @return  string
+	 * @return  string            File name of generated pdf.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
-	public static function createMultiPrintInvoicePdf($orderId)
+	public static function createMultiPrintInvoicePdf($orderIds)
 	{
-		return RedshopHelperMail::createMultiprintInvoicePdf($orderId);
+		return RedshopHelperMail::createMultiprintInvoicePdf($orderIds);
 	}
 
 	/**
 	 * Method for generate Invoice PDF of specific Order
 	 *
-	 * @param   int  $orderId  ID of order.
+	 * @param   int      $orderId  ID of order.
+	 * @param   string   $code     Code when generate PDF.
+	 * @param   boolean  $isEmail  Is generate for use in Email?
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
-	public static function generateInvoicePdf($orderId)
+	public static function generateInvoicePdf($orderId, $code = 'F', $isEmail = false)
 	{
 		if (!$orderId)
 		{
 			return;
 		}
 
-		jimport('joomla.filesystem.folder');
+		$plugins = JPluginHelper::getPlugin('redshop_pdf');
 
-		$pdfObj     = RedshopHelperPdf::getInstance();
-		$cartHelper = rsCarthelper::getInstance();
+		if (empty($plugins))
+		{
+			return;
+		}
 
-		$pdfObj->SetTitle('Invoice ' . $orderId);
-
-		// Load payment languages
-		RedshopHelperPayment::loadLanguages();
-
-		// Changed font to support Unicode Characters - Specially Polish Characters
-		$font = 'times';
-		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		$pdfObj->setHeaderFont(array($font, '', 8));
-
-		// Set font
-		$pdfObj->SetFont($font, "", 6);
-
+		$cartHelper    = rsCarthelper::getInstance();
 		$orderDetail   = self::getOrderDetails($orderId);
-		$orderTemplate = RedshopHelperTemplate::getTemplate(0, "order_print");
+		$orderTemplate = RedshopHelperTemplate::getTemplate('order_print');
 
 		if (count($orderTemplate) > 0 && $orderTemplate[0]->template_desc != "")
 		{
@@ -2777,22 +2777,8 @@ class RedshopHelperOrder
 
 		$message = $cartHelper->replaceOrderTemplate($orderDetail, $message, true);
 
-		$pdfObj->AddPage();
-		$pdfObj->writeHTML($message);
-
-		$invoicePdf = 'invoice-' . round(microtime(true) * 1000);
-		$invoiceFolder = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $orderId;
-
-		// Delete currently order invoice
-		if (JFolder::exists($invoiceFolder))
-		{
-			JFolder::delete($invoiceFolder);
-		}
-
-		JFolder::create($invoiceFolder);
-
-		ob_end_clean();
-		$pdfObj->Output($invoiceFolder . '/' . $invoicePdf . ".pdf", "FI");
+		JPluginHelper::importPlugin('redshop_pdf');
+		RedshopHelperUtility::getDispatcher()->trigger('onRedshopOrderCreateInvoicePdf', array($orderId, $message, $code, $isEmail));
 	}
 
 	/**
@@ -2804,7 +2790,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function createWebPackLabel($orderId, $orderStatus, $paymentStatus)
 	{
@@ -2860,18 +2846,18 @@ class RedshopHelperOrder
 	 *
 	 * @return  boolean/mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function orderStatusUpdate($orderId, $post = array())
 	{
 		$helper          = redhelper::getInstance();
 		$stockroomHelper = rsstockroomhelper::getInstance();
 		$productHelper   = productHelper::getInstance();
-		$newStatus       = $post['order_status_all'];
+		$newStatus       = $post['mass_change_order_status'];
 		$customerNote    = $post['customer_note' . $orderId];
 		$isProduct       = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
 		$productId       = (isset($post['product_id'])) ? $post['product_id'] : 0;
-		$paymentStatus   = $post['order_paymentstatus' . $orderId];
+		$paymentStatus   = $post['mass_change_payment_status'];
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
@@ -2971,7 +2957,11 @@ class RedshopHelperOrder
 		}
 
 		// Mail to customer of order status change
-		self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
+		if ($post['mass_mail_sending'] == 1)
+		{
+			self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
+		}
+
 		self::createBookInvoice($orderId, $newStatus);
 
 		// GENERATE PDF CODE WRITE
@@ -2985,7 +2975,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array    order payment info
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getOrderPaymentDetail($orderPaymentId = 0)
 	{

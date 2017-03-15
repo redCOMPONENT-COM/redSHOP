@@ -1,5 +1,12 @@
 <?php
 /**
+ * PDFMerge class.
+ *
+ * @package    RedSHOP.Library
+ * @copyright  Copyright (C) 2012 - 2016 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later, see LICENSE.
+ *
+ *
  *  PDFMerger created by Jarrod Nettles December 2009
  *  jarrod@squarecrow.com
  *
@@ -37,8 +44,7 @@ class PDFMerger
 	private $files;
 
 	/**
-	 * Merge PDFs.
-	 * @return void
+	 * Constructor
 	 */
 	public function __construct()
 	{
@@ -48,24 +54,28 @@ class PDFMerger
 
 	/**
 	 * Add a PDF for inclusion in the merge with a valid file path. Pages should be formatted: 1,3,6, 12-16.
-	 * @param $filepath
-	 * @param $pages
-	 * @return void
+	 *
+	 * @param   string  $filePath  File path
+	 * @param   string  $pages     Page
+	 *
+	 * @return  self
+	 *
+	 * @throws  Exception
 	 */
-	public function addPDF($filepath, $pages = 'all')
+	public function addPDF($filePath, $pages = 'all')
 	{
-		if(file_exists($filepath))
+		if (file_exists($filePath))
 		{
-			if(strtolower($pages) != 'all')
+			if (strtolower($pages) != 'all')
 			{
-				$pages = $this->_rewritepages($pages);
+				$pages = $this->rewritePages($pages);
 			}
 
-			$this->files[] = array($filepath, $pages);
+			$this->files[] = array($filePath, $pages);
 		}
 		else
 		{
-			throw new exception("Could not locate PDF on '$filepath'");
+			throw new exception('Could not locate PDF on: ' . $filePath);
 		}
 
 		return $this;
@@ -73,31 +83,37 @@ class PDFMerger
 
 	/**
 	 * Merges your provided PDFs and outputs to specified location.
-	 * @param $outputmode
-	 * @param $outputname
-	 * @return PDF
+	 *
+	 * @param   string  $outputMode  Output mode
+	 * @param   string  $outputPath  Output path
+	 *
+	 * @return  boolean
+	 *
+	 * @throws  Exception
 	 */
-	public function merge($outputmode = 'browser', $outputpath = 'newfile.pdf')
+	public function merge($outputMode = 'browser', $outputPath = 'newfile.pdf')
 	{
-		if(!isset($this->files) || !is_array($this->files)): throw new exception("No PDFs to merge."); endif;
+		if (!isset($this->files) || !is_array($this->files))
+		{
+			throw new exception("No PDFs to merge.");
+		}
 
 		$fpdi = new FPDI;
 
-		//merger operations
-		foreach($this->files as $file)
+		// Merger operations
+		foreach ($this->files as $file)
 		{
-			$filename  = $file[0];
-			$filepages = $file[1];
+			$fileName  = $file[0];
+			$pages = $file[1];
+			$count     = $fpdi->setSourceFile($fileName);
 
-			$count = $fpdi->setSourceFile($filename);
-
-			//add the pages
-			if($filepages == 'all')
+			// Add the pages
+			if ($pages == 'all')
 			{
-				for($i=1; $i<=$count; $i++)
+				for ($i = 1; $i <= $count; $i++)
 				{
-					$template 	= $fpdi->importPage($i);
-					$size 		= $fpdi->getTemplateSize($template);
+					$template = $fpdi->importPage($i);
+					$size     = $fpdi->getTemplateSize($template);
 
 					$fpdi->AddPage('P', array($size['w'], $size['h']));
 					$fpdi->useTemplate($template);
@@ -105,9 +121,13 @@ class PDFMerger
 			}
 			else
 			{
-				foreach($filepages as $page)
+				foreach ($pages as $page)
 				{
-					if(!$template = $fpdi->importPage($page)): throw new exception("Could not load page '$page' in PDF '$filename'. Check that the page exists."); endif;
+					if (!$template = $fpdi->importPage($page))
+					{
+						throw new exception("Could not load page '$page' in PDF '$fileName'. Check that the page exists.");
+					}
+
 					$size = $fpdi->getTemplateSize($template);
 
 					$fpdi->AddPage('P', array($size['w'], $size['h']));
@@ -116,51 +136,39 @@ class PDFMerger
 			}
 		}
 
-		//output operations
-		$mode = $this->_switchmode($outputmode);
+		// Output operations
+		$mode = $this->switchMode($outputMode);
 
-		if($mode == 'S')
-		{
-			return $fpdi->Output($outputpath, 'S');
-		}
-		else
-		{
-			if($fpdi->Output($outputpath, $mode))
-			{
-				return true;
-			}
-			else
-			{
-				return true;
-				/*throw new exception("Error outputting PDF to '$outputmode'.");
-				return false;*/
-			}
-		}
-
-
+		return $fpdi->Output($outputPath, $mode);
 	}
 
 	/**
 	 * FPDI uses single characters for specifying the output location. Change our more descriptive string into proper format.
-	 * @param $mode
-	 * @return Character
+	 *
+	 * @param   string  $mode  Mode
+	 *
+	 * @return  string
 	 */
-	private function _switchmode($mode)
+	private function switchMode($mode)
 	{
-		switch(strtolower($mode))
+		switch (strtolower($mode))
 		{
 			case 'download':
 				return 'D';
 				break;
+
 			case 'browser':
 				return 'I';
 				break;
+
 			case 'file':
 				return 'F';
 				break;
+
 			case 'string':
 				return 'S';
 				break;
+
 			default:
 				return 'I';
 				break;
@@ -169,36 +177,50 @@ class PDFMerger
 
 	/**
 	 * Takes our provided pages in the form of 1,3,4,16-50 and creates an array of all pages
-	 * @param $pages
-	 * @return unknown_type
+	 *
+	 * @param   string  $pages  Page
+	 *
+	 * @return  mixed
+	 *
+	 * @throws  Exception
 	 */
-	private function _rewritepages($pages)
+	private function rewritePages($pages)
 	{
-		$pages = str_replace(' ', '', $pages);
-		$part = explode(',', $pages);
+		$pages    = str_replace(' ', '', $pages);
+		$parts    = explode(',', $pages);
+		$newPages = array();
 
-		//parse hyphens
-		foreach($part as $i)
+		// Parse hyphens
+		foreach ($parts as $part)
 		{
-			$ind = explode('-', $i);
+			$ind = explode('-', $part);
 
-			if(count($ind) == 2)
+			if (count($ind) == 2)
 			{
-				$x = $ind[0]; //start page
-				$y = $ind[1]; //end page
+				// Start page
+				$x = $ind[0];
 
-				if($x > $y): throw new exception("Starting page, '$x' is greater than ending page '$y'."); return false; endif;
+				// End page
+				$y = $ind[1];
 
-				//add middle pages
-				while($x <= $y): $newpages[] = (int) $x; $x++; endwhile;
+				if ($x > $y)
+				{
+					throw new exception("Starting page, '$x' is greater than ending page '$y'.");
+				}
+
+				// Add middle pages
+				while ($x <= $y)
+				{
+					$newPages[] = (int) $x;
+					$x++;
+				}
 			}
 			else
 			{
-				$newpages[] = (int) $ind[0];
+				$newPages[] = (int) $ind[0];
 			}
 		}
 
-		return $newpages;
+		return $newPages;
 	}
-
 }

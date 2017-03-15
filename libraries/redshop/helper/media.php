@@ -21,7 +21,7 @@ class RedshopHelperMedia
 	/**
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $medias = array();
 
@@ -246,8 +246,15 @@ class RedshopHelperMedia
 		}
 
 		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
-		$physiclePath = self::generateImages($filePath, $dest, $width, $height, $command, $proportional);
-		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physiclePath);
+		$physicalPath = self::generateImages($filePath, $dest, $width, $height, $command, $proportional);
+
+		// Can not generate image
+		if (!$physicalPath)
+		{
+			return false;
+		}
+
+		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
 
 		return $thumbUrl;
 	}
@@ -675,7 +682,7 @@ class RedshopHelperMedia
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getAdditionMediaImage($sectionId = 0, $section = '', $mediaType = 'images')
 	{

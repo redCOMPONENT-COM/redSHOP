@@ -8,4 +8,3 @@
  */
 
 defined('_JEXEC') or die;
-?>
