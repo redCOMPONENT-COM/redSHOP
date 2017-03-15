@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * View Tax Rates
+ * View Tax groups
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       2.0.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopViewTax_Rates extends RedshopViewAdmin
+class RedshopViewTax_Groups extends RedshopViewAdmin
 {
 	/**
 	 * @var  array
@@ -56,7 +56,7 @@ class RedshopViewTax_Rates extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
-		/** @var RedshopModelTax_Rates $model */
+		/** @var RedshopModelSuppliers $model */
 		$model = $this->getModel();
 
 		// Get data from the model
@@ -67,12 +67,10 @@ class RedshopViewTax_Rates extends RedshopViewAdmin
 		$this->filterForm    = $model->getForm();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		/*if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode('<br />', $errors));
-
-			return false;
-		}
+		}*/
 
 		// Set the tool-bar and number of found items
 		$this->addToolBar();
@@ -90,16 +88,18 @@ class RedshopViewTax_Rates extends RedshopViewAdmin
 	 */
 	protected function addToolBar()
 	{
-		$title = JText::_('COM_REDSHOP_TAX_MANAGEMENT');
+		$title = JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT');
 
 		if ($this->pagination->total)
 		{
-			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'> (" . $this->pagination->total . ")</span>";
+			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'>(" . $this->pagination->total . ")</span>";
 		}
 
-		JToolBarHelper::title($title);
-		JToolBarHelper::addNew('tax_rate.add');
-		JToolBarHelper::editList('tax_rate.edit');
-		JToolBarHelper::deleteList('', 'tax_rates.delete');
+		JToolBarHelper::title($title, 'redshop_supplier_48');
+		JToolBarHelper::addNew('tax_group.add');
+		JToolBarHelper::editList('tax_group.edit');
+		JToolBarHelper::deleteList('', 'tax_groups.delete');
+		JToolbarHelper::publish('tax_groups.publish', 'JTOOLBAR_PUBLISH', true);
+		JToolbarHelper::unpublish('tax_groups.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 	}
 }

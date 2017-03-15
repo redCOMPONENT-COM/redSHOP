@@ -36,6 +36,8 @@ class RedshopHelperMail
 	 */
 	public static function getMailTemplate($templateId = 0, $section = '', $extraCond = '')
 	{
+		JFactory::getLanguage()->load('com_redshop', JPATH_SITE);
+
 		$key = $templateId . '_' . $section . '_' . serialize($extraCond);
 
 		if (!array_key_exists($key, self::$mailTemplates))
