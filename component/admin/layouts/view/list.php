@@ -55,14 +55,10 @@ $user       = JFactory::getUser();
 				'view'    => $data,
 				'options' => array(
 					'searchField'         => 'search',
-					'filtersHidden'       => false,
-					'filterButton'        => false,
 					'searchFieldSelector' => '#filter_search',
 					'limitFieldSelector'  => '#list_' . $viewName . '_limit',
 					'activeOrder'         => $listOrder,
 					'activeDirection'     => $listDirn,
-					'showFilter'          => false,
-					'showListNumber'      => false
 				)
 			)
 		);
