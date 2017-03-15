@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 {
 	/**
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public $tags = array(
 		'{wishlist_button}',
@@ -32,7 +32,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function init()
 	{

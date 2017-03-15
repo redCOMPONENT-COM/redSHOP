@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  States.View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopViewMass_Discounts extends RedshopViewAdmin
 {
@@ -83,7 +83,7 @@ class RedshopViewMass_Discounts extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	protected function addToolBar()
 	{
@@ -98,7 +98,5 @@ class RedshopViewMass_Discounts extends RedshopViewAdmin
 		JToolBarHelper::addNew('mass_discount.add');
 		JToolBarHelper::editList('mass_discount.edit');
 		JToolBarHelper::deleteList('', 'mass_discounts.delete');
-		JToolbarHelper::publish('mass_discounts.publish', 'JTOOLBAR_PUBLISH', true);
-		JToolbarHelper::unpublish('mass_discounts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 	}
 }

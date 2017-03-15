@@ -7,5 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Redshop\\' => array($baseDir . '/src'),
-    'Doctrine\\Common\\Annotations\\' => array($vendorDir . '/doctrine/annotations/lib/Doctrine/Common/Annotations'),
 );

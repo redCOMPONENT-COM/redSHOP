@@ -39,6 +39,15 @@ JHtml::_('redshopjquery.framework');
 			form.view.value = "product_category";
 		}
 
+		if (pressbutton == 'remove')
+		{
+			if (confirm("<?php echo JText::_('COM_REDSHOP_PRODUCT_DELETE_CONFIRM') ?>") != true)
+			{
+        		return false;
+        	}
+		}
+
+
 		try {
 			form.onsubmit();
 		}
@@ -320,7 +329,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			?>
 		</td>
 		<td>
-			<?php echo $model->getmanufacturername($row->manufacturer_id); ?>
+			<?php echo RedshopEntityManufacturer::getInstance($row->manufacturer_id)->get('name', ''); ?>
 		</td>
 		<td>
 			<a href="index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=0&pid=<?php echo $row->product_id ?>"><?php echo JText::_('COM_REDSHOP_ADD_REVIEW'); ?></a>

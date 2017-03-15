@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopViewMass_Discount extends RedshopViewAdmin
 {
@@ -54,7 +54,7 @@ class RedshopViewMass_Discount extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function display($tpl = null)
 	{
@@ -69,6 +69,8 @@ class RedshopViewMass_Discount extends RedshopViewAdmin
 			$this->form->setValue('discount_product', null, $this->item->discount_product);
 			$this->form->setValue('category_id', null, $this->item->category_id);
 			$this->form->setValue('manufacturer_id', null, $this->item->manufacturer_id);
+
+			$this->form->setValue('end_date', null, JFactory::getDate(date('d-m-Y H:i:s', $this->item->end_date))->format('d-m-Y'));
 		}
 
 		$this->state = $this->get('State');
@@ -83,7 +85,7 @@ class RedshopViewMass_Discount extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	protected function addToolbar()
 	{

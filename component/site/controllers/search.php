@@ -98,9 +98,13 @@ class RedshopControllerSearch extends RedshopController
 		// Only verify token for frontend
 		RedshopHelperAjax::validateAjaxRequest('get');
 
+		$app = JFactory::getApplication();
+
 		ob_clean();
 
-		echo RedshopHelperWorld::getInstance()->getStatesAjax($this->input->getCmd('country'));
+		echo RedshopHelperWorld::getStatesAjax($app->input->getCmd('country'));
+
+		$app->close();
 	}
 
 	/**
@@ -143,5 +147,7 @@ class RedshopControllerSearch extends RedshopController
 		{
 			echo JText::_('COM_REDSHOP_MSG_SORRY_NO_RESULT_FOUND');
 		}
+
+		JFactory::getApplication()->close();
 	}
 }

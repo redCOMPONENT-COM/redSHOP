@@ -38,12 +38,12 @@ $url = $uri->root();
 		<legend><?php echo "details" ?></legend>
 		<table class="admintable table">
 			<tr>
-				<td class="key"><?php echo JText::_('COM_REDSHOP_CURRENCY_NAME'); ?></td>
+				<td class="key"><?php echo JText::_('COM_REDSHOP_CURRENCY_NAME'); ?><span class="star text-danger"> *</span></td>
 				<td><input class="text_area" type="text" name="currency_name" id="currency_name" size="30"
 				           maxlength="100" value="<?php echo $this->detail->currency_name; ?>"/></td>
 			</tr>
 			<tr>
-				<td class="key"><?php echo JText::_('COM_REDSHOP_CURRENCY_CODE_LBL'); ?>:
+				<td class="key"><?php echo JText::_('COM_REDSHOP_CURRENCY_CODE_LBL'); ?><span class="star text-danger"> *</span>
 				</td>
 				<td>
 					<input class="text_area" type="text" name="currency_code" id="currency_code" size="80"
