@@ -10,38 +10,35 @@
 defined('_JEXEC') or die;
 
 /**
- * Model Tax Rates
+ * Model Tax Groups
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       2.0.0.6
+ * @since       __DEPLOY_VERSION__
  */
-class RedshopModelTax_Rates extends RedshopModelList
+class RedshopModelTax_Groups extends RedshopModelList
 {
 	/**
 	 * Name of the filter form to load
 	 *
 	 * @var  string
 	 */
-	protected $filterFormName = 'filter_tax_rates';
+	protected $filterFormName = 'filter_tax_groups';
 
 	/**
 	 * Construct class
 	 *
 	 * @since 1.x
 	 */
+
 	public function __construct()
 	{
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id', 't.id',
-				'name', 't.name',
-				'tax_rate', 't.tax_rate',
-				'is_eu_country', 't.is_eu_country',
-				'tax_country', 't.tax_country', 'country_name',
-				'tax_state', 't.tax_state', 'state_name',
-				'tax_group_id', 't.tax_group_id', 'tax_group_name'
+				'id', 'tg.id',
+				'name', 'tg.name',
+				'published', 'tg.published'
 			);
 		}
 
@@ -60,9 +57,13 @@ class RedshopModelTax_Rates extends RedshopModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'tg.id', $direction = 'asc')
 	{
-		parent::populateState('t.id', 'asc');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		// List state information.
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -82,9 +83,6 @@ class RedshopModelTax_Rates extends RedshopModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.country');
-		$id .= ':' . $this->getState('filter.tax_group');
-		$id .= ':' . $this->getState('filter.eu');
 
 		return parent::getStoreId($id);
 	}
@@ -99,14 +97,8 @@ class RedshopModelTax_Rates extends RedshopModelList
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('t.*')
-			->select($db->qn('c.country_name', 'country_name'))
-			->select($db->qn('s.state_name', 'state_name'))
-			->select($db->qn('g.name', 'tax_group_name'))
-			->from($db->qn('#__redshop_tax_rate', 't'))
-			->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('t.tax_country') . ' = ' . $db->qn('c.country_3_code'))
-			->leftJoin($db->qn('#__redshop_state', 's') . ' ON ' . $db->qn('t.tax_state') . ' = ' . $db->qn('s.state_3_code'))
-			->leftJoin($db->qn('#__redshop_tax_group', 'g') . ' ON ' . $db->qn('t.tax_group_id') . ' = ' . $db->qn('g.id'));
+		$query->select('tg.*')
+			->from($db->qn('#__redshop_tax_group', 'tg'));
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
@@ -115,45 +107,20 @@ class RedshopModelTax_Rates extends RedshopModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->qn('t.id') . ' = ' . (int) substr($search, 3));
+				$query->where($db->qn('tg.id') . ' = ' . (int) substr($search, 3));
 			}
 			else
 			{
 				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where($db->qn('t.name') . ' LIKE ' . $search);
+				$query->where($db->qn('tg.name') . ' LIKE ' . $search);
 			}
 		}
 
-		// Filter: Country
-		$filterCountry = $this->getState('filter.country', '');
-
-		if ($filterCountry)
-		{
-			$query->where($db->qn('t.tax_country') . ' = ' . $db->quote($filterCountry));
-		}
-
-		// Filter: Country
-		$filterRaxGroup = (int) $this->getState('filter.tax_group', 0);
-
-		if ($filterRaxGroup)
-		{
-			$query->where($db->qn('t.tax_group_id') . ' = ' . $filterRaxGroup);
-		}
-
-		// Filter: EU
-		$filterEU = $this->getState('filter.eu', null);
-
-		if (is_numeric($filterEU))
-		{
-			$query->where($db->qn('t.is_eu_country') . ' = ' . (int) $filterEU);
-		}
-
 		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.ordering', 't.id');
+		$orderCol  = $this->state->get('list.ordering', 'tg.id');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
-		$query->group($db->qn('t.id'));
 
 		return $query;
 	}

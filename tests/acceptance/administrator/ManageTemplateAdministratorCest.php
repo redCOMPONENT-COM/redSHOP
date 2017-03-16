@@ -21,7 +21,7 @@ class ManageTemplateAdministratorCest
 	{
 		$this->faker = Faker\Factory::create();
 		$this->name = $this->faker->bothify('managetemplateadministratorcest_?##?');
-		$this->section = 'Product';
+		$this->section = 'Add to cart';
 		$this->newName = 'updated' . $this->name;
 	}
 
