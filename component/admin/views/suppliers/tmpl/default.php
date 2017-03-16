@@ -74,7 +74,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JHTML::_('grid.published', $row, $i) ?>
 					</td>
 					<td>
-						<?php if ($row->checked_out && $user->id != $row->checked_out): ?>
+						<?php if ($row->checked_out): ?>
 							<?php
 							$author = JFactory::getUser($row->checked_out);
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $row->checked_out == $user->id || $row->checked_out == 0;
