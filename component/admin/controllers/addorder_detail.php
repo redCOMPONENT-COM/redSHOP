@@ -234,23 +234,21 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$this->input->set('billisship', 0);
 		}
 
+		/** @var RedshopModelAddorder_detail $model */
 		$model = $this->getModel('addorder_detail');
 
 		if ($row = $model->storeShipping($post))
 		{
-			$ret = '';
-			$user_id = $row->user_id;
-			$shipping_users_info_id = $row->users_info_id;
-			$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $user_id .
-					'&shipping_users_info_id=' .
-					$shipping_users_info_id . $ret
+			$this->setRedirect(
+				'index.php?option=com_redshop&view=addorder_detail&user_id=' . $row->user_id . '&shipping_users_info_id=' . $row->users_info_id
 			);
 		}
 
-		else
-		{
-			parent::display();
-		}
+		JFactory::getApplication()->setUserState('com_redshop.addorder_detail.guestuser.username', $this->input->getUsername('username'));
+		JFactory::getApplication()->setUserState('com_redshop.addorder_detail.guestuser.password', $this->input->getString('password'));
+		JFactory::getApplication()->setUserState('com_redshop.addorder_detail.guestuser.password2', $this->input->getString('password2'));
+
+		parent::display();
 	}
 
 	public function changeshippingaddress()
