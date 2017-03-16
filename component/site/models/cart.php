@@ -102,6 +102,11 @@ class RedshopModelCart extends RedshopModel
 		}
 	}
 
+	/**
+	 * [emptyExpiredCartProducts]
+	 * 
+	 * @return [void]
+	 */
 	public function emptyExpiredCartProducts()
 	{
 		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM'))
@@ -114,17 +119,26 @@ class RedshopModelCart extends RedshopModel
 			$carttimeout     = (int) Redshop::getConfig()->get('CART_TIMEOUT');
 			$time            = time() - ($carttimeout * 60);
 
-			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
-				. "WHERE session_id = " . $db->quote($session_id) . " "
-				. "AND section='product' "
-				. "AND time < $time ";
-			$db->setQuery($sql);
+			$query = $db->getQuery(true);
+
+			$query->select($db->qn('product_id'))
+				->from($db->qn('#__redshop_cart'))
+				->where($db->qn('session_id') . ' = ' . $db->q($session_id))
+				->where($db->qn('section') . '=' . $db->q('product'))
+				->where($db->qn('time') . ' < ' . $db->q($time));
+
+			$db->setQuery($query);
 			$deletedrs = $db->loadColumn();
 
-			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
-				. "WHERE session_id = " . $db->quote($session_id) . " "
-				. "AND section='product' ";
-			$db->setQuery($sql);
+			$query = $db->getQuery(true);
+
+			$query->select($db->qn('product_id'))
+				->from($db->qn('#__redshop_cart'))
+				->where($db->qn('session_id') . ' = ' . $db->q($session_id))
+				->where($db->qn('section') . '=' . $db->q('product'));
+
+
+			$db->setQuery($query);
 			$includedrs = $db->loadColumn();
 
 			$cart = $session->get('cart');
@@ -585,19 +599,14 @@ class RedshopModelCart extends RedshopModel
 	/**
 	 * check if attribute tag is present in product template.
 	 *
-	 * @param   int  $product_id  the product id
+	 * @param   int  $productId  the product id
 	 *
 	 * @return bool
 	 */
-	public function checkifTagAvailable($product_id)
+	public function checkifTagAvailable($productId)
 	{
-		$db          = JFactory::getDbo();
 		$redTemplate = Redtemplate::getInstance();
-		$q           = "SELECT product_template FROM " . $this->_table_prefix . "product "
-			. "WHERE product_id = " . (int) $product_id;
-
-		$db->setQuery($q);
-		$row_data = $db->loadResult();
+		$row_data = RedshopHelperProduct::getProductTemplateById($productId);
 
 		$template              = $redTemplate->getTemplate("product", $row_data);
 		$product_template_desc = $template[0]->template_desc;
@@ -613,7 +622,9 @@ class RedshopModelCart extends RedshopModel
 	}
 
 	/**
-	 * 	shipping rate calculator
+	 * [shippingrate_calc description]
+	 * 
+	 * @return [type] [description]
 	 */
 	public function shippingrate_calc()
 	{

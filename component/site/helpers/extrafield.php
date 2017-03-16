@@ -951,10 +951,7 @@ class extraField
 
 						if ($data_value->data_txt != "")
 						{
-							$q = "SELECT country_name FROM #__redshop_country "
-								. "WHERE id = " . (int) $data_value->data_txt;
-							$db->setQuery($q);
-							$field_chk    = $db->loadObject();
+							$field_chk    = RedshopHelperCountry::getCountryNameById($data_value->data_txt);
 							$displayvalue = $field_chk->country_name;
 						}
 						break;
@@ -1065,15 +1062,16 @@ class extraField
 		return $template_data;
 	}
 
+	/**
+	 * [getFieldValue description]
+	 * 
+	 * @param   [type]  $id  [description]
+	 * 
+	 * @return  [type]
+	 */
 	public function getFieldValue($id)
 	{
-		$db = JFactory::getDbo();
-
-		$q = "SELECT * FROM #__redshop_fields_value "
-			. "WHERE field_id=" . (int) $id . " "
-			. "ORDER BY value_id ASC ";
-		$db->setQuery($q);
-		$list = $db->loadObjectlist();
+		$list = RedshopHelperExtrafields::getFieldValue($id);
 
 		return $list;
 	}
@@ -1124,26 +1122,36 @@ class extraField
 		return $result;
 	}
 
+	/**
+	 * [getSectionFieldIdArray]
+	 * 
+	 * @param   int  $section    [description]
+	 * @param   int  $front      [description]
+	 * @param   int  $published  [description]
+	 * @param   int  $required   [description]
+	 * 
+	 * @return  [type]
+	 */
 	public function getSectionFieldIdArray($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
 	{
-		JFactory::getDbo();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		$and = "";
+		$query->select($db->qn(['field_id', 'field_name']))
+			->from($db->qn('#__redshop_fields'))
+			->where($db->qn('field_section') . ' = ' . $db->q($section))
+			->where($db->qn('field_show_in_front') . ' = ' . (int) $front);
 
 		if ($published == 1)
 		{
-			$and .= "AND published=" . (int) $published . " ";
+			$query->where($db->qn('published') . ' = ' . (int) $published);
 		}
 
 		if ($required == 1)
 		{
-			$and .= "AND required=" . (int) $required . " ";
+			$query->where($db->qn('required') . ' = ' . (int) $required);
 		}
 
-		$query = "SELECT field_id, field_name FROM #__redshop_fields "
-			. "WHERE field_section = " . $db->quote($section) . " "
-			. "AND field_show_in_front = " . (int) $front . " "
-			. $and;
 		$db->setQuery($query);
 		$list = $db->loadObjectList();
 

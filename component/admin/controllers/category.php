@@ -53,16 +53,18 @@ class RedshopControllerCategory extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 	}
 
+	/**
+	 * [autofillcityname description]
+	 * 
+	 * @return [void]
+	 */
 	public function autofillcityname()
 	{
-		$db = JFactory::getDbo();
+		$input = JFactory::getApplication()->input;
+		$mainzipcode = $input->get('q', '');
 		ob_clean();
-		$mainzipcode = $this->input->getString('q', '');
-		$sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";
-		$db->setQuery($sel_zipcode);
-
-		echo $db->loadResult();
-		exit;
+		$result = RedshopHelperZipcode::getCityNameByZipcode($mainzipcode);
+		die($result);
 	}
 }
 

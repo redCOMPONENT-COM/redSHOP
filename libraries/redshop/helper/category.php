@@ -491,4 +491,25 @@ class RedshopHelperCategory
 
 		return $return;
 	}
+
+	/**
+	 * Get category data
+	 *
+	 * @param   [string]  $categoryName  Category Name
+	 *
+	 * @return mixed
+	 */
+	public static function getCategoryIdByName($categoryName)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('category_id'))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('category_name') . ' = ' . $db->q($categoryName));
+
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
 }

@@ -741,4 +741,28 @@ class RedshopHelperMedia
 
 		return static::$medias[$key];
 	}
+
+	/**
+	 * [getProductMediaNameByProductId]
+	 * 
+	 * @param   [int]  $pid  [product id]
+	 * 
+	 * @return  [type]
+	 */
+	public static function getProductMediaNameByProductId($pid)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('media_name'))
+			->from($db->qn('#__redshop_media'))
+			->where($db->qn('media_section') . ' = ' . $db->q('product'))
+			->where($db->qn('media_type') . ' = ' . $db->q('download'))
+			->where($db->qn('published') . ' = 1')
+			->where($db->qn('section_id') . ' = ' . (int) $pid);
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
 }

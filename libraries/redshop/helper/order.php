@@ -2993,4 +2993,66 @@ class RedshopHelperOrder
 
 		return $db->loadObjectlist();
 	}
+
+	/**
+	 * [getListCountOrderItem]
+	 *
+	 * @param   [string]  $where        where condition for query
+	 * @param   [bool]    $returnQuery  To know return query or return query result
+	 * 
+	 * @return  [array objects]
+	 */
+	public static function getListCountOrderItem($where = '', $returnQuery = false)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+				[
+					$db->qn('order_id'),
+					'COUNT(' . $db->qn('order_item_id') . ') AS ' . $db->qn('noproduct')
+				]
+			)
+			->from($db->qn('#__redshop_order_item'))
+			->group($db->qn('order_id'));
+
+		$where = trim($where);
+
+		if ($where != '')
+		{
+			/* Ensure that where codition using $db->quoteName and $db->quote before pass to this function */
+			$query->where($where);
+		}
+
+		if ($returnQuery == true)
+		{
+			return $query;
+		}
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
+	 * [getCountMaxOrderItem]
+	 *
+	 * @param   [string]  $where  where condition for query
+	 * 
+	 * @return  [array objects]
+	 */
+	public static function getCountMaxOrderItem($where = '')
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$subQuery = self::getListCountOrderItem($where, true);
+
+		$query->select('MAX(' . $db->qn('noproduct') . ') AS ' . $db->qn('maxcountproduct'))
+			->from('(' . $subQuery . ') AS ' . $db->qn('oi'));
+
+		$db->setQuery($query);
+
+		return $db->loadObject();
+	}
 }

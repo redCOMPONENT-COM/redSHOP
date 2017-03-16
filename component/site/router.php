@@ -589,9 +589,7 @@ class RedshopRouter extends JComponentRouterBase
 				if ($mid)
 				{
 					$segments[] = $mid;
-					$sql        = "SELECT sef_url,manufacturer_name FROM #__redshop_manufacturer WHERE manufacturer_id = '$mid'";
-					$db->setQuery($sql);
-					$url = $db->loadObject();
+					$url = RedshopHelperManufacturer::getManufacturer($mid);
 
 					if ($url)
 					{
@@ -636,10 +634,7 @@ class RedshopRouter extends JComponentRouterBase
 					if ($tagid)
 					{
 						$segments[] = $tagid;
-
-						$sql = "SELECT tags_name FROM `#__redshop_product_tags` WHERE `tags_id` = " . $tagid;
-						$db->setQuery($sql);
-						$tagname = $db->loadResult();
+						$tagname = RedshopHelperTags::getTag($tagid);
 
 						$segments[] = str_replace($special_char, "-", $tagname);
 
@@ -1003,9 +998,7 @@ class RedshopRouter extends JComponentRouterBase
 
 							if (isset($segments[$second_last]))
 							{
-								$sql = "SELECT category_id FROM #__redshop_category WHERE category_name = '$segments[$second_last]'";
-								$db->setQuery($sql);
-								$cat_id      = $db->loadResult();
+								$cat_id      = RedshopHelperCategory::getCategoryIdByName($segments[$second_last]);
 								$vars['cid'] = $cat_id;
 							}
 						}

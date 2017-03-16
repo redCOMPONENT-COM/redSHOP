@@ -1029,4 +1029,284 @@ class RedshopHelperProduct
 
 		return $productData;
 	}
+
+	/**
+	 * [getProductTemplateById]
+	 * 
+	 * @param   [int]  $id  [description]
+	 * 
+	 * @return  [Object]
+	 */
+	public static function getProductTemplateById($id)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('product_template'))
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('product_id') . ' = ' . (int) $id);
+
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
+
+	/**
+	 * [getProductDownloadById]
+	 * 
+	 * @param   [int]  $productId  [Product ID]
+	 * 
+	 * @return  [Object]
+	 */
+	public static function getProductDownloadById($productId)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+				$db->qn(
+						[
+							'product_download', 'product_download_days',
+							'product_download_limit', 'product_download_clock',
+							'product_download_clock_min', 'product_download_infinite'
+						]
+					)
+			)
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('product_id') . ' = ' . (int) $productId);
+
+		$query->setLimit('1');
+
+		$db->setQuery($query);
+
+		return $db->loadObject();
+	}
+
+	/**
+	 * [checkProductDownload description]
+	 * 
+	 * @param   [int]      $pid     [product id]
+	 * @param   [boolean]  $return  [flag]
+	 * 
+	 * @return  [type]
+	 */
+	public static function checkProductDownload($pid, $return = false)
+	{
+		$result = self::getProductDownloadById($pid);
+
+		if ($return)
+		{
+			return $result;
+		}
+		else
+		{
+			return $result->product_download;
+		}
+	}
+
+	/**
+	 * [getProductMediaNameByProductId]
+	 * 
+	 * @param   [int]  $pid  [product id]
+	 * 
+	 * @return  [type]
+	 */
+	public static function getProductMediaNameByProductId($pid)
+	{
+		return RedshopHelperMedia::getProductMediaNameByProductId($pid);
+	}
+
+	/**
+	 * [getRelatedProduct]
+	 * 
+	 * @param   int  $pid  [product id]
+	 * @param   int  $rid  [related product id]
+	 * 
+	 * @return  [type]
+	 */
+	public static function getRelatedProduct($pid = 0, $rid = 0)
+	{
+		$db 			 = JFactory::getDbo();
+		$helper          = redhelper::getInstance();
+		$orderBy         = $db->qn('p.product_id') . ' ASC';
+		$orderByRelated = "";
+
+		if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD'))
+		{
+			$orderBy         = Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
+			$orderByRelated = "";
+		}
+
+		if ($pid != 0)
+		{
+			// Sanitize ids
+			$productIds = explode(',', $pid);
+			JArrayHelper::toInteger($productIds);
+
+			if ($helper->isredProductfinder())
+			{
+				$query = $db->getQuery(true);
+
+				$query->select($db->qn('extrafield'))
+					->from($db->qn('#__redproductfinder_types'))
+					->where($db->qn('type_select') . ' = ' . $db->q('Productfinder_datepicker'));
+
+				$db->setQuery($query);
+				$finaltypetype_result = $db->loadObject();
+			}
+			else
+			{
+				$finaltypetype_result = array();
+			}
+
+			if (Redshop::getConfig()->get('TWOWAY_RELATED_PRODUCT'))
+			{
+				if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == "r.ordering ASC" || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == "r.ordering DESC")
+				{
+					$orderBy         = "";
+					$orderByRelated = Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
+				}
+
+				$query = $db->getQuery(true);
+
+				$query->select('*')
+					->from($db->qn('#__redshop_product_related', 'r'))
+					->where(
+						$db->qn('r.product_id') . ' IN(' . implode(',', $productIds) . ')'
+						. ' OR ' . $db->qn('r.related_id') . ' IN(' . implode(',', $productIds) . ')'
+					);
+
+					if (trim($orderByRelated) != '')
+					{
+						$query->order($db->qn($orderByRelated));
+					}
+
+				$db->setQuery($query);
+				$list = $db->loadObjectlist();
+
+				$countList = count($list);
+
+				$relatedArr = array();
+
+				for ($i = 0, $in = $countList; $i < $in; $i++)
+				{
+					if ($list[$i]->product_id == $pid)
+					{
+						$relatedArr[] = $list[$i]->related_id;
+					}
+					else
+					{
+						$relatedArr[] = $list[$i]->product_id;
+					}
+				}
+
+				if (empty($relatedArr))
+				{
+					return array();
+				}
+
+				// Sanitize ids
+				JArrayHelper::toInteger($relatedArr);
+				$relatedArr = array_unique($relatedArr);
+
+				$query = $db->getQuery(true);
+
+				$query->select(
+						[
+							$db->q($pid) . ' AS ' . $db->qn('mainproduct_id'),
+							'p.*'
+						]
+					)
+					->from($db->qn('#__redshop_product', 'p'))
+					->where($db->qn('p.published') . ' = 1')
+					->where($db->qn('p.product_id') . ' IN(' . implode(", ", $relatedArr) . ')')
+					->order($orderBy);
+
+				$db->setQuery($query);
+				$list = $db->loadObjectlist();
+
+				return $list;
+			}
+		}
+
+		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafipideld != ''
+			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
+		{
+			$add_e = "e.*";
+		}
+		else
+		{
+			$add_e = "";
+		}
+
+		$select = [
+					$db->qn('r.product_id', 'mainproduct_id'),
+					'p.*',
+				];
+
+		if (trim($add_e))
+		{
+			$select[] = $add_e;
+		}
+
+		$query = $db->getQuery(true);
+		$query->select($select)
+			->from($db->qn('#__redshop_product_related', 'r'))
+			->leftJoin(
+					$db->qn('#__redshop_product', 'p')
+					. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('r.related_id')
+				);
+
+		if (!empty($finaltypetype_result) && !empty($finaltypetype_result->extrafield)
+			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
+			|| Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
+		{
+			$query->leftJoin(
+					$db->qn('#__redshop_fields_data', 'e')
+					. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('e.itemid')
+				);
+		}
+
+		$query->where($db->qn('p.published') . ' = 1');
+
+		if ($rid != 0)
+		{
+			$query->where($db->qn('r.related_id') . ' = ' . (int) $rid);
+		}
+
+		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
+			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
+		{
+			$query->where($db->qn('e.fieldid') . ' = ' . (int) $finaltypetype_result->extrafield)
+				->where($db->qn('e.section') . ' = 17');
+		}
+
+		$query->group($db->qn('r.related_id'));
+
+		if ((Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
+			|| Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
+		{
+			if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC')
+			{
+				$s = "STR_TO_DATE( " . $db->qn('e.data_txt') . ", '%d-%m-%Y' ) ASC";
+			}
+			else
+			{
+				$s = "STR_TO_DATE( " . $db->qn('e.data_txt') . ", '%d-%m-%Y' ) DESC";
+			}
+
+			$query->order($s);
+		}
+		else
+		{
+			$query->order($orderBy);
+		}
+
+		$db->setQuery($query);
+
+		$list = $db->loadObjectlist();
+
+		return $list;
+	}
 }
