@@ -54,22 +54,9 @@ class ManageDiscountAdministratorCest
 	}
 
 	/**
-	 * Test for State Change in Discount Administrator
+	 * Function to Test Discount Deletion
 	 *
 	 * @depends updateDiscount
-	 */
-	public function changeDiscountState(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test if State of a Discount gets Updated in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\DiscountManagerJoomla3Steps($scenario);
-		$I->wantTo('Update Existing Discount');
-
-		$I->changeDiscountState($this->discountName, $this->newAmount);
-	}
-
-	/**
-	 * Function to Test Discount Deletion
 	 */
 	public function deleteDiscount(AcceptanceTester $I, $scenario)
 	{

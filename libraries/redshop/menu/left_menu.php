@@ -204,9 +204,9 @@ class RedshopMenuLeft_Menu
 				return array('USER', 'user');
 				break;
 
+			case "tax_groups":
 			case "tax_group":
-			case "tax_group_detail":
-				return array('PRODUCT_LISTING', 'tax_group');
+				return array('PRODUCT_LISTING', 'tax_groups');
 				break;
 
 			case "tax_rates":
@@ -394,9 +394,9 @@ class RedshopMenuLeft_Menu
 		}
 
 		self::$menu->addItem(
-			'index.php?option=com_redshop&view=tax_group',
+			'index.php?option=com_redshop&view=tax_groups',
 			'COM_REDSHOP_TAX_GROUP_LISTING',
-			(self::$view == 'tax_group') ? true : false
+			(self::$view == 'tax_groups') ? true : false
 		)
 			->addItem(
 				'index.php?option=com_redshop&view=tax_rates',
