@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * View Suppliers
+ * View Tax groups
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
  * @since       __DEPLOY_VERSION__
  */
-class RedshopViewSuppliers extends RedshopViewAdmin
+class RedshopViewTax_Groups extends RedshopViewAdmin
 {
 	/**
 	 * @var  array
@@ -67,12 +67,10 @@ class RedshopViewSuppliers extends RedshopViewAdmin
 		$this->filterForm    = $model->getForm();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		/*if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode('<br />', $errors));
-
-			return false;
-		}
+		}*/
 
 		// Set the tool-bar and number of found items
 		$this->addToolBar();
@@ -90,7 +88,7 @@ class RedshopViewSuppliers extends RedshopViewAdmin
 	 */
 	protected function addToolBar()
 	{
-		$title = JText::_('COM_REDSHOP_SUPPLIER_MANAGEMENT');
+		$title = JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT');
 
 		if ($this->pagination->total)
 		{
@@ -98,11 +96,10 @@ class RedshopViewSuppliers extends RedshopViewAdmin
 		}
 
 		JToolBarHelper::title($title, 'redshop_supplier_48');
-		JToolBarHelper::addNew('supplier.add');
-		JToolBarHelper::editList('supplier.edit');
-		JToolBarHelper::deleteList('', 'suppliers.delete');
-		JToolbarHelper::publish('suppliers.publish', 'JTOOLBAR_PUBLISH', true);
-		JToolbarHelper::unpublish('suppliers.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-		JToolbarHelper::custom('suppliers.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+		JToolBarHelper::addNew('tax_group.add');
+		JToolBarHelper::editList('tax_group.edit');
+		JToolBarHelper::deleteList('', 'tax_groups.delete');
+		JToolbarHelper::publish('tax_groups.publish', 'JTOOLBAR_PUBLISH', true);
+		JToolbarHelper::unpublish('tax_groups.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 	}
 }
