@@ -39,7 +39,8 @@ $model = $this->getModel('newslettersubscr_detail');
 			<table class="admintable table">
 				<tr>
 					<td valign="top" align="right" class="key">
-						<?php echo JText::_('COM_REDSHOP_NEWSLETTER_SELECT_USER'); ?>:
+						<?php echo JText::_('COM_REDSHOP_NEWSLETTER_SELECT_USER'); ?>
+						<span class="star text-danger"> *</span>:
 					</td>
 					<td>
 						<?php
