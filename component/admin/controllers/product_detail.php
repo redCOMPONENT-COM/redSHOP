@@ -27,7 +27,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	/**
 	 * Constructor to set the right model
 	 *
-	 * @param   array $default Optional configuration parameters
+	 * @param   array  $default  Optional  configuration parameters
 	 */
 	public function __construct($default = array())
 	{
@@ -127,8 +127,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$this->app->setUserState('com_redshop.product_detail.selectedTabPosition', $selectedTabPosition);
 
 		if (is_array($post['product_category'])
-			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
-		)
+			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category'])))
 		{
 			$post['cat_in_sefurl'] = $post['product_category'][0];
 		}
@@ -203,7 +202,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=add', $msg);
 			}
 
-			elseif ($apply == 1)
+            elseif ($apply == 1)
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
 			}
@@ -1016,5 +1015,23 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method for get all available product number
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function ajaxGetAllProductNumber()
+	{
+		JSession::checkToken() or die('JINVALID_TOKEN');
+
+		$app = JFactory::getApplication();
+
+		echo implode(',', RedshopHelperProduct::getAllAvailableProductNumber($app->input->getInt('product_id', 0)));
+
+		$app->close();
 	}
 }
