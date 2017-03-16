@@ -42,9 +42,6 @@ $lang->load('lib_redshop', JPATH_SITE);
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
-// Load redSHOP language
-$lang->load('com_redshop', JPATH_SITE);
-
 // Load redSHOP factory file
 JLoader::import('redshop.redshop');
 

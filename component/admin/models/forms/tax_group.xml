@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+                />
+        <field
+                name="name"
+                type="redshop.text"
+                label="COM_REDSHOP_TAX_GROUP_NAME_LBL"
+                description="COM_REDSHOP_TOOLTIP_TAX_GROUP_NAME_LBL"
+                placeholder="COM_REDSHOP_TAX_GROUP_NAME_LBL"
+                class="form-control"
+                default=""
+                required="true"
+                />
+        <field
+                name="published"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_PUBLISHED"
+                required="true">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+    </fieldset>
+</form>

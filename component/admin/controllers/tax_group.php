@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopControllerTax_group extends RedshopController
+/**
+ * Controller Tax group Detail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopControllerTax_Group extends RedshopControllerForm
 {
-	public function cancel()
-	{
-
-
-		$this->setRedirect('index.php?option=com_redshop&view=tax_group');
-	}
 }
