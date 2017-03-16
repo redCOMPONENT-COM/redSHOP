@@ -385,7 +385,7 @@ if (!JRequest::getvar('ajaxtask'))
 										<div id="divUserFieldproduct1"></div>
 									</td>
 									<td id="tdnoteproduct1"></td>
-									<td><input type="text" name="prdexclpriceproduct1" id="prdexclpriceproduct1"
+									<td><input type="number" min="0" name="prdexclpriceproduct1" id="prdexclpriceproduct1"
 									           onchange="changeOfflinePriceBox('product1');" value="0" size="10"></td>
 									<td align="right">
 										<div id="prdtaxproduct1"></div>
@@ -395,7 +395,7 @@ if (!JRequest::getvar('ajaxtask'))
 										<div id="prdpriceproduct1"></div>
 										<input name="productpriceproduct1" id="productpriceproduct1" type="hidden"
 										       value="0"/></td>
-									<td><input type="text" name="quantityproduct1" id="quantityproduct1"
+									<td><input type="number" min="0" name="quantityproduct1" id="quantityproduct1"
 									           onchange="changeOfflineQuantityBox('product1');" value="1"
 									           size="<?php echo $DEFAULT_QUANTITY; ?>"
 									           maxlength="<?php echo $DEFAULT_QUANTITY; ?>"></td>
@@ -514,4 +514,19 @@ function createJsonObject(uniqueId)
 	);
 	?>
 }
+
+function validateInputFloat(e)
+{
+    if ((e.keyCode == 189) || (e.keyCode == 109))
+    {
+        e.preventDefault();
+    }
+}
+
+jQuery(document).ready(function() {
+
+    jQuery("input[type=number]").keydown(function(e){
+        validateInputFloat(e);
+    });
+});
 </script>

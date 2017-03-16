@@ -1025,7 +1025,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								<td id="tdnoteproduct1"></td>
 								<td><input type="hidden" name="change_product_tmp_priceproduct1"
 										   id="change_product_tmp_priceproduct1" value="0" size="10">
-									<input type="text" name="prdexclpriceproduct1" style="display: none;" id="prdexclpriceproduct1" class="col-sm-12"
+									<input type="number" min="0" name="prdexclpriceproduct1" style="display: none;" id="prdexclpriceproduct1" class="col-sm-12"
 										   onchange="changeOfflinePriceBox('product1');" value="0" size="10"></td>
 								<td align="right">
 									<div id="prdtaxproduct1"></div>
@@ -1033,7 +1033,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								<td align="right">
 									<div id="prdpriceproduct1"></div>
 									<input name="productpriceproduct1" id="productpriceproduct1" type="hidden" value="0"/></td>
-								<td><input type="text" name="quantityproduct1" id="quantityproduct1" style="display: none;"
+								<td><input type="number" min="0" name="quantityproduct1" id="quantityproduct1" style="display: none;"
 										   onchange="changeOfflineQuantityBox('product1');" value="1" class="col-sm-12"
 										   size="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>" maxlength="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>"></td>
 								<td align="right">
