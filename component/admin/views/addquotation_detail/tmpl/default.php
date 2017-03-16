@@ -48,12 +48,12 @@ function addNewproductRow(tblid)
 	newTD1.innerHTML = '<input type="text" name="product' + rowCount + '" id="product' + rowCount + '" value="0" /><div id="divAttproduct' + rowCount + '"></div><div id="divAccproduct' + rowCount + '"></div><div id="divUserFieldproduct' + rowCount + '"></div>';
 	newTD2.innerHTML = '';
 	newTD2.id        = 'tdnoteproduct' + rowCount;
-	newTD3.innerHTML = '<input type="text" name="prdexclpriceproduct' + rowCount + '" id="prdexclpriceproduct' + rowCount + '" onchange="changeOfflinePriceBox(\'product' + rowCount + '\');" value="0" size="10" >';
+	newTD3.innerHTML = '<input type="number" name="prdexclpriceproduct' + rowCount + '" id="prdexclpriceproduct' + rowCount + '" onchange="changeOfflinePriceBox(\'product' + rowCount + '\');" value="0" size="10" >';
 	newTD4.innerHTML = '<div id="prdtaxproduct' + rowCount + '"></div><input type="hidden" name="taxpriceproduct' + rowCount + '" id="taxpriceproduct' + rowCount + '" value="0">';
 	newTD4.align     = 'right';
 	newTD5.innerHTML = '<div id="prdpriceproduct' + rowCount + '"></div><input type="hidden" name="productpriceproduct' + rowCount + '" id="productpriceproduct' + rowCount + '" value="0">';
 	newTD5.align     = 'right';
-	newTD6.innerHTML = '<input type="text" name="quantityproduct' + rowCount + '" id="quantityproduct' + rowCount + '" onchange="changeOfflineQuantityBox(\'product' + rowCount + '\');" value="1" size="<?php echo $DEFAULT_QUANTITY;?>" maxlength="<?php echo $DEFAULT_QUANTITY;?>">';
+	newTD6.innerHTML = '<input type="number" name="quantityproduct' + rowCount + '" id="quantityproduct' + rowCount + '" onchange="changeOfflineQuantityBox(\'product' + rowCount + '\');" value="1" size="<?php echo $DEFAULT_QUANTITY;?>" maxlength="<?php echo $DEFAULT_QUANTITY;?>">';
 	newTD7.innerHTML = '<div id="tdtotalprdproduct' + rowCount + '"></div><input name="subpriceproduct' + rowCount + '" id="subpriceproduct' + rowCount + '" type="hidden" value="0" /><input type="hidden" name="main_priceproduct' + rowCount + '" id="main_priceproduct' + rowCount + '" value="0" /><input type="hidden" name="tmp_product_priceproduct' + rowCount + '" id="tmp_product_priceproduct' + rowCount + '" value="0"><input type="hidden" name="product_vatpriceproduct' + rowCount + '" id="product_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="tmp_product_vatpriceproduct' + rowCount + '" id="tmp_product_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="wrapper_dataproduct' + rowCount + '" id="wrapper_dataproduct' + rowCount + '" value="0"><input type="hidden" name="wrapper_vatpriceproduct' + rowCount + '" id="wrapper_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_dataproduct' + rowCount + '" id="accessory_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_attribute_dataproduct' + rowCount + '" id="acc_attribute_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_property_dataproduct' + rowCount + '" id="acc_property_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_subproperty_dataproduct' + rowCount + '" id="acc_subproperty_dataproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_priceproduct' + rowCount + '" id="accessory_priceproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_vatpriceproduct' + rowCount + '" id="accessory_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="attribute_dataproduct' + rowCount + '" id="attribute_dataproduct' + rowCount + '" value="0"><input type="hidden" name="property_dataproduct' + rowCount + '" id="property_dataproduct' + rowCount + '" value="0"><input type="hidden" name="subproperty_dataproduct' + rowCount + '" id="subproperty_dataproduct' + rowCount + '" value="0"><input type="hidden" name="requiedAttributeproduct' + rowCount + '" id="requiedAttributeproduct' + rowCount + '" value="0">';
 	newTD7.align     = 'right';
 
@@ -385,7 +385,7 @@ if (!JRequest::getvar('ajaxtask'))
 										<div id="divUserFieldproduct1"></div>
 									</td>
 									<td id="tdnoteproduct1"></td>
-									<td><input type="text" name="prdexclpriceproduct1" id="prdexclpriceproduct1"
+									<td><input type="number" name="prdexclpriceproduct1" id="prdexclpriceproduct1"
 									           onchange="changeOfflinePriceBox('product1');" value="0" size="10"></td>
 									<td align="right">
 										<div id="prdtaxproduct1"></div>
@@ -395,7 +395,7 @@ if (!JRequest::getvar('ajaxtask'))
 										<div id="prdpriceproduct1"></div>
 										<input name="productpriceproduct1" id="productpriceproduct1" type="hidden"
 										       value="0"/></td>
-									<td><input type="text" name="quantityproduct1" id="quantityproduct1"
+									<td><input type="number" name="quantityproduct1" id="quantityproduct1"
 									           onchange="changeOfflineQuantityBox('product1');" value="1"
 									           size="<?php echo $DEFAULT_QUANTITY; ?>"
 									           maxlength="<?php echo $DEFAULT_QUANTITY; ?>"></td>
