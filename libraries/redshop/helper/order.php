@@ -2553,6 +2553,9 @@ class RedshopHelperOrder
 			$search[]  = "{fullname}";
 			$replace[] = $userDetail->firstname . " " . $userDetail->lastname;
 
+			$search[]  = "{email}";
+			$replace[] = $userDetail->user_email;
+
 			$search[]  = "{customer_id}";
 			$replace[] = $userDetail->users_info_id;
 
