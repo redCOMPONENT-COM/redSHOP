@@ -668,7 +668,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 															<td width="5%"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $vat;?></td>
 															<td width="10%"><?php echo $producthelper->getProductFormattedPrice($products[$i]->product_item_price) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
 															<td width="5%">
-																<input type="number" min="0" name="quantity" id="quantity" class="col-sm-12"
+																<input type="number" min="1" name="quantity" id="quantity" class="col-sm-12"
 																	value="<?php echo $quantity; ?>" size="3">
 															</td>
 															<td align="right" width="10%">
