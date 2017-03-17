@@ -1950,15 +1950,20 @@ class xmlHelper
 		return $list;
 	}
 
-	public function getStockroomList($xmlarray = array(), $product_id = 0)
+	public function getStockroomList($xmls = array(), $product_id = 0)
 	{
+		if (empty($xmls))
+		{
+			return $list;
+		}
+
 		$list = array();
 		$field = array();
 		$strfield = "";
 
-		if (count($xmlarray) > 0)
+		if (count($xmls) > 0)
 		{
-			foreach ($xmlarray AS $key => $value)
+			foreach ($xmls AS $key => $value)
 			{
 				$field[] = $key . " AS " . $value;
 			}
@@ -1982,15 +1987,20 @@ class xmlHelper
 		return $list;
 	}
 
-	public function getExtraFieldList($xmlarray = array(), $section_id = 0, $fieldsection = 0)
+	public function getExtraFieldList($xmls = array(), $section_id = 0, $fieldsection = 0)
 	{
+		if (empty($xmls))
+		{
+			return $list;
+		}
+
 		$db       = JFactory::getDbo();
 		$list     = array();
 		$field    = array();
 
-		if (count($xmlarray) > 0)
+		if (count($xmls) > 0)
 		{
-			foreach ($xmlarray AS $key => $value)
+			foreach ($xmls AS $key => $value)
 			{
 				$field[] = $db->qn($key, $value);
 			}
