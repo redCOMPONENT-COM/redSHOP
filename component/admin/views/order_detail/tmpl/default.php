@@ -625,7 +625,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 										<tr>
 											<td>
 												<form action="index.php?option=com_redshop" method="post"
-													name="itemForm<?php echo $order_item_id; ?>">
+													name="itemForm<?php echo $order_item_id; ?>" id="itemForm<?php echo $order_item_id; ?>">
 													<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped" width="100%">
 														<tr>
 															<td width="20%">
@@ -694,7 +694,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 																	src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.png"
 																	title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 																	alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
-																	onclick="document.itemForm<?php echo $order_item_id; ?>.task.value='updateItem';document.itemForm<?php echo $order_item_id; ?>.submit();">
+																	onclick="document.itemForm<?php echo $order_item_id; ?>.task.value='updateItem';javascript:validateProductQuantity('#itemForm<?php echo $order_item_id; ?>');">
 															</td>
 														</tr>
 													</table>
@@ -1182,6 +1182,19 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
         {
             e.preventDefault();
         }
+    }
+
+    function validateProductQuantity(form)
+    {
+    	var itemPrice = jQuery("input[name=quantity]").val();
+        
+        if (itemPrice < 1)
+        {
+        	alert('<?php echo JText::_("COM_REDSHOP_ORDER_ITEM_QUANTITY_ATLEAST_ONE") ?>');
+            return false;
+        }
+
+        jQuery(form).submit();
     }
 
     jQuery(document).ready(function() {
