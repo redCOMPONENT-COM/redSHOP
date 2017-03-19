@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -1187,7 +1187,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
     function validateProductQuantity(form)
     {
     	var itemPrice = jQuery("input[name=quantity]").val();
-        
+
         if (itemPrice < 1)
         {
         	alert('<?php echo JText::_("COM_REDSHOP_ORDER_ITEM_QUANTITY_ATLEAST_ONE") ?>');
