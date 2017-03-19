@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -802,7 +802,7 @@ $DEFAULT_QUANTITY = Redshop::getConfig()->get('DEFAULT_QUANTITY');
     function validateInputFloat(el, e)
     {
     	var type = jQuery(el).attr("class");
-        
+
         var value = jQuery(el).val();
 
         if ((type == "quantity") && (value < 1))
@@ -819,7 +819,7 @@ $DEFAULT_QUANTITY = Redshop::getConfig()->get('DEFAULT_QUANTITY');
         if ((e.keyCode == 189) || (e.keyCode == 109))
         {
             e.preventDefault();
-        }        
+        }
     }
 
     jQuery(document).ready(function() {
