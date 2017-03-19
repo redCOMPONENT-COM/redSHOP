@@ -213,12 +213,20 @@ class RedshopViewList extends AbstractView
 			}
 
 			$this->columns[] = array(
-				'sortable' => isset($field['table-sortable']) ? (boolean) $field['table-sortable'] : false,
-				'text'     => JText::_((string) $field['label']),
-				'dataCol'  => (string) $field['name'],
-				'width'    => isset($field['table-width']) ? (string) $field['table-width'] : 'auto',
-				'inline'   => isset($field['table-inline']) ? (boolean) $field['table-inline'] : false,
-				'type'     => (string) $field['type'],
+				// This column is sortable?
+				'sortable'  => isset($field['table-sortable']) ? (boolean) $field['table-sortable'] : false,
+				// Text for column
+				'text'      => JText::_((string) $field['label']),
+				// Name of property for get data.
+				'dataCol'   => (string) $field['name'],
+				// Width of column
+				'width'     => isset($field['table-width']) ? (string) $field['table-width'] : 'auto',
+				// Enable edit inline?
+				'inline'    => isset($field['table-inline']) ? (boolean) $field['table-inline'] : false,
+				// Display with edit link or not?
+				'edit_link' => isset($field['table-edit-link']) ? (boolean) $field['table-edit-link'] : false,
+				// Type of column
+				'type'      => (string) $field['type'],
 			);
 		}
 	}
@@ -244,7 +252,15 @@ class RedshopViewList extends AbstractView
 		}
 		elseif ($config['inline'] === true && !$isCheckedOut)
 		{
-			return JHtml::_('redshopgrid.inline', $config['dataCol'], $row->{$config['dataCol']}, $row->id, $config['type']);
+			$value   = $row->{$config['dataCol']};
+			$display = $value;
+
+			if ($config['edit_link'])
+			{
+				$display = '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $value . '</a>';
+			}
+
+			return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
 		}
 
 		return '<div class="normal-data">' . $row->{$config['dataCol']} . '</div>';

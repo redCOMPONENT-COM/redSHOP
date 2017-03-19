@@ -104,16 +104,17 @@ abstract class JHtmlRedshopGrid
 	/**
 	 * Method for render HTML of inline edit field.
 	 *
-	 * @param   string  $name   DOM name of field
-	 * @param   string  $value  Value of field
-	 * @param   int     $id     DOM ID of field
-	 * @param   string  $type   Field type (text)
+	 * @param   string  $name     DOM name of field
+	 * @param   string  $value    Value of field
+	 * @param   string  $display  Value of field
+	 * @param   int     $id       DOM ID of field
+	 * @param   string  $type     Field type (text)
 	 *
 	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function inline($name = '', $value = '', $id = 0, $type = 'text')
+	public static function inline($name = '', $value = '', $display = '', $id = 0, $type = 'text')
 	{
 		if (!in_array($type, array('text', 'number', 'redshop.text')))
 		{
@@ -124,6 +125,10 @@ abstract class JHtmlRedshopGrid
 			(function($){
 				$(document).ready(function(){
 					$("#' . $name . '-' . $id . '").click(function(event){
+						if (event.target.nodeName == "A") {
+							return true;
+						}
+
 						event.preventDefault();
 
 						var $label = $(this);
@@ -158,7 +163,11 @@ abstract class JHtmlRedshopGrid
 										})
 											.done(function(response){
 												if (response == 1) {
-													$label.text($input.val());
+													if ($label.find("a").length) {
+														$label.find("a").text($input.val());
+													} else {
+														$label.text($input.val());
+													}
 													$.redshopAlert(
 														"' . JText::_('COM_REDSHOP_SUCCESS') . '",
 														"' . JText::_('COM_REDSHOP_DATA_UPDATE_SUCCESS') . '"
@@ -190,7 +199,7 @@ abstract class JHtmlRedshopGrid
 		$html = '<input type="' . $type . '" id="' . $name . '-' . $id . '-edit-inline" value="' . $value . '"'
 			. 'name="jform_inline[' . $id . '][' . $name . ']" class="form-control edit-inline" style="display: none;" />';
 		$html .= '<div id="' . $name . '-' . $id . '" data-target="' . $name . '-' . $id . '-edit-inline" class="label-edit-inline">'
-			. $value . '</div>';
+			. $display . '</div>';
 
 		return $html;
 	}
