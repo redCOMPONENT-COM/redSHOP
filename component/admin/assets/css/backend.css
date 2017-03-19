@@ -27107,18 +27107,22 @@ body.modal-open {
 .adminForm .label-edit-inline,
 .adminForm .normal-data{
   padding: 4px 6px;
+  border: 1px solid transparent;
+  position: relative;
 }
 
 .adminForm .label-edit-inline:hover {
   background-color: #fcf8e3;
   cursor: text;
+  border: 1px solid #c0c0c0;
+  border-radius: 5px;
 }
 
 .adminForm .label-edit-inline:hover:after {
   content: "\f044";
   font: normal normal normal 14px/1 FontAwesome;
-  float: right;
-  margin-top: 2px;
+  position: absolute;
+  top: 25%;
+  right: 5px;
   color: #ad312b;
-  text-shadow: 1px 1px 1px #942a25;
 }

@@ -16,6 +16,7 @@
                 required="true"
                 table-sortable="1"
                 table-inline="1"
+                table-edit-link="1"
         />
         <field
                 name="email"
