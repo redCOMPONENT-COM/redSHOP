@@ -54,7 +54,7 @@ class RedshopViewStatistic_Order extends RedshopViewAdmin
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_ORDER'), 'statistic redshop_statistic48');
 		RedshopToolbarHelper::link(
-			'index.php?tmpl=component&option=com_redshop&task=statistic_order.exportOrder',
+			'index.php?tmpl=component&option=com_redshop&task=statistic_order.exportOrder&date_range=' . $this->state->get('filter.date_range'),
 			'save.png',
 			'COM_REDSHOP_EXPORT_DATA_LBL',
 			'_blank'
