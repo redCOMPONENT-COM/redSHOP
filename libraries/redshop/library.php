@@ -58,11 +58,11 @@ JFormHelper::addFieldPath(JPATH_REDSHOP_LIBRARY . '/form/field');
 // Make available the redSHOP form rules
 JFormHelper::addRulePath(JPATH_REDSHOP_LIBRARY . '/form/rules');
 
-// Load helpers pathes in JLoader
-JLoader::discover('', JPATH_SITE . '/components/com_redshop/helpers', false);
-JLoader::discover('', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
-JLoader::discover('RedshopSite', JPATH_SITE . '/components/com_redshop/helpers', false);
-JLoader::discover('RedshopAdmin', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
+// Load helpers paths in JLoader
+JLoader::discover('', JPATH_SITE . '/components/com_redshop/helpers', true, true);
+JLoader::discover('', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', true, true);
+JLoader::discover('RedshopSite', JPATH_SITE . '/components/com_redshop/helpers', true, true);
+JLoader::discover('RedshopAdmin', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', true, true);
 
 // HTML helpers
 JHtml::addIncludePath(JPATH_REDSHOP_LIBRARY . '/html');
