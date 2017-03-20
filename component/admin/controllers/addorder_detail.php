@@ -245,8 +245,6 @@ class RedshopControllerAddorder_detail extends RedshopController
 		}
 
 		JFactory::getApplication()->setUserState('com_redshop.addorder_detail.guestuser.username', $this->input->getUsername('username'));
-		JFactory::getApplication()->setUserState('com_redshop.addorder_detail.guestuser.password', $this->input->getString('password'));
-		JFactory::getApplication()->setUserState('com_redshop.addorder_detail.guestuser.password2', $this->input->getString('password2'));
 
 		parent::display();
 	}
