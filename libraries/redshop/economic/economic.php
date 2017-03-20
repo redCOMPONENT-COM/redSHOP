@@ -654,6 +654,19 @@ class RedshopEconomic
 					{
 						self::createInvoiceDiscountLineInEconomic($orderDetail, $invoiceNo, $data, 1);
 					}
+
+					// Update is_booked after economic invoice is created
+					if ($invoiceHandle)
+					{
+						$db    = JFactory::getDbo();
+						$query = $db->getQuery(true)
+							->update($db->qn('#__redshop_orders'))
+							->set($db->qn('is_booked') . '=' . 1)
+							->where($db->qn('order_id') . '=' . $orderId);
+
+						$db->setQuery($query);
+						$db->execute();
+					}
 				}
 
 				return $invoiceHandle;
