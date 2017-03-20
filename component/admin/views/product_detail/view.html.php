@@ -628,14 +628,9 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 					'product_attribute'
 				)->addItem(
 					'#product_accessory',
-					'COM_REDSHOP_ACCESSORY_PRODUCT',
+					'COM_REDSHOP_ACCESSORY_RELATED_PRODUCT',
 					($selectedTabPosition == 'product_accessory') ? true : false,
 					'product_accessory'
-				)->addItem(
-					'#related',
-					'COM_REDSHOP_RELATED_PRODUCT',
-					($selectedTabPosition == 'related') ? true : false,
-					'related'
 				);
 
 		if ($this->CheckRedProductFinder > 0)
