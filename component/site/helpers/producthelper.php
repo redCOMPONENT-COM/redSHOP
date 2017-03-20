@@ -9450,6 +9450,8 @@ class productHelper
 	{
 		if (strpos($data_add, "{stock_status") !== false)
 		{
+			$product = RedshopProduct::getInstance($product_id);
+
 			$stocktag     = strstr($data_add, "{stock_status");
 			$newstocktag  = explode("}", $stocktag);
 			$realstocktag = $newstocktag[0] . "}";
@@ -9478,7 +9480,11 @@ class productHelper
 				$pre_order_class = $sts_array[3];
 			}
 
-			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']))
+			if ($product->not_for_sale == 1)
+			{
+				$stock_status = '';
+			}
+			elseif (!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock'])
 			{
 				if (($stockStatusArray['preorder'] && !$stockStatusArray['preorder_stock']) || !$stockStatusArray['preorder'])
 				{
@@ -9498,7 +9504,6 @@ class productHelper
 			}
 
 			$data_add = str_replace($realstocktag, $stock_status, $data_add);
-
 		}
 
 		RedshopLayoutHelper::renderTag(
