@@ -3,14 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-JHTML::_('behavior.calendar');
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.calendar');
 
+$app = JFactory::getApplication();
 $producthelper = productHelper::getInstance();
 $redconfig = Redconfiguration::getInstance();
 
@@ -57,6 +58,11 @@ else
 $err = JFactory::getApplication()->input->get('err', '');
 
 $DEFAULT_QUANTITY = Redshop::getConfig()->get('DEFAULT_QUANTITY');
+
+$username = $app->getUserState('com_redshop.addorder_detail.guestuser.username', null);
+
+// Clear state
+$app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 ?>
 <script type="text/javascript">
 	var xmlhttp;
@@ -528,7 +534,7 @@ $DEFAULT_QUANTITY = Redshop::getConfig()->get('DEFAULT_QUANTITY');
 											<tr>
 												<td width="30%" align="right"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:</td>
 												<td width="70%"><input class="inputbox" type="text" name="username" id="username" size="32" maxlength="250"
-														   value=""/><span id="user_valid"></span></td>
+														   value="<?php echo $username ?>"/><span id="user_valid"></span></td>
 											</tr>
 											<tr>
 												<td align="right"><?php echo JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'); ?>:</td>
@@ -802,7 +808,7 @@ $DEFAULT_QUANTITY = Redshop::getConfig()->get('DEFAULT_QUANTITY');
     function validateInputFloat(el, e)
     {
     	var type = jQuery(el).attr("class");
-        
+
         var value = jQuery(el).val();
 
         if ((type == "quantity") && (value < 1))
@@ -819,7 +825,7 @@ $DEFAULT_QUANTITY = Redshop::getConfig()->get('DEFAULT_QUANTITY');
         if ((e.keyCode == 189) || (e.keyCode == 109))
         {
             e.preventDefault();
-        }        
+        }
     }
 
     jQuery(document).ready(function() {
