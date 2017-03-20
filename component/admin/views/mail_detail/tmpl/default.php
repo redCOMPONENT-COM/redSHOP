@@ -47,7 +47,7 @@ $app = JFactory::getApplication();
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 			<table class="admintable table">
 				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_MAIL_NAME'); ?>:</td>
+					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_MAIL_NAME'); ?><span class="star text-danger"> *</span>:</td>
 					<td><input class="text_area" type="text" name="mail_name" id="mail_name" size="32" maxlength="250"
 					           value="<?php echo $this->detail->mail_name; ?>"/>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MAIL_NAME'), JText::_('COM_REDSHOP_MAIL_NAME'), 'tooltip.png', '', '', false); ?>

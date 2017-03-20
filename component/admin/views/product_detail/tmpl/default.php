@@ -8,6 +8,9 @@
  */
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.keepalive');
+JHtml::_('behavior.formvalidation');
+
 ?>
 
 <script type="text/javascript">
@@ -117,6 +120,11 @@ defined('_JEXEC') or die;
 			}
 		}
 
+        if (!document.formvalidator.isValid(form))
+        {
+            return false;
+        }
+
 		submitform(pressbutton);
 	};
 
@@ -160,7 +168,7 @@ defined('_JEXEC') or die;
 	</fieldset>
 <?php endif; ?>
 
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm" class="form-validate"
 	  enctype="multipart/form-data">
 
 	<?php

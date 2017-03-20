@@ -115,6 +115,8 @@ class RedshopHelperTemplate
 	 */
 	public static function getTemplate($section = '', $templateId = 0, $name = "")
 	{
+		JFactory::getLanguage()->load('com_redshop', JPATH_SITE);
+
 		$key = $section . '_' . $templateId . '_' . $name;
 
 		if (!array_key_exists($key, self::$templatesArray))
