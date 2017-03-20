@@ -59,14 +59,10 @@ $err = JFactory::getApplication()->input->get('err', '');
 
 $DEFAULT_QUANTITY = Redshop::getConfig()->get('DEFAULT_QUANTITY');
 
-$username  = $app->getUserState('com_redshop.addorder_detail.guestuser.username', null);
-$password  = $app->getUserState('com_redshop.addorder_detail.guestuser.password', null);
-$password2 = $app->getUserState('com_redshop.addorder_detail.guestuser.password2', null);
+$username = $app->getUserState('com_redshop.addorder_detail.guestuser.username', null);
 
 // Clear state
 $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
-$app->setUserState('com_redshop.addorder_detail.guestuser.password', null);
-$app->setUserState('com_redshop.addorder_detail.guestuser.password2', null);
 ?>
 <script type="text/javascript">
 	var xmlhttp;
@@ -543,12 +539,12 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.password2', null);
 											<tr>
 												<td align="right"><?php echo JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'); ?>:</td>
 												<td><input class="inputbox" type="password" name="password" id="password" size="32" maxlength="250"
-														   value="<?php echo $password ?>"/></td>
+														   value=""/></td>
 											</tr>
 											<tr>
 												<td align="right"><?php echo JText::_('COM_REDSHOP_VERIFIED_PASSWORD_LBL'); ?>:</td>
 												<td><input class="inputbox" type="password" name="password2" id="password2" size="32"
-														   maxlength="250" value="<?php echo $password2 ?>"/></td>
+														   maxlength="250" value=""/></td>
 											</tr>
 										</table>
 									</td>
