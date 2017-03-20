@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 
 class RedshopModelProduct extends RedshopModel
 {
@@ -553,5 +555,98 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method for save discount for list of product Ids
+	 *
+	 * @param   array  $productIds      Product Id
+	 * @param   array  $discountPrices  List of discount price.
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function saveDiscountPrices($productIds = array(), $discountPrices = array())
+	{
+		if (empty($productIds))
+		{
+			return false;
+		}
+
+		$productIds = ArrayHelper::toInteger($productIds);
+		$case       = array();
+		$db         = $this->_db;
+
+		foreach ($productIds as $index => $productId)
+		{
+			// Skip if discount price doesn't populate
+			if (!isset($discountPrices[$index]))
+			{
+				continue;
+			}
+
+			$price = (float) $discountPrices[$index];
+
+			$case[] = 'WHEN ' . $db->qn('product_id') . ' = ' . $productId . ' AND ' . $db->qn('product_price') . ' >= ' . $price
+				. ' THEN ' . $db->quote($price);
+		}
+
+		if (empty($case))
+		{
+			return false;
+		}
+
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_product'))
+			->set($db->qn('discount_price') . ' = CASE ' . implode(' ', $case) . ' ELSE ' . $db->qn('product_price') . ' END');
+
+		return $db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Method for save discount for list of product Ids
+	 *
+	 * @param   array  $productIds  Product Id
+	 * @param   array  $prices      List of discount price.
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function savePrices($productIds = array(), $prices = array())
+	{
+		if (empty($productIds))
+		{
+			return false;
+		}
+
+		$productIds = ArrayHelper::toInteger($productIds);
+		$case       = array();
+		$db         = $this->_db;
+
+		foreach ($productIds as $index => $productId)
+		{
+			// Skip if discount price doesn't populate
+			if (!isset($prices[$index]))
+			{
+				continue;
+			}
+
+			$price = (float) $prices[$index];
+
+			$case[] = 'WHEN ' . $db->qn('product_id') . ' = ' . $productId . ' THEN ' . $db->quote($price);
+		}
+
+		if (empty($case))
+		{
+			return false;
+		}
+
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_product'))
+			->set($db->qn('product_price') . ' = CASE ' . implode(' ', $case) . ' ELSE ' . $db->qn('product_price') . ' END');
+
+		return $db->setQuery($query)->execute();
 	}
 }
