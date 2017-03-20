@@ -314,4 +314,5 @@ $defaultarray["required_vat_number"] = REQUIRED_VAT_NUMBER;
 $defaultarray["default_stockamount_thumb_width"] = DEFAULT_STOCKAMOUNT_THUMB_WIDTH;
 $defaultarray["default_stockamount_thumb_height"] = DEFAULT_STOCKAMOUNT_THUMB_HEIGHT;
 $defaultarray["show_terms_and_conditions"] = SHOW_TERMS_AND_CONDITIONS;
+$defaultarray["load_redshop_style"] = LOAD_REDSHOP_STYLE;
 ?>

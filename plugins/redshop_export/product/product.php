@@ -322,6 +322,13 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		{
 			$item = (array) $item;
 
+			if ($extraFields && isset($fieldsData[$item['product_id']]))
+			{
+				$itemField = $fieldsData[$item['product_id']];
+
+				$item[$itemField->field_name] = $itemField->data_txt;
+			}
+
 			foreach ($item as $column => $value)
 			{
 				// Image path process
@@ -344,48 +351,41 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 				if ($column == 'product_s_desc' || $column == 'product_desc')
 				{
 					$item[$column] = str_replace($this->separator, '', $this->db->escape($value));
-				}
 
-				// Discount start date
-				if (!empty($item['discount_stratdate']))
-				{
-					$item['discount_stratdate'] = RedshopHelperDatetime::convertDateFormat($item['discount_stratdate']);
-				}
-
-				// Discount end date
-				if (!empty($item['discount_enddate']))
-				{
-					$item['discount_enddate'] = RedshopHelperDatetime::convertDateFormat($item['discount_enddate']);
-				}
-
-				// Stockroom process
-				if (!empty($stockrooms))
-				{
-					foreach ($stockrooms as $stockroom)
-					{
-						$amount = RedshopHelperStockroom::getStockroomAmountDetailList($item['product_id'], "product", $stockroom->stockroom_id);
-						$amount = !empty($amount) ? $amount[0]->quantity : 0;
-
-						$item[$stockroom->stockroom_name] = $amount;
-					}
-				}
-
-				// Media process
-				$this->processMedia($item);
-
-				// Extra fields process
-				if (!$extraFields)
-				{
 					continue;
 				}
 
-				if (isset($fieldsData[$item['product_id']]))
+				// Discount start date
+				if ($column == 'discount_stratdate')
 				{
-					$itemField = $fieldsData[$item['product_id']];
+					$item[$column] = !empty($item[$column]) ? RedshopHelperDatetime::convertDateFormat($item[$column]) : null;
 
-					$item[$itemField->field_name] = $itemField->data_txt;
+					continue;
+				}
+
+				// Discount end date
+				if ($column == 'discount_enddate')
+				{
+					$item[$column] = !empty($item[$column]) ? RedshopHelperDatetime::convertDateFormat($item[$column]) : null;
+
+					continue;
 				}
 			}
+
+			// Stockroom process
+			if (!empty($stockrooms))
+			{
+				foreach ($stockrooms as $stockroom)
+				{
+					$amount = RedshopHelperStockroom::getStockroomAmountDetailList($item['product_id'], "product", $stockroom->stockroom_id);
+					$amount = !empty($amount) ? $amount[0]->quantity : 0;
+
+					$item[$stockroom->stockroom_name] = $amount;
+				}
+			}
+
+			// Media process
+			$this->processMedia($item);
 
 			$data[$index] = $item;
 		}
