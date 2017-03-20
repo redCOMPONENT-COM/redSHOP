@@ -30,7 +30,7 @@ defined('_JEXEC') or die;
 
                     <tr>
                         <td colspan="2">
-                            <a href="javascript:void(0);" class="btn btn-primary" onclick="updateRelatedProduct(this);">
+                            <a id="fetch_child_for_related_product" href="javascript:void(0);" class="btn btn-primary" onclick="updateRelatedProduct();">
                                 <?php echo JText::_('COM_REDSHOP_CHILD_PRODUCT_AS_RELATED_PRODUCT_TEXT'); ?>
                             </a>
                         </td>
@@ -45,10 +45,10 @@ defined('_JEXEC') or die;
 <script>
     var preproductids = [];
 
-    function updateRelatedProduct(me) {
+    function updateRelatedProduct() {
         (function ($) {
             if (preproductids.length > 0) {
-                updateRelatedBox(preproductids, me.checked);
+                updateRelatedBox(preproductids);
                 return;
             }
 
@@ -72,7 +72,7 @@ defined('_JEXEC') or die;
         })(jQuery);
     }
 
-    function updateRelatedBox(products, ischecked) {
+    function updateRelatedBox(products) {
         (function ($) {
             var productids = products[0].split(",");
             var productnames = products[1].split(",");
@@ -81,28 +81,13 @@ defined('_JEXEC') or die;
             var checkedData = selTo.val().split(',');
             var currentData = selTo.select2("data");
 
-            if (ischecked) {
-                for (i = 0; i < productids.length; i++) {
-                    if ($.inArray(productids[i], checkedData) == -1) {
-                        currentData.push({id: productids[i], text: productnames[i]});
-                    }
+            for (i = 0; i < productids.length; i++) {
+                if ($.inArray(productids[i], checkedData) == -1) {
+                    currentData.push({id: productids[i], text: productnames[i]});
                 }
-
-                selTo.select2('data', currentData);
-            } else {
-                var newData = {};
-
-                for (i = 0; i < currentData.length; i++) {
-                    if ($.inArray(currentData[i].id, productids) == -1) {
-                        newData.push(currentData[i]);
-                    }
-                }
-
-                if (!newData.length)
-                    newData = null;
-
-                selTo.select2('data', newData);
             }
+
+            selTo.select2('data', currentData);
         })(jQuery);
     }
 </script>
