@@ -29,18 +29,10 @@ defined('_JEXEC') or die;
                     </tr>
 
                     <tr>
-                        <td>
-                            <label for="fetch_child_for_related_product">
-								<?php echo JText::_('COM_REDSHOP_CHILD_PRODUCT_AS_RELATED_PRODUCT_TEXT'); ?>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="checkbox"
-                                   value="1"
-                                   id="fetch_child_for_related_product"
-                                   name="fetch_child_for_related_product"
-                                   onclick="updateRelatedProduct(this);"
-                            />
+                        <td colspan="2">
+                            <a href="javascript:void(0);" class="btn btn-primary" onclick="updateRelatedProduct(this);">
+                                <?php echo JText::_('COM_REDSHOP_CHILD_PRODUCT_AS_RELATED_PRODUCT_TEXT'); ?>
+                            </a>
                         </td>
                     </tr>
                 </table>
