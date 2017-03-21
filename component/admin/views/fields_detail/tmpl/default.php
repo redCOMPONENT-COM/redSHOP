@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -163,7 +163,8 @@ $url = $uri->root();
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
-							<?php echo JText::_('COM_REDSHOP_TYPE'); ?>:
+							<?php echo JText::_('COM_REDSHOP_TYPE'); ?>
+							<span class="star text-danger"> *</span>:
 						</label>
 					</td>
 					<td>
@@ -174,7 +175,8 @@ $url = $uri->root();
 				<tr>
 					<td valign="top" align="right" class="key">
 						<label for="volume">
-							<?php echo JText::_('COM_REDSHOP_SECTION'); ?>:
+							<?php echo JText::_('COM_REDSHOP_SECTION'); ?>
+							<span class="star text-danger"> *</span>:
 						</label>
 					</td>
 					<td>
@@ -185,7 +187,8 @@ $url = $uri->root();
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
-							<?php echo JText::_('COM_REDSHOP_NAME'); ?>:
+							<?php echo JText::_('COM_REDSHOP_NAME'); ?>
+							<span class="star text-danger"> *</span>:
 						</label>
 					</td>
 					<td>
@@ -197,7 +200,8 @@ $url = $uri->root();
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
-							<?php echo JText::_('COM_REDSHOP_FIELD_TITLE'); ?>:
+							<?php echo JText::_('COM_REDSHOP_FIELD_TITLE'); ?>
+							<span class="star text-danger"> *</span>:
 						</label>
 					</td>
 					<td>

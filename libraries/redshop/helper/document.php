@@ -3,7 +3,7 @@
  * @package     Aesir
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,7 +22,7 @@ class RedshopHelperDocument
 	 *
 	 * @var  array
 	 */
-	protected static $disabledScripts = array('media/jui/js/bootstrap.js');
+	protected static $disabledScripts = array('media/jui/js/bootstrap.js', 'media/jui/js/bootstrap.min.js');
 
 	/**
 	 * Stylesheets marked as disabled
@@ -79,7 +79,7 @@ class RedshopHelperDocument
 	 * @param   boolean  $defer  Adds the defer attribute.
 	 * @param   boolean  $async  Adds the async attribute.
 	 *
-	 * @return  Document
+	 * @return  self
 	 */
 	public function addTopScript($url, $type = "text/javascript", $defer = false, $async = false)
 	{
@@ -102,7 +102,7 @@ class RedshopHelperDocument
 	 * @param   string  $media    Media type that this stylesheet applies to
 	 * @param   array   $attribs  Array of attributes
 	 *
-	 * @return  Document
+	 * @return  self
 	 */
 	public function addTopStylesheet($url, $type = 'text/css', $media = null, $attribs = array())
 	{
@@ -125,7 +125,7 @@ class RedshopHelperDocument
 	 * @param   string  $media    Media type that this stylesheet applies to
 	 * @param   array   $attribs  Array of attributes
 	 *
-	 * @return  Document
+	 * @return  self
 	 */
 	public function addBottomStylesheet($url, $type = 'text/css', $media = null, $attribs = array())
 	{
@@ -157,7 +157,7 @@ class RedshopHelperDocument
 	/**
 	 * Injects the pending scripts on the top of the scripts
 	 *
-	 * @return  Document
+	 * @return  self
 	 */
 	protected function injectTopScripts()
 	{
@@ -176,13 +176,13 @@ class RedshopHelperDocument
 	/**
 	 * Injects the top stylesheets on the top of the document stylesheets
 	 *
-	 * @return  Document
+	 * @return  self
 	 */
 	protected function injectTopStylesheets()
 	{
 		if (empty(static::$topStylesheets))
 		{
-			return true;
+			return $this;
 		}
 
 		$doc = JFactory::getDocument();
@@ -195,13 +195,13 @@ class RedshopHelperDocument
 	/**
 	 * Injects the bottom stylesheets on the bottom of the document stylesheets
 	 *
-	 * @return  Document
+	 * @return  self
 	 */
 	protected function injectBottomStylesheets()
 	{
 		if (empty(static::$bottomStylesheets))
 		{
-			return true;
+			return $this;
 		}
 
 		$doc = JFactory::getDocument();
