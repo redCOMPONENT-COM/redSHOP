@@ -599,7 +599,7 @@ class RedshopModelProduct extends RedshopModel
 
 		$query = $db->getQuery(true)
 			->update($db->qn('#__redshop_product'))
-			->set($db->qn('discount_price') . ' = CASE ' . implode(' ', $case) . ' ELSE ' . $db->qn('product_price') . ' END');
+			->set($db->qn('discount_price') . ' = CASE ' . implode(' ', $case) . ' ELSE NULL END');
 
 		return $db->setQuery($query)->execute();
 	}
