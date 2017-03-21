@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.4
  */
 class RedshopViewSupplier extends RedshopViewForm
 {
