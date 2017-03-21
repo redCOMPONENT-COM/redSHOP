@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1668,7 +1668,7 @@ if (strstr($template_desc, "{ask_question_about_product}"))
 }
 
 // Product subscription type
-if (strstr($template_desc, "subscription"))
+if (strstr($template_desc, "{subscription}") || strstr($template_desc, "{product_subscription}"))
 {
 	if ($this->data->product_type == 'subscription')
 	{
@@ -1696,10 +1696,12 @@ if (strstr($template_desc, "subscription"))
 
 		$subscription_data .= "</table>";
 		$template_desc = str_replace("{subscription}", $subscription_data, $template_desc);
+		$template_desc = str_replace("{product_subscription}", $subscription_data, $template_desc);
 	}
 	else
 	{
 		$template_desc = str_replace("{subscription}", "", $template_desc);
+		$template_desc = str_replace("{product_subscription}", "", $template_desc);
 	}
 }
 

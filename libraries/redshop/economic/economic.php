@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.3
@@ -653,6 +653,19 @@ class RedshopEconomic
 					if ($orderDetail->payment_discount != 0)
 					{
 						self::createInvoiceDiscountLineInEconomic($orderDetail, $invoiceNo, $data, 1);
+					}
+
+					// Update is_booked after economic invoice is created
+					if ($invoiceHandle)
+					{
+						$db    = JFactory::getDbo();
+						$query = $db->getQuery(true)
+							->update($db->qn('#__redshop_orders'))
+							->set($db->qn('is_booked') . '=' . 1)
+							->where($db->qn('order_id') . '=' . $orderId);
+
+						$db->setQuery($query);
+						$db->execute();
 					}
 				}
 

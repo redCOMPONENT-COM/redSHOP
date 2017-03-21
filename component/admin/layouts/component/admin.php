@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Layouts
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,6 +59,14 @@ if (isset($data['sidebar_display']))
 	$displaySidebar = (bool) $data['sidebar_display'];
 }
 
+// Do we have to display the sidebar ?
+$disableSidebar = false;
+
+if (isset($data['sidebar_disable']))
+{
+	$disableSidebar = (bool) $data['sidebar_disable'];
+}
+
 // The view to render.
 if (!isset($data['view']))
 {
@@ -85,7 +93,7 @@ if ($content instanceof Exception)
 ?>
 <script type="text/javascript">
 	jQuery(document).ready(function () {
-		<?php if (!$displaySidebar) : ?>
+		<?php if (!$displaySidebar && !$disableSidebar) : ?>
 		jQuery('body').addClass('sidebar-collapse');
 		<?php endif; ?>
 	});

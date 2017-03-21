@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright  Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -652,9 +652,10 @@ function collectAttributes(productId, accessoryId, relatedProductId)
             {
                 var oprandElementId          = 'property_id_' + commonid + '_oprand',
                     priceElementId           = 'property_id_' + commonid + '_proprice',
-                    priceWithoutVatElementId = 'property_id_' + commonid + '_proprice_withoutvat';
+                    priceWithoutVatElementId = 'property_id_' + commonid + '_proprice_withoutvat'
+                    priceOldElementId        = 'property_id_' + commonid + '_prooldprice';
 
-                old_price         = calculateSingleProductPrice(old_price, oprandElementId, priceElementId, properties);
+                old_price         = calculateSingleProductPrice(old_price, oprandElementId, priceOldElementId, properties);
                 price_without_vat = calculateSingleProductPrice(price_without_vat, oprandElementId, priceWithoutVatElementId, properties);
             }
 
@@ -725,8 +726,9 @@ function collectAttributes(productId, accessoryId, relatedProductId)
                         var oprandElementId          = 'subproperty_id_' + subCommonId + '_oprand',
                             priceElementId           = 'subproperty_id_' + subCommonId + '_proprice',
                             priceWithoutVatElementId = 'subproperty_id_' + subCommonId + '_proprice_withoutvat';
+                            priceOldElementId        = 'subproperty_id_' + subCommonId + '_prooldprice';
 
-                        old_price         = calculateSingleProductPrice(old_price, oprandElementId, priceElementId, subProperties);
+                        old_price         = calculateSingleProductPrice(old_price, oprandElementId, priceOldElementId, subProperties);
                         price_without_vat = calculateSingleProductPrice(price_without_vat, oprandElementId, priceWithoutVatElementId, subProperties);
                     }
 

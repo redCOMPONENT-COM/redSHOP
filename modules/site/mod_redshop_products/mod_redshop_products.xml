@@ -86,7 +86,17 @@
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
+                <field name="show_wishlist" type="radio" default="0" label="COM_REDSHOP_SHOW_WISHLIST" class="btn-group btn-group-yesno" description="COM_REDSHOP_SHOW_WISHLIST">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
                 <field name="stockrooms" type="stockroomlist" size="40" label="COM_REDSHOP_SELECT_STOCKROOM" multiple="true" description="COM_REDSHOP_SELECT_STOCKROOM_DESC" />
+            </fieldset>
+            <fieldset name="advanced">
+                <field name="layout"
+                  type="modulelayout"
+                  label="JFIELD_ALT_LAYOUT_LABEL"
+                  description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
             </fieldset>
         </fields>
     </config>
