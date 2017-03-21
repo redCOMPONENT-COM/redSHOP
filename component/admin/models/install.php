@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.4
  */
 class RedshopModelInstall extends RedshopModelList
 {
@@ -27,7 +27,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function getSteps($type = 'install')
 	{
@@ -90,7 +90,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processTemplateDemo()
 	{
@@ -165,7 +165,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processTemplateFiles()
 	{
@@ -242,7 +242,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processUpdateMenuItem()
 	{
@@ -292,7 +292,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processIntegrateSh404sef()
 	{
@@ -316,7 +316,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processUpdateCheckDatabase()
 	{
@@ -331,7 +331,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processUpdateOverrideTemplate()
 	{
@@ -663,7 +663,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processUpdateCleanOldFiles()
 	{
@@ -898,7 +898,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processUpdateDatabaseSchema()
 	{
@@ -946,7 +946,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processUpdateImageFileNames()
 	{
