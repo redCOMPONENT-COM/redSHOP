@@ -16478,7 +16478,8 @@ function _init() {
             e.preventDefault();
         });
 
-        if ($(window).width() > 768) {
+        // Remove the affix toolbar cause un-expected effect on large screen.
+        /*if ($(window).width() > 768) {
             var $toolbar = $('#toolbar');
             if ($toolbar.length)
             {
@@ -16486,7 +16487,7 @@ function _init() {
                     offset: { top: $toolbar.offset().top + 200}
                 });
             }
-        }
+        }*/
 
         $('table').each(function(){
             $(this).wrap( "<div class='table-responsive'></div>" );
