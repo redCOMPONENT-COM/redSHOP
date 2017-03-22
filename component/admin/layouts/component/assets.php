@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Layouts
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array("width" => "auto", "dropdownAutoWidth" => "auto"));
+JHtml::_('redshopjquery.popover', '.hasPopover', array('placement' => 'top'));
 
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;

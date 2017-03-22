@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,6 +29,13 @@ class RedshopHelperProduct
 	 * @var  array
 	 */
 	protected static $allProducts = array();
+
+	/**
+	 * @var array  List of available product number
+	 *
+	 * @since  2.0.4
+	 */
+	protected static $productNumbers = array();
 
 	/**
 	 * Get all product information
@@ -1028,5 +1035,30 @@ class RedshopHelperProduct
 		$productData[8]->text = JText::_('COM_REDSHOP_PRODUCT_SOLD_OUT');
 
 		return $productData;
+	}
+
+	/**
+	 * Method for get all product number exist in system
+	 *
+	 * @param   int  $productId  If exist. Exclude product number from this product Id from list
+	 *
+	 * @return  array            List of product number
+	 *
+	 * @since   2.0.4
+	 */
+	public static function getAllAvailableProductNumber($productId = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('product_number'))
+			->from($db->qn('#__redshop_product'));
+
+		if ($productId)
+		{
+			$query->where($db->qn('product_id') . ' <> ' . $db->quote($productId));
+		}
+
+		// Set the query and load the result.
+		return $db->setQuery($query)->loadColumn();
 	}
 }
