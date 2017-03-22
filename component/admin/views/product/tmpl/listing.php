@@ -46,7 +46,7 @@ $model         = $this->getModel('product');
                 var price = parseFloat($priceField.val());
                 var discount = parseFloat(value);
 
-                return (discount == 0 || (!isNaN(price) && price > discount));
+                return (discount == 0 || (discount > 0 && price > discount));
             });
 
             // Validate Product price
