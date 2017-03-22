@@ -178,7 +178,13 @@ class PlgSystemAgile_Crm extends JPlugin
 			"contact_ids"    => array($this->contact_id),
 			"deal_source_id" => $this->params->get('deal_source', 0),
 			"tags"           => $product,
-			"tagsWithTime"   => $product
+			"tagsWithTime"   => $product,
+			"custom_data" => array(
+				array(
+				  "name"=>"Channel",
+				  "value"=>"redSHOP"
+				)
+			)
 		);
 
 		$opportunityJson = json_encode($opportunityJson);
