@@ -2558,5 +2558,17 @@ DEFAULT CHARACTER SET = utf8
 COMMENT = 'Wishlist product item';
 
 
+-- -----------------------------------------------------
+-- Table `#__redshop_configuration`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__redshop_configuration` ;
+
+CREATE TABLE IF NOT EXISTS `#__redshop_configuration` (
+  `config` VARCHAR(255) NOT NULL DEFAULT '',
+  `value` VARCHAR(255) NULL DEFAULT '',
+  PRIMARY KEY (`config`))
+ENGINE = InnoDB;
+
+
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

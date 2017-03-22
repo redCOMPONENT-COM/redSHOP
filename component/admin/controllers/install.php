@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\App;
+
 /**
  * Install controller
  *
@@ -57,8 +59,15 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 				Redshop::getConfig()->loadLegacy();
 			}
 
-			// Try to load distinct if no config found.
-			Redshop::getConfig()->loadDist();
+			// Only loading from legacy when version is older than 1.6
+			if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '2.0.4', '<='))
+			{
+				// Try to load distinct if no config found.
+				Redshop::getConfig()->loadDist();
+
+				// Update configuration to Configuration
+				App::convertConfigFileToDatabase();
+			}
 		}
 		catch (Exception $e)
 		{

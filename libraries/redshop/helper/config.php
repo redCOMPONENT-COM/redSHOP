@@ -479,4 +479,27 @@ class RedshopHelperConfig
 
 		return $this->config->toArray();
 	}
+
+	/**
+	 * Method for store configuration file to Database.
+	 *
+	 * @return  boolean   True on success. False otherwise.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function convertConfigFileToDatabase()
+	{
+		$configData = Redshop::getConfig()->toArray();
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->insert($db->qn('#__redshop_configuration'));
+
+		foreach ($configData as $key => $value)
+		{
+			$query->values($db->quote($key) . ',' . $db->quote($value));
+		}
+
+		return $db->setQuery($query)->execute();
+	}
 }

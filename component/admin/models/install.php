@@ -980,7 +980,7 @@ class RedshopModelInstall extends RedshopModelList
 	/**
 	 * Delete folder recursively
 	 *
-	 * @param   string $folder Folder to delete
+	 * @param   string  $folder  Folder to delete
 	 *
 	 * @return  boolean
 	 *
@@ -1019,7 +1019,7 @@ class RedshopModelInstall extends RedshopModelList
 	/**
 	 * Delete folders recursively.
 	 *
-	 * @param   array $folders Folders
+	 * @param   array  $folders  Folders
 	 *
 	 * @return  boolean
 	 *

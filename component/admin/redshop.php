@@ -108,6 +108,8 @@ if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php'))
 	JFactory::getApplication()->input->set('view', $view);
 }
 
+var_dump(Redshop\App::getConfig()->toObject());
+
 RedshopHelperConfig::script('SITE_URL', JURI::root());
 RedshopHelperConfig::script('REDCURRENCY_SYMBOL', Redshop::getConfig()->get('REDCURRENCY_SYMBOL'));
 RedshopHelperConfig::script('PRICE_SEPERATOR', Redshop::getConfig()->get('PRICE_SEPERATOR'));
