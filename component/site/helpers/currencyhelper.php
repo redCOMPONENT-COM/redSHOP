@@ -197,6 +197,10 @@ class CurrencyHelper
 			$currB = $session->get('product_currency');
 		}
 
+		$currA = trim($currA);
+		$currB = trim($currB);
+		$amountA = (float) $amountA;
+
 		// If both currency codes match, do nothing
 		if ($currA == $currB)
 		{
