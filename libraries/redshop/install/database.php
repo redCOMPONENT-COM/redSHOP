@@ -1,4 +1,13 @@
 <?php
+/**
+ * @package     RedSHOP.Library
+ * @subpackage  Helper
+ *
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+defined('_JEXEC') or die;
 
 /**
  * Install database
@@ -8,7 +17,7 @@
 class RedshopInstallDatabase
 {
 	// TODO Move to json file
-	protected $_dbUpdate = array(
+	protected $dbUpdate = array(
 		// 1.4
 		'quotation'     => array(
 			'add' => array(
@@ -135,7 +144,7 @@ class RedshopInstallDatabase
 		$db = JFactory::getDbo();
 
 		// Loop array of required tables / fields
-		foreach ($this->_dbUpdate as $table => $fields)
+		foreach ($this->dbUpdate as $table => $fields)
 		{
 			$redshopTable = $this->_tablePrefix . $table;
 			$columns      = $this->_getColumns($redshopTable);
