@@ -19,25 +19,11 @@ defined('_JEXEC') or die;
 abstract class Redshop
 {
 	/**
-	 * Component option.
-	 *
-	 * @var  string
-	 */
-	protected static $component = 'com_redshop';
-
-	/**
 	 * Component configuration
 	 *
 	 * @var  RedshopHelperConfig
 	 */
 	protected static $config;
-
-	/**
-	 * Component manifest
-	 *
-	 * @var  SimpleXMLElement
-	 */
-	protected static $manifest;
 
 	/**
 	 * Gets the current redSHOP configuration
@@ -52,41 +38,6 @@ abstract class Redshop
 		}
 
 		return self::$config;
-	}
-
-	/**
-	 * Gets the redSHOP manifest
-	 *
-	 * @throws  Exception
-	 * @return  SimpleXMLElement
-	 */
-	public static function getManifest()
-	{
-		if (null === self::$manifest)
-		{
-			$manifestFile = JPATH_ADMINISTRATOR . '/components/' . self::$component . '/redshop.xml';
-
-			if (file_exists($manifestFile))
-			{
-				self::$manifest = simplexml_load_file($manifestFile);
-			}
-			else
-			{
-				throw new Exception('Unable to find redSHOP manifest file.');
-			}
-		}
-
-		return self::$manifest;
-	}
-
-	/**
-	 * Gets the redSHOP version
-	 *
-	 * @return  string
-	 */
-	public static function getVersion()
-	{
-		return (string) self::getManifest()->version;
 	}
 
 	/**

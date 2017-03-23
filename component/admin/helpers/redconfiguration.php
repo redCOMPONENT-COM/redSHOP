@@ -9,7 +9,15 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * Redshop Global Configuration
+ *
+ * @package     Helper
+ *
+ * @since       1.6.0
+ *
+ * @deprecated  __DEPLOY_VERSION__  Please use \Redshop\App or RedshopHelperConfig
+ */
 class Redconfiguration
 {
 	public $defArray = null;
@@ -60,36 +68,6 @@ class Redconfiguration
 		$this->configBkpPath  = $basepath . 'wizard/redshop.cfg.bkp.php';
 		$this->configTmpPath  = $basepath . 'wizard/redshop.cfg.tmp.php';
 		$this->configDefPath  = $basepath . 'wizard/redshop.cfg.def.php';
-
-		if (!defined('JSYSTEM_IMAGES_PATH'))
-		{
-			define('JSYSTEM_IMAGES_PATH', JURI::root() . 'media/system/images/');
-		}
-
-		if (!defined('REDSHOP_ADMIN_IMAGES_ABSPATH'))
-		{
-			define('REDSHOP_ADMIN_IMAGES_ABSPATH', JURI::root() . 'administrator/components/com_redshop/assets/images/');
-		}
-
-		if (!defined('REDSHOP_FRONT_IMAGES_ABSPATH'))
-		{
-			define('REDSHOP_FRONT_IMAGES_ABSPATH', JURI::root() . 'components/com_redshop/assets/images/');
-		}
-
-		if (!defined('REDSHOP_FRONT_IMAGES_RELPATH'))
-		{
-			define('REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/images/');
-		}
-
-		if (!defined('REDSHOP_FRONT_DOCUMENT_ABSPATH'))
-		{
-			define('REDSHOP_FRONT_DOCUMENT_ABSPATH', JURI::root() . 'components/com_redshop/assets/document/');
-		}
-
-		if (!defined('REDSHOP_FRONT_DOCUMENT_RELPATH'))
-		{
-			define('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/document/');
-		}
 	}
 
 	/**
@@ -132,9 +110,9 @@ class Redconfiguration
 	/**
 	 * write configuration table data to file
 	 *
-	 * @param   array $org Config additional variables to merge
+	 * @param   array  $org  Config additional variables to merge
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function setCFGTableData($org = array())
 	{
@@ -188,7 +166,7 @@ class Redconfiguration
 	/**
 	 * manage configuration file during installation
 	 *
-	 * @param   array $org Config additional variables to merge
+	 * @param   array  $org  Config additional variables to merge
 	 *
 	 * @return boolean
 	 */
@@ -221,8 +199,8 @@ class Redconfiguration
 	/**
 	 * Define Configuration file. We are preparing define text on this function.
 	 *
-	 * @param   array   $data   Configuration Data associative array
-	 * @param   boolean $bypass Don't write anything and simply bypass if it is set to true.
+	 * @param   array    $data    Configuration Data associative array
+	 * @param   boolean  $bypass  Don't write anything and simply bypass if it is set to true.
 	 *
 	 * @return  void
 	 */
@@ -427,7 +405,7 @@ class Redconfiguration
 	 * This function will define relation between keys and define variables.
 	 * This needs to be updated when you want new variable in configuration.
 	 *
-	 * @param   array $d Associative array of values. Typically a from $_POST.
+	 * @param   array  $d  Associative array of values. Typically a from $_POST.
 	 *
 	 * @return  array      Associative array of configuration variables which are ready to write.
 	 */
@@ -879,76 +857,7 @@ class Redconfiguration
 	 */
 	public function defineDynamicVars()
 	{
-		$config = Redshop::getConfig();
-
-		$config->set('SHOW_PRICE', $this->showPrice());
-		$config->set('USE_AS_CATALOG', $this->getCatalog());
-
-		$quotationModePre = (int) $config->get('DEFAULT_QUOTATION_MODE_PRE');
-
-		$config->set('DEFAULT_QUOTATION_MODE', $quotationModePre);
-
-		if ($quotationModePre == 1)
-		{
-			$config->set('DEFAULT_QUOTATION_MODE', (int) $this->setQuotationMode());
-		}
-	}
-
-	public function showPrice()
-	{
-		$user           = JFactory::getUser();
-		$userHelper     = rsUserHelper::getInstance();
-		$shopperGroupId = $userHelper->getShopperGroup($user->id);
-		$list           = $userHelper->getShopperGroupList($shopperGroupId);
-
-		if ($list)
-		{
-			$list = $list[0];
-
-			if (($list->show_price == "yes") || ($list->show_price == "global" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1)
-				|| ($list->show_price == "" && Redshop::getConfig()->get('SHOW_PRICE_PRE') == 1)
-			)
-			{
-				return 1;
-			}
-			else
-			{
-				return 0;
-			}
-		}
-		else
-		{
-			return Redshop::getConfig()->get('SHOW_PRICE_PRE');
-		}
-	}
-
-	public function getCatalog()
-	{
-		$user           = JFactory::getUser();
-		$userHelper     = rsUserHelper::getInstance();
-		$shopperGroupId = $userHelper->getShopperGroup($user->id);
-		$list           = $userHelper->getShopperGroupList($shopperGroupId);
-
-		if ($list)
-		{
-			$list = $list[0];
-
-			if (($list->use_as_catalog == "yes") || ($list->use_as_catalog == "global" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1)
-				|| ($list->use_as_catalog == "" && Redshop::getConfig()->get('PRE_USE_AS_CATALOG') == 1)
-			)
-			{
-				return 1;
-			}
-			else
-			{
-				return 0;
-			}
-		}
-
-		else
-		{
-			return Redshop::getConfig()->get('PRE_USE_AS_CATALOG');
-		}
+		\Redshop\Helper\AssetHelper::defineDynamicVars();
 	}
 
 	public function setQuotationMode()

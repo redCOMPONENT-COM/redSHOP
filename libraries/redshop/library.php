@@ -15,11 +15,15 @@ use \Doctrine\Common\Annotations\AnnotationRegistry;
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
-// Define redSHOP Library Folder Path
-define('JPATH_REDSHOP_LIBRARY', __DIR__);
-
-// Define redSHOP Template Path
-define('JPATH_REDSHOP_TEMPLATE', JPATH_SITE . "/components/com_redshop/templates");
+// Define constants
+defined('JPATH_REDSHOP_LIBRARY') || define('JPATH_REDSHOP_LIBRARY', __DIR__);
+defined('JPATH_REDSHOP_LIBRARY') || define('JPATH_REDSHOP_TEMPLATE', JPATH_SITE . "/components/com_redshop/templates");
+defined('JSYSTEM_IMAGES_PATH') || define('JSYSTEM_IMAGES_PATH', JURI::root() . 'media/system/images/');
+defined('REDSHOP_ADMIN_IMAGES_ABSPATH') || define('REDSHOP_ADMIN_IMAGES_ABSPATH', JURI::root() . 'administrator/components/com_redshop/assets/images/');
+defined('REDSHOP_FRONT_IMAGES_ABSPATH') || define('REDSHOP_FRONT_IMAGES_ABSPATH', JURI::root() . 'components/com_redshop/assets/images/');
+defined('REDSHOP_FRONT_IMAGES_RELPATH') || define('REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/images/');
+defined('REDSHOP_FRONT_DOCUMENT_ABSPATH') || define('REDSHOP_FRONT_DOCUMENT_ABSPATH', JURI::root() . 'components/com_redshop/assets/document/');
+defined('REDSHOP_FRONT_DOCUMENT_RELPATH') || define('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/document/');
 
 // Require our Composer libraries
 $composerAutoload = __DIR__ . '/vendor/autoload.php';
