@@ -3085,7 +3085,8 @@ class rsCarthelper
 						&& isset($accessoryAsProdut->accessory[$cartArr[$i]['product_id']])
 						&& isset($cartArr[$i]['accessoryAsProductEligible']))
 					{
-						$accessoryAsProdutWithoutVat = '{without_vat}';
+						// fix for XTREME-314 about recalculated VAT when access cart view
+						// $accessoryAsProdutWithoutVat = '{without_vat}';
 
 						$accessoryPrice                        = (float) $accessoryAsProdut->accessory[$cartArr[$i]['product_id']]->newaccessory_price;
 						$price                                 = $this->_producthelper->productPriceRound($accessoryPrice);
