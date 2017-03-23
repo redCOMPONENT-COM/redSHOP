@@ -9,9 +9,9 @@
 
 namespace Redshop\Helper;
 
-use Redshop\App;
-
 defined('_JEXEC') or die;
+
+use Redshop\App;
 
 /**
  * User helper
@@ -87,36 +87,31 @@ class UserHelper
 	 */
 	public static function setQuotationMode()
 	{
-		$db               = JFactory::getDbo();
-		$user             = JFactory::getUser();
-		$userhelper       = rsUserHelper::getInstance();
-		$shopper_group_id = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
+		$db             = \JFactory::getDbo();
+		$user           = \JFactory::getUser();
+		$shopperGroupId = App::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
 		if ($user->id)
 		{
-			$getShopperGroupID = $userhelper->getShopperGroup($user->id);
+			$userShopperGroupId = \RedshopHelperUser::getShopperGroup($user->id);
 
-			if ($getShopperGroupID)
+			if ($userShopperGroupId)
 			{
-				$shopper_group_id = $getShopperGroupID;
+				$shopperGroupId = $userShopperGroupId;
 			}
 		}
 
-		$qurey = "SELECT * FROM #__redshop_shopper_group "
-			. "WHERE shopper_group_id = " . (int) $shopper_group_id;
-		$db->setQuery($qurey);
-		$list = $db->loadObject();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('shopper_group_id') . ' = ' . $shopperGroupId);
 
-		if ($list)
+		$shopperGroup = $db->setQuery($query)->loadObject();
+
+		if (empty($shopperGroup))
 		{
-			if ($list->shopper_group_quotation_mode)
-			{
-				return true;
-			}
-
-			return false;
+			return App::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE');
 		}
 
-		return Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE_PRE');
+		return (boolean) $shopperGroup->shopper_group_quotation_mode;
 	}
 }
