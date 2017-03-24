@@ -58,7 +58,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$this->input         = $app->input;
 		$user                = JFactory::getUser();
 
-		if (!$user->authorise('product.edit', 'backend'))
+		if (!$user->authorise('product.edit', 'com_redshop.backend'))
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
 			$app->redirect('index.php?option=com_redshop&view=product');
