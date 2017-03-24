@@ -125,5 +125,6 @@
         <action name="access.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
         <action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC"/>
         <action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+        -->
     </section>
 </access>
