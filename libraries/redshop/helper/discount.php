@@ -51,7 +51,7 @@ class RedshopHelperDiscount
 
 		if (empty($result))
 		{
-			return;
+			return false;
 		}
 
 		$result = array_merge(array(0 => '0'), $result);
