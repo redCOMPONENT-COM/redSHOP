@@ -688,6 +688,9 @@ class RedshopHelperStockroom
 
 						if ($remainingQuantity > 0)
 						{
+							$dispatcher = JDispatcher::getInstance();
+							JPluginHelper::importPlugin('redshop_stockroom');
+							$dispatcher->trigger('onUpdateStockroomQuantity', array($section, $product_data));
 							self::updatePreorderStockAmount($sectionId, $remainingQuantity, $stockroom->stockroom_id, $section);
 						}
 					}
