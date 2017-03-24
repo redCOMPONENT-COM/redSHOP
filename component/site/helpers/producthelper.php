@@ -9616,4 +9616,28 @@ class productHelper
 
 		return $resultstr;
 	}
+
+	/*
+	 * 	return checked if product is in session of compare product cart else blank
+	 */
+	public function checkcompareproduct($product_id)
+	{
+		$compare_product = $this->_session->get('compare_product');
+
+		if ($product_id != 0)
+		{
+			if (!$compare_product)
+				return "";
+			else
+			{
+				$idx = (int) ($compare_product['idx']);
+
+				for ($i = 0; $i < $idx; $i++)
+					if ($compare_product[$i]["product_id"] == $product_id)
+						return "checked";
+
+				return "";
+			}
+		}
+	}
 }
