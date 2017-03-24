@@ -307,7 +307,7 @@ class RedshopHelperCron
 			}
 
 			$query->clear()
-				->select('CONCAT(' . $db->qn('firstname') . ',' . $db->quote(' ') . ',' . $db->qn('lastname') . ' AS ' . $db->qn('name'))
+				->select('CONCAT(' . $db->qn('firstname') . ',' . $db->quote(' ') . ',' . $db->qn('lastname') . ') AS ' . $db->qn('name'))
 				->select($db->qn('user_email', 'email'))
 				->from($db->qn('#__redshop_order_users_info'))
 				->where($db->qn('order_id') . ' = ' . $orderId)
