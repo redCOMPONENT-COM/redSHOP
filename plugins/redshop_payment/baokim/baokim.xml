@@ -1,82 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	version="3.0"
-	client="site"
-	type="plugin"
-	group="redshop_payment"
-	method="upgrade"
->
-	<name>PLG_REDSHOP_PAYMENT_BAOKIM</name>
-	<version>1.0.1</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
-	<author>redCOMPONENT.com</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<authorUrl>http://www.redcomponent.com</authorUrl>
-	<copyright>redCOMPONENT.com</copyright>
-	<license>GNU General Public License v2</license>
-	<description>PLG_REDSHOP_PAYMENT_BAOKIM_DESC</description>
+<extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
+    <name>PLG_REDSHOP_PAYMENT_BAOKIM</name>
+    <version>1.0.1</version>
+    <redshop>2.0</redshop>
+    <creationDate>September 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>http://www.redcomponent.com</authorUrl>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>PLG_REDSHOP_PAYMENT_BAOKIM_DESC</description>
 
-	<files>
-		<filename plugin="baokim">baokim.php</filename>
-		<folder>layouts</folder>
-		<folder>library</folder>
-		<folder>media</folder>
-	</files>
+    <files>
+        <filename plugin="baokim">baokim.php</filename>
+        <folder>layouts</folder>
+        <folder>library</folder>
+        <folder>media</folder>
+    </files>
 
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_baokim.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_baokim.sys.ini</language>
-	</languages>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_baokim.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_baokim.sys.ini</language>
+    </languages>
 
-	<config>
-    <fields name="params">
-		<fieldset name="extra" label="extra">
-			<field name="baokim_email" type="text" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_EMAIL"
-			  description="PLG_REDSHOP_PAYMENT_BAOKIM_EMAIL_DESC"/>
-			<field name="baokim_merchant_id" type="text" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_MERCHANT_ID"
-			  description="PLG_REDSHOP_PAYMENT_BAOKIM_MERCHANT_ID_DESC"/>
-			<field name="baokim_merchant_password" type="password" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_MERCHANT_PASS"
-			  description="PLG_REDSHOP_PAYMENT_BAOKIM_MERCHANT_PASS_DESC"/>
-			<field name="baokim_api_username" type="text" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_API_USERNAME"
-			  description="PLG_REDSHOP_PAYMENT_BAOKIM_API_USERNAME_DESC"/>
-			<field name="baokim_api_password" type="password" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_API_PASSWORD"
-			  description="PLG_REDSHOP_PAYMENT_BAOKIM_API_PASSWORD_DESC"/>
-			<field name="baokim_private_key" type="textarea" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_PRIVATE_KEY"
-			  description="PLG_REDSHOP_PAYMENT_BAOKIM_PRIVATE_KEY_DESC"/>
-			<field
-				name="isTest"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="PLG_REDSHOP_PAYMENT_BAOKIM_TEST_MODE"
-				description="PLG_REDSHOP_PAYMENT_BAOKIM_TEST_MODE_DESC">
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
-		</fieldset>
-     	<fieldset name="advanced">
-			<field
-					name="verify_status"
-					type="sql"
-					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
-					key_field="st_value"
-					value_field="st_title"
-					default="C"
-					label="PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_STATUS"
-					description="PLG_REDSHOP_BAOKIM_PAYGATE_ORDER_STATUS_DESC">
-				</field>
-			<field
-				name="invalid_status"
-				type="sql"
-				query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-				key_field="st_value"
-				value_field="st_title"
-				default="P"
-				label="PLG_REDSHOP_PAYMENT_BAOKIM_SUCCESS_FAILED_STATUS"
-				description="PLG_REDSHOP_BAOKIM_NGANLUONG_SUCCESS_FAILED_STATUS_DESC"
-			/>
-		</fieldset>
-    </fields>
-  </config>
+    <config>
+        <fields name="params">
+            <fieldset name="extra" label="extra">
+                <field name="baokim_email" type="text" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_EMAIL"
+                       description="PLG_REDSHOP_PAYMENT_BAOKIM_EMAIL_DESC"/>
+                <field name="baokim_merchant_id" type="text" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_MERCHANT_ID"
+                       description="PLG_REDSHOP_PAYMENT_BAOKIM_MERCHANT_ID_DESC"/>
+                <field name="baokim_merchant_password" type="password" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_MERCHANT_PASS"
+                       description="PLG_REDSHOP_PAYMENT_BAOKIM_MERCHANT_PASS_DESC"/>
+                <field name="baokim_api_username" type="text" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_API_USERNAME"
+                       description="PLG_REDSHOP_PAYMENT_BAOKIM_API_USERNAME_DESC"/>
+                <field name="baokim_api_password" type="password" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_API_PASSWORD"
+                       description="PLG_REDSHOP_PAYMENT_BAOKIM_API_PASSWORD_DESC"/>
+                <field name="baokim_private_key" type="textarea" default="" label="PLG_REDSHOP_PAYMENT_BAOKIM_PRIVATE_KEY"
+                       description="PLG_REDSHOP_PAYMENT_BAOKIM_PRIVATE_KEY_DESC"/>
+                <field
+                        name="isTest"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default="1"
+                        label="PLG_REDSHOP_PAYMENT_BAOKIM_TEST_MODE"
+                        description="PLG_REDSHOP_PAYMENT_BAOKIM_TEST_MODE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+            </fieldset>
+            <fieldset name="advanced">
+                <field
+                        name="verify_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="C"
+                        label="PLG_REDSHOP_PAYMENT_BAOKIM_ORDER_STATUS"
+                        description="PLG_REDSHOP_BAOKIM_PAYGATE_ORDER_STATUS_DESC">
+                </field>
+                <field
+                        name="invalid_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="P"
+                        label="PLG_REDSHOP_PAYMENT_BAOKIM_SUCCESS_FAILED_STATUS"
+                        description="PLG_REDSHOP_BAOKIM_NGANLUONG_SUCCESS_FAILED_STATUS_DESC"
+                />
+            </fieldset>
+        </fields>
+    </config>
 </extension>
