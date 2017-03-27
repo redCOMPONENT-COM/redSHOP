@@ -95,6 +95,20 @@ class RedshopControllerConfiguration extends RedshopController
 			$post['administrator_email'] = implode(",", $post['administrator_email']);
 		}
 
+		$emails = explode(',' , $post['administrator_email']);
+		if (is_array($emails))
+		{
+			foreach ($emails as $email)
+			{
+				if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+				{
+					$msg= JText::_('COM_REDSHOP_INVALID_EMAIL');
+					$this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
+					return false;
+				}
+			}
+		}
+
 		$msg                   = null;
 		/** @var RedshopModelConfiguration $model */
 		$model                 = $this->getModel('Configuration');
