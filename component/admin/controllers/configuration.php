@@ -98,7 +98,7 @@ class RedshopControllerConfiguration extends RedshopController
 		$msg                   = null;
 		/** @var RedshopModelConfiguration $model */
 		$model                 = $this->getModel('Configuration');
-		$newsletter_test_email = $this->input->get('newsletter_test_email');
+		$newsletter_test_email = $this->input->getRaw('newsletter_test_email');
 
 		// Only check if this email is filled
 		if (!empty($newsletter_test_email))
