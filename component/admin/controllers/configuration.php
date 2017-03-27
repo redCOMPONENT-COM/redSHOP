@@ -100,12 +100,16 @@ class RedshopControllerConfiguration extends RedshopController
 		$model                 = $this->getModel('Configuration');
 		$newsletter_test_email = $this->input->get('newsletter_test_email');
 
-		if (!filter_var($newsletter_test_email, FILTER_VALIDATE_EMAIL))
+		// Only check if this email is filled
+		if (!empty($newsletter_test_email))
 		{
-			$msg= JText::_('COM_REDSHOP_INVALID_EMAIL');
-			$this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
+			if (!filter_var($newsletter_test_email, FILTER_VALIDATE_EMAIL))
+			{
+				$msg= JText::_('COM_REDSHOP_INVALID_EMAIL');
+				$this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
 
-			return false;
+				return false;
+			}
 		}
 
 		$post['country_list'] = implode(',', $this->input->post->get('country_list', array(), 'ARRAY'));
