@@ -16,6 +16,23 @@ $url             = JURI::base();
 $u               = JURI::getInstance();
 $Scheme          = $u->getScheme();
 
+$watched = $this->session->get('watched_product');
+
+if (!empty($watched))
+{
+	$watched = $this->session->get('watched_product');
+}
+else
+{
+	$watched = array();
+}
+
+if (in_array($this->pid, $watched) == 0)
+{
+	array_push($watched, $this->pid);
+	$this->session->set('watched_product', $watched);
+}
+
 $print           = $this->input->getBool('print', false);
 $user            = JFactory::getUser();
 
