@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -524,11 +524,11 @@ class RedshopControllerForm extends JControllerForm
 			{
 				if ($errors[$i] instanceof Exception)
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					$app->enqueueMessage($errors[$i]->getMessage(), 'error');
 				}
 				else
 				{
-					$app->enqueueMessage($errors[$i], 'warning');
+					$app->enqueueMessage($errors[$i], 'error');
 				}
 			}
 

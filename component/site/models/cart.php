@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -619,13 +619,11 @@ class RedshopModelCart extends RedshopModel
 	{
 		JHTML::script('com_redshop/common.js', false, true);
 
-		$world = RedshopHelperWorld::getInstance();
-
-		$countryarray         = $world->getCountryList();
+		$countryarray         = RedshopHelperWorld::getCountryList();
 		$post['country_code'] = $countryarray['country_code'];
 		$conutry              = $countryarray['country_dropdown'];
 
-		$statearray           = $world->getStateList($post);
+		$statearray           = RedshopHelperWorld::getStateList($post);
 		$state                = $statearray['state_dropdown'];
 
 		$shipping_calc = "<form name='adminForm' id='adminForm'>";

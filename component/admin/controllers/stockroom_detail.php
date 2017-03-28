@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,17 +20,17 @@ class RedshopControllerStockroom_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'stockroom_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'stockroom_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
 	public function preview()
 	{
-		JRequest::setVar('view', 'stockroom_detail');
-		JRequest::setVar('layout', 'default_product');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'stockroom_detail');
+		$this->input->set('layout', 'default_product');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -41,8 +41,8 @@ class RedshopControllerStockroom_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-		$stockroom_desc = JRequest::getVar('stockroom_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post                   = $this->input->post->getArray();
+		$stockroom_desc         = $this->input->post->get('stockroom_desc', '', 'raw');
 		$post["stockroom_desc"] = $stockroom_desc;
 
 		if ($post["delivery_time"] == 'Weeks')
@@ -51,11 +51,10 @@ class RedshopControllerStockroom_detail extends RedshopController
 			$post["max_del_time"] = $post["max_del_time"] * 7;
 		}
 
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$post ['stockroom_id'] = $cid [0];
+		$cid                    = $this->input->post->get('cid', array(0), 'array');
+		$post ['stockroom_id']  = $cid [0];
 		$post ['creation_date'] = strtotime($post ['creation_date']);
-		$model = $this->getModel('stockroom_detail');
+		$model                  = $this->getModel('stockroom_detail');
 		$post['stockroom_name'] = htmlspecialchars($post['stockroom_name']);
 
 		if ($row = $model->store($post))
@@ -79,8 +78,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 
 	public function remove()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -100,15 +98,13 @@ class RedshopControllerStockroom_detail extends RedshopController
 
 	public function cancel()
 	{
-
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function copy()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid   = $this->input->post->get('cid', array(0), 'array');
 		$model = $this->getModel('stockroom_detail');
 
 		if ($model->copy($cid))
@@ -126,10 +122,10 @@ class RedshopControllerStockroom_detail extends RedshopController
 	public function importStockFromEconomic()
 	{
 		// Add product stock from economic
-		$cnt = JRequest::getInt('cnt', 0);
-		$stockroom_id = JRequest::getInt('stockroom_id', 0);
-		$totalprd = 0;
-		$msg = '';
+		$cnt          = $this->input->getInt('cnt', 0);
+		$stockroom_id = $this->input->getInt('stockroom_id', 0);
+		$totalprd     = 0;
+		$msg          = '';
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{

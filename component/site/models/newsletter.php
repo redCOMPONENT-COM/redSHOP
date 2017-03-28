@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -78,7 +78,7 @@ class RedshopModelNewsletter extends RedshopModel
 		}
 		else
 		{
-			$app->redirect($link, JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
+			$app->redirect(JRoute::_($link), JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
 		}
 	}
 
@@ -90,6 +90,6 @@ class RedshopModelNewsletter extends RedshopModel
 		$this->_db->execute();
 		$url  = JURI::root();
 		$link = $url . 'index.php?option=com_redshop&view=newsletter';
-		$app->redirect($link, JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));
+		$app->redirect(JRoute::_($link), JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));
 	}
 }

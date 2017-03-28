@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -255,6 +255,11 @@ class RedshopModelAddorder_detail extends RedshopModel
 		{
 			$this->setError($this->_db->getErrorMsg());
 
+			return false;
+		}
+
+		if (!$row->check())
+		{
 			return false;
 		}
 
@@ -804,7 +809,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 	public function changeshippingaddress($shippingadd_id, $user_id, $is_company)
 	{
 		$extra_field = extra_field::getInstance();
-		$world       = RedshopHelperWorld::getInstance();
 
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
 			. 'WHERE address_type like "ST" '
@@ -840,11 +844,11 @@ class RedshopModelAddorder_detail extends RedshopModel
 		// Field_section 8 :Company Address
 		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $shipping->users_info_id);
 
-		$countryarray = $world->getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
+		$countryarray = RedshopHelperWorld::getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
 		$shipping->country_code_ST = $shipping->country_code = $countryarray['country_code_ST'];
 		$lists['country_code_ST'] = $countryarray['country_dropdown'];
 
-		$statearray = $world->getStateList((array) $shipping, "state_code_ST", "ST");
+		$statearray = RedshopHelperWorld::getStateList((array) $shipping, "state_code_ST", "ST");
 		$lists['state_code_ST'] = $statearray['state_dropdown'];
 
 		$htmlshipping = '<table class="adminlist" border="0" width="100%">';

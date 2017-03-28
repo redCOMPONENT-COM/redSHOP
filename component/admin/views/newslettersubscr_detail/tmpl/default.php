@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 $editor = JFactory::getEditor();
 
 JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
 $model = $this->getModel('newslettersubscr_detail');
 ?>
 <script language="javascript" type="text/javascript">
@@ -40,7 +39,8 @@ $model = $this->getModel('newslettersubscr_detail');
 			<table class="admintable table">
 				<tr>
 					<td valign="top" align="right" class="key">
-						<?php echo JText::_('COM_REDSHOP_NEWSLETTER_SELECT_USER'); ?>:
+						<?php echo JText::_('COM_REDSHOP_NEWSLETTER_SELECT_USER'); ?>
+						<span class="star text-danger"> *</span>:
 					</td>
 					<td>
 						<?php

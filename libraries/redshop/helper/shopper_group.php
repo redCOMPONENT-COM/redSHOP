@@ -3,10 +3,10 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 
 defined('_JEXEC') or die;
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper for Shopper Group
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopHelperShopper_Group
 {
@@ -31,7 +31,7 @@ class RedshopHelperShopper_Group
 	 *
 	 * @return string    HTML of dropdown list to render
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function listAll($name, $shopperGroupId, $selectedGroups = array(), $size = 1, $topLevel = true, $multiple = false,
 		$disabledFields = array())
@@ -84,7 +84,7 @@ class RedshopHelperShopper_Group
 	 *
 	 * @return  string  HTML to render <option></option>
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function listTree($shopperGroupId = 0, $cid = 0, $level = 0, $selectedGroups = array(), $disabledFields = array(), $html = '')
 	{
@@ -147,7 +147,7 @@ class RedshopHelperShopper_Group
 	 *
 	 * @return array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getShopperGroupListArray($shopperGroupId = 0, $cid = 0, $level = 0)
 	{
@@ -198,7 +198,7 @@ class RedshopHelperShopper_Group
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getCategoryListReverceArray($cid = 0)
 	{

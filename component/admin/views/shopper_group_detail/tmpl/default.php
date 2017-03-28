@@ -3,14 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.modal', 'a.joom-box');
 JHTML::_('behavior.tooltip');
+
 $editor = JFactory::getEditor();
-JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();    ?>
 <script language="javascript" type="text/javascript">
@@ -205,7 +206,7 @@ $url = $uri->root();    ?>
 								$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&e_name=text');
 							?>
 							<div class="button2-left">
-								<div class="image"><a class="modal" title="Image" href="<?php echo $ilink; ?>"
+								<div class="image"><a class="joom-box" title="Image" href="<?php echo $ilink; ?>"
 								                      rel="{handler: 'iframe', size: {x: 570, y: 400}}">Image</a></div>
 							</div>
 							<input type="hidden" name="shopper_group_logo_tmp" id="shopper_group_logo_tmp"/>
@@ -229,7 +230,7 @@ $url = $uri->root();    ?>
 					?>
 					<a
 						href="<?php echo $image_path; ?>"
-						id="image_display_href" class="modal"
+						id="image_display_href" class="joom-box"
 						rel="{handler: 'image', size: {x: 570, y: 400}}">
 							<img
 								src="<?php echo $imagethumb_path; ?>"

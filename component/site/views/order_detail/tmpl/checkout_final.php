@@ -3,12 +3,11 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
 
 $configobj = Redconfiguration::getInstance();
 $order_functions = order_functions::getInstance();
@@ -115,7 +114,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 			if (is_array($results) && $key !== false)
 			{
 				$app = JFactory::getApplication();
-				$app->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid));
 			}
 		}
 	}
@@ -123,7 +122,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 else
 {
 	$app = JFactory::getApplication();
-	$app->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
+	$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid));
 }
 ?>
 </div>

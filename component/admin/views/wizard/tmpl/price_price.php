@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -35,8 +35,8 @@ defined('_JEXEC') or die;
 			<label for="name"><?php    echo JText::_('COM_REDSHOP_CURRENCY_SYMBOL');?></label>
 		</td>
 		<td>
-			<input type="text" name="currency_symbol" id="currency_symbol"
-			       value="<?php echo $this->temparray['currency_symbol']; ?>">
+			<input type="text" name="redcurrency_symbol" id="currency_symbol"
+			       value="<?php echo $this->temparray['REDCURRENCY_SYMBOL']; ?>">
 		</td>
 	</tr>
 	<tr>
@@ -55,7 +55,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="price_seperator" id="price_seperator"
-			       value="<?php echo $this->temparray['price_seperator']; ?>">
+			       value="<?php echo $this->temparray['PRICE_SEPERATOR']; ?>">
 		</td>
 	</tr>
 
@@ -67,7 +67,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="thousand_seperator" id="thousand_seperator"
-			       value="<?php echo $this->temparray['thousand_seperator']; ?>">
+			       value="<?php echo $this->temparray['THOUSAND_SEPERATOR']; ?>">
 		</td>
 	</tr>
 	<tr>
@@ -78,7 +78,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="text" name="price_decimal" id="price_decimal"
-			       value="<?php echo $this->temparray['price_decimal']; ?>">
+			       value="<?php echo $this->temparray['PRICE_DECIMAL']; ?>">
 		</td>
 	</tr>
 </table>

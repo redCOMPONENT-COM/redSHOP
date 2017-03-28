@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Config
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -38,7 +38,7 @@ class RedshopHelperConfig
 	/**
 	 * Configuration
 	 *
-	 * @var  stdClass
+	 * @var  Registry
 	 */
 	protected $config;
 
@@ -210,6 +210,13 @@ class RedshopHelperConfig
 		{
 			return false;
 		}
+
+		// Try to migrate old configuration
+		if ($this->loadOldConfig())
+		{
+			return true;
+		}
+
 		// Check if custom file path is given and exist
 		if ($configFile && !file_exists($configFile))
 		{
@@ -276,18 +283,48 @@ class RedshopHelperConfig
 		{
 			jimport('joomla.filesystem.file');
 
-			// Old configuration file
-			if (JFile::exists(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php'))
+			if ($this->loadOldConfig())
 			{
-				require_once $this->getConfigurationDistFilePath();
+				return true;
+			}
 
-				// Old config file
-				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+			return JFile::copy($this->getConfigurationDistFilePath(), $this->getConfigurationFilePath());
+		}
 
+		return true;
+	}
+
+	/**
+	 * Load previous configuration
+	 *
+	 * @return  boolean
+	 */
+	protected function loadOldConfig()
+	{
+		// Since 1.6 we started moving to new config than try to migrate it
+		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<'))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_TRY_TO_MIGRATE_PREVIOUS_CONFIGURATION'), 'notice');
+
+			$oldConfigFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+
+			// Old configuration file
+			if (JFile::exists($oldConfigFile))
+			{
+				// New configuration file
+				require_once JPATH_ADMINISTRATOR . '/components/com_redshop/config/config.dist.php';
+
+				// Old configuration file
+				require_once $oldConfigFile;
+
+				// Get new configuration properties
 				$configClass = new RedshopConfig;
-				$properties = get_object_vars($configClass);
+				$properties  = get_object_vars($configClass);
+
+				// Get old configiration properties
 				$defined = get_defined_constants();
 
+				// Replace new configuration values with old one
 				foreach ($properties as $name => $value)
 				{
 					if (in_array($name, $defined))
@@ -301,17 +338,17 @@ class RedshopHelperConfig
 
 				// Save to config file
 				$this->save(new JRegistry($properties));
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MIGRATED_PREVIOUS_CONFIGURATION'), 'notice');
 
-				// Delete old config file
-				JFile::delete(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php');
-
-				return true;
+				return JFile::delete($oldConfigFile);
 			}
 
-			return JFile::copy($this->getConfigurationDistFilePath(), $this->getConfigurationFilePath());
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PREVIOUS_CONFIGURATION_NOT_FOUND'), 'warning');
+
+			return false;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -356,6 +393,7 @@ class RedshopHelperConfig
 				var RedshopStrings = ' . json_encode(self::script()) . ';
 				if (typeof redSHOP == "undefined") {
 					redSHOP = {};
+					redSHOP.RSConfig = {};
 					redSHOP.RSConfig.strings = RedshopStrings;
 				}
 				else {
@@ -381,6 +419,64 @@ class RedshopHelperConfig
 				});
 			})(jQuery);
 		');
+
 		self::$isLoadScriptDeclaration = true;
+	}
+
+	/**
+	 * Method for get config variable of redshop
+	 *
+	 * @param   string  $name     Name of variable.
+	 * @param   mixed   $default  Default data if not found.
+	 *
+	 * @return  mixed
+	 *
+	 * @since  2.0.3
+	 */
+	public function get($name = '', $default = null)
+	{
+		if (empty($this->config))
+		{
+			return $default;
+		}
+
+		return $this->config->get($name, $default);
+	}
+
+	/**
+	 * Method for get config force boolean variable of redshop
+	 *
+	 * @param   string  $name     Name of variable.
+	 * @param   mixed   $default  Default data if not found.
+	 *
+	 * @return  mixed
+	 *
+	 * @since  2.0.3
+	 */
+	public function getBool($name = '', $default = false)
+	{
+		if (empty($this->config))
+		{
+			return boolval($default);
+		}
+
+		return boolval($this->config->get($name, $default));
+	}
+
+	/**
+	 * Method for return all config in array format
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.4
+	 */
+	public function toArray()
+	{
+		if (empty($this->config))
+		{
+			return array();
+		}
+
+		return $this->config->toArray();
 	}
 }

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,21 +20,21 @@ class RedshopControllerDiscount_detail extends RedshopController
 
 	public function edit()
 	{
-		$layout = JRequest::getVar('layout');
+		$layout = $this->input->getCmd('layout', '');
 
-		JRequest::setVar('view', 'discount_detail');
+		$this->input->set('view', 'discount_detail');
 
 		if ($layout == 'product')
 		{
-			JRequest::setVar('layout', 'product');
+			$this->input->set('layout', 'product');
 
 		}
 		else
 		{
-			JRequest::setVar('layout', 'default');
+			$this->input->set('layout', 'default');
 		}
 
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('hidemainmenu', 1);
 
 		parent::display();
 	}
@@ -46,15 +46,15 @@ class RedshopControllerDiscount_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-		$cid  = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post = $this->input->post->getArray();
+		$cid  = $this->input->post->get('cid', array(0), 'array');
 
 		$post['start_date'] = strtotime($post['start_date']);
 		$post['end_date']   = strtotime($post['end_date']) + (23 * 59 * 59);
 
 		$model = $this->getModel('discount_detail');
 
-		$layout = JRequest::getVar('layout');
+		$layout = $this->input->getCmd('layout', '');
 
 		$post['category_ids'] = ($post['category_ids']) ? implode(',', $post['category_ids']) : '';
 		$canSave = true;
@@ -122,7 +122,7 @@ class RedshopControllerDiscount_detail extends RedshopController
 
 	public function cancel()
 	{
-		$layout = JRequest::getVar('layout');
+		$layout = $this->input->getCmd('layout', '');
 		$msg    = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_EDITING_CANCELLED');
 
 		if (isset($layout) && $layout == 'product')

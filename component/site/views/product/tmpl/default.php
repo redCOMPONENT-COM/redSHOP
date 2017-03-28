@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -796,7 +796,7 @@ $template_desc = $producthelper->replaceProductInStock($this->data->product_id, 
 
 // Product attribute  Start
 $totalatt = count($attributes);
-$template_desc = $producthelper->replaceAttributeData($this->data->product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds);
+$template_desc = RedshopHelperAttribute::replaceAttributeData($this->data->product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds);
 
 // Product attribute  End
 
@@ -1110,6 +1110,21 @@ if (strstr($template_desc, $mpimg_tag))
 }
 
 // More images end
+
+// More videos
+if (strstr($template_desc, "{more_videos}"))
+{
+	$media_videos = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "youtube");
+	$insertStr = '';
+
+	for ($m = 0, $mn = count($media_videos); $m < $mn; $m++)
+	{
+		$insertStr .= "<div id='additional_vids_" . $media_videos[$m]->media_id . "'><a class='modal' href='http://www.youtube.com/embed/" . $media_videos[$m]->media_name . "' rel='{handler: \"iframe\", size: {x: 800, y: 500}}'><img src='https://img.youtube.com/vi/" . $media_videos[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+	}
+
+	$template_desc = str_replace("{more_videos}", $insertStr, $template_desc);
+}
+// More videos end
 
 // More documents
 if (strstr($template_desc, "{more_documents}"))
@@ -1598,7 +1613,7 @@ if (strstr($template_desc, "{ask_question_about_product}"))
 }
 
 // Product subscription type
-if (strstr($template_desc, "subscription"))
+if (strstr($template_desc, "{subscription}") || strstr($template_desc, "{product_subscription}"))
 {
 	if ($this->data->product_type == 'subscription')
 	{
@@ -1626,10 +1641,12 @@ if (strstr($template_desc, "subscription"))
 
 		$subscription_data .= "</table>";
 		$template_desc = str_replace("{subscription}", $subscription_data, $template_desc);
+		$template_desc = str_replace("{product_subscription}", $subscription_data, $template_desc);
 	}
 	else
 	{
 		$template_desc = str_replace("{subscription}", "", $template_desc);
+		$template_desc = str_replace("{product_subscription}", "", $template_desc);
 	}
 }
 
@@ -1683,7 +1700,7 @@ if (strstr($template_desc, "{question_loop_start}") && strstr($template_desc, "{
 				}
 			}
 
-			$product_answer = $producthelper->getQuestionAnswer($product_question [$q]->question_id, 0, 1, 1);
+			$product_answer = $producthelper->getQuestionAnswer($product_question [$q]->id, 0, 1, 1);
 			$answerloop     = "";
 
 			for ($a = 0, $an = count($product_answer); $a < $an; $a++)

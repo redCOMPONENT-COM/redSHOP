@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.0.3
@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperMedia
 {
+	/**
+	 * @var    array
+	 *
+	 * @since  2.0.3
+	 */
+	protected static $medias = array();
+
 	/**
 	 * Checks if the file is an image
 	 *
@@ -239,8 +246,15 @@ class RedshopHelperMedia
 		}
 
 		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
-		$physiclePath = self::generateImages($filePath, $dest, $width, $height, $command, $proportional);
-		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physiclePath);
+		$physicalPath = self::generateImages($filePath, $dest, $width, $height, $command, $proportional);
+
+		// Can not generate image
+		if (!$physicalPath)
+		{
+			return false;
+		}
+
+		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
 
 		return $thumbUrl;
 	}
@@ -265,6 +279,11 @@ class RedshopHelperMedia
 		if ($proportional === -1)
 		{
 			$proportional = Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING');
+		}
+
+		if (!JFile::exists($filePath))
+		{
+			return false;
 		}
 
 		$ret = false;
@@ -651,6 +670,75 @@ class RedshopHelperMedia
 			chmod("$srcImg", 0755);
 		}
 
-		return $newimage;
+		return $newImg;
+	}
+
+	/**
+	 * Method for get additional media images
+	 *
+	 * @param   int     $sectionId  Section Id
+	 * @param   string  $section    Section name
+	 * @param   string  $mediaType  Media type
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.3
+	 */
+	public static function getAdditionMediaImage($sectionId = 0, $section = '', $mediaType = 'images')
+	{
+		$key = $sectionId . '_' . $section . '_' . $mediaType;
+
+		if (!array_key_exists($key, static::$medias))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('m.*')
+				->from($db->qn('#__redshop_media', 'm'))
+				->where($db->qn('m.media_section') . ' = ' . $db->quote($section))
+				->where($db->qn('m.media_type') . ' = ' . $db->quote($mediaType))
+				->where($db->qn('m.section_id') . ' = ' . (int) $sectionId)
+				->where($db->qn('m.published') . ' = 1')
+				->order($db->qn('m.ordering') . ',' . $db->qn('m.media_id') . ' ASC');
+
+			switch ($section)
+			{
+				case 'product':
+					$query->select('p.*')
+						->leftJoin(
+							$db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('m.section_id')
+						);
+					break;
+
+				case 'property':
+					$query->select('p.*')
+						->leftJoin(
+							$db->qn('#__redshop_product_attribute_property', 'p')
+							. ' ON ' . $db->qn('p.property_id') . ' = ' . $db->qn('m.section_id')
+						);
+					break;
+
+				case 'subproperty':
+					$query->select('p.*')
+						->leftJoin(
+							$db->qn('#__redshop_product_subattribute_color', 'p')
+							. ' ON ' . $db->qn('p.subattribute_color_id') . ' = ' . $db->qn('m.section_id')
+						);
+					break;
+
+				case 'manufacturer':
+					$query->select('p.*')
+						->leftJoin(
+							$db->qn('#__redshop_manufacturer', 'p') . ' ON ' . $db->qn('p.manufacturer_id') . ' = ' . $db->qn('m.section_id')
+						);
+					break;
+
+				default:
+					break;
+			}
+
+			static::$medias[$key] = $db->setQuery($query)->loadObjectList();
+		}
+
+		return static::$medias[$key];
 	}
 }

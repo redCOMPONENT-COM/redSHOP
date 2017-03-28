@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,17 +20,44 @@ defined('_JEXEC') or die;
 class RedshopViewCountries extends RedshopViewAdmin
 {
 	/**
+	 * @var  array
+	 */
+	public $items;
+
+	/**
+	 * @var  JPagination
+	 */
+	public $pagination;
+
+	/**
+	 * @var  array
+	 */
+	public $state;
+
+	/**
+	 * @var  array
+	 */
+	public $activeFilters;
+
+	/**
+	 * @var  JForm
+	 */
+	public $filterForm;
+
+	/**
 	 * Display template function
 	 *
 	 * @param   object  $tpl  template variable
 	 *
 	 * @return void
 	 *
-	 * @since 2.0.0.2.1
+	 * @since 2.0.0.3
+	 *
+	 * @throws  Exception
 	 */
-
 	public function display($tpl = null)
 	{
+		/** @var RedshopModelCountries $model */
 		$model = $this->getModel();
 
 		// Get data from the model
@@ -44,8 +71,6 @@ class RedshopViewCountries extends RedshopViewAdmin
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode('<br />', $errors));
-
-			return false;
 		}
 
 		// Set the tool-bar and number of found items
@@ -64,14 +89,7 @@ class RedshopViewCountries extends RedshopViewAdmin
 	 */
 	protected function addToolBar()
 	{
-		$title = JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT');
-
-		if ($this->pagination->total)
-		{
-			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'>(" . $this->pagination->total . ")</span>";
-		}
-
-		JToolBarHelper::title($title, 'redshop_country_48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT'), 'redshop_country_48');
 		JToolBarHelper::addNew('country.add');
 		JToolBarHelper::editList('country.edit');
 		JToolBarHelper::deleteList('', 'countries.delete');

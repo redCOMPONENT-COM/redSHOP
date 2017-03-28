@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class RedshopViewRegistration extends RedshopView
 
 		if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 		{
-			$app->redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid));
 		}
 
 		$params = $app->getParams('com_redshop');

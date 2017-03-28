@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -56,6 +56,9 @@ else
 	$template_desc .= "</div>\r\n</div>\r\n</div>\r\n{product_loop_end}\r\n<div class=\"category_product_bottom\" style=\"clear: both;\"></div>\r\n";
 	$template_desc .= "</div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
+
+// New tags replacement for category template section
+$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat, 'subCategories' => $this->detail));
 
 $endlimit = $this->state->get('list.limit');
 
@@ -358,13 +361,14 @@ if (!$slide)
 			{
 				$categoryFullImage = $row->category_full_image;
 				$product_img       = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-				$linkimage         = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+				$linkimage         = $objhelper->watermark(
+				        'category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
 			}
 			elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 			{
 				$categoryFullImage = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
 				$product_img       = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-				$linkimage         = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', WATERMARK_CATEGORY_IMAGE, '0');
+				$linkimage         = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
 			}
 
 			if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))

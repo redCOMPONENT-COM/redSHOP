@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -69,13 +69,11 @@ class RedshopViewAddquotation_detail extends RedshopViewAdmin
 		JToolBarHelper::custom('send', 'send.png', 'send.png', JText::_('COM_REDSHOP_SEND'), false);
 		JToolBarHelper::cancel();
 
-		$world                         = RedshopHelperWorld::getInstance();
-
-		$countryarray                  = $world->getCountryList((array) $billing);
+		$countryarray                  = RedshopHelperWorld::getCountryList((array) $billing);
 		$billing->country_code         = $countryarray['country_code'];
 		$lists['country_code']         = $countryarray['country_dropdown'];
 
-		$statearray                    = $world->getStateList((array) $billing);
+		$statearray                    = RedshopHelperWorld::getStateList((array) $billing);
 		$lists['state_code']           = $statearray['state_dropdown'];
 		$lists['quotation_extrafield'] = $extra_field->list_all_field(16, $billing->users_info_id);
 

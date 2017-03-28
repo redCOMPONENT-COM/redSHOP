@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.log.log');
+
 /**
  * Product architecture
  *
@@ -39,21 +41,22 @@ class RedshopProduct
 	 *
 	 * @throws Exception
 	 */
-	protected function __construct($id)
+	protected function __construct($id = null)
 	{
-		if (!is_int($id))
+		try
 		{
-			throw new InvalidArgumentException(
-				JText::sprintf('LIB_REDSHOP_PRODUCT_ID_NOT_VALID_INTEGER', $id, __CLASS__, gettype($id)),
-				1
-			);
+			if ($id)
+			{
+				$this->info = RedshopHelperProduct::getProductById($id);
+			}
+			else
+			{
+				$this->info = new JObject;
+			}
 		}
-
-		$this->info = RedshopHelperProduct::getProductById($id);
-
-		if (empty($this->info))
+		catch (Exception $e)
 		{
-			throw new Exception(JText::sprintf('LIB_REDSHOP_PRODUCT_NOT_FOUND_ERROR', __CLASS__), 404);
+			JLog::add(JText::_('COM_REDSHOP_ERROR_INVALID_PRODUCT_ID'), JLog::WARNING, 'com_redshop');
 		}
 	}
 

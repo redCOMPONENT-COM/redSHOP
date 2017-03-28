@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDSHOP_CURRENCIES</name>
-    <version>1.6</version>
+    <version>1.6.2</version>
     <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <creationDate>November 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
@@ -11,7 +11,9 @@
     <description>MOD_REDSHOP_CURRENCIES_DESC</description>
     <files>
         <filename module="mod_redshop_currencies">mod_redshop_currencies.php</filename>
+        <filename module="mod_redshop_currencies">helper.php</filename>
         <filename>index.html</filename>
+        <folder module="mod_redshop_currencies">tmpl</folder>
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_currencies.ini</language>

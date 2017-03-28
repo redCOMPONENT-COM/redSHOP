@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,84 +41,32 @@ class statistic
 		// Only when enabled in configuration
 		if (Redshop::getConfig()->get('STATISTICS_ENABLE'))
 		{
-			$this->reshop_visitors();
-			$this->reshop_pageview();
+			RedshopHelperStatistic::recordVisitor();
+			RedshopHelperStatistic::recordPage();
 		}
 	}
 
+	/**
+	 * Method for store view of page.
+	 *
+	 * @return  bool  True on success. False otherwise.
+	 *
+	 * @deprecated   2.0.3  Use RedshopHelperStatistic::recordVisitor() instead.
+	 */
 	public function reshop_visitors()
 	{
-		$db = JFactory::getDbo();
-
-		$sid  = session_id();
-		$user = JFactory::getUser();
-
-		$q = "SELECT * FROM #__redshop_siteviewer "
-			. "WHERE session_id = " . $db->quote($sid);
-		$db->setQuery($q);
-		$data = $db->loadObjectList();
-		$date = time();
-
-		if (!count($data))
-		{
-			$query = "INSERT INTO #__redshop_siteviewer "
-				. "(session_id, user_id, created_date) "
-				. "VALUES (" . $db->quote($sid) . ", " . (int) $user->id . "," . (int) $date . ")";
-			$db->setQuery($query);
-
-			if ($db->execute())
-			{
-				return true;
-			}
-		}
+		return RedshopHelperStatistic::recordVisitor();
 	}
 
+	/**
+	 * Method for store view of page.
+	 *
+	 * @return  bool  True on success. False otherwise.
+	 *
+	 * @deprecated   2.0.3  Use RedshopHelperStatistic::recordPage() instead.
+	 */
 	public function reshop_pageview()
 	{
-		$db      = JFactory::getDbo();
-		$sid     = session_id();
-		$user    = JFactory::getUser();
-		$view    = JRequest::getVar('view');
-		$section = "";
-
-		switch ($view)
-		{
-			case "product":
-				$section   = $view;
-				$sectionid = JRequest::getVar('pid');
-				break;
-			case "category":
-				$section   = $view;
-				$sectionid = JRequest::getVar('cid');
-				break;
-			case "manufacturers":
-				$section   = $view;
-				$sectionid = JRequest::getVar('mid');
-				break;
-		}
-
-		if ($section != "")
-		{
-			$q = "SELECT * FROM #__redshop_pageviewer "
-				. "WHERE session_id = " . $db->quote($sid) . " "
-				. "AND section = " . $db->quote($view) . " "
-				. "AND section_id = " . (int) $sectionid;
-			$db->setQuery($q);
-			$data = $db->loadObjectList();
-			$date = time();
-
-			if (!count($data))
-			{
-				$query = "INSERT INTO #__redshop_pageviewer "
-					. "(session_id, user_id, section, section_id, created_date) "
-					. "VALUES (" . $db->quote($sid) . "," . (int) $user->id . "," . $db->quote($view) . "," . (int) $sectionid . "," . (int) $date . ")";
-				$db->setQuery($query);
-
-				if ($db->execute())
-				{
-					return true;
-				}
-			}
-		}
+		return RedshopHelperStatistic::recordPage();
 	}
 }

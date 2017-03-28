@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Backend
  * @subpackage  Models.Category
- * @since       2.0.0.2
+ * @since       2.0.4
  */
 class RedshopModelCategory extends JModelAdmin
 {

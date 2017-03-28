@@ -3,13 +3,20 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-class RedshopViewAddorder_detail extends RedshopViewAdmin
+/**
+ * Add Order detail view
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.3
+ */
+class RedshopViewAddorder_Detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -25,11 +32,16 @@ class RedshopViewAddorder_detail extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	/**
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 */
 	public function display($tpl = null)
 	{
-		$extra_field      = extra_field::getInstance();
-		$order_functions  = order_functions::getInstance();
-		$world            = RedshopHelperWorld::getInstance();
+		$input = JFactory::getApplication()->input;
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
@@ -38,7 +50,7 @@ class RedshopViewAddorder_detail extends RedshopViewAdmin
 		$document->addScript('components/com_redshop/assets/js/order.js');
 		$document->addScript('components/com_redshop/assets/js/common.js');
 
-		$uri          = JFactory::getURI();
+		$uri          = JUri::getInstance();
 		$lists        = array();
 		$billing      = array();
 		$shippinginfo = array();
@@ -48,14 +60,14 @@ class RedshopViewAddorder_detail extends RedshopViewAdmin
 		// Load payment languages
 		RedshopHelperPayment::loadLanguages();
 
-		$err = JRequest::getVar('err', '');
-		$shipping_rate_id = JRequest::getVar('shipping_rate_id');
-		$user_id = JRequest::getVar('user_id', 0);
+		$err = $input->get('err', '');
+		$shipping_rate_id = $input->getInt('shipping_rate_id', 0);
+		$user_id = $input->getInt('user_id', 0);
 
 		if ($user_id != 0)
 		{
-			$billing = $order_functions->getBillingAddress($user_id);
-			$shippinginfo = $order_functions->getShippingAddress($user_id);
+			$billing      = RedshopHelperOrder::getBillingAddress($user_id);
+			$shippinginfo = RedshopHelperOrder::getShippingAddress($user_id);
 		}
 		else
 		{
@@ -72,7 +84,7 @@ class RedshopViewAddorder_detail extends RedshopViewAdmin
 
 		if (count($shippinginfo) > 0)
 		{
-			$shipping_users_info_id = JRequest::getVar('shipping_users_info_id', 0);
+			$shipping_users_info_id = $input->getInt('shipping_users_info_id', 0);
 
 			if ($shipping_users_info_id != 0)
 			{
@@ -120,21 +132,21 @@ class RedshopViewAddorder_detail extends RedshopViewAdmin
 		JToolBarHelper::custom('validateUserDetail', 'apply.png', 'apply_f2.png', JText::_('COM_REDSHOP_SAVE_USER_INFORMATION'), false);
 		JToolBarHelper::cancel();
 
-		$countryarray          = $world->getCountryList((array) $billing);
+		$countryarray          = RedshopHelperWorld::getCountryList((array) $billing);
 		$billing->country_code = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
 
-		$statearray          = $world->getStateList((array) $billing, "state_code", "country_code", "BT", 1);
+		$statearray          = RedshopHelperWorld::getStateList((array) $billing, "state_code", "country_code", "BT");
 		$lists['state_code'] = $statearray['state_dropdown'];
 
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code;
-		$countryarray = $world->getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
+		$countryarray = RedshopHelperWorld::getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code = $countryarray['country_code_ST'];
 
 		$shipping['state_code_ST'] = $shippinginfo[$key]->state_code;
 		$lists['country_code_ST']  = $countryarray['country_dropdown'];
 
-		$statearray = $world->getStateList((array) $shipping, "state_code_ST", "ST");
+		$statearray = RedshopHelperWorld::getStateList((array) $shipping, "state_code_ST", "ST");
 		$lists['state_code_ST'] = $statearray['state_dropdown'];
 
 		$lists['is_company'] = JHTML::_('select.booleanlist', 'is_company',
@@ -143,10 +155,10 @@ class RedshopViewAddorder_detail extends RedshopViewAdmin
 			JText::_('COM_REDSHOP_USER_CUSTOMER')
 		);
 
-		$lists['customer_field']          = $extra_field->list_all_field(7, $billing->users_info_id);
-		$lists['company_field']           = $extra_field->list_all_field(8, $billing->users_info_id);
-		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shippinginfo[0]->users_info_id);
-		$lists['shipping_company_field']  = $extra_field->list_all_field(15, $shippinginfo[0]->users_info_id);
+		$lists['customer_field']          = RedshopHelperExtrafields::listAllField(7, $billing->users_info_id);
+		$lists['company_field']           = RedshopHelperExtrafields::listAllField(8, $billing->users_info_id);
+		$lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(14, $shippinginfo[0]->users_info_id);
+		$lists['shipping_company_field']  = RedshopHelperExtrafields::listAllField(15, $shippinginfo[0]->users_info_id);
 
 		$this->lists = $lists;
 		$this->detail = $detail;

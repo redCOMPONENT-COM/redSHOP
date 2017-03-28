@@ -168,7 +168,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 				$day = $Weekday[$i]->day;
 			}
 
-			$opningTime[] = "<B>" . $day . '</b> '
+			$opningTime[] = "<b>" . $day . '</b> '
 							. $Weekday[$i]->openAt->From . '-' . $Weekday[$i]->openAt->To;
 		}
 

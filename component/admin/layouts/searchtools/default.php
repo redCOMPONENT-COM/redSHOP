@@ -32,21 +32,24 @@ $formSelector = !empty($data['options']['formSelector']) ? $data['options']['for
 JHtml::_('searchtools.form', $formSelector, $data['options']);
 
 $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilters ? ' js-stools-container-filters-visible' : '';
+$showFilter = isset($data['options']['showFilter']) ? (boolean) $data['options']['showFilter'] : true;
 ?>
 <div class="js-stools clearfix">
 	<div class="clearfix">
 		<div class="js-stools-container-bar">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
+			<?php echo RedshopLayoutHelper::render('searchtools.default.bar', $data); ?>
 		</div>
 		<div class="js-stools-container-list hidden-phone hidden-tablet">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
+			<?php echo RedshopLayoutHelper::render('searchtools.default.list', $data); ?>
 		</div>
 	</div>
 	<!-- Filters div -->
+	<?php if ($showFilter): ?>
 	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersClass; ?>">
-		<?php echo JLayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
+		<?php echo RedshopLayoutHelper::render('searchtools.default.filters', $data); ?>
 	</div>
+	<?php endif; ?>
 </div>
 <?php if ($data['options']['totalResults'] === 0) : ?>
-	<?php echo JLayoutHelper::render('joomla.searchtools.default.noitems', $data); ?>
+	<?php echo RedshopLayoutHelper::render('searchtools.default.noitems', $data); ?>
 <?php endif; ?>

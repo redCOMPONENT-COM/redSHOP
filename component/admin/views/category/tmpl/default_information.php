@@ -90,16 +90,16 @@ defined('_JEXEC') or die;
 			<div class="box-body">
 				<div class="form-group">
 					<?php
-					echo RedshopLayoutHelper::render(
-						'component.image',
-						array(
-							'id'        => 'category_full_image',
-							'deleteid'  => 'image_delete',
-							'displayid' => 'image_display',
-							'type' 	    => 'category',
-							'image'     => $this->item->category_full_image
-						)
-					);
+						$section_id    = $this->item->category_id;
+						$media_section = 'category';
+						echo RedshopHelperMediaImage::render(
+							'category_full_image',
+							'category',
+							$section_id,
+							$media_section,
+							$this->item->category_full_image,
+							false
+						);
 					?>
 
 					<div class="btn-toolbar">
@@ -124,16 +124,16 @@ defined('_JEXEC') or die;
 			<div class="box-body">
 				<div class="form-group">
 					<?php
-					echo RedshopLayoutHelper::render(
-						'component.image',
-						array(
-							'id'        => 'category_back_full_image',
-							'deleteid'  => 'image_back_delete',
-							'displayid' => 'image_back',
-							'type' 	    => 'category',
-							'image'     => $this->item->category_back_full_image
-						)
-					);
+						$section_id    = $this->item->category_id;
+						$media_section = 'category';
+						echo RedshopHelperMediaImage::render(
+							'category_back_full_image',
+							'category',
+							$section_id,
+							$media_section,
+							$this->item->category_back_full_image,
+							false
+						);
 					?>
 				</div>
 			</div>

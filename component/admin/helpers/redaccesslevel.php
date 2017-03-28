@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperAccess instead
+ * @deprecated  2.0.3  Use RedshopHelperAccess instead
  */
 
 defined('_JEXEC') or die;
@@ -14,10 +14,15 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper for Access Level
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperAccess instead
+ * @deprecated  2.0.3  Use RedshopHelperAccess instead
  */
 class Redaccesslevel
 {
+	/**
+	 * @deprecated  2.0.0.3
+	 */
+	public $_table_prefix = null;
+
 	/**
 	 * define default path
 	 *
@@ -34,7 +39,7 @@ class Redaccesslevel
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperAccess::checkAccessOfUser() instead
+	 * @deprecated  2.0.3  Use RedshopHelperAccess::checkAccessOfUser() instead
 	 */
 	public function checkaccessofuser($group_id)
 	{
@@ -50,7 +55,7 @@ class Redaccesslevel
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperAccess::checkGroupAccess() instead
+	 * @deprecated  2.0.3  Use RedshopHelperAccess::checkGroupAccess() instead
 	 */
 	public function checkgroup_access($view, $task, $group_id)
 	{
@@ -65,7 +70,7 @@ class Redaccesslevel
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperAccess::getGroupAccess() instead
+	 * @deprecated  2.0.3  Use RedshopHelperAccess::getGroupAccess() instead
 	 */
 	public function getgroup_access($view, $group_id)
 	{
@@ -80,7 +85,7 @@ class Redaccesslevel
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperAccess::getGroupAccessTaskAdd() instead
+	 * @deprecated  2.0.3  Use RedshopHelperAccess::getGroupAccessTaskAdd() instead
 	 */
 	public function getgroup_accesstaskadd($view, $group_id)
 	{
@@ -95,7 +100,7 @@ class Redaccesslevel
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperAccess::getGroupAccessTaskEdit() instead
+	 * @deprecated  2.0.3  Use RedshopHelperAccess::getGroupAccessTaskEdit() instead
 	 */
 	public function getgroup_accesstaskedit($view, $group_id)
 	{
@@ -110,7 +115,7 @@ class Redaccesslevel
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperAccess::getGroupAccessTaskDelete() instead
+	 * @deprecated  2.0.3  Use RedshopHelperAccess::getGroupAccessTaskDelete() instead
 	 */
 	public function getgroup_accesstaskdelete($view, $group_id)
 	{

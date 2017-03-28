@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_cart
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,6 +23,10 @@ if ($params->get("checkout_empty") != 0)
 {
 	$show_empty_btn = 1;
 }
+
+// Load Model Cart to calculate Cart Total
+JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+$model = JModelLegacy::getInstance("Cart", "RedshopModel");
 
 // Helper object
 $helper = redhelper::getInstance();

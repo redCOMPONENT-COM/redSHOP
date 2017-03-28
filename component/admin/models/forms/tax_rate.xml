@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+                />
+        <field
+                name="name"
+                type="redshop.text"
+                label="COM_REDSHOP_TAX_RATE_NAME"
+                description="COM_REDSHOP_TAX_RATE_NAME_DESC"
+                placeholder="COM_REDSHOP_TAX_RATE_NAME_DESC"
+                class="form-control"
+                default=""
+                required="true"
+                />
+        <field
+                name="tax_group_id"
+                type="redshop.taxgroup"
+                label="COM_REDSHOP_TAX_RATE_GROUP"
+                description="COM_REDSHOP_TAX_RATE_GROUP_DESC"
+                class="form-control"
+                required="true"
+                default="">
+            <option value="">COM_REDSHOP_TAX_RATE_GROUP_SELECT</option>
+        </field>
+        <field
+                name="tax_country"
+                type="redshop.country"
+                label="COM_REDSHOP_TAX_RATE_COUNTRY"
+                description="COM_REDSHOP_TAX_RATE_COUNTRY_DESC"
+                class="form-control"
+                idfield="country_3_code"
+                onchange="javascript:updateState(this.value)"
+                default="">
+            <option value="">COM_REDSHOP_TAX_RATE_COUNTRY_SELECT</option>
+        </field>
+        <field
+                name="tax_state"
+                type="redshop.state"
+                label="COM_REDSHOP_TAX_RATE_STATE"
+                description="COM_REDSHOP_TAX_RATE_STATE_DESC"
+                class="form-control"
+                default=""
+                idfield="state_3_code">
+            <option value="">COM_REDSHOP_TAX_RATE_STATE_SELECT</option>
+        </field>
+        <field
+                name="tax_rate"
+                type="redshop.text"
+                label="COM_REDSHOP_TAX_RATE_AMOUNT"
+                description="COM_REDSHOP_TAX_RATE_AMOUNT_DESC"
+                placeholder="COM_REDSHOP_TAX_RATE_AMOUNT_DESC"
+                class="form-control"
+                default=""
+                filter="float"
+                />
+        <field
+                name="is_eu_country"
+                type="redshop.radio"
+                label="COM_REDSHOP_TAX_RATE_EU"
+                description="COM_REDSHOP_TAX_RATE_EU_DESC"
+                label-class="radio-inline"
+                default="0"
+                required="true">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+    </fieldset>
+</form>

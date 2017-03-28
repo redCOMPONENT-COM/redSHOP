@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Element
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,9 +57,22 @@ class JFormFieldProducts extends JFormField
 
 		JHTML::_('behavior.modal', 'a.modal');
 
-		$html = '<div style="float: left;"><input style="background: #ffffff;" type="text" id="' . $name . '_name" value="' . htmlspecialchars($product->product_name, ENT_QUOTES, 'UTF-8') . '" disabled="disabled" /></div>';
-		$html .= '<div class="button2-left"><div class="blank"><a class="modal btn btn-primary" title="' . JText::_('COM_REDSHOP_SELECT_A_PRODUCT') . '"  href="' . $link . '" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">' . JText::_('COM_REDSHOP_Select') . '</a></div></div>' . "\n";
-		$html .= '<input type="hidden" id="' . $name . '_id" name="' . $fieldName . '" value="' . (int) $this->value . '" />';
+		$value = htmlspecialchars($product->product_name, ENT_QUOTES, 'UTF-8');
+		$attributes [] = 'style="background: #ffffff;"';
+		$attributes [] = ($this->required) ? 'required="required"' : '';
+		$class [] = ($this->required) ? 'required=' : '';
+		$attributes = array_merge($attributes, $class);
+		$attributes = trim(implode(' ', array_unique($attributes)));
+
+		$html = '<div style="float: left;">';
+		$html .= '<input type="text" id="' . $name . '_name" value="' . $value . '" ' . 'disabled="disabled"' . ' />';
+		$html .= '</div>';
+		$html .= '<div class="button2-left">';
+		$html .= '<div class="blank">';
+		$html .= '<a class="modal btn btn-primary" title="' . JText::_('COM_REDSHOP_SELECT_A_PRODUCT') . '"  href="' . $link . '" rel="{handler: \'iframe\', size: {x: 800, y: 500}}">' . JText::_('COM_REDSHOP_Select') . '</a>';
+		$html .= '</div>';
+		$html .= '</div>';
+		$html .= '<input type="hidden" id="' . $name . '_id" name="' . $fieldName . '" value="' . (int) $this->value . '"' . $attributes . ' />';
 
 		return $html;
 	}
