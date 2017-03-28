@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category` (
   `category_back_full_image` VARCHAR(250) NOT NULL,
   `compare_template_id` VARCHAR(255) NOT NULL,
   `append_to_global_seo` ENUM('append', 'prepend', 'replace') NOT NULL DEFAULT 'append',
-  `asset_id` INT(10) NOT NULL COMMENT 'FK to the #__assets table.',
+  `asset_id` INT(11) NOT NULL COMMENT 'FK to the #__assets table.',
   PRIMARY KEY (`category_id`),
   INDEX `idx_published` (`published` ASC))
 ENGINE = InnoDB
@@ -2557,7 +2557,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_wishlist_product_item` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'Wishlist product item';
-
 
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
