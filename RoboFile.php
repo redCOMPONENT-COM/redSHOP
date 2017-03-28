@@ -297,6 +297,15 @@ class RoboFile extends \Robo\Tasks
 			 ->run()
 			 ->stopOnFail();
 
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/ManageProductsCheckoutFrontEndCest.php')
+			->run()
+			->stopOnFail();
+
 		/*
 		$this->taskCodecept()
 			->arg('--steps')
@@ -567,7 +576,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function checkForPhpParse()
 	{
-		$this->_exec('php tests/checkers/phpparseerrorchecker.php ../component ../libraries ../modules ../plugins');
+		$this->_exec('php tests/checkers/phpparseerrorchecker.php ../component ../libraries/redshop ../modules ../plugins');
 	}
 
 	/**

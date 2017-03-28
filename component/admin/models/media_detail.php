@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -88,6 +88,11 @@ class RedshopModelMedia_detail extends RedshopModel
 	public function store($data)
 	{
 		$row = $this->getTable();
+
+		if (empty($data['media_alternate_text']))
+		{
+			$data['media_alternate_text'] = preg_replace('#\.[^/.]+$#', '', $data['media_name']);
+		}
 
 		if (!$row->bind($data))
 		{
@@ -315,7 +320,7 @@ class RedshopModelMedia_detail extends RedshopModel
 				}
 				else
 				{
-					$this->setError(JText::sprintf('COM_REDSHOP_ERROR_SET_DEFAULT_MEDIA', $rs->media_type));
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDSHOP_ERROR_SET_DEFAULT_MEDIA', $rs->media_type), 'warning');
 
 					return false;
 				}

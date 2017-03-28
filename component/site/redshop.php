@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  redSHOP
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,30 +23,30 @@ statistic::getInstance()->track();
 $helper = redhelper::getInstance();
 
 // Set the default view name and format from the Request.
-$vName      = $app->input->getCmd('view', 'category');
-$task       = $app->input->getCmd('task', '');
-$format     = $app->input->getWord('format', 'html');
-$layout     = $app->input->getWord('layout', '');
-$params     = $app->getParams('com_redshop');
-$categoryid = $app->input->getInt('cid', $params->get('categoryid'));
-$productid  = $app->input->getInt('pid', 0);
-$sgportal   = $helper->getShopperGroupPortal();
-$user       = JFactory::getUser();
-$portal     = 0;
+$vName              = $app->input->getCmd('view', 'category');
+$task               = $app->input->getCmd('task', '');
+$format             = $app->input->getWord('format', 'html');
+$layout             = $app->input->getWord('layout', '');
+$params             = $app->getParams('com_redshop');
+$categoryId         = $app->input->getInt('cid', $params->get('categoryid'));
+$productId          = $app->input->getInt('pid', 0);
+$shopperGroupPortal = $helper->getShopperGroupPortal();
+$user               = JFactory::getUser();
+$portal             = 0;
 
 // Add product in cart from db
 $helper->dbtocart();
 
-if (count($sgportal) > 0)
+if (!empty($shopperGroupPortal))
 {
-	$portal = $sgportal->shopper_group_portal;
+	$portal = $shopperGroupPortal->shopper_group_portal;
 }
 
 if (Redshop::getConfig()->get('PORTAL_SHOP') == 1)
 {
-	if ($vName == 'product' && $productid > 0)
+	if ($vName == 'product' && $productId > 0)
 	{
-		$checkProductPermission = $helper->checkPortalProductPermission($productid);
+		$checkProductPermission = RedshopHelperAccess::checkPortalProductPermission($productId);
 
 		if (!$checkProductPermission)
 		{
@@ -56,9 +56,9 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1)
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
-	elseif ($vName == 'category' && $categoryid > 0)
+	elseif ($vName == 'category' && $categoryId > 0)
 	{
-		$checkCategoryPermission = $helper->checkPortalCategoryPermission($categoryid);
+		$checkCategoryPermission = RedshopHelperAccess::checkPortalCategoryPermission($categoryId);
 
 		if (!$checkCategoryPermission)
 		{
@@ -71,9 +71,9 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1)
 }
 else
 {
-	if ($vName == 'product' && $productid > 0 && $portal == 1)
+	if ($vName == 'product' && $productId > 0 && $portal == 1)
 	{
-		$checkProductPermission = $helper->checkPortalProductPermission($productid);
+		$checkProductPermission = RedshopHelperAccess::checkPortalProductPermission($productId);
 
 		if (!$checkProductPermission)
 		{
@@ -84,9 +84,9 @@ else
 		}
 	}
 
-	if ($vName == 'category' && $categoryid > 0 && $portal == 1)
+	if ($vName == 'category' && $categoryId > 0 && $portal == 1)
 	{
-		$checkCategoryPermission = $helper->checkPortalCategoryPermission($categoryid);
+		$checkCategoryPermission = RedshopHelperAccess::checkPortalCategoryPermission($categoryId);
 
 		if (!$checkCategoryPermission)
 		{

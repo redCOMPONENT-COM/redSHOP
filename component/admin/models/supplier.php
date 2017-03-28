@@ -3,39 +3,79 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-class RedshopModelSupplier extends RedshopModel
+/**
+ * Model Supplier
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       2.0.4
+ */
+class RedshopModelSupplier extends RedshopModelForm
 {
 	/**
-	 * Method to auto-populate the model state.
+	 * Method to get the data that should be injected in the form.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @return  mixed  The data for the form.
 	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
+	 * @since   1.6
 	 */
-	protected function populateState($ordering = 'supplier_id', $direction = '')
+	protected function loadFormData()
 	{
-		parent::populateState($ordering, $direction);
+		// Check the session for previously entered form data.
+		$app = JFactory::getApplication();
+		$data = $app->getUserState('com_redshop.edit.supplier.data', array());
+
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
+
+		$this->preprocessData('com_redshop.supplier', $data);
+
+		return $data;
 	}
 
-	public function _buildQuery()
+	/**
+	 * Method to duplicate suppliers.
+	 *
+	 * @param   array  &$pks  An array of primary key IDs.
+	 *
+	 * @return  boolean|JException  Boolean true on success, JException instance on error
+	 */
+	public function duplicate(&$pks)
 	{
-		$filterOrderDir = $this->getState('list.direction');
-		$filterOrder = $this->getState('list.ordering');
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('s.*')
-			->from($db->qn('#__redshop_supplier', 's'))
-			->order($db->escape($filterOrder . ' ' . $filterOrderDir));
+		$user = JFactory::getUser();
+		$db   = $this->getDbo();
 
-		return $query;
+		$table = $this->getTable();
+
+		foreach ($pks as $pk)
+		{
+			if ($table->load($pk, true))
+			{
+				// Reset the id to create a new record.
+				$table->id = 0;
+
+				// Unpublish duplicate module
+				$table->published = 0;
+
+				if (!$table->check() || !$table->store())
+				{
+					throw new Exception($table->getError());
+				}
+			}
+			else
+			{
+				throw new Exception($table->getError());
+			}
+		}
+
+		return true;
 	}
 }

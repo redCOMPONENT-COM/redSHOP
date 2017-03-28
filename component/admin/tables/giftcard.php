@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,7 +23,7 @@ class RedshopTableGiftcard extends RedshopTable
 	 *
 	 * @var  string
 	 */
-	protected $_tableName = '#__redshop_giftcard';
+	protected $_tableName = 'redshop_giftcard';
 
 	/**
 	 * The table key column. Usually: id
@@ -33,13 +33,13 @@ class RedshopTableGiftcard extends RedshopTable
 	protected $_tableKey = 'giftcard_id';
 
 	/**
-	 * Deletes this row in database (or if provided, the row of key $pk)
+	 * Delete one or more registers
 	 *
-	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
+	 * @param   string/array  $pk  Array of ids or ids comma separated
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean  Deleted successfuly?
 	 */
-	public function doDelete($pk = null)
+	protected function doDelete($pk = null)
 	{
 		if ($this->giftcard_image != '' && file(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image))
 		{
@@ -55,13 +55,13 @@ class RedshopTableGiftcard extends RedshopTable
 	}
 
 	/**
-	 * Method to store a node in the database table.
+	 * Do the database store.
 	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update null values as well.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean
 	 */
-	public function doStore($updateNulls = false)
+	protected function doStore($updateNulls = false)
 	{
 		$productHelper = productHelper::getInstance();
 

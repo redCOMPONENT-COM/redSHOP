@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,7 +29,7 @@ $params = JRequest::getVar('params');
 					$doc = JFactory::getDocument();
 
 					$article = JTable::getInstance('content');
-					$article_id = $this->temparray['terms_article_id'];
+					$article_id = $this->temparray['TERMS_ARTICLE_ID'];
 					if ($article_id)
 					{
 						$article->load($article_id);
@@ -47,9 +47,10 @@ $params = JRequest::getVar('params');
 					$doc->addScriptDeclaration($js);
 
 					$link = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=jSelectArticle_terms_article_id';
-					JHTML::_('behavior.modal', 'a.modal');
+					JHtml::_('behavior.modal', 'a.joom-box');
 					$html = "\n" . '<div class="fltlft"><input type="text" id="terms_article_id_name" value="' . htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8') . '" disabled="disabled" /></div>';
-					$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="' . JText::_('COM_CONTENT_SELECT_AN_ARTICLE') . '"  href="' . $link . '" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">' . JText::_('COM_REDSHOP_Select') . '</a></div></div>' . "\n";
+					$html .= '<div class="button2-left"><div class="blank"><a class="joom-box" title="' . JText::_('COM_CONTENT_SELECT_AN_ARTICLE') . '"  href="' . $link . '" 
+rel="{handler: \'iframe\', size: {x: 650, y: 375}}">' . JText::_('COM_REDSHOP_Select') . '</a></div></div>' . "\n";
 					$html .= "\n" . '<input type="hidden" id="terms_article_id_id" name="terms_article_id" value="' . $article_id . '" />';
 
 					echo $html;

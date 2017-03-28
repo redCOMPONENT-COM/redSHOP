@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,9 +20,9 @@ class RedshopControllerCurrency_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'currency_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'currency_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
 		parent::display();
 	}
@@ -34,15 +34,13 @@ class RedshopControllerCurrency_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-
-		$currency_name = JRequest::getVar('currency_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post                  = $this->input->post->getArray();
+		$currency_name         = $this->input->post->get('currency_name', '', 'raw');
 		$post["currency_name"] = $currency_name;
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$post ['currency_id'] = $cid [0];
-		$model = $this->getModel('currency_detail');
-		$row = $model->store($post);
+		$cid                   = $this->input->post->get('cid', array(0), 'array');
+		$post ['currency_id']  = $cid [0];
+		$model                 = $this->getModel('currency_detail');
+		$row                   = $model->store($post);
 
 		if ($row)
 		{
@@ -72,9 +70,7 @@ class RedshopControllerCurrency_detail extends RedshopController
 
 	public function remove()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -82,13 +78,13 @@ class RedshopControllerCurrency_detail extends RedshopController
 		}
 
 		$model = $this->getModel('currency_detail');
+		$msg   = "";
 
-		if (!$model->delete($cid))
+		if ($model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			$msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_DELETED_SUCCESSFULLY');
 		}
 
-		$msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=currency', $msg);
 	}
 }

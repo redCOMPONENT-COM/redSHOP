@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
 JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
-$producthelper = productHelper::getInstance();
 
+$producthelper = productHelper::getInstance();
 $now = JFactory::getDate();
 ?>
 <script language="javascript" type="text/javascript">

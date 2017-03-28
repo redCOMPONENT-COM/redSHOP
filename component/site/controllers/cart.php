@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -129,7 +129,6 @@ class RedshopControllerCart extends RedshopController
 						$cartData['accessory_id']                = $accessory_data[$i];
 
 						$result = $this->_carthelper->addProductToCart($cartData);
-						$this->_carthelper->cartFinalCalculation();
 
 						$cart = $session->get('cart');
 

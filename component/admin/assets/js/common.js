@@ -11,19 +11,20 @@ function GetXmlHttpObject() {
 }
 
 function updateGLSLocation(zipcode) {
-	xmlhttp1 = GetXmlHttpObject();
-	var url1 = redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
-	url1 = url1 + "&zipcode=" + zipcode;
-	xmlhttp1.onreadystatechange = function() {
-		if (xmlhttp1.readyState == 4) {
-			if (document.getElementById('rs_locationdropdown')) {
-				document.getElementById('rs_locationdropdown').innerHTML = xmlhttp1.responseText;
-			}
-		}
-	};
-	xmlhttp1.open("GET", url1, true);
-	xmlhttp1.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-	xmlhttp1.send(null);
+	var url = redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
+	url += "&zipcode=" + zipcode;
+
+	jQuery.ajax({
+		url: url,
+		type: 'GET'
+	})
+	.done(function(response) {
+		jQuery('#rs_locationdropdown').html(response);
+		jQuery('select:not(".disableBootstrapChosen")').select2();
+	})
+	.fail(function() {
+		console.warn("error");
+	});
 }
 
 function number_format(number, decimals, dec_point, thousands_sep) {
@@ -1112,7 +1113,7 @@ function reverseString(string) {
 }
 
 function createAccount(val) {
-
+	jQuery('#user_valid').html('');
 	if (!document.getElementById("tblcreat")) {
 		return;
 	}

@@ -3,15 +3,20 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-
-
-class RedshopViewOrder_detail extends RedshopViewAdmin
+/**
+ * Order detail view
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.3
+ */
+class RedshopViewOrder_Detail extends RedshopViewAdmin
 {
 	/**
 	 * The request url.
@@ -27,13 +32,20 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	/**
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 */
 	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
+		$input    = JFactory::getApplication()->input;
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
-		$order_functions = order_functions::getInstance();
 
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance();
 
 		// Load payment languages
 		RedshopHelperPayment::loadLanguages();
@@ -50,7 +62,7 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 			$language->load($extension, $base_dir);
 		}
 
-		$layout = JRequest::getVar('layout');
+		$layout = $input->getCmd('layout', '');
 		$document->addScript('components/com_redshop/assets/js/order.js');
 		$document->addScript('components/com_redshop/assets/js/common.js');
 		$document->addScript('components/com_redshop/assets/js/validation.js');
@@ -62,10 +74,10 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 
 		$detail = $this->get('data');
 
-		$billing = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
+		$billing  = RedshopHelperOrder::getOrderBillingUserInfo($detail->order_id);
 		$shipping = RedshopHelperOrder::getOrderShippingUserInfo($detail->order_id);
 
-		$task = JRequest::getVar('task');
+		$task = $input->getCmd('task', '');
 
 		if ($task == 'ccdetail')
 		{
@@ -86,13 +98,11 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 
 			$this->setLayout($layout);
 
-			$world = RedshopHelperWorld::getInstance();
-
-			$countryarray           = $world->getCountryList((array) $shipping);
+			$countryarray           = RedshopHelperWorld::getCountryList((array) $shipping);
 			$shipping->country_code = $countryarray['country_code'];
 			$lists['country_code']  = $countryarray['country_dropdown'];
 
-			$statearray             = $world->getStateList((array) $shipping);
+			$statearray             = RedshopHelperWorld::getStateList((array) $shipping);
 			$lists['state_code']    = $statearray['state_dropdown'];
 
 			$showcountry = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 0 : 1;
@@ -133,9 +143,9 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 			$this->setLayout('default');
 		}
 
-		$payment_detail = $order_functions->getOrderPaymentDetail($detail->order_id);
+		$payment_detail = RedshopHelperOrder::getPaymentInfo($detail->order_id);
 
-		if (count($payment_detail) > 0)
+		if (is_array($payment_detail) && count($payment_detail))
 		{
 			$payment_detail = $payment_detail[0];
 		}
@@ -148,19 +158,23 @@ class RedshopViewOrder_detail extends RedshopViewAdmin
 		JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
 		$order_id = $detail->order_id;
-		RedshopToolbarHelper::link(
-			'index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id,
-			'redshop_export_export32',
-			'COM_REDSHOP_CREATE_STOCKNOTE',
-			'_blank'
-		);
 
-		RedshopToolbarHelper::link(
-			'index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id,
-			'redshop_export_export32',
-			'COM_REDSHOP_CREATE_SHIPPING_LABEL',
-			'_blank'
-		);
+		if (RedshopHelperPdf::isAvailablePdfPlugins())
+		{
+			RedshopToolbarHelper::link(
+				'index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id,
+				'redshop_export_export32',
+				'COM_REDSHOP_CREATE_STOCKNOTE',
+				'_blank'
+			);
+
+			RedshopToolbarHelper::link(
+				'index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id,
+				'redshop_export_export32',
+				'COM_REDSHOP_CREATE_SHIPPING_LABEL',
+				'_blank'
+			);
+		}
 
 		$tmpl = JFactory::getApplication()->input->get('tmpl', '');
 		$appendTmpl = ($tmpl) ? '&tmpl=component' : '';

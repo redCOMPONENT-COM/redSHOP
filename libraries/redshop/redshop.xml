@@ -1,38 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="library" method="upgrade" version="2.5">
-	<name>redSHOP - Library</name>
-	<libraryname>redshop</libraryname>
-	<creationDate>April 2016</creationDate>
-	<author>redCOMPONENT</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<authorUrl>www.redcomponent.com</authorUrl>
-	<copyright>Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later, see LICENSE.</license>
-	<version>1.6.2</version>
-	<description>LIB_REDSHOP_LIBRARY_DESC</description>
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.lib_redshop.ini</language>
-		<language tag="en-GB">en-GB/en-GB.lib_redshop.sys.ini</language>
-	</languages>
-	<files>
-		<folder>controller</folder>
-		<folder>form</folder>
-		<folder>helper</folder>
-		<folder>html</folder>
-		<folder>layout</folder>
-		<folder>layouts</folder>
-		<folder>menu</folder>
-		<folder>model</folder>
-		<folder>payment</folder>
-		<folder>product</folder>
-		<folder>shipping</folder>
-		<folder>table</folder>
-		<folder>toolbar</folder>
-		<folder>vendor</folder>
-		<folder>view</folder>
-		<filename>index.html</filename>
-		<filename>library.php</filename>
-		<filename>redshop.php</filename>
-		<filename>redshop.xml</filename>
-	</files>
+    <name>LIB_REDSHOP</name>
+    <libraryname>redshop</libraryname>
+    <creationDate>April 2016</creationDate>
+    <author>redCOMPONENT</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later, see LICENSE.</license>
+    <version>1.7.0</version>
+    <description>LIB_REDSHOP_DESCRIPTION</description>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.lib_redshop.ini</language>
+        <language tag="en-GB">en-GB/en-GB.lib_redshop.sys.ini</language>
+    </languages>
+    <files>
+        <folder>controller</folder>
+        <folder>economic</folder>
+        <folder>entities</folder>
+        <folder>entity</folder>
+        <folder>form</folder>
+        <folder>helper</folder>
+        <folder>html</folder>
+        <folder>install</folder>
+        <folder>layout</folder>
+        <folder>layouts</folder>
+        <folder>menu</folder>
+        <folder>model</folder>
+        <folder>payment</folder>
+        <folder>product</folder>
+        <folder>src</folder>
+        <folder>shipping</folder>
+        <folder>table</folder>
+        <folder>tags</folder>
+        <folder>toolbar</folder>
+        <folder>vendor</folder>
+        <folder>view</folder>
+        <filename>index.html</filename>
+        <filename>library.php</filename>
+        <filename>redshop.php</filename>
+        <filename>redshop.xml</filename>
+    </files>
 </extension>

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,9 +21,9 @@ class RedshopControllerTemplate_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'template_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'template_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -35,9 +35,9 @@ class RedshopControllerTemplate_detail extends RedshopController
 	public function save($apply = 0)
 	{
 		$app  = JFactory::getApplication();
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$post["template_desc"] = JRequest::getVar('template_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post["template_desc"] = $this->input->post->get('template_desc', '', 'raw');
 
 		$model = $this->getModel('template_detail');
 		$row   = $model->store($post);
@@ -77,8 +77,7 @@ class RedshopControllerTemplate_detail extends RedshopController
 
 	public function remove()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -97,9 +96,7 @@ class RedshopControllerTemplate_detail extends RedshopController
 
 	public function publish()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -118,9 +115,7 @@ class RedshopControllerTemplate_detail extends RedshopController
 
 	public function unpublish()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -149,9 +144,7 @@ class RedshopControllerTemplate_detail extends RedshopController
 
 	public function copy()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$model = $this->getModel('template_detail');
 
@@ -165,7 +158,6 @@ class RedshopControllerTemplate_detail extends RedshopController
 			}
 
 			$msg = implode('<br />',$msg);
-
 		}
 		else
 		{

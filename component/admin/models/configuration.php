@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -393,12 +393,19 @@ class RedshopModelConfiguration extends RedshopModel
 
 		JFactory::getApplication()->setUserState('com_redshop.config.global.data', $this->configData);
 
+		JPluginHelper::importPlugin('redshop');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onBeforeAdminSaveConfiguration', array(&$this->configData));
+
 		// Temporary new way to save config
 		$config = Redshop::getConfig();
 
 		try
 		{
-			$config->save(new Registry($this->configData));
+			if ($config->save(new Registry($this->configData)))
+			{
+				$dispatcher->trigger('onAfterAdminSaveConfiguration', array($config));
+			}
 		}
 		catch (Exception $e)
 		{
@@ -501,7 +508,7 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function getVatGroup()
 	{
-		$query = 'SELECT tg.tax_group_id as value,tg.tax_group_name as text FROM #__redshop_tax_group as tg WHERE tg.published=1 ';
+		$query = 'SELECT tg.id as value,tg.name as text FROM #__redshop_tax_group as tg WHERE tg.published=1 ';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();

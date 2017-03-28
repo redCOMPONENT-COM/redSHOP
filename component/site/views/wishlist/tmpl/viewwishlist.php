@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -149,11 +149,11 @@ else
 		// Send mail link
 		echo "<table>";
 
-		for ($j = 0, $jn = count($wishlists); $j < $jn; $j++)
+		foreach ($wishlists as $wishlist)
 		{
-			$wishlist_link = JRoute::_("index.php?view=account&layout=mywishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=com_redshop&Itemid=" . $Itemid);
-			$del_wishlist  = JRoute::_("index.php?view=wishlist&task=delwishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=com_redshop&Itemid=" . $Itemid);
-			echo "<tr><td><a href=\"" . $wishlist_link . "\">" . $wishlists[$j]->wishlist_name . "</a></td>"
+			$wishlist_link = JRoute::_("index.php?view=account&layout=mywishlist&wishlist_id=" . $wishlist->wishlist_id . "&option=com_redshop&Itemid=" . $Itemid);
+			$del_wishlist  = JRoute::_("index.php?view=wishlist&task=delwishlist&wishlist_id=" . $wishlist->wishlist_id . "&option=com_redshop&Itemid=" . $Itemid);
+			echo "<tr><td><a href=\"" . $wishlist_link . "\">" . $wishlist->wishlist_name . "</a></td>"
 				. "<td><a href=\"" . $del_wishlist . "\">" . JText::_('COM_REDSHOP_DELETE') . "</a></td></tr>";
 		}
 
@@ -279,15 +279,15 @@ function display_products($rows)
 			}
 			else
 			{
-				$maindefaultpath = RedShopHelperImages::getImagePath(
-								Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
-								'',
-								'thumb',
-								'product',
-								$pw_thumb,
-								$ph_thumb,
-								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
+				$maindefaultpath = RedshopHelperMedia::getImagePath(
+					Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
+					'',
+					'thumb',
+					'product',
+					$pw_thumb,
+					$ph_thumb,
+					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+				);
 				$thum_image      = "<a href='" . $link . "'><img src='" . $maindefaultpath . "'  /></a>";
 				$wishlist_data   = str_replace('{product_thumb_image}', $thum_image, $wishlist_data);
 			}
@@ -401,6 +401,31 @@ function display_products($rows)
 				$attributes = array_merge($attributes, $attributes_set);
 			}
 
+			if (empty($row->product_items))
+			{
+				$attributes = null;
+			}
+			else
+			{
+				foreach ($attributes as $key => $attribute)
+				{
+					if (empty($attribute->properties))
+					{
+						continue;
+					}
+
+					if (!isset($attribute->properties[$row->product_items->property_id]))
+					{
+						unset($attributes[$key]);
+						continue;
+					}
+
+					$attribute->properties[$row->product_items->property_id]->setdefault_selected = 1;
+				}
+
+				$attributes = array_values($attributes);
+			}
+
 			$attribute_template = $producthelper->getAttributeTemplate($wishlist_data);
 
 			// Check product for not for sale
@@ -408,11 +433,13 @@ function display_products($rows)
 
 			$wishlist_data = $producthelper->replaceProductInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
 
-			/////////////////////////////////// Product attribute  Start /////////////////////////////////
+			/* Product attribute  Start */
 			$totalatt      = count($attributes);
-			$wishlist_data = $producthelper->replaceAttributeData($row->product_id, 0, 0, $attributes, $wishlist_data, $attribute_template, $isChilds);
+			$wishlist_data = RedshopHelperAttribute::replaceAttributeData(
+					$row->product_id, 0, 0, $attributes, $wishlist_data, $attribute_template, $isChilds, array(), 1, true
+			);
 
-			/////////////////////////////////// Product attribute  End  	// Checking for child products end/////////////////////////////////
+			/* Product attribute  End. Checking for child products end */
 
 			if (!$row->not_for_sale)
 			{
@@ -570,7 +597,17 @@ function display_products($rows)
 			$wishlist_data = str_replace("{if product_on_sale}", "", $wishlist_data);
 			$wishlist_data = str_replace("{product_on_sale end if}", "", $wishlist_data);
 
-			$regdellink     = JRoute::_("index.php?mydel=1&view=wishlist&wishlist_id=" . $row->product_id . "&task=mysessdelwishlist");
+			$regdellink     = "index.php?mydel=1&view=wishlist&wishlist_id=" . $row->product_id . "&task=mysessdelwishlist";
+
+			if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
+			{
+				$regdellink .= isset($row->product_items->attribute_id) ? '&attribute_id=' . $row->product_items->attribute_id : '';
+				$regdellink .= isset($row->product_items->property_id) ? '&property_id=' . $row->product_items->property_id : '';
+				$regdellink .= isset($row->product_items->subattribute_id) ? '&subattribute_id=' . $row->product_items->subattribute_id : '';
+			}
+
+			$regdellink = JRoute::_($regdellink, false);
+
 			$mainregdellink = "<div><a href=\"" . $regdellink . "\">" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_WISHLIST') . "</a></div>";
 
 			$wishlist_data = str_replace('{remove_product_link}', $mainregdellink, $wishlist_data);
@@ -593,7 +630,7 @@ function display_products($rows)
 		$data = $template_d1[0] . $temp_template . $template_d2[1];
 		$data = str_replace('{back_link}', '', $data);
 		$data = str_replace('{all_cart}', $my, $data);
-		$data = $redTemplate->parseredSHOPplugin($data);
+		$data = RedshopHelperTemplate::parseredSHOPplugin($data);
 		echo eval("?>" . $data . "<?php ");
 	}
 }

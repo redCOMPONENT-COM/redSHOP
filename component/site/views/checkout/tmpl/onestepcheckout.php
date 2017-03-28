@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,7 +37,7 @@ $billingaddresses = $model->billingaddresses();
 if (!count($billingaddresses))
 {
 	$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-	$app->redirect("index.php?option=com_redshop&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
+	$app->redirect(JRoute::_("index.php?option=com_redshop&view=account_billto&return=checkout&Itemid=" . $Itemid), $msg);
 }
 
 $paymentmethod = $redhelper->getPlugins('redshop_payment');

@@ -25,7 +25,7 @@ class CountryManagerPage
 
 	public static $country = "#jform_country_jtext";
 
-	public static $countryCheck = "//input[@id='cb0']/following-sibling::ins";
+	public static $countryCheck = "//input[@id='cb0']";
 
 	public static $countryResultRow = "//form[@id='adminForm']/table/tbody/tr[1]";
 }

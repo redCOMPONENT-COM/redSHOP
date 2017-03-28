@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Layouts
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,19 +12,17 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array("width" => "auto", "dropdownAutoWidth" => "auto"));
+JHtml::_('redshopjquery.popover', '.hasPopover', array('placement' => 'top'));
 
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
 
-$doc->addTopScript('//use.fontawesome.com/e9d00401af.js');
-
 $doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.js');
-$doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/icheck.min.js');
 $doc->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.css');
+$doc->addStyleSheet(JURI::root() . 'media/com_redshop/css/font-awesome.css');
 
 // Disable template shit
 $doc->disableStylesheet('administrator/templates/isis/css/template.css');
-$doc->disableStylesheet('media/com_reditem/css/reditem.backend.min.css');
 $doc->disableScript('administrator/templates/isis/js/template.js');
 
 // We will apply our own searchtools styles

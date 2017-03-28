@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,8 +15,8 @@ class RedshopControllerSample_catalog extends RedshopController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		JRequest::setVar('view', 'sample_catalog');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'sample_catalog');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 	}
 }

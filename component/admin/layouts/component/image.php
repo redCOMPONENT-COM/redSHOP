@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,7 +34,7 @@ $image_path = $type . '/' . trim($image);
 <div class="divimage">
 	<img src="<?php echo $thumbUrl ?>" id="<?php echo $displayid ?>" border="0" width="200"/>
 
-	<input type="checkbox" name="<?php echo $deleteid ?>" id="<?php echo $deleteid ?>" rel="noicheck" class="hidden">
+	<input type="checkbox" name="<?php echo $deleteid ?>" id="<?php echo $deleteid ?>" class="hidden">
 
 	<div class="divimagebuttons">
 		<span id="editbtn" aria-hidden="true" class="fa-stack fa-lg">

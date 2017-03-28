@@ -3,13 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.modal', 'a.modal-thumb');
+JHtml::_('behavior.modal', 'a.joom-box');
 
 $producthelper = productHelper::getInstance();
 
@@ -34,76 +34,95 @@ JFactory::getDocument()->addScriptDeclaration('
 	method="post"
 	id="adminForm"
 	name="adminForm"
-	class="form-validate form-horizontal"
-	enctype="multipart/form-data"
->
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="giftcard_id" value="<?php echo $this->item->giftcard_id; ?>" />
-	<?php echo JHtml::_('form.token'); ?>
-	<div class="form-horizontal">
-		<div class="row-fluid form-horizontal-desktop">
-			<div class="span6">
-				<fieldset class="details">
-					<legend><?php echo JText::_('COM_REDSHOP_DETAIL'); ?></legend>
+	class="adminform form-validate form-horizontal"
+	enctype="multipart/form-data">
 
-					<?php foreach ($this->form->getFieldset('details') as $field) : ?>
-						<?php if ($field->hidden) : ?>
-							<?php echo $field->input;?>
-						<?php endif; ?>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $field->label; ?>
-							</div>
-							<div class="controls">
-								<?php echo $field->input; ?>
-
-							<!-- Rendering Images in modal -->
-							<?php if ('giftcard_bgimage' == $field->fieldname || 'giftcard_image' == $field->fieldname) : ?>
-								<?php
-									$giftCardImagePath = RedShopHelperImages::getImagePath(
-										$field->value,
-										'',
-										'thumb',
-										'giftcard',
-										100,
-										100,
-										Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-									);
-								?>
-								<a class="modal-thumb"
-								   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $field->value; ?>">
-									<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
-								</a>
-							<?php endif; ?>
-
-							</div>
-						</div>
-					<?php endforeach; ?>
-				</fieldset>
-				<?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION')) : ?>
-					<fieldset class="economic">
-						<legend><?php echo JText::_('COM_REDSHOP_ECONOMIC'); ?></legend>
-						<?php foreach ($this->form->getFieldset('economic') as $field) : ?>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $field->label; ?>
-							</div>
-							<div class="controls">
-								<?php echo $field->input; ?>
-							</div>
-						</div>
-					<?php endforeach; ?>
-					</fieldset>
-				<?php endif; ?>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DETAIL') ?></h3>
+				</div>
+				<div class="box-body">
+					<?php echo $this->form->renderField('giftcard_name') ?>
+					<?php echo $this->form->renderField('customer_amount') ?>
+					<?php echo $this->form->renderField('giftcard_price') ?>
+					<?php echo $this->form->renderField('giftcard_value') ?>
+					<?php echo $this->form->renderField('giftcard_validity') ?>
+					<?php echo $this->form->renderField('free_shipping') ?>
+					<?php echo $this->form->renderField('published') ?>
+				</div>
 			</div>
-			<div class="span6">
-				<fieldset class="description">
-					<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
-					<?php foreach ($this->form->getFieldset('description') as $field) : ?>
-							<?php echo $field->input; ?>
-				<?php endforeach; ?>
-				</fieldset>
+			<?php if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION')) : ?>
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_ECONOMIC'); ?></h3>
+				</div>
+				<div class="panel-body">
+					<?php echo $this->form->renderField('accountgroup_id') ?>
+				</div>
+			</div>
+			<?php endif; ?>
+		</div>
+		<div class="col-md-6">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_OTHER_INFORMATION') ?></h3>
+				</div>
+				<div class="box-body">
+					<?php echo $this->form->renderField('giftcard_bgimage_file') ?>
+					<div class="form-group">
+						<div class="col-md-2">
+						</div>
+						<div class="col-md-10">
+							<?php
+							$value = $this->item->giftcard_bgimage;
+							$giftCardImagePath = RedShopHelperImages::getImagePath(
+								$value,
+								'',
+								'thumb',
+								'giftcard',
+								100,
+								100,
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+							);
+							?>
+							<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
+								<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
+							</a>
+							<?php echo $this->form->getInput('giftcard_bgimage') ?>
+						</div>
+					</div>
+					<?php echo $this->form->renderField('giftcard_image_file') ?>
+					<div class="form-group">
+						<div class="col-md-2">
+						</div>
+						<div class="col-md-10">
+							<?php
+							$value = $this->item->giftcard_image;
+							$giftCardImagePath = RedShopHelperImages::getImagePath(
+								$value,
+								'',
+								'thumb',
+								'giftcard',
+								100,
+								100,
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+							);
+							?>
+							<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
+								<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
+							</a>
+							<?php echo $this->form->getInput('giftcard_image') ?>
+						</div>
+					</div>
+					<?php echo $this->form->renderField('giftcard_desc') ?>
+				</div>
 			</div>
 		</div>
 	</div>
+
+	<input type="hidden" name="task" value="" />
+	<?php echo $this->form->getInput('giftcard_id') ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

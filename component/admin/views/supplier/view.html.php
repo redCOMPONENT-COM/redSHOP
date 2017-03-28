@@ -3,21 +3,27 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-
+/**
+ * View Supplier
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.4
+ */
 class RedshopViewSupplier extends RedshopViewAdmin
 {
 	/**
-	 * The current user.
+	 * Do we have to display a sidebar ?
 	 *
-	 * @var  JUser
+	 * @var  boolean
 	 */
-	public $user;
+	protected $displaySidebar = false;
 
 	/**
 	 * The request url.
@@ -26,37 +32,66 @@ class RedshopViewSupplier extends RedshopViewAdmin
 	 */
 	public $request_url;
 
+	protected $form;
+
+	protected $item;
+
+	protected $state;
+
+	/**
+	 * Function display template
+	 *
+	 * @param   string  $tpl  name of template
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.0.2.1
+	 */
+
 	public function display($tpl = null)
 	{
-		$uri      = JFactory::getURI();
-		$document = JFactory::getDocument();
+		JToolBarHelper::title(JText::_('COM_REDSHOP_SUPPLIER_MANAGEMENT'), 'redshop_supplier_48');
 
-		$document->setTitle(JText::_('COM_REDSHOP_SUPPLIER'));
+		$uri = JFactory::getURI();
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_SUPPLIER_MANAGEMENT'), 'redshop_manufact48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
+		$this->form       = $this->get('Form');
+		$this->item       = $this->get('Item');
+		$this->state      = $this->get('State');
+		$this->requestUrl = $uri->toString();
 
-		$state = $this->get('State');
-		$filter_order     = $state->get('list.ordering', 'supplier_id');
-		$filter_order_Dir = $state->get('list.direction');
-
-		$lists ['order']     = $filter_order;
-		$lists ['order_Dir'] = $filter_order_Dir;
-
-		$supplier   = $this->get('Data');
-		$pagination = $this->get('Pagination');
-
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->supplier = $supplier;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->addToolBar();
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+
+		$isNew = ($this->item->id < 1);
+
+		// Prepare text for title
+		$title = JText::_('COM_REDSHOP_SUPPLIER_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+
+		JToolBarHelper::title($title, 'redshop_supplier_48');
+		JToolBarHelper::apply('supplier.apply');
+		JToolBarHelper::save('supplier.save');
+
+		if ($isNew)
+		{
+			JToolBarHelper::cancel('supplier.cancel');
+		}
+		else
+		{
+			JToolBarHelper::save2copy('supplier.save2copy');
+			JToolBarHelper::cancel('supplier.cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
 	}
 }

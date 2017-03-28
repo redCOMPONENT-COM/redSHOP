@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -759,5 +759,128 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		// End
 		return true;
+	}
+
+	public function storeOrder($data)
+	{
+		$orderFunctions = order_functions::getInstance();
+		$producthelper  = productHelper::getInstance();
+		$db             = $this->getDbo();
+		$orderNumber    = $orderFunctions->generateOrderNumber();
+		$encrKey        = $orderFunctions->random_gen_enc_key(35);
+
+		$row                          = $this->getTable('order_detail');
+		$row->user_id                 = (int) $data['user_id'];
+		$row->order_number            = $orderNumber;
+		$row->user_info_id            = (int) $data['user_info_id'];
+		$row->order_total             = $data['quotation_total'];
+		$row->order_subtotal          = $data['quotation_subtotal'];
+		$row->order_tax               = $data['quotation_tax'];
+		$row->order_discount          = $data['quotation_discount'];
+		$row->special_discount_amount = $data['quotation_special_discount'];
+		$row->order_status            = 'P';
+		$row->order_payment_status    = 'Unpaid';
+		$row->cdate                   = time();
+		$row->mdate                   = time();
+		$row->ip_address              = $data['quotation_ipaddress'];
+		$row->encr_key                = $encrKey;
+		$row->special_discount        = $data['quotation_special_discount'];
+		$row->order_discount_vat      = $data['Discountvat'];
+
+		if (!$row->store())
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		$orderId = $row->order_id;
+
+		$rowOrderStatus                = $this->getTable('order_status_log');
+		$rowOrderStatus->order_id      = $orderId;
+		$rowOrderStatus->order_status  = 'P';
+		$rowOrderStatus->date_changed  = time();
+		$rowOrderStatus->customer_note = '';
+		$rowOrderStatus->store();
+
+		foreach ($data['quotation_item'] as $key => $item)
+		{
+			$rowItem = $this->getTable('order_item_detail');
+
+			if (!empty($item->quotation_item_id))
+			{
+				$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_quotation_item'))
+					->where($db->qn('quotation_item_id') . ' = ' . $db->q((int) $item->quotation_item_id));
+				$quotationItem = $db->setQuery($query)->loadObject();
+
+				$product = $producthelper->getProductById($quotationItem->product_id);
+
+				$rowItem->order_id                    = $orderId;
+				$rowItem->user_info_id                = $data['user_info_id'];
+				$rowItem->supplier_id                 = $product->supplier_id;
+				$rowItem->product_id                  = $quotationItem->product_id;
+				$rowItem->order_item_sku              = $product->product_number;
+				$rowItem->order_item_name             = $product->product_name;
+				$rowItem->product_quantity            = $quotationItem->product_quantity;
+				$rowItem->product_item_price          = $quotationItem->product_price;
+				$rowItem->product_item_price_excl_vat = $quotationItem->product_excl_price;
+				$rowItem->product_final_price         = $quotationItem->product_final_price;
+				$rowItem->order_item_currency         = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
+				$rowItem->order_status                = 'P';
+				$rowItem->cdate                       = time();
+				$rowItem->mdate                       = time();
+				$rowItem->product_attribute           = $quotationItem->product_attribute;
+				$rowItem->product_accessory           = $quotationItem->product_accessory;
+				$rowItem->is_giftcard                 = $quotationItem->is_giftcard;
+				$rowItem->wrapper_id                  = $quotationItem->product_wrapperid;
+				$rowItem->wrapper_price               = $quotationItem->wrapper_price;
+
+				if (!$rowItem->store())
+				{
+					$this->setError($this->_db->getErrorMsg());
+
+					return false;
+				}
+			}
+		}
+
+		$userRow = $this->getTable('user_detail');
+		$userRow->load($data['user_info_id']);
+		$orderUser = $this->getTable('order_user_detail');
+
+		if (!$orderUser->bind($userRow))
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		$orderUser->order_id     = $orderId;
+		$orderUser->address_type = 'BT';
+
+		if (!$orderUser->store())
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		$fields = array(
+			$db->qn('order_id') . ' = ' . $db->q((int) $orderId)
+		);
+
+		$conditions = array(
+			$db->qn('quotation_id') . ' = ' . $db->q((int) $data['quotation_id'])
+		);
+
+		$query = $db->getQuery(true)
+				->clear()
+				->update($db->qn('#__redshop_quotation'))
+				->set($fields)
+				->where($conditions);
+
+		return $db->setQuery($query)->execute();
 	}
 }

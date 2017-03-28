@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,30 +57,37 @@ class RedshopControllerWishlist extends RedshopController
 	}
 
 	/**
-	 * savewishlist function
+	 * Save wishlist function
 	 *
 	 * @access public
+	 *
 	 * @return void
 	 */
-function savewishlist()
-{
-	$model  = $this->getModel("wishlist");
-
-	if ($model->savewishlist())
+	public function savewishlist()
 	{
-		echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
-	}
-	else
-	{
-		echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
-	}
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-	?>
-	<script language="javascript">
-		var t = setTimeout("window.parent.SqueezeBox.close();window.parent.location.reload()", 2000);
-	</script>
-<?php
-}
+		/** @var RedshopModelWishlist $model */
+		$model = $this->getModel("wishlist");
+
+		$data = JFactory::getApplication()->input->post->getArray();
+
+		if ($model->savewishlist($data))
+		{
+			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
+		}
+		else
+		{
+			echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
+		}
+
+		?>
+		<script language="javascript">
+			var t = setTimeout("window.parent.SqueezeBox.close();window.parent.location.reload()", 2000);
+		</script>
+		<?php
+	}
 
 	/**
 	 * delete wishlist function
@@ -123,22 +130,33 @@ function savewishlist()
 	 */
 	public function mysessdelwishlist()
 	{
-		$post   = array();
-		$mydel  = JRequest::getVar('mydel');
-		$model  = $this->getModel("wishlist");
+		$input = JFactory::getApplication()->input;
+		$post  = array();
+		$mydel = $input->get('mydel');
+		$model = $this->getModel("wishlist");
 
-		$Itemid = JRequest::getVar('Itemid');
-		$post['wishlist_id'] = JRequest::getVar('wishlist_id');
+		$Itemid = $input->getInt('Itemid', 0);
+		$post['wishlist_id'] = $input->getInt('wishlist_id');
 
-		if ($mydel != '')
+		if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
 		{
-			if ($model->mysessdelwishlist($post["wishlist_id"]))
+			$post['attribute_id'] = $input->getInt('attribute_id', 0);
+			$post['property_id'] = $input->getInt('property_id', 0);
+			$post['subattribute_id'] = $input->getInt('subattribute_id', 0);
+		}
+
+		$link = JRoute::_("index.php?mydel=1&option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
+
+		if (!empty($mydel))
+		{
+			if ($model->mysessdelwishlist($post))
 			{
 				$msg = JText::_('COM_REDSHOP_WISHLIST_DELETED_SUCCESSFULLY');
 			}
 
-			$link = JRoute::_("index.php?mydel=1&option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
 			$this->setRedirect($link, $msg);
 		}
+
+		$this->setRedirect($link);
 	}
 }

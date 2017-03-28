@@ -3,8 +3,7 @@
     "redshop"
   ],
   "libraries": [
-    "redshop",
-    "tcpdf"
+    "redshop"
   ],
   "modules": {
     "frontend": [
@@ -21,6 +20,7 @@
       "redshop_currencies",
       "redshop_discount",
       "redshop_logingreeting",
+      "redshop_megamenu",
       "redshop_newsletter",
       "redshop_pricefilter",
       "redshop_productcompare",
@@ -54,25 +54,115 @@
     "finder": [
       "redshop"
     ],
+    "logman": [
+      "redshop"
+    ],
     "quickicon": [
       "redshop"
     ],
     "redshop_alert": [
       "alert"
     ],
+    "redshop_export": [
+      "attribute",
+      "category",
+      "field",
+      "manufacturer",
+      "product",
+      "product_stockroom_data",
+      "related_product",
+      "shipping_address",
+      "shopper_group_attribute_price",
+      "shopper_group_product_price",
+      "user"
+    ],
+    "redshop_import": [
+      "attribute",
+      "category",
+      "field",
+      "manufacturer",
+      "product",
+      "product_stockroom_data",
+      "shipping_address",
+      "shopper_group_product_price",
+      "shopper_group_attribute_price",
+      "user",
+      "related_product"
+    ],
     "redshop_payment": [
       "baokim",
-      "cielo"
+      "cielo",
+      "dibsdx",
+      "dotpay",
+      "ingenico",
+      "mollieideal",
+      "nganluong",
+      "paygate",
+      "paypalcreditcard",
+      "payson",
+      "quickbook",
+      "quickpay",
+      "rs_payment_2checkout",
+      "rs_payment_amazoncheckout",
+      "rs_payment_authorize",
+      "rs_payment_authorize_dpm",
+      "rs_payment_banktransfer",
+      "rs_payment_banktransfer2",
+      "rs_payment_banktransfer_discount",
+      "rs_payment_beanstream",
+      "rs_payment_braintree",
+      "rs_payment_dibspaymentmethod",
+      "rs_payment_eantransfer",
+      "rs_payment_epayv2",
+      "rs_payment_eway",
+      "rs_payment_eway3dsecure",
+      "rs_payment_giropay",
+      "rs_payment_googlecheckout",
+      "rs_payment_imglobal",
+      "rs_payment_moneris",
+      "rs_payment_moneybooker",
+      "rs_payment_payflowpro",
+      "rs_payment_payment_express",
+      "rs_payment_paymill",
+      "rs_payment_paypal",
+      "rs_payment_postfinance",
+      "rs_payment_rapid_eway",
+      "rs_payment_sagepay",
+      "rs_payment_sagepay_vps",
+      "rs_payment_worldpay",
+      "stripe"
+    ],
+    "redshop_pdf": [
+      "dompdf",
+      "mpdf",
+      "tcpdf"
     ],
     "redshop_product": [
       "CreateColorImage",
-      "canonical"
+      "canonical",
+      "invoicepdf",
+      "postdanmark",
+      "shoppergroup_tags",
+      "stock_notifyemail",
+      "stockroom_status",
+      "discount_affect_attribute"
     ],
     "redshop_shipping": [
-      "bring"
+      "bring",
+      "default_shipping",
+      "default_shipping_gls",
+      "default_shipping_glsbusiness",
+      "fedex",
+      "postdanmark",
+      "self_pickup",
+      "shipper",
+      "ups",
+      "uspsv4"
     ],
     "redshop_user": [
-      "registration_acymailing"
+      "cmc_integrate",
+      "registration_acymailing",
+      "joomlamailer_integrate"
     ],
     "redshop_vies_registration": [
       "rs_vies_registration"
@@ -85,7 +175,13 @@
       "sh404sefextplugincom_redshop"
     ],
     "system": [
-      "quickbook"
+      "mvcoverride",
+      "quickbook",
+      "redgoogleanalytics",
+      "redlightbox_slideshow",
+      "redproductzoom",
+      "redshop",
+      "redshop_send_discountcode"
     ],
     "user": [
       "highrise"

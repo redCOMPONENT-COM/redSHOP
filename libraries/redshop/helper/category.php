@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,7 @@ class RedshopHelperCategory
 			return null;
 		}
 
-		if (!array_key_exists($cid, self::$categoriesData))
+		if (!array_key_exists($cid, static::$categoriesData))
 		{
 			$db = JFactory::getDbo();
 
@@ -48,10 +48,10 @@ class RedshopHelperCategory
 				->where($db->qn('c.category_id') . ' = ' . (int) $cid)
 				->group($db->qn('c.category_id'));
 
-			self::$categoriesData[$cid] = $db->setQuery($query)->loadObject();
+			static::$categoriesData[$cid] = $db->setQuery($query)->loadObject();
 		}
 
-		return self::$categoriesData[$cid];
+		return static::$categoriesData[$cid];
 	}
 
 	/**
@@ -108,7 +108,7 @@ class RedshopHelperCategory
 		global $context;
 		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();
-		$view = $app->input->get('view', '');
+		$view = $app->input->getCmd('view', '');
 		$categoryMainFilter = $app->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', 0);
 
 		if ($categoryId)
@@ -118,9 +118,9 @@ class RedshopHelperCategory
 
 		$key = $context . '_' . $view . '_' . $categoryMainFilter . '_' . $cid;
 
-		if (array_key_exists($key, self::$categoryChildListReverse))
+		if (array_key_exists($key, static::$categoryChildListReverse))
 		{
-			return self::$categoryChildListReverse[$key];
+			return static::$categoryChildListReverse[$key];
 		}
 
 		$query = $db->getQuery(true)
@@ -128,7 +128,7 @@ class RedshopHelperCategory
 				$db->qn(
 					array(
 						'c.category_id', 'cx.category_child_id', 'cx.category_parent_id', 'c.category_name',
-						'c.category_description', 'c.published', 'c.ordering'
+						'c.category_description', 'c.published', 'c.ordering', 'c.category_full_image'
 					)
 				)
 			)
@@ -155,23 +155,23 @@ class RedshopHelperCategory
 			$query->where($db->qn('cx.category_parent_id') . ' = ' . (int) $cid);
 		}
 
-		self::$categoryChildListReverse[$key] = null;
+		static::$categoryChildListReverse[$key] = null;
 
 		if ($cats = $db->setQuery($query)->loadObjectList())
 		{
 			if ($categoryMainFilter)
 			{
-				self::$categoryChildListReverse[$key] = $cats;
+				static::$categoryChildListReverse[$key] = $cats;
 
 				return $cats;
 			}
 
-			self::$categoryChildListReverse[$key] = array();
+			static::$categoryChildListReverse[$key] = array();
 
 			foreach ($cats as $cat)
 			{
 				$cat->category_name = '- ' . $cat->category_name;
-				self::$categoryChildListReverse[$key][] = $cat;
+				static::$categoryChildListReverse[$key][] = $cat;
 				self::getCategoryChildListRecursion($key, $cat->category_child_id);
 			}
 		}
@@ -196,7 +196,7 @@ class RedshopHelperCategory
 				$db->qn(
 					array(
 						'c.category_id', 'cx.category_child_id', 'cx.category_parent_id', 'c.category_name',
-						'c.category_description', 'c.published', 'c.ordering'
+						'c.category_description', 'c.published', 'c.ordering', 'c.category_full_image'
 					)
 				)
 			)
@@ -210,7 +210,7 @@ class RedshopHelperCategory
 			foreach ($cats as $cat)
 			{
 				$cat->category_name = str_repeat('- ', $level) . $cat->category_name;
-				self::$categoryChildListReverse[$key][] = $cat;
+				static::$categoryChildListReverse[$key][] = $cat;
 				self::getCategoryChildListRecursion($key, $cat->category_child_id, $level);
 			}
 		}
@@ -233,7 +233,7 @@ class RedshopHelperCategory
 	 * @since  2.0.0.3
 	 */
 	public static function listAll($name, $categoryId, $selectedCategories = array(), $size = 1, $topLevel = false,
-		$multiple = false, $disabledFields = array(), $width = 250)
+	                               $multiple = false, $disabledFields = array(), $width = 250)
 	{
 		$db    = JFactory::getDbo();
 		$html  = '';
@@ -251,7 +251,7 @@ class RedshopHelperCategory
 
 		if ($cats)
 		{
-			$selected_categories[] = $cats[0]->category_parent_id;
+			$selectedCategories[] = $cats[0]->category_parent_id;
 		}
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
@@ -285,7 +285,7 @@ class RedshopHelperCategory
 	 * @since  2.0.0.3
 	 */
 	public static function listTree($categoryId = "", $cid = '0', $level = '0', $selectedCategories = array(),
-		$disabledFields = array(), $html = '')
+	                                $disabledFields = array(), $html = '')
 	{
 		$db = JFactory::getDbo();
 		$level++;

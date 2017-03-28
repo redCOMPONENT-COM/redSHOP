@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,16 +11,15 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-
+/**
+ * View Category
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.4
+ */
 class RedshopViewCategory extends RedshopViewAdmin
 {
-	/**
-	 * The request url.
-	 *
-	 * @var  string
-	 */
-	public $request_url;
-
 	/**
 	 * Do we have to display a sidebar ?
 	 *
@@ -28,6 +27,16 @@ class RedshopViewCategory extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @see     JViewLegacy::loadTemplate()
+	 * @since   12.2
+	 */
 	public function display($tpl = null)
 	{
 		$redTemplate      = Redtemplate::getInstance();

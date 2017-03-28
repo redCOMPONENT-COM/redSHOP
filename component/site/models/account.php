@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -133,7 +133,8 @@ class RedshopModelAccount extends RedshopModel
 			case 'mywishlist':
 				if ($userid && $wishlist_id)
 				{
-					$query->select(array('DISTINCT w.*','p.*'))
+					$query->select('DISTINCT(' . $db->qn('w.wishlist_id') . ')')
+						->select(array('w.*','p.*'))
 						->from($db->quoteName('#__redshop_wishlist', 'w'))
 						->leftJoin($db->quoteName('#__redshop_wishlist_product', 'pw') . ' ON w.wishlist_id = pw.wishlist_id')
 						->leftJoin($db->quoteName('#__redshop_product', 'p') . ' ON p.product_id = pw.product_id')
@@ -253,9 +254,10 @@ class RedshopModelAccount extends RedshopModel
 		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();
 
-		$Itemid      = $app->input->getInt('Itemid', 0);
-		$wishlist_id = $app->input->getInt('wishlist_id', 0);
-		$pid         = $app->input->getInt('pid', 0);
+		$Itemid            = $app->input->getInt('Itemid', 0);
+		$wishlist_id       = $app->input->getInt('wishlist_id', 0);
+		$pid               = $app->input->getInt('pid', 0);
+		$wishlistProductId = $app->input->getInt('wishlist_product_id', 0);
 
 		$user = JFactory::getUser();
 
@@ -277,6 +279,11 @@ class RedshopModelAccount extends RedshopModel
 				->where('product_id = ' . (int) $pid)
 				->where('wishlist_id = ' . (int) $wishlist_id);
 
+			if ($wishlistProductId)
+			{
+				$query->where($db->qn('wishlist_product_id') . ' = ' . $wishlistProductId);
+			}
+
 			$db->setQuery($query);
 
 			if ($db->execute())
@@ -293,7 +300,7 @@ class RedshopModelAccount extends RedshopModel
 			$app->enqueueMessage(JText::_('COM_REDSHOP_YOU_DONT_HAVE_ACCESS_TO_DELETE_THIS_PRODUCT'));
 		}
 
-		$app->redirect('index.php?option=com_redshop&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid);
+		$app->redirect(JRoute::_('index.php?option=com_redshop&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid));
 	}
 
 	public function removeTag()
@@ -312,7 +319,7 @@ class RedshopModelAccount extends RedshopModel
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_TAG'));
 		}
 
-		$app->redirect('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $Itemid);
+		$app->redirect(JRoute::_('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $Itemid));
 	}
 
 	public function removeTags($tagid)
@@ -414,7 +421,7 @@ class RedshopModelAccount extends RedshopModel
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_PRODUCT_FROM_COMPARE'));
 		}
 
-		$app->redirect('index.php?option=com_redshop&view=account&layout=compare&Itemid=' . $Itemid);
+		$app->redirect(JRoute::_('index.php?option=com_redshop&view=account&layout=compare&Itemid=' . $Itemid));
 	}
 
 	public function sendWishlist($post)

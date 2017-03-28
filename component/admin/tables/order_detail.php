@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -92,6 +92,25 @@ class Tableorder_detail extends JTable
 		$this->_table_prefix = '#__redshop_';
 
 		parent::__construct($this->_table_prefix . 'orders', 'order_id', $db);
+	}
+
+	/**
+	 * Validate all table fields before saving
+	 *
+	 * @return  bool
+	 *
+	 * @since  2.0.0.4
+	 */
+	public function check()
+	{
+		if (empty($this->order_status) || $this->order_status === 0)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_TABLE_ORDER_REDSHOP_INVALID_ORDER_STATUS'), 'warning');
+
+			return false;
+		}
+
+		return parent::check();
 	}
 
 	public function bind($array, $ignore = '')

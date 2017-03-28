@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -170,6 +170,13 @@ class RedshopModelSearch extends RedshopModel
 		{
 			$productlimit = $item->query['productlimit'];
 		}
+
+		$filter = $app->input->post->get('redform', array(), 'filter');
+		$this->setState('filter.data', $filter);
+
+		$orderBy = $app->input->getString('order_by', '');
+		$this->setState('order_by', $orderBy);
+		$this->setState('template_id', $filter['template_id']);
 
 		$this->setState('productperpage', $perpageproduct);
 		$this->setState('list.limit', $limit);
@@ -1183,5 +1190,226 @@ class RedshopModelSearch extends RedshopModel
 		}
 
 		return $db->setQuery($query, 0, $limit)->loadObjectList();
+	}
+
+	/**
+	 * Get List from product
+	 *
+	 * @return array
+	 */
+	public function getListQuery()
+	{
+		$pk    = $this->getState('filter.data', array());
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn("p.product_id"))
+			->from($db->qn("#__redshop_product", "p"))
+			->leftjoin(
+				$db->qn("#__redshop_product_category_xref", "pc") . " ON "
+				. $db->qn('p.product_id') . " = "
+				. $db->qn('pc.product_id')
+			)
+			->where($db->qn('p.published') . ' = 1')
+			->where($db->qn('p.expired') . ' = 0')
+			->group($db->qn('p.product_id'));
+
+		$productOnSale   = !empty($pk['product_on_sale']) ? $pk['product_on_sale'] : 0;
+		$cid             = !empty($pk['cid']) ? $pk['cid'] : 0;
+		$mid             = !empty($pk['mid']) ? $pk['mid'] : 0;
+		$rootCategory    = !empty($pk['root_category']) ? $pk['root_category'] : 0;
+		$categoryForSale = !empty($pk['category_for_sale']) ? $pk['category_for_sale'] : array();
+		$categories      = !empty($pk['category']) ? $pk['category'] : array();
+		$manufacturers   = !empty($pk['manufacturer']) ? $pk['manufacturer'] : array();
+		$keyword         = !empty($pk['keyword']) ? $pk['keyword'] : "";
+
+		if (isset($pk["filterprice"]))
+		{
+			$min = $pk["filterprice"]['min'];
+			$max = $pk["filterprice"]['max'];
+		}
+
+		if (!empty($categories))
+		{
+			if (in_array($rootCategory, $categories))
+			{
+				$key = array_search($rootCategory, $categories);
+				unset($categories[$key]);
+			}
+
+			$categoryList = implode(',', $categories);
+		}
+		elseif (!empty($cid))
+		{
+			$catList = RedshopHelperCategory::getCategoryListArray($cid);
+
+			if (!empty($catList))
+			{
+				foreach ($catList as $key => $cat)
+				{
+					$list[] = $cat->category_id;
+				}
+
+				array_push($list, $cid);
+
+				$categoryList = implode(',', $list);
+
+			}
+			else
+			{
+				$categoryList = $cid;
+			}
+		}
+		else
+		{
+			$categoryList = $cid;
+		}
+
+		$orderBy = $this->getState('order_by');
+
+		if ($orderBy == 'pc.ordering ASC' || $orderBy == 'c.ordering ASC')
+		{
+			$orderBy = 'p.product_id DESC';
+		}
+
+		if (!empty($pk["filterprice"]))
+		{
+			$productPrices = $db->qn('p.product_price');
+			$productDiscountPrices = $db->qn('p.discount_price');
+			$comparePrice = "(" . $productPrices . ' >= ' . $db->q($min) . ' AND ' . $productPrices . ' <= ' . $db->q(($max)) . ")";
+			$compareDiscountPrice = "(" . $productDiscountPrices . ' >= ' . $db->q($min) . ' AND ' . $productDiscountPrices . ' <= ' . $db->q(($max)) . ")";
+			$priceNormal = $comparePrice;
+			$priceDiscount = $compareDiscountPrice;
+			$saleTime = $db->qn('p.discount_stratdate') . ' AND ' . $db->qn('p.discount_enddate');
+			$query->where('IF(' . $db->qn('p.product_on_sale') . ' = 1 && UNIX_TIMESTAMP() BETWEEN ' . $saleTime . ', ' . $priceDiscount . ', ' . $priceNormal . ')');
+		}
+
+		if (!empty($keyword))
+		{
+			$search = $db->q('%' . $db->escape(trim($keyword, true) . '%'));
+			$query->leftjoin(
+				$db->qn('#__redshop_manufacturer', 'm') . ' ON '
+				. $db->qn('m.manufacturer_id') . ' = '
+				. $db->qn('p.manufacturer_id')
+			)
+				->where('(' . $this->getSearchCondition('p.product_name', $keyword) . ' OR ' . $db->qn('m.manufacturer_name') . ' LIKE ' . $search . ')');
+		}
+
+		$catList = RedshopHelperCategory::getCategoryListArray($categoryForSale);
+		$childCat = array($categoryForSale);
+
+		foreach ($catList as $key => $value)
+		{
+			$childCat[] = $value->category_id;
+		}
+
+		if (!empty($categoryForSale) && in_array($cid, $childCat))
+		{
+			if (!empty($categories))
+			{
+				foreach ($categories as $key => $value)
+				{
+					$query->leftjoin(
+						$db->qn('#__redshop_product_category_xref', 'pc' . $key) . ' ON '
+						. $db->qn('p.product_id') . ' = '
+						. $db->qn('pc' . $key . '.product_id')
+					)
+						->where($db->qn('pc' . $key . '.category_id') . ' = ' . $db->q((int) $value))
+						->where($db->qn("pc.category_id") . " = " . $db->q((int) $cid));
+				}
+			}
+			elseif (!empty($cid) || !empty($categories))
+			{
+				$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
+			}
+		}
+		elseif (!empty($cid) || !empty($categories))
+		{
+			$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
+		}
+
+		if (!empty($manufacturers))
+		{
+			$query->where($db->qn("p.manufacturer_id") . " IN (" . implode(',', $manufacturers) . ')');
+		}
+		elseif ($mid)
+		{
+			$query->where($db->qn("p.manufacturer_id") . "=" . $db->q((int) $mid));
+		}
+
+		if (!empty($productOnSale))
+		{
+			$query->where($db->qn('p.product_on_sale') . ' = ' . $db->q((int) $productOnSale));
+		}
+
+		if ($orderBy)
+		{
+			$query->order($db->escape($orderBy));
+		}
+
+		return $query;
+	}
+
+	/**
+	 * Get Items
+	 *
+	 * @return array
+	 */
+	public function getItem()
+	{
+		$query      = $this->getListQuery();
+		$db         = JFactory::getDbo();
+		$start      = $this->getState('list.start');
+		$limit      = $this->getState('list.limit');
+		$templateId = $this->getState('template_id');
+
+		$redTemplate  = Redtemplate::getInstance();
+		$templateArr  = $redTemplate->getTemplate("redproductfinder", $templateId);
+		$templateDesc = $templateArr[0]->template_desc;
+
+		if ($templateDesc)
+		{
+			if (strstr($templateDesc, "{pagination}"))
+			{
+				$db->setQuery($query, $start, $limit);
+			}
+			else
+			{
+				$db->setQuery($query);
+			}
+		}
+		else
+		{
+			$db->setQuery($query);
+		}
+
+		return $db->loadColumn();
+	}
+
+	/**
+	 * Get pagination.
+	 *
+	 * @return pagination
+	 */
+	public function getFilterPagination()
+	{
+		$endlimit          = $this->getState('list.limit');
+		$limitstart        = $this->getState('list.start');
+		$this->pagination = new JPagination($this->getFilterTotal(), $limitstart, $endlimit);
+
+		return $this->pagination;
+	}
+
+	/**
+	 * Get total.
+	 *
+	 * @return total
+	 */
+	public function getFilterTotal()
+	{
+		$query        = $this->getListQuery();
+		$this->total = $this->_getListCount($query);
+
+		return $this->total;
 	}
 }

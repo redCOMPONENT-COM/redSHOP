@@ -3,14 +3,17 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-$url = JURI::base();
+
+$url   = JURI::base();
+$input = JFactory::getApplication()->input;
+
 JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHtml::_('behavior.modal');
 
 // Get product helper
 $producthelper = productHelper::getInstance();
@@ -19,15 +22,16 @@ $redTemplate   = Redtemplate::getInstance();
 $extraField    = extraField::getInstance();
 
 $session       = JFactory::getSession();
-$Itemid        = JRequest::getInt('Itemid');
-$wishlist_id   = JRequest::getInt('wishlist_id');
-$mail          = JRequest::getInt('mail', 0);
+$Itemid        = $input->getInt('Itemid');
+$wishlist_id   = $input->getInt('wishlist_id');
+$mail          = $input->getInt('mail', 0);
+$window        = $input->getInt('window');
 
 $model         = $this->getModel('account');
 $user          = JFactory::getUser();
 
 $pagetitle     = JText::_('COM_REDSHOP_MY_WISHLIST');
-$window        = JRequest::getInt('window');
+$isIndividualAddToCart = (boolean) Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE');
 
 if ($window == 1)
 {
@@ -50,7 +54,7 @@ if ($this->params->get('show_page_heading', 1))
 if ($mail == 0)
 {
 	$MyWishlist = $model->getMyDetail();
-	$template   = $redTemplate->getTemplate("wishlist_template");
+	$template   = RedshopHelperTemplate::getTemplate("wishlist_template");
 
 	if (count($template) > 0 && $template[0]->template_desc != "")
 	{
@@ -112,12 +116,51 @@ if ($mail == 0)
 		$mainid                 = null;
 		$totattid               = null;
 		$totcount_no_user_field = null;
+		$newWishList            = array();
+
+		// Process for clone product follow attribute data.
+		foreach ($MyWishlist as $wishList)
+		{
+			$wishList->wishlistData = RedshopHelperWishlist::getWishlist($wishList->wishlist_id);
+			$dataForCheck = null;
+
+			if (!empty($wishList->wishlistData->products) && !empty($wishList->wishlistData->products[$wishList->product_id]))
+			{
+				$dataForCheck = $wishList->wishlistData->products[$wishList->product_id];
+			}
+
+			if (!$dataForCheck)
+			{
+				$wishList->wishlistData = null;
+				$newWishList[] = $wishList;
+
+				continue;
+			}
+
+			foreach ($dataForCheck as $productData)
+			{
+				$tmpWishList = clone $wishList;
+				$tmpWishList->wishlistData = $productData;
+				$newWishList[] = $tmpWishList;
+			}
+		}
+
+		$MyWishlist = $newWishList;
 
 		foreach ($MyWishlist as $row)
 		{
 			$wishlistuserfielddata  = $producthelper->getwishlistuserfieldata($row->wishlist_id, $row->product_id);
 			$link                   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
-			$link_remove            = JRoute::_('index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id=' . $wishlist_id . '&pid=' . $row->product_id . '&remove=1&Itemid=' . $Itemid);
+			$link_remove            = 'index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id=' . $wishlist_id
+				. '&pid=' . $row->product_id . '&remove=1';
+
+			if ($isIndividualAddToCart)
+			{
+				$link_remove .= '&wishlist_product_id=' . $row->wishlistData->wishlist_product_id;
+			}
+
+			$link_remove = JRoute::_($link_remove . '&Itemid=' . $Itemid, false);
+
 			$thum_image             = $producthelper->getProductImage($row->product_id, $link, $w_thumb, $h_thumb);
 			$product_price          = $producthelper->getProductPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
@@ -241,6 +284,67 @@ if ($mail == 0)
 
 			$attribute_template = $producthelper->getAttributeTemplate($wishlist_data);
 
+			$wishlistData = $row->wishlistData;
+
+			if ($wishlistData)
+			{
+				// Get necessary data for attributes, properties and sub-attributes.
+				foreach ($attributes as $key => $attribute)
+				{
+					if (empty($attribute->properties))
+					{
+						continue;
+					}
+
+					if (!isset($wishlistData->product_items[$attribute->attribute_id]))
+					{
+						if ($isIndividualAddToCart)
+						{
+							unset($attributes[$key]);
+						}
+
+						continue;
+					}
+
+					$wishlistProductItem = $wishlistData->product_items[$attribute->attribute_id];
+
+					foreach ($attribute->properties as $property)
+					{
+						$property->setdefault_selected = 0;
+
+						if ($property->property_id != $wishlistProductItem->property_id)
+						{
+							continue;
+						}
+
+						$property->setdefault_selected = 1;
+
+						if (empty($wishlistProductItem->subattribute_id))
+						{
+							continue;
+						}
+
+						if (empty($property->sub_properties))
+						{
+							$property->sub_properties = $producthelper->getAttibuteSubProperty(0, $property->value);
+						}
+
+						foreach ($property->sub_properties as $subProperty)
+						{
+							$subProperty->setdefault_selected = 0;
+
+							if ($subProperty->subattribute_color_id == $wishlistProductItem->subattribute_id
+								&& $subProperty->subattribute_id == $wishlistProductItem->attribute_id)
+							{
+								$subProperty->setdefault_selected = 1;
+							}
+						}
+					}
+				}
+
+				$attributes = array_values($attributes);
+			}
+
 			// Check product for not for sale
 			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);
 
@@ -248,7 +352,9 @@ if ($mail == 0)
 
 			// Product attribute  Start
 			$totalatt      = count($attributes);
-			$wishlist_data = $producthelper->replaceAttributeData($row->product_id, 0, 0, $attributes, $wishlist_data, $attribute_template, $isChilds);
+			$wishlist_data = RedshopHelperAttribute::replaceAttributeData(
+				$row->product_id, 0, 0, $attributes, $wishlist_data, $attribute_template, $isChilds, array(), 1, true
+			);
 
 			// Product attribute  End
 			// Checking for child products end
@@ -352,7 +458,21 @@ if ($mail == 0)
 				$row->category_id = 0;
 			}
 
-			$wishlist_data = $producthelper->replaceCartTemplate($row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
+			if ($isIndividualAddToCart)
+			{
+				$wishlist_data = $producthelper->replaceCartTemplate(
+					$row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds,
+					$userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $row->wishlistData->wishlist_product_id
+				);
+			}
+			else
+			{
+				$wishlist_data = $producthelper->replaceCartTemplate(
+					$row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds,
+					$userfieldArr, $totalatt, $totalAccessory, $count_no_user_field
+				);
+			}
+
 			$mainid .= $row->product_id . ",";
 			$totattid .= $totalatt . ",";
 			$totcount_no_user_field .= $count_no_user_field . ",";

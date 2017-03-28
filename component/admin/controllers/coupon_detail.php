@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,32 +19,30 @@ class RedshopControllerCoupon_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'coupon_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'coupon_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
 		$model = $this->getModel('coupon_detail');
 		$userslist = $model->getuserslist();
-		JRequest::setVar('userslist', $userslist);
+		$this->input->set('userslist', $userslist);
 
 		$product = $model->getproducts();
-		JRequest::setVar('product', $product);
+		$this->input->set('product', $product);
 
 		parent::display();
 	}
 
 	public function save()
 	{
-		$app = JFactory::getApplication();
-		$post = JRequest::get('post');
-		$comment = JRequest::getVar('comment', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$app             = JFactory::getApplication();
+		$post            = $this->input->post->getArray();
+		$comment         = $this->input->post->get('comment', '', 'raw');
 		$post["comment"] = $comment;
 
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		$post ['coupon_id'] = $cid [0];
+		$post ['coupon_id']  = $cid [0];
 		$post ['start_date'] = strtotime($post ['start_date']);
 
 		if ($post ['end_date'])
@@ -77,9 +75,7 @@ class RedshopControllerCoupon_detail extends RedshopController
 
 	public function remove()
 	{
-
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -101,7 +97,7 @@ class RedshopControllerCoupon_detail extends RedshopController
 	{
 
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -123,7 +119,7 @@ class RedshopControllerCoupon_detail extends RedshopController
 	{
 
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

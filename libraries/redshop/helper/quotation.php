@@ -3,18 +3,20 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Class Redshop Helper for Quotation
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopHelperQuotation
 {
@@ -23,7 +25,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  array  An array of status options
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getQuotationStatusList()
 	{
@@ -45,7 +47,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  string   Name of Quotation status
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getQuotationStatusName($value = 0)
 	{
@@ -79,9 +81,9 @@ class RedshopHelperQuotation
 	 * @param   integer  $quotationId      Quotation ID
 	 * @param   integer  $quotationItemId  Quotation Item ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getQuotationProduct($quotationId = 0, $quotationItemId = 0)
 	{
@@ -96,7 +98,7 @@ class RedshopHelperQuotation
 		{
 			// Sanitize ids
 			$quotationId = explode(',', $quotationId);
-			JArrayHelper::toInteger($quotationId);
+			$quotationId = ArrayHelper::toInteger($quotationId);
 
 			$query->where($db->qn('q.quotation_id') . " IN (" . implode(',', $quotationId) . ")");
 		}
@@ -118,7 +120,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getQuotationDetail($quotationId)
 	{
@@ -145,14 +147,14 @@ class RedshopHelperQuotation
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function generateQuotationNumber()
 	{
 		$db    = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('COUNT' . $db->qn('q.quotation_id'))
+			->select('COUNT(' . $db->qn('quotation_id') . ')')
 			->from($db->qn('#__redshop_quotation', 'q'));
 
 		$db->setQuery($query);
@@ -170,10 +172,15 @@ class RedshopHelperQuotation
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateQuotationStatus($quotationId, $status = 1)
 	{
+		if (!$quotationId)
+		{
+			return;
+		}
+
 		// Initialize variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -201,7 +208,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getQuotationUserList()
 	{
@@ -230,9 +237,9 @@ class RedshopHelperQuotation
 	 *
 	 * @param   string  $pLength  Length of string to generate
 	 *
-	 * @return  $string
+	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function randomQuotationEncryptKey($pLength = '30')
 	{
@@ -260,7 +267,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  boolean  true/false when inserting success or fail
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function manageQuotationUserField($cart = array(), $quotationItemId = 0, $sectionId = 12)
 	{
@@ -298,7 +305,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function insertQuotationUserField($fieldId = 0, $quotationItemId = 0, $sectionId = 12, $value = '')
 	{
@@ -319,7 +326,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getQuotationUserField($quotationItemId)
 	{
@@ -345,15 +352,14 @@ class RedshopHelperQuotation
 	 *
 	 * @return  string   HTML to display
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function displayQuotationUserField($quotationItemId = 0, $sectionId = 12)
 	{
 		/**
-		 * @TODO: Redtemplate and productHelper will be deprecated,
+		 * @TODO: ProductHelper will be deprecated,
 		 * replace them with approriated classes
 		 */
-		$redTemplate   = Redtemplate::getInstance();
 		$productHelper = productHelper::getInstance();
 
 		$resultArr = array();
@@ -363,20 +369,20 @@ class RedshopHelperQuotation
 		$query->select('fd.*')
 			->select($db->qn(array('f.field_title', 'f.field_type', 'field_name')))
 			->from($db->qn('#__redshop_quotation_fields_data', 'fd'))
-			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('qf.fieldid'))
-			->where($db->qn('qf.quotation_item_id') . ' = ' . (int) $quotationItemId)
-			->where($db->qn('fd.section') . ' = ' . $db->quote($section_id));
+			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('fd.fieldid'))
+			->where($db->qn('fd.quotation_item_id') . ' = ' . $db->q((int) $quotationItemId))
+			->where($db->qn('fd.section') . ' = ' . $db->q((int) $sectionId));
 
 		$db->setQuery($query);
 		$userField = $db->loadObjectlist();
 
 		if (count($userField) > 0)
 		{
-			$quotationItem   = self::getQuotationProduct(0, $quotation_item_id);
+			$quotationItem   = self::getQuotationProduct(0, $quotationItemId);
 			$productId       = $quotationItem[0]->product_id;
 
 			$productDetail   = Redshop::product((int) $productId);
-			$productTemplate = $redTemplate->getTemplate("product", $productDetail->product_template);
+			$productTemplate = RedshopHelperTemplate::getTemplate("product", $productDetail->product_template);
 
 			$returnArr       = $productHelper->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
 			$userFieldTag    = $returnArr[1];
@@ -394,7 +400,7 @@ class RedshopHelperQuotation
 
 							for ($f = 0, $fn = count($files); $f < $fn; $f++)
 							{
-								$uLink   = Redshop::getConfig()->get('REDSHOP_FRONT_DOCUMENT_ABSPATH') . "product/" . $files[$f];
+								$uLink   = REDSHOP_FRONT_DOCUMENT_ABSPATH . "product/" . $files[$f];
 								$dataTxt .= "<a href='" . $uLink . "'>" . $files[$f] . "</a> ";
 							}
 
@@ -425,7 +431,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  boolean/void           Return true if success, alert error if fail
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function updateQuotationWithOrder($quotationId, $orderId)
 	{
@@ -461,7 +467,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getQuotationWithOrder($orderId = 0)
 	{
@@ -476,7 +482,7 @@ class RedshopHelperQuotation
 		{
 			// Sanitize ids
 			$orderId = explode(',', $orderId);
-			JArrayHelper::toInteger($orderId);
+			$orderId = ArrayHelper::toInteger($orderId);
 
 			if (is_array($orderId))
 			{
@@ -500,7 +506,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getQuotationItemAccessoryDetail($quotationItemId = 0)
 	{
@@ -531,7 +537,7 @@ class RedshopHelperQuotation
 	 *
 	 * @return  object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.3
 	 */
 	public static function getQuotationItemAttributeDetail($quotationItemId = 0, $isAccessory = 0, $section = "attribute", $parentSectionId = 0)
 	{

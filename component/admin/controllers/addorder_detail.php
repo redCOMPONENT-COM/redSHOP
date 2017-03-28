@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('hidemainmenu', 1);
 	}
 
 	public function savepay()
@@ -29,14 +29,13 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		$adminproducthelper = RedshopAdminProduct::getInstance();
 		$order_functions = order_functions::getInstance();
 		$shippinghelper = shipping::getInstance();
 
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$post ['order_id'] = $cid [0];
 		$model = $this->getModel('addorder_detail');
 		$post['order_number'] = $order_functions->generateOrderNumber();
@@ -79,7 +78,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 				}
 				else
 				{
-					$stocknote .= $productData->product_name . " " . JText::_('PRODUCT_OUT_OF_STOCK') . "<br/>";
+					$stocknote .= $productData->product_name . " " . JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK') . "<br/>";
 					unset($orderItem[$i]);
 				}
 			}
@@ -88,7 +87,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 			if (count($orderItem) <= 0)
 			{
-				$msg = JText::_('PRODUCT_OUT_OF_STOCK');
+				$msg = JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK');
 				$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $post['user_id']
 						. '&shipping_users_info_id=' . $post['shipp_users_info_id'], $msg
 				);
@@ -191,19 +190,22 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$post['order_payment_amount'] = $tmporder_total;
 		$post['order_payment_name'] = $paymentmethod->name;
 
+		// Save + Pay button pressed
 		if ($apply == 1)
 		{
-			$post['order_payment_status'] = 'Unpaid';
-			$post['order_status'] = 'P';
+			$post['order_payment_status'] = empty($post['order_payment_status']) ? 'Unpaid' : $post['order_payment_status'];
+			$post['order_status']         = empty($post['order_status']) ? 'P' : $post['order_status'];
 		}
 
 		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
+			$type = 'success';
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
+			$type = 'error';
 		}
 
 		if ($apply == 1)
@@ -213,7 +215,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stocknote);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stocknote, $type);
 		}
 	}
 
@@ -226,40 +228,34 @@ class RedshopControllerAddorder_detail extends RedshopController
 
 	public function guestuser()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
 		if (!isset($post['billisship']))
 		{
-			JRequest::setVar('billisship', 0);
+			$this->input->set('billisship', 0);
 		}
 
-
+		/** @var RedshopModelAddorder_detail $model */
 		$model = $this->getModel('addorder_detail');
 
 		if ($row = $model->storeShipping($post))
 		{
-			$ret = '';
-			$user_id = $row->user_id;
-			$shipping_users_info_id = $row->users_info_id;
-			$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $user_id .
-					'&shipping_users_info_id=' .
-					$shipping_users_info_id . $ret
+			$this->setRedirect(
+				'index.php?option=com_redshop&view=addorder_detail&user_id=' . $row->user_id . '&shipping_users_info_id=' . $row->users_info_id
 			);
 		}
 
-		else
-		{
-			parent::display();
-		}
+		JFactory::getApplication()->setUserState('com_redshop.addorder_detail.guestuser.username', $this->input->getUsername('username'));
+
+		parent::display();
 	}
 
 	public function changeshippingaddress()
 	{
-		$shippingadd_id = JRequest::getVar('shippingadd_id', 0);
-		$user_id = JRequest::getVar('user_id', 0);
-		$is_company = JRequest::getVar('is_company', 0);
+		$shippingadd_id = $this->input->getInt('shippingadd_id', 0);
+		$user_id = $this->input->getInt('user_id', 0);
+		$is_company = $this->input->getInt('is_company', 0);
 		$model = $this->getModel('addorder_detail');
-
 
 		$htmlshipping = $model->changeshippingaddress($shippingadd_id, $user_id, $is_company);
 
@@ -270,7 +266,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 	public function getShippingRate()
 	{
 		$shippinghelper = shipping::getInstance();
-		$get = JRequest::get('get');
+		$get = $this->input->get->getArray();
 		$shipping = RedshopShippingRate::decrypt($get['shipping_rate_id']);
 		$order_shipping = 0;
 		$order_shipping_class = '';

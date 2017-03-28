@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.4
  */
-class Plgredshop_ShippingPostdanmark extends JPlugin
+class PlgRedshop_ShippingPostdanmark extends JPlugin
 {
 	protected $autoloadLanguage = true;
 
@@ -50,11 +50,10 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 	 */
 	public function onListRates(&$d)
 	{
-		$shippinghelper = shipping::getInstance();
-		$shippingrate   = array();
-		$rate           = 0;
-		$shipping       = $shippinghelper->getShippingMethodByClass($this->classname);
-		$shippingArr    = $shippinghelper->getShopperGroupDefaultShipping();
+		$shippingrate = array();
+		$rate         = 0;
+		$shipping     = RedshopHelperShipping::getShippingMethodByClass($this->classname);
+		$shippingArr  = RedshopHelperShipping::getShopperGroupDefaultShipping();
 
 		if (!empty($shippingArr))
 		{
@@ -83,13 +82,13 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 			$rate++;
 		}
 
-		$ratelist = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
+		$ratelist = RedshopHelperShipping::listShippingRates($shipping->element, $d['users_info_id'], $d);
 
 		for ($i = 0, $in = count($ratelist); $i < $in; $i++)
 		{
 			$rs                         = $ratelist[$i];
 			$shippingRate               = $rs->shipping_rate_value;
-			$rs->shipping_rate_value    = $shippinghelper->applyVatOnShippingRate($rs, $d);
+			$rs->shipping_rate_value    = RedshopHelperShipping::applyVatOnShippingRate($rs, $d);
 			$shippingVatRate            = $rs->shipping_rate_value - $shippingRate;
 			$economic_displaynumber     = $rs->economic_displaynumber;
 			$shipping_rate_id           = RedshopShippingRate::encrypt(
@@ -143,7 +142,7 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 			if ($useMap)
 			{
 				$document->addStyleSheet('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/magnific-popup.css');
-				$document->addScript('//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places');
+				$document->addScript('//maps.googleapis.com/maps/api/js?libraries=places&key=' . $this->params->get('mapKey'));
 				$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/map_functions.js');
 				$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/magnific-popup/jquery.magnific-popup.min.js');
 			}

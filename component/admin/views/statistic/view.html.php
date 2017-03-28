@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ class RedshopViewStatistic extends RedshopViewAdmin
 		global $context;
 
 		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();   
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		$layout = $app->input->getCmd('layout', '');
@@ -28,6 +28,7 @@ class RedshopViewStatistic extends RedshopViewAdmin
 
 		$filteroption = $app->input->getInt('filteroption', 0);
 		$typeoption = $app->input->getInt('typeoption', 2);
+
 		$lists = array();
 		$option = array();
 
@@ -143,33 +144,44 @@ class RedshopViewStatistic extends RedshopViewAdmin
 
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC'));
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $title, 'statistic redshop_statistic48');
-
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination       = new JPagination($total, $limitstart, $limit);
 		$this->pagination = $pagination;
 
 		$this->startdate = $startdate;
-		$this->enddate = $enddate;
+		$this->enddate   = $enddate;
 
-		$this->popularsell = $popularsell;
-		$this->bestsell = $bestsell;
-		$this->avgorderamount = $avgorderamount;
-		$this->newprod = $newprod;
-		$this->neworder = $neworder;
-		$this->totalturnover = $totalturnover;
-		$this->amountorder = $amountorder;
-		$this->amountprice = $amountprice;
+		$this->popularsell        = $popularsell;
+		$this->bestsell           = $bestsell;
+		$this->avgorderamount     = $avgorderamount;
+		$this->newprod            = $newprod;
+		$this->neworder           = $neworder;
+		$this->totalturnover      = $totalturnover;
+		$this->amountorder        = $amountorder;
+		$this->amountprice        = $amountprice;
 		$this->amountspentintotal = $amountspentintotal;
-		$this->redshopviewer = $redshopviewer;
-		$this->pageviewer = $pageviewer;
-		$this->lists = $lists;
-		$this->filteroption = $filteroption;
-		$this->typeoption = $typeoption;
-		$this->layout = $layout;
-		$this->request_url = $uri->toString();
+		$this->redshopviewer      = $redshopviewer;
+		$this->pageviewer         = $pageviewer;
+		$this->lists              = $lists;
+		$this->filteroption       = $filteroption;
+		$this->typeoption         = $typeoption;
+		$this->layout             = $layout;
+		$this->request_url        = $uri->toString();
+		$this->title              = $title;
 
+		$this->addToolbar();
 		parent::display($tpl);
 	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+		JToolBarHelper::title($this->title, 'statistic redshop_statistic48');
+	}
 }
-
-

@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Redshop
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -46,12 +46,12 @@ abstract class Redshop
 	 */
 	public static function getConfig()
 	{
-		if (null === static::$config)
+		if (null === self::$config)
 		{
-			static::$config = new RedshopHelperConfig;
+			self::$config = new RedshopHelperConfig;
 		}
 
-		return static::$config;
+		return self::$config;
 	}
 
 	/**
@@ -62,13 +62,13 @@ abstract class Redshop
 	 */
 	public static function getManifest()
 	{
-		if (null === static::$manifest)
+		if (null === self::$manifest)
 		{
 			$manifestFile = JPATH_ADMINISTRATOR . '/components/' . self::$component . '/redshop.xml';
 
 			if (file_exists($manifestFile))
 			{
-				static::$manifest = simplexml_load_file($manifestFile);
+				self::$manifest = simplexml_load_file($manifestFile);
 			}
 			else
 			{
@@ -76,7 +76,7 @@ abstract class Redshop
 			}
 		}
 
-		return static::$manifest;
+		return self::$manifest;
 	}
 
 	/**
@@ -86,7 +86,7 @@ abstract class Redshop
 	 */
 	public static function getVersion()
 	{
-		return (string) static::getManifest()->version;
+		return (string) self::getManifest()->version;
 	}
 
 	/**

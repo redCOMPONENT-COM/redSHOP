@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -628,14 +628,9 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 					'product_attribute'
 				)->addItem(
 					'#product_accessory',
-					'COM_REDSHOP_ACCESSORY_PRODUCT',
+					'COM_REDSHOP_ACCESSORY_RELATED_PRODUCT',
 					($selectedTabPosition == 'product_accessory') ? true : false,
 					'product_accessory'
-				)->addItem(
-					'#related',
-					'COM_REDSHOP_RELATED_PRODUCT',
-					($selectedTabPosition == 'related') ? true : false,
-					'related'
 				);
 
 		if ($this->CheckRedProductFinder > 0)
@@ -670,12 +665,17 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 					'COM_REDSHOP_DISCOUNT_CALCULATOR',
 					($selectedTabPosition == 'calculator') ? true : false,
 					'calculator'
-				)->addItem(
-					'#economic_settings',
-					'COM_REDSHOP_ECONOMIC_SETTINGS',
-					($selectedTabPosition == 'economic_settings') ? true : false,
-					'economic_settings'
 				);
+
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION'))
+		{
+			$tabMenu->addItem(
+				'#economic_settings',
+				'COM_REDSHOP_ECONOMIC_SETTINGS',
+				($selectedTabPosition == 'economic_settings') ? true : false,
+				'economic_settings'
+			);
+		}
 
 		return $tabMenu;
 	}

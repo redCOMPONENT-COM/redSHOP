@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,16 +35,16 @@ class RedshopControllerWrapper extends RedshopController
 
 	public function remove()
 	{
-		$showall = JRequest::getVar('showall', '0');
-		$tmpl = '';
+		$showall = $this->input->get('showall', '0');
+		$tmpl    = '';
 
 		if ($showall)
 		{
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = JRequest::getVar('product_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$product_id = $this->input->get('product_id');
+		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -70,16 +70,16 @@ class RedshopControllerWrapper extends RedshopController
 	 */
 	public function publish()
 	{
-		$showall = JRequest::getVar('showall', '0');
-		$tmpl = '';
+		$showall = $this->input->get('showall', '0');
+		$tmpl    = '';
 
 		if ($showall)
 		{
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = JRequest::getVar('product_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$product_id = $this->input->get('product_id');
+		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -105,16 +105,16 @@ class RedshopControllerWrapper extends RedshopController
 	 */
 	public function unpublish()
 	{
-		$showall = JRequest::getVar('showall', '0');
-		$tmpl = '';
+		$showall = $this->input->get('showall', '0');
+		$tmpl    = '';
 
 		if ($showall)
 		{
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = JRequest::getVar('product_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$product_id = $this->input->get('product_id');
+		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -134,16 +134,16 @@ class RedshopControllerWrapper extends RedshopController
 
 	public function enable_defaultpublish()
 	{
-		$showall = JRequest::getVar('showall', '0');
-		$tmpl = '';
+		$showall = $this->input->get('showall', '0');
+		$tmpl    = '';
 
 		if ($showall)
 		{
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = JRequest::getVar('product_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$product_id = $this->input->get('product_id');
+		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -163,16 +163,16 @@ class RedshopControllerWrapper extends RedshopController
 
 	public function enable_defaultunpublish()
 	{
-		$showall = JRequest::getVar('showall', '0');
-		$tmpl = '';
+		$showall = $this->input->get('showall', '0');
+		$tmpl    = '';
 
 		if ($showall)
 		{
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = JRequest::getVar('product_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$product_id = $this->input->get('product_id');
+		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
