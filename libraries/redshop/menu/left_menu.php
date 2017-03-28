@@ -337,7 +337,7 @@ class RedshopMenuLeft_Menu
 				'fa fa-sitemap'
 			)
 			->addHeaderItem(
-				'index.php?option=com_redshop&view=media',
+				'index.php?option=com_redshop&view=medias',
 				'COM_REDSHOP_MEDIA_LISTING',
 				(self::$view == 'media') ? true : false,
 				null,

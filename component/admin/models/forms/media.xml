@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+                />
+        <field
+                id="media_name"
+                name="media_name"
+                type="hidden"
+                />
+        <field
+                name="media_alternate_text"
+                type="redshop.text"
+                label="COM_REDSHOP_MEDIA_ALTERNATE_TEXT"
+                description="COM_REDSHOP_MEDIA_ALTERNATE_TEXT_DESCRIPTION"
+                placeholder="COM_REDSHOP_MEDIA_ALTERNATE_TEXT_DESCRIPTION"
+                size="3"
+                class="input-xs"
+                default=""
+                required="true"
+                />
+        <field
+                name="media_section"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_MEDIA_SECTION"
+                disable="true"
+                required="true">
+            <option value="product">COM_REDSHOP_MEDIA_SECTION_PRODUCT</option>
+            <option value="category">COM_REDSHOP_MEDIA_SECTION_CATEGORY</option>
+            <option value="manufacturer">COM_REDSHOP_MEDIA_SECTION_MANUFACTURER</option>
+        </field>
+        <field
+                name="published"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_PUBLISHED"
+                required="true">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+        </field>
+        <field
+                name="section_id"
+                type="MediaSectionId"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_MEDIA_SECTION_ID"
+                required="true">
+        </field>
+    </fieldset>
+</form>
