@@ -196,25 +196,21 @@ class RedshopModelCategory extends JModelAdmin
 			$db->setQuery($query)->execute();
 		}
 
-		if (!empty($data['category_full_image']['name']))
+		if (!empty($data['category_full_image']))
 		{
 			// Make the filename unique
-			$fileName = RedShopHelperImages::cleanFileName($data['category_full_image']['name']);
-			$newWidth = Redshop::getConfig()->get('THUMB_WIDTH');
-			$newHeight = Redshop::getConfig()->get('THUMB_HEIGHT');
+			$fileName = RedShopHelperImages::cleanFileName(basename($data['category_full_image']));
 
 			$row->category_full_image = $fileName;
 			$row->category_thumb_image = $fileName;
 
-			// Get extension of the file
-			$filetype = JFile::getExt($data['category_full_image']['name']);
-
-			$src = $data['category_full_image']['tmp_name'];
+			$src = JPATH_ROOT . '/' . $data['category_full_image'];
 
 			// Specific path of the file
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
 
-			JFile::upload($src, $dest);
+			JFile::copy($src, $dest);
+			unlink($src);
 		}
 		else
 		{
@@ -227,14 +223,10 @@ class RedshopModelCategory extends JModelAdmin
 				$row->category_full_image = $fileName;
 				$row->category_thumb_image = $fileName;
 
-				// Image Upload
-				$newWidth = Redshop::getConfig()->get('THUMB_WIDTH');
-				$newHeight = Redshop::getConfig()->get('THUMB_HEIGHT');
-
 				$src = JPATH_ROOT . '/' . $data['category_image'];
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
 
-				copy($src, $dest);
+				JFile::copy($src, $dest);
 			}
 		}
 
@@ -258,21 +250,19 @@ class RedshopModelCategory extends JModelAdmin
 			$db->setQuery($query)->execute();
 		}
 
-		if (!empty($data['category_back_full_image']['name']))
+		if (!empty($data['category_back_full_image']))
 		{
 			// Make the filename unique
-			$fileName = RedShopHelperImages::cleanFileName($data['category_back_full_image']['name']);
+			$fileName = RedShopHelperImages::cleanFileName(basename($data['category_back_full_image']));
 			$row->category_back_full_image = $fileName;
 
-			// Get extension of the file
-			$filetype = JFile::getExt($data['category_back_full_image']['name']);
-
-			$src = $data['category_back_full_image']['tmp_name'];
+			$src = JPATH_ROOT . '/' . $data['category_back_full_image'];
 
 			// Specific path of the file
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
 
-			JFile::upload($src, $dest);
+			JFile::copy($src, $dest);
+			unlink($src);
 		}
 
 		// Upload back image end

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,29 +30,19 @@ class RedshopControllerCategory extends RedshopControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$task                      = $this->getTask();
-		$input                     = JFactory::getApplication()->input;
-		$post                      = $input->post->get('jform', array(), 'array');
-		$post['product_accessory'] = $input->post->get('product_accessory', array(), 'array');
-		$post['old_image']         = $input->post->getString('old_image');
-		$post['image_delete']      = $input->post->getString('image_delete');
-		$post['image_back_delete'] = $input->post->getString('image_back_delete');
-		$fullImage                 = $input->files->get('category_full_image');
-		$fullBackImage             = $input->files->get('category_back_full_image');
+		$task                             = $this->getTask();
+		$input                            = JFactory::getApplication()->input;
+		$post                             = $input->post->get('jform', array(), 'array');
+		$post['product_accessory']        = $input->post->get('product_accessory', array(), 'array');
+		$post['old_image']                = $input->post->getString('old_image');
+		$post['image_delete']             = $input->post->getString('image_delete');
+		$post['image_back_delete']        = $input->post->getString('image_back_delete');
+		$post['category_full_image']      = $input->post->getString('category_full_image');
+		$post['category_back_full_image'] = $input->post->getString('category_back_full_image');
 
 		if (!empty($post["category_more_template"]) && is_array($post["category_more_template"]))
 		{
 			$post["category_more_template"] = implode(",", $post["category_more_template"]);
-		}
-
-		if (!empty($fullImage))
-		{
-			$post['category_full_image'] = $fullImage;
-		}
-
-		if (!empty($fullBackImage))
-		{
-			$post['category_back_full_image'] = $fullBackImage;
 		}
 
 		$model = $this->getModel('category');
