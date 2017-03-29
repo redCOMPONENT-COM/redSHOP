@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -60,22 +60,3 @@ JText::script('COM_REDSHOP_DELETE');
 	<input type="hidden" name="view" value="category"/>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-
-<script type="text/javascript" language="javascript">
-
-	/*  Media Bank */
-
-	function jimage_insert(main_path) {
-		var path_url = "<?php echo $url;?>";
-		if (main_path) {
-			if (!document.getElementById("image_display")) {
-				var img = new Image();
-				img.id = "image_display";
-				document.getElementById("image_dis").appendChild(img);
-			}
-			document.getElementById("category_image").value = main_path;
-			document.getElementById("image_display").src = path_url + main_path;
-		}
-	}
-
-</script>

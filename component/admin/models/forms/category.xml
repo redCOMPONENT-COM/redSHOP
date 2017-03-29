@@ -11,7 +11,7 @@
 			/>
 		<field
 			name="category_name"
-			type="text"
+			type="redshop.text"
 			label="COM_REDSHOP_CATEGORY_NAME"
 			description="COM_REDSHOP_TOOLTIP_CATEGORY_NAME"
 			size="40"
@@ -55,7 +55,7 @@
 		
 		<field
 			name="products_per_page"
-			type="text"
+			type="redshop.text"
 			label="COM_REDSHOP_SHOW_PRODUCT_PER_PAGE"
 			description="COM_REDSHOP_TOOLTIP_SHOW_PRODUCT_PER_PAGE"
 			size="40"
@@ -78,12 +78,12 @@
 			/>
 		<field
 			name="published"
-			type="radio"
-			class="btn-group btn-group-yesno"
+			type="redshop.radio"
+			class="btn-group"
 			default="1"
+			label-class="radio-inline"
 			label="COM_REDSHOP_PUBLISHED"
-			description="COM_REDSHOP_PUBLISHED"
-		>
+			description="COM_REDSHOP_PUBLISHED">
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 		</field>
@@ -112,7 +112,7 @@
 		</field>
 		<field
 			name="pagetitle"
-			type="text"
+			type="redshop.text"
 			label="COM_REDSHOP_PAGE_TITLE"
 			description="COM_REDSHOP_TOOLTIP_PAGE_TITLE"
 			size="40"
@@ -121,7 +121,7 @@
 			/>
 		<field
 			name="pageheading"
-			type="text"
+			type="redshop.text"
 			label="COM_REDSHOP_PAGE_HEADING"
 			description="COM_REDSHOP_TOOLTIP_PAGE_HEADING"
 			size="40"
@@ -130,7 +130,7 @@
 			/>
 		<field
 			name="sef_url"
-			type="text"
+			type="redshop.text"
 			label="COM_REDSHOP_SEF_URL"
 			description="COM_REDSHOP_TOOLTIP_SEF_URL"
 			size="40"
@@ -139,7 +139,7 @@
 			/>
 		<field
 			name="canonical_url"
-			type="text"
+			type="redshop.text"
 			label="COM_REDSHOP_CANONICAL_URL_PRODUCT"
 			description="COM_REDSHOP_TOOLTIP_CANONICAL_URL_PRODUCT"
 			size="40"

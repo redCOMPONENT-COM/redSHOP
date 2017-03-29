@@ -3,28 +3,57 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
+/**
+ * View Categories
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.4
+ */
 class RedshopViewCategories extends RedshopViewAdmin
 {
 	/**
-	 * The current user.
-	 *
-	 * @var  JUser
+	 * @var  array
 	 */
-	public $user;
+	public $items;
 
 	/**
-	 * The request url.
-	 *
-	 * @var  string
+	 * @var  JPagination
 	 */
-	public $request_url;
+	public $pagination;
 
+	/**
+	 * @var  array
+	 */
+	public $state;
+
+	/**
+	 * @var  array
+	 */
+	public $activeFilters;
+
+	/**
+	 * @var  JForm
+	 */
+	public $filterForm;
+
+	/**
+	 * Display template function
+	 *
+	 * @param   object  $tpl  template variable
+	 *
+	 * @return void
+	 *
+	 * @since 2.0.0.3
+	 *
+	 * @throws  Exception
+	 */
 	public function display($tpl = null)
 	{
 		$model = $this->getModel();

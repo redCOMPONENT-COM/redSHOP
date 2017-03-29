@@ -27,6 +27,12 @@ class RedshopViewCategory extends RedshopViewAdmin
 	 */
 	protected $displaySidebar = false;
 
+	protected $form;
+
+	protected $item;
+
+	protected $state;
+
 	/**
 	 * Execute and display a template script.
 	 *

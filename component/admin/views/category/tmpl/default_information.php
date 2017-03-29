@@ -3,11 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
 ?>
 
 <div class="row">
@@ -101,16 +100,6 @@ defined('_JEXEC') or die;
 							false
 						);
 					?>
-
-					<div class="btn-toolbar">
-						<?php
-						$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
-						?>
-						<a class="modal btn btn-primary inline" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 900, y: 500}}">
-							<?php echo JText::_('COM_REDSHOP_SELECT_IMAGE'); ?>
-						</a>
-					</div>
-
 					<?php echo $this->form->getInput('category_image'); ?>
 				</div>
 
