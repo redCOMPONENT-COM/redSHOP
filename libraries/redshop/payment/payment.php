@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Common architecture for payment class.
  *
@@ -69,12 +67,14 @@ abstract class RedshopPayment extends JPlugin
 	 *
 	 * @param   array  $orderInfo  Order Information
 	 *
-	 * @return  array  Payment Gateway for parameters
+	 * @return  array              Payment Gateway for parameters
 	 */
 	abstract protected function preparePaymentInput($orderInfo);
 
 	/**
 	 * Set Plugin Base path.
+	 *
+	 * @return  void
 	 */
 	protected function setPluginPath()
 	{
@@ -123,9 +123,9 @@ abstract class RedshopPayment extends JPlugin
 	/**
 	 * Render payment form to redirect on payment gateway page.
 	 *
-	 * @param   array   $orderInfo  Order Information Array
+	 * @param   array  $orderInfo  Order Information Array
 	 *
-	 * @return  string  Rendered Layout HTML
+	 * @return  string             Rendered Layout HTML
 	 */
 	protected function renderPaymentForm($orderInfo)
 	{
@@ -145,12 +145,14 @@ abstract class RedshopPayment extends JPlugin
 	/**
 	 * Set order payment status object
 	 *
-	 * @param  integer  $orderId        Order Id
-	 * @param  string   $transactionId  Transaction
-	 * @param  string   $status         Order Status Code
-	 * @param  string   $paymentStatus  Order Payment Status Code
-	 * @param  string   $message        Order Message
-	 * @param  string   $log            Order Payment Log
+	 * @param   integer  $orderId        Order Id
+	 * @param   string   $transactionId  Transaction
+	 * @param   string   $status         Order Status Code
+	 * @param   string   $paymentStatus  Order Payment Status Code
+	 * @param   string   $message        Order Message
+	 * @param   string   $log            Order Payment Log
+	 *
+	 * @return  object                   Values
 	 */
 	protected function setStatus($orderId, $transactionId, $status, $paymentStatus, $message, $log)
 	{
