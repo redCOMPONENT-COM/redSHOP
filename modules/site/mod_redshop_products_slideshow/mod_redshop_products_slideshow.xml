@@ -1,1 +1,182 @@
-<?xml version="1.0" encoding="utf-8"?><extension type="module" version="2.5" client="site" method="upgrade">	<name>MOD_REDSHOP_PRODUCTS_SLIDESHOW</name>	<version>1.6</version>	<redshop>2.0</redshop>	<creationDate>Sep 2016</creationDate>	<author>redCOMPONENT.com</author>	<authorEmail>email@redcomponent.com</authorEmail>	<copyright>redCOMPONENT.com</copyright>	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>	<description>MOD_REDSHOP_PRODUCTS_SLIDESHOW_DESC</description>	<files>		<filename module="mod_redshop_products_slideshow">mod_redshop_products_slideshow.php</filename>		<filename>index.html</filename>		<filename>helper.php</filename>		<folder>tmpl</folder>		<folder>assets</folder>	</files>	<languages>		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_products_slideshow.ini</language>		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_products_slideshow.sys.ini</language>	</languages>	<config>		<fields name="params" addfieldpath="/libraries/redshop/form/fields">			<fieldset name="basic">				<field name="moduleclass_sfx" type="text" default=""					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_MODULECLASS_SFX_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_MODULECLASS_SFX_DESC"/>				<field name="class_sfx" type="text" default=""					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_CLASS_SFX_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_CLASS_SFX_DESC"/>				<field name="category_id"					   type="redshopcategory"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_CATEGORY_ID_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_CATEGORY_ID_DESC"					   multiple="true"/>				<field name="load_curr" type="list" default="1"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_LOAD_CURR_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_LOAD_CURR_DESC">					<option value="1">JYES</option>					<option value="2">JNO</option>				</field>				<field name="loadtype" type="list" default="random"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_LOADTYPE_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_LOADTYPE_DESC">					<option value="newest">MOD_REDSHOP_PRODUCTS_SLIDESHOW_NEWEST</option>					<option value="random">MOD_REDSHOP_PRODUCTS_SLIDESHOW_RANDOM</option>					<option value="mostsold">MOD_REDSHOP_PRODUCTS_SLIDESHOW_MOSTSOLD</option>					<option value="special">MOD_REDSHOP_PRODUCTS_SLIDESHOW_SPECIAL</option>				</field>				<field name="bannerWidth" type="text" default="670"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BANNERWIDTH_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BANNERWIDTH_DESC"/>				<field name="bannerHeight" type="text" default="210"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BANNERHEIGHT_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BANNERHEIGHT_DESC"/>				<field name="backgroundColor" type="text" default="#ffffff"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BACKGROUNDCOLOR_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BACKGROUNDCOLOR_DESC"/>				<field name="imageWidth" type="text" default="200"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_IMAGEWIDTH_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_IMAGEWIDTH_DESC"/>				<field name="imageHeight" type="text" default="100"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_IMAGEHEIGHT_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_IMAGEHEIGHT_DESC"/>				<field name="numbproduct" type="text" default="5"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_NUMBPRODUCT_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_NUMBPRODUCT_DESC"/>				<field name="wmode" type="list" default="window"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_WMODE_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_WMODE_DESC">					<option value="opaque">MOD_REDSHOP_PRODUCTS_SLIDESHOW_OPAQUE</option>					<option value="transparent">MOD_REDSHOP_PRODUCTS_SLIDESHOW_TRANSPARENT</option>					<option value="window">MOD_REDSHOP_PRODUCTS_SLIDESHOW_WINDOW</option>				</field>				<field name="roundCorner" type="text" default="0"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_ROUNDCORNER_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_ROUNDCORNER_DESC"/>				<field name="autoPlayTime" type="text" default="8"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_AUTOPLAYTIME_LBL"/>				<field name="isHeightQuality" type="list" default="no"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_ISHEIGHTQUALITY_LBL">					<option value="yes">JYES</option>					<option value="no">JNO</option>				</field>				<field name="blendMode" type="text" default="normal"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BLENDMODE_LBL"/>				<field name="transDuration" type="text" default="1"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TRANSDURATION_LBL"/>				<field name="windowOpen" type="list" default="_blank"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_WINDOWOPEN_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_WINDOWOPEN_DESC">					<option value="_self">_self</option>					<option value="_blank">_blank</option>					<option value="_parent">_parent</option>				</field>				<field name="btnSetMargin" type="text" default="auto 5 5 auto"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNSETMARGIN_LBL"/>				<field name="btnDistance" type="text" default="20"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNDISTANCE_LBL"/>				<field name="titleBgColor" type="text" default="0x000000"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TITLEBGCOLOR_LBL"/>				<field name="titleTextColor" type="text" default="0xffffff"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TITLETEXTCOLOR_LBL"/>				<field name="titleBgAlpha" type="text" default=".4"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TITLEBGALPHA_LBL"/>				<field name="titleMoveDuration" type="text" default="1"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TITLEMOVEDURATION_LBL"/>				<field name="btnAlpha" type="text" default=".4"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNALPHA_LBL"/>				<field name="btnTextColor" type="text" default="0xffffff"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNTEXTCOLOR_LBL"/>				<field name="btnDefaultColor" type="text" default="0x1B3433"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNDEFAULTCOLOR_LBL"/>				<field name="btnHoverColor" type="text" default="0xff9900"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNHOVERCOLOR_LBL"/>				<field name="btnFocusColor" type="text" default="0xff6600"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNFOCUSCOLOR_LBL"/>				<field name="changImageMode" type="list" default="click"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_CHANGIMAGEMODE_LBL">					<option value="click">click</option>					<option value="hover">hover</option>				</field>				<field name="isShowBtn" type="list" default="yes"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_ISSHOWBTN_LBL">					<option value="yes">JYES</option>					<option value="no">JNO</option>				</field>				<field name="isShowTitle" type="list" default="yes"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_ISSHOWTITLE_LBL">					<option value="yes">JYES</option>					<option value="no">JNO</option>				</field>				<field name="scaleMode" type="list" default="noScale"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_SCALEMODE_LBL">					<option value="showAll">showAll</option>					<option value="exactFit">exactFit</option>					<option value="noScale">noScale</option>					<option value="noBorder">noBorder</option>				</field>				<field name="transform" type="list" default="blur"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TRANSFORM_LBL">					<option value="blur">blur</option>					<option value="alpha">alpha</option>					<option value="left">left</option>					<option value="right">right</option>					<option value="top">top</option>					<option value="bottom">bottom</option>					<option value="breathe">breathe</option>					<option value="breathBlur">breathBlur</option>				</field>				<field name="isShowAbout" type="list" default="no"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_ISSHOWABOUT_LBL">					<option value="yes">JYES</option>					<option value="no">JNO</option>				</field>				<field name="titleFont" type="text" default="Tahoma"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TITLEFONT_LBL"/>				<field name="show_price" type="list" default="yes"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_SHOW_PRICE_LBL"					   description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_SHOW_PRICE_DESC">					<option value="yes">JYES</option>					<option value="no">JNO</option>				</field>				<field name="currency" type="text" default="$"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_CURRENCY_LBL"/>				<field name="pricetax" type="list" default="yes"					   label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_PRICETAX_LBL">					<option value="yes">JYES</option>					<option value="no">JNO</option>				</field>			</fieldset>			<fieldset name="advanced">			<field					name="layout"					type="modulelayout"					label="JFIELD_ALT_LAYOUT_LABEL"					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />			</fieldset>		</fields>	</config></extension>
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="2.5" client="site" method="upgrade">
+    <name>MOD_REDSHOP_PRODUCTS_SLIDESHOW</name>
+    <version>1.6.0</version>
+    <redshop>2.0.0</redshop>
+    <creationDate>Sep 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>MOD_REDSHOP_PRODUCTS_SLIDESHOW_DESC</description>
+    <files>
+        <filename module="mod_redshop_products_slideshow">mod_redshop_products_slideshow.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <folder>tmpl</folder>
+        <folder>assets</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_products_slideshow.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_products_slideshow.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params" addfieldpath="/libraries/redshop/form/fields">
+            <fieldset name="basic">
+                <field name="moduleclass_sfx" type="text" default=""
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_MODULECLASS_SFX_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_MODULECLASS_SFX_DESC"/>
+                <field name="class_sfx" type="text" default=""
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_CLASS_SFX_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_CLASS_SFX_DESC"/>
+                <field name="category_id"
+                       type="redshopcategory"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_CATEGORY_ID_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_CATEGORY_ID_DESC"
+                       multiple="true"/>
+                <field name="load_curr" type="list" default="1"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_LOAD_CURR_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_LOAD_CURR_DESC">
+                    <option value="1">JYES</option>
+                    <option value="2">JNO</option>
+                </field>
+                <field name="loadtype" type="list" default="random"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_LOADTYPE_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_LOADTYPE_DESC">
+                    <option value="newest">MOD_REDSHOP_PRODUCTS_SLIDESHOW_NEWEST</option>
+                    <option value="random">MOD_REDSHOP_PRODUCTS_SLIDESHOW_RANDOM</option>
+                    <option value="mostsold">MOD_REDSHOP_PRODUCTS_SLIDESHOW_MOSTSOLD</option>
+                    <option value="special">MOD_REDSHOP_PRODUCTS_SLIDESHOW_SPECIAL</option>
+                </field>
+                <field name="bannerWidth" type="text" default="670"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BANNERWIDTH_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BANNERWIDTH_DESC"/>
+                <field name="bannerHeight" type="text" default="210"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BANNERHEIGHT_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BANNERHEIGHT_DESC"/>
+                <field name="backgroundColor" type="text" default="#ffffff"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BACKGROUNDCOLOR_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BACKGROUNDCOLOR_DESC"/>
+                <field name="imageWidth" type="text" default="200"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_IMAGEWIDTH_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_IMAGEWIDTH_DESC"/>
+                <field name="imageHeight" type="text" default="100"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_IMAGEHEIGHT_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_IMAGEHEIGHT_DESC"/>
+                <field name="numbproduct" type="text" default="5"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_NUMBPRODUCT_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_NUMBPRODUCT_DESC"/>
+                <field name="wmode" type="list" default="window"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_WMODE_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_WMODE_DESC">
+                    <option value="opaque">MOD_REDSHOP_PRODUCTS_SLIDESHOW_OPAQUE</option>
+                    <option value="transparent">MOD_REDSHOP_PRODUCTS_SLIDESHOW_TRANSPARENT</option>
+                    <option value="window">MOD_REDSHOP_PRODUCTS_SLIDESHOW_WINDOW</option>
+                </field>
+                <field name="roundCorner" type="text" default="0"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_ROUNDCORNER_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_ROUNDCORNER_DESC"/>
+                <field name="autoPlayTime" type="text" default="8"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_AUTOPLAYTIME_LBL"/>
+                <field name="isHeightQuality" type="list" default="no"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_ISHEIGHTQUALITY_LBL">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="blendMode" type="text" default="normal"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BLENDMODE_LBL"/>
+                <field name="transDuration" type="text" default="1"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TRANSDURATION_LBL"/>
+                <field name="windowOpen" type="list" default="_blank"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_WINDOWOPEN_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_WINDOWOPEN_DESC">
+                    <option value="_self">_self</option>
+                    <option value="_blank">_blank</option>
+                    <option value="_parent">_parent</option>
+                </field>
+                <field name="btnSetMargin" type="text" default="auto 5 5 auto"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNSETMARGIN_LBL"/>
+                <field name="btnDistance" type="text" default="20"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNDISTANCE_LBL"/>
+                <field name="titleBgColor" type="text" default="0x000000"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TITLEBGCOLOR_LBL"/>
+                <field name="titleTextColor" type="text" default="0xffffff"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TITLETEXTCOLOR_LBL"/>
+                <field name="titleBgAlpha" type="text" default=".4"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TITLEBGALPHA_LBL"/>
+                <field name="titleMoveDuration" type="text" default="1"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TITLEMOVEDURATION_LBL"/>
+                <field name="btnAlpha" type="text" default=".4"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNALPHA_LBL"/>
+                <field name="btnTextColor" type="text" default="0xffffff"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNTEXTCOLOR_LBL"/>
+                <field name="btnDefaultColor" type="text" default="0x1B3433"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNDEFAULTCOLOR_LBL"/>
+                <field name="btnHoverColor" type="text" default="0xff9900"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNHOVERCOLOR_LBL"/>
+                <field name="btnFocusColor" type="text" default="0xff6600"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_BTNFOCUSCOLOR_LBL"/>
+                <field name="changImageMode" type="list" default="click"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_CHANGIMAGEMODE_LBL">
+                    <option value="click">click</option>
+                    <option value="hover">hover</option>
+                </field>
+                <field name="isShowBtn" type="list" default="yes"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_ISSHOWBTN_LBL">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="isShowTitle" type="list" default="yes"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_ISSHOWTITLE_LBL">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="scaleMode" type="list" default="noScale"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_SCALEMODE_LBL">
+                    <option value="showAll">showAll</option>
+                    <option value="exactFit">exactFit</option>
+                    <option value="noScale">noScale</option>
+                    <option value="noBorder">noBorder</option>
+                </field>
+                <field name="transform" type="list" default="blur"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TRANSFORM_LBL">
+                    <option value="blur">blur</option>
+                    <option value="alpha">alpha</option>
+                    <option value="left">left</option>
+                    <option value="right">right</option>
+                    <option value="top">top</option>
+                    <option value="bottom">bottom</option>
+                    <option value="breathe">breathe</option>
+                    <option value="breathBlur">breathBlur</option>
+                </field>
+                <field name="isShowAbout" type="list" default="no"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_ISSHOWABOUT_LBL">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="titleFont" type="text" default="Tahoma"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_TITLEFONT_LBL"/>
+                <field name="show_price" type="list" default="yes"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_SHOW_PRICE_LBL"
+                       description="MOD_REDSHOP_PRODUCTS_SLIDESHOW_SHOW_PRICE_DESC">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="currency" type="text" default="$"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_CURRENCY_LBL"/>
+                <field name="pricetax" type="list" default="yes"
+                       label="MOD_REDSHOP_PRODUCTS_SLIDESHOW_PRICETAX_LBL">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+            </fieldset>
+            <fieldset name="advanced">
+                <field
+                        name="layout"
+                        type="modulelayout"
+                        label="JFIELD_ALT_LAYOUT_LABEL"
+                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
