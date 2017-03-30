@@ -8,10 +8,19 @@
  */
 defined('_JEXEC') or die;
 
-$model = $this->getModel('categories');
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = ($listOrder == 'c.ordering' && strtolower($listDirn) == 'asc');
+$model        = $this->getModel('categories');
+$user         = JFactory::getUser();
+$userId       = $user->id;
+$saveOrderUrl = 'index.php?option=com_redshop&task=categories.saveOrderAjax&tmpl=component';
+$listOrder    = $this->state->get('list.ordering');
+$listDirn     = $this->state->get('list.direction');
+$saveOrder    = ($listOrder == 'c.lft' && strtolower($listDirn) == 'asc');
+$search       = $this->state->get('filter.search');
+
+if (($saveOrder) && ($this->canEditState))
+{
+	JHTML::_('sortablelist.sortable', 'table-categories', 'adminForm', strtolower($listDirn), $saveOrderUrl, false, true);
+}
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitform = submitform = Joomla.submitbutton = submitbutton = function (pressbutton) {
@@ -83,73 +92,88 @@ $saveOrder = ($listOrder == 'c.ordering' && strtolower($listDirn) == 'asc');
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 	<?php else : ?>
-		<table class="table table-striped" id="articleList">
+		<table class="table table-striped"  id="table-categories">
 			<thead>
 			<tr>
 				<th width="5"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th width="20">
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
+				<th width="40" class="center">
+					<?php echo JHtml::_('grid.sort', '', 'c.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+				</th>
 				<th width="1%" style="min-width:55px" class="nowrap center">
-						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'c.published', $listDirn, $listOrder); ?>
-					</th>
+					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'c.published', $listDirn, $listOrder); ?>
+				</th>
 				<th class="title">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CATEGORY_NAME', 'c.category_name', $listDirn, $listOrder); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CATEGORY_NAME', 'c.name', $listDirn, $listOrder); ?>
 				</th>
 				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CATEGORY_DESCRIPTION', 'c.category_description', $listDirn, $listOrder); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CATEGORY_DESCRIPTION', 'c.description', $listDirn, $listOrder); ?>
 				</th>
 				<th><?php echo JText::_('COM_REDSHOP_PRODUCTS'); ?></th>
-				<th width="15%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'c.ordering', $listDirn, $listOrder); ?>
-					<?php if ($saveOrder) echo JHTML::_('grid.order', $this->items); ?>
-				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'c.category_id', $listDirn, $listOrder); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'c.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 			</thead>
 			<tbody>
 				<?php $n = count($this->items); ?>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<tr class="row<?php echo $i % 2; ?>">
+					<?php $orderkey = array_search($item->id, $this->ordering[$item->parent_id]); ?>
+					<?php if ($item->level > 1) : ?>
+						<?php
+						$parentsStr = '';
+						$_currentParentId = $item->parent_id;
+						$parentsStr = ' ' . $_currentParentId;
+						?>
+						<?php for ($i2 = 0; $i2 < $item->level; $i2++) : ?>
+							<?php foreach ($this->ordering as $k => $v) : ?>
+								<?php
+								$v = implode('-', $v);
+								$v = '-' . $v . '-';
+								?>
+								<?php if (strpos($v, '-' . $_currentParentId . '-') !== false) : ?>
+									<?php
+									$parentsStr .= ' ' . $k;
+									$_currentParentId = $k;
+									break;
+									?>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						<?php endfor; ?>
+					<?php else : ?>
+						<?php $parentsStr = 0; ?>
+					<?php endif; ?>
+					<tr sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
 						<td class="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->category_id); ?>
+							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
+						<?php if (($search == '') && ($this->canEditState)) : ?>
+						<td class="order nowrap center">
+							<span class="sortable-handler hasTooltip <?php echo ($saveOrder) ? '' : 'inactive'; ?>">
+								<i class="icon-move"></i>
+							</span>
+							<input type="text" style="display:none" name="order[]" value="<?php echo $orderkey + 1;?>" class="text-area-order" />
+						</td>
+						<?php endif; ?>
 						<td class="center">
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', true, 'cb'); ?>
 							</div>
 						</td>
 						<td>
-						<?php if (property_exists($item, 'treename') && $item->treename != "") :?>
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&task=category.edit&category_id=' . $item->category_id); ?>"
-							   title="<?php echo JText::_('COM_REDSHOP_EDIT_CATEGORY'); ?>"><?php echo $item->treename; ?></a>
-						<?php else: ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&task=category.edit&category_id=' . $item->category_id); ?>"
-							   title="<?php echo JText::_('COM_REDSHOP_EDIT_CATEGORY'); ?>"><?php echo $item->category_name; ?></a>
-						<?php endif; ?>
-					</td>
-					<td><?php $shortDesc = substr(strip_tags($item->category_description), 0, 50); echo $shortDesc; ?></td>
-					<td align="center"><?php echo $model->getProducts($item->category_id); ?></td>
-					<td class="order">
-						<?php if ($saveOrder) : ?>
-							<div class="input-prepend">
-								<?php if ($listDirn == 'ASC' || $listDirn == '') : ?>
-									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, ($item->category_parent_id == @$this->items[$i - 1]->category_parent_id), 'orderUp'); ?></span>
-									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, ($item->category_parent_id == @$this->items[$i + 1]->category_parent_id), 'orderDown'); ?></span>
-								<?php elseif ($listDirn == 'DESC') : ?>
-									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, ($item->category_parent_id == @$this->items[$i - 1]->category_parent_id), 'orderDown'); ?></span>
-									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, ($item->category_parent_id == @$this->items[$i + 1]->category_parent_id), 'orderUp'); ?></span>
-								<?php endif; ?>
-								<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
-							</div>
+						<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level - 1) ?>
+						<?php if (($item->checked_out) || (!$this->canEdit)) : ?>
+							<?php echo $this->escape($item->title); ?>
 						<?php else : ?>
-							<?php echo $item->ordering; ?>
+							<?php echo JHtml::_('link', 'index.php?option=com_redshop&task=category.edit&id=' . $item->id, $this->escape($item->title)); ?>
 						<?php endif; ?>
 					</td>
-					<td align="center" width="5%"><?php echo $item->category_id; ?></td>
+					<td><?php $shortDesc = substr(strip_tags($item->description), 0, 50); echo $shortDesc; ?></td>
+					<td align="center"><?php echo $model->getProducts($item->id); ?></td>
+					<td align="center" width="5%"><?php echo $item->id; ?></td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>

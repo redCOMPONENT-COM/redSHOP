@@ -56,17 +56,39 @@ class RedshopViewCategories extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
-		$model = $this->getModel();
+		$user = JFactory::getUser();
 
-		// Get data from the model
-		$this->items         = $model->getData();
-		$this->pagination    = $model->getPagination();
-		$this->state         = $model->getState();
-		$this->activeFilters = $model->getActiveFilters();
-		$this->filterForm    = $model->getForm();
+		$this->items         = $this->get('Items');
+		$this->state         = $this->get('State');
+		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    = $this->get('Form');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Set the tool-bar and number of found items
 		$this->addToolBar();
+
+		$this->ordering = array();
+
+		foreach ($this->items as &$item)
+		{
+			$this->ordering[$item->parent_id][] = $item->id;
+		}
+
+		// Edit State permission
+		$this->canEditState = false;
+
+		if ($user->authorise('core.edit.state', 'com_reditem'))
+		{
+			$this->canEditState = true;
+		}
+
+		// Edit permission
+		$this->canEdit = false;
+
+		if ($user->authorise('core.edit', 'com_reditem'))
+		{
+			$this->canEdit = true;
+		}
 
 		parent::display($tpl);
 	}
@@ -99,6 +121,7 @@ class RedshopViewCategories extends RedshopViewAdmin
 		if ((count($user->authorise('com_redshop', 'core.edit'))) > 0)
 		{
 			JToolBarHelper::editList('category.edit');
+			JToolBarHelper::checkin('categories.checkin');
 		}
 
 		if ((count($user->authorise('com_redshop', 'core.edit.state'))) > 0)

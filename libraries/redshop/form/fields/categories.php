@@ -40,7 +40,7 @@ class JFormFieldCategories extends JFormFieldList
 		{
 			foreach ($categories as $category)
 			{
-				$option = JHTML::_('select.option', $category->category_id, $category->category_name);
+				$option = JHTML::_('select.option', $category->id, $category->name);
 				$options[] = $option;
 			}
 		}

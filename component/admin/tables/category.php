@@ -16,19 +16,15 @@ defined('_JEXEC') or die;
  * @subpackage  Table
  * @since       2.0.4
  */
-class RedshopTableCategory extends JTable
+class RedshopTableCategory extends RedshopTableNested
 {
 	/**
-	 * Constructor
+	 * The table name without the prefix. Ex: cursos_courses
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
-	 *
-	 * @since  11.1
+	 * @var  string
 	 */
-	public function __construct($db)
-	{
-		parent::__construct('#__redshop_category', 'category_id', $db);
-	}
+
+	protected $_tableName = 'redshop_category';
 
 	public function bind($array, $ignore = '')
 	{

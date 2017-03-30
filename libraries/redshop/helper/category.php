@@ -379,11 +379,10 @@ class RedshopHelperCategory
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('DISTINCT ' . $db->qn('c.category_name'))
-			->select($db->qn('c.category_id'))
+			->select('DISTINCT ' . $db->qn('c.name'))
+			->select($db->qn('c.id'))
 			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
-			->where($db->qn('cx.category_parent_id') . ' = 0');
+			->where($db->qn('c.level') . ' = 1');
 
 		$db->setQuery($query);
 
@@ -445,9 +444,9 @@ class RedshopHelperCategory
 		$query = $db->getQuery(true)
 			->select($db->qn('p.product_id', 'id'))
 			->from($db->qn('#__redshop_product', 'p'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('cx.product_id') . ' = ' . $db->qn('p.product_id'))
-			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('cx.category_id') . ' = ' . $db->qn('c.category_id'))
-			->where($db->qn('c.category_parent_id') . ' = ' . (int) $cid)
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'cx') . ' ON ' . $db->qn('cx.product_id') . ' = ' . $db->qn('p.product_id'))
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('cx.category_id') . ' = ' . $db->qn('c.id'))
+			->where($db->qn('c.parent_id') . ' = ' . (int) $cid)
 			->where($db->qn('p.published') . ' = 1');
 
 		$db->setQuery($query);
