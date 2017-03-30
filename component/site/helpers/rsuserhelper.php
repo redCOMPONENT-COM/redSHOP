@@ -9,13 +9,16 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * redSHOP User Helper class
+ */
 class rsUserHelper
 {
 	public $_session = null;
 
 	public $_userId = null;
 
-	public $_db = null;
+	public $db = null;
 
 	protected static $shopperGroupData = array();
 
@@ -41,17 +44,20 @@ class rsUserHelper
 		return self::$instance;
 	}
 
+	/**
+	 * rsUserHelper constructor.
+	 */
 	public function __construct()
 	{
 		$this->_session = JFactory::getSession();
-		$this->_db      = JFactory::getDbo();
+		$this->db       = JFactory::getDbo();
 	}
 
 	/**
 	 * Get RedSHOP User Info
 	 *
-	 * @param   int    $joomlaUserId Joomla user id
-	 * @param   string $addressType  Type user address BT (Billing Type) or ST (Shipping Type)
+	 * @param   int     $joomlaUserId  Joomla user id
+	 * @param   string  $addressType   Type user address BT (Billing Type) or ST (Shipping Type)
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getUserInformation instead
 	 *
@@ -65,7 +71,7 @@ class rsUserHelper
 	/**
 	 * Replace Conditional tag from Redshop tax
 	 *
-	 * @param   integer $userId User identifier
+	 * @param   integer  $userId  User identifier
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getShopperGroup instead
 	 *
@@ -79,38 +85,36 @@ class rsUserHelper
 	/**
 	 * Get User groups
 	 *
-	 * @param   integer $user_id User identifier
+	 * @param   integer  $user_id  User identifier
 	 *
 	 * @return  array              Array of user groups
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public function getUserGroupList($user_id = 0)
 	{
-		$query = 'SELECT group_id FROM #__redshop_users_info AS uf '
-			. 'LEFT JOIN #__user_usergroup_map AS u ON u.user_id = uf.user_id '
-			. 'WHERE users_info_id = ' . (int) $user_id;
-		$this->_db->setQuery($query);
-		$usergroups = $this->_db->loadColumn();
-
-		return $usergroups;
+		return RedshopHelperUser::getUserGroups($user_id);
 	}
 
+	/**
+	 * Method for update term & conditions of user.
+	 *
+	 * @param   int  $users_info_id  RedSHOP User ID
+	 * @param   int  $isSet          Is set?
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
 	public function updateUserTermsCondition($users_info_id = 0, $isSet = 0)
 	{
-		// One id is mandatory ALWAYS
-		if ($users_info_id != 0)
-		{
-			$query = "UPDATE #__redshop_users_info"
-				. " SET accept_terms_conditions = " . (int) $isSet
-				. " WHERE users_info_id = " . (int) $users_info_id;
-			$this->_db->setQuery($query);
-			$this->_db->execute();
-		}
+		RedshopHelperUser::updateUserTermsCondition($users_info_id, $isSet);
 	}
 
 	/**
 	 * Get Shopper Group Data
 	 *
-	 * @param   int $userId User id
+	 * @param   int  $userId  User id
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getShopperGroupData instead
 	 *
@@ -124,7 +128,7 @@ class rsUserHelper
 	/**
 	 * Get Shopper Group List
 	 *
-	 * @param   int $shopperGroupId Shopper Group Id
+	 * @param   int  $shopperGroupId  Shopper Group Id
 	 *
 	 * @return mixed
 	 */
@@ -154,7 +158,7 @@ class rsUserHelper
 	/**
 	 * Create redshop user session
 	 *
-	 * @param   int $user_id Joomla user id
+	 * @param   int  $user_id  Joomla user id
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::createUserSession instead
 	 *
@@ -168,8 +172,8 @@ class rsUserHelper
 	/**
 	 * This function is used to check if the 'username' already exist in the database with any other ID
 	 *
-	 * @param   string $username
-	 * @param   int    $id
+	 * @param   string  $username
+	 * @param   int     $id
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::validateUser instead
 	 *
@@ -183,8 +187,8 @@ class rsUserHelper
 	/**
 	 * This function is used to check if the 'email' already exist in the database with any other ID
 	 *
-	 * @param   string $username
-	 * @param   int    $id
+	 * @param   string  $username
+	 * @param   int     $id
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::validateEmail instead
 	 *
@@ -259,7 +263,6 @@ class rsUserHelper
 
 		// Get required system objects
 		$user = new JUser($data['user_id']);
-
 
 		if (!$user->bind($data))
 		{
@@ -350,7 +353,6 @@ class rsUserHelper
 			JRequest::setVar('password1', $better_token);
 		}
 
-
 		if (trim($data['email']) == "")
 		{
 			JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_EMAIL'));
@@ -401,7 +403,7 @@ class rsUserHelper
 		}
 
 		// Get required system objects
-		$user = clone(JFactory::getUser());
+		$user = clone JFactory::getUser();
 
 		// If user registration is not allowed, show 403 not authorized.
 		$usersConfig = JComponentHelper::getParams('com_users');
@@ -535,6 +537,7 @@ class rsUserHelper
 				}
 			}
 		}
+
 		if ($user_id > 0)
 		{
 			$joomlauser       = new JUser($user_id);
@@ -542,6 +545,7 @@ class rsUserHelper
 			$data['name']     = $joomlauser->name;
 			$data['email']    = $joomlauser->email;
 		}
+
 		if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1 && isset($data['termscondition']) && $data['termscondition'] == 1)
 		{
 			$data['accept_terms_conditions'] = 1;
@@ -551,10 +555,11 @@ class rsUserHelper
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($this->db->getErrorMsg());
 
 			return false;
 		}
+
 		if (Redshop::getConfig()->get('USE_TAX_EXEMPT'))
 		{
 			if (!$admin && $row->is_company == 1)
@@ -581,10 +586,9 @@ class rsUserHelper
 			}
 		}
 
-
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($this->db->getErrorMsg());
 
 			return false;
 		}
@@ -716,7 +720,7 @@ class rsUserHelper
 
 		if (!$rowShip->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($this->db->getErrorMsg());
 
 			return false;
 		}
@@ -746,7 +750,7 @@ class rsUserHelper
 
 		if (!$rowShip->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($this->db->getErrorMsg());
 
 			return false;
 		}
@@ -770,8 +774,8 @@ class rsUserHelper
 		$query = "SELECT u.* FROM #__users AS u "
 			. "LEFT JOIN #__redshop_users_info AS ru ON ru.user_id = u.id "
 			. "WHERE ru.user_id IS NULL ";
-		$this->_db->setQuery($query);
-		$jusers = $this->_db->loadObjectList();
+		$this->db->setQuery($query);
+		$jusers = $this->db->loadObjectList();
 
 		for ($i = 0, $in = count($jusers); $i < $in; $i++)
 		{
@@ -795,10 +799,10 @@ class rsUserHelper
 	/**
 	 * Method for add an subscriber for Newsletter
 	 *
-	 * @param   int   $userId   ID of user.
-	 * @param   array $data     Data of subscriber
-	 * @param   int   $sendMail True for send mail.
-	 * @param   null  $isNew    Capability for old method.
+	 * @param   int    $userId    ID of user.
+	 * @param   array  $data      Data of subscriber
+	 * @param   int    $sendMail  True for send mail.
+	 * @param   null   $isNew     Capability for old method.
 	 *
 	 * @return  boolean
 	 *
@@ -947,7 +951,6 @@ class rsUserHelper
 					if ($create_account == 1)
 					{
 						$checkbox_style = 'style="display:block"';
-
 					}
 					else
 					{
@@ -1244,7 +1247,7 @@ class rsUserHelper
 	/**
 	 * Display an error message
 	 *
-	 * @param   string $error Error message
+	 * @param   string  $error  Error message
 	 *
 	 * @return  void
 	 */
@@ -1253,4 +1256,3 @@ class rsUserHelper
 		JFactory::getApplication()->enqueueMessage($error, 'error');
 	}
 }
-

@@ -66,7 +66,7 @@ class RedshopViewUser_detail extends RedshopViewAdmin
 		}
 
 		$this->pagination                       = $this->get('Pagination');
-		$this->detail->user_groups              = $userhelper->getUserGroupList($this->detail->users_info_id);
+		$this->detail->user_groups              = RedshopHelperUser::getUserGroups($this->detail->users_info_id);
 		$this->lists['shopper_group']           = $shoppergroup->list_all("shopper_group_id", 0, array((int) $this->detail->shopper_group_id));
 
 		$this->lists['tax_exempt']              = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $this->detail->tax_exempt);
