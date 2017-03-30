@@ -16,16 +16,7 @@ $url             = JURI::base();
 $u               = JURI::getInstance();
 $Scheme          = $u->getScheme();
 
-$watched = $this->session->get('watched_product');
-
-if (!empty($watched))
-{
-	$watched = $this->session->get('watched_product');
-}
-else
-{
-	$watched = array();
-}
+$watched = $this->session->get('watched_product', array());
 
 if (in_array($this->pid, $watched) == 0)
 {
