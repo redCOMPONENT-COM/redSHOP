@@ -18,16 +18,16 @@ defined('_JEXEC') or die;
 			<div class="box-body">
 				<div class="form-group">
 					<label for="category_name">
-						<?php echo $this->form->getLabel('category_name'); ?>
+						<?php echo $this->form->getLabel('name'); ?>
 					</label>
-					<?php echo $this->form->getInput('category_name'); ?>
+					<?php echo $this->form->getInput('name'); ?>
 				</div>
 
 				<div class="form-group">
 					<label for="category_parent_id">
-						<?php echo $this->form->getLabel('category_parent_id'); ?>
+						<?php echo $this->form->getLabel('parent_id'); ?>
 					</label>
-					<?php echo $this->form->getInput('category_parent_id'); ?>
+					<?php echo $this->form->getInput('parent_id'); ?>
 				</div>
 
 				<div class="form-group">
@@ -46,16 +46,16 @@ defined('_JEXEC') or die;
 
 				<div class="form-group">
 					<label>
-						<?php echo $this->form->getLabel('category_template'); ?>
+						<?php echo $this->form->getLabel('template'); ?>
 					</label>
-					<?php echo $this->form->getInput('category_template'); ?>
+					<?php echo $this->form->getInput('template'); ?>
 				</div>
 
 				<div class="form-group">
 					<label>
-						<?php echo $this->form->getLabel('category_more_template'); ?>
+						<?php echo $this->form->getLabel('more_template'); ?>
 					</label>
-					<?php echo $this->form->getInput('category_more_template'); ?>
+					<?php echo $this->form->getInput('more_template'); ?>
 				</div>
 
 				<div class="form-group">
@@ -67,16 +67,16 @@ defined('_JEXEC') or die;
 
 				<div class="form-group">
 					<label>
-						<?php echo $this->form->getLabel('category_short_description'); ?>
+						<?php echo $this->form->getLabel('short_description'); ?>
 					</label>
-					<?php echo $this->form->getInput('category_short_description'); ?>
+					<?php echo $this->form->getInput('short_description'); ?>
 				</div>
 
 				<div class="form-group">
 					<label>
-						<?php echo $this->form->getLabel('category_description'); ?>
+						<?php echo $this->form->getLabel('description'); ?>
 					</label>
-					<?php echo $this->form->getInput('category_description'); ?>
+					<?php echo $this->form->getInput('description'); ?>
 				</div>
 			</div>
 		</div>
@@ -89,7 +89,7 @@ defined('_JEXEC') or die;
 			<div class="box-body">
 				<div class="form-group">
 					<?php
-						$section_id    = $this->item->category_id;
+						$section_id    = $this->item->id;
 						$media_section = 'category';
 						echo RedshopHelperMediaImage::render(
 							'category_full_image',
@@ -100,7 +100,6 @@ defined('_JEXEC') or die;
 							false
 						);
 					?>
-					<?php echo $this->form->getInput('category_image'); ?>
 				</div>
 
 			</div>
@@ -113,7 +112,7 @@ defined('_JEXEC') or die;
 			<div class="box-body">
 				<div class="form-group">
 					<?php
-						$section_id    = $this->item->category_id;
+						$section_id    = $this->item->id;
 						$media_section = 'category';
 						echo RedshopHelperMediaImage::render(
 							'category_back_full_image',
@@ -127,6 +126,35 @@ defined('_JEXEC') or die;
 				</div>
 			</div>
 		</div>
+		<div class="form-group">
+			<label>
+				<?php echo $this->form->getLabel('created_by'); ?>
+			</label>
+			<?php echo $this->form->getInput('created_by'); ?>
+		</div>
+		<div class="form-group">
+			<label>
+				<?php echo $this->form->getLabel('created_date'); ?>
+			</label>
+			<?php echo $this->form->getInput('created_date'); ?>
+		</div>
+		<div class="form-group">
+			<label>
+				<?php echo $this->form->getLabel('modified_by'); ?>
+			</label>
+			<?php echo $this->form->getInput('modified_by'); ?>
+		</div>
+		<div class="form-group">
+			<label>
+				<?php echo $this->form->getLabel('modified_date'); ?>
+			</label>
+			<?php echo $this->form->getInput('modified_date'); ?>
+		</div>
 	</div>
+	<?php echo $this->form->getInput('checked_out'); ?>
+	<?php echo $this->form->getInput('checked_out_time'); ?>
+	<?php echo $this->form->getInput('level'); ?>
+	<?php echo $this->form->getInput('lft'); ?>
+	<?php echo $this->form->getInput('rgt'); ?>
 </div>
 

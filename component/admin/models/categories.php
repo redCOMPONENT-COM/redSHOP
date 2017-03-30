@@ -38,11 +38,12 @@ class RedshopModelCategories extends RedshopModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'category_name', 'c.category_name',
-				'category_description', 'c.category_description',
+				'name', 'c.name',
+				'description', 'c.description',
 				'ordering', 'c.ordering',
-				'category_id', 'c.category_id',
-				'published', 'c.published'
+				'id', 'c.id',
+				'published', 'c.published',
+				'lft', 'c.lft'
 			);
 		}
 
@@ -61,7 +62,7 @@ class RedshopModelCategories extends RedshopModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'c.lft', $direction = 'asc')
 	{
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -70,7 +71,7 @@ class RedshopModelCategories extends RedshopModelList
 		$this->setState('filter.filter_category_id', $categoryId);
 
 		// List state information.
-		parent::populateState('c.ordering', 'ASC');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -91,6 +92,8 @@ class RedshopModelCategories extends RedshopModelList
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.category_id');
+		$id	.= ':' . $this->getState('filter.lft');
+		$id	.= ':' . $this->getState('filter.rgt');
 
 		return parent::getStoreId($id);
 	}
@@ -108,13 +111,58 @@ class RedshopModelCategories extends RedshopModelList
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 				->select('c.*')
-				->select($db->qn('cx.category_child_id'))
-				->select($db->qn('cx.category_child_id', 'id'))
-				->select($db->qn('cx.category_parent_id'))
-				->select($db->qn('cx.category_parent_id', 'parent_id'))
-				->select($db->qn('c.category_name', 'title'))
-				->from($db->qn('#__redshop_category', 'c'))
-				->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'));
+				->select($db->qn('c.name', 'title'))
+				->from($db->qn('#__redshop_category', 'c'));
+
+		// Remove "ROOT" item
+		$query->where($db->qn('level') . ' > ' . $db->quote('0'));
+
+		// Filter: Parent ID
+		$parentId = $this->getState('filter.category_id');
+
+		switch (gettype($parentId))
+		{
+			case 'array':
+
+				if (count($parentId))
+				{
+					$parentId = implode(',', $db->q($parentId));
+					$query->where($db->quoteName('c.parent_id') . ' IN(' . $parentId . ')');
+				}
+
+				break;
+
+			case 'string':
+			case 'int':
+			case 'integer':
+
+				if ($parentId)
+				{
+					$query->where($db->quoteName('c.parent_id') . ' = ' . (int) $parentId);
+				}
+				break;
+
+			default:
+				break;
+		}
+
+		// Filter categories by "level"
+		$level = (int) $this->getState('filter.level', 0);
+
+		if (!empty($level))
+		{
+			$query->where($db->qn('c.level') . ' = ' . $level);
+		}
+
+		// Filter: Get deeper child or parent
+		$lft = $this->getState('filter.lft', 0);
+		$rgt = $this->getState('filter.rgt', 0);
+
+		if (($lft) && ($rgt))
+		{
+			$query->where($db->qn('c.lft') . ' >= ' . (int) $lft);
+			$query->where($db->qn('c.rgt') . ' <= ' . (int) $rgt);
+		}
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
@@ -123,80 +171,22 @@ class RedshopModelCategories extends RedshopModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->qn('c.category_id') . ' = ' . $db->q((int) substr($search, 3)));
+				$query->where($db->qn('c.id') . ' = ' . $db->q((int) substr($search, 3)));
 			}
 			else
 			{
 				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where($db->qn('c.category_name') . ' LIKE ' . $search);
+				$query->where($db->qn('c.name') . ' LIKE ' . $search);
 			}
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'c.ordering');
+		$orderCol = $this->state->get('list.ordering', 'c.lft');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
-	}
-
-	/**
-	 * Method to get an array of data items.
-	 *
-	 * @return  mixed  An array of data items on success, false on failure.
-	 *
-	 * @since   2.0.0.2
-	 */
-	public function getData()
-	{
-		// Load the list items.
-		$query = $this->_getListQuery();
-
-		try
-		{
-			$rows = $this->_getList($query);
-		}
-		catch (RuntimeException $e)
-		{
-			$this->setError($e->getMessage());
-
-			return false;
-		}
-
-		$search = $this->getState('filter.search');
-		$categoryId = $this->getState('filter.filter_category_id');
-
-		if (empty($search))
-		{
-			// Establish the hierarchy of the menu
-			$children = array();
-
-			// First pass - collect children
-			foreach ($rows as $v)
-			{
-				$pt = $v->parent_id;
-				$list = @$children[$pt] ? $children[$pt] : array();
-				array_push($list, $v);
-				$children[$pt] = $list;
-			}
-
-			// Second pass - get an indent list of the items
-			$treeList = JHTML::_('menu.treerecurse', $categoryId, '', array(), $children, 9999);
-			$total = count($treeList);
-		}
-		else
-		{
-			$total = count($rows);
-			$treeList = $rows;
-		}
-
-		$this->_pagination = new JPagination($total, (int) $this->getState('limitstart'), (int) $this->getState('limit'));
-
-		// Slice out elements based on limits
-		$items = array_slice($treeList, $this->_pagination->limitstart, $this->_pagination->limit);
-
-		return $items;
 	}
 
 	/**
@@ -208,7 +198,7 @@ class RedshopModelCategories extends RedshopModelList
 	 */
 	public function getProducts($cid)
 	{
-		$db = $this->getDBO();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(category_id)')
 			->from($db->qn('#__redshop_product_category_xref'))
@@ -227,16 +217,16 @@ class RedshopModelCategories extends RedshopModelList
 	public function assignTemplate($data)
 	{
 		$cid = $data['cid'];
-		$categoryTemplate = $data['category_template'];
+		$categoryTemplate = $data['template'];
 
 		if (count($cid))
 		{
-			$db = $this->getDBO();
+			$db = $this->getDbo();
 			$fields = array(
-				$db->qn('category_template') . ' = ' . $db->q((int) $categoryTemplate)
+				$db->qn('template') . ' = ' . $db->q((int) $categoryTemplate)
 			);
 			$conditions = array(
-				$db->qn('category_id') . ' IN (' . implode(',', $cid) . ')'
+				$db->qn('id') . ' IN (' . implode(',', $cid) . ')'
 			);
 			$query = $db->getQuery(true)
 				->update($db->qn('#__redshop_category'))

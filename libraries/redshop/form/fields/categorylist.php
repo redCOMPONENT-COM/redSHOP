@@ -33,30 +33,82 @@ class JFormFieldCategoryList extends JFormFieldList
 	 */
 	public function getInput()
 	{
-		$input = JFactory::getApplication()->input;
-		$cid = $input->getInt('category_id', 0);
-		$productCategory = new product_category;
-		$categories = $productCategory->getCategoryListArray();
+		$db     = JFactory::getDbo();
+		$user   = RFactory::getUser();
+		$ignore = $this->getAttribute('ignoreCats', array());
+		$allow  = $this->getAttribute('allow_cids', null);
 
-		if (count($categories) > 0)
+		// Get the categories list
+		$query = $db->getQuery(true)
+			->select('c.*')
+			->from($db->qn('#__redshop_category', 'c'))
+			->where($db->qn('c.published') . ' = ' . $db->q(1))
+			->where($db->qn('c.level') . ' > 0')
+			->order($db->qn('c.lft'));
+
+		if (!empty($ignore))
 		{
-			foreach ($categories as $category)
+			if (is_string($ignore))
 			{
-				if ($cid != $category->category_id)
-				{
-					$option = JHTML::_('select.option', $category->category_id, $category->category_name);
-					$options[] = $option;
-				}
+				$query->where($db->qn('c.id') . ' NOT IN (' . $ignore . ')');
+			}
+			elseif (is_array($ignore))
+			{
+				$query->where($db->qn('c.id') . ' NOT IN (' . implode(',', $ignore) . ')');
 			}
 		}
 
-		$options = array_merge(parent::getOptions(), $options);
+		if (!empty($allow))
+		{
+			if (is_string($allow))
+			{
+				$query->where($db->qn('c.id') . ' IN (' . $allow . ')');
+			}
+			elseif (is_array($allow))
+			{
+				$query->where($db->qn('c.id') . ' IN (' . implode(',', $allow) . ')');
+			}
+		}
+
+		$db->setQuery($query);
+		$categories = $db->loadObjectList();
+
+		// Prepare options list
+		$options    = array();
+		$options    = array_merge(parent::getOptions(), $options);
+		$permission = $this->getAttribute('permission');
+
+		foreach ($categories as $category)
+		{
+			if (!empty($permission))
+			{
+				continue;
+			}
+
+			$optionText  = str_repeat(' -', $category->level - 1) . ' ' . $category->name;
+			$optionValue = $category->id;
+			$options[] = JHTML::_('select.option', $optionValue, $optionText);
+		}
+
 		$attr = '';
 
 		// Initialize some field attributes.
 		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= $this->element['multiple'] ? ' multiple' : '';
+		$attr .= $this->multiple ? ' multiple="multiple"' : '';
+		$attr .= $this->placeholder ? ' placeholder="' . (string) $this->element['placeholder'] . '"' : '';
+
+		if ($this->multiple && !is_array($this->value))
+		{
+			if ($value = ReditemHelperCustomfield::isJsonValue($this->value))
+			{
+				$this->value = $value;
+			}
+			else
+			{
+				$this->value = explode(",", $this->value);
+			}
+		}
 
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';

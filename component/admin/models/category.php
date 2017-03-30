@@ -100,18 +100,16 @@ class RedshopModelCategory extends JModelAdmin
 	{
 		$item  = parent::getItem($pk);
 
-		if (!empty($item->category_id))
+		if (!empty($item->id))
 		{
-			$db = $this->getDBO();
+			$db = $this->getDbo();
 			$query = $db->getQuery(true)
-				->select('c.*')
-				->select($db->qn('cx.category_parent_id'))
-				->from($db->qn('#__redshop_category', 'c'))
-				->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
-				->where($db->qn('category_id') . ' = ' . $db->q((int) $item->category_id));
+				->select('*')
+				->from($db->qn('#__redshop_category'))
+				->where($db->qn('id') . ' = ' . $db->q((int) $item->id));
 			$data = $db->setQuery($query)->loadObject();
 
-			$data->category_more_template = explode(',', $data->category_more_template);
+			$data->more_template = explode(',', $data->more_template);
 
 			return $data;
 		}
@@ -135,9 +133,9 @@ class RedshopModelCategory extends JModelAdmin
 	public function getExtraFields($item)
 	{
 		$redshopTemplate = Redtemplate::getInstance();
-		$template_desc = $redshopTemplate->getTemplate('category', $item->category_template, '', true);
-		$template = $template_desc[0]->template_desc;
-		$regex = '/{rs_[\w]{1,}\}/';
+		$template_desc   = $redshopTemplate->getTemplate('category', $item->template, '', true);
+		$template        = $template_desc[0]->template_desc;
+		$regex           = '/{rs_[\w]{1,}\}/';
 		preg_match_all($regex, $template, $matches);
 		$listField = array();
 
@@ -163,8 +161,15 @@ class RedshopModelCategory extends JModelAdmin
 	 */
 	public function store($data)
 	{
-		$db = $this->getDBO();
+		$db  = $this->getDbo();
 		$row = $this->getTable();
+		$pk  = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
+
+		// Set the new parent id if parent id not matched OR while New/Save as Copy .
+		if ($row->parent_id != $data['parent_id'] || $data['id'] == 0)
+		{
+			$row->setLocation($data['parent_id'], 'last-child');
+		}
 
 		if (!$row->bind($data))
 		{
@@ -186,7 +191,7 @@ class RedshopModelCategory extends JModelAdmin
 			);
 
 			$conditions = array(
-				$db->qn('category_id') . ' = ' . $db->q((int) $row->category_id)
+				$db->qn('id') . ' = ' . $db->q((int) $row->id)
 			);
 
 			$query = $db->getQuery(true)
@@ -240,7 +245,7 @@ class RedshopModelCategory extends JModelAdmin
 			);
 
 			$conditions = array(
-				$db->qn('category_id') . ' = ' . $db->q((int) $row->category_id)
+				$db->qn('id') . ' = ' . $db->q((int) $row->id)
 			);
 
 			$query = $db->getQuery(true)
@@ -265,7 +270,6 @@ class RedshopModelCategory extends JModelAdmin
 			unlink($src);
 		}
 
-		// Upload back image end
 		if (!$row->store())
 		{
 			$this->setError($db->getErrorMsg());
@@ -273,48 +277,16 @@ class RedshopModelCategory extends JModelAdmin
 			return false;
 		}
 
-		if (empty($data['category_id']))
+		// Sheking for the image at the updation time
+		if (!empty($data['id']) && !empty($data['category_full_image']))
 		{
-			$newCatId = $row->category_id;
-			$columns  = array('category_parent_id', 'category_child_id');
-			$values   = array($db->q((int) $data['category_parent_id']), $db->q((int) $newCatId));
-
-			$query = $db->getQuery(true)
-				->insert($db->qn('#__redshop_category_xref'))
-				->columns($db->qn($columns))
-				->values(implode(',', $values));
-
-			$db->setQuery($query)->execute();
-		}
-		else
-		{
-			$newCatId = $data['category_id'];
-
-			$fields = array(
-				$db->qn('category_parent_id') . ' = ' . $db->q((int) $data['category_parent_id'])
-			);
-
-			$conditions = array(
-				$db->qn('category_child_id') . ' = ' . $db->q((int) $newCatId)
-			);
-
-			$query = $db->getQuery(true)
-				->update($db->qn('#__redshop_category_xref'))
-				->set($fields)
-				->where($conditions);
-			$db->setQuery($query)->execute();
-
-			// Sheking for the image at the updation time
-			if (!empty($data['category_full_image']['name']))
-			{
-				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
-				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
-			}
+			@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
+			@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
 		}
 
 		// Extra Field Data Saved
 		$field = extra_field::getInstance();
-		$field->extra_field_save($data, 2, $newCatId);
+		$field->extra_field_save($data, 2, $row->id);
 
 		// Start Accessory Product
 		if (count($data['product_accessory']) > 0 && is_array($data['product_accessory']))
@@ -322,7 +294,7 @@ class RedshopModelCategory extends JModelAdmin
 			$data['product_accessory'] = array_merge(array(), $data['product_accessory']);
 
 			$productCategory = new product_category;
-			$productList = $productCategory->getCategoryProductList($newCatId);
+			$productList = $productCategory->getCategoryProductList($row->id);
 
 			for ($p = 0, $pn = count($productList); $p < $pn; $p++)
 			{
@@ -339,7 +311,7 @@ class RedshopModelCategory extends JModelAdmin
 						$accDetail = $this->getTable('accessory_detail');
 
 						$accDetail->accessory_id = $accessoryId;
-						$accDetail->category_id = $newCatId;
+						$accDetail->category_id = $row->id;
 						$accDetail->product_id = $productId;
 						$accDetail->child_product_id = $acc['child_product_id'];
 						$accDetail->accessory_price = $acc['accessory_price'];
@@ -375,16 +347,15 @@ class RedshopModelCategory extends JModelAdmin
 	{
 		$noError = true;
 		$cid = $pks;
-		$db = $this->getDBO();
+		$db = $this->getDbo();
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
 			$query = $db->getQuery(true)
 				->select('COUNT(*) AS ctotal')
-				->select($db->qn('c.category_name'))
-				->from($db->qn('#__redshop_category_xref', 'cx'))
-				->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->q((int) $cid[$i]))
-				->where($db->qn('cx.category_parent_id') . ' = ' . $db->q((int) $cid[$i]));
+				->select($db->qn('name'))
+				->from($db->qn('#__redshop_category'))
+				->where($db->qn('parent_id') . ' = ' . $db->q((int) $cid[$i]));
 
 			$childs = $db->setQuery($query)->loadObject();
 
@@ -400,7 +371,7 @@ class RedshopModelCategory extends JModelAdmin
 				->select($db->qn('category_thumb_image'))
 				->select($db->qn('category_full_image'))
 				->from($db->qn('#__redshop_category'))
-				->where($db->qn('category_id') . ' = ' . $db->q((int) $cid[$i]));
+				->where($db->qn('id') . ' = ' . $db->q((int) $cid[$i]));
 
 			$catImages = $db->setQuery($query)->loadObject();
 
@@ -421,21 +392,16 @@ class RedshopModelCategory extends JModelAdmin
 			}
 
 			$conditions = array(
-				$db->qn('category_id') . ' = ' . $db->q((int) $cid[$i])
+				$db->qn('id') . ' = ' . $db->q((int) $cid[$i])
 			);
 
-			$conditionChild = array(
-				$db->qn('category_child_id') . ' = ' . $db->q((int) $cid[$i])
+			$conditionProduct = array(
+				$db->qn('category_id') . ' = ' . $db->q((int) $cid[$i])
 			);
 
 			$query = $db->getQuery(true)
 				->delete($db->qn('#__redshop_product_category_xref'))
-				->where($conditions);
-			$db->setQuery($query)->execute();
-
-			$query = $db->getQuery(true)
-				->delete($db->qn('#__redshop_category_xref'))
-				->where($conditionChild);
+				->where($conditionProduct);
 			$db->setQuery($query)->execute();
 
 			$query = $db->getQuery(true)
@@ -445,178 +411,6 @@ class RedshopModelCategory extends JModelAdmin
 		}
 
 		return $noError;
-	}
-
-	/**
-	 * Saves the manually set order of records.
-	 *
-	 * @param   array    $pks    An array of primary key ids.
-	 * @param   integer  $order  +1 or -1
-	 *
-	 * @return  mixed
-	 *
-	 * @since   12.2
-	 */
-	public function saveorder($pks = null, $order = null)
-	{
-		$row = $this->getTable();
-		$groupings = array();
-
-		// Update ordering values
-		for ($i = 0, $in = count($pks); $i < $in; $i++)
-		{
-			$row->load((int) $pks[$i]);
-
-			// Track categories
-			$groupings[] = $row->category_id;
-
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-
-				if (!$row->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to order up.
-	 *
-	 * @param   array  $cid  category id list.
-	 *
-	 * @return  boolen
-	 *
-	 * @since   2.0.0.2
-	 */
-	public function orderUp($cid)
-	{
-		$cid = $cid[0];
-		$db = $this->getDBO();
-		$query = $db->getQuery(true)
-			->select($db->qn('c.ordering'))
-			->select($db->qn('cx.category_parent_id'))
-			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('cx.category_child_id') . ' = ' . $db->qn('c.category_id'))
-			->where($db->qn('c.category_id') . ' = ' . $db->q((int) $cid));
-
-		$cat = $db->setQuery($query)->loadObject();
-		$currentPos = $cat->ordering;
-		$categoryParentId = $cat->category_parent_id;
-
-		$query = $db->getQuery(true)
-			->select($db->qn('c.ordering'))
-			->select($db->qn('c.category_id'))
-			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('cx.category_child_id') . ' = ' . $db->qn('c.category_id'))
-			->where($db->qn('category_parent_id') . ' = ' . $db->q((int) $categoryParentId))
-			->where($db->qn('ordering') . ' = ' . $db->q((int) ($currentPos - 1)));
-
-		$cat = $db->setQuery($query)->loadObject();
-		$pred = $cat->category_id;
-
-		$mOrder = $this->getMaxMinOrder('min');
-
-		if ($currentPos > $mOrder)
-		{
-			$fields = array(
-				$db->qn('ordering') . ' = ' . $db->q('ordering - 1')
-			);
-
-			$conditions = array(
-					$db->qn('category_id') . ' = ' . $db->q((int) $cid)
-				);
-
-			$query = $db->getQuery(true)
-				->update($db->qn('#__redshop_category'))
-				->set($fields);
-			$db->setQuery($query)->execute();
-
-			$fields = array(
-				$db->qn('ordering') . ' = ' . $db->q('ordering + 1')
-			);
-
-			$conditions = array(
-					$db->qn('category_id') . ' = ' . $db->q((int) $pred)
-				);
-
-			$query = $db->getQuery(true)
-				->update($db->qn('#__redshop_category'))
-				->set($fields);
-			$db->setQuery($query)->execute();
-		}
-	}
-
-	/**
-	 * Method to order down.
-	 *
-	 * @param   array  $cid  category id list.
-	 *
-	 * @return  boolen
-	 *
-	 * @since   2.0.0.2
-	 */
-	public function orderDown($cid)
-	{
-		$cid = $cid[0];
-		$db = $this->getDBO();
-		$query = $db->getQuery(true)
-			->select($db->qn('c.ordering'))
-			->select($db->qn('cx.category_parent_id'))
-			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('cx.category_child_id') . ' = ' . $db->qn('c.category_id'))
-			->where($db->qn('c.category_id') . ' = ' . $db->q((int) $cid));
-
-		$cat = $db->setQuery($query)->loadObject();
-		$currentPos = $cat->ordering;
-		$categoryParentId = $cat->category_parent_id;
-
-		$query = $db->getQuery(true)
-			->select($db->qn('c.ordering'))
-			->select($db->qn('c.category_id'))
-			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('cx.category_child_id') . ' = ' . $db->qn('c.category_id'))
-			->where($db->qn('category_parent_id') . ' = ' . $db->q((int) $categoryParentId))
-			->where($db->qn('ordering') . ' = ' . $db->q((int) ($currentPos + 1)));
-		$cat = $db->setQuery($query)->loadObject();
-		$succ = $cat->category_id;
-
-		$mOrder = $this->getMaxMinOrder('max');
-
-		if ($currentPos < $mOrder)
-		{
-			$fields = array(
-				$db->qn('ordering') . ' = ' . $db->q('ordering + 1')
-			);
-
-			$conditions = array(
-					$db->qn('category_id') . ' = ' . $db->q((int) $cid)
-				);
-
-			$query = $db->getQuery(true)
-				->update($db->qn('#__redshop_category'))
-				->set($fields);
-			$db->setQuery($query)->execute();
-
-			$fields = array(
-				$db->qn('ordering') . ' = ' . $db->q('ordering - 1')
-			);
-
-			$conditions = array(
-					$db->qn('category_id') . ' = ' . $db->q((int) $succ)
-				);
-
-			$query = $db->getQuery(true)
-				->update($db->qn('#__redshop_category'))
-				->set($fields);
-			$db->setQuery($query)->execute();
-		}
 	}
 
 	/**
@@ -630,7 +424,7 @@ class RedshopModelCategory extends JModelAdmin
 	 */
 	public function getMaxMinOrder($type)
 	{
-		$db = $this->getDBO();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn($type . '(ordering)', 'morder'))
 			->from($db->qn('#__redshop_category'));
@@ -647,7 +441,7 @@ class RedshopModelCategory extends JModelAdmin
 	 */
 	public function getProductCompareTemplate()
 	{
-		$db = $this->getDBO();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('template_section', 'text'))
 			->select($db->qn('template_id', 'value'))

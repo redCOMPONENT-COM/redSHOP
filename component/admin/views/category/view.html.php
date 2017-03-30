@@ -46,7 +46,6 @@ class RedshopViewCategory extends RedshopViewAdmin
 	public function display($tpl = null)
 	{
 		$redTemplate      = Redtemplate::getInstance();
-		$product_category = new product_category;
 		$producthelper    = productHelper::getInstance();
 
 		$document = JFactory::getDocument();
@@ -64,9 +63,9 @@ class RedshopViewCategory extends RedshopViewAdmin
 		// Accessory of Category
 		$categoryAccessoryProduct = array();
 
-		if ($this->item->category_id)
+		if ($this->item->id)
 		{
-			$categoryAccessoryProduct = $producthelper->getProductAccessory(0, 0, 0, $this->item->category_id);
+			$categoryAccessoryProduct = $producthelper->getProductAccessory(0, 0, 0, $this->item->id);
 		}
 
 		$this->lists['categroy_accessory_product'] = $categoryAccessoryProduct;
@@ -140,7 +139,7 @@ class RedshopViewCategory extends RedshopViewAdmin
 	protected function addToolbar()
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
-		$isNew = ($this->item->category_id < 1);
+		$isNew = ($this->item->id < 1);
 		$user       = JFactory::getUser();
 
 		// Prepare text for title
@@ -173,11 +172,11 @@ class RedshopViewCategory extends RedshopViewAdmin
 			JToolBarHelper::cancel('category.cancel', JText::_('JTOOLBAR_CLOSE'));
 
 			$objhelper = redhelper::getInstance();
-			$itemId    = (int) $objhelper->getCategoryItemid($this->item->category_id);
+			$itemId    = (int) $objhelper->getCategoryItemid($this->item->id);
 
 			$link  = JURI::root() . 'index.php?option=com_redshop'
 					. '&view=&view=category&layout=detail'
-					. '&cid=' . $this->item->category_id
+					. '&cid=' . $this->item->id
 					. '&Itemid=' . $itemId;
 
 			RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');

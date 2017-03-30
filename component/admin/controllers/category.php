@@ -40,12 +40,12 @@ class RedshopControllerCategory extends RedshopControllerForm
 		$post['category_full_image']      = $input->post->getString('category_full_image');
 		$post['category_back_full_image'] = $input->post->getString('category_back_full_image');
 
-		if (!empty($post["category_more_template"]) && is_array($post["category_more_template"]))
+		if (!empty($post["more_template"]) && is_array($post["more_template"]))
 		{
-			$post["category_more_template"] = implode(",", $post["category_more_template"]);
+			$post["more_template"] = implode(",", $post["more_template"]);
 		}
 
-		$model = $this->getModel('category');
+		$model = $this->getModel();
 
 		if ($row = $model->store($post))
 		{
@@ -58,11 +58,11 @@ class RedshopControllerCategory extends RedshopControllerForm
 
 		if ($task == 'save2new')
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=category&task=add', $msg);
+			$this->setRedirect('index.php?option=com_redshop&task=category.add', $msg);
 		}
 		elseif ($task == 'apply')
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=category&task=edit&category_id=' . ($post['category_id'] ? $post['category_id'] : $row->category_id), $msg);
+			$this->setRedirect('index.php?option=com_redshop&task=category.edit&id=' . ($post['id'] ? $post['id'] : $row->id), $msg);
 		}
 		else
 		{
@@ -85,7 +85,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
-		$model = $this->getModel('category');
+		$model = $this->getModel();
 
 		if (!$model->delete($cid))
 		{
