@@ -18,8 +18,14 @@ jimport('joomla.filesystem.folder');
 // Define redSHOP Library Folder Path
 define('JPATH_REDSHOP_LIBRARY', __DIR__);
 
-// Define redSHOP Template Path
+// Define redSHOP Constant
 define('JPATH_REDSHOP_TEMPLATE', JPATH_SITE . "/components/com_redshop/templates");
+define('JSYSTEM_IMAGES_PATH', JUri::root() . 'media/system/images/');
+define('REDSHOP_ADMIN_IMAGES_ABSPATH', JUri::root() . 'administrator/components/com_redshop/assets/images/');
+define('REDSHOP_FRONT_IMAGES_ABSPATH', JUri::root() . 'components/com_redshop/assets/images/');
+define('REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/images/');
+define('REDSHOP_FRONT_DOCUMENT_ABSPATH', JUri::root() . 'components/com_redshop/assets/document/');
+define('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/document/');
 
 // Require our Composer libraries
 $composerAutoload = __DIR__ . '/vendor/autoload.php';

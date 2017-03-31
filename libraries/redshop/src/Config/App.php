@@ -81,36 +81,6 @@ class App
 		$this->configBkpPath  = $basePath . 'wizard/redshop.cfg.bkp.php';
 		$this->configTmpPath  = $basePath . 'wizard/redshop.cfg.tmp.php';
 		$this->configDefPath  = $basePath . 'wizard/redshop.cfg.def.php';
-
-		if (!defined('JSYSTEM_IMAGES_PATH'))
-		{
-			define('JSYSTEM_IMAGES_PATH', \JUri::root() . 'media/system/images/');
-		}
-
-		if (!defined('REDSHOP_ADMIN_IMAGES_ABSPATH'))
-		{
-			define('REDSHOP_ADMIN_IMAGES_ABSPATH', \JUri::root() . 'administrator/components/com_redshop/assets/images/');
-		}
-
-		if (!defined('REDSHOP_FRONT_IMAGES_ABSPATH'))
-		{
-			define('REDSHOP_FRONT_IMAGES_ABSPATH', \JUri::root() . 'components/com_redshop/assets/images/');
-		}
-
-		if (!defined('REDSHOP_FRONT_IMAGES_RELPATH'))
-		{
-			define('REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/images/');
-		}
-
-		if (!defined('REDSHOP_FRONT_DOCUMENT_ABSPATH'))
-		{
-			define('REDSHOP_FRONT_DOCUMENT_ABSPATH', \JUri::root() . 'components/com_redshop/assets/document/');
-		}
-
-		if (!defined('REDSHOP_FRONT_DOCUMENT_RELPATH'))
-		{
-			define('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/document/');
-		}
 	}
 
 	/**
