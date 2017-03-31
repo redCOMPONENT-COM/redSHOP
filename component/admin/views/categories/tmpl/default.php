@@ -99,9 +99,11 @@ if (($saveOrder) && ($this->canEditState))
 				<th width="20">
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
+				<?php if (($search == '') && ($this->canEditState)) : ?>
 				<th width="40" class="center">
 					<?php echo JHtml::_('grid.sort', '', 'c.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 				</th>
+				<?php endif; ?>
 				<th width="1%" style="min-width:55px" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'c.published', $listDirn, $listOrder); ?>
 				</th>
@@ -159,13 +161,18 @@ if (($saveOrder) && ($this->canEditState))
 						</td>
 						<?php endif; ?>
 						<td class="center">
-							<div class="btn-group">
-								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', true, 'cb'); ?>
-							</div>
+							<?php echo JHTML::_('grid.published', $item, $i) ?>
 						</td>
 						<td>
+						<?php if ($item->checked_out): ?>
+							<?php
+							$author = JFactory::getUser($item->checked_out);
+							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+							echo JHtml::_('jgrid.checkedout', $i, $item->checked_out, $item->checked_out_time, 'suppliers.', $canCheckin);
+							?>
+						<?php endif; ?>
 						<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level - 1) ?>
-						<?php if (($item->checked_out) || (!$this->canEdit)) : ?>
+						<?php if ($item->checked_out && $userId != $item->checked_out): ?>
 							<?php echo $this->escape($item->title); ?>
 						<?php else : ?>
 							<?php echo JHtml::_('link', 'index.php?option=com_redshop&task=category.edit&id=' . $item->id, $this->escape($item->title)); ?>
