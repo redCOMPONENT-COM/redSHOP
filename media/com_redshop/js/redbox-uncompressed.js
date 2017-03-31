@@ -291,14 +291,19 @@ var redBOX = {
 
 	reposition: function() {
 		var size = this.doc.getSize(), scroll = this.doc.getScroll(), ssize = this.doc.getScrollSize();
-		this.overlay.setStyles({
-			width: ssize.x + 'px',
-			height: ssize.y + 'px'
-		});
-		this.win.setStyles({
-			left: (scroll.x + (size.x - this.win.offsetWidth) / 2 - this.scrollOffset).toInt() + 'px',
-			top: (scroll.y + (size.y - this.win.offsetHeight) / 2).toInt() + 'px'
-		});
+		var over = this.overlay.getStyles('height');
+		var j = parseInt(over.height);
+		if (j == 0 || (ssize.y > j && size.y >= j)) {
+			this.overlay.setStyles({
+				width: ssize.x + 'px',
+				height: ssize.y + 'px'
+			});
+			this.win.setStyles({
+				left: (scroll.x + (size.x - this.win.offsetWidth) / 2 - this.scrollOffset).toInt() + 'px',
+				top: (scroll.y + (size.y - this.win.offsetHeight) / 2).toInt() + 'px'
+			});
+		}
+
 		return this.fireEvent('onMove', [this.overlay, this.win]);
 	},
 

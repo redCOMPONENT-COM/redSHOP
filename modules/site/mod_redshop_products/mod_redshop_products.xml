@@ -37,6 +37,7 @@
                     <option value="3">COM_REDSHOP_RANDOM</option>
                     <option value="4">COM_REDSHOP_PRODUCT_ON_SALE</option>
                     <option value="5">COM_REDSHOP_PRODUCT_ON_SALE_AND_DATE_TIME_CHECK</option>
+                    <option value="6">COM_REDSHOP_WATCHED_PRODUCT</option>
                 </field>
                 <field name="category" type="redshopcategory" size="40" label="COM_REDSHOP_CATEGORY" multiple="true"
                        description="COM_REDSHOP_ENTER_CATEGORY"/>
