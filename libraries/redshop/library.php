@@ -71,10 +71,7 @@ JHtml::addIncludePath(JPATH_REDSHOP_LIBRARY . '/html');
 JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
 // Setup dynamic variables like show price etc...
-if (class_exists('Redconfiguration'))
-{
-	Redconfiguration::getInstance()->defineDynamicVars();
-}
+RedshopHelperUtility::defineDynamicVariables();
 
 // Load backward compatible php defined config.
 if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_PHP') == 1)
