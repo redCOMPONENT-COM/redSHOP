@@ -1119,20 +1119,75 @@ if (strstr($template_desc, $mpimg_tag))
 
 // More images end
 
-// More videos
+// More videos (youtube)
 if (strstr($template_desc, "{more_videos}"))
 {
-	$media_videos = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "youtube");
+	$media_product_videos = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "youtube");
+
+	if (count($attributes) > 0 && count($attribute_template) > 0)
+	{
+		for ($a = 0, $an = count($attributes); $a < $an; $a++)
+		{
+			$selectedId = array();
+			$property   = $producthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+
+			if ($attributes[$a]->text != "" && count($property) > 0)
+			{
+				for ($i = 0, $in = count($property); $i < $in; $i++)
+				{
+					if ($property[$i]->setdefault_selected)
+					{
+						$media_property_videos = $producthelper->getAdditionMediaImage($property[$i]->property_id, "property", "youtube");
+						$selectedId[] = $property[$i]->property_id;
+					}
+				}
+
+				if (count($selectedId) > 0)
+				{
+					$selectedpropertyId = $selectedId[count($selectedId) - 1];
+					$subproperty        = $producthelper->getAttibuteSubProperty(0, $selectedpropertyId);
+					$selectedId         = array();
+
+					for ($sp = 0; $sp < count($subproperty); $sp++)
+					{
+						if ($subproperty[$sp]->setdefault_selected)
+						{
+							$media_subproperty_videos = $producthelper->getAdditionMediaImage($subproperty[$sp]->subattribute_color_id, "subproperty", "youtube");
+							$selectedId[]     = $subproperty[$sp]->subattribute_color_id;
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	if (!empty($media_subproperty_videos))
+	{
+		$media_videos = $media_subproperty_videos;
+	}
+	elseif (!empty($media_property_videos))
+	{
+		$media_videos = $media_property_videos;
+	}
+	elseif (!empty($media_product_videos))
+	{
+		$media_videos = $media_product_videos;
+	}
+
 	$insertStr = '';
 
-	for ($m = 0, $mn = count($media_videos); $m < $mn; $m++)
+	if (count($media_videos) > 0)
 	{
-		$insertStr .= "<div id='additional_vids_" . $media_videos[$m]->media_id . "'><a class='modal' href='http://www.youtube.com/embed/" . $media_videos[$m]->media_name . "' rel='{handler: \"iframe\", size: {x: 800, y: 500}}'><img src='https://img.youtube.com/vi/" . $media_videos[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+		for ($m = 0, $mn = count($media_videos); $m < $mn; $m++)
+		{
+			$insertStr .= "<div id='additional_vids_" . $media_videos[$m]->media_id . "'><a class='modal' title='" . $media_videos[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_videos[$m]->media_name . "' rel='{handler: \"iframe\", size: {x: 800, y: 500}}'><img src='https://img.youtube.com/vi/" . $media_videos[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+		}
 	}
 
 	$template_desc = str_replace("{more_videos}", $insertStr, $template_desc);
 }
-// More videos end
+// More videos (youtube) end
 
 // More documents
 if (strstr($template_desc, "{more_documents}"))
