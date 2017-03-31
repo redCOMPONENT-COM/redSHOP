@@ -1,4 +1,4 @@
-REATE TABLE `ideyn_redshop_product` (
+CREATE TABLE `ideyn_redshop_product` (
   `id` int(11) NOT NULL COMMENT 'Product ID',
   `number` varchar(250) NOT NULL COMMENT 'Product number',
   `parent_id` int(11) NOT NULL COMMENT 'Product relationship. Will be moved and replaced by nestled',
