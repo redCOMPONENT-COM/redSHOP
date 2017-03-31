@@ -92,8 +92,6 @@ class RedshopModelCategories extends RedshopModelList
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.category_id');
-		$id	.= ':' . $this->getState('filter.lft');
-		$id	.= ':' . $this->getState('filter.rgt');
 
 		return parent::getStoreId($id);
 	}
@@ -217,7 +215,7 @@ class RedshopModelCategories extends RedshopModelList
 	public function assignTemplate($data)
 	{
 		$cid = $data['cid'];
-		$categoryTemplate = $data['template'];
+		$categoryTemplate = $data['category_template'];
 
 		if (count($cid))
 		{

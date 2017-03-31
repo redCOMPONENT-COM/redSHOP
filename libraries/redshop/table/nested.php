@@ -53,7 +53,7 @@ class RedshopTableNested extends JTableNested
 	 *
 	 * @var  string
 	 */
-	protected $_tableFieldState = 'state';
+	protected $_tableFieldState = 'published';
 
 	/**
 	 * Field name to keep creator user (created_by)

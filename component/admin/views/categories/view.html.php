@@ -112,19 +112,19 @@ class RedshopViewCategories extends RedshopViewAdmin
 
 		JToolBarHelper::title($title, 'redshop_categories48');
 
-		if ((count($user->authorise('com_redshop', 'core.create'))) > 0)
+		if ($user->authorise('com_redshop', 'core.create'))
 		{
 			JToolBarHelper::addNew('category.add');
 			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		}
 
-		if ((count($user->authorise('com_redshop', 'core.edit'))) > 0)
+		if ($user->authorise('com_redshop', 'core.edit'))
 		{
 			JToolBarHelper::editList('category.edit');
 			JToolBarHelper::checkin('categories.checkin');
 		}
 
-		if ((count($user->authorise('com_redshop', 'core.edit.state'))) > 0)
+		if ($user->authorise('com_redshop', 'core.edit.state'))
 		{
 			JToolBarHelper::deleteList('', 'categories.delete');
 			JToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
