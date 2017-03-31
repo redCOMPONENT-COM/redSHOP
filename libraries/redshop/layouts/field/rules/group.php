@@ -147,7 +147,13 @@ extract($displayData);
 										}
 									}
 									?>
-									<label class="<?php echo $result['class'] ?> label-permission"><strong><?php echo $result['text'] ?></strong></label>
+                                    <?php if ($result['class'] == 'text-primary'): ?>
+									    <label class="<?php echo $result['class'] ?>">
+                                            <strong><?php echo $result['text'] ?></strong>
+                                        </label>
+                                    <?php else: ?>
+                                        <label class="<?php echo $result['class'] ?> label-permission"><strong><?php echo $result['text'] ?></strong></label>
+                                    <?php endif; ?>
 								</td>
 							<?php endforeach; ?>
 							<?php $count = abs(count($groupActions) - 4); ?>

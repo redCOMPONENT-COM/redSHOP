@@ -99,7 +99,7 @@ class RedshopViewList extends AbstractView
 	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string  &$tpl  Template name
+	 * @param   string &$tpl Template name
 	 *
 	 * @return  void
 	 *
@@ -157,12 +157,25 @@ class RedshopViewList extends AbstractView
 	 */
 	protected function addToolbar()
 	{
+		$user = JFactory::getUser();
+
 		// Add common button
-		JToolbarHelper::addNew($this->getInstanceName() . '.add');
-		JToolbarHelper::deleteList('', $this->getInstancesName() . '.delete');
-		JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
-		JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-		JToolbarHelper::checkin($this->getInstancesName() . '.publish', 'JTOOLBAR_CHECKIN', true);
+		if ($user->authorise($this->getInstanceName() . '.create', 'backend'))
+		{
+			JToolbarHelper::addNew($this->getInstanceName() . '.add');
+		}
+
+		if ($user->authorise($this->getInstanceName() . '.delete', 'backend'))
+		{
+			JToolbarHelper::deleteList('', $this->getInstancesName() . '.delete');
+		}
+
+		if ($user->authorise($this->getInstanceName() . '.edit', 'backend'))
+		{
+			JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::checkin($this->getInstancesName() . '.publish', 'JTOOLBAR_CHECKIN', true);
+		}
 	}
 
 	/**
@@ -234,9 +247,9 @@ class RedshopViewList extends AbstractView
 	/**
 	 * Method for render 'Published' column
 	 *
-	 * @param   array   $config  Row config.
-	 * @param   int     $index   Row index.
-	 * @param   object  $row     Row data.
+	 * @param   array  $config Row config.
+	 * @param   int    $index  Row index.
+	 * @param   object $row    Row data.
 	 *
 	 * @return  string
 	 *
@@ -244,14 +257,16 @@ class RedshopViewList extends AbstractView
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
-		$isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
+		$user             = JFactory::getUser();
+		$isCheckedOut     = $row->checked_out && $user->id != $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
+		$canEdit = $user->authorise($this->getInstanceName() . '.edit', 'backend');
 
-		if (in_array($config['dataCol'], $this->stateColumns))
+		if (in_array($config['dataCol'], $this->stateColumns) && $canEdit)
 		{
 			return JHtml::_('jgrid.published', $row->published, $index);
 		}
-		elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable)
+		elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable && $canEdit)
 		{
 			$value   = $row->{$config['dataCol']};
 			$display = $value;
