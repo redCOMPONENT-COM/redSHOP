@@ -55,7 +55,7 @@ class Redconfiguration
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = App::getInstance();
+			self::$instance = new static;
 		}
 
 		return self::$instance;
@@ -70,7 +70,7 @@ class Redconfiguration
 	 */
 	public function isCFGFile()
 	{
-		return self::$instance->isConfigurationFile();
+		return App::getInstance()->isConfigurationFile();
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Redconfiguration
 	 */
 	public function isCFGTable()
 	{
-		return self::$instance->isConfigurationTable();
+		return App::getInstance()->isConfigurationTable();
 	}
 
 	/**
@@ -96,7 +96,7 @@ class Redconfiguration
 	 */
 	public function setCFGTableData($org = array())
 	{
-		self::$instance->storeConfigurationTable($org);
+		App::getInstance()->storeConfigurationTable($org);
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Redconfiguration
 	 */
 	public function loadDefaultCFGFile()
 	{
-		return self::$instance->loadDefaultConfigurationFile();
+		return App::getInstance()->loadDefaultConfigurationFile();
 	}
 
 	/**
@@ -122,7 +122,7 @@ class Redconfiguration
 	 */
 	public function manageCFGFile($org = array())
 	{
-		return self::$instance->manageConfigurationFile($org);
+		return App::getInstance()->manageConfigurationFile($org);
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Redconfiguration
 	 */
 	public function defineCFGVars($data, $bypass = false)
 	{
-		self::$instance->defineConfigurationVariables($data, $bypass);
+		App::getInstance()->defineConfigurationVariables($data, $bypass);
 	}
 
 	/**
@@ -149,7 +149,7 @@ class Redconfiguration
 	 */
 	public function writeCFGFile()
 	{
-		return self::$instance->writeConfigurationFile();
+		return App::getInstance()->writeConfigurationFile();
 	}
 
 	/**
@@ -162,7 +162,7 @@ class Redconfiguration
 	 */
 	public function updateCFGFile()
 	{
-		return self::$instance->updateConfigurationFile();
+		return App::getInstance()->updateConfigurationFile();
 	}
 
 	/**
@@ -174,7 +174,7 @@ class Redconfiguration
 	 */
 	public function backupCFGFile()
 	{
-		return self::$instance->backupConfigurationFile();
+		return App::getInstance()->backupConfigurationFile();
 	}
 
 	/**
@@ -186,7 +186,7 @@ class Redconfiguration
 	 */
 	public function isTmpFile()
 	{
-		return self::$instance->checkTemporaryConfigFile();
+		return App::getInstance()->checkTemporaryConfigFile();
 	}
 
 	/**
@@ -196,7 +196,7 @@ class Redconfiguration
 	 */
 	public function isTMPFileWritable()
 	{
-		return self::$instance->isTemporaryConfigFileCanWrite();
+		return App::getInstance()->isTemporaryConfigFileCanWrite();
 	}
 
 	/**
@@ -280,7 +280,7 @@ class Redconfiguration
 	 */
 	public function redshopCFGData($data)
 	{
-		return self::$instance->prepareConfigData($data);
+		return App::getInstance()->prepareConfigData($data);
 	}
 
 	/**
