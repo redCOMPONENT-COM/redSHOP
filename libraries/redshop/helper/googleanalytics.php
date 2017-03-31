@@ -124,7 +124,7 @@ class RedshopHelperGoogleanalytics
 
 		";
 
-		$pageCode .= $this->pageTrackerView();
+		$pageCode .= self::pageTrackerView();
 
 		if (isset($analyticsData['addtrans']))
 		{
