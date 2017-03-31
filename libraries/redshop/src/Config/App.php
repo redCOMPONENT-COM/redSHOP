@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class App
+class App
 {
 	/**
 	 * Configuration path
