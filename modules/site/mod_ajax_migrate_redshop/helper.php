@@ -73,7 +73,9 @@ class ModAjaxMigrateRedshopHelper
 				'order_discount_vat',
 				'invoice_no',
 				'customer_note', 
-				'track_no'
+				'track_no',
+				'bookinvoice_number',
+				'bookinvoice_date'
 			);
 
 			$values = array(
@@ -101,7 +103,9 @@ class ModAjaxMigrateRedshopHelper
 				$db->q($value['order_discount_vat']), 
 				$db->q($value['invoice_no']), 
 				$db->q($value['customer_note']), 
-				$db->q($value['track_no'])
+				$db->q($value['track_no']),
+				$db->q($value['bookinvoice_number']),
+				$db->q($value['bookinvoice_date'])
 			);
 
 			self::insertRecord('orders', $columns, $values);
