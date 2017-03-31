@@ -125,7 +125,7 @@ class RedshopControllerMedia extends RedshopControllerForm
 			'success' => true,
 			'file' => array(
 					'id'        => $fileId,
-					'url'       => 'components/com_redshop/assets/images/tmp/' . $filename,
+					'url'       => 'media/com_redshop/assets/images/tmp/' . $filename,
 					'name'      => $filename,
 					'size'      => RedshopHelperMediaImage::sizeFilter(filesize($dest)),
 					'dimension' => $dimension,
@@ -185,12 +185,7 @@ class RedshopControllerMedia extends RedshopControllerForm
 
 		$mediaSection = trim($input->get('media_section', 'product'));
 
-		if (!in_array($mediaSection, array('product', 'category', 'manufacturer')))
-		{
-			echo '0';
-		}
-
-		$app->setUserState('com_redshop.global.media_section', $mediaSection);
+		$app->setUserState('com_redshop.global.media.section', $mediaSection);
 
 		$model = $this->getModel();
 		$form = $model->getForm();
@@ -198,6 +193,31 @@ class RedshopControllerMedia extends RedshopControllerForm
 		$formHTML = $form->renderField('section_id');
 
 		echo $formHTML;
+
+		$app->close();
+	}
+
+	/**
+	 * ajaxUpdateYoutubeVideo
+	 * 
+	 * @return void
+	 */
+	public function ajaxUpdateYoutubeVideo()
+	{
+		$app = JFactory::getApplication();
+
+		$input = $app->input;
+
+		$youtubeId = trim($input->get('youtube_id', ''));
+
+		$app->setUserState('com_redshop.global.media.youtube.id', $youtubeId);
+
+		$model = $this->getModel();
+		$form = $model->getForm();
+
+		$youtubeVideo = $form->getField('youtube_content')->input;
+
+		echo $youtubeVideo;
 
 		$app->close();
 	}

@@ -40,22 +40,69 @@ class JFormFieldMediaSectionId extends JFormFieldList
 		$app = JFactory::getApplication();
 		$db  = JFactory::getDbo();
 
-		$mediaSection = $app->getUserState('com_redshop.global.media_section', 'product');
+		$mediaSection = $app->getUserState('com_redshop.global.media.section', 'product');
 
-		$currentOptions = parent::getOptions();
+		if (!in_array($mediaSection, array('product', 'category', 'manufacturer', 'property', 'subproperty')))
+		{
+			return array();
+		}
 
-		$query = $db->getQuery(true)
-			->select(
-				array(
-					$db->qn($mediaSection . '_id', 'id'),
-					$db->qn($mediaSection . '_name', 'title')
+		$tableSuffix = $mediaSection;
+
+		switch ($mediaSection)
+		{
+			case 'property':
+				$mediaSection = 'attribute';
+				$tableSuffix = 'product_attribute';
+				break;
+			case 'subproperty':
+				$mediaSection = 'property';
+				$tableSuffix = 'product_attribute_property';
+				break;
+			default:
+				break;
+		}
+
+		$items = array();
+
+		try
+		{
+			$columnPrefix = $mediaSection . '_';
+
+			$config = JFactory::getConfig();
+			$tablePreFix = $config->get('dbprefix');
+			$dbName = $config->get('db');
+
+			$query = $db->getQuery(true);
+			$query->select($db->qn('COLUMN_NAME'))
+				->from($db->qn('information_schema.COLUMNS'))
+				->where($db->qn('TABLE_SCHEMA') . ' = ' . $db->q($dbName))
+				->where($db->qn('TABLE_NAME') . ' = ' . $db->q($tablePreFix . 'redshop_' . $tableSuffix))
+				->where($db->qn('COLUMN_NAME') . ' = ' . $db->q($columnPrefix . 'id'));
+
+			if (!$db->setQuery($query)->loadObject())
+			{
+				$columnPrefix = '';
+			}
+
+			$currentOptions = parent::getOptions();
+
+			$query->clear()
+				->select(
+					array(
+						$db->qn('m.' . $columnPrefix . 'id', 'id'),
+						$db->qn('m.' . $columnPrefix . 'name', 'title')
+					)
 				)
-			)
-			->from($db->qn('#__redshop_' . $mediaSection))
-			->where($db->qn('published') . ' = 1')
-			->order($db->qn($mediaSection . '_name'));
+				->from($db->qn('#__redshop_' . $tableSuffix, 'm'))
+				->order($db->qn('m.' . $columnPrefix . 'name'));
 
-		$items = $db->setQuery($query)->loadObjectList();
+			$items = $db->setQuery($query)->loadObjectList();
+		}
+		catch (Exception $e)
+		{
+			// Do nothing
+		}
 
 		// Clean up the options
 		$options = array();

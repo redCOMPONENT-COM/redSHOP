@@ -47,7 +47,7 @@ class RedshopViewMedia extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.0.2.1
+	 * @since   2.0.4
 	 */
 	public function display($tpl = null)
 	{
@@ -57,6 +57,15 @@ class RedshopViewMedia extends RedshopViewAdmin
 		$this->item       = $this->get('Item');
 		$this->state      = $this->get('State');
 		$this->requestUrl = JUri::getInstance()->toString();
+
+		// Set user state for form field section_id
+		$app = JFactory::getApplication();
+		$app->setUserState('com_redshop.global.media.section', $this->item->media_section);
+
+		if ($this->item->media_type == 'youtube')
+		{
+			$app->setUserState('com_redshop.global.media.youtube.id', $this->item->media_name);
+		}
 
 		$this->addToolBar();
 
@@ -68,7 +77,7 @@ class RedshopViewMedia extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   2.0.4
 	 */
 	protected function addToolbar()
 	{
