@@ -61,7 +61,7 @@ class RedshopHelperDocument
 	 * @param   boolean  $defer  Adds the defer attribute.
 	 * @param   boolean  $async  Adds the async attribute.
 	 *
-	 * @return  Document instance of $this to allow chaining
+	 * @return  self             Instance of $this to allow chaining
 	 */
 	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
 	{
@@ -163,7 +163,7 @@ class RedshopHelperDocument
 	{
 		if (empty(static::$topScripts))
 		{
-			return true;
+			return $this;
 		}
 
 		$doc = JFactory::getDocument();
