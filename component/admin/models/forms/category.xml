@@ -28,8 +28,9 @@
 			label="COM_REDSHOP_CATEGORY_TEMPLATE"
 			description="COM_REDSHOP_TOOLTIP_CATEGORY_TEMPLATE"
 			required="true"
+			default=""
 			>
-			<option value="0">COM_REDSHOP_SELECT_TEMPLATE</option>
+			<option value="">COM_REDSHOP_SELECT_TEMPLATE</option>
 		</field>
 		<field
 			name="more_template"
@@ -45,18 +46,19 @@
 			type="templatecompare"
 			label="COM_REDSHOP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY"
 			description="COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY_LABEL"
+			default=""
 			>
-			<option value="0">COM_REDSHOP_SELECT_TEMPLATE</option>
+			<option value="">COM_REDSHOP_SELECT_TEMPLATE</option>
 		</field>
-		
 		<field
 			name="products_per_page"
-			type="redshop.text"
+			type="number"
 			label="COM_REDSHOP_SHOW_PRODUCT_PER_PAGE"
 			description="COM_REDSHOP_TOOLTIP_SHOW_PRODUCT_PER_PAGE"
 			size="40"
 			class="inputbox"
-			default=""
+			min="0"
+			required="true"
 			/>
 		<field
 			name="description"

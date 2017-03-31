@@ -115,7 +115,7 @@ class RedshopViewCategories extends RedshopViewAdmin
 		if ($user->authorise('com_redshop', 'core.create'))
 		{
 			JToolBarHelper::addNew('category.add');
-			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+			JToolBarHelper::custom('category.copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		}
 
 		if ($user->authorise('com_redshop', 'core.edit'))

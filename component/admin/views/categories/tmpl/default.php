@@ -161,14 +161,14 @@ if (($saveOrder) && ($this->canEditState))
 						</td>
 						<?php endif; ?>
 						<td class="center">
-							<?php echo JHTML::_('grid.published', $item, $i) ?>
+							<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', true, 'cb'); ?>
 						</td>
 						<td>
 						<?php if ($item->checked_out): ?>
 							<?php
 							$author = JFactory::getUser($item->checked_out);
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-							echo JHtml::_('jgrid.checkedout', $i, $item->checked_out, $item->checked_out_time, 'suppliers.', $canCheckin);
+							echo JHtml::_('jgrid.checkedout', $i, $item->checked_out, $item->checked_out_time, 'categories.', $canCheckin);
 							?>
 						<?php endif; ?>
 						<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level - 1) ?>
