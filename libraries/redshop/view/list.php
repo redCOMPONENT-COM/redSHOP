@@ -245,12 +245,13 @@ class RedshopViewList extends AbstractView
 	public function onRenderColumn($config, $index, $row)
 	{
 		$isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
+		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
 
 		if (in_array($config['dataCol'], $this->stateColumns))
 		{
 			return JHtml::_('jgrid.published', $row->published, $index);
 		}
-		elseif ($config['inline'] === true && !$isCheckedOut)
+		elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable)
 		{
 			$value   = $row->{$config['dataCol']};
 			$display = $value;
