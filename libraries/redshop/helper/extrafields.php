@@ -259,6 +259,13 @@ class RedshopHelperExtrafields
 	const SECTION_SHIPPING_GATEWAY = 19;
 
 	/**
+	 * Extra Field Section Id for Order
+	 *
+	 * @var  integer
+	 */
+	const SECTION_ORDER = 20;
+
+	/**
 	 * List of fields data
 	 *
 	 * @var  array
