@@ -2480,6 +2480,9 @@ class RedshopHelperOrder
 		$cartHelper      = rsCarthelper::getInstance();
 		$redshopMail     = redshopMail::getInstance();
 
+		// Changes to parse all tags same as order mail end
+		$userDetail = self::getOrderBillingUserInfo($orderId);
+
 		$mailFrom     = $app->get('mailfrom');
 		$fromName     = $app->get('fromname');
 		$mailBcc      = null;
@@ -2498,7 +2501,7 @@ class RedshopHelperOrder
 			{
 				for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
 				{
-					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->field_id, RedshopHelperExtrafields::SECTION_ORDER, $orderId);
+					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->field_id, RedshopHelperExtrafields::SECTION_ORDER, $orderId, $userDetail->user_email);
 
 					if ($fieldValueArray->data_txt != "")
 					{
@@ -2517,9 +2520,6 @@ class RedshopHelperOrder
 			{
 				$mailBcc = explode(",", $mailTemplate[0]->mail_bcc);
 			}
-
-			// Getting the order details
-			$orderDetail = self::getOrderDetails($orderId);
 
 			// Changes to parse all tags same as order mail start
 			$row      = self::getOrderDetails($orderId);
