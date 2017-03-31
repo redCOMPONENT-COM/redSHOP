@@ -4,45 +4,54 @@
         <field
                 name="id"
                 type="hidden"
-                />
+        />
         <field
                 name="name"
                 type="redshop.text"
                 label="COM_REDSHOP_SUPPLIER_NAME"
-                description="COM_REDSHOP_SUPPLIER_NAME"
+                description="COM_REDSHOP_SUPPLIER_NAME_DESC"
                 placeholder="COM_REDSHOP_SUPPLIER_NAME"
                 class="form-control"
                 default=""
                 required="true"
-                />
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
         <field
                 name="email"
                 type="redshop.text"
                 label="COM_REDSHOP_SUPPLIER_EMAIL"
-                description="COM_REDSHOP_SUPPLIER_EMAIL"
+                description="COM_REDSHOP_SUPPLIER_EMAIL_DESC"
                 placeholder="COM_REDSHOP_SUPPLIER_EMAIL"
                 size="30"
                 class="form-control"
                 default=""
-                required="false"
-                />
+                table-sortable="1"
+                table-inline="1"
+                table-width="20%"
+        />
         <field
                 name="published"
                 type="redshop.radio"
                 label-class="radio-inline"
                 default="1"
                 label="COM_REDSHOP_PUBLISHED"
-                required="true">
+                required="true"
+                table-sortable="1"
+                table-width="5%">
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>
         <field
                 name="description"
                 type="editor"
-                label="COM_REDSHOP_DESCRIPTION"
-                description=""
+                label="COM_REDSHOP_SUPPLIER_DESCRIPTION"
+                description="COM_REDSHOP_SUPPLIER_DESCRIPTION_DESC"
                 width="300"
                 filter="safehtml"
-                />
+                table-sortable="1"
+                table-width="20%"
+        />
     </fieldset>
 </form>
