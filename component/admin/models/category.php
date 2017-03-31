@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Models.Category
  * @since       2.0.4
  */
-class RedshopModelCategory extends JModelAdmin
+class RedshopModelCategory extends RedshopModelForm
 {
 	/**
 	 * Returns a Table object, always creating it
@@ -303,12 +303,11 @@ class RedshopModelCategory extends JModelAdmin
 				for ($a = 0; $a < count($data['product_accessory']); $a++)
 				{
 					$acc = $data['product_accessory'][$a];
-
 					$accessoryId = $productCategory->CheckAccessoryExists($productId, $acc['child_product_id']);
 
 					if ($productId != $acc['child_product_id'])
 					{
-						$accDetail = $this->getTable('accessory_detail');
+						$accDetail = JTable::getInstance('Accessory_detail', 'Table');
 
 						$accDetail->accessory_id = $accessoryId;
 						$accDetail->category_id = $row->id;
@@ -362,7 +361,7 @@ class RedshopModelCategory extends JModelAdmin
 			if ($childs->ctotal > 0)
 			{
 				$noError = false;
-				$errorMSG = sprintf(JText::_('COM_REDSHOP_CATEGORY_PARENT_ERROR_MSG'), $childs->category_name, $cid[$i]);
+				$errorMSG = JText::sprintf('COM_REDSHOP_CATEGORY_PARENT_ERROR_MSG', $childs->name, $cid[$i]);
 				$this->setError($errorMSG);
 				break;
 			}
@@ -433,26 +432,6 @@ class RedshopModelCategory extends JModelAdmin
 	}
 
 	/**
-	 * Method to get product compare template.
-	 *
-	 * @since   2.0.0.2
-	 *
-	 * @return  object
-	 */
-	public function getProductCompareTemplate()
-	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('template_section', 'text'))
-			->select($db->qn('template_id', 'value'))
-			->from($db->qn('#__redshop_template'))
-			->where($db->qn('published') . ' = 1')
-			->where($db->qn('template_section') . ' = ' . $db->q('compare_product'));
-
-		return $db->setQuery($query)->loadObjectList();
-	}
-
-	/**
 	 * Method to copy.
 	 *
 	 * @param   array  $cid  category id list.
@@ -463,58 +442,53 @@ class RedshopModelCategory extends JModelAdmin
 	 */
 	public function copy($cid = array())
 	{
-		if (count($cid))
+		if (!count($cid))
 		{
-			$db = $this->getDBO();
-			$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_category'))
-				->where($db->qn('category_id') . ' IN (' . implode(',', $cid) . ')');
+			return false;
+		}
 
-			$copyData = $db->setQuery($query)->loadObjectList();
+		$db = $this->getDBO();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('id') . ' IN (' . implode(',', $cid) . ')');
 
-			for ($i = 0, $in = count($copyData); $i < $in; $i++)
+		$copyData = $db->setQuery($query)->loadObjectList();
+
+		for ($i = 0, $in = count($copyData); $i < $in; $i++)
+		{
+			$post                         = array();
+			$post['id']                   = 0;
+			$post['name']                 = $this->renameToUniqueValue('name', $copyData[$i]->name);
+			$post['short_description']    = $copyData[$i]->short_description;
+			$post['description']          = $copyData[$i]->description;
+			$post['template']             = $copyData[$i]->template;
+			$post['more_template']        = $copyData[$i]->more_template;
+			$post['products_per_page']    = $copyData[$i]->products_per_page;
+			$post['category_full_image']  = $this->renameToUniqueValue('category_full_image', $copyData[$i]->category_full_image, 'dash');
+			$post['category_thumb_image'] = $this->renameToUniqueValue('category_thumb_image', $copyData[$i]->category_thumb_image, 'dash');
+			$post['metakey']              = $copyData[$i]->metakey;
+			$post['metadesc']             = $copyData[$i]->metadesc;
+			$post['metalanguage_setting'] = $copyData[$i]->metalanguage_setting;
+			$post['metarobot_info']       = $copyData[$i]->metarobot_info;
+			$post['pagetitle']            = $copyData[$i]->pagetitle;
+			$post['pageheading']          = $copyData[$i]->pageheading;
+			$post['sef_url']              = $copyData[$i]->sef_url;
+			$post['published']            = $copyData[$i]->published;
+			$post['category_pdate']       = date("Y-m-d h:i:s");
+			$post['ordering']             = count($copyData) + $i + 1;
+			$post['parent_id']            = $copyData[$i]->parent_id;
+			$post['level']                = $copyData[$i]->level;
+
+			$src = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $copyData[$i]->category_full_image;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $post['category_full_image'];
+
+			if (is_file($src))
 			{
-				$query = $db->getQuery(true)
-					->select($db->qn('category_parent_id'))
-					->from($db->qn('#__redshop_category_xref'))
-					->where($db->qn('category_child_id') . ' = ' . $db->q((int) $copyData[$i]->category_id));
-
-				$categoryParentId = $db->setQuery($query)->loadResult();
-
-				$post = array();
-				$post['category_id'] = 0;
-				$post['category_name'] = $this->renameToUniqueValue('category_name', $copyData[$i]->category_name);
-				$post['category_short_description'] = $copyData[$i]->category_short_description;
-				$post['category_description'] = $copyData[$i]->category_description;
-				$post['category_template'] = $copyData[$i]->category_template;
-				$post['category_more_template'] = $copyData[$i]->category_more_template;
-				$post['products_per_page'] = $copyData[$i]->products_per_page;
-				$post['category_full_image'] = $this->renameToUniqueValue('category_full_image', $copyData[$i]->category_full_image, 'dash');
-				$post['category_thumb_image'] = $this->renameToUniqueValue('category_thumb_image', $copyData[$i]->category_thumb_image, 'dash');
-				$post['metakey'] = $copyData[$i]->metakey;
-				$post['metadesc'] = $copyData[$i]->metadesc;
-				$post['metalanguage_setting'] = $copyData[$i]->metalanguage_setting;
-				$post['metarobot_info'] = $copyData[$i]->metarobot_info;
-				$post['pagetitle'] = $copyData[$i]->pagetitle;
-				$post['pageheading'] = $copyData[$i]->pageheading;
-				$post['sef_url'] = $copyData[$i]->sef_url;
-				$post['published'] = $copyData[$i]->published;
-				$post['category_pdate'] = date("Y-m-d h:i:s");
-				$post['ordering'] = count($copyData) + $i + 1;
-
-				$post['category_parent_id'] = $category_parent_id;
-
-				$src = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $copyData[$i]->category_full_image;
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $post['category_full_image'];
-
-				if (is_file($src))
-				{
-					JFile::upload($src, $dest);
-				}
-
-				$this->store($post);
+				JFile::upload($src, $dest);
 			}
+
+			$this->store($post);
 		}
 
 		return true;

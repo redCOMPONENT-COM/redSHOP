@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
+$productHelper = producthelper::getInstance();
 ?>
 <div class="row">
 	<div class="col-sm-12">
@@ -73,42 +73,54 @@ defined('_JEXEC') or die;
 								<tbody>
 								<?php
 
-								$accessory_product = $this->lists['categroy_accessory_product'];
+								$accessoryProduct = $this->lists['categroy_accessory_product'];
 
-								for ($f = 0, $fn = count($accessory_product); $f < $fn; $f++)
-								{
-									$accessory_main_price = 0;
-									if ($accessory_product[$f]->product_id && $accessory_product[$f]->accessory_id)
-									{
-										$accessory_main_price = $producthelper->getAccessoryPrice($accessory_product[$f]->product_id, $accessory_product[$f]->newaccessory_price, $accessory_product[$f]->accessory_main_price, 1);
-									}
-									$checked = ($accessory_product[$f]->setdefault_selected) ? "checked" : "";    ?>
+								for ($f = 0, $fn = count($accessoryProduct); $f < $fn; $f++) :
+									$accessoryMainPrice = 0;
+
+									if ($accessoryProduct[$f]->product_id && $accessoryProduct[$f]->accessory_id) :
+										$accessoryMainPrice = $productHelper->getAccessoryPrice($accessoryProduct[$f]->product_id, $accessoryProduct[$f]->newaccessory_price, $accessoryProduct[$f]->accessory_main_price, 1);
+									endif;
+
+									//$checked = ($accessoryProduct[$f]->setdefault_selected) ? "checked" : "";    
+								?>
 									<tr>
-										<td><?php echo $accessory_product[$f]->product_name;?>
-											<input type="hidden" value="<?php echo $accessory_product[$f]->child_product_id; ?>" class="childProductAccessory"
+										<td>
+										<?php echo $accessoryProduct[$f]->product_name;?>
+											<input type="hidden" value="<?php echo $accessoryProduct[$f]->child_product_id; ?>" class="childProductAccessory"
 											       name="product_accessory[<?php echo $f; ?>][child_product_id]">
-											<input type="hidden" value="<?php echo $accessory_product[$f]->accessory_id; ?>"
-											       name="product_accessory[<?php echo $f; ?>][accessory_id]"></td>
-										<td><?php echo $accessory_main_price[1];?></td>
-										<td><input size="1" maxlength="1" class="text_area input-small text-center" type="text"
-										           value="<?php echo $accessory_product[$f]->oprand; ?>"
+											<input type="hidden" value="<?php echo $accessoryProduct[$f]->accessory_id; ?>"
+											       name="product_accessory[<?php echo $f; ?>][accessory_id]">
+										</td>
+										<td><?php echo $accessoryMainPrice[1];?></td>
+										<td>
+										<input size="1" maxlength="1" class="text_area input-small text-center" type="text"
+										           value="<?php echo $accessoryProduct[$f]->oprand; ?>"
 										           onchange="javascript:oprand_check(this);"
-										           name="product_accessory[<?php echo $f; ?>][oprand]"></td>
-										<td><input size="5" class="text_area input-small text-center" type="text"
-										           value="<?php echo $accessory_product[$f]->accessory_price; ?>"
-										           name="product_accessory[<?php echo $f; ?>][accessory_price]"></td>
-										<td><input type="text" name="product_accessory[<?php echo $f; ?>][ordering]" size="5"
-										           value="<?php echo $accessory_product[$f]->ordering; ?>" class="text_area input-small text-center"
-										           style="text-align: center"/></td>
+										           name="product_accessory[<?php echo $f; ?>][oprand]">
+										</td>
+										<td>
+										<input size="5" class="text_area input-small text-center" type="text"
+										           value="<?php echo $accessoryProduct[$f]->accessory_price; ?>"
+										           name="product_accessory[<?php echo $f; ?>][accessory_price]">
+										</td>
+										<td>
+										<input type="text" name="product_accessory[<?php echo $f; ?>][ordering]" size="5"
+										           value="<?php echo $accessoryProduct[$f]->ordering; ?>" class="text_area input-small text-center"
+										           style="text-align: center"/>
+										</td>
 										<!-- <td><input value="1" class="button" type="checkbox" name="product_accessory[<?php echo $f;?>][setdefault_selected]" <?php echo $checked;?>></td>-->
-										<td><input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
-										           onclick="deleteRow_accessory(this,<?php echo $accessory_product[$f]->accessory_id; ?>,<?php echo $accessory_product[$f]->category_id; ?>,<?php echo $accessory_product[$f]->child_product_id ?>);"
-										           class="button btn btn-danger" type="button"></td>
+										<td>
+										<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
+										           onclick="deleteRow_accessory(this,<?php echo $accessoryProduct[$f]->accessory_id; ?>,<?php echo $accessoryProduct[$f]->category_id; ?>,<?php echo $accessoryProduct[$f]->child_product_id ?>);"
+										           class="button btn btn-danger" type="button">
+										</td>
 									</tr>
-								<?php }    ?>
+								<?php endfor; ?>
 								</tbody>
 							</table>
-							<input type="hidden" name="total_accessory" id="total_accessory" value="<?php echo $f; ?>"/></td>
+							<input type="hidden" name="total_accessory" id="total_accessory" value="<?php echo $f; ?>"/>
+						</td>
 					</tr>
 				</table>
 			</div>

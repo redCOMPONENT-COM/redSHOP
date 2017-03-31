@@ -149,7 +149,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
-		$model = $this->getModel('category');
+		$model = $this->getModel();
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -165,7 +165,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 	{
 		$input = JFactory::getApplication()->input;
 		$cid   = $input->post->get('cid', array(), 'array');
-		$model = $this->getModel('category');
+		$model = $this->getModel();
 
 		if ($model->copy($cid))
 		{

@@ -28,9 +28,9 @@ class JFormFieldTemplate extends JFormFieldList
 	 */
 	public $type = 'Template';
 
-	protected function getInput()
+	protected function getOptions()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('template_id'))
 			->select($db->qn('template_name'))
@@ -50,19 +50,6 @@ class JFormFieldTemplate extends JFormFieldList
 			}
 		}
 
-		$options = array_merge(parent::getOptions(), $options);
-
-		$attr = '';
-
-		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= $this->element['multiple'] ? ' multiple' : '';
-		$attr .= $this->element['required'] ? ' required' : '';
-
-		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-
-		return JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+		return array_merge(parent::getOptions(), $options);
 	}
 }

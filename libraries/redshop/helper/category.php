@@ -437,23 +437,19 @@ class RedshopHelperCategory
 	 *
 	 * @since  2.0.0.3
 	 */
-	public function getCategoryProductList($cid)
+	public static function getCategoryProductList($cid)
 	{
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select($db->qn('p.product_id', 'id'))
-			->from($db->qn('#__redshop_product', 'p'))
-			->leftJoin($db->qn('#__redshop_product_category_xref', 'cx') . ' ON ' . $db->qn('cx.product_id') . ' = ' . $db->qn('p.product_id'))
-			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('cx.category_id') . ' = ' . $db->qn('c.id'))
-			->where($db->qn('c.parent_id') . ' = ' . (int) $cid)
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('pcx.category_id') . ' = ' . $db->qn('c.id'))
+			->where($db->qn('c.id') . ' = ' . (int) $cid)
 			->where($db->qn('p.published') . ' = 1');
 
-		$db->setQuery($query);
-
-		$result = $db->loadObjectList();
-
-		return $result;
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
