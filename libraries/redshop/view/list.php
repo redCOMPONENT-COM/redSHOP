@@ -260,11 +260,19 @@ class RedshopViewList extends AbstractView
 		$user             = JFactory::getUser();
 		$isCheckedOut     = $row->checked_out && $user->id != $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
-		$canEdit = $user->authorise($this->getInstanceName() . '.edit', 'backend');
+		$canEdit          = $user->authorise($this->getInstanceName() . '.edit', 'backend');
 
-		if (in_array($config['dataCol'], $this->stateColumns) && $canEdit)
+		if (in_array($config['dataCol'], $this->stateColumns))
 		{
-			return JHtml::_('jgrid.published', $row->published, $index);
+			if ($canEdit)
+			{
+				return JHtml::_('jgrid.published', $row->published, $index);
+			}
+			else
+			{
+				return '<span class="label ' . ($row->published ? 'label-success' : 'label-danger') . '">' .
+					($row->published ? JText::_('JYES') : JText::_('JNO')) . '</span>';
+			}
 		}
 		elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable && $canEdit)
 		{

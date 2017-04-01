@@ -56,6 +56,32 @@ abstract class AbstractView extends \JViewLegacy
 	protected $instanceName;
 
 	/**
+	 * @var  bool
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $useUserPermission = true;
+
+	/**
+	 * @var  boolean
+	 */
+	public $canView;
+
+	/**
+	 * @var  boolean
+	 */
+	public $canEdit;
+
+	/**
+	 * @var  boolean
+	 */
+	public $canDelete;
+
+	/**
+	 * @var  boolean
+	 */
+	public $canCreate;
+
+	/**
 	 * @var    \JModelLegacy
 	 *
 	 * @since  __DEPLOY_VERSION__
@@ -80,6 +106,8 @@ abstract class AbstractView extends \JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$this->generatePermission();
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -169,6 +197,27 @@ abstract class AbstractView extends \JViewLegacy
 	protected function addToolbar()
 	{
 		return;
+	}
+
+	/**
+	 * Method for generate 4 normal permission.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function generatePermission()
+	{
+		if (!$this->useUserPermission)
+		{
+			return;
+		}
+
+		$user            = \JFactory::getUser();
+		$this->canCreate = $user->authorise($this->getInstanceName() . '.create', 'backend');
+		$this->canView   = $user->authorise($this->getInstanceName() . '.view', 'backend');
+		$this->canEdit   = $user->authorise($this->getInstanceName() . '.edit', 'backend');
+		$this->canDelete = $user->authorise($this->getInstanceName() . '.delete', 'backend');
 	}
 
 	/**
