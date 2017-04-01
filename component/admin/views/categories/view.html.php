@@ -16,83 +16,8 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       2.0.4
  */
-class RedshopViewCategories extends RedshopViewAdmin
+class RedshopViewCategories extends RedshopViewList
 {
-	/**
-	 * @var  array
-	 */
-	public $items;
-
-	/**
-	 * @var  JPagination
-	 */
-	public $pagination;
-
-	/**
-	 * @var  array
-	 */
-	public $state;
-
-	/**
-	 * @var  array
-	 */
-	public $activeFilters;
-
-	/**
-	 * @var  JForm
-	 */
-	public $filterForm;
-
-	/**
-	 * Display template function
-	 *
-	 * @param   object  $tpl  template variable
-	 *
-	 * @return void
-	 *
-	 * @since 2.0.0.3
-	 *
-	 * @throws  Exception
-	 */
-	public function display($tpl = null)
-	{
-		$user = JFactory::getUser();
-
-		$this->items         = $this->get('Items');
-		$this->state         = $this->get('State');
-		$this->pagination    = $this->get('Pagination');
-		$this->filterForm    = $this->get('Form');
-		$this->activeFilters = $this->get('ActiveFilters');
-
-		// Set the tool-bar and number of found items
-		$this->addToolBar();
-
-		$this->ordering = array();
-
-		foreach ($this->items as &$item)
-		{
-			$this->ordering[$item->parent_id][] = $item->id;
-		}
-
-		// Edit State permission
-		$this->canEditState = false;
-
-		if ($user->authorise('core.edit.state', 'com_reditem'))
-		{
-			$this->canEditState = true;
-		}
-
-		// Edit permission
-		$this->canEdit = false;
-
-		if ($user->authorise('core.edit', 'com_reditem'))
-		{
-			$this->canEdit = true;
-		}
-
-		parent::display($tpl);
-	}
-
 	/**
 	 * Add the page title and toolbar.
 	 *
@@ -130,5 +55,67 @@ class RedshopViewCategories extends RedshopViewAdmin
 			JToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
+	}
+
+	/**
+	 * Method for prepare table.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function prepareTable()
+	{
+		parent::prepareTable();
+
+		$this->columns[] = array(
+				// This column is sortable?
+				'sortable'  => false,
+				// Text for column
+				'text'      => JText::_('COM_REDSHOP_PRODUCTS'),
+				// Name of property for get data.
+				'dataCol'   => 'product',
+				// Width of column
+				'width'     => 'auto',
+				// Enable edit inline?
+				'inline'    => false,
+				// Display with edit link or not?
+				'edit_link' => false,
+				// Type of column
+				'type'      => 'text',
+			);
+	}
+
+	/**
+	 * Method for render 'Published' column
+	 *
+	 * @param   array   $config  Row config.
+	 * @param   int     $index   Row index.
+	 * @param   object  $row     Row data.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onRenderColumn($config, $index, $row)
+	{
+		$isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
+		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
+
+		if ($config['dataCol'] == 'name' && $config['inline'] === true && !$isCheckedOut && $inlineEditEnable)
+		{
+			$value   = $row->{$config['dataCol']};
+			$display = $value;
+
+			if ($config['edit_link'])
+			{
+				$display = str_repeat('<span class="gi">|&mdash;</span>', $row->level - 1) . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $value . '</a>';
+			}
+
+			return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
+		}
+
+		$row->product = $this->model->getProducts($row->id);
+		return parent::onRenderColumn($config, $index, $row);
 	}
 }

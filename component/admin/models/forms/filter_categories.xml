@@ -19,12 +19,11 @@
 		</field>
 		<field
 			name="category_id"
-			type="categories"
+			type="categoriesparent"
 			label="COM_REDSHOP_FILTER_CATEGORY"
 			description="COM_REDSHOP_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
 			>
-			<option value="0">COM_REDSHOP_SELECT_CATEGORY</option>
 		</field>
 	</fields>
 	<fields name="list">

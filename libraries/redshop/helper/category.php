@@ -41,12 +41,10 @@ class RedshopHelperCategory
 			$db = JFactory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select('c.*')
-				->select($db->qn('cx.category_parent_id'))
-				->from($db->qn('#__redshop_category', 'c'))
-				->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('cx.category_child_id') . ' = ' . $db->qn('c.category_id'))
-				->where($db->qn('c.category_id') . ' = ' . (int) $cid)
-				->group($db->qn('c.category_id'));
+				->select('*')
+				->from($db->qn('#__redshop_category'))
+				->where($db->qn('id') . ' = ' . $db->q((int) $cid))
+				->group($db->qn('id'));
 
 			static::$categoriesData[$cid] = $db->setQuery($query)->loadObject();
 		}

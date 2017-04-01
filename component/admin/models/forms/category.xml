@@ -13,14 +13,18 @@
 			size="40"
 			class="inputbox"
 			required="true"
+			table-sortable="1"
+            table-inline="1"
+            table-edit-link="1"
 			/>
 		<field
 			name="parent_id"
 			type="categorylist"
 			label="COM_REDSHOP_CATEGORY_PARENT"
 			description="COM_REDSHOP_TOOLTIP_CATEGORY_PARENT"
+			parent="1"
+			table-hide="1"
 			>
-			<option value="0">COM_REDSHOP_SELECT_CATEGORY</option>
 		</field>
 		<field
 			name="template"
@@ -29,6 +33,7 @@
 			description="COM_REDSHOP_TOOLTIP_CATEGORY_TEMPLATE"
 			required="true"
 			default=""
+			table-hide="1"
 			>
 			<option value="">COM_REDSHOP_SELECT_TEMPLATE</option>
 		</field>
@@ -39,6 +44,7 @@
 			label="COM_REDSHOP_CATEGORY_MORE_TEMPLATE"
 			description="COM_REDSHOP_TOOLTIP_CATEGORY_TEMPLATE"
 			multiple="multiple"
+			table-hide="1"
 			>
 		</field>
 		<field
@@ -47,6 +53,7 @@
 			label="COM_REDSHOP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY"
 			description="COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY_LABEL"
 			default=""
+			table-hide="1"
 			>
 			<option value="">COM_REDSHOP_SELECT_TEMPLATE</option>
 		</field>
@@ -59,6 +66,7 @@
 			class="inputbox"
 			min="0"
 			required="true"
+			table-hide="1"
 			/>
 		<field
 			name="description"
@@ -66,6 +74,7 @@
 			label="COM_REDSHOP_DESCRIPTION"
 			description="COM_REDSHOP_DESCRIPTION"
 			default=""
+			table-sortable="1"
 			/>
 		<field
 			name="short_description"
@@ -73,6 +82,7 @@
 			label="COM_REDSHOP_SHORT_DESCRIPTION"
 			description="COM_REDSHOP_SHORT_DESCRIPTION"
 			default=""
+			table-hide="1"
 			/>
 		<field
 			name="published"
@@ -81,11 +91,16 @@
 			default="1"
 			label-class="radio-inline"
 			label="COM_REDSHOP_PUBLISHED"
-			description="COM_REDSHOP_PUBLISHED">
+			description="COM_REDSHOP_PUBLISHED"
+			table-hide="1">
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 		</field>
-		<field name="asset_id" type="hidden" filter="unset" />
+		<field 
+			name="asset_id" 
+			type="hidden" 
+			filter="unset" 
+			/>
 		<field 
 			name="rules" 
 			type="rules" 
@@ -95,44 +110,48 @@
 			component="com_redshop" 
 			section="category" 
 			validate="rules"
-		/>
+			table-hide="1"
+			/>
 		<field
 			name="level"
 			type="hidden"
-			filter="unset"/>
+			filter="unset"
+			/>
 		<field
 			name="lft"
 			type="hidden"
-			filter="unset"/>
-
+			filter="unset"
+			/>
 		<field
 			name="rgt"
 			type="hidden"
-			filter="unset"/>
+			filter="unset"
+			/>
 		<field 
             name="created_date" 
-            type="calendar" 
+            type="redshop.text" 
             label="JGLOBAL_FIELD_CREATED_LABEL"
             description="JGLOBAL_FIELD_CREATED_DESC" 
             readonly="true"
-            size="22"
-            format="%Y-%m-%d %H:%M:%S" 
-            filter="user_utc" />
+            table-hide="1" 
+        	/>
         <field 
             name="created_by" 
             readonly="true"
             type="user"
             label="JGLOBAL_FIELD_CREATED_BY_LABEL" 
-            description="JGLOBAL_FIELD_CREATED_BY_DESC" />
+            description="JGLOBAL_FIELD_CREATED_BY_DESC"
+            table-hide="1" 
+        	/>
         <field 
             name="modified_date" 
-            type="calendar" 
+            type="redshop.text" 
             class="readonly"
             label="JGLOBAL_FIELD_MODIFIED_LABEL"
             size="22" 
             readonly="true" 
-            format="%Y-%m-%d %H:%M:%S" 
-            filter="user_utc" />
+            table-hide="1" 
+        	/>
         <field 
             name="modified_by" 
             type="user"
@@ -140,22 +159,24 @@
             class="readonly"
             readonly="true"
             filter="unset"
-         />
+            table-hide="1"
+         	/>
         <field name="checked_out" type="hidden" filter="unset" />
         <field name="checked_out_time" type="hidden" filter="unset" />
         <field 
             name="publish_up" 
-            type="calendar"
-            label="COM_REDSLIDER_FIELD_PUBLISH_UP_LABEL" description="COM_REDSLIDER_FIELD_PUBLISH_UP_DESC"
-            format="%Y-%m-%d %H:%M:%S" size="22"
-            filter="user_utc" />
-
+            type="redshop.text"
+            label="COM_REDSLIDER_FIELD_PUBLISH_UP_LABEL" 
+            description="COM_REDSLIDER_FIELD_PUBLISH_UP_DESC"
+            table-hide="1" 
+        	/>
         <field 
             name="publish_down" 
-            type="calendar"
-            label="COM_REDSLIDER_FIELD_PUBLISH_DOWN_LABEL" description="COM_REDSLIDER_FIELD_PUBLISH_DOWN_DESC"
-            format="%Y-%m-%d %H:%M:%S" size="22"
-            filter="user_utc" />
+            type="redshop.text"
+            label="COM_REDSLIDER_FIELD_PUBLISH_DOWN_LABEL" 
+            description="COM_REDSLIDER_FIELD_PUBLISH_DOWN_DESC"
+            table-hide="1" 
+        	/>
 	</fieldset>
 	<fieldset name="seo">
 		<field

@@ -18,21 +18,8 @@ JLoader::import('joomla.application.component.view');
  * @subpackage  View
  * @since       2.0.4
  */
-class RedshopViewCategory extends RedshopViewAdmin
+class RedshopViewCategory extends RedshopViewForm
 {
-	/**
-	 * Do we have to display a sidebar ?
-	 *
-	 * @var  boolean
-	 */
-	protected $displaySidebar = false;
-
-	protected $form;
-
-	protected $item;
-
-	protected $state;
-
 	/**
 	 * Execute and display a template script.
 	 *
@@ -45,8 +32,7 @@ class RedshopViewCategory extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
-		$redTemplate      = Redtemplate::getInstance();
-		$producthelper    = productHelper::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$document = JFactory::getDocument();
 		$document->addScript('components/com_redshop/assets/js/validation.js');
@@ -56,9 +42,8 @@ class RedshopViewCategory extends RedshopViewAdmin
 		$model = $this->getModel('category');
 
 		// Initialise variables.
-		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
-		$this->state	= $this->get('State');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Accessory of Category
 		$categoryAccessoryProduct = array();
@@ -79,8 +64,6 @@ class RedshopViewCategory extends RedshopViewAdmin
 
 			return false;
 		}
-
-		$this->addToolbar();
 
 		parent::display($tpl);
 	}
