@@ -311,8 +311,7 @@ class RedshopMenuLeft_Menu
 
 			case "configuration":
 			case 'update':
-			case "accessmanager":
-			case 'accessmanager_detail':
+			case "access":
 				return array('CONFIG', 'configuration');
 				break;
 
@@ -888,9 +887,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'configuration' && self::$layout == 'resettemplate') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=accessmanager',
+				'index.php?option=com_redshop&view=access',
 				'COM_REDSHOP_ACCESS_MANAGER',
-				(self::$view == 'accessmanager') ? true : false
+				(self::$view == 'access') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_config&view=component&component=com_redshop',
