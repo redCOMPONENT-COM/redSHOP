@@ -54,15 +54,11 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
+		JHtml::_('behavior.tooltip');
+
 		$app                 = JFactory::getApplication();
 		$this->input         = $app->input;
 		$user                = JFactory::getUser();
-
-		if (!$user->authorise('product.edit', 'com_redshop.backend'))
-		{
-			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
-			$app->redirect('index.php?option=com_redshop&view=product');
-		}
 
 		JPluginHelper::importPlugin('redshop_product_type');
 		$this->dispatcher    = JDispatcher::getInstance();
@@ -552,14 +548,14 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		}
 
 		$lists["product_type"] = JHtml::_(
-									'select.genericlist',
-									$productTypeOptions,
-									'product_type',
-									'onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"',
-									'value',
-									'text',
-									$detail->product_type
-								);
+			'select.genericlist',
+			$productTypeOptions,
+			'product_type',
+			'onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"',
+			'value',
+			'text',
+			$detail->product_type
+		);
 
 		$accountgroup = $redhelper->getEconomicAccountGroup();
 		$op = array();
@@ -597,79 +593,79 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		$tabMenu = RedshopAdminMenu::getInstance()->init();
 		$tabMenu->section('tab')
-					->title('COM_REDSHOP_PRODUCT_INFORMATION')
-					->addItem(
-						'#general_data',
-						'COM_REDSHOP_PRODUCT_INFORMATION',
-						($selectedTabPosition == 'general_data') ? true : false,
-						'general_data'
-					);
+			->title('COM_REDSHOP_PRODUCT_INFORMATION')
+			->addItem(
+				'#general_data',
+				'COM_REDSHOP_PRODUCT_INFORMATION',
+				($selectedTabPosition == 'general_data') ? true : false,
+				'general_data'
+			);
 
 		if ($this->detail->product_type != 'product' && !empty($this->detail->product_type))
 		{
 			$tabMenu->addItem(
-					'#producttype',
-					'COM_REDSHOP_CHANGE_PRODUCT_TYPE_TAB',
-					($selectedTabPosition == 'producttype') ? true : false,
-					'producttype'
-				);
+				'#producttype',
+				'COM_REDSHOP_CHANGE_PRODUCT_TYPE_TAB',
+				($selectedTabPosition == 'producttype') ? true : false,
+				'producttype'
+			);
 		}
 
 		$tabMenu->addItem(
-					'#extrafield',
-					'COM_REDSHOP_FIELDS',
-					($selectedTabPosition == 'extrafield') ? true : false,
-					'extrafield'
-				)->addItem(
-					'#product_images',
-					'COM_REDSHOP_PRODUCT_IMAGES',
-					($selectedTabPosition == 'product_images') ? true : false,
-					'product_images'
-				)->addItem(
-					'#product_attribute',
-					'COM_REDSHOP_PRODUCT_ATTRIBUTES',
-					($selectedTabPosition == 'product_attribute') ? true : false,
-					'product_attribute'
-				)->addItem(
-					'#product_accessory',
-					'COM_REDSHOP_ACCESSORY_RELATED_PRODUCT',
-					($selectedTabPosition == 'product_accessory') ? true : false,
-					'product_accessory'
-				);
+			'#extrafield',
+			'COM_REDSHOP_FIELDS',
+			($selectedTabPosition == 'extrafield') ? true : false,
+			'extrafield'
+		)->addItem(
+			'#product_images',
+			'COM_REDSHOP_PRODUCT_IMAGES',
+			($selectedTabPosition == 'product_images') ? true : false,
+			'product_images'
+		)->addItem(
+			'#product_attribute',
+			'COM_REDSHOP_PRODUCT_ATTRIBUTES',
+			($selectedTabPosition == 'product_attribute') ? true : false,
+			'product_attribute'
+		)->addItem(
+			'#product_accessory',
+			'COM_REDSHOP_ACCESSORY_RELATED_PRODUCT',
+			($selectedTabPosition == 'product_accessory') ? true : false,
+			'product_accessory'
+		);
 
 		if ($this->CheckRedProductFinder > 0)
 		{
 			$tabMenu->addItem(
-					'#productfinder',
-					'COM_REDSHOP_REDPRODUCTFINDER_ASSOCIATION',
-					($selectedTabPosition == 'productfinder') ? true : false,
-					'productfinder'
-				);
+				'#productfinder',
+				'COM_REDSHOP_REDPRODUCTFINDER_ASSOCIATION',
+				($selectedTabPosition == 'productfinder') ? true : false,
+				'productfinder'
+			);
 		}
 
 		$tabMenu->addItem(
-					'#product_meta_data',
-					'COM_REDSHOP_META_DATA_TAB',
-					($selectedTabPosition == 'product_meta_data') ? true : false,
-					'product_meta_data'
-				);
+			'#product_meta_data',
+			'COM_REDSHOP_META_DATA_TAB',
+			($selectedTabPosition == 'product_meta_data') ? true : false,
+			'product_meta_data'
+		);
 
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
 			$tabMenu->addItem(
-					'#productstockroom',
-					'COM_REDSHOP_STOCKROOM_TAB',
-					($selectedTabPosition == 'productstockroom') ? true : false,
-					'productstockroom'
-				);
+				'#productstockroom',
+				'COM_REDSHOP_STOCKROOM_TAB',
+				($selectedTabPosition == 'productstockroom') ? true : false,
+				'productstockroom'
+			);
 		}
 
 		$tabMenu->addItem(
-					'#calculator',
-					'COM_REDSHOP_DISCOUNT_CALCULATOR',
-					($selectedTabPosition == 'calculator') ? true : false,
-					'calculator'
-				);
+			'#calculator',
+			'COM_REDSHOP_DISCOUNT_CALCULATOR',
+			($selectedTabPosition == 'calculator') ? true : false,
+			'calculator'
+		);
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION'))
 		{

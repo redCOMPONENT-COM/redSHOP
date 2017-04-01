@@ -116,7 +116,7 @@ class RedshopViewForm extends AbstractView
 		// Check permission on create new
 		if ((empty($this->item->id) && !$this->canCreate) || (!empty($this->item->id) && !$this->canEdit))
 		{
-			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_NO_PERMISSION'), 'error');
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
 
 			$app->redirect('index.php?option=com_redshop');
 		}
