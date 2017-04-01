@@ -107,6 +107,8 @@ class RedshopViewList extends AbstractView
 	 */
 	public function beforeDisplay(&$tpl)
 	{
+		$this->checkPermission();
+
 		// Get data from the model
 		$this->items         = $this->model->getItems();
 		$this->pagination    = $this->model->getPagination();
@@ -115,6 +117,29 @@ class RedshopViewList extends AbstractView
 		$this->filterForm    = $this->model->getForm();
 
 		$this->prepareTable();
+	}
+
+	/**
+	 * Method for check permission of current user on view
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function checkPermission()
+	{
+		if (!$this->useUserPermission)
+		{
+			return;
+		}
+
+		// Check permission on create new
+		if (!$this->canView)
+		{
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
+			$app->redirect('index.php?option=com_redshop');
+		}
 	}
 
 	/**
