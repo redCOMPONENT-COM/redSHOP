@@ -159,7 +159,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @since   2.0.0.2
 	 */
-	public function store($data)
+	public function save($data)
 	{
 		$db  = $this->getDbo();
 		$row = $this->getTable();
@@ -173,7 +173,7 @@ class RedshopModelCategory extends RedshopModelForm
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($row->getError());
 
 			return false;
 		}
@@ -270,11 +270,24 @@ class RedshopModelCategory extends RedshopModelForm
 			unlink($src);
 		}
 
-		if (!$row->store())
+		// Check the data.
+		if (!$row->check())
 		{
-			$this->setError($db->getErrorMsg());
+			$this->setError($row->getError());
 
 			return false;
+		}
+
+		if (!$row->store())
+		{
+			$this->setError($row->getError());
+
+			return false;
+		}
+
+		if (isset($row->id))
+		{
+			$this->setState($this->getName() . '.id', $row->id);
 		}
 
 		// Sheking for the image at the updation time
@@ -289,7 +302,7 @@ class RedshopModelCategory extends RedshopModelForm
 		$field->extra_field_save($data, 2, $row->id);
 
 		// Start Accessory Product
-		if (count($data['product_accessory']) > 0 && is_array($data['product_accessory']))
+		if (!empty($data['product_accessory']) && is_array($data['product_accessory']))
 		{
 			$data['product_accessory'] = array_merge(array(), $data['product_accessory']);
 

@@ -10,7 +10,6 @@ defined('_JEXEC') or die;
 
 JHtmlBehavior::modal();
 JHtml::_('behavior.tooltip');
-JHtml::_('behavior.calendar');
 JHtml::_('behavior.formvalidator');
 
 JFactory::getDocument()->addScriptDeclaration('

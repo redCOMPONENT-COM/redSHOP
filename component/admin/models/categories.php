@@ -113,53 +113,26 @@ class RedshopModelCategories extends RedshopModelList
 				->from($db->qn('#__redshop_category', 'c'));
 
 		// Remove "ROOT" item
-		$query->where($db->qn('level') . ' > ' . $db->quote('0'));
+		$query->where($db->qn('c.level') . ' > ' . $db->quote('0'));
 
 		// Filter: Parent ID
 		$parentId = $this->getState('filter.category_id');
+		
 
-		switch (gettype($parentId))
+		if (!empty($parentId))
 		{
-			case 'array':
+			$info = RedshopHelperCategory::getCategoryById($parentId);
 
-				if (count($parentId))
-				{
-					$parentId = implode(',', $db->q($parentId));
-					$query->where($db->quoteName('c.parent_id') . ' IN(' . $parentId . ')');
-				}
+			// Filter: Get deeper child or parent
+			$lft = $info->lft;
+			$rgt = $info->rgt;
 
-				break;
+			if ($lft && $rgt)
+			{
+				$query->where($db->qn('c.lft') . ' >= ' . (int) $lft)
+					->where($db->qn('c.rgt') . ' <= ' . (int) $rgt);
+			}
 
-			case 'string':
-			case 'int':
-			case 'integer':
-
-				if ($parentId)
-				{
-					$query->where($db->quoteName('c.parent_id') . ' = ' . (int) $parentId);
-				}
-				break;
-
-			default:
-				break;
-		}
-
-		// Filter categories by "level"
-		$level = (int) $this->getState('filter.level', 0);
-
-		if (!empty($level))
-		{
-			$query->where($db->qn('c.level') . ' = ' . $level);
-		}
-
-		// Filter: Get deeper child or parent
-		$lft = $this->getState('filter.lft', 0);
-		$rgt = $this->getState('filter.rgt', 0);
-
-		if (($lft) && ($rgt))
-		{
-			$query->where($db->qn('c.lft') . ' >= ' . (int) $lft);
-			$query->where($db->qn('c.rgt') . ' <= ' . (int) $rgt);
 		}
 
 		// Filter by search in name.
@@ -179,7 +152,7 @@ class RedshopModelCategories extends RedshopModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'c.lft');
+		$orderCol = $this->state->get('list.ordering', 'lft');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
