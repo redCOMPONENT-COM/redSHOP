@@ -34,7 +34,7 @@ class RedshopTagsSectionsAttribute extends RedshopTagsAbstract
 	 */
 	public function init()
 	{
-		$productAttribute = $this->data['product_attribute'];
+		$productAttribute = isset($this->data['product_attribute'])? $this->data['product_attribute']: '';
 
 		$html = RedshopLayoutHelper::render(
 			'tags.product.product_attribute',
