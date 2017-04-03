@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       2.0.4
+ * @since       2.0.5
  */
 class RedshopTableCategory extends RedshopTableNested
 {

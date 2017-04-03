@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Backend
  * @subpackage  Models.Categories
- * @since       2.0.4
+ * @since       2.0.5
  */
 class RedshopModelCategories extends RedshopModelList
 {
@@ -31,7 +31,7 @@ class RedshopModelCategories extends RedshopModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since   2.0.0.2
+	 * @since   2.0.5
 	 */
 	public function __construct($config = array())
 	{
@@ -101,7 +101,7 @@ class RedshopModelCategories extends RedshopModelList
 	 *
 	 * @return      string  An SQL query
 	 *
-	 * @since   2.0.0.2
+	 * @since   2.0.5
 	 */
 	protected function getListQuery()
 	{

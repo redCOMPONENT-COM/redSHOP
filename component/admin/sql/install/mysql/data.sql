@@ -956,3 +956,9 @@ INSERT IGNORE INTO `#__redshop_shipping_rate` (`shipping_rate_id`, `shipping_rat
 
 INSERT IGNORE INTO `#__redshop_shipping_boxes` (`shipping_box_id`, `shipping_box_name`, `shipping_box_length`, `shipping_box_width`, `shipping_box_height`, `shipping_box_priority`, `published`) VALUES
 	(1, 'Box1', 1.00, 1.00, 1.00, 1, 1);
+
+LOCK TABLES `#__redshop_category` WRITE;
+ALTER TABLE `#__redshop_category` DISABLE KEYS;
+INSERT INTO `#__redshop_category` VALUES (1, 'ROOT', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', 0, '0000-00-00 00:00:00', 0, '', '', 0, 'append', 1, 0, 0, 0, 1, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+ALTER TABLE `#__redshop_category` ENABLE KEYS;
+UNLOCK TABLES;
