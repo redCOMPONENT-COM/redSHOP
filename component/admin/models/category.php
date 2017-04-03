@@ -115,6 +115,7 @@ class RedshopModelCategory extends RedshopModelForm
 		}
 		else
 		{
+			$item->template = Redshop::getConfig()->get('CATEGORY_TEMPLATE', "");
 			$item->products_per_page = 5;
 
 			return $item;
@@ -169,6 +170,12 @@ class RedshopModelCategory extends RedshopModelForm
 		if ($row->parent_id != $data['parent_id'] || $data['id'] == 0)
 		{
 			$row->setLocation($data['parent_id'], 'last-child');
+		}
+
+		// Load the row if saving an existing record.
+		if ($pk > 0)
+		{
+			$row->load($pk);
 		}
 
 		if (!$row->bind($data))
@@ -445,6 +452,34 @@ class RedshopModelCategory extends RedshopModelForm
 	}
 
 	/**
+	 * Method to save the reordered nested set tree.
+	 * First we save the new order values in the lft values of the changed ids.
+	 * Then we invoke the table rebuild to implement the new ordering.
+	 *
+	 * @param   array  $idArray    Id's of rows to be reordered
+	 * @param   array  $lft_array  Lft values of rows to be reordered
+	 *
+	 * @return   boolean  false on failuer or error, true otherwise
+	 */
+	public function saveorder($idArray = null, $lft_array = null)
+	{
+		// Get an instance of the table object.
+		$table = $this->getTable();
+
+		if (!$table->saveorder($idArray, $lft_array))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return true;
+	}
+
+	/**
 	 * Method to copy.
 	 *
 	 * @param   array  $cid  category id list.
@@ -501,7 +536,7 @@ class RedshopModelCategory extends RedshopModelForm
 				JFile::upload($src, $dest);
 			}
 
-			$this->store($post);
+			$this->save($post);
 		}
 
 		return true;

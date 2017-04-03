@@ -296,58 +296,6 @@ class RedshopControllerCategory extends RedshopControllerForm
 	}
 
 	/**
-	 * Method to order up.
-	 *
-	 * @return  mixed
-	 */
-	public function orderUp()
-	{
-		$input = JFactory::getApplication()->input;
-		$cid   = $input->post->get('cid', array(), 'array');
-		$model = $this->getModel('category');
-		$model->orderUp($cid);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=categories', $msg);
-	}
-
-	/**
-	 * Method to order down.
-	 *
-	 * @return  mixed
-	 */
-	public function orderDown()
-	{
-		$input = JFactory::getApplication()->input;
-		$cid   = $input->post->get('cid', array(), 'array');
-		$model = $this->getModel('category');
-		$model->orderDown($cid);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=categories', $msg);
-	}
-
-	/**
-	 * Method to save order.
-	 *
-	 * @return  mixed
-	 */
-	public function saveorder()
-	{
-		$input = JFactory::getApplication()->input;
-		$cid   = $input->post->get('cid', array(), 'array');
-		$order = $input->post->get('order', array(), 'array');
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
-
-		$model = $this->getModel();
-		$model->saveorder($cid, $order);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=categories', $msg);
-	}
-
-	/**
 	 * Method to copy record.
 	 *
 	 * @return  mixed
