@@ -46,5 +46,21 @@ class PlgRedshop_ProductProduct_AltText extends JPlugin
 		{
 			$altText = str_replace('{category_name}', $product->category_name, $altText);
 		}
+		else
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+
+			$query->select($db->qn('category_name'))
+				->from($db->qn('#__redshop_category'))
+				->where($db->qn('category_id') . ' = ' . $product->category_id);
+
+			$cat = $db->setQuery($query)->loadObject();
+
+			if (is_object($cat))
+			{
+				$altText = str_replace('{category_name}', $cat->category_name, $altText);
+			}
+		}
 	}
 }
