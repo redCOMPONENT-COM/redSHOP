@@ -258,7 +258,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = RFactory::getDispatcher()
+			$results = JFactory::getDispatcher()
 				->trigger($this->_eventBeforeLoad, array($this, $keys, $reset));
 
 			if (count($results) && in_array(false, $results, true))
@@ -287,7 +287,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = RFactory::getDispatcher()
+			$results = JFactory::getDispatcher()
 				->trigger($this->_eventAfterLoad, array($this, $keys, $reset));
 
 			if (count($results) && in_array(false, $results, true))
@@ -348,7 +348,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = RFactory::getDispatcher()
+			$results = JFactory::getDispatcher()
 				->trigger($this->_eventBeforeDelete, array($this, $pk, $children));
 
 			if (count($results) && in_array(false, $results, true))
@@ -377,7 +377,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = RFactory::getDispatcher()
+			$results = JFactory::getDispatcher()
 				->trigger($this->_eventAfterDelete, array($this, $pk, $children));
 
 			if (count($results) && in_array(false, $results, true))
@@ -433,7 +433,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = RFactory::getDispatcher()
+			$results = JFactory::getDispatcher()
 				->trigger($this->_eventBeforeCheck, array($this));
 
 			if (count($results) && in_array(false, $results, true))
@@ -459,7 +459,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = RFactory::getDispatcher()
+			$results = JFactory::getDispatcher()
 				->trigger($this->_eventAfterCheck, array($this));
 
 			if (count($results) && in_array(false, $results, true))
@@ -517,19 +517,13 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = RFactory::getDispatcher()
+			$results = JFactory::getDispatcher()
 				->trigger($this->_eventBeforeStore, array($this, $updateNulls));
 
 			if (count($results) && in_array(false, $results, true))
 			{
 				return false;
 			}
-		}
-
-		// Audit fields optional auto-update (on by default)
-		if ($this->getOption('updateAuditFields', true))
-		{
-			RTable::updateAuditFields($this);
 		}
 
 		return true;
@@ -550,7 +544,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = RFactory::getDispatcher()
+			$results = JFactory::getDispatcher()
 				->trigger($this->_eventAfterStore, array($this, $updateNulls));
 
 			if (count($results) && in_array(false, $results, true))

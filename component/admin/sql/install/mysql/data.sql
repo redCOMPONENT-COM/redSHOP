@@ -959,6 +959,6 @@ INSERT IGNORE INTO `#__redshop_shipping_boxes` (`shipping_box_id`, `shipping_box
 
 LOCK TABLES `#__redshop_category` WRITE;
 ALTER TABLE `#__redshop_category` DISABLE KEYS;
-INSERT INTO `#__redshop_category` VALUES (1, 'ROOT', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', 0, '0000-00-00 00:00:00', 0, '', '', 0, 'append', 1, 0, 0, 0, 1, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `#__redshop_category` VALUES ('', 'ROOT', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', 0, '0000-00-00 00:00:00', 0, '', '', 0, 'append', 1, 0, 0, 0, 1, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 ALTER TABLE `#__redshop_category` ENABLE KEYS;
 UNLOCK TABLES;
