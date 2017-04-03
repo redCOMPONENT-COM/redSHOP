@@ -366,4 +366,7 @@ class RedshopConfig {
 	public $IMPORT_MAX_MIN_SIZE = '1';
 	public $IMPORT_FILE_MIME = 'text/csv,application/vnd.ms-excel';
 	public $IMPORT_FILE_EXTENSION = '.csv';
+	public $INLINE_EDITING = '1';
+	public $MEDIA_UPLOAD_EXTENSION = 'doc,docx,ppt,pptx,xls,xlsx,csv,pdf,txt,swf,ico,png,jpg,jpeg,bmp,gif,mp3,m4a,ogg,wav,mp4,flv';
+	public $MEDIA_UPLOAD_MIMETYPE = 'application/msword,application/vnd.ms-word,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/excel,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.spreadsheetml.template,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/pdf,application/zip,application/x-compressed-zip,application/x-7z-compressed,audio/flac,audio/mp3,audio/mpeg,audio/ogg,audio/wav,audio/webm,image/bmp,image/gif,image/jpeg,image/png,image/x-windows-bmp,image/x-icon,video/avi,video/3gpp,video/mp4,video/mpeg,video/ogg,video/quicktime,video/x-flv,video/x-msvideo,video/x-ms-wmv,video/webm';
 }

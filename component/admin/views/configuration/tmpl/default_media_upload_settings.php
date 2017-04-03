@@ -33,7 +33,8 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_CONFIG_MEDIA_EXTENSION'),
 		'desc'  => JText::_('COM_REDSHOP_CONFIG_MEDIA_EXTENSION_DESC'),
-		'field' => $mediaConfig['media_upload_extension']
+		'field' => $mediaConfig['media_upload_extension'],
+		'line'  => false,
 	)
 );
 
@@ -42,6 +43,7 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_CONFIG_MEDIA_MIMETYPE'),
 		'desc'  => JText::_('COM_REDSHOP_CONFIG_MEDIA_MIMETYPE_DESC'),
-		'field' => $mediaConfig['media_upload_mimetype']
+		'field' => $mediaConfig['media_upload_mimetype'],
+		'line'  => false,
 	)
 );

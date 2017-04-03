@@ -564,7 +564,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			$this->config->get('ECONOMIC_INVOICE_DRAFT')
 		);
 
-		$bookInvoiceNumbers   = array(
+		$bookInvoiceNumbers                    = array(
 			JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SAME_AS_ORDER_NUMBER')),
 			JHtml::_('select.option', '1', JText::_('COM_REDSHOP_SEQUENTIALLY_IN_ECONOMIC_NO_MATCH_UP_WITH_ORDER_NUMBER'))
 		);
@@ -838,10 +838,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		/*
 		 * Measurement select boxes
 		 */
-		$option           = array();
-		/*$option[0]        = new stdClass;
-		$option[0]->value = 0;
-		$option[0]->text  = JText::_('COM_REDSHOP_SELECT');*/
+		$option = array();
 
 		$mimeTypes = array(
 				'application/msword',
@@ -891,11 +888,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		}
 
 
-		$mediaConfig['media_upload_mimetype'] = JHtml::_('select.genericlist', $option, 'media_upload_mimetype',
-			'class="form-control"  multiple="multiple" size="5"', 'value', 'text', $this->config->get('MEDIA_UPLOAD_MIMETYPE')
+		$mediaConfig['media_upload_mimetype'] = JHtml::_('select.genericlist', $option, 'media_upload_mimetype[]',
+			'class="form-control" multiple="multiple" size="5"', 'value', 'text', explode(',', $this->config->get('MEDIA_UPLOAD_MIMETYPE'))
 		);
 
-		unset($option);
+		$option = array();
 
 		$fileExtensions = array(
 				'doc',
@@ -904,8 +901,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 				'pptx',
 				'xls',
 				'xlsx',
+				'csv',
+				'swf',
 				'pdf',
 				'txt',
+				'ico',
 				'png',
 				'jpg',
 				'jpeg',
@@ -928,11 +928,17 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			$option[$i]->text  = $fileExtensions[$i];
 		}
 
-		$mediaConfig['media_upload_extension'] = JHtml::_('select.genericlist', $option, 'media_upload_extension',
-			'class="form-control"  multiple="multiple" size="5"', 'value', 'text', $this->config->get('MEDIA_UPLOAD_EXTENSION')
+		$mediaConfig['media_upload_extension'] = JHtml::_('select.genericlist', $option, 'media_upload_extension[]',
+			'class="form-control" multiple="multiple" size="5"', 'value', 'text', explode(',', $this->config->get('MEDIA_UPLOAD_EXTENSION'))
 		);
 
 		unset($option);
+
+		/* End Medias */
+
+		$lists['inline_editing'] = JHtml::_(
+			'redshopselect.booleanlist', 'inline_editing', 'class="form-control" size="1"', $this->config->get('INLINE_EDITING')
+		);
 
 		$current_version      = $model->getcurrentversion();
 		$getinstalledmodule   = $model->getinstalledmodule();

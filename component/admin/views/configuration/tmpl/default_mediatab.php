@@ -8,35 +8,37 @@
  */
 defined('_JEXEC') or die;
 ?>
-<div class="row adminform">
-	<div class="col-sm-6">
-		<?php
-		echo RedshopLayoutHelper::render(
-			'config.group',
-			array(
-				'title'   => JText::_('COM_REDSHOP_MEDIA_UPLOAD_SETTINGS'),
-				'content' => $this->loadTemplate('media_upload_settings')
-			)
-		);
-		?>
-	</div>
-    <div class="col-sm-6">
-		<?php
-		echo RedshopLayoutHelper::render(
-			'config.group',
-			array(
-				'title'   => JText::_('COM_REDSHOP_MEDIA_VIDEO_SETTINGS'),
-				'content' => $this->loadTemplate('media_video_settings')
-			)
-		);
+<fieldset class="adminform">
+	<div class="row">
+		<div class="col-sm-6">
+			<?php
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_MEDIA_UPLOAD_SETTINGS'),
+					'content' => $this->loadTemplate('media_upload_settings')
+				)
+			);
+			?>
+		</div>
+	    <div class="col-sm-6">
+			<?php
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_MEDIA_VIDEO_SETTINGS'),
+					'content' => $this->loadTemplate('media_video_settings')
+				)
+			);
 
-		echo RedshopLayoutHelper::render(
-			'config.group',
-			array(
-				'title'   => JText::_('COM_REDSHOP_MEDIA_YOUTUBE_SETTINGS'),
-				'content' => $this->loadTemplate('media_youtube_settings')
-			)
-		);
-		?>
-    </div>
-</div>
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_MEDIA_YOUTUBE_SETTINGS'),
+					'content' => $this->loadTemplate('media_youtube_settings')
+				)
+			);
+			?>
+	    </div>
+	</div>
+</fieldset>
