@@ -28,14 +28,7 @@ class RedshopViewCategories extends RedshopViewList
 	protected function addToolBar()
 	{
 		$user  = JFactory::getUser();
-		$title = JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT');
-
-		if ($this->pagination->total)
-		{
-			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'>(" . $this->pagination->total . ")</span>";
-		}
-
-		JToolBarHelper::title($title, 'redshop_categories48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'redshop_categories48');
 
 		if ($user->authorise('com_redshop', 'core.create'))
 		{
@@ -45,7 +38,6 @@ class RedshopViewCategories extends RedshopViewList
 
 		if ($user->authorise('com_redshop', 'core.edit'))
 		{
-			JToolBarHelper::editList('category.edit');
 			JToolBarHelper::checkin('categories.checkin');
 		}
 

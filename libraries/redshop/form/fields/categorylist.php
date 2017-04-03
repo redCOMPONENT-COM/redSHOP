@@ -284,6 +284,7 @@ class JFormFieldCategoryList extends JFormFieldList
 			{
 				$parent = new stdClass;
 				$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
+
 				array_unshift($options, $parent);
 			}
 
