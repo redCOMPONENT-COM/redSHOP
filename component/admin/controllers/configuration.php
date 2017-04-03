@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Configuration controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.4
  */
 class RedshopControllerConfiguration extends RedshopController
 {
@@ -92,13 +92,43 @@ class RedshopControllerConfiguration extends RedshopController
 		// Administrator email notifications ids
 		if (is_array($post['administrator_email']))
 		{
-			$post['administrator_email'] = implode(",", $post['administrator_email']);
+			$post['administrator_email'] = trim(implode(",", $post['administrator_email']));
+		}
+
+		// Only check if this email is filled
+		if (!empty($post['administrator_email']))
+		{
+			$emails = explode(',' , $post['administrator_email']);
+			if (is_array($emails))
+			{
+				foreach ($emails as $email)
+				{
+					if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+					{
+						$msg= JText::_('COM_REDSHOP_INVALID_EMAIL');
+						$this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
+						return false;
+					}
+				}
+			}
 		}
 
 		$msg                   = null;
 		/** @var RedshopModelConfiguration $model */
 		$model                 = $this->getModel('Configuration');
-		$newsletter_test_email = $this->input->get('newsletter_test_email');
+		$newsletter_test_email = $this->input->getRaw('newsletter_test_email');
+
+		// Only check if this email is filled
+		if (!empty($newsletter_test_email))
+		{
+			if (!filter_var($newsletter_test_email, FILTER_VALIDATE_EMAIL))
+			{
+				$msg= JText::_('COM_REDSHOP_INVALID_EMAIL');
+				$this->setRedirect('index.php?option=com_redshop&view=configuration', $msg, 'error');
+
+				return false;
+			}
+		}
 
 		$post['country_list'] = implode(',', $this->input->post->get('country_list', array(), 'ARRAY'));
 
