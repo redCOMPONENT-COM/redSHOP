@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -785,7 +785,7 @@ class RedshopHelperStockroom
 			$db = JFactory::getDbo();
 
 			$fields = array(
-				$db->qn('ordered_preorder') . ' = ' . $db->q('ordered_preorder + ' . (int) $quantity)
+				$db->qn('ordered_preorder') . ' = ' . $db->qn('ordered_preorder') . ' + ' . $db->q((int) $quantity)
 			);
 
 			$conditions = array(
@@ -860,7 +860,7 @@ class RedshopHelperStockroom
 				if ($stockId[$i] != "" && $sectionId != "" && $sectionId != 0)
 				{
 					$fields = array(
-						$db->qn('quantity') . ' = ' . $db->q('quantity + ' . (int) $stockQty[$i])
+						$db->qn('quantity') . ' = ' . $db->qn('quantity') . ' + ' . $db->q((int) $stockQty[$i])
 					);
 
 					$conditions[] = $db->qn('stockroom_id') . ' = ' . $db->q((int) $stockId[$i]);
@@ -1334,7 +1334,7 @@ class RedshopHelperStockroom
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public static function getMultiSectionsStock($sectionIds = array(), $section = 'product', $stockroomId = 0)
 	{
@@ -1346,17 +1346,17 @@ class RedshopHelperStockroom
 		$quantities = array();
 		$sectionIds = ArrayHelper::toInteger($sectionIds);
 
-		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
+		if ($section == 'product' && $stockroomId == 0 && $sectionIds)
 		{
-			if ($section == 'product' && $stockroomId == 0 && $sectionIds)
+			foreach ($sectionIds as $item)
 			{
-				foreach ($sectionIds as $item)
-				{
-					$productData       = Redshop::product((int) $item);
-					$quantities[$item] = !empty($productData->sum_quanity) ? (int) $productData->sum_quanity : 0;
-				}
+				$productData       = Redshop::product((int) $item);
+				$quantities[$item] = !empty($productData->sum_quanity) ? (int) $productData->sum_quanity : 0;
 			}
-			else
+		}
+		else
+		{
+			if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 			{
 				$db         = JFactory::getDbo();
 				$isInfinite = (boolean) Redshop::getConfig()->get('USE_BLANK_AS_INFINITE', 0);
@@ -1433,6 +1433,13 @@ class RedshopHelperStockroom
 					}
 				}
 			}
+			else
+			{
+				foreach ($sectionIds as $item)
+				{
+					$quantities[$item] = 1;
+				}
+			}
 		}
 
 		return $quantities;
@@ -1447,7 +1454,7 @@ class RedshopHelperStockroom
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public static function getMultiSectionsPreOrderStock($sectionIds = array(), $section = 'product', $stockroomId = 0)
 	{
