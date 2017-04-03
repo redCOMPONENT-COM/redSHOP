@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -6051,7 +6051,7 @@ class rsCarthelper
 							}
 
 							$accPropertyCart[$ip]['property_id']     = $acc_property_data[$ip];
-							$accPropertyCart[$ip]['attribute_id']    = $property[0]->attribute_id;
+              $accPropertyCart[$ip]['attribute_id']    = $property[0]->attribute_id;
 							$accPropertyCart[$ip]['property_name']   = $property[0]->text;
 							$accPropertyCart[$ip]['property_oprand'] = $property[0]->oprand;
 							$accPropertyCart[$ip]['property_price']  = $property_price;
@@ -6102,8 +6102,6 @@ class rsCarthelper
 					$generateAttributeCart[array_search($accPropertyCart[0]['attribute_id'], $attribute_data)]['attribute_childs'] = $accPropertyCart;
 				}
 			}
-
-			ksort($generateAttributeCart);
 		}
 
 		return $generateAttributeCart;

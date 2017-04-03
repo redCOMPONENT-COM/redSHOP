@@ -33,10 +33,10 @@
                         class="input"
                         label="PLG_REDSHOP_USER_CMC_INTEGRATE_MAPPING_FIELDS"
                         description="PLG_REDSHOP_USER_CMC_INTEGRATE_MAPPING_FIELDS_DESC"
-                        />
+                />
                 <field
                         type="cmctags"
-                        />
+                />
             </fieldset>
         </fields>
     </config>

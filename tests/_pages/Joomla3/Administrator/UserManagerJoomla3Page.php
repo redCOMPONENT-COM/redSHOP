@@ -30,9 +30,9 @@ class UserManagerJoomla3Page
 
 	public static $email = "//input[@id='email']";
 
-	public static $groupRadioButton = "//form[@id='adminForm']/div[1]/dd[1]/div/fieldset/table/tbody/tr[6]/td[2]";
+	public static $groupRadioButton = "//form[@id='adminForm']/div[1]/dd[1]/div/fieldset/div/table/tbody/tr[6]/td[2]";
 
-	public static $shopperGroupDropDown = "//div[@id='shopper_group_id_chzn']/a";
+	public static $shopperGroupDropDown = "//div[@id='s2id_shopper_group_id']/a";
 
 	public static $firstName = "//input[@id='firstname']";
 
@@ -53,7 +53,7 @@ class UserManagerJoomla3Page
 	 */
 	public function shopperGroup($shopperGroup)
 	{
-		$path = "//div[@id='shopper_group_id_chzn']/div/ul/li[contains(text(), '" . $shopperGroup . "')]";
+		$path = "//div[@class='select2-result-label'][contains(text(), '" . $shopperGroup . "')]";
 
 		return $path;
 	}
