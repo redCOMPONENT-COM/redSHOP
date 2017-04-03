@@ -1129,6 +1129,7 @@ class productHelper
 		$altText = $this->getAltText('product', $product_id, $product_image);
 		$altText = empty($altText) ? $product->product_name : $altText;
 
+		$dispatcher    = JDispatcher::getInstance();
 		$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
 		$title = " title='" . $altText . "' ";
@@ -1218,6 +1219,8 @@ class productHelper
 		{
 			$thum_image = "<div>" . $thum_image . "</div>";
 		}
+
+		$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
 		return $thum_image;
 	}
@@ -8237,9 +8240,13 @@ class productHelper
 		}
 		elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 		{
+			$altText = $product->product_name;
+			$dispatcher    = JDispatcher::getInstance();
+			$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
+
 			$type                = 'product';
 			$imagename           = $product->product_full_image;
-			$aTitleImageResponse = $product->product_name;
+			$aTitleImageResponse = $altText;
 			$attrbimg            = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_full_image;
 		}
 		else
@@ -8323,8 +8330,13 @@ class productHelper
 				$aHrefImageResponse = REDSHOP_FRONT_IMAGES_ABSPATH . $type . "/" . $imagename;
 			}
 
+			$altText = $product->product_name;
+
+			$dispatcher    = JDispatcher::getInstance();
+			$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
+
 			$mainImageResponse = "<img id='main_image" . $product_id . "' src='" . $productmainimg . "' alt='"
-				. $product->product_name . "' title='" . $product->product_name . "'>";
+				. $altText . "' title='" . $altText . "'>";
 
 			if ((!Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX') || !Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX')) || $redview == "category")
 				$mainImageResponse = $productmainimg;
