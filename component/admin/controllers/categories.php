@@ -27,7 +27,7 @@ class RedshopControllerCategories extends RedshopControllerAdmin
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   2.0.0.2
+	 * @since   2.0.5
 	 */
 	public function getModel($name = 'Category', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{
@@ -39,7 +39,7 @@ class RedshopControllerCategories extends RedshopControllerAdmin
 	/**
 	 * assign template to multiple categories
 	 *
-	 * @since   2.0.0.2
+	 * @since   2.0.5
 	 */
 	public function assignTemplate()
 	{

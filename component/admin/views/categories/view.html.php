@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       2.0.4
+ * @since       2.0.5
  */
 class RedshopViewCategories extends RedshopViewList
 {

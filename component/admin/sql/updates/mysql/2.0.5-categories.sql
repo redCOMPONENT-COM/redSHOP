@@ -7,11 +7,12 @@ ALTER TABLE `#__redshop_category` CHANGE `category_description` `description` TE
 ALTER TABLE `#__redshop_category` CHANGE `published` `published` TINYINT(4) NOT NULL DEFAULT 0;
 ALTER TABLE `#__redshop_category` CHANGE `category_template` `template` INT(11) NOT NULL DEFAULT '';
 ALTER TABLE `#__redshop_category` CHANGE `category_more_template` `more_template` VARCHAR(255) NOT NULL DEFAULT '';
+ALTER TABLE `#__redshop_category` CHANGE `category_pdate` `category_pdate` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
 ALTER TABLE `#__redshop_category` ADD INDEX `#__rs_idx_category_published` (`published` ASC);
 
-ALTER TABLE `#__redshop_category` ADD `asset_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.'  AFTER `append_to_global_seo`;
-ALTER TABLE `#__redshop_category` ADD `parent_id` INT(11) NOT NULL DEFAULT '0' AFTER `asset_id`;
-ALTER TABLE `#__redshop_category` ADD `level` INT(11) NOT NULL DEFAULT '1' AFTER `parent_id`;
+ALTER TABLE `#__redshop_category` ADD `asset_id` INT(11) UNSIGNED NULL DEFAULT '0' COMMENT 'FK to the #__assets table.'  AFTER `append_to_global_seo`;
+ALTER TABLE `#__redshop_category` ADD `parent_id` INT(11) NULL DEFAULT '0' AFTER `asset_id`;
+ALTER TABLE `#__redshop_category` ADD `level` INT(11) UNSIGNED NOT NULL DEFAULT '0' AFTER `parent_id`;
 ALTER TABLE `#__redshop_category` ADD `lft` INT(11) NOT NULL DEFAULT '0' AFTER `level`;
 ALTER TABLE `#__redshop_category` ADD `rgt` INT(11) NOT NULL DEFAULT '0' AFTER `lft`;
 
