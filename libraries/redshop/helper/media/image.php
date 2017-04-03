@@ -70,15 +70,52 @@ class RedshopHelperMediaImage
 	 */
 	public static function requireDependencies()
 	{
-		JHtml::stylesheet('com_redshop/dropzone/dropzone.css', array(), true);
-		JHtml::stylesheet('com_redshop/cropper/cropper.css', array(), true);
-		JHtml::stylesheet('com_redshop/lightbox2/css/lightbox.css', array(), true);
-		JHtml::stylesheet('com_redshop/redshop.media.css', array(), true);
+		/* Init some variables using in javascript */
+		$maxFileSize = self::parseSize(ini_get('upload_max_filesize'));
 
-		JHtml::script('com_redshop/dropzone/dropzone.js', false, true);
-		JHtml::script('com_redshop/cropper/cropper.js', false, true);
-		JHtml::script('com_redshop/lightbox2/lightbox.js', false, true);
-		JHtml::script('com_redshop/redshop.media.js', false, true);
+		$allowMime = array(
+				'image/jpeg',
+				'image/jpg',
+				'image/png',
+				'image/gif',
+				'video/mp4',
+				'video/flv',
+				'audio/mp3',
+				'audio/flac',
+				'application/vnd.ms-excel'
+			);
+
+		$allowMime = implode(',', $allowMime);
+
+		$script   = [];
+		$script[] = "var mediaConfig = new Object();";
+		$script[] = "mediaConfig.allowmime = '$allowMime';";
+		$script[] = "mediaConfig.maxFileSize = $maxFileSize;";
+
+		$script = implode(' ', $script);
+
+		try
+		{
+			/* Add script declaration */
+			$doc = JFactory::getDocument();
+			$doc->addScriptDeclaration($script);
+
+			/* Load StyleSheets */
+			JHtml::stylesheet('com_redshop/dropzone/dropzone.css', array(), true);
+			JHtml::stylesheet('com_redshop/cropper/cropper.css', array(), true);
+			JHtml::stylesheet('com_redshop/lightbox2/css/lightbox.css', array(), true);
+			JHtml::stylesheet('com_redshop/redshop.media.css', array(), true);
+
+			/* Load Javascript */
+			JHtml::script('com_redshop/dropzone/dropzone.js', false, true);
+			JHtml::script('com_redshop/cropper/cropper.js', false, true);
+			JHtml::script('com_redshop/lightbox2/lightbox.js', false, true);
+			JHtml::script('com_redshop/redshop.media.js', false, true);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 
 		return true;
 	}
@@ -278,5 +315,28 @@ class RedshopHelperMediaImage
 		}
 
 		return false;
+	}
+
+	/**
+	 * parseSize description
+	 * 
+	 * @param   string  $size  filesize in php.ini
+	 * 
+	 * @return  int    filesize in bytes
+	 */
+	public static function parseSize($size)
+	{
+		$unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
+		$size = preg_replace('/[^0-9\.]/', '', $size);
+
+		if ($unit)
+		{
+			// Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
+			return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+		}
+		else
+		{
+			return round($size);
+		}
 	}
 }

@@ -56,11 +56,12 @@
                 />
         <field
                 name="media_section"
-                type="redshop.radio"
-                label-class="radio-inline"
+                type="list"
+                label-class="select-2"
                 default="1"
                 label="COM_REDSHOP_MEDIA_SECTION"
                 disable="true"
+                onchange="loadSectionId(this);"
                 required="true">
             <option value="product">COM_REDSHOP_MEDIA_SECTION_PRODUCT</option>
             <option value="category">COM_REDSHOP_MEDIA_SECTION_CATEGORY</option>
@@ -77,9 +78,9 @@
                 disable="true"
                 onchange="loadYoutubeFields();"
                 required="true">
-            <option value="image">COM_REDSHOP_MEDIA_TYPE_IMAGE</option>
-            <option value="video">COM_REDSHOP_MEDIA_TYPE_VIDEO</option>
-            <option value="document">COM_REDSHOP_MEDIA_TYPE_DOCUMENT</option>
+            <option value="images">COM_REDSHOP_MEDIA_TYPE_IMAGE</option>
+            <option value="videos">COM_REDSHOP_MEDIA_TYPE_VIDEO</option>
+            <option value="documents">COM_REDSHOP_MEDIA_TYPE_DOCUMENT</option>
             <option value="youtube">COM_REDSHOP_MEDIA_TYPE_YOUTUBE</option>
         </field>
         <field

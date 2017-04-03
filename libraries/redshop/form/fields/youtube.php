@@ -41,17 +41,6 @@ class RedshopFormFieldYoutube extends JFormField
 		$height = '315';
 		$border = '0';
 
-		$isConnect = $this->isConnectedYoutube();
-
-		/**
-		 * Check if can not connect Youtube, prevent to load embeded code
-		 * Which can cause load page too long.
-		 */
-		if (!$isConnect)
-		{
-			return JText::_('COM_REDSHOP_MEDIA_CANNOT_CONNECT_YOUTUBE');
-		}
-
 		return RedshopLayoutHelper::render(
 			'field.youtube',
 			array(
@@ -74,7 +63,7 @@ class RedshopFormFieldYoutube extends JFormField
 
 		try
 		{
-			$connection = fsockopen("www.youtube.com", 80);
+			$connection = @fsockopen("www.youtube.com", 80);
 
 			if ($connection)
 			{

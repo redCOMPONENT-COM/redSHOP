@@ -75,6 +75,9 @@ class RedshopControllerConfiguration extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
+		var_dump($post);
+		die;
+
 		$app                 = JFactory::getApplication();
 		$selectedTabPosition = $this->input->get('selectedTabPosition');
 		$app->setUserState('com_redshop.configuration.selectedTabPosition', $selectedTabPosition);

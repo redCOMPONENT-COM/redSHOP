@@ -830,6 +830,110 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$lists['enable_stockroom_notification'] = JHtml::_('redshopselect.booleanlist', 'enable_stockroom_notification', 'class="form-control" size="1"', $this->config->get('ENABLE_STOCKROOM_NOTIFICATION'));
 
+		/* Medias */
+		$lists['media'] = array();
+		$mediaConfig =& $lists['media'];
+		$mediaConfig['media_video_autoplay'] = JHtml::_('redshopselect.booleanlist', 'media_video_autoplay', 'class="form-control" size="1"', $this->config->get('MEDIA_VIDEO_AUTOPLAY'));
+
+		/*
+		 * Measurement select boxes
+		 */
+		$option           = array();
+		/*$option[0]        = new stdClass;
+		$option[0]->value = 0;
+		$option[0]->text  = JText::_('COM_REDSHOP_SELECT');*/
+
+		$mimeTypes = array(
+				'application/msword',
+				'application/vnd.ms-word',
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+				'application/excel',
+				'application/vnd.ms-excel',
+				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+				'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+				'application/vnd.ms-powerpoint',
+				'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+				'application/pdf',
+				'application/zip',
+				'application/x-compressed-zip',
+				'application/x-7z-compressed',
+				'audio/flac',
+				'audio/mp3',
+				'audio/mpeg',
+				'audio/ogg',
+				'audio/wav',
+				'audio/webm',
+				'image/bmp',
+				'image/gif',
+				'image/jpeg',
+				'image/png',
+				'image/x-windows-bmp',
+				'image/x-icon',
+				'video/avi',
+				'video/3gpp',
+				'video/mp4',
+				'video/mpeg',
+				'video/ogg',
+				'video/quicktime',
+				'video/x-flv',
+				'video/x-msvideo',
+				'video/x-ms-wmv',
+				'video/webm'
+			);
+
+		$countMimeTypes = count($mimeTypes);
+
+		for ($i = 0; $i < $countMimeTypes; $i++)
+		{
+			$option[$i]        = new stdClass;
+			$option[$i]->value = $mimeTypes[$i];
+			$option[$i]->text  = $mimeTypes[$i];
+		}
+
+
+		$mediaConfig['media_upload_mimetype'] = JHtml::_('select.genericlist', $option, 'media_upload_mimetype',
+			'class="form-control"  multiple="multiple" size="5"', 'value', 'text', $this->config->get('MEDIA_UPLOAD_MIMETYPE')
+		);
+
+		unset($option);
+
+		$fileExtensions = array(
+				'doc',
+				'docx',
+				'ppt',
+				'pptx',
+				'xls',
+				'xlsx',
+				'pdf',
+				'txt',
+				'png',
+				'jpg',
+				'jpeg',
+				'bmp',
+				'gif',
+				'mp3',
+				'm4a',
+				'ogg',
+				'wav',
+				'mp4',
+				'flv'
+			);
+
+		$countFileExtensions = count($fileExtensions);
+
+		for ($i = 0; $i < $countFileExtensions; $i++)
+		{
+			$option[$i]        = new stdClass;
+			$option[$i]->value = $fileExtensions[$i];
+			$option[$i]->text  = $fileExtensions[$i];
+		}
+
+		$mediaConfig['media_upload_extension'] = JHtml::_('select.genericlist', $option, 'media_upload_extension',
+			'class="form-control"  multiple="multiple" size="5"', 'value', 'text', $this->config->get('MEDIA_UPLOAD_EXTENSION')
+		);
+
+		unset($option);
+
 		$current_version      = $model->getcurrentversion();
 		$getinstalledmodule   = $model->getinstalledmodule();
 		$getinstalledplugins  = $model->getinstalledplugins();
@@ -853,6 +957,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$this->lists                = $lists;
 		$this->request_url          = JUri::getInstance()->toString();
 		$this->tabmenu              = $this->getTabMenu();
+		$this->post_max_size		= ini_get('post_max_size');
+		$this->upload_max_filesize  = ini_get('upload_max_filesize');
 
 		parent::display($tpl);
 	}
@@ -934,6 +1040,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 				'COM_REDSHOP_ORDER_TAB',
 				($selectedTabPosition == 'ordertab') ? true : false,
 				'ordertab'
+			)->addItem(
+				'#mediatab',
+				'COM_REDSHOP_MEDIA_TAB',
+				($selectedTabPosition == 'mediatab') ? true : false,
+				'mediatab'
 			)->addItem(
 				'#newslettertab',
 				'COM_REDSHOP_NEWSLETTER_TAB',

@@ -92,19 +92,6 @@ JFactory::getDocument()->addScriptDeclaration('
 </form>
 <script type="text/javascript">
 	jQuery(document).ready(function(){
-		jQuery(document).on('change', 'input[name="jform[media_section]"]', function(){
-			mediaSeciton = jQuery(this).val();
-			jQuery.ajax({
-                url: 'index.php?option=com_redshop&task=media.ajaxUpdateSectionId&media_section=' + mediaSeciton,
-                type: 'GET'
-            })
-            .done(function (response) {
-            	jQuery('#divSectionId').html(response);
-            	jQuery("#jform_section_id").select2();
-            })
-
-		});
-
 		jQuery(document).on('keyup', '#jform_youtube_id', function(e){
 			youtubeId = jQuery(this).val();
 			jQuery.ajax({
@@ -120,6 +107,19 @@ JFactory::getDocument()->addScriptDeclaration('
 	function loadYoutubeFields()
 	{
 		jQuery('#divShowBox').hide();
+	}
+
+	function loadSectionId(e)
+	{
+		mediaSeciton = jQuery(e).val();
+		jQuery.ajax({
+            url: 'index.php?option=com_redshop&task=media.ajaxUpdateSectionId&media_section=' + mediaSeciton,
+            type: 'GET'
+        })
+        .done(function (response) {
+        	jQuery('#divSectionId').html(response);
+        	jQuery("#jform_section_id").select2();
+        })
 	}
 </script>
 

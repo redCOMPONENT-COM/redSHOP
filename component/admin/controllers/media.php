@@ -34,82 +34,72 @@ class RedshopControllerMedia extends RedshopControllerForm
 
 			// Image Upload
 			$src = $file['tmp_name'];
-			$tempDir = REDSHOP_FRONT_IMAGES_RELPATH . 'tmp/';
+
+			$path = '/media/com_redshop/files/';
+
+			$tempDir = JPATH_ROOT . $path . 'tmp/';
 			JFolder::create($tempDir, 0755);
 			$dest = $tempDir . $filename;
+
 			JFile::upload($src, $dest);
 
 			$fileId = '';
-			$media_type = 'images';
 
-			if ($new)
+			$fileinfo = pathinfo($dest);
+
+			$fileinfo['mimetype'] = mime_content_type($dest);
+
+			switch ($fileinfo['extension'])
 			{
-				// Create new media
-				$model = $this->getModel('media');
+				case 'zip':
+				case '7z':
+					$media_type = 'archives';
+					break;
 
-				$fileinfo = pathinfo($dest);
+				case 'pdf':
+					$media_type = 'pdfs';
+					break;
 
-				switch ($fileinfo['extension'])
-				{
-					case 'zip':
-					case '7z':
-						$media_type = 'archives';
-						break;
+				case 'docx':
+				case 'doc':
+					$media_type = 'words';
+					break;
 
-					case 'pdf':
-						$media_type = 'pdfs';
-						break;
+				case 'xlsx':
+				case 'xls':
+					$media_type = 'excels';
+					break;
 
-					case 'docx':
-					case 'doc':
-						$media_type = 'words';
-						break;
+				case 'pptx':
+				case 'ppt':
+					$media_type = 'powerpoints';
+					break;
 
-					case 'xlsx':
-					case 'xls':
-						$media_type = 'excels';
-						break;
+				case 'mp3':
+				case 'flac':
+					$media_type = 'sounds';
+					break;
 
-					case 'pptx':
-					case 'ppt':
-						$media_type = 'powerpoints';
-						break;
+				case 'mp4':
+				case 'mkv':
+				case 'flv':
+					$media_type = 'videos';
+					break;
 
-					case 'mp3':
-					case 'flac':
-						$media_type = 'sounds';
-						break;
+				case 'txt':
+					$media_type = 'texts';
+					break;
 
-					case 'mp4':
-					case 'mkv':
-					case 'flv':
-						$media_type = 'videos';
-						break;
+				case 'jpeg':
+				case 'jpg':
+				case 'png':
+				case 'gif':
+					$media_type = 'images';
+					break;
 
-					case 'txt':
-						$media_type = 'texts';
-						break;
-
-					case 'jpeg':
-					case 'jpg':
-					case 'png':
-					case 'gif':
-						$media_type = 'images';
-						break;
-
-					default:
-						$media_type = '';
-						break;
-				}
-
-				$fileId = $model->newFile(
-					[
-					'media_name'     => $filename,
-					'media_section'  => 'tmp',
-					'media_type'     => $media_type,
-					'media_mimetype' => $file['type']
-					]
-				);
+				default:
+					$media_type = '';
+					break;
 			}
 		}
 
@@ -124,14 +114,14 @@ class RedshopControllerMedia extends RedshopControllerForm
 			array(
 			'success' => true,
 			'file' => array(
-					'id'        => $fileId,
-					'url'       => 'media/com_redshop/assets/images/tmp/' . $filename,
-					'name'      => $filename,
-					'size'      => RedshopHelperMediaImage::sizeFilter(filesize($dest)),
-					'dimension' => $dimension,
-					'media'     => 'tmp',
-					'mime'      => substr($media_type, 0, -1),
-					'status'    => ''
+					'url'        => $path . 'tmp/' . $filename,
+					'name'       => $filename,
+					'size'       => RedshopHelperMediaImage::sizeFilter(filesize($dest)),
+					'dimension'  => $dimension,
+					'media'      => 'tmp',
+					'media_type' => $media_type,
+					'mime'       => $fileinfo['mimetype'],
+					'status'     => ''
 				)
 			)
 		);

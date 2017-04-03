@@ -47,7 +47,7 @@
          */
         deleteUrl: "index.php?option=com_redshop&view=media&task=ajaxDelete",
         allowedMime: "image/jpeg,image/jpg,image/png,image/gif,video/mp4",
-        maxFileSize: 2048,
+        maxFileSize: 20480,
         initFile: null,
         showMediaFiles: false
     };
