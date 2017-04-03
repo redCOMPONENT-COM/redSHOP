@@ -52,7 +52,6 @@ class ManageMailCenterAdministratorCest
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\MailCenterManagerJoomla3Steps($scenario);
 		$I->editMail($this->name, $this->newName);
-		$I->searchMail($this->newName);
 	}
 
 	/**
