@@ -8474,12 +8474,18 @@ class productHelper
 		$prodadditionImg               = "";
 		$propadditionImg               = "";
 		$subpropadditionImg            = "";
+		$prodadditionVid               = "";
+		$propadditionVid               = "";
+		$subpropadditionVid            = "";
 		$product_availability_date_lbl = '';
 		$product_availability_date     = '';
 		$media_image = $this->getAdditionMediaImage($product_id, "product");
+		$media_video = $this->getAdditionMediaImage($product_id, "product", "youtube");
 		$tmp_prodimg = "";
+		$tmp_prodvid = "";
 
 		$val_prodadd = count($media_image);
+		$val_prodaddvid = count($media_video);
 
 		for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 		{
@@ -8607,15 +8613,29 @@ class productHelper
 			}
 		}
 
+		for ($m = 0, $mn = count($media_video); $m < $mn; $m++)
+		{
+			$alttext = !empty($media_video [$m]->media_alternate_text) ? $media_video [$m]->media_alternate_text : $media_video[$m]->media_name;
+
+			$prodadditionVid .= "<div id='additional_vids_" . $media_video[$m]->media_id . "'><a class='modal' title='" . $media_video[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_video[$m]->media_name . "'><img src='https://img.youtube.com/vi/" . $media_video[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+		}
+
 		if ($val_prodadd == 0)
 		{
 			$prodadditionImg = " ";
 			$propadditionImg = " ";
 		}
 
+		if ($val_prodaddvid == 0)
+		{
+			$prodadditionVid = " ";
+			$propadditionVid = " ";
+		}
+
 		if ($property_id > 0)
 		{
 			$media_image = $this->getAdditionMediaImage($property_id, "property");
+			$media_video = $this->getAdditionMediaImage($property_id, "property", "youtube");
 
 			if (count($media_image) == 0)
 			{
@@ -8740,12 +8760,27 @@ class productHelper
 					}
 				}
 			}
+
+			if (count($media_video) == 0)
+			{
+				$propadditionVid = $tmp_prodvid;
+			}
+			else
+			{
+				for ($m = 0, $mn = count($media_video); $m < $mn; $m++)
+				{
+					$alttext = !empty($media_video [$m]->media_alternate_text) ? $media_video [$m]->media_alternate_text : $media_video[$m]->media_name;
+
+					$propadditionVid .= "<div id='additional_vids_" . $media_video[$m]->media_id . "'><a class='modal' title='" . $media_video[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_video[$m]->media_name . "'><img src='https://img.youtube.com/vi/" . $media_video[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+				}
+			}
 		}
 
 		if ($subproperty_id > 0)
 		{
 			//Display Sub-Property Number
 			$media_image = $this->getAdditionMediaImage($subproperty_id, "subproperty");
+			$media_video = $this->getAdditionMediaImage($subproperty_id, "subproperty", "youtube");
 
 			for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 			{
@@ -8855,9 +8890,17 @@ class productHelper
 					$subpropadditionImg .= $subpropadditionImg_div_end;
 				}
 			}
+
+			for ($m = 0, $mn = count($media_video); $m < $mn; $m++)
+			{
+				$alttext = !empty($media_video [$m]->media_alternate_text) ? $media_video [$m]->media_alternate_text : $media_video[$m]->media_name;
+
+				$subpropadditionVid .= "<div id='additional_vids_" . $media_video[$m]->media_id . "'><a class='modal' title='" . $media_video[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_video[$m]->media_name . "'><img src='https://img.youtube.com/vi/" . $media_video[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+			}
 		}
 
 		$response = "";
+		$additional_vids = "";
 
 		if ($subpropadditionImg != "")
 		{
@@ -8870,6 +8913,19 @@ class productHelper
 		elseif ($prodadditionImg != "")
 		{
 			$response = "<div>" . $prodadditionImg . "</div>";
+		}
+
+		if ($subpropadditionVid != "")
+		{
+			$additional_vids = $subpropadditionVid;
+		}
+		elseif ($propadditionVid != "")
+		{
+			$additional_vids = $propadditionVid;
+		}
+		elseif ($prodadditionVid != "")
+		{
+			$additional_vids = $prodadditionVid;
 		}
 
 		$ProductAttributeDelivery = "";
@@ -9056,6 +9112,7 @@ class productHelper
 		$ret['notifyStock']                   = $notify_stock;
 		$ret['product_availability_date_lbl'] = $product_availability_date_lbl;
 		$ret['product_availability_date']     = $product_availability_date;
+		$ret['additional_vids']     		  = $additional_vids;
 
 		//$ret['view']			=$view;
 		return $ret;

@@ -36,7 +36,7 @@ $url = JURI::base();
 	}
 	function clearreset() {
 		var form = document.adminForm;
-		form.filter.value = "";
+		form.filter_search.value = "";
 		form.submit();
 	}
 </script>
