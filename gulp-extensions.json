@@ -145,7 +145,8 @@
       "shoppergroup_tags",
       "stock_notifyemail",
       "stockroom_status",
-      "custom_field_mapping"
+      "custom_field_mapping",
+      "discount_affect_attribute"
     ],
     "redshop_shipping": [
       "bring",
