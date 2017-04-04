@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -21,6 +21,7 @@ $editor = JFactory::getEditor();
                 <div class="form-group">
                     <label for="category_name">
 						<?php echo JText::_('COM_REDSHOP_CATEGORY_NAME'); ?>
+                        <span class="star text-danger"> *</span>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'), JText::_('COM_REDSHOP_CATEGORY_NAME'), 'tooltip.png', '', '', false); ?>
                     </label>
                     <input class="text_area" type="text" name="category_name" id="category_name" size="32" maxlength="250"

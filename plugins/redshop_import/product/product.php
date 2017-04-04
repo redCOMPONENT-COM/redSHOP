@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -121,20 +121,132 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		{
 			unset($data['product_thumb_image']);
 		}
+		else
+		{
+			if (!JUri::isInternal($data['product_thumb_image']))
+			{
+				$url = $data['product_thumb_image'];
+				$imageName = basename($url);
+				$fileName = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+				JFile::write($dest, JFile::read($url));
+				$data['product_thumb_image'] = $fileName;
+			}
+			else
+			{
+				$imageName = basename($data['product_thumb_image']);
+				$data['product_thumb_image'] = $imageName;
+			}
+		}
 
 		if (empty($data['product_full_image']))
 		{
 			unset($data['product_full_image']);
+		}
+		else
+		{
+			if (!JUri::isInternal($data['product_full_image']))
+			{
+				$url       = $data['product_full_image'];
+				$imageName = basename($url);
+				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+				JFile::write($dest, JFile::read($url));
+				$data['product_full_image'] = $fileName;
+			}
+			else
+			{
+				$imageName = basename($data['product_full_image']);
+				$data['product_full_image'] = $imageName;
+			}
 		}
 
 		if (empty($data['product_back_full_image']))
 		{
 			unset($data['product_back_full_image']);
 		}
+		else
+		{
+			if (!JUri::isInternal($data['product_back_full_image']))
+			{
+				$url       = $data['product_back_full_image'];
+				$imageName = basename($url);
+				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+				JFile::write($dest, JFile::read($url));
+				$data['product_back_full_image'] = $fileName;
+			}
+			else
+			{
+				$imageName = basename($data['product_back_full_image']);
+				$data['product_back_full_image'] = $imageName;
+			}
+		}
 
 		if (empty($data['product_preview_back_image']))
 		{
 			unset($data['product_preview_back_image']);
+		}
+		else
+		{
+			if (!JUri::isInternal($data['product_preview_back_image']))
+			{
+				$url       = $data['product_preview_back_image'];
+				$imageName = basename($url);
+				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+				JFile::write($dest, JFile::read($url));
+				$data['product_preview_back_image'] = $fileName;
+			}
+			else
+			{
+				$imageName = basename($data['product_preview_back_image']);
+				$data['product_preview_back_image'] = $imageName;
+			}
+		}
+
+		if (empty($data['product_back_thumb_image']))
+		{
+			unset($data['product_back_thumb_image']);
+		}
+		else
+		{
+			if (!JUri::isInternal($data['product_back_thumb_image']))
+			{
+				$url       = $data['product_back_thumb_image'];
+				$imageName = basename($url);
+				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+				JFile::write($dest, JFile::read($url));
+				$data['product_back_thumb_image'] = $fileName;
+			}
+			else
+			{
+				$imageName = basename($data['product_back_thumb_image']);
+				$data['product_back_thumb_image'] = $imageName;
+			}
+		}
+
+		if (empty($data['product_preview_image']))
+		{
+			unset($data['product_preview_image']);
+		}
+		else
+		{
+			if (!JUri::isInternal($data['product_preview_image']))
+			{
+				$url       = $data['product_preview_image'];
+				$imageName = basename($url);
+				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+				JFile::write($dest, JFile::read($url));
+				$data['product_preview_image'] = $fileName;
+			}
+			else
+			{
+				$imageName = basename($data['product_preview_image']);
+				$data['product_preview_image'] = $imageName;
+			}
 		}
 
 		if (!empty($data['discount_stratdate']))
@@ -633,6 +745,17 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				if (!JFile::exists($file))
 				{
 					JFile::copy($source, $file);
+				}
+			}
+			else
+			{
+				if (!JUri::isInternal($image))
+				{
+					$imageName = basename($image);
+					$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+					$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+					JFile::write($dest, JFile::read($image));
+					$data['product_preview_image'] = $fileName;
 				}
 			}
 
