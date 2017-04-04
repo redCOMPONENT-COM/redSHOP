@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -837,6 +837,7 @@ class Redconfiguration
 			"IMPORT_FILE_MIME"                      => $d['import_file_mime'],
 			"IMPORT_FILE_EXTENSION"                 => $d['import_file_extension'],
 			"ALLOW_QUOTATION"                       => $d["allow_quotation"],
+			"INLINE_EDITING"                        => $d['inline_editing']
 		);
 
 		if ($d["cart_timeout"] <= 0)

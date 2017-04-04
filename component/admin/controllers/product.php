@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -201,6 +201,7 @@ class RedshopControllerProduct extends RedshopController
 		$productIds     = $this->input->post->get('pid', array(), 'array');
 		$discountPrices = $this->input->post->get('price', array(), 'array');
 
+		/** @var RedshopModelProduct $model */
 		$model = $this->getModel('Product');
 		$model->savePrices($productIds, $discountPrices);
 
@@ -219,6 +220,7 @@ class RedshopControllerProduct extends RedshopController
 		$productIds     = $this->input->post->get('pid', array(), 'array');
 		$discountPrices = $this->input->post->get('discount_price', array(), 'array');
 
+		/** @var RedshopModelProduct $model */
 		$model = $this->getModel('Product');
 		$model->saveDiscountPrices($productIds, $discountPrices);
 

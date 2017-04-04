@@ -3,7 +3,7 @@
  * @package     RedSHOP.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -573,7 +573,8 @@ class RedshopHelperTemplate
 			'17' => JText::_('COM_REDSHOP_PRODUCTFINDER_DATEPICKER'),
 			'16' => JText::_('COM_REDSHOP_QUOTATION'),
 			'18' => JText::_('COM_REDSHOP_PAYMENT_GATEWAY'),
-			'19' => JText::_('COM_REDSHOP_SHIPPING_GATEWAY')
+			'19' => JText::_('COM_REDSHOP_SHIPPING_GATEWAY'),
+			'20' => JText::_('COM_REDSHOP_ORDER')
 		);
 
 		return self::prepareSectionOptions($options, $sectionValue);
