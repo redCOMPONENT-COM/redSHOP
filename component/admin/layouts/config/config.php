@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,6 +39,6 @@ $id = (isset($id)) ? $id : '';
     </script>
 <?php endif; ?>
 <div class="form-group row-fluid" id="<?php echo !empty($id) ? $id . '-wrapper' : '' ?>">
-    <label class="col-md-4 hasPopover" data-content="<?php echo $desc ?>"><?php echo $title ?></label>
+    <label class="col-md-4 hasPopover" data-content="<?php echo $desc ?>" title="<?php echo $title ?>"><?php echo $title ?></label>
     <div class="col-md-8"><?php echo $field ?></div>
 </div>

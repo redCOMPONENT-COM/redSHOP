@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -196,7 +196,8 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				$propertyTable->set('setdefault_selected', $data['setdefault_selected']);
 				$propertyTable->set('setrequire_selected', $data['required_sub_attribute']);
 				$propertyTable->set('setdisplay_type', $data['setdisplay_type']);
-				$oprand = in_array($data['oprand'], array('+', '-', '*', '/', '=')) ? $data['subattribute_color_oprand'] : '';
+				$oprand = in_array($data['oprand'], array('+', '-', '*', '/', '=')) ? $data['oprand'] : '';
+
 				$propertyTable->set('oprand', $oprand);
 				$propertyTable->set('property_image', isset($data['property_image']) ? basename($data['property_image']) : '');
 				$propertyTable->set('property_main_image', isset($data['property_main_image']) ? basename($data['property_main_image']) : '');

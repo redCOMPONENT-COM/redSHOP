@@ -48,8 +48,8 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 				'',
 				'thumb',
 				'product',
-				Redshop::getConfig()->get('PRODUCT_PREVIEW_IMAGE_WIDTH'),
-				Redshop::getConfig()->get('PRODUCT_PREVIEW_IMAGE_HEIGHT'),
+				Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH'),
+				Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT'),
 				Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 			);
 

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -88,7 +88,7 @@ echo RedshopLayoutHelper::render(
 	array(
 		'title' => JText::_('COM_REDSHOP_SHOW_TERMS_AND_CONDITIONS_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_SHOW_TERMS_AND_CONDITIONS_LBL'),
-		'field' => $this->lists['show_terms_and_conditions'] . '<input type="button" class="btn btn-small"
+		'field' => $this->lists['show_terms_and_conditions'] . '<input type="button" class="btn pull-right btn-warning"
                    onclick="javascript:resetTermsCondition();" value="' . JText::_('COM_REDSHOP_RESET_FOR_ALL_USER') . '"/>'
 	)
 );

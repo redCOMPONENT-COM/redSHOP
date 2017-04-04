@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -101,7 +101,7 @@ echo RedshopLayoutHelper::render(
 </div>
 <div class="form-group row-fluid">
     <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MAIN_IMAGE_LBL_THREE'); ?>">
-        <?php echo JText::_('COM_REDSHOP_PRODUCT_MAIN_IMAGE_THREE'); ?>
+		<?php echo JText::_('COM_REDSHOP_PRODUCT_MAIN_IMAGE_THREE'); ?>
     </label>
     <div class="col-md-8">
         <div class="row">
@@ -330,7 +330,7 @@ echo RedshopLayoutHelper::render(
             <div class="divimages" id="preorddiv">
                 <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $preOrderImage; ?>"
                    title="<?php echo $preOrderImage; ?>" rel="{handler: 'image', size: {}}">
-                    <img alt="<?php echo $preOrderImage; ?>" src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $preOrderImage; ?>"/>
+                    <img alt="<?php echo $preOrderImage ?>" src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $preOrderImage ?>" class="thumbnail"/>
                 </a>
                 <a class="remove_link" href="#" onclick="delimg('<?php echo $preOrderImage ?>','preorddiv','<?php echo $ord_path ?>');">
 					<?php echo JText::_('COM_REDSHOP_REMOVE_FILE'); ?>

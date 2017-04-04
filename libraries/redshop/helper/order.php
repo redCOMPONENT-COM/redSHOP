@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -366,19 +366,27 @@ class RedshopHelperOrder
 				return null;
 			}
 
-			// Get plugin information
-			$plugin = JPluginHelper::getPlugin(
-						'redshop_payment',
-						self::$payment[$orderId]->payment_method_class
-					);
-
-			if ($plugin)
+			if (!empty(self::$payment[$orderId]->payment_method_class))
 			{
-				$plugin->params = new Registry($plugin->params);
-			}
+				// Get plugin information
+				$plugin = JPluginHelper::getPlugin(
+					'redshop_payment',
+					self::$payment[$orderId]->payment_method_class
+				);
 
-			// Set plugin information
-			self::$payment[$orderId]->plugin = $plugin;
+				if ($plugin)
+				{
+					$plugin->params = new Registry($plugin->params);
+				}
+
+				// Set plugin information
+				self::$payment[$orderId]->plugin = $plugin;
+			}
+			else
+			{
+				// Set plugin information
+				self::$payment[$orderId]->plugin = null;
+			}
 		}
 
 		return self::$payment[$orderId];
@@ -1741,13 +1749,14 @@ class RedshopHelperOrder
 	/**
 	 * Get payment method info
 	 *
-	 * @param   string  $paymentMethodClass  Payment method class
+	 * @param   string   $paymentMethodClass  Payment method class
+	 * @param   boolean  $includeDiscover     Include all plugins even not discover install yet
 	 *
 	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */
-	public static function getPaymentMethodInfo($paymentMethodClass = '')
+	public static function getPaymentMethodInfo($paymentMethodClass = '', $includeDiscover = true)
 	{
 		$db = JFactory::getDbo();
 
@@ -1761,6 +1770,11 @@ class RedshopHelperOrder
 		if ($paymentMethodClass != '')
 		{
 			$query->where($db->qn('element') . ' = ' . $db->quote($paymentMethodClass));
+		}
+
+		if (!$includeDiscover)
+		{
+			$query->where($db->qn('state') . ' >= 0');
 		}
 
 		$db->setQuery($query);
@@ -2478,6 +2492,27 @@ class RedshopHelperOrder
 			$mailData    = $mailTemplate[0]->mail_body;
 			$mailSubject = $mailTemplate[0]->mail_subject;
 
+			$fieldArray = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_ORDER, 0);
+
+			if (count($fieldArray) > 0)
+			{
+				for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
+				{
+					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->field_id, RedshopHelperExtrafields::SECTION_ORDER, $orderId);
+
+					if ($fieldValueArray->data_txt != "")
+					{
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '}', $fieldValueArray->data_txt, $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', $fieldArray[$i]->field_title, $mailData);
+					}
+					else
+					{
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '}', "", $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', "", $mailData);
+					}
+				}
+			}
+
 			if (trim($mailTemplate[0]->mail_bcc) != "")
 			{
 				$mailBcc = explode(",", $mailTemplate[0]->mail_bcc);
@@ -2544,6 +2579,9 @@ class RedshopHelperOrder
 
 			$search[]  = "{fullname}";
 			$replace[] = $userDetail->firstname . " " . $userDetail->lastname;
+
+			$search[]  = "{email}";
+			$replace[] = $userDetail->user_email;
 
 			$search[]  = "{customer_id}";
 			$replace[] = $userDetail->users_info_id;
@@ -2845,11 +2883,11 @@ class RedshopHelperOrder
 		$helper          = redhelper::getInstance();
 		$stockroomHelper = rsstockroomhelper::getInstance();
 		$productHelper   = productHelper::getInstance();
-		$newStatus       = $post['order_status_all'];
+		$newStatus       = $post['mass_change_order_status'];
 		$customerNote    = $post['customer_note' . $orderId];
 		$isProduct       = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
 		$productId       = (isset($post['product_id'])) ? $post['product_id'] : 0;
-		$paymentStatus   = $post['order_paymentstatus' . $orderId];
+		$paymentStatus   = $post['mass_change_payment_status'];
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
@@ -2949,7 +2987,11 @@ class RedshopHelperOrder
 		}
 
 		// Mail to customer of order status change
-		self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
+		if ($post['mass_mail_sending'] == 1)
+		{
+			self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
+		}
+
 		self::createBookInvoice($orderId, $newStatus);
 
 		// GENERATE PDF CODE WRITE
