@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -81,12 +81,13 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 			<table class="admintable table">
 				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_TEMPLATE_NAME'); ?>:</td>
+					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_TEMPLATE_NAME'); ?>
+					<span class="star text-danger"> *</span>:</td>
 					<td><input class="text_area" type="text" name="template_name" id="template_name" size="32"
 					           maxlength="250" value="<?php echo $this->detail->template_name; ?>"/></td>
 				</tr>
 				<tr>
-					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_TEMPLATE_SECTION'); ?>
+					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_TEMPLATE_SECTION'); ?><span class="star text-danger"> *</span>
 						:
 					</td>
 					<td><?php echo $this->lists['section']; ?></td>

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller.OrderDetail
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -596,5 +596,18 @@ class RedshopControllerOrder_detail extends RedshopController
 		JEventDispatcher::getInstance()->trigger('onBackendPayment', array($orderId));
 
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $orderId);
+	}
+
+	/**
+	 * Store Extra field
+	 *
+	 * @return  void
+	 */
+	public function storeExtraField()
+	{
+		$data = $this->input->post->getArray();
+		RedshopHelperExtrafields::extraFieldSave($data, RedshopHelperExtrafields::SECTION_ORDER, $data['order_id'], $data['user_email']);
+
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $data['order_id']);
 	}
 }

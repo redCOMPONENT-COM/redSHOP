@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -89,9 +89,10 @@ echo RedshopLayoutHelper::render(
 			<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imagePreviousLinkFind)): ?>
                 <div id="prvlinkdiv">
                     <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"
-                       title="<?php echo $imagePreviousLinkFind; ?>" rel="{handler: 'image', size: {}}"><img
-                                alt="<?php echo $imagePreviousLinkFind; ?>"
-                                src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"/></a>
+                       title="<?php echo $imagePreviousLinkFind; ?>" rel="{handler: 'image', size: {}}">
+                        <img alt="<?php echo $imagePreviousLinkFind; ?>" class="thumbnail"
+                                src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imagePreviousLinkFind; ?>"/>
+                    </a>
                 </div>
 			<?php endif; ?>
         </div>
@@ -114,9 +115,10 @@ echo RedshopLayoutHelper::render(
 			<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $imageNextLinkFind)): ?>
                 <div id="nxtlinkdiv">
                     <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"
-                       title="<?php echo $imageNextLinkFind; ?>" rel="{handler: 'image', size: {}}"><img
-                                alt="<?php echo $imageNextLinkFind; ?>"
-                                src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"/></a>
+                       title="<?php echo $imageNextLinkFind; ?>" rel="{handler: 'image', size: {}}">
+                        <img alt="<?php echo $imageNextLinkFind; ?>" class="thumbnail"
+                                src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $imageNextLinkFind; ?>"/>
+                    </a>
                 </div>
 			<?php endif; ?>
         </div>
