@@ -1527,9 +1527,8 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
                 }
             }
 
-            if (arrResponse[4] != '' && document.getElementById('main_image' + product_id)) {
-                document.getElementById('main_image' + product_id).src = arrResponse[4];
-            }
+            document.getElementById('main_image' + product_id).src = arrResponse[4];
+            document.getElementsByClassName('product_more_videos')[0].innerHTML = arrResponse[16];
 
             if (document.getElementById('additional_images' + product_id) && arrResponse[1] != "") {
                 document.getElementById('additional_images' + product_id).innerHTML = arrResponse[1];
@@ -1587,11 +1586,16 @@ function preloadSlimbox(parameters) {
 
     if (parameters.isenable) {
         var imgoptions = {handler: 'image'};
+        var vidoptions = {handler: 'iframe', size: {x: 800, y: 500}};
         redBOX.initialize({});
-        if (parameters.mainImage)
+
+        if (parameters.mainImage) {
             redBOX.assign($$("a[rel='myallimg']"), imgoptions);
-        else
+        }
+        else {
             redBOX.assign($$(".additional_image > a[rel='myallimg']"), imgoptions);
+            redBOX.assign($$("[id^='additional_vids_'] > a.modal"), vidoptions);
+        }
 
     }
 }
