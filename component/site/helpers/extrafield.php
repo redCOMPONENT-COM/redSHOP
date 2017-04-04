@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-
 /**
  * Extra Field Class
  */
@@ -253,6 +251,13 @@ class extraField
 	 * @var  integer
 	 */
 	const SECTION_SHIPPING_GATEWAY = 19;
+
+	/**
+	 * Extra Field Section Id for Order
+	 *
+	 * @var  integer
+	 */
+	const SECTION_ORDER = 20;
 
 	/**
 	 * User fields

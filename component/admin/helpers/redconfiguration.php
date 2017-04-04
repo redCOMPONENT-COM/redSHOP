@@ -837,6 +837,7 @@ class Redconfiguration
 			"IMPORT_FILE_MIME"                      => $d['import_file_mime'],
 			"IMPORT_FILE_EXTENSION"                 => $d['import_file_extension'],
 			"IMPORT_MAX_LINE"                       => $d['import_max_line'],
+			"INLINE_EDITING"                        => $d['inline_editing']
 		);
 
 		if ($d["cart_timeout"] <= 0)

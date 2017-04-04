@@ -46,12 +46,12 @@ $model         = $this->getModel('product');
                 var price = parseFloat($priceField.val());
                 var discount = parseFloat(value);
 
-                return (!isNaN(price) && price > discount);
+                return (discount == 0 || (discount > 0 && price > discount));
             });
 
             // Validate Product price
             document.formvalidator.setHandler("positiveNumber", function(value){
-                return !isNaN(value) && value > 0;
+                return !isNaN(value) && value >= 0;
             });
         });
     })(jQuery);
