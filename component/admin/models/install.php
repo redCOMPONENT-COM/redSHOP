@@ -80,6 +80,10 @@ class RedshopModelInstall extends RedshopModelList
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_UPDATE_SCHEMA'),
 				'func' => 'updateDatabaseSchema'
 			);
+			$tasks[] = array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_UPDATE_CATEGORY'),
+				'func' => 'updateCategory'
+			);
 		}
 
 		return $tasks;
@@ -975,6 +979,40 @@ class RedshopModelInstall extends RedshopModelList
 		$this->changeImageFileName($files, $path);
 
 		return true;
+	}
+
+	/**
+	 * Method to update new structure for Category
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.5
+	 */
+	public function processUpdateCategory()
+	{
+		$db = JFactory::getDbo();
+
+		$root = new stdClass();
+		$root->name = 'ROOT';
+		$root->parent_id = 0;
+		$root->level = 0;
+		$root->lft = 0;
+		$root->rgt = 1;
+		// $result = $db->insertObject('#__redshop_category', $root);
+		// $rootId = $db->insertid();
+		
+		$query = $db->getQuery(true)
+			->select('c.*')
+			->select($db->qn('cx.category_parent_id', 'parent_id'))
+			->from($db->qn('#__redshop_category', 'c'))
+			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('cx.category_child_id'));
+		$categories = $db->setQuery($query)->loadObjectList();
+		echo '<pre>';
+		print_r($categories);
+		echo '</pre>';
+		die();
+
+		return false;
 	}
 
 	/**
