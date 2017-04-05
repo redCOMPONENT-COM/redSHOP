@@ -998,8 +998,8 @@ class RedshopModelInstall extends RedshopModelList
 		$root->level = 0;
 		$root->lft = 0;
 		$root->rgt = 1;
-		// $result = $db->insertObject('#__redshop_category', $root);
-		// $rootId = $db->insertid();
+		$result = $db->insertObject('#__redshop_category', $root);
+		$rootId = $db->insertid();
 		
 		$query = $db->getQuery(true)
 			->select('c.*')
@@ -1007,12 +1007,50 @@ class RedshopModelInstall extends RedshopModelList
 			->from($db->qn('#__redshop_category', 'c'))
 			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('cx.category_child_id'));
 		$categories = $db->setQuery($query)->loadObjectList();
-		echo '<pre>';
-		print_r($categories);
-		echo '</pre>';
-		die();
 
-		return false;
+		foreach ($categories as $key => $category)
+		{
+			if ($category->name == 'ROOT')
+			{
+				continue;
+			}
+
+			$parentId = ($category->parent_id == 0) ? $rootId : $category->parent_id;
+			$alias = JFilterOutput::stringURLUnicodeSlug($category->name);
+
+			$fields = array(
+					$db->qn('parent_id') . ' = ' . $db->q((int) $parentId),
+					$db->qn('alias') . ' = ' . $db->q($alias)
+				);
+			$conditions = array(
+				$db->qn('id') . ' = ' . $db->q((int) $category->id)
+			);
+
+			$query = $db->getQuery(true)
+				->update($db->qn('#__redshop_category'))
+				->set($fields)
+				->where($conditions);
+
+			$db->setQuery($query)->execute();
+		}
+
+		$this->processRebuildCategory($rootId);
+
+		return true;
+	}
+
+	/**
+	 * Method to update new structure for Category
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.5
+	 */
+	public function processRebuildCategory($rootId)
+	{
+		$table = RedshopTable::getInstance('Category', 'RedshopTable');
+
+		return $table->rebuild($rootId);
 	}
 
 	/**
