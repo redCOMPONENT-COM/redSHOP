@@ -1,11 +1,11 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
-ALTER TABLE `#__redshop_category` CHANGE `category_id` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `#__redshop_category` CHANGE `category_id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__redshop_category` CHANGE `category_name` `name` VARCHAR(255) NOT NULL DEFAULT '';
 ALTER TABLE `#__redshop_category` CHANGE `category_short_description` `short_description` TEXT NOT NULL DEFAULT '';
 ALTER TABLE `#__redshop_category` CHANGE `category_description` `description` TEXT NOT NULL DEFAULT '';
 ALTER TABLE `#__redshop_category` CHANGE `published` `published` TINYINT(4) NOT NULL DEFAULT 0;
-ALTER TABLE `#__redshop_category` CHANGE `category_template` `template` INT(11) NOT NULL DEFAULT '';
+ALTER TABLE `#__redshop_category` CHANGE `category_template` `template` INT(11) NOT NULL DEFAULT 0;
 ALTER TABLE `#__redshop_category` CHANGE `category_more_template` `more_template` VARCHAR(255) NOT NULL DEFAULT '';
 ALTER TABLE `#__redshop_category` CHANGE `category_pdate` `category_pdate` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
 ALTER TABLE `#__redshop_category` ADD INDEX `#__rs_idx_category_published` (`published` ASC);
