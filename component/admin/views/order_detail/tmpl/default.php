@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -625,7 +625,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 										<tr>
 											<td>
 												<form action="index.php?option=com_redshop" method="post"
-													name="itemForm<?php echo $order_item_id; ?>">
+													name="itemForm<?php echo $order_item_id; ?>" id="itemForm<?php echo $order_item_id; ?>">
 													<table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped" width="100%">
 														<tr>
 															<td width="20%">
@@ -660,7 +660,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 															<td width="10%">
 																<div class="input-group">
 																	<span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?></span>
-																	<input type="text" name="update_price" id="update_price" class="form-control"
+																	<input type="number" min="0" name="update_price" id="update_price" class="form-control"
 																		value="<?php echo $producthelper->redpriceDecimal($products[$i]->product_item_price_excl_vat); ?>"
 																		size="10">
 																</div>
@@ -668,7 +668,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 															<td width="5%"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $vat;?></td>
 															<td width="10%"><?php echo $producthelper->getProductFormattedPrice($products[$i]->product_item_price) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
 															<td width="5%">
-																<input type="text" name="quantity" id="quantity" class="col-sm-12"
+																<input type="number" min="1" name="quantity" id="quantity" class="col-sm-12"
 																	value="<?php echo $quantity; ?>" size="3">
 															</td>
 															<td align="right" width="10%">
@@ -694,7 +694,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 																	src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.png"
 																	title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
 																	alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
-																	onclick="document.itemForm<?php echo $order_item_id; ?>.task.value='updateItem';document.itemForm<?php echo $order_item_id; ?>.submit();">
+																	onclick="document.itemForm<?php echo $order_item_id; ?>.task.value='updateItem';javascript:validateProductQuantity('#itemForm<?php echo $order_item_id; ?>');">
 															</td>
 														</tr>
 													</table>
@@ -910,15 +910,15 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												</td>
 												<td align="right" width="35%">
 													<form action="index.php?option=com_redshop" method="post"
-														name="update_discount<?php echo $order_id; ?>">
+														name="update_discount<?php echo $order_id; ?>" id="update_discount<?php echo $order_id; ?>">
 														<div class="input-group">
 															<span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?></span>
-															<input type="text" name="update_discount"
+															<input type="number" min="0" name="update_discount"
 																id="update_discount" class="form-control"
 																value="<?php echo $producthelper->redpriceDecimal($this->detail->order_discount); ?>"
 																size="10">
 															<span class="input-group-addon">
-															<a href="#" onclick="document.update_discount<?php echo $order_id; ?>.submit();">
+															<a href="#" onclick="javascript:validateDiscount('#update_discount<?php echo $order_id; ?>');">
 															<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>
 															</a>
 															</span>
@@ -936,15 +936,15 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												</td>
 												<td align="right" width="35%">
 													<form action="index.php?option=com_redshop" method="post"
-														name="special_discount<?php echo $order_id; ?>">
+														name="special_discount<?php echo $order_id; ?>" id="special_discount<?php echo $order_id; ?>">
 														<div class="input-group">
 															<span class="input-group-addon">%&nbsp;</span>
-															<input type="text" name="special_discount"
+															<input type="number" min="0" name="special_discount"
 																id="special_discount" class="form-control"
 																value="<?php echo $this->detail->special_discount; ?>"
 																size="10">
 															<span class="input-group-addon">
-															<a href="#" onclick="document.special_discount<?php echo $order_id; ?>.submit();">
+															<a href="#" onclick="javascript:validateDiscount('#special_discount<?php echo $order_id; ?>');">
 															<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>
 															</a>
 															</span>
@@ -1025,7 +1025,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								<td id="tdnoteproduct1"></td>
 								<td><input type="hidden" name="change_product_tmp_priceproduct1"
 										   id="change_product_tmp_priceproduct1" value="0" size="10">
-									<input type="text" name="prdexclpriceproduct1" style="display: none;" id="prdexclpriceproduct1" class="col-sm-12"
+									<input type="number" min="0" name="prdexclpriceproduct1" style="display: none;" id="prdexclpriceproduct1" class="col-sm-12"
 										   onchange="changeOfflinePriceBox('product1');" value="0" size="10"></td>
 								<td align="right">
 									<div id="prdtaxproduct1"></div>
@@ -1033,7 +1033,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								<td align="right">
 									<div id="prdpriceproduct1"></div>
 									<input name="productpriceproduct1" id="productpriceproduct1" type="hidden" value="0"/></td>
-								<td><input type="text" name="quantityproduct1" id="quantityproduct1" style="display: none;"
+								<td><input type="number" min="0" name="quantityproduct1" id="quantityproduct1" style="display: none;"
 										   onchange="changeOfflineQuantityBox('product1');" value="1" class="col-sm-12"
 										   size="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>" maxlength="<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY'); ?>"></td>
 								<td align="right">
@@ -1129,6 +1129,25 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 		</div>
 	</div>
 
+	<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=storeExtraField'); ?>" method="post" name="adminForm" id="adminForm">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3><?php echo JText::_('COM_REDSHOP_EXTRA_FIELD'); ?></h3>
+					</div>
+					<div class="box-body">
+						<?php echo $this->lists['order_extra_fields']; ?>
+					</div>
+					<input class="button btn btn-primary" name="submit"
+						value="<?php echo JText::_('COM_REDSHOP_SAVE'); ?>" type="submit">
+				</div>
+			</div>
+			<input type="hidden" name="order_id" value="<?php echo $billing->order_id; ?>">
+			<input type="hidden" name="user_email" value="<?php echo $billing->user_email; ?>">
+		</div>
+	</form>
+
 </div>
 <?php echo $this->loadTemplate('plugin');?>
 <div id="divCalc"></div>
@@ -1151,4 +1170,68 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 			downloadclock.style.display = 'table-row';
 		}
 	}
+
+    function validateDiscount(form)
+    {
+        var subTotal = <?php echo $subtotal_excl_vat ?>;
+        var discount = parseFloat(jQuery('#update_discount').val());
+
+        var specialDiscount = parseFloat(jQuery('#special_discount').val());
+
+        if ((discount < 0) || (specialDiscount < 0))
+        {
+            alert('<?php echo JText::_("COM_REDSHOP_ORDER_DISCOUNT_NOT_LESS_THAN_ZERO") ?>');
+            return false;
+        }
+
+        var totalDiscount = discount + specialDiscount;
+
+        if (subTotal <= totalDiscount)
+        {
+            alert('<?php echo JText::_("COM_REDSHOP_ORDER_DISCOUNT_INVALID") ?>');
+            return false;
+        }
+
+        jQuery(form).submit();
+    }
+
+    function validateInputFloat(e)
+    {
+        if ((e.keyCode == 189) || (e.keyCode == 109))
+        {
+            e.preventDefault();
+        }
+    }
+
+    function validateProductQuantity(form)
+    {
+    	var itemPrice = jQuery("input[name=quantity]").val();
+
+        if (itemPrice < 1)
+        {
+        	alert('<?php echo JText::_("COM_REDSHOP_ORDER_ITEM_QUANTITY_ATLEAST_ONE") ?>');
+            return false;
+        }
+
+        jQuery(form).submit();
+    }
+
+    jQuery(document).ready(function() {
+
+        jQuery("#update_discount").keydown(function(e){
+            validateInputFloat(e);
+        });
+
+        jQuery("#special_discount").keydown(function (e) {
+            validateInputFloat(e);
+        });
+
+        jQuery("input[name=update_price]").keydown(function (e) {
+            validateInputFloat(e);
+        });
+
+        jQuery("input[name=quantity]").keydown(function (e) {
+            validateInputFloat(e);
+        });
+    });
 </script>
