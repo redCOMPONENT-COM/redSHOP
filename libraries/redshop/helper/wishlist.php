@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -203,5 +203,28 @@ class RedshopHelperWishlist
 		}
 
 		return static::$usersWishlist[$userId];
+	}
+
+	/**
+	 * Method for check product exist in wishlist.
+	 *
+	 * @param   int  $productId  ID of Product.
+	 *
+	 * @return  bool|mixed        Data if success. False otherwise.
+	 *
+	 * @since   2.0.3
+	 */
+	public static function checkWishlistExist($productId = 0)
+	{
+		$user = JFactory::getUser();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->qn('#__redshop_wishlist', 'w'))
+			->leftjoin($db->qn('#__redshop_wishlist_product', 'wp') . ' ON ' . $db->qn('w.wishlist_id') . ' = ' . $db->qn('wp.wishlist_id'))
+			->where($db->qn('wp.product_id') . ' = ' . $db->q((int) $productId))
+			->where($db->qn('w.user_id') . ' = ' . $db->q((int) $user->id));
+
+		return $db->setQuery($query)->loadResult();
 	}
 }

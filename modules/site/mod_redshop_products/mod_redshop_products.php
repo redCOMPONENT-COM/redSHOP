@@ -29,6 +29,7 @@ $showDescription         = trim($params->get('show_desc', 1));
 $showVat                 = trim($params->get('show_vat', 1));
 $showStockroomStatus     = trim($params->get('show_stockroom_status', 1));
 $showChildProducts       = trim($params->get('show_childproducts', 1));
+$showWishlist            = trim($params->get('show_wishlist', 0));
 $isUrlCategoryId         = trim($params->get('urlCategoryId', 0));
 
 $user = JFactory::getUser();
@@ -99,6 +100,16 @@ switch ((int) $type)
 				. $time . ' AND p.discount_enddate >= ' . $time . ') OR (p.discount_stratdate <= '
 				. $time . ' AND p.discount_enddate = 0))')
 			->order($db->qn('p.product_name'));
+		break;
+	case 6:
+		$session = JFactory::getSession();
+		$watched = $session->get('watched_product');
+
+		if (!empty($watched))
+		{
+			$query->where($db->qn('p.product_id') . ' IN (' . implode(',', $watched) . ')');	
+		}
+		
 		break;
 }
 
@@ -192,4 +203,4 @@ if ($productIds = $db->setQuery($query, 0, $count)->loadColumn())
 	}
 }
 
-require JModuleHelper::getLayoutPath('mod_redshop_products');
+require JModuleHelper::getLayoutPath('mod_redshop_products', $params->get('layout', 'default'));

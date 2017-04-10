@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -145,7 +145,7 @@ switch ($name)
 	case 'order_status':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_MAIL_TEMPLATE_TAG_ORDER_STATUS_HINT'); ?></b><br /><br />
-		{fullname} {order_id} {order_number} {order_date} {customer_note_lbl} {customer_note} {order_detail_link_lbl} {order_detail_link} {customer_id} {order_track_url}
+		{fullname} {email} {order_id} {order_number} {order_date} {customer_note_lbl} {customer_note} {order_detail_link_lbl} {order_detail_link} {customer_id} {order_track_url}
 		<?php
 		break;
 	case 'product_subscription':

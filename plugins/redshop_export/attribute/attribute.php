@@ -3,13 +3,14 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 use Redshop\Plugin\AbstractExportPlugin;
+use Joomla\Utilities\ArrayHelper;
 
 JLoader::import('redshop.library');
 
@@ -33,7 +34,27 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		// Prepare categories list.
+		$products = RedshopHelperProduct::getList();
+		$options    = array();
+
+		foreach ($products as $product)
+		{
+			$options[] = JHtml::_('select.option', $product->product_id, $product->product_name, 'value', 'text');
+		}
+
+		$configs[] = '<div class="form-group">
+			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_PRODUCTS') . '</label>
+			<div class="col-md-10">'
+			. JHtml::_(
+				'select.genericlist', $options, 'products[]',
+				'class="form-control" multiple placeholder="' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_PRODUCTS_PLACEHOLDER') . '"',
+				'value',
+				'text'
+			) . '</div>
+		</div>';
+
+		return implode('', $configs);
 	}
 
 	/**
@@ -93,7 +114,9 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 */
 	protected function getQuery()
 	{
-		$db = $this->db;
+		$input    = JFactory::getApplication()->input;
+		$products = $input->get('products', array(), 'ARRAY');
+		$db       = $this->db;
 
 		// Attributes query
 		$attributeQuery = $db->getQuery(true)
@@ -216,6 +239,14 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 				$db->qn('#__redshop_product_subattribute_color', 'sp') . ' ON ' . $db->qn('ap.property_id') . ' = ' . $db->qn('sp.subattribute_id')
 			)
 			->order($db->qn('product_number') . ',' . $db->qn('subattribute_color_ordering'));
+
+		if (!empty($products))
+		{
+			ArrayHelper::toInteger($products);
+			$attributeQuery->where($db->qn('p.product_id') . ' IN (' . implode(',', $products) . ')');
+			$propertiesQuery->where($db->qn('p.product_id') . ' IN (' . implode(',', $products) . ')');
+			$subPropertiesQuery->where($db->qn('p.product_id') . ' IN (' . implode(',', $products) . ')');
+		}
 
 		$attributeQuery->union($propertiesQuery)->union($subPropertiesQuery);
 
