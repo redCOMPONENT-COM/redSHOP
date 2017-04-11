@@ -291,6 +291,12 @@ class JFormFieldCategoryList extends JFormFieldList
 			array_unshift($options, JHtml::_('select.option', '0', JText::_('JGLOBAL_ROOT')));
 		}
 
+		if (!isset($this->element['show_root']))
+		{
+			unset($options[0]);
+			array_merge($options, array());
+		}
+
 		// Merge any additional options in the XML definition.
 		return array_merge(parent::getOptions(), $options);
 	}

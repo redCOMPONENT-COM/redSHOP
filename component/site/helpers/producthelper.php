@@ -2319,7 +2319,7 @@ class productHelper
 
 		if (count($categorylist) > 0)
 		{
-			$cItemid = $redhelper->getCategoryItemid($categorylist->category_id);
+			$cItemid = $redhelper->getCategoryItemid($categorylist->id);
 
 			if ($cItemid != "")
 			{
@@ -2330,8 +2330,8 @@ class productHelper
 				$tmpItemid = JRequest::getVar('Itemid');
 			}
 
-			$category_list[$i]['category_id']   = $categorylist->category_id;
-			$category_list[$i]['category_name'] = $categorylist->category_name;
+			$category_list[$i]['category_id']   = $categorylist->id;
+			$category_list[$i]['category_name'] = $categorylist->name;
 			$category_list[$i]['catItemid']     = $tmpItemid;
 		}
 
@@ -2787,7 +2787,7 @@ class productHelper
 	{
 		if ($result = RedshopHelperCategory::getCategoryById($id))
 		{
-			return $result->category_parent_id;
+			return $result->parent_id;
 		}
 
 		return null;

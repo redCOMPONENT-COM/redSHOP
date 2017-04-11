@@ -224,14 +224,13 @@ class RedshopModelCategory extends RedshopModel
 		$query = $db->getQuery(true);
 		$query->select(
 				array(
-					'DISTINCT(' . $db->qn('c.category_id') . ')',
+					'DISTINCT(' . $db->qn('c.id') . ')',
 					'c.*'
 				)
 			)
 			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('cx.category_child_id') . ' = ' . $db->qn('c.category_id'))
 			->where($db->qn('c.published') . ' = 1')
-			->where($db->qn('cx.category_parent_id') . ' = ' . (int) $this->_id);
+			->where($db->qn('c.parent_id') . ' = ' . (int) $this->_id);
 
 		if ($layout != 'categoryproduct')
 		{
@@ -638,16 +637,16 @@ class RedshopModelCategory extends RedshopModel
 
 		if ($this->_id)
 		{
-			$selected_template = $this->_maincat->category_template;
+			$selected_template = $this->_maincat->template;
 
 			if (isset($category_template) && $category_template != '')
 			{
 				$selected_template .= "," . $category_template;
 			}
 
-			if ($this->_maincat->category_more_template != "")
+			if ($this->_maincat->more_template != "")
 			{
-				$selected_template .= "," . $this->_maincat->category_more_template;
+				$selected_template .= "," . $this->_maincat->more_template;
 			}
 
 			$alltemplate = $redTemplate->getTemplate("category", $selected_template);
