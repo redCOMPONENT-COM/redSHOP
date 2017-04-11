@@ -157,14 +157,14 @@ if (!$slide)
 		if ($parentid != 0)
 		{
 			$categorylist     = $producthelper->getSection("category", $parentid);
-			$returntocategory_name = $categorylist->category_name;
+			$returntocategory_name = $categorylist->name;
 			$returncatlink    = JRoute::_(
 											"index.php?option=" . $this->option .
 											"&view=category&cid=" . $parentid .
 											'&manufacturer_id=' . $this->manufacturer_id .
 											"&Itemid=" . $this->itemid
 										);
-			$returntocategory = '<a href="' . $returncatlink . '">' . Redshop::getConfig()->get('DAFULT_RETURN_TO_CATEGORY_PREFIX') . '&nbsp;' . $categorylist->category_name . '</a>';
+			$returntocategory = '<a href="' . $returncatlink . '">' . Redshop::getConfig()->get('DAFULT_RETURN_TO_CATEGORY_PREFIX') . '&nbsp;' . $categorylist->name . '</a>';
 		}
 		else if (Redshop::getConfig()->get('DAFULT_RETURN_TO_CATEGORY_PREFIX'))
 		{
@@ -184,14 +184,14 @@ if (!$slide)
 
 	if (strpos($template_desc, '{category_main_description}') !== false)
 	{
-		$main_cat_desc = $Redconfiguration->maxchar($this->maincat->category_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
+		$main_cat_desc = $Redconfiguration->maxchar($this->maincat->description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
 		$template_desc = str_replace("{category_main_description}", $main_cat_desc, $template_desc);
 	}
 
 	if (strpos($template_desc, '{category_main_short_desc}') !== false)
 	{
 		$main_cat_s_desc = $Redconfiguration->maxchar(
-														$this->maincat->category_short_description,
+														$this->maincat->short_description,
 														Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'),
 														Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
 													);
@@ -203,7 +203,7 @@ if (!$slide)
 		$template_desc = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $template_desc);
 	}
 
-	$main_cat_name = $Redconfiguration->maxchar($this->maincat->category_name, Redshop::getConfig()->get('CATEGORY_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_TITLE_END_SUFFIX'));
+	$main_cat_name = $Redconfiguration->maxchar($this->maincat->name, Redshop::getConfig()->get('CATEGORY_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_TITLE_END_SUFFIX'));
 	$template_desc = str_replace("{category_main_name}", $main_cat_name, $template_desc);
 
 	if (strpos($template_desc, '{category_main_thumb_image_2}') !== false)
@@ -317,7 +317,7 @@ if (!$slide)
 			$row = $this->detail[$i];
 
 			// Filter categories based on Shopper group category ACL
-			$checkcid = $objhelper->checkPortalCategoryPermission($row->category_id);
+			$checkcid = $objhelper->checkPortalCategoryPermission($row->id);
 			$sgportal = $objhelper->getShopperGroupPortal();
 			$portal   = 0;
 
@@ -333,7 +333,7 @@ if (!$slide)
 
 			$data_add = $subcat_template;
 
-			$cItemid = $objhelper->getCategoryItemid($row->category_id);
+			$cItemid = $objhelper->getCategoryItemid($row->id);
 
 			if ($cItemid != "")
 			{
@@ -346,7 +346,7 @@ if (!$slide)
 
 			$link = JRoute::_(
 								'index.php?option=' . $this->option .
-								'&view=category&cid=' . $row->category_id .
+								'&view=category&cid=' . $row->id .
 								'&manufacturer_id=' . $this->manufacturer_id .
 								'&layout=detail&Itemid=' . $tmpItemid
 							);
@@ -386,7 +386,7 @@ if (!$slide)
 
 			if (strpos($data_add, '{category_name}') !== false)
 			{
-				$cat_name = '<a href="' . $link . '" ' . $title . '>' . $row->category_name . '</a>';
+				$cat_name = '<a href="' . $link . '" ' . $title . '>' . $row->name . '</a>';
 				$data_add = str_replace("{category_name}", $cat_name, $data_add);
 			}
 
@@ -398,19 +398,19 @@ if (!$slide)
 
 			if (strpos($data_add, '{category_description}') !== false)
 			{
-				$cat_desc = $Redconfiguration->maxchar($row->category_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
+				$cat_desc = $Redconfiguration->maxchar($row->description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
 				$data_add = str_replace("{category_description}", $cat_desc, $data_add);
 			}
 
 			if (strpos($data_add, '{category_short_desc}') !== false)
 			{
-				$cat_s_desc = $Redconfiguration->maxchar($row->category_short_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
+				$cat_s_desc = $Redconfiguration->maxchar($row->short_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
 				$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
 			}
 
 			if (strpos($data_add, '{category_total_product}') !== false)
 			{
-				$totalprd = $producthelper->getProductCategory($row->category_id);
+				$totalprd = $producthelper->getProductCategory($row->id);
 				$data_add = str_replace("{category_total_product}", count($totalprd), $data_add);
 				$data_add = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $data_add);
 			}
@@ -421,7 +421,7 @@ if (!$slide)
 			 */
 			if ($extraFieldsForCurrentTemplate)
 			{
-				$data_add = $extraField->extra_field_display(2, $row->category_id, $extraFieldsForCurrentTemplate, $data_add);
+				$data_add = $extraField->extra_field_display(2, $row->id, $extraFieldsForCurrentTemplate, $data_add);
 			}
 
 			$cat_detail .= $data_add;

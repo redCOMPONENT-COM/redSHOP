@@ -16,6 +16,7 @@
 			table-sortable="1"
             table-inline="1"
             table-edit-link="1"
+            table-width="20%"
 			/>
 		<field
 			name="parent_id"
@@ -24,6 +25,7 @@
 			description="COM_REDSHOP_TOOLTIP_CATEGORY_PARENT"
 			parent="1"
 			table-hide="1"
+			show_root="1"
 			>
 		</field>
 		<field
@@ -75,6 +77,7 @@
 			description="COM_REDSHOP_DESCRIPTION"
 			default=""
 			table-sortable="1"
+			table-width="50%"
 			/>
 		<field
 			name="short_description"

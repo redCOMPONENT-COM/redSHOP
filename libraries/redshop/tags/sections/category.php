@@ -22,7 +22,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * @since  2.1
 	 */
 	public $tags = array(
-		'{category_name}',
+		'{name}',
 		'{category_short_description}',
 		'{category_description}',
 		'{category_thumb_image}',
@@ -39,6 +39,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		'{category_short_desc}' => '{category_short_description}',
 		'{categoryshortdesc}'   => '{category_short_description}',
 		'{categorydesc}'        => '{category_description}',
+		'{category_name}' => '{name}'
 	);
 
 	/**
@@ -136,7 +137,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			// Make this this tag also have object property to use
 			if (property_exists($category, $tag))
 			{
-				$template = str_replace('{' . $alias . '}', $category->{$tag}, $template);
+				$template = str_replace($alias, $category->{$tag}, $template);
 			}
 		}
 
@@ -192,13 +193,13 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 		// Default with JPATH_ROOT . '/components/com_redshop/assets/images/'
 		$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
-		$title       = " title='" . $category->category_name . "' ";
-		$alt         = " alt='" . $category->category_name . "' ";
+		$title       = " title='" . $category->name . "' ";
+		$alt         = " alt='" . $category->name . "' ";
 		$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 		$linkimage   = $product_img;
 
 		// Try to get category Itemid
-		$cItemid = $objhelper->getCategoryItemid($category->category_id);
+		$cItemid = $objhelper->getCategoryItemid($category->id);
 
 		if ($cItemid != "")
 		{
@@ -212,7 +213,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		// Generate category link
 		$link = JRoute::_(
 			'index.php?option=' . $jinput->get('option', 'com_redshop') .
-			'&view=category&cid=' . $category->category_id .
+			'&view=category&cid=' . $category->id .
 			'&manufacturer_id=' . $manufacturerId .
 			'&layout=detail&Itemid=' . $tmpItemid
 		);

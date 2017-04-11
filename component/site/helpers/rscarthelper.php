@@ -1563,7 +1563,7 @@ class rsCarthelper
 
 			if (count($res) > 0)
 			{
-				$cname = $res->category_name;
+				$cname = $res->name;
 				$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
 				$category_path = "<a href='" . $clink . "'>" . $cname . "</a>";
 			}
