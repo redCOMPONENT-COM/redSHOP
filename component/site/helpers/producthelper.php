@@ -4346,6 +4346,8 @@ class productHelper
 				$data_add = str_replace("{selected_accessory_price}", "", $data_add);
 			}
 
+			// New tags replacement for accessory template section
+			$data_add = RedshopTagsReplacer::_('accessory', $data_add, array('accessory' => $accessory));
 			$data_add = str_replace("{accessory_product_start}", "", $data_add);
 			$data_add = str_replace("{accessory_product_end}", "", $data_add);
 		}
