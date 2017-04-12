@@ -121,7 +121,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 		$data_add .= $middletemplate_desc;
 
-		$cItemid = $objhelper->getCategoryItemid($row->category_id);
+		$cItemid = $objhelper->getCategoryItemid($row->id);
 
 		if ($cItemid != "")
 		{

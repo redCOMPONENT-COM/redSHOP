@@ -8129,54 +8129,66 @@ class productHelper
 
 	public function getCategoryCompareTemplate($cid)
 	{
-		$query = "SELECT t.template_id  FROM " . $this->_table_prefix . "template  AS t "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.compare_template_id=t.template_id "
-			. "WHERE c.category_id = " . (int) $cid . " "
-			. "AND t.published=1";
-		$this->_db->setQuery($query);
-		$tmp_name = $this->_db->loadResult();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('t.template_id'))
+			->from($db->qn('#__redshop_tempplate', 't'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('t.template_id') . ' = ' . $db->qn('c.compare_template'))
+			->where($db->qn('c.id') . ' = ' . $db->q((int) $cid))
+			->where($db->qn('t.published') . ' = 1');
 
-		if ($tmp_name == '')
+		$tmpName = $db->setQuery($query)->loadResult();
+
+		if ($tmpName == '')
 		{
-			$tmp_name = Redshop::getConfig()->get('COMPARE_TEMPLATE_ID');
+			$tmpName = Redshop::getConfig()->get('COMPARE_TEMPLATE_ID');
 		}
 
-		return $tmp_name;
+		return $tmpName;
 	}
 
-	public function getProductCaterories($product_id, $displaylink = 0)
+	public function getProductCaterories($productId, $displayLink = 0)
 	{
 		$prodCatsObjectArray = array();
-		$query               = "SELECT  ct.category_name, ct.category_id FROM " . $this->_table_prefix . "category AS ct "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pct ON ct.category_id=pct.category_id "
-			. "WHERE pct.product_id = " . (int) $product_id . " "
-			. "AND ct.published=1 ";
-		$this->_db->setQuery($query);
-		$rows = $this->_db->loadObjectList();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('c.name'))
+			->select($db->qn('c.id'))
+			->from($db->qn('#__redshop_category'))
+			->leftjoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $productId))
+			->where($db->qn('c.published') . ' = 1');
+
+		$rows = $db->setQuery($query)->loadObjectList();
 
 		for ($i = 0, $in = count($rows); $i < $in; $i++)
 		{
 			$ppCat = $pCat = '';
 			$row   = $rows[$i];
 
-			$query = "SELECT cx.category_parent_id,c.category_name FROM " . $this->_table_prefix . "category_xref AS cx "
-				. "LEFT JOIN " . $this->_table_prefix . "category AS c ON cx.category_parent_id=c.category_id "
-				. "WHERE cx.category_child_id=" . (int) $row->category_id;
-			$this->_db->setQuery($query);
-			$parentCat = $this->_db->loadObject();
+			$query = $db->getQuery(true)
+				->select($db->qn('parent_id'))
+				->select($db->qn('name'))
+				->from($db->qn('#__redshop_category'))
+				->where($db->qn('id') . ' = ' . $db->q((int) $row->id));
 
-			if (count($parentCat) > 0 && $parentCat->category_parent_id)
+			$parentCat = $db->setQuery($query)->loadObject();
+
+			if (count($parentCat) > 0 && $parentCat->parent_id)
 			{
-				$pCat  = $parentCat->category_name;
-				$query = "SELECT cx.category_parent_id,c.category_name FROM " . $this->_table_prefix . "category_xref AS cx "
-					. "LEFT JOIN " . $this->_table_prefix . "category AS c ON cx.category_parent_id=c.category_id "
-					. "WHERE cx.category_child_id = " . (int) $parentCat->category_parent_id;
-				$this->_db->setQuery($query);
-				$pparentCat = $this->_db->loadObject();
+				$pCat  = $parentCat->name;
 
-				if (count($pparentCat) > 0 && $pparentCat->category_parent_id)
+				$query = $db->getQuery(true)
+					->select($db->qn('parent_id'))
+					->select($db->qn('name'))
+					->from($db->qn('#__redshop_category'))
+					->where($db->qn('id') . ' = ' . $db->q((int) $parentCat->parent_id));
+
+				$pparentCat = $db->setQuery($query)->loadObject();
+
+				if (count($pparentCat) > 0 && $pparentCat->parent_id)
 				{
-					$ppCat = $pparentCat->category_name;
+					$ppCat = $pparentCat->name;
 				}
 			}
 
@@ -8184,10 +8196,10 @@ class productHelper
 			$pspacediv = (isset($ppCat) && $ppCat) ? " > " : "";
 			$catlink   = '';
 
-			if ($displaylink)
+			if ($displayLink)
 			{
 				$redhelper = redhelper::getInstance();
-				$catItem   = $redhelper->getCategoryItemid($row->category_id);
+				$catItem   = $redhelper->getCategoryItemid($row->id);
 
 				if(!(boolean) $catItem)
 				{
@@ -8195,11 +8207,11 @@ class productHelper
 				}
 
 				$catlink   = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
-					. $row->category_id . '&Itemid=' . $catItem);
+					. $row->id . '&Itemid=' . $catItem);
 			}
 
 			$prodCatsObject        = new stdClass;
-			$prodCatsObject->name  = $ppCat . $pspacediv . $pCat . $spacediv . $row->category_name;
+			$prodCatsObject->name  = $ppCat . $pspacediv . $pCat . $spacediv . $row->name;
 			$prodCatsObject->link  = $catlink;
 			$prodCatsObjectArray[] = $prodCatsObject;
 		}
@@ -9408,13 +9420,17 @@ class productHelper
 
 	public function getCategoryNameByProductId($pid)
 	{
-		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pcx.category_id "
-			. "WHERE pcx.product_id=" . (int) $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('c.name'))
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
+			->where($db->qn('c.name') . ' IS NOT NULL')
+			->order($db->qn('c.id') . ' ASC')
+			->setLimit(0, 1);
 
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
+		return $db->setQuery($query)->loadResult();
 
 	}
 

@@ -231,7 +231,7 @@ class RedshopViewCategory extends RedshopView
 					}
 					else
 					{
-						$document->setMetaData('keywords', $maincat->category_name);
+						$document->setMetaData('keywords', $maincat->name);
 					}
 				}
 			}

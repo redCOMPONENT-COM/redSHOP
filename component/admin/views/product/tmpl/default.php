@@ -324,7 +324,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			<?php $listedincats = $model->listedincats($row->product_id);
 			for ($j = 0, $jn = count($listedincats); $j < $jn; $j++)
 			{
-				echo $cat = $listedincats[$j]->category_name . "<br />";
+				echo $cat = $listedincats[$j]->name . "<br />";
 			}
 			?>
 		</td>

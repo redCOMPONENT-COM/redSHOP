@@ -245,7 +245,7 @@ class RedshopModelProduct extends RedshopModel
 
 		if ($category_id)
 		{
-			$where .= " AND c.category_id = '" . $category_id . "'  ";
+			$where .= " AND c.id = '" . $category_id . "'  ";
 		}
 
 		if ($where == '' && $search_field != 'pa.property_number')
@@ -265,7 +265,7 @@ class RedshopModelProduct extends RedshopModel
 			p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ",
 			x.ordering , x.category_id "
 			. " FROM #__redshop_product AS p " . "LEFT JOIN #__redshop_product_category_xref
-			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.category_id ";
+			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.id ";
 
 			if ($search_field == 'pa.property_number' && $keyword != '')
 			{
@@ -344,11 +344,14 @@ class RedshopModelProduct extends RedshopModel
 
 	public function listedincats($pid)
 	{
-		$query = 'SELECT c.category_name FROM #__redshop_product_category_xref as ref, #__redshop_category as c WHERE product_id ="' . $pid
-			. '" AND ref.category_id=c.category_id ORDER BY c.category_name';
-		$this->_db->setQuery($query);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('name'))
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->order($db->qn('c.name'));
 
-		return $this->_db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectlist();
 	}
 
 	public function product_template($template_id, $product_id, $section)
@@ -457,11 +460,17 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		$this->_categorytreelist = array();
-		$q = "SELECT cx.category_child_id AS id, cx.category_parent_id AS parent_id, c.category_name AS title "
-			. "FROM #__redshop_category AS c, #__redshop_category_xref AS cx "
-			. "WHERE c.category_id=cx.category_child_id " . "ORDER BY ordering ";
-		$this->_db->setQuery($q);
-		$rows = $this->_db->loadObjectList();
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('id'))
+			->select($db->qn('parent_id'))
+			->select($db->qn('name', 'title'))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('published') . ' = 1')
+			->order($db->qn('ordering'));
+
+		$rows = $db->setQuery($query)->loadObjectList();
 
 		// Establish the hierarchy of the menu
 		$children = array();

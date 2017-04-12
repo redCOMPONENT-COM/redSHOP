@@ -352,8 +352,8 @@ if (!$slide)
 							);
 
 			$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
-			$title       = " title='" . $row->category_name . "' ";
-			$alt         = " alt='" . $row->category_name . "' ";
+			$title       = " title='" . $row->name . "' ";
+			$alt         = " alt='" . $row->name . "' ";
 			$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 			$linkimage   = $product_img;
 
