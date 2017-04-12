@@ -991,15 +991,7 @@ class RedshopModelInstall extends RedshopModelList
 	public function processUpdateCategory()
 	{
 		$db = JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-			->select($db->qn('id'))
-			->from($db->qn('#__redshop_category'))
-			->where($db->qn('name') . ' = ' . $db->q('ROOT'))
-			->where($db->qn('parent_id') . ' = 0')
-			->where($db->qn('level') . ' = 0');
-
-		$check = $db->setQuery($query)->loadResult();
+		$check = RedshopHelperCategory::getRootId();
 
 		if (!empty($check))
 		{

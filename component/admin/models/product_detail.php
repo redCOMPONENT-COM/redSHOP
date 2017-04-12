@@ -1749,12 +1749,15 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function catin_sefurl()
 	{
-		$query = 'SELECT c.category_id as value, c.category_name as text
-				  FROM ' . $this->table_prefix . 'product_category_xref as pcf, ' . $this->table_prefix . 'category as c
-				  WHERE pcf.product_id="' . $this->id . '" AND pcf.category_id=c.category_id';
-		$this->_db->setQuery($query);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $this->id));
 
-		return $this->_db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectlist();
 	}
 
 	/**

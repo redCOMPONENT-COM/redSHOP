@@ -197,12 +197,12 @@ class RedshopModelMedia_detail extends RedshopModel
 			case 'category':
 				$query->select(
 					array(
-						$db->qn('category_id', 'id'),
-						$db->qn('category_name', 'name')
+						$db->qn('id'),
+						$db->qn('name')
 					)
 				)
 					->from($db->qn('#__redshop_category'))
-					->where($db->qn('category_id') . $search);
+					->where($db->qn('id') . $search);
 				break;
 			case 'property':
 				$query->select(

@@ -126,15 +126,15 @@ class RedshopModelWrapper_detail extends RedshopModel
 		return $list;
 	}
 
-	public function getCategoryName($categoryid)
+	public function getCategoryName($categoryId)
 	{
-		$q = 'SELECT category_name '
-			. 'FROM ' . $this->_table_prefix . 'category '
-			. 'WHERE category_id = ' . $categoryid;
-		$this->_db->setQuery($q);
-		$name = $this->_db->loadResult();
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('name'))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('id') . ' = ' . $db->q((int) $categoryId));
 
-		return $name;
+		return $db->setQuery($query)->loadResult();
 	}
 
 	public function getCategoryInfo($categoryid = 0)

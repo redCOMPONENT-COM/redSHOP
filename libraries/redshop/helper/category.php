@@ -136,7 +136,7 @@ class RedshopHelperCategory
 
 		if ($view == 'category')
 		{
-			$filter_order = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering'));
+			$filter_order = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
 			$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 			$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
 		}
@@ -481,5 +481,25 @@ class RedshopHelperCategory
 		}
 
 		return $return;
+	}
+
+	/**
+	 * get Root ID
+	 *
+	 * @return integer
+	 *
+	 * @since  2.0.5
+	 */
+	public static function getRootId()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('id'))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('name') . ' = ' . $db->q('ROOT'))
+			->where($db->qn('parent_id') . ' = 0')
+			->where($db->qn('level') . ' = 0');
+
+		return $db->setQuery($query)->loadResult();
 	}
 }

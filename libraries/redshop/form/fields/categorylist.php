@@ -293,6 +293,12 @@ class JFormFieldCategoryList extends JFormFieldList
 
 		if (!isset($this->element['show_root']))
 		{
+			$options[0]->value = '';
+			$options[0]->text = JText::_('COM_REDSHOP_SELECT_CATEGORY');
+		}
+
+		if (isset($this->element['remove_select']))
+		{
 			unset($options[0]);
 			array_merge($options, array());
 		}

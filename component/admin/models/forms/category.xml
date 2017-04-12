@@ -95,7 +95,8 @@
 			label-class="radio-inline"
 			label="COM_REDSHOP_PUBLISHED"
 			description="COM_REDSHOP_PUBLISHED"
-			table-hide="1">
+			table-sortable="1"
+            table-width="5%">
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 		</field>

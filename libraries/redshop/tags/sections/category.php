@@ -36,10 +36,12 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * @since  2.1
 	 */
 	public $tags_alias = array(
-		'{category_short_desc}' => '{category_short_description}',
-		'{categoryshortdesc}'   => '{category_short_description}',
-		'{categorydesc}'        => '{category_description}',
-		'{category_name}' => '{name}'
+		'{category_short_desc}'        => '{category_short_description}',
+		'{categoryshortdesc}'          => '{category_short_description}',
+		'{categorydesc}'               => '{category_description}',
+		'{category_name}'              => '{name}',
+		'{category_short_description}' => '{short_description}',
+		'{category_description}'       => '{description}',
 	);
 
 	/**
