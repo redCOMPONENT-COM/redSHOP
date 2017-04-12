@@ -1838,6 +1838,9 @@ class rsCarthelper
 				$cart_mdata = str_replace("{download_date_list}", "", $cart_mdata);
 			}
 
+			// Replace in case {product_attribute_calculated_price}
+            $cart_mdata = str_replace("{product_attribute_calculated_price}", "", $cart_mdata);
+
 			// Process the product plugin for cart item
 			$dispatcher->trigger('onOrderItemDisplay', array(& $cart_mdata, &$rowitem, $i));
 
