@@ -2894,8 +2894,10 @@ class rsCarthelper
 		$search  [] = "{referral_code}";
 		$replace [] = $row->referral_code;
 
+        RedshopHelperPayment::loadLanguages();
+
 		$search  [] = "{payment_method}";
-		$replace [] = JText::_($paymentmethod->order_payment_name);
+		$replace [] = JText::_("$paymentmethod->order_payment_name");
 
 		$txtextra_info = '';
 
