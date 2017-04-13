@@ -365,6 +365,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 */
 	public function updateCategory()
 	{
+		$app = JFactory::getApplication();
 		$model = $this->getModel();
 		
 		if (!$model->processUpdateCategory())
