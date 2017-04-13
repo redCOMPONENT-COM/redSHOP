@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -565,7 +565,7 @@ class RedshopModelProduct extends RedshopModel
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function saveDiscountPrices($productIds = array(), $discountPrices = array())
 	{
@@ -599,7 +599,7 @@ class RedshopModelProduct extends RedshopModel
 
 		$query = $db->getQuery(true)
 			->update($db->qn('#__redshop_product'))
-			->set($db->qn('discount_price') . ' = CASE ' . implode(' ', $case) . ' ELSE ' . $db->qn('product_price') . ' END');
+			->set($db->qn('discount_price') . ' = CASE ' . implode(' ', $case) . ' ELSE NULL END');
 
 		return $db->setQuery($query)->execute();
 	}
@@ -612,7 +612,7 @@ class RedshopModelProduct extends RedshopModel
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function savePrices($productIds = array(), $prices = array())
 	{
