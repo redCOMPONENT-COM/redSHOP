@@ -94,17 +94,28 @@ class RedshopViewCategories extends RedshopViewList
 		$isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
 
-		if ($config['dataCol'] == 'name' && $config['inline'] === true && !$isCheckedOut && $inlineEditEnable)
+		if ($config['dataCol'] == 'name')
 		{
-			$value   = $row->{$config['dataCol']};
-			$display = $value;
-
-			if ($config['edit_link'])
+			if ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable)
 			{
-				$display = str_repeat('<span class="gi">|&mdash;</span>', $row->level - 1) . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $value . '</a>';
-			}
+				$value   = $row->{$config['dataCol']};
+				$display = $value;
 
-			return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
+				if ($config['edit_link'])
+				{
+					$display = str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $value . '</a>';
+				}
+
+				return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
+			}
+			else
+			{
+				return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $row->{$config['dataCol']} . '</a>';
+			}
+		}
+		elseif ($config['dataCol'] == 'description')
+		{
+			return JHtml::_('redshopgrid.slidetext', strip_tags($row->description));
 		}
 
 		$row->product = $this->model->getProducts($row->id);
