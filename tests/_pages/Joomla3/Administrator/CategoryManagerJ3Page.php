@@ -18,7 +18,7 @@ class CategoryManagerJ3Page
 	// Include url of current page
 	public static $URL = '/administrator/index.php?option=com_redshop&view=categories';
 
-	public static $categoryName = "#jfrom_name";
+	public static $categoryName = "#jform_name";
 
 	public static $categoryFilter = ['id' => 'filter_search'];
 
