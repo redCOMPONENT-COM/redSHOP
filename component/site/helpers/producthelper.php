@@ -1867,7 +1867,7 @@ class productHelper
 			$product_subtotal = $cart['product_subtotal'] + $cart['shipping'];
 
 			// Discount total type
-			if ($discount->discount_type == 0)
+			if (isset($discount->discount_type) && $discount->discount_type == 0)
 			{
 				// 100% discount
 				if ($discount->discount_amount > $product_subtotal)
@@ -1884,7 +1884,7 @@ class productHelper
 			// Disocunt percentage price
 			else
 			{
-				$discount_percent = $discount->discount_amount;
+				$discount_percent = isset($discount->discount_amount)? $discount->discount_amount: 0;
 			}
 
 			// Apply even products already on discount
