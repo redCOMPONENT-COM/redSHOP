@@ -8,7 +8,6 @@ ALTER TABLE `#__redshop_category` CHANGE `published` `published` TINYINT(4) NOT 
 ALTER TABLE `#__redshop_category` CHANGE `category_template` `template` INT(11) NOT NULL DEFAULT 0;
 ALTER TABLE `#__redshop_category` CHANGE `category_more_template` `more_template` VARCHAR(255) NOT NULL DEFAULT '';
 ALTER TABLE `#__redshop_category` CHANGE `category_pdate` `category_pdate` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
-ALTER TABLE `#__redshop_category` ADD INDEX `#__rs_idx_category_published` (`published` ASC);
 
 ALTER TABLE `#__redshop_category` ADD `alias` VARCHAR(400) NOT NULL DEFAULT '' AFTER `append_to_global_seo`;
 ALTER TABLE `#__redshop_category` ADD `path` VARCHAR(255) NOT NULL DEFAULT '' AFTER `alias`;
@@ -26,5 +25,10 @@ ALTER TABLE `#__redshop_category` ADD `modified_by` INT(11) NULL DEFAULT NULL AF
 ALTER TABLE `#__redshop_category` ADD `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `modified_by`;
 ALTER TABLE `#__redshop_category` ADD `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `modified_date`;
 ALTER TABLE `#__redshop_category` ADD `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `publish_up`;
+
+ALTER TABLE `#__redshop_category` ADD INDEX `#__rs_idx_category_published` (`published` ASC);
+ALTER TABLE `#__redshop_category` ADD INDEX `#__rs_idx_left_right` (`lft` ASC, `rgt` ASC);
+ALTER TABLE `#__redshop_category` ADD INDEX `#__rs_idx_alias` (`alias` ASC);
+ALTER TABLE `#__redshop_category` ADD INDEX `#__rs_idx_path` (`path` ASC);
 
 SET FOREIGN_KEY_CHECKS = 1;

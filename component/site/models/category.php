@@ -237,7 +237,7 @@ class RedshopModelCategory extends RedshopModel
 		}
 		else
 		{
-			$query->where($db->qn('c.parent_id') . ' = ' . (int) $this->getRootId());	
+			$query->where($db->qn('c.parent_id') . ' = ' . (int) RedshopHelperCategory::getRootId());	
 		}
 
 		if ($layout != 'categoryproduct')
@@ -900,18 +900,5 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		return $finder_condition;
-	}
-
-	public function getRootId()
-	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('id'))
-			->from($db->qn('#__redshop_category'))
-			->where($db->qn('name') . ' = ' . $db->q('ROOT'))
-			->where($db->qn('parent_id') . ' = 0')
-			->where($db->qn('level') . ' = 0');
-
-		return $db->setQuery($query)->loadResult();
 	}
 }

@@ -168,6 +168,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category` (
   `compare_template_id` VARCHAR(255) NOT NULL,
   `append_to_global_seo` ENUM('append', 'prepend', 'replace') NOT NULL DEFAULT 'append',
   `alias` VARCHAR(400) NOT NULL,
+  `path` VARCHAR(255) NOT NULL,
   `asset_id` INT(11) UNSIGNED NULL COMMENT 'FK to the #__assets table.',
   `parent_id` INT(11) NULL DEFAULT 0,
   `level` INT(11) UNSIGNED NOT NULL DEFAULT 0,
@@ -182,7 +183,10 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category` (
   `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
-  INDEX `#__rs_idx_category_published` (`published` ASC))
+  INDEX `#__rs_idx_category_published` (`published` ASC),
+  INDEX `#__rs_idx_left_right` (`lft` ASC, `rgt` ASC),
+  INDEX `#__rs_idx_alias` (`alias` ASC),
+  INDEX `#__rs_idx_path` (`path` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Category';
