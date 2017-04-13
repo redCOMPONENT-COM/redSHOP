@@ -692,7 +692,7 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'sample_request') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=productstags',
+				'index.php?option=com_redshop&view=producttags',
 				'COM_REDSHOP_TAGS_LISTING',
 				(self::$view == 'producttags') ? true : false
 			)
