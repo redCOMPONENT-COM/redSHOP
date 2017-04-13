@@ -29,8 +29,6 @@ $stockrooms = $model->StockRoomList();
 
     // create tr
     function addDiscountElement() {
-
-
         var getTABLE = document.getElementById('discount_calc_table');
         var newTR = document.createElement('tr');
         var newTD0 = document.createElement('td');
@@ -316,17 +314,12 @@ $stockrooms = $model->StockRoomList();
 										<?php
 									}
 									?>
-
                                 </table>
-
                             </fieldset>
-
                         </td>
                     </tr>
-
                 </table>
             </div>
         </div>
     </div>
 </div>
-
