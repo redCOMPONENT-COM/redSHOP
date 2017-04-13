@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-class RedshopModelProducts extends RedshopModel
+class RedshopModelProducts extends RedshopModelList
 {
 	public $_data = null;
 
@@ -24,7 +24,7 @@ class RedshopModelProducts extends RedshopModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
 	 */
@@ -49,7 +49,7 @@ class RedshopModelProducts extends RedshopModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
@@ -69,8 +69,8 @@ class RedshopModelProducts extends RedshopModel
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -93,11 +93,11 @@ class RedshopModelProducts extends RedshopModel
 		parent::populateState($ordering, $direction);
 	}
 
-	public function getData()
+	public function getItems()
 	{
 		if (empty($this->_data))
 		{
-			$this->_data = parent::getData();
+			$this->_data = parent::getItems();
 
 			// Product parent - child - format generation
 			$products = $this->_data;
@@ -606,8 +606,8 @@ class RedshopModelProducts extends RedshopModel
 	/**
 	 * Method for save discount for list of product Ids
 	 *
-	 * @param   array  $productIds  Product Id
-	 * @param   array  $prices      List of discount price.
+	 * @param   array $productIds Product Id
+	 * @param   array $prices     List of discount price.
 	 *
 	 * @return  bool
 	 *

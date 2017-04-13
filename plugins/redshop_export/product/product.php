@@ -166,14 +166,14 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			->select(
 				'(SELECT GROUP_CONCAT(' . $db->qn('pcx.category_id') . ' SEPARATOR ' . $db->quote('###')
 				. ') FROM ' . $db->qn('#__redshop_product_category_xref', 'pcx')
-				. ' WHERE ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id')
+				. ' WHERE ' . $db->qn('p.id') . ' = ' . $db->qn('pcx.product_id')
 				. ' ORDER BY ' . $db->qn('pcx.category_id') . ') AS ' . $db->qn('category_id')
 			)
 			->select(
 				'(SELECT GROUP_CONCAT(' . $db->qn('c.category_name') . ' SEPARATOR ' . $db->quote('###')
 				. ') FROM ' . $db->qn('#__redshop_product_category_xref', 'pcx')
 				. ' INNER JOIN ' . $db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('pcx.category_id')
-				. ' WHERE ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id')
+				. ' WHERE ' . $db->qn('p.id') . ' = ' . $db->qn('pcx.product_id')
 				. ' ORDER BY ' . $db->qn('pcx.category_id') . ') AS ' . $db->qn('category_name')
 			)
 			->select(
@@ -181,12 +181,12 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 				. $db->qn('p2.product_number') . ',' . $db->quote('~') . ',' . $db->qn('pa.accessory_price') . ')'
 				. ' SEPARATOR ' . $db->quote('###') . ') FROM ' . $db->qn('#__redshop_product_accessory', 'pa')
 				. ' LEFT JOIN ' . $db->qn('#__redshop_product', 'p2') . ' ON ' . $db->qn('p2.product_id') . ' = ' . $db->qn('pa.child_product_id')
-				. ' WHERE ' . $db->qn('pa.product_id') . ' = ' . $db->qn('p.product_id') . ') AS ' . $db->qn('accessory_products')
+				. ' WHERE ' . $db->qn('pa.product_id') . ' = ' . $db->qn('p.id') . ') AS ' . $db->qn('accessory_products')
 			)
 			->from($db->qn('#__redshop_product', 'p'))
-			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('p.id') . ' = ' . $db->qn('pc.product_id'))
 			->group($db->qn('p.product_id'))
-			->order($db->qn('p.product_id') . ' asc');
+			->order($db->qn('p.id') . ' asc');
 
 		$medias = array(
 			'images'   => array('images', 'images_order', 'images_alternattext'),

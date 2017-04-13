@@ -106,9 +106,9 @@ class RedshopModelAttributes extends RedshopModelList
 		// Initialize variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->select('a.*, p.product_name')
+				->select('a.*, p.title')
 				->from($db->qn('#__redshop_product_attribute', 'a'))
-				->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('a.product_id') . ' = ' . $db->qn('p.product_id'));
+				->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('a.product_id') . ' = ' . $db->qn('p.id'));
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');

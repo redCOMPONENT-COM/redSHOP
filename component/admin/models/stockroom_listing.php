@@ -171,12 +171,12 @@ class RedshopModelStockroom_Listing extends RedshopModelList
 		else
 		{
 			$query->from($db->qn('#__redshop_product', 'p'))
-				->group($db->qn('p.product_id'));
+				->group($db->qn('p.id'));
 		}
 
 		$query->leftjoin(
 				$db->qn('#__redshop_product_category_xref', 'pcx')
-				. ' ON ' . $db->qn('pcx.product_id') . '=' . $db->qn('p.product_id')
+				. ' ON ' . $db->qn('pcx.product_id') . '=' . $db->qn('p.id')
 			);
 
 		// Build ordering query

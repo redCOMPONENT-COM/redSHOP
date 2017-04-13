@@ -708,7 +708,7 @@ class RedshopModelCategory extends RedshopModel
 
 		if ($cid != 0)
 		{
-			$query .= "LEFT JOIN #__redshop_product_category_xref AS pcx ON p.product_id  = pcx.product_id ";
+			$query .= "LEFT JOIN #__redshop_product_category_xref AS pcx ON p.id  = pcx.product_id ";
 			$and .= " AND pcx.category_id = " . (int) $cid . " ";
 		}
 

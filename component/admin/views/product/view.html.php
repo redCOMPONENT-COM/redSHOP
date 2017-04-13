@@ -85,7 +85,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::_('COM_REDSHOP_PRODUCT_BEING_EDITED');
-			$app->redirect('index.php?option=com_redshop&view=product', $msg);
+			$app->redirect('index.php?option=com_redshop&view=products', $msg);
 		}
 
 		// Check redproductfinder is installed

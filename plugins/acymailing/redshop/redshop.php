@@ -54,16 +54,16 @@ class plgAcymailingRedshop extends JPlugin
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('p.product_id, p.product_name, p.product_number, c.category_id, c.category_name')
+			->select('p.id, p.title, p.number, c.category_id, c.category_name')
 			->from($db->qn('#__redshop_product', 'p'))
-			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON p.product_id = pc.product_id')
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON p.id = pc.product_id')
 			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON pc.category_id = c.category_id')
 			->group('p.product_id')
 			->order($pageInfo->filter->order->value . ' ' . $pageInfo->filter->order->dir);
 
 		if (!empty($pageInfo->search))
 		{
-			$searchFields = array('p.product_name', 'p.product_id', 'p.product_number');
+			$searchFields = array('p.product_name', 'p.id', 'p.product_number');
 			$searchVal = '\'%' . acymailing_getEscaped($pageInfo->search, true) . '%\'';
 			$query->where(implode(" LIKE $searchVal OR ", $searchFields) . " LIKE $searchVal");
 		}

@@ -9,12 +9,8 @@
 
 defined('_JEXEC') or die;
 
-class RedshopControllerProducts extends RedshopController
+class RedshopControllerProducts extends RedshopControllerAdmin
 {
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
 
 	public function ins_product()
 	{
@@ -98,7 +94,7 @@ class RedshopControllerProducts extends RedshopController
 			$query = "SELECT ap.*, a.attribute_name, p.product_id, p.accountgroup_id "
 				. "FROM #__redshop_product_attribute_property AS ap "
 				. "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
-				. "LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id "
+				. "LEFT JOIN #__redshop_product AS p ON p.id=a.product_id "
 				. "WHERE p.published=1 "
 				. "AND p.product_id!='' "
 				. "AND ap.property_number!='' "
@@ -137,10 +133,11 @@ class RedshopControllerProducts extends RedshopController
 				$responcemsg .= "</div>";
 			}
 
+			// @TODO move query to model
 			$query = "SELECT sp.*, ap.property_id, ap.property_name, p.product_id, p.accountgroup_id  FROM #__redshop_product_subattribute_color AS sp "
 				. "LEFT JOIN #__redshop_product_attribute_property AS ap ON ap.property_id=sp.subattribute_id "
 				. "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
-				. "LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id "
+				. "LEFT JOIN #__redshop_product AS p ON p.id=a.product_id "
 				. "WHERE p.published=1 "
 				. "AND p.product_id!='' "
 				. "AND sp.subattribute_color_number!='' "

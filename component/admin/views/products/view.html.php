@@ -34,23 +34,16 @@ class RedshopViewProducts extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		global $context;
-
-		$context = 'product_id';
-
-		$GLOBALS['productlist'] = array();
 		$redTemplate            = Redtemplate::getInstance();
 		$extra_field            = extra_field::getInstance();
 		$adminproducthelper     = RedshopAdminProduct::getInstance();
 
 		$list_in_products = $extra_field->list_all_field_in_product();
 
-		$uri = JFactory::getURI();
-
-		$layout = JRequest::getVar('layout');
+		$uri = JUri::getInstance();
 
 		// We don't need toolbar in the modal window.
-		if ($layout !== 'element')
+		if (JFactory::getApplication()->input->getString('layout') !== 'element')
 		{
 			$this->addToolbar();
 		}
@@ -64,7 +57,7 @@ class RedshopViewProducts extends RedshopViewAdmin
 		}
 		else
 		{
-			$filter_order = $state->get('list.ordering', 'p.product_id');
+			$filter_order = $state->get('list.ordering', 'p.id');
 		}
 
 		$filter_order_Dir = $state->get('list.direction');
@@ -104,7 +97,6 @@ class RedshopViewProducts extends RedshopViewAdmin
 
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$products           = $this->get('Data');
 
 		$pagination = $this->get('Pagination');
 
@@ -128,7 +120,7 @@ class RedshopViewProducts extends RedshopViewAdmin
 		$this->search_field     = $search_field;
 		$this->user             = JFactory::getUser();
 		$this->lists            = $lists;
-		$this->products         = $products;
+		$this->products         = $this->get('Items');;
 		$this->pagination       = $pagination;
 		$this->request_url      = $uri->toString();
 
@@ -145,12 +137,12 @@ class RedshopViewProducts extends RedshopViewAdmin
 	protected function addToolbar()
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
-		$layout = JRequest::getVar('layout');
+		$layout = JFactory::getApplication()->input->get('layout');
 
 		if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
 		{
 			JToolbarHelper::addNew('product.add');
-			JToolbarHelper::editList('product.editproduct_detail');
+			JToolbarHelper::editList('product.edit');
 			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 			JToolBarHelper::deleteList();
 			JToolBarHelper::publishList();
