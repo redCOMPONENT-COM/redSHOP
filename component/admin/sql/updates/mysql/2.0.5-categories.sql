@@ -1,6 +1,6 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
-ALTER TABLE `#__redshop_category` CHANGE `category_id` `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `#__redshop_category` CHANGE `category_id` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__redshop_category` CHANGE `category_name` `name` VARCHAR(255) NOT NULL DEFAULT '';
 ALTER TABLE `#__redshop_category` CHANGE `category_short_description` `short_description` TEXT NOT NULL DEFAULT '';
 ALTER TABLE `#__redshop_category` CHANGE `category_description` `description` TEXT NOT NULL DEFAULT '';
@@ -11,9 +11,9 @@ ALTER TABLE `#__redshop_category` CHANGE `category_pdate` `category_pdate` DATET
 
 ALTER TABLE `#__redshop_category` ADD `alias` VARCHAR(400) NOT NULL DEFAULT '' AFTER `append_to_global_seo`;
 ALTER TABLE `#__redshop_category` ADD `path` VARCHAR(255) NOT NULL DEFAULT '' AFTER `alias`;
-ALTER TABLE `#__redshop_category` ADD `asset_id` INT(11) UNSIGNED NULL DEFAULT '0' COMMENT 'FK to the #__assets table.'  AFTER `path`;
+ALTER TABLE `#__redshop_category` ADD `asset_id` INT(11) NULL DEFAULT '0' COMMENT 'FK to the #__assets table.'  AFTER `path`;
 ALTER TABLE `#__redshop_category` ADD `parent_id` INT(11) NULL DEFAULT '0' AFTER `asset_id`;
-ALTER TABLE `#__redshop_category` ADD `level` INT(11) UNSIGNED NOT NULL DEFAULT '0' AFTER `parent_id`;
+ALTER TABLE `#__redshop_category` ADD `level` INT(11) NOT NULL DEFAULT '0' AFTER `parent_id`;
 ALTER TABLE `#__redshop_category` ADD `lft` INT(11) NOT NULL DEFAULT '0' AFTER `level`;
 ALTER TABLE `#__redshop_category` ADD `rgt` INT(11) NOT NULL DEFAULT '0' AFTER `lft`;
 
