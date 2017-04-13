@@ -57,6 +57,7 @@ class RedshopModelAccess extends RedshopModelForm
 			$root->loadByName('com_redshop');
 
 			$table->setLocation($root->id, 'last-child');
+			$table->parent_id = $root->id;
 		}
 
 		$table->name  = $this->assetName;
