@@ -1050,12 +1050,12 @@ class RedshopHelperProduct
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('product_number'))
+			->select($db->qn('number'))
 			->from($db->qn('#__redshop_product'));
 
 		if ($productId)
 		{
-			$query->where($db->qn('product_id') . ' <> ' . $db->quote($productId));
+			$query->where($db->qn('id') . ' <> ' . $db->quote($productId));
 		}
 
 		// Set the query and load the result.
