@@ -82,6 +82,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->searchSupplier($supplierName);
 		$I->checkAllResults();
 		$I->click("Delete");
+		$I->acceptPopup();
 		$I->waitForText("1 item successfully deleted", 60, '.alert-success');
 		$I->see("1 item successfully deleted", '.alert-success');
 		$I->fillField($this->searchField, $supplierName);
