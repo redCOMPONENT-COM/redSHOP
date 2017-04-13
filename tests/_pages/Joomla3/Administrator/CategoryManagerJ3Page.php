@@ -16,13 +16,13 @@
 class CategoryManagerJ3Page
 {
 	// Include url of current page
-	public static $URL = '/administrator/index.php?option=com_redshop&view=category';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=categories';
 
-	public static $categoryName = "#category_name";
+	public static $categoryName = "#jfrom_name";
 
-	public static $categoryFilter = ['id' => 'category_main_filter'];
+	public static $categoryFilter = ['id' => 'filter_search'];
 
-	public static $categoryTemplateDropDown = "//div[@id='category_template_chzn']/a";
+	public static $categoryTemplateDropDown = "//div[@id='filter_category_template']/a";
 
 	public static $categorySearch = "//button[@onclick=\"document.adminForm.submit();\"]";
 
@@ -32,7 +32,7 @@ class CategoryManagerJ3Page
 
 	public static $checkAll = "//input[@id='cb0']";
 
-	public static $categoryTemplateIDDropDown = "//div[@id='compare_template_id_chzn']/a";
+	public static $categoryTemplateIDDropDown = "//div[@id='s2id_filter_category_template']/a";
 
 	/**
 	 * Function to get the Path for Template ID
@@ -43,7 +43,7 @@ class CategoryManagerJ3Page
 	 */
 	public function categoryTemplateID($templateIDName)
 	{
-		$path = "//div[@id='compare_template_id_chzn']/div/ul/li[contains(text(), '" . $templateIDName . "')]";
+		$path = "//div[@id='s2id_filter_category_template']/div/ul/li[contains(text(), '" . $templateIDName . "')]";
 
 		return $path;
 	}
@@ -57,7 +57,7 @@ class CategoryManagerJ3Page
 	 */
 	public function categoryTemplate($templateName)
 	{
-		$path = "//div[@id='category_template_chzn']/div/ul/li[contains(text(), '" . $templateName . "')]";
+		$path = "//div[@id='filter_category_template']/div/ul/li[contains(text(), '" . $templateName . "')]";
 
 		return $path;
 	}
