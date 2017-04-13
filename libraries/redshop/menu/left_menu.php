@@ -355,12 +355,12 @@ class RedshopMenuLeft_Menu
 		self::$menu->section('product')
 			->title('COM_REDSHOP_PRODUCTS')
 			->addItem(
-				'index.php?option=com_redshop&view=product',
+				'index.php?option=com_redshop&view=products',
 				'COM_REDSHOP_PRODUCT_MANAGEMENT',
 				(self::$view == 'product' && self::$layout == '') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=product&layout=listing',
+				'index.php?option=com_redshop&view=products&layout=listing',
 				'COM_REDSHOP_PRODUCT_PRICE_VIEW',
 				(self::$view == 'product' && self::$layout == 'listing') ? true : false
 			)
@@ -378,7 +378,7 @@ class RedshopMenuLeft_Menu
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && JPluginHelper::isEnabled('economic'))
 		{
 			self::$menu->addItem(
-				'index.php?option=com_redshop&view=product&layout=importproduct',
+				'index.php?option=com_redshop&view=products&layout=importproduct',
 				'COM_REDSHOP_IMPORT_PRODUCTS_TO_ECONOMIC',
 				(self::$view == 'product' && self::$layout == 'importproduct') ? true : false
 			);
@@ -386,7 +386,7 @@ class RedshopMenuLeft_Menu
 			if (Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 1)
 			{
 				self::$menu->addItem(
-					'index.php?option=com_redshop&view=product&layout=importattribute',
+					'index.php?option=com_redshop&view=products&layout=importattribute',
 					'COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC',
 					(self::$view == 'product' && self::$layout == 'importattribute') ? true : false
 				);
@@ -692,7 +692,7 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'sample_request') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=producttags',
+				'index.php?option=com_redshop&view=productstags',
 				'COM_REDSHOP_TAGS_LISTING',
 				(self::$view == 'producttags') ? true : false
 			)

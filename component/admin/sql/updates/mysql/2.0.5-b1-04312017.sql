@@ -1,4 +1,19 @@
-CREATE TABLE `ideyn_redshop_product` (
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+--
+-- Database: `redshop_redshop2`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ptnsc_redshop_product`
+--
+
+CREATE TABLE `ptnsc_redshop_product` (
   `id` int(11) NOT NULL COMMENT 'Product ID',
   `number` varchar(250) NOT NULL COMMENT 'Product number',
   `parent_id` int(11) NOT NULL COMMENT 'Product relationship. Will be moved and replaced by nestled',
@@ -15,6 +30,10 @@ CREATE TABLE `ideyn_redshop_product` (
   `alias` varchar(255) NOT NULL COMMENT 'Product name alias',
   `description` longtext,
   `short_description` text,
+  `price` double NOT NULL,
+  `discount_price` double NOT NULL,
+  `discount_stratdate` int(11) NOT NULL,
+  `discount_enddate` int(11) NOT NULL,
   `images` text NOT NULL,
   `product_full_image` varchar(250) NOT NULL,
   `product_thumb_image` varchar(250) NOT NULL,
@@ -74,9 +93,9 @@ CREATE TABLE `ideyn_redshop_product` (
 --
 
 --
--- Indexes for table `ideyn_redshop_product`
+-- Indexes for table `ptnsc_redshop_product`
 --
-ALTER TABLE `ideyn_redshop_product`
+ALTER TABLE `ptnsc_redshop_product`
   ADD PRIMARY KEY (`id`),
   ADD KEY `parent_id` (`parent_id`),
   ADD KEY `manufacturer_id` (`manufacturer_id`),
@@ -90,21 +109,21 @@ ALTER TABLE `ideyn_redshop_product`
 --
 
 --
--- AUTO_INCREMENT for table `ideyn_redshop_product`
+-- AUTO_INCREMENT for table `ptnsc_redshop_product`
 --
-ALTER TABLE `ideyn_redshop_product`
+ALTER TABLE `ptnsc_redshop_product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Product ID';
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `ideyn_redshop_product`
+-- Constraints for table `ptnsc_redshop_product`
 --
-ALTER TABLE `ideyn_redshop_product`
-  ADD CONSTRAINT `created_by` FOREIGN KEY (`created_by`) REFERENCES `ideyn_users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `manufacturer` FOREIGN KEY (`manufacturer_id`) REFERENCES `ideyn_redshop_manufacturer` (`manufacturer_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `supplier` FOREIGN KEY (`supplier_id`) REFERENCES `ideyn_redshop_supplier` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `tax_group` FOREIGN KEY (`tax_group_id`) REFERENCES `ideyn_redshop_tax_group` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `template` FOREIGN KEY (`template_id`) REFERENCES `ideyn_redshop_template` (`template_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `ptnsc_redshop_product`
+  ADD CONSTRAINT `created_by` FOREIGN KEY (`created_by`) REFERENCES `ptnsc_users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `manufacturer` FOREIGN KEY (`manufacturer_id`) REFERENCES `ptnsc_redshop_manufacturer` (`manufacturer_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `supplier` FOREIGN KEY (`supplier_id`) REFERENCES `ptnsc_redshop_supplier` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `tax_group` FOREIGN KEY (`tax_group_id`) REFERENCES `ptnsc_redshop_tax_group` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `template` FOREIGN KEY (`template_id`) REFERENCES `ptnsc_redshop_template` (`template_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;

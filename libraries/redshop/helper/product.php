@@ -99,7 +99,7 @@ class RedshopHelperProduct
 				$query = self::getMainProductQuery(false, $userId);
 
 				// Select product
-				$query->where($db->qn('p.product_id') . ' = ' . (int) $productId);
+				$query->where($db->qn('p.id') . ' = ' . (int) $productId);
 
 				$db->setQuery($query);
 				static::$products[$key] = $db->loadObject();
@@ -132,11 +132,11 @@ class RedshopHelperProduct
 			$query = $db->getQuery(true);
 		}
 
-		$query->select(array('p.*', 'p.product_id'))
+		$query->select(array('p.*', 'p.id'))
 			->from($db->qn('#__redshop_product', 'p'));
 
 		// Require condition
-		$query->group('p.product_id');
+		$query->group('p.id');
 
 		// Select price
 		$query->select(
@@ -148,24 +148,24 @@ class RedshopHelperProduct
 		)
 			->leftJoin(
 				$db->qn('#__redshop_product_price', 'pp')
-				. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1)'
+				. ' ON p.id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1)'
 				. ' OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0)) AND pp.shopper_group_id = ' . (int) $shopperGroupId
 			)
 			->order('pp.price_quantity_start ASC');
 
 		// Select category
 		$query->select(array('pc.category_id'))
-			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id');
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.id');
 
 		// Getting cat_in_sefurl as main category id if it available
-		$query->leftJoin($db->qn('#__redshop_product_category_xref', 'pc3') . ' ON pc3.product_id = p.product_id AND pc3.category_id = p.cat_in_sefurl')
+		$query->leftJoin($db->qn('#__redshop_product_category_xref', 'pc3') . ' ON pc3.product_id = p.id AND pc3.category_id = p.cat_in_sefurl')
 			->leftJoin($db->qn('#__redshop_category', 'c3') . ' ON pc3.category_id = c3.category_id AND c3.published = 1');
 
 		$subQuery = $db->getQuery(true)
 			->select('GROUP_CONCAT(DISTINCT c2.category_id ORDER BY c2.category_id ASC SEPARATOR ' . $db->q(',') . ')')
 			->from($db->qn('#__redshop_category', 'c2'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc2') . ' ON c2.category_id = pc2.category_id')
-			->where('p.product_id = pc2.product_id')
+			->where('p.id = pc2.product_id')
 			->where('((p.cat_in_sefurl != ' . $db->q('') . ' AND p.cat_in_sefurl != pc2.category_id) OR p.cat_in_sefurl = ' . $db->q('') . ')')
 			->where('c2.published = 1');
 
@@ -176,7 +176,7 @@ class RedshopHelperProduct
 		$query->select(array('media.media_alternate_text', 'media.media_id'))
 			->leftJoin(
 				$db->qn('#__redshop_media', 'media')
-				. ' ON media.section_id = p.product_id AND media.media_section = ' . $db->q('product')
+				. ' ON media.section_id = p.id AND media.media_section = ' . $db->q('product')
 				. ' AND media.media_type = ' . $db->q('images') . ' AND media.media_name = p.product_full_image'
 			);
 
@@ -184,7 +184,7 @@ class RedshopHelperProduct
 		$subQuery = $db->getQuery(true)
 			->select('COUNT(pr1.rating_id)')
 			->from($db->qn('#__redshop_product_rating', 'pr1'))
-			->where('pr1.product_id = p.product_id')
+			->where('pr1.product_id = p.id')
 			->where('pr1.published = 1');
 
 		$query->select('(' . $subQuery . ') AS count_rating');
@@ -192,7 +192,7 @@ class RedshopHelperProduct
 		$subQuery = $db->getQuery(true)
 			->select('SUM(pr2.user_rating)')
 			->from($db->qn('#__redshop_product_rating', 'pr2'))
-			->where('pr2.product_id = p.product_id')
+			->where('pr2.product_id = p.id')
 			->where('pr2.published = 1');
 
 		$query->select('(' . $subQuery . ') AS sum_rating');
@@ -201,22 +201,22 @@ class RedshopHelperProduct
 		$subQuery = $db->getQuery(true)
 			->select('COUNT(pa.accessory_id)')
 			->from($db->qn('#__redshop_product_accessory', 'pa'))
-			->leftJoin($db->qn('#__redshop_product', 'parent_product') . ' ON parent_product.product_id = pa.child_product_id')
-			->where('pa.product_id = p.product_id')
-			->where('parent_product.published = 1');
+			->leftJoin($db->qn('#__redshop_product', 'parent_product') . ' ON parent_product.id = pa.child_product_id')
+			->where('pa.product_id = p.id')
+			->where('parent_product.state = 1');
 
 		$query->select('(' . $subQuery . ') AS total_accessories');
 
 		// Count child products
 		$subQuery = $db->getQuery(true)
-			->select('COUNT(child.product_id) AS count_child_products, child.product_parent_id')
+			->select('COUNT(child.id) AS count_child_products, child.parent_id')
 			->from($db->qn('#__redshop_product', 'child'))
-			->where('child.product_parent_id > 0')
-			->where('child.published = 1')
-			->group('child.product_parent_id');
+			->where('child.parent_id > 0')
+			->where('child.state = 1')
+			->group('child.parent_id');
 
 		$query->select('child_product_table.count_child_products')
-			->leftJoin('(' . $subQuery . ') AS child_product_table ON child_product_table.product_parent_id = p.product_id');
+			->leftJoin('(' . $subQuery . ') AS child_product_table ON child_product_table.parent_id = p.id');
 
 		// Sum quantity
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
@@ -224,7 +224,7 @@ class RedshopHelperProduct
 			$subQuery = $db->getQuery(true)
 				->select('SUM(psx.quantity)')
 				->from($db->qn('#__redshop_product_stockroom_xref', 'psx'))
-				->where('psx.product_id = p.product_id')
+				->where('psx.product_id = p.id')
 				->where('psx.quantity >= 0')
 				->where('psx.stockroom_id > 0');
 

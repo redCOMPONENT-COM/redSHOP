@@ -19,13 +19,6 @@ defined('_JEXEC') or die;
 class RedshopTableProduct extends RedshopTable
 {
 	/**
-	 * The table name without the prefix. Ex: cursor_courses
-	 *
-	 * @var  string
-	 */
-	protected $_tableName = 'redshop_product';
-
-	/**
 	 * @var   int
 	 * @since 2.0.5
 	 */
@@ -120,6 +113,11 @@ class RedshopTableProduct extends RedshopTable
 	 * @since 2.0.5
 	 */
 	public $short_description = null;
+
+	public $price = null;
+	public $discount_price = null;
+	public $discount_startdate = null;
+	public $discount_enddate = null;
 
 	/**
 	 * @var   string
