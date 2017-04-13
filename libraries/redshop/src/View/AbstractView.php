@@ -56,7 +56,8 @@ abstract class AbstractView extends \JViewLegacy
 	protected $instanceName;
 
 	/**
-	 * @var  bool
+	 * @var  boolean
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $useUserPermission = true;
@@ -213,11 +214,10 @@ abstract class AbstractView extends \JViewLegacy
 			return;
 		}
 
-		$user            = \JFactory::getUser();
-		$this->canCreate = $user->authorise($this->getInstanceName() . '.create', 'backend');
-		$this->canView   = $user->authorise($this->getInstanceName() . '.view', 'backend');
-		$this->canEdit   = $user->authorise($this->getInstanceName() . '.edit', 'backend');
-		$this->canDelete = $user->authorise($this->getInstanceName() . '.delete', 'backend');
+		$this->canCreate = \RedshopHelperAccess::canCreate($this->getInstanceName());
+		$this->canView   = \RedshopHelperAccess::canView($this->getInstanceName());
+		$this->canEdit   = \RedshopHelperAccess::canEdit($this->getInstanceName());
+		$this->canDelete = \RedshopHelperAccess::canDelete($this->getInstanceName());
 	}
 
 	/**
