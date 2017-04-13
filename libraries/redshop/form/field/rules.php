@@ -140,43 +140,8 @@ class RedshopFormFieldRules extends JFormField
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
 
-		// Prepare output
-		$html = array();
-
-		// Description
-		$html[] = '<p class="rule-desc">' . JText::_('JLIB_RULES_SETTINGS_DESC') . '</p>';
-
-		// Begin tabs
-		$html[] = '<div id="permissions-sliders" class="tabbable tabs-left">';
-
-		// Building tab nav
-		$html[] = '<ul class="nav nav-tabs">';
-
-		foreach ($groups as $group)
-		{
-			// Initial Active Tab
-			$active = "";
-
-			if ($group->value == 1)
-			{
-				$active = "active";
-			}
-
-			$html[] = '<li class="' . $active . '">';
-			$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
-			$html[] = str_repeat('<span class="level">&ndash;</span> ', $curLevel = $group->level) . $group->text;
-			$html[] = '</a>';
-			$html[] = '</li>';
-		}
-
-		$html[] = '</ul>';
-
-		$html[] = '<div class="tab-content">';
-
-		$layout = ($showGroup === true) ? 'field.rules.group' : 'field.rules.rules';
-
-		$html[] = RedshopLayoutHelper::render(
-			$layout,
+		return RedshopLayoutHelper::render(
+			'field.rules.wrapper',
 			array(
 				'groups'         => $groups,
 				'actions'        => $actions,
@@ -185,26 +150,11 @@ class RedshopFormFieldRules extends JFormField
 				'assetRules'     => $assetRules,
 				'assetId'        => $assetId,
 				'isGlobalConfig' => $isGlobalConfig,
-				'component'      => $component
+				'component'      => $component,
+				'showGroup'      => $showGroup,
+				'section'        => $section
 			)
 		);
-
-		$html[] = '</div></div>';
-		$html[] = '<div class="clr"></div>';
-		$html[] = '<div class="alert">';
-
-		if ($section === 'component' || $section === null)
-		{
-			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
-		}
-		else
-		{
-			$html[] = JText::_('JLIB_RULES_SETTING_NOTES_ITEM');
-		}
-
-		$html[] = '</div>';
-
-		return implode("\n", $html);
 	}
 
 	/**
