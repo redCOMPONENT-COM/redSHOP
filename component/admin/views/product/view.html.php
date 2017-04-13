@@ -44,7 +44,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed   A string if successful, otherwise a JError object.
 	 *
@@ -72,7 +72,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$model  = $this->getModel('Product');
 		$detail = $this->get('data');
 
-		$isNew = ($detail->product_id < 1);
+		$isNew = ($detail->id < 1);
 
 		// Load new product default values
 		if ($isNew)
@@ -177,7 +177,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 								continue;
 							}
 
-							$dependent_tag = $model->getDependenttag($detail->product_id, $typeid, $tagid);
+							$dependent_tag = $model->getDependenttag($detail->id, $typeid, $tagid);
 
 							$html .= '<optgroup label="' . $sel_type['type_name'] . '">';
 
@@ -191,7 +191,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 						}
 
 						$html .= '</select>&nbsp;<a href="#" onClick="javascript:add_dependency('
-							. $typeid . ',' . $tagid . ',' . $detail->product_id . ');" >'
+							. $typeid . ',' . $tagid . ',' . $detail->id . ');" >'
 							. JText::_('COM_REDSHOP_ADD_DEPENDENCY') . '</a></td></tr></table>';
 					}
 				}
@@ -344,9 +344,9 @@ class RedshopViewProduct extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		if ($detail->product_id > 0)
+		if ($detail->id > 0)
 		{
-			$ItemData  = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
+			$ItemData  = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->id);
 			$catidmain = $detail->cat_in_sefurl;
 
 			if (count($ItemData) > 0)
@@ -356,12 +356,12 @@ class RedshopViewProduct extends RedshopViewAdmin
 			else
 			{
 				$objhelper = redhelper::getInstance();
-				$pItemid   = $objhelper->getItemid($detail->product_id, $catidmain);
+				$pItemid   = $objhelper->getItemid($detail->id, $catidmain);
 			}
 
 			$link = JURI::root();
 			$link .= 'index.php?option=com_redshop';
-			$link .= '&view=product&pid=' . $detail->product_id;
+			$link .= '&view=product&pid=' . $detail->id;
 			$link .= '&cid=' . $catidmain;
 			$link .= '&Itemid=' . $pItemid;
 
@@ -373,29 +373,29 @@ class RedshopViewProduct extends RedshopViewAdmin
 
 		$accessory_product = array();
 
-		if ($detail->product_id)
+		if ($detail->id)
 		{
-			$accessory_product = $this->producthelper->getProductAccessory(0, $detail->product_id);
+			$accessory_product = $this->producthelper->getProductAccessory(0, $detail->id);
 		}
 
 		$lists['accessory_product']        = $accessory_product;
 		$lists['QUANTITY_SELECTBOX_VALUE'] = $detail->quantity_selectbox_value;
 
 		// For preselected.
-		if ($detail->product_template == "")
+		if ($detail->template_id == "")
 		{
 			$default_preselected      = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
-			$detail->product_template = $default_preselected;
+			$detail->template_id = $default_preselected;
 		}
 
 		$lists['product_template'] = JHtml::_('select.genericlist', $templates, 'product_template',
-			'class="inputbox" size="1" onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"  ',
-			'template_id', 'template_name', $detail->product_template
+			'class="inputbox" size="1" onchange="set_dynamic_field(this.value,\'' . $detail->id . '\',\'1,12,17\');"  ',
+			'template_id', 'template_name', $detail->template_id
 		);
 
-		$lists['related_product'] = JHtml::_('redshopselect.search', $model->related_product_data($detail->product_id), 'related_product',
+		$lists['related_product'] = JHtml::_('redshopselect.search', $model->related_product_data($detail->id), 'related_product',
 			array(
-				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $detail->product_id),
+				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $detail->id),
 				'select2.options'     => array('multiple' => 'true')
 			)
 		);
@@ -502,7 +502,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$prop_oprand[]                 = JHtml::_('select.option', '=', JText::_('COM_REDSHOP_EQUAL'));
 		$prop_oprand[]                 = JHtml::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
 
-		$cat_in_sefurl          = $model->catin_sefurl($detail->product_id);
+		$cat_in_sefurl          = $model->catin_sefurl($detail->id);
 		$lists['cat_in_sefurl'] = JHtml::_('select.genericlist', $cat_in_sefurl, 'cat_in_sefurl',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->cat_in_sefurl
 		);
@@ -550,10 +550,10 @@ class RedshopViewProduct extends RedshopViewAdmin
 			'select.genericlist',
 			$productTypeOptions,
 			'product_type',
-			'onchange="set_dynamic_field(this.value,\'' . $detail->product_id . '\',\'1,12,17\');"',
+			'onchange="set_dynamic_field(this.value,\'' . $detail->id . '\',\'1,12,17\');"',
 			'value',
 			'text',
-			$detail->product_type
+			$detail->type
 		);
 
 		$accountgroup = $redhelper->getEconomicAccountGroup();
@@ -600,7 +600,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 				'general_data'
 			);
 
-		if ($this->detail->product_type != 'product' && !empty($this->detail->product_type))
+		if ($this->detail->type != 'product' && !empty($this->detail->type))
 		{
 			$tabMenu->addItem(
 				'#producttype',

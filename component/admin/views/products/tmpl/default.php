@@ -23,65 +23,7 @@ $user   = JFactory::getUser();
 $userId = (int) $user->id;
 JHtml::_('redshopjquery.framework');
 ?>
-<script language="javascript" type="text/javascript">
-    <!-- @TODO Move these script to js file -->
-    Joomla.submitform = submitform = Joomla.submitbutton = submitbutton = function (pressbutton) {
-        var form = document.adminForm;
-
-        if (pressbutton) {
-            form.task.value = pressbutton;
-        }
-
-        if ((pressbutton == 'publish') || (pressbutton == 'unpublish')
-            || (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
-            form.view.value = "product_detail";
-        }
-        if ((pressbutton == 'assignCategory') || (pressbutton == 'removeCategory')) {
-            form.view.value = "product_category";
-        }
-
-        if (pressbutton == 'remove') {
-            if (confirm("<?php echo JText::_('COM_REDSHOP_PRODUCT_DELETE_CONFIRM') ?>") != true) {
-                return false;
-            }
-        }
-
-
-        try {
-            form.onsubmit();
-        }
-        catch (e) {
-        }
-
-        form.submit();
-    }
-
-    function AssignTemplate() {
-        var form = document.adminForm;
-        if (form.boxchecked.value == 0) {
-            jQuery('#product_template').val(0).trigger("liszt:updated");
-            alert('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT');?>');
-        } else {
-            form.task.value = 'assignTemplate';
-            if (confirm("<?php echo JText::_('COM_REDSHOP_SURE_WANT_TO_ASSIGN_TEMPLATE');?>")) {
-                form.submit();
-            } else {
-                jQuery('#product_template').val(0).trigger("liszt:updated");
-            }
-        }
-
-    }
-
-    function resetFilter() {
-        document.getElementById('keyword').value = '';
-        document.getElementById('search_field').value = 'p.product_name';
-        document.getElementById('category_id').value = 0;
-        document.getElementById('product_sort').value = 0;
-    }
-
-</script>
-<form action="index.php?option=com_redshop&view=product" method="post" name="adminForm" id="adminForm">
-
+<form action="index.php?option=com_redshop&view=products" method="post" name="adminForm" id="adminForm">
     <div id="editcell">
         <div class="filterTool">
             <div class="filterItem">
@@ -96,13 +38,13 @@ JHtml::_('redshopjquery.framework');
             <div class="filterItem">
                 <select id="search_field" name="search_field" onchange="javascript:document.adminForm.submit();">
                     <option
-                            value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'"; ?>>
+                            value="p.product_name" <?php if ($this->search_field == 'p.title') echo "selected='selected'"; ?>>
 						<?php echo JText::_("COM_REDSHOP_PRODUCT_NAME") ?></option>
                     <option
                             value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'"; ?>>
 						<?php echo JText::_("COM_REDSHOP_CATEGORY") ?></option>
                     <option
-                            value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'"; ?>
+                            value="p.product_number" <?php if ($this->search_field == 'p.number') echo "selected='selected'"; ?>
                     ><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER") ?></option>
                     <option
                             value="p.name_number" <?php if ($this->search_field == 'p.name_number') echo "selected='selected'"; ?>
@@ -130,13 +72,13 @@ JHtml::_('redshopjquery.framework');
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
                 </th>
                 <th class="title">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'p.product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'p.name', $this->lists['order_Dir'], $this->lists['order']); ?>
                 </th>
                 <th class="title">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NUMBER', 'p.product_number', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NUMBER', 'p.number', $this->lists['order_Dir'], $this->lists['order']); ?>
                 </th>
                 <th class="title">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_PRICE', 'p.product_price', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_PRICE', 'p.price', $this->lists['order_Dir'], $this->lists['order']); ?>
                 </th>
 				<?php
 
@@ -185,21 +127,14 @@ JHtml::_('redshopjquery.framework');
 				<?php } ?>
             </tr>
             </thead>
-			<?php
-			$k = 0;
+			<?php $k = 0; ?>
+			<?php for ($i = 0, $n = count($this->products); $i < $n; $i++) : ?>
+			    <?php
+                    $row = $this->products[$i];
 
-
-			for ($i = 0, $n = count($this->products); $i < $n; $i++)
-			{
-				$row = $this->products[$i];
-
-				$row->id = $row->product_id;
-				$link    = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
-
-				//	$published 	= JHtml::_('jgrid.published', $row->published, $i,'',1);
-
-				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
-
+                    $row->id = $row->product_id;
+                    $link    = JRoute::_('index.php?option=com_redshop&view=product&task=edit&cid[]=' . $row->product_id);
+                    $published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				?>
                 <tr class="<?php echo "row$k"; ?>">
                     <td>
@@ -365,10 +300,8 @@ JHtml::_('redshopjquery.framework');
                         </td>
 					<?php } ?>
                 </tr>
-				<?php
-				$k = 1 - $k;
-			}
-			?>
+				<?php $k = 1 - $k; ?>
+			<?php endfor; ?>
 
             <tfoot>
             <td colspan="14">
@@ -383,10 +316,12 @@ JHtml::_('redshopjquery.framework');
         </table>
     </div>
 
-    <input type="hidden" name="view" value="product"/>
-    <input type="hidden" name="task" value=""/>
-    <input type="hidden" name="boxchecked" value="0"/>
-    <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
-    <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
-	<?php echo JHtml::_('form.token'); ?>
+    <fieldset>
+        <input type="hidden" name="view" value="products"/>
+        <input type="hidden" name="task" value=""/>
+        <input type="hidden" name="boxchecked" value="0"/>
+        <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
+        <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+	    <?php echo JHtml::_('form.token'); ?>
+    </fieldset>
 </form>

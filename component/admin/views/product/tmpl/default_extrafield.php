@@ -9,8 +9,8 @@
 defined('_JEXEC') or die;
 
 $db          = JFactory::getDBO();
-$templateId  = $this->detail->product_template;
-$product_id  = $this->detail->product_id;
+$templateId  = $this->detail->template_id;
+$product_id  = $this->detail->id;
 $redTemplate = Redtemplate::getInstance();
 $template    = RedshopHelperTemplate::getTemplate("product", $templateId);
 
@@ -21,7 +21,7 @@ if (count($template) == 0)
 
 $template = $template[0]->template_desc;
 
-$fieldModel = RedshopModel::getInstance('fields', 'RedshopModel');
+$fieldModel = RedshopModel::getInstance('Fields', 'RedshopModel');
 
 $section = explode(',', '1,12,17');
 $fields  = $fieldModel->getFieldInfoBySection($section);

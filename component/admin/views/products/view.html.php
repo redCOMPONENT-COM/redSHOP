@@ -48,6 +48,8 @@ class RedshopViewProducts extends RedshopViewAdmin
 			$this->addToolbar();
 		}
 
+		$this->assets();
+
 		$state       = $this->get('State');
 		$category_id = $state->get('category_id');
 
@@ -150,5 +152,11 @@ class RedshopViewProducts extends RedshopViewAdmin
 			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
 		}
+	}
+
+	protected function assets()
+	{
+		$document = JFactory::getDocument();
+		$document->addScript('components/com_redshop/assets/js/products.js');
 	}
 }

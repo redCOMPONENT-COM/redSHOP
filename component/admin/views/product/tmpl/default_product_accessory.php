@@ -44,7 +44,7 @@ JText::script('COM_REDSHOP_DELETE');
                                                             listAcc[listAcc.length] = jQuery(this).val();
                                                         });
                                                         return listAcc.join(",");
-                                                    }, product_id:' . $this->detail->product_id
+                                                    }, product_id:' . $this->detail->id
                                                 ),
                                             )
                                         );
