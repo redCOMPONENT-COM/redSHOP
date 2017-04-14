@@ -54,15 +54,11 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
+		JHtml::_('behavior.tooltip');
+
 		$app                 = JFactory::getApplication();
 		$this->input         = $app->input;
 		$user                = JFactory::getUser();
-
-		if (!$user->authorise('product.edit', 'backend'))
-		{
-			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
-			$app->redirect('index.php?option=com_redshop&view=product');
-		}
 
 		JPluginHelper::importPlugin('redshop_product_type');
 		$this->dispatcher    = JDispatcher::getInstance();

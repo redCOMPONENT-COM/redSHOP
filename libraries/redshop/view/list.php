@@ -182,20 +182,18 @@ class RedshopViewList extends AbstractView
 	 */
 	protected function addToolbar()
 	{
-		$user = JFactory::getUser();
-
 		// Add common button
-		if ($user->authorise($this->getInstanceName() . '.create', 'backend'))
+		if ($this->canCreate)
 		{
 			JToolbarHelper::addNew($this->getInstanceName() . '.add');
 		}
 
-		if ($user->authorise($this->getInstanceName() . '.delete', 'backend'))
+		if ($this->canDelete)
 		{
 			JToolbarHelper::deleteList('', $this->getInstancesName() . '.delete');
 		}
 
-		if ($user->authorise($this->getInstanceName() . '.edit', 'backend'))
+		if ($this->canEdit)
 		{
 			JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
@@ -285,11 +283,10 @@ class RedshopViewList extends AbstractView
 		$user             = JFactory::getUser();
 		$isCheckedOut     = $row->checked_out && $user->id != $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
-		$canEdit          = $user->authorise($this->getInstanceName() . '.edit', 'backend');
 
 		if (in_array($config['dataCol'], $this->stateColumns))
 		{
-			if ($canEdit)
+			if ($this->canEdit)
 			{
 				return JHtml::_('jgrid.published', $row->published, $index);
 			}
@@ -299,7 +296,7 @@ class RedshopViewList extends AbstractView
 					($row->published ? JText::_('JYES') : JText::_('JNO')) . '</span>';
 			}
 		}
-		elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable && $canEdit)
+		elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable && $this->canEdit)
 		{
 			$value   = $row->{$config['dataCol']};
 			$display = $value;
