@@ -164,7 +164,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->checkForPhpNoticesOrWarnings();
-		$I->searchSupplier($categoryName);
+		$I->searchCategory($categoryName);
 		$I->checkAllResults();
 		$I->click("Delete");
 		$I->acceptPopup();
