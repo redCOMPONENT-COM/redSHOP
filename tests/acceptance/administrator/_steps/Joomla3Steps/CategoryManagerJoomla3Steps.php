@@ -171,5 +171,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\CategoryManagerJ3Page::$checkAll);
 		$I->click("Delete");
 		$I->acceptPopup();
+		$I->waitForText("1 item successfully deleted", 60, '.alert-success');
+		$I->see("1 item successfully deleted", '.alert-success');
 	}
 }
