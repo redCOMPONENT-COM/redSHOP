@@ -102,23 +102,13 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function searchCategory($categoryName, $functionName = 'Search')
+	public function searchCategory($categoryName)
 	{
 		$I = $this;
+		$I->wantTo('Search the Category');
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
-		$I->wait(3);
-
-		if ($functionName == 'Search')
-		{
-			$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
-		}
-		else
-		{
-			$I->dontSee($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
-		}
+		$I->waitForText('Category Management', 30, ['xpath' => "//h1"]);
+		$I->filterListBySearching($categoryName);
 	}
 
 	/**

@@ -46,7 +46,7 @@ class ManageProductsAdministratorCest
 		$I->wantTo('Delete Category');
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->deleteCategory($randomCategoryName);
-		$I->searchCategory($randomCategoryName, 'Delete');
+		$I->searchCategory($randomCategoryName);
 		$I->dontSee($randomCategoryName);
 	}
 
