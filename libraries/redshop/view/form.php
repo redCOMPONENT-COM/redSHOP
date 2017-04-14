@@ -133,8 +133,15 @@ class RedshopViewForm extends AbstractView
 	{
 		$isNew = ($this->item->id < 1);
 
-		JToolBarHelper::apply($this->getInstanceName() . '.apply');
-		JToolBarHelper::save($this->getInstanceName() . '.save');
+		if ($this->canEdit)
+		{
+			JToolBarHelper::apply($this->getInstanceName() . '.apply');
+		}
+
+		if ($this->canEdit || $this->canCreate)
+		{
+			JToolBarHelper::save($this->getInstanceName() . '.save');
+		}
 
 		if ($isNew)
 		{
