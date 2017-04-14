@@ -16503,9 +16503,9 @@ function _init() {
 
             $full.toggle("slow", function(){
                 if ($(this).css("display") == "none") {
-                    $self.text(Joomla.JText::_('COM_REDSHOP_GRID_SLIDERTEXT_MORE'));
+                    $self.text(Joomla.JText._('COM_REDSHOP_GRID_SLIDERTEXT_MORE'));
                 } else {
-                    $self.text(Joomla.JText::_('COM_REDSHOP_GRID_SLIDERTEXT_LESS'));
+                    $self.text(Joomla.JText._('COM_REDSHOP_GRID_SLIDERTEXT_LESS'));
                 }
             });
         });
