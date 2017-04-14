@@ -163,15 +163,15 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
-		$I->wait(3);
-		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
-		$I->click(\CategoryManagerJ3Page::$checkAll);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->searchSupplier($categoryName);
+		$I->checkAllResults();
 		$I->click("Delete");
 		$I->acceptPopup();
 		$I->waitForText("1 item successfully deleted", 60, '.alert-success');
 		$I->see("1 item successfully deleted", '.alert-success');
+		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
+		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->dontSee($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
 	}
 }
