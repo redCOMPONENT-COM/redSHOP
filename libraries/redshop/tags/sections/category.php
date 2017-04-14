@@ -80,8 +80,8 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	/**
 	 * Replace category fields tags
 	 *
-	 * @param   object $category Category object
-	 * @param   string $template Template to replace
+	 * @param   object  $category  Category object
+	 * @param   string  $template  Template to replace
 	 *
 	 * @return  string
 	 *
@@ -146,7 +146,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	/**
 	 * Replace sub categories tags
 	 *
-	 * @param   array $subCategories Sub categories array
+	 * @param   array  $subCategories  Sub categories array
 	 *
 	 * @return  string
 	 *
@@ -176,6 +176,8 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	}
 
 	/**
+	 * getThumbnail
+	 * 
 	 * @param   object  $category  Category object
 	 * @param   int     $width     Width
 	 * @param   int     $height    Height
