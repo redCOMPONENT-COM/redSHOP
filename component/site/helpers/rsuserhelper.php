@@ -43,15 +43,15 @@ class rsUserHelper
 
 	public function __construct()
 	{
-		$this->_session      = JFactory::getSession();
-		$this->_db           = JFactory::getDbo();
+		$this->_session = JFactory::getSession();
+		$this->_db      = JFactory::getDbo();
 	}
 
 	/**
 	 * Get RedSHOP User Info
 	 *
-	 * @param   int     $joomlaUserId  Joomla user id
-	 * @param   string  $addressType   Type user address BT (Billing Type) or ST (Shipping Type)
+	 * @param   int    $joomlaUserId Joomla user id
+	 * @param   string $addressType  Type user address BT (Billing Type) or ST (Shipping Type)
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getUserInformation instead
 	 *
@@ -65,7 +65,7 @@ class rsUserHelper
 	/**
 	 * Replace Conditional tag from Redshop tax
 	 *
-	 * @param   integer  $userId  User identifier
+	 * @param   integer $userId User identifier
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getShopperGroup instead
 	 *
@@ -79,14 +79,14 @@ class rsUserHelper
 	/**
 	 * Get User groups
 	 *
-	 * @param   integer  $user_id  User identifier
+	 * @param   integer $user_id User identifier
 	 *
 	 * @return  array              Array of user groups
 	 */
 	public function getUserGroupList($user_id = 0)
 	{
 		$query = 'SELECT group_id FROM #__redshop_users_info AS uf '
-			. 'LEFT JOIN #__user_usergroup_map as u on u.user_id = uf.user_id '
+			. 'LEFT JOIN #__user_usergroup_map AS u ON u.user_id = uf.user_id '
 			. 'WHERE users_info_id = ' . (int) $user_id;
 		$this->_db->setQuery($query);
 		$usergroups = $this->_db->loadColumn();
@@ -110,7 +110,7 @@ class rsUserHelper
 	/**
 	 * Get Shopper Group Data
 	 *
-	 * @param   int  $userId  User id
+	 * @param   int $userId User id
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::getShopperGroupData instead
 	 *
@@ -124,7 +124,7 @@ class rsUserHelper
 	/**
 	 * Get Shopper Group List
 	 *
-	 * @param   int  $shopperGroupId  Shopper Group Id
+	 * @param   int $shopperGroupId Shopper Group Id
 	 *
 	 * @return mixed
 	 */
@@ -132,7 +132,7 @@ class rsUserHelper
 	{
 		if (!array_key_exists($shopperGroupId, self::$shopperGroupData))
 		{
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select(array('sh.*', $db->qn('sh.shopper_group_id', 'value'), $db->qn('sh.shopper_group_name', 'text')))
 				->from($db->qn('#__redshop_shopper_group', 'sh'))
@@ -154,7 +154,7 @@ class rsUserHelper
 	/**
 	 * Create redshop user session
 	 *
-	 * @param   int  $user_id  Joomla user id
+	 * @param   int $user_id Joomla user id
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::createUserSession instead
 	 *
@@ -168,8 +168,8 @@ class rsUserHelper
 	/**
 	 * This function is used to check if the 'username' already exist in the database with any other ID
 	 *
-	 * @param   string  $username
-	 * @param   int     $id
+	 * @param   string $username
+	 * @param   int    $id
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::validateUser instead
 	 *
@@ -183,8 +183,8 @@ class rsUserHelper
 	/**
 	 * This function is used to check if the 'email' already exist in the database with any other ID
 	 *
-	 * @param   string  $username
-	 * @param   int     $id
+	 * @param   string $username
+	 * @param   int    $id
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::validateEmail instead
 	 *
@@ -203,7 +203,7 @@ class rsUserHelper
 		{
 			if (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || $data['user_id'] < 0)
 			{
-				$reduser = new stdClass;
+				$reduser     = new stdClass;
 				$reduser->id = $data['user_id'];
 
 				return $reduser;
@@ -212,7 +212,7 @@ class rsUserHelper
 
 		if ($app->isAdmin() && $data['user_id'] < 0 && isset($data['users_info_id']))
 		{
-			$reduser = new stdClass;
+			$reduser     = new stdClass;
 			$reduser->id = $data['user_id'];
 
 			return $reduser;
@@ -319,7 +319,7 @@ class rsUserHelper
 		// Or Optional account creation
 		if (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || (Redshop::getConfig()->get('REGISTER_METHOD') == 2 && $createaccount == 0))
 		{
-			$user = new stdClass;
+			$user     = new stdClass;
 			$user->id = 0;
 
 			return $user;
@@ -335,7 +335,7 @@ class rsUserHelper
 		// Prevent front-end user to change user group in the form and then being able to register on any Joomla! user group.
 		if ($app->isSite())
 		{
-			$params = JComponentHelper::getParams('com_users');
+			$params         = JComponentHelper::getParams('com_users');
 			$data['groups'] = array($params->get('new_usertype', 2));
 		}
 
@@ -349,7 +349,6 @@ class rsUserHelper
 			$data['password2'] = $better_token;
 			JRequest::setVar('password1', $better_token);
 		}
-
 
 
 		if (trim($data['email']) == "")
@@ -593,8 +592,7 @@ class rsUserHelper
 		// Update user info id
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION'))
 		{
-			$economic         = economic::getInstance();
-			$original_info_id = $row->users_info_id;
+			$economic = economic::getInstance();
 
 			if ($isNew)
 			{
@@ -606,12 +604,22 @@ class rsUserHelper
 
 					if ($row->users_info_id <= $maxDebtor)
 					{
-						$nextId = $maxDebtor + 1;
-						$sql    = "UPDATE #__redshop_users_info "
-							. "SET users_info_id = " . (int) $nextId . " "
-							. "WHERE users_info_id = " . (int) $row->users_info_id;
-						$this->_db->setQuery($sql);
-						$this->_db->execute();
+						$db = $this->_db;
+						$query = $db->setQuery(true)
+							->select('MAX(' . $db->qn('users_info_id') . ')')
+							->from($db->qn('#__redshop_users_info'));
+						$currentMax = $db->setQuery($query)->loadResult();
+						$nextId = $currentMax + 1;
+
+						$query->clear()
+							->update($db->qn('#__redshop_users_info'))
+							->set($db->qn('users_info_id') . ' = ' . $nextId)
+							->where($db->qn('users_info_id') . ' = ' . (int) $row->users_info_id);
+						$db->setQuery($query)->execute();
+
+						$alterQuery = 'ALTER TABLE ' . $db->qn('#__redshop_users_info') . ' AUTO_INCREMENT = ' . $nextId + 1;
+						$db->setQuery($alterQuery)->execute();
+
 						$row->users_info_id = $nextId;
 					}
 				}
@@ -787,10 +795,10 @@ class rsUserHelper
 	/**
 	 * Method for add an subscriber for Newsletter
 	 *
-	 * @param   int    $userId    ID of user.
-	 * @param   array  $data      Data of subscriber
-	 * @param   int    $sendMail  True for send mail.
-	 * @param   null   $isNew     Capability for old method.
+	 * @param   int   $userId   ID of user.
+	 * @param   array $data     Data of subscriber
+	 * @param   int   $sendMail True for send mail.
+	 * @param   null  $isNew    Capability for old method.
 	 *
 	 * @return  boolean
 	 *
@@ -814,19 +822,17 @@ class rsUserHelper
 
 		if ($user->id)
 		{
-			$and .= "AND `user_id` = " . (int) $user->id . " ";
+			$and   .= "AND `user_id` = " . (int) $user->id . " ";
 			$email = $user->email;
 		}
 
 		if ($and != "")
 		{
-			$query = "DELETE FROM #__redshop_newsletter_subscription "
-				. "WHERE email = " . $db->quote($email) . " "
-				. $and;
+			$query = "DELETE FROM " . $db->qn('#__redshop_newsletter_subscription')
+				. " WHERE " . $db->qn('email') . " = " . $db->quote($email) . $and;
 			$this->_db->setQuery($query);
 			$this->_db->execute();
-			$redshopMail = redshopMail::getInstance();
-			$redshopMail->sendNewsletterCancellationMail($email);
+			RedshopHelperMail::sendNewsletterCancellationMail($email);
 		}
 
 		return true;
@@ -930,7 +936,7 @@ class rsUserHelper
 			$template_pd_sdata = explode('{account_creation_start}', $template_desc);
 			$template_pd_edata = explode('{account_creation_end}', $template_pd_sdata [1]);
 			$template_middle   = "";
-			$checkbox_style  = '';
+			$checkbox_style    = '';
 
 			if (Redshop::getConfig()->get('REGISTER_METHOD') != 1 && Redshop::getConfig()->get('REGISTER_METHOD') != 3)
 			{
@@ -1027,13 +1033,13 @@ class rsUserHelper
 
 		// Allow phone number to be optional using template tags.
 		$phoneIsRequired = ((boolean) strstr($template_desc, '{phone_optional}')) ? '' : 'required';
-		$template_desc = str_replace("{phone_optional}",'', $template_desc);
-		$template_desc = str_replace(
+		$template_desc   = str_replace("{phone_optional}", '', $template_desc);
+		$template_desc   = str_replace(
 			"{phone}",
 			'<input class="inputbox ' . $phoneIsRequired . '" type="text" name="phone" id="phone" size="32" maxlength="250" value="' . (isset($post["phone"]) ? $post["phone"] : '') . '" onblur="return searchByPhone(this.value,\'BT\');" />',
 			$template_desc
 		);
-		$template_desc = str_replace("{phone_lbl}", JText::_('COM_REDSHOP_PHONE'), $template_desc);
+		$template_desc   = str_replace("{phone_lbl}", JText::_('COM_REDSHOP_PHONE'), $template_desc);
 
 		$template_desc = str_replace("{country_txtid}", "div_country_txt", $template_desc);
 		$template_desc = str_replace("{country_style}", $countrystyle, $template_desc);
@@ -1089,8 +1095,8 @@ class rsUserHelper
 
 		if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1 && Redshop::getConfig()->get('SHOW_TAX_EXEMPT_INFRONT'))
 		{
-			$allowCompany  = '';
-			$taxExempt = '';
+			$allowCompany = '';
+			$taxExempt    = '';
 
 			if (isset($post['is_company']) && 1 != (int) $post['is_company'])
 			{
@@ -1157,29 +1163,29 @@ class rsUserHelper
 		$post['country_code_ST']  = $countryarray['country_code_ST'];
 		$lists['country_code_ST'] = $countryarray['country_dropdown'];
 
-		$statearray               = RedshopHelperWorld::getStateList($post, 'state_code_ST', 'ST');
-		$lists['state_code_ST']   = $statearray['state_dropdown'];
+		$statearray             = RedshopHelperWorld::getStateList($post, 'state_code_ST', 'ST');
+		$lists['state_code_ST'] = $statearray['state_dropdown'];
 
 		$countrystyle = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
-		$statestyle               = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
+		$statestyle   = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
 
 		$template_desc = str_replace("{firstname_st_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $template_desc);
-		$value = (!empty($post["firstname_ST"])) ? $post["firstname_ST"] : '';
+		$value         = (!empty($post["firstname_ST"])) ? $post["firstname_ST"] : '';
 		$template_desc = str_replace("{firstname_st}", '<input class="inputbox billingRequired valid" type="text" name="firstname_ST" id="firstname_ST" size="32" maxlength="250" value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>', $template_desc);
 		$template_desc = str_replace("{lastname_st_lbl}", JText::_('COM_REDSHOP_LASTNAME'), $template_desc);
-		$value = (!empty($post["lastname_ST"])) ? $post["lastname_ST"] : '';
+		$value         = (!empty($post["lastname_ST"])) ? $post["lastname_ST"] : '';
 		$template_desc = str_replace("{lastname_st}", '<input class="inputbox billingRequired valid" type="text" name="lastname_ST" id="lastname_ST" size="32" maxlength="250" value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>', $template_desc);
 		$template_desc = str_replace("{address_st_lbl}", JText::_('COM_REDSHOP_ADDRESS'), $template_desc);
-		$value = (!empty($post["address_ST"])) ? $post["address_ST"] : '';
+		$value         = (!empty($post["address_ST"])) ? $post["address_ST"] : '';
 		$template_desc = str_replace("{address_st}", '<input class="inputbox billingRequired valid" type="text" name="address_ST" id="address_ST" size="32" maxlength="250" value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>', $template_desc);
 		$template_desc = str_replace("{zipcode_st_lbl}", JText::_('COM_REDSHOP_ZIP'), $template_desc);
-		$value = (!empty($post["zipcode_ST"])) ? $post["zipcode_ST"] : '';
+		$value         = (!empty($post["zipcode_ST"])) ? $post["zipcode_ST"] : '';
 		$template_desc = str_replace("{zipcode_st}", '<input class="inputbox billingRequired valid zipcode" type="text" name="zipcode_ST" id="zipcode_ST" size="32" maxlength="10" value="' . $value . '" onblur="return autoFillCity(this.value,\'ST\');" data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP') . '" />', $template_desc);
 		$template_desc = str_replace("{city_st_lbl}", JText::_('COM_REDSHOP_CITY'), $template_desc);
-		$value = (!empty($post["city_ST"])) ? $post["city_ST"] : '';
+		$value         = (!empty($post["city_ST"])) ? $post["city_ST"] : '';
 		$template_desc = str_replace("{city_st}", '<input class="inputbox billingRequired valid" type="text" name="city_ST" ' . $read_only . ' id="city_ST" value="' . $value . '" size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>', $template_desc);
 		$template_desc = str_replace("{phone_st_lbl}", JText::_('COM_REDSHOP_PHONE'), $template_desc);
-		$value = (!empty($post["phone_ST"])) ? $post["phone_ST"] : '';
+		$value         = (!empty($post["phone_ST"])) ? $post["phone_ST"] : '';
 		$template_desc = str_replace("{phone_st}", '<input class="inputbox billingRequired valid phone" type="text" name="phone_ST" id="phone_ST" size="32" maxlength="250" value="' . $value . '" onblur="return searchByPhone(this.value,\'ST\');" data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE') . '"/>', $template_desc);
 
 		$template_desc = str_replace("{country_st_txtid}", "div_country_st_txt", $template_desc);
@@ -1238,7 +1244,7 @@ class rsUserHelper
 	/**
 	 * Display an error message
 	 *
-	 * @param   string  $error  Error message
+	 * @param   string $error Error message
 	 *
 	 * @return  void
 	 */
