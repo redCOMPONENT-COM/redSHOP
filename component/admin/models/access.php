@@ -43,14 +43,14 @@ class RedshopModelAccess extends RedshopModelForm
 		}
 
 		$rules = $data['rules'];
-		$rules = array_map('array_filter', $rules);
+		$rules = array_map(function($item){ return array_filter($item, 'strlen'); }, $rules);
 		$rules = new JAccessRules($rules);
 		unset($data['rules']);
 
 		/** @var RedshopTableAccess $table */
 		$table = $this->getTable();
 
-		if (!$table->load($data['id']))
+		if (!$table->load($data['id']) || empty($table->parent_id))
 		{
 			/** @var JTableAsset $root */
 			$root = JTable::getInstance('asset');
