@@ -27,10 +27,10 @@ class PlgRedshop_ProductProduct_AltText extends JPlugin
 
 	/**
 	 * onAfterProductSave
-	 * 
-	 * @param   object  &$product  data
-	 * @param   bool    &$altText  new or exist
-	 * 
+	 *
+	 * @param   object   &$product  Data
+	 * @param   boolean  &$altText  New or exist
+	 *
 	 * @return  void
 	 */
 	public function onChangeMainProductImageAlternateText(&$product, &$altText)
@@ -46,20 +46,19 @@ class PlgRedshop_ProductProduct_AltText extends JPlugin
 		{
 			$altText = str_replace('{category_name}', $product->category_name, $altText);
 		}
-		else
+		elseif (isset($product->category_id))
 		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->select($db->qn('category_name'))
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->qn('category_name'))
 				->from($db->qn('#__redshop_category'))
 				->where($db->qn('category_id') . ' = ' . $product->category_id);
 
-			$cat = $db->setQuery($query)->loadObject();
+			$categoryName = $db->setQuery($query)->loadResult();
 
-			if (is_object($cat))
+			if (!empty($cat))
 			{
-				$altText = str_replace('{category_name}', $cat->category_name, $altText);
+				$altText = str_replace('{category_name}', $categoryName, $altText);
 			}
 		}
 	}
