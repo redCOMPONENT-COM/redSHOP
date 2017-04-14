@@ -291,9 +291,14 @@ class RedshopHelperCategory
 		$query = $db->getQuery(true)
 			->select($db->qn(array('id', 'name')))
 			->from($db->qn('#__redshop_category'))
-			->where($db->qn('parent_id') . ' = ' . $db->q((int) $cid))
 			->where($db->qn('id') . ' != ' . $db->q((int) $categoryId))
+			->where($db->qn('level') . ' > 0')
 			->order($db->qn('name') . ' ASC');
+
+		if ($cid > 0)
+		{
+			$query->where($db->qn('parent_id') . ' = ' . $db->q((int) $cid));
+		}
 
 		$db->setQuery($query);
 		$cats = $db->loadObjectList();

@@ -349,6 +349,7 @@ class RedshopModelProduct extends RedshopModel
 			->select($db->qn('name'))
 			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
 			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
 			->order($db->qn('c.name'));
 
 		return $db->setQuery($query)->loadObjectlist();

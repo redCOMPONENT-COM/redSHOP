@@ -565,10 +565,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		$where_cat_discount = '';
 
+		$categories = array_unique($data['product_category']);
+		$countCategory = count($categories);
+
 		// Building product categories relationship
-		for ($j = 0; $j < count($data ['product_category']); $j++)
+		for ($j = 0; $j < $countCategory; $j++)
 		{
-			$cat = $data ['product_category'] [$j];
+			$cat = $categories[$j];
 
 			if (array_key_exists($cat, $catorder))
 			{
@@ -595,17 +598,17 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			$where_cat_discount .= " FIND_IN_SET('" . $cat . "',category_id) ";
 
-			if ((count($data ['product_category']) - 1) != $j)
+			if ((count($categories) - 1) != $j)
 			{
 				$where_cat_discount .= ' OR ';
 			}
 		}
 
-		$category_array = array_diff($data['product_category'], $oldcategory);
+		$category_array = array_diff($categories, $oldcategory);
 
 		if (count($category_array) > 0)
 		{
-			$category_array = array_diff($oldcategory, $data['product_category']);
+			$category_array = array_diff($oldcategory, $categories);
 		}
 
 		$sel = "SELECT * FROM " . $this->table_prefix . "mass_discount WHERE " . $where_cat_discount . " ORDER BY id desc limit 0,1";
