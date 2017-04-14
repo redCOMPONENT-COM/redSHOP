@@ -35,7 +35,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
 		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
-		$I->click('//*[@id="s2id_category_more_template"]/ul');
+		$I->click('//*[@id="s2id_jform_more_template"]/ul');
 		$I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
 		$I->click("Save & Close");
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
