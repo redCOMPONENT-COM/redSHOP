@@ -137,22 +137,20 @@ class RedshopModelWrapper_detail extends RedshopModel
 		return $db->setQuery($query)->loadResult();
 	}
 
-	public function getCategoryInfo($categoryid = 0)
+	public function getCategoryInfo($categoryId = 0)
 	{
-		$and = '';
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('level') . ' > 0');
 
-		if ($categoryid != 0)
+		if ($categoryId > 0)
 		{
-			$and = 'WHERE category_id = ' . $categoryid;
+			$query->where($db->qn('id') . ' = ' . $db->q((int) $categoryId));
 		}
 
-		$q = 'SELECT * '
-			. 'FROM ' . $this->_table_prefix . 'category '
-			. $and;
-		$this->_db->setQuery($q);
-		$list = $this->_db->loadObjectList();
-
-		return $list;
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	public function getProductInfowrapper($productid = 0)
