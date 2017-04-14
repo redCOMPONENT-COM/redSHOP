@@ -84,7 +84,7 @@ class ManageCategoryAdministratorCest
 		$I->wantTo('Deletion of Category in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Delete a Cateogry');
+		$I->wantTo('Delete a Category');
 		$I->deleteCategory($this->newCategoryName);
 		$I->searchCategory($this->newCategoryName, 'Delete');
 		$I->dontSee($this->newCategoryName);
