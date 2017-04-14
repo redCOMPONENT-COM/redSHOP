@@ -46,7 +46,7 @@ defined('_JEXEC') or die;
                 return;
             }
 
-            var url = "index.php?option=com_redshop&cid[]=" + $("#product_id").val() + "&task=product_detail.getChildProducts";
+            var url = "index.php?option=com_redshop&cid[]=" + $("#product_id").val() + "&task=product.getChildProducts";
             url += "&tmpl=component&json=1&<?php echo JSession::getFormToken() ?>=1";
 
             $.ajax({

@@ -44,30 +44,11 @@ $calendarFormat = '%d-%m-%Y';
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="product_name" id="product_name-lbl">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>
-                                <span class="star text-danger"> *</span>
-                            </label>
-                            <input class="form-control"
-                                   type="text"
-                                   name="product_name"
-                                   id="product_name"
-                                   size="32"
-                                   maxlength="250"
-                                   value="<?php echo htmlspecialchars($this->item->name); ?>"/>
+							<?php echo $this->form->renderField('title') ?>
                         </div>
 
                         <div class="form-group">
-                            <label for="product_number" id="product_number-lbl">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER') ?><span
-                                        class="star text-danger"> *</span>
-								<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'), JText::_('COM_REDSHOP_PRODUCT_NUMBER'), 'tooltip.png', '', '', false); ?>
-                            </label>
-                            <input class="form-control validate-productNumber"
-                                   type="text" name="product_number" id="product_number" size="32" maxlength="250"
-                                   value="<?php echo $this->item->number; ?>"
-                            />
-                            <span class="text-error"></span>
+							<?php echo $this->form->renderField('number') ?>
                         </div>
 
                         <div class="form-group">
@@ -182,45 +163,11 @@ $calendarFormat = '%d-%m-%Y';
                         </div>
 
                         <div class="form-group">
-                            <label for="discount_startdate"><?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE'); ?></label>
-							<?php
-							$startDate = null;
-
-							if ($this->item->discount_startdate)
-							{
-								$startDate = JFactory::getDate($this->item->discount_startdate)->format("d-m-Y");
-							}
-
-							echo JHtml::_(
-								'calendar',
-								$startDate,
-								'discount_startdate',
-								'discount_startdate',
-								$calendarFormat,
-								array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19')
-							);
-							?>
+	                        <?php echo $this->form->renderField('discount_startdate') ?>
                         </div>
 
                         <div class="form-group">
-                            <label for="discount_enddate"><?php echo JText::_('COM_REDSHOP_DISCOUNT_END_DATE'); ?></label>
-							<?php
-							$endDate = null;
-
-							if ($this->item->discount_enddate)
-							{
-								$endDate = JFactory::getDate($this->item->discount_enddate)->format("d-m-Y");
-							}
-
-							echo JHtml::_(
-								'calendar',
-								$endDate,
-								'discount_enddate',
-								'discount_enddate',
-								$calendarFormat,
-								array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19')
-							);
-							?>
+	                        <?php echo $this->form->renderField('discount_enddate') ?>
                         </div>
 
 						<?php $display = "";
@@ -246,14 +193,12 @@ $calendarFormat = '%d-%m-%Y';
             </div>
             <div class="box-body">
                 <div class="form-group">
-                    <label><?php echo JText::_('COM_REDSHOP_FULL_DESCRIPTION'); ?></label>
-					<?php echo $editor->display("product_desc", $this->item->product_desc, '$widthPx', '$heightPx', '100', '20'); ?>
+					<?php echo $this->form->renderField('description') ?>
                 </div>
                 <div class="clearfix"></div>
 
                 <div class="form-group">
-                    <label><?php echo JText::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?></label>
-					<?php echo $editor->display("product_s_desc", $this->item->product_s_desc, '$widthPx', '$heightPx', '100', '20'); ?>
+					<?php echo $this->form->renderField('short_description') ?>
                 </div>
             </div>
         </div>
@@ -341,7 +286,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="product_length"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_length); ?>"
+                           value="<?php echo $this->producthelper->redunitDecimal($this->item->length); ?>"
                     />
                 </div>
 
@@ -366,7 +311,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="product_width"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_width); ?>"
+                           value="<?php echo $this->producthelper->redunitDecimal($this->item->width); ?>"
                     />
                 </div>
 
@@ -384,7 +329,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="product_height"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_height); ?>"
+                           value="<?php echo $this->producthelper->redunitDecimal($this->item->height); ?>"
                     />
                 </div>
 
@@ -402,7 +347,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="product_diameter"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_diameter); ?>"
+                           value="<?php echo $this->producthelper->redunitDecimal($this->item->diameter); ?>"
                     />
                 </div>
 
@@ -550,7 +495,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="minimum_per_product_total"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->item->minimum_per_product_total; ?>"/>
+                           value="<?php echo $this->item->min_per_product_total; ?>"/>
                 </div>
 
 				<?php if (Redshop::getConfig()->get('ALLOW_PRE_ORDER')) : ?>

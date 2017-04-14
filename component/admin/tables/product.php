@@ -233,17 +233,19 @@ class RedshopTableProduct extends RedshopTable
 	 */
 	public $on_sale = null;
 
+	public $special = null;
+
 	/**
 	 * @var  int
 	 * @since 2.0.5
 	 */
 	public $not_for_sale = null;
-	
+
 	/**
 	 * @var  int
 	 * @since 2.0.5
 	 */
-	public $is_expired = null;
+	public $expired = null;
 
 	/**
 	 * @var  int
@@ -256,7 +258,7 @@ class RedshopTableProduct extends RedshopTable
 	 * @since 2.0.5
 	 */
 	public $cat_in_sefurl = null;
-	
+
 	/**
 	 * @var   string
 	 * @since 2.0.5
@@ -280,7 +282,7 @@ class RedshopTableProduct extends RedshopTable
 	 * @since 2.0.5
 	 */
 	public $width = null;
-	
+
 	/**
 	 * @var   float
 	 * @since 2.0.5
@@ -407,6 +409,8 @@ class RedshopTableProduct extends RedshopTable
 	 */
 	public $pagetitle = null;
 
+	public $pageheading = null;
+
 	/**
 	 * @var   string
 	 * @since 2.0.5
@@ -430,6 +434,14 @@ class RedshopTableProduct extends RedshopTable
 	 * @since 2.0.5
 	 */
 	public $params = null;
+
+	/**
+	 * The table name without the prefix. Ex: cursos_courses
+	 *
+	 * @var  string
+	 */
+
+	protected $_tableName = 'redshop_product';
 
 	/**
 	 * Validate properties

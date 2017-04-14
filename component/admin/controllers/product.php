@@ -20,94 +20,8 @@ jimport('joomla.filesystem.file');
  *
  * @since       1.0
  */
-class RedshopControllerProduct extends RedshopController
+class RedshopControllerProduct extends RedshopControllerForm
 {
-	public $app;
-
-	/**
-	 * Constructor to set the right model
-	 *
-	 * @param   array  $default  Optional  configuration parameters
-	 */
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-
-		$this->registerTask('add', 'edit');
-
-		$this->app    = JFactory::getApplication();
-		$this->option = $this->input->getCmd('option', 'com_redshop');
-	}
-
-	/**
-	 * Method for redirect to edit an existing record.
-	 *
-	 * @return void
-	 *
-	 * @since   1.5
-	 */
-	public function editRedirect()
-	{
-		$cid = $this->input->post->get('cid', array(), 'array');
-		$this->setRedirect(
-			JRoute::_(
-				'index.php?option=com_redshop&view=product'
-				. $this->getRedirectToItemAppend($cid[0], 'cid[]'), false
-			)
-		);
-	}
-
-	/**
-	 * Method for redirect to add task.
-	 *
-	 * @return void
-	 *
-	 * @since   1.5
-	 */
-	public function addRedirect()
-	{
-		$this->setRedirect(
-			JRoute::_(
-				'index.php?option=com_redshop&view=product'
-				. $this->getRedirectToItemAppend(), false
-			)
-		);
-	}
-
-	/**
-	 * Edit task.
-	 *
-	 * @return void
-	 */
-	public function edit()
-	{
-		$this->input->set('view', 'product');
-		$this->input->set('layout', 'default');
-		$this->input->set('hidemainmenu', 1);
-
-		parent::display();
-	}
-
-	/**
-	 * Save + New task.
-	 *
-	 * @return void
-	 */
-	public function save2new()
-	{
-		$this->save(2);
-	}
-
-	/**
-	 * Apply task.
-	 *
-	 * @return void
-	 */
-	public function apply()
-	{
-		$this->save(1);
-	}
-
 	/**
 	 * Save task.
 	 *
@@ -115,7 +29,7 @@ class RedshopControllerProduct extends RedshopController
 	 *
 	 * @return void
 	 */
-	public function save($apply = 0)
+	public function save($key = null, $urlVar = null)
 	{
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$post                 = $this->input->post->getArray();
@@ -127,7 +41,8 @@ class RedshopControllerProduct extends RedshopController
 		$this->app->setUserState('com_redshop.product_detail.selectedTabPosition', $selectedTabPosition);
 
 		if (is_array($post['product_category'])
-			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category'])))
+			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
+		)
 		{
 			$post['cat_in_sefurl'] = $post['product_category'][0];
 		}
@@ -221,144 +136,6 @@ class RedshopControllerProduct extends RedshopController
 
 			parent::display();
 		}
-	}
-
-	/**
-	 * Remove task.
-	 *
-	 * @return void
-	 */
-	public function remove()
-	{
-		$cid = $this->input->post->get('cid', array(), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 'notice');
-		}
-
-		$model = $this->getModel('product_detail');
-
-		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_DELETED_SUCCESSFULLY');
-
-		if (!$model->delete($cid))
-		{
-			$msg = "";
-
-			if ($model->getError() != "")
-			{
-				$this->app->enqueueMessage($model->getError(), 'notice');
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
-	}
-
-	/**
-	 * Publish task.
-	 *
-	 * @return void
-	 */
-	public function publish()
-	{
-		$cid = $this->input->post->get('cid', array(), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 'error');
-		}
-
-		$model = $this->getModel('product_detail');
-
-		if (!$model->publish($cid, 1))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
-	}
-
-	/**
-	 * Unpublish task.
-	 *
-	 * @return void
-	 */
-	public function unpublish()
-	{
-		$cid = $this->input->post->get('cid', array(), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 'error');
-		}
-
-		$model = $this->getModel('product_detail');
-
-		if (!$model->publish($cid, 0))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
-	}
-
-	/**
-	 * Unpublish cancel.
-	 *
-	 * @return void
-	 */
-	public function cancel()
-	{
-		$model    = $this->getModel('Product');
-		$recordId = $this->input->get('cid');
-		$model->checkin($recordId);
-		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
-	}
-
-	/**
-	 * Save to Copy
-	 *
-	 * @return void
-	 */
-	public function save2copy()
-	{
-		$cid   = $this->input->post->get('cid', array(), 'array');
-		$model = $this->getModel('Product');
-
-		if ($row = $model->copy($cid, true))
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, JText::_('COM_REDSHOP_PRODUCT_COPIED'));
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $cid[0], JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED'));
-		}
-	}
-
-	/**
-	 * Copy task.
-	 *
-	 * @return void
-	 */
-	public function copy()
-	{
-		$cid = $this->input->post->get('cid', array(), 'array');
-
-		$model = $this->getModel('Product');
-
-		if ($model->copy($cid))
-		{
-			$msg = JText::_('COM_REDSHOP_PRODUCT_COPIED');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED');
-		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -570,9 +347,9 @@ class RedshopControllerProduct extends RedshopController
 	/**
 	 * Does something with image?
 	 *
-	 * @param   int    $width  Width.
-	 * @param   int    $height Height.
-	 * @param   string $target Target.
+	 * @param   int     $width  Width.
+	 * @param   int     $height Height.
+	 * @param   string  $target Target.
 	 *
 	 * @return array
 	 */

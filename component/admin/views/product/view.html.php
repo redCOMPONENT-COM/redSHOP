@@ -62,11 +62,12 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$redhelper           = redhelper::getInstance();
 		$this->producthelper = productHelper::getInstance();
 
-		$this->option = $jinput->getString('option', 'com_redshop');
 		$lists        = array();
 
 		$model      = $this->getModel('Product');
-		$this->item = $this->get('Data');
+		$this->form       = $this->get('Form');
+		$this->item       = $this->get('Item');
+		$this->state      = $this->get('State');
 
 		$this->isNew = $this->item->id < 1;
 
@@ -75,13 +76,6 @@ class RedshopViewProduct extends RedshopViewAdmin
 		{
 			$this->item->append_to_global_seo = '';
 			$this->item->canonical_url        = '';
-		}
-
-		// Fail if checked out not by 'me'
-		if ($model->isCheckedOut($user->get('id')))
-		{
-			$msg = JText::_('COM_REDSHOP_PRODUCT_BEING_EDITED');
-			$app->redirect('index.php?option=com_redshop&view=products', $msg);
 		}
 
 		// Check redproductfinder is installed
@@ -255,72 +249,16 @@ class RedshopViewProduct extends RedshopViewAdmin
 			$supplier = array_merge($supps, $supplier);
 		}
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'pencil-2 redshop_products48');
-
+		// @TODO Use Joomla! JText for javascript instead
 		$document = JFactory::getDocument();
-
 		$document->addScriptDeclaration("var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';");
 
-		/**
-		 * Override field.js file.
-		 * With this trigger the file can be loaded from a plugin. This can be used
-		 * to display different JS generated interface for attributes depending on a product type.
-		 * So, product type plugins should be used for this event. Be aware that this file should
-		 * be loaded only once.
-		 */
-		$loadedFromAPlugin = $this->dispatcher->trigger('loadFieldsJSFromPlugin', array($this->item));
-
-		if (in_array(1, $loadedFromAPlugin))
-		{
-			$loadedFromAPlugin = true;
-		}
-		else
-		{
-			$loadedFromAPlugin = false;
-		}
-
-		if (!$loadedFromAPlugin)
-		{
-			$document->addScript('components/com_redshop/assets/js/fields.js');
-		}
-
-		$document->addScript('components/com_redshop/assets/js/json.js');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
-
-		if (version_compare(JVERSION, '3.0', '<'))
-		{
-			$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/update.css');
-		}
-
-		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/attribute_manipulation.js');
-
-		if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css'))
-		{
-			$document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
-		}
+		$this->assets();
 
 		$uri = JFactory::getURI();
 
-		$layout = $jinput->getString('layout', '');
-
-		if ($layout == 'property_images')
-		{
-			$this->setLayout('property_images');
-		}
-		elseif ($layout == 'attribute_color')
-		{
-			$this->setLayout('attribute_color');
-		}
-		elseif ($layout == 'productstockroom')
-		{
-			$this->setLayout('productstockroom');
-		}
-		else
-		{
-			$this->setLayout('default');
-		}
-
-		$this->displayToolbar();
+		$this->prepare();
+		$this->addToolbar();
 
 		if ($this->item->id > 0)
 		{
@@ -345,8 +283,6 @@ class RedshopViewProduct extends RedshopViewAdmin
 
 			RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
 		}
-
-		$model = $this->getModel('Product');
 
 		$accessory_product = array();
 
@@ -389,7 +325,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 		}
 
 		$lists['product_tax'] = JHtml::_('select.genericlist', $product_tax, 'product_tax_id',
-			'class="inputbox" size="1"  ', 'value', 'text', $this->item->product_tax_id
+			'class="inputbox" size="1"  ', 'value', 'text', $this->item->tax_id
 		);
 
 		$categories                             = $product_category->list_all("product_category[]", 0, $productcats, 10, false, true);
@@ -401,11 +337,11 @@ class RedshopViewProduct extends RedshopViewAdmin
 		);
 
 		$lists['supplier']            = JHtml::_('select.genericlist', $supplier, 'supplier_id', 'class="inputbox" size="1" ', 'value', 'text', $this->item->supplier_id);
-		$lists['published']           = JHtml::_('select.booleanlist', 'published', 'class="inputbox"', $this->item->published);
-		$lists['product_on_sale']     = JHtml::_('select.booleanlist', 'product_on_sale', 'class="inputbox"', $this->item->product_on_sale);
+		$lists['published']           = JHtml::_('select.booleanlist', 'published', 'class="inputbox"', $this->item->state);
+		$lists['product_on_sale']     = JHtml::_('select.booleanlist', 'product_on_sale', 'class="inputbox"', $this->item->on_sale);
 		$lists['copy_attribute']      = JHtml::_('select.booleanlist', 'copy_attribute', 'class="inputbox"', 0);
-		$lists['product_special']     = JHtml::_('select.booleanlist', 'product_special', 'class="inputbox"', $this->item->product_special);
-		$lists['product_download']    = JHtml::_('select.booleanlist', 'product_download', 'class="inputbox"', $this->item->product_download);
+		$lists['product_special']     = JHtml::_('select.booleanlist', 'product_special', 'class="inputbox"', $this->item->special);
+		$lists['product_download']    = JHtml::_('select.booleanlist', 'product_download', 'class="inputbox"', $this->item->download);
 		$lists['not_for_sale']        = JHtml::_('select.booleanlist', 'not_for_sale', 'class="inputbox"', $this->item->not_for_sale);
 		$lists['expired']             = JHtml::_('select.booleanlist', 'expired', 'class="inputbox"', $this->item->expired);
 		$lists['allow_decimal_piece'] = JHtml::_('select.booleanlist', 'allow_decimal_piece', 'class="inputbox"', $this->item->allow_decimal_piece);
@@ -471,7 +407,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 		);
 
 		$lists['product_tax_group_id'] = JHtml::_('select.genericlist', $productVatGroup, 'product_tax_group_id',
-			'class="inputbox" size="1" ', 'value', 'text', $this->item->product_tax_group_id
+			'class="inputbox" size="1" ', 'value', 'text', $this->item->tax_group_id
 		);
 		$prop_oprand                   = array();
 		$prop_oprand[]                 = JHtml::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
@@ -518,9 +454,9 @@ class RedshopViewProduct extends RedshopViewAdmin
 			$productTypeOptions[] = JHtml::_('select.option', $productTypePluginOption['value'], $productTypePluginOption['text']);
 		}
 
-		if ($this->item->product_download == 1)
+		if ($this->item->download == 1)
 		{
-			$this->item->product_type = 'file';
+			$this->item->type = 'file';
 		}
 
 		$lists["product_type"] = JHtml::_(
@@ -539,7 +475,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$accountgroup = array_merge($op, $accountgroup);
 
 		$lists["accountgroup_id"] = JHtml::_('select.genericlist', $accountgroup, 'accountgroup_id',
-			'class="inputbox" size="1" ', 'value', 'text', $this->item->accountgroup_id
+			'class="inputbox" size="1" ', 'value', 'text', $this->item->account_group_id
 		);
 
 		// For downloadable products
@@ -563,7 +499,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 	private function getTabMenu()
 	{
 		$app                 = JFactory::getApplication();
-		$selectedTabPosition = $app->getUserState('com_redshop.product_detail.selectedTabPosition', 'general_data');
+		$selectedTabPosition = $app->getUserState('com_redshop.product.selectedTabPosition', 'general_data');
 
 		$tabMenu = RedshopAdminMenu::getInstance()->init();
 		$tabMenu->section('tab')
@@ -654,7 +590,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 		return $tabMenu;
 	}
 
-	protected function displayToolbar()
+	protected function addToolbar()
 	{
 		$model = $this->getModel('Product');
 		$user  = JFactory::getUser();
@@ -677,6 +613,73 @@ class RedshopViewProduct extends RedshopViewAdmin
 
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 			JToolBarHelper::addNew('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
+		}
+	}
+
+	protected function assets ()
+	{
+		$document = JFactory::getDocument();
+		$document->addScript('components/com_redshop/assets/js/json.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/update.css');
+		}
+
+		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/attribute_manipulation.js');
+		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/product.js');
+
+		if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css'))
+		{
+			$document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
+		}
+
+		/**
+		 * Override field.js file.
+		 * With this trigger the file can be loaded from a plugin. This can be used
+		 * to display different JS generated interface for attributes depending on a product type.
+		 * So, product type plugins should be used for this event. Be aware that this file should
+		 * be loaded only once.
+		 */
+		$loadedFromAPlugin = $this->dispatcher->trigger('loadFieldsJSFromPlugin', array($this->item));
+
+		if (in_array(1, $loadedFromAPlugin))
+		{
+			$loadedFromAPlugin = true;
+		}
+		else
+		{
+			$loadedFromAPlugin = false;
+		}
+
+		if (!$loadedFromAPlugin)
+		{
+			$document->addScript('components/com_redshop/assets/js/fields.js');
+		}
+	}
+
+	protected function prepare ()
+	{
+		$jinput = JFactory::getApplication()->input;
+
+		$layout = $jinput->getString('layout', '');
+
+		if ($layout == 'property_images')
+		{
+			$this->setLayout('property_images');
+		}
+		elseif ($layout == 'attribute_color')
+		{
+			$this->setLayout('attribute_color');
+		}
+		elseif ($layout == 'productstockroom')
+		{
+			$this->setLayout('productstockroom');
+		}
+		else
+		{
+			$this->setLayout('default');
 		}
 	}
 }

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="information">
+        <field
+                name="id"
+                type="hidden"
+        />
+        <field
+                name="title"
+                type="redshop.text"
+                label="COM_REDSHOP_PRODUCT_NAME"
+                description="COM_REDSHOP_PRODUCT_NAME_DESCRIPTION"
+                placeholder="COM_REDSHOP_PRODUCT_NAME_PLACEHOLDER"
+                class="form-control"
+                default=""
+                required="true"
+        />
+        <field
+                name="number"
+                type="redshop.text"
+                label="COM_REDSHOP_PRODUCT_NUMBER"
+                description="COM_REDSHOP_PRODUCT_NUMBER_DESCRIPTION"
+                placeholder="COM_REDSHOP_PRODUCT_NUMBER_PLACEHOLDER"
+                class="form-control"
+                default=""
+        />
+        <field
+                name="description"
+                type="editor"
+                label="COM_REDSHOP_PRODUCT_DESCRIPTION"
+                description="COM_REDSHOP_PRODUCT_DESCRIPTION_DESCRIPTION"
+                placeholder="COM_REDSHOP_PRODUCT_DESCRIPTION_PLACEHOLDER"
+                class="form-control"
+                default=""
+                width="300"
+        />
+        <field
+                name="short_description"
+                type="editor"
+                label="COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION"
+                description="COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION_DESCRIPTION"
+                placeholder="COM_REDSHOP_PRODUCT_SHORT_DESCRIPTION_PLACEHOLDER"
+                class="form-control"
+                default=""
+                width="300"
+        />
+        <field
+                name="discount_startdate"
+                type="calendar"
+                label="COM_REDSHOP_PRODUCT_DISCOUNT_START_DATE"
+                description="COM_REDSHOP_PRODUCT_DISCOUNT_START_DATE_DESCRIPTION"
+                placeholder="COM_REDSHOP_PRODUCT_DISCOUNT_START_DATE_PLACEHOLDER"
+                class="form-control"
+                default=""
+                width="300"
+        />
+        <field
+                name="discount_enddate"
+                type="calendar"
+                label="COM_REDSHOP_PRODUCT_DISCOUNT_END_DATE"
+                description="COM_REDSHOP_PRODUCT_DISCOUNT_END_DATE_DESCRIPTION"
+                placeholder="COM_REDSHOP_PRODUCT_DISCOUNT_END_DATE_PLACEHOLDER"
+                class="form-control"
+                default=""
+                width="300"
+        />
+        <field
+                id="product_image"
+                name="product_image"
+                type="mediadragdrop"
+                />
+    </fieldset>
+    <fieldset name="custom_fields">
+
+    </fieldset>
+    <fieldset name="other_images">
+
+    </fieldset>
+    <fieldset name="attributes">
+
+    </fieldset>
+    <fieldset name="accessory_related_product">
+
+    </fieldset>
+    <fieldset name="seo">
+        <field name="append_to_global_seo" type="list" default="" required="true" label="COM_REDSHOP_PRODUCT_APPEND_TO_GLOBAL_SEO" description="">
+            <option value="append">COM_REDSHOP_PRODUCT_APPEND_TO_GLOBAL_SEO_APPEND</option>
+            <option value="prepend">COM_REDSHOP_PRODUCT_APPEND_TO_GLOBAL_SEO_PREPEND</option>
+            <option value="replace">COM_REDSHOP_PRODUCT_APPEND_TO_GLOBAL_SEO_REPLACE</option>
+        </field>
+    </fieldset>
+    <fieldset name="discount_calculator">
+
+    </fieldset>
+</form>

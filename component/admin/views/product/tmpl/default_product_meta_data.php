@@ -18,20 +18,7 @@ defined('_JEXEC') or die;
             </div>
             <div class="box-body">
                 <div class="form-group">
-                    <label for="append_to_global_seo">
-						<?php echo JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO_LBL'); ?>
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_APPEND_TO_GLOBAL_SEO_LBL'),
-							JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO_LBL'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-                    </label>
-					<?php echo $this->lists['append_to_global_seo']; ?>
+	                <?php echo $this->form->renderField('append_to_global_seo') ?>
                 </div>
 
                 <div class="form-group">
