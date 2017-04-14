@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.tooltip');
 
 ?>
 
@@ -155,8 +156,8 @@ JHtml::_('behavior.formvalidation');
 
     }
 </script>
-
-<?php if ($this->input->getBool('showbuttons', false)) : ?>
+<?php $jinput = JFactory::getApplication()->input; ?>
+<?php if ($jinput->getBool('showbuttons', false)) : ?>
     <fieldset>
         <div style="float: right">
             <button type="button" onclick="submitbutton('save');"> <?php echo JText::_('COM_REDSHOP_SAVE'); ?> </button>
@@ -166,7 +167,7 @@ JHtml::_('behavior.formvalidation');
         <div class="configuration"><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT'); ?></div>
     </fieldset>
 <?php endif; ?>
-<form action="index.php?option=com_redshop&task=product.edit&id=<?php echo $this->detail->id; ?>"
+<form action="index.php?option=com_redshop&task=product.edit&id=<?php echo $this->item->id; ?>"
       method="post"
       name="adminForm"
       id="adminForm"
@@ -183,27 +184,27 @@ JHtml::_('behavior.formvalidation');
 	);
 
 	// Echo plugin tabs.
-	$this->dispatcher->trigger('onDisplayProductTabs', array($this->detail));
+	$this->dispatcher->trigger('onDisplayProductTabs', array($this->item));
 	?>
 
     <div class="clr"></div>
-    <input type="hidden" name="id" id="id" value="<?php echo $this->detail->id; ?>"/>
-    <input type="hidden" name="old_manufacturer_id" value="<?php echo $this->detail->manufacturer_id; ?>"/>
-    <input type="hidden" name="old_image" id="old_image" value="<?php echo $this->detail->product_full_image; ?>">
+    <input type="hidden" name="id" id="id" value="<?php echo $this->item->id; ?>"/>
+    <input type="hidden" name="old_manufacturer_id" value="<?php echo $this->item->manufacturer_id; ?>"/>
+    <input type="hidden" name="old_image" id="old_image" value="<?php echo $this->item->product_full_image; ?>">
     <input type="hidden" name="old_thumb_image" id="old_thumb_image"
-           value="<?php echo $this->detail->product_thumb_image; ?>">
+           value="<?php echo $this->item->product_thumb_image; ?>">
     <input type="hidden" name="product_back_full_image" id="product_back_full_image"
-           value="<?php echo $this->detail->product_back_full_image; ?>">
+           value="<?php echo $this->item->product_back_full_image; ?>">
     <input type="hidden" name="product_back_thumb_image" id="product_back_thumb_image"
-           value="<?php echo $this->detail->product_back_thumb_image; ?>">
+           value="<?php echo $this->item->product_back_thumb_image; ?>">
     <input type="hidden" name="product_preview_image" id="product_preview_image"
-           value="<?php echo $this->detail->product_preview_image; ?>">
+           value="<?php echo $this->item->product_preview_image; ?>">
     <input type="hidden" name="product_preview_back_image" id="product_preview_back_image"
-           value="<?php echo $this->detail->product_preview_back_image; ?>">
+           value="<?php echo $this->item->product_preview_back_image; ?>">
     <input type="hidden" name="task" value=""/>
     <input type="hidden" name="section_id" value=""/>
     <input type="hidden" name="template_id" value=""/>
-    <input type="hidden" name="visited" value="<?php echo $this->detail->visited ?>"/>
+    <input type="hidden" name="visited" value="<?php echo $this->item->visited ?>"/>
     <input type="hidden" name="view" value="product"/>
     <input type="hidden" name="selectedTabPosition" value=""/>
 </form>

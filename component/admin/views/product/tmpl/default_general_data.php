@@ -22,7 +22,7 @@ $calendarFormat = '%d-%m-%Y';
                 "index.php?option=com_redshop&view=product&task=product.ajaxGetAllProductNumber",
                 {
                     "<?php echo JSession::getFormToken() ?>": 1,
-                    "product_id": <?php echo $this->detail->id ?>
+                    "product_id": <?php echo $this->item->id ?>
                 },
                 function (response) {
                     productNumber = response.split(',');
@@ -54,17 +54,18 @@ $calendarFormat = '%d-%m-%Y';
                                    id="product_name"
                                    size="32"
                                    maxlength="250"
-                                   value="<?php echo htmlspecialchars($this->detail->name); ?>"/>
+                                   value="<?php echo htmlspecialchars($this->item->name); ?>"/>
                         </div>
 
                         <div class="form-group">
                             <label for="product_number" id="product_number-lbl">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER') ?><span class="star text-danger"> *</span>
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER') ?><span
+                                        class="star text-danger"> *</span>
 								<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'), JText::_('COM_REDSHOP_PRODUCT_NUMBER'), 'tooltip.png', '', '', false); ?>
                             </label>
                             <input class="form-control validate-productNumber"
                                    type="text" name="product_number" id="product_number" size="32" maxlength="250"
-                                   value="<?php echo $this->detail->number; ?>"
+                                   value="<?php echo $this->item->number; ?>"
                             />
                             <span class="text-error"></span>
                         </div>
@@ -144,7 +145,7 @@ $calendarFormat = '%d-%m-%Y';
                                        id="product_price"
                                        size="10"
                                        maxlength="10"
-                                       value="<?php echo $this->detail->price; ?>"
+                                       value="<?php echo $this->item->price; ?>"
                                 />
                             </div>
                         </div>
@@ -175,7 +176,7 @@ $calendarFormat = '%d-%m-%Y';
                                        id="discount_price"
                                        size="10"
                                        maxlength="10"
-                                       value="<?php echo $this->detail->discount_price; ?>"
+                                       value="<?php echo $this->item->discount_price; ?>"
                                 />
                             </div>
                         </div>
@@ -185,9 +186,9 @@ $calendarFormat = '%d-%m-%Y';
 							<?php
 							$startDate = null;
 
-							if ($this->detail->discount_startdate)
+							if ($this->item->discount_startdate)
 							{
-								$startDate = JFactory::getDate($this->detail->discount_startdate)->format("d-m-Y");
+								$startDate = JFactory::getDate($this->item->discount_startdate)->format("d-m-Y");
 							}
 
 							echo JHtml::_(
@@ -206,9 +207,9 @@ $calendarFormat = '%d-%m-%Y';
 							<?php
 							$endDate = null;
 
-							if ($this->detail->discount_enddate)
+							if ($this->item->discount_enddate)
 							{
-								$endDate = JFactory::getDate($this->detail->discount_enddate)->format("d-m-Y");
+								$endDate = JFactory::getDate($this->item->discount_enddate)->format("d-m-Y");
 							}
 
 							echo JHtml::_(
@@ -223,13 +224,13 @@ $calendarFormat = '%d-%m-%Y';
                         </div>
 
 						<?php $display = "";
-						if (!$this->detail->discount_startdate || !$this->detail->discount_enddate) : ?>
+						if (!$this->item->discount_startdate || !$this->item->discount_enddate) : ?>
 							<?php $display = 'style="display: none"' ?>
 						<?php endif; ?>
 
                         <div class="alert alert-info" <?php echo $display ?>>
 							<?php
-							$isProductOnSale = ($this->detail->on_sale) ? JText::_('JYES') : JText::_('JNO');
+							$isProductOnSale = ($this->item->on_sale) ? JText::_('JYES') : JText::_('JNO');
 							echo JText::sprintf('COM_REDSHOP_PRODUCT_ON_SALE_HINT', $isProductOnSale);
 							?>
                         </div>
@@ -246,13 +247,13 @@ $calendarFormat = '%d-%m-%Y';
             <div class="box-body">
                 <div class="form-group">
                     <label><?php echo JText::_('COM_REDSHOP_FULL_DESCRIPTION'); ?></label>
-					<?php echo $editor->display("product_desc", $this->detail->product_desc, '$widthPx', '$heightPx', '100', '20'); ?>
+					<?php echo $editor->display("product_desc", $this->item->product_desc, '$widthPx', '$heightPx', '100', '20'); ?>
                 </div>
                 <div class="clearfix"></div>
 
                 <div class="form-group">
                     <label><?php echo JText::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?></label>
-					<?php echo $editor->display("product_s_desc", $this->detail->product_s_desc, '$widthPx', '$heightPx', '100', '20'); ?>
+					<?php echo $editor->display("product_s_desc", $this->item->product_s_desc, '$widthPx', '$heightPx', '100', '20'); ?>
                 </div>
             </div>
         </div>
@@ -270,15 +271,15 @@ $calendarFormat = '%d-%m-%Y';
 					<?php echo RedshopHelperMediaImage::render(
 						'product_full_image',
 						'product',
-						$this->detail->id,
+						$this->item->id,
 						'product',
-						$this->detail->product_full_image,
+						$this->item->product_full_image,
 						false
 					) ?>
                 </div>
-				<?php if ($this->detail->id > 0) : ?>
+				<?php if ($this->item->id > 0) : ?>
 					<?php $ilink = 'index.php?tmpl=component&option=com_redshop&view=media&section_id='
-						. $this->detail->id . '&showbuttons=1&media_section=product'; ?>
+						. $this->item->id . '&showbuttons=1&media_section=product'; ?>
                     <div class="form-group">
                         <a class="joom-box btn btn-primary" title="Image" href="<?php echo JRoute::_($ilink, false) ?>"
                            rel="{handler: 'iframe', size: {x: 950, y: 500}}">
@@ -315,7 +316,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="product_volume"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->detail->volume); ?>"
+                           value="<?php echo $this->producthelper->redunitDecimal($this->item->volume); ?>"
                     />
                 </div>
 
@@ -340,7 +341,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="product_length"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_length); ?>"
+                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_length); ?>"
                     />
                 </div>
 
@@ -365,7 +366,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="product_width"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_width); ?>"
+                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_width); ?>"
                     />
                 </div>
 
@@ -383,7 +384,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="product_height"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_height); ?>"
+                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_height); ?>"
                     />
                 </div>
 
@@ -401,7 +402,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="product_diameter"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_diameter); ?>"
+                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_diameter); ?>"
                     />
                 </div>
 
@@ -419,7 +420,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="weight"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->detail->weight); ?>"
+                           value="<?php echo $this->producthelper->redunitDecimal($this->item->weight); ?>"
                     />
                 </div>
             </div>
@@ -456,13 +457,13 @@ $calendarFormat = '%d-%m-%Y';
 						?>
                     </label>
 					<?php
-					echo JHtml::_('redshopselect.search', $this->producthelper->getProductByID($this->detail->parent_id),
+					echo JHtml::_('redshopselect.search', $this->producthelper->getProductByID($this->item->parent_id),
 						'product_parent_id',
 						array(
 							'select2.options'     => array('multiple' => 'false', 'placeholder' => JText::_('COM_REDSHOP_PARENT_PRODUCT')),
 							'option.key'          => 'product_id',
 							'option.text'         => 'product_name',
-							'select2.ajaxOptions' => array('typeField' => ', parent:1, product_id:' . $this->detail->id)
+							'select2.ajaxOptions' => array('typeField' => ', parent:1, product_id:' . $this->item->id)
 						)
 					);
 					?>
@@ -549,7 +550,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="minimum_per_product_total"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->detail->minimum_per_product_total; ?>"/>
+                           value="<?php echo $this->item->minimum_per_product_total; ?>"/>
                 </div>
 
 				<?php if (Redshop::getConfig()->get('ALLOW_PRE_ORDER')) : ?>
@@ -570,9 +571,9 @@ $calendarFormat = '%d-%m-%Y';
 						<?php
 						$availability_date = "";
 
-						if ($this->detail->product_availability_date)
+						if ($this->item->product_availability_date)
 						{
-							$availability_date = date("d-m-Y", $this->detail->product_availability_date);
+							$availability_date = date("d-m-Y", $this->item->product_availability_date);
 						}
 
 						echo JHtml::_(
@@ -607,7 +608,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="min_order_product_quantity"
                            size="10"
                            maxlength="10"
-                           value="<?php echo $this->detail->min_order_product_quantity; ?>"
+                           value="<?php echo $this->item->min_order_product_quantity; ?>"
                     />
                 </div>
 
@@ -631,7 +632,7 @@ $calendarFormat = '%d-%m-%Y';
                            id="max_order_product_quantity"
                            size="10"
                            maxlength="10"
-                           value="<?php echo @$this->detail->max_order_product_quantity; ?>"
+                           value="<?php echo @$this->item->max_order_product_quantity; ?>"
                     />
                 </div>
             </div>

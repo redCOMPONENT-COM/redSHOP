@@ -44,7 +44,7 @@ JText::script('COM_REDSHOP_DELETE');
                                                             listAcc[listAcc.length] = jQuery(this).val();
                                                         });
                                                         return listAcc.join(",");
-                                                    }, product_id:' . $this->detail->id
+                                                    }, product_id:' . $this->item->id
                                                 ),
                                             )
                                         );
@@ -84,10 +84,10 @@ JText::script('COM_REDSHOP_DELETE');
                                 {
                                     $accessory_main_price = 0;
 
-                                    if ($this->detail->product_id && $accessory_product[$f]->accessory_id)
+                                    if ($this->item->product_id && $accessory_product[$f]->accessory_id)
                                     {
                                         $accessory_main_price = $this->producthelper->getAccessoryPrice(
-                                                                                            $this->detail->product_id,
+                                                                                            $this->item->product_id,
                                                                                             $accessory_product[$f]->newaccessory_price,
                                                                                             $accessory_product[$f]->accessory_main_price,
                                                                                             1

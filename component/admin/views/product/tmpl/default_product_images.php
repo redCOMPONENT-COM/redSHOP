@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
 							'deleteid'  => 'thumb_image_delete',
 							'displayid' => 'thumb_image_display',
 							'type'      => 'product',
-							'image'     => $this->detail->product_thumb_image
+							'image'     => $this->item->product_thumb_image
 						)
 					);
 					?>
@@ -66,7 +66,7 @@ defined('_JEXEC') or die;
 							'deleteid'  => 'back_image_delete',
 							'displayid' => 'back_image_display',
 							'type'      => 'product',
-							'image'     => $this->detail->product_back_full_image
+							'image'     => $this->item->product_back_full_image
 						)
 					);
 					?>
@@ -94,7 +94,7 @@ defined('_JEXEC') or die;
 							'deleteid'  => 'back_thumb_image_delete',
 							'displayid' => 'thumb_back_image_display',
 							'type'      => 'product',
-							'image'     => $this->detail->product_back_thumb_image
+							'image'     => $this->item->product_back_thumb_image
 						)
 					);
 					?>
@@ -122,7 +122,7 @@ defined('_JEXEC') or die;
 							'deleteid'  => 'preview_image_delete',
 							'displayid' => 'preview_image_display',
 							'type'      => 'product',
-							'image'     => $this->detail->product_preview_image
+							'image'     => $this->item->product_preview_image
 						)
 					);
 					?>
@@ -150,7 +150,7 @@ defined('_JEXEC') or die;
 							'deleteid'  => 'preview_back_image_delete',
 							'displayid' => 'preview_back_image_display',
 							'type'      => 'product',
-							'image'     => $this->detail->product_preview_back_image
+							'image'     => $this->item->product_preview_back_image
 						)
 					);
 					?>

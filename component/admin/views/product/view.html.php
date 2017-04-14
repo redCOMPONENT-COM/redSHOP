@@ -28,8 +28,6 @@ class RedshopViewProduct extends RedshopViewAdmin
 
 	public $productSerialDetail;
 
-	public $input;
-
 	public $producthelper;
 
 	public $dispatcher;
@@ -53,32 +51,30 @@ class RedshopViewProduct extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
-		JHtml::_('behavior.tooltip');
-
-		$app         = JFactory::getApplication();
-		$this->input = $app->input;
-		$user        = JFactory::getUser();
+		$app    = JFactory::getApplication();
+		$jinput = $app->input;
+		$user   = JFactory::getUser();
 
 		JPluginHelper::importPlugin('redshop_product_type');
-		$this->dispatcher = JDispatcher::getInstance();
+		$this->dispatcher = JEventDispatcher::getInstance();
 
 		$redTemplate         = Redtemplate::getInstance();
 		$redhelper           = redhelper::getInstance();
 		$this->producthelper = productHelper::getInstance();
 
-		$this->option = $this->input->getString('option', 'com_redshop');
+		$this->option = $jinput->getString('option', 'com_redshop');
 		$lists        = array();
 
-		$model  = $this->getModel('Product');
-		$detail = $this->get('data');
+		$model      = $this->getModel('Product');
+		$this->item = $this->get('Data');
 
-		$isNew = ($detail->id < 1);
+		$this->isNew = $this->item->id < 1;
 
 		// Load new product default values
-		if ($isNew)
+		if ($this->isNew)
 		{
-			$detail->append_to_global_seo = '';
-			$detail->canonical_url        = '';
+			$this->item->append_to_global_seo = '';
+			$this->item->canonical_url        = '';
 		}
 
 		// Fail if checked out not by 'me'
@@ -177,7 +173,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 								continue;
 							}
 
-							$dependent_tag = $model->getDependenttag($detail->id, $typeid, $tagid);
+							$dependent_tag = $model->getDependenttag($this->item->id, $typeid, $tagid);
 
 							$html .= '<optgroup label="' . $sel_type['type_name'] . '">';
 
@@ -191,7 +187,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 						}
 
 						$html .= '</select>&nbsp;<a href="#" onClick="javascript:add_dependency('
-							. $typeid . ',' . $tagid . ',' . $detail->id . ');" >'
+							. $typeid . ',' . $tagid . ',' . $this->item->id . ');" >'
 							. JText::_('COM_REDSHOP_ADD_DEPENDENCY') . '</a></td></tr></table>';
 					}
 				}
@@ -209,7 +205,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 
 		$supplier = $model->getsupplier();
 
-		$product_categories = $this->input->post->get('product_category', array(), 'array');
+		$product_categories = $jinput->post->get('product_category', array(), 'array');
 
 		if (!empty($product_categories))
 		{
@@ -272,7 +268,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 		 * So, product type plugins should be used for this event. Be aware that this file should
 		 * be loaded only once.
 		 */
-		$loadedFromAPlugin = $this->dispatcher->trigger('loadFieldsJSFromPlugin', array($detail));
+		$loadedFromAPlugin = $this->dispatcher->trigger('loadFieldsJSFromPlugin', array($this->item));
 
 		if (in_array(1, $loadedFromAPlugin))
 		{
@@ -305,7 +301,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 
 		$uri = JFactory::getURI();
 
-		$layout = $this->input->getString('layout', '');
+		$layout = $jinput->getString('layout', '');
 
 		if ($layout == 'property_images')
 		{
@@ -324,30 +320,12 @@ class RedshopViewProduct extends RedshopViewAdmin
 			$this->setLayout('default');
 		}
 
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $detail->product_name . " - " . JText::_('COM_REDSHOP_EDIT');
+		$this->displayToolbar();
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'pencil-2 redshop_products48');
-
-		JToolBarHelper::apply();
-		JToolBarHelper::save();
-		JToolBarHelper::save2new();
-
-		if ($isNew)
+		if ($this->item->id > 0)
 		{
-			JToolBarHelper::cancel();
-		}
-		else
-		{
-			JToolbarHelper::save2copy();
-			$model->checkout($user->get('id'));
-
-			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
-		}
-
-		if ($detail->id > 0)
-		{
-			$ItemData  = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->id);
-			$catidmain = $detail->cat_in_sefurl;
+			$ItemData  = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->item->id);
+			$catidmain = $this->item->cat_in_sefurl;
 
 			if (count($ItemData) > 0)
 			{
@@ -356,46 +334,45 @@ class RedshopViewProduct extends RedshopViewAdmin
 			else
 			{
 				$objhelper = redhelper::getInstance();
-				$pItemid   = $objhelper->getItemid($detail->id, $catidmain);
+				$pItemid   = $objhelper->getItemid($this->item->id, $catidmain);
 			}
 
 			$link = JURI::root();
 			$link .= 'index.php?option=com_redshop';
-			$link .= '&view=product&pid=' . $detail->id;
+			$link .= '&view=product&pid=' . $this->item->id;
 			$link .= '&cid=' . $catidmain;
 			$link .= '&Itemid=' . $pItemid;
 
 			RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
-			JToolBarHelper::addNew('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
 		}
 
 		$model = $this->getModel('Product');
 
 		$accessory_product = array();
 
-		if ($detail->id)
+		if ($this->item->id)
 		{
-			$accessory_product = $this->producthelper->getProductAccessory(0, $detail->id);
+			$accessory_product = $this->producthelper->getProductAccessory(0, $this->item->id);
 		}
 
 		$lists['accessory_product']        = $accessory_product;
-		$lists['QUANTITY_SELECTBOX_VALUE'] = $detail->quantity_selectbox_value;
+		$lists['QUANTITY_SELECTBOX_VALUE'] = $this->item->quantity_selectbox_value;
 
 		// For preselected.
-		if ($detail->template_id == "")
+		if ($this->item->template_id == "")
 		{
-			$default_preselected      = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
-			$detail->template_id = $default_preselected;
+			$default_preselected     = Redshop::getConfig()->get('PRODUCT_TEMPLATE');
+			$this->item->template_id = $default_preselected;
 		}
 
 		$lists['product_template'] = JHtml::_('select.genericlist', $templates, 'product_template',
-			'class="inputbox" size="1" onchange="set_dynamic_field(this.value,\'' . $detail->id . '\',\'1,12,17\');"  ',
-			'template_id', 'template_name', $detail->template_id
+			'class="inputbox" size="1" onchange="set_dynamic_field(this.value,\'' . $this->item->id . '\',\'1,12,17\');"  ',
+			'template_id', 'template_name', $this->item->template_id
 		);
 
-		$lists['related_product'] = JHtml::_('redshopselect.search', $model->related_product_data($detail->id), 'related_product',
+		$lists['related_product'] = JHtml::_('redshopselect.search', $model->related_product_data($this->item->id), 'related_product',
 			array(
-				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $detail->id),
+				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $this->item->id),
 				'select2.options'     => array('multiple' => 'true')
 			)
 		);
@@ -412,38 +389,38 @@ class RedshopViewProduct extends RedshopViewAdmin
 		}
 
 		$lists['product_tax'] = JHtml::_('select.genericlist', $product_tax, 'product_tax_id',
-			'class="inputbox" size="1"  ', 'value', 'text', $detail->product_tax_id
+			'class="inputbox" size="1"  ', 'value', 'text', $this->item->product_tax_id
 		);
 
-		$categories                         = $product_category->list_all("product_category[]", 0, $productcats, 10, false, true);
-		$lists['categories']                = $categories;
-		$detail->first_selected_category_id = isset($productcats[0]) ? $productcats[0] : null;
+		$categories                             = $product_category->list_all("product_category[]", 0, $productcats, 10, false, true);
+		$lists['categories']                    = $categories;
+		$this->item->first_selected_category_id = isset($productcats[0]) ? $productcats[0] : null;
 
 		$lists['manufacturers'] = JHtml::_('select.genericlist', $manufacturers, 'manufacturer_id',
-			'class="inputbox" size="1" ', 'value', 'text', $detail->manufacturer_id
+			'class="inputbox" size="1" ', 'value', 'text', $this->item->manufacturer_id
 		);
 
-		$lists['supplier']            = JHtml::_('select.genericlist', $supplier, 'supplier_id', 'class="inputbox" size="1" ', 'value', 'text', $detail->supplier_id);
-		$lists['published']           = JHtml::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-		$lists['product_on_sale']     = JHtml::_('select.booleanlist', 'product_on_sale', 'class="inputbox"', $detail->product_on_sale);
+		$lists['supplier']            = JHtml::_('select.genericlist', $supplier, 'supplier_id', 'class="inputbox" size="1" ', 'value', 'text', $this->item->supplier_id);
+		$lists['published']           = JHtml::_('select.booleanlist', 'published', 'class="inputbox"', $this->item->published);
+		$lists['product_on_sale']     = JHtml::_('select.booleanlist', 'product_on_sale', 'class="inputbox"', $this->item->product_on_sale);
 		$lists['copy_attribute']      = JHtml::_('select.booleanlist', 'copy_attribute', 'class="inputbox"', 0);
-		$lists['product_special']     = JHtml::_('select.booleanlist', 'product_special', 'class="inputbox"', $detail->product_special);
-		$lists['product_download']    = JHtml::_('select.booleanlist', 'product_download', 'class="inputbox"', $detail->product_download);
-		$lists['not_for_sale']        = JHtml::_('select.booleanlist', 'not_for_sale', 'class="inputbox"', $detail->not_for_sale);
-		$lists['expired']             = JHtml::_('select.booleanlist', 'expired', 'class="inputbox"', $detail->expired);
-		$lists['allow_decimal_piece'] = JHtml::_('select.booleanlist', 'allow_decimal_piece', 'class="inputbox"', $detail->allow_decimal_piece);
+		$lists['product_special']     = JHtml::_('select.booleanlist', 'product_special', 'class="inputbox"', $this->item->product_special);
+		$lists['product_download']    = JHtml::_('select.booleanlist', 'product_download', 'class="inputbox"', $this->item->product_download);
+		$lists['not_for_sale']        = JHtml::_('select.booleanlist', 'not_for_sale', 'class="inputbox"', $this->item->not_for_sale);
+		$lists['expired']             = JHtml::_('select.booleanlist', 'expired', 'class="inputbox"', $this->item->expired);
+		$lists['allow_decimal_piece'] = JHtml::_('select.booleanlist', 'allow_decimal_piece', 'class="inputbox"', $this->item->allow_decimal_piece);
 
 		// For individual pre-order
 		$preorder_data     = $redhelper->getPreOrderByList();
-		$lists['preorder'] = JHtml::_('select.genericlist', $preorder_data, 'preorder', 'class="inputbox" size="1" ', 'value', 'text', $detail->preorder);
+		$lists['preorder'] = JHtml::_('select.genericlist', $preorder_data, 'preorder', 'class="inputbox" size="1" ', 'value', 'text', $this->item->preorder);
 
 		// Discount calculator
-		$lists['use_discount_calc'] = JHtml::_('select.booleanlist', 'use_discount_calc', 'class="inputbox"', $detail->use_discount_calc);
+		$lists['use_discount_calc'] = JHtml::_('select.booleanlist', 'use_discount_calc', 'class="inputbox"', $this->item->use_discount_calc);
 
 		$selectOption       = array();
 		$selectOption[]     = JHtml::_('select.option', '1', JText::_('COM_REDSHOP_RANGE'));
 		$selectOption[]     = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_PRICE_PER_PIECE'));
-		$lists['use_range'] = JHtml::_('select.genericlist', $selectOption, 'use_range', 'class="inputbox" size="1" ', 'value', 'text', $detail->use_range);
+		$lists['use_range'] = JHtml::_('select.genericlist', $selectOption, 'use_range', 'class="inputbox" size="1" ', 'value', 'text', $this->item->use_range);
 		unset($selectOption);
 
 		// Calculation method
@@ -452,7 +429,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$selectOption[]                = JHtml::_('select.option', 'area', JText::_('COM_REDSHOP_AREA'));
 		$selectOption[]                = JHtml::_('select.option', 'circumference', JText::_('COM_REDSHOP_CIRCUMFERENCE'));
 		$lists['discount_calc_method'] = JHtml::_('select.genericlist', $selectOption, 'discount_calc_method',
-			'class="inputbox" size="1" ', 'value', 'text', $detail->discount_calc_method
+			'class="inputbox" size="1" ', 'value', 'text', $this->item->discount_calc_method
 		);
 		unset($selectOption);
 
@@ -480,9 +457,9 @@ class RedshopViewProduct extends RedshopViewAdmin
 			$productVatGroup = array_merge($temps, $productVatGroup);
 		}
 
-		if (Redshop::getConfig()->get('DEFAULT_VAT_GROUP') && !$detail->product_tax_group_id)
+		if (Redshop::getConfig()->get('DEFAULT_VAT_GROUP') && !$this->item->product_tax_group_id)
 		{
-			$detail->product_tax_group_id = Redshop::getConfig()->get('DEFAULT_VAT_GROUP');
+			$this->item->product_tax_group_id = Redshop::getConfig()->get('DEFAULT_VAT_GROUP');
 		}
 
 		$append_to_global_seo          = array();
@@ -490,11 +467,11 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$append_to_global_seo[]        = JHtml::_('select.option', 'prepend', JText::_('COM_REDSHOP_PREPEND_TO_GLOBAL_SEO'));
 		$append_to_global_seo[]        = JHtml::_('select.option', 'replace', JText::_('COM_REDSHOP_REPLACE_TO_GLOBAL_SEO'));
 		$lists['append_to_global_seo'] = JHtml::_('select.genericlist', $append_to_global_seo, 'append_to_global_seo',
-			'class="inputbox" size="1" ', 'value', 'text', $detail->append_to_global_seo
+			'class="inputbox" size="1" ', 'value', 'text', $this->item->append_to_global_seo
 		);
 
 		$lists['product_tax_group_id'] = JHtml::_('select.genericlist', $productVatGroup, 'product_tax_group_id',
-			'class="inputbox" size="1" ', 'value', 'text', $detail->product_tax_group_id
+			'class="inputbox" size="1" ', 'value', 'text', $this->item->product_tax_group_id
 		);
 		$prop_oprand                   = array();
 		$prop_oprand[]                 = JHtml::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
@@ -502,9 +479,9 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$prop_oprand[]                 = JHtml::_('select.option', '=', JText::_('COM_REDSHOP_EQUAL'));
 		$prop_oprand[]                 = JHtml::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
 
-		$cat_in_sefurl          = $model->catin_sefurl($detail->id);
+		$cat_in_sefurl          = $model->catin_sefurl($this->item->id);
 		$lists['cat_in_sefurl'] = JHtml::_('select.genericlist', $cat_in_sefurl, 'cat_in_sefurl',
-			'class="inputbox" size="1" ', 'value', 'text', $detail->cat_in_sefurl
+			'class="inputbox" size="1" ', 'value', 'text', $this->item->cat_in_sefurl
 		);
 
 		$lists['attributes'] = $attributes;
@@ -520,7 +497,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 		}
 
 		$lists['attributesSet'] = JHtml::_('select.genericlist', $attributesSet, 'attribute_set_id',
-			'class="inputbox" size="1" ', 'value', 'text', $detail->attribute_set_id
+			'class="inputbox" size="1" ', 'value', 'text', $this->item->attribute_set_id
 		);
 
 		// Product type selection
@@ -541,19 +518,19 @@ class RedshopViewProduct extends RedshopViewAdmin
 			$productTypeOptions[] = JHtml::_('select.option', $productTypePluginOption['value'], $productTypePluginOption['text']);
 		}
 
-		if ($detail->product_download == 1)
+		if ($this->item->product_download == 1)
 		{
-			$detail->product_type = 'file';
+			$this->item->product_type = 'file';
 		}
 
 		$lists["product_type"] = JHtml::_(
 			'select.genericlist',
 			$productTypeOptions,
 			'product_type',
-			'onchange="set_dynamic_field(this.value,\'' . $detail->id . '\',\'1,12,17\');"',
+			'onchange="set_dynamic_field(this.value,\'' . $this->item->id . '\',\'1,12,17\');"',
 			'value',
 			'text',
-			$detail->type
+			$this->item->type
 		);
 
 		$accountgroup = $redhelper->getEconomicAccountGroup();
@@ -562,15 +539,13 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$accountgroup = array_merge($op, $accountgroup);
 
 		$lists["accountgroup_id"] = JHtml::_('select.genericlist', $accountgroup, 'accountgroup_id',
-			'class="inputbox" size="1" ', 'value', 'text', $detail->accountgroup_id
+			'class="inputbox" size="1" ', 'value', 'text', $this->item->accountgroup_id
 		);
 
 		// For downloadable products
 		$productSerialDetail = $model->getProdcutSerialNumbers();
 
-		$this->model               = $model;
 		$this->lists               = $lists;
-		$this->detail              = $detail;
 		$this->productSerialDetail = $productSerialDetail;
 		$this->request_url         = $uri->toString();
 		$this->tabmenu             = $this->getTabMenu();
@@ -600,7 +575,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 				'general_data'
 			);
 
-		if ($this->detail->type != 'product' && !empty($this->detail->type))
+		if ($this->item->type != 'product' && !empty($this->item->type))
 		{
 			$tabMenu->addItem(
 				'#producttype',
@@ -677,5 +652,31 @@ class RedshopViewProduct extends RedshopViewAdmin
 		}
 
 		return $tabMenu;
+	}
+
+	protected function displayToolbar()
+	{
+		$model = $this->getModel('Product');
+		$user  = JFactory::getUser();
+		$text  = $this->isNew ? JText::_('COM_REDSHOP_NEW') : $this->item->product_name . " - " . JText::_('COM_REDSHOP_EDIT');
+
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'pencil-2 redshop_products48');
+
+		JToolBarHelper::apply();
+		JToolBarHelper::save();
+		JToolBarHelper::save2new();
+
+		if ($this->isNew)
+		{
+			JToolBarHelper::cancel();
+		}
+		else
+		{
+			JToolbarHelper::save2copy();
+			$model->checkout($user->get('id'));
+
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+			JToolBarHelper::addNew('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
+		}
 	}
 }
