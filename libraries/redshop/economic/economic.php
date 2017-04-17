@@ -21,8 +21,10 @@ jimport('joomla.filesystem.file');
  * This Library provide methods for interact with E-Invoicing and support to orders.
  * For more information about E-invoicing: https://en.wikipedia.org/wiki/Electronic_invoicing
  * Using: RedshopEconomic::<method>
+ * This class used to send directly request to Economic. For anything else please use helper
  *
  * @since  2.0.3
+ * @TODO   Allow to get instance of this class instead static function. Because this's library not helper.
  */
 class RedshopEconomic
 {
