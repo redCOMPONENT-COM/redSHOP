@@ -83,6 +83,8 @@ if (($saveOrder) && ($canEditState))
 					'limitFieldSelector'  => '#list_' . $viewName . '_limit',
 					'activeOrder'         => $listOrder,
 					'activeDirection'     => $listDirn,
+					'filterButton'        => (count($data->filterForm->getGroup('filter')) > 1),
+					'filtersHidden'       => (count($data->filterForm->getGroup('filter')) > 1) ? false : true
 				)
 			)
 		);
@@ -173,6 +175,10 @@ if (($saveOrder) && ($canEditState))
                     <td nowrap="nowrap">
 						<?php if ($row->checked_out): ?>
 							<?php echo JHtml::_('redshopgrid.checkedout', $i, $row->checked_out, $row->checked_out_time, $viewName . '.', $canCheckIn) ?>
+                        <?php elseif ($data->canEdit == false): ?>
+                            <a href="javascript:void(0)" class="btn btn-small btn-sm btn-primary disabled">
+                                <i class="fa fa-edit"></i>
+                            </a>
 						<?php else: ?>
                             <a href="index.php?option=com_redshop&task=<?php echo $singleName ?>.edit&id=<?php echo $row->id ?>"
                                class="btn btn-small btn-sm btn-primary">

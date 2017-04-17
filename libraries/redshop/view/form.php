@@ -81,7 +81,7 @@ class RedshopViewForm extends AbstractView
 	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string  &$tpl  Template name
+	 * @param   string &$tpl Template name
 	 *
 	 * @return  void
 	 *
@@ -93,7 +93,33 @@ class RedshopViewForm extends AbstractView
 		$this->item = $this->model->getItem();
 		$this->form = $this->model->getForm();
 
+		$this->checkPermission();
 		$this->loadFields();
+	}
+
+	/**
+	 * Method for check permission of current user on view
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function checkPermission()
+	{
+		if (!$this->useUserPermission)
+		{
+			return;
+		}
+
+		$app = JFactory::getApplication();
+
+		// Check permission on create new
+		if ((empty($this->item->id) && !$this->canCreate) || (!empty($this->item->id) && !$this->canEdit))
+		{
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
+
+			$app->redirect('index.php?option=com_redshop');
+		}
 	}
 
 	/**
@@ -107,8 +133,15 @@ class RedshopViewForm extends AbstractView
 	{
 		$isNew = ($this->item->id < 1);
 
-		JToolBarHelper::apply($this->getInstanceName() . '.apply');
-		JToolBarHelper::save($this->getInstanceName() . '.save');
+		if ($this->canEdit)
+		{
+			JToolBarHelper::apply($this->getInstanceName() . '.apply');
+		}
+
+		if ($this->canEdit || $this->canCreate)
+		{
+			JToolBarHelper::save($this->getInstanceName() . '.save');
+		}
 
 		if ($isNew)
 		{
@@ -147,7 +180,7 @@ class RedshopViewForm extends AbstractView
 	/**
 	 * Method for prepare fields in group and also HTML content
 	 *
-	 * @param   object  $group  Group object
+	 * @param   object $group Group object
 	 *
 	 * @return  void
 	 *
