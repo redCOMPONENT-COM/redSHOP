@@ -105,6 +105,8 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 			return '';
 		}
 
+        RedshopHelperPayment::loadLanguages();
+
 		$cartHelper = rsCarthelper::getInstance();
 
 		// Changed font to support Unicode Characters - Specially Polish Characters
