@@ -83,11 +83,20 @@
 
     </fieldset>
     <fieldset name="seo">
-        <field name="append_to_global_seo" type="list" default="" required="true" label="COM_REDSHOP_PRODUCT_APPEND_TO_GLOBAL_SEO" description="">
+        <field name="append_to_global_seo" type="list" default="append" label="COM_REDSHOP_PRODUCT_APPEND_TO_GLOBAL_SEO" description="">
             <option value="append">COM_REDSHOP_PRODUCT_APPEND_TO_GLOBAL_SEO_APPEND</option>
             <option value="prepend">COM_REDSHOP_PRODUCT_APPEND_TO_GLOBAL_SEO_PREPEND</option>
             <option value="replace">COM_REDSHOP_PRODUCT_APPEND_TO_GLOBAL_SEO_REPLACE</option>
         </field>
+        <field
+                name="pagetitle"
+                type="redshop.text"
+                label="COM_REDSHOP_PRODUCT_NAME"
+                description="COM_REDSHOP_PRODUCT_PAGETITLE_DESCRIPTION"
+                placeholder="COM_REDSHOP_PRODUCT_PAGETITLE_PLACEHOLDER"
+                class="form-control"
+                default=""
+        />
     </fieldset>
     <fieldset name="discount_calculator">
 

@@ -43,7 +43,7 @@ if (isset($post['import_end']))
 			return;
 		}
 
-		var url = 'index.php?option=com_redshop&view=product&task=importeconomic&json=1&cnt=' + cnt;
+		var url = 'index.php?option=com_redshop&view=products&task=importEconomic&json=1&cnt=' + cnt;
 		url = url + "&sid=" + Math.random();
 
 		xmlhttp = GetXmlHttpObject();

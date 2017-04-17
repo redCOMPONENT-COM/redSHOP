@@ -19,59 +19,18 @@ class RedshopControllerProducts extends RedshopControllerAdmin
 		parent::display();
 	}
 
-	public function importeconomic()
+	/**
+	 * Import redSHOP products to Economic
+	 */
+	public function importEconomic()
 	{
 		// Add product to economic
-		$cnt      = $this->input->getInt('cnt', 0);
 		$totalprd = 0;
 		$msg      = '';
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			$economic = economic::getInstance();
-			$db       = JFactory::getDbo();
-			$incNo    = $cnt;
-			$query    = 'SELECT p.* FROM #__redshop_product AS p '
-				. 'LIMIT ' . $cnt . ', 10 ';
-			$db->setQuery($query);
-			$prd         = $db->loadObjectlist();
-			$totalprd    = count($prd);
-			$responcemsg = '';
-
-			for ($i = 0, $in = count($prd); $i < $in; $i++)
-			{
-				$incNo++;
-				$ecoProductNumber = $economic->createProductInEconomic($prd[$i]);
-				$responcemsg      .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
-
-				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
-				{
-					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_PRODUCTS_TO_ECONOMIC_SUCCESS') . "</span>";
-				}
-				else
-				{
-					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_PRODUCT_TO_ECONOMIC');
-
-					if (JError::isError(JError::getError()))
-					{
-						$error  = JError::getError();
-						$errmsg = $error->getMessage();
-					}
-
-					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
-				}
-
-				$responcemsg .= "</div>";
-			}
-
-			if ($totalprd > 0)
-			{
-				$msg = $responcemsg;
-			}
-			else
-			{
-				$msg = JText::_("COM_REDSHOP_IMPORT_PRODUCT_TO_ECONOMIC_IS_COMPLETED");
-			}
+			$msg = RedshopHelperEconomic::importRedshopProductToEconomic($this->input->getInt('cnt', 0));
 		}
 
 		echo "<div id='sentresponse'>" . $totalprd . "`_`" . $msg . "</div>";
