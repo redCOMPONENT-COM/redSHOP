@@ -1421,7 +1421,7 @@ class productHelper
 		{
 			$product_price              = $this->getPriceReplacement($ProductPriceArr['product_price'] * $qunselect);
 			$product_main_price         = $this->getPriceReplacement($ProductPriceArr['product_main_price'] * $qunselect);
-			$product_old_price          = $this->getPriceReplacement($ProductPriceArr['product_old_price'] * $qunselect);
+			$product_old_price          = $this->getPriceReplacement((float) $ProductPriceArr['product_old_price'] * $qunselect);
 			$product_price_saving       = $this->getPriceReplacement($ProductPriceArr['product_price_saving'] * $qunselect);
 			$product_discount_price     = $this->getPriceReplacement($ProductPriceArr['product_discount_price'] * $qunselect);
 			$product_price_novat        = $this->getPriceReplacement($ProductPriceArr['product_price_novat'] * $qunselect);
@@ -1438,7 +1438,7 @@ class productHelper
 
 			$price_excluding_vat            = $ProductPriceArr['price_excluding_vat'];
 			$seoProductPrice                = $this->getPriceReplacement($ProductPriceArr['seoProductPrice'] * $qunselect);
-			$seoProductSavingPrice          = $this->getPriceReplacement($ProductPriceArr['seoProductSavingPrice'] * $qunselect);
+			$seoProductSavingPrice          = $this->getPriceReplacement((float) $ProductPriceArr['seoProductSavingPrice'] * $qunselect);
 
 			$product_old_price_lbl          = $ProductPriceArr['product_old_price_lbl'];
 			$product_price_saving_lbl       = $ProductPriceArr['product_price_saving_lbl'];
@@ -1747,26 +1747,26 @@ class productHelper
 			$price_excluding_vat                 = '';
 		}
 
-		$ProductPriceArr['productPrice']                        = $product_price_novat;
-		$ProductPriceArr['product_price']                       = $product_price;
-		$ProductPriceArr['price_excluding_vat']                 = $price_excluding_vat;
-		$ProductPriceArr['product_main_price']                  = $product_main_price;
-		$ProductPriceArr['product_price_novat']                 = $product_price_novat;
-		$ProductPriceArr['product_price_saving']                = $product_price_saving;
-		$ProductPriceArr['product_price_saving_percentage']     = $product_price_saving_percentage;
+		$ProductPriceArr['productPrice']                        = (float) $product_price_novat;
+		$ProductPriceArr['product_price']                       = (float) $product_price;
+		$ProductPriceArr['price_excluding_vat']                 = (float) $price_excluding_vat;
+		$ProductPriceArr['product_main_price']                  = (float) $product_main_price;
+		$ProductPriceArr['product_price_novat']                 = (float) $product_price_novat;
+		$ProductPriceArr['product_price_saving']                = (float) $product_price_saving;
+		$ProductPriceArr['product_price_saving_percentage']     = (float) $product_price_saving_percentage;
 		$ProductPriceArr['product_price_saving_lbl']            = $product_price_saving_lbl;
 
-		$ProductPriceArr['product_old_price']                   = $product_old_price;
-		$ProductPriceArr['product_discount_price']              = $product_discount_price;
-		$ProductPriceArr['seoProductSavingPrice']               = $seoProductSavingPrice;
-		$ProductPriceArr['seoProductPrice']                     = $seoProductPrice;
+		$ProductPriceArr['product_old_price']                   = (float) $product_old_price;
+		$ProductPriceArr['product_discount_price']              = (float) $product_discount_price;
+		$ProductPriceArr['seoProductSavingPrice']               = (float) $seoProductSavingPrice;
+		$ProductPriceArr['seoProductPrice']                     = (float) $seoProductPrice;
 		$ProductPriceArr['product_old_price_lbl']               = $product_old_price_lbl;
 
 		$ProductPriceArr['product_price_lbl']                   = $product_price_lbl;
 		$ProductPriceArr['product_vat_lbl']                     = $product_vat_lbl;
-		$ProductPriceArr['productVat']                          = $tax_amount;
-		$ProductPriceArr['product_old_price_excl_vat']          = $product_old_price_excl_vat;
-		$ProductPriceArr['product_price_incl_vat']              = $product_price_incl_vat;
+		$ProductPriceArr['productVat']                          = (float) $tax_amount;
+		$ProductPriceArr['product_old_price_excl_vat']          = (float) $product_old_price_excl_vat;
+		$ProductPriceArr['product_price_incl_vat']              = (float) $product_price_incl_vat;
 
 		return $ProductPriceArr;
 	}
@@ -1856,7 +1856,7 @@ class productHelper
 		$discount_amount_final = 0;
 		$discountVAT     = 0;
 
-		if (count($discount) > 0)
+		if (!empty($discount))
 		{
 			$product_subtotal = $cart['product_subtotal'] + $cart['shipping'];
 
@@ -1878,7 +1878,7 @@ class productHelper
 			// Disocunt percentage price
 			else
 			{
-				$discount_percent = $discount->discount_amount;
+				$discount_percent = !empty($discount->discount_amount) ? $discount->discount_amount : 0;
 			}
 
 			// Apply even products already on discount

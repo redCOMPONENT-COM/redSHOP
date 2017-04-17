@@ -1003,7 +1003,7 @@ class RedshopRouter extends JComponentRouterBase
 
 							if (isset($segments[$second_last]))
 							{
-								$db = $this->getDbo();
+								$db = JFactory::getDbo();
 								$query = $db->getQuery(true)
 									->select($db->qn('id'))
 									->from($db->qn('#__redshop_category'))

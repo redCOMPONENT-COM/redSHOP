@@ -182,7 +182,7 @@ $cart_data = str_replace("{empty_cart}", $empty_cart, $cart_data);
 
 $discount = $producthelper->getDiscountId(0);
 
-if (count($discount) > 0)
+if (!empty($discount))
 {
 	$text = '';
 
