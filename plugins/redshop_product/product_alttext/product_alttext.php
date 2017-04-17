@@ -56,7 +56,7 @@ class PlgRedshop_ProductProduct_AltText extends JPlugin
 
 			$categoryName = $db->setQuery($query)->loadResult();
 
-			if (!empty($cat))
+			if (!empty($categoryName))
 			{
 				$altText = str_replace('{category_name}', $categoryName, $altText);
 			}
