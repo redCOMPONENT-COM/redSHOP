@@ -680,10 +680,18 @@ class RedshopModelInstall extends RedshopModelList
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/meta_ext';
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/barcode';
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/tax_group_detail';
+		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager';
+		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager_detail';
 
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/update.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/accessmanager.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/accessmanager_detail.php';
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redaccesslevel.php';
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager_detail.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/tables/accessmanager_detail.php';
 
 		// Tax group
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/tax_group_detail.php';
