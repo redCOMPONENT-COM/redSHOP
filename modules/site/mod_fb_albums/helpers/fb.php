@@ -67,6 +67,13 @@ abstract class ModFbAlbumsHelper
         return $output;
     }
 
+    /**
+     * getToken  get FB access token
+     *
+     * @param   mixed  $params  params of module
+     *
+     * @return  mixed
+     */
     public static function getToken(&$params)
     {
         $id = trim($params->get('client_id', ''));
