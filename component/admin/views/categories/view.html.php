@@ -19,33 +19,31 @@ defined('_JEXEC') or die;
 class RedshopViewCategories extends RedshopViewList
 {
 	/**
-	 * Add the page title and toolbar.
+	 * Method for add toolbar.
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function addToolBar()
+	protected function addToolbar()
 	{
-		$user  = JFactory::getUser();
-		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'redshop_categories48');
-
-		if ($user->authorise('com_redshop', 'core.create'))
+		// Add common button
+		if ($this->canCreate)
 		{
-			JToolBarHelper::addNew('category.add');
+			JToolbarHelper::addNew($this->getInstanceName() . '.add');
 			JToolBarHelper::custom('category.copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		}
 
-		if ($user->authorise('com_redshop', 'core.edit'))
+		if ($this->canDelete)
 		{
-			JToolBarHelper::checkin('categories.checkin');
+			JToolbarHelper::deleteList('', $this->getInstancesName() . '.delete');
 		}
 
-		if ($user->authorise('com_redshop', 'core.edit.state'))
+		if ($this->canEdit)
 		{
-			JToolBarHelper::deleteList('', 'categories.delete');
-			JToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolbarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::checkin($this->getInstancesName() . '.publish', 'JTOOLBAR_CHECKIN', true);
 		}
 	}
 
@@ -96,7 +94,7 @@ class RedshopViewCategories extends RedshopViewList
 
 		if ($config['dataCol'] == 'name')
 		{
-			if ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable)
+			if ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable && $this->canEdit)
 			{
 				$value   = $row->{$config['dataCol']};
 				$display = $value;
@@ -110,7 +108,14 @@ class RedshopViewCategories extends RedshopViewList
 			}
 			else
 			{
-				return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $row->{$config['dataCol']} . '</a>';
+				if ($this->canEdit)
+				{
+					return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $row->{$config['dataCol']} . '</a>';
+				}
+				else
+				{
+					return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . $row->{$config['dataCol']};
+				}
 			}
 		}
 		elseif ($config['dataCol'] == 'description')
