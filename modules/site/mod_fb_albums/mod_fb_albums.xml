@@ -43,10 +43,9 @@
                 <field
                         name="limit"
                         type="list"
-                        default="999"
+                        default="5"
                         label="MOD_FB_ALBUMS_LIMIT"
                         description="MOD_FB_ALBUMS_LIMIT">
-                    <option value="999">JALL</option>
                     <option value="1">J1</option>
                     <option value="2">J2</option>
                     <option value="3">J3</option>

@@ -29,7 +29,6 @@ abstract class ModFbAlbumsHelper
     {
         $accessTokenObj = self::getToken($params);
 
-
         if (isset($accessTokenObj->error))
         {
             return null;
@@ -38,29 +37,12 @@ abstract class ModFbAlbumsHelper
         $accessToken = $accessTokenObj->access_token;
 
         $page = $params->get('fb_page', '');
+        $limit = $params->get('limit', 3);
 
-        $type = $params->get('display', 0);
-
-        switch ($type)
-        {
-            case 1:
-                $limit = $params->get('limit', '3');
-
-                $url = 'https://graph.facebook.com/v2.8/'
-                    . $page
-                    . '?fields=posts.limit(' . (int) $limit . '){message,%20picture,story}'
-                    . '&access_token=' . $accessToken;
-
-                break;
-            default:
-                $url = 'https://graph.facebook.com/v2.8/'
-                    . $page
-                    . '?fields=albums{name,%20photo{name,%20picture,%20tags}}'
-                    . '&access_token=' . $accessToken;
-                break;
-        }
-
-        echo $url; die;
+        $url = 'https://graph.facebook.com/v2.8/'
+            . $page
+            . '?fields=albums{name,%20photos{name,%20picture,%20tags}},posts.limit(' . (int) $limit . '){message,%20picture,story}'
+            . '&access_token=' . $accessToken;
 
         $output = self::doCurl($url);
 

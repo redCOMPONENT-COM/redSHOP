@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 $albums = isset($output->albums->data)? $output->albums->data: array();
 
-var_dump($albums);
-die;
-
 $count = count($albums);
 ?>
 <?php if ($count > 0): ?>
