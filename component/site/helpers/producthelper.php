@@ -1113,6 +1113,7 @@ class productHelper
 		$linkimagename = trim($linkimagename);
 		$product_id    = $product->product_id;
 		$redhelper     = redhelper::getInstance();
+		$dispatcher    = JDispatcher::getInstance();
 
 		$middlepath    = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 		$product_image = $product->product_full_image;
@@ -1127,6 +1128,9 @@ class productHelper
 
 		$altText = $this->getAltText('product', $product_id, $product_image);
 		$altText = empty($altText) ? $product->product_name : $altText;
+
+		$dispatcher    = JDispatcher::getInstance();
+		$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
 		$title = " title='" . $altText . "' ";
 		$alt   = " alt='" . $altText . "' ";
@@ -1215,6 +1219,8 @@ class productHelper
 		{
 			$thum_image = "<div>" . $thum_image . "</div>";
 		}
+
+		$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
 		return $thum_image;
 	}
@@ -1861,7 +1867,7 @@ class productHelper
 			$product_subtotal = $cart['product_subtotal'] + $cart['shipping'];
 
 			// Discount total type
-			if ($discount->discount_type == 0)
+			if (isset($discount->discount_type) && $discount->discount_type == 0)
 			{
 				// 100% discount
 				if ($discount->discount_amount > $product_subtotal)
@@ -1878,7 +1884,7 @@ class productHelper
 			// Disocunt percentage price
 			else
 			{
-				$discount_percent = !empty($discount->discount_amount) ? $discount->discount_amount : 0;
+				$discount_percent = isset($discount->discount_amount)? $discount->discount_amount: 0;
 			}
 
 			// Apply even products already on discount
@@ -4346,6 +4352,8 @@ class productHelper
 				$data_add = str_replace("{selected_accessory_price}", "", $data_add);
 			}
 
+			// New tags replacement for accessory template section
+			$data_add = RedshopTagsReplacer::_('accessory', $data_add, array('accessory' => $accessory));
 			$data_add = str_replace("{accessory_product_start}", "", $data_add);
 			$data_add = str_replace("{accessory_product_end}", "", $data_add);
 		}
@@ -8246,9 +8254,13 @@ class productHelper
 		}
 		elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 		{
+			$altText = $product->product_name;
+			$dispatcher    = JDispatcher::getInstance();
+			$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
+
 			$type                = 'product';
 			$imagename           = $product->product_full_image;
-			$aTitleImageResponse = $product->product_name;
+			$aTitleImageResponse = $altText;
 			$attrbimg            = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_full_image;
 		}
 		else
@@ -8332,8 +8344,13 @@ class productHelper
 				$aHrefImageResponse = REDSHOP_FRONT_IMAGES_ABSPATH . $type . "/" . $imagename;
 			}
 
+			$altText = $product->product_name;
+
+			$dispatcher    = JDispatcher::getInstance();
+			$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
+
 			$mainImageResponse = "<img id='main_image" . $product_id . "' src='" . $productmainimg . "' alt='"
-				. $product->product_name . "' title='" . $product->product_name . "'>";
+				. $altText . "' title='" . $altText . "'>";
 
 			if ((!Redshop::getConfig()->get('PRODUCT_ADDIMG_IS_LIGHTBOX') || !Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX')) || $redview == "category")
 				$mainImageResponse = $productmainimg;

@@ -16492,5 +16492,22 @@ function _init() {
         $('table').each(function(){
             $(this).wrap( "<div class='table-responsive'></div>" );
         });
+
+        // Slidetext js
+        $(".rs-more").click(function(e){
+            var $self   = $(this);
+            var $teaser = $self.parent().find(".rs-teaser");
+            var $full   = $self.parent().find(".rs-full");
+
+            $teaser.toggle();
+
+            $full.toggle("slow", function(){
+                if ($(this).css("display") == "none") {
+                    $self.text(Joomla.JText._('COM_REDSHOP_GRID_SLIDERTEXT_MORE'));
+                } else {
+                    $self.text(Joomla.JText._('COM_REDSHOP_GRID_SLIDERTEXT_LESS'));
+                }
+            });
+        });
     });
 })(jQuery);
