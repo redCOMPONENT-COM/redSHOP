@@ -182,11 +182,11 @@ $cart_data = str_replace("{empty_cart}", $empty_cart, $cart_data);
 
 $discount = $producthelper->getDiscountId(0);
 
-if (!empty($discount))
+if (is_object($discount))
 {
 	$text = '';
 
-	if ($discount->discount_type == 0)
+	if (isset($discount->discount_type) && $discount->discount_type == 0)
 	{
 		$discount_amount = $discount->discount_amount;
 		$discount_sign   = " " . Redshop::getConfig()->get('REDCURRENCY_SYMBOL');

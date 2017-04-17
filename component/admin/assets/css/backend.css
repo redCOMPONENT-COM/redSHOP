@@ -27126,3 +27126,7 @@ body.modal-open {
   right: 5px;
   color: #ad312b;
 }
+
+.rs-full { display: none; }
+.rs-more { cursor: pointer; }
+.rs-teaser { display: inline-block; }
