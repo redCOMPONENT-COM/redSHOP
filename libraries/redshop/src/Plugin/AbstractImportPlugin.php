@@ -34,11 +34,6 @@ class AbstractImportPlugin extends \JPlugin
 	protected $encoding = 'UTF-8';
 
 	/**
-	 * @var int
-	 */
-	protected $maxLine = 1;
-
-	/**
 	 * @var  \JDatabaseDriver
 	 */
 	protected $db;
@@ -288,7 +283,7 @@ class AbstractImportPlugin extends \JPlugin
 		fclose($handler);
 
 		$headers = array_shift($rows);
-		$rows    = array_chunk($rows, $this->maxLine);
+		$rows    = array_chunk($rows, \Redshop::getConfig()->get('IMPORT_MAX_LINE', 1));
 		$fileExt = \JFile::getExt($file);
 
 		// Remove old file
