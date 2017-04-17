@@ -18,16 +18,11 @@ defined('_JEXEC') or die;
             </div>
             <div class="box-body">
                 <div class="form-group">
-	                <?php echo $this->form->renderField('append_to_global_seo') ?>
+					<?php echo $this->form->renderField('append_to_global_seo') ?>
                 </div>
 
                 <div class="form-group">
-                    <label for="pagetitle">
-						<?php echo JText::_('COM_REDSHOP_PAGE_TITLE'); ?>
-						<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PAGE_TITLE'), JText::_('COM_REDSHOP_PAGE_TITLE'), 'tooltip.png', '', '', false); ?>
-                    </label>
-                    <input class="form-control" type="text" name="pagetitle" id="pagetitle" size="75"
-                           value="<?php echo htmlspecialchars($this->item->pagetitle); ?>"/>
+					<?php echo $this->form->renderField('pagetitle') ?>
                 </div>
 
                 <div class="form-group">
