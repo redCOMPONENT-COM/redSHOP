@@ -53,8 +53,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
+		$I->searchCategory($categoryName);
 		$I->wait(3);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
 		$I->click(\CategoryManagerJ3Page::$checkAll);
@@ -78,8 +77,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
+		$I->searchCategory($categoryName);
 		$I->wait(3);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
 		$I->click(\CategoryManagerJ3Page::$checkAll);
@@ -122,9 +120,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
+		$I->searchCategory($categoryName);
 		$I->wait(3);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
 		$text = $I->grabAttributeFrom(\CategoryManagerJ3Page::$categoryStatePath, 'onclick');
