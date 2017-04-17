@@ -39,6 +39,9 @@ class redhelper
 		return self::$instance;
 	}
 
+	/**
+	 * Constructor.
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';

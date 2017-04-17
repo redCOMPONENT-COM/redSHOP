@@ -284,7 +284,14 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 	$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
 	$cart_mdata = str_replace("{product_s_desc}", $product->product_s_desc, $cart_mdata);
 
-	$cart_mdata = str_replace("{product_attribute}", $quotationProducts[$i]->product_attribute, $cart_mdata);
+	$cart_mdata = RedshopTagsReplacer::_(
+						'attribute',
+						$cart_mdata,
+						array(
+							'product_attribute' 	=> $quotationProducts[$i]->product_attribute,
+						)
+					);
+
 	$cart_mdata = str_replace("{product_accessory}", $quotationProducts[$i]->product_accessory, $cart_mdata);
 
 	$cart_mdata = str_replace("{product_number}", $product_number, $cart_mdata);

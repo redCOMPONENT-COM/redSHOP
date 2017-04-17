@@ -1,6 +1,5 @@
 SET FOREIGN_KEY_CHECKS=0;
 
-DROP TABLE IF EXISTS `#__redshop_accessmanager`;
 DROP TABLE IF EXISTS `#__redshop_attribute_set`;
 DROP TABLE IF EXISTS `#__redshop_cart`;
 DROP TABLE IF EXISTS `#__redshop_catalog`;

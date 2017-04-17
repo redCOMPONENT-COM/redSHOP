@@ -35,14 +35,16 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = $this->input->post->getArray();
-
-		$model = $this->getModel('user_detail');
+		$app      = JFactory::getApplication();
+		$post     = $this->input->post->getArray();
+		$model    = $this->getModel('user_detail');
 		$shipping = isset($post["shipping"]) ? true : false;
+		$app->setUserState('com_redshop.user_detail.data', $post);
 
 		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_USER_DETAIL_SAVED');
+			$app->setUserState('com_redshop.fields_detail.data', "");
 		}
 		else
 		{
@@ -162,6 +164,7 @@ class RedshopControllerUser_detail extends RedshopController
 	{
 		$shipping = $this->input->getString('shipping', '');
 		$info_id  = $this->input->getString('info_id', '');
+		JFactory::getApplication()->setUserState('com_redshop.user_detail.data', "");
 
 		if ($shipping)
 		{
