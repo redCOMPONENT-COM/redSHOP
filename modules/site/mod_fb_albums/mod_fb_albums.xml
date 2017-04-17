@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+    <name>MOD_FB_ALBUMS</name>
+    <version>1.0</version>
+    <creationDate>April 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>FB Albums</description>
+    <files>
+        <filename module="mod_fb_albums">mod_fb_albums.php</filename>
+        <filename>index.html</filename>
+        <folder>helpers</folder>
+        <folder>tmpl</folder>
+        <folder>css</folder>
+        <folder>images</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_fb_albums.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_fb_albums.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params" addfieldpath="/libraries/redshop/form/fields">
+            <fieldset name="basic">
+                <field name="access_token" type="text" default="" label="MOD_FB_ALBUM_ACCESS_TOKEN"
+                       description="MOD_FB_ALBUM_ACCESS_TOKEN"/>
+                <field name="fb_page" type="text" default="" label="MOD_FB_ALBUM_FB_PAGE"
+                       description="MOD_FB_ALBUM_FB_PAGE"/>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
