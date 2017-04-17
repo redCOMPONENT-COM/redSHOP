@@ -39,11 +39,6 @@ class RedshopViewRedshop extends RedshopViewAdmin
 	public $neworders;
 
 	/**
-	 * @var  array
-	 */
-	public $access_rslt;
-
-	/**
 	 * Display the States view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -79,9 +74,9 @@ class RedshopViewRedshop extends RedshopViewAdmin
 			}
 		}
 
-		if ($user->authorise('core.manage', 'com_redshop'))
+		if (!$user->authorise('core.manage', 'com_redshop'))
 		{
-			$this->access_rslt = RedshopHelperAccess::checkAccessOfUser($user->gid);
+			throw new Exception('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION');
 		}
 
 		$this->model        = $this->getModel();
