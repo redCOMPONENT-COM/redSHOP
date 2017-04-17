@@ -61,7 +61,7 @@ class RedshopModelProduct extends RedshopModel
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('p.*'))
+			->select('p.*')
 			->select($db->qn('c.id', 'category_id'))	
 			->select($db->qn('c.name', 'category_name'))
 			->select($db->qn('c.category_full_image'))

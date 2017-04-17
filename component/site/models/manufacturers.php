@@ -254,7 +254,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('p.*'))
+			->select('p.*')
 			->select($db->qn('c.id'))	
 			->select($db->qn('c.name'))
 			->from($db->qn('#__redshop_product', 'p'))
