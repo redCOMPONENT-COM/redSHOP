@@ -922,12 +922,17 @@ abstract class RedshopEntityBase
 	 *
 	 * @return  integer  The item id
 	 *
-	 * @throws  RuntimeException  When save failed
+	 * @throws  RuntimeException  When JTable instance not found
 	 *
 	 * @since   1.0
 	 */
 	public function save($item = null)
 	{
+		if (!$this->processBeforeSaving($item))
+		{
+			return false;
+		}
+
 		if (null === $item)
 		{
 			$item = $this->getItem();
@@ -947,12 +952,12 @@ abstract class RedshopEntityBase
 
 		if (!$table->save((array) $item))
 		{
-			throw new RuntimeException("Item could not be saved: " . $table->getError(), 500);
+			JLog::add($table->getError(), JLog::ERROR, 'database');
+			return false;
 		}
 
 		// Force entity reload / save to cache
 		static::clearInstance($this->id);
-
 		static::loadFromTable($table);
 
 		return $table->{$table->getKeyName()};
@@ -978,5 +983,23 @@ abstract class RedshopEntityBase
 		unset(static::$instances[$class][$id]);
 
 		return static::getInstance($id);
+	}
+
+	/**
+	 * Process $item data before saving
+	 * Return false will break save process
+	 *
+	 * @param   array  $item
+	 *
+	 * @return  bool
+	 */
+	public function processBeforeSaving (&$item = array())
+	{
+		return true;
+	}
+
+	public function processAfterSaving (&$table)
+	{
+
 	}
 }
