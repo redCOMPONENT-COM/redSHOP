@@ -1713,6 +1713,10 @@ class rsCarthelper
 
 			$subtotal_excl_vat += $rowitem [$i]->product_item_price_excl_vat * $quantity;
 
+			$dispatcher = RedshopHelperUtility::getDispatcher();
+			JPluginHelper::importPlugin('redshop_stockroom');
+			$dispatcher->trigger('onReplaceStockStatus', array($rowitem[$i], &$cart_mdata));
+
 			if ($mainview == "order_detail")
 			{
 				$Itemid     = JRequest::getVar('Itemid');
