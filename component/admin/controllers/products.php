@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 class RedshopControllerProducts extends RedshopControllerAdmin
 {
 
-	public function ins_product()
+	public function insertProduct()
 	{
 		$this->input->set('layout', 'ins_product');
 		$this->input->set('hidemainmenu', 1);
@@ -223,56 +223,5 @@ class RedshopControllerProducts extends RedshopControllerAdmin
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
-	}
-
-	public function saveorder()
-	{
-
-
-		$cid   = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
-
-		$model = $this->getModel('product');
-		$model->saveorder($cid, $order);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
-	}
-
-	/**
-	 * Check in of one or more records.
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   12.2
-	 */
-	public function checkin()
-	{
-		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		$ids = $this->input->post->get('cid', array(), 'array');
-
-		$model  = $this->getModel('product_detail');
-		$return = $model->checkin($ids);
-
-		if ($return === false)
-		{
-			// Checkin failed.
-			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=product', false), $message, 'error');
-
-			return false;
-		}
-		else
-		{
-			// Checkin succeeded.
-			$message = JText::plural('COM_REDSHOP_PRODUCT_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=product', false), $message);
-
-			return true;
-		}
 	}
 }

@@ -43,7 +43,7 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 
 
 <form
-	action="index.php?option=com_redshop&amp;view=product&amp;task=ins_product&amp;tmpl=component&amp;e_name=<?php echo $eName; ?>"
+	action="index.php?option=com_redshop&amp;view=product&amp;task=insertProduct&amp;tmpl=component&amp;e_name=<?php echo $eName; ?>"
 	method="post" name="adminForm" id="adminForm">
 	<input type="text" name="keyword" value="<?php echo $this->keyword; ?>"> <input type="submit"
 	                                                                                value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
@@ -118,7 +118,7 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 	</div>
 
 	<input type="hidden" name="view" value="product"/>
-	<input type="hidden" name="task" value="ins_product"/>
+	<input type="hidden" name="task" value="insertProduct"/>
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
