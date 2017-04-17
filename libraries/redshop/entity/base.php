@@ -132,6 +132,10 @@ abstract class RedshopEntityBase
 		return $this;
 	}
 
+	public function def ($property, $value)
+	{
+
+	}
 	/**
 	 * Ensure that clones don't modify cached data
 	 *
@@ -908,33 +912,50 @@ abstract class RedshopEntityBase
 	 */
 	public function save($item = null)
 	{
-		if (null === $item)
+		if ($this->processBeforeSaving($item))
 		{
-			$item = $this->getItem();
+			if (null === $item)
+			{
+				$item = $this->getItem();
+			}
+
+			if (!$item)
+			{
+				throw new RuntimeException("Nothing to save", 422);
+			}
+
+			$table = $this->getTable();
+
+			if (!$table instanceof JTable)
+			{
+				throw new RuntimeException("Table for instance " . $this->getInstanceName() . " could not be loaded", 500);
+			}
+
+			if (!$table->save((array) $item))
+			{
+				throw new RuntimeException("Item could not be saved: " . $table->getError(), 500);
+			}
+
+			// Force entity reload / save to cache
+			static::clearInstance($this->id);
+
+			static::loadFromTable($table);
+
+			$this->processAfterSaving($table);
+
+			return $table->id;
 		}
 
-		if (!$item)
-		{
-			throw new RuntimeException("Nothing to save", 422);
-		}
+		return false;
+	}
 
-		$table = $this->getTable();
+	public function processBeforeSaving (&$item = array())
+	{
+		return true;
+	}
 
-		if (!$table instanceof JTable)
-		{
-			throw new RuntimeException("Table for instance " . $this->getInstanceName() . " could not be loaded", 500);
-		}
+	public function processAfterSaving (&$table)
+	{
 
-		if (!$table->save((array) $item))
-		{
-			throw new RuntimeException("Item could not be saved: " . $table->getError(), 500);
-		}
-
-		// Force entity reload / save to cache
-		static::clearInstance($this->id);
-
-		static::loadFromTable($table);
-
-		return $table->id;
 	}
 }

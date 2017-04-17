@@ -32,108 +32,45 @@ class RedshopControllerProduct extends RedshopControllerForm
 	public function save($key = null, $urlVar = null)
 	{
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$post                 = $this->input->post->getArray();
-		$cid                  = $this->input->post->get('cid', array(), 'array');
-		$post ['product_id']  = $cid[0];
-		$post['product_name'] = $this->input->post->get('product_name', null, 'string');
+		$post                 = $this->input->post->get('jform', array(), 'array');
+		// Temporary code
+		$post = array_merge($post, $this->input->post->getArray());
 
-		$selectedTabPosition = $this->input->get('selectedTabPosition');
-		$this->app->setUserState('com_redshop.product_detail.selectedTabPosition', $selectedTabPosition);
+		$productEntity = RedshopEntityProduct::getInstance(JFactory::getApplication()->input->getInt('id'));
 
-		if (is_array($post['product_category'])
-			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
-		)
+		if ($productEntity->save($post))
 		{
-			$post['cat_in_sefurl'] = $post['product_category'][0];
-		}
-
-		if (!$post ['product_id'])
-		{
-			$post ['publish_date'] = date("Y-m-d H:i:s");
-		}
-
-		$post ['discount_stratdate'] = strtotime($post ['discount_stratdate']);
-
-		if ($post ['discount_enddate'])
-		{
-			$post ['discount_enddate'] = strtotime($post ['discount_enddate']) + (23 * 59 * 59);
-		}
-
-		// Setting default value
-		$post['product_on_sale'] = 0;
-
-		// Setting product on sale when discount dates are set
-		if ((bool) $post['discount_stratdate'] || (bool) $post['discount_enddate'])
-		{
-			$post['product_on_sale'] = 1;
-		}
-
-		$post["product_number"] = trim($this->input->getString('product_number', ''));
-
-		$product_s_desc         = $this->input->post->get('product_s_desc', array(), 'array');
-		$post["product_s_desc"] = stripslashes($product_s_desc[0]);
-
-		$product_desc         = $this->input->post->get('product_desc', array(), 'array');
-		$post["product_desc"] = stripslashes($product_desc[0]);
-
-		if (!empty($post['product_availability_date']))
-		{
-			$post['product_availability_date'] = strtotime($post['product_availability_date']);
-		}
-
-
-		$model = $this->getModel('product_detail');
-
-		if ($row = $model->store($post))
-		{
+			$model = $this->getModel('Product');
 			// Save Association
-			$model->SaveAssociations($row->product_id, $post);
+			$model->SaveAssociations($productEntity->id, $post);
 
 			// Add product to economic
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
 				$economic = economic::getInstance();
-				$economic->createProductInEconomic($row);
+				$economic->createProductInEconomic($productEntity);
 			}
 
 			$field = extra_field::getInstance();
 
 			// Field_section 1 :Product
-			RedshopHelperExtrafields::extraFieldSave($post, 1, $row->product_id);
+			RedshopHelperExtrafields::extraFieldSave($post, 1, $productEntity->id);
 
 			// Field_section 12 :Product Userfield
-			$field->extra_field_save($post, 12, $row->product_id);
+			$field->extra_field_save($post, 12, $productEntity->id);
 
 			// Field_section 12 :Productfinder datepicker
-			$field->extra_field_save($post, 17, $row->product_id);
+			$field->extra_field_save($post, 17, $productEntity->id);
 
-			$this->attribute_save($post, $row);
+			$this->attribute_save($post, $productEntity->getItem());
 
 			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
 
-			if ($apply == 2)
-			{
-				$this->setRedirect('index.php?option=com_redshop&view=product&task=add', $msg);
-			}
-
-            elseif ($apply == 1)
-			{
-				$this->setRedirect('index.php?option=com_redshop&view=product&task=edit&cid[]=' . $row->product_id, $msg);
-			}
-			else
-			{
-				$model->checkin($cid);
-				$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
-			}
 		}
 		else
 		{
-			$this->app->enqueueMessage($model->getError(), 'error');
-			$this->input->set('view', 'product_detail');
-			$this->input->set('layout', 'default');
-			$this->input->set('hidemainmenu', 1);
-
+			//JFactory::getApplication()->enqueueMessage($model->getError(), 'error');
 			parent::display();
 		}
 	}
@@ -347,9 +284,9 @@ class RedshopControllerProduct extends RedshopControllerForm
 	/**
 	 * Does something with image?
 	 *
-	 * @param   int     $width  Width.
-	 * @param   int     $height Height.
-	 * @param   string  $target Target.
+	 * @param   int    $width  Width.
+	 * @param   int    $height Height.
+	 * @param   string $target Target.
 	 *
 	 * @return array
 	 */

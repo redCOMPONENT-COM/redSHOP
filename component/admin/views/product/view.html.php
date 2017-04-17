@@ -308,7 +308,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 
 		$lists['related_product'] = JHtml::_('redshopselect.search', $model->related_product_data($this->item->id), 'related_product',
 			array(
-				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $this->item->id),
+				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . (int) $this->item->id),
 				'select2.options'     => array('multiple' => 'true')
 			)
 		);
@@ -661,25 +661,6 @@ class RedshopViewProduct extends RedshopViewAdmin
 
 	protected function prepare ()
 	{
-		$jinput = JFactory::getApplication()->input;
 
-		$layout = $jinput->getString('layout', '');
-
-		if ($layout == 'property_images')
-		{
-			$this->setLayout('property_images');
-		}
-		elseif ($layout == 'attribute_color')
-		{
-			$this->setLayout('attribute_color');
-		}
-		elseif ($layout == 'productstockroom')
-		{
-			$this->setLayout('productstockroom');
-		}
-		else
-		{
-			$this->setLayout('default');
-		}
 	}
 }

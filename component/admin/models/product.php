@@ -106,7 +106,7 @@ class RedshopModelProduct extends RedshopModelForm
 
 		$producthelper = productHelper::getInstance();
 
-		$row = $this->getTable('product_detail');
+		$row = $this->getTable('Product');
 
 		if (!$row->bind($data))
 		{
@@ -130,7 +130,7 @@ class RedshopModelProduct extends RedshopModelForm
 
 		if (!$row->check())
 		{
-			$this->app->enqueueMessage($row->getError(), 'error');
+			JFactory::getApplication()->enqueueMessage($row->getError(), 'error');
 
 			return false;
 		}

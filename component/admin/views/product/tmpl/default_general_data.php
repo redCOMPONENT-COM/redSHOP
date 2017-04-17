@@ -14,25 +14,27 @@ $editor         = JFactory::getEditor();
 $calendarFormat = '%d-%m-%Y';
 ?>
 <script type="text/javascript">
-    (function ($) {
-        $(document).ready(function () {
-            var productNumber = [];
 
-            $.post(
-                "index.php?option=com_redshop&view=product&task=product.ajaxGetAllProductNumber",
-                {
-                    "<?php echo JSession::getFormToken() ?>": 1,
-                    "product_id": <?php echo $this->item->id ?>
-                },
-                function (response) {
-                    productNumber = response.split(',');
-                });
+    jQuery(document).ready(function () {
+        var productNumber = [];
+        jQuery.post
+        (
+            "index.php?option=com_redshop&view=product&task=product.ajaxGetAllProductNumber",
+            {
+                "<?php echo JSession::getFormToken() ?>": 1,
+                "product_id": <?php echo (int) $this->item->id ?>
+            },
+            function (response) {
+                productNumber = response.split(',');
+            }
+        );
 
-            document.formvalidator.setHandler("productNumber", function (value) {
-                return !productNumber.contains(value);
-            });
+        document.formvalidator.setHandler("productNumber", function (value) {
+            return !productNumber.contains(value);
         });
-    })(jQuery);
+
+    });
+
 </script>
 <div class="row">
     <div class="col-sm-8">
@@ -163,11 +165,11 @@ $calendarFormat = '%d-%m-%Y';
                         </div>
 
                         <div class="form-group">
-	                        <?php echo $this->form->renderField('discount_startdate') ?>
+							<?php echo $this->form->renderField('discount_startdate') ?>
                         </div>
 
                         <div class="form-group">
-	                        <?php echo $this->form->renderField('discount_enddate') ?>
+							<?php echo $this->form->renderField('discount_enddate') ?>
                         </div>
 
 						<?php $display = "";
@@ -408,7 +410,7 @@ $calendarFormat = '%d-%m-%Y';
 							'select2.options'     => array('multiple' => 'false', 'placeholder' => JText::_('COM_REDSHOP_PARENT_PRODUCT')),
 							'option.key'          => 'product_id',
 							'option.text'         => 'product_name',
-							'select2.ajaxOptions' => array('typeField' => ', parent:1, product_id:' . $this->item->id)
+							'select2.ajaxOptions' => array('typeField' => ', parent:1, product_id:' . (int) $this->item->id)
 						)
 					);
 					?>

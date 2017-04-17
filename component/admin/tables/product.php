@@ -454,6 +454,13 @@ class RedshopTableProduct extends RedshopTable
 		$db    = JFactory::getDbo();
 		$table = JTable::getInstance('Product', 'RedshopTable');
 
+		if (empty($this->title))
+		{
+			$this->setError(JText::_('COM_REDSHOP_TABLE_PRODUCT_MISSING_FIELD_TITLE'));
+
+			return false;
+		}
+
 		if (empty($this->number))
 		{
 			$this->setError(JText::_('COM_REDSHOP_TABLE_PRODUCT_MISSING_FIELD_NUMBER'));
@@ -468,6 +475,10 @@ class RedshopTableProduct extends RedshopTable
 			return false;
 		}
 
+		if (empty($this->manufacturer_id))
+		{
+			$this->manufacturer_id = 0;
+		}
 		return parent::check();
 	}
 }

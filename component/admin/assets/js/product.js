@@ -26,10 +26,6 @@ function add_dependency(type_id, tag_id, product_id) {
     request.send(null);
 }
 
-Joomla.submitbutton = function (pressbutton) {
-    submitbutton(pressbutton);
-};
-
 function hideDownloadLimit(val) {
     var downloadlimit = document.getElementById('download_limit');
     var downloaddays = document.getElementById('download_days');
@@ -77,4 +73,68 @@ function showBox(div) {
     if (opendiv.style.display == 'block') opendiv.style.display = 'none';
     else opendiv.style.display = 'block';
     return false;
+}
+
+function jimage_insert(main_path, fid, fsec) {
+
+    var path_url = "<?php echo JURI::getInstance()->root();?>";
+    var propimg;
+
+    if (!fid && !fsec) {
+
+        if (main_path) {
+            var elImageDisplay = redSHOP.RSConfig._('SITE_URL');
+
+            // Make sure this el exists before apply
+            if (elImageDisplay !== null) {
+                elImageDisplay.style.display = "block";
+                elImageDisplay.src = path_url + main_path;
+            }
+            else {
+                // It's not exists than create and append it
+                elImageDisplay = document.createElement('img');
+                elImageDisplay.style.display = "block";
+                elImageDisplay.src = path_url + main_path;
+                jQuery('#product_image').parent().append(elImageDisplay);
+            }
+        }
+        else {
+            document.getElementById("product_image").value = "";
+            document.getElementById("image_display").src = "";
+        }
+    } else {
+
+        if (fsec == 'property') {
+            if (main_path) {
+                propimg = 'propertyImage' + fid;
+                document.getElementById(propimg).style.display = "block";
+                document.getElementById(propimg).width = "60";
+                document.getElementById(propimg).heidth = "60";
+                document.getElementById("propmainImage" + fid).value = main_path;
+                document.getElementById(propimg).src = path_url + main_path;
+
+
+            }
+            else {
+                document.getElementById("propmainImage" + fid).value = "";
+                document.getElementById("propimg" + fid).src = "";
+            }
+        } else {
+            if (main_path) {
+
+                propimg = 'subpropertyImage' + fid;
+                document.getElementById(propimg).style.display = "block";
+                document.getElementById(propimg).width = "60";
+                document.getElementById(propimg).heidth = "60";
+                document.getElementById("subpropmainImage" + fid).value = main_path;
+                document.getElementById(propimg).src = path_url + main_path;
+
+
+            }
+            else {
+                document.getElementById("subpropmainImage" + fid).value = "";
+                document.getElementById("propimg" + fid).src = "";
+            }
+        }
+    }
 }
