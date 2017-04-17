@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 $albums = isset($output->albums->data)? $output->albums->data: array();
+
+var_dump($albums);
+die;
+
 $count = count($albums);
 ?>
 <?php if ($count > 0): ?>
@@ -27,7 +31,7 @@ $count = count($albums);
             <div class="tab-content">
                 <?php foreach ($albums as $album): ?>
                 <div role="tabpanel" class="tab-pane" id="<?php echo isset($album->id)? $album->id: '' ?>">
-                    <?php if (count($album->photos->data) > 0): ?>
+                    <?php if ($count > 0): ?>
                         <?php foreach ($album->photos->data as $photo): ?>
                             <a class="gallery_item cboxElement" href="<?php echo $photo->picture ?>" title="<?php echo isset($album->name)? $album->name: ''
                             ?>" style="background: url('<?php echo $photo->picture ?>');">

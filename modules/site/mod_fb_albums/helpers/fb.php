@@ -27,12 +27,40 @@ abstract class ModFbAlbumsHelper
      */
     public static function getList(&$params)
     {
-        $accessToken = $params->get('access_token', '');
+        $accessTokenObj = self::getToken($params);
+
+
+        if (isset($accessTokenObj->error))
+        {
+            return null;
+        }
+
+        $accessToken = $accessTokenObj->access_token;
+
         $page = $params->get('fb_page', '');
-        $url = 'https://graph.facebook.com/v2.8/'
-            . $page
-            . '?fields=albums{name,%20photos{name,%20picture,%20tags}}'
-            . '&access_token=' . $accessToken;
+
+        $type = $params->get('display', 0);
+
+        switch ($type)
+        {
+            case 1:
+                $limit = $params->get('limit', '3');
+
+                $url = 'https://graph.facebook.com/v2.8/'
+                    . $page
+                    . '?fields=posts.limit(' . (int) $limit . '){message,%20picture,story}'
+                    . '&access_token=' . $accessToken;
+
+                break;
+            default:
+                $url = 'https://graph.facebook.com/v2.8/'
+                    . $page
+                    . '?fields=albums{name,%20photo{name,%20picture,%20tags}}'
+                    . '&access_token=' . $accessToken;
+                break;
+        }
+
+        echo $url; die;
 
         $output = self::doCurl($url);
 
@@ -55,5 +83,18 @@ abstract class ModFbAlbumsHelper
         curl_close($ch);
 
         return $output;
+    }
+
+    public static function getToken(&$params)
+    {
+        $id = trim($params->get('client_id', ''));
+        $secret = trim($params->get('client_secret', ''));
+
+        $url = 'https://graph.facebook.com/v2.8/oauth/access_token?client_id=' . $id . '&client_secret=' . $secret .
+            '&grant_type=client_credentials';
+
+        $output = self::doCurl($url);
+
+        return json_decode($output);
     }
 }

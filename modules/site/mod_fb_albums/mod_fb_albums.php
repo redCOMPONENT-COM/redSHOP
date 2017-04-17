@@ -22,5 +22,16 @@ if (isset($output->error))
 else{
     $class_sfx	= htmlspecialchars($params->get('class_sfx'));
     JHtml::stylesheet('mod_fb_albums/css.css', false, true);
-    require JModuleHelper::getLayoutPath('mod_fb_albums', $params->get('layout', 'default'));
+
+    $type = $params->get('display', 0);
+
+    switch ($type)
+    {
+        case 1:
+            require JModuleHelper::getLayoutPath('mod_fb_albums', $params->get('layout', 'posts'));
+            break;
+        default:
+            require JModuleHelper::getLayoutPath('mod_fb_albums', $params->get('layout', 'default'));
+            break;
+    }
 }
