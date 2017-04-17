@@ -70,7 +70,6 @@ class ManageCategoryAdministratorCest
 		$I->changeCategoryState($this->newCategoryName, 'unpublish');
 		$currentState = $I->getCategoryState($this->newCategoryName);
 		$I->verifyState('unpublished', $currentState);
-		$I->see("1 item successfully unpublished", '.alert-success');
 	}
 
 	/**
