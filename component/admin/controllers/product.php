@@ -9,277 +9,801 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
 
-class RedshopControllerProduct extends RedshopController
+
+/**
+ * Product_Detail Controller.
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Administrator
+ *
+ * @since       1.0
+ */
+class RedshopControllerProduct extends RedshopControllerForm
 {
-	public function cancel()
+	public $app;
+
+	/**
+	 * Constructor to set the right model
+	 *
+	 * @param   array  $default  Optional Configuration parameters
+	 */
+	public function __construct($default = array())
 	{
-		$this->setRedirect('index.php');
-	}
+		parent::__construct($default);
 
-	public function ins_product()
-	{
-		$this->input->set('layout', 'ins_product');
-		$this->input->set('hidemainmenu', 1);
-		parent::display();
-	}
+		$this->registerTask('add', 'edit');
 
-	public function importeconomic()
-	{
-		// Add product to economic
-		$cnt = $this->input->getInt('cnt', 0);
-		$totalprd = 0;
-		$msg = '';
-
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
-		{
-			$economic = economic::getInstance();
-			$db = JFactory::getDbo();
-			$incNo = $cnt;
-			$query = 'SELECT p.* FROM #__redshop_product AS p '
-				. 'LIMIT ' . $cnt . ', 10 ';
-			$db->setQuery($query);
-			$prd = $db->loadObjectlist();
-			$totalprd = count($prd);
-			$responcemsg = '';
-
-			for ($i = 0, $in = count($prd); $i < $in; $i++)
-			{
-				$incNo++;
-				$ecoProductNumber = $economic->createProductInEconomic($prd[$i]);
-				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
-
-				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
-				{
-					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_PRODUCTS_TO_ECONOMIC_SUCCESS') . "</span>";
-				}
-				else
-				{
-					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_PRODUCT_TO_ECONOMIC');
-
-					if (JError::isError(JError::getError()))
-					{
-						$error = JError::getError();
-						$errmsg = $error->getMessage();
-					}
-
-					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
-				}
-
-				$responcemsg .= "</div>";
-			}
-
-			if ($totalprd > 0)
-			{
-				$msg = $responcemsg;
-			}
-			else
-			{
-				$msg = JText::_("COM_REDSHOP_IMPORT_PRODUCT_TO_ECONOMIC_IS_COMPLETED");
-			}
-		}
-
-		echo "<div id='sentresponse'>" . $totalprd . "`_`" . $msg . "</div>";
-		die();
-	}
-
-	public function importatteco()
-	{
-		// Add product attribute to economic
-		$cnt = $this->input->getInt('cnt', 0);
-		$totalprd = 0;
-		$msg = '';
-
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 1)
-		{
-			$economic = economic::getInstance();
-
-			$db = JFactory::getDbo();
-			$incNo = $cnt;
-			$query = "SELECT ap.*, a.attribute_name, p.product_id, p.accountgroup_id "
-				. "FROM #__redshop_product_attribute_property AS ap "
-				. "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
-				. "LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id "
-				. "WHERE p.published=1 "
-				. "AND p.product_id!='' "
-				. "AND ap.property_number!='' "
-				. "LIMIT " . $cnt . ", 10 ";
-			$db->setQuery($query);
-			$list = $db->loadObjectlist();
-			$totalprd = count($list);
-			$responcemsg = '';
-
-			for ($i = 0, $in = count($list); $i < $in; $i++)
-			{
-				$incNo++;
-				$prdrow = new stdClass;
-				$prdrow->product_id = $list[$i]->product_id;
-				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-				$ecoProductNumber = $economic->createPropertyInEconomic($prdrow, $list[$i]);
-				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PROPERTY_NUMBER') . " " . $list[$i]->property_number . " -> ";
-
-				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
-				{
-					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_SUCCESS') . "</span>";
-				}
-				else
-				{
-					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
-
-					if (JError::isError(JError::getError()))
-					{
-						$error = JError::getError();
-						$errmsg = $error->getMessage();
-					}
-
-					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
-				}
-
-				$responcemsg .= "</div>";
-			}
-
-			$query = "SELECT sp.*, ap.property_id, ap.property_name, p.product_id, p.accountgroup_id  FROM #__redshop_product_subattribute_color AS sp "
-				. "LEFT JOIN #__redshop_product_attribute_property AS ap ON ap.property_id=sp.subattribute_id "
-				. "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
-				. "LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id "
-				. "WHERE p.published=1 "
-				. "AND p.product_id!='' "
-				. "AND sp.subattribute_color_number!='' "
-				. "LIMIT " . $cnt . ", 10 ";
-			$db->setQuery($query);
-			$list = $db->loadObjectlist();
-			$totalprd = $totalprd + count($list);
-
-			for ($i = 0, $in = count($list); $i < $in; $i++)
-			{
-				$incNo++;
-				$prdrow = new stdClass;
-				$prdrow->product_id = $list[$i]->product_id;
-				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-				$ecoProductNumber = $economic->createSubpropertyInEconomic($prdrow, $list[$i]);
-				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER') . " "
-					. $list[$i]->subattribute_color_number . " -> ";
-
-				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
-				{
-					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_SUCCESS') . "</span>";
-				}
-				else
-				{
-					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
-
-					if (JError::isError(JError::getError()))
-					{
-						$error = JError::getError();
-						$errmsg = $error->getMessage();
-					}
-
-					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
-				}
-
-				$responcemsg .= "</div>";
-			}
-
-			if ($totalprd > 0)
-			{
-				$msg = $responcemsg;
-			}
-			else
-			{
-				$msg = JText::_("COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_IS_COMPLETED");
-			}
-		}
-
-		echo "<div id='sentresponse'>" . $totalprd . "`_`" . $msg . "</div>";
-		die();
-	}
-
-	public function saveprice()
-	{
-		JSession::checkToken() or die();
-
-		$productIds     = $this->input->post->get('pid', array(), 'array');
-		$discountPrices = $this->input->post->get('price', array(), 'array');
-
-		/** @var RedshopModelProduct $model */
-		$model = $this->getModel('Product');
-		$model->savePrices($productIds, $discountPrices);
-
-		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing');
+		$this->app    = JFactory::getApplication();
+		$this->option = $this->input->getCmd('option', 'com_redshop');
 	}
 
 	/**
-	 * Save all discount price
+	 * Method for redirect to edit an existing record.
+	 *
+	 * @return void
+	 *
+	 * @since   1.5
+	 */
+	public function editRedirect()
+	{
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=com_redshop&view=product'
+				. $this->getRedirectToItemAppend($cid[0], 'cid[]'), false
+			)
+		);
+	}
+
+	/**
+	 * Method for redirect to add task.
+	 *
+	 * @return void
+	 *
+	 * @since   1.5
+	 */
+	public function addRedirect()
+	{
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=com_redshop&view=product'
+				. $this->getRedirectToItemAppend(), false
+			)
+		);
+	}
+
+	/**
+	 * Edit task.
 	 *
 	 * @return void
 	 */
-	public function savediscountprice()
+	public function edit()
 	{
-		JSession::checkToken() or die();
+		$this->input->set('view', 'product_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
-		$productIds     = $this->input->post->get('pid', array(), 'array');
-		$discountPrices = $this->input->post->get('discount_price', array(), 'array');
-
-		/** @var RedshopModelProduct $model */
-		$model = $this->getModel('Product');
-		$model->saveDiscountPrices($productIds, $discountPrices);
-
-		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing');
+		parent::display();
 	}
 
-	public function template()
+	/**
+	 * Save + New task.
+	 *
+	 * @return void
+	 */
+	public function save2new()
 	{
-		$template_id = $this->input->get('template_id', '');
-		$product_id = $this->input->get('product_id', '');
-		$section = $this->input->get('section', '');
-		$model = $this->getModel('product');
+		$this->save(2);
+	}
 
-		$data_product = $model->product_template($template_id, $product_id, $section);
+	/**
+	 * Apply task.
+	 *
+	 * @return void
+	 */
+	public function apply()
+	{
+		$this->save(1);
+	}
 
-		if (is_array($data_product))
+	/**
+	 * Save task.
+	 *
+	 * @param   int $apply Task is apply or common save.
+	 *
+	 * @return void
+	 */
+	public function save($apply = 0)
+	{
+		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
+		$post                 = $this->input->post->getArray();
+		$cid                  = $this->input->post->get('cid', array(), 'array');
+		$post ['product_id']  = $cid[0];
+		$post['product_name'] = $this->input->post->get('product_name', null, 'string');
+
+		$selectedTabPosition = $this->input->get('selectedTabPosition');
+		$this->app->setUserState('com_redshop.product_detail.selectedTabPosition', $selectedTabPosition);
+
+		if (is_array($post['product_category'])
+			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
+		)
 		{
-			for ($i = 0, $in = count($data_product); $i < $in; $i++)
+			$post['cat_in_sefurl'] = $post['product_category'][0];
+		}
+
+		if (!$post ['product_id'])
+		{
+			$post ['publish_date'] = date("Y-m-d H:i:s");
+		}
+
+		$post ['discount_stratdate'] = strtotime($post ['discount_stratdate']);
+
+		if ($post ['discount_enddate'])
+		{
+			$post ['discount_enddate'] = strtotime($post ['discount_enddate']) + (23 * 59 * 59);
+		}
+
+		// Setting default value
+		$post['product_on_sale'] = 0;
+
+		// Setting product on sale when discount dates are set
+		if ((bool) $post['discount_stratdate'] || (bool) $post['discount_enddate'])
+		{
+			$post['product_on_sale'] = 1;
+		}
+
+		$post["product_number"] = trim($this->input->getString('product_number', ''));
+
+		$product_s_desc         = $this->input->post->get('product_s_desc', array(), 'array');
+		$post["product_s_desc"] = stripslashes($product_s_desc[0]);
+
+		$product_desc         = $this->input->post->get('product_desc', array(), 'array');
+		$post["product_desc"] = stripslashes($product_desc[0]);
+
+		if (!empty($post['product_availability_date']))
+		{
+			$post['product_availability_date'] = strtotime($post['product_availability_date']);
+		}
+
+
+		$model = $this->getModel('Product');
+
+		if ($row = $model->store($post))
+		{
+			// Save Association
+			$model->SaveAssociations($row->product_id, $post);
+
+			// Add product to economic
+			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				echo $data_product[$i];
+				$economic = economic::getInstance();
+				$economic->createProductInEconomic($row);
+			}
+
+			$field = extra_field::getInstance();
+
+			// Field_section 1 :Product
+			RedshopHelperExtrafields::extraFieldSave($post, 1, $row->product_id);
+
+			// Field_section 12 :Product Userfield
+			$field->extra_field_save($post, 12, $row->product_id);
+
+			// Field_section 12 :Productfinder datepicker
+			$field->extra_field_save($post, 17, $row->product_id);
+
+			$this->attribute_save($post, $row);
+
+			// Extra Field Data Saved
+			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
+
+			if ($apply == 2)
+			{
+				$this->setRedirect('index.php?option=com_redshop&view=product&task=add', $msg);
+			}
+
+            elseif ($apply == 1)
+			{
+				$this->setRedirect('index.php?option=com_redshop&view=product&task=edit&cid[]=' . $row->product_id, $msg);
+			}
+			else
+			{
+				$model->checkin($cid);
+				$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 			}
 		}
-
 		else
 		{
-			echo $data_product;
-		}
+			$this->app->enqueueMessage($model->getError(), 'error');
+			$this->input->set('view', 'product_detail');
+			$this->input->set('layout', 'default');
+			$this->input->set('hidemainmenu', 1);
 
-		exit;
+			parent::display();
+		}
 	}
 
-	public function assignTemplate()
+	/**
+	 * Remove task.
+	 *
+	 * @return void
+	 */
+	public function remove()
 	{
-		$post = $this->input->post->getArray();
+		$cid = $this->input->post->get('cid', array(), 'array');
 
-		$model = $this->getModel('product');
-
-		if ($model->assignTemplate($post))
+		if (!is_array($cid) || count($cid) < 1)
 		{
-			$msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
+			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 'notice');
 		}
-		else
+
+		$model = $this->getModel('Product');
+
+		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_DELETED_SUCCESSFULLY');
+
+		if (!$model->delete($cid))
 		{
-			$msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
+			$msg = "";
+
+			if ($model->getError() != "")
+			{
+				$this->app->enqueueMessage($model->getError(), 'notice');
+			}
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
+	/**
+	 * Publish task.
+	 *
+	 * @return void
+	 */
+	public function publish()
+	{
+		$cid = $this->input->post->get('cid', array(), 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 'error');
+		}
+
+		$model = $this->getModel('Product');
+
+		if (!$model->publish($cid, 1))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_PUBLISHED_SUCCESSFULLY');
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
+
+	/**
+	 * Unpublish task.
+	 *
+	 * @return void
+	 */
+	public function unpublish()
+	{
+		$cid = $this->input->post->get('cid', array(), 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 'error');
+		}
+
+		$model = $this->getModel('Product');
+
+		if (!$model->publish($cid, 0))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
+
+	/**
+	 * Unpublish cancel.
+	 *
+	 * @return void
+	 */
+	public function cancel()
+	{
+		$model    = $this->getModel('Product');
+		$recordId = $this->input->get('cid');
+		$model->checkin($recordId);
+		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
+
+	/**
+	 * Save to Copy
+	 *
+	 * @return void
+	 */
+	public function save2copy()
+	{
+		$cid   = $this->input->post->get('cid', array(), 'array');
+		$model = $this->getModel('Product');
+
+		if ($row = $model->copy($cid, true))
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=product&task=edit&cid[]=' . $row->product_id, JText::_('COM_REDSHOP_PRODUCT_COPIED'));
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=product&task=edit&cid[]=' . $cid[0], JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED'));
+		}
+	}
+
+	/**
+	 * Copy task.
+	 *
+	 * @return void
+	 */
+	public function copy()
+	{
+		$cid = $this->input->post->get('cid', array(), 'array');
+
+		$model = $this->getModel('Product');
+
+		if ($model->copy($cid))
+		{
+			$msg = JText::_('COM_REDSHOP_PRODUCT_COPIED');
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED');
+		}
+
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
+
+	/**
+	 * Function attribute_save.
+	 *
+	 * @param   array  $post Array of input data.
+	 * @param   object $row  Array of row data.
+	 *
+	 * @return void
+	 */
+	public function attribute_save($post, $row)
+	{
+		$economic = null;
+
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
+		{
+			$economic = economic::getInstance();
+		}
+
+		$model = $this->getModel('Product');
+
+		$attribute_save   = array();
+		$property_save    = array();
+		$subproperty_save = array();
+
+		if (!is_array($post['attribute']))
+		{
+			return;
+		}
+
+		$attribute = array_merge(array(), $post['attribute']);
+
+		for ($a = 0; $a < count($attribute); $a++)
+		{
+			$attribute_save['attribute_id']        = $attribute[$a]['id'];
+			$tmpordering                           = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
+			$attribute_save['product_id']          = $row->product_id;
+			$attribute_save['attribute_name']      = htmlspecialchars($attribute[$a]['name']);
+			$attribute_save['ordering']            = $attribute[$a]['ordering'];
+			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
+
+			$attribute_save['attribute_required']       = isset($attribute[$a]['required'])
+			&& ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
+			$attribute_save['allow_multiple_selection'] = isset($attribute[$a]['allow_multiple_selection'])
+			&& ($attribute[$a]['allow_multiple_selection'] == 'on'
+				|| $attribute[$a]['allow_multiple_selection'] == '1') ? '1' : '0';
+			$attribute_save['hide_attribute_price']     = isset($attribute[$a]['hide_attribute_price'])
+			&& ($attribute[$a]['hide_attribute_price'] == 'on'
+				|| $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
+			$attribute_save['display_type']             = $attribute[$a]['display_type'];
+
+			$attribute_array = $model->store_attr($attribute_save);
+			$property        = array_merge(array(), $attribute[$a]['property']);
+
+			$propertyImage      = array_keys($attribute[$a]['property']);
+			$tmpproptyimagename = array_merge(array(), $propertyImage);
+
+			for ($p = 0; $p < count($property); $p++)
+			{
+				$property_save['property_id']         = $property[$p]['property_id'];
+				$property_save['attribute_id']        = $attribute_array->attribute_id;
+				$property_save['property_name']       = htmlspecialchars($property[$p]['name']);
+				$property_save['property_price']      = $property[$p]['price'];
+				$property_save['oprand']              = $property[$p]['oprand'];
+				$property_save['property_number']     = isset($property[$p]['number']) ? $property[$p]['number'] : '';
+				$property_save['property_image']      = isset($property[$p]['property_image']) ? $property[$p]['property_image'] : '';
+				$property_save['ordering']            = $property[$p]['order'];
+				$property_save['setrequire_selected'] = isset($property[$p]['req_sub_att'])
+				&& ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
+				$property_save['setmulti_selected']   = isset($property[$p]['multi_sub_att'])
+				&& ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
+				$property_save['setdefault_selected'] = ($property[$p]['default_sel'] == 'on' || $property[$p]['default_sel'] == '1') ? '1' : '0';
+				$property_save['setdisplay_type']     = $property[$p]['setdisplay_type'];
+				$property_save['property_published']  = ($property[$p]['published'] == 'on' || $property[$p]['published'] == '1') ? '1' : '0';
+				$property_save['extra_field']         = $property[$p]['extra_field'];
+				$property_array                       = $model->store_pro($property_save);
+				$property_id                          = $property_array->property_id;
+				$property_image                       = $this->input->files->get('attribute_' . $tmpordering . '_property_' . $tmpproptyimagename[$p] . '_image', array(), 'array');
+
+				if (empty($property[$p]['mainImage']))
+				{
+					if (!empty($property_image['name']))
+					{
+						$property_save['property_image'] = $model->copy_image($property_image, 'product_attributes', $property_id);
+						$property_save['property_id']    = $property_id;
+						$property_array                  = $model->store_pro($property_save);
+						$this->DeleteMergeImages();
+					}
+				}
+
+				if (!empty($property[$p]['mainImage']))
+				{
+					$property_save['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes', $property_id);
+					$property_save['property_id']    = $property_id;
+					$property_array                  = $model->store_pro($property_save);
+					$this->DeleteMergeImages();
+				}
+
+				if (empty($property[$p]['property_id']))
+				{
+					$listImages = $model->GetimageInfo($property_id, 'property');
+
+					for ($li = 0; $li < count($listImages); $li++)
+					{
+						$mImages                         = array();
+						$mImages['media_name']           = $listImages[$li]->media_name;
+						$mImages['media_alternate_text'] = $listImages[$li]->media_alternate_text;
+						$mImages['media_section']        = 'property';
+						$mImages['section_id']           = $property_id;
+						$mImages['media_type']           = 'images';
+						$mImages['media_mimetype']       = $listImages[$li]->media_mimetype;
+						$mImages['published']            = $listImages[$li]->published;
+						$model->copyadditionalImage($mImages);
+					}
+				}
+
+				if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
+				{
+					$economic->createPropertyInEconomic($row, $property_array);
+				}
+
+				// Set trigger to save Attribute Property Plugin Data
+				if ((int) $property_id)
+				{
+					$dispatcher = JDispatcher::getInstance();
+					JPluginHelper::importPlugin('redshop_product_type');
+
+					// Trigger the data preparation event.
+					$dispatcher->trigger('onAttributePropertySaveLoop', array($row, &$property[$p], &$property_array));
+				}
+
+				$subproperty       = array_merge(array(), $property[$p]['subproperty']);
+				$subproperty_title = $property[$p]['subproperty']['title'];
+				$subpropertyImage  = array_keys($property[$p]['subproperty']);
+				unset($subpropertyImage[0]);
+				$tmpimagename = array_merge(array(), $subpropertyImage);
+
+				for ($sp = 0; $sp < count($subproperty) - 1; $sp++)
+				{
+					$subproperty_save['subattribute_color_id']     = $subproperty[$sp]['subproperty_id'];
+					$subproperty_save['subattribute_color_name']   = $subproperty[$sp]['name'];
+					$subproperty_save['subattribute_color_title']  = $subproperty_title;
+					$subproperty_save['subattribute_color_price']  = $subproperty[$sp]['price'];
+					$subproperty_save['oprand']                    = $subproperty[$sp]['oprand'];
+					$subproperty_save['subattribute_color_image']  = $subproperty[$sp]['image'];
+					$subproperty_save['subattribute_id']           = $property_id;
+					$subproperty_save['ordering']                  = $subproperty[$sp]['order'];
+					$subproperty_save['subattribute_color_number'] = $subproperty[$sp]['number'];
+					$subproperty_save['setdefault_selected']       = ($subproperty[$sp]['chk_propdselected'] == 'on'
+						|| $subproperty[$sp]['chk_propdselected'] == '1') ? '1' : '0';
+					$subproperty_save['subattribute_published']    = ($subproperty[$sp]['published'] == 'on'
+						|| $subproperty[$sp]['published'] == '1') ? '1' : '0';
+					$subproperty_save['extra_field']               = $subproperty[$sp]['extra_field'];
+					$subproperty_array                             = $model->store_sub($subproperty_save);
+					$subproperty_image                             = $this->input->files->get('attribute_' . $tmpordering . '_property_' . $p . '_subproperty_' . $tmpimagename[$sp] . '_image',
+						array(),
+						'array'
+					);
+					$subproperty_id                                = $subproperty_array->subattribute_color_id;
+
+					if (empty($subproperty[$sp]['mainImage']))
+					{
+						if (!empty($subproperty_image['name']))
+						{
+							$subproperty_save['subattribute_color_image'] = $model->copy_image($subproperty_image, 'subcolor', $subproperty_id);
+							$subproperty_save['subattribute_color_id']    = $subproperty_id;
+							$subproperty_array                            = $model->store_sub($subproperty_save);
+							$this->DeleteMergeImages();
+						}
+					}
+
+					if (!empty($subproperty[$sp]['mainImage']))
+					{
+						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor', $subproperty_id);
+						$subproperty_save['subattribute_color_id']    = $subproperty_id;
+						$subproperty_array                            = $model->store_sub($subproperty_save);
+						$this->DeleteMergeImages();
+					}
+
+					if (empty($subproperty[$sp]['subproperty_id']))
+					{
+						$listsubpropImages = $model->GetimageInfo($subproperty_id, 'subproperty');
+
+						for ($lsi = 0; $lsi < count($listsubpropImages); $lsi++)
+						{
+							$smImages                         = array();
+							$smImages['media_name']           = $listsubpropImages[$lsi]->media_name;
+							$smImages['media_alternate_text'] = $listsubpropImages[$lsi]->media_alternate_text;
+							$smImages['media_section']        = 'subproperty';
+							$smImages['section_id']           = $subproperty_id;
+							$smImages['media_type']           = 'images';
+							$smImages['media_mimetype']       = $listsubpropImages[$lsi]->media_mimetype;
+							$smImages['published']            = $listsubpropImages[$lsi]->published;
+							$model->copyadditionalImage($smImages);
+						}
+					}
+
+					if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
+					{
+						$economic->createSubpropertyInEconomic($row, $subproperty_array);
+					}
+				}
+			}
+		}
+
+		return;
+	}
+
+	/**
+	 * Does something with image?
+	 *
+	 * @param   int    $width  Width.
+	 * @param   int    $height Height.
+	 * @param   string $target Target.
+	 *
+	 * @return array
+	 */
+	public function _imageResize($width, $height, $target)
+	{
+		if ($width > $height)
+		{
+			$percentage = ($target / $width);
+		}
+		else
+		{
+			$percentage = ($target / $height);
+		}
+
+		$width  = round($width * $percentage);
+		$height = round($height * $percentage);
+
+		if ($width < 5)
+		{
+			$width = 50;
+		}
+
+		if ($height < 5)
+		{
+			$height = 50;
+		}
+
+		return array($width, $height);
+	}
+
+	/**
+	 * Function property_more_img.
+	 *
+	 * @return void
+	 */
+	public function property_more_img()
+	{
+		$uri = JURI::getInstance();
+
+		$url = $uri->root();
+
+		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
+		$post     = $this->input->post->getArray();
+		$main_img = $this->input->files->get('property_main_img', null);
+		$sub_img  = $this->input->files->get('property_sub_img', null);
+
+		$model = $this->getModel('Product');
+
+		$filetype = strtolower(JFile::getExt($main_img['name']));
+
+		$filetype_sub = strtolower(JFile::getExt($sub_img['name'][0]));
+
+		if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg'
+			&& $main_img['name'] != '' && $filetype_sub != 'png' && $filetype_sub != 'gif'
+			&& $filetype_sub != 'jpeg' && $filetype_sub != 'jpg' && $sub_img['name'][0] != ''
+		)
+		{
+			$msg  = JText::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY");
+			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product&section_id="
+				. $post['section_id'] . "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
+			$this->setRedirect($link, $msg);
+		}
+		else
+		{
+			$model->property_more_img($post, $main_img, $sub_img);
+			?>
+            <script language="javascript" type="text/javascript">
+                window.parent.SqueezeBox.close();
+            </script>
+			<?php
+		}
+	}
+
+	/**
+	 * Delete image function.
+	 *
+	 * @return void
+	 */
+	public function deleteimage()
+	{
+		$uri = JURI::getInstance();
+
+		$url = $uri->root();
+
+		$mediaid    = $this->input->getInt('mediaid', null);
+		$section_id = $this->input->getInt('section_id', null);
+		$cid        = $this->input->getInt('cid', null);
+
+		$model = $this->getModel('Product');
+
+		if ($model->deletesubimage($mediaid))
+		{
+			$msg  = JText::_("COM_REDSHOP_PROPERTY_SUB_IMAGE_IS_DELETE");
+			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product&section_id="
+				. $section_id . "&cid=" . $cid . "&layout=property_images&showbuttons=1";
+			$this->setRedirect($link, $msg);
+		}
+	}
+
+	/**
+	 * Function subattribute_color.
+	 *
+	 * @return void
+	 */
+	public function subattribute_color()
+	{
+		$post = $this->input->post->getArray();
+
+		$model = $this->getModel('Product');
+
+		$subattr_id = implode("','", $post['subattribute_color_id']);
+
+		$subattr_diff = $model->subattr_diff($subattr_id, $post['section_id']);
+
+		// Delete subAttribute Diffrence
+		$model->delsubattr_diff($subattr_diff);
+
+		$sub_img = $this->input->files->get('property_sub_img', null);
+
+		$model->subattribute_color($post, $sub_img);
+
+		?>
+        <script language="javascript" type="text/javascript">
+            window.parent.SqueezeBox.close();
+        </script>
+		<?php
+	}
+
+	/**
+	 * Function removepropertyImage.
+	 *
+	 * @return void
+	 */
+	public function removepropertyImage()
+	{
+		$pid = $this->input->get->getInt('pid', null);
+
+		$model = $this->getModel('Product');
+
+		if ($model->removepropertyImage($pid))
+		{
+			echo "sucess";
+		}
+	}
+
+	/**
+	 * Function removesubpropertyImage.
+	 *
+	 * @return void
+	 */
+	public function removesubpropertyImage()
+	{
+		$pid = $this->input->get->getInt('pid', null);
+
+		$model = $this->getModel('Product');
+
+		if ($model->removesubpropertyImage($pid))
+		{
+			echo "sucess";
+		}
+	}
+
+	/**
+	 * Function saveAttributeStock.
+	 *
+	 * @return void
+	 */
+	public function saveAttributeStock()
+	{
+		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
+		$post = $this->input->post->getArray();
+
+		$model = $this->getModel('Product');
+
+		if ($model->SaveAttributeStockroom($post))
+		{
+			$msg = JText::_('COM_REDSHOP_STOCKROOM_ATTRIBUTE_XREF_SAVE');
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
+		}
+
+		$link = "index.php?tmpl=component&option=com_redshop&view=product&section_id=" . $post['section_id'] . "&cid="
+			. $post['cid'] . "&layout=productstockroom&property=" . $post['section'];
+		$this->setRedirect($link, $msg);
+	}
+
+	/**
+	 * Function orderup.
+	 *
+	 * @return void
+	 */
+	public function orderup()
+	{
+		$model = $this->getModel('Product');
+
+		$model->orderup();
+
+		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
+
+	/**
+	 * Function orderdown.
+	 *
+	 * @return void
+	 */
+	public function orderdown()
+	{
+		$model = $this->getModel('Product');
+
+		$model->orderdown();
+		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
+
+	/**
+	 * Function saveorder.
+	 *
+	 * @return void
+	 */
 	public function saveorder()
 	{
-
-
-		$cid = $this->input->post->get('cid', array(), 'array');
+		$cid   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
-		$model = $this->getModel('product');
+		$model = $this->getModel('Product');
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -287,37 +811,228 @@ class RedshopControllerProduct extends RedshopController
 	}
 
 	/**
-	 * Check in of one or more records.
+	 * Function deleteProdcutSerialNumbers.
 	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   12.2
+	 * @return void
 	 */
-	public function checkin()
+	public function deleteProdcutSerialNumbers()
 	{
-		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$serial_id  = $this->input->getInt('serial_id', null);
+		$product_id = $this->input->getInt('product_id', null);
 
-		$ids = $this->input->post->get('cid', array(), 'array');
+		$model = $this->getModel('Product');
+		$model->deleteProdcutSerialNumbers($serial_id);
 
-		$model = $this->getModel('product_detail');
-		$return = $model->checkin($ids);
+		$msg = JText::_('COM_REDSHOP_PRODUCT_SERIALNUMBER_DELETED');
+		$this->setRedirect('index.php?option=com_redshop&view=product&cid=' . $product_id, $msg);
+	}
 
-		if ($return === false)
+	/**
+	 * Function delete_subprop.
+	 *
+	 * @return void
+	 */
+	public function delete_subprop()
+	{
+		$sp_id           = $this->input->get->getInt('sp_id', null);
+		$subattribute_id = $this->input->get->getInt('subattribute_id', null);
+
+		$model = $this->getModel('Product');
+		$model->delete_subprop($sp_id, $subattribute_id);
+	}
+
+	/**
+	 * Function delete_prop.
+	 *
+	 * @return void
+	 */
+	public function delete_prop()
+	{
+		$attribute_id = $this->input->get->getInt('attribute_id', null);
+		$property_id  = $this->input->get->getInt('property_id', null);
+
+		$model = $this->getModel('Product');
+		$model->delete_prop($attribute_id, $property_id);
+	}
+
+	/**
+	 * Function delete_attibute.
+	 *
+	 * @return void
+	 */
+	public function delete_attibute()
+	{
+		$product_id       = $this->input->get->getInt('product_id', null);
+		$attribute_id     = $this->input->get->getInt('attribute_id', null);
+		$attribute_set_id = $this->input->get->getInt('attribute_set_id', null);
+
+		$model = $this->getModel('Product');
+		$model->delete_attibute($product_id, $attribute_id, $attribute_set_id);
+	}
+
+	/**
+	 * Function checkVirtualNumber.
+	 *
+	 * @return void
+	 */
+	public function checkVirtualNumber()
+	{
+		$isExists   = true;
+		$product_id = $this->input->getInt('product_id', null);
+		$str        = $this->input->getString('str', '');
+		$strArr     = explode(",", $str);
+		$result     = array_unique($strArr);
+
+		if (count($result) > 0 && count($result) == count($strArr))
 		{
-			// Checkin failed.
-			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=product', false), $message, 'error');
-
-			return false;
+			$model    = $this->getModel('Product');
+			$isExists = $model->checkVirtualNumber($product_id, $result);
 		}
-		else
+
+		echo (int) $isExists;
+		die();
+	}
+
+	/**
+	 * Function to get all child product array for ajax call.
+	 *
+	 * @return void
+	 */
+	public function getChildProducts()
+	{
+		RedshopHelperAjax::validateAjaxRequest('GET');
+
+		/** @var RedshopModelProduct_Detail $model */
+		$model = $this->getModel('Product');
+		$prod  = $model->getChildProducts();
+
+		echo implode(",", $prod->id) . ":" . implode(",", $prod->name);
+
+		JFactory::getApplication()->close();
+	}
+
+	/**
+	 * Function removeaccesory.
+	 *
+	 * @return void
+	 */
+	public function removeaccesory()
+	{
+		$accessory_id     = $this->input->getInt('accessory_id', null);
+		$category_id      = $this->input->getInt('category_id', null);
+		$child_product_id = $this->input->getInt('child_product_id', null);
+		$model            = $this->getModel('Product');
+		$model->removeaccesory($accessory_id, $category_id, $child_product_id);
+		exit;
+	}
+
+	/**
+	 * Function ResetPreorderStock.
+	 *
+	 * @return void
+	 */
+	public function ResetPreorderStock()
+	{
+		$model          = $this->getModel('Product');
+		$stockroom_type = $this->input->getString('stockroom_type', 'product');
+		$pid            = $this->input->getInt('product_id', null);
+		$sid            = $this->input->getInt('stockroom_id', null);
+
+		$model->ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid);
+
+		$this->setRedirect('index.php?option=com_redshop&view=product&task=edit&cid[]=' . $pid);
+	}
+
+	/**
+	 * Function ResetPreorderStockBank.
+	 *
+	 * @return void
+	 */
+	public function ResetPreorderStockBank()
+	{
+		$model          = $this->getModel('Product');
+		$stockroom_type = $this->input->getString('stockroom_type', 'product');
+		$section_id     = $this->input->getInt('section_id', null);
+		$cid            = $this->input->getInt('cid', null);
+		$sid            = $this->input->getInt('stockroom_id', null);
+
+		$model->ResetPreOrderStockroomQuantity($stockroom_type, $sid, $section_id);
+
+		$link = "index.php?tmpl=component&option=com_redshop&view=product&section_id=" . $section_id . "&cid="
+			. $cid . "&layout=productstockroom&property=" . $stockroom_type;
+		$this->setRedirect($link);
+	}
+
+	/**
+	 * Function getDynamicFields.
+	 *
+	 * @return void
+	 */
+	public function getDynamicFields()
+	{
+		$this->input->set('view', 'product_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
+
+		parent::display();
+	}
+
+	/**
+	 * Function DeleteMergeImages.
+	 *
+	 * @return bool
+	 */
+	public function DeleteMergeImages()
+	{
+		$dirname = REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages";
+
+		if (is_dir($dirname))
 		{
-			// Checkin succeeded.
-			$message = JText::plural('COM_REDSHOP_PRODUCT_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=product', false), $message);
+			$dir_handle = opendir($dirname);
 
-			return true;
+			if ($dir_handle)
+			{
+				while ($file = readdir($dir_handle))
+				{
+					if ($file != '..' && $file != '.' && $file != '')
+					{
+						if ($file != 'index.html')
+						{
+							if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
+							{
+								if (!is_writeable(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
+								{
+									chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
+								}
+
+								unlink(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
+							}
+						}
+					}
+				}
+			}
+
+			closedir($dir_handle);
 		}
+
+		return true;
+	}
+
+	/**
+	 * Method for get all available product number
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.4
+	 */
+	public function ajaxGetAllProductNumber()
+	{
+		JSession::checkToken() or die('JINVALID_TOKEN');
+
+		$app = JFactory::getApplication();
+
+		echo implode(',', RedshopHelperProduct::getAllAvailableProductNumber($app->input->getInt('product_id', 0)));
+
+		$app->close();
 	}
 }

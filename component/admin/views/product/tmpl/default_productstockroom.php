@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$model = $this->getModel('product_detail');
+$model = $this->getModel('Product');
 $stockrooms = $model->StockRoomList();
 ?>
 
@@ -81,7 +81,7 @@ $stockrooms = $model->StockRoomList();
 									<input type="button"
 										   name="preorder_reset"
 										   value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-										   onclick="location.href = 'index.php?option=com_redshop&view=product_detail&task=ResetPreorderStock&stockroom_type=product&product_id=<?php echo $this->detail->product_id ?>&stockroom_id=<?php echo $s->stockroom_id ?>' ; ">
+										   onclick="location.href = 'index.php?option=com_redshop&view=product&task=ResetPreorderStock&stockroom_type=product&product_id=<?php echo $this->detail->product_id ?>&stockroom_id=<?php echo $s->stockroom_id ?>' ; ">
 
 								</td>
 								<td>

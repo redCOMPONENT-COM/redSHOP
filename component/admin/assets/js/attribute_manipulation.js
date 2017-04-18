@@ -85,7 +85,7 @@
 				if ($this.attr('id')) {
 					var entries = $this.attr('id').split('_');
 					$.ajax({
-						'url': 'index.php?option=com_redshop&view=product_detail&task=delete_subprop&tmpl=component&sp_id=' + entries[1] + '&subattribute_id=' + entries[2],
+						'url': 'index.php?option=com_redshop&view=product&task=delete_subprop&tmpl=component&sp_id=' + entries[1] + '&subattribute_id=' + entries[2],
 						'type': 'POST'
 					});
 				}
@@ -100,7 +100,7 @@
 				if ($this.attr('id')) {
 					var entries = $this.attr('id').split('_');
 					$.ajax({
-						'url': 'index.php?tmpl=component&option=com_redshop&view=product_detail&task=removepropertyImage&pid=' + entries[1],
+						'url': 'index.php?tmpl=component&option=com_redshop&view=product&task=removepropertyImage&pid=' + entries[1],
 						'type': 'POST'
 					});
 					$('#propertyImageName' + entries[2]).val('');
@@ -114,7 +114,7 @@
 				if ($this.attr('id')) {
 					var entries = $this.attr('id').split('_');
 					$.ajax({
-						'url': 'index.php?tmpl=component&option=com_redshop&view=product_detail&task=removesubpropertyImage&pid=' + entries[1],
+						'url': 'index.php?tmpl=component&option=com_redshop&view=product&task=removesubpropertyImage&pid=' + entries[1],
 						'type': 'POST'
 					});
 					$('#subPropertyImageName' + entries[2]).val('');
@@ -128,7 +128,7 @@
 				if ($this.attr('id')) {
 					var entries = $this.attr('id').split('_');
 					$.ajax({
-						'url': 'index.php?option=com_redshop&view=product_detail&task=delete_prop&tmpl=component&attribute_id=' + entries[2] + '&property_id=' + entries[1],
+						'url': 'index.php?option=com_redshop&view=product&task=delete_prop&tmpl=component&attribute_id=' + entries[2] + '&property_id=' + entries[1],
 						'type': 'POST'
 					});
 				}
@@ -140,7 +140,7 @@
 				if ($this.attr('id')) {
 					var entries = $this.attr('id').split('_');
 					$.ajax({
-						'url': 'index.php?option=com_redshop&view=product_detail&task=delete_attibute&tmpl=component&attribute_id=' + entries[1] + '&product_id=' + entries[2] + '&attribute_set_id=' + entries[3],
+						'url': 'index.php?option=com_redshop&view=product&task=delete_attibute&tmpl=component&attribute_id=' + entries[1] + '&product_id=' + entries[2] + '&attribute_set_id=' + entries[3],
 						'type': 'POST'
 					});
 				}

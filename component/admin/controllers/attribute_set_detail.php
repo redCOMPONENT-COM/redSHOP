@@ -284,7 +284,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		$sub_img = $this->input->files->get('property_sub_img', 'array', 'array');
 
-		$model = $this->getModel('product_detail');
+		$model = $this->getModel('Product');
 
 		$filetype = strtolower(JFile::getExt($main_img['name']));
 
@@ -296,7 +296,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		)
 		{
 			$msg = JText::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY");
-			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id']
+			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product&section_id=" . $post['section_id']
 				. "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
 			$this->setRedirect($link, $msg);
 		}
@@ -321,12 +321,12 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		$section_id = $this->input->get('section_id');
 		$cid        = $this->input->get('cid');
 
-		$model = $this->getModel('product_detail');
+		$model = $this->getModel('Product');
 
 		if ($model->deletesubimage($mediaid))
 		{
 			$msg = JText::_("COM_REDSHOP_PROPERTY_SUB_IMAGE_IS_DELETE");
-			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
+			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product&section_id="
 				. $section_id . "&cid=" . $cid . "&layout=property_images&showbuttons=1";
 			$this->setRedirect($link, $msg);
 		}
@@ -336,7 +336,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$model = $this->getModel('product_detail');
+		$model = $this->getModel('Product');
 
 		$subattr_id = implode("','", $post['subattribute_color_id']);
 
@@ -402,7 +402,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
 		}
 
-		$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
+		$link = "index.php?tmpl=component&option=com_redshop&view=product&section_id="
 			. $post['section_id'] . "&cid=" . $post['cid'] . "&layout=productstockroom&property=" . $post['section'];
 
 		$this->setRedirect($link, $msg);

@@ -203,7 +203,7 @@ $url = $uri->root();    ?>
 						<td><input type="file" name="shopper_group_logo" id="shopper_group_logo" size="77"/></td>
 						<td>
 							<?php
-								$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&e_name=text');
+								$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=product&task=media_bank&e_name=text');
 							?>
 							<div class="button2-left">
 								<div class="image"><a class="joom-box" title="Image" href="<?php echo $ilink; ?>"

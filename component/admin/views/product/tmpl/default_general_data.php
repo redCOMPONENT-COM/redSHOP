@@ -19,7 +19,7 @@ $calendarFormat = '%d-%m-%Y';
             var productNumber = [];
 
             $.post(
-                "index.php?option=com_redshop&view=product_detail&task=product_detail.ajaxGetAllProductNumber",
+                "index.php?option=com_redshop&view=product&task=product_detail.ajaxGetAllProductNumber",
                 {
                     "<?php echo JSession::getFormToken() ?>": 1,
                     "product_id": <?php echo $this->detail->product_id ?>

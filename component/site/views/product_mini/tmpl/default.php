@@ -91,7 +91,7 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 			{
 				$row     = $this->products[$i];
 				$row->id = $row->product_id;
-				$link    = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link    = JRoute::_('index.php?option=com_redshop&view=product&task=edit&cid[]=' . $row->product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

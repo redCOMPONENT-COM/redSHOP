@@ -195,7 +195,7 @@ function delete_accessory(accessory_id, category_id, child_product_id) {
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {}
     }
-    var linktocontroller = "index.php?option=com_redshop&view=product_detail&task=removeaccesory";
+    var linktocontroller = "index.php?option=com_redshop&view=product&task=removeaccesory";
     linktocontroller = linktocontroller + "&accessory_id=" + accessory_id;
     linktocontroller = linktocontroller + "&category_id=" + category_id;
     linktocontroller = linktocontroller + "&child_product_id=" + child_product_id;

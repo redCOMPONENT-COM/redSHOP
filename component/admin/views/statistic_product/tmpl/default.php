@@ -97,7 +97,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<tbody>
 		<?php foreach ($this->products as $i => $row) : ?>
 			<tr>
-				<td align="center"><a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]=<?php echo $row->product_id; ?>">
+				<td align="center"><a href="index.php?option=com_redshop&view=product&task=edit&cid[]=<?php echo $row->product_id; ?>">
 						<?php echo $row->product_name; ?></a>
 				</td>
 				<td align="center"><?php echo $row->product_number ?></td>

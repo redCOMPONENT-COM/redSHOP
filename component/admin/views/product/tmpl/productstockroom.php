@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /*
  * ToDo: Check why we have default_productstockroom.php and productstockroom.php?
  */
-$model = $this->getModel('product_detail');
+$model = $this->getModel('Product');
 
 $cid = $this->input->getInt('cid', 0);
 
@@ -73,7 +73,7 @@ $stockrooms = $model->StockRoomList();
 									<input type="button" class="btn btn-small"
 										   name="preorder_reset"
 										   value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
-										   onclick="location.href = 'index.php?option=com_redshop&view=product_detail&task=ResetPreorderStockBank&stockroom_type=<?php echo $section ?>&section_id=<?php echo $section_id ?>&cid=<?php echo $cid ?>&product_id=<?php echo $this->detail->product_id ?>&stockroom_id=<?php echo $s->stockroom_id ?>' ; "
+										   onclick="location.href = 'index.php?option=com_redshop&view=product&task=ResetPreorderStockBank&stockroom_type=<?php echo $section ?>&section_id=<?php echo $section_id ?>&cid=<?php echo $cid ?>&product_id=<?php echo $this->detail->product_id ?>&stockroom_id=<?php echo $s->stockroom_id ?>' ; "
 										/>
 								</td>
 								<td>
