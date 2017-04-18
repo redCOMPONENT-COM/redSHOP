@@ -1777,65 +1777,59 @@ class productHelper
 		return $ProductPriceArr;
 	}
 
-	public function getProductQuantityPrice($product_id, $userid)
+	public function getProductQuantityPrice($productId, $userId)
 	{
+		$db      = $this->_db;
 		$userArr = $this->_session->get('rs_user');
 
 		if (empty($userArr))
 		{
-			$userArr = $this->_userhelper->createUserSession($userid);
+			$userArr = $this->_userhelper->createUserSession($userId);
 		}
 
-		$shopperGroupId = $this->_userhelper->getShopperGroup($userid);
+		$shopperGroupId = $this->_userhelper->getShopperGroup($userId);
 
-		if ($userid)
+		if ($userId)
 		{
-			$query = "SELECT p.* FROM " . $this->_table_prefix . "users_info AS u "
-				. "LEFT JOIN " . $this->_table_prefix . "product_price AS p ON u.shopper_group_id = p.shopper_group_id "
-				. "WHERE p.product_id = " . (int) $product_id . " "
-				. "AND u.user_id=" . (int) $userid . " AND u.address_type='BT' "
-				. "ORDER BY price_quantity_start ASC ";
+			$query = $db->getQuery(true)
+				->select('p.*')
+				->from($db->qn('#__redshop_users_info', 'u'))
+				->leftjoin($db->qn('#__redshop_product_price', 'p') . ' ON ' . $db->qn('u.shopper_group_id') . ' = ' . $db->qn('p.shopper_group_id'))
+				->where($db->qn('p.product_id') . ' = ' . $db->q((int) $productId))
+				->where($db->qn('u.user_id') . ' = ' . $db->q((int) $userId))
+				->where($db->qn('u.address_type') . ' = ' . $db->q('BT'))
+				->order($db->qn('p.price_quantity_start') . ' ASC');
 		}
 		else
 		{
-			$query = "SELECT p.* FROM " . $this->_table_prefix . "product_price AS p "
-				. "WHERE p.product_id = " . (int) $product_id . " "
-				. "AND p.shopper_group_id = " . (int) $shopperGroupId . " "
-				. "ORDER BY price_quantity_start ASC ";
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_product_price'))
+				->where($db->qn('product_id') . ' = ' . $db->q((int) $productId))
+				->where($db->qn('shopper_group_id') . ' = ' . $db->q((int) $shopperGroupId))
+				->order($db->qn('price_quantity_start') . ' ASC');
 		}
 
-		$this->_db->setQuery($query);
-		$result        = $this->_db->loadObjectList();
-		$quantitytable = '';
+		$result = $db->setQuery($query)->loadObjectList();
+		$table  = '';
 
 		if ($result)
 		{
-			$quantitytable = "<table>";
-			$quantitytable .= "<tr><th>" . JText::_('COM_REDSHOP_QUANTITY') . "</th><th>" . JText::_('COM_REDSHOP_PRICE')
-				. "</th></tr>";
-
-			foreach ($result as $r)
-			{
-				if ($r->discount_price != 0
-					&& $r->discount_start_date != 0
-					&& $r->discount_end_date != 0
-					&& $r->discount_start_date <= time()
-					&& $r->discount_end_date >= time())
-				{
-					$r->product_price = $r->discount_price;
-				}
-
-				$tax = $this->getProductTax($product_id, $r->product_price, $userid);
-				$price = $this->getProductFormattedPrice($r->product_price + $tax);
-
-				$quantitytable .= "<tr><td>" . $r->price_quantity_start . " - " . $r->price_quantity_end
-					. "</td><td>" . $price . "</td></tr>";
-			}
-
-			$quantitytable .= "</table>";
+			$table = RedshopLayoutHelper::render(
+				'product.product_price_table',
+				array(
+					'result'    => $result,
+					'productId' => $productId,
+					'userId'    => $userId
+				),
+				'',
+				array(
+					'component' => 'com_redshop'
+				)
+			);
 		}
 
-		return $quantitytable;
+		return $table;
 	}
 
 	public function getDiscountId($subtotal = 0, $user_id = 0)
