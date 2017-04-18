@@ -101,6 +101,16 @@ switch ((int) $type)
 				. $time . ' AND p.discount_enddate = 0))')
 			->order($db->qn('p.product_name'));
 		break;
+	case 6:
+		$session = JFactory::getSession();
+		$watched = $session->get('watched_product');
+
+		if (!empty($watched))
+		{
+			$query->where($db->qn('p.product_id') . ' IN (' . implode(',', $watched) . ')');	
+		}
+		
+		break;
 }
 
 // Only Display Feature Product
