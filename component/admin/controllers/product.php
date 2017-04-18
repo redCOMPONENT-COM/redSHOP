@@ -75,20 +75,6 @@ class RedshopControllerProduct extends RedshopControllerForm
 	}
 
 	/**
-	 * Edit task.
-	 *
-	 * @return void
-	 */
-	public function edit()
-	{
-		$this->input->set('view', 'product_detail');
-		$this->input->set('layout', 'default');
-		$this->input->set('hidemainmenu', 1);
-
-		parent::display();
-	}
-
-	/**
 	 * Save + New task.
 	 *
 	 * @return void
@@ -115,7 +101,7 @@ class RedshopControllerProduct extends RedshopControllerForm
 	 *
 	 * @return void
 	 */
-	public function save($apply = 0)
+	public function save($key = NULL, $urlVar = NULL)
 	{
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$post                 = $this->input->post->getArray();
@@ -302,20 +288,6 @@ class RedshopControllerProduct extends RedshopControllerForm
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
-	}
-
-	/**
-	 * Unpublish cancel.
-	 *
-	 * @return void
-	 */
-	public function cancel()
-	{
-		$model    = $this->getModel('Product');
-		$recordId = $this->input->get('cid');
-		$model->checkin($recordId);
-		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
@@ -970,7 +942,7 @@ class RedshopControllerProduct extends RedshopControllerForm
 	 */
 	public function getDynamicFields()
 	{
-		$this->input->set('view', 'product_detail');
+		$this->input->set('view', 'product');
 		$this->input->set('layout', 'default');
 		$this->input->set('hidemainmenu', 1);
 

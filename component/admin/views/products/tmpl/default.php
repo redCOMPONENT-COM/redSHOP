@@ -33,7 +33,7 @@ JHtml::_('redshopjquery.framework');
 
         if ((pressbutton == 'publish') || (pressbutton == 'unpublish')
             || (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
-            form.view.value = "product_detail";
+            form.view.value = "product";
         }
         if ((pressbutton == 'assignCategory') || (pressbutton == 'removeCategory')) {
             form.view.value = "product_category";

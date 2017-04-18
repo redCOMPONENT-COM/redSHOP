@@ -141,5 +141,5 @@ $images = $this->producthelper->getAttibuteSubProperty(0, $section_id)
 	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="section_id" value="<?php echo $section_id; ?>"/>
 	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="view" value="product_detail"/>
+	<input type="hidden" name="view" value="product"/>
 </form>

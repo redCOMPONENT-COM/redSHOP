@@ -228,7 +228,7 @@ class RedshopModelProduct extends RedshopModelForm
 
 		$producthelper = productHelper::getInstance();
 
-		$row = $this->getTable('product_detail');
+		$row = $this->getTable('Product');
 
 		if (!$row->bind($data))
 		{
@@ -880,7 +880,7 @@ class RedshopModelProduct extends RedshopModelForm
 		}
 
 		// Subscription renewal
-		$sub_renewal                 = $this->getTable('product_subscription_renewal');
+		$sub_renewal                 = $this->getTable('product_subscription_renewal',  'Table');
 		$sub_renewal->renewal_id     = "";
 		$sub_renewal->before_no_days = "";
 		$sub_renewal->product_id     = $row->product_id;
@@ -4022,7 +4022,7 @@ class RedshopModelProduct extends RedshopModelForm
 			}
 
 			// Lets get to it and checkout the thing.
-			$product_detail = $this->getTable('product_detail');
+			$product_detail = $this->getTable('Product');
 
 			if (!$product_detail->checkout($uid, $this->id))
 			{
@@ -4049,7 +4049,7 @@ class RedshopModelProduct extends RedshopModelForm
 	public function checkin($pks = array())
 	{
 		$pks   = (array) $pks;
-		$table = $this->getTable('product_detail');
+		$table = $this->getTable('Product');
 		$count = 0;
 
 		if (empty($pks))

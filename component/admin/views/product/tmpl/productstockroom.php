@@ -101,7 +101,7 @@ $stockrooms = $model->StockRoomList();
 
 		<tr>
 			<td colspan="2">
-				<input type="hidden" name="view" value="product_detail">
+				<input type="hidden" name="view" value="product">
 				<input type="hidden" name="task" value="saveAttributeStock">
 				<input type="hidden" name="section_id" value="<?php echo $section_id; ?>">
 				<input type="hidden" name="section" value="<?php echo $section; ?>">

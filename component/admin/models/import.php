@@ -1547,7 +1547,7 @@ class RedshopModelImport extends RedshopModel
 				else
 				{
 					$last_insert = $red_product_id;
-					$rows = $this->getTable('product_detail');
+					$rows = $this->getTable('Product');
 					$rows->product_id = $red_product_id;
 					$rows->product_parent_id = $parent_id;
 					$rows->product_name = $product_name;

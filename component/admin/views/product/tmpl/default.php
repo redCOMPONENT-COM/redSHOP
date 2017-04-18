@@ -198,7 +198,7 @@ JHtml::_('behavior.formvalidation');
 	<input type="hidden" name="section_id" value=""/>
 	<input type="hidden" name="template_id" value=""/>
 	<input type="hidden" name="visited" value="<?php echo $this->detail->visited ?>"/>
-	<input type="hidden" name="view" value="product_detail"/>
+	<input type="hidden" name="view" value="product"/>
 	<input type="hidden" name="selectedTabPosition" value=""/>
 </form>
 <script type="text/javascript">
