@@ -92,7 +92,7 @@ class ManageProductsAdministratorCest
 	private function deleteProduct(AcceptanceTester $I, $productName)
 	{
 		$I->wantTo('Delete an existing Product');
-		$I->amOnPage('administrator/index.php?option=com_redshop&view=product');
+		$I->amOnPage('administrator/index.php?option=com_redshop&view=products');
 		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
 		$I->fillField(['xpath' => "//div[@class='filterItem']//div//input[@name='keyword']"], $productName);
 		$I->click(['xpath' => "//div[@class='filterItem']//div//input[@value='Search']"]);
@@ -117,7 +117,7 @@ class ManageProductsAdministratorCest
 	private function searchProduct(AcceptanceTester $I, $productName, $functionName = 'Search')
 	{
 		$I->wantTo('Search the Product');
-		$I->amOnPage('administrator/index.php?option=com_redshop&view=product');
+		$I->amOnPage('administrator/index.php?option=com_redshop&view=products');
 		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
 		$I->fillField(['xpath' => "//div[@class='filterItem']//div//input[@name='keyword']"], $productName);
 		$I->click(['xpath' => "//div[@class='filterItem']//div//input[@value='Search']"]);
