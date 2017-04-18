@@ -329,22 +329,6 @@ class RedshopViewProduct extends RedshopViewForm
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'pencil-2 redshop_products48');
 
-		JToolBarHelper::apply();
-		JToolBarHelper::save();
-		JToolBarHelper::save2new();
-
-		if ($isNew)
-		{
-			JToolBarHelper::cancel();
-		}
-		else
-		{
-			JToolbarHelper::save2copy();
-			$model->checkout($user->get('id'));
-
-			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
-		}
-
 		if ($detail->product_id > 0)
 		{
 			$ItemData  = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
