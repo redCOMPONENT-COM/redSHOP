@@ -23,7 +23,7 @@ class RedshopTableProduct extends RedshopTable
 	 *
 	 * @var  string
 	 */
-	protected $_tableName = 'redshop_supplier';
+	protected $_tableName = 'redshop_product';
 
 	/**
 	 * The table key column. Usually: id

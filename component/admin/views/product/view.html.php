@@ -663,4 +663,35 @@ class RedshopViewProduct extends RedshopViewForm
 
 		return $tabMenu;
 	}
+
+	/**
+	 * Method for add toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function addToolbar()
+	{
+		$isNew = ($this->item->product_id < 1);
+
+		if ($this->canEdit)
+		{
+			JToolBarHelper::apply($this->getInstanceName() . '.apply');
+		}
+
+		if ($this->canEdit || $this->canCreate)
+		{
+			JToolBarHelper::save($this->getInstanceName() . '.save');
+		}
+
+		if ($isNew)
+		{
+			JToolBarHelper::cancel($this->getInstanceName() . '.cancel');
+		}
+		else
+		{
+			JToolBarHelper::cancel($this->getInstanceName() . '.cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
+	}
 }

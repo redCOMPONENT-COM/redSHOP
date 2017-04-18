@@ -153,7 +153,6 @@ class RedshopControllerProduct extends RedshopControllerForm
 			$post['product_availability_date'] = strtotime($post['product_availability_date']);
 		}
 
-
 		$model = $this->getModel('Product');
 
 		if ($row = $model->store($post))
@@ -216,7 +215,7 @@ class RedshopControllerProduct extends RedshopControllerForm
 		else
 		{
 			$this->app->enqueueMessage($model->getError(), 'error');
-			$this->input->set('view', 'product_detail');
+			$this->input->set('view', 'product');
 			$this->input->set('layout', 'default');
 			$this->input->set('hidemainmenu', 1);
 
