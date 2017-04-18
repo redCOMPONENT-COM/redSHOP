@@ -81,7 +81,7 @@ JHtml::_('redshopjquery.framework');
     }
 
 </script>
-<form action="index.php?option=com_redshop&view=product" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop&view=products" method="post" name="adminForm" id="adminForm">
 
 <div id="editcell">
 <div class="filterTool">
@@ -381,7 +381,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 </table>
 </div>
 
-<input type="hidden" name="view" value="product"/>
+<input type="hidden" name="view" value="products"/>
 <input type="hidden" name="task" value=""/>
 <input type="hidden" name="boxchecked" value="0"/>
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
