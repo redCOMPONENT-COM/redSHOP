@@ -101,7 +101,7 @@ class RedshopControllerProduct extends RedshopControllerForm
 	 *
 	 * @return void
 	 */
-	public function save($key = NULL, $urlVar = NULL)
+	public function save($apply = 0)
 	{
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$post                 = $this->input->post->getArray();
@@ -184,6 +184,20 @@ class RedshopControllerProduct extends RedshopControllerForm
 			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
 
+			$task = $this->getTask();
+			switch ($task)
+            {
+                case 'apply':
+                    $apply = 1;
+                    break;
+				case 'save':
+					$apply = 3;
+					break;
+				case 'save2new':
+					$apply = 2;
+					break;
+            }
+
 			if ($apply == 2)
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=product&task=add', $msg);
@@ -196,7 +210,7 @@ class RedshopControllerProduct extends RedshopControllerForm
 			else
 			{
 				$model->checkin($cid);
-				$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=products', $msg);
 			}
 		}
 		else
