@@ -63,7 +63,7 @@ class ManageProductsAdministratorCest
 	 */
 	private function createProduct(AcceptanceTester $I, $productName, $productCategory, $productNumber, $price)
 	{
-		$I->amOnPage('administrator/index.php?option=com_redshop&view=product');
+		$I->amOnPage('administrator/index.php?option=com_redshop&view=products');
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
 		$I->click("New");
