@@ -22,6 +22,11 @@ JFactory::getDocument()->addScriptDeclaration('
 	};
 ');
 ?>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		jQuery("#jform_more_template").select2({width: "220px"});
+	});
+</script>
 <form 
 	action="index.php?option=com_redshop&task=category.edit&id=<?php echo $this->item->id; ?>" 
 	method="post" 
