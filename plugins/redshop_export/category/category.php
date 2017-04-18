@@ -97,14 +97,11 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	protected function getQuery()
 	{
 		return $this->db->getQuery(true)
-			->select('c.*')
-			->select($this->db->qn('cx.category_parent_id'))
-			->from($this->db->qn('#__redshop_category', 'c'))
-			->leftJoin(
-				$this->db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $this->db->qn('c.category_id') . ' = ' . $this->db->qn('cx.category_child_id')
-			)
-			->where($this->db->qn('cx.category_parent_id') . ' IS NOT NULL')
-			->order($this->db->qn('c.category_id'));
+			->select('*')
+			->select($this->db->qn('parent_id'))
+			->from($this->db->qn('#__redshop_category'))
+			->where($this->db->qn('parent_id') . ' IS NOT NULL')
+			->order($this->db->qn('category_id'));
 	}
 
 	/**
