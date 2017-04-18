@@ -126,31 +126,6 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 			}
 		}
 
-		// Update category parent
-		$query = $db->getQuery(true)
-			->select('COUNT(*)')
-			->from($db->qn('#__redshop_category_xref'))
-			->where($db->qn('category_parent_id') . ' = ' . $data['category_parent_id'])
-			->where($db->qn('category_child_id') . ' = ' . $table->category_id);
-		$result = $db->setQuery($query)->loadResult();
-
-		if ($result)
-		{
-			return true;
-		}
-
-		// Remove existing
-		$query->clear()
-			->delete($db->qn('#__redshop_category_xref'))
-			->where($db->qn('category_child_id') . ' = ' . $table->category_id);
-		$db->setQuery($query)->execute();
-
-		$query->clear()
-			->insert($db->qn('#__redshop_category_xref'))
-			->values($data['category_parent_id'] . ',' . $table->category_id);
-
-		$db->setQuery($query)->execute();
-
 		return true;
 	}
 }

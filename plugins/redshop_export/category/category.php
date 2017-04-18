@@ -101,7 +101,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 			->select($this->db->qn('parent_id'))
 			->from($this->db->qn('#__redshop_category'))
 			->where($this->db->qn('parent_id') . ' IS NOT NULL')
-			->order($this->db->qn('category_id'));
+			->order($this->db->qn('id'));
 	}
 
 	/**
