@@ -175,6 +175,7 @@
       "sh404sefextplugincom_redshop"
     ],
     "system": [
+      "agile_crm",
       "mvcoverride",
       "quickbook",
       "redgoogleanalytics",

@@ -35,7 +35,7 @@ class RedshopModelCoupon extends RedshopModel
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-		$this->setState('filter_search', $filter);
+		$this->setState('filter', $filter);
 	}
 
 	public function getData()
