@@ -98,9 +98,9 @@ class RedshopModelCategory extends RedshopModel
 			$selectedTemplate  = (int) $params->get('category_template', 0);
 			$mainCat = $this->_loadCategory();
 
-			if (!$selectedTemplate && isset($mainCat->category_template))
+			if (!$selectedTemplate && isset($mainCat->template))
 			{
-				$selectedTemplate = $mainCat->category_template;
+				$selectedTemplate = $mainCat->template;
 			}
 		}
 
@@ -689,7 +689,7 @@ class RedshopModelCategory extends RedshopModel
 		{
 			$template_section = "category";
 
-			if (isset($category_template) && $category_template != 0)
+			if (!empty($category_template))
 			{
 				$selected_template = $category_template;
 			}
