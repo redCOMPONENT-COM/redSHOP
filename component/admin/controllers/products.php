@@ -11,11 +11,9 @@ defined('_JEXEC') or die;
 
 class RedshopControllerProducts extends RedshopControllerAdmin
 {
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
-
+	/**
+	 *
+	 */
 	public function ins_product()
 	{
 		$this->input->set('layout', 'ins_product');
@@ -23,6 +21,9 @@ class RedshopControllerProducts extends RedshopControllerAdmin
 		parent::display();
 	}
 
+	/**
+	 *
+	 */
 	public function importeconomic()
 	{
 		// Add product to economic
@@ -82,6 +83,9 @@ class RedshopControllerProducts extends RedshopControllerAdmin
 		die();
 	}
 
+	/**
+	 *
+	 */
 	public function importatteco()
 	{
 		// Add product attribute to economic
@@ -193,6 +197,9 @@ class RedshopControllerProducts extends RedshopControllerAdmin
 		die();
 	}
 
+	/**
+	 *
+	 */
 	public function saveprice()
 	{
 		JSession::checkToken() or die();
@@ -226,6 +233,9 @@ class RedshopControllerProducts extends RedshopControllerAdmin
 		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing');
 	}
 
+	/**
+	 *
+	 */
 	public function template()
 	{
 		$template_id = $this->input->get('template_id', '');
@@ -251,6 +261,9 @@ class RedshopControllerProducts extends RedshopControllerAdmin
 		exit;
 	}
 
+	/**
+	 *
+	 */
 	public function assignTemplate()
 	{
 		$post = $this->input->post->getArray();
@@ -269,10 +282,11 @@ class RedshopControllerProducts extends RedshopControllerAdmin
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
+	/**
+	 *
+	 */
 	public function saveorder()
 	{
-
-
 		$cid   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 		JArrayHelper::toInteger($cid);

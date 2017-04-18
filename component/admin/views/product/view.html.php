@@ -61,7 +61,7 @@ class RedshopViewProduct extends RedshopViewForm
 		$user        = JFactory::getUser();
 
 		JPluginHelper::importPlugin('redshop_product_type');
-		$this->dispatcher = JDispatcher::getInstance();
+		$this->dispatcher = JEventDispatcher::getInstance();
 
 		$redTemplate         = Redtemplate::getInstance();
 		$redhelper           = redhelper::getInstance();
@@ -71,7 +71,7 @@ class RedshopViewProduct extends RedshopViewForm
 		$lists        = array();
 
 		$model  = $this->getModel('Product');
-		$detail = $this->get('data');
+		$detail = $this->get('Item');
 
 		$isNew = ($detail->product_id < 1);
 
@@ -80,13 +80,6 @@ class RedshopViewProduct extends RedshopViewForm
 		{
 			$detail->append_to_global_seo = '';
 			$detail->canonical_url        = '';
-		}
-
-		// Fail if checked out not by 'me'
-		if ($model->isCheckedOut($user->get('id')))
-		{
-			$msg = JText::_('COM_REDSHOP_PRODUCT_BEING_EDITED');
-			$app->redirect('index.php?option=com_redshop&view=product', $msg);
 		}
 
 		// Check redproductfinder is installed
