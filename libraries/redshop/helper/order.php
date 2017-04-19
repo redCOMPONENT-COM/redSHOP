@@ -2480,6 +2480,9 @@ class RedshopHelperOrder
 		$cartHelper      = rsCarthelper::getInstance();
 		$redshopMail     = redshopMail::getInstance();
 
+		// Changes to parse all tags same as order mail end
+		$userDetail = self::getOrderBillingUserInfo($orderId);
+
 		$mailFrom     = $app->get('mailfrom');
 		$fromName     = $app->get('fromname');
 		$mailBcc      = null;
@@ -2498,7 +2501,7 @@ class RedshopHelperOrder
 			{
 				for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
 				{
-					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->field_id, RedshopHelperExtrafields::SECTION_ORDER, $orderId);
+					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->field_id, RedshopHelperExtrafields::SECTION_ORDER, $orderId, $userDetail->user_email);
 
 					if ($fieldValueArray->data_txt != "")
 					{
@@ -2518,18 +2521,15 @@ class RedshopHelperOrder
 				$mailBcc = explode(",", $mailTemplate[0]->mail_bcc);
 			}
 
-			// Getting the order details
-			$orderDetail = self::getOrderDetails($orderId);
-
 			// Changes to parse all tags same as order mail start
-			$row      = self::getOrderDetails($orderId);
+			$orderDetail      = self::getOrderDetails($orderId);
 			$mailData = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $mailData);
 			$mailData = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $mailData);
 
-			$mailData = $cartHelper->replaceOrderTemplate($row, $mailData, true);
+			$mailData = $cartHelper->replaceOrderTemplate($orderDetail, $mailData, true);
 
 			$arrDiscountType = array();
-			$arrDiscount     = explode('@', $row->discount_type);
+			$arrDiscount     = explode('@', $orderDetail->discount_type);
 			$discountType    = '';
 
 			for ($d = 0, $dn = count($arrDiscount); $d < $dn; $d++)
@@ -2557,9 +2557,6 @@ class RedshopHelperOrder
 
 			$search []  = "{discount_type}";
 			$replace [] = $discountType;
-
-			// Changes to parse all tags same as order mail end
-			$userDetail = self::getOrderBillingUserInfo($orderId);
 
 			// Getting the order status changed template from mail center end
 			$mailData = $cartHelper->replaceBillingAddress($mailData, $userDetail);
