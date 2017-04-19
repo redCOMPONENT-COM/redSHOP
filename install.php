@@ -7,7 +7,8 @@
  */
 
 defined('_JEXEC') or die;
-
+//phuong
+///22222
 /**
  * Script file of redSHOP component
  *
