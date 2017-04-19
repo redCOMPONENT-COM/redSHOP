@@ -8,9 +8,9 @@
  */
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.tooltip');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidation');
-
 ?>
 
 <script type="text/javascript">

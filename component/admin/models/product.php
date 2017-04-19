@@ -13,7 +13,7 @@ JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
 /**
- * Product_Detail Model.
+ * Product Model.
  *
  * @package     RedSHOP.Backend
  * @subpackage  Administrator
@@ -37,6 +37,47 @@ class RedshopModelProduct extends RedshopModelForm
 	public $input;
 
 	protected static $childproductlist = array();
+
+	/**
+	 * Stock method to auto-populate the model state.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	protected function populateState()
+	{
+		// Get the pk of the record from the request.
+		$pk = JFactory::getApplication()->input->getInt('id');
+		$this->setState($this->getName() . '.id', $pk);
+
+		// Load the parameters.
+		$value = JComponentHelper::getParams($this->option);
+		$this->setState('params', $value);
+	}
+
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  mixed  The data for the form.
+	 *
+	 * @since   1.6
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data.
+		$app = JFactory::getApplication();
+		$data = $app->getUserState('com_redshop.edit.product.data', array());
+
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
+
+		$this->preprocessData('com_redshop.product', $data);
+
+		return $data;
+	}
 
 	/**
 	 * Function store.

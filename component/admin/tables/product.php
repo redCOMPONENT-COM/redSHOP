@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class RedshopTableProduct extends RedshopTable
 {
 	/**
-	 * The table name without the prefix. Ex: cursos_courses
+	 * The table name without the prefix. Ex: cursors_courses
 	 *
 	 * @var  string
 	 */

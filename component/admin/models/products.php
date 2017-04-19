@@ -13,30 +13,28 @@ use Joomla\Utilities\ArrayHelper;
 
 class RedshopModelProducts extends RedshopModelList
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_categorytreelist = null;
 
 	/**
-	 * Constructor.
+	 * Name of the filter form to load
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @see     JModelLegacy
+	 * @var  string
 	 */
-	public function __construct($config = array())
+	protected $filterFormName = 'filter_products';
+
+	/**
+	 * Construct class
+	 *
+	 * @since 1.x
+	 */
+	public function __construct()
 	{
-		// Different context depending on the view
-		if (empty($this->context))
+		if (empty($config['filter_fields']))
 		{
-			$input         = JFactory::getApplication()->input;
-			$view          = $input->getString('view', '');
-			$layout        = $input->getString('layout', 'none');
-			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName() . '.' . $layout);
+			$config['filter_fields'] = array(
+				'product_id', 'p.product_id',
+				'product_name', 'product.name',
+				'product_published', 'product.published'
+			);
 		}
 
 		parent::__construct($config);
@@ -69,8 +67,8 @@ class RedshopModelProducts extends RedshopModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -93,50 +91,14 @@ class RedshopModelProducts extends RedshopModelList
 		parent::populateState($ordering, $direction);
 	}
 
-	public function getItems()
+	/**
+	 * Method to build an SQL query to load the list data.
+	 *
+	 * @return      string  An SQL query
+	 * @todo        Move to JQuery
+	 */
+	public function getListQuery()
 	{
-		if (empty($this->_data))
-		{
-			$this->_data = parent::getItems();
-
-			// Product parent - child - format generation
-			$products = $this->_data;
-
-			if (!is_array($products))
-			{
-				$products = array();
-			}
-
-			// Establish the hierarchy of the menu
-			$children = array();
-
-			// First pass - collect children
-			foreach ($products as $v)
-			{
-				$pt           = $v->parent;
-				$v->parent_id = $v->parent;
-				$list         = @$children[$pt] ? $children[$pt] : array();
-				array_push($list, $v);
-				$children[$pt] = $list;
-			}
-
-			// Second pass - get an indent list of the items
-			$this->_data = JHTML::_('menu.treerecurse', 0, '', array(), $children, max(0, 9));
-			$this->_data = array_values($this->_data);
-		}
-
-		return $this->_data;
-	}
-
-	public function _getListQuery()
-	{
-		static $items;
-
-		if (isset($items))
-		{
-			return $items;
-		}
-
 		$orderby      = $this->_buildContentOrderBy();
 		$search_field = $this->getState('search_field');
 		$keyword      = $this->getState('keyword');
@@ -287,26 +249,6 @@ class RedshopModelProducts extends RedshopModelList
 		return $query;
 	}
 
-	public function getFinalProductStock($product_stock)
-	{
-		if (count($product_stock) > 0)
-		{
-			$product = array();
-
-			for ($i = 0, $in = count($product_stock); $i < $in; $i++)
-			{
-				$product[] = $product_stock[$i]->product_id;
-			}
-
-			$product_id = implode(',', $product);
-			$query_prd  = "SELECT DISTINCT(p.product_id) FROM #__redshop_product AS p WHERE p.product_id NOT IN(" . $product_id . ")";
-			$this->_db->setQuery($query_prd);
-			$final_products = $this->_db->loadColumn();
-
-			return $final_products;
-		}
-	}
-
 	public function _buildContentOrderBy()
 	{
 		$db = JFactory::getDbo();
@@ -331,6 +273,26 @@ class RedshopModelProducts extends RedshopModelList
 		$orderby = " ORDER BY " . $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
+	}
+
+	public function getFinalProductStock($product_stock)
+	{
+		if (count($product_stock) > 0)
+		{
+			$product = array();
+
+			for ($i = 0, $in = count($product_stock); $i < $in; $i++)
+			{
+				$product[] = $product_stock[$i]->product_id;
+			}
+
+			$product_id = implode(',', $product);
+			$query_prd  = "SELECT DISTINCT(p.product_id) FROM #__redshop_product AS p WHERE p.product_id NOT IN(" . $product_id . ")";
+			$this->_db->setQuery($query_prd);
+			$final_products = $this->_db->loadColumn();
+
+			return $final_products;
+		}
 	}
 
 	public function MediaDetail($pid)
@@ -450,11 +412,12 @@ class RedshopModelProducts extends RedshopModelList
 
 	public function getCategoryList()
 	{
-		if ($this->_categorytreelist)
+		if (!empty($this->_categorytreelist))
 		{
 			return $this->_categorytreelist;
 		}
 
+		// @TODO Call to Category model instead query here
 		$this->_categorytreelist = array();
 		$q                       = "SELECT cx.category_child_id AS id, cx.category_parent_id AS parent_id, c.category_name AS title "
 			. "FROM #__redshop_category AS c, #__redshop_category_xref AS cx "

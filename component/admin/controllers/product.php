@@ -22,41 +22,10 @@ jimport('joomla.filesystem.file');
  */
 class RedshopControllerProduct extends RedshopControllerForm
 {
-	public $app;
 
-	/**
-	 * Constructor to set the right model
-	 *
-	 * @param   array  $default  Optional Configuration parameters
-	 */
-	public function __construct($default = array())
+	public function edit($key = null, $urlVar = 'id')
 	{
-		parent::__construct($default);
-
-		$this->registerTask('add', 'edit');
-
-		$this->app    = JFactory::getApplication();
-		$this->option = $this->input->getCmd('option', 'com_redshop');
-	}
-
-	/**
-	 * Save + New task.
-	 *
-	 * @return void
-	 */
-	public function save2new()
-	{
-		$this->save(2);
-	}
-
-	/**
-	 * Apply task.
-	 *
-	 * @return void
-	 */
-	public function apply()
-	{
-		$this->save(1);
+		return parent::edit($key, $urlVar);
 	}
 
 	/**

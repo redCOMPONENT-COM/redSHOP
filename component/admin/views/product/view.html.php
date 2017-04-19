@@ -54,11 +54,9 @@ class RedshopViewProduct extends RedshopViewForm
 	 */
 	public function display($tpl = null)
 	{
-		JHtml::_('behavior.tooltip');
 
 		$app         = JFactory::getApplication();
 		$this->input = $app->input;
-		$user        = JFactory::getUser();
 
 		JPluginHelper::importPlugin('redshop_product_type');
 		$this->dispatcher = JEventDispatcher::getInstance();
@@ -298,25 +296,6 @@ class RedshopViewProduct extends RedshopViewForm
 		}
 
 		$uri = JFactory::getURI();
-
-		$layout = $this->input->getString('layout', '');
-
-		if ($layout == 'property_images')
-		{
-			$this->setLayout('property_images');
-		}
-		elseif ($layout == 'attribute_color')
-		{
-			$this->setLayout('attribute_color');
-		}
-		elseif ($layout == 'productstockroom')
-		{
-			$this->setLayout('productstockroom');
-		}
-		else
-		{
-			$this->setLayout('default');
-		}
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $detail->product_name . " - " . JText::_('COM_REDSHOP_EDIT');
 
