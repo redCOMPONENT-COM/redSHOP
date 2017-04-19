@@ -1006,7 +1006,7 @@ class RedshopModelInstall extends RedshopModelList
 			return true;
 		}
 
-		$root = new stdClass();
+		$root = new stdClass;
 		$root->name = 'ROOT';
 		$root->parent_id = 0;
 		$root->level = 0;
@@ -1014,7 +1014,7 @@ class RedshopModelInstall extends RedshopModelList
 		$root->rgt = 1;
 		$result = $db->insertObject('#__redshop_category', $root);
 		$rootId = $db->insertid();
-		
+
 		$query = $db->getQuery(true)
 			->select('c.*')
 			->select($db->qn('cx.category_parent_id', 'parent_id'))
@@ -1059,7 +1059,7 @@ class RedshopModelInstall extends RedshopModelList
 	/**
 	 * Method to update new structure for Category
 	 *
-	 * @param  int  $rootId  Root ID
+	 * @param   int  $rootId  Root ID
 	 *
 	 * @return  mixed
 	 *
@@ -1173,8 +1173,8 @@ class RedshopModelInstall extends RedshopModelList
 	/**
 	 * Change images file name
 	 *
-	 * @param   array   &$files  List files in image folder
-	 * @param   string  &$path   Path to folder
+	 * @param   array   $files  List files in image folder
+	 * @param   string  $path   Path to folder
 	 *
 	 * @return  void
 	 */
