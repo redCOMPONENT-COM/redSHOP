@@ -1048,13 +1048,18 @@ class RedshopModelInstall extends RedshopModelList
 			$db->setQuery($query)->execute();
 		}
 
-		$this->processRebuildCategory($rootId);
+		if ($this->processRebuildCategory($rootId))
+		{
+			$this->processDeleteCategoryXrefTable();
+		}
 
 		return true;
 	}
 
 	/**
 	 * Method to update new structure for Category
+	 *
+	 * @param  int  $rootId  Root ID
 	 *
 	 * @return  mixed
 	 *
@@ -1065,6 +1070,21 @@ class RedshopModelInstall extends RedshopModelList
 		$table = RedshopTable::getInstance('Category', 'RedshopTable');
 
 		return $table->rebuild($rootId);
+	}
+
+	/**
+	 * Method to update new structure for Category
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.5
+	 */
+	public function processDeleteCategoryXrefTable()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)->dropTable('#__redshop_category_xref');
+
+		return $db->setQuery($query);
 	}
 
 	/**
