@@ -77,8 +77,8 @@ class ManageProductsAdministratorCest
 		$I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
 		$I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
 		$I->click("Save & Close");
-		$I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-		$I->see('Product details saved', ['class' => 'alert-success']);
+		$I->waitForText('Item successfully saved.', 30, ['class' => 'alert-success']);
+		$I->see('Item successfully saved.', ['class' => 'alert-success']);
 	}
 
 	/**
