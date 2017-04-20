@@ -10,6 +10,10 @@
 defined('_JEXEC') or die;
 
 ?>
+
+<?php JHtml::stylesheet('mod_redshop_filter/jqui.css', false, true);?>
+<?php JHtml::script('mod_redshop_filter/query-ui.min.js', false, true); ?>
+
 <div class="<?php echo $moduleClassSfx; ?>">
 	<form action="<?php echo $action; ?>" method="post" name="adminForm-<?php echo $module->id;?>" id="redproductfinder-form-<?php echo $module->id;?>" class="form-validate">
 	<div class="form-horizontal">
@@ -116,9 +120,6 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="redform[category_for_sale]" value="<?php echo $categoryForSale; ?>" />
 </form>
 </div>
-
-<link rel="stylesheet" type="text/css" href="<?php echo JUri::root() . 'modules/mod_redshop_filter/lib/css/jqui.css'; ?>">
-<script type="text/javascript" src="<?php echo JUri::root() . 'modules/mod_redshop_filter/lib/js/jquery-ui.min.js'; ?>"></script>
 <script type="text/javascript">
 	function range_slide (min_range, max_range , cur_min , cur_max, callback) {
 		jQuery.ui.slider.prototype.widgetEventPrefix = 'slider';

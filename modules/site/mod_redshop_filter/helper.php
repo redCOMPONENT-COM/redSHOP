@@ -129,7 +129,7 @@ abstract class ModRedshopFilter
 	/**
 	 * Get all manufacturers based on category id
 	 *
-	 * @param   $catId  category id
+	 * @param   int  $catId  category id
 	 *
 	 * @return  object
 	 */
@@ -141,7 +141,7 @@ abstract class ModRedshopFilter
 			->select($db->qn('ma.manufacturer_name'))
 			->select($db->qn('ma.manufacturer_id'))
 			->from($db->qn('#__redshop_manufacturer', 'ma'))
-			->leftjoin($db->qn('#__redshop_media', 'm') . ' ON ' . $db->qn('m.section_id')  . ' = ' . $db->qn('ma.manufacturer_id'))
+			->leftjoin($db->qn('#__redshop_media', 'm') . ' ON ' . $db->qn('m.section_id') . ' = ' . $db->qn('ma.manufacturer_id'))
 			->where($db->qn('m.media_section') . ' = ' . $db->q('manufacturer'))
 			->where($db->qn('m.published') . ' = 1')
 			->where($db->qn('ma.published') . ' = 1');
@@ -164,7 +164,7 @@ abstract class ModRedshopFilter
 	/**
 	 * Get product id list
 	 *
-	 * @param   $catId  category id
+	 * @param   int  $catId  category id
 	 *
 	 * @return  mixed
 	 */
@@ -194,7 +194,7 @@ abstract class ModRedshopFilter
 	/**
 	 * This method will get parent category redshop by category id
 	 *
-	 * @param   $cid  category id
+	 * @param   int  $cid  category id
 	 *
 	 * @return array
 	 */
@@ -232,7 +232,7 @@ abstract class ModRedshopFilter
 	/**
 	 * This method will get child category redshop
 	 *
-	 * @param   $parentId  category parent id
+	 * @param   int  $parentId  category parent id
 	 *
 	 * @return array
 	 */
@@ -253,11 +253,11 @@ abstract class ModRedshopFilter
 	/**
 	 * Retrieve a list of article
 	 *
-	 * @param   $manuList  manufacturer ids
+	 * @param   array  $manuList  manufacturer ids
 	 *
 	 * @return  mixed
 	 */
-	public static function getManufacturerOnSale($manuList = NULL)
+	public static function getManufacturerOnSale($manuList = null)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -280,6 +280,10 @@ abstract class ModRedshopFilter
 
 	/**
 	 * This method will get parent category redshop
+	 *
+	 * @param   array  $catList       category array
+	 * @param   int    $rootCategory  Default is 0 (Top)
+	 * @param   int    $saleCategory  Category in sale
 	 *
 	 * @return array
 	 */
@@ -309,6 +313,10 @@ abstract class ModRedshopFilter
 	/**
 	 * This method will get parent category redshop
 	 *
+	 * @param   array  $pids          product array
+	 * @param   int    $rootCategory  Default is 0 (Top)
+	 * @param   int    $saleCategory  Category in sale
+	 * 
 	 * @return array
 	 */
 	public static function getCategorybyPids($pids = array(), $rootCategory = 0, $saleCategory = null)
@@ -370,7 +378,7 @@ abstract class ModRedshopFilter
 	/**
 	 * get Manufacturer by id
 	 *
-	 * @param   $mid  manufacturer id
+	 * @param   int  $mid  manufacturer id
 	 *
 	 * @return  object
 	 */
@@ -380,7 +388,7 @@ abstract class ModRedshopFilter
 		$query = $db->getQuery(true)
 			->select('m.media_name, ma.manufacturer_name, ma.manufacturer_id')
 			->from($db->qn('#__redshop_manufacturer', 'ma'))
-			->leftJoin($db->qn('#__redshop_media', 'm') . ' ON m.section_id = ma.manufacturer_id')
+			->leftJoin($db->qn('#__redshop_media', 'm') . ' ON ' . $db->qn('m.section_id') . ' = ' . $db->qn('ma.manufacturer_id'))
 			->where('m.media_section = ' . $db->q('manufacturer'))
 			->where('m.published = 1')
 			->where($db->qn('ma.manufacturer_id') . ' = ' . $db->q((int) $mid))
@@ -392,7 +400,7 @@ abstract class ModRedshopFilter
 	/**
 	 * Get products by manufacturer id
 	 *
-	 * @param   $mid  manufacturer id
+	 * @param   int  $mid  manufacturer id
 	 *
 	 * @return  array
 	 */
