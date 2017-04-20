@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Backend
  * @subpackage  Models.Category
- * @since       2.0.5
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopModelCategory extends RedshopModelForm
 {
@@ -27,7 +27,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @return  JTable  A database object
 	 *
-	 * @since   2.0.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTable($type = 'Category', $prefix = 'RedshopTable', $config = array())
 	{
@@ -42,7 +42,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   2.0.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -69,7 +69,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @return  mixed  The data for the form.
 	 *
-	 * @since   2.0.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loadFormData()
 	{
@@ -129,7 +129,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @return  mixed    Object on success, false on failure.
 	 *
-	 * @since   2.0.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getExtraFields($item)
 	{
@@ -158,7 +158,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @return  boolen
 	 *
-	 * @since   2.0.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function save($data)
 	{
@@ -360,7 +360,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   2.0.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function delete(&$pks)
 	{
@@ -439,7 +439,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @return  boolen
 	 *
-	 * @since   2.0.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function copy($cid = array())
 	{
