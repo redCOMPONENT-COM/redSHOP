@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller.Categories
- * @since       2.0.4
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopControllerCategories extends RedshopControllerAdmin
 {
@@ -27,7 +27,7 @@ class RedshopControllerCategories extends RedshopControllerAdmin
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   2.0.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getModel($name = 'Category', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
 	{
@@ -39,7 +39,9 @@ class RedshopControllerCategories extends RedshopControllerAdmin
 	/**
 	 * assign template to multiple categories
 	 *
-	 * @since   2.0.5
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function assignTemplate()
 	{
