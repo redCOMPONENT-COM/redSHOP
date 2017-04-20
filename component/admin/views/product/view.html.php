@@ -352,7 +352,7 @@ class RedshopViewProduct extends RedshopViewForm
 
 		$lists['related_product'] = JHtml::_('redshopselect.search', $model->related_product_data($detail->product_id), 'related_product',
 			array(
-				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $detail->product_id),
+				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . (int) $detail->product_id),
 				'select2.options'     => array('multiple' => 'true')
 			)
 		);

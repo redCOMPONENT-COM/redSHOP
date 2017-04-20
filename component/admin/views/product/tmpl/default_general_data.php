@@ -22,7 +22,7 @@ $calendarFormat = '%d-%m-%Y';
                 "index.php?option=com_redshop&view=product&task=product.ajaxGetAllProductNumber",
                 {
                     "<?php echo JSession::getFormToken() ?>": 1,
-                    "product_id": <?php echo $this->item->product_id ?>
+                    "product_id": <?php echo (int) $this->item->product_id ?>
                 },
                 function (response) {
                     productNumber = response.split(',');
@@ -463,7 +463,7 @@ $calendarFormat = '%d-%m-%Y';
 							'select2.options'     => array('multiple' => 'false', 'placeholder' => JText::_('COM_REDSHOP_PARENT_PRODUCT')),
 							'option.key'          => 'product_id',
 							'option.text'         => 'product_name',
-							'select2.ajaxOptions' => array('typeField' => ', parent:1, product_id:' . $this->item->product_id)
+							'select2.ajaxOptions' => array('typeField' => ', parent:1, product_id:' . (int) $this->item->product_id)
 						)
 					);
 					?>
