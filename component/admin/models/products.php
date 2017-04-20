@@ -87,6 +87,9 @@ class RedshopModelProducts extends RedshopModelList
 		$product_sort = $this->getUserStateFromRequest($this->context . '.product_sort', 'product_sort', 0);
 		$this->setState('product_sort', $product_sort);
 
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
 		parent::populateState($ordering, $direction);
 	}
 
@@ -100,6 +103,7 @@ class RedshopModelProducts extends RedshopModelList
 	{
 		$orderby      = $this->_buildContentOrderBy();
 		$search_field = $this->getState('search_field');
+		$keyword      = $this->getState('filter.search');
 		$keyword      = $this->getState('keyword');
 		$category_id  = $this->getState('category_id');
 		$product_sort = $this->getState('product_sort');
