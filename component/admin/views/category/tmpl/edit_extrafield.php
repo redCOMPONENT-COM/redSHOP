@@ -22,7 +22,6 @@ defined('_JEXEC') or die;
 							<?php if ($this->extraFields) : ?>	
 								<?php echo $this->extraFields; ?>
 							<?php endif; ?>
-							?>
 						</td>
 					</tr>
 				</table>
