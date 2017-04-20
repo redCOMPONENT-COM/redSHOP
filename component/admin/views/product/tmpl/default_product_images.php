@@ -10,14 +10,14 @@ defined('_JEXEC') or die;
 ?>
 
 <div class="row">
-	<div class="col-sm-12">
-		<div class="box box-primary">
-			<div class="box-header with-border">
-				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGES'); ?></h3>
-			</div>
-			<div class="box-body">
-				<div class="form-group">
-					<label for="product_thumb_image">
+    <div class="col-sm-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_IMAGES'); ?></h3>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="product_thumb_image">
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_THUMB_IMAGE'); ?>
 						<?php
 						echo JHtml::tooltip(
@@ -29,7 +29,7 @@ defined('_JEXEC') or die;
 							false
 						);
 						?>
-					</label>
+                    </label>
 					<?php
 					echo RedshopLayoutHelper::render(
 						'component.image',
@@ -38,14 +38,14 @@ defined('_JEXEC') or die;
 							'deleteid'  => 'thumb_image_delete',
 							'displayid' => 'thumb_image_display',
 							'type'      => 'product',
-							'image'     => $this->detail->product_thumb_image
+							'image'     => $this->item->product_thumb_image
 						)
 					);
 					?>
-				</div>
+                </div>
 
-				<div class="form-group">
-					<label for="product_back_full_image">
+                <div class="form-group">
+                    <label for="product_back_full_image">
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_BACK_IMAGE'); ?>
 						<?php
 						echo JHtml::tooltip(
@@ -57,7 +57,7 @@ defined('_JEXEC') or die;
 							false
 						);
 						?>
-					</label>
+                    </label>
 					<?php
 					echo RedshopLayoutHelper::render(
 						'component.image',
@@ -66,14 +66,14 @@ defined('_JEXEC') or die;
 							'deleteid'  => 'back_image_delete',
 							'displayid' => 'back_image_display',
 							'type'      => 'product',
-							'image'     => $this->detail->product_back_full_image
+							'image'     => $this->item->product_back_full_image
 						)
 					);
 					?>
-				</div>
+                </div>
 
-				<div class="form-group">
-					<label for="product_back_thumb_image">
+                <div class="form-group">
+                    <label for="product_back_thumb_image">
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_BACK_THUMB_IMAGE'); ?>
 						<?php
 						echo JHtml::tooltip(
@@ -85,7 +85,7 @@ defined('_JEXEC') or die;
 							false
 						);
 						?>
-					</label>
+                    </label>
 					<?php
 					echo RedshopLayoutHelper::render(
 						'component.image',
@@ -94,14 +94,14 @@ defined('_JEXEC') or die;
 							'deleteid'  => 'back_thumb_image_delete',
 							'displayid' => 'thumb_back_image_display',
 							'type'      => 'product',
-							'image'     => $this->detail->product_back_thumb_image
+							'image'     => $this->item->product_back_thumb_image
 						)
 					);
 					?>
-				</div>
+                </div>
 
-				<div class="form-group">
-					<label for="product_preview_image">
+                <div class="form-group">
+                    <label for="product_preview_image">
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_PREVIEW_IMAGE'); ?>
 						<?php
 						echo JHtml::tooltip(
@@ -113,7 +113,7 @@ defined('_JEXEC') or die;
 							false
 						);
 						?>
-					</label>
+                    </label>
 					<?php
 					echo RedshopLayoutHelper::render(
 						'component.image',
@@ -122,14 +122,14 @@ defined('_JEXEC') or die;
 							'deleteid'  => 'preview_image_delete',
 							'displayid' => 'preview_image_display',
 							'type'      => 'product',
-							'image'     => $this->detail->product_preview_image
+							'image'     => $this->item->product_preview_image
 						)
 					);
 					?>
-				</div>
+                </div>
 
-					<div class="form-group">
-					<label for="product_preview_image">
+                <div class="form-group">
+                    <label for="product_preview_image">
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_PREVIEW_BACK_IMAGE'); ?>
 						<?php
 						echo JHtml::tooltip(
@@ -141,7 +141,7 @@ defined('_JEXEC') or die;
 							false
 						);
 						?>
-					</label>
+                    </label>
 					<?php
 					echo RedshopLayoutHelper::render(
 						'component.image',
@@ -150,12 +150,12 @@ defined('_JEXEC') or die;
 							'deleteid'  => 'preview_back_image_delete',
 							'displayid' => 'preview_back_image_display',
 							'type'      => 'product',
-							'image'     => $this->detail->product_preview_back_image
+							'image'     => $this->item->product_preview_back_image
 						)
 					);
 					?>
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

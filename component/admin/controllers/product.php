@@ -29,132 +29,237 @@ class RedshopControllerProduct extends RedshopControllerForm
 	}
 
 	/**
-	 * Save task.
+	 * Method to save a record.
 	 *
-	 * @param   int $apply Task is apply or common save.
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
-	 * @return void
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   12.2
 	 */
-	public function save($apply = 0)
+	public function save($key = 'product_id', $urlVar = 'id')
 	{
-		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$post                 = $this->input->post->getArray();
-		$cid                  = $this->input->post->get('cid', array(), 'array');
-		$post ['product_id']  = $cid[0];
-		$post['product_name'] = $this->input->post->get('product_name', null, 'string');
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$selectedTabPosition = $this->input->get('selectedTabPosition');
-		$this->app->setUserState('com_redshop.product_detail.selectedTabPosition', $selectedTabPosition);
+		$app   = JFactory::getApplication();
+		$lang  = JFactory::getLanguage();
+		$model = $this->getModel();
+		$table = $model->getTable();
+		$data  = $this->input->post->getArray();
+		$checkin = property_exists($table, 'checked_out');
+		$context = "$this->option.edit.$this->context";
+		$task = $this->getTask();
 
-		if (is_array($post['product_category'])
-			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
-		)
+		// Determine the name of the primary key for the data.
+		if (empty($key))
 		{
-			$post['cat_in_sefurl'] = $post['product_category'][0];
+			$key = $table->getKeyName();
 		}
 
-		if (!$post ['product_id'])
+		// To avoid data collisions the urlVar may be different from the primary key.
+		if (empty($urlVar))
 		{
-			$post ['publish_date'] = date("Y-m-d H:i:s");
+			$urlVar = $key;
 		}
 
-		$post ['discount_stratdate'] = strtotime($post ['discount_stratdate']);
+		$recordId = $this->input->getInt($urlVar);
 
-		if ($post ['discount_enddate'])
+		// Populate the row id from the session.
+		$data[$key] = $recordId;
+
+		// The save2copy task needs to be handled slightly differently.
+		if ($task == 'save2copy')
 		{
-			$post ['discount_enddate'] = strtotime($post ['discount_enddate']) + (23 * 59 * 59);
-		}
-
-		// Setting default value
-		$post['product_on_sale'] = 0;
-
-		// Setting product on sale when discount dates are set
-		if ((bool) $post['discount_stratdate'] || (bool) $post['discount_enddate'])
-		{
-			$post['product_on_sale'] = 1;
-		}
-
-		$post["product_number"] = trim($this->input->getString('product_number', ''));
-
-		$product_s_desc         = $this->input->post->get('product_s_desc', array(), 'array');
-		$post["product_s_desc"] = stripslashes($product_s_desc[0]);
-
-		$product_desc         = $this->input->post->get('product_desc', array(), 'array');
-		$post["product_desc"] = stripslashes($product_desc[0]);
-
-		if (!empty($post['product_availability_date']))
-		{
-			$post['product_availability_date'] = strtotime($post['product_availability_date']);
-		}
-
-		$model = $this->getModel('Product');
-
-		if ($row = $model->store($post))
-		{
-			// Save Association
-			$model->SaveAssociations($row->product_id, $post);
-
-			// Add product to economic
-			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
+			// Check-in the original row.
+			if ($checkin && $model->checkin($data[$key]) === false)
 			{
-				$economic = economic::getInstance();
-				$economic->createProductInEconomic($row);
+				// Check-in failed. Go back to the item and display a notice.
+				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+				$this->setMessage($this->getError(), 'error');
+
+				$this->setRedirect(
+					JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_item
+						. $this->getRedirectToItemAppend($recordId, $urlVar), false
+					)
+				);
+
+				return false;
 			}
 
-			$field = extra_field::getInstance();
-
-			// Field_section 1 :Product
-			RedshopHelperExtrafields::extraFieldSave($post, 1, $row->product_id);
-
-			// Field_section 12 :Product Userfield
-			$field->extra_field_save($post, 12, $row->product_id);
-
-			// Field_section 12 :Productfinder datepicker
-			$field->extra_field_save($post, 17, $row->product_id);
-
-			$this->attribute_save($post, $row);
-
-			// Extra Field Data Saved
-			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
-
-			$task = $this->getTask();
-			switch ($task)
-            {
-                case 'apply':
-                    $apply = 1;
-                    break;
-				case 'save':
-					$apply = 3;
-					break;
-				case 'save2new':
-					$apply = 2;
-					break;
-            }
-
-			if ($apply == 2)
-			{
-				$this->setRedirect('index.php?option=com_redshop&view=product&task=add', $msg);
-			}
-
-            elseif ($apply == 1)
-			{
-				$this->setRedirect('index.php?option=com_redshop&view=product&task=edit&cid[]=' . $row->product_id, $msg);
-			}
-			else
-			{
-				$model->checkin($cid);
-				$this->setRedirect('index.php?option=com_redshop&view=products', $msg);
-			}
+			// Reset the ID, the multilingual associations and then treat the request as for Apply.
+			$data[$key] = 0;
+			$data['associations'] = array();
+			$task = 'apply';
 		}
-		else
+
+		// Access check.
+		if (!$this->allowSave($data, $key))
 		{
-			$this->app->enqueueMessage($model->getError(), 'error');
-			$this->input->set('view', 'product');
-			$this->input->set('layout', 'default');
-			$this->input->set('hidemainmenu', 1);
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			$this->setMessage($this->getError(), 'error');
 
-			parent::display();
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
+
+			return false;
 		}
+
+		// Validate the posted data.
+		// Sometimes the form needs some posted data, such as for plugins and modules.
+		$form = $model->getForm($data, false);
+
+		if (!$form)
+		{
+			$app->enqueueMessage($model->getError(), 'error');
+
+			return false;
+		}
+
+		// Test whether the data is valid.
+		$validData = $model->validate($form, $data);
+
+		// Check for validation errors.
+		if ($validData === false)
+		{
+			// Get the validation messages.
+			$errors = $model->getErrors();
+
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof Exception)
+				{
+					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+				}
+				else
+				{
+					$app->enqueueMessage($errors[$i], 'warning');
+				}
+			}
+
+			// Save the data in the session.
+			$app->setUserState($context . '.data', $data);
+
+			// Redirect back to the edit screen.
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_item
+					. $this->getRedirectToItemAppend($recordId, $urlVar), false
+				)
+			);
+
+			return false;
+		}
+
+		if (!isset($validData['tags']))
+		{
+			$validData['tags'] = null;
+		}
+
+		// Attempt to save the data.
+		if (!$model->save($validData))
+		{
+			// Save the data in the session.
+			$app->setUserState($context . '.data', $validData);
+
+			// Redirect back to the edit screen.
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+			$this->setMessage($this->getError(), 'error');
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_item
+					. $this->getRedirectToItemAppend($recordId, $urlVar), false
+				)
+			);
+
+			return false;
+		}
+
+		// Save succeeded, so check-in the record.
+		if ($checkin && $model->checkin($validData[$key]) === false)
+		{
+			// Save the data in the session.
+			$app->setUserState($context . '.data', $validData);
+
+			// Check-in failed, so go back to the record and display a notice.
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+			$this->setMessage($this->getError(), 'error');
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_item
+					. $this->getRedirectToItemAppend($recordId, $urlVar), false
+				)
+			);
+
+			return false;
+		}
+
+		$langKey = $this->text_prefix . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
+		$prefix  = JFactory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
+
+		$this->setMessage(JText::_($prefix . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
+
+		// Redirect the user and adjust session state based on the chosen task.
+		switch ($task)
+		{
+			case 'apply':
+				// Set the record data in the session.
+				$recordId = $model->getState($this->context . '.id');
+				$this->holdEditId($context, $recordId);
+				$app->setUserState($context . '.data', null);
+				$model->checkout($recordId);
+
+				// Redirect back to the edit screen.
+				$this->setRedirect(
+					JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_item
+						. $this->getRedirectToItemAppend($recordId, $urlVar), false
+					)
+				);
+				break;
+
+			case 'save2new':
+				// Clear the record id and data from the session.
+				$this->releaseEditId($context, $recordId);
+				$app->setUserState($context . '.data', null);
+
+				// Redirect back to the edit screen.
+				$this->setRedirect(
+					JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_item
+						. $this->getRedirectToItemAppend(null, $urlVar), false
+					)
+				);
+				break;
+
+			default:
+				// Clear the record id and data from the session.
+				$this->releaseEditId($context, $recordId);
+				$app->setUserState($context . '.data', null);
+
+				// Redirect to the list screen.
+				$this->setRedirect(
+					JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_list
+						. $this->getRedirectToListAppend(), false
+					)
+				);
+				break;
+		}
+
+		// Invoke the postSave method to allow for the child class to access the model.
+		$this->postSaveHook($model, $validData);
+
+		return true;
 	}
 
 	/**

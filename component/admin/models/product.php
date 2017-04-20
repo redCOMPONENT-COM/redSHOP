@@ -88,7 +88,7 @@ class RedshopModelProduct extends RedshopModelForm
 	 */
 	public function store($data)
 	{
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		$catorder    = array();
 		$oldcategory = array();
@@ -3869,42 +3869,6 @@ class RedshopModelProduct extends RedshopModelForm
 	}
 
 	/**
-	 * Method to checkout/lock the product_detail.
-	 *
-	 * @param   int $uid User ID of the user checking the helloworl detail out.
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   1.5
-	 */
-	public function checkout($uid = null)
-	{
-		if ($this->id)
-		{
-			// Make sure we have a user id to checkout the article with.
-			if (is_null($uid))
-			{
-				$user = JFactory::getUser();
-				$uid  = (int) $user->get('id');
-			}
-
-			// Lets get to it and checkout the thing.
-			$product_detail = $this->getTable('Product');
-
-			if (!$product_detail->checkout($uid, $this->id))
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Method to checkin a row.
 	 *
 	 * @param   integer $pk The numeric id of the primary key.
@@ -3958,7 +3922,7 @@ class RedshopModelProduct extends RedshopModelForm
 			$user = JFactory::getUser();
 
 			// Get an instance of the row to checkin.
-			$table = $this->getTable('product_detail');
+			$table = $this->getTable('Product');
 
 			if (!$table->load($pk))
 			{

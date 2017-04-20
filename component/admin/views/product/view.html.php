@@ -45,7 +45,7 @@ class RedshopViewProduct extends RedshopViewForm
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed   A string if successful, otherwise a JError object.
 	 *
@@ -527,7 +527,7 @@ class RedshopViewProduct extends RedshopViewForm
 
 		$this->model               = $model;
 		$this->lists               = $lists;
-		$this->detail              = $detail;
+		$this->item                = $detail;
 		$this->productSerialDetail = $productSerialDetail;
 		$this->request_url         = $uri->toString();
 		$this->tabmenu             = $this->getTabMenu();
@@ -557,7 +557,7 @@ class RedshopViewProduct extends RedshopViewForm
 				'general_data'
 			);
 
-		if ($this->detail->product_type != 'product' && !empty($this->detail->product_type))
+		if ($this->item->product_type != 'product' && !empty($this->item->product_type))
 		{
 			$tabMenu->addItem(
 				'#producttype',

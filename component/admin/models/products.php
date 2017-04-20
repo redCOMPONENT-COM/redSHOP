@@ -13,7 +13,6 @@ use Joomla\Utilities\ArrayHelper;
 
 class RedshopModelProducts extends RedshopModelList
 {
-
 	/**
 	 * Name of the filter form to load
 	 *
@@ -303,13 +302,25 @@ class RedshopModelProducts extends RedshopModelList
 		return $this->_db->loadObjectlist();
 	}
 
-	public function listedincats($pid)
+	/**
+	 * @param   int   $pid
+	 *
+	 * @return  mixed
+	 */
+	public function listedInCats($pid)
 	{
-		$query = 'SELECT c.category_name FROM #__redshop_product_category_xref as ref, #__redshop_category as c WHERE product_id ="' . $pid
-			. '" AND ref.category_id=c.category_id ORDER BY c.category_name';
-		$this->_db->setQuery($query);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('c.category_name'))
+			->from($db->quoteName('#__redshop_product_category_xref', 'ref'))
+			->from($db->quoteName('#__redshop_category', 'c'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $pid)
+			->where($db->quoteName('ref.category_id') . ' = ' . $db->quoteName('c.category_id'))
+			->order($db->quoteName('c.category_name'));
 
-		return $this->_db->loadObjectlist();
+		$db->setQuery($query);
+
+		return $db->loadObjectlist();
 	}
 
 	public function product_template($template_id, $product_id, $section)

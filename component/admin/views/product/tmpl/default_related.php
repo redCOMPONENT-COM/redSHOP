@@ -17,17 +17,18 @@ defined('_JEXEC') or die;
         <table class="admintable table">
             <tr>
                 <td>
-                    <?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT'); ?>
+					<?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT'); ?>
                 </td>
                 <td>
 
-                    <?php echo $this->lists['related_product']; ?>
+					<?php echo $this->lists['related_product']; ?>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <a id="fetch_child_for_related_product" href="javascript:void(0);" class="btn btn-primary" onclick="updateRelatedProduct();">
-                        <?php echo JText::_('COM_REDSHOP_CHILD_PRODUCT_AS_RELATED_PRODUCT_TEXT'); ?>
+                    <a id="fetch_child_for_related_product" href="javascript:void(0);" class="btn btn-primary"
+                       onclick="updateRelatedProduct();">
+						<?php echo JText::_('COM_REDSHOP_CHILD_PRODUCT_AS_RELATED_PRODUCT_TEXT'); ?>
                     </a>
                 </td>
             </tr>
