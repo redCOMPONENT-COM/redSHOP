@@ -2,102 +2,97 @@
 <extension version="3.0" type="plugin" group="redshop_payment"
            method="upgrade">
     <name>PLG_RS_PAYMENT_MONERIS</name>
-    <version>1.5.1</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <version>1.7.0</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>DEC 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>This plugin enables standard Moneris payments
-    </description>
+    <description>PLG_RS_PAYMENT_MONERIS</description>
 
     <files>
         <filename plugin="rs_payment_moneris">rs_payment_moneris.php</filename>
         <folder>rs_payment_moneris</folder>
-
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_moneris.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_moneris.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_moneris.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_moneris.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
+
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
 
                 <field name="payment_oprand" type="text" size="10" default="-"
-                       label="Payment operand" description="Payment Operand"/>
+                       label="PLG_RS_PAYMENT_MONERIS_PAYMENT_OPERAND" description="PLG_RS_PAYMENT_MONERIS_PAYMENT_OPERAND"/>
                 <field name="payment_price" type="text" size="30" default=""
-                       label="Payment price" description="Payment price"/>
+                       label="PLG_RS_PAYMENT_MONERIS_PAYMENT_PRICE" description="PLG_RS_PAYMENT_MONERIS_PAYMENT_PRICE"/>
                 <field name="payment_discount_is_percent" type="radio" default="1"
-                       label="Discount Type: " description="Discount Type">
-                    <option value="1">Percentage</option>
-                    <option value="0">Total</option>
+                       label="PLG_RS_PAYMENT_MONERIS_DISCOUNT_TYPE" description="PLG_RS_PAYMENT_MONERIS_DISCOUNT_TYPE">
+                    <option value="1">PLG_RS_PAYMENT_MONERIS_DISCOUNT_TYPE_PERCENTAGE</option>
+                    <option value="0">PLG_RS_PAYMENT_MONERIS_DISCOUNT_TYPE_TOTAL</option>
                 </field>
                 <field name="accepted_credict_card" type="creditcards" default="0"
-                       label="Select Credit Cards" description="Displays the selected category product"/>
+                       label="PLG_RS_PAYMENT_MONERIS_ACCEPTED_CREDITCARD" description="PLG_RS_PAYMENT_MONERIS_ACCEPTED_CREDIT_CARD"/>
                 <field name="moneris_store_id" type="text" default=""
-                       label="Moneris Store  Id" description="Moneris Store Id"/>
+                       label="PLG_RS_PAYMENT_MONERIS_STORE_ID" description="PLG_RS_PAYMENT_MONERIS_STORE_ID"/>
                 <field name="moneris_api_token" type="text" default=""
-                       label="Moneris Api Token" description="Moneris Api Token"/>
+                       label="PLG_RS_PAYMENT_MONERIS_API_TOKEN" description="PLG_RS_PAYMENT_MONERIS_API_TOKEN"/>
                 <field name="moneris_test_store_id" type="text" default=""
-                       label="Moneris test Store  Id" description="Moneris test Store  Id"/>
+                       label="PLG_RS_PAYMENT_MONERIS_TEST_TORE_ID" description="PLG_RS_PAYMENT_MONERIS_TEST_TORE_ID"/>
                 <field name="moneris_test_api_token" type="text" default=""
-                       label="Moneris test Api Token" description="Moneris test Api Token"/>
+                       label="PLG_RS_PAYMENT_MONERIS_TEST_API_TOKEN" description="PLG_RS_PAYMENT_MONERIS_TEST_API_TOKEN"/>
                 <field name="moneris_check_creditcard_code" type="list" default="1"
-                       label="Moneris Check Credit Card Code" description="Moneris Check Credit Card Code">
-                    <option value="1">Yes</option>
-                    <option value="0 ">No</option>
+                       label="PLG_RS_PAYMENT_MONERIS_CHECK_CREDITCARD_CODE" description="PLG_RS_PAYMENT_MONERIS_CHECK_CREDITCARD_CODE">
+                    <option value="1">JYES</option>
+                    <option value="0 ">JNO</option>
                 </field>
                 <field name="moneris_check_avs" type="list" default="1"
-                       label="Moneris Check AVS" description="Moneris Check Avs">
-                    <option value="1">Yes</option>
-                    <option value="0 ">No</option>
+                       label="PLG_RS_PAYMENT_MONERIS_CHECK_AVS" description="PLG_RS_PAYMENT_MONERIS_CHECK_AVS">
+                    <option value="1">JYES</option>
+                    <option value="0 ">JNO</option>
                 </field>
                 <field name="moneris_test_status" type="list" default="0"
-                       label="Moneris test status " description="Select Moneris test status">
-                    <option value="1">Yes</option>
-                    <option value="0 ">No</option>
+                       label="PLG_RS_PAYMENT_MONERIS_TEST_STATUS" description="PLG_RS_PAYMENT_MONERIS_TEST_STATUS">
+                    <option value="1">JYES</option>
+                    <option value="0 ">JNO</option>
                 </field>
             </fieldset>
             <fieldset name="advanced">
                 <field name="verify_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="C"
-                       label="Order Status for successful transactions"
-                       description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+                       label="PLG_RS_PAYMENT_MONERIS_VERIFY_STATUS"
+                       description="PLG_RS_PAYMENT_MONERIS_VERIFY_STATUS">
                 </field>
                 <field name="invalid_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="P"
-                       label="Order Status for failed transactions"
-                       description="Select an order status for failed payment transactions.">
+                       label="PLG_RS_PAYMENT_MONERIS_INVALID_STATUS"
+                       description="PLG_RS_PAYMENT_MONERIS_INVALID_STATUS">
                 </field>
                 <field name="capture_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="S"
-                       label="Capture Payment Status"
-                       description="Select an capture status for capturing payment."></field>
+                       label="PLG_RS_PAYMENT_MONERIS_CAPTURED_STATUS"
+                       description="PLG_RS_PAYMENT_MONERIS_CAPTURED_STATUS"></field>
                 <field name="private_person" type="radio" default="1"
-                       label="Show on Private Person" description="Show on Private Person">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                       label="PLG_RS_PAYMENT_MONERIS_PRIVATE_PERSON" description="PLG_RS_PAYMENT_MONERIS_PRIVATE_PERSON">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="business" type="radio" default="1" label="Show on Business"
-                       description="Show on Business">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="business" type="radio" default="1" label="PLG_RS_PAYMENT_MONERIS_BUSINESS"
+                       description="PLG_RS_PAYMENT_MONERIS_BUSINESS">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="is_creditcard" type="hidden" default="1" value="1"/>
                 <field name="economic_payment_terms_id" type="text" default=""
-                       label="Enter E-conomic Payment Conditions ID"/>
+                       label="PLG_RS_PAYMENT_MONERIS_ECONOMIC_TERM_ID"/>
                 <field name="economic_design_layout" type="text" default=""
-                       label="Enter E-conomic Design and Layout ID"/>
+                       label="PLG_RS_PAYMENT_MONERIS_ECONOMIC_DESIGN_AND_LAYOUT_ID"/>
                 <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0"
-                       label="Select Shopper Group" description="Displays the shopper groups"/>
+                       label="PLG_RS_PAYMENT_MONERIS_SHOPPER_GROUP" description="PLG_RS_PAYMENT_MONERIS_SHOPPER_GROUP"/>
             </fieldset>
         </fields>
     </config>

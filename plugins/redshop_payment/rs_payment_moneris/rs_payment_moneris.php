@@ -9,10 +9,28 @@
 
 defined('_JEXEC') or die;
 
-class plgRedshop_paymentrs_payment_moneris extends JPlugin
+/**
+ * PlgRedshop_PaymentRs_Payment_Moneris installer class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentRs_Payment_Moneris extends JPlugin
 {
 	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
+	 * [onPrePayment_rs_payment_moneris description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [object]  $values
 	 */
 	public function onPrePayment_rs_payment_moneris($element, $data)
 	{
@@ -27,131 +45,96 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
+		$monerisStoreId             = $this->params->get('moneris_store_id', '');
+		$monerisTestStoreId         = $this->params->get('moneris_test_store_id', '');
+		$monerisApiToken            = $this->params->get('moneris_api_token', '');
+		$monerisTestApiToken        = $this->params->get('moneris_test_api_token', '');
+		$monerisCheckCreditcardCode = $this->params->get('moneris_check_creditcard_code', '');
+		$monerisCheckAvs            = $this->params->get('moneris_check_avs', '');
+		$monerisTestStatus          = $this->params->get('moneris_test_status', '');
 
-		$moneris_store_id              = $this->params->get('moneris_store_id', '');
-		$moneris_test_store_id         = $this->params->get('moneris_test_store_id', '');
-		$moneris_api_token             = $this->params->get('moneris_api_token', '');
-		$moneris_test_api_token        = $this->params->get('moneris_test_api_token', '');
-		$moneris_check_creditcard_code = $this->params->get('moneris_check_creditcard_code', '');
-		$moneris_check_avs             = $this->params->get('moneris_check_avs', '');
-		$moneris_test_status           = $this->params->get('moneris_test_status', '');
-
-		if ($moneris_test_status == 1)
-		{
-			$moneris_api_host = "esqa.moneris.com";
-		}
-		else
-		{
-			$moneris_api_host = "www3.moneris.com";
-		}
+		$monerisApiHost = ($monerisTestStatus == 1)? "esqa.moneris.com": "www3.moneris.com";
 
 		$session    = JFactory::getSession();
 		$ccdata     = $session->get('ccdata');
 
 		// Additional Customer Data
-		$user_id    = $data['billinginfo']->user_id;
-		$remote_add = $_SERVER["REMOTE_ADDR"];
+		$userId    = $data['billinginfo']->user_id;
+		$remoteAddress = $_SERVER["REMOTE_ADDR"];
 
 		// Email Settings
-		$user_email = $data['billinginfo']->user_email;
+		$userEmail = $data['billinginfo']->user_email;
 
 		// Get Credit card Information
-		$order_payment_name        = substr($ccdata['order_payment_name'], 0, 50);
-		$creditcard_code           = ucfirst(strtolower($ccdata['creditcard_code']));
-		$order_payment_number      = substr($ccdata['order_payment_number'], 0, 20);
-		$credit_card_code          = substr($ccdata['credit_card_code'], 0, 4);
-		$order_payment_expire_year = substr($ccdata['order_payment_expire_year'], -2);
-		$order_payment_expire_year .= substr($ccdata['order_payment_expire_month'], 0, 2);
+		$orderPaymentName        = substr($ccdata['order_payment_name'], 0, 50);
+		$orderPaymentNumber      = substr($ccdata['order_payment_number'], 0, 20);
+		$creditCardCode          = substr($ccdata['credit_card_code'], 0, 4);
+		$orderPaymentExpireYear  = substr($ccdata['order_payment_expire_year'], -2);
+		$orderPaymentExpireYear .= substr($ccdata['order_payment_expire_month'], 0, 2);
 
 		$crypt         = 7;
-		$cvd_indicator = 0;
-		$tax_exempt    = false;
+		$cvdIndicator = 0;
+		$taxExempt    = false;
 
 		include JPATH_SITE . '/plugins/redshop_payment/rs_payment_moneris/rs_payment_moneris/moneris.helper.php';
 
-		if ($moneris_test_status == 1)
+		if ($monerisTestStatus == 1)
 		{
-			$storeid  = $moneris_test_store_id;
-			$apitoken = $moneris_test_api_token;
+			$storeId  = $monerisTestStoreId;
+			$apiToken = $monerisTestApiToken;
 			$ptoken   = rand(1, 10);
 			$ptoken   = number_format($ptoken, 0, "", "");
 
-			if (($ptoken % 2) == 0)
-			{
-				$amount = "10.10";
-			}
-			else
-			{
-				$amount = "10.24";
-			}
+			$amount = (($ptoken % 2) == 0)? "10.10": "10.24";
 		}
 		else
 		{
-			$storeid    = $moneris_store_id;
-			$apitoken   = $moneris_api_token;
-			$tot_amount = $order_total = $data['order_total'];
-			$amount     = $currencyClass->convert($tot_amount, '', 'USD');
+			$storeId     = $monerisStoreId;
+			$apiToken    = $monerisApiToken;
+			$totalAmount = $order_total = $data['order_total'];
+			$amount      = $currencyClass->convert($totalAmount, '', 'USD');
 		}
 
-		$avs_street_number = substr($data['billinginfo']->address, 0, 60);
-		$avs_zipcode       = substr($data['billinginfo']->zipcode, 0, 20);
-		$order_number      = $data['order_number'] . time();
+		$avsStreetNumber = substr($data['billinginfo']->address, 0, 60);
+		$avsZipcode      = substr($data['billinginfo']->zipcode, 0, 20);
+		$orderNumber     = $data['order_number'] . time();
 
 		$txnArray = array(
 			'type'       => 'purchase',
-			'order_id'   => $order_number,
-			'cust_id'    => $user_id,
+			'order_id'   => $orderNumber,
+			'cust_id'    => $userId,
 			'amount'     => sprintf('%01.2f', $amount),
-			'pan'        => $order_payment_number,
-			'expdate'    => $order_payment_expire_year,
+			'pan'        => $orderPaymentNumber,
+			'expdate'    => $orderPaymentExpireYear,
 			'crypt_type' => $crypt
 		);
 
 		$cvdTemplate = array(
-			'cvd_indicator' => $cvd_indicator,
-			'cvd_value'     => $credit_card_code
+			'cvd_indicator' => $cvdIndicator,
+			'cvd_value'     => $creditCardCode
 		);
 
-		$avsTemplate = array('avs_street_number' => $avs_street_number,'avs_street_name' => '','avs_zipcode' => $avs_zipcode);
+		$avsTemplate = array('avs_street_number' => $avsStreetNumber,'avs_street_name' => '','avs_zipcode' => $avsZipcode);
 
 		$mpgAvsInfo = new mpgAvsInfo($avsTemplate);
 		$mpgCvdInfo = new mpgCvdInfo($cvdTemplate);
 
 		$mpgTxn     = new mpgTransaction($txnArray);
 
-		if ($moneris_check_avs == 1)
+		if ($monerisCheckAvs == 1)
 		{
 			$mpgTxn->setAvsInfo($mpgAvsInfo);
 		}
 
-		if ($moneris_check_creditcard_code == 1)
+		if ($monerisCheckCreditcardCode == 1)
 		{
 			$mpgTxn->setCvdInfo($mpgCvdInfo);
 		}
 
 		$mpgRequest = new mpgRequest($mpgTxn);
 
-		$mpgHttpPost = new mpgHttpsPost($storeid, $apitoken, $mpgRequest, $moneris_api_host);
+		$mpgHttpPost = new mpgHttpsPost($storeId, $apiToken, $mpgRequest, $monerisApiHost);
 		$mpgResponse = $mpgHttpPost->getMpgResponse();
-
-		if ($moneris_test_status == 1 && false)
-		{
-			echo "<pre>";
-			echo "Raw Data<br /><br />";
-			echo "Globals: <br />";
-			var_dump($mpgConfig->getGlobals());
-			echo "<br />";
-			echo "Request: <br />";
-			var_dump($mpgHttpPost);
-			echo "<br />";
-			echo "Response: <br />";
-			var_dump($mpgResponse);
-			echo "</pre>";
-		}
 
 		$mpgRCode = $mpgResponse->getResponseCode();
 		$mpgMessage = $mpgResponse->getMessage();
