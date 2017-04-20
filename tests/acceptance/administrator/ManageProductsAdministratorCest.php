@@ -37,8 +37,9 @@ class ManageProductsAdministratorCest
 		$I->wantTo('Test Product Manager in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$randomCategoryName = 'TestingCategory' . rand(99, 999);
-		$randomProductName = 'Testing Products' . rand(99, 999);
+		$randomCategoryName = 'Testing Category' . $this->_generateName();
+		$randomProductName = 'Testing Product' . $this->_generateName();
+		// @TODO Test case with out-of-range number
 		$randomProductNumber = rand(999, 9999);
 		$randomProductPrice = rand(99, 199);
 
@@ -101,8 +102,8 @@ class ManageProductsAdministratorCest
 		$I->wantTo('Delete an existing Product');
 		$I->amOnPage('administrator/index.php?option=com_redshop&view=products');
 		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-		$I->fillField(['xpath' => "//*[@id=\"filter_search\"]"], $productName);
-		$I->click(['xpath' => "//*[@id=\"adminForm\"]/div[1]/div/div[1]/div[1]/div/div/input[2]"]);
+		$I->fillField(['xpath' => $this->_xpaths['products']['search']], $productName);
+		$I->click(['xpath' => $this->_xpaths['products']['search_button']]);
 		$I->see($productName, ['xpath' => "//table[contains(@class, 'adminlist')]//tbody//tr[1]"]);
 		$I->checkAllResults();
 		$I->click("Delete");
@@ -126,8 +127,8 @@ class ManageProductsAdministratorCest
 		$I->wantTo('Search the Product');
 		$I->amOnPage('administrator/index.php?option=com_redshop&view=products');
 		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-		$I->fillField(['xpath' => "//*[@id=\"filter_search\"]"], $productName);
-		$I->click(['xpath' => "//*[@id=\"adminForm\"]/div[1]/div/div[1]/div[1]/div/div/input[2]"]);
+		$I->fillField(['xpath' => $this->_xpaths['products']['search']], $productName);
+		$I->click(['xpath' => $this->_xpaths['products']['search_button']]);
 
 		if ($functionName == 'Search')
 		{
@@ -139,4 +140,20 @@ class ManageProductsAdministratorCest
 		}
 	}
 
+	/**
+	 * Generate random name string
+	 *
+	 * @param   $length  int  Length of string
+	 *
+	 * @return  string
+	 */
+	private function _generateName($length = 32) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}
 }
