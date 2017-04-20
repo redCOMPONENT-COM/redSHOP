@@ -1,38 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-    <name>redSHOP Category Module</name>
-    <version>1.5.2</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <name>MOD_REDSHOP_CATEGORIES</name>
+    <version>1.5.3</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>November 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Product Category for redSHOP with different display style</description>
+    <description>MOD_REDSHOP_CATEGORIES</description>
     <files>
         <filename module="mod_redshop_categories">mod_redshop_categories.php</filename>
-        <filename module="mod_redshop_categories">JSCookTree.js</filename>
-        <filename module="mod_redshop_categories">JSCook.php</filename>
-        <filename module="mod_redshop_categories">dtree.php</filename>
-        <filename module="mod_redshop_categories">tigratree.php</filename>
-        <filename module="mod_redshop_categories">transmenu.php</filename>
         <filename module="mod_redshop_categories">helper.php</filename>
         <filename module="mod_redshop_categories">index.html</filename>
-        <folder module="mod_redshop_categories">ThemeNavy</folder>
-        <folder module="mod_redshop_categories">ThemeXP</folder>
-        <folder module="mod_redshop_categories">dtree</folder>
-        <folder module="mod_redshop_categories">tigratree</folder>
-        <folder module="mod_redshop_categories">transmenu</folder>
-        <folder module="mod_redshop_categories">JSCook</folder>
-        <folder module="mod_redshop_categories">elements</folder>
-        <folder module="mod_redshop_categories">ThemeOffice</folder>
+        <folder>tmpl</folder>
+        <folder>controllers</folder>
+        <folder>helpers</folder>
+        <folder>elements</folder>
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_categories.ini</language>
-        <language tag="de-DE">language/de-DE/de-DE.mod_redshop_categories.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_categories.ini</language>
-        <language tag="fr-FR">language/fr-FR/fr-FR.mod_redshop_categories.ini</language>
-    </languages>
+    <media folder="media">
+      <folder>mod_redshop_categories</folder>
+    </media>
+    <scriptfile>install.php</scriptfile>
     <config>
         <fields name="params" addfieldpath="/modules/mod_redshop_categories/elements">
             <fieldset name="basic">
@@ -44,8 +34,6 @@
                 <field name="pretext" type="textarea" rows="3" cols="30" default=""
                        label="COM_REDSHOP_PRETEXT_DESC_LABEL"
                        description="COM_REDSHOP_PRETEXT_DESC"/>
-
-
                 <field name="show_noofproducts" type="radio" default="yes"
                        label="COM_REDSHOP_SHOWNOOFPROD_LABEL"
                        class="btn-group btn-group-yesno"
@@ -60,13 +48,12 @@
                     <option value="yes">JYES</option>
                     <option value="no">JNO</option>
                 </field>
-                <field name="redshop_category" type="redshopcategory" default=""
+                <field name="redshop_category" type="redshopcategory" default="0"
                        label="COM_REDSHOP_CATEGORIES_SELECTION"
                        description="COM_REDSHOP_CATEGORIES_SELECTION_DESC"></field>
                 <field name="redshop_category_remove" type="redshopcategoryremove" default=""
                        label="COM_REDSHOP_CATEGORIES_SELECTION_REMOVE"
                        description="COM_REDSHOP_CATEGORIES_SELECTION_REMOVE_DESC"></field>
-
                 <field name="menutype" type="list" default="links"
                        label="COM_REDSHOP_MENU_LABEL"
                        description="COM_REDSHOP_MENU_DESC">
@@ -76,7 +63,6 @@
                     <option value="transmenu">COM_REDSHOP_TRANSMENU</option>
                     <option value="dtree">COM_REDSHOP_DTREE</option>
                 </field>
-
                 <field name="categorysorttype" type="list" default="links"
                        label="COM_REDSHOP_CATSORT_LABEL"
                        description="COM_REDSHOP_CATSORT_DESC">
@@ -85,30 +71,20 @@
                     <option value="newest">COM_REDSHOP_NEWEST</option>
                     <option value="catorder">COM_REDSHOP_CATORDER</option>
                 </field>
-
-                <field name="jscook_type" type="list" default="menu" label="COM_REDSHOP_JSCOOKTYPE_LABEL"
-                       description="COM_REDSHOP_JSCOOKTYPE_DESC">
-                    <option value="menu">COM_REDSHOP_MENU</option>
-                    <option value="tree">COM_REDSHOP_TREE</option>
-                </field>
-                <field name="jscookMenu_style" type="text" default="ThemeOffice"
-                       label="COM_REDSHOP_JSCOOKSTYLE_LABEL"
-                       description="COM_REDSHOP_JSCOOKSTYLE_DESC"/>
                 <field name="menu_orientation" type="list" default="hbr"
                        label="COM_REDSHOP_MENUORIENT_LABEL"
                        description="COM_REDSHOP_MENUORIENT_DESC">
                     <option value="hbr">COM_REDSHOP_HORIZONTAL</option>
                     <option value="vbr">COM_REDSHOP_VERTICAL</option>
                 </field>
-                <field name="jscookTree_style" type="text" default="ThemeXP"
-                       label="COM_REDSHOP_JSCOOKTREESTYLE_LABEL"
-                       description="COM_REDSHOP_JSCOOKTREESTYLE_DESC"/>
+                <field name="jscook_style" type="text" default="ThemeOffice"
+                       label="COM_REDSHOP_JSCOOKSTYLE_LABEL"
+                       description="COM_REDSHOP_JSCOOKSTYLE_DESC"/>
                 <field name="root_label" type="text" default="Shop"
                        label="COM_REDSHOP_ROOT_LABEL"
                        description="COM_REDSHOP_ROOT_DESC"/>
                 <field name="posttext" type="textarea" default="" rows="3" cols="30" label="COM_REDSHOP_POSTTEXT_LABEL"
                        description="COM_REDSHOP_POSTTEXT_DESC"/>
-
             </fieldset>
         </fields>
     </config>
