@@ -288,7 +288,7 @@ class JFormFieldCategoryList extends JFormFieldList
 				array_unshift($options, $parent);
 			}
 
-			array_unshift($options, JHtml::_('select.option', '0', JText::_('JGLOBAL_ROOT')));
+			array_unshift($options, JHtml::_('select.option', '0', JText::_('JGLOBAL_ROOT_PARENT')));
 		}
 
 		if (!isset($this->element['show_root']))

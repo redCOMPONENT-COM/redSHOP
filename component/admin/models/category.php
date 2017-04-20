@@ -31,7 +31,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 */
 	public function getTable($type = 'Category', $prefix = 'RedshopTable', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return RedshopTable::getInstance($type, $prefix, $config);
 	}
 
 	/**
@@ -213,7 +213,7 @@ class RedshopModelCategory extends RedshopModelForm
 			// Make the filename unique
 			$fileName = RedShopHelperImages::cleanFileName(basename($data['category_full_image']));
 
-			$row->category_full_image = $fileName;
+			$row->category_full_image  = $fileName;
 			$row->category_thumb_image = $fileName;
 
 			$src = JPATH_ROOT . '/' . $data['category_full_image'];
@@ -232,7 +232,7 @@ class RedshopModelCategory extends RedshopModelForm
 
 				// Make the filename unique
 				$fileName = RedShopHelperImages::cleanFileName($imageSplit[count($imageSplit) - 1]);
-				$row->category_full_image = $fileName;
+				$row->category_full_image  = $fileName;
 				$row->category_thumb_image = $fileName;
 
 				$src = JPATH_ROOT . '/' . $data['category_image'];
@@ -329,13 +329,13 @@ class RedshopModelCategory extends RedshopModelForm
 					{
 						$accDetail = JTable::getInstance('Accessory_detail', 'Table');
 
-						$accDetail->accessory_id = $accessoryId;
-						$accDetail->category_id = $row->id;
-						$accDetail->product_id = $productId;
-						$accDetail->child_product_id = $acc['child_product_id'];
-						$accDetail->accessory_price = $acc['accessory_price'];
-						$accDetail->oprand = $acc['oprand'];
-						$accDetail->ordering = $acc['ordering'];
+						$accDetail->accessory_id        = $accessoryId;
+						$accDetail->category_id         = $row->id;
+						$accDetail->product_id          = $productId;
+						$accDetail->child_product_id    = $acc['child_product_id'];
+						$accDetail->accessory_price     = $acc['accessory_price'];
+						$accDetail->oprand              = $acc['oprand'];
+						$accDetail->ordering            = $acc['ordering'];
 						$accDetail->setdefault_selected = (isset($acc['setdefault_selected']) && $acc['setdefault_selected'] == 1) ? 1 : 0;
 
 						if (!$accDetail->store())
@@ -356,7 +356,7 @@ class RedshopModelCategory extends RedshopModelForm
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -395,7 +395,7 @@ class RedshopModelCategory extends RedshopModelForm
 			$catImages = $db->setQuery($query)->loadObject();
 
 			$catThumbImage = $catImages->category_thumb_image;
-			$catFullImage = $catImages->category_full_image;
+			$catFullImage  = $catImages->category_full_image;
 
 			$thumbPath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $catThumbImage;
 			$fullImagePath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $catFullImage;
@@ -433,53 +433,6 @@ class RedshopModelCategory extends RedshopModelForm
 	}
 
 	/**
-	 * Method to get max min ordering.
-	 *
-	 * @param   string  $type  type of order min/max.
-	 *
-	 * @return  boolen
-	 *
-	 * @since   2.0.5
-	 */
-	public function getMaxMinOrder($type)
-	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn($type . '(ordering)', 'morder'))
-			->from($db->qn('#__redshop_category'));
-
-		return $db->setQuery($query)->loadResult();
-	}
-
-	/**
-	 * Method to save the reordered nested set tree.
-	 * First we save the new order values in the lft values of the changed ids.
-	 * Then we invoke the table rebuild to implement the new ordering.
-	 *
-	 * @param   array  $idArray    Id's of rows to be reordered
-	 * @param   array  $lft_array  Lft values of rows to be reordered
-	 *
-	 * @return   boolean  false on failuer or error, true otherwise
-	 */
-	public function saveorder($idArray = null, $lft_array = null)
-	{
-		// Get an instance of the table object.
-		$table = $this->getTable();
-
-		if (!$table->saveorder($idArray, $lft_array))
-		{
-			$this->setError($table->getError());
-
-			return false;
-		}
-
-		// Clean the cache
-		$this->cleanCache();
-
-		return true;
-	}
-
-	/**
 	 * Method to copy.
 	 *
 	 * @param   array  $cid  category id list.
@@ -507,14 +460,14 @@ class RedshopModelCategory extends RedshopModelForm
 		{
 			$post                         = array();
 			$post['id']                   = 0;
-			$post['name']                 = $this->renameToUniqueValue('name', $copyData[$i]->name);
+			$post['name']                 = $this->renameToUniqueValue('name', $copyData[$i]->name, '', 'Category');
 			$post['short_description']    = $copyData[$i]->short_description;
 			$post['description']          = $copyData[$i]->description;
 			$post['template']             = $copyData[$i]->template;
 			$post['more_template']        = $copyData[$i]->more_template;
 			$post['products_per_page']    = $copyData[$i]->products_per_page;
-			$post['category_full_image']  = $this->renameToUniqueValue('category_full_image', $copyData[$i]->category_full_image, 'dash');
-			$post['category_thumb_image'] = $this->renameToUniqueValue('category_thumb_image', $copyData[$i]->category_thumb_image, 'dash');
+			$post['category_full_image']  = $this->renameToUniqueValue('category_full_image', $copyData[$i]->category_full_image, 'dash', 'Category');
+			$post['category_thumb_image'] = $this->renameToUniqueValue('category_thumb_image', $copyData[$i]->category_thumb_image, 'dash', 'Category');
 			$post['metakey']              = $copyData[$i]->metakey;
 			$post['metadesc']             = $copyData[$i]->metadesc;
 			$post['metalanguage_setting'] = $copyData[$i]->metalanguage_setting;

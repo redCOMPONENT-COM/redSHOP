@@ -19,11 +19,9 @@ defined('_JEXEC') or die;
 				<table class="admintable table">
 					<tr>
 						<td colspan="2">
-							<?php
-							if ($this->extraFields)
-							{
-								echo $this->extraFields;
-							}
+							<?php if ($this->extraFields) : ?>	
+								<?php echo $this->extraFields; ?>
+							<?php endif; ?>
 							?>
 						</td>
 					</tr>
@@ -32,4 +30,3 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 </div>
-

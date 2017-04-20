@@ -9,27 +9,25 @@
 defined('_JEXEC') or die;
 
 ?>
-<div class="form-horizontal">
-	<div class="row-fluid form-horizontal-desktop">
-		<div class="span12">
-			<fieldset class="details">
-				<legend><?php echo JText::_('COM_REDSHOP_META_DATA_TAB'); ?></legend>
-
+<div class="row">
+	<div class="col-sm-12">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_META_DATA_TAB'); ?></h3>
+			</div>
+			<div class="box-body">
 				<?php foreach ($this->form->getFieldset('seo') as $field) : ?>
 					<?php if ($field->hidden) : ?>
 						<?php echo $field->input;?>
 					<?php endif; ?>
-					<div class="control-group">
-						<div class="control-label">
+					<div class="form-group">
+						<label>
 							<?php echo $field->label; ?>
-						</div>
-						<div class="controls">
-							<?php echo $field->input; ?>
-						</div>
+						</label>
+						<?php echo $field->input; ?>
 					</div>
 				<?php endforeach; ?>
-			</fieldset>
+			</div>
 		</div>
 	</div>
 </div>
-

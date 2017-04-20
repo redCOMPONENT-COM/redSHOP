@@ -23,6 +23,5 @@ class RedshopTableCategory extends RedshopTableNested
 	 *
 	 * @var  string
 	 */
-
 	protected $_tableName = 'redshop_category';
 }
