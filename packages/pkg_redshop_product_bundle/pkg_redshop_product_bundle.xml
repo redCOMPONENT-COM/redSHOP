@@ -14,6 +14,7 @@
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.pkg_redshop_product_bundle.sys.ini</language>
 	</languages>
+	<scriptfile>pkg_script.php</scriptfile>
 	<files folder="packages">
 		<file type="plugin" id="bundle" group="redshop_product_type">plg_redshop_product_type_bundle.zip</file>
 		<file type="plugin" id="bundle" group="redshop_product">plg_redshop_product_bundle.zip</file>
