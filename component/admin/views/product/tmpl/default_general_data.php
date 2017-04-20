@@ -44,30 +44,11 @@ $calendarFormat = '%d-%m-%Y';
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="product_name" id="product_name-lbl">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>
-                                <span class="star text-danger"> *</span>
-                            </label>
-                            <input class="form-control"
-                                   type="text"
-                                   name="product_name"
-                                   id="product_name"
-                                   size="32"
-                                   maxlength="250"
-                                   value="<?php echo htmlspecialchars($this->item->product_name); ?>"/>
+	                        <?php echo $this->form->renderField('product_name') ?>
                         </div>
 
                         <div class="form-group">
-                            <label for="product_number" id="product_number-lbl">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER') ?><span
-                                        class="star text-danger"> *</span>
-								<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'), JText::_('COM_REDSHOP_PRODUCT_NUMBER'), 'tooltip.png', '', '', false); ?>
-                            </label>
-                            <input class="form-control validate-productNumber"
-                                   type="text" name="product_number" id="product_number" size="32" maxlength="250"
-                                   value="<?php echo $this->item->product_number; ?>"
-                            />
-                            <span class="text-error"></span>
+	                        <?php echo $this->form->renderField('product_number') ?>
                         </div>
 
                         <div class="form-group">
@@ -130,24 +111,7 @@ $calendarFormat = '%d-%m-%Y';
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="product_price">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?>
-								<?php
-								echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE'), JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'tooltip.png', '', '', false);
-								?>
-                            </label>
-
-                            <div class="input-group">
-                                <span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') ?></span>
-                                <input class="form-control"
-                                       type="text"
-                                       name="product_price"
-                                       id="product_price"
-                                       size="10"
-                                       maxlength="10"
-                                       value="<?php echo $this->item->product_price; ?>"
-                                />
-                            </div>
+	                        <?php echo $this->form->renderField('product_price') ?>
                         </div>
 
                         <div class="form-group">
@@ -296,132 +260,27 @@ $calendarFormat = '%d-%m-%Y';
             </div>
             <div class="box-body">
                 <div class="form-group">
-                    <label for="product_volume">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_VOLUME'); ?>
-                        (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?><sup>3</sup>)
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_VOLUME'),
-							JText::_('COM_REDSHOP_PRODUCT_VOLUME'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-                    </label>
-                    <input class="form-control"
-                           type="text"
-                           name="product_volume"
-                           id="product_volume"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_volume); ?>"
-                    />
+	                <?php echo $this->form->renderField('product_volume') ?>
                 </div>
 
                 <div class="form-group">
-                    <label for="product_length">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_LENGTH'); ?>
-                        (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_LENGTH'),
-							JText::_('COM_REDSHOP_PRODUCT_LENGTH'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-                    </label>
-                    <input class="form-control"
-                           type="text"
-                           name="product_length"
-                           id="product_length"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_length); ?>"
-                    />
+	                <?php echo $this->form->renderField('product_length') ?>
                 </div>
 
                 <div class="form-group">
-                    <label for="product_width">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_WIDTH'); ?>
-                        (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_WIDTH'),
-							JText::_('COM_REDSHOP_PRODUCT_WIDTH'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-                    </label>
-                    <input class="form-control"
-                           type="text"
-                           name="product_width"
-                           id="product_width"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_width); ?>"
-                    />
+	                <?php echo $this->form->renderField('product_width') ?>
                 </div>
 
                 <div class="form-group">
-                    <label for="product_height">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_HEIGHT'); ?>
-                        (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
-						<?php
-						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_HEIGHT'), JText::_('COM_REDSHOP_PRODUCT_HEIGHT'), 'tooltip.png', '', '', false);
-						?>
-                    </label>
-                    <input class="form-control"
-                           type="text"
-                           name="product_height"
-                           id="product_height"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_height); ?>"
-                    />
+	                <?php echo $this->form->renderField('product_height') ?>
                 </div>
 
                 <div class="form-group">
-                    <label for="product_diameter">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_DIAMETER'); ?>
-                        (<?php echo Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'); ?>)
-						<?php
-						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DIAMETER'), JText::_('COM_REDSHOP_PRODUCT_DIAMETER'), 'tooltip.png', '', '', false);
-						?>
-                    </label>
-                    <input class="form-control"
-                           type="text"
-                           name="product_diameter"
-                           id="product_diameter"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->item->product_diameter); ?>"
-                    />
+	                <?php echo $this->form->renderField('product_diameter') ?>
                 </div>
 
                 <div class="form-group">
-                    <label for="weight">
-						<?php echo JText::_('COM_REDSHOP_WEIGHT_LBL'); ?>
-                        (<?php echo Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'); ?>)
-						<?php
-						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WEIGHT'), JText::_('COM_REDSHOP_WEIGHT_LBL'), 'tooltip.png', '', '', false);
-						?>
-                    </label>
-                    <input class="form-control"
-                           type="text"
-                           name="weight"
-                           id="weight"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo $this->producthelper->redunitDecimal($this->item->weight); ?>"
-                    />
+	                <?php echo $this->form->renderField('weight') ?>
                 </div>
             </div>
         </div>
@@ -589,51 +448,11 @@ $calendarFormat = '%d-%m-%Y';
 				<?php endif; ?>
 
                 <div class="form-group">
-                    <label for="min_order_product_quantity">
-						<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_PRODUCT_QUANTITY_LBL'); ?>
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_ORDER_PRODUCT_QUANTITY'),
-							JText::_('COM_REDSHOP_MINIMUM_ORDER_PRODUCT_QUANTITY_LBL'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-                    </label>
-                    <input class="form-control"
-                           type="text"
-                           name="min_order_product_quantity"
-                           id="min_order_product_quantity"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo $this->item->min_order_product_quantity; ?>"
-                    />
+	                <?php echo $this->form->renderField('min_order_product_quantity') ?>
                 </div>
 
                 <div class="form-group">
-                    <label for="max_order_product_quantity">
-						<?php echo JText::_('COM_REDSHOP_MAXIMUM_ORDER_PRODUCT_QUANTITY_LBL'); ?>
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY'),
-							JText::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-                    </label>
-                    <input class="form-control"
-                           type="text"
-                           name="max_order_product_quantity"
-                           id="max_order_product_quantity"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo @$this->item->max_order_product_quantity; ?>"
-                    />
+	                <?php echo $this->form->renderField('max_order_product_quantity') ?>
                 </div>
             </div>
         </div>

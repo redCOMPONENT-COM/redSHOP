@@ -8,9 +8,22 @@
         <field
                 name="product_name"
                 type="redshop.text"
-                label="COM_REDSHOP_SUPPLIER_NAME"
-                description="COM_REDSHOP_SUPPLIER_NAME_DESC"
-                placeholder="COM_REDSHOP_SUPPLIER_NAME"
+                label="COM_REDSHOP_PRODUCT_NAME"
+                description="COM_REDSHOP_PRODUCT_NAME_DESC"
+                placeholder="COM_REDSHOP_PRODUCT_NAME"
+                class="form-control"
+                default=""
+                required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+        <field
+                name="product_number"
+                type="redshop.text"
+                label="COM_REDSHOP_PRODUCT_NUMBER"
+                description="COM_REDSHOP_PRODUCT_NUMBER_DESC"
+                placeholder="COM_REDSHOP_PRODUCT_NUMBER"
                 class="form-control"
                 default=""
                 required="true"
@@ -30,5 +43,116 @@
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>
+
+        <field
+                name="product_price"
+                type="redshop.text"
+                label="COM_REDSHOP_PRODUCT_PRICE"
+                description="COM_REDSHOP_PRODUCT_PRICE_DESC"
+                placeholder="COM_REDSHOP_PRODUCT_PRICE"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+
+        <field
+                name="product_volume"
+                type="redshop.text"
+                label="COM_REDSHOP_PRODUCT_VOLUME"
+                description="COM_REDSHOP_TOOLTIP_PRODUCT_VOLUME"
+                placeholder="COM_REDSHOP_PRODUCT_VOLUME"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+        <field
+                name="product_length"
+                type="redshop.text"
+                label="COM_REDSHOP_PRODUCT_LENGTH"
+                description="COM_REDSHOP_TOOLTIP_PRODUCT_LENGTH"
+                placeholder="COM_REDSHOP_PRODUCT_LENGTH"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+        <field
+                name="product_width"
+                type="redshop.text"
+                label="COM_REDSHOP_PRODUCT_WIDTH"
+                description="COM_REDSHOP_TOOLTIP_PRODUCT_WIDTH"
+                placeholder="COM_REDSHOP_PRODUCT_WIDTH"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+        <field
+                name="product_height"
+                type="redshop.text"
+                label="COM_REDSHOP_PRODUCT_HEIGHT"
+                description="COM_REDSHOP_TOOLTIP_PRODUCT_HEIGHT"
+                placeholder="COM_REDSHOP_PRODUCT_HEIGHT"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+        <field
+                name="product_diameter"
+                type="redshop.text"
+                label="COM_REDSHOP_PRODUCT_DIAMETER"
+                description="COM_REDSHOP_TOOLTIP_PRODUCT_DIAMETER"
+                placeholder="COM_REDSHOP_PRODUCT_DIAMETER"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+        <field
+                name="weight"
+                type="redshop.text"
+                label="COM_REDSHOP_WEIGHT_LBL"
+                description="COM_REDSHOP_TOOLTIP_WEIGHT"
+                placeholder="COM_REDSHOP_WEIGHT_LBL"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+
+        <field
+                name="min_order_product_quantity"
+                type="redshop.text"
+                label="COM_REDSHOP_MINIMUM_ORDER_PRODUCT_QUANTITY_LBL"
+                description="COM_REDSHOP_TOOLTIP_MINIMUM_ORDER_PRODUCT_QUANTITY"
+                placeholder="COM_REDSHOP_MINIMUM_ORDER_PRODUCT_QUANTITY_LBL"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+        <field
+                name="max_order_product_quantity"
+                type="redshop.text"
+                label="COM_REDSHOP_MAXIMUM_ORDER_PRODUCT_QUANTITY_LBL"
+                description="COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY"
+                placeholder="COM_REDSHOP_MAXIMUM_ORDER_PRODUCT_QUANTITY_LBL"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
     </fieldset>
 </form>

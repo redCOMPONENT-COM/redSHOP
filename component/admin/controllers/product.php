@@ -48,6 +48,9 @@ class RedshopControllerProduct extends RedshopControllerForm
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data  = $this->input->post->getArray();
+
+		// Temporary code while converting to jform
+		$data = array_merge($data, $this->input->post->get('jform', array(), 'array'));
 		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
