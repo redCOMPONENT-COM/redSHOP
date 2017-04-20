@@ -107,7 +107,7 @@ class ManageProductsAdministratorCest
 		$I->checkAllResults();
 		$I->click("Delete");
 		$I->acceptPopup();
-		$I->waitForText('15 items successfully deleted', 30, ['class' => 'alert-success']);
+		$I->waitForText('1 item successfully deleted', 30, ['class' => 'alert-success']);
 		$this->searchProduct($I, $productName, 'Delete');
 		$I->dontSee($productName);
 	}

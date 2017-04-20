@@ -104,7 +104,6 @@ class RedshopModelProducts extends RedshopModelList
 		$orderby      = $this->_buildContentOrderBy();
 		$search_field = $this->getState('search_field');
 		$keyword      = $this->getState('filter.search');
-		$keyword      = $this->getState('keyword');
 		$category_id  = $this->getState('category_id');
 		$product_sort = $this->getState('product_sort');
 		$keyword      = addslashes($keyword);
