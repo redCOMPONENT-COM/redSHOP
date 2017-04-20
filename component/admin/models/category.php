@@ -466,8 +466,6 @@ class RedshopModelCategory extends RedshopModelForm
 			$post['template']             = $copyData[$i]->template;
 			$post['more_template']        = $copyData[$i]->more_template;
 			$post['products_per_page']    = $copyData[$i]->products_per_page;
-			$post['category_full_image']  = $this->renameToUniqueValue('category_full_image', $copyData[$i]->category_full_image, 'dash', 'Category');
-			$post['category_thumb_image'] = $this->renameToUniqueValue('category_thumb_image', $copyData[$i]->category_thumb_image, 'dash', 'Category');
 			$post['metakey']              = $copyData[$i]->metakey;
 			$post['metadesc']             = $copyData[$i]->metadesc;
 			$post['metalanguage_setting'] = $copyData[$i]->metalanguage_setting;
@@ -481,12 +479,21 @@ class RedshopModelCategory extends RedshopModelForm
 			$post['parent_id']            = $copyData[$i]->parent_id;
 			$post['level']                = $copyData[$i]->level;
 
-			$src = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $copyData[$i]->category_full_image;
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $post['category_full_image'];
-
-			if (is_file($src))
+			if (!empty($copyData[$i]->category_thumb_image))
 			{
-				JFile::upload($src, $dest);
+				$post['category_thumb_image'] = $this->renameToUniqueValue('category_thumb_image', $copyData[$i]->category_thumb_image, 'dash', 'Category');
+			}
+
+			if (!empty($copyData[$i]->category_full_image))
+			{
+				$post['category_full_image']  = $this->renameToUniqueValue('category_full_image', $copyData[$i]->category_full_image, 'dash', 'Category');
+				$src  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $copyData[$i]->category_full_image;
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $post['category_full_image'];
+
+				if (JFile::exists($src))
+				{
+					JFile::copy($src, $dest);
+				}
 			}
 
 			$this->save($post);
