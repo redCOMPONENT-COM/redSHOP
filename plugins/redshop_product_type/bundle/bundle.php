@@ -31,7 +31,7 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		$lang = JFactory::getLanguage();
-		$lang->load('plg_redshop_product_type_bundle');
+		$lang->load('plg_redshop_product_type_bundle', JPATH_ADMINISTRATOR);
 
 		parent::__construct($subject, $config);
 	}
@@ -64,7 +64,7 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 
 		$query->select(
 			array(
-				$db->qn('b.*'),
+				'b.*',
 				$db->qn('p.product_name'),
 				$db->qn('p.product_price')
 			)

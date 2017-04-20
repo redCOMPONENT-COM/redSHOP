@@ -40,7 +40,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		$lang = JFactory::getLanguage();
-		$lang->load('plg_redshop_product_bundle');
+		$lang->load('plg_redshop_product_bundle', JPATH_ADMINISTRATOR);
 
 		parent::__construct($subject, $config);
 	}
@@ -96,7 +96,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 			$query->select(
 				array(
-					$db->qn('b.*'),
+					'b.*',
 					$db->qn('p.product_name'),
 					$db->qn('p.product_price'),
 					$db->qn('p.product_number')
@@ -257,7 +257,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 					// Replease {property_select}
 					if (strpos($propertyData, '{property_select}') !== false)
 					{
-						$propertySelect = '<a class="bundleselect" onclick="selectBundle(\'' . $property->property_name . '\',' . $bundleDetail->product_id . ',' . $bundleDetail->bundle_id . ',' . $property->property_id . ')">Select</span></a>';
+						$propertySelect = '<a class="bundleselect" onclick="selectBundle(\'' . $property->property_name . '\',' . $bundleDetail->product_id . ',' . $bundleDetail->bundle_id . ',' . $property->property_id . ')">' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</span></a>';
 
 						$propertyData = str_replace("{property_select}", $propertySelect, $propertyData);
 					}
@@ -394,7 +394,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn('*'))
+		$query->select('*')
 		->from($db->qn('#__redshop_order_bundle'))
 		->where($db->qn('order_item_id') . '=' . (int) $rowitem[$i]->order_item_id);
 
@@ -500,7 +500,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn('*'))
+		$query->select('*')
 		->from($db->qn('#__redshop_order_bundle'))
 		->where($db->qn('order_item_id') . '=' . (int) $orderItem->order_item_id);
 
