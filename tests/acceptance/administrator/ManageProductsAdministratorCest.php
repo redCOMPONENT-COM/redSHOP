@@ -17,6 +17,13 @@
  */
 class ManageProductsAdministratorCest
 {
+	private $_xpaths = array(
+		'products' => array(
+			'search' => '//*[@id="filter_search"]',
+			'search_button' => '//*[@id="adminForm"]/div[1]/div/div[1]/div[1]/div/div/input[2]'
+		)
+	);
+
 	/**
 	 * Function to test Products Manager in Administrator
 	 *
@@ -100,7 +107,7 @@ class ManageProductsAdministratorCest
 		$I->checkAllResults();
 		$I->click("Delete");
 		$I->acceptPopup();
-		$I->waitForText('Product deleted successfully', 30, ['class' => 'alert-success']);
+		$I->waitForText('15 items successfully deleted', 30, ['class' => 'alert-success']);
 		$this->searchProduct($I, $productName, 'Delete');
 		$I->dontSee($productName);
 	}
@@ -131,4 +138,5 @@ class ManageProductsAdministratorCest
 			$I->dontSee($productName, ['xpath' => "//table[contains(@class, 'adminlist')]//tbody//tr[1]"]);
 		}
 	}
+
 }
