@@ -105,7 +105,7 @@ if (($saveOrder) && ($canEditState))
                 </th>
                 <?php if (($search == '') && ($canEditState) && !empty($data->ordering)) : ?>
                     <th width="80"  class="nowrap center hidden-phone">
-                        <?php echo JHtml::_('grid.sort', '<i class=\'icon-menu\'></i>', 'lft', $listDirn, $listOrder); ?>
+                        <?php echo JHtml::_('grid.sort', '<i class=\'fa fa-sort-alpha-asc\'></i>', 'lft', $listDirn, $listOrder); ?>
                     </th>
                 <?php endif; ?>
                 <th width="1">

@@ -102,11 +102,6 @@ class RedshopViewCategory extends RedshopViewForm
 						'COM_REDSHOP_ACCESSORY_PRODUCT',
 						false,
 						'accessory'
-					)->addItem(
-						'#access',
-						'JCONFIG_PERMISSIONS_LABEL',
-						false,
-						'access'
 					);
 
 		return $tabMenu;

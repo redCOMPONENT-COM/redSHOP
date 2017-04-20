@@ -19,7 +19,7 @@
 		</field>
 		<field
 			name="category_id"
-			type="categoriesparent"
+			type="categorylist"
 			label="COM_REDSHOP_FILTER_CATEGORY"
 			description="COM_REDSHOP_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"

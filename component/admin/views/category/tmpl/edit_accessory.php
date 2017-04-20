@@ -127,4 +127,3 @@ $productHelper = producthelper::getInstance();
 		</div>
 	</div>
 </div>
-

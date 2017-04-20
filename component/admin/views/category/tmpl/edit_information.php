@@ -65,14 +65,14 @@ defined('_JEXEC') or die;
 					<?php echo $this->form->getInput('compare_template_id'); ?>
 				</div>
 
-				<div class="form-group">
+				<div class="">
 					<label>
 						<?php echo $this->form->getLabel('short_description'); ?>
 					</label>
 					<?php echo $this->form->getInput('short_description'); ?>
 				</div>
 
-				<div class="form-group">
+				<div class="">
 					<label>
 						<?php echo $this->form->getLabel('description'); ?>
 					</label>
@@ -87,7 +87,7 @@ defined('_JEXEC') or die;
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_IMAGES'); ?></h3>
 			</div>
 			<div class="box-body">
-				<div class="form-group">
+				<div class="">
 					<?php
 						$section_id    = $this->item->id;
 						$media_section = 'category';
@@ -110,7 +110,7 @@ defined('_JEXEC') or die;
 				<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_BACK_IMAGE'); ?></h3>
 			</div>
 			<div class="box-body">
-				<div class="form-group">
+				<div class="">
 					<?php
 						$section_id    = $this->item->id;
 						$media_section = 'category';
@@ -126,29 +126,31 @@ defined('_JEXEC') or die;
 				</div>
 			</div>
 		</div>
-		<div class="form-group">
-			<label>
-				<?php echo $this->form->getLabel('created_by'); ?>
-			</label>
-			<?php echo $this->form->getInput('created_by'); ?>
-		</div>
-		<div class="form-group">
-			<label>
-				<?php echo $this->form->getLabel('created_date'); ?>
-			</label>
-			<?php echo $this->form->getInput('created_date'); ?>
-		</div>
-		<div class="form-group">
-			<label>
-				<?php echo $this->form->getLabel('modified_by'); ?>
-			</label>
-			<?php echo $this->form->getInput('modified_by'); ?>
-		</div>
-		<div class="form-group">
-			<label>
-				<?php echo $this->form->getLabel('modified_date'); ?>
-			</label>
-			<?php echo $this->form->getInput('modified_date'); ?>
+		<div class="box box-primary">
+			<div class="form-group">
+				<label>
+					<?php echo $this->form->getLabel('created_by'); ?>
+				</label>
+				<?php echo $this->form->getInput('created_by'); ?>
+			</div>
+			<div class="form-group">
+				<label>
+					<?php echo $this->form->getLabel('created_date'); ?>
+				</label>
+				<?php echo $this->form->getInput('created_date'); ?>
+			</div>
+			<div class="form-group">
+				<label>
+					<?php echo $this->form->getLabel('modified_by'); ?>
+				</label>
+				<?php echo $this->form->getInput('modified_by'); ?>
+			</div>
+			<div class="form-group">
+				<label>
+					<?php echo $this->form->getLabel('modified_date'); ?>
+				</label>
+				<?php echo $this->form->getInput('modified_date'); ?>
+			</div>
 		</div>
 	</div>
 	<?php echo $this->form->getInput('checked_out'); ?>
