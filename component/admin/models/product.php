@@ -97,6 +97,8 @@ class RedshopModelProduct extends RedshopModelForm
 
 		$row = $this->getTable('Product');
 
+		$this->input = JFactory::getApplication()->input;
+
 		if (!$row->bind($data))
 		{
 			$this->app->enqueueMessage($this->_db->getErrorMsg(), 'error');
@@ -374,7 +376,7 @@ class RedshopModelProduct extends RedshopModelForm
 					$media_id = $result->media_id;
 				}
 
-				$mediarow                          = $this->getTable('media_detail');
+				$mediarow                          = $this->getTable('media_detail', 'Table');
 				$mediapost                         = array();
 				$mediapost['media_id']             = $media_id;
 				$mediapost['media_name']           = $row->product_full_image;
@@ -407,10 +409,18 @@ class RedshopModelProduct extends RedshopModelForm
 		{
 			$prodid     = $data['product_id'];
 			$cids       = implode(",", $data['product_category']);
-			$query      = "SELECT category_id,ordering FROM " . $this->table_prefix . "product_category_xref
+
+			if (!empty($cids))
+			{
+				$query      = "SELECT category_id,ordering FROM " . $this->table_prefix . "product_category_xref
 					  WHERE product_id='" . $prodid . "'
 					  AND category_id IN(" . $cids . ")";
-			$categories = $this->_getList($query);
+				$categories = $this->_getList($query);
+			}
+			else
+			{
+				$categories = array ();
+			}
 
 			for ($g = 0, $gn = count($categories); $g < $gn; $g++)
 			{

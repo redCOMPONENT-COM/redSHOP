@@ -123,7 +123,9 @@ class RedshopControllerProduct extends RedshopControllerForm
 		}
 
 		// Test whether the data is valid.
-		$validData = $model->validate($form, $data);
+        // @TODO Temporary bypass vlaidate because we are not convert to jform yet
+		//$validData = $model->validate($form, $data);
+		$validData = $data;
 
 		// Check for validation errors.
 		if ($validData === false)
@@ -164,7 +166,7 @@ class RedshopControllerProduct extends RedshopControllerForm
 		}
 
 		// Attempt to save the data.
-		if (!$model->save($validData))
+		if (!$model->store($validData))
 		{
 			// Save the data in the session.
 			$app->setUserState($context . '.data', $validData);
