@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDPRODUCTSCROLLER</name>
-    <version>1.5.2</version>
+    <version>1.5.3</version>
     <redshop>2.0</redshop>
     <creationDate>Sep 2016</creationDate>
     <author>redCOMPONENT.com</author>
@@ -11,13 +11,12 @@
     <description>MOD_REDPRODUCTSCROLLER_MODULE_DESC</description>
     <files>
         <filename module="mod_redproductscroller">mod_redproductscroller.php</filename>
+        <filename module="mod_redproductscroller">helper.php</filename>
+        <filename module="mod_redproductscroller">index.html</filename>
+        <folder>tmpl</folder>
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redproductscroller.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redproductscroller.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redproductscroller.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redproductscroller.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config>
         <fields name="params">
             <fieldset name="basic">
