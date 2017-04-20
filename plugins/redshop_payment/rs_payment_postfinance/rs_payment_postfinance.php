@@ -11,10 +11,30 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_paymentrs_payment_postfinance extends JPlugin
+/**
+ * PlgRedshop_PaymentRs_Payment_PostFinance class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+
+class PlgRedshop_PaymentRs_Payment_PostFinance extends JPlugin
 {
 	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  1.7.0
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
+	 * [onPrePayment Plugin method with the same name as the event will be called automatically.]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [type]            [description]
 	 */
 	public function onPrePayment($element, $data)
 	{
@@ -23,16 +43,17 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
-		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
-		include $paymentpath;
+		require_once JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
 	}
 
+	/**
+	 * [onNotifyPaymentrs_payment_postfinance description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $request  [request params]
+	 *
+	 * @return  [object]  $values
+	 */
 	function onNotifyPaymentrs_payment_postfinance($element, $request)
 	{
 		if ($element != 'rs_payment_postfinance')
@@ -41,59 +62,58 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 		}
 
 		$db                  = JFactory::getDbo();
-		$request             = JRequest::get('request');
+		$request             = JFactory::getApplication()->input;
 
-		$order_id            = $request['orderID'];
-		$response_hash       = $request['SHASIGN'];
-		$currency            = $request['currency'];
-		$amount              = $request['amount'];
-		$PM                  = $request['PM'];
-		$ACCEPTANCE          = $request['ACCEPTANCE'];
-		$STATUS              = $request['STATUS'];
-		$NCERROR             = $request['NCERROR'];
-		$tid                 = $request['PAYID'];
+		$orderId            = $request->get('orderID', 0, 'INT');
+		$responseHash       = $request->get('SHASIGN', '');
+		$currency           = $request->get('currency');
+		$amount             = $request->get('amount', 0);
+		$pm                 = $request->get('PM');
+		$acceptance         = $request->get('ACCEPTANCE');
+		$status             = $request->get('STATUS');
+		$ncError            = $request->get('NCERROR');
+		$tid                = $request->get('PAYID');
+		$cardNumber         = $request->get('CARDNO');
+		$brand              = $request->get('BRAND');
 
 		// Get params from plugin
-		$sha_out_pass_phrase = $this->params->get("sha_out_pass_phrase");
-		$algo_used           = $this->params->get("algo_used");
-		$hash_string         = $this->params->get("hash_string");
-		$verify_status       = $this->params->get("verify_status");
-		$invalid_status      = $this->params->get("invalid_status");
+		$shaOutPassPhrase   = $this->params->get("sha_out_pass_phrase");
+		$verifyStatus       = $this->params->get("verify_status");
+		$invalidStatus      = $this->params->get("invalid_status");
 
-		$secret_words = $order_id
-						. $request['currency']
-						. $request['amount']
-						. $request['PM']
-						. $request['ACCEPTANCE']
-						. $request['STATUS']
-						. $request['CARDNO']
-						. $request['PAYID']
-						. $request['NCERROR']
-						. $request['BRAND']
-						. $sha_out_pass_phrase;
-		$hash_to_check = strtoupper(sha1($secret_words));
+		$secretWords = $orderId
+						. $currency
+						. $amount
+						. $pm
+						. $acceptance
+						. $status
+						. $cardNumber
+						. $tid
+						. $ncError
+						. $brand
+						. $shaOutPassPhrase;
+		$hashToCheck = strtoupper(sha1($secretWords));
 
-		if (($STATUS == 5 || $STATUS == 9) && $NCERROR == 0)
+		if (($STATUS == 5 || $STATUS == 9) && $ncError == 0)
 		{
-			if ($response_hash === $hash_to_check)
+			if ($responseHash === $hashToCheck)
 			{
 				// UPDATE THE ORDER STATUS to 'VALID'
-				$transaction_id                    = $tid;
-				$values->order_status_code         = $verify_status;
+				$values->order_status_code         = $verifyStatus;
 				$values->order_payment_status_code = 'Paid';
 				$values->log                       = JText::_('COM_REDSHOP_ORDER_PLACED');
 				$values->msg                       = JText::_('COM_REDSHOP_ORDER_PLACED');
-				$values->transaction_id            = $transaction_id;
-				$values->order_id                  = $order_id;
+				$values->transaction_id            = $tid;
+				$values->order_id                  = $orderId;
 			}
 			else
 			{
-				$values->order_status_code         = $invalid_status;
+				$values->order_status_code         = $invalidStatus;
 				$values->order_payment_status_code = 'Unpaid';
 				$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
 				$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 				$msg                               = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
-				$values->order_id                  = $order_id;
+				$values->order_id                  = $orderId;
 			}
 		}
 		else
@@ -103,7 +123,7 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 			$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
 			$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			$msg                               = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
-			$values->order_id                  = $order_id;
+			$values->order_id                  = $orderId;
 		}
 
 		return $values;
