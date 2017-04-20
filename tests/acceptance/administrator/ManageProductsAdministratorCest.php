@@ -94,8 +94,8 @@ class ManageProductsAdministratorCest
 		$I->wantTo('Delete an existing Product');
 		$I->amOnPage('administrator/index.php?option=com_redshop&view=products');
 		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-		$I->fillField(['xpath' => "//div[@class='filterItem']//div//input[@name='keyword']"], $productName);
-		$I->click(['xpath' => "//div[@class='filterItem']//div//input[@value='Search']"]);
+		$I->fillField(['xpath' => "//*[@id=\"filter_search\"]"], $productName);
+		$I->click(['xpath' => "//*[@id=\"adminForm\"]/div[1]/div/div[1]/div[1]/div/div/input[2]"]);
 		$I->see($productName, ['xpath' => "//table[contains(@class, 'adminlist')]//tbody//tr[1]"]);
 		$I->checkAllResults();
 		$I->click("Delete");
