@@ -28,21 +28,5 @@ $parameter['urlNotify']     = JURI::base() . "index.php?option=com_redshop&view=
 
 $secret_password = $this->params->get("secret_password");
 $hash            = $gsGiropay->generateHash(implode('', $parameter), $secret_password);
-?>
-<form action="https://payment.girosolution.de/payment/start" method="post" name="giropayfrm" id="giropayfrm">
-	<input type="hidden" name="sourceId" value="<?php echo $parameter['sourceId']; ?>">
-	<input type="hidden" name="merchantId" value="<?php echo $parameter['merchantId']; ?>">
-	<input type="hidden" name="projectId" value="<?php echo $parameter['projectId']; ?>">
-	<input type="hidden" name="transactionId" value="<?php echo $data['order_id']; ?>">
-	<input type="hidden" name="amount" value="<?php echo $parameter['amount']; ?>"/>
-	<input type="hidden" name="vwz" value="<?php echo $parameter['vwz']; ?>">
-	<input type="hidden" name="bankcode" value="<?php echo $parameter['bankcode']; ?>">
-	<input type="hidden" name="urlNotify" value="<?php echo $parameter['urlNotify']; ?>">
-	<input type="hidden" name="urlRedirect" value="<?php echo $parameter['urlRedirect']; ?>">
-	<input type="hidden" name="hash" value="<?php echo $hash; ?>"/>
-</form>
-<script type='text/javascript'>
-	window.onload = function () {
-		document.giropayfrm.submit();
-	}
-</script>
+
+require_once JPluginHelper::getLayoutPath('redshop_payment', 'rs_payment_giropay', 'extra_info');

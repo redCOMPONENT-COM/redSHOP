@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="redshop_payment" method="upgrade">
 	<name>PLG_RS_PAYMENT_GIROPAY</name>
-	<version>1.5.1</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>DEC 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>http://www.redcomponent.com</authorUrl>
@@ -14,11 +14,10 @@
 	<files>
 		<filename plugin="rs_payment_giropay">rs_payment_giropay.php</filename>
 		<folder>rs_payment_giropay</folder>
+		<folder>language</folder>
+		<folder>tmpl</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_giropay.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_giropay.sys.ini</language>
-	</languages>
+	<scriptfile>installl.php</scriptfile>
 	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">
 			<fieldset name="basic">
