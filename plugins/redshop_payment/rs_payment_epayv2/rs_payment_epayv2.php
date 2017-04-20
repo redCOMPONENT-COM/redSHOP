@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.4
  */
-class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
+class PlgRedshop_PaymentRs_Payment_Epayv2 extends JPlugin
 {
 	/**
 	 * Epay SOAP Client Object
@@ -25,7 +25,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 	 *
 	 * @since  1.4
 	 */
-	private $_epaySoapClient;
+	private $epaySoapClient;
 
 	/**
 	 * Prepare payment data to send Epay
@@ -42,24 +42,14 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
-
-		$producthelper  = productHelper::getInstance();
-		$CurrencyHelper = CurrencyHelper::getInstance();
-		$uri            = JURI::getInstance();
-		$url            = $uri->root();
-		$user           = JFactory::getUser();
+		$currencyHelper = CurrencyHelper::getInstance();
 		$app            = JFactory::getApplication();
 		$itemId         = $app->input->getInt('Itemid', 0);
 
-		$formdata = array(
+		$formData = array(
 			'merchantnumber'  => $this->params->get("merchant_id"),
 			'amount'          => number_format($data['carttotal'], 2, '.', '') * 100,
-			'currency'        => $CurrencyHelper->get_iso_code(Redshop::getConfig()->get('CURRENCY_CODE')),
+			'currency'        => $currencyHelper->get_iso_code(Redshop::getConfig()->get('CURRENCY_CODE')),
 			'orderid'         => $data['order_id'],
 			'instantcapture'  => $this->params->get("auth_type"),
 			'instantcallback' => 1,
@@ -73,13 +63,13 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 		// Payment Group is an optional
 		if ($this->params->get('payment_group'))
 		{
-			$formdata['group'] = $this->params->get('payment_group');
+			$formData['group'] = $this->params->get('payment_group');
 		}
 
 		// Epay will send email receipt to given email
 		if (trim($this->params->get('mailreceipt')))
 		{
-			$formdata['mailreceipt'] = $this->params->get('mailreceipt');
+			$formData['mailreceipt'] = $this->params->get('mailreceipt');
 		}
 
 		if ($cardTypes = $this->params->get('paymenttype'))
@@ -92,38 +82,31 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 				unset($cardTypes[$unsetIndex]);
 			}
 
-			$formdata['paymenttype'] = implode(',', $cardTypes);
+			$formData['paymenttype'] = implode(',', $cardTypes);
 		}
 
 		if ((int) $this->params->get('activate_callback', 0) == 1)
 		{
-			$formdata['cancelurl']   = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0&Itemid=' . $itemId;
-			$formdata['callbackurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1&Itemid=' . $itemId;
-			$formdata['accepturl']   = JURI::base() . 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $data['order_id'] . '&Itemid=' . $itemId;
+			$formData['cancelurl']   = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0&Itemid=' . $itemId;
+
+			$formData['callbackurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1&Itemid=' . $itemId;
+
+			$formData['accepturl']   = JURI::base() . 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $data['order_id'] . '&Itemid=' . $itemId;
 		}
 		else
 		{
-			$formdata['cancelurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0&Itemid=' . $itemId;
-			$formdata['accepturl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1&Itemid=' . $itemId;
+			$formData['cancelurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0&Itemid=' . $itemId;
+
+			$formData['accepturl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1&Itemid=' . $itemId;
 		}
 
 		// Create hash value to post
-		$formdata['hash'] = md5(implode("", array_values($formdata)) . $this->params->get("epay_paymentkey"));
+		$formData['hash'] = md5(implode("", array_values($formData)) . $this->params->get("epay_paymentkey"));
 
 		// New Code
-		$json_pass_string = json_encode($formdata);
+		$jsonPassString = json_encode($formData);
 
-		$html = '';
-		$html .= '<script charset="UTF-8" src="https://ssl.ditonlinebetalingssystem.dk/integration/ewindow/paymentwindow.js" type="text/javascript"></script>';
-		$html .= '<div id="payment-div"></div>';
-		$html .= '<script type="text/javascript">';
-			$html .= 'paymentwindow = new PaymentWindow(' . $json_pass_string . ');';
-			$html .= 'paymentwindow.append(\'payment-div\');';
-			$html .= 'paymentwindow.open();';
-		$html .= '</script>';
-		$html .= '<input onclick="javascript: paymentwindow.open()" type="button" value="Go to payment">';
-
-		echo $html;
+		require_once JPluginHelper::getLayoutPath('redshop_payment', 'rs_payment_epayv2');
 	}
 
 	/**
@@ -142,27 +125,22 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 		}
 
 		$db             = JFactory::getDbo();
-		$request        = JRequest::get('request');
-		$values          = new stdClass;
+		$request        = JFactory::getApplication()->input;
+		$values         = new stdClass;
 
-		$accept         = $request["accept"];
-		$tid            = $request["txnid"];
-		$order_id       = $request["orderid"];
-		$Itemid         = $request["Itemid"];
-		$order_amount   = $request["amount"];
-		$order_ekey     = $request["hash"];
-		$error          = $request["error"];
-		$order_currency = $request["currency"];
-		$transfee       = $request["txnfee"];
-		$transfee       = $transfee / 100;
+		$accept        = $request->get("accept", false);
+		$tranId        = $request->get("txnid", 0, "int");
+		$orderId       = $request->get("orderid", 0, "int");
+		$orderEkey     = $request->get("hash", "");
+		$orderCurrency = $request->get("currency");
+		$transFee      = $request->get("txnfee") / 100;
 
 		JPlugin::loadLanguage('com_redshop');
 
-		$verify_status   = $this->params->get('verify_status', '');
-		$invalid_status  = $this->params->get('invalid_status', '');
-		$auth_type       = $this->params->get('auth_type', '');
-		$epay_paymentkey = $this->params->get('epay_paymentkey', '');
-		$epay_md5        = $this->params->get('epay_md5', '');
+		$verifyStatus   = $this->params->get('verify_status', '');
+		$invalidStatus  = $this->params->get('invalid_status', '');
+		$epayPaymentKey = $this->params->get('epay_paymentkey', '');
+		$epayMd5        = $this->params->get('epay_md5', '');
 
 		$var = "";
 
@@ -175,11 +153,11 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 		}
 
 		// Generated Hash
-		$genstamp = md5($var . $epay_paymentkey);
+		$genStamp = md5($var . $epayPaymentKey);
 
 		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
 
-		if (($order_ekey == $genstamp) || $epay_md5 == 0)
+		if (($orderEkey == $genStamp) || $epayMd5 == 0)
 		{
 			// Switch on the order accept code
 			// accept = 1 (standard redirect) accept = 2 (callback)
@@ -187,11 +165,10 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			if (empty($request['errorcode']) && ($accept == "1" || $accept == "2"))
 			{
 				// Only update the order information once
-				if ($this->orderPaymentNotYetUpdated($order_id, $tid))
+				if ($this->orderPaymentNotYetUpdated($orderId, $tranId))
 				{
 					// UPDATE THE ORDER STATUS to 'VALID'
-					$transaction_id                    = $tid;
-					$values->order_status_code         = $verify_status;
+					$values->order_status_code         = $verifyStatus;
 					$values->order_payment_status_code = 'Paid';
 					$values->log                       = JText::_('COM_REDSHOP_ORDER_PLACED');
 					$values->msg                       = JText::_('COM_REDSHOP_ORDER_PLACED');
@@ -223,79 +200,78 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 					// Card id
 					if ($request["cardid"])
 					{
-						$cardname = "Unknown";
-						$cardimage = "c" . $_REQUEST["cardid"] . ".gif";
+						$cardName = "Unknown";
 
 						switch ($_REQUEST["cardid"])
 						{
 							case 1:
-								$cardname = 'Dankort (DK)';
+								$cardName = 'Dankort (DK)';
 								break;
 							case 2:
-								$cardname = 'Visa/Dankort (DK)';
+								$cardName = 'Visa/Dankort (DK)';
 								break;
 							case 3:
-								$cardname = 'Visa Electron (Udenlandsk)';
+								$cardName = 'Visa Electron (Udenlandsk)';
 								break;
 							case 4:
-								$cardname = 'Mastercard (DK)';
+								$cardName = 'Mastercard (DK)';
 								break;
 							case 5:
-								$cardname = 'Mastercard (Udenlandsk)';
+								$cardName = 'Mastercard (Udenlandsk)';
 								break;
 							case 6:
-								$cardname = 'Visa Electron (DK)';
+								$cardName = 'Visa Electron (DK)';
 								break;
 							case 7:
-								$cardname = 'JCB (Udenlandsk)';
+								$cardName = 'JCB (Udenlandsk)';
 								break;
 							case 8:
-								$cardname = 'Diners (DK)';
+								$cardName = 'Diners (DK)';
 								break;
 							case 9:
-								$cardname = 'Maestro (DK)';
+								$cardName = 'Maestro (DK)';
 								break;
 							case 10:
-								$cardname = 'American Express (DK)';
+								$cardName = 'American Express (DK)';
 								break;
 							case 11:
-								$cardname = 'Ukendt';
+								$cardName = 'Ukendt';
 								break;
 							case 12:
-								$cardname = 'eDankort (DK)';
+								$cardName = 'eDankort (DK)';
 								break;
 							case 13:
-								$cardname = 'Diners (Udenlandsk)';
+								$cardName = 'Diners (Udenlandsk)';
 								break;
 							case 14:
-								$cardname = 'American Express (Udenlandsk)';
+								$cardName = 'American Express (Udenlandsk)';
 								break;
 							case 15:
-								$cardname = 'Maestro (Udenlandsk)';
+								$cardName = 'Maestro (Udenlandsk)';
 								break;
 							case 16:
-								$cardname = 'Forbrugsforeningen (DK)';
+								$cardName = 'Forbrugsforeningen (DK)';
 								break;
 							case 17:
-								$cardname = 'eWire';
+								$cardName = 'eWire';
 								break;
 							case 18:
-								$cardname = 'VISA';
+								$cardName = 'VISA';
 								break;
 							case 19:
-								$cardname = 'IKANO';
+								$cardName = 'IKANO';
 								break;
 							case 20:
-								$cardname = 'Andre';
+								$cardName = 'Andre';
 								break;
 							case 21:
-								$cardname = 'Nordea';
+								$cardName = 'Nordea';
 								break;
 							case 22:
-								$cardname = 'Danske Bank';
+								$cardName = 'Danske Bank';
 								break;
 							case 23:
-								$cardname = 'Danske Bank';
+								$cardName = 'Danske Bank';
 								break;
 						}
 
@@ -309,7 +285,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			}
 			elseif ($accept == "0")
 			{
-				$values->order_status_code         = $invalid_status;
+				$values->order_status_code         = $invalidStatus;
 				$values->order_payment_status_code = 'Unpaid';
 				$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 				$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
@@ -317,7 +293,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			}
 			else
 			{
-				$values->order_status_code         = $invalid_status;
+				$values->order_status_code         = $invalidStatus;
 				$values->order_payment_status_code = 'Unpaid';
 				$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
 				$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
@@ -326,16 +302,16 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 		}
 		else
 		{
-			$values->order_status_code         = $invalid_status;
+			$values->order_status_code         = $invalidStatus;
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			$msg                               = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 		}
 
-		$values->transaction_id = $tid;
-		$values->order_id       = $order_id;
-		$values->transfee       = $transfee;
+		$values->transaction_id = $tranId;
+		$values->order_id       = $orderId;
+		$values->transfee       = $transFee;
 
 		return $values;
 	}
@@ -344,11 +320,11 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 	 * Check Order payment is set for specific transaction Id
 	 *
 	 * @param   integer  $orderId  Order Id
-	 * @param   string   $tid      Payment Transaction Id from payment gateway
+	 * @param   string   $tranId   Payment Transaction Id from payment gateway
 	 *
 	 * @return  boolean  True is not found any order with passed transaction id.
 	 */
-	public function orderPaymentNotYetUpdated($orderId, $tid)
+	public function orderPaymentNotYetUpdated($orderId, $tranId)
 	{
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
@@ -358,7 +334,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 		$query->select('count(*)')
 			->from($db->qn('#__redshop_order_payment'))
 			->where($db->qn('order_id') . ' = ' . (int) $orderId)
-			->where($db->qn('order_payment_trans_id') . ' = ' . $db->q($tid));
+			->where($db->qn('order_payment_trans_id') . ' = ' . $db->q($tranId));
 
 		// Set the query and load the result.
 		$db->setQuery($query);
@@ -575,11 +551,11 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 	 */
 	private function _getEpaySoapClient($trace = 0)
 	{
-		if (!$this->_epaySoapClient)
+		if (!$this->epaySoapClient)
 		{
 			try
 			{
-				$this->_epaySoapClient = new SoapClient(
+				$this->epaySoapClient = new SoapClient(
 					'https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL',
 					array(
 						'trace' => $trace
@@ -592,7 +568,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			}
 		}
 
-		return $this->_epaySoapClient;
+		return $this->epaySoapClient;
 	}
 
 	/**
