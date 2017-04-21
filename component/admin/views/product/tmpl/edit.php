@@ -88,6 +88,7 @@ JHtml::_('behavior.formvalidation');
         else
             form.selectedTabPosition.value = selectedTabPosition;
 
+        /*
         if (form.product_name.value == "") {
             alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NAME', true); ?>");
             return;
@@ -118,7 +119,7 @@ JHtml::_('behavior.formvalidation');
                     }
                 }
             }
-        }
+        }*/
 
         if (!document.formvalidator.isValid(form)) {
             return false;
