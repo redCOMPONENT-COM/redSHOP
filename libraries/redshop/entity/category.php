@@ -32,7 +32,7 @@ final class RedshopEntityCategory extends RedshopEntity
 	 */
 	public function productCount()
 	{
-		if (is_null($productCount))
+		if (is_null($this->productCount))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
