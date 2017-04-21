@@ -59,21 +59,21 @@ class RedshopViewCategories extends RedshopViewList
 		parent::prepareTable();
 
 		$this->columns[] = array(
-				// This column is sortable?
-				'sortable'  => false,
-				// Text for column
-				'text'      => JText::_('COM_REDSHOP_PRODUCTS'),
-				// Name of property for get data.
-				'dataCol'   => 'product',
-				// Width of column
-				'width'     => 'auto',
-				// Enable edit inline?
-				'inline'    => false,
-				// Display with edit link or not?
-				'edit_link' => false,
-				// Type of column
-				'type'      => 'text',
-			);
+			// This column is sortable?
+			'sortable'  => false,
+			// Text for column
+			'text'      => JText::_('COM_REDSHOP_PRODUCTS'),
+			// Name of property for get data.
+			'dataCol'   => 'product',
+			// Width of column
+			'width'     => 'auto',
+			// Enable edit inline?
+			'inline'    => false,
+			// Display with edit link or not?
+			'edit_link' => false,
+			// Type of column
+			'type'      => 'text',
+		);
 	}
 
 	/**
@@ -89,7 +89,7 @@ class RedshopViewCategories extends RedshopViewList
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
-		$isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
+		$isCheckedOut     = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
 
 		if ($config['dataCol'] == 'name')
@@ -123,7 +123,8 @@ class RedshopViewCategories extends RedshopViewList
 			return JHtml::_('redshopgrid.slidetext', strip_tags($row->description));
 		}
 
-		$row->product = $this->model->getProducts($row->id);
+		$row->product = RedshopEntityCategory::getInstance($row->id)->productCount();
+
 		return parent::onRenderColumn($config, $index, $row);
 	}
 }
