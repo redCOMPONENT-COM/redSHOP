@@ -97,6 +97,27 @@ class RedshopViewList extends AbstractView
 	public $filterForm;
 
 	/**
+	 * @var  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $hasOrdering = false;
+
+	/**
+	 * @var  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $isNested = false;
+
+	/**
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $nestedOrdering;
+
+	/**
 	 * Method for run before display to initial variables.
 	 *
 	 * @param   string &$tpl Template name
@@ -115,17 +136,16 @@ class RedshopViewList extends AbstractView
 		$this->state         = $this->model->getState();
 		$this->activeFilters = $this->model->getActiveFilters();
 		$this->filterForm    = $this->model->getForm();
-		$this->ordering      = array();
-
-		foreach ($this->items as &$item)
-		{
-			if (isset($item->parent_id))
-			{
-				$this->ordering[$item->parent_id][] = $item->id;
-			}
-		}
 
 		$this->prepareTable();
+
+		if ($this->hasOrdering && $this->isNested && !empty($this->items))
+		{
+			foreach ($this->items as &$item)
+			{
+				$this->nestedOrdering[$item->parent_id][] = $item->id;
+			}
+		}
 	}
 
 	/**
@@ -255,6 +275,11 @@ class RedshopViewList extends AbstractView
 			if ($field['type'] == 'spacer' || $field['type'] == 'hidden' || !empty($field['table-hide']))
 			{
 				continue;
+			}
+
+			if ($field['name'] == 'ordering')
+			{
+				$this->hasOrdering = true;
 			}
 
 			$this->columns[] = array(

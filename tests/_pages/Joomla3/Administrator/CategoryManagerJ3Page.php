@@ -26,9 +26,9 @@ class CategoryManagerJ3Page
 
 	public static $categorySearch = "//button[@onclick=\"document.adminForm.submit();\"]";
 
-	public static $categoryResultRow = "//div[@class='table-responsive']/table/tbody/tr/td[4]";
+	public static $categoryResultRow = "//div[@class='table-responsive']/table/tbody/tr/td[5]";
 
-	public static $categoryStatePath = "//tbody/tr/td[6]/a";
+	public static $categoryStatePath = "//tbody/tr/td[7]/a";
 
 	public static $checkAll = "//input[@id='cb0']";
 

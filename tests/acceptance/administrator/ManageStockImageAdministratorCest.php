@@ -41,7 +41,10 @@ class ManageStockImageAdministratorCest
 		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(['id' => 'stock_amount_image_tooltip'], $this->imageTooltip);
 		$I->fillField(['id' => 'stock_quantity'], $this->quantity);
-		$I->selectOptionInChosenById('stock_option','Higher than');
+		$I->click(['xpath' => "//div[@id='s2id_stock_option']/a"]);
+		$I->fillField(['xpath' => "//input[@id='s2id_autogen2_search']"], 'Higher than');
+		$I->waitForElement(['xpath' => "//div[@id='select2-drop']//ul//li//div//span[contains(text(), 'Higher than')]"], 30);
+		$I->click(['xpath' => "//div[@id='select2-drop']//ul//li//div//span[contains(text(), 'Higher than')]"]);
 		$I->click('Save & Close');
 		$I->waitForText('Stock Amount Image saved',60, ['id' => 'system-message-container']);
 		$I->seeElement(['link' => $this->imageTooltip]);
