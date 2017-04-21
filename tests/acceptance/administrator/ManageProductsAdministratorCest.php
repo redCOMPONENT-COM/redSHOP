@@ -75,11 +75,11 @@ class ManageProductsAdministratorCest
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
 		$I->click("New");
-		$I->waitForElement(['id' => "product_name"], 30);
+		$I->waitForElement(['id' => "jform_product_name"], 30);
 		$I->checkForPhpNoticesOrWarnings();
-		$I->fillField(['id' => "product_name"], $productName);
-		$I->fillField(['id' => "product_number"], $productNumber);
-		$I->fillField(['id' => "product_price"], $price);
+		$I->fillField(['id' => "jform_product_name"], $productName);
+		$I->fillField(['id' => "jform_product_number"], $productNumber);
+		$I->fillField(['id' => "jform_product_price"], $price);
 		$I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
 		$I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
 		$I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
