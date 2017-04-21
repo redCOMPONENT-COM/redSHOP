@@ -15,7 +15,7 @@ JLoader::import('redshop.library');
 /**
  * Generate Bundle product
  *
- * @since  2.0.4
+ * @since  1.0.0
  */
 class PlgRedshop_Product_TypeBundle extends JPlugin
 {
@@ -26,7 +26,7 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
-     * @since   2.0.4
+     * @since   1.0.0
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -41,7 +41,7 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 	 *
 	 * @return  array Bundle Product type
      *
-     * @since   2.0.4
+     * @since   1.0.0
 	 */
 	public function onListProductTypes()
 	{
@@ -55,7 +55,7 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 	 *
 	 * @return  void
      *
-     * @since   2.0.4
+     * @since   1.0.0
 	 */
 	public function onDisplayProductTypeData($product)
 	{
@@ -87,9 +87,22 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 		);
 	}
 
+	/**
+	 * onAfterProductSave - Save bundle product
+	 *
+	 * @param   object  &$product  Product detail
+	 * @param   bool    $isNew     Is new?
+	 *
+	 * @return  void
+	 */
 	public function onAfterProductSave(&$product, $isNew)
 	{
 		$post = JFactory::getApplication()->input->post->getArray();
+
+		if (!isset($post['product_bundle']) || count($post['product_bundle']) <= 0)
+		{
+			return;
+		}
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -101,38 +114,32 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 		$db->setQuery($query);
 		$db->execute();
 
-		if (isset($post['product_bundle']))
+		$bundleProducts = $post['product_bundle'];
+
+		foreach ($bundleProducts as $bundleProduct)
 		{
-			$bundleProducts = $post['product_bundle'];
+			$query = $db->getQuery(true);
 
-			if (count($bundleProducts) > 0)
-			{
-				foreach ($bundleProducts as $bundleProduct)
-				{
-					$query = $db->getQuery(true);
+			// Insert columns.
+			$columns = array('product_id', 'bundle_id', 'bundle_name', 'ordering');
 
-					// Insert columns.
-					$columns = array('product_id', 'bundle_id', 'bundle_name', 'ordering');
+			// Insert values.
+			$values = array(
+				(int) $bundleProduct['product_id'],
+				(int) $bundleProduct['bundle_id'],
+				$db->q($bundleProduct['bundle_name']),
+				(int) $bundleProduct['ordering']
+			);
 
-					// Insert values.
-					$values = array(
-						(int) $bundleProduct['product_id'],
-						(int) $bundleProduct['bundle_id'],
-						$db->q($bundleProduct['bundle_name']),
-						(int) $bundleProduct['ordering']
-					);
+			// Prepare the insert query.
+			$query
+				->insert($db->qn('#__redshop_product_bundle'))
+				->columns($db->qn($columns))
+				->values(implode(',', $values));
 
-					// Prepare the insert query.
-					$query
-						->insert($db->qn('#__redshop_product_bundle'))
-						->columns($db->qn($columns))
-						->values(implode(',', $values));
+			$db->setQuery($query);
 
-					$db->setQuery($query);
-
-					$db->execute();
-				}
-			}
+			$db->execute();
 		}
 	}
 }
