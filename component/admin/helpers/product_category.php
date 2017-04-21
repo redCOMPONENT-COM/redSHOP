@@ -159,7 +159,7 @@ class product_category
 	 */
 	public function getCategoryProductList($cid)
 	{
-		return RedshopHelperCategory::getCategoryProductList();
+		return RedshopHelperCategory::getCategoryProductList($cid);
 	}
 
 	/**

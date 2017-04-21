@@ -428,9 +428,9 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('category_name'))
+			->select($db->qn('name'))
 			->from($db->qn('#__redshop_category'))
-			->where($db->qn('category_id') . ' = ' . $db->q((int) $cid));
+			->where($db->qn('id') . ' = ' . $db->q((int) $cid));
 
 		$catName = $db->setQuery($query)->loadResult();
 	}

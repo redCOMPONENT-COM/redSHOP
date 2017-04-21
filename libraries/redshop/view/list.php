@@ -115,6 +115,15 @@ class RedshopViewList extends AbstractView
 		$this->state         = $this->model->getState();
 		$this->activeFilters = $this->model->getActiveFilters();
 		$this->filterForm    = $this->model->getForm();
+		$this->ordering      = array();
+
+		foreach ($this->items as &$item)
+		{
+			if (isset($item->parent_id))
+			{
+				$this->ordering[$item->parent_id][] = $item->id;
+			}
+		}
 
 		$this->prepareTable();
 	}

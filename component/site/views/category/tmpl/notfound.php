@@ -10,5 +10,5 @@
 defined('_JEXEC') or die;
 ?>
 <div class="category-detail-wrapper">
-	<?php echo sprintf(JText::_('COM_REDSHOP_CATEGORY_IS_NOT_PUBLISHED'), $this->maincat->category_name, $this->maincat->category_id) ?>
+	<?php echo sprintf(JText::_('COM_REDSHOP_CATEGORY_IS_NOT_PUBLISHED'), $this->maincat->name, $this->maincat->id) ?>
 </div>

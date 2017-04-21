@@ -307,6 +307,8 @@ class RedshopModelSearch extends RedshopModel
 						'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
 					)
 				)
+				->select($db->qn('c.id', 'category_id'))
+				->select($db->qn('c.name', 'category_name'))
 				->leftJoin('#__redshop_category AS c ON c.category_id = pc.category_id')
 				->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
 
