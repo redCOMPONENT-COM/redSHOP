@@ -694,11 +694,11 @@ class RedshopHelperMedia
 			$query = $db->getQuery(true)
 				->select('m.*')
 				->from($db->qn('#__redshop_media', 'm'))
-				->where($db->qn('m.media_section') . ' = ' . $db->quote($section))
-				->where($db->qn('m.media_type') . ' = ' . $db->quote($mediaType))
+				->where($db->qn('m.section') . ' = ' . $db->quote($section))
+				->where($db->qn('m.type') . ' = ' . $db->quote($mediaType))
 				->where($db->qn('m.section_id') . ' = ' . (int) $sectionId)
 				->where($db->qn('m.published') . ' = 1')
-				->order($db->qn('m.ordering') . ',' . $db->qn('m.media_id') . ' ASC');
+				->order($db->qn('m.ordering') . ',' . $db->qn('m.id') . ' ASC');
 
 			switch ($section)
 			{

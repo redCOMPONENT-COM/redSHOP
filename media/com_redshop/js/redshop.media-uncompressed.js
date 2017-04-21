@@ -39,7 +39,7 @@
          *
          * @type  {String}
          */
-        uploadUrl: "index.php?option=com_redshop&view=media&task=ajaxUpload",
+        uploadUrl: "index.php?option=com_redshop&view=medium&task=ajaxUpload",
         /**
          * URL to delete item in media gallery
          *

@@ -144,7 +144,7 @@ class RedshopControllerMedium extends RedshopControllerForm
 
 		if (!empty($id))
 		{
-			$model = $this->getModel('media');
+			$model = $this->getModel('medium');
 
 			if ($model->deleteFile($id))
 			{
@@ -177,7 +177,7 @@ class RedshopControllerMedium extends RedshopControllerForm
 		$app = JFactory::getApplication();
 		$input = $app->input;
 
-		$mediaSection = trim($input->get('media_section', 'product'));
+		$mediaSection = trim($input->get('section', 'product'));
 
 		$app->setUserState('com_redshop.global.media.section', $mediaSection);
 

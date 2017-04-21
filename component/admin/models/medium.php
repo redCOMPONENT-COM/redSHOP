@@ -91,7 +91,6 @@ class RedshopModelMedium extends RedshopModelForm
 
         if (isset($table->id) && ($table->id > 0) && isset($data['name']) && ($data['type'] != 'youtube'))
         {
-            var_dump($table->id);
             try
             {
                 $src = JPATH_ROOT . '/media/com_redshop/files/tmp/' . $data['name'];
@@ -109,7 +108,6 @@ class RedshopModelMedium extends RedshopModelForm
 
                     JFile::move($src, $des . $data['name']);
 
-                    unlink($src);
                 }
             }
             catch (Exception $e)
@@ -118,8 +116,6 @@ class RedshopModelMedium extends RedshopModelForm
             }
         }
 
-        die;
-
-        return true;
+        return $table->id;
 	}
 }
