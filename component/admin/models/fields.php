@@ -9,10 +9,39 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopModelFields extends RedshopModel
+class RedshopModelFields extends RedshopModelList
 {
 	/**
+	 * Name of the filter form to load
+	 *
+	 * @var  string
+	 */
+	protected $filterFormName = 'filter_fields';
+
+	/**
+	 * Construct class
+	 *
+	 * @since 1.x
+	 */
+	public function __construct()
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'id', 'f.id',
+				'ordering', 'f.ordering',
+				'title', 'f.title',
+				'name', 'f.name',
+				'type', 'f.type',
+				'section', 'f.section',
+				'published', 'f.published'
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+		/**
 	 * Method to get a store id based on model configuration state.
 	 *
 	 * This is necessary because the model is used by the component and
@@ -27,9 +56,9 @@ class RedshopModelFields extends RedshopModel
 	 */
 	protected function getStoreId($id = '')
 	{
-		$id .= ':' . $this->getState('filter');
-		$id .= ':' . $this->getState('filtertype');
-		$id .= ':' . $this->getState('filtersection');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.type');
+		$id .= ':' . $this->getState('filter.section');
 
 		return parent::getStoreId($id);
 	}
@@ -44,164 +73,79 @@ class RedshopModelFields extends RedshopModel
 	 *
 	 * @note    Calling getState in this method will result in recursion.
 	 */
-	protected function populateState($ordering = 'ordering', $direction = '')
+	protected function populateState($ordering = null, $direction = null)
 	{
-		$filter         = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-		$filtertype     = $this->getUserStateFromRequest($this->context . '.filtertype', 'filtertype', 0);
-		$filtersection  = $this->getUserStateFromRequest($this->context . '.filtersection', 'filtersection', 0);
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
-		$this->setState('filter', $filter);
-		$this->setState('filtertype', $filtertype);
-		$this->setState('filtersection', $filtersection);
+		$field_type = $this->getUserStateFromRequest($this->context . '.filter.field_type', 'filter_field_type');
+		$this->setState('filter.field_type', $field_type);
 
-		parent::populateState($ordering, $direction);
-	}
+		$field_section = $this->getUserStateFromRequest($this->context . '.filter.field_section', 'filter_field_section');
+		$this->setState('filter.field_section', $field_section);
 
-	public function _buildQuery()
-	{
-		$orderby = $this->_buildContentOrderBy();
-		$filter = $this->getState('filter');
-		$filtertype = $this->getState('filtertype');
-		$filtersection = $this->getState('filtersection');
-
-		$where = '';
-
-		if ($filter)
-		{
-			$where .= " AND f.field_title like '%" . $filter . "%' ";
-		}
-
-		if ($filtertype)
-		{
-			$where .= " AND f.field_type='" . $filtertype . "' ";
-		}
-
-		if ($filtersection)
-		{
-			$where .= " AND f.field_section='" . $filtersection . "' ";
-		}
-
-		$query = "SELECT * FROM #__redshop_fields AS f "
-			. "WHERE 1=1 "
-			. $where
-			. $orderby;
-
-		return $query;
-	}
-
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$filter_order_Dir = $this->getState('list.direction');
-		$filter_order = $this->getState('list.ordering');
-
-		if ($filter_order == 'ordering')
-		{
-			$orderBy = ' ORDER BY field_section, ordering ' . $filter_order_Dir;
-		}
-		else
-		{
-			$orderBy = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir) . ', field_section, ordering';
-		}
-
-		return $orderBy;
+		parent::populateState('ordering', $direction);
 	}
 
 	/**
-	 * Save Custom Field order
+	 * Method to build an SQL query to load the list data.
 	 *
-	 * @param   array  $cid    List Index Id
-	 * @param   array  $order  Order Number
-	 *
-	 * @return  boolean
+	 * @return      string  An SQL query
 	 */
-	public function saveorder($cid = array(), $order = array())
+	public function getListQuery()
 	{
-		$row        = $this->getTable('fields_detail');
-		$conditions = array();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		// Update ordering values
-		for ($i = 0, $in = count($cid); $i < $in; $i++)
+		$query->select('f.*')
+			->from($db->qn('#__redshop_fields', 'f'));
+
+		// Filter by search in name.
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
 		{
-			$row->load((int) $cid[$i]);
-
-			if ($row->ordering != $order[$i])
+			if (stripos($search, 'id:') === 0)
 			{
-				$row->ordering = $order[$i];
-
-				if (!$row->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-
-				// Remember to updateOrder this group
-				$condition = 'field_section = ' . (int) $row->field_section;
-				$found = false;
-
-				foreach ($conditions as $cond)
-				{
-					if ($cond[1] == $condition)
-					{
-						$found = true;
-						break;
-					}
-				}
-
-				if (!$found)
-				{
-					$conditions[] = array($row->field_id, $condition);
-				}
+				$query->where($db->qn('f.id') . ' = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+				$query->where($db->qn('f.title') . ' LIKE ' . $search);
 			}
 		}
 
-		// Execute updateOrder for each group
-		foreach ($conditions as $cond)
+		// Filter: Field type
+		$filterFieldType = $this->getState('filter.field_type', '');
+
+		if ($filterFieldType)
 		{
-			$row->load($cond[0]);
-			$row->reorder($cond[1]);
+			$query->where($db->qn('f.type') . ' = ' . $db->q($filterFieldType));
 		}
 
-		return true;
-	}
+		// Filter: Field section
+		$filterFieldSection = $this->getState('filter.field_section', '');
 
-	/**
-	 * Move ordering up
-	 *
-	 * @return  boolean
-	 */
-	public function orderup()
-	{
-		$app = JFactory::getApplication();
+		if ($filterFieldSection)
+		{
+			$query->where($db->qn('f.section') . ' = ' . $filterFieldSection);
+		}
 
-		$cid = $app->input->get('cid', array(), 'post', 'array');
-		$cid = $cid[0];
+		// Add the list ordering clause.
+		$orderCol  = $this->state->get('list.ordering', 'ordering');
+		$orderDirn = $this->state->get('list.direction', 'asc');
 
-		$row = $this->getTable('fields_detail');
-		$row->load($cid[0]);
-		$row->move(-1, 'field_section = ' . $row->field_section);
+		if ($orderCol == 'ordering')
+		{
+			$query->order($db->escape('f.section, f.ordering ' . $orderDirn));
+		}
+		else
+		{
+			$query->order($db->escape($orderCol . ' ' . $orderDirn) . ', f.section, f.ordering');
+		}
 
-		return true;
-	}
-
-	/**
-	 * Move Ordering down
-	 *
-	 * @return  boolean
-	 */
-	public function orderdown()
-	{
-		$app = JFactory::getApplication();
-
-		$cid = $app->input->get('cid', array(), 'post', 'array');
-		$cid = $cid[0];
-
-		$row = $this->getTable('fields_detail');
-		$row->load($cid[0]);
-		$row->move(1, 'field_section = ' . $row->field_section);
-
-		return true;
+		return $query;
 	}
 
 	/**
@@ -227,9 +171,9 @@ class RedshopModelFields extends RedshopModel
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
-		$query->select('field_name,field_type,field_section')
-			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('field_section') . ' IN(' . $sections . ')');
+		$query->select('f.name,f.type,f.section')
+			->from($db->qn('#__redshop_fields', 'f'))
+			->where($db->qn('f.section') . ' IN(' . $sections . ')');
 
 		// Set the query and load the result.
 		$db->setQuery($query);
@@ -246,40 +190,24 @@ class RedshopModelFields extends RedshopModel
 		return $fields;
 	}
 
-	/**
-	 * Published or unpublished
-	 *
-	 * @param   array    $cid      primary keys
-	 * @param   integer  $publish  State for publish is 1 and other is 0
-	 *
-	 * @return  boolean
-	 */
-	public function publish($cid = array(), $publish = 1)
-	{
-		if (count($cid))
-		{
-			$row = $this->getTable('fields_detail');
-			$row->publish($cid, $publish);
-		}
-
-		return true;
-	}
-
 	public function getFieldsBySection($section, $fieldName = '')
 	{
 		$db = JFactory::getDbo();
-		$query  = ' SELECT *'
-			. ' FROM ' . $db->quoteName('#__redshop_fields')
-			. ' WHERE ' . $db->quoteName('field_section') . ' = ' . (int) $section . ' AND ' . $db->quoteName('published') . '= 1 ';
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_fields', 'f'))
+					->where($db->qn('f.section') . ' = ' . (int) $section)
+					->where($db->qn('f.published') . '= 1 ');
 
 		if ($fieldName != '')
 		{
 			$fieldName = redhelper::quote(explode(',', $fieldName));
-			$query .= ' AND ' . $db->quoteName('field_name') . ' IN (' . implode(',', $fieldName) . ') ';
+			$query->where($db->qn('f.name') . ' IN (' . implode(',', $fieldName) . ') ');
 		}
 
-		$query .= ' ORDER BY ' . $db->quoteName('ordering');
+		$query->order($db->qn('f.ordering'));
 		$db->setQuery($query);
+
 		return $db->loadObjectlist();
 	}
 
@@ -289,15 +217,11 @@ class RedshopModelFields extends RedshopModel
 
 		$query = $db->getQuery(true)
 					->select('*')
-					->from($db->quoteName('#__redshop_fields_data'))
-					->where($db->quoteName('itemid') . ' = ' . (int) $orderitemid)
-					->where($db->quoteName('fieldid') . ' = ' . (int) $fieldid)
-					->where($db->quoteName('section') . ' = ' . (int) $section);
-
-		if (!empty($user_email))
-		{
-			$query->where($db->quoteName('user_email') . ' = ' . $db->quote($user_email));
-		}
+					->from($db->qn('#__redshop_fields_data'))
+					->where($db->qn('itemid') . ' = ' . (int) $orderitemid)
+					->where($db->qn('fieldid') . ' = ' . (int) $fieldid)
+					->where($db->qn('user_email') . ' = ' . $db->q($user_email))
+					->where($db->qn('section') . ' = ' . (int) $section);
 
 		$db->setQuery($query);
 
@@ -308,12 +232,14 @@ class RedshopModelFields extends RedshopModel
 	{
 		$db = JFactory::getDbo();
 
-		$q = ' SELECT * '
-			. ' FROM ' . $db->quoteName('#__redshop_fields_value')
-			. ' WHERE ' . $db->quoteName('field_id') . ' = ' . (int) $id
-			. ' ORDER BY ' . $db->quoteName('value_id') . ' ASC ';
-		$db->setQuery($q);
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_fields_value'))
+					->where($db->qn('field_id') . ' = ' . (int) $id)
+					->order($db->qn('field_id') . ' ASC');
+
+		$db->setQuery($query);
+
 		return $db->loadObjectlist();
 	}
 }
-
