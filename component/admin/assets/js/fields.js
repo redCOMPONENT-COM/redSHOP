@@ -23,7 +23,7 @@ function addNewRow(tableRef) {
 
     var fieldtp = "text";
     fieldname = "extra_name[]";
-    var fieldtype = document.getElementById("field_type").value;
+    var fieldtype = document.getElementById("jform_type").value;
     if (fieldtype == 11 || fieldtype == 13) {
         fieldtp = "file";
         fieldname = "extra_name_file[]";
