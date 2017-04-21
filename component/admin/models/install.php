@@ -699,6 +699,21 @@ class RedshopModelInstall extends RedshopModelList
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/tables/tax_group_detail.php';
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/tax_group/tmpl/default.php';
 
+		// Remove old Category Detail.
+		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '2.0.5', '<='))
+		{
+			array_push(
+				$files,
+				JPATH_ADMINISTRATOR . '/component/admin/controllers/category_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/models/category_detail.php'
+			);
+
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/component/admin/views/category_detail'
+			);
+		}
+
 		// Remove old Supplier stuff since Refactor.
 		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '2.0.0.6', '<='))
 		{
