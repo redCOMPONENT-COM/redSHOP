@@ -15,7 +15,7 @@ JLoader::import('redshop.library');
 /**
  * Generate Bundle product
  *
- * @since  2.0.4
+ * @since  1.0.0
  */
 class PlgSystemRedSHOP_Product_Bundle extends JPlugin
 {
@@ -26,7 +26,7 @@ class PlgSystemRedSHOP_Product_Bundle extends JPlugin
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
-	 * @since  2.0.4
+	 * @since  1.0.0
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -42,7 +42,7 @@ class PlgSystemRedSHOP_Product_Bundle extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  2.0.4
+	 * @since  1.0.0
 	 */
 	public function onTemplateSections(&$options)
 	{
