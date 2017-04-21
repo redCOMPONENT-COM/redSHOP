@@ -513,7 +513,7 @@ class RedshopHelperOrder
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select($db->qn('f.field_name') . ',' . $db->qn('fd.data_txt'))
+					->select($db->qn('f.name') . ',' . $db->qn('fd.data_txt'))
 					->from($db->qn('#__redshop_fields_data', 'fd'))
 					->where(
 						'('
@@ -526,7 +526,7 @@ class RedshopHelperOrder
 
 		$query->leftJoin(
 			$db->qn('#__redshop_fields', 'f')
-			. ' ON ' . $db->qn('f.field_id') . '=' . $db->qn('fd.fieldid')
+			. ' ON ' . $db->qn('f.id') . '=' . $db->qn('fd.fieldid')
 		);
 
 		// Set the query and load the result.
@@ -546,7 +546,7 @@ class RedshopHelperOrder
 		{
 			foreach ($fields as $field)
 			{
-				$fieldsData[$field->field_name] = $field->data_txt;
+				$fieldsData[$field->name] = $field->data_txt;
 			}
 		}
 
@@ -1990,9 +1990,9 @@ class RedshopHelperOrder
 
 		$query = $db->getQuery(true)
 					->select('fd.*')
-					->select($db->qn(array('f.field_title', 'f.field_type', 'f.field_name')))
+					->select($db->qn(array('f.title', 'f.type', 'f.name')))
 					->from($db->qn('#__redshop_fields_data', 'fd'))
-					->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('fd.fieldid'))
+					->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
 					->where($db->qn('fd.itemid') . ' = ' . (int) $orderItemId)
 					->where($db->qn('fd.section') . ' = ' . $db->quote($section));
 		$db->setQuery($query);
@@ -2501,17 +2501,17 @@ class RedshopHelperOrder
 			{
 				for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
 				{
-					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->field_id, RedshopHelperExtrafields::SECTION_ORDER, $orderId, $userDetail->user_email);
+					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->id, RedshopHelperExtrafields::SECTION_ORDER, $orderId, $userDetail->user_email);
 
 					if ($fieldValueArray->data_txt != "")
 					{
-						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '}', $fieldValueArray->data_txt, $mailData);
-						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', $fieldArray[$i]->field_title, $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->name . '}', $fieldValueArray->data_txt, $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->name . '_lbl}', $fieldArray[$i]->title, $mailData);
 					}
 					else
 					{
-						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '}', "", $mailData);
-						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', "", $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->name . '}', "", $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->name . '_lbl}', "", $mailData);
 					}
 				}
 			}

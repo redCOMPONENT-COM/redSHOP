@@ -5175,7 +5175,7 @@ class rsCarthelper
 
 		for ($r = 0, $countRowData = count($row_data); $r < $countRowData; $r++)
 		{
-			$data_txt = (isset($data[$row_data[$r]->field_name])) ? $data[$row_data[$r]->field_name] : '';
+			$data_txt = (isset($data[$row_data[$r]->name])) ? $data[$row_data[$r]->name] : '';
 			$tmpstr = strpbrk($data_txt, '`');
 
 			if ($tmpstr)
@@ -5188,7 +5188,7 @@ class rsCarthelper
 				}
 			}
 
-			$cartItem[$row_data[$r]->field_name] = $data_txt;
+			$cartItem[$row_data[$r]->name] = $data_txt;
 		}
 
 		$cartItem['product_price']          = $giftcard_price;
@@ -5233,7 +5233,7 @@ class rsCarthelper
 					{
 						for ($r = 0, $countRowData = count($row_data); $r < $countRowData; $r++)
 						{
-							$produser_field = $row_data[$r]->field_name;
+							$produser_field = $row_data[$r]->name;
 
 							if (isset($cart[$g][$produser_field]) && $data[$produser_field] != $cart[$g][$produser_field])
 							{
@@ -5619,7 +5619,7 @@ class rsCarthelper
 
 						for ($r = 0, $rn = count($row_data); $r < $rn; $r++)
 						{
-							$produser_field = $row_data[$r]->field_name;
+							$produser_field = $row_data[$r]->name;
 							$added_userfield = $data[$produser_field];
 
 							if (isset($cart[$i][$produser_field]) && $added_userfield != $cart[$i][$produser_field])
@@ -5748,7 +5748,7 @@ class rsCarthelper
 
 				for ($i = 0, $in = count($row_data); $i < $in; $i++)
 				{
-					$field_name = $row_data[$i]->field_name;
+					$field_name = $row_data[$i]->name;
 					$data_txt = (isset($data[$field_name])) ? $data[$field_name] : '';
 					$tmpstr = strpbrk($data_txt, '`');
 
@@ -5802,11 +5802,11 @@ class rsCarthelper
 
 			for ($i = 0, $in = count($req_fields); $i < $in; $i++)
 			{
-				if (in_array($req_fields[$i]->field_name, $userfieldArr))
+				if (in_array($req_fields[$i]->name, $userfieldArr))
 				{
-					if (!isset($data[$req_fields[$i]->field_name]) || (isset($data[$req_fields[$i]->field_name]) && $data[$req_fields[$i]->field_name] == ""))
+					if (!isset($data[$req_fields[$i]->name]) || (isset($data[$req_fields[$i]->name]) && $data[$req_fields[$i]->name] == ""))
 					{
-						$msg .= $req_fields[$i]->field_title . " " . JText::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
+						$msg .= $req_fields[$i]->title . " " . JText::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
 					}
 				}
 			}

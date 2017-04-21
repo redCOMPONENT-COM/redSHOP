@@ -2992,9 +2992,9 @@ class productHelper
 			{
 				for ($j = 0, $jn = count($userfield); $j < $jn; $j++)
 				{
-					if ($userfield[$j]->field_name == $userFieldTag[$i])
+					if ($userfield[$j]->name == $userFieldTag[$i])
 					{
-						if ($userfield[$j]->field_type == 10)
+						if ($userfield[$j]->type == 10)
 						{
 							$files    = explode(",", $userfield[$j]->data_txt);
 							$data_txt = "";
@@ -3007,14 +3007,14 @@ class productHelper
 
 							if (trim($data_txt) != "")
 							{
-								$resultArr[] = $userfield[$j]->field_title . " : " . stripslashes($data_txt);
+								$resultArr[] = $userfield[$j]->title . " : " . stripslashes($data_txt);
 							}
 						}
 						else
 						{
 							if (trim($userfield[$j]->data_txt) != "")
 							{
-								$resultArr[] = $userfield[$j]->field_title . " : " . stripslashes($userfield[$j]->data_txt);
+								$resultArr[] = $userfield[$j]->title . " : " . stripslashes($userfield[$j]->data_txt);
 							}
 						}
 					}
@@ -3146,13 +3146,13 @@ class productHelper
 			{
 				if (array_key_exists($userFieldTag[$i], $cart[$id]) && $cart[$id][$userFieldTag[$i]])
 				{
-					if ($row_data[$j]->field_name == $userFieldTag[$i])
+					if ($row_data[$j]->name == $userFieldTag[$i])
 					{
 						$strtitle = '';
 
-						if ($row_data[$j]->field_title)
+						if ($row_data[$j]->title)
 						{
-							$strtitle = $row_data[$j]->field_title . ' : ';
+							$strtitle = $row_data[$j]->title . ' : ';
 						}
 
 						$resultArr[] = $strtitle . $cart[$id][$userFieldTag[$i]];
@@ -3182,13 +3182,13 @@ class productHelper
 
 		for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
 		{
-			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $product_id);
+			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->id, $section_id, $product_id);
 
 			if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout))
 			{
 				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
 				{
-					$resultArr[] = $main_result->field_title . " : " . $main_result->data_txt;
+					$resultArr[] = $row_data[$j]->title . " : " . $main_result->data_txt;
 				}
 			}
 		}
@@ -3217,13 +3217,13 @@ class productHelper
 
 		for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
 		{
-			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $product_id);
+			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->id, $section_id, $product_id);
 
 			if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout))
 			{
 				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
 				{
-					$resultArr[] = $main_result->field_title . " : " . $main_result->data_txt;
+					$resultArr[] = $row_data[$j]->title . " : " . $main_result->data_txt;
 				}
 			}
 		}
@@ -3247,15 +3247,15 @@ class productHelper
 
 		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
-			if (array_key_exists($row_data[$i]->field_name, $cart[$id]) && $cart[$id][$row_data[$i]->field_name])
+			if (array_key_exists($row_data[$i]->name, $cart[$id]) && $cart[$id][$row_data[$i]->name])
 			{
-				$user_fields = $cart[$id][$row_data[$i]->field_name];
+				$user_fields = $cart[$id][$row_data[$i]->name];
 
 				if (trim($user_fields) != '')
 				{
 					$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 						. "(fieldid,data_txt,itemid,section) "
-						. "value (" . (int) $row_data[$i]->field_id . "," . $db->quote(addslashes($user_fields)) . ","
+						. "value (" . (int) $row_data[$i]->id . "," . $db->quote(addslashes($user_fields)) . ","
 						. (int) $order_item_id . "," . $db->quote($section_id) . ")";
 					$this->_db->setQuery($sql);
 					$this->_db->execute();
@@ -4301,20 +4301,20 @@ class productHelper
 					{
 						for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
 						{
-							$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->field_id, 1, $accessory [$a]->child_product_id);
+							$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->id, 1, $accessory [$a]->child_product_id);
 
 							if ($fieldValueArray->data_txt != ""
-								&& $fieldArray[$i]->field_show_in_front == 1
+								&& $fieldArray[$i]->show_in_front == 1
 								&& $fieldArray[$i]->published == 1
 								&& $giftcard == 0)
 							{
-								$accessory_div = str_replace('{' . $fieldArray[$i]->field_name . '}', $fieldValueArray->data_txt, $accessory_div);
-								$accessory_div = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', $fieldArray[$i]->field_title, $accessory_div);
+								$accessory_div = str_replace('{' . $fieldArray[$i]->name . '}', $fieldValueArray->data_txt, $accessory_div);
+								$accessory_div = str_replace('{' . $fieldArray[$i]->name . '_lbl}', $fieldArray[$i]->title, $accessory_div);
 							}
 							else
 							{
-								$accessory_div = str_replace('{' . $fieldArray[$i]->field_name . '}', "", $accessory_div);
-								$accessory_div = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', "", $accessory_div);
+								$accessory_div = str_replace('{' . $fieldArray[$i]->name . '}', "", $accessory_div);
+								$accessory_div = str_replace('{' . $fieldArray[$i]->name . '_lbl}', "", $accessory_div);
 							}
 						}
 					}
@@ -7662,7 +7662,7 @@ class productHelper
 	{
 		$db = JFactory::getDbo();
 
-		$q = "SELECT field_name from " . $this->_table_prefix . "fields where field_section = " . $db->quote($section);
+		$q = "SELECT name from " . $this->_table_prefix . "fields where section = " . $db->quote($section);
 
 		$this->_db->setQuery($q);
 
@@ -8040,9 +8040,9 @@ class productHelper
 		if (!array_key_exists('15', self::$productDateRange))
 		{
 			$query = $this->_db->getQuery(true)
-				->select('field_name, field_id')
+				->select('name, id')
 				->from($this->_db->qn('#__redshop_fields'))
-				->where('field_type = 15');
+				->where('type = 15');
 			$this->_db->setQuery($query);
 			self::$productDateRange['15'] = $this->_db->loadObject();
 		}
@@ -8056,13 +8056,13 @@ class productHelper
 			return $isEnable;
 		}
 
-		$field_name = $fieldData->field_name;
+		$field_name = $fieldData->name;
 
 		if (is_array($userfieldArr))
 		{
 			if (in_array($field_name, $userfieldArr))
 			{
-				$field_id  = $fieldData->field_id;
+				$field_id  = $fieldData->id;
 				$dateQuery = "select data_txt from " . $this->_table_prefix . "fields_data where fieldid = " . (int) $field_id . " AND itemid = " . (int) $product_id;
 				$this->_db->setQuery($dateQuery);
 				$datedata = $this->_db->loadObject();
@@ -9155,20 +9155,20 @@ class productHelper
 		{
 			for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
 			{
-				$fieldValueArray = $extraField->getSectionFieldDataList($fieldArray[$i]->field_id, 17, $productid);
+				$fieldValueArray = $extraField->getSectionFieldDataList($fieldArray[$i]->id, 17, $productid);
 
 				if ($fieldValueArray->data_txt != ""
-					&& $fieldArray[$i]->field_show_in_front == 1
+					&& $fieldArray[$i]->show_in_front == 1
 					&& $fieldArray[$i]->published == 1
 					&& $giftcard == 0)
 				{
-					$templatedata = str_replace('{' . $fieldArray[$i]->field_name . '}', $fieldValueArray->data_txt, $templatedata);
-					$templatedata = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', $fieldArray[$i]->field_title, $templatedata);
+					$templatedata = str_replace('{' . $fieldArray[$i]->name . '}', $fieldValueArray->data_txt, $templatedata);
+					$templatedata = str_replace('{' . $fieldArray[$i]->name . '_lbl}', $fieldArray[$i]->title, $templatedata);
 				}
 				else
 				{
-					$templatedata = str_replace('{' . $fieldArray[$i]->field_name . '}', "", $templatedata);
-					$templatedata = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', "", $templatedata);
+					$templatedata = str_replace('{' . $fieldArray[$i]->name . '}', "", $templatedata);
+					$templatedata = str_replace('{' . $fieldArray[$i]->name . '_lbl}', "", $templatedata);
 				}
 			}
 		}
@@ -9665,13 +9665,13 @@ class productHelper
 
 		for ($i = 0, $in = count($row_data); $i < $in; $i++)
 		{
-			$user_fields = $cart['extrafields_values'][$row_data[$i]->field_name];
+			$user_fields = $cart['extrafields_values'][$row_data[$i]->name];
 
 			if (trim($user_fields) != '')
 			{
 				$sql = "INSERT INTO #__redshop_fields_data "
 					. "(fieldid,data_txt,itemid,section) "
-					. "value ('" . (int) $row_data[$i]->field_id . "'," . $db->quote(addslashes($user_fields)) . "," . (int) $order_id
+					. "value ('" . (int) $row_data[$i]->id . "'," . $db->quote(addslashes($user_fields)) . "," . (int) $order_id
 					. "," . $db->quote($section_id) . ")";
 				$this->_db->setQuery($sql);
 				$this->_db->execute();
@@ -9689,11 +9689,11 @@ class productHelper
 
 		for ($j = 0, $jn = count($row_data); $j < $jn; $j++)
 		{
-			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $order->order_id);
+			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->id, $section_id, $order->order_id);
 
-			if (!is_null($main_result) && $main_result->data_txt != "" && $row_data[$j]->field_show_in_front == 1)
+			if (!is_null($main_result) && $main_result->data_txt != "" && $row_data[$j]->show_in_front == 1)
 			{
-				$resultArr[] = $main_result->field_title . " : " . $main_result->data_txt;
+				$resultArr[] = $row_data[$j]->title . " : " . $main_result->data_txt;
 			}
 		}
 
