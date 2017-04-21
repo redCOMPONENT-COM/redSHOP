@@ -8,7 +8,7 @@
         <field
             name="title"
             type="redshop.text"
-            label="COM_REDSHOP_FIELD_TITLE"
+            label="COM_REDSHOP_FIELD_TITLE_HEADER"
             description="COM_REDSHOP_TOOLTIP_FIELD_TITLE"
             class="form-control"
             default=""
@@ -20,7 +20,7 @@
         <field
             name="name"
             type="redshop.text"
-            label="COM_REDSHOP_FIELD_NAME"
+            label="COM_REDSHOP_FIELD_NAME_HEADER"
             description="COM_REDSHOP_TOOLTIP_FIELD_NAME"
             class="form-control"
             default=""
@@ -30,13 +30,13 @@
         <field
 			name="type"
 			type="redshop.fieldtype"
-			label="COM_REDSHOP_FIELD_TYPE"
+			label="COM_REDSHOP_FIELD_TYPE_HEADER"
 			description="COM_REDSHOP_TOOLTIP_FIELD_TYPE"
 		/>
 		<field
 			name="section"
 			type="redshop.fieldsection"
-			label="COM_REDSHOP_FIELD_SECTION"
+			label="COM_REDSHOP_FIELD_SECTION_HEADER"
 			description="COM_REDSHOP_TOOLTIP_FIELD_SECTION"
             onchange="sectionValidation()"
 		/>

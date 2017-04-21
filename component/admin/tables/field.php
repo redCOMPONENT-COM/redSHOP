@@ -1,4 +1,4 @@
-?php
+<?php
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Table
@@ -31,8 +31,6 @@ class RedshopTableField extends RedshopTable
 		{
 			return false;
 		}
-
-
 
 		$this->name = str_replace(" ", "_", $this->name);
 
@@ -106,7 +104,6 @@ class RedshopTableField extends RedshopTable
 		{
 			$this->saveFieldValues($this->id, $post);
 		}
-
 
 		return true;
 	}

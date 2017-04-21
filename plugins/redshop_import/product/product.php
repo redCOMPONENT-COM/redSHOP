@@ -458,9 +458,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		$value = $data[$fieldName];
 
 		$query = $db->getQuery(true)
-			->select($db->qn('field_id'))
+			->select($db->qn('id'))
 			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('field_name') . ' = ' . $db->quote($fieldName));
+			->where($db->qn('name') . ' = ' . $db->quote($fieldName));
 
 		if ($fieldId = $db->setQuery($query)->loadResult())
 		{
