@@ -9,7 +9,14 @@
 
 defined('_JEXEC') or die;
 
-class plgRedshop_PaymentPaygate extends JPlugin
+/**
+ *  PlgRedshop_PaymentPaygate installer class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+
+class PlgRedshop_PaymentPaygate extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -51,7 +58,8 @@ class plgRedshop_PaymentPaygate extends JPlugin
 			'AMOUNT'           => $amount,
 			'CURRENCY'         => $currency,
 			'RETURN_URL'       => $returnUrl,
-			'TRANSACTION_DATE' => $transactionDate
+			'TRANSACTION_DATE' => $transactionDate,
+			'CHECKSUM' 		   => $this->params->get('encryptionKey')
 		);
 
 		if ($email)
@@ -59,27 +67,13 @@ class plgRedshop_PaymentPaygate extends JPlugin
 			$checksumSource['EMAIL'] = $email;
 		}
 
-		$checksumSource['CHECKSUM'] = $this->params->get('encryptionKey');
-
 		$checkSum = md5(implode("|", $checksumSource));
 
 		// Update checksum value to send.
 		$checksumSource['CHECKSUM'] = $checkSum;
 
-		echo '<form action="https://www.paygate.co.za/paywebv2/process.trans" method="post" id="paygateform">';
-
-		foreach ($checksumSource as $name => $value)
-		{
-			echo '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
-		}
-
-		echo '</form>';
-
-		JFactory::getDocument()->addScriptDeclaration('
-			jQuery(document).ready(function($) {
-				jQuery("#paygateform").submit();
-			});
-		');
+		// Form HTML
+		require_once JPluginHelper::getLayoutPath('redshop_payment', 'paygate');
 	}
 
 	/**
@@ -114,23 +108,17 @@ class plgRedshop_PaymentPaygate extends JPlugin
 			'AUTH_CODE'          => $input->getString('AUTH_CODE'),
 			'AMOUNT'             => $input->getFloat('AMOUNT'),
 			'RESULT_DESC'        => $resultDesc,
-			'TRANSACTION_ID'     => $tid
+			'TRANSACTION_ID'     => $tid,
+			'RISK_INDICATOR'	 => trim($input->getString('RISK_INDICATOR')),
+			'CHECKSUM'			 => $this->params->get('encryptionKey')
 		);
-
-		if ($riskIndicator = $input->getString('RISK_INDICATOR'))
-		{
-			$checksumSource['RISK_INDICATOR'] = $riskIndicator;
-		}
-
-		// Local secret key
-		$checksumSource['CHECKSUM'] = $this->params->get('encryptionKey');
 
 		$testChecksum = md5(implode("|", $checksumSource));
 
 		$values = new stdClass;
 
 		// Invalid trasaction
-		if ($testChecksum != $input->getString('CHECKSUM'))
+		if ($testChecksum != trim($input->getString('CHECKSUM')))
 		{
 			$values->order_status_code         = $this->params->get('invalid_status', '');
 			$values->order_payment_status_code = 'Unpaid';
@@ -140,7 +128,7 @@ class plgRedshop_PaymentPaygate extends JPlugin
 			$app->enqueueMessage($values->log, 'Error');
 		}
 		// Transaction is valid and success
-		else if ($status == 1 && $resultCode == 990017)
+		elseif ($status == 1 && $resultCode == 990017)
 		{
 			$values->order_status_code = $this->params->get('verify_status', '');
 			$values->order_payment_status_code = 'Paid';
