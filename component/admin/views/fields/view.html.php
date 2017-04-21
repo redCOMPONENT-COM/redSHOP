@@ -9,51 +9,42 @@
 
 defined('_JEXEC') or die;
 
-
-class RedshopViewFields extends RedshopViewAdmin
+/**
+ * View Categories
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.5
+ */
+class RedshopViewFields extends RedshopViewList
 {
-	public $state;
-
-	public function display($tpl = null)
+	/**
+	 * Method for render 'Published' column
+	 *
+	 * @param   array   $config  Row config.
+	 * @param   int     $index   Row index.
+	 * @param   object  $row     Row data.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onRenderColumn($config, $index, $row)
 	{
-		$document = JFactory::getDocument();
-
-		$document->setTitle(JText::_('COM_REDSHOP_FIELDS'));
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT'), 'redshop_fields48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-
-		$fields        = $this->get('Data');
-		$pagination    = $this->get('Pagination');
-
 		$redtemplate = Redtemplate::getInstance();
-		$optiontype    = $redtemplate->getFieldTypeSections();
-		$optionsection = $redtemplate->getFieldSections();
-		$this->state = $this->get('State');
 
-		$filtertype      = $this->state->get('filtertype');
-		$filtersection    = $this->state->get('filtersection');
+		$isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
 
-		$lists['order'] = $this->state->get('list.ordering', 'ordering');
-		$lists['order_Dir'] = $this->state->get('list.direction');
+		if ($config['dataCol'] == 'type')
+		{
+			return $redtemplate->getFieldTypeSections($row->type);
+		}
 
-		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'filtertype',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();" ',
-			'value', 'text', $filtertype
-		);
-		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'filtersection',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();"',
-			'value', 'text', $filtersection
-		);
+		if ($config['dataCol'] == 'section')
+		{
+			return $redtemplate->getFieldSections($row->section);
+		}
 
-		$this->lists = $lists;
-		$this->fields = $fields;
-		$this->pagination = $pagination;
-
-		parent::display($tpl);
+		return parent::onRenderColumn($config, $index, $row);
 	}
 }
