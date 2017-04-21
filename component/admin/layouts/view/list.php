@@ -17,11 +17,35 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
-$listOrder  = $data->escape($data->state->get('list.ordering'));
-$listDirn   = $data->escape($data->state->get('list.direction'));
-$viewName   = $data->getInstancesName();
-$singleName = $data->getInstanceName();
-$user       = JFactory::getUser();
+$listOrder    = $data->escape($data->state->get('list.ordering'));
+$listDirn     = $data->escape($data->state->get('list.direction'));
+$viewName     = $data->getInstancesName();
+$singleName   = $data->getInstanceName();
+$user         = JFactory::getUser();
+$saveOrderUrl = 'index.php?option=com_redshop&task=' . $viewName . '.saveOrderAjax&tmpl=component';
+$saveOrder    = ($listOrder == 'lft' && strtolower($listDirn) == 'asc');
+$search       = $data->state->get('filter.search');
+
+// Edit State permission
+$canEditState = false;
+
+if ($user->authorise('core.edit.state', 'com_redshop'))
+{
+    $canEditState = true;
+}
+
+// Edit permission
+$canEdit = false;
+
+if ($user->authorise('core.edit', 'com_redshop'))
+{
+    $canEdit = true;
+}
+
+if (($saveOrder) && ($canEditState))
+{
+    JHTML::_('sortablelist.sortable', 'table-' . $viewName, 'adminForm', strtolower($listDirn), $saveOrderUrl, false, true);
+}
 ?>
 <script type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
@@ -79,6 +103,11 @@ $user       = JFactory::getUser();
                 <th width="1">
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
                 </th>
+                <?php if (($search == '') && ($canEditState) && !empty($data->ordering)) : ?>
+                    <th width="80"  class="nowrap center hidden-phone">
+                        <?php echo JHtml::_('grid.sort', '<i class=\'fa fa-sort-alpha-asc\'></i>', 'lft', $listDirn, $listOrder); ?>
+                    </th>
+                <?php endif; ?>
                 <th width="1">
                     &nbsp;
                 </th>
@@ -99,11 +128,50 @@ $user       = JFactory::getUser();
             <tbody>
 			<?php foreach ($data->items as $i => $row): ?>
 				<?php $canCheckIn = $user->authorise('core.manage', 'com_checkin') || $row->checked_out == $user->id || $row->checked_out == 0; ?>
+                <?php if (!empty($data->ordering)) : ?>
+                    <?php $orderkey = array_search($row->id, $data->ordering[$row->parent_id]); ?>
+                    <?php if ($row->level > 1) : ?>
+                        <?php
+                        $parentsStr = '';
+                        $currentParentId = $row->parent_id;
+                        $parentsStr = ' ' . $currentParentId;
+                        ?>
+                        <?php for ($i2 = 0; $i2 < $row->level; $i2++) : ?>
+                            <?php foreach ($data->ordering as $k => $v) : ?>
+                                <?php
+                                $v = implode('-', $v);
+                                $v = '-' . $v . '-';
+                                ?>
+                                <?php if (strpos($v, '-' . $currentParentId . '-') !== false) : ?>
+                                    <?php
+                                    $parentsStr .= ' ' . $k;
+                                    $currentParentId = $k;
+                                    break;
+                                    ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php endfor; ?>
+                    <?php else : ?>
+                        <?php $parentsStr = 0; ?>
+                    <?php endif; ?>
+                <?php endif; ?>
+                <?php if (!empty($data->ordering)) : ?>
+                <tr sortable-group-id="<?php echo $row->parent_id; ?>" item-id="<?php echo $row->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $row->level; ?>">
+                <?php else: ?>
                 <tr>
+                <?php endif; ?>
                     <td><?php echo $data->pagination->getRowOffset($i) ?></td>
                     <td align="center">
 						<?php echo JHtml::_('grid.id', $i, $row->id) ?>
                     </td>
+                    <?php if (($search == '') && ($canEditState) && $data->ordering) : ?>
+                        <td class="order nowrap center">
+                            <span class="sortable-handler hasTooltip <?php echo ($saveOrder) ? '' : 'inactive'; ?>">
+                                <i class="icon-move"></i>
+                            </span>
+                            <input type="text" style="display:none" name="order[]" value="<?php echo $orderkey + 1;?>" class="text-area-order" />
+                        </td>
+                        <?php endif; ?>
                     <td nowrap="nowrap">
 						<?php if ($row->checked_out): ?>
 							<?php echo JHtml::_('redshopgrid.checkedout', $i, $row->checked_out, $row->checked_out_time, $viewName . '.', $canCheckIn) ?>

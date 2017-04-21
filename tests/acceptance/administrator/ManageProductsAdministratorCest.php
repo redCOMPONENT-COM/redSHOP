@@ -44,10 +44,7 @@ class ManageProductsAdministratorCest
 		$I->wantTo('Delete the product which was created');
 		$this->deleteProduct($I, $randomProductName);
 		$I->wantTo('Delete Category');
-		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->deleteCategory($randomCategoryName);
-		$I->searchCategory($randomCategoryName, 'Delete');
-		$I->dontSee($randomCategoryName);
 	}
 
 	/**

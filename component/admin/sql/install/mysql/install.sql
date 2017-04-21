@@ -1,6 +1,9 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
 
 -- -----------------------------------------------------
 -- Table `#__redshop_attribute_set`
@@ -116,12 +119,12 @@ COMMENT = 'redSHOP Catalog Sample';
 DROP TABLE IF EXISTS `#__redshop_category` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_category` (
-  `category_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `category_name` VARCHAR(250) NOT NULL,
-  `category_short_description` LONGTEXT NOT NULL,
-  `category_description` LONGTEXT NOT NULL,
-  `category_template` INT(11) NOT NULL,
-  `category_more_template` VARCHAR(255) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(250) NOT NULL,
+  `short_description` LONGTEXT NOT NULL,
+  `description` LONGTEXT NOT NULL,
+  `template` INT(11) NOT NULL,
+  `more_template` VARCHAR(255) NOT NULL,
   `products_per_page` INT(11) NOT NULL,
   `category_thumb_image` VARCHAR(250) NOT NULL,
   `category_full_image` VARCHAR(250) NOT NULL,
@@ -133,14 +136,32 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category` (
   `pageheading` LONGTEXT NOT NULL,
   `sef_url` TEXT NOT NULL,
   `published` TINYINT(4) NOT NULL,
-  `category_pdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `category_pdate` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` INT(11) NOT NULL,
   `canonical_url` TEXT NOT NULL,
   `category_back_full_image` VARCHAR(250) NOT NULL,
   `compare_template_id` VARCHAR(255) NOT NULL,
   `append_to_global_seo` ENUM('append', 'prepend', 'replace') NOT NULL DEFAULT 'append',
-  PRIMARY KEY (`category_id`),
-  INDEX `idx_published` (`published` ASC))
+  `alias` VARCHAR(400) NOT NULL,
+  `path` VARCHAR(255) NOT NULL,
+  `asset_id` INT(11) UNSIGNED NULL COMMENT 'FK to the #__assets table.',
+  `parent_id` INT(11) NULL DEFAULT 0,
+  `level` INT(11) UNSIGNED NOT NULL DEFAULT 0,
+  `lft` INT(11) NOT NULL DEFAULT 0,
+  `rgt` INT(11) NOT NULL DEFAULT 0,
+  `checked_out` INT(11) NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  INDEX `#__rs_idx_category_published` (`published` ASC),
+  INDEX `#__rs_idx_left_right` (`lft` ASC, `rgt` ASC),
+  INDEX `#__rs_idx_alias` (`alias` ASC),
+  INDEX `#__rs_idx_path` (`path` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Category';
@@ -2532,7 +2553,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_wishlist_product_item` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'Wishlist product item';
-
 
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

@@ -445,7 +445,7 @@
 
             if (fileSize > self.options.maxFileSize)
             {
-                self.showAlert(Joomla.JText._("COM_REDITEM_UPLOAD_FILE_TOO_BIG"));
+                self.showAlert(Joomla.JText._("COM_REDSHOP_UPLOAD_FILE_TOO_BIG"));
 
                 return false;
             }

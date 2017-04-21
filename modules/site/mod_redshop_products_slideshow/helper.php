@@ -155,7 +155,7 @@ class RedshopProductSlideshow
 			->select('DISTINCT(p.product_id)')
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'x') . ' ON x.product_id = p.product_id')
-			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.category_id = x.category_id')
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.id = x.category_id')
 			->where('p.published = 1')
 			->where('c.published = 1');
 

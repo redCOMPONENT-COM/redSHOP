@@ -1859,13 +1859,17 @@ class RedshopModelCheckout extends RedshopModel
 
 	public function getCategoryNameByProductId($pid)
 	{
-		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pcx.category_id "
-			. "WHERE pcx.product_id = " . (int) $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('c.name'))
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
+			->where($db->qn('c.name') . ' IS NOT NULL')
+			->order($db->qn('c.id') . ' ASC')
+			->setLimit(0, 1);
 
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
+		return $db->setQuery($query)->loadResult();
 	}
 
 	public function voucher($cart, $order_id)

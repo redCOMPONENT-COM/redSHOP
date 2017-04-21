@@ -99,8 +99,8 @@ class RedshopMenuLeft_Menu
 				return array('PRODUCT_LISTING', 'product');
 				break;
 
-			case "category":
-				return array('SHOP', 'category');
+			case "categories":
+				return array('SHOP', 'categories');
 				break;
 
 			case "manufacturer":
@@ -329,9 +329,9 @@ class RedshopMenuLeft_Menu
 	protected static function setShop()
 	{
 		self::$menu->addHeaderItem(
-				'index.php?option=com_redshop&view=category',
+				'index.php?option=com_redshop&view=categories',
 				'COM_REDSHOP_CATEGORY_LISTING',
-				(self::$view == 'category') ? true : false,
+				(self::$view == 'categories') ? true : false,
 				null,
 				'fa fa-sitemap'
 			)

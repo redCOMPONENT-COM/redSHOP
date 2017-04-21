@@ -49,7 +49,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 		foreach ($categories as $category)
 		{
-			$options[] = JHtml::_('select.option', $category->category_id, $category->category_name, 'value', 'text');
+			$options[] = JHtml::_('select.option', $category->id, $category->name, 'value', 'text');
 		}
 
 		$configs[] = '<div class="form-group">
@@ -172,7 +172,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			->select(
 				'(SELECT GROUP_CONCAT(' . $db->qn('c.category_name') . ' SEPARATOR ' . $db->quote('###')
 				. ') FROM ' . $db->qn('#__redshop_product_category_xref', 'pcx')
-				. ' INNER JOIN ' . $db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('pcx.category_id')
+				. ' INNER JOIN ' . $db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id')
 				. ' WHERE ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id')
 				. ' ORDER BY ' . $db->qn('pcx.category_id') . ') AS ' . $db->qn('category_name')
 			)
