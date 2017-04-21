@@ -1,4 +1,4 @@
-<?php
+?php
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Table
