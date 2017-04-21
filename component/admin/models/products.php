@@ -208,7 +208,7 @@ class RedshopModelProducts extends RedshopModelList
 
 		if ($category_id)
 		{
-			$where .= " AND c.category_id = '" . $category_id . "'  ";
+			$where .= " AND c.id = '" . $category_id . "'  ";
 		}
 
 		if ($where == '' && $search_field != 'pa.property_number')
@@ -228,7 +228,7 @@ class RedshopModelProducts extends RedshopModelList
 			p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ",
 			x.ordering , x.category_id "
 				. " FROM #__redshop_product AS p " . "LEFT JOIN #__redshop_product_category_xref
-			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.category_id ";
+			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.id ";
 
 			if ($search_field == 'pa.property_number' && $keyword != '')
 			{
@@ -306,24 +306,21 @@ class RedshopModelProducts extends RedshopModelList
 	}
 
 	/**
-	 * @param   int   $pid
+	 * @param   int $pid
 	 *
 	 * @return  mixed
 	 */
 	public function listedInCats($pid)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('c.category_name'))
-			->from($db->quoteName('#__redshop_product_category_xref', 'ref'))
-			->from($db->quoteName('#__redshop_category', 'c'))
-			->where($db->quoteName('product_id') . ' = ' . (int) $pid)
-			->where($db->quoteName('ref.category_id') . ' = ' . $db->quoteName('c.category_id'))
-			->order($db->quoteName('c.category_name'));
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('name'))
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
+			->order($db->qn('c.name'));
 
-		$db->setQuery($query);
-
-		return $db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectlist();
 	}
 
 	public function product_template($template_id, $product_id, $section)
@@ -426,22 +423,22 @@ class RedshopModelProducts extends RedshopModelList
 
 	public function getCategoryList()
 	{
-		if (!empty($this->_categorytreelist))
+		if ($this->_categorytreelist)
 		{
 			return $this->_categorytreelist;
 		}
-
-		// @TODO Call to Category model instead query here
 		$this->_categorytreelist = array();
-		$q                       = "SELECT cx.category_child_id AS id, cx.category_parent_id AS parent_id, c.category_name AS title "
-			. "FROM #__redshop_category AS c, #__redshop_category_xref AS cx "
-			. "WHERE c.category_id=cx.category_child_id " . "ORDER BY ordering ";
-		$this->_db->setQuery($q);
-		$rows = $this->_db->loadObjectList();
-
+		$db                      = $this->getDbo();
+		$query                   = $db->getQuery(true)
+			->select($db->qn('id'))
+			->select($db->qn('parent_id'))
+			->select($db->qn('name', 'title'))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('published') . ' = 1')
+			->order($db->qn('ordering'));
+		$rows                    = $db->setQuery($query)->loadObjectList();
 		// Establish the hierarchy of the menu
 		$children = array();
-
 		// First pass - collect children
 		foreach ($rows as $v)
 		{
@@ -450,10 +447,8 @@ class RedshopModelProducts extends RedshopModelList
 			array_push($list, $v);
 			$children[$pt] = $list;
 		}
-
 		// Second pass - get an indent list of the items
 		$list = $this->treerecurse(0, '', array(), $children);
-
 		if (count($list) > 0)
 		{
 			$this->_categorytreelist = $list;

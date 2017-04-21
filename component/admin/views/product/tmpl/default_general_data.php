@@ -44,11 +44,11 @@ $calendarFormat = '%d-%m-%Y';
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-	                        <?php echo $this->form->renderField('product_name') ?>
+							<?php echo $this->form->renderField('product_name') ?>
                         </div>
 
                         <div class="form-group">
-	                        <?php echo $this->form->renderField('product_number') ?>
+							<?php echo $this->form->renderField('product_number') ?>
                         </div>
 
                         <div class="form-group">
@@ -111,7 +111,7 @@ $calendarFormat = '%d-%m-%Y';
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-	                        <?php echo $this->form->renderField('product_price') ?>
+							<?php echo $this->form->renderField('product_price') ?>
                         </div>
 
                         <div class="form-group">
@@ -260,27 +260,27 @@ $calendarFormat = '%d-%m-%Y';
             </div>
             <div class="box-body">
                 <div class="form-group">
-	                <?php echo $this->form->renderField('product_volume') ?>
+					<?php echo $this->form->renderField('product_volume') ?>
                 </div>
 
                 <div class="form-group">
-	                <?php echo $this->form->renderField('product_length') ?>
+					<?php echo $this->form->renderField('product_length') ?>
                 </div>
 
                 <div class="form-group">
-	                <?php echo $this->form->renderField('product_width') ?>
+					<?php echo $this->form->renderField('product_width') ?>
                 </div>
 
                 <div class="form-group">
-	                <?php echo $this->form->renderField('product_height') ?>
+					<?php echo $this->form->renderField('product_height') ?>
                 </div>
 
                 <div class="form-group">
-	                <?php echo $this->form->renderField('product_diameter') ?>
+					<?php echo $this->form->renderField('product_diameter') ?>
                 </div>
 
                 <div class="form-group">
-	                <?php echo $this->form->renderField('weight') ?>
+					<?php echo $this->form->renderField('weight') ?>
                 </div>
             </div>
         </div>
@@ -329,15 +329,15 @@ $calendarFormat = '%d-%m-%Y';
                 </div>
 
                 <div class="form-group">
-	                <?php echo $this->form->renderField('product_special') ?>
+					<?php echo $this->form->renderField('product_special') ?>
                 </div>
 
                 <div class="form-group">
-	                <?php echo $this->form->renderField('expired') ?>
+					<?php echo $this->form->renderField('expired') ?>
                 </div>
 
                 <div class="form-group">
-	                <?php echo $this->form->renderField('not_for_sale') ?>
+					<?php echo $this->form->renderField('not_for_sale') ?>
                 </div>
 
                 <div class="form-group">
@@ -358,7 +358,7 @@ $calendarFormat = '%d-%m-%Y';
                 </div>
 
                 <div class="form-group">
-	                <?php echo $this->form->renderField('minimum_per_product_total') ?>
+					<?php echo $this->form->renderField('minimum_per_product_total') ?>
                 </div>
 
 				<?php if (Redshop::getConfig()->get('ALLOW_PRE_ORDER')) : ?>
@@ -397,11 +397,11 @@ $calendarFormat = '%d-%m-%Y';
 				<?php endif; ?>
 
                 <div class="form-group">
-	                <?php echo $this->form->renderField('min_order_product_quantity') ?>
+					<?php echo $this->form->renderField('min_order_product_quantity') ?>
                 </div>
 
                 <div class="form-group">
-	                <?php echo $this->form->renderField('max_order_product_quantity') ?>
+					<?php echo $this->form->renderField('max_order_product_quantity') ?>
                 </div>
             </div>
         </div>
