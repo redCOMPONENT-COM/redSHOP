@@ -19,6 +19,20 @@ defined('_JEXEC') or die;
 class RedshopViewCategories extends RedshopViewList
 {
 	/**
+	 * @var  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $hasOrdering = true;
+
+	/**
+	 * @var  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $isNested = true;
+
+	/**
 	 * Method for add toolbar.
 	 *
 	 * @return  void
@@ -101,7 +115,8 @@ class RedshopViewCategories extends RedshopViewList
 
 				if ($config['edit_link'])
 				{
-					$display = str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $value . '</a>';
+					$display = str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1)
+						. '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $value . '</a>';
 				}
 
 				return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
@@ -110,7 +125,9 @@ class RedshopViewCategories extends RedshopViewList
 			{
 				if ($this->canEdit)
 				{
-					return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $row->{$config['dataCol']} . '</a>';
+					return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1)
+						. '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">'
+						. $row->{$config['dataCol']} . '</a>';
 				}
 				else
 				{
