@@ -1,1 +1,1 @@
-ALTER TABLE `#__redshop_media` CHANGE `media_id` `id` INT(11) NOT NULL AUTO_INCREMENT;
+#ALTER TABLE `#__redshop_media` CHANGE `media_id` `id` INT(11) NOT NULL AUTO_INCREMENT;

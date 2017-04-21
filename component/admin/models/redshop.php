@@ -53,7 +53,7 @@ class RedshopModelRedshop extends RedshopModel
 		$db->execute();
 
 		$query = "INSERT IGNORE INTO `#__redshop_media`
-			(`media_id`, `media_name`, `media_section`, `section_id`, `media_type`, `media_mimetype`, `published`, `media_alternate_text`)
+			(`id`, `name`, `section`, `section_id`, `type`, `mimetype`, `published`, `alternate_text`)
 			VALUES (16, '1262876429_redEVENT-box.jpg', 'product', 1, 'images', 'image/jpeg', 1, ''),
 			(20, '1262876675_redVMPRODUCTFINDER-box.jpg', 'product', 5, 'images', 'image/jpeg', 1, ''),
 			(23, '1262876737_redVMMASSCART-box.jpg', 'product', 8, 'images', 'image/jpeg', 1, ''),

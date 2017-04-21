@@ -712,7 +712,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_media` (
   `mimetype` VARCHAR(20) NOT NULL,
   `published` TINYINT(4) NOT NULL,
   `ordering` INT(11) NOT NULL,
-  PRIMARY KEY (`media_id`),
+  PRIMARY KEY (`id`),
   INDEX `idx_section_id` (`section_id` ASC),
   INDEX `idx_section` (`section` ASC),
   INDEX `idx_type` (`type` ASC),
