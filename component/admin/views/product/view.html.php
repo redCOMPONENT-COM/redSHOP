@@ -386,8 +386,8 @@ class RedshopViewProduct extends RedshopViewForm
 		$lists['copy_attribute']      = JHtml::_('select.booleanlist', 'copy_attribute', 'class="inputbox"', 0);
 		$lists['product_special']     = JHtml::_('select.booleanlist', 'product_special', 'class="inputbox"', $detail->product_special);
 		$lists['product_download']    = JHtml::_('select.booleanlist', 'product_download', 'class="inputbox"', $detail->product_download);
-		$lists['not_for_sale']        = JHtml::_('select.booleanlist', 'not_for_sale', 'class="inputbox"', $detail->not_for_sale);
-		$lists['expired']             = JHtml::_('select.booleanlist', 'expired', 'class="inputbox"', $detail->expired);
+
+
 		$lists['allow_decimal_piece'] = JHtml::_('select.booleanlist', 'allow_decimal_piece', 'class="inputbox"', $detail->allow_decimal_piece);
 
 		// For individual pre-order

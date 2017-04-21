@@ -137,7 +137,65 @@
                 table-edit-link="1"
                 table-hide="1"
         />
+        <field
+                name="product_special"
+                type="radio"
+                label="COM_REDSHOP_PRODUCT_SPECIAL"
+                description="COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL"
+                placeholder="COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL"
+                default="0"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+                table-hide="1"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="expired"
+                type="radio"
+                label="COM_REDSHOP_PRODUCT_EXPIRED"
+                description="COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED"
+                placeholder="COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED_LBL"
+                default="0"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+                table-hide="1"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="not_for_sale"
+                type="radio"
+                label="COM_REDSHOP_PRODUCT_NOT_FOR_SALE"
+                description="COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE"
+                placeholder="COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_LBL"
+                default="0"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+                table-hide="1"
+        >
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+        </field>
 
+        <field
+                name="minimum_per_product_total"
+                type="redshop.text"
+                label="COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL"
+                description="COM_REDSHOP_TOOLTIP_MINIMUM_PER_PRODUCT_TOTAL"
+                placeholder="COM_REDSHOP_TOOLTIP_MINIMUM_PER_PRODUCT_TOTAL"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+                table-hide="1"
+        />
         <field
                 name="min_order_product_quantity"
                 type="redshop.text"

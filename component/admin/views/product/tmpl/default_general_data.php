@@ -329,54 +329,15 @@ $calendarFormat = '%d-%m-%Y';
                 </div>
 
                 <div class="form-group">
-                    <label for="product_special0">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_SPECIAL'); ?>
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-                    </label>
-					<?php echo $this->lists['product_special']; ?>
+	                <?php echo $this->form->renderField('product_special') ?>
                 </div>
 
                 <div class="form-group">
-                    <label for="expired0">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_EXPIRED'); ?>
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED'),
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED_LBL'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-                    </label>
-					<?php echo $this->lists['expired']; ?>
+	                <?php echo $this->form->renderField('expired') ?>
                 </div>
 
                 <div class="form-group">
-                    <label for="not_for_sale0">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_NOT_FOR_SALE'); ?>
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE'),
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_LBL'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-                    </label>
-					<?php echo $this->lists['not_for_sale']; ?>
+	                <?php echo $this->form->renderField('not_for_sale') ?>
                 </div>
 
                 <div class="form-group">
@@ -397,19 +358,7 @@ $calendarFormat = '%d-%m-%Y';
                 </div>
 
                 <div class="form-group">
-                    <label for="minimum_per_product_total">
-						<?php echo JText::_('COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL'); ?>
-						<?php
-						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_PER_PRODUCT_TOTAL'), JText::_('COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL'), 'tooltip.png', '', '', false);
-						?>
-                    </label>
-                    <input class="form-control"
-                           type="text"
-                           name="minimum_per_product_total"
-                           id="minimum_per_product_total"
-                           size="10"
-                           maxlength="10"
-                           value="<?php echo $this->item->minimum_per_product_total; ?>"/>
+	                <?php echo $this->form->renderField('minimum_per_product_total') ?>
                 </div>
 
 				<?php if (Redshop::getConfig()->get('ALLOW_PRE_ORDER')) : ?>
