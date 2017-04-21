@@ -34,8 +34,9 @@ class RedshopHelperMediaImage
 	{
 		self::requireDependencies();
 
-		$imgUrl  = JRoute::_('/components/com_redshop/assets/images/' . $type . '/' . $image);
-		$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
+        $imgUrl = JUri::root() . 'media/com_redshop/files/' . $mediaSection . '/' . $sectionId . '/' . $image;
+
+		$imgFile = JPATH_ROOT . '/media/com_redshop/files/' . $mediaSection . '/' . $sectionId . '/' . $image;
 
 		$file = array();
 
@@ -133,8 +134,8 @@ class RedshopHelperMediaImage
 	 */
 	public static function renderGallery($id, $type, $sectionId, $mediaSection, $image)
 	{
-		$imgUrl  = JUri::root() . 'components/com_redshop/assets/images/' . $type . '/' . $image;
-		$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
+	    $imgUrl = JUri::root() . 'media/com_redshop/files/' . $mediaSection . '/' . $sectionId . '/' . $image;
+		$imgFile = JPATH_ROOT . 'media/com_redshop/files/' . $mediaSection . '/' . $sectionId . '/' . $image;;
 
 		$file = array();
 
@@ -161,7 +162,7 @@ class RedshopHelperMediaImage
 
 					$tmpImg    = array(
 						'id'        => $lm->id,
-						'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->section . '/' . $lm->name,
+						'url'       => JUri::root() . 'media/com_redshop/files/' . $lm->section . '/' . $lm->id . '/' . $lm->name,
 						'name'      => $lm->name,
 						'size'      => self::sizeFilter(filesize($tmpFile)),
 						'dimension' => $dimension,
@@ -261,9 +262,11 @@ class RedshopHelperMediaImage
 					$dimension = $dimension[0] . ' x ' . $dimension[1];
 				}
 
+				$path = JUri::root() . 'media/com_redshop/files/' . $lm->section . '/' . $lm->id . '/' . $lm->name;
+
 				$tmpImg    = array(
 					'id'        => $lm->id,
-					'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->section . '/' . $lm->name,
+					'url'       => JUri::root() . 'media/com_redshop/files/' . $lm->section . '/' . $lm->id . '/' . $lm->name,
 					'name'      => $lm->name,
 					'size'      => self::sizeFilter(filesize($tmpFile)),
 					'dimension' => $dimension,

@@ -25,6 +25,7 @@ class RedshopControllerMedia extends RedshopControllerForm
 	 */
 	public function ajaxUpload()
 	{
+	    $app = JFactory::getApplication();
 		$file = $this->input->files->get('file', array(), 'array');
 		$new  = $this->input->post->get('new');
 
@@ -109,6 +110,9 @@ class RedshopControllerMedia extends RedshopControllerForm
 		{
 			$dimension = $dimension[0] . ' x ' . $dimension[1];
 		}
+
+		/* Put temporary file name to User State */
+		$app->setUserState('com_redshop.media.tmp.file.name', $filename);
 
 		echo new JResponseJson(
 			array(

@@ -260,7 +260,7 @@ if ($showbuttons)
                 <fieldset id="media_bank">
                     <table>
                         <tr>
-                            <td width="2%"><?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs'); ?>
+                            <td width="2%"><?php $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=medias&layout=thumbs'); ?>
                                 <div class="button2-left">
                                     <div class="image">
                                         <a class="joom-box btn btn-primary"

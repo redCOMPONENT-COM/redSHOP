@@ -11,6 +11,18 @@
                 type="hidden"
                 />
         <field
+                id="title"
+                name="title"
+                type="redshop.text"
+                label="COM_REDSHOP_MEDIA_TITLE"
+                description="COM_REDSHOP_MEDIA_TITLE_DESC"
+                placeholder="COM_REDSHOP_MEDIA_TITLE_DESC"
+                size="3"
+                class="input-xs"
+                default=""
+                required="true"
+        />
+        <field
                 id="youtube_id"
                 name="youtube_id"
                 type="redshop.text"
@@ -78,9 +90,7 @@
                 disable="true"
                 onchange="loadYoutubeFields();"
                 required="true">
-            <option value="images">COM_REDSHOP_MEDIA_TYPE_IMAGE</option>
-            <option value="videos">COM_REDSHOP_MEDIA_TYPE_VIDEO</option>
-            <option value="documents">COM_REDSHOP_MEDIA_TYPE_DOCUMENT</option>
+            <option value="images">COM_REDSHOP_MEDIA_TYPE_UPLOAD</option>
             <option value="youtube">COM_REDSHOP_MEDIA_TYPE_YOUTUBE</option>
         </field>
         <field

@@ -17,69 +17,8 @@ defined('_JEXEC') or die;
  * @since       2.0.4
  */
 
-class RedshopViewMedias extends RedshopViewAdmin
+class RedshopViewMedias extends RedshopViewList
 {
-	/**
-	 * @var  array
-	 */
-	public $items;
-
-	/**
-	 * @var  JPagination
-	 */
-	public $pagination;
-
-	/**
-	 * @var  array
-	 */
-	public $state;
-
-	/**
-	 * @var  array
-	 */
-	public $activeFilters;
-
-	/**
-	 * @var  JForm
-	 */
-	public $filterForm;
-
-	/**
-	 * Display template function
-	 *
-	 * @param   object  $tpl  template variable
-	 *
-	 * @return void
-	 *
-	 * @since 2.0.0.3
-	 *
-	 * @throws  Exception
-	 */
-	public function display($tpl = null)
-	{
-		/** @var RedshopModelCountries $model */
-		$model = $this->getModel();
-
-		// Get data from the model
-		$this->items         = $model->getItems();
-		$this->pagination    = $model->getPagination();
-		$this->state         = $model->getState();
-		$this->activeFilters = $model->getActiveFilters();
-		$this->filterForm    = $model->getForm();
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new Exception(implode('<br />', $errors));
-		}
-
-		// Set the tool-bar and number of found items
-		$this->addToolBar();
-
-		// Display the template
-		parent::display($tpl);
-	}
-
 	/**
 	 * Add the page title and toolbar.
 	 *
@@ -95,4 +34,33 @@ class RedshopViewMedias extends RedshopViewAdmin
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 	}
+
+    /**
+     * Method for prepare table.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function prepareTable()
+    {
+        parent::prepareTable();
+
+        $this->columns[] = array(
+            // This column is sortable?
+            'sortable'  => false,
+            // Text for column
+            'text'      => JText::_('COM_REDSHOP_PRODUCTS'),
+            // Name of property for get data.
+            'dataCol'   => 'product',
+            // Width of column
+            'width'     => 'auto',
+            // Enable edit inline?
+            'inline'    => false,
+            // Display with edit link or not?
+            'edit_link' => false,
+            // Type of column
+            'type'      => 'text',
+        );
+    }
 }

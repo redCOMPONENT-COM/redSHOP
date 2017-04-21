@@ -53,6 +53,63 @@ class RedshopModelMedia extends RedshopModelForm
 	 */
 	public function save($data)
 	{
-		parent::save($data);
+	    $app = JFactory::getApplication();
+        $fileName = $app->getUserState('com_redshop.media.tmp.file.name', '');
+
+        /* In case Upload File*/
+        if (trim($fileName) !== '')
+        {
+            $data['name'] = $fileName;
+        }
+
+	    /* Case type Youtube */
+	    if (isset($data['youtube_id']) && $type='youtube' && (trim($data['youtube_id']) !== ''))
+        {
+            $data['name'] = $data['youtube_id'];
+        }
+
+        if (!isset($data['youtube_id']))
+        {
+            $data['youtube_id'] = '';
+        }
+
+        $table = $this->getTable();
+
+	    $table->id = $data['id'];
+	    $table->name = $data['name'];
+	    $table->title = $data['title'];
+	    $table->youtube_id = $data['youtube_id'];
+	    $table->alternate_text = $data['alternate_text'];
+	    $table->section = $data['section'];
+	    $table->type = $data['type'];
+	    $table->published = $data['published'];
+
+	    $table->store($data);
+
+        if (isset($table->id) && ($table->id > 0) && isset($data['name']) && ($data['type'] != 'youtube'))
+        {
+            try
+            {
+                $src = JPATH_ROOT . '/media/com_redshop/files/tmp/' . $data['name'];
+
+                if (JFile::exists($src))
+                {
+                    $des = JPATH_ROOT . '/media/com_redshop/files/' . $data['section'] . '/' . $table->id . '/';
+
+                    if (!JFolder::exists($des))
+                    {
+                        JFolder::create($des);
+                    }
+
+                    JFile::move($src, $des . $data['name']);
+
+                    unlink($src);
+                }
+            }
+            catch (Exception $e)
+            {
+
+            }
+        }
 	}
 }

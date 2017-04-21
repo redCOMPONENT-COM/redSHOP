@@ -704,12 +704,17 @@ DROP TABLE IF EXISTS `#__redshop_media` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_media` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(250) NOT NULL,
   `name` VARCHAR(250) NOT NULL,
   `alternate_text` VARCHAR(255) NOT NULL,
   `section` VARCHAR(20) NOT NULL,
   `section_id` INT(11) NOT NULL,
   `type` VARCHAR(250) NOT NULL,
   `mimetype` VARCHAR(20) NOT NULL,
+  `checked_out` INT(11) NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` INT(11) NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `published` TINYINT(4) NOT NULL,
   `ordering` INT(11) NOT NULL,
   PRIMARY KEY (`id`),

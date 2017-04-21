@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.formvalidator');
 $uri = JURI::getInstance();
 $url = $uri->root();
+$display = 'style="display:none"';
 
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
@@ -36,7 +37,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_MEDIA_NAME'); ?></h3>
 		            </div>
 		            <div class="box-body">
-		                <div class="form-group" id="divShowBox">
+		                <div class="form-group" id="divShowBox" <?php echo ($this->item->type == 'youtube')? $display: '' ?>>
 							<?php echo RedshopHelperMediaImage::render(
 								'name',
 								$this->item->section,
@@ -46,14 +47,14 @@ JFactory::getDocument()->addScriptDeclaration('
 								false
 							) ?>
 							<?php echo $this->form->renderField('name') ?>
+                            <div id="divVideoContent" style="display:none;">
+                                <?php echo $this->form->getField('video_content')->input ?>
+                            </div>
 		                </div>
-		                <div class="form-group" id="divYouTube">
+		                <div class="form-group" id="divYouTube" <?php echo (!isset($this->item->type) || $this->item->type != 'youtube')? $display: '' ?>>
 		                	<?php echo $this->form->renderField('youtube_id') ?>
 		                	<div id="divYouTubeContent">
 		                	<?php echo $this->form->getField('youtube_content')->input ?>
-		                	</div>
-		                	<div id="divVideoContent">
-		                	<?php echo $this->form->getField('video_content')->input ?>
 		                	</div>
 		                </div>
 		            </div>
@@ -77,8 +78,8 @@ JFactory::getDocument()->addScriptDeclaration('
 						<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DETAILS') ?></h3>
 					</div>
 					<div class="box-body">
+                        <?php echo $this->form->renderField('title') ?>
 						<?php echo $this->form->renderField('alternate_text') ?>
-						
 						<?php echo $this->form->renderField('published') ?>
 					</div>
 					
@@ -106,7 +107,8 @@ JFactory::getDocument()->addScriptDeclaration('
 
 	function loadYoutubeFields()
 	{
-		jQuery('#divShowBox').hide();
+		jQuery('#divShowBox').toggle();
+        jQuery('#divYouTube').toggle();
 	}
 
 	function loadSectionId(e)
