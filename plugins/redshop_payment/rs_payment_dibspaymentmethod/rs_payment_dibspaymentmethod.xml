@@ -2,142 +2,138 @@
 <extension version="3.0" client="site" type="plugin" group="redshop_payment"
            method="upgrade">
     <name>PLG_RS_PAYMENT_DIBSPAYMENTMETHOD</name>
-    <version>1.5.1</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <version>1.7.0</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>December 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>This plugin enables standard DIBS Payment Method payments
-    </description>
+    <description>PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_DESC</description>
 
     <files>
         <filename plugin="rs_payment_dibspaymentmethod">rs_payment_dibspaymentmethod.php</filename>
         <folder>rs_payment_dibspaymentmethod</folder>
+        <folder>language</folder>
+        <folder>tmpl</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_dibspaymentmethod.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_dibspaymentmethod.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_dibspaymentmethod.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_dibspaymentmethod.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
 
                 <field name="payment_oprand" type="text" size="10" default="-"
-                       label="Payment operand" description="Payment Operand"/>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_PAYMENT_OPERAND" description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_PAYMENT_OPERAND"/>
                 <field name="payment_price" type="text" size="30" default=""
-                       label="Payment price" description="Payment price"/>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_PAYMENT_PRICE" description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_PAYMENT_PRICE"/>
                 <field name="payment_discount_is_percent" type="radio" default="1"
-                       label="Discount Type: " description="Discount Type">
-                    <option value="1">Percentage</option>
-                    <option value="0">Total</option>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_DISCOUNT_TYPE" description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_DISCOUNT_TYPE">
+                    <option value="1">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_DISCOUNT_TYPE_PERCENTAGE</option>
+                    <option value="0">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_DISCOUNT_TYPE_TOTAL</option>
                 </field>
                 <field name="seller_id" type="text" default=""
-                       label="dibs.com Seller/Vendor ID: " description="DIBS Seller or Vendot ID"/>
-                <field name="dibs_currency" type="list" default="1" label="Currecy: "
-                       description="Currency">
-                    <option value="DKK" selected="selected">Danish Kroner (DKK)</option>
-                    <option value="EUR">Euro (EUR)</option>
-                    <option value="USD">US Dollar $ (USD)</option>
-                    <option value="GBP">English Pound £ (GBP)</option>
-                    <option value="SEK">Swedish Kroner (SEK)</option>
-                    <option value="AUD">Australian Dollar (AUD)</option>
-                    <option value="CAD">Canadian Dollar (CAD)</option>
-                    <option value="ISK">Icelandic Kroner (ISK)</option>
-                    <option value="JPY">Japanese Yen (JPY)</option>
-                    <option value="NZD">New Zealand Dollar (NZD)</option>
-                    <option value="NOK">Norwegian Kroner (NOK)</option>
-                    <option value="CHF">Swiss Franc (CHF)</option>
-                    <option value="TRY">Turkish Lire (TRY)</option>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_SELLER_ID" description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_SELLER_ID"/>
+                <field name="dibs_currency" type="list" default="1" label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY"
+                       description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY">
+                    <option value="DKK" selected="selected">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_DKK</option>
+                    <option value="EUR">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_EUR</option>
+                    <option value="USD">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_USD</option>
+                    <option value="GBP">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_GBP</option>
+                    <option value="SEK">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_SEK</option>
+                    <option value="AUD">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_AUD</option>
+                    <option value="CAD">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_CAD</option>
+                    <option value="ISK">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_ISK</option>
+                    <option value="JPY">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_JPY</option>
+                    <option value="NZD">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_NZD</option>
+                    <option value="NOK">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_NOK</option>
+                    <option value="CHF">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_CHF</option>
+                    <option value="TRY">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CURRENCY_TRY</option>
                 </field>
-                <field name="is_test" type="radio" default="1" label="Test mode?"
-                       description="Test Mode ">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="is_test" type="radio" default="1" label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_TEST_MODE"
+                       description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_TEST_MODE">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="dibs_pay_type" type="text" default="FlexWin"
-                       label="DIBS Pay Type: " description="DIBS Pay Type"/>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_DIBS_PAY_TYPE" description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_DIBS_PAY_TYPE"/>
                 <field name="dibs_languages" type="list" default="1"
-                       label="FlexWin Language:" description="Select language for DIBS flexwin">
-                    <option value="Auto" selected="selected">Auto</option>
-                    <option value="da">Danish</option>
-                    <option value="sv">Swedish</option>
-                    <option value="no">Norwegian</option>
-                    <option value="en">English</option>
-                    <option value="nl">Dutch</option>
-                    <option value="de">German</option>
-                    <option value="fr">French</option>
-                    <option value="fi">Finnish</option>
-                    <option value="es">Spanish</option>
-                    <option value="it">Italian</option>
-                    <option value="pl">Polish</option>
-                    <option value="fo">Faroese</option>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE" description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE">
+                    <option value="Auto" selected="selected">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_AUTO</option>
+                    <option value="da">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_DANISH</option>
+                    <option value="sv">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_SWEDISH</option>
+                    <option value="no">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_NORWEGIAN</option>
+                    <option value="en">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_ENGLISH</option>
+                    <option value="nl">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_DUTCH</option>
+                    <option value="de">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_GERMAN</option>
+                    <option value="fr">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_FRENCH</option>
+                    <option value="fi">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_FINNISH</option>
+                    <option value="es">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_SPANISH</option>
+                    <option value="it">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_ITALIAN</option>
+                    <option value="pl">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_POLISH</option>
+                    <option value="fo">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_LANGUAGE_FAROSE</option>
                 </field>
-                <field name="dibs_color" type="list" default="1" label="FlexWin  Color:"
-                       description="The Basic color theme for flexwin.">
-                    <option value="sand" selected="selected">Sand</option>
-                    <option value="grey">Grey</option>
-                    <option value="blue">Blue</option>
+                <field name="dibs_color" type="list" default="1" label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_COLOR"
+                       description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_COLOR">
+                    <option value="sand" selected="selected">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_COLOR_SAND</option>
+                    <option value="grey">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_COLOR_GRAY</option>
+                    <option value="blue">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_COLOR_BLUE</option>
                 </field>
                 <field name="dibs_uniqueid" type="list" default="0"
-                       label="Unique Order ID:"
-                       description="Select Yes if you want to use this feature. If this parameter is defined, the orderid field must be unique, i.e., there is no existing transaction in DIBS with the same order number. If such a transaction already exists, payment will be rejected with reason=7. We strongly urge you to use this parameter, unless of course you are unable to generate unique order numbers. Note: If you use the MD5 control parameter 'md5key', you have to use 'uniqueoid'.">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_UNIQUE_ORDER_ID"
+                       description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_UNIQUE_ORDER_ID_DESC">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
                 </field>
                 <field name="dibs_flexwin_decorator" type="list" default="0"
-                       label="FlexWin Decorator:"
-                       description="Specifies which DIBS decorator (design in FlexWin) to use.">
-                    <option selected="selected" value="default">Default</option>
-                    <option value="basal">Basal</option>
-                    <option value="rich">Rich</option>
-                    <option value="Own Decorator">Own Decorator</option>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_DECORATOR"
+                       description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_DECORATOR">
+                    <option selected="selected" value="default">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_DECORATOR_DEFAULT</option>
+                    <option value="basal">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_DECORATOR_BASAL</option>
+                    <option value="rich">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_DECORATOR_RICH</option>
+                    <option value="Own Decorator">PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FLEXWIN_DECORATOR_OWN</option>
                 </field>
-                <field name="dibs_md5key1" type="text" default="" label="MD5Key1:"/>
-                <field name="dibs_md5key2" type="text" default="" label="MD5Key2:"/>
+                <field name="dibs_md5key1" type="text" default="" label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_MD5_KEY1"/>
+                <field name="dibs_md5key2" type="text" default="" label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_MD5_KEY2"/>
                 <field name="dibs_forcecurrency" type="text" default=""
-                       label="Force Currency:"/>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_FORCE_CURRENCY"/>
                 <field name="verify_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="C"
-                       label="Order Status for successful transactions"
-                       description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_ORDER_SUCCESS_STATUS"
+                       description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_ORDER_SUCCESS_STATUS">
                 </field>
                 <field name="invalid_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="P"
-                       label="Order Status for failed transactions"
-                       description="Select an order status for failed payment transactions.">
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_ORDER_FAIL_STATUS"
+                       description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_ORDER_FAIL_STATUS">
                 </field>
                 <field name="capture_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="S"
-                       label="Capture Payment Status" description="Select an capture status for capturing payment.">
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CATURE_STATUS" description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_CATURE_STATUS">
                 </field>
                 <field type="spacer"/>
             </fieldset>
             <fieldset name="advanced">
                 <field name="private_person" type="radio" default="1"
-                       label="Show on Private Person" description="Show on Private Person">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_PRIVATE_PERSION" description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_PRIVATE_PERSION">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="business" type="radio" default="1" label="Show on Business"
-                       description="Show on Business">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="business" type="radio" default="1" label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_BUSINESS"
+                       description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_BUSINESS">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="is_creditcard" type="hidden" default="0" value="0"/>
                 <field name="economic_payment_terms_id" type="text" default=""
-                       label="Enter E-conomic Payment Conditions ID"/>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_ECONOMIC_ID"/>
                 <field name="economic_design_layout" type="text" default=""
-                       label="Enter E-conomic Design and Layout ID"/>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_ECONOMIC_DESIGN_ID"/>
                 <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0"
-                       label="Select Shopper Group" description="Displays the shopper groups"/>
+                       label="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_SHOPPER_GROUP" description="PLG_RS_PAYMENT_DIBSPAYMENTMETHOD_SHOPPER_GROUP"/>
             </fieldset>
         </fields>
     </config>
