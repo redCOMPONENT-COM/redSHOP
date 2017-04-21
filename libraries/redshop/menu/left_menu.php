@@ -107,7 +107,7 @@ class RedshopMenuLeft_Menu
 				return array('PRODUCT_LISTING', 'manufacturer');
 				break;
 
-			case "medias":
+			case "medium":
 			case 'media':
 				return array('SHOP', 'media');
 				break;
@@ -336,7 +336,7 @@ class RedshopMenuLeft_Menu
 				'fa fa-sitemap'
 			)
 			->addHeaderItem(
-				'index.php?option=com_redshop&view=medias',
+				'index.php?option=com_redshop&view=medium',
 				'COM_REDSHOP_MEDIA_LISTING',
 				(self::$view == 'media') ? true : false,
 				null,

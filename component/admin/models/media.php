@@ -10,106 +10,121 @@
 defined('_JEXEC') or die;
 
 /**
- * Model Media
+ * Model Countries
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
  * @since       2.0.4
  */
 
-class RedshopModelMedia extends RedshopModelForm
+class RedshopModelMedia extends RedshopModelList
 {
 	/**
-	 * Method to get the data that should be injected in the form.
+	 * Name of the filter form to load
 	 *
-	 * @return  mixed  The data for the form.
-	 *
-	 * @since   1.6
+	 * @var  string
 	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
-		$data = $app->getUserState('com_redshop.edit.media.data', array());
+	protected $filterFormName = 'filter_medium';
 
-		if (empty($data))
+	/**
+	 * Construct class
+	 *
+	 * @since 1.x
+	 */
+
+	public function __construct()
+	{
+		if (empty($config['filter_fields']))
 		{
-			$data = $this->getItem();
+			$config['filter_fields'] = array(
+				'id', 'id',
+				'name', 'name',
+				'alternate_text', 'alternate_text',
+				'section', 'section',
+				'type', 'type'
+			);
 		}
 
-		$this->preprocessData('com_redshop.media', $data);
-
-		return $data;
+		parent::__construct($config);
 	}
 
 	/**
-	 * Method to save the form data.
+	 * Method to auto-populate the model state.
 	 *
-	 * @param   array  $data  The form data.
+	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return  boolean  True on success, False on error.
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
-	 * @since   12.2
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
-	public function save($data)
+	protected function populateState($ordering = null, $direction = null)
 	{
-	    $app = JFactory::getApplication();
-        $fileName = $app->getUserState('com_redshop.media.tmp.file.name', '');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
-        /* In case Upload File*/
-        if (trim($fileName) !== '')
-        {
-            $data['name'] = $fileName;
-        }
+		// List state information.
+		parent::populateState('name', 'asc');
+	}
 
-	    /* Case type Youtube */
-	    if (isset($data['youtube_id']) && $type='youtube' && (trim($data['youtube_id']) !== ''))
-        {
-            $data['name'] = $data['youtube_id'];
-        }
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.6
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter.search');
 
-        if (!isset($data['youtube_id']))
-        {
-            $data['youtube_id'] = '';
-        }
+		return parent::getStoreId($id);
+	}
 
-        $table = $this->getTable();
+	/**
+	 * Method to build an SQL query to load the list data.
+	 *
+	 * @return      string  An SQL query
+	 */
+	protected function getListQuery()
+	{
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_media'));
 
-	    $table->id = $data['id'];
-	    $table->name = $data['name'];
-	    $table->title = $data['title'];
-	    $table->youtube_id = $data['youtube_id'];
-	    $table->alternate_text = $data['alternate_text'];
-	    $table->section = $data['section'];
-	    $table->type = $data['type'];
-	    $table->published = $data['published'];
+		// Filter by search in name.
+		$search = $this->getState('filter.search');
 
-	    $table->store($data);
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where('id = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+				$query->where($db->qn('name') . ' LIKE ' . $search);
+			}
+		}
 
-        if (isset($table->id) && ($table->id > 0) && isset($data['name']) && ($data['type'] != 'youtube'))
-        {
-            try
-            {
-                $src = JPATH_ROOT . '/media/com_redshop/files/tmp/' . $data['name'];
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering', 'id');
+		$orderDirn = $this->state->get('list.direction', 'asc');
 
-                if (JFile::exists($src))
-                {
-                    $des = JPATH_ROOT . '/media/com_redshop/files/' . $data['section'] . '/' . $table->id . '/';
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-                    if (!JFolder::exists($des))
-                    {
-                        JFolder::create($des);
-                    }
-
-                    JFile::move($src, $des . $data['name']);
-
-                    unlink($src);
-                }
-            }
-            catch (Exception $e)
-            {
-
-            }
-        }
+		return $query;
 	}
 }

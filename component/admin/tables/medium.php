@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Table
  * @since       2.0.0.2.1
  */
-class RedshopTableMedia extends RedshopTable
+class RedshopTableMedium extends RedshopTable
 {
 	/**
 	 * The table name without the prefix. Ex: cursos_courses

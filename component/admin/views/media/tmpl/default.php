@@ -12,7 +12,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <form
-	action="index.php?option=com_redshop&view=countries"
+	action="index.php?option=com_redshop&view=media"
 	class="admin"
 	id="adminForm"
 	method="post"
@@ -44,10 +44,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<th width="10">
 				<?php echo JHtml::_('redshopgrid.checkall'); ?>
 			</th>
-			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_NAME', 'media_name', $listDirn, $listOrder); ?>
-			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_ALTERNATE_TEXT', 'media_alternate_text', $listDirn, $listOrder); ?>
-			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_SECTION', 'media_section', $listDirn, $listOrder); ?>
-			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_TYPE', 'media_TYPE', $listDirn, $listOrder); ?>
+			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_NAME', 'name', $listDirn, $listOrder); ?>
+			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_ALTERNATE_TEXT', 'alternate_text', $listDirn, $listOrder); ?>
+			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_SECTION', 'section', $listDirn, $listOrder); ?>
+			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_TYPE', 'type', $listDirn, $listOrder); ?>
 			<th width="1"><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_ID', 'id', $listDirn, $listOrder); ?>
 		</tr>
 		</thead>
@@ -58,7 +58,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		for ($i = 0, $n = count($this->items); $i < $n; $i++)
 		{
 			$row  = $this->items[$i];
-			$link = JRoute::_('index.php?option=com_redshop&task=media.edit&id=' . $row->id);
+			$link = JRoute::_('index.php?option=com_redshop&task=medium.edit&id=' . $row->id);
 
 			?>
 			<tr class="<?php echo "row$k"; ?>">
@@ -85,9 +85,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	</table>
 	<?php endif; ?>
 	<?php echo JHtml::_('form.token'); ?>
-	<input type="hidden" name="view" value="medias"/>
-	<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn ?>" />
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
 </form>

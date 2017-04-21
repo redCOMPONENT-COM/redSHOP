@@ -19,7 +19,7 @@ extract($displayData);
 
 JHtml::_('behavior.formvalidator');
 
-$action = 'index.php?option=com_redshop&task=.' . $data->getInstanceName() . 'edit&id=' . $data->item->id;
+$action = 'index.php?option=com_redshop&task=' . $data->getInstanceName() . '.edit&id=' . $data->item->id;
 ?>
 
 <form action="<?php echo $action ?>" method="post" id="adminForm" name="adminForm" class="form-validate form-horizontal adminform"

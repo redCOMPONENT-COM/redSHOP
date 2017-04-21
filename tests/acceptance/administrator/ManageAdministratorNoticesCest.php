@@ -24,7 +24,7 @@ class ManageAdministratorNoticesCest
 			'Country Manager' => '/administrator/index.php?option=com_redshop&view=countries',
 			'Product Manager' => '/administrator/index.php?option=com_redshop&view=product',
 			'Manufacturer Manager' => '/administrator/index.php?option=com_redshop&view=manufacturer',
-			'Media Manager' => '/administrator/index.php?option=com_redshop&view=medias',
+			'Media Manager' => '/administrator/index.php?option=com_redshop&view=medium',
 			'Order Manager' => '/administrator/index.php?option=com_redshop&view=order',
 			'Discount Manager' => '/administrator/index.php?option=com_redshop&view=discount',
 			'Gift Card Manager' => '/administrator/index.php?option=com_redshop&view=giftcards',

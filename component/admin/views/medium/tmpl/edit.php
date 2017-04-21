@@ -11,19 +11,9 @@ JHtml::_('behavior.formvalidator');
 $uri = JURI::getInstance();
 $url = $uri->root();
 $display = 'style="display:none"';
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "media.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
-		{
-			Joomla.submitform(task);
-		}
-	};
-');
 ?>
 
-<form action="index.php?option=com_redshop&task=media.edit&id=<?php echo $this->item->id ?>"
+<form action="index.php?option=com_redshop&task=medium.edit&id=<?php echo $this->item->id ?>"
 	method="post"
 	id="adminForm"
 	name="adminForm"
@@ -96,7 +86,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		jQuery(document).on('keyup', '#jform_youtube_id', function(e){
 			youtubeId = jQuery(this).val();
 			jQuery.ajax({
-                url: 'index.php?option=com_redshop&task=media.ajaxUpdateYoutubeVideo&youtube_id=' + youtubeId,
+                url: 'index.php?option=com_redshop&task=medium.ajaxUpdateYoutubeVideo&youtube_id=' + youtubeId,
                 type: 'GET'
             })
             .done(function (response) {
@@ -115,7 +105,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	{
 		mediaSeciton = jQuery(e).val();
 		jQuery.ajax({
-            url: 'index.php?option=com_redshop&task=media.ajaxUpdateSectionId&media_section=' + mediaSeciton,
+            url: 'index.php?option=com_redshop&task=medium.ajaxUpdateSectionId&media_section=' + mediaSeciton,
             type: 'GET'
         })
         .done(function (response) {

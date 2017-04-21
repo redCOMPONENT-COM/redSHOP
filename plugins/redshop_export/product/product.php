@@ -392,7 +392,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	}
 
 	/**
-	 * Method for process medias of product.
+	 * Method for process medium of product.
 	 *
 	 * @param   array  &$product  Product data.
 	 *
