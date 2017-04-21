@@ -1048,8 +1048,8 @@ class RedshopModelStatistic extends RedshopModelList
 				break;
 			case "category":
 				$query
-					->select($db->qn('category_name', 'sname'))
-					->select($db->qn('category_id', 'id'))
+					->select($db->qn('name', 'sname'))
+					->select($db->qn('id'))
 					->from($db->qn('#__redshop_category'))
 					->where($db->qn('category_id') . ' = ' . $db->q((int) $sectionId));
 				$return = $db->setQuery($query)->loadObject();

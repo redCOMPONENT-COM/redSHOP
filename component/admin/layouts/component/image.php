@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 $image_path = $type . '/' . trim($image);
-
 ?>
 
 <div class="alert alert-info imagewarning">

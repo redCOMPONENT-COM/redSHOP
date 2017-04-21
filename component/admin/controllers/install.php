@@ -355,4 +355,29 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
 		$app->close();
 	}
+
+	/**
+	 * Method to update new structure for Category
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.5
+	 */
+	public function updateCategory()
+	{
+		$app = JFactory::getApplication();
+		$model = $this->getModel();
+		
+		if (!$model->processUpdateCategory())
+		{
+			$app->setHeader('status', 500);
+			$app->sendHeaders();
+			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
+			$app->close();
+		}
+
+		$app->sendHeaders();
+		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+		$app->close();
+	}
 }

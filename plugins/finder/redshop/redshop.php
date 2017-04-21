@@ -239,7 +239,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 			->select($case_when_item_alias)
 			->from('#__redshop_product AS p')
 			->join('LEFT', '#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
-			->join('LEFT', '#__redshop_category AS c ON c.category_id = pc.category_id')
+			->join('LEFT', '#__redshop_category AS c ON c.id = pc.category_id')
 			->where($this->db->quoteName('p.published') . ' = 1');
 
 		return $query;

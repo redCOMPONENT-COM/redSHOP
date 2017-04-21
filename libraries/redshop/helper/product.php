@@ -159,18 +159,18 @@ class RedshopHelperProduct
 
 		// Getting cat_in_sefurl as main category id if it available
 		$query->leftJoin($db->qn('#__redshop_product_category_xref', 'pc3') . ' ON pc3.product_id = p.product_id AND pc3.category_id = p.cat_in_sefurl')
-			->leftJoin($db->qn('#__redshop_category', 'c3') . ' ON pc3.category_id = c3.category_id AND c3.published = 1');
+			->leftJoin($db->qn('#__redshop_category', 'c3') . ' ON pc3.category_id = c3.id AND c3.published = 1');
 
 		$subQuery = $db->getQuery(true)
-			->select('GROUP_CONCAT(DISTINCT c2.category_id ORDER BY c2.category_id ASC SEPARATOR ' . $db->q(',') . ')')
+			->select('GROUP_CONCAT(DISTINCT c2.id ORDER BY c2.id ASC SEPARATOR ' . $db->q(',') . ')')
 			->from($db->qn('#__redshop_category', 'c2'))
-			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc2') . ' ON c2.category_id = pc2.category_id')
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc2') . ' ON c2.id = pc2.category_id')
 			->where('p.product_id = pc2.product_id')
 			->where('((p.cat_in_sefurl != ' . $db->q('') . ' AND p.cat_in_sefurl != pc2.category_id) OR p.cat_in_sefurl = ' . $db->q('') . ')')
 			->where('c2.published = 1');
 
 		// In first position set main category id
-		$query->select('CONCAT_WS(' . $db->q(',') . ', c3.category_id, (' . $subQuery . ')) AS categories');
+		$query->select('CONCAT_WS(' . $db->q(',') . ', c3.id, (' . $subQuery . ')) AS categories');
 
 		// Select media
 		$query->select(array('media.media_alternate_text', 'media.media_id'))
