@@ -392,7 +392,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 					$product_serial_number = $producthelper->getProdcutSerialNumber($product_id);
 					$producthelper->insertProductDownload(
 						$product_id, $user_id, $rowitem->order_id,
-						$medianame[$j]->media_name, $product_serial_number->serial_number
+						$medianame[$j]->name, $product_serial_number->serial_number
 					);
 				}
 			}

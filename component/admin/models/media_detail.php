@@ -69,12 +69,12 @@ class RedshopModelMedia_detail extends RedshopModel
 		if (empty($this->_data))
 		{
 			$detail = new stdClass;
-			$detail->media_id = 0;
-			$detail->media_title = null;
-			$detail->media_type = null;
-			$detail->media_name = null;
-			$detail->media_alternate_text = null;
-			$detail->media_section = null;
+			$detail->id = 0;
+			$detail->title = null;
+			$detail->type = null;
+			$detail->name = null;
+			$detail->alternate_text = null;
+			$detail->section = null;
 			$detail->section_id = null;
 			$detail->published = 1;
 			$this->_data = $detail;
@@ -114,7 +114,7 @@ class RedshopModelMedia_detail extends RedshopModel
 		}
 
 		$db = JFactory::getDbo();
-		$condition = 'section_id = ' . $db->q($row->section_id) . ' AND media_section = ' . $db->q($row->media_section);
+		$condition = 'section_id = ' . $db->q($row->section_id) . ' AND media_section = ' . $db->q($row->section);
 		$row->reorder($condition);
 
 		return $row;
@@ -132,10 +132,10 @@ class RedshopModelMedia_detail extends RedshopModel
 
 			foreach ($this->_data as $mediadata)
 			{
-				$ntsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
-					. $mediadata->media_section . '/thumb/' . $mediadata->media_name;
-				$nsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
-					. $mediadata->media_section . '/' . $mediadata->media_name;
+				$ntsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->type . '/'
+					. $mediadata->section . '/thumb/' . $mediadata->name;
+				$nsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->type . '/'
+					. $mediadata->section . '/' . $mediadata->name;
 
 				if (is_file($nsrc))
 				{
@@ -147,14 +147,14 @@ class RedshopModelMedia_detail extends RedshopModel
 					unlink($ntsrc);
 				}
 
-				if ($mediadata->media_section == 'manufacturer')
+				if ($mediadata->section == 'manufacturer')
 				{
 					$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE section_id IN ( ' . $mediadata->section_id . ' )';
 					$this->_db->setQuery($query);
 					$this->_db->execute();
 				}
 
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id IN ( ' . $mediadata->media_id . ' )';
+				$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id IN ( ' . $mediadata->id . ' )';
 				$this->_db->setQuery($query);
 
 				if (!$this->_db->execute())
@@ -278,13 +278,13 @@ class RedshopModelMedia_detail extends RedshopModel
 
 			if (count($rs) > 0)
 			{
-				if ($rs->media_type == "images")
+				if ($rs->type == "images")
 				{
 					switch ($media_section)
 					{
 						case "product":
 							$query = "UPDATE `" . $this->_table_prefix . "product` "
-								. "SET `product_thumb_image` = '', `product_full_image` = '" . $rs->media_name . "' "
+								. "SET `product_thumb_image` = '', `product_full_image` = '" . $rs->name . "' "
 								. "WHERE `product_id`='" . $section_id . "' ";
 							$this->_db->setQuery($query);
 
@@ -297,7 +297,7 @@ class RedshopModelMedia_detail extends RedshopModel
 							break;
 						case "property":
 							$query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` "
-								. "SET `property_main_image` = '" . $rs->media_name . "' "
+								. "SET `property_main_image` = '" . $rs->name . "' "
 								. "WHERE `property_id`='" . $section_id . "' ";
 							$this->_db->setQuery($query);
 
@@ -310,7 +310,7 @@ class RedshopModelMedia_detail extends RedshopModel
 							break;
 						case "subproperty":
 							$query = "UPDATE `" . $this->_table_prefix . "product_subattribute_color` "
-								. "SET `subattribute_color_main_image` = '" . $rs->media_name . "' "
+								. "SET `subattribute_color_main_image` = '" . $rs->name . "' "
 								. "WHERE `subattribute_color_id`='" . $section_id . "' ";
 							$this->_db->setQuery($query);
 
@@ -325,7 +325,7 @@ class RedshopModelMedia_detail extends RedshopModel
 				}
 				else
 				{
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDSHOP_ERROR_SET_DEFAULT_MEDIA', $rs->media_type), 'warning');
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDSHOP_ERROR_SET_DEFAULT_MEDIA', $rs->type), 'warning');
 
 					return false;
 				}
@@ -359,7 +359,7 @@ class RedshopModelMedia_detail extends RedshopModel
 				}
 
 				// Remember to updateOrder this group
-				$condition = 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"';
+				$condition = 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->section . '"';
 				$found = false;
 
 				foreach ($conditions as $cond)
@@ -373,7 +373,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 				if (!$found)
 				{
-					$conditions[] = array($row->media_id, $condition);
+					$conditions[] = array($row->id, $condition);
 				}
 			}
 		}
@@ -390,7 +390,7 @@ class RedshopModelMedia_detail extends RedshopModel
 	{
 		$row = $this->getTable();
 		$row->load($this->_id);
-		$row->move(-1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
+		$row->move(-1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->section . '"');
 		$row->store();
 
 		return true;
@@ -400,7 +400,7 @@ class RedshopModelMedia_detail extends RedshopModel
 	{
 		$row = $this->getTable();
 		$row->load($this->_id);
-		$row->move(1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
+		$row->move(1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->section . '"');
 		$row->store();
 
 		return true;

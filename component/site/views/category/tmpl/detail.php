@@ -528,19 +528,19 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 			for ($m = 0, $nm = count($media_documents); $m < $nm; $m++)
 			{
-				$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
+				$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->id, "document");
 
 				if (!$alttext)
 				{
-					$alttext = $media_documents[$m]->media_name;
+					$alttext = $media_documents[$m]->name;
 				}
 
-				if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->media_name))
+				if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->name))
 				{
 					$downlink = JURI::root() .
 								'index.php?tmpl=component&option=' . $this->option .
 								'&view=product&pid=' . $this->data->product_id .
-								'&task=downloadDocument&fname=' . $media_documents[$m]->media_name .
+								'&task=downloadDocument&fname=' . $media_documents[$m]->name .
 								'&Itemid=' . $this->itemid;
 					$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
 					$more_doc .= $alttext;

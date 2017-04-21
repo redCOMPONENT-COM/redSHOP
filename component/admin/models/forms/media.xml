@@ -6,8 +6,8 @@
                 type="hidden"
                 />
         <field
-                id="media_name"
-                name="media_name"
+                id="name"
+                name="name"
                 type="hidden"
                 />
         <field
@@ -44,7 +44,7 @@
                 default=""
                 />
         <field
-                name="media_alternate_text"
+                name="alternate_text"
                 type="redshop.text"
                 label="COM_REDSHOP_MEDIA_ALTERNATE_TEXT"
                 description="COM_REDSHOP_MEDIA_ALTERNATE_TEXT_DESCRIPTION"
@@ -55,7 +55,7 @@
                 required="true"
                 />
         <field
-                name="media_section"
+                name="section"
                 type="list"
                 label-class="select-2"
                 default="1"
@@ -70,7 +70,7 @@
             <option value="subproperty">COM_REDSHOP_MEDIA_SECTION_SUBATTRIBUTE</option>
         </field>
         <field
-                name="media_type"
+                name="type"
                 type="list"
                 label-class="select-2"
                 default="1"

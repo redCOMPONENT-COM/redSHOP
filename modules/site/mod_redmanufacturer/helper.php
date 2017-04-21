@@ -30,10 +30,10 @@ abstract class ModRedManufacturerHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('m.media_name, ma.manufacturer_name, ma.manufacturer_id')
+			->select('m.name, ma.manufacturer_name, ma.manufacturer_id')
 			->from($db->qn('#__redshop_manufacturer', 'ma'))
 			->leftJoin($db->qn('#__redshop_media', 'm') . ' ON m.section_id = ma.manufacturer_id')
-			->where('m.media_section = ' . $db->q('manufacturer'))
+			->where('m.section = ' . $db->q('manufacturer'))
 			->where('m.published = 1')
 			->where('ma.published = 1');
 		

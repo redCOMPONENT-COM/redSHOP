@@ -107,8 +107,8 @@ class RedshopMenuLeft_Menu
 				return array('PRODUCT_LISTING', 'manufacturer');
 				break;
 
-			case "media":
-			case 'media_detail':
+			case "medias":
+			case 'media':
 				return array('SHOP', 'media');
 				break;
 

@@ -43,15 +43,6 @@ class JFormFieldMediadragdrop extends JFormField
 			'value'        => $this->value
 		];
 
-		/*RedshopHelperMediaImage::render(
-				'media_name',
-				$this->item->media_section,
-				$this->item->id,
-				$this->item->media_section,
-				$this->item->media_name,
-				false
-			);*/
-
 		// Render html in layouts/html
 		return RedshopLayoutHelper::render(
 			'html.dropzone',

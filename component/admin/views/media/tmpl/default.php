@@ -126,8 +126,8 @@ else
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
-				<th width="15%" class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_NAME', 'media_name', $this->lists ['order_Dir'], $this->lists ['order']);    ?></th>
-				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_TYPE', 'media_type', $this->lists ['order_Dir'], $this->lists ['order']);    ?></th>
+				<th width="15%" class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_NAME', 'name', $this->lists ['order_Dir'], $this->lists ['order']);    ?></th>
+				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_TYPE', 'type', $this->lists ['order_Dir'], $this->lists ['order']);    ?></th>
 			<?php
 				if ($showbuttons == 1)
 				{
@@ -136,10 +136,10 @@ else
 				}
 
 			echo '<th width="15%">';
-			echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_ALTERNATE_TEXT', 'media_alternate_text', $this->lists ['order_Dir'], $this->lists ['order']);
+			echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_ALTERNATE_TEXT', 'alternate_text', $this->lists ['order_Dir'], $this->lists ['order']);
 			echo '</th>'
 				. '<th width="10%">';
-			echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_SECTION', 'media_section', $this->lists ['order_Dir'], $this->lists ['order']);
+			echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_SECTION', 'section', $this->lists ['order_Dir'], $this->lists ['order']);
 			echo '</th>';
 
 					if ($showbuttons == 1 && ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty'))
@@ -166,7 +166,7 @@ else
 				echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $this->lists ['order_Dir'], $this->lists ['order']);
 				echo '</th>';
 				echo '<th width="5%" nowrap="nowrap">';
-				echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'media_id', $this->lists ['order_Dir'], $this->lists ['order']);
+				echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'id', $this->lists ['order_Dir'], $this->lists ['order']);
 				echo '</th>'
 				. '</tr>'
 			. '</thead>';
@@ -176,7 +176,7 @@ else
 			for ($i = 0, $n = count($this->media); $i < $n; $i++)
 			{
 				$row       = $this->media[$i];
-				$row->id   = $row->media_id;
+				$row->id   = $row->id;
 				$published = JHTML::_('grid.published', $row, $i);    ?>
 
 				<tr class="<?php echo "row$k"; ?>">
@@ -185,11 +185,11 @@ else
 					<td>
 					<?php
 
-						$filetype = strtolower(JFile::getExt(trim($row->media_name)));
+						$filetype = strtolower(JFile::getExt(trim($row->name)));
 
-						if (($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif') && $row->media_type == 'images')
+						if (($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif') && $row->type == 'images')
 						{
-							$media_img = $url . 'components/com_redshop/assets/' . $row->media_type . '/' . $row->media_section . '/' . trim($row->media_name);    ?>
+							$media_img = $url . 'components/com_redshop/assets/' . $row->type . '/' . $row->section . '/' . trim($row->name);    ?>
 							<a class="joom-box" href="<?php echo $media_img; ?>"
 							   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
 							   rel="{handler: 'image', size: {}}">
@@ -198,17 +198,17 @@ else
 						}
 						else
 						{
-							echo $row->media_name;
+							echo $row->name;
 						}
 
 					echo '</td>';
-					echo '<td align="center" class="order">' . $row->media_type . '</td>';
+					echo '<td align="center" class="order">' . $row->type . '</td>';
 
 					if ($showbuttons == 1)
 					{
 						echo '<td class="order">';
 
-						if ($row->media_type == 'download')
+						if ($row->type == 'download')
 						{
 							$additionalfiles = $model->getAdditionalFiles($row->id);
 					?>
@@ -223,13 +223,13 @@ else
 					echo '</td>';
 					}
 
-					echo '<td class="order">' . $row->media_alternate_text . '</td>';
-					echo '<td align="center" class="order">' . $row->media_section . '</td>';
+					echo '<td class="order">' . $row->alternate_text . '</td>';
+					echo '<td align="center" class="order">' . $row->section . '</td>';
 
 					if ($showbuttons == 1 && ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty'))
 					{
 						echo '<td align="center">';
-						$isDefault = trim($sectiona_primary_image) == trim($row->media_name);
+						$isDefault = trim($sectiona_primary_image) == trim($row->name);
 						echo JHtml::_('jgrid.isdefault', $isDefault, $i, '', !$isDefault);
 						echo '</td>';
 					}
@@ -258,7 +258,7 @@ else
 					}
 					?>
 					<td align="center"><?php echo $published; ?></td>
-					<td align="center"><?php echo $row->media_id; ?></td>
+					<td align="center"><?php echo $row->id; ?></td>
 				</tr>
 			<?php
 				$k = 1 - $k;

@@ -682,22 +682,22 @@ COMMENT = 'redSHOP Mass Discount.';
 DROP TABLE IF EXISTS `#__redshop_media` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_media` (
-  `media_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `media_name` VARCHAR(250) NOT NULL,
-  `media_alternate_text` VARCHAR(255) NOT NULL,
-  `media_section` VARCHAR(20) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(250) NOT NULL,
+  `alternate_text` VARCHAR(255) NOT NULL,
+  `section` VARCHAR(20) NOT NULL,
   `section_id` INT(11) NOT NULL,
-  `media_type` VARCHAR(250) NOT NULL,
-  `media_mimetype` VARCHAR(20) NOT NULL,
+  `type` VARCHAR(250) NOT NULL,
+  `mimetype` VARCHAR(20) NOT NULL,
   `published` TINYINT(4) NOT NULL,
   `ordering` INT(11) NOT NULL,
   PRIMARY KEY (`media_id`),
   INDEX `idx_section_id` (`section_id` ASC),
-  INDEX `idx_media_section` (`media_section` ASC),
-  INDEX `idx_media_type` (`media_type` ASC),
-  INDEX `idx_media_name` (`media_name` ASC),
+  INDEX `idx_section` (`section` ASC),
+  INDEX `idx_type` (`type` ASC),
+  INDEX `idx_name` (`name` ASC),
   INDEX `idx_published` (`published` ASC),
-  INDEX `#__rs_idx_media_common` USING BTREE (`section_id` ASC, `media_section` ASC, `media_type` ASC, `published` ASC, `ordering` ASC))
+  INDEX `#__rs_idx_common` USING BTREE (`section_id` ASC, `section` ASC, `type` ASC, `published` ASC, `ordering` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Media';

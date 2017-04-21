@@ -704,7 +704,7 @@ class RedshopControllerProduct extends RedshopController
 			{
 				$finalname = $model->AdditionaldownloadProduct($id, 0, 1);
 
-				$name = $finalname[0]->media_name;
+				$name = $finalname[0]->name;
 
 			}
 			elseif ($task == "additional")

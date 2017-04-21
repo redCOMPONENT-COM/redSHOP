@@ -148,7 +148,7 @@ class RedshopHelperMediaImage
 		{
 			foreach ($listMedia as $lk => $lm)
 			{
-				$tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $lm->media_section . '/' . $lm->media_name;
+				$tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $lm->section . '/' . $lm->name;
 
 				if (file_exists($tmpFile))
 				{
@@ -160,17 +160,17 @@ class RedshopHelperMediaImage
 					}
 
 					$tmpImg    = array(
-						'id'        => $lm->media_id,
-						'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
-						'name'      => $lm->media_name,
+						'id'        => $lm->id,
+						'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->section . '/' . $lm->name,
+						'name'      => $lm->name,
 						'size'      => self::sizeFilter(filesize($tmpFile)),
 						'dimension' => $dimension,
-						'media'     => $lm->media_section,
-						'mime'      => substr($lm->media_type, 0, -1),
+						'media'     => $lm->section,
+						'mime'      => substr($lm->type, 0, -1),
 						'status'    => $lm->published ? '' : '-slash'
 					);
 
-					if ($image === $lm->media_name)
+					if ($image === $lm->name)
 					{
 						$tmpImg['attached'] = "true";
 					}
@@ -250,7 +250,7 @@ class RedshopHelperMediaImage
 
 		foreach ($listMedia as $lk => $lm)
 		{
-			$tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $lm->media_section . '/' . $lm->media_name;
+			$tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $lm->section . '/' . $lm->name;
 
 			if (file_exists($tmpFile))
 			{
@@ -262,17 +262,17 @@ class RedshopHelperMediaImage
 				}
 
 				$tmpImg    = array(
-					'id'        => $lm->media_id,
-					'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
-					'name'      => $lm->media_name,
+					'id'        => $lm->id,
+					'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->section . '/' . $lm->name,
+					'name'      => $lm->name,
 					'size'      => self::sizeFilter(filesize($tmpFile)),
 					'dimension' => $dimension,
-					'media'     => $lm->media_section,
-					'mime'      => substr($lm->media_type, 0, -1),
+					'media'     => $lm->section,
+					'mime'      => substr($lm->type, 0, -1),
 					'status'    => $lm->published ? '' : '-slash'
 				);
 
-				if ($selectedImage === $lm->media_name)
+				if ($selectedImage === $lm->name)
 				{
 					$tmpImg['attached'] = "true";
 				}

@@ -57,7 +57,7 @@ $document->addStyleDeclaration('
 	<ul class="slides">
 		<?php foreach ($list as $slide):
 			$thumbUrl = RedShopHelperImages::getImagePath(
-				$slide->media_name,
+				$slide->name,
 				'',
 				'thumb',
 				'manufacturer',

@@ -195,7 +195,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			'download' => array('download', 'download_order', 'download_alternattext'),
 		);
 
-		$mediaColumn = array('m.media_name', 'm.ordering', 'm.media_alternate_text');
+		$mediaColumn = array('m.media', 'm.ordering', 'm.alternate_text');
 		$mediaQuery = $db->getQuery(true);
 
 		foreach ($medias as $mediaType => $columns)
@@ -206,8 +206,8 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 					->select('GROUP_CONCAT(' . $db->qn($mediaColumn[$index]) . ' SEPARATOR ' . $db->quote('###') . ')')
 					->from($db->qn('#__redshop_media', 'm') . ' USE INDEX(' . $db->qn('#__rs_idx_media_common') . ')')
 					->where($db->qn('m.section_id') . ' = ' . $db->qn('p.product_id'))
-					->where($db->qn('m.media_type') . ' = ' . $db->quote($mediaType))
-					->where($db->qn('m.media_section') . ' = ' . $db->quote('product'))
+					->where($db->qn('m.type') . ' = ' . $db->quote($mediaType))
+					->where($db->qn('m.section') . ' = ' . $db->quote('product'))
 					->order($db->qn('m.ordering'));
 				$query->select('(' . $mediaQuery . ') AS ' . $db->qn($columnAlias));
 			}

@@ -586,9 +586,9 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		$this->_db->setQuery($query);
 		$imgdata = $this->_db->loadObject();
 
-		$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $imgdata->media_name;
+		$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $imgdata->name;
 
-		$tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'property/thumb/' . $imgdata->media_name;
+		$tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'property/thumb/' . $imgdata->name;
 
 		if (file_exists($dest))
 		{
@@ -1065,12 +1065,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 								for ($li = 0; $li < count($listImages); $li++)
 								{
 									$mImages = array();
-									$mImages['media_name'] = $listImages[$li]->media_name;
-									$mImages['media_alternate_text'] = $listImages[$li]->media_alternate_text;
-									$mImages['media_section'] = 'property';
+									$mImages['name'] = $listImages[$li]->name;
+									$mImages['alternate_text'] = $listImages[$li]->alternate_text;
+									$mImages['section'] = 'property';
 									$mImages['section_id'] = $row->property_id;
-									$mImages['media_type'] = 'images';
-									$mImages['media_mimetype'] = $listImages[$li]->media_mimetype;
+									$mImages['type'] = 'images';
+									$mImages['mimetype'] = $listImages[$li]->mimetype;
 									$mImages['published'] = $listImages[$li]->published;
 									$this->copyadditionalImage($mImages);
 								}
@@ -1189,12 +1189,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 										for ($lsi = 0; $lsi < count($listsubpropImages); $lsi++)
 										{
 											$smImages = array();
-											$smImages['media_name'] = $listsubpropImages[$lsi]->media_name;
-											$smImages['media_alternate_text'] = $listsubpropImages[$lsi]->media_alternate_text;
-											$smImages['media_section'] = 'subproperty';
+											$smImages['name'] = $listsubpropImages[$lsi]->name;
+											$smImages['alternate_text'] = $listsubpropImages[$lsi]->alternate_text;
+											$smImages['section'] = 'subproperty';
 											$smImages['section_id'] = $row->subattribute_color_id;
-											$smImages['media_type'] = 'images';
-											$smImages['media_mimetype'] = $listsubpropImages[$lsi]->media_mimetype;
+											$smImages['type'] = 'images';
+											$smImages['mimetype'] = $listsubpropImages[$lsi]->mimetype;
 											$smImages['published'] = $listsubpropImages[$lsi]->published;
 
 											$this->copyadditionalImage($smImages);

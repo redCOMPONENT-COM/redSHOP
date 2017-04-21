@@ -219,8 +219,8 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function getMediaId($mid)
 	{
-		$query = 'SELECT media_id,media_name,media_alternate_text FROM ' . $this->_table_prefix . 'media '
-			. 'WHERE media_section="manufacturer" AND section_id = ' . $mid;
+		$query = 'SELECT `id`,`name`,`alternate_text` FROM ' . $this->_table_prefix . 'media '
+			. 'WHERE section="manufacturer" AND section_id = ' . $mid;
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObject();

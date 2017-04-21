@@ -375,10 +375,10 @@ if (strstr($template_desc, "{manufacturer_image}"))
 	$media_image = $producthelper->getAdditionMediaImage($this->data->manufacturer_id, "manufacturer");
 	$m           = 0;
 
-	if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
+	if ($media_image[$m]->name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->name))
 	{
-		$wimg      = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
-		$linkimage = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
+		$wimg      = $this->redHelper->watermark('manufacturer', $media_image[$m]->name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
+		$linkimage = $this->redHelper->watermark('manufacturer', $media_image[$m]->name, '', '', Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 
 		$altText = $producthelper->getAltText('manufacturer', $this->data->manufacturer_id);
 
@@ -963,20 +963,20 @@ if (strstr($template_desc, $mpimg_tag))
 
 		for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 		{
-			$filename1 = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $media_image[$m]->media_name;
+			$filename1 = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $media_image[$m]->name;
 
-			if ($media_image[$m]->media_name != $media_image[$m]->product_full_image && file_exists($filename1))
+			if ($media_image[$m]->name != $media_image[$m]->product_full_image && file_exists($filename1))
 			{
-				$alttext = $producthelper->getAltText('product', $media_image[$m]->section_id, '', $media_image[$m]->media_id);
+				$alttext = $producthelper->getAltText('product', $media_image[$m]->section_id, '', $media_image[$m]->id);
 
 				if (!$alttext)
 				{
-					$alttext = $media_image [$m]->media_name;
+					$alttext = $media_image [$m]->name;
 				}
 
-				if ($media_image [$m]->media_name)
+				if ($media_image [$m]->name)
 				{
-					$thumb = $media_image [$m]->media_name;
+					$thumb = $media_image [$m]->name;
 
 					if (Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'))
 					{
@@ -1181,7 +1181,7 @@ if (strstr($template_desc, "{more_videos}"))
 	{
 		for ($m = 0, $mn = count($media_videos); $m < $mn; $m++)
 		{
-			$insertStr .= "<div id='additional_vids_" . $media_videos[$m]->media_id . "'><a class='modal' title='" . $media_videos[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_videos[$m]->media_name . "' rel='{handler: \"iframe\", size: {x: 800, y: 500}}'><img src='https://img.youtube.com/vi/" . $media_videos[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+			$insertStr .= "<div id='additional_vids_" . $media_videos[$m]->id . "'><a class='modal' title='" . $media_videos[$m]->alternate_text . "' href='http://www.youtube.com/embed/" . $media_videos[$m]->name . "' rel='{handler: \"iframe\", size: {x: 800, y: 500}}'><img src='https://img.youtube.com/vi/" . $media_videos[$m]->name . "/default.jpg' height='80px' width='80px'/></a></div>";
 		}
 	}
 
@@ -1197,17 +1197,17 @@ if (strstr($template_desc, "{more_documents}"))
 
 	for ($m = 0, $mn = count($media_documents); $m < $mn; $m++)
 	{
-		$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document");
+		$alttext = $producthelper->getAltText("product", $media_documents[$m]->section_id, "", $media_documents[$m]->id, "document");
 
 		if (!$alttext)
 		{
-			$alttext = $media_documents[$m]->media_name;
+			$alttext = $media_documents[$m]->name;
 		}
 
-		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
+		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->name))
 		{
 			$downlink = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id .
-										'&task=downloadDocument&fname=' . $media_documents[$m]->media_name .
+										'&task=downloadDocument&fname=' . $media_documents[$m]->name .
 										'&Itemid=' . $this->itemId;
 			$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
 			$more_doc .= $alttext;

@@ -51,11 +51,11 @@ class RedshopControllerManufacturer_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
 
 			// Working on media files of this manufacturer
-			$mediaTable = JTable::getInstance('Media_detail', 'Table');
+			$mediaTable = JTable::getInstance('Media', 'Table');
 
 			// If force to delete media image of manufacturer. Delete this media.
 			if (isset($post['manufacturer_image_delete'])
-				&& $mediaTable->load(array('section_id' => $row->manufacturer_id, 'media_section' => 'manufacturer')))
+				&& $mediaTable->load(array('section_id' => $row->manufacturer_id, 'section' => 'manufacturer')))
 			{
 				$mediaTable->delete();
 			}
@@ -63,26 +63,26 @@ class RedshopControllerManufacturer_detail extends RedshopController
 			elseif (!empty($post['manufacturer_image']))
 			{
 				// Try to load media associate with this manufacturer
-				if ($mediaTable->load(array('section_id' => $row->manufacturer_id, 'media_section' => 'manufacturer')))
+				if ($mediaTable->load(array('section_id' => $row->manufacturer_id, 'section' => 'manufacturer')))
 				{
 					// Delete old image.
-					$oldMediaFile = REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . $mediaTable->media_name;
+					$oldMediaFile = REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . $mediaTable->name;
 					unlink($oldMediaFile);
 				}
 				else
 				{
 					$mediaTable->set('section_id', $row->manufacturer_id);
-					$mediaTable->set('media_section', 'manufacturer');
+					$mediaTable->set('section', 'manufacturer');
 				}
 
-				$mediaTable->set('media_alternate_text', $this->input->getString('media_alternate_text', ''));
-				$mediaTable->set('media_type', 'images');
+				$mediaTable->set('alternate_text', $this->input->getString('alternate_text', ''));
+				$mediaTable->set('type', 'images');
 				$mediaTable->set('published', 1);
 
 				// Copy new image for this media
 				$fileName = basename($post['manufacturer_image']);
 				copy(JPATH_ROOT . '/' . $post['manufacturer_image'], REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . $fileName);
-				$mediaTable->set('media_name', $fileName);
+				$mediaTable->set('name', $fileName);
 				$mediaTable->store();
 			}
 		}

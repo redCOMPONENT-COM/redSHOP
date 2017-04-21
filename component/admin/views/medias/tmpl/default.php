@@ -65,11 +65,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<td><?php echo $this->pagination->getRowOffset($i); ?></td>
 				<td><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
 				<td><a href="<?php echo $link; ?>"
-					   title="<?php echo JText::_('COM_REDSHOP_EDIT_MEDIA'); ?>"><?php echo $row->media_name ?></a>
+					   title="<?php echo JText::_('COM_REDSHOP_EDIT_MEDIA'); ?>"><?php echo $row->name ?></a>
 				</td>
-				<td align="center" width="10%"><?php echo $row->media_alternate_text ?></td>
-				<td align="center" width="10%"><?php echo $row->media_section ?></td>
-				<td align="center" width="10%"><?php echo $row->media_type ?></td>
+				<td align="center" width="10%"><?php echo $row->alternate_text ?></td>
+				<td align="center" width="10%"><?php echo $row->section ?></td>
+				<td align="center" width="10%"><?php echo $row->type ?></td>
 				<td align="right"><?php echo $row->id ?></td>
 			</tr>
 			<?php

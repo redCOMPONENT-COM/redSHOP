@@ -38,14 +38,14 @@ JFactory::getDocument()->addScriptDeclaration('
 		            <div class="box-body">
 		                <div class="form-group" id="divShowBox">
 							<?php echo RedshopHelperMediaImage::render(
-								'media_name',
-								$this->item->media_section,
+								'name',
+								$this->item->section,
 								$this->item->id,
-								$this->item->media_section,
-								$this->item->media_name,
+								$this->item->section,
+								$this->item->name,
 								false
 							) ?>
-							<?php echo $this->form->renderField('media_name') ?>
+							<?php echo $this->form->renderField('name') ?>
 		                </div>
 		                <div class="form-group" id="divYouTube">
 		                	<?php echo $this->form->renderField('youtube_id') ?>
@@ -65,8 +65,8 @@ JFactory::getDocument()->addScriptDeclaration('
 							<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_MEDIA_SECTION') ?></h3>
 					</div>
 					<div class="box-body">
-						<?php echo $this->form->renderField('media_type') ?>
-						<?php echo $this->form->renderField('media_section') ?>
+						<?php echo $this->form->renderField('type') ?>
+						<?php echo $this->form->renderField('section') ?>
 						<div id="divSectionId">
 							<?php echo $this->form->renderField('section_id') ?>
 						</div>
@@ -77,7 +77,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DETAILS') ?></h3>
 					</div>
 					<div class="box-body">
-						<?php echo $this->form->renderField('media_alternate_text') ?>
+						<?php echo $this->form->renderField('alternate_text') ?>
 						
 						<?php echo $this->form->renderField('published') ?>
 					</div>

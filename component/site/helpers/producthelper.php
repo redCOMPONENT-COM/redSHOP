@@ -2040,29 +2040,29 @@ class productHelper
 		{
 			if ($productData = $this->getProductById($sectionId))
 			{
-				if ($mediaName == $productData->product_full_image || $mediaId == $productData->media_id)
+				if ($mediaName == $productData->product_full_image || $mediaId == $productData->id)
 				{
-					return $productData->media_alternate_text;
+					return $productData->alternate_text;
 				}
 			}
 		}
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('media_alternate_text')
+			->select('alternate_text')
 			->from($db->qn('#__redshop_media'))
-			->where('media_section = ' . $db->q($mediaSection))
-			->where('section_id = ' . (int) $sectionId)
-			->where('media_type = ' . $db->q($mediaType));
+			->where($db->qn('section') . ' = ' . $db->q($mediaSection))
+			->where($db->qn('section_id') . ' = ' . (int) $sectionId)
+			->where($db->qn('type') . ' = ' . $db->q($mediaType));
 
 		if ($mediaName)
 		{
-			$query->where('media_name = ' . $db->q($mediaName));
+			$query->where($db->qn('name') .' = ' . $db->q($mediaName));
 		}
 
 		if ($mediaId)
 		{
-			$query->where('media_id = ' . (int) $mediaId);
+			$query->where($db->qn('id') . ' = ' . (int) $mediaId);
 		}
 
 		$db->setQuery($query);
@@ -8506,12 +8506,12 @@ class productHelper
 
 		for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 		{
-			$thumb   = $media_image [$m]->media_name;
-			$alttext = $this->getAltText('product', $media_image [$m]->section_id, '', $media_image [$m]->media_id);
+			$thumb   = $media_image [$m]->name;
+			$alttext = $this->getAltText('product', $media_image [$m]->section_id, '', $media_image [$m]->id);
 
 			if (!$alttext)
 			{
-				$alttext = $media_image [$m]->media_name;
+				$alttext = $media_image [$m]->name;
 			}
 
 			if ($thumb && ($thumb != $media_image [$m]->product_full_image) && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $thumb))
@@ -8632,9 +8632,9 @@ class productHelper
 
 		for ($m = 0, $mn = count($media_video); $m < $mn; $m++)
 		{
-			$alttext = !empty($media_video [$m]->media_alternate_text) ? $media_video [$m]->media_alternate_text : $media_video[$m]->media_name;
+			$alttext = !empty($media_video [$m]->alternate_text) ? $media_video [$m]->alternate_text : $media_video[$m]->name;
 
-			$prodadditionVid .= "<div id='additional_vids_" . $media_video[$m]->media_id . "'><a class='modal' title='" . $media_video[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_video[$m]->media_name . "'><img src='https://img.youtube.com/vi/" . $media_video[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+			$prodadditionVid .= "<div id='additional_vids_" . $media_video[$m]->id . "'><a class='modal' title='" . $media_video[$m]->alternate_text . "' href='http://www.youtube.com/embed/" . $media_video[$m]->name . "'><img src='https://img.youtube.com/vi/" . $media_video[$m]->name . "/default.jpg' height='80px' width='80px'/></a></div>";
 		}
 
 		if ($val_prodadd == 0)
@@ -8662,8 +8662,8 @@ class productHelper
 			{
 				for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 				{
-					$thumb   = $media_image [$m]->media_name;
-					$alttext = $this->getAltText('property', $media_image [$m]->section_id, '', $media_image [$m]->media_id);
+					$thumb   = $media_image [$m]->name;
+					$alttext = $this->getAltText('property', $media_image [$m]->section_id, '', $media_image [$m]->id);
 
 					if (!$alttext)
 					{
@@ -8786,9 +8786,9 @@ class productHelper
 			{
 				for ($m = 0, $mn = count($media_video); $m < $mn; $m++)
 				{
-					$alttext = !empty($media_video [$m]->media_alternate_text) ? $media_video [$m]->media_alternate_text : $media_video[$m]->media_name;
+					$alttext = !empty($media_video [$m]->alternate_text) ? $media_video [$m]->alternate_text : $media_video[$m]->name;
 
-					$propadditionVid .= "<div id='additional_vids_" . $media_video[$m]->media_id . "'><a class='modal' title='" . $media_video[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_video[$m]->media_name . "'><img src='https://img.youtube.com/vi/" . $media_video[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+					$propadditionVid .= "<div id='additional_vids_" . $media_video[$m]->id . "'><a class='modal' title='" . $media_video[$m]->alternate_text . "' href='http://www.youtube.com/embed/" . $media_video[$m]->name . "'><img src='https://img.youtube.com/vi/" . $media_video[$m]->name . "/default.jpg' height='80px' width='80px'/></a></div>";
 				}
 			}
 		}
@@ -8801,8 +8801,8 @@ class productHelper
 
 			for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 			{
-				$thumb   = $media_image [$m]->media_name;
-				$alttext = $this->getAltText('subproperty', $media_image [$m]->section_id, '', $media_image [$m]->media_id);
+				$thumb   = $media_image [$m]->name;
+				$alttext = $this->getAltText('subproperty', $media_image [$m]->section_id, '', $media_image [$m]->id);
 
 				if (!$alttext)
 				{
@@ -8910,9 +8910,9 @@ class productHelper
 
 			for ($m = 0, $mn = count($media_video); $m < $mn; $m++)
 			{
-				$alttext = !empty($media_video [$m]->media_alternate_text) ? $media_video [$m]->media_alternate_text : $media_video[$m]->media_name;
+				$alttext = !empty($media_video [$m]->alternate_text) ? $media_video [$m]->alternate_text : $media_video[$m]->name;
 
-				$subpropadditionVid .= "<div id='additional_vids_" . $media_video[$m]->media_id . "'><a class='modal' title='" . $media_video[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_video[$m]->media_name . "'><img src='https://img.youtube.com/vi/" . $media_video[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+				$subpropadditionVid .= "<div id='additional_vids_" . $media_video[$m]->id . "'><a class='modal' title='" . $media_video[$m]->alternate_text . "' href='http://www.youtube.com/embed/" . $media_video[$m]->name . "'><img src='https://img.youtube.com/vi/" . $media_video[$m]->name . "/default.jpg' height='80px' width='80px'/></a></div>";
 			}
 		}
 

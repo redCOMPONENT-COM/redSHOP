@@ -60,11 +60,11 @@ class RedshopViewMedia extends RedshopViewAdmin
 
 		// Set user state for form field section_id
 		$app = JFactory::getApplication();
-		$app->setUserState('com_redshop.global.media.section', $this->item->media_section);
+		$app->setUserState('com_redshop.global.media.section', $this->item->section);
 
-		if ($this->item->media_type == 'youtube')
+		if ($this->item->type == 'youtube')
 		{
-			$app->setUserState('com_redshop.global.media.youtube.id', $this->item->media_name);
+			$app->setUserState('com_redshop.global.media.youtube.id', $this->item->name);
 		}
 
 		$this->addToolBar();

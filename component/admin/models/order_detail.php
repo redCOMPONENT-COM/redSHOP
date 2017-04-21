@@ -356,7 +356,7 @@ class RedshopModelOrder_detail extends RedshopModel
 						. "(product_id, user_id, order_id, end_date, download_max, download_id, file_name) "
 						. "VALUES('" . $product_id . "', '" . $user_id . "', '" . $this->_id . "', "
 						. "'" . (time() + (Redshop::getConfig()->get('PRODUCT_DOWNLOAD_DAYS') * 23 * 59 * 59)) . "', '" . Redshop::getConfig()->get('PRODUCT_DOWNLOAD_LIMIT') . "', "
-						. "'" . md5(uniqid(mt_rand(), true)) . "', '" . $medianame[$j]->media_name . "')";
+						. "'" . md5(uniqid(mt_rand(), true)) . "', '" . $medianame[$j]->name . "')";
 					$this->_db->setQuery($sql);
 					$this->_db->execute();
 				}

@@ -38,10 +38,10 @@ class RedshopModelMedias extends RedshopModelList
 		{
 			$config['filter_fields'] = array(
 				'id', 'id',
-				'media_name', 'media_name',
-				'media_alternate_text', 'media_alternate_text',
-				'media_section', 'media_section',
-				'media_type', 'media_type'
+				'name', 'name',
+				'alternate_text', 'alternate_text',
+				'section', 'section',
+				'type', 'type'
 			);
 		}
 
@@ -66,7 +66,7 @@ class RedshopModelMedias extends RedshopModelList
 		$this->setState('filter.search', $search);
 
 		// List state information.
-		parent::populateState('media_name', 'asc');
+		parent::populateState('name', 'asc');
 	}
 
 	/**
@@ -115,7 +115,7 @@ class RedshopModelMedias extends RedshopModelList
 			else
 			{
 				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where($db->qn('media_name') . ' LIKE ' . $search);
+				$query->where($db->qn('name') . ' LIKE ' . $search);
 			}
 		}
 

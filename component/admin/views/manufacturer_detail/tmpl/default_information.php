@@ -103,9 +103,9 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 
 				if ($media)
 				{
-					$mediaId   = $media->media_id;
-					$mediaName = $media->media_name;
-					$mediaText = $media->media_alternate_text;
+					$mediaId   = $media->id;
+					$mediaName = $media->name;
+					$mediaText = $media->alternate_text;
 				}
 
 				$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media_detail&cid[]=' . $mediaId . '&section_id=' . $this->detail->manufacturer_id . '&showbuttons=1&media_section=manufacturer&section_name=' . $this->detail->manufacturer_name);

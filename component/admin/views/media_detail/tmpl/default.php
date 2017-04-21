@@ -162,7 +162,7 @@ if ($showbuttons)
             <fieldset class="adminform">
                 <legend><?php echo JText::_('COM_REDSHOP_VALUE') ?></legend>
 		        <?php if ($media_section != 'manufacturer' || $media_section != 'catalog'):
-			        if ($this->detail->media_id == 0)
+			        if ($this->detail->id == 0)
 			        {
 				        ?>
                         <table>
@@ -188,7 +188,7 @@ if ($showbuttons)
 		        <?php endif; ?>
 
                 <fieldset id="bulk_field"
-			        <?php if ($this->detail->media_id == 0)
+			        <?php if ($this->detail->id == 0)
 			        { ?>
                         style="display: none;"
 			        <?php } ?>
@@ -200,17 +200,17 @@ if ($showbuttons)
                             <td>
 						        <?php
 
-						        if ($this->detail->media_name)
+						        if ($this->detail->name)
 						        {
-							        $filetype = strtolower(JFile::getExt($this->detail->media_name));
+							        $filetype = strtolower(JFile::getExt($this->detail->name));
 
 							        if ($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif')
 							        {
 								        $thumbUrl = RedShopHelperImages::getImagePath(
-									        $this->detail->media_name,
+									        $this->detail->name,
 									        '',
 									        'thumb',
-									        $this->detail->media_section,
+									        $this->detail->section,
 									        Redshop::getConfig()->get('THUMB_WIDTH'),
 									        Redshop::getConfig()->get('THUMB_HEIGHT'),
 									        Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
@@ -218,7 +218,7 @@ if ($showbuttons)
 								        ?>
 								        <?php if ($thumbUrl): ?>
                                             <a class="joom-box btn btn-primary"
-                                               href="<?php echo $url . 'components/com_redshop/assets/' . $this->detail->media_type . '/' . $this->detail->media_section . '/' . $this->detail->media_name; ?>"
+                                               href="<?php echo $url . 'components/com_redshop/assets/' . $this->detail->type . '/' . $this->detail->section . '/' . $this->detail->name; ?>"
                                                title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
                                                rel="{handler: 'image', size: {}}">
                                                 <img
@@ -226,8 +226,8 @@ if ($showbuttons)
                                                         alt="image"/>
                                             </a>
 							            <?php else: ?>
-                                            <small><?php echo $this->detail->media_name; ?></small>
-                                            <input type="hidden" name="file[]" id="file" value="<?php echo $this->detail->media_name;?>">
+                                            <small><?php echo $this->detail->name; ?></small>
+                                            <input type="hidden" name="file[]" id="file" value="<?php echo $this->detail->name;?>">
 							            <?php endif; ?>
 								        <?php
 							        }
@@ -239,7 +239,7 @@ if ($showbuttons)
                         <tr>
                             <td><?php echo JText::_('COM_REDSHOP_MEDIA_NAME'); ?></td>
                             <td>
-						        <?php if ($this->detail->media_id == 0)
+						        <?php if ($this->detail->id == 0)
 						        { ?>
                                     <input type="file" name="bulkfile" id="bulkfile" size="75">
 
@@ -300,7 +300,7 @@ if ($showbuttons)
 				        <?php endif; ?>
                     </table>
                 </fieldset>
-		        <?php if ($this->detail->media_id == 0)
+		        <?php if ($this->detail->id == 0)
 		        { ?>
                     <fieldset id="extra_field">
                         <table cellpadding="0" cellspacing="5" border="0" id="extra_table">
@@ -330,10 +330,10 @@ if ($showbuttons)
 
     <div class="clr"></div>
     <input type="hidden" value="<?php echo isset($k) ? $k : ''; ?>" name="total_extra" id="total_extra">
-    <input type="hidden" name="cid[]" value="<?php echo $this->detail->media_id; ?>"/>
+    <input type="hidden" name="cid[]" value="<?php echo $this->detail->id; ?>"/>
     <input type="hidden" name="task" value=""/>
     <input type="hidden" name="view" value="media_detail"/>
-    <input type="hidden" name="oldmedia" value="<?php echo $this->detail->media_name; ?>"/>
+    <input type="hidden" name="oldmedia" value="<?php echo $this->detail->name; ?>"/>
 
     <div class="col50">
 
@@ -355,7 +355,7 @@ if ($showbuttons)
                         </td>
                         <td>
 							<?php echo $this->lists['type']; ?><input type="hidden" name="oldtype"
-                                                                      value="<?php echo $this->detail->media_type; ?>"/>
+                                                                      value="<?php echo $this->detail->type; ?>"/>
 							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MEDIA_TYPE'), JText::_('COM_REDSHOP_MEDIA_TYPE'), 'tooltip.png', '', '', false); ?>
                         </td>
 						<?php
@@ -377,7 +377,7 @@ if ($showbuttons)
 							<?php echo JText::_('COM_REDSHOP_MEDIA_YOUTUBE_ID'); ?>:
                         </label>
                     </td>
-                    <td><input type="text" value="<?php echo $this->detail->media_name; ?>"
+                    <td><input type="text" value="<?php echo $this->detail->name; ?>"
                                name="youtube_id">
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MEDIA_YOUTUBE_ID'), JText::_('COM_REDSHOP_MEDIA_YOUTUBE_ID'), 'tooltip.png', '', '', false); ?>
                     </td>
@@ -388,7 +388,7 @@ if ($showbuttons)
 							<?php echo JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT'); ?>:
                         </label>
                     </td>
-                    <td><input type="text" value="<?php echo $this->detail->media_alternate_text; ?>"
+                    <td><input type="text" value="<?php echo $this->detail->alternate_text; ?>"
                                name="media_alternate_text">
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MEDIA_ALTERNATE_TEXT'), JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT'), 'tooltip.png', '', '', false); ?>
                     </td>
@@ -408,9 +408,9 @@ if ($showbuttons)
                             <input type="hidden" name="media_section" value="<?php echo $media_section; ?>">
 							<?php
 						}
-						elseif ($this->detail->media_id != 0)
+						elseif ($this->detail->id != 0)
 						{
-							echo '<input type="hidden" name="media_section" id="media_section" value="' . $this->detail->media_section . '">';
+							echo '<input type="hidden" name="media_section" id="media_section" value="' . $this->detail->section . '">';
 						}
 
 						echo $this->lists['section'];
@@ -427,7 +427,7 @@ if ($showbuttons)
 						$sectionValue   = new stdClass;
 						$sectionIdName  = 'section_id';
 						$listAttributes = array();
-						$model          = $this->getModel('media_detail');
+						$model          = $this->getModel('media');
 
 						if ($showbuttons)
 						{
@@ -450,7 +450,7 @@ if ($showbuttons)
 						}
 						else
 						{
-							if ($data = $model->getSection($this->detail->section_id, $this->detail->media_section))
+							if ($data = $model->getSection($this->detail->section_id, $this->detail->section))
 							{
 								$sectionValue->text  = $data->name;
 								$sectionValue->value = $data->id;

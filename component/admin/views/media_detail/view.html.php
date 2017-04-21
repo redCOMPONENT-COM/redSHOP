@@ -38,7 +38,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 		$lists = array();
 
 		$detail = $this->get('data');
-		$isNew = ($detail->media_id < 1);
+		$isNew = ($detail->id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
@@ -90,23 +90,23 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 
 		if ($media_section == 'catalog')
 		{
-			$detail->media_type = 'document';
-			$detail->media_section = $media_section;
+			$detail->type = 'document';
+			$detail->section = $media_section;
 			$detail->section_name = $section_name;
 			$detail->section_id = $section_id;
 		}
 
-		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'media_type', 'class="inputbox" size="1" ', 'value', 'text', $detail->media_type, '0');
+		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'type', 'class="inputbox" size="1" ', 'value', 'text', $detail->type, '0');
 
-		if ($detail->media_id == 0 && !$showbuttons)
+		if ($detail->id == 0 && !$showbuttons)
 		{
-			$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'media_section',
+			$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'section',
 				'', 'value', 'text'
 			);
 		}
 		else
 		{
-			$defaultMedia = ($showbuttons) ? $media_section : $detail->media_section;
+			$defaultMedia = ($showbuttons) ? $media_section : $detail->section;
 			$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'disable_media_section',
 				' disabled="disabled" ',
 				'value', 'text', $defaultMedia
