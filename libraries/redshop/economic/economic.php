@@ -134,11 +134,11 @@ class RedshopEconomic
 		$eco['eco_user_number'] = "";
 		$eco['newuserFlag']     = false;
 
-		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
+		if (!empty($debtorHandle[0]))
 		{
 			$debtorEmailHandle = self::$dispatcher->trigger('Debtor_FindByEmail', array($eco));
 
-			if (count($debtorEmailHandle) > 0 && isset($debtorEmailHandle[0]->DebtorHandle) != "")
+			if (!empty($debtorEmailHandle[0]))
 			{
 				$emailarray = $debtorEmailHandle[0]->DebtorHandle;
 
@@ -574,7 +574,7 @@ class RedshopEconomic
 
 			$ecodebtorNumber = self::createUserInEconomic($userBillingInfo, $data);
 
-			if (count($ecodebtorNumber) > 0 && is_object($ecodebtorNumber[0]))
+			if (!empty($ecodebtorNumber[0]))
 			{
 				$eco['order_id']   = $orderDetail->order_id;
 				$eco['setAttname'] = 0;
@@ -601,7 +601,7 @@ class RedshopEconomic
 
 				$invoiceHandle = self::$dispatcher->trigger('createInvoice', array($eco));
 
-				if (count($invoiceHandle) > 0 && $invoiceHandle[0]->Id)
+				if (!empty($invoiceHandle[0]))
 				{
 					$invoiceNo = $invoiceHandle[0]->Id;
 					self::updateInvoiceNumber($orderId, $invoiceNo);
@@ -653,19 +653,6 @@ class RedshopEconomic
 					if ($orderDetail->payment_discount != 0)
 					{
 						self::createInvoiceDiscountLineInEconomic($orderDetail, $invoiceNo, $data, 1);
-					}
-
-					// Update is_booked after economic invoice is created
-					if ($invoiceHandle)
-					{
-						$db    = JFactory::getDbo();
-						$query = $db->getQuery(true)
-							->update($db->qn('#__redshop_orders'))
-							->set($db->qn('is_booked') . '=' . 1)
-							->where($db->qn('order_id') . '=' . $orderId);
-
-						$db->setQuery($query);
-						$db->execute();
 					}
 				}
 
