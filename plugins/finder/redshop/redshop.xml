@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.1" type="plugin" group="finder" method="upgrade">
-	<name>plg_finder_redshop</name>
+	<name>PLG_FINDER_REDSHOP</name>
 	<author>Joomla! Project</author>
 	<creationDate>June 2015</creationDate>
 	<copyright>(C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE</license>
 	<author>redCOMPONENT.com</author>
-	<version>3.0.0</version>
+	<version>3.0.1</version>
+	<redshop>2.0.0.6</redshop>
 	<description>PLG_FINDER_REDSHOP_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="redshop">redshop.php</filename>
+		<folder>language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_finder_redshop.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_finder_redshop.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 </extension>
