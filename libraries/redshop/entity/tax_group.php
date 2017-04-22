@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.4
  */
 final class RedshopEntityTax_Group extends RedshopEntity
 {
@@ -23,7 +23,7 @@ final class RedshopEntityTax_Group extends RedshopEntity
 	 *
 	 * @var    RedshopEntitiesCollection
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.4
 	 */
 	protected $taxRates;
 
@@ -32,7 +32,7 @@ final class RedshopEntityTax_Group extends RedshopEntity
 	 *
 	 * @return  RedshopEntitiesCollection
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function getTaxRates()
 	{
@@ -49,7 +49,7 @@ final class RedshopEntityTax_Group extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	protected function loadTaxRates()
 	{

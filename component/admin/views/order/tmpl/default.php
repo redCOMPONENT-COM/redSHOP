@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -582,7 +582,6 @@ JPluginHelper::importPlugin('redshop_product');
     <input name="option" value="com_redshop" type="hidden">
     <input name="task" value="generateParcel" type="hidden">
 </form>
-
 <!-- Mass Order Status modal -->
 <div class="modal fade" id="massOrderStatusChange" role="dialog" aria-labelledby="massOrderStatusChangelabel" tabindex="-1">
     <div class="modal-dialog" role="document">
@@ -729,3 +728,14 @@ JPluginHelper::importPlugin('redshop_product');
         </div>
     </div>
 <?php endif; ?>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery(document).on('keydown', '#filter', function(e){
+            if (e.keyCode == 13)
+            {
+                jQuery('input[name=task]').val('');
+                jQuery('#adminForm').submit();
+            }
+        })
+    });
+</script>

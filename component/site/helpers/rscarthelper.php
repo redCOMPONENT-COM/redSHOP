@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -849,7 +849,14 @@ class rsCarthelper
 					$cart_mdata = str_replace("{product_name}", $product_name, $data);
 				}
 
-				$cart_mdata = str_replace("{product_attribute}", '', $cart_mdata);
+				$cart_mdata = RedshopTagsReplacer::_(
+						'attribute',
+						$cart_mdata,
+						array(
+							'product_attribute' 	=> '',
+						)
+					);
+
 				$cart_mdata = str_replace("{product_accessory}", '', $cart_mdata);
 				$cart_mdata = str_replace("{product_wrapper}", '', $cart_mdata);
 				$cart_mdata = str_replace("{product_old_price}", '', $cart_mdata);
@@ -1207,7 +1214,15 @@ class rsCarthelper
 				$cart_mdata           = str_replace("{product_customfields}", $user_custom_fields, $cart_mdata);
 				$cart_mdata           = str_replace("{product_customfields_lbl}", JText::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD"), $cart_mdata);
 				$discount_calc_output = (isset($cart[$i]['discount_calc_output']) && $cart[$i]['discount_calc_output']) ? $cart[$i]['discount_calc_output'] . "<br />" : "";
-				$cart_mdata           = str_replace("{product_attribute}", $discount_calc_output . $cart_attribute, $cart_mdata);
+
+				$cart_mdata           = RedshopTagsReplacer::_(
+											'attribute',
+											$cart_mdata,
+											array(
+												'discount_calc_output' 	=> $discount_calc_output . $cart_attribute,
+											)
+										);
+
 				$cart_mdata           = str_replace("{product_accessory}", $cart_accessory, $cart_mdata);
 				$cart_mdata           = str_replace("{product_attribute_price}", "", $cart_mdata);
 				$cart_mdata           = str_replace("{product_attribute_number}", "", $cart_mdata);
@@ -1566,7 +1581,7 @@ class rsCarthelper
 
 			if (count($res) > 0)
 			{
-				$cname = $res->category_name;
+				$cname = $res->name;
 				$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
 				$category_path = "<a href='" . $clink . "'>" . $cname . "</a>";
 			}
@@ -1587,7 +1602,14 @@ class rsCarthelper
 			$attribute_data = $this->_producthelper->makeAttributeOrder($rowitem[$i]->order_item_id, 0, $product_id, 0, 0, $data);
 
 			// Assign template output into {product_attribute} tag
-			$cart_mdata = str_replace("{product_attribute}", $attribute_data->product_attribute, $cart_mdata);
+
+			$cart_mdata = RedshopTagsReplacer::_(
+						'attribute',
+						$cart_mdata,
+						array(
+							'product_attribute' 	=> $attribute_data->product_attribute,
+						)
+					);
 
 			// Assign template output into {attribute_middle_template} tag
 			$cart_mdata = str_replace($attribute_data->attribute_middle_template_core, $attribute_data->attribute_middle_template, $cart_mdata);
@@ -1693,6 +1715,10 @@ class rsCarthelper
 			$cart_mdata = str_replace("{product_total_price_excl_vat}", $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price_excl_vat * $quantity), $cart_mdata);
 
 			$subtotal_excl_vat += $rowitem [$i]->product_item_price_excl_vat * $quantity;
+
+			$dispatcher = RedshopHelperUtility::getDispatcher();
+			JPluginHelper::importPlugin('redshop_stockroom');
+			$dispatcher->trigger('onReplaceStockStatus', array($rowitem[$i], &$cart_mdata));
 
 			if ($mainview == "order_detail")
 			{
@@ -2875,8 +2901,10 @@ class rsCarthelper
 		$search  [] = "{referral_code}";
 		$replace [] = $row->referral_code;
 
+        RedshopHelperPayment::loadLanguages();
+
 		$search  [] = "{payment_method}";
-		$replace [] = JText::_($paymentmethod->order_payment_name);
+		$replace [] = JText::_("$paymentmethod->order_payment_name");
 
 		$txtextra_info = '';
 
@@ -2977,6 +3005,9 @@ class rsCarthelper
 
 		$search [] = "{requisition_number_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
+
+        $search [] = "{product_attribute_calculated_price}";
+        $replace[] = "";
 
 		$ReceiptTemplate = $this->replaceBillingAddress($ReceiptTemplate, $billingaddresses, $sendmail);
 		$ReceiptTemplate = $this->replaceShippingAddress($ReceiptTemplate, $shippingaddresses, $sendmail);
@@ -6054,6 +6085,7 @@ class rsCarthelper
 							}
 
 							$accPropertyCart[$ip]['property_id']     = $acc_property_data[$ip];
+							$accPropertyCart[$ip]['attribute_id']    = $property[0]->attribute_id;
 							$accPropertyCart[$ip]['property_name']   = $property[0]->text;
 							$accPropertyCart[$ip]['property_oprand'] = $property[0]->oprand;
 							$accPropertyCart[$ip]['property_price']  = $property_price;
@@ -6099,7 +6131,10 @@ class rsCarthelper
 					}
 				}
 
-				$generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
+				if (!empty($accPropertyCart))
+				{
+					$generateAttributeCart[array_search($accPropertyCart[0]['attribute_id'], $attribute_data)]['attribute_childs'] = $accPropertyCart;
+				}
 			}
 		}
 

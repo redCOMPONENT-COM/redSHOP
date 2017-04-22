@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,6 +21,9 @@ defined('_JEXEC') or die;
  * @var  bool    $showMedia     Show pop-up for select image from media or not
  */
 extract($displayData);
+
+JText::script('COM_REDSHOP_UPLOAD_FILE_TOO_BIG');
+JText::script('COM_REDSHOP_MEDIA_ERROR_FILE_UPLOAD_INVALID');
 ?>
 
 <div id="<?php echo $id ?>-wrapper" data-id="<?php echo $id ?>">
