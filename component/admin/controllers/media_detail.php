@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -259,9 +259,19 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 			}
 		}
+		elseif ($file[0]['name'] == null && $post['media_bank_image'] == "")
+		{
+			$save = $model->store($post);
+			$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+					. $post['section_id'] . '&showbuttons=1&section_name='
+					. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+				);
+		}
 		else
 		{
-			if ($cid [0] != 0)
+			if ($cid[0] != 0)
 			{
 				$model->delete($cid);
 				$post['bulk'] = 'no';

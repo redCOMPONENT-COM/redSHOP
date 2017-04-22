@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -487,6 +487,9 @@ class RedshopControllerCheckout extends RedshopController
 
 				// Add Plugin support
 				$results = $dispatcher->trigger('afterOrderPlace', array($cart, $orderresult));
+
+				JPluginHelper::importPlugin('system');
+				$dispatcher->trigger('afterOrderCreated', array($orderresult));
 
 				// New checkout flow
 				/**

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -13,7 +13,27 @@ JHtml::_('behavior.modal', 'a.joom-box');
 $editor         = JFactory::getEditor();
 $calendarFormat = '%d-%m-%Y';
 ?>
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            var productNumber = [];
 
+            $.post(
+                "index.php?option=com_redshop&view=product_detail&task=product_detail.ajaxGetAllProductNumber",
+                {
+                    "<?php echo JSession::getFormToken() ?>": 1,
+                    "product_id": <?php echo $this->detail->product_id ?>
+                },
+                function (response) {
+                    productNumber = response.split(',');
+                });
+
+            document.formvalidator.setHandler("productNumber", function (value) {
+                return !productNumber.contains(value);
+            });
+        });
+    })(jQuery);
+</script>
 <div class="row">
     <div class="col-sm-8">
         <div class="box box-primary">
@@ -24,9 +44,9 @@ $calendarFormat = '%d-%m-%Y';
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="product_number">
-								              <?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>
-                              <span class="star text-danger"> *</span>
+                            <label for="product_name" id="product_name-lbl">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>
+                                <span class="star text-danger"> *</span>
                             </label>
                             <input class="form-control"
                                    type="text"
@@ -38,25 +58,21 @@ $calendarFormat = '%d-%m-%Y';
                         </div>
 
                         <div class="form-group">
-                            <label for="product_number">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER'); ?>
-                <span class="star text-danger"> *</span>
+                            <label for="product_number" id="product_number-lbl">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER') ?><span class="star text-danger"> *</span>
 								<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'), JText::_('COM_REDSHOP_PRODUCT_NUMBER'), 'tooltip.png', '', '', false); ?>
                             </label>
-                            <input class="form-control"
-                                   type="text"
-                                   name="product_number"
-                                   id="product_number"
-                                   size="32"
-                                   maxlength="250"
+                            <input class="form-control validate-productNumber"
+                                   type="text" name="product_number" id="product_number" size="32" maxlength="250"
                                    value="<?php echo $this->detail->product_number; ?>"
                             />
+                            <span class="text-error"></span>
                         </div>
 
                         <div class="form-group">
                             <label for="categories">
 								<?php echo JText::_('COM_REDSHOP_PRODUCT_CATEGORY'); ?>
-                <span class="star text-danger"> *</span>
+                                <span class="star text-danger"> *</span>
 								<?php
 								echo JHtml::tooltip(
 									JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_CATEGORY'),
@@ -74,7 +90,7 @@ $calendarFormat = '%d-%m-%Y';
                         <div class="form-group">
                             <label for="product_template">
 								<?php echo JText::_('COM_REDSHOP_PRODUCT_TEMPLATE'); ?>
-                <span class="star text-danger"> *</span>
+                                <span class="star text-danger"> *</span>
 								<?php
 								echo JHtml::tooltip(
 									JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TEMPLATE'),

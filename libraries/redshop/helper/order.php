@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1749,13 +1749,14 @@ class RedshopHelperOrder
 	/**
 	 * Get payment method info
 	 *
-	 * @param   string  $paymentMethodClass  Payment method class
+	 * @param   string   $paymentMethodClass  Payment method class
+	 * @param   boolean  $includeDiscover     Include all plugins even not discover install yet
 	 *
 	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */
-	public static function getPaymentMethodInfo($paymentMethodClass = '')
+	public static function getPaymentMethodInfo($paymentMethodClass = '', $includeDiscover = true)
 	{
 		$db = JFactory::getDbo();
 
@@ -1769,6 +1770,11 @@ class RedshopHelperOrder
 		if ($paymentMethodClass != '')
 		{
 			$query->where($db->qn('element') . ' = ' . $db->quote($paymentMethodClass));
+		}
+
+		if (!$includeDiscover)
+		{
+			$query->where($db->qn('state') . ' >= 0');
 		}
 
 		$db->setQuery($query);
@@ -2474,6 +2480,9 @@ class RedshopHelperOrder
 		$cartHelper      = rsCarthelper::getInstance();
 		$redshopMail     = redshopMail::getInstance();
 
+		// Changes to parse all tags same as order mail end
+		$userDetail = self::getOrderBillingUserInfo($orderId);
+
 		$mailFrom     = $app->get('mailfrom');
 		$fromName     = $app->get('fromname');
 		$mailBcc      = null;
@@ -2486,23 +2495,41 @@ class RedshopHelperOrder
 			$mailData    = $mailTemplate[0]->mail_body;
 			$mailSubject = $mailTemplate[0]->mail_subject;
 
+			$fieldArray = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_ORDER, 0);
+
+			if (count($fieldArray) > 0)
+			{
+				for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
+				{
+					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->field_id, RedshopHelperExtrafields::SECTION_ORDER, $orderId, $userDetail->user_email);
+
+					if ($fieldValueArray->data_txt != "")
+					{
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '}', $fieldValueArray->data_txt, $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', $fieldArray[$i]->field_title, $mailData);
+					}
+					else
+					{
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '}', "", $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', "", $mailData);
+					}
+				}
+			}
+
 			if (trim($mailTemplate[0]->mail_bcc) != "")
 			{
 				$mailBcc = explode(",", $mailTemplate[0]->mail_bcc);
 			}
 
-			// Getting the order details
-			$orderDetail = self::getOrderDetails($orderId);
-
 			// Changes to parse all tags same as order mail start
-			$row      = self::getOrderDetails($orderId);
+			$orderDetail      = self::getOrderDetails($orderId);
 			$mailData = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $mailData);
 			$mailData = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $mailData);
 
-			$mailData = $cartHelper->replaceOrderTemplate($row, $mailData, true);
+			$mailData = $cartHelper->replaceOrderTemplate($orderDetail, $mailData, true);
 
 			$arrDiscountType = array();
-			$arrDiscount     = explode('@', $row->discount_type);
+			$arrDiscount     = explode('@', $orderDetail->discount_type);
 			$discountType    = '';
 
 			for ($d = 0, $dn = count($arrDiscount); $d < $dn; $d++)
@@ -2531,9 +2558,6 @@ class RedshopHelperOrder
 			$search []  = "{discount_type}";
 			$replace [] = $discountType;
 
-			// Changes to parse all tags same as order mail end
-			$userDetail = self::getOrderBillingUserInfo($orderId);
-
 			// Getting the order status changed template from mail center end
 			$mailData = $cartHelper->replaceBillingAddress($mailData, $userDetail);
 
@@ -2552,6 +2576,9 @@ class RedshopHelperOrder
 
 			$search[]  = "{fullname}";
 			$replace[] = $userDetail->firstname . " " . $userDetail->lastname;
+
+			$search[]  = "{email}";
+			$replace[] = $userDetail->user_email;
 
 			$search[]  = "{customer_id}";
 			$replace[] = $userDetail->users_info_id;

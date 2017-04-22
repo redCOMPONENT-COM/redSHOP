@@ -35,7 +35,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
 		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
-		$I->click('//*[@id="s2id_category_more_template"]/ul');
+		$I->click('//*[@id="s2id_jform_more_template"]/ul');
 		$I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
 		$I->click("Save & Close");
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
@@ -53,8 +53,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
+		$I->searchCategory($categoryName);
 		$I->wait(3);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
 		$I->click(\CategoryManagerJ3Page::$checkAll);
@@ -78,8 +77,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
+		$I->searchCategory($categoryName);
 		$I->wait(3);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
 		$I->click(\CategoryManagerJ3Page::$checkAll);
@@ -102,23 +100,13 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function searchCategory($categoryName, $functionName = 'Search')
+	public function searchCategory($categoryName)
 	{
 		$I = $this;
+		$I->wantTo('Search the Category');
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
-		$I->wait(3);
-
-		if ($functionName == 'Search')
-		{
-			$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
-		}
-		else
-		{
-			$I->dontSee($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
-		}
+		$I->waitForText('Category Management', 30, ['xpath' => "//h1"]);
+		$I->filterListBySearching($categoryName);
 	}
 
 	/**
@@ -132,9 +120,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
+		$I->searchCategory($categoryName);
 		$I->wait(3);
 		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
 		$text = $I->grabAttributeFrom(\CategoryManagerJ3Page::$categoryStatePath, 'onclick');
@@ -163,13 +149,15 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::TAB);
-		$I->wait(3);
-		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
-		$I->click(\CategoryManagerJ3Page::$checkAll);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->searchCategory($categoryName);
+		$I->checkAllResults();
 		$I->click("Delete");
 		$I->acceptPopup();
+		$I->waitForText("1 item successfully deleted", 60, '.alert-success');
+		$I->see("1 item successfully deleted", '.alert-success');
+		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
+		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->dontSee($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
 	}
 }
