@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.html.pagination');
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Class manufacturersModelmanufacturers
@@ -246,9 +247,8 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildProductQuery($template_data = '')
 	{
-		$filter_by = JFactory::getApplication()->input->get('filter_by', 0);
-		$and       = '';
-		$orderBy = $this->_buildProductOrderBy($template_data);
+		$filterBy = JFactory::getApplication()->input->get('filter_by', 0);
+		$orderBy  = $this->_buildProductOrderBy($template_data);
 
 		// Shopper group - choose from manufactures Start
 		$rsUserhelper               = rsUserHelper::getInstance();
@@ -272,7 +272,7 @@ class RedshopModelManufacturers extends RedshopModel
 		if (!empty($shopperGroupManufactures))
 		{
 			$shopperGroupManufactures = explode(',', $shopperGroupManufactures);
-			JArrayHelper::toInteger($shopperGroupManufactures);
+			$shopperGroupManufactures = ArrayHelper::toInteger($shopperGroupManufactures);
 			$shopperGroupManufactures = implode(',', $shopperGroupManufactures);
 			$query->where($db->qn('p.m.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
 		}
