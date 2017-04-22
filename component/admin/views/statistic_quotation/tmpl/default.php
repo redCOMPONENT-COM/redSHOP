@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -96,7 +96,7 @@ $producthelper = productHelper::getInstance();
 
 		    if ($('input[name="filter_end_date"]').val().length)
 		      options.endDate = $('input[name="filter_end_date"]').val();
-		    
+
 		      options.autoApply = true;
 		      options.ranges = {
 		        'Today': [moment(), moment()],
@@ -115,7 +115,7 @@ $producthelper = productHelper::getInstance();
 		      options.linkedCalendars = true;
 		      options.autoUpdateInput = true;
 
-		    $('#config-demo').daterangepicker(options, function(start, end, label) { 
+		    $('#config-demo').daterangepicker(options, function(start, end, label) {
 		    	$('input[name="filter_start_date"]').val(start.format('MM/DD/YYYY'));
 		    	$('input[name="filter_end_date"]').val(end.format('MM/DD/YYYY'));
 		    	$('input[name="filter_date_label"]').val(label);

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -99,8 +99,8 @@ class RedshopMenuLeft_Menu
 				return array('PRODUCT_LISTING', 'product');
 				break;
 
-			case "category":
-				return array('SHOP', 'category');
+			case "categories":
+				return array('SHOP', 'categories');
 				break;
 
 			case "manufacturer":
@@ -311,8 +311,7 @@ class RedshopMenuLeft_Menu
 
 			case "configuration":
 			case 'update':
-			case "accessmanager":
-			case 'accessmanager_detail':
+			case "access":
 				return array('CONFIG', 'configuration');
 				break;
 
@@ -330,9 +329,9 @@ class RedshopMenuLeft_Menu
 	protected static function setShop()
 	{
 		self::$menu->addHeaderItem(
-				'index.php?option=com_redshop&view=category',
+				'index.php?option=com_redshop&view=categories',
 				'COM_REDSHOP_CATEGORY_LISTING',
-				(self::$view == 'category') ? true : false,
+				(self::$view == 'categories') ? true : false,
 				null,
 				'fa fa-sitemap'
 			)
@@ -888,9 +887,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'configuration' && self::$layout == 'resettemplate') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=accessmanager',
+				'index.php?option=com_redshop&view=access',
 				'COM_REDSHOP_ACCESS_MANAGER',
-				(self::$view == 'accessmanager') ? true : false
+				(self::$view == 'access') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_config&view=component&component=com_redshop',

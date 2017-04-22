@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -110,7 +110,8 @@ class RedshopViewSearch extends RedshopView
 		if (count($this->search) > 0)
 		{
 			$app = JFactory::getApplication();
-			JFactory::getApplication()->input->set('order_by', $app->getUserState('order_by'));
+			$input = JFactory::getApplication()->input;
+			$input->set('order_by', $app->getUserState('order_by'));
 
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = Redtemplate::getInstance();
@@ -132,18 +133,13 @@ class RedshopViewSearch extends RedshopView
 			$keyword        = $app->input->getString('keyword');
 			$layout         = $app->input->getCmd('layout', 'default');
 
-			$db    = JFactory::getDbo();
-			$query = 'SELECT category_name'
-				. ' FROM #__redshop_category  '
-				. 'WHERE category_id=' . $app->input->getInt('cid');
-			$db->setQuery($query);
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->qn('name'))
+				->from($db->qn('#__redshop_category'))
+				->where($db->qn('id') . ' = ' . $db->q((int) $input->getInt('cid', 0)));
 
-			$cat_name = null;
-
-			if ($catname_array = $db->loadObjectList())
-			{
-				$cat_name = $catname_array[0]->category_name;
-			}
+			$cat_name = $db->setQuery($query)->loadResult();
 
 			$session    = JFactory::getSession();
 			$model      = $this->getModel('search');

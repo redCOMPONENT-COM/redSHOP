@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -42,6 +42,16 @@ echo RedshopLayoutHelper::render(
 		'desc'  => JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_EXTENSION_DESC'),
 		'field' => '<input type="text" name="import_file_extension" class="form-control"
                    value="' . $this->config->get('IMPORT_FILE_EXTENSION', '.csv') . '"/>',
+		'line'  => false
+	)
+);
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_LINE'),
+		'desc'  => JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_LINE_DESC'),
+		'field' => '<input type="text" name="import_max_line" class="form-control"
+                   value="' . $this->config->get('IMPORT_MAX_LINE', 1) . '"/>',
 		'line'  => false
 	)
 );

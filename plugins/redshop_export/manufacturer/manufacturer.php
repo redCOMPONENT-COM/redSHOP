@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -105,7 +105,7 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 			)
 			->select($this->db->qn('md.media_name', 'manufacturer_image'))
 			->from($this->db->qn('#__redshop_manufacturer', 'm'))
-			->innerJoin(
+			->leftJoin(
 				$this->db->qn('#__redshop_product', 'p') . ' ON ' . $this->db->qn('m.manufacturer_id') . ' = ' . $this->db->qn('p.manufacturer_id')
 			)
 			->leftJoin(

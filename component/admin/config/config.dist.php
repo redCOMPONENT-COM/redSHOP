@@ -366,4 +366,5 @@ class RedshopConfig {
 	public $IMPORT_MAX_MIN_SIZE = '1';
 	public $IMPORT_FILE_MIME = 'text/csv,application/vnd.ms-excel';
 	public $IMPORT_FILE_EXTENSION = '.csv';
+	public $INLINE_EDITING = '1';
 }
