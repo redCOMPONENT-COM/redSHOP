@@ -19,7 +19,7 @@ class RedshopViewSearch extends RedshopView
 
 		$lists       = array();
 
-		$params   = $app->getParams('com_redshop');
+		$params   = $app->getMenu()->getActive()->getParams();
 		$document = JFactory::getDocument();
 
 		$layout = $app->input->getCmd('layout', '');
@@ -256,11 +256,12 @@ class RedshopViewSearch extends RedshopView
 			if (strstr($template_org, "{redproductfinderfilter:"))
 			{
 				$redProductFinerHelper = JPATH_SITE . "/components/com_redproductfinder/helpers/redproductfinder_helper.php";
+
 				if (file_exists($redProductFinerHelper))
 				{
 					include_once $redProductFinerHelper;
 					$redproductfinder_helper = new redproductfinder_helper;
-					$hdnFields               = array('texpricemin' => '0', 'texpricemax' => '0', 'manufacturer_id' => $filter_by, 'category_template' => $templateid);
+					$hdnFields               = array('texpricemin' => '0', 'texpricemax' => '0', 'manufacturer_id' => $manufacture_id, 'category_template' => $templateid);
 					$hide_filter_flag        = false;
 
 					if ($this->_id)
@@ -356,7 +357,8 @@ class RedshopViewSearch extends RedshopView
 
 				// RedSHOP Product Plugin
 				JPluginHelper::importPlugin('redshop_product');
-				$results = $dispatcher->trigger('onPrepareProduct', array(& $data_add, & $params, $this->search[$i]));
+				$params  = JFactory::getApplication()->getMenu()->getActive()->getParams();
+				$results = $dispatcher->trigger('onPrepareProduct', array(& $data_add, &$params, $this->search[$i]));
 
 				// End
 
