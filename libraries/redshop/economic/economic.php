@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.3
@@ -134,11 +134,11 @@ class RedshopEconomic
 		$eco['eco_user_number'] = "";
 		$eco['newuserFlag']     = false;
 
-		if (count($debtorHandle) > 0 && isset($debtorHandle[0]->Number) != "")
+		if (!empty($debtorHandle[0]))
 		{
 			$debtorEmailHandle = self::$dispatcher->trigger('Debtor_FindByEmail', array($eco));
 
-			if (count($debtorEmailHandle) > 0 && isset($debtorEmailHandle[0]->DebtorHandle) != "")
+			if (!empty($debtorEmailHandle[0]))
 			{
 				$emailarray = $debtorEmailHandle[0]->DebtorHandle;
 
@@ -574,7 +574,7 @@ class RedshopEconomic
 
 			$ecodebtorNumber = self::createUserInEconomic($userBillingInfo, $data);
 
-			if (count($ecodebtorNumber) > 0 && is_object($ecodebtorNumber[0]))
+			if (!empty($ecodebtorNumber[0]))
 			{
 				$eco['order_id']   = $orderDetail->order_id;
 				$eco['setAttname'] = 0;
@@ -601,7 +601,7 @@ class RedshopEconomic
 
 				$invoiceHandle = self::$dispatcher->trigger('createInvoice', array($eco));
 
-				if (count($invoiceHandle) > 0 && $invoiceHandle[0]->Id)
+				if (!empty($invoiceHandle[0]))
 				{
 					$invoiceNo = $invoiceHandle[0]->Id;
 					self::updateInvoiceNumber($orderId, $invoiceNo);

@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,11 +32,6 @@ class AbstractImportPlugin extends \JPlugin
 	 * @var string
 	 */
 	protected $encoding = 'UTF-8';
-
-	/**
-	 * @var int
-	 */
-	protected $maxLine = 1;
 
 	/**
 	 * @var  \JDatabaseDriver
@@ -288,7 +283,7 @@ class AbstractImportPlugin extends \JPlugin
 		fclose($handler);
 
 		$headers = array_shift($rows);
-		$rows    = array_chunk($rows, $this->maxLine);
+		$rows    = array_chunk($rows, \Redshop::getConfig()->get('IMPORT_MAX_LINE', 1));
 		$fileExt = \JFile::getExt($file);
 
 		// Remove old file

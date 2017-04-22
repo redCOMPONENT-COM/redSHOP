@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.4
  */
 class RedshopModelInstall extends RedshopModelList
 {
@@ -27,7 +27,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function getSteps($type = 'install')
 	{
@@ -80,6 +80,10 @@ class RedshopModelInstall extends RedshopModelList
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_UPDATE_SCHEMA'),
 				'func' => 'updateDatabaseSchema'
 			);
+			$tasks[] = array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_UPDATE_CATEGORY'),
+				'func' => 'updateCategory'
+			);
 		}
 
 		return $tasks;
@@ -90,7 +94,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processTemplateDemo()
 	{
@@ -165,7 +169,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processTemplateFiles()
 	{
@@ -242,7 +246,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processUpdateMenuItem()
 	{
@@ -292,7 +296,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processIntegrateSh404sef()
 	{
@@ -316,7 +320,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processUpdateCheckDatabase()
 	{
@@ -331,7 +335,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processUpdateOverrideTemplate()
 	{
@@ -663,7 +667,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processUpdateCleanOldFiles()
 	{
@@ -676,16 +680,39 @@ class RedshopModelInstall extends RedshopModelList
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/meta_ext';
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/barcode';
 		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/tax_group_detail';
+		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager';
+		$folders[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager_detail';
 
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/update.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/accessmanager.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/accessmanager_detail.php';
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redaccesslevel.php';
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager_detail.php';
+		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/tables/accessmanager_detail.php';
 
 		// Tax group
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/tax_group_detail.php';
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/models/tax_group_detail.php';
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/tables/tax_group_detail.php';
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/tax_group/tmpl/default.php';
+
+		// Remove old Category Detail.
+		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '2.0.5', '<='))
+		{
+			array_push(
+				$files,
+				JPATH_ADMINISTRATOR . '/component/admin/controllers/category_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/models/category_detail.php'
+			);
+
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/component/admin/views/category_detail'
+			);
+		}
 
 		// Remove old Supplier stuff since Refactor.
 		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '2.0.0.6', '<='))
@@ -898,7 +925,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processUpdateDatabaseSchema()
 	{
@@ -946,7 +973,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function processUpdateImageFileNames()
 	{
@@ -975,6 +1002,104 @@ class RedshopModelInstall extends RedshopModelList
 		$this->changeImageFileName($files, $path);
 
 		return true;
+	}
+
+	/**
+	 * Method to update new structure for Category
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.5
+	 */
+	public function processUpdateCategory()
+	{
+		$db = JFactory::getDbo();
+		$check = RedshopHelperCategory::getRootId();
+
+		if (!empty($check))
+		{
+			return true;
+		}
+
+		$root = new stdClass;
+		$root->name = 'ROOT';
+		$root->parent_id = 0;
+		$root->level = 0;
+		$root->lft = 0;
+		$root->rgt = 1;
+		$result = $db->insertObject('#__redshop_category', $root);
+		$rootId = $db->insertid();
+
+		$query = $db->getQuery(true)
+			->select('c.*')
+			->select($db->qn('cx.category_parent_id', 'parent_id'))
+			->from($db->qn('#__redshop_category', 'c'))
+			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('cx.category_child_id'));
+		$categories = $db->setQuery($query)->loadObjectList();
+
+		foreach ($categories as $key => $category)
+		{
+			if ($category->name == 'ROOT')
+			{
+				continue;
+			}
+
+			$parentId = ($category->parent_id == 0) ? $rootId : $category->parent_id;
+			$alias = JFilterOutput::stringURLUnicodeSlug($category->name);
+
+			$fields = array(
+					$db->qn('parent_id') . ' = ' . $db->q((int) $parentId),
+					$db->qn('alias') . ' = ' . $db->q($alias)
+				);
+			$conditions = array(
+				$db->qn('id') . ' = ' . $db->q((int) $category->id)
+			);
+
+			$query = $db->getQuery(true)
+				->update($db->qn('#__redshop_category'))
+				->set($fields)
+				->where($conditions);
+
+			$db->setQuery($query)->execute();
+		}
+
+		if ($this->processRebuildCategory($rootId))
+		{
+			$this->processDeleteCategoryXrefTable();
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to update new structure for Category
+	 *
+	 * @param   int  $rootId  Root ID
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.5
+	 */
+	public function processRebuildCategory($rootId)
+	{
+		$table = RedshopTable::getInstance('Category', 'RedshopTable');
+
+		return $table->rebuild($rootId);
+	}
+
+	/**
+	 * Method to update new structure for Category
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.5
+	 */
+	public function processDeleteCategoryXrefTable()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)->dropTable('#__redshop_category_xref');
+
+		return $db->setQuery($query);
 	}
 
 	/**
@@ -1063,8 +1188,8 @@ class RedshopModelInstall extends RedshopModelList
 	/**
 	 * Change images file name
 	 *
-	 * @param   array   &$files  List files in image folder
-	 * @param   string  &$path   Path to folder
+	 * @param   array   $files  List files in image folder
+	 * @param   string  $path   Path to folder
 	 *
 	 * @return  void
 	 */

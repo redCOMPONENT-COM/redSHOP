@@ -1,0 +1,72 @@
+.mod_redoldprice {
+    font-size: 11px;
+    text-decoration:line-through;
+}
+
+.mod_redmainprice {
+    font-size: 13px;
+}
+
+.mod_redsavedprice {
+    font-size: 11px;
+}
+
+div.mod_redshop_products_wrapper div.mod_redshop_products_horizontal {
+    padding: 10px 5px;
+    float: left;
+}
+.mod_redshop_products_image{
+    text-align: center;
+}
+.mod_redshop_products_image a{
+    display: block;
+}
+.mod_redshop_products_wrapper:after {
+    clear: both;
+    display: block;
+    content: ".";
+    height: 0;
+    visibility: hidden;
+}
+
+* html > body .mod_redshop_products_wrapper {
+    width: 100%;
+    display: block;
+}
+
+* html .mod_redshop_products_wrapper {
+    height: 1%;
+}
+.modProductStockStatus{
+    text-align: left;
+    color: #666666;
+    font-weight: normal;
+}
+.modProductStockStatus span{
+    display: inline-block;
+    height: 9px;
+    width: 10px;
+    background-repeat: no-repeat;
+    background-position: top left;
+    padding: 0 5px 0 0;
+}
+.mod_product_instock span {
+    background-image: url(../images/stock-green.jpg);
+}
+.mod_product_outstock span {
+    background-image: url(../images/stock-red.jpg);
+}
+.mod_product_preorder span {
+    background-image: url(../images/stock-green.jpg);
+}
+.mod_redshop_products_image,
+.modProductStockStatus,
+.mod_redshop_products_title,
+.mod_redshop_products_desc,
+.mod_redshop_products_price,
+.mod_redshop_products_readmore{
+    padding-bottom: 5px;
+}
+.hiddenFields{
+    display: none;
+}

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.backend
  * @subpackage  Controller
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.4
  */
 class RedshopControllerInstall extends RedshopControllerAdmin
 {
@@ -41,7 +41,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function handleConfig()
 	{
@@ -78,7 +78,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function syncUser()
 	{
@@ -107,7 +107,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function templateData()
 	{
@@ -135,7 +135,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function templateFiles()
 	{
@@ -163,7 +163,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function updateMenu()
 	{
@@ -191,7 +191,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function integrateSh404sef()
 	{
@@ -219,7 +219,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function updateCheckDatabase()
 	{
@@ -247,7 +247,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function updateOverrideTemplate()
 	{
@@ -275,7 +275,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function updateCleanOldFiles()
 	{
@@ -303,7 +303,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function updateDatabaseSchema()
 	{
@@ -333,7 +333,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function updateImageFileNames()
 	{
@@ -344,6 +344,31 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		$model = $this->getModel();
 
 		if (!$model->processUpdateImageFileNames())
+		{
+			$app->setHeader('status', 500);
+			$app->sendHeaders();
+			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
+			$app->close();
+		}
+
+		$app->sendHeaders();
+		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+		$app->close();
+	}
+
+	/**
+	 * Method to update new structure for Category
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.5
+	 */
+	public function updateCategory()
+	{
+		$app = JFactory::getApplication();
+		$model = $this->getModel();
+		
+		if (!$model->processUpdateCategory())
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();

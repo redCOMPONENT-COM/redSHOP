@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  redSHOP
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -435,17 +435,17 @@ class RedshopRouter extends JComponentRouterBase
 							for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 							{
 								$cat        = $cats[$x];
-								$segments[] = RedshopHelperUtility::convertToNonSymbol($cat->category_name);
+								$segments[] = RedshopHelperUtility::convertToNonSymbol($cat->name);
 							}
 						}
 
 						if (Redshop::getConfig()->get('ENABLE_SEF_NUMBER_NAME'))
 						{
-							$segments[] = $cid . '-' . RedshopHelperUtility::convertToNonSymbol($url->category_name);
+							$segments[] = $cid . '-' . RedshopHelperUtility::convertToNonSymbol($url->name);
 						}
 						else
 						{
-							$segments[] = RedshopHelperUtility::convertToNonSymbol($url->category_name);
+							$segments[] = RedshopHelperUtility::convertToNonSymbol($url->name);
 						}
 					}
 					else
@@ -524,7 +524,7 @@ class RedshopRouter extends JComponentRouterBase
 
 							foreach ($cats as $cat)
 							{
-								$segments[] = RedshopHelperUtility::convertToNonSymbol($cat->category_name);
+								$segments[] = RedshopHelperUtility::convertToNonSymbol($cat->name);
 							}
 						}
 
@@ -532,7 +532,7 @@ class RedshopRouter extends JComponentRouterBase
 
 						if ($categoryData = RedshopHelperCategory::getCategoryById($category_id))
 						{
-							$catname = $categoryData->category_name;
+							$catname = $categoryData->name;
 						}
 
 						// Attach category id with name for consistency
@@ -1003,10 +1003,13 @@ class RedshopRouter extends JComponentRouterBase
 
 							if (isset($segments[$second_last]))
 							{
-								$sql = "SELECT category_id FROM #__redshop_category WHERE category_name = '$segments[$second_last]'";
-								$db->setQuery($sql);
-								$cat_id      = $db->loadResult();
-								$vars['cid'] = $cat_id;
+								$db = JFactory::getDbo();
+								$query = $db->getQuery(true)
+									->select($db->qn('id'))
+									->from($db->qn('#__redshop_category'))
+									->where($db->qn('name') . ' = ' . $db->q($segments[$second_last]));
+
+								$vars['cid'] = $db->setQuery($query)->loadResult();
 							}
 						}
 					}
