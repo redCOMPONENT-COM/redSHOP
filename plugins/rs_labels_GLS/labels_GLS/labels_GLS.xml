@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="rs_labels_GLS" method="upgrade">
+	<name>GLS Lables</name>
+	<version>1.1</version>
+	<creationDate>15-04-2010</creationDate>
+	<author>redweb.dk</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description></description>
+	<files>
+		<filename plugin="labels_GLS">labels_GLS.php</filename>
+	</files>
+	
+	<params>
+	<param name="normal_parcel_weight_start" type="text" default="" label="Normal Parcel Start Weight" description="=Enter Normal Parcel Start Weight"/>
+	<param name="normal_parcel_weight_end" type="text" default="" label="Normal Parcel End Weight" description="Enter Normal Parcel End Weight"/>
+	<param name="small_parcel_weight_start" type="text" default="" label="Small Parcel Start Weight" description="Enter Small Parcel Start Weight"/>
+	<param name="small_parcel_weight_end" type="text" default="" label="Smalll Parcel End Weight" description="Enter Small Parcel End Weight"/>
+	<param name="pallet_parcel_weight_start" type="text" default="" label="Pallet Parcel Start Weight" description="Enter Pallet Parcel Start Weight"/>
+	<param name="pallet_parcel_weight_end" type="text" default="" label="PPallet Parcel End Weight" description="Enter Pallet Parcel End Weight"/>
+	</params>
+	</install>
