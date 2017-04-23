@@ -921,14 +921,14 @@ class RedshopModelOrder_detail extends RedshopModel
 		 *
 		 * Ref: https://github.com/redCOMPONENT-COM/redSHOP/blame/1c299b5133723afd92418b7185a2ece0d023ce68/component/admin/models/order_detail.php#L847
 		 *
-		for ($i = 0, $in = count($orderItems); $i < $in; $i++)
+		 */
+		/*for ($i = 0, $in = count($orderItems); $i < $in; $i++)
 		{
 			if ($order_item_id != $orderItems[$i]->order_item_id)
 			{
 				$subtotal = $subtotal + ($orderItems[$i]->product_item_price * $orderItems[$i]->product_quantity);
 			}
-		}
-		 **/
+		}*/
 
 		$temporder_total = $subtotal + $orderData->order_discount + $orderData->special_discount_amount;
 

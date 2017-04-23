@@ -405,7 +405,7 @@ class RedshopMenuLeft_Menu
 
 		/**
 		 * @TODO: Enable when Product Variants ready
-		self::setAttributes();
+		 * self::setAttributes();
 		 */
 
 		self::$menu->group('PRODUCT_LISTING');
@@ -800,6 +800,8 @@ class RedshopMenuLeft_Menu
 			)
 			/**
 			 * @TODO: Enable this menu when done.
+			 */
+			/*
 			->addItem(
 				'index.php?option=com_redshop&view=statistic_variant',
 				'COM_REDSHOP_STATISTIC_PRODUCT_VARIANT',
@@ -809,7 +811,8 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=statistic_quotation',
 				'COM_REDSHOP_STATISTIC_QUOTATION',
 				(self::$view == 'statistic_quotation' && self::$layout == '') ? true : false
-			)*/
+			)
+			*/
 			->addItem(
 				'index.php?option=com_redshop&view=statistic',
 				'COM_REDSHOP_TOTAL_VISITORS',
