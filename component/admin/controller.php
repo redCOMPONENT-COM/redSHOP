@@ -6,8 +6,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Redshop\Admin;
-
 defined('_JEXEC') or die;
 
 /**
