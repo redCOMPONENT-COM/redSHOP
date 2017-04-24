@@ -129,8 +129,10 @@ if ($allowOrder)
 					</td>
 					<td align="center">
 						<?php $media_id = $model->getMediaId($row->manufacturer_id);?>
+                        <?php $modalUrl = 'index.php?tmpl=component&option=com_redshop&task=medium.edit&id=' . $media_id; ?>
+                        <?php $return = urlencode(base64_encode($modalUrl)); ?>
 						<a class="joom-box"
-						   href="index.php?tmpl=component&option=com_redshop&task=medium.edit&id=<?php echo $media_id; ?>"
+						   href="<?php echo $modalUrl ?>&return=<?php echo $return ?>"
 						   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><img
 								src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
 								alt="media"></a>

@@ -11,6 +11,8 @@ JHtml::_('behavior.formvalidator');
 $uri = JURI::getInstance();
 $url = $uri->root();
 $display = 'style="display:none"';
+$app = JFactory::getApplication();
+$tmpl = $app->input->get('tmpl', '');
 ?>
 
 <form action="index.php?option=com_redshop&task=medium.edit&id=<?php echo $this->item->id ?>"
@@ -20,6 +22,22 @@ $display = 'style="display:none"';
 	class="form-validate form-horizontal"
 	enctype="multipart/form-data">
 	<fieldset class="adminform">
+
+        <!-- Show toolbar in case template is component -->
+        <?php if ($tmpl == 'component'): ?>
+        <div class="row">
+            <div class="btn-toolbar" id="toolbar">
+                <div class="btn-wrapper" id="toolbar-apply">
+                    <button class="btn btn-small btn-success" type="submit" onclick="Joomla.submitbutton('medium.apply');">
+                        <span class="icon-apply"></span>
+                        <?php echo JText::_('JAPPLY'); ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <?php endif ?>
+        <!-- End toolbar -->
+
 		<div class="row">
 			<div class="col-sm-5">
 		        <div class="box box-primary">
