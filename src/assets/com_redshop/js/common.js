@@ -80,7 +80,16 @@ function validateInputNumber(objid)
 	if(document.getElementById(objid) && (trim(document.getElementById(objid).value)=="" || isNaN(document.getElementById(objid).value) || document.getElementById(objid).value<=0))
 	{
 		alert(Joomla.JText._('COM_REDSHOP_ENTER_NUMBER'));
-		document.getElementById(objid).value = 1;
+		var quantityInput = jQuery('#' + objid);
+		var productId = jQuery(quantityInput).attr('product_id');
+		var subPropertyId = jQuery(quantityInput).attr('subproperty_id');
+		var price_table = jQuery('#subproperty_price_table_'+subPropertyId).val();
+		if (price_table != 1){
+			document.getElementById(objid).value = 1;
+		}
+		else{
+			document.getElementById(objid).value = 0;
+		}
 		return false;
 	}
 	return true;

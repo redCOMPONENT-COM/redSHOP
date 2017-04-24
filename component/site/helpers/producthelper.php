@@ -4952,7 +4952,7 @@ class productHelper
 		return $product_showprice;
 	}
 
-	public function replacePropertyAddtoCart($product_id = 0, $property_id = 0, $category_id = 0, $commonid = "", $property_stock = 0, $property_data = "", $cart_template = array(), $data_add = "")
+	public function replacePropertyAddtoCart($product_id = 0, $property_id = 0, $category_id = 0, $commonid = "", $property_stock = 0, $property_data = "", $cart_template = array(), $data_add = "", $subPropertyId = 0)
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
@@ -4995,8 +4995,8 @@ class productHelper
 		$max_quantity = $product->max_order_product_quantity;
 		$min_quantity = $product->min_order_product_quantity;
 
-		$addtocartFormName = 'addtocart_' . $commonid . '_' . $property_id;
-		$stockId           = $commonid . '_' . $property_id;
+		$addtocartFormName = 'addtocart_' . $commonid . '_' . $property_id . '_' . $subPropertyId;
+		$stockId           = $commonid . '_' . $property_id . '_' . $subPropertyId;
 		$attribute_id      = 0;
 		$arr               = explode("_", $commonid);
 
@@ -5047,7 +5047,7 @@ class productHelper
 
 			<input type='hidden' name='attribute_data' id='attribute_data' value='" . $attribute_id . "'>
 			<input type='hidden' name='property_data' id='property_data' value='" . $property_id . "'>
-			<input type='hidden' name='subproperty_data' id='subproperty_data' value='0'>
+			<input type='hidden' name='subproperty_data' id='subproperty_data' value='" . $subPropertyId . "'>
 
 			<input type='hidden' name='calcHeight' id='hidden_calc_height' value='' />
 			<input type='hidden' name='calcWidth' id='hidden_calc_width' value='' />
@@ -5072,13 +5072,27 @@ class productHelper
 		}
 		else
 		{
-			$quan = 1;
+			if ($subPropertyId > 0)
+			{
+				$quan = 0;
+			}
+			else
+			{
+				$quan = 1;
+			}
+		}
+
+		$quantityId = 'product' . $product_id;
+
+		if ($subPropertyId > 0)
+		{
+			$quantityId = 'product' . $product_id . $subPropertyId;
 		}
 
 		if (strpos($cartform, "{addtocart_quantity}") !== false)
 		{
-			$addtocart_quantity = "<span id='stockQuantity" . $stockId . "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='quantity" .
-				$product_id . "' value='" . $quan . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') .
+			$addtocart_quantity = "<span id='stockQuantity" . $stockId . "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='" .
+				$quantityId . "' value='" . $quan . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') .
 				"' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
 			$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
 			$cartform           = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartform);
@@ -5096,7 +5110,7 @@ class productHelper
 				$quaboxarr       = explode(",", $selectbox_value);
 				$quaboxarr       = array_merge(array(), array_unique($quaboxarr));
 				sort($quaboxarr);
-				$qselect = "<select name='quantity' id='quantity" . $product_id . "'  OnChange='calculateTotalPrice("
+				$qselect = "<select name='quantity' id='" . $quantityId . "'  OnChange='calculateTotalPrice("
 					. $product_id . ",0);'>";
 
 				for ($q = 0, $qn = count($quaboxarr); $q < $qn; $q++)
@@ -5118,7 +5132,7 @@ class productHelper
 		}
 		else
 		{
-			$cartform .= "<input class='quantity' type='hidden' name='quantity' id='quantity" . $product_id . "' value='" . $quan
+			$cartform .= "<input class='quantity' type='hidden' name='quantity' id='" . $quantityId . "' value='" . $quan
 				. "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'>";
 		}
 

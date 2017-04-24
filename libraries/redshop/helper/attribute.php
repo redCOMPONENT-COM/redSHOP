@@ -579,6 +579,30 @@ abstract class RedshopHelperAttribute
 
 					$attribute_table .= "<input type='hidden' id='subattdata_" . $commonid . "' value='"
 						. base64_encode(htmlspecialchars($subpropertydata)) . "' />";
+					$subPropertyHtml = array();
+
+					foreach ($property as $key => $propertyValue)
+					{
+						$subProperties = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $propertyValue->value);
+						$subPropertyHtml[] = RedshopLayoutHelper::render(
+							'product.subproperty_price_list',
+							array(
+								'productId' => $productId,
+								'userId'    => JFactory::getUser()->id,
+								'propertyId' => $propertyValue->value,
+								'subProperties' => $subProperties,
+								'templateContent' => $templateContent,
+								'subPropertyData' => $subpropertydata,
+								'commonId' => $commonid
+							),
+							'',
+							array(
+								'component' => 'com_redshop'
+							)
+						);
+					}
+
+					$attribute_table = str_replace("{subproperty_price_list}", implode('', $subPropertyHtml), $attribute_table);
 					$attribute_table = str_replace("{subproperty_start}", $subproperty_start, $attribute_table);
 					$attribute_table = str_replace("{subproperty_end}", "</div>", $attribute_table);
 				}
