@@ -10,34 +10,12 @@
 defined('_JEXEC') or die;
 
 /**
- * Model Field
+ * Redshop Field Model
  *
- * @package     RedSHOP.Backend
- * @subpackage  Model
- * @since       2.0.4
+ * @package     Redshop.Backend
+ * @subpackage  Models.Field
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopModelField extends RedshopModelForm
 {
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return  mixed  The data for the form.
-	 *
-	 * @since   1.6
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
-		$data = $app->getUserState('com_redshop.edit.field.data', array());
-
-		if (empty($data))
-		{
-			$data = $this->getItem();
-		}
-
-		$this->preprocessData('com_redshop.field', $data);
-
-		return $data;
-	}
 }

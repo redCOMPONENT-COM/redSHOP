@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
+/**
+ * View Field
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       __DEPLOY_VERSION__
+ */
 class RedshopViewField extends RedshopViewForm
 {
 	/**

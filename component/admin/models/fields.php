@@ -9,6 +9,13 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Redshop fields Model
+ *
+ * @package     Redshop.Backend
+ * @subpackage  Models.Fields
+ * @since       __DEPLOY_VERSION__
+ */
 class RedshopModelFields extends RedshopModelList
 {
 	/**
