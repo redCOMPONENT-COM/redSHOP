@@ -21,4 +21,20 @@ ALTER TABLE `#__redshop_fields` ADD `created_by` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `#__redshop_fields` ADD `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
 ALTER TABLE `#__redshop_fields` ADD `modified_by` INT(11) NULL DEFAULT NULL;
 
+ALTER TABLE `#__redshop_fields` DROP INDEX `idx_published`;
+ALTER TABLE `#__redshop_fields` DROP INDEX `idx_field_section`;
+ALTER TABLE `#__redshop_fields` DROP INDEX `idx_field_type`;
+ALTER TABLE `#__redshop_fields` DROP INDEX `idx_required`;
+ALTER TABLE `#__redshop_fields` DROP INDEX `idx_field_name`;
+ALTER TABLE `#__redshop_fields` DROP INDEX `idx_field_show_in_front`;
+ALTER TABLE `#__redshop_fields` DROP INDEX `idx_display_in_product`;
+
+ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_published` (`published` ASC);
+ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_section` (`section` ASC);
+ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_type` (`type` ASC);
+ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_required` (`required` ASC);
+ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_name` (`name` ASC);
+ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_show_in_front` (`show_in_front` ASC);
+ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_display_in_product` (`display_in_product` ASC));
+
 SET FOREIGN_KEY_CHECKS = 1;
