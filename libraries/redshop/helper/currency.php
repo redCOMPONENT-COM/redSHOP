@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedSHOP.Frontend
+ * @package     RedSHOP.Library
  * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
@@ -9,40 +9,21 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Currency\Currency;
-
 /**
- * price converter
+ * Class Redshop Helper for Currency
  *
- * @since  2.5
- *
- * @deprecated  __DEPLOY_VERSION__  Use Redshop\Currency\Currency instead.
+ * @since  __DEPLOY_VERSION__
  */
-class CurrencyHelper
+class RedshopHelperCurrency
 {
-	/**
-	 * Returns the CurrencyHelper object, only creating it
-	 * if it doesn't already exist.
-	 *
-	 * @return  CurrencyHelper  The CurrencyHelper object
-	 *
-	 * @since   1.6
-	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use Redshop\Currency\Currency instead.
-	 */
-	public static function getInstance()
-	{
-		return Currency::getInstance();
-	}
-
 	/**
 	 * Initializes the global currency converter array
 	 *
 	 * @return  mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use Redshop\Currency\Currency instead.
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function init()
+	public static function init()
 	{
 		return Currency::getInstance()->init();
 	}
@@ -56,9 +37,9 @@ class CurrencyHelper
 	 *
 	 * @return  float             Converted amount
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use Redshop\Currency\Currency instead.
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function convert($amountA, $currA = '', $currB = '')
+	public static function convert($amountA, $currA = '', $currB = '')
 	{
 		return Currency::getInstance()->convert($amountA, $currA, $currB);
 	}
@@ -72,9 +53,9 @@ class CurrencyHelper
 	 *
 	 * @return  int     Currency Numeric Code
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use Redshop\Currency\Currency instead.
+	 * @since   __DEPLOY_VERSION__  Use Redshop\Currency\Currency instead.
 	 */
-	public function get_iso_code($code)
+	public static function getISOCode($code)
 	{
 		return Currency::getInstance()->getISOCode($code);
 	}
