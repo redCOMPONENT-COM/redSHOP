@@ -48,7 +48,7 @@ class RedshopModelFields extends RedshopModelList
 		parent::__construct($config);
 	}
 
-		/**
+	/**
 	 * Method to get a store id based on model configuration state.
 	 *
 	 * This is necessary because the model is used by the component and
@@ -59,7 +59,7 @@ class RedshopModelFields extends RedshopModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   1.5
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -73,12 +73,14 @@ class RedshopModelFields extends RedshopModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
 	 * @param   string  $ordering   An optional ordering field.
 	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
-	 * @note    Calling getState in this method will result in recursion.
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -98,6 +100,8 @@ class RedshopModelFields extends RedshopModelList
 	 * Method to build an SQL query to load the list data.
 	 *
 	 * @return      string  An SQL query
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getListQuery()
 	{
@@ -156,10 +160,10 @@ class RedshopModelFields extends RedshopModelList
 	}
 
 	/**
-	 * Get Fields information from Sections Ids.
+	 * Get Fields information from Sections
 	 * 		Note: This will return non-published fields also
 	 *
-	 * @param   array  $section  Sections Ids in index array
+	 * @param   array  $section  Sections in index array
 	 *
 	 * @return  mixed  Object information array of Fields
 	 */
@@ -197,6 +201,14 @@ class RedshopModelFields extends RedshopModelList
 		return $fields;
 	}
 
+	/**
+	 * Get Fields information from Section.
+	 *
+	 * @param   string  $section  	Section of fields
+	 * @param   string  $fieldName  Field name
+	 *
+	 * @return  mixed
+	 */
 	public function getFieldsBySection($section, $fieldName = '')
 	{
 		$db = JFactory::getDbo();
@@ -218,6 +230,16 @@ class RedshopModelFields extends RedshopModelList
 		return $db->loadObjectlist();
 	}
 
+	/**
+	 * Get Field Data from Field Id, Section, Order Item Id and User Email
+	 *
+	 * @param   int  	$fieldid  		Id of field
+	 * @param   string  $section  		Section of field
+	 * @param   string  $orderitemid	Order item Id
+	 * @param   string  $user_email		User's email
+	 *
+	 * @return  mixed  Object information array of Field's Data
+	 */
 	public function getFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
 	{
 		$db = JFactory::getDbo();
@@ -235,6 +257,13 @@ class RedshopModelFields extends RedshopModelList
 		return $db->loadObject();
 	}
 
+	/**
+	 * Get Field Value from Field Id
+	 *
+	 * @param   int  $id   Id of field
+	 *
+	 * @return  mixed  Object information array of Field's Value
+	 */
 	public function getFieldValue($id)
 	{
 		$db = JFactory::getDbo();
