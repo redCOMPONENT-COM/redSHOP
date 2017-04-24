@@ -714,7 +714,8 @@ class RedshopModelInstall extends RedshopModelList
 
 			array_push(
 				$folders,
-				JPATH_ADMINISTRATOR . '/component/admin/views/category_detail'
+				JPATH_ADMINISTRATOR . '/component/admin/views/category_detail',
+				JPATH_LIBRARIES . '/redshop/economic'
 			);
 		}
 
