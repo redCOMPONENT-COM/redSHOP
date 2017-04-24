@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       2.0.4
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopTableField extends RedshopTable
 {
@@ -25,6 +25,14 @@ class RedshopTableField extends RedshopTable
 	 */
 	protected $_tableName = 'redshop_fields';
 
+	/**
+	 * Checks that the object is valid and able to be stored.
+	 *
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  boolean  True if all checks pass.
+	 */
 	protected function doCheck()
 	{
 		if (!parent::doCheck())
@@ -67,9 +75,7 @@ class RedshopTableField extends RedshopTable
 						->select('COUNT(*)+1')
 						->from($db->qn('#__redshop_fields'));
 
-			$db->setQuery($query);
-			$maxOrdering = $db->loadResult();
-			$this->ordering = $maxOrdering;
+			$this->ordering = (int) $db->setQuery($query)->loadResult();
 		}
 
 		return true;
@@ -86,10 +92,6 @@ class RedshopTableField extends RedshopTable
 	{
 		$db = JFactory::getDbo();
 
-		// Get input
-		$app   = JFactory::getApplication();
-		$post = $app->input->post;
-
 		if (!parent::doStore($updateNulls))
 		{
 			return false;
@@ -102,12 +104,19 @@ class RedshopTableField extends RedshopTable
 		}
 		else
 		{
-			$this->saveFieldValues($this->id, $post);
+			$this->saveFieldValues($this->id);
 		}
 
 		return true;
 	}
 
+	/**
+	 * Delete one or more registers
+	 *
+	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfuly?
+	 */
 	protected function doDelete($pk = null)
 	{
 		$db  = $this->getDbo();
@@ -117,9 +126,13 @@ class RedshopTableField extends RedshopTable
 			return false;
 		}
 
+		if (is_array($pk))
+		{
+			$pk = implode(',', $pk);
+		}
+
 		// remove fields_data
 		$query_field_data = $db->getQuery(true)
-								->clear()
 								->delete($db->qn('#__redshop_fields_data'))
 								->where($db->qn('fieldid') . 'IN (' . $pk . ')');
 
@@ -133,15 +146,24 @@ class RedshopTableField extends RedshopTable
 		return true;
 	}
 
-	protected function deleteFieldValues($id, $field)
+	/**
+	 * Method to delete all values related to a field or array of fields
+	 *
+	 * @param   array  	$ids   	 An array of field ids.
+	 * @param   string  $field   The field column to check for deleting.
+	 *
+	 * @return  boolean  True if successful, false if an error occurs.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function deleteFieldValues($ids, $field)
 	{
 		$db  = $this->getDbo();
-		$id = implode(',', $id);
+		$ids = implode(',', $ids);
 
 		$query = $db->getQuery(true)
-				->clear()
 				->delete($db->qn('#__redshop_fields_value'))
-				->where("$field IN (" . $id . ")");
+				->where("$field IN (" . $ids . ")");
 
 		$db->setQuery($query);
 
@@ -151,15 +173,30 @@ class RedshopTableField extends RedshopTable
 
 			return false;
 		}
+
+		return true;
 	}
 
-	protected function saveFieldValues($id, $post)
+	/**
+	 * Method to save all values related to a field
+	 *
+	 * @param   int  $id   	 Id field.
+	 *
+	 * @return  boolean  True if successful, false if an error occurs.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function saveFieldValues($id)
 	{
 		$db  = $this->getDbo();
 		$extra_field = extra_field::getInstance();
 		$value_id = array();
 		$extra_name = array();
 		$extra_value = array();
+
+		// Get input
+		$app   = JFactory::getApplication();
+		$post = $app->input->post;
 
 		if (is_array($post->get('value_id')))
 		{
@@ -170,12 +207,10 @@ class RedshopTableField extends RedshopTable
 			if ($this->type == 11 || $this->type == 13)
 			{
 				$extra_name = JRequest::getVar('extra_name_file', '', 'files', 'array');
-				// $extra_name = $post->get('extra_name_file', '', 'array');
 				$total = count($extra_name['name']);
 			}
 			else
 			{
-				// $extra_name = JRequest::getVar('extra_name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 				$extra_name = $post->get('extra_name', '', 'raw');
 				$total = count($extra_name);
 			}
@@ -246,5 +281,7 @@ class RedshopTableField extends RedshopTable
 				return false;
 			}
 		}
+
+		return true;
 	}
 }
