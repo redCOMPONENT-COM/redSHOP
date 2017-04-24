@@ -9,11 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Currency\Currency;
+
 JLoader::import('redshop.library');
 
 $Itemid          = $app->input->get('Itemid');
 $order_functions = order_functions::getInstance();
-$currencyClass   = CurrencyHelper::getInstance();
 $order_items     = $order_functions->getOrderItemDetail($data['order_id']);
 $order           = $order_functions->getOrderDetails($data['order_id']);
 $hmac_key        = $this->params->get("hmac_key");
@@ -91,8 +92,8 @@ if ($this->params->get("is_test"))
 for ($p = 0, $pn = count($order_items); $p < $pn; $p++)
 {
 	// Price conversion
-	$product_item_price          = $currencyClass->convert($order_items[$p]->product_item_price, '', $this->params->get("dibs_currency"));
-	$product_item_price_excl_vat = $currencyClass->convert($order_items[$p]->product_item_price_excl_vat, '', $this->params->get("dibs_currency"));
+	$product_item_price          = RedshopHelperCurrency::convert($order_items[$p]->product_item_price, '', $this->params->get("dibs_currency"));
+	$product_item_price_excl_vat = RedshopHelperCurrency::convert($order_items[$p]->product_item_price_excl_vat, '', $this->params->get("dibs_currency"));
 	$pvat                        = $product_item_price - $product_item_price_excl_vat;
 	$product_item_price_excl_vat = floor($product_item_price_excl_vat * 1000) / 1000;
 	$product_item_price_excl_vat = number_format($product_item_price_excl_vat, 2, '.', '') * 100;
@@ -113,7 +114,7 @@ for ($p = 0, $pn = count($order_items); $p < $pn; $p++)
 if ($order->order_discount > 0)
 {
 	$quantity_discount = 1;
-	$discount_amount = $currencyClass->convert($order->order_discount, '', $this->params->get("dibs_currency"));
+	$discount_amount = RedshopHelperCurrency::convert($order->order_discount, '', $this->params->get("dibs_currency"));
 	$discount_amount = floor($discount_amount * 1000) / 1000;
 	$discount_amount = number_format($discount_amount, 2, '.', '') * 100;
 	$discount_amount = -$discount_amount;
@@ -139,8 +140,8 @@ if ($order->order_shipping > 0)
 		$order_shipping_tax = $order->order_shipping_tax;
 	}
 
-	$shipping_price = $currencyClass->convert($order->order_shipping, '', $this->params->get("dibs_currency"));
-	$shipping_vat   = $currencyClass->convert($order_shipping_tax, '', $this->params->get("dibs_currency"));
+	$shipping_price = RedshopHelperCurrency::convert($order->order_shipping, '', $this->params->get("dibs_currency"));
+	$shipping_vat   = RedshopHelperCurrency::convert($order_shipping_tax, '', $this->params->get("dibs_currency"));
 	$shipping_price = floor($shipping_price * 1000) / 1000;
 	$shipping_price = number_format($shipping_price, 2, '.', '') * 100;
 	$shipping_vat   = floor($shipping_vat * 1000) / 1000;
@@ -161,7 +162,7 @@ $payment_price = $order->payment_discount;
 if ($payment_price > 0)
 {
 	$quantity_payment = 1;
-	$payment_price    = $currencyClass->convert($payment_price, '', $this->params->get("dibs_currency"));
+	$payment_price    = RedshopHelperCurrency::convert($payment_price, '', $this->params->get("dibs_currency"));
 	$payment_price    = floor($payment_price * 1000) / 1000;
 	$payment_price    = number_format($payment_price, 2, '.', '') * 100;
 
