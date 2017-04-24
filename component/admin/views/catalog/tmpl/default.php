@@ -92,7 +92,7 @@ $model = $this->getModel('catalog');
 					<td align="center">
 						<?php $mediadetail = $model->MediaDetail($row->id);  ?>
 						<a class="joom-box"
-						   href="index.php?tmpl=component&option=com_redshop&amp;view=media&amp;section_id=<?php echo $row->id; ?>&amp;showbuttons=1&amp;media_section=catalog&amp;section_name=<?php echo $row->catalog_name; ?>"
+						   href="index.php?tmpl=component&option=com_redshop&amp;view=media&amp;section_id=<?php echo $row->id; ?>&amp;showbuttons=1&amp;section=catalog&amp;section_name=<?php echo $row->catalog_name; ?>"
 						   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><img
 								src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
 								alt="media">(<?php  echo count($mediadetail);?>)</a>

@@ -93,7 +93,13 @@ class RedshopModelCatalog extends RedshopModel
 
 	public function MediaDetail($pid)
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE section_id =' . $pid . ' AND media_section = "catalog"';
+	    $db = JFactory::getDbo();
+	    $query = $db->getQuery(true);
+
+	    $query->select('*')
+            ->from($db->qn('#__redshop_media'))
+            ->where($db->qn('section_id') . ' = ' . (int) $pid)
+            ->where($db->qn('section') . ' = ' . $db->q('catalog'));
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();

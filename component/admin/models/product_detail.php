@@ -508,7 +508,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$media_id = $result->id;
 				}
 
-				$mediarow = $this->getTable('media');
+				$mediarow = $this->getTable('Medium');
 				$mediapost = array();
 				$mediapost['id'] = $media_id;
 				$mediapost['name'] = $row->product_full_image;
@@ -1156,7 +1156,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$this->setError($this->_db->getErrorMsg());
 			}
 
-			$query_media = 'DELETE FROM ' . $this->table_prefix . 'media WHERE section_id IN ( ' . $cids . ' ) AND media_section = "product"';
+			$query_media = 'DELETE FROM ' . $this->table_prefix . 'media WHERE section_id IN ( ' . $cids . ' ) AND section = "product"';
 			$this->_db->setQuery($query_media);
 
 			if (!$this->_db->execute())
@@ -1278,7 +1278,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->_db->setQuery($query);
 			$productpricedata = $this->_db->loadObjectList();
 
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'media WHERE media_section = "product" AND section_id IN ( ' . $pdata->product_id . ' )';
+			$query = 'SELECT * FROM ' . $this->table_prefix . 'media WHERE section = "product" AND section_id IN ( ' . $pdata->product_id . ' )';
 			$this->_db->setQuery($query);
 			$mediadata = $this->_db->loadObjectList();
 
@@ -1641,7 +1641,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$mImages['type'] = 'images';
 					$mImages['mimetype'] = $listImages[$li]->mimetype;
 					$mImages['published'] = $listImages[$li]->published;
-					$this->copyadditionalImage($mImages);
+					$this->copyAdditionalImage($mImages);
 				}
 
 				$query = 'SELECT * FROM ' . $this->table_prefix . 'product_subattribute_color
@@ -1683,7 +1683,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						$smImages['type'] = 'images';
 						$smImages['mimetype'] = $listsubpropImages[$lsi]->mimetype;
 						$smImages['published'] = $listsubpropImages[$lsi]->published;
-						$this->copyadditionalImage($smImages);
+						$this->copyAdditionalImage($smImages);
 					}
 				}
 			}
@@ -1773,8 +1773,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function getPropertyImages($property_id)
 	{
 		$query = "SELECT * FROM " . $this->table_prefix . "product_attribute_property as p, " . $this->table_prefix . "media AS m
-				  WHERE m.section_id = p.property_id  and m.media_section='property' and media_type='images'
-				  AND p.property_id = '" . $property_id . "'  and m.published = 1 order by m.ordering,m.media_id asc";
+				  WHERE m.section_id = p.property_id  and m.section='property' and type='images'
+				  AND p.property_id = '" . $property_id . "'  and m.published = 1 order by m.ordering,m.id asc";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -1790,8 +1790,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function getSubpropertyImages($subproperty_id)
 	{
 		$query = "SELECT * FROM " . $this->table_prefix . "product_subattribute_color as p, " . $this->table_prefix . "media AS m
-				  WHERE m.section_id = p.subattribute_color_id  and m.media_section='subproperty' and media_type='images'
-				  AND p.subattribute_color_id = '" . $subproperty_id . "'  and m.published = 1 order by m.ordering,m.media_id asc";
+				  WHERE m.section_id = p.subattribute_color_id  and m.section='subproperty' and type='images'
+				  AND p.subattribute_color_id = '" . $subproperty_id . "'  and m.published = 1 order by m.ordering,m.id asc";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -2379,7 +2379,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function deletesubimage($mediaid)
 	{
-		$query = 'SELECT * FROM ' . $this->table_prefix . 'media  WHERE media_id = ' . $mediaid;
+		$query = 'SELECT * FROM ' . $this->table_prefix . 'media  WHERE id = ' . $mediaid;
 		$this->_db->setQuery($query);
 		$imgdata = $this->_db->loadObject();
 
@@ -2396,7 +2396,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			unlink($tsrc);
 		}
 
-		$query = 'DELETE FROM ' . $this->table_prefix . 'media WHERE media_id = "' . $mediaid . '" ';
+		$query = 'DELETE FROM ' . $this->table_prefix . 'media WHERE id = "' . $mediaid . '" ';
 
 		$this->_db->setQuery($query);
 
@@ -3568,29 +3568,29 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$image_media = 'SELECT * FROM ' . $this->table_prefix . 'media
 						WHERE section_id = "' . $id . '"
-						AND media_section = "' . $type . '" ';
+						AND section = "' . $type . '" ';
 		$this->_db->setQuery($image_media);
 
 		return $this->_db->loadObjectlist();
 	}
 
 	/**
-	 *  Function copyadditionalImage.
+	 *  Function copyAdditionalImage.
 	 *
 	 * @param   array  $data  Data.
 	 *
 	 * @return  bool
 	 */
-	public function copyadditionalImage($data)
+	public function copyAdditionalImage($data)
 	{
-		$src_image = $data['name'];
-		$old_imgname = strstr($data['name'], '_') ? strstr($data['name'], '_') : $data['name'];
-		$new_imgname = RedShopHelperImages::cleanFileName($old_imgname);
+		$src = $data['name'];
+		$old = strstr($data['name'], '_') ? strstr($data['name'], '_') : $data['name'];
+		$new = RedShopHelperImages::cleanFileName($old_imgname);
 		$data['name'] = $new_imgname;
-		$rowmedia = $this->getTable('detail');
+		$row = $this->getTable('detail');
 		$data['id '] = 0;
 
-		if (!$rowmedia->bind($data))
+		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -3598,10 +3598,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		$section = $data['section'];
-		$path = $section . '/' . $src_image;
-		$this->copy_image_additionalimage_from_path($path, $data['section']);
+		$path = $section . '/' . $data['id'] . '/' . $src;
+		$this->copyImageAdditionalImageFromPath($path, $data['id'], $data['section']);
 
-		if (!$rowmedia->store())
+		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -3612,25 +3612,26 @@ class RedshopModelProduct_Detail extends RedshopModel
 	}
 
 	/**
-	 *  Function copy_image_additionalimage_from_path.
+	 *  Function copyImageAdditionalImageFromPath.
 	 *
 	 * @param   string  $imagePath  Image path.
-	 * @param   int     $section    ID.
+     * @param   int     $id         ID.
+	 * @param   int     $section    Section name.
 	 *
 	 * @return  string
 	 */
-	public function copy_image_additionalimage_from_path($imagePath, $section)
+	public function copyImageAdditionalImageFromPath($imagePath, $id, $section)
 	{
 		$src = REDSHOP_FRONT_IMAGES_RELPATH . $imagePath;
 
-		$imgname = basename($imagePath);
-		$imgname = strstr($imgname, '_') ? strstr($imgname, '_') : $imgname;
-		$property_image = RedShopHelperImages::cleanFileName($imgname);
-		$dest = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
+		$img = basename($imagePath);
+		$img = strstr($img, '_') ? strstr($img, '_') : $img;
+		$propertyImage = RedShopHelperImages::cleanFileName($img);
+		$des = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $id . '/' . $propertyImage;
 
-		copy($src, $dest);
+		JFile::copy($src, $des);
 
-		return $property_image;
+		return $propertyImage;
 	}
 
 	/**

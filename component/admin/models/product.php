@@ -336,10 +336,15 @@ class RedshopModelProduct extends RedshopModel
 
 	public function MediaDetail($pid)
 	{
-		$query = 'SELECT * FROM #__redshop_media  WHERE section_id ="' . $pid . '" AND media_section = "product"';
-		$this->_db->setQuery($query);
+	    $db = JFactory::getDbo();
+	    $query = $db->getQuery(true);
+	    $query->select('*')
+            ->from($db->qn('#__redshop_media'))
+            ->where($db->qn('section_id') . ' = ' . (int) $pid)
+            ->where($db->qn('section') . ' = ' . $db->q('product'));
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function listedincats($pid)

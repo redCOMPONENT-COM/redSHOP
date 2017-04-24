@@ -108,7 +108,7 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 					$mediaText = $media->alternate_text;
 				}
 
-				$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media_detail&cid[]=' . $mediaId . '&section_id=' . $this->detail->manufacturer_id . '&showbuttons=1&media_section=manufacturer&section_name=' . $this->detail->manufacturer_name);
+				$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&task=medium.edit&id=' . (int) $mediaId);
 				?>
 				<div class="form-group">
 					<label class="label"><?php echo JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT') ?></label>

@@ -493,32 +493,33 @@ class RedshopModelProduct extends RedshopModel
 		return $db->setQuery($query)->loadObject();
 	}
 
-	public function AdditionaldownloadProduct($mid = 0, $id = 0, $media = 0)
+	public function additionalDownloadProduct($mid = 0, $id = 0, $media = 0)
 	{
-		$where = "";
+	    $db = JFactory::getDbo();
+
+	    $query = $db->getQuery(true);
+	    $query->select('*')
+            ->from($db->qn($this->_table_prefix . $tablename));
 
 		if ($mid != 0)
 		{
-			$where .= "AND media_id = " . (int) $mid . " ";
+			$query->where($db->qn('id') . " = " . (int) $mid);
 		}
 
 		if ($id != 0)
 		{
-			$where .= "AND id = " . (int) $id . " ";
+            $query->where($db->qn('id') . " = " . (int) $id);
 		}
 
 		if ($media != 0)
 		{
-			$tablename = "media ";
+			$tableName = "media";
 		}
 		else
 		{
-			$tablename = "media_download ";
+			$tableName = "media_download";
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . $tablename
-			. "WHERE 1=1 "
-			. $where;
 		$list  = $this->_getList($query);
 
 		return $list;

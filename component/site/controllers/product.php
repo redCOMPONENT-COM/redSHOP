@@ -702,14 +702,14 @@ class RedshopControllerProduct extends RedshopController
 
 			if ($task == "main")
 			{
-				$finalname = $model->AdditionaldownloadProduct($id, 0, 1);
+				$finalname = $model->additionalDownloadProduct($id, 0, 1);
 
 				$name = $finalname[0]->name;
 
 			}
 			elseif ($task == "additional")
 			{
-				$finalname = $model->AdditionaldownloadProduct(0, $id);
+				$finalname = $model->additionalDownloadProduct(0, $id);
 
 				$name = $finalname[0]->name;
 			}

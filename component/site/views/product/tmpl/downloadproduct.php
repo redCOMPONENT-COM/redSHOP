@@ -81,7 +81,7 @@ if (isset ($tid) && $tid != "")
 
 						$mid = $downloaddata->id;
 						$name = $downloaddata->file_name;
-						$addtional_downloaddata = $model->AdditionaldownloadProduct($mid);
+						$addtional_downloaddata = $model->additionalDownloadProduct($mid);
 
 						$filetype = strtolower(JFile::getExt($name));
 

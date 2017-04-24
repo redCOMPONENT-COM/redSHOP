@@ -352,17 +352,17 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			$query = $db->getQuery(true)
 				->select("COUNT(*)")
 				->from($db->qn('#__redshop_media'))
-				->where($db->qn('media_name') . ' LIKE ' . $db->quote($data['product_full_image']))
-				->where($db->qn('media_section') . ' LIKE ' . $db->quote('product'))
+				->where($db->qn('name') . ' LIKE ' . $db->quote($data['product_full_image']))
+				->where($db->qn('section') . ' LIKE ' . $db->quote('product'))
 				->where($db->qn('section_id') . ' = ' . $db->quote($productId))
-				->where($db->qn('media_type') . ' = ' . $db->quote('images'))
+				->where($db->qn('type') . ' = ' . $db->quote('images'))
 				->where($db->qn('published') . ' = ' . $db->quote('1'));
 
 			$count = $db->setQuery($query)->loadResult();
 
 			if (!$count)
 			{
-				$mediaTable                 = JTable::getInstance('Media_Detail', 'Table');
+				$mediaTable                 = JTable::getInstance('Medium', 'Table');
 				$mediaTable->id       = 0;
 				$mediaTable->name     = $data['product_full_image'];
 				$mediaTable->section  = 'product';
@@ -774,7 +774,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 			if (!$mediaId)
 			{
-				$rows                       = JTable::getInstance('Media_Detail', 'Table');
+				$rows                       = JTable::getInstance('Medium', 'Table');
 				$rows->id             = 0;
 				$rows->name           = $image;
 				$rows->section        = 'product';
@@ -860,7 +860,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 			if (!$mediaId)
 			{
-				$rows                       = JTable::getInstance('Media_Detail', 'Table');
+				$rows                       = JTable::getInstance('Medium', 'Table');
 				$rows->id             = 0;
 				$rows->name           = $video;
 				$rows->section        = 'product';
@@ -877,9 +877,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__redshop_media'))
-					->set($db->quoteName('media_alternate_text') . ' = ' . $db->quote($alternateText))
+					->set($db->quoteName('alternate_text') . ' = ' . $db->quote($alternateText))
 					->set($db->quoteName('ordering') . ' = ' . $db->quote($ordering))
-					->where($db->quoteName('media_id') . ' = ' . $db->quote($mediaId));
+					->where($db->quoteName('id') . ' = ' . $db->quote($mediaId));
 				$db->setQuery($query)->execute();
 			}
 		}
@@ -946,16 +946,16 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 			if (!$mediaId)
 			{
-				$rows                       = JTable::getInstance('Media_Detail', 'Table');
+				$rows                       = JTable::getInstance('Medium', 'Table');
 				$rows->id             = 0;
 				$rows->name           = $document;
 				$rows->section        = 'product';
-				$rows->section_id           = $productId;
+				$rows->section_id     = $productId;
 				$rows->type           = 'document';
 				$rows->mimetype       = '';
-				$rows->published            = 1;
+				$rows->published      = 1;
 				$rows->alternate_text = $alternateText;
-				$rows->ordering             = $ordering;
+				$rows->ordering       = $ordering;
 
 				$rows->store();
 			}
@@ -1021,7 +1021,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			$alternateText = isset($alternateTexts[$index]) ? $alternateTexts[$index] : '';
 
 			$query->clear()
-				->select('media_id')
+				->select('id')
 				->from($db->quoteName('#__redshop_media'))
 				->where($db->quoteName('name') . ' LIKE ' . $db->quote($download))
 				->where($db->quoteName('section') . ' = ' . $db->quote('product'))
@@ -1032,7 +1032,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 			if (!$mediaId)
 			{
-				$rows                       = JTable::getInstance('Media_Detail', 'Table');
+				$rows                       = JTable::getInstance('Medium', 'Table');
 				$rows->id             = 0;
 				$rows->name           = $download;
 				$rows->section        = 'product';

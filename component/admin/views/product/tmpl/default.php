@@ -303,7 +303,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
         <td align="center">
             <?php $mediadetail = $model->MediaDetail($row->product_id); ?>
             <a class="joom-box"
-               href="index.php?option=com_redshop&view=media&section_id=<?php echo $row->product_id; ?>&showbuttons=1&media_section=product&section_name=<?php echo $row->product_name; ?>&tmpl=component"
+               href="index.php?option=com_redshop&view=media&section_id=<?php echo $row->product_id; ?>&showbuttons=1&section=product&section_name=<?php echo $row->product_name; ?>&tmpl=component"
                rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""> <img
                     src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
                     alt="media"> (<?php  echo count($mediadetail);?>)</a>

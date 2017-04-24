@@ -173,11 +173,11 @@ class RedshopHelperProduct
 		$query->select('CONCAT_WS(' . $db->q(',') . ', c3.id, (' . $subQuery . ')) AS categories');
 
 		// Select media
-		$query->select(array('media.media_alternate_text', 'media.media_id'))
+		$query->select(array('media.alternate_text', 'media.id'))
 			->leftJoin(
 				$db->qn('#__redshop_media', 'media')
-				. ' ON media.section_id = p.product_id AND media.media_section = ' . $db->q('product')
-				. ' AND media.media_type = ' . $db->q('images') . ' AND media.media_name = p.product_full_image'
+				. ' ON media.section_id = p.product_id AND media.section = ' . $db->q('product')
+				. ' AND media.type = ' . $db->q('images') . ' AND media.name = p.product_full_image'
 			);
 
 		// Select ratings
