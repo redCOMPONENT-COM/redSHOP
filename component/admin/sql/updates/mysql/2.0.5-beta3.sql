@@ -18,6 +18,7 @@ ALTER TABLE `#__redshop_fields` ADD `checked_out` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `#__redshop_fields` ADD `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
 ALTER TABLE `#__redshop_fields` ADD `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
 ALTER TABLE `#__redshop_fields` ADD `created_by` INT(11) NULL DEFAULT NULL;
+ALTER TABLE `#__redshop_fields` ADD `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
 ALTER TABLE `#__redshop_fields` ADD `modified_by` INT(11) NULL DEFAULT NULL;
 
 SET FOREIGN_KEY_CHECKS = 1;
