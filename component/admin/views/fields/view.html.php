@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * View Categories
+ * View Fields
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       2.0.5
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopViewFields extends RedshopViewList
 {

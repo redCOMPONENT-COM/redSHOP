@@ -9,7 +9,13 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * Field controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller.Field
+ * @since       __DEPLOY_VERSION__
+ */
 class RedshopControllerField extends RedshopControllerForm
 {
 }
