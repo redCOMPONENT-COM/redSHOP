@@ -180,7 +180,7 @@ class RedshopTableField extends RedshopTable
 	/**
 	 * Method to save all values related to a field
 	 *
-	 * @param   int  $id   	 Id field.
+	 * @param   int  $id   	 Id of field.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
