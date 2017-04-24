@@ -16,19 +16,21 @@ defined('_JEXEC') or die;
  * @subpackage  Table.Product
  * @since       1.6
  */
-class TableProduct_Detail extends JTable
+class RedshopTableProduct extends RedshopTable
 {
 	/**
-	 * Constructor
+	 * The table name without the prefix. Ex: cursors_courses
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
-	 *
-	 * @since 11.1
+	 * @var  string
 	 */
-	public function __construct($db)
-	{
-		parent::__construct('#__redshop_product', 'product_id', $db);
-	}
+	protected $_tableName = 'redshop_product';
+
+	/**
+	 * The table key column. Usually: id
+	 *
+	 * @var  string
+	 */
+	protected $_tableKey = 'product_id';
 
 	/**
 	 * Method to check duplicate product number
@@ -40,9 +42,9 @@ class TableProduct_Detail extends JTable
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('product_id')
-					->from($db->qn('#__redshop_product'))
-					->where($db->qn('product_number') . ' = ' . $db->q($this->product_number));
+			->select('product_id')
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('product_number') . ' = ' . $db->q($this->product_number));
 
 		// Set the query and load the result.
 		$db->setQuery($query);

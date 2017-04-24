@@ -168,7 +168,7 @@ foreach ($this->productVariants as $itemId => $data)
 					<?php if (!empty($row->total_sale)) : ?>
 					<tr>
 						<td align="center"><?php echo $row->viewdate; ?></td>
-						<td align="center"><a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]=<?php echo $row->product_id; ?>"><?php echo $row->product_name; ?></a></td>
+						<td align="center"><a href="index.php?option=com_redshop&view=product&task=edit&cid[]=<?php echo $row->product_id; ?>"><?php echo $row->product_name; ?></a></td>
 						<td align="center"><?php echo $row->product_attribute; ?></td>
 						<td align="center"><?php echo $row->product_attribute_sku; ?></td>
 						<td align="center"><?php echo $row->unit_sold; ?></td>

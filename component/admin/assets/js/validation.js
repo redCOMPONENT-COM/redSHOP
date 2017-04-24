@@ -341,7 +341,7 @@ function removePropertyImage(image, task) {
 
         request = getHTTPObject();
         request.onreadystatechange = removeImageRes;
-        request.open("GET", "index.php?tmpl=component&option=com_redshop&view=product_detail&task=remove" + task + "Image&pid=" + id, true);
+        request.open("GET", "index.php?tmpl=component&option=com_redshop&view=product&task=remove" + task + "Image&pid=" + id, true);
         request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         request.send(null);
     }

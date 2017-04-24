@@ -9,8 +9,8 @@
 defined('_JEXEC') or die;
 
 $db          = JFactory::getDBO();
-$templateId  = $this->detail->product_template;
-$product_id  = $this->detail->product_id;
+$templateId  = $this->item->product_template;
+$product_id  = $this->item->product_id;
 $redTemplate = Redtemplate::getInstance();
 $template    = RedshopHelperTemplate::getTemplate("product", $templateId);
 

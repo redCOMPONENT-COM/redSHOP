@@ -94,7 +94,7 @@ $order_functions = order_functions::getInstance();
 				$row = $this->ratings[$i];
 				$row->id = $row->rating_id;
 				$link = JRoute::_('index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=' . $row->rating_id);
-				$prodlink = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$prodlink = JRoute::_('index.php?option=com_redshop&view=product&task=edit&cid[]=' . $row->product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

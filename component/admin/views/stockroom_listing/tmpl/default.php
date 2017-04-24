@@ -166,7 +166,7 @@ $showbuttons    = JFactory::getApplication()->input->getInt('showbuttons', 0);
 				$quntotal[$i] = array(0);
 				$preorder_stocktotal[$i] = array(0);
 				$row = $this->resultlisting [$i];
-				$link1 = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link1 = JRoute::_('index.php?option=com_redshop&view=product&task=edit&cid[]=' . $row->product_id);
 			?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>

@@ -239,7 +239,7 @@ if ($data->lists['attributes'])
 					<?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
 						<a class="joom-box btn btn-small"
 						   rel="{handler: 'iframe', size: {x: 950, y: 500}}"
-						   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $propertyId . '&cid=' . $productId . '&layout=productstockroom&property=property'); ?>">
+						   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=product&section_id=' . $propertyId . '&cid=' . $productId . '&layout=productstockroom&property=property'); ?>">
 							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>stockroom16.png"/>
 						</a>
 					<?php endif; ?>
@@ -463,7 +463,7 @@ if ($data->lists['attributes'])
 																<?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
 																	<a class="joom-box btn btn-small"
 																	   rel="{handler: 'iframe', size: {x: 950, y: 500}}"
-																	   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId); ?>&layout=productstockroom&property=subproperty">
+																	   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=product&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId); ?>&layout=productstockroom&property=subproperty">
 																		<img
 																			src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>stockroom16.png"/>
 																	</a>

@@ -93,7 +93,7 @@ $action      = 'index.php?option=com_redshop&view=product&layout=element&tmpl=co
 			{
 				$row     = $this->products[$i];
 				$row->id = $row->product_id;
-				$link    = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link    = JRoute::_('index.php?option=com_redshop&view=product&task=edit&cid[]=' . $row->product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -115,7 +115,7 @@ $action      = 'index.php?option=com_redshop&view=product&layout=element&tmpl=co
                     </td>
 
                     <td>
-						<?php $listedincats = $model->listedincats($row->product_id);
+						<?php $listedincats = $model->listedInCats($row->product_id);
 						for ($j = 0, $jn = count($listedincats); $j < $jn; $j++)
 						{
 							echo $cat = $listedincats[$j]->category_name . "<br />";

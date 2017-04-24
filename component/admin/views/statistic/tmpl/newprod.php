@@ -52,7 +52,7 @@ $end = $this->pagination->limit;
 					</tr>
 				<?php
 				}
-				$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);?>
+				$link = JRoute::_('index.php?option=com_redshop&view=product&task=edit&cid[]=' . $row->product_id);?>
 				<tr>
 					<td align="center"><?php echo $i + 1; ?></td>
 					<td><a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>">
