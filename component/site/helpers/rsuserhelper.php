@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Economic\Economic;
+
 /**
  * redSHOP User Helper class
  */
@@ -596,11 +598,9 @@ class rsUserHelper
 		// Update user info id
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION'))
 		{
-			$economic = economic::getInstance();
-
 			if ($isNew)
 			{
-				$maxDebtor = $economic->getMaxDebtorInEconomic();
+				$maxDebtor = Economic::getMaxDebtorInEconomic();
 
 				if (count($maxDebtor) > 0)
 				{
@@ -629,7 +629,7 @@ class rsUserHelper
 				}
 			}
 
-			$debtorHandle = $economic->createUserInEconomic($row);
+			$debtorHandle = Economic::createUserInEconomic($row);
 
 			if ($row->is_company && trim($row->ean_number) != '' && JError::isError(JError::getError()))
 			{

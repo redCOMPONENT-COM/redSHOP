@@ -832,8 +832,6 @@ class productHelper
 			$currency_symbol = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
 		}
 
-		$CurrencyHelper  = CurrencyHelper::getInstance();
-
 		// Get Current Currency of SHOP
 		$session = JFactory::getSession();
 		/*
@@ -841,7 +839,7 @@ class productHelper
 		 */
 		if ($convert && $session->get('product_currency'))
 		{
-			$productPrice = $CurrencyHelper->convert($productPrice);
+			$productPrice = RedshopHelperCurrency::convert($productPrice);
 
 			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
