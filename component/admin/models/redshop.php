@@ -40,7 +40,7 @@ class RedshopModelRedshop extends RedshopModel
 		$query = "INSERT IGNORE INTO `#__redshop_fields`
 					(`id`, `title`, `name`, `type`, `desc`, `class`, `section`, `maxlength`, `cols`, `rows`, `size`, `show_in_front`,`published`, `required`)
 					VALUES
-					(1, 'Userfield Test', 'userfield-test', '1', '', '', '12', '20', '0', '0', '20', '1', '1', '0')";
+					(1, 'Userfield Test', 'rs_userfield_test', '1', '', '', '12', '20', '0', '0', '20', '1', '1', '0')";
 		$db->setQuery($query);
 		$db->execute();
 
