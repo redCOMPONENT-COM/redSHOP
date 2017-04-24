@@ -521,7 +521,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
   `display_in_product` TINYINT(4) NOT NULL,
   `ordering` INT(11) NOT NULL,
   `display_in_checkout` TINYINT(4) NOT NULL,
-  `checked_out` INT(11) NULL DEFAULT NULL
+  `checked_out` INT(11) NULL DEFAULT NULL,
   `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` INT(11) NULL DEFAULT NULL,
