@@ -8,9 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-var_dump($this);
-die;
-
 echo RedshopLayoutHelper::render('view.list', array('data' => $this));
 ?>
 <script language="javascript" type="text/javascript">
