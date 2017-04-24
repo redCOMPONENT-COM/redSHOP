@@ -17,7 +17,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 	public function onPrePayment_rs_payment_moneris($element, $data)
 	{
 		$config        = Redconfiguration::getInstance();
-		$currencyClass = CurrencyHelper::getInstance();
 
 		// Get user billing information
 		$user = JFActory::getUser();
@@ -94,7 +93,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			$storeid    = $moneris_store_id;
 			$apitoken   = $moneris_api_token;
 			$tot_amount = $order_total = $data['order_total'];
-			$amount     = $currencyClass->convert($tot_amount, '', 'USD');
+			$amount     = RedshopHelperCurrency::convert($tot_amount, '', 'USD');
 		}
 
 		$avs_street_number = substr($data['billinginfo']->address, 0, 60);
