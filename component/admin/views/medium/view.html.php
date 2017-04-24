@@ -35,6 +35,7 @@ class RedshopViewMedium extends RedshopViewForm
         parent::beforeDisplay($tpl);
 
         $app = JFactory::getApplication();
+
         $app->setUserState('com_redshop.global.media.section', $this->item->section);
 
         if ($this->item->type == 'youtube')

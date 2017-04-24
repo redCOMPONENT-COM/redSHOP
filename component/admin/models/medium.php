@@ -32,6 +32,8 @@ class RedshopModelMedium extends RedshopModelForm
 		$app = JFactory::getApplication();
 		$data = $app->getUserState('com_redshop.edit.media.data', array());
 
+		$this->initUserState($data);
+
 		if (empty($data))
 		{
 			$data = $this->getItem();
@@ -41,6 +43,30 @@ class RedshopModelMedium extends RedshopModelForm
 
 		return $data;
 	}
+
+    /**
+     * init User State
+     *
+     * @param   array  &data  Data Array
+     *
+     * @return void
+     */
+    public function initUserState(&$data)
+    {
+        $app = JFactory::getApplication();
+        $section = $app->input->get('section', null);
+        $sectionId = $app->input->get('section_id', null);
+
+        if (isset($section))
+        {
+            $data['section'] = $section;
+        }
+
+        if (isset($sectionId))
+        {
+            $data['section_id'] = (int) $sectionId;
+        }
+    }
 
 	/**
 	 * Method to save the form data.

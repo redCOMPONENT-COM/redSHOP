@@ -3,7 +3,7 @@
     <fields name="filter">
         <field
             name="search"
-            type="redshop.text"
+            type="text"
             label="COM_REDSHOP_FILTER_SEARCH_DESC"
             placeholder="JSEARCH_FILTER"
             class="js-enter-submits"

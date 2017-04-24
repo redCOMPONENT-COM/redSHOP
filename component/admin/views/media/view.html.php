@@ -28,11 +28,24 @@ class RedshopViewMedia extends RedshopViewList
 	 */
 	protected function addToolBar()
 	{
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'redshop_media_48');
-		JToolBarHelper::addNew('medium.add');
-		JToolBarHelper::deleteList('', 'media.delete');
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
+        // Add common button
+        if ($this->canCreate)
+        {
+            JToolbarHelper::addNew($this->getInstanceName() . '.add');
+            JToolBarHelper::custom('category.copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+        }
+
+        if ($this->canDelete)
+        {
+            JToolbarHelper::deleteList('', $this->getInstancesName() . '.delete');
+        }
+
+        if ($this->canEdit)
+        {
+            JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
+            JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+            JToolbarHelper::checkin($this->getInstancesName() . '.publish', 'JTOOLBAR_CHECKIN', true);
+        }
 	}
 
     /**
@@ -62,5 +75,56 @@ class RedshopViewMedia extends RedshopViewList
             // Type of column
             'type'      => 'text',
         );
+    }
+
+    /**
+     * Method for render 'Published' column
+     *
+     * @param   array   $config  Row config.
+     * @param   int     $index   Row index.
+     * @param   object  $row     Row data.
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onRenderColumn($config, $index, $row)
+    {
+        $isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
+        $inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
+
+        if ($config['dataCol'] == 'name')
+        {
+            if ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable && $this->canEdit)
+            {
+                $value   = $row->{$config['dataCol']};
+                $display = $value;
+
+                if ($config['edit_link'])
+                {
+                    $display = str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $value . '</a>';
+                }
+
+                return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
+            }
+            else
+            {
+                if ($this->canEdit)
+                {
+                    return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $row->{$config['dataCol']} . '</a>';
+                }
+                else
+                {
+                    return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . $row->{$config['dataCol']};
+                }
+            }
+        }
+        elseif ($config['dataCol'] == 'description')
+        {
+            return JHtml::_('redshopgrid.slidetext', strip_tags($row->description));
+        }
+
+        $row->product = $this->model->getProducts($row->id);
+        return parent::onRenderColumn($config, $index, $row);
     }
 }

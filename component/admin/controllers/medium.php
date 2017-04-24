@@ -169,7 +169,7 @@ class RedshopControllerMedium extends RedshopControllerForm
 
 	/**
 	 * ajaxUpdateSectionId
-	 * 
+	 *
 	 * @return void
 	 */
 	public function ajaxUpdateSectionId()
@@ -193,7 +193,7 @@ class RedshopControllerMedium extends RedshopControllerForm
 
 	/**
 	 * ajaxUpdateYoutubeVideo
-	 * 
+	 *
 	 * @return void
 	 */
 	public function ajaxUpdateYoutubeVideo()

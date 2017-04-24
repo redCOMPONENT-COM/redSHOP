@@ -24,7 +24,7 @@ class RedshopModelMedia extends RedshopModelList
 	 *
 	 * @var  string
 	 */
-	protected $filterFormName = 'filter_medium';
+	protected $filterFormName = 'filter_media';
 
 	/**
 	 * Construct class

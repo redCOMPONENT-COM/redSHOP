@@ -84,6 +84,10 @@ class RedshopModelInstall extends RedshopModelList
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_UPDATE_CATEGORY'),
 				'func' => 'updateCategory'
 			);
+            $tasks[] = array(
+                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_MIGRATE_MEDIA'),
+                'func' => 'migrateMedia'
+            );
 		}
 
 		return $tasks;
@@ -1207,4 +1211,16 @@ class RedshopModelInstall extends RedshopModelList
 			JFile::move($path . $files[$i], $path . $fileName);
 		}
 	}
+
+    /**
+     * Method to update new structure for Category
+     *
+     * @return  mixed
+     *
+     * @since   2.0.5
+     */
+    public function processMigrateMedia()
+    {
+        return true;
+    }
 }
