@@ -525,6 +525,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
   `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_by` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name` (`name` ASC),
