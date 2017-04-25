@@ -9,7 +9,7 @@
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>PLG_RS_PAYMENT_BRAINTREE_DESC</description>
+    <description><![CDATA[PLG_RS_PAYMENT_BRAINTREE_DESC]]></description>
 
     <files>
         <filename plugin="rs_payment_braintree">rs_payment_braintree.php</filename>
