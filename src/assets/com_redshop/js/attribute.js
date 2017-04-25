@@ -1949,8 +1949,9 @@ function setAddtocartForm(frmCartName, product_id) {
     var product_quantity = 1;
 
     if (jQuery('#subproperty_price_table_' + subPropertyId).val() == 1){
-            if (document.getElementById('quantity' + product_id + subPropertyId).value) {
-            product_quantity = document.getElementById('quantity' + product_id + subPropertyId).value;
+            var quantityEl = 'quantity' + product_id + subPropertyId;
+            if (document.getElementById(quantityEl).value) {
+            product_quantity = document.getElementById(quantityEl).value;
         }   
     }
     else{

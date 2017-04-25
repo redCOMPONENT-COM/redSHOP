@@ -5058,6 +5058,12 @@ class productHelper
 			<input type='hidden' name='hidden_attribute_cartimage' id='hidden_attribute_cartimage" . $product_id .
 			"' value='' />";
 
+			if ($subPropertyId > 0)
+			{
+				$cartform .= "<input type='hidden' name='subproperty_price_table' id='subproperty_price_table_" . $subPropertyId . "' value='1' />";
+				$cartform .= "<input type='hidden' name='subproperty_price_list_" . $subPropertyId . "' id='subproperty_price_" . $subPropertyId . "' value='0' />";
+			}
+
 		if ($product->product_type == "subscription")
 		{
 			$sub_id = JRequest::getInt('subscription_id', 0);
@@ -5082,25 +5088,25 @@ class productHelper
 			}
 		}
 
-		$quantityId = 'product' . $product_id;
+		$quantityId = 'quantity' . $product_id;
 
 		if ($subPropertyId > 0)
 		{
-			$quantityId = 'product' . $product_id . $subPropertyId;
+			$quantityId = 'quantity' . $product_id . $subPropertyId;
 		}
 
 		if (strpos($cartform, "{addtocart_quantity}") !== false)
 		{
 			$addtocart_quantity = "<span id='stockQuantity" . $stockId . "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='" .
 				$quantityId . "' value='" . $quan . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') .
-				"' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
+				"' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13' product_id='" . $product_id . "' attribute_id='" . $attribute_id . "' property_id='" . $property_id . "' subproperty_id='" . $subPropertyId . "'></span>";
 			$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
 			$cartform           = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartform);
 		}
 		elseif (strpos($cartform, "{addtocart_quantity_selectbox}") !== false)
 		{
 			$addtocart_quantity = "<input class='quantity' type='hidden' name='quantity' id='quantity" . $product_id . "' value='" .
-				$quan . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'>";
+				$quan . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' product_id='" . $product_id . "' attribute_id='" . $attribute_id . "' property_id='" . $property_id . "' subproperty_id='" . $subPropertyId . "'>";
 
 			if ((Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE') != ""
 					&& $product->quantity_selectbox_value == '')
@@ -5133,7 +5139,7 @@ class productHelper
 		else
 		{
 			$cartform .= "<input class='quantity' type='hidden' name='quantity' id='" . $quantityId . "' value='" . $quan
-				. "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'>";
+				. "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' product_id='" . $product_id . "' attribute_id='" . $attribute_id . "' property_id='" . $property_id . "' subproperty_id='" . $subPropertyId . "'>";
 		}
 
 		$tooltip             = (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) ? JText::_('COM_REDSHOP_REQUEST_A_QUOTE_TOOLTIP') : JText::_('COM_REDSHOP_ADD_TO_CART_TOOLTIP');
@@ -5797,14 +5803,14 @@ class productHelper
 				$addtocart_quantity = "<span id='stockQuantity" . $stockId
 					. "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='quantity" . $product_id . "' value='" . $quan
 					. "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY')
-					. "' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
+					. "' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13' product_id='" . $product_id . "'></span>";
 				$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
 				$cartform           = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartform);
 			}
 			elseif (strpos($cartform, "{addtocart_quantity_increase_decrease}") !== false)
 			{
 				$addtocart_quantity .= '<input class="quantity" type="text"  id="quantity' . $product_id
-					. '" name="quantity" size="1"  value="' . $quan . '" onkeypress="return event.keyCode!=13"/>';
+					. '" name="quantity" size="1"  value="' . $quan . '" onkeypress="return event.keyCode!=13" product_id="' . $product_id . '"/>';
 
 				$addtocart_quantity .= '<input type="button" class="myupbutton" onClick="quantity' . $product_id
 					. '.value = (+quantity' . $product_id . '.value+1)">';
@@ -5823,7 +5829,7 @@ class productHelper
 			elseif (strpos($cartform, "{addtocart_quantity_selectbox}") !== false)
 			{
 				$addtocart_quantity = "<input class='quantity_select' type='hidden' name='quantity' id='quantity" . $product_id . "' value='"
-					. $quan . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "'>";
+					. $quan . "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' product_id='" . $product_id . "'>";
 
 				if ((Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE') != "" && $product->quantity_selectbox_value == '')
 					|| $product->quantity_selectbox_value != '')
