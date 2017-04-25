@@ -35,6 +35,6 @@ ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_type` (`type` ASC);
 ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_required` (`required` ASC);
 ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_name` (`name` ASC);
 ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_show_in_front` (`show_in_front` ASC);
-ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_display_in_product` (`display_in_product` ASC));
+ALTER TABLE `#__redshop_fields` ADD INDEX `#__rs_idx_field_display_in_product` (`display_in_product` ASC);
 
 SET FOREIGN_KEY_CHECKS = 1;
