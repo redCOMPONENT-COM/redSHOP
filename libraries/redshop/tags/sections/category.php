@@ -117,6 +117,18 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			$template      = str_replace("{category_thumb_image_3}", $categoryImage, $template);
 		}
 
+		if ($this->isTagExists('{category_name}') && $this->isTagRegistered('{category_name}') && isset($category->category_name))
+		{
+			$link = JRoute::_(
+							'index.php?option=com_redshop' . 
+							'&view=category&cid=' . $category->category_id .
+							'&manufacturer_id=' . $this->data['manufacturerId'] .
+							'&layout=detail&Itemid=' . $this->data['itemId']
+						);
+			$categoryName = '<a href="' . $link . '" title="' . $category->category_name . '">' . $category->category_name . '</a>';
+			$template     = str_replace("{category_name}", $categoryName, $template);
+		}
+
 		// Replace all registered tag if category object have it
 		foreach ($this->tags as $tag)
 		{

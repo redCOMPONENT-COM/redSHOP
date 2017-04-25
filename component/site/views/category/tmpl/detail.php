@@ -57,8 +57,19 @@ else
 	$template_desc .= "</div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
 
+$cItemid = $objhelper->getCategoryItemid($this->catid);
+
+if ($cItemid != "")
+{
+	$tmpItemid = $cItemid;
+}
+else
+{
+	$tmpItemid = $this->itemid;
+}
+
 // New tags replacement for category template section
-$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat, 'subCategories' => $this->detail));
+$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat, 'subCategories' => $this->detail, 'manufacturerId' => $this->manufacturer_id, 'itemId' => $tmpItemid));
 
 $endlimit = $this->state->get('list.limit');
 
