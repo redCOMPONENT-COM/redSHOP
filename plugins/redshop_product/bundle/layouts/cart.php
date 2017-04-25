@@ -19,7 +19,7 @@ extract($displayData);
 		<?php if ($row['property']) : ?>
 			<?php echo $row['property']->property_name; ?> (<?php echo $row['property']->property_number; ?>)
 		<?php else : ?>
-			(<?php echo $row['bundle']->product_number; ?>)
+			<?php echo $row['bundle']->product_name; ?> (<?php echo $row['bundle']->product_number; ?>)
 		<?php endif; ?>
 	</div>
 <?php endforeach; ?>
