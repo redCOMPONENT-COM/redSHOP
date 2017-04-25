@@ -3186,7 +3186,7 @@ class productHelper
 			{
 				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
 				{
-					$resultArr[] = $row_data[$j]->title . " : " . $main_result->data_txt;
+					$resultArr[] = $main_result->title . " : " . $main_result->data_txt;
 				}
 			}
 		}
@@ -3221,7 +3221,7 @@ class productHelper
 			{
 				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
 				{
-					$resultArr[] = $row_data[$j]->title . " : " . $main_result->data_txt;
+					$resultArr[] = $main_result->title . " : " . $main_result->data_txt;
 				}
 			}
 		}
@@ -9691,7 +9691,7 @@ class productHelper
 
 			if (!is_null($main_result) && $main_result->data_txt != "" && $row_data[$j]->show_in_front == 1)
 			{
-				$resultArr[] = $row_data[$j]->title . " : " . $main_result->data_txt;
+				$resultArr[] = $main_result->title . " : " . $main_result->data_txt;
 			}
 		}
 
