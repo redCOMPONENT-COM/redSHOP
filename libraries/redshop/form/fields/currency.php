@@ -21,21 +21,22 @@ JLoader::import('redshop.library');
 class JFormFieldcurrency extends JFormField
 {
 	/**
-	 * Element name
+	 * The form field type.
 	 *
-	 * @access    protected
-	 * @var     string
+	 * @var    string
+	 * @since  1.6
 	 */
 	public $type = 'currency';
 
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 */
 	protected function getInput()
 	{
-
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
-		$CurrencyHelper = CurrencyHelper::getInstance();
-
-		$CurrencyHelper->init();
-
+		CurrencyHelper::getInstance()->init();
 		$currency = array();
 
 		if (count($GLOBALS['converter_array']) > 0)
@@ -48,7 +49,7 @@ class JFormFieldcurrency extends JFormField
 			$currency = implode("','", $currency);
 		}
 
-		$shop_currency = $this->getCurrency($currency);
+		$shopCurrency = $this->getCurrency($currency);
 		$ctrl = $this->name;
 
 		// Construct the various argument calls that are supported.
@@ -73,7 +74,7 @@ class JFormFieldcurrency extends JFormField
 			$attribs .= ' multiple="multiple"';
 		}
 
-		return JHTML::_('select.genericlist', $shop_currency, $ctrl, $attribs, 'value', 'text', $this->value, $this->id);
+		return JHTML::_('select.genericlist', $shopCurrency, $ctrl, $attribs, 'value', 'text', $this->value, $this->id);
 	}
 
 	/*
@@ -88,17 +89,13 @@ class JFormFieldcurrency extends JFormField
 	function getCurrency($currency = "")
 	{
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('currency_code', 'value'))
+			->select($db->qn('currency_name', 'text'))
+			->from($db->qn('#__redshop_currency'))
+			->where($db->qn('currency_code') . ' IN (' . $currency . ')')
+			->order($db->qn('currency_name'));
 
-		$where = "";
-
-		if ($currency)
-		{
-			$where = " WHERE currency_code IN ('" . $currency . "')";
-		}
-
-		$query = 'SELECT currency_code as value, currency_name as text FROM #__redshop_currency' . $where . ' ORDER BY currency_name ASC';
-		$db->setQuery($query);
-
-		return $db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectlist();
 	}
 }
