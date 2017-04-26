@@ -1413,6 +1413,7 @@ class productHelper
 		$qunselect = $this->GetDefaultQuantity($product_id, $data_add);
 
 		$ProductPriceArr = $this->getProductNetPrice($product_id, $user_id, $qunselect, $data_add, $attributes);
+		$productPriceMinMax = $this->getProductMinMaxPrice($product_id);
 
 		$relPrefix = '';
 
@@ -1488,6 +1489,32 @@ class productHelper
 		if (strpos($data_add, "{" . $relPrefix . "product_price_table}") !== false)
 		{
 			$data_add = str_replace("{" . $relPrefix . "product_price_table}", '', $data_add);
+		}
+
+		if (strpos($data_add, "{" . $relPrefix . "lowest_price}") !== false)
+		{
+			if (!empty($productPriceMinMax['min']))
+			{
+				$productMinPrice = $this->getPriceReplacement($productPriceMinMax['min'] * $qunselect);
+				$data_add = str_replace("{" . $relPrefix . "lowest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $productMinPrice . '</span>', $data_add);
+			}
+			else
+			{
+				$data_add = str_replace("{" . $relPrefix . "lowest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
+			}
+		}
+
+		if (strpos($data_add, "{" . $relPrefix . "highest_price}") !== false)
+		{
+			if (!empty($productPriceMinMax['min']))
+			{
+				$productMaxPrice = $this->getPriceReplacement($productPriceMinMax['max'] * $qunselect);
+				$data_add = str_replace("{" . $relPrefix . "highest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $productMaxPrice . '</span>', $data_add);
+			}
+			else
+			{
+				$data_add = str_replace("{" . $relPrefix . "highest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
+			}
 		}
 
 		$data_add = str_replace("{" . $relPrefix . "product_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
@@ -9729,5 +9756,54 @@ class productHelper
 				return "";
 			}
 		}
+	}
+
+	/**
+	 * Get Max and Min of Product Price
+	 *
+	 * @param   int  $productId  Product Id
+	 *
+	 * @return  array
+	 */
+	public function getProductMinMaxPrice($productId)
+	{
+		$attributes = $this->getProductAttribute($productId);
+		$propertyIds = array();
+		$subPropertyIds = array();
+
+		foreach ($attributes as $key => $attribute)
+		{
+			foreach ($attribute->properties as $property)
+			{
+				$propertyIds[] = $property->property_id;
+				$subProperties = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property->property_id);
+
+				foreach ($subProperties as $subProperty)
+				{
+					$subPropertyIds[] = $subProperty->value;
+				}
+			}
+		}
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('product_price'))
+			->from($db->qn('#__redshop_product_attribute_price'))
+			->where($db->qn('section') . ' = ' . $db->q('property'))
+			->where($db->qn('section_id') . ' IN (' . implode(',', $propertyIds) . ')');
+		$propertyPriceList = $db->setQuery($query)->loadColumn();
+
+		$query = $db->getQuery(true)
+			->select($db->qn('product_price'))
+			->from($db->qn('#__redshop_product_attribute_price'))
+			->where($db->qn('section') . ' = ' . $db->q('subproperty'))
+			->where($db->qn('section_id') . ' IN (' . implode(',', $subPropertyIds) . ')');
+		$subPropertyPriceList = $db->setQuery($query)->loadColumn();
+
+		$productPriceList = array_unique(array_merge($propertyPriceList, $subPropertyPriceList));
+		$productPrice['min'] = min($productPriceList);
+		$productPrice['max'] = max($productPriceList);
+
+		return $productPrice;
 	}
 }
