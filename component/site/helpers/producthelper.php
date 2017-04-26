@@ -9770,6 +9770,8 @@ class productHelper
 		$attributes = $this->getProductAttribute($productId);
 		$propertyIds = array();
 		$subPropertyIds = array();
+		$propertyPriceList = array();
+		$subPropertyPriceList = array();
 
 		foreach ($attributes as $key => $attribute)
 		{
@@ -9786,19 +9788,26 @@ class productHelper
 		}
 
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('product_price'))
-			->from($db->qn('#__redshop_product_attribute_price'))
-			->where($db->qn('section') . ' = ' . $db->q('property'))
-			->where($db->qn('section_id') . ' IN (' . implode(',', $propertyIds) . ')');
-		$propertyPriceList = $db->setQuery($query)->loadColumn();
 
-		$query = $db->getQuery(true)
-			->select($db->qn('product_price'))
-			->from($db->qn('#__redshop_product_attribute_price'))
-			->where($db->qn('section') . ' = ' . $db->q('subproperty'))
-			->where($db->qn('section_id') . ' IN (' . implode(',', $subPropertyIds) . ')');
-		$subPropertyPriceList = $db->setQuery($query)->loadColumn();
+		if (!empty($propertyIds))
+		{
+			$query = $db->getQuery(true)
+				->select($db->qn('product_price'))
+				->from($db->qn('#__redshop_product_attribute_price'))
+				->where($db->qn('section') . ' = ' . $db->q('property'))
+				->where($db->qn('section_id') . ' IN (' . implode(',', $propertyIds) . ')');
+			$propertyPriceList = $db->setQuery($query)->loadColumn();
+		}
+
+		if (!empty($subPropertyIds))
+		{
+			$query = $db->getQuery(true)
+				->select($db->qn('product_price'))
+				->from($db->qn('#__redshop_product_attribute_price'))
+				->where($db->qn('section') . ' = ' . $db->q('subproperty'))
+				->where($db->qn('section_id') . ' IN (' . implode(',', $subPropertyIds) . ')');
+			$subPropertyPriceList = $db->setQuery($query)->loadColumn();
+		}
 
 		$productPriceList = array_unique(array_merge($propertyPriceList, $subPropertyPriceList));
 		$productPrice['min'] = min($productPriceList);
