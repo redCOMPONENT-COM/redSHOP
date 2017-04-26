@@ -215,7 +215,8 @@ class PlgRedshop_ProductBundle extends JPlugin
 					'detail' => $bundleDetail,
 					'content' => $content
 				),
-				JPATH_PLUGINS . '/redshop_product/bundle/layouts'
+				'',
+				array('plugin' => 'redshop_product/bundle')
 			);
 		}
 
@@ -439,7 +440,8 @@ class PlgRedshop_ProductBundle extends JPlugin
 			(
 				'data' => $data
 			),
-			JPATH_PLUGINS . '/redshop_product/bundle/layouts'
+			'',
+			array('plugin' => 'redshop_product/bundle')
 		);
 
 		$cartMdata = str_replace("{bundle_product}", $bundleContent, $cartMdata);
@@ -504,7 +506,8 @@ class PlgRedshop_ProductBundle extends JPlugin
 			(
 				'data' => $data
 			),
-			JPATH_PLUGINS . '/redshop_product/bundle/layouts'
+			'',
+			array('plugin' => 'redshop_product/bundle')
 		);
 
 		$cartMdata = str_replace("{bundle_product}", $bundleContent, $cartMdata);
@@ -612,7 +615,8 @@ class PlgRedshop_ProductBundle extends JPlugin
 			(
 				'data' => $data
 			),
-			JPATH_PLUGINS . '/redshop_product/bundle/layouts'
+			'',
+			array('plugin' => 'redshop_product/bundle')
 		);
 
 		echo $bundleContent;
