@@ -445,7 +445,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @since   2.0.3
 	 */
-	public static function listAllField($fieldSection = "", $sectionId = 0, $fieldName = "", $table = "", $templateDesc = "", $userEmail)
+	public static function listAllField($fieldSection = '', $sectionId = 0, $fieldName = '', $table = '', $templateDesc = '', $userEmail = '')
 	{
 		$db = JFactory::getDbo();
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');

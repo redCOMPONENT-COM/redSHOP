@@ -1,12 +1,11 @@
 <?php
 /**
- * @package     Aesir
+ * @package     RedSHOP
  * @subpackage  Document
  *
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
 
 defined('_JEXEC') or die;
 
@@ -84,7 +83,7 @@ class RedshopHelperDocument
 	public function addTopScript($url, $type = "text/javascript", $defer = false, $async = false)
 	{
 		$script = array(
-			'mime' => $type,
+			'type'  => $type,
 			'defer' => $defer,
 			'async' => $async
 		);
@@ -97,20 +96,26 @@ class RedshopHelperDocument
 	/**
 	 * Add a script to the top of the document scripts
 	 *
-	 * @param   string  $url      URL to the linked style sheet
-	 * @param   string  $type     Mime encoding type
-	 * @param   string  $media    Media type that this stylesheet applies to
-	 * @param   array   $attribs  Array of attributes
+	 * @param   string  $url         URL to the linked style sheet
+	 * @param   string  $type        Mime encoding type
+	 * @param   string  $media       Media type that this stylesheet applies to
+	 * @param   array   $attributes  Array of attributes
 	 *
 	 * @return  self
 	 */
-	public function addTopStylesheet($url, $type = 'text/css', $media = null, $attribs = array())
+	public function addTopStylesheet($url, $type = 'text/css', $media = null, $attributes = array())
 	{
-		$stylesheet = array(
-			'mime'    => $type,
-			'media'   => $media,
-			'attribs' => $attribs
-		);
+		$stylesheet = array('mime' => $type);
+
+		if (!is_null($media))
+		{
+			$stylesheet['media'] = $media;
+		}
+
+		if (!empty($attributes))
+		{
+			$stylesheet['attribs'] = $attributes;
+		}
 
 		static::$topStylesheets[$url] = $stylesheet;
 
@@ -120,20 +125,26 @@ class RedshopHelperDocument
 	/**
 	 * Add a script to the bottom of the document scripts
 	 *
-	 * @param   string  $url      URL to the linked style sheet
-	 * @param   string  $type     Mime encoding type
-	 * @param   string  $media    Media type that this stylesheet applies to
-	 * @param   array   $attribs  Array of attributes
+	 * @param   string  $url         URL to the linked style sheet
+	 * @param   string  $type        Mime encoding type
+	 * @param   string  $media       Media type that this stylesheet applies to
+	 * @param   array   $attributes  Array of attributes
 	 *
 	 * @return  self
 	 */
-	public function addBottomStylesheet($url, $type = 'text/css', $media = null, $attribs = array())
+	public function addBottomStylesheet($url, $type = 'text/css', $media = null, $attributes = array())
 	{
-		$stylesheet = array(
-			'mime'    => $type,
-			'media'   => $media,
-			'attribs' => $attribs
-		);
+		$stylesheet = array('mime' => $type);
+
+		if (!is_null($media))
+		{
+			$stylesheet['media'] = $media;
+		}
+
+		if (!empty($attributes))
+		{
+			$stylesheet['attribs'] = $attributes;
+		}
 
 		static::$bottomStylesheets[$url] = $stylesheet;
 
