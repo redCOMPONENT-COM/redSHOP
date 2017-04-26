@@ -198,15 +198,30 @@ class PlgRedshop_ProductBundle extends JPlugin
 		{
 			$productDetail = RedshopHelperProduct::getProductById($bundleDetail->bundle_id);
 
-			$content = $this->replaceAttributeData($productDetail, $bundleDetail, $bundleTemplate->template_desc);
+			$content = $bundleTemplate->template_desc;
 
 			$content = str_replace("{bundle_name}", $bundleDetail->product_name, $content);
 			$content = str_replace("{bundle_number}", $bundleDetail->product_number, $content);
 			$content = $productHelper->replaceProductInStock($bundleDetail->product_id, $content);
 
-			$bundleSelect = '<a class="bundleselect" onclick="selectBundle(\'' . $bundleDetail->product_name . '\',' . $bundleDetail->product_id . ',' . $bundleDetail->bundle_id . ',0)">' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</span></a>';
+			$bundleSelect = '<a class="bundleselect" onclick="selectBundle(\'' . htmlspecialchars($bundleDetail->product_name) . '\',' . $bundleDetail->product_id . ',' . $bundleDetail->bundle_id . ',0)">' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
 
 			$content = str_replace("{bundle_select}", $bundleSelect, $content);
+
+			if (count($productDetail->attributes) > 0)
+			{
+				$content = $this->replaceAttributeData($productDetail, $bundleDetail, $content);
+			}
+			else
+			{
+				$start            = explode("{property_start}", $content);
+				$end              = explode("{property_end}", $start[1]);
+				$propertyTemplate = $end[0];
+
+				$content = str_replace("{property_start}", "", $content);
+				$content = str_replace("{property_end}", "", $content);
+				$content = str_replace($propertyTemplate, "", $content);
+			}
 
 			$bundleContent .= RedshopLayoutHelper::render(
 				'bundle',
@@ -237,11 +252,6 @@ class PlgRedshop_ProductBundle extends JPlugin
 	private function replaceAttributeData($productDetail, $bundleDetail, $templateContent)
 	{
 		$attributes = $productDetail->attributes;
-
-		if (count($attributes) <= 0)
-		{
-			return;
-		}
 
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
@@ -325,7 +335,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 				// Replease {property_select}
 				if (strpos($propertyData, '{property_select}') !== false)
 				{
-					$propertySelect = '<a class="bundleselect" onclick="selectBundle(\'' . $property->property_name . '\',' . $bundleDetail->product_id . ',' . $bundleDetail->bundle_id . ',' . $property->property_id . ')">' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</span></a>';
+					$propertySelect = '<a class="bundleselect" onclick="selectBundle(\'' . htmlspecialchars($property->property_name) . '\',' . $bundleDetail->product_id . ',' . $bundleDetail->bundle_id . ',' . $property->property_id . ')">' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
 
 					$propertyData = str_replace("{property_select}", $propertySelect, $propertyData);
 				}
