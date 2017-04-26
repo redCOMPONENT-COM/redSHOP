@@ -18,8 +18,8 @@ $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
 
 $doc->addTopScript(JURI::root() . 'administrator/components/com_redshop/assets/js/backend.js');
-$doc->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.css');
-$doc->addStyleSheet(JURI::root() . 'media/com_redshop/css/font-awesome.css');
+$doc->addTopStylesheet(JURI::root() . 'administrator/components/com_redshop/assets/css/backend.css');
+$doc->addTopStylesheet(JURI::root() . 'media/com_redshop/css/font-awesome.css');
 
 // Disable template shit
 $doc->disableStylesheet('administrator/templates/isis/css/template.css');
