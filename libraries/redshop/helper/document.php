@@ -83,7 +83,7 @@ class RedshopHelperDocument
 	public function addTopScript($url, $type = "text/javascript", $defer = false, $async = false)
 	{
 		$script = array(
-			'type'  => $type,
+			'mime'  => $type,
 			'defer' => $defer,
 			'async' => $async
 		);
@@ -105,21 +105,7 @@ class RedshopHelperDocument
 	 */
 	public function addTopStylesheet($url, $type = 'text/css', $media = null, $attributes = array())
 	{
-		$stylesheet = array('mime' => $type);
-
-		if (!is_null($media))
-		{
-			$stylesheet['media'] = $media;
-		}
-
-		if (!empty($attributes))
-		{
-			$stylesheet['attribs'] = $attributes;
-		}
-
-		static::$topStylesheets[$url] = $stylesheet;
-
-		return $this;
+		return self::addStylesheet('top', $url, $type, $media, $attributes);
 	}
 
 	/**
@@ -134,19 +120,53 @@ class RedshopHelperDocument
 	 */
 	public function addBottomStylesheet($url, $type = 'text/css', $media = null, $attributes = array())
 	{
-		$stylesheet = array('mime' => $type);
+		return self::addStylesheet('bottom', $url, $type, $media, $attributes);
+	}
 
-		if (!is_null($media))
+	/**
+	 * Add a script to the bottom of the document scripts
+	 *
+	 * @param   string  $position    Position for put stylesheet.
+	 * @param   string  $url         URL to the linked style sheet
+	 * @param   string  $type        Mime encoding type
+	 * @param   string  $media       Media type that this stylesheet applies to
+	 * @param   array   $attributes  Array of attributes
+	 *
+	 * @return  self
+	 */
+	public function addStylesheet($position = 'top', $url = '', $type = 'text/css', $media = null, $attributes = array())
+	{
+		if (version_compare(JVERSION, '3.7.0', '<'))
 		{
-			$stylesheet['media'] = $media;
+			$stylesheet = array(
+				'mime'    => $type,
+				'media'   => $media,
+				'attribs' => $attributes
+			);
+		}
+		else
+		{
+			$stylesheet = array('mime' => $type);
+
+			if (!is_null($media))
+			{
+				$stylesheet['media'] = $media;
+			}
+
+			if (!empty($attributes))
+			{
+				$stylesheet['attribs'] = $attributes;
+			}
 		}
 
-		if (!empty($attributes))
+		if ($position == 'top')
 		{
-			$stylesheet['attribs'] = $attributes;
+			static::$topStylesheets[$url] = $stylesheet;
 		}
-
-		static::$bottomStylesheets[$url] = $stylesheet;
+		else
+		{
+			static::$bottomStylesheets[$url] = $stylesheet;
+		}
 
 		return $this;
 	}
