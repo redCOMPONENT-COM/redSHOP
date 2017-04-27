@@ -22,8 +22,8 @@ class PlgSystemRedSHOP_Product_Bundle extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
 	 * @since  1.0.0
@@ -38,7 +38,7 @@ class PlgSystemRedSHOP_Product_Bundle extends JPlugin
 	/**
 	 * onTemplateSections
 	 *
-	 * @param   array  &$options  Template array
+	 * @param   array  $options  Template array
 	 *
 	 * @return  void
 	 *

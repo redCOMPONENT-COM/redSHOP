@@ -22,8 +22,8 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
      * @since   1.0.0
@@ -90,10 +90,12 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 	/**
 	 * onAfterProductSave - Save bundle product
 	 *
-	 * @param   object  &$product  Product detail
-	 * @param   bool    $isNew     Is new?
+	 * @param   object  $product  Product detail
+	 * @param   bool    $isNew    Is new?
 	 *
 	 * @return  void
+	 *
+	 * @since   1.0.0
 	 */
 	public function onAfterProductSave(&$product, $isNew)
 	{
