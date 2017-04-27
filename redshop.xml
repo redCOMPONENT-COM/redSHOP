@@ -7,7 +7,7 @@
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>2.0.5-beta2</version>
+    <version>2.0.5-beta3</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -49,6 +49,7 @@
     <!-- Medias -->
     <media destination="com_redshop" folder="media/com_redshop">
         <folder>css</folder>
+        <folder>files</folder>
         <folder>fonts</folder>
         <folder>images</folder>
         <folder>js</folder>

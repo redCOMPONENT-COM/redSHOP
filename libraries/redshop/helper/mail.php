@@ -1605,7 +1605,7 @@ class RedshopHelperMail
 
 		foreach ($catalogMedias as $catalogMedia)
 		{
-			$attachment[] = REDSHOP_FRONT_DOCUMENT_RELPATH . 'catalog/' . $catalogMedia->media_name;
+			$attachment[] = REDSHOP_FRONT_DOCUMENT_RELPATH . 'catalog/' . $catalogMedia->name;
 		}
 
 		$dataAdd = str_replace("{name}", $catalog->name, $dataAdd);

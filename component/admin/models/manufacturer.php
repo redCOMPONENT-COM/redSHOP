@@ -76,14 +76,18 @@ class RedshopModelManufacturer extends RedshopModel
 
 	public function getMediaId($mid)
 	{
-		$database = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
-		$query = ' SELECT media_id '
-			. ' FROM #__redshop_media  WHERE media_section="manufacturer" AND section_id = ' . $mid;
+        $query = $db->getQuery(true);
 
-		$database->setQuery($query);
+		$query->select($db->qn('id'))
+            ->from($db->qn('#__redshop_media'))
+            ->where($db->qn('section') . ' = ' . $db->q('manufacturer'))
+            ->where($db->qn('section_id') . ' = ' . (int) $mid);
 
-		return $database->loadResult();
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 
 	public function saveOrder(&$cid)

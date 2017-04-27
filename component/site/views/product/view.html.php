@@ -63,7 +63,7 @@ class RedshopViewProduct extends RedshopView
 	 * @return  mixed  A string if successful, otherwise a JError object.
 	 *
 	 * @see     fetch()
-	 * @since   11.1
+	 * @since   11.1F
 	 */
 	public function display($tpl = null)
 	{
@@ -143,7 +143,7 @@ class RedshopViewProduct extends RedshopView
 
 			$prodhelperobj_array_main = $prodhelperobj->getProductNetPrice($this->data->product_id);
 
-			if ($this->data->published == 0)
+			if (isset($this->data->published) && $this->data->published == 0)
 			{
 				JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $this->data->product_name, $this->data->product_number));
 			}

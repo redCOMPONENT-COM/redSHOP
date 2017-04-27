@@ -69,7 +69,7 @@ if (isset ($tid) && $tid != "")
 	<fieldset>
 		<legend><?php echo JText::_('COM_REDSHOP_DOWNLOAD_PRODUCTS'); ?></legend>
 		<?php
-		if (count($downloaddata) > 0 && $downloaddata->media_id != null)
+		if (count($downloaddata) > 0 && $downloaddata->id != null)
 		{
 			?>
 
@@ -79,9 +79,9 @@ if (isset ($tid) && $tid != "")
 					<table cellpadding="0" cellspacing="0" width="100%">
 						<?php
 
-						$mid = $downloaddata->media_id;
+						$mid = $downloaddata->id;
 						$name = $downloaddata->file_name;
-						$addtional_downloaddata = $model->AdditionaldownloadProduct($mid);
+						$addtional_downloaddata = $model->additionalDownloadProduct($mid);
 
 						$filetype = strtolower(JFile::getExt($name));
 

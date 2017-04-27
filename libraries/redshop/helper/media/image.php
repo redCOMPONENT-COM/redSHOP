@@ -34,8 +34,9 @@ class RedshopHelperMediaImage
 	{
 		self::requireDependencies();
 
-		$imgUrl  = JRoute::_('/components/com_redshop/assets/images/' . $type . '/' . $image);
-		$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
+        $imgUrl = JUri::root() . 'media/com_redshop/files/' . $mediaSection . '/' . $sectionId . '/' . $image;
+
+		$imgFile = JPATH_ROOT . '/media/com_redshop/files/' . $mediaSection . '/' . $sectionId . '/' . $image;
 
 		$file = array();
 
@@ -70,15 +71,52 @@ class RedshopHelperMediaImage
 	 */
 	public static function requireDependencies()
 	{
-		JHtml::stylesheet('com_redshop/dropzone/dropzone.css', array(), true);
-		JHtml::stylesheet('com_redshop/cropper/cropper.css', array(), true);
-		JHtml::stylesheet('com_redshop/lightbox2/css/lightbox.css', array(), true);
-		JHtml::stylesheet('com_redshop/redshop.media.css', array(), true);
+		/* Init some variables using in javascript */
+		$maxFileSize = self::parseSize(ini_get('upload_max_filesize'));
 
-		JHtml::script('com_redshop/dropzone/dropzone.js', false, true);
-		JHtml::script('com_redshop/cropper/cropper.js', false, true);
-		JHtml::script('com_redshop/lightbox2/lightbox.js', false, true);
-		JHtml::script('com_redshop/redshop.media.js', false, true);
+		$allowMime = array(
+				'image/jpeg',
+				'image/jpg',
+				'image/png',
+				'image/gif',
+				'video/mp4',
+				'video/flv',
+				'audio/mp3',
+				'audio/flac',
+				'application/vnd.ms-excel'
+			);
+
+		$allowMime = implode(',', $allowMime);
+
+		$script   = [];
+		$script[] = "var mediaConfig = new Object();";
+		$script[] = "mediaConfig.allowmime = '$allowMime';";
+		$script[] = "mediaConfig.maxFileSize = $maxFileSize;";
+
+		$script = implode(' ', $script);
+
+		try
+		{
+			/* Add script declaration */
+			$doc = JFactory::getDocument();
+			$doc->addScriptDeclaration($script);
+
+			/* Load StyleSheets */
+			JHtml::stylesheet('com_redshop/dropzone/dropzone.css', array(), true);
+			JHtml::stylesheet('com_redshop/cropper/cropper.css', array(), true);
+			JHtml::stylesheet('com_redshop/lightbox2/css/lightbox.css', array(), true);
+			JHtml::stylesheet('com_redshop/redshop.media.css', array(), true);
+
+			/* Load Javascript */
+			JHtml::script('com_redshop/dropzone/dropzone.js', false, true);
+			JHtml::script('com_redshop/cropper/cropper.js', false, true);
+			JHtml::script('com_redshop/lightbox2/lightbox.js', false, true);
+			JHtml::script('com_redshop/redshop.media.js', false, true);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 
 		return true;
 	}
@@ -96,8 +134,8 @@ class RedshopHelperMediaImage
 	 */
 	public static function renderGallery($id, $type, $sectionId, $mediaSection, $image)
 	{
-		$imgUrl  = JUri::root() . 'components/com_redshop/assets/images/' . $type . '/' . $image;
-		$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
+	    $imgUrl = JUri::root() . 'media/com_redshop/files/' . $mediaSection . '/' . $sectionId . '/' . $image;
+		$imgFile = JPATH_ROOT . 'media/com_redshop/files/' . $mediaSection . '/' . $sectionId . '/' . $image;;
 
 		$file = array();
 
@@ -111,7 +149,7 @@ class RedshopHelperMediaImage
 		{
 			foreach ($listMedia as $lk => $lm)
 			{
-				$tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $lm->media_section . '/' . $lm->media_name;
+				$tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $lm->section . '/' . $lm->name;
 
 				if (file_exists($tmpFile))
 				{
@@ -123,17 +161,17 @@ class RedshopHelperMediaImage
 					}
 
 					$tmpImg    = array(
-						'id'        => $lm->media_id,
-						'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
-						'name'      => $lm->media_name,
+						'id'        => $lm->id,
+						'url'       => JUri::root() . 'media/com_redshop/files/' . $lm->section . '/' . $lm->section_id . '/' . $lm->name,
+						'name'      => $lm->name,
 						'size'      => self::sizeFilter(filesize($tmpFile)),
 						'dimension' => $dimension,
-						'media'     => $lm->media_section,
-						'mime'      => substr($lm->media_type, 0, -1),
+						'media'     => $lm->section,
+						'mime'      => substr($lm->type, 0, -1),
 						'status'    => $lm->published ? '' : '-slash'
 					);
 
-					if ($image === $lm->media_name)
+					if ($image === $lm->name)
 					{
 						$tmpImg['attached'] = "true";
 					}
@@ -213,7 +251,7 @@ class RedshopHelperMediaImage
 
 		foreach ($listMedia as $lk => $lm)
 		{
-			$tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $lm->media_section . '/' . $lm->media_name;
+			$tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $lm->section . '/' . $lm->name;
 
 			if (file_exists($tmpFile))
 			{
@@ -224,18 +262,20 @@ class RedshopHelperMediaImage
 					$dimension = $dimension[0] . ' x ' . $dimension[1];
 				}
 
+				$path = JUri::root() . 'media/com_redshop/files/' . $lm->section . '/' . $lm->section_id . '/' . $lm->name;
+
 				$tmpImg    = array(
-					'id'        => $lm->media_id,
-					'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
-					'name'      => $lm->media_name,
+					'id'        => $lm->id,
+					'url'       => JUri::root() . 'media/com_redshop/files/' . $lm->section . '/' . $lm->section_id . '/' . $lm->name,
+					'name'      => $lm->name,
 					'size'      => self::sizeFilter(filesize($tmpFile)),
 					'dimension' => $dimension,
-					'media'     => $lm->media_section,
-					'mime'      => substr($lm->media_type, 0, -1),
+					'media'     => $lm->section,
+					'mime'      => substr($lm->type, 0, -1),
 					'status'    => $lm->published ? '' : '-slash'
 				);
 
-				if ($selectedImage === $lm->media_name)
+				if ($selectedImage === $lm->name)
 				{
 					$tmpImg['attached'] = "true";
 				}
@@ -278,5 +318,28 @@ class RedshopHelperMediaImage
 		}
 
 		return false;
+	}
+
+	/**
+	 * parseSize description
+	 * 
+	 * @param   string  $size  filesize in php.ini
+	 * 
+	 * @return  int    filesize in bytes
+	 */
+	public static function parseSize($size)
+	{
+		$unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
+		$size = preg_replace('/[^0-9\.]/', '', $size);
+
+		if ($unit)
+		{
+			// Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
+			return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+		}
+		else
+		{
+			return round($size);
+		}
 	}
 }

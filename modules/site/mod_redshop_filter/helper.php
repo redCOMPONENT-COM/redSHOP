@@ -137,12 +137,12 @@ abstract class ModRedshopFilter
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('m.media_name'))
+			->select($db->qn('m.name'))
 			->select($db->qn('ma.manufacturer_name'))
 			->select($db->qn('ma.manufacturer_id'))
 			->from($db->qn('#__redshop_manufacturer', 'ma'))
 			->leftjoin($db->qn('#__redshop_media', 'm') . ' ON ' . $db->qn('m.section_id')  . ' = ' . $db->qn('ma.manufacturer_id'))
-			->where($db->qn('m.media_section') . ' = ' . $db->q('manufacturer'))
+			->where($db->qn('m.section') . ' = ' . $db->q('manufacturer'))
 			->where($db->qn('m.published') . ' = 1')
 			->where($db->qn('ma.published') . ' = 1');
 
@@ -259,12 +259,12 @@ abstract class ModRedshopFilter
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('m.media_name'))
+			->select($db->qn('m.name'))
 			->select($db->qn('ma.manufacturer_name'))
 			->select($db->qn('ma.manufacturer_id'))
 			->from($db->qn('#__redshop_manufacturer', 'ma'))
 			->leftJoin($db->qn('#__redshop_media', 'm') . ' ON ' . $db->qn('m.section_id') . ' = ' . $db->qn('ma.manufacturer_id'))
-			->where('m.media_section = ' . $db->q('manufacturer'))
+			->where('m.section = ' . $db->q('manufacturer'))
 			->where($db->qn('m.published') . ' = 1')
 			->where($db->qn('ma.published') . ' = 1');
 
@@ -374,10 +374,10 @@ abstract class ModRedshopFilter
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('m.media_name, ma.manufacturer_name, ma.manufacturer_id')
+			->select('m.name, ma.manufacturer_name, ma.manufacturer_id')
 			->from($db->qn('#__redshop_manufacturer', 'ma'))
 			->leftJoin($db->qn('#__redshop_media', 'm') . ' ON m.section_id = ma.manufacturer_id')
-			->where('m.media_section = ' . $db->q('manufacturer'))
+			->where('m.section = ' . $db->q('manufacturer'))
 			->where('m.published = 1')
 			->where($db->qn('ma.manufacturer_id') . ' = ' . $db->q((int) $mid))
 			->where('ma.published = 1');

@@ -75,6 +75,10 @@ class RedshopControllerConfiguration extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
+		/*echo  '<pre>';
+		print_r($post);
+		die;*/
+
 		$app                 = JFactory::getApplication();
 		$selectedTabPosition = $this->input->get('selectedTabPosition');
 		$app->setUserState('com_redshop.configuration.selectedTabPosition', $selectedTabPosition);
@@ -148,6 +152,13 @@ class RedshopControllerConfiguration extends RedshopController
 		}
 
 		$post['menuhide'] = implode(',', $this->input->post->get('menuhide', array(), 'ARRAY'));
+
+		/* Medias */
+
+		$post['media_upload_extension'] = implode(',', $this->input->post->get('media_upload_extension', array(), 'ARRAY'));
+		$post['media_upload_mimetype'] = implode(',', $this->input->post->get('media_upload_mimetype', array(), 'ARRAY'));
+
+		/* End Medias */
 
 		if (isset($post['product_download_root']) && !is_dir($post['product_download_root']))
 		{

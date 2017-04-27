@@ -109,7 +109,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 
 	for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 	{
-		if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
+		if ($media_image[$m]->name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->name))
 		{
 			$altText = $producthelper->getAltText('manufacturer', $row->manufacturer_id);
 
@@ -120,7 +120,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 
 			if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'))
 			{
-				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
+				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 				$maintype         = "watermarked/main";
 			}
 			else
@@ -130,7 +130,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 
 			if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 			{
-				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
+				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
 				$thumbtype        = "watermarked/main";
 			}
 			else
@@ -139,7 +139,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 			}
 
 			$thumbUrl = RedShopHelperImages::getImagePath(
-							$media_image[$m]->media_name,
+							$media_image[$m]->name,
 							'',
 							'thumb',
 							$thumbtype,
@@ -147,7 +147,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 							$mh_thumb,
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
-			$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . $maintype . $media_image[$m]->media_name . "'   rel=\"{handler: 'image', size: {}}\">
+			$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . $maintype . $media_image[$m]->name . "'   rel=\"{handler: 'image', size: {}}\">
 				<img alt='" . $altText . "' title='" . $altText . "' src='" . $thumbUrl . "'></a>";
 		}
 	}

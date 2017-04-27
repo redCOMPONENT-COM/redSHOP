@@ -380,4 +380,107 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
 		$app->close();
 	}
+
+    /**
+     * Method to migrate old media to new
+     *
+     * @return  void
+     *
+     * @since   2.0.5
+     */
+    public function migrateMediaCategory()
+    {
+        $app = JFactory::getApplication();
+        $model = $this->getModel();
+        $mediumModel = $this->getModel('Medium');
+
+        if (!$model->processMigrateMediaCategory($mediumModel))
+        {
+            $app->setHeader('status', 500);
+            $app->sendHeaders();
+            echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
+            $app->close();
+        }
+
+        $app->sendHeaders();
+        echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+        $app->close();
+    }
+
+    /**
+     * Method to migrate old media to new
+     *
+     * @return  void
+     *
+     * @since   2.0.5
+     */
+    public function migrateMediaManufacturer()
+    {
+        $app = JFactory::getApplication();
+        $model = $this->getModel();
+        $mediumModel = $this->getModel('Medium');
+
+        if (!$model->processMigrateMediaManufacturer($mediumModel))
+        {
+            $app->setHeader('status', 500);
+            $app->sendHeaders();
+            echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
+            $app->close();
+        }
+
+        $app->sendHeaders();
+        echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+        $app->close();
+    }
+
+    /**
+     * Method to migrate old media to new
+     *
+     * @return  void
+     *
+     * @since   2.0.5
+     */
+    public function migrateMediaProduct()
+    {
+        $app = JFactory::getApplication();
+        $model = $this->getModel();
+        $mediumModel = $this->getModel('Medium');
+
+        if (!$model->processMigrateMediaProduct($mediumModel))
+        {
+            $app->setHeader('status', 500);
+            $app->sendHeaders();
+            echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
+            $app->close();
+        }
+
+        $app->sendHeaders();
+        echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+        $app->close();
+    }
+
+    /**
+     * Method to migrate old media to new
+     *
+     * @return  void
+     *
+     * @since   2.0.5
+     */
+    public function migrateMediaMedia()
+    {
+        $app = JFactory::getApplication();
+        $model = $this->getModel();
+
+        if (!$model->processMigrateMediaMedia())
+        {
+            $app->setHeader('status', 500);
+            $app->sendHeaders();
+            echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
+            $app->close();
+        }
+
+        $app->sendHeaders();
+        echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+        $app->close();
+    }
 }

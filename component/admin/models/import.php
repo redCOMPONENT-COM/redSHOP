@@ -1482,13 +1482,13 @@ class RedshopModelImport extends RedshopModel
 
 					if ($product_full_image)
 					{
-						$rows = $this->getTable('media_detail');
-						$rows->media_id = 0;
-						$rows->media_name = $product_full_image;
-						$rows->media_section = 'product';
+						$rows = $this->getTable('media');
+						$rows->id = 0;
+						$rows->name = $product_full_image;
+						$rows->section = 'product';
 						$rows->section_id = $last_insert;
-						$rows->media_type = 'images';
-						$rows->media_mimetype = '';
+						$rows->type = 'images';
+						$rows->mimetype = '';
 						$rows->published = 1;
 
 						if (!$rows->store())
@@ -1525,15 +1525,15 @@ class RedshopModelImport extends RedshopModel
 							@copy($src, $dest);
 						}
 
-						$rows = $this->getTable('media_detail');
-						$rows->media_id = 0;
-						$rows->media_name = $filename;
-						$rows->media_section = 'product';
+						$rows = $this->getTable('media');
+						$rows->id = 0;
+						$rows->name = $filename;
+						$rows->section = 'product';
 						$rows->section_id = $last_insert;
-						$rows->media_type = 'images';
-						$rows->media_mimetype = $more_img->file_mimetype;
+						$rows->type = 'images';
+						$rows->mimetype = $more_img->file_mimetype;
 						$rows->published = 1;
-						$rows->media_alternate_text = $more_img->file_title;
+						$rows->alternate_text = $more_img->file_title;
 
 						if (!$rows->store())
 						{
@@ -1573,8 +1573,8 @@ class RedshopModelImport extends RedshopModel
 					if ($product_full_image != $red_product_full_image)
 					{
 						$query = "UPDATE #__redshop_media "
-							. "SET `media_name` =  '" . $product_full_image . "' ,`published`	 = '" . $published . "' "
-							. "WHERE `media_section`='product' "
+							. "SET `name` =  '" . $product_full_image . "' ,`published`	 = '" . $published . "' "
+							. "WHERE `section`='product' "
 							. "AND `section_id`='" . $red_product_id . "' ";
 						$db->setQuery($query);
 

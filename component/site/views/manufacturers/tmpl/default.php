@@ -123,23 +123,23 @@ if ($this->detail && $template_middle != "")
 
 				for ($m = 0, $mn = count($media_image); $m < $mn; $m++)
 				{
-					if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
+					if ($media_image[$m]->name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->name))
 					{
 						$altText = $producthelper->getAltText('manufacturer', $row->manufacturer_id);
 
 						if (!$altText)
 						{
-							$altText = $media_image[$m]->media_name;
+							$altText = $media_image[$m]->name;
 						}
 
 						if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 						{
-							$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
+							$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 						}
 						else
 						{
 							$manufacturer_img = RedShopHelperImages::getImagePath(
-													$media_image[$m]->media_name,
+													$media_image[$m]->name,
 													'',
 													'thumb',
 													'manufacturer',
@@ -151,7 +151,7 @@ if ($this->detail && $template_middle != "")
 
 						if (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
 						{
-							$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "manufacturer/" . $media_image[$m]->media_name . "'   rel=\"{handler: 'image', size: {}}\">
+							$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "manufacturer/" . $media_image[$m]->name . "'   rel=\"{handler: 'image', size: {}}\">
 							<img alt='" . $altText . "' title='" . $altText . "' src='" . $manufacturer_img . "'></a>";
 						}
 						else
