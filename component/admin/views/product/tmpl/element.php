@@ -122,7 +122,7 @@ $category_id = $this->state->get('category_id', 0);
 						?>
 					</td>
 					<td>
-						<?php echo $model->getmanufacturername($row->manufacturer_id); ?>
+						<?php echo RedshopEntityManufacturer::getInstance($row->manufacturer_id)->get('manufacturer_name') ?>
 					</td>
 					<td align="center" width="5%">
 						<?php echo $row->product_id; ?>
