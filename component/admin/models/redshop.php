@@ -68,10 +68,10 @@ class RedshopModelRedshop extends RedshopModel
 			(50, '1421055573_shoemaniac-demo-400-400.jpg', 'product', 14, 'images', 'image/jpeg', 1, ''),
 			(51, '1421055894_valentine-demo-400-400.jpg', 'product', 9, 'images', 'image/jpeg', 1, ''),
 			(52, '1421064966_appearance-top.png', 'product', 3, 'images', 'image/png', 1, ''),
-			(53, 'redCOMPONENTS.jpg', 'product', 2, 'images', '', 1, ''),
-			(54, 'redCOMPONENTS.jpg', 'product', 4, 'images', '', 1, ''),
-			(55, 'redCOMPONENTS.jpg', 'product', 7, 'images', '', 1, ''),
-			(56, 'redCOMPONENTS.jpg', 'product', 6, 'images', '', 1, '')
+			(53, '1421064967_redCOMPONENTS.jpg', 'product', 2, 'images', '', 1, ''),
+			(54, '1421064968_redCOMPONENTS.jpg', 'product', 4, 'images', '', 1, ''),
+			(55, '1421064969_redCOMPONENTS.jpg', 'product', 7, 'images', '', 1, ''),
+			(56, '1421064970_redCOMPONENTS.jpg', 'product', 6, 'images', '', 1, '')
 			";
 		$db->setQuery($query);
 		$db->execute();

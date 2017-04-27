@@ -49,7 +49,7 @@ $tmpl = $app->input->get('tmpl', '');
 							<?php echo RedshopHelperMediaImage::render(
 								'name',
 								$this->item->section,
-								$this->item->id,
+								$this->item->section_id,
 								$this->item->section,
 								$this->item->name,
 								false

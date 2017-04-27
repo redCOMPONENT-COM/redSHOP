@@ -85,10 +85,6 @@ class RedshopModelInstall extends RedshopModelList
 				'func' => 'updateCategory'
 			);
             $tasks[] = array(
-                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_MIGRATE_MEDIA_MEDIA'),
-                'func' => 'migrateMediaMedia'
-            );
-            $tasks[] = array(
                 'text' => JText::_('COM_REDSHOP_INSTALL_STEP_MIGRATE_MEDIA_CATEGORY'),
                 'func' => 'migrateMediaCategory'
             );
@@ -99,6 +95,10 @@ class RedshopModelInstall extends RedshopModelList
             $tasks[] = array(
                 'text' => JText::_('COM_REDSHOP_INSTALL_STEP_MIGRATE_MEDIA_PRODUCT'),
                 'func' => 'migrateMediaProduct'
+            );
+            $tasks[] = array(
+                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_MIGRATE_MEDIA_MEDIA'),
+                'func' => 'migrateMediaMedia'
             );
 		}
 
@@ -1404,11 +1404,12 @@ class RedshopModelInstall extends RedshopModelList
             foreach ($media as $m)
             {
                 $src = JPATH_ROOT . '/components/com_redshop/assets/images/' . $m->section . '/' . $m->name;
+
                 $des = JPATH_ROOT . '/media/com_redshop/files/' . $m->section . '/' . $m->section_id . '/' . $m->name;
 
                 if (JFile::exists($src))
                 {
-                    $this->migrateMediaMoveFile($src, $des);
+                    $this->migrateMediaMoveFile($src, $des, 0, $m->name, $m->section, $m->section_id);
                 }
             }
         }
@@ -1427,11 +1428,26 @@ class RedshopModelInstall extends RedshopModelList
      * @param   string  $section
      * @param   int     $section_id
      * @param   string  $scope
+     * @param   object  $model
      *
      * @return  bool
      */
-    public function migrateMediaMoveFile($src, $des, $createMedia = 0, $name = '', $section = '', $section_id = 0, $scope = '', $model = null)
+    public function migrateMediaMoveFile($src, $des, $createMedia = 0, $name = '', $section = '', $section_id = null, $scope = '', $model = null)
     {
+        $mediaRoot = array(
+            'product', 'category', 'manufacturer', 'property', 'subproperty'
+        );
+
+        foreach ($mediaRoot as $mr)
+        {
+            $rootPath = JPATH_ROOT . '/media/com_redshop/files/' . $mr;
+
+            if (!JFolder::exists($rootPath))
+            {
+                JFolder::create($rootPath);
+            }
+        }
+
         if (!JFile::exists($src))
         {
             return false;
@@ -1444,15 +1460,9 @@ class RedshopModelInstall extends RedshopModelList
             JFolder::create($desPath);
         }
 
-        if ($section == 'category')
-        {
-            var_dump($src);
-            var_dump($des);
-        }
+        JFile::copy($src, $des);
 
-        JFile::move($src, $des);
-
-        if ($createMedia == 1 && isset($model))
+        if (($createMedia === 1) && isset($model) && isset($section_id) && ($section_id > 0))
         {
             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
@@ -1464,10 +1474,8 @@ class RedshopModelInstall extends RedshopModelList
 
             $result = $db->setQuery($query)->loadObject();
 
-            if (isset($result))
-            {
-                if ($result->scope != $scope && $scope != '')
-                {
+            if (isset($result)) {
+                if ($result->scope != $scope && $scope != '') {
                     $query->clear()
                         ->update($db->qn('#__redshop_media'))
                         ->set(array(
@@ -1476,9 +1484,7 @@ class RedshopModelInstall extends RedshopModelList
                         ->where($db->qn('id') . ' = ' . $db->q($result->id));
                     $db->setQuery($query)->execute();
                 }
-            }
-            else
-            {
+            } else {
                 /* Prepare data for media */
                 $data = array(
                     'id' => 0,
@@ -1492,8 +1498,7 @@ class RedshopModelInstall extends RedshopModelList
                     'published' => 1,
                 );
 
-                if (!$model->save($data))
-                {
+                if (!$model->save($data)) {
                     return false;
                 }
             }

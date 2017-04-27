@@ -84,7 +84,7 @@ class RedshopModelMedium extends RedshopModelForm
         /* In case Upload File*/
         if ($fileName !== '')
         {
-            $data['name'] = RedshopHelperMedia::cleanFileName($fileName);
+            $data['name'] = $fileName;
         }
 
 	    /* Case type Youtube */
@@ -106,6 +106,7 @@ class RedshopModelMedium extends RedshopModelForm
 	    $table->youtube_id = $data['youtube_id'];
 	    $table->alternate_text = $data['alternate_text'];
 	    $table->section = $data['section'];
+        $table->section_id = $data['section_id'];
 	    $table->type = $data['type'];
 	    $table->published = $data['published'];
 
@@ -127,7 +128,7 @@ class RedshopModelMedium extends RedshopModelForm
 
                 if (JFile::exists($src))
                 {
-                    $des = JPATH_ROOT . '/media/com_redshop/files/' . $data['section'] . '/' . $table->id . '/';
+                    $des = JPATH_ROOT . '/media/com_redshop/files/' . $data['section'] . '/' . $table->section_id . '/';
 
                     if (!JFolder::exists($des))
                     {

@@ -162,7 +162,7 @@ class RedshopHelperMediaImage
 
 					$tmpImg    = array(
 						'id'        => $lm->id,
-						'url'       => JUri::root() . 'media/com_redshop/files/' . $lm->section . '/' . $lm->id . '/' . $lm->name,
+						'url'       => JUri::root() . 'media/com_redshop/files/' . $lm->section . '/' . $lm->section_id . '/' . $lm->name,
 						'name'      => $lm->name,
 						'size'      => self::sizeFilter(filesize($tmpFile)),
 						'dimension' => $dimension,
@@ -262,11 +262,11 @@ class RedshopHelperMediaImage
 					$dimension = $dimension[0] . ' x ' . $dimension[1];
 				}
 
-				$path = JUri::root() . 'media/com_redshop/files/' . $lm->section . '/' . $lm->id . '/' . $lm->name;
+				$path = JUri::root() . 'media/com_redshop/files/' . $lm->section . '/' . $lm->section_id . '/' . $lm->name;
 
 				$tmpImg    = array(
 					'id'        => $lm->id,
-					'url'       => JUri::root() . 'media/com_redshop/files/' . $lm->section . '/' . $lm->id . '/' . $lm->name,
+					'url'       => JUri::root() . 'media/com_redshop/files/' . $lm->section . '/' . $lm->section_id . '/' . $lm->name,
 					'name'      => $lm->name,
 					'size'      => self::sizeFilter(filesize($tmpFile)),
 					'dimension' => $dimension,
