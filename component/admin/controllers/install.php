@@ -392,8 +392,9 @@ class RedshopControllerInstall extends RedshopControllerAdmin
     {
         $app = JFactory::getApplication();
         $model = $this->getModel();
+        $mediumModel = $this->getModel('Medium');
 
-        if (!$model->processMigrateMediaCategory())
+        if (!$model->processMigrateMediaCategory($mediumModel))
         {
             $app->setHeader('status', 500);
             $app->sendHeaders();
@@ -417,8 +418,9 @@ class RedshopControllerInstall extends RedshopControllerAdmin
     {
         $app = JFactory::getApplication();
         $model = $this->getModel();
+        $mediumModel = $this->getModel('Medium');
 
-        if (!$model->processMigrateMediaManufacturer())
+        if (!$model->processMigrateMediaManufacturer($mediumModel))
         {
             $app->setHeader('status', 500);
             $app->sendHeaders();
@@ -442,8 +444,34 @@ class RedshopControllerInstall extends RedshopControllerAdmin
     {
         $app = JFactory::getApplication();
         $model = $this->getModel();
+        $mediumModel = $this->getModel('Medium');
 
-        if (!$model->processMigrateMediaProduct())
+        if (!$model->processMigrateMediaProduct($mediumModel))
+        {
+            $app->setHeader('status', 500);
+            $app->sendHeaders();
+            echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
+            $app->close();
+        }
+
+        $app->sendHeaders();
+        echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+        $app->close();
+    }
+
+    /**
+     * Method to migrate old media to new
+     *
+     * @return  void
+     *
+     * @since   2.0.5
+     */
+    public function migrateMediaMedia()
+    {
+        $app = JFactory::getApplication();
+        $model = $this->getModel();
+
+        if (!$model->processMigrateMediaMedia())
         {
             $app->setHeader('status', 500);
             $app->sendHeaders();

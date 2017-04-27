@@ -85,6 +85,10 @@ class RedshopModelInstall extends RedshopModelList
 				'func' => 'updateCategory'
 			);
             $tasks[] = array(
+                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_MIGRATE_MEDIA_MEDIA'),
+                'func' => 'migrateMediaMedia'
+            );
+            $tasks[] = array(
                 'text' => JText::_('COM_REDSHOP_INSTALL_STEP_MIGRATE_MEDIA_CATEGORY'),
                 'func' => 'migrateMediaCategory'
             );
@@ -1224,12 +1228,60 @@ class RedshopModelInstall extends RedshopModelList
     /**
      * Method to update new structure for Category
      *
+     * @param   object  &$mediumModel
+     *
      * @return  mixed
      *
      * @since   2.0.5
      */
-    public function processMigrateMediaCategory()
+    public function processMigrateMediaCategory(&$mediumModel)
     {
+        $db = JFactory::getDbo();
+
+        $query = $db->getQuery(true);
+
+        $query->select('*')
+            ->from($db->qn('#__redshop_category'));
+
+        $categories = $db->setQuery($query)->loadObjectList();
+
+        if (count($categories))
+        {
+
+            $oldPath = JPATH_ROOT . '/components/com_redshop/assets/images/category/';
+            $newPath = JPATH_ROOT . '/media/com_redshop/files/category/';
+
+            foreach ($categories as $c)
+            {
+                /* category_thumb_image */
+                if (isset($c->category_thumb_image) && trim($c->category_thumb_image) != '')
+                {
+                    $src = $oldPath . $c->category_thumb_image;
+                    $des = $newPath . $c->id . '/' . $c->category_thumb_image;
+
+                    $this->migrateMediaMoveFile($src, $des, 1, $c->category_thumb_image, 'category', $c->id, 'category_thumb_image', $mediumModel);
+                }
+
+                /* category_thumb_image */
+                if (isset($c->category_full_image) && trim($c->category_full_image) != '')
+                {
+                    $src = $oldPath . $c->category_full_image;
+                    $des = $newPath . $c->id . '/' . $c->category_full_image;
+
+                    $this->migrateMediaMoveFile($src, $des, 1, $c->category_full_image, 'category', $c->id, '	category_full_image', $mediumModel);
+                }
+
+                /* category_back_full_image */
+                if (isset($c->category_back_full_image) && trim($c->category_back_full_image) != '')
+                {
+                    $src = $oldPath . $c->category_back_full_image;
+                    $des = $newPath . $c->id . '/' . $c->category_back_full_image;
+
+                    $this->migrateMediaMoveFile($src, $des, 1, $c->category_back_full_image, 'category', $c->id, '	category_back_full_image', $mediumModel);
+                }
+            }
+        }
+
         return true;
     }
 
@@ -1252,7 +1304,7 @@ class RedshopModelInstall extends RedshopModelList
      *
      * @since   2.0.5
      */
-    public function processMigrateMediaProduct()
+    public function processMigrateMediaProduct(&$mediumModel)
     {
         $db = JFactory::getDbo();
 
@@ -1265,71 +1317,64 @@ class RedshopModelInstall extends RedshopModelList
 
         if (count($products))
         {
-            $oldPath = JPATH_ROOT . 'component/com_redshop/assets/images/product/';
-            $newPath = JPATH_ROOT . 'media/com_redshop/files/product/';
+            $oldPath = JPATH_ROOT . '/components/com_redshop/assets/images/product/';
+            $newPath = JPATH_ROOT . '/media/com_redshop/files/product/';
 
-            try
+            foreach ($products as $p)
             {
-                foreach ($products as $p)
+                /* Product Thumb Image*/
+                if (isset($p->product_thumb_image) && trim($p->product_thumb_image) != '')
                 {
-                    /* Product Thumb Image*/
-                    if (isset($p->product_thumb_image))
-                    {
-                        $src = $oldPath . $p->product_thumb_image;
-                        $des = $newPath . $p->product_id . '/' . $p->product_thumb_image;
+                    $src = $oldPath . $p->product_thumb_image;
+                    $des = $newPath . $p->product_id . '/' . $p->product_thumb_image;
 
-                        $this->migrateMediaMoveFile($src, $des);
-                    }
-
-                    /* product_full_image */
-                    if (isset($p->product_full_image))
-                    {
-                        $src = $oldPath . $p->product_full_image;
-                        $des = $newPath . $p->product_id . '/' . $p->product_full_image;
-
-                        $this->migrateMediaMoveFile($src, $des);
-                    }
-
-                    /* product_back_full_image */
-                    if (isset($p->product_back_full_image))
-                    {
-                        $src = $oldPath . $p->product_back_full_image;
-                        $des = $newPath . $p->product_id . '/' . $p->product_back_full_image;
-
-                        $this->migrateMediaMoveFile($src, $des);
-                    }
-
-                    /* product_back_thumb_image */
-                    if (isset($p->product_back_thumb_image))
-                    {
-                        $src = $oldPath . $p->product_back_thumb_image;
-                        $des = $newPath . $p->product_id . '/' . $p->product_back_thumb_image;
-
-                        $this->migrateMediaMoveFile($src, $des);
-                    }
-
-                    /* product_preview_image */
-                    if (isset($p->product_preview_image))
-                    {
-                        $src = $oldPath . $p->product_preview_image;
-                        $des = $newPath . $p->product_id . '/' . $p->product_preview_image;
-
-                        $this->migrateMediaMoveFile($src, $des);
-                    }
-
-                    /* product_preview_back_image */
-                    if (isset($p->product_preview_back_image))
-                    {
-                        $src = $oldPath . $p->product_preview_back_image;
-                        $des = $newPath . $p->product_id . '/' . $p->product_preview_back_image;
-
-                        $this->migrateMediaMoveFile($src, $des);
-                    }
+                    $this->migrateMediaMoveFile($src, $des, 1, $p->product_thumb_image, 'product', $p->product_id, 'product_thumb_image', $mediumModel);
                 }
-            }
-            catch (Exception $e)
-            {
-                return false;
+
+                /* product_full_image */
+                if (isset($p->product_full_image) && trim($p->product_full_image) != '')
+                {
+                    $src = $oldPath . $p->product_full_image;
+                    $des = $newPath . $p->product_id . '/' . $p->product_full_image;
+
+                    $this->migrateMediaMoveFile($src, $des, 1, $p->product_full_image, 'product', $p->product_id, 'product_full_image', $mediumModel);
+                }
+
+                /* product_back_full_image */
+                if (isset($p->product_back_full_image) && trim($p->product_back_full_image) != '')
+                {
+                    $src = $oldPath . $p->product_back_full_image;
+                    $des = $newPath . $p->product_id . '/' . $p->product_back_full_image;
+
+                    $this->migrateMediaMoveFile($src, $des, 1, $p->product_back_full_image, 'product', $p->product_id, 'product_back_full_image', $mediumModel);
+                }
+
+                /* product_back_thumb_image */
+                if (isset($p->product_back_thumb_image) && trim($p->product_back_thumb_image) != '')
+                {
+                    $src = $oldPath . $p->product_back_thumb_image;
+                    $des = $newPath . $p->product_id . '/' . $p->product_back_thumb_image;
+
+                    $this->migrateMediaMoveFile($src, $des, 1, $p->product_back_thumb_image, 'product', $p->product_id, 'product_back_thumb_image', $mediumModel);
+                }
+
+                /* product_preview_image */
+                if (isset($p->product_preview_image) && trim($p->product_preview_image) != '')
+                {
+                    $src = $oldPath . $p->product_preview_image;
+                    $des = $newPath . $p->product_id . '/' . $p->product_preview_image;
+
+                    $this->migrateMediaMoveFile($src, $des, 1, $p->product_preview_image, 'product', $p->product_id, 'product_preview_image', $mediumModel);
+                }
+
+                /* product_preview_back_image */
+                if (isset($p->product_preview_back_image) && trim($p->product_preview_back_image) != '')
+                {
+                    $src = $oldPath . $p->product_preview_back_image;
+                    $des = $newPath . $p->product_id . '/' . $p->product_preview_back_image;
+
+                    $this->migrateMediaMoveFile($src, $des, 1, $p->product_preview_back_image, 'product', $p->product_id, 'product_preview_back_image', $mediumModel);
+                }
             }
         }
 
@@ -1337,24 +1382,121 @@ class RedshopModelInstall extends RedshopModelList
     }
 
     /**
+     * Method to update new structure for Product
+     *
+     * @return  mixed
+     *
+     * @since   2.0.5
+     */
+    public function processMigrateMediaMedia()
+    {
+        $db = JFactory::getDbo();
+
+        $query = $db->getQuery(true);
+
+        $query->select('*')
+            ->from($db->qn('#__redshop_media'));
+
+        $media = $db->setQUery($query)->loadObjectList();
+
+        if (count($media))
+        {
+            foreach ($media as $m)
+            {
+                $src = JPATH_ROOT . '/components/com_redshop/assets/images/' . $m->section . '/' . $m->name;
+                $des = JPATH_ROOT . '/media/com_redshop/files/' . $m->section . '/' . $m->section_id . '/' . $m->name;
+
+                if (JFile::exists($src))
+                {
+                    $this->migrateMediaMoveFile($src, $des);
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+    /**
      * migrateMediaMoveFile function
      *
      * @param   string  $src
      * @param   string  $des
      * @param   int     $createMedia
+     * @param   string  $name
+     * @param   string  $section
+     * @param   int     $section_id
+     * @param   string  $scope
      *
      * @return  bool
      */
-    public function migrateMediaMoveFile($src, $des, $createMedia = 0)
+    public function migrateMediaMoveFile($src, $des, $createMedia = 0, $name = '', $section = '', $section_id = 0, $scope = '', $model = null)
     {
-        if (JFile::exists($src))
+        if (!JFile::exists($src))
         {
-            JFile::move($src, $des);
+            return false;
         }
 
-        if ($createMedia == 1)
+        $desPath = JPATH_ROOT . '/media/com_redshop/files/' . $section . '/' . $section_id;
+
+        if (!JFolder::exists($desPath))
         {
-            //@TODO: create media
+            JFolder::create($desPath);
+        }
+
+        if ($section == 'category')
+        {
+            var_dump($src);
+            var_dump($des);
+        }
+
+        JFile::move($src, $des);
+
+        if ($createMedia == 1 && isset($model))
+        {
+            $db = JFactory::getDbo();
+            $query = $db->getQuery(true);
+            $query->select('*')
+                ->from($db->qn('#__redshop_media'))
+                ->where($db->qn('section') . ' = ' . $db->q($section))
+                ->where($db->qn('section_id') . ' = ' . $db->q($section_id))
+                ->where($db->qn('name') . ' = ' . $db->q($name));
+
+            $result = $db->setQuery($query)->loadObject();
+
+            if (isset($result))
+            {
+                if ($result->scope != $scope && $scope != '')
+                {
+                    $query->clear()
+                        ->update($db->qn('#__redshop_media'))
+                        ->set(array(
+                            $db->qn('scope') . ' = ' . $db->q($scope)
+                        ))
+                        ->where($db->qn('id') . ' = ' . $db->q($result->id));
+                    $db->setQuery($query)->execute();
+                }
+            }
+            else
+            {
+                /* Prepare data for media */
+                $data = array(
+                    'id' => 0,
+                    'name' => $name,
+                    'title' => $name,
+                    'alternate_text' => $name,
+                    'section' => $section,
+                    'section_id' => $section_id,
+                    'scope' => $scope,
+                    'type' => 'images',
+                    'published' => 1,
+                );
+
+                if (!$model->save($data))
+                {
+                    return false;
+                }
+            }
         }
 
         return true;

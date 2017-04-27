@@ -69,7 +69,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php switch ($row->type): case 'images': ?>
                             <a href="<?php echo $link; ?>"
                                title="<?php echo JText::_('COM_REDSHOP_EDIT_MEDIA'); ?>">
-                                <img src="<?php echo JUri::root() . 'media/com_redshop/files/' . $row->section . '/' . $row->id . '/' . $row->name ?>"
+                                <img src="<?php echo JUri::root() . 'media/com_redshop/files/' . $row->section . '/' . $row->section_id . '/' . $row->name ?>"
                                      alt="<?php echo $row->alternate_text ?>" style="width:100px;"/>
                             </a>
                             <?php break; ?>
