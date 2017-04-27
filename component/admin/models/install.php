@@ -21,6 +21,13 @@ use Joomla\Registry\Registry;
 class RedshopModelInstall extends RedshopModelList
 {
 	/**
+	 * @var  string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
+
+	/**
 	 * Method for get all available step of installation.
 	 *
 	 * @param   string  $type  Type of installation (install, install_discover, update)
@@ -31,11 +38,24 @@ class RedshopModelInstall extends RedshopModelList
 	 */
 	public function getSteps($type = 'install')
 	{
-		$tasks = array(
-			array(
-				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIGURATION'),
-				'func' => 'handleConfig'
-			),
+		if ($type != 'install')
+		{
+			return $this->getUpdateSteps();
+		}
+
+		return $this->getInstallSteps();
+	}
+
+	/**
+	 * Method for get all available step of installation.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getInstallSteps()
+	{
+		return array(
 			array(
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_SYNCHRONIZE_USERS'),
 				'func' => 'syncUser'
@@ -49,42 +69,86 @@ class RedshopModelInstall extends RedshopModelList
 				'func' => 'templateFiles'
 			),
 			array(
-				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_UPDATE_MENU'),
-				'func' => 'updateMenu'
-			),
-			array(
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_INTEGRATE_SH404SEF'),
 				'func' => 'integrateSh404sef'
-			),
+			)
 		);
+	}
 
-		if ($type == 'update')
-		{
-			$tasks[] = array(
+	/**
+	 * Method for get all available step of update.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getUpdateSteps()
+	{
+		$tasks = array(
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIGURATION'),
+				'func' => 'handleConfig'
+			),
+			array(
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_CHECK_DATABASE_STRUCTURE'),
 				'func' => 'updateCheckDatabase'
-			);
-			$tasks[] = array(
+			),
+			array(
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_UPDATE_OVERRIDE_TEMPLATE'),
 				'func' => 'updateOverrideTemplate'
-			);
-			$tasks[] = array(
+			),
+			array(
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_CLEAN_OLD_FILES'),
 				'func' => 'updateCleanOldFiles'
-			);
-			$tasks[] = array(
+			),
+			array(
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_IMAGE_FILE_NAME'),
 				'func' => 'updateImageFileNames'
-			);
-			$tasks[] = array(
+			),
+			array(
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_UPDATE_SCHEMA'),
 				'func' => 'updateDatabaseSchema'
-			);
-			$tasks[] = array(
+			),
+			array(
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_UPDATE_CATEGORY'),
 				'func' => 'updateCategory'
-			);
+			),
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_UPDATE_MENU'),
+				'func' => 'updateMenu'
+			)
+		);
+
+		// Get available updates class.
+		if (!is_dir($this->updatePath))
+		{
+			return $tasks;
 		}
+
+		$files = glob($this->updatePath . '/*.php');
+		$currentVersion = RedshopHelperJoomla::getManifestValue('version');
+		$classes = array();
+
+		foreach ($files as $file)
+		{
+			$version = JFile::stripExt(basename($file));
+
+			if (version_compare($currentVersion, $version, '<'))
+			{
+				$classes[$version] = array('class' => 'RedshopUpdate' . str_replace(array('.', '-'), '', $version), 'path' => $file);
+			}
+		}
+
+		asort($classes);
+
+		foreach ($classes as $cls)
+		{
+			require_once $cls['path'];
+			$tmp = new $cls['class'];
+			var_dump($tmp->getTasksList());
+		}
+
+		exit;
 
 		return $tasks;
 	}
@@ -1010,7 +1074,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  mixed
 	 *
-	 * @since   2.0.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function processUpdateCategory()
 	{
@@ -1079,7 +1143,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  mixed
 	 *
-	 * @since   2.0.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function processRebuildCategory($rootId)
 	{
@@ -1093,7 +1157,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  mixed
 	 *
-	 * @since   2.0.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function processDeleteCategoryXrefTable()
 	{
