@@ -49,6 +49,7 @@
     <!-- Medias -->
     <media destination="com_redshop" folder="media/com_redshop">
         <folder>css</folder>
+        <folder>files</folder>
         <folder>fonts</folder>
         <folder>images</folder>
         <folder>js</folder>
