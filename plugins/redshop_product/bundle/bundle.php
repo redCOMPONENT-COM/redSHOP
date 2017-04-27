@@ -15,12 +15,12 @@ JLoader::import('redshop.library');
 /**
  * Generate Bundle product
  *
- * @since  1.0.0
+ * @since 1.0.0
  */
 class PlgRedshop_ProductBundle extends JPlugin
 {
 	/**
-	 *  Bundle Data
+	 * Bundle Data
 	 *
 	 * @var  array
 	 *
@@ -31,10 +31,9 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An optional associative array of configuration settings
+	 *
 	 * @since   1.0.0
 	 */
 	public function __construct(&$subject, $config = array())
@@ -48,9 +47,9 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * onBeforeDisplayProduct - Replace {bundle_template}
 	 *
-	 * @param   string  &$templateContent  Template content
-	 * @param   object  $params            Params
-	 * @param   object  $product           Product detail
+	 * @param   string  $templateContent  Template content
+	 * @param   object  $params           Params
+	 * @param   object  $product          Product detail
 	 *
 	 * @return  void
 	 *
@@ -165,8 +164,8 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * replaceBundleData
 	 *
-	 * @param   string  &$templateContent  Template content
-	 * @param   object  $product           Product detail
+	 * @param   string  $templateContent  Template content
+	 * @param   object  $product          Product detail
 	 *
 	 * @return  void
 	 * @since  1.0.0
@@ -241,9 +240,9 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * replaceAttributeData - Replace Property detail
 	 *
-	 * @param   object  $productDetail   Product detail
-	 * @param   object  $bundleDetail    Bundle detail
-	 * @param   object  $bundleTemplate  Bundle Template
+	 * @param   object  $productDetail    Product detail
+	 * @param   object  $bundleDetail     Bundle detail
+	 * @param   object  $templateContent  Bundle Template
 	 *
 	 * @return  object
 	 *
@@ -354,14 +353,14 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * onAddtoCart - Add some params for cart form.
 	 *
-	 * @param   string  &$cartform  Cart Form
-	 * @param   object  $product    Product detail
+	 * @param   string  $cartForm  Cart Form
+	 * @param   object  $product   Product detail
 	 *
 	 * @return  void
 	 *
 	 * @since  1.0.0
 	 */
-	public function onAddtoCart(&$cartform, $product)
+	public function onAddtoCart(&$cartForm, $product)
 	{
 		$this->bundleData = $this->getBundleData($product->product_id);
 
@@ -375,16 +374,16 @@ class PlgRedshop_ProductBundle extends JPlugin
 			$bundleId = 'bundle_product_' . $product->product_id . '_' . $bundleDetail->bundle_id;
 			$bundleName = 'bundle_product[' . $bundleDetail->bundle_id . ']';
 
-			$cartform .= '<input type="hidden" id="' . $bundleId . '" name="' . $bundleName . '">';
+			$cartForm .= '<input type="hidden" id="' . $bundleId . '" name="' . $bundleName . '">';
 		}
 	}
 
 	/**
 	 * onBeforeSetCartSession - Add bundle_product data to cart
 	 *
-	 * @param   array  &$cart  Cart data
-	 * @param   array  $data   Post data
-	 * @param   int  $idx      Cart Index
+	 * @param   array  $cart  Cart data
+	 * @param   array  $data  Post data
+	 * @param   int    $idx   Cart Index
 	 *
 	 * @return  void
 	 *
@@ -398,9 +397,9 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * onCartItemDisplay - Replace {bundle_product} on cart view
 	 *
-	 * @param   string  &$cartMdata  Cart template
-	 * @param   array  $cart        Cart array
-	 * @param   int  $i           Cart index
+	 * @param   string  $cartMdata  Cart template
+	 * @param   array   $cart       Cart array
+	 * @param   int     $i          Cart index
 	 *
 	 * @return  void
 	 *
@@ -462,9 +461,9 @@ class PlgRedshop_ProductBundle extends JPlugin
 	/**
 	 * onOrderItemDisplay - Replace {bundle_product} on order, mail
 	 *
-	 * @param   string  &$cartMdata  Cart template
-	 * @param   array  $cart        Cart array
-	 * @param   int  $i           Cart index
+	 * @param   string  $cartMdata  Cart template
+	 * @param   array   $rowitem    Cart array
+	 * @param   int     $i          Cart index
 	 *
 	 * @return  void
 	 *
