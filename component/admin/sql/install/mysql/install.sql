@@ -695,6 +695,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_media` (
   `section` VARCHAR(20) NOT NULL,
   `section_id` INT(11) NOT NULL,
   `youtube_id` INT(11) NULL,
+  `scope` VARCHAR(255) NULL,
   `type` VARCHAR(250) NOT NULL,
   `mimetype` VARCHAR(20) NOT NULL,
   `checked_out` INT(11) NULL,

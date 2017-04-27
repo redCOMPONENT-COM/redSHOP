@@ -4,8 +4,9 @@ ALTER TABLE `#__redshop_media` CHANGE `media_alternate_text` `alternate_text` VA
 ALTER TABLE `#__redshop_media` CHANGE `media_section` `section` VARCHAR(20) NOT NULL;
 ALTER TABLE `#__redshop_media` CHANGE `media_type` `type` VARCHAR(255) NOT NULL;
 ALTER TABLE `#__redshop_media` CHANGE `media_mimetype` `mimetype` VARCHAR(20) NOT NULL;
-ALTER TABLE `#__redshop_media` ADD `youtube_id` INT(11) NULL AFTER `section_id`;
 ALTER TABLE `#__redshop_media` ADD `title` VARCHAR(255) NULL AFTER `id`;
+ALTER TABLE `#__redshop_media` ADD `youtube_id` INT(11) NULL AFTER `alternate_text`;
+ALTER TABLE `jos_redshop_media` ADD `scope` VARCHAR(255) NULL AFTER `youtube_id`;
 ALTER TABLE `#__redshop_media` ADD `checked_out` INT(11) NULL AFTER `mimetype`;
 ALTER TABLE `#__redshop_media` ADD `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'  AFTER `mimetype`;
 ALTER TABLE `#__redshop_media` ADD `created_by` INT(11) NULL AFTER `checked_out_time`;

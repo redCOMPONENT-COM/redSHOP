@@ -28,7 +28,7 @@ $tmpl = $app->input->get('tmpl', '');
         <div class="row">
             <div class="btn-toolbar" id="toolbar">
                 <div class="btn-wrapper" id="toolbar-apply">
-                    <button class="btn btn-small btn-success" type="submit" onclick="Joomla.submitbutton('medium.apply');">
+                    <button class="btn btn-small btn-success" type="submit" onclick="Joomla.submitbutton('medium.save');">
                         <span class="icon-apply"></span>
                         <?php echo JText::_('JAPPLY'); ?>
                     </button>
@@ -54,7 +54,6 @@ $tmpl = $app->input->get('tmpl', '');
 								$this->item->name,
 								false
 							) ?>
-							<?php echo $this->form->renderField('name') ?>
                             <div id="divVideoContent" style="display:none;">
                                 <?php echo $this->form->getField('video_content')->input ?>
                             </div>

@@ -33,15 +33,6 @@ class RedshopViewMedium extends RedshopViewForm
     {
         // Get data from the model
         parent::beforeDisplay($tpl);
-
-        $app = JFactory::getApplication();
-
-        $app->setUserState('com_redshop.global.media.section', $this->item->section);
-
-        if ($this->item->type == 'youtube')
-        {
-            $app->setUserState('com_redshop.global.media.youtube.id', $this->item->name);
-        }
     }
 
     /**
@@ -54,5 +45,30 @@ class RedshopViewMedium extends RedshopViewForm
     public function getTitle()
     {
         return JText::_('COM_REDSHOP_MEDIA_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+    }
+
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        JFactory::getApplication()->input->set('hidemainmenu', true);
+
+        $isNew = ($this->item->id < 1);
+
+        JToolBarHelper::save('medium.save');
+
+        if ($isNew)
+        {
+            JToolBarHelper::cancel('medium.cancel');
+        }
+        else
+        {
+            JToolBarHelper::cancel('medium.cancel', JText::_('JTOOLBAR_CLOSE'));
+        }
     }
 }

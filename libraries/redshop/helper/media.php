@@ -212,9 +212,13 @@ class RedshopHelperMedia
 	 *
 	 * @since  2.0.0.3
 	 */
-	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50,
+	public static function getImagePath($imageName, $des, $command = 'upload', $type = 'product', $width = 50,
 		$height = 50, $proportional = -1)
 	{
+	    $app = JFactory::getApplication();
+
+	    $id = $app->input->get('id', 0);
+
 		// Trying to set an optional argument
 		if ($proportional === -1)
 		{
@@ -245,8 +249,8 @@ class RedshopHelperMedia
 			$height = 50;
 		}
 
-		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
-		$physicalPath = self::generateImages($filePath, $dest, $width, $height, $command, $proportional);
+		$filePath     = JPATH_SITE . '/media/com_redshop/files/' . $type . '/' . $id . '/' . $imageName;
+		$physicalPath = self::generateImages($filePath, $des, $width, $height, $command, $proportional);
 
 		// Can not generate image
 		if (!$physicalPath)

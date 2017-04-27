@@ -129,7 +129,7 @@ if ($allowOrder)
 					</td>
 					<td align="center">
 						<?php $media_id = $model->getMediaId($row->manufacturer_id);?>
-                        <?php $modalUrl = 'index.php?tmpl=component&option=com_redshop&task=medium.edit&id=' . $media_id; ?>
+                        <?php $modalUrl = 'index.php?tmpl=component&option=com_redshop&view=media&section=manufacturer&section_id=' . $row->manufacturer_id; ?>
                         <?php $return = urlencode(base64_encode($modalUrl)); ?>
 						<a class="joom-box"
 						   href="<?php echo $modalUrl ?>&return=<?php echo $return ?>"

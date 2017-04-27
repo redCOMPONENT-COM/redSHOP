@@ -79,13 +79,12 @@ class RedshopModelMedium extends RedshopModelForm
 	 */
 	public function save($data)
 	{
-	    $app = JFactory::getApplication();
-        $fileName = $app->getUserState('com_redshop.media.tmp.file.name', '');
+        $fileName = trim(basename($data['name']));
 
         /* In case Upload File*/
-        if (trim($fileName) !== '')
+        if ($fileName !== '')
         {
-            $data['name'] = $fileName;
+            $data['name'] = RedshopHelperMedia::cleanFileName($fileName);
         }
 
 	    /* Case type Youtube */
@@ -119,12 +118,10 @@ class RedshopModelMedium extends RedshopModelForm
         {
             try
             {
-                $src = JPATH_ROOT . '/media/com_redshop/files/tmp/' . $data['name'];
-                var_dump($src);
+                $src = JPATH_ROOT . '/media/com_redshop/files/tmp/' . $fileName;
 
                 if (JFile::exists($src))
                 {
-                    echo 'adsfafd';
                     $des = JPATH_ROOT . '/media/com_redshop/files/' . $data['section'] . '/' . $table->id . '/';
 
                     if (!JFolder::exists($des))
@@ -138,10 +135,9 @@ class RedshopModelMedium extends RedshopModelForm
             }
             catch (Exception $e)
             {
-
             }
         }
 
-        return $table->id;
+        return $table;
 	}
 }

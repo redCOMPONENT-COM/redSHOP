@@ -97,6 +97,7 @@ class RedshopModelMedia extends RedshopModelList
 	 */
 	protected function getListQuery()
 	{
+	    $app = JFactory::getApplication();
 		// Initialize variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -119,9 +120,19 @@ class RedshopModelMedia extends RedshopModelList
 			}
 		}
 
+		/* Search for modal list */
+		$sectionId = $app->input->get('section_id', null);
+
+		if (isset($sectionId))
+        {
+            $sectionId = (int) $sectionId;
+
+            $query->where($db->qn('section_id') . ' = ' . $db->q($sectionId));
+        }
+
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering', 'id');
-		$orderDirn = $this->state->get('list.direction', 'asc');
+		$orderDirn = $this->state->get('list.direction', 'desc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 

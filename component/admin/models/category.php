@@ -162,6 +162,9 @@ class RedshopModelCategory extends RedshopModelForm
 	 */
 	public function save($data)
 	{
+	    echo '<pre>';
+	    print_r($data);
+	    die;
 		$db  = $this->getDbo();
 		$row = $this->getTable();
 		$pk  = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');

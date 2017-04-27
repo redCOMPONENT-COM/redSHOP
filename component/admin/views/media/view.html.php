@@ -19,6 +19,24 @@ defined('_JEXEC') or die;
 
 class RedshopViewMedia extends RedshopViewList
 {
+    /**
+     * Method for run before display to initial variables.
+     *
+     * @param   string &$tpl Template name
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function beforeDisplay(&$tpl)
+    {
+        $app = JFactory::getApplication();
+
+        $this->tmpl = $app->input->get('tmpl', '');
+
+        parent::beforeDisplay($tpl);
+    }
+
 	/**
 	 * Add the page title and toolbar.
 	 *

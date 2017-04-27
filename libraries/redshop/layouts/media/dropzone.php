@@ -57,7 +57,7 @@ JText::script('COM_REDSHOP_MEDIA_ERROR_FILE_UPLOAD_INVALID');
 			</div>
 		<?php endif; ?>
 	</div>
-	<input type="hidden" name="jform_<?php echo $id ?>" class="redshop-media-img-select" />
+	<input type="hidden" id="jform_<?php echo $id ?>" name="jform[<?php echo $id ?>]" class="redshop-media-img-select" />
 	<!-- End Dropzone Container -->
 
 	<!-- Dropzone Template -->

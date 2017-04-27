@@ -45,6 +45,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php echo JHtml::_('redshopgrid.checkall'); ?>
 			</th>
 			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_NAME', 'name', $listDirn, $listOrder); ?>
+            <th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_TITLE', 'title', $listDirn, $listOrder); ?>
 			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_ALTERNATE_TEXT', 'alternate_text', $listDirn, $listOrder); ?>
 			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_SECTION', 'section', $listDirn, $listOrder); ?>
 			<th><?php echo JHtml::_('grid.sort', 'COM_REDSHOP_MEDIA_TYPE', 'type', $listDirn, $listOrder); ?>
@@ -58,16 +59,36 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		for ($i = 0, $n = count($this->items); $i < $n; $i++)
 		{
 			$row  = $this->items[$i];
-			$link = JRoute::_('index.php?option=com_redshop&task=medium.edit&id=' . $row->id);
-
+			$url = 'index.php?option=com_redshop&tmpl=' . $this->tmpl . '&task=medium.edit&id=' . $row->id;
+			$link = JRoute::_($url . '&return=' . base64_encode($url));
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td><?php echo $this->pagination->getRowOffset($i); ?></td>
 				<td><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
-				<td><a href="<?php echo $link; ?>"
-					   title="<?php echo JText::_('COM_REDSHOP_EDIT_MEDIA'); ?>"><?php echo $row->name ?></a>
+                <td>
+                    <?php switch ($row->type): case 'images': ?>
+                            <a href="<?php echo $link; ?>"
+                               title="<?php echo JText::_('COM_REDSHOP_EDIT_MEDIA'); ?>">
+                                <img src="<?php echo JUri::root() . 'media/com_redshop/files/' . $row->section . '/' . $row->id . '/' . $row->name ?>"
+                                     alt="<?php echo $row->alternate_text ?>" style="width:100px;"/>
+                            </a>
+                            <?php break; ?>
+                        <?php case 'youtube': ?>
+                            <a href="<?php echo $link; ?>"
+                               title="<?php echo JText::_('COM_REDSHOP_EDIT_MEDIA'); ?>">
+                                <img src="<?php echo JUri::root() . 'media/com_redshop/images/youtube.jpg'; ?>"
+                                     alt="<?php echo $row->alternate_text ?>" style="width:50px;"/>
+                            </a>
+                            <?php break; ?>
+                        <?php default: ?>
+                            <a href="<?php echo $link; ?>">
+                                <?php echo $row->name ?>
+                            </a>
+                            <?php break;?>
+                    <?php endswitch; ?>
 				</td>
-				<td align="center" width="10%"><?php echo $row->alternate_text ?></td>
+                <td align="center"><?php echo $row->title ?></td>
+				<td align="center" width="5%"><?php echo $row->alternate_text ?></td>
 				<td align="center" width="10%"><?php echo $row->section ?></td>
 				<td align="center" width="10%"><?php echo $row->type ?></td>
 				<td align="right"><?php echo $row->id ?></td>
@@ -84,9 +105,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</tfoot>
 	</table>
 	<?php endif; ?>
-	<?php echo JHtml::_('form.token'); ?>
-	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="boxchecked" value="0"/>
+    <?php echo JHtml::_('form.token'); ?>
+    <input type="hidden" name="view" value="media"/>
+    <input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
+    <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn ?>" />
+    <input type="hidden" name="task" value=""/>
+    <input type="hidden" name="boxchecked" value="0"/>
 </form>
 
 
