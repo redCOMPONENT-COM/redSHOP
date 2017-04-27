@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -112,7 +112,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo $row->state_name ?>
 					</td>
 					<td>
-						<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=tax_group_detail&task=edit&cid[]=' . $row->tax_group_id) ?>">
+						<a href="<?php echo JRoute::_('index.php?option=com_redshop&task=tax_group.edit&id=' . $row->tax_group_id) ?>">
 							<?php echo $row->tax_group_name ?>
 						</a>
 					</td>

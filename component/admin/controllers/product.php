@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -196,34 +196,31 @@ class RedshopControllerProduct extends RedshopController
 
 	public function saveprice()
 	{
-		$db = JFactory::getDbo();
-		$pid = $this->input->post->get('pid', array(), 'array');
-		$price = $this->input->post->get('price', array(), 'array');
+		JSession::checkToken() or die();
 
-		for ($i = 0, $in = count($pid); $i < $in; $i++)
-		{
-			$sql = "UPDATE #__redshop_product  SET product_price='" . $price[$i] . "' WHERE product_id='" . $pid[$i] . "'  ";
+		$productIds     = $this->input->post->get('pid', array(), 'array');
+		$discountPrices = $this->input->post->get('price', array(), 'array');
 
-			$db->setQuery($sql);
-			$db->execute();
-		}
+		$model = $this->getModel('Product');
+		$model->savePrices($productIds, $discountPrices);
 
 		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing');
 	}
 
+	/**
+	 * Save all discount price
+	 *
+	 * @return void
+	 */
 	public function savediscountprice()
 	{
-		$db = JFactory::getDbo();
-		$pid = $this->input->post->get('pid', array(), 'array');
-		$discount_price = $this->input->post->get('discount_price', array(), 'array');
+		JSession::checkToken() or die();
 
-		for ($i = 0, $in = count($pid); $i < $in; $i++)
-		{
-			$sql = "UPDATE #__redshop_product  SET discount_price='" . $discount_price[$i] . "' WHERE product_id='" . $pid[$i] . "'  ";
+		$productIds     = $this->input->post->get('pid', array(), 'array');
+		$discountPrices = $this->input->post->get('discount_price', array(), 'array');
 
-			$db->setQuery($sql);
-			$db->execute();
-		}
+		$model = $this->getModel('Product');
+		$model->saveDiscountPrices($productIds, $discountPrices);
 
 		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing');
 	}

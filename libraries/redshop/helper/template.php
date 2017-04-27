@@ -3,7 +3,7 @@
  * @package     RedSHOP.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -115,6 +115,8 @@ class RedshopHelperTemplate
 	 */
 	public static function getTemplate($section = '', $templateId = 0, $name = "")
 	{
+		JFactory::getLanguage()->load('com_redshop', JPATH_SITE);
+
 		$key = $section . '_' . $templateId . '_' . $name;
 
 		if (!array_key_exists($key, self::$templatesArray))

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -74,7 +74,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JHTML::_('grid.published', $row, $i) ?>
 					</td>
 					<td>
-						<?php if ($row->checked_out && $user->id != $row->checked_out): ?>
+						<?php if ($row->checked_out): ?>
 							<?php
 							$author = JFactory::getUser($row->checked_out);
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $row->checked_out == $user->id || $row->checked_out == 0;

@@ -67,7 +67,7 @@ class ManageUserAdministratorCest
 		$I->wantTo('Deletion of User in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->updateFirstName);
+		$I->deleteUser($this->updateFirstName, false);
 		$I->searchUser($this->updateFirstName, 'Delete');
 	}
 }

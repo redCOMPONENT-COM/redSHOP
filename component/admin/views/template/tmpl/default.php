@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 $redtemplate = Redtemplate::getInstance();
@@ -91,24 +91,25 @@ $redtemplate = Redtemplate::getInstance();
 						<?php echo $this->pagination->getRowOffset($i); ?>
 					</td>
 					<td align="center">
-						<?php if ($row->checked_out) : ?>
-							<?php echo JHtml::_('jgrid.checkedout', $i, $row->editor, $row->checked_out_time); ?>
-						<?php else : ?>
-							<?php echo JHtml::_('grid.id', $i, $row->template_id); ?>
-						<?php endif; ?>
+						<?php echo JHtml::_('grid.id', $i, $row->template_id); ?>
 					</td>
 					<td>
-						<?php if (!$canCheckin) : ?>
-							<?php echo $row->template_name; ?>
+						<?php if ($row->checked_out) : ?>
+							<?php echo JHtml::_('jgrid.checkedout', $i, $row->editor, $row->checked_out_time); ?>
+							<?php if (!$canCheckin) : ?>
+								<?php echo $row->template_name; ?>
+							<?php else : ?>
+                                <a href="<?php echo $link; ?>"
+                                   title="<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATES'); ?>"><?php echo $row->template_name; ?></a>
+							<?php endif; ?>
 						<?php else : ?>
-							<a href="<?php echo $link; ?>"
-							   title="<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATES'); ?>"><?php echo $row->template_name; ?></a>
+                            <a href="<?php echo $link; ?>"
+                               title="<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATES'); ?>"><?php echo $row->template_name; ?></a>
 						<?php endif; ?>
 					</td>
 					<td>
 						<?php echo $redtemplate->getTemplateSections($row->template_section); ?>
 					</td>
-
 					<td align="center">
 						<?php echo $published;?>
 					</td>
