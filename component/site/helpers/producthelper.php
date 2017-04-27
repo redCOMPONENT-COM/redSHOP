@@ -5176,10 +5176,11 @@ class productHelper
 		}
 
 		$cartform = str_replace($cartTag, '<span id="stockaddtocart' . $stockId . '"></span>' . $cartIcon, $cartform);
-		$cartform .= "</form>";
 
 		// Trigger event on Add to Cart
 		$dispatcher->trigger('onAddtoCart', array(&$cartform, $product));
+
+		$cartform .= "</form>";
 
 		$property_data = str_replace("{form_addtocart:$cart_template->template_name}", $cartform, $property_data);
 
