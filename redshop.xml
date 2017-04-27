@@ -34,6 +34,7 @@
         <folder>layouts</folder>
         <folder>models</folder>
         <folder>templates</folder>
+        <folder>updates</folder>
         <folder>views</folder>
         <filename>controller.php</filename>
         <filename>index.html</filename>
