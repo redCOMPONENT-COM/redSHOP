@@ -388,12 +388,62 @@ class RedshopControllerInstall extends RedshopControllerAdmin
      *
      * @since   2.0.5
      */
-    public function migrateMedia()
+    public function migrateMediaCategory()
     {
         $app = JFactory::getApplication();
         $model = $this->getModel();
 
-        if (!$model->processMigrateMedia())
+        if (!$model->processMigrateMediaCategory())
+        {
+            $app->setHeader('status', 500);
+            $app->sendHeaders();
+            echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
+            $app->close();
+        }
+
+        $app->sendHeaders();
+        echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+        $app->close();
+    }
+
+    /**
+     * Method to migrate old media to new
+     *
+     * @return  void
+     *
+     * @since   2.0.5
+     */
+    public function migrateMediaManufacturer()
+    {
+        $app = JFactory::getApplication();
+        $model = $this->getModel();
+
+        if (!$model->processMigrateMediaManufacturer())
+        {
+            $app->setHeader('status', 500);
+            $app->sendHeaders();
+            echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
+            $app->close();
+        }
+
+        $app->sendHeaders();
+        echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+        $app->close();
+    }
+
+    /**
+     * Method to migrate old media to new
+     *
+     * @return  void
+     *
+     * @since   2.0.5
+     */
+    public function migrateMediaProduct()
+    {
+        $app = JFactory::getApplication();
+        $model = $this->getModel();
+
+        if (!$model->processMigrateMediaProduct())
         {
             $app->setHeader('status', 500);
             $app->sendHeaders();

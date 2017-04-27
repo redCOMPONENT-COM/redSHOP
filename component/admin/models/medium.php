@@ -109,6 +109,11 @@ class RedshopModelMedium extends RedshopModelForm
 	    $table->type = $data['type'];
 	    $table->published = $data['published'];
 
+        if (isset($data['scope']))
+        {
+            $table->scope = trim($data['scope']);
+        }
+
 	    if (!$table->store($data))
         {
             return false;

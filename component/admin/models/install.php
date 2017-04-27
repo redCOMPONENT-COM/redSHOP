@@ -85,8 +85,16 @@ class RedshopModelInstall extends RedshopModelList
 				'func' => 'updateCategory'
 			);
             $tasks[] = array(
-                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_MIGRATE_MEDIA'),
-                'func' => 'migrateMedia'
+                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_MIGRATE_MEDIA_CATEGORY'),
+                'func' => 'migrateMediaCategory'
+            );
+            $tasks[] = array(
+                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_MIGRATE_MEDIA_MANUFACTURER'),
+                'func' => 'migrateMediaManufacturer'
+            );
+            $tasks[] = array(
+                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_MIGRATE_MEDIA_PRODUCT'),
+                'func' => 'migrateMediaProduct'
             );
 		}
 
@@ -1220,8 +1228,135 @@ class RedshopModelInstall extends RedshopModelList
      *
      * @since   2.0.5
      */
-    public function processMigrateMedia()
+    public function processMigrateMediaCategory()
     {
+        return true;
+    }
+
+    /**
+     * Method to update new structure for Manufacturer
+     *
+     * @return  mixed
+     *
+     * @since   2.0.5
+     */
+    public function processMigrateMediaManufacturer()
+    {
+        return true;
+    }
+
+    /**
+     * Method to update new structure for Product
+     *
+     * @return  mixed
+     *
+     * @since   2.0.5
+     */
+    public function processMigrateMediaProduct()
+    {
+        $db = JFactory::getDbo();
+
+        $query = $db->getQuery(true);
+
+        $query->select('*')
+            ->from($db->qn('#__redshop_product'));
+
+        $products = $db->setQuery($query)->loadObjectList();
+
+        if (count($products))
+        {
+            $oldPath = JPATH_ROOT . 'component/com_redshop/assets/images/product/';
+            $newPath = JPATH_ROOT . 'media/com_redshop/files/product/';
+
+            try
+            {
+                foreach ($products as $p)
+                {
+                    /* Product Thumb Image*/
+                    if (isset($p->product_thumb_image))
+                    {
+                        $src = $oldPath . $p->product_thumb_image;
+                        $des = $newPath . $p->product_id . '/' . $p->product_thumb_image;
+
+                        $this->migrateMediaMoveFile($src, $des);
+                    }
+
+                    /* product_full_image */
+                    if (isset($p->product_full_image))
+                    {
+                        $src = $oldPath . $p->product_full_image;
+                        $des = $newPath . $p->product_id . '/' . $p->product_full_image;
+
+                        $this->migrateMediaMoveFile($src, $des);
+                    }
+
+                    /* product_back_full_image */
+                    if (isset($p->product_back_full_image))
+                    {
+                        $src = $oldPath . $p->product_back_full_image;
+                        $des = $newPath . $p->product_id . '/' . $p->product_back_full_image;
+
+                        $this->migrateMediaMoveFile($src, $des);
+                    }
+
+                    /* product_back_thumb_image */
+                    if (isset($p->product_back_thumb_image))
+                    {
+                        $src = $oldPath . $p->product_back_thumb_image;
+                        $des = $newPath . $p->product_id . '/' . $p->product_back_thumb_image;
+
+                        $this->migrateMediaMoveFile($src, $des);
+                    }
+
+                    /* product_preview_image */
+                    if (isset($p->product_preview_image))
+                    {
+                        $src = $oldPath . $p->product_preview_image;
+                        $des = $newPath . $p->product_id . '/' . $p->product_preview_image;
+
+                        $this->migrateMediaMoveFile($src, $des);
+                    }
+
+                    /* product_preview_back_image */
+                    if (isset($p->product_preview_back_image))
+                    {
+                        $src = $oldPath . $p->product_preview_back_image;
+                        $des = $newPath . $p->product_id . '/' . $p->product_preview_back_image;
+
+                        $this->migrateMediaMoveFile($src, $des);
+                    }
+                }
+            }
+            catch (Exception $e)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * migrateMediaMoveFile function
+     *
+     * @param   string  $src
+     * @param   string  $des
+     * @param   int     $createMedia
+     *
+     * @return  bool
+     */
+    public function migrateMediaMoveFile($src, $des, $createMedia = 0)
+    {
+        if (JFile::exists($src))
+        {
+            JFile::move($src, $des);
+        }
+
+        if ($createMedia == 1)
+        {
+            //@TODO: create media
+        }
+
         return true;
     }
 }
