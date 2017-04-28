@@ -1217,6 +1217,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 			{
 				$this->setError($this->_db->getErrorMsg());
 			}
+
+			JPluginHelper::importPlugin('redshop_product');
+			JDispatcher::getInstance()->trigger('onAfterProductDelete', array($cid));
 		}
 
 		return true;

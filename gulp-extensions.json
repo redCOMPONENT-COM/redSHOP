@@ -145,7 +145,8 @@
       "shoppergroup_tags",
       "stock_notifyemail",
       "stockroom_status",
-      "discount_affect_attribute"
+      "discount_affect_attribute",
+      "sync_b2b"
     ],
     "redshop_shipping": [
       "bring",
