@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" client="site" type="plugin" group="aesir_field" method="upgrade">
+    <name>PLG_AESIR_FIELD_REDSHOP_PRODUCT</name>
+    <version>1.0.0</version>
+    <creationDate>April 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <copyright>Copyright (C) 2012 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>PLG_AESIR_FIELD_REDSHOP_PRODUCT_DESC</description>
+    <files>
+        <folder>form</folder>
+        <folder>language</folder>
+        <folder>layouts</folder>
+        <filename plugin="redshop_product">redshop_product.php</filename>
+        <filename>redshop_product.xml</filename>
+    </files>
+</extension>
