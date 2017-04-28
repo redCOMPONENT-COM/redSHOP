@@ -272,7 +272,7 @@ JPluginHelper::importPlugin('redshop_product');
 			$link    = RedshopHelperUtility::getSSLLink($link);
 
 			/**
-			 * This is an event that is using into back-end order listing page. In to grid column, below check-box.
+			 * This is an event that is using into back-end order listing page. In to grid column, below update status.
 			 * This event is called to add highlighter from which order can be identified that plug-in enhancement is included into this order.
 			 */
 			$data                             = new stdClass;
@@ -283,7 +283,6 @@ JPluginHelper::importPlugin('redshop_product');
             <tr class="row<?php echo $k; ?>">
                 <td class="order">
 					<?php echo $this->pagination->getRowOffset($i); ?>
-					<?php echo $data->highlight->toHighlightGrid; ?>
                 </td>
                 <td class="order">
 					<?php echo JHtml::_('grid.id', $i, $row->id); ?>
@@ -405,6 +404,8 @@ JPluginHelper::importPlugin('redshop_product');
                             </div>
                         </div>
                     </div>
+
+                    <?php echo $data->highlight->toHighlightGrid; ?>
                 </td>
 				<?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1) : ?>
 					<?php
@@ -545,6 +546,7 @@ JPluginHelper::importPlugin('redshop_product');
 				}
 				?>
             </tr>
+
 			<?php $k = 1 - $k; ?>
 		<?php endfor; ?>
         </tbody>
