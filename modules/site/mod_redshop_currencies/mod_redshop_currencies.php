@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::import('helper', __DIR__);
+JLoader::register('ModRedshopCurrenciesHelper', __DIR__ . '/helper.php');
 
 $session = JFactory::getSession();
 $textBefore = $params->get('text_before', '');
