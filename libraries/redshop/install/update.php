@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Redshop\Update\AbstractUpdate;
 
 /**
- * Install database
+ * Update class
  *
  * @since  __DEPLOY_VERSION__
  */

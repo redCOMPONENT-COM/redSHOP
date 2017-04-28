@@ -88,4 +88,87 @@ abstract class AbstractUpdate
 
 		return $tasks;
 	}
+
+	/**
+	 * Delete folders recursively.
+	 *
+	 * @param   array $folders Folders
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function deleteFolders(array $folders)
+	{
+		foreach ($folders as $folder)
+		{
+			if (!$this->deleteFolder($folder))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Delete files recursively.
+	 *
+	 * @param   array  $files  Files
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function deleteFiles(array $files)
+	{
+		foreach ($files as $file)
+		{
+			if (file_exists($file))
+			{
+				unlink($file);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Delete folder recursively
+	 *
+	 * @param   string $folder Folder to delete
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function deleteFolder($folder)
+	{
+		if (!is_dir($folder))
+		{
+			return true;
+		}
+
+		$files = glob($folder . '/*');
+
+		foreach ($files as $file)
+		{
+			if (is_dir($file))
+			{
+				if (!$this->deleteFolder($file))
+				{
+					return false;
+				}
+
+				continue;
+			}
+
+			if (!unlink($file))
+			{
+				return false;
+			}
+		}
+
+		return rmdir($folder);
+	}
 }
