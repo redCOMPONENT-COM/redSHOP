@@ -362,19 +362,34 @@ class PlgRedshop_ProductBundle extends JPlugin
 	 */
 	public function onAddtoCart(&$cartForm, $product)
 	{
-		$this->bundleData = $this->getBundleData($product->product_id);
-
-		if ($product->product_type != 'bundle' || count($this->bundleData) <= 0)
+		if ($product->product_type != 'bundle')
 		{
 			return;
 		}
 
-		foreach ($this->bundleData as $bundleDetail)
-		{
-			$bundleId = 'bundle_product_' . $product->product_id . '_' . $bundleDetail->bundle_id;
-			$bundleName = 'bundle_product[' . $bundleDetail->bundle_id . ']';
+		$this->bundleData = $this->getBundleData($product->product_id);
 
-			$cartForm .= '<input type="hidden" id="' . $bundleId . '" name="' . $bundleName . '">';
+		if (count($this->bundleData) <= 0)
+		{
+			return;
+		}
+
+		$app = JFactory::getApplication();
+		$jinput = $app->input;
+
+		if ($jinput->get('view') != 'product')
+		{
+			$cartForm = "<form>";
+		}
+		else
+		{
+			foreach ($this->bundleData as $bundleDetail)
+			{
+				$bundleId = 'bundle_product_' . $product->product_id . '_' . $bundleDetail->bundle_id;
+				$bundleName = 'bundle_product[' . $bundleDetail->bundle_id . ']';
+
+				$cartForm .= '<input type="hidden" id="' . $bundleId . '" name="' . $bundleName . '">';
+			}
 		}
 	}
 
