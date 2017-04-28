@@ -139,7 +139,6 @@ class RedshopModelManufacturer_detail extends RedshopModel
 			return false;
 		}
 
-		JPluginHelper::importPlugin('redshop_product');
 		JDispatcher::getInstance()->trigger('onAfterManufacturerSave', array(&$row, $isNew));
 
 		return $row;
