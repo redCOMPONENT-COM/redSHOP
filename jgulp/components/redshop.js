@@ -166,7 +166,7 @@ gulp.task('copy:' + baseTask + ':frontend', ['clean:' + baseTask + ':frontend'],
 });
 
 /// Copy: backend
-gulp.task('copy:' + baseTask + ':backend', function (cb) {
+gulp.task('copy:' + baseTask + ':backend',['clean:' + baseTask + ':backend'], function (cb) {
     return (
         gulp.src([
             extPath + '/component/admin/**',
