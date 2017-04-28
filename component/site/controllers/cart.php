@@ -130,6 +130,8 @@ class RedshopControllerCart extends RedshopController
 
 						$result = $this->_carthelper->addProductToCart($cartData);
 
+						$this->_carthelper->cartFinalCalculation();
+
 						$cart = $session->get('cart');
 
 						if (is_bool($result) && $result)
@@ -168,7 +170,7 @@ class RedshopControllerCart extends RedshopController
 
 								$app->redirect(
 									JRoute::_(
-										'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $prdItemid,
+										'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid=' . $post['category_id'] . '&Itemid=' . $prdItemid,
 										false
 									)
 								);
