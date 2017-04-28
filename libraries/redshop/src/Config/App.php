@@ -723,6 +723,8 @@ class App
 			"IMPORT_FILE_EXTENSION"                        => $data['import_file_extension'],
 			"INLINE_EDITING"                               => $data['inline_editing'],
 			"IMPORT_MAX_LINE"                              => $data['import_max_line'],
+			"CURRENCY_LIBRARIES"                           => $data['currency_libraries'],
+			"CURRENCY_LAYER_ACCESS_KEY"                    => $data['currency_layer_access_key'],
 		);
 
 		$configs["CART_TIMEOUT"]               = $data["cart_timeout"] <= 0 ? 20 : $data["cart_timeout"];

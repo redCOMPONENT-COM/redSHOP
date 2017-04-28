@@ -10,21 +10,22 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
+use Redshop\Currency\Currency;
+use Redshop\Currency\CurrencyLayer;
 
 /**
- * Renders a Productfinder Form
+ * Renders a Currency Form
  *
  * @package       Joomla
  * @subpackage    Banners
  * @since         1.5
  */
-class JFormFieldcurrency extends JFormField
+class JFormFieldCurrency extends JFormField
 {
 	/**
-	 * The form field type.
+	 * Element name
 	 *
-	 * @var    string
-	 * @since  1.6
+	 * @var  string
 	 */
 	public $type = 'currency';
 
@@ -32,16 +33,25 @@ class JFormFieldcurrency extends JFormField
 	 * Method to get the field input markup.
 	 *
 	 * @return  string  The field input markup.
+	 *
+	 * @since   11.1
 	 */
 	protected function getInput()
 	{
-		// This might get a conflict with the dynamic translation - TODO: search for better solution
-		CurrencyHelper::getInstance()->init();
 		$currency = array();
 
-		if (count($GLOBALS['converter_array']) > 0)
+		if (Redshop::getConfig()->get('CURRENCY_LIBRARIES') == 1)
 		{
-			foreach ($GLOBALS['converter_array'] as $key => $val)
+			$convertedCurrencies = CurrencyLayer::getInstance()->getConvertedCurrencies();
+		}
+		else
+		{
+			$convertedCurrencies = Currency::getInstance()->getConvertedCurrencies();
+		}
+
+		if (!empty($convertedCurrencies))
+		{
+			foreach ($convertedCurrencies as $key => $val)
 			{
 				$currency[] = $key;
 			}
@@ -50,52 +60,55 @@ class JFormFieldcurrency extends JFormField
 		}
 
 		$shopCurrency = $this->getCurrency($currency);
-		$ctrl = $this->name;
+		$ctrl         = $this->name;
 
 		// Construct the various argument calls that are supported.
-		$attribs = ' ';
+		$attributes = ' ';
 
 		if ($v = $this->element['size'])
 		{
-			$attribs .= 'size="' . $v . '"';
+			$attributes .= 'size="' . $v . '"';
 		}
 
 		if ($v = $this->element['class'])
 		{
-			$attribs .= 'class="' . $v . '"';
+			$attributes .= 'class="' . $v . '"';
 		}
 		else
 		{
-			$attribs .= 'class="inputbox"';
+			$attributes .= 'class="form-control inputbox"';
 		}
 
 		if ($this->element['multiple'])
 		{
-			$attribs .= ' multiple="multiple"';
+			$attributes .= ' multiple="multiple"';
 		}
 
-		return JHTML::_('select.genericlist', $shopCurrency, $ctrl, $attribs, 'value', 'text', $this->value, $this->id);
+		return JHtml::_('select.genericlist', $shopCurrency, $ctrl, $attributes, 'value', 'text', $this->value, $this->id);
 	}
 
-	/*
-	* get Shop Currency Support
-	*
-	* @params: string $currency comma separated countries
-	* @return: array stdClass Array for Shop country
-	*
-	* currency_code as value
-	* currency_name as text
-	*/
-	function getCurrency($currency = "")
+	/**
+	 * Get Shop Currency Support
+	 *
+	 * @param   string $currency Comma separated countries
+	 *
+	 * @return  array              Array for Shop country
+	 *
+	 */
+	protected function getCurrency($currency = "")
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('currency_code', 'value'))
 			->select($db->qn('currency_name', 'text'))
 			->from($db->qn('#__redshop_currency'))
-			->where($db->qn('currency_code') . ' IN (' . $currency . ')')
-			->order($db->qn('currency_name'));
+			->order($db->qn('currency_name') . ' ASC');
 
-		return $db->setQuery($query)->loadObjectlist();
+		if (!empty($currency))
+		{
+			$query->where($db->qn('currency_code') . ' IN (' . $currency . ')');
+		}
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }
