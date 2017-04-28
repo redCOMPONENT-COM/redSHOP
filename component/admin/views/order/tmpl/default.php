@@ -96,9 +96,8 @@ JPluginHelper::importPlugin('redshop_product');
     }
 </script>
 <script type="text/javascript">
-    function massStatusChange(option)
-    {
-        (function($){
+    function massStatusChange(option) {
+        (function ($) {
             var form = document.adminForm;
             var massStatus = $("#massOrderStatusChange select[name=mass_change_order_status]").val();
             var massPayment = $("#massOrderStatusChange select[name=mass_change_payment_status]").val();
@@ -113,20 +112,19 @@ JPluginHelper::importPlugin('redshop_product');
                 form.mass_mail_sending.value = 0;
             }
 
-            try
-            {
+            try {
                 form.onsubmit();
             }
-            catch (e)
-            {}
+            catch (e) {
+            }
 
             form.submit();
         })(jQuery);
     }
 </script>
 <script type="text/javascript">
-    (function($){
-        $(document).ready(function(){
+    (function ($) {
+        $(document).ready(function () {
             $("#massOrderStatusChange").on('show.bs.modal', function (event) {
                 var checks = [];
                 var checked = $("input[type='checkbox'][id^='cb'][name^='cid']:checked");
@@ -161,12 +159,13 @@ JPluginHelper::importPlugin('redshop_product');
             <div class="filterItem">
 				<?php echo $lists['filter_by']; ?>
             </div>
+			<?php
+			$state     = $this->get('State');
+			$startDate = $state->get('filter_from_date');
+			$endDate   = $state->get('filter_to_date');
+			?>
             <div class="filterItem calendar-div">
 				<?php
-				$state     = $this->get('State');
-				$startDate = $state->get('filter_from_date');
-				$endDate   = $state->get('filter_to_date');
-
 				echo JHtml::_(
 					'calendar',
 					$startDate,
@@ -179,7 +178,10 @@ JPluginHelper::importPlugin('redshop_product');
 						'placeholder' => JText::_('COM_REDSHOP_FROM') . ' ' . JText::_('JDATE')
 					)
 				);
-
+				?>
+            </div>
+            <div class="filterItem calendar-div">
+				<?php
 				echo JHtml::_(
 					'calendar',
 					$endDate,
@@ -193,8 +195,8 @@ JPluginHelper::importPlugin('redshop_product');
 					)
 				);
 				?>
-                <input name="search" class="btn" type="submit" id="search" value="<?php echo JText::_('COM_REDSHOP_GO'); ?>"/>
             </div>
+            <input name="search" class="btn" type="submit" id="search" value="<?php echo JText::_('COM_REDSHOP_GO'); ?>"/>
             <div class="filterItem">
 				<?php echo $lists['filter_payment_status']; ?>
             </div>
@@ -227,7 +229,7 @@ JPluginHelper::importPlugin('redshop_product');
 				<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CUSTOMER_TYPE', 'is_company', $this->lists['order_Dir'], $this->lists['order']); ?>
             </th>
             <th width="20%">
-		        <?php echo JText::_('COM_REDSHOP_ORDERS_CUSTOMER_NOTE') ?>
+				<?php echo JText::_('COM_REDSHOP_ORDERS_CUSTOMER_NOTE') ?>
             </th>
             <th width="5%">
 				<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_STATUS', 'order_status', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -310,7 +312,7 @@ JPluginHelper::importPlugin('redshop_product');
 					<?php endif; ?>
                 </td>
                 <td>
-                    <?php echo JHtml::_('redshopgrid.slidetext', $row->customer_note) ?>
+					<?php echo JHtml::_('redshopgrid.slidetext', $row->customer_note) ?>
                 </td>
                 <td>
                     <span class="label order_status_<?php echo strtolower($row->order_status) ?>"><?php echo $row->order_status_name ?></span>
@@ -563,9 +565,9 @@ JPluginHelper::importPlugin('redshop_product');
     <input type="hidden" name="boxchecked" value="0"/>
     <input type="hidden" name="filter_order" value="order_id"/>
     <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
-    <input type="hidden" name="mass_change_order_status" value="" />
-    <input type="hidden" name="mass_change_payment_status" value="" />
-    <input type="hidden" name="mass_mail_sending" value="" />
+    <input type="hidden" name="mass_change_order_status" value=""/>
+    <input type="hidden" name="mass_change_payment_status" value=""/>
+    <input type="hidden" name="mass_mail_sending" value=""/>
 </form>
 <form name='invoice' method="post">
     <input name="view" value="order" type="hidden">
@@ -595,7 +597,8 @@ JPluginHelper::importPlugin('redshop_product');
                     <div class="form-group">
                         <div class="row">
                             <label class="control-label col-md-12">
-                                <?php echo JText::_('COM_REDSHOP_ORDER') ?>: <div style="display: inline;" id="checked_orders"></div>
+								<?php echo JText::_('COM_REDSHOP_ORDER') ?>:
+                                <div style="display: inline;" id="checked_orders"></div>
                             </label>
                         </div>
                     </div>
@@ -603,33 +606,33 @@ JPluginHelper::importPlugin('redshop_product');
                         <div class="row">
                             <div class="col-md-6">
                                 <label class="control-label"><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?></label>
-		                        <?php
-		                        echo JHtml::_(
-			                        'select.genericlist',
-			                        RedshopHelperOrder::getOrderStatusList(), 'mass_change_order_status',
-			                        ' class="form-control" size="1" ',
-			                        'value',
-			                        'text',
-			                        'C'
-		                        );
-		                        ?>
+								<?php
+								echo JHtml::_(
+									'select.genericlist',
+									RedshopHelperOrder::getOrderStatusList(), 'mass_change_order_status',
+									' class="form-control" size="1" ',
+									'value',
+									'text',
+									'C'
+								);
+								?>
                             </div>
                             <div class="col-md-6">
                                 <label class="control-label"><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?></label>
-		                        <?php
-		                        $massChangePaymentStatus[] = JHtml::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
-		                        $massChangePaymentStatus[] = JHtml::_('select.option', 'Unpaid', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
-		                        $massChangePaymentStatus[] = JHtml::_('select.option', 'Partial Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
-		                        echo JHtml::_(
-			                        'select.genericlist',
-			                        $massChangePaymentStatus,
-			                        'mass_change_payment_status',
-			                        ' class="form-control" size="1" ',
-			                        'value',
-			                        'text',
-			                        ''
-		                        );
-		                        ?>
+								<?php
+								$massChangePaymentStatus[] = JHtml::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
+								$massChangePaymentStatus[] = JHtml::_('select.option', 'Unpaid', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
+								$massChangePaymentStatus[] = JHtml::_('select.option', 'Partial Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID'));
+								echo JHtml::_(
+									'select.genericlist',
+									$massChangePaymentStatus,
+									'mass_change_payment_status',
+									' class="form-control" size="1" ',
+									'value',
+									'text',
+									''
+								);
+								?>
                             </div>
                         </div>
                     </div>
@@ -661,7 +664,7 @@ JPluginHelper::importPlugin('redshop_product');
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h3 class="modal-title" id="massOrderStatusPacsoftLabel">
-                        <?php echo JText::_('COM_REDSHOP_CHANGE_STATUS_TO_ALL_WITH_PACSOFT_LBL') ?>
+						<?php echo JText::_('COM_REDSHOP_CHANGE_STATUS_TO_ALL_WITH_PACSOFT_LBL') ?>
                     </h3>
                 </div>
                 <div class="modal-body form-vertical">
@@ -669,7 +672,8 @@ JPluginHelper::importPlugin('redshop_product');
                         <div class="form-group">
                             <div class="row">
                                 <label class="control-label col-md-12">
-									<?php echo JText::_('COM_REDSHOP_ORDER') ?>: <div style="display: inline;" id="checked_orders"></div>
+									<?php echo JText::_('COM_REDSHOP_ORDER') ?>:
+                                    <div style="display: inline;" id="checked_orders"></div>
                                 </label>
                             </div>
                         </div>
@@ -729,10 +733,9 @@ JPluginHelper::importPlugin('redshop_product');
     </div>
 <?php endif; ?>
 <script type="text/javascript">
-    jQuery(document).ready(function(){
-        jQuery(document).on('keydown', '#filter', function(e){
-            if (e.keyCode == 13)
-            {
+    jQuery(document).ready(function () {
+        jQuery(document).on('keydown', '#filter', function (e) {
+            if (e.keyCode == 13) {
                 jQuery('input[name=task]').val('');
                 jQuery('#adminForm').submit();
             }
