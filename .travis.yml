@@ -26,7 +26,9 @@ before_script:
 - sudo ./tests/travis-php-fpm.sh $USER $(phpenv version-name)
 - sudo a2enmod rewrite actions fastcgi alias
 - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-- ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+- if [[ ${TRAVIS_PHP_VERSION:0:3} != "7.0" ]]; then ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm; fi
+#- if [[ ${TRAVIS_PHP_VERSION:0:2} == "7." ]]; then sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf; fi
+#- if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then sudo cp Tests/build/www.conf ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/; fi
 - sudo cp -f tests/travis-ci-apache.conf /etc/apache2/sites-available/default
 - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
 - sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/default
