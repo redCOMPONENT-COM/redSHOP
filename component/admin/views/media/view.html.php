@@ -47,6 +47,7 @@ class RedshopViewMedia extends RedshopViewAdmin
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
+		JToolBarHelper::custom('renameMedia', 'save.png', 'save_f2.png', 'Rename Medias', true);
 
 		$this->state = $this->get('State');
 
