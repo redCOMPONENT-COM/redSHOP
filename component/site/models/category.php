@@ -143,7 +143,23 @@ class RedshopModelCategory extends RedshopModel
 		$app->setUserState($this->context . '.editTimestamp', time());
 
 		$orderByMethod = $app->getUserStateFromRequest($this->context . '.order_by', 'order_by', $orderBySelect);
-		$orderBy       = redhelper::getInstance()->prepareOrderBy($orderByMethod);
+
+		// Translate custom ordering
+		switch ($orderByMethod)
+		{
+			case 'p.product_id DESC':
+				$orderBy       = redhelper::getInstance()->prepareOrderBy('id');
+				break;
+			case 'p.product_price ASC':
+				$orderBy       = redhelper::getInstance()->prepareOrderBy('price');
+				break;
+			case 'p.product_price DESC':
+				$orderBy       = redhelper::getInstance()->prepareOrderBy('price_desc');
+				break;
+			default:
+				$orderBy       = redhelper::getInstance()->prepareOrderBy($orderByMethod);
+				break;
+		}
 
 		$this->setState('list.ordering', $orderBy->ordering);
 		$this->setState('list.direction', $orderBy->direction);
