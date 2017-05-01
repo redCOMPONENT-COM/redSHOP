@@ -362,7 +362,7 @@ $url = $uri->root();
 
 								<input
 									type="text"
-									class="divfieldText hide"
+									class="divfieldText"
 									name="extra_name[]"
 									value="<?php echo htmlentities($this->lists['extra_data'][$k]->field_name);?>"
 								/>
