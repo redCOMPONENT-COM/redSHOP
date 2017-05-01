@@ -769,31 +769,18 @@ class rsUserHelper
 		return $rowShip;
 	}
 
+	/**
+	 * Method for synchronize Joomla User to redSHOP user
+	 *
+	 * @return  int   Number of synchronized user.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopInstall::synchronizeUser() instead.
+	 */
 	public function userSynchronization()
 	{
-		$query = "SELECT u.* FROM #__users AS u "
-			. "LEFT JOIN #__redshop_users_info AS ru ON ru.user_id = u.id "
-			. "WHERE ru.user_id IS NULL ";
-		$this->db->setQuery($query);
-		$jusers = $this->db->loadObjectList();
-
-		for ($i = 0, $in = count($jusers); $i < $in; $i++)
-		{
-			$name = explode(" ", $jusers[$i]->name);
-
-			$post               = array();
-			$post['user_id']    = $jusers[$i]->id;
-			$post['email']      = $jusers[$i]->email;
-			$post['email1']     = $jusers[$i]->email;
-			$post['firstname']  = $name[0];
-			$post['lastname']   = (isset($name[1]) && $name[1]) ? $name[1] : '';
-			$post['is_company'] = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
-			$post['password1']  = '';
-			$post['billisship'] = 1;
-			$reduser            = $this->storeRedshopUser($post, $jusers[$i]->id, 1);
-		}
-
-		return count($jusers);
+		return RedshopInstall::synchronizeUser();
 	}
 
 	/**

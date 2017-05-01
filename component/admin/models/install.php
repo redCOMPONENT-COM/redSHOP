@@ -58,21 +58,28 @@ class RedshopModelInstall extends RedshopModelList
 		return array(
 			array(
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_SYNCHRONIZE_USERS'),
-				'func' => 'syncUser'
+				'func' => 'RedshopInstall::synchronizeUser'
+			)
+		);
+
+		/*return array(
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_SYNCHRONIZE_USERS'),
+				'func' => 'RedshopInstall::synchronizeUser'
 			),
 			array(
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_TEMPLATE_DATA'),
-				'func' => 'templateData'
+				'func' => 'RedshopModelInstall.templateData'
 			),
 			array(
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_TEMPLATE_FILES'),
-				'func' => 'templateFiles'
+				'func' => 'RedshopModelInstall.templateFiles'
 			),
 			array(
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_INTEGRATE_SH404SEF'),
-				'func' => 'integrateSh404sef'
+				'func' => 'RedshopModelInstall.integrateSh404sef'
 			)
-		);
+		);*/
 	}
 
 	/**
