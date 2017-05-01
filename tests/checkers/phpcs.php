@@ -48,10 +48,10 @@ $ignored = array(
 // Build the options for the sniffer
 $options = array(
 	'files'        => array(
-		REPO_BASE . '/../plugins',
-		REPO_BASE . '/../component',
+		REPO_BASE . '/../component/admin',
+		/*REPO_BASE . '/../plugins',
 		REPO_BASE . '/../modules',
-		REPO_BASE . '/../libraries',
+		REPO_BASE . '/../libraries',*/
 	),
 	'standard'     => array(REPO_BASE . '/../.travis/phpcs/Joomla'),
 	'ignored'      => $ignored,
