@@ -37,6 +37,91 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	}
 
 	/**
+	 * Method for run ajax process.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function ajaxProcess()
+	{
+		RedshopHelperAjax::validateAjaxRequest();
+		$app = JFactory::getApplication();
+
+		$process = $app->input->get('process');
+
+		// Check process param
+		if (empty($process))
+		{
+			$app->setHeader('status', 500);
+			$app->sendHeaders();
+			echo JText::_('COM_REDSHOP_INSTALL_ERROR_MISSING_PROCESS');
+			$app->close();
+		}
+
+		$isStatic = false;
+		$className = '';
+		$method = '';
+
+		// Static call
+		if (false !== strpos('::', $process))
+		{
+			$process  = explode('::', $process);
+			$className    = $process[0];
+			$method   = $process[1];
+			$isStatic = true;
+		}
+		elseif (false !== strpos('.', $process))
+		{
+			$process  = explode('.', $process);
+			$className    = $process[0];
+			$method   = $process[1];
+		}
+
+		// Check class exist.
+		if (!class_exists($className))
+		{
+			$app->setHeader('status', 500);
+			$app->sendHeaders();
+			echo JText::sprintf('COM_REDSHOP_INSTALL_ERROR_MISSING_CLASS', $className);
+			$app->close();
+		}
+
+		// Check method exist in class
+		if (!method_exists($className, $method))
+		{
+			$app->setHeader('status', 500);
+			$app->sendHeaders();
+			echo JText::sprintf('COM_REDSHOP_INSTALL_ERROR_MISSING_METHOD_IN_CLASS', $className, $method);
+			$app->close();
+		}
+
+		try
+		{
+			if ($isStatic)
+			{
+				call_user_func(array($className, $method));
+			}
+			else
+			{
+				$class = new $className;
+				call_user_func(array($class, $method));
+			}
+		}
+		catch (Exception $e)
+		{
+			$app->setHeader('status', 500);
+			$app->sendHeaders();
+			echo $e->getMessage();
+			$app->close();
+		}
+
+		$app->sendHeaders();
+		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+		$app->close();
+	}
+
+	/**
 	 * Method for handle configuration file.
 	 *
 	 * @return  void
@@ -367,7 +452,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	{
 		$app = JFactory::getApplication();
 		$model = $this->getModel();
-		
+
 		if (!$model->processUpdateCategory())
 		{
 			$app->setHeader('status', 500);
