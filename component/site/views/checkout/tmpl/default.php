@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHtml::_('behavior.calendar');
 JHTMLBehavior::modal();
+JHtml::script('com_redshop/checkout.js', false, true);
 
 
 $url             = JURI::base();
