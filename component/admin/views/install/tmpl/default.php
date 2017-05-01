@@ -16,15 +16,16 @@ defined('_JEXEC') or die;
         $(document).ready(function () {
             var $first = $($("#table-install").find("tr")[0]);
             window.setTimeout(function () {
-                doProgress($first.attr("data-task"));
+                doProgress($first);
             }, 1000);
         });
     })(jQuery);
 </script>
 <script type="text/javascript">
-    function doProgress(task) {
+    function doProgress(row) {
         runTasks++;
-        var $row = $("#row-" + task);
+        var $row = $(row);
+        var task = $row.attr("data-task");
         $row.removeClass("hidden");
         $row.find('img.loader').removeClass("hidden");
         $row.find('.text-result').addClass("hidden");
@@ -34,7 +35,7 @@ defined('_JEXEC') or die;
         $("#slider-install").html(percent.toFixed(2) + "%");
 
         $.post(
-            "index.php?option=com_redshop&task=install." + task,
+            "index.php?option=com_redshop&task=install.ajaxProcess&process=" + task,
             {
                 "<?php echo JSession::getFormToken() ?>": 1
             },
@@ -54,7 +55,7 @@ defined('_JEXEC') or die;
 
                 // Still have next progress
                 if ($next.length) {
-                    doProgress($next.attr("data-task"));
+                    doProgress($next);
 
                     return;
                 }
@@ -130,7 +131,7 @@ defined('_JEXEC') or die;
     <table class="table" id="table-install">
         <tbody>
 		<?php foreach ($this->steps as $i => $step): ?>
-            <tr data-task="<?php echo $step['func'] ?>" id="row-<?php echo $step['func'] ?>" class="hidden">
+            <tr data-task="<?php echo $step['func'] ?>" id="row-<?php echo preg_replace("/[^A-Za-z0-9?!]/", '', $step['func']) ?>" class="hidden">
                 <td width="1">
                     <i class="fa fa-tasks status-icon"></i>
                 </td>
