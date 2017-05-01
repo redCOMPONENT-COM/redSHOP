@@ -46,7 +46,27 @@ class RedshopViewWrapper_Detail extends RedshopViewAdmin
 		$context = "wrapper";
 		$uri = JFactory::getURI();
 		$lists = array();
-		$detail = $this->get('data');
+
+		$task = JFactory::getApplication()->input->get('task');
+
+		if ($task != 'add')
+		{
+			$detail = $this->get('data');
+		}
+		else
+		{
+			$detail = new stdClass;
+
+			$detail->wrapper_id = 0;
+			$detail->published = 0;
+			$detail->product_id = 0;
+			$detail->wrapper_use_to_all = 1;
+			$detail->category_id = 0;
+			$detail->wrapper_image = '';
+			$detail->wrapper_name = '';
+			$detail->wrapper_price = 0.00;
+		}
+
 		$model = $this->getModel('wrapper_detail');
 
 		$isNew = ($detail->wrapper_id < 1);
