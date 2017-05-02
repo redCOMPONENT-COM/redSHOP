@@ -775,6 +775,7 @@ abstract class RedshopHelperAttribute
 					if ($property->property_price > 0)
 					{
 						$prices = $productHelper->getPropertyPrice($property->value, 1, 'property');
+						$keepPrice = $property->property_price;
 
 						if (count($prices) > 0)
 						{
@@ -796,7 +797,16 @@ abstract class RedshopHelperAttribute
 							&& !$attribute->hide_attribute_price)
 						{
 							$opRand = $property->oprand;
-							$price  = $productHelper->getProductFormattedPrice($priceWithVat);
+
+							/** Make sure that if different less than 1 will get the original value */
+							if (($priceWithVat / $keepPrice) < 1)
+							{
+								$price = $productHelper->getProductFormattedPrice($keepPrice);
+							}
+							else
+							{
+								$price  = $productHelper->getProductFormattedPrice($priceWithVat);
+							}
 						}
 					}
 
