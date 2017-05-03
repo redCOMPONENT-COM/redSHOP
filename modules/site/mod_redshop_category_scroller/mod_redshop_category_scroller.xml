@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>COM_REDSHOP_REDSHOP_CATEGORY_SCROLLER</name>
-    <version>1.5.2</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <version>1.5.3</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>November 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
@@ -11,17 +11,15 @@
     <description>COM_REDSHOP_REDSHOP_CATEGORY_SCROLLER</description>
     <files>
         <filename module="mod_redshop_category_scroller">mod_redshop_category_scroller.php</filename>
+        <filename>helper.php</filename>
         <filename>index.html</filename>
-        <folder module="mod_redshop_category_scroller">tmpl</folder>
-        <folder module="mod_redshop_category_scroller">css</folder>
-        <folder module="mod_redshop_category_scroller">images</folder>
+        <folder>tmpl</folder>
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_category_scroller.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_category_scroller.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_category_scroller.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_category_scroller.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
+    <media folder="media">
+        <folder>mod_redshop_category_scroller</folder>
+    </media>
     <config>
         <fields name="params">
             <fieldset name="basic">
