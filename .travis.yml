@@ -45,9 +45,7 @@ before_script:
 - sleep 3 # give fluxbox some time to start
 
 # Update Npm to latest version
-- npm cache clean -f
-- npm install n
-- n stable
+- npm install npm@latest -g
 
 # Install Gulp packages
 - npm install
