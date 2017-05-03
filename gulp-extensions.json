@@ -1,6 +1,6 @@
 {
   "components": [
-    "redshop"
+    "redshop", "redshop.assets"
   ],
   "libraries": [
     "redshop"
