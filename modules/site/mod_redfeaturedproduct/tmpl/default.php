@@ -9,20 +9,9 @@
 
 defined('_JEXEC') or die;
 
-$Redconfiguration = Redconfiguration::getInstance();
-$uri = JURI::getInstance();
-$url = $uri->root();
-$user = JFactory::getUser();
-$producthelper = productHelper::getInstance();
-$redhelper = redhelper::getInstance();
-$app = JFactory::getApplication();
-$Itemid = $app->input->getInt('Itemid', 0);
-$view = $app->input->getCmd('view', 'category');
-$cid = $app->input->getInt('cid');
-
 $document = JFactory::getDocument();
-JHTML::stylesheet('modules/mod_redfeaturedproduct/css/jquery.css');
-JHTML::stylesheet('modules/mod_redfeaturedproduct/css/skin_002.css');
+JHtml::stylesheet('mod_redfeaturedproduct/jquery.css', false, true);
+JHtml::stylesheet('mod_redfeaturedproduct/skin_002.css', false, true);
 JHtml::_('redshopjquery.framework');
 
 if ($view == 'category')
@@ -53,10 +42,10 @@ $document->addScriptDeclaration("jQuery(document).ready(function() {
 });");
 
 echo $params->get('pretext', "");
+?>
 
-if (count($list) > 0)
-{
-	$rightarrow = $scrollerWidth + 20; ?>
+<?php if (count($list) > 0): ?>
+	<?php $rightarrow = $scrollerWidth + 20; ?>
 	<div class="red_product-skin-produkter">
 		<div class="red_product-container red_product-container-horizontal">
 			<div class="red_product-prev red_product-prev-horizontal"></div>
@@ -65,32 +54,25 @@ if (count($list) > 0)
 			<div style="width:<?php echo $scrollerWidth;?>px;" class="red_product-clip red_product-clip-horizontal">
 				<ul id="produkt_carousel_mod_<?php echo $module->id; ?>"
 					class="red_product-list red_product-list-horizontal">
-					<?php $i = 0;
+					<?php $i = 0; ?>
 
-					foreach ($list as $row)
-					{
-						$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
+					<?php foreach ($list as $row): ?>
+						<?php $ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id); ?>
+						<?php if (count($ItemData) > 0): ?>
+							<?php $Itemid = $ItemData->id; ?>
+						<?php else: ?>
+							<?php $Itemid = $redhelper->getItemid($row->product_id); ?>
+						<?php endif; ?>
 
-						if (count($ItemData) > 0)
-						{
-							$Itemid = $ItemData->id;
-						}
-						else
-						{
-							$Itemid = $redhelper->getItemid($row->product_id);
-						}
+						<?php if (!$cid): ?>
+							<?php $cid = $producthelper->getCategoryProduct($row->product_id); ?>
+						<?php endif; ?>
 
-						if (!$cid)
-						{
-							$cid = $producthelper->getCategoryProduct($row->product_id);
-						}
+						<?php $link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $cid . '&Itemid=' . $Itemid); ?>
+						<?php $prod_img = ""; ?>
 
-						$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $cid . '&Itemid=' . $Itemid);
-						$prod_img = "";
-
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_full_image))
-						{
-							$prod_img = RedShopHelperImages::getImagePath(
+						<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_full_image)): ?>
+							<?php $prod_img = RedShopHelperImages::getImagePath(
 								$row->product_full_image,
 								'',
 								'thumb',
@@ -98,11 +80,9 @@ if (count($list) > 0)
 								$thumbWidth,
 								$thumbHeight,
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
-						}
-						elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_thumb_image))
-						{
-							$prod_img = RedShopHelperImages::getImagePath(
+							); ?>
+						<?php elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_thumb_image)): ?>
+							<?php $prod_img = RedShopHelperImages::getImagePath(
 								$row->product_thumb_image,
 								'',
 								'thumb',
@@ -110,103 +90,78 @@ if (count($list) > 0)
 								$thumbWidth,
 								$thumbHeight,
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
-						}
-						else
-						{
+							); ?>
+						<?php else: ?>
 							$prod_img = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
-						}
+						<?php endif; ?>
 
-						$thum_image = "<a href=\"" . $link . "\" title=\"\" ><img src=\"" . $prod_img . "\"></a>";
-						?>
+						<?php $thum_image = "<a href=\"" . $link . "\" title=\"\" ><img src=\"" . $prod_img . "\"></a>"; ?>
 
 						<li red_productindex="<?php echo $i;?>" class="red_product-item red_product-item-horizontal">
 							<div class="listing-item">
 								<div class="product-shop">
-									<?php
-									if ($params->get('show_product_name', 1))
-									{
-										echo "<div class=\"mod_redproducts_title\"><a href=\"" . $link . "\" title=\"" . $row->product_name . "\">" . $row->product_name . "</a></div>";
-									}
+									<?php if ($params->get('show_product_name', 1)): ?>
+										<div class="mod_redproducts_title"><a href="<?php echo $link ?>" title="<?php echo $row->product_name ?>">"<?php echo $row->product_name ?></a></div>
+									<?php endif; ?>
 
-									if (!$row->not_for_sale && $params->get('show_price', 1))
-									{
-										$productArr = $producthelper->getProductNetPrice($row->product_id);
+									<?php if (!$row->not_for_sale && $params->get('show_price', 1)): ?>
+										<?php $productArr = $producthelper->getProductNetPrice($row->product_id); ?>
 
-										if ($params->get('show_vatprice', "0"))
-										{
-											$product_price = $productArr['product_main_price'];
-											$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
-										}
-										else
-										{
-											$product_price = $productArr['product_price_novat'];
-											$product_price_discount = $productArr['productPrice'];
-										}
+										<?php if ($params->get('show_vatprice', "0")): ?>
+											<?php $product_price = $productArr['product_main_price']; ?>
+											<?php $product_price_discount = $productArr['productPrice'] + $productArr['productVat']; ?>
+										<?php else: ?>
+											<?php $product_price = $productArr['product_price_novat']; ?>
+											<?php $product_price_discount = $productArr['productPrice']; ?>
+										<?php endif; ?>
 
-										if (Redshop::getConfig()->get('SHOW_PRICE') && !Redshop::getConfig()->get('USE_AS_CATALOG') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
-										{
-											if (!$product_price)
-											{
-												$product_price_dis = $producthelper->getPriceReplacement($product_price);
-											}
-											else
-											{
-												$product_price_dis = $producthelper->getProductFormattedPrice($product_price);
-											}
+										<?php if (Redshop::getConfig()->get('SHOW_PRICE') && !Redshop::getConfig()->get('USE_AS_CATALOG') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))): ?>
+											
+											<?php if (!$product_price): ?>
+												<?php $product_price_dis = $producthelper->getPriceReplacement($product_price); ?>
+											<?php else: ?>
+												<?php $product_price_dis = $producthelper->getProductFormattedPrice($product_price); ?>
+											<?php endif; ?>
 
-											$disply_text = "<div class=\"mod_redproducts_price\">" . $product_price_dis . "</div>";
+											<?php $disply_text = "<div class=\"mod_redproducts_price\">" . $product_price_dis . "</div>"; ?>
 
-											if ($row->product_on_sale && $product_price_discount > 0)
-											{
-												if ($product_price > $product_price_discount)
-												{
-													$disply_text = "";
-													$s_price = $product_price - $product_price_discount;
+											<?php if ($row->product_on_sale && $product_price_discount > 0): ?>
+												<?php if ($product_price > $product_price_discount): ?>
+													<?php $disply_text = ""; ?>
+													<?php $s_price = $product_price - $product_price_discount; ?>
 
-													if ($params->get('show_discountpricelayout', "100"))
-													{
-														echo "<div id=\"mod_redoldprice\" class=\"mod_redoldprice\"><span>" . $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
-														echo "<div id=\"mod_redmainprice\" class=\"mod_redmainprice\">" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
-														echo "<div id=\"mod_redsavedprice\" class=\"mod_redsavedprice\">" . JText::_('MOD_REDFEATUREDPRODUCT_PRODUCT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</div>";
-													}
-													else
-													{
-														echo "<div class=\"mod_redproducts_price\">" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
-													}
-												}
-											}
+													<?php if ($params->get('show_discountpricelayout', "100")): ?>
+														<div id="mod_redoldprice" class="mod_redoldprice"><span><?php echo $producthelper->getProductFormattedPrice($product_price) ?></span></div>
+														<div id="mod_redmainprice" class="mod_redmainprice"><?php echo $producthelper->getProductFormattedPrice($product_price_discount) ?></div>
+														<div id="mod_redsavedprice" class="mod_redsavedprice"><?php echo JText::_('MOD_REDFEATUREDPRODUCT_PRODUCT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) ?></div>
+													<?php else: ?>
+														<div class="mod_redproducts_price"><?php echo $producthelper->getProductFormattedPrice($product_price_discount) ?></div>
+													<?php endif; ?>
+												<?php endif; ?>
+											<?php endif; ?>
 
-											echo $disply_text;
-										}
-									}
-									?>
+											<?php echo $disply_text; ?>
+										<?php endif; ?>
+									<?php endif; ?>
 								</div>
 							</div>
 							<div class="product-image"
 								 style="width:<?php echo $thumbWidth;?>px;height:<?php echo $thumbHeight;?>px;">
 								<?php echo $thum_image;?>
 							</div>
-							<?php
-							if ($params->get('show_addtocart', 1))
-							{
-								$attributes = $producthelper->getProductAttribute($row->product_id);
-								$totalatt   = count($attributes);
-								$addtocart_data = $producthelper->replaceCartTemplate($row->product_id, 0, 0, 0, "", false, array(), $totalatt, 0, 0, $module->id);
-								echo "<div class=\"form-button\">" . $addtocart_data . "</div>";
-							}
-							?>
+							<?php if ($params->get('show_addtocart', 1)): ?>
+								<?php $attributes = $producthelper->getProductAttribute($row->product_id); ?>
+								<?php $totalatt   = count($attributes); ?>
+								<?php $addtocart_data = $producthelper->replaceCartTemplate($row->product_id, 0, 0, 0, "", false, array(), $totalatt, 0, 0, $module->id); ?>
+								<div class="form-button"><?php echo $addtocart_data ?></div>;
+							<?php endif; ?>
 						</li>
-						<?php $i++;
-					}
-					?>
+						<?php $i++; ?>
+					<?php endforeach; ?>
 				</ul>
 			</div>
 		</div>
 	</div>
-<?php
-}
-else
-{
-	echo "<div>" . JText::_("MOD_REDFEATUREDPRODUCT_NO_FEATURED_PRODUCTS_TO_DISPLAY") . "</div>";
-}
+<?php else: ?>
+	<div><?php echo JText::_("MOD_REDFEATUREDPRODUCT_NO_FEATURED_PRODUCTS_TO_DISPLAY") ?></div>
+<?php endif; ?>

@@ -29,11 +29,11 @@ abstract class ModRedFeaturedProductHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('p.product_id')
+			->select($db->qn('p.product_id'))
 			->from($db->qn('#__redshop_product', 'p'))
 			->where($db->qn('p.published') . ' = 1')
-			->where('product_special = 1')
-			->group('p.product_id');
+			->where($db->qn('product_special') . ' = 1')
+			->group($db->qn('p.product_id'));
 
 		switch ($params->get('ScrollSortMethod', 'random'))
 		{
@@ -41,13 +41,13 @@ abstract class ModRedFeaturedProductHelper
 				$query->order('RAND()');
 				break;
 			case 'newest':
-				$query->order('publish_date DESC');
+				$query->order($db->qn('publish_date') . ' DESC');
 				break;
 			case 'oldest':
-				$query->order('publish_date ASC');
+				$query->order($db->qn('publish_date') . ' ASC');
 				break;
 			default:
-				$query->order('publish_date DESC');
+				$query->order($db->qn('publish_date') . ' DESC');
 				break;
 		}
 
@@ -57,12 +57,12 @@ abstract class ModRedFeaturedProductHelper
 		{
 			// Third steep get all product relate info
 			$query->clear()
-				->where('p.product_id IN (' . implode(',', $productIds) . ')')
-				->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
+				->where($db->qn('p.product_id') . ' IN (' . implode(',', $db->q($productIds)) . ')')
+				->order('FIELD(' . $db->qn('p.product_id') . ', ' . implode(',', $db->q($productIds)) . ')');
 
 			$user = JFactory::getUser();
 			$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
-				->select('CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id');
+				->select('CONCAT_WS(' . $db->q('.') . ', ' . $db->qn('p.product_id') . ', ' . $db->q($user->id) . ') AS ' . $db->qn('concat_id'));
 
 			if ($rows = $db->setQuery($query)->loadObjectList('concat_id'))
 			{
