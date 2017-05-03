@@ -63,7 +63,7 @@ class RedshopHelperJs
 			'PRICE_SEPERATOR'                   => $config->get('PRICE_SEPERATOR'),
 			'CURRENCY_SYMBOL_POSITION'          => $config->get('CURRENCY_SYMBOL_POSITION'),
 			'PRICE_DECIMAL'                     => $config->get('PRICE_DECIMAL'),
-			'THOUSAND_SEPERATOR'                => $config->get('THOUSAND_SEPERATOR'),
+			'THOUSAND_SEPERATOR'                => $config->get('THOUSAND_SEPERATOR', ''),
 			'USE_STOCKROOM'                     => $config->get('USE_STOCKROOM'),
 			'USE_AS_CATALOG'                    => $config->get('USE_AS_CATALOG'),
 			'AJAX_CART_DISPLAY_TIME'            => $config->get('AJAX_CART_DISPLAY_TIME'),
