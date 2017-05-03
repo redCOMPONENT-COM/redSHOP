@@ -1,28 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDSHOP_PRODUCTCOMPARE</name>
-    <version>1.6</version>
+    <version>1.6.1</version>
     <redshop>2.0</redshop>
     <creationDate>Sep 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Redshop Products Compare Module</description>
+    <description>MOD_REDSHOP_PRODUCTCOMPARE</description>
     <files>
         <filename module="mod_redshop_productcompare">mod_redshop_productcompare.php</filename>
         <filename module="mod_redshop_productcompare">index.html</filename>
         <filename module="mod_redshop_productcompare">tmpl/default.php</filename>
         <filename module="mod_redshop_productcompare">tmpl/index.html</filename>
+        <folder module="mod_redshop_productcompare">language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_productcompare.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_productcompare.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_productcompare.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_productcompare.sys.ini</language>
-        <language tag="fr-FR">language/fr-FR/fr-FR.mod_redshop_productcompare.ini</language>
-        <language tag="fr-FR">language/fr-FR/fr-FR.mod_redshop_productcompare.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config>
         <fields name="params">
             <fieldset name="basic">
