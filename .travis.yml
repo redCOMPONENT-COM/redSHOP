@@ -44,10 +44,7 @@ before_script:
 - fluxbox &
 - sleep 3 # give fluxbox some time to start
 
-# Update Npm to latest version
-- npm install npm@latest -g
-
-# Install Gulp packages
+# Gulp packages
 - npm install
 - mv gulp-config.sample.json gulp-config.json
 - gulp release --skip-version
