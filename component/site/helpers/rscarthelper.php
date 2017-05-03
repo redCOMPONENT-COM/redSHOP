@@ -846,14 +846,7 @@ class rsCarthelper
 					$cart_mdata = str_replace("{product_name}", $product_name, $data);
 				}
 
-				$cart_mdata = RedshopTagsReplacer::_(
-						'attribute',
-						$cart_mdata,
-						array(
-							'product_attribute' 	=> '',
-						)
-					);
-
+				$cart_mdata = str_replace("{product_attribute}", '', $cart_mdata);
 				$cart_mdata = str_replace("{product_accessory}", '', $cart_mdata);
 				$cart_mdata = str_replace("{product_wrapper}", '', $cart_mdata);
 				$cart_mdata = str_replace("{product_old_price}", '', $cart_mdata);
@@ -1216,7 +1209,7 @@ class rsCarthelper
 											'attribute',
 											$cart_mdata,
 											array(
-												'discount_calc_output' 	=> $discount_calc_output . $cart_attribute,
+												'product_attribute' => $discount_calc_output . $cart_attribute,
 											)
 										);
 
@@ -1599,12 +1592,11 @@ class rsCarthelper
 			$attribute_data = $this->_producthelper->makeAttributeOrder($rowitem[$i]->order_item_id, 0, $product_id, 0, 0, $data);
 
 			// Assign template output into {product_attribute} tag
-
 			$cart_mdata = RedshopTagsReplacer::_(
 						'attribute',
 						$cart_mdata,
 						array(
-							'product_attribute' 	=> $attribute_data->product_attribute,
+							'product_attribute' => $attribute_data->product_attribute,
 						)
 					);
 
