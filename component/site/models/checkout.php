@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Economic\Economic;
+
 
 
 /**
@@ -1166,17 +1168,17 @@ class RedshopModelCheckout extends RedshopModel
 			}
 
 			$economicdata['economic_payment_method'] = $payment_name;
-			$economic->createInvoiceInEconomic($row->order_id, $economicdata);
+			Economic::createInvoiceInEconomic($row->order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
 				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
-				$bookinvoicepdf = $economic->bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
+				$bookinvoicepdf = Economic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
 				if (is_file($bookinvoicepdf))
 				{
-					$this->_redshopMail->sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
 			}
 		}

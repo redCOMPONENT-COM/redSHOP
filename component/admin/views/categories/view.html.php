@@ -19,6 +19,20 @@ defined('_JEXEC') or die;
 class RedshopViewCategories extends RedshopViewList
 {
 	/**
+	 * @var  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $hasOrdering = true;
+
+	/**
+	 * @var  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $isNested = true;
+
+	/**
 	 * Method for add toolbar.
 	 *
 	 * @return  void
@@ -59,21 +73,21 @@ class RedshopViewCategories extends RedshopViewList
 		parent::prepareTable();
 
 		$this->columns[] = array(
-				// This column is sortable?
-				'sortable'  => false,
-				// Text for column
-				'text'      => JText::_('COM_REDSHOP_PRODUCTS'),
-				// Name of property for get data.
-				'dataCol'   => 'product',
-				// Width of column
-				'width'     => 'auto',
-				// Enable edit inline?
-				'inline'    => false,
-				// Display with edit link or not?
-				'edit_link' => false,
-				// Type of column
-				'type'      => 'text',
-			);
+			// This column is sortable?
+			'sortable'  => false,
+			// Text for column
+			'text'      => JText::_('COM_REDSHOP_PRODUCTS'),
+			// Name of property for get data.
+			'dataCol'   => 'product',
+			// Width of column
+			'width'     => 'auto',
+			// Enable edit inline?
+			'inline'    => false,
+			// Display with edit link or not?
+			'edit_link' => false,
+			// Type of column
+			'type'      => 'text',
+		);
 	}
 
 	/**
@@ -89,7 +103,7 @@ class RedshopViewCategories extends RedshopViewList
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
-		$isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
+		$isCheckedOut     = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
 
 		if ($config['dataCol'] == 'name')
@@ -101,7 +115,8 @@ class RedshopViewCategories extends RedshopViewList
 
 				if ($config['edit_link'])
 				{
-					$display = str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $value . '</a>';
+					$display = str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1)
+						. '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $value . '</a>';
 				}
 
 				return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
@@ -110,7 +125,9 @@ class RedshopViewCategories extends RedshopViewList
 			{
 				if ($this->canEdit)
 				{
-					return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $row->{$config['dataCol']} . '</a>';
+					return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1)
+						. '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">'
+						. $row->{$config['dataCol']} . '</a>';
 				}
 				else
 				{
@@ -123,7 +140,8 @@ class RedshopViewCategories extends RedshopViewList
 			return JHtml::_('redshopgrid.slidetext', strip_tags($row->description));
 		}
 
-		$row->product = $this->model->getProducts($row->id);
+		$row->product = RedshopEntityCategory::getInstance($row->id)->productCount();
+
 		return parent::onRenderColumn($config, $index, $row);
 	}
 }
