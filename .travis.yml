@@ -44,6 +44,10 @@ before_script:
 - fluxbox &
 - sleep 3 # give fluxbox some time to start
 
+# Update NodeJS and NPM version
+- sudo npm intall -g n
+- sudo n stable
+
 # Gulp packages
 - npm install
 - mv gulp-config.sample.json gulp-config.json
