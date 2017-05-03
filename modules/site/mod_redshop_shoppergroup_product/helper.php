@@ -31,30 +31,30 @@ class ModRedshopShopperGroupProduct
 		$rows = array();
 
 		$subQuery = $db->getQuery(true)
-			->select('SUM(' . $db->qn('oi.product_quantity') . ') AS qty, oi.product_id, oi.order_id')
+			->select('SUM(' . $db->qn('oi.product_quantity') . ') AS ' . $db->qn('qty') . ', ' . $db->qn('oi.product_id') . ', ' . $db->qn('oi.order_id'))
 			->from($db->qn('#__redshop_order_item', 'oi'))
-			->group('oi.product_id');
+			->group($db->qn('oi.product_id'));
 
 		$query = $db->getQuery(true)
-			->select('p.product_id, orderItems.qty')
+			->select($db->qn(['p.product_id', 'orderItems.qty']))
 			->from($db->qn('#__redshop_product', 'p'))
-			->leftJoin('(' . $subQuery . ') orderItems ON orderItems.product_id = p.product_id')
-			->leftJoin($db->qn('#__redshop_orders', 'o') . ' ON o.order_id = orderItems.order_id')
+			->leftJoin('(' . $subQuery . ') ' . $db->qn('orderItems') . ' ON ' . $db->qn('orderItems.product_id') . ' = ' . $db->qn('p.product_id'))
+			->leftJoin($db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('orderItems.order_id'))
 			->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.user_id = o.user_id')
-			->where('ui.shopper_group_id = ' . (int) $shopperGroupId)
-			->where('p.published = 1')
-			->group('p.product_id')
-			->order('orderItems.qty DESC');
+			->where($db->qn('ui.shopper_group_id') . ' = ' . $db->q((int) $shopperGroupId))
+			->where($db->qn('p.published') . ' = ' . $db->q('1'))
+			->group($db->qn('p.product_id'))
+			->order($db->qn('orderItems.qty') . ' DESC');
 
 		if ($productIds = $db->setQuery($query, 0, (int) $params->get('count', 5))->loadColumn())
 		{
 			// Third step: get all product related info
 			$query->clear()
-				->where('p.product_id IN (' . implode(',', $productIds) . ')')
-				->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
+				->where($db->qn('p.product_id') . ' IN (' . implode(',', $productIds) . ')')
+				->order('FIELD(' . $db->qn('p.product_id') . ', ' . implode(',', $productIds) . ')');
 
 			$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
-				->select('CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id');
+				->select('CONCAT_WS(' . $db->q('.') . ', ' . $db->qn('p.product_id') . ', ' . $db->q((int) $user->id) . ') AS ' . $db->qn('concat_id'));
 
 			if ($rows = $db->setQuery($query)->loadObjectList('concat_id'))
 			{
