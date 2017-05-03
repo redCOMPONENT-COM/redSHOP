@@ -22,7 +22,7 @@
  * - http://sass-lang.com
  * - https://github.com/mishoo/UglifyJS
  */
-"use strict";
+
 /// Define gulp and its config
 var gulp = require('gulp');
 var config = require('../../gulp-config.json');
