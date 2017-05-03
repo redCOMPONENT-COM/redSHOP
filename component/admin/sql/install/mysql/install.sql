@@ -168,21 +168,6 @@ COMMENT = 'redSHOP Category';
 
 
 -- -----------------------------------------------------
--- Table `#__redshop_category_xref`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__redshop_category_xref` ;
-
-CREATE TABLE IF NOT EXISTS `#__redshop_category_xref` (
-  `category_parent_id` INT(11) NOT NULL DEFAULT '0',
-  `category_child_id` INT(11) NOT NULL DEFAULT '0',
-  INDEX `category_xref_category_parent_id` (`category_parent_id` ASC),
-  INDEX `category_xref_category_child_id` (`category_child_id` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'redSHOP Category relation';
-
-
--- -----------------------------------------------------
 -- Table `#__redshop_country`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `#__redshop_country` ;

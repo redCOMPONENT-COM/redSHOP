@@ -832,8 +832,6 @@ class productHelper
 			$currency_symbol = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
 		}
 
-		$CurrencyHelper  = CurrencyHelper::getInstance();
-
 		// Get Current Currency of SHOP
 		$session = JFactory::getSession();
 		/*
@@ -841,7 +839,7 @@ class productHelper
 		 */
 		if ($convert && $session->get('product_currency'))
 		{
-			$productPrice = $CurrencyHelper->convert($productPrice);
+			$productPrice = RedshopHelperCurrency::convert($productPrice);
 
 			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
@@ -9773,6 +9771,7 @@ class productHelper
 		$propertyPriceList = array();
 		$subPropertyPriceList = array();
 
+
 		foreach ($attributes as $key => $attribute)
 		{
 			foreach ($attribute->properties as $property)
@@ -9788,6 +9787,15 @@ class productHelper
 		}
 
 		$db = JFactory::getDbo();
+
+		if (!empty($productId))
+		{
+			$query = $db->getQuery(true)
+				->select($db->qn('product_price'))
+				->from($db->qn('#__redshop_product_price'))
+				->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+			$productPriceList = $db->setQuery($query)->loadColumn();
+		}
 
 		if (!empty($propertyIds))
 		{
@@ -9809,7 +9817,7 @@ class productHelper
 			$subPropertyPriceList = $db->setQuery($query)->loadColumn();
 		}
 
-		$productPriceList = array_unique(array_merge($propertyPriceList, $subPropertyPriceList));
+		$productPriceList = array_unique(array_merge($productPriceList, $propertyPriceList, $subPropertyPriceList));
 		$productPrice['min'] = min($productPriceList);
 		$productPrice['max'] = max($productPriceList);
 
