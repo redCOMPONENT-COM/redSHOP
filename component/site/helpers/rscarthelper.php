@@ -5599,7 +5599,7 @@ class rsCarthelper
 					 * Previous comment stated it is not used anymore.
 					 * Changing it for another purpose. It can intercept and decide whether added product should be added as same or new product.
 					 */
-					$dispatcher->trigger('checkSameCartProduct', array(&$cart, $data, &$sameProduct));
+					$dispatcher->trigger('checkSameCartProduct', array(&$cart, $data, &$sameProduct, $i));
 
 					// Product userfield
 					if (!empty($row_data))
@@ -5731,7 +5731,7 @@ class rsCarthelper
 				 * Implement new plugin support before session update
 				 * trigger the event of redSHOP product plugin support on Before cart session is set - on prepare cart session
 				 */
-				$dispatcher->trigger('onBeforeSetCartSession', array(&$cart, $data));
+				$dispatcher->trigger('onBeforeSetCartSession', array(&$cart, $data, $idx));
 
 				$cart['idx'] = $idx + 1;
 
