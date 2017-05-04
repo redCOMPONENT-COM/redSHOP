@@ -19,6 +19,35 @@ defined('_JEXEC') or die;
 class RedshopViewFields extends RedshopViewList
 {
 	/**
+	 * @var  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $hasOrdering = true;
+
+	/**
+	 * Method for run before display to initial variables.
+	 *
+	 * @param   string  &$tpl  Template name
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function beforeDisplay(&$tpl)
+	{
+		parent::beforeDisplay($tpl);
+
+		// Only display ordering column if user choose filter fields by section
+		$filterSection = (int) $this->state->get('filter.field_section', 0);
+
+		if (!$filterSection)
+		{
+			$this->hasOrdering = false;
+		}
+	}
+
+	/**
 	 * Method for render 'Published' column
 	 *
 	 * @param   array   $config  Row config.
@@ -31,18 +60,13 @@ class RedshopViewFields extends RedshopViewList
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
-		$redtemplate = Redtemplate::getInstance();
-
-		$isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
-
 		if ($config['dataCol'] == 'type')
 		{
-			return $redtemplate->getFieldTypeSections($row->type);
+			return RedshopHelperTemplate::getFieldTypeSections($row->type);
 		}
-
-		if ($config['dataCol'] == 'section')
+		elseif ($config['dataCol'] == 'section')
 		{
-			return $redtemplate->getFieldSections($row->section);
+			return RedshopHelperTemplate::getFieldSections($row->section);
 		}
 
 		return parent::onRenderColumn($config, $index, $row);
