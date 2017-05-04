@@ -13,7 +13,8 @@ defined('_JEXEC') or die;
  * PlgSystemRedSHOP class.
  *
  * @extends JPlugin
- * @since  1.5.0.1
+ *
+ * @since   2.0.1
  */
 class PlgSystemRedSHOP extends JPlugin
 {
@@ -53,10 +54,7 @@ class PlgSystemRedSHOP extends JPlugin
 			RedshopHelperConfig::scriptDeclaration();
 		}
 
-		$app = JFactory::getApplication();
-		$jinput = $app->input;
-
-		if ($jinput->get('option') != 'com_redshop')
+		if (JFactory::getApplication()->input->get('option') != 'com_redshop')
 		{
 			return;
 		}

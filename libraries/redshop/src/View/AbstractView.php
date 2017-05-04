@@ -56,6 +56,33 @@ abstract class AbstractView extends \JViewLegacy
 	protected $instanceName;
 
 	/**
+	 * @var  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $useUserPermission = true;
+
+	/**
+	 * @var  boolean
+	 */
+	public $canView;
+
+	/**
+	 * @var  boolean
+	 */
+	public $canEdit;
+
+	/**
+	 * @var  boolean
+	 */
+	public $canDelete;
+
+	/**
+	 * @var  boolean
+	 */
+	public $canCreate;
+
+	/**
 	 * @var    \JModelLegacy
 	 *
 	 * @since  __DEPLOY_VERSION__
@@ -80,6 +107,8 @@ abstract class AbstractView extends \JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$this->generatePermission();
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -169,6 +198,26 @@ abstract class AbstractView extends \JViewLegacy
 	protected function addToolbar()
 	{
 		return;
+	}
+
+	/**
+	 * Method for generate 4 normal permission.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function generatePermission()
+	{
+		if (!$this->useUserPermission)
+		{
+			return;
+		}
+
+		$this->canCreate = \RedshopHelperAccess::canCreate($this->getInstanceName());
+		$this->canView   = \RedshopHelperAccess::canView($this->getInstanceName());
+		$this->canEdit   = \RedshopHelperAccess::canEdit($this->getInstanceName());
+		$this->canDelete = \RedshopHelperAccess::canDelete($this->getInstanceName());
 	}
 
 	/**

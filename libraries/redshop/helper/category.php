@@ -41,12 +41,10 @@ class RedshopHelperCategory
 			$db = JFactory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select('c.*')
-				->select($db->qn('cx.category_parent_id'))
-				->from($db->qn('#__redshop_category', 'c'))
-				->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('cx.category_child_id') . ' = ' . $db->qn('c.category_id'))
-				->where($db->qn('c.category_id') . ' = ' . (int) $cid)
-				->group($db->qn('c.category_id'));
+				->select('*')
+				->from($db->qn('#__redshop_category'))
+				->where($db->qn('id') . ' = ' . $db->q((int) $cid))
+				->group($db->qn('id'));
 
 			static::$categoriesData[$cid] = $db->setQuery($query)->loadObject();
 		}
@@ -67,9 +65,9 @@ class RedshopHelperCategory
 
 		if ($category = self::getCategoryById($cid))
 		{
-			if (isset($category->category_parent_id))
+			if (isset($category->parent_id))
 			{
-				self::getCategoryListRecursion($category->category_parent_id);
+				self::getCategoryListRecursion($category->parent_id);
 			}
 		}
 
@@ -87,10 +85,10 @@ class RedshopHelperCategory
 	{
 		if ($category = self::getCategoryById($cid))
 		{
-			if (isset($category->category_parent_id))
+			if (isset($category->parent_id))
 			{
 				self::$categoryListReverse[] = $category;
-				self::getCategoryListRecursion($category->category_parent_id);
+				self::getCategoryListRecursion($category->parent_id);
 			}
 		}
 	}
@@ -127,32 +125,33 @@ class RedshopHelperCategory
 			->select(
 				$db->qn(
 					array(
-						'c.category_id', 'cx.category_child_id', 'cx.category_parent_id', 'c.category_name',
-						'c.category_description', 'c.published', 'c.ordering', 'c.category_full_image'
+						'id', 'parent_id', 'name', 'description',
+						'published', 'ordering', 'category_full_image'
 					)
 				)
 			)
-			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'));
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('parent_id') . ' != 0')
+			->where($db->qn('level') . ' != 0');
 
 		if ($view == 'category')
 		{
-			$filter_order = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering'));
+			$filter_order = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
 			$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 			$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
 		}
 		else
 		{
-			$query->order($db->qn('c.category_name'));
+			$query->order($db->qn('name'));
 		}
 
 		if ($categoryMainFilter)
 		{
-			$query->where($db->qn('c.category_name') . ' LIKE ' . $db->quote('%' . $categoryMainFilter . '%'));
+			$query->where($db->qn('name') . ' LIKE ' . $db->q('%' . $categoryMainFilter . '%'));
 		}
 		else
 		{
-			$query->where($db->qn('cx.category_parent_id') . ' = ' . (int) $cid);
+			$query->where($db->qn('parent_id') . ' = ' . (int) $cid);
 		}
 
 		static::$categoryChildListReverse[$key] = null;
@@ -170,9 +169,9 @@ class RedshopHelperCategory
 
 			foreach ($cats as $cat)
 			{
-				$cat->category_name = '- ' . $cat->category_name;
+				$cat->name = '- ' . $cat->name;
 				static::$categoryChildListReverse[$key][] = $cat;
-				self::getCategoryChildListRecursion($key, $cat->category_child_id);
+				self::getCategoryChildListRecursion($key, $cat->id);
 			}
 		}
 
@@ -195,23 +194,22 @@ class RedshopHelperCategory
 			->select(
 				$db->qn(
 					array(
-						'c.category_id', 'cx.category_child_id', 'cx.category_parent_id', 'c.category_name',
-						'c.category_description', 'c.published', 'c.ordering', 'c.category_full_image'
+						'id', 'parent_id', 'name', 'description',
+						'published', 'ordering', 'category_full_image'
 					)
 				)
 			)
-			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON c.category_id = cx.category_child_id')
-			->where('cx.category_parent_id = ' . (int) $cid);
+			->from($db->qn('#__redshop_category'))
+			->where('parent_id = ' . (int) $cid);
 		$level++;
 
 		if ($cats = $db->setQuery($query)->loadObjectList())
 		{
 			foreach ($cats as $cat)
 			{
-				$cat->category_name = str_repeat('- ', $level) . $cat->category_name;
+				$cat->name = str_repeat('- ', $level) . $cat->name;
 				static::$categoryChildListReverse[$key][] = $cat;
-				self::getCategoryChildListRecursion($key, $cat->category_child_id, $level);
+				self::getCategoryChildListRecursion($key, $cat->id, $level);
 			}
 		}
 	}
@@ -238,12 +236,12 @@ class RedshopHelperCategory
 		$db    = JFactory::getDbo();
 		$html  = '';
 		$query = $db->getQuery(true)
-			->select($db->qn('cx.category_parent_id'))
-			->from($db->qn('#__redshop_category_xref', 'cx'));
+			->select($db->qn('parent_id'))
+			->from($db->qn('#__redshop_category'));
 
 		if ($categoryId)
 		{
-			$query->where($db->qn('cx.category_child_id') . ' = ' . (int) $categoryId);
+			$query->where($db->qn('id') . ' = ' . $db->q((int) $categoryId));
 		}
 
 		$db->setQuery($query);
@@ -251,7 +249,7 @@ class RedshopHelperCategory
 
 		if ($cats)
 		{
-			$selectedCategories[] = $cats[0]->category_parent_id;
+			$selectedCategories[] = $cats[0]->parent_id;
 		}
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
@@ -291,12 +289,16 @@ class RedshopHelperCategory
 		$level++;
 
 		$query = $db->getQuery(true)
-			->select($db->qn(array('c.category_id', 'cx.category_child_id', 'c.category_name')))
-			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
-			->where($db->qn('cx.category_parent_id') . ' = ' . (int) $cid)
-			->where($db->qn('c.category_id') . ' != ' . (int) $categoryId)
-			->order($db->qn('c.category_name') . ' ASC');
+			->select($db->qn(array('id', 'name')))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('id') . ' != ' . $db->q((int) $categoryId))
+			->where($db->qn('level') . ' > 0')
+			->order($db->qn('name') . ' ASC');
+
+		if ($cid > 0)
+		{
+			$query->where($db->qn('parent_id') . ' = ' . $db->q((int) $cid));
+		}
 
 		$db->setQuery($query);
 		$cats = $db->loadObjectList();
@@ -304,7 +306,7 @@ class RedshopHelperCategory
 		for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 		{
 			$cat = $cats[$x];
-			$childId = $cat->category_child_id;
+			$childId = $cat->id;
 
 			if ($childId != $cid)
 			{
@@ -336,7 +338,7 @@ class RedshopHelperCategory
 				}
 				else
 				{
-					$html .= "<option $selected $disabled value=\"$childId\">" . str_repeat('- ', $level) . $cat->category_name . "</option>";
+					$html .= "<option $selected $disabled value=\"$childId\">" . str_repeat('- ', $level) . $cat->name . "</option>";
 				}
 			}
 
@@ -379,11 +381,10 @@ class RedshopHelperCategory
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('DISTINCT ' . $db->qn('c.category_name'))
-			->select($db->qn('c.category_id'))
-			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
-			->where($db->qn('cx.category_parent_id') . ' = 0');
+			->select('DISTINCT ' . $db->qn('name'))
+			->select($db->qn('id'))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('level') . ' = 1');
 
 		$db->setQuery($query);
 
@@ -406,13 +407,12 @@ class RedshopHelperCategory
 			$GLOBALS['catlist'] = array();
 		}
 
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select($db->qn(array('c.category_id', 'c.category_name', 'cx.category_child_id', 'cx.category_parent_id')))
-			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
-			->where($db->qn('cx.category_parent_id') . ' = ' . (int) $cid);
+			->select($db->qn(array('id', 'name', 'parent_id')))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('parent_id') . ' = ' . $db->q((int) $cid));
 
 		$db->setQuery($query);
 
@@ -421,7 +421,7 @@ class RedshopHelperCategory
 		for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 		{
 			$cat      = $cats[$x];
-			$parentId = $cat->category_child_id;
+			$parentId = $cat->id;
 			$GLOBALS['catlist'][] = $cat;
 			self::getCategoryTree($parentId);
 		}
@@ -438,23 +438,19 @@ class RedshopHelperCategory
 	 *
 	 * @since  2.0.0.3
 	 */
-	public function getCategoryProductList($cid)
+	public static function getCategoryProductList($cid)
 	{
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select($db->qn('p.product_id', 'id'))
-			->from($db->qn('#__redshop_product', 'p'))
-			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('cx.product_id') . ' = ' . $db->qn('p.product_id'))
-			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('cx.category_id') . ' = ' . $db->qn('c.category_id'))
-			->where($db->qn('c.category_parent_id') . ' = ' . (int) $cid)
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('pcx.category_id') . ' = ' . $db->qn('c.id'))
+			->where($db->qn('c.id') . ' = ' . (int) $cid)
 			->where($db->qn('p.published') . ' = 1');
 
-		$db->setQuery($query);
-
-		$result = $db->loadObjectList();
-
-		return $result;
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
@@ -490,5 +486,25 @@ class RedshopHelperCategory
 		}
 
 		return $return;
+	}
+
+	/**
+	 * get Root ID
+	 *
+	 * @return integer
+	 *
+	 * @since  2.0.5
+	 */
+	public static function getRootId()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('id'))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('name') . ' = ' . $db->q('ROOT'))
+			->where($db->qn('parent_id') . ' = 0')
+			->where($db->qn('level') . ' = 0');
+
+		return $db->setQuery($query)->loadResult();
 	}
 }
