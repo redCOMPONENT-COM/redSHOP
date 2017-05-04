@@ -62,7 +62,13 @@ class RedshopModelInstall extends RedshopModelList
 		$files   = glob($this->updatePath . '/*.php');
 		$version = RedshopHelperJoomla::getManifestValue('version');
 		$classes = array();
-		$tasks   = array();
+
+		$tasks = array(
+			array(
+				'text' => 'COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG',
+				'func' => 'RedshopInstall::handleConfig'
+			)
+		);
 
 		foreach ($files as $file)
 		{

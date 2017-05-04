@@ -27,7 +27,7 @@ defined('_JEXEC') or die;
         var $row = $(row);
         $row.removeClass("hidden");
         $row.find('img.loader').removeClass("hidden");
-        // $row.find('.text-result').addClass("hidden");
+        $row.find('.text-result').addClass("hidden");
 
         var percent = runTasks / <?php echo count($this->steps) ?> * 100;
         $("#slider-install").css("width", percent + "%");
@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
                     .removeClass("text-muted hidden").addClass("text-success");
                 $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-check text-success");
                 $row.find('.task-name').removeClass("text-muted").addClass("text-success");
-                // $row.addClass("hidden");
+                $row.addClass("hidden");
             }
         )
             .always(function () {
@@ -127,7 +127,6 @@ defined('_JEXEC') or die;
             </div>
         </div>
     </div>
-    <?php if (!empty($this->steps)): ?>
     <table class="table" id="table-install">
         <tbody>
 		<?php foreach ($this->steps as $i => $step): ?>
@@ -146,5 +145,4 @@ defined('_JEXEC') or die;
 		<?php endforeach; ?>
         </tbody>
     </table>
-    <?php endif; ?>
 </div>
