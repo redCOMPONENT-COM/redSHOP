@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Redshop\Economic\Economic;
 
 /**
  * Class Redshop Helper for Order
@@ -366,19 +367,27 @@ class RedshopHelperOrder
 				return null;
 			}
 
-			// Get plugin information
-			$plugin = JPluginHelper::getPlugin(
-						'redshop_payment',
-						self::$payment[$orderId]->payment_method_class
-					);
-
-			if ($plugin)
+			if (!empty(self::$payment[$orderId]->payment_method_class))
 			{
-				$plugin->params = new Registry($plugin->params);
-			}
+				// Get plugin information
+				$plugin = JPluginHelper::getPlugin(
+					'redshop_payment',
+					self::$payment[$orderId]->payment_method_class
+				);
 
-			// Set plugin information
-			self::$payment[$orderId]->plugin = $plugin;
+				if ($plugin)
+				{
+					$plugin->params = new Registry($plugin->params);
+				}
+
+				// Set plugin information
+				self::$payment[$orderId]->plugin = $plugin;
+			}
+			else
+			{
+				// Set plugin information
+				self::$payment[$orderId]->plugin = null;
+			}
 		}
 
 		return self::$payment[$orderId];
@@ -1221,15 +1230,14 @@ class RedshopHelperOrder
 			// Economic Integration start for invoice generate and book current invoice
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				$economic = economic::getInstance();
-				$oid      = explode(",", $orderId);
+				$oid = explode(",", $orderId);
 
 				for ($i = 0, $in = count($oid); $i < $in; $i++)
 				{
 					if (isset($oid[$i]) && $oid[$i] != 0 && $oid[$i] != "")
 					{
-						$orderdata = self::getOrderDetails($oid[$i]);
-						$economic->renewInvoiceInEconomic($orderdata);
+						$orderData = self::getOrderDetails($oid[$i]);
+						Economic::renewInvoiceInEconomic($orderData);
 					}
 				}
 			}
@@ -1741,13 +1749,14 @@ class RedshopHelperOrder
 	/**
 	 * Get payment method info
 	 *
-	 * @param   string  $paymentMethodClass  Payment method class
+	 * @param   string   $paymentMethodClass  Payment method class
+	 * @param   boolean  $includeDiscover     Include all plugins even not discover install yet
 	 *
 	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */
-	public static function getPaymentMethodInfo($paymentMethodClass = '')
+	public static function getPaymentMethodInfo($paymentMethodClass = '', $includeDiscover = true)
 	{
 		$db = JFactory::getDbo();
 
@@ -1761,6 +1770,11 @@ class RedshopHelperOrder
 		if ($paymentMethodClass != '')
 		{
 			$query->where($db->qn('element') . ' = ' . $db->quote($paymentMethodClass));
+		}
+
+		if (!$includeDiscover)
+		{
+			$query->where($db->qn('state') . ' >= 0');
 		}
 
 		$db->setQuery($query);
@@ -1931,7 +1945,7 @@ class RedshopHelperOrder
 	 * @param   string   $section          Section text
 	 * @param   integer  $parentSectionId  Parent section ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */
@@ -2018,7 +2032,7 @@ class RedshopHelperOrder
 			$db->setQuery($query);
 
 			$maxOrderNumber = $db->loadResult();
-			$maxInvoice     = RedshopEconomic::getMaxOrderNumberInEconomic();
+			$maxInvoice     = Economic::getMaxOrderNumberInEconomic();
 			$maxId          = max(intval($maxOrderNumber), $maxInvoice);
 		}
 		elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
@@ -2466,6 +2480,9 @@ class RedshopHelperOrder
 		$cartHelper      = rsCarthelper::getInstance();
 		$redshopMail     = redshopMail::getInstance();
 
+		// Changes to parse all tags same as order mail end
+		$userDetail = self::getOrderBillingUserInfo($orderId);
+
 		$mailFrom     = $app->get('mailfrom');
 		$fromName     = $app->get('fromname');
 		$mailBcc      = null;
@@ -2478,23 +2495,41 @@ class RedshopHelperOrder
 			$mailData    = $mailTemplate[0]->mail_body;
 			$mailSubject = $mailTemplate[0]->mail_subject;
 
+			$fieldArray = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_ORDER, 0);
+
+			if (count($fieldArray) > 0)
+			{
+				for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
+				{
+					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->field_id, RedshopHelperExtrafields::SECTION_ORDER, $orderId, $userDetail->user_email);
+
+					if ($fieldValueArray->data_txt != "")
+					{
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '}', $fieldValueArray->data_txt, $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', $fieldArray[$i]->field_title, $mailData);
+					}
+					else
+					{
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '}', "", $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', "", $mailData);
+					}
+				}
+			}
+
 			if (trim($mailTemplate[0]->mail_bcc) != "")
 			{
 				$mailBcc = explode(",", $mailTemplate[0]->mail_bcc);
 			}
 
-			// Getting the order details
-			$orderDetail = self::getOrderDetails($orderId);
-
 			// Changes to parse all tags same as order mail start
-			$row      = self::getOrderDetails($orderId);
+			$orderDetail      = self::getOrderDetails($orderId);
 			$mailData = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $mailData);
 			$mailData = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $mailData);
 
-			$mailData = $cartHelper->replaceOrderTemplate($row, $mailData, true);
+			$mailData = $cartHelper->replaceOrderTemplate($orderDetail, $mailData, true);
 
 			$arrDiscountType = array();
-			$arrDiscount     = explode('@', $row->discount_type);
+			$arrDiscount     = explode('@', $orderDetail->discount_type);
 			$discountType    = '';
 
 			for ($d = 0, $dn = count($arrDiscount); $d < $dn; $d++)
@@ -2523,9 +2558,6 @@ class RedshopHelperOrder
 			$search []  = "{discount_type}";
 			$replace [] = $discountType;
 
-			// Changes to parse all tags same as order mail end
-			$userDetail = self::getOrderBillingUserInfo($orderId);
-
 			// Getting the order status changed template from mail center end
 			$mailData = $cartHelper->replaceBillingAddress($mailData, $userDetail);
 
@@ -2544,6 +2576,9 @@ class RedshopHelperOrder
 
 			$search[]  = "{fullname}";
 			$replace[] = $userDetail->firstname . " " . $userDetail->lastname;
+
+			$search[]  = "{email}";
+			$replace[] = $userDetail->user_email;
 
 			$search[]  = "{customer_id}";
 			$replace[] = $userDetail->users_info_id;
@@ -2669,10 +2704,10 @@ class RedshopHelperOrder
 					}
 				}
 
-				RedshopEconomic::createInvoiceInEconomic($orderId, $economicData);
+				Economic::createInvoiceInEconomic($orderId, $economicData);
 			}
 
-			$bookInvoicePdf = RedshopEconomic::bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
+			$bookInvoicePdf = Economic::bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
 
 			if (is_file($bookInvoicePdf))
 			{
@@ -2845,11 +2880,11 @@ class RedshopHelperOrder
 		$helper          = redhelper::getInstance();
 		$stockroomHelper = rsstockroomhelper::getInstance();
 		$productHelper   = productHelper::getInstance();
-		$newStatus       = $post['order_status_all'];
+		$newStatus       = $post['mass_change_order_status'];
 		$customerNote    = $post['customer_note' . $orderId];
 		$isProduct       = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
 		$productId       = (isset($post['product_id'])) ? $post['product_id'] : 0;
-		$paymentStatus   = $post['order_paymentstatus' . $orderId];
+		$paymentStatus   = $post['mass_change_payment_status'];
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
@@ -2949,7 +2984,11 @@ class RedshopHelperOrder
 		}
 
 		// Mail to customer of order status change
-		self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
+		if ($post['mass_mail_sending'] == 1)
+		{
+			self::changeOrderStatusMail($orderId, $newStatus, $customerNote);
+		}
+
 		self::createBookInvoice($orderId, $newStatus);
 
 		// GENERATE PDF CODE WRITE

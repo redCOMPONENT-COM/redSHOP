@@ -3,7 +3,7 @@
  * @package     Redshop
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -361,6 +361,18 @@ class RedshopLayoutFile extends RedshopLayoutBase
 
 			// (4) Component template overrides path
 			$this->addIncludePath(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $component);
+		}
+
+		// Plugins layouts & overrides if exist
+		$plugin = $this->options->get('plugin', null);
+
+		if (!empty($plugin))
+		{
+			// (3) Plugins path
+			$this->addIncludePaths(JPATH_PLUGINS . '/' . $plugin . '/layouts');
+
+			// (4) Plugins template overrides path
+			$this->addIncludePath(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/plugins/' . $plugin);
 		}
 
 		// (5 - highest priority) Received a custom high priority path ?

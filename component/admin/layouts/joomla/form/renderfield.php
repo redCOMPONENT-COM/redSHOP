@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Layout variables
  * ---------------------
- * 	$options         : (array)  Optional parameters
- * 	$label           : (string) The html code for the label (not required if $options['hiddenLabel'] is true)
- * 	$input           : (string) The input field html code
+ *    $options         : (array)  Optional parameters
+ *    $label           : (string) The html code for the label (not required if $options['hiddenLabel'] is true)
+ *    $input           : (string) The input field html code
  */
 
 if (!empty($displayData['options']['showonEnabled']))
@@ -24,15 +24,15 @@ if (!empty($displayData['options']['showonEnabled']))
 }
 
 $class = empty($displayData['options']['class']) ? "" : " " . $displayData['options']['class'];
-$rel   = empty($displayData['options']['rel']) ? "" : " " .  $displayData['options']['rel'];
+$rel   = empty($displayData['options']['rel']) ? "" : " " . $displayData['options']['rel'];
 ?>
 <?php if (!empty($displayData['label']) || !empty($displayData['input'])) : ?>
-	<div class="form-group <?php echo $class; ?>"<?php echo $rel; ?>>
+    <div class="form-group row-fluid <?php echo $class; ?>"<?php echo $rel; ?>>
 		<?php if (empty($displayData['options']['hiddenLabel'])) : ?>
 			<?php echo $displayData['label']; ?>
 		<?php endif; ?>
-		<div class="col-md-10">
+        <div class="col-md-10">
 			<?php echo $displayData['input']; ?>
-		</div>
-	</div>
+        </div>
+    </div>
 <?php endif ?>

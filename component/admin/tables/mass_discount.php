@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -337,11 +337,6 @@ class RedshopTableMass_Discount extends RedshopTable
 			{
 				$productData = Redshop::product((int) $product->product_id);
 
-				if ($productData->product_on_sale == 1)
-				{
-					continue;
-				}
-
 				if ($this->type == 1)
 				{
 					$price = $productData->product_price - ($productData->product_price * $this->amount / 100);
@@ -436,11 +431,6 @@ class RedshopTableMass_Discount extends RedshopTable
 			{
 				$productData = Redshop::product((int) $productId);
 
-				if ($productData->product_on_sale == 1)
-				{
-					continue;
-				}
-
 				if ($this->type == 1)
 				{
 					$price = $productData->product_price - ($productData->product_price * $this->amount / 100);
@@ -499,6 +489,7 @@ class RedshopTableMass_Discount extends RedshopTable
 			->set($db->qn('product_on_sale') . ' = 0')
 			->set($db->qn('discount_stratdate') . ' = 0')
 			->set($db->qn('discount_enddate') . ' = 0')
+			->set($db->qn('discount_price') . ' = 0')
 			->where($db->qn('product_id') . ' IN (' . implode(',', $productIds) . ')');
 
 		return $db->setQuery($query)->execute();
