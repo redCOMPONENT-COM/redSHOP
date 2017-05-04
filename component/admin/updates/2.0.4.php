@@ -80,26 +80,6 @@ class RedshopUpdate204 extends RedshopInstallUpdate
 	}
 
 	/**
-	 * Handle config
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function handleConfig()
-	{
-		// Only loading from legacy when version is older than 1.6
-		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<'))
-		{
-			// Load configuration file from legacy file.
-			Redshop::getConfig()->loadLegacy();
-		}
-
-		// Try to load distinct if no config found.
-		Redshop::getConfig()->loadDist();
-	}
-
-	/**
 	 * Method for check database structure when update.
 	 *
 	 * @return  void
