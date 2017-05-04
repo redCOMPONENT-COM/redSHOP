@@ -150,12 +150,7 @@ class RedshopModelQuotation extends RedshopModelList
 		$query->order($db->qn($db->escape($filterOrder)) . ' ' . $db->escape($filterOrderDir));
 
 		JPluginHelper::importPlugin('redshop_quotation');
-		$result = RedshopHelperUtility::getDispatcher()->trigger('getQuotationItem', array($query));
-
-		if (!empty($result))
-		{
-			$query = $result[0];
-		}
+		RedshopHelperUtility::getDispatcher()->trigger('getQuotationItem', array(&$query));
 
 		$items = $this->_getList($query);
 

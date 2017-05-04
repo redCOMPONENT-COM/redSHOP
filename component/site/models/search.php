@@ -452,12 +452,7 @@ class RedshopModelSearch extends RedshopModel
 			->where('p.published = 1');
 
 		JPluginHelper::importPlugin('redshop_search');
-		$result = RedshopHelperUtility::getDispatcher()->trigger('searchQuery', array($query));
-
-		if (!empty($result))
-		{
-			$query = $result[0];
-		}
+		RedshopHelperUtility::getDispatcher()->trigger('searchQuery', array(&$query));
 
 		$layout = JRequest::getVar('layout', 'default');
 
