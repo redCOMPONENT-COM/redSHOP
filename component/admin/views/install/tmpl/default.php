@@ -25,17 +25,16 @@ defined('_JEXEC') or die;
     function doProgress(row) {
         runTasks++;
         var $row = $(row);
-        var task = $row.attr("data-task");
         $row.removeClass("hidden");
         $row.find('img.loader').removeClass("hidden");
-        $row.find('.text-result').addClass("hidden");
+        // $row.find('.text-result').addClass("hidden");
 
         var percent = runTasks / <?php echo count($this->steps) ?> * 100;
         $("#slider-install").css("width", percent + "%");
         $("#slider-install").html(percent.toFixed(2) + "%");
 
         $.post(
-            "index.php?option=com_redshop&task=install.ajaxProcess&process=" + task,
+            "index.php?option=com_redshop&task=install.ajaxProcess",
             {
                 "<?php echo JSession::getFormToken() ?>": 1
             },
@@ -44,7 +43,7 @@ defined('_JEXEC') or die;
                     .removeClass("text-muted hidden").addClass("text-success");
                 $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-check text-success");
                 $row.find('.task-name').removeClass("text-muted").addClass("text-success");
-                $row.addClass("hidden");
+                // $row.addClass("hidden");
             }
         )
             .always(function () {
@@ -128,10 +127,11 @@ defined('_JEXEC') or die;
             </div>
         </div>
     </div>
+    <?php if (!empty($this->steps)): ?>
     <table class="table" id="table-install">
         <tbody>
 		<?php foreach ($this->steps as $i => $step): ?>
-            <tr data-task="<?php echo $step['func'] ?>" id="row-<?php echo preg_replace("/[^A-Za-z0-9?!]/", '', $step['func']) ?>" class="hidden">
+            <tr id="row-<?php echo preg_replace("/[^A-Za-z0-9?!]/", '', $step['func']) ?>">
                 <td width="1">
                     <i class="fa fa-tasks status-icon"></i>
                 </td>
@@ -140,10 +140,11 @@ defined('_JEXEC') or die;
                 </td>
                 <td width="20%" style="text-align: right;">
                     <strong class="text-result text-muted">Pending</strong>
-                    <img src="components/com_redshop/assets/images/ajax-loader.gif" class="loader img hidden" width="128px" height="15px"/>
+                    <img src="components/com_redshop/assets/images/ajax-loader.gif" class="loader img" width="128px" height="15px"/>
                 </td>
             </tr>
 		<?php endforeach; ?>
         </tbody>
     </table>
+    <?php endif; ?>
 </div>
