@@ -15,6 +15,6 @@ defined('_JEXEC') or die;
  * @package  RedSHOP.Backend
  * @since    1.3.3.1
  */
-class RedshopController extends RedshopControllerLegacy
+class RedshopController extends JControllerLegacy
 {
 }

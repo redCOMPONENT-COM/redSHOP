@@ -635,11 +635,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$order_data           = array();
 		$order_data[0]        = new stdClass;
-		$order_data[0]->value = "c.category_name ASC";
+		$order_data[0]->value = "c.name ASC";
 		$order_data[0]->text  = JText::_('COM_REDSHOP_CATEGORY_NAME');
 
 		$order_data[1]        = new stdClass;
-		$order_data[1]->value = "c.category_id DESC";
+		$order_data[1]->value = "c.id DESC";
 		$order_data[1]->text  = JText::_('COM_REDSHOP_NEWEST');
 
 		$order_data[2]        = new stdClass;

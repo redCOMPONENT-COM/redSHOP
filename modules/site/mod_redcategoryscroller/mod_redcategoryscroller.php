@@ -295,7 +295,7 @@ if (!class_exists('redcategoryScroller'))
 
 			for ($i = 0, $in = count($hierachy); $i < $in; $i++)
 			{
-				$cid[] = $hierachy[$i]->category_id;
+				$cid[] = $hierachy[$i]->id;
 			}
 
 			$database = JFactory::getDbo();
@@ -339,7 +339,7 @@ if (!class_exists('redcategoryScroller'))
 		{
 			$redhelper     = redhelper::getInstance();
 
-			$ItemData = $redhelper->getCategoryItemid($row->category_id);
+			$ItemData = $redhelper->getCategoryItemid($row->id);
 
 			if (count($ItemData) > 0)
 			{
@@ -347,16 +347,16 @@ if (!class_exists('redcategoryScroller'))
 			}
 			else
 			{
-				$Itemid = $redhelper->getItemid($row->category_id);
+				$Itemid = $redhelper->getItemid($row->id);
 			}
 
 			$data_add   = '';
 
-			$pname = $row->category_name;
+			$pname = $row->name;
 
-			$link = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $row->category_id . '&Itemid=' . $Itemid);
+			$link = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $row->id . '&Itemid=' . $Itemid);
 
-			$pname = $row->category_name;
+			$pname = $row->name;
 
 			if ($this->boxwidth > 0)
 			{
@@ -366,8 +366,8 @@ if (!class_exists('redcategoryScroller'))
 
 			if ($row->category_full_image || Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'))
 			{
-				$title   = " title='" . $row->category_name . "' ";
-				$alt     = " alt='" . $row->category_name . "' ";
+				$title   = " title='" . $row->name . "' ";
+				$alt     = " alt='" . $row->name . "' ";
 				$w_thumb = $this->thumbwidth;
 				$h_thumb = $this->thumbheight;
 

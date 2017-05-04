@@ -846,14 +846,7 @@ class rsCarthelper
 					$cart_mdata = str_replace("{product_name}", $product_name, $data);
 				}
 
-				$cart_mdata = RedshopTagsReplacer::_(
-						'attribute',
-						$cart_mdata,
-						array(
-							'product_attribute' 	=> '',
-						)
-					);
-
+				$cart_mdata = str_replace("{product_attribute}", '', $cart_mdata);
 				$cart_mdata = str_replace("{product_accessory}", '', $cart_mdata);
 				$cart_mdata = str_replace("{product_wrapper}", '', $cart_mdata);
 				$cart_mdata = str_replace("{product_old_price}", '', $cart_mdata);
@@ -1216,7 +1209,7 @@ class rsCarthelper
 											'attribute',
 											$cart_mdata,
 											array(
-												'discount_calc_output' 	=> $discount_calc_output . $cart_attribute,
+												'product_attribute' => $discount_calc_output . $cart_attribute,
 											)
 										);
 
@@ -1578,7 +1571,7 @@ class rsCarthelper
 
 			if (count($res) > 0)
 			{
-				$cname = $res->category_name;
+				$cname = $res->name;
 				$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
 				$category_path = "<a href='" . $clink . "'>" . $cname . "</a>";
 			}
@@ -1599,12 +1592,11 @@ class rsCarthelper
 			$attribute_data = $this->_producthelper->makeAttributeOrder($rowitem[$i]->order_item_id, 0, $product_id, 0, 0, $data);
 
 			// Assign template output into {product_attribute} tag
-
 			$cart_mdata = RedshopTagsReplacer::_(
 						'attribute',
 						$cart_mdata,
 						array(
-							'product_attribute' 	=> $attribute_data->product_attribute,
+							'product_attribute' => $attribute_data->product_attribute,
 						)
 					);
 
@@ -3073,18 +3065,15 @@ class rsCarthelper
 			$idx = (int) $cartArr['idx'];
 		}
 
-		$getacctax          = 0;
-		$taxtotal           = 0;
-		$subtotal_excl_vat  = 0;
-
 		for ($i = 0; $i < $idx; $i++)
 		{
 			if (!isset($cartArr[$i]['giftcard_id'])
 				|| (isset($cartArr[$i]['giftcard_id']) && $cartArr[$i]['giftcard_id'] <= 0))
 			{
-				$product_id = $cartArr[$i]['product_id'];
-				$quantity   = $cartArr[$i]['quantity'];
-				$product    = $this->_producthelper->getProductById($product_id);
+				$product_id   = $cartArr[$i]['product_id'];
+				$quantity     = $cartArr[$i]['quantity'];
+				$product      = RedshopHelperProduct::getProductById($product_id);
+				$hasAttribute = isset($cartArr[$i]['cart_attribute']) ? true : false;
 
 				// Attribute price
 				$price = 0;
@@ -3094,7 +3083,7 @@ class rsCarthelper
 					$cartArr['quotation'] = 0;
 				}
 
-				if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || $cartArr['quotation'] == 1)
+				if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || $cartArr['quotation'] == 1) && !$hasAttribute)
 				{
 					$price = $cartArr[$i]['product_price_excl_vat'];
 				}
@@ -3104,7 +3093,7 @@ class rsCarthelper
 					$price = $cartArr[$i]['discount_calc_price'];
 				}
 
-				// Only set price without vat for accessories as prododuct
+				// Only set price without vat for accessories as product
 				$accessoryAsProdutWithoutVat = false;
 
 				if (isset($cartArr['AccessoryAsProduct']))
@@ -5610,7 +5599,7 @@ class rsCarthelper
 					 * Previous comment stated it is not used anymore.
 					 * Changing it for another purpose. It can intercept and decide whether added product should be added as same or new product.
 					 */
-					$dispatcher->trigger('checkSameCartProduct', array(&$cart, $data, &$sameProduct));
+					$dispatcher->trigger('checkSameCartProduct', array(&$cart, $data, &$sameProduct, $i));
 
 					// Product userfield
 					if (!empty($row_data))
@@ -5742,7 +5731,7 @@ class rsCarthelper
 				 * Implement new plugin support before session update
 				 * trigger the event of redSHOP product plugin support on Before cart session is set - on prepare cart session
 				 */
-				$dispatcher->trigger('onBeforeSetCartSession', array(&$cart, $data));
+				$dispatcher->trigger('onBeforeSetCartSession', array(&$cart, $data, $idx));
 
 				$cart['idx'] = $idx + 1;
 
