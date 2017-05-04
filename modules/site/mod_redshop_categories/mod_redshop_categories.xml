@@ -67,7 +67,6 @@
                     <option value="yes">JYES</option>
                     <option value="no">JNO</option>
                 </field>
-                <field name="redshop_category" type="redshopcategory" default=""
                 <field name="redshop_category" type="categorylist" default=""
                        label="COM_REDSHOP_CATEGORIES_SELECTION"
                        description="COM_REDSHOP_CATEGORIES_SELECTION_DESC"></field>
