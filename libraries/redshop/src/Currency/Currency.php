@@ -246,6 +246,11 @@ class Currency
 			$targetCurrency = $session->get('product_currency');
 		}
 
+		// Make sure data is correct format.
+		$sourceCurrency = trim($sourceCurrency);
+		$targetCurrency = trim($targetCurrency);
+		$amount = (float) $amount;
+
 		// If both currency codes match, do nothing
 		if ($sourceCurrency == $targetCurrency)
 		{
