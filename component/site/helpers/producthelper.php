@@ -1777,59 +1777,19 @@ class productHelper
 		return $ProductPriceArr;
 	}
 
+	/**
+	 * Get Layout product quantity price
+	 *
+	 * @param   int  $productId  Product Id
+	 * @param   int  $userId     User Id
+	 *
+	 * @deprecated  1.5  Use RedshopHelperProduct::getProductQuantityPrice instead
+	 *
+	 * @return  mixed  Redshop Layout
+	 */
 	public function getProductQuantityPrice($productId, $userId)
 	{
-		$db      = $this->_db;
-		$userArr = $this->_session->get('rs_user');
-
-		if (empty($userArr))
-		{
-			$userArr = $this->_userhelper->createUserSession($userId);
-		}
-
-		$shopperGroupId = $this->_userhelper->getShopperGroup($userId);
-
-		if ($userId)
-		{
-			$query = $db->getQuery(true)
-				->select('p.*')
-				->from($db->qn('#__redshop_users_info', 'u'))
-				->leftjoin($db->qn('#__redshop_product_price', 'p') . ' ON ' . $db->qn('u.shopper_group_id') . ' = ' . $db->qn('p.shopper_group_id'))
-				->where($db->qn('p.product_id') . ' = ' . $db->q((int) $productId))
-				->where($db->qn('u.user_id') . ' = ' . $db->q((int) $userId))
-				->where($db->qn('u.address_type') . ' = ' . $db->q('BT'))
-				->order($db->qn('p.price_quantity_start') . ' ASC');
-		}
-		else
-		{
-			$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_product_price'))
-				->where($db->qn('product_id') . ' = ' . $db->q((int) $productId))
-				->where($db->qn('shopper_group_id') . ' = ' . $db->q((int) $shopperGroupId))
-				->order($db->qn('price_quantity_start') . ' ASC');
-		}
-
-		$result = $db->setQuery($query)->loadObjectList();
-		$table  = '';
-
-		if ($result)
-		{
-			$table = RedshopLayoutHelper::render(
-				'product.product_price_table',
-				array(
-					'result'    => $result,
-					'productId' => $productId,
-					'userId'    => $userId
-				),
-				'',
-				array(
-					'component' => 'com_redshop'
-				)
-			);
-		}
-
-		return $table;
+		return RedshopHelperProduct::getProductQuantityPrice($productId, $userId);
 	}
 
 	public function getDiscountId($subtotal = 0, $user_id = 0)
