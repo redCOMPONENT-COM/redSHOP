@@ -53,6 +53,10 @@ class RedshopInstall
 				array(
 					'text' => JText::_('COM_REDSHOP_INSTALL_STEP_INTEGRATE_SH404SEF'),
 					'func' => 'RedshopInstall::integrateSh404sef'
+				),
+				array(
+					'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
+					'func' => 'RedshopInstall::handleConfig'
 				)
 			);
 
@@ -300,5 +304,25 @@ class RedshopInstall
 		}
 
 		return true;
+	}
+
+	/**
+	 * Handle config
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function handleConfig()
+	{
+		// Only loading from legacy when version is older than 1.6
+		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<'))
+		{
+			// Load configuration file from legacy file.
+			Redshop::getConfig()->loadLegacy();
+		}
+
+		// Try to load distinct if no config found.
+		Redshop::getConfig()->loadDist();
 	}
 }
