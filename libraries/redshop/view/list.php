@@ -97,9 +97,30 @@ class RedshopViewList extends AbstractView
 	public $filterForm;
 
 	/**
+	 * @var  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $hasOrdering = false;
+
+	/**
+	 * @var  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $isNested = false;
+
+	/**
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $nestedOrdering;
+
+	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string  &$tpl  Template name
+	 * @param   string &$tpl Template name
 	 *
 	 * @return  void
 	 *
@@ -107,6 +128,8 @@ class RedshopViewList extends AbstractView
 	 */
 	public function beforeDisplay(&$tpl)
 	{
+		$this->checkPermission();
+
 		// Get data from the model
 		$this->items         = $this->model->getItems();
 		$this->pagination    = $this->model->getPagination();
@@ -115,6 +138,37 @@ class RedshopViewList extends AbstractView
 		$this->filterForm    = $this->model->getForm();
 
 		$this->prepareTable();
+
+		if ($this->hasOrdering && $this->isNested && !empty($this->items))
+		{
+			foreach ($this->items as &$item)
+			{
+				$this->nestedOrdering[$item->parent_id][] = $item->id;
+			}
+		}
+	}
+
+	/**
+	 * Method for check permission of current user on view
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function checkPermission()
+	{
+		if (!$this->useUserPermission)
+		{
+			return;
+		}
+
+		// Check permission on create new
+		if (!$this->canView)
+		{
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
+			$app->redirect('index.php?option=com_redshop');
+		}
 	}
 
 	/**
@@ -158,11 +212,22 @@ class RedshopViewList extends AbstractView
 	protected function addToolbar()
 	{
 		// Add common button
-		JToolbarHelper::addNew($this->getInstanceName() . '.add');
-		JToolbarHelper::deleteList('', $this->getInstancesName() . '.delete');
-		JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
-		JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-		JToolbarHelper::checkin($this->getInstancesName() . '.publish', 'JTOOLBAR_CHECKIN', true);
+		if ($this->canCreate)
+		{
+			JToolbarHelper::addNew($this->getInstanceName() . '.add');
+		}
+
+		if ($this->canDelete)
+		{
+			JToolbarHelper::deleteList('', $this->getInstancesName() . '.delete');
+		}
+
+		if ($this->canEdit)
+		{
+			JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::checkin($this->getInstancesName() . '.publish', 'JTOOLBAR_CHECKIN', true);
+		}
 	}
 
 	/**
@@ -212,6 +277,11 @@ class RedshopViewList extends AbstractView
 				continue;
 			}
 
+			if ($field['name'] == 'ordering')
+			{
+				$this->hasOrdering = true;
+			}
+
 			$this->columns[] = array(
 				// This column is sortable?
 				'sortable'  => isset($field['table-sortable']) ? (boolean) $field['table-sortable'] : false,
@@ -234,9 +304,9 @@ class RedshopViewList extends AbstractView
 	/**
 	 * Method for render 'Published' column
 	 *
-	 * @param   array   $config  Row config.
-	 * @param   int     $index   Row index.
-	 * @param   object  $row     Row data.
+	 * @param   array  $config Row config.
+	 * @param   int    $index  Row index.
+	 * @param   object $row    Row data.
 	 *
 	 * @return  string
 	 *
@@ -244,14 +314,23 @@ class RedshopViewList extends AbstractView
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
-		$isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
+		$user             = JFactory::getUser();
+		$isCheckedOut     = $row->checked_out && $user->id != $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
 
 		if (in_array($config['dataCol'], $this->stateColumns))
 		{
-			return JHtml::_('jgrid.published', $row->published, $index);
+			if ($this->canEdit)
+			{
+				return JHtml::_('jgrid.published', $row->published, $index);
+			}
+			else
+			{
+				return '<span class="label ' . ($row->published ? 'label-success' : 'label-danger') . '">' .
+					($row->published ? JText::_('JYES') : JText::_('JNO')) . '</span>';
+			}
 		}
-		elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable)
+		elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable && $this->canEdit)
 		{
 			$value   = $row->{$config['dataCol']};
 			$display = $value;

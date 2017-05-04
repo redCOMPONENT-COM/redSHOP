@@ -41,7 +41,7 @@ class ManageProductsCheckoutFrontEndCest
 			"phone" => "8787878787"
 		);
 
-		$randomNumber = rand(10, 1000);
+		/*$randomNumber = rand(10, 1000);
 
 		if (($randomNumber % 2) == 1)
 		{
@@ -74,7 +74,10 @@ class ManageProductsCheckoutFrontEndCest
 
 			$categoryName = 'CCK and e-Commerce';
 
-		}
+		}*/
+
+		$productName = 'redITEM';
+		$categoryName = 'CCK and e-Commerce';
 
 		$this->checkOutProductWithBankTransfer($I, $scenario, $customerInformation, $customerInformation, $productName, $categoryName);
 	}
