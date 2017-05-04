@@ -129,16 +129,27 @@ class RedshopModelRating_detail extends RedshopModelForm
 		return $row;
 	}
 
-	public function delete($cid = array())
+	/**
+	 * Method to delete one or more records.
+	 *
+	 * @param   array  &$pks  An array of record primary keys.
+	 *
+	 * @return  boolean  True if successful, false if an error occurs.
+	 *
+	 * @since   1.6
+	 */
+	public function delete(&$pks)
 	{
-		if (count($cid))
+		$pks = (array) $pks;
+
+		if (!empty($pks))
 		{
-			$cids = implode(',', $cid);
+			$db = $this->_db;
+			$query = $db->getQuery(true)
+				->delete($db->qn('#__redshop_product_rating'))
+				->where($db->qn('rating_id') . ' IN (' . implode(',', $pks) . ')');
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_rating WHERE rating_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
+			if (!$db->setQuery($query)->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -149,14 +160,14 @@ class RedshopModelRating_detail extends RedshopModelForm
 		return true;
 	}
 
-	public function publish($cid = array(), $publish = 1)
+	public function publish(&$pks, $value = 1)
 	{
-		if (count($cid))
+		if (count($pks))
 		{
-			$cids = implode(',', $cid);
+			$cids = implode(',', $pks);
 
 			$query = 'UPDATE ' . $this->_table_prefix . 'product_rating'
-				. ' SET published = ' . intval($publish)
+				. ' SET published = ' . intval($value)
 				. ' WHERE rating_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 

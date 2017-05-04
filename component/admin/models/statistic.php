@@ -862,7 +862,7 @@ class RedshopModelStatistic extends RedshopModelList
 
 		$query = $db->getQuery(true)
 			->clear()
-			->select('FROM_UNIXTIME(' . $db->qn('created_date') . ',' . $db->q($formate) . ') AS viewdate')
+			->select('COUNT(*) AS viewer')
 			->from($db->qn('#__redshop_siteviewer'));
 
 		$siteViewer = $this->_getList($query);
@@ -870,9 +870,9 @@ class RedshopModelStatistic extends RedshopModelList
 		if ($this->_filteroption && $minDate != "" && $minDate != 0)
 		{
 			$query = $db->getQuery(true)
-			->clear()
-			->select('COUNT(*) AS viewer')
-			->from($db->qn('#__redshop_siteviewer'));
+				->clear()
+				->select('FROM_UNIXTIME(' . $db->qn('created_date') . ',' . $db->q($formate) . ') AS viewdate')
+				->from($db->qn('#__redshop_siteviewer'));
 
 			while ($minDate < strtotime($today))
 			{
@@ -881,12 +881,11 @@ class RedshopModelStatistic extends RedshopModelList
 				$query2->where($db->qn('created_date') . ' > ' . $db->q(strtotime($list->preday)))
 					->where($db->qn('created_date') . ' <= ' . $db->q(strtotime($today)));
 				$rs = $db->setQuery($query2)->loadObjectList();
-				$rs[0] = new stdClass;
+
 				$rs[0]->viewer = count($rs);
 
 				if ($rs[0]->viewer > 0)
 				{
-
 					if ($this->_filteroption == 2)
 					{
 						$rs[0]->viewdate = JText::_('COM_REDSHOP_WEEK') . " " . date("W - Y", strtotime($list->preday) + 1);
@@ -916,7 +915,6 @@ class RedshopModelStatistic extends RedshopModelList
 	 *
 	 * @since   2.0.0.3
 	 */
-
 	public function getNextInterval($today)
 	{
 		$list = array();
