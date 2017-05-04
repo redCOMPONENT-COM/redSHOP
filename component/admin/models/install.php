@@ -19,13 +19,6 @@ defined('_JEXEC') or die;
 class RedshopModelInstall extends RedshopModelList
 {
 	/**
-	 * @var  string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
-
-	/**
 	 * Method for get all available step of installation.
 	 *
 	 * @param   string $type Type of installation (install, install_discover, update)
@@ -53,13 +46,15 @@ class RedshopModelInstall extends RedshopModelList
 	 */
 	public function getUpdateSteps()
 	{
+		$updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
+
 		// Get available updates class.
-		if (!is_dir($this->updatePath))
+		if (!is_dir($updatePath))
 		{
 			return array();
 		}
 
-		$files   = glob($this->updatePath . '/*.php');
+		$files   = glob($updatePath . '/*.php');
 		$version = RedshopHelperJoomla::getManifestValue('version');
 		$classes = array();
 
