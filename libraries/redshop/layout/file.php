@@ -363,6 +363,18 @@ class RedshopLayoutFile extends RedshopLayoutBase
 			$this->addIncludePath(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $component);
 		}
 
+		// Plugins layouts & overrides if exist
+		$plugin = $this->options->get('plugin', null);
+
+		if (!empty($plugin))
+		{
+			// (3) Plugins path
+			$this->addIncludePaths(JPATH_PLUGINS . '/' . $plugin . '/layouts');
+
+			// (4) Plugins template overrides path
+			$this->addIncludePath(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/plugins/' . $plugin);
+		}
+
 		// (5 - highest priority) Received a custom high priority path ?
 		if (!is_null($this->basePath))
 		{
