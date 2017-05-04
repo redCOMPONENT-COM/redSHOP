@@ -20,6 +20,8 @@ To prepare the system tests (Selenium) to be run in your local machine you are a
 
 - rename the file `tests/acceptance.suite.dist.yml` to `tests/acceptance.suite.yml`
 - edit  the file `tests/acceptance.suite.yml` according to your system needs.
+- rename the file `tests/RoboFile.ini.dist` to `tests/RoboFile.ini`
+- edit  the file `tests/RoboFile.ini` according to your system needs.
 
 ## Running the tests
 To run the tests please execute the following commands (for the moment only working in Linux and MacOS):
