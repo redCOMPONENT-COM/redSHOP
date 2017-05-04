@@ -19,22 +19,15 @@ defined('_JEXEC') or die;
 class RedshopUpdate206Beta1 extends RedshopInstallUpdate
 {
 	/**
-	 * Method clean old files
+	 * Return list of old files for clean
 	 *
-	 * @return  void
+	 * @return  array
 	 *
-	 * @since   2.0.6-Beta1
+	 * @since   2.0.6-beta1
 	 */
-	public function cleanOldFiles()
+	protected function getOldFiles()
 	{
-		$folders = array(
-			JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager_detail'
-		);
-
-		$this->deleteFolders($folders);
-
-		$files = array(
+		return array(
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/accessmanager.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/accessmanager_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redaccesslevel.php',
@@ -42,7 +35,20 @@ class RedshopUpdate206Beta1 extends RedshopInstallUpdate
 			JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/accessmanager_detail.php'
 		);
+	}
 
-		$this->deleteFiles($files);
+	/**
+	 * Return list of old folders for clean
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.6-beta1
+	 */
+	protected function getOldFolders()
+	{
+		return array(
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager_detail'
+		);
 	}
 }
