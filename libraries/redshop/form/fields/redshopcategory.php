@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Element
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -68,7 +68,7 @@ class JFormFieldRedshopCategory extends JFormFieldList
 
 			foreach (self::$cache as $item)
 			{
-				$options[] = JHtml::_('select.option', $item->category_id, $item->category_name, 'value', 'text');
+				$options[] = JHtml::_('select.option', $item->id, $item->name, 'value', 'text');
 			}
 
 			if ($this->multiple)

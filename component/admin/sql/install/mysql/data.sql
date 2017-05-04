@@ -942,8 +942,8 @@ VALUES (2 , 'Default Company', '0', '0', '', '', '', 'This is the default Compan
 INSERT IGNORE INTO `#__redshop_shopper_group` ( `shopper_group_id` ,`shopper_group_name` ,`shopper_group_customer_type` ,`shopper_group_portal` ,`shopper_group_categories` ,`shopper_group_url` ,`shopper_group_logo` ,`shopper_group_introtext` ,`shopper_group_desc` ,`parent_id`, `published`)
 VALUES (3 , 'Default Tax Exempt', '0', '0', '', '', '', 'This is the Default Tax Exempt shopper group.', 'This is the Default Tax Exempt shopper group.', '0', '1');
 
-INSERT IGNORE INTO `#__redshop_tax_group` ( `tax_group_id` ,`tax_group_name` ,`published`)
-VALUES (1 , 'Default','1');
+INSERT IGNORE INTO `#__redshop_tax_group` (`id` ,`name` ,`published`)
+VALUES (1, 'Default','1');
 
 INSERT IGNORE INTO `#__redshop_economic_accountgroup` (`accountgroup_id`, `accountgroup_name`, `economic_vat_account`, `economic_nonvat_account`, `economic_discount_nonvat_account`, `economic_shipping_vat_account`, `economic_shipping_nonvat_account`, `economic_discount_product_number`, `published`, `economic_service_nonvat_account`, `economic_discount_vat_account`) VALUES
 	(1, 'default account group', '4001', '4000', '4000', '4001', '4000', '191919', 1, '', '4001');
@@ -956,3 +956,9 @@ INSERT IGNORE INTO `#__redshop_shipping_rate` (`shipping_rate_id`, `shipping_rat
 
 INSERT IGNORE INTO `#__redshop_shipping_boxes` (`shipping_box_id`, `shipping_box_name`, `shipping_box_length`, `shipping_box_width`, `shipping_box_height`, `shipping_box_priority`, `published`) VALUES
 	(1, 'Box1', 1.00, 1.00, 1.00, 1, 1);
+
+LOCK TABLES `#__redshop_category` WRITE;
+ALTER TABLE `#__redshop_category` DISABLE KEYS;
+INSERT INTO `#__redshop_category` VALUES (NULL, 'ROOT', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', 0, '0000-00-00 00:00:00', 0, '', '', 0, 'append', 'root', '', 0, 0, 0, 0, 1, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+ALTER TABLE `#__redshop_category` ENABLE KEYS;
+UNLOCK TABLES;

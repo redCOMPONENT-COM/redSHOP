@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -228,6 +228,7 @@ class RedshopControllerProduct extends RedshopController
 		$notifyStock                   = $result['notifyStock'];
 		$product_availability_date_lbl = $result['product_availability_date_lbl'];
 		$product_availability_date     = $result['product_availability_date'];
+		$additional_vids			   = $result['additional_vids'];
 
 		echo "`_`" . $response
 			. "`_`" . $aHrefImageResponse
@@ -243,7 +244,8 @@ class RedshopControllerProduct extends RedshopController
 			. "`_`" . $attrbimg
 			. "`_`" . $notifyStock
 			. "`_`" . $product_availability_date_lbl
-			. "`_`" . $product_availability_date;
+			. "`_`" . $product_availability_date
+			. "`_`" . $additional_vids;
 		exit;
 	}
 
