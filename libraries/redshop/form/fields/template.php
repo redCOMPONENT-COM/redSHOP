@@ -3,11 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Element
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+JFormHelper::loadFieldClass('list');
 
 /**
  * Renders a template Form
@@ -16,7 +18,7 @@ defined('_JEXEC') or die;
  * @subpackage     Banners
  * @since          1.5
  */
-class JFormFieldtemplate extends JFormField
+class JFormFieldTemplate extends JFormFieldList
 {
 	/**
 	 * Element name
@@ -24,21 +26,30 @@ class JFormFieldtemplate extends JFormField
 	 * @access    protected
 	 * @var        string
 	 */
-	public $type = 'template';
+	public $type = 'Template';
 
-	protected function getInput()
+	protected function getOptions()
 	{
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('template_id'))
+			->select($db->qn('template_name'))
+			->from($db->qn('#__redshop_template'))
+			->where($db->qn('published') . ' = 1')
+			->where($db->qn('template_section') . ' = ' . $db->q('category'));
 
-		// This might get a conflict with the dynamic translation - TODO: search for better solution
-		$query = 'SELECT template_id,template_name '
-			. 'FROM #__redshop_template WHERE published=1 AND template_section="category" ';
-		$db->setQuery($query);
-		$options = $db->loadObjectList();
-		array_unshift($options, JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_TEMPLATE') . ' -', 'template_id', 'template_name'));
+		$items = $db->setQuery($query)->loadObjectList();
+		$options = array();
 
-		return JHTML::_('select.genericlist', $options, $this->name, 'class="inputbox"', 'template_id', 'template_name', $this->value, $this->id);
+		if (count($items) > 0)
+		{
+			foreach ($items as $item)
+			{
+				$option = JHTML::_('select.option', $item->template_id, $item->template_name);
+				$options[] = $option;
+			}
+		}
 
-
+		return array_merge(parent::getOptions(), $options);
 	}
 }

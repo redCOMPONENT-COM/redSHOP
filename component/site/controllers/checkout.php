@@ -3,11 +3,13 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Redshop\Economic\Economic;
 
 /**
  * Checkout Controller.
@@ -247,14 +249,13 @@ class RedshopControllerCheckout extends RedshopController
 			}
 			elseif (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && trim($billingaddresses->ean_number) != '')
 			{
-				$economic     = economic::getInstance();
-				$debtorHandle = $economic->createUserInEconomic($billingaddresses);
+				$debtorHandle = Economic::createUserInEconomic($billingaddresses);
 
 				if (JError::isError(JError::getError()))
 				{
 					$return = 1;
 					$error  = JError::getError();
-					$msg    = $error->message;
+					$msg    = $error->getMessage();
 					JError::raiseWarning('', $msg);
 
 					return $return;
@@ -495,6 +496,9 @@ class RedshopControllerCheckout extends RedshopController
 				// Add Plugin support
 				$results = $dispatcher->trigger('afterOrderPlace', array($cart, $orderresult));
 
+				JPluginHelper::importPlugin('system');
+				$dispatcher->trigger('afterOrderCreated', array($orderresult));
+
 				// New checkout flow
 				/**
 				 * change redirection
@@ -504,7 +508,7 @@ class RedshopControllerCheckout extends RedshopController
 				 */
 				$paymentmethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
 				$paymentmethod = $paymentmethod[0];
-				$params        = new JRegistry($paymentmethod->params, $xmlpath);
+				$params        = new \Joomla\Registry\Registry($paymentmethod->params);
 				$is_creditcard = $params->get('is_creditcard', 0);
 				$is_redirected = $params->get('is_redirected', 0);
 
@@ -734,6 +738,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		$extraField = extraField::getInstance();
 		$extrafield_total = "";
+		$extrafield_hidden = '';
 
 		if (count($extrafield_shipping) > 0)
 		{

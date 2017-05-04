@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Form.Field
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,8 +35,8 @@ class RedshopFormFieldTaxgroup extends JFormFieldList
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('tax_group_id', 'value'))
-			->select($db->qn('tax_group_name', 'text'))
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
 			->from($db->qn('#__redshop_tax_group'));
 		$options = $db->setQuery($query)->loadObjectList();
 
