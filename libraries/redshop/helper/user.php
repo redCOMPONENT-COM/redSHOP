@@ -339,4 +339,54 @@ class RedshopHelperUser
 
 		return $db->setQuery($query)->loadResult();
 	}
+
+	/**
+	 * Get User groups
+	 *
+	 * @param   integer  $userId  User identifier
+	 *
+	 * @return  array             Array of user groups
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUserGroups($userId = 0)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('u.group_id'))
+			->from($db->qn('#__redshop_users_info', 'uf'))
+			->leftJoin($db->qn('#__user_usergroup_map', 'u') . ' ON ' . $db->qn('u.user_id') . ' = ' . $db->qn('uf.user_id'))
+			->where($db->qn('uf.users_info_id') . ' = ' . (int) $userId);
+
+		return $db->setQuery($query)->loadColumn();
+	}
+
+	/**
+	 * Method for update term & conditions of user.
+	 *
+	 * @param   int  $userInfoId  RedSHOP User ID
+	 * @param   int  $isSet       Is set?
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function updateUserTermsCondition($userInfoId = 0, $isSet = 0)
+	{
+		$userInfoId = (int) $userInfoId;
+
+		if (!$userInfoId)
+		{
+			return;
+		}
+
+		// One id is mandatory ALWAYS
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_users_info'))
+			->set($db->qn('accept_terms_conditions') . ' = ' . (int) $isSet)
+			->where($db->qn('users_info_id') . ' = ' . (int) $userInfoId);
+
+		$db->setQuery($query)->execute();
+	}
 }

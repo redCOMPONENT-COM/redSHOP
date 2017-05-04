@@ -22,7 +22,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * @since  2.1
 	 */
 	public $tags = array(
-		'{category_name}',
+		'{name}',
 		'{category_short_description}',
 		'{category_description}',
 		'{category_thumb_image}',
@@ -36,9 +36,12 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * @since  2.1
 	 */
 	public $tags_alias = array(
-		'{category_short_desc}' => '{category_short_description}',
-		'{categoryshortdesc}'   => '{category_short_description}',
-		'{categorydesc}'        => '{category_description}',
+		'{category_short_desc}'        => '{category_short_description}',
+		'{categoryshortdesc}'          => '{category_short_description}',
+		'{categorydesc}'               => '{category_description}',
+		'{category_name}'              => '{name}',
+		'{category_short_description}' => '{short_description}',
+		'{category_description}'       => '{description}',
 	);
 
 	/**
@@ -80,8 +83,8 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	/**
 	 * Replace category fields tags
 	 *
-	 * @param   object $category Category object
-	 * @param   string $template Template to replace
+	 * @param   object  $category  Category object
+	 * @param   string  $template  Template to replace
 	 *
 	 * @return  string
 	 *
@@ -136,7 +139,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			// Make this this tag also have object property to use
 			if (property_exists($category, $tag))
 			{
-				$template = str_replace('{' . $alias . '}', $category->{$tag}, $template);
+				$template = str_replace($alias, $category->{$tag}, $template);
 			}
 		}
 
@@ -146,7 +149,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	/**
 	 * Replace sub categories tags
 	 *
-	 * @param   array $subCategories Sub categories array
+	 * @param   array  $subCategories  Sub categories array
 	 *
 	 * @return  string
 	 *
@@ -176,6 +179,8 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	}
 
 	/**
+	 * getThumbnail
+	 * 
 	 * @param   object  $category  Category object
 	 * @param   int     $width     Width
 	 * @param   int     $height    Height
@@ -192,13 +197,13 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 		// Default with JPATH_ROOT . '/components/com_redshop/assets/images/'
 		$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
-		$title       = " title='" . $category->category_name . "' ";
-		$alt         = " alt='" . $category->category_name . "' ";
+		$title       = " title='" . $category->name . "' ";
+		$alt         = " alt='" . $category->name . "' ";
 		$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 		$linkimage   = $product_img;
 
 		// Try to get category Itemid
-		$cItemid = $objhelper->getCategoryItemid($category->category_id);
+		$cItemid = $objhelper->getCategoryItemid($category->id);
 
 		if ($cItemid != "")
 		{
@@ -212,7 +217,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		// Generate category link
 		$link = JRoute::_(
 			'index.php?option=' . $jinput->get('option', 'com_redshop') .
-			'&view=category&cid=' . $category->category_id .
+			'&view=category&cid=' . $category->id .
 			'&manufacturer_id=' . $manufacturerId .
 			'&layout=detail&Itemid=' . $tmpItemid
 		);

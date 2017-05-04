@@ -43,8 +43,7 @@ class RedshopHelperJs
 		if ($session->get('product_currency'))
 		{
 			$currency_symbol  = $session->get('product_currency');
-			$convertPrice     = CurrencyHelper::getInstance();
-			$currency_convert = round($convertPrice->convert(1), 2);
+			$currency_convert = round(RedshopHelperCurrency::convert(1), 2);
 		}
 
 		$token = JSession::getFormToken();

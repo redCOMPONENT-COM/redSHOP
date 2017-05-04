@@ -23,38 +23,16 @@ class RedshopModelRedshop extends RedshopModel
 	public function demoContentInsert()
 	{
 		$db = JFactory::getDbo();
+		$category = new stdClass;
+		$category->id = 1;
+		$category->rgt = 7;
+		JFactory::getDbo()->updateObject('#__redshop_category', $category, 'id');
 
-		$query = "INSERT IGNORE INTO `#__redshop_category` (`category_id`, `category_name`, `category_short_description`, `category_description`, `category_template`, `category_more_template`, `products_per_page`, `category_thumb_image`, `category_full_image`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `category_pdate`, `ordering`, `category_back_full_image`, `compare_template_id`, `append_to_global_seo`)
+		$query = "INSERT IGNORE INTO `#__redshop_category` (`id`, `name`, `short_description`, `description`, `template`, `more_template`, `products_per_page`, `category_thumb_image`, `category_full_image`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `category_pdate`, `ordering`, `category_back_full_image`, `compare_template_id`, `append_to_global_seo`, `asset_id`, `parent_id`, `level`, `lft`, `rgt`)
 						VALUES
-							(1, 'Events and Forms', '', '', 5, '5,8', 4, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:06:45', 1, '', '0', 'append'),
-							(2, 'CCK and e-Commerce', '', '', 5, '0', 4, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:16:31', 2, '', '0', 'append'),
-							(3, 'Templates', '', '', 8, '0', 6, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:17:08', 3, '', '0', 'append')";
-		$db->setQuery($query);
-		$db->execute();
-
-
-		/* Get the current columns for redshop category_xref */
-		$q = "SHOW INDEX FROM #__redshop_category_xref";
-		$db->setQuery($q);
-		$cols = $db->loadObjectList('Column_name');
-
-		if (is_array($cols))
-		{
-			/* Check if we have the category_parent_id column */
-			if (!array_key_exists('category_parent_id', $cols))
-			{
-				$q = "ALTER IGNORE TABLE `#__redshop_category_xref` ADD UNIQUE (
-								`category_parent_id` ,
-								`category_child_id`
-								)";
-				$db->setQuery($q);
-				$db->execute();
-			}
-		}
-
-		$query = "INSERT IGNORE INTO `#__redshop_category_xref`
-					(`category_parent_id`, `category_child_id`)
-					VALUES (0, 1),(0, 2),(0, 3)";
+							(2, 'Events and Forms', '', '', 5, '5,8', 4, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:06:45', 1, '', '0', 'append', 1, 1, 1, 1, 2),
+							(3, 'CCK and e-Commerce', '', '', 5, '0', 4, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:16:31', 2, '', '0', 'append', 1, 1 ,1, 3, 4),
+							(4, 'Templates', '', '', 8, '0', 6, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 02:17:08', 3, '', '0', 'append', 1, 1, 1, 5, 6)";
 		$db->setQuery($query);
 		$db->execute();
 
@@ -159,20 +137,20 @@ class RedshopModelRedshop extends RedshopModel
 		}
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_category_xref` (`category_id`, `product_id`, `ordering`) VALUES
-						(1, 1, 1),
-						(1, 2, 2),
-						(1, 3, 3),
-						(1, 4, 4),
-						(2, 5, 1),
-						(2, 6, 2),
-						(2, 7, 3),
-						(3, 8, 1),
-						(3, 9, 2),
-						(3, 10, 0),
-						(3, 11, 0),
-						(3, 12, 0),
-						(3, 13, 0),
-						(3, 14, 3)";
+						(2, 1, 1),
+						(2, 2, 2),
+						(2, 3, 3),
+						(2, 4, 4),
+						(3, 5, 1),
+						(3, 6, 2),
+						(3, 7, 3),
+						(4, 8, 1),
+						(4, 9, 2),
+						(4, 10, 0),
+						(4, 11, 0),
+						(4, 12, 0),
+						(4, 13, 0),
+						(4, 14, 3)";
 		$db->setQuery($query);
 		$db->execute();
 

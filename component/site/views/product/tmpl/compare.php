@@ -248,7 +248,7 @@ if ($total > 0)
 		if (strstr($template, "{product_category}"))
 		{
 			$category = $producthelper->getSection('category', $data['item']->categoryId);
-			$template = str_replace('{product_category}', $exp_div . $category->category_name . $div_end . $td_end . $td_start . "{product_category}", $template);
+			$template = str_replace('{product_category}', $exp_div . $category->name . $div_end . $td_end . $td_start . "{product_category}", $template);
 		}
 
 		$link_remove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&cid=' . $category->category_id . '&Itemid=' . $this->itemId . '&tmpl=component';
