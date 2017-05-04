@@ -1,6 +1,6 @@
 {
   "components": [
-    "redshop"
+    "redshop", "redshop.assets"
   ],
   "libraries": [
     "redshop"
@@ -145,7 +145,11 @@
       "shoppergroup_tags",
       "stock_notifyemail",
       "stockroom_status",
-      "discount_affect_attribute"
+      "discount_affect_attribute",
+      "bundle"
+    ],
+    "redshop_product_type": [
+      "bundle"
     ],
     "redshop_shipping": [
       "bring",
@@ -182,7 +186,8 @@
       "redlightbox_slideshow",
       "redproductzoom",
       "redshop",
-      "redshop_send_discountcode"
+      "redshop_send_discountcode",
+      "redshop_product_bundle"
     ],
     "user": [
       "highrise"

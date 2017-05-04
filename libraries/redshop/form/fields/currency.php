@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+jimport('redshop.library');
 use Redshop\Currency\Currency;
 
 /**
@@ -46,7 +47,7 @@ class JFormFieldCurrency extends JFormField
 				$currency[] = $key;
 			}
 
-			$currency = implode("','", $currency);
+			$currency = '\'' . implode("','", $currency) . '\'';
 		}
 
 		$shopCurrency = $this->getCurrency($currency);
