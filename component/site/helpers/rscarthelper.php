@@ -3065,18 +3065,15 @@ class rsCarthelper
 			$idx = (int) $cartArr['idx'];
 		}
 
-		$getacctax          = 0;
-		$taxtotal           = 0;
-		$subtotal_excl_vat  = 0;
-
 		for ($i = 0; $i < $idx; $i++)
 		{
 			if (!isset($cartArr[$i]['giftcard_id'])
 				|| (isset($cartArr[$i]['giftcard_id']) && $cartArr[$i]['giftcard_id'] <= 0))
 			{
-				$product_id = $cartArr[$i]['product_id'];
-				$quantity   = $cartArr[$i]['quantity'];
-				$product    = $this->_producthelper->getProductById($product_id);
+				$product_id   = $cartArr[$i]['product_id'];
+				$quantity     = $cartArr[$i]['quantity'];
+				$product      = RedshopHelperProduct::getProductById($product_id);
+				$hasAttribute = isset($cartArr[$i]['cart_attribute']) ? true : false;
 
 				// Attribute price
 				$price = 0;
@@ -3086,7 +3083,7 @@ class rsCarthelper
 					$cartArr['quotation'] = 0;
 				}
 
-				if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || $cartArr['quotation'] == 1)
+				if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || $cartArr['quotation'] == 1) && !$hasAttribute)
 				{
 					$price = $cartArr[$i]['product_price_excl_vat'];
 				}
@@ -3096,7 +3093,7 @@ class rsCarthelper
 					$price = $cartArr[$i]['discount_calc_price'];
 				}
 
-				// Only set price without vat for accessories as prododuct
+				// Only set price without vat for accessories as product
 				$accessoryAsProdutWithoutVat = false;
 
 				if (isset($cartArr['AccessoryAsProduct']))
