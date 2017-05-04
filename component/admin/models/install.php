@@ -80,6 +80,10 @@ class RedshopModelInstall extends RedshopModelList
 				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_UPDATE_SCHEMA'),
 				'func' => 'updateDatabaseSchema'
 			);
+			$tasks[] = array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_UPDATE_CATEGORY'),
+				'func' => 'updateCategory'
+			);
 		}
 
 		return $tasks;
@@ -695,6 +699,22 @@ class RedshopModelInstall extends RedshopModelList
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/tables/tax_group_detail.php';
 		$files[] = JPATH_ADMINISTRATOR . '/components/com_redshop/views/tax_group/tmpl/default.php';
 
+		// Remove old Category Detail.
+		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '2.0.5', '<='))
+		{
+			array_push(
+				$files,
+				JPATH_ADMINISTRATOR . '/component/admin/controllers/category_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/models/category_detail.php'
+			);
+
+			array_push(
+				$folders,
+				JPATH_ADMINISTRATOR . '/component/admin/views/category_detail',
+				JPATH_LIBRARIES . '/redshop/economic'
+			);
+		}
+
 		// Remove old Supplier stuff since Refactor.
 		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '2.0.0.6', '<='))
 		{
@@ -986,6 +1006,104 @@ class RedshopModelInstall extends RedshopModelList
 	}
 
 	/**
+	 * Method to update new structure for Category
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.5
+	 */
+	public function processUpdateCategory()
+	{
+		$db = JFactory::getDbo();
+		$check = RedshopHelperCategory::getRootId();
+
+		if (!empty($check))
+		{
+			return true;
+		}
+
+		$root = new stdClass;
+		$root->name = 'ROOT';
+		$root->parent_id = 0;
+		$root->level = 0;
+		$root->lft = 0;
+		$root->rgt = 1;
+		$result = $db->insertObject('#__redshop_category', $root);
+		$rootId = $db->insertid();
+
+		$query = $db->getQuery(true)
+			->select('c.*')
+			->select($db->qn('cx.category_parent_id', 'parent_id'))
+			->from($db->qn('#__redshop_category', 'c'))
+			->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('cx.category_child_id'));
+		$categories = $db->setQuery($query)->loadObjectList();
+
+		foreach ($categories as $key => $category)
+		{
+			if ($category->name == 'ROOT')
+			{
+				continue;
+			}
+
+			$parentId = ($category->parent_id == 0) ? $rootId : $category->parent_id;
+			$alias = JFilterOutput::stringURLUnicodeSlug($category->name);
+
+			$fields = array(
+					$db->qn('parent_id') . ' = ' . $db->q((int) $parentId),
+					$db->qn('alias') . ' = ' . $db->q($alias)
+				);
+			$conditions = array(
+				$db->qn('id') . ' = ' . $db->q((int) $category->id)
+			);
+
+			$query = $db->getQuery(true)
+				->update($db->qn('#__redshop_category'))
+				->set($fields)
+				->where($conditions);
+
+			$db->setQuery($query)->execute();
+		}
+
+		if ($this->processRebuildCategory($rootId))
+		{
+			$this->processDeleteCategoryXrefTable();
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to update new structure for Category
+	 *
+	 * @param   int  $rootId  Root ID
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.5
+	 */
+	public function processRebuildCategory($rootId)
+	{
+		$table = RedshopTable::getInstance('Category', 'RedshopTable');
+
+		return $table->rebuild($rootId);
+	}
+
+	/**
+	 * Method to update new structure for Category
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.5
+	 */
+	public function processDeleteCategoryXrefTable()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)->dropTable('#__redshop_category_xref');
+
+		return $db->setQuery($query);
+	}
+
+	/**
 	 * Delete folder recursively
 	 *
 	 * @param   string $folder Folder to delete
@@ -1071,8 +1189,8 @@ class RedshopModelInstall extends RedshopModelList
 	/**
 	 * Change images file name
 	 *
-	 * @param   array   &$files  List files in image folder
-	 * @param   string  &$path   Path to folder
+	 * @param   array   $files  List files in image folder
+	 * @param   string  $path   Path to folder
 	 *
 	 * @return  void
 	 */

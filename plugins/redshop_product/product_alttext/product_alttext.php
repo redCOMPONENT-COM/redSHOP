@@ -50,9 +50,9 @@ class PlgRedshop_ProductProduct_AltText extends JPlugin
 		{
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->qn('category_name'))
+				->select($db->qn('name'))
 				->from($db->qn('#__redshop_category'))
-				->where($db->qn('category_id') . ' = ' . $product->category_id);
+				->where($db->qn('id') . ' = ' . $product->category_id);
 
 			$categoryName = $db->setQuery($query)->loadResult();
 

@@ -58,6 +58,7 @@ tests/cache
 tests/RoboFile.ini
 selenium-server-standalone.jar
 tests/_support/_generated/*
+tests/releases/*
 
 # Ignore redSHOP config
 component/admin/config/config.php

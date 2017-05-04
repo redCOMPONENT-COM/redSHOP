@@ -177,8 +177,8 @@ class RedshopViewProduct extends RedshopView
 				while ($parentid != 0)
 				{
 					$parentdetail = $prodhelperobj->getSection("category", $parentid);
-					$parentcat    = $parentdetail->category_name . "  " . $parentcat;
-					$parentid     = $prodhelperobj->getParentCategory($parentdetail->category_id);
+					$parentcat    = $parentdetail->name . "  " . $parentcat;
+					$parentid     = $prodhelperobj->getParentCategory($parentdetail->id);
 				}
 
 				$pagetitletag = str_replace("{parentcategoryloop}", $parentcat, $pagetitletag);
