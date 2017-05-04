@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -206,10 +206,14 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 	public function GetCategoryList()
 	{
-		$query = 'SELECT category_name as text,category_id as value FROM ' . $this->_table_prefix . 'category WHERE published = 1';
-		$this->_db->setQuery($query);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('published') . ' = 1');
 
-		return $this->_db->loadObjectList();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	public function GetStateList($country_codes)
@@ -274,8 +278,8 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 	public function getVatGroup()
 	{
-		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE
-		`published` = 1 ORDER BY tax_group_id ASC";
+		$query = "SELECT tg.name as text, tg.id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE
+		tg.published = 1 ORDER BY tg.id ASC";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();

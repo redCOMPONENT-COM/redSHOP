@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -187,5 +187,31 @@ class RedshopTable extends AbstractTable
 		}
 
 		return true;
+	}
+
+	/**
+	 * Delete one or more registers
+	 *
+	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfully?
+	 */
+	protected function doDelete($pk = null)
+	{
+		// Skip this check if this option has been set to true. In case use in CLI or API
+		if ($this->getOption('skipCheckPermissionOnDelete') === true)
+		{
+			return parent::doDelete();
+		}
+
+		// Check permission of delete
+		if (!JFactory::getUser()->authorise($this->getInstanceName() . '.delete', 'com_redshop.backend'))
+		{
+			$this->setError(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'));
+
+			return false;
+		}
+
+		return parent::doDelete();
 	}
 }

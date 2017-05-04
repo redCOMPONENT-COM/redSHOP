@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,11 +37,6 @@ class RedshopViewRedshop extends RedshopViewAdmin
 	 * @var  array
 	 */
 	public $neworders;
-
-	/**
-	 * @var  array
-	 */
-	public $access_rslt;
 
 	/**
 	 * Display the States view
@@ -79,9 +74,9 @@ class RedshopViewRedshop extends RedshopViewAdmin
 			}
 		}
 
-		if ($user->authorise('core.manage', 'com_redshop'))
+		if (!$user->authorise('core.manage', 'com_redshop'))
 		{
-			$this->access_rslt = RedshopHelperAccess::checkAccessOfUser($user->gid);
+			throw new Exception('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION');
 		}
 
 		$this->model        = $this->getModel();
