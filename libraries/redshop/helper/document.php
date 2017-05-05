@@ -55,10 +55,10 @@ class RedshopHelperDocument
 	 * Adds a linked script to the page
 	 * This forces always use scripts versions
 	 *
-	 * @param   string   $url    URL to the linked script
-	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer  Adds the defer attribute.
-	 * @param   boolean  $async  Adds the async attribute.
+	 * @param   string  $url   URL to the linked script
+	 * @param   string  $type  Type of script. Defaults to 'text/javascript'
+	 * @param   boolean $defer Adds the defer attribute.
+	 * @param   boolean $async Adds the async attribute.
 	 *
 	 * @return  self             Instance of $this to allow chaining
 	 */
@@ -73,10 +73,10 @@ class RedshopHelperDocument
 	/**
 	 * Add a script to the top of the document scripts
 	 *
-	 * @param   string   $url    URL to the linked script
-	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer  Adds the defer attribute.
-	 * @param   boolean  $async  Adds the async attribute.
+	 * @param   string  $url   URL to the linked script
+	 * @param   string  $type  Type of script. Defaults to 'text/javascript'
+	 * @param   boolean $defer Adds the defer attribute.
+	 * @param   boolean $async Adds the async attribute.
 	 *
 	 * @return  self
 	 */

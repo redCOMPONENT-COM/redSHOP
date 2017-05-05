@@ -102,7 +102,7 @@ class CurrencyLayer
 			}
 			else
 			{
-				$currentFile = $storeFile;
+				$currentFile = json_decode(file_get_contents($storeFile));
 
 				$this->lastUpdated = $storeFileDate;
 				$this->archive     = false;
@@ -154,18 +154,15 @@ class CurrencyLayer
 
 		if (!$contents)
 		{
-			$this->convertedCurrencies = array();
+            $this->convertedCurrencies = array();
 
-			return;
-		}
-echo '<pre>';
-print_r($currentFile);
-echo '</pre>';
-die;
+            return;
+        }
+
 		if ($this->archive)
 		{
 			// Now write new file
-			file_put_contents($storeFile, $contents);
+			file_put_contents($storeFile, json_encode($contents));
 		}
 
 		$currencies = $currentFile['quotes'];
