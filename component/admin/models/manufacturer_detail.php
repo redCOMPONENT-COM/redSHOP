@@ -97,8 +97,6 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$dispatcher = JDispatcher::getInstance();
-		JPluginHelper::importPlugin('redshop_product');
 		$order_functions = order_functions::getInstance();
 		$plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
 
@@ -108,10 +106,6 @@ class RedshopModelManufacturer_detail extends RedshopModel
 		}
 
 		$row = $this->getTable();
-
-		$isNew = ($row->manufacturer_id > 0) ? false : true;
-
-		$result = $dispatcher->trigger('onBeforeManufacturerSave', array(&$row, $isNew));
 
 		if ($data['manufacturer_id'] == 0)
 		{
@@ -139,8 +133,6 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 			return false;
 		}
-
-		$dispatcher->trigger('onAfterManufacturerSave', array(&$row, $isNew));
 
 		return $row;
 	}
