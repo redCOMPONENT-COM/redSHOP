@@ -166,15 +166,15 @@ class CurrencyLayer
 		}
 
 		$currencies = $currentFile['quotes'];
-		$results = array();
+        $result = array();
 
 		foreach ($currencies as $currency => $rate)
 		{
-			$currency = str_replace($currentFile['source'], '', $currency);
+			$currency = substr($currency, 3);
 			$result[$currency] = $rate;
 		}
 
-		$this->convertedCurrencies = $results;
+		$this->convertedCurrencies = $result;
 	}
 
 	/**
@@ -186,7 +186,7 @@ class CurrencyLayer
 	 */
 	public function getConvertedCurrencies()
 	{
-		if (is_null($this->convertedCurrencies))
+		if (empty($this->convertedCurrencies))
 		{
 			$this->init();
 		}
@@ -213,19 +213,10 @@ class CurrencyLayer
 		{
 			$sourceCurrency = \Redshop::getConfig()->get('CURRENCY_CODE');
 		}
-echo '<pre>';
-print_r($amount);
-echo '</pre>';
-        echo '<pre>';
-        print_r('source' . $sourceCurrency);
-        echo '</pre>';
-        echo '<pre>';
-        print_r('target'. $targetCurrency);
-        echo '</pre>';die;
+
 		if (!$targetCurrency)
 		{
 			$targetCurrency = $session->get('product_currency');
-		}
 
 		// If both currency codes match, do nothing
 		if ($sourceCurrency == $targetCurrency)
@@ -241,6 +232,7 @@ echo '</pre>';
 
 			return $amount;
 		}
+        }
 
 		$valueA = isset($convertedCurrencies[$sourceCurrency]) ? $convertedCurrencies[$sourceCurrency] : 1;
 		$valueB = isset($convertedCurrencies[$targetCurrency]) ? $convertedCurrencies[$targetCurrency] : 1;
