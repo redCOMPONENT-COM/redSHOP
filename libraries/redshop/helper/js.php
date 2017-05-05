@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Currency\Currency;
-
 /**
  * Class RedshopHelperJs
  *
