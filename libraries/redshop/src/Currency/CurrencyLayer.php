@@ -102,7 +102,7 @@ class CurrencyLayer
 			}
 			else
 			{
-				$currentFile = json_decode(file_get_contents($storeFile));
+				$currentFile = $storeFile;
 
 				$this->lastUpdated = $storeFileDate;
 				$this->archive     = false;
@@ -124,14 +124,14 @@ class CurrencyLayer
 		{
 			try
 			{
-				// Fetch the file from the internet
-				$this->initializeCurl();
+                $contents = json_decode(file_get_contents($currentFile), true);
+                $currentFile = $contents;
 			}
 			catch (\Exception $e)
 			{
 			}
 
-			if (!$contents)
+			if (empty($contents))
 			{
 				$app->enqueueMessage("ERROR_RESOLVING_HOST");
 			}
@@ -170,7 +170,7 @@ class CurrencyLayer
 
 		foreach ($currencies as $currency => $rate)
 		{
-			$currency = str_replace('USD', '', $currency);
+			$currency = str_replace($currentFile['source'], '', $currency);
 			$result[$currency] = $rate;
 		}
 
@@ -213,7 +213,15 @@ class CurrencyLayer
 		{
 			$sourceCurrency = \Redshop::getConfig()->get('CURRENCY_CODE');
 		}
-
+echo '<pre>';
+print_r($amount);
+echo '</pre>';
+        echo '<pre>';
+        print_r('source' . $sourceCurrency);
+        echo '</pre>';
+        echo '<pre>';
+        print_r('target'. $targetCurrency);
+        echo '</pre>';die;
 		if (!$targetCurrency)
 		{
 			$targetCurrency = $session->get('product_currency');
