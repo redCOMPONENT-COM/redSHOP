@@ -28,8 +28,8 @@ function addNewRow(tableRef) {
         fieldtp = "file";
         fieldname = "extra_name_file[]";
     }
-    newTD.innerHTML = '<input type="' + fieldtp + '" name="' + fieldname + '" value="field_temp_opt_' + g + '" id="' + fieldname + '">';
-    newTD1.innerHTML = '<input type="text" name="extra_value[]" value="" id="extra_value[]">&nbsp;<input type="hidden" name="value_id[]" id="value_id[]">  <input value="Delete" onclick="deleteRow(this)" class="button" type="button" />';
+    newTD.innerHTML = '<input id="extra_name' + g + '" type="' + fieldtp + '" name="' + fieldname + '" value="field_temp_opt_' + g + '" id="' + fieldname + '">';
+    newTD1.innerHTML = '<input type="text" name="extra_value[]" value="" id="extra_value' + g + '">&nbsp;<input type="hidden" name="value_id[]" id="value_id' + g + '">  <input value="Delete" onclick="deleteRow(this)" class="button" type="button" />';
     newTD2.innerHTML = '&nbsp;';
     newTR.appendChild(newTD);
     newTR.appendChild(newTD1);
