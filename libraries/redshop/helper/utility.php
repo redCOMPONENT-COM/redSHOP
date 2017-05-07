@@ -463,4 +463,22 @@ class RedshopHelperUtility
 
 		return $truncate;
 	}
+
+	/**
+	 * Method for check country in EU area or not
+	 *
+	 * @param   string  $country  Country code
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isCountryInEurope($country)
+	{
+		$euCountries = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST',
+			'FIN', 'FRA', 'FXX', 'GBR', 'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU',
+			'LUX', 'MLT', 'NLD', 'POL', 'PRT', 'ROM', 'SVK', 'SVN', 'SWE');
+
+		return in_array($country, $euCountries);
+	}
 }
