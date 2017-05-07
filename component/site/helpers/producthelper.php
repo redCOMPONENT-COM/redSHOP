@@ -83,23 +83,37 @@ class productHelper
 		$this->_session      = JFactory::getSession();
 	}
 
-	public function getWishlistmodule($menu_id)
+	/**
+	 * Method for get Wishlist module base in element name
+	 *
+	 * @param   string  $elementName  Element name
+	 *
+	 * @return  object|null
+	 *
+	 * @since   1.6.0
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperWishlist::getWishlistModule instead
+	 */
+	public function getWishlistModule($elementName)
 	{
-		$query = 'SELECT * FROM #__extensions WHERE element = "' . $menu_id . '" ';
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
-
-		return $result;
+		return RedshopHelperWishlist::getWishlistModule($elementName);
 	}
 
-	public function getwishlistuserfieldata($wishlistid, $productid)
+	/**
+	 * Method for get Wishlist user field data
+	 *
+	 * @param   integer  $wishlistId  Wish list id
+	 * @param   integer  $productId   Product Id
+	 *
+	 * @return  array
+	 *
+	 * @since   1.6.0
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
+	public function getwishlistuserfieldata($wishlistId, $productId)
 	{
-		$query = 'SELECT * FROM #__redshop_wishlist_userfielddata  WHERE wishlist_id = '
-			. (int) $wishlistid . '  AND product_id=' . (int) $productid . ' ORDER BY fieldid ASC';
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObjectList();
-
-		return $result;
+		return RedshopHelperWishlist::getUserFieldData($wishlistId, $productId);
 	}
 
 	/**
@@ -146,13 +160,20 @@ class productHelper
 		RedshopHelperProduct::setProduct($products);
 	}
 
+	/**
+	 * Method for check country in EU area or not
+	 *
+	 * @param   string  $country  Country code
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.6.0
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
 	public function country_in_eu_common_vat_zone($country)
 	{
-		$eu_countries = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST',
-			'FIN', 'FRA', 'FXX', 'GBR', 'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU',
-			'LUX', 'MLT', 'NLD', 'POL', 'PRT', 'ROM', 'SVK', 'SVN', 'SWE');
-
-		return in_array($country, $eu_countries);
+		return RedshopHelperUtility::isCountryInEurope($country);
 	}
 
 	/**
@@ -420,111 +441,35 @@ class productHelper
 		return self::$productSpecialIds[$userId];
 	}
 
+	/**
+	 * Method for get product tax
+	 *
+	 * @param   integer  $product_id     Product Id
+	 * @param   integer  $product_price  Product price
+	 * @param   integer  $user_id        User ID
+	 * @param   integer  $tax_exempt     Tax exempt
+	 *
+	 * @return  integer
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 */
 	public function getProductTax($product_id = 0, $product_price = 0, $user_id = 0, $tax_exempt = 0)
 	{
-		$userArr = $this->_session->get('rs_user');
-
-		if ($user_id == 0)
-		{
-			$user    = JFactory::getUser();
-			$user_id = $user->id;
-		}
-
-		$proinfo = array();
-
-		if ($product_id != 0)
-		{
-			$proinfo = $this->getProductById($product_id);
-		}
-
-		$protax   = 0;
-		$tax_rate = 0;
-
-		if (empty($userArr))
-		{
-			$userArr                     = array();
-			$userArr['rs_is_user_login'] = 0;
-		}
-
-		if ($userArr['rs_is_user_login'] == 0 && $user_id != 0)
-		{
-			$userArr = $this->_userhelper->createUserSession($user_id);
-		}
-
-		$vatrates_data = $this->getVatRates($product_id, $user_id);
-
-		if ($vatrates_data)
-		{
-			$tax_rate = $vatrates_data->tax_rate;
-		}
-
-		if ($product_price <= 0 && isset($proinfo->product_price))
-		{
-			$product_price = $proinfo->product_price;
-		}
-
-		$product_price = $this->productPriceRound($product_price);
-
-		if ($tax_exempt)
-		{
-			$protax = $product_price * $tax_rate;
-
-			return $protax;
-		}
-
-		if ($tax_rate)
-		{
-			if ($user_id)
-			{
-				$userinfo = $this->getUserInformation($user_id);
-
-				if (count($userinfo) > 0)
-				{
-					if ($userinfo->requesting_tax_exempt == 1 && $userinfo->tax_exempt_approved)
-					{
-						$protax = $protax;
-					}
-					else
-					{
-						$protax = $product_price * $tax_rate;
-					}
-				}
-				else
-				{
-					$protax = $product_price * $tax_rate;
-				}
-			}
-			else
-			{
-				$protax = $product_price * $tax_rate;
-			}
-		}
-
-		$protax = $this->productPriceRound($protax);
-
-		return $protax;
+		return RedshopHelperProduct::getProductTax($product_id, $product_price, $user_id, $tax_exempt);
 	}
 
+	/**
+	 * Method for replace tags about VAT information
+	 *
+	 * @param   string  $data_add  Template data.
+	 *
+	 * @return  string
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 */
 	public function replaceVatinfo($data_add)
 	{
-		if (strpos($data_add, "{vat_info}") !== false)
-		{
-			$strVat       = '';
-			$chktaxExempt = $this->getApplyVatOrNot($data_add);
-
-			if ($chktaxExempt)
-			{
-				$strVat = Redshop::getConfig()->get('WITH_VAT_TEXT_INFO');
-			}
-			else
-			{
-				$strVat = Redshop::getConfig()->get('WITHOUT_VAT_TEXT_INFO');
-			}
-
-			$data_add = str_replace("{vat_info}", $strVat, $data_add);
-		}
-
-		return $data_add;
+		return RedshopHelperTax::replaceVatInformation($data_add);
 	}
 
 	/**
@@ -537,118 +482,21 @@ class productHelper
 	 */
 	public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
 	{
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		$userinfo = $this->getUserInformation($user_id);
-
-		if ($user_id)
-		{
-			if (count($userinfo) > 0)
-			{
-				if ($userinfo->requesting_tax_exempt == 0)
-				{
-					return true;
-				}
-				elseif ($userinfo->requesting_tax_exempt == 1 && $userinfo->tax_exempt_approved == 0)
-				{
-					if ($btn_show_addto_cart)
-					{
-						return false;
-					}
-
-					return true;
-				}
-				elseif ($userinfo->requesting_tax_exempt == 1 && $userinfo->tax_exempt_approved == 1)
-				{
-					if ($btn_show_addto_cart)
-					{
-						return true;
-					}
-
-					return false;
-				}
-			}
-		}
-
-		return true;
+		return RedshopHelperCart::taxExemptAddToCart($user_id, (boolean) $btn_show_addto_cart);
 	}
 
+	/**
+	 * Get VAT User information
+	 *
+	 * @param   integer  $user_id  User ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 */
 	public function getVatUserinfo($user_id = 0)
 	{
-		// Let's create a common user session first.
-		RedshopHelperUser::createUserSession();
-
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		if ($user_id)
-		{
-			$userArr         = $this->_session->get('rs_user');
-			$userdata        = $this->getUserInformation($user_id);
-
-			if (count($userdata) > 0)
-			{
-				$userArr['rs_user_info_id'] = isset($userdata->users_info_id) ? $userdata->users_info_id : 0;
-				$userArr                    = $this->_session->set('rs_user', $userArr);
-
-				if (!$userdata->country_code)
-				{
-					$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-				}
-
-				if (!$userdata->state_code)
-				{
-					$userdata->state_code = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
-				}
-
-				/*
-				 *  VAT_BASED_ON = 0 // webshop mode
-				 *  VAT_BASED_ON = 1 // Customer mode
-				 *  VAT_BASED_ON = 2 // EU mode
-				 */
-				if (Redshop::getConfig()->get('VAT_BASED_ON') != 2 && Redshop::getConfig()->get('VAT_BASED_ON') != 1)
-				{
-					$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-					$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
-				}
-			}
-			else
-			{
-				$userdata = new stdClass;
-				$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-				$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
-			}
-		}
-		else
-		{
-			$auth                   = $this->_session->get('auth');
-			$users_info_id          = $auth['users_info_id'];
-
-			$userdata = new stdClass;
-			$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-			$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
-
-			if ($users_info_id && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get('REGISTER_METHOD') == 2) && (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
-			{
-				$query = "SELECT country_code,state_code FROM " . $this->_table_prefix . "users_info AS u "
-					. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
-					. "WHERE u.users_info_id = " . (int) $users_info_id . " "
-					. "ORDER BY u.users_info_id ASC LIMIT 0,1";
-				$this->_db->setQuery($query);
-				$userdata = $this->_db->loadObject();
-			}
-		}
-
-		return $userdata;
+		return RedshopHelperUser::getVatUserInformation($user_id);
 	}
 
 	/**

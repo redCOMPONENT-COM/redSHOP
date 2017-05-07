@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-
 jimport('joomla.filesystem.file');
 
 /**
