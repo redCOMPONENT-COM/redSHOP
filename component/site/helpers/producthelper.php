@@ -1488,33 +1488,35 @@ class productHelper
 			$data_add = str_replace("{" . $relPrefix . "product_price_table}", '', $data_add);
 		}
 
-		if (strpos($data_add, "{" . $relPrefix . "lowest_price}") !== false)
+		if (strpos($data_add, "{" . $relPrefix . "lowest_price}") !== false ||
+			strpos($data_add, "{" . $relPrefix . "highest_price}") !== false)
 		{
 			$productPriceMinMax = $this->getProductMinMaxPrice($product_id);
-
-			if (!empty($productPriceMinMax['min']))
+			
+			if (strpos($data_add, "{" . $relPrefix . "lowest_price}") !== false)
 			{
-				$productMinPrice = $this->getPriceReplacement($productPriceMinMax['min'] * $qunselect);
-				$data_add = str_replace("{" . $relPrefix . "lowest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $productMinPrice . '</span>', $data_add);
+				if (!empty($productPriceMinMax['min']))
+				{
+					$productMinPrice = $this->getPriceReplacement($productPriceMinMax['min'] * $qunselect);
+					$data_add = str_replace("{" . $relPrefix . "lowest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $productMinPrice . '</span>', $data_add);
+				}
+				else
+				{
+					$data_add = str_replace("{" . $relPrefix . "lowest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
+				}
 			}
-			else
-			{
-				$data_add = str_replace("{" . $relPrefix . "lowest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
-			}
-		}
 
-		if (strpos($data_add, "{" . $relPrefix . "highest_price}") !== false)
-		{
-			$productPriceMinMax = $this->getProductMinMaxPrice($product_id);
-
-			if (!empty($productPriceMinMax['min']))
+			if (strpos($data_add, "{" . $relPrefix . "highest_price}") !== false)
 			{
-				$productMaxPrice = $this->getPriceReplacement($productPriceMinMax['max'] * $qunselect);
-				$data_add = str_replace("{" . $relPrefix . "highest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $productMaxPrice . '</span>', $data_add);
-			}
-			else
-			{
-				$data_add = str_replace("{" . $relPrefix . "highest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
+				if (!empty($productPriceMinMax['min']))
+				{
+					$productMaxPrice = $this->getPriceReplacement($productPriceMinMax['max'] * $qunselect);
+					$data_add = str_replace("{" . $relPrefix . "highest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $productMaxPrice . '</span>', $data_add);
+				}
+				else
+				{
+					$data_add = str_replace("{" . $relPrefix . "highest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
+				}
 			}
 		}
 
