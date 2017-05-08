@@ -32,7 +32,7 @@ class RedshopHelperJs
 		$config = Redshop::getConfig();
 		$post   = $input->post->getArray();
 
-		$currency_symbol  = $config->get('REDCURRENCY_SYMBOL');
+		$currency_symbol  = $config->get('REDCURRENCY_SYMBOL', '');
 		$currency_convert = 1;
 
 		if (isset($post['product_currency']))
