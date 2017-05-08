@@ -1693,7 +1693,7 @@ class RedshopHelperMail
 			$mail->addAttachment($attachment);
 		}
 
-		JPluginHelper::importPlugin('redshop_product');
+		JPluginHelper::importPlugin('redshop_mail');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		// Process the product plugin before send mail
