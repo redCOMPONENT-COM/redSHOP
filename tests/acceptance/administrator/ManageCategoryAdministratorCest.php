@@ -93,7 +93,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
         $I->addCategorySave($this->categoryName);
-        $I->see($this->categoryName);
+        $I->see("item successfully saved", '.alert-success');
     }
 
 
