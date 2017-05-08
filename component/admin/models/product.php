@@ -173,7 +173,7 @@ class RedshopModelProduct extends RedshopModel
 			}
 			elseif ($product_sort == 'p.not_for_sale')
 			{
-				$and = 'AND p.not_for_sale=1 ';
+				$and = 'AND p.not_for_sale > 0 ';
 			}
 			elseif ($product_sort == 'p.product_not_on_sale')
 			{
