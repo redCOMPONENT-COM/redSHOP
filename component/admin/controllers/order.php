@@ -3,11 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Redshop\Economic\Economic;
 
 
 class RedshopControllerOrder extends RedshopController
@@ -168,15 +170,13 @@ class RedshopControllerOrder extends RedshopController
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			$economic = economic::getInstance();
-			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
+			$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
 
 			if (is_file($bookinvoicepdf))
 			{
-				$redshopMail = redshopMail::getInstance();
 				$ecomsg = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
 				$msgType = 'message';
-				$redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+				RedshopHelperMail::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
 
@@ -209,16 +209,15 @@ class RedshopControllerOrder extends RedshopController
 			}
 
 			$economic = economic::getInstance();
-			$economic->createInvoiceInEconomic($order_id, $economicdata);
+			Economic::createInvoiceInEconomic($order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
-				$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 1);
+				$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 1);
 
 				if (is_file($bookinvoicepdf))
 				{
-					$redshopMail = redshopMail::getInstance();
-					$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+					$ret = RedshopHelperMail::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 				}
 			}
 		}

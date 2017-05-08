@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -98,7 +98,5 @@ class RedshopViewMass_Discounts extends RedshopViewAdmin
 		JToolBarHelper::addNew('mass_discount.add');
 		JToolBarHelper::editList('mass_discount.edit');
 		JToolBarHelper::deleteList('', 'mass_discounts.delete');
-		JToolbarHelper::publish('mass_discounts.publish', 'JTOOLBAR_PUBLISH', true);
-		JToolbarHelper::unpublish('mass_discounts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 	}
 }

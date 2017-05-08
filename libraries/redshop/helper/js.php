@@ -43,8 +43,7 @@ class RedshopHelperJs
 		if ($session->get('product_currency'))
 		{
 			$currency_symbol  = $session->get('product_currency');
-			$convertPrice     = CurrencyHelper::getInstance();
-			$currency_convert = round($convertPrice->convert(1), 2);
+			$currency_convert = round(RedshopHelperCurrency::convert(1), 2);
 		}
 
 		$token = JSession::getFormToken();
@@ -85,6 +84,10 @@ class RedshopHelperJs
 			'ZERO_PRICE_REPLACE_URL'            => $config->get('ZERO_PRICE_REPLACE_URL'),
 			'ZERO_PRICE_REPLACE'                => $config->get('ZERO_PRICE_REPLACE')
 		);
+
+		// Current Shopper Group - Show price with VAT config
+		$shopperGroupData = RedshopHelperUser::getShopperGroupDataById(RedshopHelperUser::getShopperGroup(JFactory::getUser()->id));
+		$dynamicVars['SHOW_PRICE_WITHOUT_VAT'] = $shopperGroupData ?  (int) $shopperGroupData->show_price_without_vat : 0;
 
 		$backwardJS = array();
 

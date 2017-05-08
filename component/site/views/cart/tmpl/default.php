@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -182,11 +182,11 @@ $cart_data = str_replace("{empty_cart}", $empty_cart, $cart_data);
 
 $discount = $producthelper->getDiscountId(0);
 
-if (count($discount) > 0)
+if (is_object($discount))
 {
 	$text = '';
 
-	if ($discount->discount_type == 0)
+	if (isset($discount->discount_type) && $discount->discount_type == 0)
 	{
 		$discount_amount = $discount->discount_amount;
 		$discount_sign   = " " . Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
