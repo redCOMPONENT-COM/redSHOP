@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1204,7 +1204,15 @@ class rsCarthelper
 				$cart_mdata           = str_replace("{product_customfields}", $user_custom_fields, $cart_mdata);
 				$cart_mdata           = str_replace("{product_customfields_lbl}", JText::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD"), $cart_mdata);
 				$discount_calc_output = (isset($cart[$i]['discount_calc_output']) && $cart[$i]['discount_calc_output']) ? $cart[$i]['discount_calc_output'] . "<br />" : "";
-				$cart_mdata           = str_replace("{product_attribute}", $discount_calc_output . $cart_attribute, $cart_mdata);
+
+				$cart_mdata           = RedshopTagsReplacer::_(
+											'attribute',
+											$cart_mdata,
+											array(
+												'product_attribute' => $discount_calc_output . $cart_attribute,
+											)
+										);
+
 				$cart_mdata           = str_replace("{product_accessory}", $cart_accessory, $cart_mdata);
 				$cart_mdata           = str_replace("{product_attribute_price}", "", $cart_mdata);
 				$cart_mdata           = str_replace("{product_attribute_number}", "", $cart_mdata);
@@ -1563,13 +1571,50 @@ class rsCarthelper
 
 			if (count($res) > 0)
 			{
-				$cname = $res->category_name;
+				$cname = $res->name;
 				$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
 				$category_path = "<a href='" . $clink . "'>" . $cname . "</a>";
 			}
 			else
 			{
 				$category_path = '';
+			}
+
+			if (strpos($cart_mdata, '{stock_status}') !== false)
+			{
+				$isStockExists = RedshopHelperStockroom::isStockExists($rowitem[$i]->product_id);
+
+				if (!$isStockExists)
+				{
+					$isPreorderStockExists = RedshopHelperStockroom::isPreorderStockExists($rowitem[$i]->product_id);
+				}
+
+				if (!$isStockExists)
+				{
+					$productPreorder = $product->preorder;
+
+					if (($productPreorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($productPreorder == "yes") || ($productPreorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
+					{
+						if (!$isPreorderStockExists)
+						{
+							$stockStatus = JText::_('COM_REDSHOP_OUT_OF_STOCK');
+						}
+						else
+						{
+							$stockStatus = JText::_('COM_REDSHOP_PRE_ORDER');
+						}
+					}
+					else
+					{
+						$stockStatus = JText::_('COM_REDSHOP_OUT_OF_STOCK');
+					}
+				}
+				else
+				{
+					$stockStatus = JText::_('COM_REDSHOP_AVAILABLE_STOCK');
+				}
+
+				$cart_mdata = str_replace("{stock_status}", $stockStatus, $cart_mdata);
 			}
 
 			$cart_mdata    = str_replace("{category_name}", $category_path, $cart_mdata);
@@ -1584,7 +1629,13 @@ class rsCarthelper
 			$attribute_data = $this->_producthelper->makeAttributeOrder($rowitem[$i]->order_item_id, 0, $product_id, 0, 0, $data);
 
 			// Assign template output into {product_attribute} tag
-			$cart_mdata = str_replace("{product_attribute}", $attribute_data->product_attribute, $cart_mdata);
+			$cart_mdata = RedshopTagsReplacer::_(
+						'attribute',
+						$cart_mdata,
+						array(
+							'product_attribute' => $attribute_data->product_attribute,
+						)
+					);
 
 			// Assign template output into {attribute_middle_template} tag
 			$cart_mdata = str_replace($attribute_data->attribute_middle_template_core, $attribute_data->attribute_middle_template, $cart_mdata);
@@ -1690,6 +1741,10 @@ class rsCarthelper
 			$cart_mdata = str_replace("{product_total_price_excl_vat}", $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price_excl_vat * $quantity), $cart_mdata);
 
 			$subtotal_excl_vat += $rowitem [$i]->product_item_price_excl_vat * $quantity;
+
+			$dispatcher = RedshopHelperUtility::getDispatcher();
+			JPluginHelper::importPlugin('redshop_stockroom');
+			$dispatcher->trigger('onReplaceStockStatus', array($rowitem[$i], &$cart_mdata));
 
 			if ($mainview == "order_detail")
 			{
@@ -2872,8 +2927,10 @@ class rsCarthelper
 		$search  [] = "{referral_code}";
 		$replace [] = $row->referral_code;
 
+        RedshopHelperPayment::loadLanguages();
+
 		$search  [] = "{payment_method}";
-		$replace [] = JText::_($paymentmethod->order_payment_name);
+		$replace [] = JText::_("$paymentmethod->order_payment_name");
 
 		$txtextra_info = '';
 
@@ -2975,6 +3032,9 @@ class rsCarthelper
 		$search [] = "{requisition_number_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
 
+        $search [] = "{product_attribute_calculated_price}";
+        $replace[] = "";
+
 		$ReceiptTemplate = $this->replaceBillingAddress($ReceiptTemplate, $billingaddresses, $sendmail);
 		$ReceiptTemplate = $this->replaceShippingAddress($ReceiptTemplate, $shippingaddresses, $sendmail);
 
@@ -3042,18 +3102,15 @@ class rsCarthelper
 			$idx = (int) $cartArr['idx'];
 		}
 
-		$getacctax          = 0;
-		$taxtotal           = 0;
-		$subtotal_excl_vat  = 0;
-
 		for ($i = 0; $i < $idx; $i++)
 		{
 			if (!isset($cartArr[$i]['giftcard_id'])
 				|| (isset($cartArr[$i]['giftcard_id']) && $cartArr[$i]['giftcard_id'] <= 0))
 			{
-				$product_id = $cartArr[$i]['product_id'];
-				$quantity   = $cartArr[$i]['quantity'];
-				$product    = $this->_producthelper->getProductById($product_id);
+				$product_id   = $cartArr[$i]['product_id'];
+				$quantity     = $cartArr[$i]['quantity'];
+				$product      = RedshopHelperProduct::getProductById($product_id);
+				$hasAttribute = isset($cartArr[$i]['cart_attribute']) ? true : false;
 
 				// Attribute price
 				$price = 0;
@@ -3063,7 +3120,7 @@ class rsCarthelper
 					$cartArr['quotation'] = 0;
 				}
 
-				if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || $cartArr['quotation'] == 1)
+				if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || $cartArr['quotation'] == 1) && !$hasAttribute)
 				{
 					$price = $cartArr[$i]['product_price_excl_vat'];
 				}
@@ -3073,7 +3130,7 @@ class rsCarthelper
 					$price = $cartArr[$i]['discount_calc_price'];
 				}
 
-				// Only set price without vat for accessories as prododuct
+				// Only set price without vat for accessories as product
 				$accessoryAsProdutWithoutVat = false;
 
 				if (isset($cartArr['AccessoryAsProduct']))
@@ -4040,11 +4097,6 @@ class rsCarthelper
 					$tmpsubtotal = $pSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
 				}
 
-				if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
-				{
-					$tmpsubtotal = $this->calcAlreadyDiscount($tmpsubtotal, $cart);
-				}
-
 				if ($dis_type == 0)
 				{
 					$avgVAT = 1;
@@ -4080,6 +4132,11 @@ class rsCarthelper
 					return;
 				}
 
+				if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
+				{
+					$couponValue = $this->calcAlreadyDiscount($couponValue, $cart);
+				}
+
 				$remaining_coupon_discount = 0;
 
 				if ($couponValue > $tmpsubtotal)
@@ -4092,6 +4149,7 @@ class rsCarthelper
 				{
 					$couponValue = 0;
 				}
+
 
 				$valueExist = 0;
 
@@ -4238,11 +4296,6 @@ class rsCarthelper
 					$p_quantity = $voucher->voucher_left;
 				}
 
-				if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
-				{
-					$product_price = $this->calcAlreadyDiscount($product_price, $cart);
-				}
-
 				if ($dis_type == 0)
 				{
 					$voucher->total *= $p_quantity;
@@ -4265,6 +4318,11 @@ class rsCarthelper
 				{
 					$oldarr        = $cart['voucher'];
 					$voucher_index = count($oldarr) + 1;
+				}
+
+				if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
+				{
+					$voucherValue = $this->calcAlreadyDiscount($voucherValue, $cart);
 				}
 
 				$remaining_voucher_discount = 0;
@@ -4356,7 +4414,15 @@ class rsCarthelper
 		}
 	}
 
-	public function calcAlreadyDiscount($tmpsubtotal, $cart)
+	/**
+	 * Re-calcualate the Voucher/Coupon value when the product is already discount
+	 *
+	 * @param   float  $value  Voucher/Coupon value
+	 * @param   array  $cart   Cart array
+	 *
+	 * @return  float          Voucher/Coupon value
+	 */
+	public function calcAlreadyDiscount($value, $cart)
 	{
 		$idx = 0;
 
@@ -4367,15 +4433,21 @@ class rsCarthelper
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			$product = $this->_producthelper->getProductById($cart[$i]['product_id']);
+			$product = $this->_producthelper->getProductNetPrice($cart[$i]['product_id']);
 
-			if ($product->product_price > $cart[$i]['product_price_excl_vat'])
+			// If the product is already discount
+			if ($product['product_price_saving'] > 0)
 			{
-				$tmpsubtotal = $tmpsubtotal - $cart[$i]['product_price'];
+				$value = $value - ($product['product_price_saving'] * $cart[$i]['quantity']);
 			}
 		}
 
-		return $tmpsubtotal;
+		if ($value < 0)
+		{
+			$value = 0;
+		}
+
+		return $value;
 	}
 
 	public function rs_multi_array_key_exists($needle, $haystack)
@@ -5564,7 +5636,7 @@ class rsCarthelper
 					 * Previous comment stated it is not used anymore.
 					 * Changing it for another purpose. It can intercept and decide whether added product should be added as same or new product.
 					 */
-					$dispatcher->trigger('checkSameCartProduct', array(&$cart, $data, &$sameProduct));
+					$dispatcher->trigger('checkSameCartProduct', array(&$cart, $data, &$sameProduct, $i));
 
 					// Product userfield
 					if (!empty($row_data))
@@ -5696,7 +5768,7 @@ class rsCarthelper
 				 * Implement new plugin support before session update
 				 * trigger the event of redSHOP product plugin support on Before cart session is set - on prepare cart session
 				 */
-				$dispatcher->trigger('onBeforeSetCartSession', array(&$cart, $data));
+				$dispatcher->trigger('onBeforeSetCartSession', array(&$cart, $data, $idx));
 
 				$cart['idx'] = $idx + 1;
 
@@ -6036,6 +6108,7 @@ class rsCarthelper
 							}
 
 							$accPropertyCart[$ip]['property_id']     = $acc_property_data[$ip];
+							$accPropertyCart[$ip]['attribute_id']    = $property[0]->attribute_id;
 							$accPropertyCart[$ip]['property_name']   = $property[0]->text;
 							$accPropertyCart[$ip]['property_oprand'] = $property[0]->oprand;
 							$accPropertyCart[$ip]['property_price']  = $property_price;
@@ -6081,7 +6154,10 @@ class rsCarthelper
 					}
 				}
 
-				$generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
+				if (!empty($accPropertyCart))
+				{
+					$generateAttributeCart[array_search($accPropertyCart[0]['attribute_id'], $attribute_data)]['attribute_childs'] = $accPropertyCart;
+				}
 			}
 		}
 

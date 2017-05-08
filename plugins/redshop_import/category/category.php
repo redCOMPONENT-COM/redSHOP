@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,12 +23,12 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 	/**
 	 * @var string
 	 */
-	protected $primaryKey = 'category_id';
+	protected $primaryKey = 'id';
 
 	/**
 	 * @var string
 	 */
-	protected $nameKey = 'category_name';
+	protected $nameKey = 'name';
 
 	/**
 	 * Event run when user load config for export this data.
@@ -74,7 +74,7 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 	{
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
-		return JTable::getInstance('Category_Detail', 'Table');
+		return JTable::getInstance('Category', 'Table');
 	}
 
 	/**
@@ -92,6 +92,12 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 		$isNew = false;
 		$db    = $this->db;
 
+		// Set the new parent id if parent id not matched OR while New/Save as Copy .
+		if ($table->parent_id != $data['parent_id'] || $data['id'] == 0)
+		{
+			$table->setLocation($data['parent_id'], 'last-child');
+		}
+
 		if (array_key_exists($this->primaryKey, $data) && $data[$this->primaryKey])
 		{
 			$isNew = $table->load($data[$this->primaryKey]);
@@ -107,6 +113,8 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 			return false;
 		}
 
+		$table->rebuild(RedshopHelperCategory::getRootId());
+
 		// Image process
 		if (!empty($data['category_full_image']))
 		{
@@ -117,31 +125,6 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 				JFile::copy($data['category_full_image'], $categoryImage);
 			}
 		}
-
-		// Update category parent
-		$query = $db->getQuery(true)
-			->select('COUNT(*)')
-			->from($db->qn('#__redshop_category_xref'))
-			->where($db->qn('category_parent_id') . ' = ' . $data['category_parent_id'])
-			->where($db->qn('category_child_id') . ' = ' . $table->category_id);
-		$result = $db->setQuery($query)->loadResult();
-
-		if ($result)
-		{
-			return true;
-		}
-
-		// Remove existing
-		$query->clear()
-			->delete($db->qn('#__redshop_category_xref'))
-			->where($db->qn('category_child_id') . ' = ' . $table->category_id);
-		$db->setQuery($query)->execute();
-
-		$query->clear()
-			->insert($db->qn('#__redshop_category_xref'))
-			->values($data['category_parent_id'] . ',' . $table->category_id);
-
-		$db->setQuery($query)->execute();
 
 		return true;
 	}

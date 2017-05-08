@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -259,7 +259,7 @@ class RedshopHelperUser
 	 *
 	 * @param   integer  $userInfoId  The user info id
 	 *
-	 * @return  float    Total Number of sale for user.
+	 * @return  float                 Total Number of sale for user.
 	 */
 	public static function totalSales($userInfoId)
 	{
@@ -299,34 +299,34 @@ class RedshopHelperUser
 	/**
 	 * This function is used to check if the 'username' already exist in the database with any other ID
 	 *
-	 * @param   string  $username
-	 * @param   int     $id
+	 * @param   string  $username  User name
+	 * @param   int     $id        User Id
 	 *
-	 * @return  int|void
-     * @since   2.0.0.6
+	 * @return  int
+	 *
+	 * @since   2.0.0.6
 	 */
 	public static function validateUser($username, $id = 0)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('COUNT(id)')
-					->from($db->qn('#__users'))
-					->where($db->qn('username') . ' = ' . $db->q($username))
-					->where($db->qn('id') . ' != ' . (int) $id);
+			->select('COUNT(id)')
+			->from($db->qn('#__users'))
+			->where($db->qn('username') . ' = ' . $db->q($username))
+			->where($db->qn('id') . ' != ' . (int) $id);
 
-		$db->setQuery($query);
-
-		return $db->loadResult();
+		return $db->setQuery($query)->loadResult();
 	}
 
 	/**
 	 * This function is used to check if the 'email' already exist in the database with any other ID
 	 *
-	 * @param   string  $username
-	 * @param   int     $id
+	 * @param   string  $email  User mail
+	 * @param   int     $id     User Id
 	 *
-	 * @return  int|void
-     * @since   2.0.0.6
+	 * @return  int
+	 *
+	 * @since   2.0.0.6
 	 */
 	public static function validateEmail($email, $id = 0)
 	{
@@ -337,8 +337,56 @@ class RedshopHelperUser
 					->where($db->qn('email') . ' = ' . $db->q($email))
 					->where($db->qn('id') . ' != ' . (int) $id);
 
-		$db->setQuery($query);
+		return $db->setQuery($query)->loadResult();
+	}
 
-		return $db->loadResult();
+	/**
+	 * Get User groups
+	 *
+	 * @param   integer  $userId  User identifier
+	 *
+	 * @return  array             Array of user groups
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUserGroups($userId = 0)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('u.group_id'))
+			->from($db->qn('#__redshop_users_info', 'uf'))
+			->leftJoin($db->qn('#__user_usergroup_map', 'u') . ' ON ' . $db->qn('u.user_id') . ' = ' . $db->qn('uf.user_id'))
+			->where($db->qn('uf.users_info_id') . ' = ' . (int) $userId);
+
+		return $db->setQuery($query)->loadColumn();
+	}
+
+	/**
+	 * Method for update term & conditions of user.
+	 *
+	 * @param   int  $userInfoId  RedSHOP User ID
+	 * @param   int  $isSet       Is set?
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function updateUserTermsCondition($userInfoId = 0, $isSet = 0)
+	{
+		$userInfoId = (int) $userInfoId;
+
+		if (!$userInfoId)
+		{
+			return;
+		}
+
+		// One id is mandatory ALWAYS
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_users_info'))
+			->set($db->qn('accept_terms_conditions') . ' = ' . (int) $isSet)
+			->where($db->qn('users_info_id') . ' = ' . (int) $userInfoId);
+
+		$db->setQuery($query)->execute();
 	}
 }

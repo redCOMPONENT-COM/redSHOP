@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Layouts
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,10 +14,10 @@ extract($displayData);
 
 $data = $displayData;
 
-$content = $view->loadTemplate($tpl);
+$content                = $view->loadTemplate($tpl);
 $displayData['content'] = $content;
 
-$app = JFactory::getApplication();
+$app   = JFactory::getApplication();
 $input = $app->input;
 
 /**
@@ -30,7 +30,7 @@ if ('raw' === $format)
 	/** @var RView $view */
 	$view = $data['view'];
 
-	if (!$view instanceof RedshopViewAdmin)
+	if (!($view instanceof RedshopViewAdmin || $view instanceof RedshopViewList || $view instanceof RedshopViewForm))
 	{
 		throw new InvalidArgumentException(
 			sprintf(
@@ -59,6 +59,14 @@ if (isset($data['sidebar_display']))
 	$displaySidebar = (bool) $data['sidebar_display'];
 }
 
+// Do we have to display the sidebar ?
+$disableSidebar = false;
+
+if (isset($data['sidebar_disable']))
+{
+	$disableSidebar = (bool) $data['sidebar_disable'];
+}
+
 // The view to render.
 if (!isset($data['view']))
 {
@@ -68,7 +76,7 @@ if (!isset($data['view']))
 /** @var RView $view */
 $view = $data['view'];
 
-if (!$view instanceof RedshopViewAdmin)
+if (!($view instanceof RedshopViewAdmin || $view instanceof RedshopViewList || $view instanceof RedshopViewForm))
 {
 	throw new InvalidArgumentException(
 		sprintf(
@@ -83,32 +91,32 @@ if ($content instanceof Exception)
 	return $content;
 }
 ?>
-<script type="text/javascript">
-	jQuery(document).ready(function () {
-		<?php if (!$displaySidebar) : ?>
-		jQuery('body').addClass('sidebar-collapse');
-		<?php endif; ?>
-	});
-</script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+			<?php if (!$displaySidebar && !$disableSidebar) : ?>
+            jQuery('body').addClass('sidebar-collapse');
+			<?php endif; ?>
+        });
+    </script>
 
 <?php if ($view->getLayout() === 'modal' || $view->getName() == 'wizard') : ?>
-	<div class="row-fluid RedSHOP">
-		<section id="component">
-			<div class="row-fluid message-sys" id="message-sys"></div>
-			<div class="row-fluid">
+    <div class="row-fluid RedSHOP">
+        <section id="component">
+            <div class="row-fluid message-sys" id="message-sys"></div>
+            <div class="row-fluid">
 				<?php echo $content ?>
-			</div>
-		</section>
-	</div>
+            </div>
+        </section>
+    </div>
 <?php elseif ($templateComponent) : ?>
-	<div class="redSHOP">
-		<section id="component">
-			<div class="message-sys" id="message-sys"></div>
-			<div class="popup">
+    <div class="redSHOP">
+        <section id="component">
+            <div class="message-sys" id="message-sys"></div>
+            <div class="popup">
 				<?php echo $content ?>
-			</div>
-		</section>
-	</div>
+            </div>
+        </section>
+    </div>
 <?php else : ?>
 	<?php echo JLayoutHelper::render('component.full', $displayData); ?>
 <?php endif;

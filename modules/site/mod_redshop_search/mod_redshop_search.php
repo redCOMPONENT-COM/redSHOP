@@ -35,14 +35,14 @@ $userHelper = rsUserHelper::getInstance();
 $shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
 $shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId);
 $query = $db->getQuery(true)
-	->select('category_id as value, category_name as text')
+	->select('id as value, name as text')
 	->from($db->qn('#__redshop_category'))
 	->where('published = 1')
-	->order('category_name asc');
+	->order('name asc');
 
 if ($shopperGroupData && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
 {
-	$query->where('category_id IN(' . $shopperGroupData[0]->shopper_group_categories . ')');
+	$query->where('id IN(' . $shopperGroupData[0]->shopper_group_categories . ')');
 }
 
 $catdata = $db->setQuery($query)->LoadObjectList();

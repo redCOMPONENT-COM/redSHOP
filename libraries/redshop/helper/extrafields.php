@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -259,6 +259,13 @@ class RedshopHelperExtrafields
 	const SECTION_SHIPPING_GATEWAY = 19;
 
 	/**
+	 * Extra Field Section Id for Order
+	 *
+	 * @var  integer
+	 */
+	const SECTION_ORDER = 20;
+
+	/**
 	 * List of fields data
 	 *
 	 * @var  array
@@ -432,12 +439,13 @@ class RedshopHelperExtrafields
 	 * @param   string   $fieldName     Field name
 	 * @param   string   $table         Table
 	 * @param   string   $templateDesc  Template
+	 * @param   string   $userEmail     User email
 	 *
 	 * @return  string   HTML <td></td>
 	 *
 	 * @since   2.0.3
 	 */
-	public static function listAllField($fieldSection = "", $sectionId = 0, $fieldName = "", $table = "", $templateDesc = "")
+	public static function listAllField($fieldSection = '', $sectionId = 0, $fieldName = '', $table = '', $templateDesc = '', $userEmail = '')
 	{
 		$db = JFactory::getDbo();
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
@@ -454,7 +462,7 @@ class RedshopHelperExtrafields
 		for ($i = 0, $in = count($rowData); $i < $in; $i++)
 		{
 			$type      = $rowData[$i]->field_type;
-			$dataValue = self::getSectionFieldDataList($rowData[$i]->field_id, $fieldSection, $sectionId);
+			$dataValue = self::getSectionFieldDataList($rowData[$i]->field_id, $fieldSection, $sectionId, $userEmail);
 			$exField .= '<tr>';
 			$extraFieldValue = "";
 			$extraFieldLabel = JText::_($rowData[$i]->field_title);

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -365,5 +365,98 @@ class RedshopControllerMedia extends RedshopController
 		);
 
 		die;
+	}
+
+	/**
+	 * Publish Media
+	 *
+	 * @return  [type]  [description]
+	 */
+	public function publish()
+	{
+		$post = $this->input->post->getArray();
+
+		$section_id    = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid           = $this->input->post->get('cid', array(0), 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+		}
+
+		$model = $this->getModel('media_detail');
+
+		if (!$model->publish($cid, 1))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_PUBLISHED_SUCCESSFULLY');
+
+		if ($section_id)
+		{
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
+				. '&showbuttons=1&media_section=' . $media_section, $msg
+			);
+		}
+
+        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+		{
+			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+            <script language="javascript" type="text/javascript">
+                window.parent.document.location = '<?php echo $link; ?>';
+            </script><?php
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+		}
+	}
+
+	/**
+	 * Unpublish Media
+	 *
+	 * @return  [type]  [description]
+	 */
+	public function unpublish()
+	{
+		$post = $this->input->post->getArray();
+
+		$section_id    = $this->input->get('section_id');
+		$media_section = $this->input->get('media_section');
+		$cid           = $this->input->post->get('cid', array(0), 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+		}
+
+		$model = $this->getModel('media_detail');
+
+		if (!$model->publish($cid, 0))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_UNPUBLISHED_SUCCESSFULLY');
+
+		if ($section_id)
+		{
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
+				. '&showbuttons=1&media_section=' . $media_section, $msg
+			);
+		}
+        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+		{
+			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+            <script language="javascript" type="text/javascript">
+                window.parent.document.location = '<?php echo $link; ?>';
+            </script><?php
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+		}
 	}
 }

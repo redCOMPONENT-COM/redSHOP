@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -25,7 +25,8 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 			<div class="box-body">
 				<div class="form-group">
 					<label for="name">
-						<?php echo JText::_('COM_REDSHOP_NAME'); ?>:
+						<?php echo JText::_('COM_REDSHOP_NAME'); ?>
+						<span class="star text-danger"> *</span>:
 					</label>
 					<input class="text_area" type="text" name="manufacturer_name" id="manufacturer_name" size="32"
 						   maxlength="250" value="<?php echo $this->detail->manufacturer_name; ?>"/>
