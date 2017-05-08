@@ -3,7 +3,6 @@
  * Copyright (c) Andris Valums
  * Licensed under the MIT license ( http://valums.com/mit-license/ )
  * Thanks to Gary Haran, David Mark, Corey Burns and others for contributions
- * test
  */
 (function () {
     /**
