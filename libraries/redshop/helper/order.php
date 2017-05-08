@@ -804,6 +804,7 @@ class RedshopHelperOrder
 	 */
 	public static function generateParcel($orderId)
 	{
+		$app                       = JFactory::getApplication();
 		$db                        = JFactory::getDbo();
 		$orderDetail               = self::getOrderDetails($orderId);
 		$productHelper             = productHelper::getInstance();
@@ -1016,7 +1017,14 @@ class RedshopHelperOrder
 			$response = curl_exec($ch);
 			curl_close($ch);
 
-			$xmlResponse = JFactory::getXML($response, false)->val;
+			$xmlResponse = JFactory::getXML($response, false);
+
+			if (empty($xmlResponse) || !empty($error))
+			{
+				return $app->enqueueMessage(JText::_('LIB_REDSHOP_PACSOFT_ERROR_NO_RESPONSE'), 'error');
+			}
+
+			$xmlResponse = $xmlResponse->val;
 
 			if ('201' == (string) $xmlResponse[1] && 'Created' == (string) $xmlResponse[2])
 			{
