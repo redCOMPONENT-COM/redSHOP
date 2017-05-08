@@ -861,20 +861,20 @@ class productHelper
 			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'front')
 			{
 				$price = $currency_symbol
-					. number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
+					. number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR', ''));
 			}
 			elseif (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
-				$price = number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'))
+				$price = number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR', ''))
 					. $currency_symbol;
 			}
 			elseif (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'none')
 			{
-				$price = number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
+				$price = number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR', ''));
 			}
 			else
 			{
-				$price = $currency_symbol . number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
+				$price = $currency_symbol . number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR', ''));
 			}
 		}
 
@@ -1486,6 +1486,38 @@ class productHelper
 		if (strpos($data_add, "{" . $relPrefix . "product_price_table}") !== false)
 		{
 			$data_add = str_replace("{" . $relPrefix . "product_price_table}", '', $data_add);
+		}
+
+		if (strpos($data_add, "{" . $relPrefix . "lowest_price}") !== false ||
+			strpos($data_add, "{" . $relPrefix . "highest_price}") !== false)
+		{
+			$productPriceMinMax = $this->getProductMinMaxPrice($product_id);
+			
+			if (strpos($data_add, "{" . $relPrefix . "lowest_price}") !== false)
+			{
+				if (!empty($productPriceMinMax['min']))
+				{
+					$productMinPrice = $this->getPriceReplacement($productPriceMinMax['min'] * $qunselect);
+					$data_add = str_replace("{" . $relPrefix . "lowest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $productMinPrice . '</span>', $data_add);
+				}
+				else
+				{
+					$data_add = str_replace("{" . $relPrefix . "lowest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
+				}
+			}
+
+			if (strpos($data_add, "{" . $relPrefix . "highest_price}") !== false)
+			{
+				if (!empty($productPriceMinMax['min']))
+				{
+					$productMaxPrice = $this->getPriceReplacement($productPriceMinMax['max'] * $qunselect);
+					$data_add = str_replace("{" . $relPrefix . "highest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $productMaxPrice . '</span>', $data_add);
+				}
+				else
+				{
+					$data_add = str_replace("{" . $relPrefix . "highest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
+				}
+			}
 		}
 
 		$data_add = str_replace("{" . $relPrefix . "product_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
@@ -9736,5 +9768,73 @@ class productHelper
 				return "";
 			}
 		}
+	}
+
+	/**
+	 * Get Max and Min of Product Price
+	 *
+	 * @param   int  $productId  Product Id
+	 *
+	 * @return  array
+	 */
+	public function getProductMinMaxPrice($productId)
+	{
+		$attributes = $this->getProductAttribute($productId);
+		$propertyIds = array();
+		$subPropertyIds = array();
+		$propertyPriceList = array();
+		$subPropertyPriceList = array();
+
+
+		foreach ($attributes as $key => $attribute)
+		{
+			foreach ($attribute->properties as $property)
+			{
+				$propertyIds[] = $property->property_id;
+				$subProperties = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property->property_id);
+
+				foreach ($subProperties as $subProperty)
+				{
+					$subPropertyIds[] = $subProperty->value;
+				}
+			}
+		}
+
+		$db = JFactory::getDbo();
+
+		if (!empty($productId))
+		{
+			$query = $db->getQuery(true)
+				->select($db->qn('product_price'))
+				->from($db->qn('#__redshop_product_price'))
+				->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+			$productPriceList = $db->setQuery($query)->loadColumn();
+		}
+
+		if (!empty($propertyIds))
+		{
+			$query = $db->getQuery(true)
+				->select($db->qn('product_price'))
+				->from($db->qn('#__redshop_product_attribute_price'))
+				->where($db->qn('section') . ' = ' . $db->q('property'))
+				->where($db->qn('section_id') . ' IN (' . implode(',', $propertyIds) . ')');
+			$propertyPriceList = $db->setQuery($query)->loadColumn();
+		}
+
+		if (!empty($subPropertyIds))
+		{
+			$query = $db->getQuery(true)
+				->select($db->qn('product_price'))
+				->from($db->qn('#__redshop_product_attribute_price'))
+				->where($db->qn('section') . ' = ' . $db->q('subproperty'))
+				->where($db->qn('section_id') . ' IN (' . implode(',', $subPropertyIds) . ')');
+			$subPropertyPriceList = $db->setQuery($query)->loadColumn();
+		}
+
+		$productPriceList = array_unique(array_merge($productPriceList, $propertyPriceList, $subPropertyPriceList));
+		$productPrice['min'] = min($productPriceList);
+		$productPrice['max'] = max($productPriceList);
+
+		return $productPrice;
 	}
 }
