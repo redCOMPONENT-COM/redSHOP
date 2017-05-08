@@ -7,6 +7,7 @@
  */
 
 namespace AcceptanceTester;
+
 use Codeception\Module\WebDriver;
 
 /**
@@ -20,144 +21,155 @@ use Codeception\Module\WebDriver;
  */
 class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
-	/**
-	 * Function  to Create a New Category
-	 *
-	 * @param   String  $categoryName  Name of the Category
-	 *
-	 * @return void
-	 */
-	public function addCategory($categoryName)
-	{
-		$I = $this;
-		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->click("New");
-		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
-		$I->checkForPhpNoticesOrWarnings();
-		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
-		$I->click('//*[@id="s2id_jform_more_template"]/ul');
-		$I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
-		$I->click("Save & Close");
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
-	}
+    /**
+     * Function  to Create a New Category
+     *
+     * @param   String $categoryName Name of the Category
+     *
+     * @return void
+     */
+    public function addCategory($categoryName)
+    {
+        $I = $this;
+        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+        $I->click("New");
+        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
+        $I->checkForPhpNoticesOrWarnings();
+        $I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
+        $I->click('//*[@id="s2id_jform_more_template"]/ul');
+        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
+        $I->click("Save & Close");
+        $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+    }
 
-	/**
-	 * Function to Update a Category
-	 *
-	 * @param   String  $categoryName  Name of the Category
-	 * @param   String  $updatedName   Updated Name of the Category
-	 *
-	 * @return void
-	 */
-	public function updateCategory($categoryName, $updatedName)
-	{
-		$I = $this;
-		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->searchCategory($categoryName);
-		$I->wait(3);
-		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
-		$I->click(\CategoryManagerJ3Page::$checkAll);
-		$I->click(['link' => $categoryName]);
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
-		$I->fillField(\CategoryManagerJ3Page::$categoryName, $updatedName);
-		$I->click("Save & Close");
-		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
-	}
+    /**
+     * Function to Update a Category
+     *
+     * @param   String $categoryName Name of the Category
+     * @param   String $updatedName Updated Name of the Category
+     *
+     * @return void
+     */
+    public function updateCategory($categoryName, $updatedName)
+    {
+        $I = $this;
+        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+        $I->searchCategory($categoryName);
+        $I->wait(3);
+        $I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
+        $I->click(\CategoryManagerJ3Page::$checkAll);
+        $I->click(['link' => $categoryName]);
+        $I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
+        $I->fillField(\CategoryManagerJ3Page::$categoryName, $updatedName);
+        $I->click("Save & Close");
+        $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+    }
 
-	/**
-	 * Function to change State of a Category
-	 *
-	 * @param   string  $categoryName  Name of the Category
-	 * @param   string  $state         State of the Category
-	 *
-	 * @return void
-	 */
-	public function changeCategoryState($categoryName, $state = 'unpublish')
-	{
-		$I = $this;
-		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->searchCategory($categoryName);
-		$I->wait(3);
-		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
-		$I->click(\CategoryManagerJ3Page::$checkAll);
+    /**
+     * Function to change State of a Category
+     *
+     * @param   string $categoryName Name of the Category
+     * @param   string $state State of the Category
+     *
+     * @return void
+     */
+    public function changeCategoryState($categoryName, $state = 'unpublish')
+    {
+        $I = $this;
+        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+        $I->searchCategory($categoryName);
+        $I->wait(3);
+        $I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
+        $I->click(\CategoryManagerJ3Page::$checkAll);
 
-		if ($state == 'unpublish')
-		{
-			$I->click(\CategoryManagerJ3Page::$categoryStatePath);
-		}
-		else
-		{
-			$I->click(\CategoryManagerJ3Page::$categoryStatePath);
-		}
-	}
+        if ($state == 'unpublish') {
+            $I->click(\CategoryManagerJ3Page::$categoryStatePath);
+        } else {
+            $I->click(\CategoryManagerJ3Page::$categoryStatePath);
+        }
+    }
 
-	/**
-	 * Function to Search for a Category
-	 *
-	 * @param   string  $categoryName  Name of the Category
-	 * @param   string  $functionName  Name of the function After Which search is being Called
-	 *
-	 * @return void
-	 */
-	public function searchCategory($categoryName)
-	{
-		$I = $this;
-		$I->wantTo('Search the Category');
-		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->waitForText('Category Management', 30, ['xpath' => "//h1"]);
-		$I->filterListBySearching($categoryName);
-	}
+    /**
+     * Function to Search for a Category
+     *
+     * @param   string $categoryName Name of the Category
+     * @param   string $functionName Name of the function After Which search is being Called
+     *
+     * @return void
+     */
+    public function searchCategory($categoryName)
+    {
+        $I = $this;
+        $I->wantTo('Search the Category');
+        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+        $I->waitForText('Category Management', 30, ['xpath' => "//h1"]);
+        $I->filterListBySearching($categoryName);
+    }
 
-	/**
-	 * Function to get State of the Category
-	 *
-	 * @param   String  $categoryName  Name of the Category
-	 *
-	 * @return string
-	 */
-	public function getCategoryState($categoryName)
-	{
-		$I = $this;
-		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->searchCategory($categoryName);
-		$I->wait(3);
-		$I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
-		$text = $I->grabAttributeFrom(\CategoryManagerJ3Page::$categoryStatePath, 'onclick');
+    /**
+     * Function to get State of the Category
+     *
+     * @param   String $categoryName Name of the Category
+     *
+     * @return string
+     */
+    public function getCategoryState($categoryName)
+    {
+        $I = $this;
+        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+        $I->searchCategory($categoryName);
+        $I->wait(3);
+        $I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
+        $text = $I->grabAttributeFrom(\CategoryManagerJ3Page::$categoryStatePath, 'onclick');
 
-		if (strpos($text, 'unpublish') > 0)
-		{
-			$result = 'published';
-		}
+        if (strpos($text, 'unpublish') > 0) {
+            $result = 'published';
+        }
 
-		if (strpos($text, 'publish') > 0)
-		{
-			$result = 'unpublished';
-		}
+        if (strpos($text, 'publish') > 0) {
+            $result = 'unpublished';
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Function to Delete a Category
-	 *
-	 * @param   String  $categoryName  Name of the Category
-	 *
-	 * @return void
-	 */
-	public function deleteCategory($categoryName)
-	{
-		$I = $this;
-		$I->amOnPage(\CategoryManagerJ3Page::$URL);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->searchCategory($categoryName);
-		$I->checkAllResults();
-		$I->click("Delete");
-		$I->acceptPopup();
-		$I->waitForText("1 item successfully deleted", 60, '.alert-success');
-		$I->see("1 item successfully deleted", '.alert-success');
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->dontSee($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
-	}
+    /**
+     * Function to Delete a Category
+     *
+     * @param   String $categoryName Name of the Category
+     *
+     * @return void
+     */
+    public function deleteCategory($categoryName)
+    {
+        $I = $this;
+        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->searchCategory($categoryName);
+        $I->checkAllResults();
+        $I->click("Delete");
+        $I->acceptPopup();
+        $I->waitForText("1 item successfully deleted", 60, '.alert-success');
+        $I->see("1 item successfully deleted", '.alert-success');
+        $I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
+        $I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->dontSee($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
+    }
+
+
+    public function addCategorySave($categoryName)
+    {
+        $I = $this;
+        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+        $I->click("New");
+        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
+        $I->checkForPhpNoticesOrWarnings();
+        $I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
+        $I->click('//*[@id="s2id_jform_more_template"]/ul');
+        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
+        $I->click("Save");
+        $I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
+    }
+
 }
