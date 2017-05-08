@@ -31,6 +31,26 @@ $calendarFormat = '%d-%m-%Y';
             document.formvalidator.setHandler("productNumber", function (value) {
                 return !productNumber.contains(value);
             });
+
+            if ($('input[name=not_for_sale]:checked').val() == 1)
+            {
+                $('#not_for_sale_showprice').show();
+            }
+            else
+            {
+                $('#not_for_sale_showprice').hide();
+            }
+
+            $('input[name=not_for_sale]').change(function () {
+                if ($(this).val() == 1)
+                {
+                    $('#not_for_sale_showprice').show(500);
+                }
+                else
+                {
+                    $('#not_for_sale_showprice').hide(500);
+                }
+            })
         });
     })(jQuery);
 </script>
@@ -59,7 +79,8 @@ $calendarFormat = '%d-%m-%Y';
 
                         <div class="form-group">
                             <label for="product_number" id="product_number-lbl">
-								<?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER') ?><span class="star text-danger"> *</span>
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_NUMBER') ?><span
+                                        class="star text-danger"> *</span>
 								<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'), JText::_('COM_REDSHOP_PRODUCT_NUMBER'), 'tooltip.png', '', '', false); ?>
                             </label>
                             <input class="form-control validate-productNumber"
@@ -85,6 +106,23 @@ $calendarFormat = '%d-%m-%Y';
 								?>
                             </label>
 							<?php echo $this->lists['categories']; ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product_type">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_TYPE'); ?>
+								<?php
+								echo JHtml::tooltip(
+									JText::_('COM_REDSHOP_PRODUCT_TYPE_TIP'),
+									JText::_('COM_REDSHOP_PRODUCT_TYPE'),
+									'tooltip.png',
+									'',
+									'',
+									false
+								);
+								?>
+                            </label>
+							<?php echo $this->lists['product_type']; ?>
                         </div>
 
                         <div class="form-group">
@@ -441,14 +479,6 @@ $calendarFormat = '%d-%m-%Y';
                 </div>
 
                 <div class="form-group">
-                    <label for="product_type">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_TYPE'); ?>
-						<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_PRODUCT_TYPE_TIP'), JText::_('COM_REDSHOP_PRODUCT_TYPE'), 'tooltip.png', '', '', false); ?>
-                    </label>
-					<?php echo $this->lists['product_type']; ?>
-                </div>
-
-                <div class="form-group">
                     <label for="product_parent_id">
 						<?php echo JText::_('COM_REDSHOP_PARENT_PRODUCT'); ?>
 						<?php
@@ -517,6 +547,23 @@ $calendarFormat = '%d-%m-%Y';
 						?>
                     </label>
 					<?php echo $this->lists['not_for_sale']; ?>
+                </div>
+
+                <div class="form-group" id="not_for_sale_showprice">
+                    <label for="not_for_sale_showprice0">
+			            <?php echo JText::_('COM_REDSHOP_PRODUCT_NOT_FOR_SALE_SHOWPRICE'); ?>
+			            <?php
+			            echo JHtml::tooltip(
+				            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_SHOWPRICE'),
+				            JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_SHOWPRICE_LBL'),
+				            'tooltip.png',
+				            '',
+				            '',
+				            false
+			            );
+			            ?>
+                    </label>
+		            <?php echo $this->lists['not_for_sale_showprice']; ?>
                 </div>
 
                 <div class="form-group">
