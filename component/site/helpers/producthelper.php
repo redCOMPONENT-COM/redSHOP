@@ -3780,7 +3780,14 @@ class productHelper
 
 	public function getProductNotForSaleComment($product = array(), $data_add = "", $attributes = array(), $is_relatedproduct = 0, $seoTemplate = "")
 	{
-		if (!$product->not_for_sale)
+		$showPrice = true;
+
+		if ($product->expired || $product->not_for_sale == 1)
+		{
+			$showPrice = false;
+		}
+
+		if ($showPrice)
 		{
 			// Product show price without formatted
 			$applytax = $this->getApplyVatOrNot($data_add);
