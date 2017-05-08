@@ -1411,7 +1411,6 @@ class productHelper
 		$qunselect = $this->GetDefaultQuantity($product_id, $data_add);
 
 		$ProductPriceArr = $this->getProductNetPrice($product_id, $user_id, $qunselect, $data_add, $attributes);
-		$productPriceMinMax = $this->getProductMinMaxPrice($product_id);
 
 		$relPrefix = '';
 
@@ -1491,6 +1490,8 @@ class productHelper
 
 		if (strpos($data_add, "{" . $relPrefix . "lowest_price}") !== false)
 		{
+			$productPriceMinMax = $this->getProductMinMaxPrice($product_id);
+
 			if (!empty($productPriceMinMax['min']))
 			{
 				$productMinPrice = $this->getPriceReplacement($productPriceMinMax['min'] * $qunselect);
@@ -1504,6 +1505,8 @@ class productHelper
 
 		if (strpos($data_add, "{" . $relPrefix . "highest_price}") !== false)
 		{
+			$productPriceMinMax = $this->getProductMinMaxPrice($product_id);
+
 			if (!empty($productPriceMinMax['min']))
 			{
 				$productMaxPrice = $this->getPriceReplacement($productPriceMinMax['max'] * $qunselect);
