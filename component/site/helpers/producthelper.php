@@ -589,35 +589,13 @@ class productHelper
 	 * @param   string  $templateData    Template data
 	 * @param   int     $isCategoryPage  Flag change extra fields in category page
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public function getExtraFieldsForCurrentTemplate($filedNames = array(), $templateData = '', $isCategoryPage = 0)
 	{
-		$findFields = array();
-		$prefix = '{';
-
-		if ($isCategoryPage)
-		{
-			$prefix = '{producttag:';
-		}
-
-		if (count($filedNames) > 0)
-		{
-			foreach ($filedNames as $filedName)
-			{
-				if (strpos($templateData, $prefix . $filedName . "}") !== false)
-				{
-					$findFields[] = $filedName;
-				}
-			}
-		}
-
-		if (count($findFields) > 0)
-		{
-			return implode(',', redhelper::quote($findFields));
-		}
-
-		return '';
+		return RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($filedNames, $templateData, $isCategoryPage);
 	}
 
 	/*

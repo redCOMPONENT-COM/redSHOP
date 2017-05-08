@@ -636,4 +636,47 @@ class RedshopHelperTemplate
 
 		return $optionSection;
 	}
+
+	/**
+	 * Get ExtraFields For Current Template
+	 *
+	 * @param   array   $fieldNames      Field name list
+	 * @param   string  $templateData    Template data
+	 * @param   int     $isCategoryPage  Flag change extra fields in category page
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getExtraFieldsForCurrentTemplate($fieldNames = array(), $templateData = '', $isCategoryPage = 0)
+	{
+		$prefix = '{';
+
+		if ($isCategoryPage)
+		{
+			$prefix = '{producttag:';
+		}
+
+		if (empty($fieldNames))
+		{
+			return '';
+		}
+
+		$findFields = array();
+
+		foreach ($fieldNames as $filedName)
+		{
+			if (strpos($templateData, $prefix . $filedName . "}") !== false)
+			{
+				$findFields[] = $filedName;
+			}
+		}
+
+		if (empty($findFields))
+		{
+			return '';
+		}
+
+		return implode(',', redhelper::quote($findFields));
+	}
 }
