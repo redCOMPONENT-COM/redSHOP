@@ -192,7 +192,7 @@ $editor = JFactory::getEditor();
                     <p><input type="button" name="addvalue" id="addvalue" class="btn btn-primary"
                               Value="<?php echo JText::_('COM_REDSHOP_ADD_VALUE'); ?>" onclick="addNewRow('extra_table');"/></p>
 
-                    <table cellpadding="0" cellspacing="5" border="0" id="extra_table" class="table table-striped table-bordered">
+                    <table cellpadding="0" cellspacing="5" border="0" id="extra_table" class="table table-striped">
                         <thead>
                         <tr>
                             <th width="40%"><?php echo JText::_('COM_REDSHOP_OPTION_NAME'); ?></th>
