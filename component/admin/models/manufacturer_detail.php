@@ -118,6 +118,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 
 			return false;
 		}
+
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled)
 		{
 			if (!$row->excluding_category_list)
