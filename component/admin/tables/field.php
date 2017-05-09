@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopTableField extends RedshopTable
 {
@@ -153,7 +153,7 @@ class RedshopTableField extends RedshopTable
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function deleteFieldValues($ids, $field)
 	{
@@ -183,7 +183,7 @@ class RedshopTableField extends RedshopTable
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function saveFieldValues($id)
 	{

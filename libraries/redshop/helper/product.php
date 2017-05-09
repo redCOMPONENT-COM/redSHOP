@@ -1072,7 +1072,7 @@ class RedshopHelperProduct
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getProductTax($productId = 0, $productPrice = 0, $userId = 0, $taxExempt = 0)
 	{
