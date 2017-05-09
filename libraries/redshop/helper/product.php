@@ -352,9 +352,9 @@ class RedshopHelperProduct
 		{
 			$query->clear()
 				->select('fd.*')
-				->select($db->qn('f.field_title'))
+				->select($db->qn('f.title'))
 				->from($db->qn('#__redshop_fields_data', 'fd') . ' FORCE INDEX (idx_itemid)')
-				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('fd.fieldid') . ' = ' . $db->qn('f.field_id'))
+				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('fd.fieldid') . ' = ' . $db->qn('f.id'))
 				->where($db->qn('fd.itemid') . ' IN (' . implode(',', $getExtraFieldKeys) . ')')
 				->where($db->qn('fd.section') . ' = 1');
 

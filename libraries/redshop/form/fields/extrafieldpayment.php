@@ -46,11 +46,11 @@ class JFormFieldExtraFieldPayment extends JFormFieldList
 
 		// Create the base select statement.
 		$query = $db->getQuery(true)
-			->select('field_name as value,field_title as text')
+			->select('name as value, title as text')
 			->from($db->qn('#__redshop_fields'))
 			->where($db->qn('published') . ' = 1')
-			->where($db->qn('field_show_in_front') . ' = 1')
-			->where($db->qn('field_section') . ' = 18')
+			->where($db->qn('show_in_front') . ' = 1')
+			->where($db->qn('section') . ' = 18')
 			->order($db->qn('ordering') . ' ASC');
 
 		// Set the query and load the result.

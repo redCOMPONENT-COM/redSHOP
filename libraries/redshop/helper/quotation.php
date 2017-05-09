@@ -281,13 +281,13 @@ class RedshopHelperQuotation
 
 		for ($i = 0, $in = count($rowData); $i < $in; $i++)
 		{
-			if (array_key_exists($rowData[$i]->field_name, $cart) && $cart[$rowData[$i]->field_name])
+			if (array_key_exists($rowData[$i]->name, $cart) && $cart[$rowData[$i]->name])
 			{
-				$userFields = $cart[$rowData[$i]->field_name];
+				$userFields = $cart[$rowData[$i]->name];
 
 				if ($userFields != '')
 				{
-					self::insertQuotationUserField($rowData[$i]->field_id, $quotationItemId, $sectionId, $userFields);
+					self::insertQuotationUserField($rowData[$i]->id, $quotationItemId, $sectionId, $userFields);
 				}
 			}
 		}
@@ -336,7 +336,7 @@ class RedshopHelperQuotation
 		$query->select('qf.*')
 			->select('f.*')
 			->from($db->qn('#__redshop_quotation_fields_data', 'qf'))
-			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('qf.fieldid'))
+			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('qf.fieldid'))
 			->where($db->qn('qf.quotation_item_id') . ' = ' . (int) $quotationItemId);
 
 		$db->setQuery($query);
@@ -367,9 +367,9 @@ class RedshopHelperQuotation
 		$query     = $db->getQuery(true);
 
 		$query->select('fd.*')
-			->select($db->qn(array('f.field_title', 'f.field_type', 'field_name')))
+			->select($db->qn(array('f.title', 'f.type', 'f.name')))
 			->from($db->qn('#__redshop_quotation_fields_data', 'fd'))
-			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('fd.fieldid'))
+			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
 			->where($db->qn('fd.quotation_item_id') . ' = ' . $db->q((int) $quotationItemId))
 			->where($db->qn('fd.section') . ' = ' . $db->q((int) $sectionId));
 
@@ -391,9 +391,9 @@ class RedshopHelperQuotation
 			{
 				for ($j = 0, $jn = count($userField); $j < $jn; $j++)
 				{
-					if ($userField[$j]->field_name == $userFieldTag[$i])
+					if ($userField[$j]->name == $userFieldTag[$i])
 					{
-						if ($userField[$j]->field_type == 10)
+						if ($userField[$j]->type == 10)
 						{
 							$files   = explode(",", $userField[$j]->data_txt);
 							$dataTxt = "";
@@ -404,11 +404,11 @@ class RedshopHelperQuotation
 								$dataTxt .= "<a href='" . $uLink . "'>" . $files[$f] . "</a> ";
 							}
 
-							$resultArr[] = $userField[$j]->field_title . " : " . $dataTxt;
+							$resultArr[] = $userField[$j]->title . " : " . $dataTxt;
 						}
 						else
 						{
-							$resultArr[] = $userField[$j]->field_title . " : " . $userField[$j]->data_txt;
+							$resultArr[] = $userField[$j]->title . " : " . $userField[$j]->data_txt;
 						}
 					}
 				}
