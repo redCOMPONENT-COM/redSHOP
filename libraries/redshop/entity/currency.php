@@ -14,13 +14,13 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopEntityCurrency extends RedshopEntity
 {
 	/**
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected static $codeInstance;
 
@@ -66,7 +66,7 @@ class RedshopEntityCurrency extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function loadFromCode($code = '')
 	{

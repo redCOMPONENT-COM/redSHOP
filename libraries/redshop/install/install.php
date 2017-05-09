@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Install class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.6
  */
 class RedshopInstall
 {
@@ -28,7 +28,7 @@ class RedshopInstall
 	 *
 	 * @return  array|mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getInstallTasks()
 	{
@@ -71,7 +71,7 @@ class RedshopInstall
 	 *
 	 * @return  mixed  List of remaining tasks
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getRemainingTasks()
 	{
@@ -83,7 +83,7 @@ class RedshopInstall
 	 *
 	 * @return  int   Number of synchronized user.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function synchronizeUser()
 	{
@@ -127,7 +127,7 @@ class RedshopInstall
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function templateData()
 	{
@@ -203,7 +203,7 @@ class RedshopInstall
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function templateFiles()
 	{
@@ -311,7 +311,7 @@ class RedshopInstall
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function handleConfig()
 	{

@@ -14,7 +14,7 @@ use Redshop\Update\AbstractUpdate;
 /**
  * Update class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.6
  */
 class RedshopInstallUpdate extends AbstractUpdate
 {
@@ -23,7 +23,7 @@ class RedshopInstallUpdate extends AbstractUpdate
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function getOldFiles()
 	{
@@ -35,7 +35,7 @@ class RedshopInstallUpdate extends AbstractUpdate
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function getOldFolders()
 	{
@@ -47,7 +47,7 @@ class RedshopInstallUpdate extends AbstractUpdate
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function cleanOldFiles()
 	{

@@ -16,7 +16,7 @@ JLoader::import('joomla.application.component.view');
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopViewField extends RedshopViewForm
 {
@@ -27,7 +27,7 @@ class RedshopViewField extends RedshopViewForm
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function beforeDisplay(&$tpl)
 	{
@@ -64,7 +64,7 @@ class RedshopViewField extends RedshopViewForm
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getTitle()
 	{

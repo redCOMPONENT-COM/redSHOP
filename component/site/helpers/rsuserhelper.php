@@ -91,7 +91,7 @@ class rsUserHelper
 	 *
 	 * @return  array              Array of user groups
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function getUserGroupList($user_id = 0)
 	{
@@ -106,7 +106,7 @@ class rsUserHelper
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function updateUserTermsCondition($users_info_id = 0, $isSet = 0)
 	{
@@ -774,9 +774,9 @@ class rsUserHelper
 	 *
 	 * @return  int   Number of synchronized user.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopInstall::synchronizeUser() instead.
+	 * @deprecated  2.0.6  Use RedshopInstall::synchronizeUser() instead.
 	 */
 	public function userSynchronization()
 	{

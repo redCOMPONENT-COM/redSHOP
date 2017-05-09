@@ -16,7 +16,7 @@ JHTML::_('behavior.tooltip');
 /**
  * Class Redshop Helper Text
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.6
  */
 class RedshopHelperTax
 {
@@ -27,7 +27,7 @@ class RedshopHelperTax
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function replaceVatInformation($templateData)
 	{

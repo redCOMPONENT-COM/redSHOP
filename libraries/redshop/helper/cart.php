@@ -865,7 +865,7 @@ abstract class RedshopHelperCart
 	 *
 	 * @return  boolean                          True if VAT applied else false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function taxExemptAddToCart($userId = 0, $isShowButtonAddToCart = false)
 	{

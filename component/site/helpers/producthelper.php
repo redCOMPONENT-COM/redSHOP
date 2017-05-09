@@ -92,7 +92,7 @@ class productHelper
 	 *
 	 * @since   1.6.0
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperWishlist::getWishlistModule instead
+	 * @deprecated  2.0.6  Use RedshopHelperWishlist::getWishlistModule instead
 	 */
 	public function getWishlistModule($elementName)
 	{
@@ -109,7 +109,7 @@ class productHelper
 	 *
 	 * @since   1.6.0
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function getwishlistuserfieldata($wishlistId, $productId)
 	{
@@ -169,7 +169,7 @@ class productHelper
 	 *
 	 * @since   1.6.0
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function country_in_eu_common_vat_zone($country)
 	{
@@ -451,7 +451,7 @@ class productHelper
 	 *
 	 * @return  integer
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.6
 	 */
 	public function getProductTax($product_id = 0, $product_price = 0, $user_id = 0, $tax_exempt = 0)
 	{
@@ -465,7 +465,7 @@ class productHelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.6
 	 */
 	public function replaceVatinfo($data_add)
 	{
@@ -492,7 +492,7 @@ class productHelper
 	 *
 	 * @return  object
 	 *
-	 * @deprecated   __DEPLOY_VERSION__
+	 * @deprecated   2.0.6
 	 */
 	public function getVatUserinfo($user_id = 0)
 	{
@@ -591,7 +591,7 @@ class productHelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function getExtraFieldsForCurrentTemplate($filedNames = array(), $templateData = '', $isCategoryPage = 0)
 	{
@@ -1318,7 +1318,7 @@ class productHelper
 			strpos($data_add, "{" . $relPrefix . "highest_price}") !== false)
 		{
 			$productPriceMinMax = $this->getProductMinMaxPrice($product_id);
-			
+
 			if (strpos($data_add, "{" . $relPrefix . "lowest_price}") !== false)
 			{
 				if (!empty($productPriceMinMax['min']))
