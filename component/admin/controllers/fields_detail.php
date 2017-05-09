@@ -33,14 +33,15 @@ class RedshopControllerFields_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
+		$app                = JFactory::getApplication();
 		$post               = $this->input->post->getArray();
 		$field_desc         = $this->input->post->get('field_desc', '', 'raw');
 		$post["field_desc"] = $field_desc;
-
+		
 		$cid                = $this->input->post->get('cid', array(0), 'array');
-
+		
 		$post['field_name'] = strtolower($post['field_name']);
-
+		
 		$post['field_name'] = str_replace(" ", "_", $post['field_name']);
 
 		// Set 'rs' prefix to field name
@@ -54,12 +55,12 @@ class RedshopControllerFields_detail extends RedshopController
 		$post['field_id'] = $cid[0];
 
 		$model = $this->getModel('fields_detail');
-
+		$app->setUserState('com_redshop.fields_detail.data', $post);
 		$fieldexists = $model->checkFieldname($post['field_name'], $post ['field_id']);
 
 		if ($fieldexists)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_FIELDS_ALLREADY_EXIST'), 'error');
+			$app->enqueueMessage(JText::_('COM_REDSHOP_FIELDS_ALLREADY_EXIST'), 'error');
 			$this->setRedirect('index.php?option=com_redshop&view=fields_detail&task=edit&cid[]=' . $cid[0]);
 
 			return;
@@ -76,6 +77,7 @@ class RedshopControllerFields_detail extends RedshopController
 				$model->field_save($row->field_id, $post);
 			}
 
+			$app->setUserState('com_redshop.fields_detail.data', "");
 			$msg = JText::_('COM_REDSHOP_FIELDS_DETAIL_SAVED');
 		}
 		else
@@ -116,6 +118,8 @@ class RedshopControllerFields_detail extends RedshopController
 	public function cancel()
 	{
 		$msg = JText::_('COM_REDSHOP_FIELD_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
+		JFactory::getApplication()->setUserState('com_redshop.fields_detail.data', "");
+		$this->setMessage($msg, 'warning');
+		$this->setRedirect('index.php?option=com_redshop&view=fields');
 	}
 }
