@@ -1580,6 +1580,43 @@ class rsCarthelper
 				$category_path = '';
 			}
 
+			if (strpos($cart_mdata, '{stock_status}') !== false)
+			{
+				$isStockExists = RedshopHelperStockroom::isStockExists($rowitem[$i]->product_id);
+
+				if (!$isStockExists)
+				{
+					$isPreorderStockExists = RedshopHelperStockroom::isPreorderStockExists($rowitem[$i]->product_id);
+				}
+
+				if (!$isStockExists)
+				{
+					$productPreorder = $product->preorder;
+
+					if (($productPreorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || ($productPreorder == "yes") || ($productPreorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
+					{
+						if (!$isPreorderStockExists)
+						{
+							$stockStatus = JText::_('COM_REDSHOP_OUT_OF_STOCK');
+						}
+						else
+						{
+							$stockStatus = JText::_('COM_REDSHOP_PRE_ORDER');
+						}
+					}
+					else
+					{
+						$stockStatus = JText::_('COM_REDSHOP_OUT_OF_STOCK');
+					}
+				}
+				else
+				{
+					$stockStatus = JText::_('COM_REDSHOP_AVAILABLE_STOCK');
+				}
+
+				$cart_mdata = str_replace("{stock_status}", $stockStatus, $cart_mdata);
+			}
+
 			$cart_mdata    = str_replace("{category_name}", $category_path, $cart_mdata);
 
 			$cart_mdata = $this->_producthelper->replaceVatinfo($cart_mdata);
