@@ -120,7 +120,7 @@ class RedshopViewList extends AbstractView
 	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string &$tpl Template name
+	 * @param   string  &$tpl  Template name
 	 *
 	 * @return  void
 	 *
