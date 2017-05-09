@@ -16,7 +16,7 @@ use Redshop\Config\App;
  *
  * @since       1.6
  *
- * @deprecated  __DEPLOY_VERSION__  Use Redshop\App instead
+ * @deprecated  2.0.6  Use Redshop\App instead
  */
 class Redconfiguration
 {
@@ -49,7 +49,7 @@ class Redconfiguration
 	 *
 	 * @since   1.6
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use Redshop\App class instead
+	 * @deprecated  2.0.6  Use Redshop\App class instead
 	 */
 	public static function getInstance()
 	{
@@ -66,7 +66,7 @@ class Redconfiguration
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function isCFGFile()
 	{
@@ -78,7 +78,7 @@ class Redconfiguration
 	 *
 	 * @return   boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function isCFGTable()
 	{
@@ -92,7 +92,7 @@ class Redconfiguration
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function setCFGTableData($org = array())
 	{
@@ -104,7 +104,7 @@ class Redconfiguration
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function loadDefaultCFGFile()
 	{
@@ -118,7 +118,7 @@ class Redconfiguration
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function manageCFGFile($org = array())
 	{
@@ -133,7 +133,7 @@ class Redconfiguration
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function defineCFGVars($data, $bypass = false)
 	{
@@ -145,7 +145,7 @@ class Redconfiguration
 	 *
 	 * @return  boolean  True when file successfully saved.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function writeCFGFile()
 	{
@@ -158,7 +158,7 @@ class Redconfiguration
 	 *
 	 * @return  boolean  True when file successfully updated.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function updateCFGFile()
 	{
@@ -170,7 +170,7 @@ class Redconfiguration
 	 *
 	 * @return  boolean  True on successfully backed up.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function backupCFGFile()
 	{
@@ -182,7 +182,7 @@ class Redconfiguration
 	 *
 	 * @return  boolean  True when file is exist.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function isTmpFile()
 	{
@@ -245,7 +245,7 @@ class Redconfiguration
 	 *
 	 * @return  boolean  True if file is restored.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function storeFromTMPFile()
 	{
@@ -276,7 +276,7 @@ class Redconfiguration
 	 *
 	 * @return  array         Associative array of configuration variables which are ready to write.
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function redshopCFGData($data)
 	{
@@ -306,7 +306,7 @@ class Redconfiguration
 	 *
 	 * @return string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperUtility::maxChars() instead
+	 * @deprecated  2.0.6  Use RedshopHelperUtility::maxChars() instead
 	 */
 	public function maxchar($desc = '', $maxChars = 0, $suffix = '')
 	{
@@ -324,7 +324,7 @@ class Redconfiguration
 	 *
 	 * @return string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperUtility::limitText() instead
+	 * @deprecated  2.0.6  Use RedshopHelperUtility::limitText() instead
 	 */
 	public function substrws($text, $length = 50, $ending = '...', $exact = false, $considerHtml = true)
 	{
@@ -340,7 +340,7 @@ class Redconfiguration
 	 *
 	 * @since     1.5
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperDatetime::getDateFormat() instead.
+	 * @deprecated  2.0.6  Use RedshopHelperDatetime::getDateFormat() instead.
 	 */
 	public function getDateFormat()
 	{
@@ -356,7 +356,7 @@ class Redconfiguration
 	 *
 	 * @since   1.5
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperDatetime::convertDateFormat() instead,
+	 * @deprecated  2.0.6  Use RedshopHelperDatetime::convertDateFormat() instead,
 	 */
 	public function convertDateFormat($date)
 	{
@@ -370,7 +370,7 @@ class Redconfiguration
 	 *
 	 * @return  int
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperWorld::getCountryId() instead.
+	 * @deprecated  2.0.6  Use RedshopHelperWorld::getCountryId() instead.
 	 */
 	public function getCountryId($conId)
 	{
@@ -384,7 +384,7 @@ class Redconfiguration
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperWorld::getCountryCode2() instead.
+	 * @deprecated  2.0.6  Use RedshopHelperWorld::getCountryCode2() instead.
 	 */
 	public function getCountryCode2($country3code)
 	{
@@ -398,7 +398,7 @@ class Redconfiguration
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperWorld::getStateCode2() instead.
+	 * @deprecated  2.0.6  Use RedshopHelperWorld::getStateCode2() instead.
 	 */
 	public function getStateCode2($stateCode)
 	{
@@ -413,7 +413,7 @@ class Redconfiguration
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperWorld::getStateCode() instead.
+	 * @deprecated  2.0.6  Use RedshopHelperWorld::getStateCode() instead.
 	 */
 	public function getStateCode($id, $stateCode)
 	{

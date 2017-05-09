@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Backend
  * @subpackage  Models.Fields
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopModelFields extends RedshopModelList
 {
@@ -101,7 +101,7 @@ class RedshopModelFields extends RedshopModelList
 	 *
 	 * @return      string  An SQL query
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getListQuery()
 	{
