@@ -60,13 +60,13 @@ defined('_JEXEC') or die;
             <div class="box-body">
                 <div class="">
 					<?php
-					$section_id    = $this->item->id;
-					$media_section = 'category';
+					$section_id   = $this->item->id;
+					$mediaSection = 'category';
 					echo RedshopHelperMediaImage::render(
 						'category_full_image',
 						'category',
 						$section_id,
-						$media_section,
+						$mediaSection,
 						$this->item->category_full_image,
 						false
 					);
@@ -82,13 +82,13 @@ defined('_JEXEC') or die;
             <div class="box-body">
                 <div class="">
 					<?php
-					$section_id    = $this->item->id;
-					$media_section = 'category';
+					$section_id   = $this->item->id;
+					$mediaSection = 'category';
 					echo RedshopHelperMediaImage::render(
 						'category_back_full_image',
 						'category',
 						$section_id,
-						$media_section,
+						$mediaSection,
 						$this->item->category_back_full_image,
 						false
 					);

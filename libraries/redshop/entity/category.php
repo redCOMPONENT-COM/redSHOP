@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.6
  */
-final class RedshopEntityCategory extends RedshopEntity
+class RedshopEntityCategory extends RedshopEntity
 {
 	/**
 	 * Product count
@@ -24,6 +24,13 @@ final class RedshopEntityCategory extends RedshopEntity
 	 * @var  integer
 	 */
 	protected $productCount;
+
+	/**
+	 * Products
+	 *
+	 * @var  array
+	 */
+	protected $products;
 
 	/**
 	 * Method for get product count of category
@@ -44,5 +51,52 @@ final class RedshopEntityCategory extends RedshopEntity
 		}
 
 		return $this->productCount;
+	}
+
+	/**
+	 * Method for get products of current category
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.6
+	 */
+	public function getProducts()
+	{
+		if (null === $this->products)
+		{
+			$this->loadProducts();
+		}
+
+		return $this->products;
+	}
+
+	/**
+	 * Method for load products
+	 *
+	 * @return  $this
+	 *
+	 * @since   2.0.6
+	 */
+	protected function loadProducts()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->qn('p.product_id', 'id'))
+			->select('p.*')
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('pcx.category_id') . ' = ' . $db->qn('c.id'))
+			->where($db->qn('c.id') . ' = ' . (int) $this->getId())
+			->where($db->qn('p.published') . ' = 1');
+
+		$this->products = $db->setQuery($query)->loadObjectList();
+
+		return $this;
 	}
 }

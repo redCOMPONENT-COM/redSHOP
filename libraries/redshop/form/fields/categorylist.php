@@ -126,12 +126,13 @@ class JFormFieldCategoryList extends JFormFieldList
 		$jinput = JFactory::getApplication()->input;
 		$extension = 'com_redshop';
 		$id = $jinput->getInt('id', 0);
+
 		// For categories the old category is the category id or 0 for new category.
 		if ($this->element['parent'])
 		{
 			$oldCat = $jinput->get('id', 0);
 			$oldParent = $this->form->getValue($name, 0);
-			
+
 		}
 		else
 			// For items the old category is the category they are in when opened or 0 if new.

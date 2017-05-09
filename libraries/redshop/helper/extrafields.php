@@ -1584,13 +1584,14 @@ class RedshopHelperExtrafields
 	 *
 	 * @param   integer  $id  ID of field
 	 *
-	 * @return  object
+	 * @return  array
 	 *
-	 * @since 2.0.3
+	 * @since   2.0.3
 	 */
 	public static function getFieldValue($id)
 	{
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
+		/** @var RedshopModelFields $model */
 		$model = JModelLegacy::getInstance('Fields', 'RedshopModel');
 
 		return $model->getFieldValue($id);
