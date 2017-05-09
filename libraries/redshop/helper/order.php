@@ -2682,10 +2682,10 @@ class RedshopHelperOrder
 				$paymentInfo  = self::getPaymentInfo($orderId);
 				$economicData = array();
 
-				if (count($paymentInfo) > 0)
+				if (!empty($paymentInfo))
 				{
-					$paymentName = $paymentInfo[0]->payment_method_class;
-					$paymentArr  = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
+					$paymentName = $paymentInfo->payment_method_class;
+					$paymentArr  = explode("rs_payment_", $paymentInfo->payment_method_class);
 
 					if (count($paymentArr) > 0)
 					{
@@ -2693,7 +2693,7 @@ class RedshopHelperOrder
 					}
 
 					$economicData['economic_payment_method'] = $paymentName;
-					$paymentMethod = self::getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+					$paymentMethod = self::getPaymentMethodInfo($paymentInfo->payment_method_class);
 
 					if (count($paymentMethod) > 0)
 					{
