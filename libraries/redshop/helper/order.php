@@ -1016,7 +1016,14 @@ class RedshopHelperOrder
 			$response = curl_exec($ch);
 			curl_close($ch);
 
-			$xmlResponse = JFactory::getXML($response, false)->val;
+			$xmlResponse = JFactory::getXML($response, false);
+
+			if (empty($xmlResponse) || !empty($error))
+			{
+				return JText::_('LIB_REDSHOP_PACSOFT_ERROR_NO_RESPONSE');
+			}
+
+			$xmlResponse = $xmlResponse->val;
 
 			if ('201' == (string) $xmlResponse[1] && 'Created' == (string) $xmlResponse[2])
 			{
@@ -1034,15 +1041,12 @@ class RedshopHelperOrder
 			}
 			else
 			{
-				JError::raiseWarning(
-					21,
-					(string) $xmlResponse[1] . "-" . (string) $xmlResponse[2] . "-" . (string) $xmlResponse[0]
-				);
+				return (string) $xmlResponse[1] . "-" . (string) $xmlResponse[2] . "-" . (string) $xmlResponse[0];
 			}
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			return $e->getMessage();
 		}
 	}
 
