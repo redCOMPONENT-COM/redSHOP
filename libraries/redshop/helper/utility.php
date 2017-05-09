@@ -262,7 +262,7 @@ class RedshopHelperUtility
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected static function setQuotationMode()
 	{
@@ -309,7 +309,7 @@ class RedshopHelperUtility
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function maxChars($desc = '', $maxChars = 0, $suffix = '')
 	{
@@ -334,7 +334,7 @@ class RedshopHelperUtility
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function limitText($text, $length = 50, $ending = '...', $exact = false, $considerHtml = true)
 	{
@@ -471,7 +471,7 @@ class RedshopHelperUtility
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function isCountryInEurope($country)
 	{

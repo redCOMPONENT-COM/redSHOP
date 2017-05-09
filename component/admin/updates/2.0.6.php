@@ -14,22 +14,31 @@ defined('_JEXEC') or die;
  *
  * @package     Redshob.Update
  *
- * @since       2.0.6-Beta2
+ * @since       2.0.6
  */
-class RedshopUpdate206Beta2 extends RedshopInstallUpdate
+class RedshopUpdate206Beta1 extends RedshopInstallUpdate
 {
 	/**
 	 * Return list of old files for clean
 	 *
 	 * @return  array
 	 *
-	 * @since   2.0.6-beta2
+	 * @since   2.0.6
 	 */
 	protected function getOldFiles()
 	{
 		return array(
+			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/accessmanager.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/accessmanager_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redaccesslevel.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/accessmanager_detail.php',
 			JPATH_ADMINISTRATOR . '/component/admin/controllers/category_detail.php',
-			JPATH_ADMINISTRATOR . '/component/admin/models/category_detail.php'
+			JPATH_ADMINISTRATOR . '/component/admin/models/category_detail.php',
+			JPATH_ADMINISTRATOR . '/component/admin/controllers/fields_detail.php',
+			JPATH_ADMINISTRATOR . '/component/admin/models/fields_detail.php',
+			JPATH_ADMINISTRATOR . '/component/admin/tables/fields_detail.php'
 		);
 	}
 
@@ -38,13 +47,16 @@ class RedshopUpdate206Beta2 extends RedshopInstallUpdate
 	 *
 	 * @return  array
 	 *
-	 * @since   2.0.6-beta2
+	 * @since   2.0.6
 	 */
 	protected function getOldFolders()
 	{
 		return array(
+			JPATH_LIBRARIES . '/redshop/economic',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager_detail',
 			JPATH_ADMINISTRATOR . '/component/admin/views/category_detail',
-			JPATH_LIBRARIES . '/redshop/economic'
+			JPATH_ADMINISTRATOR . '/component/admin/views/fields_detail'
 		);
 	}
 
@@ -53,7 +65,7 @@ class RedshopUpdate206Beta2 extends RedshopInstallUpdate
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.6-beta2
+	 * @since   2.0.6
 	 */
 	public function updateCategory()
 	{
@@ -122,7 +134,7 @@ class RedshopUpdate206Beta2 extends RedshopInstallUpdate
 	 *
 	 * @return  mixed
 	 *
-	 * @since   2.0.6-beta2
+	 * @since   2.0.6
 	 */
 	protected function processRebuildCategory($rootId)
 	{
@@ -137,7 +149,7 @@ class RedshopUpdate206Beta2 extends RedshopInstallUpdate
 	 *
 	 * @return  mixed
 	 *
-	 * @since   2.0.6-beta2
+	 * @since   2.0.6
 	 */
 	protected function processDeleteCategoryXrefTable()
 	{

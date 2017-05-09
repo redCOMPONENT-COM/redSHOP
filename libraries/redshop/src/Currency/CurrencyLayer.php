@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * CurrencyLayer class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.6
  */
 class CurrencyLayer
 {
@@ -61,7 +61,7 @@ class CurrencyLayer
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function init()
 	{
@@ -182,7 +182,7 @@ class CurrencyLayer
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getConvertedCurrencies()
 	{
@@ -203,7 +203,7 @@ class CurrencyLayer
 	 *
 	 * @return  float             Converted amount
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function convert($amount, $sourceCurrency = '', $targetCurrency = '')
 	{
@@ -245,7 +245,7 @@ class CurrencyLayer
 	 *
 	 * @return  array  Currencies
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function initializeCurl()
 	{

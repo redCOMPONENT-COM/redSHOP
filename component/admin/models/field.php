@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Backend
  * @subpackage  Models.Field
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopModelField extends RedshopModelForm
 {
@@ -25,7 +25,7 @@ class RedshopModelField extends RedshopModelForm
 	 *
 	 * @return  array              List of exist field name.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getExistFieldNames($fieldId = 0)
 	{

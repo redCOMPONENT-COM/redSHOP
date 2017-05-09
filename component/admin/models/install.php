@@ -42,7 +42,7 @@ class RedshopModelInstall extends RedshopModelList
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getUpdateSteps()
 	{

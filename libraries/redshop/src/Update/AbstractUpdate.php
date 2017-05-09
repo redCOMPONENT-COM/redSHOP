@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshob.Libraries
  * @subpackage  Update
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 abstract class AbstractUpdate
 {
@@ -36,7 +36,7 @@ abstract class AbstractUpdate
 	 *
 	 * @return  \stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function task($name, $function)
 	{
@@ -52,7 +52,7 @@ abstract class AbstractUpdate
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getTasksList()
 	{
@@ -96,7 +96,7 @@ abstract class AbstractUpdate
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function deleteFolders(array $folders)
 	{
@@ -118,7 +118,7 @@ abstract class AbstractUpdate
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function deleteFiles(array $files)
 	{
@@ -140,7 +140,7 @@ abstract class AbstractUpdate
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function deleteFolder($folder)
 	{

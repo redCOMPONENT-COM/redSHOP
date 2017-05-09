@@ -347,7 +347,7 @@ class RedshopHelperUser
 	 *
 	 * @return  array             Array of user groups
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getUserGroups($userId = 0)
 	{
@@ -369,7 +369,7 @@ class RedshopHelperUser
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public static function updateUserTermsCondition($userInfoId = 0, $isSet = 0)
 	{
@@ -397,7 +397,7 @@ class RedshopHelperUser
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getVatUserInformation($userId = 0)
 	{
