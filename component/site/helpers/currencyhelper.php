@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Redshop\Currency\Currency;
+use Redshop\Currency\CurrencyLayer;
 
 /**
  * price converter
@@ -60,7 +61,14 @@ class CurrencyHelper
 	 */
 	public function convert($amountA, $currA = '', $currB = '')
 	{
-		return Currency::getInstance()->convert($amountA, $currA, $currB);
+		if (Redshop::getConfig()->get('CURRENCY_LIBRARIES') == 1)
+		{
+			return CurrencyLayer::getInstance()->convert($amountA, $currA, $currB);
+		}
+		else
+		{
+			return Currency::getInstance()->convert($amountA, $currA, $currB);
+		}
 	}
 
 	/**

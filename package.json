@@ -22,6 +22,7 @@
     "gulp-util": "^3.0.7",
     "gulp-zip": "^3.0.2",
     "joomla-gulp": "^1.1.1",
+    "joomla-gulp-release": "^1.0.9",
     "merge-stream": "^1.0.0",
     "require-dir": "^0.3.0",
     "xml2js": "^0.4.12",

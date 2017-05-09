@@ -97,18 +97,18 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 
 		// Fields query
 		$fieldQuery = $db->getQuery(true)
-			->select($db->qn('f.field_id'))
-			->select($db->qn('f.field_title'))
-			->select($db->qn('f.field_name', 'field_name_field'))
-			->select($db->qn('f.field_type'))
-			->select($db->qn('f.field_desc'))
-			->select($db->qn('f.field_class'))
-			->select($db->qn('f.field_section'))
-			->select($db->qn('f.field_maxlength'))
-			->select($db->qn('f.field_cols'))
-			->select($db->qn('f.field_rows'))
-			->select($db->qn('f.field_size'))
-			->select($db->qn('f.field_show_in_front'))
+			->select($db->qn('f.id'))
+			->select($db->qn('f.title'))
+			->select($db->qn('f.name', 'name_field'))
+			->select($db->qn('f.type'))
+			->select($db->qn('f.desc'))
+			->select($db->qn('f.class'))
+			->select($db->qn('f.section'))
+			->select($db->qn('f.maxlength'))
+			->select($db->qn('f.cols'))
+			->select($db->qn('f.rows'))
+			->select($db->qn('f.size'))
+			->select($db->qn('f.show_in_front'))
 			->select($db->qn('f.required'))
 			->select($db->qn('f.published'))
 			->select($db->quote('') . ' AS ' . $db->qn('data_id'))
@@ -123,18 +123,18 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 
 		// Fields query
 		$fieldDataQuery = $db->getQuery(true)
-			->select($db->qn('f.field_id'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_title'))
-			->select($db->qn('f.field_name', 'field_name_field'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_type'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_desc'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_class'))
-			->select($db->qn('f.field_section'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_maxlength'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_cols'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_rows'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_size'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_show_in_front'))
+			->select($db->qn('f.id'))
+			->select($db->quote('') . ' AS ' . $db->qn('title'))
+			->select($db->qn('f.name', 'name_field'))
+			->select($db->quote('') . ' AS ' . $db->qn('type'))
+			->select($db->quote('') . ' AS ' . $db->qn('desc'))
+			->select($db->quote('') . ' AS ' . $db->qn('class'))
+			->select($db->qn('f.section'))
+			->select($db->quote('') . ' AS ' . $db->qn('maxlength'))
+			->select($db->quote('') . ' AS ' . $db->qn('cols'))
+			->select($db->quote('') . ' AS ' . $db->qn('rows'))
+			->select($db->quote('') . ' AS ' . $db->qn('size'))
+			->select($db->quote('') . ' AS ' . $db->qn('show_in_front'))
 			->select($db->quote('') . ' AS ' . $db->qn('required'))
 			->select($db->quote('') . ' AS ' . $db->qn('published'))
 			->select($db->qn('d.data_id'))
@@ -146,25 +146,25 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('field_name'))
 			->select($db->qn('p.product_number', 'data_number'))
 			->from($db->qn('#__redshop_fields_data', 'd'))
-			->innerJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('d.fieldid'))
+			->innerJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('d.fieldid'))
 			->innerJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('d.itemid') . ' = ' . $db->qn('p.product_id'))
 			->where($db->qn('d.section') . ' != ' . $db->quote(''))
-			->order($db->qn('f.field_id'));
+			->order($db->qn('f.id'));
 
 		// Fields query
 		$fieldValueQuery = $db->getQuery(true)
-			->select($db->qn('f.field_id'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_title'))
-			->select($db->qn('f.field_name', 'field_name_field'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_type'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_desc'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_class'))
-			->select($db->qn('f.field_section'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_maxlength'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_cols'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_rows'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_size'))
-			->select($db->quote('') . ' AS ' . $db->qn('field_show_in_front'))
+			->select($db->qn('f.id'))
+			->select($db->quote('') . ' AS ' . $db->qn('title'))
+			->select($db->qn('f.name', 'name_field'))
+			->select($db->quote('') . ' AS ' . $db->qn('type'))
+			->select($db->quote('') . ' AS ' . $db->qn('desc'))
+			->select($db->quote('') . ' AS ' . $db->qn('class'))
+			->select($db->qn('f.section'))
+			->select($db->quote('') . ' AS ' . $db->qn('maxlength'))
+			->select($db->quote('') . ' AS ' . $db->qn('cols'))
+			->select($db->quote('') . ' AS ' . $db->qn('rows'))
+			->select($db->quote('') . ' AS ' . $db->qn('size'))
+			->select($db->quote('') . ' AS ' . $db->qn('show_in_front'))
 			->select($db->quote('') . ' AS ' . $db->qn('required'))
 			->select($db->quote('') . ' AS ' . $db->qn('published'))
 			->select($db->quote('') . ' AS ' . $db->qn('data_id'))
@@ -176,7 +176,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 			->select($db->qn('v.field_name'))
 			->select($db->quote('') . ' AS ' . $db->qn('data_number'))
 			->from($db->qn('#__redshop_fields_value', 'v'))
-			->innerJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('v.field_id'))
+			->innerJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('v.field_id'))
 			->order($db->qn('v.value_id'));
 
 		$fieldQuery->union($fieldDataQuery)->union($fieldValueQuery);
@@ -194,8 +194,8 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	protected function getHeader()
 	{
 		return array(
-			'field_id', 'field_title', 'field_name_field', 'field_type', 'field_desc', 'field_class', 'field_section','field_maxlength', 'field_cols',
-			'field_rows', 'field_size', 'field_show_in_front', 'required', 'published', 'data_id', 'data_txt', 'itemid', 'section', 'value_id',
+			'id', 'title', 'name_field', 'type', 'desc', 'class', 'section','maxlength', 'cols',
+			'rows', 'size', 'show_in_front', 'required', 'published', 'data_id', 'data_txt', 'itemid', 'section', 'value_id',
 			'field_value', 'field_name', 'data_number'
 		);
 	}
