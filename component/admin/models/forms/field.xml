@@ -23,7 +23,7 @@
                 type="redshop.text"
                 label="COM_REDSHOP_FIELD_NAME_HEADER"
                 description="COM_REDSHOP_TOOLTIP_FIELD_NAME"
-                class="form-control"
+                class="form-control validate-fieldNames"
                 default=""
                 required="true"
                 table-sortable="1"
