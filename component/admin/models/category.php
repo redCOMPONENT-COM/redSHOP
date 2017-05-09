@@ -386,19 +386,12 @@ class RedshopModelCategory extends RedshopModelForm
 				break;
 			}
 
-			$query = $db->getQuery(true)
-				->select('COUNT(pcx.product_id) AS ptotal')
-				->select($db->qn('c.name'))
-				->from($db->qn('#__redshop_category', 'c'))
-				->leftjoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
-				->where($db->qn('c.id') . ' = ' . $db->q((int) $cid[$i]));
+			$productCount = RedshopEntityCategory::getInstance($cid[$i])->productCount();
 
-			$categoryProduct = $db->setQuery($query)->loadObject();
-
-			if ($categoryProduct->ptotal > 0)
+			if ($productCount > 0)
 			{
 				$noError = false;
-				$errorMSG = JText::sprintf('COM_REDSHOP_CATEGORY_EXIST_PRODUCT', $categoryProduct->name . ' - ' . $cid[$i]);
+				$errorMSG = JText::sprintf('COM_REDSHOP_CATEGORY_EXIST_PRODUCT', $cid[$i]);
 				$this->setError($errorMSG);
 				break;
 			}
