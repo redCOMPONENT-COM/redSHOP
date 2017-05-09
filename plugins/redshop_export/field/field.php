@@ -25,7 +25,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 *
 	 * @TODO: Need to load XML File instead
 	 */
@@ -39,9 +39,9 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	/**
 	 * Event run when user click on Start Export
 	 *
-	 * @return  number
+	 * @return  integer
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	public function onAjaxField_Start()
 	{
@@ -55,9 +55,9 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	/**
 	 * Event run on export process
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	public function onAjaxField_Export()
 	{
@@ -73,9 +73,9 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	/**
 	 * Event run on export process
 	 *
-	 * @return  number
+	 * @return  void
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	public function onAjaxField_Complete()
 	{
@@ -103,7 +103,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 			->select($db->qn('f.type'))
 			->select($db->qn('f.desc'))
 			->select($db->qn('f.class'))
-			->select($db->qn('f.section'))
+			->select($db->qn('f.section', 'field_section'))
 			->select($db->qn('f.maxlength'))
 			->select($db->qn('f.cols'))
 			->select($db->qn('f.rows'))
@@ -129,7 +129,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('type'))
 			->select($db->quote('') . ' AS ' . $db->qn('desc'))
 			->select($db->quote('') . ' AS ' . $db->qn('class'))
-			->select($db->qn('f.section'))
+			->select($db->qn('f.section', 'field_section'))
 			->select($db->quote('') . ' AS ' . $db->qn('maxlength'))
 			->select($db->quote('') . ' AS ' . $db->qn('cols'))
 			->select($db->quote('') . ' AS ' . $db->qn('rows'))
@@ -159,7 +159,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('type'))
 			->select($db->quote('') . ' AS ' . $db->qn('desc'))
 			->select($db->quote('') . ' AS ' . $db->qn('class'))
-			->select($db->qn('f.section'))
+			->select($db->qn('f.section', 'field_section'))
 			->select($db->quote('') . ' AS ' . $db->qn('maxlength'))
 			->select($db->quote('') . ' AS ' . $db->qn('cols'))
 			->select($db->quote('') . ' AS ' . $db->qn('rows'))
@@ -187,14 +187,14 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	/**
 	 * Method for get headers data.
 	 *
-	 * @return array|bool
+	 * @return  mixed
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	protected function getHeader()
 	{
 		return array(
-			'id', 'title', 'name_field', 'type', 'desc', 'class', 'section','maxlength', 'cols',
+			'id', 'title', 'name_field', 'type', 'desc', 'class', 'field_section','maxlength', 'cols',
 			'rows', 'size', 'show_in_front', 'required', 'published', 'data_id', 'data_txt', 'itemid', 'section', 'value_id',
 			'field_value', 'field_name', 'data_number'
 		);
@@ -203,9 +203,9 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	/**
 	 * Method for get total count of data.
 	 *
-	 * @return int
+	 * @return  integer
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	protected function getTotal()
 	{
