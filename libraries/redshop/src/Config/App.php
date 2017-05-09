@@ -723,6 +723,7 @@ class App
 			"IMPORT_FILE_EXTENSION"                        => $data['import_file_extension'],
 			"INLINE_EDITING"                               => $data['inline_editing'],
 			"IMPORT_MAX_LINE"                              => $data['import_max_line'],
+			"MAX_FILE_SIZE_UPLOAD"                         => $data['max_file_size_upload']
 		);
 
 		$configs["CART_TIMEOUT"]               = $data["cart_timeout"] <= 0 ? 20 : $data["cart_timeout"];
