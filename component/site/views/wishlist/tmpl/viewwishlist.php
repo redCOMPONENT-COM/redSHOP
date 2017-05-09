@@ -630,7 +630,7 @@ function display_products($rows)
 		$data = $template_d1[0] . $temp_template . $template_d2[1];
 		$data = str_replace('{back_link}', '', $data);
 		$data = str_replace('{all_cart}', $my, $data);
-		$data = RedshopHelperTemplate::parseredSHOPplugin($data);
+		$data = RedshopHelperTemplate::parseRedshopPlugin($data);
 		echo eval("?>" . $data . "<?php ");
 	}
 }
