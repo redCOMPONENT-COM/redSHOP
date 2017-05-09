@@ -18,4 +18,22 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerField extends RedshopControllerForm
 {
+	/**
+	 * Method for get all exist field name
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function ajaxGetAllFieldName()
+	{
+		RedshopHelperAjax::validateAjaxRequest();
+
+		$app = JFactory::getApplication();
+		$model = $this->getModel('Field');
+
+		echo implode(',', $model->getExistFieldNames($app->input->getInt('field_id', 0)));
+
+		$app->close();
+	}
 }
