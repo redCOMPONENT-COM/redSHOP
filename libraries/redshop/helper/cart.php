@@ -682,21 +682,21 @@ abstract class RedshopHelperCart
 			{
 				$generateSubProperties = array();
 				$property  = RedshopHelperProduct_Attribute::getAttributeProperties($cartProperties[$p]->section_id);
-				$priceList = $cartHelper->_producthelper->getPropertyPrice($cartProperties[$p]->section_id, $quantity, 'property');
+				$priceList = RedshopHelperProduct_Attribute::getPropertyPrice($cartProperties[$p]->section_id, $quantity, 'property');
 
-				if (count($priceList) > 0)
+				if (!empty($priceList->product_price))
 				{
-					$property_price = $priceList->product_price;
+					$propertyPrice = $priceList->product_price;
 				}
 				else
 				{
-					$property_price = $property[0]->property_price;
+					$propertyPrice = $property[0]->property_price;
 				}
 
 				$generateProperties[$p]['property_id']     = $cartProperties[$p]->section_id;
 				$generateProperties[$p]['property_name']   = $property[0]->text;
 				$generateProperties[$p]['property_oprand'] = $property[0]->oprand;
-				$generateProperties[$p]['property_price']  = $property_price;
+				$generateProperties[$p]['property_price']  = $propertyPrice;
 
 				$cartSubProperties = $cartHelper->getCartItemAttributeDetail(
 					$cartItemId, $isAccessory, "subproperty", $cartProperties[$p]->section_id
@@ -705,7 +705,7 @@ abstract class RedshopHelperCart
 				for ($sp = 0; $sp < count($cartSubProperties); $sp++)
 				{
 					$subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($cartSubProperties[$sp]->section_id);
-					$price = $cartHelper->_producthelper->getPropertyPrice($cartSubProperties[$sp]->section_id, $quantity, 'subproperty');
+					$price = RedshopHelperProduct_Attribute::getPropertyPrice($cartSubProperties[$sp]->section_id, $quantity, 'subproperty');
 
 					if (count($price) > 0)
 					{
@@ -855,5 +855,60 @@ abstract class RedshopHelperCart
 		JFactory::getSession()->set('cart', $cart);
 
 		return $taxAfterDiscount;
+	}
+
+	/**
+	 * Check user for Tax Exemption approved
+	 *
+	 * @param   integer  $userId                 User Information Id - Login user id
+	 * @param   boolean  $isShowButtonAddToCart  Display Add to cart button for tax exemption user
+	 *
+	 * @return  boolean                          True if VAT applied else false
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function taxExemptAddToCart($userId = 0, $isShowButtonAddToCart = false)
+	{
+		$user = JFactory::getUser();
+
+		if ($userId == 0)
+		{
+			$userId = $user->id;
+		}
+
+		if (!$userId)
+		{
+			return true;
+		}
+
+		$userInformation = RedshopHelperUser::getUserInformation($userId);
+
+		if (!empty($userInformation->user_id))
+		{
+			if ($userInformation->requesting_tax_exempt == 0)
+			{
+				return true;
+			}
+			elseif ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved == 0)
+			{
+				if ($isShowButtonAddToCart)
+				{
+					return false;
+				}
+
+				return true;
+			}
+			elseif ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved == 1)
+			{
+				if ($isShowButtonAddToCart)
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

@@ -64,7 +64,7 @@ class RedshopHelperWishlist
 	 *
 	 * @param   int  $wishlistId  ID of Wishlist ID.
 	 *
-	 * @return  bool|mixed        Data if success. False otherwise.
+	 * @return  mixed             Data if success. False otherwise.
 	 *
 	 * @since   2.0.3
 	 */
@@ -160,7 +160,7 @@ class RedshopHelperWishlist
 	 *
 	 * @param   int  $userId  ID of user.
 	 *
-	 * @return  bool|mixed
+	 * @return  mixed
 	 *
 	 * @since   2.0.3
 	 */
@@ -210,7 +210,7 @@ class RedshopHelperWishlist
 	 *
 	 * @param   int  $productId  ID of Product.
 	 *
-	 * @return  bool|mixed        Data if success. False otherwise.
+	 * @return  mixed        Data if success. False otherwise.
 	 *
 	 * @since   2.0.3
 	 */
@@ -226,5 +226,60 @@ class RedshopHelperWishlist
 			->where($db->qn('w.user_id') . ' = ' . $db->q((int) $user->id));
 
 		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * Method for get Wishlist module base in element name
+	 *
+	 * @param   string  $elementName  Element name
+	 *
+	 * @return  object|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getWishlistModule($elementName)
+	{
+		if (empty($elementName))
+		{
+			return null;
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__extensions'))
+			->where($db->qn('element') . ' = ' . $db->quote($elementName));
+
+		return $db->setQuery($query)->loadObject();
+	}
+
+	/**
+	 * Method for get Wishlist user field data
+	 *
+	 * @param   integer  $wishlistId  Wish list id
+	 * @param   integer  $productId   Product Id
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getUserFieldData($wishlistId, $productId)
+	{
+		if (empty($wishlistId) || empty($productId))
+		{
+			return array();
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_wishlist_userfielddata'))
+			->where($db->qn('wishlist_id') . ' = ' . $db->quote($wishlistId))
+			->where($db->qn('product_id') . ' = ' . (int) $productId)
+			->order($db->qn('fieldid') . ' ASC');
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }
