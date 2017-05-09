@@ -510,7 +510,7 @@ class RedshopHelperProduct
 					$propertyPrice = $productHelper->getProductFormattedPrice($property[$i]->property_price);
 
 					// Get product vat to include.
-					$attributesPropertyVat = $productHelper->getProducttax($productId, $property[$i]->property_price, $userId);
+					$attributesPropertyVat = self::getProductTax($productId, $property[$i]->property_price, $userId);
 					$property[$i]->property_price += $attributesPropertyVat;
 
 					$propertyPriceWithVat = $productHelper->getProductFormattedPrice($property[$i]->property_price);
@@ -567,7 +567,7 @@ class RedshopHelperProduct
 			}
 			else
 			{
-				$chklist = JHTML::_('select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
+				$chklist = JHtml::_('select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
 					. '"  class="inputbox" size="1" attribute_name="' . $attributes[$a]->attribute_name . '" required="'
 					. $attributes[$a]->attribute_required . '" onchange="javascript:changeOfflinePropertyDropdown(\''
 					. $productId . '\',\'' . $accessoryId . '\',\'' . $attributes[$a]->attribute_id . '\',\'' . $uniqueId
@@ -632,7 +632,7 @@ class RedshopHelperProduct
 
 			if ($wrapper[$i]->wrapper_price > 0)
 			{
-				$wrapperVat = $productHelper->getProducttax($productId, $wrapper[$i]->wrapper_price, $userId);
+				$wrapperVat = self::getProductTax($productId, $wrapper[$i]->wrapper_price, $userId);
 			}
 
 			$wrapper[$i]->wrapper_price += $wrapperVat;
@@ -645,7 +645,7 @@ class RedshopHelperProduct
 		}
 
 		$wrapper = array_merge($wArray, $wrapper);
-		$lists ['wrapper_id'] = JHTML::_(
+		$lists ['wrapper_id'] = JHtml::_(
 			'select.genericlist',
 			$wrapper, 'wrapper_id_' . $commonId . '[]',
 			'id="wrapper_id_' . $commonId . '" class="inputbox" onchange="calculateOfflineTotalPrice(\'' . $uniqueId . '\');" ',
@@ -803,7 +803,7 @@ class RedshopHelperProduct
 			$shippingRateId = $rateArr[0]->value;
 		}
 
-		return JHTML::_(
+		return JHtml::_(
 			'select.genericlist',
 			$rateArr, 'shipping_rate_id',
 			'class="inputbox" onchange="calculateOfflineShipping();" ',
@@ -1060,5 +1060,100 @@ class RedshopHelperProduct
 
 		// Set the query and load the result.
 		return $db->setQuery($query)->loadColumn();
+	}
+
+	/**
+	 * Method for get product tax
+	 *
+	 * @param   integer  $productId     Product Id
+	 * @param   integer  $productPrice  Product price
+	 * @param   integer  $userId        User ID
+	 * @param   integer  $taxExempt     Tax exempt
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getProductTax($productId = 0, $productPrice = 0, $userId = 0, $taxExempt = 0)
+	{
+		$redshopUser = JFactory::getSession()->get('rs_user');
+
+		if ($userId == 0)
+		{
+			$user   = JFactory::getUser();
+			$userId = $user->id;
+		}
+
+		$productInfor = array();
+
+		if ($productId != 0)
+		{
+			$productInfor = self::getProductById($productId);
+		}
+
+		$productTax   = 0;
+		$taxRate = 0;
+
+		if (empty($redshopUser))
+		{
+			$redshopUser                     = array();
+			$redshopUser['rs_is_user_login'] = 0;
+		}
+
+		if ($redshopUser['rs_is_user_login'] == 0 && $userId != 0)
+		{
+			RedshopHelperUser::createUserSession($userId);
+		}
+
+		$vatRateData = productHelper::getInstance()->getVatRates($productId, $userId);
+
+		if ($vatRateData)
+		{
+			$taxRate = $vatRateData->tax_rate;
+		}
+
+		if ($productPrice <= 0 && isset($productInfor->product_price))
+		{
+			$productPrice = $productInfor->product_price;
+		}
+
+		$productPrice = productHelper::getInstance()->productPriceRound($productPrice);
+
+		if ($taxExempt)
+		{
+			$productTax = $productPrice * $taxRate;
+
+			return $productTax;
+		}
+
+		if ($taxRate)
+		{
+			if ($userId)
+			{
+				$userInformation = RedshopHelperUser::getUserInformation($userId);
+
+				if (count($userInformation) > 0)
+				{
+					if ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved)
+					{
+						$productTax = $productTax;
+					}
+					else
+					{
+						$productTax = $productPrice * $taxRate;
+					}
+				}
+				else
+				{
+					$productTax = $productPrice * $taxRate;
+				}
+			}
+			else
+			{
+				$productTax = $productPrice * $taxRate;
+			}
+		}
+
+		return productHelper::getInstance()->productPriceRound($productTax);
 	}
 }

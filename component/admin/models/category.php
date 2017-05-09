@@ -386,6 +386,16 @@ class RedshopModelCategory extends RedshopModelForm
 				break;
 			}
 
+			$productCount = RedshopEntityCategory::getInstance($cid[$i])->productCount();
+
+			if ($productCount > 0)
+			{
+				$noError = false;
+				$errorMSG = JText::sprintf('COM_REDSHOP_CATEGORY_EXIST_PRODUCT', $cid[$i]);
+				$this->setError($errorMSG);
+				break;
+			}
+
 			$query = $db->getQuery(true)
 				->select($db->qn('category_thumb_image'))
 				->select($db->qn('category_full_image'))
