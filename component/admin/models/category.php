@@ -21,11 +21,11 @@ class RedshopModelCategory extends RedshopModelForm
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $type    The table type to instantiate
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A database object
+	 * @return  JTable           A database object
 	 *
 	 * @since   2.0.6
 	 */
@@ -40,7 +40,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 * @param   array    $data      Data for the form. [optional]
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  mixed               A JForm object on success, false on failure
 	 *
 	 * @since   2.0.6
 	 */
@@ -51,7 +51,7 @@ class RedshopModelCategory extends RedshopModelForm
 			'com_redshop.category',
 			'category',
 			array(
-				'control' => 'jform',
+				'control'   => 'jform',
 				'load_data' => $loadData
 			)
 		);
@@ -74,7 +74,7 @@ class RedshopModelCategory extends RedshopModelForm
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 		$data = $app->getUserState('com_redshop.edit.category.data', array());
 
 		if (empty($data))
@@ -92,34 +92,25 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return  mixed    Object on success, false on failure.
+	 * @return  mixed         Object on success, false on failure.
 	 *
 	 * @since   12.2
 	 */
 	public function getItem($pk = null)
 	{
-		$item  = parent::getItem($pk);
+		$item = parent::getItem($pk);
 
 		if (!empty($item->id))
 		{
-			$db = $this->getDbo();
-			$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_category'))
-				->where($db->qn('id') . ' = ' . $db->q((int) $item->id));
-			$data = $db->setQuery($query)->loadObject();
-
-			$data->more_template = explode(',', $data->more_template);
-
-			return $data;
-		}
-		else
-		{
-			$item->template = Redshop::getConfig()->get('CATEGORY_TEMPLATE', "");
-			$item->products_per_page = 5;
+			$item->more_template = explode(',', $item->more_template);
 
 			return $item;
 		}
+
+		$item->template          = Redshop::getConfig()->get('CATEGORY_TEMPLATE', "");
+		$item->products_per_page = 5;
+
+		return $item;
 	}
 
 	/**
@@ -127,26 +118,27 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @param   integer  $item  The object category values.
 	 *
-	 * @return  mixed    Object on success, false on failure.
+	 * @return  mixed           Object on success, false on failure.
 	 *
 	 * @since   2.0.6
 	 */
 	public function getExtraFields($item)
 	{
-		$redshopTemplate = Redtemplate::getInstance();
-		$template_desc   = $redshopTemplate->getTemplate('category', $item->template, '', true);
-		$template        = $template_desc[0]->template_desc;
-		$regex           = '/{rs_[\w]{1,}\}/';
+		$templateDesc = RedshopHelperTemplate::getTemplate('category', $item->template, '');
+		$template     = $templateDesc[0]->template_desc;
+		$regex        = '/{rs_[\w]{1,}\}/';
 		preg_match_all($regex, $template, $matches);
+
+		if (empty($matches[0]))
+		{
+			return '';
+		}
+
 		$listField = array();
 
-		if (count($matches[0]) > 0)
-		{
-			$dbname = implode(',', $matches[0]);
-			$dbname = str_replace(array('{', '}'), '', $dbname);
-			$field = extra_field::getInstance();
-			$listField[] = $field->list_all_field(2, $item->category_id, $dbname);
-		}
+		$fieldName   = implode(',', $matches[0]);
+		$fieldName   = str_replace(array('{', '}'), '', $fieldName);
+		$listField[] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_CATEGORY, $item->id, $fieldName);
 
 		return implode('', $listField);
 	}
@@ -154,9 +146,9 @@ class RedshopModelCategory extends RedshopModelForm
 	/**
 	 * Method to store category.
 	 *
-	 * @param   object  $data  The object category data.
+	 * @param   array  $data  The object category data.
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @since   2.0.6
 	 */
@@ -166,16 +158,16 @@ class RedshopModelCategory extends RedshopModelForm
 		$row = $this->getTable();
 		$pk  = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 
-		// Set the new parent id if parent id not matched OR while New/Save as Copy .
-		if ($row->parent_id != $data['parent_id'] || $data['id'] == 0)
-		{
-			$row->setLocation($data['parent_id'], 'last-child');
-		}
-
 		// Load the row if saving an existing record.
 		if ($pk > 0)
 		{
 			$row->load($pk);
+		}
+
+		// Set the new parent id if parent id not matched OR while New/Save as Copy .
+		if ($row->parent_id != $data['parent_id'] || $data['id'] == 0)
+		{
+			$row->setLocation($data['parent_id'], 'last-child');
 		}
 
 		if (!$row->bind($data))
@@ -184,8 +176,6 @@ class RedshopModelCategory extends RedshopModelForm
 
 			return false;
 		}
-
-		$fileName = "";
 
 		if (isset($data['image_delete']))
 		{
@@ -208,37 +198,43 @@ class RedshopModelCategory extends RedshopModelForm
 			$db->setQuery($query)->execute();
 		}
 
-		if (!empty($data['category_full_image']))
+		// Category full images
+		if (empty($data['category_full_image']))
 		{
-			// Make the filename unique
-			$fileName = RedShopHelperImages::cleanFileName(basename($data['category_full_image']));
+			// Dropzone support.
+			$categoryFullImage = JFactory::getApplication()->input->getRaw('category_full_image');
 
-			$row->category_full_image  = $fileName;
-			$row->category_thumb_image = $fileName;
-
-			$src = JPATH_ROOT . '/' . $data['category_full_image'];
-
-			// Specific path of the file
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
-
-			JFile::copy($src, $dest);
-			unlink($src);
-		}
-		else
-		{
-			if (!empty($data['category_image']))
+			if (!empty($categoryFullImage))
 			{
-				$imageSplit = explode('/', $data['category_image']);
-
 				// Make the filename unique
-				$fileName = RedShopHelperImages::cleanFileName($imageSplit[count($imageSplit) - 1]);
+				$fileName                  = RedshopHelperMedia::cleanFileName(basename($categoryFullImage));
 				$row->category_full_image  = $fileName;
 				$row->category_thumb_image = $fileName;
 
-				$src = JPATH_ROOT . '/' . $data['category_image'];
+				$src  = JPATH_ROOT . '/' . $categoryFullImage;
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
 
-				JFile::copy($src, $dest);
+				JFile::move($src, $dest);
+			}
+			// Delete image
+			else
+			{
+				$path = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $row->category_full_image;
+
+				if (JFile::exists($path))
+				{
+					JFile::delete($path);
+				}
+
+				$path = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $row->category_thumb_image;
+
+				if (JFile::exists($path))
+				{
+					JFile::delete($path);
+				}
+
+				$row->category_full_image  = '';
+				$row->category_thumb_image = '';
 			}
 		}
 
@@ -262,19 +258,37 @@ class RedshopModelCategory extends RedshopModelForm
 			$db->setQuery($query)->execute();
 		}
 
-		if (!empty($data['category_back_full_image']))
+		// Category Back Full images
+		if (empty($data['category_back_full_image']))
 		{
-			// Make the filename unique
-			$fileName = RedShopHelperImages::cleanFileName(basename($data['category_back_full_image']));
-			$row->category_back_full_image = $fileName;
+			// Dropzone support.
+			$categoryBackFullImage = JFactory::getApplication()->input->getRaw('category_back_full_image');
 
-			$src = JPATH_ROOT . '/' . $data['category_back_full_image'];
+			if (!empty($categoryBackFullImage))
+			{
+				// Make the filename unique
+				$fileName                      = RedshopHelperMedia::cleanFileName(basename($categoryBackFullImage));
+				$row->category_back_full_image = $fileName;
 
-			// Specific path of the file
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
+				$src = JPATH_ROOT . '/' . $categoryBackFullImage;
 
-			JFile::copy($src, $dest);
-			unlink($src);
+				// Specific path of the file
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $fileName;
+
+				JFile::move($src, $dest);
+			}
+			// Delete image
+			else
+			{
+				$path = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $row->category_back_full_image;
+
+				if (JFile::exists($path))
+				{
+					JFile::delete($path);
+				}
+
+				$row->category_back_full_image  = '';
+			}
 		}
 
 		// Check the data.
@@ -287,8 +301,6 @@ class RedshopModelCategory extends RedshopModelForm
 
 		if (!$row->store())
 		{
-			$this->setError($row->getError());
-
 			return false;
 		}
 
@@ -305,16 +317,14 @@ class RedshopModelCategory extends RedshopModelForm
 		}
 
 		// Extra Field Data Saved
-		$field = extra_field::getInstance();
-		$field->extra_field_save($data, 2, $row->id);
+		RedshopHelperExtrafields::extraFieldSave($data, 2, $row->id);
 
 		// Start Accessory Product
 		if (!empty($data['product_accessory']) && is_array($data['product_accessory']))
 		{
 			$data['product_accessory'] = array_merge(array(), $data['product_accessory']);
 
-			$productCategory = new product_category;
-			$productList = $productCategory->getCategoryProductList($row->id);
+			$productList = RedshopEntityCategory::getInstance($row->id)->getProducts();
 
 			for ($p = 0, $pn = count($productList); $p < $pn; $p++)
 			{
@@ -322,8 +332,8 @@ class RedshopModelCategory extends RedshopModelForm
 
 				for ($a = 0; $a < count($data['product_accessory']); $a++)
 				{
-					$acc = $data['product_accessory'][$a];
-					$accessoryId = $productCategory->CheckAccessoryExists($productId, $acc['child_product_id']);
+					$acc         = $data['product_accessory'][$a];
+					$accessoryId = RedshopHelperAccessory::checkAccessoryExists($productId, $acc['child_product_id']);
 
 					if ($productId != $acc['child_product_id'])
 					{
@@ -349,105 +359,15 @@ class RedshopModelCategory extends RedshopModelForm
 			}
 		}
 
-		// End Accessory Product insert
-		return $row;
-	}
-
-	/**
-	 * Method to delete one or more records.
-	 *
-	 * @param   array  $pks  An array of record primary keys.
-	 *
-	 * @return  boolean  True if successful, false if an error occurs.
-	 *
-	 * @since   2.0.6
-	 */
-	public function delete(&$pks)
-	{
-		$noError = true;
-		$cid = $pks;
-		$db = $this->getDbo();
-
-		for ($i = 0, $in = count($cid); $i < $in; $i++)
-		{
-			$query = $db->getQuery(true)
-				->select('COUNT(*) AS ctotal')
-				->select($db->qn('name'))
-				->from($db->qn('#__redshop_category'))
-				->where($db->qn('parent_id') . ' = ' . $db->q((int) $cid[$i]));
-
-			$childs = $db->setQuery($query)->loadObject();
-
-			if ($childs->ctotal > 0)
-			{
-				$noError = false;
-				$errorMSG = JText::sprintf('COM_REDSHOP_CATEGORY_PARENT_ERROR_MSG', $childs->name, $cid[$i]);
-				$this->setError($errorMSG);
-				break;
-			}
-
-			$productCount = RedshopEntityCategory::getInstance($cid[$i])->productCount();
-
-			if ($productCount > 0)
-			{
-				$noError = false;
-				$errorMSG = JText::sprintf('COM_REDSHOP_CATEGORY_EXIST_PRODUCT', $cid[$i]);
-				$this->setError($errorMSG);
-				break;
-			}
-
-			$query = $db->getQuery(true)
-				->select($db->qn('category_thumb_image'))
-				->select($db->qn('category_full_image'))
-				->from($db->qn('#__redshop_category'))
-				->where($db->qn('id') . ' = ' . $db->q((int) $cid[$i]));
-
-			$catImages = $db->setQuery($query)->loadObject();
-
-			$catThumbImage = $catImages->category_thumb_image;
-			$catFullImage  = $catImages->category_full_image;
-
-			$thumbPath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $catThumbImage;
-			$fullImagePath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $catFullImage;
-
-			if (file_exists($thumbPath))
-			{
-				@unlink($thumbPath);
-			}
-
-			if (file_exists($fullImagePath))
-			{
-				@unlink($fullImagePath);
-			}
-
-			$conditions = array(
-				$db->qn('id') . ' = ' . $db->q((int) $cid[$i])
-			);
-
-			$conditionProduct = array(
-				$db->qn('category_id') . ' = ' . $db->q((int) $cid[$i])
-			);
-
-			$query = $db->getQuery(true)
-				->delete($db->qn('#__redshop_product_category_xref'))
-				->where($conditionProduct);
-			$db->setQuery($query)->execute();
-
-			$query = $db->getQuery(true)
-				->delete($db->qn('#__redshop_category'))
-				->where($conditions);
-			$db->setQuery($query)->execute();
-		}
-
-		return $noError;
+		return true;
 	}
 
 	/**
 	 * Method to copy.
 	 *
-	 * @param   array  $cid  category id list.
+	 * @param   array  $cid  Category id list.
 	 *
-	 * @return  boolen
+	 * @return  boolean
 	 *
 	 * @since   2.0.6
 	 */
@@ -458,7 +378,7 @@ class RedshopModelCategory extends RedshopModelForm
 			return false;
 		}
 
-		$db = $this->getDBO();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_category'))
@@ -491,12 +411,17 @@ class RedshopModelCategory extends RedshopModelForm
 
 			if (!empty($copyData[$i]->category_thumb_image))
 			{
-				$post['category_thumb_image'] = $this->renameToUniqueValue('category_thumb_image', $copyData[$i]->category_thumb_image, 'dash', 'Category');
+				$post['category_thumb_image'] = $this->renameToUniqueValue(
+					'category_thumb_image', $copyData[$i]->category_thumb_image, 'dash', 'Category'
+				);
 			}
 
 			if (!empty($copyData[$i]->category_full_image))
 			{
-				$post['category_full_image']  = $this->renameToUniqueValue('category_full_image', $copyData[$i]->category_full_image, 'dash', 'Category');
+				$post['category_full_image'] = $this->renameToUniqueValue(
+					'category_full_image', $copyData[$i]->category_full_image, 'dash', 'Category'
+				);
+
 				$src  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $copyData[$i]->category_full_image;
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $post['category_full_image'];
 
