@@ -83,23 +83,37 @@ class productHelper
 		$this->_session      = JFactory::getSession();
 	}
 
-	public function getWishlistmodule($menu_id)
+	/**
+	 * Method for get Wishlist module base in element name
+	 *
+	 * @param   string  $elementName  Element name
+	 *
+	 * @return  object|null
+	 *
+	 * @since   1.6.0
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperWishlist::getWishlistModule instead
+	 */
+	public function getWishlistModule($elementName)
 	{
-		$query = 'SELECT * FROM #__extensions WHERE element = "' . $menu_id . '" ';
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
-
-		return $result;
+		return RedshopHelperWishlist::getWishlistModule($elementName);
 	}
 
-	public function getwishlistuserfieldata($wishlistid, $productid)
+	/**
+	 * Method for get Wishlist user field data
+	 *
+	 * @param   integer  $wishlistId  Wish list id
+	 * @param   integer  $productId   Product Id
+	 *
+	 * @return  array
+	 *
+	 * @since   1.6.0
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
+	public function getwishlistuserfieldata($wishlistId, $productId)
 	{
-		$query = 'SELECT * FROM #__redshop_wishlist_userfielddata  WHERE wishlist_id = '
-			. (int) $wishlistid . '  AND product_id=' . (int) $productid . ' ORDER BY fieldid ASC';
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObjectList();
-
-		return $result;
+		return RedshopHelperWishlist::getUserFieldData($wishlistId, $productId);
 	}
 
 	/**
@@ -146,13 +160,20 @@ class productHelper
 		RedshopHelperProduct::setProduct($products);
 	}
 
+	/**
+	 * Method for check country in EU area or not
+	 *
+	 * @param   string  $country  Country code
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.6.0
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
 	public function country_in_eu_common_vat_zone($country)
 	{
-		$eu_countries = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST',
-			'FIN', 'FRA', 'FXX', 'GBR', 'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU',
-			'LUX', 'MLT', 'NLD', 'POL', 'PRT', 'ROM', 'SVK', 'SVN', 'SWE');
-
-		return in_array($country, $eu_countries);
+		return RedshopHelperUtility::isCountryInEurope($country);
 	}
 
 	/**
@@ -420,111 +441,35 @@ class productHelper
 		return self::$productSpecialIds[$userId];
 	}
 
+	/**
+	 * Method for get product tax
+	 *
+	 * @param   integer  $product_id     Product Id
+	 * @param   integer  $product_price  Product price
+	 * @param   integer  $user_id        User ID
+	 * @param   integer  $tax_exempt     Tax exempt
+	 *
+	 * @return  integer
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 */
 	public function getProductTax($product_id = 0, $product_price = 0, $user_id = 0, $tax_exempt = 0)
 	{
-		$userArr = $this->_session->get('rs_user');
-
-		if ($user_id == 0)
-		{
-			$user    = JFactory::getUser();
-			$user_id = $user->id;
-		}
-
-		$proinfo = array();
-
-		if ($product_id != 0)
-		{
-			$proinfo = $this->getProductById($product_id);
-		}
-
-		$protax   = 0;
-		$tax_rate = 0;
-
-		if (empty($userArr))
-		{
-			$userArr                     = array();
-			$userArr['rs_is_user_login'] = 0;
-		}
-
-		if ($userArr['rs_is_user_login'] == 0 && $user_id != 0)
-		{
-			$userArr = $this->_userhelper->createUserSession($user_id);
-		}
-
-		$vatrates_data = $this->getVatRates($product_id, $user_id);
-
-		if ($vatrates_data)
-		{
-			$tax_rate = $vatrates_data->tax_rate;
-		}
-
-		if ($product_price <= 0 && isset($proinfo->product_price))
-		{
-			$product_price = $proinfo->product_price;
-		}
-
-		$product_price = $this->productPriceRound($product_price);
-
-		if ($tax_exempt)
-		{
-			$protax = $product_price * $tax_rate;
-
-			return $protax;
-		}
-
-		if ($tax_rate)
-		{
-			if ($user_id)
-			{
-				$userinfo = $this->getUserInformation($user_id);
-
-				if (count($userinfo) > 0)
-				{
-					if ($userinfo->requesting_tax_exempt == 1 && $userinfo->tax_exempt_approved)
-					{
-						$protax = $protax;
-					}
-					else
-					{
-						$protax = $product_price * $tax_rate;
-					}
-				}
-				else
-				{
-					$protax = $product_price * $tax_rate;
-				}
-			}
-			else
-			{
-				$protax = $product_price * $tax_rate;
-			}
-		}
-
-		$protax = $this->productPriceRound($protax);
-
-		return $protax;
+		return RedshopHelperProduct::getProductTax($product_id, $product_price, $user_id, $tax_exempt);
 	}
 
+	/**
+	 * Method for replace tags about VAT information
+	 *
+	 * @param   string  $data_add  Template data.
+	 *
+	 * @return  string
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 */
 	public function replaceVatinfo($data_add)
 	{
-		if (strpos($data_add, "{vat_info}") !== false)
-		{
-			$strVat       = '';
-			$chktaxExempt = $this->getApplyVatOrNot($data_add);
-
-			if ($chktaxExempt)
-			{
-				$strVat = Redshop::getConfig()->get('WITH_VAT_TEXT_INFO');
-			}
-			else
-			{
-				$strVat = Redshop::getConfig()->get('WITHOUT_VAT_TEXT_INFO');
-			}
-
-			$data_add = str_replace("{vat_info}", $strVat, $data_add);
-		}
-
-		return $data_add;
+		return RedshopHelperTax::replaceVatInformation($data_add);
 	}
 
 	/**
@@ -537,118 +482,21 @@ class productHelper
 	 */
 	public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
 	{
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		$userinfo = $this->getUserInformation($user_id);
-
-		if ($user_id)
-		{
-			if (count($userinfo) > 0)
-			{
-				if ($userinfo->requesting_tax_exempt == 0)
-				{
-					return true;
-				}
-				elseif ($userinfo->requesting_tax_exempt == 1 && $userinfo->tax_exempt_approved == 0)
-				{
-					if ($btn_show_addto_cart)
-					{
-						return false;
-					}
-
-					return true;
-				}
-				elseif ($userinfo->requesting_tax_exempt == 1 && $userinfo->tax_exempt_approved == 1)
-				{
-					if ($btn_show_addto_cart)
-					{
-						return true;
-					}
-
-					return false;
-				}
-			}
-		}
-
-		return true;
+		return RedshopHelperCart::taxExemptAddToCart($user_id, (boolean) $btn_show_addto_cart);
 	}
 
+	/**
+	 * Get VAT User information
+	 *
+	 * @param   integer  $user_id  User ID
+	 *
+	 * @return  object
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 */
 	public function getVatUserinfo($user_id = 0)
 	{
-		// Let's create a common user session first.
-		RedshopHelperUser::createUserSession();
-
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		if ($user_id)
-		{
-			$userArr         = $this->_session->get('rs_user');
-			$userdata        = $this->getUserInformation($user_id);
-
-			if (count($userdata) > 0)
-			{
-				$userArr['rs_user_info_id'] = isset($userdata->users_info_id) ? $userdata->users_info_id : 0;
-				$userArr                    = $this->_session->set('rs_user', $userArr);
-
-				if (!$userdata->country_code)
-				{
-					$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-				}
-
-				if (!$userdata->state_code)
-				{
-					$userdata->state_code = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
-				}
-
-				/*
-				 *  VAT_BASED_ON = 0 // webshop mode
-				 *  VAT_BASED_ON = 1 // Customer mode
-				 *  VAT_BASED_ON = 2 // EU mode
-				 */
-				if (Redshop::getConfig()->get('VAT_BASED_ON') != 2 && Redshop::getConfig()->get('VAT_BASED_ON') != 1)
-				{
-					$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-					$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
-				}
-			}
-			else
-			{
-				$userdata = new stdClass;
-				$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-				$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
-			}
-		}
-		else
-		{
-			$auth                   = $this->_session->get('auth');
-			$users_info_id          = $auth['users_info_id'];
-
-			$userdata = new stdClass;
-			$userdata->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
-			$userdata->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
-
-			if ($users_info_id && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get('REGISTER_METHOD') == 2) && (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
-			{
-				$query = "SELECT country_code,state_code FROM " . $this->_table_prefix . "users_info AS u "
-					. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
-					. "WHERE u.users_info_id = " . (int) $users_info_id . " "
-					. "ORDER BY u.users_info_id ASC LIMIT 0,1";
-				$this->_db->setQuery($query);
-				$userdata = $this->_db->loadObject();
-			}
-		}
-
-		return $userdata;
+		return RedshopHelperUser::getVatUserInformation($user_id);
 	}
 
 	/**
@@ -741,35 +589,13 @@ class productHelper
 	 * @param   string  $templateData    Template data
 	 * @param   int     $isCategoryPage  Flag change extra fields in category page
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public function getExtraFieldsForCurrentTemplate($filedNames = array(), $templateData = '', $isCategoryPage = 0)
 	{
-		$findFields = array();
-		$prefix = '{';
-
-		if ($isCategoryPage)
-		{
-			$prefix = '{producttag:';
-		}
-
-		if (count($filedNames) > 0)
-		{
-			foreach ($filedNames as $filedName)
-			{
-				if (strpos($templateData, $prefix . $filedName . "}") !== false)
-				{
-					$findFields[] = $filedName;
-				}
-			}
-		}
-
-		if (count($findFields) > 0)
-		{
-			return implode(',', redhelper::quote($findFields));
-		}
-
-		return '';
+		return RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($filedNames, $templateData, $isCategoryPage);
 	}
 
 	/*
@@ -861,20 +687,20 @@ class productHelper
 			if (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'front')
 			{
 				$price = $currency_symbol
-					. number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
+					. number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR', ''));
 			}
 			elseif (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'behind')
 			{
-				$price = number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'))
+				$price = number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR', ''))
 					. $currency_symbol;
 			}
 			elseif (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION') == 'none')
 			{
-				$price = number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
+				$price = number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR', ''));
 			}
 			else
 			{
-				$price = $currency_symbol . number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
+				$price = $currency_symbol . number_format($productPrice, $priceDecimal, Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR', ''));
 			}
 		}
 
@@ -1486,6 +1312,38 @@ class productHelper
 		if (strpos($data_add, "{" . $relPrefix . "product_price_table}") !== false)
 		{
 			$data_add = str_replace("{" . $relPrefix . "product_price_table}", '', $data_add);
+		}
+
+		if (strpos($data_add, "{" . $relPrefix . "lowest_price}") !== false ||
+			strpos($data_add, "{" . $relPrefix . "highest_price}") !== false)
+		{
+			$productPriceMinMax = $this->getProductMinMaxPrice($product_id);
+			
+			if (strpos($data_add, "{" . $relPrefix . "lowest_price}") !== false)
+			{
+				if (!empty($productPriceMinMax['min']))
+				{
+					$productMinPrice = $this->getPriceReplacement($productPriceMinMax['min'] * $qunselect);
+					$data_add = str_replace("{" . $relPrefix . "lowest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $productMinPrice . '</span>', $data_add);
+				}
+				else
+				{
+					$data_add = str_replace("{" . $relPrefix . "lowest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
+				}
+			}
+
+			if (strpos($data_add, "{" . $relPrefix . "highest_price}") !== false)
+			{
+				if (!empty($productPriceMinMax['min']))
+				{
+					$productMaxPrice = $this->getPriceReplacement($productPriceMinMax['max'] * $qunselect);
+					$data_add = str_replace("{" . $relPrefix . "highest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $productMaxPrice . '</span>', $data_add);
+				}
+				else
+				{
+					$data_add = str_replace("{" . $relPrefix . "highest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
+				}
+			}
 		}
 
 		$data_add = str_replace("{" . $relPrefix . "product_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
@@ -9736,5 +9594,73 @@ class productHelper
 				return "";
 			}
 		}
+	}
+
+	/**
+	 * Get Max and Min of Product Price
+	 *
+	 * @param   int  $productId  Product Id
+	 *
+	 * @return  array
+	 */
+	public function getProductMinMaxPrice($productId)
+	{
+		$attributes = $this->getProductAttribute($productId);
+		$propertyIds = array();
+		$subPropertyIds = array();
+		$propertyPriceList = array();
+		$subPropertyPriceList = array();
+
+
+		foreach ($attributes as $key => $attribute)
+		{
+			foreach ($attribute->properties as $property)
+			{
+				$propertyIds[] = $property->property_id;
+				$subProperties = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property->property_id);
+
+				foreach ($subProperties as $subProperty)
+				{
+					$subPropertyIds[] = $subProperty->value;
+				}
+			}
+		}
+
+		$db = JFactory::getDbo();
+
+		if (!empty($productId))
+		{
+			$query = $db->getQuery(true)
+				->select($db->qn('product_price'))
+				->from($db->qn('#__redshop_product_price'))
+				->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+			$productPriceList = $db->setQuery($query)->loadColumn();
+		}
+
+		if (!empty($propertyIds))
+		{
+			$query = $db->getQuery(true)
+				->select($db->qn('product_price'))
+				->from($db->qn('#__redshop_product_attribute_price'))
+				->where($db->qn('section') . ' = ' . $db->q('property'))
+				->where($db->qn('section_id') . ' IN (' . implode(',', $propertyIds) . ')');
+			$propertyPriceList = $db->setQuery($query)->loadColumn();
+		}
+
+		if (!empty($subPropertyIds))
+		{
+			$query = $db->getQuery(true)
+				->select($db->qn('product_price'))
+				->from($db->qn('#__redshop_product_attribute_price'))
+				->where($db->qn('section') . ' = ' . $db->q('subproperty'))
+				->where($db->qn('section_id') . ' IN (' . implode(',', $subPropertyIds) . ')');
+			$subPropertyPriceList = $db->setQuery($query)->loadColumn();
+		}
+
+		$productPriceList = array_unique(array_merge($productPriceList, $propertyPriceList, $subPropertyPriceList));
+		$productPrice['min'] = min($productPriceList);
+		$productPrice['max'] = max($productPriceList);
+
+		return $productPrice;
 	}
 }
