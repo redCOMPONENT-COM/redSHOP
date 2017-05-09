@@ -53,18 +53,17 @@ class RedshopTableField extends RedshopTable
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-					->select('COUNT(*) AS cnt')
-					->from($db->qn('#__redshop_fields'))
-					->where($db->qn('name') . ' = ' .  $db->q($this->name))
-					->where($db->qn('id') . ' != ' .  $this->id);
+			->select('COUNT(*) AS cnt')
+			->from($db->qn('#__redshop_fields'))
+			->where($db->qn('name') . ' = ' . $db->quote($this->name))
+			->where($db->qn('id') . ' != ' . $this->id);
 
 		$db->setQuery($query);
 		$result = $db->loadResult();
 
 		if ((boolean) $result)
 		{
-			$this->_error = JText::_('COM_REDSHOP_FIELDS_ALLREADY_EXIST');
-			JError::raiseWarning('', $this->_error);
+			$this->setError(JText::_('COM_REDSHOP_FIELDS_ALLREADY_EXIST'));
 
 			return false;
 		}
@@ -72,8 +71,8 @@ class RedshopTableField extends RedshopTable
 		if (!$this->id)
 		{
 			$query = $db->getQuery(true)
-						->select('COUNT(*)+1')
-						->from($db->qn('#__redshop_fields'));
+				->select('COUNT(*)+1')
+				->from($db->qn('#__redshop_fields'));
 
 			$this->ordering = (int) $db->setQuery($query)->loadResult();
 		}

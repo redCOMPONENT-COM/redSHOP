@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
+JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidator');
 
 $editor = JFactory::getEditor();
@@ -64,7 +64,12 @@ $editor = JFactory::getEditor();
                 }
             }
 
+            if (!document.formvalidator.isValid(form)) {
+                return false;
+            }
+
             document.getElementById('jform_section').disabled = false;
+
             submitform(task);
         }
     }
@@ -145,6 +150,38 @@ $editor = JFactory::getEditor();
         });
     }
 </script>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            var fieldNames = [];
+
+            $.post(
+                "index.php?option=com_redshop&task=field.ajaxGetAllFieldName",
+                {
+                    "<?php echo JSession::getFormToken() ?>": 1,
+                    "field_id": "<?php echo $this->item->id ?>"
+                },
+                function (response) {
+                    fieldNames = response.split(',');
+                });
+
+            document.formvalidator.setHandler("fieldNames", function (value) {
+                console.log(value);
+                value = value.replace(' ', '_', value);
+                var tmp = value.split('_');
+
+                if (tmp[0] != 'rs') {
+                    value = 'rs_' + value;
+                }
+
+                console.log(value);
+
+                return !fieldNames.contains(value);
+            });
+        });
+    })(jQuery);
+</script>
 <form action="index.php?option=com_redshop&task=field.edit&id=<?php echo $this->item->id; ?>" method="post"
       name="adminForm" id="adminForm" enctype="multipart/form-data" class="form-validate form-horizontal adminform">
     <div class="row">
@@ -174,7 +211,7 @@ $editor = JFactory::getEditor();
 					}
 					?>
 					<?php echo $this->form->renderField('display_in_product') ?>
-	                <?php echo $this->form->renderField('display_in_checkout') ?>
+					<?php echo $this->form->renderField('display_in_checkout') ?>
 					<?php echo $this->form->renderField('show_in_front') ?>
 					<?php echo $this->form->renderField('required') ?>
 					<?php echo $this->form->renderField('published') ?>
@@ -257,7 +294,7 @@ $editor = JFactory::getEditor();
                                 <td>
                                     <input
                                             type="text"
-                                            class="divfieldText hide"
+                                            class="divfieldText hide form-control"
                                             name="extra_name[]"
                                             id="extra_name1"
                                             value="field_temp_opt_1"
@@ -272,6 +309,7 @@ $editor = JFactory::getEditor();
                                     <input
                                             type="text"
                                             name="extra_value[]"
+                                            class="form-control"
                                     />
                                     <input
                                             type="hidden"
@@ -294,7 +332,7 @@ $editor = JFactory::getEditor();
                     <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DESCRIPTION') ?></h3>
                 </div>
                 <div class="box-body">
-	                <?php echo $editor->display("desc", $this->item->desc, '$widthPx', '$heightPx', '100', '20'); ?>
+					<?php echo $editor->display("desc", $this->item->desc, '$widthPx', '$heightPx', '100', '20'); ?>
                 </div>
             </div>
         </div>
