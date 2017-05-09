@@ -18,4 +18,27 @@ defined('_JEXEC') or die;
  */
 class RedshopModelField extends RedshopModelForm
 {
+	/**
+	 * Method for get all exist field names except specific field ID.
+	 *
+	 * @param   integer  $fieldId  Field ID.
+	 *
+	 * @return  array              List of exist field name.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getExistFieldNames($fieldId = 0)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('f.name'))
+			->from($db->qn('#__redshop_fields', 'f'));
+
+		if ($fieldId)
+		{
+			$query->where($db->qn('id') . ' <> ' . $fieldId);
+		}
+
+		return $db->setQuery($query)->loadColumn();
+	}
 }
