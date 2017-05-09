@@ -57,8 +57,11 @@ else
 	$template_desc .= "</div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
 
+$categoryItemId = (int) $objhelper->getCategoryItemid($this->catid);
+$mainItemid = !$categoryItemId ? $this->itemid : $categoryItemId;
+
 // New tags replacement for category template section
-$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat, 'subCategories' => $this->detail));
+$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat, 'subCategories' => $this->detail, 'manufacturerId' => $this->manufacturer_id, 'itemId' => $mainItemid));
 
 $endlimit = $this->state->get('list.limit');
 
@@ -231,22 +234,11 @@ if (!$slide)
 		$cw_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 
-	$cItemid = $objhelper->getCategoryItemid($this->catid);
-
-	if ($cItemid != "")
-	{
-		$tmpItemid = $cItemid;
-	}
-	else
-	{
-		$tmpItemid = $this->itemid;
-	}
-
 	$link = JRoute::_(
 						'index.php?option=' . $this->option .
 						'&view=category&cid=' . $this->catid .
 						'&manufacturer_id=' . $this->manufacturer_id .
-						'&layout=detail&Itemid=' . $tmpItemid
+						'&layout=detail&Itemid=' . $mainItemid
 					);
 
 	$cat_main_thumb = "";
@@ -333,22 +325,14 @@ if (!$slide)
 
 			$data_add = $subcat_template;
 
-			$cItemid = $objhelper->getCategoryItemid($row->id);
-
-			if ($cItemid != "")
-			{
-				$tmpItemid = $cItemid;
-			}
-			else
-			{
-				$tmpItemid = $this->itemid;
-			}
+			$categoryItemId = $objhelper->getCategoryItemid($row->id);
+			$mainItemId = !$categoryItemId ? $this->itemid : $categoryItemId;
 
 			$link = JRoute::_(
 								'index.php?option=' . $this->option .
 								'&view=category&cid=' . $row->id .
 								'&manufacturer_id=' . $this->manufacturer_id .
-								'&layout=detail&Itemid=' . $tmpItemid
+								'&layout=detail&Itemid=' . $mainItemId
 							);
 
 			$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @deprecated  2.0.0.3  Use RedshopHelperMedia instead
  */
-class RedShopHelperImages extends JObject
+class RedShopHelperImages
 {
 	/**
 	 * Function cleanFileName.
