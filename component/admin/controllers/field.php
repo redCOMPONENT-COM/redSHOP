@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller.Field
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopControllerField extends RedshopControllerForm
 {
@@ -23,7 +23,7 @@ class RedshopControllerField extends RedshopControllerForm
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function ajaxGetAllFieldName()
 	{

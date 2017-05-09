@@ -87,7 +87,7 @@ abstract class JHtmlRedshopGrid
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function inline($name = '', $value = '', $display = '', $id = 0, $type = 'text')
 	{

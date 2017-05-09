@@ -14,14 +14,14 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopViewFields extends RedshopViewList
 {
 	/**
 	 * @var  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $hasOrdering = true;
 
@@ -32,7 +32,7 @@ class RedshopViewFields extends RedshopViewList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function beforeDisplay(&$tpl)
 	{
@@ -56,7 +56,7 @@ class RedshopViewFields extends RedshopViewList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
