@@ -235,7 +235,7 @@ class RedshopHelperWishlist
 	 *
 	 * @return  object|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getWishlistModule($elementName)
 	{
@@ -262,7 +262,7 @@ class RedshopHelperWishlist
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getUserFieldData($wishlistId, $productId)
 	{

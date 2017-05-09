@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller.Category
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopControllerCategory extends RedshopControllerForm
 {
@@ -26,7 +26,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function save($key = null, $urlVar = null)
 	{
