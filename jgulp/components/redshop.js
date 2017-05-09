@@ -215,7 +215,12 @@ gulp.task('watch:' + baseTask + ':frontend:files', function (cb) {
  */
 // Admin: COPY
 gulp.task('copy:' + baseTask + ':backend',
-    ['copy:' + baseTask + ':backend:redshop.xml', 'copy:' + baseTask + ':backend:install.php', 'copy:' + baseTask + ':backend:admin']
+    [
+        'copy:' + baseTask + ':backend:redshop.xml',
+        'copy:' + baseTask + ':backend:install.php',
+        'copy:' + baseTask + ':backend:files',
+        'copy:' + baseTask + ':backend:lang'
+    ]
 );
 // Admin: Clean backend, will clean components from Administrator
 gulp.task('clean:' + baseTask + ':backend', function () {
@@ -229,9 +234,27 @@ gulp.task('clean:' + baseTask + ':backend', function () {
 });
 // Admin: Watch
 gulp.task('watch:' + baseTask + ':backend',
-    ['watch:' + baseTask + ':backend:redshop.xml', 'watch:' + baseTask + ':backend:install.php', 'watch:' + baseTask + ':backend:admin']
+    [
+        'watch:' + baseTask + ':backend:redshop.xml',
+        'watch:' + baseTask + ':backend:install.php',
+        'watch:' + baseTask + ':backend:files',
+        'watch:' + baseTask + ':backend:lang'
+    ]
 );
 
+// Copy: Admin language
+gulp.task('copy:' + baseTask + ':backend:lang', ['clean:' + baseTask + ':backend:lang'], function () {
+    return gulp.src(extPath + '/component/admin/language/**')
+        .pipe(gulp.dest(config.wwwDir + '/administrator/language'));
+});
+// Clean: Admin language
+gulp.task('clean:' + baseTask + ':backend:lang', function () {
+    return del(config.wwwDir + '/administrator/language/**/*.' + componentName + '.*', {force: true});
+});
+// Watch: Admin language
+gulp.task('watch:' + baseTask + ':backend:lang', function () {
+    gulp.watch(extPath + '/component/admin/language/**', ['copy:' + baseTask + ':backend:lang']);
+});
 
 // Copy: redSHOP.xml file
 gulp.task('copy:' + baseTask + ':backend:redshop.xml', ['clean:' + baseTask + ':backend:redshop.xml'], function () {
@@ -264,12 +287,18 @@ gulp.task('clean:' + baseTask + ':backend:install.php', function () {
 
 
 // Copy: copy redSHOP Backend files
-gulp.task('copy:' + baseTask + ':backend:admin', function () {
-    return gulp.src(extPath + '/component/admin/**/*')
+gulp.task('copy:' + baseTask + ':backend:files', function () {
+    return gulp.src(
+        [
+            extPath + '/component/admin/**/*',
+            '!' + extPath + '/component/admin/language',
+            '!' + extPath + '/component/admin/language/**'
+        ]
+    )
         .pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName));
 });
 // Watch: redSHOP Backend files
-gulp.task('watch:' + baseTask + ':backend:admin', function (cb) {
+gulp.task('watch:' + baseTask + ':backend:files', function (cb) {
     gulp.watch(extPath + '/component/admin/**/*')
         .on("change", function (file) {
             var destinationPath = path.join(config.wwwDir, "administrator", "components", componentName);
