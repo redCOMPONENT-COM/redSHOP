@@ -514,7 +514,7 @@ class RedshopHelperOrder
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select($db->qn('f.field_name') . ',' . $db->qn('fd.data_txt'))
+					->select($db->qn('f.name') . ',' . $db->qn('fd.data_txt'))
 					->from($db->qn('#__redshop_fields_data', 'fd'))
 					->where(
 						'('
@@ -527,7 +527,7 @@ class RedshopHelperOrder
 
 		$query->leftJoin(
 			$db->qn('#__redshop_fields', 'f')
-			. ' ON ' . $db->qn('f.field_id') . '=' . $db->qn('fd.fieldid')
+			. ' ON ' . $db->qn('f.id') . '=' . $db->qn('fd.fieldid')
 		);
 
 		// Set the query and load the result.
@@ -547,7 +547,7 @@ class RedshopHelperOrder
 		{
 			foreach ($fields as $field)
 			{
-				$fieldsData[$field->field_name] = $field->data_txt;
+				$fieldsData[$field->name] = $field->data_txt;
 			}
 		}
 
@@ -1016,7 +1016,14 @@ class RedshopHelperOrder
 			$response = curl_exec($ch);
 			curl_close($ch);
 
-			$xmlResponse = JFactory::getXML($response, false)->val;
+			$xmlResponse = JFactory::getXML($response, false);
+
+			if (empty($xmlResponse) || !empty($error))
+			{
+				return JText::_('LIB_REDSHOP_PACSOFT_ERROR_NO_RESPONSE');
+			}
+
+			$xmlResponse = $xmlResponse->val;
 
 			if ('201' == (string) $xmlResponse[1] && 'Created' == (string) $xmlResponse[2])
 			{
@@ -1034,15 +1041,12 @@ class RedshopHelperOrder
 			}
 			else
 			{
-				JError::raiseWarning(
-					21,
-					(string) $xmlResponse[1] . "-" . (string) $xmlResponse[2] . "-" . (string) $xmlResponse[0]
-				);
+				return (string) $xmlResponse[1] . "-" . (string) $xmlResponse[2] . "-" . (string) $xmlResponse[0];
 			}
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			return $e->getMessage();
 		}
 	}
 
@@ -1990,9 +1994,9 @@ class RedshopHelperOrder
 
 		$query = $db->getQuery(true)
 					->select('fd.*')
-					->select($db->qn(array('f.field_title', 'f.field_type', 'f.field_name')))
+					->select($db->qn(array('f.title', 'f.type', 'f.name')))
 					->from($db->qn('#__redshop_fields_data', 'fd'))
-					->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('fd.fieldid'))
+					->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
 					->where($db->qn('fd.itemid') . ' = ' . (int) $orderItemId)
 					->where($db->qn('fd.section') . ' = ' . $db->quote($section));
 		$db->setQuery($query);
@@ -2501,17 +2505,17 @@ class RedshopHelperOrder
 			{
 				for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
 				{
-					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->field_id, RedshopHelperExtrafields::SECTION_ORDER, $orderId, $userDetail->user_email);
+					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->id, RedshopHelperExtrafields::SECTION_ORDER, $orderId, $userDetail->user_email);
 
 					if ($fieldValueArray->data_txt != "")
 					{
-						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '}', $fieldValueArray->data_txt, $mailData);
-						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', $fieldArray[$i]->field_title, $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->name . '}', $fieldValueArray->data_txt, $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->name . '_lbl}', $fieldArray[$i]->title, $mailData);
 					}
 					else
 					{
-						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '}', "", $mailData);
-						$mailData = str_replace('{' . $fieldArray[$i]->field_name . '_lbl}', "", $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->name . '}', "", $mailData);
+						$mailData = str_replace('{' . $fieldArray[$i]->name . '_lbl}', "", $mailData);
 					}
 				}
 			}
@@ -2682,10 +2686,10 @@ class RedshopHelperOrder
 				$paymentInfo  = self::getPaymentInfo($orderId);
 				$economicData = array();
 
-				if (count($paymentInfo) > 0)
+				if (!empty($paymentInfo))
 				{
-					$paymentName = $paymentInfo[0]->payment_method_class;
-					$paymentArr  = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
+					$paymentName = $paymentInfo->payment_method_class;
+					$paymentArr  = explode("rs_payment_", $paymentInfo->payment_method_class);
 
 					if (count($paymentArr) > 0)
 					{
@@ -2693,7 +2697,7 @@ class RedshopHelperOrder
 					}
 
 					$economicData['economic_payment_method'] = $paymentName;
-					$paymentMethod = self::getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+					$paymentMethod = self::getPaymentMethodInfo($paymentInfo->payment_method_class);
 
 					if (count($paymentMethod) > 0)
 					{

@@ -705,13 +705,17 @@ class RedshopModelInstall extends RedshopModelList
 			array_push(
 				$files,
 				JPATH_ADMINISTRATOR . '/component/admin/controllers/category_detail.php',
-				JPATH_ADMINISTRATOR . '/component/admin/models/category_detail.php'
+				JPATH_ADMINISTRATOR . '/component/admin/models/category_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/controllers/fields_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/models/fields_detail.php',
+				JPATH_ADMINISTRATOR . '/component/admin/tables/fields_detail.php'
 			);
 
 			array_push(
 				$folders,
 				JPATH_ADMINISTRATOR . '/component/admin/views/category_detail',
-				JPATH_LIBRARIES . '/redshop/economic'
+				JPATH_LIBRARIES . '/redshop/economic',
+				JPATH_ADMINISTRATOR . '/component/admin/views/fields_detail'
 			);
 		}
 

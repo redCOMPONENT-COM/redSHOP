@@ -834,6 +834,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'redshopselect.booleanlist', 'inline_editing', 'class="form-control" size="1"', $this->config->get('INLINE_EDITING')
 		);
 
+		$lists['currency_libraries'] = JHtml::_('redshopselect.booleanlist', 'currency_libraries',
+			'class="form-control" size="1"', $this->config->get('CURRENCY_LIBRARIES'), $yes = JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_LAYER'),
+			$no = JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_ECB')
+		);
 
 		$current_version      = $model->getcurrentversion();
 		$getinstalledmodule   = $model->getinstalledmodule();
