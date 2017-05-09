@@ -318,6 +318,8 @@ class rsUserHelper
 
 	public function createJoomlaUser($data, $createuser = 0)
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$createaccount = (isset($data['createaccount']) && $data['createaccount'] == 1) ? 1 : 0;
 
 		// Registration is without account creation REGISTER_METHOD = 1
@@ -330,12 +332,10 @@ class rsUserHelper
 			return $user;
 		}
 
-		$data['password']  = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data['password2'] = JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data['password']  = $input->post->getRaw('password1', '');
+		$data['password2'] = $input->post->getRaw('password2', '');
 		$data['email']     = $data['email1'];
 		$data['name']      = $name = $data['firstname'];
-
-		$app = JFactory::getApplication();
 
 		// Prevent front-end user to change user group in the form and then being able to register on any Joomla! user group.
 		if ($app->isSite())
