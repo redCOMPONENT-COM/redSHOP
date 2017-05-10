@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -430,7 +430,18 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$lists['copy_attribute'] = JHtml::_('select.booleanlist', 'copy_attribute', 'class="inputbox"', 0);
 		$lists['product_special'] = JHtml::_('select.booleanlist', 'product_special', 'class="inputbox"', $detail->product_special);
 		$lists['product_download'] = JHtml::_('select.booleanlist', 'product_download', 'class="inputbox"', $detail->product_download);
-		$lists['not_for_sale'] = JHtml::_('select.booleanlist', 'not_for_sale', 'class="inputbox"', $detail->not_for_sale);
+
+		$detail->not_for_sale_showprice = 0;
+
+		if ($detail->not_for_sale == 2)
+		{
+			$detail->not_for_sale = 1;
+			$detail->not_for_sale_showprice = 1;
+		}
+
+		$lists['not_for_sale']           = JHtml::_('select.booleanlist', 'not_for_sale', 'class="inputbox"', $detail->not_for_sale);
+		$lists['not_for_sale_showprice'] = JHtml::_('select.booleanlist', 'not_for_sale_showprice', 'class="inputbox"', $detail->not_for_sale_showprice);
+
 		$lists['expired'] = JHtml::_('select.booleanlist', 'expired', 'class="inputbox"', $detail->expired);
 		$lists['allow_decimal_piece'] = JHtml::_('select.booleanlist', 'allow_decimal_piece', 'class="inputbox"', $detail->allow_decimal_piece);
 
@@ -628,14 +639,9 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 					'product_attribute'
 				)->addItem(
 					'#product_accessory',
-					'COM_REDSHOP_ACCESSORY_PRODUCT',
+					'COM_REDSHOP_ACCESSORY_RELATED_PRODUCT',
 					($selectedTabPosition == 'product_accessory') ? true : false,
 					'product_accessory'
-				)->addItem(
-					'#related',
-					'COM_REDSHOP_RELATED_PRODUCT',
-					($selectedTabPosition == 'related') ? true : false,
-					'related'
 				);
 
 		if ($this->CheckRedProductFinder > 0)

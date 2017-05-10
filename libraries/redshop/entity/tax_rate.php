@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.4
  */
-final class RedshopEntityTax_Rate extends RedshopEntity
+class RedshopEntityTax_Rate extends RedshopEntity
 {
 }

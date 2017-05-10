@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -253,7 +253,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$row->check())
 		{
-			$this->app->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_NUMBER_ALREADY_EXISTS'), 'error');
+			$this->app->enqueueMessage($row->getError(), 'error');
 
 			return false;
 		}
@@ -457,6 +457,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 			JFile::upload($src, $dest);
 		}
 
+		// Product not for sell - Show price or not
+		if ($row->not_for_sale && $data['not_for_sale_showprice'])
+		{
+			$row->not_for_sale = 2;
+		}
+
 		$isNew = ($row->product_id > 0) ? false : true;
 
 		JPluginHelper::importPlugin('redshop_product');
@@ -565,10 +571,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		$where_cat_discount = '';
 
+		$categories = array_unique($data['product_category']);
+		$countCategory = count($categories);
+
 		// Building product categories relationship
-		for ($j = 0; $j < count($data ['product_category']); $j++)
+		for ($j = 0; $j < $countCategory; $j++)
 		{
-			$cat = $data ['product_category'] [$j];
+			$cat = $categories[$j];
 
 			if (array_key_exists($cat, $catorder))
 			{
@@ -595,17 +604,17 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			$where_cat_discount .= " FIND_IN_SET('" . $cat . "',category_id) ";
 
-			if ((count($data ['product_category']) - 1) != $j)
+			if ((count($categories) - 1) != $j)
 			{
 				$where_cat_discount .= ' OR ';
 			}
 		}
 
-		$category_array = array_diff($data['product_category'], $oldcategory);
+		$category_array = array_diff($categories, $oldcategory);
 
 		if (count($category_array) > 0)
 		{
-			$category_array = array_diff($oldcategory, $data['product_category']);
+			$category_array = array_diff($oldcategory, $categories);
 		}
 
 		$sel = "SELECT * FROM " . $this->table_prefix . "mass_discount WHERE " . $where_cat_discount . " ORDER BY id desc limit 0,1";
@@ -1749,12 +1758,15 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function catin_sefurl()
 	{
-		$query = 'SELECT c.category_id as value, c.category_name as text
-				  FROM ' . $this->table_prefix . 'product_category_xref as pcf, ' . $this->table_prefix . 'category as c
-				  WHERE pcf.product_id="' . $this->id . '" AND pcf.category_id=c.category_id';
-		$this->_db->setQuery($query);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $this->id));
 
-		return $this->_db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectlist();
 	}
 
 	/**

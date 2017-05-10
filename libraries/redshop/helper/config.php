@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Config
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -337,7 +337,7 @@ class RedshopHelperConfig
 				}
 
 				// Save to config file
-				$this->save(new JRegistry($properties));
+				$this->save(new Registry($properties));
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MIGRATED_PREVIOUS_CONFIGURATION'), 'notice');
 
 				return JFile::delete($oldConfigFile);
@@ -444,6 +444,26 @@ class RedshopHelperConfig
 	}
 
 	/**
+	 * Method for get config variable of redshop
+	 *
+	 * @param   string  $name   Name of variable.
+	 * @param   mixed   $value  Value of configuration
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	public function set($name = '', $value = null)
+	{
+		if (empty($this->config))
+		{
+			return;
+		}
+
+		$this->config->set($name, $value);
+	}
+
+	/**
 	 * Method for get config force boolean variable of redshop
 	 *
 	 * @param   string  $name     Name of variable.
@@ -468,7 +488,7 @@ class RedshopHelperConfig
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.4
 	 */
 	public function toArray()
 	{

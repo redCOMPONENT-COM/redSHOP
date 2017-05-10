@@ -3,10 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
+use Redshop\Economic\Economic;
 
 
 
@@ -773,7 +775,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			$economicdata['economic_payment_method'] = $payment_name;
 
-			$economic->createInvoiceInEconomic($row->order_id, $economicdata);
+			Economic::createInvoiceInEconomic($row->order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
@@ -782,11 +784,11 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				$checkOrderStatus          = ($isBankTransferPaymentType) ? 0 : 1;
 
-				$bookinvoicepdf = $economic->bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
+				$bookinvoicepdf = Economic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
 				if (is_file($bookinvoicepdf))
 				{
-					$redshopMail->sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
 			}
 		}
@@ -794,7 +796,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		// ORDER MAIL SEND
 		if ($postdata['task'] != "addorder_detail.save_without_sendmail")
 		{
-			$redshopMail->sendOrderMail($row->order_id);
+			RedshopHelperMail::sendOrderMail($row->order_id);
 		}
 
 		return $row;
