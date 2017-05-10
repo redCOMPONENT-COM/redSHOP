@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\String\StringHelper;
 use Redshop\Table\AbstractTable;
 
 /**
@@ -45,7 +42,7 @@ class RedshopTable extends AbstractTable
 	 * @param   array   $config  An optional array of configuration
 	 * @param   string  $option  Component name, use for call table from another extension
 	 *
-	 * @return  RedshopTable  The table
+	 * @return  RedshopTable     The table
 	 *
 	 * @throws  InvalidArgumentException
 	 */

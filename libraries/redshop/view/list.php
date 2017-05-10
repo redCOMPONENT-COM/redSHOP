@@ -120,7 +120,7 @@ class RedshopViewList extends AbstractView
 	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string  &$tpl  Template name
+	 * @param   string  $tpl  Template name
 	 *
 	 * @return  void
 	 *
@@ -187,7 +187,7 @@ class RedshopViewList extends AbstractView
 			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'> (" . $this->pagination->total . ")</span>";
 		}
 
-		JToolBarHelper::title($title);
+		JToolbarHelper::title($title);
 	}
 
 	/**
