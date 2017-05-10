@@ -623,7 +623,8 @@ class RedshopHelperExtrafields
 							var remove_a = null;
 							$(\'a#add_' . $rowData[$i]->name . '\').on(\'click\', function(e){
 								e.preventDefault();
-								var extra_field_name = $(this).attr(\'title\'), extra_field_doc_html = "";
+								var extra_field_name = \'' . $rowData[$i]->name . '\'; 
+								var extra_field_doc_html = "";
 								var html_acceptor = $(\'#html_\'+extra_field_name);
 								var total_elm = html_acceptor.children(\'div\').length;
 
