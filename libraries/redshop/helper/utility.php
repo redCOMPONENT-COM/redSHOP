@@ -262,7 +262,7 @@ class RedshopHelperUtility
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected static function setQuotationMode()
 	{
@@ -309,7 +309,7 @@ class RedshopHelperUtility
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function maxChars($desc = '', $maxChars = 0, $suffix = '')
 	{
@@ -334,7 +334,7 @@ class RedshopHelperUtility
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function limitText($text, $length = 50, $ending = '...', $exact = false, $considerHtml = true)
 	{
@@ -462,5 +462,23 @@ class RedshopHelperUtility
 		}
 
 		return $truncate;
+	}
+
+	/**
+	 * Method for check country in EU area or not
+	 *
+	 * @param   string  $country  Country code
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.6
+	 */
+	public static function isCountryInEurope($country)
+	{
+		$euCountries = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST',
+			'FIN', 'FRA', 'FXX', 'GBR', 'GRC', 'HUN', 'IRL', 'ITA', 'LVA', 'LTU',
+			'LUX', 'MLT', 'NLD', 'POL', 'PRT', 'ROM', 'SVK', 'SVN', 'SWE');
+
+		return in_array($country, $euCountries);
 	}
 }

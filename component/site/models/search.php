@@ -307,6 +307,8 @@ class RedshopModelSearch extends RedshopModel
 						'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
 					)
 				)
+				->select($db->qn('c.id', 'category_id'))
+				->select($db->qn('c.name', 'category_name'))
 				->leftJoin('#__redshop_category AS c ON c.category_id = pc.category_id')
 				->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
 
@@ -1274,14 +1276,10 @@ class RedshopModelSearch extends RedshopModel
 
 		if (!empty($pk["filterprice"]))
 		{
-			$productPrices = $db->qn('p.product_price');
-			$productDiscountPrices = $db->qn('p.discount_price');
-			$comparePrice = "(" . $productPrices . ' >= ' . $db->q($min) . ' AND ' . $productPrices . ' <= ' . $db->q(($max)) . ")";
-			$compareDiscountPrice = "(" . $productDiscountPrices . ' >= ' . $db->q($min) . ' AND ' . $productDiscountPrices . ' <= ' . $db->q(($max)) . ")";
-			$priceNormal = $comparePrice;
-			$priceDiscount = $compareDiscountPrice;
+			$comparePrice = $db->qn('p.product_price') . ' >= ' . $db->q($min) . ' AND ' . $db->qn('p.product_price') . ' <= ' . $db->q(($max));
+			$compareDiscountPrice = $db->qn('p.discount_price') . ' >= ' . $db->q($min) . ' AND ' . $db->qn('p.discount_price') . ' <= ' . $db->q(($max));
 			$saleTime = $db->qn('p.discount_stratdate') . ' AND ' . $db->qn('p.discount_enddate');
-			$query->where('IF(' . $db->qn('p.product_on_sale') . ' = 1 && UNIX_TIMESTAMP() BETWEEN ' . $saleTime . ', ' . $priceDiscount . ', ' . $priceNormal . ')');
+			$query->where('IF(' . $db->qn('p.product_on_sale') . ' = 1 && UNIX_TIMESTAMP() BETWEEN ' . $saleTime . ', ' . $compareDiscountPrice . ', ' . $comparePrice . ')');
 		}
 
 		if (!empty($keyword))
@@ -1292,7 +1290,7 @@ class RedshopModelSearch extends RedshopModel
 				. $db->qn('m.manufacturer_id') . ' = '
 				. $db->qn('p.manufacturer_id')
 			)
-				->where('(' . $this->getSearchCondition('p.product_name', $keyword) . ' OR ' . $db->qn('m.manufacturer_name') . ' LIKE ' . $search . ')');
+				->where('(' . $db->qn('p.product_name') . ' LIKE ' . $search . ' OR ' . $db->qn('m.manufacturer_name') . ' LIKE ' . $search . ')');
 		}
 
 		$catList = RedshopHelperCategory::getCategoryListArray($categoryForSale);

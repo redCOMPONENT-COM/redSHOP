@@ -318,7 +318,7 @@ if (!class_exists('redproductScroller'))
 				$query .= " AND (" . $cids . ")";
 			}
 
-			$query .= "\nJOIN #__redshop_category as c ON pc.category_id=c.category_id";
+			$query .= "\nJOIN #__redshop_category as c ON pc.category_id=c.id";
 
 			$query .= "\n WHERE p.published = '1' AND c.published = '1' AND product_parent_id=0 ";
 
