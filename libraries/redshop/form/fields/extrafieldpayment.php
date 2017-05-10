@@ -24,8 +24,7 @@ class JFormFieldExtraFieldPayment extends JFormFieldList
 	/**
 	 * Element name
 	 *
-	 * @access    protected
-	 * @var        string
+	 * @var    string
 	 */
 	public $type = 'extrafieldpayment';
 
@@ -41,7 +40,7 @@ class JFormFieldExtraFieldPayment extends JFormFieldList
 			$this->value = explode(',', $this->value);
 		}
 
-		// Initialiase variables.
+		// Init variables.
 		$db = JFactory::getDbo();
 
 		// Create the base select statement.

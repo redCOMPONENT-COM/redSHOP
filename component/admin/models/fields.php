@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Redshop fields Model
  *
@@ -55,7 +57,7 @@ class RedshopModelFields extends RedshopModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
@@ -75,8 +77,8 @@ class RedshopModelFields extends RedshopModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -87,11 +89,11 @@ class RedshopModelFields extends RedshopModelList
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$field_type = $this->getUserStateFromRequest($this->context . '.filter.field_type', 'filter_field_type');
-		$this->setState('filter.field_type', $field_type);
+		$filterFieldType = $this->getUserStateFromRequest($this->context . '.filter.field_type', 'filter_field_type');
+		$this->setState('filter.field_type', $filterFieldType);
 
-		$field_section = $this->getUserStateFromRequest($this->context . '.filter.field_section', 'filter_field_section');
-		$this->setState('filter.field_section', $field_section);
+		$filterFieldSection = $this->getUserStateFromRequest($this->context . '.filter.field_section', 'filter_field_section');
+		$this->setState('filter.field_section', $filterFieldSection);
 
 		parent::populateState('ordering', $direction);
 	}
@@ -105,7 +107,7 @@ class RedshopModelFields extends RedshopModelList
 	 */
 	public function getListQuery()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('f.*')
@@ -161,11 +163,11 @@ class RedshopModelFields extends RedshopModelList
 
 	/**
 	 * Get Fields information from Sections
-	 * 		Note: This will return non-published fields also
+	 *        Note: This will return non-published fields also
 	 *
 	 * @param   array  $section  Sections in index array
 	 *
-	 * @return  mixed  Object information array of Fields
+	 * @return  mixed            Object information array of Fields
 	 */
 	public function getFieldInfoBySection($section)
 	{
@@ -174,10 +176,10 @@ class RedshopModelFields extends RedshopModelList
 			throw new InvalidArgumentException(__FUNCTION__ . 'only accepts Array. Input was ' . $section);
 		}
 
-		JArrayHelper::toInteger($section);
+		$section  = ArrayHelper::toInteger($section);
 		$sections = implode(',', $section);
 
-		// Initialiase variables.
+		// Init variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
@@ -204,19 +206,19 @@ class RedshopModelFields extends RedshopModelList
 	/**
 	 * Get Fields information from Section.
 	 *
-	 * @param   string  $section  	Section of fields
-	 * @param   string  $fieldName  Field name
+	 * @param   string $section   Section of fields
+	 * @param   string $fieldName Field name
 	 *
 	 * @return  mixed
 	 */
 	public function getFieldsBySection($section, $fieldName = '')
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_fields', 'f'))
-					->where($db->qn('f.section') . ' = ' . (int) $section)
-					->where($db->qn('f.published') . '= 1 ');
+			->select('*')
+			->from($db->qn('#__redshop_fields', 'f'))
+			->where($db->qn('f.section') . ' = ' . (int) $section)
+			->where($db->qn('f.published') . '= 1 ');
 
 		if ($fieldName != '')
 		{
@@ -227,55 +229,33 @@ class RedshopModelFields extends RedshopModelList
 		$query->order($db->qn('f.ordering'));
 		$db->setQuery($query);
 
-		return $db->loadObjectlist();
+		return $db->loadObjectList();
 	}
 
 	/**
 	 * Get Field Data from Field Id, Section, Order Item Id and User Email
 	 *
-	 * @param   int  	$fieldid  		Id of field
-	 * @param   string  $section  		Section of field
-	 * @param   string  $orderitemid	Order item Id
-	 * @param   string  $user_email		User's email
+	 * @param   int      $fieldId      Id of field
+	 * @param   integer  $section      Section of field
+	 * @param   integer  $orderItemId  Order item Id
+	 * @param   string   $userEmail    User's email
 	 *
-	 * @return  mixed  Object information array of Field's Data
+	 * @return  mixed                 Object information array of Field's Data
 	 */
-	public function getFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
-	{
-		$db = JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_fields_data'))
-					->where($db->qn('itemid') . ' = ' . (int) $orderitemid)
-					->where($db->qn('fieldid') . ' = ' . (int) $fieldid)
-					->where($db->qn('user_email') . ' = ' . $db->q($user_email))
-					->where($db->qn('section') . ' = ' . (int) $section);
-
-		$db->setQuery($query);
-
-		return $db->loadObject();
-	}
-
-	/**
-	 * Get Field Value from Field Id
-	 *
-	 * @param   int  $id   Id of field
-	 *
-	 * @return  mixed  Object information array of Field's Value
-	 */
-	public function getFieldValue($id)
+	public function getFieldDataList($fieldId, $section = 0, $orderItemId = 0, $userEmail = "")
 	{
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn('#__redshop_fields_value'))
-			->where($db->qn('field_id') . ' = ' . (int) $id)
-			->order($db->qn('field_id') . ' ASC');
+			->from($db->qn('#__redshop_fields_data'))
+			->where($db->qn('itemid') . ' = ' . (int) $orderItemId)
+			->where($db->qn('fieldid') . ' = ' . (int) $fieldId)
+			->where($db->qn('user_email') . ' = ' . $db->quote($userEmail))
+			->where($db->qn('section') . ' = ' . (int) $section);
 
 		$db->setQuery($query);
 
-		return $db->loadObjectlist();
+		return $db->loadObject();
 	}
 }
