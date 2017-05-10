@@ -2003,9 +2003,9 @@ class xmlHelper
 
 		$query = $db->getQuery(true)
 			->select($field)
-			->select($db->qn('f.field_name', 'name'))
+			->select($db->qn('f.name', 'name'))
 			->from($db->qn('#__redshop_fields_data', 'fd'))
-			->innerjoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.field_id')
+			->innerjoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.id')
 			->where($db->qn('fd.itemid') . ' = ' . (int) $section_id)
 			->where($db->qn('fd.section') . ' = ' . (int) $fieldsection);
 

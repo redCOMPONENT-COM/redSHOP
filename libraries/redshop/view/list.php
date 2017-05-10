@@ -62,7 +62,7 @@ class RedshopViewList extends AbstractView
 	 * Column for render published state.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected $stateColumns = array('published', 'state');
 
@@ -97,13 +97,34 @@ class RedshopViewList extends AbstractView
 	public $filterForm;
 
 	/**
+	 * @var  boolean
+	 *
+	 * @since  2.0.6
+	 */
+	public $hasOrdering = false;
+
+	/**
+	 * @var  boolean
+	 *
+	 * @since  2.0.6
+	 */
+	public $isNested = false;
+
+	/**
+	 * @var    array
+	 *
+	 * @since  2.0.6
+	 */
+	public $nestedOrdering;
+
+	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string &$tpl Template name
+	 * @param   string  &$tpl  Template name
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function beforeDisplay(&$tpl)
 	{
@@ -117,6 +138,14 @@ class RedshopViewList extends AbstractView
 		$this->filterForm    = $this->model->getForm();
 
 		$this->prepareTable();
+
+		if ($this->hasOrdering && $this->isNested && !empty($this->items))
+		{
+			foreach ($this->items as &$item)
+			{
+				$this->nestedOrdering[$item->parent_id][] = $item->id;
+			}
+		}
 	}
 
 	/**
@@ -124,7 +153,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function checkPermission()
 	{
@@ -166,7 +195,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getTitle()
 	{
@@ -178,7 +207,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function addToolbar()
 	{
@@ -206,7 +235,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getColumns()
 	{
@@ -218,7 +247,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function prepareTable()
 	{
@@ -246,6 +275,11 @@ class RedshopViewList extends AbstractView
 			if ($field['type'] == 'spacer' || $field['type'] == 'hidden' || !empty($field['table-hide']))
 			{
 				continue;
+			}
+
+			if ($field['name'] == 'ordering')
+			{
+				$this->hasOrdering = true;
 			}
 
 			$this->columns[] = array(
@@ -276,7 +310,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{

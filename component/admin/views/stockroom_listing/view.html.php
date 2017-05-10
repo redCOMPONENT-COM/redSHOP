@@ -52,8 +52,8 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
 
 		$temps = array();
 		$temps[0] = new stdClass;
-		$temps[0]->category_id = "0";
-		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
+		$temps[0]->id = "0";
+		$temps[0]->name = JText::_('COM_REDSHOP_SELECT');
 		$categories = @array_merge($temps, $categories);
 		$lists['category'] = JHTML::_('select.genericlist', $categories, 'category_id',
 			'class="inputbox" onchange="getTaskChange();document.adminForm.submit();" ',

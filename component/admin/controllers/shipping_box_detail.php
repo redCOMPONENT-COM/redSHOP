@@ -74,44 +74,6 @@ class RedshopControllerShipping_box_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
 	}
 
-	public function publish()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-		}
-
-		$model = $this->getModel('shipping_box_detail');
-
-		if (!$model->publish($cid, 1))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
-	}
-
-	public function unpublish()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-		}
-
-		$model = $this->getModel('shipping_box_detail');
-
-		if (!$model->publish($cid, 0))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
-	}
-
 	public function cancel()
 	{
 

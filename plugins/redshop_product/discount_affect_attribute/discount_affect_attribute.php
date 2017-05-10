@@ -14,7 +14,7 @@ JLoader::import('redshop.library');
 /**
  * Class PlgRedshop_ProductDiscount_Affect_Attribute
  *
- * @since  2.0.4
+ * @since  1.0.0
  */
 class PlgRedshop_ProductDiscount_Affect_Attribute extends JPlugin
 {

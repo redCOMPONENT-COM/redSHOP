@@ -16,7 +16,7 @@ use Redshop\View\AbstractView;
  *
  * @package     Redshob.Libraries
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopViewForm extends AbstractView
 {
@@ -32,7 +32,7 @@ class RedshopViewForm extends AbstractView
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected $formLayout = 'box';
 
@@ -53,28 +53,28 @@ class RedshopViewForm extends AbstractView
 	/**
 	 * @var    object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $item;
 
 	/**
 	 * @var    JForm
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $form;
 
 	/**
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $fields;
 
 	/**
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $hiddenFields;
 
@@ -85,7 +85,7 @@ class RedshopViewForm extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function beforeDisplay(&$tpl)
 	{
@@ -102,7 +102,7 @@ class RedshopViewForm extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function checkPermission()
 	{
@@ -127,7 +127,7 @@ class RedshopViewForm extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function addToolbar()
 	{
@@ -158,7 +158,7 @@ class RedshopViewForm extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadFields()
 	{
@@ -184,7 +184,7 @@ class RedshopViewForm extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected function prepareFields($group)
 	{

@@ -142,7 +142,7 @@ JHtml::_('redshopjquery.framework');
     for ($i = 0, $n = count($this->list_in_products); $i < $n; $i++)
     {
         ?>
-        <th nowrap="nowrap"><?php echo  JText::_($this->list_in_products[$i]->field_title); ?></th>
+        <th nowrap="nowrap"><?php echo  JText::_($this->list_in_products[$i]->title); ?></th>
     <?php }    ?>
     <th>
         <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA', 'media', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -291,7 +291,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
         <?php    for ($j = 0, $k = count($this->list_in_products); $j < $k; $j++)
         {
-            $field_arr = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->field_id, 1, $row->product_id);
+            $field_arr = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->id, 1, $row->product_id);
             $field_value = '';
             if (count($field_arr) > 0)
             {
@@ -320,51 +320,51 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
             <?php echo $row->visited;?>
         </td>
 
-        <td>
-            <?php $listedincats = $model->listedincats($row->product_id);
-            for ($j = 0, $jn = count($listedincats); $j < $jn; $j++)
-            {
-                echo $cat = $listedincats[$j]->category_name . "<br />";
-            }
-            ?>
-        </td>
-        <td>
-            <?php echo RedshopEntityManufacturer::getInstance($row->manufacturer_id)->get('name', ''); ?>
-        </td>
-        <td>
-            <a href="index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=0&pid=<?php echo $row->product_id ?>"><?php echo JText::_('COM_REDSHOP_ADD_REVIEW'); ?></a>
-        </td>
-        <td align="center" width="8%">
-            <?php echo $published;?>
-        </td>
-        <td align="center" width="5%">
-            <?php echo $row->product_id; ?>
-        </td>
-        <?php if ($category_id > 0)
-        {
-            ?>
-            <td class="order">
-                <?php if ($ordering) :
-                    $orderDir = strtoupper($this->lists['order_Dir']);
-                    ?>
-                    <div class="input-prepend">
-                        <?php if ($orderDir == 'ASC' || $orderDir == '') : ?>
-                            <span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'orderup'); ?></span>
-                            <span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown'); ?></span>
-                        <?php elseif ($orderDir == 'DESC') : ?>
-                            <span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'orderdown'); ?></span>
-                            <span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderup'); ?></span>
-                        <?php endif; ?>
-                        <input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="width-20 text-area-order" />
-                    </div>
-                <?php else : ?>
-                    <?php echo $row->ordering; ?>
-                <?php endif; ?>
-                </td>
-        <?php } ?>
-    </tr>
-    <?php
-    $k = 1 - $k;
+		<td>
+			<?php $listedincats = $model->listedincats($row->product_id);
+			for ($j = 0, $jn = count($listedincats); $j < $jn; $j++)
+			{
+				echo $cat = $listedincats[$j]->name . "<br />";
+			}
+			?>
+		</td>
+		<td>
+			<?php echo RedshopEntityManufacturer::getInstance($row->manufacturer_id)->get('name', ''); ?>
+		</td>
+		<td>
+			<a href="index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=0&pid=<?php echo $row->product_id ?>"><?php echo JText::_('COM_REDSHOP_ADD_REVIEW'); ?></a>
+		</td>
+		<td align="center" width="8%">
+			<?php echo $published;?>
+		</td>
+		<td align="center" width="5%">
+			<?php echo $row->product_id; ?>
+		</td>
+		<?php if ($category_id > 0)
+		{
+			?>
+			<td class="order">
+				<?php if ($ordering) :
+					$orderDir = strtoupper($this->lists['order_Dir']);
+					?>
+					<div class="input-prepend">
+						<?php if ($orderDir == 'ASC' || $orderDir == '') : ?>
+							<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'orderup'); ?></span>
+							<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown'); ?></span>
+						<?php elseif ($orderDir == 'DESC') : ?>
+							<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'orderdown'); ?></span>
+							<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderup'); ?></span>
+						<?php endif; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="width-20 text-area-order" />
+					</div>
+				<?php else : ?>
+					<?php echo $row->ordering; ?>
+				<?php endif; ?>
+				</td>
+		<?php } ?>
+	</tr>
+	<?php
+	$k = 1 - $k;
 }
 ?>
 
