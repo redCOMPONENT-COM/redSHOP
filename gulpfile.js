@@ -261,7 +261,7 @@ gulp.task("release:md5:generate", function(){
         "./media/**/.gitkeep",
         "!./media/com_redshop/scss",
         "!./media/com_redshop/scss/**",
-        "./*(install.php|LICENSE.txt|redshop.xml)",
+        "./*(install.php|redshop.xml)",
         "./modules/site/mod_redshop_cart/**",
         "./plugins/system/redshop/**",
         "./plugins/redshop_payment/rs_payment_banktransfer/**",

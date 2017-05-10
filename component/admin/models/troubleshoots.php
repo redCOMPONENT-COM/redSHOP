@@ -3,34 +3,36 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Redshop troubleshoots model
  *
  * @package     Redshop.library
  * @subpackage  Model
- * @since       2.0.0.6
+ * @since       2.0.6
  */
 class RedshopModelTroubleshoots extends RedshopModel
 {
 	/**
 	 * @var    object
-	 * @since  2.0.0.6
+	 * @since  2.0.6
 	 */
 	private $plugin = null;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   2.0.0.6
+	 * @since   2.0.6
 	 */
 	public function __construct($config = array())
 	{
@@ -41,56 +43,60 @@ class RedshopModelTroubleshoots extends RedshopModel
 		// Convert plugin prams
 		if ($this->plugin)
 		{
-			$this->plugin->params = new JRegistry($this->plugin->params);
+			$this->plugin->params = new Registry($this->plugin->params);
 		}
 	}
 
 	/**
 	 * Get data
 	 *
-	 * @return bool|mixed
+	 * @return  mixed  List of files if success. False otherwise.
 	 *
-	 * @since  2.0.0.6
+	 * @since   2.0.6
 	 */
 	public function getData()
 	{
 		$jsonFile = JPATH_ADMINISTRATOR . '/components/com_redshop/assets/checksum.md5.json';
 
-		$list = array ();
-
-		if (JFile::exists($jsonFile))
+		if (!JFile::exists($jsonFile))
 		{
-			$items     = json_decode(file_get_contents($jsonFile));
+			return false;
+		}
 
-			if ($items)
+		$items = json_decode(file_get_contents($jsonFile));
+
+		if (empty($items))
+		{
+			return false;
+		}
+
+		$list = array();
+
+		foreach ($items as $index => $item)
+		{
+			if (!isset($item->path))
 			{
-				foreach ($items as $index => $item)
-				{
-					if (isset($item->path))
-					{
-						// Get overrides
-						$item = new RedshopTroubleshootItem($item, $this->getOverridePaths());
+				continue;
+			}
 
-						if ($item->isModified() || $item->isOverrided() || $item->isMissing())
-						{
-							$list[] = $item;
-						}
-					}
-				}
+			// Get overrides
+			$item = new RedshopTroubleshootItem($item, $this->getOverridePaths());
 
-				return $list;
+			if ($item->isModified() || $item->isOverrided() || $item->isMissing())
+			{
+				$list[] = $item;
 			}
 		}
 
-		return false;
+		return $list;
 	}
 
 	/**
 	 * Check if mvcoverride plugin is enabled
 	 *
-	 * @return bool
+	 * @return  boolean
 	 *
-	 * @since  2.0.0.6
+	 * @since  2.0.6
 	 */
 	protected function isMvcPluginEnabled()
 	{
@@ -102,7 +108,7 @@ class RedshopModelTroubleshoots extends RedshopModel
 	 *
 	 * @return array
 	 *
-	 * @since  2.0.0.6
+	 * @since  2.0.6
 	 */
 	private function getOverridePaths()
 	{
@@ -147,8 +153,16 @@ class RedshopModelTroubleshoots extends RedshopModel
 			}
 
 			// Joomla! Overrides
-			$overridePaths[] = JPATH_ADMINISTRATOR . '/templates/' . JFactory::getApplication('administrator')->getTemplate() . '/com_redshop';
-			$overridePaths[] = JPATH_SITE . '/templates/' . JFactory::getApplication('site')->getTemplate() . '/com_redshop';
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->select($db->qn('template'))
+				->from($db->qn('#__template_styles'))
+				->where($db->qn('client_id') . ' = 0')
+				->where($db->qn('home') . ' = 1');
+			$templateName = $db->setQuery($query)->loadResult();
+			$overridePaths[] = JPATH_SITE . '/templates/' . $templateName . '/com_redshop';
+
+			// $overridePaths[] = JPATH_ADMINISTRATOR . '/templates/' . JFactory::getApplication()->getTemplate() . '/com_redshop';
 		}
 
 		return $overridePaths;

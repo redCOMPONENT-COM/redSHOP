@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Troubleshoot item
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -13,45 +13,45 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Troubleshoot
- * @since       2.1
+ * @since       2.0.6
  */
 class RedshopTroubleshootItem
 {
 	/**
 	 * @var   object
-	 * @since 2.1
+	 * @since 2.0.6
 	 */
 	public $originalFile = null;
 
 	/**
 	 * @var   array
-	 * @since 2.1
+	 * @since 2.0.6
 	 */
 	public $overrideDirs = null;
 
 	/**
-	 * @var   bool
-	 * @since 2.1
+	 * @var   boolean
+	 * @since 2.0.6
 	 */
-	private $isOverrided = false;
+	private $isOverride = false;
 
 	/**
-	 * @var   bool
-	 * @since 2.1
+	 * @var   boolean
+	 * @since 2.0.6
 	 */
 	private $isModified = false;
 
 	/**
-	 * @var   bool
-	 * @since 2.1
+	 * @var   boolean
+	 * @since 2.0.6
 	 */
 	private $isMissing = false;
 
 	/**
 	 * RedshopTroubleshootItem constructor.
 	 *
-	 * @param   object  $originalFile  Object file from json
-	 * @param   array   $overrideDirs  Array of override-able directories
+	 * @param   object $originalFile Object file from json
+	 * @param   array  $overrideDirs Array of override-able directories
 	 */
 	public function __construct($originalFile, $overrideDirs)
 	{
@@ -66,9 +66,9 @@ class RedshopTroubleshootItem
 	 *
 	 * @return  void
 	 *
-	 * @since   2.1
+	 * @since   2.0.6
 	 */
-	public function init ()
+	public function init()
 	{
 		// Format input file
 		$this->originalFile = $this->formatOriginalFile($this->originalFile);
@@ -76,7 +76,7 @@ class RedshopTroubleshootItem
 		// Check overrides
 		foreach ($this->overrideDirs as $index => $overrideDir)
 		{
-			$overridePath = $overrideDir . '/' . $this->originalFile->trim;
+			$overridePath = $overrideDir . $this->originalFile->trim;
 
 			// Store override files
 			if (JFile::exists($overridePath))
@@ -105,13 +105,13 @@ class RedshopTroubleshootItem
 	/**
 	 * Get original file path
 	 *
-	 * @param   bool  $clean  Clean output file
+	 * @param   bool $clean Clean output file
 	 *
 	 * @return  string
 	 *
-	 * @since   2.1
+	 * @since   2.0.6
 	 */
-	public function getOriginalFile ($clean = true)
+	public function getOriginalFile($clean = true)
 	{
 		if ($clean)
 		{
@@ -124,13 +124,13 @@ class RedshopTroubleshootItem
 	/**
 	 * Set modified value
 	 *
-	 * @param   bool  $value  isModified
+	 * @param   bool $value isModified
 	 *
 	 * @return  void
 	 *
-	 * @since   2.1
+	 * @since   2.0.6
 	 */
-	public function setModified ($value)
+	public function setModified($value)
 	{
 		$this->isModified = $value;
 	}
@@ -140,9 +140,9 @@ class RedshopTroubleshootItem
 	 *
 	 * @return  bool
 	 *
-	 * @since   2.1
+	 * @since   2.0.6
 	 */
-	public function isModified ()
+	public function isModified()
 	{
 		return $this->isModified;
 	}
@@ -150,15 +150,15 @@ class RedshopTroubleshootItem
 	/**
 	 * Set overrided value
 	 *
-	 * @param   bool  $value  isOverrided
+	 * @param   bool $value isOverrided
 	 *
 	 * @return  void
 	 *
-	 * @since   2.1
+	 * @since   2.0.6
 	 */
-	public function setOverrided ($value)
+	public function setOverrided($value)
 	{
-		$this->isOverrided = $value;
+		$this->isOverride = $value;
 	}
 
 	/**
@@ -166,23 +166,23 @@ class RedshopTroubleshootItem
 	 *
 	 * @return  bool
 	 *
-	 * @since   2.1
+	 * @since   2.0.6
 	 */
-	public function isOverrided ()
+	public function isOverrided()
 	{
-		return $this->isOverrided;
+		return $this->isOverride;
 	}
 
 	/**
 	 * Set missing value
 	 *
-	 * @param   bool  $value  isMissing
+	 * @param   bool $value isMissing
 	 *
 	 * @return  void
 	 *
-	 * @since   2.1
+	 * @since   2.0.6
 	 */
-	public function setMissing ($value)
+	public function setMissing($value)
 	{
 		$this->isMissing = $value;
 	}
@@ -192,9 +192,9 @@ class RedshopTroubleshootItem
 	 *
 	 * @return  bool
 	 *
-	 * @since   2.1
+	 * @since   2.0.6
 	 */
-	public function isMissing ()
+	public function isMissing()
 	{
 		return $this->isMissing;
 	}
@@ -202,15 +202,15 @@ class RedshopTroubleshootItem
 	/**
 	 * Format original file
 	 *
-	 * @param   string  $originalFile  Original file from json
+	 * @param   string $originalFile Original file from json
 	 *
 	 * @return  array
 	 *
-	 * @since   2.1
+	 * @since   2.0.6
 	 */
 	private function formatOriginalFile($originalFile)
 	{
-		$return  = $originalFile;
+		$return = $originalFile;
 
 		// Administrator file
 		if (strpos($originalFile->path, 'component/admin/') !== false)
@@ -237,7 +237,7 @@ class RedshopTroubleshootItem
 				// Administrator
 				if (strpos($originalFile->path, '/') === false)
 				{
-					$return->original = JPATH_ADMINISTRATOR . '/components/com_redshop/' . '/' . $originalFile->path;
+					$return->original = JPATH_ADMINISTRATOR . '/components/com_redshop/' . $originalFile->path;
 				}
 				else
 				{
@@ -253,7 +253,7 @@ class RedshopTroubleshootItem
 		$return->trim = '/' . $originalFile;
 
 		// Clean up
-		$return->trim = str_replace('//', '/', $return->trim);
+		$return->trim     = str_replace('//', '/', $return->trim);
 		$return->original = str_replace('//', '/', $return->original);
 
 		return $return;
@@ -264,7 +264,7 @@ class RedshopTroubleshootItem
 	 *
 	 * @return  false|string
 	 *
-	 * @since   2.1
+	 * @since   2.0.6
 	 */
 	public function getModifiedTime()
 	{
@@ -276,7 +276,7 @@ class RedshopTroubleshootItem
 	 *
 	 * @return   string
 	 *
-	 * @since    2.1
+	 * @since    2.0.6
 	 */
 	public function getMissingClass()
 	{
@@ -293,9 +293,9 @@ class RedshopTroubleshootItem
 	 *
 	 * @return string
 	 *
-	 * @since  2.1
+	 * @since  2.0.6
 	 */
-	public function renderCheckmark()
+	public function renderCheckMark()
 	{
 		return '<span class="label label-danger"><i class="fa fa-times" aria-hidden="true"></i></span>';
 	}

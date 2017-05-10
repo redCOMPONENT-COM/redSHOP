@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       2.1
+ * @since       2.0.6
  */
 class RedshopViewTroubleshoots extends RedshopViewAdmin
 {
@@ -23,7 +23,7 @@ class RedshopViewTroubleshoots extends RedshopViewAdmin
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -37,11 +37,11 @@ class RedshopViewTroubleshoots extends RedshopViewAdmin
 	/**
 	 * Render toolbar
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  2.1
+	 * @since   2.0.6
 	 */
-	protected function displayToolbar ()
+	protected function displayToolbar()
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TITLE_TROUBLESHOOTS'));
 	}
