@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-$helper = redhelper::getInstance();
-
-$itemId = $helper->getRedShopMenuItem(
+$itemId = RedshopHelperUtility::getRedShopMenuItem(
 	array(
 		'option' => 'com_redshop',
 		'view'   => 'product',
-		'layout' => 'compare')
+		'layout' => 'compare'
+	)
 );
 
 $compareLink = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $itemId);

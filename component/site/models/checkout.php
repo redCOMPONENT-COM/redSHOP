@@ -2166,7 +2166,7 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 			}
-			elseif ($catItemId = $redHelper->getCategoryItemid())
+			elseif ($catItemId = RedshopHelperUtility::getCategoryItemid())
 			{
 				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
 			}

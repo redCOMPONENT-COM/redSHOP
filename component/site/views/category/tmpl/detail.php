@@ -57,7 +57,7 @@ else
 	$template_desc .= "</div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
 
-$categoryItemId = (int) $objhelper->getCategoryItemid($this->catid);
+$categoryItemId = (int) RedshopHelperUtility::getCategoryItemid($this->catid);
 $mainItemid = !$categoryItemId ? $this->itemid : $categoryItemId;
 
 // New tags replacement for category template section
@@ -310,7 +310,7 @@ if (!$slide)
 
 			// Filter categories based on Shopper group category ACL
 			$checkcid = $objhelper->checkPortalCategoryPermission($row->id);
-			$sgportal = $objhelper->getShopperGroupPortal();
+			$sgportal = RedshopHelperShopper_Group::getShopperGroupPortal();
 			$portal   = 0;
 
 			if (count($sgportal) > 0)
@@ -325,7 +325,7 @@ if (!$slide)
 
 			$data_add = $subcat_template;
 
-			$categoryItemId = $objhelper->getCategoryItemid($row->id);
+			$categoryItemId = RedshopHelperUtility::getCategoryItemid($row->id);
 			$mainItemId = !$categoryItemId ? $this->itemid : $categoryItemId;
 
 			$link = JRoute::_(
@@ -624,7 +624,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		}
 		else
 		{
-			$pItemid = $objhelper->getItemid($product->product_id, $catidmain);
+			$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catidmain);
 		}
 
 		$data_add              = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $data_add);

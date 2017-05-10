@@ -30,7 +30,7 @@ $layout             = $app->input->getWord('layout', '');
 $params             = $app->getParams('com_redshop');
 $categoryId         = $app->input->getInt('cid', $params->get('categoryid'));
 $productId          = $app->input->getInt('pid', 0);
-$shopperGroupPortal = $helper->getShopperGroupPortal();
+$shopperGroupPortal = RedshopHelperShopper_Group::getShopperGroupPortal();
 $user               = JFactory::getUser();
 $portal             = 0;
 

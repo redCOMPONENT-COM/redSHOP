@@ -112,7 +112,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
-		$countries = $redhelper->convertLanguageString($countries);
+		$countries = RedshopHelperUtility::convertLanguageString($countries);
 
 		$q = "SELECT  stockroom_id as value,stockroom_name as text from #__redshop_stockroom ORDER BY stockroom_name ASC";
 		$db->setQuery($q);
@@ -192,7 +192,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['twoway_related_product']  = JHtml::_('redshopselect.booleanlist', 'twoway_related_product', 'class="form-control" size="1"', $this->config->get('TWOWAY_RELATED_PRODUCT'));
 
 		// For child product opttion
-		$chilproduct_data                       = $redhelper->getChildProductOption();
+		$chilproduct_data                       = RedshopHelperUtility::getChildProductOption();
 		$lists['childproduct_dropdown']         = JHtml::_('select.genericlist', $chilproduct_data, 'childproduct_dropdown',
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('CHILDPRODUCT_DROPDOWN')
 		);
@@ -582,7 +582,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" ', 'value', 'text', $this->config->get('DEFAULT_LINK_FIND')
 		);
 
-		$order_data                                            = $redhelper->getOrderByList();
+		$order_data                                            = RedshopHelperUtility::getOrderByList();
 		$lists['default_product_ordering_method']              = JHtml::_('select.genericlist', $order_data, 'default_product_ordering_method',
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('DEFAULT_PRODUCT_ORDERING_METHOD')
 		);
@@ -591,11 +591,11 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'text', $this->config->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD')
 		);
 
-		$order_data                                 = $redhelper->getRelatedOrderByList();
+		$order_data                                 = RedshopHelperUtility::getRelatedOrderByList();
 		$lists['default_related_ordering_method']   = JHtml::_('select.genericlist', $order_data, 'default_related_ordering_method',
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('DEFAULT_RELATED_ORDERING_METHOD')
 		);
-		$order_data                                 = $redhelper->getAccessoryOrderByList();
+		$order_data                                 = RedshopHelperUtility::getAccessoryOrderByList();
 		$lists['default_accessory_ordering_method'] = JHtml::_('select.genericlist', $order_data, 'default_accessory_ordering_method',
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('DEFAULT_ACCESSORY_ORDERING_METHOD')
 		);

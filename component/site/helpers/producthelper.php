@@ -2181,7 +2181,7 @@ class productHelper
 
 		if (count($categorylist) > 0)
 		{
-			$cItemid = $redhelper->getCategoryItemid($categorylist->id);
+			$cItemid = RedshopHelperUtility::getCategoryItemid($categorylist->id);
 
 			if ($cItemid != "")
 			{
@@ -2571,7 +2571,6 @@ class productHelper
 	{
 		$menu = JFactory::getApplication()->getMenu();
 		$values = array();
-		$helper = redhelper::getInstance();
 
 		if ($menuView != "")
 		{
@@ -2598,7 +2597,7 @@ class productHelper
 
 		if ($isRedshop)
 		{
-			$menuItems = $helper->getRedshopMenuItems();
+			$menuItems = RedshopHelperUtility::getRedshopMenuItems();
 		}
 		else
 		{
@@ -2607,7 +2606,7 @@ class productHelper
 
 		foreach ($menuItems as $oneMenuItem)
 		{
-			if (!$helper->checkMenuQuery($oneMenuItem, $values))
+			if (!RedshopHelperUtility::checkMenuQuery($oneMenuItem, $values))
 			{
 				break;
 			}
@@ -6622,7 +6621,9 @@ class productHelper
 						// Show actual productive price
 						if ($property_price > 0)
 						{
-							$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $property_price);
+							$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
+								$propertyCalculatedPriceSum, $propertyOperand, $property_price
+							);
 
 							$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 							$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -6699,7 +6700,9 @@ class productHelper
 							// Show actual productive price
 							if ($subproperty_price > 0)
 							{
-								$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price);
+								$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
+									$propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price
+								);
 
 								$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 								$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -8072,7 +8075,7 @@ class productHelper
 			if ($displayLink)
 			{
 				$redhelper = redhelper::getInstance();
-				$catItem   = $redhelper->getCategoryItemid($row->id);
+				$catItem   = RedshopHelperUtility::getCategoryItemid($row->id);
 
 				if(!(boolean) $catItem)
 				{
@@ -9092,7 +9095,7 @@ class productHelper
 					}
 					else
 					{
-						$pItemid = $redhelper->getItemid($related_product[$r]->product_id);
+						$pItemid = RedshopHelperUtility::getItemId($related_product[$r]->product_id);
 					}
 
 					$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $related_product[$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid=' . $pItemid);

@@ -212,7 +212,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		$productImg = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 
 		// Try to get category Itemid
-		$categoryItemId = (int) $objHelper->getCategoryItemid($category->id);
+		$categoryItemId = (int) RedshopHelperUtility::getCategoryItemid($category->id);
 		$mainItemid     = !$categoryItemId ? $input->getInt('Itemid', null) : $categoryItemId;
 
 		// Generate category link

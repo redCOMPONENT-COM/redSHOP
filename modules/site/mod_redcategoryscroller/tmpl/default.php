@@ -56,10 +56,10 @@ $redHelper = redhelper::getInstance();
 								<?php endif; ?>
 								<?php
 								// Display Product
-								$itemIdData = $redHelper->getCategoryItemid($row->id);
+								$itemIdData = RedshopHelperUtility::getCategoryItemid($row->id);
 								$categoryName = $row->name;
 
-								$Itemid = count($itemIdData) > 0 ? $itemIdData->id : $redHelper->getItemid($row->id);
+								$Itemid = count($itemIdData) > 0 ? $itemIdData->id : RedshopHelperUtility::getItemId($row->id);
 
 								$link = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $row->id . '&Itemid=' . $Itemid);
 

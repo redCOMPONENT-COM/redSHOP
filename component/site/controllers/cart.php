@@ -44,7 +44,7 @@ class RedshopControllerCart extends RedshopController
 		$Itemid                     = JRequest::getInt('Itemid');
 		$producthelper              = productHelper::getInstance();
 		$redhelper                  = redhelper::getInstance();
-		$Itemid                     = $redhelper->getCartItemid();
+		$Itemid                     = RedshopHelperUtility::getCartItemId();
 		$model                      = $this->getModel('cart');
 
 		// Call add method of modal to store product in cart session
@@ -78,7 +78,7 @@ class RedshopControllerCart extends RedshopController
 				}
 				else
 				{
-					$prdItemid = $redhelper->getItemid($post['product_id']);
+					$prdItemid = RedshopHelperUtility::getItemId($post['product_id']);
 				}
 
 				// Directly redirect if error found
@@ -144,7 +144,7 @@ class RedshopControllerCart extends RedshopController
 							if (JError::isError(JError::getError()))
 							{
 								$error  = JError::getError();
-								$errmsg = $error->message;
+								$errmsg = $error->getMessage();
 								$app->enqueueMessage($this->getError(), 'error');
 							}
 
@@ -163,7 +163,7 @@ class RedshopControllerCart extends RedshopController
 								}
 								else
 								{
-									$prdItemid = $redhelper->getItemid($post['product_id']);
+									$prdItemid = RedshopHelperUtility::getItemId($post['product_id']);
 								}
 
 								$app->redirect(
@@ -342,7 +342,7 @@ class RedshopControllerCart extends RedshopController
 		$post      = JRequest::get('post');
 		$Itemid    = JRequest::getInt('Itemid');
 		$redhelper = redhelper::getInstance();
-		$Itemid    = $redhelper->getCartItemid();
+		$Itemid    = RedshopHelperUtility::getCartItemId();
 		$model     = $this->getModel('cart');
 
 		// Call coupon method of model to apply coupon
@@ -383,10 +383,7 @@ class RedshopControllerCart extends RedshopController
 	public function voucher()
 	{
 		$session   = JFactory::getSession();
-		$post      = JRequest::get('post');
-		$Itemid    = JRequest::getInt('Itemid');
-		$redhelper = redhelper::getInstance();
-		$Itemid    = $redhelper->getCartItemid();
+		$Itemid    = RedshopHelperUtility::getCartItemId();
 		$model     = $this->getModel('cart');
 
 		// Call voucher method of model to apply voucher to cart
@@ -426,9 +423,7 @@ class RedshopControllerCart extends RedshopController
 	public function update()
 	{
 		$post      = JRequest::get('post');
-		$Itemid    = JRequest::getInt('Itemid');
-		$redhelper = redhelper::getInstance();
-		$Itemid    = $redhelper->getCartItemid();
+		$Itemid    = RedshopHelperUtility::getCartItemId();
 		$model     = $this->getModel('cart');
 
 		if (isset($post['checkQuantity']))
@@ -452,9 +447,7 @@ class RedshopControllerCart extends RedshopController
 	public function update_all()
 	{
 		$post      = JRequest::get('post');
-		$Itemid    = JRequest::getInt('Itemid');
-		$redhelper = redhelper::getInstance();
-		$Itemid    = $redhelper->getCartItemid();
+		$Itemid    = RedshopHelperUtility::getCartItemId();
 		$model     = $this->getModel('cart');
 
 		// Call update_all method of model to update all products info of cart
@@ -472,9 +465,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function empty_cart()
 	{
-		$Itemid    = JRequest::getInt('Itemid');
-		$redhelper = redhelper::getInstance();
-		$Itemid    = $redhelper->getCartItemid();
+		$Itemid    = RedshopHelperUtility::getCartItemId();
 		$model     = $this->getModel('cart');
 
 		// Call empty_cart method of model to remove all products from cart
@@ -499,9 +490,7 @@ class RedshopControllerCart extends RedshopController
 	{
 		$post        = JRequest::get('post');
 		$cartElement = $post['cart_index'];
-		$Itemid      = JRequest::getInt('Itemid');
-		$redhelper   = redhelper::getInstance();
-		$Itemid      = $redhelper->getCartItemid();
+		$Itemid      = RedshopHelperUtility::getCartItemId();
 		$model       = $this->getModel('cart');
 
 		$model->delete($cartElement);

@@ -222,7 +222,7 @@ class RedshopModelFields extends RedshopModelList
 
 		if ($fieldName != '')
 		{
-			$fieldName = redhelper::quote(explode(',', $fieldName));
+			$fieldName = RedshopHelperUtility::quote(explode(',', $fieldName));
 			$query->where($db->qn('f.name') . ' IN (' . implode(',', $fieldName) . ') ');
 		}
 

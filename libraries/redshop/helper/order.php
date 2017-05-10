@@ -2110,7 +2110,7 @@ class RedshopHelperOrder
 
 		$db->setQuery($query);
 		$countries = $db->loadObjectList();
-		$countries = $redHelper->convertLanguageString($countries);
+		$countries = RedshopHelperUtility::convertLanguageString($countries);
 
 		if (count($countries) > 0)
 		{

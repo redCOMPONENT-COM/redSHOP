@@ -121,7 +121,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 		$data_add .= $middletemplate_desc;
 
-		$cItemid = $objhelper->getCategoryItemid($row->id);
+		$cItemid = RedshopHelperUtility::getCategoryItemid($row->id);
 
 		if ($cItemid != "")
 		{
@@ -321,7 +321,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				}
 				else
 				{
-					$pItemid = $objhelper->getItemid($product->product_id);
+					$pItemid = RedshopHelperUtility::getItemId($product->product_id);
 				}
 
 				$prddata_add = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $prddata_add);

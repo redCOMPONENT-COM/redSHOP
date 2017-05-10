@@ -796,7 +796,7 @@ class rsCarthelper
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
 		$prdItemid  = JRequest::getInt('Itemid');
-		$Itemid     = $this->_redhelper->getCheckoutItemid();
+		$Itemid     = RedshopHelperUtility::getCheckoutItemId();
 		$url        = JURI::base(true);
 		$mainview   = JRequest::getVar('view');
 
@@ -949,7 +949,7 @@ class rsCarthelper
 				}
 				else
 				{
-					$Itemid = $this->_redhelper->getItemid($product_id);
+					$Itemid = RedshopHelperUtility::getItemId($product_id);
 				}
 
 				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
@@ -1157,7 +1157,9 @@ class rsCarthelper
 								// Show actual productive price
 								if ($product_attribute_value_price > 0)
 								{
-									$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price);
+									$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
+										$propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price
+									);
 
 									$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -1748,8 +1750,7 @@ class rsCarthelper
 
 			if ($mainview == "order_detail")
 			{
-				$Itemid     = JRequest::getVar('Itemid');
-				$Itemid     = $this->_redhelper->getCartItemid();
+				$Itemid     = RedshopHelperUtility::getCartItemId();
 				$copytocart = "<a href='" . JRoute::_('index.php?option=com_redshop&view=order_detail&task=copyorderitemtocart&order_item_id=' . $rowitem[$i]->order_item_id . '&Itemid=' . $Itemid, false) . "'>";
 				$copytocart .= "<img src='" . REDSHOP_ADMIN_IMAGES_ABSPATH . "add.jpg' title='" . JText::_("COM_REDSHOP_COPY_TO_CART") . "' alt='" . JText::_("COM_REDSHOP_COPY_TO_CART") . "' /></a>";
 				$cart_mdata = str_replace("{copy_orderitem}", $copytocart, $cart_mdata);
