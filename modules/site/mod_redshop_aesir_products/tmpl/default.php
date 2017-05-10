@@ -88,7 +88,7 @@ for ($i = 0; $i < count($rows); $i++)
 	}
 	else
 	{
-		$Itemid = $redhelper->getItemid($row->product_id, $categoryId);
+		$Itemid = RedshopHelperUtility::getItemId($row->product_id, $categoryId);
 	}
 
 	$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $categoryId . '&Itemid=' . $Itemid);

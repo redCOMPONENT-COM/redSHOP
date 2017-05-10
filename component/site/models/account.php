@@ -517,7 +517,7 @@ class RedshopModelAccount extends RedshopModel
 			{
 				foreach ($MyWishlist as $row)
 				{
-					$Itemid        = $redhelper->getItemid($row->product_id);
+					$Itemid        = RedshopHelperUtility::getItemid($row->product_id);
 					$link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . (int) $Itemid, true, -1);
 					$thum_image    = $producthelper->getProductImage($row->product_id, $link, $w_thumb, $h_thumb);
 					$pname         = $row->product_name;

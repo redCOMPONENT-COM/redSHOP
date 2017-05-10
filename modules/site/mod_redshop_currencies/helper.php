@@ -60,7 +60,7 @@ class ModRedshopCurrenciesHelper
 				->select($db->qn('currency_id', 'value'))
 				->select($db->qn('currency_name', 'text'))
 				->from($db->qn('#__redshop_currency'))
-				->where($db->qn('currency_code') . ' IN (' . implode(',', redhelper::quote($availableCurrencies)) . ')')
+				->where($db->qn('currency_code') . ' IN (' . implode(',', RedshopHelperUtility::quote($availableCurrencies)) . ')')
 				->order($db->qn('currency_name'));
 
 			self::$cache[$key] = $db->setQuery($query)->loadObjectList();

@@ -151,7 +151,7 @@ if (count($rows))
 
 		if ($show_product_name)
 		{
-			$pItemid = $redhelper->getItemid($product->product_id);
+			$pItemid = RedshopHelperUtility::getItemId($product->product_id);
 			$link = JRoute::_(
 					'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $pItemid
 			);

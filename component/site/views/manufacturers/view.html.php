@@ -226,7 +226,7 @@ class RedshopViewManufacturers extends RedshopView
 		{
 			$filter_order = $params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD'));
 			$order_by_select = $app->input->getString('order_by', $filter_order);
-			$order_data      = $redhelper->getOrderByList();
+			$order_data      = RedshopHelperUtility::getOrderByList();
 		}
 		else
 		{

@@ -131,7 +131,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 		// Filter categories based on Shopper group category ACL
 		$checkcid = $objhelper->checkPortalCategoryPermission($row->id);
-		$sgportal = $objhelper->getShopperGroupPortal();
+		$sgportal = RedshopHelperShopper_Group::getShopperGroupPortal();
 		$portal   = 0;
 
 		if (count($sgportal) > 0)
@@ -146,7 +146,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 		$data_add = $middletemplate_desc;
 
-		$cItemid = $objhelper->getCategoryItemid($row->id);
+		$cItemid = RedshopHelperUtility::getCategoryItemid($row->id);
 
 		if ($cItemid != "")
 		{
