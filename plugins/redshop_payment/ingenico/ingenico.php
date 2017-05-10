@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Currency\Currency;
+
 /**
  * Ingenico payment gateway
  *
@@ -53,7 +55,7 @@ class PlgRedshop_PaymentIngenico extends RedshopPayment
 	protected function preparePaymentInput($orderInfo)
 	{
 		$currency      = $this->params->get("currency");
-		$orderSubtotal = CurrencyHelper::getInstance()->convert($orderInfo['carttotal'], '', $currency);
+		$orderSubtotal = Currency::getInstance()->convert($orderInfo['carttotal'], '', $currency);
 		$orderSubtotal = round($orderSubtotal, 2) * 100;
 
 		$params = array(

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Economic\Economic;
+
 /**
  * redSHOP User Helper class
  */
@@ -89,7 +91,7 @@ class rsUserHelper
 	 *
 	 * @return  array              Array of user groups
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function getUserGroupList($user_id = 0)
 	{
@@ -104,7 +106,7 @@ class rsUserHelper
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public function updateUserTermsCondition($users_info_id = 0, $isSet = 0)
 	{
@@ -316,6 +318,8 @@ class rsUserHelper
 
 	public function createJoomlaUser($data, $createuser = 0)
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
 		$createaccount = (isset($data['createaccount']) && $data['createaccount'] == 1) ? 1 : 0;
 
 		// Registration is without account creation REGISTER_METHOD = 1
@@ -328,12 +332,10 @@ class rsUserHelper
 			return $user;
 		}
 
-		$data['password']  = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data['password2'] = JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data['password']  = $input->post->getRaw('password1', '');
+		$data['password2'] = $input->post->getRaw('password2', '');
 		$data['email']     = $data['email1'];
 		$data['name']      = $name = $data['firstname'];
-
-		$app = JFactory::getApplication();
 
 		// Prevent front-end user to change user group in the form and then being able to register on any Joomla! user group.
 		if ($app->isSite())
@@ -596,11 +598,9 @@ class rsUserHelper
 		// Update user info id
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION'))
 		{
-			$economic = economic::getInstance();
-
 			if ($isNew)
 			{
-				$maxDebtor = $economic->getMaxDebtorInEconomic();
+				$maxDebtor = Economic::getMaxDebtorInEconomic();
 
 				if (count($maxDebtor) > 0)
 				{
@@ -629,7 +629,7 @@ class rsUserHelper
 				}
 			}
 
-			$debtorHandle = $economic->createUserInEconomic($row);
+			$debtorHandle = Economic::createUserInEconomic($row);
 
 			if ($row->is_company && trim($row->ean_number) != '' && JError::isError(JError::getError()))
 			{
@@ -769,31 +769,18 @@ class rsUserHelper
 		return $rowShip;
 	}
 
+	/**
+	 * Method for synchronize Joomla User to redSHOP user
+	 *
+	 * @return  int   Number of synchronized user.
+	 *
+	 * @since   2.0.6
+	 *
+	 * @deprecated  2.0.6  Use RedshopInstall::synchronizeUser() instead.
+	 */
 	public function userSynchronization()
 	{
-		$query = "SELECT u.* FROM #__users AS u "
-			. "LEFT JOIN #__redshop_users_info AS ru ON ru.user_id = u.id "
-			. "WHERE ru.user_id IS NULL ";
-		$this->db->setQuery($query);
-		$jusers = $this->db->loadObjectList();
-
-		for ($i = 0, $in = count($jusers); $i < $in; $i++)
-		{
-			$name = explode(" ", $jusers[$i]->name);
-
-			$post               = array();
-			$post['user_id']    = $jusers[$i]->id;
-			$post['email']      = $jusers[$i]->email;
-			$post['email1']     = $jusers[$i]->email;
-			$post['firstname']  = $name[0];
-			$post['lastname']   = (isset($name[1]) && $name[1]) ? $name[1] : '';
-			$post['is_company'] = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
-			$post['password1']  = '';
-			$post['billisship'] = 1;
-			$reduser            = $this->storeRedshopUser($post, $jusers[$i]->id, 1);
-		}
-
-		return count($jusers);
+		return RedshopInstall::synchronizeUser();
 	}
 
 	/**
