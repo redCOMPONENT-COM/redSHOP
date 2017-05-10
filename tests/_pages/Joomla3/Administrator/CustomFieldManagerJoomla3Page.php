@@ -17,17 +17,17 @@ class CustomFieldManagerJoomla3Page
 {
 	public static $URL = '/administrator/index.php?option=com_redshop&view=fields';
 
-	public static $fieldName = "//input[@id='field_name']";
+	public static $fieldName = "//input[@id='jform_name']";
 
-	public static $fieldTitle = "//input[@id='field_title']";
+	public static $fieldTitle = "//input[@id='jform_title']";
 
-	public static $fieldTypeDropDown = "//div[@id='field_type_chzn']/a";
+	public static $fieldTypeDropDown = "//div[@id='jform_type_chzn']/a";
 
-	public static $fieldTypeSearchField = "//div[@id='field_type_chzn']/div/div/input";
+	public static $fieldTypeSearchField = "//div[@id='jform_type_chzn']/div/div/input";
 
-	public static $fieldSectionDropDown = "//div[@id='field_section_chzn']/a";
+	public static $fieldSectionDropDown = "//div[@id='jform_section_chzn']/a";
 
-	public static $fieldSectionSearchField = "//div[@id='field_section_chzn']/div/div/input";
+	public static $fieldSectionSearchField = "//div[@id='jform_section_chzn']/div/div/input";
 
 	public static $fieldSuccessMessage = 'Field details saved';
 
@@ -50,7 +50,7 @@ class CustomFieldManagerJoomla3Page
 	 */
 	public function fieldType($type)
 	{
-		$path = "//div[@id='field_type_chzn']/div/ul/li//em[contains(text(),'" . $type . "')]";
+		$path = "//div[@id='jform_type_chzn']/div/ul/li//em[contains(text(),'" . $type . "')]";
 
 		return $path;
 	}
@@ -64,7 +64,7 @@ class CustomFieldManagerJoomla3Page
 	 */
 	public function fieldSection($section)
 	{
-		$path = "//div[@id='field_section_chzn']/div/ul/li//em[contains(text(),'" . $section . "')]";
+		$path = "//div[@id='jform_section_chzn']/div/ul/li//em[contains(text(),'" . $section . "')]";
 
 		return $path;
 	}
