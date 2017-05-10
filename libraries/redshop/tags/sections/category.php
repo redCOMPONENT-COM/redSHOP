@@ -35,7 +35,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * @var    array
 	 * @since  2.1
 	 */
-	public $tags_alias = array(
+	public $tagAlias = array(
 		'{category_short_desc}'        => '{category_short_description}',
 		'{categoryshortdesc}'          => '{category_short_description}',
 		'{categorydesc}'               => '{category_description}',
@@ -142,7 +142,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		}
 
 		// Also replace with alias
-		foreach ($this->tags_alias as $alias => $tag)
+		foreach ($this->tagAlias as $alias => $tag)
 		{
 			$tag = str_replace('{', '', $tag);
 			$tag = str_replace('}', '', $tag);
