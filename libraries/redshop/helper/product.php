@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,6 +29,13 @@ class RedshopHelperProduct
 	 * @var  array
 	 */
 	protected static $allProducts = array();
+
+	/**
+	 * @var array  List of available product number
+	 *
+	 * @since  2.0.4
+	 */
+	protected static $productNumbers = array();
 
 	/**
 	 * Get all product information
@@ -152,18 +159,18 @@ class RedshopHelperProduct
 
 		// Getting cat_in_sefurl as main category id if it available
 		$query->leftJoin($db->qn('#__redshop_product_category_xref', 'pc3') . ' ON pc3.product_id = p.product_id AND pc3.category_id = p.cat_in_sefurl')
-			->leftJoin($db->qn('#__redshop_category', 'c3') . ' ON pc3.category_id = c3.category_id AND c3.published = 1');
+			->leftJoin($db->qn('#__redshop_category', 'c3') . ' ON pc3.category_id = c3.id AND c3.published = 1');
 
 		$subQuery = $db->getQuery(true)
-			->select('GROUP_CONCAT(DISTINCT c2.category_id ORDER BY c2.category_id ASC SEPARATOR ' . $db->q(',') . ')')
+			->select('GROUP_CONCAT(DISTINCT c2.id ORDER BY c2.id ASC SEPARATOR ' . $db->q(',') . ')')
 			->from($db->qn('#__redshop_category', 'c2'))
-			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc2') . ' ON c2.category_id = pc2.category_id')
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc2') . ' ON c2.id = pc2.category_id')
 			->where('p.product_id = pc2.product_id')
 			->where('((p.cat_in_sefurl != ' . $db->q('') . ' AND p.cat_in_sefurl != pc2.category_id) OR p.cat_in_sefurl = ' . $db->q('') . ')')
 			->where('c2.published = 1');
 
 		// In first position set main category id
-		$query->select('CONCAT_WS(' . $db->q(',') . ', c3.category_id, (' . $subQuery . ')) AS categories');
+		$query->select('CONCAT_WS(' . $db->q(',') . ', c3.id, (' . $subQuery . ')) AS categories');
 
 		// Select media
 		$query->select(array('media.media_alternate_text', 'media.media_id'))
@@ -345,9 +352,9 @@ class RedshopHelperProduct
 		{
 			$query->clear()
 				->select('fd.*')
-				->select($db->qn('f.field_title'))
+				->select($db->qn('f.title'))
 				->from($db->qn('#__redshop_fields_data', 'fd') . ' FORCE INDEX (idx_itemid)')
-				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('fd.fieldid') . ' = ' . $db->qn('f.field_id'))
+				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('fd.fieldid') . ' = ' . $db->qn('f.id'))
 				->where($db->qn('fd.itemid') . ' IN (' . implode(',', $getExtraFieldKeys) . ')')
 				->where($db->qn('fd.section') . ' = 1');
 
@@ -503,7 +510,7 @@ class RedshopHelperProduct
 					$propertyPrice = $productHelper->getProductFormattedPrice($property[$i]->property_price);
 
 					// Get product vat to include.
-					$attributesPropertyVat = $productHelper->getProducttax($productId, $property[$i]->property_price, $userId);
+					$attributesPropertyVat = self::getProductTax($productId, $property[$i]->property_price, $userId);
 					$property[$i]->property_price += $attributesPropertyVat;
 
 					$propertyPriceWithVat = $productHelper->getProductFormattedPrice($property[$i]->property_price);
@@ -560,7 +567,7 @@ class RedshopHelperProduct
 			}
 			else
 			{
-				$chklist = JHTML::_('select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
+				$chklist = JHtml::_('select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
 					. '"  class="inputbox" size="1" attribute_name="' . $attributes[$a]->attribute_name . '" required="'
 					. $attributes[$a]->attribute_required . '" onchange="javascript:changeOfflinePropertyDropdown(\''
 					. $productId . '\',\'' . $accessoryId . '\',\'' . $attributes[$a]->attribute_id . '\',\'' . $uniqueId
@@ -625,7 +632,7 @@ class RedshopHelperProduct
 
 			if ($wrapper[$i]->wrapper_price > 0)
 			{
-				$wrapperVat = $productHelper->getProducttax($productId, $wrapper[$i]->wrapper_price, $userId);
+				$wrapperVat = self::getProductTax($productId, $wrapper[$i]->wrapper_price, $userId);
 			}
 
 			$wrapper[$i]->wrapper_price += $wrapperVat;
@@ -638,7 +645,7 @@ class RedshopHelperProduct
 		}
 
 		$wrapper = array_merge($wArray, $wrapper);
-		$lists ['wrapper_id'] = JHTML::_(
+		$lists ['wrapper_id'] = JHtml::_(
 			'select.genericlist',
 			$wrapper, 'wrapper_id_' . $commonId . '[]',
 			'id="wrapper_id_' . $commonId . '" class="inputbox" onchange="calculateOfflineTotalPrice(\'' . $uniqueId . '\');" ',
@@ -796,7 +803,7 @@ class RedshopHelperProduct
 			$shippingRateId = $rateArr[0]->value;
 		}
 
-		return JHTML::_(
+		return JHtml::_(
 			'select.genericlist',
 			$rateArr, 'shipping_rate_id',
 			'class="inputbox" onchange="calculateOfflineShipping();" ',
@@ -1028,5 +1035,125 @@ class RedshopHelperProduct
 		$productData[8]->text = JText::_('COM_REDSHOP_PRODUCT_SOLD_OUT');
 
 		return $productData;
+	}
+
+	/**
+	 * Method for get all product number exist in system
+	 *
+	 * @param   int  $productId  If exist. Exclude product number from this product Id from list
+	 *
+	 * @return  array            List of product number
+	 *
+	 * @since   2.0.4
+	 */
+	public static function getAllAvailableProductNumber($productId = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('product_number'))
+			->from($db->qn('#__redshop_product'));
+
+		if ($productId)
+		{
+			$query->where($db->qn('product_id') . ' <> ' . $db->quote($productId));
+		}
+
+		// Set the query and load the result.
+		return $db->setQuery($query)->loadColumn();
+	}
+
+	/**
+	 * Method for get product tax
+	 *
+	 * @param   integer  $productId     Product Id
+	 * @param   integer  $productPrice  Product price
+	 * @param   integer  $userId        User ID
+	 * @param   integer  $taxExempt     Tax exempt
+	 *
+	 * @return  integer
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getProductTax($productId = 0, $productPrice = 0, $userId = 0, $taxExempt = 0)
+	{
+		$redshopUser = JFactory::getSession()->get('rs_user');
+
+		if ($userId == 0)
+		{
+			$user   = JFactory::getUser();
+			$userId = $user->id;
+		}
+
+		$productInfor = array();
+
+		if ($productId != 0)
+		{
+			$productInfor = self::getProductById($productId);
+		}
+
+		$productTax   = 0;
+		$taxRate = 0;
+
+		if (empty($redshopUser))
+		{
+			$redshopUser                     = array();
+			$redshopUser['rs_is_user_login'] = 0;
+		}
+
+		if ($redshopUser['rs_is_user_login'] == 0 && $userId != 0)
+		{
+			RedshopHelperUser::createUserSession($userId);
+		}
+
+		$vatRateData = productHelper::getInstance()->getVatRates($productId, $userId);
+
+		if ($vatRateData)
+		{
+			$taxRate = $vatRateData->tax_rate;
+		}
+
+		if ($productPrice <= 0 && isset($productInfor->product_price))
+		{
+			$productPrice = $productInfor->product_price;
+		}
+
+		$productPrice = productHelper::getInstance()->productPriceRound($productPrice);
+
+		if ($taxExempt)
+		{
+			$productTax = $productPrice * $taxRate;
+
+			return $productTax;
+		}
+
+		if ($taxRate)
+		{
+			if ($userId)
+			{
+				$userInformation = RedshopHelperUser::getUserInformation($userId);
+
+				if (count($userInformation) > 0)
+				{
+					if ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved)
+					{
+						$productTax = $productTax;
+					}
+					else
+					{
+						$productTax = $productPrice * $taxRate;
+					}
+				}
+				else
+				{
+					$productTax = $productPrice * $taxRate;
+				}
+			}
+			else
+			{
+				$productTax = $productPrice * $taxRate;
+			}
+		}
+
+		return productHelper::getInstance()->productPriceRound($productTax);
 	}
 }

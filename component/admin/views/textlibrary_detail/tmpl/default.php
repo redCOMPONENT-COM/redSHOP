@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,7 +42,7 @@ $editor = JFactory::getEditor();
 				<tr>
 					<td width="100" align="right" class="key">
 						<label for="name">
-							<?php echo JText::_('COM_REDSHOP_TAG_NAME'); ?>:
+							<?php echo JText::_('COM_REDSHOP_TAG_NAME'); ?><span class="star text-danger"> *</span>:
 						</label>
 					</td>
 					<td>
@@ -54,7 +54,7 @@ $editor = JFactory::getEditor();
 				<tr>
 					<td valign="top" align="right" class="key">
 						<label for="deliverytime">
-							<?php echo JText::_('COM_REDSHOP_TEXT_DESCRIPTION'); ?>:
+							<?php echo JText::_('COM_REDSHOP_TEXT_DESCRIPTION'); ?><span class="star text-danger"> *</span>:
 						</label>
 					</td>
 					<td>
@@ -65,7 +65,7 @@ $editor = JFactory::getEditor();
 				</tr>
 				<tr>
 					<td valign="top" align="right" class="key">
-						<?php echo JText::_('COM_REDSHOP_SECTION'); ?>:
+						<?php echo JText::_('COM_REDSHOP_SECTION'); ?><span class="star text-danger"> *</span>:
 					</td>
 					<td>
 						<?php echo $this->lists['section']; ?>

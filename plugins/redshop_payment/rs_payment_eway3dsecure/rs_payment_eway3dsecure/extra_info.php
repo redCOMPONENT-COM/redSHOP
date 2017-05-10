@@ -53,8 +53,7 @@ if (count($orderItems) > 0)
 }
 
 $currency_main = $this->params->get('paymentCurrency');
-$currencyClass  = CurrencyHelper::getInstance();
-$order_subtotal = $currencyClass->convert($data['order']->order_total, '', $currency_main);
+$order_subtotal = RedshopHelperCurrency::convert($data['order']->order_total, '', $currency_main);
 
 // Populate values for Payment Object
 $request->Payment->TotalAmount = round($order_subtotal * 100, 0, PHP_ROUND_HALF_UP);
@@ -63,7 +62,7 @@ $request->Payment->CurrencyCode = $currency_main;
 $app = JFactory::getApplication();
 $Itemid = $app->input->getInt('Itemid');
 
-$url = JURI::base()
+$url = JUri::base()
 	. "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_eway3dsecure&Itemid="
 	. $Itemid . "&orderid=" . $data['order_id'];
 

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -552,7 +552,7 @@ class RedshopModelCart extends RedshopModel
 				continue;
 			}
 
-			if ($product->not_for_sale == 1)
+			if ($product->not_for_sale > 0)
 			{
 				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_FOR_SALE'), $product->product_name, $product_id);
 				JError::raiseWarning(20, $msg);

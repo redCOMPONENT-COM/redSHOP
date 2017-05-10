@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -82,8 +82,8 @@ else
 	$billing = '<div class="redshop-billingaddresses">';
 
 	$emailField = new stdClass;
-	$emailField->field_title = JText::_('COM_REDSHOP_EMAIL');
-	$emailField->field_desc = '';
+	$emailField->title = JText::_('COM_REDSHOP_EMAIL');
+	$emailField->desc = '';
 	$emailField->required = '';
 
 	$inputField = '<input type="text" name="user_email" id="user_email" value=""/>';

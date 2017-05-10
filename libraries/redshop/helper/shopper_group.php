@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.3
@@ -205,10 +205,10 @@ class RedshopHelperShopper_Group
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn(array('c.shopper_group_id', 'c.category_name', 'cx.shopper_group_id', 'cx.parent_id')))
+		$query->select($db->qn(array('c.shopper_group_id', 'c.name AS category_name', 'cx.shopper_group_id', 'cx.parent_id')))
 			->from($db->qn('#__redshop_shopper_group', 'cx'))
 			->leftJoin(
-				$db->qn('#__redshop_shopper_group', 'c')
+				$db->qn('#__redshop_category', 'c')
 				. ' ON ' .
 				$db->qn('c.shopper_group_id') . ' = ' . $db->qn('cx.parent_id')
 			)

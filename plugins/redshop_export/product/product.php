@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,7 +49,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 		foreach ($categories as $category)
 		{
-			$options[] = JHtml::_('select.option', $category->category_id, $category->category_name, 'value', 'text');
+			$options[] = JHtml::_('select.option', $category->id, $category->name, 'value', 'text');
 		}
 
 		$configs[] = '<div class="form-group">
@@ -172,7 +172,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			->select(
 				'(SELECT GROUP_CONCAT(' . $db->qn('c.category_name') . ' SEPARATOR ' . $db->quote('###')
 				. ') FROM ' . $db->qn('#__redshop_product_category_xref', 'pcx')
-				. ' INNER JOIN ' . $db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.category_id') . ' = ' . $db->qn('pcx.category_id')
+				. ' INNER JOIN ' . $db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id')
 				. ' WHERE ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id')
 				. ' ORDER BY ' . $db->qn('pcx.category_id') . ') AS ' . $db->qn('category_name')
 			)
@@ -258,9 +258,9 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		{
 			$db     = $this->db;
 			$query  = $db->getQuery(true)
-				->select($db->qn('field_name'))
+				->select($db->qn('name'))
 				->from($db->qn('#__redshop_fields'))
-				->where($db->qn('field_section') . ' = 1');
+				->where($db->qn('section') . ' = 1');
 			$result = $db->setQuery($query)->loadColumn();
 
 			if (!empty($result))
@@ -309,18 +309,25 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 			$db     = $this->db;
 			$query  = $db->getQuery(true)
-				->select($db->qn(array('d.data_txt', 'd.itemid', 'f.field_name')))
+				->select($db->qn(array('d.data_txt', 'd.itemid', 'f.name')))
 				->from($db->qn('#__redshop_fields', 'f'))
-				->leftJoin($db->qn('#__redshop_fields_data', 'd') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('d.fieldid'))
-				->where($db->qn('f.field_section') . ' = 1')
+				->leftJoin($db->qn('#__redshop_fields_data', 'd') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('d.fieldid'))
+				->where($db->qn('f.section') . ' = 1')
 				->where($db->qn('d.itemid') . ' IN (' . implode(',', $productIds) . ')')
-				->order($db->qn('f.field_id') . ' ASC');
+				->order($db->qn('f.id') . ' ASC');
 			$fieldsData = $db->setQuery($query)->loadObjectList('itemid');
 		}
 
 		foreach ($data as $index => $item)
 		{
 			$item = (array) $item;
+
+			if ($extraFields && isset($fieldsData[$item['product_id']]))
+			{
+				$itemField = $fieldsData[$item['product_id']];
+
+				$item[$itemField->name] = $itemField->data_txt;
+			}
 
 			foreach ($item as $column => $value)
 			{
@@ -344,48 +351,41 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 				if ($column == 'product_s_desc' || $column == 'product_desc')
 				{
 					$item[$column] = str_replace($this->separator, '', $this->db->escape($value));
-				}
 
-				// Discount start date
-				if (!empty($item['discount_stratdate']))
-				{
-					$item['discount_stratdate'] = RedshopHelperDatetime::convertDateFormat($item['discount_stratdate']);
-				}
-
-				// Discount end date
-				if (!empty($item['discount_enddate']))
-				{
-					$item['discount_enddate'] = RedshopHelperDatetime::convertDateFormat($item['discount_enddate']);
-				}
-
-				// Stockroom process
-				if (!empty($stockrooms))
-				{
-					foreach ($stockrooms as $stockroom)
-					{
-						$amount = RedshopHelperStockroom::getStockroomAmountDetailList($item['product_id'], "product", $stockroom->stockroom_id);
-						$amount = !empty($amount) ? $amount[0]->quantity : 0;
-
-						$item[$stockroom->stockroom_name] = $amount;
-					}
-				}
-
-				// Media process
-				$this->processMedia($item);
-
-				// Extra fields process
-				if (!$extraFields)
-				{
 					continue;
 				}
 
-				if (isset($fieldsData[$item['product_id']]))
+				// Discount start date
+				if ($column == 'discount_stratdate')
 				{
-					$itemField = $fieldsData[$item['product_id']];
+					$item[$column] = !empty($item[$column]) ? RedshopHelperDatetime::convertDateFormat($item[$column]) : null;
 
-					$item[$itemField->field_name] = $itemField->data_txt;
+					continue;
+				}
+
+				// Discount end date
+				if ($column == 'discount_enddate')
+				{
+					$item[$column] = !empty($item[$column]) ? RedshopHelperDatetime::convertDateFormat($item[$column]) : null;
+
+					continue;
 				}
 			}
+
+			// Stockroom process
+			if (!empty($stockrooms))
+			{
+				foreach ($stockrooms as $stockroom)
+				{
+					$amount = RedshopHelperStockroom::getStockroomAmountDetailList($item['product_id'], "product", $stockroom->stockroom_id);
+					$amount = !empty($amount) ? $amount[0]->quantity : 0;
+
+					$item[$stockroom->stockroom_name] = $amount;
+				}
+			}
+
+			// Media process
+			$this->processMedia($item);
 
 			$data[$index] = $item;
 		}

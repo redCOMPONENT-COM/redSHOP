@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field
+                name="search"
+                type="redshop.text"
+                label="COM_REDSHOP_FILTER_SEARCH_DESC"
+                placeholder="JSEARCH_FILTER"
+                class="js-enter-submits"
+        />
+        <field
+                name="field_type"
+                type="redshop.fieldtype"
+                label="COM_REDSHOP_FIELDS_FILTER_SELECT_FIELD_TYPE"
+                default=""
+                class="form-control"
+                onchange="this.form.submit();">
+            <option value="">COM_REDSHOP_FIELDS_FILTER_SELECT_FIELD_TYPE</option>
+        </field>
+        <field
+                name="field_section"
+                type="redshop.fieldsection"
+                label="COM_REDSHOP_FIELDS_FILTER_SELECT_FIELD_SECTION"
+                default=""
+                class="form-control"
+                onchange="this.form.submit();">
+            <option value="">COM_REDSHOP_FIELDS_FILTER_SELECT_FIELD_SECTION</option>
+        </field>
+    </fields>
+    <fields name="list">
+        <field
+                name="limit"
+                type="limitbox"
+                class="inputbox input-mini chzn"
+                default="25"
+                label="JGLOBAL_ORDERING_LIST_LIMIT"
+                description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
+                onchange="this.form.submit();"
+                />
+    </fields>
+</form>

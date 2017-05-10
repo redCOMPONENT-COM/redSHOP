@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -630,7 +630,7 @@ function display_products($rows)
 		$data = $template_d1[0] . $temp_template . $template_d2[1];
 		$data = str_replace('{back_link}', '', $data);
 		$data = str_replace('{all_cart}', $my, $data);
-		$data = RedshopHelperTemplate::parseredSHOPplugin($data);
+		$data = RedshopHelperTemplate::parseRedshopPlugin($data);
 		echo eval("?>" . $data . "<?php ");
 	}
 }

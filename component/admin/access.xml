@@ -1,6 +1,139 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <access component="com_redshop">
     <section name="component">
-			<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC"/>
+        <action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC"/>
+        <action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC"/>
+    </section>
+    <section name="backend">
+        <action name="supplier.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC"/>
+        <action name="supplier.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC"/>
+        <action name="supplier.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC"/>
+        <action name="supplier.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC"/>
+        <action name="category.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="category.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="category.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="category.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="field.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="field.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="field.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="field.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <!--
+        <action name="product.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="product.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="product.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="product.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="statistic.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="media.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="media.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="media.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="media.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="wrapping.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="wrapping.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="wrapping.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="wrapping.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="order.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="order.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="order.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="order.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="quotation.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="quotation.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="quotation.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="quotation.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="user.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="user.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="user.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="user.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="stockroom.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="stockroom.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="stockroom.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="stockroom.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="manufacturer.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="manufacturer.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="manufacturer.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="manufacturer.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="newsletter.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="newsletter.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="newsletter.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="newsletter.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="mail.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="mail.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="mail.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="mail.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="coupon.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="coupon.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="coupon.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="coupon.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="product_discount.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="product_discount.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="product_discount.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="product_discount.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="voucher.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="voucher.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="voucher.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="voucher.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="field.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="field.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="field.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="field.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="text_library.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="text_library.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="text_library.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="text_library.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="template.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="template.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="template.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="template.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="shipping.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="shipping.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="shipping.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="shipping.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="vat_group.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="vat_group.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="vat_group.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="vat_group.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="catalog.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="catalog.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="catalog.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="catalog.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="sample.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="sample.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="sample.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="sample.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="import.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="import.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="import.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="import.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="export.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="export.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="export.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="export.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="account_group.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="account_group.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="account_group.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="account_group.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="giftcard.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="giftcard.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="giftcard.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="giftcard.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="configuration.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="state.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="state.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="state.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="state.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="country.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="country.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="country.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="country.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="question.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="question.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="question.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="question.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="access.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="access.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="access.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="access.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC"/>
+        <action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+        -->
     </section>
 </access>

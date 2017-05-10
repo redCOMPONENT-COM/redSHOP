@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -592,12 +592,12 @@ class RedshopModelImport extends RedshopModel
 						// Import fields
 						if ($post['import'] == 'fields')
 						{
-							$field_section       = $rawdata['field_section'];
-							$field_maxlength     = $rawdata['field_maxlength'];
-							$field_cols          = $rawdata['field_cols'];
-							$field_rows          = $rawdata['field_rows'];
-							$field_size          = $rawdata['field_size'];
-							$field_show_in_front = $rawdata['field_show_in_front'];
+							$field_section       = $rawdata['section'];
+							$field_maxlength     = $rawdata['maxlength'];
+							$field_cols          = $rawdata['cols'];
+							$field_rows          = $rawdata['rows'];
+							$field_size          = $rawdata['size'];
+							$field_show_in_front = $rawdata['show_in_front'];
 							$required            = $rawdata['required'];
 							$published           = $rawdata['published'];
 							$itemid              = $rawdata['itemid'];
@@ -614,10 +614,10 @@ class RedshopModelImport extends RedshopModel
 
 							// Get field id
 							$query = $db->getQuery(true)
-								->select('field_id')
+								->select('id')
 								->from($db->qn('#__redshop_fields'))
-								->where($db->qn('field_section') . ' = ' . $db->quote($field_section))
-								->where('field_name = ' . $db->q($rawdata['field_name_field']));
+								->where($db->qn('section') . ' = ' . $db->quote($field_section))
+								->where('name = ' . $db->q($rawdata['name_field']));
 							$db->setQuery($query);
 
 							if ($field_id_dv = $db->loadResult())
@@ -647,33 +647,33 @@ class RedshopModelImport extends RedshopModel
 								}
 							}
 
-							if (isset($rawdata['field_title']) && $rawdata['field_title'] != '')
+							if (isset($rawdata['title']) && $rawdata['title'] != '')
 							{
 								$fieldObject = new stdClass;
-								$fieldObject->field_title = $rawdata['field_title'];
-								$fieldObject->field_name = $rawdata['field_name_field'];
-								$fieldObject->field_type = $rawdata['field_type'];
-								$fieldObject->field_desc = $rawdata['field_desc'];
-								$fieldObject->field_class = $rawdata['field_class'];
-								$fieldObject->field_section = $field_section;
-								$fieldObject->field_maxlength = $field_maxlength;
-								$fieldObject->field_cols = $field_cols;
-								$fieldObject->field_rows = $field_rows;
-								$fieldObject->field_size = $field_size;
-								$fieldObject->field_show_in_front = $field_show_in_front;
+								$fieldObject->title = $rawdata['title'];
+								$fieldObject->name_field = $rawdata['name_field'];
+								$fieldObject->type = $rawdata['type'];
+								$fieldObject->desc = $rawdata['desc'];
+								$fieldObject->class = $rawdata['class'];
+								$fieldObject->section = $field_section;
+								$fieldObject->maxlength = $field_maxlength;
+								$fieldObject->cols = $field_cols;
+								$fieldObject->rows = $field_rows;
+								$fieldObject->size = $field_size;
+								$fieldObject->show_in_front = $field_show_in_front;
 								$fieldObject->required = $required;
 								$fieldObject->published = $published;
 
 								if ($field_id_dv)
 								{
-									$fieldObject->field_id = $field_id_dv;
-									$db->updateObject('#__redshop_fields', $fieldObject, 'field_id');
+									$fieldObject->id = $field_id_dv;
+									$db->updateObject('#__redshop_fields', $fieldObject, 'id');
 								}
 								else
 								{
-									if ($db->insertObject('#__redshop_fields', $fieldObject, 'field_id'))
+									if ($db->insertObject('#__redshop_fields', $fieldObject, 'id'))
 									{
-										$field_id_dv = $fieldObject->field_id;
+										$field_id_dv = $fieldObject->id;
 									}
 								}
 							}
@@ -721,7 +721,7 @@ class RedshopModelImport extends RedshopModel
 						// Import fields
 						if ($post['import'] == 'fields_data')
 						{
-							$field_id = $rawdata['field_id'];
+							$field_id = $rawdata['id'];
 							$field_product_number = $rawdata['data_number'];
 							$field_data_txt = $rawdata['data_txt'];
 
