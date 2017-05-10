@@ -16,15 +16,15 @@ defined('_JEXEC') or die;
         $(document).ready(function () {
             var $first = $($("#table-install").find("tr")[0]);
             window.setTimeout(function () {
-                doProgress($first.attr("data-task"));
+                doProgress($first);
             }, 1000);
         });
     })(jQuery);
 </script>
 <script type="text/javascript">
-    function doProgress(task) {
+    function doProgress(row) {
         runTasks++;
-        var $row = $("#row-" + task);
+        var $row = $(row);
         $row.removeClass("hidden");
         $row.find('img.loader').removeClass("hidden");
         $row.find('.text-result').addClass("hidden");
@@ -34,7 +34,7 @@ defined('_JEXEC') or die;
         $("#slider-install").html(percent.toFixed(2) + "%");
 
         $.post(
-            "index.php?option=com_redshop&task=install." + task,
+            "index.php?option=com_redshop&task=install.ajaxProcess",
             {
                 "<?php echo JSession::getFormToken() ?>": 1
             },
@@ -54,7 +54,7 @@ defined('_JEXEC') or die;
 
                 // Still have next progress
                 if ($next.length) {
-                    doProgress($next.attr("data-task"));
+                    doProgress($next);
 
                     return;
                 }
@@ -130,7 +130,7 @@ defined('_JEXEC') or die;
     <table class="table" id="table-install">
         <tbody>
 		<?php foreach ($this->steps as $i => $step): ?>
-            <tr data-task="<?php echo $step['func'] ?>" id="row-<?php echo $step['func'] ?>" class="hidden">
+            <tr id="row-<?php echo preg_replace("/[^A-Za-z0-9?!]/", '', $step['func']) ?>">
                 <td width="1">
                     <i class="fa fa-tasks status-icon"></i>
                 </td>
@@ -139,7 +139,7 @@ defined('_JEXEC') or die;
                 </td>
                 <td width="20%" style="text-align: right;">
                     <strong class="text-result text-muted">Pending</strong>
-                    <img src="components/com_redshop/assets/images/ajax-loader.gif" class="loader img hidden" width="128px" height="15px"/>
+                    <img src="components/com_redshop/assets/images/ajax-loader.gif" class="loader img" width="128px" height="15px"/>
                 </td>
             </tr>
 		<?php endforeach; ?>

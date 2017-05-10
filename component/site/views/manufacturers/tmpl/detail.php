@@ -77,11 +77,11 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 		for ($i = 0, $in = count($category); $i < $in; $i++)
 		{
 			$cart_mdata .= $template_middle;
-			$catlink    = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $category[$i]->category_id . '&manufacturer_id=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
-			$alink      = "<a href='" . $catlink . "'>" . $category[$i]->category_name . "</a>";
+			$catlink    = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $category[$i]->id . '&manufacturer_id=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
+			$alink      = "<a href='" . $catlink . "'>" . $category[$i]->name . "</a>";
 			$cart_mdata = str_replace("{category_name_with_link}", $alink, $cart_mdata);
-			$cart_mdata = str_replace("{category_desc}", $category[$i]->category_description, $cart_mdata);
-			$cart_mdata = str_replace("{category_name}", $category[$i]->category_name, $cart_mdata);
+			$cart_mdata = str_replace("{category_desc}", $category[$i]->description, $cart_mdata);
+			$cart_mdata = str_replace("{category_name}", $category[$i]->name, $cart_mdata);
 			$thumbUrl = RedShopHelperImages::getImagePath(
 					$category[$i]->category_full_image,
 					'',

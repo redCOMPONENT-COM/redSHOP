@@ -7,7 +7,6 @@ DROP TABLE IF EXISTS `#__redshop_catalog_colour`;
 DROP TABLE IF EXISTS `#__redshop_catalog_request`;
 DROP TABLE IF EXISTS `#__redshop_catalog_sample`;
 DROP TABLE IF EXISTS `#__redshop_category`;
-DROP TABLE IF EXISTS `#__redshop_category_xref`;
 DROP TABLE IF EXISTS `#__redshop_container`;
 DROP TABLE IF EXISTS `#__redshop_container_product_xref`;
 DROP TABLE IF EXISTS `#__redshop_country`;
