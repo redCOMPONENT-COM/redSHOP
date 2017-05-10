@@ -69,7 +69,7 @@ echo $pretext;
 
 if ($menutype == 'links')
 {
-	echo $redproduct_menu->get_category_tree($params, $category_id, $class_mainlevel, $list_css_class = "mm123", $highlighted_style = "font-style:italic;", $shopper_group_id);
+	echo $redproduct_menu->getCategoryTree($params, $category_id, $class_mainlevel, $list_css_class = "mm123", $highlighted_style = "font-style:italic;", $shopper_group_id);
 }
 elseif ($menutype == "transmenu")
 {

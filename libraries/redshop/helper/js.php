@@ -32,7 +32,7 @@ class RedshopHelperJs
 		$config = Redshop::getConfig();
 		$post   = $input->post->getArray();
 
-		$currency_symbol  = $config->get('REDCURRENCY_SYMBOL');
+		$currency_symbol  = $config->get('REDCURRENCY_SYMBOL', '');
 		$currency_convert = 1;
 
 		if (isset($post['product_currency']))
@@ -43,8 +43,7 @@ class RedshopHelperJs
 		if ($session->get('product_currency'))
 		{
 			$currency_symbol  = $session->get('product_currency');
-			$convertPrice     = CurrencyHelper::getInstance();
-			$currency_convert = round($convertPrice->convert(1), 2);
+			$currency_convert = round(RedshopHelperCurrency::convert(1), 2);
 		}
 
 		$token = JSession::getFormToken();
@@ -62,7 +61,7 @@ class RedshopHelperJs
 			'PRICE_SEPERATOR'                   => $config->get('PRICE_SEPERATOR'),
 			'CURRENCY_SYMBOL_POSITION'          => $config->get('CURRENCY_SYMBOL_POSITION'),
 			'PRICE_DECIMAL'                     => $config->get('PRICE_DECIMAL'),
-			'THOUSAND_SEPERATOR'                => $config->get('THOUSAND_SEPERATOR'),
+			'THOUSAND_SEPERATOR'                => $config->get('THOUSAND_SEPERATOR', ''),
 			'USE_STOCKROOM'                     => $config->get('USE_STOCKROOM'),
 			'USE_AS_CATALOG'                    => $config->get('USE_AS_CATALOG'),
 			'AJAX_CART_DISPLAY_TIME'            => $config->get('AJAX_CART_DISPLAY_TIME'),
@@ -88,7 +87,7 @@ class RedshopHelperJs
 
 		// Current Shopper Group - Show price with VAT config
 		$shopperGroupData = RedshopHelperUser::getShopperGroupDataById(RedshopHelperUser::getShopperGroup(JFactory::getUser()->id));
-		$dynamicVars['SHOW_PRICE_WITHOUT_VAT'] = (int) $shopperGroupData->show_price_without_vat;
+		$dynamicVars['SHOW_PRICE_WITHOUT_VAT'] = $shopperGroupData ?  (int) $shopperGroupData->show_price_without_vat : 0;
 
 		$backwardJS = array();
 
