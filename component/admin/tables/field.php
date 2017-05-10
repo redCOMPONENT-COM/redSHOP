@@ -89,8 +89,6 @@ class RedshopTableField extends RedshopTable
 	 */
 	protected function doStore($updateNulls = false)
 	{
-		$db = JFactory::getDbo();
-
 		if (!parent::doStore($updateNulls))
 		{
 			return false;
@@ -112,13 +110,13 @@ class RedshopTableField extends RedshopTable
 	/**
 	 * Delete one or more registers
 	 *
-	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 * @param   mixed  $pk  Array of ids or ids comma separated
 	 *
-	 * @return  boolean  Deleted successfuly?
+	 * @return  boolean     Deleted successfully?
 	 */
 	protected function doDelete($pk = null)
 	{
-		$db  = $this->getDbo();
+		$db = $this->getDbo();
 
 		if (!parent::doDelete($pk))
 		{
@@ -130,12 +128,12 @@ class RedshopTableField extends RedshopTable
 			$pk = implode(',', $pk);
 		}
 
-		// remove fields_data
-		$query_field_data = $db->getQuery(true)
-								->delete($db->qn('#__redshop_fields_data'))
-								->where($db->qn('fieldid') . 'IN (' . $pk . ')');
+		// Remove fields_data
+		$query = $db->getQuery(true)
+			->delete($db->qn('#__redshop_fields_data'))
+			->where($db->qn('fieldid') . ' IN (' . $pk . ')');
 
-		$db->setQuery($query_field_data);
+		$db->setQuery($query);
 
 		if (!$db->execute())
 		{
@@ -148,10 +146,10 @@ class RedshopTableField extends RedshopTable
 	/**
 	 * Method to delete all values related to a field or array of fields
 	 *
-	 * @param   array  	$ids   	 An array of field ids.
-	 * @param   string  $field   The field column to check for deleting.
+	 * @param   array   $ids    An array of field ids.
+	 * @param   string  $field  The field column to check for deleting.
 	 *
-	 * @return  boolean  True if successful, false if an error occurs.
+	 * @return  boolean         True if successful, false if an error occurs.
 	 *
 	 * @since   2.0.6
 	 */
@@ -161,12 +159,10 @@ class RedshopTableField extends RedshopTable
 		$ids = implode(',', $ids);
 
 		$query = $db->getQuery(true)
-				->delete($db->qn('#__redshop_fields_value'))
-				->where("$field IN (" . $ids . ")");
+			->delete($db->qn('#__redshop_fields_value'))
+			->where($db->qn($field) . ' IN (' . $ids . ')');
 
-		$db->setQuery($query);
-
-		if (!$db->execute())
+		if (!$db->setQuery($query)->execute())
 		{
 			$this->setError($db->getErrorMsg());
 
@@ -179,58 +175,57 @@ class RedshopTableField extends RedshopTable
 	/**
 	 * Method to save all values related to a field
 	 *
-	 * @param   int  $id   	 Id of field.
+	 * @param   int  $id  Id of field.
 	 *
-	 * @return  boolean  True if successful, false if an error occurs.
+	 * @return  boolean   True if successful, false if an error occurs.
 	 *
 	 * @since   2.0.6
 	 */
 	protected function saveFieldValues($id)
 	{
-		$db  = $this->getDbo();
-		$extra_field = extra_field::getInstance();
-		$value_id = array();
-		$extra_name = array();
-		$extra_value = array();
+		$db          = $this->getDbo();
+		$valueIds    = array();
+		$extraNames  = array();
+		$extraValues = array();
 
 		// Get input
 		$app   = JFactory::getApplication();
-		$post = $app->input->post;
+		$post  = $app->input->post;
+		$total = 0;
 
 		if (is_array($post->get('value_id')))
 		{
-			// $extra_value = JRequest::getVar('extra_value', '', 'post', 'string', JREQUEST_ALLOWRAW);
-			$extra_value = $post->getString('extra_value', '');
-			$value_id = $post->get('value_id', array(), 'array');
+			$extraValues = $post->getString('extra_value', '');
+			$valueIds    = $post->get('value_id', array(), 'array');
 
 			if ($this->type == 11 || $this->type == 13)
 			{
-				$extra_name = JRequest::getVar('extra_name_file', '', 'files', 'array');
-				$total = count($extra_name['name']);
+				$extraNames = JRequest::getVar('extra_name_file', '', 'files', 'array');
+				$total      = count($extraNames['name']);
 			}
 			else
 			{
-				$extra_name = $post->get('extra_name', '', 'raw');
-				$total = count($extra_name);
+				$extraNames = $post->get('extra_name', '', 'raw');
+				$total      = count($extraNames);
 			}
 		}
 
-		$filed_data_id = $extra_field->getFieldValue($id);
+		$fieldDataIds = RedshopHelperExtrafields::getFieldValue($id);
 
-		if (count($filed_data_id) > 0)
+		if (count($fieldDataIds) > 0)
 		{
 			$fid = array();
 
-			foreach ($filed_data_id as $f)
+			foreach ($fieldDataIds as $fieldDataId)
 			{
-				$fid[] = $f->value_id;
+				$fid[] = $fieldDataId->value_id;
 			}
 
-			$del_fid = array_diff($fid, $value_id);
+			$delFieldIds = array_diff($fid, $valueIds);
 
-			if (count($del_fid) > 0)
+			if (count($delFieldIds) > 0)
 			{
-				$this->deleteFieldValues($del_fid, 'value_id');
+				$this->deleteFieldValues($delFieldIds, 'value_id');
 			}
 		}
 
@@ -240,37 +235,37 @@ class RedshopTableField extends RedshopTable
 
 			if ($this->type == 11 || $this->type == 13)
 			{
-				if ($extra_value[$j] != "" && $extra_name['name'][$j] != "")
+				if ($extraValues[$j] != "" && $extraNames['name'][$j] != "")
 				{
-					$filename = RedShopHelperImages::cleanFileName($extra_name['name'][$j]);
+					$filename = RedshopHelperMedia::cleanFileName($extraNames['name'][$j]);
 
-					$src = $extra_name['tmp_name'][$j];
-					$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $filename;
+					$source      = $extraNames['tmp_name'][$j];
+					$destination = REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $filename;
 
-					JFile::upload($src, $dest);
+					JFile::upload($source, $destination);
 
 					$set = " field_name='" . $filename . "', ";
 				}
 			}
 			else
 			{
-				$filename = $extra_name[$j];
-				$set = " field_name='" . $filename . "', ";
+				$filename = $extraNames[$j];
+				$set      = " field_name='" . $filename . "', ";
 			}
 
-			if ($value_id[$j] == "")
+			if ($valueIds[$j] == "")
 			{
 				$query = $db->getQuery(true)
-							->insert($db->qn('#__redshop_fields_value'))
-							->columns($db->qn(array('field_id', 'field_name', 'field_value')))
-							->values((int) $id . ', ' . $db->q($filename) . ', ' . $db->q($extra_value[$j]));
+					->insert($db->qn('#__redshop_fields_value'))
+					->columns($db->qn(array('field_id', 'field_name', 'field_value')))
+					->values((int) $id . ', ' . $db->q($filename) . ', ' . $db->q($extraValues[$j]));
 			}
 			else
 			{
 				$query = $db->getQuery(true)
-							->update($db->qn('#__redshop_fields_value'))
-							->set($set . ' ' . $db->qn('field_value') . ' = ' . $db->q($extra_value[$j]))
-							->where($db->qn('value_id') . ' = ' . $value_id[$j]) ;
+					->update($db->qn('#__redshop_fields_value'))
+					->set($set . ' ' . $db->qn('field_value') . ' = ' . $db->q($extraValues[$j]))
+					->where($db->qn('value_id') . ' = ' . $valueIds[$j]);
 			}
 
 			if (!$db->setQuery($query)->execute())

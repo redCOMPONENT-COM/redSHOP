@@ -262,40 +262,6 @@ class RedshopControllerCategory extends RedshopControllerForm
 	}
 
 	/**
-	 * Method to remove records.
-	 *
-	 * @return  mixed
-	 */
-	public function remove()
-	{
-		$input = JFactory::getApplication()->input;
-		$cid   = $input->post->get('cid', array(), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-		}
-
-		$model = $this->getModel();
-
-		if (!$model->delete($cid))
-		{
-			$msg = "";
-
-			if ($model->getError() != "")
-			{
-				JFactory::getApplication()->enqueueMessage($model->getError(), 'error');
-			}
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_DELETED_SUCCESSFULLY');
-		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=categories', $msg);
-	}
-
-	/**
 	 * Method to copy record.
 	 *
 	 * @return  mixed

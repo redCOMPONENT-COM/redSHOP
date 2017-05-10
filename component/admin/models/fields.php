@@ -269,10 +269,10 @@ class RedshopModelFields extends RedshopModelList
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_fields_value'))
-					->where($db->qn('field_id') . ' = ' . (int) $id)
-					->order($db->qn('field_id') . ' ASC');
+			->select('*')
+			->from($db->qn('#__redshop_fields_value'))
+			->where($db->qn('field_id') . ' = ' . (int) $id)
+			->order($db->qn('field_id') . ' ASC');
 
 		$db->setQuery($query);
 
