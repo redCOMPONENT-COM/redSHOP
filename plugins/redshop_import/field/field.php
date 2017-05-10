@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,12 +23,12 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 	/**
 	 * @var string
 	 */
-	protected $primaryKey = 'field_id';
+	protected $primaryKey = 'id';
 
 	/**
 	 * @var string
 	 */
-	protected $nameKey = 'field_name_field';
+	protected $nameKey = 'name_field';
 
 	/**
 	 * Event run when user load config for export this data.
@@ -105,38 +105,38 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 
 		// Get field id
 		$query->clear()
-			->select($db->qn('field_id'))
+			->select($db->qn('id'))
 			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('field_section') . ' = ' . $db->quote($data['field_section']))
-			->where($db->qn('field_name') . ' = ' . $db->q($data['field_name_field']));
+			->where($db->qn('section') . ' = ' . $db->quote($data['section']))
+			->where($db->qn('name') . ' = ' . $db->q($data['name_field']));
 		$fieldId = (int) $db->setQuery($query)->loadResult();
 
 		// Import field.
-		if (!empty($data['field_title']))
+		if (!empty($data['title']))
 		{
-			$fieldObject                      = new stdClass;
-			$fieldObject->field_title         = $data['field_title'];
-			$fieldObject->field_name          = $data['field_name_field'];
-			$fieldObject->field_type          = $data['field_type'];
-			$fieldObject->field_desc          = $data['field_desc'];
-			$fieldObject->field_class         = $data['field_class'];
-			$fieldObject->field_section       = $data['field_section'];
-			$fieldObject->field_maxlength     = $data['field_maxlength'];
-			$fieldObject->field_cols          = $data['field_cols'];
-			$fieldObject->field_rows          = $data['field_rows'];
-			$fieldObject->field_size          = $data['field_size'];
-			$fieldObject->field_show_in_front = $data['field_show_in_front'];
-			$fieldObject->required            = $data['required'];
-			$fieldObject->published           = $data['published'];
+			$fieldObject                = new stdClass;
+			$fieldObject->title         = $data['title'];
+			$fieldObject->name          = $data['name_field'];
+			$fieldObject->type          = $data['type'];
+			$fieldObject->desc          = $data['desc'];
+			$fieldObject->class         = $data['class'];
+			$fieldObject->section       = $data['section'];
+			$fieldObject->maxlength     = $data['maxlength'];
+			$fieldObject->cols          = $data['cols'];
+			$fieldObject->rows          = $data['rows'];
+			$fieldObject->size          = $data['size'];
+			$fieldObject->show_in_front = $data['show_in_front'];
+			$fieldObject->required      = $data['required'];
+			$fieldObject->published     = $data['published'];
 
 			if ($fieldId)
 			{
-				$fieldObject->field_id = $fieldId;
-				$db->updateObject('#__redshop_fields', $fieldObject, 'field_id');
+				$fieldObject->id = $fieldId;
+				$db->updateObject('#__redshop_fields', $fieldObject, 'id');
 			}
-			elseif ($db->insertObject('#__redshop_fields', $fieldObject, 'field_id'))
+			elseif ($db->insertObject('#__redshop_fields', $fieldObject, 'id'))
 			{
-				$fieldId = $fieldObject->field_id;
+				$fieldId = $fieldObject->id;
 			}
 			else
 			{

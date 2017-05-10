@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.0.3
@@ -1784,7 +1784,7 @@ class RedshopHelperShipping
 		if ($country)
 		{
 			$whereCountry = "AND (FIND_IN_SET(" . $db->q($country) . ", " . $db->qn('shipping_rate_country') . " ) OR "
-				. $db->qn('shipping_rate_country') . " = ' . $db->q(0) . ' OR "
+				. $db->qn('shipping_rate_country') . " = " . $db->q(0) . " OR "
 				. $db->qn('shipping_rate_country') . " = '') ";
 		}
 		else
@@ -2093,8 +2093,11 @@ class RedshopHelperShipping
 		{
 			$extension = 'plg_redshop_shipping_' . $paymentsLangList[$index]->element;
 			$language->load($extension, JPATH_ADMINISTRATOR, $language->getTag(), true);
-
-			$language->load($extension, JPATH_PLUGINS . '/' . $paymentsLangList[$index]->folder . '/' . $paymentsLangList[$index]->element, $language->getTag(), true);
+			$language->load(
+				$extension, JPATH_PLUGINS . '/' . $paymentsLangList[$index]->folder . '/' . $paymentsLangList[$index]->element,
+				$language->getTag(),
+				true
+			);
 		}
 	}
 }
