@@ -320,44 +320,8 @@ class RedshopModelCategory extends RedshopModelForm
 		RedshopHelperExtrafields::extraFieldSave($data, 2, $row->id);
 
 		// Start Accessory Product
-		if (!empty($data['product_accessory']) && is_array($data['product_accessory']))
-		{
-			$data['product_accessory'] = array_merge(array(), $data['product_accessory']);
-
-			$productList = RedshopEntityCategory::getInstance($row->id)->getProducts();
-
-			for ($p = 0, $pn = count($productList); $p < $pn; $p++)
-			{
-				$productId = $productList[$p]->id;
-
-				for ($a = 0; $a < count($data['product_accessory']); $a++)
-				{
-					$acc         = $data['product_accessory'][$a];
-					$accessoryId = RedshopHelperAccessory::checkAccessoryExists($productId, $acc['child_product_id']);
-
-					if ($productId != $acc['child_product_id'])
-					{
-						$accDetail = JTable::getInstance('Accessory_detail', 'Table');
-
-						$accDetail->accessory_id        = $accessoryId;
-						$accDetail->category_id         = $row->id;
-						$accDetail->product_id          = $productId;
-						$accDetail->child_product_id    = $acc['child_product_id'];
-						$accDetail->accessory_price     = $acc['accessory_price'];
-						$accDetail->oprand              = $acc['oprand'];
-						$accDetail->ordering            = $acc['ordering'];
-						$accDetail->setdefault_selected = (isset($acc['setdefault_selected']) && $acc['setdefault_selected'] == 1) ? 1 : 0;
-
-						if (!$accDetail->store())
-						{
-							$this->setError($this->_db->getErrorMsg());
-
-							return false;
-						}
-					}
-				}
-			}
-		}
+		// @TODO Need to add an better solution.
+		$this->productAccessoriesStore($row->id);
 
 		return true;
 	}
@@ -435,5 +399,70 @@ class RedshopModelCategory extends RedshopModelForm
 		}
 
 		return true;
+	}
+
+	/**
+	 * Process for store product accessories
+	 *
+	 * @param   integer  $categoryId  ID of category
+	 *
+	 * @since   2.0.6
+	 *
+	 * @return  void
+	 */
+	public function productAccessoriesStore($categoryId)
+	{
+		$productAccessories = JFactory::getApplication()->input->get('product_accessory', array(), 'array');
+
+		if (empty($productAccessories) || !is_array($productAccessories))
+		{
+			return true;
+		}
+
+		$productAccessories = array_merge(array(), $productAccessories);
+		$productList        = RedshopEntityCategory::getInstance($categoryId)->getProducts();
+
+		if (empty($productList))
+		{
+			return true;
+		}
+
+		foreach ($productList as $product)
+		{
+			$productId = $product->id;
+
+			foreach ($productAccessories as $productAccessory)
+			{
+				$accessoryId = RedshopHelperAccessory::checkAccessoryExists($productId, $productAccessory['child_product_id']);
+
+				if ($productId == $productAccessory['child_product_id'])
+				{
+					continue;
+				}
+
+				$accessoryTable = JTable::getInstance('Accessory_detail', 'Table');
+
+				$accessoryTable->accessory_id        = $accessoryId;
+				$accessoryTable->category_id         = $categoryId;
+				$accessoryTable->product_id          = $productId;
+				$accessoryTable->child_product_id    = $productAccessory['child_product_id'];
+				$accessoryTable->accessory_price     = $productAccessory['accessory_price'];
+				$accessoryTable->oprand              = $productAccessory['oprand'];
+				$accessoryTable->ordering            = $productAccessory['ordering'];
+				$accessoryTable->setdefault_selected = 0;
+
+				if (isset($productAccessory['setdefault_selected']) && $productAccessory['setdefault_selected'] == 1)
+				{
+					$accessoryTable->setdefault_selected = 1;
+				}
+
+				if (!$accessoryTable->store())
+				{
+					$this->setError($this->_db->getErrorMsg());
+
+					return false;
+				}
+			}
+		}
 	}
 }
