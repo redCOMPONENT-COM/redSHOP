@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Abstract class for export plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.6
  */
 class App
 {
@@ -22,7 +22,7 @@ class App
 	 * Configuration path
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $configPath;
 
@@ -30,7 +30,7 @@ class App
 	 * Configuration distribute path
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $configDistPath;
 
@@ -46,7 +46,7 @@ class App
 	 * Instance
 	 *
 	 * @var    null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected static $instance = null;
 
@@ -56,7 +56,7 @@ class App
 	 *
 	 * @return  self  The RedConfiguration object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getInstance()
 	{
@@ -71,7 +71,7 @@ class App
 	/**
 	 * Define default path
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function __construct()
 	{
@@ -88,7 +88,7 @@ class App
 	 *
 	 * @return  boolean  True if loaded success. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function isConfigurationFile()
 	{
@@ -107,7 +107,7 @@ class App
 	 *
 	 * @return  boolean  True if loaded success. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function isConfigurationTable()
 	{
@@ -131,7 +131,7 @@ class App
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function storeConfigurationTable($original = array())
 	{
@@ -159,7 +159,7 @@ class App
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function loadDefaultConfigurationFile()
 	{
@@ -182,7 +182,7 @@ class App
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function manageConfigurationFile($original = array())
 	{
@@ -218,7 +218,7 @@ class App
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function defineConfigurationVariables($data, $bypass = false)
 	{
@@ -243,7 +243,7 @@ class App
 	 *
 	 * @return  boolean  True when file successfully saved.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function writeConfigurationFile()
 	{
@@ -270,7 +270,7 @@ class App
 	 *
 	 * @return  boolean  True when file successfully updated.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function updateConfigurationFile()
 	{
@@ -290,7 +290,7 @@ class App
 	 *
 	 * @return  boolean  True on successfully backed up.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function backupConfigurationFile()
 	{
@@ -311,7 +311,7 @@ class App
 	 *
 	 * @return  boolean  True when file is exist.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function checkTemporaryConfigFile()
 	{
@@ -332,7 +332,7 @@ class App
 	 *
 	 * @return  boolean  True if file is write-able.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function isTemporaryConfigFileCanWrite()
 	{
@@ -723,6 +723,9 @@ class App
 			"IMPORT_FILE_EXTENSION"                        => $data['import_file_extension'],
 			"INLINE_EDITING"                               => $data['inline_editing'],
 			"IMPORT_MAX_LINE"                              => $data['import_max_line'],
+			"CURRENCY_LIBRARIES"                           => $data['currency_libraries'],
+			"CURRENCY_LAYER_ACCESS_KEY"                    => $data['currency_layer_access_key'],
+			"MAX_FILE_SIZE_UPLOAD"                         => $data['max_file_size_upload']
 		);
 
 		$configs["CART_TIMEOUT"]               = $data["cart_timeout"] <= 0 ? 20 : $data["cart_timeout"];

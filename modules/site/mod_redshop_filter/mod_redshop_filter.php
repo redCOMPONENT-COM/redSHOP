@@ -37,7 +37,7 @@ if (!empty($cid))
 
 	foreach ($list as $key => $value)
 	{
-		$childCat[] = $value->category_id;
+		$childCat[] = $value->id;
 	}
 
 	if (in_array($cid, $childCat))

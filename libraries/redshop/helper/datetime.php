@@ -126,7 +126,7 @@ class RedshopHelperDatetime
 	 *
 	 * @return    array
 	 *
-	 * @since     __DEPLOY_VERSION__
+	 * @since     2.0.6
 	 */
 	public static function getDateFormat()
 	{
