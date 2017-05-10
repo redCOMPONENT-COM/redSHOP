@@ -81,7 +81,7 @@ class RedshopViewForm extends AbstractView
 	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string &$tpl Template name
+	 * @param   string  $tpl  Template name
 	 *
 	 * @return  void
 	 *
@@ -135,21 +135,21 @@ class RedshopViewForm extends AbstractView
 
 		if ($this->canEdit)
 		{
-			JToolBarHelper::apply($this->getInstanceName() . '.apply');
+			JToolbarHelper::apply($this->getInstanceName() . '.apply');
 		}
 
 		if ($this->canEdit || $this->canCreate)
 		{
-			JToolBarHelper::save($this->getInstanceName() . '.save');
+			JToolbarHelper::save($this->getInstanceName() . '.save');
 		}
 
 		if ($isNew)
 		{
-			JToolBarHelper::cancel($this->getInstanceName() . '.cancel');
+			JToolbarHelper::cancel($this->getInstanceName() . '.cancel');
 		}
 		else
 		{
-			JToolBarHelper::cancel($this->getInstanceName() . '.cancel', JText::_('JTOOLBAR_CLOSE'));
+			JToolbarHelper::cancel($this->getInstanceName() . '.cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 	}
 
