@@ -91,7 +91,7 @@ class product_category
 	 *
 	 * @deprecated  1.5 Use RedshopHelperCategory::getCategoryListArray instead
 	 */
-	public function getCategoryListArray($category_id = 0, $cid = 0)
+	public function getCategoryListArray($category_id = 1, $cid = 1)
 	{
 		return RedshopHelperCategory::getCategoryListArray($category_id, $cid);
 	}
@@ -172,8 +172,8 @@ class product_category
 	 *
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::checkAccessoryExists() instead
 	 */
-	public function CheckAccessoryExists($product_id, $accessory_id)
+	public function checkAccessoryExists($product_id, $accessory_id)
 	{
-		return RedshopHelperCategory::checkAccessoryExists($product_id, $accessory_id);
+		return RedshopHelperAccessory::checkAccessoryExists($product_id, $accessory_id);
 	}
 }

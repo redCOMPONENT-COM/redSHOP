@@ -237,7 +237,7 @@ class RedshopModelCategory extends RedshopModel
 		}
 		else
 		{
-			$query->where($db->qn('c.parent_id') . ' = ' . (int) RedshopHelperCategory::getRootId());	
+			$query->where($db->qn('c.parent_id') . ' = ' . (int) RedshopHelperCategory::getRootId());
 		}
 
 		if ($layout != 'categoryproduct')
@@ -369,7 +369,7 @@ class RedshopModelCategory extends RedshopModel
 			{
 				foreach ($tmpCategories as $child)
 				{
-					$categories[] = $child->category_id;
+					$categories[] = $child->id;
 				}
 			}
 		}
