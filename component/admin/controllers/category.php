@@ -42,7 +42,6 @@ class RedshopControllerCategory extends RedshopControllerForm
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
 
-		$data['product_accessory']        = $this->input->post->get('product_accessory', array(), 'array');
 		$data['old_image']                = $this->input->post->getString('old_image');
 		$data['image_delete']             = $this->input->post->getString('image_delete');
 		$data['image_back_delete']        = $this->input->post->getString('image_back_delete');
