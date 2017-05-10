@@ -266,13 +266,6 @@ class extraField
 	 */
 	protected static $userFields = array();
 
-	/**
-	 * Extra field display data
-	 *
-	 * @var  array
-	 */
-	protected static $extraFieldDisplay = array();
-
 	protected static $instance = null;
 
 	/**
@@ -860,227 +853,40 @@ class extraField
 		return $ex;
 	}
 
+	/**
+	 * Method for display extra field.
+	 *
+	 * @param   string  $field_section  Field section
+	 * @param   int     $section_id     Section ID
+	 * @param   string  $field_name     Field name
+	 * @param   string  $template_data  Template content
+	 * @param   int     $categorypage   Category page
+	 *
+	 * @return  mixed
+	 *
+	 * @since   1.6.0
+	 *
+	 * @deprecated  2.0.6  Use RedshopHelperExtrafields::extraFieldDisplay instead
+	 */
 	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
 	{
-		$db = JFactory::getDbo();
-
-		$redTemplate = Redtemplate::getInstance();
-		$url         = JURI::base();
-
-		if (!isset(self::$extraFieldDisplay[$field_section]) || !array_key_exists($field_name, self::$extraFieldDisplay[$field_section]))
-		{
-			$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_fields'))
-				->where('section = ' . $db->quote($field_section));
-
-			if ($field_name != "")
-			{
-				$query->where('name IN (' . $field_name . ')');
-			}
-
-			$db->setQuery($query);
-
-			if (!isset(self::$extraFieldDisplay[$field_section]))
-			{
-				self::$extraFieldDisplay[$field_section] = array();
-			}
-
-			self::$extraFieldDisplay[$field_section][$field_name] = $db->loadObjectlist();
-		}
-
-		$row_data = self::$extraFieldDisplay[$field_section][$field_name];
-
-		for ($i = 0, $in = count($row_data); $i < $in; $i++)
-		{
-			$type                = $row_data[$i]->type;
-			$published           = $row_data[$i]->published;
-			$field_show_in_front = $row_data[$i]->show_in_front;
-
-			$data_value = $this->getSectionFieldDataList($row_data[$i]->id, $field_section, $section_id);
-
-			if ($categorypage == 1)
-			{
-				$search_lbl = "{producttag:" . $row_data[$i]->name . "_lbl}";
-				$search     = "{producttag:" . $row_data[$i]->name . "}";
-			}
-			else
-			{
-				$search_lbl = "{" . $row_data[$i]->name . "_lbl}";
-				$search     = "{" . $row_data[$i]->name . "}";
-			}
-
-			if (count($data_value) != 0
-				&& $published
-				&& ($field_show_in_front || JFactory::getApplication()->isAdmin()))
-			{
-				$displayvalue = '';
-
-				switch ($type)
-				{
-                    case self::TYPE_TEXT:
-					case self::TYPE_WYSIWYG:
-					case self::TYPE_DATE_PICKER:
-					case self::TYPE_SELECT_BOX_SINGLE:
-
-						$displayvalue = $data_value->data_txt;
-						break;
-
-					case self::TYPE_TEXT_AREA:
-
-						$displayvalue = htmlspecialchars($data_value->data_txt);
-						break;
-
-					case self::TYPE_CHECK_BOX:
-					case self::TYPE_RADIO_BUTTON:
-					case self::TYPE_SELECT_BOX_MULTIPLE:
-
-						$field_chk = $this->getFieldValue($row_data[$i]->id);
-						$chk_data  = @explode(",", $data_value->data_txt);
-						$tmparr    = array();
-
-						for ($c = 0, $cn = count($field_chk); $c < $cn; $c++)
-						{
-							if (@in_array(urlencode($field_chk[$c]->field_value), $chk_data))
-							{
-								$tmparr[] = urldecode($field_chk[$c]->field_value);
-							}
-						}
-
-						$displayvalue = urldecode(implode('<br>', $tmparr));
-						break;
-
-					case self::TYPE_SELECT_COUNTRY_BOX:
-
-						$displayvalue = "";
-
-						if ($data_value->data_txt != "")
-						{
-							$q = "SELECT country_name FROM #__redshop_country "
-								. "WHERE id = " . (int) $data_value->data_txt;
-							$db->setQuery($q);
-							$field_chk    = $db->loadObject();
-							$displayvalue = $field_chk->country_name;
-						}
-						break;
-					case self::TYPE_DOCUMENTS :
-
-						// Support Legacy string.
-						if (preg_match('/\n/', $data_value->data_txt))
-						{
-							$document_explode = explode("\n", $data_value->data_txt);
-							$document_value   = array($document_explode[0] => $document_explode[1]);
-						}
-						else
-						{
-							// Support for multiple file upload using JSON for better string handling
-							$document_value = json_decode($data_value->data_txt);
-						}
-
-						if (count($document_value) > 0)
-						{
-							$displayvalue = "";
-
-							foreach ($document_value as $document_title => $filename)
-							{
-								$link     = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/' . $filename;
-								$link_phy = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $filename;
-
-								if (is_file($link_phy))
-								{
-									$displayvalue .= "<a href=\"$link\" target='_blank' >$document_title</a>";
-								}
-							}
-						}
-						break;
-					case self::TYPE_IMAGE_SELECT :
-						// Image
-					case self::TYPE_IMAGE_WITH_LINK :
-						$document_value = $this->getFieldValue($row_data[$i]->id);
-
-						$tmp_image_hover = array();
-						$tmp_image_link  = array();
-						$chk_data        = @explode(",", $data_value->data_txt);
-
-						if ($data_value->alt_text)
-						{
-							$tmp_image_hover = explode(',,,,,', $data_value->alt_text);
-						}
-
-						if ($data_value->image_link)
-						{
-							$tmp_image_link = @explode(',,,,,', $data_value->image_link);
-						}
-
-						$chk_data    = @explode(",", $data_value->data_txt);
-						$image_link  = array();
-						$image_hover = array();
-
-						for ($ch = 0, $countChkData = count($chk_data); $ch < $countChkData; $ch++)
-						{
-							$image_link[$chk_data[$ch]]  = isset($tmp_image_link[$ch]) ? $tmp_image_link[$ch] : '';
-							$image_hover[$chk_data[$ch]] = isset($tmp_image_hover[$ch]) ? $tmp_image_hover[$ch] : '';
-						}
-
-						$displayvalue = '';
-
-						for ($c = 0, $cn = count($document_value); $c < $cn; $c++)
-						{
-							if (@in_array($document_value[$c]->value_id, $chk_data))
-							{
-								$filename = $document_value[$c]->field_name;
-
-								$link = REDSHOP_FRONT_IMAGES_ABSPATH . "extrafield/" . $filename;
-
-								$str_image_link = $image_link[$document_value[$c]->value_id];
-
-								if ($str_image_link)
-								{
-									$displayvalue .= "<a href='" . $str_image_link
-										. "' class='imgtooltip' ><img src='" . $link . "' title='" . $document_value[$c]->field_value . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
-										. $row_data[$i]->title . "</div><div class='spnalttext'>"
-										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
-								}
-								else
-								{
-									$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' title='" . $document_value[$c]->field_value . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
-										. $row_data[$i]->title . "</div><div class='spnalttext'>"
-										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
-								}
-							}
-						}
-
-						break;
-					default :
-						break;
-				}
-
-				$displaytitle  = $data_value->data_txt != "" ? $data_value->title : "";
-				$displayvalue  = $redTemplate->parseredSHOPplugin($displayvalue);
-				$template_data = str_replace($search_lbl, JText::_($displaytitle), $template_data);
-				$template_data = str_replace($search, $displayvalue, $template_data);
-			}
-			else
-			{
-				$template_data = str_replace($search_lbl, "", $template_data);
-				$template_data = str_replace($search, "", $template_data);
-			}
-		}
-
-		return $template_data;
+		return RedshopHelperExtrafields::extraFieldDisplay($field_section, $section_id, $field_name, $template_data, $categorypage);
 	}
 
+	/**
+	 * Method for get field values
+	 *
+	 * @param   integer  $id  ID of field
+	 *
+	 * @return  array
+	 *
+	 * @since   1.6.0
+	 *
+	 * @deprecated  2.0.6  Use RedshopEntityField::getFieldValues instead
+	 */
 	public function getFieldValue($id)
 	{
-		$db = JFactory::getDbo();
-
-		$q = "SELECT * FROM #__redshop_fields_value "
-			. "WHERE field_id=" . (int) $id . " "
-			. "ORDER BY value_id ASC ";
-		$db->setQuery($q);
-		$list = $db->loadObjectlist();
-
-		return $list;
+		return RedshopEntityField::getInstance($id)->getFieldValues();
 	}
 
 	/**
@@ -1129,30 +935,21 @@ class extraField
 		return $result;
 	}
 
+	/**
+	 * Method for get section field names.
+	 *
+	 * @param   int  $section    Section ID
+	 * @param   int  $front      Is show on front?
+	 * @param   int  $published  Is published?
+	 * @param   int  $required   Is required?
+	 *
+	 * @return  array            List of field
+	 *
+	 * @deprecated  2.0.6  Use RedshopHelperExtrafields::getSectionFieldList instead
+	 */
 	public function getSectionFieldIdArray($section = self::SECTION_PRODUCT_USERFIELD, $front = 1, $published = 1, $required = 0)
 	{
-		JFactory::getDbo();
-
-		$and = "";
-
-		if ($published == 1)
-		{
-			$and .= "AND published=" . (int) $published . " ";
-		}
-
-		if ($required == 1)
-		{
-			$and .= "AND required=" . (int) $required . " ";
-		}
-
-		$query = "SELECT id, name FROM #__redshop_fields "
-			. "WHERE section = " . $db->quote($section) . " "
-			. "AND show_in_front = " . (int) $front . " "
-			. $and;
-		$db->setQuery($query);
-		$list = $db->loadObjectList();
-
-		return $list;
+		return RedshopHelperExtrafields::getSectionFieldList($section, $front, $published, $required);
 	}
 
 	/**
