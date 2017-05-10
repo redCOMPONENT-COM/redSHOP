@@ -28,10 +28,10 @@ class RedshopShippingRate
 		$string = implode('|', $data);
 
 		return str_replace(
-					"+",
-					" ",
-					base64_encode(self::cryptMethod($string))
-				);
+			"+",
+			" ",
+			base64_encode(self::cryptMethod($string))
+		);
 	}
 
 	/**
@@ -53,7 +53,7 @@ class RedshopShippingRate
 	 *
 	 * @param   string  $string  String which needs to be crypt
 	 *
-	 * @return  string  Crypted string
+	 * @return  string           Crypted string
 	 */
 	protected static function cryptMethod($string)
 	{
@@ -63,7 +63,6 @@ class RedshopShippingRate
 		for ($position = 0; $position < $length; $position++)
 		{
 			$keyToUse              = (($length + $position) + 1);
-
 			$keyToUse              = (255 + $keyToUse) % 255;
 			$byteToBeEncrypted     = substr($string, $position, 1);
 			$asciiNumByteToEncrypt = ord($byteToBeEncrypted);

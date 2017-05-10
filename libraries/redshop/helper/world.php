@@ -346,7 +346,7 @@ class RedshopHelperWorld
 	 *
 	 * @return  int
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getCountryId($country3code)
 	{
@@ -367,7 +367,7 @@ class RedshopHelperWorld
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getCountryCode2($country3code)
 	{
@@ -388,7 +388,7 @@ class RedshopHelperWorld
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getStateCode2($stateCode)
 	{
@@ -410,7 +410,7 @@ class RedshopHelperWorld
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getStateCode($id, $stateCode)
 	{
