@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,10 +14,18 @@ JLoader::import('redshop.library');
 /**
  * redSHOP google Analytics System Plugin
  *
- * @since  1.0
+ * @since  2.0
  */
 class PlgSystemRedGoogleAnalytics extends JPlugin
 {
+	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
 	/**
 	 * This event is triggered after the framework has loaded and initialised and the router has route the client request.
 	 * Routing is the process of examining the request environment to determine which component should receive the request.
@@ -30,22 +38,19 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isSite() && Redshop::getConfig()->isExists())
+		if (!$app->isSite())
 		{
-			$googleFile = JPATH_SITE . '/libraries/redshop/helper/googleanalytics.php';
+			return;
+		}
 
-			if (file_exists($googleFile))
-			{
-				if ("" != Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY')
-					&& 'final' != $app->input->getWord('format', '')
-					&& 'receipt' != $app->input->getWord('layout', ''))
-				{
-					require_once $googleFile;
+		$trackerKey = $this->params->get('tracker_key', '');
 
-					$ga = new RedshopHelperGoogleanalytics;
-					$ga->placeTrans();
-				}
-			}
+		if (!empty($trackerKey) && 'final' != $app->input->getWord('format', '') && 'receipt' != $app->input->getWord('layout', ''))
+		{
+			require_once __DIR__ . '/helper/google_analytics.php';
+
+			$googleAnalyticsHelper = new RedSHOPGoogle_AnalyticsHelper($trackerKey);
+			$googleAnalyticsHelper->placeTrans();
 		}
 	}
 }
