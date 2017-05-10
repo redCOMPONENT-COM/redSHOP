@@ -40,6 +40,11 @@ class RedshopHelperUtility
 	public static $dispatcher = null;
 
 	/**
+	 * @var  boolean
+	 */
+	protected static $isRedProductFinder;
+
+	/**
 	 * Get SSL link for backend or applied for ssl link
 	 *
 	 * @param   string  $link     Link to be converted into ssl
@@ -1188,5 +1193,39 @@ class RedshopHelperUtility
 		}
 
 		return $itemId;
+	}
+
+	/**
+	 * Method for check if ProductFinder is available or not.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isRedProductFinder()
+	{
+		if (self::$isRedProductFinder === null)
+		{
+			// Get redshop from joomla component table
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select($db->qn('enabled'))
+				->from($db->qn('#__extensions'))
+				->where('element = ' . $db->q('com_redproductfinder'));
+
+			$redProductFinderPath = JPATH_ADMINISTRATOR . '/components/com_redproductfinder';
+
+			if (!is_dir($redProductFinderPath) || $db->setQuery($query)->loadResult() == 0)
+			{
+				self::$isRedProductFinder = false;
+			}
+			else
+			{
+				self::$isRedProductFinder = true;
+			}
+		}
+
+		return self::$isRedProductFinder;
 	}
 }

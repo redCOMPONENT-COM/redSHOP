@@ -20,8 +20,9 @@ class redhelper
 
 	public $_db = null;
 
-	protected static $isRedProductFinder = null;
-
+	/**
+	 * @var  self
+	 */
 	protected static $instance = null;
 
 	/**
@@ -547,28 +548,15 @@ class redhelper
 		return $list;
 	}
 
+	/**
+	 * Method for check if ProductFinder is available or not.
+	 *
+	 * @return  boolean
+	 *
+	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperUtility::isRedProductFinder instead
+	 */
 	public function isredProductfinder()
 	{
-		if (self::$isRedProductFinder === null)
-		{
-			// Get redshop from joomla component table
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('enabled')
-				->from($db->qn('#__extensions'))
-				->where('element = ' . $db->q('com_redproductfinder'));
-			$redProductFinderPath = JPATH_ADMINISTRATOR . '/components/com_redproductfinder';
-
-			if (!is_dir($redProductFinderPath) || $db->setQuery($query)->loadResult() == 0)
-			{
-				self::$isRedProductFinder = false;
-			}
-			else
-			{
-				self::$isRedProductFinder = true;
-			}
-		}
-
-		return self::$isRedProductFinder;
+		return RedshopHelperUtility::isRedProductFinder();
 	}
 }
