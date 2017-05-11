@@ -1243,7 +1243,7 @@ class RedshopHelperUtility
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('ea.*'))
+			->select('ea.*')
 			->select($db->qn('ea.accountgroup_id', 'value'))
 			->select($db->qn('ea.accountgroup_name', 'text'))
 			->from($db->qn('#__redshop_economic_accountgroup', 'ea'));
