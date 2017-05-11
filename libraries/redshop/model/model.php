@@ -390,4 +390,31 @@ class RedshopModel extends JModelLegacy
 
 		return md5($this->context . ':' . $id);
 	}
+
+	/**
+	 * Method for saving data via webservices
+	 *
+	 * @param   array  $data  Data to be stored.
+	 *
+	 * @return  integer|boolean
+	 */
+	public function saveWS($data)
+	{
+		$table = $this->getTable();
+		$pkField = $table->getKeyName();
+
+		try
+		{
+			if (!$table->save($data))
+			{
+				return false;
+			}
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+
+		return $table->get($pkField);
+	}
 }
