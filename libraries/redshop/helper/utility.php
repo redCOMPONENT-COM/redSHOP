@@ -700,7 +700,7 @@ class RedshopHelperUtility
 	 */
 	public static function getRedShopMenuItem($queryItems)
 	{
-		$serializeItem = serialize($queryItems);
+		$serializeItem = md5(serialize($queryItems));
 
 		if (!array_key_exists($serializeItem, self::$menuItemAssociation))
 		{
