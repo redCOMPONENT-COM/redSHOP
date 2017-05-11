@@ -47,7 +47,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$redhelper   = redhelper::getInstance();
 		$config      = Redconfiguration::getInstance();
-		$redTemplate = Redtemplate::getInstance();
 		$extra_field = extra_field::getInstance();
 		$userhelper  = rsUserHelper::getInstance();
 		$lists       = array();
@@ -57,10 +56,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		RedshopHelperShipping::loadLanguages();
 		RedshopHelperModule::loadLanguages();
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
-		JToolBarHelper::save();
-		JToolBarHelper::apply();
-		JToolBarHelper::cancel();
+		JToolbarHelper::title(JText::_('COM_REDSHOP_CONFIG'), 'equalizer redshop_icon-48-settings');
+		JToolbarHelper::save();
+		JToolbarHelper::apply();
+		JToolbarHelper::cancel();
 
 		$this->setLayout('default');
 
@@ -71,12 +70,12 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$templatesel[0]->template_id   = 0;
 		$templatesel[0]->template_name = JText::_('COM_REDSHOP_SELECT');
 
-		$product_template      = $redTemplate->getTemplate("product");
-		$compare_template      = $redTemplate->getTemplate("compare_product");
-		$category_template     = $redTemplate->getTemplate("category");
-		$categorylist_template = $redTemplate->getTemplate("frontpage_category");
-		$manufacturer_template = $redTemplate->getTemplate("manufacturer_products");
-		$ajax_detail_template  = $redTemplate->getTemplate("ajax_cart_detail_box");
+		$product_template      = RedshopHelperTemplate::getTemplate("product");
+		$compare_template      = RedshopHelperTemplate::getTemplate("compare_product");
+		$category_template     = RedshopHelperTemplate::getTemplate("category");
+		$categorylist_template = RedshopHelperTemplate::getTemplate("frontpage_category");
+		$manufacturer_template = RedshopHelperTemplate::getTemplate("manufacturer_products");
+		$ajax_detail_template  = RedshopHelperTemplate::getTemplate("ajax_cart_detail_box");
 
 		$product_template      = array_merge($templatesel, $product_template);
 		$compare_template      = array_merge($templatesel, $compare_template);
@@ -122,7 +121,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$tmp                                       = array();
 		$tmp[]                                     = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-		$economic_accountgroup                     = $redhelper->getEconomicAccountGroup();
+		$economic_accountgroup                     = RedshopHelperUtility::getEconomicAccountGroup();
 		$economic_accountgroup                     = array_merge($tmp, $economic_accountgroup);
 		$lists['default_economic_account_group']   = JHtml::_('select.genericlist', $economic_accountgroup,
 			'default_economic_account_group', 'class="form-control" size="1" ',
@@ -650,7 +649,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('DEFAULT_CATEGORY_ORDERING_METHOD')
 		);
 
-		$order_data                                    = $redhelper->getManufacturerOrderByList();
+		$order_data                                    = RedshopHelperUtility::getManufacturerOrderByList();
 		$lists['default_manufacturer_ordering_method'] = JHtml::_('select.genericlist', $order_data, 'default_manufacturer_ordering_method',
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('DEFAULT_MANUFACTURER_ORDERING_METHOD')
 		);

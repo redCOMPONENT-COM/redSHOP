@@ -78,13 +78,13 @@ $redHelper = redhelper::getInstance();
 									if ($row->category_full_image
                                         && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $row->category_full_image))
 									{
-										$categoryImage = $redHelper->watermark('category', $row->category_full_image, $thumbWidth, $thumbHeight, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'));
-										$linkImage     = $redHelper->watermark('category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'));
+										$categoryImage = RedshopHelperMedia::watermark('category', $row->category_full_image, $thumbWidth, $thumbHeight, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'));
+										$linkImage     = RedshopHelperMedia::watermark('category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'));
 									}
 									else if (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 									{
-										$categoryImage = $redHelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $thumbWidth, $thumbHeight, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'));
-										$linkImage     = $redHelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'));
+										$categoryImage = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $thumbWidth, $thumbHeight, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'));
+										$linkImage     = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'));
 									}
 
 									if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))

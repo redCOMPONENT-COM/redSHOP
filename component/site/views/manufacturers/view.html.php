@@ -245,7 +245,7 @@ class RedshopViewManufacturers extends RedshopView
 				$order_by_select = $filter_order;
 			}
 
-			$order_data      = $redhelper->getManufacturerOrderByList();
+			$order_data      = RedshopHelperUtility::getManufacturerOrderByList();
 		}
 
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ' . $disabled . ' ', 'value', 'text', $order_by_select);

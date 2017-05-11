@@ -567,7 +567,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 									$detail->product_type
 								);
 
-		$accountgroup = $redhelper->getEconomicAccountGroup();
+		$accountgroup = RedshopHelperUtility::getEconomicAccountGroup();
 		$op = array();
 		$op[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$accountgroup = array_merge($op, $accountgroup);
