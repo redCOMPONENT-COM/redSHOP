@@ -40,6 +40,13 @@ class RedshopModelProduct extends RedshopModel
 			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName() . '.' . $layout);
 		}
 
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'product_number'
+			);
+		}
+
 		parent::__construct($config);
 	}
 
@@ -137,6 +144,8 @@ class RedshopModelProduct extends RedshopModel
 		{
 			return $items;
 		}
+
+		$db  = JFactory::getDbo();
 
 		$orderby = $this->_buildContentOrderBy();
 		$search_field = $this->getState('search_field');
@@ -241,6 +250,11 @@ class RedshopModelProduct extends RedshopModel
 					$where .= " )  ";
 				}
 			}
+		}
+
+		if ($this->getState('filter.product_number'))
+		{
+			$where .= " AND p.product_number = '" . $db->escape($this->getState('filter.product_number')) . "'";
 		}
 
 		if ($category_id)

@@ -4696,4 +4696,53 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		return true;
 	}
+
+	/**
+	 * Store product from webservice
+	 *
+	 * @param   string  $data  Data from the request
+	 *
+	 * @return array
+	 *
+	 */
+	public function storeWS($data)
+	{
+		if ($row = $this->store($data))
+		{
+			return $row->product_id;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get product attributes for the getAttribute webservice
+	 *
+	 * @param   string  $productNumber  Product number of the product
+	 *
+	 * @return array
+	 *
+	 */
+	public function getAttributesWS($productNumber)
+	{
+		$result = null;
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('product_id')
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('product_number') . ' = ' . $db->q($productNumber));
+		$db->setQuery($query);
+
+		$productId = $db->loadResult();
+
+		if ($productId)
+		{
+			$this->id = $productId;
+
+			$result = $this->getAttributes();
+		}
+
+		return $result;
+	}
 }

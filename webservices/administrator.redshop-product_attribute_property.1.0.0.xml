@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<apiservice client="administrator">
+  <name>redSHOP Product Attribute Property Webservice</name>
+  <author>redCOMPONENT</author>
+  <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+  <description>Web service redSHOP product information.</description>
+  <config>
+    <name>redshop-product_attribute_property</name>
+    <version>1.0.0</version>
+    <authorizationAssetName>redshop</authorizationAssetName>
+  </config>
+  <operations>
+    <documentation authorizationNeeded="false" source="auto" url=""/>
+
+    <create authorizationNeeded="true" authorization="core.create" optionName="com_redshop" modelClassName="Attribute_property" modelClassPath="" isAdminClass="true" functionName="saveWS" validateData="" validateDataFunction="validate" tableName="redshop_attribute_property" strictFields="false">
+      <description><![CDATA[This operation creates a new redSHOP B2B product]]></description>
+      <fields>
+        <field name="attribute_id" transform="int" defaultValue="" isRequiredField="true" isPrimaryField="false">
+          <description><![CDATA[ID of attribute]]></description>
+        </field>
+        <field name="property_name" transform="int" defaultValue="" isRequiredField="true" isPrimaryField="false">
+          <description><![CDATA[Name of property]]></description>
+        </field>
+        <field name="oprand" transform="string" defaultValue="+" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Operator for price change (fx. + or -)]]></description>
+        </field>
+         <field name="property_price" transform="float" defaultValue="0" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Property's price difference for product]]></description>
+        </field>
+        <field name="property_number" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Property number]]></description>
+        </field>
+        <field name="ordering" transform="int" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[ordering of property]]></description>
+        </field>
+        <field name="setrequire_selected" transform="boolean" defaultValue="false" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Set require selected]]></description>
+        </field>
+        <field name="setdefault_selected" transform="boolean" defaultValue="false" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Set default selected]]></description>
+        </field>
+        <description><![CDATA[Attribute property creation fields]]></description>
+      </fields>
+      <resources>
+        <resource displayName="documentation" transform="string" fieldFormat="{webserviceUrlPath}&amp;format=doc#{rel}" displayGroup="_links" linkTitle="Documentation" linkName="{webserviceName}" hrefLang="" linkTemplated="true" linkRel="curies" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Web services documentation]]></description>
+        </resource>
+        <resource displayName="base" transform="string" fieldFormat="/" displayGroup="_links" linkTitle="Default page" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Webservices root]]></description>
+        </resource>
+        <resource displayName="{webserviceName}:list" transform="string" fieldFormat="{webserviceUrlPath}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Product webservice]]></description>
+        </resource>
+        <resource displayName="{webserviceName}:self" transform="string" fieldFormat="{webserviceUrlPath}&amp;id={result}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Link to Product]]></description>
+        </resource>
+        <resource displayName="result" transform="int" fieldFormat="{result}" displayGroup="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[New internal product attribute property ID upon success, zero on error]]></description>
+        </resource>
+        <description><![CDATA[Product attribute property creation resources]]></description>
+      </resources>
+    </create>
+
+    <update authorizationNeeded="true" strictFields="true" authorization="core.webservice,core.edit,core.edit.own" optionName="com_redshop" modelClassName="Attribute_property" modelClassPath="" isAdminClass="true" functionName="saveWS" validateData="" validateDataFunction="validate" tableName="redshop_attribute_property">
+      <description><![CDATA[This operation updates a redSHOP Product]]></description>
+
+      <fields>
+        <field name="property_id" transform="int" defaultValue="" isRequiredField="true" isPrimaryField="true">
+          <description><![CDATA[ID of property]]></description>
+        </field>
+        <field name="attribute_id" transform="int" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[ID of attribute]]></description>
+        </field>
+        <field name="property_name" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Name of proerty]]></description>
+        </field>
+        <field name="oprand" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Operator for price change (fx. + or -)]]></description>
+        </field>
+        <field name="property_price" transform="float" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Property's price difference for product]]></description>
+        </field>
+        <field name="property_number" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Property number]]></description>
+        </field>
+        <field name="ordering" transform="int" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Ordering of property]]></description>
+        </field>
+        <field name="setrequire_selected" transform="boolean" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Set require selected]]></description>
+        </field>
+        <field name="setdefault_selected" transform="boolean" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Set default selected]]></description>
+        </field>
+        <description><![CDATA[Product attribute update fields]]></description>
+      </fields>
+
+      <resources>
+        <resource displayName="documentation" transform="string" fieldFormat="{webserviceUrlPath}&amp;format=doc#{rel}" displayGroup="_links" linkTitle="Documentation" linkName="{webserviceName}" hrefLang="" linkTemplated="true" linkRel="curies" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Web services documentation]]></description>
+        </resource>
+        <resource displayName="base" transform="string" fieldFormat="/" displayGroup="_links" linkTitle="Default page" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Webservices root]]></description>
+        </resource>
+        <resource displayName="{webserviceName}:list" transform="string" fieldFormat="{webserviceUrlPath}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Wallet webservice]]></description>
+        </resource>
+        <resource displayName="{webserviceName}:self" transform="string" fieldFormat="{webserviceUrlPath}&amp;id={id}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Link to Wallet]]></description>
+        </resource>
+        <resource displayName="result" transform="int" fieldFormat="{result}" displayGroup="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Product attribute property ID upon success, zero on error]]></description>
+        </resource>
+        <description><![CDATA[Product attribute property update resources]]></description>
+      </resources>
+
+    </update>
+
+  </operations>
+</apiservice>

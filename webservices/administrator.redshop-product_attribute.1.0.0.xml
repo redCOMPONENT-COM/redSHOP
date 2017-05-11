@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<apiservice client="administrator">
+  <name>redSHOP Product Attribute Webservice</name>
+  <author>redCOMPONENT</author>
+  <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+  <description>Web service redSHOP product information.</description>
+  <config>
+    <name>redshop-product_attribute</name>
+    <version>1.0.0</version>
+    <authorizationAssetName>redshop</authorizationAssetName>
+  </config>
+  <operations>
+    <documentation authorizationNeeded="false" source="auto" url=""/>
+
+    <create authorizationNeeded="true" authorization="core.create" optionName="com_redshop" modelClassName="Product_attribute" modelClassPath="" isAdminClass="true" functionName="saveWS" validateData="form" validateDataFunction="" tableName="redshop_product_attribute" strictFields="false">
+      <description><![CDATA[This operation creates a new redSHOP B2B product]]></description>
+      <fields>
+        <field name="product_id" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="false">
+          <description><![CDATA[ID of product attribute is added to]]></description>
+        </field>
+        <field name="attribute_name" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="false">
+          <description><![CDATA[Name of attribute]]></description>
+        </field>
+        <field name="attribute_set_id" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[ID of attribute's set]]></description>
+        </field>
+        <field name="attribute_required" transform="boolean" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[True of attribute is required, false if not]]></description>
+        </field>
+        <field name="allow_multiple_selection" transform="boolean" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Allow multiple selection]]></description>
+        </field>
+        <field name="hide_attribute_selection" transform="boolean" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Hide attribute selection]]></description>
+        </field>
+        <field name="display_type" transform="string" defaultValue="dropdown" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Type of displaying attribute]]></description>
+        </field>
+        <field name="attribute_published" transform="boolean" defaultValue="true" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[True if published, false if unpublished]]></description>
+        </field>
+        <description><![CDATA[Attribute creation fields]]></description>
+      </fields>
+      <resources>
+        <resource displayName="documentation" transform="string" fieldFormat="{webserviceUrlPath}&amp;format=doc#{rel}" displayGroup="_links" linkTitle="Documentation" linkName="{webserviceName}" hrefLang="" linkTemplated="true" linkRel="curies" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Web services documentation]]></description>
+        </resource>
+        <resource displayName="base" transform="string" fieldFormat="/" displayGroup="_links" linkTitle="Default page" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Webservices root]]></description>
+        </resource>
+        <resource displayName="{webserviceName}:list" transform="string" fieldFormat="{webserviceUrlPath}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Product webservice]]></description>
+        </resource>
+        <resource displayName="{webserviceName}:self" transform="string" fieldFormat="{webserviceUrlPath}&amp;id={result}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Link to Product]]></description>
+        </resource>
+        <resource displayName="result" transform="int" fieldFormat="{result}" displayGroup="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[New internal product attribute ID upon success, zero on error]]></description>
+        </resource>
+        <description><![CDATA[Product attribute creation resources]]></description>
+      </resources>
+    </create>
+
+    <update authorizationNeeded="true" strictFields="true" authorization="core.webservice,core.edit,core.edit.own" optionName="com_redshop" modelClassName="Product_attribute" modelClassPath="" isAdminClass="true" functionName="saveWS" validateData="none" validateDataFunction="validate" tableName="redshop_product_attribute">
+      <description><![CDATA[This operation updates a redSHOP Product]]></description>
+
+      <fields>
+        <field name="attribute_id" transform="int" defaultValue="" isRequiredField="true" isPrimaryField="true">
+          <description><![CDATA[ID of attribute]]></description>
+        </field>
+        <field name="product_id" transform="int" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[ID of product attribute is added to]]></description>
+        </field>
+        <field name="attribute_name" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Name of attribute]]></description>
+        </field>
+        <field name="attribute_set_id" transform="int" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[ID of attribute's set]]></description>
+        </field>
+        <field name="attribute_required" transform="boolean" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[True of attribute is required, false if not]]></description>
+        </field>
+        <field name="allow_multiple_selection" transform="boolean" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Allow multiple selection]]></description>
+        </field>
+        <field name="hide_attribute_selection" transform="boolean" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Hide attribute selection]]></description>
+        </field>
+        <field name="display_type" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[Type of displaying attribute]]></description>
+        </field>
+        <field name="attribute_published" transform="boolean" defaultValue="" isRequiredField="false" isPrimaryField="false">
+          <description><![CDATA[True if published, false if unpublished]]></description>
+        </field>
+        <description><![CDATA[Product attribute update fields]]></description>
+      </fields>
+
+      <resources>
+        <resource displayName="documentation" transform="string" fieldFormat="{webserviceUrlPath}&amp;format=doc#{rel}" displayGroup="_links" linkTitle="Documentation" linkName="{webserviceName}" hrefLang="" linkTemplated="true" linkRel="curies" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Web services documentation]]></description>
+        </resource>
+        <resource displayName="base" transform="string" fieldFormat="/" displayGroup="_links" linkTitle="Default page" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Webservices root]]></description>
+        </resource>
+        <resource displayName="{webserviceName}:list" transform="string" fieldFormat="{webserviceUrlPath}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Wallet webservice]]></description>
+        </resource>
+        <resource displayName="{webserviceName}:self" transform="string" fieldFormat="{webserviceUrlPath}&amp;id={id}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Link to Wallet]]></description>
+        </resource>
+        <resource displayName="result" transform="array" fieldFormat="{result}" displayGroup="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Product attribute ID upon success, zero on error]]></description>
+        </resource>
+        <description><![CDATA[Product attribute update resources]]></description>
+      </resources>
+
+    </update>
+
+  </operations>
+</apiservice>
