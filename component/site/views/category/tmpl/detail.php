@@ -1008,10 +1008,18 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		$template_desc = str_replace("{pagination}", "", $template_desc);
 	}
 
-	$limitBox = '';
-	$paginationList = '';
+	$limitBox        = '';
+	$paginationList  = '';
 	$usePerPageLimit = false;
-	$pagination = new JPagination($model->_total, $start, $endlimit);
+
+	if ($this->maincat->products_per_page == $endlimit)
+	{
+		$pagination = new JPagination($model->_total, $start, 0);
+	}
+	else
+	{
+		$pagination = new JPagination($model->_total, $start, $endlimit);
+	}
 
 	if ($this->productPriceSliderEnable)
 	{
