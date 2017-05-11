@@ -30,7 +30,7 @@ class RedshopHelperUtility
 	 *
 	 * @since  2.0.6
 	 */
-	protected static $menuItemAssociation;
+	protected static $menuItemAssociation = array();
 
 	/**
 	 * The dispatcher.
