@@ -24,7 +24,7 @@ class RedSHOPGoogle_AnalyticsHelper
 	/**
 	 * RedSHOPGoogle_AnalyticsHelper constructor.
 	 *
-	 * @param   string  $trackerKey  Tracker Key
+	 * @param   string $trackerKey Tracker Key
 	 *
 	 */
 	public function __construct($trackerKey = '')
@@ -56,7 +56,7 @@ class RedSHOPGoogle_AnalyticsHelper
 	 * You can add transaction and item data to the shopping cart, and once fully configured,
 	 * you send all the data at once.
 	 *
-	 * @param   array  $data  Order Information in associative array
+	 * @param   array $data Order Information in associative array
 	 *
 	 * @return  string        Add GA Ecommerce Transaction code
 	 */
@@ -81,7 +81,7 @@ class RedSHOPGoogle_AnalyticsHelper
 	/**
 	 * Add items to the shopping cart
 	 *
-	 * @param   array  $itemData  Order Item information Associative Array
+	 * @param   array $itemData Order Item information Associative Array
 	 *
 	 * @return  string            Transaction Item information.
 	 */
@@ -143,23 +143,16 @@ class RedSHOPGoogle_AnalyticsHelper
 
 		if (isset($analyticsData['addtrans']))
 		{
-			$addTransaction = $analyticsData['addtrans'];
-
 			// Add Transaction/Order to google Analytic
-			$pageCode .= $this->addTrans($addTransaction);
+			$pageCode .= $this->addTrans($analyticsData['addtrans']);
 
+			// Add order items detail
 			if (isset($analyticsData['addItem']))
 			{
-				$addItem = $analyticsData['addItem'];
-
-				$tItem = count($addItem);
-
-				for ($i = 0; $i < $tItem; $i++)
+				foreach ($analyticsData['addItem'] as $transactionItem)
 				{
-					$item = $addItem[$i];
-
 					// Add Order Items to google Analytic
-					$pageCode .= $this->addItem($item);
+					$pageCode .= $this->addItem($transactionItem);
 				}
 			}
 
@@ -167,7 +160,6 @@ class RedSHOPGoogle_AnalyticsHelper
 			$pageCode .= $this->trackTrans();
 		}
 
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration($pageCode);
+		JFactory::getDocument()->addScriptDeclaration($pageCode);
 	}
 }

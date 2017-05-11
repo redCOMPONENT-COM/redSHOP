@@ -122,21 +122,6 @@ if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 	}
 
 	echo '<div id="redshopcomponent" class="redshop redSHOPSiteView' . ucfirst($vName) . $redSHOPCSSContainerClass . '">';
-
-	if ($layout != 'receipt')
-	{
-		/*
-		 * get redSHOP Google Analytics Plugin is Enable?
-		 * If it is Disable than load Google Analytics From redSHOP
-		 */
-		$isRedGoogleAnalytics = JPluginHelper::isEnabled('system', 'redgoogleanalytics');
-
-		if (!$isRedGoogleAnalytics && Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY') != "")
-		{
-			$ga = new RedshopHelperGoogleanalytics;
-			$ga->placeTrans();
-		}
-	}
 }
 
 // Check for array format.

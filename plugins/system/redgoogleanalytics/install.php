@@ -21,8 +21,8 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
 	/**
 	 * Method to run before an install/update/uninstall method
 	 *
-	 * @param   string  $type    The type of change (install, update or discover_install)
-	 * @param   object  $parent  Class of calling method
+	 * @param   string $type   The type of change (install, update or discover_install)
+	 * @param   object $parent Class of calling method
 	 *
 	 * @return  void
 	 */
@@ -49,6 +49,7 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
 				if (version_compare($version, '2.0.0', '<'))
 				{
 					$this->deleteOldLanguages();
+					$this->getTrackerKeyFromOldRedshop();
 				}
 			}
 		}
@@ -91,5 +92,40 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
 				JFile::delete($joomlaLanguageFolder . '/' . $code . '/' . $file);
 			}
 		}
+	}
+
+	/**
+	 * Method for get Google Analytics API key from redSHOP config.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0
+	 */
+	protected function getTrackerKeyFromOldRedshop()
+	{
+		// Get and load the plugin from the extension table
+
+		/** @var JTableExtension $extensionTable */
+		$extensionTable = JTable::getInstance('Extension');
+
+		$pluginId = $extensionTable->find(
+			array(
+				'element' => 'redgoogleanalytics',
+				'type'    => 'plugin',
+				'folder'  => 'system',
+				'enabled' => 1
+			)
+		);
+
+		$extensionTable->load($pluginId);
+		$pluginParams = $extensionTable->get('params');
+
+		// Set the reset_status parameter to 0 and save the updated parameters
+		$pluginParams              = json_decode($pluginParams);
+		$pluginParams->tracker_key = Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY', '');
+		$pluginParams              = json_encode($pluginParams);
+		$row['params']             = $pluginParams;
+
+		$extensionTable->save($row);
 	}
 }
