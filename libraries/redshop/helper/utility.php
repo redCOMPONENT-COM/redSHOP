@@ -704,13 +704,13 @@ class RedshopHelperUtility
 
 		if (!array_key_exists($serializeItem, self::$menuItemAssociation))
 		{
-			$itemAssociation[$serializeItem] = false;
+			self::$menuItemAssociation[$serializeItem] = false;
 
 			foreach (self::getRedshopMenuItems() as $oneMenuItem)
 			{
 				if (self::checkMenuQuery($oneMenuItem, $queryItems))
 				{
-					$itemAssociation[$serializeItem] = $oneMenuItem->id;
+					self::$menuItemAssociation[$serializeItem] = $oneMenuItem->id;
 					break;
 				}
 			}
