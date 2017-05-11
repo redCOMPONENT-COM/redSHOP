@@ -808,8 +808,7 @@ class RedshopModelCategory extends RedshopModel
 
 		$app = JFactory::getApplication();
 
-		$setproductfinderobj = redhelper::getInstance();
-		$setproductfinder    = $setproductfinderobj->isredProductfinder();
+		$setproductfinder    = RedshopHelperUtility::isRedProductFinder();
 		$finder_condition    = "";
 
 		if ($setproductfinder)

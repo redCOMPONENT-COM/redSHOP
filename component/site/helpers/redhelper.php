@@ -16,10 +16,6 @@ defined('_JEXEC') or die;
  */
 class redhelper
 {
-	public $_table_prefix = null;
-
-	public $_db = null;
-
 	/**
 	 * @var  self
 	 */
@@ -172,17 +168,17 @@ class redhelper
 	/**
 	 * Method for check if order has this payment is update yet?
 	 *
-	 * @param   object   $dbConn    DB connection
-	 * @param   integer  $order_id  Order ID
-	 * @param   mixed    $tid       Order payment transaction id
+	 * @param   object   $dbConn   DB connection
+	 * @param   integer  $orderId  Order ID
+	 * @param   mixed    $tid      Order payment transaction id
 	 *
 	 * @return  boolean
 	 *
 	 * @deprecated  2.0.6  Use RedshopHelperPayment::orderPaymentNotYetUpdated instead
 	 */
-	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $orderId, $tid)
 	{
-		return RedshopHelperPayment::orderPaymentNotYetUpdated($order_id, $tid);
+		return RedshopHelperPayment::orderPaymentNotYetUpdated($orderId, $tid);
 	}
 
 	/**
@@ -430,7 +426,7 @@ class redhelper
 	 *
 	 * @deprecated  2.0.6  Use RedshopHelperUtility::getCheckoutItemId instead
 	 */
-	public function getCheckoutItemid()
+	public function getCheckoutItemId()
 	{
 		return RedshopHelperUtility::getCheckoutItemId();
 	}
@@ -442,7 +438,7 @@ class redhelper
 	 *
 	 * @deprecated  2.0.6  Use RedshopHelperUtility::getCartItemId instead
 	 */
-	public function getCartItemid()
+	public function getCartItemId()
 	{
 		return RedshopHelperUtility::getCartItemId();
 	}
@@ -525,27 +521,19 @@ class redhelper
 		return RedshopHelperUtility::getSSLLink($link, $applySSL);
 	}
 
-	public function getEconomicAccountGroup($accountgroup_id = 0, $front = 0)
+	/**
+	 * Method for get Economic Account Group
+	 *
+	 * @param   integer  $accountGroupId  Account group ID
+	 * @param   integer  $front           Is front or not
+	 *
+	 * @return  array
+	 *
+	 * @deprecated   2.0.6   Use RedshopHelperUtility::getSslLink($link, $applySSL) instead
+	 */
+	public function getEconomicAccountGroup($accountGroupId = 0, $front = 0)
 	{
-		$and = '';
-
-		if ($accountgroup_id != 0)
-		{
-			$and .= 'AND ea.accountgroup_id = ' . (int) $accountgroup_id . ' ';
-		}
-
-		if ($front != 0)
-		{
-			$and .= 'AND ea.published="1" ';
-		}
-
-		$query = 'SELECT ea.*, ea.accountgroup_id AS value, ea.accountgroup_name AS text FROM ' . $this->_table_prefix . 'economic_accountgroup AS ea '
-			. 'WHERE 1=1 '
-			. $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperUtility::getEconomicAccountGroup($accountGroupId, $front);
 	}
 
 	/**

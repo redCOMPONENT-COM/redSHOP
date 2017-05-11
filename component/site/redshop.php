@@ -35,7 +35,7 @@ $user               = JFactory::getUser();
 $portal             = 0;
 
 // Add product in cart from db
-$helper->dbtocart();
+RedshopHelperUtility::databaseToCart();
 
 if (!empty($shopperGroupPortal))
 {

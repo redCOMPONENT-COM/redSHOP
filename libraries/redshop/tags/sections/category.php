@@ -229,13 +229,13 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			$categoryFullImage = $category->category_full_image;
 
 			// Generate thumbnail with watermark ( if configured )
-			$productImg = $objHelper->watermark('category', $category->category_full_image, $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
+			$productImg = RedshopHelperMedia::watermark('category', $category->category_full_image, $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 		}
 		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 		{
 			// Use default image
 			$categoryFullImage = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
-			$productImg        = $objHelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
+			$productImg        = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 		}
 
 		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))

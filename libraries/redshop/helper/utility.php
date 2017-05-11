@@ -1020,7 +1020,7 @@ class RedshopHelperUtility
 		$order[7]->value = "r.ordering DESC";
 		$order[7]->text  = JText::_('COM_REDSHOP_ORDERING_DESC');
 
-		if (redHelper::getInstance()->isredProductfinder())
+		if (self::isRedProductFinder())
 		{
 			$order[8]        = new stdClass;
 			$order[8]->value = "e.data_txt ASC";
@@ -1227,5 +1227,37 @@ class RedshopHelperUtility
 		}
 
 		return self::$isRedProductFinder;
+	}
+
+	/**
+	 * Method for get Economic Account Group
+	 *
+	 * @param   integer  $accountGroupId  Account group ID
+	 * @param   integer  $front           Is front or not
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getEconomicAccountGroup($accountGroupId = 0, $front = 0)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('ea.*'))
+			->select($db->qn('ea.accountgroup_id', 'value'))
+			->select($db->qn('ea.accountgroup_name', 'text'))
+			->from($db->qn('#__redshop_economic_accountgroup', 'ea'));
+
+		if ($accountGroupId)
+		{
+			$query->where($db->qn('ea.accountgroup_id') . ' = ' . (int) $accountGroupId);
+		}
+
+		if ($front)
+		{
+			$query->where($db->qn('ea.published') . ' = 1');
+		}
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }
