@@ -27,7 +27,7 @@ $model   = $this->getModel('cart');
 $session = JFactory::getSession();
 $user    = JFactory::getUser();
 $print   = JRequest::getInt('print');
-$Itemid  = $redhelper->getCheckoutItemid();
+$Itemid  = RedshopHelperUtility::getCheckoutItemId();
 
 // Define array to store product detail for ajax cart display
 $cart_data = $this->data [0]->template_desc;
@@ -144,7 +144,7 @@ if (strstr($cart_data, "{shop_more}"))
 	{
 		$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 	}
-	elseif ($catItemId = $redhelper->getCategoryItemid())
+	elseif ($catItemId = RedshopHelperUtility::getCategoryItemid())
 	{
 		$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
 	}

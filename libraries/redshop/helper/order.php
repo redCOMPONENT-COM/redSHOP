@@ -1462,7 +1462,7 @@ class RedshopHelperOrder
 		}
 
 		self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
-		$helper->clickatellSMS($orderId);
+		RedshopHelperClickATell::clickatellSMS($orderId);
 
 		switch ($newStatus)
 		{
@@ -2110,7 +2110,7 @@ class RedshopHelperOrder
 
 		$db->setQuery($query);
 		$countries = $db->loadObjectList();
-		$countries = $redHelper->convertLanguageString($countries);
+		$countries = RedshopHelperUtility::convertLanguageString($countries);
 
 		if (count($countries) > 0)
 		{
@@ -2922,7 +2922,7 @@ class RedshopHelperOrder
 		if (Redshop::getConfig()->get('CLICKATELL_ENABLE'))
 		{
 			// Changing the status of the order end
-			$helper->clickatellSMS($orderId);
+			RedshopHelperClickATell::clickatellSMS($orderId);
 		}
 
 		// If changing the status of the order then there item status need to change
