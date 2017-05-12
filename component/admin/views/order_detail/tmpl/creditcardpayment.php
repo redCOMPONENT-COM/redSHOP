@@ -22,7 +22,7 @@ $user = JFactory::getUser();
 $session = JFactory::getSession();
 $user_id = $user->id;
 
-$Itemid = $redhelper->getCheckoutItemid();
+$Itemid = RedshopHelperUtility::getCheckoutItemId();
 $cart = $session->get('cart');
 
 $payment_method_id = $app->input->getCmd('payment_method_id', '');

@@ -184,7 +184,7 @@ function display_products($rows)
 		{
 			$row = $rows[$i];
 
-			$Itemid = $redhelper->getItemid($row->product_id);
+			$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
 			$product_price          = $producthelper->getProductPrice($row->product_id);
@@ -266,7 +266,7 @@ function display_products($rows)
 			$row           = $rows[$i];
 			$wishlist_data = $template_d2[0];
 
-			$Itemid = $redhelper->getItemid($rows[$i]->product_id);
+			$Itemid = RedshopHelperUtility::getItemId($rows[$i]->product_id);
 			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $rows[$i]->product_id . '&Itemid=' . $Itemid);
 
 			$product_price          = $producthelper->getProductPrice($row->product_id);

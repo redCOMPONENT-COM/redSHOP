@@ -180,7 +180,7 @@ class plgSearchRedshop_categories extends JPlugin
 
 		foreach ($rows as $key => $row)
 		{
-			$Itemid    = $redhelper->getItemid(0, $row->category_id);
+			$Itemid    = RedshopHelperUtility::getItemId(0, $row->category_id);
 			$row->href = "index.php?option=com_redshop&view=category&cid=" . $row->category_id . "&Itemid=" . $Itemid;
 
 			$return[]  = $row;

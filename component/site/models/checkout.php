@@ -515,7 +515,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
-			$helper->clickatellSMS($order_id);
+			RedshopHelperClickATell::clickatellSMS($order_id);
 		}
 
 		$session->set('order_id', $order_id);
@@ -2166,7 +2166,7 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 			}
-			elseif ($catItemId = $redHelper->getCategoryItemid())
+			elseif ($catItemId = RedshopHelperUtility::getCategoryItemid())
 			{
 				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
 			}

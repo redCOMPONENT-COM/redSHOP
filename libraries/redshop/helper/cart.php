@@ -19,6 +19,104 @@ use Joomla\Utilities\ArrayHelper;
 abstract class RedshopHelperCart
 {
 	/**
+	 * Method for remove cart from Database
+	 *
+	 * @param   int  $cartId  ID of cart.
+	 * @param   int  $userId  Id of user.
+	 * @param   bool $delCart Delete cart.
+	 *
+	 * @return  bool
+	 *
+	 * @since   2.0.3
+	 */
+	public static function removeCartFromDatabase($cartId = 0, $userId = 0, $delCart = false)
+	{
+		if (!$userId)
+		{
+			$user   = JFactory::getUser();
+			$userId = (int) $user->id;
+		}
+
+		$db = JFactory::getDbo();
+
+		if ($cartId == 0)
+		{
+			$query = $db->getQuery(true)
+				->select($db->qn('cart_id'))
+				->from($db->qn('#__redshop_usercart'))
+				->where($db->qn('user_id') . ' = ' . (int) $userId);
+
+			$cartId = $db->setQuery($query)->loadResult();
+		}
+
+		if (!$cartId)
+		{
+			return true;
+		}
+
+		$query = $db->getQuery(true)
+			->select($db->qn('cart_item_id'))
+			->from($db->qn('#__redshop_usercart_item'))
+			->where($db->qn('cart_id') . ' = ' . (int) $cartId);
+
+		$cartItemIds = $db->setQuery($query)->loadColumn();
+
+		try
+		{
+			$db->transactionStart();
+
+			if ($cartItemIds)
+			{
+				$cartItemIds = ArrayHelper::toInteger($cartItemIds);
+
+				// Delete accessory
+				$query = $db->getQuery(true)
+					->delete($db->qn('#__redshop_usercart_accessory_item'))
+					->where($db->qn('cart_item_id') . ' IN (' . implode(',', $cartItemIds) . ')');
+
+				$db->setQuery($query);
+				$db->execute();
+
+				// Delete attribute
+				$query = $db->getQuery(true)
+					->delete($db->qn('#__redshop_usercart_attribute_item'))
+					->where($db->qn('cart_item_id') . ' IN (' . implode(',', $cartItemIds) . ')');
+
+				$db->setQuery($query);
+				$db->execute();
+			}
+
+			// Delete cart item
+			$query = $db->getQuery(true)
+				->delete($db->qn('#__redshop_usercart_item'))
+				->where($db->qn('cart_id') . ' = ' . (int) $cartId);
+
+			$db->setQuery($query);
+			$db->execute();
+
+			if ($delCart)
+			{
+				$query = $db->getQuery(true)
+					->delete($db->qn('#__redshop_usercart'))
+					->where($db->qn('cart_id') . ' = ' . (int) $cartId);
+
+				$db->setQuery($query);
+				$db->execute();
+			}
+
+			$db->transactionCommit();
+		}
+		catch (Exception $e)
+		{
+			$db->transactionRollback();
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Store Cart to Database
 	 *
 	 * @param   array $cart Cart data.
@@ -379,17 +477,18 @@ abstract class RedshopHelperCart
 		$query = $db->getQuery(true);
 
 		$query->select(
-			$db->qn(
-				[
-					'ci.cart_item_id', 'ci.cart_idx', 'ci.product_id', 'ci.product_quantity',
-					'ci.product_wrapper_id', 'ci.product_subscription_id', 'ci.giftcard_id', 'ci.attribs'
-				]
+				$db->qn(
+					array(
+						'ci.cart_item_id', 'ci.cart_idx', 'ci.product_id', 'ci.product_quantity',
+						'ci.product_wrapper_id', 'ci.product_subscription_id', 'ci.giftcard_id', 'ci.attribs'
+					)
+				)
 			)
-		)
 			->from($db->qn('#__redshop_usercart_item', 'ci'))
 			->leftJoin($db->qn('#__redshop_usercart', 'c') . ' ON ' . $db->qn('c.cart_id') . ' = ' . $db->qn('ci.cart_id'))
 			->where($db->qn('c.user_id') . ' = ' . $userId)
 			->order($db->qn('ci.cart_idx'));
+
 		$cartItems = $db->setQuery($query)->loadObjectList();
 
 		if (empty($cartItems))
