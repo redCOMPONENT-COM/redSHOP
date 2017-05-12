@@ -37,7 +37,7 @@ $j     = 0;
 		}
 		else
 		{
-			$Itemid = $redhelper->getItemid($row->product_id);
+			$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 		}
 
 		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);

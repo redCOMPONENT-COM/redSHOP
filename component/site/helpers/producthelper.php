@@ -975,10 +975,10 @@ class productHelper
 
 		if ($imagename != "")
 		{
-			$product_img = $redhelper->watermark('product', $imagename, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
+			$product_img = RedshopHelperMedia::watermark('product', $imagename, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 
 			if ($cat_product_hover)
-				$product_hover_img = $redhelper->watermark('product',
+				$product_hover_img = RedshopHelperMedia::watermark('product',
 					$imagename,
 					Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'),
 					Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'),
@@ -987,11 +987,11 @@ class productHelper
 
 			if ($linkimagename != "")
 			{
-				$linkimage = $redhelper->watermark('product', $linkimagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$linkimage = RedshopHelperMedia::watermark('product', $linkimagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 			}
 			else
 			{
-				$linkimage = $redhelper->watermark('product', $imagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$linkimage = RedshopHelperMedia::watermark('product', $imagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 			}
 		}
 
@@ -1061,9 +1061,9 @@ class productHelper
 		{
 			if (Redshop::getConfig()->get('PRODUCT_IS_LIGHTBOX') == 1)
 			{
-				$product_img       = $redhelper->watermark('category', $category_img, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
-				$product_hover_img = $redhelper->watermark('product', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
-				$linkimage         = $redhelper->watermark('category', $category_img, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$product_img       = RedshopHelperMedia::watermark('category', $category_img, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$product_hover_img = RedshopHelperMedia::watermark('product', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$linkimage         = RedshopHelperMedia::watermark('category', $category_img, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 				$thum_image        = "<a id='a_main_image" . $product_id . "' href='" . $linkimage . "' " . $title . "  rel=\"myallimg\">";
 				$thum_image .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
 
@@ -1071,8 +1071,8 @@ class productHelper
 			}
 			else
 			{
-				$product_img       = $redhelper->watermark('category', $category_img, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
-				$product_hover_img = $redhelper->watermark('category', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$product_img       = RedshopHelperMedia::watermark('category', $category_img, $width, $height, Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$product_hover_img = RedshopHelperMedia::watermark('category', $category_img, Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('PRODUCT_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 				$thum_image        = "<a id='a_main_image" . $product_id . "' href='" . $link . "' " . $title . ">";
 				$thum_image .= "<img id='main_image" . $product_id . "' src='" . $product_img . "' " . $title . $alt . " />";
 				$thum_image .= "</a>";
@@ -2181,7 +2181,7 @@ class productHelper
 
 		if (count($categorylist) > 0)
 		{
-			$cItemid = $redhelper->getCategoryItemid($categorylist->id);
+			$cItemid = RedshopHelperUtility::getCategoryItemid($categorylist->id);
 
 			if ($cItemid != "")
 			{
@@ -2571,7 +2571,6 @@ class productHelper
 	{
 		$menu = JFactory::getApplication()->getMenu();
 		$values = array();
-		$helper = redhelper::getInstance();
 
 		if ($menuView != "")
 		{
@@ -2598,7 +2597,7 @@ class productHelper
 
 		if ($isRedshop)
 		{
-			$menuItems = $helper->getRedshopMenuItems();
+			$menuItems = RedshopHelperUtility::getRedshopMenuItems();
 		}
 		else
 		{
@@ -2607,7 +2606,7 @@ class productHelper
 
 		foreach ($menuItems as $oneMenuItem)
 		{
-			if (!$helper->checkMenuQuery($oneMenuItem, $values))
+			if (!RedshopHelperUtility::checkMenuQuery($oneMenuItem, $values))
 			{
 				break;
 			}
@@ -3416,7 +3415,7 @@ class productHelper
 			$productIds = explode(',', $product_id);
 			JArrayHelper::toInteger($productIds);
 
-			if ($helper->isredProductfinder())
+			if (RedshopHelperUtility::isRedProductFinder())
 			{
 				$q = "SELECT extrafield  FROM #__redproductfinder_types where type_select='Productfinder_datepicker'";
 				$this->_db->setQuery($q);
@@ -6622,7 +6621,9 @@ class productHelper
 						// Show actual productive price
 						if ($property_price > 0)
 						{
-							$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $property_price);
+							$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
+								$propertyCalculatedPriceSum, $propertyOperand, $property_price
+							);
 
 							$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 							$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -6699,7 +6700,9 @@ class productHelper
 							// Show actual productive price
 							if ($subproperty_price > 0)
 							{
-								$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price);
+								$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
+									$propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price
+								);
 
 								$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 								$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -8072,7 +8075,7 @@ class productHelper
 			if ($displayLink)
 			{
 				$redhelper = redhelper::getInstance();
-				$catItem   = $redhelper->getCategoryItemid($row->id);
+				$catItem   = RedshopHelperUtility::getCategoryItemid($row->id);
 
 				if(!(boolean) $catItem)
 				{
@@ -8185,7 +8188,7 @@ class productHelper
 		{
 			if ((Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE')) && $type == 'product')
 			{
-				$productmainimg = $redhelper->watermark('product', $imagename, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
+				$productmainimg = RedshopHelperMedia::watermark('product', $imagename, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 			}
 			else
 			{
@@ -8202,7 +8205,7 @@ class productHelper
 
 			if ((Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE')) && $type == 'product')
 			{
-				$aHrefImageResponse = $redhelper->watermark('product', $imagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
+				$aHrefImageResponse = RedshopHelperMedia::watermark('product', $imagename, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_IMAGE'), '0');
 			}
 			else
 			{
@@ -8395,9 +8398,9 @@ class productHelper
 			{
 				if (Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'))
 				{
-					$pimg          = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "1");
-					$linkimage     = $redhelper->watermark('product', $thumb, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "0");
-					$hoverimg_path = $redhelper->watermark('product', $thumb, Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '2');
+					$pimg          = RedshopHelperMedia::watermark('product', $thumb, $mpw_thumb, $mph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "1");
+					$linkimage     = RedshopHelperMedia::watermark('product', $thumb, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "0");
+					$hoverimg_path = RedshopHelperMedia::watermark('product', $thumb, Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'), Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'), Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '2');
 
 				}
 				else
@@ -8437,7 +8440,7 @@ class productHelper
 				{
 					if (Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'))
 					{
-						$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '0');
+						$img_path = RedshopHelperMedia::watermark('product', $thumb, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '0');
 					}
 					else
 					{
@@ -8470,7 +8473,7 @@ class productHelper
 
 					if (Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'))
 					{
-						$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
+						$img_path_org = RedshopHelperMedia::watermark('product', $thumb_original, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 					}
 					else
 					{
@@ -9092,7 +9095,7 @@ class productHelper
 					}
 					else
 					{
-						$pItemid = $redhelper->getItemid($related_product[$r]->product_id);
+						$pItemid = RedshopHelperUtility::getItemId($related_product[$r]->product_id);
 					}
 
 					$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $related_product[$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid=' . $pItemid);

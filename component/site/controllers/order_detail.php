@@ -210,7 +210,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		);
 
 		JPluginHelper::importPlugin('system');
-		$dispatcher->trigger('afterOrderNotify', array($result));
+		$dispatcher->trigger('afterOrderNotify', array($results));
 
 		if ($request['payment_plugin'] == "rs_payment_payer")
 		{
@@ -311,7 +311,7 @@ class RedshopControllerOrder_detail extends RedshopController
 				// Do final cart calculations
 				$this->_carthelper->cartFinalCalculation();
 
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $this->_redhelper->getCartItemid()));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId()));
 			}
 		}
 		else
@@ -324,14 +324,14 @@ class RedshopControllerOrder_detail extends RedshopController
 			}
 			else
 			{
-				$Itemid = $this->_redhelper->getItemid($row['product_id']);
+				$Itemid = RedshopHelperUtility::getItemId($row['product_id']);
 			}
 
 			$errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
 			if (JError::isError(JError::getError()))
 			{
-				$errorMessage = JError::getError()->message;
+				$errorMessage = JError::getError()->getMessage();
 			}
 
 			$app->redirect(
@@ -370,7 +370,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$this->_carthelper->cartFinalCalculation();
 		}
 
-		$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $this->_redhelper->getCartItemid()));
+		$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId()));
 	}
 
 	/**
