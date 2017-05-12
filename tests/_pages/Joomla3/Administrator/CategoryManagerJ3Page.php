@@ -20,6 +20,8 @@ class CategoryManagerJ3Page
 
 	public static $categoryName = "#jform_name";
 
+//	public static $categoryPage="#"
+
 	public static $categoryFilter = ['id' => 'filter_search'];
 
 	public static $categoryTemplateDropDown = "//div[@id='filter_category_template']/a";
@@ -32,7 +34,16 @@ class CategoryManagerJ3Page
 
 	public static $checkAll = "//input[@id='cb0']";
 
+	public static $checkAllCategory="/html/body/div/div/div/section[2]/form/div[2]/table/thead/tr/th[2]/input";
 	public static $categoryTemplateIDDropDown = "//div[@id='s2id_filter_category_template']/a";
+
+	public static $categoryManagement="/html/body/div/div/div/section[1]/div[1]/h1";
+
+	public static $categoryNoPage="#jform_products_per_page";
+
+	public static $parentCategory="/html/body/div[1]/div/div/section[2]/form/div/div[2]/div/div[1]/div/div[1]/div/div[2]/div[2]/div/div/div/a/span[1]";
+//                                   /html/body/div[1]/div/div/section[2]/form/div/div[2]/div/div[1]/div/div[1]/div/div[2]/div[2]/div/div/div/a/span[1]
+
 
 	/**
 	 * Function to get the Path for Template ID
