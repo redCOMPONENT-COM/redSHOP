@@ -96,7 +96,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 		else
 		{
-			$pItemid = $objHelper->getItemid($product->product_id, $catidmain);
+			$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catidmain);
 		}
 
 		$dataAdd               = str_replace("{product_price}", $productHelper->getProductFormattedPrice($productPrice), $dataAdd);
