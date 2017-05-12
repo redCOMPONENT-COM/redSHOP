@@ -1642,7 +1642,7 @@ class RedshopHelperExtrafields
 	 * @param   integer $published Field show in front
 	 * @param   integer $required  Field show in front
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since 2.0.3
 	 */
@@ -1995,5 +1995,51 @@ class RedshopHelperExtrafields
 		}
 
 		return $templateContent;
+	}
+
+	/**
+	 * Method for validate user field
+	 *
+	 * @param   array    $data      Array of data
+	 * @param   string   $data_add  Template content
+	 * @param   integer  $section   Field section
+	 *
+	 * @return  string              Empty string if passed. Error message if fail.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function userFieldValidation($data, $data_add, $section = 12)
+	{
+		$returnArr  = productHelper::getInstance()->getProductUserfieldFromTemplate($data_add);
+		$userFields = $returnArr[1];
+
+		if (empty($userFields))
+		{
+			return '';
+		}
+
+		$requiredFields = self::getSectionFieldList($section, 1, 1, 1);
+
+		if (empty($requiredFields))
+		{
+			return '';
+		}
+
+		$msg = '';
+
+		foreach ($requiredFields as $requiredField)
+		{
+			if (!in_array($requiredField->name, $userFields))
+			{
+				continue;
+			}
+
+			if (empty($data[$requiredField->name]))
+			{
+				$msg .= $requiredField->title . " " . JText::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
+			}
+		}
+
+		return $msg;
 	}
 }
