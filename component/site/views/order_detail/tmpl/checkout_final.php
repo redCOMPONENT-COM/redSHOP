@@ -14,7 +14,7 @@ $order_functions = order_functions::getInstance();
 $redhelper = redhelper::getInstance();
 
 $url = JURI::base();
-$Itemid = $redhelper->getCheckoutItemid();
+$Itemid = RedshopHelperUtility::getCheckoutItemId();
 $order_id = JRequest::getInt('oid');
 
 $order = $order_functions->getOrderDetails($order_id);

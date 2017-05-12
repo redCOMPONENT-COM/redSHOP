@@ -604,7 +604,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 										else
 										{
 											$objhelper = redhelper::getInstance();
-											$pItemid = $objhelper->getItemid($productdetail->product_id, $catIdMain);
+											$pItemid = RedshopHelperUtility::getItemId($productdetail->product_id, $catIdMain);
 										}
 
 										$productFrontendLink  = JURI::root();

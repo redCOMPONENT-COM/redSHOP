@@ -52,6 +52,8 @@ class RedshopHelperPayment
 	 * @param   string  $name  Payment Method name - Null to get all plugin info
 	 *
 	 * @return  mixed   Object is return one payment method, array for all.
+	 *
+	 * @throws  Exception
 	 */
 	public static function info($name = '')
 	{
@@ -86,14 +88,53 @@ class RedshopHelperPayment
 	public static function loadLanguages()
 	{
 		// Load payment plugin language file
-		$paymentsLangList = redhelper::getInstance()->getPlugins("redshop_payment", -1);
+		$paymentsLangList = RedshopHelperUtility::getPlugins("redshop_payment", -1);
 		$language         = JFactory::getLanguage();
 
 		for ($index = 0, $ln = count($paymentsLangList); $index < $ln; $index++)
 		{
 			$extension = 'plg_redshop_payment_' . $paymentsLangList[$index]->element;
 			$language->load($extension, JPATH_ADMINISTRATOR, $language->getTag(), true);
-			$language->load($extension, JPATH_PLUGINS . '/' . $paymentsLangList[$index]->folder . '/' . $paymentsLangList[$index]->element, $language->getTag(), true);
+			$language->load(
+				$extension,
+				JPATH_PLUGINS . '/' . $paymentsLangList[$index]->folder . '/' . $paymentsLangList[$index]->element,
+				$language->getTag(),
+				true
+			);
 		}
+	}
+
+	/**
+	 * Method for check if order has this payment is update yet?
+	 *
+	 * @param   integer  $orderId        Order ID
+	 * @param   mixed    $transactionId  Order payment transaction id
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.6
+	 */
+	public static function orderPaymentNotYetUpdated($orderId, $transactionId)
+	{
+		if (empty($orderId) || empty($transactionId))
+		{
+			return false;
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->qn('#__redshop_order_payment'))
+			->where($db->qn('order_id') . ' = ' . (int) $orderId)
+			->where($db->qn('order_payment_trans_id') . ' = ' . $db->quote($transactionId));
+
+		$result = $db->setQuery($query)->loadResult();
+
+		if (!$result)
+		{
+			return true;
+		}
+
+		return false;
 	}
 }

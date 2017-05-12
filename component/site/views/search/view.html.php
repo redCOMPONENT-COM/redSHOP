@@ -83,8 +83,7 @@ class RedshopViewSearch extends RedshopView
 			}
 		}
 
-		$redHelper = redhelper::getInstance();
-		$order_data            = $redHelper->getOrderByList();
+		$order_data            = RedshopHelperUtility::getOrderByList();
 		$getorderby            = JRequest::getString('order_by',
 			$app->getUserState('order_by', Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'))
 		);

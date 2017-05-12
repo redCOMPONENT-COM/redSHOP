@@ -2086,7 +2086,7 @@ class RedshopHelperShipping
 	public static function loadLanguages()
 	{
 		// Load shipping plugin language file
-		$paymentsLangList = redhelper::getInstance()->getPlugins("redshop_shipping", -1);
+		$paymentsLangList = RedshopHelperUtility::getPlugins("redshop_shipping", -1);
 		$language         = JFactory::getLanguage();
 
 		for ($index = 0, $ln = count($paymentsLangList); $index < $ln; $index++)
