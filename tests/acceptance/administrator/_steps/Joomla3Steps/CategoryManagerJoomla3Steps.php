@@ -307,7 +307,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
     }
 
-    
+
 
     public function publishAllCategory(){
         $I = $this;
