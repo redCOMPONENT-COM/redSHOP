@@ -1,5 +1,5 @@
 {
-    "wwwDir"        : "/home/travis/build/redCOMPONENT-COM/redSHOP/tests/joomla-cms3",
+    "wwwDir"        : "/xampp/htdocs/tests/joomla-cms3",
     "browserConfig" : {
         "proxy" : "redshop.local"
     },
