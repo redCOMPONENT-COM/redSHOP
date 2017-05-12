@@ -31,9 +31,9 @@ class RedshopEntityCurrency extends RedshopEntity
 	 *
 	 * @return  RedshopTable
 	 */
-	public function getTable($name = "Tablecurrency_detail")
+	public function getTable($name = null)
 	{
-		return JTable::getInstance('Currency_detail', 'Table');
+		return JTable::getInstance('Currency_Detail', 'Table');
 	}
 
 	/**
