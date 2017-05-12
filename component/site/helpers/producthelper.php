@@ -479,6 +479,8 @@ class productHelper
 	 * @param   integer  $btn_show_addto_cart  Display Add to cart button for tax exemption user
 	 *
 	 * @return  boolean  true if VAT applied else false
+	 *
+	 * @deprecated  2.0.6
 	 */
 	public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
 	{

@@ -233,7 +233,7 @@ class RedshopModelCart extends RedshopModel
 				}
 				else
 				{
-					$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
+					$cart[$cartElement]['quantity'] = RedshopHelperStockroom::checkQuantityInStock($cart[$cartElement], $newQuantity);
 				}
 
 				if ($newQuantity > $cart[$cartElement]['quantity'])
@@ -254,7 +254,7 @@ class RedshopModelCart extends RedshopModel
 					$calcdata = $cart[$cartElement]['discount_calc'];
 					$calcdata['product_id'] = $cart[$cartElement]['product_id'];
 
-					$discount_cal = $this->_carthelper->discountCalculator($calcdata);
+					$discount_cal = RedshopHelperDiscount::discountCalculator($calcdata);
 
 					$calculator_price = $discount_cal['product_price'];
 					$product_price_tax = $discount_cal['product_price_tax'];
@@ -368,7 +368,7 @@ class RedshopModelCart extends RedshopModel
 						$cart[$i]['product_price_excl_vat'] = $productHelper->productPriceRound($accessoryPrice);
 					}
 
-					$cart[$i]['quantity']       = $this->_carthelper->checkQuantityInStock($cart[$i], $quantity[$i]);
+					$cart[$i]['quantity']       = RedshopHelperStockroom::checkQuantityInStock($cart[$i], $quantity[$i]);
 
 					$cart[$i]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$i], $cart[$i]['quantity']);
 					$cart[$i]['cart_attribute'] = $this->updateAttributePriceArray($cart[$i], $cart[$i]['quantity']);
@@ -379,7 +379,7 @@ class RedshopModelCart extends RedshopModel
 						$calcdata = $cart[$i]['discount_calc'];
 						$calcdata['product_id'] = $cart[$i]['product_id'];
 
-						$discount_cal = $this->_carthelper->discountCalculator($calcdata);
+						$discount_cal = RedshopHelperDiscount::discountCalculator($calcdata);
 
 						$calculator_price = $discount_cal['product_price'];
 						$product_price_tax = $discount_cal['product_price_tax'];
@@ -509,12 +509,12 @@ class RedshopModelCart extends RedshopModel
 
 	public function coupon($c_data = array())
 	{
-		return $this->_carthelper->coupon();
+		return RedshopHelperDiscount::coupon();
 	}
 
 	public function voucher($v_data = array())
 	{
-		return $this->_carthelper->voucher();
+		return RedshopHelperDiscount::voucher();
 	}
 
 	public function redmasscart($post)
@@ -577,8 +577,8 @@ class RedshopModelCart extends RedshopModel
 				$data["quantity"] = 1;
 			}
 
-			$this->_carthelper->addProductToCart($data);
-			$this->_carthelper->cartFinalCalculation();
+			RedshopHelperCart::addProductToCart($data);
+			RedshopHelperCart::cartFinalCalculation();
 		}
 	}
 

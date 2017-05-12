@@ -216,7 +216,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		$cart = $carthelper->modifyCart($cart, $user_id);
 
 		$session->set('cart', $cart);
-		$carthelper->cartFinalCalculation(false);
+		RedshopHelperCart::cartFinalCalculation(false);
 	}
 
 	/**

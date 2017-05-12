@@ -96,4 +96,53 @@ class RedshopHelperPayment
 			$language->load($extension, JPATH_PLUGINS . '/' . $paymentsLangList[$index]->folder . '/' . $paymentsLangList[$index]->element, $language->getTag(), true);
 		}
 	}
+
+	/**
+	 * Calculate payment Discount/charges
+	 *
+	 * @param   float   $total               Total price
+	 * @param   object  $paymentInformation  Payment information
+	 * @param   float   $finalAmount         Final amount
+	 *
+	 * @return  array                        Array of payment price. False otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function calculatePayment($total = 0.0, $paymentInformation = null, $finalAmount = 0.0)
+	{
+		$paymentDiscount = 0.0;
+
+		if (!$paymentInformation->payment_discount_is_percent)
+		{
+			$paymentDiscount = $paymentInformation->payment_price;
+		}
+		elseif ($paymentInformation->payment_price > 0)
+		{
+			$paymentDiscount = $total * $paymentInformation->payment_price / 100;
+		}
+
+		if ($paymentDiscount)
+		{
+			$paymentDiscount = round($paymentDiscount, 2);
+		}
+
+		if ($paymentDiscount > 0)
+		{
+			if ($total < $paymentDiscount)
+			{
+				$paymentDiscount = $total;
+			}
+
+			if ($paymentInformation->payment_oprand == '+')
+			{
+				$finalAmount = $finalAmount + $paymentDiscount;
+			}
+			else
+			{
+				$finalAmount = $finalAmount - $paymentDiscount;
+			}
+		}
+
+		return array($finalAmount, $paymentDiscount);
+	}
 }

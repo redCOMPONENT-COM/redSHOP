@@ -72,7 +72,7 @@ else
 	$paymentAmount = $order->order_total;
 }
 
-$paymentArray = $carthelper->calculatePayment($paymentAmount, $paymentinfo, $order->order_total);
+$paymentArray = RedshopHelperPayment::calculatePayment($paymentAmount, $paymentinfo, $order->order_total);
 $total = $paymentArray[0];
 $payment_amount = $paymentArray[1];
 

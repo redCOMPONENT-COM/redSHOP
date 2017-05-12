@@ -94,7 +94,7 @@ class RedshopControllerProduct extends RedshopController
 
 		$ProductPriceArr = $producthelper->getProductNetPrice($product_id, 0, $quantity);
 
-		$acccartdata     = $carthelper->generateAccessoryArray($data);
+		$acccartdata     = RedshopHelperCart::generateAccessoriesCart($data);
 		$retAccArr       = $producthelper->makeAccessoryCart($acccartdata, $product_id);
 		$accessory_price = $retAccArr[1];
 		$accessory_vat   = $retAccArr[2];

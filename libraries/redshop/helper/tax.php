@@ -49,4 +49,65 @@ class RedshopHelperTax
 
 		return $templateData;
 	}
+
+	/**
+	 * Re-calculate the Voucher/Coupon value when the product is already discount
+	 *
+	 * @param   float  $value  Voucher/Coupon value
+	 * @param   array  $cart   Cart array
+	 *
+	 * @return  float          Voucher/Coupon value
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function calculateAlreadyDiscount($value, $cart)
+	{
+		$idx = 0;
+
+		if (isset($cart['idx']))
+		{
+			$idx = $cart['idx'];
+		}
+
+		for ($i = 0; $i < $idx; $i++)
+		{
+			$product = productHelper::getInstance()->getProductNetPrice($cart[$i]['product_id']);
+
+			// If the product is already discount
+			if ($product['product_price_saving'] > 0)
+			{
+				$value = $value - ($product['product_price_saving'] * $cart[$i]['quantity']);
+			}
+		}
+
+		return $value < 0 ? 0 : $value;
+	}
+
+	/**
+	 * Calculate discount
+	 *
+	 * @param   string  $type   Type of discount ("voucher", "coupon")
+	 * @param   array   $types  Data.
+	 *
+	 * @return  float           Voucher/Coupon discount value
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function calculateDiscount($type, $types)
+	{
+		if (empty($types))
+		{
+			return 0.0;
+		}
+
+		$value         = $type == 'voucher' ? 'voucher_value' : 'coupon_value';
+		$discountValue = 0.0;
+
+		foreach ($types as $type)
+		{
+			$discountValue += $type[$value];
+		}
+
+		return $discountValue;
+	}
 }
