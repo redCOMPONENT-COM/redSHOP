@@ -568,7 +568,7 @@ class RedshopHelperOrder
 		// If not an integer then convert it into an integer
 		if (!is_int($orderId))
 		{
-			throw new InvalidArgumentException($orderId . " is not valid Integer. Passed argument is " . getType($orderId));
+			throw new InvalidArgumentException($orderId . " is not valid Integer. Passed argument is " . gettype($orderId));
 		}
 
 		$key = $orderId;

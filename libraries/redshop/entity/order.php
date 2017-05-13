@@ -19,6 +19,13 @@ defined('_JEXEC') or die;
 class RedshopEntityOrder extends RedshopEntity
 {
 	/**
+	 * @var   RedshopEntitiesCollection
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $orderItems;
+
+	/**
 	 * Get the associated table
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
@@ -48,6 +55,67 @@ class RedshopEntityOrder extends RedshopEntity
 		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'order_id' ? $this->id : $keyValue))))
 		{
 			$this->loadFromTable($table);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Method for get order items for this order
+	 *
+	 * @return   mixed   RedshopEntitiesCollection if success. Null otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getOrderItems()
+	{
+		if (!$this->hasId())
+		{
+			return null;
+		}
+
+		if (null === $this->orderItems)
+		{
+			$this->loadOrderItems();
+		}
+
+		return $this->orderItems;
+	}
+
+	/**
+	 * Method for load order items for this order
+	 *
+	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadOrderItems()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$this->orderItems = new RedshopEntitiesCollection;
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_order_item'))
+			->where($db->qn('order_id') . ' = ' . $this->getId());
+		$orderItems = $db->setQuery($query)->loadObjectList();
+
+		if (empty($orderItems))
+		{
+			return $this;
+		}
+
+		foreach ($orderItems as $orderItem)
+		{
+			$entity = RedshopEntityOrder_Item::getInstance($orderItem->order_item_id);
+			$entity->bind($orderItem);
+
+			$this->orderItems->add($entity);
 		}
 
 		return $this;
