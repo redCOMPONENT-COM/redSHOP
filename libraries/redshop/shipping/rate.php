@@ -109,7 +109,7 @@ class RedshopShippingRate
 		{
 			$query->clear()
 				->delete($db->qn('#__redshop_shipping_rate'))
-				->where($db->qn('shipping_class') . ' IN (' . RedshopHelperUtility::quote($differentShipping) . ')');
+				->where($db->qn('shipping_class') . ' IN (' . implode(',', RedshopHelperUtility::quote($differentShipping)) . ')');
 			$db->setQuery($query)->execute();
 		}
 	}
