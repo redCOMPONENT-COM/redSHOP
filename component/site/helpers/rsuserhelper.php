@@ -714,6 +714,7 @@ class rsUserHelper
 			}
 		}
 
+		JPluginHelper::importPlugin('user');
 		RedshopHelperUtility::getDispatcher()->trigger('onAfterCreateRedshopUser', array($data, $isNew));
 
 		return $row;
