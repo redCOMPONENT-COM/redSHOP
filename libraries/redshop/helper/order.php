@@ -21,20 +21,6 @@ use Redshop\Economic\Economic;
 class RedshopHelperOrder
 {
 	/**
-	 * Order Payment Information
-	 *
-	 * @var  array
-	 */
-	protected static $payment = array();
-
-	/**
-	 * Order Info
-	 *
-	 * @var  array
-	 */
-	protected static $orderInfo = array();
-
-	/**
 	 * All the published status code
 	 *
 	 * @var  null
@@ -61,13 +47,6 @@ class RedshopHelperOrder
 	 * @var  array
 	 */
 	protected static $orderShippingInfo = array();
-
-	/**
-	 * Order Item information
-	 *
-	 * @var  array
-	 */
-	protected static $orderItems = array();
 
 	/**
 	 * Order status list
@@ -112,33 +91,24 @@ class RedshopHelperOrder
 	 * @param   boolean  $force    Force to get order information from DB instead of cache.
 	 *
 	 * @return  object    Order Information Object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public static function getOrderDetail($orderId, $force = false)
 	{
-		if (array_key_exists($orderId, self::$orderInfo) && !$force)
+		if (!$orderId)
 		{
-			return self::$orderInfo[$orderId];
-		}
-
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_orders'))
-					->where($db->qn('order_id') . ' = ' . (int) $orderId);
-
-		try
-		{
-			// Set the query and load the result.
-			self::$orderInfo[$orderId] = $db->setQuery($query, 0, 1)->loadObject();
-		}
-		catch (Exception $exception)
-		{
-			JError::raiseWarning($exception->getCode(), $exception->getMessage());
-
 			return null;
 		}
 
-		return self::$orderInfo[$orderId];
+		$order = RedshopEntityOrder::getInstance($orderId);
+
+		if ($force)
+		{
+			$order->reset();
+		}
+
+		return $order->getItem();
 	}
 
 	/**
@@ -277,25 +247,18 @@ class RedshopHelperOrder
 	 * @param   integer  $orderId  Order Id
 	 *
 	 * @return  void
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public static function updateInvoiceNumber($number, $orderId)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-				->update($db->qn('#__redshop_orders'))
-				->set($db->qn('invoice_number_chrono') . ' = ' . (int) $number)
-				->set($db->qn('invoice_number') . ' = ' . $db->q(self::formatInvoiceNumber($number)))
-				->where($db->qn('order_id') . ' = ' . (int) $orderId);
+		$order = RedshopEntityOrder::getInstance($orderId);
 
-		$db->setQuery($query);
-
-		try
+		if ($order->isValid())
 		{
-			$db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
+			$order->set('invoice_number_chrono', (int) $number)
+				->set('invoice_number', self::formatInvoiceNumber($number))
+				->save();
 		}
 	}
 
@@ -344,53 +307,12 @@ class RedshopHelperOrder
 	 * @param   integer  $orderId  Order Id
 	 *
 	 * @return  object   Payment Information for orders
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public static function getPaymentInfo($orderId)
 	{
-		if (!array_key_exists($orderId, self::$payment))
-		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-						->select('*')
-						->from($db->qn('#__redshop_order_payment'))
-						->where($db->qn('order_id') . ' = ' . (int) $orderId);
-
-			// Set the query and load the result.
-			$db->setQuery($query, 0, 1);
-			self::$payment[$orderId] = $db->loadObject();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				JError::raiseWarning(500, $db->getErrorMsg());
-
-				return null;
-			}
-
-			if (!empty(self::$payment[$orderId]->payment_method_class))
-			{
-				// Get plugin information
-				$plugin = JPluginHelper::getPlugin(
-					'redshop_payment',
-					self::$payment[$orderId]->payment_method_class
-				);
-
-				if ($plugin)
-				{
-					$plugin->params = new Registry($plugin->params);
-				}
-
-				// Set plugin information
-				self::$payment[$orderId]->plugin = $plugin;
-			}
-			else
-			{
-				// Set plugin information
-				self::$payment[$orderId]->plugin = null;
-			}
-		}
-
-		return self::$payment[$orderId];
+		return RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
 	}
 
 	/**
@@ -398,18 +320,18 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $orderId  Order Information Id
 	 *
-	 * @return  object   Query Object
+	 * @return  object             Query Object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public static function getOrderUserQuery($orderId)
 	{
 		$db = JFactory::getDbo();
 
-		$query = $db->getQuery(true)
-					->select('*, `user_email` as email')
-					->from($db->qn('#__redshop_order_users_info'))
-					->where($db->qn('order_id') . ' = ' . (int) $orderId);
-
-		return $query;
+		return $db->getQuery(true)
+			->select('*, `user_email` as email')
+			->from($db->qn('#__redshop_order_users_info'))
+			->where($db->qn('order_id') . ' = ' . (int) $orderId);
 	}
 
 	/**
@@ -419,34 +341,25 @@ class RedshopHelperOrder
 	 * @param   boolean  $force    Force get information
 	 *
 	 * @return  object   Order Billing information object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public static function getOrderBillingUserInfo($orderId, $force = false)
 	{
-		if (array_key_exists($orderId, self::$orderBillingInfo) && !$force)
+		if (!$orderId)
 		{
-			return self::$orderBillingInfo[$orderId];
-		}
-
-		$db = JFactory::getDbo();
-
-		$query = self::getOrderUserQuery($orderId)->where($db->qn('address_type') . ' LIKE ' . $db->q('BT'));
-
-		$orderBillingInfo = $db->setQuery($query, 0, 1)->loadObject();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JError::raiseWarning(500, $db->getErrorMsg());
-
 			return null;
 		}
 
-		// Add extra field data in order Billing info object
-		$orderBillingInfo->fields = self::getOrderExtraFieldsData($orderBillingInfo->users_info_id);
+		/** @var RedshopEntityOrder_User $userBilling */
+		$userBilling = RedshopEntityOrder::getInstance($orderId)->getBilling();
 
-		self::$orderBillingInfo[$orderId] = $orderBillingInfo;
+		if ($force)
+		{
+			$userBilling->reset()->loadExtraFields();
+		}
 
-		return $orderBillingInfo;
+		return $userBilling->getItem();
 	}
 
 	/**
@@ -456,33 +369,25 @@ class RedshopHelperOrder
 	 * @param   boolean  $force    Order Id
 	 *
 	 * @return  object   Order Shipping information object
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public static function getOrderShippingUserInfo($orderId, $force = false)
 	{
-		if (array_key_exists($orderId, self::$orderShippingInfo) && !$force)
+		if (!$orderId)
 		{
-			return self::$orderShippingInfo[$orderId];
-		}
-
-		$db = JFactory::getDbo();
-
-		$query = self::getOrderUserQuery($orderId)->where($db->qn('address_type') . ' LIKE ' . $db->q('ST'));
-		$orderShippingInfo = $db->setQuery($query, 0, 1)->loadObject();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JError::raiseWarning(500, $db->getErrorMsg());
-
 			return null;
 		}
 
-		// Add extra field data in order shipping info object
-		$orderShippingInfo->fields = self::getOrderExtraFieldsData($orderShippingInfo->users_info_id, 'shipping');
+		/** @var RedshopEntityOrder_User $userBilling */
+		$userBilling = RedshopEntityOrder::getInstance($orderId)->getShipping();
 
-		self::$orderShippingInfo[$orderId] = $orderShippingInfo;
+		if ($force)
+		{
+			$userBilling->reset()->loadExtraFields();
+		}
 
-		return $orderShippingInfo;
+		return $userBilling->getItem();
 	}
 
 	/**
@@ -492,7 +397,9 @@ class RedshopHelperOrder
 	 * @param   string   $section          Section to get information
 	 * @param   boolean  $force            Force to get information
 	 *
-	 * @return  array    Extra Field name as a key of an array
+	 * @return  array                      Extra Field name as a key of an array
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public static function getOrderExtraFieldsData($orderUserInfoId, $section = 'billing', $force = false)
 	{
@@ -514,16 +421,16 @@ class RedshopHelperOrder
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select($db->qn('f.name') . ',' . $db->qn('fd.data_txt'))
-					->from($db->qn('#__redshop_fields_data', 'fd'))
-					->where(
-						'('
-							. $db->qn('fd.section') . ' = ' . $privateSection
-							. ' OR '
-							. $db->qn('fd.section') . ' = ' . $companySection
-						. ')'
-					)
-					->where($db->qn('fd.itemid') . ' = ' . (int) $orderUserInfoId);
+			->select($db->qn('f.name') . ',' . $db->qn('fd.data_txt'))
+			->from($db->qn('#__redshop_fields_data', 'fd'))
+			->where(
+				'('
+					. $db->qn('fd.section') . ' = ' . $privateSection
+					. ' OR '
+					. $db->qn('fd.section') . ' = ' . $companySection
+				. ')'
+			)
+			->where($db->qn('fd.itemid') . ' = ' . (int) $orderUserInfoId);
 
 		$query->leftJoin(
 			$db->qn('#__redshop_fields', 'f')
@@ -561,43 +468,18 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $orderId  Valid Integer order Id
 	 *
-	 * @return  array    Order Items
+	 * @return  array              Order Items
+	 *
+	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEntityOrder::getOrderItems instead
 	 */
 	public static function getItems($orderId)
 	{
-		// If not an integer then convert it into an integer
-		if (!is_int($orderId))
+		if (!$orderId)
 		{
-			throw new InvalidArgumentException($orderId . " is not valid Integer. Passed argument is " . gettype($orderId));
-		}
-
-		$key = $orderId;
-
-		if (array_key_exists($key, self::$orderItems))
-		{
-			return self::$orderItems[$key];
-		}
-
-		// Initialiase variables.
-		$db = JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_order_item'))
-					->where($db->qn('order_id') . ' = ' . $orderId);
-
-		// Set the query and load the result.
-		self::$orderItems[$key] = $db->setQuery($query)->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JError::raiseWarning(500, $db->getErrorMsg());
-
 			return null;
 		}
 
-		return self::$orderItems[$key];
+		return RedshopEntityOrder::getInstance($orderId)->getOrderItems()->toObjects();
 	}
 
 	/**
@@ -609,11 +491,15 @@ class RedshopHelperOrder
 	 */
 	public static function giftCardItems($orderId)
 	{
-		$orderItems = self::getItems($orderId);
+		$orderItems = RedshopEntityOrder::getInstance($orderId)->getOrderItems();
+
+		if (!$orderItems->count())
+		{
+			return array();
+		}
 
 		return array_filter(
-			self::getItems($orderId),
-			function($item) {
+			$orderItems->toObjects(), function ($item) {
 				return $item->is_giftcard;
 			}
 		);
@@ -680,9 +566,9 @@ class RedshopHelperOrder
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select($db->qn('order_status_name'))
-					->from($db->qn('#__redshop_order_status'))
-					->where($db->qn('order_status_code') . ' = ' . $db->quote($orderStatusCode));
+			->select($db->qn('order_status_name'))
+			->from($db->qn('#__redshop_order_status'))
+			->where($db->qn('order_status_code') . ' = ' . $db->quote($orderStatusCode));
 		$db->setQuery($query);
 
 		return $db->loadResult();
@@ -1171,18 +1057,19 @@ class RedshopHelperOrder
 	 * @return  void
 	 *
 	 * @since   2.0.3
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public static function updateOrderPaymentStatus($orderId, $newStatus)
 	{
-		$db = JFactory::getDbo();
+		$order = RedshopEntityOrder::getInstance($orderId);
 
-		$query = $db->getQuery(true)
-					->update($db->qn('#__redshop_orders'))
-					->set($db->qn('order_payment_status') . ' = ' . $db->quote($newStatus))
-					->set($db->qn('mdate') . ' = ' . $db->quote(time()))
-					->where($db->qn('order_id') . ' = ' . (int) $orderId);
-		$db->setQuery($query);
-		$db->execute();
+		if ($order->isValid())
+		{
+			$order->set('order_payment_status', $newStatus)
+				->set('mdate', time())
+				->save();
+		}
 	}
 
 	/**
@@ -1194,17 +1081,18 @@ class RedshopHelperOrder
 	 * @return  void
 	 *
 	 * @since   2.0.3
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public static function updateOrderComment($orderId, $comment = '')
 	{
-		$db = JFactory::getDbo();
+		$order = RedshopEntityOrder::getInstance($orderId);
 
-		$query = $db->getQuery(true)
-					->update($db->qn('#__redshop_orders'))
-					->set($db->qn('customer_note') . ' = ' . $db->quote($comment))
-					->where($db->qn('order_id') . ' = ' . (int) $orderId);
-		$db->setQuery($query);
-		$db->execute();
+		if ($order->isValid())
+		{
+			$order->set('customer_note', $comment)
+				->save();
+		}
 	}
 
 	/**
@@ -1219,31 +1107,21 @@ class RedshopHelperOrder
 	 */
 	public static function updateOrderRequisitionNumber($orderId, $requisitionNumber = '')
 	{
-		$db = JFactory::getDbo();
+		$order = RedshopEntityOrder::getInstance($orderId);
 
-		$query = $db->getQuery(true)
-					->update($db->qn('#__redshop_orders'))
-					->set($db->qn('requisition_number') . ' = ' . $db->quote($requisitionNumber))
-					->where($db->qn('order_id') . ' = ' . (int) $orderId);
-		$db->setQuery($query);
-		$db->execute();
-		$affectedRows = $db->getAffectedRows();
+		if (!$order->isValid())
+		{
+			return;
+		}
 
-		if ($affectedRows)
+		$order->set('requisition_number', $requisitionNumber);
+
+		if ($order->save())
 		{
 			// Economic Integration start for invoice generate and book current invoice
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 			{
-				$oid = explode(",", $orderId);
-
-				for ($i = 0, $in = count($oid); $i < $in; $i++)
-				{
-					if (isset($oid[$i]) && $oid[$i] != 0 && $oid[$i] != "")
-					{
-						$orderData = self::getOrderDetails($oid[$i]);
-						Economic::renewInvoiceInEconomic($orderData);
-					}
-				}
+				Economic::renewInvoiceInEconomic($order->getItem());
 			}
 		}
 	}
@@ -1265,9 +1143,9 @@ class RedshopHelperOrder
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->update($db->qn('#__redshop_order_item'))
-					->set($db->qn('order_status') . ' = ' . $db->q($newStatus))
-					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+			->update($db->qn('#__redshop_order_item'))
+			->set($db->qn('order_status') . ' = ' . $db->q($newStatus))
+			->where($db->qn('order_id') . ' = ' . (int) $orderId);
 
 		if ($productId != 0)
 		{
@@ -1433,9 +1311,10 @@ class RedshopHelperOrder
 
 			// Trigger function on Order Status change
 			JPluginHelper::importPlugin('order');
+
 			RedshopHelperUtility::getDispatcher()->trigger(
 				'onAfterOrderStatusUpdate',
-				array(self::getOrderDetail($orderId))
+				array(RedshopEntityOrder::getInstance($orderId)->getItem())
 			);
 
 			if ($paymentStatus == "Paid")
@@ -1569,18 +1448,12 @@ class RedshopHelperOrder
 	 * @return  object
 	 *
 	 * @since   2.0.3
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public static function getOrderDetails($orderId)
 	{
-		$db = JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_orders'))
-					->where($db->qn('order_id') . ' = ' . (int) $orderId);
-		$db->setQuery($query);
-
-		return $db->loadObject();
+		return self::getOrderDetail($orderId);
 	}
 
 	/**
@@ -1925,20 +1798,12 @@ class RedshopHelperOrder
 	 */
 	public static function getOrderItemAccessoryDetail($orderItemId = 0)
 	{
-		$db = JFactory::getDbo();
-
-		if ($orderItemId != 0)
+		if (!$orderItemId)
 		{
-			$query = $db->getQuery(true)
-						->select('*')
-						->from($db->qn('#__redshop_order_acc_item'))
-						->where($db->qn('order_item_id') . ' = ' . (int) $orderItemId);
-			$db->setQuery($query);
-
-			return $db->loadObjectlist();
+			return null;
 		}
 
-		return null;
+		return RedshopEntityOrder_Item::getInstance($orderItemId)->getAccessoryItems()->toObjects();
 	}
 
 	/**
@@ -1993,15 +1858,14 @@ class RedshopHelperOrder
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-					->select('fd.*')
-					->select($db->qn(array('f.title', 'f.type', 'f.name')))
-					->from($db->qn('#__redshop_fields_data', 'fd'))
-					->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
-					->where($db->qn('fd.itemid') . ' = ' . (int) $orderItemId)
-					->where($db->qn('fd.section') . ' = ' . $db->quote($section));
-		$db->setQuery($query);
+			->select('fd.*')
+			->select($db->qn(array('f.title', 'f.type', 'f.name')))
+			->from($db->qn('#__redshop_fields_data', 'fd'))
+			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
+			->where($db->qn('fd.itemid') . ' = ' . (int) $orderItemId)
+			->where($db->qn('fd.section') . ' = ' . $db->quote($section));
 
-		return $db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
@@ -2428,9 +2292,9 @@ class RedshopHelperOrder
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-					->select($db->qn('shipping_location_info'))
-					->from($db->qn('#__redshop_shipping_rate'))
-					->where($db->qn('shipping_rate_name') . ' = ' . $db->quote($shippingName));
+			->select($db->qn('shipping_location_info'))
+			->from($db->qn('#__redshop_shipping_rate'))
+			->where($db->qn('shipping_rate_name') . ' = ' . $db->quote($shippingName));
 
 		$db->setQuery($query);
 
@@ -2450,11 +2314,11 @@ class RedshopHelperOrder
 	{
 		$db  = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__redshop_orders'))
-					->where($db->qn('order_status') . ' = ' . $db->quote($data->order_status_code))
-					->where($db->qn('order_payment_status') . ' = ' . $db->quote($data->order_payment_status_code))
-					->where($db->qn('order_id') . ' = ' . (int) $data->order_id);
+			->select('*')
+			->from($db->qn('#__redshop_orders'))
+			->where($db->qn('order_status') . ' = ' . $db->quote($data->order_status_code))
+			->where($db->qn('order_payment_status') . ' = ' . $db->quote($data->order_payment_status_code))
+			->where($db->qn('order_id') . ' = ' . (int) $data->order_id);
 		$db->setQuery($query);
 
 		if (count($db->loadObjectList()) == 0)
@@ -3004,24 +2868,14 @@ class RedshopHelperOrder
 	 *
 	 * @param   int  $orderPaymentId  Payment order id
 	 *
-	 * @return  array    order payment info
+	 * @return  object                Order payment info
 	 *
 	 * @since   2.0.3
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
 	public static function getOrderPaymentDetail($orderPaymentId = 0)
 	{
-		if (!$orderPaymentId)
-		{
-			return array();
-		}
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_order_payment'))
-			->where($db->qn('payment_order_id') . ' = ' . (int) $orderPaymentId);
-		$db->setQuery($query);
-
-		return $db->loadObjectlist();
+		return RedshopEntityOrder_Payment::getInstance($orderPaymentId)->getItem();
 	}
 }

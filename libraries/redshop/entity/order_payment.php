@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Order Payment Entity
  *
@@ -48,6 +50,36 @@ class RedshopEntityOrder_Payment extends RedshopEntity
 		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'payment_order_id' ? $this->id : $keyValue))))
 		{
 			$this->loadFromTable($table);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Method for load plugin data of this payment
+	 *
+	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function loadPlugin()
+	{
+		if (!$this->hasId() || !is_null($this->get('plugin', null)))
+		{
+			return $this;
+		}
+
+		if (!empty($this->get('payment_method_class')))
+		{
+			// Get plugin information
+			$plugin = JPluginHelper::getPlugin('redshop_payment', $this->get('payment_method_class'));
+
+			if ($plugin)
+			{
+				$plugin->params = new Registry($plugin->params);
+			}
+
+			$this->set('plugin', $plugin);
 		}
 
 		return $this;

@@ -439,7 +439,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		$orderId = $app->input->post->getInt('id');
 
-		$orderPaymentStatus = RedshopHelperOrder::getOrderDetail($orderId)->order_payment_status;
+		$orderPaymentStatus = RedshopEntityOrder::load($orderId)->get('order_payment_status');
 
 		$status = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
 
