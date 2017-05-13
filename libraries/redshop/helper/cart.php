@@ -25,7 +25,7 @@ abstract class RedshopHelperCart
 	 * @param   int  $userId  Id of user.
 	 * @param   bool $delCart Delete cart.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   2.0.3
 	 */

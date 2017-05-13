@@ -32,8 +32,8 @@ class RedshopHelperJs
 		$config = Redshop::getConfig();
 		$post   = $input->post->getArray();
 
-		$currency_symbol  = $config->get('REDCURRENCY_SYMBOL', '');
-		$currency_convert = 1;
+		$currencySymbol  = $config->get('REDCURRENCY_SYMBOL', '');
+		$currencyConvert = 1;
 
 		if (isset($post['product_currency']))
 		{
@@ -42,22 +42,22 @@ class RedshopHelperJs
 
 		if ($session->get('product_currency'))
 		{
-			$currency_symbol  = $session->get('product_currency');
-			$currency_convert = round(RedshopHelperCurrency::convert(1), 2);
+			$currencySymbol  = $session->get('product_currency');
+			$currencyConvert = round(RedshopHelperCurrency::convert(1), 2);
 		}
 
 		$token = JSession::getFormToken();
 
 		// Prepare dynamic variables to add them in javascript stack
 		$dynamicVars = array(
-			'SITE_URL'                          => JURI::root(),
+			'SITE_URL'                          => JUri::root(),
 			'AJAX_TOKEN'                        => $token,
 			'AJAX_BASE_URL'                     => JRoute::_('index.php?tmpl=component&option=com_redshop&' . $token . '=1', false),
 			'AJAX_CART_BOX'                     => $config->get('AJAX_CART_BOX'),
 			'REDSHOP_VIEW'                      => $view,
 			'REDSHOP_LAYOUT'                    => $layout,
-			'CURRENCY_SYMBOL_CONVERT'           => $currency_symbol,
-			'CURRENCY_CONVERT'                  => $currency_convert,
+			'CURRENCY_SYMBOL_CONVERT'           => $currencySymbol,
+			'CURRENCY_CONVERT'                  => $currencyConvert,
 			'PRICE_SEPERATOR'                   => $config->get('PRICE_SEPERATOR'),
 			'CURRENCY_SYMBOL_POSITION'          => $config->get('CURRENCY_SYMBOL_POSITION'),
 			'PRICE_DECIMAL'                     => $config->get('PRICE_DECIMAL'),
@@ -66,7 +66,7 @@ class RedshopHelperJs
 			'USE_AS_CATALOG'                    => $config->get('USE_AS_CATALOG'),
 			'AJAX_CART_DISPLAY_TIME'            => $config->get('AJAX_CART_DISPLAY_TIME'),
 			'SHOW_PRICE'                        => $config->get('SHOW_PRICE'),
-			'BASE_TAX'                          => productHelper::getInstance()->getProductTax(0, 1),
+			'BASE_TAX'                          => RedshopHelperProduct::getProductTax(0, 1),
 			'DEFAULT_QUOTATION_MODE'            => $config->get('DEFAULT_QUOTATION_MODE'),
 			'PRICE_REPLACE'                     => $config->get('PRICE_REPLACE'),
 			'ALLOW_PRE_ORDER'                   => $config->get('ALLOW_PRE_ORDER'),
@@ -87,7 +87,8 @@ class RedshopHelperJs
 
 		// Current Shopper Group - Show price with VAT config
 		$shopperGroupData = RedshopHelperUser::getShopperGroupDataById(RedshopHelperUser::getShopperGroup(JFactory::getUser()->id));
-		$dynamicVars['SHOW_PRICE_WITHOUT_VAT'] = $shopperGroupData ?  (int) $shopperGroupData->show_price_without_vat : 0;
+
+		$dynamicVars['SHOW_PRICE_WITHOUT_VAT'] = $shopperGroupData ? (int) $shopperGroupData->show_price_without_vat : 0;
 
 		$backwardJS = array();
 

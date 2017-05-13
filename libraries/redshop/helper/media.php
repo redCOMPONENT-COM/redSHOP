@@ -538,7 +538,9 @@ class RedshopHelperMedia
 			elseif ($transparency >= 0)
 			{
 				$transparentColor = imagecolorsforindex($image, $transparency);
-				$transparency     = imagecolorallocate($imageResized, $transparentColor['red'], $transparentColor['green'], $transparentColor['blue']);
+
+				$transparency = imagecolorallocate($imageResized, $transparentColor['red'], $transparentColor['green'], $transparentColor['blue']);
+
 				imagefill($imageResized, 0, 0, $transparency);
 				imagecolortransparent($imageResized, $transparency);
 			}
@@ -861,7 +863,13 @@ class RedshopHelperMedia
 					}
 
 					imagecopy(
-						$im2, $im, (imagesx($im2) / 2) - (imagesx($im) / 2), (imagesy($im2) / 2) - (imagesy($im) / 2), 0, 0, imagesx($im), imagesy($im)
+						$im2,
+						$im,
+						(imagesx($im2) / 2) - (imagesx($im) / 2), (imagesy($im2) / 2) - (imagesy($im) / 2),
+						0,
+						0,
+						imagesx($im),
+						imagesy($im)
 					);
 
 					$waterless = imagesx($im2) - imagesx($im);
