@@ -2079,14 +2079,24 @@ class RedshopHelperShipping
 	/**
 	 * Load payment languages
 	 *
+	 * @param   boolean  $all  True for all (discover, enabled, disabled). False for just enabled only.
+	 *
 	 * @return   void
 	 *
 	 * @since   2.0.3
 	 */
-	public static function loadLanguages()
+	public static function loadLanguages($all = false)
 	{
 		// Load shipping plugin language file
-		$paymentsLangList = RedshopHelperUtility::getPlugins("redshop_shipping", -1);
+		if ($all)
+		{
+			$paymentsLangList = RedshopHelperUtility::getPlugins("redshop_shipping");
+		}
+		else
+		{
+			$paymentsLangList = RedshopHelperUtility::getPlugins("redshop_shipping", 1);
+		}
+
 		$language         = JFactory::getLanguage();
 
 		for ($index = 0, $ln = count($paymentsLangList); $index < $ln; $index++)
