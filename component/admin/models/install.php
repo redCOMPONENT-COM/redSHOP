@@ -60,7 +60,7 @@ class RedshopModelInstall extends RedshopModelList
 
 		$tasks = array(
 			array(
-				'text' => 'COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG',
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
 				'func' => 'RedshopInstall::handleConfig'
 			)
 		);
