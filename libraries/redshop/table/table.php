@@ -25,14 +25,14 @@ class RedshopTable extends AbstractTable
 	 *
 	 * @var  array
 	 */
-	protected $_options = array();
+	protected $options = array();
 
 	/**
 	 * Prefix to add to log files
 	 *
 	 * @var  string
 	 */
-	protected $_logPrefix = 'redshop';
+	protected $logPrefix = 'redshop';
 
 	/**
 	 * Get a table instance.
@@ -139,7 +139,7 @@ class RedshopTable extends AbstractTable
 	 */
 	public function setOption($key, $val)
 	{
-		$this->_options[$key] = $val;
+		$this->options[$key] = $val;
 
 		return $this;
 	}
@@ -154,9 +154,9 @@ class RedshopTable extends AbstractTable
 	 */
 	public function getOption($key, $default = null)
 	{
-		if (isset($this->_options[$key]))
+		if (isset($this->options[$key]))
 		{
-			return $this->_options[$key];
+			return $this->options[$key];
 		}
 
 		return $default;
