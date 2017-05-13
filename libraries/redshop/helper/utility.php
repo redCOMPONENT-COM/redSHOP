@@ -646,7 +646,7 @@ class RedshopHelperUtility
 			->where($db->qn('type') . ' = ' . $db->quote('module'))
 			->where(
 				'LOWER(' . $db->qn('element') . ') LIKE ' . $db->quote('mod_redshop%')
-				. ' OR LOWER(' . $db->qn('element') . ') IN (' . self::quote($oldStyleName) . ')'
+				. ' OR LOWER(' . $db->qn('element') . ') IN (' . implode(',', self::quote($oldStyleName)) . ')'
 			)
 			->order($db->qn('ordering') . ' ASC');
 
