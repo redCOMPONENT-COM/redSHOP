@@ -24,7 +24,7 @@ class RedshopHelperDatetime
 	 * @param   int   $inputTimestamp  Input timestamp
 	 * @param   bool  $night           At middle night
 	 *
-	 * @return  int
+	 * @return  integer
 	 */
 	public static function generateTimestamp($inputTimestamp, $night = true)
 	{
@@ -136,33 +136,33 @@ class RedshopHelperDatetime
 		$wk     = JText::_(strtoupper(date("D")));
 		$week   = JText::_(strtoupper(date("l")));
 
-		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$option[] = JHTML::_('select.option', 'Y-m-d', date("Y-m-d"));
-		$option[] = JHTML::_('select.option', 'd-m-Y', date("d-m-Y"));
-		$option[] = JHTML::_('select.option', 'd.m.Y', date("d.m.Y"));
-		$option[] = JHTML::_('select.option', 'Y/m/d', date("Y/m/d"));
-		$option[] = JHTML::_('select.option', 'd/m/Y', date("d/m/Y"));
-		$option[] = JHTML::_('select.option', 'm/d/y', date("m/d/y"));
-		$option[] = JHTML::_('select.option', 'm-d-y', date("m-d-y"));
-		$option[] = JHTML::_('select.option', 'm.d.y', date("m.d.y"));
-		$option[] = JHTML::_('select.option', 'm/d/Y', date("m/d/Y"));
-		$option[] = JHTML::_('select.option', 'm-d-Y', date("m-d-Y"));
-		$option[] = JHTML::_('select.option', 'm.d.Y', date("m.d.Y"));
-		$option[] = JHTML::_('select.option', 'd/M/Y', date("d/") . $mon . date("/Y"));
-		$option[] = JHTML::_('select.option', 'M d,Y', $mon . date(" d, Y"));
-		$option[] = JHTML::_('select.option', 'd M Y', date("d ") . $mon . date(" Y"));
-		$option[] = JHTML::_('select.option', 'd M Y, h:i:s', date("d ") . $mon . date(" Y, h:i:s"));
-		$option[] = JHTML::_('select.option', 'd M Y, h:i A', date("d ") . $mon . date(" Y, h:i A"));
-		$option[] = JHTML::_('select.option', 'd-m-Y, h:i:A', date("d-m-Y, h:i:A"));
-		$option[] = JHTML::_('select.option', 'd.m.Y, h:i:A', date("d.m.Y, h:i:A"));
-		$option[] = JHTML::_('select.option', 'd/m/Y, h:i:A', date("d/m/Y, h:i:A"));
-		$option[] = JHTML::_('select.option', 'd M Y, H:i:s', date("d ") . $mon . date(" Y, H:i:s"));
-		$option[] = JHTML::_('select.option', 'd-m-Y, H:i:s', date("d-m-Y, H:i:s"));
-		$option[] = JHTML::_('select.option', 'd.m.Y, H:i:s', date("d.m.Y, H:i:s"));
-		$option[] = JHTML::_('select.option', 'd/m/Y, H:i:s', date("d/m/Y, H:i:s"));
-		$option[] = JHTML::_('select.option', 'F d, Y', $month . date(" d, Y"));
-		$option[] = JHTML::_('select.option', 'D M d, Y', $wk . " " . $mon . date(" d, Y"));
-		$option[] = JHTML::_('select.option', 'l F d, Y', $week . " " . $month . date(" d, Y"));
+		$option[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+		$option[] = JHtml::_('select.option', 'Y-m-d', date("Y-m-d"));
+		$option[] = JHtml::_('select.option', 'd-m-Y', date("d-m-Y"));
+		$option[] = JHtml::_('select.option', 'd.m.Y', date("d.m.Y"));
+		$option[] = JHtml::_('select.option', 'Y/m/d', date("Y/m/d"));
+		$option[] = JHtml::_('select.option', 'd/m/Y', date("d/m/Y"));
+		$option[] = JHtml::_('select.option', 'm/d/y', date("m/d/y"));
+		$option[] = JHtml::_('select.option', 'm-d-y', date("m-d-y"));
+		$option[] = JHtml::_('select.option', 'm.d.y', date("m.d.y"));
+		$option[] = JHtml::_('select.option', 'm/d/Y', date("m/d/Y"));
+		$option[] = JHtml::_('select.option', 'm-d-Y', date("m-d-Y"));
+		$option[] = JHtml::_('select.option', 'm.d.Y', date("m.d.Y"));
+		$option[] = JHtml::_('select.option', 'd/M/Y', date("d/") . $mon . date("/Y"));
+		$option[] = JHtml::_('select.option', 'M d,Y', $mon . date(" d, Y"));
+		$option[] = JHtml::_('select.option', 'd M Y', date("d ") . $mon . date(" Y"));
+		$option[] = JHtml::_('select.option', 'd M Y, h:i:s', date("d ") . $mon . date(" Y, h:i:s"));
+		$option[] = JHtml::_('select.option', 'd M Y, h:i A', date("d ") . $mon . date(" Y, h:i A"));
+		$option[] = JHtml::_('select.option', 'd-m-Y, h:i:A', date("d-m-Y, h:i:A"));
+		$option[] = JHtml::_('select.option', 'd.m.Y, h:i:A', date("d.m.Y, h:i:A"));
+		$option[] = JHtml::_('select.option', 'd/m/Y, h:i:A', date("d/m/Y, h:i:A"));
+		$option[] = JHtml::_('select.option', 'd M Y, H:i:s', date("d ") . $mon . date(" Y, H:i:s"));
+		$option[] = JHtml::_('select.option', 'd-m-Y, H:i:s', date("d-m-Y, H:i:s"));
+		$option[] = JHtml::_('select.option', 'd.m.Y, H:i:s', date("d.m.Y, H:i:s"));
+		$option[] = JHtml::_('select.option', 'd/m/Y, H:i:s', date("d/m/Y, H:i:s"));
+		$option[] = JHtml::_('select.option', 'F d, Y', $month . date(" d, Y"));
+		$option[] = JHtml::_('select.option', 'D M d, Y', $wk . " " . $mon . date(" d, Y"));
+		$option[] = JHtml::_('select.option', 'l F d, Y', $week . " " . $month . date(" d, Y"));
 
 		return $option;
 	}

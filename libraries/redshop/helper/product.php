@@ -158,7 +158,9 @@ class RedshopHelperProduct
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id');
 
 		// Getting cat_in_sefurl as main category id if it available
-		$query->leftJoin($db->qn('#__redshop_product_category_xref', 'pc3') . ' ON pc3.product_id = p.product_id AND pc3.category_id = p.cat_in_sefurl')
+		$query->leftJoin(
+			$db->qn('#__redshop_product_category_xref', 'pc3') . ' ON pc3.product_id = p.product_id AND pc3.category_id = p.cat_in_sefurl'
+			)
 			->leftJoin($db->qn('#__redshop_category', 'c3') . ' ON pc3.category_id = c3.id AND c3.published = 1');
 
 		$subQuery = $db->getQuery(true)
@@ -420,7 +422,10 @@ class RedshopHelperProduct
 			);
 
 			// Get accessory final price with VAT rules
-			$accessoryPriceList = $productHelper->getAccessoryPrice($productId, $accessory[$a]->newaccessory_price, $accessory[$a]->accessory_main_price);
+			$accessoryPriceList = $productHelper->getAccessoryPrice(
+				$productId, $accessory[$a]->newaccessory_price, $accessory[$a]->accessory_main_price
+			);
+
 			$accessoryPrice = $accessoryPriceList[0];
 
 			$accessoryPriceWithoutvat = $productHelper->getAccessoryPrice(

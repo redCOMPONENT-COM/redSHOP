@@ -2747,14 +2747,12 @@ class RedshopHelperOrder
 	 */
 	public static function orderStatusUpdate($orderId, $post = array())
 	{
-		$helper          = redhelper::getInstance();
-		$stockroomHelper = rsstockroomhelper::getInstance();
-		$productHelper   = productHelper::getInstance();
-		$newStatus       = $post['mass_change_order_status'];
-		$customerNote    = $post['customer_note' . $orderId];
-		$isProduct       = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
-		$productId       = (isset($post['product_id'])) ? $post['product_id'] : 0;
-		$paymentStatus   = $post['mass_change_payment_status'];
+		$productHelper = productHelper::getInstance();
+		$newStatus     = $post['mass_change_order_status'];
+		$customerNote  = $post['customer_note' . $orderId];
+		$isProduct     = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
+		$productId     = (isset($post['product_id'])) ? $post['product_id'] : 0;
+		$paymentStatus = $post['mass_change_payment_status'];
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
