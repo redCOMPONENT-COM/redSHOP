@@ -443,7 +443,7 @@ class RedshopHelperStockroom
 
 				if ($section != "product")
 				{
-					$query->where($db->qn('x.section') . ' = ' . $db->q($section))
+					$query->where($db->qn('x.section') . ' = ' . $db->quote($section))
 						->where($db->qn('x.section_id') . ' IN (' . implode(',', $sectionId) . ')');
 				}
 				else
@@ -454,7 +454,7 @@ class RedshopHelperStockroom
 
 			if ($stockroomId != 0)
 			{
-				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->q((int) $stockroomId));
+				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->quote((int) $stockroomId));
 			}
 
 			$preOrderStock = $db->setQuery($query)->loadObjectList();
@@ -512,18 +512,18 @@ class RedshopHelperStockroom
 			{
 				if ($section != "product")
 				{
-					$query->where($db->qn('x.section') . ' = ' . $db->q($section))
-						->where($db->qn('x.section_id') . ' = ' . $db->q((int) $sectionId));
+					$query->where($db->qn('x.section') . ' = ' . $db->quote($section))
+						->where($db->qn('x.section_id') . ' = ' . $db->quote((int) $sectionId));
 				}
 				else
 				{
-					$query->where($db->qn('x.product_id') . ' =' . $db->q((int) $sectionId));
+					$query->where($db->qn('x.product_id') . ' =' . $db->quote((int) $sectionId));
 				}
 			}
 
 			if ($stockroomId != 0)
 			{
-				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->q((int) $stockroomId));
+				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->quote((int) $stockroomId));
 			}
 
 			$list = $db->setQuery($query)->loadObjectList();
@@ -571,18 +571,18 @@ class RedshopHelperStockroom
 			{
 				if ($section != "product")
 				{
-					$query->where($db->qn('x.section') . ' = ' . $db->q($section))
-						->where($db->qn('x.section_id') . ' = ' . $db->q((int) $sectionId));
+					$query->where($db->qn('x.section') . ' = ' . $db->quote($section))
+						->where($db->qn('x.section_id') . ' = ' . $db->quote((int) $sectionId));
 				}
 				else
 				{
-					$query->where($db->qn('x.product_id') . ' =' . $db->q((int) $sectionId));
+					$query->where($db->qn('x.product_id') . ' =' . $db->quote((int) $sectionId));
 				}
 			}
 
 			if ($stockroomId != 0)
 			{
-				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->q((int) $stockroomId));
+				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->quote((int) $stockroomId));
 			}
 
 			$list = $db->setQuery($query)->loadObjectList();
@@ -693,7 +693,7 @@ class RedshopHelperStockroom
 						{
 							$dispatcher = RedshopHelperUtility::getDispatcher();
 							JPluginHelper::importPlugin('redshop_stockroom');
-							$dispatcher->trigger('onUpdateStockroomQuantity', array($section, $product_data));
+							$dispatcher->trigger('onUpdateStockroomQuantity', array($section, $productData));
 							self::updatePreorderStockAmount($sectionId, $remainingQuantity, $stockroom->stockroom_id, $section);
 						}
 					}
@@ -791,21 +791,21 @@ class RedshopHelperStockroom
 			$db = JFactory::getDbo();
 
 			$fields = array(
-				$db->qn('ordered_preorder') . ' = ' . $db->qn('ordered_preorder') . ' + ' . $db->q((int) $quantity)
+				$db->qn('ordered_preorder') . ' = ' . $db->qn('ordered_preorder') . ' + ' . $db->quote((int) $quantity)
 			);
 
 			$conditions = array(
-				$db->qn('stockroom_id') . ' = ' . $db->q((int) $stockroomId)
+				$db->qn('stockroom_id') . ' = ' . $db->quote((int) $stockroomId)
 			);
 
 			if ($section != "product")
 			{
-				$conditions[] = $db->qn('section') . ' = ' . $db->q($section);
-				$conditions[] = $db->qn('section_id') . ' = ' . $db->q((int) $sectionId);
+				$conditions[] = $db->qn('section') . ' = ' . $db->quote($section);
+				$conditions[] = $db->qn('section_id') . ' = ' . $db->quote((int) $sectionId);
 			}
 			else
 			{
-				$conditions[] = $db->qn('product_id') . ' = ' . $db->q((int) $sectionId);
+				$conditions[] = $db->qn('product_id') . ' = ' . $db->quote((int) $sectionId);
 			}
 
 			$query = $db->getQuery(true)
@@ -849,12 +849,12 @@ class RedshopHelperStockroom
 			{
 				if ($section != "product")
 				{
-					$conditions[] = $db->qn('section') . ' = ' . $db->q($section);
-					$conditions[] = $db->qn('section_id') . ' = ' . $db->q((int) $sectionId);
+					$conditions[] = $db->qn('section') . ' = ' . $db->quote($section);
+					$conditions[] = $db->qn('section_id') . ' = ' . $db->quote((int) $sectionId);
 				}
 				else
 				{
-					$conditions[] = $db->qn('product_id') . ' = ' . $db->q((int) $sectionId);
+					$conditions[] = $db->qn('product_id') . ' = ' . $db->quote((int) $sectionId);
 				}
 			}
 
@@ -866,10 +866,10 @@ class RedshopHelperStockroom
 				if ($stockId[$i] != "" && $sectionId != "" && $sectionId != 0)
 				{
 					$fields = array(
-						$db->qn('quantity') . ' = ' . $db->qn('quantity') . ' + ' . $db->q((int) $stockQty[$i])
+						$db->qn('quantity') . ' = ' . $db->qn('quantity') . ' + ' . $db->quote((int) $stockQty[$i])
 					);
 
-					$conditions[] = $db->qn('stockroom_id') . ' = ' . $db->q((int) $stockId[$i]);
+					$conditions[] = $db->qn('stockroom_id') . ' = ' . $db->quote((int) $stockId[$i]);
 
 					$query = $db->getQuery(true)
 						->update($db->qn($table))
@@ -964,7 +964,7 @@ class RedshopHelperStockroom
 			{
 				$query->clear('where')
 					->where($db->qn('stock_option') . ' = 1')
-					->where($db->qn('stock_quantity') . ' < ' . $db->q((int) $stockAmount))
+					->where($db->qn('stock_quantity') . ' < ' . $db->quote((int) $stockAmount))
 					->order($db->qn('stock_quantity') . ' ASC')
 					->order($db->qn('s.max_del_time') . ' ASC');
 
@@ -974,7 +974,7 @@ class RedshopHelperStockroom
 				{
 					$query->clear('where')
 						->where($db->qn('stock_option') . ' = 3')
-						->where($db->qn('stock_quantity') . ' > ' . $db->q((int) $stockAmount))
+						->where($db->qn('stock_quantity') . ' > ' . $db->quote((int) $stockAmount))
 						->order($db->qn('stock_quantity') . ' ASC')
 						->order($db->qn('s.max_del_time') . ' ASC');
 
@@ -1007,8 +1007,8 @@ class RedshopHelperStockroom
 		$query = $db->getQuery(true)
 			->select('SUM(qty)')
 			->from($db->qn('#__redshop_cart'))
-			->where($db->qn('product_id') . ' = ' . $db->q((int) $sectionId))
-			->where($db->qn('section') . ' = ' . $db->q($section));
+			->where($db->qn('product_id') . ' = ' . $db->quote((int) $sectionId))
+			->where($db->qn('section') . ' = ' . $db->quote($section));
 
 		return (int) $db->setQuery($query)->loadResult();
 	}
@@ -1034,8 +1034,8 @@ class RedshopHelperStockroom
 				->select('SUM(qty)')
 				->from($db->qn('#__redshop_cart'))
 				->where($db->qn('product_id') . ' = ' . (int) $sectionId)
-				->where($db->qn('session_id') . ' = ' . $db->q($sessionId))
-				->where($db->qn('section') . ' = ' . $db->q($section));
+				->where($db->qn('session_id') . ' = ' . $db->quote($sessionId))
+				->where($db->qn('section') . ' = ' . $db->quote($section));
 
 			return (int) $db->setQuery($query)->loadResult();
 		}
@@ -1057,7 +1057,7 @@ class RedshopHelperStockroom
 			return false;
 		}
 
-		$db   = JFactory::getDBO();
+		$db   = JFactory::getDbo();
 		$time = time() - (Redshop::getConfig()->get('CART_TIMEOUT') * 60);
 
 		$query = $db->getQuery(true)
@@ -1084,12 +1084,12 @@ class RedshopHelperStockroom
 		{
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->where($db->qn('session_id') . ' = ' . $db->q(session_id()));
+				->where($db->qn('session_id') . ' = ' . $db->quote(session_id()));
 
 			if ($sectionId != 0)
 			{
-				$query->where($db->qn('product_id') . ' = ' . $db->q((int) $sectionId))
-					->where($db->qn('section') . ' = ' . $db->q($section));
+				$query->where($db->qn('product_id') . ' = ' . $db->quote((int) $sectionId))
+					->where($db->qn('section') . ' = ' . $db->quote($section));
 			}
 
 			if ($quantity)
@@ -1104,7 +1104,7 @@ class RedshopHelperStockroom
 				if ($qty - (int) $quantity > 0)
 				{
 					$query->update($db->qn('#__redshop_cart'))
-						->set($db->qn('qty') . ' = ' . $db->q(($qty - (int) $quantity)));
+						->set($db->qn('qty') . ' = ' . $db->quote(($qty - (int) $quantity)));
 				}
 				else
 				{
@@ -1137,16 +1137,16 @@ class RedshopHelperStockroom
 	{
 		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
-			$db        = JFactory::getDBO();
+			$db        = JFactory::getDbo();
 			$sessionId = session_id();
 			$time      = time();
 
 			$query = $db->getQuery(true)
 				->select($db->qn('qty'))
 				->from($db->qn('#__redshop_cart'))
-				->where($db->qn('session_id') . ' = ' . $db->q($sessionId))
-				->where($db->qn('product_id') . ' = ' . $db->q((int) $sectionId))
-				->where($db->qn('section') . ' = ' . $db->q($section));
+				->where($db->qn('session_id') . ' = ' . $db->quote($sessionId))
+				->where($db->qn('product_id') . ' = ' . $db->quote((int) $sectionId))
+				->where($db->qn('section') . ' = ' . $db->quote($section));
 
 			$qty = $db->setQuery($query)->loadResult();
 
@@ -1154,18 +1154,21 @@ class RedshopHelperStockroom
 			{
 				$query = $db->getQuery(true)
 					->update($db->qn('#__redshop_cart'))
-					->set($db->qn('qty') . ' = ' . $db->q((int) $quantity))
-					->set($db->qn('time') . ' = ' . $db->q($time))
-					->where($db->qn('session_id') . ' = ' . $db->q($sessionId))
-					->where($db->qn('product_id') . ' = ' . $db->q((int) $sectionId))
-					->where($db->qn('section') . ' = ' . $db->q($section));
+					->set($db->qn('qty') . ' = ' . $db->quote((int) $quantity))
+					->set($db->qn('time') . ' = ' . $db->quote($time))
+					->where($db->qn('session_id') . ' = ' . $db->quote($sessionId))
+					->where($db->qn('product_id') . ' = ' . $db->quote((int) $sectionId))
+					->where($db->qn('section') . ' = ' . $db->quote($section));
 			}
 			else
 			{
 				$query = $db->getQuery(true)
 					->insert($db->qn('#__redshop_cart'))
 					->columns(array($db->qn('session_id'), $db->qn('product_id'), $db->qn('qty'), $db->qn('time'), $db->qn('section')))
-					->values($db->q($sessionId) . ',' . $db->q((int) $sectionId) . ',' . $db->q((int) $quantity) . ',' . $db->q($time) . ',' . $db->q($section));
+					->values(
+						$db->quote($sessionId) . ',' . $db->quote((int) $sectionId) . ',' . $db->quote((int) $quantity)
+						. ',' . $db->quote($time) . ',' . $db->quote($section)
+					);
 			}
 
 			$db->setQuery($query)->execute();
@@ -1498,7 +1501,7 @@ class RedshopHelperStockroom
 			{
 				if ($section != "product")
 				{
-					$query->where($db->qn('x.section') . ' = ' . $db->q($section))
+					$query->where($db->qn('x.section') . ' = ' . $db->quote($section))
 						->where($db->qn('x.section_id') . ' IN (' . implode(',', $sectionIds) . ')');
 				}
 				else
@@ -1509,7 +1512,7 @@ class RedshopHelperStockroom
 
 			if ($stockroomId != 0)
 			{
-				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->q((int) $stockroomId));
+				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->quote((int) $stockroomId));
 			}
 
 			$query->group($db->qn('x.section_id'));
@@ -1549,7 +1552,7 @@ class RedshopHelperStockroom
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function checkQuantityInStock($data = array(), $newQuantity = 1, $minQuantity = 0)
+	public static function checkQuantityInStock($data = array(), $newQuantity = 1, $minQuantity = 0)
 	{
 		$productData     = RedshopHelperProduct::getProductById($data['product_id']);
 		$productPreOrder = $productData->preorder;

@@ -400,7 +400,7 @@ class RedshopHelperDiscount
 				}
 
 				$productId = $voucher->nproduct;
-				$products  = rsCarthelper::getInstance()->getCartProductPrice($productId, $cart, $voucher->voucher_left);
+				$products  = RedshopHelperCart::getCartProductPrice($productId, $cart, $voucher->voucher_left);
 
 				if ($products['product_ids'] == '')
 				{
@@ -807,5 +807,217 @@ class RedshopHelperDiscount
 		$discountCalculate['price_per_piece'] = $areaPrice;
 
 		return $discountCalculate;
+	}
+
+	/**
+	 * Discount calculator with product data.
+	 *
+	 * @param   object $productData Product data
+	 * @param   array  $data        Data
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function discountCalculatorData($productData, $data)
+	{
+		$useDiscountCalc      = $productData->use_discount_calc;
+		$discountCalcMethod   = $productData->discount_calc_method;
+		$useRange             = $productData->use_range;
+		$calculatorOutputList = array();
+
+		if (!$useDiscountCalc)
+		{
+			return array();
+		}
+
+		$discountCalculator = self::discountCalculator($data);
+
+		$calculatorPrice = $discountCalculator['product_price'];
+		$productPriceTax = $discountCalculator['product_price_tax'];
+
+		if (empty($calculatorPrice))
+		{
+			return array();
+		}
+
+		$calculateOutput = 'Type : ' . $discountCalcMethod . '<br />';
+
+		$calculatorOutputList['type'] = $discountCalcMethod;
+
+		if ($useRange)
+		{
+			$calcHeight        = isset($data['calcHeight']) ? $data['calcHeight'] : '';
+			$calcWidth         = isset($data['calcWidth']) ? $data['calcWidth'] : '';
+			$calcDepth         = isset($data['calcDepth']) ? $data['calcDepth'] : '';
+			$calcRadius        = isset($data['calcRadius']) ? $data['calcDepth'] : '';
+			$calcPricePerPiece = "";
+			$totalPiece        = "";
+		}
+		else
+		{
+			$calcHeight        = isset($productData->product_height) ? $productData->product_height : '';
+			$calcWidth         = isset($productData->product_width) ? $productData->product_width : '';
+			$calcDepth         = isset($productData->product_length) ? $productData->product_length : '';
+			$calcRadius        = isset($data['calcRadius']) ? $data['calcRadius'] : '';
+			$calcPricePerPiece = isset($discountCalculator['price_per_piece']) ? $discountCalculator['price_per_piece'] : '';
+			$totalPiece        = isset($discountCalculator['total_piece']) ? $discountCalculator['total_piece'] : '';
+		}
+
+		switch ($discountCalcMethod)
+		{
+			case "volume":
+
+				$calculateOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_HEIGHT') . " " . $calcHeight . "<br />";
+				$calculateOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_WIDTH') . " " . $calcWidth . "<br />";
+				$calculateOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_LENGTH') . " " . $calcDepth . "<br />";
+
+				$calculatorOutputList['calcHeight'] = $calcHeight;
+				$calculatorOutputList['calcWidth']  = $calcWidth;
+				$calculatorOutputList['calcDepth']  = $calcDepth;
+
+				if ($calcPricePerPiece != "")
+				{
+					$calculateOutput .= JText::_('COM_REDSHOP_PRICE_PER_PIECE') . " " . $calcPricePerPiece . "<br />";
+
+					$calculatorOutputList['calcPricePerPiece'] = $calcDepth;
+				}
+
+				if ($totalPiece != "")
+				{
+					$calculateOutput .= JText::_('COM_REDSHOP_TOTAL_PIECE') . " " . $totalPiece . "<br />";
+
+					$calculatorOutputList['totalPiece'] = $totalPiece;
+				}
+
+				break;
+
+			case "area":
+
+				$calculateOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_DEPTH') . " " . $calcDepth . "<br />";
+				$calculateOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_WIDTH') . " " . $calcWidth . "<br />";
+
+				$calculatorOutputList['calcDepth'] = $calcDepth;
+				$calculatorOutputList['calcWidth'] = $calcWidth;
+
+				if ($calcPricePerPiece != "")
+				{
+					$calculateOutput .= JText::_('COM_REDSHOP_PRICE_PER_PIECE') . " " . $calcPricePerPiece . "<br />";
+
+					$calculatorOutputList['calcPricePerPiece'] = $calcDepth;
+				}
+
+				if ($totalPiece != "")
+				{
+					$calculateOutput .= JText::_('COM_REDSHOP_TOTAL_PIECE') . " " . $totalPiece . "<br />";
+
+					$calculatorOutputList['totalPiece'] = $totalPiece;
+				}
+
+				break;
+
+			case "circumference":
+
+				$calculateOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_RADIUS') . " " . $calcRadius . "<br />";
+
+				$calculatorOutputList['calcRadius'] = $calcRadius;
+
+				if ($calcPricePerPiece != "")
+				{
+					$calculateOutput .= JText::_('COM_REDSHOP_PRICE_PER_PIECE') . " " . $calcPricePerPiece . "<br />";
+
+					$calculatorOutputList['calcPricePerPiece'] = $calcDepth;
+				}
+
+				if ($totalPiece != "")
+				{
+					$calculateOutput .= JText::_('COM_REDSHOP_TOTAL_PIECE') . " " . $totalPiece . "<br />";
+
+					$calculatorOutputList['totalPiece'] = $totalPiece;
+				}
+				break;
+		}
+
+		$calculateOutput .= JText::_('COM_REDSHOP_DISCOUNT_CALC_UNIT') . " " . $data['calcUnit'];
+
+		$calculatorOutputList['calcUnit'] = $data['calcUnit'];
+
+		// Extra selected value data
+		$calculateOutput .= "<br />" . $discountCalculator['pdcextra_data'];
+
+		// Extra selected value ids
+		$calculatorOutputList['calcextra_ids'] = $discountCalculator['pdcextra_ids'];
+
+		return array($calculateOutput, $calculatorOutputList, $calculatorPrice, $productPriceTax);
+	}
+
+	/**
+	 * Method for get Coupon Data.
+	 *
+	 * @param   string  $couponCode Coupon code
+	 * @param   integer $subtotal   Subtotal
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getCouponData($couponCode, $subtotal = 0)
+	{
+		$db = JFactory::getDbo();
+
+		$today  = time();
+		$user   = JFactory::getUser();
+		$coupon = null;
+
+		// Create the base select statement.
+		$query = $db->getQuery(true)
+			->select('c.*')
+			->from($db->qn('#__redshop_coupons', 'c'))
+			->where($db->qn('c.published') . ' = 1')
+			->where($db->qn('c.start_date') . ' <= ' . $db->quote($today))
+			->where($db->qn('c.end_date') . ' >= ' . $db->quote($today));
+
+		if ($user->id)
+		{
+			$userQuery = clone $query;
+			$userQuery->select(
+				array(
+					$db->qn('ct.coupon_value', 'coupon_value'),
+					$db->qn('ct.userid'),
+					$db->qn('ct.transaction_coupon_id')
+				)
+			)
+				->leftJoin(
+					$db->qn('#__redshop_coupons_transaction', 'ct')
+					. ' ON ' . $db->qn('ct.coupon_id') . ' = ' . $db->qn('c.coupon_id')
+				)
+				->where($db->qn('ct.coupon_value') . ' > 0')
+				->where($db->qn('ct.coupon_code') . ' = ' . $db->quote($couponCode))
+				->where($db->qn('ct.userid') . ' = ' . (int) $user->id)
+				->order($db->qn('ct.transaction_coupon_id') . ' DESC');
+
+			$coupon = $db->setQuery($userQuery, 0, 1)->loadObject();
+
+			if ($coupon)
+			{
+				rsCarthelper::getInstance()->_c_remain = 1;
+			}
+		}
+
+		if (!$coupon)
+		{
+			$query->where($db->qn('c.coupon_code') . ' = ' . $db->quote($couponCode))
+				->where($db->qn('c.coupon_left') . ' > 0')
+				->where(
+					'('
+					. $db->quote($subtotal) . ' >= ' . $db->qn('c.subtotal')
+					. ' OR ' . $db->qn('c.subtotal') . ' = 0'
+					. ')'
+				);
+
+			$coupon = $db->setQuery($query, 0, 1)->loadObject();
+		}
+
+		return $coupon;
 	}
 }

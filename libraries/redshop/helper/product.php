@@ -1156,4 +1156,29 @@ class RedshopHelperProduct
 
 		return productHelper::getInstance()->productPriceRound($productTax);
 	}
+
+	/**
+	 * Method for get attribute set ID from specific product
+	 *
+	 * @param   integer  $productId  ID of product
+	 *
+	 * @return  integer              ID of Attribute set.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getAttributeSetId($productId = 0)
+	{
+		if (!$productId)
+		{
+			return 0;
+		}
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('attribute_set_id'))
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('product_id') . ' = ' . (int) $productId);
+
+		return $db->setQuery($query)->loadResult();
+	}
 }

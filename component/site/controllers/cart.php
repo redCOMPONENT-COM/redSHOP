@@ -326,7 +326,7 @@ class RedshopControllerCart extends RedshopController
 		$cart['discount_vat']              = $discountVAT;
 		$cart['shipping_tax']              = $calArr[6];
 		$cart['discount_ex_vat']           = $totaldiscount - $discountVAT;
-		$cart['mod_cart_total']            = $this->_carthelper->GetCartModuleCalc($cart);
+		$cart['mod_cart_total']            = RedshopHelperCart::getCartModuleCalc($cart);
 		$session->set('cart', $cart);
 
 		return $cart;
