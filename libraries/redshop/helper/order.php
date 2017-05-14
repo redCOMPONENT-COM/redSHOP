@@ -589,27 +589,27 @@ class RedshopHelperOrder
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-					->update($db->qn('#__redshop_orders'))
-					->set($db->qn('order_status') . ' = ' . $db->quote($newStatus))
-					->set($db->qn('mdate') . ' = ' . (int) time())
-					->where($db->qn('order_id') . ' = ' . (int) $orderId);
+			->update($db->qn('#__redshop_orders'))
+			->set($db->qn('order_status') . ' = ' . $db->quote($newStatus))
+			->set($db->qn('mdate') . ' = ' . (int) time())
+			->where($db->qn('order_id') . ' = ' . (int) $orderId);
 		$db->setQuery($query);
 		$db->execute();
 
 		self::generateInvoiceNumber($orderId);
 
 		$query = $db->getQuery(true)
-					->select(
-						$db->qn(
-							array(
-							'e.element', 'op.order_transfee', 'op.order_payment_trans_id', 'op.order_payment_amount', 'op.authorize_status'
-							)
-						)
+			->select(
+				$db->qn(
+					array(
+					'e.element', 'op.order_transfee', 'op.order_payment_trans_id', 'op.order_payment_amount', 'op.authorize_status'
 					)
-					->from($db->qn('#__extensions', 'e'))
-					->leftJoin($db->qn('#__redshop_order_payment', 'op') . ' ON ' . $db->qn('op.payment_method_class') . ' = ' . $db->qn('e.element'))
-					->where($db->qn('op.order_id') . ' = ' . (int) $orderId)
-					->where($db->qn('e.folder') . ' = ' . $db->quote('redshop_payment'));
+				)
+			)
+			->from($db->qn('#__extensions', 'e'))
+			->leftJoin($db->qn('#__redshop_order_payment', 'op') . ' ON ' . $db->qn('op.payment_method_class') . ' = ' . $db->qn('e.element'))
+			->where($db->qn('op.order_id') . ' = ' . (int) $orderId)
+			->where($db->qn('e.folder') . ' = ' . $db->quote('redshop_payment'));
 		$result = $db->setQuery($query, 0, 1)->loadObject();
 
 		$authorizeStatus = $result->authorize_status;
@@ -1638,11 +1638,11 @@ class RedshopHelperOrder
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__extensions'))
-					->where($db->qn('enabled') . ' = ' . $db->quote('1'))
-					->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote('redshop_payment'))
-					->order($db->qn('ordering') . ' ASC');
+			->select('*')
+			->from($db->qn('#__extensions'))
+			->where($db->qn('enabled') . ' = ' . $db->quote('1'))
+			->where('LOWER(' . $db->qn('folder') . ') = ' . $db->quote('redshop_payment'))
+			->order($db->qn('ordering') . ' ASC');
 
 		if ($paymentMethodClass != '')
 		{
@@ -2745,14 +2745,12 @@ class RedshopHelperOrder
 	 */
 	public static function orderStatusUpdate($orderId, $post = array())
 	{
-		$helper          = redhelper::getInstance();
-		$stockroomHelper = rsstockroomhelper::getInstance();
-		$productHelper   = productHelper::getInstance();
-		$newStatus       = $post['mass_change_order_status'];
-		$customerNote    = $post['customer_note' . $orderId];
-		$isProduct       = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
-		$productId       = (isset($post['product_id'])) ? $post['product_id'] : 0;
-		$paymentStatus   = $post['mass_change_payment_status'];
+		$productHelper = productHelper::getInstance();
+		$newStatus     = $post['mass_change_order_status'];
+		$customerNote  = $post['customer_note' . $orderId];
+		$isProduct     = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
+		$productId     = (isset($post['product_id'])) ? $post['product_id'] : 0;
+		$paymentStatus = $post['mass_change_payment_status'];
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
