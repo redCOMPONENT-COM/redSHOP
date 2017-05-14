@@ -1368,7 +1368,7 @@ class RedshopHelperOrder
 		}
 
 		self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
-		RedshopHelperClickATell::clickatellSMS($orderId);
+		RedshopHelperClickatell::clickatellSMS($orderId);
 
 		switch ($newStatus)
 		{
@@ -2822,7 +2822,7 @@ class RedshopHelperOrder
 		if (Redshop::getConfig()->get('CLICKATELL_ENABLE'))
 		{
 			// Changing the status of the order end
-			RedshopHelperClickATell::clickatellSMS($orderId);
+			RedshopHelperClickatell::clickatellSMS($orderId);
 		}
 
 		// If changing the status of the order then there item status need to change
