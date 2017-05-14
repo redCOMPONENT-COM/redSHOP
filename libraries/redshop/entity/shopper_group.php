@@ -19,6 +19,13 @@ defined('_JEXEC') or die;
 class RedshopEntityShopper_Group extends RedshopEntity
 {
 	/**
+	 * @var    RedshopEntitiesCollection
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $discounts;
+
+	/**
 	 * Get the associated table
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
@@ -48,6 +55,64 @@ class RedshopEntityShopper_Group extends RedshopEntity
 		if (($table = $this->getTable()) && $table->load(array($key => ($key == 'shopper_group_id' ? $this->id : $keyValue))))
 		{
 			$this->loadFromTable($table);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Method for get discounts of this shopper group
+	 *
+	 * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getDiscounts()
+	{
+		if (!$this->hasId())
+		{
+			return null;
+		}
+
+		if (null === $this->discounts)
+		{
+			$this->loadDiscounts();
+		}
+
+		return $this->discounts;
+	}
+
+	/**
+	 * Method for load discounts for this shopper group
+	 *
+	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadDiscounts()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$this->discounts = new RedshopEntitiesCollection;
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('discount_id'))
+			->from($db->qn('#__redshop_discount_shoppers'))
+			->where($db->qn('shopper_group_id') . ' = ' . $this->getId());
+		$discounts = $db->setQuery($query)->loadColumn();
+
+		if (empty($discounts))
+		{
+			return $this;
+		}
+
+		foreach ($discounts as $discountId)
+		{
+			$this->discounts->add(RedshopEntityDiscount::getInstance($discountId));
 		}
 
 		return $this;
