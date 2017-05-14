@@ -7334,7 +7334,7 @@ class productHelper
 	 * @param   int  $faq         is FAQ
 	 * @param   int  $front       show in Front or Not
 	 *
-	 * @return  Object List
+	 * @return  array
 	 */
 	public function getQuestionAnswer($questionId = 0, $productId = 0, $faq = 0, $front = 0)
 	{
