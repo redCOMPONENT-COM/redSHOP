@@ -43,7 +43,7 @@ class RedshopControllerUser_detail extends RedshopController
 
 		if ($row = $model->store($post))
 		{
-			$this->setMessage(JText::_('COM_REDSHOP_USER_DETAIL_SAVED'), 'success');
+			$this->setMessage(JText::_('COM_REDSHOP_USER_DETAIL_SAVED'));
 			$app->setUserState('com_redshop.fields_detail.data', "");
 		}
 		else
