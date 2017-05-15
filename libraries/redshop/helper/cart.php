@@ -72,12 +72,14 @@ abstract class RedshopHelperCart
 				$query = $db->getQuery(true)
 					->delete($db->qn('#__redshop_usercart_accessory_item'))
 					->where($db->qn('cart_item_id') . ' IN (' . implode(',', $cartItemIds) . ')');
+
 				$db->setQuery($query)->execute();
 
 				// Delete attribute
 				$query = $db->getQuery(true)
 					->delete($db->qn('#__redshop_usercart_attribute_item'))
 					->where($db->qn('cart_item_id') . ' IN (' . implode(',', $cartItemIds) . ')');
+
 				$db->setQuery($query)->execute();
 			}
 
@@ -85,6 +87,7 @@ abstract class RedshopHelperCart
 			$query = $db->getQuery(true)
 				->delete($db->qn('#__redshop_usercart_item'))
 				->where($db->qn('cart_id') . ' = ' . (int) $cartId);
+
 			$db->setQuery($query)->execute();
 
 			if ($delCart)
@@ -92,8 +95,8 @@ abstract class RedshopHelperCart
 				$query = $db->getQuery(true)
 					->delete($db->qn('#__redshop_usercart'))
 					->where($db->qn('cart_id') . ' = ' . (int) $cartId);
-				$db->setQuery($query);
-				$db->execute();
+
+				$db->setQuery($query)->execute();
 			}
 
 			$db->transactionCommit();
@@ -358,7 +361,7 @@ abstract class RedshopHelperCart
 	 */
 	public static function databaseToCart($userId = 0)
 	{
-		if (!$userId == 0)
+		if (!$userId)
 		{
 			$user   = JFactory::getUser();
 			$userId = $user->id;

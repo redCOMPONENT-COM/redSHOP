@@ -85,14 +85,41 @@ class RedshopHelperOrder
 	protected static $shippingMethods = array();
 
 	/**
+	 * Order items
+	 *
+	 * @var   array
+	 *
+	 * @since  2.0.6
+	 */
+	protected static $orderItems = array();
+
+	/**
+	 * Order Products Download Log
+	 *
+	 * @var   array
+	 *
+	 * @since  2.0.6
+	 */
+	protected static $orderProductsDownloadLog = array();
+
+	/**
+	 * Order Products Download
+	 *
+	 * @var   array
+	 *
+	 * @since  2.0.6
+	 */
+	protected static $orderProductsDownload = array();
+
+	/**
 	 * Get order information from order id.
 	 *
-	 * @param   integer $orderId Order Id
-	 * @param   boolean $force   Force to get order information from DB instead of cache.
+	 * @param   integer  $orderId  Order Id
+	 * @param   boolean  $force    Force to get order information from DB instead of cache.
 	 *
 	 * @return  object    Order Information Object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderDetail($orderId, $force = false)
 	{
@@ -114,7 +141,7 @@ class RedshopHelperOrder
 	/**
 	 * Generate Invoice number in chronological order
 	 *
-	 * @param   integer $orderId Order Id
+	 * @param   integer  $orderId  Order Id
 	 *
 	 * @return  mixed              Invoice number clean and formatted value
 	 */
@@ -249,7 +276,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function updateInvoiceNumber($number, $orderId)
 	{
@@ -309,7 +336,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object   Payment Information for orders
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getPaymentInfo($orderId)
 	{
@@ -323,7 +350,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object             Query Object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderUserQuery($orderId)
 	{
@@ -343,7 +370,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object   Order Billing information object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderBillingUserInfo($orderId, $force = false)
 	{
@@ -371,7 +398,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object   Order Shipping information object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderShippingUserInfo($orderId, $force = false)
 	{
@@ -400,7 +427,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array                      Extra Field name as a key of an array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderExtraFieldsData($orderUserInfoId, $section = 'billing', $force = false)
 	{
@@ -471,7 +498,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array              Order Items
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEntityOrder::getOrderItems instead
+	 * @deprecated  2.0.6 Use RedshopEntityOrder::getOrderItems instead
 	 */
 	public static function getItems($orderId)
 	{
@@ -1064,7 +1091,7 @@ class RedshopHelperOrder
 	 *
 	 * @since       2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function updateOrderPaymentStatus($orderId, $newStatus)
 	{
@@ -1088,7 +1115,7 @@ class RedshopHelperOrder
 	 *
 	 * @since       2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function updateOrderComment($orderId, $comment = '')
 	{
@@ -1345,7 +1372,7 @@ class RedshopHelperOrder
 		}
 
 		self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
-		RedshopHelperClickATell::clickatellSMS($orderId);
+		RedshopHelperClickatell::clickatellSMS($orderId);
 
 		switch ($newStatus)
 		{
@@ -1453,7 +1480,7 @@ class RedshopHelperOrder
 	 *
 	 * @since       2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderDetails($orderId)
 	{
@@ -1530,33 +1557,38 @@ class RedshopHelperOrder
 			return false;
 		}
 
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_order_item'));
+		$key = $orderId . '_' . $productId . '_' . $orderItemId;
 
-		if (!empty($orderId))
+		if (!array_key_exists($key, self::$orderItems))
 		{
-			$orderId = explode(',', $orderId);
-			$orderId = ArrayHelper::toInteger($orderId);
-			$orderId = implode(',', $orderId);
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_order_item'));
 
-			$query->where($db->qn('order_id') . ' IN (' . $orderId . ')');
+			if (!empty($orderId))
+			{
+				$orderId = explode(',', $orderId);
+				$orderId = ArrayHelper::toInteger($orderId);
+				$orderId = implode(',', $orderId);
+
+				$query->where($db->qn('order_id') . ' IN (' . $orderId . ')');
+			}
+
+			if ($productId != 0)
+			{
+				$query->where($db->qn('product_id') . ' = ' . (int) $productId);
+			}
+
+			if ($orderItemId != 0)
+			{
+				$query->where($db->qn('order_item_id') . ' = ' . (int) $orderItemId);
+			}
+
+			self::$orderItems[$key] = $db->setQuery($query)->loadObjectList();
 		}
 
-		if ($productId != 0)
-		{
-			$query->where($db->qn('product_id') . ' = ' . (int) $productId);
-		}
-
-		if ($orderItemId != 0)
-		{
-			$query->where($db->qn('order_item_id') . ' = ' . (int) $orderItemId);
-		}
-
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return self::$orderItems[$key];
 	}
 
 	/**
@@ -1975,8 +2007,8 @@ class RedshopHelperOrder
 			$query->where($db->qn('country_3_code') . ' = ' . $db->quote($cnt3));
 		}
 
-		$db->setQuery($query);
-		$countries = $db->loadObjectList();
+		$countries = $db->setQuery($query)->loadObjectList();
+
 		$countries = RedshopHelperUtility::convertLanguageString($countries);
 
 		if (count($countries) > 0)
@@ -2076,7 +2108,6 @@ class RedshopHelperOrder
 		$mailData = str_replace("{order_number}", $orderDetail->order_number, $mailData);
 		$mailData = str_replace("{order_date}", $config->convertDateFormat($orderDetail->cdate), $mailData);
 
-		$mailToken     = "";
 		$productStart  = "";
 		$productEnd    = "";
 		$productMiddle = "";
@@ -2098,7 +2129,6 @@ class RedshopHelperOrder
 		foreach ($rows as $row)
 		{
 			$dataMessage      = $productMiddle;
-			$downloadFilename = "";
 			$downloadFilename = substr(basename($row->file_name), 11);
 
 			$mailToken = "<a href='" . JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
@@ -2132,22 +2162,28 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer $orderId Order ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */
 	public static function getDownloadProduct($orderId)
 	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('pd.*')
-			->select($db->qn('product_name'))
-			->from($db->qn('#__redshop_product_download', 'pd'))
-			->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('pd.product_id') . ' = ' . $db->qn('p.product_id'))
-			->where($db->qn('order_id') . ' = ' . (int) $orderId);
-		$db->setQuery($query);
+		if (!array_key_exists($orderId, self::$orderProductsDownload))
+		{
+			$db = JFactory::getDbo();
 
-		return $db->loadObjectList();
+			$query = $db->getQuery(true)
+				->select('pd.*')
+				->select($db->qn('product_name'))
+				->from($db->qn('#__redshop_product_download', 'pd'))
+				->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('pd.product_id') . ' = ' . $db->qn('p.product_id'))
+				->where($db->qn('order_id') . ' = ' . (int) $orderId);
+
+
+			self::$orderProductsDownload[$orderId] = $db->setQuery($query)->loadObjectList();
+		}
+
+		return self::$orderProductsDownload[$orderId];
 	}
 
 	/**
@@ -2156,29 +2192,34 @@ class RedshopHelperOrder
 	 * @param   integer $orderId Order Id
 	 * @param   string  $did     Download id
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */
 	public static function getDownloadProductLog($orderId, $did = '')
 	{
-		$db = JFactory::getDbo();
+		$key = $orderId . '_' . $did;
 
-		$query = $db->getQuery(true)
-			->select('pdl.*')
-			->select($db->qn(array('pd.order_id', 'pd.product_id', 'pd.file_name')))
-			->from($db->qn('#__redshop_product_download_log', 'pdl'))
-			->leftJoin($db->qn('#__redshop_product_download', 'pd') . ' ON ' . $db->qn('pd.download_id') . ' = ' . $db->qn('pdl.download_id'))
-			->where($db->qn('pd.order_id') . ' = ' . (int) $orderId);
-
-		if ($did != '')
+		if (!array_key_exists($key, self::$orderProductsDownloadLog))
 		{
-			$query->where($db->qn('pdl.download_id') . ' = ' . $db->quote($did));
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select('pdl.*')
+				->select($db->qn(array('pd.order_id', 'pd.product_id', 'pd.file_name')))
+				->from($db->qn('#__redshop_product_download_log', 'pdl'))
+				->leftJoin($db->qn('#__redshop_product_download', 'pd') . ' ON ' . $db->qn('pd.download_id') . ' = ' . $db->qn('pdl.download_id'))
+				->where($db->qn('pd.order_id') . ' = ' . (int) $orderId);
+
+			if ($did != '')
+			{
+				$query->where($db->qn('pdl.download_id') . ' = ' . $db->quote($did));
+			}
+
+			self::$orderProductsDownloadLog[$key] = $db->setQuery($query)->loadObjectList();
 		}
 
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return self::$orderProductsDownloadLog[$key];
 	}
 
 	/**
@@ -2371,7 +2412,9 @@ class RedshopHelperOrder
 			{
 				for ($i = 0, $in = count($fieldArray); $i < $in; $i++)
 				{
-					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->id, RedshopHelperExtrafields::SECTION_ORDER, $orderId, $userDetail->user_email);
+					$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList(
+						$fieldArray[$i]->id, RedshopHelperExtrafields::SECTION_ORDER, $orderId, $userDetail->user_email
+					);
 
 					if ($fieldValueArray->data_txt != "")
 					{
@@ -2398,7 +2441,6 @@ class RedshopHelperOrder
 
 			$mailData = $cartHelper->replaceOrderTemplate($orderDetail, $mailData, true);
 
-			$arrDiscountType = array();
 			$arrDiscount     = explode('@', $orderDetail->discount_type);
 			$discountType    = '';
 
@@ -2786,7 +2828,7 @@ class RedshopHelperOrder
 		if (Redshop::getConfig()->get('CLICKATELL_ENABLE'))
 		{
 			// Changing the status of the order end
-			RedshopHelperClickATell::clickatellSMS($orderId);
+			RedshopHelperClickatell::clickatellSMS($orderId);
 		}
 
 		// If changing the status of the order then there item status need to change
@@ -2872,7 +2914,7 @@ class RedshopHelperOrder
 	 *
 	 * @since       2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderPaymentDetail($orderPaymentId = 0)
 	{

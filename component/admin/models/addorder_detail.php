@@ -752,7 +752,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
-			RedshopHelperClickATell::clickatellSMS($row->order_id);
+			RedshopHelperClickatell::clickatellSMS($row->order_id);
 		}
 
 		// Economic Integration start for invoice generate and book current invoice

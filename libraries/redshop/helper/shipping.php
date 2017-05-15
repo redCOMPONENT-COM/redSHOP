@@ -18,9 +18,26 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperShipping
 {
+	/**
+	 * @var   array
+	 *
+	 * @since 2.0.0.3
+	 */
 	protected static $shippingBoxes;
 
+	/**
+	 * @var   array
+	 *
+	 * @since 2.0.0.3
+	 */
 	protected static $users = array();
+
+	/**
+	 * @var   array
+	 *
+	 * @since  2.0.6
+	 */
+	protected static $defaultShipping = array();
 
 	/**
 	 * Get Shipping rate for cart
@@ -33,6 +50,13 @@ class RedshopHelperShipping
 	 */
 	public static function getDefaultShipping($data)
 	{
+		$shippingArr = self::getShopperGroupDefaultShipping();
+
+		if (!empty($shippingArr))
+		{
+			return $shippingArr;
+		}
+
 		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 		$orderSubtotal = $data['order_subtotal'];
@@ -59,6 +83,13 @@ class RedshopHelperShipping
 			$isCompany = $userInfo->is_company;
 			$userId    = $userInfo->user_id;
 			$state     = $userInfo->state_code;
+		}
+
+		$key = md5(serialize($data)) . md5(serialize($userInfo));
+
+		if (array_key_exists($key, self::$defaultShipping))
+		{
+			return self::$defaultShipping[$key];
 		}
 
 		$shopperGroup = RedshopHelperUser::getShopperGroupData($userId);
@@ -100,13 +131,6 @@ class RedshopHelperShipping
 		else
 		{
 			$isWhere = ' AND (' . $db->qn('company_only') . ' = 1 OR ' . $db->qn('company_only') . ' = 0) ';
-		}
-
-		$shippingArr = self::getShopperGroupDefaultShipping();
-
-		if (!empty($shippingArr))
-		{
-			return $shippingArr;
 		}
 
 		$cart         = $session->get('cart');
@@ -186,28 +210,29 @@ class RedshopHelperShipping
 					}
 
 					$where     .= ")";
-					$newCwhere = str_replace("AND (", "OR (", $where);
-					$sql       = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " AS sr
+				}
+			}
+
+			$newCwhere = str_replace("AND (", "OR (", $where);
+			$sql       = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " AS sr
 								 LEFT JOIN " . $db->qn('#__extensions') . " AS s
 								 ON
 								 " . $db->qn('sr.shipping_class') . " = " . $db->qn('s.element') . "
 								 WHERE " . $db->qn('s.folder') . " = " . $db->q('redshop_shipping')
-						. " AND " . $db->qn('s.enabled') . " = 1 AND" . $whereCountry . $whereShopper . $isWhere . "
+				. " AND " . $db->qn('s.enabled') . " = 1 AND" . $whereCountry . $whereShopper . $isWhere . "
 								 AND ((" . $db->qn('shipping_rate_volume_start') . " <= " . $db->q($volume)
-						. " AND " . $db->qn('shipping_rate_volume_end') . " >= "
-						. $db->q($volume) . ") OR (" . $db->qn('shipping_rate_volume_end') . " = 0) )
+				. " AND " . $db->qn('shipping_rate_volume_end') . " >= "
+				. $db->q($volume) . ") OR (" . $db->qn('shipping_rate_volume_end') . " = 0) )
 								 AND ((" . $db->qn('shipping_rate_ordertotal_start') . " <= " . $db->q($orderSubtotal)
-						. " AND " . $db->qn('shipping_rate_ordertotal_end') . " >= "
-						. $db->q($orderSubtotal) . ")  OR (" . $db->qn('shipping_rate_ordertotal_end') . " = 0))
+				. " AND " . $db->qn('shipping_rate_ordertotal_end') . " >= "
+				. $db->q($orderSubtotal) . ")  OR (" . $db->qn('shipping_rate_ordertotal_end') . " = 0))
 								 AND ((" . $db->qn('shipping_rate_weight_start') . " <= " . $db->q($weightTotal)
-						. " AND " . $db->qn('shipping_rate_weight_end') . " >= "
-						. $db->q($weightTotal) . ")  OR (" . $db->qn('shipping_rate_weight_end') . " = 0))"
-						. $where . $whereState . "
+				. " AND " . $db->qn('shipping_rate_weight_end') . " >= "
+				. $db->q($weightTotal) . ")  OR (" . $db->qn('shipping_rate_weight_end') . " = 0))"
+				. $where . $whereState . "
 								ORDER BY " . $db->qn('s.ordering') . ", " . $db->qn('sr.shipping_rate_priority') . " LIMIT 0,1";
 
-					$shippingRate = $db->setQuery($sql)->loadObject();
-				}
-			}
+			$shippingRate = $db->setQuery($sql)->loadObject();
 		}
 
 		if (!$shippingRate)
@@ -257,10 +282,9 @@ class RedshopHelperShipping
 			}
 		}
 
-		$shipArr['shipping_rate'] = $total;
-		$shipArr['shipping_vat']  = $shippingVat;
+		self::$defaultShipping[$key] = array('shipping_rate' => $total, 'shipping_vat' => $shippingVat);
 
-		return $shipArr;
+		return self::$defaultShipping[$key];
 	}
 
 	/**
