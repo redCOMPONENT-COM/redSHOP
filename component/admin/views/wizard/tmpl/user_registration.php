@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -45,7 +45,7 @@ defined('_JEXEC') or die;
 				</td>
 				<td>
 					<textarea class="text_area" type="text" name="welcomepage_introtext" id="welcomepage_introtext"
-					          rows="4" cols="40"/><?php echo $this->temparray['welcomepage_introtext']; ?></textarea>
+					          rows="4" cols="40"/><?php echo $this->temparray['WELCOMEPAGE_INTROTEXT']; ?></textarea>
 				</td>
 			</tr>
 		</table>
@@ -70,7 +70,7 @@ if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 2)
 				</td>
 				<td>
 					<textarea class="text_area" type="text" name="registration_introtext" id="registration_introtext"
-					          rows="4" cols="40"/><?php echo $this->temparray['registration_introtext']; ?></textarea>
+					          rows="4" cols="40"/><?php echo $this->temparray['REGISTRATION_INTROTEXT']; ?></textarea>
 				</td>
 			</tr>
 		</table>
@@ -97,7 +97,7 @@ if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 1)
 				<td>
 					<textarea class="text_area" type="text" name="registration_comp_introtext"
 					          id="registration_comp_introtext" rows="4"
-					          cols="40"/><?php echo $this->temparray['registration_comp_introtext']; ?></textarea>
+					          cols="40"/><?php echo $this->temparray['REGISTRATION_COMPANY_INTROTEXT']; ?></textarea>
 				</td>
 			</tr>
 		</table>

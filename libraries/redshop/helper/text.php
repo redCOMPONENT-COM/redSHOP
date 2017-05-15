@@ -3,10 +3,10 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 
 defined('_JEXEC') or die;
@@ -16,7 +16,7 @@ JHTML::_('behavior.tooltip');
 /**
  * Class Redshop Helper Text
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopHelperText
 {
@@ -25,7 +25,7 @@ class RedshopHelperText
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getTextLibraryData()
 	{
@@ -35,15 +35,15 @@ class RedshopHelperText
 			->from($db->qn('#__redshop_textlibrary'))
 			->where($db->qn('published') . ' = 1');
 
-		return $db->setQuery($query)->loadObjectlist();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
 	 * Get array of tag for text library
 	 *
-	 * @return  string
+	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function getTextLibraryTagArray()
 	{
@@ -67,7 +67,7 @@ class RedshopHelperText
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public static function replaceTexts($data)
 	{

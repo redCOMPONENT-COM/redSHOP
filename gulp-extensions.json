@@ -1,6 +1,6 @@
 {
   "components": [
-    "redshop"
+    "redshop", "redshop.assets"
   ],
   "libraries": [
     "redshop"
@@ -63,6 +63,32 @@
     "redshop_alert": [
       "alert"
     ],
+    "redshop_export": [
+      "attribute",
+      "category",
+      "field",
+      "manufacturer",
+      "product",
+      "product_stockroom_data",
+      "related_product",
+      "shipping_address",
+      "shopper_group_attribute_price",
+      "shopper_group_product_price",
+      "user"
+    ],
+    "redshop_import": [
+      "attribute",
+      "category",
+      "field",
+      "manufacturer",
+      "product",
+      "product_stockroom_data",
+      "shipping_address",
+      "shopper_group_product_price",
+      "shopper_group_attribute_price",
+      "user",
+      "related_product"
+    ],
     "redshop_payment": [
       "baokim",
       "cielo",
@@ -118,7 +144,12 @@
       "postdanmark",
       "shoppergroup_tags",
       "stock_notifyemail",
-      "stockroom_status"
+      "stockroom_status",
+      "discount_affect_attribute",
+      "bundle"
+    ],
+    "redshop_product_type": [
+      "bundle"
     ],
     "redshop_shipping": [
       "bring",
@@ -148,12 +179,15 @@
       "sh404sefextplugincom_redshop"
     ],
     "system": [
+      "agile_crm",
       "mvcoverride",
       "quickbook",
       "redgoogleanalytics",
       "redlightbox_slideshow",
       "redproductzoom",
-      "redshop"
+      "redshop",
+      "redshop_send_discountcode",
+      "redshop_product_bundle"
     ],
     "user": [
       "highrise"

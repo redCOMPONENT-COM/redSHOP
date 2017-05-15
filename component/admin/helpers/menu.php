@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopMenu instead
+ * @deprecated  2.0.3  Use RedshopMenu instead
  */
 
 defined('_JEXEC') or die;
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since       1.6.1
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopMenu instead
+ * @deprecated  2.0.3  Use RedshopMenu instead
  */
 class RedshopAdminMenu extends RedshopMenu
 {
@@ -29,7 +29,7 @@ class RedshopAdminMenu extends RedshopMenu
 	 *
 	 * @since   1.6.1
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use new RedshopMenu instead
+	 * @deprecated  2.0.3  Use new RedshopMenu instead
 	 */
 	public static function getInstance()
 	{
@@ -48,7 +48,7 @@ class RedshopAdminMenu extends RedshopMenu
 	 *
 	 * @since   1.6.1
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use new RedshopMenu instead
+	 * @deprecated  2.0.3  Use new RedshopMenu instead
 	 */
 	public function init()
 	{

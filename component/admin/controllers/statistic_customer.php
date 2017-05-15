@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller.Statistic Customer
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 {
@@ -23,7 +23,7 @@ class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 	 *
 	 * @return  mixed.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function exportCustomer()
 	{

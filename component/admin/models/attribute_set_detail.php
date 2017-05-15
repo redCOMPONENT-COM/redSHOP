@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -197,7 +197,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 			$attr = $this->_db->loadObjectlist();
 		}
 
-		$attribute_data = '';
+		$attribute_data = array();
 
 		for ($i = 0, $in = count($attr); $i < $in; $i++)
 		{
@@ -247,7 +247,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	public function getattributelist($data)
 	{
 		$db = $this->_db;
-		$attribute_data = '';
+		$attribute_data = array();
 		$producthelper = productHelper::getInstance();
 		$attr = $producthelper->getProductAttribute(0, $data);
 

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -22,7 +22,7 @@ $user = JFactory::getUser();
 $session = JFactory::getSession();
 $user_id = $user->id;
 
-$Itemid = $redhelper->getCheckoutItemid();
+$Itemid = RedshopHelperUtility::getCheckoutItemId();
 $cart = $session->get('cart');
 
 $payment_method_id = $app->input->getCmd('payment_method_id', '');

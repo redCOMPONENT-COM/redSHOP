@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,13 +53,11 @@ class RedshopViewStatistic_Order extends RedshopViewAdmin
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_ORDER'), 'statistic redshop_statistic48');
-
-		RedshopToolbarHelper::custom(
-			'exportOrder',
+		RedshopToolbarHelper::link(
+			'index.php?tmpl=component&option=com_redshop&task=statistic_order.exportOrder&date_range=' . $this->state->get('filter.date_range'),
 			'save.png',
-			'save_f2.png',
 			'COM_REDSHOP_EXPORT_DATA_LBL',
-			false
+			'_blank'
 		);
 		RedshopToolbarHelper::link(
 			'index.php?tmpl=component&option=com_redshop&view=statistic_order',

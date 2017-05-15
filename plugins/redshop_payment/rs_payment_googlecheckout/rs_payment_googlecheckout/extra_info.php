@@ -9,9 +9,6 @@
 
 JLoader::import('redshop.library');
 
-$shippinghelper = shipping::getInstance();
-$currencyClass  = CurrencyHelper::getInstance();
-
 // Currency accepted by Google
 $currency_code = "USD";
 $order         = $data['order'];
@@ -73,7 +70,7 @@ $cart = new GoogleCart($merchant_id, $merchant_key, $server_type, $currency);
 // Add product items
 for ($p = 0, $pn = count($rs); $p < $pn; $p++)
 {
-	$item_price = $currencyClass->convert($rs [$p]->product_item_price, '', $currency_code);
+	$item_price = RedshopHelperCurrency::convert($rs [$p]->product_item_price, '', $currency_code);
 
 	$item = new GoogleItem(
 		// Item name
@@ -89,7 +86,7 @@ for ($p = 0, $pn = count($rs); $p < $pn; $p++)
 	$cart->AddItem($item);
 }
 
-$discount_price = (0 - $currencyClass->convert($order->order_discount, '', $currency_code));
+$discount_price = (0 - RedshopHelperCurrency::convert($order->order_discount, '', $currency_code));
 
 $disoucnt_item = new GoogleItem(
 	// Item name
@@ -114,11 +111,11 @@ $cart->SetMerchantPrivateData(
 );
 
 // Add shipping options
-$shipping_method_name = explode("|", $shippinghelper->decryptShipping($order->ship_method_id));
+$shipping_method_name = RedshopHelperShipping::decryptShipping($order->ship_method_id);
 
 if (isset ($shipping_method_name [1]) && $shipping_method_name [1] != "")
 {
-	$shipping_price = $currencyClass->convert($order->order_shipping, '', $currency_code);
+	$shipping_price = RedshopHelperCurrency::convert($order->order_shipping, '', $currency_code);
 	$ship_1 = new GoogleFlatRateShipping($shipping_method_name [1], $shipping_price);
 
 	$cart->AddShipping($ship_1);

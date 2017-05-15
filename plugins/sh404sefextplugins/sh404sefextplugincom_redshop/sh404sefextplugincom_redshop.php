@@ -5,10 +5,10 @@
  * @package     RedSHOP
  * @subpackage  Plugin.Sh404SEFExtPlugins
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @since       __DEPLOY_VERSION__
+ * @since       1.0.0
  */
 
 defined('_JEXEC') or die();

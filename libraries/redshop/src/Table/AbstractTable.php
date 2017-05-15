@@ -3,7 +3,7 @@
  * @package     Aesir.Core
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -51,7 +51,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabase  &$db  A database connector object
+	 * @param   \JDatabaseDriver  $db  A database connector object
 	 *
 	 * @throws  \UnexpectedValueException
 	 */
@@ -296,7 +296,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 			// If checkin is supported and all rows were adjusted, check them in.
 			if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
 			{
-				$this->checkin($pk);
+				$this->checkIn($pk);
 			}
 
 			// If the JTable instance value is in the list of primary keys that were set, set the instance.
@@ -304,7 +304,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 
 			foreach ($this->_tbl_keys AS $key)
 			{
-				if ($this->$key != $pk[$key])
+				if ($this->{$key} != $pk[$key])
 				{
 					$ours = false;
 				}
@@ -313,7 +313,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 			if ($ours)
 			{
 				$publishedField = $this->getColumnAlias('published');
-				$this->$publishedField = $state;
+				$this->{$publishedField} = $state;
 			}
 		}
 

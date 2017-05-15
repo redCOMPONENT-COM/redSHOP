@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation instead
+ * @deprecated  2.0.3  Use RedshopHelperQuotation instead
  */
 
 defined('_JEXEC') or die;
@@ -16,35 +16,35 @@ JHTML::_('behavior.tooltip');
 /**
  * Class Redshop Helper for Quotation
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation instead
+ * @deprecated  2.0.3  Use RedshopHelperQuotation instead
  */
 class quotationHelper
 {
 	/**
 	 * @var null
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public $_data = null;
 
 	/**
 	 * @var null
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public $_table_prefix = null;
 
 	/**
 	 * @var null
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public $_db = null;
 
 	/**
 	 * @var null
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	protected static $instance = null;
 
@@ -56,7 +56,7 @@ class quotationHelper
 	 *
 	 * @since   1.6
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public static function getInstance()
 	{
@@ -71,7 +71,7 @@ class quotationHelper
 	/**
 	 * Constructor
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public function __construct()
 	{
@@ -84,7 +84,7 @@ class quotationHelper
 	 *
 	 * @return  array  An array of status options
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::getQuotationStatusList() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationStatusList() instead
 	 */
 	public function getQuotationStatusList()
 	{
@@ -98,7 +98,7 @@ class quotationHelper
 	 *
 	 * @return  string   Name of Quotation status
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::getQuotationStatusName() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationStatusName() instead
 	 */
 	public function getQuotationStatusName($value = 0)
 	{
@@ -113,7 +113,7 @@ class quotationHelper
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::getQuotationProduct() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationProduct() instead
 	 */
 	public function getQuotationProduct($quotation_id = 0, $quotation_item_id = 0)
 	{
@@ -127,7 +127,7 @@ class quotationHelper
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::getQuotationDetail() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationDetail() instead
 	 */
 	public function getQuotationDetail($quotation_id)
 	{
@@ -139,7 +139,7 @@ class quotationHelper
 	 *
 	 * @return  integer
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::generateQuotationNumber() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::generateQuotationNumber() instead
 	 */
 	public function generateQuotationNumber()
 	{
@@ -154,7 +154,7 @@ class quotationHelper
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::updateQuotationStatus() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::updateQuotationStatus() instead
 	 */
 	public function updateQuotationStatus($quotation_id, $status = 1)
 	{
@@ -166,7 +166,7 @@ class quotationHelper
 	 *
 	 * @return object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::getQuotationUserList() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationUserList() instead
 	 */
 	public function getQuotationUserList()
 	{
@@ -180,7 +180,7 @@ class quotationHelper
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::randomQuotationEncryptKey() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::randomQuotationEncryptKey() instead
 	 */
 	public function randomQuotationEncrkey($p_length = '30')
 	{
@@ -196,7 +196,7 @@ class quotationHelper
 	 *
 	 * @return  boolean  true/false when inserting success or fail
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::manageQuotationUserField() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::manageQuotationUserField() instead
 	 */
 	public function manageQuotationUserfield($cart = array(), $quotation_item_id = 0, $section_id = 12)
 	{
@@ -213,7 +213,7 @@ class quotationHelper
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::insertQuotationUserField() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::insertQuotationUserField() instead
 	 */
 	public function insertQuotationUserfield($field_id = 0, $quotation_item_id = 0, $section_id = 12, $value = '')
 	{
@@ -227,7 +227,7 @@ class quotationHelper
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::getQuotationUserField() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationUserField() instead
 	 */
 	public function getQuotationUserfield($quotation_item_id)
 	{
@@ -242,7 +242,7 @@ class quotationHelper
 	 *
 	 * @return  string   HTML to display
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::displayQuotationUserField() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::displayQuotationUserField() instead
 	 */
 	public function displayQuotationUserfield($quotation_item_id = 0, $section_id = 12)
 	{
@@ -257,7 +257,7 @@ class quotationHelper
 	 *
 	 * @return  boolean/void           Return true if success, alert error if fail
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::updateQuotationWithOrder() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::updateQuotationWithOrder() instead
 	 */
 	public function updateQuotationwithOrder($quotation_id, $order_id)
 	{
@@ -271,7 +271,7 @@ class quotationHelper
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::getQuotationWithOrder() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationWithOrder() instead
 	 */
 	public function getQuotationwithOrder($order_id = 0)
 	{
@@ -285,7 +285,7 @@ class quotationHelper
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::getQuotationItemAccessoryDetail() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationItemAccessoryDetail() instead
 	 */
 	public function getQuotationItemAccessoryDetail($quotation_item_id = 0)
 	{
@@ -302,7 +302,7 @@ class quotationHelper
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperQuotation::getQuotationItemAttributeDetail() instead
+	 * @deprecated  2.0.3  Use RedshopHelperQuotation::getQuotationItemAttributeDetail() instead
 	 */
 	public function getQuotationItemAttributeDetail($quotation_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{

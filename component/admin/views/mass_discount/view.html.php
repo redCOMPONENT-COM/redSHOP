@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopViewMass_Discount extends RedshopViewAdmin
 {
@@ -54,7 +54,7 @@ class RedshopViewMass_Discount extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function display($tpl = null)
 	{
@@ -69,6 +69,8 @@ class RedshopViewMass_Discount extends RedshopViewAdmin
 			$this->form->setValue('discount_product', null, $this->item->discount_product);
 			$this->form->setValue('category_id', null, $this->item->category_id);
 			$this->form->setValue('manufacturer_id', null, $this->item->manufacturer_id);
+
+			$this->form->setValue('end_date', null, JFactory::getDate(date('d-m-Y H:i:s', $this->item->end_date))->format('d-m-Y'));
 		}
 
 		$this->state = $this->get('State');
@@ -83,7 +85,7 @@ class RedshopViewMass_Discount extends RedshopViewAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	protected function addToolbar()
 	{
@@ -91,8 +93,17 @@ class RedshopViewMass_Discount extends RedshopViewAdmin
 
 		$isNew = ($this->item->id < 1);
 
+		if ($isNew)
+		{
+			$suffix = JText::_('COM_REDSHOP_NEW');
+		}
+		else
+		{
+			$suffix = JText::_('COM_REDSHOP_EDIT');
+		}
+
 		// Prepare text for title
-		$title = JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+		$title = JText::_('COM_REDSHOP_MASS_DISCOUNT_PRODUCT') . ': <small>[ ' . $suffix  . ' ]</small>';
 
 		JToolBarHelper::title($title);
 		JToolBarHelper::apply('mass_discount.apply');

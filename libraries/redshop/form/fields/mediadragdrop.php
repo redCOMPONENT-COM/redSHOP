@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Element
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ jimport('joomla.form.formfield');
  *
  * @package  Joomla
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.0.3
  */
 class JFormFieldMediadragdrop extends JFormField
 {
@@ -25,7 +25,7 @@ class JFormFieldMediadragdrop extends JFormField
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION
+	 * @since  2.0.3
 	 */
 	protected $type = 'mediadragdrop';
 
