@@ -11,13 +11,13 @@ JLoader::import('redshop.library');
 
 $objOrder         = order_functions::getInstance();
 $objconfiguration = Redconfiguration::getInstance();
-$user = JFactory::getUser();
+$user             = JFactory::getUser();
 $shipping_address = RedshopHelperOrder::getOrderShippingUserInfo($data['order_id']);
-$redhelper = redhelper::getInstance();
-$db = JFactory::getDbo();
-$user = JFActory::getUser();
-$task = JRequest::getVar('task');
-$app = JFactory::getApplication();
+$redhelper        = redhelper::getInstance();
+$db               = JFactory::getDbo();
+$user             = JFActory::getUser();
+$task             = JRequest::getVar('task');
+$app              = JFactory::getApplication();
 
 $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order_shipping,o.order_number,o.payment_discount FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);
@@ -40,9 +40,7 @@ else
 	$postfinanceurl = "https://e-payment.postfinance.ch/ncol/prod/orderstandard.asp";
 }
 
-$currencyClass = CurrencyHelper::getInstance();
-
-$order->order_subtotal = round($currencyClass->convert($order_details[0]->order_total, '', 'USD'), 2) * 100;
+$order->order_subtotal = round(RedshopHelperCurrency::convert($order_details[0]->order_total, '', 'USD'), 2) * 100;
 
 $post_variables = Array(
 	"orderID"      => $data['order_id'],
@@ -62,12 +60,12 @@ $post_variables = Array(
 );
 
 ?>
-<form id='postfinanacefrm' name='postfinanacefrm' action='<?php echo $postfinanceurl; ?>' method='post'>
-<input type="button" onclick="sendPostFinanace()" value="Submit">
-<?php foreach ($post_variables as $name => $value): ?>
-	<input type='hidden' name='<?php echo $name; ?>' value='<?php echo $value; ?>' />
-<?php endforeach; ?>
-</form>
+    <form id='postfinanacefrm' name='postfinanacefrm' action='<?php echo $postfinanceurl; ?>' method='post'>
+        <input type="button" onclick="sendPostFinanace()" value="Submit">
+		<?php foreach ($post_variables as $name => $value): ?>
+            <input type='hidden' name='<?php echo $name; ?>' value='<?php echo $value; ?>'/>
+		<?php endforeach; ?>
+    </form>
 <?php
 JFactory::getDocument()->addScriptDeclaration('
 	window.onload = function(){

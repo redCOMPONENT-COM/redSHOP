@@ -745,7 +745,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	{
 		$app = JFactory::getApplication();
 
-		$orderInfo = RedshopHelperOrder::getOrderDetail($orderId);
+		$orderInfo = RedshopEntityOrder::getInstance($orderId)->getItem();
 
 		// Only pay when order status is set to pending and unpaid.
 		if ('P' != $orderInfo->order_status && 'Unpaid' != $orderInfo->order_payment_status)

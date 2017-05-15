@@ -129,7 +129,7 @@ class RedshopConfig {
 	public $PRICE_DECIMAL = '2';
 	public $CALCULATION_PRICE_DECIMAL = '4';
 	public $UNIT_DECIMAL = '0';
-	public $DEFAULT_DATEFORMAT = '0';
+	public $DEFAULT_DATEFORMAT = 'Y-m-d';
 	public $CURRENCY_CODE = 'DKK';
 	public $ECONOMIC_INTEGRATION = '0';
 	public $DEFAULT_ECONOMIC_ACCOUNT_GROUP = '0';
@@ -366,4 +366,5 @@ class RedshopConfig {
 	public $IMPORT_MAX_MIN_SIZE = '1';
 	public $IMPORT_FILE_MIME = 'text/csv,application/vnd.ms-excel';
 	public $IMPORT_FILE_EXTENSION = '.csv';
+	public $INLINE_EDITING = '1';
 }
