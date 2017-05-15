@@ -128,7 +128,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\TemplateManagerJoomla3Page::$URL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->searchTemplate($templateName);
-		$I->click(\TemplateManagerJoomla3Page::$firstResultRow);
+		$I->click(\TemplateManagerJoomla3Page::$selectFirst);
 		$I->click("Delete");
 		$I->acceptPopup();
 		$I->waitForText("1 item successfully deleted", 60, '.alert-success');
