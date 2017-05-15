@@ -47,6 +47,13 @@
                     label="PLG_REDSHOP_PRODUCT_SYNC_B2B_CLIENT_SECRET"
                     description="PLG_REDSHOP_PRODUCT_SYNC_B2B_CLIENT_SECRET_DESC"
                 />
+                <field
+                    name="company"
+                    type="number"
+                    default=""
+                    label="PLG_REDSHOP_PRODUCT_SYNC_B2B_COMPANY"
+                    description="PLG_REDSHOP_PRODUCT_SYNC_B2B_COMPANY_DESC"
+                />
             </fieldset>
         </fields>
     </config>
