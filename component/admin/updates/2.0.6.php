@@ -83,6 +83,7 @@ class RedshopUpdate206Beta1 extends RedshopInstallUpdate
 		$root->level     = 0;
 		$root->lft       = 0;
 		$root->rgt       = 1;
+		$root->published = 1;
 		$db->insertObject('#__redshop_category', $root);
 
 		$rootId = $db->insertid();
