@@ -12,6 +12,11 @@ php:
   - 5.5
   - 5.6
   - 7.0
+install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - npm install
 addons:
   firefox: "46.0"
 before_script:
@@ -44,6 +49,7 @@ before_script:
 - fluxbox &
 - sleep 3 # give fluxbox some time to start
 
+# Gulp packages
 - npm install
 - mv gulp-config.sample.json gulp-config.json
 - gulp release --skip-version

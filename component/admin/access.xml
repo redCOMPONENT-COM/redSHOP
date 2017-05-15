@@ -9,16 +9,20 @@
         <action name="supplier.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC"/>
         <action name="supplier.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC"/>
         <action name="supplier.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC"/>
+        <action name="category.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="category.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="category.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="category.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
+        <action name="field.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
+        <action name="field.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
+        <action name="field.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
+        <action name="field.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
         <!--
         <action name="product.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
         <action name="product.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
         <action name="product.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
         <action name="product.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
         <action name="statistic.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
-        <action name="category.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
-        <action name="category.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
-        <action name="category.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />
-        <action name="category.delete" title="COM_REDSHOP_ACTION_DELETE" description="COM_REDSHOP_ACTION_DELETE_DESC" />
         <action name="media.view" title="COM_REDSHOP_ACTION_VIEW" description="COM_REDSHOP_ACTION_VIEW_DESC" />
         <action name="media.create" title="COM_REDSHOP_ACTION_CREATE" description="COM_REDSHOP_ACTION_CREATE_DESC" />
         <action name="media.edit" title="COM_REDSHOP_ACTION_EDIT" description="COM_REDSHOP_ACTION_EDIT_DESC" />

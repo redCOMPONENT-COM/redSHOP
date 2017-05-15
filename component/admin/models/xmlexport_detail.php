@@ -314,11 +314,13 @@ class RedshopModelXmlexport_detail extends RedshopModel
 
 	public function getCategoryList()
 	{
-		$query = 'SELECT category_name AS text,category_id AS value FROM ' . $this->_table_prefix . 'category '
-			. 'WHERE published=1 ';
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('pcx.product_id') . ' = 1');
 
-		return $list;
+		return $db->setQuery($query)->loadObjectList();
 	}
 }
