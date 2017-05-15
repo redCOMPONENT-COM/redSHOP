@@ -1,14 +1,13 @@
-<?php defined('_JEXEC') or die;
-
+<?php
 /**
- * File       default.php
- * Created    5/22/13 6:43 AM
- * Author     Matt Thomas | matt@betweenbrain.com | http://betweenbrain.com
- * Support    https://github.com/betweenbrain/
- * Copyright  Copyright (C) 2013 betweenbrain llc. All Rights Reserved.
- * License    GNU General Public License version 2, or later.
+ * @package     RedSHOP.Frontend
+ * @subpackage  mod_ajax_migrate_redshop
+ *
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
 ?>
 <form>
 	<input type="text" name="data">
