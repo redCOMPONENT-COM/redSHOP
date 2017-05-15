@@ -25,7 +25,7 @@ class JFormFieldEconomicAccountGroup extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
+	 * @var   string
 	 */
 	protected $type = 'EconomicAccountGroup';
 
@@ -37,24 +37,16 @@ class JFormFieldEconomicAccountGroup extends JFormFieldList
 	public function getOptions()
 	{
 		// Initialize variables.
-		$options = array();
-
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
+
 		$query->select($db->quoteName('accountgroup_id', 'value'))
 			->select($db->quoteName('accountgroup_name', 'text'))
 			->from($db->quoteName('#__redshop_economic_accountgroup'))
 			->where($db->quoteName('published') . ' = 1');
 		$db->setQuery($query);
 
-		try
-		{
-			$options = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
-		{
-			throw new Exception($e->getMessage());
-		}
+		$options = $db->loadObjectList();
 
 		// Get other options inserted in the XML file
 		$parentOptions = parent::getOptions();

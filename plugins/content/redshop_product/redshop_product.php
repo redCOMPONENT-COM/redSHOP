@@ -94,7 +94,7 @@ class plgContentredshop_product extends JPlugin
 				}
 				else
 				{
-					$pItemid = $objhelper->getItemid($product->product_id, $catid);
+					$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catid);
 				}
 
 				$defaultLink = 'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid;

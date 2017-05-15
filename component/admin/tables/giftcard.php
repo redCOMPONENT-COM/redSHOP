@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Economic\Economic;
+
 /**
  * Giftcard table
  *
@@ -111,7 +113,6 @@ class RedshopTableGiftcard extends RedshopTable
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			$economic                  = economic::getInstance();
 			$giftData                  = new stdClass;
 			$giftData->product_id      = $this->giftcard_id;
 			$giftData->product_number  = "gift_" . $this->giftcard_id . "_" . $this->giftcard_name;
@@ -120,7 +121,7 @@ class RedshopTableGiftcard extends RedshopTable
 			$giftData->accountgroup_id = $this->accountgroup_id;
 			$giftData->product_volume  = 0;
 
-			$economic->createProductInEconomic($giftData);
+			Economic::createProductInEconomic($giftData);
 		}
 
 		return true;

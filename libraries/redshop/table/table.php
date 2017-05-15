@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\String\StringHelper;
 use Redshop\Table\AbstractTable;
 
 /**
@@ -28,14 +25,14 @@ class RedshopTable extends AbstractTable
 	 *
 	 * @var  array
 	 */
-	protected $_options = array();
+	protected $options = array();
 
 	/**
 	 * Prefix to add to log files
 	 *
 	 * @var  string
 	 */
-	protected $_logPrefix = 'redshop';
+	protected $logPrefix = 'redshop';
 
 	/**
 	 * Get a table instance.
@@ -45,7 +42,7 @@ class RedshopTable extends AbstractTable
 	 * @param   array   $config  An optional array of configuration
 	 * @param   string  $option  Component name, use for call table from another extension
 	 *
-	 * @return  RedshopTable  The table
+	 * @return  RedshopTable     The table
 	 *
 	 * @throws  InvalidArgumentException
 	 */
@@ -142,7 +139,7 @@ class RedshopTable extends AbstractTable
 	 */
 	public function setOption($key, $val)
 	{
-		$this->_options[$key] = $val;
+		$this->options[$key] = $val;
 
 		return $this;
 	}
@@ -157,9 +154,9 @@ class RedshopTable extends AbstractTable
 	 */
 	public function getOption($key, $default = null)
 	{
-		if (isset($this->_options[$key]))
+		if (isset($this->options[$key]))
 		{
-			return $this->_options[$key];
+			return $this->options[$key];
 		}
 
 		return $default;

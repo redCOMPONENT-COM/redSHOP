@@ -28,15 +28,15 @@ if (!class_exists('redCategoryMenu'))
 
 			if ($params->get('categorysorttype') == "catnameasc")
 			{
-				$sortparam = "category_name ASC";
+				$sortparam = "name ASC";
 			}
 			elseif ($params->get('categorysorttype') == "catnamedesc")
 			{
-				$sortparam = "category_name DESC";
+				$sortparam = "name DESC";
 			}
 			elseif ($params->get('categorysorttype') == "newest")
 			{
-				$sortparam = "category_id DESC";
+				$sortparam = "id DESC";
 			}
 			elseif ($params->get('categorysorttype') == "catorder")
 			{
@@ -52,14 +52,13 @@ if (!class_exists('redCategoryMenu'))
 				$shoppergroup_cat = 0;
 			}
 
-			$query = "SELECT category_name, category_id, category_child_id FROM #__redshop_category AS a "
-				. "LEFT JOIN #__redshop_category_xref as b ON a.category_id=b.category_child_id "
-				. "WHERE a.published='1' "
-				. "AND b.category_parent_id= " . (int) $category_id;
+			$query = "SELECT name, id FROM #__redshop_category "
+				. "WHERE published='1' "
+				. "AND parent_id= " . (int) $category_id;
 
 			if ($shopper_group_id && $shoppergroup_cat)
 			{
-				$query .= " and category_id IN(" . $shoppergroup_cat . ")";
+				$query .= " and id IN(" . $shoppergroup_cat . ")";
 			}
 
 			$query .= " ORDER BY " . $sortparam . "";
@@ -71,7 +70,7 @@ if (!class_exists('redCategoryMenu'))
 
 			foreach ($traverse_results as $traverse_result)
 			{
-				$cItemid = $objhelper->getCategoryItemid($traverse_result->category_id);
+				$cItemid = RedshopHelperUtility::getCategoryItemid($traverse_result->id);
 
 				if ($cItemid != "")
 				{
@@ -85,12 +84,12 @@ if (!class_exists('redCategoryMenu'))
 				if ($ibg != 0)
 					$mymenu_content .= ",";
 
-				$mymenu_content .= "\n[ '<img src=\"' + ctThemeXPBase + 'darrow.png\" alt=\"arr\" />','" . $traverse_result->category_name . "','" . JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $traverse_result->category_id . '&Itemid=' . $tmpItemid) . "',null,'" . $traverse_result->category_name . "'\n ";
+				$mymenu_content .= "\n[ '<img src=\"' + ctThemeXPBase + 'darrow.png\" alt=\"arr\" />','" . $traverse_result->name . "','" . JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $traverse_result->id . '&Itemid=' . $tmpItemid) . "',null,'" . $traverse_result->name . "'\n ";
 
 				$ibg++;
 
 				/* recurse through the subcategories */
-				$this->traverse_tree_down($mymenu_content, $traverse_result->category_child_id, $level, $params, $shopper_group_id);
+				$this->traverse_tree_down($mymenu_content, $traverse_result->id, $level, $params, $shopper_group_id);
 
 				/* let's see if the loop has reached its end */
 				$mymenu_content .= "]";
