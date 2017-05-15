@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopEntityOrder_Payment extends RedshopEntity
 {
@@ -60,7 +60,7 @@ class RedshopEntityOrder_Payment extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function loadPlugin()
 	{
