@@ -147,12 +147,21 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		{
 			if (!JUri::isInternal($data['product_full_image']))
 			{
-				$url       = $data['product_full_image'];
-				$imageName = basename($url);
-				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
-				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-				JFile::write($dest, JFile::read($url));
-				$data['product_full_image'] = $fileName;
+				$url        = $data['product_full_image'];
+				$binaryData = @file_get_contents($url);
+
+				if ($binaryData === false)
+				{
+					unset($data['product_full_image']);
+				}
+				else
+				{
+					$imageName  = basename($url);
+					$fileName   = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+					$dest       = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+					JFile::write($dest, $binaryData);
+					$data['product_full_image'] = $fileName;
+				}
 			}
 			else
 			{
@@ -458,9 +467,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		$value = $data[$fieldName];
 
 		$query = $db->getQuery(true)
-			->select($db->qn('field_id'))
+			->select($db->qn('id'))
 			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('field_name') . ' = ' . $db->quote($fieldName));
+			->where($db->qn('name') . ' = ' . $db->quote($fieldName));
 
 		if ($fieldId = $db->setQuery($query)->loadResult())
 		{
@@ -751,11 +760,20 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				if (!JUri::isInternal($image))
 				{
-					$imageName = basename($image);
-					$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
-					$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-					JFile::write($dest, JFile::read($image));
-					$data['product_preview_image'] = $fileName;
+					$binaryData = @file_get_contents($image);
+
+					if ($binaryData === false)
+					{
+						unset($data['product_full_image']);
+					}
+					else
+					{
+						$imageName = basename($image);
+						$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+						$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+						JFile::write($dest, $binaryData);
+						$data['product_preview_image'] = $fileName;
+					}
 				}
 			}
 

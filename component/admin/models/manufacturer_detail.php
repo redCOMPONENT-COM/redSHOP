@@ -163,6 +163,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 			JPluginHelper::importPlugin('redshop_product');
 			JDispatcher::getInstance()->trigger('onAfterManufacturerDelete', array($cid));
 		}
+
 		return true;
 	}
 

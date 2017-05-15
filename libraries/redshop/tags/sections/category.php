@@ -35,7 +35,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * @var    array
 	 * @since  2.1
 	 */
-	public $tags_alias = array(
+	public $tagAlias = array(
 		'{category_short_desc}'        => '{category_short_description}',
 		'{categoryshortdesc}'          => '{category_short_description}',
 		'{categorydesc}'               => '{category_description}',
@@ -117,6 +117,17 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			$template      = str_replace("{category_thumb_image_3}", $categoryImage, $template);
 		}
 
+		if ($this->isTagExists('{category_name}') && $this->isTagRegistered('{category_name}') && isset($category->name))
+		{
+			$link = JRoute::_('index.php?option=com_redshop' .
+							'&view=category&cid=' . $category->id .
+							'&manufacturer_id=' . $this->data['manufacturerId'] .
+							'&layout=detail&Itemid=' . $this->data['itemId']
+						);
+			$categoryName = '<a href="' . $link . '" title="' . $category->name . '">' . $category->name . '</a>';
+			$template     = str_replace("{category_name}", $categoryName, $template);
+		}
+
 		// Replace all registered tag if category object have it
 		foreach ($this->tags as $tag)
 		{
@@ -131,7 +142,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		}
 
 		// Also replace with alias
-		foreach ($this->tags_alias as $alias => $tag)
+		foreach ($this->tagAlias as $alias => $tag)
 		{
 			$tag = str_replace('{', '', $tag);
 			$tag = str_replace('}', '', $tag);
@@ -180,7 +191,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 	/**
 	 * getThumbnail
-	 * 
+	 *
 	 * @param   object  $category  Category object
 	 * @param   int     $width     Width
 	 * @param   int     $height    Height
@@ -189,54 +200,42 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 */
 	private function getThumbnail($category, $width, $height)
 	{
-		$objhelper = redhelper::getInstance();
-		$jinput    = JFactory::getApplication()->input;
-		$model     = JModelLegacy::getInstance('Category', 'RedshopModel');
-
+		$objHelper      = redhelper::getInstance();
+		$input          = JFactory::getApplication()->input;
+		$model          = JModelLegacy::getInstance('Category', 'RedshopModel');
 		$manufacturerId = $model->getState('manufacturer_id');
 
 		// Default with JPATH_ROOT . '/components/com_redshop/assets/images/'
-		$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
-		$title       = " title='" . $category->name . "' ";
-		$alt         = " alt='" . $category->name . "' ";
-		$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
-		$linkimage   = $product_img;
+		$middlePath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
+		$title      = " title='" . $category->name . "' ";
+		$alt        = " alt='" . $category->name . "' ";
+		$productImg = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 
 		// Try to get category Itemid
-		$cItemid = $objhelper->getCategoryItemid($category->id);
-
-		if ($cItemid != "")
-		{
-			$tmpItemid = $cItemid;
-		}
-		else
-		{
-			$tmpItemid = $jinput->getInt('Itemid', null);
-		}
+		$categoryItemId = (int) RedshopHelperUtility::getCategoryItemid($category->id);
+		$mainItemid     = !$categoryItemId ? $input->getInt('Itemid', null) : $categoryItemId;
 
 		// Generate category link
 		$link = JRoute::_(
-			'index.php?option=' . $jinput->get('option', 'com_redshop') .
+			'index.php?option=' . $input->get('option', 'com_redshop') .
 			'&view=category&cid=' . $category->id .
 			'&manufacturer_id=' . $manufacturerId .
-			'&layout=detail&Itemid=' . $tmpItemid
+			'&layout=detail&Itemid=' . $mainItemid
 		);
 
 		// If full size image exists
-		if ($category->category_full_image && file_exists($middlepath . $category->category_full_image))
+		if ($category->category_full_image && file_exists($middlePath . $category->category_full_image))
 		{
 			$categoryFullImage = $category->category_full_image;
 
 			// Generate thumbnail with watermark ( if configured )
-			$product_img       = $objhelper->watermark('category', $category->category_full_image, $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-			$linkimage         = $objhelper->watermark('category', $category->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
+			$productImg = RedshopHelperMedia::watermark('category', $category->category_full_image, $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 		}
-		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
+		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 		{
 			// Use default image
 			$categoryFullImage = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
-			$product_img       = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-			$linkimage         = $objhelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
+			$productImg        = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 		}
 
 		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
@@ -248,7 +247,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			$categoryThumbnail = "<a href='" . $link . "' " . $title . ">";
 		}
 
-		$categoryThumbnail .= "<img src='" . $product_img . "' " . $alt . $title . ">";
+		$categoryThumbnail .= "<img src='" . $productImg . "' " . $alt . $title . ">";
 		$categoryThumbnail .= "</a>";
 
 		return $categoryThumbnail;

@@ -258,9 +258,9 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		{
 			$db     = $this->db;
 			$query  = $db->getQuery(true)
-				->select($db->qn('field_name'))
+				->select($db->qn('name'))
 				->from($db->qn('#__redshop_fields'))
-				->where($db->qn('field_section') . ' = 1');
+				->where($db->qn('section') . ' = 1');
 			$result = $db->setQuery($query)->loadColumn();
 
 			if (!empty($result))
@@ -309,12 +309,12 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 			$db     = $this->db;
 			$query  = $db->getQuery(true)
-				->select($db->qn(array('d.data_txt', 'd.itemid', 'f.field_name')))
+				->select($db->qn(array('d.data_txt', 'd.itemid', 'f.name')))
 				->from($db->qn('#__redshop_fields', 'f'))
-				->leftJoin($db->qn('#__redshop_fields_data', 'd') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('d.fieldid'))
-				->where($db->qn('f.field_section') . ' = 1')
+				->leftJoin($db->qn('#__redshop_fields_data', 'd') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('d.fieldid'))
+				->where($db->qn('f.section') . ' = 1')
 				->where($db->qn('d.itemid') . ' IN (' . implode(',', $productIds) . ')')
-				->order($db->qn('f.field_id') . ' ASC');
+				->order($db->qn('f.id') . ' ASC');
 			$fieldsData = $db->setQuery($query)->loadObjectList('itemid');
 		}
 
@@ -326,7 +326,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			{
 				$itemField = $fieldsData[$item['product_id']];
 
-				$item[$itemField->field_name] = $itemField->data_txt;
+				$item[$itemField->name] = $itemField->data_txt;
 			}
 
 			foreach ($item as $column => $value)

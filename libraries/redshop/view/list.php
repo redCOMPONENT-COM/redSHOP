@@ -62,7 +62,7 @@ class RedshopViewList extends AbstractView
 	 * Column for render published state.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected $stateColumns = array('published', 'state');
 
@@ -99,32 +99,32 @@ class RedshopViewList extends AbstractView
 	/**
 	 * @var  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $hasOrdering = false;
 
 	/**
 	 * @var  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $isNested = false;
 
 	/**
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $nestedOrdering;
 
 	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string &$tpl Template name
+	 * @param   string  $tpl  Template name
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function beforeDisplay(&$tpl)
 	{
@@ -153,7 +153,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function checkPermission()
 	{
@@ -187,7 +187,7 @@ class RedshopViewList extends AbstractView
 			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'> (" . $this->pagination->total . ")</span>";
 		}
 
-		JToolBarHelper::title($title);
+		JToolbarHelper::title($title);
 	}
 
 	/**
@@ -195,7 +195,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getTitle()
 	{
@@ -207,7 +207,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function addToolbar()
 	{
@@ -235,7 +235,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getColumns()
 	{
@@ -247,7 +247,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function prepareTable()
 	{
@@ -310,7 +310,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{

@@ -53,7 +53,7 @@ abstract class RedshopViewCsv extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed         A string if successful, otherwise a Error object.
 	 *
 	 * @throws  RuntimeException
 	 */

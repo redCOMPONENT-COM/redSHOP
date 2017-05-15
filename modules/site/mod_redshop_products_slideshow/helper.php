@@ -223,7 +223,7 @@ class RedshopProductSlideshow
 			}
 			else
 			{
-				$Itemid = $redhelper->getItemid($rows[$k]->product_id);
+				$Itemid = RedshopHelperUtility::getItemId($rows[$k]->product_id);
 			}
 
 			if ($params->get('show_price') == "yes")

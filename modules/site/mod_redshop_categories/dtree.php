@@ -148,7 +148,7 @@ $document = JFactory::getDocument();
 
 foreach ($catdatas as $catdata)
 {
-	$cItemid = $objhelper->getCategoryItemid($catdata->id);
+	$cItemid = RedshopHelperUtility::getCategoryItemid($catdata->id);
 	if ($cItemid != "")
 	{
 		$tmpItemid = $cItemid;

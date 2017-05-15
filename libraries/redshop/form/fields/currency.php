@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
+
 use Redshop\Currency\Currency;
+use Redshop\Currency\CurrencyLayer;
 
 /**
  * Renders a Currency Form
@@ -36,8 +39,16 @@ class JFormFieldCurrency extends JFormField
 	 */
 	protected function getInput()
 	{
-		$currency            = array();
-		$convertedCurrencies = Currency::getInstance()->getConvertedCurrencies();
+		$currency = array();
+
+		if (Redshop::getConfig()->get('CURRENCY_LIBRARIES') == 1)
+		{
+			$convertedCurrencies = CurrencyLayer::getInstance()->getConvertedCurrencies();
+		}
+		else
+		{
+			$convertedCurrencies = Currency::getInstance()->getConvertedCurrencies();
+		}
 
 		if (!empty($convertedCurrencies))
 		{
@@ -46,7 +57,7 @@ class JFormFieldCurrency extends JFormField
 				$currency[] = $key;
 			}
 
-			$currency = implode("','", $currency);
+			$currency = '\'' . implode("','", $currency) . '\'';
 		}
 
 		$shopCurrency = $this->getCurrency($currency);
