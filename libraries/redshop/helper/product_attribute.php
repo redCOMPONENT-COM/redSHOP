@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,30 +14,37 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Class Redshop Helper Product Attribute
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 abstract class RedshopHelperProduct_Attribute
 {
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $attributeProperties = array();
 
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $productAttributes = array();
 
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected static $subProperties = array();
+
+	/**
+	 * @var   array
+	 *
+	 * @since  2.0.4
+	 */
+	protected static $propertyPrice = array();
 
 	/**
 	 * Get Attribute Properties of specific product.
@@ -138,7 +145,7 @@ abstract class RedshopHelperProduct_Attribute
 					->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.attribute_id = ap.attribute_id')
 					->where('ap.property_published = 1')
 					->order('ap.ordering ASC')
-					->order('ap.property_number ASC');
+					->order('ap.property_name ASC');
 
 				if ($attributeId != 0)
 				{
@@ -181,8 +188,17 @@ abstract class RedshopHelperProduct_Attribute
 					$query->where('ap.property_id NOT IN (' . implode(',', $notPropertyIds) . ')');
 				}
 
-				static::$attributeProperties[$key] = $db->setQuery($query)->loadObjectlist();
+				// Apply Lefjoin to get Product Id
+				$query->select('pa.product_id')
+					->leftJoin(
+						$db->qn('#__redshop_product_attribute', 'pa') . ' ON ' . $db->qn('ap.attribute_id') . ' = ' . $db->qn('pa.attribute_id')
+					);
+
+				static::$attributeProperties[$key] = $db->setQuery($query)->loadObjectList();
 			}
+
+			JPluginHelper::importPlugin('redshop_product');
+			RedshopHelperUtility::getDispatcher()->trigger('onGetAttributeProperties', array(&static::$attributeProperties[$key]));
 		}
 
 		return static::$attributeProperties[$key];
@@ -251,7 +267,8 @@ abstract class RedshopHelperProduct_Attribute
 					->leftJoin($db->qn('#__redshop_attribute_set', 'ast') . ' ON ast.attribute_set_id = a.attribute_set_id')
 					->where('a.attribute_name != ' . $db->q(''))
 					->where('a.attribute_published = 1')
-					->order('a.ordering ASC');
+					->order('a.ordering ASC')
+					->order('a.attribute_name ASC');
 
 				if ($attributeSetId != 0)
 				{
@@ -282,8 +299,11 @@ abstract class RedshopHelperProduct_Attribute
 					$query->where('a.attribute_id NOT IN (' . implode(',', $notAttributeIds) . ')');
 				}
 
-				static::$productAttributes[$key] = $db->setQuery($query)->loadObjectlist();
+				static::$productAttributes[$key] = $db->setQuery($query)->loadObjectList();
 			}
+
+			JPluginHelper::importPlugin('redshop_product');
+			RedshopHelperUtility::getDispatcher()->trigger('onGetProductAttribute', array(&static::$productAttributes[$key]));
 		}
 
 		return static::$productAttributes[$key];
@@ -297,7 +317,7 @@ abstract class RedshopHelperProduct_Attribute
 	 *
 	 * @return  mixed                List of sub-properties data.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public static function getAttributeSubProperties($subPropertyId = 0, $propertyId = 0)
 	{
@@ -323,7 +343,8 @@ abstract class RedshopHelperProduct_Attribute
 					$db->qn('#__redshop_product_attribute_property', 'p') . ' ON ' . $db->qn('p.property_id') . ' = ' . $db->qn('sp.subattribute_id')
 				)
 				->where($db->qn('sp.subattribute_published') . ' = 1')
-				->order($db->qn('sp.ordering') . ' ASC');
+				->order($db->qn('sp.ordering') . ' ASC')
+				->order($db->qn('sp.subattribute_color_name') . ' ASC');
 
 			if ($subPropertyId)
 			{
@@ -335,9 +356,121 @@ abstract class RedshopHelperProduct_Attribute
 				$query->where($db->qn('sp.subattribute_id') . ' = ' . $propertyId);
 			}
 
+			// Apply Lefjoin to get Product Id
+			$query->select($db->qn('pa.product_id'))
+				->leftJoin(
+					$db->qn('#__redshop_product_attribute', 'pa') . ' ON ' . $db->qn('p.attribute_id') . ' = ' . $db->qn('pa.attribute_id')
+				);
+
 			static::$subProperties[$key] = $db->setQuery($query)->loadObjectList();
+
+			JPluginHelper::importPlugin('redshop_product');
+			RedshopHelperUtility::getDispatcher()->trigger('onGetAttributeSubProperties', array(&static::$subProperties[$key]));
 		}
 
 		return static::$subProperties[$key];
+	}
+
+	/**
+	 * Method for get property price with discount
+	 *
+	 * @param   int      $sectionId  Section ID
+	 * @param   string   $quantity   Quantity
+	 * @param   string   $section    Section
+	 * @param   integer  $userId     User ID
+	 *
+	 * @return  object
+	 *
+	 * @since  2.0.4
+	 */
+	public static function getPropertyPrice($sectionId = '', $quantity = '', $section = '', $userId = 0)
+	{
+		$key = md5($sectionId . '_' . $quantity . '_' . $section . '_' . $userId);
+
+		if (!array_key_exists($key, static::$propertyPrice))
+		{
+			$db      = JFactory::getDbo();
+			$session = JFactory::getSession();
+			$user    = JFactory::getUser();
+
+			if ($userId == 0)
+			{
+				$userId = $user->id;
+			}
+
+			$userArr = $session->get('rs_user');
+
+			if (empty($userArr))
+			{
+				$userArr = RedshopHelperUser::createUserSession($userId);
+			}
+
+			$shopperGroupId = $userArr['rs_user_shopperGroup'];
+
+			$query = $db->getQuery(true)
+				->select(
+					array(
+						$db->qn('p.price_id'),
+						$db->qn('p.product_price'),
+						$db->qn('p.product_currency'),
+						$db->qn('p.discount_price'),
+						$db->qn('p.discount_start_date'),
+						$db->qn('p.discount_end_date'),
+					)
+				)
+				->from($db->qn('#__redshop_product_attribute_price', 'p'))
+				->where($db->qn('p.section_id') . ' = ' . (int) $sectionId)
+				->where($db->qn('p.section') . ' = ' . $db->q($section))
+				->where(
+					'(
+						(
+							' . $db->qn('p.price_quantity_start') . ' <= ' . (int) $quantity . '
+							AND
+							' . $db->qn('p.price_quantity_end') . ' >= ' . (int) $quantity . '
+						)
+						OR
+						(
+							' . $db->qn('p.price_quantity_start') . ' = ' . $db->q(0) . '
+							AND
+							' . $db->qn('p.price_quantity_end') . ' = ' . $db->q(0) . '
+						)
+					)'
+				)
+				->order($db->qn('p.price_quantity_start') . ' ASC');
+
+			if ($userId)
+			{
+				$query->leftJoin(
+					$db->qn('#__redshop_users_info', 'u') . ' ON ' . $db->qn('u.shopper_group_id') . ' = ' . $db->qn('p.shopper_group_id')
+				)
+					->where($db->qn('u.user_id') . ' = ' . (int) $userId)
+					->where($db->qn('u.address_type') . ' = ' . $db->q('BT'));
+			}
+			else
+			{
+				$query->where($db->qn('p.shopper_group_id') . ' = ' . (int) $shopperGroupId);
+			}
+
+			$db->setQuery($query, 0, 1);
+
+			$result = $db->loadObject();
+
+			if ($result && $result->discount_price != 0
+				&& $result->discount_start_date != 0
+				&& $result->discount_end_date != 0
+				&& $result->discount_start_date <= time()
+				&& $result->discount_end_date >= time()
+				&& $result->discount_price < $result->product_price)
+			{
+				$result->product_price = $result->discount_price;
+			}
+
+			static::$propertyPrice[$key] = $result;
+
+			JPluginHelper::importPlugin('redshop_product');
+			RedshopHelperUtility::getDispatcher()->trigger('onGetPropertyPrice', array(&static::$propertyPrice[$key], $sectionId, $section, $userId));
+		}
+
+		return static::$propertyPrice[$key];
 	}
 }

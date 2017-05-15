@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,12 +19,17 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 $user = JFactory::getUser();
+$wishlistExist = 'icon icon-heart-2';
+$checkWishlist = RedshopHelperWishlist::checkWishlistExist($productId);
+
+if ($checkWishlist > 0)
+{
+	$wishlistExist = 'icon icon-heart';
+}
 ?>
 
-<input type="button" class="redshop-wishlist-button" data-productid="<?php echo $productId ?>" data-href="<?php echo $link ?>"
-	data-formid="<?php echo $formId ?>" value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>" />
-
 <?php if (!$user->guest) :?>
+	<i class="<?php echo $wishlistExist; ?>"></i>
 	<input
 		type="button"
 		class="redshop-wishlist-button"
@@ -35,10 +40,8 @@ $user = JFactory::getUser();
 	/>
 <?php else : ?>
 	<?php if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0) :?>
-		<a class="redshop-wishlist-link-login" href="<?php echo $link ?>">
-			<input type="submit" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist"
-				   value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST")  ?>" />
-		</a>
+		<input type="submit" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist"
+			   value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST")  ?>" onclick="window.location='<?php echo $link ?>'"/>
 	<?php else : ?>
 		<form method="post" action="" id="form_wishlist_<?php echo $productId ?>_link" name="form_wishlist_<?php echo $productId ?>_link">
 				<input type='hidden' name='task' value='addtowishlist' />

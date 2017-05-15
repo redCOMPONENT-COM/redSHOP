@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,7 +31,7 @@ $userHelper = rsUserHelper::getInstance();
 
 if ($user->id)
 {
-	if ($userInfo = $userHelper->getRedSHOPUserInfo($user->id))
+	if ($userInfo = RedshopHelperUser::getUserInformation($user->id))
 	{
 		$username = $userInfo->firstname . " " . $userInfo->lastname;
 	}
@@ -93,12 +93,9 @@ if ($user->id)
 			<div class="col-xs-9"><?php echo $form->getInput('comment'); ?></div>
 		</div>
 
-		<?php
-		if ($user->guest)
-		{
-			echo RedshopLayoutHelper::render('registration.captcha');
-		}
-		?>
+		<?php if ($user->guest): ?>
+		    <?php echo RedshopLayoutHelper::render('registration.captcha') ?>
+        <?php endif; ?>
 	</div>
 
 	<div class="product_rating">

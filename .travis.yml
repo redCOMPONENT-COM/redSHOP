@@ -12,6 +12,11 @@ php:
   - 5.5
   - 5.6
   - 7.0
+install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - npm install
 addons:
   firefox: "46.0"
 before_script:
@@ -43,6 +48,11 @@ before_script:
 - sudo apt-get install fluxbox -y --force-yes
 - fluxbox &
 - sleep 3 # give fluxbox some time to start
+
+# Gulp packages
+- npm install
+- mv gulp-config.sample.json gulp-config.json
+- gulp release --skip-version
 
 # Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753
 - composer config -g github-oauth.github.com $GITHUB_TOKEN

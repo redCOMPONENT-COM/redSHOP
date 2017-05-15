@@ -3,12 +3,17 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
+/**
+ * Statistic helper
+ *
+ * @since  1.5
+ */
 class statistic
 {
 	protected static $instance = null;
@@ -17,7 +22,7 @@ class statistic
 	 * Returns the productHelper object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  productHelper  The productHelper object
+	 * @return  self  The productHelper object
 	 *
 	 * @since   1.6
 	 */
@@ -51,7 +56,7 @@ class statistic
 	 *
 	 * @return  bool  True on success. False otherwise.
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperStatistic::recordVisitor() instead.
+	 * @deprecated   2.0.3  Use RedshopHelperStatistic::recordVisitor() instead.
 	 */
 	public function reshop_visitors()
 	{
@@ -63,7 +68,7 @@ class statistic
 	 *
 	 * @return  bool  True on success. False otherwise.
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperStatistic::recordPage() instead.
+	 * @deprecated   2.0.3  Use RedshopHelperStatistic::recordPage() instead.
 	 */
 	public function reshop_pageview()
 	{
