@@ -16,7 +16,7 @@ use Redshop\View\AbstractView;
  *
  * @package     Redshob.Libraries
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopViewForm extends AbstractView
 {
@@ -32,7 +32,7 @@ class RedshopViewForm extends AbstractView
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected $formLayout = 'box';
 
@@ -53,39 +53,39 @@ class RedshopViewForm extends AbstractView
 	/**
 	 * @var    object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $item;
 
 	/**
 	 * @var    JForm
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $form;
 
 	/**
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $fields;
 
 	/**
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $hiddenFields;
 
 	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string &$tpl Template name
+	 * @param   string  $tpl  Template name
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function beforeDisplay(&$tpl)
 	{
@@ -102,7 +102,7 @@ class RedshopViewForm extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function checkPermission()
 	{
@@ -127,7 +127,7 @@ class RedshopViewForm extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function addToolbar()
 	{
@@ -135,21 +135,21 @@ class RedshopViewForm extends AbstractView
 
 		if ($this->canEdit)
 		{
-			JToolBarHelper::apply($this->getInstanceName() . '.apply');
+			JToolbarHelper::apply($this->getInstanceName() . '.apply');
 		}
 
 		if ($this->canEdit || $this->canCreate)
 		{
-			JToolBarHelper::save($this->getInstanceName() . '.save');
+			JToolbarHelper::save($this->getInstanceName() . '.save');
 		}
 
 		if ($isNew)
 		{
-			JToolBarHelper::cancel($this->getInstanceName() . '.cancel');
+			JToolbarHelper::cancel($this->getInstanceName() . '.cancel');
 		}
 		else
 		{
-			JToolBarHelper::cancel($this->getInstanceName() . '.cancel', JText::_('JTOOLBAR_CLOSE'));
+			JToolbarHelper::cancel($this->getInstanceName() . '.cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 	}
 
@@ -158,7 +158,7 @@ class RedshopViewForm extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadFields()
 	{
@@ -184,7 +184,7 @@ class RedshopViewForm extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected function prepareFields($group)
 	{

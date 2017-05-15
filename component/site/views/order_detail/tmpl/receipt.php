@@ -20,7 +20,7 @@ $redhelper = redhelper::getInstance();
 
 $db = JFactory::getDbo();
 $url = JURI::base();
-$Itemid = $redhelper->getCheckoutItemid();
+$Itemid = RedshopHelperUtility::getCheckoutItemId();
 $order_id = JRequest::getInt('oid');
 
 // For barcode

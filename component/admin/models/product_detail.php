@@ -457,6 +457,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 			JFile::upload($src, $dest);
 		}
 
+		// Product not for sell - Show price or not
+		if ($row->not_for_sale && $data['not_for_sale_showprice'])
+		{
+			$row->not_for_sale = 2;
+		}
+
 		$isNew = ($row->product_id > 0) ? false : true;
 
 		JPluginHelper::importPlugin('redshop_product');

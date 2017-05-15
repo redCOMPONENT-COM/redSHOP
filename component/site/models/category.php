@@ -143,7 +143,7 @@ class RedshopModelCategory extends RedshopModel
 		$app->setUserState($this->context . '.editTimestamp', time());
 
 		$orderByMethod = $app->getUserStateFromRequest($this->context . '.order_by', 'order_by', $orderBySelect);
-		$orderBy       = redhelper::getInstance()->prepareOrderBy($orderByMethod);
+		$orderBy       = RedshopHelperUtility::prepareOrderBy($orderByMethod);
 
 		$this->setState('list.ordering', $orderBy->ordering);
 		$this->setState('list.direction', $orderBy->direction);
@@ -237,7 +237,7 @@ class RedshopModelCategory extends RedshopModel
 		}
 		else
 		{
-			$query->where($db->qn('c.parent_id') . ' = ' . (int) RedshopHelperCategory::getRootId());	
+			$query->where($db->qn('c.parent_id') . ' = ' . (int) RedshopHelperCategory::getRootId());
 		}
 
 		if ($layout != 'categoryproduct')
@@ -369,7 +369,7 @@ class RedshopModelCategory extends RedshopModel
 			{
 				foreach ($tmpCategories as $child)
 				{
-					$categories[] = $child->category_id;
+					$categories[] = $child->id;
 				}
 			}
 		}
@@ -560,7 +560,7 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function buildProductOrderBy()
 	{
-		$orderBy        = redhelper::getInstance()->prepareOrderBy(Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
+		$orderBy        = RedshopHelperUtility::prepareOrderBy(Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD'));
 		$filterOrder    = $this->getState('list.ordering', $orderBy->ordering);
 		$filterOrderDir = $this->getState('list.direction', $orderBy->direction);
 
@@ -808,8 +808,7 @@ class RedshopModelCategory extends RedshopModel
 
 		$app = JFactory::getApplication();
 
-		$setproductfinderobj = redhelper::getInstance();
-		$setproductfinder    = $setproductfinderobj->isredProductfinder();
+		$setproductfinder    = RedshopHelperUtility::isRedProductFinder();
 		$finder_condition    = "";
 
 		if ($setproductfinder)
