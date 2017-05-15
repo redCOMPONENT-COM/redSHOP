@@ -9,9 +9,47 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
 
-class RedshopModelFields extends RedshopModel
+/**
+ * Redshop fields Model
+ *
+ * @package     Redshop.Backend
+ * @subpackage  Models.Fields
+ * @since       2.0.6
+ */
+class RedshopModelFields extends RedshopModelList
 {
+	/**
+	 * Name of the filter form to load
+	 *
+	 * @var  string
+	 */
+	protected $filterFormName = 'filter_fields';
+
+	/**
+	 * Construct class
+	 *
+	 * @since 1.x
+	 */
+	public function __construct()
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'id', 'f.id',
+				'ordering', 'f.ordering',
+				'title', 'f.title',
+				'name', 'f.name',
+				'type', 'f.type',
+				'section', 'f.section',
+				'published', 'f.published'
+			);
+		}
+
+		parent::__construct($config);
+	}
+
 	/**
 	 * Method to get a store id based on model configuration state.
 	 *
@@ -19,17 +57,17 @@ class RedshopModelFields extends RedshopModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   1.5
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
-		$id .= ':' . $this->getState('filter');
-		$id .= ':' . $this->getState('filtertype');
-		$id .= ':' . $this->getState('filtersection');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.type');
+		$id .= ':' . $this->getState('filter.section');
 
 		return parent::getStoreId($id);
 	}
@@ -37,180 +75,99 @@ class RedshopModelFields extends RedshopModel
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
-	 * @note    Calling getState in this method will result in recursion.
+	 * @since   1.6
 	 */
-	protected function populateState($ordering = 'ordering', $direction = '')
+	protected function populateState($ordering = null, $direction = null)
 	{
-		$filter         = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-		$filtertype     = $this->getUserStateFromRequest($this->context . '.filtertype', 'filtertype', 0);
-		$filtersection  = $this->getUserStateFromRequest($this->context . '.filtersection', 'filtersection', 0);
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
-		$this->setState('filter', $filter);
-		$this->setState('filtertype', $filtertype);
-		$this->setState('filtersection', $filtersection);
+		$filterFieldType = $this->getUserStateFromRequest($this->context . '.filter.field_type', 'filter_field_type');
+		$this->setState('filter.field_type', $filterFieldType);
 
-		parent::populateState($ordering, $direction);
+		$filterFieldSection = $this->getUserStateFromRequest($this->context . '.filter.field_section', 'filter_field_section');
+		$this->setState('filter.field_section', $filterFieldSection);
+
+		parent::populateState('ordering', $direction);
 	}
 
-	public function _buildQuery()
+	/**
+	 * Method to build an SQL query to load the list data.
+	 *
+	 * @return      string  An SQL query
+	 *
+	 * @since   2.0.6
+	 */
+	public function getListQuery()
 	{
-		$orderby = $this->_buildContentOrderBy();
-		$filter = $this->getState('filter');
-		$filtertype = $this->getState('filtertype');
-		$filtersection = $this->getState('filtersection');
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		$where = '';
+		$query->select('f.*')
+			->from($db->qn('#__redshop_fields', 'f'));
 
-		if ($filter)
+		// Filter by search in name.
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
 		{
-			$where .= " AND f.field_title like '%" . $filter . "%' ";
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where($db->qn('f.id') . ' = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+				$query->where($db->qn('f.title') . ' LIKE ' . $search);
+			}
 		}
 
-		if ($filtertype)
+		// Filter: Field type
+		$filterFieldType = $this->getState('filter.field_type', '');
+
+		if ($filterFieldType)
 		{
-			$where .= " AND f.field_type='" . $filtertype . "' ";
+			$query->where($db->qn('f.type') . ' = ' . $db->q($filterFieldType));
 		}
 
-		if ($filtersection)
+		// Filter: Field section
+		$filterFieldSection = $this->getState('filter.field_section', '');
+
+		if ($filterFieldSection)
 		{
-			$where .= " AND f.field_section='" . $filtersection . "' ";
+			$query->where($db->qn('f.section') . ' = ' . $filterFieldSection);
 		}
 
-		$query = "SELECT * FROM #__redshop_fields AS f "
-			. "WHERE 1=1 "
-			. $where
-			. $orderby;
+		// Add the list ordering clause.
+		$orderCol  = $this->state->get('list.ordering', 'ordering');
+		$orderDirn = $this->state->get('list.direction', 'asc');
+
+		if ($orderCol == 'ordering')
+		{
+			$query->order($db->escape('f.section, f.ordering ' . $orderDirn));
+		}
+		else
+		{
+			$query->order($db->escape($orderCol . ' ' . $orderDirn) . ', f.section, f.ordering');
+		}
 
 		return $query;
 	}
 
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$filter_order_Dir = $this->getState('list.direction');
-		$filter_order = $this->getState('list.ordering');
-
-		if ($filter_order == 'ordering')
-		{
-			$orderBy = ' ORDER BY field_section, ordering ' . $filter_order_Dir;
-		}
-		else
-		{
-			$orderBy = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir) . ', field_section, ordering';
-		}
-
-		return $orderBy;
-	}
-
 	/**
-	 * Save Custom Field order
+	 * Get Fields information from Sections
+	 *        Note: This will return non-published fields also
 	 *
-	 * @param   array  $cid    List Index Id
-	 * @param   array  $order  Order Number
+	 * @param   array  $section  Sections in index array
 	 *
-	 * @return  boolean
-	 */
-	public function saveorder($cid = array(), $order = array())
-	{
-		$row        = $this->getTable('fields_detail');
-		$conditions = array();
-
-		// Update ordering values
-		for ($i = 0, $in = count($cid); $i < $in; $i++)
-		{
-			$row->load((int) $cid[$i]);
-
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-
-				if (!$row->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-
-				// Remember to updateOrder this group
-				$condition = 'field_section = ' . (int) $row->field_section;
-				$found = false;
-
-				foreach ($conditions as $cond)
-				{
-					if ($cond[1] == $condition)
-					{
-						$found = true;
-						break;
-					}
-				}
-
-				if (!$found)
-				{
-					$conditions[] = array($row->field_id, $condition);
-				}
-			}
-		}
-
-		// Execute updateOrder for each group
-		foreach ($conditions as $cond)
-		{
-			$row->load($cond[0]);
-			$row->reorder($cond[1]);
-		}
-
-		return true;
-	}
-
-	/**
-	 * Move ordering up
-	 *
-	 * @return  boolean
-	 */
-	public function orderup()
-	{
-		$app = JFactory::getApplication();
-
-		$cid = $app->input->get('cid', array(), 'post', 'array');
-		$cid = $cid[0];
-
-		$row = $this->getTable('fields_detail');
-		$row->load($cid[0]);
-		$row->move(-1, 'field_section = ' . $row->field_section);
-
-		return true;
-	}
-
-	/**
-	 * Move Ordering down
-	 *
-	 * @return  boolean
-	 */
-	public function orderdown()
-	{
-		$app = JFactory::getApplication();
-
-		$cid = $app->input->get('cid', array(), 'post', 'array');
-		$cid = $cid[0];
-
-		$row = $this->getTable('fields_detail');
-		$row->load($cid[0]);
-		$row->move(1, 'field_section = ' . $row->field_section);
-
-		return true;
-	}
-
-	/**
-	 * Get Fields information from Sections Ids.
-	 * 		Note: This will return non-published fields also
-	 *
-	 * @param   array  $section  Sections Ids in index array
-	 *
-	 * @return  mixed  Object information array of Fields
+	 * @return  mixed            Object information array of Fields
 	 */
 	public function getFieldInfoBySection($section)
 	{
@@ -219,17 +176,17 @@ class RedshopModelFields extends RedshopModel
 			throw new InvalidArgumentException(__FUNCTION__ . 'only accepts Array. Input was ' . $section);
 		}
 
-		JArrayHelper::toInteger($section);
+		$section  = ArrayHelper::toInteger($section);
 		$sections = implode(',', $section);
 
-		// Initialiase variables.
+		// Init variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
-		$query->select('field_name,field_type,field_section')
-			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('field_section') . ' IN(' . $sections . ')');
+		$query->select('f.name,f.type,f.section')
+			->from($db->qn('#__redshop_fields', 'f'))
+			->where($db->qn('f.section') . ' IN(' . $sections . ')');
 
 		// Set the query and load the result.
 		$db->setQuery($query);
@@ -247,73 +204,58 @@ class RedshopModelFields extends RedshopModel
 	}
 
 	/**
-	 * Published or unpublished
+	 * Get Fields information from Section.
 	 *
-	 * @param   array    $cid      primary keys
-	 * @param   integer  $publish  State for publish is 1 and other is 0
+	 * @param   string $section   Section of fields
+	 * @param   string $fieldName Field name
 	 *
-	 * @return  boolean
+	 * @return  mixed
 	 */
-	public function publish($cid = array(), $publish = 1)
-	{
-		if (count($cid))
-		{
-			$row = $this->getTable('fields_detail');
-			$row->publish($cid, $publish);
-		}
-
-		return true;
-	}
-
 	public function getFieldsBySection($section, $fieldName = '')
 	{
-		$db = JFactory::getDbo();
-		$query  = ' SELECT *'
-			. ' FROM ' . $db->quoteName('#__redshop_fields')
-			. ' WHERE ' . $db->quoteName('field_section') . ' = ' . (int) $section . ' AND ' . $db->quoteName('published') . '= 1 ';
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_fields', 'f'))
+			->where($db->qn('f.section') . ' = ' . (int) $section)
+			->where($db->qn('f.published') . '= 1 ');
 
 		if ($fieldName != '')
 		{
-			$fieldName = redhelper::quote(explode(',', $fieldName));
-			$query .= ' AND ' . $db->quoteName('field_name') . ' IN (' . implode(',', $fieldName) . ') ';
+			$fieldName = RedshopHelperUtility::quote(explode(',', $fieldName));
+			$query->where($db->qn('f.name') . ' IN (' . implode(',', $fieldName) . ') ');
 		}
 
-		$query .= ' ORDER BY ' . $db->quoteName('ordering');
+		$query->order($db->qn('f.ordering'));
 		$db->setQuery($query);
-		return $db->loadObjectlist();
+
+		return $db->loadObjectList();
 	}
 
-	public function getFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
+	/**
+	 * Get Field Data from Field Id, Section, Order Item Id and User Email
+	 *
+	 * @param   int      $fieldId      Id of field
+	 * @param   integer  $section      Section of field
+	 * @param   integer  $orderItemId  Order item Id
+	 * @param   string   $userEmail    User's email
+	 *
+	 * @return  mixed                 Object information array of Field's Data
+	 */
+	public function getFieldDataList($fieldId, $section = 0, $orderItemId = 0, $userEmail = "")
 	{
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->quoteName('#__redshop_fields_data'))
-					->where($db->quoteName('itemid') . ' = ' . (int) $orderitemid)
-					->where($db->quoteName('fieldid') . ' = ' . (int) $fieldid)
-					->where($db->quoteName('section') . ' = ' . (int) $section);
-
-		if (!empty($user_email))
-		{
-			$query->where($db->quoteName('user_email') . ' = ' . $db->quote($user_email));
-		}
+			->select('*')
+			->from($db->qn('#__redshop_fields_data'))
+			->where($db->qn('itemid') . ' = ' . (int) $orderItemId)
+			->where($db->qn('fieldid') . ' = ' . (int) $fieldId)
+			->where($db->qn('user_email') . ' = ' . $db->quote($userEmail))
+			->where($db->qn('section') . ' = ' . (int) $section);
 
 		$db->setQuery($query);
 
 		return $db->loadObject();
 	}
-
-	public function getFieldValue($id)
-	{
-		$db = JFactory::getDbo();
-
-		$q = ' SELECT * '
-			. ' FROM ' . $db->quoteName('#__redshop_fields_value')
-			. ' WHERE ' . $db->quoteName('field_id') . ' = ' . (int) $id
-			. ' ORDER BY ' . $db->quoteName('value_id') . ' ASC ';
-		$db->setQuery($q);
-		return $db->loadObjectlist();
-	}
 }
-

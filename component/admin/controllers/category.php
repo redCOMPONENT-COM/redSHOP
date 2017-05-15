@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller.Category
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopControllerCategory extends RedshopControllerForm
 {
@@ -26,7 +26,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -42,7 +42,6 @@ class RedshopControllerCategory extends RedshopControllerForm
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
 
-		$data['product_accessory']        = $this->input->post->get('product_accessory', array(), 'array');
 		$data['old_image']                = $this->input->post->getString('old_image');
 		$data['image_delete']             = $this->input->post->getString('image_delete');
 		$data['image_back_delete']        = $this->input->post->getString('image_back_delete');
@@ -259,40 +258,6 @@ class RedshopControllerCategory extends RedshopControllerForm
 		$this->postSaveHook($model, $validData);
 
 		return true;
-	}
-
-	/**
-	 * Method to remove records.
-	 *
-	 * @return  mixed
-	 */
-	public function remove()
-	{
-		$input = JFactory::getApplication()->input;
-		$cid   = $input->post->get('cid', array(), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-		}
-
-		$model = $this->getModel();
-
-		if (!$model->delete($cid))
-		{
-			$msg = "";
-
-			if ($model->getError() != "")
-			{
-				JFactory::getApplication()->enqueueMessage($model->getError(), 'error');
-			}
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_DELETED_SUCCESSFULLY');
-		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=categories', $msg);
 	}
 
 	/**

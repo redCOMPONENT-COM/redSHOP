@@ -70,7 +70,7 @@ if (!class_exists('redCategoryMenu'))
 
 			foreach ($traverse_results as $traverse_result)
 			{
-				$cItemid = $objhelper->getCategoryItemid($traverse_result->id);
+				$cItemid = RedshopHelperUtility::getCategoryItemid($traverse_result->id);
 
 				if ($cItemid != "")
 				{

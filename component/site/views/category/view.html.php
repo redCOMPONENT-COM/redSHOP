@@ -92,7 +92,7 @@ class RedshopViewCategory extends RedshopView
 
 		$categoryTemplateId   = $model->getState('category_template');
 		$allCategoryTemplate  = $model->getCategoryTemplate();
-		$orderData            = $objhelper->getOrderByList();
+		$orderData            = RedshopHelperUtility::getOrderByList();
 		$manufacturers        = $model->getManufacturer();
 		$loadCategorytemplate = $model->loadCategoryTemplate($categoryTemplateId);
 		$detail               = $model->getdata();

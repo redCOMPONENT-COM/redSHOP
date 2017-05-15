@@ -255,7 +255,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('p.*')
-			->select($db->qn('c.id'))	
+			->select($db->qn('c.id'))
 			->select($db->qn('c.name'))
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftjoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
@@ -334,8 +334,10 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildProductOrderBy($template_data = '')
 	{
-		$orderByObj  = redhelper::getInstance()->prepareOrderBy(
-			urldecode(JFactory::getApplication()->input->getString('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD')))
+		$orderByObj  = RedshopHelperUtility::prepareOrderBy(
+			urldecode(
+				JFactory::getApplication()->input->getString('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD'))
+			)
 		);
 		$orderBy     = $orderByObj->ordering . ' ' . $orderByObj->direction;
 		$filterOrder = 'pc.ordering';

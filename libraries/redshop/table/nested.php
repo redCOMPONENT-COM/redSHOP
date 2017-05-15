@@ -390,6 +390,19 @@ class RedshopTableNested extends JTableNested
 	}
 
 	/**
+	 * Called delete().
+	 *
+	 * @param   integer  $pk        The primary key of the node to delete.
+	 * @param   boolean  $children  True to delete child nodes, false to move them up a level.
+	 *
+	 * @return  boolean  True on success.
+	 */
+	protected function doDelete($pk = null, $children = true)
+	{
+		return parent::delete($pk, $children);
+	}
+
+	/**
 	 * Method to delete a node and, optionally, its child nodes from the table.
 	 *
 	 * @param   integer  $pk        The primary key of the node to delete.
@@ -406,7 +419,7 @@ class RedshopTableNested extends JTableNested
 		}
 
 		// Delete
-		if (!parent::delete($pk, $children))
+		if (!$this->doDelete($pk, $children))
 		{
 			return false;
 		}
