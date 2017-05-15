@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Helpers
  * @since       __DEPLOY_VERSION__
  */
-class RedshopHelperClickATell
+class RedshopHelperClickatell
 {
 	/**
 	 * Method for run process on order ID

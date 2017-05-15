@@ -472,7 +472,7 @@ class redhelper
 	 */
 	public function clickatellSMS($order_id)
 	{
-		RedshopHelperClickATell::clickatellSMS($order_id);
+		RedshopHelperClickatell::clickatellSMS($order_id);
 	}
 
 	/**
@@ -487,7 +487,7 @@ class redhelper
 	 */
 	public function sendmessage($text, $to)
 	{
-		RedshopHelperClickATell::sendMessage($text, $to);
+		RedshopHelperClickatell::sendMessage($text, $to);
 	}
 
 	/**
@@ -503,7 +503,7 @@ class redhelper
 	 */
 	public function replaceMessage($message, $orderData, $paymentName)
 	{
-		return RedshopHelperClickATell::replaceMessage($message, $orderData, $paymentName);
+		return RedshopHelperClickatell::replaceMessage($message, $orderData, $paymentName);
 	}
 
 	/**

@@ -74,16 +74,14 @@ abstract class RedshopHelperCart
 					->delete($db->qn('#__redshop_usercart_accessory_item'))
 					->where($db->qn('cart_item_id') . ' IN (' . implode(',', $cartItemIds) . ')');
 
-				$db->setQuery($query);
-				$db->execute();
+				$db->setQuery($query)->execute();
 
 				// Delete attribute
 				$query = $db->getQuery(true)
 					->delete($db->qn('#__redshop_usercart_attribute_item'))
 					->where($db->qn('cart_item_id') . ' IN (' . implode(',', $cartItemIds) . ')');
 
-				$db->setQuery($query);
-				$db->execute();
+				$db->setQuery($query)->execute();
 			}
 
 			// Delete cart item
@@ -91,8 +89,7 @@ abstract class RedshopHelperCart
 				->delete($db->qn('#__redshop_usercart_item'))
 				->where($db->qn('cart_id') . ' = ' . (int) $cartId);
 
-			$db->setQuery($query);
-			$db->execute();
+			$db->setQuery($query)->execute();
 
 			if ($delCart)
 			{
@@ -100,8 +97,7 @@ abstract class RedshopHelperCart
 					->delete($db->qn('#__redshop_usercart'))
 					->where($db->qn('cart_id') . ' = ' . (int) $cartId);
 
-				$db->setQuery($query);
-				$db->execute();
+				$db->setQuery($query)->execute();
 			}
 
 			$db->transactionCommit();
@@ -223,7 +219,7 @@ abstract class RedshopHelperCart
 					$cart_attribute = $cart[$i]['cart_attribute'];
 				}
 
-				/* store attribute in db */
+				/* Store attribute in db */
 				self::addCartAttributeToDatabase($cart_attribute, $cartItemId, $rowItem->product_id);
 
 				$cart_accessory = array();
@@ -247,6 +243,7 @@ abstract class RedshopHelperCart
 					}
 
 					$accessory_childs = $cart_accessory[$j]['accessory_childs'];
+
 					self::addCartAttributeToDatabase($accessory_childs, $cartItemId, $rowAcc->accessory_id, true);
 				}
 			}
@@ -365,7 +362,7 @@ abstract class RedshopHelperCart
 	 */
 	public static function databaseToCart($userId = 0)
 	{
-		if (!$userId == 0)
+		if (!$userId)
 		{
 			$user   = JFactory::getUser();
 			$userId = $user->id;
@@ -646,7 +643,7 @@ abstract class RedshopHelperCart
 
 		JFactory::getSession()->set('cart', $cart);
 
-		$cartHelper->cartFinalCalculation();
+		RedshopHelperCart::cartFinalCalculation();
 	}
 
 	/**
