@@ -127,7 +127,7 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\TemplateManagerJoomla3Page::$URL);
 		$I->checkForPhpNoticesOrWarnings();
-		$I->searchCategory($templateName);
+		$I->searchTemplate($templateName);
 		$I->checkAllResults();
 		$I->click("Delete");
 		$I->acceptPopup();

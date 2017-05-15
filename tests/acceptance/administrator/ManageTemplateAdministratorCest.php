@@ -76,7 +76,7 @@ class ManageTemplateAdministratorCest
 		$I->wantTo('Deletion of Template in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\TemplateManagerJoomla3Steps($scenario);
+		$I->wanTo('Delete a template');
 		$I->deleteTemplate($this->newName);
-		$I->searchTemplate($this->newName, 'Delete');
 	}
 }
