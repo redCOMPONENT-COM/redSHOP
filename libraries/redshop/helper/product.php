@@ -40,7 +40,7 @@ class RedshopHelperProduct
 	/**
 	 * @var array  List of available product number
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected static $productPrices = array();
 
@@ -1178,7 +1178,7 @@ class RedshopHelperProduct
 	 *
 	 * @return  object           Product price object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getProductPrices($productId, $userId, $quantity = 1)
 	{

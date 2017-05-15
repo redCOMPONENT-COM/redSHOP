@@ -963,7 +963,7 @@ abstract class RedshopEntityBase
 	 *
 	 * @return  RedshopEntityBase
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function reset()
 	{

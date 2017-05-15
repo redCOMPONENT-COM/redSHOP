@@ -89,7 +89,7 @@ class RedshopHelperOrder
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected static $orderItems = array();
 
@@ -98,7 +98,7 @@ class RedshopHelperOrder
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected static $orderProductsDownloadLog = array();
 
@@ -107,7 +107,7 @@ class RedshopHelperOrder
 	 *
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected static $orderProductsDownload = array();
 
@@ -119,7 +119,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object    Order Information Object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderDetail($orderId, $force = false)
 	{
@@ -275,7 +275,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function updateInvoiceNumber($number, $orderId)
 	{
@@ -335,7 +335,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object   Payment Information for orders
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getPaymentInfo($orderId)
 	{
@@ -349,7 +349,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object             Query Object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderUserQuery($orderId)
 	{
@@ -369,7 +369,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object   Order Billing information object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderBillingUserInfo($orderId, $force = false)
 	{
@@ -397,7 +397,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  object   Order Shipping information object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderShippingUserInfo($orderId, $force = false)
 	{
@@ -426,7 +426,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array                      Extra Field name as a key of an array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderExtraFieldsData($orderUserInfoId, $section = 'billing', $force = false)
 	{
@@ -497,7 +497,7 @@ class RedshopHelperOrder
 	 *
 	 * @return  array              Order Items
 	 *
-	 * @deprecated  __DEPLOY_VERSION__ Use RedshopEntityOrder::getOrderItems instead
+	 * @deprecated  2.0.6 Use RedshopEntityOrder::getOrderItems instead
 	 */
 	public static function getItems($orderId)
 	{
@@ -1085,7 +1085,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function updateOrderPaymentStatus($orderId, $newStatus)
 	{
@@ -1109,7 +1109,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function updateOrderComment($orderId, $comment = '')
 	{
@@ -1476,7 +1476,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderDetails($orderId)
 	{
@@ -2908,7 +2908,7 @@ class RedshopHelperOrder
 	 *
 	 * @since   2.0.3
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function getOrderPaymentDetail($orderPaymentId = 0)
 	{
