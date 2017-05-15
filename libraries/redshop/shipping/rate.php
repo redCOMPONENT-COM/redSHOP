@@ -73,4 +73,44 @@ class RedshopShippingRate
 
 		return $encrypted;
 	}
+
+	/**
+	 * Delete shipping rate when shipping method is not available
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	public static function removeShippingRate()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT(' . $db->qn('shipping_class') . ')')
+			->from($db->qn('#__redshop_shipping_rate'));
+
+		$shippingClasses = $db->setQuery($query)->loadColumn();
+
+		if (empty($shippingClasses))
+		{
+			return;
+		}
+
+		$query->clear()
+			->select($db->qn('element'))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('folder') . ' = ' . $db->quote('redshop_shipping'));
+
+		$shipping = $db->setQuery($query)->loadColumn();
+
+		$differentShipping = array_diff($shippingClasses, $shipping);
+		sort($differentShipping);
+
+		if (!empty($differentShipping))
+		{
+			$query->clear()
+				->delete($db->qn('#__redshop_shipping_rate'))
+				->where($db->qn('shipping_class') . ' IN (' . implode(',', RedshopHelperUtility::quote($differentShipping)) . ')');
+			$db->setQuery($query)->execute();
+		}
+	}
 }
