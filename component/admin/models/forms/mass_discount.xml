@@ -28,13 +28,12 @@
         </field>
         <field
                 name="amount"
-                type="redshop.text"
+                type="number"
                 label="COM_REDSHOP_MASS_DISCOUNT_AMOUNT"
                 description="COM_REDSHOP_MASS_DISCOUNT_AMOUNT_DESC"
-                placeholder="COM_REDSHOP_MASS_DISCOUNT_AMOUNT_DESC"
                 class="form-control"
                 default=""
-                filter="integer"
+                filter="float"
                 required="true"
                 />
         <field
