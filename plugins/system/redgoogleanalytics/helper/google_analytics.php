@@ -43,7 +43,7 @@ class RedSHOPGoogle_AnalyticsHelper
 	{
 		// The first line of the tracking script should always initialize the page tracker object.
 		$pageCode = "
-		  	ga('create', '" . $this->trackerKey . "', 'auto');
+			ga('create', '" . $this->trackerKey . "', 'auto');
 			ga('send', 'pageview');
 
 		";
@@ -93,7 +93,7 @@ class RedSHOPGoogle_AnalyticsHelper
 		$packageCode = "
 			ga('ecommerce:addItem', {
 				'id': '" . $itemData['order_id'] . "',                  // Transaction ID. Required.
-				'name': '" . $itemData['product_name'] . "',    		// Product name. Required.
+				'name': '" . $itemData['product_name'] . "',            // Product name. Required.
 				'sku': '" . $itemData['product_number'] . "',           // SKU/code.
 				'category': '" . $itemData['product_category'] . "',    // Category or variation.
 				'price': '" . $itemData['product_price'] . "',          // Unit price.
@@ -122,7 +122,7 @@ class RedSHOPGoogle_AnalyticsHelper
 	/**
 	 * Code settings for Google Analytics
 	 *
-	 * @param   array  $analyticsData  Analytics data in associative array which needs to be send on GA.
+	 * @param   array $analyticsData Analytics data in associative array which needs to be send on GA.
 	 *
 	 * @return  void
 	 *
