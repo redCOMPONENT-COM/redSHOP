@@ -4111,10 +4111,9 @@ class productHelper
 						{
 							$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->id, 1, $accessory [$a]->child_product_id);
 
-							if ($fieldValueArray->data_txt != ""
+							if ($fieldValueArray && $fieldValueArray->data_txt != ""
 								&& $fieldArray[$i]->show_in_front == 1
-								&& $fieldArray[$i]->published == 1
-								&& $giftcard == 0)
+								&& $fieldArray[$i]->published == 1 && $giftcard == 0)
 							{
 								$accessory_div = str_replace('{' . $fieldArray[$i]->name . '}', $fieldValueArray->data_txt, $accessory_div);
 								$accessory_div = str_replace('{' . $fieldArray[$i]->name . '_lbl}', $fieldArray[$i]->title, $accessory_div);
