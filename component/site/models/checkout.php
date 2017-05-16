@@ -515,7 +515,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
-			RedshopHelperClickATell::clickatellSMS($order_id);
+			RedshopHelperClickatell::clickatellSMS($order_id);
 		}
 
 		$session->set('order_id', $order_id);

@@ -468,11 +468,11 @@ class redhelper
 	 *
 	 * @return  void
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperClickATell::clickatellSMS instead
+	 * @deprecated   2.0.6  Use RedshopHelperClickATell::clickatellSMS instead
 	 */
 	public function clickatellSMS($order_id)
 	{
-		RedshopHelperClickATell::clickatellSMS($order_id);
+		RedshopHelperClickatell::clickatellSMS($order_id);
 	}
 
 	/**
@@ -483,11 +483,11 @@ class redhelper
 	 *
 	 * @return  void
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperClickATell::clickatellSMS instead
+	 * @deprecated   2.0.6  Use RedshopHelperClickATell::clickatellSMS instead
 	 */
 	public function sendmessage($text, $to)
 	{
-		RedshopHelperClickATell::sendMessage($text, $to);
+		RedshopHelperClickatell::sendMessage($text, $to);
 	}
 
 	/**
@@ -499,11 +499,11 @@ class redhelper
 	 *
 	 * @return  mixed
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperClickATell::replaceMessage instead
+	 * @deprecated   2.0.6  Use RedshopHelperClickATell::replaceMessage instead
 	 */
 	public function replaceMessage($message, $orderData, $paymentName)
 	{
-		return RedshopHelperClickATell::replaceMessage($message, $orderData, $paymentName);
+		return RedshopHelperClickatell::replaceMessage($message, $orderData, $paymentName);
 	}
 
 	/**
@@ -541,7 +541,7 @@ class redhelper
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperUtility::isRedProductFinder instead
+	 * @deprecated   2.0.6  Use RedshopHelperUtility::isRedProductFinder instead
 	 */
 	public function isredProductfinder()
 	{

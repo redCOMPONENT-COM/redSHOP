@@ -129,7 +129,7 @@ class RedshopConfig {
 	public $PRICE_DECIMAL = '2';
 	public $CALCULATION_PRICE_DECIMAL = '4';
 	public $UNIT_DECIMAL = '0';
-	public $DEFAULT_DATEFORMAT = '0';
+	public $DEFAULT_DATEFORMAT = 'Y-m-d';
 	public $CURRENCY_CODE = 'DKK';
 	public $ECONOMIC_INTEGRATION = '0';
 	public $DEFAULT_ECONOMIC_ACCOUNT_GROUP = '0';

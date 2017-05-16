@@ -40,9 +40,9 @@ class RedshopEntitiesCollection implements Countable, Iterator
 	 */
 	public function add(RedshopEntity $entity)
 	{
-		if ($entity->hasId() && !$this->has($entity->id))
+		if ($entity->hasId() && !$this->has($entity->getId()))
 		{
-			$this->entities[$entity->id] = $entity;
+			$this->entities[$entity->getId()] = $entity;
 		}
 
 		return $this;
