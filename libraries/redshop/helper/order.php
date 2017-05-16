@@ -2511,6 +2511,7 @@ class RedshopHelperOrder
 			$search[]       = "{order_detail_link}";
 			$replace[]      = "<a href='" . $orderDetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_DETAIL_LINK_LBL") . "</a>";
 
+			// Todo: Move to the shipping plugin to return track no and track url
 			$details = RedshopShippingRate::decrypt($orderDetail->ship_method_id);
 
 			if (count($details) <= 1)
@@ -2518,15 +2519,11 @@ class RedshopHelperOrder
 				$details = explode("|", $orderDetail->ship_method_id);
 			}
 
-			$shopLocation = $orderDetail->shop_id;
-
-			if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
+			if ($details[0] == 'plgredshop_shippingdefault_shipping_gls')
 			{
-				$shopLocation = '';
+				$arrLocationDetails = explode('|', $orderDetail->shop_id);
+				$orderDetail->track_no = $arrLocationDetails[0];
 			}
-
-			$arrLocationDetails = explode('|', $shopLocation);
-			$orderDetail->track_no = $arrLocationDetails[0];
 
 			$search[] = "{order_track_no}";
 			$replace[] = trim($orderDetail->track_no);
