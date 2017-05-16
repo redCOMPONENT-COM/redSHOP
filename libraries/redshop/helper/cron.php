@@ -68,7 +68,7 @@ class RedshopHelperCron
 	 *
 	 * @return void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function sendCatalogMail()
 	{
@@ -309,7 +309,7 @@ class RedshopHelperCron
 	 *
 	 * @return void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.6
 	 */
 	public static function sendColorMail()
 	{

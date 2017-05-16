@@ -35,7 +35,7 @@ class RedshopHelperShipping
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected static $defaultShipping = array();
 
