@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die;
 
 // Import library dependencies
@@ -43,11 +45,11 @@ class PlgRedshop_ProductGoogle_Tag extends JPlugin
 
 		if ($type == 'microdata')
 		{
-
+			$this->renderMicroData($templateContent, $product);
 		}
 		elseif ($type == 'rdfa')
 		{
-
+			$this->renderRDFa($templateContent, $product);
 		}
 		else
 		{
@@ -55,32 +57,27 @@ class PlgRedshop_ProductGoogle_Tag extends JPlugin
 		}
 	}
 
-	protected function renderJSON($product)
+	/**
+	 * Method for prepare data
+	 *
+	 * @param   object $product Product data
+	 *
+	 * @return  Registry
+	 *
+	 * @since   1.0
+	 */
+	protected function prepareData($product)
 	{
-		$document = JFactory::getDocument();
-
-		/*
-
-		"offers": {
-			"@type": "Offer",
-			"priceCurrency": "USD",
-			"price": "119.99",
-			"priceValidUntil": "2020-11-05",
-			"itemCondition": "http://schema.org/UsedCondition",
-			"availability": "http://schema.org/InStock",
-			"seller": {
-				"@type": "Organization",
-		  "name": "Executive Objects"
-		},
-		"itemOffered" : "10"
+		if (empty($product))
+		{
+			return new Registry;
 		}
-		*/
 
 		$image = '';
 
 		if (JFile::exists(REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_full_image))
 		{
-			$image = JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image);
+			$image = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image;
 		}
 
 		$data = array(
@@ -108,12 +105,176 @@ class PlgRedshop_ProductGoogle_Tag extends JPlugin
 		if (!empty($productData->count_rating))
 		{
 			$data['aggregateRating'] = array(
-				'@type' => 'AggregateRating',
+				'@type'       => 'AggregateRating',
 				'ratingValue' => round($productData->sum_rating / $productData->count_rating, 1),
 				'reviewCount' => $productData->count_rating
 			);
 		}
 
+		$availability = "http://schema.org/OutOfStock";
+
+		if (RedshopHelperStockroom::isStockExists($product->product_id, 'product'))
+		{
+			$availability = "http://schema.org/InStock";
+		}
+		elseif (RedshopHelperStockroom::isPreorderStockExists($product->product_id, 'product'))
+		{
+			$availability = "http://schema.org/PreOrder";
+		}
+
 		// Offer
+		$data['offers'] = array(
+			'@type'         => 'Offer',
+			'priceCurrency' => Redshop::getConfig()->get('REDCURRENCY_SYMBOL'),
+			'price'         => $product->product_price,
+			"availability"  => $availability
+		);
+
+		if ($product->product_on_sale)
+		{
+			$data['offers']['price']           = $product->discount_price;
+			$data['offers']['priceValidUntil'] = date('Y-m-d', $product->discount_enddate);
+		}
+
+		return new Registry($data);
+	}
+
+	/**
+	 * Method for render JSON
+	 *
+	 * @param   object $product Product data
+	 *
+	 * @return  void
+	 *
+	 * @since  1.0
+	 */
+	protected function renderJSON($product)
+	{
+		JFactory::getDocument()->addScriptDeclaration($this->prepareData($product)->toString(), 'application/ld+json');
+	}
+
+	/**
+	 * Method for render Micro data format.
+	 *
+	 * @param   string $template Product template content
+	 * @param   object $product  Product data
+	 *
+	 * @return  void
+	 *
+	 * @since  1.0
+	 */
+	protected function renderMicroData(&$template, $product)
+	{
+		$data = $this->prepareData($product)->toArray();
+
+		if (empty($data))
+		{
+			return;
+		}
+
+		$html = '<div itemscope itemtype="http://schema.org/Product" class="hidden" style="visibility: hidden;">'
+			. '<span itemprop="name">' . $data['name'] . '</span>'
+			. '<span itemprop="description">' . $data['description'] . '</span>'
+			. '<span itemprop="sku">' . $data['sku'] . '</span>';
+
+
+		if (isset($data['brand']))
+		{
+			$html .= '<span itemprop="brand">' . $data['brand']['name'] . '</span>';
+		}
+
+		if (isset($data['image']))
+		{
+			$html .= '<img itemprop="image" src="' . $data['image'] . '" alt="' . $data['name'] . '" />';
+		}
+
+		if (isset($data['aggregateRating']))
+		{
+			$html .= '<span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">'
+				. '<span itemprop="ratingValue">' . $data['aggregateRating']['ratingValue'] . '</span>'
+				. '<span itemprop="reviewCount">' . $data['aggregateRating']['reviewCount'] . '</span></span>';
+		}
+
+		if (isset($data['offers']))
+		{
+			$html .= '<span itemprop="offers" itemscope itemtype="http://schema.org/Offer">'
+				. '<meta itemprop="priceCurrency" content="' . $data['offers']['priceCurrency'] . '" />'
+				. '<span itemprop="price">' . $data['offers']['price'] . '</span>'
+				. '<link itemprop="availability" href="' . $data['offers']['availability'] . '"/>';
+
+			if (isset($data['offers']['priceValidUntil']))
+			{
+				$html .= '<time itemprop="priceValidUntil" datetime="' . $data['offers']['priceValidUntil'] . '"></time>';
+			}
+
+			$html .= '</span>';
+		}
+
+		$html .= '</div>';
+
+		$template = $template . $html;
+	}
+
+	/**
+	 * Method for render RDFa format.
+	 *
+	 * @param   string $template Product template content
+	 * @param   object $product  Product data
+	 *
+	 * @return  void
+	 *
+	 * @since  1.0
+	 */
+	protected function renderRDFa(&$template, $product)
+	{
+		$data = $this->prepareData($product)->toArray();
+
+		if (empty($data))
+		{
+			return;
+		}
+
+		$html = '<div vocab="http://schema.org/" typeof="Product" class="hidden" style="visibility: hidden;">'
+			. '<span property="name">' . $data['name'] . '</span>'
+			. '<span property="description">' . $data['description'] . '</span>'
+			. '<span property="sku">' . $data['sku'] . '</span>';
+
+
+		if (isset($data['brand']))
+		{
+			$html .= '<span property="brand">' . $data['brand']['name'] . '</span>';
+		}
+
+		if (isset($data['image']))
+		{
+			$html .= '<img property="image" src="' . $data['image'] . '" alt="' . $data['name'] . '" />';
+		}
+
+		if (isset($data['aggregateRating']))
+		{
+			$html .= '<span property="aggregateRating" typeof="AggregateRating">'
+				. '<span property="ratingValue">' . $data['aggregateRating']['ratingValue'] . '</span>'
+				. '<span property="reviewCount">' . $data['aggregateRating']['reviewCount'] . '</span>'
+				. '</span>';
+		}
+
+		if (isset($data['offers']))
+		{
+			$html .= '<span property="offers" typeof="Offer">'
+				. '<meta property="priceCurrency" content="' . $data['offers']['priceCurrency'] . '" />'
+				. '<span property="price">' . $data['offers']['price'] . '</span>'
+				. '<link property="availability" href="' . $data['offers']['availability'] . '"/>';
+
+			if (isset($data['offers']['priceValidUntil']))
+			{
+				$html .= '<time property="priceValidUntil" datetime="' . $data['offers']['priceValidUntil'] . '"></time>';
+			}
+
+			$html .= '</span>';
+		}
+
+		$html .= '</div>';
+
+		$template = $template . $html;
 	}
 }
