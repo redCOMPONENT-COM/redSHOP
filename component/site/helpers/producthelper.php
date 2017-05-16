@@ -187,70 +187,7 @@ class productHelper
 	 */
 	public function getProductPrices($productId, $userId, $quantity = 1)
 	{
-		$userArr  = $this->_session->get('rs_user');
-		$helper = redhelper::getInstance();
-		$result = null;
-
-		if (empty($userArr))
-		{
-			$userArr = $this->_userhelper->createUserSession($userId);
-		}
-
-		$shopperGroupId = $userArr['rs_user_shopperGroup'];
-
-		if ($quantity != 1)
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select(array('p.price_id', 'p.product_price', 'p.product_currency', 'p.discount_price', 'p.discount_start_date', 'p.discount_end_date'))
-				->from($db->qn('#__redshop_product_price', 'p'));
-
-			if ($userId)
-			{
-				$query->leftJoin($db->qn('#__redshop_users_info', 'u') . ' ON u.shopper_group_id = p.shopper_group_id')
-					->where('u.user_id = ' . (int) $userId)
-					->where('u.address_type = ' . $db->q('BT'));
-			}
-			else
-			{
-				$query->where('p.shopper_group_id = ' . (int) $shopperGroupId);
-			}
-
-			$query->where('p.product_id = ' . (int) $productId)
-				->where('((p.price_quantity_start <= ' . (int) $quantity . ' AND p.price_quantity_end >= '
-					. (int) $quantity . ') OR (p.price_quantity_start = 0 AND p.price_quantity_end = 0))')
-				->order('p.price_quantity_start ASC');
-
-			$db->setQuery($query);
-			$result = $db->loadObject();
-		}
-		else
-		{
-			if ($productData = $this->getProductById($productId, $userId))
-			{
-				if (isset($productData->price_id))
-				{
-					$result = new stdClass;
-					$result->price_id = $productData->price_id;
-					$result->product_price = $productData->price_product_price;
-					$result->discount_price = $productData->price_discount_price;
-					$result->product_currency = $productData->price_product_currency;
-					$result->discount_start_date = $productData->price_discount_start_date;
-					$result->discount_end_date = $productData->price_discount_end_date;
-				}
-			}
-		}
-
-		if (!empty($result) && $result->discount_price != 0
-			&& $result->discount_start_date != 0 && $result->discount_end_date != 0
-			&& $result->discount_start_date <= time()
-			&& $result->discount_end_date >= time()
-			&& $result->discount_price < $result->product_price)
-		{
-			$result->product_price = $result->discount_price;
-		}
-
-		return $result;
+		return RedshopHelperProduct::getProductPrices($productId, $userId, $quantity);
 	}
 
 	/**
@@ -322,8 +259,14 @@ class productHelper
 
 				foreach ($catIds as $categoryId)
 				{
-					$categoriesSub[] = ('FIND_IN_SET(' . $categoryId . ', dp.category_ids)');
+					// Search by categories if configured
+					$categoriesSub[] = (
+						'FIND_IN_SET(' . $categoryId . ', dp.category_ids)'
+					);
 				}
+
+				// Or just take all categories if it's not provided
+				$categoriesSub[] = $db->quoteName('dp.category_ids') . '=' . $db->quote('');
 
 				if (!empty($discountIds))
 				{
@@ -347,10 +290,13 @@ class productHelper
 				->where('dp.end_date >= ' . (int) $time)
 				->order('dp.amount DESC');
 
+			// Get all discount based on current shopper group
 			$subQuery = $db->getQuery(true)
 				->select('dps.discount_product_id')
 				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
 				->where('dps.shopper_group_id = ' . (int) $shopperGroupId);
+
+			// Filter by requested discounts only
 			$query->where('dp.discount_product_id IN (' . $subQuery . ')');
 
 			$db->setQuery($query);
@@ -7325,7 +7271,7 @@ class productHelper
 	 * @param   int  $faq         is FAQ
 	 * @param   int  $front       show in Front or Not
 	 *
-	 * @return  Object List
+	 * @return  array
 	 */
 	public function getQuestionAnswer($questionId = 0, $productId = 0, $faq = 0, $front = 0)
 	{

@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 ?>
 <?php if (!empty($this->getinstalledshipping)): ?>
-    <?php RedshopHelperShipping::loadLanguages(); ?>
+    <?php RedshopHelperShipping::loadLanguages(true); ?>
     <table class="table table-striped">
         <thead>
             <tr>

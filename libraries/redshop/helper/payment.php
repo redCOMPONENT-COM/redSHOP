@@ -27,8 +27,8 @@ class RedshopHelperPayment
 	 * Check for specific payment group type plugin - suffixed using given `type`
 	 * Specially Checking for suffixed using `rs_payment_banktransfer` plugin
 	 *
-	 * @param   string  $name        Payment Plugin Element Name
-	 * @param   string  $typeSuffix  Suffix to match
+	 * @param   string $name       Payment Plugin Element Name
+	 * @param   string $typeSuffix Suffix to match
 	 *
 	 * @return  boolean  True when position found else false
 	 */
@@ -49,7 +49,7 @@ class RedshopHelperPayment
 	/**
 	 * Get payment method info
 	 *
-	 * @param   string  $name  Payment Method name - Null to get all plugin info
+	 * @param   string $name Payment Method name - Null to get all plugin info
 	 *
 	 * @return  mixed   Object is return one payment method, array for all.
 	 *
@@ -66,7 +66,8 @@ class RedshopHelperPayment
 
 		if ($name == '' && is_array($plugins))
 		{
-			array_walk($plugins, function(&$plugin) {
+			array_walk($plugins, function (&$plugin)
+			{
 				$plugin->params = new Registry($plugin->params);
 			});
 		}
@@ -81,15 +82,25 @@ class RedshopHelperPayment
 	/**
 	 * Load payment languages
 	 *
+	 * @param   boolean  $all  True for all (discover, enabled, disabled). False for just enabled only.
+	 *
 	 * @return   void
 	 *
 	 * @since   2.0.2
 	 */
-	public static function loadLanguages()
+	public static function loadLanguages($all = false)
 	{
 		// Load payment plugin language file
-		$paymentsLangList = RedshopHelperUtility::getPlugins("redshop_payment", -1);
-		$language         = JFactory::getLanguage();
+		if ($all)
+		{
+			$paymentsLangList = RedshopHelperUtility::getPlugins("redshop_payment");
+		}
+		else
+		{
+			$paymentsLangList = RedshopHelperUtility::getPlugins("redshop_payment", 1);
+		}
+
+		$language = JFactory::getLanguage();
 
 		for ($index = 0, $ln = count($paymentsLangList); $index < $ln; $index++)
 		{
@@ -107,8 +118,8 @@ class RedshopHelperPayment
 	/**
 	 * Method for check if order has this payment is update yet?
 	 *
-	 * @param   integer  $orderId        Order ID
-	 * @param   mixed    $transactionId  Order payment transaction id
+	 * @param   integer $orderId       Order ID
+	 * @param   mixed   $transactionId Order payment transaction id
 	 *
 	 * @return  boolean
 	 *

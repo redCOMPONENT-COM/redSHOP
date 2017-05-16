@@ -646,7 +646,7 @@ class RedshopHelperUtility
 			->where($db->qn('type') . ' = ' . $db->quote('module'))
 			->where(
 				'LOWER(' . $db->qn('element') . ') LIKE ' . $db->quote('mod_redshop%')
-				. ' OR LOWER(' . $db->qn('element') . ') IN (' . self::quote($oldStyleName) . ')'
+				. ' OR LOWER(' . $db->qn('element') . ') IN (' . implode(',', self::quote($oldStyleName)) . ')'
 			)
 			->order($db->qn('ordering') . ' ASC');
 
@@ -1200,7 +1200,7 @@ class RedshopHelperUtility
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function isRedProductFinder()
 	{
@@ -1237,7 +1237,7 @@ class RedshopHelperUtility
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getEconomicAccountGroup($accountGroupId = 0, $front = 0)
 	{
