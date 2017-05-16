@@ -129,19 +129,33 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
 			'addItem'  => array()
 		);
 
+		$items = array();
+
 		foreach ($orderItems as $orderItem)
 		{
-			$orderAddItem = array(
+			$categoryName = $orderDetailModel->getCategoryNameByProductId($orderItem->product_id);
+
+			$key = $orderDetail->order_id . '_' . $orderItem->order_item_sku . $orderItem->order_item_name . '_' . $categoryName
+				. '_' . $orderItem->product_item_price;
+
+			if (array_key_exists($key, $items))
+			{
+				$items[$key]['product_quantity'] += $orderItem->product_quantity;
+
+				continue;
+			}
+
+			$items[$key] = array(
 				'order_id'         => $orderDetail->order_id,
 				'product_number'   => $orderItem->order_item_sku,
 				'product_name'     => $orderItem->order_item_name,
-				'product_category' => $orderDetailModel->getCategoryNameByProductId($orderItem->product_id),
+				'product_category' => $categoryName,
 				'product_price'    => $orderItem->product_item_price,
 				'product_quantity' => $orderItem->product_quantity
 			);
-
-			$analyticsData['addItem'][] = $orderAddItem;
 		}
+
+		$analyticsData['addItem'] = array_values($items);
 
 		$googleAnalyticsHelper->placeTrans($analyticsData);
 	}
