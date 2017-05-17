@@ -282,9 +282,16 @@ class RedshopModelUser_detail extends RedshopModel
 						continue;
 					}
 
-					if (!JFactory::getUser($joomlaUser)->delete())
+					$user = JFactory::getUser($joomlaUserId);
+
+					if ($user->guest)
 					{
-						$this->setError($db->getErrorMsg());
+						continue;
+					}
+
+					if (!$user->delete())
+					{
+						$this->setError($user->getError());
 
 						return false;
 					}
