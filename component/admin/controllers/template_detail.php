@@ -91,6 +91,8 @@ class RedshopControllerTemplate_detail extends RedshopController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
+		$this->setMessage(JText::plural('COM_REDSHOP_N_ITEMS_DELETED', count($cid)));
+
 		$this->setRedirect('index.php?option=com_redshop&view=template');
 	}
 
