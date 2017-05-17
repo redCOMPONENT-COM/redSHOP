@@ -30,19 +30,26 @@ class CategoryManagerJ3Page
 
 	public static $categoryResultRow = "//div[@class='table-responsive']/table/tbody/tr/td[5]";
 
+	public static $categoryCheckInRow="//div[@class='table-responsive']/table/tbody/tr/td[3]";
+
 	public static $categoryStatePath = "//tbody/tr/td[7]/a";
 
 	public static $checkAll = "//input[@id='cb0']";
 
-	public static $checkAllCategory="/html/body/div/div/div/section[2]/form/div[2]/table/thead/tr/th[2]/input";
-	public static $categoryTemplateIDDropDown = "//div[@id='s2id_filter_category_template']/a";
+	public static $checkAllCategory="//input[@onclick='Joomla.checkAll(this)']";
 
-	public static $categoryManagement="/html/body/div/div/div/section[1]/div[1]/h1";
+    public static $categoryTemplateIDDropDown = "//div[@id='s2id_filter_category_template']/a";
 
 	public static $categoryNoPage="#jform_products_per_page";
 
-	public static $parentCategory="/html/body/div[1]/div/div/section[2]/form/div/div[2]/div/div[1]/div/div[1]/div/div[2]/div[2]/div/div/div/a/span[1]";
-//                                   /html/body/div[1]/div/div/section[2]/form/div/div[2]/div/div[1]/div/div[1]/div/div[2]/div[2]/div/div/div/a/span[1]
+	public static $parentCategory="//div[@id='s2id_jform_parent_id']/a";
+	public static $choiceCategoryParent="//div[@id='select2-result-label-13']/a";
+
+	public static $accessories="//div[@id='s2id_category_accessory_search']/a";
+
+	public static $accessoriesFill="#s2id_autogen1";
+
+
 
 
 	/**

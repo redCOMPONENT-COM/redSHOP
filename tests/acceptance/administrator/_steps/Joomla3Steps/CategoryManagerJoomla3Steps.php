@@ -123,7 +123,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
         $I->click(\CategoryManagerJ3Page::$parentCategory);
-        $I->wait(3);
+        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
         $I->fillField(\CategoryManagerJ3Page::$categoryNoPage, $noPage);
         $I->click('//*[@id="s2id_jform_more_template"]/ul');
         $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
@@ -131,6 +131,28 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
     }
 
+
+//    public function addCategoryAccessories($categoryName, $noPage, $productAccessories)
+//    {
+//        $I = $this;
+//        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+//        $I->click("New");
+//        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
+//        $I->checkForPhpNoticesOrWarnings();
+//        $I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
+//        $I->click(\CategoryManagerJ3Page::$parentCategory);
+//        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
+//        $I->fillField(\CategoryManagerJ3Page::$categoryNoPage, $noPage);
+//        $I->click('//*[@id="s2id_jform_more_template"]/ul');
+//        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
+//        $I->click('//ul[@class="tabconfig nav nav-pills nav-stacked"]/li[4]');
+//
+//        $I->click('//div[@id="s2id_category_accessory_search"]');
+//
+//        $I->wait(3);
+//        $I->click("Save & Close");
+//        $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+//    }
 
     // That is the function for udpate category
 
@@ -153,7 +175,6 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click("Save");
         $I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
     }
-
 
 
     /**
@@ -179,9 +200,6 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click("Save & Close");
         $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
     }
-
-
-
 
 
     /**
@@ -253,8 +271,8 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
     }
 
 
-
-    public function deleteWithoutChoice(){
+    public function deleteWithoutChoice()
+    {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings();
@@ -262,6 +280,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->acceptPopup();
         $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
     }
+
     /**
      * Function to Delete a Category
      *
@@ -285,37 +304,73 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->dontSee($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
     }
 
-    public function deleteAllCategory(){
+    public function deleteAllCategory()
+    {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings();
         $I->click(\CategoryManagerJ3Page::$checkAllCategory);
         $I->click("Delete");
         $I->acceptPopup();
-        $I->waitForText("Error", 60, '/html/body/div/div/div/section[1]/div[3]/div/div[1]/div/h4');
+        $I->waitForText("Error", 30, '.alert-danger');
 
     }
 
 
-
-
-    public function publishWithoutChoice(){
+    public function publishWithoutChoice()
+    {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings();
         $I->click("Publish");
-        $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+        $I->acceptPopup();
+//        $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
     }
 
 
-
-    public function publishAllCategory(){
+    public function publishAllCategory()
+    {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings();
         $I->click(\CategoryManagerJ3Page::$checkAllCategory);
         $I->click("Publish");
-        $I->waitForText("Message", 60, '/html/body/div/div/div/section[1]/div[3]/div/div[1]/div/h4');
+        $I->waitForText("Message", 30, '.alert-success');
+    }
+
+    public function unpublishWithoutChoice(){
+        $I = $this;
+        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->click("Unpublish");
+        $I->acceptPopup();
+    }
+
+    public function unpublishAllCategories(){
+        $I = $this;
+        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->click(\CategoryManagerJ3Page::$checkAllCategory);
+        $I->click("Unpublish");
+        $I->waitForText("Message", 30, '.alert-success');
+    }
+
+    public function checkinWithoutChoice(){
+        $I = $this;
+        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->click("Check-in");
+        $I->acceptPopup();
+    }
+
+
+    public function checkinAllCategories(){
+        $I = $this;
+        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->click(\CategoryManagerJ3Page::$checkAllCategory);
+        $I->click("Check-in");
+        $I->waitForText("Message", 30, '.alert-success');
     }
 
 
