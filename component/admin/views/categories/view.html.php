@@ -57,7 +57,7 @@ class RedshopViewCategories extends RedshopViewList
 		{
 			JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::checkin($this->getInstancesName() . '.publish', 'JTOOLBAR_CHECKIN', true);
+			JToolbarHelper::checkin($this->getInstancesName() . '.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 	}
 

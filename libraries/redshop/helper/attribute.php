@@ -761,7 +761,7 @@ abstract class RedshopHelperAttribute
 							$mph_thumb,
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
-						$property_image = "<img title='" . urldecode($property->property_name) . "' src='" . $thumbUrl . "'>";
+						$propertyImage = "<img title='" . urldecode($property->property_name) . "' src='" . $thumbUrl . "'>";
 					}
 
 					$propertyData = str_replace("{property_image}", $propertyImage, $propertyData);
