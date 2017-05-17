@@ -640,7 +640,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                                 </a>
                                                                 <div>
                                                                     <span class="small">SKU:</span>&nbsp;
-                                                                    <span class="text-danger"><?php echo $order_item_sku ?></span></div>
+                                                                    <span><?php echo $order_item_sku ?></span></div>
                                                                 <div>
 																	<?php if (!empty($p_userfield)): ?>
                                                                         <div><?php echo $p_userfield ?></div>
