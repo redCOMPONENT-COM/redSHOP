@@ -1136,7 +1136,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 						<?php foreach ($log_rec as $log): ?>
 							<?php $nextLog = next($log_rec); ?>
                             <li class="time-label">
-                                <span class="bg-green"><?php echo RedshopHelperDatetime::convertDateFormat($log->date_changed); ?></span>
+                                <span class="bg-green"><?php echo RedshopHelperDatetime::convertDateFormat($log->date_changed) ?></span>
                             </li>
 							<?php if (empty($nextLog)): ?>
                                 <li>
@@ -1152,7 +1152,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                             class="label order_payment_status_unpaid"><?php echo JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?></span></p>
 											<?php else: ?>
                                                 <p><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?>: <span
-                                                            class="label order_payment_status_<?php echo strtolower($log->order_payment_status) ?>"><?php echo $log->order_payment_status ?></span>
+                                                            class="label order_payment_status_<?php echo strtolower($log->order_payment_status) ?>"><?php echo JText::_('COM_REDSHOP_PAYMENT_STA_' . strtoupper($log->order_payment_status)) ?></span>
                                                 </p>
 											<?php endif; ?>
                                             <p><?php echo $log->customer_note ?></p>
