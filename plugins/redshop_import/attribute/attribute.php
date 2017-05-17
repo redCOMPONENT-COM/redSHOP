@@ -175,7 +175,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				->where($db->quoteName('property_name') . ' = ' . $db->quote($data['property_name']));
 			$propertyId = (int) $db->setQuery($query)->loadResult();
 
-			if (!$hasSubPropertyName)
+			if ($hasSubPropertyName)
 			{
 				$propertyTable = JTable::getInstance('Attribute_Property', 'Table');
 
