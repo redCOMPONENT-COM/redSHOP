@@ -2525,6 +2525,19 @@ class RedshopHelperOrder
 				$orderDetail->track_no = $arrLocationDetails[0];
 			}
 
+			if (strpos($mailData, "{if track_no}") !== false && strpos($mailData, "{track_no end if}") !== false)
+			{
+				if (empty($orderDetail->track_no))
+				{
+					$template_pd_sdata = explode('{if track_no}', $mailData);
+					$template_pd_edata = explode('{track_no end if}', $template_pd_sdata [1]);
+					$mailData          = $template_pd_sdata[0] . $template_pd_edata[1];
+				}
+
+				$mailData = str_replace("{if track_no}", '', $mailData);
+				$mailData = str_replace("{track_no end if}", '', $mailData);
+			}
+
 			$search[] = "{order_track_no}";
 			$replace[] = trim($orderDetail->track_no);
 
