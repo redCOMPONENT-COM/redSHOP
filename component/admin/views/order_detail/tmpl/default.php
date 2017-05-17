@@ -123,6 +123,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
         </div>
     </div>
 </div>
+
 <div class="tab-content">
     <div class="row">
         <div class="col-sm-6">
@@ -363,6 +364,12 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                     </div>
                                 </td>
                             </tr>
+	                        <?php if($this->detail->track_no){ ?>
+                                <tr>
+                                    <td><?php echo JText::_('COM_REDSHOP_TRACKING_NUMBER'); ?>:</td>
+                                    <td><?php echo $this->detail->track_no; ?></td>
+                                </tr>
+	                        <?php } ?>
                         </table>
                         <input type="submit" name="add" id="add" class="btn btn-primary"
                                value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"/>

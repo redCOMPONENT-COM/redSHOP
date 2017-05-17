@@ -6116,7 +6116,7 @@ class rsCarthelper
 							$prooprand[$ip]                          = $property[0]->oprand;
 							$proprice[$ip]                           = $property_price;
 
-							if ($data['subproperty_data'] != "")
+							if ($data['subproperty_data'] != "" && $data['subproperty_data'] != 0)
 							{
 								$acc_subproperty_data = @explode('##', $data['subproperty_data']);
 								$acc_subproperty_data = @explode(',,', $acc_subproperty_data[$ia]);
