@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0.6
  */
-class RedshopUpdate206Beta1 extends RedshopInstallUpdate
+class RedshopUpdate206 extends RedshopInstallUpdate
 {
 	/**
 	 * Return list of old files for clean
@@ -85,6 +85,7 @@ class RedshopUpdate206Beta1 extends RedshopInstallUpdate
 		$root->level     = 0;
 		$root->lft       = 0;
 		$root->rgt       = 1;
+		$root->published = 1;
 		$db->insertObject('#__redshop_category', $root);
 
 		$rootId = $db->insertid();
