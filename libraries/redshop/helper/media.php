@@ -255,6 +255,8 @@ class RedshopHelperMedia
 			return false;
 		}
 
+		// Prevent space in file path
+		$physicalPath = str_replace(' ', '%20', $physicalPath);
 		$thumbUrl = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
 
 		return $thumbUrl;

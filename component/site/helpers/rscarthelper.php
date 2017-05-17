@@ -1441,7 +1441,6 @@ class rsCarthelper
 											Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 											Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 										);
-				$attribute_image_path = str_replace(' ', '%20', $attribute_image_path);
 				$attrib_img = '<img src="' . $attribute_image_path . '">';
 			}
 			else
@@ -1457,7 +1456,6 @@ class rsCarthelper
 												Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 												Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 											);
-					$attribute_image_path = str_replace(' ', '%20', $attribute_image_path);
 					$attrib_img = '<img src="' . $attribute_image_path . '">';
 				}
 				else
@@ -1486,7 +1484,6 @@ class rsCarthelper
 														Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 														Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 													);
-							$attribute_image_path = str_replace(' ', '%20', $attribute_image_path);
 							$attrib_img = '<img src="' . $attribute_image_path . '">';
 						}
 						else
@@ -1502,7 +1499,6 @@ class rsCarthelper
 															Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 															Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 														);
-								$attribute_image_path = str_replace(' ', '%20', $attribute_image_path);
 								$attrib_img = '<img src="' . $attribute_image_path . '">';
 							}
 						}
@@ -1520,7 +1516,6 @@ class rsCarthelper
 														Redshop::getConfig()->get('CART_THUMB_HEIGHT'),
 														Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 													);
-							$attribute_image_path = str_replace(' ', '%20', $attribute_image_path);
 							$attrib_img = '<img src="' . $attribute_image_path . '">';
 						}
 					}
