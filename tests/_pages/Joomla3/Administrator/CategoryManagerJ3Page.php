@@ -20,6 +20,8 @@ class CategoryManagerJ3Page
 
 	public static $categoryName = "#jform_name";
 
+//	public static $categoryPage="#"
+
 	public static $categoryFilter = ['id' => 'filter_search'];
 
 	public static $categoryTemplateDropDown = "//div[@id='filter_category_template']/a";
@@ -28,11 +30,29 @@ class CategoryManagerJ3Page
 
 	public static $categoryResultRow = "//div[@class='table-responsive']/table/tbody/tr/td[5]";
 
+	public static $categoryCheckInRow="//div[@class='table-responsive']/table/tbody/tr/td[3]";
+
 	public static $categoryStatePath = "//tbody/tr/td[7]/a";
 
 	public static $checkAll = "//input[@id='cb0']";
 
-	public static $categoryTemplateIDDropDown = "//div[@id='s2id_filter_category_template']/a";
+	public static $checkAllCategory="//input[@onclick='Joomla.checkAll(this)']";
+
+    public static $categoryTemplateIDDropDown = "//div[@id='s2id_filter_category_template']/a";
+
+	public static $categoryNoPage="#jform_products_per_page";
+
+	public static $parentCategory="//div[@id='s2id_jform_parent_id']/a";
+	public static $choiceCategoryParent="//div[@id='select2-result-label-13']/a";
+
+	public static $accessories="//div[@id='s2id_category_accessory_search']/a";
+
+	public static $accessoriesFill="#s2id_autogen1";
+
+    public static $categoryManagement="/html/body/div/div/div/section[1]/div[1]/h1";
+
+
+
 
 	/**
 	 * Function to get the Path for Template ID
