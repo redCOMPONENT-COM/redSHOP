@@ -34,11 +34,13 @@ class RedshopUpdate206 extends RedshopInstallUpdate
 			JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/models/accessmanager_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/accessmanager_detail.php',
-			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/category_detail.php',
-			JPATH_ADMINISTRATOR . '/component/com_redshop/models/category_detail.php',
-			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/fields_detail.php',
-			JPATH_ADMINISTRATOR . '/component/com_redshop/models/fields_detail.php',
-			JPATH_ADMINISTRATOR . '/component/com_redshop/tables/fields_detail.php'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/category_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/category_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/fields_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/fields_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/fields_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/configuration/tmpl/default_analytics.php',
+			JPATH_LIBRARIES . '/redshop/helper/googleanalytics.php'
 		);
 	}
 
@@ -55,8 +57,8 @@ class RedshopUpdate206 extends RedshopInstallUpdate
 			JPATH_LIBRARIES . '/redshop/economic',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/views/accessmanager_detail',
-			JPATH_ADMINISTRATOR . '/component/com_redshop/views/category_detail',
-			JPATH_ADMINISTRATOR . '/component/com_redshop/views/fields_detail'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/category_detail',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/fields_detail'
 		);
 	}
 
