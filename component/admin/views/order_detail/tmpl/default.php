@@ -338,30 +338,35 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
 								$disp_style = '';
 
-							if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
-							{
-								$disp_style = "style=display:none";
-							}
-							?>
-							<tr>
-								<td align="left">
-									<div id="rs_glslocationId" <?php echo $disp_style ?>>
-									<?php
-                                    echo RedshopHelperShipping::getGLSLocation($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id);
-                                    ?>
-									</div>
-								</td>
-							</tr>
-						</table>
-						<input type="submit" name="add" id="add" class="btn btn-primary"
-							   value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"/>
-						<input type="hidden" name="task" value="update_shippingrates">
-						<input type="hidden" name="user_id" id="user_id"
-							   value="<?php echo $this->detail->user_id; ?>">
-						<input type="hidden" name="view" value="order_detail">
-						<input type="hidden" name="return" value="order_detail">
-						<input type="hidden" name="cid[]" value="<?php echo $order_id; ?>">
-					</form>
+								if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
+								{
+									$disp_style = "style=display:none";
+								}
+								?>
+                                <tr>
+                                    <td align="left">
+                                        <div id="rs_glslocationId" <?php echo $disp_style ?>>
+											<?php echo RedshopHelperShipping::getGLSLocation($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <?php if($this->detail->track_no){ ?>
+                                <tr>
+                                    <td><?php echo JText::_('COM_REDSHOP_TRACKING_NUMBER'); ?>:</td>
+                                    <td><?php echo $this->detail->track_no; ?></td>
+                                </tr>
+                                <?php } ?>
+                            </table>
+                            <input type="submit" name="add" id="add" class="btn btn-primary"
+                                   value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"/>
+                            <input type="hidden" name="task" value="update_shippingrates">
+                            <input type="hidden" name="user_id" id="user_id"
+                                   value="<?php echo $this->detail->user_id; ?>">
+                            <input type="hidden" name="view" value="order_detail">
+                            <input type="hidden" name="return" value="order_detail">
+                            <input type="hidden" name="cid[]" value="<?php echo $order_id; ?>">
+                        </form>
 
                     </div>
                 </div>
