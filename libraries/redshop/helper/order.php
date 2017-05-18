@@ -1696,7 +1696,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User ID
 	 *
-	 * @return  mixed             Object data if success. False otherwise.
+	 * @return  object            Object data if success. False otherwise.
 	 *
 	 * @since   2.0.3
 	 */
@@ -2511,6 +2511,7 @@ class RedshopHelperOrder
 			$search[]       = "{order_detail_link}";
 			$replace[]      = "<a href='" . $orderDetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_DETAIL_LINK_LBL") . "</a>";
 
+			// Todo: Move to the shipping plugin to return track no and track url
 			$details = RedshopShippingRate::decrypt($orderDetail->ship_method_id);
 
 			if (count($details) <= 1)
@@ -2518,15 +2519,24 @@ class RedshopHelperOrder
 				$details = explode("|", $orderDetail->ship_method_id);
 			}
 
-			$shopLocation = $orderDetail->shop_id;
-
-			if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
+			if ($details[0] == 'plgredshop_shippingdefault_shipping_gls')
 			{
-				$shopLocation = '';
+				$arrLocationDetails = explode('|', $orderDetail->shop_id);
+				$orderDetail->track_no = $arrLocationDetails[0];
 			}
 
-			$arrLocationDetails = explode('|', $shopLocation);
-			$orderDetail->track_no = $arrLocationDetails[0];
+			if (strpos($mailData, "{if track_no}") !== false && strpos($mailData, "{track_no end if}") !== false)
+			{
+				if (empty($orderDetail->track_no))
+				{
+					$template_pd_sdata = explode('{if track_no}', $mailData);
+					$template_pd_edata = explode('{track_no end if}', $template_pd_sdata [1]);
+					$mailData          = $template_pd_sdata[0] . $template_pd_edata[1];
+				}
+
+				$mailData = str_replace("{if track_no}", '', $mailData);
+				$mailData = str_replace("{track_no end if}", '', $mailData);
+			}
 
 			$search[] = "{order_track_no}";
 			$replace[] = trim($orderDetail->track_no);
