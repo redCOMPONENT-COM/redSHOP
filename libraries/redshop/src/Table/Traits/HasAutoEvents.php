@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
 use Joomla\Registry\Registry;
-use function var_dump;
 
 /**
  * Table with automatic events support.
