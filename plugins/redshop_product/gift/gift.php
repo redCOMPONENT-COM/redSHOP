@@ -93,7 +93,7 @@ class PlgRedshop_ProductGift extends JPlugin
 		->from($db->qn('#__redshop_product_gift', 'g'))
 		->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = g.gift_id')
 		->where($db->qn('g.product_id') . ' = ' . (int) $productId)
-		->order($db->qn('g.gift_id') . ' ASC');
+		->order($db->qn('g.quantity_from') . ' ASC');
 
 		if ($giftId > 0)
 		{
@@ -126,7 +126,7 @@ class PlgRedshop_ProductGift extends JPlugin
 			->where($db->qn('quantity_from') . ' <= ' . (int) $quantity)
 			->where($db->qn('quantity_to') . ' >= ' . (int) $quantity);
 
-		return $db->setQuery($query)->loadObject();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
@@ -174,10 +174,15 @@ class PlgRedshop_ProductGift extends JPlugin
 			return;
 		}
 
-		$result['quantity']     = $giftData->quantity;
-		$result['product_id']   = $giftData->gift_id;
-		$cart[$idx]['gift']     = $result;
-		$cart[$idx]['has_gift'] = 1;
+		$result = array();
+
+		foreach ($giftData as $key => $gift)
+		{
+			$result[$key]['quantity']   = $gift->quantity;
+			$result[$key]['product_id'] = $gift->gift_id;
+			$cart[$idx]['gift']         = $result;
+			$cart[$idx]['has_gift']     = 1;
+		}
 	}
 
 	/**
@@ -202,15 +207,20 @@ class PlgRedshop_ProductGift extends JPlugin
 			return;
 		}
 
-		$result['quantity']     = $giftData->quantity;
-		$result['product_id']   = $giftData->gift_id;
-		$cart[$idx]['gift']     = $result;
+		$result = array();
+
+		foreach ($giftData as $key => $gift)
+		{
+			$result[$key]['quantity']   = $gift->quantity;
+			$result[$key]['product_id'] = $gift->gift_id;
+			$cart[$idx]['gift']         = $result;
+		}
 
 		return;
 	}
 
 	/**
-	 * onCartItemDisplay - Replace {bundle_product} on cart view
+	 * onCartItemDisplay - Replace {product_gift} on cart view
 	 *
 	 * @param   string  $cartMdata  Cart template
 	 * @param   array   $cart       Cart array
@@ -229,23 +239,19 @@ class PlgRedshop_ProductGift extends JPlugin
 			return;
 		}
 
-		$data = array();
-		$data['product'] = RedshopHelperProduct::getProductById($cart[$i]['gift']['product_id']);
-		$data['quantity'] = $cart[$i]['gift']['quantity'];
-
 		$html = RedshopLayoutHelper::render(
 			'cart',
-			array('data' => $data),
+			array('data' => $cart[$i]['gift']),
 			JPATH_PLUGINS . '/redshop_product/gift/layouts'
 		);
 
 		$cartMdata = str_replace("{product_gift}", $html, $cartMdata);
 
-		return $cartMdata;
+		return;
 	}
 
 	/**
-	 * onOrderItemDisplay - Replace {bundle_product} on order, mail
+	 * onOrderItemDisplay - Replace {product_gift} on order, mail
 	 *
 	 * @param   string  $cartMdata  Cart template
 	 * @param   array   $rowitem    Cart array
@@ -257,61 +263,36 @@ class PlgRedshop_ProductGift extends JPlugin
 	 */
 	public function onOrderItemDisplay(&$cartMdata, &$rowitem, $i)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$giftRows = $this->getOrderGift($rowitem[$i]->order_item_id);
 
-		$query->select('*')
-		->from($db->qn('#__redshop_order_bundle'))
-		->where($db->qn('order_item_id') . '=' . (int) $rowitem[$i]->order_item_id);
-
-		$db->setQuery($query);
-		$bundleRows = $db->loadObjectList();
-
-		if (count($bundleRows) <= 0)
+		if (count($giftRows) <= 0)
 		{
-			$cartMdata = str_replace("{bundle_product}", "", $cartMdata);
+			$cartMdata = str_replace("{product_gift}", "", $cartMdata);
 
 			return;
 		}
 
 		$data = array();
 
-		foreach ($bundleRows as $row)
+		foreach ($giftRows as $key => $value)
 		{
-			$propertyData = array();
-
-			if ($row->property_id > 0)
-			{
-				$properties = RedshopHelperProduct_Attribute::getAttributeProperties($row->property_id);
-				$propertyData = $properties[0];
-			}
-
-			$bundleData = $this->getBundleData($row->product_id, $row->bundle_id);
-
-			$data[] = array
-			(
-				'property' => $propertyData,
-				'bundle'   => $bundleData[0]
-			);
+			$data[$key]['product_id'] = $value->gift_id;
+			$data[$key]['quantity']   = $value->quantity;
 		}
 
-		$bundleContent = RedshopLayoutHelper::render(
+		$html = RedshopLayoutHelper::render(
 			'cart',
-			array
-			(
-				'data' => $data
-			),
-			'',
-			array('plugin' => 'redshop_product/bundle')
+			array('data' => $data),
+			JPATH_PLUGINS . '/redshop_product/gift/layouts'
 		);
 
-		$cartMdata = str_replace("{bundle_product}", $bundleContent, $cartMdata);
+		$cartMdata = str_replace("{product_gift}", $html, $cartMdata);
 
-		return $cartMdata;
+		return;
 	}
 
 	/**
-	 * afterOrderItemSave - Save bundle data to order_bundle table
+	 * afterOrderItemSave - Save product gift data to order_gift table
 	 *
 	 * @param   array   $cart     Cart data
 	 * @param   object  $rowitem  Order Item
@@ -323,44 +304,38 @@ class PlgRedshop_ProductGift extends JPlugin
 	 */
 	public function afterOrderItemSave($cart, $rowitem, $i)
 	{
-		if (!isset($cart[$i]['bundle_product']) || count($cart[$i]['bundle_product']) <= 0)
+		if (empty($cart[$i]['gift']))
 		{
 			return;
 		}
 
 		$db = JFactory::getDbo();
 
-		$bundleData = $cart[$i]['bundle_product'];
+		$giftData = $cart[$i]['gift'];
 
-		foreach ($bundleData as $bundleId => $propertyId)
+		foreach ($giftData as $key => $gift)
 		{
-			$query = $db->getQuery(true);
+			$columns = array('order_item_id', 'product_id', 'gift_id', 'quantity');
 
-			// Insert columns.
-			$columns = array('order_item_id', 'product_id', 'bundle_id', 'property_id');
-
-			// Insert values.
 			$values = array(
 				(int) $rowitem->order_item_id,
 				(int) $rowitem->product_id,
-				(int) $bundleId,
-				(int) $propertyId
+				(int) $gift['product_id'],
+				(int) $gift['quantity']
 			);
 
 			// Prepare the insert query.
-			$query
-				->insert($db->qn('#__redshop_order_bundle'))
+			$query = $db->getQuery(true)
+				->insert($db->qn('#__redshop_order_gift'))
 				->columns($db->qn($columns))
 				->values(implode(',', $values));
 
-			$db->setQuery($query);
-
-			$db->execute();
+			$db->setQuery($query)->execute();
 		}
 	}
 
 	/**
-	 * onDisplayOrderItemNote - Display Bundle detail on order detail on backend
+	 * onDisplayOrderItemNote - Display Prodct gift detail on order detail on backend
 	 *
 	 * @param   object  $orderItem  Order Item
 	 *
@@ -370,77 +345,47 @@ class PlgRedshop_ProductGift extends JPlugin
 	 */
 	public function onDisplayOrderItemNote($orderItem)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$giftRows = $this->getOrderGift($orderItem->order_item_id);
 
-		$query->select('*')
-		->from($db->qn('#__redshop_order_bundle'))
-		->where($db->qn('order_item_id') . '=' . (int) $orderItem->order_item_id);
-
-		$db->setQuery($query);
-		$bundleRows = $db->loadObjectList();
-
-		if (count($bundleRows) <= 0)
+		if (count($giftRows) <= 0)
 		{
 			return;
 		}
 
-		foreach ($bundleRows as $row)
+		$data = array();
+
+		foreach ($giftRows as $key => $value)
 		{
-			$propertyData = array();
-
-			if ($row->property_id > 0)
-			{
-				$properties = RedshopHelperProduct_Attribute::getAttributeProperties($row->property_id);
-				$propertyData = $properties[0];
-			}
-
-			$bundleData = $this->getBundleData($row->product_id, $row->bundle_id);
-
-			$data[] = array
-			(
-				'property' => $propertyData,
-				'bundle'   => $bundleData[0]
-			);
+			$data[$key]['product_id'] = $value->gift_id;
+			$data[$key]['quantity']   = $value->quantity;
 		}
 
-		$bundleContent = RedshopLayoutHelper::render(
+		$html = RedshopLayoutHelper::render(
 			'cart',
-			array
-			(
-				'data' => $data
-			),
-			'',
-			array('plugin' => 'redshop_product/bundle')
+			array('data' => $data),
+			JPATH_PLUGINS . '/redshop_product/gift/layouts'
 		);
 
-		echo $bundleContent;
+		echo $html;
 	}
 
 	/**
-	 * checkSameCartProduct - If add 2 products with same bundle data
+	 * Get Order Gift
 	 *
-	 * @param   array  &$cart          Cart data
-	 * @param   array  $data           Post data
-	 * @param   bool   &$sameProduct   Same
-	 * @param   int    $i              Cart index
+	 * @param   int  $orderItemId  Order Item
 	 *
-	 * @return  void
+	 * @return  object
 	 *
 	 * @since  1.0.0
 	 */
-	public function checkSameCartProduct(&$cart, $data, &$sameProduct, $i)
+	public function getOrderGift($orderItemId)
 	{
-		$sel = $data['bundle_product'];
-		$preSelect = $cart[$i]['bundle_product'];
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_order_gift'))
+			->where($db->qn('order_item_id') . ' = ' . $db->q((int) $orderItemId));
 
-		$newDiff1 = array_diff($sel, $preSelect);
-		$newDiff2 = array_diff($preSelect, $sel);
-
-		if (count($newDiff1) > 0 || count($newDiff2) > 0)
-		{
-			$sameProduct = false;
-		}
+		return $db->setQuery($query)->loadObjectList();
 	}
 }
-
