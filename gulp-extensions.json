@@ -146,7 +146,8 @@
       "stock_notifyemail",
       "stockroom_status",
       "discount_affect_attribute",
-      "bundle"
+      "bundle",
+      "google_tag"
     ],
     "redshop_product_type": [
       "bundle"
