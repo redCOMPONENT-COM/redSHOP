@@ -1876,6 +1876,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$prop = $this->_db->loadObjectlist();
 				$attribute_id = $attr[$i]->attribute_id;
 				$attribute_name = $attr[$i]->attribute_name;
+				$attribute_description = $attr[$i]->attribute_description;
 				$attribute_required = $attr[$i]->attribute_required;
 				$allow_multiple_selection = $attr[$i]->allow_multiple_selection;
 				$hide_attribute_price = $attr[$i]->hide_attribute_price;
@@ -1893,6 +1894,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 
 				$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name,
+					'attribute_description' => $attribute_description,
 					'attribute_required' => $attribute_required, 'ordering' => $ordering, 'property' => $prop,
 					'allow_multiple_selection' => $allow_multiple_selection, 'hide_attribute_price' => $hide_attribute_price,
 					'attribute_published' => $attribute_published, 'display_type' => $display_type,
