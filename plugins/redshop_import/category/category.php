@@ -74,7 +74,7 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 	{
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
-		return JTable::getInstance('Category', 'Table');
+		return JTable::getInstance('Category', 'RedshopTable');
 	}
 
 	/**
@@ -89,9 +89,6 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 	 */
 	public function processImport($table, $data)
 	{
-		$isNew = false;
-		$db    = $this->db;
-
 		// Set the new parent id if parent id not matched OR while New/Save as Copy .
 		if ($table->parent_id != $data['parent_id'] || $data['id'] == 0)
 		{
@@ -100,20 +97,13 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 
 		if (array_key_exists($this->primaryKey, $data) && $data[$this->primaryKey])
 		{
-			$isNew = $table->load($data[$this->primaryKey]);
+			$table->load($data[$this->primaryKey]);
 		}
 
-		if (!$table->bind($data))
+		if (!$table->bind($data) || !$table->store())
 		{
 			return false;
 		}
-
-		if ((!$isNew && !$db->insertObject('#__redshop_category', $table, $this->primaryKey)) || !$table->store())
-		{
-			return false;
-		}
-
-		$table->rebuild(RedshopHelperCategory::getRootId());
 
 		// Image process
 		if (!empty($data['category_full_image']))

@@ -21,7 +21,7 @@ use Redshop\Table\Traits\HasInstancePrefix;
  *
  * @since  3.2.3
  */
-abstract class AbstractTable extends \JTable implements TableInterface
+abstract class AbstractNestedTable extends \JTableNested implements TableInterface
 {
 	use HasAutoEvents;
 	use HasInstanceName;
@@ -58,7 +58,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  A database connector object
+	 * @param   \JDatabaseDriver $db A database connector object
 	 *
 	 * @throws  \UnexpectedValueException
 	 */
