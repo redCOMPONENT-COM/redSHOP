@@ -29,7 +29,42 @@ class PlgRedshop_ProductGoogle_Tag extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * onBeforeDisplayProduct - Replace {bundle_template}
+	 * Example prepare redSHOP Product method
+	 *
+	 * @TODO: Need to unify onPrepareProduct and onBeforeDisplayProduct
+	 *
+	 * @param   string  $templateContent  The Product Template Data
+	 * @param   object  $params           The product params
+	 * @param   object  $product          The product object
+	 *
+	 * @return  void
+	 */
+	public function onPrepareProduct(&$templateContent, &$params, $product)
+	{
+		// Skip on product detail run since it use another event.
+		if (JFactory::getApplication()->input->getCmd('view') == 'product')
+		{
+			return;
+		}
+
+		$type = $this->params->get('type', 'json-ld');
+
+		if ($type == 'microdata')
+		{
+			$this->renderMicroData($templateContent, $product);
+		}
+		elseif ($type == 'rdfa')
+		{
+			$this->renderRDFa($templateContent, $product);
+		}
+		else
+		{
+			$this->renderJSON($templateContent, $product);
+		}
+	}
+
+	/**
+	 * onBeforeDisplayProduct on product view only.
 	 *
 	 * @param   string $templateContent Template content
 	 * @param   object $params          Params
@@ -53,7 +88,7 @@ class PlgRedshop_ProductGoogle_Tag extends JPlugin
 		}
 		else
 		{
-			$this->renderJSON($product);
+			$this->renderJSON($templateContent, $product);
 		}
 	}
 
@@ -142,22 +177,23 @@ class PlgRedshop_ProductGoogle_Tag extends JPlugin
 	/**
 	 * Method for render JSON
 	 *
-	 * @param   object $product Product data
+	 * @param   string  $template  Product template content
+	 * @param   object  $product   Product data
 	 *
 	 * @return  void
 	 *
 	 * @since  1.0
 	 */
-	protected function renderJSON($product)
+	protected function renderJSON(&$template, $product)
 	{
-		JFactory::getDocument()->addScriptDeclaration($this->prepareData($product)->toString(), 'application/ld+json');
+		$template .= '<script type="application/ld+json">' . $this->prepareData($product)->toString() . '</script>';
 	}
 
 	/**
 	 * Method for render Micro data format.
 	 *
-	 * @param   string $template Product template content
-	 * @param   object $product  Product data
+	 * @param   string  $template  Product template content
+	 * @param   object  $product   Product data
 	 *
 	 * @return  void
 	 *
@@ -212,18 +248,18 @@ class PlgRedshop_ProductGoogle_Tag extends JPlugin
 
 		$html .= '</div>';
 
-		$template = $template . $html;
+		$template .= $html;
 	}
 
 	/**
 	 * Method for render RDFa format.
 	 *
-	 * @param   string $template Product template content
-	 * @param   object $product  Product data
+	 * @param   string  $template  Product template content
+	 * @param   object  $product   Product data
 	 *
 	 * @return  void
 	 *
-	 * @since  1.0
+	 * @since   1.0
 	 */
 	protected function renderRDFa(&$template, $product)
 	{
@@ -275,6 +311,6 @@ class PlgRedshop_ProductGoogle_Tag extends JPlugin
 
 		$html .= '</div>';
 
-		$template = $template . $html;
+		$template .= $html;
 	}
 }
