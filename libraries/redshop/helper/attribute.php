@@ -932,7 +932,7 @@ abstract class RedshopHelperAttribute
 						$prooprand[$ip]                          = $property[0]->oprand;
 						$proprice[$ip]                           = $propertyPrice;
 
-						if (!empty($data['subproperty_data']))
+						if (!empty($data['subproperty_data']) && $data['subproperty_data'] != 0)
 						{
 							$accSubPropertiesData = @explode('##', $data['subproperty_data']);
 							$accSubPropertiesData = @explode(',,', $accSubPropertiesData[$ia]);
