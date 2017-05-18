@@ -132,27 +132,32 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
     }
 
 
-//    public function addCategoryAccessories($categoryName, $noPage, $productAccessories)
-//    {
-//        $I = $this;
-//        $I->amOnPage(\CategoryManagerJ3Page::$URL);
-//        $I->click("New");
-//        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
-//        $I->checkForPhpNoticesOrWarnings();
-//        $I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
-//        $I->click(\CategoryManagerJ3Page::$parentCategory);
-//        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
-//        $I->fillField(\CategoryManagerJ3Page::$categoryNoPage, $noPage);
-//        $I->click('//*[@id="s2id_jform_more_template"]/ul');
-//        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
-//        $I->click('//ul[@class="tabconfig nav nav-pills nav-stacked"]/li[4]');
-//
-//        $I->click('//div[@id="s2id_category_accessory_search"]');
-//
-//        $I->wait(3);
-//        $I->click("Save & Close");
-//        $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
-//    }
+    /**
+     * @param $categoryName
+     * @param $noPage
+     * @param $productAccessories
+     * Here, can you support to fills in value to choice
+     *
+     */
+    public function addCategoryAccessories($categoryName, $noPage, $productAccessories)
+    {
+        $I = $this;
+        $I->amOnPage(\CategoryManagerJ3Page::$URL);
+        $I->click("New");
+        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
+        $I->checkForPhpNoticesOrWarnings();
+        $I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
+        $I->click(\CategoryManagerJ3Page::$parentCategory);
+        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
+        $I->fillField(\CategoryManagerJ3Page::$categoryNoPage, $noPage);
+        $I->click('//*[@id="s2id_jform_more_template"]/ul');
+        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
+        $I->click('//ul[@class="tabconfig nav nav-pills nav-stacked"]/li[4]');
+        $I->click('//div[@id="s2id_category_accessory_search"]');
+        $I->wait(3);
+        $I->click("Save & Close");
+        $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+    }
 
     // That is the function for udpate category
 

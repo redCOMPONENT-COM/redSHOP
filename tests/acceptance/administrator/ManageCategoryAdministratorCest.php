@@ -134,7 +134,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
         $I->addCategoryCancel();
-        $I->see("Category Management", '.page-title');
+        $I->see("Category Management", \CategoryManagerJ3Page::$categoryManagement);
     }
 
     public function createCategoryChild(AcceptanceTester $I, $scenario)
@@ -244,5 +244,20 @@ class ManageCategoryAdministratorCest
         $I->checkinAllCategories();
         $I->see("Category Management", '.page-title');
     }
+
+    /** Function to create category with access
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
+    public function createCategoryAccessories(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Category creation  Save and Close in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+        $I->wantTo('Create a Category');
+        $I->addCategoryAccessories($this->categoryName, $this->noPage, $this->productAccessories);
+        $I->see("item successfully saved", '.alert-success');
+    }
+
 
 }

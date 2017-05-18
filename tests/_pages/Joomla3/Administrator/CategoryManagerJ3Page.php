@@ -49,6 +49,8 @@ class CategoryManagerJ3Page
 
 	public static $accessoriesFill="#s2id_autogen1";
 
+    public static $categoryManagement="/html/body/div/div/div/section[1]/div[1]/h1";
+
 
 
 
