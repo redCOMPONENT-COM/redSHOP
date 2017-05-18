@@ -975,25 +975,18 @@ class RedshopHelperShipping
 		$userInfo     = self::getShippingAddress($usersInfoId);
 		$country      = '';
 		$state        = '';
+		$isCompany    = false;
 		$shippingRate = array();
+		$zip          = '';
+		$whereState   = '';
+		$whereShopper = '';
 
 		if ($userInfo)
 		{
-			$country      = $userInfo->country_code;
-			$state        = $userInfo->state_code;
-			$zip          = $userInfo->zipcode;
-			$isCompany    = $userInfo->is_company;
-			$whereState   = '';
-			$whereShopper = '';
-
-			if (!$isCompany)
-			{
-				$where = " AND ( " . $db->qn('company_only') . " = 2 OR " . $db->qn('company_only') . " = 0) ";
-			}
-			else
-			{
-				$where = " AND ( " . $db->qn('company_only') . " = 1 OR " . $db->qn('company_only') . " = 0) ";
-			}
+			$country   = $userInfo->country_code;
+			$state     = $userInfo->state_code;
+			$zip       = $userInfo->zipcode;
+			$isCompany = $userInfo->is_company;
 
 			$shopperGroup = RedshopHelperUser::getShopperGroupData($userInfo->user_id);
 
@@ -1003,6 +996,15 @@ class RedshopHelperShipping
 				$whereShopper   = " AND (FIND_IN_SET(" . (int) $shopperGroupId . ", " . $db->qn('shipping_rate_on_shopper_group') . ")
 				OR " . $db->qn('shipping_rate_on_shopper_group') . "= '') ";
 			}
+		}
+
+		if (!$isCompany)
+		{
+			$where = " AND ( " . $db->qn('company_only') . " = 2 OR " . $db->qn('company_only') . " = 0) ";
+		}
+		else
+		{
+			$where = " AND ( " . $db->qn('company_only') . " = 1 OR " . $db->qn('company_only') . " = 0) ";
 		}
 
 		if ($country)
@@ -1091,8 +1093,12 @@ class RedshopHelperShipping
 				OR (" . $db->qn('shipping_rate_zip_start') . " = '' AND " . $db->qn('shipping_rate_zip_end') . " = '') ) ";
 			}
 
-			$sql = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " WHERE " . $db->qn('shipping_class') . " = " . $db->quote($shippingClass)
-				. $whereCountry . $whereState . $whereShopper . $zipCond . "
+			$sql = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " WHERE " . $db->qn('shipping_class') . " = "
+				. $db->quote($shippingClass)
+				. $whereCountry
+				. $whereState
+				. $whereShopper
+				. $zipCond . "
 				AND (( " . $db->quote($volume) . " BETWEEN " . $db->qn('shipping_rate_volume_start')
 				. " AND " . $db->qn('shipping_rate_volume_end') . ") OR ( " . $db->qn('shipping_rate_volume_end') . " = 0) )
 				AND (( " . $db->quote($orderSubtotal) . " BETWEEN " . $db->qn('shipping_rate_ordertotal_start')
