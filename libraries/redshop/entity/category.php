@@ -33,6 +33,13 @@ class RedshopEntityCategory extends RedshopEntity
 	protected $products;
 
 	/**
+	 * @var    RedshopEntitiesCollection
+	 *
+	 * @since  2.0.6
+	 */
+	protected $childCategories;
+
+	/**
 	 * Method for get product count of category
 	 *
 	 * @return  integer
@@ -96,6 +103,61 @@ class RedshopEntityCategory extends RedshopEntity
 			->where($db->qn('p.published') . ' = 1');
 
 		$this->products = $db->setQuery($query)->loadObjectList();
+
+		return $this;
+	}
+
+	/**
+	 * Method for get child categories of current category
+	 *
+	 * @return  RedshopEntitiesCollection
+	 *
+	 * @since   2.0.6
+	 */
+	public function getChildCategories()
+	{
+		if (null === $this->childCategories)
+		{
+			$this->loadChildCategories();
+		}
+
+		return $this->childCategories;
+	}
+
+	/**
+	 * Method for load child categories
+	 *
+	 * @return  self
+	 *
+	 * @since   2.0.6
+	 */
+	protected function loadChildCategories()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$this->childCategories = new RedshopEntitiesCollection;
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('id')
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('lft') . ' > ' . $this->get('lft'))
+			->where($db->qn('rgt') . ' < ' . $this->get('rgt'));
+		$results = $db->setQuery($query)->loadColumn();
+
+		if (empty($results))
+		{
+			return $this;
+		}
+
+		foreach ($results as $categoryId)
+		{
+			$this->childCategories->add(RedshopEntityCategory::getInstance($categoryId));
+		}
 
 		return $this;
 	}
