@@ -532,7 +532,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
   INDEX `#__rs_idx_field_published` (`published` ASC),
   INDEX `#__rs_idx_field_section` (`section` ASC),
   INDEX `#__rs_idx_field_type` (`type` ASC),
-  INDEX `#__rs_idx_required` (`required` ASC),
+  INDEX `#__rs_idx_field_required` (`required` ASC),
   INDEX `#__rs_idx_field_name` (`name` ASC),
   INDEX `#__rs_idx_field_show_in_front` (`show_in_front` ASC),
   INDEX `#__rs_idx_field_display_in_product` (`display_in_product` ASC))
