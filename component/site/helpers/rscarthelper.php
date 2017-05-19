@@ -720,7 +720,7 @@ class rsCarthelper
 			$replace[]    = JText::_($shipping_method);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping - $row->order_shipping_tax);
-			$replace[]    = $shipping_rate_name;
+			$replace[]    = JText::_($shipping_rate_name);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping_tax);
 
@@ -6116,7 +6116,7 @@ class rsCarthelper
 							$prooprand[$ip]                          = $property[0]->oprand;
 							$proprice[$ip]                           = $property_price;
 
-							if ($data['subproperty_data'] != "")
+							if ($data['subproperty_data'] != "" && $data['subproperty_data'] != 0)
 							{
 								$acc_subproperty_data = @explode('##', $data['subproperty_data']);
 								$acc_subproperty_data = @explode(',,', $acc_subproperty_data[$ia]);

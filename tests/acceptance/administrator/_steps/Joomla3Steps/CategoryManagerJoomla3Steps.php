@@ -150,14 +150,24 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\CategoryManagerJ3Page::$parentCategory);
         $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
         $I->fillField(\CategoryManagerJ3Page::$categoryNoPage, $noPage);
-        $I->click('//*[@id="s2id_jform_more_template"]/ul');
+		$I->click('//div[@id="s2id_jform_more_template"]/ul');
         $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
-        $I->click('//ul[@class="tabconfig nav nav-pills nav-stacked"]/li[4]');
-        $I->click('//div[@id="s2id_category_accessory_search"]');
-        $I->wait(3);
+        $I->click(['link' => "Accessories"]);
+		$I->waitForElement(['xpath' => "//h3[text()='Accessories']"], 60);
+        $this->selectAccessories($productAccessories);
         $I->click("Save & Close");
         $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
     }
+
+	private function selectAccessories($accessoryName)
+	{
+		$I = $this;
+		$I->click(['xpath' => '//div[@id="s2id_category_accessory_search"]//a']);
+		$I->waitForElement(['id' => "s2id_autogen1_search"]);
+		$I->fillField(['id' => "s2id_autogen1_search"], $accessoryName);
+		$I->waitForElement(['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"], 60);
+		$I->click(['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"]);
+	}
 
     // That is the function for udpate category
 
