@@ -31,4 +31,24 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'Product Manager New');
 		$I->click('Cancel');
 	}
+
+    public function createProductSave(AcceptanceTester $I, $productName, $productCategory, $productNumber, $price)
+    {
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+        $I->click("New");
+        $I->waitForElement(['id' => "product_name"], 30);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->fillField(['id' => "product_name"], $productName);
+        $I->fillField(['id' => "product_number"], $productNumber);
+        $I->fillField(['id' => "product_price"], $price);
+        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
+        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
+        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+        $I->click("Save");
+        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
+        $I->see('Product details saved', ['class' => 'alert-success']);
+    }
 }
