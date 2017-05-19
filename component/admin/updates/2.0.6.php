@@ -39,8 +39,7 @@ class RedshopUpdate206 extends RedshopInstallUpdate
 			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/fields_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/models/fields_detail.php',
 			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/fields_detail.php',
-			JPATH_ADMINISTRATOR . '/components/com_redshop/views/configuration/tmpl/default_analytics.php',
-			JPATH_LIBRARIES . '/redshop/helper/googleanalytics.php'
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/configuration/tmpl/default_analytics.php'
 		);
 	}
 
