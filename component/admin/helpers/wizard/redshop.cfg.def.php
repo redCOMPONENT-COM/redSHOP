@@ -270,7 +270,6 @@ $defaultarray["giftcard_list_thumb_width"] = GIFTCARD_LIST_THUMB_WIDTH;
 $defaultarray["giftcard_list_thumb_height"] = GIFTCARD_LIST_THUMB_HEIGHT;
 $defaultarray["watermark_giftcart_image"] = WATERMARK_GIFTCART_IMAGE;
 $defaultarray["watermark_giftcart_thumb_image"] = WATERMARK_GIFTCART_THUMB_IMAGE;
-$defaultarray["google_ana_tracker"] = GOOGLE_ANA_TRACKER_KEY;
 $defaultarray["clickatell_enable"] = CLICKATELL_ENABLE;
 $defaultarray["clickatell_username"] = CLICKATELL_USERNAME;
 $defaultarray["clickatell_password"] = CLICKATELL_PASSWORD;

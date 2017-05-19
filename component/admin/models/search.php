@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -120,12 +120,12 @@ class RedshopModelSearch extends RedshopModel
 				case 'category':
 					$query->select(
 						array(
-							$db->qn('category_id', 'id'),
-							$db->qn('category_name', 'text')
+							$db->qn('id'),
+							$db->qn('name', 'text')
 						)
 					)
 						->from($db->qn('#__redshop_category'))
-						->where($db->qn('category_name') . $search);
+						->where($db->qn('name') . $search);
 					break;
 				case 'property':
 					$query->select(
@@ -444,7 +444,7 @@ class RedshopModelSearch extends RedshopModel
 			}
 			elseif ($this->_media_section == 'category')
 			{
-				$query = "SELECT category_id as id,category_name as value FROM " . $this->_table_prefix . "category  WHERE category_name like '" .
+				$query = "SELECT id as id,name as value FROM " . $this->_table_prefix . "category  WHERE name like '" .
 					$this->_search . "%'";
 			}
 			else

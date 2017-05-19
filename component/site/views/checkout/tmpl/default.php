@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,7 @@ $order_functions = order_functions::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 
 $telesearch      = $order_functions->getparameters('rs_telesearch');
-$Itemid          = $redhelper->getCheckoutItemid();
+$Itemid          = RedshopHelperUtility::getCheckoutItemId();
 $auth            = $session->get('auth');
 $l               = JRequest::getInt('l', 1);
 $jinput          = JFactory::getApplication()->input;

@@ -3,7 +3,7 @@
  * @package     Redshop.Libararies
  * @subpackage  com_redshop
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,9 +46,9 @@ abstract class RedshopHelperRoute
 	/**
 	 * Get the URL route for a product from a product ID, product category ID and product manufacturer ID
 	 *
-	 * @param   integer  $id              The id of the product
-	 * @param   integer  $catid           The id of the product's category
-	 * @param   integer  $manufacturerId  The id of the product's manufacturer
+	 * @param   integer $id             The id of the product
+	 * @param   integer $catid          The id of the product's category
+	 * @param   integer $manufacturerId The id of the product's manufacturer
 	 *
 	 * @return  string  The link to the product
 	 *
@@ -57,7 +57,7 @@ abstract class RedshopHelperRoute
 	public static function getProductRoute($id, $catid, $manufacturerId)
 	{
 		$needles = array(
-			'product'  => array((int) $id)
+			'product' => array((int) $id)
 		);
 
 		// Create the link
@@ -69,9 +69,12 @@ abstract class RedshopHelperRoute
 		}
 
 		// Find the menu item for the search
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 		$menu  = $app->getMenu();
-		$items = $menu->getItems('link', 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catid . '&manufacturer_id=' . $manufacturerId);
+		$items = $menu->getItems(
+			'link',
+			'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catid . '&manufacturer_id=' . $manufacturerId
+		);
 
 		if (isset($items[0]))
 		{
@@ -84,7 +87,7 @@ abstract class RedshopHelperRoute
 	/**
 	 * Find an item ID.
 	 *
-	 * @param   array  $needles  An array of language codes.
+	 * @param   array $needles An array of language codes.
 	 *
 	 * @return  mixed  The ID found or null otherwise.
 	 *
@@ -92,15 +95,15 @@ abstract class RedshopHelperRoute
 	 */
 	protected static function findItem($needles = null)
 	{
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 		$menus = $app->getMenu('site');
 
 		// Prepare the reverse lookup array.
 		if (static::$lookup === null)
 		{
 			static::$lookup = array();
-			$component = JComponentHelper::getComponent('com_redshop');
-			$items = $menus->getItems('component_id', $component->id);
+			$component      = JComponentHelper::getComponent('com_redshop');
+			$items          = $menus->getItems('component_id', $component->id);
 
 			foreach ($items as $item)
 			{

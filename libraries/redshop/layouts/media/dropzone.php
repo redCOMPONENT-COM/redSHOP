@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,8 +19,13 @@ defined('_JEXEC') or die;
  * @var  string  $mediaSection  Section media (Ex: product)
  * @var  array   $file          File data as array
  * @var  bool    $showMedia     Show pop-up for select image from media or not
+ * @var  string  $maxFileSize   Max file size to upload
  */
 extract($displayData);
+
+$maxFileSize = !empty($maxFileSize) ? $maxFileSize : Redshop::getConfig()->get('MAX_FILE_SIZE_UPLOAD', 2048);
+JText::script('COM_REDSHOP_UPLOAD_FILE_TOO_BIG');
+JText::script('COM_REDSHOP_MEDIA_ERROR_FILE_UPLOAD_INVALID');
 ?>
 
 <div id="<?php echo $id ?>-wrapper" data-id="<?php echo $id ?>">
@@ -139,7 +144,7 @@ extract($displayData);
 <script type="text/javascript">
 	(function($){
 		$(document).ready(function(){
-			var option = {};
+			var option = {maxFileSize: '<?php echo $maxFileSize; ?>'};
 			<?php if (!empty($file)): ?>
 			option.initFile = {
 				name: "<?php echo $file['name'] ?>",

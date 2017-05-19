@@ -3,7 +3,7 @@
  * @package     Redshop.Libraries
  * @subpackage  Helpers
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -761,7 +761,7 @@ abstract class RedshopHelperAttribute
 							$mph_thumb,
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
-						$property_image = "<img title='" . urldecode($property->property_name) . "' src='" . $thumbUrl . "'>";
+						$propertyImage = "<img title='" . urldecode($property->property_name) . "' src='" . $thumbUrl . "'>";
 					}
 
 					$propertyData = str_replace("{property_image}", $propertyImage, $propertyData);

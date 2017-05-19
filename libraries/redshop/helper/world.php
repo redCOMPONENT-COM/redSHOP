@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -97,7 +97,7 @@ class RedshopHelperWorld
 				// Set the query and load the result.
 				$db->setQuery($query);
 
-				self::$countries = redhelper::getInstance()->convertLanguageString($db->loadObjectList());
+				self::$countries = RedshopHelperUtility::convertLanguageString($db->loadObjectList());
 
 				// Check for a database error.
 				if ($db->getErrorNum())
@@ -337,5 +337,102 @@ class RedshopHelperWorld
 		}
 
 		return $list;
+	}
+
+	/**
+	 * Method to get Country ID by country 3 code.
+	 *
+	 * @param   int  $country3code  Country 3 code
+	 *
+	 * @return  int
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getCountryId($country3code)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('id'))
+			->from($db->qn('#__redshop_country'))
+			->where($db->qn('country_3_code') . ' LIKE ' . $db->quote($country3code));
+
+		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * Method to get Country 2 code by Country 3 code.
+	 *
+	 * @param   int  $country3code  Country 3 code
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getCountryCode2($country3code)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('country_2_code'))
+			->from($db->qn('#__redshop_country'))
+			->where($db->qn('country_3_code') . ' LIKE ' . $db->quote($country3code));
+
+		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * Method to get State code 2 by State code 3.
+	 *
+	 * @param   int  $stateCode  State 3 code
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getStateCode2($stateCode)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->qn('state_2_code'))
+			->from($db->qn('#__redshop_state'))
+			->where($db->qn('state_3_code') . ' LIKE ' . $db->quote($stateCode));
+
+		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * Method for get State Code
+	 *
+	 * @param   int     $id         ID of state.
+	 * @param   string  $stateCode  State code 2
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getStateCode($id, $stateCode)
+	{
+		if (empty($stateCode))
+		{
+			return null;
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn(array('state_3_code', 'show_state')))
+			->from($db->qn('#__redshop_state'))
+			->where($db->qn('state_2_code') . ' LIKE ' . $db->quote($stateCode))
+			->where($db->qn('id') . ' = ' . (int) $id);
+
+		$result = $db->setQuery($query)->loadObject();
+
+		if ($result && $result->show_state == 3)
+		{
+			return $result->state_3_code;
+		}
+
+		return $stateCode;
 	}
 }

@@ -1,4 +1,13 @@
 <?php
+/**
+ * @package     RedSHOP.Library
+ * @subpackage  Helper
+ *
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+defined('_JEXEC') or die;
 
 /**
  * Install database
@@ -8,18 +17,18 @@
 class RedshopInstallDatabase
 {
 	// TODO Move to json file
-	protected $_dbUpdate = array(
+	protected $dbUpdate = array(
 		// 1.4
-		'quotation'     => array(
+		'quotation'              => array(
 			'add' => array(
-				'field' => array (
+				'field' => array(
 					'quotation_customer_note' => "ALTER TABLE `#__redshop_quotation` ADD `quotation_customer_note` TEXT NOT NULL AFTER `quotation_note`"
 				)
 			)
 		),
-		'product'       => array(
+		'product'                => array(
 			'add'  => array(
-				'field' => array (
+				'field' => array(
 					'allow_decimal_piece' => "ALTER TABLE `#__redshop_product` ADD `allow_decimal_piece` int(4) NOT NULL"
 				)
 			),
@@ -29,21 +38,21 @@ class RedshopInstallDatabase
 				)
 			)
 		),
-		'country'       => array(
+		'country'                => array(
 			'drop' => array(
 				'index' => array(
 					'idx_country_name' => "ALTER TABLE `#__redshop_country` DROP INDEX `idx_country_name`"
 				)
 			)
 		),
-		'currency'      => array(
+		'currency'               => array(
 			'drop' => array(
 				'index' => array(
 					'idx_currency_name' => "ALTER TABLE `#__redshop_currency` DROP INDEX `idx_currency_name`"
 				)
 			)
 		),
-		'order_item'    => array(
+		'order_item'             => array(
 			'drop' => array(
 				'field' => array(
 					'container_id' => "ALTER TABLE `#__redshop_order_item` DROP `container_id`"
@@ -52,26 +61,26 @@ class RedshopInstallDatabase
 		),
 		// 1.5
 		// 1.5.0.4.1
-		'usercart_item' => array(
+		'usercart_item'          => array(
 			'add' => array(
-				'field' => array (
+				'field' => array(
 					'attribs' => "ALTER TABLE `#__redshop_usercart_item` ADD `attribs` VARCHAR(5120) NOT NULL COMMENT 'Specified user attributes related with current item'"
 				)
 			)
 		),
 		// 1.5.0.5.1
-		'orders'        => array(
+		'orders'                 => array(
 			'add' => array(
-				'field' => array (
+				'field' => array(
 					'invoice_number'        => "ALTER TABLE `#__redshop_orders` ADD `invoice_number` VARCHAR( 255 ) NOT NULL COMMENT 'Formatted Order Invoice for final use' AFTER `order_number` , ADD INDEX `idx_orders_invoice_number` (`invoice_number`)",
 					'invoice_number_chrono' => "ALTER TABLE `#__redshop_orders` ADD `invoice_number_chrono` INT NOT NULL COMMENT 'Order invoice number in chronological order' AFTER `order_number` , ADD INDEX `idx_orders_invoice_number_chrono` (`invoice_number_chrono`)"
 				)
 			)
 		),
 		// 1.5.0.5.3
-		'order_payment' => array(
-			'add' => array (
-				'unique' => array (
+		'order_payment'          => array(
+			'add'  => array(
+				'unique' => array(
 					'order_id' => "ALTER TABLE `#__redshop_order_payment` ADD UNIQUE(`order_id`)"
 				)
 			),
@@ -84,30 +93,30 @@ class RedshopInstallDatabase
 			)
 		),
 		// 1.6
-		'discount' => array(
-			'add' => array (
-				'field' => array (
+		'discount'               => array(
+			'add' => array(
+				'field' => array(
 					'name' => 'ALTER TABLE `#__redshop_discount` ADD `name` VARCHAR( 250 ) NOT NULL'
 				),
-				'index' => array (
+				'index' => array(
 					'idx_discount_name' => "ALTER TABLE `#__redshop_discount` ADD INDEX `idx_discount_name` (`name`)"
 				)
 			)
 		),
 		// 1.6.1
-		'giftcard'      => array(
+		'giftcard'               => array(
 			'add' => array(
-				'field' => array (
+				'field' => array(
 					'free_shipping' => "ALTER TABLE `#__redshop_giftcard` ADD `free_shipping` TINYINT NOT NULL"
 				)
 			)
 		),
 		// 1.6.3
 		'product_stockroom_xref' => array(
-			'add' => array (
-				'index' => array (
+			'add' => array(
+				'index' => array(
 					'idx_product_id' => 'ALTER TABLE `#__redshop_product_stockroom_xref` ADD INDEX `idx_product_id` (`product_id` ASC);',
-					'idx_quantity' => 'ALTER TABLE `#__redshop_product_stockroom_xref` ADD INDEX `idx_quantity` (`quantity` ASC);'
+					'idx_quantity'   => 'ALTER TABLE `#__redshop_product_stockroom_xref` ADD INDEX `idx_quantity` (`quantity` ASC);'
 				)
 			)
 		)
@@ -135,7 +144,7 @@ class RedshopInstallDatabase
 		$db = JFactory::getDbo();
 
 		// Loop array of required tables / fields
-		foreach ($this->_dbUpdate as $table => $fields)
+		foreach ($this->dbUpdate as $table => $fields)
 		{
 			$redshopTable = $this->_tablePrefix . $table;
 			$columns      = $this->_getColumns($redshopTable);
@@ -167,7 +176,7 @@ class RedshopInstallDatabase
 						foreach ($fields['add']['index'] as $field => $query)
 						{
 							// Working with INDEX
-							$indexes    = $this->_getIndex($redshopTable);
+							$indexes = $this->_getIndex($redshopTable);
 
 							// Make sure this table have no this column before
 							if (!array_key_exists($field, $indexes))
@@ -202,7 +211,7 @@ class RedshopInstallDatabase
 			}
 
 			// Working with INDEX
-			$columns    = $this->_getIndex($redshopTable);
+			$columns = $this->_getIndex($redshopTable);
 
 			// Alter drop Index
 			$this->_alterDrop($fields, $columns, true);
@@ -212,7 +221,7 @@ class RedshopInstallDatabase
 	/**
 	 * Get columns of table
 	 *
-	 * @param   string  $table  Table name
+	 * @param   string $table Table name
 	 *
 	 * @return mixed
 	 *
@@ -230,7 +239,7 @@ class RedshopInstallDatabase
 	/**
 	 * Get index of table
 	 *
-	 * @param   string  $table  Table name
+	 * @param   string $table Table name
 	 *
 	 * @return  mixed
 	 *
@@ -248,9 +257,9 @@ class RedshopInstallDatabase
 	/**
 	 * Apply ALTER query for drop column or index
 	 *
-	 * @param   array  $fields   Fields information
-	 * @param   array  $columns  List of Columns
-	 * @param   bool   $isIndex  Drop index column
+	 * @param   array $fields  Fields information
+	 * @param   array $columns List of Columns
+	 * @param   bool  $isIndex Drop index column
 	 *
 	 * @return  boolean          True on success.
 	 */
