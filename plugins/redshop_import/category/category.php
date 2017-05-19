@@ -21,14 +21,30 @@ JLoader::import('redshop.library');
 class PlgRedshop_ImportCategory extends AbstractImportPlugin
 {
 	/**
-	 * @var string
+	 * @var   string
 	 */
 	protected $primaryKey = 'id';
 
 	/**
-	 * @var string
+	 * @var   string
 	 */
 	protected $nameKey = 'name';
+
+	/**
+	 * List of alias columns. For backward compatible. Example array('category_id' => 'id')
+	 *
+	 * @var    array
+	 *
+	 * @since  2.0.6
+	 */
+	protected $aliasColumns = array(
+		'category_id'                => 'id',
+		'category_name'              => 'name',
+		'category_short_description' => 'short_description',
+		'category_description'       => 'description',
+		'category_template'          => 'template',
+		'category_more_template'     => 'more_template',
+	);
 
 	/**
 	 * Event run when user load config for export this data.
@@ -74,7 +90,7 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 	{
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
-		return JTable::getInstance('Category', 'RedshopTable');
+		return RedshopTable::getInstance('Category', 'RedshopTable');
 	}
 
 	/**
@@ -90,7 +106,7 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 	public function processImport($table, $data)
 	{
 		// Set the new parent id if parent id not matched OR while New/Save as Copy .
-		if ($table->parent_id != $data['parent_id'] || $data['id'] == 0)
+		if (isset($data['parent_id']) && $table->parent_id != $data['parent_id'])
 		{
 			$table->setLocation($data['parent_id'], 'last-child');
 		}
@@ -100,7 +116,7 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 			$table->load($data[$this->primaryKey]);
 		}
 
-		if (!$table->bind($data) || !$table->store())
+		if (!$table->bind($data) || !$table->check() || !$table->store())
 		{
 			return false;
 		}
