@@ -42,7 +42,7 @@ $lists['shipping_company_field']  = RedshopHelperExtrafields::listAllField(15);
 	<?php $dispatcher->trigger('onRenderOnstepCheckout'); ?>
 </div>
 <div id="wrapper-billing"></div>
-<?php if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) : ?>
+<?php if (!JFactory::getUser()->id && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) : ?>
 <div class="form-group">
 	<label for="billisship">
 		<input class="toggler" type="checkbox" id="billisship" name="billisship" value="1" onclick="billingIsShipping(this);" checked="" />
