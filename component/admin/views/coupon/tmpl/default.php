@@ -22,10 +22,10 @@ $url = JURI::base();
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove')) {
+		if (pressbutton == 'add') || pressbutton == 'edit' || pressbutton == 'remove') {
 			form.view.value = "coupon_detail";
 		}
+
 		try {
 			form.onsubmit();
 		}
@@ -34,6 +34,7 @@ $url = JURI::base();
 
 		form.submit();
 	}
+
 	function clearreset() {
 		var form = document.adminForm;
 		form.filter_search.value = "";
