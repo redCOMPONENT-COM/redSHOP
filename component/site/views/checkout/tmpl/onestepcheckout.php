@@ -34,12 +34,6 @@ JHtml::script('com_redshop/credit_card.js', false, true);
 
 $billingaddresses = $model->billingaddresses();
 
-if (!count($billingaddresses))
-{
-	$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-	$app->redirect(JRoute::_("index.php?option=com_redshop&view=account_billto&return=checkout&Itemid=" . $Itemid), $msg);
-}
-
 $paymentmethod = RedshopHelperUtility::getPlugins('redshop_payment', 1);
 $selpayment_method_id = 0;
 
@@ -66,6 +60,20 @@ if ($users_info_id == 0)
 	$users_info_id = $billingaddresses->users_info_id;
 }
 
+$loginTemplate = "";
+
+if (!$users_info_id)
+{
+	$loginTemplate = RedshopLayoutHelper::render(
+		'checkout.login',
+		array(),
+		'',
+		array(
+			'component' => 'com_redshop'
+		)
+	);
+}
+
 $onestep_template_desc = "";
 $onesteptemplate = $redTemplate->getTemplate("onestep_checkout");
 
@@ -76,6 +84,19 @@ if (count($onesteptemplate) > 0 && $onesteptemplate[0]->template_desc)
 else
 {
 	$onestep_template_desc = JText::_("COM_REDSHOP_TEMPLATE_NOT_EXISTS");
+}
+
+if (strpos($onestep_template_desc, '{billing_template}') !== false)
+{
+	$billingTemplate = RedshopLayoutHelper::render(
+		'checkout.billing',
+		array(),
+		'',
+		array(
+			'component' => 'com_redshop'
+		)
+	);
+	$onestep_template_desc = str_replace('{billing_template}', $billingTemplate, $onestep_template_desc);
 }
 
 $payment_template = "";
@@ -233,7 +254,7 @@ $onestep_template_desc = str_replace($payment_template, $payment_template_desc, 
 
 $onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid);
 
-$onestep_template_desc = '<form	action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">' . $onestep_template_desc . '<div style="display:none" id="responceonestep"></div></form>';
+$onestep_template_desc = $loginTemplate . '<form	action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">' . $onestep_template_desc . '<div style="display:none" id="responceonestep"></div></form>';
 
 $onestep_template_desc = $redTemplate->parseredSHOPplugin($onestep_template_desc);
 echo eval("?>" . $onestep_template_desc . "<?php ");?>
