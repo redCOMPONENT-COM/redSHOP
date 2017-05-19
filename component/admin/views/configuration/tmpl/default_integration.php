@@ -13,17 +13,6 @@ defined('_JEXEC') or die;
 <fieldset class="adminform">
     <div class="row">
         <div class="col-sm-4">
-			<?php if (JPluginHelper::isEnabled('system', 'redgoogleanalytics')): ?>
-				<?php
-				echo RedshopLayoutHelper::render(
-					'config.group',
-					array(
-						'title'   => JText::_('COM_REDSHOP_GOOGLE_ANALYTICS'),
-						'content' => $this->loadTemplate('analytics')
-					)
-				);
-				?>
-			<?php endif; ?>
 			<?php
 			echo RedshopLayoutHelper::render(
 				'config.group',
