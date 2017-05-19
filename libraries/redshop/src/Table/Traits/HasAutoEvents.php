@@ -42,6 +42,57 @@ trait HasAutoEvents
 	);
 
 	/**
+	 * Field name to publish/unpublish/trash table registers. Ex: state
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldState = 'state';
+
+	/**
+	 * Field name to keep creator user (created_by)
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldCreatedBy = 'created_by';
+
+	/**
+	 * Field name to keep latest modifier user (modified_by)
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldModifiedBy = 'modified_by';
+
+	/**
+	 * Field name to keep created date (created_date)
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldCreatedDate = 'created_date';
+
+	/**
+	 * Field name to keep latest modified user (modified_date)
+	 *
+	 * @var  string
+	 */
+	protected $_tableFieldModifiedDate = 'modified_date';
+
+	/**
+	 * Format for audit date fields (created_date, modified_date)
+	 *
+	 * @var  string
+	 */
+	protected $_auditDateFormat = 'Y-m-d H:i:s';
+
+	/**
+	 * True for auto-update audit field
+	 *
+	 * @var   boolean
+	 *
+	 * @since   2.0.6
+	 */
+	protected $updateAuditFields = true;
+
+	/**
 	 * Use automatic events for this table.
 	 *
 	 * @var    boolean
@@ -221,7 +272,18 @@ trait HasAutoEvents
 	 */
 	protected function beforeStore($updateNulls = false, $isNew = false, $oldItem = null)
 	{
-		return $this->triggerEvent('event_before_store', func_get_args());
+		if (!$this->triggerEvent('event_before_store', func_get_args()))
+		{
+			return false;
+		}
+
+		// Audit fields optional auto-update (on by default)
+		if ($this->getOption('updateAuditFields', true))
+		{
+			self::updateAuditFields($this);
+		}
+
+		return true;
 	}
 
 	/**
@@ -730,5 +792,68 @@ trait HasAutoEvents
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to update audit fields using a static function, to reuse in non-children classes like RNestedTable
+	 *
+	 * @param   self  $tableInstance  Table instance
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	public static function updateAuditFields(&$tableInstance)
+	{
+		$tableFieldCreatedBy    = $tableInstance->get('_tableFieldCreatedBy');
+		$tableFieldCreatedDate  = $tableInstance->get('_tableFieldCreatedDate');
+		$tableFieldModifiedBy   = $tableInstance->get('_tableFieldModifiedBy');
+		$tableFieldModifiedDate = $tableInstance->get('_tableFieldModifiedDate');
+		$auditDateFormat        = $tableInstance->get('_auditDateFormat');
+
+		// Optional created_by field updated when present
+		if (!$tableInstance->hasPrimaryKey() && property_exists($tableInstance, $tableFieldCreatedBy))
+		{
+			$user = \JFactory::getUser();
+
+			if ($user->id)
+			{
+				$tableInstance->{$tableFieldCreatedBy} = $user->id;
+			}
+			else
+			{
+				$tableInstance->{$tableFieldCreatedBy} = null;
+			}
+		}
+
+		// Optional created_date field updated when present
+		if (!$tableInstance->hasPrimaryKey() && property_exists($tableInstance, $tableFieldCreatedDate))
+		{
+			$tableInstance->{$tableFieldCreatedDate} = \JFactory::getDate()->format($auditDateFormat);
+		}
+
+		// Optional modified_by field updated when present
+		if (property_exists($tableInstance, $tableFieldModifiedBy))
+		{
+			if (!isset($user))
+			{
+				$user = \JFactory::getUser();
+			}
+
+			if ($user->id)
+			{
+				$tableInstance->{$tableFieldModifiedBy} = $user->id;
+			}
+			else
+			{
+				$tableInstance->{$tableFieldModifiedBy} = null;
+			}
+		}
+
+		// Optional modified_date field updated when present
+		if (property_exists($tableInstance, $tableFieldModifiedDate))
+		{
+			$tableInstance->{$tableFieldModifiedDate} = \JFactory::getDate()->format($auditDateFormat);
+		}
 	}
 }
