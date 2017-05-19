@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -89,7 +89,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		$session->set('cart', $cart);
 
 		$model->modifyQuotation($quotationDetail->user_id);
-		$Itemid = $redhelper->getCheckoutItemid();
+		$Itemid = RedshopHelperUtility::getCheckoutItemId();
 		$this->setRedirect('index.php?option=com_redshop&view=checkout&quotation=1&encr=' . $encr . '&Itemid=' . $Itemid);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -26,9 +26,9 @@ JHtml::_('behavior.formvalidator');
 						<?php echo $this->form->renderField('amount') ?>
 						<?php echo $this->form->renderField('start_date') ?>
 						<?php echo $this->form->renderField('end_date') ?>
-						<?php echo $this->form->renderField('discount_product') ?>
-						<?php echo $this->form->renderField('category_id') ?>
 						<?php echo $this->form->renderField('manufacturer_id') ?>
+						<?php echo $this->form->renderField('category_id') ?>
+						<?php echo $this->form->renderField('discount_product') ?>
 					</div>
 				</div>
 			</div>

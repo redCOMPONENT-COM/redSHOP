@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -44,5 +44,15 @@ echo RedshopLayoutHelper::render(
 		'desc'  => JText::_('COM_REDSHOP_CONFIG_IMAGE_PROCESSING_METHOD_DESC'),
 		'field' => $this->lists ['use_image_size_swapping'],
 		'line'  => false
+	)
+);
+
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_CONFIG_IMAGE_MAX_FILE_SIZE_UPLOAD'),
+		'desc'  => JText::_('COM_REDSHOP_CONFIG_IMAGE_MAX_FILE_SIZE_UPLOAD_DESC'),
+		'field' => '<input type="number" name="max_file_size_upload" id="max_file_size_upload" class="form-control"'
+			. 'value="' . $this->config->get('MAX_FILE_SIZE_UPLOAD', 2048) . '"/>'
 	)
 );
