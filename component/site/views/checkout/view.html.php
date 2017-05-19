@@ -175,7 +175,7 @@ class RedshopViewCheckout extends RedshopView
 			$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
 		}
 
-		if (($user->id || $auth['users_info_id'] > 0) && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
+		if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{
 			$this->setLayout('onestepcheckout');
 		}
