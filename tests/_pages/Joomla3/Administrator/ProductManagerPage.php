@@ -15,5 +15,5 @@
  */
 class ProductManagerPage
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=product';
+	public static $URL = 'administrator/index.php?option=com_redshop&view=product';
 }
