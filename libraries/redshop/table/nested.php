@@ -225,6 +225,12 @@ class RedshopTableNested extends JTableNested
 			$this->setRules($rules);
 		}
 
+		if (!isset($src['parent_id']) && empty($this->parent_id))
+		{
+			$src['parent_id'] = $this->getRootId();
+			$this->setLocation($this->getRootId(), 'last-child');
+		}
+
 		return parent::bind($src, $ignore);
 	}
 

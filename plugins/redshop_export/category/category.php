@@ -127,6 +127,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 			)
 			->from($this->db->qn('#__redshop_category'))
 			->where($this->db->qn('level') . ' > 0')
+			->where($this->db->qn('id') . ' <> ' . RedshopHelperCategory::getRootId())
 			->order($this->db->qn('level') . ' ASC');
 	}
 
