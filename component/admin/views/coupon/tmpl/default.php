@@ -18,11 +18,12 @@ $url = JURI::base();
 
 	Joomla.submitbutton = function (pressbutton) {
 		var form = document.adminForm;
+
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
 
-		if (pressbutton == 'add') || pressbutton == 'edit' || pressbutton == 'remove') {
+		if (pressbutton == 'add' || pressbutton == 'edit' || pressbutton == 'remove') {
 			form.view.value = "coupon_detail";
 		}
 
@@ -41,7 +42,7 @@ $url = JURI::base();
 		form.submit();
 	}
 </script>
-<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop&view=coupon" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<div class="filterTool">
 			<div class="filterItem">
