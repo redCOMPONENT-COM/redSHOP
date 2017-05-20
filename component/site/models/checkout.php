@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Economic\Economic;
+
 
 
 /**
@@ -513,7 +515,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
-			$helper->clickatellSMS($order_id);
+			RedshopHelperClickatell::clickatellSMS($order_id);
 		}
 
 		$session->set('order_id', $order_id);
@@ -1166,17 +1168,17 @@ class RedshopModelCheckout extends RedshopModel
 			}
 
 			$economicdata['economic_payment_method'] = $payment_name;
-			$economic->createInvoiceInEconomic($row->order_id, $economicdata);
+			Economic::createInvoiceInEconomic($row->order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
 				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
-				$bookinvoicepdf = $economic->bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
+				$bookinvoicepdf = Economic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
 				if (is_file($bookinvoicepdf))
 				{
-					$this->_redshopMail->sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
 			}
 		}
@@ -1859,13 +1861,17 @@ class RedshopModelCheckout extends RedshopModel
 
 	public function getCategoryNameByProductId($pid)
 	{
-		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pcx.category_id "
-			. "WHERE pcx.product_id = " . (int) $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('c.name'))
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
+			->where($db->qn('c.name') . ' IS NOT NULL')
+			->order($db->qn('c.id') . ' ASC')
+			->setLimit(0, 1);
 
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
+		return $db->setQuery($query)->loadResult();
 	}
 
 	public function voucher($cart, $order_id)
@@ -2160,7 +2166,7 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 			}
-			elseif ($catItemId = $redHelper->getCategoryItemid())
+			elseif ($catItemId = RedshopHelperUtility::getCategoryItemid())
 			{
 				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
 			}

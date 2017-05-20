@@ -66,35 +66,10 @@ abstract class JHtmlRedshopGrid
 			return $data;
 		}
 
-		$document = JFactory::getDocument();
-		$teaser   = JHtml::_('string.truncate', $data, $count, true, false);
+		JText::script('COM_REDSHOP_GRID_SLIDERTEXT_MORE');
+		JText::script('COM_REDSHOP_GRID_SLIDERTEXT_LESS');
 
-		$document->addStyleDeclaration('
-			.rs-full { display: none; }
-			.rs-more { cursor: pointer; }
-			.rs-teaser { display: inline-block; }
-		');
-
-		$document->addScriptDeclaration('
-			(function($){
-				$(document).ready(function(){
-					$(".rs-more").click(function(e){
-						var $self = $(this);
-						var $teaser = $self.parent().find(".rs-teaser");
-						var $full = $self.parent().find(".rs-full");
-
-						$teaser.toggle();
-						$full.toggle("slow", function(){
-							if ($(this).css("display") == "none") {
-								$self.text("' . JText::_('COM_REDSHOP_GRID_SLIDERTEXT_MORE') . '");
-							} else {
-								$self.text("' . JText::_('COM_REDSHOP_GRID_SLIDERTEXT_LESS') . '");
-							}
-						});
-					});
-				});
-			})(jQuery);
-		');
+		$teaser = JHtml::_('string.truncate', $data, $count, true, false);
 
 		return "<span class='rs-teaser'>" . $teaser . "</span>
 			<span class='rs-full'>" . $data . "</span>
@@ -112,7 +87,7 @@ abstract class JHtmlRedshopGrid
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function inline($name = '', $value = '', $display = '', $id = 0, $type = 'text')
 	{

@@ -395,12 +395,13 @@ INSERT IGNORE INTO `#__redshop_currency` (`currency_id`, `currency_name`, `curre
 	(157, 'Slovak Koruna', 'SKK'),
 	(158, 'Armenian Dram', 'AMD');
 
-INSERT IGNORE INTO `#__redshop_fields` VALUES
-	(2, 'PNO', 'rs_pno', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 2, 0),
-	(3, 'Birthdate', 'rs_birthdate', '12', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 3, 0),
-	(4, 'Gender', 'rs_gender', '4', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 4, 0),
-	(5, 'House Number', 'rs_house_number', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 5, 0),
-	(6, 'House Extension', 'rs_house_extension', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, 0, 6, 0);
+INSERT IGNORE INTO `#__redshop_fields` (`id`, `title`, `name`, `type`, `desc`, `class`, `section`, `maxlength`, `cols`, `rows`, `size`, `show_in_front`, `required`, `published`, `publish_up`, `publish_down`, `display_in_product`, `ordering`, `display_in_checkout`, `checked_out`, `checked_out_time`, `created_date`, `created_by`, `modified_date`, `modified_by`)
+VALUES
+	(2, 'PNO', 'rs_pno', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 2, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+	(3, 'Birthdate', 'rs_birthdate', '12', '', '', '18', 30, 10, 10, 20, 1, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 3, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+	(4, 'Gender', 'rs_gender', '4', '', '', '18', 30, 10, 10, 20, 1, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 4, 0, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+	(5, 'House Number', 'rs_house_number', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 5, 0, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL),
+	(6, 'House Extension', 'rs_house_extension', '1', '', '', '18', 30, 10, 10, 20, 1, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 6, 0, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, '0000-00-00 00:00:00', NULL);
 
 INSERT IGNORE INTO `#__redshop_order_status` (`order_status_id`, `order_status_code`, `order_status_name`, `published`)
 VALUES
@@ -956,3 +957,9 @@ INSERT IGNORE INTO `#__redshop_shipping_rate` (`shipping_rate_id`, `shipping_rat
 
 INSERT IGNORE INTO `#__redshop_shipping_boxes` (`shipping_box_id`, `shipping_box_name`, `shipping_box_length`, `shipping_box_width`, `shipping_box_height`, `shipping_box_priority`, `published`) VALUES
 	(1, 'Box1', 1.00, 1.00, 1.00, 1, 1);
+
+LOCK TABLES `#__redshop_category` WRITE;
+ALTER TABLE `#__redshop_category` DISABLE KEYS;
+INSERT INTO `#__redshop_category` VALUES (NULL, 'ROOT', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', 1, '0000-00-00 00:00:00', 0, '', '', 0, 'append', 'root', '', 0, 0, 0, 0, 1, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+ALTER TABLE `#__redshop_category` ENABLE KEYS;
+UNLOCK TABLES;

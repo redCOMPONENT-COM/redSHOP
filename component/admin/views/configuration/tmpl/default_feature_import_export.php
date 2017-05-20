@@ -45,3 +45,13 @@ echo RedshopLayoutHelper::render(
 		'line'  => false
 	)
 );
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_LINE'),
+		'desc'  => JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_LINE_DESC'),
+		'field' => '<input type="text" name="import_max_line" class="form-control"
+                   value="' . $this->config->get('IMPORT_MAX_LINE', 1) . '"/>',
+		'line'  => false
+	)
+);

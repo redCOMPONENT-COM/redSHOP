@@ -136,7 +136,7 @@ class redshopMail
 	 */
 	public function createMultiprintInvoicePdf($oid)
 	{
-		return RedshopHelperMail::createMultiprintInvoicePdf($oid);
+		return RedshopHelperPdf::createMultiInvoice($oid);
 	}
 
 	/**

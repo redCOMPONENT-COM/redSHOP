@@ -21,8 +21,8 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object &$subject   The object to observe
+	 * @param   array  $config     An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
 	 */
@@ -37,8 +37,6 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 	 */
 	public function onPrePayment($element, $data)
 	{
-		$currencyClass = CurrencyHelper::getInstance();
-
 		// Get user billing information
 		$user = JFActory::getUser();
 
@@ -53,21 +51,21 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 		}
 
 		// Get params from plugin
-		$strVendorName       = $this->params->get('sagepay_vendorname', '');
+		$strVendorName                = $this->params->get('sagepay_vendorname', '');
 		$payment_method               = $this->params->get('payment_method', '');
 		$sagepay_vps_transaction_type = $this->params->get('sagepay_vps_transaction_type', 'PAYMENT');
 		$order_desc                   = $this->params->get('order_desc', JText::_('COM_REDSHOP_ORDER_ID_LBL') . ":" . $data['order_id']);
 		$sagepay_vps_test_status      = $this->params->get('sagepay_vps_test_status', '');
 		$sagepay_3dsecure             = $this->params->get('sagepay_3dsecure', '0');
-		$app              = JFactory::getApplication();
-		$input            = $app->input;
-		$Itemid           = $input->getInt('Itemid');
+		$app                          = JFactory::getApplication();
+		$input                        = $app->input;
+		$Itemid                       = $input->getInt('Itemid');
 
 		if ($this->params->get("currency"))
 		{
 			$currency_main = $this->params->get("currency");
 		}
-		elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
+        elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
 		{
 			$currency_main = Redshop::getConfig()->get('CURRENCY_CODE');
 		}
@@ -104,7 +102,7 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 
 		// Assign Amount
 		$tot_amount = $order_total = $data['order']->order_total;
-		$amount     = $currencyClass->convert($tot_amount, '', $strCurrency);
+		$amount     = RedshopHelperCurrency::convert($tot_amount, '', $strCurrency);
 		$amount     = number_format($amount, 2, '.', '');
 
 		$strPost = "VPSProtocol=2.23";
@@ -168,7 +166,7 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 		{
 			$url = "https://test.sagepay.com/simulator/VSPDirectGateway.asp";
 		}
-		elseif ($payment_method == "TEST")
+        elseif ($payment_method == "TEST")
 		{
 			$url = "https://test.sagepay.com/gateway/service/vspdirect-register.vsp";
 		}
@@ -192,7 +190,7 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 		curl_setopt($curlSession, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($curlSession, CURLOPT_SSL_VERIFYHOST, 1);
 		$rawresponse = curl_exec($curlSession);
-		$response = explode(chr(10), $rawresponse);
+		$response    = explode(chr(10), $rawresponse);
 
 		// Tokenise the response
 		for ($i = 0, $in = count($response); $i < $in; $i++)
@@ -213,24 +211,24 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 			This is a 3D-Secure transaction, so we need to redirect the customer to their bank
 			for authentication.  First get the pertinent information from the response
 			*/
-			$strMD = $output["MD"];
-			$strACSURL = $output["ACSURL"];
-			$strPAReq = $output["PAReq"];
+			$strMD        = $output["MD"];
+			$strACSURL    = $output["ACSURL"];
+			$strPAReq     = $output["PAReq"];
 			$strPageState = "3DRedirect";
-			$returnURL = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_sagepay_vps&Itemid=$Itemid&orderid=" . $data['order_id'];
+			$returnURL    = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_sagepay_vps&Itemid=$Itemid&orderid=" . $data['order_id'];
 
 			?>
-			<FORM action="<?php echo $strACSURL ?>" method="POST" name="secureform" id="secureform"/>
-			<input type="text" name="PaReq" value="<?php echo $strPAReq ?>"/>
-			<input type="text" name="TermUrl" value="<?php echo $returnURL ?>"/>
-			<input type="text" name="MD" value="<?php echo $strMD ?>"/>
-			<input type="text" name="3dsecure" value="1"/>
-			</form>
-			<script>
-				document.getElementById("secureform").submit();
-			</script>
+            <FORM action="<?php echo $strACSURL ?>" method="POST" name="secureform" id="secureform"/>
+            <input type="text" name="PaReq" value="<?php echo $strPAReq ?>"/>
+            <input type="text" name="TermUrl" value="<?php echo $returnURL ?>"/>
+            <input type="text" name="MD" value="<?php echo $strMD ?>"/>
+            <input type="text" name="3dsecure" value="1"/>
+            </form>
+            <script>
+                document.getElementById("secureform").submit();
+            </script>
 
-		<?php
+			<?php
 		}
 		else
 		{
@@ -243,9 +241,9 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 			{
 				if ($strStatus == "OK")
 					$strDBStatus = "AUTHORISED - The transaction was successfully authorised with the bank.";
-				elseif ($strStatus == "AUTHENTICATED")
+                elseif ($strStatus == "AUTHENTICATED")
 					$strDBStatus = "AUTHENTICATED - The transaction was successfully 3D-Secure Authenticated and can now be Authorised.";
-				elseif ($strStatus == "REGISTERED")
+                elseif ($strStatus == "REGISTERED")
 					$strDBStatus = "REGISTERED - The transaction was could not be 3D-Secure Authenticated, but has been registered to be Authorised.";
 				$values->responsestatus = 'Success';
 				$values->transaction_id = $output['VPSTxId'];
@@ -254,29 +252,29 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 			{
 				if ($strStatus == "MALFORMED")
 					$strDBStatus = "MALFORMED - The StatusDetail was:" . mysql_real_escape_string(substr($strStatusDetail, 0, 255));
-				elseif ($strStatus == "INVALID")
+                elseif ($strStatus == "INVALID")
 					$strDBStatus = "INVALID - The StatusDetail was:" . mysql_real_escape_string(substr($strStatusDetail, 0, 255));
-				elseif ($strStatus == "NOTAUTHED")
+                elseif ($strStatus == "NOTAUTHED")
 					$strDBStatus = "DECLINED - The transaction was not authorised by the bank.";
-				elseif ($strStatus == "REJECTED")
+                elseif ($strStatus == "REJECTED")
 					$strDBStatus = "REJECTED - The transaction was failed by your 3D-Secure or AVS/CV2 rule-bases.";
-				elseif ($strStatus == "ERROR")
+                elseif ($strStatus == "ERROR")
 					$strDBStatus = "ERROR - There was an error during the payment process.  The error details are: " . mysql_real_escape_string($strStatusDetail);
 				else
 					$strDBStatus = "UNKNOWN - An unknown status was returned from Sage Pay.  The Status was: " . mysql_real_escape_string($strStatus) . ", with StatusDetail:" . mysql_real_escape_string($strStatusDetail);
 				$values->transaction_id = 0;
 				$values->responsestatus = 'Fail';
 			} ?>
-		<FORM action="<?php echo $returnURL ?>" method="POST" name="secureform" id="secureform"/>
-		<input type="text" name="responsestatus" value="<?php echo $values->responsestatus ?>"/>
-		<input type="text" name="transaction_id" value="<?php echo $values->transaction_id ?>"/>
-		<input type="text" name="responsemessage" value="<?php echo $strDBStatus ?>"/>
+            <FORM action="<?php echo $returnURL ?>" method="POST" name="secureform" id="secureform"/>
+            <input type="text" name="responsestatus" value="<?php echo $values->responsestatus ?>"/>
+            <input type="text" name="transaction_id" value="<?php echo $values->transaction_id ?>"/>
+            <input type="text" name="responsemessage" value="<?php echo $strDBStatus ?>"/>
 
-			</form>
-			<script>
-				document.getElementById("secureform").submit();
-			</script>
-		<?php
+            </form>
+            <script>
+                document.getElementById("secureform").submit();
+            </script>
+			<?php
 		}
 	}
 
@@ -292,23 +290,23 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 		$order_id       = $request['orderid'];
 		$transresult    = $request['responsestatus'];
 		$message        = $request['responsemessage'];
-		$values = new stdClass;
+		$values         = new stdClass;
 
 		if ($transresult == "success")
 		{
-			$values->order_status_code = $verify_status;
+			$values->order_status_code         = $verify_status;
 			$values->order_payment_status_code = 'Paid';
 		}
 		else
 		{
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code         = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
 		}
 
-		$values->order_id = $order_id;
+		$values->order_id       = $order_id;
 		$values->transaction_id = $request['transaction_id'];
-		$values->msg = $message;
-		$values->log = $message;
+		$values->msg            = $message;
+		$values->log            = $message;
 
 		return $values;
 	}
