@@ -82,10 +82,10 @@ class plgSearchRedshop_categories extends JPlugin
 		$query = $db->getQuery(true)
 					->select(
 						array(
-							$db->qn('category_id'),
-							$db->qn('category_name', 'title'),
-							$db->qn('category_short_description'),
-							$db->qn('category_description', 'text'),
+							$db->qn('id'),
+							$db->qn('name', 'title'),
+							$db->qn('short_description'),
+							$db->qn('description', 'text'),
 							'"' . $section . '" AS ' . $db->qn('section'),
 							'"" AS ' . $db->qn('created'),
 							'"2" AS ' . $db->qn('browsernav')
@@ -101,16 +101,16 @@ class plgSearchRedshop_categories extends JPlugin
 				$text = $db->q('%' . $db->escape($text, true) . '%', false);
 
 				$where = array();
-				$where[] = $db->qn('category_name') . ' LIKE ' . $text;
+				$where[] = $db->qn('name') . ' LIKE ' . $text;
 
 				if ($searchShortDesc)
 				{
-					$where[] = $db->qn('category_short_description') . ' LIKE ' . $text;
+					$where[] = $db->qn('short_description') . ' LIKE ' . $text;
 				}
 
 				if ($searchFullDesc)
 				{
-					$where[] = $db->qn('category_description') . ' LIKE ' . $text;
+					$where[] = $db->qn('description') . ' LIKE ' . $text;
 				}
 
 				$query->where('(' . implode(' OR ', $where) . ')');
@@ -128,16 +128,16 @@ class plgSearchRedshop_categories extends JPlugin
 					$word = $db->q('%' . $db->escape($word, true) . '%', false);
 
 					$where = array();
-					$where[] = $db->qn('category_name') . ' LIKE ' . $word;
+					$where[] = $db->qn('name') . ' LIKE ' . $word;
 
 					if ($searchShortDesc)
 					{
-						$where[] = $db->qn('category_short_description') . ' LIKE ' . $word;
+						$where[] = $db->qn('short_description') . ' LIKE ' . $word;
 					}
 
 					if ($searchFullDesc)
 					{
-						$where[] = $db->qn('category_description') . ' LIKE ' . $word;
+						$where[] = $db->qn('description') . ' LIKE ' . $word;
 					}
 
 					$wheres[] = implode(' OR ', $where);
@@ -151,16 +151,16 @@ class plgSearchRedshop_categories extends JPlugin
 		switch ($ordering)
 		{
 			case 'oldest':
-				$query->order($db->qn('category_id') . ' ASC');
+				$query->order($db->qn('id') . ' ASC');
 				break;
 
 			case 'alpha':
-				$query->order($db->qn('category_name') . ' ASC');
+				$query->order($db->qn('name') . ' ASC');
 				break;
 
 			case 'newest':
 			default:
-				$query->order($db->qn('category_id') . ' DESC');
+				$query->order($db->qn('id') . ' DESC');
 		}
 
 		// Set the query and load the result.
@@ -180,7 +180,7 @@ class plgSearchRedshop_categories extends JPlugin
 
 		foreach ($rows as $key => $row)
 		{
-			$Itemid    = $redhelper->getItemid(0, $row->category_id);
+			$Itemid    = RedshopHelperUtility::getItemId(0, $row->category_id);
 			$row->href = "index.php?option=com_redshop&view=category&cid=" . $row->category_id . "&Itemid=" . $Itemid;
 
 			$return[]  = $row;

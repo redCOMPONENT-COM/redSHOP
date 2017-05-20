@@ -53,6 +53,6 @@ class JFormFieldOrderByProduct extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		return array_merge(parent::getOptions(), redhelper::getInstance()->getOrderByList());
+		return array_merge(parent::getOptions(), RedshopHelperUtility::getOrderByList());
 	}
 }
