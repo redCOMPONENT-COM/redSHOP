@@ -31,8 +31,7 @@ if ($allowOrder)
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'remove') || (pressbutton == 'copy')) {
 			form.view.value = "manufacturer_detail";
 		}
 		try {

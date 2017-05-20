@@ -9,87 +9,154 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.html.pagination');
+JLoader::import('joomla.application.component.view');
 
-class RedshopViewCategory extends RedshopViewAdmin
+/**
+ * View Category
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.0.6
+ */
+class RedshopViewCategory extends RedshopViewForm
 {
 	/**
-	 * The current user.
+	 * Execute and display a template script.
 	 *
-	 * @var  JUser
-	 */
-	public $user;
-
-	/**
-	 * The request url.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @var  string
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @see     JViewLegacy::loadTemplate()
+	 * @since   12.2
 	 */
-	public $request_url;
-
 	public function display($tpl = null)
 	{
-		$redTemplate = Redtemplate::getInstance();
+		$producthelper = productHelper::getInstance();
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'folder redshop_categories48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
+		$document = JFactory::getDocument();
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/fields.js');
+		$document->addScript('components/com_redshop/assets/js/json.js');
 
-		$uri = JFactory::getURI();
+		$model = $this->getModel('category');
 
-		$state = $this->get('State');
+		// Initialise variables.
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
-		$GLOBALS['catlist'] = array();
-		$categories = $this->get('Data');
+		// Accessory of Category
+		$categoryAccessoryProduct = array();
 
-		$pagination = $this->get('Pagination');
-		$category_main_filter = $state->get('category_main_filter');
-		$optionsection = array();
-		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$category_id = $state->get('category_id', '');
-		$category = new product_category;
-		$categories_parent = $category->getParentCategories();
+		if ($this->item->id)
+		{
+			$categoryAccessoryProduct = $producthelper->getProductAccessory(0, 0, 0, $this->item->id);
+		}
 
-		$lists['order'] = $state->get('list.ordering', 'c.ordering');
-		$lists['order_Dir'] = $state->get('list.direction', '');
+		$this->lists['categroy_accessory_product'] = $categoryAccessoryProduct;
+		$this->extraFields                         = $model->getExtraFields($this->item);
+		$this->tabmenu                             = $this->getTabMenu();
 
-		$temps = array();
-		$temps[0] = new stdClass;
-		$temps[0]->category_id = "0";
-		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT_CATEGORY');
-		$categories_parent = @array_merge($temps, $categories_parent);
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new Exception(implode("\n", $errors));
 
-		$lists['category'] = JHTML::_('select.genericlist', $categories_parent, 'category_id',
-			'class="inputbox" onchange="document.adminForm.submit();"      ',
-			'category_id', 'category_name', $category_id
-		);
-
-		/*
-	    * assign template
-	    */
-		$templates = $redTemplate->getTemplate('category');
-		$temps = array();
-		$temps[0] = new stdClass;
-		$temps[0]->template_id = "0";
-		$temps[0]->template_name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
-		$templates = @array_merge($temps, $templates);
-
-		$lists['category_template'] = JHTML::_('select.genericlist', $templates, 'category_template',
-			'class="inputbox" size="1"  onchange="return AssignTemplate()" ',
-			'template_id', 'template_name', 0
-		);
-
-		$this->category_main_filter = $category_main_filter;
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->categories = $categories;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+			return false;
+		}
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Tab Menu
+	 *
+	 * @return  object  Tab menu
+	 *
+	 * @since   1.7
+	 */
+	private function getTabMenu()
+	{
+		$app = JFactory::getApplication();
+
+		$tabMenu = RedshopAdminMenu::getInstance()->init();
+		$tabMenu->section('tab')
+					->title('COM_REDSHOP_CATEGORY_INFORMATION')
+					->addItem(
+						'#information',
+						'COM_REDSHOP_CATEGORY_INFORMATION',
+						true,
+						'information'
+					)->addItem(
+						'#seo',
+						'COM_REDSHOP_META_DATA_TAB',
+						false,
+						'seo'
+					)->addItem(
+						'#extrafield',
+						'COM_REDSHOP_FIELDS',
+						false,
+						'extrafield'
+					)->addItem(
+						'#accessory',
+						'COM_REDSHOP_ACCESSORY_PRODUCT',
+						false,
+						'accessory'
+					);
+
+		return $tabMenu;
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+		$isNew = ($this->item->id < 1);
+		$user       = JFactory::getUser();
+
+		// Prepare text for title
+		$title = JText::_('COM_REDSHOP_CATEGORY') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+
+		JToolbarHelper::title($title, 'redshop_categories48');
+
+		if ($isNew && (count($user->authorise('com_redshop', 'core.create')) > 0))
+		{
+			JToolbarHelper::apply('category.apply');
+			JToolbarHelper::save('category.save');
+			JToolbarHelper::save2new('category.save2new');
+			JToolbarHelper::cancel('category.cancel');
+		}
+		else
+		{
+			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+			if ((count($user->authorise('com_redshop', 'core.edit')) > 0))
+			{
+				JToolbarHelper::apply('category.apply');
+				JToolbarHelper::save('category.save');
+
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ((count($user->authorise('com_redshop', 'core.create')) > 0))
+				{
+					JToolbarHelper::save2new('category.save2new');
+				}
+			}
+
+			JToolbarHelper::cancel('category.cancel', JText::_('JTOOLBAR_CLOSE'));
+
+			$itemId    = (int) RedshopHelperUtility::getCategoryItemid($this->item->id);
+
+			$link  = JURI::root() . 'index.php?option=com_redshop'
+					. '&view=&view=category&layout=detail'
+					. '&cid=' . $this->item->id
+					. '&Itemid=' . $itemId;
+
+			RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
+		}
 	}
 }

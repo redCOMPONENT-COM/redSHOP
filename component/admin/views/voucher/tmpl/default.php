@@ -20,10 +20,10 @@ $config = Redconfiguration::getInstance();
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove')) {
+		if (pressbutton == 'add' || pressbutton == 'edit' || pressbutton == 'remove') {
 			form.view.value = "voucher_detail";
 		}
+
 		try {
 			form.onsubmit();
 		}

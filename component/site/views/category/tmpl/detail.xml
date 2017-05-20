@@ -8,7 +8,7 @@
 
 	<fields name="request" addfieldpath="/libraries/redshop/form/fields">
 		<fieldset name="request">
-			<field name="cid" type="redshopcategory" label="COM_REDSHOP_SELECT_CATEGORY_LBL" required="true"
+			<field name="cid" type="categorylist" label="COM_REDSHOP_SELECT_CATEGORY_LBL" required="true"
 					   description="Displays the selected category product"/>
 			<field name="manufacturer_id" type="manufacturer" default="0" label="COM_REDSHOP_SELECT_MANUFACTURER"
 					   description="COM_REDSHOP_DISPLAYS_THE_SELECTED_MANUFACTURER_DETAIL_PAGE"/>
