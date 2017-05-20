@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Element
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,16 +34,15 @@ class JFormFieldOrderbymanufacturer extends JFormField
 	 */
 	protected function getInput()
 	{
-		$helper = redhelper::getInstance();
-		$name   = $this->name;
-		$value  = $this->value;
+		$name  = $this->name;
+		$value = $this->value;
 
 		if (!$value)
 		{
 			$value = Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD');
 		}
 
-		$order_data = $helper->getManufacturerOrderByList();
+		$order_data = RedshopHelperUtility::getManufacturerOrderByList();
 
 		$order_select = JHTML::_('select.genericlist', $order_data, $name, 'class="inputbox"', 'value', 'text', $value, $name);
 

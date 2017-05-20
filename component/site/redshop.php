@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  redSHOP
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,12 +30,12 @@ $layout             = $app->input->getWord('layout', '');
 $params             = $app->getParams('com_redshop');
 $categoryId         = $app->input->getInt('cid', $params->get('categoryid'));
 $productId          = $app->input->getInt('pid', 0);
-$shopperGroupPortal = $helper->getShopperGroupPortal();
+$shopperGroupPortal = RedshopHelperShopper_Group::getShopperGroupPortal();
 $user               = JFactory::getUser();
 $portal             = 0;
 
 // Add product in cart from db
-$helper->dbtocart();
+RedshopHelperUtility::databaseToCart();
 
 if (!empty($shopperGroupPortal))
 {
@@ -122,21 +122,6 @@ if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 	}
 
 	echo '<div id="redshopcomponent" class="redshop redSHOPSiteView' . ucfirst($vName) . $redSHOPCSSContainerClass . '">';
-
-	if ($layout != 'receipt')
-	{
-		/*
-		 * get redSHOP Google Analytics Plugin is Enable?
-		 * If it is Disable than load Google Analytics From redSHOP
-		 */
-		$isRedGoogleAnalytics = JPluginHelper::isEnabled('system', 'redgoogleanalytics');
-
-		if (!$isRedGoogleAnalytics && Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY') != "")
-		{
-			$ga = new RedshopHelperGoogleanalytics;
-			$ga->placeTrans();
-		}
-	}
 }
 
 // Check for array format.

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -68,6 +68,26 @@ echo RedshopLayoutHelper::render(
 		'title' => JText::_('COM_REDSHOP_USE_ENCODING_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_USE_ENCODING'),
 		'field' => $this->lists['use_encoding']
+	)
+);
+
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_DESC'),
+		'field' => $this->lists['currency_libraries']
+	)
+);
+
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_CURRENCY_LAYER_ACCESS_KEY_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_CURRENCY_LAYER_ACCESS_KEY_DESC'),
+		'showOn' => 'currency_libraries:1',
+		'id'     => 'currency_layer_access_key',
+		'field' => '<input type="text" id="currency_layer_access_key" name="currency_layer_access_key" value="' . $this->config->get('CURRENCY_LAYER_ACCESS_KEY') . '" class="form-control"/>'
 	)
 );
 

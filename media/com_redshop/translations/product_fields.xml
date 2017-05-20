@@ -2,14 +2,14 @@
 <contentelement type="contentelement">
     <name>Redshop Fields</name>
     <author>redCOMPONENT</author>
-    <copyright>Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.</copyright>
+    <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
     <version>1.5.0</version>
     <description>Translation definition for redSHOP Fields</description>
     <reference>
         <table name="redshop_fields">
-            <field type="referenceid" name="field_id" translate="0">ID</field>
-            <field type="titletext" name="field_title" translate="1" >Title</field>
-            <field type="text" name="field_name" translate="1" >Name</field>
+            <field type="referenceid" name="id" translate="0">ID</field>
+            <field type="titletext" name="title" translate="1" >Title</field>
+            <field type="text" name="name" translate="1" >Name</field>
             <field type="state" name="published" stateoptions="0,1" translate="1">State</field>
         </table>
         <component>

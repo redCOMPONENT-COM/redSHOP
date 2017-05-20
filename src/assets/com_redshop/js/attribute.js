@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright  Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1527,9 +1527,8 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
                 }
             }
 
-            if (arrResponse[4] != '' && document.getElementById('main_image' + product_id)) {
-                document.getElementById('main_image' + product_id).src = arrResponse[4];
-            }
+            document.getElementById('main_image' + product_id).src = arrResponse[4];
+            document.getElementsByClassName('product_more_videos')[0].innerHTML = arrResponse[16];
 
             if (document.getElementById('additional_images' + product_id) && arrResponse[1] != "") {
                 document.getElementById('additional_images' + product_id).innerHTML = arrResponse[1];
@@ -1587,11 +1586,16 @@ function preloadSlimbox(parameters) {
 
     if (parameters.isenable) {
         var imgoptions = {handler: 'image'};
+        var vidoptions = {handler: 'iframe', size: {x: 800, y: 500}};
         redBOX.initialize({});
-        if (parameters.mainImage)
+
+        if (parameters.mainImage) {
             redBOX.assign($$("a[rel='myallimg']"), imgoptions);
-        else
+        }
+        else {
             redBOX.assign($$(".additional_image > a[rel='myallimg']"), imgoptions);
+            redBOX.assign($$("[id^='additional_vids_'] > a.modal"), vidoptions);
+        }
 
     }
 }
@@ -2038,6 +2042,13 @@ function setAddtocartForm(frmCartName, product_id) {
     return true;
 }
 
+/**
+ * To set redSHOP Validate Add to cart trigger functions
+ *
+ * @type  {Array}
+ */
+var redShopAddtocartValidationJsTrigger = [];
+
 function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftcard_id, frmUserfieldName, totAttribute, totAccessory, totUserfield) {
 
 
@@ -2080,6 +2091,19 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
             alert(requiedProperty);
             return false;
         }
+
+        // Setting up redSHOP JavaScript Add to cart trigger
+        if (redShopAddtocartValidationJsTrigger.length > 0)
+        {
+            for(var g = 0, n = redShopAddtocartValidationJsTrigger.length; g < n; g++)
+            {
+                if (redShopAddtocartValidationJsTrigger[g](arguments) == false)
+                {
+                    return false;
+                }
+            }
+        }
+
         document.getElementById(frmCartName).submit();
 
     } else {
@@ -2115,6 +2139,18 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
 
             if (requiedProperty != "") {
                 cansubmit = false;
+            }
+
+            // Setting up redSHOP JavaScript Add to cart trigger
+            if (redShopAddtocartValidationJsTrigger.length > 0)
+            {
+                for(var g = 0, n = redShopAddtocartValidationJsTrigger.length; g < n; g++)
+                {
+                    if (redShopAddtocartValidationJsTrigger[g](arguments) == false)
+                    {
+                        return;
+                    }
+                }
             }
 
             if (ntotal > 0 && cansubmit == false) {

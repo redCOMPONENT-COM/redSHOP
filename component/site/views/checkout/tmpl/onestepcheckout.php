@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,7 @@ $session = JFactory::getSession();
 $document = JFactory::getDocument();
 
 // Get redshop helper
-$Itemid = $redhelper->getCheckoutItemid();
+$Itemid = RedshopHelperUtility::getCheckoutItemId();
 $model = $this->getModel('checkout');
 $cart = $session->get('cart');
 
@@ -40,7 +40,7 @@ if (!count($billingaddresses))
 	$app->redirect(JRoute::_("index.php?option=com_redshop&view=account_billto&return=checkout&Itemid=" . $Itemid), $msg);
 }
 
-$paymentmethod = $redhelper->getPlugins('redshop_payment');
+$paymentmethod = RedshopHelperUtility::getPlugins('redshop_payment', 1);
 $selpayment_method_id = 0;
 
 if (count($paymentmethod) > 0)

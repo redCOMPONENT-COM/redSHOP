@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ $model   = $this->getModel('cart');
 $session = JFactory::getSession();
 $user    = JFactory::getUser();
 $print   = JRequest::getInt('print');
-$Itemid  = $redhelper->getCheckoutItemid();
+$Itemid  = RedshopHelperUtility::getCheckoutItemId();
 
 // Define array to store product detail for ajax cart display
 $cart_data = $this->data [0]->template_desc;
@@ -144,7 +144,7 @@ if (strstr($cart_data, "{shop_more}"))
 	{
 		$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 	}
-	elseif ($catItemId = $redhelper->getCategoryItemid())
+	elseif ($catItemId = RedshopHelperUtility::getCategoryItemid())
 	{
 		$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
 	}
@@ -182,11 +182,11 @@ $cart_data = str_replace("{empty_cart}", $empty_cart, $cart_data);
 
 $discount = $producthelper->getDiscountId(0);
 
-if (count($discount) > 0)
+if (is_object($discount))
 {
 	$text = '';
 
-	if ($discount->discount_type == 0)
+	if (isset($discount->discount_type) && $discount->discount_type == 0)
 	{
 		$discount_amount = $discount->discount_amount;
 		$discount_sign   = " " . Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
