@@ -427,6 +427,11 @@ class RedshopHelperUser
 			$userData        = $session->get('rs_user');
 			$userInformation = self::getUserInformation($userId);
 
+			if ($userData['rs_user_info_id'] && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST')
+			{
+				$userInformation = RedshopHelperUser::getUserInformation($userId, '', $userData['rs_user_info_id'], false);
+			}
+
 			if (count($userInformation) > 0)
 			{
 				$userData['rs_user_info_id'] = isset($userInformation->users_info_id) ? $userInformation->users_info_id : 0;
