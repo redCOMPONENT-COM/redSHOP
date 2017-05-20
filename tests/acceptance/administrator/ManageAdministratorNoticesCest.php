@@ -20,7 +20,7 @@ class ManageAdministratorNoticesCest
 	public function __construct()
 	{
 		$this->allExtensionPages = array (
-			'Category Manager' => '/administrator/index.php?option=com_redshop&view=category',
+			'Category Manager' => '/administrator/index.php?option=com_redshop&view=categories',
 			'Country Manager' => '/administrator/index.php?option=com_redshop&view=countries',
 			'Product Manager' => '/administrator/index.php?option=com_redshop&view=product',
 			'Manufacturer Manager' => '/administrator/index.php?option=com_redshop&view=manufacturer',

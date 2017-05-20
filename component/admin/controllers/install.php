@@ -37,322 +37,119 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 	}
 
 	/**
-	 * Method for handle configuration file.
+	 * Method for run ajax process.
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.4
+	 * @since   2.0.6
 	 */
-	public function handleConfig()
+	public function ajaxProcess()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 		$app = JFactory::getApplication();
 
+		$remainingTasks = RedshopInstall::getRemainingTasks();
+
+		if (empty($remainingTasks))
+		{
+			$app->sendHeaders();
+			echo json_encode((object) array('msg' => JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS'), 'continue' => 0));
+			$app->close();
+		}
+
+		$return      = array('msg' => '', 'continue' => 0);
+		$currentTask = array_shift($remainingTasks);
+
+		// Check process param
+		if (empty($currentTask) || !isset($currentTask['func']))
+		{
+			$app->setHeader('status', 500);
+			$app->sendHeaders();
+			$return['msg'] = JText::_('COM_REDSHOP_INSTALL_ERROR_MISSING_PROCESS');
+			echo json_encode((object) $return);
+			$app->close();
+		}
+
+		$process   = $currentTask['func'];
+		$isStatic  = false;
+		$className = '';
+		$method    = '';
+
+		// Static call
+		if (false !== strpos($process, '::'))
+		{
+			$process   = explode('::', $process);
+			$className = $process[0];
+			$method    = $process[1];
+			$isStatic  = true;
+		}
+		elseif (false !== strpos($process, '.'))
+		{
+			$process   = explode('.', $process);
+			$className = $process[0];
+			$method    = $process[1];
+		}
+
+		// Load class if path has been provided
+		if (isset($currentTask['path']))
+		{
+			require_once $currentTask['path'];
+		}
+
+		// Check class exist.
+		if (!class_exists($className))
+		{
+			$app->setHeader('status', 500);
+			$app->sendHeaders();
+			$return['msg'] = JText::sprintf('COM_REDSHOP_INSTALL_ERROR_MISSING_CLASS', $className);
+			echo json_encode((object) $return);
+			$app->close();
+		}
+
+		// Check method exist in class
+		if (!method_exists($className, $method))
+		{
+			$app->setHeader('status', 500);
+			$app->sendHeaders();
+			$return['msg'] = JText::sprintf('COM_REDSHOP_INSTALL_ERROR_MISSING_METHOD_IN_CLASS', $className, $method);
+			echo json_encode((object) $return);
+			$app->close();
+		}
+
 		try
 		{
-			// Only loading from legacy when version is older than 1.6
-			if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<'))
+			if ($isStatic)
 			{
-				// Load configuration file from legacy file.
-				Redshop::getConfig()->loadLegacy();
+				call_user_func(array($className, $method));
 			}
-
-			// Try to load distinct if no config found.
-			Redshop::getConfig()->loadDist();
+			else
+			{
+				$class = new $className;
+				call_user_func(array($class, $method));
+			}
 		}
-		catch (Exception $e)
+		catch (Exception $error)
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
-			echo $e->getMessage();
+			$return['msg'] = $error->getMessage();
+			echo json_encode((object) $return);
 			$app->close();
 		}
 
-		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
-		$app->close();
-	}
-
-	/**
-	 * Method for synchronize user.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function syncUser()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-		$app = JFactory::getApplication();
-
-		try
+		if (empty($remainingTasks))
 		{
-			rsUserHelper::getInstance()->userSynchronization();
+			$app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, null);
 		}
-		catch (Exception $e)
+		else
 		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
-			echo $e->getMessage();
-			$app->close();
+			$app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, $remainingTasks);
+			$return['continue'] = 1;
 		}
 
 		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
-		$app->close();
-	}
-
-	/**
-	 * Method for template data.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function templateData()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-		$app = JFactory::getApplication();
-
-		/** @var RedshopModelInstall $model */
-		$model = $this->getModel();
-
-		if (!$model->processTemplateDemo())
-		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
-			$app->close();
-		}
-
-		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
-		$app->close();
-	}
-
-	/**
-	 * Method for process template files.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function templateFiles()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-		$app = JFactory::getApplication();
-
-		/** @var RedshopModelInstall $model */
-		$model = $this->getModel();
-
-		if (!$model->processTemplateFiles())
-		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
-			$app->close();
-		}
-
-		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
-		$app->close();
-	}
-
-	/**
-	 * Method for update menu item id if necessary.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function updateMenu()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-		$app = JFactory::getApplication();
-
-		/** @var RedshopModelInstall $model */
-		$model = $this->getModel();
-
-		if (!$model->processUpdateMenuItem())
-		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
-			$app->close();
-		}
-
-		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
-		$app->close();
-	}
-
-	/**
-	 * Method for integrate with com_sh404sef extension if necessary.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function integrateSh404sef()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-		$app = JFactory::getApplication();
-
-		/** @var RedshopModelInstall $model */
-		$model = $this->getModel();
-
-		if (!$model->processIntegrateSh404sef())
-		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
-			$app->close();
-		}
-
-		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
-		$app->close();
-	}
-
-	/**
-	 * Method for check database structure when update.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function updateCheckDatabase()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-		$app = JFactory::getApplication();
-
-		/** @var RedshopModelInstall $model */
-		$model = $this->getModel();
-
-		if (!$model->processUpdateCheckDatabase())
-		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
-			$app->close();
-		}
-
-		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
-		$app->close();
-	}
-
-	/**
-	 * Method for update override template when update.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function updateOverrideTemplate()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-		$app = JFactory::getApplication();
-
-		/** @var RedshopModelInstall $model */
-		$model = $this->getModel();
-
-		if (!$model->processUpdateOverrideTemplate())
-		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
-			$app->close();
-		}
-
-		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
-		$app->close();
-	}
-
-	/**
-	 * Method for clean old unused files and folders.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function updateCleanOldFiles()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-		$app = JFactory::getApplication();
-
-		/** @var RedshopModelInstall $model */
-		$model = $this->getModel();
-
-		if (!$model->processUpdateCleanOldFiles())
-		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
-			$app->close();
-		}
-
-		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
-		$app->close();
-	}
-
-	/**
-	 * Method to update schema table if necessary. From redshop 1.3.3.1
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function updateDatabaseSchema()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-		$app = JFactory::getApplication();
-
-		/** @var RedshopModelInstall $model */
-		$model = $this->getModel();
-
-		$version = $model->processUpdateDatabaseSchema();
-
-		if ($version === false)
-		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
-			$app->close();
-		}
-
-		$app->sendHeaders();
-		echo $version;
-		$app->close();
-	}
-
-	/**
-	 * Update > Method for rename image files name to correct format.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function updateImageFileNames()
-	{
-		RedshopHelperAjax::validateAjaxRequest();
-		$app = JFactory::getApplication();
-
-		/** @var RedshopModelInstall $model */
-		$model = $this->getModel();
-
-		if (!$model->processUpdateImageFileNames())
-		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
-			echo JText::_('COM_REDSHOP_INSTALL_STEP_FAIL');
-			$app->close();
-		}
-
-		$app->sendHeaders();
-		echo JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+		$return['msg'] = JText::_('COM_REDSHOP_INSTALL_STEP_SUCCESS');
+		echo json_encode((object) $return);
 		$app->close();
 	}
 }

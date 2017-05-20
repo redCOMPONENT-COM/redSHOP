@@ -55,7 +55,7 @@ abstract class ModRedProductTabHelper
 					{
 						foreach ($categories as $oneCategory)
 						{
-							$catIds[] = $oneCategory->category_id;
+							$catIds[] = $oneCategory->id;
 						}
 					}
 				}
@@ -90,7 +90,7 @@ abstract class ModRedProductTabHelper
 		if ($categories = self::getCategories($params, $moduleId))
 		{
 			$query->leftJoin($db->qn('#__redshop_product_category_xref', 'cpx') . ' ON cpx.product_id = p.product_id')
-				->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.category_id = cpx.category_id')
+				->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.id = cpx.category_id')
 				->where($db->qn('c.published') . ' = 1')
 				->where('cpx.category_id IN (' . $categories . ')');
 		}

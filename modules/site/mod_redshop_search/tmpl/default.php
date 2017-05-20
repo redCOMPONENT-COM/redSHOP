@@ -20,7 +20,7 @@ $keyword = $app->input->getString('keyword', $standardkeyword);
 $manufac_data = $app->input->getInt('manufacture_id', '');
 
 $redhelper       = redhelper::getInstance();
-$Itemid          = $redhelper->getItemid();
+$Itemid          = RedshopHelperUtility::getItemId();
 $modsearchitemid = trim($params->get('modsearchitemid', ''));
 
 if ($modsearchitemid != "")
