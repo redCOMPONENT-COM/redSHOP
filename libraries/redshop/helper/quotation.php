@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.3
@@ -29,13 +29,13 @@ class RedshopHelperQuotation
 	 */
 	public static function getQuotationStatusList()
 	{
-		$status = array();
-		$status[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-		$status[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_REQUESTED'));
-		$status[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_REPLIED'));
-		$status[] = JHTML::_('select.option', 3, JText::_('COM_REDSHOP_ACCEPTED'));
-		$status[] = JHTML::_('select.option', 4, JText::_('COM_REDSHOP_REJECTED'));
-		$status[] = JHTML::_('select.option', 5, JText::_('COM_REDSHOP_ORDERED'));
+		$status   = array();
+		$status[] = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
+		$status[] = JHtml::_('select.option', 1, JText::_('COM_REDSHOP_REQUESTED'));
+		$status[] = JHtml::_('select.option', 2, JText::_('COM_REDSHOP_REPLIED'));
+		$status[] = JHtml::_('select.option', 3, JText::_('COM_REDSHOP_ACCEPTED'));
+		$status[] = JHtml::_('select.option', 4, JText::_('COM_REDSHOP_REJECTED'));
+		$status[] = JHtml::_('select.option', 5, JText::_('COM_REDSHOP_ORDERED'));
 
 		return $status;
 	}
@@ -43,7 +43,7 @@ class RedshopHelperQuotation
 	/**
 	 * Get name of quotation status
 	 *
-	 * @param   integer  $value  Have 5 options: REQUESTED/REPLIED/ACCEPTED/REJECTED/ORDERED
+	 * @param   integer $value Have 5 options: REQUESTED/REPLIED/ACCEPTED/REJECTED/ORDERED
 	 *
 	 * @return  string   Name of Quotation status
 	 *
@@ -78,8 +78,8 @@ class RedshopHelperQuotation
 	/**
 	 * Get quotation product
 	 *
-	 * @param   integer  $quotationId      Quotation ID
-	 * @param   integer  $quotationItemId  Quotation Item ID
+	 * @param   integer $quotationId     Quotation ID
+	 * @param   integer $quotationItemId Quotation Item ID
 	 *
 	 * @return  array
 	 *
@@ -87,7 +87,7 @@ class RedshopHelperQuotation
 	 */
 	public static function getQuotationProduct($quotationId = 0, $quotationItemId = 0)
 	{
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('q.*')
@@ -110,13 +110,13 @@ class RedshopHelperQuotation
 
 		$db->setQuery($query);
 
-		return $db->loadObjectlist();
+		return $db->loadObjectList();
 	}
 
 	/**
 	 * Get quotation detail by quotation ID
 	 *
-	 * @param   integer  $quotationId  Quotation ID
+	 * @param   integer $quotationId Quotation ID
 	 *
 	 * @return  object
 	 *
@@ -124,7 +124,7 @@ class RedshopHelperQuotation
 	 */
 	public static function getQuotationDetail($quotationId)
 	{
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('q.*')
@@ -151,7 +151,7 @@ class RedshopHelperQuotation
 	 */
 	public static function generateQuotationNumber()
 	{
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('COUNT(' . $db->qn('quotation_id') . ')')
@@ -159,7 +159,7 @@ class RedshopHelperQuotation
 
 		$db->setQuery($query);
 
-		$maxId  = $db->loadResult();
+		$maxId = $db->loadResult();
 
 		return $maxId + 1;
 	}
@@ -167,8 +167,8 @@ class RedshopHelperQuotation
 	/**
 	 * Update Quotation Status
 	 *
-	 * @param   integer  $quotationId  Quotation ID
-	 * @param   integer  $status       Quotation Change status
+	 * @param   integer $quotationId Quotation ID
+	 * @param   integer $status      Quotation Change status
 	 *
 	 * @return  void
 	 *
@@ -227,15 +227,13 @@ class RedshopHelperQuotation
 
 		$query->order($db->qn('q.quotation_cdate') . ' DESC');
 
-		$db->setQuery($query);
-
-		return $db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
 	 * Generate a random encrytion key for quotation
 	 *
-	 * @param   string  $pLength  Length of string to generate
+	 * @param   string $pLength Length of string to generate
 	 *
 	 * @return  string
 	 *
@@ -261,9 +259,9 @@ class RedshopHelperQuotation
 	/**
 	 * Inserting quotation user's fields
 	 *
-	 * @param   array    $cart             Array of fields to insert
-	 * @param   integer  $quotationItemId  Item ID of Quotation to match
-	 * @param   integer  $sectionId        Section to get field list
+	 * @param   array   $cart            Array of fields to insert
+	 * @param   integer $quotationItemId Item ID of Quotation to match
+	 * @param   integer $sectionId       Section to get field list
 	 *
 	 * @return  boolean  true/false when inserting success or fail
 	 *
@@ -271,8 +269,7 @@ class RedshopHelperQuotation
 	 */
 	public static function manageQuotationUserField($cart = array(), $quotationItemId = 0, $sectionId = 12)
 	{
-		$extraField = extraField::getInstance();
-		$rowData = $extraField->getSectionFieldList($sectionId, 1);
+		$rowData = RedshopHelperExtrafields::getSectionFieldList($sectionId, 1);
 
 		if (empty($rowData))
 		{
@@ -281,13 +278,13 @@ class RedshopHelperQuotation
 
 		for ($i = 0, $in = count($rowData); $i < $in; $i++)
 		{
-			if (array_key_exists($rowData[$i]->field_name, $cart) && $cart[$rowData[$i]->field_name])
+			if (array_key_exists($rowData[$i]->name, $cart) && $cart[$rowData[$i]->name])
 			{
-				$userFields = $cart[$rowData[$i]->field_name];
+				$userFields = $cart[$rowData[$i]->name];
 
 				if ($userFields != '')
 				{
-					self::insertQuotationUserField($rowData[$i]->field_id, $quotationItemId, $sectionId, $userFields);
+					self::insertQuotationUserField($rowData[$i]->id, $quotationItemId, $sectionId, $userFields);
 				}
 			}
 		}
@@ -298,10 +295,10 @@ class RedshopHelperQuotation
 	/**
 	 * Insert quotation field with value
 	 *
-	 * @param   integer  $fieldId          Field ID
-	 * @param   integer  $quotationItemId  Quotation Item ID
-	 * @param   integer  $sectionId        Section ID
-	 * @param   string   $value            Value to insert
+	 * @param   integer $fieldId         Field ID
+	 * @param   integer $quotationItemId Quotation Item ID
+	 * @param   integer $sectionId       Section ID
+	 * @param   string  $value           Value to insert
 	 *
 	 * @return  void
 	 *
@@ -322,7 +319,7 @@ class RedshopHelperQuotation
 	/**
 	 * Get quotation item fields by field ID
 	 *
-	 * @param   integer  $quotationItemId  Quotation Item ID
+	 * @param   integer $quotationItemId Quotation Item ID
 	 *
 	 * @return  object
 	 *
@@ -336,19 +333,17 @@ class RedshopHelperQuotation
 		$query->select('qf.*')
 			->select('f.*')
 			->from($db->qn('#__redshop_quotation_fields_data', 'qf'))
-			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('qf.fieldid'))
+			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('qf.fieldid'))
 			->where($db->qn('qf.quotation_item_id') . ' = ' . (int) $quotationItemId);
 
-		$db->setQuery($query);
-
-		return $db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**
 	 * Display quotation user fields
 	 *
-	 * @param   integer  $quotationItemId  Quotation Item ID
-	 * @param   integer  $sectionId        Section ID
+	 * @param   integer $quotationItemId Quotation Item ID
+	 * @param   integer $sectionId       Section ID
 	 *
 	 * @return  string   HTML to display
 	 *
@@ -367,33 +362,33 @@ class RedshopHelperQuotation
 		$query     = $db->getQuery(true);
 
 		$query->select('fd.*')
-			->select($db->qn(array('f.field_title', 'f.field_type', 'field_name')))
+			->select($db->qn(array('f.title', 'f.type', 'f.name')))
 			->from($db->qn('#__redshop_quotation_fields_data', 'fd'))
-			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.field_id') . ' = ' . $db->qn('fd.fieldid'))
+			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
 			->where($db->qn('fd.quotation_item_id') . ' = ' . $db->q((int) $quotationItemId))
 			->where($db->qn('fd.section') . ' = ' . $db->q((int) $sectionId));
 
 		$db->setQuery($query);
-		$userField = $db->loadObjectlist();
+		$userField = $db->loadObjectList();
 
 		if (count($userField) > 0)
 		{
-			$quotationItem   = self::getQuotationProduct(0, $quotationItemId);
-			$productId       = $quotationItem[0]->product_id;
+			$quotationItem = self::getQuotationProduct(0, $quotationItemId);
+			$productId     = $quotationItem[0]->product_id;
 
 			$productDetail   = Redshop::product((int) $productId);
 			$productTemplate = RedshopHelperTemplate::getTemplate("product", $productDetail->product_template);
 
-			$returnArr       = $productHelper->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
-			$userFieldTag    = $returnArr[1];
+			$returnArr    = $productHelper->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
+			$userFieldTag = $returnArr[1];
 
 			for ($i = 0, $in = count($userFieldTag); $i < $in; $i++)
 			{
 				for ($j = 0, $jn = count($userField); $j < $jn; $j++)
 				{
-					if ($userField[$j]->field_name == $userFieldTag[$i])
+					if ($userField[$j]->name == $userFieldTag[$i])
 					{
-						if ($userField[$j]->field_type == 10)
+						if ($userField[$j]->type == 10)
 						{
 							$files   = explode(",", $userField[$j]->data_txt);
 							$dataTxt = "";
@@ -404,11 +399,11 @@ class RedshopHelperQuotation
 								$dataTxt .= "<a href='" . $uLink . "'>" . $files[$f] . "</a> ";
 							}
 
-							$resultArr[] = $userField[$j]->field_title . " : " . $dataTxt;
+							$resultArr[] = $userField[$j]->title . " : " . $dataTxt;
 						}
 						else
 						{
-							$resultArr[] = $userField[$j]->field_title . " : " . $userField[$j]->data_txt;
+							$resultArr[] = $userField[$j]->title . " : " . $userField[$j]->data_txt;
 						}
 					}
 				}
@@ -426,8 +421,8 @@ class RedshopHelperQuotation
 	/**
 	 * Update quotation with order ID
 	 *
-	 * @param   integer  $quotationId  Quotation ID
-	 * @param   integer  $orderId      Order ID
+	 * @param   integer $quotationId Quotation ID
+	 * @param   integer $orderId     Order ID
 	 *
 	 * @return  boolean/void           Return true if success, alert error if fail
 	 *
@@ -463,7 +458,7 @@ class RedshopHelperQuotation
 	/**
 	 * Get quotation by order id
 	 *
-	 * @param   integer/array  $orderId  OrderID
+	 * @param   integer /array  $orderId  OrderID
 	 *
 	 * @return  object
 	 *
@@ -496,13 +491,13 @@ class RedshopHelperQuotation
 
 		$db->setQuery($query);
 
-		return $db->loadObjectlist();
+		return $db->loadObjectList();
 	}
 
 	/**
 	 * Get quotation accesory item by ID
 	 *
-	 * @param   integer  $quotationItemId  Quotation Item ID
+	 * @param   integer $quotationItemId Quotation Item ID
 	 *
 	 * @return  object
 	 *
@@ -524,16 +519,16 @@ class RedshopHelperQuotation
 
 		$db->setQuery($query);
 
-		return $db->loadObjectlist();
+		return $db->loadObjectList();
 	}
 
 	/**
 	 * Get Quotation Item Attribute Detail
 	 *
-	 * @param   integer  $quotationItemId  Quotation Item ID
-	 * @param   integer  $isAccessory      Check Accessory Attribute
-	 * @param   string   $section          Section: default is "attribute"
-	 * @param   integer  $parentSectionId  Parent section ID
+	 * @param   integer $quotationItemId Quotation Item ID
+	 * @param   integer $isAccessory     Check Accessory Attribute
+	 * @param   string  $section         Section: default is "attribute"
+	 * @param   integer $parentSectionId Parent section ID
 	 *
 	 * @return  object
 	 *
@@ -561,6 +556,6 @@ class RedshopHelperQuotation
 
 		$db->setQuery($query);
 
-		return $db->loadObjectlist();
+		return $db->loadObjectList();
 	}
 }

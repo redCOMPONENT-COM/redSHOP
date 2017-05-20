@@ -3,7 +3,7 @@
  * @package     Redshop
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -53,7 +53,7 @@ abstract class RedshopViewCsv extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed         A string if successful, otherwise a Error object.
 	 *
 	 * @throws  RuntimeException
 	 */
