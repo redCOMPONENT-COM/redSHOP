@@ -238,8 +238,32 @@
         </resource>
         <description><![CDATA[Wallet update resources]]></description>
       </resources>
-
     </update>
+
+    <delete authorizationNeeded="true" strictFields="false" authorization="core.webservice,core.delete" dataMode="model" optionName="com_redshop" modelClassName="product_detail" modelClassPath="" isAdminClass="true" functionName="deleteWS" functionArgs="id{string}" validateData="none" validateDataFunction="function" tableName="redshopb_product_detail">
+      <description><![CDATA[This operation deletes products.]]></description>
+      <fields>
+        <field name="id" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="true">
+          <description><![CDATA[Product ID.]]></description>
+        </field>
+        <description><![CDATA[Product delete fields]]></description>
+      </fields>
+      <resources>
+        <resource displayName="documentation" transform="string" fieldFormat="{webserviceUrlPath}&amp;format=doc#{rel}" displayGroup="_links" linkTitle="Documentation" linkName="{webserviceName}" hrefLang="" linkTemplated="true" linkRel="curies" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Web services documentation]]></description>
+        </resource>
+        <resource displayName="base" transform="string" fieldFormat="/" displayGroup="_links" linkTitle="Default page" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Webservices root]]></description>
+        </resource>
+        <resource displayName="{webserviceName}:list" transform="string" fieldFormat="{webserviceUrlPath}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[User webservice]]></description>
+        </resource>
+        <resource displayName="result" transform="boolean" fieldFormat="{result}" displayGroup="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[True upon success, false on error]]></description>
+        </resource>
+        <description><![CDATA[Product delete resources]]></description>
+      </resources>
+    </delete>
 
     <task>
       <getAttributes useOperation="" strictFields="false" authorizationNeeded="true" authorization="core.webservice,core.edit,core.edit.own" dataMode="model" optionName="com_redshop" modelClassName="product_detail" modelClassPath="" isAdminClass="true" functionName="getAttributesWS" functionArgs="product_number{string}" validateData="none" validateDataFunction="validate" tableName="com_redshop_product_detail">

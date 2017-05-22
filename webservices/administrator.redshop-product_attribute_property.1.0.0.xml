@@ -116,5 +116,30 @@
 
     </update>
 
+    <delete authorizationNeeded="true" strictFields="false" authorization="core.webservice,core.delete" dataMode="model" optionName="com_redshop" modelClassName="Attribute_property" modelClassPath="" isAdminClass="true" functionName="deleteWS" functionArgs="id{string}" validateData="none" validateDataFunction="function" tableName="redshop_attribute_property">
+      <description><![CDATA[This operation deletes product attributes.]]></description>
+      <fields>
+        <field name="id" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="true">
+          <description><![CDATA[Product attribute ID.]]></description>
+        </field>
+        <description><![CDATA[Product attribute delete fields]]></description>
+      </fields>
+      <resources>
+        <resource displayName="documentation" transform="string" fieldFormat="{webserviceUrlPath}&amp;format=doc#{rel}" displayGroup="_links" linkTitle="Documentation" linkName="{webserviceName}" hrefLang="" linkTemplated="true" linkRel="curies" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Web services documentation]]></description>
+        </resource>
+        <resource displayName="base" transform="string" fieldFormat="/" displayGroup="_links" linkTitle="Default page" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[Webservices root]]></description>
+        </resource>
+        <resource displayName="{webserviceName}:list" transform="string" fieldFormat="{webserviceUrlPath}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[User webservice]]></description>
+        </resource>
+        <resource displayName="result" transform="boolean" fieldFormat="{result}" displayGroup="" resourceSpecific="rcwsGlobal">
+          <description><![CDATA[True upon success, false on error]]></description>
+        </resource>
+        <description><![CDATA[Product attribute delete resources]]></description>
+      </resources>
+    </delete>
+
   </operations>
 </apiservice>
