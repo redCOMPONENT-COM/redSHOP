@@ -1,6 +1,7 @@
 {
   "components": [
-    "redshop", "redshop.assets"
+    "redshop",
+    "redshop.assets"
   ],
   "libraries": [
     "redshop"
@@ -138,16 +139,17 @@
       "tcpdf"
     ],
     "redshop_product": [
-      "CreateColorImage",
+      "bundle",
       "canonical",
+      "CreateColorImage",
+      "discount_affect_attribute",
+      "google_microdata",
       "invoicepdf",
       "postdanmark",
+      "product_alttext",
       "shoppergroup_tags",
       "stock_notifyemail",
-      "stockroom_status",
-      "discount_affect_attribute",
-      "bundle",
-      "google_tag"
+      "stockroom_status"
     ],
     "redshop_product_type": [
       "bundle"
