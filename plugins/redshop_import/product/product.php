@@ -467,9 +467,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		$value = $data[$fieldName];
 
 		$query = $db->getQuery(true)
-			->select($db->qn('field_id'))
+			->select($db->qn('id'))
 			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('field_name') . ' = ' . $db->quote($fieldName));
+			->where($db->qn('name') . ' = ' . $db->quote($fieldName));
 
 		if ($fieldId = $db->setQuery($query)->loadResult())
 		{
@@ -543,9 +543,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			}
 
 			$query->clear()
-				->select($db->qn('category_id'))
+				->select($db->qn('id'))
 				->from($db->qn('#__redshop_category'))
-				->where($db->qn('category_name') . ' IN (' . implode(',', $categoryName) . ')');
+				->where($db->qn('name') . ' IN (' . implode(',', $categoryName) . ')');
 			$categories = $db->setQuery($query)->loadColumn();
 		}
 

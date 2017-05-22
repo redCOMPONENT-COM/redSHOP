@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
 	<name>MOD_REDSHOP_DISCOUNT</name>
-	<version>1.6</version>
+	<version>1.7.0</version>
 	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<creationDate>November 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<copyright>redCOMPONENT.com</copyright>
@@ -11,15 +11,12 @@
 	<description>MOD_REDSHOP_DISCOUNT_DESC</description>
 	<files>
 		<filename module="mod_redshop_discount">mod_redshop_discount.php</filename>
+		<filename module="mod_redshop_discount">helper.php</filename>
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
+		<folder>language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_discount.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_discount.sys.ini</language>
-		<language tag="en-GB">language/da-DK/da-DK.mod_redshop_discount.ini</language>
-		<language tag="en-GB">language/da-DK/da-DK.mod_redshop_discount.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

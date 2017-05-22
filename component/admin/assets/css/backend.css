@@ -9729,7 +9729,8 @@ a:focus {
   border-radius: 3px;
   margin: 0 0 20px 0;
   padding: 15px 30px 15px 15px;
-  border-left: 5px solid #eee;
+  border: 1px solid #eee;
+  border-left-width: 5px;
 }
 .callout a {
   color: #fff;
@@ -16146,7 +16147,7 @@ Searchtools
 }
 
 .select2-container {
-  width: auto;
+  width: 100%;
   max-width: 100%;
 }
 
@@ -27103,3 +27104,30 @@ body.modal-open {
   max-height: 600px;
   overflow-y: auto;
 }
+
+.adminForm .label-edit-inline,
+.adminForm .normal-data{
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  position: relative;
+}
+
+.adminForm .label-edit-inline:hover {
+  background-color: #fcf8e3;
+  cursor: text;
+  border: 1px solid #c0c0c0;
+  border-radius: 5px;
+}
+
+.adminForm .label-edit-inline:hover:after {
+  content: "\f044";
+  font: normal normal normal 14px/1 FontAwesome;
+  position: absolute;
+  top: 25%;
+  right: 5px;
+  color: #ad312b;
+}
+
+.rs-full { display: none; }
+.rs-more { cursor: pointer; }
+.rs-teaser { display: inline-block; }

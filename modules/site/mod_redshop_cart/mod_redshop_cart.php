@@ -30,7 +30,7 @@ $model = JModelLegacy::getInstance("Cart", "RedshopModel");
 
 // Helper object
 $helper = redhelper::getInstance();
-$helper->dbtocart();
+RedshopHelperUtility::databaseToCart();
 
 $output_view = $params->get('cart_output', 'simple');
 $session     = JFactory::getSession();

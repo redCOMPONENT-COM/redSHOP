@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Economic\Economic;
+
 
 class RedshopControllerProduct extends RedshopController
 {
@@ -46,7 +48,7 @@ class RedshopControllerProduct extends RedshopController
 			for ($i = 0, $in = count($prd); $i < $in; $i++)
 			{
 				$incNo++;
-				$ecoProductNumber = $economic->createProductInEconomic($prd[$i]);
+				$ecoProductNumber = Economic::createProductInEconomic($prd[$i]);
 				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
 
 				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
@@ -115,7 +117,7 @@ class RedshopControllerProduct extends RedshopController
 				$prdrow = new stdClass;
 				$prdrow->product_id = $list[$i]->product_id;
 				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-				$ecoProductNumber = $economic->createPropertyInEconomic($prdrow, $list[$i]);
+				$ecoProductNumber = Economic::createPropertyInEconomic($prdrow, $list[$i]);
 				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PROPERTY_NUMBER') . " " . $list[$i]->property_number . " -> ";
 
 				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
@@ -156,7 +158,7 @@ class RedshopControllerProduct extends RedshopController
 				$prdrow = new stdClass;
 				$prdrow->product_id = $list[$i]->product_id;
 				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-				$ecoProductNumber = $economic->createSubpropertyInEconomic($prdrow, $list[$i]);
+				$ecoProductNumber = Economic::createSubpropertyInEconomic($prdrow, $list[$i]);
 				$responcemsg .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER') . " "
 					. $list[$i]->subattribute_color_number . " -> ";
 
@@ -201,6 +203,7 @@ class RedshopControllerProduct extends RedshopController
 		$productIds     = $this->input->post->get('pid', array(), 'array');
 		$discountPrices = $this->input->post->get('price', array(), 'array');
 
+		/** @var RedshopModelProduct $model */
 		$model = $this->getModel('Product');
 		$model->savePrices($productIds, $discountPrices);
 
@@ -219,6 +222,7 @@ class RedshopControllerProduct extends RedshopController
 		$productIds     = $this->input->post->get('pid', array(), 'array');
 		$discountPrices = $this->input->post->get('discount_price', array(), 'array');
 
+		/** @var RedshopModelProduct $model */
 		$model = $this->getModel('Product');
 		$model->saveDiscountPrices($productIds, $discountPrices);
 

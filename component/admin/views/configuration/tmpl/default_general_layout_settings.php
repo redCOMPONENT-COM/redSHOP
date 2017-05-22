@@ -46,3 +46,13 @@ echo RedshopLayoutHelper::render(
 		'line'  => false
 	)
 );
+
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_CONFIG_IMAGE_MAX_FILE_SIZE_UPLOAD'),
+		'desc'  => JText::_('COM_REDSHOP_CONFIG_IMAGE_MAX_FILE_SIZE_UPLOAD_DESC'),
+		'field' => '<input type="number" name="max_file_size_upload" id="max_file_size_upload" class="form-control"'
+			. 'value="' . $this->config->get('MAX_FILE_SIZE_UPLOAD', 2048) . '"/>'
+	)
+);

@@ -1,6 +1,6 @@
 {
   "components": [
-    "redshop"
+    "redshop", "redshop.assets"
   ],
   "libraries": [
     "redshop"
@@ -145,7 +145,12 @@
       "shoppergroup_tags",
       "stock_notifyemail",
       "stockroom_status",
-      "discount_affect_attribute"
+      "discount_affect_attribute",
+      "bundle",
+      "google_tag"
+    ],
+    "redshop_product_type": [
+      "bundle"
     ],
     "redshop_shipping": [
       "bring",
@@ -175,13 +180,15 @@
       "sh404sefextplugincom_redshop"
     ],
     "system": [
+      "agile_crm",
       "mvcoverride",
       "quickbook",
       "redgoogleanalytics",
       "redlightbox_slideshow",
       "redproductzoom",
       "redshop",
-      "redshop_send_discountcode"
+      "redshop_send_discountcode",
+      "redshop_product_bundle"
     ],
     "user": [
       "highrise"

@@ -32,6 +32,13 @@ defined('_JEXEC') or die;
 		echo RedshopLayoutHelper::render(
 			'config.group',
 			array(
+				'title'   => JText::_('COM_REDSHOP_INLINE_EDIT_TAB'),
+				'content' => $this->loadTemplate('feature_inline_edit')
+			)
+		);
+		echo RedshopLayoutHelper::render(
+			'config.group',
+			array(
 				'title'   => JText::_('COM_REDSHOP_COMPARISON_PRODUCT_TAB'),
 				'content' => $this->loadTemplate('comparison_settings')
 			)

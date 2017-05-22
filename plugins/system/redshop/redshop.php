@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 /**
  * PlgSystemRedSHOP class.
  *
- * @extends JPlugi
- * n
+ * @extends JPlugin
+ *
  * @since   2.0.1
  */
 class PlgSystemRedSHOP extends JPlugin

@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($this->getinstalledplugins)): ?>
-    <?php RedshopHelperPayment::loadLanguages(); ?>
+    <?php RedshopHelperPayment::loadLanguages(true); ?>
     <table class="table table-striped">
         <thead>
             <tr>

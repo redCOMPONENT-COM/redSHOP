@@ -15,7 +15,7 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 
 $redhelper = redhelper::getInstance();
-$Itemid = $redhelper->getCheckoutItemid();
+$Itemid = RedshopHelperUtility::getCheckoutItemId();
 
 if ($Itemid == 0)
 {
