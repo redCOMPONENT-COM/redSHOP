@@ -56,11 +56,6 @@ class RedshopViewProduct extends RedshopViewAdmin
 			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
 		}
-
-		if ($layout == 'listing')
-		{
-			JToolBarHelper::back();
-		}
 	}
 
 	public function display($tpl = null)

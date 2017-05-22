@@ -337,7 +337,7 @@ class RedshopHelperConfig
 				}
 
 				// Save to config file
-				$this->save(new JRegistry($properties));
+				$this->save(new Registry($properties));
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MIGRATED_PREVIOUS_CONFIGURATION'), 'notice');
 
 				return JFile::delete($oldConfigFile);
@@ -441,6 +441,26 @@ class RedshopHelperConfig
 		}
 
 		return $this->config->get($name, $default);
+	}
+
+	/**
+	 * Method for get config variable of redshop
+	 *
+	 * @param   string  $name   Name of variable.
+	 * @param   mixed   $value  Value of configuration
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	public function set($name = '', $value = null)
+	{
+		if (empty($this->config))
+		{
+			return;
+		}
+
+		$this->config->set($name, $value);
 	}
 
 	/**

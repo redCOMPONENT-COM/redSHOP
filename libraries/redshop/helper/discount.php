@@ -42,28 +42,18 @@ class RedshopHelperDiscount
 		$userData       = RedshopHelperUser::createUserSession($userId);
 		$shopperGroupId = (int) $userData['rs_user_shopperGroup'];
 
-		$query = $db->getQuery(true)
-			->select($db->qn('ds.discount_id'))
-			->from($db->qn('#__redshop_discount_shoppers', 'ds'))
-			->where($db->qn('ds.shopper_group_id') . ' = ' . $shopperGroupId);
+		$shopperGroupDiscounts = RedshopEntityShopper_Group::getInstance($shopperGroupId)->getDiscounts();
 
-		$result = $db->setQuery($query)->loadColumn();
-
-		if (empty($result))
+		if ($shopperGroupDiscounts->isEmpty())
 		{
-			return;
+			return false;
 		}
 
-		$result = array_merge(array(0 => '0'), $result);
-
-		// Secure ids
-		$result = ArrayHelper::toInteger($result);
-
-		$query->clear()
+		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_discount'))
 			->where($db->qn('published') . ' = 1')
-			->where($db->qn('discount_id') . ' IN (' . implode(',', $result) . ')')
+			->where($db->qn('discount_id') . ' IN (' . implode(',', $shopperGroupDiscounts->ids()) . ')')
 			->where($db->qn('start_date') . ' <= ' . time())
 			->where($db->qn('end_date') . ' >= ' . time())
 			->order($db->qn('amount') . ' DESC');

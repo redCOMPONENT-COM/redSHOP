@@ -121,6 +121,32 @@ JPluginHelper::importPlugin('redshop_product');
             form.submit();
         })(jQuery);
     }
+
+    function massPacsoftStatusChange(option) {
+        (function ($) {
+            var form = document.adminForm;
+            var massStatus = $("#massOrderStatusPacsoft select[name=mass_change_order_status]").val();
+            var massPayment = $("#massOrderStatusPacsoft select[name=mass_change_payment_status]").val();
+            var massSend = $("#massOrderStatusPacsoft input[name=mass_mail_sending]");
+
+            form.task.value = option;
+            form.mass_change_order_status.value = massStatus;
+            form.mass_change_payment_status.value = massPayment;
+            if ($(massSend).is(":checked")) {
+                form.mass_mail_sending.value = 1;
+            } else {
+                form.mass_mail_sending.value = 0;
+            }
+
+            try {
+                form.onsubmit();
+            }
+            catch (e) {
+            }
+
+            form.submit();
+        })(jQuery);
+    }
 </script>
 <script type="text/javascript">
     (function ($) {
@@ -272,7 +298,7 @@ JPluginHelper::importPlugin('redshop_product');
 			$link    = RedshopHelperUtility::getSSLLink($link);
 
 			/**
-			 * This is an event that is using into back-end order listing page. In to grid column, below check-box.
+			 * This is an event that is using into back-end order listing page. In to grid column, below update status.
 			 * This event is called to add highlighter from which order can be identified that plug-in enhancement is included into this order.
 			 */
 			$data                             = new stdClass;
@@ -283,7 +309,6 @@ JPluginHelper::importPlugin('redshop_product');
             <tr class="row<?php echo $k; ?>">
                 <td class="order">
 					<?php echo $this->pagination->getRowOffset($i); ?>
-					<?php echo $data->highlight->toHighlightGrid; ?>
                 </td>
                 <td class="order">
 					<?php echo JHtml::_('grid.id', $i, $row->id); ?>
@@ -405,6 +430,8 @@ JPluginHelper::importPlugin('redshop_product');
                             </div>
                         </div>
                     </div>
+
+                    <?php echo $data->highlight->toHighlightGrid; ?>
                 </td>
 				<?php if (Redshop::getConfig()->get('USE_STOCKROOM') == 1) : ?>
 					<?php
@@ -459,7 +486,7 @@ JPluginHelper::importPlugin('redshop_product');
                     </td>
 				<?php endif; ?>
                 <td align="center">
-					<?php echo $config->convertDateFormat($row->cdate); ?>
+					<?php echo RedshopHelperDatetime::convertDateFormat($row->cdate); ?>
                 </td>
                 <td>
 					<?php if (RedshopHelperPdf::isAvailablePdfPlugins()): ?>
@@ -545,6 +572,7 @@ JPluginHelper::importPlugin('redshop_product');
 				}
 				?>
             </tr>
+
 			<?php $k = 1 - $k; ?>
 		<?php endfor; ?>
         </tbody>
@@ -724,7 +752,7 @@ JPluginHelper::importPlugin('redshop_product');
                     <button type="button" class="btn btn-danger" data-dismiss="modal">
 						<?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_BTN_CLOSE') ?>
                     </button>
-                    <button type="button" class="btn btn-primary" onclick="massStatusChange('allstatus');">
+                    <button type="button" class="btn btn-primary" onclick="massPacsoftStatusChange('allstatus');">
 						<?php echo JText::_('COM_REDSHOP_APPLY'); ?>
                     </button>
                 </div>

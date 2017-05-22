@@ -23,7 +23,7 @@
     <fields name="request">
         <fieldset name="request"
                       addfieldpath="/libraries/redshop/form/fields">
-            <field name="cid" type="redshopcategory" label="COM_REDSHOP_SELECT_CATEGORY_LBL" required="true"
+            <field name="cid" type="categorylist" label="COM_REDSHOP_SELECT_CATEGORY_LBL" required="true"
                        description="COM_REDSHOP_DISPLAYS_THE_SELECTED_CATEGORY_PRODUCT"/>
         </fieldset>
     </fields>

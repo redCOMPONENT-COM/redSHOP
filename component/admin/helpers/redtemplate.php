@@ -128,7 +128,7 @@ class Redtemplate
 	 */
 	public function getTemplatefilepath($section, $fileName, $isAdmin = false)
 	{
-		return RedshopHelperTemplate::getTemplatefilepath($section, $fileName, $isAdmin);
+		return RedshopHelperTemplate::getTemplateFilePath($section, $fileName, $isAdmin);
 	}
 
 	/**
@@ -156,7 +156,7 @@ class Redtemplate
 	 */
 	public function parseredSHOPplugin($string = "")
 	{
-		return RedshopHelperTemplate::parseredSHOPplugin($string);
+		return RedshopHelperTemplate::parseRedshopPlugin($string);
 	}
 
 	/**

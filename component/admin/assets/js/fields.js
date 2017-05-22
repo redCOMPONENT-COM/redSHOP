@@ -20,20 +20,25 @@ function addNewRow(tableRef) {
     var newTD = document.createElement('td');
     var newTD1 = document.createElement('td');
     var newTD2 = document.createElement('td');
+    var newTD3 = document.createElement('td');
 
     var fieldtp = "text";
     fieldname = "extra_name[]";
-    var fieldtype = document.getElementById("field_type").value;
+    var fieldtype = document.getElementById("jform_type").value;
+
     if (fieldtype == 11 || fieldtype == 13) {
         fieldtp = "file";
         fieldname = "extra_name_file[]";
     }
-    newTD.innerHTML = '<input type="' + fieldtp + '" name="' + fieldname + '" value="field_temp_opt_' + g + '" id="' + fieldname + '">';
-    newTD1.innerHTML = '<input type="text" name="extra_value[]" value="" id="extra_value[]">&nbsp;<input type="hidden" name="value_id[]" id="value_id[]">  <input value="Delete" onclick="deleteRow(this)" class="button" type="button" />';
+
+    newTD.innerHTML = '<input id="extra_name' + g + '" type="' + fieldtp + '" name="' + fieldname + '" value="field_temp_opt_' + g + '" id="' + fieldname + '" class="form-control" />';
+    newTD1.innerHTML = '<input type="text" name="extra_value[]" value="" id="extra_value' + g + '"  class="form-control" /><input type="hidden" name="value_id[]" id="value_id' + g + '" />';
     newTD2.innerHTML = '&nbsp;';
+    newTD3.innerHTML = '<input class="btn btn-danger" value="Delete" onclick="deleteRow(this)" type="button" />';
     newTR.appendChild(newTD);
     newTR.appendChild(newTD1);
     newTR.appendChild(newTD2);
+    newTR.appendChild(newTD3);
     tBody.appendChild(newTR);
     f++;
 }

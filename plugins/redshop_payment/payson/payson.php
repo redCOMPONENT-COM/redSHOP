@@ -38,7 +38,6 @@ class plgRedshop_PaymentPayson extends JPlugin
 		}
 
 		$app           = JFactory::getApplication();
-		$currencyClass = CurrencyHelper::getInstance();
 		$orderHelper   = order_functions::getInstance();
 
 		$agentID         = $this->params->get('agentID');
@@ -59,7 +58,7 @@ class plgRedshop_PaymentPayson extends JPlugin
 
 		// Amount to send to receiver
 
-		$amountToReceive = $currencyClass->convert($data['order']->order_total, '', $this->params->get('currencyCode'));
+		$amountToReceive = RedshopHelperCurrency::convert($data['order']->order_total, '', $this->params->get('currencyCode'));
 
 		// Information about the sender of money
 		$senderEmail     = $data['billinginfo']->user_email;
@@ -107,7 +106,7 @@ class plgRedshop_PaymentPayson extends JPlugin
 
 			$orderItems[] = new OrderItem(
 				$items[$i]->order_item_name . strip_tags($items[$i]->product_attribute),
-				$currencyClass->convert($items[$i]->product_item_price_excl_vat, '', $this->params->get('currencyCode')),
+				RedshopHelperCurrency::convert($items[$i]->product_item_price_excl_vat, '', $this->params->get('currencyCode')),
 				$items[$i]->product_quantity,
 				$vat,
 				$items[$i]->order_item_sku
@@ -118,7 +117,7 @@ class plgRedshop_PaymentPayson extends JPlugin
 
 		$orderItems[] = new OrderItem(
 			$shippingInfo[2],
-			$currencyClass->convert($shippingInfo[3], '', $this->params->get('currencyCode')),
+			RedshopHelperCurrency::convert($shippingInfo[3], '', $this->params->get('currencyCode')),
 			1,
 			0,
 			'shipping-rate'

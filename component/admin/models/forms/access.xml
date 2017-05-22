@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+                readonly="true"
+                default=""
+                />
+        <field
+                name="assetId"
+                type="hidden"
+                readonly="true"
+                default=""
+                />
+        <field
+                name="title"
+                type="hidden"
+                readonly="true"
+                default="COM_REDSHOP_ACCESS_MANAGER"
+                />
+    </fieldset>
+    <fieldset name="accesscontrol">
+        <field
+                name="rules"
+                type="redshop.rules"
+                label="JFIELD_RULES_LABEL"
+                translate_label="false"
+                filter="rules"
+                validate="rules"
+                class="form-control"
+                component="com_redshop"
+                section="backend"
+                asset_field="id"
+                show_group="true"
+                />
+    </fieldset>
+</form>
