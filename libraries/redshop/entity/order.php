@@ -14,42 +14,42 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopEntityOrder extends RedshopEntity
 {
 	/**
 	 * @var   RedshopEntitiesCollection
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected $orderItems;
 
 	/**
 	 * @var   RedshopEntityOrder_Payment
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected $payment;
 
 	/**
 	 * @var    RedshopEntitiesCollection
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected $users;
 
 	/**
 	 * @var   RedshopEntityOrder_User
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected $billing;
 
 	/**
 	 * @var   RedshopEntityOrder_User
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected $shipping;
 
@@ -93,7 +93,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getOrderItems()
 	{
@@ -115,7 +115,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return   RedshopEntityOrder_Payment   Payment data if success. Null otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getPayment()
 	{
@@ -137,7 +137,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return   RedshopEntitiesCollection   Collection of users if success. Null otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getUsers()
 	{
@@ -159,7 +159,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return   RedshopEntityOrder_User   User infor if success. Null otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getBilling()
 	{
@@ -181,7 +181,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return   RedshopEntityOrder_User   User infor if success. Null otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getShipping()
 	{
@@ -203,7 +203,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadOrderItems()
 	{
@@ -242,7 +242,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadPayment()
 	{
@@ -274,7 +274,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadUsers()
 	{
@@ -313,7 +313,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadBilling()
 	{
@@ -347,7 +347,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function loadShipping()
 	{
