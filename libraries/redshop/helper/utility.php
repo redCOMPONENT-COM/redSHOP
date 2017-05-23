@@ -1200,7 +1200,7 @@ class RedshopHelperUtility
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function isRedProductFinder()
 	{
@@ -1237,7 +1237,7 @@ class RedshopHelperUtility
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getEconomicAccountGroup($accountGroupId = 0, $front = 0)
 	{

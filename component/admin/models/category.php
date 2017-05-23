@@ -21,9 +21,9 @@ class RedshopModelCategory extends RedshopModelForm
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param   string  $type    The table type to instantiate
-	 * @param   string  $prefix  A prefix for the table class name. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string $type   The table type to instantiate
+	 * @param   string $prefix A prefix for the table class name. Optional.
+	 * @param   array  $config Configuration array for model. Optional.
 	 *
 	 * @return  JTable           A database object
 	 *
@@ -37,8 +37,8 @@ class RedshopModelCategory extends RedshopModelForm
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      Data for the form. [optional]
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
+	 * @param   array   $data     Data for the form. [optional]
+	 * @param   boolean $loadData True if the form is to load its own data (default case), false if not. [optional]
 	 *
 	 * @return  mixed               A JForm object on success, false on failure
 	 *
@@ -90,7 +90,7 @@ class RedshopModelCategory extends RedshopModelForm
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer  $pk  The id of the primary key.
+	 * @param   integer $pk The id of the primary key.
 	 *
 	 * @return  mixed         Object on success, false on failure.
 	 *
@@ -107,7 +107,8 @@ class RedshopModelCategory extends RedshopModelForm
 			return $item;
 		}
 
-		$item->template          = Redshop::getConfig()->get('CATEGORY_TEMPLATE', "");
+		$item->template = Redshop::getConfig()->get('CATEGORY_TEMPLATE', "");
+
 		$item->products_per_page = 5;
 
 		return $item;
@@ -116,7 +117,7 @@ class RedshopModelCategory extends RedshopModelForm
 	/**
 	 * Method to get extra fields to category.
 	 *
-	 * @param   integer  $item  The object category values.
+	 * @param   integer $item The object category values.
 	 *
 	 * @return  mixed           Object on success, false on failure.
 	 *
@@ -146,7 +147,7 @@ class RedshopModelCategory extends RedshopModelForm
 	/**
 	 * Method to store category.
 	 *
-	 * @param   array  $data  The object category data.
+	 * @param   array $data The object category data.
 	 *
 	 * @return  boolean
 	 *
@@ -287,7 +288,7 @@ class RedshopModelCategory extends RedshopModelForm
 					JFile::delete($path);
 				}
 
-				$row->category_back_full_image  = '';
+				$row->category_back_full_image = '';
 			}
 		}
 
@@ -329,7 +330,7 @@ class RedshopModelCategory extends RedshopModelForm
 	/**
 	 * Method to copy.
 	 *
-	 * @param   array  $cid  Category id list.
+	 * @param   array $cid Category id list.
 	 *
 	 * @return  boolean
 	 *
@@ -404,7 +405,7 @@ class RedshopModelCategory extends RedshopModelForm
 	/**
 	 * Process for store product accessories
 	 *
-	 * @param   integer  $categoryId  ID of category
+	 * @param   integer $categoryId ID of category
 	 *
 	 * @since   2.0.6
 	 *

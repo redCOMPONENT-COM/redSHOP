@@ -9,6 +9,8 @@
 
 namespace Redshop\Plugin;
 
+use function var_dump;
+
 defined('_JEXEC') or die;
 
 /**
@@ -63,10 +65,19 @@ class AbstractImportPlugin extends \JPlugin
 	protected $numberColumns = array();
 
 	/**
+	 * List of alias columns. For backward compability. Example array('category_id' => 'id')
+	 *
+	 * @var array
+	 *
+	 * @since   2.0.6
+	 */
+	protected $aliasColumns = array();
+
+	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An optional associative array of configuration settings.
 	 *                              Recognized key values include 'name', 'group', 'params', 'language'
 	 *                              (this list is not meant to be comprehensive).
 	 *
@@ -177,9 +188,11 @@ class AbstractImportPlugin extends \JPlugin
 		$handle = fopen($this->getPath() . '/' . $this->folder . '/' . $file, 'r');
 		$header = fgetcsv($handle, null, $this->separator, '"');
 
+		$table = $this->getTable();
+
 		while ($data = fgetcsv($handle, null, $this->separator, '"'))
 		{
-			$table = $this->getTable();
+			$table->reset();
 
 			// Do mapping data to table.
 			$data = $this->processMapping($header, $data);
@@ -189,6 +202,9 @@ class AbstractImportPlugin extends \JPlugin
 
 			// Do format number.
 			$this->doFormatNumber($data);
+
+			// Do alias mapping
+			$this->doAliasMapping($data);
 
 			$rowResult = new \stdClass;
 
@@ -207,6 +223,7 @@ class AbstractImportPlugin extends \JPlugin
 					'PLG_REDSHOP_IMPORT_' . strtoupper($this->_name) . '_FAIL_IMPORT',
 					$data[$this->nameKey]
 				);
+				$rowResult->message = $table->getError();
 			}
 
 			$result->data[] = $rowResult;
@@ -423,6 +440,33 @@ class AbstractImportPlugin extends \JPlugin
 			}
 
 			$data[$column] = (float) str_replace(',', '.', $data[$column]);
+		}
+	}
+
+	/**
+	 * Method for generate column with alias.
+	 *
+	 * @param   array  &$data  Data.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	public function doAliasMapping(&$data = array())
+	{
+		if (empty($data) || empty($this->aliasColumns))
+		{
+			return;
+		}
+
+		foreach ($this->aliasColumns as $alias => $column)
+		{
+			if (empty($data[$alias]) || !empty($data[$column]))
+			{
+				continue;
+			}
+
+			$data[$column] = $data[$alias];
 		}
 	}
 }

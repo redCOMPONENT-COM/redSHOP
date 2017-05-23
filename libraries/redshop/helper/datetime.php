@@ -62,6 +62,8 @@ class RedshopHelperDatetime
 		}
 
 		$format = Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'Y-m-d');
+		$format = empty($format) ? 'Y-m-d' : $format;
+
 		$convertFormat = date($format, $date);
 
 		if (strpos($format, "M") !== false)

@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 
-JHTML::_('behavior.tooltip');
+JHtml::_('behavior.tooltip');
 JHtml::_('behavior.calendar');
-JHTMLBehavior::modal();
+JHtml::_('behavior.modal');
 
 
 $url             = JURI::base();
