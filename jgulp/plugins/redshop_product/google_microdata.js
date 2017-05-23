@@ -8,7 +8,7 @@ var browserSync = require('browser-sync');
 var del = require('del');
 
 var group = 'redshop_product';
-var name = 'google_tag';
+var name = 'google_microdata';
 
 var baseTask = 'plugins.' + group + '.' + name;
 var extPath = './plugins/' + group + '/' + name;
