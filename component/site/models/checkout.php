@@ -229,6 +229,11 @@ class RedshopModelCheckout extends RedshopModel
 
 		$cart = $session->get('cart');
 
+		$dispatcher = JDispatcher::getInstance();
+		// Add plugin support
+		JPluginHelper::importPlugin('redshop_checkout');
+		$dispatcher->trigger('onBeforeOrderSave', array(&$cart, &$post));
+
 		if ($cart['idx'] < 1)
 		{
 			$msg = JText::_('COM_REDSHOP_EMPTY_CART');
@@ -341,8 +346,6 @@ class RedshopModelCheckout extends RedshopModel
 		$d['order_shipping']         = $order_shipping [3];
 		$GLOBALS['billingaddresses'] = $billingaddresses;
 		$timestamp                   = time();
-
-		$dispatcher = JDispatcher::getInstance();
 
 		$order_status_log = '';
 
@@ -2020,7 +2023,7 @@ class RedshopModelCheckout extends RedshopModel
 		return $shipArr;
 	}
 
-	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "")
+	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "", $post)
 	{
 		$session  = JFactory::getSession();
 		$cart     = $session->get('cart');
@@ -2034,6 +2037,9 @@ class RedshopModelCheckout extends RedshopModel
 		unset($cart['shipping']);
 		$usersess = $session->set('rs_user', $usersess);
 		$cart     = $this->_carthelper->modifyCart($cart, $user_id);
+
+		JPluginHelper::importPlugin('redshop_checkout');
+		JDispatcher::getInstance()->trigger('onDisplayShoppingCart', array (&$cart, $post));
 
 		if ($shipping_rate_id && $cart['free_shipping'] != 1)
 		{
