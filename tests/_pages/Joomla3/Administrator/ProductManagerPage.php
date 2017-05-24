@@ -17,4 +17,12 @@ class ProductManagerPage
 {
 	public static $URL = 'administrator/index.php?option=com_redshop&view=product';
     public static $productFilter = ['id' => 'keyword'];
+    public static $productName = "#product_name";
+    public static $discountStart=  ['id' => "discount_stratdate"] ;
+    public static $discountEnd=   ['id' => "discount_enddate"] ;
+    public static $minimumPerProduct=     ['id' => "minimum_per_product_total"] ;
+    public static $minimumQuantity=  ['id' => "min_order_product_quantity"] ;
+    public static $maximumQuantity= ['id' => "max_order_product_quantity"] ;
+
+
 }
