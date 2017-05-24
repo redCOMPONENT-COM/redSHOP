@@ -271,9 +271,7 @@ public function createProductQuantityStartThanEnd($productName, $productCategory
         $I->waitForElement(['id' => "product_name"], 30);
     }
 
-    public function createProductHaveAttribute($productName, $productCategory, $productNumber, $price,$nameAttribute){
 
-    }
     public function deleteProductCancel($productName){
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);
@@ -411,6 +409,29 @@ public function createProductQuantityStartThanEnd($productName, $productCategory
         $I->see('Product details saved', ['class' => 'alert-success']);
     }
 
+    public function createProductWithAttribute($productName, $productCategory, $productNumber, $price,$nameAttribute ){
+        $I=$this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+        $I->click("New");
+        $I->waitForElement(['id' => "product_name"], 30);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->fillField(['id' => "product_name"], $productName);
+        $I->fillField(['id' => "product_number"], $productNumber);
+        $I->fillField(['id' => "product_price"], $price);
+        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
+        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
+        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+        $I->click("Product Attributes");
+        $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
+        $I->click("+ Add Attribute parameter");
+        $I->waitForElement(['xpath' => "//a[text()='Attribute parameter']"], 60);
+        $I->click("Save");
+        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
+        $I->see('Product details saved', ['class' => 'alert-success']);
+    }
     //The function for edit product
 
     public function checkEditSave($productName, $productNameEdit){
