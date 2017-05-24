@@ -163,7 +163,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click("Save");
         $I->acceptPopup();
         $I->waitForElement(['id' => "product_name"], 30);
-//
     }
 
     public function createProductMissingProductNumber($productName,$productCategory, $price){
@@ -196,13 +195,85 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(['id' => "product_name"], $productName);
         $I->fillField(['id' => "product_number"], $productNumber);
         $I->fillField(['id' => "product_price"], $price);
-        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
         $I->click("Save");
         $I->acceptPopup();
         $I->waitForElement(['id' => "product_name"], 30);
     }
 
+public function createProductQuantityStartThanEnd($productName, $productCategory, $productNumber, $price, $minimumPerProduct, $minimumQuantity, $maximumQuantity, $discountStart,$discountEnd){
+    $I=$this;
+    $I->amOnPage(\ProductManagerPage::$URL);
+    $I->checkForPhpNoticesOrWarnings();
+    $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+    $I->click("New");
+    $I->waitForElement(['id' => "product_name"], 30);
+    $I->checkForPhpNoticesOrWarnings();
+    $I->fillField(['id' => "product_name"], $productName);
+    $I->fillField(['id' => "product_number"], $productNumber);
+    $I->fillField(['id' => "product_price"], $price);
+    $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
+    $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
+    $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+    $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+    $I->fillField(\ProductManagerPage::$discountStart,$discountStart);
+    $I->fillField(\ProductManagerPage::$discountEnd,$discountEnd);
+    $I->fillField(\ProductManagerPage::$minimumPerProduct,$minimumPerProduct);
+    $I->fillField(\ProductManagerPage::$minimumQuantity,$maximumQuantity);
+    $I->fillField(\ProductManagerPage::$maximumQuantity,$minimumQuantity);
+    $I->click("Save");
+    $I->acceptPopup();
+    $I->waitForElement(['id' => "product_name"], 30);
+}
 
+    public function createDiscountPriceThanPrice($productName, $productCategory, $productNumber, $price, $discountPrice){
+        $I=$this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+        $I->click("New");
+        $I->waitForElement(['id' => "product_name"], 30);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->fillField(['id' => "product_name"], $productName);
+        $I->fillField(['id' => "product_number"], $productNumber);
+        $I->fillField(['id' => "product_price"], $price);
+        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
+        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
+        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+        $I->fillField(\ProductManagerPage::$discountPrice,$discountPrice);
+        $I->click("Save");
+        $I->acceptPopup();
+        $I->waitForElement(['id' => "product_name"], 30);
+    }
+
+    public function createProductDayStartThanEnd($productName, $productCategory, $productNumber, $price, $minimumPerProduct, $minimumQuantity, $maximumQuantity, $discountStart,$discountEnd){
+        $I=$this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+        $I->click("New");
+        $I->waitForElement(['id' => "product_name"], 30);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->fillField(['id' => "product_name"], $productName);
+        $I->fillField(['id' => "product_number"], $productNumber);
+        $I->fillField(['id' => "product_price"], $price);
+        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
+        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
+        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+        $I->fillField(\ProductManagerPage::$discountStart,$discountEnd);
+        $I->fillField(\ProductManagerPage::$discountEnd,$discountStart);
+        $I->fillField(\ProductManagerPage::$minimumPerProduct,$minimumPerProduct);
+        $I->fillField(\ProductManagerPage::$minimumQuantity,$minimumQuantity);
+        $I->fillField(\ProductManagerPage::$maximumQuantity,$maximumQuantity);
+        $I->click("Save");
+        $I->acceptPopup();
+        $I->waitForElement(['id' => "product_name"], 30);
+    }
+
+    public function createProductHaveAttribute($productName, $productCategory, $productNumber, $price,$nameAttribute){
+
+    }
     public function deleteProductCancel($productName){
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);

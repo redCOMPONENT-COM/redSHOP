@@ -30,6 +30,7 @@ class ManageProductsAdministratorCest
         $this->randomProductNumber = rand(999, 9999);
         $this->randomProductNumberNew = rand(999, 9999);
         $this->randomProductPrice = rand(99, 199);
+        $this->discountPriceThanPrice = $this->randomProductNumber + 1;
         $this->statusProducts = 'Product on sale';
         $this->searchCategory = 'Category';
         $this->newProductName = 'New-Test Product' . rand(99, 999);
@@ -54,7 +55,7 @@ class ManageProductsAdministratorCest
     }
 
 //    /**
-//     * @param AcceptanceTester $I
+//   cleae  * @param AcceptanceTester $I
 //     * @param $scenario
 //     */
 //    public function checkEditButton(AcceptanceTester $I, $scenario)
@@ -248,21 +249,61 @@ class ManageProductsAdministratorCest
 //        $I->wantTo('I Want to add product inside the category');
 //        $I->createProductCancel();
 //    }
+//
+//    public function createProductMissingName(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test Product Missing Name Manager in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+//        $I->wantTo('I Want to add Product Missing name product inside the category');
+//        $I->createProductMissingName( $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice);
+//    }
+//    public function createProductMissingProductNumber(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test Product Missing Product Number Manager in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+//        $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
+//        $I->createProductMissingProductNumber($this->randomProductName, $this->randomCategoryName, $this->randomProductPrice);
+//    }
 
-    public function createProductMissingName(AcceptanceTester $I, $scenario)
+//    public function createPrductMissingCategory(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test Product Missing Category Manager in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+//        $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
+//        $I->createPrductMissingCategory($this->randomProductName, $this->randomProductNumber, $this->randomProductPrice);
+//    }
+
+//    public function createProductQuantityStartThanEnd(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test Product Product QuantityStart More Than End Product Number Manager in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+//        $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
+//        $I->createProductQuantityStartThanEnd($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+//
+//    }
+//
+    public function createDiscountPriceThanPrice(AcceptanceTester $I, $scenario)
     {
-        $I->wantTo('Test Product Missing Name Manager in Administrator');
+        $I->wantTo('Test Product Discount Price More Than Price Missing Product Number Manager in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('I Want to add Product Missing name product inside the category');
-        $I->createProductMissingName( $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice);
+        $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
+        $I->createDiscountPriceThanPrice($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->discountPriceThanPrice);
     }
-    public function createProductMissingProductNumber(AcceptanceTester $I, $scenario)
+
+    public function createProductDayStartThanEnd(AcceptanceTester $I, $scenario)
     {
-        $I->wantTo('Test Product Missing Name Manager in Administrator');
+        $I->wantTo('Test Product Product Day Start More Than End Manager in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('I Want to add Product Missing name product inside the category');
-        $I->createProductMissingProductNumber( $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice);
+        $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
+        $I->createProductDayStartThanEnd($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
     }
+
+
+
 }
