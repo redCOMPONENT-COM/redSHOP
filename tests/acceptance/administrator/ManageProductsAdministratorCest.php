@@ -34,6 +34,7 @@ class ManageProductsAdministratorCest
         $this->statusProducts = 'Product on sale';
         $this->searchCategory = 'Category';
         $this->newProductName = 'New-Test Product' . rand(99, 999);
+        $this->nameAttribute="Size";
 
     }
 
@@ -305,5 +306,13 @@ class ManageProductsAdministratorCest
     }
 
 
+    //This case not done. can you support me ? please
+    public function createProductWithAttribute(AcceptanceTester $I, $scenario){
+        $I->wantTo('Test Product Save Manager in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+        $I->wantTo('I Want to add product inside the category');
+        $I->createProductWithAttribute($this->randomProductName, "TestingCategory842", $this->randomProductNumber, $this->randomProductPrice, $this->nameAttribute);
+    }
 
 }
