@@ -896,6 +896,16 @@ function onestepCheckoutProcess(objectname,classname)
 			Itemid = document.getElementById('onestepItemid').value;
 		}
 
+		var invoiceFee = 0;
+
+		if (objectname == 'invoice_fee')
+		{
+			var invoice = jQuery('input[name="'+objectname+'"]:checked');
+			var invoiceDay = invoice.attr('invoice-day');
+			invoiceFee = invoice.val();
+			jQuery('input[name="invoice_day"]').val(invoiceDay);		
+		}
+
 		var postParams = {
 			option : 'com_redshop',
 			view : 'checkout',
@@ -912,7 +922,8 @@ function onestepCheckoutProcess(objectname,classname)
 			txt_referral_code	: txt_referral_code,
 			objectname	: objectname,
 			Itemid	: Itemid,
-			sid	: Math.random()
+			sid	: Math.random(),
+			invoice_fee: invoiceFee
 		};
 
 		var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component';
