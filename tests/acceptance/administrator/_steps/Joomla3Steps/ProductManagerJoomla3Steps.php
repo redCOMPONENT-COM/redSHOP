@@ -434,6 +434,80 @@ public function createProductQuantityStartThanEnd($productName, $productCategory
     }
     //The function for edit product
 
+    public function createProductWithAccessoriesRelated($productName, $productCategory, $productNumber, $price,$productAccessories,$nameRelatedProduct){
+        $I=$this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+        $I->click("New");
+        $I->waitForElement(['id' => "product_name"], 30);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->fillField(['id' => "product_name"], $productName);
+        $I->fillField(['id' => "product_number"], $productNumber);
+        $I->fillField(['id' => "product_price"], $price);
+        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
+        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
+        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+        $I->click("Accessory/Related Product");
+        $I->waitForElement(['xpath' => "//h3[text()='Accessories']"], 60);
+        $I->waitForElement(['xpath' => "//h3[text()='Related product']"], 60);
+        $this->selectAccessories($productAccessories);
+  //      $this->selectRelatedProduct($nameRelatedProduct);
+        $I->click("Save");
+        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
+        $I->see('Product details saved', ['class' => 'alert-success']);
+    }
+
+
+    /**
+     * @param $productName
+     * @param $productCategory
+     * @param $productNumber
+     * @param $price
+     */
+//    public function createProductWithMedia($productName, $productCategory, $productNumber, $price){
+//        $I=$this;
+//        $I->amOnPage(\ProductManagerPage::$URL);
+//        $I->checkForPhpNoticesOrWarnings();
+//        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+//        $I->click("New");
+//        $I->waitForElement(['id' => "product_name"], 30);
+//        $I->checkForPhpNoticesOrWarnings();
+//        $I->fillField(['id' => "product_name"], $productName);
+//        $I->fillField(['id' => "product_number"], $productNumber);
+//        $I->fillField(['id' => "product_price"], $price);
+//        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
+//        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
+//        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+//        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
+//        $I->click(['xpath' => "//div[@id='product_full_image-dropzone']"]);
+//        $I->click("Accessory/Related Product");
+//        $I->waitForElement(['xpath' => "//h3[text()='Accessories']"], 60);
+//        $I->waitForElement(['xpath' => "//h3[text()='Related product']"], 60);
+//
+//        $I->click("Save");
+//        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
+//        $I->see('Product details saved', ['class' => 'alert-success']);
+//    }
+
+    private function selectRelatedProduct($relatedProduct){
+        $I = $this;
+        $I->click(['xpath' => '//div[@id="s2id_related_product"]//a']);
+        $I->fillField(['id' => "s2id_related_product"], $relatedProduct);
+        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $relatedProduct . "')]"], 60);
+        $I->click(['xpath' => "//span[contains(text(), '" . $relatedProduct . "')]"]);
+    }
+
+    public function selectAccessories($accessoryName){
+        $I = $this;
+        $I->click(['xpath' => '//div[@id="s2id_product_accessory_search"]//a']);
+        $I->waitForElement(['id' => "s2id_product_accessory_search"]);
+        $I->fillField(['id' => "s2id_autogen3_search"], $accessoryName);
+        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"], 60);
+        $I->click(['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"]);
+    }
+
     public function checkEditSave($productName, $productNameEdit){
 
         $I = $this;
