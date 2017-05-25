@@ -25,6 +25,8 @@ class ProductManagerPage
     public static $minimumQuantity = ['id' => "min_order_product_quantity"];
     public static $maximumQuantity = ['id' => "max_order_product_quantity"];
 
+    public static $checkAllProducts="//input[@onclick='Joomla.checkAll(this)']";
+
 
 
 }

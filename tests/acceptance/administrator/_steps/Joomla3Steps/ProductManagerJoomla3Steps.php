@@ -87,6 +87,16 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\ProductManagerPage::$productFilter, 30);
     }
 
+    public function publishAllProducts(){
+        $I = $this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+        $I->click(\ProductManagerPage::$checkAllProducts);
+        $I->click("Publish");
+        $I->waitForText("Message", 30, '.alert-success');
+    }
+
     public function checkUnpublishButton(){
         $I=$this;
         $I->amOnPage(\ProductManagerPage::$URL);
@@ -96,7 +106,15 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->acceptPopup();
         $I->waitForElement(\ProductManagerPage::$productFilter, 30);
     }
-
+    public function unPublishAllProducts(){
+        $I = $this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+        $I->click(\ProductManagerPage::$checkAllProducts);
+        $I->click("Unpublish");
+        $I->waitForText("Message", 30, '.alert-success');
+    }
     public function checkAssignNewCategoryButton(){
         $I=$this;
         $I->amOnPage(\ProductManagerPage::$URL);
