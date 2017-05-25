@@ -461,6 +461,11 @@ class RedshopTableNested extends JTableNested
 			}
 		}
 
+		if (!array_key_exists('alias', $this) || (empty($this->alias) && !empty($this->name)))
+		{
+			$this->alias = JFilterOutput::stringURLSafe($this->name);
+		}
+
 		return true;
 	}
 
@@ -607,6 +612,8 @@ class RedshopTableNested extends JTableNested
 		{
 			return false;
 		}
+
+		$this->rebuildPath();
 
 		return true;
 	}

@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry;
-
 defined('_JEXEC') or die;
 
 /**
@@ -48,7 +46,7 @@ class PlgSystemRedProductZoom extends JPlugin
 		$scripts[] = 'loadingIcon: "plugins/system/redproductzoom/js/zoomloader.gif"';
 		$scripts[] = 'cursor: "crosshair"';
 		$scripts[] = 'zoomType: "' . $this->params->get('zoom_type', 'window') . '"';
-		$scripts[] = 'scrollZoom: ' . $this->params->get('scroll_zoom', true) ? 'true' : 'false';
+		$scripts[] = 'scrollZoom: ' . ($this->params->get('scroll_zoom', true) ? 'true' : 'false');
 
 		$zoomType = $this->params->get('zoom_type', 'window');
 
@@ -56,12 +54,12 @@ class PlgSystemRedProductZoom extends JPlugin
 		{
 			$scripts[] = 'lensShape: "' . $this->params->get('lens_shape', 'round') . '"';
 			$scripts[] = 'lensSize: ' . $this->params->get('lens_size', 200);
-			$scripts[] = 'lensFadeIn: ' . $this->params->get('lens_fade_in', true) ? 'true' : 'false';
-			$scripts[] = 'lensFadeOut: ' . $this->params->get('lens_fade_out', true) ? 'true' : 'false';
+			$scripts[] = 'lensFadeIn: ' . ($this->params->get('lens_fade_in', true) ? 'true' : 'false');
+			$scripts[] = 'lensFadeOut: ' . ($this->params->get('lens_fade_out', true) ? 'true' : 'false');
 		}
-		else
+		elseif ($zoomType == 'window')
 		{
-			$scripts[] = 'tint: ' . $this->params->get('tint', false) ? 'true' : 'false';
+			$scripts[] = 'tint: ' . ($this->params->get('tint', false) ? 'true' : 'false');
 			$scripts[] = 'tintColour: "' . $this->params->get('tint_color') . '"';
 			$scripts[] = 'tintOpacity: ' . $this->params->get('tint_opacity');
 			$scripts[] = 'zoomWindowWidth: ' . $this->params->get('zoom_window_width');
