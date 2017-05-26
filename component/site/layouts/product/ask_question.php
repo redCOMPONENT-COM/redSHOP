@@ -10,11 +10,10 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-JHTML::_('behavior.tooltip');
+JHtml::_('behavior.tooltip');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidation');
 
-$redTemplate = Redtemplate::getInstance();
 $user = JFactory::getUser();
 $form = $displayData['form'];
 
@@ -24,18 +23,18 @@ if ($user->id)
 	$form->setValue('your_email', null, $form->getValue('your_email', null, $user->email));
 }
 
-$Itemid = $app->input->getInt('Itemid', 0);
-$pid = $app->input->getInt('pid', 0);
-$category_id = $app->input->getInt('category_id', 0);
-$template = $redTemplate->getTemplate('ask_question_template');
+$menuItemId = $app->input->getInt('Itemid', 0);
+$pid        = $app->input->getInt('pid', 0);
+$categoryId = $app->input->getInt('category_id', 0);
+$template   = RedshopHelperTemplate::getTemplate('ask_question_template');
 
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
-	$template_desc = $template[0]->template_desc;
+	$templateContent = $template[0]->template_desc;
 }
 else
 {
-	$template_desc = '<table border="0"><tbody><tr><td>{user_name_lbl}</td><td>{user_name}</td></tr><tr><td>{user_email_lbl}</td><td>{user_email}</td></tr><tr><td>{user_question_lbl}</td><td>{user_question}</td></tr><tr><td></td><td>{send_button}</td></tr></tbody></table>';
+	$templateContent = '<table border="0"><tbody><tr><td>{user_name_lbl}</td><td>{user_name}</td></tr><tr><td>{user_email_lbl}</td><td>{user_email}</td></tr><tr><td>{user_question_lbl}</td><td>{user_question}</td></tr><tr><td></td><td>{send_button}</td></tr></tbody></table>';
 }
 
 ?>
@@ -51,17 +50,17 @@ else
 <form name="askQuestionForm" action="<?php echo JRoute::_('index.php?option=com_redshop'); ?>" method="post"
 	  id="askQuestionForm" class="form-validate form-vertical">
 	<?php
-	$template_desc = str_replace('{user_name_lbl}', $form->getLabel('your_name'), $template_desc);
-	$template_desc = str_replace('{user_email_lbl}', $form->getLabel('your_email'), $template_desc);
-	$template_desc = str_replace('{user_question_lbl}', $form->getLabel('your_question'), $template_desc);
-	$template_desc = str_replace('{user_telephone_lbl}', $form->getLabel('telephone'), $template_desc);
-	$template_desc = str_replace('{user_address_lbl}', $form->getLabel('address'), $template_desc);
-	$template_desc = str_replace('{user_name}', $form->getInput('your_name'), $template_desc);
-	$template_desc = str_replace('{user_email}', $form->getInput('your_email'), $template_desc);
-	$template_desc = str_replace('{user_question}', $form->getInput('your_question'), $template_desc);
-	$template_desc = str_replace('{user_address}', $form->getInput('address'), $template_desc);
-	$template_desc = str_replace('{user_telephone}', $form->getInput('telephone'), $template_desc);
-	$template_desc = str_replace('{send_button}', '<input type="submit" class="btn" value="' . JText::_('COM_REDSHOP_SEND') . '" onclick="questionSubmitButton(\'ask_question.submit\')" />', $template_desc);
+	$templateContent = str_replace('{user_name_lbl}', $form->getLabel('your_name'), $templateContent);
+	$templateContent = str_replace('{user_email_lbl}', $form->getLabel('your_email'), $templateContent);
+	$templateContent = str_replace('{user_question_lbl}', $form->getLabel('your_question'), $templateContent);
+	$templateContent = str_replace('{user_telephone_lbl}', $form->getLabel('telephone'), $templateContent);
+	$templateContent = str_replace('{user_address_lbl}', $form->getLabel('address'), $templateContent);
+	$templateContent = str_replace('{user_name}', $form->getInput('your_name'), $templateContent);
+	$templateContent = str_replace('{user_email}', $form->getInput('your_email'), $templateContent);
+	$templateContent = str_replace('{user_question}', $form->getInput('your_question'), $templateContent);
+	$templateContent = str_replace('{user_address}', $form->getInput('address'), $templateContent);
+	$templateContent = str_replace('{user_telephone}', $form->getInput('telephone'), $templateContent);
+	$templateContent = str_replace('{send_button}', '<input type="submit" class="btn" value="' . JText::_('COM_REDSHOP_SEND') . '" onclick="questionSubmitButton(\'ask_question.submit\')" />', $templateContent);
 
 	$captcha = '';
 
@@ -70,14 +69,14 @@ else
 		$captcha = RedshopLayoutHelper::render('registration.captcha');
 	}
 
-	$template_desc = str_replace('{captcha}', $captcha, $template_desc);
+	$templateContent = str_replace('{captcha}', $captcha, $templateContent);
 
-	echo eval('?>' . $template_desc . '<?php ');
+	echo eval('?>' . $templateContent . '<?php ');
 	?>
 	<input type="hidden" name="pid" id="pid" value="<?php echo $pid; ?>"/>
 	<input type="hidden" name="task" id="task" value=""/>
 	<input type="hidden" name="ask" value="<?php echo $displayData['ask']; ?>"/>
-	<input type="hidden" name="category_id" id="category_id" value="<?php echo $category_id; ?>"/>
-	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>"/>
+	<input type="hidden" name="category_id" id="category_id" value="<?php echo $categoryId; ?>"/>
+	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $menuItemId; ?>"/>
 	<?php echo JHtml::_('form.token'); ?>
 </form>

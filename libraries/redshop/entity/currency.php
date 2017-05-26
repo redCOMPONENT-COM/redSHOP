@@ -14,13 +14,13 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Library
  * @subpackage  Entity
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopEntityCurrency extends RedshopEntity
 {
 	/**
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected static $codeInstance;
 
@@ -31,9 +31,9 @@ class RedshopEntityCurrency extends RedshopEntity
 	 *
 	 * @return  RedshopTable
 	 */
-	public function getTable($name = "Tablecurrency_detail")
+	public function getTable($name = null)
 	{
-		return JTable::getInstance('Currency_detail', 'Table');
+		return JTable::getInstance('Currency_Detail', 'Table');
 	}
 
 	/**
@@ -66,7 +66,7 @@ class RedshopEntityCurrency extends RedshopEntity
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function loadFromCode($code = '')
 	{

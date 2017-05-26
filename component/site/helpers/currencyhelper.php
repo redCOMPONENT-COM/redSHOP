@@ -10,13 +10,14 @@
 defined('_JEXEC') or die;
 
 use Redshop\Currency\Currency;
+use Redshop\Currency\CurrencyLayer;
 
 /**
  * price converter
  *
  * @since  2.5
  *
- * @deprecated  __DEPLOY_VERSION__  Use Redshop\Currency\Currency instead.
+ * @deprecated  2.0.6  Use Redshop\Currency\Currency instead.
  */
 class CurrencyHelper
 {
@@ -28,7 +29,7 @@ class CurrencyHelper
 	 *
 	 * @since   1.6
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use Redshop\Currency\Currency instead.
+	 * @deprecated  2.0.6  Use Redshop\Currency\Currency instead.
 	 */
 	public static function getInstance()
 	{
@@ -40,7 +41,7 @@ class CurrencyHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use Redshop\Currency\Currency instead.
+	 * @deprecated  2.0.6  Use Redshop\Currency\Currency instead.
 	 */
 	public function init()
 	{
@@ -56,11 +57,18 @@ class CurrencyHelper
 	 *
 	 * @return  float             Converted amount
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use Redshop\Currency\Currency instead.
+	 * @deprecated  2.0.6  Use Redshop\Currency\Currency instead.
 	 */
 	public function convert($amountA, $currA = '', $currB = '')
 	{
-		return Currency::getInstance()->convert($amountA, $currA, $currB);
+		if (Redshop::getConfig()->get('CURRENCY_LIBRARIES') == 1)
+		{
+			return CurrencyLayer::getInstance()->convert($amountA, $currA, $currB);
+		}
+		else
+		{
+			return Currency::getInstance()->convert($amountA, $currA, $currB);
+		}
 	}
 
 	/**
@@ -72,7 +80,7 @@ class CurrencyHelper
 	 *
 	 * @return  int     Currency Numeric Code
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use Redshop\Currency\Currency instead.
+	 * @deprecated  2.0.6  Use Redshop\Currency\Currency instead.
 	 */
 	public function get_iso_code($code)
 	{

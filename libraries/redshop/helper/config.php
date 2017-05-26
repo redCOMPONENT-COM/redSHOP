@@ -451,7 +451,7 @@ class RedshopHelperConfig
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function set($name = '', $value = null)
 	{

@@ -475,11 +475,11 @@ class RedshopControllerOrder extends RedshopController
 		if ($generate_label == "success")
 		{
 			$sussces_message = JText::_('COM_REDSHOP_XML_GENERATED_SUCCESSFULLY');
-			$this->setRedirect('index.php?option=com_redshop&view=order', $sussces_message);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $sussces_message, 'success');
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=order', $generate_label);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $generate_label, 'error');
 		}
 	}
 

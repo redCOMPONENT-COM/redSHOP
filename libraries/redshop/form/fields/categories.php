@@ -33,20 +33,19 @@ class JFormFieldCategories extends JFormFieldList
 	 */
 	public function getInput()
 	{
-		$productCategory = new product_category;
-		$categories = $productCategory->getParentCategories();
+		$categories = RedshopHelperCategory::getParentCategories();
 
 		if (count($categories) > 0)
 		{
 			foreach ($categories as $category)
 			{
-				$option = JHTML::_('select.option', $category->id, $category->name);
+				$option    = JHtml::_('select.option', $category->id, $category->name);
 				$options[] = $option;
 			}
 		}
 
 		$options = array_merge(parent::getOptions(), $options);
-		$attr = '';
+		$attr    = '';
 
 		// Initialize some field attributes.
 		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
@@ -56,6 +55,6 @@ class JFormFieldCategories extends JFormFieldList
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-		return JHTML::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+		return JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 	}
 }

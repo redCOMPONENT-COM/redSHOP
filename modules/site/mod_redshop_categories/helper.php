@@ -458,7 +458,7 @@ class modProMenuHelper
 
 				$catname = JText::_($category_tmp[$row_list[$n]]["category_name"]);
 
-				$Itemid = $objhelper->getCategoryItemid($category_tmp[$row_list[$n]]["category_child_id"]);
+				$Itemid = RedshopHelperUtility::getCategoryItemid($category_tmp[$row_list[$n]]["category_child_id"]);
 
 				if (!$Itemid)
 				{
