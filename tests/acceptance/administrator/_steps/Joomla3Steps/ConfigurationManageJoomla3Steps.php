@@ -29,7 +29,7 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click("Feature Settings");
         $I->waitForElement(['xpath' => "//h3[text()='Rating']"], 60);
         $I->waitForElement(['xpath' => "//h3[text()='Stockroom']"], 60);
-        $I->click(\ConfigurationManageJ3Page::$stockRoomYes);
+        $I->click(\ConfigurationManageJ3Page::$stockRoomNo);
         $I->click("Save");
     }
 
