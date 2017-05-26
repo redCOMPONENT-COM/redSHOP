@@ -28,7 +28,7 @@ class RedshopModelTroubleshoots extends RedshopModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
 	 */
@@ -56,101 +56,33 @@ class RedshopModelTroubleshoots extends RedshopModel
 	{
 		$jsonFile = JPATH_ADMINISTRATOR . '/components/com_redshop/assets/checksum.md5.json';
 
-		$list = array ();
+		$list = array();
 
 		if (JFile::exists($jsonFile))
 		{
-			$items     = json_decode(file_get_contents($jsonFile));
-
+			$items = json_decode(file_get_contents($jsonFile));
+$extensions = array ();
 			if ($items)
 			{
 				foreach ($items as $index => $item)
 				{
-					if (isset($item->path))
-					{
-						// Get overrides
-						$item = new RedshopTroubleshootItem($item, $this->getOverridePaths());
+					$item = new RedshopTroubleshootItem($item);
 
-						if ($item->isModified() || $item->isOverrided() || $item->isMissing())
-						{
-							$list[] = $item;
-						}
+					// Store modules & plugins list
+					if (($item->getExtension() == 'plugin' || $item->getExtension() == 'module') && $item->getName())
+					{
+						$extensions[$item->getExtension()][$item->getName()] = $item;
+
 					}
+					$list['items'][] = $item;
+
 				}
 
+				$list['extensions'] = $extensions;
 				return $list;
 			}
 		}
 
 		return false;
-	}
-
-	/**
-	 * Check if mvcoverride plugin is enabled
-	 *
-	 * @return bool
-	 *
-	 * @since  2.1
-	 */
-	protected function isMvcPluginEnabled()
-	{
-		return JPluginHelper::isEnabled('system', 'mvcoverride');
-	}
-
-	/**
-	 * Get array of override paths
-	 *
-	 * @return array
-	 *
-	 * @since  2.1
-	 */
-	private function getOverridePaths()
-	{
-		static $overridePaths;
-
-		if (empty($overridePaths))
-		{
-			// Add MVC Overrides checking
-			if ($this->isMvcPluginEnabled())
-			{
-				// Get mvc overrides
-				$pluginIncludePaths = explode(',', $this->plugin->params->get('includePath'));
-
-				// MVC Overrides
-				if ($pluginIncludePaths)
-				{
-					foreach ($pluginIncludePaths as $pluginIncludePath)
-					{
-						if (strpos($pluginIncludePath, '{JPATH_BASE}') !== false)
-						{
-							$overridePaths[] = str_replace('{JPATH_BASE}', JPATH_ADMINISTRATOR, $pluginIncludePath);
-							$overridePaths[] = str_replace('{JPATH_BASE}', JPATH_ROOT, $pluginIncludePath);
-						}
-
-						if (strpos($pluginIncludePath, '{JPATH_THEMES}') !== false)
-						{
-							if (strpos($pluginIncludePath, '{template}') !== false)
-							{
-								$jpathThemes     = str_replace('{JPATH_THEMES}', JPATH_ADMINISTRATOR . '/templates', $pluginIncludePath);
-								$overridePaths[] = str_replace('{template}', JFactory::getApplication('site')->getTemplate(), $jpathThemes);
-								$jpathThemes     = str_replace('{JPATH_THEMES}', JPATH_ROOT . '/templates', $pluginIncludePath);
-								$overridePaths[] = str_replace('{template}', JFactory::getApplication('administrator')->getTemplate(), $jpathThemes);
-							}
-							else
-							{
-								$overridePaths[] = str_replace('{JPATH_THEMES}', JPATH_ADMINISTRATOR . '/templates', $pluginIncludePath);
-								$overridePaths[] = str_replace('{JPATH_THEMES}', JPATH_ROOT . '/templates', $pluginIncludePath);
-							}
-						}
-					}
-				}
-			}
-
-			// Joomla! Overrides
-			$overridePaths[] = JPATH_ADMINISTRATOR . '/templates/' . JFactory::getApplication('administrator')->getTemplate() . '/com_redshop';
-			$overridePaths[] = JPATH_SITE . '/templates/' . JFactory::getApplication('site')->getTemplate() . '/com_redshop';
-		}
-
-		return $overridePaths;
 	}
 }
