@@ -516,7 +516,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->wait(3);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
-        $I->click("Product attributes");
+        $I->click("Product Attributes");
         $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
         $I->click("Delete attribute");
         $I->cancelPopup();
@@ -532,7 +532,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->wait(3);
         $I->click(['link' => $productName]);
         $I->waitForElement(\ProductManagerPage::$productName, 30);
-        $I->click("Product attributes");
+        $I->click("Product Attributes");
         $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
         $I->click("Delete attribute");
         $I->acceptPopup();
@@ -542,7 +542,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
     //The function for edit product
 
-    public function createProductWithAccessoriesRelated($productName, $productCategory, $productNumber, $price, $productAccessories, $nameRelatedProduct)
+    public function createProductWithAccessoriesRelated($productName, $productCategory, $productNumber, $price, $productAccessories)
     {
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);
@@ -562,10 +562,9 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(['xpath' => "//h3[text()='Accessories']"], 60);
         $I->waitForElement(['xpath' => "//h3[text()='Related product']"], 60);
         $this->selectAccessories($productAccessories);
-        //      $this->selectRelatedProduct($nameRelatedProduct);
         $I->click("Save");
         $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-        $I->see('Product details saved', ['class' => 'alert-success']);
+//        $I->see('Product details saved', ['class' => 'alert-success']);
     }
 
 
