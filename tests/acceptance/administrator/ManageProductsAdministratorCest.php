@@ -301,16 +301,14 @@ class ManageProductsAdministratorCest
 //        $I->createDiscountPriceThanPrice($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->discountPriceThanPrice);
 //    }
 //
-    public function createProductDayStartThanEnd(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test Product Product Day Start More Than End Manager in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
-        $I->createProductDayStartThanEnd($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
-    }
-
-
+//    public function createProductDayStartThanEnd(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test Product Product Day Start More Than End Manager in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+//        $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
+//        $I->createProductDayStartThanEnd($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+//    }
     //This case not done. can you support me ? please
     public function createProductWithAttribute(AcceptanceTester $I, $scenario)
     {
@@ -339,24 +337,25 @@ class ManageProductsAdministratorCest
         $I->deleteAttributeValue($this->randomProductName);
     }
 
-//    public function cancelDeleteAttribute(AcceptanceTester $I, $scenario)
-//    {
-//        $I->wantTo('Test DeProduct Save Manager in Administrator');
-//        $I->doAdministratorLogin();
-//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-//        $I->wantTo('I Want to add product inside the category');
-//        $I->cancelDeleteAttribute($this->randomProductName);
-//    }
-//
-//
-//    public function deleteAttribute(AcceptanceTester $I, $scenario)
-//    {
-//        $I->wantTo('Test DeProduct Save Manager in Administrator');
-//        $I->doAdministratorLogin();
-//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-//        $I->wantTo('I Want to add product inside the category');
-//        $I->deleteAttribute($this->randomProductName);
-//    }
+
+    public function cancelDeleteAttribute(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test DeProduct Save Manager in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+        $I->wantTo('I Want to add product inside the category');
+        $I->cancelDeleteAttribute($this->randomProductName);
+    }
+
+
+    public function deleteAttribute(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test DeProduct Save Manager in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+        $I->wantTo('I Want to add product inside the category');
+        $I->deleteAttribute($this->randomProductName);
+    }
 
 
 
