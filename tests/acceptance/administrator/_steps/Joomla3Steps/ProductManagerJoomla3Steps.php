@@ -473,6 +473,72 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->see('Product details saved', ['class' => 'alert-success']);
     }
 
+
+    public function cancelDeleteAttributeValue($productName){
+        $I = $this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+        $I->searchProduct($productName);
+        $I->wait(3);
+        $I->click(['link' => $productName]);
+        $I->waitForElement(\ProductManagerPage::$productName, 30);
+        $I->click("Product Attributes");
+        $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
+        $I->click("Delete");
+        $I->cancelPopup();
+
+    }
+
+    public function deleteAttributeValue($productName){
+        $I = $this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+        $I->searchProduct($productName);
+        $I->wait(3);
+        $I->click(['link' => $productName]);
+        $I->waitForElement(\ProductManagerPage::$productName, 30);
+        $I->click("Product Attributes");
+        $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
+        $I->click("Delete");
+        $I->acceptPopup();
+
+    }
+
+    public function cancelDeleteAttribute($productName){
+        $I = $this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+        $I->searchProduct($productName);
+        $I->wait(3);
+        $I->click(['link' => $productName]);
+        $I->waitForElement(\ProductManagerPage::$productName, 30);
+        $I->click("Product attributes");
+        $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
+        $I->click("Delete attribute");
+        $I->cancelPopup();
+
+    }
+
+    public function deleteAttribute($productName){
+        $I = $this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+        $I->searchProduct($productName);
+        $I->wait(3);
+        $I->click(['link' => $productName]);
+        $I->waitForElement(\ProductManagerPage::$productName, 30);
+        $I->click("Product attributes");
+        $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
+        $I->click("Delete attribute");
+        $I->acceptPopup();
+
+    }
+
+
     //The function for edit product
 
     public function createProductWithAccessoriesRelated($productName, $productCategory, $productNumber, $price, $productAccessories, $nameRelatedProduct)
@@ -500,6 +566,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
         $I->see('Product details saved', ['class' => 'alert-success']);
     }
+
+
 
 
     /**
