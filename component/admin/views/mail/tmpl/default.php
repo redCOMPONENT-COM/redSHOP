@@ -19,8 +19,8 @@ $redtemplate = Redtemplate::getInstance();
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'remove') || (pressbutton == 'saveorder') ||
+            (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
 			form.view.value = "mail_detail";
 		}
 		try {

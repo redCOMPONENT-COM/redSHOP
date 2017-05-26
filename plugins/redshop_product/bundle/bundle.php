@@ -201,7 +201,30 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 			$content = str_replace("{bundle_name}", $bundleDetail->product_name, $content);
 			$content = str_replace("{bundle_number}", $bundleDetail->product_number, $content);
-			$content = $productHelper->replaceProductInStock($bundleDetail->product_id, $content);
+
+			if (strpos($content, "{bundle_stock_amount_image}") !== false)
+			{
+				$productInStock = RedshopHelperStockroom::getStockAmountWithReserve($bundleDetail->bundle_id);
+				$stockamountList  = RedshopHelperStockroom::getStockAmountImage($bundleDetail->bundle_id, 'product', $productInStock);
+				$stockamountImage = "";
+
+				if (count($stockamountList) > 0)
+				{
+					$stockamountImage = RedshopLayoutHelper::render(
+						'product.stock_amount_image',
+						array(
+							'product_id' => $product_id,
+							'stockamountImage' => $stockamountList[0]
+						),
+						'',
+						array(
+							'component' => 'com_redshop'
+						)
+					);
+				}
+
+				$content = str_replace("{bundle_stock_amount_image}", $stockamountImage, $content);
+			}
 
 			$bundleSelect = '<a class="bundleselect" onclick="selectBundle(\'' . htmlspecialchars($bundleDetail->product_name) . '\',' . $bundleDetail->product_id . ',' . $bundleDetail->bundle_id . ',0)">' . JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
 

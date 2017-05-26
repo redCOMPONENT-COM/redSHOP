@@ -720,7 +720,7 @@ class rsCarthelper
 			$replace[]    = JText::_($shipping_method);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping - $row->order_shipping_tax);
-			$replace[]    = $shipping_rate_name;
+			$replace[]    = JText::_($shipping_rate_name);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping_tax);
 
@@ -796,7 +796,7 @@ class rsCarthelper
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
 		$prdItemid  = JRequest::getInt('Itemid');
-		$Itemid     = $this->_redhelper->getCheckoutItemid();
+		$Itemid     = RedshopHelperUtility::getCheckoutItemId();
 		$url        = JURI::base(true);
 		$mainview   = JRequest::getVar('view');
 
@@ -949,7 +949,7 @@ class rsCarthelper
 				}
 				else
 				{
-					$Itemid = $this->_redhelper->getItemid($product_id);
+					$Itemid = RedshopHelperUtility::getItemId($product_id);
 				}
 
 				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
@@ -998,11 +998,11 @@ class rsCarthelper
 
 				if ($prd_image !== '')
 				{
-					$redhelper = redhelper::getInstance();
-
 					if (Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE') && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('WATERMARK_IMAGE')))
 					{
-						$product_cart_img = $redhelper->watermark($type, $prd_image, Redshop::getConfig()->get('CART_THUMB_WIDTH'), Redshop::getConfig()->get('CART_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE'), '0');
+						$product_cart_img = RedshopHelperMedia::watermark(
+							$type, $prd_image, Redshop::getConfig()->get('CART_THUMB_WIDTH'), Redshop::getConfig()->get('CART_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE')
+						);
 
 						$product_image = "<div  class='product_image'><img src='" . $product_cart_img . "'></div>";
 					}
@@ -1157,7 +1157,9 @@ class rsCarthelper
 								// Show actual productive price
 								if ($product_attribute_value_price > 0)
 								{
-									$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price);
+									$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
+										$propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price
+									);
 
 									$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -1748,8 +1750,7 @@ class rsCarthelper
 
 			if ($mainview == "order_detail")
 			{
-				$Itemid     = JRequest::getVar('Itemid');
-				$Itemid     = $this->_redhelper->getCartItemid();
+				$Itemid     = RedshopHelperUtility::getCartItemId();
 				$copytocart = "<a href='" . JRoute::_('index.php?option=com_redshop&view=order_detail&task=copyorderitemtocart&order_item_id=' . $rowitem[$i]->order_item_id . '&Itemid=' . $Itemid, false) . "'>";
 				$copytocart .= "<img src='" . REDSHOP_ADMIN_IMAGES_ABSPATH . "add.jpg' title='" . JText::_("COM_REDSHOP_COPY_TO_CART") . "' alt='" . JText::_("COM_REDSHOP_COPY_TO_CART") . "' /></a>";
 				$cart_mdata = str_replace("{copy_orderitem}", $copytocart, $cart_mdata);
@@ -5201,7 +5202,7 @@ class rsCarthelper
 
 		for ($r = 0, $countRowData = count($row_data); $r < $countRowData; $r++)
 		{
-			$data_txt = (isset($data[$row_data[$r]->field_name])) ? $data[$row_data[$r]->field_name] : '';
+			$data_txt = (isset($data[$row_data[$r]->name])) ? $data[$row_data[$r]->name] : '';
 			$tmpstr = strpbrk($data_txt, '`');
 
 			if ($tmpstr)
@@ -5214,7 +5215,7 @@ class rsCarthelper
 				}
 			}
 
-			$cartItem[$row_data[$r]->field_name] = $data_txt;
+			$cartItem[$row_data[$r]->name] = $data_txt;
 		}
 
 		$cartItem['product_price']          = $giftcard_price;
@@ -5259,7 +5260,7 @@ class rsCarthelper
 					{
 						for ($r = 0, $countRowData = count($row_data); $r < $countRowData; $r++)
 						{
-							$produser_field = $row_data[$r]->field_name;
+							$produser_field = $row_data[$r]->name;
 
 							if (isset($cart[$g][$produser_field]) && $data[$produser_field] != $cart[$g][$produser_field])
 							{
@@ -5645,7 +5646,7 @@ class rsCarthelper
 
 						for ($r = 0, $rn = count($row_data); $r < $rn; $r++)
 						{
-							$produser_field = $row_data[$r]->field_name;
+							$produser_field = $row_data[$r]->name;
 							$added_userfield = $data[$produser_field];
 
 							if (isset($cart[$i][$produser_field]) && $added_userfield != $cart[$i][$produser_field])
@@ -5774,7 +5775,7 @@ class rsCarthelper
 
 				for ($i = 0, $in = count($row_data); $i < $in; $i++)
 				{
-					$field_name = $row_data[$i]->field_name;
+					$field_name = $row_data[$i]->name;
 					$data_txt = (isset($data[$field_name])) ? $data[$field_name] : '';
 					$tmpstr = strpbrk($data_txt, '`');
 
@@ -5828,11 +5829,11 @@ class rsCarthelper
 
 			for ($i = 0, $in = count($req_fields); $i < $in; $i++)
 			{
-				if (in_array($req_fields[$i]->field_name, $userfieldArr))
+				if (in_array($req_fields[$i]->name, $userfieldArr))
 				{
-					if (!isset($data[$req_fields[$i]->field_name]) || (isset($data[$req_fields[$i]->field_name]) && $data[$req_fields[$i]->field_name] == ""))
+					if (!isset($data[$req_fields[$i]->name]) || (isset($data[$req_fields[$i]->name]) && $data[$req_fields[$i]->name] == ""))
 					{
-						$msg .= $req_fields[$i]->field_title . " " . JText::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
+						$msg .= $req_fields[$i]->title . " " . JText::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
 					}
 				}
 			}
@@ -6115,7 +6116,7 @@ class rsCarthelper
 							$prooprand[$ip]                          = $property[0]->oprand;
 							$proprice[$ip]                           = $property_price;
 
-							if ($data['subproperty_data'] != "")
+							if ($data['subproperty_data'] != "" && $data['subproperty_data'] != 0)
 							{
 								$acc_subproperty_data = @explode('##', $data['subproperty_data']);
 								$acc_subproperty_data = @explode(',,', $acc_subproperty_data[$ia]);

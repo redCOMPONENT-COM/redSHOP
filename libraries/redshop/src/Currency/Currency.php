@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Currency class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.6
  */
 class Currency
 {
@@ -76,7 +76,7 @@ class Currency
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function init()
 	{
@@ -209,7 +209,7 @@ class Currency
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getConvertedCurrencies()
 	{
@@ -230,7 +230,7 @@ class Currency
 	 *
 	 * @return  float             Converted amount
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function convert($amount, $sourceCurrency = '', $targetCurrency = '')
 	{
@@ -281,7 +281,7 @@ class Currency
 	 *
 	 * @return  int     Currency Numeric Code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getISOCode($code)
 	{

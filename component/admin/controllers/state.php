@@ -34,7 +34,7 @@ class RedshopControllerState extends RedshopControllerForm
 		$app = JFactory::getApplication();
 
 		$country = $app->input->getString('country', '');
-		$html = RedshopHelperWorld::getStateList(array('country_code' => $country), 'jform_state_code', 'BT', 'form-control', 'state_3_code');
+		$html = RedshopHelperWorld::getStateList(array('country_code' => $country), 'jform[tax_state]', 'BT', 'form-control', 'state_3_code');
 
 		if (!empty($html))
 		{

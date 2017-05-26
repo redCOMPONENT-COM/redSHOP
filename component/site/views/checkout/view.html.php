@@ -28,7 +28,7 @@ class RedshopViewCheckout extends RedshopView
 		RedshopHelperPayment::loadLanguages();
 
 		// Load Shipping language file
-		$shippingPlugins = $redhelper->getPlugins("redshop_shipping");
+		$shippingPlugins = RedshopHelperUtility::getPlugins("redshop_shipping", 1);
 		$base_dir        = JPATH_ADMINISTRATOR;
 
 		for ($l = 0, $ln = count($shippingPlugins); $l < $ln; $l++)

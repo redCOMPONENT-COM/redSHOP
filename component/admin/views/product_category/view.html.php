@@ -36,11 +36,8 @@ class RedshopViewProduct_category extends RedshopViewAdmin
 		$model = $this->getModel("product_category");
 		$products = $model->getProductlist();
 
-		$product_category = new product_category;
-		$categories = $product_category->getCategoryListArray();
-
-		$lists['category'] = JHTML::_('select.genericlist', $categories, 'category_id[]',
-			'class="inputbox" multiple="multiple" size="10"', 'category_id', 'category_name'
+		$lists['category'] = JHTML::_('select.genericlist', RedshopHelperCategory::getCategoryListArray(), 'category_id[]',
+			'class="inputbox" multiple="multiple" size="10"', 'id', 'name'
 		);
 
 		$this->products = $products;
