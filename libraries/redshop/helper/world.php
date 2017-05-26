@@ -97,7 +97,7 @@ class RedshopHelperWorld
 				// Set the query and load the result.
 				$db->setQuery($query);
 
-				self::$countries = redhelper::getInstance()->convertLanguageString($db->loadObjectList());
+				self::$countries = RedshopHelperUtility::convertLanguageString($db->loadObjectList());
 
 				// Check for a database error.
 				if ($db->getErrorNum())
@@ -346,7 +346,7 @@ class RedshopHelperWorld
 	 *
 	 * @return  int
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getCountryId($country3code)
 	{
@@ -367,7 +367,7 @@ class RedshopHelperWorld
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getCountryCode2($country3code)
 	{
@@ -388,7 +388,7 @@ class RedshopHelperWorld
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getStateCode2($stateCode)
 	{
@@ -410,7 +410,7 @@ class RedshopHelperWorld
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function getStateCode($id, $stateCode)
 	{

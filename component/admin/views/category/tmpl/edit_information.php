@@ -16,39 +16,15 @@ defined('_JEXEC') or die;
                 <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_CATEGORY_INFORMATION'); ?></h3>
             </div>
             <div class="box-body">
-                <div class="form-group row-fluid">
-					<?php echo $this->form->renderField('name') ?>
-                </div>
-                <div class="form-group row-fluid">
-					<?php echo $this->form->renderField('parent_id') ?>
-                </div>
-                <div class="form-group row-fluid">
-					<?php echo $this->form->renderField('published') ?>
-                </div>
-
-                <div class="form-group row-fluid">
-					<?php echo $this->form->renderField('products_per_page') ?>
-                </div>
-
-                <div class="form-group row-fluid">
-					<?php echo $this->form->renderField('template') ?>
-                </div>
-
-                <div class="form-group row-fluid">
-					<?php echo $this->form->renderField('more_template') ?>
-                </div>
-
-                <div class="form-group row-fluid">
-					<?php echo $this->form->renderField('compare_template_id') ?>
-                </div>
-
-                <div class="form-group row-fluid">
-					<?php echo $this->form->renderField('short_description') ?>
-                </div>
-
-                <div class="form-group row-fluid">
-					<?php echo $this->form->renderField('description') ?>
-                </div>
+				<?php echo $this->form->renderField('name') ?>
+				<?php echo $this->form->renderField('parent_id') ?>
+				<?php echo $this->form->renderField('published') ?>
+				<?php echo $this->form->renderField('products_per_page') ?>
+				<?php echo $this->form->renderField('template') ?>
+				<?php echo $this->form->renderField('more_template') ?>
+				<?php echo $this->form->renderField('compare_template_id') ?>
+				<?php echo $this->form->renderField('short_description') ?>
+				<?php echo $this->form->renderField('description') ?>
             </div>
         </div>
     </div>
@@ -60,13 +36,13 @@ defined('_JEXEC') or die;
             <div class="box-body">
                 <div class="">
 					<?php
-					$section_id    = $this->item->id;
-					$media_section = 'category';
+					$section_id   = $this->item->id;
+					$mediaSection = 'category';
 					echo RedshopHelperMediaImage::render(
 						'category_full_image',
 						'category',
 						$section_id,
-						$media_section,
+						$mediaSection,
 						$this->item->category_full_image,
 						false
 					);
@@ -82,13 +58,13 @@ defined('_JEXEC') or die;
             <div class="box-body">
                 <div class="">
 					<?php
-					$section_id    = $this->item->id;
-					$media_section = 'category';
+					$section_id   = $this->item->id;
+					$mediaSection = 'category';
 					echo RedshopHelperMediaImage::render(
 						'category_back_full_image',
 						'category',
 						$section_id,
-						$media_section,
+						$mediaSection,
 						$this->item->category_back_full_image,
 						false
 					);

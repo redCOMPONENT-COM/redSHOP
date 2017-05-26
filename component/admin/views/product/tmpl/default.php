@@ -142,7 +142,7 @@ JHtml::_('redshopjquery.framework');
     for ($i = 0, $n = count($this->list_in_products); $i < $n; $i++)
     {
         ?>
-        <th nowrap="nowrap"><?php echo  JText::_($this->list_in_products[$i]->field_title); ?></th>
+        <th nowrap="nowrap"><?php echo  JText::_($this->list_in_products[$i]->title); ?></th>
     <?php }    ?>
     <th>
         <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA', 'media', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -291,7 +291,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
         <?php    for ($j = 0, $k = count($this->list_in_products); $j < $k; $j++)
         {
-            $field_arr = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->field_id, 1, $row->product_id);
+            $field_arr = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->id, 1, $row->product_id);
             $field_value = '';
             if (count($field_arr) > 0)
             {

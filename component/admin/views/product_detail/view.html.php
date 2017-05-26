@@ -356,8 +356,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			}
 			else
 			{
-				$objhelper = redhelper::getInstance();
-				$pItemid = $objhelper->getItemid($detail->product_id, $catidmain);
+				$pItemid = RedshopHelperUtility::getItemId($detail->product_id, $catidmain);
 			}
 
 			$link  = JURI::root();
@@ -446,7 +445,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$lists['allow_decimal_piece'] = JHtml::_('select.booleanlist', 'allow_decimal_piece', 'class="inputbox"', $detail->allow_decimal_piece);
 
 		// For individual pre-order
-		$preorder_data = $redhelper->getPreOrderByList();
+		$preorder_data = RedshopHelperUtility::getPreOrderByList();
 		$lists['preorder'] = JHtml::_('select.genericlist', $preorder_data, 'preorder', 'class="inputbox" size="1" ', 'value', 'text', $detail->preorder);
 
 		// Discount calculator
@@ -568,7 +567,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 									$detail->product_type
 								);
 
-		$accountgroup = $redhelper->getEconomicAccountGroup();
+		$accountgroup = RedshopHelperUtility::getEconomicAccountGroup();
 		$op = array();
 		$op[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$accountgroup = array_merge($op, $accountgroup);

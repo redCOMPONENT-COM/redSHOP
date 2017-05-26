@@ -212,7 +212,7 @@ class plgAcymailingRedshop extends JPlugin
 
 		$link = JUri::root()
 			. 'index.php?option=com_redshop&view=product&pid=' . $productId
-			. '&Itemid=' . $helper->getItemid($productId);
+			. '&Itemid=' . RedshopHelperUtility::getItemId($productId);
 
 		// Get product Image
 		$productImage = $productHelper->getProductImage(
