@@ -223,6 +223,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function store($data)
 	{
 		$dispatcher = JDispatcher::getInstance();
+		$data['product_price'] = str_replace(',', '', $data['product_price']);
 
 		$catorder = array();
 		$oldcategory = array();
