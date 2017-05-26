@@ -10,7 +10,7 @@ class ConfigurationManageJ3Page
 {
     public static $URL = '/administrator/index.php?option=com_redshop&view=configuration';
     public static $stockRoomYes = "#use_stockroom1-lbl";
-    public static $toockRoomNo = "#use_stockroom0-lbl";
+    public static $stockRoomNo = "#use_stockroom0-lbl";
     public static $eidtInLineYes = "#inline_editing1-lbl";
     public static $editInLineNo = "#inline_editing0-lbl";
     public static $comparisonNo = "#compare_products0-lbl";
