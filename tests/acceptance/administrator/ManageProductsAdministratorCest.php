@@ -309,14 +309,14 @@ class ManageProductsAdministratorCest
 //    }
 //
 //
-//    //This case not done. can you support me ? please
-//    public function createProductWithAttribute(AcceptanceTester $I, $scenario){
-//        $I->wantTo('Test Product Save Manager in Administrator');
-//        $I->doAdministratorLogin();
-//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-//        $I->wantTo('I Want to add product inside the category');
-//        $I->createProductWithAttribute($this->randomProductName, "TestingCategory842", $this->randomProductNumber, $this->randomProductPrice, $this->nameAttribute);
-//    }
+    //This case not done. can you support me ? please
+    public function createProductWithAttribute(AcceptanceTester $I, $scenario){
+        $I->wantTo('Test Product Save Manager in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+        $I->wantTo('I Want to add product inside the category');
+        $I->createProductWithAttribute($this->randomProductName, "TestingCategory842", $this->randomProductNumber, $this->randomProductPrice, $this->nameAttribute);
+    }
 
 
 //    public function createProductWithAccessoriesRelated(AcceptanceTester $I, $scenario){
@@ -336,22 +336,22 @@ class ManageProductsAdministratorCest
 //        $I->createProductWithMedia($this->randomProductName, "TestingCategory842", $this->randomProductNumber, $this->randomProductPrice);
 //    }
 
-    public function publishAllProducts(AcceptanceTester $I, $scenario){
-        $I->wantTo('Test Products Publish all products in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('Publish all products');
-        $I->publishAllProducts();
-        $I->see("Product Management", '.page-title');
-    }
-    public function unPublishAllProducts(AcceptanceTester $I, $scenario){
-        $I->wantTo('Test Products Unpublish all products in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('Unpublish all products');
-        $I->unPublishAllProducts();
-        $I->see("Product Management", '.page-title');
-    }
+//    public function publishAllProducts(AcceptanceTester $I, $scenario){
+//        $I->wantTo('Test Products Publish all products in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+//        $I->wantTo('Publish all products');
+//        $I->publishAllProducts();
+//        $I->see("Product Management", '.page-title');
+//    }
+//    public function unPublishAllProducts(AcceptanceTester $I, $scenario){
+//        $I->wantTo('Test Products Unpublish all products in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+//        $I->wantTo('Unpublish all products');
+//        $I->unPublishAllProducts();
+//        $I->see("Product Management", '.page-title');
+//    }
 
 
 
