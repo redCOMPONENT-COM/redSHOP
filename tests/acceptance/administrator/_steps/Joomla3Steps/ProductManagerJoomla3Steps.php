@@ -466,6 +466,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click("+ Add Attribute parameter");
         $I->waitForElement(['xpath' => "//a[text()='Attribute parameter']"], 60);
         $I->fillField(['xpath' => '//input[@name="attribute[1][name]"]'], $nameAttribute);
+        $I->wait(360);
         $I->fillField(['xpath'=>'//input[@name="attribute[1][property][0][name]"]'],$valueAttribute);
         $I->fillField(['xpath'=>'//input[@name="attribute[1][property][0][price]"]'],$priceAttribute);
         $I->click("Save");
