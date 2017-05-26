@@ -486,7 +486,7 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		// Second pass - get an indent list of the items
-		$list = $this->treerecurse(0, '', array(), $children);
+		$list = $this->treerecurse(1, '-', array(), $children);
 
 		if (count($list) > 0)
 		{

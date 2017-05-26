@@ -35,7 +35,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * @var    array
 	 * @since  2.1
 	 */
-	public $tags_alias = array(
+	public $tagAlias = array(
 		'{category_short_desc}'        => '{category_short_description}',
 		'{categoryshortdesc}'          => '{category_short_description}',
 		'{categorydesc}'               => '{category_description}',
@@ -142,7 +142,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		}
 
 		// Also replace with alias
-		foreach ($this->tags_alias as $alias => $tag)
+		foreach ($this->tagAlias as $alias => $tag)
 		{
 			$tag = str_replace('{', '', $tag);
 			$tag = str_replace('}', '', $tag);
@@ -212,7 +212,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		$productImg = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 
 		// Try to get category Itemid
-		$categoryItemId = (int) $objHelper->getCategoryItemid($category->id);
+		$categoryItemId = (int) RedshopHelperUtility::getCategoryItemid($category->id);
 		$mainItemid     = !$categoryItemId ? $input->getInt('Itemid', null) : $categoryItemId;
 
 		// Generate category link
@@ -229,13 +229,13 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			$categoryFullImage = $category->category_full_image;
 
 			// Generate thumbnail with watermark ( if configured )
-			$productImg = $objHelper->watermark('category', $category->category_full_image, $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
+			$productImg = RedshopHelperMedia::watermark('category', $category->category_full_image, $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 		}
 		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 		{
 			// Use default image
 			$categoryFullImage = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
-			$productImg        = $objHelper->watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
+			$productImg        = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 		}
 
 		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
