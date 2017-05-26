@@ -56,6 +56,17 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click("Save");
     }
 
+    public function featureComparisonNo()
+    {
+        $I = $this;
+        $I->amOnPage(\ConfigurationManageJ3Page::$URL);
+        $I->click("Feature Settings");
+        $I->waitForElement(['xpath' => "//h3[text()='Comparison']"], 60);
+        $I->waitForElement(['xpath' => "//h3[text()='Stockroom']"], 60);
+        $I->click(\ConfigurationManageJ3Page::$comparisonNo);
+        $I->click("Save");
+    }
+
     public function featureComparisonYes()
     {
         $I = $this;
@@ -67,16 +78,6 @@ class ConfigurationManageJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click("Save");
     }
 
-    public function featureComparisonNo()
-    {
-        $I = $this;
-        $I->amOnPage(\ConfigurationManageJ3Page::$URL);
-        $I->click("Feature Settings");
-        $I->waitForElement(['xpath' => "//h3[text()='Comparison']"], 60);
-        $I->waitForElement(['xpath' => "//h3[text()='Stockroom']"], 60);
-        $I->click(\ConfigurationManageJ3Page::$comparisonNo);
-        $I->click("Save");
-    }
 
     //Price
 
