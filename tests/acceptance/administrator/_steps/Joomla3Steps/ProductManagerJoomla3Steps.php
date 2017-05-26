@@ -445,7 +445,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->see('Product details saved', ['class' => 'alert-success']);
     }
 
-    public function createProductWithAttribute($productName, $productCategory, $productNumber, $price, $nameAttribute)
+    public function createProductWithAttribute($productName, $productCategory, $productNumber, $price, $nameAttribute,$valueAttribute,$priceAttribute)
     {
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);
@@ -465,9 +465,9 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(['xpath' => "//h3[text()='Product Attributes']"], 60);
         $I->click("+ Add Attribute parameter");
         $I->waitForElement(['xpath' => "//a[text()='Attribute parameter']"], 60);
-//        $I->wait(30);
-        $I->fillField(['xpath' => "//input[@name='attribute[0][name]']"], $nameAttribute);
-//        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
+        $I->fillField(['xpath' => '//input[@name="attribute[1][name]"]'], $nameAttribute);
+        $I->fillField(['xpath'=>'//input[@name="attribute[1][property][0][name]"]'],$valueAttribute);
+        $I->fillField(['xpath'=>'//input[@name="attribute[1][property][0][price]"]'],$priceAttribute);
         $I->click("Save");
         $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
         $I->see('Product details saved', ['class' => 'alert-success']);

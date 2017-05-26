@@ -35,7 +35,9 @@ class ManageProductsAdministratorCest
         $this->statusProducts = 'Product on sale';
         $this->searchCategory = 'Category';
         $this->newProductName = 'New-Test Product' . rand(99, 999);
-        $this->nameAttribute="Size";
+        $this->nameAttribute='Size';
+        $this->valueAttribute="Z";
+        $this->priceAttribute=12;
         $this->nameProductAccessories="redFORM";
         $this->nameRelatedProduct="redITEM";
 
@@ -315,7 +317,7 @@ class ManageProductsAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add product inside the category');
-        $I->createProductWithAttribute($this->randomProductName, "TestingCategory842", $this->randomProductNumber, $this->randomProductPrice, $this->nameAttribute);
+        $I->createProductWithAttribute($this->randomProductName, "TestingCategory842", $this->randomProductNumber, $this->randomProductPrice, $this->nameAttribute,$this->valueAttribute, $this->priceAttribute);
     }
 
 
