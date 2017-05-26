@@ -24,7 +24,7 @@ class ManageConfigurationAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
         $I->wantTo('Off stook room ');
-        $I->featureUsedStockRoom();
+        $I->featureOffStockRoom();
         $I->see("Configuration", '.page-title');
     }
 
@@ -70,15 +70,6 @@ class ManageConfigurationAdministratorCest
         $I->see("Configuration", '.page-title');
     }
 
-    public function featurePriceYes(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Show Price is Yes  in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
-        $I->wantTo(' Edit inline is yes ');
-        $I->featurePriceYes();
-        $I->see("Configuration", '.page-title');
-    }
 
     public function featurePriceNo(AcceptanceTester $I, $scenario)
     {
@@ -87,6 +78,17 @@ class ManageConfigurationAdministratorCest
         $I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
         $I->wantTo(' Edit inline is No ');
         $I->featurePriceNo();
+        $I->see("Configuration", '.page-title');
+    }
+
+
+    public function featurePriceYes(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Show Price is Yes  in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\ConfigurationManageJoomla3Steps($scenario);
+        $I->wantTo(' Edit inline is yes ');
+        $I->featurePriceYes();
         $I->see("Configuration", '.page-title');
     }
 
