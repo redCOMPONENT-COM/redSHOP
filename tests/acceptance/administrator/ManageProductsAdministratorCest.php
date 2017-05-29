@@ -33,7 +33,7 @@ class ManageProductsAdministratorCest
         $this->randomProductAttributeNumber = rand(999, 9999);
         $this->randomProductNameAttribute = 'Testing Attribute' . rand(99, 999);
         $this->randomProductPrice = rand(99, 199);
-        $this->discountPriceThanPrice = $this->randomProductNumber + 1;
+        $this->discountPriceThanPrice =100;
         $this->statusProducts = 'Product on sale';
         $this->searchCategory = 'Category';
         $this->newProductName = 'New-Test Product' . rand(99, 999);
@@ -44,6 +44,7 @@ class ManageProductsAdministratorCest
         $this->nameRelatedProduct = "redITEM";
         $this->quantityStock = 4;
         $this->PreorderStock = 2;
+        $this->priceProductForThan=10;
 
     }
 
@@ -311,8 +312,8 @@ class ManageProductsAdministratorCest
         $I->wantTo('Test Product Discount Price More Than Price Missing Product Number Manager in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('I Want to add Product  Missing Product Number  product inside the category');
-        $I->createDiscountPriceThanPrice($this->randomProductName, $this->randomCategoryName, $this->randomProductNumberNew, $this->randomProductPrice, $this->discountPriceThanPrice);
+        $I->wantTo('I Want to add Product Discount Price More Than Price Missing Product Number Manager inside the category');
+        $I->createDiscountPriceThanPrice($this->randomProductName, $this->randomCategoryName, $this->randomProductNumberNew, $this->priceProductForThan, $this->discountPriceThanPrice);
     }
 
     public function createProductDayStartThanEnd(AcceptanceTester $I, $scenario)
