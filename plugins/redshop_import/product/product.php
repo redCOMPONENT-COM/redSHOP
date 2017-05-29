@@ -114,7 +114,21 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				->from($db->qn('#__redshop_manufacturer'))
 				->where($db->qn('manufacturer_name') . ' = ' . $db->quote($data['manufacturer_name']));
 
-			$data['manufacturer_id'] = (int) $db->setQuery($query)->loadResult();
+			$manufacturerId = (int) $db->setQuery($query)->loadResult();
+
+			if (!empty($manufacturerId))
+			{
+				$data['manufacturer_id'] = $manufacturerId;
+			}
+			else
+			{
+				$insert                    = new stdClass;
+				$insert->manufacturer_name = $data['manufacturer_name'];
+				$insert->template_id       = 14;
+				$insert->published         = 1;
+				$db->insertObject("#__redshop_manufacturer", $insert);
+				$data['manufacturer_id'] = $db->insertid();
+			}
 		}
 
 		if (empty($data['product_thumb_image']))
