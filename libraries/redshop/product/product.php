@@ -25,7 +25,7 @@ class RedshopProduct
 	 *
 	 * @var  array of object
 	 */
-	private static $objInstance = [];
+	private static $objInstance = array();
 
 	/**
 	 * Product Information
@@ -82,6 +82,8 @@ class RedshopProduct
 	 *
 	 * @param   string  $name   Name of information property
 	 * @param   mixed   $value  Value of property
+	 *
+	 * @return  void
 	 */
 	public function __set($name, $value)
 	{

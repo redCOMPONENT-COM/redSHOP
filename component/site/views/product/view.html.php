@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,6 +84,7 @@ class RedshopViewProduct extends RedshopView
 		$menu_meta_description = $params->get('menu-meta_description');
 		$menu_robots           = $params->get('robots');
 		$this->data            = $this->get('data');
+
 		$productTemplate       = null;
 
 		$this->itemId = $this->input->getInt('Itemid', null);
@@ -177,8 +178,8 @@ class RedshopViewProduct extends RedshopView
 				while ($parentid != 0)
 				{
 					$parentdetail = $prodhelperobj->getSection("category", $parentid);
-					$parentcat    = $parentdetail->category_name . "  " . $parentcat;
-					$parentid     = $prodhelperobj->getParentCategory($parentdetail->category_id);
+					$parentcat    = $parentdetail->name . "  " . $parentcat;
+					$parentid     = $prodhelperobj->getParentCategory($parentdetail->id);
 				}
 
 				$pagetitletag = str_replace("{parentcategoryloop}", $parentcat, $pagetitletag);

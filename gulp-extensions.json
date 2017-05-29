@@ -1,6 +1,7 @@
 {
   "components": [
-    "redshop"
+    "redshop",
+    "redshop.assets"
   ],
   "libraries": [
     "redshop"
@@ -138,13 +139,20 @@
       "tcpdf"
     ],
     "redshop_product": [
-      "CreateColorImage",
+      "bundle",
       "canonical",
+      "CreateColorImage",
+      "discount_affect_attribute",
+      "google_microdata",
       "invoicepdf",
       "postdanmark",
+      "product_alttext",
       "shoppergroup_tags",
       "stock_notifyemail",
       "stockroom_status"
+    ],
+    "redshop_product_type": [
+      "bundle"
     ],
     "redshop_shipping": [
       "bring",
@@ -174,12 +182,15 @@
       "sh404sefextplugincom_redshop"
     ],
     "system": [
+      "agile_crm",
       "mvcoverride",
       "quickbook",
       "redgoogleanalytics",
       "redlightbox_slideshow",
       "redproductzoom",
-      "redshop"
+      "redshop",
+      "redshop_send_discountcode",
+      "redshop_product_bundle"
     ],
     "user": [
       "highrise"

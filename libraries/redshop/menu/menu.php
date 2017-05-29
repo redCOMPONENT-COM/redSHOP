@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2014 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 
 defined('_JEXEC') or die;
@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @subpackage  Menu
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopMenu
 {
@@ -27,7 +27,7 @@ class RedshopMenu
 	 *
 	 * @var boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public $disableMenu = false;
 
@@ -36,7 +36,7 @@ class RedshopMenu
 	 *
 	 * @var array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public $items = array();
 
@@ -45,7 +45,7 @@ class RedshopMenu
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected $data = array();
 
@@ -54,7 +54,7 @@ class RedshopMenu
 	 *
 	 * @var    null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected $section = null;
 
@@ -63,7 +63,7 @@ class RedshopMenu
 	 *
 	 * @var    null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected $title = null;
 
@@ -72,14 +72,14 @@ class RedshopMenu
 	 *
 	 * @var    null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected $menuhide = null;
 
 	/**
 	 * Protected menu constructor. Must use getInstance() method.
 	 *
-	 * @since       __DEPLOY_VERSION__
+	 * @since       2.0.3
 	 */
 	public function __construct()
 	{
@@ -93,7 +93,7 @@ class RedshopMenu
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function section($section)
 	{
@@ -109,7 +109,7 @@ class RedshopMenu
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function title($title)
 	{
@@ -125,7 +125,7 @@ class RedshopMenu
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function getData($section)
 	{
@@ -140,7 +140,7 @@ class RedshopMenu
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function group($group, $style = 'tree')
 	{

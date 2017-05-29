@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -82,7 +82,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  \JTable
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function getTable()
 	{
@@ -94,12 +94,12 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	/**
 	 * Process mapping data.
 	 *
-	 * @param   array  $header Header array
+	 * @param   array  $header  Header array
 	 * @param   array  $data    Data array
 	 *
 	 * @return  array           Mapping data.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function processMapping($header, $data)
 	{
@@ -119,32 +119,153 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 		if (empty($data['product_thumb_image']))
 		{
-			$data['product_thumb_image'] = null;
+			unset($data['product_thumb_image']);
+		}
+		else
+		{
+			if (!JUri::isInternal($data['product_thumb_image']))
+			{
+				$url = $data['product_thumb_image'];
+				$imageName = basename($url);
+				$fileName = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+				JFile::write($dest, JFile::read($url));
+				$data['product_thumb_image'] = $fileName;
+			}
+			else
+			{
+				$imageName = basename($data['product_thumb_image']);
+				$data['product_thumb_image'] = $imageName;
+			}
 		}
 
 		if (empty($data['product_full_image']))
 		{
-			$data['product_full_image'] = null;
+			unset($data['product_full_image']);
+		}
+		else
+		{
+			if (!JUri::isInternal($data['product_full_image']))
+			{
+				$url        = $data['product_full_image'];
+				$binaryData = @file_get_contents($url);
+
+				if ($binaryData === false)
+				{
+					unset($data['product_full_image']);
+				}
+				else
+				{
+					$imageName  = basename($url);
+					$fileName   = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+					$dest       = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+					JFile::write($dest, $binaryData);
+					$data['product_full_image'] = $fileName;
+				}
+			}
+			else
+			{
+				$imageName = basename($data['product_full_image']);
+				$data['product_full_image'] = $imageName;
+			}
 		}
 
 		if (empty($data['product_back_full_image']))
 		{
-			$data['product_back_full_image'] = null;
+			unset($data['product_back_full_image']);
+		}
+		else
+		{
+			if (!JUri::isInternal($data['product_back_full_image']))
+			{
+				$url       = $data['product_back_full_image'];
+				$imageName = basename($url);
+				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+				JFile::write($dest, JFile::read($url));
+				$data['product_back_full_image'] = $fileName;
+			}
+			else
+			{
+				$imageName = basename($data['product_back_full_image']);
+				$data['product_back_full_image'] = $imageName;
+			}
 		}
 
 		if (empty($data['product_preview_back_image']))
 		{
-			$data['product_preview_back_image'] = null;
+			unset($data['product_preview_back_image']);
+		}
+		else
+		{
+			if (!JUri::isInternal($data['product_preview_back_image']))
+			{
+				$url       = $data['product_preview_back_image'];
+				$imageName = basename($url);
+				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+				JFile::write($dest, JFile::read($url));
+				$data['product_preview_back_image'] = $fileName;
+			}
+			else
+			{
+				$imageName = basename($data['product_preview_back_image']);
+				$data['product_preview_back_image'] = $imageName;
+			}
+		}
+
+		if (empty($data['product_back_thumb_image']))
+		{
+			unset($data['product_back_thumb_image']);
+		}
+		else
+		{
+			if (!JUri::isInternal($data['product_back_thumb_image']))
+			{
+				$url       = $data['product_back_thumb_image'];
+				$imageName = basename($url);
+				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+				JFile::write($dest, JFile::read($url));
+				$data['product_back_thumb_image'] = $fileName;
+			}
+			else
+			{
+				$imageName = basename($data['product_back_thumb_image']);
+				$data['product_back_thumb_image'] = $imageName;
+			}
+		}
+
+		if (empty($data['product_preview_image']))
+		{
+			unset($data['product_preview_image']);
+		}
+		else
+		{
+			if (!JUri::isInternal($data['product_preview_image']))
+			{
+				$url       = $data['product_preview_image'];
+				$imageName = basename($url);
+				$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+				JFile::write($dest, JFile::read($url));
+				$data['product_preview_image'] = $fileName;
+			}
+			else
+			{
+				$imageName = basename($data['product_preview_image']);
+				$data['product_preview_image'] = $imageName;
+			}
 		}
 
 		if (!empty($data['discount_stratdate']))
 		{
-			$data['discount_stratdate'] = is_int($data['discount_stratdate']) ? $data['discount_stratdate'] : strtotime($data['discount_stratdate']);
+			$data['discount_stratdate'] = JFactory::getDate(date('d-m-Y H:i:s', strtotime($data['discount_stratdate'])))->toUnix();
 		}
 
 		if (!empty($data['discount_enddate']))
 		{
-			$data['discount_enddate'] = is_int($data['discount_enddate']) ? $data['discount_enddate'] : strtotime($data['discount_enddate']);
+			$data['discount_enddate'] = JFactory::getDate(date('d-m-Y H:i:s', strtotime($data['discount_enddate'])))->toUnix();
 		}
 
 		// Setting product on sale when discount dates are set
@@ -155,6 +276,16 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		else
 		{
 			$data['product_on_sale'] = !isset($data['product_on_sale']) ? 0 : (int) $data['product_on_sale'];
+		}
+
+		if (false !== strpos($data['product_price'], ','))
+		{
+			$data['product_price'] = str_replace(',', '.', $data['product_price']);
+		}
+
+		if (false !== strpos($data['discount_price'], ','))
+		{
+			$data['discount_price'] = str_replace(',', '.', $data['discount_price']);
 		}
 
 		// Get product_id base on product_number
@@ -179,12 +310,13 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function processImport($table, $data)
 	{
 		$isNew = false;
 		$db    = $this->db;
+
 
 		if (empty($data['product_number']))
 		{
@@ -204,7 +336,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		}
 
 		// Insert for new data or update exist data.
-		if ((!$isNew && !$db->insertObject('#__redshop_product', $table, $this->primaryKey)) || !$table->store())
+		if ((!$isNew && !$db->insertObject('#__redshop_product', $table, $this->primaryKey)) || !$table->store(false))
 		{
 			return false;
 		}
@@ -335,9 +467,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		$value = $data[$fieldName];
 
 		$query = $db->getQuery(true)
-			->select($db->qn('field_id'))
+			->select($db->qn('id'))
 			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('field_name') . ' = ' . $db->quote($fieldName));
+			->where($db->qn('name') . ' = ' . $db->quote($fieldName));
 
 		if ($fieldId = $db->setQuery($query)->loadResult())
 		{
@@ -376,7 +508,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function categoryRelation($productId = 0, $data = array())
 	{
@@ -385,7 +517,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			return;
 		}
 
-		$categoryId   = !empty($data['category_id']) ? (int) $data['category_id'] : 0;
+		$categoryId   = !empty($data['category_id']) ? $data['category_id'] : '';
 		$categoryName = !empty($data['category_name']) ? $data['category_name'] : '';
 
 		if (empty($categoryId) && empty($categoryName))
@@ -411,9 +543,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			}
 
 			$query->clear()
-				->select($db->qn('category_id'))
+				->select($db->qn('id'))
 				->from($db->qn('#__redshop_category'))
-				->where($db->qn('category_name') . ' IN (' . implode(',', $categoryName) . ')');
+				->where($db->qn('name') . ' IN (' . implode(',', $categoryName) . ')');
 			$categories = $db->setQuery($query)->loadColumn();
 		}
 
@@ -450,7 +582,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function importAccessoriesProduct($productId = 0, $data = array())
 	{
@@ -522,7 +654,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function importProductStock($productId = 0, $data = array())
 	{
@@ -587,7 +719,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function importAdditionalImages($productId = 0, $data = array())
 	{
@@ -622,6 +754,26 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				if (!JFile::exists($file))
 				{
 					JFile::copy($source, $file);
+				}
+			}
+			else
+			{
+				if (!JUri::isInternal($image))
+				{
+					$binaryData = @file_get_contents($image);
+
+					if ($binaryData === false)
+					{
+						unset($data['product_full_image']);
+					}
+					else
+					{
+						$imageName = basename($image);
+						$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
+						$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+						JFile::write($dest, $binaryData);
+						$data['product_preview_image'] = $fileName;
+					}
 				}
 			}
 
@@ -673,7 +825,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function importAdditionalVideos($productId = 0, $data = array())
 	{
@@ -759,7 +911,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function importAdditionalDocuments($productId = 0, $data = array())
 	{
@@ -845,7 +997,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.0.0
 	 */
 	public function importAdditionalDownloads($productId = 0, $data = array())
 	{

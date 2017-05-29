@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -68,7 +68,7 @@ class PlgRedshop_ImportRelated_product extends AbstractImportPlugin
 	 *
 	 * @return  \JTable
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function getTable()
 	{
@@ -85,7 +85,7 @@ class PlgRedshop_ImportRelated_product extends AbstractImportPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function processImport($table, $data)
 	{
@@ -102,7 +102,7 @@ class PlgRedshop_ImportRelated_product extends AbstractImportPlugin
 		{
 			return true;
 		}
-		
+
 		$query->clear()
 			->insert($db->qn('#__redshop_product_related'))
 			->columns($db->qn(array('related_id', 'product_id')))

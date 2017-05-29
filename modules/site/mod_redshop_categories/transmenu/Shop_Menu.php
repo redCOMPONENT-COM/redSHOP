@@ -36,15 +36,15 @@ class Shop_Menu
 
 		if ($this->_params->get('categorysorttype') == "catnameasc")
 		{
-			$sortparam = "category_name ASC";
+			$sortparam = "name ASC";
 		}
 		if ($this->_params->get('categorysorttype') == "catnamedesc")
 		{
-			$sortparam = "category_name DESC";
+			$sortparam = "name DESC";
 		}
 		if ($this->_params->get('categorysorttype') == "newest")
 		{
-			$sortparam = "category_id DESC";
+			$sortparam = "id DESC";
 		}
 		if ($this->_params->get('categorysorttype') == "catorder")
 		{
@@ -60,16 +60,15 @@ class Shop_Menu
 			$shoppergroup_cat = 0;
 		}
 
-		$query = "SELECT category_id as id, category_parent_id as parent, category_name as name, '' as type,
-							CONCAT('index.php?option=com_redshop&view=category&layout=detail&cid=', category_id ) AS link,
+		$query = "SELECT id as id, category_parent_id as parent, name as name, '' as type,
+							CONCAT('index.php?option=com_redshop&view=category&layout=detail&cid=', id ) AS link,
 							'-1' as browserNav, ordering
-								FROM #__redshop_category, #__redshop_category_xref
-								WHERE #__redshop_category.published='1'
-								AND #__redshop_category.category_id=#__redshop_category_xref.category_child_id ";
+								FROM #__redshop_category
+								WHERE #__redshop_category.published='1'";
 
 		if ($shopper_group_id && $shoppergroup_cat)
 		{
-			$query .= " and category_id in (" . $shoppergroup_cat . ")";
+			$query .= " and id in (" . $shoppergroup_cat . ")";
 		}
 
 		$query .= " ORDER BY " . $sortparam . "";

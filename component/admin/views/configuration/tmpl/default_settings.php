@@ -3,72 +3,100 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-?>
-<legend><?php echo JText::_('COM_REDSHOP_STORE_SETTINGS'); ?></legend>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_SHOP_NAME_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_SHOP_NAME_LBL'),
+		'field' => '<input type="text" name="shop_name" id="shop_name" value="' . $this->config->get('SHOP_NAME') . '" class="form-control"/>'
+	)
+);
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		  title="<?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOP_NAME_LBL'); ?>">
-	<label for="name"><?php echo JText::_('COM_REDSHOP_SHOP_NAME_LBL');?></label></span>
-	<input type="text" name="shop_name" id="shop_name" value="<?php echo $this->config->get('SHOP_NAME'); ?>">
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_SHOP_COUNTRY_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_SHOP_COUNTRY'),
+		'field' => $this->lists['shop_country']
+	)
+);
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		  title="<?php echo JText::_('COM_REDSHOP_SHOP_COUNTRY'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOP_COUNTRY'); ?>">
-	<label for="name"><?php echo JText::_('COM_REDSHOP_SHOP_COUNTRY_LBL'); ?></label></span>
-	<?php echo $this->lists ['shop_country'];?>
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_DEFAULT_SHIPPING_COUNTRY_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_SHIPPING_COUNTRY_LBL'),
+		'field' => $this->lists['default_shipping_country']
+	)
+);
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		  title="<?php echo JText::_('COM_REDSHOP_COUNTRY_LIST_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_COUNTRY_LIST_LBL'); ?>">
-	<label for="countryList"><?php echo JText::_('COM_REDSHOP_COUNTRY_LIST_LBL');?></label></span>
-	<?php echo $this->lists ['country_list'];?>
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_DEFAULT_DATEFORMAT_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_DATEFORMAT_LBL'),
+		'field' => $this->lists['default_dateformat']
+	)
+);
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		  title="<?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_COUNTRY_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_SHIPPING_COUNTRY_LBL'); ?>">
-	<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_COUNTRY_LBL');?></label></span>
-	<?php echo $this->lists ['default_shipping_country']; ?>
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_WELCOME_MESSAGE'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_WELCOME_MESSAGE'),
+		'field' => '<input type="text" name="welcome_msg" value="' . $this->config->get('WELCOME_MSG') . '" class="form-control"/>'
+	)
+);
 
-<div class="form-group">
-	<span
-		class="editlinktip hasTip"
-		title="<?php echo JText::_('COM_REDSHOP_DEFAULT_DATEFORMAT_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_DATEFORMAT_LBL'); ?>"
-	   >
-		<label for="default_dateformat">
-			<?php echo JText::_('COM_REDSHOP_DEFAULT_DATEFORMAT_LBL');?>
-		</label>
-	</span>
-	<?php echo $this->lists ['default_dateformat'];    ?>
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_ADMINISTRATOR_EMAIL_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_ADMINISTRATOR_EMAIL_LBL'),
+		'field' => '<input type="text" name="administrator_email" value="' . $this->config->get('ADMINISTRATOR_EMAIL') . '" class="form-control"/>'
+	)
+);
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		  title="<?php echo JText::_('COM_REDSHOP_WELCOME_MESSAGE'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WELCOME_MESSAGE'); ?>">
-	<label for="name"><?php echo JText::_('COM_REDSHOP_WELCOME_MESSAGE');?></label>
-	<input type="text" name="welcome_msg" id="welcome_msg" value="<?php echo $this->config->get('WELCOME_MSG'); ?>">
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_USE_ENCODING_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_USE_ENCODING'),
+		'field' => $this->lists['use_encoding']
+	)
+);
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-		  title="<?php echo JText::_('COM_REDSHOP_ADMINISTRATOR_EMAIL_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_ADMINISTRATOR_EMAIL_LBL'); ?>">
-	<label for="name"><?php echo JText::_('COM_REDSHOP_ADMINISTRATOR_EMAIL_LBL'); ?></label></span>
-	<input type="text" name="administrator_email" id="administrator_email"
-				   value="<?php echo $this->config->get('ADMINISTRATOR_EMAIL'); ?>">
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_CURRENCY_LIBRARIES_DESC'),
+		'field' => $this->lists['currency_libraries']
+	)
+);
 
-<div class="form-group">
-	<span class="editlinktip hasTip"
-			  title="<?php echo JText::_('COM_REDSHOP_USE_ENCODING_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_ENCODING'); ?>">
-	<label for="invoice_mail_send_option"><?php echo JText::_('COM_REDSHOP_USE_ENCODING_LBL');?></label></span>
-	<?php echo $this->lists ['use_encoding'];?>
-</div>
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_CURRENCY_LAYER_ACCESS_KEY_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_CURRENCY_LAYER_ACCESS_KEY_DESC'),
+		'showOn' => 'currency_libraries:1',
+		'id'     => 'currency_layer_access_key',
+		'field' => '<input type="text" id="currency_layer_access_key" name="currency_layer_access_key" value="' . $this->config->get('CURRENCY_LAYER_ACCESS_KEY') . '" class="form-control"/>'
+	)
+);
+
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_COUNTRY_LIST_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_COUNTRY_LIST_LBL'),
+		'field' => $this->lists['country_list'],
+		'line'  => false
+	)
+);

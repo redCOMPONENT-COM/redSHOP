@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Base Entity.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 abstract class RedshopEntityBase
 {
@@ -352,6 +352,26 @@ abstract class RedshopEntityBase
 		}
 
 		return $default;
+	}
+
+	/**
+	 * Set an item property
+	 *
+	 * @param   string  $property  Property to get
+	 * @param   mixed   $data      Data for set to property
+	 *
+	 * @return  self
+	 */
+	public function set($property, $data = null)
+	{
+		if (null === $this->item)
+		{
+			$this->loadItem();
+		}
+
+		$this->item->{$property} = $data;
+
+		return $this;
 	}
 
 	/**
@@ -935,6 +955,28 @@ abstract class RedshopEntityBase
 
 		static::loadFromTable($table);
 
-		return $table->id;
+		return $table->{$table->getKeyName()};
+	}
+
+	/**
+	 * Method for reset this static for load new data.
+	 *
+	 * @return  RedshopEntityBase
+	 *
+	 * @since   2.0.6
+	 */
+	public function reset()
+	{
+		if (!$this->isLoaded())
+		{
+			return $this;
+		}
+
+		$class = get_called_class();
+		$id = $this->getId();
+
+		unset(static::$instances[$class][$id]);
+
+		return static::getInstance($id);
 	}
 }

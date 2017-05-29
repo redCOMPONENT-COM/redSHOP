@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,7 +46,7 @@ class RedshopModelWishlist extends RedshopModel
 	 *
 	 * @return  bool|mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperWishlist::getUserWishlist() instead.
+	 * @deprecated  2.0.3  Use RedshopHelperWishlist::getUserWishlist() instead.
 	 */
 	public function getUserWishlist()
 	{
@@ -486,7 +486,7 @@ class RedshopModelWishlist extends RedshopModel
 	 *
 	 * @return  boolean       True on exist. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function isProductDataExist($wishlistId, $productId, $attributes = null, $properties = null, $subAttributes = null)
 	{

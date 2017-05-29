@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -63,7 +63,7 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 	 *
 	 * @return  \JTable
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function getTable()
 	{
@@ -80,7 +80,7 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.0.0
 	 */
 	public function processImport($table, $data)
 	{

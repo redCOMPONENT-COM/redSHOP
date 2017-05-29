@@ -48,7 +48,7 @@ if (isset($limitstart))  // V 1.2.4.r
 	  case 'category':
 	  	   if($cid){
 
-	  	    $sql = "SELECT pagetitle FROM #__redshop_category WHERE category_id = '$cid'";
+	  	    $sql = "SELECT pagetitle FROM #__redshop_category WHERE id = '$cid'";
 	  	   	$db->setQuery($sql);
 	  	    $category = $db->loadObject();
 

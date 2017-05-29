@@ -3,18 +3,20 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Redshop\Plugin;
+
+use function var_dump;
 
 defined('_JEXEC') or die;
 
 /**
  * Abstract class for import plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class AbstractImportPlugin extends \JPlugin
 {
@@ -32,11 +34,6 @@ class AbstractImportPlugin extends \JPlugin
 	 * @var string
 	 */
 	protected $encoding = 'UTF-8';
-
-	/**
-	 * @var int
-	 */
-	protected $maxLine = 1;
 
 	/**
 	 * @var  \JDatabaseDriver
@@ -68,14 +65,23 @@ class AbstractImportPlugin extends \JPlugin
 	protected $numberColumns = array();
 
 	/**
+	 * List of alias columns. For backward compability. Example array('category_id' => 'id')
+	 *
+	 * @var array
+	 *
+	 * @since   2.0.6
+	 */
+	protected $aliasColumns = array();
+
+	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An optional associative array of configuration settings.
 	 *                              Recognized key values include 'name', 'group', 'params', 'language'
 	 *                              (this list is not meant to be comprehensive).
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -94,13 +100,18 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  mixed            Array of data (file path, lines) if success. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function onUploadFile($plugin = '', $file = array(), $data = array())
 	{
 		if (empty($plugin) || $plugin != $this->_name || empty($file))
 		{
 			return null;
+		}
+
+		if (!empty($data) && !empty($data['separator']))
+		{
+			$this->separator = $data['separator'];
 		}
 
 		$this->folder = md5(time());
@@ -157,7 +168,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function importing()
 	{
@@ -177,9 +188,14 @@ class AbstractImportPlugin extends \JPlugin
 		$handle = fopen($this->getPath() . '/' . $this->folder . '/' . $file, 'r');
 		$header = fgetcsv($handle, null, $this->separator, '"');
 
+		$table = $this->getTable();
+
 		while ($data = fgetcsv($handle, null, $this->separator, '"'))
 		{
-			$table = $this->getTable();
+			$table->reset();
+
+			// Do mapping data to table.
+			$data = $this->processMapping($header, $data);
 
 			// Do convert encoding.
 			$this->doEncodingData($data);
@@ -187,8 +203,8 @@ class AbstractImportPlugin extends \JPlugin
 			// Do format number.
 			$this->doFormatNumber($data);
 
-			// Do mapping data to table.
-			$data  = $this->processMapping($header, $data);
+			// Do alias mapping
+			$this->doAliasMapping($data);
 
 			$rowResult = new \stdClass;
 
@@ -207,6 +223,7 @@ class AbstractImportPlugin extends \JPlugin
 					'PLG_REDSHOP_IMPORT_' . strtoupper($this->_name) . '_FAIL_IMPORT',
 					$data[$this->nameKey]
 				);
+				$rowResult->message = $table->getError();
 			}
 
 			$result->data[] = $rowResult;
@@ -225,7 +242,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  \JTable
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function getTable()
 	{
@@ -237,7 +254,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function getDataProperties()
 	{
@@ -249,7 +266,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function getPath()
 	{
@@ -263,7 +280,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function splitFiles($file)
 	{
@@ -283,7 +300,7 @@ class AbstractImportPlugin extends \JPlugin
 		fclose($handler);
 
 		$headers = array_shift($rows);
-		$rows    = array_chunk($rows, $this->maxLine);
+		$rows    = array_chunk($rows, \Redshop::getConfig()->get('IMPORT_MAX_LINE', 1));
 		$fileExt = \JFile::getExt($file);
 
 		// Remove old file
@@ -298,6 +315,12 @@ class AbstractImportPlugin extends \JPlugin
 
 			foreach ($fileRows as $row)
 			{
+				// Add slash for data
+				foreach ($row as $index => $value)
+				{
+					$row[$index] = addslashes($value);
+				}
+
 				fwrite($fileHandle, '"' . implode('"' . $this->separator . '"', $row) . '"' . "\n");
 			}
 
@@ -315,11 +338,10 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  array           Mapping data.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function processMapping($header, $data)
 	{
-		$data = array_map("utf8_encode", $data);
 		$data = array_map("trim", $data);
 
 		return array_combine($header, $data);
@@ -333,7 +355,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function processImport($table, $data)
 	{
@@ -362,11 +384,23 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function doEncodingData(&$data = array())
 	{
-		if (empty($data) || empty($this->encodingColumns) || !function_exists('mb_convert_encoding'))
+		if (empty($data))
+		{
+			return;
+		}
+
+		// Do remove strip slashes
+		foreach ($data as $index => $value)
+		{
+			$data[$index] = stripslashes($value);
+		}
+
+		// Do encoding column
+		if (empty($this->encodingColumns) || !function_exists('mb_convert_encoding'))
 		{
 			return;
 		}
@@ -389,7 +423,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function doFormatNumber(&$data = array())
 	{
@@ -406,6 +440,33 @@ class AbstractImportPlugin extends \JPlugin
 			}
 
 			$data[$column] = (float) str_replace(',', '.', $data[$column]);
+		}
+	}
+
+	/**
+	 * Method for generate column with alias.
+	 *
+	 * @param   array  &$data  Data.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	public function doAliasMapping(&$data = array())
+	{
+		if (empty($data) || empty($this->aliasColumns))
+		{
+			return;
+		}
+
+		foreach ($this->aliasColumns as $alias => $column)
+		{
+			if (empty($data[$alias]) || !empty($data[$column]))
+			{
+				continue;
+			}
+
+			$data[$column] = $data[$alias];
 		}
 	}
 }
