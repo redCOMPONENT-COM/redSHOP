@@ -466,9 +466,26 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click("+ Add Attribute parameter");
         $I->waitForElement(['xpath' => "//a[text()='Attribute parameter']"], 60);
         $I->fillField(['xpath' => '//input[@name="attribute[1][name]"]'], $nameAttribute);
-        $I->wait(360);
+        $I->wait(60);
         $I->fillField(['xpath'=>'//input[@name="attribute[1][property][0][name]"]'],$valueAttribute);
         $I->fillField(['xpath'=>'//input[@name="attribute[1][property][0][price]"]'],$priceAttribute);
+        $I->click("Save");
+        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
+        $I->see('Product details saved', ['class' => 'alert-success']);
+    }
+
+    public function createProductWithStockRoom($productName, $quantityStock,$PreorderStock)
+    {
+        $I = $this;
+        $I->searchProduct($productName);
+        $I->wait(3);
+        $I->click(['link' => $productName]);
+        $I->waitForElement(\ProductManagerPage::$productName, 30);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
+        $I->click("Stockroom");
+        $I->click('//ul[@class="tabconfig nav nav-pills nav-stacked"]/li[7]/a');
+        $I->fillField(['xpath'=>'//input[@name="quantity[]"]'],$quantityStock);
+        $I->fillField(['xpath'=>'//input[@name="preorder_stock[]"]'],$PreorderStock);
         $I->click("Save");
         $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
         $I->see('Product details saved', ['class' => 'alert-success']);
@@ -542,7 +559,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
     //The function for edit product
 
-    public function createProductWithAccessoriesRelated($productName, $productCategory, $productNumber, $price, $productAccessories)
+    public function createProductWithAccessories($productName, $productCategory, $productNumber, $price, $productAccessories)
     {
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);
@@ -566,40 +583,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
 //        $I->see('Product details saved', ['class' => 'alert-success']);
     }
-
-
-
-
-    /**
-     * @param $productName
-     * @param $productCategory
-     * @param $productNumber
-     * @param $price
-     */
-//    public function createProductWithMedia($productName, $productCategory, $productNumber, $price){
-//        $I=$this;
-//        $I->amOnPage(\ProductManagerPage::$URL);
-//        $I->checkForPhpNoticesOrWarnings();
-//        $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
-//        $I->click("New");
-//        $I->waitForElement(['id' => "product_name"], 30);
-//        $I->checkForPhpNoticesOrWarnings();
-//        $I->fillField(['id' => "product_name"], $productName);
-//        $I->fillField(['id' => "product_number"], $productNumber);
-//        $I->fillField(['id' => "product_price"], $price);
-//        $I->click(['xpath' => "//div[@id='s2id_product_category']//ul/li"]);
-//        $I->fillField(['xpath' => "//div[@id='s2id_product_category']//ul/li//input"], $productCategory);
-//        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-//        $I->click(['xpath' => "//span[contains(text(), '" . $productCategory . "')]"]);
-//        $I->click(['xpath' => "//div[@id='product_full_image-dropzone']"]);
-//        $I->click("Accessory/Related Product");
-//        $I->waitForElement(['xpath' => "//h3[text()='Accessories']"], 60);
-//        $I->waitForElement(['xpath' => "//h3[text()='Related product']"], 60);
-//
-//        $I->click("Save");
-//        $I->waitForText('Product details saved', 30, ['class' => 'alert-success']);
-//        $I->see('Product details saved', ['class' => 'alert-success']);
-//    }
 
     private function selectRelatedProduct($relatedProduct)
     {
@@ -644,6 +627,10 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->filterListBySearchingProduct($productName);
     }
+
+
+    // The test case for product huse stockroom
+
 
 
 }
