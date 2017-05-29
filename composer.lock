@@ -395,6 +395,7 @@
         },
         {
             "name": "codeception/codeception",
+<<<<<<< HEAD
             "version": "2.3.2",
             "source": {
                 "type": "git",
@@ -405,6 +406,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/Codeception/Codeception/zipball/1ebec015a322d66952f69954551d513984f02d14",
                 "reference": "1ebec015a322d66952f69954551d513984f02d14",
+=======
+            "version": "2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Codeception/Codeception.git",
+                "reference": "d4d76d18ea0ec8d504995995ae68fccac24523db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/d4d76d18ea0ec8d504995995ae68fccac24523db",
+                "reference": "d4d76d18ea0ec8d504995995ae68fccac24523db",
+>>>>>>> 77bc9c387287c59a09e7bfad92fd34d733a0f097
                 "shasum": ""
             },
             "require": {
@@ -489,7 +502,11 @@
                 "functional testing",
                 "unit testing"
             ],
+<<<<<<< HEAD
             "time": "2017-05-27T00:46:03+00:00"
+=======
+            "time": "2017-05-24T00:54:13+00:00"
+>>>>>>> 77bc9c387287c59a09e7bfad92fd34d733a0f097
         },
         {
             "name": "codegyre/robo",

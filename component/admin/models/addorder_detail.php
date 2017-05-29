@@ -238,9 +238,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 	public function store($postdata)
 	{
-		$redshopMail = redshopMail::getInstance();
 		$order_functions = order_functions::getInstance();
-		$helper = redhelper::getInstance();
 		$producthelper = productHelper::getInstance();
 		$rsCarthelper = rsCarthelper::getInstance();
 		$adminproducthelper = RedshopAdminProduct::getInstance();
@@ -754,14 +752,12 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
-			$helper->clickatellSMS($row->order_id);
+			RedshopHelperClickatell::clickatellSMS($row->order_id);
 		}
 
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
-			$economic = economic::getInstance();
-
 			$economicdata['economic_payment_terms_id'] = $postdata['economic_payment_terms_id'];
 			$economicdata['economic_design_layout'] = $postdata['economic_design_layout'];
 			$economicdata['economic_is_creditcard'] = $postdata['economic_is_creditcard'];

@@ -1049,7 +1049,7 @@ class RedshopModelStatistic extends RedshopModelList
 					->select($db->qn('name', 'sname'))
 					->select($db->qn('id'))
 					->from($db->qn('#__redshop_category'))
-					->where($db->qn('category_id') . ' = ' . $db->q((int) $sectionId));
+					->where($db->qn('id') . ' = ' . $db->q((int) $sectionId));
 				$return = $db->setQuery($query)->loadObject();
 				break;
 			case "manufacturers":

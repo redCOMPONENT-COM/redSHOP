@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="1.6.0" client="site" method="upgrade">
+<extension type="module" version="3.5.0" client="site" method="upgrade">
     <name>MOD_REDCATEGORYSCROLLER</name>
-    <version>1.5.3</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <version>2.0.0</version>
+    <redshop>2.0.0</redshop>
+    <creationDate>May 2017</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>redSHOP Main Category Scroller Module</description>
     <files>
+        <filename module="mod_redcategoryscroller">helper.php</filename>
         <filename module="mod_redcategoryscroller">mod_redcategoryscroller.php</filename>
+        <filename>index.html</filename>
+        <folder>language</folder>
+        <folder>tmpl</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redcategoryscroller.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redcategoryscroller.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redcategoryscroller.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.mod_redcategoryscroller.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="pretext" type="text" default="" label="MOD_REDCATEGORYSCROLLER_PRETEXT_LBL"
-                       description="MOD_REDCATEGORYSCROLLER_PRETEXT"/>
-                <field name="NumberOfCategory" type="text" default="5"
-                       label="MOD_REDCATEGORYSCROLLER_NUMBER_OF_CATEGORY_LBL"
-                       description="MOD_REDCATEGORYSCROLLER_NUMBER_OF_CATEGORY_DESC"/>
+                <field
+                        name="pretext"
+                        type="text"
+                        default=""
+                        label="MOD_REDCATEGORYSCROLLER_PRETEXT_LBL"
+                        description="MOD_REDCATEGORYSCROLLER_PRETEXT"/>
+                <field
+                        name="NumberOfCategory"
+                        type="text"
+                        default="5"
+                        label="MOD_REDCATEGORYSCROLLER_NUMBER_OF_CATEGORY_LBL"
+                        description="MOD_REDCATEGORYSCROLLER_NUMBER_OF_CATEGORY_DESC"
+                        />
                 <field name="thumbwidth" type="text" size="10" label="MOD_REDCATEGORYSCROLLER_THUMB_IMAGE_WIDTH"
                        description="MOD_REDCATEGORYSCROLLER_THUMB_IMAGE_WIDTH" default="100"/>
                 <field name="thumbheight" type="text" size="10" label="MOD_REDCATEGORYSCROLLER_THUMB_IMAGE_HEIGHT"
@@ -159,7 +166,6 @@
                     <option value="17">17 px</option>
                     <option value="18">18 px</option>
                 </field>
-
                 <field name="ScrollTextColor" type="text" default="#000000"
                        label="MOD_REDCATEGORYSCROLLER_SCROLL_TEXT_COLOR"
                        description="MOD_REDCATEGORYSCROLLER_SCROLL_TEXT_COLOR_DESC"/>
