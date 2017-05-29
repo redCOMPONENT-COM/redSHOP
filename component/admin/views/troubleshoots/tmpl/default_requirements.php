@@ -1,5 +1,4 @@
-<?php $requirements = new RedshopTroubleshootRequirements(); ?>
-<?php foreach ($requirements->requirements as $key => $data): ?>
+<?php foreach ($this->list['requirements']->requirements as $key => $data): ?>
 	<blockquote><?php echo $key; ?></blockquote>
 
 	<?php foreach ($data as $phpValue => $field): ?>

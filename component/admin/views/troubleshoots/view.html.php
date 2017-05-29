@@ -24,10 +24,15 @@ class RedshopViewTroubleshoots extends RedshopViewAdmin
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since  2.0.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->list = $this->get('Data');
+		$document = JFactory::getDocument();
+		$document->addScript('components/com_redshop/assets/js/troubleshoots.js');
+
+		$this->list = $this->get('Items');
 
 		$this->displayToolbar();
 

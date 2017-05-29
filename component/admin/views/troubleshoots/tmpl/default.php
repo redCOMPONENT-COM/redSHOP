@@ -22,28 +22,41 @@ defined('_JEXEC') or die;
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
-                        <a href="#home" aria-controls="home" role="tab" data-toggle="tab">System requirement</a>
+                        <a href="#system-requirements" aria-controls="home" role="tab" data-toggle="tab">
+							<?php echo JText::_('COM_REDSHOP_TROUBLESHOOTS_TAB_SYSTEM_REQUIREMENTS'); ?>
+                        </a>
                     </li>
-                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Files detection</a>
+                    <li role="presentation">
+                        <a href="#files-detection" aria-controls="profile" role="tab" data-toggle="tab">
+							<?php echo JText::_('COM_REDSHOP_TROUBLESHOOTS_TAB_FILES_DETECTION'); ?>
+                        </a>
                     </li>
-                    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Extensions</a>
+                    <li role="presentation">
+                        <a href="#extensions" aria-controls="messages" role="tab" data-toggle="tab">
+							<?php echo JText::_('COM_REDSHOP_TROUBLESHOOTS_TAB_EXTENSIONS'); ?>
+                        </a>
                     </li>
-                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
+                    <li role="presentation">
+                        <a href="#logging" aria-controls="settings" role="tab" data-toggle="tab">
+							<?php echo JText::_('COM_REDSHOP_TROUBLESHOOTS_TAB_LOGGING'); ?>
+                        </a>
                     </li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="home">
-	                    <?php echo $this->loadTemplate('requirements'); ?>
+                    <div role="tabpanel" class="tab-pane active" id="system-requirements">
+						<?php echo $this->loadTemplate('requirements'); ?>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="profile">
-	                    <?php echo $this->loadTemplate('files'); ?>
+                    <div role="tabpanel" class="tab-pane" id="files-detection">
+						<?php echo $this->loadTemplate('files'); ?>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="messages">
-	                    <?php echo $this->loadTemplate('extensions'); ?>
+                    <div role="tabpanel" class="tab-pane" id="extensions">
+						<?php echo $this->loadTemplate('extensions'); ?>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+                    <div role="tabpanel" class="tab-pane" id="logging">
+						<?php echo $this->loadTemplate('logging'); ?>
+                    </div>
                 </div>
             </div>
         </form>

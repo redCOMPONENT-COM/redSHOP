@@ -21,7 +21,8 @@ class RedshopModelTroubleshoots extends RedshopModel
 
 	/**
 	 * @var    object
-	 * @since  2.1
+	 *
+	 * @since  2.0.6
 	 */
 	private $plugin = null;
 
@@ -31,6 +32,8 @@ class RedshopModelTroubleshoots extends RedshopModel
 	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
+	 *
+	 * @since  2.0.6
 	 */
 	public function __construct($config = array())
 	{
@@ -52,16 +55,17 @@ class RedshopModelTroubleshoots extends RedshopModel
 	 *
 	 * @since  2.1
 	 */
-	public function getData()
+	public function getItems()
 	{
 		$jsonFile = JPATH_ADMINISTRATOR . '/components/com_redshop/assets/checksum.md5.json';
 
 		$list = array();
 
+		// Make sure file exists
 		if (JFile::exists($jsonFile))
 		{
-			$items = json_decode(file_get_contents($jsonFile));
-$extensions = array ();
+			$items      = json_decode(file_get_contents($jsonFile));
+			$extensions = array();
 			if ($items)
 			{
 				foreach ($items as $index => $item)
@@ -72,13 +76,13 @@ $extensions = array ();
 					if (($item->getExtension() == 'plugin' || $item->getExtension() == 'module') && $item->getName())
 					{
 						$extensions[$item->getExtension()][$item->getName()] = $item;
-
 					}
 					$list['items'][] = $item;
-
 				}
 
 				$list['extensions'] = $extensions;
+				$list['requirements'] = new RedshopTroubleshootRequirements();
+
 				return $list;
 			}
 		}
