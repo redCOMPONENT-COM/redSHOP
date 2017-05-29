@@ -77,7 +77,7 @@ if (count($list) > 0)
 						}
 						else
 						{
-							$Itemid = $redhelper->getItemid($row->product_id);
+							$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 						}
 
 						if (!$cid)

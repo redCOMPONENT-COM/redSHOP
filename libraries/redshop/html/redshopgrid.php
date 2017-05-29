@@ -87,7 +87,7 @@ abstract class JHtmlRedshopGrid
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function inline($name = '', $value = '', $display = '', $id = 0, $type = 'text')
 	{
@@ -110,7 +110,7 @@ abstract class JHtmlRedshopGrid
 						var $input = $("#" + $(this).data("target"));
 
 						$label.hide("fast", function(){
-							$input.show("fast", function(){$input.focus().select();})
+							$input.show("fast", function(){$input.prop("disabled", false).removeClass("disabled").focus().select();})
 								.on("blur", function(event) {
 									$input.hide("fast", function(){$label.show("fast");});
 								})
@@ -129,11 +129,8 @@ abstract class JHtmlRedshopGrid
 											type: "POST",
 											data: formData,
 											dataType: "JSON",
-											beforeSend: function(jqXHR, settings) {
-												$input.prop("disabled", true).addClass("disabled"); 
-											},
 											complete: function() {
-												$input.prop("disabled", false).removeClass("disabled"); 
+												$input.prop("disabled", true).addClass("disabled"); 
 											}
 										})
 											.done(function(response){
@@ -158,11 +155,15 @@ abstract class JHtmlRedshopGrid
 												$input.hide("fast", function(){
 													$label.show("fast");
 												});
+												
+												document.adminForm.task.value = "";
 											});
 									} else if (keyCode == 27) {
 										// Escape key
 										$input.val("' . $value . '");
 										$input.hide("fast", function(){$label.show("fast");});
+										
+										document.adminForm.task.value = "";
 									}
 								});
 						});
@@ -172,7 +173,7 @@ abstract class JHtmlRedshopGrid
 		');
 
 		$html = '<input type="' . $type . '" id="' . $name . '-' . $id . '-edit-inline" value="' . $value . '"'
-			. 'name="jform_inline[' . $id . '][' . $name . ']" class="form-control edit-inline" style="display: none;" />';
+			. 'name="jform_inline[' . $id . '][' . $name . ']" class="form-control edit-inline" disabled="disabled" style="display: none;" />';
 		$html .= '<div id="' . $name . '-' . $id . '" data-target="' . $name . '-' . $id . '-edit-inline" class="label-edit-inline">'
 			. $display . '</div>';
 
