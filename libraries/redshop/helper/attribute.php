@@ -329,6 +329,7 @@ abstract class RedshopHelperAttribute
 							 * only for display purpose
 							 */
 							$attributes_property_vat_show = 0;
+							$attributes_property_oldprice_vat = 0;
 
 							if (!empty($chktag))
 							{

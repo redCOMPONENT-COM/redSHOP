@@ -17,11 +17,11 @@ jimport('joomla.plugin.plugin');
 JLoader::import('redshop.library');
 
 /**
- * PlgRedshop_ProductGoogle_Tag Class
+ * PlgRedshop_ProductGoogle_Microdata Class
  *
  * @since  1.0
  */
-class PlgRedshop_ProductGoogle_Tag extends JPlugin
+class PlgRedshop_ProductGoogle_Microdata extends JPlugin
 {
 	/**
 	 * @var  boolean
@@ -161,13 +161,13 @@ class PlgRedshop_ProductGoogle_Tag extends JPlugin
 		$data['offers'] = array(
 			'@type'         => 'Offer',
 			'priceCurrency' => Redshop::getConfig()->get('REDCURRENCY_SYMBOL'),
-			'price'         => $product->product_price,
+			'price'         => ($product->product_price < 0) ? 0.0 : $product->product_price,
 			"availability"  => $availability
 		);
 
 		if ($product->product_on_sale)
 		{
-			$data['offers']['price']           = $product->discount_price;
+			$data['offers']['price']           = ($product->discount_price < 0) ? 0.0 : $product->discount_price;
 			$data['offers']['priceValidUntil'] = date('Y-m-d', $product->discount_enddate);
 		}
 
