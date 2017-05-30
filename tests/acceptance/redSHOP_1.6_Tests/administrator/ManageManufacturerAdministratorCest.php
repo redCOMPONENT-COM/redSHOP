@@ -20,35 +20,116 @@ class ManageManufacturerAdministratorCest
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
-		$this->manufacturerName = $this->faker->bothify('ManageManufacturerAdministratorCest ?##?');
+		$this->manufacturerName = 'Test Manufacture'.rand(1,100);
 		$this->updatedName = 'Updated ' . $this->manufacturerName;
+		$this->NoPage=5;
+        $this->manufacturerNameNew = 'Testing Manufacturers'.rand(101,999);
+        $this->manufacturerEmail="redweb@gmail.dk";
+
 	}
 
-	/**
+//	public function checkEditButton(AcceptanceTester $I, $scenario){
+//        $I->wantTo('Test Edit Button Manufacture creation in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
+//        $I->checkEditButton();
+//        $I->see("Manufacturer Management", '.page-title');
+//    }
+//
+//    public function checkDeleteButton(AcceptanceTester $I, $scenario){
+//        $I->wantTo('Test Delete Button Manufacture creation in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
+//        $I->checkDeleteButton();
+//        $I->see("Manufacturer Management", '.page-title');
+//    }
+//
+//    public function checkPublishButton(AcceptanceTester $I, $scenario){
+//        $I->wantTo('Test Publish Button Manufacture creation in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
+//        $I->checkPublishButton();
+//        $I->see("Manufacturer Management", '.page-title');
+//    }
+//
+//    public function checkUnpublishButton(AcceptanceTester $I, $scenario){
+//        $I->wantTo('Test Unpublish Button Manufacture creation in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
+//        $I->checkUnpublishButton();
+//        $I->see("Manufacturer Management", '.page-title');
+//    }
+//
+    public function createManufacturerSaveClose(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Manufacture creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
+        $I->addManufacturerSaveClose($this->manufacturerName, $this->NoPage);
+        $I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,'.alert-success');
+    }
+
+    /**
 	 * Function to Test Manufacturer Creation in Backend
 	 *
 	 */
-	public function createManufacturer(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Manufacture creation in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
-		$I->addManufacturer($this->manufacturerName);
-		$I->searchManufacturer($this->manufacturerName);
-	}
+//	public function unpublishAllManufacturer(AcceptanceTester $I, $scenario)
+//	{
+//		$I->wantTo('Test Manufacture creation in Administrator');
+//		$I->doAdministratorLogin();
+//		$I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
+//		$I->unpublishAllManufacturer();
+//        $I->see(\ManufacturerManagerJoomla3Page::$manufacturerUnpublishMessage,'.alert-success');
+//	}
+//
+//    public function publishAllManufacturer(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test Manufacture creation in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
+//        $I->publishAllManufacturer();
+//        $I->see(\ManufacturerManagerJoomla3Page::$manufacturerPublishMessage,'.alert-success');
+//    }
 
-	/**
+    public function addManufacturerSave(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Manufacture creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
+        $I->addManufacturerSave($this->manufacturerNameNew, $this->NoPage);
+        $I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,'.alert-success');
+    }
+
+    public function copyManufacture(AcceptanceTester $I,$scenario)
+    {
+        $I->wantTo('Test Manufacture copy in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
+        $I->copyManufacture($this->manufacturerNameNew);
+        $I->see(\ManufacturerManagerJoomla3Page::$manufactureCoPySuccess,'.alert-success');
+    }
+
+    public function deleteManufacture(AcceptanceTester $I,$scenario)
+    {
+        $I->wantTo('Test Manufacture copy in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
+        $I->deleteManufacture($this->manufacturerNameNew);
+        $I->see(\ManufacturerManagerJoomla3Page::$manufacturerDeleteSuccessMessage,'.alert-success');
+    }
+
+    /**
 	 * Function to Test Manufacture Updation in the Administrator
 	 *
-	 * @depends createManufacturer
+	 * @depends createManufacturerSaveClose
 	 */
 	public function updateManufacturer(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test if Manufacture gets updated in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
-		$I->editManufacturer($this->manufacturerName, $this->updatedName);
-		$I->searchManufacturer($this->updatedName);
+		$I->editManufacturer($this->manufacturerName, $this->updatedName, $this->NoPage);
+        $I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,'.alert-success');
 	}
 
 	/**

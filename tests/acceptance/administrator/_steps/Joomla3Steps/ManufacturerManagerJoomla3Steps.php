@@ -17,6 +17,81 @@ namespace AcceptanceTester;
  */
 class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
+
+
+    public function checkEditButton(){
+        $I = $this;
+        $I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Page');
+        $I->click('Edit');
+        $I->acceptPopup();
+    }
+
+    public function copyManufacture($nameManufacture){
+        $I = $this;
+        $I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+        $I->searchManufacturer($nameManufacture);
+        $I->wait(3);
+        $I->see($nameManufacture, \ManufacturerManagerJoomla3Page::$firstResultRow);
+        $I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
+        $I->click('Copy');
+        $I->see(\ManufacturerManagerJoomla3Page::$manufactureCoPySuccess, '.alert-success');
+    }
+
+    public function checkDeleteButton(){
+        $I = $this;
+        $I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Page');
+        $I->click('Delete');
+        $I->acceptPopup();
+    }
+
+    public function deleteManufacture($nameManufacture){
+        $I = $this;
+        $I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+        $I->searchManufacturer($nameManufacture);
+        $I->wait(3);
+        $I->see($nameManufacture, \ManufacturerManagerJoomla3Page::$firstResultRow);
+        $I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
+        $I->click('Delete');
+//        $I->acceptPopup();
+        $I->see(\ManufacturerManagerJoomla3Page::$manufacturerDeleteSuccessMessage, '.alert-success');
+    }
+
+    public function checkPublishButton(){
+        $I = $this;
+        $I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Page');
+        $I->click('Publish');
+        $I->acceptPopup();
+    }
+
+    public function checkUnpublishButton(){
+        $I = $this;
+        $I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Page');
+        $I->click('Unpublish');
+        $I->acceptPopup();
+    }
+
+    public function unpublishAllManufacturer(){
+        $I = $this;
+        $I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Page');
+        $I->click(\ManufacturerManagerJoomla3Page::$checkAllManufacturer);
+        $I->click('Unpublish');
+
+    }
+
+    public function publishAllManufacturer(){
+        $I = $this;
+        $I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Page');
+        $I->click(\ManufacturerManagerJoomla3Page::$checkAllManufacturer);
+        $I->click('Publish');
+
+    }
+
 	/**
 	 * Function to Test Manufacturer Creation
 	 *
@@ -24,7 +99,7 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function addManufacturer($manufacturerName = 'Testing Manufacturers')
+	public function addManufacturerSaveClose($manufacturerName , $noPae)
 	{
 		$I = $this;
 		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
@@ -33,17 +108,26 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ManufacturerManagerJoomla3Page::$detailsTab,30);
 		$I->click(\ManufacturerManagerJoomla3Page::$detailsTab);
 		$I->fillField(\ManufacturerManagerJoomla3Page::$manufacturerName, $manufacturerName);
+		$I->fillField(\ManufacturerManagerJoomla3Page::$NoPage,$noPae);
 		$I->click('Save & Close');
 		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,60,'.alert-success');
 		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,'.alert-success');
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-		$I->see($manufacturerName, \ManufacturerManagerJoomla3Page::$firstResultRow);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
 	}
+
+    public function addManufacturerSave($manufacturerName , $noPae)
+    {
+        $I = $this;
+        $I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Page');
+        $I->click('New');
+        $I->waitForElement(\ManufacturerManagerJoomla3Page::$detailsTab,30);
+        $I->click(\ManufacturerManagerJoomla3Page::$detailsTab);
+        $I->fillField(\ManufacturerManagerJoomla3Page::$manufacturerName, $manufacturerName);
+        $I->fillField(\ManufacturerManagerJoomla3Page::$NoPage,$noPae);
+        $I->click('Save');
+        $I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,60,'.alert-success');
+        $I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,'.alert-success');
+    }
 
 	/**
 	 * Function to Test Editing of a Manufacturer
@@ -53,20 +137,22 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function editManufacturer($manufacturerName = 'Manufacturer Test', $updatedName = 'Updated Name')
+	public function editManufacturer($manufacturerName, $updatedName = 'Updated Name', $noPage)
 	{
 		$I = $this;
 		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-		$I->click(['link' => 'ID']);
+		$I->searchManufacturer($manufacturerName);
+		$I->wait(3);
+
 		$I->see($manufacturerName, \ManufacturerManagerJoomla3Page::$firstResultRow);
 		$I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
 		$I->click('Edit');
 		$I->waitForElement(\ManufacturerManagerJoomla3Page::$detailsTab,30);
+
 		$I->click(\ManufacturerManagerJoomla3Page::$detailsTab);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Edit Page');
 		$I->fillField(\ManufacturerManagerJoomla3Page::$manufacturerName, $updatedName);
+		$I->fillField(\ManufacturerManagerJoomla3Page::$NoPage,$noPage);
 		$I->click('Save & Close');
 		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,60,'.alert-success');
 		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, '.alert-success');
@@ -114,24 +200,13 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 */
-	public function searchManufacturer($name, $functionName = 'Search')
+	public function searchManufacturer($manufacturerName)
 	{
-		$I = $this;
-		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
-
-		if ($functionName == 'Search')
-		{
-			$I->see($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
-		}
-		else
-		{
-			$I->dontSee($name, \ManufacturerManagerJoomla3Page::$firstResultRow);
-		}
-
-		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(['link' => 'ID']);
+        $I = $this;
+        $I->wantTo('Search the Category');
+        $I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
+        $I->waitForText('Manufacturer Management', 30, ['xpath' => "//h1"]);
+        $I->filterListBySearch($manufacturerName);
 	}
 
 	/**
@@ -187,4 +262,6 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
 	}
+
+
 }
