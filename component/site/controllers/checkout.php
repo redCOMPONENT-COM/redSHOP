@@ -674,7 +674,7 @@ class RedshopControllerCheckout extends RedshopController
 			$templatelist = $redTemplate->getTemplate("checkout", $cart_template_id);
 			$onestep_template_desc = $templatelist[0]->template_desc;
 
-			$onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid, $customer_note, $req_number, '', $customer_message, $referral_code);
+			$onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid, $customer_note, $req_number, '', $customer_message, $referral_code, '', $post);
 		}
 
 		$display_shippingrate = '<div id="onestepshiprate">' . $rate_template_desc . '</div>';
