@@ -5,13 +5,13 @@ var config = require('../../../gulp-config.json');
 
 // Dependencies
 var browserSync = require('browser-sync');
-var del         = require('del');
+var del = require('del');
 
-var group = 'system';
-var name  = 'redproductzoom';
+var group = 'redshop_product';
+var name = 'product_alttext';
 
-var baseTask   = 'plugins.' + group + '.' + name;
-var extPath    = './plugins/' + group + '/' + name;
+var baseTask = 'plugins.' + group + '.' + name;
+var extPath = './plugins/' + group + '/' + name;
 
 var wwwExtPath = config.wwwDir + '/plugins/' + group + '/' + name;
 
@@ -20,28 +20,29 @@ gulp.task('clean:' + baseTask,
     [
         'clean:' + baseTask + ':plugin'
     ],
-    function() {
+    function () {
     });
 
 // Clean: plugin
-gulp.task('clean:' + baseTask + ':plugin', function() {
-    return del(wwwExtPath, {force : true});
+gulp.task('clean:' + baseTask + ':plugin', function () {
+    return del(wwwExtPath, {force: true});
 });
+
 
 // Copy
 gulp.task('copy:' + baseTask,
     [
         'copy:' + baseTask + ':plugin'
     ],
-    function() {
+    function () {
     });
 
 // Copy: plugin
-gulp.task('copy:' + baseTask + ':plugin', ['clean:' + baseTask + ':plugin'], function() {
+gulp.task('copy:' + baseTask + ':plugin', ['clean:' + baseTask + ':plugin'], function () {
     return gulp.src([
         extPath + '/**'
     ])
-    .pipe(gulp.dest(wwwExtPath));
+        .pipe(gulp.dest(wwwExtPath));
 });
 
 // Watch
@@ -49,11 +50,11 @@ gulp.task('watch:' + baseTask,
     [
         'watch:' + baseTask + ':plugin'
     ],
-    function() {
+    function () {
     });
 
 // Watch: plugin
-gulp.task('watch:' + baseTask + ':plugin', function() {
+gulp.task('watch:' + baseTask + ':plugin', function () {
     gulp.watch([
             extPath + '/**/*'
         ],
