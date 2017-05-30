@@ -47,7 +47,7 @@ class PriceProductAdministratorCest
     {
         $I->wantTo('Test Change Price of Product in Administrator');
         $I->doAdministratorLogin();
-        $I = new AcceptanceTester\PriceProductManagerJoomla3Page($scenario);
+        $I = new AcceptanceTester\PriceProductManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category Save button');
         $I->addDiscountPrice($this->randomProductName, $this->randomPriceDiscount);
         $I->see("Product Management", '.page-title');
@@ -59,7 +59,7 @@ class PriceProductAdministratorCest
 //    {
 //        $I->wantTo('Test Change Price of Product in Administrator');
 //        $I->doAdministratorLogin();
-//        $I = new AcceptanceTester\PriceProductManagerJoomla3Page($scenario);
+//        $I = new AcceptanceTester\PriceProductManagerJoomla3Steps($scenario);
 //        $I->wantTo('Create a Category Save button');
 //        $I->addDiscountPriceMoreThan($this->randomProductName, $this->randomPriceDiscountMoreThan);
 //        $I->see("Product Management", '.page-title');
@@ -70,7 +70,7 @@ class PriceProductAdministratorCest
 //    {
 //        $I->wantTo('Test Change Price of Product in Administrator');
 //        $I->doAdministratorLogin();
-//        $I = new AcceptanceTester\PriceProductManagerJoomla3Page($scenario);
+//        $I = new AcceptanceTester\PriceProductManagerJoomla3Steps($scenario);
 //        $I->wantTo('Create a Category Save button');
 //        $I->addPriceLessDiscount($this->randomProductName, $this->randomPriceLess);
 //        $I->see("Product Management", '.page-title');
@@ -81,7 +81,7 @@ class PriceProductAdministratorCest
     {
         $I->wantTo('Default price of Price of Product in Administrator');
         $I->doAdministratorLogin();
-        $I = new AcceptanceTester\PriceProductManagerJoomla3Page($scenario);
+        $I = new AcceptanceTester\PriceProductManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category Save button');
         $I->addDefaultPrivate("Testing Products542",$this->quantityStart, $this->quantityEnd, $this->priceDefault);
         $I->see("Product Management", '.page-title');
