@@ -432,7 +432,14 @@ class RedshopControllerCheckout extends RedshopController
 			if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 			{
 				$users_info_id = JRequest::getInt('users_info_id');
-				$chk           = $this->chkvalidation($users_info_id);
+
+				if (empty($users_info_id))
+				{
+					$userDetail = $model->store($post);
+					$users_info_id = $userDetail->users_info_id;
+				}
+
+				$chk = $this->chkvalidation($users_info_id);
 
 				if (!empty($chk))
 				{
