@@ -3579,6 +3579,9 @@ class rsCarthelper
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
 
+		JPluginHelper::importPlugin('redshop_checkout');
+		JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$template_desc));
+
 		$returnarr = array("template_desc" => $template_desc, "shipping_rate_id" => $shipping_rate_id);
 
 		return $returnarr;

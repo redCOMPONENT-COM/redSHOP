@@ -229,11 +229,6 @@ class RedshopModelCheckout extends RedshopModel
 
 		$cart = $session->get('cart');
 
-		$dispatcher = JDispatcher::getInstance();
-		// Add plugin support
-		JPluginHelper::importPlugin('redshop_checkout');
-		$dispatcher->trigger('onBeforeOrderSave', array(&$cart, &$post));
-
 		if ($cart['idx'] < 1)
 		{
 			$msg = JText::_('COM_REDSHOP_EMPTY_CART');
@@ -287,6 +282,12 @@ class RedshopModelCheckout extends RedshopModel
 		$cdiscount      = $cart ['coupon_discount'];
 		$order_tax      = $cart ['tax'];
 		$d['order_tax'] = $order_tax;
+
+		$dispatcher = JDispatcher::getInstance();
+
+		// Add plugin support
+		JPluginHelper::importPlugin('redshop_checkout');
+		$dispatcher->trigger('onBeforeOrderSave', array(&$cart, &$post, &$order_shipping));
 
 		$tax_after_discount = 0;
 
