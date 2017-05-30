@@ -77,6 +77,15 @@ class PriceProductAdministratorCest
 //    }
 
 
+    public function adDefaultPrivate(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Default price of Price of Product in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\PriceProductManagerJoomla3Page($scenario);
+        $I->wantTo('Create a Category Save button');
+        $I->addDefaultPrivate("Testing Products542",$this->quantityStart, $this->quantityEnd, $this->priceDefault);
+        $I->see("Product Management", '.page-title');
+    }
 
 
 }
