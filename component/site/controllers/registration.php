@@ -194,6 +194,7 @@ class RedshopControllerRegistration extends RedshopController
 			}
 
 			$html = $rsUserhelper->replaceCompanyCustomer($html, array(), $lists);
+			$html .= '<input type="hidden" name="is_company" value="1"/>';
 		}
 		elseif ($isCompany == 0 && $type == 'private')
 		{
@@ -210,6 +211,7 @@ class RedshopControllerRegistration extends RedshopController
 			}
 
 			$html = $rsUserhelper->replacePrivateCustomer($html, array(), $lists);
+			$html .= '<input type="hidden" name="is_company" value="0"/>';
 		}
 		else
 		{
