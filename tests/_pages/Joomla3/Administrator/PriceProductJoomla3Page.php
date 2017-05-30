@@ -6,7 +6,7 @@
  * Date: 5/29/2017
  * Time: 2:03 PM
  */
-class PriceProductJ3Page
+class PriceProductJoomla3Page
 {
     public static $URL = '/administrator/index.php?option=com_redshop&view=product&layout=listing';
     public static $discount = ['name' => "discount_price[]"];
