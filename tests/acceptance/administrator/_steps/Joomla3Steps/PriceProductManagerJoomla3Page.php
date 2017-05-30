@@ -39,7 +39,7 @@ class PriceProductManagerJoomla3Page extends AdminManagerJoomla3Steps
     public function addPriceLessDiscount($productName, $randomPriceLess)
     {
         $I = $this;
-        $I->amOnPage(\PriceProductJ3Page::$URL);a
+        $I->amOnPage(\PriceProductJ3Page::$URL);
         $I->searchProduct($productName);
         $I->wait(3);
         $I->fillField(\PriceProductJ3Page::$priceProduct, $randomPriceLess);
@@ -47,7 +47,7 @@ class PriceProductManagerJoomla3Page extends AdminManagerJoomla3Steps
 
     }
 
-    public function adDefaultPrivate($productName, $quantityStart, $quantityEnd,$priceDefault)
+    public function addDefaultPrivate($productName, $quantityStart, $quantityEnd,$priceDefault)
     {
         $I = $this;
         $I->amOnPage(\PriceProductJ3Page::$URL);
