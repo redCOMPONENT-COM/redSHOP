@@ -278,43 +278,6 @@ echo eval("?>" . $onestep_template_desc . "<?php ");?>
 			}
 		});
 	});
-
-	function getCVRInformation()
-	{
-		var cvrNumber = jQuery('input[name="rs_cvr_nummer"]').val();
-
-		jQuery.ajax({
-	        type: "POST",
-	        url: "<?php echo JUri::root() . 'index.php?option=com_ajax&plugin=Get_Cvr_Infomation&format=raw'; ?>",
-	        data: {cvr_number: cvrNumber},
-	        dataType: 'JSON',
-	        success: function(data) {
-	        	if (data.t == 100){
-	        		jQuery('input[name="email"]').val(data.email);
-		        	jQuery('input[name="email2"]').val(data.email);
-		        	jQuery('input[name="company_name"]').val(data.name);
-		        	jQuery('input[name="firstname"]').val(data.name);
-		        	jQuery('input[name="lastname"]').val(data.name);
-		        	jQuery('input[name="address"]').val(data.address);
-		        	jQuery('input[name="zipcode"]').val(data.zipcode);
-		        	jQuery('input[name="city"]').val(data.city);
-		        	jQuery('input[name="phone"]').val(data.phone);
-	        	}
-	        	else{
-		        	jQuery('input[name="email"]').val('');
-		        	jQuery('input[name="email2"]').val('');
-		        	jQuery('input[name="company_name"]').val('');
-		        	jQuery('input[name="firstname"]').val('');
-		        	jQuery('input[name="lastname"]').val('');
-		        	jQuery('input[name="address"]').val('');
-		        	jQuery('input[name="zipcode"]').val('');
-		        	jQuery('input[name="city"]').val('');
-		        	jQuery('input[name="phone"]').val('');
-	        	}
-	        }
-	    });
-	}
-
 	function validation()
 	{
 		return true;
