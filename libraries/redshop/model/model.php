@@ -301,6 +301,8 @@ class RedshopModel extends JModelLegacy
 			return false;
 		}
 
+		$this->preprocessData($this->context, $items);
+
 		// Add the items to the internal cache.
 		$this->cache[$store] = $items;
 
@@ -389,5 +391,31 @@ class RedshopModel extends JModelLegacy
 		$id .= ':' . $this->getState('list.direction');
 
 		return md5($this->context . ':' . $id);
+	}
+
+	/**
+	 * Method to allow derived classes to preprocess the data.
+	 *
+	 * @param   string  $context  The context identifier.
+	 * @param   mixed   &$data    The data to be processed. It gets altered directly.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	protected function preprocessData($context, &$data)
+	{
+		// Get the dispatcher and load the users plugins.
+		$dispatcher = JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('redshop');
+
+		// Trigger the data preparation event.
+		$results = $dispatcher->trigger('onRedshopPrepareData', array($context, &$data));
+
+		// Check for errors encountered while preparing the data.
+		if (count($results) > 0 && in_array(false, $results, true))
+		{
+			$this->setError($dispatcher->getError());
+		}
 	}
 }
