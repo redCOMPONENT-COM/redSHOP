@@ -300,7 +300,7 @@ class RedshopModelSearch extends RedshopModel
 				->where('p.product_id IN (' . implode(',', $productIds) . ')')
 				->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
 
-			$user  = JFactory::getUser();category_id
+			$user  = JFactory::getUser();
 			$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
 				->select(
 					array(
