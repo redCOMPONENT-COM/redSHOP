@@ -139,11 +139,16 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$post ['publish_date'] = date("Y-m-d H:i:s");
 		}
 
-		$post ['discount_stratdate'] = strtotime($post ['discount_stratdate']);
-
-		if ($post ['discount_enddate'])
+		if ($post['discount_stratdate'])
 		{
-			$post ['discount_enddate'] = strtotime($post ['discount_enddate']) + (23 * 59 * 59);
+			$startDate                  = new JDate($post['discount_stratdate']);
+			$post['discount_stratdate'] = $startDate->toUnix();
+		}
+
+		if ($post['discount_enddate'])
+		{
+			$endDate                  = new JDate($post['discount_enddate']);
+			$post['discount_enddate'] = $endDate->toUnix();
 		}
 
 		// Setting default value
