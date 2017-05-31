@@ -108,6 +108,8 @@ class RedshopViewSearch extends RedshopView
 	{
 		if (count($this->search) > 0)
 		{
+			JPluginHelper::importPlugin('redshop_product');
+
 			$app = JFactory::getApplication();
 			$input = JFactory::getApplication()->input;
 			$input->set('order_by', $app->getUserState('order_by'));
@@ -311,7 +313,12 @@ class RedshopViewSearch extends RedshopView
 
 			for ($i = 0, $countSearch = count($this->search); $i < $countSearch; $i++)
 			{
-				$data_add   = "";
+				$data_add = $template_desc;
+
+				// RedSHOP Product Plugin
+				$results = $dispatcher->trigger('onPrepareProduct', array(&$data_add, array(), $this->search[$i]));
+				// End
+
 				$thum_image = "";
 				$pname      = $Redconfiguration->maxchar($this->search[$i]->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
 
@@ -338,26 +345,20 @@ class RedshopViewSearch extends RedshopView
 				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
 				$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $Itemid);
 
-				if (strstr($template_desc, '{product_name}'))
+				if (strstr($data_add, '{product_name}'))
 				{
 					$pname    = "<a href='" . $link . "'>" . $pname . "</a>";
-					$data_add = str_replace("{product_name}", $pname, $template_desc);
+					$data_add = str_replace("{product_name}", $pname, $data_add);
 				}
 
-				if (strstr($template_desc, '{product_name_nolink}'))
+				if (strstr($data_add, '{product_name_nolink}'))
 				{
-					$data_add = str_replace("{product_name_nolink}", $pname, $template_desc);
+					$data_add = str_replace("{product_name_nolink}", $pname, $data_add);
 				}
 
 				$readmore = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 				$data_add = str_replace("{read_more}", $readmore, $data_add);
 				$data_add = str_replace("{read_more_link}", $link, $data_add);
-
-				// RedSHOP Product Plugin
-				JPluginHelper::importPlugin('redshop_product');
-				$results = $dispatcher->trigger('onPrepareProduct', array(& $data_add, & $params, $this->search[$i]));
-
-				// End
 
 				if (strstr($data_add, "{product_delivery_time}"))
 				{
@@ -672,6 +673,8 @@ class RedshopViewSearch extends RedshopView
 
 				// Cart Template
 				$data_add = $producthelper->replaceCartTemplate($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field, "");
+
+				$dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $this->search[$i]));
 
 				$data .= $data_add;
 			}

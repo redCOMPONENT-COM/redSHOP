@@ -320,6 +320,8 @@ class RedshopModelSearch extends RedshopModel
 			}
 		}
 
+		$this->preprocessData($this->context, $items);
+
 		// Add the items to the internal cache.
 		$this->cache[$store] = $items;
 
