@@ -16,6 +16,6 @@ defined('_JEXEC') or die;
  * @subpackage  Entity
  * @since       2.0.3
  */
-final class RedshopEntityCountry extends RedshopEntity
+class RedshopEntityCountry extends RedshopEntity
 {
 }

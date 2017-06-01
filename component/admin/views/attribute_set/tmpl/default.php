@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
+		if ((pressbutton == 'add') || (pressbutton == 'edit')
 			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
 			form.view.value = "attribute_set_detail";
 		}

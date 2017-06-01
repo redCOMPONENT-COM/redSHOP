@@ -330,7 +330,7 @@ switch ($name)
 		<h4><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_PRODUCT_HINT'); ?></h4>
 		{product_name} {manufacturer_name} {supplier_name} {publish_date} {update_date} <br />
 		{discount_start_date} {discount_end_date} {product_discount_price} {product_old_price} {product_price_saving} {product_price_saving_percentage} {if product_on_sale} <br />
-		{product_on_sale end if} {product_price_lbl} {if product_special} {product_special end if} {product_name} {product_price} <br />
+		{product_on_sale end if} {product_price_lbl} {if product_special} {product_special end if} {product_name} {product_price} {lowest_price} {highest_price} <br />
 		{product_thumb_image} {product_thumb_image_2} {product_thumb_image_3} {product_s_desc} {product_rating} {more_images} {more_documents} {more_videos} <br />
 		{product_desc} {bookmark} {send_to_friend} {ask_question_about_product} {ask_question_about_product_without_lightbox} {manufacturer_product_link} {product_rating_summary} <br />
 		{product_delivery_time} {manufacturer_link} {form_rating} {form_rating_without_lightbox} {product_id_lbl} {product_id} <br />
