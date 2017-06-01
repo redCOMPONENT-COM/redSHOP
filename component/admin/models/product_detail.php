@@ -4705,7 +4705,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * @return array
 	 *
 	 */
-	public function storeWS($data)
+	public function saveWS($data)
 	{
 		if ($row = $this->store($data))
 		{
