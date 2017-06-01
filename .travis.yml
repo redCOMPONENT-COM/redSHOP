@@ -14,8 +14,8 @@ php:
   - 7.0
 install:
   - . $HOME/.nvm/nvm.sh
-  - nvm install stable
-  - nvm use stable
+  - nvm install 6
+  - nvm use 6
   - npm install
 addons:
   firefox: "46.0"
