@@ -1440,6 +1440,8 @@ class productHelper
 			$product_price = $newproductprice;
 		}
 
+		$dispatcher->trigger('onSetProductPrice', array(&$product_price, $product_id));
+
 		$excludingvat    = $this->defaultAttributeDataPrice($product_id, $product_price, $data_add, $user_id, 0, $attributes);
 		$formatted_price = $this->getProductFormattedPrice($excludingvat);
 		$price_text      = $price_text . '<span id="display_product_price_without_vat' . $product_id . '">' . $formatted_price . '</span><input type="hidden" name="product_price_excluding_price" id="product_price_excluding_price' . $product_id . '" value="' . $product_price . '" />';
@@ -1464,6 +1466,8 @@ class productHelper
 			$price_excluding_vat        = $price_text;
 			$product_discount_price_tmp = $this->checkDiscountDate($product_id);
 			$product_old_price_excl_vat = $product_price_exluding_vat;
+
+			$dispatcher->trigger('onSetProductDiscountPrice', array(&$product_discount_price_tmp, $product_id));
 
 			if ($row->product_on_sale && $product_discount_price_tmp > 0)
 			{
