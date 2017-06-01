@@ -486,7 +486,7 @@ JPluginHelper::importPlugin('redshop_product');
                     </td>
 				<?php endif; ?>
                 <td align="center">
-					<?php echo $config->convertDateFormat($row->cdate); ?>
+					<?php echo RedshopHelperDatetime::convertDateFormat($row->cdate); ?>
                 </td>
                 <td>
 					<?php if (RedshopHelperPdf::isAvailablePdfPlugins()): ?>

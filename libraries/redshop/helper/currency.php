@@ -10,11 +10,12 @@
 defined('_JEXEC') or die;
 
 use Redshop\Currency\Currency;
+use Redshop\Currency\CurrencyLayer;
 
 /**
  * Class Redshop Helper for Currency
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.6
  */
 class RedshopHelperCurrency
 {
@@ -23,7 +24,7 @@ class RedshopHelperCurrency
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function init()
 	{
@@ -39,11 +40,18 @@ class RedshopHelperCurrency
 	 *
 	 * @return  float             Converted amount
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public static function convert($amountA, $currA = '', $currB = '')
 	{
-		return Currency::getInstance()->convert($amountA, $currA, $currB);
+		if (Redshop::getConfig()->get('CURRENCY_LIBRARIES') == 1)
+		{
+			return CurrencyLayer::getInstance()->convert($amountA, $currA, $currB);
+		}
+		else
+		{
+			return Currency::getInstance()->convert($amountA, $currA, $currB);
+		}
 	}
 
 	/**
@@ -55,7 +63,7 @@ class RedshopHelperCurrency
 	 *
 	 * @return  int     Currency Numeric Code
 	 *
-	 * @since   __DEPLOY_VERSION__  Use Redshop\Currency\Currency instead.
+	 * @since   2.0.6  Use Redshop\Currency\Currency instead.
 	 */
 	public static function getISOCode($code)
 	{

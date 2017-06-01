@@ -10,7 +10,7 @@
                 type="redshop.text"
                 label="COM_REDSHOP_CATEGORY_NAME"
                 description="COM_REDSHOP_TOOLTIP_CATEGORY_NAME"
-                size="40"
+                maxlength="255"
                 class="form-control"
                 required="true"
                 table-sortable="1"
