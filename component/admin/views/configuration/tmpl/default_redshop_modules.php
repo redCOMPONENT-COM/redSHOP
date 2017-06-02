@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($this->getinstalledmodule)): ?>
-    <?php RedshopHelperModule::loadLanguages(); ?>
+	<?php RedshopHelperModule::loadLanguages(); ?>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
             <tr>
                 <td><?php echo JText::_(strtoupper($module->element)) ?></td>
                 <td style="text-align: center">
-					<?php if (is_null(JModuleHelper::getModule($module->element))): ?>
+					<?php if ($module->state == -1): ?>
                         <label class="label label-danger">
 							<?php echo JText::_('COM_REDSHOP_NOT_INSTALLED') ?>
                         </label>

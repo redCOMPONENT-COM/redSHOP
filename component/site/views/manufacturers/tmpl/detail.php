@@ -120,7 +120,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 
 			if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'))
 			{
-				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
+				$manufacturer_img = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 				$maintype         = "watermarked/main";
 			}
 			else
@@ -130,7 +130,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 
 			if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 			{
-				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
+				$manufacturer_img = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
 				$thumbtype        = "watermarked/main";
 			}
 			else
