@@ -498,9 +498,11 @@ class productHelper
 				->select('tr.*')
 				->from($db->qn('#__redshop_tax_rate', 'tr'))
 				->leftJoin($db->qn('#__redshop_tax_group', 'tg') . ' ON ' . $db->qn('tg.id') . ' = ' . $db->qn('tr.tax_group_id'))
+				->leftJoin($db->qn('#__redshop_country', 'c') . ' ON ' . $db->qn('tr.tax_country') . ' = ' . $db->qn('c.country_3_code') . ' AND ' . $db->qn('c.country_3_code') . ' = ' . $db->q($userData->country_code))
+				->leftJoin($db->qn('#__redshop_state', 's') . ' ON ' . $db->qn('tr.tax_state') . ' = ' . $db->qn('s.state_3_code'))
 				->where('tg.published = 1')
 				->where('tr.tax_country = ' . $db->q($userData->country_code))
-				->where('(tr.tax_state = ' . $db->q($userData->state_code) . ' OR tr.tax_state = ' . $db->q('') . ')')
+				->where('(s.state_2_code = ' . $db->q($userData->state_code) . ' OR tr.tax_state = ' . $db->q('') . ')')
 				->where('tr.tax_group_id = ' . (int) $taxGroup)
 				->order('tax_rate');
 
@@ -4111,10 +4113,9 @@ class productHelper
 						{
 							$fieldValueArray = RedshopHelperExtrafields::getSectionFieldDataList($fieldArray[$i]->id, 1, $accessory [$a]->child_product_id);
 
-							if ($fieldValueArray->data_txt != ""
+							if ($fieldValueArray && $fieldValueArray->data_txt != ""
 								&& $fieldArray[$i]->show_in_front == 1
-								&& $fieldArray[$i]->published == 1
-								&& $giftcard == 0)
+								&& $fieldArray[$i]->published == 1 && $giftcard == 0)
 							{
 								$accessory_div = str_replace('{' . $fieldArray[$i]->name . '}', $fieldValueArray->data_txt, $accessory_div);
 								$accessory_div = str_replace('{' . $fieldArray[$i]->name . '_lbl}', $fieldArray[$i]->title, $accessory_div);

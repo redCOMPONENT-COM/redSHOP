@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Libraries
  * @subpackage  Helpers
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopHelperSample
 {
@@ -23,7 +23,7 @@ class RedshopHelperSample
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function sendMail()
 	{
@@ -69,7 +69,7 @@ class RedshopHelperSample
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function sendFirstReminder($sampleRequest = null, $currentDate = 0, $from = '', $fromName = '')
 	{
@@ -131,7 +131,7 @@ class RedshopHelperSample
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function sendSecondReminder($sampleRequest = null, $currentDate = '', $from = '', $fromName = '')
 	{
@@ -193,7 +193,7 @@ class RedshopHelperSample
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function sendThirdReminder($sampleRequest = null, $currentDate = '', $from = '', $fromName = '')
 	{

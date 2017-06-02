@@ -91,6 +91,15 @@ class RedshopControllerCheckout extends RedshopController
 
 		$Itemid        = JRequest::getInt('Itemid');
 		$users_info_id = JRequest::getInt('users_info_id');
+		$rs_user = $session->get('rs_user');
+
+		if ($users_info_id)
+		{
+			$rs_user['rs_user_info_id'] = $users_info_id;
+		}
+
+		$rs_user = $session->set('rs_user', $rs_user);
+
 		$helper        = redhelper::getInstance();
 		$chk           = $this->chkvalidation($users_info_id);
 
@@ -121,7 +130,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($errormsg != "")
 		{
-			$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid), $errormsg);
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false), $errormsg);
 		}
 		else
 		{
@@ -401,7 +410,7 @@ class RedshopControllerCheckout extends RedshopController
 			if ($shipping_rate_id == '' && $cart['free_shipping'] != 1)
 			{
 				$msg = JText::_('LIB_REDSHOP_SELECT_SHIP_METHOD');
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid), $msg);
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false), $msg);
 			}
 		}
 
@@ -415,7 +424,7 @@ class RedshopControllerCheckout extends RedshopController
 				}
 				else
 				{
-					$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid));
+					$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false));
 					exit;
 				}
 			}
@@ -522,7 +531,8 @@ class RedshopControllerCheckout extends RedshopController
 				}
 				else
 				{
-					$link = JURI::root() . 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $order_id . '&Itemid=' . $Itemid;
+					$link = JUri::root() . 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $order_id . '&Itemid=' . $Itemid;
+					$link = JRoute::_($link, false);
 					$this->setRedirect($link);
 				}
 			}
@@ -530,13 +540,13 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				$errorMsg = $model->getError();
 				JError::raiseWarning(21, $errorMsg);
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false));
 			}
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
-			$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid), $msg, 'error');
+			$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false), $msg, 'error');
 		}
 	}
 
@@ -584,18 +594,26 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function oneStepCheckoutProcess()
 	{
+		$session = JFactory::getSession();
+		$rs_user = $session->get('rs_user');
+		$post    = JRequest::get('post');
+		$users_info_id    = $post['users_info_id'];
+
+		if ($users_info_id)
+		{
+			$rs_user['rs_user_info_id'] = $users_info_id;
+			$rs_user = $session->set('rs_user', $rs_user);
+		}
+
 		$producthelper   = productHelper::getInstance();
 		$redTemplate     = Redtemplate::getInstance();
 		$carthelper      = rsCarthelper::getInstance();
 		$order_functions = order_functions::getInstance();
 
 		$model   = $this->getModel('checkout');
-		$post    = JRequest::get('post');
 		$user    = JFactory::getUser();
-		$session = JFactory::getSession();
 
 		$cart = $session->get('cart');
-		$users_info_id    = $post['users_info_id'];
 		$shipping_box_id  = $post['shipping_box_id'];
 		$shipping_rate_id = $post['shipping_rate_id'];
 		$customer_note    = $post['customer_note'];
