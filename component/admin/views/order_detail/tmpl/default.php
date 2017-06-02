@@ -1199,7 +1199,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <i class="fa fa-comment bg-yellow"></i>
                                         <div class="timeline-item">
                                             <div class="timeline-body">
-                                                <i><?php echo strip_tags($log->customer_note) ?></i>
+                                                <i><?php echo $log->customer_note ?></i>
                                             </div>
                                         </div>
                                     </li>
