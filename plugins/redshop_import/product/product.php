@@ -122,12 +122,13 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			}
 			else
 			{
-				$insert                    = new stdClass;
-				$insert->manufacturer_name = $data['manufacturer_name'];
-				$insert->template_id       = 14;
-				$insert->published         = 1;
-				$db->insertObject("#__redshop_manufacturer", $insert);
-				$data['manufacturer_id'] = $db->insertid();
+				JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+
+				$manufacturer RedshopTable::getInstance('Manufacturer', 'RedshopTable');
+				$manufacturer->manufacturer_name = $data['manufacturer_name'];
+				$manufacturer->published         = 1;
+				$manufacturer->store();
+				$data['manufacturer_id'] = $manufacturer->manufacturer_id;
 			}
 		}
 
