@@ -226,7 +226,7 @@ class RedshopViewList extends AbstractView
 		{
 			JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::checkin($this->getInstancesName() . '.publish', 'JTOOLBAR_CHECKIN', true);
+			JToolbarHelper::checkin($this->getInstancesName() . '.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 	}
 
@@ -341,6 +341,10 @@ class RedshopViewList extends AbstractView
 			}
 
 			return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
+		}
+		elseif ($config['edit_link'] === true)
+		{
+			return '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $row->{$config['dataCol']} . '</a>';
 		}
 
 		return '<div class="normal-data">' . $row->{$config['dataCol']} . '</div>';
