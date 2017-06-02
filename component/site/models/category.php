@@ -356,6 +356,7 @@ class RedshopModelCategory extends RedshopModel
 			->where($db->qn('p.published') . ' = 1')
 			->where($db->qn('p.expired') . ' = 0')
 			->where($db->qn('p.product_parent_id') . ' = 0')
+			->group($db->qn('p.product_id'))
 			->order($orderBy);
 
 		$filterIncludeProductFromSubCat = $this->getState('include_sub_categories_products', false);
@@ -385,7 +386,7 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		$queryCount = clone $query;
-		$queryCount->clear('select')
+		$queryCount->clear('select')->clear('group')
 			->select('COUNT(DISTINCT(p.product_id))');
 
 		// First steep get product ids
