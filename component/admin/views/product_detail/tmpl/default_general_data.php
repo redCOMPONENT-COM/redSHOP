@@ -58,7 +58,9 @@ $calendarFormat = '%d-%m-%Y';
                 'autoGroup': true,
                 'digits': <?php echo $priceDecimal ?>,
                 'digitsOptional': false,
-                'rightAlign': 0
+                'rightAlign': 0,
+                'autoUnmask': true,
+                'removeMaskOnSubmit': true
             });
         })
     })(jQuery)
