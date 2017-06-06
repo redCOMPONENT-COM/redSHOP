@@ -394,12 +394,13 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		for ($a = 0; $a < count($attribute); $a++)
 		{
-			$attribute_save['attribute_id']        = $attribute[$a]['id'];
-			$tmpordering                           = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
-			$attribute_save['product_id']          = $row->product_id;
-			$attribute_save['attribute_name']      = htmlspecialchars($attribute[$a]['name']);
-			$attribute_save['ordering']            = $attribute[$a]['ordering'];
-			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
+			$attribute_save['attribute_id']          = $attribute[$a]['id'];
+			$tmpordering                             = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
+			$attribute_save['product_id']            = $row->product_id;
+			$attribute_save['attribute_name']        = htmlspecialchars($attribute[$a]['name']);
+			$attribute_save['ordering']              = $attribute[$a]['ordering'];
+			$attribute_save['attribute_published']   = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
+			$attribute_save['attribute_description'] = $attribute[$a]['attribute_description'];
 
 			$attribute_save['attribute_required']       = isset($attribute[$a]['required'])
 			&& ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
