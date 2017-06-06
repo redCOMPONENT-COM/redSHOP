@@ -122,6 +122,7 @@ class RedshopHelperUser
 	{
 		$session = JFactory::getSession();
 		$userArr = $session->get('rs_user');
+		$order_functions = order_functions::getInstance();
 
 		if (!$userId)
 		{
@@ -141,7 +142,15 @@ class RedshopHelperUser
 
 			if (!isset($userArr['rs_user_info_id']))
 			{
-				$userInformation            = self::getUserInformation($userId);
+				$userInformation = self::getUserInformation($userId);
+				$shippingAddress = $order_functions->getShippingAddress($userId);
+
+				if (count($shippingAddress) > 0 && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST')
+				{
+					$users_info_id = $shippingAddress[0]->users_info_id;
+					$userInformation = self::getUserInformation($userId, 'ST', $users_info_id);
+				}
+
 				$userArr['rs_user_info_id'] = isset($userInformation->users_info_id) ? $userInformation->users_info_id : 0;
 			}
 		}
@@ -417,6 +426,11 @@ class RedshopHelperUser
 		{
 			$userData        = $session->get('rs_user');
 			$userInformation = self::getUserInformation($userId);
+
+			if ($userData['rs_user_info_id'] && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST')
+			{
+				$userInformation = RedshopHelperUser::getUserInformation($userId, '', $userData['rs_user_info_id'], false);
+			}
 
 			if (count($userInformation) > 0)
 			{

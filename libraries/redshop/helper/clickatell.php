@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Redshop.Libraries
  * @subpackage  Helpers
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 class RedshopHelperClickatell
 {
@@ -25,7 +25,7 @@ class RedshopHelperClickatell
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function clickatellSMS($orderId)
 	{
@@ -122,7 +122,7 @@ class RedshopHelperClickatell
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function replaceMessage($message, $orderData, $paymentName)
 	{
@@ -162,7 +162,7 @@ class RedshopHelperClickatell
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public static function sendMessage($text, $to)
 	{

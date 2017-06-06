@@ -156,7 +156,7 @@ class RedshopTableNested extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabase &$db A database connector object
 	 *
 	 * @throws  UnexpectedValueException
 	 */
@@ -180,7 +180,7 @@ class RedshopTableNested extends JTableNested
 		if (empty($key) && !empty($this->_tableKey))
 		{
 			$this->_tbl_key = $this->_tableKey;
-			$key = $this->_tbl_key;
+			$key            = $this->_tbl_key;
 		}
 
 		if (empty($this->_tbl) || empty($key))
@@ -196,8 +196,8 @@ class RedshopTableNested extends JTableNested
 	 * method only binds properties that are publicly accessible and optionally
 	 * takes an array of properties to ignore when binding.
 	 *
-	 * @param   mixed  $src     An associative array or object to bind to the JTable instance.
-	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 * @param   mixed $src    An associative array or object to bind to the JTable instance.
+	 * @param   mixed $ignore An optional array or space separated list of properties to ignore while binding.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -225,6 +225,12 @@ class RedshopTableNested extends JTableNested
 			$this->setRules($rules);
 		}
 
+		if (!isset($src['parent_id']) && empty($this->parent_id))
+		{
+			$src['parent_id'] = $this->getRootId();
+			$this->setLocation($this->getRootId(), 'last-child');
+		}
+
 		return parent::bind($src, $ignore);
 	}
 
@@ -244,9 +250,9 @@ class RedshopTableNested extends JTableNested
 	/**
 	 * Called before load().
 	 *
-	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.  If not
+	 * @param   mixed   $keys    An optional primary key value to load the row by, or an array of fields to match.  If not
 	 *                           set the instance property value is used.
-	 * @param   boolean  $reset  True to reset the default values before loading the new row.
+	 * @param   boolean $reset   True to reset the default values before loading the new row.
 	 *
 	 * @return  boolean  True if successful. False if row not found.
 	 */
@@ -258,7 +264,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = JFactory::getDispatcher()
+			$results = RedshopHelperUtility::getDispatcher()
 				->trigger($this->_eventBeforeLoad, array($this, $keys, $reset));
 
 			if (count($results) && in_array(false, $results, true))
@@ -273,9 +279,9 @@ class RedshopTableNested extends JTableNested
 	/**
 	 * Called after load().
 	 *
-	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.  If not
+	 * @param   mixed   $keys    An optional primary key value to load the row by, or an array of fields to match.  If not
 	 *                           set the instance property value is used.
-	 * @param   boolean  $reset  True to reset the default values before loading the new row.
+	 * @param   boolean $reset   True to reset the default values before loading the new row.
 	 *
 	 * @return  boolean  True if successful. False if row not found.
 	 */
@@ -303,9 +309,9 @@ class RedshopTableNested extends JTableNested
 	 * Method to load a row from the database by primary key and bind the fields
 	 * to the JTable instance properties.
 	 *
-	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.  If not
+	 * @param   mixed   $keys    An optional primary key value to load the row by, or an array of fields to match.  If not
 	 *                           set the instance property value is used.
-	 * @param   boolean  $reset  True to reset the default values before loading the new row.
+	 * @param   boolean $reset   True to reset the default values before loading the new row.
 	 *
 	 * @return  boolean  True if successful. False if row not found.
 	 */
@@ -335,8 +341,8 @@ class RedshopTableNested extends JTableNested
 	/**
 	 * Called before delete().
 	 *
-	 * @param   integer  $pk        The primary key of the node to delete.
-	 * @param   boolean  $children  True to delete child nodes, false to move them up a level.
+	 * @param   integer $pk       The primary key of the node to delete.
+	 * @param   boolean $children True to delete child nodes, false to move them up a level.
 	 *
 	 * @return  boolean  True on success.
 	 */
@@ -363,8 +369,8 @@ class RedshopTableNested extends JTableNested
 	/**
 	 * Called after delete().
 	 *
-	 * @param   integer  $pk        The primary key of the node to delete.
-	 * @param   boolean  $children  True to delete child nodes, false to move them up a level.
+	 * @param   integer $pk       The primary key of the node to delete.
+	 * @param   boolean $children True to delete child nodes, false to move them up a level.
 	 *
 	 * @return  boolean  True on success.
 	 */
@@ -392,8 +398,8 @@ class RedshopTableNested extends JTableNested
 	/**
 	 * Called delete().
 	 *
-	 * @param   integer  $pk        The primary key of the node to delete.
-	 * @param   boolean  $children  True to delete child nodes, false to move them up a level.
+	 * @param   integer $pk       The primary key of the node to delete.
+	 * @param   boolean $children True to delete child nodes, false to move them up a level.
 	 *
 	 * @return  boolean  True on success.
 	 */
@@ -405,8 +411,8 @@ class RedshopTableNested extends JTableNested
 	/**
 	 * Method to delete a node and, optionally, its child nodes from the table.
 	 *
-	 * @param   integer  $pk        The primary key of the node to delete.
-	 * @param   boolean  $children  True to delete child nodes, false to move them up a level.
+	 * @param   integer $pk       The primary key of the node to delete.
+	 * @param   boolean $children True to delete child nodes, false to move them up a level.
 	 *
 	 * @return  boolean  True on success.
 	 */
@@ -453,6 +459,11 @@ class RedshopTableNested extends JTableNested
 			{
 				return false;
 			}
+		}
+
+		if (!array_key_exists('alias', $this) || (empty($this->alias) && !empty($this->name)))
+		{
+			$this->alias = JFilterOutput::stringURLSafe($this->name);
 		}
 
 		return true;
@@ -518,7 +529,7 @@ class RedshopTableNested extends JTableNested
 	/**
 	 * Called before store().
 	 *
-	 * @param   boolean  $updateNulls  True to update null values as well.
+	 * @param   boolean $updateNulls True to update null values as well.
 	 *
 	 * @return  boolean  True on success.
 	 */
@@ -539,13 +550,19 @@ class RedshopTableNested extends JTableNested
 			}
 		}
 
+		// Audit fields optional auto-update (on by default)
+		if ($this->getOption('updateAuditFields', true))
+		{
+			$this->updateAuditFields($this);
+		}
+
 		return true;
 	}
 
 	/**
 	 * Called after store().
 	 *
-	 * @param   boolean  $updateNulls  True to update null values as well.
+	 * @param   boolean $updateNulls True to update null values as well.
 	 *
 	 * @return  boolean  True on success.
 	 */
@@ -557,7 +574,7 @@ class RedshopTableNested extends JTableNested
 			$this->importPluginTypes();
 
 			// Trigger the event
-			$results = JFactory::getDispatcher()
+			$results = RedshopHelperUtility::getDispatcher()
 				->trigger($this->_eventAfterStore, array($this, $updateNulls));
 
 			if (count($results) && in_array(false, $results, true))
@@ -572,7 +589,7 @@ class RedshopTableNested extends JTableNested
 	/**
 	 * Method to store a node in the database table.
 	 *
-	 * @param   boolean  $updateNulls  True to update null values as well.
+	 * @param   boolean $updateNulls True to update null values as well.
 	 *
 	 * @return  boolean  True on success.
 	 */
@@ -596,13 +613,15 @@ class RedshopTableNested extends JTableNested
 			return false;
 		}
 
+		$this->rebuildPath();
+
 		return true;
 	}
 
 	/**
 	 * Override the parent checkin method to set checked_out = null instead of 0 so the foreign key doesn't fail.
 	 *
-	 * @param   mixed  $pk  An optional primary key value to check out.  If not set the instance property value is used.
+	 * @param   mixed $pk An optional primary key value to check out.  If not set the instance property value is used.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -616,7 +635,7 @@ class RedshopTableNested extends JTableNested
 			return true;
 		}
 
-		$k = $this->_tbl_key;
+		$k  = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
 		// If no primary key is given, return false.
@@ -637,7 +656,7 @@ class RedshopTableNested extends JTableNested
 		$this->_db->execute();
 
 		// Set table values in the object.
-		$this->checked_out = null;
+		$this->checked_out      = null;
 		$this->checked_out_time = '';
 
 		return true;
@@ -648,10 +667,10 @@ class RedshopTableNested extends JTableNested
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.
+	 * @param   mixed   $pks      An optional array of primary key values to update.
 	 *                            If not set the instance property value is used.
-	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer  $userId  The user id of the user performing the operation.
+	 * @param   integer $state    The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param   integer $userId   The user id of the user performing the operation.
 	 *
 	 * @return  boolean  True on success; false if $pks is empty.
 	 */
@@ -740,8 +759,8 @@ class RedshopTableNested extends JTableNested
 	/**
 	 * Set a table option value.
 	 *
-	 * @param   string  $key  The key
-	 * @param   mixed   $val  The default value
+	 * @param   string $key The key
+	 * @param   mixed  $val The default value
 	 *
 	 * @return  JTable
 	 */
@@ -755,8 +774,8 @@ class RedshopTableNested extends JTableNested
 	/**
 	 * Get a table option value.
 	 *
-	 * @param   string  $key      The key
-	 * @param   mixed   $default  The default value
+	 * @param   string $key     The key
+	 * @param   mixed  $default The default value
 	 *
 	 * @return  mixed  The value or the default value
 	 */
@@ -792,5 +811,68 @@ class RedshopTableNested extends JTableNested
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to update audit fields using a static function, to reuse in non-children classes like RNestedTable
+	 *
+	 * @param   self $tableInstance Table instance
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	public function updateAuditFields(&$tableInstance)
+	{
+		$tableFieldCreatedBy    = $tableInstance->get('_tableFieldCreatedBy');
+		$tableFieldCreatedDate  = $tableInstance->get('_tableFieldCreatedDate');
+		$tableFieldModifiedBy   = $tableInstance->get('_tableFieldModifiedBy');
+		$tableFieldModifiedDate = $tableInstance->get('_tableFieldModifiedDate');
+		$auditDateFormat        = $tableInstance->get('_auditDateFormat');
+
+		// Optional created_by field updated when present
+		if (!$tableInstance->hasPrimaryKey() && property_exists($tableInstance, $tableFieldCreatedBy))
+		{
+			$user = JFactory::getUser();
+
+			if ($user->id)
+			{
+				$tableInstance->{$tableFieldCreatedBy} = $user->id;
+			}
+			else
+			{
+				$tableInstance->{$tableFieldCreatedBy} = null;
+			}
+		}
+
+		// Optional created_date field updated when present
+		if (!$tableInstance->hasPrimaryKey() && property_exists($tableInstance, $tableFieldCreatedDate))
+		{
+			$tableInstance->{$tableFieldCreatedDate} = JFactory::getDate()->format($auditDateFormat);
+		}
+
+		// Optional modified_by field updated when present
+		if (property_exists($tableInstance, $tableFieldModifiedBy))
+		{
+			if (!isset($user))
+			{
+				$user = JFactory::getUser();
+			}
+
+			if ($user->id)
+			{
+				$tableInstance->{$tableFieldModifiedBy} = $user->id;
+			}
+			else
+			{
+				$tableInstance->{$tableFieldModifiedBy} = null;
+			}
+		}
+
+		// Optional modified_date field updated when present
+		if (property_exists($tableInstance, $tableFieldModifiedDate))
+		{
+			$tableInstance->{$tableFieldModifiedDate} = JFactory::getDate()->format($auditDateFormat);
+		}
 	}
 }
