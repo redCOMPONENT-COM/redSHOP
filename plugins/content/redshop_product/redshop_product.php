@@ -315,7 +315,7 @@ class plgContentredshop_product extends JPlugin
 				$attribute_template = $producthelper->getAttributeTemplate($prtemplate);
 				$prtemplate = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $prtemplate, $attribute_template, $isChilds);
 
-				$dispatcher->trigger('onPrepareProduct', array(&$prtemplate, &$red_params, $product));
+				$dispatcher->trigger('onAfterDisplayProduct', array(&$prtemplate, &$red_params, $product));
 
 				$row->text = str_replace($matches[$i], $prtemplate, $row->text);
 			}
