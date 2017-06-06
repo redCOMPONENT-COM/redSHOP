@@ -1581,65 +1581,19 @@ class productHelper
 		return $ProductPriceArr;
 	}
 
-	public function getProductQuantityPrice($product_id, $userid)
+	/**
+	 * Get Layout product quantity price
+	 *
+	 * @param   int  $productId  Product Id
+	 * @param   int  $userId     User Id
+	 *
+	 * @deprecated  1.5  Use RedshopHelperProduct::getProductQuantityPrice instead
+	 *
+	 * @return  mixed  Redshop Layout
+	 */
+	public function getProductQuantityPrice($productId, $userId)
 	{
-		$userArr = $this->_session->get('rs_user');
-
-		if (empty($userArr))
-		{
-			$userArr = $this->_userhelper->createUserSession($userid);
-		}
-
-		$shopperGroupId = $this->_userhelper->getShopperGroup($userid);
-
-		if ($userid)
-		{
-			$query = "SELECT p.* FROM " . $this->_table_prefix . "users_info AS u "
-				. "LEFT JOIN " . $this->_table_prefix . "product_price AS p ON u.shopper_group_id = p.shopper_group_id "
-				. "WHERE p.product_id = " . (int) $product_id . " "
-				. "AND u.user_id=" . (int) $userid . " AND u.address_type='BT' "
-				. "ORDER BY price_quantity_start ASC ";
-		}
-		else
-		{
-			$query = "SELECT p.* FROM " . $this->_table_prefix . "product_price AS p "
-				. "WHERE p.product_id = " . (int) $product_id . " "
-				. "AND p.shopper_group_id = " . (int) $shopperGroupId . " "
-				. "ORDER BY price_quantity_start ASC ";
-		}
-
-		$this->_db->setQuery($query);
-		$result        = $this->_db->loadObjectList();
-		$quantitytable = '';
-
-		if ($result)
-		{
-			$quantitytable = "<table>";
-			$quantitytable .= "<tr><th>" . JText::_('COM_REDSHOP_QUANTITY') . "</th><th>" . JText::_('COM_REDSHOP_PRICE')
-				. "</th></tr>";
-
-			foreach ($result as $r)
-			{
-				if ($r->discount_price != 0
-					&& $r->discount_start_date != 0
-					&& $r->discount_end_date != 0
-					&& $r->discount_start_date <= time()
-					&& $r->discount_end_date >= time())
-				{
-					$r->product_price = $r->discount_price;
-				}
-
-				$tax = $this->getProductTax($product_id, $r->product_price, $userid);
-				$price = $this->getProductFormattedPrice($r->product_price + $tax);
-
-				$quantitytable .= "<tr><td>" . $r->price_quantity_start . " - " . $r->price_quantity_end
-					. "</td><td>" . $price . "</td></tr>";
-			}
-
-			$quantitytable .= "</table>";
-		}
-
-		return $quantitytable;
+		return RedshopHelperProduct::getProductQuantityPrice($productId, $userId);
 	}
 
 	public function getDiscountId($subtotal = 0, $user_id = 0)
