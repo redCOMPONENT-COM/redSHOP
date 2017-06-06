@@ -418,4 +418,57 @@ class RedshopModel extends JModelLegacy
 			$this->setError($dispatcher->getError());
 		}
 	}
+
+	/*
+	 * Method for saving data via webservices
+	 *
+	 * @param   array  $data  Data to be stored.
+	 *
+	 * @return  integer|boolean
+	 */
+	public function saveWS($data)
+	{
+		$table = $this->getTable();
+		$pkField = $table->getKeyName();
+
+		try
+		{
+			if (!$table->save($data))
+			{
+				return false;
+			}
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+
+		return $table->get($pkField);
+	}
+
+	/**
+	 * Delete an item from the web service
+	 *
+	 * @param   mixed  $pk  PK to be found to delete (internal id)
+	 *
+	 * @return  boolean
+	 */
+	public function deleteWS($pk)
+	{
+		$table = $this->getTable();
+
+		try
+		{
+			if (!$result = $table->delete($pk))
+			{
+				return false;
+			}
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+
+		return $result;
+	}
 }
