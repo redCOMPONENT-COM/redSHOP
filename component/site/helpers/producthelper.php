@@ -8965,6 +8965,9 @@ class productHelper
 		$related_template = $this->getRelatedProductTemplate($template_desc);
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
 
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = JDispatcher::getInstance();
+
 		if (count($related_template) > 0)
 		{
 			if (count($related_product) > 0
@@ -8987,6 +8990,8 @@ class productHelper
 				for ($r = 0, $rn = count($related_product); $r < $rn; $r++)
 				{
 					$related_template_data .= $tempdata_div_middle;
+
+					$dispatcher->trigger('onPrepareRelatedProduct', array(&$related_template_data, $related_product[$r]));
 
 					$ItemData = $this->getMenuInformation(0, 0, '', 'product&pid=' . $related_product[$r]->product_id);
 
@@ -9129,6 +9134,8 @@ class productHelper
 						$wishlistLink = "<div class=\"wishlist\">" . $this->replaceWishlistButton($related_product[$r]->product_id, '{wishlist_link}') ."</div>";
 						$related_template_data =  str_replace("{wishlist_link}", $wishlistLink, $related_template_data);
 					}
+
+					$dispatcher->trigger('onAfterDisplayRelatedProduct', array(&$related_template_data, $related_product[$r]));
 				}
 
 				$related_template_data = $tempdata_div_start . $related_template_data . $tempdata_div_end;
