@@ -511,6 +511,19 @@ abstract class RedshopHelperAttribute
 						$attr_title = urldecode($attributes[$a]->text);
 					}
 
+					if (strpos($attribute_table, '{attribute_tooltip}') !== false)
+					{
+						if (!empty($attributes[$a]->attribute_description))
+						{
+							$tooltip = JHTML::tooltip($attributes[$a]->attribute_description, $attributes[$a]->attribute_description, 'tooltip.png', '', '');
+							$attribute_table = str_replace("{attribute_tooltip}", $tooltip, $attribute_table);
+						}
+						else
+						{
+							$attribute_table = str_replace("{attribute_tooltip}", "", $attribute_table);
+						}
+					}
+
 					$attribute_table = str_replace("{attribute_title}", $attr_title, $attribute_table);
 					$attribute_table = str_replace("{property_dropdown}", $lists ['property_id'], $attribute_table);
 
