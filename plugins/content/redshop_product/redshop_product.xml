@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="content" method="upgrade">
     <name>PLG_CONTENT_REDSHOP_PRODUCT</name>
-    <version>1.5.2</version>
+    <version>1.5.3</version>
     <redshop>2.0</redshop>
     <creationDate>Sep 2016</creationDate>
     <author>redCOMPONENT.com</author>
