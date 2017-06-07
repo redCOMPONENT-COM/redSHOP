@@ -223,6 +223,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function store($data)
 	{
 		$dispatcher = JDispatcher::getInstance();
+		$separator = Redshop::getConfig()->get('THOUSAND_SEPARATOR');
+		$data['product_price'] = str_replace($separator, '', (float) $data['product_price']);
+		$data['discount_price'] = str_replace($separator, '', (float) $data['discount_price']);
 
 		$catorder = array();
 		$oldcategory = array();
