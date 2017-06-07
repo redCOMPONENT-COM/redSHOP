@@ -61,7 +61,7 @@ $productHelper = productHelper::getInstance();
 			<?php for ($l = 0, $ln = count($subProperties); $l < $ln; $l++): ?>
 				<?php $subPropertyOperator = $subProperties[$l]['subproperty_oprand']; ?>
 				<?php $subPropertyPrice = $subProperties[$l]['subproperty_price']; ?>
-				<?php $displayPrice = " (" . $subPropertyOperator . " " . $this->getProductFormattedPrice($subPropertyPrice) . ")"; ?>
+				<?php $displayPrice = " (" . $subPropertyOperator . " " . $productHelper->getProductFormattedPrice($subPropertyPrice) . ")"; ?>
 				<?php if ((Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')) || $hideAttributePrice): ?>
 					<?php $displayPrice = ""; ?>
 				<?php endif; ?>
