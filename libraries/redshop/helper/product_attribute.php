@@ -190,12 +190,11 @@ abstract class RedshopHelperProduct_Attribute
 
 				// Apply Lefjoin to get Product Id
 				$query->select('pa.product_id')
-					->leftjoin(
-						$db->qn('#__redshop_product_attribute', 'pa')
-						. ' ON ' . $db->qn('ap.attribute_id') . ' = ' . $db->qn('pa.attribute_id')
+					->leftJoin(
+						$db->qn('#__redshop_product_attribute', 'pa') . ' ON ' . $db->qn('ap.attribute_id') . ' = ' . $db->qn('pa.attribute_id')
 					);
 
-				static::$attributeProperties[$key] = $db->setQuery($query)->loadObjectlist();
+				static::$attributeProperties[$key] = $db->setQuery($query)->loadObjectList();
 			}
 
 			JPluginHelper::importPlugin('redshop_product');
@@ -300,7 +299,7 @@ abstract class RedshopHelperProduct_Attribute
 					$query->where('a.attribute_id NOT IN (' . implode(',', $notAttributeIds) . ')');
 				}
 
-				static::$productAttributes[$key] = $db->setQuery($query)->loadObjectlist();
+				static::$productAttributes[$key] = $db->setQuery($query)->loadObjectList();
 			}
 
 			JPluginHelper::importPlugin('redshop_product');
@@ -358,10 +357,9 @@ abstract class RedshopHelperProduct_Attribute
 			}
 
 			// Apply Lefjoin to get Product Id
-			$query->select('pa.product_id')
-				->leftjoin(
-					$db->qn('#__redshop_product_attribute', 'pa')
-					. ' ON ' . $db->qn('p.attribute_id') . ' = ' . $db->qn('pa.attribute_id')
+			$query->select($db->qn('pa.product_id'))
+				->leftJoin(
+					$db->qn('#__redshop_product_attribute', 'pa') . ' ON ' . $db->qn('p.attribute_id') . ' = ' . $db->qn('pa.attribute_id')
 				);
 
 			static::$subProperties[$key] = $db->setQuery($query)->loadObjectList();

@@ -3,20 +3,20 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Joomla! System redproductzoom Plugin
+ * Joomla! System Red Product Zoom Plugin
  *
  * @package     RedSHOP.Plugin
  * @subpackage  System.redproductzoom
- * @since       1.3.3.1
+ * @since       2.0.0
  */
-class PlgSystemredproductzoom extends JPlugin
+class PlgSystemRedProductZoom extends JPlugin
 {
 	/**
 	 * This event is triggered immediately before pushing the document buffers into the template placeholders,
@@ -27,40 +27,51 @@ class PlgSystemredproductzoom extends JPlugin
 	 */
 	public function onBeforeRender()
 	{
-		$app = JFactory::getApplication();
-		$jinput = $app->input;
+		$app   = JFactory::getApplication();
+		$input = $app->input;
 
-		// No redproductzoom me for admin
-		if ($app->isAdmin())
+		// No redSHOP Product Zoom me for admin
+		if ($app->isAdmin() || $input->get('option') != 'com_redshop' || $input->get('view') != 'product' || !$input->getInt('pid', 0))
 		{
 			return;
 		}
 
-		if ($jinput->get('option') != 'com_redshop')
+		$document = JFactory::getDocument();
+		$url      = JUri::base(true) . '/plugins/system/redproductzoom';
+
+		$document->addScript($url . '/js/jquery.elevatezoom.js');
+		$document->addScript($url . '/js/redproductzoom.js');
+
+		$scripts = array();
+		$scripts[] = 'loadingIcon: "plugins/system/redproductzoom/js/zoomloader.gif"';
+		$scripts[] = 'cursor: "crosshair"';
+		$scripts[] = 'zoomType: "' . $this->params->get('zoom_type', 'window') . '"';
+		$scripts[] = 'scrollZoom: ' . ($this->params->get('scroll_zoom', true) ? 'true' : 'false');
+
+		$zoomType = $this->params->get('zoom_type', 'window');
+
+		if ($zoomType == 'lens')
 		{
-			return;
+			$scripts[] = 'lensShape: "' . $this->params->get('lens_shape', 'round') . '"';
+			$scripts[] = 'lensSize: ' . $this->params->get('lens_size', 200);
+			$scripts[] = 'lensFadeIn: ' . ($this->params->get('lens_fade_in', true) ? 'true' : 'false');
+			$scripts[] = 'lensFadeOut: ' . ($this->params->get('lens_fade_out', true) ? 'true' : 'false');
 		}
-		else
+		elseif ($zoomType == 'window')
 		{
-			$isChilds       = false;
-			$attributes_set = array();
-
-			if ($jinput->get('view') != 'product')
-			{
-				return;
-			}
-
-			if ($jinput->get('pid', 0, 'INT') == 0)
-			{
-				return;
-			}
-
-			$document = JFactory::getDocument();
-			$url = JURI::base(true) . '/plugins/system/redproductzoom';
-
-			JHtml::_('redshopjquery.framework');
-			$document->addScript($url . '/js/jquery.elevateZoom.min.js');
-			$document->addScript($url . '/js/redproductzoom.js');
+			$scripts[] = 'tint: ' . ($this->params->get('tint', false) ? 'true' : 'false');
+			$scripts[] = 'tintColour: "' . $this->params->get('tint_color') . '"';
+			$scripts[] = 'tintOpacity: ' . $this->params->get('tint_opacity');
+			$scripts[] = 'zoomWindowWidth: ' . $this->params->get('zoom_window_width');
+			$scripts[] = 'zoomWindowHeight: ' . $this->params->get('zoom_window_height');
 		}
+
+		$document->addScriptDeclaration(
+			'(function($){
+				$(document).ready(function(){
+					redproductzoom({' . implode(',', $scripts) . '});
+				});
+			})(jQuery);'
+		);
 	}
 }

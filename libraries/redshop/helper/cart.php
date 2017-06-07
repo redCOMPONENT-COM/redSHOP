@@ -21,11 +21,11 @@ abstract class RedshopHelperCart
 	/**
 	 * Method for remove cart from Database
 	 *
-	 * @param   int   $cartId   ID of cart.
-	 * @param   int   $userId   Id of user.
-	 * @param   bool  $delCart  Delete cart.
+	 * @param   int  $cartId  ID of cart.
+	 * @param   int  $userId  Id of user.
+	 * @param   bool $delCart Delete cart.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   2.0.3
 	 */
@@ -33,7 +33,7 @@ abstract class RedshopHelperCart
 	{
 		if (!$userId)
 		{
-			$user = JFactory::getUser();
+			$user   = JFactory::getUser();
 			$userId = (int) $user->id;
 		}
 
@@ -74,16 +74,14 @@ abstract class RedshopHelperCart
 					->delete($db->qn('#__redshop_usercart_accessory_item'))
 					->where($db->qn('cart_item_id') . ' IN (' . implode(',', $cartItemIds) . ')');
 
-				$db->setQuery($query);
-				$db->execute();
+				$db->setQuery($query)->execute();
 
 				// Delete attribute
 				$query = $db->getQuery(true)
 					->delete($db->qn('#__redshop_usercart_attribute_item'))
 					->where($db->qn('cart_item_id') . ' IN (' . implode(',', $cartItemIds) . ')');
 
-				$db->setQuery($query);
-				$db->execute();
+				$db->setQuery($query)->execute();
 			}
 
 			// Delete cart item
@@ -91,8 +89,7 @@ abstract class RedshopHelperCart
 				->delete($db->qn('#__redshop_usercart_item'))
 				->where($db->qn('cart_id') . ' = ' . (int) $cartId);
 
-			$db->setQuery($query);
-			$db->execute();
+			$db->setQuery($query)->execute();
 
 			if ($delCart)
 			{
@@ -100,8 +97,7 @@ abstract class RedshopHelperCart
 					->delete($db->qn('#__redshop_usercart'))
 					->where($db->qn('cart_id') . ' = ' . (int) $cartId);
 
-				$db->setQuery($query);
-				$db->execute();
+				$db->setQuery($query)->execute();
 			}
 
 			$db->transactionCommit();
@@ -119,7 +115,7 @@ abstract class RedshopHelperCart
 	/**
 	 * Store Cart to Database
 	 *
-	 * @param   array  $cart  Cart data.
+	 * @param   array $cart Cart data.
 	 *
 	 * @return  boolean       True on success. False otherwise.
 	 *
@@ -223,7 +219,7 @@ abstract class RedshopHelperCart
 					$cart_attribute = $cart[$i]['cart_attribute'];
 				}
 
-				/* store attribute in db */
+				/* Store attribute in db */
 				self::addCartAttributeToDatabase($cart_attribute, $cartItemId, $rowItem->product_id);
 
 				$cart_accessory = array();
@@ -247,6 +243,7 @@ abstract class RedshopHelperCart
 					}
 
 					$accessory_childs = $cart_accessory[$j]['accessory_childs'];
+
 					self::addCartAttributeToDatabase($accessory_childs, $cartItemId, $rowAcc->accessory_id, true);
 				}
 			}
@@ -266,10 +263,10 @@ abstract class RedshopHelperCart
 	/**
 	 * Store Cart Attribute to Database
 	 *
-	 * @param   array    $attributes   Cart attribute data.
-	 * @param   int      $cartItemId   Cart item ID
-	 * @param   int      $productId    Cart product ID.
-	 * @param   boolean  $isAccessory  Is this accessory?
+	 * @param   array   $attributes  Cart attribute data.
+	 * @param   int     $cartItemId  Cart item ID
+	 * @param   int     $productId   Cart product ID.
+	 * @param   boolean $isAccessory Is this accessory?
 	 *
 	 * @return  boolean       True on success. False otherwise.
 	 *
@@ -357,7 +354,7 @@ abstract class RedshopHelperCart
 	/**
 	 * Method for convert data from database to cart.
 	 *
-	 * @param   int  $userId  ID of user.
+	 * @param   int $userId ID of user.
 	 *
 	 * @return  void
 	 *
@@ -365,7 +362,7 @@ abstract class RedshopHelperCart
 	 */
 	public static function databaseToCart($userId = 0)
 	{
-		if (!$userId == 0)
+		if (!$userId)
 		{
 			$user   = JFactory::getUser();
 			$userId = $user->id;
@@ -374,21 +371,21 @@ abstract class RedshopHelperCart
 		$productHelper = productHelper::getInstance();
 		$cartHelper    = rsCarthelper::getInstance();
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select(
 				$db->qn(
-					[
+					array(
 						'ci.cart_item_id', 'ci.cart_idx', 'ci.product_id', 'ci.product_quantity',
-						'ci.product_wrapper_id', 'ci.product_subscription_id', 'ci.giftcard_id', 'ci.attribs'
-					]
+						'ci.product_wrapper_id', 'ci.product_subscription_id', 'ci.giftcard_id', 'ci.attribs')
+					)
 				)
-			)
 			->from($db->qn('#__redshop_usercart_item', 'ci'))
 			->leftJoin($db->qn('#__redshop_usercart', 'c') . ' ON ' . $db->qn('c.cart_id') . ' = ' . $db->qn('ci.cart_id'))
 			->where($db->qn('c.user_id') . ' = ' . $userId)
 			->order($db->qn('ci.cart_idx'));
+
 		$cartItems = $db->setQuery($query)->loadObjectList();
 
 		if (empty($cartItems))
@@ -401,20 +398,20 @@ abstract class RedshopHelperCart
 
 		foreach ($cartItems as $cartItem)
 		{
-			$setCartItem       = true;
-			$quantity          = $cartItem->product_quantity;
-			$calcOutput       = "";
-			$calcOutputs = array();
-			$productId        = $cartItem->product_id;
-			$subscriptionId   = 0;
-			$wrapperPrice     = 0;
-			$productVatPrice = 0;
-			$productOldPrice = 0;
-			$productOldPriceNoVat = 0;
+			$setCartItem           = true;
+			$quantity              = $cartItem->product_quantity;
+			$calcOutput            = "";
+			$calcOutputs           = array();
+			$productId             = $cartItem->product_id;
+			$subscriptionId        = 0;
+			$wrapperPrice          = 0;
+			$productVatPrice       = 0;
+			$productOldPrice       = 0;
+			$productOldPriceNoVat  = 0;
 			$generateAttributeCart = '';
 			$generateAccessoryCart = '';
-			$giftCardId = '';
-			$attributes = unserialize($cartItem->attribs);
+			$giftCardId            = '';
+			$attributes            = unserialize($cartItem->attribs);
 
 			if ($cartItem->giftcard_id)
 			{
@@ -534,7 +531,7 @@ abstract class RedshopHelperCart
 				}
 
 				// ADD WRAPPER PRICE
-				$wrapperVAT   = 0;
+				$wrapperVAT = 0;
 
 				if ($cartItem->product_wrapper_id)
 				{
@@ -579,9 +576,9 @@ abstract class RedshopHelperCart
 					}
 				}
 
-				$cart[$idx]['product_price'] = $productPrice;
+				$cart[$idx]['product_price']          = $productPrice;
 				$cart[$idx]['product_price_excl_vat'] = $productPriceNoVat;
-				$cart[$idx]['giftcard_id'] = $giftCardId;
+				$cart[$idx]['giftcard_id']            = $giftCardId;
 
 				if ($giftCardId)
 				{
@@ -595,8 +592,8 @@ abstract class RedshopHelperCart
 					}
 
 					$cart[$idx]['product_vat'] = 0;
-					$cart[$idx]['product_id'] = '';
-					$cart[$idx]['quantity'] = $quantity;
+					$cart[$idx]['product_id']  = '';
+					$cart[$idx]['quantity']    = $quantity;
 				}
 				else
 				{
@@ -646,16 +643,16 @@ abstract class RedshopHelperCart
 
 		JFactory::getSession()->set('cart', $cart);
 
-		$cartHelper->cartFinalCalculation();
+		RedshopHelperCart::cartFinalCalculation();
 	}
 
 	/**
 	 * Method for generate attribute from cart.
 	 *
-	 * @param   int  $cartItemId       ID of cart item.
-	 * @param   int  $isAccessory      Is accessory?
-	 * @param   int  $parentSectionId  ID of parent section
-	 * @param   int  $quantity         Quantity of product.
+	 * @param   int $cartItemId      ID of cart item.
+	 * @param   int $isAccessory     Is accessory?
+	 * @param   int $parentSectionId ID of parent section
+	 * @param   int $quantity        Quantity of product.
 	 *
 	 * @return  array
 	 *
@@ -663,14 +660,14 @@ abstract class RedshopHelperCart
 	 */
 	public static function generateAttributeFromCart($cartItemId = 0, $isAccessory = 0, $parentSectionId = 0, $quantity = 1)
 	{
-		$cartHelper = rsCarthelper::getInstance();
+		$cartHelper         = rsCarthelper::getInstance();
 		$generateAttributes = array();
 
 		$cartAttributes = $cartHelper->getCartItemAttributeDetail($cartItemId, $isAccessory, "attribute", $parentSectionId);
 
 		for ($i = 0, $in = count($cartAttributes); $i < $in; $i++)
 		{
-			$attribute = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $cartAttributes[$i]->section_id);
+			$attribute          = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $cartAttributes[$i]->section_id);
 			$generateProperties = array();
 
 			$generateAttributes[$i]['attribute_id']   = $cartAttributes[$i]->section_id;
@@ -681,8 +678,8 @@ abstract class RedshopHelperCart
 			for ($p = 0, $pn = count($cartProperties); $p < $pn; $p++)
 			{
 				$generateSubProperties = array();
-				$property  = RedshopHelperProduct_Attribute::getAttributeProperties($cartProperties[$p]->section_id);
-				$priceList = RedshopHelperProduct_Attribute::getPropertyPrice($cartProperties[$p]->section_id, $quantity, 'property');
+				$property              = RedshopHelperProduct_Attribute::getAttributeProperties($cartProperties[$p]->section_id);
+				$priceList             = RedshopHelperProduct_Attribute::getPropertyPrice($cartProperties[$p]->section_id, $quantity, 'property');
 
 				if (!empty($priceList->product_price))
 				{
@@ -705,7 +702,7 @@ abstract class RedshopHelperCart
 				for ($sp = 0; $sp < count($cartSubProperties); $sp++)
 				{
 					$subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($cartSubProperties[$sp]->section_id);
-					$price = RedshopHelperProduct_Attribute::getPropertyPrice($cartSubProperties[$sp]->section_id, $quantity, 'subproperty');
+					$price       = RedshopHelperProduct_Attribute::getPropertyPrice($cartSubProperties[$sp]->section_id, $quantity, 'subproperty');
 
 					if (count($price) > 0)
 					{
@@ -734,7 +731,7 @@ abstract class RedshopHelperCart
 	/**
 	 * Method for calculate final price of cart.
 	 *
-	 * @param   bool  $isModify  Is modify cart?
+	 * @param   bool $isModify Is modify cart?
 	 *
 	 * @return  array
 	 *
@@ -751,8 +748,8 @@ abstract class RedshopHelperCart
 		}
 
 		$cartOutput = array();
-		$carts = self::generateCartOutput($cart);
-		$text  = RedshopHelperShipping::getFreeShippingRate();
+		$carts      = self::generateCartOutput($cart);
+		$text       = RedshopHelperShipping::getFreeShippingRate();
 
 		$cartOutput['cart_output']    = $carts[0];
 		$cartOutput['total_quantity'] = $carts[1];
@@ -769,7 +766,7 @@ abstract class RedshopHelperCart
 	/**
 	 * Method for render cart.
 	 *
-	 * @param   array  $cart  Cart data
+	 * @param   array $cart Cart data
 	 *
 	 * @return  array
 	 *
@@ -830,8 +827,8 @@ abstract class RedshopHelperCart
 	/**
 	 * Calculate tax after Discount is apply
 	 *
-	 * @param   float  $tax       Tax amount
-	 * @param   float  $discount  Discount amount.
+	 * @param   float $tax      Tax amount
+	 * @param   float $discount Discount amount.
 	 *
 	 * @return  float             Tax after apply discount.
 	 *
@@ -860,8 +857,8 @@ abstract class RedshopHelperCart
 	/**
 	 * Check user for Tax Exemption approved
 	 *
-	 * @param   integer  $userId                 User Information Id - Login user id
-	 * @param   boolean  $isShowButtonAddToCart  Display Add to cart button for tax exemption user
+	 * @param   integer $userId                User Information Id - Login user id
+	 * @param   boolean $isShowButtonAddToCart Display Add to cart button for tax exemption user
 	 *
 	 * @return  boolean                          True if VAT applied else false
 	 *

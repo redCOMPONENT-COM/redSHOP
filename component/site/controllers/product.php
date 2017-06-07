@@ -1046,7 +1046,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 		else
 		{
-			$pItemid = $objhelper->getItemid($product->product_id, $cid);
+			$pItemid = RedshopHelperUtility::getItemId($post['pid'], $cid);
 		}
 
 		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $post['pid'] . '&cid=' . $cid . '&Itemid=' . $pItemid, false);
@@ -1076,7 +1076,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 		else
 		{
-			$pItemid = $objhelper->getItemid($product->product_id, $cid);
+			$pItemid = RedshopHelperUtility::getItemId($post['pid'], $cid);
 		}
 
 		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $post['pid'] . '&cid=' . $cid . '&Itemid=' . $pItemid, false);

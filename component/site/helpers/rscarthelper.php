@@ -720,7 +720,7 @@ class rsCarthelper
 			$replace[]    = JText::_($shipping_method);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping - $row->order_shipping_tax);
-			$replace[]    = $shipping_rate_name;
+			$replace[]    = JText::_($shipping_rate_name);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping_tax);
 
@@ -796,7 +796,7 @@ class rsCarthelper
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
 		$prdItemid  = JRequest::getInt('Itemid');
-		$Itemid     = $this->_redhelper->getCheckoutItemid();
+		$Itemid     = RedshopHelperUtility::getCheckoutItemId();
 		$url        = JURI::base(true);
 		$mainview   = JRequest::getVar('view');
 
@@ -949,7 +949,7 @@ class rsCarthelper
 				}
 				else
 				{
-					$Itemid = $this->_redhelper->getItemid($product_id);
+					$Itemid = RedshopHelperUtility::getItemId($product_id);
 				}
 
 				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
@@ -998,11 +998,11 @@ class rsCarthelper
 
 				if ($prd_image !== '')
 				{
-					$redhelper = redhelper::getInstance();
-
 					if (Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE') && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('WATERMARK_IMAGE')))
 					{
-						$product_cart_img = $redhelper->watermark($type, $prd_image, Redshop::getConfig()->get('CART_THUMB_WIDTH'), Redshop::getConfig()->get('CART_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE'), '0');
+						$product_cart_img = RedshopHelperMedia::watermark(
+							$type, $prd_image, Redshop::getConfig()->get('CART_THUMB_WIDTH'), Redshop::getConfig()->get('CART_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE')
+						);
 
 						$product_image = "<div  class='product_image'><img src='" . $product_cart_img . "'></div>";
 					}
@@ -1157,7 +1157,9 @@ class rsCarthelper
 								// Show actual productive price
 								if ($product_attribute_value_price > 0)
 								{
-									$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price);
+									$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
+										$propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price
+									);
 
 									$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -1748,8 +1750,7 @@ class rsCarthelper
 
 			if ($mainview == "order_detail")
 			{
-				$Itemid     = JRequest::getVar('Itemid');
-				$Itemid     = $this->_redhelper->getCartItemid();
+				$Itemid     = RedshopHelperUtility::getCartItemId();
 				$copytocart = "<a href='" . JRoute::_('index.php?option=com_redshop&view=order_detail&task=copyorderitemtocart&order_item_id=' . $rowitem[$i]->order_item_id . '&Itemid=' . $Itemid, false) . "'>";
 				$copytocart .= "<img src='" . REDSHOP_ADMIN_IMAGES_ABSPATH . "add.jpg' title='" . JText::_("COM_REDSHOP_COPY_TO_CART") . "' alt='" . JText::_("COM_REDSHOP_COPY_TO_CART") . "' /></a>";
 				$cart_mdata = str_replace("{copy_orderitem}", $copytocart, $cart_mdata);
@@ -6115,7 +6116,7 @@ class rsCarthelper
 							$prooprand[$ip]                          = $property[0]->oprand;
 							$proprice[$ip]                           = $property_price;
 
-							if ($data['subproperty_data'] != "")
+							if ($data['subproperty_data'] != "" && $data['subproperty_data'] != 0)
 							{
 								$acc_subproperty_data = @explode('##', $data['subproperty_data']);
 								$acc_subproperty_data = @explode(',,', $acc_subproperty_data[$ia]);
