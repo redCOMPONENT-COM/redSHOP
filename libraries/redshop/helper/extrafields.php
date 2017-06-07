@@ -1330,16 +1330,8 @@ class RedshopHelperExtrafields
 
 					if ($dataValue && $dataValue->data_txt)
 					{
-						$query = $db->getQuery(true);
-
-						$query->select($db->qn('country_name'))
-							->from($db->qn('#__redshop_country'))
-							->where($db->qn('id') . ' = ' . $db->quote($dataValue->data_txt));
-
-						$db->setQuery($query);
-
-						$fieldChk        = $db->loadObject();
-						$extraFieldValue = $fieldChk->country_name;
+						$fieldChk        = RedshopEntityCountry::getInstance($dataValue->data_txt);
+						$extraFieldValue = $fieldChk->get('country_name');
 					}
 
 					$exField .= $extraFieldValue;
@@ -1642,7 +1634,7 @@ class RedshopHelperExtrafields
 	 * @param   integer $published Field show in front
 	 * @param   integer $required  Field show in front
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since 2.0.3
 	 */

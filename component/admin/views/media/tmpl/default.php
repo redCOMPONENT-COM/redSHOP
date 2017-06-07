@@ -297,8 +297,8 @@ submitbutton = function (pressbutton) {
 	if (pressbutton) {
 		form.task.value = pressbutton;
 	}
-	if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-		|| (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'edit') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
+	if (pressbutton == 'add' || pressbutton == 'edit' || pressbutton == 'remove' || pressbutton == 'copy' || pressbutton == 'edit'
+        || pressbutton == 'saveorder' || pressbutton == 'orderup' || pressbutton == 'orderdown') {
 		form.view.value = "media_detail";
 	}
 	try {

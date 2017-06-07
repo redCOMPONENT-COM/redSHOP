@@ -54,16 +54,26 @@ class RedshopModelInstall extends RedshopModelList
 			return array();
 		}
 
-		$files   = glob($updatePath . '/*.php');
-		$version = RedshopHelperJoomla::getManifestValue('version');
-		$classes = array();
+		$app     = JFactory::getApplication();
+		$version = $app->getUserState('redshop.old_version', null);
 
 		$tasks = array(
 			array(
-				'text' => 'COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG',
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
 				'func' => 'RedshopInstall::handleConfig'
 			)
 		);
+
+		if (is_null($version))
+		{
+			$app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, $tasks);
+			$app->setUserState('redshop.old_version', null);
+
+			return $tasks;
+		}
+
+		$files   = JFolder::files($updatePath, '.php', false, true);
+		$classes = array();
 
 		foreach ($files as $file)
 		{
@@ -100,7 +110,8 @@ class RedshopModelInstall extends RedshopModelList
 			}
 		}
 
-		JFactory::getApplication()->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, $tasks);
+		$app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, $tasks);
+		$app->setUserState('redshop.old_version', null);
 
 		return $tasks;
 	}

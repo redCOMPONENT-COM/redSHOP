@@ -42,11 +42,7 @@ $scrollTextSize           = $params->get('ScrollTextSize', 10);
 $scrollTextColor          = $params->get('ScrollTextColor', '#000000');
 $scrollBackgroundColor    = $params->get('ScrollBGColor', 'transparent');
 $scrollMargin             = $params->get('ScrollMargin', 2);
-$show_discountpricelayout = $params->get('show_discountpricelayout', 0);
 $boxWidth                 = $params->get('boxwidth', 100);
-$module_id                = $module_id;
-
-$module_id = "mod_" . $module->id;
 
 $data = ModRedCategoryScrollerHelper::getList($params);
 
@@ -54,8 +50,3 @@ if ($data)
 {
 	require JModuleHelper::getLayoutPath('mod_redcategoryscroller', $params->get('layout', 'default'));
 }
-
-/**
- * Display category Scroller
- **/
-$scroller->displayredScroller($rows);

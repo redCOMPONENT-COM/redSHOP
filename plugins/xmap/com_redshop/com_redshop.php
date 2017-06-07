@@ -168,7 +168,7 @@ class Xmap_Com_Redshop
 			foreach ($rows as $row)
 			{
 				// Get Category Menu Itemid
-				$cItemid = $objhelper->getCategoryItemid($row->id);
+				$cItemid = RedshopHelperUtility::getCategoryItemid($row->id);
 
 				if ($cItemid != "")
 				{
@@ -231,7 +231,7 @@ class Xmap_Com_Redshop
 					}
 					else
 					{
-						$params['Itemid'] = $objhelper->getItemid($row->product_id, $row->category_id);
+						$params['Itemid'] = RedshopHelperUtility::getItemId($row->product_id, $row->category_id);
 					}
 
 					$node = new stdclass;
@@ -323,7 +323,7 @@ class Xmap_Com_Redshop
 				}
 				else
 				{
-					$params['Itemid'] = $objhelper->getItemid($row->product_id, $row->category_id);
+					$params['Itemid'] = RedshopHelperUtility::getItemId($row->product_id, $row->category_id);
 				}
 
 				$node = new stdclass;

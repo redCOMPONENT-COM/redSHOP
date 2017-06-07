@@ -205,10 +205,10 @@ class RedshopHelperShopper_Group
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn(array('c.shopper_group_id', 'c.name AS category_name', 'cx.shopper_group_id', 'cx.parent_id')))
+		$query->select($db->qn(array('c.shopper_group_id', 'cx.shopper_group_categories', 'cx.shopper_group_id', 'cx.parent_id')))
 			->from($db->qn('#__redshop_shopper_group', 'cx'))
 			->leftJoin(
-				$db->qn('#__redshop_category', 'c')
+				$db->qn('#__redshop_shopper_group', 'c')
 				. ' ON ' .
 				$db->qn('c.shopper_group_id') . ' = ' . $db->qn('cx.parent_id')
 			)
@@ -226,5 +226,98 @@ class RedshopHelperShopper_Group
 		}
 
 		return $GLOBALS['catlist_reverse'];
+	}
+
+	/**
+	 * shopper Group portal info
+	 *
+	 * @return  mixed  Shopper Group Ids Object
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getShopperGroupPortal()
+	{
+		$userHelper = rsUserHelper::getInstance();
+		$user = JFactory::getUser();
+		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
+
+		if ($result = $userHelper->getShopperGroupList($shopperGroupId))
+		{
+			return $result[0];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Shopper Group category ACL
+	 *
+	 * @param   int  $cid  Category id
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getShopperGroupCategory($cid = 0)
+	{
+		$user = JFactory::getUser();
+		$userHelper = rsUserHelper::getInstance();
+		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
+
+		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
+		{
+			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
+			{
+				$categories = explode(',', $shopperGroupData[0]->shopper_group_categories);
+
+				if (array_search((int) $cid, $categories) !== false)
+				{
+					return $shopperGroupData[0];
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Shopper Group product category ACL
+	 *
+	 * @param   int  $productId  Category id
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getShopperGroupProductCategory($productId = 0)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('p.product_id'))
+			->select($db->qn('cx.category_id'))
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'cx') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('cx.product_id'))
+			->where($db->qn('p.product_id') . ' = ' . $productId);
+
+		$productCategories = $db->setQuery($query)->loadObjectList();
+
+		if (empty($productCategories))
+		{
+			return false;
+		}
+
+		$flag = false;
+
+		foreach ($productCategories as $productCategory)
+		{
+			$shopperCategory = self::getShopperGroupCategory($productCategory->category_id);
+
+			if (count($shopperCategory) <= 0 && $flag == false)
+			{
+				$flag = true;
+			}
+		}
+
+		return $flag;
 	}
 }

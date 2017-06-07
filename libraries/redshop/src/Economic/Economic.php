@@ -12,6 +12,7 @@
 namespace Redshop\Economic;
 
 use Joomla\Registry\Registry;
+use RedshopHelperUtility;
 
 defined('_JEXEC') or die;
 
@@ -173,12 +174,12 @@ class Economic
 
 		if (!empty($row) && $row->accountgroup_id != 0)
 		{
-			$accountGroup = $redHelper->getEconomicAccountGroup($row->accountgroup_id);
+			$accountGroup = RedshopHelperUtility::getEconomicAccountGroup($row->accountgroup_id);
 		}
 
 		elseif (\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP') != 0)
 		{
-			$accountGroup = $redHelper->getEconomicAccountGroup(\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'));
+			$accountGroup = RedshopHelperUtility::getEconomicAccountGroup(\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'));
 		}
 
 		if (count($accountGroup) > 0)
@@ -987,11 +988,10 @@ class Economic
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
 		$eco       = array();
-		$redHelper = \redhelper::getInstance();
 
 		if (\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'))
 		{
-			$accountGroup = $redHelper->getEconomicAccountGroup(\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'), 1);
+			$accountGroup = RedshopHelperUtility::getEconomicAccountGroup(\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'), 1);
 
 			if (count($accountGroup) > 0)
 			{
@@ -1058,11 +1058,11 @@ class Economic
 		if ($orderData->is_booked == 0)
 		{
 			$data        = array();
-			$paymentInfo = \RedshopHelperOrder::getOrderPaymentDetail($orderData->order_id);
+			$paymentInfo = \RedshopHelperOrder::getPaymentInfo($orderData->order_id);
 
-			if (count($paymentInfo) > 0)
+			if ($paymentInfo)
 			{
-				$paymentName = $paymentInfo[0]->payment_method_class;
+				$paymentName = $paymentInfo->payment_method_class;
 				$paymentArr  = explode("rs_payment_", $paymentInfo[0]->payment_method_class);
 
 				if (count($paymentArr) > 0)
@@ -1071,7 +1071,7 @@ class Economic
 				}
 
 				$data['economic_payment_method'] = $paymentName;
-				$paymentMethod                   = \RedshopHelperOrder::getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+				$paymentMethod                   = \RedshopHelperOrder::getPaymentMethodInfo($paymentInfo->payment_method_class);
 
 				if (count($paymentMethod) > 0)
 				{
@@ -1265,11 +1265,11 @@ class Economic
 								$eco['name'] = $userBillingInfo->firstname . " " . $userBillingInfo->lastname;
 							}
 
-							$paymentInfo = \RedshopHelperOrder::getOrderPaymentDetail($orderDetail->order_id);
+							$paymentInfo = \RedshopHelperOrder::getPaymentInfo($orderDetail->order_id);
 
-							if (count($paymentInfo) > 0)
+							if ($paymentInfo)
 							{
-								$paymentMethod = \RedshopHelperOrder::getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+								$paymentMethod = \RedshopHelperOrder::getPaymentMethodInfo($paymentInfo->payment_method_class);
 
 								if (count($paymentMethod) > 0)
 								{
@@ -1279,9 +1279,9 @@ class Economic
 								}
 
 								// Setting merchant fees for economic
-								if ($paymentInfo[0]->order_transfee > 0)
+								if ($paymentInfo->order_transfee > 0)
 								{
-									$eco['order_transfee'] = $paymentInfo[0]->order_transfee;
+									$eco['order_transfee'] = $paymentInfo->order_transfee;
 								}
 							}
 

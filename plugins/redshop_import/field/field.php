@@ -31,11 +31,33 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 	protected $nameKey = 'name_field';
 
 	/**
+	 * List of alias columns. For backward compatible. Example array('category_id' => 'id')
+	 *
+	 * @var    array
+	 *
+	 * @since  2.0.6
+	 */
+	protected $aliasColumns = array(
+		'field_id'            => 'id',
+		'field_title'         => 'title',
+		'field_name'          => 'name',
+		'field_type'          => 'type',
+		'field_desc'          => 'desc',
+		'field_class'         => 'class',
+		'field_section'       => 'section',
+		'field_maxlength'     => 'maxlength',
+		'field_cols'          => 'cols',
+		'field_rows'          => 'rows',
+		'field_size'          => 'size',
+		'field_show_in_front' => 'show_in_front',
+	);
+
+	/**
 	 * Event run when user load config for export this data.
 	 *
 	 * @return  string
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	public function onAjaxField_Config()
 	{
@@ -49,7 +71,7 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 	 *
 	 * @return  mixed
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	public function onAjaxField_Import()
 	{
@@ -80,8 +102,8 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 	/**
 	 * Process import data.
 	 *
-	 * @param   \JTable  $table  Header array
-	 * @param   array    $data   Data array
+	 * @param   JTable  $table  Header array
+	 * @param   array   $data   Data array
 	 *
 	 * @return  boolean
 	 *
@@ -147,11 +169,11 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 		// Import field data.
 		if (!empty($data['data_txt']))
 		{
-			$object = new stdClass;
-			$object->fieldid = $fieldId;
+			$object           = new stdClass;
+			$object->fieldid  = $fieldId;
 			$object->data_txt = $data['data_txt'];
-			$object->itemid = $productId;
-			$object->section = $data['section'];
+			$object->itemid   = $productId;
+			$object->section  = $data['section'];
 
 			// Load data id
 			$query->clear()
@@ -175,10 +197,10 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 		// Import field value
 		if (!empty($data['field_name']))
 		{
-			$object = new stdClass;
-			$object->field_id = $fieldId;
+			$object              = new stdClass;
+			$object->field_id    = $fieldId;
 			$object->field_value = $data['field_value'];
-			$object->field_name = $data['field_name'];
+			$object->field_name  = $data['field_name'];
 
 			// Get Field value ID
 			$query->clear()

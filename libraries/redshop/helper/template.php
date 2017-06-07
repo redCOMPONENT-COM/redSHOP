@@ -677,6 +677,6 @@ class RedshopHelperTemplate
 			return '';
 		}
 
-		return implode(',', redhelper::quote($findFields));
+		return implode(',', RedshopHelperUtility::quote($findFields));
 	}
 }

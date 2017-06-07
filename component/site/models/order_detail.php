@@ -97,7 +97,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	/**
 	 * Get Billing Addresses
 	 *
-	 * @return  array
+	 * @return  object
 	 */
 	public function billingaddresses()
 	{

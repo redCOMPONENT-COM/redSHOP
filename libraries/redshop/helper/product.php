@@ -38,6 +38,13 @@ class RedshopHelperProduct
 	protected static $productNumbers = array();
 
 	/**
+	 * @var array  List of available product number
+	 *
+	 * @since  2.0.6
+	 */
+	protected static $productPrices = array();
+
+	/**
 	 * Get all product information
 	 * Warning: This method is loading all the products from DB. Which can resulting
 	 * 			into memory issue. Use with caution.
@@ -52,11 +59,11 @@ class RedshopHelperProduct
 			$db    = JFactory::getDbo();
 			$query = self::getMainProductQuery();
 			$query->select(
-						array(
-							'p.product_name as text',
-							'p.product_id as value'
-						)
-					);
+				array(
+						'p.product_name as text',
+						'p.product_id as value'
+					)
+			);
 
 			$db->setQuery($query);
 
@@ -158,7 +165,9 @@ class RedshopHelperProduct
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id');
 
 		// Getting cat_in_sefurl as main category id if it available
-		$query->leftJoin($db->qn('#__redshop_product_category_xref', 'pc3') . ' ON pc3.product_id = p.product_id AND pc3.category_id = p.cat_in_sefurl')
+		$query->leftJoin(
+			$db->qn('#__redshop_product_category_xref', 'pc3') . ' ON pc3.product_id = p.product_id AND pc3.category_id = p.cat_in_sefurl'
+			)
 			->leftJoin($db->qn('#__redshop_category', 'c3') . ' ON pc3.category_id = c3.id AND c3.published = 1');
 
 		$subQuery = $db->getQuery(true)
@@ -420,7 +429,10 @@ class RedshopHelperProduct
 			);
 
 			// Get accessory final price with VAT rules
-			$accessoryPriceList = $productHelper->getAccessoryPrice($productId, $accessory[$a]->newaccessory_price, $accessory[$a]->accessory_main_price);
+			$accessoryPriceList = $productHelper->getAccessoryPrice(
+				$productId, $accessory[$a]->newaccessory_price, $accessory[$a]->accessory_main_price
+			);
+
 			$accessoryPrice = $accessoryPriceList[0];
 
 			$accessoryPriceWithoutvat = $productHelper->getAccessoryPrice(
@@ -567,11 +579,13 @@ class RedshopHelperProduct
 			}
 			else
 			{
-				$chklist = JHtml::_('select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
+				$chklist = JHTML::_(
+					'select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
 					. '"  class="inputbox" size="1" attribute_name="' . $attributes[$a]->attribute_name . '" required="'
 					. $attributes[$a]->attribute_required . '" onchange="javascript:changeOfflinePropertyDropdown(\''
 					. $productId . '\',\'' . $accessoryId . '\',\'' . $attributes[$a]->attribute_id . '\',\'' . $uniqueId
-					. '\');" ', 'value', 'text', '');
+					. '\');" ', 'value', 'text', ''
+				);
 			}
 
 			$lists ['property_id'] = $chklist;
@@ -1063,6 +1077,71 @@ class RedshopHelperProduct
 	}
 
 	/**
+	 * Get Layout product quantity price
+	 *
+	 * @param   int  $productId  Product Id
+	 * @param   int  $userId     User Id
+	 *
+	 * @return  mixed  Redshop Layout
+	 *
+	 * @since   2.0.5
+	 */
+	public function getProductQuantityPrice($productId, $userId)
+	{
+		$db      = JFactory::getDbo();
+		$userArr = JFactory::getSession()->get('rs_user');
+		$userHelper = rsUserHelper::getInstance();
+
+		if (empty($userArr))
+		{
+			$userArr = $userHelper->createUserSession($userId);
+		}
+
+		$shopperGroupId = $userHelper->getShopperGroup($userId);
+
+		if ($userId)
+		{
+			$query = $db->getQuery(true)
+				->select('p.*')
+				->from($db->qn('#__redshop_users_info', 'u'))
+				->leftjoin($db->qn('#__redshop_product_price', 'p') . ' ON ' . $db->qn('u.shopper_group_id') . ' = ' . $db->qn('p.shopper_group_id'))
+				->where($db->qn('p.product_id') . ' = ' . $db->q((int) $productId))
+				->where($db->qn('u.user_id') . ' = ' . $db->q((int) $userId))
+				->where($db->qn('u.address_type') . ' = ' . $db->q('BT'))
+				->order($db->qn('p.price_quantity_start') . ' ASC');
+		}
+		else
+		{
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_product_price'))
+				->where($db->qn('product_id') . ' = ' . $db->q((int) $productId))
+				->where($db->qn('shopper_group_id') . ' = ' . $db->q((int) $shopperGroupId))
+				->order($db->qn('price_quantity_start') . ' ASC');
+		}
+
+		$result = $db->setQuery($query)->loadObjectList();
+
+		if (empty($result))
+		{
+			return '';
+		}
+
+		return	RedshopLayoutHelper::render(
+			'product.product_price_table',
+			array(
+					'result'    => $result,
+					'productId' => $productId,
+					'userId'    => $userId
+				),
+			'',
+			array(
+					'component' => 'com_redshop'
+				)
+		);
+	}
+
+	/**
 	 * Method for get product tax
 	 *
 	 * @param   integer  $productId     Product Id
@@ -1155,5 +1234,96 @@ class RedshopHelperProduct
 		}
 
 		return productHelper::getInstance()->productPriceRound($productTax);
+	}
+
+	/**
+	 * Get Product Prices
+	 *
+	 * @param   int  $productId  Product id
+	 * @param   int  $userId     User id
+	 * @param   int  $quantity   Quantity
+	 *
+	 * @return  object           Product price object
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getProductPrices($productId, $userId, $quantity = 1)
+	{
+		$key = $productId . '_' . $userId . '_' . $quantity;
+
+		if (array_key_exists($key, self::$productPrices))
+		{
+			return self::$productPrices[$key];
+		}
+
+		$userArr = JFactory::getSession()->get('rs_user');
+		$result  = null;
+
+		if (empty($userArr))
+		{
+			$userArr = RedshopHelperUser::createUserSession($userId);
+		}
+
+		$shopperGroupId = $userArr['rs_user_shopperGroup'];
+
+		if ($quantity != 1)
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(
+					$db->qn(array(
+						'p.price_id', 'p.product_price', 'p.product_currency', 'p.discount_price', 'p.discount_start_date', 'p.discount_end_date'
+						)
+					)
+				)
+				->from($db->qn('#__redshop_product_price', 'p'));
+
+			if ($userId)
+			{
+				$query->leftJoin($db->qn('#__redshop_users_info', 'u') . ' ON u.shopper_group_id = p.shopper_group_id')
+					->where('u.user_id = ' . (int) $userId)
+					->where('u.address_type = ' . $db->quote('BT'));
+			}
+			else
+			{
+				$query->where('p.shopper_group_id = ' . (int) $shopperGroupId);
+			}
+
+			$query->where('p.product_id = ' . (int) $productId)
+				->where('((p.price_quantity_start <= ' . (int) $quantity . ' AND p.price_quantity_end >= '
+					. (int) $quantity . ') OR (p.price_quantity_start = 0 AND p.price_quantity_end = 0))')
+				->order('p.price_quantity_start ASC');
+
+			$result = $db->setQuery($query)->loadObject();
+		}
+		else
+		{
+			if ($productData = RedshopHelperProduct::getProductById($productId, $userId))
+			{
+				if (isset($productData->price_id))
+				{
+					$result = new stdClass;
+					$result->price_id = $productData->price_id;
+					$result->product_price = $productData->price_product_price;
+					$result->discount_price = $productData->price_discount_price;
+					$result->product_currency = $productData->price_product_currency;
+					$result->discount_start_date = $productData->price_discount_start_date;
+					$result->discount_end_date = $productData->price_discount_end_date;
+				}
+			}
+		}
+
+		if (!empty($result) && $result->discount_price != 0
+			&& $result->discount_start_date != 0 && $result->discount_end_date != 0
+			&& $result->discount_start_date <= time()
+			&& $result->discount_end_date >= time()
+			&& $result->discount_price < $result->product_price)
+		{
+			$result->product_price = $result->discount_price;
+		}
+
+		self::$productPrices[$key] = $result;
+
+		return self::$productPrices[$key];
 	}
 }
