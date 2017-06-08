@@ -220,4 +220,66 @@ class RedshopControllerRegistration extends RedshopController
 
 		$app->close();
 	}
+
+	/**
+	 * get Billing One Step checkout template
+	 *
+	 * @return  mixed
+	 */
+	public function getBillingTemplate()
+	{
+		$app          = JFactory::getApplication();
+		$input        = $app->input;
+		$isCompany    = $input->post->getInt('isCompany');
+		$type         = $input->post->getString('type');
+		$redTemplate  = Redtemplate::getInstance();
+		$extraField   = extraField::getInstance();
+		$rsUserhelper = rsUserHelper::getInstance();
+		$dispatcher   = JDispatcher::getInstance();
+		JPluginHelper::importPlugin('redshop_checkout');
+
+		if ($isCompany == 1 && $type == 'company')
+		{
+			$lists['extra_field_company'] = RedshopHelperExtrafields::listAllField(8);
+			$template = $redTemplate->getTemplate("company_billing_template");
+
+			if (count($template) > 0 && $template[0]->template_desc != "")
+			{
+				$html = $template[0]->template_desc;
+			}
+			else
+			{
+				$html = '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr><td width="100" align="right">{email_lbl}:</td><td>{email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_start} --><tr><td width="100" align="right">{retype_email_lbl}</td><td>{retype_email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_end} --><tr><td width="100" align="right">{company_name_lbl}</td><td>{company_name}</td><td><span class="required">*</span></td></tr><!-- {vat_number_start} --><tr><td width="100" align="right">{vat_number_lbl}</td><td>{vat_number}</td><td><span class="required">*</span></td></tr><!-- {vat_number_end} --><tr><td width="100" align="right">{firstname_lbl}</td><td>{firstname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_lbl}</td><td>{lastname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_lbl}</td><td>{address}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_lbl}</td><td>{zipcode}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_lbl}</td><td>{city}</td><td><span class="required">*</span></td></tr><tr id="{country_txtid}" style="{country_style}"><td width="100" align="right">{country_lbl}</td><td>{country}</td><td><span class="required">*</span></td></tr><tr id="{state_txtid}" style="{state_style}"><td width="100" align="right">{state_lbl}</td><td>{state}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td><td>{phone}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{ean_number_lbl}</td><td>{ean_number}</td><td></td></tr><tr><td width="100" align="right">{tax_exempt_lbl}</td><td>{tax_exempt}</td></tr><tr><td colspan="3">{company_extrafield}</td></tr></tbody></table>';
+			}
+
+			$html = $rsUserhelper->replaceCompanyCustomer($html, array(), $lists);
+			$html .= '<input type="hidden" name="is_company" value="1"/>';
+		}
+		elseif ($isCompany == 0 && $type == 'private')
+		{
+			$lists['extra_field_user'] = RedshopHelperExtrafields::listAllField(7);
+			$template = $redTemplate->getTemplate("private_billing_template");
+
+			if (count($template) > 0 && $template[0]->template_desc != "")
+			{
+				$html = $template[0]->template_desc;
+			}
+			else
+			{
+				$html = '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr><td width="100" align="right">{email_lbl}:</td><td>{email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_start} --><tr><td width="100" align="right">{retype_email_lbl}</td><td>{retype_email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_end} --><tr><td width="100" align="right">{firstname_lbl}</td><td>{firstname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_lbl}</td><td>{lastname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_lbl}</td><td>{address}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_lbl}</td><td>{zipcode}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_lbl}</td><td>{city}</td><td><span class="required">*</span></td></tr><tr id="{country_txtid}" style="{country_style}"><td width="100" align="right">{country_lbl}</td><td>{country}</td><td><span class="required">*</span></td></tr><tr id="{state_txtid}" style="{state_style}"><td width="100" align="right">{state_lbl}</td><td>{state}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td><td>{phone}</td><td><span class="required">*</span></td></tr><tr><td colspan="3">{private_extrafield}</td></tr></tbody></table>';
+			}
+
+			$html = $rsUserhelper->replacePrivateCustomer($html, array(), $lists);
+			$html .= '<input type="hidden" name="is_company" value="0"/>';
+		}
+		else
+		{
+			$html = '';
+			$dispatcher->trigger('onRenderBillingOnstepCheckout', array(&$html));
+		}
+
+		echo $html;
+
+		$app->close();
+	}
 }
