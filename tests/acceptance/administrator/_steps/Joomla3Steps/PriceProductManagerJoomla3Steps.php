@@ -46,21 +46,6 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['xpath' => "//a[contains(@href,'saveprice')]"]);
 
     }
-
-    public function addDefaultPrivate($productName, $quantityStart, $quantityEnd,$priceDefault)
-    {
-        $I = $this;
-        $I->amOnPage(\PriceProductJoomla3Page::$URL);
-        $I->searchProduct($productName);
-        $I->wait(3);
-        $I->click(['xpath' => "/html/body/div[1]/div/div/section[2]/form/div[2]/div/table/tbody/tr/td[5]/a/i"]);
-        $I->wait(5);
-        $I->fillField(\PriceProductJoomla3Page::$quantityStart, $quantityStart);
-        $I->fillField(\PriceProductJoomla3Page::$quantityEnd, $quantityEnd);
-        $I->fillField(\PriceProductJoomla3Page::$priceDefault, $priceDefault);
-        $I->click(['xpath' => "//button[@onclick='Joomla.submitbutton(\"saveprice\")']"]);
-    }
-
     public function searchProduct($productName)
     {
         $I = $this;
