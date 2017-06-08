@@ -46,8 +46,6 @@ $months[] = JHtml::_('select.option', '10', 10);
 $months[] = JHtml::_('select.option', '11', 11);
 $months[] = JHtml::_('select.option', '12', 12);
 
-?>
-<?php
 JPluginHelper::importPlugin('redshop_payment');
 RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selectable' => true));
 ?>
@@ -62,7 +60,10 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
 				<?php
 				$cardTypes  = array();
 				$creditCard = $pluginParams->get("accepted_credict_card", array());
-
+				if (!is_array($creditCard))
+				{
+					$creditCard = explode(',', $creditCard);
+				}
 				for ($ic = 0, $nic = count($creditCard); $ic < $nic; $ic++)
 				{
 					$url         = REDSHOP_FRONT_IMAGES_ABSPATH . 'checkout/' . $creditCardList[$creditCard[$ic]]->img;
@@ -79,7 +80,7 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
 				<?php echo JText::_('COM_REDSHOP_NAME_ON_CARD'); ?>
             </label>
             <div class="controls">
-				<?php $orderPaymentName = (!empty($creditCardData['order_payment_name'])) ? $creditCardData['order_payment_name'] : ""; ?>
+				<?php $orderPaymentName = (!empty($creditCardData['order_payment_name'])) ? $creditCardData['order_payment_name'] : JFactory::getUser()->name; ?>
                 <input
                         class="input-medium"
                         type="text"
@@ -96,9 +97,7 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
 				<?php echo JText::_('COM_REDSHOP_CARD_NUM'); ?>
             </label>
             <div class="controls">
-				<?php
-				$orderPaymentNumber = (!empty($creditCardData['order_payment_number'])) ? $creditCardData['order_payment_number'] : "";
-				?>
+				<?php $orderPaymentNumber = (!empty($creditCardData['order_payment_number'])) ? $creditCardData['order_payment_number'] : ""; ?>
                 <input
                         class="input-medium"
                         type="text"
@@ -111,7 +110,8 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="order_payment_expire_month"><?php echo JText::_('COM_REDSHOP_EXPIRY_DATE'); ?></label>
+            <label class="control-label"
+                   for="order_payment_expire_month"><?php echo JText::_('COM_REDSHOP_EXPIRY_DATE'); ?></label>
             <div class="controls">
 				<?php
 				echo JHtml::_(
@@ -166,3 +166,49 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
         </div>
     </div>
 </fieldset>
+<script>
+    function GetCardType(number)
+    {
+        // visa
+        var re = new RegExp("^4");
+        if (number.match(re) != null)
+            return "Visa";
+
+        // Mastercard
+        re = new RegExp("^5[1-5]");
+        if (number.match(re) != null)
+            return "Mastercard";
+
+        // AMEX
+        re = new RegExp("^3[47]");
+        if (number.match(re) != null)
+            return "AMEX";
+
+        // Discover
+        re = new RegExp("^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)");
+        if (number.match(re) != null)
+            return "Discover";
+
+        // Diners
+        re = new RegExp("^36");
+        if (number.match(re) != null)
+            return "Diners";
+
+        // Diners - Carte Blanche
+        re = new RegExp("^30[0-5]");
+        if (number.match(re) != null)
+            return "Diners - Carte Blanche";
+
+        // JCB
+        re = new RegExp("^35(2[89]|[3-8][0-9])");
+        if (number.match(re) != null)
+            return "JCB";
+
+        // Visa Electron
+        re = new RegExp("^(4026|417500|4508|4844|491(3|7))");
+        if (number.match(re) != null)
+            return "Visa Electron";
+
+        return "";
+    }
+</script>
