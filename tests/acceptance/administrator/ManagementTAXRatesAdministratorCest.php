@@ -63,7 +63,7 @@ class ManagementTAXRatesAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Create VAT/Tax Rates  Save button');
-        $I->addTAXRatesMissingTaxValueSave($this->TAXRatesName, $this->VATGroupName, $this->NameCountry, $this->NameState);
+        $I->addTAXRatesMissingTaxValueSave($this->TAXRatesName, $this->VATGroupName);
 
     }
 
@@ -74,7 +74,7 @@ class ManagementTAXRatesAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Create VAT/Tax Rates  Save button');
-        $I->addTAXRatesValueAmountLessZeroSave($this->TAXRatesName, $this->VATGroupName, $this->TaxRatesValueLessZero, $this->NameCountry, $this->NameState);
+        $I->addTAXRatesValueAmountLessZeroSave($this->TAXRatesName, $this->VATGroupName, $this->TaxRatesValueLessZero);
 
     }
 
@@ -108,7 +108,7 @@ class ManagementTAXRatesAdministratorCest
 
     }
 
-        public function editTAXRatesMissingName(AcceptanceTester $I, $scenario)
+    public function editTAXRatesMissingName(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Edit TAX missing name in Administrator');
         $I->doAdministratorLogin();
@@ -193,8 +193,6 @@ class ManagementTAXRatesAdministratorCest
 //        $I->deleteTAXRatesOK($this->TAXRatesName);
 //        $I->see("VAT Rates", '.page-title');
 //    }
-
-
 
 
 }
