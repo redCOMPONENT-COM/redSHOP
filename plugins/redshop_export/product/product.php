@@ -44,12 +44,15 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		</div>';
 
 		// Prepare categories list.
-		$categories = RedshopHelperCategory::getCategoryListArray();
+		$categories = RedshopEntityCategory::getInstance(RedshopHelperCategory::getRootId())->getChildCategories();
 		$options    = array();
 
-		foreach ($categories as $category)
+		if (!$categories->isEmpty())
 		{
-			$options[] = JHtml::_('select.option', $category->id, $category->name, 'value', 'text');
+			foreach ($categories as $category)
+			{
+				$options[] = JHtml::_('select.option', $category->getId(), $category->get('name'), 'value', 'text');
+			}
 		}
 
 		$configs[] = '<div class="form-group">
@@ -161,6 +164,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 		$db    = $this->db;
 		$query = $db->getQuery(true)
+			->select('m.manufacturer_name')
 			->select('p.*')
 			->select($db->quote(JUri::root()) . ' AS ' . $db->qn('sitepath'))
 			->select(
@@ -170,11 +174,11 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 				. ' ORDER BY ' . $db->qn('pcx.category_id') . ') AS ' . $db->qn('category_id')
 			)
 			->select(
-				'(SELECT GROUP_CONCAT(' . $db->qn('c.category_name') . ' SEPARATOR ' . $db->quote('###')
+				'(SELECT GROUP_CONCAT(' . $db->qn('c.name') . ' SEPARATOR ' . $db->quote('###')
 				. ') FROM ' . $db->qn('#__redshop_product_category_xref', 'pcx')
 				. ' INNER JOIN ' . $db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id')
 				. ' WHERE ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id')
-				. ' ORDER BY ' . $db->qn('pcx.category_id') . ') AS ' . $db->qn('category_name')
+				. ' ORDER BY ' . $db->qn('pcx.category_id') . ') AS ' . $db->qn('name')
 			)
 			->select(
 				'(SELECT GROUP_CONCAT(CONCAT('
@@ -185,6 +189,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			)
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))
+			->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('p.manufacturer_id') . ' = ' . $db->qn('m.manufacturer_id'))
 			->group($db->qn('p.product_id'))
 			->order($db->qn('p.product_id') . ' asc');
 

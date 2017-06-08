@@ -1001,6 +1001,8 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		$subtotal = 0;
 		$subtotal_excl_vat = 0;
+		$orderTax = $orderdata->order_tax;
+		$orderDetailTax = array();
 
 		for ($i = 0, $in = count($OrderItems); $i < $in; $i++)
 		{
@@ -1010,6 +1012,13 @@ class RedshopModelOrder_detail extends RedshopModel
 				$subtotal_excl_vat = $subtotal_excl_vat + ($OrderItems[$i]->product_item_price_excl_vat * $OrderItems[$i]->product_quantity);
 				$subtotal          = $subtotal + ($OrderItems[$i]->product_item_price * $OrderItems[$i]->product_quantity);
 			}
+
+			$orderDetailTax[] = (float) $OrderItems[$i]->product_final_price - (float) $OrderItems[$i]->product_item_price_excl_vat;
+		}
+
+		if (!empty($orderDetailTax))
+		{
+			$orderTax = array_sum($orderDetailTax);
 		}
 
 		$discount_price                     = ($subtotal * $special_discount) / 100;
@@ -1017,9 +1026,10 @@ class RedshopModelOrder_detail extends RedshopModel
 		$orderdata->special_discount_amount = $discount_price;
 
 		$order_total            = $subtotal + $orderdata->order_shipping - $discount_price - $orderdata->order_discount;
-		$orderdata->order_total = $order_total;
-
-		$orderdata->mdate = time();
+		$orderdata->order_total    = $order_total;
+		$orderdata->order_subtotal = $subtotal;
+		$orderdata->order_tax      = $orderTax;
+		$orderdata->mdate          = time();
 
 		if (!$orderdata->store())
 		{

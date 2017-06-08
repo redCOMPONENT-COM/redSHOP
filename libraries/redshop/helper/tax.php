@@ -11,8 +11,6 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-
 /**
  * Class Redshop Helper Text
  *
