@@ -20,5 +20,7 @@ class TAXRatesJoomla3Page
 
     public static $CheckAllTAXRates="//input[@onclick='Joomla.checkAll(this)']";
 
+    public static $statePath="#rs_state_jformtax_state";
+
 
 }

@@ -7,7 +7,7 @@ namespace AcceptanceTester;
 
 class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 {
-    public function addTAXRatesSave($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
+    public function addTAXRatesSave($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry)
     {
         $I = $this;
         $I->amOnPage(\TAXRatesJoomla3Page::$URL);
@@ -24,11 +24,10 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"]);
 
 
-        $I->click(['xpath' => '//div[@id="s2id_jform_tax_state"]//a']);
-        $I->waitForElement(['id' => "s2id_autogen2_search"]);
-        $I->fillField(['id' => "s2id_autogen2_search"], $nameState);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameState . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $nameState . "')]"]);
+//        $I->click(['xpath' => '//div/select[@id="rs_state_jformtax_state"]']);
+        $I->click(['xpath' => '/html/body/div[1]/div/div/section[2]/form/fieldset/div/div/div/div[2]/div[3]/div/select']);
+
+        $I->click(['xpath' => '//div/select[@id="rs_state_jformtax_state"]/option[2]']);
 
         $I->click(['xpath' => '//div[@id="s2id_jform_tax_group_id"]//a']);
         $I->waitForElement(['id' => "s2id_autogen3_search"]);
