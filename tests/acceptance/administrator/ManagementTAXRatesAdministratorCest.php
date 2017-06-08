@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Codeception for VAT/TAX rates 
+ * Codeception for VAT/TAX rates
  */
 class ManagementTAXRatesAdministratorCest
 {
