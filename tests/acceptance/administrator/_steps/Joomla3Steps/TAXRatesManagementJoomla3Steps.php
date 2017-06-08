@@ -90,7 +90,7 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
     }
 
 
-    public function addTAXRatesMissingTaxValueSave($TAXRatesName, $VATGroupName, $nameCountry, $nameState)
+    public function addTAXRatesMissingTaxValueSave($TAXRatesName, $VATGroupName)
     {
         $I = $this;
         $I->amOnPage(\TAXRatesJoomla3Page::$URL);
@@ -98,19 +98,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->verifyNotices(false, $this->checkForNotices(), 'VAT / Tax Rates Management New');
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\TAXRatesJoomla3Page::$TAXRatesName, $TAXRatesName);
-
-        $I->click(['xpath' => '//div[@id="s2id_jform_tax_country"]//a']);
-        $I->waitForElement(['id' => "s2id_autogen1_search"]);
-        $I->fillField(['id' => "s2id_autogen1_search"], $nameCountry);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"]);
-
-
-        $I->click(['xpath' => '//div[@id="s2id_jform_tax_state"]//a']);
-        $I->waitForElement(['id' => "s2id_autogen2_search"]);
-        $I->fillField(['id' => "s2id_autogen2_search"], $nameState);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameState . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $nameState . "')]"]);
 
         $I->click(['xpath' => '//div[@id="s2id_jform_tax_group_id"]//a']);
         $I->waitForElement(['id' => "s2id_autogen3_search"]);
@@ -122,7 +109,7 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 
     }
 
-    public function addTAXRatesValueAmountLessZeroSave($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
+    public function addTAXRatesValueAmountLessZeroSave($TAXRatesName, $VATGroupName, $TaxRatesValue)
     {
         $I = $this;
         $I->amOnPage(\TAXRatesJoomla3Page::$URL);
@@ -131,19 +118,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\TAXRatesJoomla3Page::$TAXRatesName, $TAXRatesName);
         $I->fillField(\TAXRatesJoomla3Page::$TaxRatesValue, $TaxRatesValue);
-
-        $I->click(['xpath' => '//div[@id="s2id_jform_tax_country"]//a']);
-        $I->waitForElement(['id' => "s2id_autogen1_search"]);
-        $I->fillField(['id' => "s2id_autogen1_search"], $nameCountry);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"]);
-
-
-        $I->click(['xpath' => '//div[@id="s2id_jform_tax_state"]//a']);
-        $I->waitForElement(['id' => "s2id_autogen2_search"]);
-        $I->fillField(['id' => "s2id_autogen2_search"], $nameState);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameState . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $nameState . "')]"]);
 
         $I->click(['xpath' => '//div[@id="s2id_jform_tax_group_id"]//a']);
         $I->waitForElement(['id' => "s2id_autogen3_search"]);
