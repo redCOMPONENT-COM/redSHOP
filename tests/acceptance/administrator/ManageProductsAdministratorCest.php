@@ -63,7 +63,7 @@ class ManageProductsAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
-        $I->addCategory($this->randomCategoryName);
+        $I->addCategorySave($this->randomCategoryName);
     }
 
     /**
