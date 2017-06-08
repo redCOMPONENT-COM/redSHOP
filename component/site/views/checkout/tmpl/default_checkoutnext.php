@@ -9,42 +9,26 @@
 
 defined('_JEXEC') or die;
 
-?>
-<script type="text/javascript">
-	function checkout_disable(val) {
-		document.adminForm.submit();
-		document.getElementById(val).disabled = true;
-		var op = document.getElementById(val);
-		op.setAttribute("style", "opacity:0.3;");
-
-		if (op.style.setAttribute) //For IE
-		{
-			op.style.setAttribute("filter", "alpha(opacity=30);");
-		}
-	}
-</script>
-<?php
-$url = JURI::base();
+$url  = JURI::base();
 $user = JFactory::getUser();
+JHtml::_('jquery.framework');
+JHtml::_('jquery.ui');
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 
-
-$carthelper = rsCarthelper::getInstance();
+$carthelper    = rsCarthelper::getInstance();
 $producthelper = productHelper::getInstance();
-$order_functions = order_functions::getInstance();
-$redhelper = redhelper::getInstance();
-$userhelper = rsUserHelper::getInstance();
+
+$redhelper   = redhelper::getInstance();
+$userhelper  = rsUserHelper::getInstance();
 $redTemplate = Redtemplate::getInstance();
-$dispatcher = JDispatcher::getInstance();
+$dispatcher  = JEventDispatcher::getInstance();
 
-$user = JFactory::getUser();
+$user    = JFactory::getUser();
 $session = JFactory::getSession();
-$cart = $session->get('cart');
+$cart    = $session->get('cart');
 $user_id = $user->id;
-
-// Get redshop helper
 
 $Itemid = RedshopHelperUtility::getCheckoutItemId();
 
@@ -53,12 +37,12 @@ if ($Itemid == 0)
 	$Itemid = JRequest::getInt('Itemid');
 }
 
-$ccinfo = JRequest::getInt('ccinfo');
-$print = JRequest::getInt('print');
+$ccinfo     = JRequest::getInt('ccinfo');
+$print      = JRequest::getInt('print');
 $gls_mobile = JRequest::getString('gls_mobile');
 
 $shop_id = JRequest::getString('shop_id') . '###' . $gls_mobile;
-$model = $this->getModel('checkout');
+$model   = $this->getModel('checkout');
 
 $is_creditcard = $this->is_creditcard;
 
@@ -129,6 +113,8 @@ elseif ($cart_data != "")
 
 	$cart_data = str_replace("{without_vat}", '', $cart_data);
 	$cart_data = str_replace("{with_vat}", '', $cart_data);
+
+	// Replace cart tags
 	$cart_data = $model->displayShoppingCart($cart_data, $this->users_info_id, $this->shipping_rate_id, $this->payment_method_id, $Itemid, '', '', '', '', '', $shop_id);
 
 	$cart_data = '<form	action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return chkvalidaion();">' . $cart_data . '</form>';
@@ -142,23 +128,34 @@ $session->set('cart',$cart);*/
 ?>
 
 <script type="text/javascript">
-	function chkvalidaion() {
-		<?php
-			if( Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
-			{
-			?>
-		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') . '';?>");
-		return false;
-		<?php
-			}	?>
-		if (document.getElementById('termscondition')) {
-			var termscondition = document.getElementById('termscondition').checked;
+    function checkout_disable(val) {
+        document.adminForm.submit();
+        document.getElementById(val).disabled = true;
+        var op = document.getElementById(val);
+        op.setAttribute("style", "opacity:0.3;");
 
-			if (!termscondition) {
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS')?>");
-				return false;
-			}
-		}
-		return true;
-	}
+        if (op.style.setAttribute) //For IE
+        {
+            op.style.setAttribute("filter", "alpha(opacity=30);");
+        }
+    }
+    function chkvalidaion() {
+		<?php
+		if( Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
+		{
+		?>
+        alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') . '';?>");
+        return false;
+		<?php
+		}    ?>
+        if (document.getElementById('termscondition')) {
+            var termscondition = document.getElementById('termscondition').checked;
+
+            if (!termscondition) {
+                alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS')?>");
+                return false;
+            }
+        }
+        return true;
+    }
 </script>

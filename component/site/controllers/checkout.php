@@ -373,6 +373,7 @@ class RedshopControllerCheckout extends RedshopController
 	public function checkoutfinal()
 	{
 		$app        = JFactory::getApplication();
+		$input = JFactory::getApplication()->input;
 		$dispatcher = JDispatcher::getInstance();
 		$post       = JRequest::get('post');
 		$Itemid     = JRequest::getVar('Itemid');
@@ -380,8 +381,9 @@ class RedshopControllerCheckout extends RedshopController
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart');
 		$user       = JFactory::getUser();
+
 		$producthelper   = productHelper::getInstance();
-		$payment_method_id = JRequest::getCmd('payment_method_id', '');
+		$payment_method_id = $input->getCmd('payment_method_id', '');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
 		{
@@ -399,7 +401,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
-			$shipping_rate_id = JFactory::getApplication()->input->getString('shipping_rate_id');
+			$shipping_rate_id = $input->getString('shipping_rate_id');
 			$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);
 
 			if (count($shippingdetail) < 4)
@@ -414,6 +416,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 		}
 
+		// Has selected payment method
 		if ($payment_method_id != '')
 		{
 			if (isset($cart['idx']))
@@ -473,7 +476,6 @@ class RedshopControllerCheckout extends RedshopController
 			{
 				// Add plugin support
 				$results     = $dispatcher->trigger('beforeOrderPlace', array($cart));
-
 				$orderresult = $model->orderplace();
 				$order_id    = $orderresult->order_id;
 			}
@@ -492,6 +494,7 @@ class RedshopControllerCheckout extends RedshopController
 
 				$labelClass = '';
 
+				// @TODO Use Constant instead "Paid" string
 				if ($orderresult->order_payment_status == 'Paid')
 				{
 					$labelClass = 'label-success';
@@ -511,7 +514,7 @@ class RedshopControllerCheckout extends RedshopController
 				// New checkout flow
 				/**
 				 * change redirection
-				 * The page will redirect to stand alon page where, payment extra infor code will execute.
+				 * The page will redirect to standalone page where, payment extra infor code will execute.
 				 * Note: ( Only when redirect payment gateway are in motion, not for credit card gateway)
 				 *
 				 */
