@@ -36,7 +36,7 @@ class ManageProductsAdministratorCest
 		$randomProductPrice = rand(99, 199);
 
 		$I->wantTo('Create a Category');
-		$I->addCategory($randomCategoryName);
+		$I->addCategorySave($randomCategoryName);
 		$I->see($randomCategoryName);
 
 		$this->createProduct($I, $randomProductName, $randomCategoryName, $randomProductNumber, $randomProductPrice);
