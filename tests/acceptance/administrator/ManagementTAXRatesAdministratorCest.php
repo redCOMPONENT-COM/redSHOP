@@ -1,10 +1,7 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: nhung nguyen
- * Date: 6/7/2017
- * Time: 11:06 AM
+ * Codeception for VAT/TAX rates 
  */
 class ManagementTAXRatesAdministratorCest
 {
@@ -56,7 +53,7 @@ class ManagementTAXRatesAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Create VAT/Tax Rates  Save button');
-        $I->addTAXRatesMissingGroupsSave($this->TAXRatesName, $this->TaxRatesValue, $this->NameCountry, $this->NameState);
+        $I->addTAXRatesMissingGroupsSave($this->TAXRatesName, $this->TaxRatesValue);
 
     }
 
@@ -178,7 +175,7 @@ class ManagementTAXRatesAdministratorCest
 
 // codeception use for show dialog delete VAT/TAX rates .
 //    public function deleteTAXRatesCancel(AcceptanceTester $I, $scenario)
-//    {
+//    {f
 //        $I->wantTo('Test delete button in Administrator');
 //        $I->doAdministratorLogin();
 //        $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
