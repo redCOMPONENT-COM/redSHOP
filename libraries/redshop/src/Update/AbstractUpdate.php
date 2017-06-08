@@ -24,7 +24,7 @@ abstract class AbstractUpdate
 	 * Exclude public method for not run when update
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION
+	 * @since  2.0.6
 	 */
 	protected $exclude = array('getTasksList');
 
