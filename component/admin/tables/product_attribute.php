@@ -17,6 +17,8 @@ class Tableproduct_attribute extends JTable
 
 	public $attribute_name = null;
 
+	public $attribute_description = null;
+
 	public $attribute_required = null;
 
 	public $allow_multiple_selection = 0;

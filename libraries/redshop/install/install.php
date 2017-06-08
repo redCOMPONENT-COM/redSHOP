@@ -282,7 +282,7 @@ class RedshopInstall
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION
+	 * @since   2.0.3
 	 */
 	public static function integrateSh404sef()
 	{
