@@ -6399,17 +6399,6 @@ class productHelper
 			for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++)
 			{
 				$attribute            = $this->getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
-				$hide_attribute_price = 0;
-
-				if (count($attribute) > 0)
-				{
-					$hide_attribute_price = $attribute[0]->hide_attribute_price;
-				}
-
-				if (strpos($data, '{remove_product_attribute_title}') === false)
-				{
-					$displayattribute .= "<div class='checkout_attribute_title'>" . urldecode($orderItemAttdata[$i]->section_name) . "</div>";
-				}
 
 				// Assign Attribute middle template in tmp variable
 				$tmp_attribute_middle_template = $attribute_middle_template;
@@ -6430,57 +6419,23 @@ class productHelper
 						$stockroomhelper->manageStockAmount($orderPropdata[$p]->section_id, $quantity, $orderPropdata[$p]->stockroom_id, "property");
 					}
 
-					$property      = $this->getAttibuteProperty($orderPropdata[$p]->section_id);
-					$virtualNumber = "";
-
-					if (count($property) > 0 && $property[0]->property_number)
-					{
-						$virtualNumber = "<div class='checkout_attribute_number'>" . $property[0]->property_number . "</div>";
-					}
+					$property = $this->getAttibuteProperty($orderPropdata[$p]->section_id);
 
 					if (!empty($chktag))
 					{
 						$property_price = $orderPropdata[$p]->section_price + $orderPropdata[$p]->section_vat;
-					}
+					}		
 
-					if ($export == 1)
+					// Show actual productive price
+					if ($export == 0 && $property_price > 0)
 					{
-						$disPrice = " (" . $orderPropdata[$p]->section_oprand . Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $property_price . ")";
+						$propertyOperand                     = $orderPropdata[$p]->section_oprand;
+						$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
+						$propertyCalculatedPriceSum, $propertyOperand, $property_price
+						);
+						$productAttributeCalculatedPrice     = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
+						$propertyCalculatedPriceSum          = $productAttributeCalculatedPriceBase;
 					}
-					else
-					{
-						$disPrice = "";
-
-						if (!$hide_attribute_price)
-						{
-							$disPrice = " (" . $orderPropdata[$p]->section_oprand . $this->getProductFormattedPrice($property_price) . ")";
-						}
-
-						$propertyOperand = $orderPropdata[$p]->section_oprand;
-
-						// Show actual productive price
-						if ($property_price > 0)
-						{
-							$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
-								$propertyCalculatedPriceSum, $propertyOperand, $property_price
-							);
-
-							$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
-							$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
-						}
-
-						if (strpos($data, '{product_attribute_price}') === false)
-						{
-							$disPrice = '';
-						}
-
-						if (strpos($data, '{product_attribute_number}') === false)
-						{
-							$virtualNumber = '';
-						}
-					}
-
-					$displayattribute .= "<div class='checkout_attribute_wrapper'><div class='checkout_attribute_price'>" . urldecode($orderPropdata[$p]->section_name) . $disPrice . "</div>" . $virtualNumber . "</div>";
 
 					// Replace attribute property price and value
 					$tmp_attribute_middle_template = str_replace("{product_attribute_value}", urldecode($orderPropdata[$p]->section_name), $tmp_attribute_middle_template);
@@ -6509,62 +6464,23 @@ class productHelper
 							$stockroomhelper->manageStockAmount($orderSubpropdata[$sp]->section_id, $quantity, $orderSubpropdata[$sp]->stockroom_id, "subproperty");
 						}
 
-						$subproperty   = $this->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
-						$virtualNumber = "";
-
-						if (count($subproperty) > 0 && $subproperty[0]->subattribute_color_number)
-						{
-							$virtualNumber = "<div class='checkout_subattribute_number'>[" . $subproperty[0]->subattribute_color_number . "]</div>";
-						}
-
+						$subproperty = $this->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
+			
 						if (!empty($chktag))
 						{
 							$subproperty_price = $orderSubpropdata[$sp]->section_price + $orderSubpropdata[$sp]->section_vat;
 						}
 
-						if ($export == 1)
+						// Show actual productive price
+						if ($export == 0 && $subproperty_price > 0)
 						{
-							$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $subproperty_price . ")";
+							$subPropertyOperand                  = $orderSubpropdata[$sp]->section_oprand;
+							$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
+							$propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price
+							);
+							$productAttributeCalculatedPrice     = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
+							$propertyCalculatedPriceSum          = $productAttributeCalculatedPriceBase;
 						}
-						else
-						{
-							$disPrice = "";
-
-							if (!$hide_attribute_price)
-							{
-								$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . $this->getProductFormattedPrice($subproperty_price) . ")";
-							}
-
-							$subPropertyOperand = $orderSubpropdata[$sp]->section_oprand;
-
-							// Show actual productive price
-							if ($subproperty_price > 0)
-							{
-								$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
-									$propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price
-								);
-
-								$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
-								$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
-							}
-
-							if (strpos($data, '{product_attribute_price}') === false)
-							{
-								$disPrice = '';
-							}
-
-							if (strpos($data, '{product_attribute_number}') === false)
-							{
-								$virtualNumber = '';
-							}
-						}
-
-						if (strpos($data, '{remove_product_subattribute_title}') === false)
-						{
-							$displayattribute .= "<div class='checkout_subattribute_title'>" . urldecode($subproperty[0]->subattribute_color_title) . " : </div>";
-						}
-
-						$displayattribute .= "<div class='checkout_subattribute_wrapper'><div class='checkout_subattribute_price'>" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . "</div>" . $virtualNumber . "</div>";
 
 						$attributeChilds['property_childs'][] = array(
 							'subproperty_id'           => $orderSubpropdata[$sp]->section_id,
@@ -6596,6 +6512,22 @@ class productHelper
 				// Prapare cart type attribute array
 				$cartAttributes[] = get_object_vars($attribute[0]);
 			}
+
+			$displayattribute = RedshopLayoutHelper::render(
+				'product.order_attribute',
+				array(
+						'orderItemAttdata' => $orderItemAttdata,
+						'data'             => $data,
+						'orderItemId'      => $order_item_id,
+						'isAccessory'      => $is_accessory,
+						'chktag'           => $chktag,
+						'export'           => $export
+					),
+				'',
+				array(
+						'component' => 'com_redshop'
+					)
+			);
 		}
 		else
 		{
