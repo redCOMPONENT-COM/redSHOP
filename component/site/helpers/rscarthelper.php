@@ -821,6 +821,9 @@ class rsCarthelper
 
 		for ($i = 0; $i < $idx; $i++)
 		{
+			// Plugin support:  Process the product plugin for cart item
+			$dispatcher->trigger('onCartItemDisplay', array(&$data, $cart, $i));
+
 			$quantity = $cart[$i]['quantity'];
 
 			if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
@@ -1383,9 +1386,6 @@ class rsCarthelper
 				$cart_mdata = str_replace("{remove_product}", '', $cart_mdata);
 			}
 
-			// Plugin support:  Process the product plugin for cart item
-			$dispatcher->trigger('onCartItemDisplay', array(& $cart_mdata, $cart, $i));
-
 			$cart_tr .= $cart_mdata;
 		}
 
@@ -1410,6 +1410,9 @@ class rsCarthelper
 
 		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
+			// Process the product plugin for cart item
+			$dispatcher->trigger('onOrderItemDisplay', array(&$data, &$rowitem, $i));
+
 			$product_id = $rowitem [$i]->product_id;
 			$quantity   = $rowitem [$i]->product_quantity;
 
@@ -1871,9 +1874,6 @@ class rsCarthelper
 				$cart_mdata = str_replace("{download_date_list_lbl}", "", $cart_mdata);
 				$cart_mdata = str_replace("{download_date_list}", "", $cart_mdata);
 			}
-
-			// Process the product plugin for cart item
-			$dispatcher->trigger('onOrderItemDisplay', array(& $cart_mdata, &$rowitem, $i));
 
 			$cart .= $cart_mdata;
 		}
