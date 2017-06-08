@@ -1585,65 +1585,19 @@ class productHelper
 		return $ProductPriceArr;
 	}
 
-	public function getProductQuantityPrice($product_id, $userid)
+	/**
+	 * Get Layout product quantity price
+	 *
+	 * @param   int  $productId  Product Id
+	 * @param   int  $userId     User Id
+	 *
+	 * @deprecated  1.5  Use RedshopHelperProduct::getProductQuantityPrice instead
+	 *
+	 * @return  mixed  Redshop Layout
+	 */
+	public function getProductQuantityPrice($productId, $userId)
 	{
-		$userArr = $this->_session->get('rs_user');
-
-		if (empty($userArr))
-		{
-			$userArr = $this->_userhelper->createUserSession($userid);
-		}
-
-		$shopperGroupId = $this->_userhelper->getShopperGroup($userid);
-
-		if ($userid)
-		{
-			$query = "SELECT p.* FROM " . $this->_table_prefix . "users_info AS u "
-				. "LEFT JOIN " . $this->_table_prefix . "product_price AS p ON u.shopper_group_id = p.shopper_group_id "
-				. "WHERE p.product_id = " . (int) $product_id . " "
-				. "AND u.user_id=" . (int) $userid . " AND u.address_type='BT' "
-				. "ORDER BY price_quantity_start ASC ";
-		}
-		else
-		{
-			$query = "SELECT p.* FROM " . $this->_table_prefix . "product_price AS p "
-				. "WHERE p.product_id = " . (int) $product_id . " "
-				. "AND p.shopper_group_id = " . (int) $shopperGroupId . " "
-				. "ORDER BY price_quantity_start ASC ";
-		}
-
-		$this->_db->setQuery($query);
-		$result        = $this->_db->loadObjectList();
-		$quantitytable = '';
-
-		if ($result)
-		{
-			$quantitytable = "<table>";
-			$quantitytable .= "<tr><th>" . JText::_('COM_REDSHOP_QUANTITY') . "</th><th>" . JText::_('COM_REDSHOP_PRICE')
-				. "</th></tr>";
-
-			foreach ($result as $r)
-			{
-				if ($r->discount_price != 0
-					&& $r->discount_start_date != 0
-					&& $r->discount_end_date != 0
-					&& $r->discount_start_date <= time()
-					&& $r->discount_end_date >= time())
-				{
-					$r->product_price = $r->discount_price;
-				}
-
-				$tax = $this->getProductTax($product_id, $r->product_price, $userid);
-				$price = $this->getProductFormattedPrice($r->product_price + $tax);
-
-				$quantitytable .= "<tr><td>" . $r->price_quantity_start . " - " . $r->price_quantity_end
-					. "</td><td>" . $price . "</td></tr>";
-			}
-
-			$quantitytable .= "</table>";
-		}
-
-		return $quantitytable;
+		return RedshopHelperProduct::getProductQuantityPrice($productId, $userId);
 	}
 
 	public function getDiscountId($subtotal = 0, $user_id = 0)
@@ -9015,6 +8969,9 @@ class productHelper
 		$related_template = $this->getRelatedProductTemplate($template_desc);
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
 
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = JDispatcher::getInstance();
+
 		if (count($related_template) > 0)
 		{
 			if (count($related_product) > 0
@@ -9037,6 +8994,8 @@ class productHelper
 				for ($r = 0, $rn = count($related_product); $r < $rn; $r++)
 				{
 					$related_template_data .= $tempdata_div_middle;
+
+					$dispatcher->trigger('onPrepareRelatedProduct', array(&$related_template_data, $related_product[$r]));
 
 					$ItemData = $this->getMenuInformation(0, 0, '', 'product&pid=' . $related_product[$r]->product_id);
 
@@ -9179,6 +9138,8 @@ class productHelper
 						$wishlistLink = "<div class=\"wishlist\">" . $this->replaceWishlistButton($related_product[$r]->product_id, '{wishlist_link}') ."</div>";
 						$related_template_data =  str_replace("{wishlist_link}", $wishlistLink, $related_template_data);
 					}
+
+					$dispatcher->trigger('onAfterDisplayRelatedProduct', array(&$related_template_data, $related_product[$r]));
 				}
 
 				$related_template_data = $tempdata_div_start . $related_template_data . $tempdata_div_end;

@@ -205,10 +205,10 @@ class RedshopHelperShopper_Group
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn(array('c.shopper_group_id', 'c.name AS category_name', 'cx.shopper_group_id', 'cx.parent_id')))
+		$query->select($db->qn(array('c.shopper_group_id', 'cx.shopper_group_categories', 'cx.shopper_group_id', 'cx.parent_id')))
 			->from($db->qn('#__redshop_shopper_group', 'cx'))
 			->leftJoin(
-				$db->qn('#__redshop_category', 'c')
+				$db->qn('#__redshop_shopper_group', 'c')
 				. ' ON ' .
 				$db->qn('c.shopper_group_id') . ' = ' . $db->qn('cx.parent_id')
 			)
