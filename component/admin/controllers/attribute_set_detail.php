@@ -104,6 +104,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			$attribute_save['attribute_id'] = $attribute[$a]['id'];
 			$attribute_save['attribute_set_id'] = $row->attribute_set_id;
 			$attribute_save['attribute_name'] = htmlspecialchars($attribute[$a]['name']);
+			$attribute_save['attribute_description'] = $attribute[$a]['attribute_description'];
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
 			$attribute_save['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on'
