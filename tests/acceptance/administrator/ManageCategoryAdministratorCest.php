@@ -30,7 +30,6 @@ class ManageCategoryAdministratorCest
     /*
      * Create category and save button
      */
-
     public function createCategorySave(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Category Save creation in Administrator');
@@ -71,7 +70,6 @@ class ManageCategoryAdministratorCest
      *
      * @depends updateCategorySaveClose
      */
-
     public function changeStateCategory(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test if State of a Category gets Updated in Administrator');
@@ -116,7 +114,6 @@ class ManageCategoryAdministratorCest
      * @param AcceptanceTester $I
      * @param $scenario
      */
-
     public function createCategorySaveNew(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Category creation Save and New  in Administrator');
@@ -127,6 +124,11 @@ class ManageCategoryAdministratorCest
         $I->see("item successfully saved", '.alert-success');
     }
 
+    /**
+     * Check cancel button inside category Page
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function createCategoryCancel(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Category check cancel  in Administrator');
@@ -137,6 +139,11 @@ class ManageCategoryAdministratorCest
         $I->see("Category Management", \CategoryManagerJ3Page::$categoryManagement);
     }
 
+    /**
+     * Create category with child category inside
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function createCategoryChild(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Category is child category is  in Administrator');
@@ -147,6 +154,11 @@ class ManageCategoryAdministratorCest
         $I->see("item successfully saved", '.alert-success');
     }
 
+    /**
+     * Check Delete button without choice Category
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function deleteWithoutCategory(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Category delete without choice  in Administrator');
@@ -157,6 +169,11 @@ class ManageCategoryAdministratorCest
         $I->see("Category Management", '.page-title');
     }
 
+    /**
+     * Delete all Category
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function deleteAllCategory(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Category delete all  in Administrator');
@@ -168,6 +185,11 @@ class ManageCategoryAdministratorCest
 
     }
 
+    /**
+     * Check puplish button without choice any category
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function publishWithouChoice(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Category Publish without choice  in Administrator');
@@ -192,6 +214,11 @@ class ManageCategoryAdministratorCest
         $I->see("Category Management", '.page-title');
     }
 
+    /**
+     * Check unpublish button without choice category
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function ụnpublishWithouChoice(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Category Unpublish without choice  in Administrator');
@@ -219,6 +246,11 @@ class ManageCategoryAdministratorCest
         $I->see("Category Management", '.page-title');
     }
 
+    /**
+     * Check checkin button
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function checkinWithoutCategory(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Category check in without choice  in Administrator');
@@ -234,7 +266,6 @@ class ManageCategoryAdministratorCest
      * @param $scenario
      * @depends checkinWithoutCategory
      */
-
     public function checkinAllCategory(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Category Unpublish all categories in Administrator');
