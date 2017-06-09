@@ -59,4 +59,4 @@ extract($displayData);
 			value="<?php echo $value; ?>"
 		>
 	</table>
-	
+</td>

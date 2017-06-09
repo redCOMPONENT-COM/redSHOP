@@ -35,3 +35,4 @@ extract($displayData);
 	>
 		<?php echo htmlspecialchars($textValue); ?>
 	</textarea>
+</td>

@@ -40,4 +40,4 @@ extract($displayData);
 			<option <?php echo $selected; ?> value="<?php echo $field->id; ?>"><?php echo $field->country_name; ?></option>
 		<?php endforeach; ?>
 	</select>
-	
+</td>	

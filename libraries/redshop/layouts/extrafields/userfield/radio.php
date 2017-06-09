@@ -13,35 +13,28 @@ defined('_JEXEC') or die;
  * $displayData extract
  *
  * @param   object  $rowData          Extra field data
- * @param   string  $extraFieldLabel  Extra field label
  * @param   string  $required         Extra field required
- * @param   string  $requiredLabel    Extra field required label
- * @param   string  $errorMsg         Extra field error message
+ * @param   string  $uniqueId         Extra field unique Id
  * @param   string  $fieldCheck       Extra field check
  * @param   string  $checkData        Extra field check data
  */
 extract($displayData);
 ?>
-
-<td valign="top" width="100" align="right" class="key">
-	<?php echo $extraFieldLabel; ?>
-</td>
-<td>
-	<?php foreach ($fieldCheck as $key => $field) : ?>
-		<?php $checked = (@in_array(urlencode($field->field_value), $checkData)) ? ' checked="checked" ' : ''; ?>
+<?php foreach ($fieldCheck as $key => $field) : ?>
+	<?php $checked = (@in_array(urlencode($field->field_value), $checkData)) ? ' checked="checked" ' : ''; ?>
+	<div class="userfield_input">
 		<label>
 			<input 
-				type="checkbox"
+				type="radio"
 				id="<?php echo $rowData->name . '_' . $field->value_id; ?>"
-				name="<?php echo $rowData->name; ?>"
+				name="extrafieldname<?php echo $uniqueId; ?>[]"
 				class="<?php echo $rowData->class; ?>"
 				value="<?php echo urlencode($field->field_value); ?>"
+				userfieldlbl="<?php echo $rowData->title; ?>"
 				<?php echo $required; ?>
-				<?php echo $requiredLabel; ?>
-				<?php echo $errorMsg; ?>
 				<?php echo $checked; ?>
 			/>
 			<span><?php echo $field->field_value ?></span>
 		</label>
-	<?php endforeach; ?>
-</td>
+	</div>
+<?php endforeach; ?>
