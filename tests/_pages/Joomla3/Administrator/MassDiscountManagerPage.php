@@ -17,5 +17,9 @@ class MassDiscountManagerPage
     public static $dayEnd = "#jform_end_date";
     public static $checkFirstItems = "//input[@id='cb0']";
     public static $MassDiscountFilter = "#filter_search";
+    public static $choiceAll="//input[@onclick='Joomla.checkAll(this)']";
+
+public static $MassDicountResultRow="//div[@class='table-responsive']/table/tbody/tr/td[3]/a";
+
 
 }
