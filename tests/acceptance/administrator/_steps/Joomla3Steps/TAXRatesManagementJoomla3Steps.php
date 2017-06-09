@@ -23,12 +23,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"], 60);
         $I->click(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"]);
 
-
-//        $I->click(['xpath' => '//div/select[@id="rs_state_jformtax_state"]']);
-        $I->click(['xpath' => '/html/body/div[1]/div/div/section[2]/form/fieldset/div/div/div/div[2]/div[3]/div/select']);
-
-        $I->click(['xpath' => '//div/select[@id="rs_state_jformtax_state"]/option[2]']);
-
         $I->click(['xpath' => '//div[@id="s2id_jform_tax_group_id"]//a']);
         $I->waitForElement(['id' => "s2id_autogen3_search"]);
         $I->fillField(['id' => "s2id_autogen3_search"], $VATGroupName);
@@ -36,9 +30,7 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['xpath' => "//span[contains(text(), '" . $VATGroupName . "')]"]);
         $I->click("Save");
         $I->see("item successfully saved", '.alert-success');
-
     }
-
 
     public function addTAXRatesMissingNameSave( $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
     {
@@ -47,7 +39,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click("New");
         $I->verifyNotices(false, $this->checkForNotices(), 'VAT / Tax Rates Management New');
         $I->checkForPhpNoticesOrWarnings();
-
         $I->fillField(\TAXRatesJoomla3Page::$TaxRatesValue, $TaxRatesValue);
 
         $I->click(['xpath' => '//div[@id="s2id_jform_tax_country"]//a']);
@@ -56,12 +47,11 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"], 60);
         $I->click(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"]);
 
-
-        $I->click(['xpath' => '//div[@id="s2id_jform_tax_state"]//a']);
-        $I->waitForElement(['id' => "s2id_autogen2_search"]);
-        $I->fillField(['id' => "s2id_autogen2_search"], $nameState);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameState . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $nameState . "')]"]);
+//        $I->click(['xpath' => '//div[@id="s2id_jform_tax_state"]//a']);
+//        $I->waitForElement(['id' => "s2id_autogen2_search"]);
+//        $I->fillField(['id' => "s2id_autogen2_search"], $nameState);
+//        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameState . "')]"], 60);
+//        $I->click(['xpath' => "//span[contains(text(), '" . $nameState . "')]"]);
 
         $I->click(['xpath' => '//div[@id="s2id_jform_tax_group_id"]//a']);
         $I->waitForElement(['id' => "s2id_autogen3_search"]);
@@ -71,7 +61,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click("Save");
         $I->see("Error", '.alert-heading');
     }
-
 
     public function addTAXRatesMissingGroupsSave($TAXRatesName, $TaxRatesValue)
     {
@@ -81,13 +70,10 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->verifyNotices(false, $this->checkForNotices(), 'VAT / Tax Rates Management New');
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\TAXRatesJoomla3Page::$TAXRatesName, $TAXRatesName);
-
         $I->fillField(\TAXRatesJoomla3Page::$TaxRatesValue, $TaxRatesValue);
-
         $I->click("Save");
         $I->see("Error", '.alert-heading');
     }
-
 
     public function addTAXRatesMissingTaxValueSave($TAXRatesName, $VATGroupName)
     {
@@ -105,7 +91,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['xpath' => "//span[contains(text(), '" . $VATGroupName . "')]"]);
         $I->click("Save");
         $I->acceptPopup();
-
     }
 
     public function addTAXRatesValueAmountLessZeroSave($TAXRatesName, $VATGroupName, $TaxRatesValue)
@@ -125,7 +110,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['xpath' => "//span[contains(text(), '" . $VATGroupName . "')]"]);
         $I->click("Save");
         $I->acceptPopup();
-
     }
 
     public function addTAXRatesValueAmountStringSave($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
@@ -136,7 +120,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->verifyNotices(false, $this->checkForNotices(), 'VAT / Tax Rates Management New');
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\TAXRatesJoomla3Page::$TAXRatesName, $TAXRatesName);
-
         $I->fillField(\TAXRatesJoomla3Page::$TaxRatesValue, $TaxRatesValue);
 
         $I->click(['xpath' => '//div[@id="s2id_jform_tax_country"]//a']);
@@ -145,13 +128,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"], 60);
         $I->click(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"]);
 
-
-        $I->click(['xpath' => '//div[@id="s2id_jform_tax_state"]//a']);
-        $I->waitForElement(['id' => "s2id_autogen2_search"]);
-        $I->fillField(['id' => "s2id_autogen2_search"], $nameState);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameState . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $nameState . "')]"]);
-
         $I->click(['xpath' => '//div[@id="s2id_jform_tax_group_id"]//a']);
         $I->waitForElement(['id' => "s2id_autogen3_search"]);
         $I->fillField(['id' => "s2id_autogen3_search"], $VATGroupName);
@@ -159,8 +135,8 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['xpath' => "//span[contains(text(), '" . $VATGroupName . "')]"]);
         $I->click("Save");
         $I->acceptPopup();
-
     }
+
     public function addTAXRatesSaveClose($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
     {
         $I = $this;
@@ -177,13 +153,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"], 60);
         $I->click(['xpath' => "//span[contains(text(), '" . $nameCountry . "')]"]);
 
-
-        $I->click(['xpath' => '//div[@id="s2id_jform_tax_state"]//a']);
-        $I->waitForElement(['id' => "s2id_autogen2_search"]);
-        $I->fillField(['id' => "s2id_autogen2_search"], $nameState);
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameState . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $nameState . "')]"]);
-
         $I->click(['xpath' => '//div[@id="s2id_jform_tax_group_id"]//a']);
         $I->waitForElement(['id' => "s2id_autogen3_search"]);
         $I->fillField(['id' => "s2id_autogen3_search"], $VATGroupName);
@@ -192,9 +161,7 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->click("Save & Close");
         $I->see("item successfully saved", '.alert-success');
-
     }
-
 
     public function editTAXRatesName($TAXRatesName, $TAXRatesNameEdit)
     {
@@ -209,7 +176,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click("Save");
         $I->see("item successfully saved", '.alert-success');
     }
-
 
     public function editButtonTAXRatesName($TAXRatesName, $TAXRatesNameEdit)
     {
@@ -264,7 +230,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->see("Message", '.alert-success');
     }
 
-
     public function deleteTAXRatesOK($TAXRatesName)
     {
         $I = $this;
@@ -276,8 +241,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->acceptPopup();
         $I->see("Message", '.alert-success');
     }
-
-
 
     public function deleteTAXRatesCancel($TAXRatesName)
     {
@@ -291,8 +254,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 
     }
 
-
-
     public function checkCancel()
     {
         $I = $this;
@@ -301,7 +262,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->verifyNotices(false, $this->checkForNotices(), 'VAT / Tax Rates Management New');
         $I->checkForPhpNoticesOrWarnings();
         $I->click("Cancel");
-
     }
 
     public function editButton()

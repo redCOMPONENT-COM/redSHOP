@@ -17,6 +17,10 @@ class ManagementTAXRatesAdministratorCest
         $this->TaxRatesValueString = 'Test';
     }
 
+    /** Create VAT Group with
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function createVATGroupSave(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test VAT Groups  Save creation in Administrator');
@@ -27,6 +31,12 @@ class ManagementTAXRatesAdministratorCest
         $I->see("item successfully saved", '.alert-success');
     }
 
+    /**
+     * Create VAT Tax Rates
+     * @param AcceptanceTester $I
+     * @param $scenario
+     * @depends createVATGroupSave
+     */
     public function createTaxRatesSave(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test TAX Rates Save creation in Administrator');
@@ -37,16 +47,24 @@ class ManagementTAXRatesAdministratorCest
         $I->see("item successfully saved", '.alert-success');
     }
 
-
+    /**
+     * Create TAX Rates missing name
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function addTAXRatesMissingNameSave(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test TAX Rates Save missing name creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->addTAXRatesMissingNameSave($this->VATGroupName, $this->TaxRatesValue, $this->NameCountry, $this->NameState);
-
     }
 
+    /**
+     * Create Tax Rates missing groups
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function addTAXRatesMissingGroupsSave(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test TAX Rates missing groups save creation in Administrator');
@@ -54,9 +72,13 @@ class ManagementTAXRatesAdministratorCest
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->addTAXRatesMissingGroupsSave($this->TAXRatesName, $this->TaxRatesValue);
-
     }
 
+    /**
+     * Create Tax Rates missing tax value
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function addTAXRatesMissingTaxValueSave(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test TAX missing tax value Save creation in Administrator');
@@ -64,10 +86,13 @@ class ManagementTAXRatesAdministratorCest
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->addTAXRatesMissingTaxValueSave($this->TAXRatesName, $this->VATGroupName);
-
     }
 
-
+    /**
+     * Create Tax Rates with value amount less zero
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function addTAXRatesValueAmountLessZeroSave(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test TAX amount less zero Save creation in Administrator');
@@ -75,9 +100,13 @@ class ManagementTAXRatesAdministratorCest
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->addTAXRatesValueAmountLessZeroSave($this->TAXRatesName, $this->VATGroupName, $this->TaxRatesValueLessZero);
-
     }
 
+    /**
+     * Creat TAX Rates with amount is string
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function addTAXRatesValueAmountStringSave(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test TAX Rates with amount is string  Save creation in Administrator');
@@ -85,9 +114,14 @@ class ManagementTAXRatesAdministratorCest
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->addTAXRatesValueAmountStringSave($this->TaxRatesValueString, $this->VATGroupName, $this->TaxRatesValueString, $this->NameCountry, $this->NameState);
-
     }
 
+    /**
+     * Edit Tax Rates name try to clicks on name of TAX Rates
+     * @param AcceptanceTester $I
+     * @param $scenario
+     * @depends createTaxRatesSave
+     */
     public function editTAXRatesName(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test TAX Rates Save creation in Administrator');
@@ -95,9 +129,14 @@ class ManagementTAXRatesAdministratorCest
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->editTAXRatesName($this->TAXRatesName, $this->TAXRatesNameEdit);
-
     }
 
+    /**
+     * Edit Tax Rates name by Edit button
+     * @param AcceptanceTester $I
+     * @param $scenario
+     * @depends editTAXRatesName
+     */
     public function editButtonTAXRatesName(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test TAX Rates edit with Edit button Save creation in Administrator');
@@ -105,9 +144,14 @@ class ManagementTAXRatesAdministratorCest
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->editTAXRatesName($this->TAXRatesNameEdit, $this->TAXRatesName);
-
     }
 
+    /**
+     * Edit Tax Rates missing name
+     * @param AcceptanceTester $I
+     * @param $scenario
+     * @depends editButtonTAXRatesName
+     */
     public function editTAXRatesMissingName(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Edit TAX missing name in Administrator');
@@ -115,9 +159,7 @@ class ManagementTAXRatesAdministratorCest
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->editTAXRatesMissingName($this->TAXRatesName);
-
     }
-
 
     public function addTAXRatesSaveClose(AcceptanceTester $I, $scenario)
     {
@@ -130,7 +172,6 @@ class ManagementTAXRatesAdministratorCest
         $I->searchTAXRates($this->TAXRatesName);
     }
 
-
     public function checkCancel(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('check Cancel creation in Administrator');
@@ -140,7 +181,6 @@ class ManagementTAXRatesAdministratorCest
         $I->checkCancel();
         $I->see("VAT Rates", '.page-title');
     }
-
 
     public function editButton(AcceptanceTester $I, $scenario)
     {
@@ -171,7 +211,6 @@ class ManagementTAXRatesAdministratorCest
         $I->deleteTAXRates($this->TAXRatesName);
         $I->see("VAT Rates", '.page-title');
     }
-
 
 // codeception use for show dialog delete VAT/TAX rates .
 //    public function deleteTAXRatesCancel(AcceptanceTester $I, $scenario)
