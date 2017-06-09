@@ -134,3 +134,4 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</div>
+</td>

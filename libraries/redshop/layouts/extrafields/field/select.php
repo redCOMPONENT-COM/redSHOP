@@ -41,4 +41,4 @@ extract($displayData);
 			<option <?php echo $selected; ?> value="<?php echo urlencode($field->field_value); ?>"><?php echo $field->field_name; ?></option>
 		<?php endforeach; ?>
 	</select>
-	
+</td>	
