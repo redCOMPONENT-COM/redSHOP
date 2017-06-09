@@ -31,7 +31,7 @@ extract($displayData);
 		name="<?php echo $rowData->name; ?>[]" 
 		class="<?php echo $rowData->class; ?>" 
 		id="<?php echo $rowData->name; ?>"
-		multiple="true"
+		multiple="multiple"
 		size="<?php echo $rowData->size ? $rowData->size : 10; ?>"
 		<?php echo $required; ?>
 		<?php echo $requiredLabel; ?>
@@ -42,4 +42,4 @@ extract($displayData);
 			<option <?php echo $selected; ?> value="<?php echo urlencode($field->field_value); ?>"><?php echo $field->field_name; ?></option>
 		<?php endforeach; ?>
 	</select>
-	
+</td>

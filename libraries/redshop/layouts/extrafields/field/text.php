@@ -38,3 +38,4 @@ extract($displayData);
 		<?php echo $requiredLabel; ?>
 		<?php echo $errorMsg; ?>
 	/>
+</td>

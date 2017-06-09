@@ -35,7 +35,6 @@ extract($displayData);
 				id="<?php echo $rowData->name . '_' . $field->value_id; ?>"
 				name="<?php echo $rowData->name; ?>"
 				class="<?php echo $rowData->class; ?>"
-				maxlength="<?php echo $rowData->maxlength ?>"
 				value="<?php echo urlencode($field->field_value); ?>"
 				<?php echo $required; ?>
 				<?php echo $requiredLabel; ?>
@@ -45,3 +44,4 @@ extract($displayData);
 			<span><?php echo $field->field_value ?></span>
 		</label>
 	<?php endforeach; ?>
+</td>
