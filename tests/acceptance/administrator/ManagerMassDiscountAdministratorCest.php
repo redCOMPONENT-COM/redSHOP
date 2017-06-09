@@ -175,5 +175,42 @@ class ManagerMassDiscountAdministratorCest
         $I->checkCloseButton($this->MassDiscountName);
     }
 
+    public function deleteMassDiscountCancel(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' delete Mass discount in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->deleteMassDiscountCancel($this->MassDiscountName);
+    }
 
+    public function deleteMassDiscountOK(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' delete mass discount Mass discount in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->deleteMassDiscountOK($this->MassDiscountName);
+    }
+
+    public function addMassDiscountForDeleteAll(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' add Mass discount with Save and Close in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->addMassDiscountSaveClose($this->MassDiscountName, $this->MassDiscountAmoutTotal, $this->discountStart, $this->discountEnd, $this->CategoryName, $this->ProductName);
+
+    }
+
+    public function deleteAllMassDiscountOK(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('delete all mass discounts in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->deleteAllMassDiscountOK($this->MassDiscountName);
+
+    }
+    
 }

@@ -229,6 +229,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
     }
 
+
     public function checkCloseButton($massDiscountName)
     {
         $I = $this;
@@ -241,6 +242,48 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->click("Close");
         $I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
+    }
+
+    public function deleteMassDiscountCancel($massDiscountName)
+    {
+        $I = $this;
+        $I->amOnPage(\MassDiscountManagerPage::$URL);
+        $I->searchMassDiscount($massDiscountName);
+        $I->wait(3);
+        $I->click(\MassDiscountManagerPage::$checkFirstItems);
+        $I->click('Delete');
+        $I->cancelPopup();
+        $I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
+    }
+
+    public function deleteMassDiscountOK($massDiscountName)
+    {
+        $I = $this;
+        $I->amOnPage(\MassDiscountManagerPage::$URL);
+        $I->searchMassDiscount($massDiscountName);
+        $I->wait(3);
+        $I->click(\MassDiscountManagerPage::$checkFirstItems);
+        $I->click('Delete');
+        $I->acceptPopup();
+        $I->waitForText('Message', 30, ['class' => 'alert-success']);
+        $I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
+        $I->fillField(\MassDiscountManagerPage::$MassDiscountFilter, $massDiscountName);
+        $I->pressKey(\MassDiscountManagerPage::$MassDiscountFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->dontSee($massDiscountName, \MassDiscountManagerPage::$MassDicountResultRow);
+    }
+
+    public function deleteAllMassDiscountOK($massDiscountName)
+    {
+        $I = $this;
+        $I->amOnPage(\MassDiscountManagerPage::$URL);
+        $I->click(\MassDiscountManagerPage::$choiceAll);
+        $I->click('Delete');
+        $I->acceptPopup();
+        $I->waitForText('Message', 30, ['class' => 'alert-success']);
+        $I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
+        $I->fillField(\MassDiscountManagerPage::$MassDiscountFilter, $massDiscountName);
+        $I->pressKey(\MassDiscountManagerPage::$MassDiscountFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->dontSee($massDiscountName, \MassDiscountManagerPage::$MassDicountResultRow);
     }
 
 
@@ -256,7 +299,6 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
     }
 
-
     public function searchMassDiscount($massDiscountName)
     {
         $I = $this;
@@ -265,4 +307,6 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
         $I->filterListBySearching($massDiscountName);
     }
+
+
 }
