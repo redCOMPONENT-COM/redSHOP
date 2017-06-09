@@ -1,10 +1,7 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: nhung nguyen
- * Date: 6/8/2017
- * Time: 2:01 PM
+ * Class check page Mass Discount
  */
 class ManagerMassDiscountAdministratorCest
 {
@@ -13,13 +10,11 @@ class ManagerMassDiscountAdministratorCest
 
         $this->ProductName = 'ProductName' . rand(100, 999);
         $this->MassDiscountName = 'MassDiscount' . rand(10, 100);
+        $this->MassDiscountNameEdit = 'Edit' . $this->MassDiscountName;
         $this->CategoryName = "CategoryName" . rand(1, 100);
         $this->ManufactureName = "ManufactureName" . rand(1, 10);
-        $this->MassDiscountNameEdit = ProductName . 'edit';
         $this->MassDiscountAmoutTotal = rand(10, 100);
         $this->MassDiscountPercent = 0.3;
-
-
         $this->minimumPerProduct = 2;
         $this->minimumQuantity = 3;
         $this->maximumQuantity = 5;
@@ -30,7 +25,7 @@ class ManagerMassDiscountAdministratorCest
         $this->randomProductAttributeNumber = rand(999, 9999);
         $this->randomProductNameAttribute = 'Testing Attribute' . rand(99, 999);
         $this->randomProductPrice = rand(99, 199);
-        $this->discountPriceThanPrice =100;
+        $this->discountPriceThanPrice = 100;
         $this->statusProducts = 'Product on sale';
         $this->searchCategory = 'Category';
         $this->newProductName = 'New-Test Product' . rand(99, 999);
@@ -41,11 +36,14 @@ class ManagerMassDiscountAdministratorCest
         $this->nameRelatedProduct = "redITEM";
         $this->quantityStock = 4;
         $this->PreorderStock = 2;
-        $this->priceProductForThan=10;
+        $this->priceProductForThan = 10;
 
     }
 
-    public function testProductAdministrator(AcceptanceTester $I, $scenario)
+    /*
+     * Function to create new Category
+     */
+    public function createCategory(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Create Category in Administrator');
         $I->doAdministratorLogin();
@@ -53,6 +51,12 @@ class ManagerMassDiscountAdministratorCest
         $I->wantTo('Create a Category');
         $I->addCategory($this->CategoryName);
     }
+
+    /*
+     * Funtion to create Product inside the category
+     *
+     * @depends createCategory
+     */
 
     public function createProductSave(AcceptanceTester $I, $scenario)
     {
@@ -63,14 +67,113 @@ class ManagerMassDiscountAdministratorCest
         $I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
     }
 
+    /*
+   * Funtion to mass Discount for Product inside the category
+   *
+   * @depends createProductSave
+   */
     public function addMassDiscount(AcceptanceTester $I, $scenario)
     {
         $I->wantTo(' add Mass discount in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
         $I->wantTo('Test check add Mass discount ');
-        $I->addMassDiscount($this->MassDiscountName, $this->MassDiscountAmoutTotal,$this->ProductName);
-        $I->see("Mass Discounts Management", '.page-title');
+        $I->addMassDiscount($this->MassDiscountName, $this->MassDiscountAmoutTotal, $this->discountStart, $this->discountEnd, $this->CategoryName, $this->ProductName);
     }
+
+    public function addMassDiscountSaveClose(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' add Mass discount with Save and Close in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->addMassDiscountSaveClose($this->MassDiscountName, $this->MassDiscountAmoutTotal, $this->discountStart, $this->discountEnd, $this->CategoryName, $this->ProductName);
+
+    }
+
+    public function addMassDiscountStartThanEnd(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' add Mass discount Start Than End  in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->addMassDiscountSaveClose($this->MassDiscountName, $this->MassDiscountAmoutTotal, $this->discountStart, $this->discountEnd, $this->CategoryName, $this->ProductName);
+    }
+
+    public function addMassDiscountMissingAllFields(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' add Mass discount missing all fields in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->addMassDiscountMissingAllFields();
+    }
+
+
+    public function checkCancelButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' add Mass discount check cancel button at new form in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->checkCancelButton();
+    }
+
+    public function addMassDiscountMissingName(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' add Mass discount missing name in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->addMassDiscountMissingName($this->MassDiscountAmoutTotal, $this->discountStart, $this->discountEnd, $this->CategoryName, $this->ProductName);
+
+    }
+
+    public function addMassDiscountMissingAmount(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' add Mass discount missing amount in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->addMassDiscountMissingAmount($this->MassDiscountName, $this->discountStart, $this->discountEnd, $this->CategoryName, $this->ProductName);
+
+    }
+
+    public function addMassDiscountMissingProducts(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' add Mass discount missing product in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->addMassDiscountMissingProducts($this->MassDiscountName, $this->MassDiscountAmoutTotal, $this->discountStart, $this->discountEnd);
+    }
+
+    public function editMassDiscount(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' Edit Name Mass discount with save in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->editMassDiscount($this->MassDiscountName, $this->MassDiscountNameEdit);
+    }
+
+    public function editButtonMassDiscountSave(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' edit  Mass discount with save and close in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->editButtonMassDiscountSave($this->MassDiscountNameEdit, $this->MassDiscountName);
+    }
+
+    public function checkCloseButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo(' check button close button Mass discount in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
+        $I->wantTo('Test check add Mass discount ');
+        $I->checkCloseButton($this->MassDiscountName);
+    }
+
 
 }
