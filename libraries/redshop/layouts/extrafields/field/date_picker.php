@@ -27,3 +27,4 @@ extract($displayData);
 </td>
 <td>
 	<?php echo JHtml::_('calendar', $date, $rowData->name, $rowData->name, '%d-%m-%Y', array('class' => 'inputbox', 'size' => $rowData->size > 0 ? $rowData->size : 20 , 'maxlength' => '15')); ?>
+</td>

@@ -27,3 +27,4 @@ extract($displayData);
 </td>
 <td>
 	<?php echo $editor->display($rowData[$i]->name, $textValue, '200', '50', '100', '20', false); ?>
+</td>

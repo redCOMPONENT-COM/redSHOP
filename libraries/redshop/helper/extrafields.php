@@ -867,11 +867,11 @@ class RedshopHelperExtrafields
 			{
 				if (trim($rowData[$i]->desc) == '')
 				{
-					$exField .= '</td><td valign="top">';
+					$exField .= '<td valign="top">';
 				}
 				else
 				{
-					$exField .= '</td><td valign="top">&nbsp; ' . JHtml::tooltip($rowData[$i]->desc, $rowData[$i]->name, 'tooltip.png', '', '', false);
+					$exField .= '<td valign="top">&nbsp; ' . JHtml::tooltip($rowData[$i]->desc, $rowData[$i]->name, 'tooltip.png', '', '', false);
 				}
 			}
 
@@ -1378,101 +1378,126 @@ class RedshopHelperExtrafields
 				switch ($type)
 				{
 					case extraField::TYPE_TEXT:
-						$onkeyup = '';
-						$exField .= '<div class="userfield_input"><input class="' . $rowData[$i]->class . '" type="text" maxlength="' . $rowData[$i]->maxlength . '" onkeyup="var f_value = this.value;' . $onkeyup . '" name="extrafieldname' . $uniqueId . '[]"  id="' . $rowData[$i]->name . '" ' . $req . ' userfieldlbl="' . $rowData[$i]->title . '" value="' . $textValue . '" size="' . $rowData[$i]->size . '" /></div>';
+						$exField .= RedshopLayoutHelper::render(
+							'extrafields.userfield.text',
+							array(
+									'rowData'  => $rowData[$i],
+									'required' => $req,
+									'uniqueId' => $uniqueId
+								)
+						);
 						break;
 
 					case extraField::TYPE_TEXT_AREA:
-						$onkeyup = '';
-						$exField .= '<div class="userfield_input"><textarea class="' . $rowData[$i]->class . '"  name="extrafieldname' . $uniqueId . '[]"  id="' . $rowData[$i]->name . '" ' . $req . ' userfieldlbl="' . $rowData[$i]->title . '" cols="' . $rowData[$i]->cols . '" onkeyup=" var f_value = this.value;' . $onkeyup . '" rows="' . $rowData[$i]->rows . '" >' . $textValue . '</textarea></div>';
+						$exField .= RedshopLayoutHelper::render(
+							'extrafields.userfield.textarea',
+							array(
+									'rowData'  => $rowData[$i],
+									'required' => $req,
+									'uniqueId' => $uniqueId
+								)
+						);
 						break;
 
 					case extraField::TYPE_CHECK_BOX:
 						$fieldChk = self::getFieldValue($rowData[$i]->id);
 						$chkData  = @explode(",", $cart[$idx][$rowData[$i]->name]);
-
-						for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
-						{
-							$checked = (@in_array($fieldChk[$c]->field_value, $chkData)) ? ' checked="checked" ' : '';
-							$exField .= '<div class="userfield_input"><input  class="' . $rowData[$i]->class . '" type="checkbox"  ' . $checked . ' name="extrafieldname' . $uniqueId . '[]" id="' . $rowData[$i]->name . "_" . $fieldChk[$c]->value_id . '" userfieldlbl="' . $rowData[$i]->title . '" value="' . $fieldChk[$c]->field_value . '" ' . $req . ' />' . $fieldChk[$c]->field_value . '</div>';
-						}
+						$exField .= RedshopLayoutHelper::render(
+							'extrafields.userfield.checkbox',
+							array(
+									'rowData'    => $rowData[$i],
+									'required'   => $required,
+									'fieldCheck' => $req,
+									'checkData'  => $chkData,
+									'uniqueId'   => $uniqueId
+								)
+						);
 						break;
 
 					case extraField::TYPE_RADIO_BUTTON:
 						$fieldChk = self::getFieldValue($rowData[$i]->id);
 						$chkData  = @explode(",", $cart[$idx][$rowData[$i]->name]);
-
-						for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
-						{
-							$checked = (@in_array($fieldChk[$c]->field_value, $chkData)) ? ' checked="checked" ' : '';
-							$exField .= '<div class="userfield_input"><input class="' . $rowData[$i]->class . '" type="radio" ' . $checked . ' name="extrafieldname' . $uniqueId . '[]" userfieldlbl="' . $rowData[$i]->title . '"  id="' . $rowData[$i]->name . "_" . $fieldChk[$c]->value_id . '" value="' . $fieldChk[$c]->field_value . '" ' . $req . ' />' . $fieldChk[$c]->field_value . '</div>';
-						}
+						$exField .= RedshopLayoutHelper::render(
+							'extrafields.userfield.checkbox',
+							array(
+									'rowData'    => $rowData[$i],
+									'required'   => $required,
+									'fieldCheck' => $req,
+									'checkData'  => $chkData,
+									'uniqueId'   => $uniqueId
+								)
+						);
 						break;
 
 					case extraField::TYPE_SELECT_BOX_SINGLE:
 						$fieldChk = self::getFieldValue($rowData[$i]->id);
 						$chkData  = @explode(",", $cart[$idx][$rowData[$i]->name]);
-						$exField  .= '<div class="userfield_input"><select name="extrafieldname' . $uniqueId . '[]" ' . $req . ' id="' . $rowData[$i]->name . '" userfieldlbl="' . $rowData[$i]->title . '">';
-						$exField  .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
-
-						for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
-						{
-							if ($fieldChk[$c]->field_value != "" && $fieldChk[$c]->field_value != "-" && $fieldChk[$c]->field_value != "0" && $fieldChk[$c]->field_value != "select")
-							{
-								$selected = (@in_array($fieldChk[$c]->field_value, $chkData)) ? ' selected="selected" ' : '';
-								$exField  .= '<option value="' . $fieldChk[$c]->field_value . '" ' . $selected . '   >' . $fieldChk[$c]->field_value . '</option>';
-							}
-						}
-
-						$exField .= '</select></div>';
+						$exField .= RedshopLayoutHelper::render(
+							'extrafields.userfield.select',
+							array(
+									'rowData'    => $rowData[$i],
+									'required'   => $required,
+									'fieldCheck' => $req,
+									'checkData'  => $chkData,
+									'uniqueId'   => $uniqueId
+								)
+						);
 						break;
 
 					case extraField::TYPE_SELECT_BOX_MULTIPLE:
 						$fieldChk = self::getFieldValue($rowData[$i]->id);
 						$chkData  = @explode(",", $cart[$idx][$rowData[$i]->name]);
-						$exField  .= '<div class="userfield_input"><select multiple="multiple" size=10 name="extrafieldname' . $uniqueId . '[]" ' . $req . ' id="' . $rowData[$i]->name . '" userfieldlbl="' . $rowData[$i]->title . '">';
-
-						for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
-						{
-							$selected = (@in_array($fieldChk[$c]->field_value, $chkData)) ? ' selected="selected" ' : '';
-							$exField  .= '<option value="' . $fieldChk[$c]->field_value . '" ' . $selected . ' >' . $fieldChk[$c]->field_value . '</option>';
-						}
-
-						$exField .= '</select></div>';
+						$exField .= RedshopLayoutHelper::render(
+							'extrafields.userfield.multiple',
+							array(
+									'rowData'    => $rowData[$i],
+									'required'   => $required,
+									'fieldCheck' => $req,
+									'checkData'  => $chkData,
+									'uniqueId'   => $uniqueId
+								)
+						);
 						break;
 
 					case extraField::TYPE_DOCUMENTS:
-						JHtml::_('redshopjquery.framework');
-						JHtml::script('com_redshop/ajaxupload.js', false, true);
-						$ajax    = "";
-						$exField .= '<div class="userfield_input"><input class="' . $rowData[$i]->class . '" type="button" value="' . JText::_('COM_REDSHOP_UPLOAD') . '" name="file' . $rowData[$i]->name . '_' . $uniqueId . '"  id="file' . $rowData[$i]->name . '_' . $uniqueId . '" ' . $req . ' userfieldlbl="' . $rowData[$i]->title . '" size="' . $rowData[$i]->size . '" /><p>' . JText::_('COM_REDSHOP_UPLOADED_FILE') . ':<ol id="ol_' . $rowData[$i]->name . '"></ol></p></div>';
-						$exField .= '<input type="hidden" name="extrafieldname' . $uniqueId . '[]" id="' . $rowData[$i]->name . '_' . $uniqueId . '" ' . $req . ' userfieldlbl="' . $rowData[$i]->title . '"  />';
-
-						$exField .= '<script>jQuery.noConflict();new AjaxUpload("file' . $rowData[$i]->name . '_' . $uniqueId . '",{action:"index.php?tmpl=component&option=com_redshop&view=product&task=ajaxupload",data :{mname:"file' . $rowData[$i]->name . '_' . $uniqueId . '"}, name:"file' . $rowData[$i]->name . '_' . $uniqueId . '",onSubmit : function(file , ext){jQuery("' . $rowData[$i]->name . '").text("' . JText::_('COM_REDSHOP_UPLOADING') . '" + file);this.disable();}, onComplete :function(file,response){jQuery("<li></li>").appendTo(jQuery("#ol_' . $rowData[$i]->name . '")).text(response);var uploadfiles = jQuery("#ol_' . $ajax . $rowData[$i]->name . ' li").map(function() {return jQuery(this).text();}).get().join(",");jQuery("#' . $rowData[$i]->name . '_' . $uniqueId . '").val(uploadfiles);jQuery("#' . $rowData[$i]->name . '").val(uploadfiles);this.enable();}});</script>';
-
+						$exField .= RedshopLayoutHelper::render(
+							'extrafields.userfield.date_picker',
+							array(
+									'rowData'    => $rowData[$i],
+									'required'   => $required,
+									'fieldCheck' => $req,
+									'uniqueId'   => $uniqueId
+								)
+						);
 						break;
 
 					case extraField::TYPE_IMAGE_SELECT:
 						$fieldChk = self::getFieldValue($rowData[$i]->id);
 						$chkData  = @explode(",", $cart[$idx][$rowData[$i]->name]);
-						$exField  .= '<table><tr>';
-
-						for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
-						{
-							$exField .= '<td><div class="userfield_input"><img id="' . $rowData[$i]->name . "_" . $fieldChk[$c]->value_id . '" class="pointer imgClass_' . $uniqueId . '" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $fieldChk[$c]->field_name . '" title="' . $fieldChk[$c]->field_value . '" alt="' . $fieldChk[$c]->field_value . '" onclick="javascript:setProductUserFieldImage(\'' . $rowData[$i]->name . '\',\'' . $uniqueId . '\',\'' . $fieldChk[$c]->field_value . '\',this);"/></div></td>';
-						}
-
-						$exField .= '</tr></table>';
-						$ajax    = '';
-
-						$exField .= '<input type="hidden" name="extrafieldname' . $uniqueId . '[]" id="' . $ajax . $rowData[$i]->name . '_' . $uniqueId . '" userfieldlbl="' . $rowData[$i]->title . '" ' . $req . '  />';
+						$exField .= RedshopLayoutHelper::render(
+							'extrafields.userfield.image',
+							array(
+									'rowData'    => $rowData[$i],
+									'required'   => $required,
+									'fieldCheck' => $req,
+									'checkData'  => $chkData,
+									'uniqueId'   => $uniqueId
+								)
+						);
 						break;
 
 					case extraField::TYPE_DATE_PICKER:
 						$ajax = '';
 						$req  = $rowData[$i]->required;
-
-						$exField .= '<div class="userfield_input">' . JHtml::_('calendar', $textValue, 'extrafieldname' . $uniqueId . '[]', $ajax . $rowData[$i]->name . '_' . $uniqueId, '%d-%m-%Y', array('class' => $rowData[$i]->class, 'size' => $rowData[$i]->size, 'maxlength' => $rowData[$i]->maxlength, 'required' => $req, 'userfieldlbl' => $rowData[$i]->title, 'errormsg' => '')) . '</div>';
+						$exField .= RedshopLayoutHelper::render(
+							'extrafields.userfield.date_picker',
+							array(
+									'rowData'    => $rowData[$i],
+									'required'   => $required,
+									'fieldCheck' => $req,
+									'uniqueId'   => $uniqueId
+								)
+						);
 						break;
 				}
 			}
