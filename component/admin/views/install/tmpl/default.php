@@ -65,6 +65,9 @@ defined('_JEXEC') or die;
                         $("#slider-install").parent().fadeOut('slow', function () {
                             $("#install-desc").fadeIn('slow');
                             $("#system-message-container").removeClass("hidden");
+                            <?php if ($this->installType == 'update'): ?>
+                            $("#update_versions").fadeIn('slow');
+                            <?php endif; ?>
                         });
                     }, 500);
                 })
@@ -147,4 +150,50 @@ defined('_JEXEC') or die;
 		<?php endforeach; ?>
         </tbody>
     </table>
+    <?php if ($this->installType == 'update' && !empty($this->availableVersions)): ?>
+    <div class="row" id="update_versions" style="display: none;">
+        <hr />
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="callout callout-warning">
+                        <i class="fa fa-exclamation-triangle"></i> <?php echo JText::_('COM_REDSHOP_INSTALL_RUN_VERSION_TASKS_UPDATE') ?>
+                    </div>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="10%">
+                                    Version
+                                </th>
+                                <th>
+                                    Tasks
+                                </th>
+                                <th width="10%">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($this->availableVersions as $availableVersion): ?>
+                            <tr>
+                                <td><?php echo $availableVersion->version ?></td>
+                                <td>
+                                    <ul>
+                                    <?php foreach ($availableVersion->tasks as $task): ?>
+                                        <li><?php echo $task; ?></li>
+                                    <?php endforeach; ?>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary btn-flat btn-block">
+                                        <i class="fa fa-play"></i> Run
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
 </div>
