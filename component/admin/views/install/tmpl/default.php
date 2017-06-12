@@ -23,56 +23,58 @@ defined('_JEXEC') or die;
 </script>
 <script type="text/javascript">
     function doProgress(row) {
-        runTasks++;
-        var $row = $(row);
-        $row.removeClass("hidden");
-        $row.find('img.loader').removeClass("hidden");
-        $row.find('.text-result').addClass("hidden");
+        (function ($) {
+            runTasks++;
+            var $row = $(row);
+            $row.removeClass("hidden");
+            $row.find('img.loader').removeClass("hidden");
+            $row.find('.text-result').addClass("hidden");
 
-        var percent = runTasks / <?php echo count($this->steps) ?> * 100;
-        $("#slider-install").css("width", percent + "%");
-        $("#slider-install").html(percent.toFixed(2) + "%");
+            var percent = runTasks / <?php echo count($this->steps) ?> * 100;
+            $("#slider-install").css("width", percent + "%");
+            $("#slider-install").html(percent.toFixed(2) + "%");
 
-        $.post(
-            "index.php?option=com_redshop&task=install.ajaxProcess",
-            {
-                "<?php echo JSession::getFormToken() ?>": 1
-            },
-            function (response) {
-                $row.find('.text-result').text(response)
-                    .removeClass("text-muted hidden").addClass("text-success");
-                $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-check text-success");
-                $row.find('.task-name').removeClass("text-muted").addClass("text-success");
-                $row.addClass("hidden");
-            }
-        )
-            .always(function () {
-
-                $row.find('img.loader').addClass("hidden");
-
-                var $next = $row.next("tr");
-
-                // Still have next progress
-                if ($next.length) {
-                    doProgress($next);
-
-                    return;
+            $.post(
+                "index.php?option=com_redshop&task=install.ajaxProcess",
+                {
+                    "<?php echo JSession::getFormToken() ?>": 1
+                },
+                function (response) {
+                    $row.find('.text-result').text(response)
+                        .removeClass("text-muted hidden").addClass("text-success");
+                    $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-check text-success");
+                    $row.find('.task-name').removeClass("text-muted").addClass("text-success");
+                    $row.addClass("hidden");
                 }
+            )
+                .always(function () {
 
-                // This is final step
-                window.setTimeout(function () {
-                    $("#slider-install").parent().fadeOut('slow', function () {
-                        $("#install-desc").fadeIn('slow');
-                        $("#system-message-container").removeClass("hidden");
-                    });
-                }, 500);
-            })
-            .fail(function (response) {
-                $row.find('.text-result').text(response.responseText)
-                    .removeClass("text-muted hidden").addClass("text-danger");
-                $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-remove text-danger");
-                $row.find('.task-name').removeClass("text-muted").addClass("text-danger");
-            });
+                    $row.find('img.loader').addClass("hidden");
+
+                    var $next = $row.next("tr");
+
+                    // Still have next progress
+                    if ($next.length) {
+                        doProgress($next);
+
+                        return;
+                    }
+
+                    // This is final step
+                    window.setTimeout(function () {
+                        $("#slider-install").parent().fadeOut('slow', function () {
+                            $("#install-desc").fadeIn('slow');
+                            $("#system-message-container").removeClass("hidden");
+                        });
+                    }, 500);
+                })
+                .fail(function (response) {
+                    $row.find('.text-result').text(response.responseText)
+                        .removeClass("text-muted hidden").addClass("text-danger");
+                    $row.find('.status-icon').removeClass("fa-tasks").addClass("fa-remove text-danger");
+                    $row.find('.task-name').removeClass("text-muted").addClass("text-danger");
+                });
+        })(jQuery);
     }
 </script>
 <div class="container">
