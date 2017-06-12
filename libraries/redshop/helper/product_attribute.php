@@ -451,9 +451,7 @@ abstract class RedshopHelperProduct_Attribute
 				$query->where($db->qn('p.shopper_group_id') . ' = ' . (int) $shopperGroupId);
 			}
 
-			$db->setQuery($query, 0, 1);
-
-			$result = $db->loadObject();
+			$result = $db->setQuery($query, 0, 1)->loadObject();
 
 			if ($result && $result->discount_price != 0
 				&& $result->discount_start_date != 0

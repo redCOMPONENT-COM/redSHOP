@@ -27,8 +27,8 @@ class RedshopHelperPayment
 	 * Check for specific payment group type plugin - suffixed using given `type`
 	 * Specially Checking for suffixed using `rs_payment_banktransfer` plugin
 	 *
-	 * @param   string $name       Payment Plugin Element Name
-	 * @param   string $typeSuffix Suffix to match
+	 * @param   string  $name        Payment Plugin Element Name
+	 * @param   string  $typeSuffix  Suffix to match
 	 *
 	 * @return  boolean  True when position found else false
 	 */
@@ -49,7 +49,7 @@ class RedshopHelperPayment
 	/**
 	 * Get payment method info
 	 *
-	 * @param   string $name Payment Method name - Null to get all plugin info
+	 * @param   string  $name  Payment Method name - Null to get all plugin info
 	 *
 	 * @return  mixed   Object is return one payment method, array for all.
 	 *
@@ -147,5 +147,54 @@ class RedshopHelperPayment
 		}
 
 		return false;
+	}
+
+	/**
+	 * Calculate payment Discount/charges
+	 *
+	 * @param   float   $total               Total price
+	 * @param   object  $paymentInformation  Payment information
+	 * @param   float   $finalAmount         Final amount
+	 *
+	 * @return  array                        Array of payment price. False otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function calculatePayment($total = 0.0, $paymentInformation = null, $finalAmount = 0.0)
+	{
+		$paymentDiscount = 0.0;
+
+		if (!$paymentInformation->payment_discount_is_percent)
+		{
+			$paymentDiscount = $paymentInformation->payment_price;
+		}
+		elseif ($paymentInformation->payment_price > 0)
+		{
+			$paymentDiscount = $total * $paymentInformation->payment_price / 100;
+		}
+
+		if ($paymentDiscount)
+		{
+			$paymentDiscount = round($paymentDiscount, 2);
+		}
+
+		if ($paymentDiscount > 0)
+		{
+			if ($total < $paymentDiscount)
+			{
+				$paymentDiscount = $total;
+			}
+
+			if ($paymentInformation->payment_oprand == '+')
+			{
+				$finalAmount = $finalAmount + $paymentDiscount;
+			}
+			else
+			{
+				$finalAmount = $finalAmount - $paymentDiscount;
+			}
+		}
+
+		return array($finalAmount, $paymentDiscount);
 	}
 }

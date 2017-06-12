@@ -302,7 +302,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			}
 		}
 
-		$result = $this->_carthelper->addProductToCart($row);
+		$result = RedshopHelperCart::addProductToCart($row);
 
 		if (is_bool($result) && $result)
 		{
@@ -312,7 +312,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			if ($redirect)
 			{
 				// Do final cart calculations
-				$this->_carthelper->cartFinalCalculation();
+				RedshopHelperCart::cartFinalCalculation();
 
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false));
 			}
@@ -370,7 +370,7 @@ class RedshopControllerOrder_detail extends RedshopController
 				$this->copyOrderItemToCart($row, false);
 			}
 
-			$this->_carthelper->cartFinalCalculation();
+			RedshopHelperCart::cartFinalCalculation();
 		}
 
 		$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false));

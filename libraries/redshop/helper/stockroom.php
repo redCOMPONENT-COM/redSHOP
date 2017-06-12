@@ -21,10 +21,10 @@ class RedshopHelperStockroom
 	/**
 	 * Check already notified user
 	 *
-	 * @param   int  $userId         User id
-	 * @param   int  $productId      Product id
-	 * @param   int  $propertyId     Property id
-	 * @param   int  $subPropertyId  Sub property id
+	 * @param   int $userId        User id
+	 * @param   int $productId     Product id
+	 * @param   int $propertyId    Property id
+	 * @param   int $subPropertyId Sub property id
 	 *
 	 * @return mixed
 	 */
@@ -46,9 +46,9 @@ class RedshopHelperStockroom
 	/**
 	 * Get stockroom
 	 *
-	 * @param   mixed    $stockroomId  stockroom id
-	 * @param   int      $published    published/unpublished
-	 * @param   boolean  $isChecked    checked use stockroom
+	 * @param   mixed   $stockroomId stockroom id
+	 * @param   int     $published   published/unpublished
+	 * @param   boolean $isChecked   checked use stockroom
 	 *
 	 * @return mixed
 	 *
@@ -95,9 +95,9 @@ class RedshopHelperStockroom
 	/**
 	 * Check is stock exists
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   int    $sectionId   Section id
+	 * @param   string $section     Section
+	 * @param   int    $stockroomId Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -123,7 +123,7 @@ class RedshopHelperStockroom
 	/**
 	 * Check is attribute stock exists
 	 *
-	 * @param   int  $productId  Product id
+	 * @param   int $productId Product id
 	 *
 	 * @return mixed
 	 *
@@ -175,9 +175,9 @@ class RedshopHelperStockroom
 	/**
 	 * Check is pre-order stock exists
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   int    $sectionId   Section id
+	 * @param   string $section     Section
+	 * @param   int    $stockroomId Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -203,7 +203,7 @@ class RedshopHelperStockroom
 	/**
 	 * Check is attribute pre-order stock exists
 	 *
-	 * @param   int  $productId  Product id
+	 * @param   int $productId Product id
 	 *
 	 * @return  mixed
 	 *
@@ -255,9 +255,9 @@ class RedshopHelperStockroom
 	/**
 	 * Get Stockroom Total amount
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   int    $sectionId   Section id
+	 * @param   string $section     Section
+	 * @param   int    $stockroomId Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -285,9 +285,9 @@ class RedshopHelperStockroom
 	/**
 	 * Get pre-order stockroom total amount
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   int    $sectionId   Section id
+	 * @param   string $section     Section
+	 * @param   int    $stockroomId Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -316,9 +316,9 @@ class RedshopHelperStockroom
 	/**
 	 * Get Stock Amount with Reserve
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   int    $sectionId   Section id
+	 * @param   string $section     Section
+	 * @param   int    $stockroomId Stockroom id
 	 *
 	 * @return int|mixed
 	 */
@@ -402,9 +402,9 @@ class RedshopHelperStockroom
 	/**
 	 * Get pre-order stockroom amount with reserve
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   int    $sectionId   Section id
+	 * @param   string $section     Section
+	 * @param   int    $stockroomId Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -443,7 +443,7 @@ class RedshopHelperStockroom
 
 				if ($section != "product")
 				{
-					$query->where($db->qn('x.section') . ' = ' . $db->q($section))
+					$query->where($db->qn('x.section') . ' = ' . $db->quote($section))
 						->where($db->qn('x.section_id') . ' IN (' . implode(',', $sectionId) . ')');
 				}
 				else
@@ -454,13 +454,14 @@ class RedshopHelperStockroom
 
 			if ($stockroomId != 0)
 			{
-				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->q((int) $stockroomId));
+				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->quote((int) $stockroomId));
 			}
 
 			$preOrderStock = $db->setQuery($query)->loadObjectList();
 
 			if ($preOrderStock[0]->ordered_preorder == $preOrderStock[0]->preorder_stock
-				|| $preOrderStock[0]->ordered_preorder > $preOrderStock[0]->preorder_stock)
+				|| $preOrderStock[0]->ordered_preorder > $preOrderStock[0]->preorder_stock
+			)
 			{
 				$quantity = 0;
 			}
@@ -476,9 +477,9 @@ class RedshopHelperStockroom
 	/**
 	 * Get stockroom amount detail list
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   int    $sectionId   Section id
+	 * @param   string $section     Section
+	 * @param   int    $stockroomId Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -511,18 +512,18 @@ class RedshopHelperStockroom
 			{
 				if ($section != "product")
 				{
-					$query->where($db->qn('x.section') . ' = ' . $db->q($section))
-						->where($db->qn('x.section_id') . ' = ' . $db->q((int) $sectionId));
+					$query->where($db->qn('x.section') . ' = ' . $db->quote($section))
+						->where($db->qn('x.section_id') . ' = ' . $db->quote((int) $sectionId));
 				}
 				else
 				{
-					$query->where($db->qn('x.product_id') . ' =' . $db->q((int) $sectionId));
+					$query->where($db->qn('x.product_id') . ' =' . $db->quote((int) $sectionId));
 				}
 			}
 
 			if ($stockroomId != 0)
 			{
-				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->q((int) $stockroomId));
+				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->quote((int) $stockroomId));
 			}
 
 			$list = $db->setQuery($query)->loadObjectList();
@@ -534,9 +535,9 @@ class RedshopHelperStockroom
 	/**
 	 * Get pre-order stockroom amount detail list
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   int    $sectionId   Section id
+	 * @param   string $section     Section
+	 * @param   int    $stockroomId Stockroom id
 	 *
 	 * @return mixed
 	 *
@@ -570,18 +571,18 @@ class RedshopHelperStockroom
 			{
 				if ($section != "product")
 				{
-					$query->where($db->qn('x.section') . ' = ' . $db->q($section))
-						->where($db->qn('x.section_id') . ' = ' . $db->q((int) $sectionId));
+					$query->where($db->qn('x.section') . ' = ' . $db->quote($section))
+						->where($db->qn('x.section_id') . ' = ' . $db->quote((int) $sectionId));
 				}
 				else
 				{
-					$query->where($db->qn('x.product_id') . ' =' . $db->q((int) $sectionId));
+					$query->where($db->qn('x.product_id') . ' =' . $db->quote((int) $sectionId));
 				}
 			}
 
 			if ($stockroomId != 0)
 			{
-				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->q((int) $stockroomId));
+				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->quote((int) $stockroomId));
 			}
 
 			$list = $db->setQuery($query)->loadObjectList();
@@ -593,10 +594,10 @@ class RedshopHelperStockroom
 	/**
 	 * Update stockroom quantity
 	 *
-	 * @param   int     $sectionId  Section id
-	 * @param   int     $quantity   Stockroom quantity
-	 * @param   string  $section    Section
-	 * @param   int     $productId  Product id
+	 * @param   int    $sectionId Section id
+	 * @param   int    $quantity  Stockroom quantity
+	 * @param   string $section   Section
+	 * @param   int    $productId Product id
 	 *
 	 * @return mixed
 	 *
@@ -635,7 +636,8 @@ class RedshopHelperStockroom
 				$remaining       = $stockroomDetail[0]->quantity - $quantity;
 
 				if (Redshop::getConfig()->get('ENABLE_STOCKROOM_NOTIFICATION') == 1
-					&& $remaining <= Redshop::getConfig()->get('DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER'))
+					&& $remaining <= Redshop::getConfig()->get('DEFAULT_STOCKROOM_BELOW_AMOUNT_NUMBER')
+				)
 				{
 					$dispatcher = RedshopHelperUtility::getDispatcher();
 					JPluginHelper::importPlugin('redshop_alert');
@@ -671,7 +673,8 @@ class RedshopHelperStockroom
 				}
 
 				if ($productData->preorder == "yes" || ($productData->preorder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
-					|| ($productData->preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
+					|| ($productData->preorder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+				)
 				{
 					for ($i = 0, $in = count($preorderList); $i < $in; $i++)
 					{
@@ -690,7 +693,7 @@ class RedshopHelperStockroom
 						{
 							$dispatcher = RedshopHelperUtility::getDispatcher();
 							JPluginHelper::importPlugin('redshop_stockroom');
-							$dispatcher->trigger('onUpdateStockroomQuantity', array($section, $product_data));
+							$dispatcher->trigger('onUpdateStockroomQuantity', array($section, $productData));
 							self::updatePreorderStockAmount($sectionId, $remainingQuantity, $stockroom->stockroom_id, $section);
 						}
 					}
@@ -710,10 +713,10 @@ class RedshopHelperStockroom
 	/**
 	 * Update stockroom amount
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   int     $quantity     Stockroom quantity
-	 * @param   int     $stockroomId  Stockroom id
-	 * @param   string  $section      Section
+	 * @param   int    $sectionId   Section id
+	 * @param   int    $quantity    Stockroom quantity
+	 * @param   int    $stockroomId Stockroom id
+	 * @param   string $section     Section
 	 *
 	 * @return mixed
 	 *
@@ -765,10 +768,10 @@ class RedshopHelperStockroom
 	/**
 	 * Update pre-order stock amount
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   int     $quantity     Stockroom quantity
-	 * @param   int     $stockroomId  Stockroom id
-	 * @param   string  $section      Section
+	 * @param   int    $sectionId   Section id
+	 * @param   int    $quantity    Stockroom quantity
+	 * @param   int    $stockroomId Stockroom id
+	 * @param   string $section     Section
 	 *
 	 * @return mixed
 	 *
@@ -788,21 +791,21 @@ class RedshopHelperStockroom
 			$db = JFactory::getDbo();
 
 			$fields = array(
-				$db->qn('ordered_preorder') . ' = ' . $db->qn('ordered_preorder') . ' + ' . $db->q((int) $quantity)
+				$db->qn('ordered_preorder') . ' = ' . $db->qn('ordered_preorder') . ' + ' . $db->quote((int) $quantity)
 			);
 
 			$conditions = array(
-				$db->qn('stockroom_id') . ' = ' . $db->q((int) $stockroomId)
+				$db->qn('stockroom_id') . ' = ' . $db->quote((int) $stockroomId)
 			);
 
 			if ($section != "product")
 			{
-				$conditions[] = $db->qn('section') . ' = ' . $db->q($section);
-				$conditions[] = $db->qn('section_id') . ' = ' . $db->q((int) $sectionId);
+				$conditions[] = $db->qn('section') . ' = ' . $db->quote($section);
+				$conditions[] = $db->qn('section_id') . ' = ' . $db->quote((int) $sectionId);
 			}
 			else
 			{
-				$conditions[] = $db->qn('product_id') . ' = ' . $db->q((int) $sectionId);
+				$conditions[] = $db->qn('product_id') . ' = ' . $db->quote((int) $sectionId);
 			}
 
 			$query = $db->getQuery(true)
@@ -819,10 +822,10 @@ class RedshopHelperStockroom
 	/**
 	 * Manage stock amount
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   int     $quantity     Stockroom quantity
-	 * @param   int     $stockroomId  Stockroom id
-	 * @param   string  $section      Section
+	 * @param   int    $sectionId   Section id
+	 * @param   int    $quantity    Stockroom quantity
+	 * @param   int    $stockroomId Stockroom id
+	 * @param   string $section     Section
 	 *
 	 * @return mixed
 	 *
@@ -846,12 +849,12 @@ class RedshopHelperStockroom
 			{
 				if ($section != "product")
 				{
-					$conditions[] = $db->qn('section') . ' = ' . $db->q($section);
-					$conditions[] = $db->qn('section_id') . ' = ' . $db->q((int) $sectionId);
+					$conditions[] = $db->qn('section') . ' = ' . $db->quote($section);
+					$conditions[] = $db->qn('section_id') . ' = ' . $db->quote((int) $sectionId);
 				}
 				else
 				{
-					$conditions[] = $db->qn('product_id') . ' = ' . $db->q((int) $sectionId);
+					$conditions[] = $db->qn('product_id') . ' = ' . $db->quote((int) $sectionId);
 				}
 			}
 
@@ -863,10 +866,10 @@ class RedshopHelperStockroom
 				if ($stockId[$i] != "" && $sectionId != "" && $sectionId != 0)
 				{
 					$fields = array(
-						$db->qn('quantity') . ' = ' . $db->qn('quantity') . ' + ' . $db->q((int) $stockQty[$i])
+						$db->qn('quantity') . ' = ' . $db->qn('quantity') . ' + ' . $db->quote((int) $stockQty[$i])
 					);
 
-					$conditions[] = $db->qn('stockroom_id') . ' = ' . $db->q((int) $stockId[$i]);
+					$conditions[] = $db->qn('stockroom_id') . ' = ' . $db->quote((int) $stockId[$i]);
 
 					$query = $db->getQuery(true)
 						->update($db->qn($table))
@@ -891,9 +894,9 @@ class RedshopHelperStockroom
 	/**
 	 * Replace stockroom amount detail
 	 *
-	 * @param   string  $templateDesc  Template content
-	 * @param   int     $sectionId     Section id
-	 * @param   string  $section       Section
+	 * @param   string $templateDesc Template content
+	 * @param   int    $sectionId    Section id
+	 * @param   string $section      Section
 	 *
 	 * @return mixed
 	 *
@@ -926,9 +929,9 @@ class RedshopHelperStockroom
 	/**
 	 * Get stock amount image
 	 *
-	 * @param   int     $sectionId    Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockAmount  Stockroom amount
+	 * @param   int    $sectionId   Section id
+	 * @param   string $section     Section
+	 * @param   int    $stockAmount Stockroom amount
 	 *
 	 * @return mixed
 	 *
@@ -961,7 +964,7 @@ class RedshopHelperStockroom
 			{
 				$query->clear('where')
 					->where($db->qn('stock_option') . ' = 1')
-					->where($db->qn('stock_quantity') . ' < ' . $db->q((int) $stockAmount))
+					->where($db->qn('stock_quantity') . ' < ' . $db->quote((int) $stockAmount))
 					->order($db->qn('stock_quantity') . ' ASC')
 					->order($db->qn('s.max_del_time') . ' ASC');
 
@@ -971,7 +974,7 @@ class RedshopHelperStockroom
 				{
 					$query->clear('where')
 						->where($db->qn('stock_option') . ' = 3')
-						->where($db->qn('stock_quantity') . ' > ' . $db->q((int) $stockAmount))
+						->where($db->qn('stock_quantity') . ' > ' . $db->quote((int) $stockAmount))
 						->order($db->qn('stock_quantity') . ' ASC')
 						->order($db->qn('s.max_del_time') . ' ASC');
 
@@ -986,8 +989,8 @@ class RedshopHelperStockroom
 	/**
 	 * Get reserved Stock
 	 *
-	 * @param   int     $sectionId  Section id
-	 * @param   string  $section    Section
+	 * @param   int    $sectionId Section id
+	 * @param   string $section   Section
 	 *
 	 * @return  int
 	 *
@@ -1004,8 +1007,8 @@ class RedshopHelperStockroom
 		$query = $db->getQuery(true)
 			->select('SUM(qty)')
 			->from($db->qn('#__redshop_cart'))
-			->where($db->qn('product_id') . ' = ' . $db->q((int) $sectionId))
-			->where($db->qn('section') . ' = ' . $db->q($section));
+			->where($db->qn('product_id') . ' = ' . $db->quote((int) $sectionId))
+			->where($db->qn('section') . ' = ' . $db->quote($section));
 
 		return (int) $db->setQuery($query)->loadResult();
 	}
@@ -1013,8 +1016,8 @@ class RedshopHelperStockroom
 	/**
 	 * Get current User reserved stock
 	 *
-	 * @param   int     $sectionId  Section id
-	 * @param   string  $section    Section
+	 * @param   int    $sectionId Section id
+	 * @param   string $section   Section
 	 *
 	 * @return mixed
 	 *
@@ -1031,8 +1034,8 @@ class RedshopHelperStockroom
 				->select('SUM(qty)')
 				->from($db->qn('#__redshop_cart'))
 				->where($db->qn('product_id') . ' = ' . (int) $sectionId)
-				->where($db->qn('session_id') . ' = ' . $db->q($sessionId))
-				->where($db->qn('section') . ' = ' . $db->q($section));
+				->where($db->qn('session_id') . ' = ' . $db->quote($sessionId))
+				->where($db->qn('section') . ' = ' . $db->quote($section));
 
 			return (int) $db->setQuery($query)->loadResult();
 		}
@@ -1054,7 +1057,7 @@ class RedshopHelperStockroom
 			return false;
 		}
 
-		$db   = JFactory::getDBO();
+		$db   = JFactory::getDbo();
 		$time = time() - (Redshop::getConfig()->get('CART_TIMEOUT') * 60);
 
 		$query = $db->getQuery(true)
@@ -1067,9 +1070,9 @@ class RedshopHelperStockroom
 	/**
 	 * Delete cart after empty
 	 *
-	 * @param   int     $sectionId  Section id
-	 * @param   string  $section    Section
-	 * @param   int     $quantity   Stockroom quantity
+	 * @param   int    $sectionId Section id
+	 * @param   string $section   Section
+	 * @param   int    $quantity  Stockroom quantity
 	 *
 	 * @return mixed
 	 *
@@ -1081,12 +1084,12 @@ class RedshopHelperStockroom
 		{
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->where($db->qn('session_id') . ' = ' . $db->q(session_id()));
+				->where($db->qn('session_id') . ' = ' . $db->quote(session_id()));
 
 			if ($sectionId != 0)
 			{
-				$query->where($db->qn('product_id') . ' = ' . $db->q((int) $sectionId))
-					->where($db->qn('section') . ' = ' . $db->q($section));
+				$query->where($db->qn('product_id') . ' = ' . $db->quote((int) $sectionId))
+					->where($db->qn('section') . ' = ' . $db->quote($section));
 			}
 
 			if ($quantity)
@@ -1101,7 +1104,7 @@ class RedshopHelperStockroom
 				if ($qty - (int) $quantity > 0)
 				{
 					$query->update($db->qn('#__redshop_cart'))
-						->set($db->qn('qty') . ' = ' . $db->q(($qty - (int) $quantity)));
+						->set($db->qn('qty') . ' = ' . $db->quote(($qty - (int) $quantity)));
 				}
 				else
 				{
@@ -1122,9 +1125,9 @@ class RedshopHelperStockroom
 	/**
 	 * Add reserved stock
 	 *
-	 * @param   int     $sectionId  Section id
-	 * @param   int     $quantity   Stockroom quantity
-	 * @param   string  $section    Section
+	 * @param   int    $sectionId Section id
+	 * @param   int    $quantity  Stockroom quantity
+	 * @param   string $section   Section
 	 *
 	 * @return mixed
 	 *
@@ -1134,16 +1137,16 @@ class RedshopHelperStockroom
 	{
 		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
-			$db        = JFactory::getDBO();
+			$db        = JFactory::getDbo();
 			$sessionId = session_id();
 			$time      = time();
 
 			$query = $db->getQuery(true)
 				->select($db->qn('qty'))
 				->from($db->qn('#__redshop_cart'))
-				->where($db->qn('session_id') . ' = ' . $db->q($sessionId))
-				->where($db->qn('product_id') . ' = ' . $db->q((int) $sectionId))
-				->where($db->qn('section') . ' = ' . $db->q($section));
+				->where($db->qn('session_id') . ' = ' . $db->quote($sessionId))
+				->where($db->qn('product_id') . ' = ' . $db->quote((int) $sectionId))
+				->where($db->qn('section') . ' = ' . $db->quote($section));
 
 			$qty = $db->setQuery($query)->loadResult();
 
@@ -1151,18 +1154,21 @@ class RedshopHelperStockroom
 			{
 				$query = $db->getQuery(true)
 					->update($db->qn('#__redshop_cart'))
-					->set($db->qn('qty') . ' = ' . $db->q((int) $quantity))
-					->set($db->qn('time') . ' = ' . $db->q($time))
-					->where($db->qn('session_id') . ' = ' . $db->q($sessionId))
-					->where($db->qn('product_id') . ' = ' . $db->q((int) $sectionId))
-					->where($db->qn('section') . ' = ' . $db->q($section));
+					->set($db->qn('qty') . ' = ' . $db->quote((int) $quantity))
+					->set($db->qn('time') . ' = ' . $db->quote($time))
+					->where($db->qn('session_id') . ' = ' . $db->quote($sessionId))
+					->where($db->qn('product_id') . ' = ' . $db->quote((int) $sectionId))
+					->where($db->qn('section') . ' = ' . $db->quote($section));
 			}
 			else
 			{
 				$query = $db->getQuery(true)
 					->insert($db->qn('#__redshop_cart'))
 					->columns(array($db->qn('session_id'), $db->qn('product_id'), $db->qn('qty'), $db->qn('time'), $db->qn('section')))
-					->values($db->q($sessionId) . ',' . $db->q((int) $sectionId) . ',' . $db->q((int) $quantity) . ',' . $db->q($time) . ',' . $db->q($section));
+					->values(
+						$db->quote($sessionId) . ',' . $db->quote((int) $sectionId) . ',' . $db->quote((int) $quantity)
+						. ',' . $db->quote($time) . ',' . $db->quote($section)
+					);
 			}
 
 			$db->setQuery($query)->execute();
@@ -1174,7 +1180,7 @@ class RedshopHelperStockroom
 	/**
 	 * Get min delivery time
 	 *
-	 * @param   mixed  $stockroomId  Stockroom id
+	 * @param   mixed $stockroomId Stockroom id
 	 *
 	 * @return  mixed
 	 *
@@ -1201,8 +1207,8 @@ class RedshopHelperStockroom
 	/**
 	 * Get date diff
 	 *
-	 * @param   int  $endDate    End date
-	 * @param   int  $beginDate  Begin date
+	 * @param   int $endDate   End date
+	 * @param   int $beginDate Begin date
 	 *
 	 * @return mixed
 	 *
@@ -1221,8 +1227,8 @@ class RedshopHelperStockroom
 	/**
 	 * Get final stock of product
 	 *
-	 * @param   int  $productId  Product id
-	 * @param   int  $totalAtt   Total attribute
+	 * @param   int $productId Product id
+	 * @param   int $totalAtt  Total attribute
 	 *
 	 * @return mixed
 	 *
@@ -1277,8 +1283,8 @@ class RedshopHelperStockroom
 	/**
 	 * Get final pre-order stock of product
 	 *
-	 * @param   int  $productId  Product id
-	 * @param   int  $totalAtt   Total attribute
+	 * @param   int $productId Product id
+	 * @param   int $totalAtt  Total attribute
 	 *
 	 * @return mixed
 	 *
@@ -1331,9 +1337,9 @@ class RedshopHelperStockroom
 	/**
 	 * Get Stock Amount with Reserve
 	 *
-	 * @param   array   $sectionIds   Array of section id.
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   array  $sectionIds  Array of section id.
+	 * @param   string $section     Section
+	 * @param   int    $stockroomId Stockroom id
 	 *
 	 * @return  array
 	 *
@@ -1365,23 +1371,23 @@ class RedshopHelperStockroom
 				$isInfinite = (boolean) Redshop::getConfig()->get('USE_BLANK_AS_INFINITE', 0);
 				$query      = $db->getQuery(true);
 
-				$column     = 'p.product_id';
-				$table      = '#__redshop_product';
-				$stockTable = '#__redshop_product_stockroom_xref';
+				$column      = 'p.product_id';
+				$table       = '#__redshop_product';
+				$stockTable  = '#__redshop_product_stockroom_xref';
 				$stockColumn = 'x.product_id';
 
 				if ($section == 'property')
 				{
-					$column = 'p.property_id';
-					$table  = '#__redshop_product_attribute_property';
-					$stockTable = '#__redshop_product_attribute_stockroom_xref';
+					$column      = 'p.property_id';
+					$table       = '#__redshop_product_attribute_property';
+					$stockTable  = '#__redshop_product_attribute_stockroom_xref';
 					$stockColumn = 'x.section_id';
 				}
 				elseif ($section == 'subproperty')
 				{
-					$column = 'p.subattribute_color_id';
-					$table  = '#__redshop_product_subattribute_color';
-					$stockTable = '#__redshop_product_attribute_stockroom_xref';
+					$column      = 'p.subattribute_color_id';
+					$table       = '#__redshop_product_subattribute_color';
+					$stockTable  = '#__redshop_product_attribute_stockroom_xref';
 					$stockColumn = 'x.section_id';
 				}
 
@@ -1451,9 +1457,9 @@ class RedshopHelperStockroom
 	/**
 	 * Get pre-order stockroom amount with reserve
 	 *
-	 * @param   array   $sectionIds   Section id
-	 * @param   string  $section      Section
-	 * @param   int     $stockroomId  Stockroom id
+	 * @param   array  $sectionIds  Section id
+	 * @param   string $section     Section
+	 * @param   int    $stockroomId Stockroom id
 	 *
 	 * @return  mixed
 	 *
@@ -1478,7 +1484,7 @@ class RedshopHelperStockroom
 				$table = "#__redshop_product_attribute_stockroom_xref";
 			}
 
-			$db = JFactory::getDBO();
+			$db    = JFactory::getDBO();
 			$query = $db->getQuery(true)
 				->select('SUM(x.preorder_stock) AS preorder_stock')
 				->select('SUM(x.ordered_preorder) AS ordered_preorder')
@@ -1495,7 +1501,7 @@ class RedshopHelperStockroom
 			{
 				if ($section != "product")
 				{
-					$query->where($db->qn('x.section') . ' = ' . $db->q($section))
+					$query->where($db->qn('x.section') . ' = ' . $db->quote($section))
 						->where($db->qn('x.section_id') . ' IN (' . implode(',', $sectionIds) . ')');
 				}
 				else
@@ -1506,7 +1512,7 @@ class RedshopHelperStockroom
 
 			if ($stockroomId != 0)
 			{
-				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->q((int) $stockroomId));
+				$query->where($db->qn('x.stockroom_id') . ' = ' . $db->quote((int) $stockroomId));
 			}
 
 			$query->group($db->qn('x.section_id'));
@@ -1533,5 +1539,214 @@ class RedshopHelperStockroom
 		}
 
 		return $quantities;
+	}
+
+	/**
+	 * Check quantity in stock
+	 *
+	 * @param   array   $data        Array of data.
+	 * @param   integer $newQuantity New quantity
+	 * @param   integer $minQuantity Minimum quantity.
+	 *
+	 * @return  integer                New quantity if success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function checkQuantityInStock($data = array(), $newQuantity = 1, $minQuantity = 0)
+	{
+		$productData     = RedshopHelperProduct::getProductById($data['product_id']);
+		$productPreOrder = $productData->preorder;
+
+		if ($productData->min_order_product_quantity > 0 && $productData->min_order_product_quantity > $newQuantity)
+		{
+			$message = $productData->product_name . " " . JText::_('COM_REDSHOP_WARNING_MSG_MINIMUM_QUANTITY');
+			$message = sprintf($message, $productData->min_order_product_quantity);
+			JError::raiseWarning('', $message);
+			$newQuantity = $productData->min_order_product_quantity;
+		}
+
+		if (!Redshop::getConfig()->get('USE_STOCKROOM'))
+		{
+			return $newQuantity;
+		}
+
+		$productStock = 0;
+
+		if (($productPreOrder == "global" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || $productPreOrder == "no"
+			|| ($productPreOrder == "" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+		)
+		{
+			$productStock = self::getStockroomTotalAmount($data['product_id']);
+		}
+
+		if (($productPreOrder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')) || $productPreOrder == "yes"
+			|| ($productPreOrder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+		)
+		{
+			$productStock = self::getStockroomTotalAmount($data['product_id']);
+			$productStock += self::getPreorderStockroomTotalAmount($data['product_id']);
+		}
+
+		$ownProductReserveStock = self::getCurrentUserReservedStock($data['product_id']);
+		$cartAttributes         = $data['cart_attribute'];
+
+		if (count($cartAttributes) <= 0)
+		{
+			if ($productStock >= 0)
+			{
+				if ($newQuantity > $ownProductReserveStock && $productStock < ($newQuantity - $ownProductReserveStock))
+				{
+					$newQuantity = $productStock + $ownProductReserveStock;
+				}
+			}
+			else
+			{
+				$newQuantity = $productStock + $ownProductReserveStock;
+			}
+
+			if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newQuantity)
+			{
+				$message = $productData->product_name . " " . JText::_('COM_REDSHOP_WARNING_MSG_MAXIMUM_QUANTITY');
+				$message = sprintf($message, $productData->max_order_product_quantity);
+				JError::raiseWarning('', $message);
+				$newQuantity = $productData->max_order_product_quantity;
+			}
+
+			if (array_key_exists('quantity', $data))
+			{
+				$productReservedQuantity = $ownProductReserveStock + $newQuantity - $data['quantity'];
+			}
+			else
+			{
+				$productReservedQuantity = $newQuantity;
+			}
+
+			self::addReservedStock($data['product_id'], $productReservedQuantity, 'product');
+		}
+		else
+		{
+			for ($i = 0, $in = count($cartAttributes); $i < $in; $i++)
+			{
+				$properties = $cartAttributes[$i]['attribute_childs'];
+
+				for ($k = 0, $kn = count($properties); $k < $kn; $k++)
+				{
+					// Get sub-properties from add to cart tray.
+					$subProperties           = $properties[$k]['property_childs'];
+					$totalSubProperty        = count($subProperties);
+					$ownReservePropertyStock = self::getCurrentUserReservedStock($properties[$k]['property_id'], 'property');
+					$propertyStock           = 0;
+
+					if (($productPreOrder == "global" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+						|| $productPreOrder == "no" || ($productPreOrder == "" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+					)
+					{
+						$propertyStock = self::getStockroomTotalAmount($properties[$k]['property_id'], "property");
+					}
+
+					if (($productPreOrder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+						|| $productPreOrder == "yes" || ($productPreOrder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+					)
+					{
+						$propertyStock = self::getStockroomTotalAmount($properties[$k]['property_id'], "property");
+						$propertyStock += self::getPreorderStockroomTotalAmount($properties[$k]['property_id'], "property");
+					}
+
+					// Get Property stock only when SubProperty is not in cart
+					if ($totalSubProperty <= 0)
+					{
+						if ($propertyStock >= 0)
+						{
+							if ($newQuantity > $ownReservePropertyStock && $propertyStock < ($newQuantity - $ownReservePropertyStock))
+							{
+								$newQuantity = $propertyStock + $ownReservePropertyStock;
+							}
+						}
+						else
+						{
+							$newQuantity = $propertyStock + $ownReservePropertyStock;
+						}
+
+						if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newQuantity)
+						{
+							$newQuantity = $productData->max_order_product_quantity;
+						}
+
+						if (array_key_exists('quantity', $data))
+						{
+							$propertyReservedQuantity = $ownReservePropertyStock + $newQuantity - $data['quantity'];
+							$newProductQuantity       = $ownProductReserveStock + $newQuantity - $data['quantity'];
+						}
+						else
+						{
+							$propertyReservedQuantity = $newQuantity;
+							$newProductQuantity       = $ownProductReserveStock + $newQuantity;
+						}
+
+						self::addReservedStock($properties[$k]['property_id'], $propertyReservedQuantity, "property");
+						self::addReservedStock($data['product_id'], $newProductQuantity, 'product');
+					}
+					else
+					{
+						// Get SubProperty Stock here.
+						for ($l = 0; $l < $totalSubProperty; $l++)
+						{
+							$subPropertyStock = 0;
+
+							if (($productPreOrder == "global" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+								|| $productPreOrder == "no" || ($productPreOrder == "" && !Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
+							{
+								$subPropertyStock = self::getStockroomTotalAmount($subProperties[$l]['subproperty_id'], "subproperty");
+							}
+
+							if (($productPreOrder == "global" && Redshop::getConfig()->get('ALLOW_PRE_ORDER'))
+								|| $productPreOrder == "yes" || ($productPreOrder == "" && Redshop::getConfig()->get('ALLOW_PRE_ORDER')))
+							{
+								$subPropertyStock = self::getStockroomTotalAmount($subProperties[$l]['subproperty_id'], "subproperty");
+								$subPropertyStock += self::getPreorderStockroomTotalAmount($subProperties[$l]['subproperty_id'], "subproperty");
+							}
+
+							$ownSubPropReserveStock = self::getCurrentUserReservedStock($subProperties[$l]['subproperty_id'], "subproperty");
+
+							if ($subPropertyStock >= 0)
+							{
+								if ($newQuantity > $ownSubPropReserveStock && $subPropertyStock < ($newQuantity - $ownSubPropReserveStock))
+								{
+									$newQuantity = $subPropertyStock + $ownSubPropReserveStock;
+								}
+							}
+							else
+							{
+								$newQuantity = $subPropertyStock + $ownSubPropReserveStock;
+							}
+
+							if ($productData->max_order_product_quantity > 0 && $productData->max_order_product_quantity < $newQuantity)
+							{
+								$newQuantity = $productData->max_order_product_quantity;
+							}
+
+							if (array_key_exists('quantity', $data))
+							{
+								$subPropertyReservedQuantity = $ownSubPropReserveStock + $newQuantity - $data['quantity'];
+								$newPropertyQuantity         = $ownReservePropertyStock + $newQuantity - $data['quantity'];
+								$newProductQuantity          = $ownProductReserveStock + $newQuantity - $data['quantity'];
+							}
+							else
+							{
+								$subPropertyReservedQuantity = $newQuantity;
+								$newPropertyQuantity         = $ownReservePropertyStock + $newQuantity;
+								$newProductQuantity          = $ownProductReserveStock + $newQuantity;
+							}
+
+							self::addReservedStock($subProperties[$l]['subproperty_id'], $subPropertyReservedQuantity, 'subproperty');
+							self::addReservedStock($properties[$k]['property_id'], $newPropertyQuantity, 'property');
+							self::addReservedStock($data['product_id'], $newProductQuantity, 'product');
+						}
+					}
+				}
+			}
+		}
+
+		return $newQuantity;
 	}
 }

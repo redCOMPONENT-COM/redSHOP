@@ -361,7 +361,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                 <tr>
                                     <td align="left">
                                         <div id="rs_glslocationId" <?php echo $disp_style ?>>
-											<?php echo $cartHelper->getGLSLocation($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
+											<?php echo RedshopHelperShipping::getGLSLocation($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
                                         </div>
                                     </td>
                                 </tr>

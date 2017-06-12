@@ -2159,4 +2159,94 @@ class RedshopHelperShipping
 			);
 		}
 	}
+
+	/**
+	 * Method for get GLS Location
+	 *
+	 * @param   integer $usersInfoId User Infor ID
+	 * @param   string  $className   Class name
+	 * @param   integer $shopId      ID of shop
+	 *
+	 * @return string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getGLSLocation($usersInfoId = 0, $className, $shopId = 0)
+	{
+		$shippingGLS = RedshopHelperOrder::getParameters('default_shipping_gls');
+
+
+		if (empty($shippingGLS) || !$shippingGLS[0]->enabled || $className != 'default_shipping_gls')
+		{
+			return '';
+		}
+
+		JPluginHelper::importPlugin('redshop_shipping');
+
+		$selectedShopId = null;
+		$dispatcher     = RedshopHelperUtility::getDispatcher();
+		$values         = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
+
+		if ($shopId)
+		{
+			$shopOrderDetail = explode("###", $shopId);
+
+			// zipcode
+			if (isset($shopOrderDetail[2]) && !empty($shopOrderDetail[2]))
+			{
+				$values->zipcode = $shopOrderDetail[2];
+			}
+
+			// phone
+			if (isset($shopOrderDetail[1]) && !empty($shopOrderDetail[1]))
+			{
+				$values->phone = $shopOrderDetail[1];
+			}
+		}
+
+		$shopList = array();
+		$response = $dispatcher->trigger('GetNearstParcelShops', array($values));
+
+		if ($response && isset($response[0]) && is_array($response[0]))
+		{
+			$shopResponses = $response[0];
+
+			foreach ($shopResponses as $shopResponse)
+			{
+				$shopList[] = JHtml::_(
+					'select.option',
+					$shopResponse->shop_id,
+					$shopResponse->CompanyName . ', ' . $shopResponse->Streetname . ', ' . $shopResponse->ZipCode . ', ' . $shopResponse->CityName
+				);
+			}
+		}
+
+
+		// Get selected shop id
+		if ($shopId && (isset($shopResponses) && count($shopResponses) > 0))
+		{
+			foreach ($shopResponses as $shopResponse)
+			{
+				$shopDetail = explode("|", $shopId);
+
+				if ($shopDetail[0] == $shopResponse->Number)
+				{
+					$selectedShopId = $shopResponse->shop_id;
+					break;
+				}
+			}
+		}
+
+		return RedshopLayoutHelper::render(
+			'order.glslocation',
+			array(
+				'shopList' => '<span id="rs_locationdropdown">'
+					. JHtml::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selectedShopId, false, true)
+					. '</span>',
+				'zipcode'  => '<input type="text" id="gls_zipcode" name="gls_zipcode" value="'
+					. $values->zipcode . '"" onblur="javascript:updateGLSLocation(this.value);"" />',
+				'phone'    => '<input type="text" id="gls_mobile" name="gls_mobile"  value="' . $values->phone . '" />'
+			)
+		);
+	}
 }

@@ -322,7 +322,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$product_attribute = $retAttArr[0];
 
 			// Accessory price
-			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
+			$generateAccessoryCart = RedshopHelperCart::generateAccessoriesCart((array) $item[$i], $user_id);
 			$retAccArr = $producthelper->makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
 			$product_accessory = $retAccArr[0];
 			$accessory_vat_price = $retAccArr[2];

@@ -458,7 +458,7 @@ class order_functions
 	 * @param   string   $section            Section text
 	 * @param   integer  $parent_section_id  Parent section ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderItemAttributeDetail() instead
 	 */

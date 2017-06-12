@@ -107,7 +107,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$session->set('cart', $cart);
-		$this->_carthelper->carttodb();
+		RedshopHelperCart::addCartToDatabase();
 	}
 
 	public function store($data)
@@ -272,7 +272,7 @@ class RedshopModelCheckout extends RedshopModel
 			$paymentAmount = $cart ['product_subtotal'];
 		}
 
-		$paymentArray  = $this->_carthelper->calculatePayment($paymentAmount, $paymentInfo, $cart ['total']);
+		$paymentArray  = RedshopHelperPayment::calculatePayment($paymentAmount, $paymentInfo, $cart['total']);
 		$cart['total'] = $paymentArray[0];
 		$session->set('cart', $cart);
 
@@ -2070,7 +2070,7 @@ class RedshopModelCheckout extends RedshopModel
 			$paymentAmount = $cart ['total'];
 		}
 
-		$paymentArray   = $this->_carthelper->calculatePayment($paymentAmount, $paymentInfo, $cart ['total']);
+		$paymentArray   = RedshopHelperPayment::calculatePayment($paymentAmount, $paymentInfo, $cart['total']);
 		$cart['total']  = $paymentArray[0];
 		$payment_amount = $paymentArray[1];
 
