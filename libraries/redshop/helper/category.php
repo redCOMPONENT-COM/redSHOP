@@ -115,7 +115,8 @@ class RedshopHelperCategory
 			)
 			->from($db->qn('#__redshop_category'))
 			->where($db->qn('parent_id') . ' != 0')
-			->where($db->qn('level') . ' != 0');
+			->where($db->qn('level') . ' > 0')
+			->order($db->qn('lft'));
 
 		if ($view == 'category')
 		{
