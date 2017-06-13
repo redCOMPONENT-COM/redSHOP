@@ -1355,9 +1355,12 @@ class RedshopHelperOrder
 
 				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $newStatus == 'C')
 				{
-					$redshopMail->sendOrderMail($orderId);
+					// Only send email if order_sendordermail checked
+					if ($app->input->getCmd('order_sendordermail') === 'true')
+					{
+						$redshopMail->sendOrderMail($orderId);
+					}
 				}
-
 				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
 				{
 					$redshopMail->sendInvoiceMail($orderId);
