@@ -134,7 +134,10 @@ class RedshopHelperCategory
 		}
 		else
 		{
-			$query->where($db->qn('parent_id') . ' = ' . (int) $cid);
+			if ($cid !== null)
+			{
+				$query->where($db->qn('parent_id') . ' = ' . (int) $cid);
+			}
 		}
 
 		static::$categoryChildListReverse[$key] = null;
