@@ -164,7 +164,27 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
 	}
+
+    /**
+     *  Filters search Product an administrator list by searching for a given string
+     * @param $text
+     * @param array $searchField
+     */
     public function filterListBySearchingProduct($text, $searchField = ['id' => 'keyword'])
+    {
+        $I = $this;
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->fillField($searchField, $text);
+        $I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->waitForElement(['link' => $text]);
+    }
+
+    /**
+     * Filters search Discount
+     * @param $text
+     * @param array $searchField
+     */
+    public function filterListBySearchingDiscount($text, $searchField = ['id' => 'name_filter'])
     {
         $I = $this;
         $I->executeJS('window.scrollTo(0,0)');

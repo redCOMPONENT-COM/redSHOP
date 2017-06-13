@@ -35,6 +35,17 @@ class DiscountManagerJ3Page
 
 	public static $discountStatePath = "//div[@id='editcell']/table/tbody/tr/td[7]/a";
 
+	public static $startDate="//input[@id='start_date']";
+
+    public static $endDate="//input[@id='end_date']";
+
+    public static $discountNamePath="//div[@class='table-responsive']/table/tbody/tr/td[3]/a";
+
+    public static $discountState="//div[@class='table-responsive']/table/tbody/tr/td[8]/a";
+
+    public static $discountCheckBox="//div[@class='table-responsive']/table/tbody/tr/td[2]";
+
+    public static $CheckAllDiscount="//input[@onclick='Joomla.checkAll(this)']";
 	/**
 	 * Function to get the path for Discount Type
 	 *
