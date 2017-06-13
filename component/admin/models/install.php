@@ -38,6 +38,53 @@ class RedshopModelInstall extends RedshopModelList
 	}
 
 	/**
+	 * Method for get all available version of installation.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAvailableUpdate()
+	{
+		$updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
+
+		$files = JFolder::files($updatePath, '.php', false, true);
+		$versions = array();
+
+		foreach ($files as $file)
+		{
+			$version = new stdClass;
+
+			$version->version = JFile::stripExt(basename($file));
+
+			require_once $file;
+
+			$version->class = 'RedshopUpdate' . str_replace(array('.', '-'), '', $version->version);
+
+			/** @var RedshopInstallUpdate $updateClass */
+			$updateClass = new $version->class;
+			$classTasks  = $updateClass->getTasksList();
+			$version->tasks = array();
+
+			if (empty($classTasks))
+			{
+				continue;
+			}
+
+			foreach ($classTasks as $classTask)
+			{
+				$version->tasks[] = JText::_($classTask->name);
+			}
+
+			$versions[$version->version] = $version;
+		}
+
+		arsort($versions);
+
+		return $versions;
+	}
+
+	/**
 	 * Method for get all available step of update.
 	 *
 	 * @return  array
@@ -56,6 +103,7 @@ class RedshopModelInstall extends RedshopModelList
 
 		$app     = JFactory::getApplication();
 		$version = $app->getUserState('redshop.old_version', null);
+		$specificVersion = $app->input->get('version', null);
 
 		$tasks = array(
 			array(
@@ -64,7 +112,7 @@ class RedshopModelInstall extends RedshopModelList
 			)
 		);
 
-		if (is_null($version))
+		if (is_null($version) && is_null($specificVersion))
 		{
 			$app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, $tasks);
 			$app->setUserState('redshop.old_version', null);
@@ -79,7 +127,11 @@ class RedshopModelInstall extends RedshopModelList
 		{
 			$updateVersion = JFile::stripExt(basename($file));
 
-			if (version_compare($version, $updateVersion, '<'))
+			if (!is_null($version) && version_compare($version, $updateVersion, '<'))
+			{
+				$classes[$updateVersion] = array('class' => 'RedshopUpdate' . str_replace(array('.', '-'), '', $updateVersion), 'path' => $file);
+			}
+			elseif (!is_null($specificVersion) && version_compare($specificVersion, $updateVersion, '='))
 			{
 				$classes[$updateVersion] = array('class' => 'RedshopUpdate' . str_replace(array('.', '-'), '', $updateVersion), 'path' => $file);
 			}
