@@ -478,13 +478,12 @@ class RedshopModelProduct extends RedshopModel
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('id'))
-			->select($db->qn('parent_id'))
+			->select($db->qn(array('id', 'parent_id', 'level')))
 			->select($db->qn('name', 'title'))
 			->from($db->qn('#__redshop_category'))
 			->where($db->qn('published') . ' = 1')
-			->where($db->qn('parent_id') . ' <> 0') // Except ROOT
-			->order($db->qn('ordering'));
+			->where($db->qn('level') . ' > 0')
+			->order($db->qn('lft'));
 
 		$rows = $db->setQuery($query)->loadObjectList();
 
@@ -502,6 +501,7 @@ class RedshopModelProduct extends RedshopModel
 
 		// Get first key to generate tree recursive
 		$firstKey = current(array_keys($children));
+
 		// Second pass - get an indent list of the items
 		$list = $this->treerecurse($firstKey, '-', array(), $children);
 
@@ -520,7 +520,6 @@ class RedshopModelProduct extends RedshopModel
 			foreach ($children[$id] as $v)
 			{
 				$id = $v->id;
-				$spacer = '  ';
 
 				if ($v->parent_id == 0)
 				{
@@ -528,13 +527,13 @@ class RedshopModelProduct extends RedshopModel
 				}
 				else
 				{
-					$txt = '- ' . $v->title;
+					$txt = str_repeat($indent, $v->level) . $v->title;
 				}
 
 				$list[$id] = $v;
-				$list[$id]->treename = $indent . $txt;
+				$list[$id]->treename = $txt;
 				$list[$id]->children = count(@$children[$id]);
-				$list = $this->treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1);
+				$list = $this->treerecurse($id, $indent, $list, $children, $maxlevel, $level + 1);
 			}
 		}
 
