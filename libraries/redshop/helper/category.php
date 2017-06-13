@@ -83,9 +83,10 @@ class RedshopHelperCategory
 	 *
 	 * @return   array|mixed
 	 */
-	public static function getCategoryListArray($categoryId = 1, $cid = 1)
+	public static function getCategoryListArray($categoryId = null, $cid = null)
 	{
 		global $context;
+
 		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();
 		$view = $app->input->getCmd('view', '');
@@ -93,7 +94,7 @@ class RedshopHelperCategory
 
 		if ($categoryId)
 		{
-			$cid = $categoryId;
+			$cid = (int) $categoryId;
 		}
 
 		$key = $context . '_' . $view . '_' . $categoryMainFilter . '_' . $cid;
