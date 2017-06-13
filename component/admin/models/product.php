@@ -483,6 +483,7 @@ class RedshopModelProduct extends RedshopModel
 			->select($db->qn('name', 'title'))
 			->from($db->qn('#__redshop_category'))
 			->where($db->qn('published') . ' = 1')
+			->where($db->qn('parent_id') . ' <> 0') // Except ROOT
 			->order($db->qn('ordering'));
 
 		$rows = $db->setQuery($query)->loadObjectList();
@@ -499,8 +500,10 @@ class RedshopModelProduct extends RedshopModel
 			$children[$pt] = $list;
 		}
 
+		// Get first key to generate tree recursive
+		$firstKey = current(array_keys($children));
 		// Second pass - get an indent list of the items
-		$list = $this->treerecurse(1, '-', array(), $children);
+		$list = $this->treerecurse($firstKey, '-', array(), $children);
 
 		if (count($list) > 0)
 		{
