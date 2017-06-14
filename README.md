@@ -2,7 +2,7 @@ redSHOP 2.x
 ==========
 
 ## Travis Status
-Develop: [![Build Status](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP.svg?token=vxVVpxnq2ZPuMp3yebRz&branch=develop)](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP)
+Develop: [![Build Status](https://travis-ci.com/redCOMPONENT-COM/redSHOP.svg?token=exSzjzLhFrzHef99DDg1&branch=develop)](https://travis-ci.com/redCOMPONENT-COM/redSHOP)
 
 ## Requirement
 PHP Version: **>= 5.3.10**
