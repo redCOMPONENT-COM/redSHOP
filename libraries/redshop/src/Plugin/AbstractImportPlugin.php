@@ -9,8 +9,6 @@
 
 namespace Redshop\Plugin;
 
-use function var_dump;
-
 defined('_JEXEC') or die;
 
 /**

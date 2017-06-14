@@ -64,7 +64,7 @@ switch ($name)
 	case 'attribute':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ATTRIBUTE_HINT'); ?></b><br /><br />
-		{attribute_title} {property_dropdown} {property_image_without_scroller} {property_image_scroller} <br />
+		{attribute_title} {attribute_tooltip} {property_dropdown} {property_image_without_scroller} {property_image_scroller} <br />
 		{subproperty_start} {property_title} {subproperty_dropdown} {subproperty_image_without_scroller} {subproperty_image_scroller} {subproperty_end}
 		<?php
 		break;

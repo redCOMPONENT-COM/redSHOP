@@ -114,7 +114,22 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				->from($db->qn('#__redshop_manufacturer'))
 				->where($db->qn('manufacturer_name') . ' = ' . $db->quote($data['manufacturer_name']));
 
-			$data['manufacturer_id'] = (int) $db->setQuery($query)->loadResult();
+			$manufacturerId = (int) $db->setQuery($query)->loadResult();
+
+			if (!empty($manufacturerId))
+			{
+				$data['manufacturer_id'] = $manufacturerId;
+			}
+			else
+			{
+				JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+
+				$manufacturer = RedshopTable::getInstance('Manufacturer', 'RedshopTable');
+				$manufacturer->manufacturer_name = $data['manufacturer_name'];
+				$manufacturer->published         = 1;
+				$manufacturer->store();
+				$data['manufacturer_id'] = $manufacturer->manufacturer_id;
+			}
 		}
 
 		if (empty($data['product_thumb_image']))
@@ -278,12 +293,12 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			$data['product_on_sale'] = !isset($data['product_on_sale']) ? 0 : (int) $data['product_on_sale'];
 		}
 
-		if (false !== strpos($data['product_price'], ','))
+		if (isset($data['product_price']) && false !== strpos($data['product_price'], ','))
 		{
 			$data['product_price'] = str_replace(',', '.', $data['product_price']);
 		}
 
-		if (false !== strpos($data['discount_price'], ','))
+		if (isset($data['discount_price']) && false !== strpos($data['discount_price'], ','))
 		{
 			$data['discount_price'] = str_replace(',', '.', $data['discount_price']);
 		}
