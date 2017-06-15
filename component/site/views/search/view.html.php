@@ -121,6 +121,7 @@ class RedshopViewSearch extends RedshopView
 			$extraField       = extraField::getInstance();
 			$texts            = new text_library;
 			$stockroomhelper  = rsstockroomhelper::getInstance();
+			$objhelper        = redhelper::getInstance();
 
 			$Itemid         = JRequest::getInt('Itemid');
 			$search_type    = JRequest::getCmd('search_type');
@@ -342,7 +343,19 @@ class RedshopViewSearch extends RedshopView
 				}
 
 				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
-				$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $Itemid);
+
+				$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->search[$i]->product_id);
+
+				if (count($ItemData) > 0)
+				{
+					$pItemid = $ItemData->id;
+				}
+				else
+				{
+					$pItemid = $objhelper->getItemid($this->search[$i]->product_id, $this->search[$i]->category_id);
+				}
+
+				$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $pItemid);
 
 				if (strstr($data_add, '{product_name}'))
 				{
