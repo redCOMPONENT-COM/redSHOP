@@ -459,6 +459,8 @@ class RedshopModelCheckout extends RedshopModel
 			$order_paymentstatus = 'Unpaid';
 		}
 
+		$dispatcher->trigger('onOrderStatusChange', array($post, &$order_status));
+
 		// For barcode generation
 		$row->order_discount       = $odiscount;
 		$row->order_discount_vat   = $odiscount_vat;
