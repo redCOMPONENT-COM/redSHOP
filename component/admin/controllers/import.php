@@ -48,7 +48,6 @@ class RedshopControllerImport extends RedshopControllerAdmin
 		$file     = $this->input->files->get('csv_file', null);
 		$data     = $this->input->post->getArray();
 
-
 		JPluginHelper::importPlugin('redshop_import');
 		$result = RedshopHelperUtility::getDispatcher()->trigger('onUploadFile', array($plugin, $file, $data));
 
@@ -59,8 +58,8 @@ class RedshopControllerImport extends RedshopControllerAdmin
 		}
 		else
 		{
-			$response['folder'] = $result[0]['folder'];
-			$response['lines'] = $result[0]['lines'];
+			// Merge array to response. Because we'll need extra data in $result
+			$response = array_merge($response, $result[0]);
 		}
 
 		echo json_encode($response);
