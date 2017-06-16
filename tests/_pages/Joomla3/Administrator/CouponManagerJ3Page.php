@@ -32,6 +32,9 @@ class CouponManagerJ3Page
 	// //table[@class='test-redshop-table']//tr[@class='test-redshop-table'][1]//td[@class='test-redshop-coupon-checkall']
 	public static $firstResultRow = ['class' => "test-redshop-table-row"];
 
+
+	public static $couponState="//div[@id='editcell']/div[2]/table/tbody/tr/td[9]/a";
+
 	/**
 	 * Function to get path for CouponValueIn
 	 *
