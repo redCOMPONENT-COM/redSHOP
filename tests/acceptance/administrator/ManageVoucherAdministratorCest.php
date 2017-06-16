@@ -116,12 +116,12 @@ class ManageVoucherAdministratorCest
      * @param AcceptanceTester $I
      * @param $scenario
      */
-    public function checkCancelButton(AcceptanceTester $I, $scenario)
+    public function checkCloseButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test if Voucher gets updated in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
-        $I->checkCancelButton($this->randomVoucherCode);
+        $I->checkCloseButton($this->randomVoucherCode);
     }
 
     /**

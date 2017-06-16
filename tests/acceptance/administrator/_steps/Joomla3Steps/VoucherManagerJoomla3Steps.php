@@ -120,7 +120,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click('New');
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
-
+        $I->fillField(\VoucherManagerPage::$voucherCode, "");
         // @todo: we need a generic function to select options in a Select2 multiple option field
         $I->fillField(['id' => 's2id_autogen1'], 'redCORE');
         $I->waitForElement(['css' => 'span.select2-match'], 60);
@@ -131,7 +131,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\VoucherManagerPage::$voucherEndDate, $voucherStartDate);
         $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
         $I->click('Save');
-        $I->see('Invalid field:  Voucher Code:', '.system-message-container');
+        $I->see('Invalid field:  Voucher Code:', ['xpath' => "//div[@id='system-message-container']/div/div"]);
     }
 
     public function addVoucherMissingProducts($code = 'Testing123', $amount = '100', $voucherStartDate, $voucherEndDate, $count = '10')
@@ -147,7 +147,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\VoucherManagerPage::$voucherEndDate, $voucherStartDate);
         $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
         $I->click('Save');
-        $I->see('Invalid field:  Voucher Products', '.system-message-container');
+        $I->see('Invalid field:  Voucher Products', ['xpath' => "//div[@id='system-message-container']/div/div"]);
     }
 
     /**
@@ -183,16 +183,19 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->verifyNotices(false, $this->checkForNotices(), 'Voucher Manager Edit');
         $I->fillField(\VoucherManagerPage::$voucherCode, "");
         $I->click('Save & Close');
-        $I->see('Invalid field:  Voucher Code:', '.system-message-container');
+        $I->see('Invalid field:  Voucher Code:', ['xpath' => "//div[@id='system-message-container']/div/div"]);
     }
 
-    public function checkCancelButton($voucherCode)
+    public function checkCloseButton($voucherCode)
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
         $I->waitForElement(['link' => $voucherCode], 60);
         $I->click(\VoucherManagerPage::$voucherCheck);
-        $I->click("Cancel");
+        $I->click("Edit");
+        $I->verifyNotices(false, $this->checkForNotices(), 'Voucher Manager Edit');
+        $I->fillField(\VoucherManagerPage::$voucherCode, "");
+        $I->click("Close");
         $I->filterListBySearching($voucherCode, ['id' => 'filter']);
         $I->seeElement(['link' => $voucherCode]);
     }
