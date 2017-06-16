@@ -29,7 +29,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
      *
      * @return void
      */
-    public function addCoupon($couponCode = 'TestCoupon', $couponValueIn = 'Total', $couponValue = '100', $couponType = 'Globally', $couponLeft = '10')
+    public function addCoupon($couponCode = 'TestCoupon', $couponValueIn = 'Total', $couponValue = '100', $couponType = 'Globally', $couponLeft = '10', $startDate, $endDate)
     {
         $I = $this;
         $I->amOnPage(\CouponManagerJ3Page::$URL);
@@ -39,6 +39,8 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager New');
         $I->fillField(\CouponManagerJ3Page::$couponCode, $couponCode);
         $I->fillField(\CouponManagerJ3Page::$couponValue, $couponValue);
+        $I->fillField(\CouponManagerJ3Page::$startDate, $startDate);
+        $I->fillField(\CouponManagerJ3Page::$endDate, $endDate);
         $I->fillField(\CouponManagerJ3Page::$couponLeft, $couponLeft);
         $I->click(\CouponManagerJ3Page::$couponValueInDropDown);
         $I->click($couponManagerPage->couponValueIn($couponValueIn));
@@ -46,6 +48,33 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(['id' => 'system-message-container'], 60);
         $I->see('Coupon detail saved', '.alert-success');
         $I->seeElement(['link' => $couponCode]);
+    }
+
+    public function addCouponMissingCouponCode($couponValueIn = 'Total', $couponValue = '100', $couponType = 'Globally', $couponLeft = '10')
+    {
+        $I = $this;
+        $I->amOnPage(\CouponManagerJ3Page::$URL);
+        $couponManagerPage = new \CouponManagerJ3Page;
+        $I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager Page');
+        $I->click('New');
+        $I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager New');
+        $I->fillField(\CouponManagerJ3Page::$couponValue, $couponValue);
+        $I->fillField(\CouponManagerJ3Page::$couponLeft, $couponLeft);
+        $I->click(\CouponManagerJ3Page::$couponValueInDropDown);
+        $I->click($couponManagerPage->couponValueIn($couponValueIn));
+        $I->click('Save & Close');
+        $I->waitForElement(['id' => 'system-message-container'], 60);
+    }
+
+    public function checkCancelButton()
+    {
+        $I = $this;
+        $I->amOnPage(\CouponManagerJ3Page::$URL);
+        $couponManagerPage = new \CouponManagerJ3Page;
+        $I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager Page');
+        $I->click('New');
+        $I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager New');
+        $I->click('Cancel');
     }
 
     /**
@@ -109,12 +138,82 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
     public function changeCouponState($couponCode)
     {
         $I = $this;
-        $I->amOnPage(\GiftCardManagerPage::$URL);
+        $I->amOnPage(\CouponManagerJ3Page::$URL);
         $I->filterListBySearching($couponCode, ['id' => 'filter_search']);
         $I->wait(3);
         $I->seeElement(['link' => $couponCode]);
         $I->click(['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[9]/a"]);
     }
+
+    public function changeCouponStateUnpublishButton($couponCode)
+    {
+        $I = $this;
+        $I->amOnPage(\CouponManagerJ3Page::$URL);
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->click(['link' => 'ID']);
+        $I->see($couponCode, \CouponManagerJ3Page::$firstResultRow);
+        $I->click(\CouponManagerJ3Page::$selectFirst);
+        $I->click('Unpublish');
+        $I->see('Coupon detail unpublished successfully', '.alert-success');
+    }
+
+    public function changeCouponStatePublishButton($couponCode)
+    {
+        $I = $this;
+        $I->amOnPage(\CouponManagerJ3Page::$URL);
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->click(['link' => 'ID']);
+        $I->see($couponCode, \CouponManagerJ3Page::$firstResultRow);
+        $I->click(\CouponManagerJ3Page::$selectFirst);
+        $I->click('Publish');
+        $I->see('Coupon detail published successfully', '.alert-success');
+    }
+
+    public function checkEditButton()
+    {
+        $I = $this;
+        $I->amOnPage(\CouponManagerJ3Page::$URL);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
+        $I->click('Edit');
+        $I->acceptPopup();
+    }
+
+    /**
+     * Function check Delete button
+     */
+    public function checkDeleteButton()
+    {
+        $I = $this;
+        $I->amOnPage(\CouponManagerJ3Page::$URL);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
+        $I->click('Delete');
+        $I->acceptPopup();
+    }
+
+    /**
+     * Function check publish button without choice any gift card
+     */
+    public function checkPublishButton()
+    {
+        $I = $this;
+        $I->amOnPage(\CouponManagerJ3Page::$URL);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
+        $I->click('Publish');
+        $I->acceptPopup();
+    }
+
+    /**
+     * Function check unpublish button without choice any gift card
+     */
+    public function checkUnpublishButton()
+    {
+        $I = $this;
+        $I->amOnPage(\CouponManagerJ3Page::$URL);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
+        $I->click('Unpublish');
+        $I->acceptPopup();
+    }
+
 
     /**
      *
@@ -125,7 +224,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
      */
     public function getCouponState($couponCode)
     {
-        $result = $this->getState(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$giftCardResultRow, \CouponManagerJ3Page::$couponState);
+        $result = $this->getState(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$firstResultRow, \CouponManagerJ3Page::$couponState);
 
         return $result;
     }

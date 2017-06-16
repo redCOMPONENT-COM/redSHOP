@@ -23,11 +23,19 @@ class CouponManagerJ3Page
 
 	public static $couponLeft = "//input[@id='coupon_left']";
 
+	public static $startDate="#start_date";
+
+	public static $endDate="#end_date";
+
 	public static $couponValueInDropDown = "//div[@id='s2id_percent_or_total']/a";
 
 	public static $couponTypeDropDown = "//div[@id='coupon_type_chzn']/a";
 
 	public static $selectFirst = "//input[@id='cb0']";
+
+
+    public static $couponResultRow = "//table[@id='articleList']/tbody/tr[2]";
+
 
 	// //table[@class='test-redshop-table']//tr[@class='test-redshop-table'][1]//td[@class='test-redshop-coupon-checkall']
 	public static $firstResultRow = ['class' => "test-redshop-table-row"];
