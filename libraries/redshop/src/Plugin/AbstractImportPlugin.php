@@ -131,7 +131,7 @@ class AbstractImportPlugin extends \JPlugin
 			// Number of lines in csv file
 			'lines' => $this->countLines($this->getPath() . '/' . $file['name']),
 			// Number of splitted files
-			'files' => $this->splitFiles($this->getPath() . '/' . $file['name'])
+			'count' => $this->splitFiles($this->getPath() . '/' . $file['name'])
 		);
 
 		return $result;
