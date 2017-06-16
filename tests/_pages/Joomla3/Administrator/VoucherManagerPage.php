@@ -15,19 +15,26 @@
  */
 class VoucherManagerPage
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=voucher';
+    public static $URL = '/administrator/index.php?option=com_redshop&view=voucher';
 
-	public static $voucherCode = "#voucher_code";
+    public static $voucherCode = "#voucher_code";
 
-	public static $voucherAmount = "#voucher_amount";
+    public static $voucherAmount = "#voucher_amount";
 
-	public static $voucherLeft = "#voucher_left";
+    public static $voucherStartDate = "#start_date";
 
-	public static $voucherCheck = "#cb0";
+    public static $voucherEndDate = "#end_date";
 
-	public static $voucherResultRow = "//div[@id='editcell']/div[2]/table/tbody/tr[1]";
+    public static $voucherLeft = "#voucher_left";
 
-	public static $voucherStatePath = "//div[@id='editcell']/div[2]/table/tbody/tr/td[9]/a";
+    public static $voucherCheck = "#cb0";
 
-	public static $voucherSearchField = "#filter";
+    public static $voucherResultRow = "//div[@id='editcell']/div[2]/table/tbody/tr[1]";
+
+    public static $voucherStatePath = "//div[@id='editcell']/div[2]/table/tbody/tr/td[9]/a";
+
+    public static $voucherSearchField = "#filter";
+
+    public static $checkAllVoucher="//input[@onclick='Joomla.checkAll(this)']";
+
 }

@@ -17,65 +17,335 @@
  */
 class ManageVoucherAdministratorCest
 {
-	public function __construct()
-	{
-		$this->faker = Faker\Factory::create();
-		$this->randomVoucherCode = $this->faker->bothify('ManageVoucherAdministratorCest ?##?');
-		$this->updatedRandomVoucherCode = 'Updating ' . $this->randomVoucherCode;
-		$this->voucherAmount = $this->faker->numberBetween(9, 99);
-		$this->voucherCount = $this->faker->numberBetween(99, 999);
-	}
+    public function __construct()
+    {
+        $this->faker = Faker\Factory::create();
+        $this->randomVoucherCode = $this->faker->bothify('ManageVoucherAdministratorCest ?##?');
+        $this->updatedRandomVoucherCode = 'Updating ' . $this->randomVoucherCode;
+        $this->voucherAmount = $this->faker->numberBetween(9, 99);
+        $this->voucherCount = $this->faker->numberBetween(99, 999);
+        $this->startDate = "21-06-2017";
+        $this->endDate = "07-07-2017";
+    }
 
-	/**
-	 * Function to Test Voucher Creation in Backend
-	 *
-	 */
-	public function createVoucher(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Voucher creation in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
-		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->voucherCount);
-	}
+    /**
+     * Function to Test Voucher with Save and Close  Creation in Backend
+     *
+     */
+    public function createVoucher(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Voucher creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->voucherCount);
+    }
 
-	/**
-	 * Function to Test Voucher Update in the Administrator
-	 *
-	 * @depends createVoucher
-	 */
-	public function updateVoucher(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test if Voucher gets updated in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
-		$I->editVoucher($this->randomVoucherCode, $this->updatedRandomVoucherCode);
-	}
+    /**
+     * Function check cancel button when goes on new page
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
+    public function cancelButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Voucher creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->cancelButton();
+        $I->see('Voucher Management', '.page-title');
+    }
 
-	/**
-	 * Test for State Change in Voucher Administrator
-	 *
-	 * @depends updateVoucher
-	 */
-	public function changeVoucherState(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test if State of a Voucher gets Updated in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
-		$I->changeVoucherState($this->updatedRandomVoucherCode, 'unpublish');
-		$I->verifyState('unpublished', $I->getVoucherState($this->updatedRandomVoucherCode), "Voucher State Must be Unpublished");
-		$I->changeVoucherState($this->updatedRandomVoucherCode, 'publish');
-	}
+    // When backend fix this bugs , Please open code
+//    public function addStartMoreThanEnd(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test Voucher creation in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+//        $I->addVoucher($this->randomVoucherCode, $this->voucherAmount,$this->startDate,$this->endDate, $this->voucherCount);
+//    }
 
-	/**
-	 * Function to Test Voucher Deletion
-	 *
-	 * @depends changeVoucherState
-	 */
-	public function deleteVoucher(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Deletion of Voucher in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
-		$I->deleteVoucher($this->updatedRandomVoucherCode);
-	}
+    /**
+     *
+     * Function add voucher missing code
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
+    public function addVoucherMissingCode(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Voucher creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->addVoucherMissingCode($this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount);
+    }
+
+    /**
+     *
+     * Fucntion add voucher missing products
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
+    public function addVoucherMissingProducts(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Voucher creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->addVoucherMissingProducts($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount);
+    }
+
+    /**
+     *
+     * Function Edit voucher missing code
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
+    public function editVoucherMissingNameCode(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if Voucher gets updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->editVoucherMissingName($this->randomVoucherCode);
+    }
+
+    /**
+     *
+     * Function check cancel button
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
+    public function checkCancelButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if Voucher gets updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->checkCancelButton($this->randomVoucherCode);
+    }
+
+    /**
+     *
+     * Function check edit button without choice any voucher
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
+    public function checkEditButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if Voucher gets updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->checkEditButton();
+    }
+
+    /**
+     *
+     * Function check delete button without choice any voucher
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
+    public function checkDeleteButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if Voucher gets updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->checkDeleteButton();
+    }
+
+    /**
+     *
+     * Function check publish button without choice any voucher
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
+    public function checkPublishButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if Voucher gets updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->checkPublishButton();
+    }
+
+    /**
+     *
+     * Function check unpublish button without choice any voucher
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
+    public function checkUnpublishButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if Voucher gets updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->checkUnpublishButton();
+    }
+
+    /**
+     * Function to Test Voucher Deletion
+     *
+     * @depends createVoucher
+     */
+    public function deleteVoucher(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Deletion of Voucher in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->deleteVoucher($this->randomVoucherCode);
+    }
+
+    /**
+     * Function to Test Voucher Creation in Backend
+     *
+     */
+    public function addVoucherSave(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Voucher creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->addVoucherSave($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount);
+    }
+
+    /**
+     *
+     * Function change  sates unpublish voucher state inline
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     *
+     * @depends addVoucherSave
+     */
+    public function changeVoucherStateUnpublish(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if State Unpublish of a Voucher gets Updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->changeVoucherState($this->randomVoucherCode);
+        $I->verifyState('unpublished', $I->getVoucherState($this->randomVoucherCode), 'State Must be Unpublished');
+    }
+
+    /**
+     *
+     * Function change  sates publish voucher state inline
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     *
+     * @depends changeVoucherStateUnpublish
+     *
+     */
+    public function changeVoucherPublish(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if State Publish of a Voucher gets Updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->changeVoucherState($this->randomVoucherCode);
+        $I->verifyState('published', $I->getVoucherState($this->randomVoucherCode), 'State Must be Unpublished');
+    }
+
+    /**
+     *
+     * Function change  sates unpublish voucher state with button
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     *
+     * @depends changeVoucherPublish
+     */
+    public function changeVoucherUnpublishButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if State Unpublish with unpublish button of a Voucher gets Updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->changeVoucherUnpublishButton($this->randomVoucherCode);
+        $I->wait(3);
+        $I->verifyState('unpublished', $I->getVoucherState($this->randomVoucherCode), 'State Must be Unpublished');
+    }
+
+    /**
+     *
+     * Function change  sates publish voucher state with button
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     *
+     * @depends changeVoucherUnpublishButton
+     */
+    public function changeVoucherPublishButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if State Publish with publish button of a Voucher gets Updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->changeVoucherPublishButton($this->randomVoucherCode);
+        $I->verifyState('published', $I->getVoucherState($this->randomVoucherCode), 'State Must be Unpublished');
+    }
+
+    /**
+     *
+     * Function change  sates unpublish for all vouchers state with button
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     *
+     * @depends changeVoucherPublishButton
+     */
+    public function changeAllVoucherUnpublishButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Change all vouchers with unpublish button of a Voucher gets Updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->changeAllVoucherUnpublishButton();
+        $I->verifyState('unpublished', $I->getVoucherState($this->randomVoucherCode), 'State Must be Unpublished');
+    }
+
+    /**
+     *
+     * Function change  sates unpublish for all vouchers state with button
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     *
+     * @depends changeAllVoucherUnpublishButton
+     */
+    public function changeAllVoucherPublishButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Change all vouchers Publish with publish button of a Voucher gets Updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->changeAllVoucherPublishButton();
+        $I->verifyState('published', $I->getVoucherState($this->randomVoucherCode), 'State Must be Unpublished');
+    }
+
+    /**
+     * Function to Test Voucher Update with Save button in the Administrator
+     *
+     *
+     * @depends changeAllVoucherPublishButton
+     */
+    public function updateVoucher(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if Voucher gets updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->editVoucher($this->randomVoucherCode, $this->updatedRandomVoucherCode);
+    }
+
+
+    /**
+     * Function to Test Voucher Update with Save button in the Administrator
+     *
+     * @depends updateVoucher
+     */
+    public function deleteAllVoucher(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if Voucher gets updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+        $I->deleteAllVoucher($this->updatedRandomVoucherCode);
+    }
+
+
 }
