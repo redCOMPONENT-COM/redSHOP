@@ -25,11 +25,32 @@ class ManageCouponAdministratorCest
         $this->couponValueIn = 'Total';
         $this->couponValue = '100';
         $this->couponType = 'Globally';
+        $this->couponTypeSpecific = "User Specific";
         $this->couponLeft = '10';
         $this->startDate = "16-06-2017";
         $this->endDate = "07-07-2017";
+        $this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+        $this->password = $this->faker->bothify('Password ?##?');
+        $this->email = $this->faker->email;
+        $this->shopperGroup = 'Default Private';
+        $this->group = 'Public';
+        $this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+        $this->updateFirstName = 'Updating ' . $this->firstName;
+        $this->lastName = 'Last';
     }
 
+    /**
+     * Function to Test User Creation in Backend
+     *
+     */
+    public function createUser(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test User creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
+        $I->searchUser($this->firstName);
+    }
     /**
      * Function to Test Coupon Creation in Backend
      *
@@ -253,5 +274,56 @@ class ManageCouponAdministratorCest
         $I->wantTo('Delete a Coupon');
         $I->deleteCoupon($this->updateCouponCode);
         $I->searchCoupon($this->updateCouponCode, 'Delete');
+    }
+
+    /**
+     * Function to Test Coupon Creation in Backend
+     *
+     */
+    public function createCouponForDelete(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Coupon creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
+        $I->wantTo('Create a Coupon');
+        $I->addCoupon($this->couponCode, $this->couponValueIn, $this->couponValue, $this->couponType, $this->couponLeft, $this->startDate, $this->endDate);
+        $I->searchCoupon($this->couponCode);
+    }
+
+    /**
+     *
+     * Delete all coupons with button
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     *
+     * @depends createCouponForDelete
+     *
+     */
+    public function deleteCouponWithButton(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Coupon creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
+        $I->wantTo('Create a Coupon');
+        $I->deleteCouponWithButton();
+        $I->searchCoupon($this->couponCode, 'Delete');
+    }
+
+    /**
+     *
+     * Function to Test coupon code with specific user  in Backend
+     * @param AcceptanceTester $I
+     * @param $scenario
+     *
+     * @depends createUser
+     */
+    public function addCouponWithUser(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test User creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
+        $I->addCouponWithUser($this->couponCode, $this->couponValueIn, $this->couponValue, $this->couponTypeSpecific, $this->couponLeft, $this->userName);
+        $I->searchCoupon($this->couponCode);
     }
 }

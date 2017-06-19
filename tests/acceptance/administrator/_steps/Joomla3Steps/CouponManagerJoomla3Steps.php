@@ -42,8 +42,42 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\CouponManagerJ3Page::$startDate, $startDate);
         $I->fillField(\CouponManagerJ3Page::$endDate, $endDate);
         $I->fillField(\CouponManagerJ3Page::$couponLeft, $couponLeft);
+
         $I->click(\CouponManagerJ3Page::$couponValueInDropDown);
         $I->click($couponManagerPage->couponValueIn($couponValueIn));
+
+        $I->wait(3);
+        $I->click(\CouponManagerJ3Page::$couponTypeDropdown);
+        $I->click($couponManagerPage->couponType($couponType));
+
+        $I->click('Save & Close');
+        $I->waitForElement(['id' => 'system-message-container'], 60);
+        $I->see('Coupon detail saved', '.alert-success');
+        $I->seeElement(['link' => $couponCode]);
+    }
+
+    public function addCouponWithUser($couponCode = 'TestCoupon', $couponValueIn = 'Total', $couponValue = '100', $couponType = 'User Specific', $couponLeft = '10', $nameUser)
+    {
+        $I = $this;
+        $I->amOnPage(\CouponManagerJ3Page::$URL);
+        $couponManagerPage = new \CouponManagerJ3Page;
+        $I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager Page');
+        $I->click('New');
+        $I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager New');
+        $I->fillField(\CouponManagerJ3Page::$couponCode, $couponCode);
+        $I->fillField(\CouponManagerJ3Page::$couponValue, $couponValue);
+        $I->fillField(\CouponManagerJ3Page::$couponLeft, $couponLeft);
+
+        $I->click(\CouponManagerJ3Page::$couponValueInDropDown);
+        $I->click($couponManagerPage->couponValueIn($couponValueIn));
+
+        $I->click(\CouponManagerJ3Page::$couponTypeDropdown);
+        $I->click($couponManagerPage->couponType($couponType));
+
+        $I->click(\CouponManagerJ3Page::$userDropDown);
+        $I->fillField(['id' => "s2id_autogen1_search"], $nameUser);
+        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameUser . "')]"], 60);
+        $I->click(['xpath' => "//span[contains(text(), '" . $nameUser . "')]"]);
         $I->click('Save & Close');
         $I->waitForElement(['id' => 'system-message-container'], 60);
         $I->see('Coupon detail saved', '.alert-success');
@@ -60,8 +94,13 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager New');
         $I->fillField(\CouponManagerJ3Page::$couponValue, $couponValue);
         $I->fillField(\CouponManagerJ3Page::$couponLeft, $couponLeft);
+
         $I->click(\CouponManagerJ3Page::$couponValueInDropDown);
         $I->click($couponManagerPage->couponValueIn($couponValueIn));
+
+        $I->click(\CouponManagerJ3Page::$couponTypeDropdown);
+        $I->click($couponManagerPage->couponType($couponType));
+
         $I->click('Save & Close');
         $I->waitForElement(['id' => 'system-message-container'], 60);
     }
@@ -101,6 +140,17 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(['id' => 'system-message-container'], 60);
         $I->see('Coupon detail saved', '.alert-success');
         $I->seeElement(['link' => $newCouponCode]);
+    }
+
+    public function deleteCouponWithButton()
+    {
+        $I = $this;
+        $I->amOnPage(\CouponManagerJ3Page::$URL);
+        $I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager Page');
+        $I->click(\CouponManagerJ3Page::$choiAllCoupons);
+        $I->click('Delete');
+        $I->waitForElement(['id' => 'system-message-container'], 60);
+        $I->see('Coupon deleted successfully', '.alert-success');
     }
 
     /**
@@ -209,7 +259,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\CouponManagerJ3Page::$URL);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
+        $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager checkDeleteButtonPage');
         $I->click('Unpublish');
         $I->acceptPopup();
     }

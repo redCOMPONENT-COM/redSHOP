@@ -15,59 +15,70 @@
  */
 class CouponManagerJ3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=coupon';
+    public static $URL = '/administrator/index.php?option=com_redshop&view=coupon';
 
-	public static $couponCode = "//input[@id='coupon_code']";
+    public static $couponCode = "//input[@id='coupon_code']";
 
-	public static $couponValue = "//input[@id='coupon_value']";
+    public static $couponValue = "//input[@id='coupon_value']";
 
-	public static $couponLeft = "//input[@id='coupon_left']";
+    public static $couponLeft = "//input[@id='coupon_left']";
 
-	public static $startDate="#start_date";
+    public static $startDate = "#start_date";
 
-	public static $endDate="#end_date";
+    public static $endDate = "#end_date";
 
-	public static $couponValueInDropDown = "//div[@id='s2id_percent_or_total']/a";
+    public static $couponValueInDropDown = "//div[@id='s2id_percent_or_total']/a";
 
-	public static $couponTypeDropDown = "//div[@id='coupon_type_chzn']/a";
+    public static $couponTypeDropdown="//div[@id='s2id_coupon_type']/a";
 
-	public static $selectFirst = "//input[@id='cb0']";
+    public static $couponTypeDropDown = "//div[@id='coupon_type_chzn']/a";
+
+    public static $userDropDown="//div[@id='s2id_userid']/a";
+
+    public static $selectFirst = "//input[@id='cb0']";
+
+    public static $choiAllCoupons = "//input[@onclick='Joomla.checkAll(this)']";
 
 
     public static $couponResultRow = "//table[@id='articleList']/tbody/tr[2]";
 
 
-	// //table[@class='test-redshop-table']//tr[@class='test-redshop-table'][1]//td[@class='test-redshop-coupon-checkall']
-	public static $firstResultRow = ['class' => "test-redshop-table-row"];
+    // //table[@class='test-redshop-table']//tr[@class='test-redshop-table'][1]//td[@class='test-redshop-coupon-checkall']
+    public static $firstResultRow = ['class' => "test-redshop-table-row"];
 
 
-	public static $couponState="//div[@id='editcell']/div[2]/table/tbody/tr/td[9]/a";
+    public static $couponState = "//div[@id='editcell']/div[2]/table/tbody/tr/td[9]/a";
 
-	/**
-	 * Function to get path for CouponValueIn
-	 *
-	 * @param   String  $couponValue  Value of the Coupon
-	 *
-	 * @return string
-	 */
-	public function couponValueIn($couponValue)
-	{
-		$path = "//div[@id='select2-drop']//ul//li//div[contains(text(), '" . $couponValue . "')]";
+    /**
+     * Function to get path for CouponValueIn
+     *
+     * @param   String $couponValue Value of the Coupon
+     *
+     * @return string
+     */
+    public function couponValueIn($couponValue)
+    {
+        $path = "//div[@id='select2-drop']//ul//li//div[contains(text(), '" . $couponValue . "')]";
 
-		return $path;
-	}
+        return $path;
+    }
 
-	/**
-	 * Function to get path for CouponType
-	 *
-	 * @param   String  $couponType  Value of the Coupon
-	 *
-	 * @return string
-	 */
-	public function couponType($couponType)
-	{
-		$path = "//div[@id='coupon_type_chzn']/div/ul/li[contains(text(), '" . $couponType . "')]";
+    /**
+     * Function to get path for CouponType
+     *
+     * @param   String $couponType Value of the Coupon
+     *
+     * @return string
+     */
+    public function couponType($couponType)
+    {
+        $path = "//div[@id='select2-drop']//ul//li//div[contains(text(), '" . $couponType . "')]";
+        return $path;
+    }
 
-		return $path;
-	}
+    public function userValue($nameUser){
+        $path = "//div[@id='select2-drop']//ul//li//div[contains(text(), '" . $nameUser . "')]";
+        return $path;
+    }
+
 }
