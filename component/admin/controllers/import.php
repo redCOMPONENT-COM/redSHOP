@@ -43,7 +43,9 @@ class RedshopControllerImport extends RedshopControllerAdmin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
+		// Init response
 		$response = array('status' => 1, 'msg' => JText::_('COM_REDSHOP_IMPORT_MESSAGE_UPLOAD_FILE_SUCCESS'));
+
 		$plugin   = $this->input->getCmd('plugin_name', '');
 		$file     = $this->input->files->get('csv_file', null);
 		$data     = $this->input->post->getArray();
