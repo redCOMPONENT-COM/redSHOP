@@ -65,6 +65,7 @@ foreach ($characterSets as $char => $name)
         var itemsCount = 0;
         // Number of item will be execute for each ajax request
         var itemRun = 1;
+        // Number of failed import
         var failedCount = 0;
         var allowFileType = ["<?php echo implode('","', $allowFileTypes) ?>"];
         var allowFileExt = ["<?php echo implode('","', $allowFileExtensions) ?>"];
@@ -113,6 +114,7 @@ foreach ($characterSets as $char => $name)
                         $uploadWrapper.hide();
                         $("#import_process_msg_body").empty();
 
+                        // File uploaded and success at service side
                         if (data.result.status == 1) {
                             // Message
                             $("<p>").addClass("text-success").html(data.result.msg).appendTo($("#import_process_msg_body"));
@@ -120,8 +122,8 @@ foreach ($characterSets as $char => $name)
                             total = data.result.lines - 1;
                             // Update folder var
                             folder = data.result.folder;
-                            //
-                            itemsCount = Math.round(total / data.result.count);
+                            // Update number of splitted files
+                            itemsCount = Math.round(total / data.result.files);
                             // Show number of product(s) will import
                             $("#import_count").html(total);
                             // Show process bar
@@ -238,6 +240,7 @@ foreach ($characterSets as $char => $name)
 
                         // Completed
                         if (percent == 100) {
+                            // Render success message
                             $("<p>").addClass('text-info').html("<?php echo JText::_('COM_REDSHOP_IMPORT_SUCCESS'); ?>").appendTo($("#import_process_msg_body"));
                         }
                         else
