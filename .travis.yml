@@ -9,9 +9,7 @@ env:
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
 php:
-  - 5.5
   - 5.6
-  - 7.0
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 6
@@ -38,6 +36,8 @@ before_script:
 - git submodule update --init --recursive
 - sudo service apache2 restart
 - mv tests/RoboFile.ini.dist tests/RoboFile.ini
+- mysql -V
+- sudo service mysql status
 
 # XVFB
 - "export DISPLAY=:99.0"
