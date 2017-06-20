@@ -37,7 +37,7 @@ before_script:
 - sudo service apache2 restart
 - mv tests/RoboFile.ini.dist tests/RoboFile.ini
 - mysql -V
--/etc/init.d/mysql status
+- sudo service mysql status
 
 # XVFB
 - "export DISPLAY=:99.0"
