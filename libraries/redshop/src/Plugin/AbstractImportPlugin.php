@@ -298,7 +298,9 @@ class AbstractImportPlugin extends \JPlugin
 		fclose($handler);
 
 		$headers = array_shift($rows);
-		$rows    = array_chunk($rows, \Redshop::getConfig()->get('IMPORT_MAX_LINE', 1));
+		$maxLine = \Redshop::getConfig()->get('IMPORT_MAX_LINE', 10);
+		$maxLine = $maxLine < 10 ? 10 : $maxLine;
+		$rows    = array_chunk($rows, $maxLine);
 		$fileExt = \JFile::getExt($file);
 
 		// Remove old file
