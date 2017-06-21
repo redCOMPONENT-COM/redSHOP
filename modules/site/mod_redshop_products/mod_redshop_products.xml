@@ -29,8 +29,18 @@
     <config>
         <fields name="params" addfieldpath="/libraries/redshop/form/fields">
             <fieldset name="basic">
-                <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_CLASS_SUFFIX" description="COM_REDSHOP_CLASS_SFX_DESC"/>
-                <field name="type" type="list" default="0" label="COM_REDSHOP_MODULE_TYPE">
+                <field 
+                    name="moduleclass_sfx" 
+                    type="text" 
+                    default="" 
+                    label="COM_REDSHOP_CLASS_SUFFIX" 
+                    description="COM_REDSHOP_CLASS_SFX_DESC"
+                />
+                <field 
+                    name="type"
+                    type="list" 
+                    default="0" 
+                    label="COM_REDSHOP_MODULE_TYPE">
                     <option value="0">COM_REDSHOP_NEWEST</option>
                     <option value="1">COM_REDSHOP_LATEST</option>
                     <option value="2">COM_REDSHOP_SOLD</option>
@@ -39,76 +49,167 @@
                     <option value="5">COM_REDSHOP_PRODUCT_ON_SALE_AND_DATE_TIME_CHECK</option>
                     <option value="6">COM_REDSHOP_WATCHED_PRODUCT</option>
                 </field>
-                <field name="category" type="redshopcategory" size="40" label="COM_REDSHOP_CATEGORY" multiple="true"
-                       description="COM_REDSHOP_ENTER_CATEGORY"/>
-                <field name="urlCategoryId" type="radio" default="0" label="MOD_REDSHOP_PRODUCTS_GET_CATEGORY_FROM_URL"
-                       description="MOD_REDSHOP_PRODUCTS_GET_CATEGORY_FROM_URL_DESC" class="btn-group btn-group-yesno">
+                <field 
+                    name="category" 
+                    type="redshopcategory" 
+                    size="40" 
+                    label="COM_REDSHOP_CATEGORY" 
+                    multiple="true"
+                    description="COM_REDSHOP_ENTER_CATEGORY"
+                />
+                <field 
+                    name="urlCategoryId" 
+                    type="radio" 
+                    default="0" 
+                    label="MOD_REDSHOP_TOP_PRODUCTS_GET_CATEGORY_FROM_URL"
+                    description="MOD_REDSHOP_TOP_PRODUCTS_GET_CATEGORY_FROM_URL_DESC" 
+                    class="btn-group btn-group-yesno">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="count" type="text" default="5" size="10" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
-                       description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
-                <field name="featured_product" type="radio" default="0" label="COM_REDSHOP_FEATURED_PRODUCT" class="btn-group btn-group-yesno"
-                       description="COM_REDSHOP_FEATURED_PRODUCT_DESC">
+                <field 
+                    name="count" 
+                    type="text" 
+                    default="5" 
+                    size="10" 
+                    label="COM_REDSHOP_NUMBER_OF_PRODUCT"
+                    description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"
+                />
+                <field 
+                    name="featured_product" 
+                    type="radio" 
+                    default="0" 
+                    label="COM_REDSHOP_FEATURED_PRODUCT" 
+                    class="btn-group btn-group-yesno"
+                    description="COM_REDSHOP_FEATURED_PRODUCT_DESC">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="image" type="radio" default="0" label="COM_REDSHOP_SHOW_IMAGE" class="btn-group btn-group-yesno"
-                       description="COM_REDSHOP_SHOW_IMAGE_DESC">
+                <field 
+                    name="image" 
+                    type="radio" 
+                    default="0" 
+                    label="COM_REDSHOP_SHOW_IMAGE" 
+                    class="btn-group btn-group-yesno"
+                    description="COM_REDSHOP_SHOW_IMAGE_DESC">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH" description="COM_REDSHOP_THUMB_IMAGE_WIDTH"
-                       default="100"/>
-                <field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT" description="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
-                       default="100"/>
-                <field name="show_price" type="radio" default="0" label="COM_REDSHOP_SHOW_PRICE" class="btn-group btn-group-yesno"
-                       description="COM_REDSHOP_SHOW_PRICE_DESC">
+                <field 
+                    name="thumbwidth" 
+                    type="text" 
+                    size="10" 
+                    label="COM_REDSHOP_THUMB_IMAGE_WIDTH" 
+                    description="COM_REDSHOP_THUMB_IMAGE_WIDTH"
+                    default="100"
+                />
+                <field 
+                    name="thumbheight" 
+                    type="text" 
+                    size="10" 
+                    label="COM_REDSHOP_THUMB_IMAGE_HEIGHT" 
+                    description="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
+                    default="100"
+                />
+                <field 
+                    name="show_price" 
+                    type="radio" 
+                    default="0" 
+                    label="COM_REDSHOP_SHOW_PRICE" 
+                    class="btn-group btn-group-yesno"
+                    description="COM_REDSHOP_SHOW_PRICE_DESC"
+                >
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="show_vat" type="radio" default="1" label="COM_REDSHOP_SHOW_VAT" class="btn-group btn-group-yesno"
-                       description="COM_REDSHOP_SHOW_VAT_DESC">
+                <field 
+                    name="show_vat" 
+                    type="radio" 
+                    default="1" 
+                    label="COM_REDSHOP_SHOW_VAT" 
+                    class="btn-group btn-group-yesno"
+                    description="COM_REDSHOP_SHOW_VAT_DESC">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="show_short_description" type="radio" default="1" label="COM_REDSHOP_SHOW_SHORT_DESCRIPTION"
-                       class="btn-group btn-group-yesno" description="COM_REDSHOP_SHOW_SHORT_DESCRIPTION_DESC">
+                <field 
+                    name="show_short_description" 
+                    type="radio" 
+                    default="1" 
+                    label="COM_REDSHOP_SHOW_SHORT_DESCRIPTION"
+                    class="btn-group btn-group-yesno" 
+                    description="COM_REDSHOP_SHOW_SHORT_DESCRIPTION_DESC">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="show_readmore" type="radio" default="1" label="COM_REDSHOP_SHOW_READ_MORE" class="btn-group btn-group-yesno"
-                       description="COM_REDSHOP_SHOW_READ_MORE_DESC">
+                <field 
+                    name="show_readmore" 
+                    type="radio" 
+                    default="1" 
+                    label="COM_REDSHOP_SHOW_READ_MORE" 
+                    class="btn-group btn-group-yesno"
+                    description="COM_REDSHOP_SHOW_READ_MORE_DESC">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="show_addtocart" type="radio" default="1" label="COM_REDSHOP_SHOW_ADD_TO_CART" class="btn-group btn-group-yesno"
-                       description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
+                <field 
+                    name="show_addtocart" 
+                    type="radio" 
+                    default="1" 
+                    label="COM_REDSHOP_SHOW_ADD_TO_CART" 
+                    class="btn-group btn-group-yesno"
+                    description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="show_discountpricelayout" type="radio" default="1" class="btn-group btn-group-yesno"
-                       label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT" description="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT">
+                <field 
+                    name="show_discountpricelayout" 
+                    type="radio" 
+                    default="1" 
+                    class="btn-group btn-group-yesno"
+                    label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT" 
+                    description="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="show_childproducts" type="radio" default="1" label="COM_REDSHOP_SHOW_CHILD_PRODUCTS" class="btn-group btn-group-yesno"
-                       description="COM_REDSHOP_SHOW_CHILD_PRODUCTS">
+                <field 
+                    name="show_childproducts" 
+                    type="radio" 
+                    default="1" 
+                    label="COM_REDSHOP_SHOW_CHILD_PRODUCTS" 
+                    class="btn-group btn-group-yesno"
+                    description="COM_REDSHOP_SHOW_CHILD_PRODUCTS">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="show_stockroom_status" type="radio" default="1" label="COM_REDSHOP_SHOW_STOCKROOM_STATUS"
-                       class="btn-group btn-group-yesno" description="COM_REDSHOP_SHOW_STOCKROOM_STATUS">
+                <field 
+                    name="show_stockroom_status" 
+                    type="radio" 
+                    default="1" 
+                    label="COM_REDSHOP_SHOW_STOCKROOM_STATUS"
+                    class="btn-group btn-group-yesno" 
+                    description="COM_REDSHOP_SHOW_STOCKROOM_STATUS">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="show_wishlist" type="radio" default="0" label="COM_REDSHOP_SHOW_WISHLIST" class="btn-group btn-group-yesno"
-                       description="COM_REDSHOP_SHOW_WISHLIST">
+                <field 
+                    name="show_wishlist" 
+                    type="radio" 
+                    default="0" 
+                    label="COM_REDSHOP_SHOW_WISHLIST" 
+                    class="btn-group btn-group-yesno"
+                    description="COM_REDSHOP_SHOW_WISHLIST">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="stockrooms" type="stockroomlist" size="40" label="COM_REDSHOP_SELECT_STOCKROOM" multiple="true"
-                       description="COM_REDSHOP_SELECT_STOCKROOM_DESC"/>
+                <field 
+                    name="stockrooms" 
+                    type="stockroomlist" 
+                    size="40" 
+                    label="COM_REDSHOP_SELECT_STOCKROOM" 
+                    multiple="true"
+                    description="COM_REDSHOP_SELECT_STOCKROOM_DESC"
+                />
             </fieldset>
             <fieldset name="advanced">
                 <field name="layout"
