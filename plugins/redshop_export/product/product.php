@@ -644,21 +644,25 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		}
 
 		// Create new row data.
-		$cleanItem  = $productData;
+		$cleanItem  = array();
 		$attributes = array();
+
+		foreach ($productData as $key => $value)
+		{
+			if (in_array($key, array('product_number', 'product_id', 'product_name')))
+			{
+				$cleanItem[$key] = $productData[$key];
+			}
+			else
+			{
+				$cleanItem[$key] = '';
+			}
+		}
 
 		// Add empty data for main product row.
 		for ($i = 0; $i <= 32; $i++)
 		{
 			$productData[] = '';
-		}
-
-		foreach ($cleanItem as $key => $value)
-		{
-			if ($key != 'product_number' || $key != 'product_id' || $key != 'product_name')
-			{
-				$cleanItem[$key] = '';
-			}
 		}
 
 		foreach ($results as $result)
