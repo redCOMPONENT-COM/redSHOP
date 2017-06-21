@@ -40,6 +40,11 @@ class JFormFieldRproducts extends JFormFieldList
 			->from($db->qn('#__redshop_product'))
 			->order($db->qn('product_name'));
 
+		if (!$this->element['parent'])
+		{
+			$query->where($db->qn('product_parent_id') . ' != 0');
+		}
+
 		$items = $db->setQuery($query)->loadObjectList();
 		$options = array();
 
