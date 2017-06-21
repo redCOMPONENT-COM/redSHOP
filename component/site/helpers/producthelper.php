@@ -6298,7 +6298,8 @@ class productHelper
 				),
 			'',
 			array(
-					'component' => 'com_redshop'
+					'component' => 'com_redshop',
+					'client'    => 0
 				)
 		);
 
@@ -6525,7 +6526,8 @@ class productHelper
 					),
 				'',
 				array(
-						'component' => 'com_redshop'
+						'component' => 'com_redshop',
+						'client'    => 0
 					)
 			);
 		}
