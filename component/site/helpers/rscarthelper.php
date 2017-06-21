@@ -6071,10 +6071,12 @@ class rsCarthelper
 		$setPropEqual          = true;
 		$setSubpropEqual       = true;
 
+		$attribute_data       = explode('##', $data['attribute_data']);
+		$acc_property_data    = explode('##', $data['property_data']);
+		$acc_subproperty_data = !empty($data['subproperty_data']) ? explode('##', $data['subproperty_data']) : null;
+
 		if ($data['attribute_data'] != "" && $data['attribute_data'] != 0)
 		{
-			$attribute_data = explode('##', $data['attribute_data']);
-
 			for ($ia = 0; $ia < count($attribute_data); $ia++)
 			{
 				$prooprand                                    = array();
@@ -6086,18 +6088,16 @@ class rsCarthelper
 
 				if ($attribute[0]->text != "" && ($data['property_data'] != "" || $data['property_data'] != 0))
 				{
-					$acc_property_data = explode('##', $data['property_data']);
-
 					if (isset($acc_property_data[$ia]) && $acc_property_data[$ia] != "")
 					{
-						$acc_property_data = explode(',,', $acc_property_data[$ia]);
+						$accessoriesPropertiesData = explode(',,', $acc_property_data[$ia]);
 
-						for ($ip = 0; $ip < count($acc_property_data); $ip++)
+						for ($ip = 0; $ip < count($accessoriesPropertiesData); $ip++)
 						{
 							$accSubpropertyCart = array();
 							$property_price     = 0;
-							$property           = $this->_producthelper->getAttibuteProperty($acc_property_data[$ip]);
-							$pricelist          = $this->_producthelper->getPropertyPrice($acc_property_data[$ip], $data['quantity'], 'property', $user_id);
+							$property           = $this->_producthelper->getAttibuteProperty($accessoriesPropertiesData[$ip]);
+							$pricelist          = $this->_producthelper->getPropertyPrice($accessoriesPropertiesData[$ip], $data['quantity'], 'property', $user_id);
 
 							if (count($pricelist) > 0)
 							{
@@ -6108,7 +6108,7 @@ class rsCarthelper
 								$property_price = $property[0]->property_price;
 							}
 
-							$accPropertyCart[$ip]['property_id']     = $acc_property_data[$ip];
+							$accPropertyCart[$ip]['property_id']     = $accessoriesPropertiesData[$ip];
 							$accPropertyCart[$ip]['attribute_id']    = $property[0]->attribute_id;
 							$accPropertyCart[$ip]['property_name']   = $property[0]->text;
 							$accPropertyCart[$ip]['property_oprand'] = $property[0]->oprand;
@@ -6116,21 +6116,20 @@ class rsCarthelper
 							$prooprand[$ip]                          = $property[0]->oprand;
 							$proprice[$ip]                           = $property_price;
 
-							if ($data['subproperty_data'] != "" && $data['subproperty_data'] != 0)
+							if (!empty($acc_subproperty_data))
 							{
-								$acc_subproperty_data = @explode('##', $data['subproperty_data']);
-								$acc_subproperty_data = @explode(',,', $acc_subproperty_data[$ia]);
+								$subPropertiesData = @explode(',,', $acc_subproperty_data[$ia]);
 
-								if (isset($acc_subproperty_data[$ip]) && $acc_subproperty_data[$ip] != "")
+								if (isset($subPropertiesData[$ip]) && $subPropertiesData[$ip] != "")
 								{
-									$acc_subproperty_data = explode('::', $acc_subproperty_data[$ip]);
+									$subSubPropertyData = explode('::', $subPropertiesData[$ip]);
 
-									for ($isp = 0; $isp < count($acc_subproperty_data); $isp++)
+									for ($isp = 0; $isp < count($subSubPropertyData); $isp++)
 									{
 										$subproperty_price = 0;
-										$subproperty       = $this->_producthelper->getAttibuteSubProperty($acc_subproperty_data[$isp]);
+										$subproperty       = $this->_producthelper->getAttibuteSubProperty($subSubPropertyData[$isp]);
 
-										$pricelist = $this->_producthelper->getPropertyPrice($acc_subproperty_data[$isp], $data['quantity'], 'subproperty', $user_id);
+										$pricelist = $this->_producthelper->getPropertyPrice($subSubPropertyData[$isp], $data['quantity'], 'subproperty', $user_id);
 
 										if (count($pricelist) > 0)
 										{
@@ -6141,7 +6140,7 @@ class rsCarthelper
 											$subproperty_price = $subproperty[0]->subattribute_color_price;
 										}
 
-										$accSubpropertyCart[$isp]['subproperty_id']           = $acc_subproperty_data[$isp];
+										$accSubpropertyCart[$isp]['subproperty_id']           = $subSubPropertyData[$isp];
 										$accSubpropertyCart[$isp]['subproperty_name']         = $subproperty[0]->text;
 										$accSubpropertyCart[$isp]['subproperty_oprand']       = $subproperty[0]->oprand;
 										$accSubpropertyCart[$isp]['subattribute_color_title'] = $subproperty[0]->subattribute_color_title;
