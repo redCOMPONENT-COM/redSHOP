@@ -239,7 +239,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($cart['free_shipping'] != 1)
 		{
-			$shipping_rate_id = JRequest::getVar('shipping_rate_id');
+			$shipping_rate_id = $app->input->getString('shipping_rate_id');
 		}
 
 		$payment_method_id = JRequest::getVar('payment_method_id');
