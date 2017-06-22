@@ -306,18 +306,30 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		// Product attributes if needed.
 		if (JFactory::getApplication()->input->getBool('include_attributes', 0) == true)
 		{
-			$headers = array_merge($headers, array(
-				'attribute_name','attribute_ordering','allow_multiple_selection','hide_attribute_price','attribute_required',
-				'display_type','property_name','property_stock','property_ordering','property_virtual_number','setdefault_selected',
-				'setrequire_selected', 'setdisplay_type', 'oprand','property_price','property_image','property_main_image',
-				'subattribute_color_name', 'subattribute_stock', 'subattribute_color_ordering','subattribute_setdefault_selected',
-				'subattribute_color_title','subattribute_virtual_number', 'subattribute_color_oprand','required_sub_attribute',
-				'subattribute_color_price','subattribute_color_image','delete', 'media_name', 'media_alternate_text', 'media_section',
-				'media_published', 'media_ordering')
-			);
+			$headers = array_merge($headers, $this->getAttributesHeader());
 		}
 
 		return $headers;
+	}
+
+	/**
+	 * Method for get additional headers when include attributes enabled.
+	 *
+	 * @return  array
+	 *
+	 * @since   1.0.1
+	 */
+	protected function getAttributesHeader()
+	{
+		return array(
+			'attribute_name','attribute_ordering','allow_multiple_selection','hide_attribute_price','attribute_required',
+			'display_type','property_name','property_stock','property_ordering','property_virtual_number','setdefault_selected',
+			'setrequire_selected', 'setdisplay_type', 'oprand','property_price','property_image','property_main_image',
+			'subattribute_color_name', 'subattribute_stock', 'subattribute_color_ordering','subattribute_setdefault_selected',
+			'subattribute_color_title','subattribute_virtual_number', 'subattribute_color_oprand','required_sub_attribute',
+			'subattribute_color_price','subattribute_color_image','delete', 'media_name', 'media_alternate_text', 'media_section',
+			'media_published', 'media_ordering'
+		);
 	}
 
 	/**
@@ -441,6 +453,12 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			if ($isAttributes)
 			{
 				$attributeRows = $this->getAttributesData($item);
+
+				// Add empty data for additional header
+				foreach ($this->getAttributesHeader() as $header)
+				{
+					$item[$header] = '';
+				}
 			}
 
 			$newData[] = $item;
@@ -482,7 +500,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	 *
 	 * @since  1.0.0
 	 */
-	protected function getAttributesData(&$productData)
+	protected function getAttributesData($productData)
 	{
 		$db = $this->db;
 
@@ -651,18 +669,12 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		{
 			if (in_array($key, array('product_number', 'product_id', 'product_name')))
 			{
-				$cleanItem[$key] = $productData[$key];
+				$cleanItem[$key] = $value;
 			}
 			else
 			{
 				$cleanItem[$key] = '';
 			}
-		}
-
-		// Add empty data for main product row.
-		for ($i = 0; $i <= 32; $i++)
-		{
-			$productData[] = '';
 		}
 
 		foreach ($results as $result)
