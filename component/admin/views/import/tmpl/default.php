@@ -323,11 +323,13 @@ foreach ($characterSets as $char => $name)
                             <fieldset class="form-horizontal">
                                 <p>
 									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MIN_FILE_SIZE') ?>:&nbsp;
-                                    <span class="text-primary"><?php echo number_format($allowMinFileSize) ?> bytes</span>
+                                    <span class="text-primary"><?php echo number_format($allowMinFileSize) ?>
+                                        bytes</span>
                                 </p>
                                 <p>
 									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_FILE_SIZE') ?>:&nbsp;
-                                    <span class="text-primary"><?php echo number_format($allowMaxFileSize) ?> bytes</span>
+                                    <span class="text-primary"><?php echo number_format($allowMaxFileSize) ?>
+                                        bytes</span>
                                 </p>
                                 <p>
 									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_MIME') ?>:&nbsp;
@@ -344,23 +346,14 @@ foreach ($characterSets as $char => $name)
 										<?php echo JText::_('COM_REDSHOP_IMPORT_CONFIG_SEPARATOR') ?>
                                     </label>
                                     <div class="col-md-10">
-                                        <input type="text" value="," class="form-control" maxlength="1" name="separator"/>
+                                        <input type="text" value="," class="form-control" maxlength="1"
+                                               name="separator"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label"><?php echo JText::_('COM_REDSHOP_IMPORT_ENCODING') ?></label>
                                     <div class="col-md-10">
-										<?php
-										echo JHtml::_(
-											'select.genericlist',
-											$encodings,
-											'encoding',
-											'class="form-control"',
-											'value',
-											'text',
-											'UTF-8'
-										);
-										?>
+										<?php echo JHtml::_('select.genericlist', $encodings, 'encoding', 'class="form-control"', 'value', 'text', 'UTF-8'); ?>
                                     </div>
                                 </div>
                                 <div id="import_config_body"></div>
@@ -376,7 +369,8 @@ foreach ($characterSets as $char => $name)
                 <!-- Step 3. Process -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4 class="panel-title" id="import_process_title"><?php echo JText::_('COM_REDSHOP_IMPORT_STEP_3') ?></h4>
+                        <h4 class="panel-title"
+                            id="import_process_title"><?php echo JText::_('COM_REDSHOP_IMPORT_STEP_3') ?></h4>
                     </div>
                     <div id="import_process_panel">
                         <div class="panel-body">
@@ -390,14 +384,17 @@ foreach ($characterSets as $char => $name)
                                     <p></p>
                                     <div class="progress" id="import_upload_progress_wrapper" style="display: none;">
                                         <div id="import_upload_progress" class="progress-bar" role="progressbar"
-                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%
+                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: 0%;">0%
                                         </div>
                                     </div>
                                     <hr/>
                                     <h3><?php echo JText::_('COM_REDSHOP_IMPORT_DATA_IMPORT') ?>: <span id="import_count"></span></h3>
                                     <div class="progress" style="display: none;">
-                                        <div id="import_process_bar" class="progress-bar progress-bar-success" role="progressbar"
-                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                        <div id="import_process_bar" class="progress-bar progress-bar-success"
+                                             role="progressbar"
+                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: 0%;">
                                             0%
                                         </div>
                                     </div>
