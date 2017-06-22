@@ -357,6 +357,12 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			return false;
 		}
 
+		// Check table before storing
+		if (!$table->check())
+		{
+			return false;
+		}
+
 		// Insert for new data or update exist data.
 		if ((!$isNew && !$db->insertObject('#__redshop_product', $table, $this->primaryKey)) || !$table->store(false))
 		{
