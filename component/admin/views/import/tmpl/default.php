@@ -224,9 +224,6 @@ foreach ($characterSets as $char => $name)
                         var success = startIndex + itemRun;
                         var percent = 0.0;
 
-                        console.log(success);
-                        console.log(itemsCount);
-
                         if (success > total) {
                             percent = 100;
                         } else {
