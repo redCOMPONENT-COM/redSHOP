@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="redshop_product" method="upgrade">
+	<name>PLG_REDSHOP_PRODUCT_GLS   </name>
+	<author>redCOMPONENT.com</author>
+	<version>1.6</version>
+    <redshop>2.0</redshop>
+	<creationDate>Sep 2016</creationDate>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redweb.dk</authorUrl>
+	<description>PLG_REDSHOP_PRODUCT_GLS_DESC</description>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_gls.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_product_gls.sys.ini</language>
+	</languages>
+	<files>
+		<filename plugin="gls">gls.php</filename>
+	</files>
+</extension>
