@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="redshop_product" method="upgrade">
-	<name>PLG_REDSHOP_PRODUCT_GLS   </name>
+	<name>PLG_REDSHOP_PRODUCT_GLS</name>
 	<author>redCOMPONENT.com</author>
 	<version>1.6</version>
     <redshop>2.0</redshop>
