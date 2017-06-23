@@ -2022,10 +2022,6 @@ class RedshopModelCheckout extends RedshopModel
 
 	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "")
 	{
-		// Plugin support:  Process the shipping cart
-		JPluginHelper::importPlugin('redshop_product');
-		JDispatcher::getInstance()->trigger('onDisplayShoppingCart', array(&$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id));
-
 		$session  = JFactory::getSession();
 		$cart     = $session->get('cart');
 		$user     = JFactory::getUser();
@@ -2047,6 +2043,10 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$cart = $this->_carthelper->modifyDiscount($cart);
+
+		// Plugin support:  Process the shipping cart
+		JPluginHelper::importPlugin('redshop_product');
+		JDispatcher::getInstance()->trigger('onDisplayShoppingCart', array($cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id));
 
 		$paymentMethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentMethod = $paymentMethod[0];
