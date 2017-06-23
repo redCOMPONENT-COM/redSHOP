@@ -821,6 +821,11 @@ class rsCarthelper
 
 		for ($i = 0; $i < $idx; $i++)
 		{
+			$cart_mdata = $data;
+
+			// Plugin support:  Process the product plugin for cart item
+			$dispatcher->trigger('onCartItemDisplay', array(&$cart_mdata, $cart, $i));
+
 			$quantity = $cart[$i]['quantity'];
 
 			if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
@@ -833,17 +838,17 @@ class rsCarthelper
 
 				$product_name = "<div  class='product_name'><a href='" . $link . "'>" . $giftcardData->giftcard_name . "</a></div>" . $reciverInfo;
 
-				if (strpos($data, "{product_name_nolink}") !== false)
+				if (strpos($cart_mdata, "{product_name_nolink}") !== false)
 				{
 					$product_name_nolink = "<div  class=\"product_name\">" . $giftcardData->giftcard_name . "</div><" . $reciverInfo;
-					$cart_mdata          = str_replace("{product_name_nolink}", $product_name_nolink, $data);
+					$cart_mdata          = str_replace("{product_name_nolink}", $product_name_nolink, $cart_mdata);
 
-					if (strpos($data, "{product_name}") !== false)
+					if (strpos($cart_mdata, "{product_name}") !== false)
 						$cart_mdata = str_replace("{product_name}", "", $cart_mdata);
 				}
 				else
 				{
-					$cart_mdata = str_replace("{product_name}", $product_name, $data);
+					$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
 				}
 
 				$cart_mdata = str_replace("{product_attribute}", '', $cart_mdata);
@@ -935,10 +940,10 @@ class rsCarthelper
 			{
 				$product_id     = $cart[$i]['product_id'];
 				$product        = $this->_producthelper->getProductById($product_id);
-				$retAttArr      = $this->_producthelper->makeAttributeCart($cart [$i] ['cart_attribute'], $product_id, 0, 0, $quantity, $data);
+				$retAttArr      = $this->_producthelper->makeAttributeCart($cart [$i] ['cart_attribute'], $product_id, 0, 0, $quantity, $cart_mdata);
 				$cart_attribute = $retAttArr[0];
 
-				$retAccArr      = $this->_producthelper->makeAccessoryCart($cart [$i] ['cart_accessory'], $product_id, $data);
+				$retAccArr      = $this->_producthelper->makeAccessoryCart($cart [$i] ['cart_accessory'], $product_id, $cart_mdata);
 				$cart_accessory = $retAccArr[0];
 
 				$ItemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product_id);
@@ -1095,20 +1100,18 @@ class rsCarthelper
 					}
 				}
 
-				$cart_mdata = '';
-
-				if (strpos($data, "{product_name_nolink}") !== false)
+				if (strpos($cart_mdata, "{product_name_nolink}") !== false)
 				{
 					$product_name_nolink = "";
 					$product_name_nolink = "<div  class='product_name'>$product->product_name</a></div>";
-					$cart_mdata          = str_replace("{product_name_nolink}", $product_name_nolink, $data);
+					$cart_mdata          = str_replace("{product_name_nolink}", $product_name_nolink, $cart_mdata);
 
-					if (strpos($data, "{product_name}") !== false)
+					if (strpos($cart_mdata, "{product_name}") !== false)
 						$cart_mdata = str_replace("{product_name}", "", $cart_mdata);
 				}
 				else
 				{
-					$cart_mdata = str_replace("{product_name}", $product_name, $data);
+					$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
 				}
 
 				$cart_mdata = str_replace("{product_s_desc}", $product->product_s_desc, $cart_mdata);
@@ -1383,9 +1386,6 @@ class rsCarthelper
 				$cart_mdata = str_replace("{remove_product}", '', $cart_mdata);
 			}
 
-			// Plugin support:  Process the product plugin for cart item
-			$dispatcher->trigger('onCartItemDisplay', array(& $cart_mdata, $cart, $i));
-
 			$cart_tr .= $cart_mdata;
 		}
 
@@ -1410,6 +1410,11 @@ class rsCarthelper
 
 		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
+			$cart_mdata = $data;
+
+			// Process the product plugin for cart item
+			$dispatcher->trigger('onOrderItemDisplay', array(&$cart_mdata, &$rowitem, $i));
+
 			$product_id = $rowitem [$i]->product_id;
 			$quantity   = $rowitem [$i]->product_quantity;
 
@@ -1566,7 +1571,7 @@ class rsCarthelper
 				$wrapper_name  = JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper_name . "(" . $wrapper_price . ")";
 			}
 
-			$cart_mdata = str_replace("{product_name}", $product_name, $data);
+			$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
 
 			$catId = $this->_producthelper->getCategoryProduct($product_id);
 			$res   = $this->_producthelper->getSection("category", $catId);
@@ -1871,9 +1876,6 @@ class rsCarthelper
 				$cart_mdata = str_replace("{download_date_list_lbl}", "", $cart_mdata);
 				$cart_mdata = str_replace("{download_date_list}", "", $cart_mdata);
 			}
-
-			// Process the product plugin for cart item
-			$dispatcher->trigger('onOrderItemDisplay', array(& $cart_mdata, &$rowitem, $i));
 
 			$cart .= $cart_mdata;
 		}
