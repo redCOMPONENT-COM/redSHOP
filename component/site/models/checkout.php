@@ -165,26 +165,30 @@ class RedshopModelCheckout extends RedshopModel
 		$shopId         = RedshopShippingRate::decrypt($shippingRateId);
 
 		// Determine shop_id value
-		switch ($shopId[0])
+		switch (strtolower($shopId[0]))
 		{
-			case 'PlgRedshop_ShippingPostdanmark':
+			// PostNord shipping
+			case 'plgredshop_shippingpostdanmark':
 				$shop_id = $shop_id['pacsoft'];
 				break;
-			default:
+			// GLS shipping
+			case 'plgredshop_shippingdefault_shipping_gls':
 				$shop_id = $shop_id['gls'];
 				if ($gls_mobile)
 				{
 					$shop_id .= '###' . $gls_mobile;
 				}
-
 				if ($gls_zipcode)
 				{
 					$shop_id .= '###' . $gls_zipcode;
 				}
 				break;
+			// Another shipping
+			default:
+				$shop_id = trim(array_shift($shop_id));
+				break;
 		}
 
-		echo $shop_id; exit();
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
