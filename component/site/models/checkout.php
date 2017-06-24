@@ -155,7 +155,7 @@ class RedshopModelCheckout extends RedshopModel
 		$customer_message = $input->get('rs_customer_message_ta');
 		$referral_code    = $input->get('txt_referral_code');
 		// Array of shop_id data
-		$shop_id     = $input->getString('shop_id');
+		$shop_id     = $input->getRaw('shop_id');
 		$gls_zipcode = $input->getString('gls_zipcode');
 		$gls_mobile  = $input->getString('gls_mobile');
 		// Array
@@ -184,6 +184,7 @@ class RedshopModelCheckout extends RedshopModel
 				break;
 		}
 
+		echo $shop_id; exit();
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
