@@ -166,7 +166,7 @@ class RedshopControllerCheckout extends RedshopController
 					$shopList[] = JHTML::_('select.option', $ShopRespons[$i]->shop_id, $ShopRespons[$i]->CompanyName . ", " . $ShopRespons[$i]->Streetname . ", " . $ShopRespons[$i]->ZipCode . ", " . $ShopRespons[$i]->CityName);
 				}
 
-				echo JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $ShopRespons[0]->shop_id);
+				echo JHTML::_('select.genericlist', $shopList, 'shop_id[gls]', 'class="inputbox" ', 'value', 'text', $ShopRespons[0]->shop_id);
 			}
 			else
 			{

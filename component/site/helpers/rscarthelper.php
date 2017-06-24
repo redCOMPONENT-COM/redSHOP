@@ -3375,10 +3375,11 @@ class rsCarthelper
 				}
 			}
 
+			// GLS layout
 			$output = RedshopLayoutHelper::render(
 						'order.glslocation',
 						array(
-							'shopList' => '<span id="rs_locationdropdown">' . JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selectedShopId, false, true) . '</span>',
+							'shopList' => '<span id="rs_locationdropdown">' . JHTML::_('select.genericlist', $shopList, 'shop_id[gls]', 'class="inputbox" ', 'value', 'text', $selectedShopId, false, true) . '</span>',
 							'zipcode'  => '<input type="text" id="gls_zipcode" name="gls_zipcode" value="' . $values->zipcode . '"" onblur="javascript:updateGLSLocation(this.value);"" />',
 							'phone'    => '<input type="text" id="gls_mobile" name="gls_mobile"  value="' . $values->phone . '" />'
 						)
