@@ -185,7 +185,14 @@ class RedshopModelCheckout extends RedshopModel
 				break;
 			// Another shipping
 			default:
-				$shop_id = trim(array_shift($shop_id));
+				if (is_array($shop_id))
+				{
+					$shop_id = trim(array_shift($shop_id));
+				}
+				else
+				{
+					$shop_id = trim($shop_id);
+				}
 				break;
 		}
 
