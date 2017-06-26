@@ -1760,8 +1760,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('id', 'value'))
-			->select($db->qn('name', 'text'))
+			->select($db->qn('c.id', 'value'))
+			->select($db->qn('c.name', 'text'))
 			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
 			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
 			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $this->id));
