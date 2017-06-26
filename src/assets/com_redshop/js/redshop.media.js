@@ -477,7 +477,7 @@
 
             self.$alertModal.find('.alert-text').text(text);
             self.$alertModal.modal('show');
-            $('#toolbar-apply button, #toolbar-save button, #toolbar-save-new button, #toolbar-save-copy button').attr("disabled", true);
+            $('#toolbar-apply button, #toolbar-save button, #toolbar-save-new button, #toolbar-save-copy button').attr("disabled", false);
         },
         /**
          * Transform cropper dataURI output to a Blob which Dropzone accepts
