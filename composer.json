@@ -10,7 +10,7 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "1.*",
         "codeception/codeception": "~2.2",
-        "joomla-projects/joomla-browser": "v3.6.0.1",
+        "joomla-projects/joomla-browser": "v3.6.5.1",
         "codegyre/robo": "~0.5",
         "redcomponent/robo": "dev-master",
         "fzaninotto/faker": "^1.5",
