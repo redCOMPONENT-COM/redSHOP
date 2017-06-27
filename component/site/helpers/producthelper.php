@@ -6777,64 +6777,22 @@ class productHelper
 			$parent_section_id
 		);
 
-		if (count($ItemAttdata) > 0)
-		{
-			for ($i = 0, $in = count($ItemAttdata); $i < $in; $i++)
-			{
-				$displayattribute .= "<div class='checkout_attribute_title'>"
-					. urldecode($ItemAttdata[$i]->section_name) . "</div>";
-				$propdata = $quotationHelper->getQuotationItemAttributeDetail(
-					$quotation_item_id,
-					$is_accessory,
-					"property",
-					$ItemAttdata[$i]->section_id
-				);
-
-				for ($p = 0, $pn = count($propdata); $p < $pn; $p++)
-				{
-					$displayattribute .= "<div class='checkout_attribute_price'>"
-						. urldecode($propdata[$p]->section_name) . " ";
-
-					if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1))
-					{
-						$propertyOprand       = $propdata[$p]->section_oprand;
-						$propertyPrice        = $this->getProductFormattedPrice($propdata[$p]->section_price);
-						$propertyPriceWithVat = $this->getProductFormattedPrice($propdata[$p]->section_price + $propdata[$p]->section_vat);
-
-						$displayattribute .= "( $propertyOprand $propertyPrice excl. vat / $propertyPriceWithVat)";
-					}
-
-					$displayattribute .= "</div>";
-					$subpropdata = $quotationHelper->getQuotationItemAttributeDetail(
-						$quotation_item_id,
-						$is_accessory,
-						"subproperty",
-						$propdata[$p]->section_id
-					);
-
-					for ($sp = 0; $sp < count($subpropdata); $sp++)
-					{
-						$displayattribute .= "<div class='checkout_subattribute_price'>"
-							. urldecode($subpropdata[$sp]->section_name) . " ";
-
-						if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1))
-						{
-							$subpropertyOprand       = $subpropdata[$sp]->section_oprand;
-							$subpropertyPrice        = $this->getProductFormattedPrice($subpropdata[$sp]->section_price);
-							$subpropertyPriceWithVat = $this->getProductFormattedPrice($subpropdata[$sp]->section_price + $subpropdata[$sp]->section_vat);
-
-							$displayattribute .= "( $subpropertyOprand $subpropertyPrice excl. vat $subpropertyPriceWithVat)";
-						}
-
-						$displayattribute .= "</div>";
-					}
-				}
-			}
-		}
-		else
-		{
-			$displayattribute = $product_attribute;
-		}
+		$displayattribute = RedshopLayoutHelper::render(
+			'product.quotation_attribute',
+			array(
+					'itemAttdata'     => $ItemAttdata,
+					'quotationItemId' => $quotation_item_id,
+					'isAccessory'     => $is_accessory,
+					'quotationStatus' => $quotation_status,
+					'parentSectionId' => $parent_section_id,
+					'stock'           => $stock
+				),
+			'',
+			array(
+					'client'    => 0,
+					'component' => 'com_redshop'
+				)
+		);
 
 		return $displayattribute;
 	}
