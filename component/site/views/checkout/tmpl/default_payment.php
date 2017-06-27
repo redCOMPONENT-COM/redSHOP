@@ -30,7 +30,7 @@ else
 $billingaddresses = $model->billingaddresses();
 $is_company       = $billingaddresses->is_company;
 
-$eanNumber 	  = (int) $billingaddresses->ean_number;
+$eanNumber = (int) $billingaddresses->ean_number;
 
 $template_desc = $carthelper->replacePaymentTemplate($template_desc, $this->element, $is_company, $eanNumber);
 

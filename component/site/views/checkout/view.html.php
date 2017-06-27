@@ -9,42 +9,43 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopViewCheckout extends RedshopView
 {
+	/**
+	 * @param   string  $tpl  Template layout
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-		$model     = $this->getModel('checkout');
-		$Itemid    = JRequest::getInt('Itemid');
+		$app       = JFactory::getApplication();
+		$input = JFactory::getApplication()->input;
 		$user      = JFactory::getUser();
+		$session   = JFactory::getSession();
+		$language = JFactory::getLanguage();
+
+		$model     = $this->getModel('checkout');
+
+		$itemId    = $input->getInt('Itemid');
+
 		$redhelper = redhelper::getInstance();
 		$field     = extraField::getInstance();
-		$session   = JFactory::getSession();
-
-		$language          = JFactory::getLanguage();
 
 		// Load payment languages
 		RedshopHelperPayment::loadLanguages();
 
 		// Load Shipping language file
+		// @TODO Move ot helper like payment
 		$shippingPlugins = RedshopHelperUtility::getPlugins("redshop_shipping", 1);
-		$base_dir        = JPATH_ADMINISTRATOR;
+		$baseDir        = JPATH_ADMINISTRATOR;
 
 		for ($l = 0, $ln = count($shippingPlugins); $l < $ln; $l++)
 		{
 			$extension = 'plg_redshop_shipping_' . $shippingPlugins[$l]->element;
-			$language->load($extension, $base_dir);
+			$language->load($extension, $baseDir);
 		}
-
-		JHtml::script('system/validate.js', true, false);
-		JHtml::_('redshopjquery.framework');
-		JHtml::script('com_redshop/jquery.validate.js', false, true);
-		JHtml::script('com_redshop/common.js', false, true);
-		JHtml::script('com_redshop/jquery.metadata.js', false, true);
-		JHtml::script('com_redshop/registration.js', false, true);
-		JHtml::stylesheet('com_redshop/validation.css', array(), true);
-		JHtml::script('com_redshop/redbox.js', false, true);
 
 		JPluginHelper::importPlugin('redshop_vies_registration');
 
@@ -60,15 +61,12 @@ class RedshopViewCheckout extends RedshopView
 
 		if ($cart['idx'] < 1)
 		{
-			$msg  = JText::_('COM_REDSHOP_EMPTY_CART');
-			$link = 'index.php?option=com_redshop&Itemid=' . $Itemid;
-			$app->redirect(JRoute::_($link), $msg);
+			$link = 'index.php?option=com_redshop&Itemid=' . $itemId;
+			$app->redirect(JRoute::_($link), JText::_('COM_REDSHOP_EMPTY_CART'));
 		}
 
 		$lists = array();
-
-		$jInput = $app->input;
-		$isCompany = $jInput->getInt('is_company', 0);
+		$isCompany = $input->getInt('is_company', 0);
 
 		// Toggler settings
 		$openToStretcher = 0;
@@ -80,17 +78,17 @@ class RedshopViewCheckout extends RedshopView
 
 		// Allow registration type settings
 		$lists['allowCustomer'] = "";
-		$lists['allowCompany'] = "";
+		$lists['allowCompany']  = "";
 
 		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
 		{
 			$lists['allowCompany'] = "style='display:none;'";
-			$openToStretcher = 0;
+			$openToStretcher       = 0;
 		}
 		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$lists['allowCustomer'] = "style='display:none;'";
-			$openToStretcher = 1;
+			$openToStretcher        = 1;
 		}
 
 		$lists['is_company'] = ($openToStretcher == 1 || ($isCompany == 1)) ? 1 : 0;
@@ -101,10 +99,10 @@ class RedshopViewCheckout extends RedshopView
 
 			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == 1 && !array_key_exists("quotation_id", $cart))
 			{
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $itemId));
 			}
 
-			$users_info_id     = JRequest::getInt('users_info_id');
+			$users_info_id     = $input->getInt('users_info_id');
 			$billingaddresses  = $model->billingaddresses();
 			$shippingaddresses = $model->shippingaddresses();
 
@@ -120,13 +118,13 @@ class RedshopViewCheckout extends RedshopView
 				}
 				else
 				{
-					$app->redirect(JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid));
+					$app->redirect(JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $itemId));
 				}
 			}
 
-			$shipping_rate_id = JRequest::getInt('shipping_rate_id');
-			$element          = JRequest::getCmd('payment_method_id');
-			$ccinfo           = JRequest::getInt('ccinfo');
+			$shipping_rate_id = $input->getInt('shipping_rate_id');
+			$element          = $input->getCmd('payment_method_id');
+			$ccinfo           = $input->getInt('ccinfo');
 
 			if (!isset($cart['voucher_discount']))
 			{
@@ -151,12 +149,12 @@ class RedshopViewCheckout extends RedshopView
 			$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 			$subtotal       = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
 
-			$this->users_info_id = $users_info_id;
+			$this->users_info_id    = $users_info_id;
 			$this->shipping_rate_id = $shipping_rate_id;
-			$this->element = $element;
-			$this->ccinfo = $ccinfo;
-			$this->order_subtotal = $subtotal;
-			$this->ordertotal = $cart['total'];
+			$this->element          = $element;
+			$this->ccinfo           = $ccinfo;
+			$this->order_subtotal   = $subtotal;
+			$this->ordertotal       = $cart['total'];
 		}
 		else
 		{

@@ -46,8 +46,6 @@ $months[] = JHtml::_('select.option', '10', 10);
 $months[] = JHtml::_('select.option', '11', 11);
 $months[] = JHtml::_('select.option', '12', 12);
 
-?>
-<?php
 JPluginHelper::importPlugin('redshop_payment');
 RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selectable' => true));
 ?>
@@ -62,7 +60,10 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
 				<?php
 				$cardTypes  = array();
 				$creditCard = $pluginParams->get("accepted_credict_card", array());
-
+				if (!is_array($creditCard))
+				{
+					$creditCard = explode(',', $creditCard);
+				}
 				for ($ic = 0, $nic = count($creditCard); $ic < $nic; $ic++)
 				{
 					$url         = REDSHOP_FRONT_IMAGES_ABSPATH . 'checkout/' . $creditCardList[$creditCard[$ic]]->img;
@@ -79,7 +80,7 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
 				<?php echo JText::_('COM_REDSHOP_NAME_ON_CARD'); ?>
             </label>
             <div class="controls">
-				<?php $orderPaymentName = (!empty($creditCardData['order_payment_name'])) ? $creditCardData['order_payment_name'] : ""; ?>
+				<?php $orderPaymentName = (!empty($creditCardData['order_payment_name'])) ? $creditCardData['order_payment_name'] : JFactory::getUser()->name; ?>
                 <input
                         class="input-medium"
                         type="text"
@@ -96,9 +97,7 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
 				<?php echo JText::_('COM_REDSHOP_CARD_NUM'); ?>
             </label>
             <div class="controls">
-				<?php
-				$orderPaymentNumber = (!empty($creditCardData['order_payment_number'])) ? $creditCardData['order_payment_number'] : "";
-				?>
+				<?php $orderPaymentNumber = (!empty($creditCardData['order_payment_number'])) ? $creditCardData['order_payment_number'] : ""; ?>
                 <input
                         class="input-medium"
                         type="text"
@@ -111,7 +110,8 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="order_payment_expire_month"><?php echo JText::_('COM_REDSHOP_EXPIRY_DATE'); ?></label>
+            <label class="control-label"
+                   for="order_payment_expire_month"><?php echo JText::_('COM_REDSHOP_EXPIRY_DATE'); ?></label>
             <div class="controls">
 				<?php
 				echo JHtml::_(
