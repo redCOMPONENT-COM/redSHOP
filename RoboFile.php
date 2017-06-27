@@ -274,6 +274,7 @@ class RoboFile extends \Robo\Tasks
 		$this->runSelenium();
 
 		$this->taskSeleniumStandaloneServer()
+			->runSelenium()
 			->waitForSelenium();
 
 		// Make sure to Run the B uild Command to Generate AcceptanceTester
