@@ -173,9 +173,8 @@ class RoboFile extends \Robo\Tasks
 		{
 			$this->runSelenium();
 
-			$this->taskWaitForSeleniumStandaloneServer()
-				->run()
-				->stopOnFail();
+			$this->taskSeleniumStandaloneServer()
+				->waitForSelenium();
 		}
 
 		// Make sure to Run the Build Command to Generate AcceptanceTester
@@ -274,11 +273,10 @@ class RoboFile extends \Robo\Tasks
 
 		$this->runSelenium();
 
-		$this->taskWaitForSeleniumStandaloneServer()
-			->run()
-			->stopOnFail();
+		$this->taskSeleniumStandaloneServer()
+			->waitForSelenium();
 
-		// Make sure to Run the Build Command to Generate AcceptanceTester
+		// Make sure to Run the B uild Command to Generate AcceptanceTester
 		$this->_exec("vendor/bin/codecept build");
 
 		$this->taskCodecept()
