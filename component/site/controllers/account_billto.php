@@ -67,7 +67,7 @@ class RedshopControllerAccount_billto extends RedshopController
 		$post    = JRequest::get('post');
 		$return  = $input->getString('return', '');
 		$itemId  = $input->getInt('Itemid', 0);
-		$setExit = $input->getInt('Itemid', 1);
+		$setExit = $input->getInt('setexit', 1);
 
 		$post['users_info_id'] = JRequest::getInt('cid');
 		$post['id']            = $post['user_id'];
