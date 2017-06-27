@@ -17,7 +17,7 @@ require_once 'vendor/autoload.php';
 class RoboFile extends \Robo\Tasks
 {
 	// Load tasks from composer, see composer.json
-	use \redcomponent\robo\loadTasks;
+	use Joomla\Testing\Robo\Tasks\loadTasks;
 
 	/**
 	 * File extension for executables
@@ -53,20 +53,20 @@ class RoboFile extends \Robo\Tasks
 		date_default_timezone_set('UTC');
 	}
 
-	/**
-	 * Hello World example task.
-	 *
-	 * @see  https://github.com/redCOMPONENT-COM/robo/blob/master/src/HelloWorld.php
-	 * @link https://packagist.org/packages/redcomponent/robo
-	 *
-	 * @return object Result
-	 */
-	public function sayHelloWorld()
-	{
-		$result = $this->taskHelloWorld()->run();
-
-		return $result;
-	}
+//	/**
+//	 * Hello World example task.
+//	 *
+//	 * @see  https://github.com/redCOMPONENT-COM/robo/blob/master/src/HelloWorld.php
+//	 * @link https://packagist.org/packages/redcomponent/robo
+//	 *
+//	 * @return object Result
+//	 */
+//	public function sayHelloWorld()
+//	{
+//		$result = $this->taskHelloWorld()->run();
+//
+//		return $result;
+//	}
 
 	/**
 	 * Sends Codeception errors to Slack
