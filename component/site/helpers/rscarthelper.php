@@ -1152,9 +1152,6 @@ class rsCarthelper
 					$cart_mdata = str_replace("{product_total_price_excl_vat}", "", $cart_mdata);
 				}
 
-				// $cart[$i]['product_price_excl_vat'] = $product_price_excl_vat;
-				$this->_session->set('cart', $cart);
-
 				if ($product->product_type == 'subscription')
 				{
 					$subscription_detail   = $this->_producthelper->getProductSubscriptionDetail($product->product_id, $cart[$i]['subscription_id']);
@@ -3223,50 +3220,45 @@ class rsCarthelper
 
 	public function getGLSLocation($users_info_id, $classname, $shop_id = 0)
 	{
-		$output           = '';
-		$shippingGLS      = $this->_order_functions->getparameters('default_shipping_gls');
+		$output         = '';
 		$selectedShopId = null;
 
-		if (count($shippingGLS) > 0 && $shippingGLS[0]->enabled && $classname == 'default_shipping_gls')
+		JPluginHelper::importPlugin('redshop_shipping');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$values     = RedshopHelperUser::getUserInformation(0, '', $users_info_id, false);
+
+		if ($shop_id)
 		{
-			JPluginHelper::importPlugin('redshop_shipping');
-			$dispatcher = RedshopHelperUtility::getDispatcher();
-			$values     = RedshopHelperUser::getUserInformation(0, '', $users_info_id, false);
+			$shopOrderdetail = explode("###", $shop_id);
 
-			if ($shop_id)
+			// zipcode
+			if (isset($shopOrderdetail[2]) && !empty($shopOrderdetail[2]))
 			{
-				$shopOrderdetail = explode("###", $shop_id);
-
-				// zipcode
-				if (isset($shopOrderdetail[2]) && !empty($shopOrderdetail[2]))
-				{
-					$values->zipcode = $shopOrderdetail[2];
-				}
-
-				// phone
-				if (isset($shopOrderdetail[1]) && !empty($shopOrderdetail[1]))
-				{
-					$values->phone = $shopOrderdetail[1];
-				}
+				$values->zipcode = $shopOrderdetail[2];
 			}
 
-			$shopList   = array();
-			$response   = $dispatcher->trigger('GetNearstParcelShops', array($values));
-
-			if($response && isset($response[0]) && is_array($response[0]))
+			// phone
+			if (isset($shopOrderdetail[1]) && !empty($shopOrderdetail[1]))
 			{
-				$shopResponses = $response[0];
-
-				foreach ($shopResponses as $shopResponse)
-				{
-					$shopList[] = JHTML::_(
-						'select.option',
-						$shopResponse->shop_id,
-						$shopResponse->CompanyName . ', ' . $shopResponse->Streetname . ', ' . $shopResponse->ZipCode . ', ' . $shopResponse->CityName
-					);
-				}
+				$values->phone = $shopOrderdetail[1];
 			}
+		}
 
+		$shopList   = array();
+		$response   = $dispatcher->trigger('GetNearstParcelShops', array($values));
+
+		if($response && isset($response[0]) && is_array($response[0]))
+		{
+			$shopResponses = $response[0];
+
+			foreach ($shopResponses as $shopResponse)
+			{
+				$shopList[] = JHTML::_(
+					'select.option',
+					$shopResponse->shop_id,
+					$shopResponse->CompanyName . ', ' . $shopResponse->Streetname . ', ' . $shopResponse->ZipCode . ', ' . $shopResponse->CityName
+				);
+			}
 
 			// Get selected shop id
 			if ($shop_id && (isset($shopResponses) && count($shopResponses) > 0))
@@ -3282,16 +3274,16 @@ class rsCarthelper
 					}
 				}
 			}
-
-			$output = RedshopLayoutHelper::render(
-						'order.glslocation',
-						array(
-							'shopList' => '<span id="rs_locationdropdown">' . JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selectedShopId, false, true) . '</span>',
-							'zipcode'  => '<input type="text" id="gls_zipcode" name="gls_zipcode" value="' . $values->zipcode . '"" onblur="javascript:updateGLSLocation(this.value);"" />',
-							'phone'    => '<input type="text" id="gls_mobile" name="gls_mobile"  value="' . $values->phone . '" />'
-						)
-					);
 		}
+
+		$output = RedshopLayoutHelper::render(
+			'order.glslocation',
+			array(
+				'shopList' => '<span id="rs_locationdropdown">' . JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selectedShopId, false, true) . '</span>',
+				'zipcode'  => '<input type="text" id="gls_zipcode" name="gls_zipcode" value="' . $values->zipcode . '"" onblur="javascript:updateGLSLocation(this.value);"" />',
+				'phone'    => '<input type="text" id="gls_mobile" name="gls_mobile"  value="' . $values->phone . '" />'
+			)
+		);
 
 		return $output;
 	}
@@ -3379,15 +3371,12 @@ class rsCarthelper
 									$shipping_rate_id = $rate[$i]->value;
 								}
 
-								if ($classname == 'default_shipping_gls')
-								{
-									$glsLocation = $this->getGLSLocation($users_info_id, $classname);
-									$style       = ($checked != "checked") ? "style='display:none;'" : "style='display:block;'";
+								$glsLocation = $this->getGLSLocation($users_info_id, $classname);
 
-									if ($glsLocation)
-									{
-										$glsLocation = "<div $style id='rs_glslocationId'>" . $glsLocation . "</div>";
-									}
+								if ($glsLocation)
+								{
+									$style       = ($checked != "checked") ? "style='display:none;'" : "style='display:block;'";
+									$glsLocation = "<div $style id='rs_glslocationId'>" . $glsLocation . "</div>";
 								}
 
 								$shipping_rate_name = '<label class="radio inline" for="shipping_rate_id_' . $shippingmethod[$s]->extension_id . '_' . $i . '"><input type="radio" id="shipping_rate_id_'
