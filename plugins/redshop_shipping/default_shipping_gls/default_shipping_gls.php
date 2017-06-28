@@ -41,6 +41,78 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		$this->onlabels_GLSConnection();
 	}
 
+	public function getGLSLocation($usersInfoId, $className, $shopId = 0)
+	{
+		$output         = '';
+		$shippingGLS    = order_functions::getInstance()->getparameters('default_shipping_gls');
+		$selectedShopId = null;
+
+		if (count($shippingGLS) > 0 && $shippingGLS[0]->enabled && $className == 'default_shipping_gls')
+		{
+			$values     = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
+
+			if ($shopId)
+			{
+				$shopOrderdetail = explode("###", $shopId);
+
+				// Zipcode
+				if (isset($shopOrderdetail[2]) && !empty($shopOrderdetail[2]))
+				{
+					$values->zipcode = $shopOrderdetail[2];
+				}
+
+				// Phone
+				if (isset($shopOrderdetail[1]) && !empty($shopOrderdetail[1]))
+				{
+					$values->phone = $shopOrderdetail[1];
+				}
+			}
+
+			$shopList      = array();
+			$shopResponses = $this->GetNearstParcelShops($values);
+
+			if (!empty($shopResponses))
+			{
+				foreach ($shopResponses as $shopResponse)
+				{
+					$shopList[] = JHTML::_(
+						'select.option',
+						$shopResponse->shop_id,
+						$shopResponse->CompanyName . ', ' . $shopResponse->Streetname . ', ' . $shopResponse->ZipCode . ', ' . $shopResponse->CityName
+					);
+				}
+			}
+
+
+			// Get selected shop id
+			if ($shopId && (isset($shopResponses) && count($shopResponses) > 0))
+			{
+				foreach ($shopResponses as $shopResponse)
+				{
+					$shopDetail = explode("|", $shopId);
+
+					if ($shopDetail[0] == $shopResponse->Number)
+					{
+						$selectedShopId = $shopResponse->shop_id;
+						break;
+					}
+				}
+			}
+
+			$output = RedshopLayoutHelper::render(
+				'glslocation',
+				array(
+					'values' => $values,
+					'selectedShopId' => $selectedShopId,
+					'shopList' => $shopList
+				),
+				JPATH_PLUGINS . '/redshop_shipping/default_shipping_gls/layouts'
+			);
+		}
+
+		return $output;
+	}
+
 	public function onlabels_GLSConnection()
 	{
 		$url = 'http://www.gls.dk/webservices_v4/wsShopFinder.asmx?WSDL';
@@ -216,5 +288,25 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		}
 
 		return $shippingrate;
+	}
+
+	public function onReplaceShippingTemplate($data, &$template, $className, $checked)
+	{
+		if ($className != "default_shipping_gls")
+		{
+			return;
+		}
+
+		$glsLocation = $this->getGLSLocation($data['users_info_id'], $className);
+		$style       = $checked != "checked" ? "style='display:none;'" : "style='display:block;'";
+
+		if ($glsLocation)
+		{
+			$glsLocation = "<div " . $style . " id='rs_glslocationId'>" . $glsLocation . "</div>";
+		}
+
+		$template = str_replace("{gls_shipping_location}", $glsLocation, $template);
+
+		return;
 	}
 }
