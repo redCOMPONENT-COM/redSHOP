@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class PlgRedshop_ProductGls extends JPlugin
 {
 	/**
-	 * Method will trigger on After redSHOP Order Place to update PostDanmark shipping info
+	 * Method will trigger on After redSHOP Order Place to update GLS shipping info
 	 *
 	 * @param   array   $cart         Cart information Array
 	 * @param   object  $orderResult  Order information Object
