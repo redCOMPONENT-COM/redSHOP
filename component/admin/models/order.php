@@ -271,6 +271,7 @@ class RedshopModelOrder extends RedshopModel
 
 				$row = array(
 					$ordersInfo[$i]->order_number,
+					$billingDetails->firstname . ' ' . $billingDetails->lastname,
 					$shopDetails_arr[1],
 					$shopDetails_arr[2],
 					'Pakkeshop: '	. $shopDetails_arr[0],
