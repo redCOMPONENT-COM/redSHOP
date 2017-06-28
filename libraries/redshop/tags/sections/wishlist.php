@@ -46,8 +46,6 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 		$user      = JFactory::getUser();
 		$link      = '';
 
-		JHtml::script('com_redshop/redshop.wishlist.js', false, true, false, false);
-
 		if (!$user->guest)
 		{
 			$link = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=wishlist&task=addtowishlist&tmpl=component';
@@ -62,16 +60,16 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 
 		$wishListButton = RedshopLayoutHelper::render(
 			'tags.product.wishlist_button',
-				array(
-					'link'      => $link,
-					'productId' => $productId,
-					'formId'    => $formId
-				),
-				'',
-				array(
-					'component' => 'com_redshop'
-				)
-			);
+			array(
+				'link'      => $link,
+				'productId' => $productId,
+				'formId'    => $formId
+			),
+			'',
+			array(
+				'component' => 'com_redshop'
+			)
+		);
 
 		$wishListLink = RedshopLayoutHelper::render(
 			'tags.product.wishlist_link',
