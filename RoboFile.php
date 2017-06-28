@@ -271,11 +271,14 @@ class RoboFile extends \Robo\Tasks
 
 		$this->taskComposerInstall()->run();
 
-		$this->runSelenium();
+//		$this->runSelenium();
 
 		$this->taskSeleniumStandaloneServer()
+			->setURL("http://localhost:4444")
 			->runSelenium()
-			->waitForSelenium();
+			->waitForSelenium()
+			->run()
+			->stopOnFail();
 
 		// Make sure to Run the B uild Command to Generate AcceptanceTester
 		$this->_exec("vendor/bin/codecept build");
