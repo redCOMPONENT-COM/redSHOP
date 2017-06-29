@@ -194,7 +194,7 @@ class PlgRedshop_ExportField extends AbstractExportPlugin
 	protected function getHeader()
 	{
 		return array(
-			'id', 'title', 'name_field', 'type', 'desc', 'class', 'field_section','maxlength', 'cols',
+			'id', 'title', 'name_field', 'type', 'desc', 'class', 'field_section', 'maxlength', 'cols',
 			'rows', 'size', 'show_in_front', 'required', 'published', 'data_id', 'data_txt', 'itemid', 'section', 'value_id',
 			'field_value', 'field_name', 'data_number'
 		);

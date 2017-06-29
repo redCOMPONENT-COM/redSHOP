@@ -34,8 +34,7 @@ $ownercty       = $data['billinginfo']->city;
 if ($this->params->get("is_test") == '1')
 {
 	$postfinanceurl = "https://e-payment.postfinance.ch/ncol/test/orderstandard.asp";
-}
-else
+} else
 {
 	$postfinanceurl = "https://e-payment.postfinance.ch/ncol/prod/orderstandard.asp";
 }

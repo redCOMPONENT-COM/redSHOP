@@ -281,7 +281,7 @@ $url    = $uri->root();
 </form>
 <script type="text/javascript">
     function jimage_insert(main_path) {
-        var path_url = "<?php echo $url;?>";
+        var path_url = "<?php echo $url; ?>";
         if (main_path) {
             document.getElementById("image_display").style.display = "block";
             document.getElementById("shopper_group_logo_tmp").value = main_path;

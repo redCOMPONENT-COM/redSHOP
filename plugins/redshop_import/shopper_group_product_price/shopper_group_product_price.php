@@ -162,8 +162,7 @@ class PlgRedshop_ImportShopper_group_product_price extends AbstractImportPlugin
 		try
 		{
 			$shopperGroupId = $db->loadResult();
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}

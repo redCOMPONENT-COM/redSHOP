@@ -45,8 +45,8 @@ if ($this->params->get('show_page_heading', 1))
 <form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data"><!-- id="billinfo_adminForm" -->
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_REDSHOP_CUSTOMER_INFORMATION');?></legend>
-		<?php        echo $userhelper->getBillingTable($post, $this->billingaddresses->is_company, $this->lists, 0, 0, $create_account);    ?>
+		<legend><?php echo JText::_('COM_REDSHOP_CUSTOMER_INFORMATION'); ?></legend>
+		<?php        echo $userhelper->getBillingTable($post, $this->billingaddresses->is_company, $this->lists, 0, 0, $create_account); ?>
 		<table cellspacing="3" cellpadding="0" border="0" width="100%">
 			<tr>
 				<td align="right"><input type="button" class="button btn" name="back"

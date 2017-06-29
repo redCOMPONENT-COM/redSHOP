@@ -15,14 +15,14 @@ $addlink = JRoute::_('index.php?option=com_redshop&view=user_detail&task=edit&sh
 <div id="editcell">
 
 	<div align="right"><a href="<?php echo $addlink; ?>" class="btn btn-success"
-	                      style="text-decoration: none;"><?php echo JText::_('COM_REDSHOP_ADD');?></a></div>
+	                      style="text-decoration: none;"><?php echo JText::_('COM_REDSHOP_ADD'); ?></a></div>
 	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
-			<th class="title"><?php echo JText::_('COM_REDSHOP_FIRST_NAME');?></th>
-			<th><?php echo JText::_('COM_REDSHOP_LAST_NAME');?></th>
-			<th><?php echo JText::_('COM_REDSHOP_ID');?></th>
-			<th><?php echo JText::_('COM_REDSHOP_DELETE');?></th>
+			<th class="title"><?php echo JText::_('COM_REDSHOP_FIRST_NAME'); ?></th>
+			<th><?php echo JText::_('COM_REDSHOP_LAST_NAME'); ?></th>
+			<th><?php echo JText::_('COM_REDSHOP_ID'); ?></th>
+			<th><?php echo JText::_('COM_REDSHOP_DELETE'); ?></th>
 		</tr>
 		</thead>
 		<?php
@@ -31,15 +31,15 @@ $addlink = JRoute::_('index.php?option=com_redshop&view=user_detail&task=edit&sh
 		{
 			$row = $shipping_data[$j];
 			$link = JRoute::_('index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id);
-			$link_delete = JRoute::_('index.php?option=com_redshop&view=user_detail&task=remove&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id);    ?>
+			$link_delete = JRoute::_('index.php?option=com_redshop&view=user_detail&task=remove&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id); ?>
 			<tr class="<?php echo "row$x"; ?>">
 				<td align="center"><a href="<?php echo $link; ?>"
-				                      title="<?php echo JText::_('COM_REDSHOP_EDIT_USER'); ?>"><?php echo $row->firstname;?></a>
+				                      title="<?php echo JText::_('COM_REDSHOP_EDIT_USER'); ?>"><?php echo $row->firstname; ?></a>
 				</td>
-				<td align="center"><?php echo $row->lastname;?></td>
-				<td align="center"><?php echo $row->users_info_id;?></td>
+				<td align="center"><?php echo $row->lastname; ?></td>
+				<td align="center"><?php echo $row->users_info_id; ?></td>
 				<td align="center"><a href="<?php echo $link_delete; ?>"
-				                      title="<?php echo JText::_('COM_REDSHOP_DELETE_SHIPPING_DETAIL'); ?>"><?php echo JText::_('COM_REDSHOP_DELETE');?></a>
+				                      title="<?php echo JText::_('COM_REDSHOP_DELETE_SHIPPING_DETAIL'); ?>"><?php echo JText::_('COM_REDSHOP_DELETE'); ?></a>
 				</td>
 			</tr>
 			<?php

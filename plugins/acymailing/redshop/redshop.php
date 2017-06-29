@@ -15,7 +15,7 @@ class plgAcymailingRedshop extends JPlugin
 {
 	public function plgAcymailingRedshop(&$subject, $config)
 	{
-		$lang  = JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$lang->load('plg_acymailing_redshop', JPATH_ADMINISTRATOR);
 
 		parent::__construct($subject, $config);
@@ -253,16 +253,13 @@ class plgAcymailingRedshop extends JPlugin
 				$cart_tag     = "{form_addtocart:" . $cart_tag_arr[0] . "}";
 				$text         = str_replace($cart_tag, "", $text);
 			}
-		}
-		elseif (strpos($tag, 'name:') !== false)
+		} elseif (strpos($tag, 'name:') !== false)
 		{
 			return $product->product_name;
-		}
-		elseif (strpos($tag, 'price:') !== false)
+		} elseif (strpos($tag, 'price:') !== false)
 		{
 			return $price;
-		}
-		elseif (strpos($tag, 'image:') !== false)
+		} elseif (strpos($tag, 'image:') !== false)
 		{
 			return $productImage;
 		}

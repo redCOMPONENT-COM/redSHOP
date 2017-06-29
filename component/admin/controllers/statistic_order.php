@@ -92,8 +92,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 			if (empty($details))
 			{
 				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
-			}
-			else
+			} else
 			{
 				echo '';
 			}

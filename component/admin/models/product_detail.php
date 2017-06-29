@@ -80,8 +80,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			{
 				$this->_initData();
 			}
-		}
-		else
+		} else
 		{
 			$this->_initData();
 		}
@@ -117,8 +116,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			try
 			{
 				$this->data = $db->loadObject();
-			}
-			catch (RuntimeException $e)
+			} catch (RuntimeException $e)
 			{
 				throw new RuntimeException($e->getMessage(), $e->getCode());
 			}
@@ -204,11 +202,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$detail->preorder                   = (isset($data['preorder'])) ? $data['preorder'] : 'global';
 		$detail->minimum_per_product_total  = (isset($data['minimum_per_product_total'])) ? $data['minimum_per_product_total'] : 0;
 		$detail->attribute_set_id           = (isset($data['attribute_set_id'])) ? $data['attribute_set_id'] : 0;
-		$detail->append_to_global_seo		= ((isset($data['append_to_global_seo']))
+		$detail->append_to_global_seo = ((isset($data['append_to_global_seo']))
 												? $data['append_to_global_seo'] : JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO'));
-		$detail->allow_decimal_piece		= (isset($data['allow_decimal_piece'])) ? $data['allow_decimal_piece'] : 0;
+		$detail->allow_decimal_piece = (isset($data['allow_decimal_piece'])) ? $data['allow_decimal_piece'] : 0;
 
-		$this->data                         = $detail;
+		$this->data = $detail;
 
 		return (boolean) $this->data;
 	}
@@ -323,8 +321,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			{
 				unlink($unlink_path);
 			}
-		}
-		elseif ($file['name'] != "")
+		} elseif ($file['name'] != "")
 		{
 			$filename = RedShopHelperImages::cleanFileName($file['name'], $row->product_id);
 			$row->product_full_image = $filename;
@@ -334,8 +331,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
 
 			JFile::upload($src, $dest);
-		}
-		elseif ($data['product_full_image'] != null)
+		} elseif ($data['product_full_image'] != null)
 		{
 			$image_split = explode('/', $data['product_full_image']);
 			$image_name = $image_split[count($image_split) - 1];
@@ -344,8 +340,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (strlen($image_name[0]) == 10 && preg_match("/^(\d+)/", $image_name[0]))
 			{
 				$new_image_name = $image_name[1];
-			}
-			else
+			} else
 			{
 				$new_image_name = $image_split[count($image_split) - 1];
 			}
@@ -542,8 +537,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$data['product_id'])
 		{
 			$prodid = $row->product_id;
-		}
-		else
+		} else
 		{
 			$prodid = $data['product_id'];
 			$cids = implode(",", $data['product_category']);
@@ -582,8 +576,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (array_key_exists($cat, $catorder))
 			{
 				$ordering = $catorder [$cat];
-			}
-			else
+			} else
 			{
 				$queryorder = "SELECT max(ordering)  FROM " . $this->table_prefix . "product_category_xref WHERE  category_id ='" . $cat . "' ";
 				$this->_db->setQuery($queryorder);
@@ -657,8 +650,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				if (!$this->_db->execute())
 				{
 					return false;
-				}
-				else
+				} else
 				{
 					if ($data['quantity'][$i] != "" || !Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 					{
@@ -719,7 +711,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (isset($data['related_product']) && ($relatedProducts = explode(',', $data['related_product'])))
 		{
-			foreach ($relatedProducts as $related_data )
+			foreach ($relatedProducts as $related_data)
 			{
 				$ordering_related++;
 				$related_id = $related_data;
@@ -766,13 +758,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 				if ($data['discount_calc_method'] == 'volume')
 				{
 					$calcunit = pow($unit, 3);
-				}
-
-				elseif ($data['discount_calc_method'] == 'area')
+				} elseif ($data['discount_calc_method'] == 'area')
 				{
 					$calcunit = pow($unit, 2);
-				}
-				else
+				} else
 				{
 					$calcunit = $unit;
 				}
@@ -799,8 +788,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 						return false;
 					}
-				}
-				else
+				} else
 				{
 					$calc_error = 1;
 					$err_msg = $calcrow->_error;
@@ -859,8 +847,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['subscription_id']) && is_array($data['subscription_id']))
 		{
 			$sub_cond = " AND subscription_id NOT IN(" . implode(",", $data['subscription_id']) . ")";
-		}
-		else
+		} else
 		{
 			$sub_cond = "";
 		}
@@ -945,13 +932,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 					}
 
 					fclose($handle);
-				}
-				else
+				} else
 				{
 					$this->app->enqueueMessage(JText::_("COM_REDSHOP_CSV_FILE_NOT_UPLOADED_TRY_AGAIN"), 'notice');
 				}
-			}
-			else
+			} else
 			{
 				$this->app->enqueueMessage(JText::_("COM_REDSHOP_ONLY_CSV_FILE_ALLOWED"), 'notice');
 
@@ -975,8 +960,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (count($mass_discount) > 0)
 		{
 			$p_price = ($mass_discount->discount_type == 1) ?
-						($row->product_price - ($row->product_price * $mass_discount->discount_amount / 100)) :
-						$mass_discount->discount_amount;
+						($row->product_price - ($row->product_price * $mass_discount->discount_amount / 100)) : $mass_discount->discount_amount;
 
 			$query = 'UPDATE ' . $this->table_prefix . 'product SET product_on_sale="1" '
 				. ', discount_price="' . $p_price . '" , discount_stratdate="' . $mass_discount->discount_startdate . '" '
@@ -1380,8 +1364,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$post['quantity'] = $copyquantity;
 				$post['stockroom_id'] = $copystockroom;
 				$post['product_accessory'] = $copyaccessory;
-			}
-			else
+			} else
 			{
 				$post = $this->input->getArray($_POST);
 				$this->_initData();
@@ -1544,8 +1527,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		{
 			$newImageName = strstr($imageName, '_') ? strstr($imageName, '_') : $imageName;
 			$newImageName = $imageName = RedShopHelperImages::cleanFileName($newImageName);
-		}
-		else
+		} else
 		{
 			$imageName = '';
 			$newImageName = null;
@@ -2054,8 +2036,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
-			}
-			else
+			} else
 			{
 				// Changed 5 feb
 				$query = 'DELETE FROM ' . $this->table_prefix . 'product_subattribute_color  WHERE subattribute_id IN (' . $cids . ' )';
@@ -2283,9 +2264,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg')
 			{
 				return false;
-			}
-
-			else
+			} else
 			{
 				$main_name = RedShopHelperImages::cleanFileName($main_img['name']);
 				$main_src = $main_img['tmp_name'];
@@ -2306,8 +2285,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 						return false;
 					}
-				}
-				else
+				} else
 				{
 					$main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $main_name;
 
@@ -2338,9 +2316,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg')
 				{
 					return false;
-				}
-
-				else
+				} else
 				{
 					$sub_name = RedShopHelperImages::cleanFileName($sub_img['name'][$i]);
 
@@ -2439,9 +2415,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg')
 				{
 					return false;
-				}
-
-				else
+				} else
 				{
 					$sub_name = RedShopHelperImages::cleanFileName($sub_img['name'][$i]);
 
@@ -2474,8 +2448,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$subpost['subattribute_id'] = $post['section_id'];
 					$this->store_sub($subpost);
 				}
-			}
-			else
+			} else
 			{
 				if ($post['property_sub_img_tmp'][$i] != "" && $sub_img['name'][$i] == "")
 				{
@@ -2703,8 +2676,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$id)
 		{
 			return array();
-		}
-		else
+		} else
 		{
 			$q = "SELECT tag_id
 				  FROM #__redproductfinder_association_tag
@@ -2750,8 +2722,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$row->store())
 		{
 			return false;
-		}
-		else
+		} else
 		{
 			// Delete all tag type relations.
 			$q = "DELETE FROM #__redproductfinder_association_tag
@@ -2773,8 +2744,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					if (empty($qs[$type_id . '.' . $tag_id]))
 					{
 						$qs_id = 0;
-					}
-					else
+					} else
 					{
 						$qs_id = $qs[$type_id . '.' . $tag_id];
 					}
@@ -2854,8 +2824,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$database->execute())
 			{
-			}
-			else
+			} else
 			{
 				/* Now remove the type associations */
 				$cids = 'association_id=' . implode(' OR association_id=', $asscid);
@@ -3011,8 +2980,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$database->execute())
 		{
 			return false;
-		}
-		else
+		} else
 		{
 			for ($i = 0; $i < count($post['quantity']); $i++)
 			{
@@ -3217,16 +3185,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 							  WHERE stockroom_id='" . $post['stockroom_id'][$i] . "' " . $product . $section;
 					$this->_db->setQuery($query);
 					$this->_db->execute();
-				}
-				else
+				} else
 				{
 					if (($preorder_stock < $ordered_preorder) && $preorder_stock != "" && $ordered_preorder != "")
 					{
 						$this->app->enqueueMessage(JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED'), 'notice');
 
 						return false;
-					}
-					else
+					} else
 					{
 						$query = "UPDATE " . $this->table_prefix . $table . "_stockroom_xref
 								  SET quantity='" . $quantity . "' , preorder_stock= '" . $preorder_stock . "'
@@ -3236,8 +3202,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						$stock_update = true;
 					}
 				}
-			}
-			else
+			} else
 			{
 				if ($preorder_stock < $ordered_preorder && $preorder_stock != "" && $ordered_preorder != "")
 				{
@@ -3245,8 +3210,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					JError::raiseWarning('', $msg);
 
 					return false;
-				}
-				else
+				} else
 				{
 					if (Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 					{
@@ -3260,8 +3224,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						);
 
 						$stock_update = true;
-					}
-					elseif ($preorder_stock != "" || $quantity != "")
+					} elseif ($preorder_stock != "" || $quantity != "")
 					{
 						$this->InsertStockroom(
 							$post['section_id'],
@@ -3530,8 +3493,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if ($only_used == true)
 		{
 			$usedCond = " AND is_used=1";
-		}
-		elseif ($only_used == false)
+		} elseif ($only_used == false)
 		{
 			$usedCond = " AND is_used=0";
 		}
@@ -4086,8 +4048,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 					$count++;
 				}
-			}
-			else
+			} else
 			{
 				$this->setError($table->getError());
 
@@ -4157,8 +4118,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if ($uid)
 			{
 				return ($this->data->checked_out && $this->data->checked_out != $uid);
-			}
-			else
+			} else
 			{
 				return $this->data->checked_out;
 			}
@@ -4184,8 +4144,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if ($sp)
 		{
 			$subproperty = $producthelper->getAttibuteSubProperty($sp);
-		}
-		else
+		} else
 		{
 			$subproperty = $subPropertyList;
 		}
@@ -4232,8 +4191,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if ($property_id)
 		{
 			$property = $producthelper->getAttibuteProperty($property_id);
-		}
-		else
+		} else
 		{
 			$property = $propertyList;
 		}
@@ -4292,14 +4250,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$attributes = array();
 			$attributes[0] = new stdClass;
 			$attributes[0]->attribute_id = $attribute_id;
-		}
-		else
+		} else
 		{
 			if ($product_id)
 			{
 				$attributes = $producthelper->getProductAttribute($product_id);
-			}
-			else
+			} else
 			{
 				$attributes = $producthelper->getProductAttribute(0, $attribute_set_id);
 			}
@@ -4308,8 +4264,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if ($product_id)
 		{
 			$and = "`product_id`='" . $product_id . "'";
-		}
-		else
+		} else
 		{
 			$and = "`attribute_set_id`='" . $attribute_set_id . "'";
 		}
@@ -4506,8 +4461,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if ($category_id != 0)
 		{
 			$query->where('category_id = ' . (int) $category_id);
-		}
-		else
+		} else
 		{
 			$query->where('accessory_id = ' . (int) $accessory_id);
 		}
@@ -4522,8 +4476,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
-		}
-		else
+		} else
 		{
 			return true;
 		}
@@ -4630,12 +4583,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if ($discount_calc_method == 'volume')
 			{
 				$calcunit = pow($unit, 3);
-			}
-			elseif ($discount_calc_method == 'area')
+			} elseif ($discount_calc_method == 'area')
 			{
 				$calcunit = pow($unit, 2);
-			}
-			else
+			} else
 			{
 				$calcunit = $unit;
 			}

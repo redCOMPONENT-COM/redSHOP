@@ -66,12 +66,11 @@ class RedshopHelperPayment
 
 		if ($name == '' && is_array($plugins))
 		{
-			array_walk($plugins, function (&$plugin)
+			array_walk($plugins, function(&$plugin)
 			{
 				$plugin->params = new Registry($plugin->params);
 			});
-		}
-		else
+		} else
 		{
 			$plugins->params = new Registry($plugins->params);
 		}
@@ -94,8 +93,7 @@ class RedshopHelperPayment
 		if ($all)
 		{
 			$paymentsLangList = RedshopHelperUtility::getPlugins("redshop_payment");
-		}
-		else
+		} else
 		{
 			$paymentsLangList = RedshopHelperUtility::getPlugins("redshop_payment", 1);
 		}

@@ -47,16 +47,16 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 </script>
 
 <div class="container">
-	<?php echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES');?>
+	<?php echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES'); ?>
 	<div style="float: right">
 		<button type="button" onclick="Joomla.submitbutton('save');">
-			<?php echo JText::_('COM_REDSHOP_SAVE');?>
+			<?php echo JText::_('COM_REDSHOP_SAVE'); ?>
 		</button>
 		<button
 			type="button"
 			onclick="window.parent.location.reload();window.parent.SqueezeBox.close();"
 		>
-			<?php echo JText::_('COM_REDSHOP_CANCEL');?>
+			<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
 		</button>
 	</div>
 </div>
@@ -72,7 +72,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 			<table class="admintable" border="0" width="100%" id="admintable">
 				<tr>
 					<td class="key">
-						<?php echo JText::_('COM_REDSHOP_DOWNLOAD_FOLDER');?>
+						<?php echo JText::_('COM_REDSHOP_DOWNLOAD_FOLDER'); ?>
 					</td>
 					<td>
 						<div class="button2-left">
@@ -110,7 +110,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 			</table>
 
 			<div>
-				<h4><?php echo JText::_('COM_REDSHOP_FILES');?></h4>
+				<h4><?php echo JText::_('COM_REDSHOP_FILES'); ?></h4>
 				<table class="table table-striped table-hover" width="100%" id="admintable">
 				<?php
 
@@ -136,10 +136,10 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 								<?php if (is_file($path)) : ?>
 									<?php if ($fileExt == 'gif' || $fileExt == 'png' || $fileExt == 'jpg' || $fileExt == 'jpeg') : ?>
 										<a href="<?php echo $link; ?>" class="joom-box" rel="{handler: 'image', size: {}}">
-											<?php echo $filename;?>
+											<?php echo $filename; ?>
 										</a>
 									<?php else: ?>
-										<a href="<?php echo $link; ?>"><?php echo $filename;?></a>
+										<a href="<?php echo $link; ?>"><?php echo $filename; ?></a>
 									<?php endif; ?>
 								<?php else: ?>
 									<?php echo $filename; ?>
@@ -147,7 +147,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 							</td>
 							<td>
 								<a href="<?php echo $link_delete; ?>">
-									<?php echo JText::_('COM_REDSHOP_DELETE');?>
+									<?php echo JText::_('COM_REDSHOP_DELETE'); ?>
 								</a>
 							</td>
 						</tr>

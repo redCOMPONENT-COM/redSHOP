@@ -19,8 +19,7 @@ class mpgGlobals
 		{
 			//$this->Globals['MONERIS_HOST'] = "esqa.moneris.com/mpg";
 			$this->Globals['MONERIS_HOST'] = "esqa.moneris.com";
-		}
-		else
+		} else
 		{
 			$this->Globals['MONERIS_HOST'] = "www3.moneris.com";
 		}
@@ -341,13 +340,10 @@ class mpgResponse
 					if ($this->currentTxnType == "Purchase")
 					{
 						$this->purchaseHash[$this->term_id][$this->CardType]['Amount'] = $data;
-					}
-					else if ($this->currentTxnType == "Refund")
+					} else if ($this->currentTxnType == "Refund")
 					{
 						$this->refundHash[$this->term_id][$this->CardType]['Amount'] = $data;
-					}
-
-					else if ($this->currentTxnType == "Correction")
+					} else if ($this->currentTxnType == "Correction")
 					{
 						$this->correctionHash[$this->term_id][$this->CardType]['Amount'] = $data;
 					}
@@ -359,13 +355,10 @@ class mpgResponse
 					if ($this->currentTxnType == "Purchase")
 					{
 						$this->purchaseHash[$this->term_id][$this->CardType]['Count'] = $data;
-					}
-					else if ($this->currentTxnType == "Refund")
+					} else if ($this->currentTxnType == "Refund")
 					{
 						$this->refundHash[$this->term_id][$this->CardType]['Count'] = $data;
-					}
-
-					else if ($this->currentTxnType == "Correction")
+					} else if ($this->currentTxnType == "Correction")
 					{
 						$this->correctionHash[$this->term_id][$this->CardType]['Count'] = $data;
 					}
@@ -374,8 +367,7 @@ class mpgResponse
 
 			}
 
-		}
-		else
+		} else
 		{
 			$this->responseData[$this->currentTag] .= $data;
 		}
@@ -391,18 +383,15 @@ class mpgResponse
 		if ($this->currentTag == "BankTotals")
 		{
 			$this->isBatchTotals = 1;
-		}
-		else if ($this->currentTag == "Purchase")
+		} else if ($this->currentTag == "Purchase")
 		{
 			$this->purchaseHash[$this->term_id][$this->CardType] = array();
 			$this->currentTxnType = "Purchase";
-		}
-		else if ($this->currentTag == "Refund")
+		} else if ($this->currentTag == "Refund")
 		{
 			$this->refundHash[$this->term_id][$this->CardType] = array();
 			$this->currentTxnType = "Refund";
-		}
-		else if ($this->currentTag == "Correction")
+		} else if ($this->currentTag == "Correction")
 		{
 			$this->correctionHash[$this->term_id][$this->CardType] = array();
 			$this->currentTxnType = "Correction";
@@ -429,23 +418,23 @@ class mpgResponse
 class mpgRequest
 {
 	var $txnTypes = array('purchase'           => array('order_id', 'cust_id', 'amount', 'pan', 'expdate', 'crypt_type'),
-	                      'refund'             => array('order_id', 'amount', 'txn_number', 'crypt_type'),
-	                      'idebit_purchase'    => array('order_id', 'amount', 'idebit_track2'),
-	                      'idebit_refund'      => array('order_id', 'amount', 'txn_number'),
-	                      'purchase_reversal'  => array('order_id', 'amount'),
-	                      'refund_reversal'    => array('order_id', 'amount'),
-	                      'ind_refund'         => array('order_id', 'cust_id', 'amount', 'pan', 'expdate', 'crypt_type'),
-	                      'preauth'            => array('order_id', 'cust_id', 'amount', 'pan', 'expdate', 'crypt_type'),
-	                      'completion'         => array('order_id', 'comp_amount', 'txn_number', 'crypt_type'),
-	                      'purchasecorrection' => array('order_id', 'txn_number', 'crypt_type'),
-	                      'opentotals'         => array('ecr_number'),
-	                      'batchclose'         => array('ecr_number'),
-	                      'batchcloseall'      => array(),
+						  'refund'             => array('order_id', 'amount', 'txn_number', 'crypt_type'),
+						  'idebit_purchase'    => array('order_id', 'amount', 'idebit_track2'),
+						  'idebit_refund'      => array('order_id', 'amount', 'txn_number'),
+						  'purchase_reversal'  => array('order_id', 'amount'),
+						  'refund_reversal'    => array('order_id', 'amount'),
+						  'ind_refund'         => array('order_id', 'cust_id', 'amount', 'pan', 'expdate', 'crypt_type'),
+						  'preauth'            => array('order_id', 'cust_id', 'amount', 'pan', 'expdate', 'crypt_type'),
+						  'completion'         => array('order_id', 'comp_amount', 'txn_number', 'crypt_type'),
+						  'purchasecorrection' => array('order_id', 'txn_number', 'crypt_type'),
+						  'opentotals'         => array('ecr_number'),
+						  'batchclose'         => array('ecr_number'),
+						  'batchcloseall'      => array(),
 
-	                      'cavv_purchase'      => array('order_id', 'cust_id', 'amount', 'pan',
-		                      'expdate', 'cavv'),
-	                      'cavv_preauth'       => array('order_id', 'cust_id', 'amount', 'pan',
-		                      'expdate', 'cavv')
+						  'cavv_purchase'      => array('order_id', 'cust_id', 'amount', 'pan',
+							  'expdate', 'cavv'),
+						  'cavv_preauth'       => array('order_id', 'cust_id', 'amount', 'pan',
+							  'expdate', 'cavv')
 
 	);
 	var $txnArray;

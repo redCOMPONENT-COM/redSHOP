@@ -14,7 +14,7 @@ echo RedshopLayoutHelper::render(
 		'title' => JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_LIMIT_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DOWNLOAD_LIMIT_LBL'),
 		'field' => '<input type="number" name="product_download_limit" id="product_download_limit" class="form-control"'
-            . ' value="' . $this->config->get('PRODUCT_DOWNLOAD_LIMIT') . '" />'
+			. ' value="' . $this->config->get('PRODUCT_DOWNLOAD_LIMIT') . '" />'
 	)
 );
 

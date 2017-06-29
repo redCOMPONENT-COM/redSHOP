@@ -23,7 +23,7 @@ $model = $this->getModel('newslettersubscr_detail');
 		}
 
 		if (form.user_id.value == 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_SELECT_USER', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_SELECT_USER', true); ?>");
 		} else {
 			submitform(pressbutton);
 		}
@@ -77,10 +77,11 @@ $model = $this->getModel('newslettersubscr_detail');
 					</td>
 					<td>
 						<?php
-						if ($this->detail->date)
-							$datee = date("d-m-Y", $this->detail->date);
-						else
-							$datee = null;
+						if ($this->detail->date) {
+													$datee = date("d-m-Y", $this->detail->date);
+						} else {
+													$datee = null;
+						}
 
 						echo JHTML::_('calendar', $datee, 'date', 'date', $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => '25', 'maxlength' => '19')); ?>
 					</td>

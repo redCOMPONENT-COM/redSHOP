@@ -118,8 +118,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		{
 			$values->responsestatus = 'Success';
 			$message = $arrResult['messageText'];
-		}
-		else
+		} else
 		{
 			// Catch Transaction ID
 			$message = $arrResult['messageText'];

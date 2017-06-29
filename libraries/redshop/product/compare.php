@@ -168,8 +168,7 @@ class RedshopProductCompare implements Countable
 		if (!is_object($item))
 		{
 			$this->compare['items'] = array();
-		}
-		else
+		} else
 		{
 			$this->item = $item;
 

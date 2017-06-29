@@ -118,7 +118,7 @@ class RedshopViewCategory extends RedshopViewForm
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 		$isNew = ($this->item->id < 1);
-		$user       = JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Prepare text for title
 		$title = JText::_('COM_REDSHOP_CATEGORY') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
@@ -131,8 +131,7 @@ class RedshopViewCategory extends RedshopViewForm
 			JToolbarHelper::save('category.save');
 			JToolbarHelper::save2new('category.save2new');
 			JToolbarHelper::cancel('category.cancel');
-		}
-		else
+		} else
 		{
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			if ((count($user->authorise('com_redshop', 'core.edit')) > 0))
@@ -149,9 +148,9 @@ class RedshopViewCategory extends RedshopViewForm
 
 			JToolbarHelper::cancel('category.cancel', JText::_('JTOOLBAR_CLOSE'));
 
-			$itemId    = (int) RedshopHelperUtility::getCategoryItemid($this->item->id);
+			$itemId = (int) RedshopHelperUtility::getCategoryItemid($this->item->id);
 
-			$link  = JURI::root() . 'index.php?option=com_redshop'
+			$link = JURI::root() . 'index.php?option=com_redshop'
 					. '&view=&view=category&layout=detail'
 					. '&cid=' . $this->item->id
 					. '&Itemid=' . $itemId;

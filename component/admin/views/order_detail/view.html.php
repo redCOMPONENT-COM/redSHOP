@@ -122,14 +122,10 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 
 			$this->showcountry = $showcountry;
 			$this->showstate = $showstate;
-		}
-
-		elseif ($layout == "print_order" || $layout == 'productorderinfo' || $layout == 'creditcardpayment')
+		} elseif ($layout == "print_order" || $layout == 'productorderinfo' || $layout == 'creditcardpayment')
 		{
 			$this->setLayout($layout);
-		}
-
-		else
+		} else
 		{
 			$this->setLayout('default');
 		}

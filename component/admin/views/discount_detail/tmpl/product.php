@@ -26,11 +26,11 @@ $now = JFactory::getDate();
 		}
 
 		if (form.discount_amount.value == "" || form.discount_amount.value == 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_AMOUNT_MUST_FILLED', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_AMOUNT_MUST_FILLED', true); ?>");
 		} else if (parseDate(form.start_date.value) > parseDate(form.end_date.value)) {
  			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
   		} else if (form.shopper_group_id.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_MUST_BE_SELECTED', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_MUST_BE_SELECTED', true); ?>");
 		} else {
 			submitform(pressbutton);
 		}
@@ -96,8 +96,9 @@ $now = JFactory::getDate();
 					</td>
 					<td>
 						<?php
-						if ($this->detail->start_date)
-							$datee = date("d-m-Y", $this->detail->start_date);
+						if ($this->detail->start_date) {
+													$datee = date("d-m-Y", $this->detail->start_date);
+						}
 
 						echo JHTML::_('calendar', $datee, 'start_date', 'start_date', $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => '32', 'maxlength' => '19')); ?>
 					</td>
@@ -110,8 +111,9 @@ $now = JFactory::getDate();
 					</td>
 					<td>
 						<?php
-						if ($this->detail->end_date)
-							$datee = date("d-m-Y", $this->detail->end_date);
+						if ($this->detail->end_date) {
+													$datee = date("d-m-Y", $this->detail->end_date);
+						}
 
 						echo JHTML::_('calendar', $datee, 'end_date', 'end_date', $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => '32', 'maxlength' => '19')); ?>
 					</td>

@@ -140,7 +140,7 @@ class App
 			->select('*')
 			->from($db->qn('#__redshop_configuration'))
 			->where($db->qn('id') . ' = 1');
-		$data  = $db->setQuery($query)->loadAssoc();
+		$data = $db->setQuery($query)->loadAssoc();
 
 		// Prepare data from table
 		$data = $this->prepareConfigData($data);
@@ -166,8 +166,7 @@ class App
 		if (!$this->isConfigurationFile() && !copy($this->configDistPath, $this->configPath))
 		{
 			return false;
-		}
-		elseif ($this->isConfigurationFile() && copy($this->configPath, $this->configBkpPath) && !copy($this->configDistPath, $this->configPath))
+		} elseif ($this->isConfigurationFile() && copy($this->configPath, $this->configBkpPath) && !copy($this->configDistPath, $this->configPath))
 		{
 			return false;
 		}
@@ -194,14 +193,12 @@ class App
 				$this->defineConfigurationVariables($original, false);
 				$this->updateConfigurationFile();
 			}
-		}
-		else
+		} else
 		{
 			if ($this->isConfigurationTable())
 			{
 				$this->storeConfigurationTable($original);
-			}
-			else
+			} else
 			{
 				$this->loadDefaultConfigurationFile();
 			}
@@ -297,8 +294,7 @@ class App
 		if ($this->isConfigurationFile() && !copy($this->configPath, $this->configBkpPath))
 		{
 			return false;
-		}
-		elseif (!copy($this->configDistPath, $this->configPath))
+		} elseif (!copy($this->configDistPath, $this->configPath))
 		{
 			return false;
 		}

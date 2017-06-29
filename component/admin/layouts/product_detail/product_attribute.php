@@ -288,8 +288,7 @@ if ($data->lists['attributes'])
 							   value="<?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE'); ?>"
 							   class="btn btn-small deletePropertyMainImage" type="button" />
 					<?php
-					}
-					else
+					} else
 					{
 						?>
 						<img id="propertyImage<?php echo $keyAttr . $keyProperty; ?>" src="" style="display: none;" />
@@ -515,8 +514,7 @@ if ($data->lists['attributes'])
 																		echo $keyAttr . $keySubProp; ?>"
 																		/>
 																<?php
-																}
-																else
+																} else
 																{
 																	?>
 																	<img id="subpropertyImage<?php echo $keyAttr . $keySubProp; ?>" src="" style="display: none;"/>

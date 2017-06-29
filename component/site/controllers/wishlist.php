@@ -35,8 +35,7 @@ class RedshopControllerWishlist extends RedshopController
 		if ($model->store($post))
 		{
 			echo "<div class='wishlistmsg'>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
-		}
-		else
+		} else
 		{
 			echo "<div class='wishlistmsg-error'>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
 		}
@@ -45,8 +44,7 @@ class RedshopControllerWishlist extends RedshopController
 		{
 			$wishreturn = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . JRequest::getVar('Itemid'), false);
 			$this->setRedirect($wishreturn);
-		}
-		else
+		} else
 		{
 			?>
 			<script language="javascript">
@@ -76,8 +74,7 @@ class RedshopControllerWishlist extends RedshopController
 		if ($model->savewishlist($data))
 		{
 			echo "<div class='wishlistmsg'>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
-		}
-		else
+		} else
 		{
 			echo "<div class='wishlistmsg-error'>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
 		}
@@ -109,15 +106,13 @@ class RedshopControllerWishlist extends RedshopController
 			if ($model->delwishlist($user->id, $post["wishlist_id"]))
 			{
 				$msg = JText::_('COM_REDSHOP_WISHLIST_DELETED_SUCCESSFULLY');
-			}
-			else
+			} else
 			{
 				$msg = JText::_('COM_REDSHOP_ERROR_IN_DELETING_WISHLIST');
 			}
-		}
-		else
+		} else
 		{
-			$msg  = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZE_TO_DELETE');
+			$msg = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZE_TO_DELETE');
 		}
 
 		$app->redirect($link, $msg);

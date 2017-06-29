@@ -208,7 +208,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=add', $msg);
 			}
 
-            elseif ($apply == 1)
+			elseif ($apply == 1)
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
 			}
@@ -337,8 +337,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		if ($row = $model->copy($cid, true))
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, JText::_('COM_REDSHOP_PRODUCT_COPIED'));
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $cid[0], JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED'));
 		}
@@ -358,8 +357,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_PRODUCT_COPIED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED');
 		}
@@ -524,7 +522,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 						array(),
 						'array'
 					);
-					$subproperty_id                                = $subproperty_array->subattribute_color_id;
+					$subproperty_id = $subproperty_array->subattribute_color_id;
 
 					if (empty($subproperty[$sp]['mainImage']))
 					{
@@ -588,8 +586,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		if ($width > $height)
 		{
 			$percentage = ($target / $width);
-		}
-		else
+		} else
 		{
 			$percentage = ($target / $height);
 		}
@@ -641,8 +638,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
 				. $post['section_id'] . "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
 			$this->setRedirect($link, $msg);
-		}
-		else
+		} else
 		{
 			$model->property_more_img($post, $main_img, $sub_img);
 			?>
@@ -757,8 +753,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		if ($model->SaveAttributeStockroom($post))
 		{
 			$msg = JText::_('COM_REDSHOP_STOCKROOM_ATTRIBUTE_XREF_SAVE');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
 		}

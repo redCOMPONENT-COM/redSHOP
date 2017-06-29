@@ -34,8 +34,7 @@ if ($this->pageheadingtag != '')
 			if ($this->params->get('page_title') != $pagetitle)
 			{
 				echo $this->escape($this->params->get('page_title'));
-			}
-			else
+			} else
 			{
 				echo $pagetitle;
 			}
@@ -48,8 +47,7 @@ $manufacturers_template = $redTemplate->getTemplate("manufacturer");
 if (count($manufacturers_template) > 0 && $manufacturers_template[0]->template_desc != "")
 {
 	$template_desc = $manufacturers_template[0]->template_desc;
-}
-else
+} else
 {
 	$template_desc = "<div class=\"category_print\">{print}</div>\r\n<div style=\"clear: both;\"></div>\r\n<div id=\"category_header\">\r\n<div class=\"category_order_by\">{order_by} </div>\r\n</div>\r\n<div class=\"manufacturer_box_wrapper\">{manufacturer_loop_start}\r\n<div class=\"manufacturer_box_outside\">\r\n<div class=\"manufacturer_box_inside\">\r\n<div class=\"manufacturer_image\">{manufacturer_image}</div>\r\n<div class=\"manufacturer_title\">\r\n<h3>{manufacturer_name}</h3>\r\n</div>\r\n<div class=\"manufacturer_desc\">{manufacturer_description}</div>\r\n<div class=\"manufacturer_link\"><a href=\"{manufacturer_link}\">{manufacturer_link_lbl}</a></div>\r\n<div class=\"manufacturer_product_link\"><a href=\"{manufacturer_allproductslink}\">{manufacturer_allproductslink_lbl}</a></div>\r\n</div>\r\n</div>\r\n{manufacturer_loop_end}<div class=\"category_product_bottom\" style=\"clear: both;\"></div></div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
@@ -58,8 +56,7 @@ else
 if ($print)
 {
 	$onclick = "onclick='window.print();'";
-}
-else
+} else
 {
 	$print_url = $url . "index.php?option=com_redshop&view=manufacturers&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
@@ -135,8 +132,7 @@ if ($this->detail && $template_middle != "")
 						if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'))
 						{
 							$manufacturer_img = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
-						}
-						else
+						} else
 						{
 							$manufacturer_img = RedShopHelperImages::getImagePath(
 								$media_image[$m]->media_name,
@@ -153,8 +149,7 @@ if ($this->detail && $template_middle != "")
 						{
 							$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "manufacturer/" . $media_image[$m]->media_name . "'   rel=\"{handler: 'image', size: {}}\">
 							<img alt='" . $altText . "' title='" . $altText . "' src='" . $manufacturer_img . "'></a>";
-						}
-						else
+						} else
 						{
 							$thum_image = "<a title='" . $altText . "' href='" . $manproducts . "'>
 							<img alt='" . $altText . "' title='" . $altText . "' src='" . $manufacturer_img . "'></a>";
@@ -191,8 +186,7 @@ if (strstr($template_desc, '{pagination}'))
 	if ($print)
 	{
 		$template_desc = str_replace("{pagination}", "", $template_desc);
-	}
-	else
+	} else
 	{
 		$template_desc = str_replace("{pagination}", $this->pagination->getPagesLinks(), $template_desc);
 	}

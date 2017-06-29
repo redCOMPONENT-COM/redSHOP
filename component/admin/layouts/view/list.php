@@ -83,8 +83,11 @@ if ($data->hasOrdering)
         <div class="alert alert-no-items alert-info">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
         </div>
-	<?php else : ?>
-    <?php $columns = $data->getColumns(); ?>
+	<?php else {
+	: ?>
+    <?php $columns = $data->getColumns();
+}
+?>
     <table class="adminlist table table-striped" id="table-<?php echo $viewName ?>">
         <thead>
         <tr>
@@ -104,9 +107,12 @@ if ($data->hasOrdering)
                 <th width="<?php echo $column['width'] ?>">
 					<?php if ($column['sortable']): ?>
 						<?php echo JHTML::_('grid.sort', $column['text'], $column['dataCol'], $listDirn, $listOrder) ?>
-					<?php else: ?>
+					<?php else {
+	: ?>
 						<?php echo $column['text'] ?>
-					<?php endif; ?>
+					<?php endif;
+}
+?>
                 </th>
 			<?php endforeach; ?>
             <th width="1">
@@ -133,20 +139,26 @@ if ($data->hasOrdering)
 							?>
 							<?php if (strpos($v, '-' . $currentParentId . '-') !== false) : ?>
 								<?php
-								$parentsStr      .= ' ' . $k;
+								$parentsStr .= ' ' . $k;
 								$currentParentId = $k;
 								break;
 								?>
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endfor; ?>
-				<?php else : ?>
-					<?php $parentsStr = 0; ?>
+				<?php else {
+	: ?>
+					<?php $parentsStr = 0;
+}
+?>
 				<?php endif; ?>
                 <tr sortable-group-id="<?php echo $row->parent_id; ?>" item-id="<?php echo $row->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $row->level; ?>">
-			<?php else: ?>
+			<?php else {
+	: ?>
                 <tr>
-			<?php endif; ?>
+			<?php endif;
+}
+?>
             <td><?php echo $data->pagination->getRowOffset($i) ?></td>
             <td align="center">
 				<?php echo JHtml::_('grid.id', $i, $row->id) ?>
@@ -169,12 +181,15 @@ if ($data->hasOrdering)
                     <a href="javascript:void(0)" class="btn btn-small btn-sm btn-primary disabled">
                         <i class="fa fa-edit"></i>
                     </a>
-				<?php else: ?>
+				<?php else {
+	: ?>
                     <a href="index.php?option=com_redshop&task=<?php echo $singleName ?>.edit&id=<?php echo $row->id ?>"
                        class="btn btn-small btn-sm btn-primary">
                         <i class="fa fa-edit"></i>
                     </a>
-				<?php endif; ?>
+				<?php endif;
+}
+?>
             </td>
 			<?php foreach ($columns as $column): ?>
                 <td>

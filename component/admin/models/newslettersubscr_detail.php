@@ -39,8 +39,7 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 	{
 		if ($this->_loadData())
 		{
-		}
-		else
+		} else
 		{
 			$this->_initData();
 		}
@@ -175,8 +174,7 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 			$fullname = $this->_username->firstname . " " . $this->_username->lastname . ($this->_username->username != "" ?
 				" (" . $this->_username->username . ")" : ""
 			);
-		}
-		else
+		} else
 		{
 			$fullname = "";
 		}

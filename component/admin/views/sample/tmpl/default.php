@@ -52,12 +52,12 @@
 				$row->id = $row->sample_id;
 				$link = JRoute::_('index.php?option=com_redshop&view=sample_detail&task=edit&cid[]=' . $row->sample_id);
 
-				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);?>
+				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1); ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
 					<td><a href="<?php echo $link; ?>"><?php echo  $row->sample_name; ?></a></td>
-					<td align="center"><?php echo $published;?></td>
+					<td align="center"><?php echo $published; ?></td>
 					<td align="center"><?php echo $row->sample_id; ?></td>
 				</tr>
 				<?php    $k = 1 - $k;

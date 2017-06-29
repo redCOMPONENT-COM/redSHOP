@@ -81,8 +81,7 @@ class Economic
 			{
 				$eco['ean_number'] = $row->ean_number;
 			}
-		}
-		else
+		} else
 		{
 			$eco['vatnumber'] = "";
 		}
@@ -131,13 +130,11 @@ class Economic
 							$eco['eco_user_number'] = $debtorHandle[0]->Number;
 						}
 					}
-				}
-				elseif (count($emailarray) > 0)
+				} elseif (count($emailarray) > 0)
 				{
 					$eco['eco_user_number'] = $emailarray->Number;
 				}
-			}
-			else
+			} else
 			{
 				$eco['newuserFlag'] = true;
 			}
@@ -175,9 +172,7 @@ class Economic
 		if (!empty($row) && $row->accountgroup_id != 0)
 		{
 			$accountGroup = RedshopHelperUtility::getEconomicAccountGroup($row->accountgroup_id);
-		}
-
-		elseif (\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP') != 0)
+		} elseif (\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP') != 0)
 		{
 			$accountGroup = RedshopHelperUtility::getEconomicAccountGroup(\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'));
 		}
@@ -192,16 +187,14 @@ class Economic
 					$eco['productgroup_name'] = $accountGroup[0]->accountgroup_name . ' shipping vat';
 					$eco['vataccount']        = $accountGroup[0]->economic_shipping_vat_account;
 					$eco['novataccount']      = $accountGroup[0]->economic_shipping_nonvat_account;
-				}
-				else
+				} else
 				{
 					$eco['productgroup_id']   = $accountGroup[0]->economic_shipping_nonvat_account;
 					$eco['productgroup_name'] = $accountGroup[0]->accountgroup_name . ' shipping novat';
 					$eco['vataccount']        = $accountGroup[0]->economic_shipping_nonvat_account;
 					$eco['novataccount']      = $accountGroup[0]->economic_shipping_nonvat_account;
 				}
-			}
-			elseif ($isDiscount == 1)
+			} elseif ($isDiscount == 1)
 			{
 				if ($isVat == 1)
 				{
@@ -209,16 +202,14 @@ class Economic
 					$eco['productgroup_name'] = $accountGroup[0]->accountgroup_name . ' discount vat';
 					$eco['vataccount']        = $accountGroup[0]->economic_discount_vat_account;
 					$eco['novataccount']      = $accountGroup[0]->economic_discount_nonvat_account;
-				}
-				else
+				} else
 				{
 					$eco['productgroup_id']   = $accountGroup[0]->economic_discount_nonvat_account;
 					$eco['productgroup_name'] = $accountGroup[0]->accountgroup_name . ' discount novat';
 					$eco['vataccount']        = $accountGroup[0]->economic_discount_nonvat_account;
 					$eco['novataccount']      = $accountGroup[0]->economic_discount_nonvat_account;
 				}
-			}
-			else
+			} else
 			{
 				$eco['productgroup_id']   = $accountGroup[0]->accountgroup_id;
 				$eco['productgroup_name'] = $accountGroup[0]->accountgroup_name;
@@ -343,9 +334,7 @@ class Economic
 
 			$string = trim($productRow->product_price . $row->oprand . $row->property_price);
 			eval('$eco["product_price"] = ' . $string . ';');
-		}
-
-		else
+		} else
 		{
 			$eco['product_name']  = addslashes($row->property_name);
 			$eco['product_price'] = $row->property_price;
@@ -398,8 +387,7 @@ class Economic
 			$eco['product_name'] = addslashes($row->subattribute_color_name);
 			$string              = trim($productRow->product_price . $row->oprand . $row->subattribute_color_price);
 			eval('$eco["product_price"] = ' . $string . ';');
-		}
-		else
+		} else
 		{
 			$eco['product_name']  = addslashes($row->subattribute_color_name);
 			$eco['product_price'] = $row->subattribute_color_price;
@@ -603,8 +591,7 @@ class Economic
 					if (\Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 2)
 					{
 						self::createInvoiceLineInEconomicAsProduct($orderItem, $invoiceNo, $orderDetail->user_id);
-					}
-					else
+					} else
 					{
 						self::createInvoiceLineInEconomic($orderItem, $invoiceNo, $orderDetail->user_id);
 					}
@@ -642,9 +629,7 @@ class Economic
 				}
 
 				return $invoiceHandle;
-			}
-
-			else
+			} else
 			{
 				return \JText::_('COM_REDSHOP_USER_NOT_SAVED_IN_ECONOMIC');
 			}
@@ -735,13 +720,13 @@ class Economic
 			if (\Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 			{
 				$orderItem[$i]->product_item_price_excl_vat -= $displayAttribute;
-				$displayAttribute                           = '';
+				$displayAttribute = '';
 			}
 
 			$displayAccessory = self::makeAccessoryOrder($invoiceNo, $orderItem[$i], $userId);
 
 			$orderItem[$i]->product_item_price_excl_vat -= $displayAccessory;
-			$displayAccessory                           = '';
+			$displayAccessory = '';
 
 			if (count($invoiceLineNo) > 0 && $invoiceLineNo[0]->Number)
 			{
@@ -983,11 +968,11 @@ class Economic
 	 * @since   2.0.3
 	 */
 	public static function createInvoiceDiscountLineInEconomic($orderDetail = array(), $invoiceNo = "", $data = array(), $isPaymentDiscount = 0,
-	                                                           $isVatDiscount = 0)
+															   $isVatDiscount = 0)
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
-		$eco       = array();
+		$eco = array();
 
 		if (\Redshop::getConfig()->get('DEFAULT_ECONOMIC_ACCOUNT_GROUP'))
 		{
@@ -1148,9 +1133,7 @@ class Economic
 				self::updateBookInvoiceNumber($orderDetail->order_id, $bookInvoiceNumber);
 				$bookInvoiceData[0]->invoiceStatus = "booked";
 			}
-		}
-
-		else
+		} else
 		{
 			$bookInvoiceData[0]->invoiceStatus = "draft";
 		}
@@ -1181,8 +1164,7 @@ class Economic
 		if ($bookInvoiceDate != 0)
 		{
 			$eco['invoiceDate'] = $bookInvoiceDate . "T" . date("h:i:s");
-		}
-		else
+		} else
 		{
 			$eco['invoiceDate'] = date("Y-m-d") . "T" . date("h:i:s");
 		}
@@ -1258,9 +1240,7 @@ class Economic
 							if ($userBillingInfo->is_company == 1 && $userBillingInfo->company_name != '')
 							{
 								$eco['name'] = $userBillingInfo->company_name;
-							}
-
-							else
+							} else
 							{
 								$eco['name'] = $userBillingInfo->firstname . " " . $userBillingInfo->lastname;
 							}
@@ -1288,8 +1268,7 @@ class Economic
 							if (\Redshop::getConfig()->get('ECONOMIC_BOOK_INVOICE_NUMBER') == 1)
 							{
 								$bookHandle = \RedshopHelperUtility::getDispatcher()->trigger('CurrentInvoice_Book', array($eco));
-							}
-							else
+							} else
 							{
 								$bookHandle = \RedshopHelperUtility::getDispatcher()->trigger('CurrentInvoice_BookWithNumber', array($eco));
 							}
@@ -1308,8 +1287,7 @@ class Economic
 								if (\JError::isError(\JError::getError()))
 								{
 									return $file;
-								}
-								elseif ($bookInvoicePdf != "")
+								} elseif ($bookInvoicePdf != "")
 								{
 									$file = JPATH_ROOT . '/components/com_redshop/assets/orders/rsInvoice_' . $orderId . '.pdf';
 									\JFile::write($file, $bookInvoicePdf);
@@ -1452,7 +1430,7 @@ class Economic
 				}
 
 				$accessoryQuantity = " (" . \JText::_('COM_REDSHOP_ACCESSORY_QUANTITY_LBL') . " " . $orderItemData[$i]->product_quantity . ") ";
-				$displayAccessory  .= "\n" . urldecode($orderItemData[$i]->order_acc_item_name)
+				$displayAccessory .= "\n" . urldecode($orderItemData[$i]->order_acc_item_name)
 					. " (" . ($orderItemData[$i]->order_acc_price + $orderItemData[$i]->order_acc_vat) . ")" . $accessoryQuantity;
 
 				$setPrice += $orderItemData[$i]->product_acc_item_price;
@@ -1473,7 +1451,7 @@ class Economic
 				if (\Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') != 0)
 				{
 					$orderItemData[$i]->product_acc_item_price -= $displayAttribute;
-					$displayAttribute                          = '';
+					$displayAttribute = '';
 				}
 
 				if (count($invoiceLineNo) > 0 && $invoiceLineNo[0]->Number)
@@ -1534,7 +1512,7 @@ class Economic
 				}
 
 				$displayAttribute .= "\n" . urldecode($orderItemAttData[$i]->section_name) . " : ";
-				$orderPropData    = \RedshopHelperOrder::getOrderItemAttributeDetail(
+				$orderPropData = \RedshopHelperOrder::getOrderItemAttributeDetail(
 					$orderItem->order_item_id,
 					$isAccessory, "property",
 					$orderItemAttData[$i]->section_id
@@ -1688,12 +1666,10 @@ class Economic
 		if ($countryCode == \Redshop::getConfig()->get('SHOP_COUNTRY'))
 		{
 			$taxzone = 'HomeCountry';
-		}
-		elseif (self::isEuCountry($countryCode))
+		} elseif (self::isEuCountry($countryCode))
 		{
 			$taxzone = 'EU';
-		}
-		else
+		} else
 		{
 			// Non EU Country
 			$taxzone = 'Abroad';

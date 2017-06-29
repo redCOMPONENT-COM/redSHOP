@@ -162,7 +162,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 			return true;
 		}
 
-		$propertyId  = 0;
+		$propertyId = 0;
 
 		// Property data.
 		if ($hasPropertyName)
@@ -182,8 +182,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				if ($propertyId)
 				{
 					$propertyTable->load($propertyId);
-				}
-				else
+				} else
 				{
 					$propertyTable->property_id = null;
 				}
@@ -210,7 +209,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				$propertyId = $propertyTable->property_id;
 
 				// Property stock
-				if (!empty($data['property_stock']) )
+				if (!empty($data['property_stock']))
 				{
 					$propertyStocks = explode("#", $data['property_stock']);
 
@@ -258,8 +257,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 								->where($db->quoteName('section') . ' = ' . $db->quote('property'))
 								->where($db->quoteName('section_id') . ' = ' . $db->quote($propertyId));
 							$db->setQuery($query)->clear();
-						}
-						else
+						} else
 						{
 							$newData = new stdClass;
 							$newData->quantity = $propertyStock[1];
@@ -313,8 +311,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 							->where($db->qn('media_id') . ' = ' . (int) $mediaId);
 
 						$db->setQuery($query)->execute();
-					}
-					else
+					} else
 					{
 						$columns = $db->qn(array_keys($media));
 						$values = $db->q(array_values($media));
@@ -365,8 +362,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				}
 
 				return true;
-			}
-			elseif (!$propertyId)
+			} elseif (!$propertyId)
 			{
 				return false;
 			}
@@ -387,8 +383,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 			if ($subPropertyId)
 			{
 				$subPropertyTable->load($subPropertyId);
-			}
-			else
+			} else
 			{
 				$subPropertyTable->subattribute_color_id = null;
 			}
@@ -460,8 +455,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 							->where($db->quoteName('section') . ' = ' . $db->quote('subproperty'))
 							->where($db->quoteName('section_id') . ' = ' . $db->quote($subPropertyId));
 						$db->setQuery($query)->execute();
-					}
-					else
+					} else
 					{
 						$insert = new stdClass;
 						$insert->quantity = $stock[1];
@@ -515,8 +509,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 						->where($db->qn('media_id') . ' = ' . (int) $mediaId);
 
 					$db->setQuery($query)->execute();
-				}
-				else
+				} else
 				{
 					$columns = $db->qn(array_keys($media));
 					$values = $db->q(array_values($media));

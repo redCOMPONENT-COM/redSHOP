@@ -143,8 +143,7 @@ class RedshopHelperDocument
 				'media'   => $media,
 				'attribs' => $attributes
 			);
-		}
-		else
+		} else
 		{
 			$stylesheet = array('mime' => $type);
 
@@ -162,8 +161,7 @@ class RedshopHelperDocument
 		if ($position == 'top')
 		{
 			static::$topStylesheets[$url] = $stylesheet;
-		}
-		else
+		} else
 		{
 			static::$bottomStylesheets[$url] = $stylesheet;
 		}
@@ -430,7 +428,7 @@ class RedshopHelperDocument
 		{
 			$position = strrpos($fileNameOnly, '.min', '-4');
 			$uncompressedFileName = str_replace('.min', '.', $fileNameOnly, $position);
-			$uncompressedFileName  = $uncompressedFileName . $fileExtension;
+			$uncompressedFileName = $uncompressedFileName . $fileExtension;
 		}
 		else
 		{

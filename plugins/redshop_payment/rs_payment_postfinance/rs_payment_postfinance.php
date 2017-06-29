@@ -85,8 +85,7 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 				$values->msg                       = JText::_('COM_REDSHOP_ORDER_PLACED');
 				$values->transaction_id            = $transaction_id;
 				$values->order_id                  = $order_id;
-			}
-			else
+			} else
 			{
 				$values->order_status_code         = $invalid_status;
 				$values->order_payment_status_code = 'Unpaid';
@@ -95,8 +94,7 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 				$msg                               = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 				$values->order_id                  = $order_id;
 			}
-		}
-		else
+		} else
 		{
 			$values->order_status_code         = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';

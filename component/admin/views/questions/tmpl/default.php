@@ -46,12 +46,15 @@ if ($allowOrder)
 		<div class="alert alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
-	<?php else : ?>
+	<?php else {
+	: ?>
 		<table class="adminlist table table-striped">
 			<thead>
 				<tr>
 					<th width="1" class="title">
-						<?php echo JHtml::_('redshopgrid.checkall'); ?>
+						<?php echo JHtml::_('redshopgrid.checkall');
+}
+?>
 					</th>
 					<?php if (empty($filterSearch)): ?>
 						<th width="1" class="nowrap center hidden-phone">
@@ -106,9 +109,12 @@ if ($allowOrder)
 						   title="<?php echo JText::_('COM_REDSHOP_VIEW_QUESTION') ?>">
 							<?php if (strlen($row->question) > 50): ?>
 								<?php echo substr($row->question, 0, 50) . "..." ?>
-							<?php else: ?>
+							<?php else {
+	: ?>
 								<?php echo $row->question ?>
-							<?php endif; ?>
+							<?php endif;
+}
+?>
 						</a>
 					</td>
 					<td align="center">

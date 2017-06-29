@@ -127,9 +127,7 @@ class RedshopModelForm extends JModelAdmin
 		{
 			self::addIncludePath(JPATH_SITE . '/components/' . $option . '/models', $prefix);
 			JTable::addIncludePath(JPATH_SITE . '/components/' . $option . '/tables');
-		}
-
-		else
+		} else
 		{
 			throw new InvalidArgumentException(
 				sprintf('Cannot instantiate the model %s. Invalid client %s.', $name, $client)
@@ -292,9 +290,7 @@ class RedshopModelForm extends JModelAdmin
 				{
 					// Store the field error in session.
 					$session->set($this->context . '.error.' . $key, $message->getMessage());
-				}
-
-				else
+				} else
 				{
 					// Store the field error in session.
 					$session->set($this->context . '.error.' . $key, $message);

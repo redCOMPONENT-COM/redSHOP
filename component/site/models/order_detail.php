@@ -59,8 +59,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		try
 		{
 			$userInfoIdEncr = $db->loadResult();
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
@@ -112,8 +111,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		if ($user->id)
 		{
 			$list = $order_functions->getBillingAddress($user->id);
-		}
-		elseif ($auth['users_info_id'])
+		} elseif ($auth['users_info_id'])
 		{
 			$uid  = - $auth['users_info_id'];
 			$list = $order_functions->getBillingAddress($uid);

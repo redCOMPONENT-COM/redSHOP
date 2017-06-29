@@ -47,8 +47,7 @@ class RedshopHelperCurrency
 		if (Redshop::getConfig()->get('CURRENCY_LIBRARIES') == 1)
 		{
 			return CurrencyLayer::getInstance()->convert($amountA, $currA, $currB);
-		}
-		else
+		} else
 		{
 			return Currency::getInstance()->convert($amountA, $currA, $currB);
 		}

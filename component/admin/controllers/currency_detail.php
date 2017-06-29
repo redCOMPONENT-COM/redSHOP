@@ -45,8 +45,7 @@ class RedshopControllerCurrency_detail extends RedshopController
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_CURRENCY_DETAIL');
 		}
@@ -54,8 +53,7 @@ class RedshopControllerCurrency_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=currency_detail&task=edit&cid[]=' . $row->currency_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=currency', $msg);
 		}

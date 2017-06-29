@@ -78,16 +78,13 @@ class RedshopModelStatistic_Quotation extends RedshopModelList
 		if ($interval == 0 && ($this->filterDateLabel == 'Today' || $this->filterDateLabel == 'Yesterday'))
 		{
 			$return = "%d %b %Y";
-		}
-		elseif ($interval <= 1209600)
+		} elseif ($interval <= 1209600)
 		{
 			$return = "%d %b. %Y";
-		}
-		elseif ($interval <= 7689600)
+		} elseif ($interval <= 7689600)
 		{
 			$return = "%b. %Y";
-		}
-		elseif ($interval <= 31536000)
+		} elseif ($interval <= 31536000)
 		{
 			$return = "%Y";
 		}

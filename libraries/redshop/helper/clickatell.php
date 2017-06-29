@@ -198,13 +198,11 @@ class RedshopHelperClickatell
 			if ($send[0] == "ID")
 			{
 				echo "success message ID: " . $send[1];
-			}
-			else
+			} else
 			{
 				JError::raiseWarning(21, "send message failed: ");
 			}
-		}
-		else
+		} else
 		{
 			JError::raiseWarning(21, "Authentication failure: " . $result[0]);
 		}

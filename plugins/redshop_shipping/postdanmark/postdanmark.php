@@ -39,7 +39,7 @@ class PlgRedshop_ShippingPostdanmark extends JPlugin
 	 *
 	 * @var  string
 	 */
-	public $classname    = "postdanmark";
+	public $classname = "postdanmark";
 
 	/**
 	 * Method will trigger on shipping rate listing.
@@ -267,8 +267,7 @@ class PlgRedshop_ShippingPostdanmark extends JPlugin
 
 				ob_clean();
 				echo json_encode($shopLocations);
-			}
-			else
+			} else
 			{
 				$shopLocations['error'] = JText::_('PLG_REDSHOP_SHIPPING_POSTDANMARK_NOT_ANSWER_FOR_CURRENT_ZIP');
 				ob_clean();
@@ -294,8 +293,7 @@ class PlgRedshop_ShippingPostdanmark extends JPlugin
 		{
 			$response .= '<span class="postdanmark-error" id="postdanmark-error">' . JText::_('PLG_REDSHOP_SHIPPING_POSTDANMARK_NOT_CORRECT_ZIP') . '</span><br/>';
 			$response .= '<input type="hidden" name="postdanmark_pickupLocation" id="location" class="postdanmark_location">';
-		}
-		else
+		} else
 		{
 			$response .= '<div class="postdanmark-choose"><strong>' . JText::_('PLG_REDSHOP_SHIPPING_POSTDANMARK_CHOOSE_DELIVERY_POINT') . ':</strong></div>';
 			$response .= '<table id="mapAddress"><tr>';
@@ -303,8 +301,7 @@ class PlgRedshop_ShippingPostdanmark extends JPlugin
 			if (count($shops) == 1)
 			{
 				$response .= $this->createShop($shops[0], 0, 1);
-			}
-			else
+			} else
 			{
 				$cnt     = 0;
 				$count   = count($shops);
@@ -339,8 +336,7 @@ class PlgRedshop_ShippingPostdanmark extends JPlugin
 		if ($count == $key)
 		{
 			$response .= '<td class="radio_point"><input type="radio" id="' . trim($shop->servicePointId) . '" value="' . trim($shop->servicePointId) . '" name="postdanmark_pickupLocation" class="radio validate-one-required-by-name" />';
-		}
-		else
+		} else
 		{
 			$response .= '<td class="radio_point"><input type="radio" id="' . trim($shop->servicePointId) . '" value="' . trim($shop->servicePointId) . '" name="postdanmark_pickupLocation" class="radio" />';
 		}

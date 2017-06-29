@@ -44,8 +44,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		if ($this->_loadData())
 		{
 
-		}
-		else
+		} else
 		{
 			$this->_initData();
 		}
@@ -224,8 +223,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 				$rowsh = $userhelper->storeRedshopUserShipping($data);
 
 				return $rowsh;
-			}
-			else
+			} else
 			{
 				$reduser->users_info_id = 0;
 
@@ -282,8 +280,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		if (isset($postdata['billisship']) && $postdata['billisship'] == 1)
 		{
 			$shippingaddresses = $billingaddresses;
-		}
-		else
+		} else
 		{
 			$key = 0;
 			$shippingaddresses = $order_functions->getShippingAddress($row->user_id);
@@ -818,8 +815,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		if (count($list) > 0)
 		{
 			$shipping = $list;
-		}
-		else
+		} else
 		{
 			$shipping = $this->setShipping();
 		}
@@ -830,8 +826,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		if ($is_company)
 		{
 			$allowCustomer = 'style="display:none;"';
-		}
-		else
+		} else
 		{
 			$allowCompany = 'style="display:none;"';
 		}

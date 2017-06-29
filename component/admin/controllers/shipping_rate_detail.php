@@ -48,8 +48,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 			// Field_section 11 :Shipping
 			$field->extra_field_save($post, "11", $row->shipping_rate_id);
 			$msg = JText::_('COM_REDSHOP_SHIPPING_LOCATION_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING');
 		}
@@ -59,8 +58,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 			$this->setRedirect('index.php?option=com_redshop&view=shipping_rate_detail&cid=' . $row->shipping_rate_id
 				. '&id=' . $post['id'], $msg
 			);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $post['id'], $msg);
 		}
@@ -82,12 +80,10 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-		elseif ($count > 0)
+		} elseif ($count > 0)
 		{
 			$this->setMessage(JText::plural('COM_REDSHOP_N_ITEMS_DELETED', $count));
-		}
-		else
+		} else
 		{
 			$this->setMessage(JText::_('COM_REDSHOP_N_ITEMS_DELETED_1'));
 		}
@@ -152,8 +148,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_SHIPPING_RATE_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING');
 		}

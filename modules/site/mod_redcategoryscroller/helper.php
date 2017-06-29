@@ -67,8 +67,7 @@ class ModRedCategoryScrollerHelper
 		if ($limit)
 		{
 			$db->setQuery($query, 0, $limit);
-		}
-		else
+		} else
 		{
 			$db->setQuery($query);
 		}

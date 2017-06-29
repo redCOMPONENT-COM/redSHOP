@@ -58,8 +58,7 @@ class RedshopHelperTemplate
 				if ($str !== false)
 				{
 					$matches[$key] = substr($match, 0, $str);
-				}
-				else
+				} else
 				{
 					unset($matches[$key]);
 				}
@@ -77,8 +76,7 @@ class RedshopHelperTemplate
 					if ($lang->hasKey($jTextPrefix . $matchFix))
 					{
 						$replace = $jTextPrefix . $matchFix;
-					}
-					elseif ($lang->hasKey('COM_REDSHOP_TEMPLATE_TAG_' . $matchFix))
+					} elseif ($lang->hasKey('COM_REDSHOP_TEMPLATE_TAG_' . $matchFix))
 					{
 						$replace = 'COM_REDSHOP_TEMPLATE_TAG_' . $matchFix;
 					}
@@ -210,8 +208,7 @@ class RedshopHelperTemplate
 		if (!$isAdmin && $section != 'categoryproduct')
 		{
 			$templateFile = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$templateView/$section/$fileName.php";
-		}
-		else
+		} else
 		{
 			$templateFile = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$section/$fileName.php";
 		}
@@ -227,8 +224,7 @@ class RedshopHelperTemplate
 			{
 				$templateDir = JPATH_SITE . "/components/com_redshop/views/$templateView/tmpl/$section";
 				@chmod(JPATH_SITE . "/components/com_redshop/views/$templateView/tmpl", 0755);
-			}
-			else
+			} else
 			{
 				if (!defined('JPATH_REDSHOP_TEMPLATE'))
 				{

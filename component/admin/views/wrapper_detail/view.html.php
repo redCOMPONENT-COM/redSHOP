@@ -60,8 +60,7 @@ class RedshopViewWrapper_Detail extends RedshopViewAdmin
 		if ($isNew)
 		{
 			JToolBarHelper::cancel();
-		}
-		else
+		} else
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
@@ -93,8 +92,7 @@ class RedshopViewWrapper_Detail extends RedshopViewAdmin
 		if (count($productData) > 0)
 		{
 			$result_container = $productData;
-		}
-		else
+		} else
 		{
 			$result_container = array();
 		}

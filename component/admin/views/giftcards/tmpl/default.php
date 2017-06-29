@@ -36,7 +36,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						title="<?php echo JHtml::tooltipText('COM_REDSHOP_GIFTCARD_SEARCH_IN_NAME'); ?>"
 					/>
 				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				<input type="button" class="btn reset" onclick="document.getElementById('filter_search').value='';this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+				<input type="button" class="btn reset" onclick="document.getElementById('filter_search').value='';this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
 			</div>
 		</div>
 	</div>
@@ -45,12 +45,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<div class="alert alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
-	<?php else : ?>
+	<?php else {
+	: ?>
 		<table class="table table-striped" id="articleList">
 			<thead>
 				<tr>
 					<th width="1%" class="center">
-						<?php echo JHtml::_('grid.checkall'); ?>
+						<?php echo JHtml::_('grid.checkall');
+}
+?>
 					</th>
 					<th width="1%" style="min-width:55px" class="nowrap center">
 						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'published', $listDirn, $listOrder); ?>
@@ -65,7 +68,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JText::_('COM_REDSHOP_GIFTCARD_BGIMAGE'); ?>
 					</th>
 					<th width="10%" class="center">
-						<?php echo JHtml::_('grid.sort',  'COM_REDSHOP_GIFTCARD_PRICE', 'giftcard_price', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_GIFTCARD_PRICE', 'giftcard_price', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%" class="center">
 						<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_GIFTCARD_VALUE', 'giftcard_value', $listDirn, $listOrder); ?>
@@ -118,7 +121,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								?>
 								<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $giftCardPath; ?>"
 									title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>" rel="{handler: 'image', size: {}}">
-									<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
+									<img src="<?php echo $giftCardImagePath; ?>" class="img-polaroid">
 								</a>
 							<?php endif; ?>
 						</td>
@@ -139,19 +142,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								?>
 								<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . $giftCardPath; ?>"
 									title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>" rel="{handler: 'image', size: {}}">
-									<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
+									<img src="<?php echo $giftCardImagePath; ?>" class="img-polaroid">
 								</a>
 							<?php endif; ?>
 						</td>
 
 						<td class="center">
-							<?php echo $productHelper->getProductFormattedPrice($item->giftcard_price);?>
+							<?php echo $productHelper->getProductFormattedPrice($item->giftcard_price); ?>
 						</td>
 						<td class="center">
-							<?php echo $productHelper->getProductFormattedPrice($item->giftcard_value);?>
+							<?php echo $productHelper->getProductFormattedPrice($item->giftcard_value); ?>
 						</td>
 						<td class="center hidden-phone">
-							<?php echo $item->giftcard_validity;?>
+							<?php echo $item->giftcard_validity; ?>
 						</td>
 						<td class="center hidden-phone">
 							<?php echo (int) $item->giftcard_id; ?>

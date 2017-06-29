@@ -246,8 +246,7 @@ class RedshopHelperWorld
 		if (isset($post['country_code']))
 		{
 			$selectedCountryCode = $post['country_code'];
-		}
-		elseif (isset($post['country_code_ST']))
+		} elseif (isset($post['country_code_ST']))
 		{
 			$selectedCountryCode = $post['country_code_ST'];
 		}
@@ -257,8 +256,7 @@ class RedshopHelperWorld
 		if (isset($post['state_code']))
 		{
 			$selectedStateCode = $post['state_code'];
-		}
-		elseif (isset($post['state_code_ST']))
+		} elseif (isset($post['state_code_ST']))
 		{
 			$selectedStateCode = $post['state_code_ST'];
 		}

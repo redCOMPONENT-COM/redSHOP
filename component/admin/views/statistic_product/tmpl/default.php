@@ -39,9 +39,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					],
 					<?php endif; ?>
 				<?php endforeach; ?>
-			 <?php else: ?>
+			 <?php else {
+	: ?>
 				[0, 0, 0],
-			 <?php endif; ?>
+			 <?php endif;
+}
+?>
 		  ]);
 
 		var options = {
@@ -80,7 +83,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<div class="alert alert-info">
 		<p><?php echo JText::_('COM_REDSHOP_NO_DATA') ?></p>
 	</div>
-	<?php else: ?>
+	<?php else {
+	: ?>
 	<div id="product_statistic_chart"></div>
 	<hr />
 	<table class="adminlist table table-striped" width="100%">
@@ -97,7 +101,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<tbody>
 		<?php foreach ($this->products as $i => $row) : ?>
 			<tr>
-				<td align="center"><a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]=<?php echo $row->product_id; ?>">
+				<td align="center"><a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]=<?php echo $row->product_id;
+}
+?>">
 						<?php echo $row->product_name; ?></a>
 				</td>
 				<td align="center"><?php echo $row->product_number ?></td>

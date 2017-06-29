@@ -121,7 +121,7 @@ class RedshopLayoutFile extends RedshopLayoutBase
 
 				foreach ($suffixes as $suffix)
 				{
-					$rawPath  = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
+					$rawPath = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
 					$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
 					if ($this->fullPath = JPath::find($this->includePaths, $rawPath))
@@ -134,7 +134,7 @@ class RedshopLayoutFile extends RedshopLayoutBase
 			}
 
 			// Standard version
-			$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
+			$rawPath = str_replace('.', '/', $this->layoutId) . '.php';
 			$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
 			$this->fullPath = JPath::find($this->includePaths, $rawPath);
@@ -174,8 +174,7 @@ class RedshopLayoutFile extends RedshopLayoutBase
 			if (is_array($paths))
 			{
 				$this->includePaths = array_unique(array_merge($paths, $this->includePaths));
-			}
-			else
+			} else
 			{
 				array_unshift($this->includePaths, $paths);
 			}
@@ -353,8 +352,7 @@ class RedshopLayoutFile extends RedshopLayoutBase
 			if ($this->options->get('client') == 0)
 			{
 				$this->addIncludePaths(JPATH_SITE . '/components/' . $component . '/layouts');
-			}
-			else
+			} else
 			{
 				$this->addIncludePaths(JPATH_ADMINISTRATOR . '/components/' . $component . '/layouts');
 			}

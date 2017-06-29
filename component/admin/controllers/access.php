@@ -40,8 +40,7 @@ class RedshopControllerAccess extends RedshopControllerForm
 		if ($model->save($data))
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_SAVE_SUCCESS', 'success'));
-		}
-		else
+		} else
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_SAVE_FAIL', 'error'));
 		}

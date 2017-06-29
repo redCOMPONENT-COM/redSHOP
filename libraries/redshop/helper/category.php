@@ -121,8 +121,7 @@ class RedshopHelperCategory
 			$filter_order = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
 			$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 			$query->order($db->escape($filter_order . ' ' . $filter_order_Dir));
-		}
-		else
+		} else
 		{
 			$query->order($db->qn('name'));
 		}
@@ -130,8 +129,7 @@ class RedshopHelperCategory
 		if ($categoryMainFilter)
 		{
 			$query->where($db->qn('name') . ' LIKE ' . $db->q('%' . $categoryMainFilter . '%'));
-		}
-		else
+		} else
 		{
 			$query->where($db->qn('parent_id') . ' = ' . (int) $cid);
 		}
@@ -213,7 +211,7 @@ class RedshopHelperCategory
 	 * @since  2.0.0.3
 	 */
 	public static function listAll($name, $categoryId, $selectedCategories = array(), $size = 1, $topLevel = false,
-	                               $multiple = false, $disabledFields = array(), $width = 250)
+								   $multiple = false, $disabledFields = array(), $width = 250)
 	{
 		$db    = JFactory::getDbo();
 		$html  = '';
@@ -236,7 +234,7 @@ class RedshopHelperCategory
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
 		$id       = str_replace('[]', '', $name);
-		$html     .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+		$html .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
 
 		if ($topLevel)
 		{
@@ -265,7 +263,7 @@ class RedshopHelperCategory
 	 * @since  2.0.0.3
 	 */
 	public static function listTree($categoryId = "", $cid = '0', $level = '0', $selectedCategories = array(),
-	                                $disabledFields = array(), $html = '')
+									$disabledFields = array(), $html = '')
 	{
 		$db = JFactory::getDbo();
 		$level++;
@@ -317,8 +315,7 @@ class RedshopHelperCategory
 				if ($disabled != '' && stristr($_SERVER['HTTP_USER_AGENT'], 'msie'))
 				{
 					// IE7 suffers from a bug, which makes disabled option fields selectable
-				}
-				else
+				} else
 				{
 					$html .= "<option $selected $disabled value=\"$childId\">" . str_repeat('- ', $level) . $cat->name . "</option>";
 				}

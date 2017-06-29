@@ -68,8 +68,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 					// Delete old image.
 					$oldMediaFile = REDSHOP_FRONT_IMAGES_RELPATH . 'manufacturer/' . $mediaTable->media_name;
 					unlink($oldMediaFile);
-				}
-				else
+				} else
 				{
 					$mediaTable->set('section_id', $row->manufacturer_id);
 					$mediaTable->set('media_section', 'manufacturer');
@@ -85,8 +84,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 				$mediaTable->set('media_name', $fileName);
 				$mediaTable->store();
 			}
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MANUFACTURER_DETAIL');
 		}
@@ -94,8 +92,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=manufacturer_detail&task=edit&cid[]=' . $row->manufacturer_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
 		}
@@ -137,8 +134,7 @@ class RedshopControllerManufacturer_detail extends RedshopController
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_COPIED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_COPING_MANUFACTURER_DETAIL');
 		}

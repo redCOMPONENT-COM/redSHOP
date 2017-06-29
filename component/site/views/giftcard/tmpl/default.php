@@ -33,14 +33,12 @@ $router = $app->getRouter();
 if (count($this->template) > 0)
 {
 	$template = $this->template[0]->template_desc;
-}
-else
+} else
 {
 	if ($gid != 0)
 	{
 		$template = "<div>{giftcard_image}</div><div>{giftcard_name}</div><div>{giftcard_desc}</div><div>{giftcard_price_lbl}{giftcard_price}</div><div>{giftcard_validity}</div><div>{giftcard_reciver_name_lbl}{giftcard_reciver_name}</div><div>{giftcard_reciver_email_lbl}{giftcard_reciver_email}</div><div>{form_addtocart:templet1}</div>";
-	}
-	else
+	} else
 	{
 		$template = "<div>{giftcard_loop_start}<h3>{giftcard_name}</h3><div>{giftcard_price}</div><div>{giftcard_value}</div><div>{giftcard_desc}</div><div>{giftcard_validity}</div>{giftcard_loop_end}</div>";
 	}
@@ -57,8 +55,7 @@ if ($this->params->get('show_page_heading', 1))
 				<?php echo $this->escape($this->params->get('page_title')); ?>
 			</h1>
 		<?php
-		}
-		else
+		} else
 		{
 		?>
 			<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
@@ -94,8 +91,7 @@ if ($gid != 0)
 	if ($detail->customer_amount != 1)
 	{
 		$template = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $template);
-	}
-	else
+	} else
 	{
 		$template = str_replace("{giftcard_price_lbl}", '', $template);
 	}
@@ -103,8 +99,7 @@ if ($gid != 0)
 	if ($detail->customer_amount != 1)
 	{
 		$template = str_replace("{giftcard_price}", $producthelper->getProductFormattedPrice($detail->giftcard_price), $template);
-	}
-	else
+	} else
 	{
 		$template = str_replace("{giftcard_price}", '', $template);
 	}
@@ -125,8 +120,7 @@ if ($gid != 0)
 	{
 		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
 		$template = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
-	}
-	else
+	} else
 	{
 		$template = str_replace("{giftcard_reciver_name_lbl}", '', $template);
 		$template = str_replace("{giftcard_reciver_email_lbl}", '', $template);
@@ -143,8 +137,7 @@ if ($gid != 0)
 		$template = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
 		$template = str_replace("{customer_quantity_lbl}", JText::_('COM_REDSHOP_CUSTOMER_QUANTITY_LBL'), $template);
 		$template = str_replace("{customer_amount_lbl}", JText::_('COM_REDSHOP_CUSTOMER_AMOUNT_LBL'), $template);
-	}
-	else
+	} else
 	{
 		$template = str_replace("{giftcard_reciver_name_lbl}", '', $template);
 		$template = str_replace("{giftcard_reciver_email_lbl}", '', $template);
@@ -156,8 +149,7 @@ if ($gid != 0)
 	{
 		$template = str_replace("{giftcard_reciver_email}", $reciver_email, $template);
 		$template = str_replace("{giftcard_reciver_name}", $reciver_name, $template);
-	}
-	else
+	} else
 	{
 		$template = str_replace("{giftcard_reciver_email}", '', $template);
 		$template = str_replace("{giftcard_reciver_name}", '', $template);
@@ -166,8 +158,7 @@ if ($gid != 0)
 	if ($detail->customer_amount != 1)
 	{
 		$template = str_replace("{giftcard_validity}", $detail->giftcard_validity, $template);
-	}
-	else
+	} else
 	{
 		$template = str_replace("{giftcard_validity}", '', $template);
 	}
@@ -228,8 +219,7 @@ if ($gid != 0)
 		{
 			$template = str_replace("{if giftcard_userfield}", $productUserFieldsForm, $template);
 			$template = str_replace("{giftcard_userfield end if}", "</form>", $template);
-		}
-		else
+		} else
 		{
 			$template = str_replace("{if giftcard_userfield}", "", $template);
 			$template = str_replace("{giftcard_userfield end if}", "", $template);
@@ -243,8 +233,7 @@ if ($gid != 0)
 
 	$template = $redTemplate->parseredSHOPplugin($template);
 	echo eval("?>" . $template . "<?php ");
-}
-else
+} else
 {
 	if (strstr($template, "{giftcard_loop_start}") && strstr($template, "{giftcard_loop_end}"))
 	{
@@ -269,8 +258,7 @@ else
 				{
 					$thum_image = "<a href='" . $link . "'><img src='" . $product_img . "' title='" . $detail[$i]->giftcard_name . "' alt='" . $detail[$i]->giftcard_name . "'></a>";
 					$data_add   = str_replace("{giftcard_image}", $thum_image, $data_add);
-				}
-				else
+				} else
 				{
 					$data_add = str_replace("{giftcard_image}", "", $data_add);
 				}
@@ -287,8 +275,7 @@ else
 			if ($detail[$i]->customer_amount != 1)
 			{
 				$data_add = str_replace("{giftcard_validity}", $detail[$i]->giftcard_validity, $data_add);
-			}
-			else
+			} else
 			{
 				$data_add = str_replace("{giftcard_validity}", '', $data_add);
 			}

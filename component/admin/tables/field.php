@@ -98,8 +98,7 @@ class RedshopTableField extends RedshopTable
 		{
 			$id[] = $this->id;
 			$this->deleteFieldValues($id, 'field_id');
-		}
-		else
+		} else
 		{
 			$this->saveFieldValues($this->id);
 		}
@@ -202,8 +201,7 @@ class RedshopTableField extends RedshopTable
 			{
 				$extraNames = JRequest::getVar('extra_name_file', '', 'files', 'array');
 				$total      = count($extraNames['name']);
-			}
-			else
+			} else
 			{
 				$extraNames = $post->get('extra_name', '', 'raw');
 				$total      = count($extraNames);
@@ -246,8 +244,7 @@ class RedshopTableField extends RedshopTable
 
 					$set = " field_name='" . $filename . "', ";
 				}
-			}
-			else
+			} else
 			{
 				$filename = $extraNames[$j];
 				$set      = " field_name='" . $filename . "', ";
@@ -259,8 +256,7 @@ class RedshopTableField extends RedshopTable
 					->insert($db->qn('#__redshop_fields_value'))
 					->columns($db->qn(array('field_id', 'field_name', 'field_value')))
 					->values((int) $id . ', ' . $db->q($filename) . ', ' . $db->q($extraValues[$j]));
-			}
-			else
+			} else
 			{
 				$query = $db->getQuery(true)
 					->update($db->qn('#__redshop_fields_value'))

@@ -73,9 +73,7 @@ class RedshopTable extends AbstractTable
 		elseif ($client === 0)
 		{
 			JTable::addIncludePath(JPATH_SITE . '/components/' . $option . '/tables');
-		}
-
-		else
+		} else
 		{
 			throw new InvalidArgumentException(
 				sprintf('Cannot instanciate the table %s in component %s. Invalid client %s.', $name, $option, $client)

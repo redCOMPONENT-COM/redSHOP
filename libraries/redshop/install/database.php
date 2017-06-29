@@ -276,8 +276,7 @@ class RedshopInstallDatabase
 			{
 				return false;
 			}
-		}
-		else
+		} else
 		{
 			if (!isset($fields['drop']['index']))
 			{
@@ -301,16 +300,14 @@ class RedshopInstallDatabase
 							$db->setQuery($aQuery);
 							$db->execute();
 						}
-					}
-					else
+					} else
 					{
 						$db->setQuery($query);
 						$db->execute();
 					}
 				}
 			}
-		}
-		else
+		} else
 		{
 			// Drop index
 			foreach ($fields['drop']['index'] as $field => $query)
@@ -324,8 +321,7 @@ class RedshopInstallDatabase
 							$db->setQuery($aQuery);
 							$db->execute();
 						}
-					}
-					else
+					} else
 					{
 						$db->setQuery($query);
 						$db->execute();

@@ -41,13 +41,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<div class="alert alert-no-items alert-info">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
-	<?php else : ?>
+	<?php else {
+	: ?>
 	<table class="adminlist table table-striped">
 		<thead>
 			<tr>
 				<th width="1">#</th>
 				<th width="1">
-					<?php echo JHtml::_('redshopgrid.checkall'); ?>
+					<?php echo JHtml::_('redshopgrid.checkall');
+}
+?>
 				</th>
 				<th width="5%">
 					<?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ORDER_STATUS_PUBLISHED'), 'published', $listDirn, $listOrder) ?>
@@ -56,7 +59,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ORDER_STATUS_CODE'), 'order_status_code', $listDirn, $listOrder) ?>
 				</th>
 				<th nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ORDER_STATUS_NAME'), 'order_status_name', $listDirn, $listOrder);?>
+					<?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ORDER_STATUS_NAME'), 'order_status_name', $listDirn, $listOrder); ?>
 				</th>
 				<th align="right" width="5%">
 					<?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_ID'), 'order_status_id', $listDirn, $listOrder) ?>
@@ -90,11 +93,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 					<?php if ($row->checked_out && $user->id != $row->checked_out): ?>
 						<?php echo JHtml::_('string.truncate', $row->order_status_name, 50, true, false) ?>
-					<?php else: ?>
+					<?php else {
+	: ?>
 						<a href="<?php echo $link ?>">
 							<?php echo JHtml::_('string.truncate', $row->order_status_name, 50, true, false) ?>
 						</a>
-					<?php endif; ?>
+					<?php endif;
+}
+?>
 				</td>
 				<td>
 					<?php echo $row->order_status_id ?>

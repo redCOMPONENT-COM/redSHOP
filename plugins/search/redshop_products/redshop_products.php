@@ -221,8 +221,7 @@ class plgSearchRedshop_products extends JPlugin
 		try
 		{
 			$rows = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}

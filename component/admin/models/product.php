@@ -145,7 +145,7 @@ class RedshopModelProduct extends RedshopModel
 			return $items;
 		}
 
-		$db  = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$orderby = $this->_buildContentOrderBy();
 		$search_field = $this->getState('search_field');
@@ -163,32 +163,25 @@ class RedshopModelProduct extends RedshopModel
 			if ($product_sort == 'p.published')
 			{
 				$and = 'AND p.published=1 ';
-			}
-			elseif ($product_sort == 'p.unpublished')
+			} elseif ($product_sort == 'p.unpublished')
 			{
 				$and = 'AND p.published=0 ';
-			}
-			elseif ($product_sort == 'p.product_on_sale')
+			} elseif ($product_sort == 'p.product_on_sale')
 			{
 				$and = 'AND p.product_on_sale=1 ';
-			}
-			elseif ($product_sort == 'p.product_special')
+			} elseif ($product_sort == 'p.product_special')
 			{
 				$and = 'AND p.product_special=1 ';
-			}
-			elseif ($product_sort == 'p.expired')
+			} elseif ($product_sort == 'p.expired')
 			{
 				$and = 'AND p.expired=1 ';
-			}
-			elseif ($product_sort == 'p.not_for_sale')
+			} elseif ($product_sort == 'p.not_for_sale')
 			{
 				$and = 'AND p.not_for_sale > 0 ';
-			}
-			elseif ($product_sort == 'p.product_not_on_sale')
+			} elseif ($product_sort == 'p.product_not_on_sale')
 			{
 				$and = 'AND p.product_on_sale=0 ';
-			}
-			elseif ($product_sort == 'p.sold_out')
+			} elseif ($product_sort == 'p.sold_out')
 			{
 				$query_prd = "SELECT DISTINCT(p.product_id),p.attribute_set_id FROM #__redshop_product AS p ";
 				$tot_products = $this->_getList($query_prd);
@@ -200,8 +193,7 @@ class RedshopModelProduct extends RedshopModel
 				if (count($final_product_stock) > 0)
 				{
 					$product_id_array = implode(',', $final_product_stock);
-				}
-				else
+				} else
 				{
 					$product_id_array = "0";
 				}
@@ -227,8 +219,7 @@ class RedshopModelProduct extends RedshopModel
 				if ($search_field == 'p.name_number')
 				{
 					$where .= " p.product_name LIKE '%$arr_keyword[$k]%' OR p.product_number LIKE '%$arr_keyword[$k]%' ";
-				}
-				else
+				} else
 				{
 					$where .= $search_field . " LIKE '%$arr_keyword[$k]%'  ";
 				}
@@ -238,8 +229,7 @@ class RedshopModelProduct extends RedshopModel
 					if ($search_field == 'p.name_number')
 					{
 						$where .= ' OR ';
-					}
-					else
+					} else
 					{
 						$where .= ' AND ';
 					}
@@ -271,8 +261,7 @@ class RedshopModelProduct extends RedshopModel
 				. ",p.product_template "
 				. " FROM #__redshop_product AS p "
 				. "WHERE 1=1 " . $and . $orderby;
-		}
-		else
+		} else
 		{
 			$query = "SELECT p.product_id AS id,p.product_id,p.product_name,p.product_name AS treename,p.product_name AS
 			name,p.product_name AS title,p.product_parent_id,p.product_parent_id AS parent,p.product_price " . ",
@@ -324,7 +313,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function _buildContentOrderBy()
 	{
-		$db  = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$category_id = $this->getState('category_id');
 		$filter_order_Dir = $this->getState('list.direction');
@@ -332,8 +321,7 @@ class RedshopModelProduct extends RedshopModel
 		if ($category_id)
 		{
 			$filter_order = $this->getState('list.ordering', 'x.ordering');
-		}
-		else
+		} else
 		{
 			$filter_order = $this->getState('list.ordering', 'p.product_id');
 
@@ -376,8 +364,7 @@ class RedshopModelProduct extends RedshopModel
 		if ($section == 1 || $section == 12)
 		{
 			$template_desc = $redTemplate->getTemplate("product", $template_id);
-		}
-		else
+		} else
 		{
 			$template_desc = $redTemplate->getTemplate("category", $template_id);
 		}
@@ -411,8 +398,7 @@ class RedshopModelProduct extends RedshopModel
 					{
 						$str[] = $fields[$i]->field_name;
 					}
-				}
-				else
+				} else
 				{
 					$str[] = $fields[$i]->field_name;
 				}
@@ -435,9 +421,7 @@ class RedshopModelProduct extends RedshopModel
 		if (count($list_field) > 0)
 		{
 			return $list_field;
-		}
-
-		else
+		} else
 		{
 			return "";
 		}
@@ -524,8 +508,7 @@ class RedshopModelProduct extends RedshopModel
 				if ($v->parent_id == 0)
 				{
 					$txt = $v->title;
-				}
-				else
+				} else
 				{
 					$txt = str_repeat($indent, $v->level) . $v->title;
 				}

@@ -20,8 +20,7 @@ if ($fsec == 'subproperty')
 {
 	$images = $this->model->getSubpropertyImages($section_id);
 	$mainImage = $this->producthelper->getAttibuteSubProperty($section_id);
-}
-else
+} else
 {
 	$mainImage = $this->producthelper->getAttibuteProperty($section_id);
 	$images = $this->model->getpropertyImages($section_id);
@@ -134,8 +133,7 @@ if ($fsec == 'subproperty')
 {
 	$thumb = $mainImage->subattribute_color_image;
 	$rs_folder = 'subcolor';
-}
-else
+} else
 {
 	$thumb = $mainImage->property_main_image;
 	$rs_folder = 'property';

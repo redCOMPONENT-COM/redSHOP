@@ -32,7 +32,7 @@ $items = array_chunk($items, 3);
                                     </label>
                                 </div>
                             </div>
-						<?php else: ?>
+						<?php else : ?>
 							<?php foreach ($sections['items'] as $sectionKey => $section) : ?>
                                 <div class="panel panel-default">
 									<?php $isHide = in_array($section->title, $menuhide); ?>

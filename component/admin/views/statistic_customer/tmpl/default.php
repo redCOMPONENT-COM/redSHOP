@@ -37,9 +37,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					"<?php echo $productHelper->getProductFormattedPrice($row->total_sale) ?>"
 				],
 				<?php endforeach; ?>
-			<?php else: ?>
+			<?php else {
+	: ?>
                 [0, 0, 0],
-			<?php endif; ?>
+			<?php endif;
+}
+?>
 		]);
 
 		var options = {
@@ -77,7 +80,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<div class="alert alert-info">
 		<p><?php echo JText::_('COM_REDSHOP_NO_DATA') ?></p>
 	</div>
-	<?php else: ?>
+	<?php else {
+	: ?>
 	<p></p>
 	<div id="customer_statistic_chart"></div>
 	<hr />
@@ -103,7 +107,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<tr>
 				<td align="center">
 					<a href="index.php?option=com_redshop&view=user_detail&task=edit&user_id=<?php echo $row->user_id ?>&cid[]=<?php echo $row->users_info_id ?>">
-						<?php echo $row->firstname . ' ' . $row->lastname; ?>
+						<?php echo $row->firstname . ' ' . $row->lastname;
+}
+?>
 					</a>
 				</td>
 				<td align="center"><?php echo $row->user_email ?></td>

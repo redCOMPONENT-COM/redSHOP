@@ -867,8 +867,7 @@ abstract class RedshopEntityBase
 			{
 				// Redshopb method to get only public properties
 				$data = $table->getTableProperties();
-			}
-			else
+			} else
 			{
 				// Fallback for every other JTable (not redshopb tables)
 				$data = $table->getProperties(true);

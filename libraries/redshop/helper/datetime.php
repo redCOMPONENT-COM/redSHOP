@@ -35,8 +35,7 @@ class RedshopHelperDatetime
 		{
 			$date = $date . ' 23:59:59';
 			$date = new DateTime($date);
-		}
-		else
+		} else
 		{
 			$date = $date . ' 00:00:01';
 			$date = new DateTime($date);

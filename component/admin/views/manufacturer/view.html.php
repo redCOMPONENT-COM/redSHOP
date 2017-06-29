@@ -28,7 +28,7 @@ class RedshopViewManufacturer extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$uri      = JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT'), 'flag redshop_manufact48');
 		JToolbarHelper::addNew();

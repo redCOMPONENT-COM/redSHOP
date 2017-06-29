@@ -66,8 +66,7 @@ $shopperGroupId = $userhelper->getShopperGroup($user_id);
 if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 {
 	$paymentAmount = $order->order_subtotal;
-}
-else
+} else
 {
 	$paymentAmount = $order->order_total;
 }
@@ -80,8 +79,9 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 {
 	$accepted_cc_list = array();
 	$accepted_cc_list = $accepted_credict_card;
-	if ($accepted_credict_card != "")
-		$cc_list = array();
+	if ($accepted_credict_card != "") {
+			$cc_list = array();
+	}
 
 	$cc_list['VISA'] = new stdClass;
 	$cc_list['VISA']->img = 'visa.jpg';
@@ -125,10 +125,11 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 								{
 									$value = $accepted_cc_list[$i];
 									$checked = "";
-									if (!isset($_SESSION['ccdata']['creditcard_code']) && $i == 0)
-										$checked = "checked";
-									elseif (isset($_SESSION['ccdata']['creditcard_code']))
-										$checked = ($_SESSION['ccdata']['creditcard_code'] == $value) ? "checked" : "";
+									if (!isset($_SESSION['ccdata']['creditcard_code']) && $i == 0) {
+																			$checked = "checked";
+									} elseif (isset($_SESSION['ccdata']['creditcard_code'])) {
+																			$checked = ($_SESSION['ccdata']['creditcard_code'] == $value) ? "checked" : "";
+									}
 									?>
 									<td align="center"><input type="radio" name="creditcard_code"
 									                          value="<?php echo $value; ?>"  <?php echo $checked ?>  />
@@ -146,18 +147,22 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 					</td>
 					<td>
 						<input class="inputbox" id="order_payment_name" name="order_payment_name"
-						       value="<?php if (!empty($_SESSION['ccdata']['order_payment_name'])) echo $_SESSION['ccdata']['order_payment_name'] ?>"
+						       value="<?php if (!empty($_SESSION['ccdata']['order_payment_name'])) {
+	echo $_SESSION['ccdata']['order_payment_name'] ?>"
 						       autocomplete="off" type="text">
 					</td>
 
 				</tr>
 				<tr valign="top">
 					<td align="right" nowrap="nowrap" width="10%">
-						<label for="order_payment_number"><?php echo JText::_('COM_REDSHOP_CARD_NUM'); ?></label>
+						<label for="order_payment_number"><?php echo JText::_('COM_REDSHOP_CARD_NUM');
+}
+?></label>
 					</td>
 					<td>
 						<input class="inputbox" id="order_payment_number" name="order_payment_number"
-						       value="<?php if (!empty($_SESSION['ccdata']['order_payment_number'])) echo $_SESSION['ccdata']['order_payment_number'] ?>"
+						       value="<?php if (!empty($_SESSION['ccdata']['order_payment_number'])) {
+	echo $_SESSION['ccdata']['order_payment_number'] ?>"
 						       autocomplete="off" type="text">
 					</td>
 
@@ -165,7 +170,9 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 
 				<tr>
 					<td align="right" nowrap="nowrap"
-					    width="10%"><?php echo JText::_('COM_REDSHOP_EXPIRY_DATE'); ?></td>
+					    width="10%"><?php echo JText::_('COM_REDSHOP_EXPIRY_DATE');
+}
+?></td>
 					<td>
 						<?php
 						$value = @$_SESSION['ccdata']['order_payment_expire_month'];
@@ -198,8 +205,7 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 								{
 									$selected = "selected=\"selected\"";
 								}
-							}
-							else
+							} else
 							{
 								if (strtolower($value) == strtolower($key))
 								{
@@ -238,7 +244,8 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 					</td>
 					<td>
 						<input class="inputbox" id="credit_card_code" name="credit_card_code"
-						       value="<?php if (!empty($_SESSION['ccdata']['credit_card_code'])) echo $_SESSION['ccdata']['credit_card_code'] ?>"
+						       value="<?php if (!empty($_SESSION['ccdata']['credit_card_code'])) {
+	echo $_SESSION['ccdata']['credit_card_code'] ?>"
 						       autocomplete="off" type="text">
 					</td>
 				</tr>
@@ -247,7 +254,9 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 				<tr valign="top">
 					<td align="right" nowrap="nowrap" width="10%">
 						<label for="credit_card_code">
-							<?php echo JText::_('COM_REDSHOP_ORDERTOTAL'); ?>
+							<?php echo JText::_('COM_REDSHOP_ORDERTOTAL');
+}
+?>
 						</label>
 					</td>
 					<td>
@@ -258,8 +267,7 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 						if (!isset($order->order_shipping) || $order->order_shipping == '')
 						{
 							$cart_shipping = 0;
-						}
-						else
+						} else
 						{
 							$cart_shipping = $order->order_shipping;
 						}
@@ -270,13 +278,16 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 						$check_type = $order->order_discount;
 
 						$cdiscount = $order->order_discount;
-						if ($check_type == 0) //////// 0 : Discount code in total , 1: Discount code in total
+						if ($check_type == 0) {
+							//////// 0 : Discount code in total , 1: Discount code in total
 						{
 							$discount_total = $order->order_discount;
 						}
-						else if ($check_type == 1) //////// 0 : Discount code in percentage , 1: Discount code in perstage
+						} else if ($check_type == 1) {
+							//////// 0 : Discount code in percentage , 1: Discount code in perstage
 						{
 							$discount_total = $order->order_discount;
+						}
 							$discount_total = ($total * $discount_total) / 100;
 						}
 
@@ -286,18 +297,18 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 						{
 							$total = ($total) - ($odiscount);
 							$odiscount = $discount_total + $order->order_discount;
-						}
-						else
+						} else
 						{
 							$total = 0;
 							$odiscount = $cdiscount + $order->order_discount;
 						}
 
 						$issplit = $session->get('issplit');
-						if ($issplit)
-							$amt = $total / 2;
-						else
-							$amt = $total;
+						if ($issplit) {
+													$amt = $total / 2;
+						} else {
+													$amt = $total;
+						}
 						?>
 						<?php
 						echo $order->order_total;
@@ -320,8 +331,7 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 	</form>
 <?php
 
-}
-else
+} else
 {
 	// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
 	$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($plugin);
@@ -332,8 +342,7 @@ else
 			'index.php?option=com_redshop&view=order_detail&task=checkoutnext&payment_plugin=' . $plugin . '&order_id='
 			. $order_id . '&ccinfo=0&users_info_id=' . $order->user_info_id
 		);
-	}
-	else
+	} else
 	{
 		JPluginHelper::importPlugin('redshop_payment');
 		$dispatcher = JDispatcher::getInstance();

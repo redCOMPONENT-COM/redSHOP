@@ -21,10 +21,10 @@ $url = $uri->root();
 			return;
 		}
 		if (form.currency_name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_CURREMCY_MUST_HAVE_A_NAME', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_CURREMCY_MUST_HAVE_A_NAME', true); ?>");
 		}
 		else if (form.currency_code.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_CURRENCY_CODE_MUST_HAVE_A_VALUE', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_CURRENCY_CODE_MUST_HAVE_A_VALUE', true); ?>");
 		}
 
 		else {

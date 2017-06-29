@@ -56,8 +56,7 @@ class RedshopViewNewsletter_detail extends RedshopViewAdmin
 			$text = "statistics";
 			JRequest::setVar('hidemainmenu', 1);
 			$this->setLayout($layout);
-		}
-		else
+		} else
 		{
 			$this->setLayout('default');
 		}
@@ -73,8 +72,7 @@ class RedshopViewNewsletter_detail extends RedshopViewAdmin
 		if ($isNew)
 		{
 			JToolBarHelper::cancel();
-		}
-		else
+		} else
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}

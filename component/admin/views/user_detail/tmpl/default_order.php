@@ -7,12 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-    ?>
+	?>
 <div id="editcell">
 	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
-			<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM');; ?></th>
+			<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ; ?></th>
 			<th width="5%"><?php echo JText::_('COM_REDSHOP_ORDER_ID'); ?></th>
 			<th width="5%"><?php echo JText::_('COM_REDSHOP_ORDER_NUMBER'); ?></th>
 			<th width="5%"><?php echo JText::_('COM_REDSHOP_ORDER_DATE'); ?></th>
@@ -28,13 +28,13 @@ defined('_JEXEC') or die;
 			$row->id = $row->order_id;
 			$link = JRoute::_('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id); ?>
 			<tr>
-				<td align="center"><?php echo $this->pagination->getRowOffset($i);?></td>
+				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 				<td align="center">
 					<a href="<?php echo $link; ?>"
-					   title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>"><?php echo $row->order_id;?></a></td>
+					   title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>"><?php echo $row->order_id; ?></a></td>
 				<td align="center"><?php echo $row->order_number; ?></td>
 				<td align="center"><?php echo $this->config->convertDateFormat($row->cdate); ?></td>
-				<td align="center"><?php echo $this->producthelper->getProductFormattedPrice($row->order_total);?></td>
+				<td align="center"><?php echo $this->producthelper->getProductFormattedPrice($row->order_total); ?></td>
 			</tr>
 			<?php   $k = 1 - $k;
 		}    ?>

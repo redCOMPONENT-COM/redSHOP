@@ -29,7 +29,7 @@ class RedshopViewGiftcards extends RedshopViewAdmin
 	{
 		// Get data from the model
 		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
+		$this->pagination = $this->get('Pagination');
 		$this->state		= $this->get('State');
 
 		// Check for errors.

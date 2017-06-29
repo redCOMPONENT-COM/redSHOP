@@ -59,8 +59,7 @@ class RedshopHelperUtility
 		if (Redshop::getConfig()->get('SSL_ENABLE_IN_BACKEND') && $applySSL)
 		{
 			$link->setScheme('https');
-		}
-		else
+		} else
 		{
 			$link->setScheme('http');
 		}
@@ -95,7 +94,7 @@ class RedshopHelperUtility
 		$db = JFactory::getDbo();
 
 		return array_map(
-			function ($value) use ($db)
+			function($value) use ($db)
 			{
 				return $db->quote($value);
 			},
@@ -117,7 +116,7 @@ class RedshopHelperUtility
 		$db = JFactory::getDbo();
 
 		return array_map(
-			function ($value) use ($db)
+			function($value) use ($db)
 			{
 				return $db->qn($value);
 			},
@@ -403,9 +402,7 @@ class RedshopHelperUtility
 					if (preg_match('/<[\w]+[^>]*>/s', $tag[0]))
 					{
 						array_unshift($openTags, $tag[2]);
-					}
-
-					elseif (preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag))
+					} elseif (preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag))
 					{
 						$pos = array_search($closeTag[1], $openTags);
 
@@ -433,8 +430,7 @@ class RedshopHelperUtility
 							{
 								$left--;
 								$entitiesLength += strlen($entity[0]);
-							}
-							else
+							} else
 							{
 								break;
 							}
@@ -443,10 +439,9 @@ class RedshopHelperUtility
 
 					$truncate .= substr($tag[3], 0, $left + $entitiesLength);
 					break;
-				}
-				else
+				} else
 				{
-					$truncate    .= $tag[3];
+					$truncate .= $tag[3];
 					$totalLength = $contentLength;
 				}
 
@@ -455,14 +450,12 @@ class RedshopHelperUtility
 					break;
 				}
 			}
-		}
-		else
+		} else
 		{
 			if (strlen($text) <= $length)
 			{
 				return $text;
-			}
-			else
+			} else
 			{
 				$truncate = substr($text, 0, $length - strlen($ending));
 			}
@@ -822,8 +815,7 @@ class RedshopHelperUtility
 					}
 				}
 			}
-		}
-		else
+		} else
 		{
 			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
 
@@ -855,8 +847,7 @@ class RedshopHelperUtility
 			if ($ltext != $txt)
 			{
 				$data[$i]->text = $ltext;
-			}
-			elseif ($data[$i]->country_jtext != "")
+			} elseif ($data[$i]->country_jtext != "")
 			{
 				$data[$i]->text = $data[$i]->country_jtext;
 			}
@@ -1240,8 +1231,7 @@ class RedshopHelperUtility
 			if (!is_dir($redProductFinderPath) || $db->setQuery($query)->loadResult() == 0)
 			{
 				self::$isRedProductFinder = false;
-			}
-			else
+			} else
 			{
 				self::$isRedProductFinder = true;
 			}

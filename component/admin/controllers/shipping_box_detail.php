@@ -39,8 +39,7 @@ class RedshopControllerShipping_box_detail extends RedshopController
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_SHIPPING_BOX_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_BOX');
 		}
@@ -48,8 +47,7 @@ class RedshopControllerShipping_box_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=shipping_box_detail&task=edit&cid[]=' . $row->shipping_box_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=shipping_box', $msg);
 		}

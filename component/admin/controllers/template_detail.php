@@ -45,13 +45,12 @@ class RedshopControllerTemplate_detail extends RedshopController
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_TEMPLATE_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TEMPLATE');
 		}
 
-		$showbuttons  = $app->input->getInt('showbuttons', 0);
+		$showbuttons = $app->input->getInt('showbuttons', 0);
 
 		if ($apply || $showbuttons)
 		{
@@ -68,8 +67,7 @@ class RedshopControllerTemplate_detail extends RedshopController
 			}
 
 			$this->setRedirect($returnUrl, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=template', $msg);
 		}
@@ -116,12 +114,12 @@ class RedshopControllerTemplate_detail extends RedshopController
 		{
 			$msg = array();
 
-			foreach($model->names As $names)
+			foreach ($model->names As $names)
 			{
 				$msg[] = JText::sprintf('COM_REDSHOP_TEMPLATE_COPIED', $names[0], $names[1]);
 			}
 
-			$msg = implode('<br />',$msg);
+			$msg = implode('<br />', $msg);
 		}
 		else
 		{

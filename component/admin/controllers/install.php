@@ -82,8 +82,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 			$className = $process[0];
 			$method    = $process[1];
 			$isStatic  = true;
-		}
-		elseif (false !== strpos($process, '.'))
+		} elseif (false !== strpos($process, '.'))
 		{
 			$process   = explode('.', $process);
 			$className = $process[0];
@@ -121,14 +120,12 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 			if ($isStatic)
 			{
 				call_user_func(array($className, $method));
-			}
-			else
+			} else
 			{
 				$class = new $className;
 				call_user_func(array($class, $method));
 			}
-		}
-		catch (Exception $error)
+		} catch (Exception $error)
 		{
 			$app->setHeader('status', 500);
 			$app->sendHeaders();
@@ -140,8 +137,7 @@ class RedshopControllerInstall extends RedshopControllerAdmin
 		if (empty($remainingTasks))
 		{
 			$app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, null);
-		}
-		else
+		} else
 		{
 			$app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, $remainingTasks);
 			$return['continue'] = 1;

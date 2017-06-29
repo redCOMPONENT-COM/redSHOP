@@ -42,7 +42,7 @@ $config = Redconfiguration::getInstance();
  					<input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
  						placeholder="<?php echo JText::_('COM_REDSHOP_VOUCHER_FILTER'); ?>">
  					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-					<input type="button" class="btn reset" onclick="document.getElementById('filter').value='';this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+					<input type="button" class="btn reset" onclick="document.getElementById('filter').value='';this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
  				</div>
 			</div>
 		</div>
@@ -116,7 +116,7 @@ $config = Redconfiguration::getInstance();
 					<td align="center"><?php echo $config->convertDateFormat($row->start_date); ?></td>
 					<td align="center"><?php echo $config->convertDateFormat($row->end_date); ?></td>
 					<td align="center"><?php echo $row->voucher_left; ?></td>
-					<td align="center"><?php echo $published;?></td>
+					<td align="center"><?php echo $published; ?></td>
 					<td align="center"><?php echo $row->voucher_id; ?></td>
 				</tr>
 				<?php

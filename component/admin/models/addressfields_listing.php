@@ -86,8 +86,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 		if ($where == '')
 		{
 			$query = "SELECT count(*)  FROM " . $this->_table_prefix . "fields f WHERE 1=1";
-		}
-		else
+		} else
 		{
 			$query = " SELECT count(*)  FROM " . $this->_table_prefix . "fields f" . $where;
 		}
@@ -116,8 +115,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 		if ($where == '')
 		{
 			$query = "SELECT distinct(f.id),f.*  FROM " . $this->_table_prefix . "fields f WHERE 1=1" . $orderby . $limit;
-		}
-		else
+		} else
 		{
 			$query = " SELECT distinct(f.id),f.*  FROM " . $this->_table_prefix . "fields f" . $where . $orderby . $limit;
 		}
@@ -136,8 +134,7 @@ class RedshopModelAddressfields_listing extends RedshopModel
 		if ($filter_order == 'ordering')
 		{
 			$orderby = ' ORDER BY section, ordering ' . $filter_order_Dir;
-		}
-		else
+		} else
 		{
 			$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir) . ', section, ordering';
 		}

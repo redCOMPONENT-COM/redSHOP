@@ -35,8 +35,7 @@ if ($this->params->get('show_page_heading', 1))
 		if ($this->params->get('page_title') != $pagetitle)
 		{
 			echo $this->escape($this->params->get('page_title'));
-		}
-		else
+		} else
 		{
 			echo $pagetitle;
 		} ?>
@@ -52,8 +51,7 @@ if (count($manufacturerdetail_template) > 0 && $manufacturerdetail_template[0]->
 {
 	$template_desc = $manufacturerdetail_template[0]->template_desc;
 	$template_id   = $manufacturerdetail_template[0]->template_id;
-}
-else
+} else
 {
 	$template_desc = "<div style=\"clear: both;\"></div>\r\n<div class=\"manufacturer_name\">{manufacturer_name}</div>\r\n<div class=\"manufacturer_image\">{manufacturer_image}</div>\r\n<div class=\"manufacturer_description\">{manufacturer_description}</div>\r\n<div class=\"manufacturer_product_link\"><a href=\"{manufacturer_allproductslink}\">{manufacturer_allproductslink_lbl}</a></div>\r\n<div style=\"clear: both;\"></div>";
 	$template_id   = 0;
@@ -122,8 +120,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 			{
 				$manufacturer_img = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE'));
 				$maintype         = "watermarked/main";
-			}
-			else
+			} else
 			{
 				$maintype = "manufacturer/";
 			}
@@ -132,8 +129,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 			{
 				$manufacturer_img = RedshopHelperMedia::watermark('manufacturer', $media_image[$m]->media_name, "", "", Redshop::getConfig()->get('WATERMARK_MANUFACTURER_THUMB_IMAGE'));
 				$thumbtype        = "watermarked/main";
-			}
-			else
+			} else
 			{
 				$thumbtype = "manufacturer/";
 			}

@@ -39,8 +39,7 @@ class RedshopModelProducttags_detail extends RedshopModel
 	{
 		if ($this->_loadData())
 		{
-		}
-		else
+		} else
 		{
 			$this->_initData();
 		}
@@ -115,8 +114,7 @@ class RedshopModelProducttags_detail extends RedshopModel
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
-			}
-			else
+			} else
 			{
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'product_tags_xref WHERE tags_id IN ( ' . $cids . ' )';
 				$this->_db->setQuery($query);

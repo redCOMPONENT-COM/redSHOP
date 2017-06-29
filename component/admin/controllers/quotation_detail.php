@@ -113,13 +113,11 @@ class RedshopControllerQuotation_detail extends RedshopController
 			if ($apply == 1)
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id, $msg);
-			}
-			else
+			} else
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 			}
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
 			$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
@@ -189,8 +187,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		if ($model->newQuotationItem($post))
 		{
 			$msg = JText::_('COM_REDSHOP_QUOTATION_ITEM_ADDED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_ADDING_QUOTATION_ITEM');
 		}

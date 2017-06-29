@@ -99,16 +99,14 @@ class CurrencyLayer
 			if (date('w') > 0 && date('w') < 6 && $storeFileDate != $dateNowLocal && $timeNowLocal > $timeECBUpdate)
 			{
 				$currentFile = $this->initializeCurl();
-			}
-			else
+			} else
 			{
 				$currentFile = $storeFile;
 
 				$this->lastUpdated = $storeFileDate;
 				$this->archive     = false;
 			}
-		}
-		else
+		} else
 		{
 			$currentFile = $this->initializeCurl();
 		}
@@ -124,8 +122,8 @@ class CurrencyLayer
 		{
 			try
 			{
-                $contents = json_decode(file_get_contents($currentFile), true);
-                $currentFile = $contents;
+				$contents = json_decode(file_get_contents($currentFile), true);
+				$currentFile = $contents;
 			}
 			catch (\Exception $e)
 			{
@@ -154,10 +152,10 @@ class CurrencyLayer
 
 		if (!$contents)
 		{
-            $this->convertedCurrencies = array();
+			$this->convertedCurrencies = array();
 
-            return;
-        }
+			return;
+		}
 
 		if ($this->archive)
 		{
@@ -166,7 +164,7 @@ class CurrencyLayer
 		}
 
 		$currencies = $currentFile['quotes'];
-        $result = array();
+		$result = array();
 
 		foreach ($currencies as $currency => $rate)
 		{
@@ -232,7 +230,7 @@ class CurrencyLayer
 
 			return $amount;
 		}
-        }
+		}
 
 		$valueA = isset($convertedCurrencies[$sourceCurrency]) ? $convertedCurrencies[$sourceCurrency] : 1;
 		$valueB = isset($convertedCurrencies[$targetCurrency]) ? $convertedCurrencies[$targetCurrency] : 1;

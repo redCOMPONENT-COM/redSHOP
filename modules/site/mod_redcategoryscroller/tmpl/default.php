@@ -31,7 +31,8 @@ $redHelper = redhelper::getInstance();
                 scrolldelay="<?php echo $scrollDelay ?>"
                 truespeed="true" onmouseover="this.stop()" onmouseout="this.start()"
                 style="text-align: <?php echo $scrollTextAlign ?>; color: <?php echo $scrollTextColor ?>; font-weight: <?php echo $scrollTextWeight ?>; font-size: <?php echo $scrollTextSize ?>px;">
-    <?php else: ?>
+    <?php else {
+	: ?>
     <div style="width: <?php echo $scrollWidth ?>px;text-align: <?php echo $scrollAlign ?>">
         <marquee
                 behavior="<?php echo $scrollBehavior ?>"
@@ -41,7 +42,9 @@ $redHelper = redhelper::getInstance();
                 scrollamount="<?php echo $scrollAmount ?>"
                 scrolldelay="<?php echo $scrollDelay ?>"
                 truespeed="true" onmouseover="this.stop()" onmouseout="this.start()">
-    <?php endif; ?>
+    <?php endif;
+}
+?>
 
             <?php if ($scrollDirection == 'left' || $scrollDirection == 'right'): ?>
                     <table>
@@ -76,12 +79,11 @@ $redHelper = redhelper::getInstance();
 									$linkImage = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 
 									if ($row->category_full_image
-                                        && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $row->category_full_image))
+										&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $row->category_full_image))
 									{
 										$categoryImage = RedshopHelperMedia::watermark('category', $row->category_full_image, $thumbWidth, $thumbHeight, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'));
 										$linkImage     = RedshopHelperMedia::watermark('category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'));
-									}
-									else if (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
+									} else if (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 									{
 										$categoryImage = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $thumbWidth, $thumbHeight, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'));
 										$linkImage     = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'));
@@ -90,8 +92,7 @@ $redHelper = redhelper::getInstance();
 									if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
 									{
 										$categoryThumb = "<a class='modal' href='" . $linkImage . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
-									}
-									else
+									} else
 									{
 										$categoryThumb = "<a href='" . $link . "' " . $title . ">";
 									}
@@ -105,17 +106,20 @@ $redHelper = redhelper::getInstance();
 
 								if ($this->show_category_name == 'yes')
 								{
-									$categoryName    = "<tr><td style='text-align:" . $this->ScrollTextAlign . ";font-weight:" . $this->ScrollTextWeight . ";font-size:" . $this->ScrollTextSize . "px;'><a href='" . $link . "' >" . $categoryName . "</a></td></tr>";
+									$categoryName = "<tr><td style='text-align:" . $this->ScrollTextAlign . ";font-weight:" . $this->ScrollTextWeight . ";font-size:" . $this->ScrollTextSize . "px;'><a href='" . $link . "' >" . $categoryName . "</a></td></tr>";
 									echo $categoryName;
 								}
 								?>
 								<?php if ($scrollDirection == 'left' || $scrollDirection == 'right'): ?>
                                         </table>
                                     </td>
-								<?php else: ?>
+								<?php else {
+	: ?>
 									<?php foreach ($scrollLineCharTimes as $scrollLineCharTime): ?>
 										<?php echo $scrollLineChar ?>
-									<?php endforeach; ?>
+									<?php endforeach;
+}
+?>
 								<?php endif; ?>
 
 								<?php $i++; ?>

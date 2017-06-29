@@ -70,15 +70,12 @@ class RedshopHelperMedia
 		if ($size < 1024)
 		{
 			return $size . ' bytes';
-		}
-		else
+		} else
 		{
 			if ($size >= 1024 && $size < 1024 * 1024)
 			{
 				return sprintf('%01.2f', $size / 1024.0) . ' Kb';
-			}
-
-			else
+			} else
 			{
 				return sprintf('%01.2f', $size / (1024.0 * 1024)) . ' Mb';
 			}
@@ -106,9 +103,7 @@ class RedshopHelperMedia
 		if ($width > $height)
 		{
 			$percentage = ($target / $width);
-		}
-
-		else
+		} else
 		{
 			$percentage = ($target / $height);
 		}
@@ -191,8 +186,7 @@ class RedshopHelperMedia
 			$segments[count($segments) - 1] = $fileName;
 
 			return implode(DIRECTORY_SEPARATOR, $segments);
-		}
-		else
+		} else
 		{
 			return $fileName;
 		}
@@ -214,7 +208,7 @@ class RedshopHelperMedia
 	 * @since  2.0.0.3
 	 */
 	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50,
-	                                    $height = 50, $proportional = -1)
+										$height = 50, $proportional = -1)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -402,8 +396,7 @@ class RedshopHelperMedia
 			if (!JFolder::create($path))
 			{
 				return false;
-			}
-			else
+			} else
 			{
 				if (!JFile::exists($path . '/index.html'))
 				{
@@ -434,7 +427,7 @@ class RedshopHelperMedia
 	 * @since  2.0.0.3
 	 */
 	public static function resizeImage($file, $width = 0, $height = 0, $proportional = -1, $output = 'file',
-	                                   $deleteOriginal = true, $useLinuxCommands = false)
+									   $deleteOriginal = true, $useLinuxCommands = false)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -460,12 +453,10 @@ class RedshopHelperMedia
 				if ($width === 0)
 				{
 					$factor = $height / $heightOld;
-				}
-				elseif ($height === 0)
+				} elseif ($height === 0)
 				{
 					$factor = $width / $widthOld;
-				}
-				else
+				} else
 				{
 					$factor = min($width / $widthOld, $height / $heightOld);
 				}
@@ -484,8 +475,7 @@ class RedshopHelperMedia
 				{
 					$finalHeight = $width / $ratioOrig;
 					$finalWidth  = $width;
-				}
-				else
+				} else
 				{
 					$finalWidth  = $height * $ratioOrig;
 					$finalHeight = $height;
@@ -533,9 +523,7 @@ class RedshopHelperMedia
 				$color = imagecolorallocatealpha($imageResized, 0, 0, 0, 127);
 				imagefill($imageResized, 0, 0, $color);
 				imagesavealpha($imageResized, true);
-			}
-
-			elseif ($transparency >= 0)
+			} elseif ($transparency >= 0)
 			{
 				$transparentColor = imagecolorsforindex($image, $transparency);
 
@@ -561,9 +549,7 @@ class RedshopHelperMedia
 			if ($useLinuxCommands)
 			{
 				exec('rm ' . $file);
-			}
-
-			else
+			} else
 			{
 				unlink($file);
 			}
@@ -898,8 +884,7 @@ class RedshopHelperMedia
 			}
 
 			return REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $imageNameWithPrefix;
-		}
-		catch (Exception $e)
+		} catch (Exception $e)
 		{
 			if ($e->getMessage())
 			{
@@ -909,8 +894,7 @@ class RedshopHelperMedia
 			if ((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
 			{
 				$fileName = REDSHOP_FRONT_IMAGES_ABSPATH . $pathMainImage;
-			}
-			else
+			} else
 			{
 				$filePath = JPATH_SITE . '/components/com_redshop/assets/images/' . $pathMainImage;
 				$fileName = self::generateImages(

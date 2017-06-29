@@ -37,8 +37,7 @@ abstract class JHtmlRedshopGrid
 
 			return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="'
 				. JHtml::tooltipText($tip) . '" onclick="' . $action . '" />';
-		}
-		else
+		} else
 		{
 			return '<input type="checkbox" name="' . $name . '" value="" title="' . JText::_($tip) . '" onclick="' . $action . '" />';
 		}
@@ -236,8 +235,8 @@ abstract class JHtmlRedshopGrid
 	 * @return  string         The Html code
 	 */
 	public static function action($i, $task, $prefix = '', $text = '', $active_title = '', $inactive_title = '',
-	                              $tip = false, $active_class = '', $inactive_class = '',
-	                              $enabled = true, $translate = true, $checkbox = 'cb', $formId = 'adminForm', $buttonClass = '')
+								  $tip = false, $active_class = '', $inactive_class = '',
+								  $enabled = true, $translate = true, $checkbox = 'cb', $formId = 'adminForm', $buttonClass = '')
 	{
 		if (is_array($prefix))
 		{
@@ -266,9 +265,7 @@ abstract class JHtmlRedshopGrid
 			if ($active_class === 'plus')
 			{
 				$buttonClass = 'published';
-			}
-
-			elseif ($active_class === 'minus')
+			} elseif ($active_class === 'minus')
 			{
 				$buttonClass = 'unpublished';
 			}
@@ -282,8 +279,7 @@ abstract class JHtmlRedshopGrid
 			$html[] = '<i class="fa fa-' . $active_class . '">';
 			$html[] = '</i>';
 			$html[] = '</a>';
-		}
-		else
+		} else
 		{
 			$html[] = '<a class="btn btn-small disabled jgrid ' . $buttonClass . ' ' . ($tip ? 'hasPopover' : '') . '" ';
 			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')) . '">';
@@ -291,8 +287,7 @@ abstract class JHtmlRedshopGrid
 			if ($active_class == "protected")
 			{
 				$html[] = '<i class="fa fa-lock"></i>';
-			}
-			else
+			} else
 			{
 				$html[] = '<i class="fa fa-' . $active_class . '"></i>';
 			}

@@ -46,8 +46,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	{
 		if ($this->_loadData())
 		{
-		}
-		else
+		} else
 		{
 			$this->_initData();
 		}
@@ -374,8 +373,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				$this->setError($this->_db->getErrorMsg());
 
 				return false;
-			}
-			else
+			} else
 			{
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_id IN (' . $cids . ' )';
 				$this->_db->setQuery($query);
@@ -517,8 +515,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 			if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg')
 			{
 				return false;
-			}
-			else
+			} else
 			{
 				$main_name = RedShopHelperImages::cleanFileName($main_img['name']);
 				$main_src = $main_img['tmp_name'];
@@ -552,8 +549,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg')
 				{
 					return false;
-				}
-				else
+				} else
 				{
 					$sub_name = RedShopHelperImages::cleanFileName($sub_img['name'][$i]);
 
@@ -629,8 +625,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg')
 				{
 					return false;
-				}
-				else
+				} else
 				{
 					$sub_name = RedShopHelperImages::cleanFileName($sub_img['name'][$i]);
 
@@ -662,8 +657,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 						$query = "INSERT INTO " . $this->_table_prefix . "product_subattribute_color
 									(`subattribute_color_id`,`subattribute_color_name`,`subattribute_color_image`,`subattribute_id`)
 									VALUES ('','" . $post['subattribute_name'][$i] . "','" . $sub_name . "','" . $post['section_id'] . "') ";
-					}
-					else
+					} else
 					{
 						$query = "UPDATE " . $this->_table_prefix . "product_subattribute_color
 									SET `subattribute_color_name` = '" . $post['subattribute_name'][$i] . "' ,`subattribute_color_image` = '" .
@@ -679,8 +673,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 						return false;
 					}
 				}
-			}
-			else
+			} else
 			{
 				if ($post['property_sub_img_tmp'][$i] != "" && $sub_img['name'][$i] == "")
 				{
@@ -998,8 +991,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 								if (isset($row->attribute_id))
 								{
 									$row->attribute_id = $row->attribute_id;
-								}
-								else
+								} else
 								{
 									$row->attribute_id = $loopattribute_id;
 								}
@@ -1122,8 +1114,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 										if (isset($row->attribute_id))
 										{
 											$row->property_id = $row->property_id;
-										}
-										else
+										} else
 										{
 											$row->property_id = $loopproperty_id;
 										}

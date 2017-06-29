@@ -750,8 +750,7 @@ class RedshopHelperMail
 		if ($userInfo['is_company'] == 1)
 		{
 			$replace[] = $userInfo['company_name'];
-		}
-		else
+		} else
 		{
 			$replace[] = "";
 		}
@@ -1004,16 +1003,14 @@ class RedshopHelperMail
 				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 				{
 					$productImagePath = $product->product_full_image;
-				}
-				else
+				} else
 				{
 					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 					{
 						$productImagePath = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 					}
 				}
-			}
-			else
+			} else
 			{
 				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 				{
@@ -1023,7 +1020,7 @@ class RedshopHelperMail
 
 			if ($productImagePath)
 			{
-				$thumbUrl     = RedshopHelperMedia::getImagePath(
+				$thumbUrl = RedshopHelperMedia::getImagePath(
 					$productImagePath,
 					'',
 					'thumb',
@@ -1033,8 +1030,7 @@ class RedshopHelperMail
 					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 				);
 				$productImage = "<div  class='product_image'><img src='" . $thumbUrl . "'></div>";
-			}
-			else
+			} else
 			{
 				$productImage = "<div  class='product_image'></div>";
 			}
@@ -1079,8 +1075,7 @@ class RedshopHelperMail
 				$cartMdata = str_replace("{product_price}", " ", $cartMdata);
 				$cartMdata = str_replace("{product_total_price}", " ", $cartMdata);
 				$cartMdata = str_replace("{product_subtotal_excl_vat}", " ", $cartMdata);
-			}
-			else
+			} else
 			{
 				$cartMdata = str_replace("{product_price_excl_vat}", $productPriceExclVat, $cartMdata);
 				$cartMdata = str_replace("{product_price}", $productPrice, $cartMdata);
@@ -1089,7 +1084,7 @@ class RedshopHelperMail
 			}
 
 			$cartMdata = str_replace("{product_quantity}", $productQuantity, $cartMdata);
-			$cart      .= $cartMdata;
+			$cart .= $cartMdata;
 		}
 
 		// End for
@@ -1114,8 +1109,7 @@ class RedshopHelperMail
 		if ($quotation->user_id != 0)
 		{
 			$message = $cartHelper->replaceBillingAddress($message, $quotation, true);
-		}
-		else
+		} else
 		{
 			if ($quotation->quotation_email != "")
 			{
@@ -1128,8 +1122,7 @@ class RedshopHelperMail
 			{
 				$billAdd .= RedshopHelperExtrafields::listAllFieldDisplay(16, $quotation->user_info_id, 1, $quotation->quotation_email);
 				$message = str_replace("{quotation_custom_field_list}", "", $message);
-			}
-			else
+			} else
 			{
 				$message = RedshopHelperExtrafields::listAllFieldDisplay(16, $quotation->user_info_id, 1, $quotation->quotation_email, $message);
 			}
@@ -1164,14 +1157,13 @@ class RedshopHelperMail
 			$quotationVat                   = " ";
 			$quotationSubtotalExclVat       = " ";
 			$quotationSubtotalMinusDiscount = " ";
-		}
-		else
+		} else
 		{
 			$tax = $quotation->quotation_tax;
 
 			if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 			{
-				$Discountvat                   = (
+				$Discountvat = (
 						(float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') * $quotation->quotation_discount) /
 					(1 + (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT')
 					);
@@ -1507,8 +1499,7 @@ class RedshopHelperMail
 		if ($userBillingInfo->is_company == 1 && $userBillingInfo->company_name != '')
 		{
 			$replace[] = $userBillingInfo->company_name;
-		}
-		else
+		} else
 		{
 			$replace[] = $userBillingInfo->firstname . " " . $userBillingInfo->lastname;
 		}

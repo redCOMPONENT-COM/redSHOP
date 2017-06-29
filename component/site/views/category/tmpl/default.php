@@ -18,7 +18,7 @@ $producthelper = productHelper::getInstance();
 $extraField    = extraField::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 
-$url    = JURI::base();
+$url = JURI::base();
 
 $model                = $this->getModel('category');
 $loadCategorytemplate = $this->loadCategorytemplate;
@@ -26,8 +26,7 @@ $loadCategorytemplate = $this->loadCategorytemplate;
 if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc != "")
 {
 	$template_desc = $loadCategorytemplate[0]->template_desc;
-}
-else
+} else
 {
 	$template_desc  = "<div class=\"category_front_introtext\">{print}<p>{category_frontpage_introtext}</p></div>";
 	$template_desc .= "\r\n{category_frontpage_loop_start}<div class=\"category_front\">\r\n";
@@ -40,8 +39,7 @@ if ($this->params->get('show_page_heading', 0))
 	if (!$this->catid)
 	{
 		echo '<div class="category_title' . $this->escape($this->params->get('pageclass_sfx')) . '">';
-	}
-	else
+	} else
 	{
 		echo '<div class="category' . $this->escape($this->params->get('pageclass_sfx')) . '">';
 	}
@@ -53,8 +51,7 @@ if ($this->params->get('show_page_heading', 0))
 		if ($this->params->get('page_title') != $this->pageheadingtag)
 		{
 			echo $this->escape($this->params->get('page_title'));
-		}
-		else
+		} else
 		{
 			echo $this->pageheadingtag;
 		}
@@ -68,8 +65,7 @@ if ($this->params->get('show_page_heading', 0))
 if ($this->print)
 {
 	$onclick = "onclick='window.print();'";
-}
-else
+} else
 {
 	$print_url = $url . "index.php?option=com_redshop&view=category&print=1&tmpl=component&Itemid=" . $this->itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
@@ -96,20 +92,17 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$tag     = '{category_thumb_image_2}';
 		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
 		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_2');
-	}
-	elseif (strstr($middletemplate_desc, '{category_thumb_image_3}'))
+	} elseif (strstr($middletemplate_desc, '{category_thumb_image_3}'))
 	{
 		$tag     = '{category_thumb_image_3}';
 		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
 		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
-	}
-	elseif (strstr($middletemplate_desc, '{category_thumb_image_1}'))
+	} elseif (strstr($middletemplate_desc, '{category_thumb_image_1}'))
 	{
 		$tag     = '{category_thumb_image_1}';
 		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
 		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
-	}
-	else
+	} else
 	{
 		$tag     = '{category_thumb_image}';
 		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
@@ -151,8 +144,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		if ($cItemid != "")
 		{
 			$tmpItemid = $cItemid;
-		}
-		else
+		} else
 		{
 			$tmpItemid = $this->itemid;
 		}
@@ -169,8 +161,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		{
 			$product_img = RedshopHelperMedia::watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 			$linkimage   = RedshopHelperMedia::watermark('category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
-		}
-		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
+		} elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 		{
 			$product_img = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 			$linkimage   = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
@@ -179,8 +170,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
 		{
 			$cat_thumb = "<a class='modal' href='" . $linkimage . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
-		}
-		else
+		} else
 		{
 			$cat_thumb = "<a href='" . $link . "' " . $title . ">";
 		}

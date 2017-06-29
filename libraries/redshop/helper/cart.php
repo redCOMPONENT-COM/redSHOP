@@ -101,8 +101,7 @@ abstract class RedshopHelperCart
 			}
 
 			$db->transactionCommit();
-		}
-		catch (Exception $e)
+		} catch (Exception $e)
 		{
 			$db->transactionRollback();
 
@@ -249,8 +248,7 @@ abstract class RedshopHelperCart
 			}
 
 			$db->transactionCommit();
-		}
-		catch (Exception $e)
+		} catch (Exception $e)
 		{
 			$db->transactionRollback();
 
@@ -340,8 +338,7 @@ abstract class RedshopHelperCart
 			}
 
 			$db->transactionCommit();
-		}
-		catch (Exception $e)
+		} catch (Exception $e)
 		{
 			$db->transactionRollback();
 
@@ -431,8 +428,7 @@ abstract class RedshopHelperCart
 						}
 
 						$giftCardPrice = $customerAmount;
-					}
-					else
+					} else
 					{
 						$giftCardPrice = $giftCardData->giftcard_price;
 					}
@@ -440,8 +436,7 @@ abstract class RedshopHelperCart
 
 				$productPrice      = $giftCardPrice;
 				$productPriceNoVat = $giftCardPrice;
-			}
-			else
+			} else
 			{
 				$section      = 12;
 				$cartItemId   = $cartItem->cart_item_id;
@@ -483,11 +478,10 @@ abstract class RedshopHelperCart
 
 						$productVatPrice      += $subscriptionVAT;
 						$productPrice         += $subscriptionPrice + $subscriptionVAT;
-						$productOldPrice      = $productOldPrice + $subscriptionPrice + $subscriptionVAT;
+						$productOldPrice = $productOldPrice + $subscriptionPrice + $subscriptionVAT;
 						$productOldPriceNoVat += $subscriptionPrice;
 						$productPriceNoVat    += $subscriptionPrice;
-					}
-					else
+					} else
 					{
 						$setCartItem = false;
 						$msg         = JText::_('COM_REDSHOP_SELECT_PRODUCT_SUBSCRIPTION');
@@ -504,7 +498,7 @@ abstract class RedshopHelperCart
 				$productPrice         += $accessoryTotalPrice + $accessoryVATPrice;
 				$productOldPrice      += $accessoryTotalPrice + $accessoryVATPrice;
 				$productOldPriceNoVat += $accessoryTotalPrice;
-				$productVatPrice      = $productVatPrice + $accessoryVATPrice;
+				$productVatPrice = $productVatPrice + $accessoryVATPrice;
 
 				// Check if required attribute is filled or not
 				if (count($selectedAttributeId) > 0)
@@ -594,8 +588,7 @@ abstract class RedshopHelperCart
 					$cart[$idx]['product_vat'] = 0;
 					$cart[$idx]['product_id']  = '';
 					$cart[$idx]['quantity']    = $quantity;
-				}
-				else
+				} else
 				{
 					$cart[$idx]['product_id']                 = $productId;
 					$cart[$idx]['discount_calc_output']       = $calcOutput;
@@ -620,8 +613,7 @@ abstract class RedshopHelperCart
 					{
 						$msg = Redshop::getConfig()->get('CART_RESERVATION_MESSAGE');
 					}
-				}
-				else
+				} else
 				{
 					$idx++;
 				}
@@ -684,8 +676,7 @@ abstract class RedshopHelperCart
 				if (!empty($priceList->product_price))
 				{
 					$propertyPrice = $priceList->product_price;
-				}
-				else
+				} else
 				{
 					$propertyPrice = $property[0]->property_price;
 				}
@@ -707,8 +698,7 @@ abstract class RedshopHelperCart
 					if (count($price) > 0)
 					{
 						$subPropertyPrice = $price->product_price;
-					}
-					else
+					} else
 					{
 						$subPropertyPrice = $subProperty[0]->subattribute_color_price;
 					}
@@ -885,8 +875,7 @@ abstract class RedshopHelperCart
 			if ($userInformation->requesting_tax_exempt == 0)
 			{
 				return true;
-			}
-			elseif ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved == 0)
+			} elseif ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved == 0)
 			{
 				if ($isShowButtonAddToCart)
 				{
@@ -894,8 +883,7 @@ abstract class RedshopHelperCart
 				}
 
 				return true;
-			}
-			elseif ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved == 1)
+			} elseif ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved == 1)
 			{
 				if ($isShowButtonAddToCart)
 				{

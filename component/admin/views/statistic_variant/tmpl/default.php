@@ -28,7 +28,7 @@ foreach ($this->productVariants as $itemId => $data)
 	//draws it.
 	function drawChart() {
 		var data = google.visualization.arrayToDataTable([
-			['<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>', {role: 'style'}, {role: 'annotation'}],
+			['<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION'); ?>', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT'); ?>', {role: 'style'}, {role: 'annotation'}],
 			<?php if ($total > 0) :?>
 				<?php foreach ($this->productVariants as $row) : ?>
 					<?php $row = (object) $row; ?>
@@ -36,9 +36,12 @@ foreach ($this->productVariants as $itemId => $data)
 	         		['<?php echo $row->product_name . '(' . $row->product_attribute . ')'; ?>', <?php echo $row->total_sale; ?>, 'blue', '<?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?>'],
 	         		<?php endif; ?>
 	       	 	<?php endforeach; ?>
-	       	 <?php else: ?>
+	       	 <?php else {
+	: ?>
 	       	 	[0, 0, 'blue', 0],
-	       	 <?php endif; ?>
+	       	 <?php endif;
+}
+?>
 	      ]);
 
 		var options = {

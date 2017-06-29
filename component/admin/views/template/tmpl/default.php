@@ -102,12 +102,18 @@ defined('_JEXEC') or die;
 							<?php echo JHtml::_('jgrid.checkedout', $i, $row->editor, $row->checked_out_time); ?>
 							<?php if (!$canCheckin) : ?>
 								<?php echo $row->template_name; ?>
-							<?php else : ?>
-                                <a href="<?php echo $link; ?>"
+							<?php else {
+	: ?>
+                                <a href="<?php echo $link;
+}
+?>"
                                    title="<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATES'); ?>"><?php echo $row->template_name; ?></a>
 							<?php endif; ?>
-						<?php else : ?>
-                            <a href="<?php echo $link; ?>"
+						<?php else {
+	: ?>
+                            <a href="<?php echo $link;
+}
+?>"
                                title="<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATES'); ?>"><?php echo $row->template_name; ?></a>
 						<?php endif; ?>
                     </td>

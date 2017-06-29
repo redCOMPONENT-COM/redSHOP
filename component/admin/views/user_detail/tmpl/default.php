@@ -60,36 +60,36 @@ if ($this->pagination->limitstart > 0)
 
 		<?php if ($this->shipping) : ?>
 			if ((form.firstname.value) == "") {
-				alert("<?php echo JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME', true );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME', true); ?>");
 			} else if (form.lastname.value == "") {
-				alert("<?php echo JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME', true );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME', true); ?>");
 			} else {
 				submitform(pressbutton);
 			}
 		<?php else: ?>
 			if ((form.email.value) == "") {
-				alert("<?php echo JText::_('COM_REDSHOP_PROVIDE_EMAIL_ADDRESS', true );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_PROVIDE_EMAIL_ADDRESS', true); ?>");
 				return false;
 			}
 			else if (email_valid == 0) {
-				alert("<?php echo JText::_('COM_REDSHOP_EMAIL_NOT_AVAILABLE', true );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_EMAIL_NOT_AVAILABLE', true); ?>");
 				return false;
 			}
 		<?php endif; ?>
 
-		<?php if(!$this->silerntuser) : ?>
+		<?php if (!$this->silerntuser) : ?>
 			if (form.username.value == "") {
-				alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME', true );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME', true); ?>");
 				return false;
 			} else if (r.exec(form.username.value) || form.username.value.length < 2) {
-				alert("<?php echo JText::_('COM_REDSHOP_WARNLOGININVALID', true );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_WARNLOGININVALID', true); ?>");
 				return false;
 			} else if (document.getElementById('user_valid').style.color == "red") {
-				alert("<?php echo JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE', true );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE', true); ?>");
 				return false;
 
 			} else if ((((form.password.value) != "") || (form.password2.value != "")) && (form.password.value != form.password2.value)) {
-				alert("<?php echo JText::_('COM_REDSHOP_PASSWORD_NOT_MATCH', true );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_PASSWORD_NOT_MATCH', true); ?>");
 				return false;
 			}
 		<?php endif; ?>
@@ -107,7 +107,7 @@ if ($this->pagination->limitstart > 0)
 			}
 
 			if (checkCount == 0){
-				alert("<?php echo JText::_('COM_REDSHOP_SELECT_USER_GROUP', true );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_SELECT_USER_GROUP', true); ?>");
 				return false;
 			}
 		}
@@ -115,22 +115,22 @@ if ($this->pagination->limitstart > 0)
 		// Added Rule for shopper group
 		if (form.shopper_group_id.value == 0)
 		{
-			alert("<?php echo JText::_('COM_REDSHOP_SELECT_SHOPPER_GROUP', true );?>");
+			alert("<?php echo JText::_('COM_REDSHOP_SELECT_SHOPPER_GROUP', true); ?>");
 			return false;
 		}
 
 		if (form.firstname.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME', true );?>");
+			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME', true); ?>");
 			return false;
 		}
 		if (form.lastname.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME', true );?>");
+			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME', true); ?>");
 			return false;
 		}
 
 		if (document.getElementById('is_company1').checked) {
 			if (form.company_name.value == "") {
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME', true );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME', true); ?>");
 				return false;
 			}
 		}
@@ -170,10 +170,9 @@ if ($this->pagination->limitstart > 0)
 
 	if ($this->lists['extra_field'] != "")
 	{
-		echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab5');    ?>
+		echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab5'); ?>
 		<div class="col50"><?php echo $this->lists ['extra_field']; ?></div><?php
-	}
-	else
+	} else
 	{
 		echo '<input type="hidden" name="noextra_field" value="1">';
 		echo '<input type="hidden" name="tab5" value="tab5">';
@@ -187,8 +186,7 @@ if ($this->pagination->limitstart > 0)
 		echo '<input type="hidden" name="address_type" id="address_type" value="ST"  />
 		<input type="hidden" name="shipping" value="' . $this->shipping . '" />
 		<input type="hidden" name="info_id" value="' . $info_id . '" />';
-	}
-	else
+	} else
 	{
 		echo '<input type="hidden" name="address_type" id="address_type" value="BT"  />';
 	}

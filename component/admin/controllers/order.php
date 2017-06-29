@@ -294,8 +294,7 @@ class RedshopControllerOrder extends RedshopController
 			if (empty($details))
 			{
 				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
-			}
-			else
+			} else
 			{
 				echo '';
 			}
@@ -452,8 +451,7 @@ class RedshopControllerOrder extends RedshopController
 			if ($data [$i]->order_shipping != "")
 			{
 				$shippingcost = $data [$i]->order_shipping;
-			}
-			else
+			} else
 			{
 				$shippingcost = 0;
 			}
@@ -476,8 +474,7 @@ class RedshopControllerOrder extends RedshopController
 		{
 			$sussces_message = JText::_('COM_REDSHOP_XML_GENERATED_SUCCESSFULLY');
 			$this->setRedirect('index.php?option=com_redshop&view=order', $sussces_message, 'success');
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=order', $generate_label, 'error');
 		}

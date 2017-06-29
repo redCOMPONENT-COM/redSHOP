@@ -52,7 +52,7 @@ JPluginHelper::importPlugin('redshop_product');
 
         if (pressbutton == 'add') {
 			<?php $link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=addorder_detail'); ?>
-            window.location = '<?php echo $link;?>';
+            window.location = '<?php echo $link; ?>';
             return;
         }
 
@@ -332,8 +332,11 @@ JPluginHelper::importPlugin('redshop_product');
                 <td>
 					<?php if ($row->is_company): ?>
                         <span class="text-info"><?php echo $row->company_name; ?></span>
-					<?php else: ?>
-                        <span class="text-muted"><?php echo JText::_('COM_REDSHOP_PRIVATE'); ?></span>
+					<?php else {
+	: ?>
+                        <span class="text-muted"><?php echo JText::_('COM_REDSHOP_PRIVATE');
+}
+?></span>
 					<?php endif; ?>
                 </td>
                 <td>
@@ -493,18 +496,23 @@ JPluginHelper::importPlugin('redshop_product');
                         <a href="index.php?option=com_redshop&task=order.printPDF&id=<?php echo $row->order_id ?>" target="_blank">
                             <i class="fa fa-file-pdf-o"></i>
                         </a>
-					<?php else: ?>
+					<?php else {
+	: ?>
                         <span class="disabled"><i class="fa fa-file-pdf-o"></i></span>
-					<?php endif; ?>
+					<?php endif;
+}
+?>
                 </td>
                 <td>
 					<?php if ($row->invoice_no != ''): ?>
 						<?php if ($row->is_booked == 0 && $row->bookinvoice_date <= 0): ?>
 							<?php if ($row->is_company == 1 && $row->ean_number != ""): ?>
 								<?php echo JText::_('COM_REDSHOP_MANUALY_BOOK_INVOICE_FROM_ECONOMIC') ?>
-							<?php else: ?>
+							<?php else {
+	: ?>
 								<?php
 								$confirm = 'if(confirm(\'' . JText::_('COM_REDSHOP_CONFIRM_BOOK_INVOICE') . '\')) { document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit(); }';
+}
 
 								if ($row->order_payment_status == 'Paid' || $row->order_status == 'PR' || $row->order_status == 'C')
 								{
@@ -551,8 +559,7 @@ JPluginHelper::importPlugin('redshop_product');
 						if ($row->order_label_create)
 						{
 							echo JTEXT::_("COM_REDSHOP_XML_ALREADY_GENERATED");
-						}
-						else
+						} else
 						{
 							echo JHTML::_('calendar', date('Y-m-d'), 'specifiedDate' . $i, 'specifiedDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19')); ?>
                             <input type="button" class="button"
@@ -564,8 +571,7 @@ JPluginHelper::importPlugin('redshop_product');
 						}
 
 						echo "</td>";
-					}
-					else
+					} else
 					{
 						echo '<td>' . JText::_('COM_REDSHOP_NO_PACSOFT_LABEL') . '</td>';
 					}

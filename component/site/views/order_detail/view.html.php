@@ -21,7 +21,7 @@ class RedshopViewOrder_Detail extends RedshopView
 	/**
 	 * @var   object
 	 */
-    public $OrdersDetail;
+	public $OrdersDetail;
 
 	/**
 	 * Execute and display a template script.
@@ -81,8 +81,7 @@ class RedshopViewOrder_Detail extends RedshopView
 			{
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
 			}
-		}
-		else
+		} else
 		{
 			if ($encr)
 			{
@@ -96,7 +95,7 @@ class RedshopViewOrder_Detail extends RedshopView
 			}
 
 			// Preform security checks
-            elseif (!$user->id && !isset($auth['users_info_id']))
+			elseif (!$user->id && !isset($auth['users_info_id']))
 			{
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
 			}
@@ -135,8 +134,7 @@ class RedshopViewOrder_Detail extends RedshopView
 			<input type='hidden' name='task' value='payment'>
 			<input type='submit' name='payment' value='" . JText::_("COM_REDSHOP_PAY") . "'>
 			</form>";
-		}
-		else
+		} else
 		{
 			JFactory::getDocument()->addScriptDeclaration('
 				function submitReorder() {

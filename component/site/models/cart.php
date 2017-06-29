@@ -131,7 +131,7 @@ class RedshopModelCart extends RedshopModel
 
 			if ($cart)
 			{
-				$idx = (int) ( isset($cart['idx']) ? $cart['idx'] : 0);
+				$idx = (int) (isset($cart['idx']) ? $cart['idx'] : 0);
 
 				for ($j = 0; $j < $idx; $j++)
 				{
@@ -178,14 +178,12 @@ class RedshopModelCart extends RedshopModel
 			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
 			{
 				$this->_data = $redTemplate->getTemplate("quotation_cart");
-			}
-			else
+			} else
 			{
 				if (!Redshop::getConfig()->get('USE_AS_CATALOG'))
 				{
 					$this->_data = $redTemplate->getTemplate("cart");
-				}
-				else
+				} else
 				{
 					$this->_data = $redTemplate->getTemplate("catalogue_cart");
 				}
@@ -224,14 +222,12 @@ class RedshopModelCart extends RedshopModel
 			if (isset($cart[$cartElement]['giftcard_id']) && $cart[$cartElement]['giftcard_id'])
 			{
 				$cart[$cartElement]['quantity'] = $newQuantity;
-			}
-			else
+			} else
 			{
 				if (array_key_exists('checkQuantity', $data))
 				{
 					$cart[$cartElement]['quantity'] = $data['checkQuantity'];
-				}
-				else
+				} else
 				{
 					$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
 				}
@@ -239,8 +235,7 @@ class RedshopModelCart extends RedshopModel
 				if ($newQuantity > $cart[$cartElement]['quantity'])
 				{
 					$cart['notice_message'] = $cart[$cartElement]['quantity'] . " " . JTEXT::_('COM_REDSHOP_AVAILABLE_STOCK_MESSAGE');
-				}
-				else
+				} else
 				{
 					$cart['notice_message'] = "";
 				}
@@ -346,8 +341,7 @@ class RedshopModelCart extends RedshopModel
 				if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
 				{
 					$cart[$i]['quantity'] = $quantity[$i];
-				}
-				else
+				} else
 				{
 					// Reinit price
 					$productPriceInit = 0;
@@ -393,7 +387,7 @@ class RedshopModelCart extends RedshopModel
 						$cart[$i]['product_id'],
 						$user->id,
 						$productPriceInit,
-						$totalQuantity,	// Total Quantity based discount applied here
+						$totalQuantity, // Total Quantity based discount applied here
 						$accessoryAsProdutWithoutVat
 					);
 
@@ -435,7 +429,7 @@ class RedshopModelCart extends RedshopModel
 						}
 
 						$product_vat_price += $subscription_vat;
-						$product_price     = $product_price + $subscription_price;
+						$product_price = $product_price + $subscription_price;
 
 						$product_old_price_excl_vat += $subscription_price;
 					}
@@ -496,8 +490,7 @@ class RedshopModelCart extends RedshopModel
 			if ($Index > 0)
 			{
 				$cart['idx'] = $Index;
-			}
-			else
+			} else
 			{
 				$cart        = array();
 				$cart['idx'] = 0;
@@ -571,8 +564,7 @@ class RedshopModelCart extends RedshopModel
 			if (isset($post["mod_quantity"]) && $post["mod_quantity"] != "")
 			{
 				$data["quantity"] = $post["mod_quantity"];
-			}
-			else
+			} else
 			{
 				$data["quantity"] = 1;
 			}
@@ -605,8 +597,7 @@ class RedshopModelCart extends RedshopModel
 		if (strstr($product_template_desc, "{attribute_template:"))
 		{
 			return true;
-		}
-		else
+		} else
 		{
 			return false;
 		}
@@ -662,8 +653,7 @@ class RedshopModelCart extends RedshopModel
 					if (count($pricelist) > 0)
 					{
 						$propArr[$k]['property_price'] = $pricelist->product_price;
-					}
-					else
+					} else
 					{
 						$pricelist                     = $this->_producthelper->getProperty($propArr[$k]['property_id'], 'property');
 						$propArr[$k]['property_price'] = $pricelist->product_price;
@@ -678,8 +668,7 @@ class RedshopModelCart extends RedshopModel
 						if (count($pricelist) > 0)
 						{
 							$subpropArr[$l]['subproperty_price'] = $pricelist->product_price;
-						}
-						else
+						} else
 						{
 							$pricelist                           = $this->_producthelper->getProperty($subpropArr[$l]['subproperty_id'], 'subproperty');
 							$subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
@@ -713,8 +702,7 @@ class RedshopModelCart extends RedshopModel
 				if (count($pricelist) > 0)
 				{
 					$propArr[$k]['property_price'] = $pricelist->product_price;
-				}
-				else
+				} else
 				{
 					$pricelist                     = $this->_producthelper->getProperty($propArr[$k]['property_id'], 'property');
 					$propArr[$k]['property_price'] = $pricelist->product_price;
@@ -729,8 +717,7 @@ class RedshopModelCart extends RedshopModel
 					if (count($pricelist) > 0)
 					{
 						$subpropArr[$l]['subproperty_price'] = $pricelist->product_price;
-					}
-					else
+					} else
 					{
 						$pricelist                           = $this->_producthelper->getProperty($subpropArr[$l]['subproperty_id'], 'subproperty');
 						$subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
@@ -820,8 +807,7 @@ class RedshopModelCart extends RedshopModel
 							if (count($pricelist) > 0)
 							{
 								$property_price = $pricelist->product_price;
-							}
-							else
+							} else
 							{
 								$property_price = $property[0]->property_price;
 							}
@@ -852,8 +838,7 @@ class RedshopModelCart extends RedshopModel
 										if (count($pricelist) > 0)
 										{
 											$subproperty_price = $pricelist->product_price;
-										}
-										else
+										} else
 										{
 											$subproperty_price = $subproperty[0]->subattribute_color_price;
 										}

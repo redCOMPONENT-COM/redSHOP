@@ -90,8 +90,7 @@ class AbstractExportPlugin extends \JPlugin
 			$fileHandle = fopen($this->getFilePath(), $mode);
 			fwrite($fileHandle, implode($separator, $row) . "\r\n");
 			fclose($fileHandle);
-		}
-		else
+		} else
 		{
 			fwrite($handle, implode($separator, $row) . "\r\n");
 		}
@@ -196,12 +195,10 @@ class AbstractExportPlugin extends \JPlugin
 		if (preg_match('Opera(/| )([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
 		{
 			$UserBrowser = "Opera";
-		}
-		elseif (preg_match('MSIE ([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
+		} elseif (preg_match('MSIE ([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
 		{
 			$UserBrowser = "IE";
-		}
-		else
+		} else
 		{
 			$UserBrowser = '';
 		}
@@ -229,8 +226,7 @@ class AbstractExportPlugin extends \JPlugin
 			header('Content-Disposition: inline; filename="' . $filename . '"');
 			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 			header('Pragma: public');
-		}
-		else
+		} else
 		{
 			header('Content-Disposition: attachment; filename="' . $filename . '"');
 			header('Pragma: no-cache');

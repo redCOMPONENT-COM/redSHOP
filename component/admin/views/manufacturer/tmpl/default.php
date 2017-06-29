@@ -127,7 +127,7 @@ if ($allowOrder)
 						</a>
 					</td>
 					<td align="center">
-						<?php $media_id = $model->getMediaId($row->manufacturer_id);?>
+						<?php $media_id = $model->getMediaId($row->manufacturer_id); ?>
 						<a class="joom-box"
 						   href="index.php?tmpl=component&option=com_redshop&amp;view=media_detail&amp;cid[]=<?php echo $media_id; ?>&amp;section_id=<?php echo $row->manufacturer_id; ?>&amp;showbuttons=1&amp;media_section=manufacturer&amp;section_name=<?php echo $row->manufacturer_name; ?>"
 						   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><img

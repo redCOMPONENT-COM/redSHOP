@@ -35,13 +35,11 @@ class RedshopViewAccount_shipto extends RedshopView
 		if ($user->id)
 		{
 			$billingaddresses = $order_functions->getBillingAddress($user->id);
-		}
-		elseif (isset($auth['users_info_id']) && $auth['users_info_id'])
+		} elseif (isset($auth['users_info_id']) && $auth['users_info_id'])
 		{
 			$model            = $this->getModel('account_shipto');
 			$billingaddresses = $model->_loadData($auth['users_info_id']);
-		}
-		else
+		} else
 		{
 			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
 			exit;
@@ -68,8 +66,7 @@ class RedshopViewAccount_shipto extends RedshopView
 			$lists['shipping_company_field']  = $extra_field->list_all_field(15, $shippingaddresses->users_info_id);
 
 			$this->setLayout('form');
-		}
-		else
+		} else
 		{
 			$shippingaddresses = $order_functions->getShippingAddress($user->id);
 		}

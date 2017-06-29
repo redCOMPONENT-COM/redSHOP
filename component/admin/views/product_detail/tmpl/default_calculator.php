@@ -39,7 +39,7 @@ $stockrooms = $model->StockRoomList();
 		var newTD3 = document.createElement('td');
 		var newTD4 = document.createElement('td');
 
-		newTD0.innerHTML = '<?php echo $this->lists['discount_calc_unit'];?>';
+		newTD0.innerHTML = '<?php echo $this->lists['discount_calc_unit']; ?>';
 		newTD1.innerHTML = '<input type="text" name="area_start[]" id="area_start" value="" />';
 		newTD2.innerHTML = '<input type="text" name="area_end[]" id="area_end" value="" />';
 		newTD3.innerHTML = '<input type="text" name="area_price[]" id="area_price" value="" />';
@@ -65,7 +65,7 @@ $stockrooms = $model->StockRoomList();
 		var newTD3 = document.createElement('td');
 
 		newTD0.innerHTML = '<input type="text" name="pdc_option_name[]" id="pdc_option_name" value="" />';
-		newTD1.innerHTML = '<?php echo $lists['discount_calc_oprand'];?>';
+		newTD1.innerHTML = '<?php echo $lists['discount_calc_oprand']; ?>';
 		newTD2.innerHTML = '<input type="text" name="pdc_price[]" id="pdc_price" value="" />';
 		newTD3.innerHTML = '<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" onclick="deleteDiscountElementExtra(this)" class="button" type="button" /><input type="hidden" name="pdcextra_id[]" id="pdcextra_id" value="" />';
 
@@ -114,42 +114,42 @@ $stockrooms = $model->StockRoomList();
 									<tr>
 										<td class="key">
 											<label for="use_discount_calc0">
-												<?php echo JText::_('COM_REDSHOP_USE_DISCOUNT_CALCULATOR');?>
+												<?php echo JText::_('COM_REDSHOP_USE_DISCOUNT_CALCULATOR'); ?>
 											</label>
 										</td>
 										<td>
-											<?php echo $this->lists['use_discount_calc'];?>
+											<?php echo $this->lists['use_discount_calc']; ?>
 										</td>
 									</tr>
 
 									<tr>
 										<td class="key">
 											<label for="discount_calc_method">
-												<?php echo JText::_('COM_REDSHOP_DISCOUNT_CALCULATOR_METHOD');?>
+												<?php echo JText::_('COM_REDSHOP_DISCOUNT_CALCULATOR_METHOD'); ?>
 											</label>
 										</td>
 										<td>
-											<?php echo $this->lists['discount_calc_method'];?>
+											<?php echo $this->lists['discount_calc_method']; ?>
 										</td>
 									</tr>
 									<tr>
 										<td class="key">
 											<label for="allow_decimal_piece">
-												<?php echo JText::_('COM_REDSHOP_ALLOW_DECIMAL_PIECE');?>
+												<?php echo JText::_('COM_REDSHOP_ALLOW_DECIMAL_PIECE'); ?>
 											</label>
 										</td>
 										<td>
-											<?php echo $this->lists['allow_decimal_piece'];?>
+											<?php echo $this->lists['allow_decimal_piece']; ?>
 										</td>
 									</tr>
 									<tr>
 										<td class="key">
 											<label for="use_range">
-												<?php echo JText::_('COM_REDSHOP_USE_RANGE');?>
+												<?php echo JText::_('COM_REDSHOP_USE_RANGE'); ?>
 											</label>
 										</td>
 										<td>
-											<?php echo $this->lists['use_range'];?>
+											<?php echo $this->lists['use_range']; ?>
 										</td>
 									</tr>
 								</table>
@@ -168,20 +168,20 @@ $stockrooms = $model->StockRoomList();
 
 									<tr>
 										<td class="key">
-											<?php echo JText::_('COM_REDSHOP_UNIT');?>
+											<?php echo JText::_('COM_REDSHOP_UNIT'); ?>
 										</td>
 										<td class="key">
-											<?php echo JText::_('COM_REDSHOP_RANGE_MIN');?>
+											<?php echo JText::_('COM_REDSHOP_RANGE_MIN'); ?>
 										</td>
 										<td class="key">
-											<?php echo JText::_('COM_REDSHOP_RANGE_MAX');?>
+											<?php echo JText::_('COM_REDSHOP_RANGE_MAX'); ?>
 										</td>
 										<td class="key">
-											<?php echo JText::_('COM_REDSHOP_PRICE');?>
+											<?php echo JText::_('COM_REDSHOP_PRICE'); ?>
 										</td>
 										<td class="key">
 											<a href="javascript:addDiscountElement();">
-												<?php echo JText::_('COM_REDSHOP_ADD');?>
+												<?php echo JText::_('COM_REDSHOP_ADD'); ?>
 											</a>
 										</td>
 									</tr>
@@ -212,7 +212,7 @@ $stockrooms = $model->StockRoomList();
 
 											<tr>
 												<td>
-													<?php echo $lists['discount_calc_unit'];?>
+													<?php echo $lists['discount_calc_unit']; ?>
 												</td>
 												<td>
 													<input type="text" name="area_start[]" value="<?php echo $calc_data[$i]->area_start; ?>"/>
@@ -252,17 +252,17 @@ $stockrooms = $model->StockRoomList();
 
 									<tr>
 										<td class="key">
-											<?php echo JText::_('COM_REDSHOP_OPTION_NAME');?>
+											<?php echo JText::_('COM_REDSHOP_OPTION_NAME'); ?>
 										</td>
 										<td class="key">
-											<?php echo JText::_('COM_REDSHOP_OPRAND');?>
+											<?php echo JText::_('COM_REDSHOP_OPRAND'); ?>
 										</td>
 										<td class="key">
-											<?php echo JText::_('COM_REDSHOP_PRICE');?>
+											<?php echo JText::_('COM_REDSHOP_PRICE'); ?>
 										</td>
 										<td class="key">
 											<a href="javascript:addDiscountElementExtra();">
-												<?php echo JText::_('COM_REDSHOP_ADD');?>
+												<?php echo JText::_('COM_REDSHOP_ADD'); ?>
 											</a>
 										</td>
 									</tr>
@@ -294,7 +294,7 @@ $stockrooms = $model->StockRoomList();
 													<input type="text" name="pdc_option_name[]" value="<?php echo $calc_data[$i]->option_name; ?>"/>
 												</td>
 												<td>
-													<?php echo $lists['discount_calc_oprand'];?>
+													<?php echo $lists['discount_calc_oprand']; ?>
 												</td>
 												<td>
 													<input type="text" name="pdc_price[]" value="<?php echo $calc_data[$i]->price; ?>"/>

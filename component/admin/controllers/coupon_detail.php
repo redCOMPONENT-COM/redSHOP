@@ -64,8 +64,7 @@ class RedshopControllerCoupon_detail extends RedshopController
 		if ($model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_COUPON_DETAIL');
 		}

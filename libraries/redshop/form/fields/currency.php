@@ -44,8 +44,7 @@ class JFormFieldCurrency extends JFormField
 		if (Redshop::getConfig()->get('CURRENCY_LIBRARIES') == 1)
 		{
 			$convertedCurrencies = CurrencyLayer::getInstance()->getConvertedCurrencies();
-		}
-		else
+		} else
 		{
 			$convertedCurrencies = Currency::getInstance()->getConvertedCurrencies();
 		}
@@ -74,8 +73,7 @@ class JFormFieldCurrency extends JFormField
 		if ($v = $this->element['class'])
 		{
 			$attributes .= 'class="' . $v . '"';
-		}
-		else
+		} else
 		{
 			$attributes .= 'class="form-control inputbox"';
 		}

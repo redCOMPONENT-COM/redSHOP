@@ -8,8 +8,9 @@
  */
 $fdownload = JRequest::getInt('fdownload');
 $extra_link = "";
-if ($fdownload)
+if ($fdownload) {
 	$extra_link = "href=\"javascript:window.parent.jdownload_file('" . $this->_tmp_doc->path_relative . "','" . $this->_tmp_doc->name . "');window.parent.SqueezeBox.close();\"";
+}
 ?>
 <div class="imgOutline">
 	<div class="imgTotal">

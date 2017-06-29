@@ -63,8 +63,7 @@ if ($this->shipper_location)
 		</fieldset>
 	</div>
 <?php
-}
-else
+} else
 {
 	echo JHtml::_('tabs.start', 'shipping-rate-pane', array('startOffset' => 0));
 	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DETAILS'), 'tab1'); ?>
@@ -281,7 +280,7 @@ else
 				</label>
 			</td>
 			<td>
-				<?php echo $this->lists['shipping_product'];?>
+				<?php echo $this->lists['shipping_product']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -391,7 +390,7 @@ else
 			</td>
 			<td>
 				<div id='changestate'>
-					<?php echo $this->lists['deliver_type'];?>
+					<?php echo $this->lists['deliver_type']; ?>
 				</div>
 			</td>
 		</tr>
@@ -422,8 +421,7 @@ else
 		echo $this->lists['extra_field'];
 		?>
 		</div><?php
-	}
-	else
+	} else
 	{
 		echo '<input type="hidden" name="noextra_field" value="1">';
 	}

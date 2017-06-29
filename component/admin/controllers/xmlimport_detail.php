@@ -52,19 +52,16 @@ class RedshopControllerXmlimport_detail extends RedshopController
 			if ($import == 1)
 			{
 				$msg = JText::_('COM_REDSHOP_XMLIMPORT_FILE_SUCCESSFULLY_SYNCHRONIZED');
-			}
-			else
+			} else
 			{
 				$msg = JText::_('COM_REDSHOP_XMLIMPORT_DETAIL_SAVED');
 			}
-		}
-		else
+		} else
 		{
 			if ($import == 1)
 			{
 				$msg = JText::_('COM_REDSHOP_ERROR_XMLIMPORT_FILE_SYNCHRONIZED');
-			}
-			else
+			} else
 			{
 				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_XMLIMPORT_DETAIL');
 			}
