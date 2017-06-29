@@ -317,7 +317,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['product_full_image_delete']))
 		{
 			$row->product_thumb_image = '';
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_full_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_full_image']);
 
 			if (is_file($unlink_path))
 			{
@@ -1383,7 +1383,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 			else
 			{
-				$post = $this->input->getArray($_POST);
+				$post = $this->input->post->getArray();
 				$this->_initData();
 				$post = array_merge($post, (array) $this->data);
 			}
