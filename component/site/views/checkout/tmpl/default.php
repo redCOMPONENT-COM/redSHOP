@@ -39,7 +39,7 @@ $jinput          = JFactory::getApplication()->input;
  *
  * */
 
-$post = $jinput->getArray($_POST);
+$post = $jinput->post->getArray();
 
 $login_template = $redTemplate->getTemplate("login");
 
