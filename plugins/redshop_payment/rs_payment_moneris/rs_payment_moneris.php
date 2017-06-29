@@ -18,7 +18,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 	 * @param   string  $element    Element
 	 * @param   array   $data       Data
 	 *
-	 * @return  boolean|string
+	 * @return  false|stdClass
 	 *
 	 * @since   2.0.6
 	 */
