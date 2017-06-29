@@ -22,7 +22,7 @@ class RedshopViewCheckout extends RedshopView
 		$field     = extraField::getInstance();
 		$session   = JFactory::getSession();
 
-		$language          = JFactory::getLanguage();
+		$language = JFactory::getLanguage();
 
 		// Load payment languages
 		RedshopHelperPayment::loadLanguages();
@@ -86,8 +86,7 @@ class RedshopViewCheckout extends RedshopView
 		{
 			$lists['allowCompany'] = "style='display:none;'";
 			$openToStretcher = 0;
-		}
-		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
+		} elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 		{
 			$lists['allowCustomer'] = "style='display:none;'";
 			$openToStretcher = 1;
@@ -113,12 +112,10 @@ class RedshopViewCheckout extends RedshopView
 				if ((!isset($users_info_id) || $users_info_id == 0) && count($shippingaddresses) > 0)
 				{
 					$users_info_id = $shippingaddresses[0]->users_info_id;
-				}
-				elseif ((!isset($users_info_id) || $users_info_id == 0) && count($billingaddresses) > 0)
+				} elseif ((!isset($users_info_id) || $users_info_id == 0) && count($billingaddresses) > 0)
 				{
 					$users_info_id = $billingaddresses->users_info_id;
-				}
-				else
+				} else
 				{
 					$app->redirect(JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid));
 				}
@@ -157,15 +154,13 @@ class RedshopViewCheckout extends RedshopView
 			$this->ccinfo = $ccinfo;
 			$this->order_subtotal = $subtotal;
 			$this->ordertotal = $cart['total'];
-		}
-		else
+		} else
 		{
 			if ($lists['is_company'])
 			{
 				// Field_section Company
 				$lists['extra_field_company'] = $field->list_all_field(8);
-			}
-			else
+			} else
 			{
 				// Field_section Customer
 				$lists['extra_field_user'] = $field->list_all_field(7);

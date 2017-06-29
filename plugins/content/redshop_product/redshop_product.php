@@ -89,8 +89,7 @@ class plgContentredshop_product extends JPlugin
 				if (count($ItemData) > 0)
 				{
 					$pItemid = $ItemData->id;
-				}
-				else
+				} else
 				{
 					$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catid);
 				}
@@ -105,20 +104,17 @@ class plgContentredshop_product extends JPlugin
 					$pimg_tag = '{product_thumb_image_3}';
 					$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT_3');
 					$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_3');
-				}
-				elseif (strstr($prtemplate, "{product_thumb_image_2}"))
+				} elseif (strstr($prtemplate, "{product_thumb_image_2}"))
 				{
 					$pimg_tag = '{product_thumb_image_2}';
 					$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT_2');
 					$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_2');
-				}
-				elseif (strstr($prtemplate, "{product_thumb_image_1}"))
+				} elseif (strstr($prtemplate, "{product_thumb_image_1}"))
 				{
 					$pimg_tag = '{product_thumb_image_1}';
 					$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT');
 					$pw_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE');
-				}
-				else
+				} else
 				{
 					$pimg_tag = '{product_thumb_image}';
 					$ph_thumb = Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT');
@@ -165,19 +161,16 @@ class plgContentredshop_product extends JPlugin
 									$pr_price = "<div id='mod_redsavedprice' class='mod_redsavedprice'>"
 										. JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' '
 										. $producthelper->getProductFormattedPrice($s_price) . "</div>";
-								}
-								else
+								} else
 								{
 									$product_price = $product_price_discount;
 									$pr_price = $producthelper->getProductFormattedPrice($product_price);
 								}
-							}
-							else
+							} else
 							{
 								$pr_price = $producthelper->getProductFormattedPrice($product_price);
 							}
-						}
-						else
+						} else
 						{
 							$pr_price = $producthelper->getProductFormattedPrice($product_price);
 						}
@@ -265,8 +258,7 @@ class plgContentredshop_product extends JPlugin
 					{
 						$prtemplate = str_replace("{if product_userfield}", $productUserFieldsForm, $prtemplate);
 						$prtemplate = str_replace("{product_userfield end if}", "</form>", $prtemplate);
-					}
-					else
+					} else
 					{
 						$prtemplate = str_replace("{if product_userfield}", "", $prtemplate);
 						$prtemplate = str_replace("{product_userfield end if}", "", $prtemplate);
@@ -281,8 +273,7 @@ class plgContentredshop_product extends JPlugin
 				{
 					$isChilds = true;
 					$attributes = array();
-				}
-				else
+				} else
 				{
 					$isChilds = false;
 

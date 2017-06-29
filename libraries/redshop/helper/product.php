@@ -281,19 +281,19 @@ class RedshopHelperProduct
 				continue;
 			}
 
-			static::$products[$product->product_id . '.' . $userId]->categories  = explode(',', $product->categories);
+			static::$products[$product->product_id . '.' . $userId]->categories = explode(',', $product->categories);
 
 			// If this product not has attributes yet. Put this in array of product which need to get attributes.
 			if (!isset(static::$products[$key]->attributes))
 			{
-				static::$products[$key]->attributes  = array();
+				static::$products[$key]->attributes = array();
 				$getAttributeKeys[] = $product->product_id;
 			}
 
 			// If this product not has extra fields yet. Put this in array of product which need to get extra fields.
 			if (!isset(static::$products[$key]->extraFields))
 			{
-				static::$products[$key]->extraFields  = array();
+				static::$products[$key]->extraFields = array();
 				$getExtraFieldKeys[] = $product->product_id;
 			}
 		}
@@ -490,8 +490,7 @@ class RedshopHelperProduct
 		if ($accessoryId != 0)
 		{
 			$prefix = $uniqueId . "acc_";
-		}
-		else
+		} else
 		{
 			$prefix = $uniqueId . "prd_";
 		}
@@ -532,8 +531,7 @@ class RedshopHelperProduct
 						. " " . $propertyPrice
 						. "excl. vat / "
 						. $propertyPriceWithVat . ")";
-				}
-				else
+				} else
 				{
 					$property[$i]->text = urldecode($property[$i]->property_name);
 				}
@@ -564,8 +562,7 @@ class RedshopHelperProduct
 					if ($attributes[$a]->attribute_required == 1)
 					{
 						$required = "required='" . $attributes[$a]->attribute_required . "'";
-					}
-					else
+					} else
 					{
 						$required = "";
 					}
@@ -576,8 +573,7 @@ class RedshopHelperProduct
 						. "' onchange='javascript:changeOfflinePropertyDropdown(\"" . $productId . "\",\"" . $accessoryId
 						. "\",\"" . $attributes[$a]->attribute_id . "\",\"" . $uniqueId . "\");'  />&nbsp;" . $property[$chk]->text;
 				}
-			}
-			else
+			} else
 			{
 				$chklist = JHTML::_(
 					'select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
@@ -598,8 +594,7 @@ class RedshopHelperProduct
 					. "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>"
 					. urldecode($attributes[$a]->text);
 				$attrTitle = $pos;
-			}
-			else
+			} else
 			{
 				$attrTitle = urldecode($attributes[$a]->text);
 			}
@@ -704,9 +699,7 @@ class RedshopHelperProduct
 			{
 				$productPriceExclVat = $newProductPrice;
 				$productTax = $productHelper->getProductTax($productId, $newProductPrice, $userId);
-			}
-
-			else
+			} else
 			{
 				$productArr = $productHelper->getProductNetPrice($productId, $userId, $quantity);
 				$productPriceExclVat = $productArr['productPrice'];
@@ -1109,8 +1102,7 @@ class RedshopHelperProduct
 				->where($db->qn('u.user_id') . ' = ' . $db->q((int) $userId))
 				->where($db->qn('u.address_type') . ' = ' . $db->q('BT'))
 				->order($db->qn('p.price_quantity_start') . ' ASC');
-		}
-		else
+		} else
 		{
 			$query = $db->getQuery(true)
 				->select('*')
@@ -1170,7 +1162,7 @@ class RedshopHelperProduct
 			$productInfor = self::getProductById($productId);
 		}
 
-		$productTax   = 0;
+		$productTax = 0;
 		$taxRate = 0;
 
 		if (empty($redshopUser))
@@ -1216,18 +1208,15 @@ class RedshopHelperProduct
 					if ($userInformation->requesting_tax_exempt == 1 && $userInformation->tax_exempt_approved)
 					{
 						$productTax = $productTax;
-					}
-					else
+					} else
 					{
 						$productTax = $productPrice * $taxRate;
 					}
-				}
-				else
+				} else
 				{
 					$productTax = $productPrice * $taxRate;
 				}
-			}
-			else
+			} else
 			{
 				$productTax = $productPrice * $taxRate;
 			}
@@ -1283,8 +1272,7 @@ class RedshopHelperProduct
 				$query->leftJoin($db->qn('#__redshop_users_info', 'u') . ' ON u.shopper_group_id = p.shopper_group_id')
 					->where('u.user_id = ' . (int) $userId)
 					->where('u.address_type = ' . $db->quote('BT'));
-			}
-			else
+			} else
 			{
 				$query->where('p.shopper_group_id = ' . (int) $shopperGroupId);
 			}
@@ -1295,8 +1283,7 @@ class RedshopHelperProduct
 				->order('p.price_quantity_start ASC');
 
 			$result = $db->setQuery($query)->loadObject();
-		}
-		else
+		} else
 		{
 			if ($productData = RedshopHelperProduct::getProductById($productId, $userId))
 			{

@@ -83,8 +83,7 @@ class RedshopControllerAccount_billto extends RedshopController
 		if ($reduser = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_BILLING_INFORMATION_SAVE');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_BILLING_INFORMATION');
 		}
@@ -105,8 +104,7 @@ class RedshopControllerAccount_billto extends RedshopController
 				<?php
 				exit;
 			}
-		}
-		else
+		} else
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid, false);
 		}
@@ -140,8 +138,7 @@ class RedshopControllerAccount_billto extends RedshopController
 				<?php
 				exit;
 			}
-		}
-		else
+		} else
 		{
 			$link = 'index.php?option=com_redshop&view=account&Itemid=' . $Itemid;
 		}

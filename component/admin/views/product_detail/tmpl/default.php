@@ -239,7 +239,7 @@ JHtml::_('behavior.formvalidation');
 
 	function jimage_insert(main_path, fid, fsec) {
 
-		var path_url = "<?php echo JURI::getInstance()->root();?>";
+		var path_url = "<?php echo JURI::getInstance()->root(); ?>";
 		var propimg;
 
 		if (!fid && !fsec) {

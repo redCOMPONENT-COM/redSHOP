@@ -44,8 +44,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	{
 		if ($this->_loadData())
 		{
-		}
-		else
+		} else
 		{
 			$this->_initData();
 		}
@@ -664,9 +663,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			// Send mail from template
 			$redshopMail = redshopMail::getInstance();
 			$redshopMail->sendOrderSpecialDiscountMail($this->_id);
-		}
-
-		else
+		} else
 		{
 			return false;
 		}
@@ -701,8 +698,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
-		}
-		else
+		} else
 		{
 			$this->updateAttributeItem($order_item_id, $orderitemdata->product_quantity);
 
@@ -778,8 +774,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		if ($currentStock >= $new_added_qty || Redshop::getConfig()->get('USE_STOCKROOM') == 0)
 		{
 			$quantity = (int) $data['quantity'];
-		}
-		else
+		} else
 		{
 			$quantity = (int) $orderitemdata->product_quantity;
 		}
@@ -808,8 +803,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				if ($newquantity > 0)
 				{
 					$stockroomhelper->manageStockAmount($product_id, $newquantity, $orderitemdata->stockroom_id);
-				}
-				elseif ($newquantity < 0)
+				} elseif ($newquantity < 0)
 				{
 					$updatestock = $stockroomhelper->updateStockroomQuantity($product_id, (-$newquantity));
 
@@ -841,8 +835,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 			$tmpArr['special_discount'] = $orderdata->special_discount;
 			$this->special_discount($tmpArr, true);
-		}
-		else
+		} else
 		{
 			return false;
 		}
@@ -872,8 +865,7 @@ class RedshopModelOrder_detail extends RedshopModel
 				if ($quantity > 0)
 				{
 					$stockroomhelper->manageStockAmount($propitemdata->section_id, $quantity, $propArr[$k]->stockroom_id, "property");
-				}
-				elseif ($quantity < 0)
+				} elseif ($quantity < 0)
 				{
 					$updatestock = $stockroomhelper->updateStockroomQuantity($propitemdata->section_id, (-$quantity), "property");
 				}
@@ -888,8 +880,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					if ($quantity > 0)
 					{
 						$stockroomhelper->manageStockAmount($subpropitemdata->section_id, $quantity, $subpropArr[$l]->stockroom_id, "subproperty");
-					}
-					elseif ($quantity < 0)
+					} elseif ($quantity < 0)
 					{
 						$updatestock = $stockroomhelper->updateStockroomQuantity($subpropitemdata->section_id, (-$quantity), "subproperty");
 					}
@@ -944,8 +935,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		if (abs($data['update_discount']) == 0)
 		{
 			$order_total = ($subtotal + $orderData->order_shipping) - ($orderData->special_discount_amount);
-		}
-		else
+		} else
 		{
 			$order_total = ($subtotal + $orderData->order_shipping) - ($update_discount) - ($orderData->special_discount_amount);
 		}
@@ -1025,7 +1015,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		$orderdata->special_discount        = $special_discount;
 		$orderdata->special_discount_amount = $discount_price;
 
-		$order_total            = $subtotal + $orderdata->order_shipping - $discount_price - $orderdata->order_discount;
+		$order_total = $subtotal + $orderdata->order_shipping - $discount_price - $orderdata->order_discount;
 		$orderdata->order_total    = $order_total;
 		$orderdata->order_subtotal = $subtotal;
 		$orderdata->order_tax      = $orderTax;
@@ -1110,8 +1100,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$field->extra_field_save($data, $fieldSection, $row->users_info_id);
 
 			return true;
-		}
-		else
+		} else
 		{
 			return false;
 		}
@@ -1140,8 +1129,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$field->extra_field_save($data, $fieldSection, $row->users_info_id);
 
 			return true;
-		}
-		else
+		} else
 		{
 			return false;
 		}
@@ -1207,14 +1195,10 @@ class RedshopModelOrder_detail extends RedshopModel
 		if (isset($_GET[$name]))
 		{
 			return $_GET[$name];
-		}
-
-		elseif (isset($_POST[$name]))
+		} elseif (isset($_POST[$name]))
 		{
 			return $_POST[$name];
-		}
-
-		else
+		} else
 		{
 			return false;
 		}

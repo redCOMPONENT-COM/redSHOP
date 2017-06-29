@@ -186,8 +186,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		if (array_key_exists("order_id_temp", $results[0]))
 		{
 			$order_id = $results[0]->order_id_temp;
-		}
-		else
+		} else
 		{
 			$order_id = $results[0]->order_id;
 		}
@@ -221,8 +220,8 @@ class RedshopControllerOrder_detail extends RedshopController
 		{
 			// New checkout flow
 			$redirect_url = JRoute::_(
-			        JUri::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id, false
-            );
+					JUri::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id, false
+			);
 
 			$this->setRedirect($redirect_url, $msg);
 		}
@@ -263,8 +262,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$row['giftcard_id']   = $row['product_id'];
 			$row['reciver_name']  = $row['giftcard_user_name'];
 			$row['reciver_email'] = $row['giftcard_user_email'];
-		}
-		else
+		} else
 		{
 			$product_data = $this->_producthelper->getProductById($row['product_id']);
 
@@ -316,16 +314,14 @@ class RedshopControllerOrder_detail extends RedshopController
 
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false));
 			}
-		}
-		else
+		} else
 		{
 			$ItemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row['product_id']);
 
 			if (count($ItemData) > 0)
 			{
 				$Itemid = $ItemData->id;
-			}
-			else
+			} else
 			{
 				$Itemid = RedshopHelperUtility::getItemId($row['product_id']);
 			}
@@ -402,7 +398,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 				if ($is_creditcard)
 				{
-					JHtml::script('com_redshop/credit_card.js', false, true);    ?>
+					JHtml::script('com_redshop/credit_card.js', false, true); ?>
 
 				<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout', false) ?>" method="post"
 				      name="adminForm" id="adminForm" enctype="multipart/form-data"
@@ -423,8 +419,7 @@ class RedshopControllerOrder_detail extends RedshopController
 					</div>
 					</form>
 				<?php
-				}
-				else
+				} else
 				{
 					$link = 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $order_id . '&Itemid=' . $Itemid;
 					$this->setRedirect($link);

@@ -93,8 +93,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		if (count($ItemData) > 0)
 		{
 			$pItemid = $ItemData->id;
-		}
-		else
+		} else
 		{
 			$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catidmain);
 		}
@@ -168,8 +167,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			if ($product->manufacturer_name = '')
 			{
 				$manufacturer_link = '';
-			}
-			else
+			} else
 			{
 				$manufacturer_link = '<a href="' . $manufacturer_link_href . '" title="' . $product->manufacturer_name . '">' . $product->manufacturer_name . '</a>';
 			}
@@ -193,8 +191,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			if ($product->manufacturer_name != "")
 			{
 				$dataAdd = str_replace("{manufacturer_name}", $product->manufacturer_name, $dataAdd);
-			}
-			else
+			} else
 			{
 				$dataAdd = str_replace("{manufacturer_name}", "", $dataAdd);
 			}
@@ -218,20 +215,17 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			$pimg_tag = '{product_thumb_image_3}';
 			$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_3;
 			$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_3;
-		}
-		elseif (strstr($dataAdd, "{product_thumb_image_2}"))
+		} elseif (strstr($dataAdd, "{product_thumb_image_2}"))
 		{
 			$pimg_tag = '{product_thumb_image_2}';
 			$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT_2;
 			$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH_2;
-		}
-		elseif (strstr($dataAdd, "{product_thumb_image_1}"))
+		} elseif (strstr($dataAdd, "{product_thumb_image_1}"))
 		{
 			$pimg_tag = '{product_thumb_image_1}';
 			$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
 			$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
-		}
-		else
+		} else
 		{
 			$pimg_tag = '{product_thumb_image}';
 			$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
@@ -252,8 +246,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			if ($this->_data->product_thumb_image)
 			{
 				$mainsrcPath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_thumb_image;
-			}
-			else
+			} else
 			{
 				$mainsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 			}
@@ -261,8 +254,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			if ($this->_data->product_back_thumb_image)
 			{
 				$backsrcPath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_back_thumb_image;
-			}
-			else
+			} else
 			{
 				$backsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_back_full_image . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 			}
@@ -275,8 +267,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 			$dataAdd = str_replace("{front_img_link}", $product_front_image_link, $dataAdd);
 			$dataAdd = str_replace("{back_img_link}", $product_back_image_link, $dataAdd);
-		}
-		else
+		} else
 		{
 			$dataAdd = str_replace("{front_img_link}", "", $dataAdd);
 			$dataAdd = str_replace("{back_img_link}", "", $dataAdd);
@@ -292,8 +283,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 				$previewsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_preview_image . "&newxsize=" . CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH . "&newysize=" . CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 				$previewImg     = "<img src='" . $previewsrcPath . "' class='rs_previewImg' />";
 				$dataAdd        = str_replace("{product_preview_img}", $previewImg, $dataAdd);
-			}
-			else
+			} else
 			{
 				$dataAdd = str_replace("{product_preview_img}", "", $dataAdd);
 			}
@@ -319,8 +309,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 			$dataAdd = str_replace("{front_preview_img_link}", $product_front_image_link, $dataAdd);
 			$dataAdd = str_replace("{back_preview_img_link}", $product_back_image_link, $dataAdd);
-		}
-		else
+		} else
 		{
 			$dataAdd = str_replace("{front_preview_img_link}", "", $dataAdd);
 			$dataAdd = str_replace("{back_preview_img_link}", "", $dataAdd);
@@ -366,14 +355,12 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
 				$attributes = array_merge($attributes, $attributes_set);
-			}
-			else
+			} else
 			{
 				$isChilds   = true;
 				$attributes = array();
 			}
-		}
-		else
+		} else
 		{
 			$isChilds = false;
 
@@ -456,8 +443,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		if ($usePerPageLimit == false)
 		{
 			$limitBox = '';
-		}
-		else
+		} else
 		{
 			$limitBox = $pagination->getLimitBox();
 		}

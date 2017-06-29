@@ -64,16 +64,16 @@ $producthelper = productHelper::getInstance();
 			{
 				$row = $this->data[$i];
 				$row->id = $row->price_id;
-				$link = JRoute::_('index.php?tmpl=component&option=com_redshop&view=attributeprices_detail&task=edit&section=' . $this->section . '&section_id=' . $row->section_id . '&cid[]=' . $row->price_id);?>
+				$link = JRoute::_('index.php?tmpl=component&option=com_redshop&view=attributeprices_detail&task=edit&section=' . $this->section . '&section_id=' . $row->section_id . '&cid[]=' . $row->price_id); ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
 					<td><a href="<?php echo $link; ?>"
-					       title="<?php echo JText::_('COM_REDSHOP_EDIT_ATTRIBUTE_PRICE'); ?>"><?php echo $row->property_name;?></a>
+					       title="<?php echo JText::_('COM_REDSHOP_EDIT_ATTRIBUTE_PRICE'); ?>"><?php echo $row->property_name; ?></a>
 					</td>
-					<td align="center"><?php echo $row->shopper_group_name;?></td>
-					<td align="center"><?php echo $row->price_quantity_start;?></td>
-					<td align="center"><?php echo $row->price_quantity_end;?></td>
+					<td align="center"><?php echo $row->shopper_group_name; ?></td>
+					<td align="center"><?php echo $row->price_quantity_start; ?></td>
+					<td align="center"><?php echo $row->price_quantity_end; ?></td>
 					<td align="center"
 					    width="5%"><?php echo $producthelper->getProductFormattedPrice($row->product_price); ?></td>
 					<td align="center"

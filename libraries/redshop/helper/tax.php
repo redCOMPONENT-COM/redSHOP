@@ -36,8 +36,7 @@ class RedshopHelperTax
 			if ($isApplyVAT)
 			{
 				$strVat = Redshop::getConfig()->get('WITH_VAT_TEXT_INFO');
-			}
-			else
+			} else
 			{
 				$strVat = Redshop::getConfig()->get('WITHOUT_VAT_TEXT_INFO');
 			}

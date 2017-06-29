@@ -187,8 +187,7 @@ class RedshopHelperAccess
 		if (!$userId)
 		{
 			$user = JFactory::getUser();
-		}
-		else
+		} else
 		{
 			$user = JFactory::getUser($userId);
 		}

@@ -25,22 +25,23 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 		<?php echo JText::_('MOD_REDSHOP_CART_TOTAL_PRODUCT') . ' ' . $displayData['totalQuantity'] . ' ' . JText::plural('MOD_REDSHOP_CART_PRODUCTS_IN_CART', $displayData['totalQuantity']); ?>
 	<?php endif; ?>
 	</div>
-<?php else: ?>
+<?php else {
+	: ?>
 	<div class="mod_cart_products" id="mod_cart_products">
 	<?php if ($displayData['totalQuantity']):
 		$total = $cart['mod_cart_total'];
+}
 		?>
-		<?php for($i = 0; $i < $cart['idx']; $i++):
+		<?php for ($i = 0; $i < $cart['idx']; $i++):
 
 			if ($cartHelper->rs_multi_array_key_exists('giftcard_id', $cart[$i]) && $cart[$i]['giftcard_id'])
 			{
 				$giftCardData = $productHelper->getGiftcardData($cart[$i]['giftcard_id']);
 				$name         = $giftCardData->giftcard_name;
-			}
-			else
+			} else
 			{
 				$productDetail = RedshopHelperProduct::getProductById($cart[$i]['product_id']);
-				$name           = $productDetail->product_name;
+				$name = $productDetail->product_name;
 			}
 			?>
 			<div class="mod_cart_product">
@@ -51,8 +52,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 					if ($displayData['showWithVat'])
 					{
 						$price = $cart[$i]['product_price'];
-					}
-					else
+					} else
 					{
 						$price = $cart[$i]['product_price_excl_vat'];
 					}
@@ -119,6 +119,9 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 	<div class="clr"></div>
 
 </div>
-<?php else: ?>
-	<?php echo JText::_('MOD_REDSHOP_CART_EMPTY_CART'); ?>
+<?php else {
+	: ?>
+	<?php echo JText::_('MOD_REDSHOP_CART_EMPTY_CART');
+}
+?>
 <?php endif;

@@ -95,7 +95,7 @@ class RedshopModelCategory extends RedshopModel
 
 		if ($this->_id)
 		{
-			$selectedTemplate  = (int) $params->get('category_template', 0);
+			$selectedTemplate = (int) $params->get('category_template', 0);
 			$mainCat = $this->_loadCategory();
 
 			if (!$selectedTemplate && isset($mainCat->template))
@@ -121,8 +121,7 @@ class RedshopModelCategory extends RedshopModel
 					)
 				);
 			}
-		}
-		else
+		} else
 		{
 			$manufacturerId = $app->input->getInt('manufacturer_id', 0);
 			$app->setUserState($this->context . '.manufacturer_id', $manufacturerId);
@@ -154,8 +153,7 @@ class RedshopModelCategory extends RedshopModel
 			&& strstr($this->_template[0]->template_desc, "{show_all_products_in_category}"))
 		{
 			$limit = 0;
-		}
-		elseif (isset($this->_template[0]->template_desc)
+		} elseif (isset($this->_template[0]->template_desc)
 			&& strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") === false
 			&& strpos($this->_template[0]->template_desc, "{pagination}") !== false
 			&& strpos($this->_template[0]->template_desc, "perpagelimit:") !== false)
@@ -163,8 +161,7 @@ class RedshopModelCategory extends RedshopModel
 			$perpage = explode('{perpagelimit:', $this->_template[0]->template_desc);
 			$perpage = explode('}', $perpage[1]);
 			$limit   = intval($perpage[0]);
-		}
-		else
+		} else
 		{
 			$limit = 0;
 
@@ -234,8 +231,7 @@ class RedshopModelCategory extends RedshopModel
 		if ($this->_id > 0)
 		{
 			$query->where($db->qn('c.parent_id') . ' = ' . (int) $this->_id);
-		}
-		else
+		} else
 		{
 			$query->where($db->qn('c.parent_id') . ' = ' . (int) RedshopHelperCategory::getRootId());
 		}
@@ -262,8 +258,7 @@ class RedshopModelCategory extends RedshopModel
 		if (Redshop::getConfig()->get('DEFAULT_CATEGORY_ORDERING_METHOD'))
 		{
 			$orderby = Redshop::getConfig()->get('DEFAULT_CATEGORY_ORDERING_METHOD');
-		}
-		else
+		} else
 		{
 			$orderby = "c.ordering";
 		}
@@ -332,7 +327,7 @@ class RedshopModelCategory extends RedshopModel
 		$sort = "";
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
+		$rsUserhelper = rsUserHelper::getInstance();
 		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopperGroupManufactures != "")
@@ -393,8 +388,7 @@ class RedshopModelCategory extends RedshopModel
 		if ($minmax != 0 || $isSlider)
 		{
 			$db->setQuery($query);
-		}
-		else
+		} else
 		{
 			$db->setQuery($query, $limitstart, $endlimit);
 		}
@@ -439,8 +433,7 @@ class RedshopModelCategory extends RedshopModel
 			}
 
 			$this->_product = $this->columnSort($this->_product, 'productPrice', 'ASC');
-		}
-		elseif (strpos($orderBy, "p.product_price DESC") !== false)
+		} elseif (strpos($orderBy, "p.product_price DESC") !== false)
 		{
 			$priceSort = true;
 			$sort      = "DESC";
@@ -464,14 +457,12 @@ class RedshopModelCategory extends RedshopModel
 				{
 					$max = $this->_product[0]->productPrice + 100;
 					$min = $this->_product[count($this->_product) - 1]->productPrice;
-				}
-				else
+				} else
 				{
 					$min = $this->_product[0]->productPrice;
 					$max = $this->_product[count($this->_product) - 1]->productPrice + 100;
 				}
-			}
-			else
+			} else
 			{
 				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[0]->product_id);
 				$min             = $ProductPriceArr['product_price'];
@@ -488,8 +479,7 @@ class RedshopModelCategory extends RedshopModel
 			$this->setState('minprice', floor($min));
 			$this->setState('maxprice', ceil($max));
 			$this->setMaxMinProductPrice(array(floor($min), ceil($max)));
-		}
-		elseif ($isSlider)
+		} elseif ($isSlider)
 		{
 			$newProduct = array();
 
@@ -506,8 +496,7 @@ class RedshopModelCategory extends RedshopModel
 
 			$this->_total   = count($newProduct);
 			$this->_product = array_slice($newProduct, $limitstart, $endlimit);
-		}
-		else
+		} else
 		{
 			$db->setQuery($queryCount);
 			$this->_total = $db->loadResult();
@@ -534,8 +523,7 @@ class RedshopModelCategory extends RedshopModel
 					}
 				}
 			}
-		}
-		else
+		} else
 		{
 			for ($i = 0; $i < count($sorted) - 1; $i++)
 			{
@@ -589,20 +577,17 @@ class RedshopModelCategory extends RedshopModel
 		if ($this->_id)
 		{
 			$this->_data = $this->_getList($query);
-		}
-		else
+		} else
 		{
 			if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") === false && strpos($this->_template[0]->template_desc, "{pagination}") !== false)
 			{
 				$this->_data = $this->_getList($query, $limitstart, $endlimit);
-			}
-			else
+			} else
 			{
 				if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") !== false)
 				{
 					$this->_data = $this->_getList($query);
-				}
-				else
+				} else
 				{
 					$this->_data = $this->_getList($query, 0, Redshop::getConfig()->get('MAXCATEGORY'));
 				}
@@ -663,8 +648,7 @@ class RedshopModelCategory extends RedshopModel
 			}
 
 			$alltemplate = $redTemplate->getTemplate("category", $selected_template);
-		}
-		else
+		} else
 		{
 			$alltemplate = $redTemplate->getTemplate("frontpage_category");
 		}
@@ -693,14 +677,13 @@ class RedshopModelCategory extends RedshopModel
 			if (!empty($category_template))
 			{
 				$selected_template = $category_template;
-			}
-			elseif (isset($this->_maincat->category_template))
+			} elseif (isset($this->_maincat->category_template))
 			{
 				$selected_template = $this->_maincat->category_template;
 			}
 		}
 
-		$this->_template      = $redTemplate->getTemplate($template_section, $selected_template);
+		$this->_template = $redTemplate->getTemplate($template_section, $selected_template);
 
 		return $this->_template;
 	}
@@ -757,8 +740,7 @@ class RedshopModelCategory extends RedshopModel
 		if (strpos($this->_template[0]->template_desc, "{pagination}") !== false)
 		{
 			$product_lists = $this->_getList($query, $limitstart, $endlimit);
-		}
-		else
+		} else
 		{
 			$product_lists = $this->_getList($query, $limitstart, $endlimit);
 		}
@@ -832,8 +814,7 @@ class RedshopModelCategory extends RedshopModel
 				if (is_array($tmp_tag))
 				{
 					$tag = $tmp_tag;
-				}
-				elseif ($tmp_tag != "" && $tmp_tag != "0")
+				} elseif ($tmp_tag != "" && $tmp_tag != "0")
 				{
 					$tag[] = $tmp_tag;
 				}

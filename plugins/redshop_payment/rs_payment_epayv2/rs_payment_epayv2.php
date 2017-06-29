@@ -99,8 +99,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			$formdata['cancelurl']   = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0&Itemid=' . $itemId;
 			$formdata['callbackurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1&Itemid=' . $itemId;
 			$formdata['accepturl']   = JURI::base() . 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $data['order_id'] . '&Itemid=' . $itemId;
-		}
-		else
+		} else
 		{
 			$formdata['cancelurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0&Itemid=' . $itemId;
 			$formdata['accepturl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1&Itemid=' . $itemId;
@@ -142,7 +141,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 
 		$db             = JFactory::getDbo();
 		$request        = JRequest::get('request');
-		$values          = new stdClass;
+		$values = new stdClass;
 
 		$accept         = $request["accept"];
 		$tid            = $request["txnid"];
@@ -305,16 +304,14 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_LOG_TID');
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_TRANSACTION_SUCCESS');
 				}
-			}
-			elseif ($accept == "0")
+			} elseif ($accept == "0")
 			{
 				$values->order_status_code         = $invalid_status;
 				$values->order_payment_status_code = 'Unpaid';
 				$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 				$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 				$msg                               = JText::_('COM_REDSHOP_EPAY_PAYMENT_ERROR');
-			}
-			else
+			} else
 			{
 				$values->order_status_code         = $invalid_status;
 				$values->order_payment_status_code = 'Unpaid';
@@ -322,8 +319,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 				$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 				$msg                               = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 			}
-		}
-		else
+		} else
 		{
 			$values->order_status_code         = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
@@ -365,8 +361,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 		try
 		{
 			$orderPayment = $db->loadResult();
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
@@ -418,8 +413,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			$values->responsestatus = 'Success';
 			$values->type           = 'message';
 			$values->message        = JText::_('COM_REDSHOP_ORDER_CAPTURED');
-		}
-		else
+		} else
 		{
 			$values->responsestatus = 'Fail';
 			$values->type           = 'error';
@@ -462,13 +456,11 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			if ("PAYMENT_NEW" == $transactionInfo->transactionInformation->status)
 			{
 				$values = $this->onCancel_Paymentrs_payment_epayv2($element, $data);
-			}
-			elseif ("PAYMENT_CAPTURED" == $transactionInfo->transactionInformation->status)
+			} elseif ("PAYMENT_CAPTURED" == $transactionInfo->transactionInformation->status)
 			{
 				$values = $this->onRefund_Paymentrs_payment_epayv2($element, $data);
 			}
-		}
-		else
+		} else
 		{
 			$values->responsestatus = 'Fail';
 			$values->type           = 'error';
@@ -510,8 +502,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			$values->responsestatus = 'Success';
 			$values->type           = 'message';
 			$values->message = JText::_('COM_REDSHOP_ORDER_REFUND');
-		}
-		else
+		} else
 		{
 			$values->responsestatus = 'Fail';
 			$values->type           = 'error';
@@ -552,8 +543,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			$values->responsestatus = 'Success';
 			$values->type           = 'message';
 			$values->message = JText::_('COM_REDSHOP_ORDER_REFUND');
-		}
-		else
+		} else
 		{
 			$values->responsestatus = 'Fail';
 			$values->type           = 'error';
@@ -584,8 +574,7 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 						'trace' => $trace
 					)
 				);
-			}
-			catch (RuntimeException $e)
+			} catch (RuntimeException $e)
 			{
 				throw new RuntimeException($e->getMessage(), $e->getCode());
 			}

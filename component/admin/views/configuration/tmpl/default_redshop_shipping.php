@@ -28,18 +28,24 @@ defined('_JEXEC') or die;
                         <label class="label label-danger">
 							<?php echo JText::_('COM_REDSHOP_NOT_INSTALLED') ?>
                         </label>
-					<?php else: ?>
+					<?php else {
+	: ?>
                         <label class="label label-success">
 							<?php echo JText::_('COM_REDSHOP_INSTALLED') ?>
                         </label>
-					<?php endif; ?>
+					<?php endif;
+}
+?>
                 </td>
                 <td align="center" style="text-align: center;">
 					<?php if ($plugin->state != -1 && $plugin->enabled == 1): ?>
                         <span class="fa fa-check-circle text-success"></span>
-					<?php else: ?>
+					<?php else {
+	: ?>
                         <span class="fa fa-remove text-danger"></span>
-					<?php endif; ?>
+					<?php endif;
+}
+?>
                 </td>
             </tr>
 		<?php endforeach; ?>

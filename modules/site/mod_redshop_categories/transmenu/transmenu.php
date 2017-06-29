@@ -19,10 +19,11 @@ class TransMenu
 
 	function beginMenu()
 	{
-		if ($this->parent->_params->get('menu_style', 'vertical') == 'vertical')
-			$cssfile = "transmenuv.css";
-		else
-			$cssfile = "transmenuh.css";
+		if ($this->parent->_params->get('menu_style', 'vertical') == 'vertical') {
+					$cssfile = "transmenuv.css";
+		} else {
+					$cssfile = "transmenuh.css";
+		}
 		echo '
 			<link rel="stylesheet" type="text/css" href="', $this->parent->_params->get('LSPath'), '/', $cssfile, '" />
 			<script type="text/javascript" src="', $this->parent->_params->get('LSPath'), '/transmenu.js"></script>
@@ -105,8 +106,7 @@ class TransMenu
 		if ($cItemid != "")
 		{
 			$tmpItemid = $cItemid;
-		}
-		else
+		} else
 		{
 			$tmpItemid = $Itemid;
 		}
@@ -153,8 +153,7 @@ class TransMenu
 
 			$row->link = JRoute::_($row->link);
 			echo "$pmenu.addItem(\"$row->name\", \"$row->link\", $row->browserNav, $active);\n";
-		}
-		else
+		} else
 		{
 			$pmenu = "ms";
 		}
@@ -167,8 +166,7 @@ class TransMenu
 			if ($level == 0)
 			{
 				echo "var $cmenu = " . $pmenu . ".addMenu(document.getElementById(\"$idmenu\"));\n";
-			}
-			else
+			} else
 			{
 				echo "var $cmenu = " . $pmenu . ".addMenu(" . $pmenu . ".items[" . $pos . "]);\n";
 			}
@@ -243,8 +241,9 @@ class TransMenu
 				// Formerly case 2
 				// Open in parent window
 				$txt = '<a href="' . $mitem->link . '" class="' . $menuclass . '" ' . $id . '>' . $mitem->name;
-				if ($this->parent->hasSubItems($mitem->id))
-					$txt .= '&nbsp;&nbsp;<img border="0" src="' . $this->parent->_params->get('LSPath') . '/img/tabarrow.gif" alt="arrow" />';
+				if ($this->parent->hasSubItems($mitem->id)) {
+									$txt .= '&nbsp;&nbsp;<img border="0" src="' . $this->parent->_params->get('LSPath') . '/img/tabarrow.gif" alt="arrow" />';
+				}
 				$txt .= '</a>';
 				break;
 		}
@@ -262,8 +261,7 @@ class TransMenu
 				if ($this->parent->_params->get('menu_images_align'))
 				{
 					$txt = $txt . ' ' . $image;
-				}
-				else
+				} else
 				{
 					$txt = $image . ' ' . $txt;
 				}

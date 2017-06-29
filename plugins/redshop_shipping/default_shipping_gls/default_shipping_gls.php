@@ -21,7 +21,7 @@ JLoader::import('redshop.library');
 
 class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 {
-	const SHIPPING_NAME    = "default_shipping_gls";
+	const SHIPPING_NAME = "default_shipping_gls";
 
 	public $client       = '';
 
@@ -34,7 +34,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 	 *
 	 * @var JParameter object
 	 */
-	public function __construct( &$subject, $config = array() )
+	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
 
@@ -47,9 +47,9 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 
 		try
 		{
-			$this->client = new SoapClient($url, array ("trace" => 1, "exceptions" => 1 ));
+			$this->client = new SoapClient($url, array("trace" => 1, "exceptions" => 1));
 		}
-		catch ( Exception $exception )
+		catch (Exception $exception)
 		{
 			$this->error = 1;
 
@@ -59,7 +59,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		}
 	}
 
-	public function GetNearstParcelShops ($values)
+	public function GetNearstParcelShops($values)
 	{
 		if ($this->error)
 		{
@@ -79,7 +79,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 
 			return $this->ShopArray($Handle->parcelshops->PakkeshopData);
 		}
-		catch ( Exception $exception )
+		catch (Exception $exception)
 		{
 			if ($exception->getMessage())
 			{
@@ -151,7 +151,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 			{
 				$day = JText::_('THU');
 			}
-			elseif($Weekday[$i]->day == 'Friday')
+			elseif ($Weekday[$i]->day == 'Friday')
 			{
 				$day = JText::_('FRI');
 			}

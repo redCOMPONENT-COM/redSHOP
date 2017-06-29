@@ -175,16 +175,14 @@ class PlgRedshop_PaymentIngenico extends RedshopPayment
 				$values->order_payment_status_code = 'Paid';
 				$values->transaction_id = $tid;
 				$values->log = JText::_('PLG_REDSHOP_PAYMENT_INGENICO_ORDER_PLACED');
-			}
-			else
+			} else
 			{
 				$this->transactionStatus = false;
 				$values->order_status_code = $invalid_status;
 				$values->order_payment_status_code = 'Unpaid';
 				$values->log = JText::_('PLG_REDSHOP_PAYMENT_INGENICO_ORDER_NOT_PLACED');
 			}
-		}
-		else
+		} else
 		{
 			$this->transactionStatus = false;
 			$values->transaction_id = $tid;
@@ -217,8 +215,7 @@ class PlgRedshop_PaymentIngenico extends RedshopPayment
 		if ($this->transactionStatus)
 		{
 			header("HTTP/1.1 200 Ok");
-		}
-		else
+		} else
 		{
 			header("HTTP/1.1 401 Unauthorized");
 		}

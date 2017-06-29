@@ -217,8 +217,7 @@ class AbstractImportPlugin extends \JPlugin
 					'PLG_REDSHOP_IMPORT_' . strtoupper($this->_name) . '_SUCCESS_IMPORT',
 					$data[$this->nameKey]
 				);
-			}
-			else
+			} else
 			{
 				$rowResult->status  = 0;
 				$rowResult->message = \JText::sprintf(

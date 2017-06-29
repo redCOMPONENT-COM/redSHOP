@@ -42,8 +42,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		if ($modal)
 		{
 			$link = 'index.php?option=com_redshop&view=product_rating&product_id=' . $productId . '&tmpl=component&Itemid=' . $Itemid;
-		}
-		else
+		} else
 		{
 			$link = 'index.php?option=com_redshop&view=product&pid=' . $productId . '&cid=' . $category_id . '&Itemid=' . $Itemid;
 		}
@@ -86,8 +85,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		if ($user->guest)
 		{
 			$data['userid'] = 0;
-		}
-		else
+		} else
 		{
 			$userHelper = rsUserHelper::getInstance();
 			$data['userid'] = $user->id;
@@ -101,8 +99,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 				{
 					$data['company_name'] = $userInfo->company_name;
 				}
-			}
-			else
+			} else
 			{
 				$data['username'] = $user->name;
 				$data['email'] = $user->email;
@@ -122,8 +119,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				}
-				else
+				} else
 				{
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
@@ -162,8 +158,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 			if (Redshop::getConfig()->get('RATING_MSG'))
 			{
 				$msg = Redshop::getConfig()->get('RATING_MSG');
-			}
-			else
+			} else
 			{
 				$msg = JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY');
 			}
@@ -174,8 +169,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 			{
 				$link .= '&rate=1';
 			}
-		}
-		else
+		} else
 		{
 			$app->enqueueMessage($model->getError(), 'warning');
 		}

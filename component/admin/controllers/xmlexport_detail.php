@@ -51,8 +51,7 @@ class RedshopControllerXmlexport_detail extends RedshopController
 		{
 			$post['element_name'] = ($childelement['orderdetail'][0]) ? $childelement['orderdetail'][0] : "orderdetail";
 			$post['xmlexport_filetag'] = $childelement['orderdetail'][1];
-		}
-		elseif (isset($childelement['productdetail']))
+		} elseif (isset($childelement['productdetail']))
 		{
 			$post['element_name'] = ($childelement['productdetail'][0]) ? $childelement['productdetail'][0] : "productdetail";
 			$post['xmlexport_filetag'] = $childelement['productdetail'][1];
@@ -95,19 +94,16 @@ class RedshopControllerXmlexport_detail extends RedshopController
 			if ($export == 1)
 			{
 				$msg = JText::_('COM_REDSHOP_XMLEXPORT_FILE_SUCCESSFULLY_SYNCHRONIZED');
-			}
-			else
+			} else
 			{
 				$msg = JText::_('COM_REDSHOP_XMLEXPORT_DETAIL_SAVED');
 			}
-		}
-		else
+		} else
 		{
 			if ($export == 1)
 			{
 				$msg = JText::_('COM_REDSHOP_ERROR_XMLEXPORT_FILE_SYNCHRONIZED');
-			}
-			else
+			} else
 			{
 				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_XMLEXPORT_DETAIL');
 			}
@@ -153,7 +149,7 @@ function setChildElement()
 
 	$childelement[$post['parentsection']] = array($post['element_name'], implode(";", $resarray));
 
-	$session->set('childelement', $childelement);    ?>
+	$session->set('childelement', $childelement); ?>
 	<script language="javascript">
 		window.parent.SqueezeBox.close();
 	</script>

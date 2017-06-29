@@ -46,8 +46,7 @@ if ($this->params->get('show_page_heading', 1))
 		if ($this->params->get('page_title') != $pagetitle)
 		{
 			echo $this->escape($this->params->get('page_title'));
-		}
-		else
+		} else
 		{
 			echo $pagetitle;
 		}    ?>
@@ -63,8 +62,7 @@ if (count($manufacturertemplate) > 0 && $manufacturertemplate[0]->template_desc)
 {
 	$template_desc = $manufacturertemplate[0]->template_desc;
 	$template_id   = $manufacturertemplate[0]->template_id;
-}
-else
+} else
 {
 	$template_desc = "<div class=\"category_print\">{print}</div>\r\n<div style=\"clear: both;\"></div>\r\n<div class=\"manufacturer_name\">{manufacturer_name}</div>\r\n<div class=\"manufacturer_image\">{manufacturer_image}</div>\r\n<div class=\"manufacturer_description\">{manufacturer_description}</div>\r\n\r\n<div style=\"clear: both;\"></div>\r\n\r\n<div id=\"category_header\">\r\n	<div class=\"category_order_by\">\r\n		{order_by} \r\n	</div>\r\n</div>\r\n\r\n<div class=\"category_box_wrapper\">{product_loop_start}\r\n<div>{category_heading_start}<div>*{category_name}<div>{category_heading_end}</div>\r\n<div class=\"category_box_outside\">\r\n<div class=\"category_box_inside\">\r\n<div class=\"category_product_image\">{product_thumb_image_1}</div>\r\n<div class=\"category_product_title\">\r\n<h3>{product_name}</h3>\r\n</div>\r\n<div class=\"category_product_price\">{product_price}</div>\r\n<div class=\"category_product_readmore\">{read_more}</div>\r\n</div>\r\n</div>\r\n{product_loop_end}</div>\r\n<div class=\"pagination\">{pagination} </div>";
 	$template_id   = 0;
@@ -73,8 +71,7 @@ else
 if ($print)
 {
 	$onclick = "onclick='window.print();'";
-}
-else
+} else
 {
 	$print_url = $url . "index.php?option=com_redshop&view=manufacturers&layout=products&mid=" . $manufacturer->manufacturer_id . "&print=1&tmpl=component&Itemid=" . $Itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
@@ -124,8 +121,7 @@ if ($template_middle != "")
 				$cart_mdata = str_replace("{category_name}", $manufacturer_products[$i]->name, $cart_mdata);
 				$cart_mdata = str_replace("{category_heading_start}", "", $cart_mdata);
 				$cart_mdata = str_replace("{category_heading_end}", "", $cart_mdata);
-			}
-			else
+			} else
 			{
 				$cart_mdata = $cart_mdata1[0] . $cart_mdata2[1];
 			}
@@ -150,8 +146,7 @@ if ($template_middle != "")
 		{
 			$isChilds   = true;
 			$attributes = array();
-		}
-		else
+		} else
 		{
 			$isChilds = false;
 
@@ -202,20 +197,17 @@ if ($template_middle != "")
 			$tag     = '{product_thumb_image_2}';
 			$h_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT_2');
 			$w_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_WIDTH_2');
-		}
-		elseif (strstr($cart_mdata, '{product_thumb_image_3}'))
+		} elseif (strstr($cart_mdata, '{product_thumb_image_3}'))
 		{
 			$tag     = '{product_thumb_image_3}';
 			$h_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT_3');
 			$w_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_WIDTH_3');
-		}
-		elseif (strstr($cart_mdata, '{product_thumb_image_1}'))
+		} elseif (strstr($cart_mdata, '{product_thumb_image_1}'))
 		{
 			$tag     = '{product_thumb_image_1}';
 			$h_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT');
 			$w_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_WIDTH');
-		}
-		else
+		} else
 		{
 			$tag     = '{product_thumb_image}';
 			$h_thumb = Redshop::getConfig()->get('MANUFACTURER_PRODUCT_THUMB_HEIGHT');

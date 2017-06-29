@@ -48,8 +48,7 @@ class RedshopControllerRating_detail extends RedshopController
 		if ($model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_RATING_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_RATING_DETAIL');
 		}

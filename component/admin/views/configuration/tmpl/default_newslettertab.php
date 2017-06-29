@@ -103,27 +103,27 @@ $ord_path = "/components/com_redshop/assets/images/";
             </div>
             <div class="box-body">
 			    <?php
-			    echo RedshopLayoutHelper::render(
-				    'config.config',
-				    array(
-					    'title' => JText::_('COM_REDSHOP_NEWSLETTER_TESTING_EMAIL_LBL'),
-					    'desc'  => JText::_('COM_REDSHOP_TOOLTIP_NEWSLETTER_TESTING_EMAIL_LBL'),
-					    'field' => '<input type="text" name="newsletter_test_email" id="newsletter_test_email" class="form-control"
+				echo RedshopLayoutHelper::render(
+					'config.config',
+					array(
+						'title' => JText::_('COM_REDSHOP_NEWSLETTER_TESTING_EMAIL_LBL'),
+						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_NEWSLETTER_TESTING_EMAIL_LBL'),
+						'field' => '<input type="text" name="newsletter_test_email" id="newsletter_test_email" class="form-control"
                             value="" size="50" />',
-					    'line'  => false
-				    )
-			    );
-			    echo RedshopLayoutHelper::render(
-				    'config.config',
-				    array(
-					    'title' => JText::_('COM_REDSHOP_NEWSLETTER_TEST_LBL'),
-					    'desc'  => JText::_('COM_REDSHOP_TOOLTIP_NEWSLETTER_TEST_LBL'),
-					    'field' => '<button type="button" class="btn btn-success btn-large"
+						'line'  => false
+					)
+				);
+				echo RedshopLayoutHelper::render(
+					'config.config',
+					array(
+						'title' => JText::_('COM_REDSHOP_NEWSLETTER_TEST_LBL'),
+						'desc'  => JText::_('COM_REDSHOP_TOOLTIP_NEWSLETTER_TEST_LBL'),
+						'field' => '<button type="button" class="btn btn-success btn-large"
                             onclick="if(document.getElementById(\'newsletter_test_email\').value != \'\'){document.adminForm.task.value=\'apply\';form.submit();}else{alert(\'' . JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS') . '\');}"><i class="fa fa-envelope"></i>&nbsp;&nbsp;' . JText::_('COM_REDSHOP_SEND') . '</button>',
-					    'line'  => false
-				    )
-			    );
-			    ?>
+						'line'  => false
+					)
+				);
+				?>
             </div>
         </div>
     </div>

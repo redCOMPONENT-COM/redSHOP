@@ -47,8 +47,7 @@ class JFormFieldCategoriesParent extends JFormFieldList
 		if ($this->element['parent'])
 		{
 			$oldCat = $input->get('id', 0);
-		}
-		else
+		} else
 			// For items the old category is the category they are in when opened or 0 if new.
 		{
 			$oldCat = $this->form->getValue($name);
@@ -87,8 +86,7 @@ class JFormFieldCategoriesParent extends JFormFieldList
 		try
 		{
 			$options = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
 		}
@@ -108,8 +106,7 @@ class JFormFieldCategoriesParent extends JFormFieldList
 			if ($options[$i]->published == 1)
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
-			}
-			else
+			} else
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
 			}

@@ -64,8 +64,7 @@ $formdata = array(
 if ($data['shippinginfo']->is_company)
 {
 	$groupPaytype = $this->params->get('paytype_business', '');
-}
-else
+} else
 {
 	$groupPaytype = $this->params->get('paytype_private', '');
 }
@@ -73,8 +72,7 @@ else
 if (!empty($paytype) && empty($groupPaytype))
 {
 	$formdata['payType'] = $paytype;
-}
-elseif (!empty($groupPaytype))
+} elseif (!empty($groupPaytype))
 {
 	$formdata['payType'] = $groupPaytype;
 }
@@ -169,8 +167,7 @@ if ($payment_price > 0)
 	if ($order->payment_oprand == '-')
 	{
 		$discount_payment_price = -$payment_price;
-	}
-	else
+	} else
 	{
 		$discount_payment_price = $payment_price;
 	}

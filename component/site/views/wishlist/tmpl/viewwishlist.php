@@ -87,19 +87,16 @@ if (!$user->id)
 		if ($count_no_user_field > 0)
 		{
 			echo "<br /><div id='saveid' style='clear:both;' style='display:block'><form method='post' ><input type='hidden' name='product_id' value='" . $myproductid . "' ><input type='button' onClick='return productalladdprice(1)'  value='" . JText::_('SAVE_WISHLIST') . "' ></form></div>";
-		}
-		else
+		} else
 		{
 			echo "<br /><div id='saveid' style='clear:both;'><input type='button' onClick='clickMe()'  value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "' ></div>";
 		}
-	}
-	else
+	} else
 	{
 		echo "<div>" . JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
 	}
 	echo "</div>";
-}
-else
+} else
 {
 	// If user logged in than display this code.
 	echo "<div class='mod_redshop_wishlist'>";
@@ -135,8 +132,7 @@ else
 		if ($count_no_user_field > 0)
 		{
 			echo "<br /><div style='clear:both;' ><a class=\"redcolorproductimg\" href=\"" . $mywishlist_link . "\"  ><form method='post' ><input type='hidden' name='product_id' value='" . $myproductid . "' ><input type='button' onClick='return productalladdprice(2)'  value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "' ></form></a></div>";
-		}
-		else
+		} else
 		{
 			echo "<div style=\"clear:both;\" ><a class=\"redcolorproductimg\" href=\"" . $mywishlist_link . "\"  ><input type='button'  value='" . JText::_('COM_REDSHOP_SAVE_WISHLIST') . "'></a></div><br /><br />";
 		}
@@ -158,8 +154,7 @@ else
 		}
 
 		echo "</table>";
-	}
-	elseif (count($this->wish_session) <= 0 && count($wishlists) <= 0)
+	} elseif (count($this->wish_session) <= 0 && count($wishlists) <= 0)
 	{
 		echo "<div>" . JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') . "</div>";
 	}
@@ -196,8 +191,7 @@ function display_products($rows)
 			{
 				echo $thum_image = "<div class='wishlist_left'><div class='mod_wishlist_product_image wishlist_image'>" .
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, "85", "63") . "</div></div>";
-			}
-			else
+			} else
 			{
 				$maindefaultpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 				echo  $thum_image = "<div class='wishlist_left'><div class='mod_wishlist_product_image wishlist_image'><a href='" . $link . "'><img src='" . $maindefaultpath . "' height='85' width='63' /></a></div></div>";
@@ -219,19 +213,16 @@ function display_products($rows)
 							$product_price = $product_price_discount;
 							echo "<div id='mod_redmainprice' class='mod_redmainprice wishlist_price'>" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
 							echo "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</div>";
-						}
-						else
+						} else
 						{
 							$product_price = $product_price_discount;
 							echo "<div class='mod_redproducts_price wishlist_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
 						}
-					}
-					else
+					} else
 					{
 						echo "<div class='mod_redproducts_price wishlist_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
 					}
-				}
-				else
+				} else
 				{
 					echo "<div class='mod_redproducts_price wishlist_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
 				}
@@ -243,8 +234,7 @@ function display_products($rows)
 
 			echo "<div class='wishlist_right'>" . $addtocartdata . "</div><br class='clear' /></div><br class='clear' />";
 		}
-	}
-	else
+	} else
 	{
 		$ph_thumb       = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
 		$pw_thumb       = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
@@ -276,8 +266,7 @@ function display_products($rows)
 			{
 				$thum_image    = $producthelper->getProductImage($row->product_id, $link, $pw_thumb, $ph_thumb);
 				$wishlist_data = str_replace('{product_thumb_image}', $thum_image, $wishlist_data);
-			}
-			else
+			} else
 			{
 				$maindefaultpath = RedshopHelperMedia::getImagePath(
 					Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
@@ -330,8 +319,7 @@ function display_products($rows)
 								if ($childproducts[$c]->product_parent_id == 0)
 								{
 									$level = "";
-								}
-								else
+								} else
 								{
 									if ($parentid != $childproducts[$c]->product_parent_id)
 									{
@@ -380,14 +368,12 @@ function display_products($rows)
 
 					$attributes = $producthelper->getProductAttribute($row->product_id);
 					$attributes = array_merge($attributes, $wishlist_data);
-				}
-				else
+				} else
 				{
 					$isChilds   = true;
 					$attributes = array();
 				}
-			}
-			else
+			} else
 			{
 				$isChilds       = false;
 				$attributes_set = array();
@@ -404,8 +390,7 @@ function display_products($rows)
 			if (empty($row->product_items))
 			{
 				$attributes = null;
-			}
-			else
+			} else
 			{
 				foreach ($attributes as $key => $attribute)
 				{
@@ -455,20 +440,17 @@ function display_products($rows)
 							$product_price     = $product_price_discount;
 							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price_discount);
 
-						}
-						else
+						} else
 						{
 							$product_price     = $product_price_discount;
 							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
 						}
-					}
-					else
+					} else
 					{
 						$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
 
 					}
-				}
-				else
+				} else
 				{
 					$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
 
@@ -525,8 +507,7 @@ function display_products($rows)
 					if ($productUserFieldsFinal != '')
 					{
 						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', '', 0, $row->product_id, $productUserFieldsFinal, 1);
-					}
-					else
+					} else
 					{
 						$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 12, '', $cart_id, 0, $row->product_id);
 					}
@@ -543,8 +524,7 @@ function display_products($rows)
 					{
 						$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserFields[0], $wishlist_data);
 						$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $wishlist_data);
-					}
-					else
+					} else
 					{
 						$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserFields[0], $wishlist_data);
 						$wishlist_data = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $wishlist_data);
@@ -557,8 +537,7 @@ function display_products($rows)
 				{
 					$wishlist_data = str_replace("{if product_userfield}", $productUserFieldsForm, $wishlist_data);
 					$wishlist_data = str_replace("{product_userfield end if}", "</form>", $wishlist_data);
-				}
-				else
+				} else
 				{
 					$wishlist_data = str_replace("{if product_userfield}", "", $wishlist_data);
 					$wishlist_data = str_replace("{product_userfield end if}", "", $wishlist_data);
@@ -597,7 +576,7 @@ function display_products($rows)
 			$wishlist_data = str_replace("{if product_on_sale}", "", $wishlist_data);
 			$wishlist_data = str_replace("{product_on_sale end if}", "", $wishlist_data);
 
-			$regdellink     = "index.php?mydel=1&view=wishlist&wishlist_id=" . $row->product_id . "&task=mysessdelwishlist";
+			$regdellink = "index.php?mydel=1&view=wishlist&wishlist_id=" . $row->product_id . "&task=mysessdelwishlist";
 
 			if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))
 			{

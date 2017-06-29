@@ -233,8 +233,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 			if (count($productDetail->attributes) > 0)
 			{
 				$content = $this->replaceAttributeData($productDetail, $bundleDetail, $content);
-			}
-			else
+			} else
 			{
 				$start            = explode("{property_start}", $content);
 				$end              = explode("{property_end}", $start[1]);
@@ -247,8 +246,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 			$bundleContent .= RedshopLayoutHelper::render(
 				'bundle',
-				array
-				(
+				array(
 					'detail' => $bundleDetail,
 					'content' => $content
 				),
@@ -293,8 +291,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 			if (empty($attribute->properties))
 			{
 				$properties = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id);
-			}
-			else
+			} else
 			{
 				$properties = $attribute->properties;
 			}
@@ -403,8 +400,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 		if ($jinput->get('view') != 'product')
 		{
 			$cartForm = "<form>";
-		}
-		else
+		} else
 		{
 			foreach ($this->bundleData as $bundleDetail)
 			{
@@ -474,8 +470,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 				$propertyData = $properties[0];
 			}
 
-			$data[] = array
-			(
+			$data[] = array(
 				'property' => $propertyData,
 				'bundle'   => $bundleData
 			);
@@ -483,8 +478,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 		$bundleContent = RedshopLayoutHelper::render(
 			'cart',
-			array
-			(
+			array(
 				'data' => $data
 			),
 			'',
@@ -540,8 +534,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 			$bundleData = $this->getBundleData($row->product_id, $row->bundle_id);
 
-			$data[] = array
-			(
+			$data[] = array(
 				'property' => $propertyData,
 				'bundle'   => $bundleData[0]
 			);
@@ -549,8 +542,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 		$bundleContent = RedshopLayoutHelper::render(
 			'cart',
-			array
-			(
+			array(
 				'data' => $data
 			),
 			'',
@@ -649,8 +641,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 			$bundleData = $this->getBundleData($row->product_id, $row->bundle_id);
 
-			$data[] = array
-			(
+			$data[] = array(
 				'property' => $propertyData,
 				'bundle'   => $bundleData[0]
 			);
@@ -658,8 +649,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 		$bundleContent = RedshopLayoutHelper::render(
 			'cart',
-			array
-			(
+			array(
 				'data' => $data
 			),
 			'',

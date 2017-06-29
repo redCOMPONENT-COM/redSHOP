@@ -58,8 +58,7 @@ class RedshopViewShopper_group_detail extends RedshopViewAdmin
 		if ($isNew)
 		{
 			JToolBarHelper::cancel();
-		}
-		else
+		} else
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
@@ -121,27 +120,27 @@ class RedshopViewShopper_group_detail extends RedshopViewAdmin
 			'class="inputbox" size="1"', 'value', 'text', $detail->tax_group_id
 		);
 
-		if(!isset($lists['apply_vat']))
+		if (!isset($lists['apply_vat']))
 		{
 			$lists['apply_vat'] = "";
 		}
 
-		if(!isset($lists['is_logged_in']))
+		if (!isset($lists['is_logged_in']))
 		{
 			$lists['is_logged_in'] = "";
 		}
 
-		if(!isset($lists['apply_product_price_vat']))
+		if (!isset($lists['apply_product_price_vat']))
 		{
 			$lists['apply_product_price_vat'] = "";
 		}
 
-		if(!isset($lists['tax_exempt']))
+		if (!isset($lists['tax_exempt']))
 		{
 			$lists['tax_exempt'] = "";
 		}
 
-		if(!isset($lists['tax_exempt_on_shipping']))
+		if (!isset($lists['tax_exempt_on_shipping']))
 		{
 			$lists['tax_exempt_on_shipping'] = "";
 		}

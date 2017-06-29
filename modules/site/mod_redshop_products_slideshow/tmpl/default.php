@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 ?>
 <div class="slideshow-stage">
 	<script language="javascript">AC_FL_RunContent = 0;</script>
-	<script src="<?php echo JURI::root();?>modules/mod_redshop_products_slideshow/assets/AC_RunActiveContent.js"
+	<script src="<?php echo JURI::root(); ?>modules/mod_redshop_products_slideshow/assets/AC_RunActiveContent.js"
 			language="javascript"></script>
 	<script language="javascript">
 		if (AC_FL_RunContent == 0)
@@ -49,7 +49,7 @@ defined('_JEXEC') or die;
 	<noscript>
 		<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
 				codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
-				width="<?php echo $bannerWidth;?>"
+				width="<?php echo $bannerWidth; ?>"
 				height="<?php echo $bannerHeight; ?>" id="AnimatedLines" align="middle">
 			<param name="allowScriptAccess" value="sameDomain"/>
 			<param name="allowFullScreen" value="false"/>
@@ -57,7 +57,7 @@ defined('_JEXEC') or die;
 				   value="url=modules/mod_redshop_products_slideshow/assets/data_<?php echo $module->id; ?>.xml"/>
 			<param name="movie" value="<?php echo JURI::root()?>modules/mod_redshop_products_slideshow/assets/slideshow.swf"/>
 			<param name="quality" value="high"/>
-			<param name="bgcolor" value="<?php echo $backgroundColor;?>"/>
+			<param name="bgcolor" value="<?php echo $backgroundColor; ?>"/>
 			<embed
 				src="<?php echo JURI::root(); ?>modules/mod_redshop_products_slideshow/assets/slideshow.swf"
 				flashvars="url=modules/mod_redshop_products_slideshow/assets/data_<?php echo $module->id; ?>.xml"

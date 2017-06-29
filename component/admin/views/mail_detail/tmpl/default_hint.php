@@ -58,8 +58,11 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 	<tr>
 		<td>
 			<?php    $tags = $extra_field->getSectionFieldList(14, 1);
-			if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-			else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
+			if (count($tags) == 0) {
+				echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+			} else {
+				echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
+			}
 			for ($i = 0, $in = count($tags); $i < $in; $i++)
 			{
 				echo '<span style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</span>';
@@ -69,8 +72,11 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 	<tr>
 		<td>
 			<?php    $tags = $extra_field->getSectionFieldList(15, 1);
-			if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-			else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
+			if (count($tags) == 0) {
+				echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+			} else {
+				echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
+			}
 			for ($i = 0, $in = count($tags); $i < $in; $i++)
 			{
 				echo '<span style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</span>';
@@ -89,8 +95,11 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 	<tr>
 		<td>
 			<?php    $tags = $extra_field->getSectionFieldList(14, 1);
-			if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-			else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
+			if (count($tags) == 0) {
+				echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+			} else {
+				echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
+			}
 			for ($i = 0, $in = count($tags); $i < $in; $i++)
 			{
 				echo '<span style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</span>';
@@ -100,8 +109,11 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 	<tr>
 		<td>
 			<?php    $tags = $extra_field->getSectionFieldList(15, 1);
-			if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-			else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
+			if (count($tags) == 0) {
+				echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+			} else {
+				echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
+			}
 			for ($i = 0, $in = count($tags); $i < $in; $i++)
 			{
 				echo '<span style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</span>';
@@ -196,7 +208,7 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 		<td><?php echo Redtemplate::getTemplateValues('review_product', 'mail'); ?></td>
 	</tr>
 </table>
-<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_FIRST_MAIL_AFTER_ORDER_PURCHASED'), 'orderpurchase');  ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_FIRST_MAIL_AFTER_ORDER_PURCHASED'), 'orderpurchase'); ?>
 <table class="adminlist table table-striped">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('first_after_order_purchased', 'mail'); ?></td>
@@ -238,7 +250,7 @@ echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail');
 		<td><?php echo Redtemplate::getTemplateValues('request_tax_exempt', 'mail'); ?></td>
 	</tr>
 </table>
-<?php echo JHtml::_('sliders.panel',  JText::_('COM_REDSHOP_PRODUCT_SUBSCRIPTION_MAIL'), 'subscription'); ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_PRODUCT_SUBSCRIPTION_MAIL'), 'subscription'); ?>
 <table class="adminlist table table-striped">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('product_subscription', 'mail'); ?></td>

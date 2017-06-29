@@ -41,11 +41,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
         <div class="alert alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
         </div>
-	<?php else : ?>
+	<?php else {
+	: ?>
         <table class="adminlist table table-striped">
             <thead>
             <tr>
-                <th width="5"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
+                <th width="5"><?php echo JText::_('COM_REDSHOP_NUM');
+}
+?></th>
                 <th width="10">
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
                 </th>

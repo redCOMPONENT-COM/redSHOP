@@ -45,8 +45,7 @@ class RedshopControllerUser_detail extends RedshopController
 		{
 			$this->setMessage(JText::_('COM_REDSHOP_USER_DETAIL_SAVED'));
 			$app->setUserState('com_redshop.fields_detail.data', "");
-		}
-		else
+		} else
 		{
 			$this->setMessage(JText::_('COM_REDSHOP_ERROR_SAVING_USER_DETAIL'), 'error');
 		}
@@ -55,8 +54,7 @@ class RedshopControllerUser_detail extends RedshopController
 		{
 			$info_id = $this->input->getString('info_id', '');
 			$link    = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
-		}
-		else
+		} else
 		{
 			if ($apply == 1)
 			{
@@ -70,8 +68,7 @@ class RedshopControllerUser_detail extends RedshopController
 						'index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $row->users_info_id . '&cid[]=0'
 					);
 				}
-			}
-			else
+			} else
 			{
 				$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=user', 0);
 			}
@@ -104,8 +101,7 @@ class RedshopControllerUser_detail extends RedshopController
 		{
 			$info_id = $this->input->getInt('info_id');
 			$this->setRedirect('index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=user', $msg);
 		}
@@ -169,8 +165,7 @@ class RedshopControllerUser_detail extends RedshopController
 		if ($shipping)
 		{
 			$link = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
-		}
-		else
+		} else
 		{
 			$link = 'index.php?option=com_redshop&view=user';
 		}

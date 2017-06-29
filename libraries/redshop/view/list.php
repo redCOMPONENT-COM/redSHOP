@@ -323,14 +323,12 @@ class RedshopViewList extends AbstractView
 			if ($this->canEdit)
 			{
 				return JHtml::_('jgrid.published', $row->published, $index);
-			}
-			else
+			} else
 			{
 				return '<span class="label ' . ($row->published ? 'label-success' : 'label-danger') . '">' .
 					($row->published ? JText::_('JYES') : JText::_('JNO')) . '</span>';
 			}
-		}
-		elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable && $this->canEdit)
+		} elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable && $this->canEdit)
 		{
 			$value   = $row->{$config['dataCol']};
 			$display = $value;
@@ -341,8 +339,7 @@ class RedshopViewList extends AbstractView
 			}
 
 			return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
-		}
-		elseif ($config['edit_link'] === true)
+		} elseif ($config['edit_link'] === true)
 		{
 			return '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $row->{$config['dataCol']} . '</a>';
 		}

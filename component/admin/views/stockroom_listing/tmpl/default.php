@@ -35,7 +35,7 @@ $showbuttons    = JFactory::getApplication()->input->getInt('showbuttons', 0);
 		if (pressbutton == "print_data")
 		{
 			window.open(
-				"<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=stockroom_listing&id=0&showbuttons=1', false);?>", "<?php echo JText::_('COM_REDSHOP_STOCKROOM_LISTING' );?>",
+				"<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=stockroom_listing&id=0&showbuttons=1', false); ?>", "<?php echo JText::_('COM_REDSHOP_STOCKROOM_LISTING'); ?>",
 				"scrollbars=1",
 				"location=1"
 			);
@@ -96,7 +96,7 @@ $showbuttons    = JFactory::getApplication()->input->getInt('showbuttons', 0);
 			</div>
 		</div>
 		<div class="filterItem">
-			<?php echo $this->lists['category'];?>
+			<?php echo $this->lists['category']; ?>
 		</div>
 		<div class="filterItem">
 			<?php echo $this->lists['stockroom_type']; ?>
@@ -139,18 +139,18 @@ $showbuttons    = JFactory::getApplication()->input->getInt('showbuttons', 0);
 					<?php if ($this->stockroom_type == 'property') : ?>
 						<?php echo JText::_('COM_REDSHOP_PROPERTY'); ?>
 					<?php elseif ($this->stockroom_type == 'subproperty') : ?>
-						<?php echo JText::_('COM_REDSHOP_SUBPROPERTY');?>
+						<?php echo JText::_('COM_REDSHOP_SUBPROPERTY'); ?>
 					<?php endif; ?>
 				</th>
 			<?php endif; ?>
-			<?php for($j = 0;$j < count($this->stockroom);$j++) : ?>
+			<?php for ($j = 0; $j < count($this->stockroom); $j++) : ?>
 				<th width="5%">
 					<?php echo $this->stockroom[$j]->stockroom_name; ?>
 					<a href="javascript:Joomla.submitbutton('saveStock')" class="saveorder pull-right"></a>
 				</th>
 				<th width="5%">
 					<?php  echo JText::_('COM_REDSHOP_PREORDER_STOCKROOM_QTY'); ?><br />
-					<?php echo $this->stockroom[$j]->stockroom_name;?>
+					<?php echo $this->stockroom[$j]->stockroom_name; ?>
 					<a href="javascript:Joomla.submitbutton('saveStock')" class="saveorder pull-right"></a>
 				</th>
 			<?php endfor; ?>

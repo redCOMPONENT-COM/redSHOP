@@ -178,8 +178,7 @@ class RedshopHelperAccessory
 		if (count($result) > 0)
 		{
 			$return = $result[0]->accessory_id;
-		}
-		else
+		} else
 		{
 			$return = 0;
 		}

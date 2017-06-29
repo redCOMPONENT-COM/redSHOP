@@ -44,73 +44,73 @@ $query = $db->getQuery(true)
 switch ((int) $type)
 {
 	// Newest Product
-	case 0:
-		$query->order($db->qn('p.product_id') . ' DESC');
-	break;
+		case 0:
+			$query->order($db->qn('p.product_id') . ' DESC');
+		break;
 
-	// Latest Product
-	case 1:
+		// Latest Product
+		case 1:
 
-		$query->leftjoin(
-					$db->qn('#__redshop_product_attribute', 'a')
-					. ' ON ' . $db->qn('a.product_id') . ' = ' . $db->qn('p.product_id')
-				)
-			->leftjoin(
-					$db->qn('#__redshop_product_attribute_property', 'ap')
-					. ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
-				)
-			->order($db->qn('ap.property_id') . ' DESC')
-			->order($db->qn('p.product_id') . ' DESC');
-
-	break;
-
-	// Most Sold Product
-	case 2:
-
-		$subQuery = $db->getQuery(true)
-			->select('SUM(' . $db->qn('oi.product_quantity') . ') AS qty, oi.product_id')
-			->from($db->qn('#__redshop_order_item', 'oi'))
-			->group('oi.product_id');
-		$query->select('orderItems.qty')
-			->leftJoin('(' . $subQuery . ') orderItems ON orderItems.product_id = p.product_id')
-			->order($db->qn('orderItems.qty') . ' DESC');
+			$query->leftjoin(
+						$db->qn('#__redshop_product_attribute', 'a')
+						. ' ON ' . $db->qn('a.product_id') . ' = ' . $db->qn('p.product_id')
+					)
+				->leftjoin(
+						$db->qn('#__redshop_product_attribute_property', 'ap')
+						. ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
+					)
+				->order($db->qn('ap.property_id') . ' DESC')
+				->order($db->qn('p.product_id') . ' DESC');
 
 		break;
 
-	// Random Product
-	case 3:
+		// Most Sold Product
+		case 2:
 
-		$query->order('rand()');
+			$subQuery = $db->getQuery(true)
+				->select('SUM(' . $db->qn('oi.product_quantity') . ') AS qty, oi.product_id')
+				->from($db->qn('#__redshop_order_item', 'oi'))
+				->group('oi.product_id');
+			$query->select('orderItems.qty')
+				->leftJoin('(' . $subQuery . ') orderItems ON orderItems.product_id = p.product_id')
+				->order($db->qn('orderItems.qty') . ' DESC');
 
-		break;
+			break;
 
-	// Product On Sale
-	case 4:
+		// Random Product
+		case 3:
 
-		$query->where($db->qn('p.product_on_sale') . '=1')
-			->order($db->qn('p.product_name'));
+			$query->order('rand()');
 
-		break;
+			break;
 
-	// Product On Sale and discount date check
-	case 5:
-		$time = time();
-		$query->where($db->qn('p.product_on_sale') . ' = 1')
-			->where('((p.discount_stratdate = 0 AND p.discount_enddate = 0) OR (p.discount_stratdate <= '
-				. $time . ' AND p.discount_enddate >= ' . $time . ') OR (p.discount_stratdate <= '
-				. $time . ' AND p.discount_enddate = 0))')
-			->order($db->qn('p.product_name'));
-		break;
-	case 6:
-		$session = JFactory::getSession();
-		$watched = $session->get('watched_product');
+		// Product On Sale
+		case 4:
 
-		if (!empty($watched))
-		{
-			$query->where($db->qn('p.product_id') . ' IN (' . implode(',', $watched) . ')');	
-		}
+			$query->where($db->qn('p.product_on_sale') . '=1')
+				->order($db->qn('p.product_name'));
+
+			break;
+
+		// Product On Sale and discount date check
+		case 5:
+			$time = time();
+			$query->where($db->qn('p.product_on_sale') . ' = 1')
+				->where('((p.discount_stratdate = 0 AND p.discount_enddate = 0) OR (p.discount_stratdate <= '
+					. $time . ' AND p.discount_enddate >= ' . $time . ') OR (p.discount_stratdate <= '
+					. $time . ' AND p.discount_enddate = 0))')
+				->order($db->qn('p.product_name'));
+			break;
+		case 6:
+			$session = JFactory::getSession();
+			$watched = $session->get('watched_product');
+
+			if (!empty($watched))
+			{
+				$query->where($db->qn('p.product_id') . ' IN (' . implode(',', $watched) . ')');	
+			}
 		
-		break;
+			break;
 }
 
 // Only Display Feature Product
@@ -130,8 +130,7 @@ $category = $params->get('category', '');
 if (is_array($category))
 {
 	$category = implode(',', $category);
-}
-else
+} else
 {
 	$category = trim($category);
 }
@@ -148,8 +147,7 @@ if ($isUrlCategoryId)
 		JArrayHelper::toInteger($categoryArray);
 
 		$category = implode(",", $categoryArray);
-	}
-	else
+	} else
 	{
 		$category = $urlCategoryId;
 	}
@@ -159,8 +157,7 @@ if ($isUrlCategoryId)
 if ($category)
 {
 	$query->where($db->qn('pc.category_id') . ' IN (' . $category . ')');
-}
-else
+} else
 {
 	$query->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.id = pc.category_id')
 		->where($db->qn('c.published') . ' = 1');
@@ -171,8 +168,7 @@ $stockrooms = $params->get('stockrooms', '');
 if (is_array($stockrooms))
 {
 	$stockrooms = implode(',', $stockrooms);
-}
-else
+} else
 {
 	$stockrooms = trim($stockrooms);
 }

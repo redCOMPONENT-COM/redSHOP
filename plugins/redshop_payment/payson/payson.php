@@ -54,7 +54,7 @@ class plgRedshop_PaymentPayson extends JPlugin
 		$cancelURL = $ipnURL;
 
 		// Account details of the receiver of money
-		$receiverEmail   = $this->params->get('receiverEmail');
+		$receiverEmail = $this->params->get('receiverEmail');
 
 		// Amount to send to receiver
 
@@ -149,8 +149,7 @@ class plgRedshop_PaymentPayson extends JPlugin
 		{
 			// Step 4: forward user
 			$app->redirect($api->getForwardPayUrl($payResponse));
-		}
-		else
+		} else
 		{
 			$errors = $payResponse->getResponseEnvelope()->getErrors();
 
@@ -228,8 +227,7 @@ class plgRedshop_PaymentPayson extends JPlugin
 
 				$values->log = JText::_('PLG_REDSHOP_PAYMENT_PAYSON_ORDER_PLACED');
 				$values->msg = JText::_('PLG_REDSHOP_PAYMENT_PAYSON_ORDER_PLACED');
-			}
-			else if ($details->getStatus() == "ERROR")
+			} else if ($details->getStatus() == "ERROR")
 			{
 				// Handle errors here
 			}

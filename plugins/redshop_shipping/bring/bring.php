@@ -165,8 +165,7 @@ class Plgredshop_Shippingbring extends JPlugin
 				fclose($fp);
 
 				return true;
-			}
-			else
+			} else
 			{
 				return false;
 			}
@@ -215,8 +214,7 @@ class Plgredshop_Shippingbring extends JPlugin
 		if (BRING_USE_SHIPPING_BOX == '1')
 		{
 			$whereShippingBoxes = $shippinghelper->getBoxDimensions($d['shipping_box_id']);
-		}
-		else
+		} else
 		{
 			$whereShippingBoxes               = array();
 			$productData                      = $shippinghelper->getProductVolumeShipping();
@@ -301,8 +299,7 @@ class Plgredshop_Shippingbring extends JPlugin
 			if (!empty($error))
 			{
 				return $shippingrate;
-			}
-			else
+			} else
 			{
 				// Disable libxml errors and allow to fetch error information as needed
 				libxml_use_internal_errors(true);
@@ -328,8 +325,7 @@ class Plgredshop_Shippingbring extends JPlugin
 			if ((string) $oneProduct->GuiInformation->ProductName)
 			{
 				$bringProduct->product_name = (string) $oneProduct->GuiInformation->ProductName;
-			}
-			else
+			} else
 			{
 				$bringProduct->product_name = $bringProduct->product_id;
 			}

@@ -54,7 +54,8 @@ foreach ($characterSets as $char => $name)
             <p><?php echo JText::_('COM_REDSHOP_IMPORT_WARNING_MISSING_PLUGIN') ?></p>
         </div>
     </div>
-<?php else: ?>
+<?php else {
+	: ?>
     <script type="text/javascript">
         var plugin = '';
         var total = 0;
@@ -241,7 +242,9 @@ foreach ($characterSets as $char => $name)
                         // Completed
                         if (percent == 100) {
                             // Render success message
-                            $("<p>").addClass('text-info').html("<?php echo JText::_('COM_REDSHOP_IMPORT_SUCCESS'); ?>").appendTo($("#import_process_msg_body"));
+                            $("<p>").addClass('text-info').html("<?php echo JText::_('COM_REDSHOP_IMPORT_SUCCESS');
+}
+?>").appendTo($("#import_process_msg_body"));
                         }
                         else
                         {

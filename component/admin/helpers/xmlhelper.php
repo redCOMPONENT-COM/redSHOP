@@ -129,37 +129,38 @@ class xmlHelper
 							if ($cat[$i]->Field == "category_name")
 							{
 								$catcol[] = $cat[$i];
-							}
-							elseif ($cat[$i]->Field == "category_description")
+							} elseif ($cat[$i]->Field == "category_description")
 							{
 								$catcol[] = $cat[$i];
-							}
-							elseif ($cat[$i]->Field == "category_template") //Start Code for display product_url
+							} elseif ($cat[$i]->Field == "category_template") {
+								//Start Code for display product_url
 							{
 								$cat[$i]->Field = "link";
-								$catcol[] = $cat[$i];
 							}
-
-							elseif ($cat[$i]->Field == "category_thumb_image") //Start Code for display delivertime
+								$catcol[] = $cat[$i];
+							} elseif ($cat[$i]->Field == "category_thumb_image") {
+								//Start Code for display delivertime
 							{
 								$cat[$i]->Field = "delivertime";
-								$catcol[] = $cat[$i];
 							}
-
-							elseif ($cat[$i]->Field == "category_full_image") //Start Code for display pickup
+								$catcol[] = $cat[$i];
+							} elseif ($cat[$i]->Field == "category_full_image") {
+								//Start Code for display pickup
 							{
 								$cat[$i]->Field = "pickup";
-								$catcol[] = $cat[$i];
 							}
-
-							elseif ($cat[$i]->Field == "category_back_full_image") //Start Code for display charges
+								$catcol[] = $cat[$i];
+							} elseif ($cat[$i]->Field == "category_back_full_image") {
+								//Start Code for display charges
 							{
 								$cat[$i]->Field = "charge";
-								$catcol[] = $cat[$i];
 							}
-							elseif ($cat[$i]->Field == "category_pdate") //Start Code for display freight
+								$catcol[] = $cat[$i];
+							} elseif ($cat[$i]->Field == "category_pdate") {
+								//Start Code for display freight
 							{
 								$cat[$i]->Field = "freight";
+							}
 								$catcol[] = $cat[$i];
 							}
 
@@ -601,8 +602,7 @@ class xmlHelper
 
 			if ($section == "order" && $xml_itemdocument == "")
 			{
-			}
-			else
+			} else
 			{
 				$xml_document .= "<$xmlexportdata->element_name>";
 
@@ -636,30 +636,22 @@ class xmlHelper
 						if ($prop == "link")
 						{
 							$val = JURI::root() . 'index.php?option=com_redshop&view=product&pid=' . $product_id;
-						}
-
-						elseif ($prop == "pickup")
+						} elseif ($prop == "pickup")
 						{
 							$val = "";
-						}
-
-						elseif ($prop == "charge")
+						} elseif ($prop == "charge")
 						{
 							$d['product_id'] = $product_id;
 							$srate = $shipping->getDefaultShipping_xmlexport($d);
 							$val1 = $srate['shipping_rate'];
 							$val = round($val1);
-						}
-
-						elseif ($prop == "freight")
+						} elseif ($prop == "freight")
 						{
 							$d['product_id'] = $product_id;
 							$srate = $shipping->getDefaultShipping_xmlexport($d);
 							$val1 = $srate['shipping_rate'];
 							$val = round($val1);
-						}
-
-						elseif ($prop == "delivertime")
+						} elseif ($prop == "delivertime")
 						{
 							$query = "SELECT * FROM " . $this->_table_prefix . "stockroom AS s "
 								. "LEFT JOIN " . $this->_table_prefix . "product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
@@ -673,24 +665,19 @@ class xmlHelper
 								if ($list->max_del_time == 1 && $list->max_del_time < 2)
 								{
 									$val = "1";
-								}
-								elseif ($list->max_del_time == 2 && $list->max_del_time <= 3)
+								} elseif ($list->max_del_time == 2 && $list->max_del_time <= 3)
 								{
 									$val = "2";
-								}
-								elseif ($list->max_del_time == 4)
+								} elseif ($list->max_del_time == 4)
 								{
 									$val = "4";
-								}
-								elseif ($list->max_del_time == 5)
+								} elseif ($list->max_del_time == 5)
 								{
 									$val = "5";
-								}
-								elseif ($list->max_del_time >= 6 && $list->max_del_time <= 10)
+								} elseif ($list->max_del_time >= 6 && $list->max_del_time <= 10)
 								{
 									$val = "6,7,8,9,10";
-								}
-								elseif ($list->max_del_time == "")
+								} elseif ($list->max_del_time == "")
 								{
 									$val = "";
 								}
@@ -741,8 +728,7 @@ class xmlHelper
 		if ($tmlxmlimport_url != "")
 		{
 			$xmlimportdata->xmlimport_url = $tmlxmlimport_url;
-		}
-		else
+		} else
 		{
 			$xmlimportdata->xmlimport_url = $destpath . $xmlimportdata->filename;
 		}
@@ -790,9 +776,7 @@ class xmlHelper
 						}
 
 						$xml_document .= "</" . $prop . ">";
-					}
-
-					elseif (count($subdatalist) > 0)
+					} elseif (count($subdatalist) > 0)
 					{
 						$xml_document .= "<" . $prop . ">";
 
@@ -804,8 +788,7 @@ class xmlHelper
 
 						$xml_document .= "</" . $prop . ">";
 					}
-				}
-				else
+				} else
 				{
 					$val = html_entity_decode($val);
 					$xml_document .= "<$prop><![CDATA[$val]]></$prop>";
@@ -872,16 +855,20 @@ class xmlHelper
 				$row = array();
 				$j = 0;
 
-				foreach ($mainelementval AS $mainkey => $mainvalue) // Main element Array Start
+				foreach ($mainelementval AS $mainkey => $mainvalue) {
+					// Main element Array Start
 				{
 					if (count($mainvalue->children()) > 0)
 					{
 						$subrow = array();
+				}
 						$subelement = "";
 
-						if (strtolower($mainkey) == strtolower($data->billing_element_name)) // Billing element Array Start
+						if (strtolower($mainkey) == strtolower($data->billing_element_name)) {
+							// Billing element Array Start
 						{
 							$subelement = $data->billing_element_name;
+						}
 							$l = 0;
 
 							foreach ($mainvalue->children() AS $subkey => $subvalue)
@@ -891,19 +878,18 @@ class xmlHelper
 								if ($isImport == 0)
 								{
 									$subrow[$subkey] = (string) $subvalue;
-								}
-
-								elseif ($isImport == 1 && trim($xmlBillingArray[$l][1]) != "" && $xmlBillingArray[$l][2] == 1)
+								} elseif ($isImport == 1 && trim($xmlBillingArray[$l][1]) != "" && $xmlBillingArray[$l][2] == 1)
 								{
 									$subrow[$xmlBillingArray[$l][1]] = (string) $subvalue;
 								}
 
 								$l++;
 							}
-						}
-						elseif (strtolower($mainkey) == strtolower($data->shipping_element_name)) // Shipping element Array Start
+						} elseif (strtolower($mainkey) == strtolower($data->shipping_element_name)) {
+							// Shipping element Array Start
 						{
 							$subelement = $data->shipping_element_name;
+						}
 							$l = 0;
 
 							foreach ($mainvalue->children() AS $subkey => $subvalue)
@@ -913,20 +899,19 @@ class xmlHelper
 								if ($isImport == 0)
 								{
 									$subrow[$subkey] = (string) $subvalue;
-								}
-
-								elseif ($isImport == 1 && trim($xmlShippingArray[$l][1]) != "" && $xmlShippingArray[$l][2] == 1)
+								} elseif ($isImport == 1 && trim($xmlShippingArray[$l][1]) != "" && $xmlShippingArray[$l][2] == 1)
 								{
 									$subrow[$xmlShippingArray[$l][1]] = (string) $subvalue;
 								}
 
 								$l++;
 							}
-						}
-						elseif (strtolower($mainkey) == strtolower($data->stock_element_name)
-							|| strtolower(substr($mainkey, 0, -1)) == strtolower($data->stock_element_name)) // Stock element Array Start
+						} elseif (strtolower($mainkey) == strtolower($data->stock_element_name)
+							|| strtolower(substr($mainkey, 0, -1)) == strtolower($data->stock_element_name)) {
+							// Stock element Array Start
 						{
 							$subelement = $data->stock_element_name;
+						}
 							$l = 0;
 
 							foreach ($mainvalue->children() AS $subelementval)
@@ -940,8 +925,7 @@ class xmlHelper
 									if ($isImport == 0)
 									{
 										$subrow[$l][$subkey] = (string) $subvalue;
-									}
-									elseif ($isImport == 1 && trim($xmlStockArray[$k][1]) != "" && $xmlStockArray[$k][2] == 1)
+									} elseif ($isImport == 1 && trim($xmlStockArray[$k][1]) != "" && $xmlStockArray[$k][2] == 1)
 									{
 										$subrow[$l][$xmlStockArray[$k][1]] = (string) $subvalue;
 									}
@@ -951,11 +935,12 @@ class xmlHelper
 
 								$l++;
 							}
-						}
-						elseif (strtolower($mainkey) == strtolower($data->prdextrafield_element_name)
-							|| strtolower(substr($mainkey, 0, -1)) == strtolower($data->prdextrafield_element_name)) // Product Extra field element Array Start
+						} elseif (strtolower($mainkey) == strtolower($data->prdextrafield_element_name)
+							|| strtolower(substr($mainkey, 0, -1)) == strtolower($data->prdextrafield_element_name)) {
+							// Product Extra field element Array Start
 						{
 							$subelement = $data->prdextrafield_element_name;
+						}
 							$l = 0;
 
 							foreach ($mainvalue->children() AS $subelementval)
@@ -969,8 +954,7 @@ class xmlHelper
 									if ($isImport == 0)
 									{
 										$subrow[$l][$subkey] = (string) $subvalue;
-									}
-									elseif ($isImport == 1 && trim($xmlPrdextArray[$k][1]) != "" && $xmlPrdextArray[$k][2] == 1)
+									} elseif ($isImport == 1 && trim($xmlPrdextArray[$k][1]) != "" && $xmlPrdextArray[$k][2] == 1)
 									{
 										$subrow[$l][$xmlPrdextArray[$k][1]] = (string) $subvalue;
 									}
@@ -980,10 +964,11 @@ class xmlHelper
 
 								$l++;
 							}
-						}
-						elseif (strtolower($mainkey) == strtolower($data->orderitem_element_name) || strtolower(substr($mainkey, 0, -1)) == strtolower($data->orderitem_element_name)) // Order item element Array Start
+						} elseif (strtolower($mainkey) == strtolower($data->orderitem_element_name) || strtolower(substr($mainkey, 0, -1)) == strtolower($data->orderitem_element_name)) {
+							// Order item element Array Start
 						{
 							$subelement = $data->orderitem_element_name;
+						}
 							$l = 0;
 
 							foreach ($mainvalue->children() AS $subelementval)
@@ -997,8 +982,7 @@ class xmlHelper
 									if ($isImport == 0)
 									{
 										$subrow[$l][$subkey] = (string) $subvalue;
-									}
-									elseif ($isImport == 1 && trim($xmlOrderitemArray[$k][1]) != "" && $xmlOrderitemArray[$k][2] == 1)
+									} elseif ($isImport == 1 && trim($xmlOrderitemArray[$k][1]) != "" && $xmlOrderitemArray[$k][2] == 1)
 									{
 										$subrow[$l][$xmlOrderitemArray[$k][1]] = (string) $subvalue;
 									}
@@ -1014,17 +998,14 @@ class xmlHelper
 						{
 							$row[$subelement] = $subrow;
 						}
-					}
-					else
+					} else
 					{
 						$resultsectionarray[$j] = $mainkey;
 
 						if ($isImport == 0)
 						{
 							$row[$mainkey] = (string) $mainvalue;
-						}
-
-						elseif ($isImport == 1 && trim($xmlFileArray[$j][1]) != "" && $xmlFileArray[$j][2] == 1)
+						} elseif ($isImport == 1 && trim($xmlFileArray[$j][1]) != "" && $xmlFileArray[$j][2] == 1)
 						{
 							$row[$xmlFileArray[$j][1]] = (string) $mainvalue;
 						}
@@ -1129,13 +1110,11 @@ class xmlHelper
 								if ($key != "category_id" && $key != "category_name")
 								{
 									$prdarray[] = $key . "='" . addslashes($value) . "' ";
-								}
-								else
+								} else
 								{
 									$catarray[$key] = addslashes($value);
 								}
-							}
-							elseif (count($value) > 0)
+							} elseif (count($value) > 0)
 							{
 								for ($j = 0, $jn = count($value); $j < $jn; $j++)
 								{
@@ -1200,8 +1179,7 @@ class xmlHelper
 												}
 											}
 										}
-									}
-									elseif ($key == $xmlimportdata->prdextrafield_element_name)
+									} elseif ($key == $xmlimportdata->prdextrafield_element_name)
 									{
 										if (isset($value[$j]['fieldid']))
 										{
@@ -1268,9 +1246,7 @@ class xmlHelper
 							if (isset($catarray['category_id']))
 							{
 								$category_id = $catarray['category_id'];
-							}
-
-							elseif (isset($catarray['category_name']))
+							} elseif (isset($catarray['category_name']))
 							{
 								$query = "SELECT category_id FROM " . $this->_table_prefix . "category "
 									. "WHERE category_name=" . $this->_db->quote($catarray['category_name']) . " ";
@@ -1308,8 +1284,7 @@ class xmlHelper
 								$this->_db->execute();
 							}
 						}
-					}
-					else
+					} else
 					{
 						if (!empty($datalist[$i]['product_number']) && trim($datalist[$i]['product_name']) != "")
 						{
@@ -1325,8 +1300,7 @@ class xmlHelper
 									{
 										$prdvalsarray[] = addslashes($value);
 										$prdkeysarray[] = $key;
-									}
-									else
+									} else
 									{
 										$catarray[$key] = addslashes($value);
 									}
@@ -1398,8 +1372,7 @@ class xmlHelper
 														}
 													}
 												}
-											}
-											elseif ($key == $xmlimportdata->prdextrafield_element_name)
+											} elseif ($key == $xmlimportdata->prdextrafield_element_name)
 											{
 												if (isset($value[$j]['fieldid']))
 												{
@@ -1441,9 +1414,7 @@ class xmlHelper
 									if (isset($catarray['category_id']))
 									{
 										$category_id = $catarray['category_id'];
-									}
-
-									elseif (isset($catarray['category_name']))
+									} elseif (isset($catarray['category_name']))
 									{
 										$query = "SELECT category_id FROM " . $this->_table_prefix . "category "
 											. "WHERE category_name=" . $this->_db->quote($catarray['category_name']) . " ";
@@ -1512,9 +1483,7 @@ class xmlHelper
 							if (!is_array($value))
 							{
 								$ordarray[] = $key . "='" . $value . "' ";
-							}
-
-							elseif (count($value) > 0)
+							} elseif (count($value) > 0)
 							{
 								if ($key == $xmlimportdata->orderitem_element_name)
 								{
@@ -1544,8 +1513,7 @@ class xmlHelper
 											}
 										}
 									}
-								}
-								elseif ($key == $xmlimportdata->billing_element_name)
+								} elseif ($key == $xmlimportdata->billing_element_name)
 								{
 									$billingarray = array();
 
@@ -1567,8 +1535,7 @@ class xmlHelper
 										$this->_db->setQuery($query);
 										$this->_db->execute();
 									}
-								}
-								elseif ($key == $xmlimportdata->shipping_element_name)
+								} elseif ($key == $xmlimportdata->shipping_element_name)
 								{
 									$shippingarray = array();
 
@@ -1603,8 +1570,7 @@ class xmlHelper
 							$this->_db->setQuery($query);
 							$this->_db->execute();
 						}
-					}
-					else
+					} else
 					{
 						if (!empty($datalist[$i]['order_number']))
 						{
@@ -1669,8 +1635,7 @@ class xmlHelper
 													}
 												}
 											}
-										}
-										elseif ($key == $xmlimportdata->billing_element_name)
+										} elseif ($key == $xmlimportdata->billing_element_name)
 										{
 											$billvalsarray = array();
 											$billkeysarray = array();
@@ -1698,8 +1663,7 @@ class xmlHelper
 												$this->_db->setQuery($query);
 												$this->_db->execute();
 											}
-										}
-										elseif ($key == $xmlimportdata->shipping_element_name)
+										} elseif ($key == $xmlimportdata->shipping_element_name)
 										{
 											$shippvalsarray = array();
 											$shippkeysarray = array();
@@ -1787,44 +1751,42 @@ class xmlHelper
 				if ($key == "category_name")
 				{
 					$field[] = "c." . $key . " AS " . $value;
-				}
-				elseif ($key == "product_price")
+				} elseif ($key == "product_price")
 				{
 					$field[] = "if(p.product_on_sale='1' and ((p.discount_stratdate = 0 and p.discount_enddate=0)
 					or (p.discount_stratdate <= UNIX_TIMESTAMP() and p.discount_enddate>=UNIX_TIMESTAMP())), p.discount_price, p."
 						. $key . ") AS " . $value;
-				}
-				elseif ($key == "manufacturer_name") //Start Code for display manufacture name
+				} elseif ($key == "manufacturer_name") {
+					//Start Code for display manufacture name
 				{
 					$field[] = "m." . $key . " AS " . $value;
 				}
-
-				elseif ($key == "link") //Start Code for display product_url
+				} elseif ($key == "link") {
+					//Start Code for display product_url
 				{
 					$field[] = "m.manufacturer_email AS link ";
 				}
-
-				elseif ($key == "delivertime") //Start Code for display delivertime
+				} elseif ($key == "delivertime") {
+					//Start Code for display delivertime
 				{
 					$field[] = "s.max_del_time AS delivertime ";
 				}
-
-				elseif ($key == "pickup") //Start Code for display pickup
+				} elseif ($key == "pickup") {
+					//Start Code for display pickup
 				{
 					$field[] = "m.manufacturer_email AS pickup ";
 				}
-
-				elseif ($key == "charge") //Start Code for display charges
+				} elseif ($key == "charge") {
+					//Start Code for display charges
 				{
 					$field[] = "m.manufacturer_email AS charge ";
 				}
-
-				elseif ($key == "freight") //Start Code for display freight
+				} elseif ($key == "freight") {
+					//Start Code for display freight
 				{
 					$field[] = "m.manufacturer_email AS freight ";
 				}
-
-				else
+				} else
 				{
 					$field[] = "p." . $key . " AS " . $value;
 				}

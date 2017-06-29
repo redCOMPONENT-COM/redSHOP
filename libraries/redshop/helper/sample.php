@@ -245,7 +245,7 @@ class RedshopHelperSample
 				->select($db->qn('id'))
 				->from($db->qn('#__users'))
 				->where($db->qn('email') . ' = ' . $db->quote($sampleRequest->email));
-			$uid   = $db->setQuery($query)->loadResult();
+			$uid = $db->setQuery($query)->loadResult();
 
 			if (!empty($uid))
 			{
@@ -273,8 +273,7 @@ class RedshopHelperSample
 
 				$db->setQuery($query)->execute();
 			}
-		}
-		elseif ($sampleRequest->reminder_coupon == 0)
+		} elseif ($sampleRequest->reminder_coupon == 0)
 		{
 			$sendDate = date("Y-m-d", $sampleRequest->registerdate + (4 * (60 * 60 * 24)));
 
@@ -287,7 +286,7 @@ class RedshopHelperSample
 				->select($db->qn('id'))
 				->from($db->qn('#__users'))
 				->where($db->qn('email') . ' = ' . $db->quote($sampleRequest->email));
-			$uid   = $db->setQuery($query)->loadResult();
+			$uid = $db->setQuery($query)->loadResult();
 
 			$query->clear()
 				->select($db->qn('id'))

@@ -42,8 +42,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 	{
 		if ($this->_loadData())
 		{
-		}
-		else
+		} else
 		{
 			$this->_initData();
 		}

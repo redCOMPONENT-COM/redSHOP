@@ -47,8 +47,7 @@ $auth = $session->get('auth');
 	{
 		$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
 		$app->redirect($wishreturn);
-	}
-	else
+	} else
 	{
 	$pagetitle = JText::_('COM_REDSHOP_LOGIN_PROMPTWISHLIST');
 	?>

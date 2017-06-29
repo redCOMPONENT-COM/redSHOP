@@ -101,10 +101,11 @@ $url = JURI::base();
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
-				if ($row->userid)
-					$username = $order_functions->getUserFullname($row->userid);
-				else
-					$username = "";
+				if ($row->userid) {
+									$username = $order_functions->getUserFullname($row->userid);
+				} else {
+									$username = "";
+				}
 
 				?>
 				<tr class="<?php echo "row$k"; ?> test-redshop-table-row">
@@ -119,29 +120,33 @@ $url = JURI::base();
 					</td>
 					<td class="order" class="test-redshop-coupon-value-in">
 						<?php
-						if ($row->percent_or_total == 0)
-							echo JText::_('COM_REDSHOP_TOTAL');
-						else
-							echo JText::_('COM_REDSHOP_PERCENTAGE');
+						if ($row->percent_or_total == 0) {
+													echo JText::_('COM_REDSHOP_TOTAL');
+						} else {
+													echo JText::_('COM_REDSHOP_PERCENTAGE');
+						}
 						?>
 					</td>
 					<td>
-						<?php if ($username != "") echo $username; ?>
+						<?php if ($username != "") {
+	echo $username;
+}
+?>
 					</td>
 					<td class="test-redshop-coupon-type">
 						<?php
-						if ($row->coupon_type == 0)
-							echo JText::_('COM_REDSHOP_GLOBAL');
-						else
-							echo JText::_('COM_REDSHOP_USER_SPECIFIC');
+						if ($row->coupon_type == 0) {
+													echo JText::_('COM_REDSHOP_GLOBAL');
+						} else {
+													echo JText::_('COM_REDSHOP_USER_SPECIFIC');
+						}
 						?>
 					</td>
 					<td align="center" class="test-redshop-coupon-value">
 						<?php if ($row->percent_or_total != 0)
 						{
 							echo $row->coupon_value . " %";
-						}
-						else
+						} else
 						{
 							echo $producthelper->getProductFormattedPrice($row->coupon_value);
 							//number_format($row->coupon_value,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
@@ -151,7 +156,7 @@ $url = JURI::base();
 						<?php echo $row->coupon_left; ?>
 					</td>
 					<td align="center" class="test-redshop-coupon-state">
-						<?php echo $published;?>
+						<?php echo $published; ?>
 					</td>
 					<td align="center" class="test-redshop-coupon-id">
 						<?php echo $row->coupon_id; ?>

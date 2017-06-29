@@ -128,8 +128,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
-		}
-		else
+		} else
 		{
 			// Get the model.
 			$model = $this->getModel();
@@ -141,8 +140,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 			if ($model->delete($cid))
 			{
 				$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
-			}
-			else
+			} else
 			{
 				$this->setMessage($model->getError(), 'error');
 			}
@@ -172,8 +170,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		if (empty($cid))
 		{
 			JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
-		}
-		else
+		} else
 		{
 			// Get the model.
 			$model = $this->getModel();
@@ -212,13 +209,11 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 					}
 
 					$this->setMessage(JText::plural($text, count($cid)));
-				}
-				else
+				} else
 				{
 					$this->setMessage($model->getError(), 'error');
 				}
-			}
-			catch (Exception $e)
+			} catch (Exception $e)
 			{
 				$this->setMessage(JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'), 'error');
 			}
@@ -254,8 +249,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 			$this->setRedirect($this->getRedirectToListRoute(), $message, 'error');
 
 			return false;
-		}
-		else
+		} else
 		{
 			// Checkin succeeded.
 			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
@@ -292,9 +286,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 			$this->setRedirect($this->getRedirectToListRoute(), $message, 'error');
 
 			return false;
-		}
-
-		else
+		} else
 		{
 			// Reorder succeeded.
 			$message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
@@ -339,9 +331,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 			$this->setRedirect($this->getRedirectToListRoute(), $message, 'error');
 
 			return false;
-		}
-
-		else
+		} else
 		{
 			// Reorder succeeded.
 			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
@@ -369,8 +359,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 			$returnUrl = base64_decode($returnUrl);
 
 			return JRoute::_($returnUrl . $append, false);
-		}
-		else
+		} else
 		{
 			return JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $append, false);
 		}

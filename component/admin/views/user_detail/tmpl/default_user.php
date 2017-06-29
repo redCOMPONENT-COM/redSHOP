@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die;    ?>
+defined('_JEXEC') or die; ?>
 <div class="col50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_USER_DETAIL'); ?></legend>
@@ -25,7 +25,7 @@ defined('_JEXEC') or die;    ?>
 				</tr>
 				<tr>
 					<td valign="top" align="right"
-					    class="key"><?php echo JText::_('COM_REDSHOP_NEW_PASSWORD_LBL');?></td>
+					    class="key"><?php echo JText::_('COM_REDSHOP_NEW_PASSWORD_LBL'); ?></td>
 					<td><input class="inputbox" type="password" name="password" id="password" size="20" value=""/></td>
 				</tr>
 				<tr>
@@ -53,7 +53,7 @@ defined('_JEXEC') or die;    ?>
 				?>
 				<tr>
 					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_GROUP'); ?></td>
-					<td><?php echo  JHtml::_('access.usergroups', 'groups', $this->detail->user_groups, true);  ?>
+					<td><?php echo  JHtml::_('access.usergroups', 'groups', $this->detail->user_groups, true); ?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_GROUP'), JText::_('COM_REDSHOP_GROUP'), 'tooltip.png', '', '', false); ?></td>
 				</tr>
 			<?php
@@ -63,7 +63,7 @@ defined('_JEXEC') or die;    ?>
 				<td><?php echo $this->lists['block']; ?></td>
 			</tr>
 			<tr>
-				<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_REGISTER_AS');?></td>
+				<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_REGISTER_AS'); ?></td>
 				<td><?php echo $this->lists['is_company']; ?></td>
 			</tr>
 			<tr>

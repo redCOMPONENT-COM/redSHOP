@@ -116,7 +116,8 @@ $images = $this->producthelper->getAttibuteSubProperty(0, $section_id)
 					<?php
 						}
 					?>
-				<?php else : ?>
+				<?php else {
+	: ?>
 					<tr>
 						<td>
 							<input type="text" name="subattribute_name[]" id="subattribute_name[]" value="" size="30"/>
@@ -131,7 +132,9 @@ $images = $this->producthelper->getAttibuteSubProperty(0, $section_id)
 						<td>
 						</td>
 					</tr>
-				<?php endif; ?>
+				<?php endif;
+}
+?>
 			</table>
 		</fieldset>
 	</div>

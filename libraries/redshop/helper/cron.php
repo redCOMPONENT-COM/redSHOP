@@ -118,8 +118,7 @@ class RedshopHelperCron
 						Redshop::getConfig()->get('PRICE_SEPERATOR'),
 						Redshop::getConfig()->get('THOUSAND_SEPERATOR')
 					);
-			}
-			else
+			} else
 			{
 				$discountCouponValue = Redshop::getConfig()->get('DISCOUPON_VALUE') . " %";
 			}
@@ -219,8 +218,7 @@ class RedshopHelperCron
 						$db->setQuery($query)->execute();
 					}
 				}
-			}
-			elseif ($mail->mail2_status == 0 && Redshop::getConfig()->get('DAYS_MAIL2') && $total != 0)
+			} elseif ($mail->mail2_status == 0 && Redshop::getConfig()->get('DAYS_MAIL2') && $total != 0)
 			{
 				$sendDate       = date("Y-m-d", $mail->cdate + (Redshop::getConfig()->get('DAYS_MAIL2') * (59 * 59 * 23)));
 				$secondMailData = RedshopHelperMail::getMailTemplate(0, "second_mail_after_order_purchased");
@@ -258,8 +256,7 @@ class RedshopHelperCron
 						$db->setQuery($query)->execute();
 					}
 				}
-			}
-			elseif ($mail->mail3_status == 0
+			} elseif ($mail->mail3_status == 0
 				&& (Redshop::getConfig()->get('DAYS_MAIL3') != 0 || Redshop::getConfig()->get('DAYS_MAIL3') != '') && $total != 0
 			)
 			{

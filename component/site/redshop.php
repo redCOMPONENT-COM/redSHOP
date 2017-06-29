@@ -55,8 +55,7 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1)
 			JRequest::setVar('layout', 'portal');
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
-	}
-	elseif ($vName == 'category' && $categoryId > 0)
+	} elseif ($vName == 'category' && $categoryId > 0)
 	{
 		$checkCategoryPermission = RedshopHelperAccess::checkPortalCategoryPermission($categoryId);
 
@@ -68,8 +67,7 @@ if (Redshop::getConfig()->get('PORTAL_SHOP') == 1)
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
-}
-else
+} else
 {
 	if ($vName == 'product' && $productId > 0 && $portal == 1)
 	{
@@ -101,8 +99,7 @@ else
 	{
 		$vName = 'category';
 		JRequest::setVar('view', 'category');
-	}
-	else
+	} else
 	{
 		JRequest::setVar('view', $vName);
 	}
@@ -115,8 +112,7 @@ if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 	if (version_compare(JVERSION, '3.0', '<'))
 	{
 		$redSHOPCSSContainerClass = ' isJ25';
-	}
-	else
+	} else
 	{
 		$redSHOPCSSContainerClass = ' isJ30';
 	}
@@ -131,8 +127,7 @@ $task   = $app->input->getCmd('task', 'display');
 if (is_array($task))
 {
 	$command = $filter->clean(array_pop(array_keys($task)), 'cmd');
-}
-else
+} else
 {
 	$command = $filter->clean($task, 'cmd');
 }
@@ -149,8 +144,7 @@ $controller = JControllerLegacy::getInstance('Redshop');
 if (version_compare(JVERSION, '3.0', '<'))
 {
 	$task = JRequest::getCmd('task');
-}
-else
+} else
 {
 	$task = $app->input->get('task', '');
 }

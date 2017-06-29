@@ -95,8 +95,7 @@ if ($showbuttons == 1)
 	$action = 'index.php?tmpl=component&option=com_redshop';
 
 	// End
-}
-else
+} else
 {
 	$action = 'index.php?option=com_redshop';
 }
@@ -126,8 +125,8 @@ else
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
-				<th width="15%" class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_NAME', 'media_name', $this->lists ['order_Dir'], $this->lists ['order']);    ?></th>
-				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_TYPE', 'media_type', $this->lists ['order_Dir'], $this->lists ['order']);    ?></th>
+				<th width="15%" class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_NAME', 'media_name', $this->lists ['order_Dir'], $this->lists ['order']); ?></th>
+				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA_TYPE', 'media_type', $this->lists ['order_Dir'], $this->lists ['order']); ?></th>
 			<?php
 				if ($showbuttons == 1)
 				{
@@ -177,7 +176,7 @@ else
 			{
 				$row       = $this->media[$i];
 				$row->id   = $row->media_id;
-				$published = JHTML::_('grid.published', $row, $i);    ?>
+				$published = JHTML::_('grid.published', $row, $i); ?>
 
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
@@ -189,14 +188,13 @@ else
 
 						if (($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif') && $row->media_type == 'images')
 						{
-							$media_img = $url . 'components/com_redshop/assets/' . $row->media_type . '/' . $row->media_section . '/' . trim($row->media_name);    ?>
+							$media_img = $url . 'components/com_redshop/assets/' . $row->media_type . '/' . $row->media_section . '/' . trim($row->media_name); ?>
 							<a class="joom-box" href="<?php echo $media_img; ?>"
 							   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
 							   rel="{handler: 'image', size: {}}">
 								<img src="<?php echo $media_img ?>" height="50" width="50"/></a>
 						<?php
-						}
-						else
+						} else
 						{
 							echo $row->media_name;
 						}
@@ -250,8 +248,11 @@ else
 								<?php endif; ?>
 								<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="width-20 text-area-order" />
 							</div>
-					<?php else : ?>
-						<?php echo $row->ordering; ?>
+					<?php else {
+	: ?>
+						<?php echo $row->ordering;
+}
+?>
 					<?php endif; ?>
 						</td>
 					<?php

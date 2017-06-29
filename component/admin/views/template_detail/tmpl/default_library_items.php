@@ -49,6 +49,9 @@ $totalCount = $categoryTagsCount + $newsletterTagsCount + $productTagsCount;
 		<?php endfor; ?>
 	</table>
 	<?php echo JHtml::_('tabs.end'); ?>
-<?php else: ?>
-	<?php echo JText::_('COM_REDSHOP_NO_TEXTLIBRARY_ITEMS'); ?>
+<?php else {
+	: ?>
+	<?php echo JText::_('COM_REDSHOP_NO_TEXTLIBRARY_ITEMS');
+}
+?>
 <?php endif; ?>

@@ -140,8 +140,7 @@ class RedmodMenuHelper
 							if ($router->getMode() == JROUTER_MODE_SEF)
 							{
 								$item->flink = 'index.php?Itemid=' . $item->id;
-							}
-							else
+							} else
 							{
 								$item->flink .= '&Itemid=' . $item->id;
 							}
@@ -151,8 +150,7 @@ class RedmodMenuHelper
 					if (strcasecmp(substr($item->flink, 0, 4), 'http') && (strpos($item->flink, 'index.php?') !== false))
 					{
 						$item->flink = JRoute::_($item->flink, true, $item->params->get('secure'));
-					}
-					else
+					} else
 					{
 						$item->flink = JRoute::_($item->flink);
 					}

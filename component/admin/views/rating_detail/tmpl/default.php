@@ -27,12 +27,12 @@ $productHelper = productHelper::getInstance();
 		}
 
 		if (form.comment.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_RATING_COMMENT_MUST_BE_FILLED', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_RATING_COMMENT_MUST_BE_FILLED', true); ?>");
 			return false;
 		}
 
 		if (form.product_id.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_RATING_MUST_SELECT_PRODUCT', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_RATING_MUST_SELECT_PRODUCT', true); ?>");
 			return false;
 		}
 		else
@@ -72,37 +72,55 @@ $productHelper = productHelper::getInstance();
 									<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/5.gif" border="0"
 									     align="absmiddle"><br/>
 									<input type="radio" name="user_rating" id="user_rating5"
-									       value="5" <?php if ($this->detail->user_rating == 5) echo "checked='checked'"; ?>>
+									       value="5" <?php if ($this->detail->user_rating == 5) {
+	echo "checked='checked'";
+}
+?>>
 								</td>
 								<td align="center">
 									<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/4.gif" border="0"
 									     align="absmiddle"><br/>
 									<input type="radio" name="user_rating" id="user_rating4"
-									       value="4" <?php if ($this->detail->user_rating == 4) echo "checked='checked'"; ?>>
+									       value="4" <?php if ($this->detail->user_rating == 4) {
+	echo "checked='checked'";
+}
+?>>
 								</td>
 								<td align="center">
 									<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>/star_rating/3.gif" border="0"
 									     align="absmiddle"><br/>
 									<input type="radio" name="user_rating" id="user_rating3"
-									       value="3" <?php if ($this->detail->user_rating == 3) echo "checked='checked'"; ?>>
+									       value="3" <?php if ($this->detail->user_rating == 3) {
+	echo "checked='checked'";
+}
+?>>
 								</td>
 								<td align="center">
 									<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/2.gif" border="0"
 									     align="absmiddle"><br/>
 									<input type="radio" name="user_rating" id="user_rating2"
-									       value="2" <?php if ($this->detail->user_rating == 2) echo "checked='checked'"; ?>>
+									       value="2" <?php if ($this->detail->user_rating == 2) {
+	echo "checked='checked'";
+}
+?>>
 								</td>
 								<td align="center">
 									<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/1.gif" border="0"
 									     align="absmiddle"><br/>
 									<input type="radio" name="user_rating" id="user_rating1"
-									       value="1" <?php if ($this->detail->user_rating == 1) echo "checked='checked'"; ?>>
+									       value="1" <?php if ($this->detail->user_rating == 1) {
+	echo "checked='checked'";
+}
+?>>
 								</td>
 								<td align="center">
 									<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>star_rating/0.gif" border="0"
 									     align="absmiddle"><br/>
 									<input type="radio" name="user_rating" id="user_rating0"
-									       value="0" <?php if ($this->detail->user_rating == 0) echo "checked='checked'"; ?>>
+									       value="0" <?php if ($this->detail->user_rating == 0) {
+	echo "checked='checked'";
+}
+?>>
 								</td>
 							</tr>
 						</table>
@@ -132,8 +150,7 @@ $productHelper = productHelper::getInstance();
 							if ($this->detail->userid == 0)
 							{
 								$uname->text = $this->detail->username;
-							}
-							else
+							} else
 							{
 								$uname->text = $model->getuserfullname2($this->detail->userid);
 							}
@@ -163,8 +180,7 @@ $productHelper = productHelper::getInstance();
 							$productObject->text = $product_data->product_name;
 							$productObject->value = $product_data->product_id;
 							$listAttributes = array('disabled' => 'disabled');
-						}
-						elseif (isset($this->detail->product_id) && ($productInfo = $productHelper->getProductById($this->detail->product_id)))
+						} elseif (isset($this->detail->product_id) && ($productInfo = $productHelper->getProductById($this->detail->product_id)))
 						{
 							$productObject->text = $productInfo->product_name;
 							$productObject->value = $this->detail->product_id;
@@ -202,10 +218,11 @@ $productHelper = productHelper::getInstance();
 
 	<div class="clr"></div>
 	<?php
-	if (JRequest::getVar('pid'))
-		$pid = JRequest::getVar('pid');
-	else
-		$pid = $this->detail->product_id;
+	if (JRequest::getVar('pid')) {
+			$pid = JRequest::getVar('pid');
+	} else {
+			$pid = $this->detail->product_id;
+	}
 	?>
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->rating_id; ?>"/>
 	<input type="hidden" name="task" value=""/>

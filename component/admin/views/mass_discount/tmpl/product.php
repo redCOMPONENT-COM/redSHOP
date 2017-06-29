@@ -104,18 +104,24 @@ $producthelper = productHelper::getInstance();
 						?>
 					</td>
 					<td>
-						<?php if ($row->discount_type == 0) echo JText::_('COM_REDSHOP_TOTAL');
-						else echo JText::_('COM_REDSHOP_PERCENTAGE');
+						<?php if ($row->discount_type == 0) {
+	echo JText::_('COM_REDSHOP_TOTAL');
+} else {
+							echo JText::_('COM_REDSHOP_PERCENTAGE');
+						}
 						?>
 					</td>
 					<td>
 						<?php
-						if ($row->discount_type == 0) echo $producthelper->getProductFormattedPrice($row->discount_amount);
-						else echo $row->discount_amount . '%';
+						if ($row->discount_type == 0) {
+							echo $producthelper->getProductFormattedPrice($row->discount_amount);
+						} else {
+							echo $row->discount_amount . '%';
+						}
 
 						?>
 					</td>
-					<td align="center" width="8%"><?php echo $published;?></td>
+					<td align="center" width="8%"><?php echo $published; ?></td>
 					<td align="center" width="5%"><?php echo $row->discount_product_id; ?></td>
 				</tr>
 				<?php

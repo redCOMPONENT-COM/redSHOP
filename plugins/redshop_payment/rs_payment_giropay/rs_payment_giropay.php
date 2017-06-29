@@ -84,8 +84,7 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 			$values->order_payment_status_code = 'Paid';
 			$values->log = $message;
 			$values->msg = $message;
-		}
-		else
+		} else
 		{
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';

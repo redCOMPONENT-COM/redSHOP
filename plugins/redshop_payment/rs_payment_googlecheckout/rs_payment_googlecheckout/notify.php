@@ -13,18 +13,15 @@ if (file_exists($my_path . "/../../../configuration.php"))
 {
 	$absolute_path = dirname($my_path . "/../../../configuration.php");
 	require_once $my_path . "/../../../configuration.php";
-}
-elseif (file_exists($my_path . "/../../configuration.php"))
+} elseif (file_exists($my_path . "/../../configuration.php"))
 {
 	$absolute_path = dirname($my_path . "/../../configuration.php");
 	require_once $my_path . "/../../configuration.php";
-}
-elseif (file_exists($my_path . "/configuration.php"))
+} elseif (file_exists($my_path . "/configuration.php"))
 {
 	$absolute_path = dirname($my_path . "/configuration.php");
 	require_once $my_path . "/configuration.php";
-}
-else
+} else
 {
 	echo "Joomla Configuration File not found!";
 	die;
@@ -32,11 +29,11 @@ else
 
 $absolute_path = realpath($absolute_path);
 
-define ('_JEXEC', 1);
-define ('JPATH_BASE', $absolute_path);
-define ('DS', DIRECTORY_SEPARATOR);
-define ('JPATH_COMPONENT_ADMINISTRATOR', JPATH_BASE . '/administrator/components/com_redshop');
-define ('JPATH_COMPONENT', JPATH_BASE . '/components/com_redshop');
+define('_JEXEC', 1);
+define('JPATH_BASE', $absolute_path);
+define('DS', DIRECTORY_SEPARATOR);
+define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_BASE . '/administrator/components/com_redshop');
+define('JPATH_COMPONENT', JPATH_BASE . '/components/com_redshop');
 
 // Load the framework
 

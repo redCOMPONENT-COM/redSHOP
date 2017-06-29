@@ -119,8 +119,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			if (!empty($manufacturerId))
 			{
 				$data['manufacturer_id'] = $manufacturerId;
-			}
-			else
+			} else
 			{
 				JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
@@ -135,8 +134,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if (empty($data['product_thumb_image']))
 		{
 			unset($data['product_thumb_image']);
-		}
-		else
+		} else
 		{
 			if (!JUri::isInternal($data['product_thumb_image']))
 			{
@@ -146,8 +144,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
 				JFile::write($dest, file_get_contents($url));
 				$data['product_thumb_image'] = $fileName;
-			}
-			else
+			} else
 			{
 				$imageName                   = basename($data['product_thumb_image']);
 				$data['product_thumb_image'] = $imageName;
@@ -157,8 +154,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if (empty($data['product_full_image']))
 		{
 			unset($data['product_full_image']);
-		}
-		else
+		} else
 		{
 			if (!JUri::isInternal($data['product_full_image']))
 			{
@@ -168,8 +164,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				if ($binaryData === false)
 				{
 					unset($data['product_full_image']);
-				}
-				else
+				} else
 				{
 					$imageName = basename($url);
 					$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
@@ -177,8 +172,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					JFile::write($dest, $binaryData);
 					$data['product_full_image'] = $fileName;
 				}
-			}
-			else
+			} else
 			{
 				$imageName                  = basename($data['product_full_image']);
 				$data['product_full_image'] = $imageName;
@@ -188,8 +182,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if (empty($data['product_back_full_image']))
 		{
 			unset($data['product_back_full_image']);
-		}
-		else
+		} else
 		{
 			if (!JUri::isInternal($data['product_back_full_image']))
 			{
@@ -199,8 +192,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
 				JFile::write($dest, file_get_contents($url));
 				$data['product_back_full_image'] = $fileName;
-			}
-			else
+			} else
 			{
 				$imageName                       = basename($data['product_back_full_image']);
 				$data['product_back_full_image'] = $imageName;
@@ -210,8 +202,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if (empty($data['product_preview_back_image']))
 		{
 			unset($data['product_preview_back_image']);
-		}
-		else
+		} else
 		{
 			if (!JUri::isInternal($data['product_preview_back_image']))
 			{
@@ -221,8 +212,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
 				JFile::write($dest, file_get_contents($url));
 				$data['product_preview_back_image'] = $fileName;
-			}
-			else
+			} else
 			{
 				$imageName                          = basename($data['product_preview_back_image']);
 				$data['product_preview_back_image'] = $imageName;
@@ -232,8 +222,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if (empty($data['product_back_thumb_image']))
 		{
 			unset($data['product_back_thumb_image']);
-		}
-		else
+		} else
 		{
 			if (!JUri::isInternal($data['product_back_thumb_image']))
 			{
@@ -243,8 +232,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
 				JFile::write($dest, file_get_contents($url));
 				$data['product_back_thumb_image'] = $fileName;
-			}
-			else
+			} else
 			{
 				$imageName                        = basename($data['product_back_thumb_image']);
 				$data['product_back_thumb_image'] = $imageName;
@@ -254,8 +242,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if (empty($data['product_preview_image']))
 		{
 			unset($data['product_preview_image']);
-		}
-		else
+		} else
 		{
 			if (!JUri::isInternal($data['product_preview_image']))
 			{
@@ -265,8 +252,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
 				JFile::write($dest, file_get_contents($url));
 				$data['product_preview_image'] = $fileName;
-			}
-			else
+			} else
 			{
 				$imageName                     = basename($data['product_preview_image']);
 				$data['product_preview_image'] = $imageName;
@@ -287,8 +273,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if (!empty($data['discount_stratdate']) || !empty($data['discount_enddate']))
 		{
 			$data['product_on_sale'] = 1;
-		}
-		else
+		} else
 		{
 			$data['product_on_sale'] = !isset($data['product_on_sale']) ? 0 : (int) $data['product_on_sale'];
 		}
@@ -515,8 +500,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					->set('data_txt = ' . $db->quote($value))
 					->where('data_id = ' . $db->quote($dataId));
 				$db->setQuery($query)->execute();
-			}
-			elseif (!empty($value))
+			} elseif (!empty($value))
 			{
 				$fieldData           = new stdClass;
 				$fieldData->fieldid  = $fieldId;
@@ -560,8 +544,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if (!empty($categoryId))
 		{
 			$categories = explode('###', $categoryId);
-		}
-		else
+		} else
 		{
 			$categoryName = explode('###', $categoryName);
 
@@ -660,8 +643,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$insert->accessory_price  = $accessoryPrice;
 
 				$db->insertObject('#__redshop_product_accessory', $insert);
-			}
-			else
+			} else
 			{
 				$query = $db->getQuery(true)
 					->update($db->qn('#__redshop_product_accessory'))
@@ -724,8 +706,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					$insert->stockroom_id = $stockroom->stockroom_id;
 					$insert->quantity     = $stock;
 					$db->insertObject("#__redshop_product_stockroom_xref", $insert);
-				}
-				else
+				} else
 				{
 					$query = $db->getQuery(true)
 						->update($db->qn('#__redshop_product_stockroom_xref'))
@@ -783,8 +764,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				{
 					JFile::copy($source, $file);
 				}
-			}
-			else
+			} else
 			{
 				if (!JUri::isInternal($image))
 				{
@@ -793,8 +773,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					if ($binaryData === false)
 					{
 						unset($data['product_full_image']);
-					}
-					else
+					} else
 					{
 						$imageName = basename($image);
 						$fileName  = RedShopHelperImages::cleanFileName($imageName, $data['product_id']);
@@ -832,8 +811,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$rows->ordering             = $ordering;
 
 				$rows->store();
-			}
-			else
+			} else
 			{
 				$query = $db->getQuery(true)
 					->update($db->qn('#__redshop_media'))
@@ -918,8 +896,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$rows->ordering             = $ordering;
 
 				$rows->store();
-			}
-			else
+			} else
 			{
 				$query = $db->getQuery(true)
 					->update($db->qn('#__redshop_media'))
@@ -1004,8 +981,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$rows->ordering             = $ordering;
 
 				$rows->store();
-			}
-			else
+			} else
 			{
 				$query = $db->getQuery(true)
 					->update($db->qn('#__redshop_media'))
@@ -1090,8 +1066,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$rows->ordering             = $ordering;
 
 				$rows->store();
-			}
-			else
+			} else
 			{
 				$query = $db->getQuery(true)
 					->update($db->qn('#__redshop_media'))
@@ -1122,7 +1097,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		$hasSubPropertyName = !empty($data['subattribute_color_name']) ? true : false;
 
 		// Get product id
-		$query     = $db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select($db->qn('product_id'))
 			->from($db->qn('#__redshop_product'))
 			->where($db->qn('product_number') . ' = ' . $db->quote($data['product_number']));
@@ -1182,8 +1157,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				if ($propertyId)
 				{
 					$propertyTable->load($propertyId);
-				}
-				else
+				} else
 				{
 					$propertyTable->property_id = null;
 				}
@@ -1256,8 +1230,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 								->where($db->qn('section') . ' = ' . $db->quote('property'))
 								->where($db->qn('section_id') . ' = ' . $db->quote($propertyId));
 							$db->setQuery($query)->clear();
-						}
-						else
+						} else
 						{
 							$newData               = new stdClass;
 							$newData->quantity     = $propertyStock[1];
@@ -1311,8 +1284,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 							->where($db->qn('media_id') . ' = ' . (int) $mediaId);
 
 						$db->setQuery($query)->execute();
-					}
-					else
+					} else
 					{
 						$columns = $db->qn(array_keys($media));
 						$values  = $db->q(array_values($media));
@@ -1363,8 +1335,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				}
 
 				return true;
-			}
-			elseif (!$propertyId)
+			} elseif (!$propertyId)
 			{
 				return false;
 			}
@@ -1373,7 +1344,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if ($hasSubPropertyName)
 		{
 			// Get Sub-property ID
-			$query         = $db->getQuery(true)
+			$query = $db->getQuery(true)
 				->select($db->qn('subattribute_color_id'))
 				->from($db->qn('#__redshop_product_subattribute_color'))
 				->where($db->qn('subattribute_id') . ' = ' . $db->quote($propertyId))
@@ -1387,8 +1358,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			if ($subPropertyId)
 			{
 				$subPropertyTable->load($subPropertyId);
-			}
-			else
+			} else
 			{
 				$subPropertyTable->subattribute_color_id = null;
 			}
@@ -1460,8 +1430,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 							->where($db->qn('section') . ' = ' . $db->quote('subproperty'))
 							->where($db->qn('section_id') . ' = ' . $db->quote($subPropertyId));
 						$db->setQuery($query)->execute();
-					}
-					else
+					} else
 					{
 						$insert               = new stdClass;
 						$insert->quantity     = $stock[1];
@@ -1515,8 +1484,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 						->where($db->qn('media_id') . ' = ' . (int) $mediaId);
 
 					$db->setQuery($query)->execute();
-				}
-				else
+				} else
 				{
 					$columns = $db->qn(array_keys($media));
 					$values  = $db->q(array_values($media));

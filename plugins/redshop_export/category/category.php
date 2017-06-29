@@ -158,13 +158,11 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $value))
 					{
 						$item[$column] = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $value;
-					}
-					else
+					} else
 					{
 						$item[$column] = "";
 					}
-				}
-				else
+				} else
 				{
 					$item[$column] = str_replace(array("\n", "\r"), "", $value);
 				}

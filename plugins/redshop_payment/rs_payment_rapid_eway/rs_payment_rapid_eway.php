@@ -106,14 +106,12 @@ class PlgRedshop_Paymentrs_Payment_Rapid_Eway extends JPlugin
 			{
 				$values->log = $lblError;
 				$values->msg = $lblError;
-			}
-			else
+			} else
 			{
 				$values->log = JText::_('PLG_RS_PAYMENT_RAPID_EWAY_ORDER_NOT_PLACED');
 				$values->msg = JText::_('PLG_RS_PAYMENT_RAPID_EWAY_ORDER_NOT_PLACED');
 			}
-		}
-		else
+		} else
 		{
 			$values->transaction_id = $result->TransactionID;
 			$values->order_status_code = $this->params->get('verify_status', '');

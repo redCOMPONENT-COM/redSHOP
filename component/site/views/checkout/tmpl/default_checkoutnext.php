@@ -72,16 +72,14 @@ if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 	{
 		$cart_data = $carttempdata[0]->template_desc;
 	}
-}
-else
+} else
 {
 	$carttempdata = $redTemplate->getTemplate("checkout");
 
 	if ($carttempdata[0]->template_desc != "")
 	{
 		$cart_data = $carttempdata[0]->template_desc;
-	}
-	else
+	} else
 	{
 		$cart_data = '<h1>{cart_lbl}</h1><table style="width: 100%;" class="tdborder" cellpadding="0" cellspacing="0"><thead><tr><th>{product_name_lbl}</th> <th></th><th>{price_lbl} </th><th>{quantity_lbl}</th><th>{total_price_lbl}</th></tr></thead><tbody>{product_loop_start}<tr class="tdborder"><td><div class="cartproducttitle">{product_name}</div><div class="cartattribut">{product_attribute}</div><div class="cartaccessory">{product_accessory}</div><div class="cartuserfields">{product_userfields}</div></td><td>{product_thumb_image}</td><td>{product_price}</td><td><table><tbody><tr><td>{update_cart}</td><td>{remove_product}</td></tr></tbody></table></td><td>{product_total_price}</td></tr>{product_loop_end}</tbody></table><table style="width: 100%;" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td cellspacing="5" cellpadding="5" valign="top" width="50%"><table><tbody><tr><td class="cart_discount_form" colspan="2">{coupon_code_lbl}</td></tr><tr><td class="cart_thirdparty_email" colspan="2">{thirdparty_email_lbl}<br />{thirdparty_email}</td></tr><tr><td class="cart_customer_note" colspan="2">{customer_note_lbl}<br />{customer_note}</td></tr></tbody></table><br /></td><td valign="top" width="50%" align="right"><br /><br /><table class="cart_calculations"><tbody><tr><td>{totalpurchase_lbl}:</td><td width="100">{subtotal}</td></tr>{if vat}<tr><td><em>{vat_lbl}</em></td><td width="100">{tax}</td></tr>{vat end if}{if discount}<tr><td>{discount_lbl}</td><td width="100">{discount}</td></tr>{discount end if}{if payment_discount}<tr><td>{payment_discount_lbl}</td><td>{payment_order_discount}</td></tr>{payment_discount end if}<tr><td>{shipping_lbl}</td><td width="100">{shipping}</td></tr></tbody></table><table class="regnestykke_sidste"><tbody><tr><td><div class="singleline"><strong>{total_lbl}:</strong></div></td><td width="100"><div class="singleline">{total}</div></td></tr></tbody></table><div id="tabelstreg_bund"></div>{checkout}<br /><br /> {shop_more}</td></tr></tbody></table><div id="cart_left"></div>';
 	}
@@ -110,14 +108,12 @@ if ($is_creditcard == 1 && $ccinfo != '1' && $cart['total'] > 0)
 	$cart_data .= '</form>';
 
 	echo eval("?>" . $cart_data . "<?php ");
-}
-elseif ($cart_data != "")
+} elseif ($cart_data != "")
 {
 	if ($print)
 	{
 		$onclick = "onclick='window.print();'";
-	}
-	else
+	} else
 	{
 		$print_url = $url . "index.php?option=com_redshop&view=checkout&task=checkoutnext&print=1&tmpl=component&Itemid=" . $Itemid;
 		$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
@@ -144,10 +140,10 @@ $session->set('cart',$cart);*/
 <script type="text/javascript">
 	function chkvalidaion() {
 		<?php
-			if( Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
+			if (Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
 			{
 			?>
-		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') . '';?>");
+		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') . ''; ?>");
 		return false;
 		<?php
 			}	?>

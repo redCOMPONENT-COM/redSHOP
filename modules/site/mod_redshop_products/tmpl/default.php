@@ -58,18 +58,15 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 				if (!$isPreorderStockExists)
 				{
 					$stockStatus = "<div class=\"modProductStockStatus mod_product_outstock\"><span></span>" . JText::_('COM_REDSHOP_OUT_OF_STOCK') . "</div>";
-				}
-				else
+				} else
 				{
 					$stockStatus = "<div class=\"modProductStockStatus mod_product_preorder\"><span></span>" . JText::_('COM_REDSHOP_PRE_ORDER') . "</div>";
 				}
-			}
-			else
+			} else
 			{
 				$stockStatus = "<div class=\"modProductStockStatus mod_product_outstock\"><span></span>" . JText::_('COM_REDSHOP_OUT_OF_STOCK') . "</div>";
 			}
-		}
-		else
+		} else
 		{
 			$stockStatus = "<div class=\"modProductStockStatus mod_product_instock\"><span></span>" . JText::_('COM_REDSHOP_AVAILABLE_STOCK') . "</div>";
 		}
@@ -82,18 +79,18 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 	if (count($ItemData) > 0)
 	{
 		$Itemid = $ItemData->id;
-	}
-	else
+	} else
 	{
 		$Itemid = RedshopHelperUtility::getItemId($row->product_id, $categoryId);
 	}
 
 	$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $categoryId . '&Itemid=' . $Itemid);
 
-	if (isset($verticalProduct) && $verticalProduct)
-		echo "<div class=\"mod_redshop_products\">";
-	else
-		echo "<div class=\"mod_redshop_products_horizontal\">";
+	if (isset($verticalProduct) && $verticalProduct) {
+			echo "<div class=\"mod_redshop_products\">";
+	} else {
+			echo "<div class=\"mod_redshop_products_horizontal\">";
+	}
 
 	$productInfo = $producthelper->getProductById($row->product_id);
 
@@ -105,8 +102,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 		{
 			$thumImage = RedshopHelperMedia::watermark('product', $thumb, $thumbWidth, $thumbHeight, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 			echo "<div class=\"mod_redshop_products_image\"><img src=\"" . $thumImage . "\"></div>";
-		}
-		else
+		} else
 		{
 			$thumImage = RedShopHelperImages::getImagePath(
 							$thumb,
@@ -141,13 +137,13 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 		{
 			$productPrice           = $productArr['product_main_price'];
 			$productPriceDiscount   = $productArr['productPrice'] + $productArr['productVat'];
-			$productOldPrice 		= $productArr['product_old_price'];
+			$productOldPrice = $productArr['product_old_price'];
 		}
 		else
 		{
-			$productPrice          = $productArr['product_price_novat'];
+			$productPrice = $productArr['product_price_novat'];
 			$productPriceDiscount = $productArr['productPrice'];
-			$productOldPrice 		= $productArr['product_old_price_excl_vat'];
+			$productOldPrice = $productArr['product_old_price_excl_vat'];
 		}
 
 		if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
@@ -155,8 +151,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 			if (!$productPrice)
 			{
 				$productDiscountPrice = $producthelper->getPriceReplacement($productPrice);
-			}
-			else
+			} else
 			{
 				$productDiscountPrice = $producthelper->getProductFormattedPrice($productPrice);
 			}
@@ -168,7 +163,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 				if ($productOldPrice > $productPriceDiscount)
 				{
 					$displyText = "";
-					$savingPrice     = $productOldPrice - $productPriceDiscount;
+					$savingPrice = $productOldPrice - $productPriceDiscount;
 
 					if ($showDiscountPriceLayout)
 					{
@@ -176,8 +171,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 						$productPrice = $productPriceDiscount;
 						echo "<div id=\"mod_redmainprice\" class=\"mod_redmainprice\">" . $producthelper->getProductFormattedPrice($productPriceDiscount) . "</div>";
 						echo "<div id=\"mod_redsavedprice\" class=\"mod_redsavedprice\">" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($savingPrice) . "</div>";
-					}
-					else
+					} else
 					{
 						$productPrice = $productPriceDiscount;
 						echo "<div class=\"mod_redshop_products_price\">" . $producthelper->getProductFormattedPrice($productPrice) . "</div>";
@@ -191,7 +185,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 
 	if ($showWishlist)
 	{
-		echo "<div class=\"wishlist\">" . $producthelper->replaceWishlistButton($row->product_id, '{wishlist_link}') ."</div>";
+		echo "<div class=\"wishlist\">" . $producthelper->replaceWishlistButton($row->product_id, '{wishlist_link}') . "</div>";
 	}
 
 	if ($showReadmore)
@@ -233,7 +227,7 @@ for ($i = 0, $in = count($rows); $i < $in; $i++)
 		if (Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
 			$ajaxDetailTemplateDesc = "";
-			$ajaxDetailTemplate      = $producthelper->getAjaxDetailboxTemplate($row);
+			$ajaxDetailTemplate = $producthelper->getAjaxDetailboxTemplate($row);
 
 			if (count($ajaxDetailTemplate) > 0)
 			{

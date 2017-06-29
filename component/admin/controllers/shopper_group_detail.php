@@ -45,8 +45,7 @@ class RedshopControllerShopper_group_detail extends RedshopController
 		if (isset($post['shopper_group_categories']) && count($post['shopper_group_categories']) > 0)
 		{
 			$post["shopper_group_categories"] = implode(",", $post['shopper_group_categories']);
-		}
-		else
+		} else
 		{
 			$post["shopper_group_categories"] = "";
 		}
@@ -54,8 +53,7 @@ class RedshopControllerShopper_group_detail extends RedshopController
 		if (isset($post['shopper_group_manufactures']) && count($post['shopper_group_manufactures']) > 0)
 		{
 			$post["shopper_group_manufactures"] = implode(",", $post['shopper_group_manufactures']);
-		}
-		else
+		} else
 		{
 			$post["shopper_group_manufactures"] = "";
 		}
@@ -66,8 +64,7 @@ class RedshopControllerShopper_group_detail extends RedshopController
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHOPPER_GROUP_DETAIL');
 		}
@@ -75,8 +72,7 @@ class RedshopControllerShopper_group_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=shopper_group_detail&cid[]=' . $row->shopper_group_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=shopper_group', $msg);
 		}
@@ -94,19 +90,13 @@ class RedshopControllerShopper_group_detail extends RedshopController
 		if (!is_array($cid) && ($cid == 1 || $cid == 2))
 		{
 			$msg = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CAN_NOT_BE_DELETED');
-		}
-
-		elseif (in_array(1, $cid))
+		} elseif (in_array(1, $cid))
 		{
 			$msg = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CAN_NOT_BE_DELETED');
-		}
-
-		elseif (in_array(2, $cid))
+		} elseif (in_array(2, $cid))
 		{
 			$msg = JText::_('COM_REDSHOP_DEFAULT_SHOPPER_GROUP_CAN_NOT_BE_DELETED');
-		}
-
-		else
+		} else
 		{
 			$model = $this->getModel('shopper_group_detail');
 

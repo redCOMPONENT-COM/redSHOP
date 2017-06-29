@@ -39,8 +39,7 @@ $field = extra_field::getInstance();
 if (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 1 || !Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE'))
 {
 	$regtype = 0;
-}
-else
+} else
 {
 	$regtype = 1;
 }
@@ -81,8 +80,7 @@ $link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid;
 		}
 
 		<?php
-		}
-		else
+		} else
 		{
 		?>
 		if (frm.firstname.value == '') {
@@ -107,40 +105,39 @@ $link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid;
 <form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_REDSHOP_ACCOUNT_CREATION');?></legend>
+		<legend><?php echo JText::_('COM_REDSHOP_ACCOUNT_CREATION'); ?></legend>
 		<table class="admintable">
 			<?php
 			if ($regtype == 1)
 			{
 			?>
 				<tr>
-					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME');?>:</td>
+					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>:</td>
 					<td><input type='text' name="company_name" value='<?php echo @$post['company_name']; ?>'/></td>
 				</tr>
 			<?php
-			}
-			else
+			} else
 			{
 			?>
 				<tr>
-					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_FIRSTNAME');?>:</td>
+					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</td>
 					<td><input type='text' name="firstname" value='<?php echo @$post['firstname']; ?>'/></td>
 				</tr>
 				<tr>
-					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_LASTNAME');?>:</td>
+					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
 					<td><input type='text' name="lastname" value='<?php echo @$post['lastname']; ?>'/></td>
 				</tr>
-				<td><?php echo $lastname;?></td></tr>
+				<td><?php echo $lastname; ?></td></tr>
 			<?php
 			}
 			?>
 			<tr>
-				<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_USERNAME');?>:</td>
+				<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:</td>
 				<td><input type='text' name="username" value='<?php echo @$post['username']; ?>'/></td>
 			</tr>
 
 			<tr>
-				<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_EMAIL');?>:</td>
+				<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:</td>
 				<td><input type='text' name="email" value="<?php echo @$post['email']; ?>"/></td>
 			</tr>
 

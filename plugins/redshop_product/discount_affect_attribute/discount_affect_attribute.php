@@ -72,7 +72,7 @@ class PlgRedshop_ProductDiscount_Affect_Attribute extends JPlugin
 	 */
 	private function getPropertyDiscountPrice($sectionId, $section, $userId)
 	{
-		$producthelper   = productHelper::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$property = $producthelper->getProperty($sectionId, $section);
 
@@ -92,8 +92,7 @@ class PlgRedshop_ProductDiscount_Affect_Attribute extends JPlugin
 				{
 					$discount = ($property->product_price * $specialPrice->discount_amount) / 100;
 				}
-			}
-			else
+			} else
 			{
 				$p = $producthelper->getProductNetPrice($property->product_id);
 

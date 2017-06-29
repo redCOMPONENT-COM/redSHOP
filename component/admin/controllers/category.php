@@ -148,8 +148,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'error');
-				}
-				else
+				} else
 				{
 					$app->enqueueMessage($errors[$i], 'error');
 				}
@@ -274,8 +273,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_CATEGORY_COPIED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_COPING_CATEGORY');
 		}

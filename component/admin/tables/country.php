@@ -55,8 +55,7 @@ class RedshopTableCountry extends RedshopTable
 			$this->setError(JText::_('COM_REDSHOP_COUNTRY_CODE_3_ALREADY_EXISTS'));
 
 			return false;
-		}
-		else
+		} else
 		{
 			$query = $db->getQuery(true);
 			$query->select($db->qn(array('id', 'country_3_code', 'country_2_code')))

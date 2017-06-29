@@ -71,8 +71,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_NEWSLETTER_SUBSCR_DETAIL');
 		}
@@ -80,8 +79,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr_detail&task=edit&cid[]=' . $row->subscription_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
 		}
@@ -135,8 +133,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 			if ($data[$i]->user_id != 0)
 			{
 				echo utf8_decode($subname->firstname) . " " . utf8_decode($subname->lastname);
-			}
-			else
+			} else
 			{
 				echo utf8_decode($data[$i]->subscribername);
 			}
@@ -147,8 +144,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 			if ($data[$i]->user_id != 0)
 			{
 				echo $subname->email . ",";
-			}
-			else
+			} else
 			{
 				echo $data[$i]->email . ",";
 			}
@@ -184,8 +180,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 			{
 				$subname = $order_function->getUserFullname($data[$i]->user_id);
 				echo $subname;
-			}
-			else
+			} else
 			{
 				echo $data[$i]->subscribername;
 			}

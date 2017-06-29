@@ -230,8 +230,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 			// Generate thumbnail with watermark ( if configured )
 			$productImg = RedshopHelperMedia::watermark('category', $category->category_full_image, $width, $height, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-		}
-		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
+		} elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 		{
 			// Use default image
 			$categoryFullImage = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
@@ -241,8 +240,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
 		{
 			$categoryThumbnail = "<a class='modal' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $categoryFullImage . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
-		}
-		else
+		} else
 		{
 			$categoryThumbnail = "<a href='" . $link . "' " . $title . ">";
 		}

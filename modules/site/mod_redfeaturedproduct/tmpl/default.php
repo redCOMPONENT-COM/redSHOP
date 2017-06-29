@@ -31,8 +31,7 @@ if ($view == 'category')
 	{
 		JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 	}
-}
-else
+} else
 {
 	JHTML::script('com_redshop/redbox.js', false, true);
 	JHtml::script('com_redshop/attribute.js', false, true);
@@ -60,9 +59,9 @@ if (count($list) > 0)
 	<div class="red_product-skin-produkter">
 		<div class="red_product-container red_product-container-horizontal">
 			<div class="red_product-prev red_product-prev-horizontal"></div>
-			<div style="left:<?php echo $rightarrow;?>px;"
+			<div style="left:<?php echo $rightarrow; ?>px;"
 				 class="red_product-next red_product-next-horizontal"></div>
-			<div style="width:<?php echo $scrollerWidth;?>px;" class="red_product-clip red_product-clip-horizontal">
+			<div style="width:<?php echo $scrollerWidth; ?>px;" class="red_product-clip red_product-clip-horizontal">
 				<ul id="produkt_carousel_mod_<?php echo $module->id; ?>"
 					class="red_product-list red_product-list-horizontal">
 					<?php $i = 0;
@@ -74,8 +73,7 @@ if (count($list) > 0)
 						if (count($ItemData) > 0)
 						{
 							$Itemid = $ItemData->id;
-						}
-						else
+						} else
 						{
 							$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 						}
@@ -99,8 +97,7 @@ if (count($list) > 0)
 								$thumbHeight,
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
-						}
-						elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_thumb_image))
+						} elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_thumb_image))
 						{
 							$prod_img = RedShopHelperImages::getImagePath(
 								$row->product_thumb_image,
@@ -111,8 +108,7 @@ if (count($list) > 0)
 								$thumbHeight,
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
-						}
-						else
+						} else
 						{
 							$prod_img = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
 						}
@@ -120,7 +116,7 @@ if (count($list) > 0)
 						$thum_image = "<a href=\"" . $link . "\" title=\"\" ><img src=\"" . $prod_img . "\"></a>";
 						?>
 
-						<li red_productindex="<?php echo $i;?>" class="red_product-item red_product-item-horizontal">
+						<li red_productindex="<?php echo $i; ?>" class="red_product-item red_product-item-horizontal">
 							<div class="listing-item">
 								<div class="product-shop">
 									<?php
@@ -137,8 +133,7 @@ if (count($list) > 0)
 										{
 											$product_price = $productArr['product_main_price'];
 											$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
-										}
-										else
+										} else
 										{
 											$product_price = $productArr['product_price_novat'];
 											$product_price_discount = $productArr['productPrice'];
@@ -149,8 +144,7 @@ if (count($list) > 0)
 											if (!$product_price)
 											{
 												$product_price_dis = $producthelper->getPriceReplacement($product_price);
-											}
-											else
+											} else
 											{
 												$product_price_dis = $producthelper->getProductFormattedPrice($product_price);
 											}
@@ -169,8 +163,7 @@ if (count($list) > 0)
 														echo "<div id=\"mod_redoldprice\" class=\"mod_redoldprice\"><span>" . $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
 														echo "<div id=\"mod_redmainprice\" class=\"mod_redmainprice\">" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
 														echo "<div id=\"mod_redsavedprice\" class=\"mod_redsavedprice\">" . JText::_('MOD_REDFEATUREDPRODUCT_PRODUCT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</div>";
-													}
-													else
+													} else
 													{
 														echo "<div class=\"mod_redproducts_price\">" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
 													}
@@ -184,8 +177,8 @@ if (count($list) > 0)
 								</div>
 							</div>
 							<div class="product-image"
-								 style="width:<?php echo $thumbWidth;?>px;height:<?php echo $thumbHeight;?>px;">
-								<?php echo $thum_image;?>
+								 style="width:<?php echo $thumbWidth; ?>px;height:<?php echo $thumbHeight; ?>px;">
+								<?php echo $thum_image; ?>
 							</div>
 							<?php
 							if ($params->get('show_addtocart', 1))
@@ -205,8 +198,7 @@ if (count($list) > 0)
 		</div>
 	</div>
 <?php
-}
-else
+} else
 {
 	echo "<div>" . JText::_("MOD_REDFEATUREDPRODUCT_NO_FEATURED_PRODUCTS_TO_DISPLAY") . "</div>";
 }

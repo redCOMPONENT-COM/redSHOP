@@ -28,27 +28,27 @@ JText::script('COM_REDSHOP_DELETE');
                                     </td>
                                     <td>
                                         <?php
-                                        echo JHtml::_('redshopselect.search', '',
-                                            'product_accessory_search',
-                                            array(
-                                                'select2.options' => array(
-                                                    'events' => array(
-                                                        'select2-selecting' => 'function(e) {create_table_accessory(e.object.text, e.object.id, e.object.price)}',
-                                                        'select2-close' => 'function(e) {$(this).select2("val", "")}'
-                                                    )
-                                                ),
-                                                'select2.ajaxOptions' => array(
-                                                    'typeField' => ', accessoryList: function(){
+										echo JHtml::_('redshopselect.search', '',
+											'product_accessory_search',
+											array(
+												'select2.options' => array(
+													'events' => array(
+														'select2-selecting' => 'function(e) {create_table_accessory(e.object.text, e.object.id, e.object.price)}',
+														'select2-close' => 'function(e) {$(this).select2("val", "")}'
+													)
+												),
+												'select2.ajaxOptions' => array(
+													'typeField' => ', accessoryList: function(){
                                                         var listAcc = [];
                                                         jQuery(\'input.childProductAccessory\').each(function(){
                                                             listAcc[listAcc.length] = jQuery(this).val();
                                                         });
                                                         return listAcc.join(",");
                                                     }, product_id:' . $this->detail->product_id
-                                                ),
-                                            )
-                                        );
-                                        ?>
+												),
+											)
+										);
+										?>
                                     </td>
                                 </tr>
                         </table>
@@ -78,27 +78,27 @@ JText::script('COM_REDSHOP_DELETE');
                             </thead>
                             <tbody>
                             <?php
-                                $accessory_product = $this->lists['accessory_product'];
+								$accessory_product = $this->lists['accessory_product'];
 
-                                for ($f = 0, $fn = count($accessory_product); $f < $fn; $f++)
-                                {
-                                    $accessory_main_price = 0;
+								for ($f = 0, $fn = count($accessory_product); $f < $fn; $f++)
+								{
+									$accessory_main_price = 0;
 
-                                    if ($this->detail->product_id && $accessory_product[$f]->accessory_id)
-                                    {
-                                        $accessory_main_price = $this->producthelper->getAccessoryPrice(
-                                                                                            $this->detail->product_id,
-                                                                                            $accessory_product[$f]->newaccessory_price,
-                                                                                            $accessory_product[$f]->accessory_main_price,
-                                                                                            1
-                                                                                        );
-                                    }
+									if ($this->detail->product_id && $accessory_product[$f]->accessory_id)
+									{
+										$accessory_main_price = $this->producthelper->getAccessoryPrice(
+																							$this->detail->product_id,
+																							$accessory_product[$f]->newaccessory_price,
+																							$accessory_product[$f]->accessory_main_price,
+																							1
+																						);
+									}
 
-                                    $checked = ($accessory_product[$f]->setdefault_selected) ? "checked" : "";
-                            ?>
+									$checked = ($accessory_product[$f]->setdefault_selected) ? "checked" : "";
+							?>
                                 <tr>
                                     <td>
-                                        <?php echo $accessory_product[$f]->product_name;?>
+                                        <?php echo $accessory_product[$f]->product_name; ?>
                                         <input type="hidden" class="childProductAccessory"
                                                value="<?php echo $accessory_product[$f]->child_product_id; ?>"
                                                name="product_accessory[<?php echo $f; ?>][child_product_id]"
@@ -109,7 +109,7 @@ JText::script('COM_REDSHOP_DELETE');
                                             />
                                     </td>
                                     <td>
-                                        <?php echo $accessory_main_price[1];?>
+                                        <?php echo $accessory_main_price[1]; ?>
                                     </td>
                                     <td>
                                         <input size="1"
@@ -145,8 +145,8 @@ JText::script('COM_REDSHOP_DELETE');
                                     </td>
                                 </tr>
                             <?php
-                                }
-                            ?>
+								}
+							?>
                             </tbody>
                     </table>
                     <input type="hidden" name="total_accessory" id="total_accessory" value="<?php echo $f; ?>"/>

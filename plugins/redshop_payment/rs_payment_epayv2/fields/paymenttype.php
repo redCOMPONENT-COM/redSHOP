@@ -41,26 +41,26 @@ class JFormFieldPaymentType extends JFormFieldCheckboxes
 
 		$cardTypes        = array();
 		$cardTypes['ALL'] = 'COM_REDSHOP_CARD_TYPE_ALL';
-		$cardTypes['1']   =	'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_DANKORT';
-		$cardTypes['2']   =	'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_DANKORT_EDANKORT';
-		$cardTypes['3']   =	'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_VISA';
-		$cardTypes['4']   =	'COM_REDSHOP_CARD_TYPE_MC';
-		$cardTypes['6']   =	'COM_REDSHOP_CARD_TYPE_JCB';
-		$cardTypes['7']   =	'COM_REDSHOP_CARD_TYPE_MAESTRO';
-		$cardTypes['8']   =	'COM_REDSHOP_CARD_TYPE_DINERS';
-		$cardTypes['9']   =	'COM_REDSHOP_CARD_TYPE_AE';
-		$cardTypes['11']  =	'COM_REDSHOP_CARD_TYPE_FORBRUGSFORENINGEN';
-		$cardTypes['12']  =	'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_NORDEA';
-		$cardTypes['13']  =	'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_DANSKE';
-		$cardTypes['14']  =	'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_PAYPAL';
-		$cardTypes['17']  =	'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_KLARNA';
-		$cardTypes['18']  =	'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_SVEAWEBPAY';
-		$cardTypes['23']  =	'COM_REDSHOP_CARD_TYPE_VIABILL';
-		$cardTypes['24']  =	'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_BEEPTIFY';
-		$cardTypes['25']  =	'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_IDEAL';
-		$cardTypes['27']  =	'COM_REDSHOP_CARD_TYPE_PAII';
-		$cardTypes['28']  =	'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_BRANDTS_GAVEKORT';
-		$cardTypes['29']  =	'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_MOBILEPAY_ONLINE';
+		$cardTypes['1']   = 'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_DANKORT';
+		$cardTypes['2']   = 'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_DANKORT_EDANKORT';
+		$cardTypes['3']   = 'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_VISA';
+		$cardTypes['4']   = 'COM_REDSHOP_CARD_TYPE_MC';
+		$cardTypes['6']   = 'COM_REDSHOP_CARD_TYPE_JCB';
+		$cardTypes['7']   = 'COM_REDSHOP_CARD_TYPE_MAESTRO';
+		$cardTypes['8']   = 'COM_REDSHOP_CARD_TYPE_DINERS';
+		$cardTypes['9']   = 'COM_REDSHOP_CARD_TYPE_AE';
+		$cardTypes['11']  = 'COM_REDSHOP_CARD_TYPE_FORBRUGSFORENINGEN';
+		$cardTypes['12']  = 'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_NORDEA';
+		$cardTypes['13']  = 'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_DANSKE';
+		$cardTypes['14']  = 'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_PAYPAL';
+		$cardTypes['17']  = 'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_KLARNA';
+		$cardTypes['18']  = 'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_SVEAWEBPAY';
+		$cardTypes['23']  = 'COM_REDSHOP_CARD_TYPE_VIABILL';
+		$cardTypes['24']  = 'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_BEEPTIFY';
+		$cardTypes['25']  = 'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_IDEAL';
+		$cardTypes['27']  = 'COM_REDSHOP_CARD_TYPE_PAII';
+		$cardTypes['28']  = 'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_BRANDTS_GAVEKORT';
+		$cardTypes['29']  = 'PLG_RS_PAYMENT_EPAYV2_CARD_TYPE_MOBILEPAY_ONLINE';
 
 		// Allow parent options - This will extends the options added directly from XML
 		$options = parent::getOptions();

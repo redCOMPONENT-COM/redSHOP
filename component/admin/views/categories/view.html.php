@@ -120,22 +120,19 @@ class RedshopViewCategories extends RedshopViewList
 				}
 
 				return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
-			}
-			else
+			} else
 			{
 				if ($this->canEdit)
 				{
 					return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1)
 						. '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">'
 						. $row->{$config['dataCol']} . '</a>';
-				}
-				else
+				} else
 				{
 					return str_repeat('<span class="gi">|&nbsp;&mdash;&nbsp;</span>', $row->level - 1) . $row->{$config['dataCol']};
 				}
 			}
-		}
-		elseif ($config['dataCol'] == 'description')
+		} elseif ($config['dataCol'] == 'description')
 		{
 			return JHtml::_('redshopgrid.slidetext', strip_tags($row->description));
 		}

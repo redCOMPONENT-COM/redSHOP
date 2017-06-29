@@ -99,13 +99,12 @@ foreach ($rows as $row)
 	if (count($ItemData) > 0)
 	{
 		$Itemid = $ItemData->id;
-	}
-	else
+	} else
 	{
 		$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 	}
 
-	$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
+	$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
 	echo "<div class='mod_redshop_shoppergroup_product'>";
 
@@ -135,8 +134,7 @@ foreach ($rows as $row)
 			if (!$product_price)
 			{
 				$product_price_dis = $producthelper->getPriceReplacement($product_price);
-			}
-			else
+			} else
 			{
 				$product_price_dis = $producthelper->getProductFormattedPrice($product_price);
 			}
@@ -156,8 +154,7 @@ foreach ($rows as $row)
 						$product_price = $product_price_discount;
 						echo "<div id='mod_redmainprice' class='mod_redmainprice'>" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
 						echo "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('MOD_REDSHOP_SHOPPERGROUP_PRODUCT_PRODCUT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</div>";
-					}
-					else
+					} else
 					{
 						$product_price = $product_price_discount;
 						echo "<div class='mod_redshop_shoppergroup_product_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";

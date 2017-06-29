@@ -49,13 +49,13 @@ $data .= "[$rowdata]";
 	function drawChart() {
 		//Create our data table.
 		var data = new google.visualization.DataTable();
-		data.addColumn('string', '<?php echo JText::_('COM_REDSHOP_NEWSLETTER');?>');
-		data.addColumn('number', '<?php echo JText::_('COM_REDSHOP_NO_OF_READ_NEWSLETTER');?>');
-		data.addRows(<?php echo $data;?>);
+		data.addColumn('string', '<?php echo JText::_('COM_REDSHOP_NEWSLETTER'); ?>');
+		data.addColumn('number', '<?php echo JText::_('COM_REDSHOP_NO_OF_READ_NEWSLETTER'); ?>');
+		data.addRows(<?php echo $data; ?>);
 
 		//Instantiate and draw our chart, passing in some options.
 		var chart = new google.visualization.PieChart(document.getElementById('newsletter_statistics_pie'));
-		chart.draw(data, {width: 800, height: 640, is3D: true, title: '<?php echo $title;?>'});
+		chart.draw(data, {width: 800, height: 640, is3D: true, title: '<?php echo $title; ?>'});
 	}
 	Joomla.submitbutton = function (pressbutton) {
 		var form = document.adminForm;
@@ -71,7 +71,7 @@ $data .= "[$rowdata]";
 		<table class="admintable table">
 			<tr>
 				<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_NEWSLETTER'); ?>:</td>
-				<td><?php echo $selnewsletter;?></td>
+				<td><?php echo $selnewsletter; ?></td>
 			</tr>
 		</table>
 	</fieldset>

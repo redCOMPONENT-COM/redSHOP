@@ -86,8 +86,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 					}
 
 					$orderItem[$i]->quantity = $finalquantity;
-				}
-				else
+				} else
 				{
 					$stocknote .= $productData->product_name . " " . JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK') . "<br/>";
 					unset($orderItem[$i]);
@@ -171,8 +170,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
 		{
 			$amt = $subtotal;
-		}
-		else
+		} else
 		{
 			$amt = $subtotal_excl_vat;
 		}
@@ -186,8 +184,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 		{
 			$paymentAmount = $subtotal;
-		}
-		else
+		} else
 		{
 			$paymentAmount = $order_total;
 		}
@@ -214,8 +211,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		{
 			$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
 			$type = 'success';
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
 			$type = 'error';
@@ -225,8 +221,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		{
 			$objorder = order_functions::getInstance();
 			$objorder->getpaymentinformation($row, $post);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stocknote, $type);
 		}

@@ -53,8 +53,7 @@ class RedshopHelperCatalog
 			if ($catalog->reminder_2 == 0)
 			{
 				self::sendSecondReminder($catalog, $formattedDate, $from, $fromName);
-			}
-			elseif ($catalog->reminder_3 == 0)
+			} elseif ($catalog->reminder_3 == 0)
 			{
 				self::sendThirdReminder($catalog, $formattedDate, $from, $fromName);
 			}

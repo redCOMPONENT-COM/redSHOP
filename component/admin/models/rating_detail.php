@@ -38,8 +38,7 @@ class RedshopModelRating_detail extends RedshopModelForm
 	{
 		if ($this->_loadData())
 		{
-		}
-		else
+		} else
 		{
 			$this->_initData();
 		}
@@ -120,8 +119,7 @@ class RedshopModelRating_detail extends RedshopModelForm
 
 				return false;
 			}
-		}
-		else
+		} else
 		{
 			return false;
 		}

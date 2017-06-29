@@ -34,8 +34,11 @@ defined('_JEXEC') or die;
 
 			<?php if ($oneData->discount_type == '1'): ?>
 				<?php $discountAmount = number_format((double) $oneData->discount_amount, Redshop::getConfig()->get('PRICE_DECIMAL'), Redshop::getConfig()->get('PRICE_SEPERATOR'), Redshop::getConfig()->get('THOUSAND_SEPERATOR')) . ' %'; ?>
-			<?php else: ?>
-				<?php $discountAmount = $productHelper->getProductFormattedPrice($oneData->discount_amount); ?>
+			<?php else {
+	: ?>
+				<?php $discountAmount = $productHelper->getProductFormattedPrice($oneData->discount_amount);
+}
+?>
 			<?php endif ?>
 		<tr>
 			<td><?php echo JText::sprintf('MOD_REDSHOP_DISCOUNT_CONDITION_TEMPLATE', $cond, $amount); ?></td>

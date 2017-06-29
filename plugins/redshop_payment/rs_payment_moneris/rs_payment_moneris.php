@@ -16,7 +16,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 	 */
 	public function onPrePayment_rs_payment_moneris($element, $data)
 	{
-		$config        = Redconfiguration::getInstance();
+		$config = Redconfiguration::getInstance();
 
 		// Get user billing information
 		$user = JFActory::getUser();
@@ -42,8 +42,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		if ($moneris_test_status == 1)
 		{
 			$moneris_api_host = "esqa.moneris.com";
-		}
-		else
+		} else
 		{
 			$moneris_api_host = "www3.moneris.com";
 		}
@@ -82,13 +81,11 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			if (($ptoken % 2) == 0)
 			{
 				$amount = "10.10";
-			}
-			else
+			} else
 			{
 				$amount = "10.24";
 			}
-		}
-		else
+		} else
 		{
 			$storeid    = $moneris_store_id;
 			$apitoken   = $moneris_api_token;
@@ -115,7 +112,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			'cvd_value'     => $credit_card_code
 		);
 
-		$avsTemplate = array('avs_street_number' => $avs_street_number,'avs_street_name' => '','avs_zipcode' => $avs_zipcode);
+		$avsTemplate = array('avs_street_number' => $avs_street_number, 'avs_street_name' => '', 'avs_zipcode' => $avs_zipcode);
 
 		$mpgAvsInfo = new mpgAvsInfo($avsTemplate);
 		$mpgCvdInfo = new mpgCvdInfo($cvdTemplate);
@@ -167,8 +164,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 				$message = "\nA Message from the processor: " . $mpgMessage . "\n";
 				$values->responsestatus = 'Success';
 				$values->transaction_id = $mpgTxnNumber;
-			}
-			else
+			} else
 			{
 				if (intval($mpgRCode) >= 50)
 				{
@@ -177,8 +173,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 					$values->transaction_id = $mpgTxnNumber;
 				}
 			}
-		}
-		else
+		} else
 		{
 			$message = "\nA Message from the processor: " . $mpgMessage . "\n";
 			$values->responsestatus = 'Fail';

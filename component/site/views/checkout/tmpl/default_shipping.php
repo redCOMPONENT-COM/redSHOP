@@ -24,8 +24,7 @@ $shippingbox_template = $redTemplate->getTemplate("shippingbox");
 if (count($shippingbox_template) > 0 && $shippingbox_template[0]->template_desc)
 {
 	$box_template_desc = $shippingbox_template[0]->template_desc;
-}
-else
+} else
 {
 	$box_template_desc = "<fieldset class=\"adminform\"> <legend><strong>{shipping_box_heading}</strong></legend>\r\n<div>{shipping_box_list}</div>\r\n</fieldset>";
 }
@@ -35,8 +34,7 @@ $shipping_template = $redTemplate->getTemplate("redshop_shipping");
 if (count($shipping_template) > 0 && $shipping_template[0]->template_desc)
 {
 	$template_desc = $shipping_template[0]->template_desc;
-}
-else
+} else
 {
 	$template_desc = "<fieldset class=\"adminform\"><legend><strong>{shipping_heading}</strong></legend>\r\n<div>{shipping_method_loop_start}\r\n<h3>{shipping_method_title}</h3>\r\n<div>{shipping_rate_loop_start}\r\n<div>{shipping_rate_name} {shipping_rate}</div>\r\n{shipping_rate_loop_end}</div>\r\n{shipping_method_loop_end}</div>\r\n</fieldset>";
 }
@@ -55,8 +53,7 @@ if ($this->users_info_id > 0)
 	if (isset($post['shipping_box_id']))
 	{
 		$shipping_box_post_id = $post['shipping_box_id'];
-	}
-	else
+	} else
 	{
 		$shipping_box_post_id = $selshipping_box_post_id;
 	}
@@ -69,8 +66,7 @@ if ($this->users_info_id > 0)
 	$this->shipping_rate_id = $returnarr['shipping_rate_id'];
 
 	echo eval("?>" . $template_desc . "<?php ");
-}
-else
+} else
 {
 	?>
 	<div class="shipnotice"><?php echo JText::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS'); ?></div>

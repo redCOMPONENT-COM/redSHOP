@@ -62,8 +62,7 @@ $idText = $idtag ? $idtag : $name;
 						break;
 					}
 				}
-			}
-			else
+			} else
 			{
 				$extra .= ((string) $key == (string) $selected ? ' checked="checked" ' : '');
 			}

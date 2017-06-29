@@ -91,8 +91,7 @@ if ($formdata['flexlang'] == "Auto")
 	if (isset($lang) && $lang != '')
 	{
 		$formdata["lang"] = $lang;
-	}
-	else
+	} else
 	{
 		$lang = 'en';
 		$formdata["lang"] = $lang;

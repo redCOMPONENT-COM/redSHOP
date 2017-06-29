@@ -25,8 +25,7 @@ if ($this->params->get('show_page_heading', 1))
 			<?php echo $this->escape(JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL')); ?>
 		</h1>
 	<?php
-	}
-	else
+	} else
 	{
 		?>
 		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
@@ -49,7 +48,7 @@ if ($this->params->get('show_page_heading', 1))
 
 		for ($i = 0; $i < count($this->shippingaddresses); $i++)
 		{
-			$edit_addlink = "index.php?option=com_redshop&view=account_shipto&task=addshipping&infoid=" . $this->shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;?>
+			$edit_addlink = "index.php?option=com_redshop&view=account_shipto&task=addshipping&infoid=" . $this->shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid; ?>
 			<tr>
 				<td>
 					<?php    echo "- <a href='" . JRoute::_($edit_addlink) . "'>" . $this->shippingaddresses[$i]->text . "</a>"; ?>

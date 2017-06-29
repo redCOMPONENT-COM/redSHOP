@@ -62,8 +62,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_STOCKROOM_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_DETAIL');
 		}
@@ -71,8 +70,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=stockroom_detail&task=edit&cid[]=' . $row->stockroom_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 		}
@@ -112,8 +110,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_COPIED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_COPING_STOCKROOM_DETAIL');
 		}
@@ -156,8 +153,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 					$db->setQuery($query);
 					$db->execute();
 					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC_SUCCESS') . "</span>";
-				}
-				else
+				} else
 				{
 					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_STOCK_FROM_ECONOMIC');
 
@@ -176,8 +172,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 			if ($totalprd > 0)
 			{
 				$msg = $responcemsg;
-			}
-			else
+			} else
 			{
 				$msg = JText::_("COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC_IS_COMPLETED");
 			}

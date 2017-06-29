@@ -67,16 +67,14 @@ class RedshopControllerCart extends RedshopController
 			{
 				echo "`0`" . $errmsg;
 				die();
-			}
-			else
+			} else
 			{
 				$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
 
 				if (count($ItemData) > 0)
 				{
 					$prdItemid = $ItemData->id;
-				}
-				else
+				} else
 				{
 					$prdItemid = RedshopHelperUtility::getItemId($post['product_id']);
 				}
@@ -134,8 +132,7 @@ class RedshopControllerCart extends RedshopController
 
 						if (is_bool($result) && $result)
 						{
-						}
-						else
+						} else
 						{
 							$errmsg = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
@@ -152,16 +149,14 @@ class RedshopControllerCart extends RedshopController
 							{
 								echo "`0`" . $errmsg;
 								die();
-							}
-							else
+							} else
 							{
 								$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
 
 								if (count($ItemData) > 0)
 								{
 									$prdItemid = $ItemData->id;
-								}
-								else
+								} else
 								{
 									$prdItemid = RedshopHelperUtility::getItemId($post['product_id']);
 								}
@@ -185,8 +180,7 @@ class RedshopControllerCart extends RedshopController
 
 			$this->_carthelper->cartFinalCalculation();
 			unset($cart['AccessoryAsProduct']);
-		}
-		else
+		} else
 		{
 			if (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 			{
@@ -205,18 +199,16 @@ class RedshopControllerCart extends RedshopController
 		{
 			if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1 && isset($post['ajax_cart_box']))
 			{
-				$link =	JRoute::_(
+				$link = JRoute::_(
 						'index.php?option=com_redshop&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $Itemid,
 						false
 					);
-			}
-			else
+			} else
 			{
 				if (Redshop::getConfig()->get('ADDTOCART_BEHAVIOUR') == 1)
 				{
 					$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
-				}
-				else
+				} else
 				{
 					if (isset($cart['notice_message']) && $cart['notice_message'] != "")
 					{
@@ -293,17 +285,16 @@ class RedshopControllerCart extends RedshopController
 				$discountVAT = $cart['discount_tax'];
 				$calArr[1]   = $calArr[1] - $cart['discount_tax'];
 				$tax         = $tax - $discountVAT;
-			}
-			else
+			} else
 			{
 				$vatData = $producthelper->getVatRates();
 
 				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
 				{
 					$productPriceExclVAT = $cart['product_subtotal_excl_vat'];
-					$productVAT 		 = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
-					$avgVAT 			 = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
-					$discountVAT 		 = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+					$productVAT = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
+					$avgVAT = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
+					$discountVAT = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
 				}
 			}
 		}
@@ -362,13 +353,11 @@ class RedshopControllerCart extends RedshopController
 			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
 				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
-			}
-			else
+			} else
 			{
 				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
 			}
-		}
-		else
+		} else
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
 			$this->setRedirect($link, JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID'), 'error');
@@ -402,13 +391,11 @@ class RedshopControllerCart extends RedshopController
 			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
 				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
-			}
-			else
+			} else
 			{
 				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
 			}
-		}
-		else
+		} else
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&msg=' . $msg . '&seldiscount=voucher&Itemid=' . $Itemid, false);
 			$this->setRedirect($link, JText::_('COM_REDSHOP_VOUCHER_CODE_IS_NOT_VALID'), 'error');
@@ -588,7 +575,7 @@ class RedshopControllerCart extends RedshopController
 	{
 		$Itemid = JRequest::getInt('Itemid');
 
-		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);    ?>
+		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false); ?>
 		<script language="javascript">
 			window.parent.location.href = "<?php echo $link ?>";
 		</script>

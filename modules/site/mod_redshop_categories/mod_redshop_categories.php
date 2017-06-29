@@ -57,8 +57,7 @@ if ($use_shoppergroup == "yes")
 			$shopper_group_id = $getShopperGroupID;
 		}
 	}
-}
-else
+} else
 {
 	$shopper_group_id = 0;
 }
@@ -70,31 +69,26 @@ echo $pretext;
 if ($menutype == 'links')
 {
 	echo $redproduct_menu->getCategoryTree($params, $category_id, $class_mainlevel, $list_css_class = "mm123", $highlighted_style = "font-style:italic;", $shopper_group_id);
-}
-elseif ($menutype == "transmenu")
+} elseif ($menutype == "transmenu")
 {
 	/* TransMenu script to display a DHTML Drop-Down Menu */
 	include_once $mod_dir . '/transmenu.php';
 
-}
-elseif ($menutype == "dtree")
+} elseif ($menutype == "dtree")
 {
 	/* dTree script to display structured categories */
 	include_once $mod_dir . '/dtree.php';
 
-}
-elseif ($menutype == "jscook")
+} elseif ($menutype == "jscook")
 {
 	/* JSCook Script to display structured categories */
 	include_once $mod_dir . '/JSCook.php';
 
-}
-elseif ($menutype == "tigratree")
+} elseif ($menutype == "tigratree")
 {
 	/* TigraTree script to display structured categories */
 	include_once $mod_dir . '/tigratree.php';
-}
-elseif ($menutype == "accordion")
+} elseif ($menutype == "accordion")
 {
 	/* accordion script to display structured categories */
 	include_once $mod_dir . '/accordion.php';

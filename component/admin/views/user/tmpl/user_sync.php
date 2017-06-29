@@ -28,8 +28,7 @@ defined('_JEXEC') or die;
 						echo ' ' . $this->sync_user . ' ';
 						echo JText::_("COM_REDSHOP_YES_SYNC");
 						echo '.</font>';
-					}
-					else
+					} else
 					{
 						echo '<font color=green>';
 						echo JText::_('COM_REDSHOP_NO_SYNC');

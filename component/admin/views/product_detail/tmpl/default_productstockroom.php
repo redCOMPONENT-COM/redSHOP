@@ -67,8 +67,7 @@ $stockrooms = $model->StockRoomList();
 											if ($s->delivery_time == 'Days')
 											{
 												echo $del_time . "  " . JText::_('COM_REDSHOP_DAYS');
-											}
-											elseif ($s->delivery_time == 'Weeks')
+											} elseif ($s->delivery_time == 'Weeks')
 											{
 												$del_time = $s->min_del_time / 7;
 												echo (int) $del_time . "  " . JText::_('COM_REDSHOP_WEEKS');
@@ -85,7 +84,7 @@ $stockrooms = $model->StockRoomList();
 
 								</td>
 								<td>
-									<?php echo $ordered_preorder;?>
+									<?php echo $ordered_preorder; ?>
 									<input type="hidden" name="ordered_preorder[]" value="<?php echo $ordered_preorder; ?>"/>
 								</td>
 							</tr>

@@ -165,8 +165,7 @@ class RedshopHelperJs
 				$slimboxCloseButton = "#sbox-btn-close {background: transparent url( \""
 					. REDSHOP_FRONT_IMAGES_ABSPATH . "slimbox/" . $config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE')
 					. "\" ) no-repeat center;}";
-			}
-			else
+			} else
 			{
 				$slimboxCloseButton = "#sbox-btn-close {background: transparent url( \""
 					. REDSHOP_FRONT_IMAGES_ABSPATH . "slimbox/closelabel.gif\" ) no-repeat center;}";

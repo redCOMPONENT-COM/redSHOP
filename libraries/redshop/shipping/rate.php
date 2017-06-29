@@ -68,7 +68,7 @@ class RedshopShippingRate
 			$asciiNumByteToEncrypt = ord($byteToBeEncrypted);
 			$xoredByte             = $asciiNumByteToEncrypt ^ $keyToUse;
 			$encryptedByte         = chr($xoredByte);
-			$encrypted             .= $encryptedByte;
+			$encrypted .= $encryptedByte;
 		}
 
 		return $encrypted;

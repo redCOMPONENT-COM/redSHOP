@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
     }
 
     function resetOrderId() {
-        if (!confirm("<?php echo Jtext::_('COM_REDSHOP_CONFIRM_ORDER_ID_RESET');?> ")) {
+        if (!confirm("<?php echo Jtext::_('COM_REDSHOP_CONFIRM_ORDER_ID_RESET'); ?> ")) {
             return false;
         }
         else {
@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
             var url = 'index.php?option=com_redshop&view=configuration&task=resetOrderId&sid=' + Math.random();
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4) {
-                    alert("<?php echo JText::_('COM_REDSHOP_SUCCESSFULLY_RESET_ORDER_ID');?>");
+                    alert("<?php echo JText::_('COM_REDSHOP_SUCCESSFULLY_RESET_ORDER_ID'); ?>");
                 }
             }
             xmlhttp.open("GET", url, true);

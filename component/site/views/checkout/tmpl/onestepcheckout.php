@@ -72,8 +72,7 @@ $onesteptemplate = $redTemplate->getTemplate("onestep_checkout");
 if (count($onesteptemplate) > 0 && $onesteptemplate[0]->template_desc)
 {
 	$onestep_template_desc = "<div id='divOnestepCheckout'>" . $onesteptemplate[0]->template_desc . "</div>";
-}
-else
+} else
 {
 	$onestep_template_desc = JText::_("COM_REDSHOP_TEMPLATE_NOT_EXISTS");
 }
@@ -157,14 +156,12 @@ if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		}
 
 		$onestep_template_desc = str_replace($shipping_template, $shipping_template_desc, $onestep_template_desc);
-	}
-	else
+	} else
 	{
 		$onestep_template_desc = str_replace($shippingbox_template, "", $onestep_template_desc);
 		$onestep_template_desc = str_replace($shipping_template, JText::_('COM_REDSHOP_FILL_SHIPPING_ADDRESS'), $onestep_template_desc);
 	}
-}
-else
+} else
 {
 	$onestep_template_desc = str_replace($shippingbox_template, "", $onestep_template_desc);
 	$onestep_template_desc = str_replace($shipping_template, "", $onestep_template_desc);
@@ -220,8 +217,7 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 		$shipp .= '<a class="modal btn btn-primary" href="' . $add_addlink . '" rel="{handler: \'iframe\', size: {x: 570, y: 470}}"> ' . JText::_('COM_REDSHOP_ADD_ADDRESS') . '</a>';
 		$onestep_template_desc = str_replace('{shipping_address}', $shipp, $onestep_template_desc);
 		$onestep_template_desc = str_replace('{shipping_address_information_lbl}', JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL'), $onestep_template_desc);
-	}
-	else
+	} else
 	{
 		$onestep_template_desc = str_replace('{shipping_address}', '', $onestep_template_desc);
 		$onestep_template_desc = str_replace('{shipping_address_information_lbl}', '', $onestep_template_desc);
@@ -236,14 +232,14 @@ $onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $us
 $onestep_template_desc = '<form	action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">' . $onestep_template_desc . '<div style="display:none" id="responceonestep"></div></form>';
 
 $onestep_template_desc = $redTemplate->parseredSHOPplugin($onestep_template_desc);
-echo eval("?>" . $onestep_template_desc . "<?php ");?>
+echo eval("?>" . $onestep_template_desc . "<?php "); ?>
 <script type="text/javascript">
 	function chkvalidaion() {
 		<?php
 			if (Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
 			{
 			?>
-		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN');?>");
+		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN'); ?>");
 		return false;
 		<?php
 			}	?>

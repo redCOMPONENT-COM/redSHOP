@@ -40,9 +40,9 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 		}
 
 		if (form.template_name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_TEMPLATE_MUST_HAVE_A_NAME', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_TEMPLATE_MUST_HAVE_A_NAME', true); ?>");
 		} else if (form.template_section.value == "0") {
-			alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_HAVE_A_SELECT_SECTION', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_HAVE_A_SELECT_SECTION', true); ?>");
 		} else {
 			submitform(pressbutton);
 		}
@@ -171,12 +171,12 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 					<div class="row-fluid">
 						<fieldset class="adminform">
 							<legend><?php echo JText::_('COM_REDSHOP_AVAILABLE_TEXTLIBRARY_ITEMS'); ?></legend>
-							<?php echo $this->loadTemplate('library_items');?>
+							<?php echo $this->loadTemplate('library_items'); ?>
 						</fieldset>
 					</div>
 				</div>
 				<div class="col-sm-5">
-					<?php echo $this->loadTemplate('dynamic_fields');?>
+					<?php echo $this->loadTemplate('dynamic_fields'); ?>
 				</div>
 			</div>
 		</fieldset>

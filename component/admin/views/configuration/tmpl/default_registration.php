@@ -53,8 +53,7 @@ $article_id = $this->config->get('TERMS_ARTICLE_ID');
 if ($article_id)
 {
 	$article->load($article_id);
-}
-else
+} else
 {
 	$article->title = JText::_('COM_REDSHOP_SELECT_AN_ARTICLE');
 }

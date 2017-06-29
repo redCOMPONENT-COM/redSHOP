@@ -26,8 +26,7 @@ class RedshopControllerAddressfields_listing extends RedshopController
 		if ($model->saveorder($cid, $order))
 		{
 			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_ERROR');
 		}

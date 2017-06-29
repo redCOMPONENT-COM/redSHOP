@@ -88,9 +88,9 @@ if ($download)
 							if (file_exists(JPATH_SITE . '/administrator/components/com_redshop/assets/lables/label_' . $row->order_id . '.pdf'))
 							{
 								?>
-								<a href="<?php echo $dlink; ?>"><?php echo JText::_('COM_REDSHOP_DOWNLOAD');?></a>
+								<a href="<?php echo $dlink; ?>"><?php echo JText::_('COM_REDSHOP_DOWNLOAD'); ?></a>
 								<a href="<?php echo $plink; ?>"
-								   target="_blank"><?php echo JText::_("COM_REDSHOP_OPEN_AND_PRINT");?></a>
+								   target="_blank"><?php echo JText::_("COM_REDSHOP_OPEN_AND_PRINT"); ?></a>
 							<?php
 							}
 						}    ?></td>

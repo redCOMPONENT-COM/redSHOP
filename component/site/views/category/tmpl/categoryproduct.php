@@ -19,7 +19,7 @@ $extraField      = extraField::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
 
-$url    = JURI::base();
+$url = JURI::base();
 
 $model                = $this->getModel('category');
 $loadCategorytemplate = $redTemplate->getTemplate('categoryproduct');
@@ -27,8 +27,7 @@ $loadCategorytemplate = $redTemplate->getTemplate('categoryproduct');
 if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc != "")
 {
 	$template_desc = $loadCategorytemplate[0]->template_desc;
-}
-else
+} else
 {
 	$template_desc  = "<div><div>{print}</div>";
 	$template_desc .= "<div>{filter_by_lbl}{filter_by}</div>";
@@ -61,8 +60,7 @@ if ($this->print)
 	$onclick       = "onclick='window.print();'";
 	$template_desc = str_replace("{product_price_slider}", "", $template_desc);
 	$template_desc = str_replace("{pagination}", "", $template_desc);
-}
-else
+} else
 {
 	$print_url = $url . "index.php?option=com_redshop&view=category&layout=categoryproduct&print=1&tmpl=component&Itemid=" . $this->itemid;
 
@@ -92,20 +90,17 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 		$tag     = '{category_thumb_image_2}';
 		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
 		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_2');
-	}
-	elseif (strstr($middletemplate_desc, '{category_thumb_image_3}'))
+	} elseif (strstr($middletemplate_desc, '{category_thumb_image_3}'))
 	{
 		$tag     = '{category_thumb_image_3}';
 		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
 		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
-	}
-	elseif (strstr($middletemplate_desc, '{category_thumb_image_1}'))
+	} elseif (strstr($middletemplate_desc, '{category_thumb_image_1}'))
 	{
 		$tag     = '{category_thumb_image_1}';
 		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
 		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
-	}
-	else
+	} else
 	{
 		$tag     = '{category_thumb_image}';
 		$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
@@ -126,8 +121,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 		if ($cItemid != "")
 		{
 			$tmpItemid = $cItemid;
-		}
-		else
+		} else
 		{
 			$tmpItemid = $this->itemid;
 		}
@@ -143,8 +137,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 		{
 			$product_img = RedshopHelperMedia::watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 			$linkimage   = RedshopHelperMedia::watermark('category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
-		}
-		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
+		} elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
 		{
 			$product_img = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
 			$linkimage   = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
@@ -153,8 +146,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
 		{
 			$cat_thumb = "<a rel=\"myallimg\" href='" . $linkimage . "'  " . $title . ">";
-		}
-		else
+		} else
 		{
 			$cat_thumb = "<a href='" . $link . "' " . $title . ">";
 		}
@@ -262,14 +254,12 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 					{
 						$prddata_add = str_replace("{if product_userfield}", $productUserFieldsForm, $prddata_add);
 						$prddata_add = str_replace("{product_userfield end if}", "</form>", $prddata_add);
-					}
-					else
+					} else
 					{
 						$prddata_add = str_replace("{if product_userfield}", "", $prddata_add);
 						$prddata_add = str_replace("{product_userfield end if}", "", $prddata_add);
 					}
-				}
-				elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
+				} elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 				{
 					$ajax_detail_template_desc = "";
 					$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($product);
@@ -318,8 +308,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				if (count($ItemData) > 0)
 				{
 					$pItemid = $ItemData->id;
-				}
-				else
+				} else
 				{
 					$pItemid = RedshopHelperUtility::getItemId($product->product_id);
 				}
@@ -427,20 +416,17 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 					$pimg_tag = '{product_thumb_image_3}';
 					$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_3');
 					$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_3');
-				}
-				elseif (strstr($prddata_add, "{product_thumb_image_2}"))
+				} elseif (strstr($prddata_add, "{product_thumb_image_2}"))
 				{
 					$pimg_tag = '{product_thumb_image_2}';
 					$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_2');
 					$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_2');
-				}
-				elseif (strstr($prddata_add, "{product_thumb_image_1}"))
+				} elseif (strstr($prddata_add, "{product_thumb_image_1}"))
 				{
 					$pimg_tag = '{product_thumb_image_1}';
 					$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
 					$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
-				}
-				else
+				} else
 				{
 					$pimg_tag = '{product_thumb_image}';
 					$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
@@ -449,7 +435,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				$hidden_thumb_image  = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'>";
 				$hidden_thumb_image .= "<input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
-				$thum_image         = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
+				$thum_image = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
 
 				// Product image flying addwishlist time start.
 				$thum_image = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" .
@@ -494,8 +480,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				{
 					$isChilds   = true;
 					$attributes = array();
-				}
-				else
+				} else
 				{
 					$isChilds = false;
 
@@ -589,8 +574,7 @@ if ($this->params->get('show_page_heading', 0))
 	if (!$this->catid)
 	{
 		echo '<div class="category_product__front">';
-	}
-	else
+	} else
 	{
 		echo '<div class="category">';
 	}
@@ -602,8 +586,7 @@ if ($this->params->get('show_page_heading', 0))
 		if ($this->params->get('page_title') != $this->pageheadingtag)
 		{
 			echo $this->escape($this->params->get('page_title'));
-		}
-		else
+		} else
 		{
 			echo $this->pageheadingtag;
 		}

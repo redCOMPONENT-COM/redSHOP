@@ -66,8 +66,7 @@ class RedshopModelManufacturers extends RedshopModel
 		if ($params->get('manufacturerid') != "")
 		{
 			$manid = $params->get('manufacturerid');
-		}
-		else
+		} else
 		{
 			$manid = (int) JRequest::getInt('mid', 0);
 		}
@@ -151,8 +150,7 @@ class RedshopModelManufacturers extends RedshopModel
 		if ($layout == "products")
 		{
 			$this->_data = $this->_getList($query);
-		}
-		else
+		} else
 		{
 			$this->_data = $this->_getList($query, $this->getState($this->context . 'limitstart'), $this->getState($this->context . 'limit'));
 		}
@@ -164,19 +162,17 @@ class RedshopModelManufacturers extends RedshopModel
 	{
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
-		$layout  = $app->input->getCmd('layout', '');
+		$layout = $app->input->getCmd('layout', '');
 		$params = $app->getParams('com_redshop');
 
 		if ($app->input->getString('order_by', '') != null)
 		{
 			$order_by = urldecode($app->input->getString('order_by', ''));
 			$app->setUserState('com_redshop.manufacturers.default.order_state', $order_by);
-		}
-		elseif ($app->getUserState('com_redshop.manufacturers.default.order_state') != null)
+		} elseif ($app->getUserState('com_redshop.manufacturers.default.order_state') != null)
 		{
 			$order_by = $app->getUserState('com_redshop.manufacturers.default.order_state');
-		}
-		else
+		} else
 		{
 			$order_by = $params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD'));
 		}
@@ -184,8 +180,7 @@ class RedshopModelManufacturers extends RedshopModel
 		if ($layout == 'products')
 		{
 			$filter_order = 'mn.manufacturer_id';
-		}
-		else
+		} else
 		{
 			if (in_array($order_by, $this->filter_fields_manufacturer))
 			{
@@ -196,8 +191,7 @@ class RedshopModelManufacturers extends RedshopModel
 			elseif (in_array($params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD')), $this->filter_fields_manufacturer))
 			{
 				$filter_order = $params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD'));
-			}
-			else
+			} else
 			{
 				$filter_order = Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD');
 			}
@@ -249,7 +243,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$orderBy = $this->_buildProductOrderBy($template_data);
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
+		$rsUserhelper = rsUserHelper::getInstance();
 		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		$db = JFactory::getDbo();
@@ -334,7 +328,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildProductOrderBy($template_data = '')
 	{
-		$orderByObj  = RedshopHelperUtility::prepareOrderBy(
+		$orderByObj = RedshopHelperUtility::prepareOrderBy(
 			urldecode(
 				JFactory::getApplication()->input->getString('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD'))
 			)

@@ -26,8 +26,7 @@ class RedshopControllerProduct_category extends RedshopController
 		if ($model->saveProduct_Category())
 		{
 			$msg = JText::_('COM_REDSHOP_CATEGORY_ASSIGNED_TO_PRODUCT_SUCCESSFULLY');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_WHILE_ASSIGNING_CATEGORY_TO_PRODUCT');
 		}
@@ -43,9 +42,7 @@ class RedshopControllerProduct_category extends RedshopController
 		if ($model->removeProduct_Category())
 		{
 			$msg = JText::_('COM_REDSHOP_CATEGORY_REMOVED_FROM_PRODUCT_SUCCESSFULLY');
-		}
-
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_WHILE_REMOVING_CATEGORY_FROM_PRODUCT');
 		}

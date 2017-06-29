@@ -65,7 +65,7 @@ $field_section_drop = JRequest::getVar('field_section_drop');
 				</th>
 				<th class="order" width="10%">
 					<?php  echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'ordering', $this->lists['order_Dir'], $this->lists['order']); ?>
-					<?php  if ($ordering) echo JHTML::_('grid.order', $this->fields);  ?>
+					<?php  if ($ordering) echo JHTML::_('grid.order', $this->fields); ?>
 				</th>
 
 
@@ -95,21 +95,37 @@ $field_section_drop = JRequest::getVar('field_section_drop');
 
 					<td class="order" width="30%">
 						<?php
-						if ($row->section == 1) echo 'Product';
-						elseif ($row->section == 2) echo 'Category';
-						elseif ($row->section == 3) echo 'Form';
-						elseif ($row->section == 4) echo 'Email';
-						elseif ($row->section == 5) echo 'Confirmation';
-						elseif ($row->section == 6) echo 'Userinformations';
-						elseif ($row->section == 7) echo 'Customer Address';
-						elseif ($row->section == 8) echo 'Company Address';
-						elseif ($row->section == 9) echo 'Color sample';
-						elseif ($row->section == 10) echo 'Manufacturer';
-						elseif ($row->section == 11) echo 'Shipping';
-						elseif ($row->section == 12) echo 'Product UserField';
-						elseif ($row->section == 13) echo 'Giftcard UserField';
-						elseif ($row->section == 14) echo 'Customer shipping Address';
-						else  echo 'Company Shipping Address';
+						if ($row->section == 1) {
+							echo 'Product';
+						} elseif ($row->section == 2) {
+							echo 'Category';
+						} elseif ($row->section == 3) {
+							echo 'Form';
+						} elseif ($row->section == 4) {
+							echo 'Email';
+						} elseif ($row->section == 5) {
+							echo 'Confirmation';
+						} elseif ($row->section == 6) {
+							echo 'Userinformations';
+						} elseif ($row->section == 7) {
+							echo 'Customer Address';
+						} elseif ($row->section == 8) {
+							echo 'Company Address';
+						} elseif ($row->section == 9) {
+							echo 'Color sample';
+						} elseif ($row->section == 10) {
+							echo 'Manufacturer';
+						} elseif ($row->section == 11) {
+							echo 'Shipping';
+						} elseif ($row->section == 12) {
+							echo 'Product UserField';
+						} elseif ($row->section == 13) {
+							echo 'Giftcard UserField';
+						} elseif ($row->section == 14) {
+							echo 'Customer shipping Address';
+						} else {
+							echo 'Company Shipping Address';
+						}
 
 						?>
 

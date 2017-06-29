@@ -46,8 +46,7 @@ class RedshopControllerZipcode_detail extends RedshopController
 		if ($post["zipcode_to"] == "")
 		{
 			$row = $model->store($post);
-		}
-		else
+		} else
 		{
 			for ($i = $post["zipcode"]; $i <= $post["zipcode_to"]; $i++)
 			{
@@ -59,8 +58,7 @@ class RedshopControllerZipcode_detail extends RedshopController
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_IN_ZIPCODE_DETAIL');
 		}
@@ -68,8 +66,7 @@ class RedshopControllerZipcode_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg);
 		}

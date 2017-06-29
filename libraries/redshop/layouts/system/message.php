@@ -45,13 +45,16 @@ $allowClose  = (isset($displayData['allowClose'])) ? $displayData['allowClose'] 
                     </div>
 				<?php endforeach; ?>
             </div>
-		<?php else: ?>
+		<?php else {
+	: ?>
             <dl id="system-message">
 				<?php foreach ($msgList as $type => $msgs) : ?>
 					<?php if (!empty($msgs)) : ?>
 
 						<?php if ($showHeading) : ?>
-                            <dt class="<?php echo strtolower($type); ?>"><?php echo JText::_($type); ?></dt>
+                            <dt class="<?php echo strtolower($type);
+}
+?>"><?php echo JText::_($type); ?></dt>
 						<?php endif; ?>
 
                         <dd class="<?php echo strtolower($type); ?> message">

@@ -76,8 +76,7 @@ $query = $db->getQuery(true)
 if (!empty($ids))
 {
 	$query->where($db->qn('p.product_id') . ' IN (' . implode(',', $ids) . ')');
-}
-else
+} else
 {
 	$query->where($db->qn('p.product_id') . ' = 0');
 }

@@ -64,11 +64,11 @@ class PlgRedshop_ShippingDefault_Shipping_GLSBusiness extends JPlugin
 		for ($i = 0; $i < $countRate; $i++)
 		{
 			$rs = $ratelist[$i];
-			$shippingRate 			 	= $rs->shipping_rate_value;
-			$rs->shipping_rate_value 	= $shippinghelper->applyVatOnShippingRate($rs, $d);
-			$shippingVatRate		 	= $rs->shipping_rate_value - $shippingRate;
-			$economic_displaynumber		= $rs->economic_displaynumber;
-			$shipping_rate_id 			= RedshopShippingRate::encrypt(
+			$shippingRate = $rs->shipping_rate_value;
+			$rs->shipping_rate_value = $shippinghelper->applyVatOnShippingRate($rs, $d);
+			$shippingVatRate = $rs->shipping_rate_value - $shippingRate;
+			$economic_displaynumber = $rs->economic_displaynumber;
+			$shipping_rate_id = RedshopShippingRate::encrypt(
 											array(
 												__CLASS__,
 												$shipping->name,
@@ -85,7 +85,7 @@ class PlgRedshop_ShippingDefault_Shipping_GLSBusiness extends JPlugin
 			$shippingrate[$rate]->text 	= $rs->shipping_rate_name;
 			$shippingrate[$rate]->value = $shipping_rate_id;
 			$shippingrate[$rate]->rate 	= $rs->shipping_rate_value;
-			$shippingrate[$rate]->vat 	= $shippingVatRate;
+			$shippingrate[$rate]->vat = $shippingVatRate;
 			$rate++;
 		}
 

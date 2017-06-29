@@ -52,14 +52,12 @@ class RedshopControllerLogin extends RedshopController
 			{
 				$model->setlogin($username, $password);
 				$return = JRequest::getVar('return');
-			}
-			else
+			} else
 			{
 				$msg    = JText::_("COM_REDSHOP_SHOPPERGROUP_NOT_MATCH");
 				$return = "";
 			}
-		}
-		else
+		} else
 		{
 			$model->setlogin($username, $password);
 			$return = JRequest::getVar('return');
@@ -70,14 +68,12 @@ class RedshopControllerLogin extends RedshopController
 			$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
 			$this->setRedirect($wishreturn);
 
-		}
-		else
+		} else
 		{
 			if ($item)
 			{
 				$link = $item->link . '&Itemid=' . $returnitemid;
-			}
-			else
+			} else
 			{
 				$link = 'index.php?option=com_redshop&Itemid=' . $returnitemid;
 			}
@@ -89,8 +85,7 @@ class RedshopControllerLogin extends RedshopController
 				$return   = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false);
 
 				$this->setRedirect($return);
-			}
-			else
+			} else
 			{
 				$this->setRedirect($link, $msg);
 			}
@@ -114,8 +109,7 @@ class RedshopControllerLogin extends RedshopController
 		if ($item)
 		{
 			$link = JRoute::_($item->link . '&Itemid=' . $logout_itemid, false);
-		}
-		else
+		} else
 		{
 			$link = JRoute::_('index.php?option=com_redshop', false);
 		}

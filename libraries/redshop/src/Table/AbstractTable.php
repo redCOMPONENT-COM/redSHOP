@@ -143,8 +143,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 				{
 					$pk[$key] = $this->$key;
 				}
-			}
-			elseif (is_array($pk))
+			} elseif (is_array($pk))
 			{
 				foreach ($this->_tbl_keys AS $key)
 				{
@@ -185,8 +184,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 			{
 				$query->where($this->_db->quoteName($k) . ' = ' . $this->_db->quote($pk[$k]));
 			}
-		}
-		else
+		} else
 		{
 			$query->where($this->_db->quoteName($this->_tbl_key) . ' IN (' . $pk . ')');
 		}
@@ -278,8 +276,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 					. ' OR ' . $this->getColumnAlias('checked_out') . ' IS NULL'
 					. ' OR ' . $this->getColumnAlias('checked_out') . ' = ' . (int) $userId . ')');
 				$checkin = true;
-			}
-			else
+			} else
 			{
 				$checkin = false;
 			}
@@ -292,8 +289,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 			try
 			{
 				$this->_db->execute();
-			}
-			catch (\RuntimeException $e)
+			} catch (\RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
 
@@ -360,8 +356,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 		if ($this->hasPrimaryKey())
 		{
 			$result = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
-		}
-		else
+		} else
 		{
 			$result = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
 		}
@@ -396,8 +391,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 				$this->setError($error);
 
 				return false;
-			}
-			else
+			} else
 			{
 				// Specify how a new or moved node asset is inserted into the tree.
 				if (empty($this->asset_id) || $asset->parent_id != $parentId)
@@ -420,8 +414,7 @@ abstract class AbstractTable extends \JTable implements TableInterface
 					$this->setError($asset->getError());
 
 					return false;
-				}
-				else
+				} else
 				{
 					// Create an asset_id or heal one that is corrupted.
 					if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id)))

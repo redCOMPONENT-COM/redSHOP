@@ -33,16 +33,16 @@ defined('_JEXEC') or die;
             <tr>
                 <td><strong><?php echo JText::_('COM_REDSHOP_GD_IMAGE_LIBRARY'); ?></strong></td>
                 <td><?php if ($this->gd_check)
-                    {
-                        $gdinfo = gd_info();
-                        echo $gdinfo["GD Version"];
-                    }
-                    else echo JText::_('COM_REDSHOP_Disabled'); ?></td>
+					{
+						$gdinfo = gd_info();
+						echo $gdinfo["GD Version"];
+					}
+					else echo JText::_('COM_REDSHOP_Disabled'); ?></td>
             </tr>
             <tr>
                 <td><strong><?php echo JText::_('COM_REDSHOP_MULTIBYTE_STRING_SUPPORT'); ?></strong></td>
                 <td><?php if ($this->mb_check) echo JText::_('COM_REDSHOP_Enabled');
-                    else echo JText::_('COM_REDSHOP_Disabled'); ?></td>
+					else echo JText::_('COM_REDSHOP_Disabled'); ?></td>
             </tr>
             <tr>
                 <td><strong><?php echo JText::_('COM_REDSHOP_UPLOAD_LIMIT'); ?></strong></td>

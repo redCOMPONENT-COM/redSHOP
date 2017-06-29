@@ -36,9 +36,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						"<?php echo $productHelper->getProductFormattedPrice($row->order_total) ?>"
 					],
 				<?php endforeach; ?>
-			 <?php else: ?>
+			 <?php else {
+	: ?>
 				[0, 0, 0],
-			 <?php endif; ?>
+			 <?php endif;
+}
+?>
 		  ]);
 
 		var options = {
@@ -82,7 +85,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<div class="alert alert-info">
 		<p><?php echo JText::_('COM_REDSHOP_NO_DATA') ?></p>
 	</div>
-	<?php else: ?>
+	<?php else {
+	: ?>
 		<hr />
 	<div id="order_statistic_chart"></div>
 	<hr />
@@ -103,7 +107,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<tbody>
 		<?php foreach ($this->orders as $i => $row) : ?>
 			<tr>
-				<td align="center"><?php echo $row->viewdate; ?></td>
+				<td align="center"><?php echo $row->viewdate;
+}
+?></td>
 				<td align="center"><?php echo $row->count; ?></td>
 				<td style="text-align: right;"><?php echo $productHelper->getProductFormattedPrice($row->order_total) ?></td>
 			</tr>

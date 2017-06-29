@@ -28,15 +28,14 @@ class RedshopProductSlideshow
 	 */
 	public static function create_smart_xml_files($params, $moduleId = 0)
 	{
-		$cat_id    = $params->get('category_id', '0');
+		$cat_id = $params->get('category_id', '0');
 		$app = JFactory::getApplication();
 		$jInput = $app->input;
 
 		if (!is_array($cat_id))
 		{
 			$id = explode(",", trim($cat_id));
-		}
-		else
+		} else
 		{
 			$id = $cat_id;
 		}
@@ -95,7 +94,7 @@ class RedshopProductSlideshow
 		$isShowAbout       = trim($params->get('isShowAbout', ''));
 		$isShowAbout       = ($isShowAbout == "yes") ? 'true' : 'false';
 		$titleFont         = trim($params->get('titleFont', ''));
-		$xml_data_data     .= $xml_data_data_btns
+		$xml_data_data .= $xml_data_data_btns
 			. '
 </channel>
 <config>
@@ -211,7 +210,7 @@ class RedshopProductSlideshow
 		$producthelper = productHelper::getInstance();
 		$redhelper     = redhelper::getInstance();
 
-		for ($k = 0, $countRows = count($rows);$k < $countRows;$k++)
+		for ($k = 0, $countRows = count($rows); $k < $countRows; $k++)
 		{
 			$ret_array['flag'] = true;
 			$price_txt         = '';
@@ -220,8 +219,7 @@ class RedshopProductSlideshow
 			if (count($ItemData) > 0)
 			{
 				$Itemid = $ItemData->id;
-			}
-			else
+			} else
 			{
 				$Itemid = RedshopHelperUtility::getItemId($rows[$k]->product_id);
 			}
@@ -238,13 +236,12 @@ class RedshopProductSlideshow
 				$price_txt         .= $params->get('price_text', ': ');
 				$price_txt         .= ' ';
 
-				$pricetax          = $params->get('pricetax', 'yes');
+				$pricetax = $params->get('pricetax', 'yes');
 
 				if ($pricetax == 'yes')
 				{
 					$abs_price = $product_price_vat;
-				}
-				else
+				} else
 				{
 					$abs_price = $product_price;
 				}
@@ -259,8 +256,7 @@ class RedshopProductSlideshow
 			if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $rows[$k]->product_full_image))
 			{
 				$imgpath = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
-			}
-			else
+			} else
 			{
 				$imgpath = RedShopHelperImages::getImagePath(
 					$rows[$k]->product_full_image,

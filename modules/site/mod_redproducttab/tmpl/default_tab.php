@@ -23,10 +23,10 @@ $j     = 0;
 ?>
 <?php foreach ($rows as $row): ?>
 <?php $j++; ?>
-<?php if ($j%$nbRow == 1) : ?>
+<?php if ($j % $nbRow == 1) : ?>
 <div class="row <?php echo $containerClass; ?>">
 <?php  endif; ?>
-	<div class="span<?php echo (12/$productPerRow); ?> <?php echo $itemClass; ?>">
+	<div class="span<?php echo (12 / $productPerRow); ?> <?php echo $itemClass; ?>">
 	<?php
 		$category_id = $row->category_id;
 		$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
@@ -34,8 +34,7 @@ $j     = 0;
 		if (count($ItemData) > 0)
 		{
 			$Itemid = $ItemData->id;
-		}
-		else
+		} else
 		{
 			$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 		}
@@ -65,8 +64,7 @@ $j     = 0;
 				if (!$product_price)
 				{
 					$product_price_dis = $producthelper->getPriceReplacement($product_price);
-				}
-				else
+				} else
 				{
 					$product_price_dis = $producthelper->getProductFormattedPrice($product_price);
 				}
@@ -91,15 +89,13 @@ $j     = 0;
 								. ' '
 								. $producthelper->getProductFormattedPrice($product_price - $product_price_discount)
 							. '</div>';
-					}
-					else
+					} else
 					{
 						echo '<div class="mod_redshop_products_price">'
 								. $producthelper->getProductFormattedPrice($product_price_discount)
 							. '</div>';
 					}
-				}
-				else
+				} else
 				{
 					echo '<div class="mod_redshop_products_price">' . $product_price_dis . '</div>';
 				}
@@ -176,7 +172,7 @@ $j     = 0;
 
 		?>
 	</div>
-<?php if(($j%$nbRow == 0) || ($j == count($rows))) : ?>
+<?php if (($j % $nbRow == 0) || ($j == count($rows))) : ?>
 </div>
 <?php endif; ?>
 <?php endforeach; ?>

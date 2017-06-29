@@ -115,8 +115,7 @@ $extraSections = ($billingaddresses->is_company == 1) ? extraField::SECTION_COMP
 			if ($billingaddresses->tax_exempt == 1)
 			{
 				$tax_exempt = JText::_('COM_REDSHOP_TAX_YES');
-			}
-			else
+			} else
 			{
 				$tax_exempt = JText::_('COM_REDSHOP_TAX_NO');
 			}

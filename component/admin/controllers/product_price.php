@@ -87,8 +87,7 @@ class RedshopControllerProduct_price extends RedshopController
 						->where($db->qn('product_id') . ' = ' . $product_id)
 						->where($db->qn('price_id') . ' = ' . $price_id[$i])
 						->where($db->qn('shopper_group_id') . ' = ' . $shopper_group_id[$i]);
-				}
-				else
+				} else
 				{
 					$query->clear()
 						->delete($db->qn('#__redshop_product_price'))
@@ -96,8 +95,7 @@ class RedshopControllerProduct_price extends RedshopController
 						->where($db->qn('price_id') . ' = ' . $price_id[$i])
 						->where($db->qn('shopper_group_id') . ' = ' . $shopper_group_id[$i]);
 				}
-			}
-			elseif (!empty($price))
+			} elseif (!empty($price))
 			{
 				$query->clear()
 					->insert($db->qn('#__redshop_product_price'))

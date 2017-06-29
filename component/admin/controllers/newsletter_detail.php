@@ -47,8 +47,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_NEWSLETTER_DETAIL');
 		}
@@ -56,8 +55,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=newsletter_detail&task=edit&cid[]=' . $row->newsletter_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=newsletter', $msg);
 		}
@@ -93,9 +91,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 		if ($val == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_DEFAULT_NEWSLETTER_CAN_NOT_BE_DELETED');
-		}
-
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_NEWSLETTER_DETAIL_DELETED_SUCCESSFULLY');
 		}
@@ -118,8 +114,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_NEWSLETTER_COPIED_WITH_SUBSCRIBER');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_COPYING_NEWSLETTER');
 		}

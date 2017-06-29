@@ -42,8 +42,7 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ACCOUNTGROUP_DETAIL');
 		}
@@ -51,8 +50,7 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=accountgroup_detail&task=edit&cid[]=' . $row->accountgroup_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
 		}

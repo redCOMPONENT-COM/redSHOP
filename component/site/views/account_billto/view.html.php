@@ -65,8 +65,7 @@ class RedshopViewAccount_billto extends RedshopView
 		if ($billingaddresses->is_company)
 		{
 			$lists['extra_field_company'] = $extra_field->list_all_field(8, $billingaddresses->users_info_id);
-		}
-		else
+		} else
 		{
 			$lists['extra_field_user'] = $extra_field->list_all_field(7, $billingaddresses->users_info_id);
 		}

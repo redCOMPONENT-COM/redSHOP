@@ -20,8 +20,9 @@ if ($is_company != 1)
 
 $extra_field = extra_field::getInstance();
 
-if (!isset($billing->order_info_id))
+if (!isset($billing->order_info_id)) {
 	$billing->order_info_id = 0;
+}
 
 $Itemid = JRequest::getVar('Itemid');
 ?>
@@ -149,7 +150,10 @@ $Itemid = JRequest::getVar('Itemid');
                                value="<?php echo @$billing->city; ?>"/>
                     </td>
                 </tr>
-                <tr <?php if ($this->showcountry == 0) echo " style='display:none;'"; ?>>
+                <tr <?php if ($this->showcountry == 0) {
+	echo " style='display:none;'";
+}
+?>>
                     <td width="100" align="right" class="key">
                         <label for="contact_info">
 							<?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:
@@ -159,7 +163,10 @@ $Itemid = JRequest::getVar('Itemid');
 						<?php echo $this->lists['country_code']; ?>
                     </td>
                 </tr>
-                <tr id="div_state_txt" <?php if ($this->showstate == 0) echo " style='display:none;'"; ?> >
+                <tr id="div_state_txt" <?php if ($this->showstate == 0) {
+	echo " style='display:none;'";
+}
+?> >
                     <td width="100" align="right" class="key">
                         <label for="address">
 							<?php echo JText::_('COM_REDSHOP_STATE'); ?>:
@@ -222,8 +229,7 @@ $Itemid = JRequest::getVar('Itemid');
 				if ($is_company)
 				{
 					echo $extra_field->list_all_field(8, $billing->users_info_id);
-				}
-				else
+				} else
 				{
 					echo $extra_field->list_all_field(7, $billing->users_info_id);
 				}

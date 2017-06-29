@@ -32,11 +32,11 @@ $thumbUrl = RedShopHelperImages::getImagePath(
 		}
 
 		if (form.stock_amount_image_tooltip.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_STOCKIMAGE_TOOLTIP_MUST_HAVE_A_NAME', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_STOCKIMAGE_TOOLTIP_MUST_HAVE_A_NAME', true); ?>");
 		} else if (form.stock_option.value == 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_STOCKIMAGE_OPTION_MUST_HAVE_VALUE', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_STOCKIMAGE_OPTION_MUST_HAVE_VALUE', true); ?>");
 		} else if (form.stock_quantity.value == "" || isNaN(form.stock_quantity.value)) {
-			alert("<?php echo JText::_('COM_REDSHOP_STOCKIMAGE_QUANTITY_MUST_HAVE_VALUE', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_STOCKIMAGE_QUANTITY_MUST_HAVE_VALUE', true); ?>");
 		} else {
 			submitform(pressbutton);
 		}
@@ -59,13 +59,13 @@ $thumbUrl = RedShopHelperImages::getImagePath(
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_STOCKROOM_NAME'); ?>:
 					</td>
-					<td><?php echo $this->lists['stockroom_id'];?></td>
+					<td><?php echo $this->lists['stockroom_id']; ?></td>
 				</tr>
 				<tr>
 					<td width="100" align="right"
 					    class="key"><?php echo JText::_('COM_REDSHOP_STOCK_AMOUNT_OPTION_LBL'); ?>:
 					</td>
-					<td><?php echo $this->lists['stock_option'];?></td>
+					<td><?php echo $this->lists['stock_option']; ?></td>
 				</tr>
 				<tr>
 					<td valign="top" align="right"

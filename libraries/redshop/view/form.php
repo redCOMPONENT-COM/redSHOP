@@ -146,8 +146,7 @@ class RedshopViewForm extends AbstractView
 		if ($isNew)
 		{
 			JToolbarHelper::cancel($this->getInstanceName() . '.cancel');
-		}
-		else
+		} else
 		{
 			JToolbarHelper::cancel($this->getInstanceName() . '.cancel', JText::_('JTOOLBAR_CLOSE'));
 		}

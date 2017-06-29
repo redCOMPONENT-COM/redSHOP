@@ -40,26 +40,26 @@ $query = $db->getQuery(true)
 
 switch ($ScrollSortMethod)
 {
-	case 'random':
-		$orderBy = "RAND()";
-		break;
-	case 'newest':
-		$orderBy = "p.publish_date DESC";
-		break;
-	case 'oldest':
-		$orderBy = "p.publish_date ASC";
-		break;
-	case 'mostsold':
-		$orderBy = "orderItems.qty DESC";
-		$subQuery = $db->getQuery(true)
-			->select('SUM(' . $db->qn('oi.product_quantity') . ') AS qty, oi.product_id')
-			->from($db->qn('#__redshop_order_item', 'oi'))
-			->group('oi.product_id');
-		$query->select('orderItems.qty')
-			->leftJoin('(' . $subQuery . ') orderItems ON orderItems.product_id = p.product_id');
-		break;
-	default:
-		$orderBy = "p.product_id";
+		case 'random':
+			$orderBy = "RAND()";
+			break;
+		case 'newest':
+			$orderBy = "p.publish_date DESC";
+			break;
+		case 'oldest':
+			$orderBy = "p.publish_date ASC";
+			break;
+		case 'mostsold':
+			$orderBy = "orderItems.qty DESC";
+			$subQuery = $db->getQuery(true)
+				->select('SUM(' . $db->qn('oi.product_quantity') . ') AS qty, oi.product_id')
+				->from($db->qn('#__redshop_order_item', 'oi'))
+				->group('oi.product_id');
+			$query->select('orderItems.qty')
+				->leftJoin('(' . $subQuery . ') orderItems ON orderItems.product_id = p.product_id');
+			break;
+		default:
+			$orderBy = "p.product_id";
 }
 
 $query->order($orderBy);

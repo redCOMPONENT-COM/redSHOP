@@ -50,8 +50,9 @@ class gsGiropay
 
 		// Implementierung f�r PHP4
 		$b = 64; // Byte length for md5
-		if (strlen($key) > $b)
-			$key = pack("H*", md5($key));
+		if (strlen($key) > $b) {
+					$key = pack("H*", md5($key));
+		}
 		$key = str_pad($key, $b, chr(0x00));
 		$ipad = str_pad('', $b, chr(0x36));
 		$opad = str_pad('', $b, chr(0x5c));
@@ -137,8 +138,9 @@ class gsGiropay
 	 */
 	public function codeIsOK($gpCode)
 	{
-		if (in_array($gpCode, $this->CodesOK))
-			return true;
+		if (in_array($gpCode, $this->CodesOK)) {
+					return true;
+		}
 
 		return false;
 	}
@@ -152,8 +154,9 @@ class gsGiropay
 	 */
 	public function codeIsUnbekannt($gpCode)
 	{
-		if (in_array($gpCode, $this->CodesUnbekannt))
-			return true;
+		if (in_array($gpCode, $this->CodesUnbekannt)) {
+					return true;
+		}
 
 		return false;
 	}
@@ -167,8 +170,9 @@ class gsGiropay
 	 */
 	public function codeIsFehler($gpCode)
 	{
-		if (!in_array($gpCode, $this->CodesOK) && !in_array($gpCode, $this->CodesUnbekannt))
-			return true;
+		if (!in_array($gpCode, $this->CodesOK) && !in_array($gpCode, $this->CodesUnbekannt)) {
+					return true;
+		}
 
 		return false;
 	}

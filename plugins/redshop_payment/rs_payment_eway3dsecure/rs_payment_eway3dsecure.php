@@ -97,8 +97,7 @@ class PlgRedshop_Paymentrs_Payment_Eway3dsecure extends JPlugin
 					$error = $service->getMessage($error);
 					$app->enqueueMessage($error, 'warning');
 				}
-			}
-			else
+			} else
 			{
 				$values->order_status_code = $verify_status;
 				$values->order_payment_status_code = 'PAID';

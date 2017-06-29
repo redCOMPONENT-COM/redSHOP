@@ -23,7 +23,7 @@ $model = $this->getModel('newsletter_detail');
 		}
 
 		if (form.name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_NEWSLETTER_ITEM_MUST_HAVE_A_NAME', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_NEWSLETTER_ITEM_MUST_HAVE_A_NAME', true); ?>");
 		} else {
 			submitform(pressbutton);
 		}
@@ -68,7 +68,7 @@ $model = $this->getModel('newsletter_detail');
 						</label>
 					</td>
 					<td>
-						<?php echo $editor->display("body", $this->detail->body, '$widthPx', '$heightPx', '100', '20');    ?>
+						<?php echo $editor->display("body", $this->detail->body, '$widthPx', '$heightPx', '100', '20'); ?>
 					</td>
 				</tr>
 				<tr>

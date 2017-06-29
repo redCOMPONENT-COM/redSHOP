@@ -56,8 +56,7 @@ class RedshopModelUser_detail extends RedshopModel
 	{
 		if ($this->_loadData())
 		{
-		}
-		else
+		} else
 		{
 			$this->_initData();
 		}
@@ -99,8 +98,7 @@ class RedshopModelUser_detail extends RedshopModel
 			$this->_data = (object) $data;
 
 			return (boolean) $this->_data;
-		}
-		elseif (empty($this->_data))
+		} elseif (empty($this->_data))
 		{
 			$detail = new stdClass;
 
@@ -183,8 +181,7 @@ class RedshopModelUser_detail extends RedshopModel
 		if ($post['createaccount'])
 		{
 			$joomlauser = $userhelper->createJoomlaUser($post);
-		}
-		else
+		} else
 		{
 			$joomlauser = $userhelper->updateJoomlaUser($post);
 		}
@@ -219,8 +216,7 @@ class RedshopModelUser_detail extends RedshopModel
 			$post['phone_ST'] = $post['phone'];
 
 			$reduser = $userhelper->storeRedshopUserShipping($post);
-		}
-		else
+		} else
 		{
 			$post['billisship'] = 1;
 			$joomlauser = $userhelper->updateJoomlaUser($post);

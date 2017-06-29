@@ -26,7 +26,7 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 	 * @param   array   $config   An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
-     * @since   1.0.0
+	 * @since   1.0.0
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -40,8 +40,8 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 	 * Get Bundle Product type
 	 *
 	 * @return  array Bundle Product type
-     *
-     * @since   1.0.0
+	 *
+	 * @since   1.0.0
 	 */
 	public function onListProductTypes()
 	{
@@ -54,12 +54,12 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 	 * @param   object  $product  Product detail
 	 *
 	 * @return  void
-     *
-     * @since   1.0.0
+	 *
+	 * @since   1.0.0
 	 */
 	public function onDisplayProductTypeData($product)
 	{
-		$db     = JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -78,8 +78,7 @@ class PlgRedshop_Product_TypeBundle extends JPlugin
 
 		echo RedshopLayoutHelper::render(
 			'bundle',
-			array
-			(
+			array(
 				'product'    => $product,
 				'bundleData' => $bundleData
 			),

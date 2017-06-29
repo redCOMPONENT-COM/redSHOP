@@ -116,16 +116,14 @@ class Currency
 			if (date('w') > 0 && date('w') < 6 && $storeFileDate != $dateNowLocal && $timeNowLocal > $timeECBUpdate)
 			{
 				$currentFile = $ecbFile;
-			}
-			else
+			} else
 			{
 				$currentFile = $storeFile;
 
 				$this->lastUpdated = $storeFileDate;
 				$this->archive     = false;
 			}
-		}
-		else
+		} else
 		{
 			$currentFile = $ecbFile;
 		}
@@ -143,28 +141,24 @@ class Currency
 			{
 				// Fetch the file from the internet
 				$contents = file_get_contents($currentFile);
-			}
-			catch (\Exception $e)
+			} catch (\Exception $e)
 			{
 			}
 
 			if (!$contents)
 			{
 				$app->enqueueMessage("ERROR_RESOLVING_HOST");
-			}
-			else
+			} else
 			{
 				$this->lastUpdated = date('Ymd');
 			}
-		}
-		else
+		} else
 		{
 			try
 			{
 				// Fetch the file from the internet
 				$contents = file_get_contents($currentFile);
-			}
-			catch (\Exception $e)
+			} catch (\Exception $e)
 			{
 			}
 		}

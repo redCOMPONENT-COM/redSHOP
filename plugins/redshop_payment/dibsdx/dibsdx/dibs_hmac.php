@@ -14,7 +14,9 @@ class dibs_hmac
 			{
 				if ($key != "MAC" && $key != "view" && $key != "task")
 				{ // Don't include the MAC in the calculation of the MAC.
-					if (strlen($string) > 0) $string .= "&";
+					if (strlen($string) > 0) {
+						$string .= "&";
+					}
 					$string .= "$key=$value"; // Create string representation
 				}
 			}
@@ -54,8 +56,9 @@ class dibs_hmac
 				fwrite($fp, "messageToBeSigned: " . $messageToBeSigned . PHP_EOL
 					. " HmacKey: " . $HmacKey . PHP_EOL . " generated MAC: " . $MAC . PHP_EOL);
 
-				if (isset($formKeyValues["MAC"]) && $formKeyValues["MAC"] != "")
-					fwrite($fp, " posted MAC:    " . $formKeyValues["MAC"] . PHP_EOL);
+				if (isset($formKeyValues["MAC"]) && $formKeyValues["MAC"] != "") {
+									fwrite($fp, " posted MAC:    " . $formKeyValues["MAC"] . PHP_EOL);
+				}
 			}
 
 			return $MAC;

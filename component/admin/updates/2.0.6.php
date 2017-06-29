@@ -89,7 +89,7 @@ class RedshopUpdate206 extends RedshopInstallUpdate
 
 		$rootId = $db->insertid();
 
-		$query      = $db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select('c.*')
 			->select($db->qn('cx.category_parent_id', 'parent_id'))
 			->from($db->qn('#__redshop_category', 'c'))

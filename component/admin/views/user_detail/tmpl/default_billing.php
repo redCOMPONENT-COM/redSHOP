@@ -14,8 +14,7 @@ $allowCompany  = '';
 if (!$this->shipping && $this->detail->is_company == 1)
 {
 	$allowCustomer = 'style="display:none;"';
-}
-else
+} else
 {
 	$allowCompany = 'style="display:none;"';
 }
@@ -131,16 +130,14 @@ $statestyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
 						{
 							echo '<div id="exCompanyField">' . $this->lists['shipping_company_field'] . '</div>';
 						}
-					}
-					else
+					} else
 					{
 						if ($this->lists['shipping_customer_field'] != "")
 						{
 							echo '<div id="exCustomerField">' . $this->lists['shipping_customer_field'] . '</div>';
 						}
 					}
-				}
-				else
+				} else
 				{
 					if ($this->lists['customer_field'] != "")
 					{

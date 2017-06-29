@@ -63,8 +63,7 @@ class RedshopViewFields extends RedshopViewList
 		if ($config['dataCol'] == 'type')
 		{
 			return RedshopHelperTemplate::getFieldTypeSections($row->type);
-		}
-		elseif ($config['dataCol'] == 'section')
+		} elseif ($config['dataCol'] == 'section')
 		{
 			return RedshopHelperTemplate::getFieldSections($row->section);
 		}

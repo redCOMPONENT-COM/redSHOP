@@ -18,9 +18,9 @@ $producthelper = productHelper::getInstance();
 			return;
 		}
 		if (form.wrapper_name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_ENTER_WRAPPER_NAME');?>");
+			alert("<?php echo JText::_('COM_REDSHOP_ENTER_WRAPPER_NAME'); ?>");
 		} else if (isNaN(form.wrapper_price.value)) {
-			alert("<?php echo JText::_('COM_REDSHOP_WRAPPER_PRICE_NOT_VALID');?>");
+			alert("<?php echo JText::_('COM_REDSHOP_WRAPPER_PRICE_NOT_VALID'); ?>");
 			form.wrapper_price.focus();
 		} else {
 			submitform(pressbutton);
@@ -49,7 +49,7 @@ $producthelper = productHelper::getInstance();
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 			<table class="admintable" width="90%">
 				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_WRAPPER_NAME');?>
+					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_WRAPPER_NAME'); ?>
 					<span class="star text-danger"> *</span></td>
 					<td><input class="text_area" type="text" name="wrapper_name" id="wrapper_name" size="32"
 					           maxlength="250" value="<?php echo $this->detail->wrapper_name; ?>"/>
@@ -57,7 +57,7 @@ $producthelper = productHelper::getInstance();
 					</td>
 				</tr>
 				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_WRAPPER_PRICE');?></td>
+					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_WRAPPER_PRICE'); ?></td>
 					<td><input class="text_area" type="text" name="wrapper_price" id="wrapper_price" size="10"
 					           maxlength="10"
 					           value="<?php echo $producthelper->redpriceDecimal($this->detail->wrapper_price); ?>"/>
@@ -68,21 +68,21 @@ $producthelper = productHelper::getInstance();
 				{ ?>
 					<tr>
 						<td width="100" align="right"
-						    class="key"><?php echo JText::_('COM_REDSHOP_CATEGORY_NAME');?></td>
-						<td><?php echo $this->lists['category_name'];    ?></td>
+						    class="key"><?php echo JText::_('COM_REDSHOP_CATEGORY_NAME'); ?></td>
+						<td><?php echo $this->lists['category_name']; ?></td>
 					</tr>
 				<?php }    ?>
 					<tr>
-						<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME');?></td>
-						<td><?php echo $this->lists['product_name'];?>
+						<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></td>
+						<td><?php echo $this->lists['product_name']; ?>
 						</td>
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key"
-						    valign="top"><?php echo JText::_('COM_REDSHOP_WRAPPER_IMAGE');?></td>
+						    valign="top"><?php echo JText::_('COM_REDSHOP_WRAPPER_IMAGE'); ?></td>
 						<td><input class="text_area" type="file" name="wrapper_image" id="wrapper_image"/>
 							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WRAPPER_IMAGE'), JText::_('COM_REDSHOP_WRAPPER_IMAGE'), 'tooltip.png', '', '', false); ?>
-							<?php $wimage_path = 'wrapper/' . $this->detail->wrapper_image;?>
+							<?php $wimage_path = 'wrapper/' . $this->detail->wrapper_image; ?>
 						</td>
 					</tr>
 					<tr>

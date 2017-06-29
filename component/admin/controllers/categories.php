@@ -56,8 +56,7 @@ class RedshopControllerCategories extends RedshopControllerAdmin
 		if ($model->assignTemplate($post))
 		{
 			$msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
 		}

@@ -132,8 +132,8 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
 	protected function getHeader()
 	{
 		return array(
-			'product_number','product_name','product_price','price_quantity_start','price_quantity_end','discount_price',
-			'discount_start_date','discount_end_date','shopper_group_id','shopper_group_name'
+			'product_number', 'product_name', 'product_price', 'price_quantity_start', 'price_quantity_end', 'discount_price',
+			'discount_start_date', 'discount_end_date', 'shopper_group_id', 'shopper_group_name'
 		);
 	}
 }

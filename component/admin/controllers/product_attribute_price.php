@@ -63,15 +63,13 @@ class RedshopControllerProduct_attribute_price extends RedshopController
 						. " price_quantity_start = '" . $price_quantity_start[$i] . "', price_quantity_end = '" . $price_quantity_end[$i] . "' "
 						. " WHERE section_id='" . $section_id . "' AND section= '" . $section . "' AND price_id = '" . $price_id[$i]
 						. "' AND shopper_group_id = '" . $shopper_group_id[$i] . "' ";
-				}
-				else
+				} else
 				{
 					$sql = "DELETE FROM  #__redshop_product_attribute_price   WHERE section_id='" . $section_id . "' AND section= '"
 						. $section . "' AND price_id = '" . $price_id[$i] . "' AND shopper_group_id = '"
 						. $shopper_group_id[$i] . "' ";
 				}
-			}
-			elseif ($price[$i] != '')
+			} elseif ($price[$i] != '')
 			{
 				$sql = "INSERT INTO  #__redshop_product_attribute_price  SET product_price='" . $price[$i] . "', price_quantity_start = '"
 					. $price_quantity_start[$i] . "' , price_quantity_end = '" . $price_quantity_end[$i] . "' , section_id='"

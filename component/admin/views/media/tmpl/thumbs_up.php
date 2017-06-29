@@ -10,17 +10,20 @@
 $fid = JRequest::getVar('fid');
 $fsec = JRequest::getVar('fsec');
 $link = "index.php?tmpl=component&option=com_redshop&amp;view=media&amp;layout=thumbs";
-if (isset($fsec))
+if (isset($fsec)) {
 	$link .= "&amp;fsec=" . $fsec;
-if (isset($fid))
+}
+if (isset($fid)) {
 	$link .= "&amp;fid=" . $fid;
+}
 
 $link .= "&amp;folder=" . $this->state->parent;
 
 $fdownload = JRequest::getInt('fdownload');
 $extra_arg = "";
-if ($fdownload)
+if ($fdownload) {
 	$extra_arg = "&fdownload=1";
+}
 ?>
 <div class="imgOutline">
 	<div class="imgTotal">

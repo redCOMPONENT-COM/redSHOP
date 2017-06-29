@@ -143,8 +143,7 @@ class RedshopModelCategories extends RedshopModelList
 			if (stripos($search, 'id:') === 0)
 			{
 				$query->where($db->qn('c.id') . ' = ' . $db->q((int) substr($search, 3)));
-			}
-			else
+			} else
 			{
 				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where($db->qn('c.name') . ' LIKE ' . $search);

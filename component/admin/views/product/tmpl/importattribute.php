@@ -88,7 +88,7 @@ if (isset($post['import_end']))
 <form action="<?php echo $this->request_url; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<fieldset>
-			<legend><?php echo JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_LOG');?></legend>
+			<legend><?php echo JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_LOG'); ?></legend>
 			<table class="admintable" cellpadding="3" cellspacing="0" border="0">
 				<tr>
 					<td>

@@ -36,7 +36,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 
 		// Prepare categories list.
 		$products = RedshopHelperProduct::getList();
-		$options    = array();
+		$options = array();
 
 		foreach ($products as $product)
 		{
@@ -149,11 +149,11 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_price'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_image'))
 			->select($db->quote('0') . ' AS ' . $db->qn('delete'))
-			->select($db->quote('') . ' AS '. $db->qn('media_name'))
-			->select($db->quote('') . ' AS '. $db->qn('media_alternate_text'))
-			->select($db->quote('') . ' AS '. $db->qn('media_section'))
-			->select($db->quote('') . ' AS '. $db->qn('media_published'))
-			->select($db->quote('') . ' AS '. $db->qn('media_ordering'))
+			->select($db->quote('') . ' AS ' . $db->qn('media_name'))
+			->select($db->quote('') . ' AS ' . $db->qn('media_alternate_text'))
+			->select($db->quote('') . ' AS ' . $db->qn('media_section'))
+			->select($db->quote('') . ' AS ' . $db->qn('media_published'))
+			->select($db->quote('') . ' AS ' . $db->qn('media_ordering'))
 			->from($db->qn('#__redshop_product', 'p'))
 			->innerJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id'));
 
@@ -194,18 +194,18 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_price'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_image'))
 			->select($db->quote('0') . ' AS ' . $db->qn('delete'))
-			->select($db->qn('m.media_name') . ' AS '. $db->qn('media_name'))
-			->select($db->qn('m.media_alternate_text') . ' AS '. $db->qn('media_alternate_text'))
-			->select($db->qn('m.media_section') . ' AS '. $db->qn('media_section'))
-			->select($db->qn('m.published') . ' AS '. $db->qn('media_published'))
-			->select($db->qn('m.ordering') . ' AS '. $db->qn('media_ordering'))
+			->select($db->qn('m.media_name') . ' AS ' . $db->qn('media_name'))
+			->select($db->qn('m.media_alternate_text') . ' AS ' . $db->qn('media_alternate_text'))
+			->select($db->qn('m.media_section') . ' AS ' . $db->qn('media_section'))
+			->select($db->qn('m.published') . ' AS ' . $db->qn('media_published'))
+			->select($db->qn('m.ordering') . ' AS ' . $db->qn('media_ordering'))
 			->from($db->qn('#__redshop_product', 'p'))
 			->innerJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id'))
 			->innerJoin(
 				$db->qn('#__redshop_product_attribute_property', 'ap') . ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
 			)
 			->leftJoin(
-				$db->qn('#__redshop_media', 'm') . ' ON ' . $db->qn('m.section_id') . ' = ' .$db->qn('ap.property_id')
+				$db->qn('#__redshop_media', 'm') . ' ON ' . $db->qn('m.section_id') . ' = ' . $db->qn('ap.property_id')
 			)
 			->where($db->qn('m.media_section') . ' = ' . $db->q('property'))
 			->order($db->qn('product_number') . ',' . $db->qn('property_ordering'));
@@ -247,11 +247,11 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->qn('sp.subattribute_color_price'))
 			->select($db->qn('sp.subattribute_color_image'))
 			->select($db->quote('0') . ' AS ' . $db->qn('delete'))
-			->select($db->qn('m1.media_name') . ' AS '. $db->qn('media_name'))
-			->select($db->qn('m1.media_alternate_text') . ' AS '. $db->qn('media_alternate_text'))
-			->select($db->qn('m1.media_section') . ' AS '. $db->qn('media_section'))
-			->select($db->qn('m1.published') . ' AS '. $db->qn('media_published'))
-			->select($db->qn('m1.ordering') . ' AS '. $db->qn('media_ordering'))
+			->select($db->qn('m1.media_name') . ' AS ' . $db->qn('media_name'))
+			->select($db->qn('m1.media_alternate_text') . ' AS ' . $db->qn('media_alternate_text'))
+			->select($db->qn('m1.media_section') . ' AS ' . $db->qn('media_section'))
+			->select($db->qn('m1.published') . ' AS ' . $db->qn('media_published'))
+			->select($db->qn('m1.ordering') . ' AS ' . $db->qn('media_ordering'))
 			->from($db->qn('#__redshop_product', 'p'))
 			->innerJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id'))
 			->innerJoin(
@@ -261,7 +261,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 				$db->qn('#__redshop_product_subattribute_color', 'sp') . ' ON ' . $db->qn('ap.property_id') . ' = ' . $db->qn('sp.subattribute_id')
 			)
 			->leftJoin(
-				$db->qn('#__redshop_media', 'm1') . ' ON ' . $db->qn('m1.section_id') . ' = ' .$db->qn('sp.subattribute_color_id')
+				$db->qn('#__redshop_media', 'm1') . ' ON ' . $db->qn('m1.section_id') . ' = ' . $db->qn('sp.subattribute_color_id')
 			)
 			->where($db->qn('m1.media_section') . ' = ' . $db->q('subproperty'))
 			->order($db->qn('product_number') . ',' . $db->qn('subattribute_color_ordering'));
@@ -289,11 +289,11 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	protected function getHeader()
 	{
 		return array(
-			'product_number','attribute_name','attribute_ordering','allow_multiple_selection','hide_attribute_price','attribute_required',
-			'display_type','property_name','property_stock','property_ordering','property_virtual_number','setdefault_selected','setrequire_selected',
-			'setdisplay_type', 'oprand','property_price','property_image','property_main_image','subattribute_color_name', 'subattribute_stock',
-			'subattribute_color_ordering','subattribute_setdefault_selected','subattribute_color_title','subattribute_virtual_number',
-			'subattribute_color_oprand','required_sub_attribute','subattribute_color_price','subattribute_color_image','delete',
+			'product_number', 'attribute_name', 'attribute_ordering', 'allow_multiple_selection', 'hide_attribute_price', 'attribute_required',
+			'display_type', 'property_name', 'property_stock', 'property_ordering', 'property_virtual_number', 'setdefault_selected', 'setrequire_selected',
+			'setdisplay_type', 'oprand', 'property_price', 'property_image', 'property_main_image', 'subattribute_color_name', 'subattribute_stock',
+			'subattribute_color_ordering', 'subattribute_setdefault_selected', 'subattribute_color_title', 'subattribute_virtual_number',
+			'subattribute_color_oprand', 'required_sub_attribute', 'subattribute_color_price', 'subattribute_color_image', 'delete',
 			'media_name', 'media_alternate_text', 'media_section', 'media_published', 'media_ordering'
 		);
 	}

@@ -58,7 +58,7 @@ if ($app->input->getInt('dashboard', 0))
 			if (sel_discount_flag) {
 				if (form.discount_type.value == "0" || form.discount_type.value == "") {
 					alert("<?php
-				echo JText::_('COM_REDSHOP_PLEASE_SELECT_DISCOUNT_TYPE' );
+				echo JText::_('COM_REDSHOP_PLEASE_SELECT_DISCOUNT_TYPE');
 				?>");
 					return false;
 				}
@@ -68,27 +68,27 @@ if ($app->input->getInt('dashboard', 0))
 				if (form.economic_integration[i].value == 1 && form.economic_integration[i].checked) {
 					if (form.default_economic_account_group.value == 0) {
 						alert("<?php
-					echo JText::_('COM_REDSHOP_SELECT_ECONOMIC_ACCOUNTING_GROUP' );
+					echo JText::_('COM_REDSHOP_SELECT_ECONOMIC_ACCOUNTING_GROUP');
 					?>");
 						form.default_economic_account_group.focus();
 						return false;
 					}
 
 					if (form.economic_invoice_draft.value == 2 && form.booking_order_status.value == '0') {
-						alert("<?php echo JText::_('COM_REDSHOP_SELECT_BOOK_INVOICE_ORDER_STATUS' );?>");
+						alert("<?php echo JText::_('COM_REDSHOP_SELECT_BOOK_INVOICE_ORDER_STATUS'); ?>");
 						form.booking_order_status.focus();
 						return false;
 					}
 				}
 			}
 			if (form.thousand_seperator.value == "'" || form.thousand_seperator.value == '"') {
-				alert("<?php echo JText::_('COM_REDSHOP_INVALID_THOUSAND_SEPERATOR' );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_INVALID_THOUSAND_SEPERATOR'); ?>");
 				form.thousand_seperator.value = '';
 				form.thousand_seperator.focus();
 				return false;
 			}
 			if (form.price_seperator.value == "'" || form.price_seperator.value == '"') {
-				alert("<?php echo JText::_('COM_REDSHOP_INVALID_PRICE_SEPERATOR' );?>");
+				alert("<?php echo JText::_('COM_REDSHOP_INVALID_PRICE_SEPERATOR'); ?>");
 				form.price_seperator.value = '';
 				form.price_seperator.focus();
 				return false;
@@ -174,10 +174,10 @@ if ($app->input->getInt('dashboard', 0))
 			var output = request.responseText;
 			if (output == 0) {
 				document.getElementById('responce_clear').style.color = "red";
-				document.getElementById('responce_clear').innerHTML = "<?php echo JText::_('COM_REDSHOP_NO_DATA_DELETE' ); ?>";
+				document.getElementById('responce_clear').innerHTML = "<?php echo JText::_('COM_REDSHOP_NO_DATA_DELETE'); ?>";
 			} else {
 				document.getElementById('responce_clear').style.color = "green";
-				document.getElementById('responce_clear').innerHTML = output + " <?php echo JText::_('COM_REDSHOP_RECORDS_DELETED');?>";
+				document.getElementById('responce_clear').innerHTML = output + " <?php echo JText::_('COM_REDSHOP_RECORDS_DELETED'); ?>";
 			}
 		}
 	}

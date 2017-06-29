@@ -16,8 +16,7 @@ $category = $params->get('category', '');
 if (is_array($category))
 {
 	$category = implode(',', $category);
-}
-else
+} else
 {
 	$category = trim($category);
 }

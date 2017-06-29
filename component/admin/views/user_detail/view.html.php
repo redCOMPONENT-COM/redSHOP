@@ -43,8 +43,7 @@ class RedshopViewUser_detail extends RedshopViewAdmin
 			JToolbarHelper::title(
 				JText::_('COM_REDSHOP_USER_SHIPPING_DETAIL') . ': <small><small>[ '
 				. $text . ' ]</small></small>', 'user redshop_user48');
-		}
-		else
+		} else
 		{
 			JToolbarHelper::title(
 				JText::_('COM_REDSHOP_USER_MANAGEMENT_DETAIL') . ': <small><small>[ '
@@ -58,8 +57,7 @@ class RedshopViewUser_detail extends RedshopViewAdmin
 		if ($isNew)
 		{
 			JToolbarHelper::cancel();
-		}
-		else
+		} else
 		{
 			JToolbarHelper::custom('order', 'redshop_order32', '', JText::_('COM_REDSHOP_PLACE_ORDER'), false);
 			JToolbarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));

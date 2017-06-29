@@ -28,8 +28,7 @@ class RedshopControllerDiscount_detail extends RedshopController
 		{
 			$this->input->set('layout', 'product');
 
-		}
-		else
+		} else
 		{
 			$this->input->set('layout', 'default');
 		}
@@ -66,8 +65,7 @@ class RedshopControllerDiscount_detail extends RedshopController
 				$post['discount_product_id'] = $cid[0];
 				$row                         = $model->storeDiscountProduct($post);
 				$did                         = $row->discount_product_id;
-			}
-			else
+			} else
 			{
 				$post['discount_id'] = $cid[0];
 				$row                 = $model->store($post);
@@ -78,14 +76,12 @@ class RedshopControllerDiscount_detail extends RedshopController
 			{
 				$model->saveShoppers($did, $post['shopper_group_id']);
 				$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_SAVED');
-			}
-			else
+			} else
 			{
 				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_DISCOUNT_DETAIL');
 				$canSave = false;
 			}
-		}
-		else
+		} else
 		{
 			$row                      = new stdClass;
 			$row->discount_product_id = $cid[0];
@@ -100,20 +96,16 @@ class RedshopControllerDiscount_detail extends RedshopController
 			if (isset($layout) && $layout == 'product')
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=discount_detail&layout=product&task=edit&cid[]=' . $row->discount_product_id, $msg, $msgType);
-			}
-			else
+			} else
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=discount_detail&task=edit&cid[]=' . $row->discount_id, $msg, $msgType);
 			}
-		}
-		else
+		} else
 		{
 			if (isset($layout) && $layout == 'product')
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=discount&layout=product', $msg);
-			}
-
-			else
+			} else
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=discount', $msg);
 			}
@@ -128,8 +120,7 @@ class RedshopControllerDiscount_detail extends RedshopController
 		if (isset($layout) && $layout == 'product')
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=discount&layout=product', $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=discount', $msg);
 		}

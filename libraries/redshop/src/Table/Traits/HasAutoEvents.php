@@ -396,8 +396,7 @@ trait HasAutoEvents
 			if (!empty($src['name']))
 			{
 				$src['alias'] = $src['name'];
-			}
-			elseif (!empty($src['title']))
+			} elseif (!empty($src['title']))
 			{
 				$src['alias'] = $src['title'];
 			}
@@ -424,13 +423,13 @@ trait HasAutoEvents
 		if (property_exists($this, 'created_by')
 			&& empty($src['created_by']) && (is_null($this->created_by) || empty($this->created_by)))
 		{
-			$src['created_by']   = $userId;
+			$src['created_by'] = $userId;
 		}
 
 		if (property_exists($this, 'created_user_id')
 			&& empty($src['created_user_id']) && empty($this->created_user_id))
 		{
-			$src['created_user_id']   = $userId;
+			$src['created_user_id'] = $userId;
 		}
 
 		if (property_exists($this, 'created_date')
@@ -449,12 +448,12 @@ trait HasAutoEvents
 
 		if (property_exists($this, 'modified_by') && empty($src['modified_by']))
 		{
-			$src['modified_by']   = $userId;
+			$src['modified_by'] = $userId;
 		}
 
 		if (property_exists($this, 'modified_user_id') && empty($src['modified_user_id']))
 		{
-			$src['modified_user_id']   = $userId;
+			$src['modified_user_id'] = $userId;
 		}
 
 		if (property_exists($this, 'modified_date')
@@ -819,8 +818,7 @@ trait HasAutoEvents
 			if ($user->id)
 			{
 				$tableInstance->{$tableFieldCreatedBy} = $user->id;
-			}
-			else
+			} else
 			{
 				$tableInstance->{$tableFieldCreatedBy} = null;
 			}
@@ -843,8 +841,7 @@ trait HasAutoEvents
 			if ($user->id)
 			{
 				$tableInstance->{$tableFieldModifiedBy} = $user->id;
-			}
-			else
+			} else
 			{
 				$tableInstance->{$tableFieldModifiedBy} = null;
 			}

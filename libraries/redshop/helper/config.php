@@ -238,8 +238,7 @@ class RedshopHelperConfig
 			elseif (file_exists($legacyConfig->configDistPath))
 			{
 				$configFile = $legacyConfig->configDistPath;
-			}
-			else
+			} else
 			{
 				throw new Exception(JText::_('LIB_REDSHOP_LEGACY_CONFIG_FILE_IS_NOT_EXIST'));
 			}
@@ -260,8 +259,7 @@ class RedshopHelperConfig
 			$this->save(new Registry($configDataArray));
 
 			return true;
-		}
-		catch (Exception $e)
+		} catch (Exception $e)
 		{
 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 

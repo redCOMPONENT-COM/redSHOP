@@ -61,8 +61,7 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$cart        = array();
 				$cart['idx'] = 0;
-			}
-			elseif (isset($cart['idx']) === false)
+			} elseif (isset($cart['idx']) === false)
 			{
 				$cart['idx'] = 0;
 			}
@@ -95,8 +94,7 @@ class RedshopModelCheckout extends RedshopModel
 		if ($noOFGIFTCARD == $idx)
 		{
 			$cart['free_shipping'] = 1;
-		}
-		elseif ($cart['free_shipping'] != 1)
+		} elseif ($cart['free_shipping'] != 1)
 		{
 			$cart['free_shipping'] = 0;
 		}
@@ -122,8 +120,7 @@ class RedshopModelCheckout extends RedshopModel
 		if (isset($data['user_id']) && $data['user_id'])
 		{
 			$joomlauser = $this->_userhelper->updateJoomlaUser($data);
-		}
-		else
+		} else
 		{
 			$joomlauser = $this->_userhelper->createJoomlaUser($data);
 		}
@@ -384,8 +381,7 @@ class RedshopModelCheckout extends RedshopModel
 				}
 
 				$order_paymentstatus = $paymentResponse->paymentStatus;
-			}
-			else
+			} else
 			{
 				if ($values['payment_plugin'] != 'rs_payment_localcreditcard')
 				{
@@ -582,8 +578,7 @@ class RedshopModelCheckout extends RedshopModel
 				$old_media                = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage'];
 				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $rowitem->attribute_image;
 				copy($old_media, $new_media);
-			}
-			elseif (!empty($vals[1]))
+			} elseif (!empty($vals[1]))
 			{
 				$rowitem->attribute_image = $vals[1];
 			}
@@ -601,8 +596,7 @@ class RedshopModelCheckout extends RedshopModel
 				$rowitem->product_id             = $cart [$i] ['giftcard_id'];
 				$rowitem->order_item_name        = $giftcardData->giftcard_name;
 				$rowitem->product_item_old_price = $cart [$i] ['product_price'];
-			}
-			else
+			} else
 			{
 				$rowitem->product_id             = $product_id;
 				$rowitem->product_item_old_price = $cart [$i] ['product_old_price'];
@@ -653,7 +647,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			if (!empty($cart[$i]['reciver_name']))
 			{
-				$rowitem->giftcard_user_name  = $cart[$i]['reciver_name'];
+				$rowitem->giftcard_user_name = $cart[$i]['reciver_name'];
 			}
 
 			if ($this->_producthelper->checkProductDownload($rowitem->product_id))
@@ -685,8 +679,7 @@ class RedshopModelCheckout extends RedshopModel
 			if (isset($cart [$i] ['giftcard_id']) && $cart [$i] ['giftcard_id'])
 			{
 				$section_id = 13;
-			}
-			else
+			} else
 			{
 				$section_id = 12;
 			}
@@ -1187,8 +1180,7 @@ class RedshopModelCheckout extends RedshopModel
 		if (!Redshop::getConfig()->get('ORDER_MAIL_AFTER') || (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $row->order_payment_status == "Paid"))
 		{
 			$this->_redshopMail->sendOrderMail($row->order_id);
-		}
-		elseif (Redshop::getConfig()->get('ORDER_MAIL_AFTER') == 1)
+		} elseif (Redshop::getConfig()->get('ORDER_MAIL_AFTER') == 1)
 		{
 			// If Order mail set to send after payment then send mail to administrator only.
 			$this->_redshopMail->sendOrderMail($row->order_id, true);
@@ -1327,8 +1319,7 @@ class RedshopModelCheckout extends RedshopModel
 		if ($user->id)
 		{
 			$list = $this->_order_functions->getBillingAddress($user->id);
-		}
-		elseif ($auth['users_info_id'])
+		} elseif ($auth['users_info_id'])
 		{
 			$uid  = - $auth['users_info_id'];
 			$list = $this->_order_functions->getBillingAddress($uid);
@@ -1357,8 +1348,7 @@ class RedshopModelCheckout extends RedshopModel
 		if ($user->id)
 		{
 			$list = $this->_order_functions->getShippingAddress($user->id);
-		}
-		else
+		} else
 		{
 			$uid  = - $auth['users_info_id'];
 			$list = $this->_order_functions->getShippingAddress($uid);
@@ -1624,7 +1614,7 @@ class RedshopModelCheckout extends RedshopModel
 				if ($calc > 9)
 				{
 					$checksum++;
-					$calc     = $calc - 10;
+					$calc = $calc - 10;
 				}
 
 				// Add the units element to the checksum total
@@ -1634,8 +1624,7 @@ class RedshopModelCheckout extends RedshopModel
 				if ($j == 1)
 				{
 					$j = 2;
-				}
-				else
+				} else
 				{
 					$j = 1;
 				}
@@ -1712,20 +1701,16 @@ class RedshopModelCheckout extends RedshopModel
 		if ($type == "American")
 		{
 			$denum = "American Express";
-		}
-		elseif ($type == "Dinners")
+		} elseif ($type == "Dinners")
 		{
 			$denum = "Diner's Club";
-		}
-		elseif ($type == "Discover")
+		} elseif ($type == "Discover")
 		{
 			$denum = "Discover";
-		}
-		elseif ($type == "Master")
+		} elseif ($type == "Master")
 		{
 			$denum = "Master Card";
-		}
-		elseif ($type == "Visa")
+		} elseif ($type == "Visa")
 		{
 			$denum = "Visa";
 		}
@@ -1738,8 +1723,7 @@ class RedshopModelCheckout extends RedshopModel
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
-			}
-			else
+			} else
 			{
 				$verified = false;
 			}
@@ -1753,8 +1737,7 @@ class RedshopModelCheckout extends RedshopModel
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
-			}
-			else
+			} else
 			{
 				$verified = false;
 			}
@@ -1769,8 +1752,7 @@ class RedshopModelCheckout extends RedshopModel
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
-			}
-			else
+			} else
 			{
 				$verified = false;
 			}
@@ -1785,8 +1767,7 @@ class RedshopModelCheckout extends RedshopModel
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
-			}
-			else
+			} else
 			{
 				$verified = false;
 			}
@@ -1801,8 +1782,7 @@ class RedshopModelCheckout extends RedshopModel
 			if (preg_match($pattern, $cc_num))
 			{
 				$verified = true;
-			}
-			else
+			} else
 			{
 				$verified = false;
 			}
@@ -1849,8 +1829,7 @@ class RedshopModelCheckout extends RedshopModel
 			if ($row->percent_or_total == 1)
 			{
 				$coupon_amount = ($cart['product_subtotal'] * $row->coupon_value) / (100);
-			}
-			else
+			} else
 			{
 				$coupon_amount = $row->coupon_value;
 			}
@@ -1883,8 +1862,9 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (isset($cart['voucher']))
 		{
-			if ($this->discount_type)
-				$this->discount_type .= '@';
+			if ($this->discount_type) {
+							$this->discount_type .= '@';
+			}
 
 			for ($i = 0; $i < count($cart['voucher']); $i++)
 			{
@@ -2013,8 +1993,9 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			$shipArr['order_shipping_rate'] = $order_shipping[3];
 
-			if (array_key_exists(6, $order_shipping))
-				$shipArr['shipping_vat'] = $order_shipping [6];
+			if (array_key_exists(6, $order_shipping)) {
+							$shipArr['shipping_vat'] = $order_shipping [6];
+			}
 		}
 
 		return $shipArr;
@@ -2051,7 +2032,7 @@ class RedshopModelCheckout extends RedshopModel
 		$paymentMethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentMethod = $paymentMethod[0];
 
-		$paymentMethod->params               = new JRegistry($paymentMethod->params);
+		$paymentMethod->params = new JRegistry($paymentMethod->params);
 		$is_creditcard               = $paymentMethod->params->get('is_creditcard', '');
 		$payment_oprand              = $paymentMethod->params->get('payment_oprand', '');
 		$payment_discount_is_percent = $paymentMethod->params->get('payment_discount_is_percent', '');
@@ -2068,8 +2049,7 @@ class RedshopModelCheckout extends RedshopModel
 		if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 		{
 			$paymentAmount = $cart ['product_subtotal'];
-		}
-		else
+		} else
 		{
 			$paymentAmount = $cart ['total'];
 		}
@@ -2100,8 +2080,7 @@ class RedshopModelCheckout extends RedshopModel
 		if ($thirdparty_email != "")
 		{
 			$thirdparty_emailvalue = $thirdparty_email;
-		}
-		elseif (isset($cart['thirdparty_email']))
+		} elseif (isset($cart['thirdparty_email']))
 		{
 			$thirdparty_emailvalue = $cart['thirdparty_email'];
 		}
@@ -2118,8 +2097,7 @@ class RedshopModelCheckout extends RedshopModel
 		if ($customer_note != "")
 		{
 			$customernotevalue = $customer_note;
-		}
-		elseif (isset($cart['customer_note']))
+		} elseif (isset($cart['customer_note']))
 		{
 			$customernotevalue = $cart['customer_note'];
 		}
@@ -2129,8 +2107,7 @@ class RedshopModelCheckout extends RedshopModel
 		if ($req_number != "")
 		{
 			$requisition_number = $req_number;
-		}
-		elseif (isset($cart['requisition_number']))
+		} elseif (isset($cart['requisition_number']))
 		{
 			$requisition_number = $cart['requisition_number'];
 		}
@@ -2169,12 +2146,10 @@ class RedshopModelCheckout extends RedshopModel
 			if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '')
 			{
 				$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
-			}
-			elseif ($catItemId = RedshopHelperUtility::getCategoryItemid())
+			} elseif ($catItemId = RedshopHelperUtility::getCategoryItemid())
 			{
 				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
-			}
-			else
+			} else
 			{
 				$shopmorelink = JRoute::_('index.php');
 			}
@@ -2202,8 +2177,7 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			$shippinPriceWithVat = $this->_producthelper->getProductFormattedPrice($cart ['shipping']);
 			$shippinPrice        = $this->_producthelper->getProductFormattedPrice($cart ['shipping'] - $cart['shipping_vat']);
-		}
-		else
+		} else
 		{
 			$template_desc = str_replace("{shipping_lbl}", '', $template_desc);
 			$template_desc = str_replace("{tax_with_shipping_lbl}", '', $template_desc);
@@ -2337,8 +2311,7 @@ class RedshopModelCheckout extends RedshopModel
 			$order_number = $order_functions->generateOrderNumber();
 
 			return $order_number;
-		}
-		else
+		} else
 		{
 			return $this->getOrdernumber();
 		}

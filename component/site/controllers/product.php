@@ -69,7 +69,7 @@ class RedshopControllerProduct extends RedshopController
 	{
 		ob_clean();
 
-		$get  = JRequest::get('get');
+		$get = JRequest::get('get');
 
 		$producthelper   = productHelper::getInstance();
 		$carthelper      = rsCarthelper::getInstance();
@@ -197,10 +197,9 @@ class RedshopControllerProduct extends RedshopController
 			{
 				$result['attrbimg'] = $pluginResults['attrbimg'];
 			}
-		}
-		else
+		} else
 		{
-			$result            = $producthelper->displayAdditionalImage(
+			$result = $producthelper->displayAdditionalImage(
 									$product_id,
 									$accessory_id,
 									$relatedprd_id,
@@ -228,7 +227,7 @@ class RedshopControllerProduct extends RedshopController
 		$notifyStock                   = $result['notifyStock'];
 		$product_availability_date_lbl = $result['product_availability_date_lbl'];
 		$product_availability_date     = $result['product_availability_date'];
-		$additional_vids			   = $result['additional_vids'];
+		$additional_vids = $result['additional_vids'];
 
 		echo "`_`" . $response
 			. "`_`" . $aHrefImageResponse
@@ -294,8 +293,7 @@ class RedshopControllerProduct extends RedshopController
 				if (isset($post[$field_name]))
 				{
 					$data_txt = $post[$field_name];
-				}
-				else
+				} else
 				{
 					$data_txt = '';
 				}
@@ -318,8 +316,7 @@ class RedshopControllerProduct extends RedshopController
 
 				$index++;
 			}
-		}
-		else
+		} else
 		{
 			$post    = $input->post->getArray();
 			$proname = RedshopHelperProduct::getProductById($post['product_id']);
@@ -333,8 +330,7 @@ class RedshopControllerProduct extends RedshopController
 				if (isset($post[$field_name]))
 				{
 					$data_txt = $post[$field_name];
-				}
-				else
+				} else
 				{
 					$data_txt = '';
 				}
@@ -393,25 +389,21 @@ class RedshopControllerProduct extends RedshopController
 				if ($model->addToWishlist($post))
 				{
 					$app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
-				}
-				else
+				} else
 				{
 					$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_SAVING_WISHLIST'));
 				}
-			}
-			else
+			} else
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
 			}
-		}
-		else
+		} else
 		{
 			// User can store wishlist in session
 			if ($model->addtowishlist2session($post))
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_SAVE_SUCCESSFULLY'));
-			}
-			else
+			} else
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_ALLREADY_ADDED_TO_WISHLIST'));
 			}
@@ -426,16 +418,14 @@ class RedshopControllerProduct extends RedshopController
 			if ($finalproductimgname != '')
 			{
 				$mainimg = "product/" . $finalproductimgname;
-			}
-			else
+			} else
 			{
 				$mainimg = 'noimage.jpg';
 			}
 
 			echo "<span id='basketWrap' ><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=" . $Itemid . "&pid=" . $post['product_id'] . "'><img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . $mainimg . "' height='30' width='30'/></a></span>:-:" . $proname->product_name . "";
 			exit;
-		}
-		elseif ($wishlistId == 1)
+		} elseif ($wishlistId == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshopwishlist=1&view=login&Itemid=' . $Itemid);
 		}
@@ -489,11 +479,12 @@ class RedshopControllerProduct extends RedshopController
 					{
 						if ($tag->product_id == $productid)
 						{
-							if ($tag->users_id != $userid)
-								$counter = $tag->tags_counter + 1;
+							if ($tag->users_id != $userid) {
+															$counter = $tag->tags_counter + 1;
+							}
+						} else {
+													$counter = $tag->tags_counter + 1;
 						}
-						else
-							$counter = $tag->tags_counter + 1;
 
 						$ntag['tags_id'] = $tag->tags_id;
 						$ntag['tags_name'] = $tag->tags_name;
@@ -502,8 +493,7 @@ class RedshopControllerProduct extends RedshopController
 						$ntag['product_id'] = $productid;
 						$ntag['users_id'] = $userid;
 					}
-				}
-				else
+				} else
 				{
 					$ntag['tags_id'] = 0;
 					$ntag['tags_name'] = $tagname;
@@ -518,13 +508,11 @@ class RedshopControllerProduct extends RedshopController
 					$model->addProductTagsXref($ntag, $tags);
 
 					$app->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_TAGS_ARE_ADDED'));
-				}
-				else
+				} else
 				{
 					$app->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ERROR_ADDING_TAGS'));
 				}
-			}
-			else
+			} else
 			{
 				$app->enqueueMessage($tagname . '&nbsp;' . JText::_('COM_REDSHOP_ALLREADY_ADDED'));
 			}
@@ -557,8 +545,7 @@ class RedshopControllerProduct extends RedshopController
 			{
 				//$compare->deleteItem();
 				$compare->addItem($item);
-			}
-			elseif ($app->input->getCmd('cmd') == 'remove')
+			} elseif ($app->input->getCmd('cmd') == 'remove')
 			{
 				$compare->deleteItem($item);
 			}
@@ -568,8 +555,7 @@ class RedshopControllerProduct extends RedshopController
 				'html' => $compare->getAjaxResponse(),
 				'total' => $compare->getItemsTotal()
 			);
-		}
-		catch (Exception $e)
+		} catch (Exception $e)
 		{
 			$response = array(
 				'success' => false,
@@ -649,14 +635,12 @@ class RedshopControllerProduct extends RedshopController
 
 				$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $download_id . "&Itemid=" . $Itemid, $msg);
 
-			}
-			else
+			} else
 			{
 				$msg = JText::_("COM_REDSHOP_DOWNLOAD_LIMIT_OVER");
 				$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=" . $Itemid, $msg);
 			}
-		}
-		else
+		} else
 		{
 			$msg = JText::_("COM_REDSHOP_TOKEN_VERIFICATION_FAIL");
 			$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct&Itemid=" . $Itemid, $msg);
@@ -693,8 +677,7 @@ class RedshopControllerProduct extends RedshopController
 			$msg = JText::_("COM_REDSHOP_DOWNLOAD_LIMIT_OVER");
 			$this->setRedirect("index.php?option=com_redshop&view=product&layout=downloadproduct", $msg);
 
-		}
-		elseif (isset($post['mainindex']) && isset($post['additional']))
+		} elseif (isset($post['mainindex']) && isset($post['additional']))
 		{
 			$task = $post['mainindex'];
 
@@ -706,15 +689,13 @@ class RedshopControllerProduct extends RedshopController
 
 				$name = $finalname[0]->media_name;
 
-			}
-			elseif ($task == "additional")
+			} elseif ($task == "additional")
 			{
 				$finalname = $model->AdditionaldownloadProduct(0, $id);
 
 				$name = $finalname[0]->name;
 			}
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_NO_FILE_SELECTED');
 			$this->setRedirect('index.php?option=com_redshop&view=product&layout=downloadproduct&tid=' . $tid, $msg);
@@ -890,15 +871,13 @@ class RedshopControllerProduct extends RedshopController
 						. "<span>" . $fileName . "</span>"
 						. "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;" . JText::_('COM_REDSHOP_DELETE') . "</a>"
 					. "</li>";
-			}
-			else
+			} else
 			{
 				// WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
 				// Otherwise onSubmit event will not be fired
 				echo "error";
 			}
-		}
-		else
+		} else
 		{
 			echo '<li class="error">' . JText::_('COM_REDSHOP_NO_FILE_SELECTED') . '</li>';
 		}
@@ -1043,8 +1022,7 @@ class RedshopControllerProduct extends RedshopController
 		if (count($ItemData) > 0)
 		{
 			$pItemid = $ItemData->id;
-		}
-		else
+		} else
 		{
 			$pItemid = RedshopHelperUtility::getItemId($post['pid'], $cid);
 		}
@@ -1073,8 +1051,7 @@ class RedshopControllerProduct extends RedshopController
 		if (count($ItemData) > 0)
 		{
 			$pItemid = $ItemData->id;
-		}
-		else
+		} else
 		{
 			$pItemid = RedshopHelperUtility::getItemId($post['pid'], $cid);
 		}

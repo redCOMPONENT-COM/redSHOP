@@ -61,10 +61,10 @@ JHtml::_('redshopjquery.framework');
         var form = document.adminForm;
         if (form.boxchecked.value == 0) {
             jQuery('#product_template').val(0).trigger("liszt:updated");
-            alert('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT');?>');
+            alert('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_PRODUCT'); ?>');
         } else {
             form.task.value = 'assignTemplate';
-            if (confirm("<?php echo JText::_('COM_REDSHOP_SURE_WANT_TO_ASSIGN_TEMPLATE');?>")) {
+            if (confirm("<?php echo JText::_('COM_REDSHOP_SURE_WANT_TO_ASSIGN_TEMPLATE'); ?>")) {
                 form.submit();
             } else {
                 jQuery('#product_template').val(0).trigger("liszt:updated");
@@ -89,25 +89,25 @@ JHtml::_('redshopjquery.framework');
         <div class="btn-wrapper input-append">
             <input type="text" name="keyword" id="keyword" value="<?php echo $this->keyword; ?>" placeholder="<?php echo JText::_("COM_REDSHOP_USER_FILTER") ?>">
             <input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-            <input type="button" class="btn reset" onclick="resetFilter();this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+            <input type="button" class="btn reset" onclick="resetFilter();this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
         </div>
     </div>
     <div class="filterItem">
         <select id="search_field" name="search_field" onchange="javascript:document.adminForm.submit();">
             <option
-                value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>>
+                value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'"; ?>>
                 <?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
             <option
-                value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'";?>>
+                value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'"; ?>>
                 <?php echo JText::_("COM_REDSHOP_CATEGORY")?></option>
             <option
-                value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'";?>
+                value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'"; ?>
                 ><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER")?></option>
             <option
-                value="p.name_number" <?php if ($this->search_field == 'p.name_number') echo "selected='selected'";?>
+                value="p.name_number" <?php if ($this->search_field == 'p.name_number') echo "selected='selected'"; ?>
                 ><?php echo JText::_("COM_REDSHOP_PRODUCT") . ' ' . JText::_("COM_REDSHOP_NAME_AND_NUMBER"); ?></option>
             <option
-                value="pa.property_number" <?php if ($this->search_field == 'pa.property_number') echo "selected='selected'";?>>
+                value="pa.property_number" <?php if ($this->search_field == 'pa.property_number') echo "selected='selected'"; ?>>
                 <?php echo JText::_("COM_REDSHOP_ATTRIBUTE_SKU")?></option>
         </select>
     </div>
@@ -139,9 +139,9 @@ JHtml::_('redshopjquery.framework');
     </th>
     <?php
 
-    for ($i = 0, $n = count($this->list_in_products); $i < $n; $i++)
-    {
-        ?>
+	for ($i = 0, $n = count($this->list_in_products); $i < $n; $i++)
+	{
+		?>
         <th nowrap="nowrap"><?php echo  JText::_($this->list_in_products[$i]->title); ?></th>
     <?php }    ?>
     <th>
@@ -170,16 +170,16 @@ JHtml::_('redshopjquery.framework');
         <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'p.product_id', $this->lists['order_Dir'], $this->lists['order']); ?>
     </th>
     <?php if ($category_id > 0)
-    {
-        ?>
+	{
+		?>
         <th width="15%" nowrap="nowrap">
             <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'x.ordering', $this->lists['order_Dir'], $this->lists['order']); ?>
             <?php
-            if ($ordering)
-            {
-                echo JHTML::_('grid.order', $this->products);
-            }
-            ?>
+			if ($ordering)
+			{
+				echo JHTML::_('grid.order', $this->products);
+			}
+			?>
         </th>
     <?php } ?>
 </tr>
@@ -191,16 +191,16 @@ $k = 0;
 
 for ($i = 0, $n = count($this->products); $i < $n; $i++)
 {
-    $row = $this->products[$i];
+	$row = $this->products[$i];
 
-    $row->id = $row->product_id;
-    $link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
+	$row->id = $row->product_id;
+	$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
-    //  $published  = JHtml::_('jgrid.published', $row->published, $i,'',1);
+	//  $published  = JHtml::_('jgrid.published', $row->published, $i,'',1);
 
-    $published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
+	$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
-    ?>
+	?>
     <tr class="<?php echo "row$k"; ?>">
         <td>
             <?php echo $this->pagination->getRowOffset($i); ?>
@@ -211,92 +211,92 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
         <td>
             <?php
 
-            $canCheckin = $user->authorise('core.manage', 'com_checkin') || $row->checked_out == $userId || $row->checked_out == 0;
-            ?>
+			$canCheckin = $user->authorise('core.manage', 'com_checkin') || $row->checked_out == $userId || $row->checked_out == 0;
+			?>
             <?php if ($row->checked_out) : ?>
                 <?php $checkedOut = JFactory::getUser($row->checked_out); ?>
                 <?php echo JHtml::_('jgrid.checkedout', $i, $checkedOut->name, $row->checked_out_time, 'product.', $canCheckin); ?>
             <?php endif; ?>
             <?php
-            if ($canCheckin)
-            {
-                if (isset($row->children))
-                {
-                    ?>
+			if ($canCheckin)
+			{
+				if (isset($row->children))
+				{
+					?>
                     <a href="<?php echo $link; ?>"
                        title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>"><?php echo $row->treename; ?></a>
                 <?php
-                }
-                else
-                {
-                    if ($row->product_parent_id == 0)
-                    {
-                        ?>
+				}
+				else
+				{
+					if ($row->product_parent_id == 0)
+					{
+						?>
                         <a href="<?php echo $link; ?>"
                            title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>"><?php echo $row->treename; ?></a>
                     <?php
-                    }
-                    else
-                    {
-                        $pro_array = Redshop::product((int) $row->product_parent_id);
+					}
+					else
+					{
+						$pro_array = Redshop::product((int) $row->product_parent_id);
 
-                        ?>
+						?>
                         <a href="<?php echo $link; ?>"
                            title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>"><?php echo $row->treename; ?> </a>[child: <?php echo $pro_array->product_name; ?>]
                     <?php
-                    }
-                }
-            }
-            else
-            {
-                ?>
+					}
+				}
+			}
+			else
+			{
+				?>
                 <?php
-                if (isset($row->children))
-                {
-                    ?>
+				if (isset($row->children))
+				{
+					?>
                     <a href="<?php echo $link; ?>"
                        title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>"><?php echo $row->treename; ?></a>
                 <?php
-                }
-                else
-                {
-                    if ($row->product_parent_id == 0)
-                    {
-                        ?>
+				}
+				else
+				{
+					if ($row->product_parent_id == 0)
+					{
+						?>
                         <a href="<?php echo $link; ?>"
                            title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>"><?php echo $row->treename; ?></a>
                     <?php
-                    }
-                    else
-                    {
-                        $pro_array = Redshop::product((int) $row->product_parent_id);
+					}
+					else
+					{
+						$pro_array = Redshop::product((int) $row->product_parent_id);
 
-                        ?>
+						?>
                         <a href="<?php echo $link; ?>"
                            title="<?php echo JText::_('COM_REDSHOP_EDIT_PRODUCT'); ?>"><?php echo $row->treename; ?> </a>[child: <?php echo $pro_array->product_name; ?>]
                     <?php
-                    }
-                }
-                ?>
+					}
+				}
+				?>
             <?php
-            }
-            ?>
+			}
+			?>
         </td>
         <td>
-            <?php echo $row->product_number;?>
+            <?php echo $row->product_number; ?>
         </td>
         <td class="nowrap">
-            <?php echo $producthelper->getProductFormattedPrice($row->product_price);?>
+            <?php echo $producthelper->getProductFormattedPrice($row->product_price); ?>
         </td>
 
         <?php    for ($j = 0, $k = count($this->list_in_products); $j < $k; $j++)
-        {
-            $field_arr = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->id, 1, $row->product_id);
-            $field_value = '';
-            if (count($field_arr) > 0)
-            {
-                $field_value = $field_arr->data_txt;
-            }    ?>
+		{
+			$field_arr = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->id, 1, $row->product_id);
+			$field_value = '';
+			if (count($field_arr) > 0)
+			{
+				$field_value = $field_arr->data_txt;
+			}    ?>
             <td><?php echo $field_value;  ?></td>
         <?php }    ?>
 
@@ -306,18 +306,18 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
                href="index.php?option=com_redshop&view=media&section_id=<?php echo $row->product_id; ?>&showbuttons=1&media_section=product&section_name=<?php echo $row->product_name; ?>&tmpl=component"
                rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""> <img
                     src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
-                    alt="media"> (<?php  echo count($mediadetail);?>)</a>
+                    alt="media"> (<?php  echo count($mediadetail); ?>)</a>
         </td>
         <td align="center">
-            <?php $wrapper = $producthelper->getWrapper($row->product_id, 0, 1);?>
+            <?php $wrapper = $producthelper->getWrapper($row->product_id, 0, 1); ?>
             <a class="joom-box"
                href="index.php?option=com_redshop&showall=1&view=wrapper&product_id=<?php echo $row->product_id; ?>&tmpl=component"
                rel="{handler: 'iframe', size: {x: 700, y: 450}}">
                 <img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
-                     alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"> <?php echo "(" . count($wrapper) . ")";?></a>
+                     alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"> <?php echo "(" . count($wrapper) . ")"; ?></a>
         </td>
         <td align="center">
-            <?php echo $row->visited;?>
+            <?php echo $row->visited; ?>
         </td>
 
 		<td>
@@ -335,7 +335,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			<a href="index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=0&pid=<?php echo $row->product_id ?>"><?php echo JText::_('COM_REDSHOP_ADD_REVIEW'); ?></a>
 		</td>
 		<td align="center" width="8%">
-			<?php echo $published;?>
+			<?php echo $published; ?>
 		</td>
 		<td align="center" width="5%">
 			<?php echo $row->product_id; ?>
@@ -357,8 +357,11 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 						<?php endif; ?>
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="width-20 text-area-order" />
 					</div>
-				<?php else : ?>
-					<?php echo $row->ordering; ?>
+				<?php else {
+	: ?>
+					<?php echo $row->ordering;
+}
+?>
 				<?php endif; ?>
 				</td>
 		<?php } ?>

@@ -45,8 +45,7 @@ class RedshopViewDiscount_detail extends RedshopViewAdmin
 			$this->setLayout('product');
 
 			$isNew = ($detail->discount_product_id < 1);
-		}
-		else
+		} else
 		{
 			$isNew = ($detail->discount_id < 1);
 		}
@@ -60,8 +59,7 @@ class RedshopViewDiscount_detail extends RedshopViewAdmin
 		if ($isNew)
 		{
 			JToolBarHelper::cancel();
-		}
-		else
+		} else
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
@@ -83,8 +81,7 @@ class RedshopViewDiscount_detail extends RedshopViewAdmin
 		if (isset($detail->category_ids) === true)
 		{
 			$detail->category_ids = explode(',', $detail->category_ids);
-		}
-		else
+		} else
 		{
 			$detail->category_ids = array();
 		}

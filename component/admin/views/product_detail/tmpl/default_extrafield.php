@@ -65,8 +65,11 @@ foreach ($fields as $field)
 						)
 					);
 					?>
-				<?php else: ?>
-					<?php echo $html; ?>
+				<?php else {
+	: ?>
+					<?php echo $html;
+}
+?>
 				<?php endif; ?>
             </div>
         </div>

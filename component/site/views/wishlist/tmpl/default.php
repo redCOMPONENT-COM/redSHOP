@@ -37,7 +37,7 @@ $Itemid = $input->getInt('Itemid', 0);
 	<form name="newwishlistForm" method="post" action="">
 		<div class="row">
 			<div class="col-sm-4 span4">
-				<label for="txtWishlistname"><?php echo JText::_('COM_REDSHOP_WISHLIST_NAME');?>:</label>
+				<label for="txtWishlistname"><?php echo JText::_('COM_REDSHOP_WISHLIST_NAME'); ?>:</label>
 			</div>
 			<div class="col-sm-8 span8">
 				<input type="input" class="form-control" name="txtWishlistname" id="txtWishlistname" />
@@ -55,8 +55,11 @@ $Itemid = $input->getInt('Itemid', 0);
 				<a href="<?PHP echo $mywishlist_link; ?>">
 					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"/>
 				</a>
-			<?php else : ?>
-				<input type="button" class="btn" value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"
+			<?php else {
+	: ?>
+				<input type="button" class="btn" value="<?php echo JText::_('COM_REDSHOP_CANCEL');
+}
+?>"
 					   onclick="window.parent.SqueezeBox.close();"/>
 			<?php endif; ?>
 			</div>

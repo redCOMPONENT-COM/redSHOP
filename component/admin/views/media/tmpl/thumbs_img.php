@@ -23,8 +23,7 @@ if ($fdl)
 if ($folder == '')
 {
 	$thumb_path = JURI::root() . $basePath . $this->_tmp_img->path_relative;
-}
-else
+} else
 {
 	$thumb_path = RedShopHelperImages::getImagePath(
 					basename($this->_tmp_img->path_relative),
