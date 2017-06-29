@@ -1863,12 +1863,13 @@ class RedshopModelImport extends RedshopModel
 					$db->setQuery($query);
 					$shoppers = $db->loadObjectList();
 
-					for ($s = 0; $s <= count($shoppers); $s++)
+					foreach ($shoppers as $shopper)
 					{
-						$queryshop = "UPDATE `#__redshop_users_info` "
-							. "SET `shopper_group_id` = '" . $last_insert_shopper . "' "
-							. "WHERE `user_id`='" . $shoppers[$s]->user_id . "' ";
-						$db->setQuery($queryshop);
+						$update = new stdClass();
+						$update->user_id = (int) $shopper->user_id;
+						$update->shopper_group_id = (int) $last_insert_shopper;
+
+						$db->updateObject('#__redshop_users_info', $update, 'user_id');
 						$db->execute();
 					}
 				}
