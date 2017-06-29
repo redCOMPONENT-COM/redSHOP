@@ -18,19 +18,19 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 	 * @param   string  $element    Element
 	 * @param   array   $data       Data
 	 *
-	 * @return  void|null
+	 * @return  void|string
 	 *
-	 * @since version
+	 * @since   2.0.6
 	 */
 	public function onPrePayment_rs_payment_moneris($element, $data)
 	{
-		$config = Redconfiguration::getInstance();
 
 		// Get user billing information
 		$user = JFActory::getUser();
 
 		if ($element != 'rs_payment_moneris')
 		{
+
 			return;
 		}
 
@@ -152,7 +152,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			echo "Globals: <br />";
 			echo "<br />";
 			echo "Request: <br />";
-			var_export($mpgHttpPost);
+			var_export($mpgRequest);
 			echo "<br />";
 			echo "Response: <br />";
 			var_export($mpgResponse);
