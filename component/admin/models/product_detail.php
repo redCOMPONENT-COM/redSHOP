@@ -287,14 +287,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_full_image'] != null)
 		{
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $data['old_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $data['old_image']);
 
 			if (is_file($unlink_path))
 			{
 				unlink($unlink_path);
 			}
 
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_image']);
 
 			if (is_file($unlink_path))
 			{
@@ -317,7 +317,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['product_full_image_delete']))
 		{
 			$row->product_thumb_image = '';
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_full_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_full_image']);
 
 			if (is_file($unlink_path))
 			{
@@ -362,7 +362,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['back_thumb_image_delete']))
 		{
 			$row->product_back_thumb_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_back_thumb_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_back_thumb_image']);
 
 			if (is_file($unlink_path))
 			{
@@ -386,7 +386,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['back_image_delete']))
 		{
 			$row->product_back_full_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_back_full_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_back_full_image']);
 
 			if (is_file($unlink_path))
 			{
@@ -411,7 +411,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['preview_image_delete']))
 		{
 			$row->product_preview_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_preview_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_preview_image']);
 
 			if (is_file($unlink_path))
 			{
@@ -436,7 +436,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['preview_back_image_delete']))
 		{
 			$row->product_preview_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_preview_back_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_preview_back_image']);
 
 			if (is_file($unlink_path))
 			{
