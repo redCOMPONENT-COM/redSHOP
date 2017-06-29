@@ -20,15 +20,14 @@ $cart = $session->get('cart');
 
 $detail = $this->detail;
 $user = JFactory::getUser();
-$extraField   = extraField::getInstance();
+$extraField = extraField::getInstance();
 
 $quotation_template = $redTemplate->getTemplate("quotation_request");
 
 if (count($quotation_template) > 0 && $quotation_template[0]->template_desc != "")
 {
 	$template_desc = $quotation_template[0]->template_desc;
-}
-else
+} else
 {
 	$template_desc = "<fieldset class=\"adminform\"><legend>{order_detail_lbl}</legend> \r\n<table class=\"admintable\">\r\n<tbody>\r\n<tr>\r\n<td>{product_name_lbl}</td>\r\n<td>{quantity_lbl}</td>\r\n</tr>\r\n{product_loop_start}\r\n<tr>\r\n<td>{product_name}<br />{product_attribute}<br />{product_accessory}<br />{product_userfields}</td>\r\n<td>{update_cart}</td>\r\n</tr>\r\n{product_loop_end}\r\n</tbody>\r\n</table>\r\n</fieldset>\r\n<p>{customer_note_lbl}:{customer_note}</p>\r\n<fieldset class=\"adminform\"><legend>{billing_address_information_lbl}</legend> {billing_address}{quotation_custom_field_list} </fieldset> \r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td align=\"center\">{cancel_btn}{request_quotation_btn}</td>\r\n</tr>\r\n</tbody>\r\n</table>";
 }?>
@@ -76,8 +75,7 @@ if ($user->id)
 {
 	$template_desc = $carthelper->replaceBillingAddress($template_desc, $detail);
 	$template_desc .= '<input type="hidden" name="user_email" id="user_email" value="' . $detail->user_email . '"/>';
-}
-else
+} else
 {
 	$billing = '<div class="redshop-billingaddresses">';
 
@@ -100,8 +98,7 @@ else
 	{
 		$billing .= $extraField->list_all_field(16, $detail->user_info_id, "", "tbl");
 		$template_desc = str_replace("{quotation_custom_field_list}", "", $template_desc);
-	}
-	else
+	} else
 	{
 		$template_desc = $extraField->list_all_field(16, $detail->user_info_id, "", "", $template_desc);
 	}
@@ -129,4 +126,4 @@ $template_desc = str_replace("{customer_note}", '<textarea name="quotation_note"
 
 $template_desc = '<form action="' . JRoute::_($this->request_url) . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">' . $template_desc . '</form>';
 
-echo eval("?>" . $template_desc . "<?php ");?>
+echo eval("?>" . $template_desc . "<?php "); ?>

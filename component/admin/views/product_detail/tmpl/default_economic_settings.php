@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 										</label>
 									</td>
 									<td>
-										<?php echo $this->lists['accountgroup_id'];?>
+										<?php echo $this->lists['accountgroup_id']; ?>
 									</td>
 									<td>
 										<?php

@@ -37,16 +37,12 @@ if ($buttonsize == "medium")
 	$width = "168";
 
 	$height = "44";
-}
-
-elseif ($buttonsize == "small")
+} elseif ($buttonsize == "small")
 {
 	$width = "160";
 
 	$height = "43";
-}
-
-elseif ($buttonsize == "large")
+} elseif ($buttonsize == "large")
 {
 	$width = "180";
 

@@ -38,8 +38,7 @@ $total         = $compare->getItemsTotal();
 			if (count($ItemData) > 0)
 			{
 				$pItemid = $ItemData->id;
-			}
-			else
+			} else
 			{
 				$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catidmain);
 			}

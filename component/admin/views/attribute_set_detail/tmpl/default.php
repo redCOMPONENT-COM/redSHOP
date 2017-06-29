@@ -23,7 +23,7 @@ $url = JURI::getInstance()->root();
 		if (form.attribute_set_name.value == "") {
 
 			alert("<?php
-		echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NAME', true );
+		echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NAME', true);
 		?>");
 		}
 		else {
@@ -35,7 +35,7 @@ $url = JURI::getInstance()->root();
 		var oprand = s.value;
 		if (oprand != '+' && oprand != '-' && oprand != '=' && oprand != '*' && oprand != "/") {
 			alert("<?php
-		echo JText::_('COM_REDSHOP_WRONG_OPRAND', true );
+		echo JText::_('COM_REDSHOP_WRONG_OPRAND', true);
 		?>");
 
 			s.value = "+";
@@ -43,7 +43,7 @@ $url = JURI::getInstance()->root();
 	}
 	function jimage_insert(main_path, fid, fsec) {
 
-		var path_url = "<?php echo $url;?>";
+		var path_url = "<?php echo $url; ?>";
 		var propimg;
 
 		if (!fid && !fsec) {
@@ -120,10 +120,10 @@ echo JRoute::_($this->request_url)?>" method="post"
 						</tr>
 						<tr>
 							<td valign="top" align="right" class="key">
-								<?php echo JText::_('COM_REDSHOP_PUBLISHED');?>:
+								<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>:
 							</td>
 							<td>
-								<?php echo $this->lists ['published'];?>
+								<?php echo $this->lists ['published']; ?>
 							</td>
 						</tr>
 					</table>
@@ -138,11 +138,11 @@ echo JRoute::_($this->request_url)?>" method="post"
 	<table class="admintable" width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td colspan="2">
-				<div><?php echo JText::_('COM_REDSHOP_HINT_ATTRIBUTE');?></div>
+				<div><?php echo JText::_('COM_REDSHOP_HINT_ATTRIBUTE'); ?></div>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2"><?php echo JText::_('COM_REDSHOP_COPY_ATTRIBUTES_FROM_ATTRIBUTE_SET');?></td>
+			<td colspan="2"><?php echo JText::_('COM_REDSHOP_COPY_ATTRIBUTES_FROM_ATTRIBUTE_SET'); ?></td>
 		</tr>
 		<tr>
 			<td colspan="2">

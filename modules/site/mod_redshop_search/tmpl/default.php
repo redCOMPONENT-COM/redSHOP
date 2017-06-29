@@ -41,15 +41,15 @@ if ($modsearchitemid != "")
 		<?php endif; ?>
 
 		<?php if ($showSearchTypeField == 'yes'): ?>
-			<div class="product_search_type"><?php echo $lists['searchtypedata'];?></div>
+			<div class="product_search_type"><?php echo $lists['searchtypedata']; ?></div>
 		<?php else: ?>
 			<input type="hidden" name="search_type" id="search_type" value="<?php echo $search_type; ?>"/>
 		<?php endif; ?>
 
 		<?php if ($showCategory == 'yes'):	?>
 			<div class="product_search_catdata">
-				<?php echo JText::_('COM_REDSHOP_SELECT_CATEGORIES');?><br>
-				<div class="product_search_catdata_category"><?php echo $lists['catdata'];?></div>
+				<?php echo JText::_('COM_REDSHOP_SELECT_CATEGORIES'); ?><br>
+				<div class="product_search_catdata_category"><?php echo $lists['catdata']; ?></div>
 
 				<?php if ($showManufacturer == 'yes'): ?>
 					<div class="product_search_catdata_product" id="product_search_catdata_product"
@@ -60,9 +60,9 @@ if ($modsearchitemid != "")
 
 		<?php if ($showManufacturer == 'yes' && $showCategory == 'no'): ?>
 			<div class="product_search_manufacturedata">
-				<?php echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE');?><br>
+				<?php echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE'); ?><br>
 				<div class="product_search_manufacturedata_manufacture">
-					<?php echo $lists['manufacturedata'];?>
+					<?php echo $lists['manufacturedata']; ?>
 				</div>
 			</div>
 		<?php endif; ?>
@@ -97,7 +97,7 @@ if ($modsearchitemid != "")
 	var selbox = document.getElementById('category_id') ? document.getElementById('category_id') : "";
 
 	if (selbox) {
-		var OnLoadfunc = 'loadProducts(selbox.options[selbox.selectedIndex].value,"<?php echo $manufac_data;?>")';
+		var OnLoadfunc = 'loadProducts(selbox.options[selbox.selectedIndex].value,"<?php echo $manufac_data; ?>")';
 		window.onload = function () {
 			eval(OnLoadfunc);
 		};

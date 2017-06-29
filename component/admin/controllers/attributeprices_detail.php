@@ -50,8 +50,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 		if ($model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
 		}

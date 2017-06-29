@@ -105,7 +105,7 @@ if (isset($result->Errors))
 
 	foreach ($ErrorArray as $error)
 	{
-		$error    = $service->getMessage($error);
+		$error = $service->getMessage($error);
 		$lblError .= $error . "<br />\n";
 	}
 

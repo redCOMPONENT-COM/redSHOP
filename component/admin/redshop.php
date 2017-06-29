@@ -82,8 +82,7 @@ $filter = JFilterInput::getInstance();
 if (is_array($task))
 {
 	$command = $filter->clean(array_pop(array_keys($task)), 'cmd');
-}
-else
+} else
 {
 	$command = $filter->clean($task, 'cmd');
 }
@@ -93,8 +92,7 @@ if ($command != '' && strpos($command, '.') === false)
 {
 	JFactory::getApplication()->input->set('task', $view . '.' . $command);
 	$task = $command;
-}
-elseif ($command != '' && strpos($command, '.') !== false)
+} elseif ($command != '' && strpos($command, '.') !== false)
 {
 	$commands = explode('.', $command);
 	$view = $commands[0];

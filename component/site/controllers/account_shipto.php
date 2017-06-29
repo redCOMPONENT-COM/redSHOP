@@ -39,8 +39,7 @@ class RedshopControllerAccount_shipto extends RedshopController
 		{
 			$post['users_info_id'] = $reduser->users_info_id;
 			$msg = JText::_('COM_REDSHOP_SHIPPING_INFORMATION_SAVE');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING_INFORMATION');
 		}
@@ -62,8 +61,7 @@ class RedshopControllerAccount_shipto extends RedshopController
 				<?php
 				exit;
 			}
-		}
-		else
+		} else
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $Itemid, false);
 		}
@@ -98,8 +96,7 @@ class RedshopControllerAccount_shipto extends RedshopController
 		if ($return != "")
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $Itemid, false);
-		}
-		else
+		} else
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $Itemid, false);
 		}
@@ -134,8 +131,7 @@ class RedshopControllerAccount_shipto extends RedshopController
 				<?php
 				exit;
 			}
-		}
-		else
+		} else
 		{
 			$link = 'index.php?option=com_redshop&view=account_shipto&Itemid=' . $Itemid;
 		}

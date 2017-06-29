@@ -75,8 +75,7 @@ class RedshopControllerForm extends JControllerForm
 			if (array_key_exists('name', $config))
 			{
 				$this->name = $config['name'];
-			}
-			else
+			} else
 			{
 				$this->name = $this->getName();
 			}
@@ -86,8 +85,7 @@ class RedshopControllerForm extends JControllerForm
 		if (array_key_exists('base_path', $config))
 		{
 			$this->basePath = $config['base_path'];
-		}
-		else
+		} else
 		{
 			$this->basePath = JPATH_COMPONENT;
 		}
@@ -96,8 +94,7 @@ class RedshopControllerForm extends JControllerForm
 		if (array_key_exists('default_task', $config))
 		{
 			$this->registerDefaultTask($config['default_task']);
-		}
-		else
+		} else
 		{
 			$this->registerDefaultTask('display');
 		}
@@ -109,8 +106,7 @@ class RedshopControllerForm extends JControllerForm
 			{
 				// User-defined prefix
 				$this->model_prefix = $config['model_prefix'];
-			}
-			else
+			} else
 			{
 				$this->model_prefix = $this->name . 'Model';
 			}
@@ -121,8 +117,7 @@ class RedshopControllerForm extends JControllerForm
 		{
 			// User-defined dirs
 			$this->addModelPath($config['model_path'], $this->model_prefix);
-		}
-		else
+		} else
 		{
 			$this->addModelPath($this->basePath . '/models', $this->model_prefix);
 		}
@@ -132,8 +127,7 @@ class RedshopControllerForm extends JControllerForm
 		{
 			// User-defined dirs
 			$this->setPath('view', $config['view_path']);
-		}
-		else
+		} else
 		{
 			$this->setPath('view', $this->basePath . '/views');
 		}
@@ -142,8 +136,7 @@ class RedshopControllerForm extends JControllerForm
 		if (array_key_exists('default_view', $config))
 		{
 			$this->default_view = $config['default_view'];
-		}
-		elseif (empty($this->default_view))
+		} elseif (empty($this->default_view))
 		{
 			$this->default_view = $this->getName();
 		}
@@ -356,8 +349,7 @@ class RedshopControllerForm extends JControllerForm
 			);
 
 			return false;
-		}
-		else
+		} else
 		{
 			// Check-out succeeded, push the new record id into the session.
 			$this->holdEditId($context, $recordId);
@@ -525,8 +517,7 @@ class RedshopControllerForm extends JControllerForm
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'error');
-				}
-				else
+				} else
 				{
 					$app->enqueueMessage($errors[$i], 'error');
 				}

@@ -43,12 +43,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<div class="alert alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
-	<?php else : ?>
+	<?php else {
+	: ?>
 		<table class="table table-striped" id="articleList">
 			<thead>
 				<tr>
 					<th width="1%" class="center">
-						<?php echo JHtml::_('grid.checkall'); ?>
+						<?php echo JHtml::_('grid.checkall');
+}
+?>
 					</th>
 					<th width="1%" style="min-width:55px" class="nowrap center">
 						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.attribute_published', $listDirn, $listOrder); ?>
@@ -57,7 +60,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_ATTRIBUTE_NAME', 'a.attribute_name', $listDirn, $listOrder); ?>
 					</th>
 					<th width="20%">
-						<?php echo JHtml::_('grid.sort',  'COM_REDSHOP_PRODUCT_NAME_LBL', 'p.product_name', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME_LBL', 'p.product_name', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%">
 						<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_ATTRIBUTE_DISPLAY_TYPE', 'a.display_type', $listDirn, $listOrder); ?>
@@ -91,10 +94,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</div>
 						</td>
 						<td>
-							<?php echo $item->product_name;?>
+							<?php echo $item->product_name; ?>
 						</td>
 						<td>
-							<?php echo $item->display_type;?>
+							<?php echo $item->display_type; ?>
 						</td>
 						<td class="center hidden-phone">
 							<?php echo (int) $item->attribute_id; ?>

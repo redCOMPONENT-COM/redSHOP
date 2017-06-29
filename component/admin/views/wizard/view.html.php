@@ -36,8 +36,7 @@ class RedshopViewWizard extends RedshopViewAdmin
 
 				$distConfig = new RedshopConfig;
 				$wizardConfig = get_object_vars($distConfig);
-			}
-			else
+			} else
 			{
 				$wizardConfig = array();
 			}
@@ -186,8 +185,7 @@ class RedshopViewWizard extends RedshopViewAdmin
 		if (empty($selected_state_code))
 		{
 			$selected_state_code = "originalPos";
-		}
-		else
+		} else
 		{
 			$selected_state_code = "'" . $selected_state_code . "'";
 		}
@@ -224,8 +222,7 @@ class RedshopViewWizard extends RedshopViewAdmin
 				$prev_country = $country_3_code;
 
 				$script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','" . $state->state_2_code . "','" . addslashes(JText::_($state->state_name)) . "' );\n";
-			}
-			else
+			} else
 			{
 				$script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . JText::_("COM_REDSHOP_NONE") . "' );\n";
 			}

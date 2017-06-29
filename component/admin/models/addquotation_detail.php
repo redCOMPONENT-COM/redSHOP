@@ -561,8 +561,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 		if ($accessory_id != 0)
 		{
 			$prefix = $uniqueid . "acc_";
-		}
-		else
+		} else
 		{
 			$prefix = $uniqueid . "prd_";
 		}
@@ -585,8 +584,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 					$subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name)
 						. " (" . $subproperty [$i]->oprand
 						. $producthelper->getProductFormattedPrice($subproperty [$i]->subattribute_color_price) . ")";
-				}
-				else
+				} else
 				{
 					$subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name);
 				}
@@ -627,8 +625,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 						. "' class='inputbox' onchange='javascript:calculateOfflineTotalPrice(\""
 						. $uniqueid . "\", true);' />&nbsp;" . $subproperty[$chk]->text;
 				}
-			}
-			else
+			} else
 			{
 				$chklist = JHTML::_('select.genericlist', $new_subproperty, $subpropertyid . '[]', ' id="'
 					. $subpropertyid . '" class="inputbox" size="1" onchange="javascript:calculateOfflineTotalPrice(\''

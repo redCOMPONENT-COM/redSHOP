@@ -56,8 +56,7 @@ class PlgSystemRedProductZoom extends JPlugin
 			$scripts[] = 'lensSize: ' . $this->params->get('lens_size', 200);
 			$scripts[] = 'lensFadeIn: ' . ($this->params->get('lens_fade_in', true) ? 'true' : 'false');
 			$scripts[] = 'lensFadeOut: ' . ($this->params->get('lens_fade_out', true) ? 'true' : 'false');
-		}
-		elseif ($zoomType == 'window')
+		} elseif ($zoomType == 'window')
 		{
 			$scripts[] = 'tint: ' . ($this->params->get('tint', false) ? 'true' : 'false');
 			$scripts[] = 'tintColour: "' . $this->params->get('tint_color') . '"';

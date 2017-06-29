@@ -73,8 +73,7 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
 			if ($stockroom_type != 'product')
 			{
 				$nameId = 'section_id';
-			}
-			else
+			} else
 			{
 				$nameId = 'product_id';
 			}

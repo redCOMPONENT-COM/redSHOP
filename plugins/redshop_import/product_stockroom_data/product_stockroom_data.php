@@ -120,8 +120,7 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
 		if ($db->setQuery($query)->loadResult())
 		{
 			$db->updateObject('#__redshop_product_stockroom_xref', $productStockroom, array('product_id', 'stockroom_id'));
-		}
-		else
+		} else
 		{
 			$productStockroom->preorder_stock   = 0;
 			$productStockroom->ordered_preorder = 0;

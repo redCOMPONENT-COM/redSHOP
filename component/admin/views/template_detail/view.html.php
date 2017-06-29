@@ -56,8 +56,7 @@ class RedshopViewTemplate_detail extends RedshopViewAdmin
 		if ($isNew)
 		{
 			JToolBarHelper::cancel();
-		}
-		else
+		} else
 		{
 			// EDIT - check out the item
 			$model->checkout($user->get('id'));

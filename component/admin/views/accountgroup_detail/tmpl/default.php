@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die;    ?>
+defined('_JEXEC') or die; ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
 		var form = document.adminForm;
@@ -16,35 +16,35 @@ defined('_JEXEC') or die;    ?>
 			return;
 		}
 		if ((form.accountgroup_name.value) == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_ACCOUNTGROUP_MUST_HAVE_A_NAME', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_ACCOUNTGROUP_MUST_HAVE_A_NAME', true); ?>");
 			return false;
 		}
 		else if ((form.economic_nonvat_account.value) == "" || isNaN(form.economic_nonvat_account.value)) {
-			alert("<?php echo JText::_('COM_REDSHOP_ENTER_ECONOMIC_NON_VAT_ACCOUNT_NUMBER', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_ENTER_ECONOMIC_NON_VAT_ACCOUNT_NUMBER', true); ?>");
 			return false;
 		}
 		else if ((form.economic_vat_account.value) == "" || isNaN(form.economic_vat_account.value)) {
-			alert("<?php echo JText::_('COM_REDSHOP_ENTER_ECONOMIC_VAT_ACCOUNT_NUMBER', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_ENTER_ECONOMIC_VAT_ACCOUNT_NUMBER', true); ?>");
 			return false;
 		}
 		else if ((form.economic_discount_product_number.value) == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_ENTER_ECONOMIC_DISCOUNT_PRODUCT_NUMBER', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_ENTER_ECONOMIC_DISCOUNT_PRODUCT_NUMBER', true); ?>");
 			return false;
 		}
 		else if ((form.economic_discount_vat_account.value) == "" || isNaN(form.economic_discount_vat_account.value)) {
-			alert("<?php echo JText::_('COM_REDSHOP_ENTER_PRODUCT_GROUP_FOR_DISCOUNT_VAT', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_ENTER_PRODUCT_GROUP_FOR_DISCOUNT_VAT', true); ?>");
 			return false;
 		}
 		else if ((form.economic_discount_nonvat_account.value) == "" || isNaN(form.economic_discount_nonvat_account.value)) {
-			alert("<?php echo JText::_('COM_REDSHOP_ENTER_PRODUCT_GROUP_FOR_DISCOUNT_NOVAT', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_ENTER_PRODUCT_GROUP_FOR_DISCOUNT_NOVAT', true); ?>");
 			return false;
 		}
 		else if ((form.economic_shipping_nonvat_account.value) == "" || isNaN(form.economic_shipping_nonvat_account.value)) {
-			alert("<?php echo JText::_('COM_REDSHOP_ENTER_PRODUCT_GROUP_FOR_SHIPPING_NOVAT', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_ENTER_PRODUCT_GROUP_FOR_SHIPPING_NOVAT', true); ?>");
 			return false;
 		}
 		else if ((form.economic_shipping_vat_account.value) == "" || isNaN(form.economic_shipping_vat_account.value)) {
-			alert("<?php echo JText::_('COM_REDSHOP_ENTER_PRODUCT_GROUP_FOR_SHIPPING', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_ENTER_PRODUCT_GROUP_FOR_SHIPPING', true); ?>");
 			return false;
 		}
 		else {

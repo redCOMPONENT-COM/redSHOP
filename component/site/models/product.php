@@ -56,7 +56,7 @@ class RedshopModelProduct extends RedshopModel
 	public function _buildQuery()
 	{
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = rsUserHelper::getInstance();
+		$rsUserhelper = rsUserHelper::getInstance();
 		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		$db = JFactory::getDbo();
@@ -149,14 +149,12 @@ class RedshopModelProduct extends RedshopModel
 			$sql .= ' WHERE ordering < (' . $query . ')';
 			$sql .= $where;
 			$sql .= ' ORDER BY ordering DESC';
-		}
-		elseif ($dirn > 0)
+		} elseif ($dirn > 0)
 		{
 			$sql .= ' WHERE ordering > (' . $query . ')';
 			$sql .= $where;
 			$sql .= ' ORDER BY ordering';
-		}
-		else
+		} else
 		{
 			$sql .= ' WHERE ordering = (' . $query . ')';
 			$sql .= $where;
@@ -262,8 +260,7 @@ class RedshopModelProduct extends RedshopModel
 			if (JFactory::getMailer()->sendMail($from, $fromname, $sendto, $subject, $data_add, $mode = 1, null, $mailbcc))
 			{
 				return true;
-			}
-			else
+			} else
 			{
 				return false;
 			}
@@ -510,8 +507,7 @@ class RedshopModelProduct extends RedshopModel
 		if ($media != 0)
 		{
 			$tablename = "media ";
-		}
-		else
+		} else
 		{
 			$tablename = "media_download ";
 		}

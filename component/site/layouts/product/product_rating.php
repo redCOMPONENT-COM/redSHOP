@@ -34,8 +34,7 @@ if ($user->id)
 	if ($userInfo = RedshopHelperUser::getUserInformation($user->id))
 	{
 		$username = $userInfo->firstname . " " . $userInfo->lastname;
-	}
-	else
+	} else
 	{
 		$username = $user->name;
 	}

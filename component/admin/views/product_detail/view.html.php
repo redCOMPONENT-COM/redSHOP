@@ -141,9 +141,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 						if (in_array($tagid, $associationtags))
 						{
 							$selected = 'checked="checked"';
-						}
-
-						else
+						} else
 						{
 							$selected = '';
 						}
@@ -215,8 +213,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		if (!empty($product_categories))
 		{
 			$productcats = $product_categories;
-		}
-		else
+		} else
 		{
 			$productcats = $model->getproductcats();
 		}
@@ -278,8 +275,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		if (in_array(1, $loadedFromAPlugin))
 		{
 			$loadedFromAPlugin = true;
-		}
-		else
+		} else
 		{
 			$loadedFromAPlugin = false;
 		}
@@ -311,16 +307,13 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		if ($layout == 'property_images')
 		{
 			$this->setLayout('property_images');
-		}
-		elseif ($layout == 'attribute_color')
+		} elseif ($layout == 'attribute_color')
 		{
 			$this->setLayout('attribute_color');
-		}
-		elseif ($layout == 'productstockroom')
+		} elseif ($layout == 'productstockroom')
 		{
 			$this->setLayout('productstockroom');
-		}
-		else
+		} else
 		{
 			$this->setLayout('default');
 		}
@@ -336,8 +329,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		if ($isNew)
 		{
 			JToolBarHelper::cancel();
-		}
-		else
+		} else
 		{
 			JToolbarHelper::save2copy();
 			$model->checkout($user->get('id'));
@@ -353,8 +345,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			if (count($ItemData) > 0)
 			{
 				$pItemid = $ItemData->id;
-			}
-			else
+			} else
 			{
 				$pItemid = RedshopHelperUtility::getItemId($detail->product_id, $catidmain);
 			}

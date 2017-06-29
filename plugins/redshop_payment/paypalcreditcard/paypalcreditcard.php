@@ -73,8 +73,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 				if ($selectedCardId != '')
 				{
 					$return->transaction_id = $selectedCardId;
-				}
-				else
+				} else
 				{
 					$card = $this->creditCard($data);
 					$card->create($apiContext);
@@ -87,8 +86,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 				$return->message        = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_CREATE_SUCCESS');
 
 				$app->enqueueMessage($return->message, 'message');
-			}
-			catch (Exception $ex)
+			} catch (Exception $ex)
 			{
 				$return->responsestatus = 'Fail';
 				$return->message        = JText::sprintf(
@@ -127,7 +125,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			$product     = RedshopHelperProduct::getProductById($cartItem['product_id']);
 			$tax         = ($cartItem['product_vat'] < 0) ? 0 : $cartItem['product_vat'];
 			$item        = new Item();
-			$cartItems[] =  $item->setName($product->product_name)
+			$cartItems[] = $item->setName($product->product_name)
 								->setDescription($product->product_s_desc)
 								->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
 								->setQuantity($cartItem['quantity'])
@@ -196,14 +194,12 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 				}
 
 				$app->enqueueMessage($return->message, 'message');
-			}
-			else
+			} else
 			{
 				$return->responsestatus = 'Fail';
 				$return->message        = JText::sprintf('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_FAIL', '');
 			}
-		}
-		catch (Exception $ex)
+		} catch (Exception $ex)
 		{
 			$return->responsestatus = 'Fail';
 			$return->message        = JText::sprintf(
@@ -280,9 +276,9 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 		$user = RedshopHelperUser::getUserInformation(JFactory::getUser()->id);
 
-		$apiContext  = $this->loadFramework();
+		$apiContext = $this->loadFramework();
 
-		$html =  RedshopLayoutHelper::render(
+		$html = RedshopLayoutHelper::render(
 				'cards',
 				array(
 					'apiContext' => $apiContext,
@@ -342,10 +338,9 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 		if ($data['cardId'] != '0')
 		{
-			$apiContext  = $this->loadFramework();
+			$apiContext = $this->loadFramework();
 			$card = CreditCard::get($data['cardId'], $apiContext);
-		}
-		else
+		} else
 		{
 			$card = new CreditCard();
 		}
@@ -396,8 +391,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 						);
 
 			$app->enqueueMessage(JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_SAVED'), 'success');
-		}
-		catch (Exception $ex)
+		} catch (Exception $ex)
 		{
 			$app->enqueueMessage($ex->getMessage() . '<br />' . implode('<br />', $this->parsePaypalException($ex)), 'error');
 		}
@@ -419,7 +413,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	 */
 	public function onCreditCardUpdate($data)
 	{
-		$apiContext  = $this->loadFramework();
+		$apiContext = $this->loadFramework();
 
 		list($firstName, $lastName) = explode(" ", $data['cardName']);
 
@@ -462,8 +456,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			$card->update($pathRequest, $apiContext);
 
 			$app->enqueueMessage(JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_SAVED'), 'success');
-		}
-		catch (Exception $e)
+		} catch (Exception $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
@@ -494,8 +487,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			$card->delete($apiContext);
 
 			$app->enqueueMessage(JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_DELETED'), 'success');
-		}
-		catch (Exception $ex)
+		} catch (Exception $ex)
 		{
 			$app->enqueueMessage($ex->getMessage() . '<br />' . implode('<br />', $this->parsePaypalException($ex)), 'error');
 		}
@@ -672,8 +664,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 				$app->enqueueMessage($return->message, 'message');
 			}
-		}
-		catch (Exception $ex)
+		} catch (Exception $ex)
 		{
 			$return->responsestatus = 'Fail';
 			$return->message        = JText::sprintf(
@@ -787,13 +778,13 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 		for ($i = 0, $n = count($orderItems); $i < $n; $i++)
 		{
-			$orderItem   = $orderItems[$i];
+			$orderItem = $orderItems[$i];
 
 			$tax = ($orderItem->product_item_price - $orderItem->product_item_price_excl_vat);
 			$tax = ($tax < 0) ? 0 : $tax;
 
 			$item        = new Item;
-			$cartItems[] =  $item->setName($orderItem->order_item_name)
+			$cartItems[] = $item->setName($orderItem->order_item_name)
 								->setDescription('')
 								->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
 								->setQuantity($orderItem->product_quantity)
@@ -858,8 +849,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 				}
 
 				$app->enqueueMessage($return->msg, 'message');
-			}
-			else
+			} else
 			{
 				$return->order_status_code         = $this->params->get('invalid_status');
 				$return->order_payment_status_code = 'Unpaid';
@@ -874,8 +864,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			order_functions::getInstance()->changeorderstatus($return);
 
 			return true;
-		}
-		catch (Exception $ex)
+		} catch (Exception $ex)
 		{
 			$app->enqueueMessage(
 				JText::sprintf(

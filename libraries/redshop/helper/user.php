@@ -73,8 +73,7 @@ class RedshopHelperUser
 		if (!$useAddressType)
 		{
 			$addressType = 'NA';
-		}
-		elseif ($addressType == '')
+		} elseif ($addressType == '')
 		{
 			$addressType = 'BT';
 		}
@@ -153,8 +152,7 @@ class RedshopHelperUser
 
 				$userArr['rs_user_info_id'] = isset($userInformation->users_info_id) ? $userInformation->users_info_id : 0;
 			}
-		}
-		else
+		} else
 		{
 			$userArr['rs_is_user_login'] = 0;
 		}
@@ -457,15 +455,13 @@ class RedshopHelperUser
 					$userInformation->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
 					$userInformation->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 				}
-			}
-			else
+			} else
 			{
 				$userInformation               = new stdClass;
 				$userInformation->country_code = Redshop::getConfig()->get('DEFAULT_VAT_COUNTRY');
 				$userInformation->state_code   = Redshop::getConfig()->get('DEFAULT_VAT_STATE');
 			}
-		}
-		else
+		} else
 		{
 			$auth        = $session->get('auth');
 			$userInforId = $auth['users_info_id'];

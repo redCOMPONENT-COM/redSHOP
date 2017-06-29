@@ -39,8 +39,7 @@ class RedshopControllerCatalog_detail extends RedshopController
 		if ($model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_CATALOG_DETAIL');
 		}

@@ -92,12 +92,10 @@ abstract class RedshopHelperAttribute
 		if ($accessoryId != 0)
 		{
 			$prefix = $preprefix . "acc_";
-		}
-		elseif ($relatedProductId != 0)
+		} elseif ($relatedProductId != 0)
 		{
 			$prefix = $preprefix . "rel_";
-		}
-		else
+		} else
 		{
 			$prefix = $preprefix . "prd_";
 		}
@@ -125,18 +123,15 @@ abstract class RedshopHelperAttribute
 		{
 			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
 			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
-		}
-		elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false)
+		} elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false)
 		{
 			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
 			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
-		}
-		elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false)
+		} elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false)
 		{
 			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
 			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
-		}
-		else
+		} else
 		{
 			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
 			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
@@ -155,15 +150,13 @@ abstract class RedshopHelperAttribute
 			{
 				$subdisplay = false;
 
-				$property_all = empty($attributes[$a]->properties) ? $productHelper->getAttibuteProperty(0, $attributes[$a]->attribute_id) :
-					$attributes[$a]->properties;
+				$property_all = empty($attributes[$a]->properties) ? $productHelper->getAttibuteProperty(0, $attributes[$a]->attribute_id) : $attributes[$a]->properties;
 				$property_all = array_values($property_all);
 
 				if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 				{
 					$property = $productHelper->getAttibutePropertyWithStock($property_all);
-				}
-				else
+				} else
 				{
 					$property = $property_all;
 				}
@@ -216,8 +209,7 @@ abstract class RedshopHelperAttribute
 							{
 								$selectedProperty = $property[$i]->value;
 							}
-						}
-						else
+						} else
 						{
 							if ($property[$i]->setdefault_selected)
 							{
@@ -228,8 +220,7 @@ abstract class RedshopHelperAttribute
 						if (isset($property[$i]->sub_properties))
 						{
 							$subproperty_all = $property[$i]->sub_properties;
-						}
-						else
+						} else
 						{
 							$subproperty_all = $productHelper->getAttibuteSubProperty(0, $property[$i]->value);
 						}
@@ -238,8 +229,7 @@ abstract class RedshopHelperAttribute
 						if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
 						{
 							$subproperty = $productHelper->getAttibuteSubPropertyWithStock($subproperty_all);
-						}
-						else
+						} else
 						{
 							$subproperty = $subproperty_all;
 						}
@@ -248,7 +238,7 @@ abstract class RedshopHelperAttribute
 						$preorder_subpropertystock = 0;
 
 						$subPropertyIds = array_map(
-							function ($item)
+							function($item)
 							{
 								return $item->value;
 							},
@@ -356,13 +346,11 @@ abstract class RedshopHelperAttribute
 							{
 								$property[$i]->text = urldecode($property[$i]->property_name) . " (" . $property [$i]->oprand
 									. $productHelper->getProductFormattedPrice($attributes_property_vat_show) . ")";
-							}
-							else
+							} else
 							{
 								$property[$i]->text = urldecode($property[$i]->property_name);
 							}
-						}
-						else
+						} else
 						{
 							$property[$i]->text = urldecode($property[$i]->property_name);
 						}
@@ -505,8 +493,7 @@ abstract class RedshopHelperAttribute
 					{
 						$pos        = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? urldecode($attributes [$a]->text) . "<span id='asterisk_right'> * " : "<span id='asterisk_left'>* </span>" . urldecode($attributes[$a]->text);
 						$attr_title = $pos;
-					}
-					else
+					} else
 					{
 						$attr_title = urldecode($attributes[$a]->text);
 					}
@@ -517,8 +504,7 @@ abstract class RedshopHelperAttribute
 						{
 							$tooltip = JHTML::tooltip($attributes[$a]->attribute_description, $attributes[$a]->attribute_description, 'tooltip.png', '', '');
 							$attribute_table = str_replace("{attribute_tooltip}", $tooltip, $attribute_table);
-						}
-						else
+						} else
 						{
 							$attribute_table = str_replace("{attribute_tooltip}", "", $attribute_table);
 						}
@@ -539,8 +525,7 @@ abstract class RedshopHelperAttribute
 					if ($subdisplay)
 					{
 						$style = ' style="display:block" ';
-					}
-					else
+					} else
 					{
 						$style = ' style="display:none" ';
 					}
@@ -601,8 +586,7 @@ abstract class RedshopHelperAttribute
 			$attribute_table .= "<span id='cart_attribute_box'></span></span>";
 
 			$templateContent = str_replace("{attribute_template:$attributeTemplate->template_name}", $attribute_table, $templateContent);
-		}
-		else
+		} else
 		{
 			$templateContent = str_replace("{attribute_template:$attributeTemplate->template_name}", "", $templateContent);
 		}
@@ -655,12 +639,10 @@ abstract class RedshopHelperAttribute
 		if ($accessoryId != 0)
 		{
 			$prefix = $prePrefix . "acc_";
-		}
-		elseif ($relatedProductId != 0)
+		} elseif ($relatedProductId != 0)
 		{
 			$prefix = $prePrefix . "rel_";
-		}
-		else
+		} else
 		{
 			$prefix = $prePrefix . "prd_";
 		}
@@ -678,18 +660,15 @@ abstract class RedshopHelperAttribute
 		{
 			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
 			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
-		}
-		elseif (strpos($productTemplate->template_desc, "{more_images_2}") !== false)
+		} elseif (strpos($productTemplate->template_desc, "{more_images_2}") !== false)
 		{
 			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
 			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
-		}
-		elseif (strpos($productTemplate->template_desc, "{more_images_1}") !== false)
+		} elseif (strpos($productTemplate->template_desc, "{more_images_1}") !== false)
 		{
 			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
 			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
-		}
-		else
+		} else
 		{
 			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
 			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
@@ -712,8 +691,7 @@ abstract class RedshopHelperAttribute
 			if (empty($attribute->properties))
 			{
 				$properties = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id);
-			}
-			else
+			} else
 			{
 				$properties = $attribute->properties;
 			}

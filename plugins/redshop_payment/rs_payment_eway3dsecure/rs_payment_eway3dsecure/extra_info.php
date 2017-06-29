@@ -37,8 +37,8 @@ $request->ShippingAddress->PostalCode = $data['shippinginfo']->zipcode;
 $request->ShippingAddress->Email = $data['shippinginfo']->user_email;
 $request->ShippingAddress->Phone = $data['shippinginfo']->phone;
 
-$order_functions  = order_functions::getInstance();
-$orderItems      = $order_functions->getOrderItemDetail($data['order_id']);
+$order_functions = order_functions::getInstance();
+$orderItems = $order_functions->getOrderItemDetail($data['order_id']);
 
 if (count($orderItems) > 0)
 {
@@ -88,8 +88,7 @@ if (isset($result->Errors))
 		$error = $service->getMessage($error);
 		$app->enqueueMessage($error, 'error');
 	}
-}
-else
+} else
 {
 	$app->redirect($result->SharedPaymentUrl);
 }

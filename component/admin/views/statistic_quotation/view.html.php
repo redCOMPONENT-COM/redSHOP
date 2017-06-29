@@ -55,7 +55,7 @@ class RedshopViewStatistic_Quotation extends RedshopViewAdmin
 	 */
 	protected function addToolbar()
 	{
-		$title           = JText::_('COM_REDSHOP_STATISTIC_QUOTATION');
+		$title = JText::_('COM_REDSHOP_STATISTIC_QUOTATION');
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_QUOTATION') . " :: " . $title, 'statistic redshop_statistic48');
 

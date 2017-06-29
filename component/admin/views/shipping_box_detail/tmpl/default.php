@@ -24,13 +24,13 @@ $producthelper = productHelper::getInstance();
 		}
 
 		if (form.shipping_box_name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_BOX_MUST_HAVE_A_NAME', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_BOX_MUST_HAVE_A_NAME', true); ?>");
 		} else if (form.shipping_box_length.value == "" || form.shipping_box_length.value == 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_HAVE_A_BOX_LENGTH', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_HAVE_A_BOX_LENGTH', true); ?>");
 		} else if (form.shipping_box_width.value == "" || form.shipping_box_width.value == 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_HAVE_A_BOX_WIDTH', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_HAVE_A_BOX_WIDTH', true); ?>");
 		} else if (form.shipping_box_height.value == "" || form.shipping_box_height.value == 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_HAVE_A_BOX_HEIGHT', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_HAVE_A_BOX_HEIGHT', true); ?>");
 		} else {
 			submitform(pressbutton);
 		}

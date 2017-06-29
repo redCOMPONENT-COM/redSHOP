@@ -48,13 +48,11 @@ class RedshopProduct
 			if ($id)
 			{
 				$this->info = RedshopHelperProduct::getProductById($id);
-			}
-			else
+			} else
 			{
 				$this->info = new JObject;
 			}
-		}
-		catch (Exception $e)
+		} catch (Exception $e)
 		{
 			JLog::add(JText::_('COM_REDSHOP_ERROR_INVALID_PRODUCT_ID'), JLog::WARNING, 'com_redshop');
 		}

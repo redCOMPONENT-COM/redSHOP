@@ -42,7 +42,7 @@ $redtemplate = Redtemplate::getInstance();
 					<input type="text" name="filter" id="filter" value="<?php echo $this->lists['filter']; ?>"
 						   onchange="document.adminForm.submit();" placeholder="<?php echo JText::_('COM_REDSHOP_MAIL_NAME'); ?>">
 					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-					<input type="button" class="btn reset" onclick="document.getElementById('filter').value='';document.getElementById('filter_section').value=0;this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+					<input type="button" class="btn reset" onclick="document.getElementById('filter').value='';document.getElementById('filter_section').value=0;this.form.submit();" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
 				</div>
 			</div>
 			<div class="filterItem">
@@ -95,9 +95,9 @@ $redtemplate = Redtemplate::getInstance();
 					<td><a href="<?php echo $link; ?>"
 					       title="<?php echo JText::_('COM_REDSHOP_EDIT_MAIL'); ?>"><?php echo $row->mail_name; ?></a>
 					</td>
-					<td><?php    echo $row->mail_subject;     ?></td>
-					<td align="center"><?php    echo $redtemplate->getMailSections($row->mail_section);     ?></td>
-					<td align="center"><?php echo $published;?></td>
+					<td><?php    echo $row->mail_subject; ?></td>
+					<td align="center"><?php    echo $redtemplate->getMailSections($row->mail_section); ?></td>
+					<td align="center"><?php echo $published; ?></td>
 					<td align="center"><?php echo $row->mail_id; ?></td>
 				</tr>
 				<?php

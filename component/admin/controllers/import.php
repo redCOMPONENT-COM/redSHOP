@@ -57,8 +57,7 @@ class RedshopControllerImport extends RedshopControllerAdmin
 		{
 			$response['status'] = 0;
 			$response['msg']    = JText::_('COM_REDSHOP_IMPORT_ERROR_UPLOAD_FILE');
-		}
-		else
+		} else
 		{
 			// Merge array to response. Because we'll need extra data in $result
 			$response = array_merge($response, $result[0]);

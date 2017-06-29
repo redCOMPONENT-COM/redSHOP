@@ -70,8 +70,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 				$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 			}
-		}
-		else
+		} else
 		{
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
@@ -150,8 +149,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		{
 			$values->responsestatus = 'Success';
 			$message = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
-		}
-		else
+		} else
 		{
 			$values->responsestatus = 'Fail';
 			$message = JText::_('COM_REDSHOP_TRANSACTION_DECLINE');

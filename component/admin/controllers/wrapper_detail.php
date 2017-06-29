@@ -54,8 +54,7 @@ class RedshopControllerWrapper_detail extends RedshopController
 		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_WRAPPER_DETAIL');
 		}
@@ -63,8 +62,7 @@ class RedshopControllerWrapper_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=wrapper_detail&task=edit&cid[]=' . $row->wrapper_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
 		}

@@ -112,8 +112,7 @@ class PlgRedshop_ImportShopper_group_attribute_price extends AbstractImportPlugi
 				->where($db->qn('property_number') . ' = ' . $db->q($data['attribute_number']));
 
 			$data['section_id'] = $db->setQuery($query)->loadResult();
-		}
-		elseif ($data['section'] == 'subproperty')
+		} elseif ($data['section'] == 'subproperty')
 		{
 			$query = $db->getQuery(true)
 				->select($db->qn('subattribute_color_id'))
@@ -121,8 +120,7 @@ class PlgRedshop_ImportShopper_group_attribute_price extends AbstractImportPlugi
 				->where($db->qn('subattribute_color_number') . ' = ' . $db->q($data['attribute_number']));
 
 			$data['section_id'] = $db->setQuery($query)->loadResult();
-		}
-		else
+		} else
 		{
 			return false;
 		}
@@ -188,8 +186,7 @@ class PlgRedshop_ImportShopper_group_attribute_price extends AbstractImportPlugi
 		try
 		{
 			$shopperGroupId = $db->loadResult();
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}

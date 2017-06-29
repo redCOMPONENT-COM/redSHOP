@@ -43,7 +43,7 @@ class RedshopModelAccess extends RedshopModelForm
 		}
 
 		$rules = $data['rules'];
-		$rules = array_map(function($item){ return array_filter($item, 'strlen'); }, $rules);
+		$rules = array_map(function($item) { return array_filter($item, 'strlen'); }, $rules);
 		$rules = new JAccessRules($rules);
 		unset($data['rules']);
 

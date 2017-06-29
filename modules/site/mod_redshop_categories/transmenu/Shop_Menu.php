@@ -54,8 +54,7 @@ class Shop_Menu
 		if ($shopper_group_id)
 		{
 			$shoppergroup_cat = $redproduct_menu->get_shoppergroup_cat($shopper_group_id);
-		}
-		else
+		} else
 		{
 			$shoppergroup_cat = 0;
 		}
@@ -136,7 +135,9 @@ class Shop_Menu
 
 	function hasSubItems($id)
 	{
-		if (@$this->children[$id]) return true;
+		if (@$this->children[$id]) {
+			return true;
+		}
 
 		return false;
 	}

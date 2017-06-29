@@ -78,8 +78,8 @@ $post['state_code_ST']   = $post['state_code'];
 
 	<div id="divShipping">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES');?></legend>
-			<?php    echo $userhelper->getShippingTable($post, $this->billingaddresses->is_company, $this->lists);    ?>
+			<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?></legend>
+			<?php    echo $userhelper->getShippingTable($post, $this->billingaddresses->is_company, $this->lists); ?>
 			<table cellspacing="3" cellpadding="0" border="0" width="100%">
 				<tr>
 					<td align="right"><input type="button" class="button btn" name="back"

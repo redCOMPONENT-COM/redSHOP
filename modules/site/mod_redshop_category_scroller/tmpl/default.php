@@ -44,8 +44,7 @@ if ($view == 'category')
 	{
 		JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 	}
-}
-else
+} else
 {
 	JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 }
@@ -81,8 +80,7 @@ for ($i = 0, $countRows = count($rows); $i < $countRows; $i++)
 	if (count($ItemData) > 0)
 	{
 		$Itemid = $ItemData->id;
-	}
-	else
+	} else
 	{
 		$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 	}
@@ -116,8 +114,7 @@ for ($i = 0, $countRows = count($rows); $i < $countRows; $i++)
 			echo "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . $product_old_price . "</span></div>";
 			echo "<div id='mod_redmainprice' class='mod_redmainprice'>" . $product_price . "</div>";
 			echo "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . $product_price_saving . "</div>";
-		}
-		else
+		} else
 		{
 			echo "<div class='mod_redproducts_price'>" . $product_price . "</div>";
 		}
@@ -145,8 +142,7 @@ for ($i = 0, $countRows = count($rows); $i < $countRows; $i++)
 							$thumbheight,
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
-		}
-		elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_thumb_image))
+		} elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_thumb_image))
 		{
 			$prod_img = RedShopHelperImages::getImagePath(
 							$row->product_thumb_image,
@@ -157,8 +153,7 @@ for ($i = 0, $countRows = count($rows); $i < $countRows; $i++)
 							$thumbheight,
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
-		}
-		else
+		} else
 		{
 			$prod_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 		}

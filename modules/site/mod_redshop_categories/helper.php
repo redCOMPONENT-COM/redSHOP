@@ -26,8 +26,7 @@ class modProMenuHelper
 			if ($db->loadObjectList() > 0)
 			{
 				$GLOBALS['category_info'][$category_id]['has_childs'] = true;
-			}
-			else
+			} else
 			{
 				$GLOBALS['category_info'][$category_id]['has_childs'] = false;
 			}
@@ -76,8 +75,7 @@ class modProMenuHelper
 			if (isset($parent_ids_hash[$parent_id]))
 			{
 				$parent_ids_hash[$parent_id][$i] = $parent_id;
-			}
-			else
+			} else
 			{
 				$parent_ids_hash[$parent_id] = array($i => $parent_id);
 			}
@@ -112,8 +110,7 @@ class modProMenuHelper
 				if (isset($parent_ids_hash[$id]))
 				{
 					$children = $parent_ids_hash[$id];
-				}
-				else
+				} else
 				{
 					$children = null;
 				}
@@ -205,20 +202,16 @@ class modProMenuHelper
 			if ($categorysorttype == "catnameasc")
 			{
 				$query->order($db->qn('c.name') . ' ASC');
-			}
-			elseif ($categorysorttype == "catnamedesc")
+			} elseif ($categorysorttype == "catnamedesc")
 			{
 				$query->order($db->qn('c.name') . ' DESC');
-			}
-			elseif ($categorysorttype == "newest")
+			} elseif ($categorysorttype == "newest")
 			{
 				$query->order($db->qn('c.id') . ' DESC');
-			}
-			elseif ($categorysorttype == "catorder")
+			} elseif ($categorysorttype == "catorder")
 			{
 				$query->order($db->qn('c.ordering') . ' ASC');
-			}
-			else
+			} else
 			{
 				$query->order($db->qn('c.name') . ' ASC');
 			}
@@ -244,8 +237,7 @@ class modProMenuHelper
 			$GLOBALS['category_info']['category_tree'] = $categories;
 
 			return $GLOBALS['category_info']['category_tree'];
-		}
-		else
+		} else
 		{
 			return $GLOBALS['category_info']['category_tree'];
 		}
@@ -342,8 +334,7 @@ class modProMenuHelper
 				if (isset($categories[$root["category_parent_id"]]))
 				{
 					$root = $categories[$root["category_parent_id"]];
-				}
-				else
+				} else
 				{
 					$root = array('category_child_id' => 0, 'category_parent_id' => 0);
 				}
@@ -359,8 +350,7 @@ class modProMenuHelper
 		if (count($depth_list) > 0)
 		{
 			$depth = max($depth_list);
-		}
-		else
+		} else
 		{
 			$depth = 0;
 		}
@@ -379,8 +369,7 @@ class modProMenuHelper
 				|| in_array($category_tmp[$row_list[$n]]["category_child_id"], $allowed_subcategories))
 			{
 				$style = $highlighted_style;
-			}
-			else
+			} else
 			{
 				$style = "";
 			}
@@ -397,8 +386,7 @@ class modProMenuHelper
 				{
 					$allowed = true;
 				}
-			}
-			else
+			} else
 			{
 				$allowed = true;
 			}
@@ -426,14 +414,13 @@ class modProMenuHelper
 
 					if ($depth == $depth_list[$n] && $style == $highlighted_style)
 					{
-						$class  = "class='active'";
+						$class = "class='active'";
 					}
 
 					if ($depth_list[$n] > ($sub))
 					{
 						$html .= '<ul>';
-					}
-					elseif ($depth_list[$n] < ($sub))
+					} elseif ($depth_list[$n] < ($sub))
 					{
 						for ($i = $depth_list[$n]; $i < $sub; $i++)
 						{
@@ -442,8 +429,7 @@ class modProMenuHelper
 					}
 
 					$sub = $depth_list[$n];
-				}
-				else
+				} else
 				{
 					$css_class = $links_css_class;
 

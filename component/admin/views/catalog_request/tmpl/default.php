@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$Redconfiguration = Redconfiguration::getInstance();?>
+$Redconfiguration = Redconfiguration::getInstance(); ?>
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {
@@ -79,17 +79,17 @@ $Redconfiguration = Redconfiguration::getInstance();?>
 
 				$reminder1 = JHtml::_('jgrid.published', $row->reminder_1, $i, '', 1);
 				$reminder2 = JHtml::_('jgrid.published', $row->reminder_2, $i, '', 1);
-				$reminder3 = JHtml::_('jgrid.published', $row->reminder_3, $i, '', 1);?>
+				$reminder3 = JHtml::_('jgrid.published', $row->reminder_3, $i, '', 1); ?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 				<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
 				<td><?php echo  $row->name; ?></td>
 				<td><?php echo  $row->email; ?></td>
 				<td align="center"><?php echo $Redconfiguration->convertDateFormat($row->registerDate); ?></td>
-				<td align="center"><?php echo $reminder1;?></td>
-				<td align="center"><?php echo $reminder2;?></td>
-				<td align="center"><?php echo $reminder3;?></td>
-				<td align="center"><?php echo $published;?></td>
+				<td align="center"><?php echo $reminder1; ?></td>
+				<td align="center"><?php echo $reminder2; ?></td>
+				<td align="center"><?php echo $reminder3; ?></td>
+				<td align="center"><?php echo $published; ?></td>
 				</tr><?php
 				$k = 1 - $k;
 			}

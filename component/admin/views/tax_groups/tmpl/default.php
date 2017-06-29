@@ -56,13 +56,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
         <div class="alert alert-no-items alert-info">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
         </div>
-	<?php else : ?>
+	<?php else {
+	: ?>
         <table class="adminlist table table-striped">
             <thead>
             <tr>
                 <th width="1">#</th>
                 <th width="1">
-					<?php echo JHtml::_('redshopgrid.checkall'); ?>
+					<?php echo JHtml::_('redshopgrid.checkall');
+}
+?>
                 </th>
                 <th width="5%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $listDirn, $listOrder); ?>
@@ -101,12 +104,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 						<?php if ($row->checked_out && $user->id != $row->checked_out): ?>
 							<?php echo JHtml::_('string.truncate', $row->name, 50, true, false) ?>
-						<?php else: ?>
+						<?php else {
+	: ?>
                             <a href="<?php echo JRoute::_('index.php?option=com_redshop&task=tax_group.edit&id=' . $row->id) ?>"
                                title="<?php echo JText::_('COM_REDSHOP_EDIT') ?>">
 								<?php echo JHtml::_('string.truncate', $row->name, 50, true, false) ?>
                             </a>
-						<?php endif; ?>
+						<?php endif;
+}
+?>
                     </td>
                     <td align="center">
 						<?php $taxRates = RedshopEntityTax_Group::getInstance($row->id)->getTaxRates()->count(); ?>
@@ -115,9 +121,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                class="badge label-success">
 								<?php echo $taxRates ?>
                             </a>
-						<?php else: ?>
+						<?php else {
+	: ?>
                             <span class="badge">0</span>
-						<?php endif; ?>
+						<?php endif;
+}
+?>
                     </td>
                     <td align="center">
 						<?php echo $row->id ?>

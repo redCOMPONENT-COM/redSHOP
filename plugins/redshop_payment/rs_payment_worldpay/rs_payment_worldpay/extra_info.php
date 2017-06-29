@@ -43,8 +43,7 @@ $order_desc     = $this->params->get("order_desc");
 if ($this->params->get("is_test") == '1')
 {
 	$worldpayurl = "https://select-test.wp3.rbsworldpay.com/wcc/purchase";
-}
-else
+} else
 {
 	$worldpayurl = "https://secure.worldpay.com/wcc/purchase";
 }

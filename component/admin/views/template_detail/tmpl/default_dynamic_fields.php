@@ -90,11 +90,14 @@ if ($this->detail->template_section == "category")
 				<?php $availableAddtocart = $model->availableaddtocart('add_to_cart'); ?>
 				<?php if (count($availableAddtocart) == 0): ?>
                     <strong><?php echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE"); ?></strong>
-				<?php else: ?>
+				<?php else {
+	: ?>
 					<?php foreach ($availableAddtocart as $tag): ?>
                         <div style="margin-left:10px;">{form_addtocart:<?php echo $tag->template_name ?>}
                             -- <?php echo JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') ?></div>
-					<?php endforeach; ?>
+					<?php endforeach;
+}
+?>
 				<?php endif; ?>
             </td>
         </tr>
@@ -102,8 +105,11 @@ if ($this->detail->template_section == "category")
             <td>
 				<?php
 				$related_product = $redtemplate->getTemplate('related_product');
-				if (count($related_product) == 0) echo JText::_("COM_REDSHOP_NO_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE");
-				else echo JText::_("COM_REDSHOP_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE_HINT") . "<br />";
+				if (count($related_product) == 0) {
+					echo JText::_("COM_REDSHOP_NO_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE");
+				} else {
+					echo JText::_("COM_REDSHOP_RELATED_PRODUCT_LIGHTBOX_TEMPLATE_AVAILABLE_HINT") . "<br />";
+				}
 				for ($i = 0, $in = count($related_product); $i < $in; $i++)
 				{
 					echo '<br /><div style="margin-left:10px;">{related_product_lightbox:' . $related_product[$i]->template_name . '[:lightboxwidth][:lightboxheight]}</div><br />';
@@ -232,7 +238,9 @@ if ($this->detail->template_section == "product")
         <tr>
             <td>
 				<?php $availableaddtocart = $model->availableaddtocart('add_to_cart');
-				if (count($availableaddtocart) == 0) echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
+				if (count($availableaddtocart) == 0) {
+					echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
+				}
 
 				for ($i = 0, $in = count($availableaddtocart); $i < $in; $i++)
 				{
@@ -243,7 +251,9 @@ if ($this->detail->template_section == "product")
         <tr>
             <td>
 				<?php $availableAttTemp = $model->availableaddtocart('attribute_template');
-				if (count($availableAttTemp) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				if (count($availableAttTemp) == 0) {
+					echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				}
 
 				for ($i = 0, $in = count($availableAttTemp); $i < $in; $i++)
 				{
@@ -254,7 +264,9 @@ if ($this->detail->template_section == "product")
         <tr>
             <td>
 				<?php $availableAttcartTemp = $model->availableaddtocart('attributewithcart_template');
-				if (count($availableAttcartTemp) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				if (count($availableAttcartTemp) == 0) {
+					echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				}
 
 				for ($i = 0, $in = count($availableAttcartTemp); $i < $in; $i++)
 				{
@@ -265,7 +277,9 @@ if ($this->detail->template_section == "product")
         <tr>
             <td>
 				<?php $availableaddtocart = $model->availableaddtocart('related_product');
-				if (count($availableaddtocart) == 0) echo JText::_("COM_REDSHOP_RELATED_PRODUCT_TEMPLATE");
+				if (count($availableaddtocart) == 0) {
+					echo JText::_("COM_REDSHOP_RELATED_PRODUCT_TEMPLATE");
+				}
 
 				for ($i = 0, $in = count($availableaddtocart); $i < $in; $i++)
 				{
@@ -276,7 +290,9 @@ if ($this->detail->template_section == "product")
         <tr>
             <td>
 				<?php $wrappertemplate = $model->availableaddtocart('wrapper_template');
-				if (count($wrappertemplate) == 0) echo JText::_("COM_REDSHOP_NO_WRAPPER_TEMPLATE_AVAILABLE");
+				if (count($wrappertemplate) == 0) {
+					echo JText::_("COM_REDSHOP_NO_WRAPPER_TEMPLATE_AVAILABLE");
+				}
 				for ($i = 0, $in = count($wrappertemplate); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{wrapper_template:' . $wrappertemplate[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_WRAPPER_TEMPLATE') . '</div>';
@@ -312,7 +328,9 @@ if ($this->detail->template_section == "product_sample")
 				$tags_front = RedshopHelperExtrafields::getSectionFieldList(9, 1);
 				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(9, 0);
 				$tags       = array_merge((array) $tags_admin, (array) $tags_front);
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				if (count($tags) == 0) {
+					echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				}
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
@@ -351,7 +369,9 @@ if ($this->detail->template_section == "manufacturer")
 				$tags_front = RedshopHelperExtrafields::getSectionFieldList(10, 1);
 				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(10, 0);
 				$tags       = array_merge((array) $tags_admin, (array) $tags_front);
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				if (count($tags) == 0) {
+					echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				}
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
@@ -402,7 +422,9 @@ if ($this->detail->template_section == "manufacturer_products")
             <tr>
                 <td>
 					<?php $availableaddtocart = $model->availableaddtocart('add_to_cart');
-					if (count($availableaddtocart) == 0) echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
+					if (count($availableaddtocart) == 0) {
+						echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
+					}
 
 					for ($i = 0, $in = count($availableaddtocart); $i < $in; $i++)
 					{
@@ -511,7 +533,7 @@ if ($this->detail->template_section == "catalogue_order_detail")
         <table class="adminlist table table-striped">
             <tr>
                 <td>
-					<?php echo $catordetail_desc;; ?>
+					<?php echo $catordetail_desc; ; ?>
                 </td>
             </tr>
         </table>
@@ -735,8 +757,11 @@ if ($this->detail->template_section == "order_detail")
 				$tags_front = RedshopHelperExtrafields::getSectionFieldList(14, 1);
 				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(14, 0);
 				$tags       = array_merge((array) $tags_admin, (array) $tags_front);
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
+				if (count($tags) == 0) {
+					echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				} else {
+					echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
+				}
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
@@ -749,8 +774,11 @@ if ($this->detail->template_section == "order_detail")
 				$tags_front = RedshopHelperExtrafields::getSectionFieldList(15, 1);
 				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(15, 0);
 				$tags       = array_merge((array) $tags_admin, (array) $tags_front);
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
+				if (count($tags) == 0) {
+					echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				} else {
+					echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
+				}
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
@@ -792,8 +820,11 @@ if ($this->detail->template_section == "order_receipt")
 				$tags_front = RedshopHelperExtrafields::getSectionFieldList(14, 1);
 				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(14, 0);
 				$tags       = array_merge((array) $tags_admin, (array) $tags_front);
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
+				if (count($tags) == 0) {
+					echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				} else {
+					echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
+				}
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
@@ -806,8 +837,11 @@ if ($this->detail->template_section == "order_receipt")
 				$tags_front = RedshopHelperExtrafields::getSectionFieldList(15, 1);
 				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(15, 0);
 				$tags       = array_merge((array) $tags_admin, (array) $tags_front);
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
+				if (count($tags) == 0) {
+					echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				} else {
+					echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
+				}
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
@@ -898,8 +932,11 @@ if ($this->detail->template_section == "order_print")
 				$tags_front = RedshopHelperExtrafields::getSectionFieldList(14, 1);
 				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(14, 0);
 				$tags       = array_merge((array) $tags_admin, (array) $tags_front);
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-				else echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
+				if (count($tags) == 0) {
+					echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				} else {
+					echo JText::_("COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS");
+				}
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
@@ -913,8 +950,11 @@ if ($this->detail->template_section == "order_print")
 				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(15, 0);
 				$tags       = array_merge((array) $tags_admin, (array) $tags_front);
 
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
-				else echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
+				if (count($tags) == 0) {
+					echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				} else {
+					echo JText::_("COM_REDSHOP_COMPANY_SHIPPING_ADDRESS");
+				}
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{' . $tags[$i]->name . '} -- ' . $tags[$i]->title . '</div>';
@@ -1185,7 +1225,9 @@ if ($this->detail->template_section == "attributewithcart_template")
         <tr>
             <td>
 				<?php $availableaddtocart = $model->availableaddtocart('add_to_cart');
-				if (count($availableaddtocart) == 0) echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
+				if (count($availableaddtocart) == 0) {
+					echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
+				}
 				for ($i = 0, $in = count($availableaddtocart); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{form_addtocart:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ADD_TO_CART_TEMPLATE_AVAILABLE_HINT') . '</div>';
@@ -1403,7 +1445,9 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
         <tr>
             <td>
 				<?php $availableaddtocart = $model->availableaddtocart('add_to_cart');
-				if (count($availableaddtocart) == 0) echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
+				if (count($availableaddtocart) == 0) {
+					echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
+				}
 
 				for ($i = 0, $in = count($availableaddtocart); $i < $in; $i++)
 				{
@@ -1420,7 +1464,9 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 				$tags_front = RedshopHelperExtrafields::getSectionFieldList(6, 1);
 				$tags_admin = RedshopHelperExtrafields::getSectionFieldList(6, 0);
 				$tags       = array_merge((array) $tags_admin, (array) $tags_front);
-				if (count($tags) == 0) echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				if (count($tags) == 0) {
+					echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				}
 
 				for ($i = 0, $in = count($tags); $i < $in; $i++)
 				{
@@ -1457,7 +1503,9 @@ if ($this->detail->template_section == "redproductfinder")
         <tr>
             <td>
 				<?php $availableaddtocart = $model->availableaddtocart('add_to_cart');
-				if (count($availableaddtocart) == 0) echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
+				if (count($availableaddtocart) == 0) {
+					echo JText::_("COM_REDSHOP_NO_ADD_TO_CART_AVAILABLE");
+				}
 
 				for ($i = 0, $in = count($availableaddtocart); $i < $in; $i++)
 				{
@@ -1628,7 +1676,9 @@ if ($this->detail->template_section == "onestep_checkout")
         <tr>
             <td>
 				<?php $availablecheckout = $model->availableaddtocart('checkout');
-				if (count($availablecheckout) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				if (count($availablecheckout) == 0) {
+					echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				}
 				for ($i = 0, $in = count($availablecheckout); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{checkout_template:' . $availablecheckout[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE') . '</div>';
@@ -1638,7 +1688,9 @@ if ($this->detail->template_section == "onestep_checkout")
         <tr>
             <td>
 				<?php $availableshippingbox = $model->availableaddtocart('shippingbox');
-				if (count($availableshippingbox) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				if (count($availableshippingbox) == 0) {
+					echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				}
 				for ($i = 0, $in = count($availableshippingbox); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{shippingbox_template:' . $availableshippingbox[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_SHIPPING_BOX_TEMPLATE') . '</div>';
@@ -1648,7 +1700,9 @@ if ($this->detail->template_section == "onestep_checkout")
         <tr>
             <td>
 				<?php $availableshipping = $model->availableaddtocart('redshop_shipping');
-				if (count($availableshipping) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				if (count($availableshipping) == 0) {
+					echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				}
 				for ($i = 0, $in = count($availableshipping); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{shipping_template:' . $availableshipping[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_SHIPPING_METHOD_TEMPLATE') . '</div>';
@@ -1658,7 +1712,9 @@ if ($this->detail->template_section == "onestep_checkout")
         <tr>
             <td>
 				<?php $availablepayment = $model->availableaddtocart('redshop_payment');
-				if (count($availablepayment) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				if (count($availablepayment) == 0) {
+					echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				}
 				for ($i = 0, $in = count($availablepayment); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{payment_template:' . $availablepayment[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_PAYMENT_METHOD_TEMPLATE') . '</div>';
@@ -1694,7 +1750,9 @@ if ($this->detail->template_section == "change_cart_attribute")
         <tr>
             <td>
 				<?php $availableaddtocart = $model->availableaddtocart('attribute_template ');
-				if (count($availableaddtocart) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				if (count($availableaddtocart) == 0) {
+					echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				}
 				for ($i = 0, $in = count($availableaddtocart); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{attribute_template:' . $availableaddtocart[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE') . '</div>';
@@ -1704,7 +1762,9 @@ if ($this->detail->template_section == "change_cart_attribute")
         <tr>
             <td>
 				<?php $availableAttcartTemp = $model->availableaddtocart('attributewithcart_template');
-				if (count($availableAttcartTemp) == 0) echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				if (count($availableAttcartTemp) == 0) {
+					echo JText::_("COM_REDSHOP_ATTRIBUTE_TAGS_AVAILABLE");
+				}
 				for ($i = 0, $in = count($availableAttcartTemp); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{attributewithcart_template:' . $availableAttcartTemp[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE') . '</div>';
@@ -1791,7 +1851,9 @@ if ($this->detail->template_section == "billing_template")
         <tr>
             <td>
 				<?php $available = $model->availableaddtocart('private_billing_template ');
-				if (count($available) == 0) echo JTEXT::_("COM_REDSHOP_PRIVATE_BILLING_TEMPLATE");
+				if (count($available) == 0) {
+					echo JTEXT::_("COM_REDSHOP_PRIVATE_BILLING_TEMPLATE");
+				}
 				for ($i = 0, $in = count($available); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{private_billing_template:' . $available[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_PRIVATE_BILLING_TEMPLATE') . '</div>';
@@ -1801,7 +1863,9 @@ if ($this->detail->template_section == "billing_template")
         <tr>
             <td>
 				<?php $available = $model->availableaddtocart('company_billing_template ');
-				if (count($available) == 0) echo JTEXT::_("COM_REDSHOP_COMPANY_BILLING_TEMPLATE");
+				if (count($available) == 0) {
+					echo JTEXT::_("COM_REDSHOP_COMPANY_BILLING_TEMPLATE");
+				}
 				for ($i = 0, $in = count($available); $i < $in; $i++)
 				{
 					echo '<div style="margin-left:10px;">{company_billing_template:' . $available[$i]->template_name . '} -- ' . JText::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE') . '</div>';

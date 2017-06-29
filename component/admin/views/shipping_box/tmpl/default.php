@@ -116,7 +116,7 @@ $producthelper = productHelper::getInstance();
 						<?php echo $producthelper->redpriceDecimal($row->shipping_box_height); ?>
 					</td>
 					<td align="center" width="5%">
-						<?php echo $published;?>
+						<?php echo $published; ?>
 					</td>
 					<td align="center" width="5%">
 						<?php echo $row->shipping_box_id; ?>

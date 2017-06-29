@@ -432,8 +432,7 @@ class rsUserHelper
 			if (version_compare(JVERSION, '3.0', '<'))
 			{
 				$hash = JApplication::getHash(JUserHelper::genRandomPassword());
-			}
-			else
+			} else
 			{
 				$hash = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
 			}
@@ -513,8 +512,7 @@ class rsUserHelper
 			$row->load($data['users_info_id']);
 			$data["old_tax_exempt_approved"] = $row->tax_exempt_approved;
 			$user_id                         = $row->user_id;
-		}
-		else
+		} else
 		{
 			$isNew            = true;
 			$data['password'] = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -526,19 +524,16 @@ class rsUserHelper
 				if ($is_admin && isset($data['shopper_group_id']) && $data['shopper_group_id'] != 0)
 				{
 					$data['shopper_group_id'] = $data['shopper_group_id'];
-				}
-				else
+				} else
 				{
 					$data['shopper_group_id'] = (Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY') != 0) ? Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY') : 2;
 				}
-			}
-			else
+			} else
 			{
 				if ($is_admin && isset($data['shopper_group_id']) && $data['shopper_group_id'] != 0)
 				{
 					$data['shopper_group_id'] = $data['shopper_group_id'];
-				}
-				else
+				} else
 				{
 					$data['shopper_group_id'] = (Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE') != 0) ? Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE') : 1;
 				}
@@ -588,8 +583,7 @@ class rsUserHelper
 				if ($data["tax_exempt_approved"] == 1)
 				{
 					$redshopMail->sendTaxExemptMail("tax_exempt_approval_mail", $data, $row->user_email);
-				}
-				else
+				} else
 				{
 					$redshopMail->sendTaxExemptMail("tax_exempt_disapproval_mail", $data, $row->user_email);
 				}
@@ -687,8 +681,7 @@ class rsUserHelper
 		{
 			// Info: field_section 7 :Userinformations
 			$list_field = $extra_field->extra_field_save($data, 7, $row->users_info_id);
-		}
-		else
+		} else
 		{
 			// Info: field_section 8 :Userinformations
 			$list_field = $extra_field->extra_field_save($data, 8, $row->users_info_id);
@@ -707,8 +700,7 @@ class rsUserHelper
 				{
 					$redshopMail->sendRegistrationMail($data);
 				}
-			}
-			else
+			} else
 			{
 				$redshopMail->sendRegistrationMail($data);
 			}
@@ -767,8 +759,7 @@ class rsUserHelper
 		{
 			// Info: field_section 14 :Customer shipping Address
 			$list_field = $extra_field->extra_field_save($data, 14, $rowShip->users_info_id);
-		}
-		else
+		} else
 		{
 			// Info: field_section 15 :Company shipping Address
 			$list_field = $extra_field->extra_field_save($data, 15, $rowShip->users_info_id);
@@ -821,7 +812,7 @@ class rsUserHelper
 
 		if ($user->id)
 		{
-			$and   .= "AND `user_id` = " . (int) $user->id . " ";
+			$and .= "AND `user_id` = " . (int) $user->id . " ";
 			$email = $user->email;
 		}
 
@@ -846,8 +837,7 @@ class rsUserHelper
 		if (isset($post['billisship']) && $post['billisship'] == 1)
 		{
 			$billingisshipping = "checked='checked'";
-		}
-		elseif (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
+		} elseif (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
 		{
 			$billingisshipping = "checked='checked'";
 		}
@@ -857,8 +847,7 @@ class rsUserHelper
 		if (count($billing_template) > 0 && $billing_template[0]->template_desc != "" && strstr($billing_template[0]->template_desc, "private_billing_template:") && strstr($billing_template[0]->template_desc, "company_billing_template:"))
 		{
 			$template_desc = $billing_template[0]->template_desc;
-		}
-		else
+		} else
 		{
 			$template_desc = '<table class="admintable" border="0" cellspacing="0" cellpadding="0"><tbody><tr valign="top"><td>{private_billing_template:private_billing_template}{company_billing_template:company_billing_template}</td><td>{account_creation_start}<table class="admintable" border="0"><tbody><tr><td width="100" align="right">{username_lbl}</td><td>{username}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{password_lbl}</td><td>{password}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{confirm_password_lbl}</td><td>{confirm_password}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{newsletter_signup_chk}</td><td colspan="2">{newsletter_signup_lbl}</td></tr></tbody></table>{account_creation_end}</td></tr><tr><td colspan="2" align="right"><span class="required">*</span>{required_lbl}</td></tr><tr class="trshipping_add"><td class="tdshipping_add" colspan="2">{shipping_same_as_billing_lbl} {shipping_same_as_billing}</td></tr></tbody></table>';
 		}
@@ -878,8 +867,7 @@ class rsUserHelper
 				if ($private_template[$i]->template_desc != "")
 				{
 					$private_template_desc = $private_template[$i]->template_desc;
-				}
-				else
+				} else
 				{
 					$private_template_desc = '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr><td width="100" align="right">{email_lbl}:</td><td>{email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_start} --><tr><td width="100" align="right">{retype_email_lbl}</td><td>{retype_email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_end} --><tr><td width="100" align="right">{firstname_lbl}</td><td>{firstname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_lbl}</td><td>{lastname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_lbl}</td><td>{address}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_lbl}</td><td>{zipcode}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_lbl}</td><td>{city}</td><td><span class="required">*</span></td></tr><tr id="{country_txtid}" style="{country_style}"><td width="100" align="right">{country_lbl}</td><td>{country}</td><td><span class="required">*</span></td></tr><tr id="{state_txtid}" style="{state_style}"><td width="100" align="right">{state_lbl}</td><td>{state}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td><td>{phone}</td><td><span class="required">*</span></td></tr><tr><td colspan="3">{private_extrafield}</td></tr></tbody></table>';
 				}
@@ -905,8 +893,7 @@ class rsUserHelper
 				if ($company_template[$i]->template_desc != "")
 				{
 					$company_template_desc = $company_template[$i]->template_desc;
-				}
-				else
+				} else
 				{
 					$company_template_desc = '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr><td width="100" align="right">{email_lbl}:</td><td>{email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_start} --><tr><td width="100" align="right">{retype_email_lbl}</td><td>{retype_email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_end} --><tr><td width="100" align="right">{company_name_lbl}</td><td>{company_name}</td><td><span class="required">*</span></td></tr><!-- {vat_number_start} --><tr><td width="100" align="right">{vat_number_lbl}</td><td>{vat_number}</td><td><span class="required">*</span></td></tr><!-- {vat_number_end} --><tr><td width="100" align="right">{firstname_lbl}</td><td>{firstname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_lbl}</td><td>{lastname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_lbl}</td><td>{address}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_lbl}</td><td>{zipcode}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_lbl}</td><td>{city}</td><td><span class="required">*</span></td></tr><tr id="{country_txtid}" style="{country_style}"><td width="100" align="right">{country_lbl}</td><td>{country}</td><td><span class="required">*</span></td></tr><tr id="{state_txtid}" style="{state_style}"><td width="100" align="right">{state_lbl}</td><td>{state}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td><td>{phone}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{ean_number_lbl}</td><td>{ean_number}</td><td></td></tr><tr><td width="100" align="right">{tax_exempt_lbl}</td><td>{tax_exempt}</td></tr><tr><td colspan="3">{company_extrafield}</td></tr></tbody></table>';
 				}
@@ -923,8 +910,7 @@ class rsUserHelper
 		{
 			$template_desc = str_replace("{shipping_same_as_billing_lbl}", JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING'), $template_desc);
 			$template_desc = str_replace("{shipping_same_as_billing}", '<input type="checkbox" id="billisship" name="billisship" value="1" onclick="billingIsShipping(this);" ' . $billingisshipping . ' />', $template_desc);
-		}
-		else
+		} else
 		{
 			$template_desc = str_replace("{shipping_same_as_billing_lbl}", '', $template_desc);
 			$template_desc = str_replace("{shipping_same_as_billing}", '', $template_desc);
@@ -946,13 +932,11 @@ class rsUserHelper
 					if ($create_account == 1)
 					{
 						$checkbox_style = 'style="display:block"';
-					}
-					else
+					} else
 					{
 						$checkbox_style = 'style="display:none"';
 					}
-				}
-				else
+				} else
 				{
 					$checkbox_style = 'style="display:block"';
 				}
@@ -1037,7 +1021,7 @@ class rsUserHelper
 			'<input class="inputbox ' . $phoneIsRequired . '" type="text" name="phone" id="phone" size="32" maxlength="250" value="' . (isset($post["phone"]) ? $post["phone"] : '') . '" onblur="return searchByPhone(this.value,\'BT\');" />',
 			$template_desc
 		);
-		$template_desc   = str_replace("{phone_lbl}", JText::_('COM_REDSHOP_PHONE'), $template_desc);
+		$template_desc = str_replace("{phone_lbl}", JText::_('COM_REDSHOP_PHONE'), $template_desc);
 
 		$template_desc = str_replace("{country_txtid}", "div_country_txt", $template_desc);
 		$template_desc = str_replace("{country_style}", $countrystyle, $template_desc);
@@ -1109,8 +1093,7 @@ class rsUserHelper
 			$tax_exempt    = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox" ', $taxExempt, JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'), JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED'));
 			$template_desc = str_replace("{tax_exempt_lbl}", '<div id="lblTaxExempt" ' . $allowCompany . '>' . JText::_('COM_REDSHOP_TAX_EXEMPT') . '</div>', $template_desc);
 			$template_desc = str_replace("{tax_exempt}", '<div id="trTaxExempt" ' . $allowCompany . '>' . $tax_exempt . '</div>', $template_desc);
-		}
-		else
+		} else
 		{
 			$template_desc = str_replace("{tax_exempt_lbl}", '', $template_desc);
 			$template_desc = str_replace("{tax_exempt}", '', $template_desc);
@@ -1133,8 +1116,7 @@ class rsUserHelper
 		if (count($shipping_template) > 0 && $shipping_template[0]->template_desc != "")
 		{
 			$template_desc = $shipping_template[0]->template_desc;
-		}
-		else
+		} else
 		{
 			$template_desc = '<table class="admintable" border="0"><tbody><tr><td width="100" align="right">{firstname_st_lbl}</td><td>{firstname_st}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_st_lbl}</td><td>{lastname_st}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_st_lbl}</td><td>{address_st}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_st_lbl}</td><td>{zipcode_st}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_st_lbl}</td><td>{city_st}</td><td><span class="required">*</span></td></tr><tr id="{country_st_txtid}" style="{country_st_style}"><td width="100" align="right">{country_st_lbl}</td><td>{country_st}</td><td><span class="required">*</span></td></tr><tr id="{state_st_txtid}" style="{state_st_style}"><td width="100" align="right">{state_st_lbl}</td><td>{state_st}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_st_lbl}</td><td>{phone_st}</td><td><span class="required">*</span></td></tr><tr><td colspan="3">{extra_field_st_start} <table border="0"><tbody><tr><td>{extra_field_st}</td></tr></tbody></table>{extra_field_st_end}</td></tr></tbody></table>';
 		}
@@ -1150,8 +1132,7 @@ class rsUserHelper
 		if ($is_company == 1)
 		{
 			$allowCustomer = 'style="display:none;"';
-		}
-		else
+		} else
 		{
 			$allowCompany = 'style="display:none;"';
 		}

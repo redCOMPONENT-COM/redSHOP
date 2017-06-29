@@ -155,12 +155,10 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 			{
 				$fieldObject->id = $fieldId;
 				$db->updateObject('#__redshop_fields', $fieldObject, 'id');
-			}
-			elseif ($db->insertObject('#__redshop_fields', $fieldObject, 'id'))
+			} elseif ($db->insertObject('#__redshop_fields', $fieldObject, 'id'))
 			{
 				$fieldId = $fieldObject->id;
-			}
-			else
+			} else
 			{
 				return false;
 			}
@@ -186,8 +184,7 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 			if (!$dataId)
 			{
 				$db->insertObject('#__redshop_fields_data', $object);
-			}
-			else
+			} else
 			{
 				$object->data_id = $dataId;
 				$db->updateObject('#__redshop_fields_data', $object, 'data_id');
@@ -213,8 +210,7 @@ class PlgRedshop_ImportField extends AbstractImportPlugin
 			if (!$fieldValueId)
 			{
 				$db->insertObject('#__redshop_fields_value', $object);
-			}
-			else
+			} else
 			{
 				$object->value_id = $fieldValueId;
 				$db->updateObject('#__redshop_fields_value', $object, 'value_id');

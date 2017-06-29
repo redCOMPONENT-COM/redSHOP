@@ -14,8 +14,8 @@ $ordering       = 1;
 
 if (!empty($this->getassociation))
 {
-    $accosiation_id = $this->getassociation->id;
-    $ordering       = $this->getassociation->ordering;
+	$accosiation_id = $this->getassociation->id;
+	$ordering       = $this->getassociation->ordering;
 }
 
 ?>

@@ -161,7 +161,7 @@ class RedshopHelperOrder
 		$orderInfo = $db->loadObject();
 
 		// Don't generate invoice number for free orders if disabled from config
-		if ($orderInfo->order_total <= 0 && ! (boolean) Redshop::getConfig()->get('INVOICE_NUMBER_FOR_FREE_ORDER'))
+		if ($orderInfo->order_total <= 0 && !(boolean) Redshop::getConfig()->get('INVOICE_NUMBER_FOR_FREE_ORDER'))
 		{
 			return false;
 		}
@@ -526,7 +526,7 @@ class RedshopHelperOrder
 		}
 
 		return array_filter(
-			$orderItems->toObjects(), function ($item) {
+			$orderItems->toObjects(), function($item) {
 				return $item->is_giftcard;
 			}
 		);
@@ -802,14 +802,13 @@ class RedshopHelperOrder
 			$contentProducts       = implode(",", $contentProducts);
 			$contentProducts       = mb_convert_encoding($contentProducts, "ISO-8859-1", "UTF-8");
 			$contentProductsRemark = substr(mb_convert_encoding($contentProducts, "ISO-8859-1", "UTF-8"), 0, 29);
-		}
-		else
+		} else
 		{
 			$contentProducts       = " ";
 			$contentProductsRemark = " ";
 		}
 
-		$filter    = JFilterInput::getInstance();
+		$filter = JFilterInput::getInstance();
 
 		// Filter name to remove special characters
 		// We are using $billingInfo instead $shippingInfo because $shippingInfo stored information of service point not buyer
@@ -817,7 +816,7 @@ class RedshopHelperOrder
 			mb_convert_encoding($billingInfo->firstname, "ISO-8859-1", "UTF-8"),
 			'username'
 		);
-		$lastName  = $filter->clean(
+		$lastName = $filter->clean(
 			mb_convert_encoding($billingInfo->lastname, "ISO-8859-1", "UTF-8"),
 			'username'
 		);
@@ -833,8 +832,7 @@ class RedshopHelperOrder
 			$addon         = "<addon adnid='POD'></addon>";
 			$finalAddress1 = $companyName;
 			$finalAddress2 = $address;
-		}
-		else
+		} else
 		{
 			// Post Danmark MyPack Home
 			$fProductCode  = "PDK17";
@@ -874,7 +872,7 @@ class RedshopHelperOrder
 			$agentEle     = '<val n="agentto">' . $shopLocation[0] . '</val>';
 
 			// PUPOPT is stands for "Optional Service Point".
-			$addon        .= '<addon adnid="PUPOPT"></addon>';
+			$addon .= '<addon adnid="PUPOPT"></addon>';
 		}
 
 		$xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
@@ -953,13 +951,11 @@ class RedshopHelperOrder
 				$db->execute();
 
 				return "success";
-			}
-			else
+			} else
 			{
 				return (string) $xmlResponse[1] . "-" . (string) $xmlResponse[2] . "-" . (string) $xmlResponse[0];
 			}
-		}
-		catch (Exception $e)
+		} catch (Exception $e)
 		{
 			return $e->getMessage();
 		}
@@ -1358,9 +1354,7 @@ class RedshopHelperOrder
 				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $newStatus == 'C')
 				{
 					$redshopMail->sendOrderMail($orderId);
-				}
-
-				elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
+				} elseif (Redshop::getConfig()->get('INVOICE_MAIL_ENABLE'))
 				{
 					$redshopMail->sendInvoiceMail($orderId);
 				}
@@ -1453,16 +1447,14 @@ class RedshopHelperOrder
 		if ($return == 'order')
 		{
 			$app->redirect('index.php?option=com_redshop&view=' . $return . '' . $isArchive . '', $msg);
-		}
-		else
+		} else
 		{
 			$tmpl = $app->input->getCmd('tmpl');
 
 			if ('' != $tmpl)
 			{
 				$app->redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . '&tmpl=' . $tmpl . '' . $isArchive . '', $msg);
-			}
-			else
+			} else
 			{
 				$app->redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $orderId . '' . $isArchive . '', $msg);
 			}
@@ -1802,8 +1794,7 @@ class RedshopHelperOrder
 		if ($list)
 		{
 			$fullName = $list->firstname . " " . $list->lastname;
-		}
-		else
+		} else
 		{
 			$query = $db->getQuery(true)
 						->select($db->qn('name'))
@@ -1936,8 +1927,7 @@ class RedshopHelperOrder
 			$maxOrderNumber = $db->loadResult();
 			$maxInvoice     = Economic::getMaxOrderNumberInEconomic();
 			$maxId          = max(intval($maxOrderNumber), $maxInvoice);
-		}
-		elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
+		} elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
 		{
 			$maxId = ($maxId + Redshop::getConfig()->get('FIRST_INVOICE_NUMBER') + 1);
 
@@ -2307,8 +2297,7 @@ class RedshopHelperOrder
 			$app->redirect(
 				JUri::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $row->order_id
 			);
-		}
-		else
+		} else
 		{
 			$app->redirect(
 				JUri::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin="
@@ -2351,7 +2340,7 @@ class RedshopHelperOrder
 	 */
 	public static function checkUpdateOrders($data)
 	{
-		$db  = JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_orders'))
@@ -2416,8 +2405,7 @@ class RedshopHelperOrder
 					{
 						$mailData = str_replace('{' . $fieldArray[$i]->name . '}', $fieldValueArray->data_txt, $mailData);
 						$mailData = str_replace('{' . $fieldArray[$i]->name . '_lbl}', $fieldArray[$i]->title, $mailData);
-					}
-					else
+					} else
 					{
 						$mailData = str_replace('{' . $fieldArray[$i]->name . '}', "", $mailData);
 						$mailData = str_replace('{' . $fieldArray[$i]->name . '_lbl}', "", $mailData);
@@ -2431,7 +2419,7 @@ class RedshopHelperOrder
 			}
 
 			// Changes to parse all tags same as order mail start
-			$orderDetail      = self::getOrderDetails($orderId);
+			$orderDetail = self::getOrderDetails($orderId);
 			$mailData = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $mailData);
 			$mailData = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $mailData);
 
@@ -2680,8 +2668,7 @@ class RedshopHelperOrder
 		if (count($orderTemplate) > 0 && $orderTemplate[0]->template_desc != "")
 		{
 			$message = $orderTemplate[0]->template_desc;
-		}
-		else
+		} else
 		{
 			$message = '<table style="width: 100%;" border="0" cellpadding="5" cellspacing="0">
 				<tbody><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody>
@@ -2857,8 +2844,7 @@ class RedshopHelperOrder
 				RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$j]->stockroom_id);
 				$productHelper->makeAttributeOrder($orderProducts[$j]->order_item_id, 0, $prodid, 1);
 			}
-		}
-		elseif ($newStatus == 'RT')
+		} elseif ($newStatus == 'RT')
 		{
 			// If any of the item from the order is returuned back then,
 			// change the status of whole order and also put back to stock.
@@ -2873,8 +2859,7 @@ class RedshopHelperOrder
 				// Changing the status of the order to Partially Returned
 				self::updateOrderStatus($orderId, "PRT");
 			}
-		}
-		elseif ($newStatus == 'RC')
+		} elseif ($newStatus == 'RC')
 		{
 			// If any of the item from the order is reclamation back then,
 			// change the status of whole order and also put back to stock.
@@ -2886,8 +2871,7 @@ class RedshopHelperOrder
 				// Changing the status of the order to Partially Reclamation
 				self::updateOrderStatus($orderId, "PRC");
 			}
-		}
-		elseif ($newStatus == 'S')
+		} elseif ($newStatus == 'S')
 		{
 			if ($isProduct)
 			{

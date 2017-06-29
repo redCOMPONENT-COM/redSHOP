@@ -152,8 +152,7 @@ class JFormFieldCategoryList extends JFormFieldList
 		if (is_numeric($published))
 		{
 			$subQuery->where('published = ' . (int) $published);
-		}
-		elseif (is_array($published))
+		} elseif (is_array($published))
 		{
 			$subQuery->where('published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
 		}
@@ -184,8 +183,7 @@ class JFormFieldCategoryList extends JFormFieldList
 		try
 		{
 			$options = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
 		}
@@ -205,8 +203,7 @@ class JFormFieldCategoryList extends JFormFieldList
 			if ($options[$i]->published == 1)
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
-			}
-			else
+			} else
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
 			}
@@ -335,7 +332,7 @@ class JFormFieldCategoryList extends JFormFieldList
 			$customGroupText = JText::_('JGLOBAL_CUSTOM_CATEGORY');
 
 			$class[] = 'chzn-custom-value';
-			$attr    .= ' data-custom_group_text="' . $customGroupText . '" '
+			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
 				. 'data-no_results_text="' . JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
 				. 'data-placeholder="' . JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
 		}
@@ -383,13 +380,11 @@ class JFormFieldCategoryList extends JFormFieldList
 				{
 					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"/>';
 				}
-			}
-			else
+			} else
 			{
 				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"/>';
 			}
-		}
-		else
+		} else
 			// Create a regular list.
 		{
 			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);

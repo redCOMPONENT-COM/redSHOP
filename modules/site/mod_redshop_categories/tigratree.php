@@ -20,16 +20,13 @@ $root_label = $params->get('root_label');
 if ($params->get('categorysorttype') == "catnameasc")
 {
 	$sortparam = "name ASC";
-}
-elseif ($params->get('categorysorttype') == "catnamedesc")
+} elseif ($params->get('categorysorttype') == "catnamedesc")
 {
 	$sortparam = "name DESC";
-}
-elseif ($params->get('categorysorttype') == "newest")
+} elseif ($params->get('categorysorttype') == "newest")
 {
 	$sortparam = "id DESC";
-}
-elseif ($params->get('categorysorttype') == "catorder")
+} elseif ($params->get('categorysorttype') == "catorder")
 {
 	$sortparam = "ordering ASC";
 }
@@ -118,8 +115,7 @@ class redTigraTreeMenu
 		if ($shopper_group_id)
 		{
 			$shoppergroup_cat = $redproduct_menu->get_shoppergroup_cat($shopper_group_id);
-		}
-		else
+		} else
 		{
 			$shoppergroup_cat = 0;
 		}
@@ -149,8 +145,7 @@ class redTigraTreeMenu
 				if ($cItemid != "")
 				{
 					$tmpItemid = $cItemid;
-				}
-				else
+				} else
 				{
 					$tmpItemid = $Itemid;
 				}
@@ -171,8 +166,7 @@ class redTigraTreeMenu
 				if ($i == sizeof($categories) && $level == 1)
 				{
 					$mymenu_content .= "]\n";
-				}
-				else
+				} else
 				{
 					$mymenu_content .= "],\n";
 				}

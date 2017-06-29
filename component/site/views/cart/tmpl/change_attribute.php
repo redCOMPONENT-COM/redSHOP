@@ -34,7 +34,7 @@ $document = JFactory::getDocument();
 			frm.submit();
 		}
 		function submitChangeAttribute() {
-			calculateTotalPrice(<?php echo $product_id;?>, 0);
+			calculateTotalPrice(<?php echo $product_id; ?>, 0);
 			var requiedAttribute = document.getElementById('requiedAttribute').value;
 			var requiedProperty = document.getElementById('requiedProperty').value;
 
@@ -59,8 +59,7 @@ $cart_attribute = $redTemplate->getTemplate("change_cart_attribute");
 if (count($cart_attribute) > 0 && $cart_attribute[0]->template_desc)
 {
 	$template_desc = $cart_attribute[0]->template_desc;
-}
-else
+} else
 {
 	$template_desc = '<table border="0">\r\n<tbody>\r\n<tr>\r\n<th>Change Attribute</th>\r\n</tr>\r\n<tr>\r\n<td>{attribute_template:attributes}</td>\r\n</tr>\r\n<tr>\r\n<td>{apply_button} {cancel_button}</td>\r\n</tr>\r\n</tbody>\r\n</table>';
 }
@@ -73,8 +72,7 @@ $childproduct = $producthelper->getChildProduct($product_id);
 if (count($childproduct) > 0)
 {
 	$isChilds = true;
-}
-else
+} else
 {
 	$isChilds = false;
 }
@@ -84,8 +82,7 @@ if ($isChilds)
 {
 	$attributes = array();
 	$selectAtt  = array(array(), array());
-}
-else
+} else
 {
 	$attributes_set = array();
 
@@ -132,8 +129,7 @@ if ($totalatt > 0)
 {
 	$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 	echo eval ("?>" . $template_desc . "<?php ");
-}
-else
+} else
 {
 	echo JText::_("COM_REDSHOP_NO_ATTRIBUTE_TO_CHANGE");
 }

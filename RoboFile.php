@@ -124,8 +124,7 @@ class RoboFile extends \Robo\Tasks
 			try
 			{
 				$this->taskDeleteDir($this->cmsPath)->run();
-			}
-			catch (Exception $e)
+			} catch (Exception $e)
 			{
 				// Sorry, we tried :(
 				$this->say('Sorry, you will have to delete ' . $this->cmsPath . ' manually. ');
@@ -168,8 +167,7 @@ class RoboFile extends \Robo\Tasks
 		if (isset($opts['suite']) && 'api' === $opts['suite'])
 		{
 			// Do not launch selenium when running API tests
-		}
-		else
+		} else
 		{
 			$this->runSelenium();
 
@@ -511,8 +509,7 @@ class RoboFile extends \Robo\Tasks
 			if (!$this->_exec('git.exe --version')->getMessage())
 			{
 				return '';
-			}
-			else
+			} else
 			{
 				return '.exe';
 			}

@@ -322,12 +322,12 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	protected function getAttributesHeader()
 	{
 		return array(
-			'attribute_name','attribute_ordering','allow_multiple_selection','hide_attribute_price','attribute_required',
-			'display_type','property_name','property_stock','property_ordering','property_virtual_number','setdefault_selected',
-			'setrequire_selected', 'setdisplay_type', 'oprand','property_price','property_image','property_main_image',
-			'subattribute_color_name', 'subattribute_stock', 'subattribute_color_ordering','subattribute_setdefault_selected',
-			'subattribute_color_title','subattribute_virtual_number', 'subattribute_color_oprand','required_sub_attribute',
-			'subattribute_color_price','subattribute_color_image','delete', 'media_name', 'media_alternate_text', 'media_section',
+			'attribute_name', 'attribute_ordering', 'allow_multiple_selection', 'hide_attribute_price', 'attribute_required',
+			'display_type', 'property_name', 'property_stock', 'property_ordering', 'property_virtual_number', 'setdefault_selected',
+			'setrequire_selected', 'setdisplay_type', 'oprand', 'property_price', 'property_image', 'property_main_image',
+			'subattribute_color_name', 'subattribute_stock', 'subattribute_color_ordering', 'subattribute_setdefault_selected',
+			'subattribute_color_title', 'subattribute_virtual_number', 'subattribute_color_oprand', 'required_sub_attribute',
+			'subattribute_color_price', 'subattribute_color_image', 'delete', 'media_name', 'media_alternate_text', 'media_section',
 			'media_published', 'media_ordering'
 		);
 	}
@@ -400,13 +400,11 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value))
 					{
 						$item[$column] = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $value;
-					}
-					else
+					} else
 					{
 						$item[$column] = "";
 					}
-				}
-				else
+				} else
 				{
 					$item[$column] = str_replace(array("\n", "\r"), "", $value);
 				}
@@ -670,8 +668,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			if (in_array($key, array('product_number', 'product_id', 'product_name')))
 			{
 				$cleanItem[$key] = $value;
-			}
-			else
+			} else
 			{
 				$cleanItem[$key] = '';
 			}

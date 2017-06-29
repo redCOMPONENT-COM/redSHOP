@@ -24,8 +24,7 @@ $paymentCurrency = $this->params->get("currency", Redshop::getConfig()->get('CUR
 if (1 == (int) $this->params->get("sandbox"))
 {
 	$paypalurl = "https://www.sandbox.paypal.com/cgi-bin/webscr";
-}
-else
+} else
 {
 	$paypalurl = "https://www.paypal.com/cgi-bin/webscr";
 }

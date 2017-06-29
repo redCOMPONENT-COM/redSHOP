@@ -46,18 +46,15 @@ class Xmap_Com_Redshop
 		{
 			$node->uid        = 'com_redshopc' . $catid . 'p' . $prodid;
 			$node->expandible = false;
-		}
-		elseif ($catid)
+		} elseif ($catid)
 		{
 			$node->uid        = 'com_redshopc' . $catid;
 			$node->expandible = true;
-		}
-		elseif ($prodid && $manid)
+		} elseif ($prodid && $manid)
 		{
 			$node->uid        = 'com_redshopm' . $manid . 'p' . $prodid;
 			$node->expandible = false;
-		}
-		elseif ($manid)
+		} elseif ($manid)
 		{
 			$node->uid        = 'com_redshopm' . $manid;
 			$node->expandible = true;
@@ -94,7 +91,7 @@ class Xmap_Com_Redshop
 		$params['include_products'] = $include_products;
 		$priority                   = self::getParam($params, 'cat_priority', $parent->priority);
 		$changefreq                 = self::getParam($params, 'cat_changefreq', $parent->changefreq);
-		$params['max_product']          = (int) self::getParam($params, 'max_product', 0);
+		$params['max_product'] = (int) self::getParam($params, 'max_product', 0);
 
 		if ($priority == '-1')
 		{
@@ -150,7 +147,7 @@ class Xmap_Com_Redshop
 	 */
 	static protected function getCategoryTree($xmap, $parent, &$params, $catid = 0)
 	{
-		$db      = JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$objhelper     = redhelper::getInstance();
 		$producthelper = productHelper::getInstance();
 
@@ -210,8 +207,7 @@ class Xmap_Com_Redshop
 			if ($params['max_product'])
 			{
 				$limit = (int) $params['max_product'];
-			}
-			else
+			} else
 			{
 				$limit = 0;
 			}
@@ -228,8 +224,7 @@ class Xmap_Com_Redshop
 					if (count($ItemData) > 0)
 					{
 						$params['Itemid'] = $ItemData->id;
-					}
-					else
+					} else
 					{
 						$params['Itemid'] = RedshopHelperUtility::getItemId($row->product_id, $row->category_id);
 					}
@@ -288,8 +283,7 @@ class Xmap_Com_Redshop
 		if ($manid > 0)
 		{
 			$query->where('prod.manufacturer_id = ' . (int) $manid);
-		}
-		else
+		} else
 		{
 			$query->where('prod.product_parent_id = ' . (int) $prod);
 		}
@@ -302,8 +296,7 @@ class Xmap_Com_Redshop
 		if ($params['max_product'])
 		{
 			$limit = (int) $params['max_product'];
-		}
-		else
+		} else
 		{
 			$limit = 0;
 		}
@@ -320,8 +313,7 @@ class Xmap_Com_Redshop
 				if (count($ItemData) > 0)
 				{
 					$params['Itemid'] = $ItemData->id;
-				}
-				else
+				} else
 				{
 					$params['Itemid'] = RedshopHelperUtility::getItemId($row->product_id, $row->category_id);
 				}

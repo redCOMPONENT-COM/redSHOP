@@ -26,7 +26,7 @@ $model         = $this->getModel('user');
 				$link = RedshopHelperUtility::getSSLLink('index.php?option=com_redshop&view=user_detail');
 			?>
 
-			window.location = '<?php echo $link;?>';
+			window.location = '<?php echo $link; ?>';
 			return;
 		}
 		else if (
@@ -66,37 +66,37 @@ $model         = $this->getModel('user');
 					name="filter"
 					id="filter"
 					value="<?php echo $this->state->get('filter'); ?>"
-					placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER');?>"
+					placeholder="<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>"
 					>
 				<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
-				<input type="button" class="btn reset" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+				<input type="button" class="btn reset" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
 
 			</div>
 		</div>
 
 		<div class="filterItem">
-			<?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER');?>
-			<?php echo $this->lists ['shopper_group'];?>
+			<?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER'); ?>
+			<?php echo $this->lists ['shopper_group']; ?>
 		</div>
 		<div class="filterItem">
-			<?php echo JText::_('COM_REDSHOP_TAX_EXEMPT_REQUESTED');?>
-			<?php echo $this->lists ['tax_exempt_request'];?>
+			<?php echo JText::_('COM_REDSHOP_TAX_EXEMPT_REQUESTED'); ?>
+			<?php echo $this->lists ['tax_exempt_request']; ?>
 		</div>
 	</div>
 	<div id="editcell">
 		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
-				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM');?></th>
+				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
-				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_FIRST_NAME', 'firstname', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
-				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_LAST_NAME', 'lastname', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
+				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_FIRST_NAME', 'firstname', $this->lists ['order_Dir'], $this->lists ['order']); ?></th>
+				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_LAST_NAME', 'lastname', $this->lists ['order_Dir'], $this->lists ['order']); ?></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_REGISTER_AS', 'is_company', $this->lists ['order_Dir'], $this->lists ['order']); ?></th>
-				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USERNAME', 'username', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
-				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_SHOPPER_GROUP_NAME', 'shopper_group_id', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
+				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USERNAME', 'username', $this->lists ['order_Dir'], $this->lists ['order']); ?></th>
+				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_SHOPPER_GROUP_NAME', 'shopper_group_id', $this->lists ['order_Dir'], $this->lists ['order']); ?></th>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_CUSTOMER_SALES'); ?></th>
 				<th width="5%"
-				    nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'users_info_id', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
+				    nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'users_info_id', $this->lists ['order_Dir'], $this->lists ['order']); ?></th>
 			</tr>
 			</thead>
 			<?php
@@ -122,12 +122,12 @@ $model         = $this->getModel('user');
 				$last_name = $row->lastname;
 				?>
 				<tr class="<?php echo "row$k"; ?>">
-					<td align="center"><?php echo $this->pagination->getRowOffset($i);?></td>
-					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->users_info_id);?></td>
-					<td><?php echo $fisrt_name;?></td>
-					<td><?php echo $last_name;?> </td>
+					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
+					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->users_info_id); ?></td>
+					<td><?php echo $fisrt_name; ?></td>
+					<td><?php echo $last_name; ?> </td>
 					<td align="center"><?php echo $iscompany?></td>
-					<td><?php echo $row->username;?></td>
+					<td><?php echo $row->username; ?></td>
 					<td>
 						<?php
 						$shoppergroup = $userhelper->getShopperGroupList($row->shopper_group_id);
@@ -144,7 +144,7 @@ $model         = $this->getModel('user');
 							echo $producthelper->getProductFormattedPrice($totalsales);
 						?>
 					</td>
-					<td align="center" width="5%"><?php echo $row->users_info_id;?></td>
+					<td align="center" width="5%"><?php echo $row->users_info_id; ?></td>
 				</tr>
 				<?php
 				$k = 1 - $k;

@@ -196,8 +196,7 @@ class RedshopHelperQuotation
 		try
 		{
 			$db->execute();
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
@@ -395,13 +394,12 @@ class RedshopHelperQuotation
 
 							for ($f = 0, $fn = count($files); $f < $fn; $f++)
 							{
-								$uLink   = REDSHOP_FRONT_DOCUMENT_ABSPATH . "product/" . $files[$f];
+								$uLink = REDSHOP_FRONT_DOCUMENT_ABSPATH . "product/" . $files[$f];
 								$dataTxt .= "<a href='" . $uLink . "'>" . $files[$f] . "</a> ";
 							}
 
 							$resultArr[] = $userField[$j]->title . " : " . $dataTxt;
-						}
-						else
+						} else
 						{
 							$resultArr[] = $userField[$j]->title . " : " . $userField[$j]->data_txt;
 						}
@@ -446,8 +444,7 @@ class RedshopHelperQuotation
 		{
 			$db->execute();
 			self::updateQuotationStatus($quotationId, 5);
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}

@@ -98,33 +98,33 @@ class extraField
 	 */
 	const TYPE_DATE_PICKER = 12;
 
-    /**
-     * Extra Field Type for with link
-     *
-     * @var  int
-     */
-    const TYPE_IMAGE_WITH_LINK = 13;
+	/**
+	 * Extra Field Type for with link
+	 *
+	 * @var  int
+	 */
+	const TYPE_IMAGE_WITH_LINK = 13;
 
-    /**
-     * Extra Field Type for selection based on selected condition.
-     *
-     * @var  int
-     */
-    const TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS = 15;
+	/**
+	 * Extra Field Type for selection based on selected condition.
+	 *
+	 * @var  int
+	 */
+	const TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS = 15;
 
-    /**
-     * Extra Field Type for product finder date picker.
-     *
-     * @var  int
-     */
-    const TYPE_PRODUCT_FINDER_DATE_PICKER = 17;
+	/**
+	 * Extra Field Type for product finder date picker.
+	 *
+	 * @var  int
+	 */
+	const TYPE_PRODUCT_FINDER_DATE_PICKER = 17;
 
 	/**
 	 * Extra Field Section Id for Product
 	 *
 	 * @var  integer
 	 */
-	const SECTION_PRODUCT =	1;
+	const SECTION_PRODUCT = 1;
 
 	/**
 	 * Extra Field Section Id for Category
@@ -311,8 +311,7 @@ class extraField
 				if ($uclass == '')
 				{
 					$cssClassName[] = 'required';
-				}
-				else
+				} else
 				{
 					$cssClassName[] = $uclass;
 				}
@@ -388,7 +387,7 @@ class extraField
 						$selectedValue
 					);
 					break;
-                case self::TYPE_SELECT_BOX_SINGLE:
+				case self::TYPE_SELECT_BOX_SINGLE:
 
 					$field_chk = $this->getFieldValue($row_data[$i]->id);
 					$chk_data  = @explode(",", $data_value->data_txt);
@@ -410,7 +409,7 @@ class extraField
 					$inputField .= '</select>';
 					break;
 
-                case self::TYPE_SELECT_BOX_MULTIPLE:
+				case self::TYPE_SELECT_BOX_MULTIPLE:
 
 					$field_chk = $this->getFieldValue($row_data[$i]->id);
 					$chk_data  = @explode(",", $data_value->data_txt);
@@ -432,7 +431,7 @@ class extraField
 					$inputField .= '</select>';
 					break;
 
-                case self::TYPE_DATE_PICKER:
+				case self::TYPE_DATE_PICKER:
 
 					$date = date("d-m-Y", time());
 					$size = '20';
@@ -564,8 +563,7 @@ class extraField
 				if ($type == self::TYPE_DATE_PICKER)
 				{
 					$text_value = date("d-m-Y", strtotime($cart[$idx][$row_data[$i]->name]));
-				}
-				else
+				} else
 				{
 					$text_value = $cart[$idx][$row_data[$i]->name];
 				}
@@ -592,21 +590,19 @@ class extraField
 				}
 
 				$ex_field .= '<input type="hidden" name="' . $row_data[$i]->name . '"  id="' . $row_data[$i]->name . '" value="' . $value . '"/>';
-			}
-			else
+			} else
 			{
 				if ($row_data[$i]->required == 1)
 				{
 					$req = ' required = "' . $row_data[$i]->required . '"';
-				}
-				else
+				} else
 				{
 					$req = '';
 				}
 
 				switch ($type)
 				{
-                    case self::TYPE_TEXT:
+					case self::TYPE_TEXT:
 
 						$onkeyup = '';
 
@@ -712,7 +708,7 @@ class extraField
 						$ex_field .= '</select></div>';
 						break;
 
-                    case self::TYPE_DOCUMENTS :
+					case self::TYPE_DOCUMENTS :
 						// File Upload
 						JHtml::_('redshopjquery.framework');
 						JHtml::script('com_redshop/ajaxupload.js', false, true);
@@ -805,7 +801,7 @@ class extraField
 						$ex_field .= '<div class="userfield_input">' . JHTML::_('calendar', $text_value, 'extrafields' . $product_id . '[]', $ajax . $row_data[$i]->name . '_' . $product_id, $format = '%d-%m-%Y', array('class' => $row_data[$i]->class, 'size' => $row_data[$i]->size, 'maxlength' => $row_data[$i]->maxlength, 'required' => $req, 'userfieldlbl' => $row_data[$i]->title, 'errormsg' => '')) . '</div>';
 						break;
 
-                    case self::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
+					case self::TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS:
 						$field_chk = $this->getSectionFieldDataList($row_data[$i]->id, 12, $product_id);
 
 						if (count($field_chk) > 0)

@@ -29,16 +29,13 @@ if (!class_exists('redCategoryMenu'))
 			if ($params->get('categorysorttype') == "catnameasc")
 			{
 				$sortparam = "name ASC";
-			}
-			elseif ($params->get('categorysorttype') == "catnamedesc")
+			} elseif ($params->get('categorysorttype') == "catnamedesc")
 			{
 				$sortparam = "name DESC";
-			}
-			elseif ($params->get('categorysorttype') == "newest")
+			} elseif ($params->get('categorysorttype') == "newest")
 			{
 				$sortparam = "id DESC";
-			}
-			elseif ($params->get('categorysorttype') == "catorder")
+			} elseif ($params->get('categorysorttype') == "catorder")
 			{
 				$sortparam = "ordering ASC";
 			}
@@ -46,8 +43,7 @@ if (!class_exists('redCategoryMenu'))
 			if ($shopper_group_id)
 			{
 				$shoppergroup_cat = $redproduct_menu->get_shoppergroup_cat($shopper_group_id);
-			}
-			else
+			} else
 			{
 				$shoppergroup_cat = 0;
 			}
@@ -75,14 +71,14 @@ if (!class_exists('redCategoryMenu'))
 				if ($cItemid != "")
 				{
 					$tmpItemid = $cItemid;
-				}
-				else
+				} else
 				{
 					$tmpItemid = $Itemid;
 				}
 
-				if ($ibg != 0)
-					$mymenu_content .= ",";
+				if ($ibg != 0) {
+									$mymenu_content .= ",";
+				}
 
 				$mymenu_content .= "\n[ '<img src=\"' + ctThemeXPBase + 'darrow.png\" alt=\"arr\" />','" . $traverse_result->name . "','" . JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $traverse_result->id . '&Itemid=' . $tmpItemid) . "',null,'" . $traverse_result->name . "'\n ";
 
@@ -131,8 +127,7 @@ if ($jscook_type == "tree")
 	);
 	JHTML::stylesheet($js_src . '/' . $jscookTree_style . '/theme.css');
 	$_jscook = new redCategoryMenu;
-}
-else
+} else
 {
 	JHTML::script($js_src . '/JSCook/JSCookMenu.js');
 
@@ -189,8 +184,7 @@ $menu_htmlcode .= "];
 if ($jscook_type == "tree")
 {
 	$menu_htmlcode .= "var treeindex = ctDraw ('div_$varname', $varname, $jscook_tree, '$jscookTree_style', 0, 0);";
-}
-else
+} else
 {
 	$menu_htmlcode .= "cmDrawNow =function() { cmDraw ('div_$varname', $varname, '$menu_orientation', cm$jscookMenu_style, '$jscookMenu_style'); };
 	" . $varname . "_addEvent( window, \"load\", cmDrawNow, false );";

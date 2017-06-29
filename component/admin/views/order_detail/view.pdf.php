@@ -83,8 +83,7 @@ class RedshopViewOrder_Detail extends RedshopView
 		{
 			$pdfTemplate = str_replace("{company_name}", $billing->company_name, $pdfTemplate);
 			$pdfTemplate = str_replace("{company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $pdfTemplate);
-		}
-		else
+		} else
 		{
 			$pdfTemplate = str_replace("{company_name}", "", $pdfTemplate);
 			$pdfTemplate = str_replace("{company_name_lbl}", "", $pdfTemplate);

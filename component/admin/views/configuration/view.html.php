@@ -99,7 +99,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'new_shopper_group_get_value_from', 'class="form-control" ', 'value',
 			'text', $this->config->get('NEW_SHOPPER_GROUP_GET_VALUE_FROM')
 		);
-		$lists['accessory_product_in_lightbox']    = JHtml::_('redshopselect.booleanlist', 'accessory_product_in_lightbox',
+		$lists['accessory_product_in_lightbox'] = JHtml::_('redshopselect.booleanlist', 'accessory_product_in_lightbox',
 			'class="form-control" ', $this->config->get('ACCESSORY_PRODUCT_IN_LIGHTBOX')
 		);
 
@@ -412,8 +412,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		if (empty($selected_state_code))
 		{
 			$selected_state_code = "originalPos";
-		}
-		else
+		} else
 		{
 			$selected_state_code = "'" . $selected_state_code . "'";
 		}
@@ -426,7 +425,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$states = $db->loadObjectList();
 
 		// Build the State lists for each Country
-		$script       = "<script language=\"javascript\" type=\"text/javascript\">//<![CDATA[\n";
+		$script = "<script language=\"javascript\" type=\"text/javascript\">//<![CDATA[\n";
 		$script       .= "<!--\n";
 		$script       .= "var originalOrder = '1';\n";
 		$script       .= "var originalPos = '$selected_country_code';\n";
@@ -453,14 +452,13 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 					. $state->state_2_code . "','"
 					. addslashes(JText::_($state->state_name))
 					. "' );\n";
-			}
-			else
+			} else
 			{
 				$script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . JText::_("COM_REDSHOP_NONE") . "' );\n";
 			}
 		}
 
-		$script                     .= "function changeStateList()
+		$script .= "function changeStateList()
 					{
 						var selected_country = null;
 						for (var i=0; i<document.adminForm.default_vat_country.length; i++)
@@ -563,7 +561,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			$this->config->get('ECONOMIC_INVOICE_DRAFT')
 		);
 
-		$bookInvoiceNumbers                    = array(
+		$bookInvoiceNumbers = array(
 			JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SAME_AS_ORDER_NUMBER')),
 			JHtml::_('select.option', '1', JText::_('COM_REDSHOP_SEQUENTIALLY_IN_ECONOMIC_NO_MATCH_UP_WITH_ORDER_NUMBER'))
 		);
@@ -870,12 +868,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		if (isset($_SERVER['SERVER_SOFTWARE']))
 		{
 			return $_SERVER['SERVER_SOFTWARE'];
-		}
-		elseif ($sf = getenv('SERVER_SOFTWARE'))
+		} elseif ($sf = getenv('SERVER_SOFTWARE'))
 		{
 			return $sf;
-		}
-		else
+		} else
 		{
 			return JText::_('COM_REDSHOP_N_A');
 		}

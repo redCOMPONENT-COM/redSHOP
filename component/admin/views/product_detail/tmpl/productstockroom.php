@@ -77,7 +77,7 @@ $stockrooms = $model->StockRoomList();
 										/>
 								</td>
 								<td>
-									<?php echo $ordered_preorder;?>
+									<?php echo $ordered_preorder; ?>
 									<input type="hidden" name="ordered_preorder[]" value="<?php echo $ordered_preorder; ?>"/>
 								</td>
 							</tr>

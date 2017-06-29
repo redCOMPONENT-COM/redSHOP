@@ -22,22 +22,22 @@ $url = $uri->root();
 		}
 
 		if (form.country_code.value == 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_COUNTRY_MUST_BE_SELECTED', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_COUNTRY_MUST_BE_SELECTED', true); ?>");
 		} else if (form.state_code.value == ""  && document.getElementById('state_code').length>0) {
-			alert("<?php echo JText::_('COM_REDSHOP_STATE_MUST_BE_SELECTED', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_STATE_MUST_BE_SELECTED', true); ?>");
 		} else if (form.city_name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_CITY_MUST_HAVE_A_NAME', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_CITY_MUST_HAVE_A_NAME', true); ?>");
 		} else if (form.zipcode.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_ZIPCODE_MUST_HAVE_A_CODE', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_ZIPCODE_MUST_HAVE_A_CODE', true); ?>");
 		} else if (form.zipcode_to.value != "") {
 			if (isNaN(form.zipcode.value)) {
-				alert("<?php echo JText::_('COM_REDSHOP_ZIPCODE_MUST_HAVE_A_NUMERIC_VALUE', true ); ?>");
+				alert("<?php echo JText::_('COM_REDSHOP_ZIPCODE_MUST_HAVE_A_NUMERIC_VALUE', true); ?>");
 			}
 			else if (isNaN(form.zipcode_to.value)) {
-				alert("<?php echo JText::_('COM_REDSHOP_ZIPCODE_TO_MUST_HAVE_A_NUMERIC_VALUE', true ); ?>");
+				alert("<?php echo JText::_('COM_REDSHOP_ZIPCODE_TO_MUST_HAVE_A_NUMERIC_VALUE', true); ?>");
 			}
 			else if (form.zipcode_to.value < form.zipcode.value) {
-				alert("<?php echo JText::_('COM_REDSHOP_ZIPCODE_TO_MUST_HAVE_A_GREATER_VALUE', true ); ?>");
+				alert("<?php echo JText::_('COM_REDSHOP_ZIPCODE_TO_MUST_HAVE_A_GREATER_VALUE', true); ?>");
 			} else {
 				submitform(pressbutton);
 			}
@@ -75,13 +75,13 @@ $url = $uri->root();
 				<td>
 
 					<?php
-					if($this->detail->zipcode=="")
+					if ($this->detail->zipcode == "")
 					{echo JText::_('COM_REDSHOP_FROM');
 					?><input class="text_area" type="text" name="zipcode" id="zipcode" size="15" maxlength="10"
-					         value="<?php echo $this->detail->zipcode; ?>"/>&nbsp; <?php echo JText::_('COM_REDSHOP_TO');?>
+					         value="<?php echo $this->detail->zipcode; ?>"/>&nbsp; <?php echo JText::_('COM_REDSHOP_TO'); ?>
 				<input class="text_area" type="text" name="zipcode_to" id="zipcode_to" size="15" maxlength="10"
 				       value=""/><br></br><br></br>
-					<b><?php echo JText::_('COM_REDSHOP_NOTE');?> </b> <?php echo JText::_('COM_REDSHOP_ZIPCODE_NOTE_DESC');?>
+					<b><?php echo JText::_('COM_REDSHOP_NOTE'); ?> </b> <?php echo JText::_('COM_REDSHOP_ZIPCODE_NOTE_DESC'); ?>
 				<?php
 					} else {
 					?>

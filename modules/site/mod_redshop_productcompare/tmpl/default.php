@@ -44,8 +44,7 @@ if (Redshop::getConfig()->get('COMPARE_PRODUCTS') == 1)
 					if (count($ItemData) > 0)
 					{
 						$Itemid = $ItemData->id;
-					}
-					else
+					} else
 					{
 						$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 					}
@@ -67,8 +66,7 @@ if (Redshop::getConfig()->get('COMPARE_PRODUCTS') == 1)
 			<?php
 
 				}
-			}
-			else
+			} else
 			{
 				echo "<tr><td colspan='2'>" . JText::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE') . "</td></tr>";
 			}
@@ -76,8 +74,7 @@ if (Redshop::getConfig()->get('COMPARE_PRODUCTS') == 1)
 			if (isset($cid))
 			{
 				$cid_main = "&cid=" . $cid;
-			}
-			else
+			} else
 			{
 				$cid_main = "";
 			}
@@ -88,8 +85,7 @@ if (Redshop::getConfig()->get('COMPARE_PRODUCTS') == 1)
 		<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid . $cid_main) ?>"><?php echo JText::_('COM_REDSHOP_COMPARE'); ?></a>
 	</div>
 <?php
-}
-else
+} else
 {
 	echo "<div>" . JText::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE') . "</div>";
 }

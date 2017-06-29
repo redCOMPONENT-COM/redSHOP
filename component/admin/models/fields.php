@@ -121,8 +121,7 @@ class RedshopModelFields extends RedshopModelList
 			if (stripos($search, 'id:') === 0)
 			{
 				$query->where($db->qn('f.id') . ' = ' . (int) substr($search, 3));
-			}
-			else
+			} else
 			{
 				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where($db->qn('f.title') . ' LIKE ' . $search);
@@ -152,8 +151,7 @@ class RedshopModelFields extends RedshopModelList
 		if ($orderCol == 'ordering')
 		{
 			$query->order($db->escape('f.section, f.ordering ' . $orderDirn));
-		}
-		else
+		} else
 		{
 			$query->order($db->escape($orderCol . ' ' . $orderDirn) . ', f.section, f.ordering');
 		}
@@ -194,8 +192,7 @@ class RedshopModelFields extends RedshopModelList
 		try
 		{
 			$fields = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}

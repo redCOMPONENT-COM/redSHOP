@@ -48,8 +48,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=attribute_set_detail&task=edit&cid[]=' . $row->attribute_set_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
 		}
@@ -211,8 +210,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		if ($width > $height)
 		{
 			$percentage = ($target / $width);
-		}
-		else
+		} else
 		{
 			$percentage = ($target / $height);
 		}
@@ -260,8 +258,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id']
 				. "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
 			$this->setRedirect($link, $msg);
-		}
-		else
+		} else
 		{
 			$model->property_more_img($post, $main_img, $sub_img);
 			?>
@@ -357,8 +354,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		if ($model->SaveAttributeStockroom($post))
 		{
 			$msg = JText::_('COM_REDSHOP_STOCKROOM_ATTRIBUTE_XREF_SAVE');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
 		}
@@ -377,8 +373,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_CATEGORY_COPIED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_COPING_CATEGORY');
 		}

@@ -21,7 +21,7 @@ $now = JFactory::getDate();
 		}
 
 		if (form.tags_name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_TAGS_NAME_MUST_FILLED', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_TAGS_NAME_MUST_FILLED', true); ?>");
 		} else {
 			submitform(pressbutton);
 		}

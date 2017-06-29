@@ -37,7 +37,7 @@ $total_serial = count($productSerialDetail);
 								<?php echo JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD'); ?>
 							</td>
 							<td>
-								<?php echo $this->lists['product_download'];?>
+								<?php echo $this->lists['product_download']; ?>
 							</td>
 						</tr>
 
@@ -56,7 +56,7 @@ $total_serial = count($productSerialDetail);
 							</td>
 						</tr>
 
-						<tr id="download_limit" <?php echo $td_style;?> >
+						<tr id="download_limit" <?php echo $td_style; ?> >
 							<td class="key">
 								<label for="product_download_limit">
 									<?php echo JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_LIMIT_LBL'); ?>
@@ -73,7 +73,7 @@ $total_serial = count($productSerialDetail);
 							</td>
 						</tr>
 
-						<tr id="download_days" <?php echo $td_style;?> >
+						<tr id="download_days" <?php echo $td_style; ?> >
 							<td class="key">
 								<label for="product_download_days">
 									<?php echo JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_DAYS_LBL'); ?>
@@ -90,7 +90,7 @@ $total_serial = count($productSerialDetail);
 							</td>
 						</tr>
 
-						<tr id="download_clock" <?php echo $td_style;?> >
+						<tr id="download_clock" <?php echo $td_style; ?> >
 							<td class="key">
 								<label for="product_download_clock">
 									<?php echo JText::_('COM_REDSHOP_PRODUCT_DOWNLOAD_CLOCK_LBL'); ?>
@@ -138,7 +138,7 @@ $total_serial = count($productSerialDetail);
 
 								for ($si = 0; $si < $total_serial; $si++)
 								{
-									$serial_row = $productSerialDetail[$si];  ?>
+									$serial_row = $productSerialDetail[$si]; ?>
 									<tr>
 										<td>
 											<a href='index.php?option=com_redshop&view=product_detail&task=deleteProdcutSerialNumbers&serial_id=<?php echo $serial_row->serial_id ?>&product_id=<?php echo $this->detail->product_id; ?>'><img
@@ -178,7 +178,7 @@ $total_serial = count($productSerialDetail);
 
 						<tr>
 							<th>
-								<?php echo JText::_('COM_REDSHOP_NUM');?>
+								<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 							</th>
 							<th>
 								<?php
@@ -187,13 +187,13 @@ $total_serial = count($productSerialDetail);
 								?>
 							</th>
 							<th>
-								<?php echo JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE');?>
+								<?php echo JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE'); ?>
 								<?php
 									echo JHtml::tooltip(JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE_TIP'), JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE'), 'tooltip.png', '', '', false);
 								?>
 							</th>
 							<th>
-								<?php echo JText::_('COM_REDSHOP_DELETE');?>
+								<?php echo JText::_('COM_REDSHOP_DELETE'); ?>
 							</th>
 						</tr>
 
@@ -208,7 +208,7 @@ $total_serial = count($productSerialDetail);
 						?>
 								<tr id="tr_subsc<?php echo $sub; ?>">
 									<td>
-										<?php echo ($sub + 1);?>
+										<?php echo ($sub + 1); ?>
 										<input type="hidden" name="subscription_id[]" value="<?php echo $subrow->subscription_id; ?>"/>
 									</td>
 									<td>
@@ -262,9 +262,11 @@ $total_serial = count($productSerialDetail);
 					</table>
 
 				</div>
-			<?php else : ?>
+			<?php else {
+	: ?>
 				<?php
 					$this->dispatcher->trigger('onDisplayProductTypeData', array($this->detail));
+}
 				?>
 			<?php endif; ?>
 			</div>

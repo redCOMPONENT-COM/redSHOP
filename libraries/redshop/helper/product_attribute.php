@@ -135,8 +135,7 @@ abstract class RedshopHelperProduct_Attribute
 				}
 
 				static::$attributeProperties[$key] = $selectedProperties;
-			}
-			else
+			} else
 			{
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
@@ -257,8 +256,7 @@ abstract class RedshopHelperProduct_Attribute
 				}
 
 				static::$productAttributes[$key] = $selectedAttributes;
-			}
-			else
+			} else
 			{
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
@@ -445,8 +443,7 @@ abstract class RedshopHelperProduct_Attribute
 				)
 					->where($db->qn('u.user_id') . ' = ' . (int) $userId)
 					->where($db->qn('u.address_type') . ' = ' . $db->q('BT'));
-			}
-			else
+			} else
 			{
 				$query->where($db->qn('p.shopper_group_id') . ' = ' . (int) $shopperGroupId);
 			}

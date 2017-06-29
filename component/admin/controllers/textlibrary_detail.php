@@ -46,8 +46,7 @@ class RedshopControllerTextlibrary_detail extends RedshopController
 		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_TEXTLIBRARY_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TEXTLIBRARY_DETAIL');
 		}
@@ -55,8 +54,7 @@ class RedshopControllerTextlibrary_detail extends RedshopController
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=textlibrary_detail&task=edit&cid[]=' . $row->textlibrary_id, $msg);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=textlibrary', $msg);
 		}
@@ -98,8 +96,7 @@ class RedshopControllerTextlibrary_detail extends RedshopController
 		if ($model->copy($cid))
 		{
 			$msg = JText::_('COM_REDSHOP_TEXT_LIBRARY_DETAIL_COPIED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_COPYING_TEXTLIBRARY_DETAIL');
 		}

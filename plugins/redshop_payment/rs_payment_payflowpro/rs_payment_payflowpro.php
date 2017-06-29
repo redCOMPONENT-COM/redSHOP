@@ -70,12 +70,10 @@ class plgRedshop_Paymentrs_Payment_Payflowpro extends JPlugin
 		if ($this->params->get("currency") != "")
 		{
 			$currencyID = $this->params->get("currency");
-		}
-		elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
+		} elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
 		{
 			$currencyID = urlencode(Redshop::getConfig()->get('CURRENCY_CODE'));
-		}
-		else
+		} else
 		{
 			$currencyID = "USD";
 		}
@@ -100,8 +98,7 @@ class plgRedshop_Paymentrs_Payment_Payflowpro extends JPlugin
 		if ($is_test)
 		{
 			$api_url = "https://pilot-payflowpro.paypal.com";
-		}
-		else
+		} else
 		{
 			$api_url = "https://payflowpro.paypal.com";
 		}
@@ -169,8 +166,7 @@ class plgRedshop_Paymentrs_Payment_Payflowpro extends JPlugin
 		{
 			$values->responsestatus = 'Success';
 			$message                = JText::_('COM_REDSHOP_ORDER_PLACED');
-		}
-		else
+		} else
 		{
 			$values->responsestatus = 'Fail';
 			$message                = $response_array['RESPMSG'];
@@ -261,12 +257,10 @@ class plgRedshop_Paymentrs_Payment_Payflowpro extends JPlugin
 		if ($this->params->get("currency") != "")
 		{
 			$currencyID = $this->params->get("currency");
-		}
-		elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
+		} elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
 		{
 			$currencyID = urlencode(Redshop::getConfig()->get('CURRENCY_CODE'));
-		}
-		else
+		} else
 		{
 			$currencyID = "USD";
 		}
@@ -278,13 +272,12 @@ class plgRedshop_Paymentrs_Payment_Payflowpro extends JPlugin
 		if ($is_test)
 		{
 			$api_url = "https://pilot-payflowpro.paypal.com";
-		}
-		else
+		} else
 		{
 			$api_url = "https://payflowpro.paypal.com";
 		}
 
-		$params      = array(
+		$params = array(
 			'USER'    => $merchant_user,
 			'VENDOR'  => $merchant_id,
 			'PARTNER' => $partner,
@@ -311,8 +304,7 @@ class plgRedshop_Paymentrs_Payment_Payflowpro extends JPlugin
 		{
 			$values->responsestatus = 'Success';
 			$message                = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
-		}
-		else
+		} else
 		{
 			$values->responsestatus = 'Fail';
 			$message                = $response_array['RESPMSG'];
@@ -340,12 +332,10 @@ class plgRedshop_Paymentrs_Payment_Payflowpro extends JPlugin
 		if ($this->params->get("currency") != "")
 		{
 			$currencyID = $this->params->get("currency");
-		}
-		elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
+		} elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
 		{
 			$currencyID = urlencode(Redshop::getConfig()->get('CURRENCY_CODE'));
-		}
-		else
+		} else
 		{
 			$currencyID = "USD";
 		}
@@ -356,13 +346,12 @@ class plgRedshop_Paymentrs_Payment_Payflowpro extends JPlugin
 		if ($is_test)
 		{
 			$api_url = "https://pilot-payflowpro.paypal.com";
-		}
-		else
+		} else
 		{
 			$api_url = "https://payflowpro.paypal.com";
 		}
 
-		$params      = array(
+		$params = array(
 			'USER'    => $merchant_user,
 			'VENDOR'  => $merchant_id,
 			'PARTNER' => $partner,
@@ -389,8 +378,7 @@ class plgRedshop_Paymentrs_Payment_Payflowpro extends JPlugin
 		{
 			$values->responsestatus = 'Success';
 			$message                = JText::_('COM_REDSHOP_TRANSACTION_APPROVED');
-		}
-		else
+		} else
 		{
 			$values->responsestatus = 'Fail';
 			$message                = $response_array['RESPMSG'];

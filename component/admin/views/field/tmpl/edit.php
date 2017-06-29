@@ -43,7 +43,7 @@ $editor = JFactory::getEditor();
                 document.getElementById('jform_title').focus();
                 return false;
             } else if ((document.getElementById('jform_section').value == 13) && (document.getElementById('jform_type').value == 8 || document.getElementById('jform_type').value == 9 || document.getElementById('jform_type').value == 10)) {
-                alert("<?php echo JText::_('COM_REDSHOP_ERROR_YOU_CAN_NOT_SELECT_THIS_SECTION_TYPE_UNDER_THIS_FIELD', true);?>");
+                alert("<?php echo JText::_('COM_REDSHOP_ERROR_YOU_CAN_NOT_SELECT_THIS_SECTION_TYPE_UNDER_THIS_FIELD', true); ?>");
                 return false;
             } else if (document.getElementById('jform_section').value == 0) {
                 alert('<?php echo JText::_('COM_REDSHOP_FIELDS_ITEM_MUST_HAVE_A_SECTION'); ?>');
@@ -204,8 +204,7 @@ $editor = JFactory::getEditor();
 					if ($this->item->section == 1 || $this->item->section == 17)
 					{
 						$display = 'style="display:block;"';
-					}
-					else
+					} else
 					{
 						$display = 'style="display:none;"';
 					}
@@ -288,8 +287,11 @@ $editor = JFactory::getEditor();
                                     </td>
                                 </tr>
 							<?php endfor; ?>
-						<?php else: ?>
-							<?php $k = 1; ?>
+						<?php else {
+	: ?>
+							<?php $k = 1;
+}
+?>
                             <tr>
                                 <td>
                                     <input

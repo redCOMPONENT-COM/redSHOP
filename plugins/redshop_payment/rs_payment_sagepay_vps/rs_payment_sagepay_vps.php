@@ -65,7 +65,7 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 		{
 			$currency_main = $this->params->get("currency");
 		}
-        elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
+		elseif (Redshop::getConfig()->get('CURRENCY_CODE') != "")
 		{
 			$currency_main = Redshop::getConfig()->get('CURRENCY_CODE');
 		}
@@ -154,8 +154,7 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 		if ($sagepay_3dsecure)
 		{
 			$strPost = $strPost . "&Apply3DSecure=1";
-		}
-		else
+		} else
 		{
 			$strPost = $strPost . "&Apply3DSecure=0";
 		}
@@ -166,7 +165,7 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 		{
 			$url = "https://test.sagepay.com/simulator/VSPDirectGateway.asp";
 		}
-        elseif ($payment_method == "TEST")
+		elseif ($payment_method == "TEST")
 		{
 			$url = "https://test.sagepay.com/gateway/service/vspdirect-register.vsp";
 		}
@@ -229,8 +228,7 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
             </script>
 
 			<?php
-		}
-		else
+		} else
 		{
 			$returnURL = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_sagepay_vps&Itemid=$Itemid&orderid=" . $data['order_id'];
 
@@ -241,9 +239,9 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 			{
 				if ($strStatus == "OK")
 					$strDBStatus = "AUTHORISED - The transaction was successfully authorised with the bank.";
-                elseif ($strStatus == "AUTHENTICATED")
+				elseif ($strStatus == "AUTHENTICATED")
 					$strDBStatus = "AUTHENTICATED - The transaction was successfully 3D-Secure Authenticated and can now be Authorised.";
-                elseif ($strStatus == "REGISTERED")
+				elseif ($strStatus == "REGISTERED")
 					$strDBStatus = "REGISTERED - The transaction was could not be 3D-Secure Authenticated, but has been registered to be Authorised.";
 				$values->responsestatus = 'Success';
 				$values->transaction_id = $output['VPSTxId'];
@@ -252,13 +250,13 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 			{
 				if ($strStatus == "MALFORMED")
 					$strDBStatus = "MALFORMED - The StatusDetail was:" . mysql_real_escape_string(substr($strStatusDetail, 0, 255));
-                elseif ($strStatus == "INVALID")
+				elseif ($strStatus == "INVALID")
 					$strDBStatus = "INVALID - The StatusDetail was:" . mysql_real_escape_string(substr($strStatusDetail, 0, 255));
-                elseif ($strStatus == "NOTAUTHED")
+				elseif ($strStatus == "NOTAUTHED")
 					$strDBStatus = "DECLINED - The transaction was not authorised by the bank.";
-                elseif ($strStatus == "REJECTED")
+				elseif ($strStatus == "REJECTED")
 					$strDBStatus = "REJECTED - The transaction was failed by your 3D-Secure or AVS/CV2 rule-bases.";
-                elseif ($strStatus == "ERROR")
+				elseif ($strStatus == "ERROR")
 					$strDBStatus = "ERROR - There was an error during the payment process.  The error details are: " . mysql_real_escape_string($strStatusDetail);
 				else
 					$strDBStatus = "UNKNOWN - An unknown status was returned from Sage Pay.  The Status was: " . mysql_real_escape_string($strStatus) . ", with StatusDetail:" . mysql_real_escape_string($strStatusDetail);
@@ -296,8 +294,7 @@ class PlgRedshop_Paymentrs_Payment_Sagepay_Vps extends JPlugin
 		{
 			$values->order_status_code         = $verify_status;
 			$values->order_payment_status_code = 'Paid';
-		}
-		else
+		} else
 		{
 			$values->order_status_code         = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';

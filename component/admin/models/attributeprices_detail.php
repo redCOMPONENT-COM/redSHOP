@@ -44,8 +44,7 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 	{
 		if ($this->_loadData())
 		{
-		}
-		else
+		} else
 		{
 			$this->_initData();
 		}
@@ -61,8 +60,7 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 			{
 				$field = "ap.property_name ";
 				$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_attribute_property AS ap ON p.section_id = ap.property_id ';
-			}
-			else
+			} else
 			{
 				$field = "ap.subattribute_color_name AS property_name ";
 				$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
@@ -115,8 +113,7 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 			$q = 'SELECT * '
 				. 'FROM ' . $this->_table_prefix . 'product_attribute_property AS ap '
 				. 'WHERE property_id = ' . $propertyid;
-		}
-		else
+		} else
 		{
 			$q = 'SELECT ap.subattribute_color_name AS property_name '
 				. 'FROM ' . $this->_table_prefix . 'product_subattribute_color AS ap '

@@ -223,8 +223,7 @@ if (!class_exists('redproductScroller'))
                         scrolldelay=\"" . $this->ScrollDelay . "\"
                         truespeed=\"true\" onmouseover=\"this.stop()\" onmouseout=\"this.start()\"
                         style=\"text-align: " . $this->ScrollTextAlign . "; color: " . $this->ScrollTextColor . "; font-weight: " . $this->ScrollTextWeight . "; font-size: $txt_size;px\" >";
-			}
-			else
+			} else
 			{
 				echo " <div style=\"width:" . $this->ScrollWidth . "px;text-align:" . $this->ScrollAlign . ";\">
                <marquee behavior=\"" . $this->ScrollBehavior . "\"
@@ -258,8 +257,7 @@ if (!class_exists('redproductScroller'))
 				{
 					echo '</table></td>';
 
-				}
-				else
+				} else
 				{
 					for ($i = 0; $i < $this->ScrollLineCharTimes; $i++)
 					{
@@ -302,8 +300,7 @@ if (!class_exists('redproductScroller'))
 			if ($limit > 0)
 			{
 				$limit = "LIMIT $limit";
-			}
-			else
+			} else
 			{
 				$limit = "";
 			}
@@ -355,8 +352,7 @@ if (!class_exists('redproductScroller'))
 			if (count($ItemData) > 0)
 			{
 				$Itemid = $ItemData->id;
-			}
-			else
+			} else
 			{
 				$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 			}
@@ -414,8 +410,7 @@ if (!class_exists('redproductScroller'))
 					if (!$product_price)
 					{
 						$product_price_dis = $producthelper->getPriceReplacement($product_price);
-					}
-					else
+					} else
 					{
 						$product_price_dis = $producthelper->getProductFormattedPrice($product_price);
 					}
@@ -435,8 +430,7 @@ if (!class_exists('redproductScroller'))
 								$product_price = $product_price_discount;
 								$data_add .= "<tr><td id='mod_redmainprice' class='mod_redmainprice' style='text-align:" . $this->ScrollTextAlign . ";font-weight:" . $this->ScrollTextWeight . ";font-size:" . $this->ScrollTextSize . "px;'>" . $producthelper->getProductFormattedPrice($product_price_discount) . "</td></tr>";
 								$data_add .= "<tr><td id='mod_redsavedprice' class='mod_redsavedprice' style='text-align:" . $this->ScrollTextAlign . ";font-weight:" . $this->ScrollTextWeight . ";font-size:" . $this->ScrollTextSize . "px;'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</td></tr>";
-							}
-							else
+							} else
 							{
 								$product_price = $product_price_discount;
 								$data_add .= "<tr><td class='mod_redproducts_price' style='text-align:" . $this->ScrollTextAlign . ";font-weight:" . $this->ScrollTextWeight . ";font-size:" . $this->ScrollTextSize . "px;'>" . $producthelper->getProductFormattedPrice($product_price) . "</td></tr>";

@@ -364,12 +364,10 @@ class RedshopModelStatistic extends RedshopModelList
 			$query->select('CONCAT("' . JText::_('COM_REDSHOP_WEEKS') . ' - ", WEEKOFYEAR(FROM_UNIXTIME(o.cdate,"%Y-%m-%d"))) AS viewdate');
 
 			$query->group('FROM_UNIXTIME(o.cdate,"%Y")');
-		}
-		elseif ($this->_filteroption == 4)
+		} elseif ($this->_filteroption == 4)
 		{
 			$query->select('CONCAT("' . JText::_('COM_REDSHOP_YEAR') . ' - ", FROM_UNIXTIME(o.cdate,"' . $formate . '")) AS viewdate');
-		}
-		else
+		} else
 		{
 			$query->select('FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate');
 		}
@@ -379,8 +377,7 @@ class RedshopModelStatistic extends RedshopModelList
 		if ($this->_filteroption != 4)
 		{
 			$db->setQuery($query, 0, 10);
-		}
-		else
+		} else
 		{
 			$db->setQuery($query);
 		}
@@ -395,7 +392,7 @@ class RedshopModelStatistic extends RedshopModelList
 	 */
 	public function getTotalSalesCpanel()
 	{
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$defaultQuery = $db->getQuery(true)
 			->select('SUM(' . $db->qn('o.order_total') . ') AS total')
 			->select('COUNT(' . $db->qn('o.order_total') . ') AS orders')

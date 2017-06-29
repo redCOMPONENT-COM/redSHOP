@@ -39,8 +39,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 	{
 		if ($this->_loadData())
 		{
-		}
-		else
+		} else
 		{
 			$this->_initData();
 		}
@@ -138,8 +137,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 				JFile::upload($src, $dest);
 				$data['shopper_group_logo'] = $logoname;
 			}
-		}
-		else
+		} else
 		{
 			if ($data['shopper_group_logo_tmp'] != null)
 			{

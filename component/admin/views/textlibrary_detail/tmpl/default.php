@@ -23,11 +23,11 @@ $editor = JFactory::getEditor();
 		}
 
 		if (form.text_name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_TAG_NAME_MUST_HAVE_A_ENTER', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_TAG_NAME_MUST_HAVE_A_ENTER', true); ?>");
 		} else if (form.text_desc.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_TAG_DESCRIPTION_MUST_HAVE_A_ENTER', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_TAG_DESCRIPTION_MUST_HAVE_A_ENTER', true); ?>");
 		} else if (form.section.value == 0 || form.section.value == '0') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_TEXT_LIBRARY_SECTION', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_TEXT_LIBRARY_SECTION', true); ?>");
 		} else {
 			submitform(pressbutton);
 		}
@@ -95,7 +95,7 @@ $editor = JFactory::getEditor();
 			<table class="admintable table">
 				<tr>
 					<td>
-						<?php echo $editor->display("text_field", $this->detail->text_field, '$widthPx', '$heightPx', '100', '20');    ?>
+						<?php echo $editor->display("text_field", $this->detail->text_field, '$widthPx', '$heightPx', '100', '20'); ?>
 					</td>
 				</tr>
 			</table>

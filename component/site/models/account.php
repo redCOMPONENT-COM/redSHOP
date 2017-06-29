@@ -50,15 +50,15 @@ class RedshopModelAccount extends RedshopModel
 		if ($user->id)
 		{
 			$list = $order_functions->getBillingAddress($user->id);
-		}
-		elseif ($auth['users_info_id'])
+		} elseif ($auth['users_info_id'])
 		{
 			$uid  = - $auth['users_info_id'];
 			$list = $order_functions->getBillingAddress($uid);
 		}
 
-		if (!empty($list))
-			$list->email = $list->user_email;
+		if (!empty($list)) {
+					$list->email = $list->user_email;
+		}
 
 		return $list;
 	}
@@ -108,9 +108,9 @@ class RedshopModelAccount extends RedshopModel
 		$user   = JFactory::getUser();
 		$userid = $user->id;
 
-		$tagid		 = $app->input->getInt('tagid', 0);
+		$tagid = $app->input->getInt('tagid', 0);
 		$wishlist_id = $app->input->getInt('wishlist_id', 0);
-		$layout		 = $app->input->getCmd('layout', '');
+		$layout = $app->input->getCmd('layout', '');
 
 		switch ($layout)
 		{
@@ -118,7 +118,7 @@ class RedshopModelAccount extends RedshopModel
 
 				if ($tagid != 0)
 				{
-					$query->select(array('ptx.product_id','p.*'))
+					$query->select(array('ptx.product_id', 'p.*'))
 						->leftJoin($db->quoteName('#__redshop_product', 'p') . ' ON p.product_id = ptx.product_id')
 						->where('pt.tags_id = ' . (int) $tagid);
 				}
@@ -134,15 +134,14 @@ class RedshopModelAccount extends RedshopModel
 				if ($userid && $wishlist_id)
 				{
 					$query->select('DISTINCT(' . $db->qn('w.wishlist_id') . ')')
-						->select(array('w.*','p.*'))
+						->select(array('w.*', 'p.*'))
 						->from($db->quoteName('#__redshop_wishlist', 'w'))
 						->leftJoin($db->quoteName('#__redshop_wishlist_product', 'pw') . ' ON w.wishlist_id = pw.wishlist_id')
 						->leftJoin($db->quoteName('#__redshop_product', 'p') . ' ON p.product_id = pw.product_id')
 						->where('w.user_id = ' . (int) $user->id)
 						->where('w.wishlist_id = ' . (int) $wishlist_id)
 						->where('pw.wishlist_id = ' . (int) $wishlist_id);
-				}
-				else
+				} else
 				{
 					// Add this code to send wishlist while user is not loged in ...
 					$productIds = array();
@@ -289,13 +288,11 @@ class RedshopModelAccount extends RedshopModel
 			if ($db->execute())
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_PRODUCT_DELETED_SUCCESSFULLY'));
-			}
-			else
+			} else
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_WISHLIST_PRODUCT'));
 			}
-		}
-		else
+		} else
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_YOU_DONT_HAVE_ACCESS_TO_DELETE_THIS_PRODUCT'));
 		}
@@ -313,8 +310,7 @@ class RedshopModelAccount extends RedshopModel
 		if ($this->removeTags($tagid))
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_TAG_DELETED_SUCCESSFULLY'));
-		}
-		else
+		} else
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_TAG'));
 		}
@@ -352,8 +348,7 @@ class RedshopModelAccount extends RedshopModel
 					return false;
 				}
 			}
-		}
-		else
+		} else
 		{
 			return false;
 		}
@@ -415,8 +410,7 @@ class RedshopModelAccount extends RedshopModel
 		if ($this->_db->execute())
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY'));
-		}
-		else
+		} else
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_PRODUCT_FROM_COMPARE'));
 		}
@@ -446,8 +440,7 @@ class RedshopModelAccount extends RedshopModel
 				. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pw.product_id "
 				. "WHERE w.user_id = " . (int) $user->id . " "
 				. "AND w.wishlist_id = " . (int) $wishlist_id . " ";
-		}
-		else
+		} else
 		{
 			// Add this code to send wishlist while user is not loged in ...
 			$productIds = array();
@@ -490,20 +483,17 @@ class RedshopModelAccount extends RedshopModel
 				$tag     = '{product_thumb_image_2}';
 				$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
 				$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
-			}
-			elseif (strstr($data, '{product_thumb_image_3}'))
+			} elseif (strstr($data, '{product_thumb_image_3}'))
 			{
 				$tag     = '{product_thumb_image_3}';
 				$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
 				$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
-			}
-			elseif (strstr($data, '{product_thumb_image_1}'))
+			} elseif (strstr($data, '{product_thumb_image_1}'))
 			{
 				$tag     = '{product_thumb_image_1}';
 				$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
 				$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
-			}
-			else
+			} else
 			{
 				$tag     = '{product_thumb_image}';
 				$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
@@ -528,8 +518,7 @@ class RedshopModelAccount extends RedshopModel
 					if (!$row->not_for_sale)
 					{
 						$wishlist_data = $producthelper->GetProductShowPrice($row->product_id, $wishlist_data);
-					}
-					else
+					} else
 					{
 						$wishlist_data = str_replace("{product_price}", "", $wishlist_data);
 						$wishlist_data = str_replace("{price_excluding_vat}", "", $wishlist_data);
@@ -550,8 +539,7 @@ class RedshopModelAccount extends RedshopModel
 			$data     = str_replace('{name}', $name[0], $data);
 			$data     = str_replace('{from_name}', $sender, $data);
 			$data_add = $data;
-		}
-		else
+		} else
 		{
 			if (count($MyWishlist))
 			{
@@ -578,8 +566,7 @@ class RedshopModelAccount extends RedshopModel
 		if (JFactory::getMailer()->sendMail($email, $sender, $emailto, $subject, $data_add, true, null, $mailbcc))
 		{
 			return true;
-		}
-		else
+		} else
 		{
 			return false;
 		}

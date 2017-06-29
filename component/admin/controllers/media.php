@@ -48,8 +48,7 @@ class RedshopControllerMedia extends RedshopController
 			if ($model->store($post))
 			{
 				$msg = JText::_('COM_REDSHOP_UPLOAD_COMPLETE');
-			}
-			else
+			} else
 			{
 				$msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
 			}
@@ -74,16 +73,14 @@ class RedshopControllerMedia extends RedshopController
 					{
 						$msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
 						JFactory::getApplication()->enqueueMessage($msg, 'error');
-					}
-					else
+					} else
 					{
 						$post['name'] = $dest;
 
 						if ($model->store($post))
 						{
 							$msg = JText::_('COM_REDSHOP_UPLOAD_COMPLETE');
-						}
-						else
+						} else
 						{
 							$msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
 						}
@@ -106,8 +103,7 @@ class RedshopControllerMedia extends RedshopController
 		if ($model->deleteAddtionalFiles($fileId))
 		{
 			$msg = JText::_('COM_REDSHOP_FILE_DELETED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_FILE_DELETING');
 		}
@@ -151,7 +147,7 @@ class RedshopControllerMedia extends RedshopController
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
+			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
@@ -201,7 +197,7 @@ class RedshopControllerMedia extends RedshopController
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$app->enqueueMessage($msg);
-			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
+			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
@@ -401,7 +397,7 @@ class RedshopControllerMedia extends RedshopController
 			);
 		}
 
-        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
             <script language="javascript" type="text/javascript">
@@ -447,7 +443,7 @@ class RedshopControllerMedia extends RedshopController
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
-        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
             <script language="javascript" type="text/javascript">

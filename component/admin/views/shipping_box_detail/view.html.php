@@ -49,8 +49,7 @@ class RedshopViewShipping_box_detail extends RedshopViewAdmin
 		if ($isNew)
 		{
 			JToolBarHelper::cancel();
-		}
-		else
+		} else
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}

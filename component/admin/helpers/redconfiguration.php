@@ -214,8 +214,7 @@ class Redconfiguration
 
 				return true;
 			}
-		}
-		else
+		} else
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_REDSHOP_DEF_FILE_NOT_FOUND'), 'error');
 		}

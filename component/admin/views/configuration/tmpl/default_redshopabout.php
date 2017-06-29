@@ -38,25 +38,25 @@ defined('_JEXEC') or die;
     <div class="row">
         <div class="col-sm-6">
 	        <?php
-	        echo RedshopLayoutHelper::render(
-		        'config.group',
-		        array(
-			        'title'   => JText::_('COM_REDSHOP_REDSHOP_SHIPPING_PLUGINS'),
-			        'content' => $this->loadTemplate('redshop_shipping')
-		        )
-	        );
-	        ?>
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_REDSHOP_SHIPPING_PLUGINS'),
+					'content' => $this->loadTemplate('redshop_shipping')
+				)
+			);
+			?>
         </div>
         <div class="col-sm-6">
 	        <?php
-	        echo RedshopLayoutHelper::render(
-		        'config.group',
-		        array(
-			        'title'   => JText::_('COM_REDSHOP_REDSHOP_PAYMENT_PLUGINS'),
-			        'content' => $this->loadTemplate('redshop_plugins')
-		        )
-	        );
-	        ?>
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_REDSHOP_PAYMENT_PLUGINS'),
+					'content' => $this->loadTemplate('redshop_plugins')
+				)
+			);
+			?>
         </div>
     </div>
 </fieldset>

@@ -122,8 +122,7 @@ abstract class RedshopHelperRoute
 						if (isset($item->query['pid']))
 						{
 							static::$lookup[$view][$item->query['pid']] = $item->id;
-						}
-						elseif (isset($item->query['cid']))
+						} elseif (isset($item->query['cid']))
 						{
 							static::$lookup[$view][$item->query['cid']] = $item->id;
 						}
@@ -147,8 +146,7 @@ abstract class RedshopHelperRoute
 					}
 				}
 			}
-		}
-		else
+		} else
 		{
 			$active = $menus->getActive();
 

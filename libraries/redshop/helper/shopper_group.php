@@ -37,7 +37,7 @@ class RedshopHelperShopper_Group
 		$disabledFields = array())
 	{
 		$db   = JFactory::getDbo();
-		$query  = $db->getQuery(true);
+		$query = $db->getQuery(true);
 		$html = '';
 
 		$query->select($db->qn('parent_id'))
@@ -59,7 +59,7 @@ class RedshopHelperShopper_Group
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
 		$id       = str_replace('[]', '', $name);
-		$html     .= "<select class=\"inputbox\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+		$html .= "<select class=\"inputbox\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
 
 		if ($topLevel)
 		{
@@ -88,7 +88,7 @@ class RedshopHelperShopper_Group
 	 */
 	public static function listTree($shopperGroupId = 0, $cid = 0, $level = 0, $selectedGroups = array(), $disabledFields = array(), $html = '')
 	{
-		$db  = JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$level++;
 
@@ -151,7 +151,7 @@ class RedshopHelperShopper_Group
 	 */
 	public static function getShopperGroupListArray($shopperGroupId = 0, $cid = 0, $level = 0)
 	{
-		$db  = JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$level++;
 

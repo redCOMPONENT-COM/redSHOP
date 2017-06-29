@@ -13,7 +13,7 @@ global $root_label, $urlpath;
 $urllive = $urlpath;
 
 $db              = JFactory::getDbo();
-$objhelper       = new redhelper ();
+$objhelper       = new redhelper();
 $Itemid          = JRequest::getInt('Itemid', '1');
 $redproduct_menu = new modProMenuHelper;
 
@@ -70,8 +70,7 @@ if ($params->get('categorysorttype') == "catorder")
 if ($shopper_group_id)
 {
 	$shoppergroup_cat = $redproduct_menu->get_shoppergroup_cat($shopper_group_id);
-}
-else
+} else
 {
 	$shoppergroup_cat = 0;
 }
@@ -152,8 +151,7 @@ foreach ($catdatas as $catdata)
 	if ($cItemid != "")
 	{
 		$tmpItemid = $cItemid;
-	}
-	else
+	} else
 	{
 		$tmpItemid = $Itemid;
 	}

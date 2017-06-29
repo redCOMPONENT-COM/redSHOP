@@ -106,7 +106,7 @@ $model = $this->getModel('newslettersubscr');
 					</td>
 					<td>
 						<a href="<?php echo $link; ?>"
-						   title="<?php echo JText::_('COM_REDSHOP_EDIT_NEWSLETTER_SUBSCR'); ?>"><?php $row->user_id == 0 ? $name = $row->name : $name = $order_function->getUserFullname($row->user_id);  echo $name;?></a>
+						   title="<?php echo JText::_('COM_REDSHOP_EDIT_NEWSLETTER_SUBSCR'); ?>"><?php $row->user_id == 0 ? $name = $row->name : $name = $order_function->getUserFullname($row->user_id); echo $name; ?></a>
 					</td>
 					<td align="center" width="15%">
 						<?php echo $config->convertDateFormat($row->date); ?>
@@ -115,7 +115,7 @@ $model = $this->getModel('newslettersubscr');
 						<?php echo $row->n_name; ?>
 					</td>
 					<td align="center" width="8%">
-						<?php echo $published;?>
+						<?php echo $published; ?>
 					</td>
 					<td align="center" width="5%">
 						<?php echo $row->subscription_id; ?>

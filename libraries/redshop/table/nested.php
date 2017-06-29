@@ -714,8 +714,7 @@ class RedshopTableNested extends JTableNested
 		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
 		{
 			$checkin = false;
-		}
-		else
+		} else
 		{
 			$query->where('(checked_out = 0 OR checked_out IS NULL OR checked_out = ' . (int) $userId . ')');
 			$checkin = true;
@@ -727,8 +726,7 @@ class RedshopTableNested extends JTableNested
 		try
 		{
 			$db->query();
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
 
@@ -838,8 +836,7 @@ class RedshopTableNested extends JTableNested
 			if ($user->id)
 			{
 				$tableInstance->{$tableFieldCreatedBy} = $user->id;
-			}
-			else
+			} else
 			{
 				$tableInstance->{$tableFieldCreatedBy} = null;
 			}
@@ -862,8 +859,7 @@ class RedshopTableNested extends JTableNested
 			if ($user->id)
 			{
 				$tableInstance->{$tableFieldModifiedBy} = $user->id;
-			}
-			else
+			} else
 			{
 				$tableInstance->{$tableFieldModifiedBy} = null;
 			}

@@ -21,7 +21,7 @@ $app = JFactory::getApplication();
 		}
 
 		if (form.mail_name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_MAIL_ITEM_MUST_HAVE_A_NAME', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_MAIL_ITEM_MUST_HAVE_A_NAME', true); ?>");
 		} else {
 			submitform(pressbutton);
 		}
@@ -62,7 +62,7 @@ $app = JFactory::getApplication();
 				</tr>
 				<tr>
 					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_MAIL_SECTION'); ?>:</td>
-					<td><?php echo $this->lists['type'];?>
+					<td><?php echo $this->lists['type']; ?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MAIL_SECTION'), JText::_('COM_REDSHOP_MAIL_SECTION'), 'tooltip.png', '', '', false); ?>
 						<input type="hidden" id="please"
 						       value="<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_MAIL_SECTION'); ?>"></td>
@@ -141,7 +141,7 @@ $app = JFactory::getApplication();
 				?>
 				</div>
 				<div class="col-sm-5">
-					<?php echo $this->loadTemplate('hint');?>
+					<?php echo $this->loadTemplate('hint'); ?>
 				</div>
 			</div>
 		</fieldset>

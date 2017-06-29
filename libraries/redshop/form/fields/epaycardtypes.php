@@ -98,13 +98,11 @@ class JFormFieldEpayCardTypes extends JFormField
 				if (is_array($this->value))
 				{
 					$checked = in_array($key, $this->value) ? "checked" : "";
-				}
-				else
+				} else
 				{
 					$checked = ($key == $this->value) ? "checked" : "";
 				}
-			}
-			else
+			} else
 			{
 				$checked = '';
 			}
@@ -119,8 +117,7 @@ class JFormFieldEpayCardTypes extends JFormField
 
 				$html .= "<label><input type='checkbox' id='" . $key . "'[]' name='" . $this->name . "[]'  value='" . $key . "' "
 					. $checked . " onclick='javascript:enableDisableAll();'  />" . $value . "&nbsp;<br /></label>";
-			}
-			else
+			} else
 			{
 				$html .= "<label><input type='checkbox' id='" . $key . "'[]' name='" . $this->name . "[]'  value='" . $key . "' "
 					. $checked . "   />" . $value . "&nbsp;<br /></label>";

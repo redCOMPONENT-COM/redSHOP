@@ -38,7 +38,8 @@ $action      = 'index.php?option=com_redshop&view=product&layout=element&tmpl=co
     </div>
     <div class="filterItem">
         <select name="search_field" onchange="javascript:document.adminForm.submit();">
-            <option value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'" ?>>
+            <option value="p.product_name" <?php if ($this->search_field == 'p.product_name') {
+	echo "selected='selected'" ?>>
 				<?php echo JText::_("COM_REDSHOP_PRODUCT_NAME") ?>
             </option>
             <option value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'" ?>>
@@ -50,7 +51,9 @@ $action      = 'index.php?option=com_redshop&view=product&layout=element&tmpl=co
         </select>
     </div>
     <div class="filterItem">
-		<?php echo $this->lists['category']; ?>
+		<?php echo $this->lists['category'];
+}
+?>
     </div>
 
     <div id="editcell">

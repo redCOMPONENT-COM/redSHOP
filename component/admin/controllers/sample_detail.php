@@ -39,8 +39,7 @@ class RedshopControllerSample_detail extends RedshopController
 		if ($model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SAMPLE_DETAIL');
 		}

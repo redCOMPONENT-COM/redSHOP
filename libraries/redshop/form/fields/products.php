@@ -39,8 +39,7 @@ class JFormFieldProducts extends JFormField
 		if ($this->value)
 		{
 			$product->load($this->value);
-		}
-		else
+		} else
 		{
 			$product->product_name = JText::_('COM_REDSHOP_SELECT_A_PRODUCT');
 		}

@@ -55,8 +55,7 @@ class RedshopControllerMail_detail extends RedshopController
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_MAIL_DETAIL_SAVED');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MAIL_DETAIL');
 		}
@@ -67,8 +66,7 @@ class RedshopControllerMail_detail extends RedshopController
 				'index.php?option=com_redshop&view=mail_detail&task=edit&cid[]=' . $row->mail_id . '&templateMode=' . $post['templateMode'],
 				$msg
 			);
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=mail', $msg);
 		}

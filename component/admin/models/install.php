@@ -130,8 +130,7 @@ class RedshopModelInstall extends RedshopModelList
 			if (!is_null($version) && version_compare($version, $updateVersion, '<'))
 			{
 				$classes[$updateVersion] = array('class' => 'RedshopUpdate' . str_replace(array('.', '-'), '', $updateVersion), 'path' => $file);
-			}
-			elseif (!is_null($specificVersion) && version_compare($specificVersion, $updateVersion, '='))
+			} elseif (!is_null($specificVersion) && version_compare($specificVersion, $updateVersion, '='))
 			{
 				$classes[$updateVersion] = array('class' => 'RedshopUpdate' . str_replace(array('.', '-'), '', $updateVersion), 'path' => $file);
 			}

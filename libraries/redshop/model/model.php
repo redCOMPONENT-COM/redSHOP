@@ -123,8 +123,7 @@ class RedshopModel extends JModelLegacy
 		if ($new_state !== null)
 		{
 			$app->setUserState($key, $new_state);
-		}
-		else
+		} else
 		{
 			$new_state = $cur_state;
 		}
@@ -228,8 +227,7 @@ class RedshopModel extends JModelLegacy
 		try
 		{
 			$total = (int) $this->_getListCount($query);
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -293,8 +291,7 @@ class RedshopModel extends JModelLegacy
 		try
 		{
 			$items = $this->_getList($query, $this->getStart(), (int) $this->getState('limit'));
-		}
-		catch (RuntimeException $e)
+		} catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -318,7 +315,7 @@ class RedshopModel extends JModelLegacy
 	 */
 	public function _buildContentOrderBy()
 	{
-		$db  = JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$filter_order_Dir = $this->getState('list.direction');
 		$filter_order = $this->getState('list.ordering');
 
@@ -437,8 +434,7 @@ class RedshopModel extends JModelLegacy
 			{
 				return false;
 			}
-		}
-		catch (Exception $e)
+		} catch (Exception $e)
 		{
 			return false;
 		}
@@ -463,8 +459,7 @@ class RedshopModel extends JModelLegacy
 			{
 				return false;
 			}
-		}
-		catch (Exception $e)
+		} catch (Exception $e)
 		{
 			return false;
 		}

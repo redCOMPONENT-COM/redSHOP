@@ -54,8 +54,7 @@ class RedshopControllerProduct extends RedshopController
 				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
 				{
 					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_PRODUCTS_TO_ECONOMIC_SUCCESS') . "</span>";
-				}
-				else
+				} else
 				{
 					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_PRODUCT_TO_ECONOMIC');
 
@@ -74,8 +73,7 @@ class RedshopControllerProduct extends RedshopController
 			if ($totalprd > 0)
 			{
 				$msg = $responcemsg;
-			}
-			else
+			} else
 			{
 				$msg = JText::_("COM_REDSHOP_IMPORT_PRODUCT_TO_ECONOMIC_IS_COMPLETED");
 			}
@@ -123,8 +121,7 @@ class RedshopControllerProduct extends RedshopController
 				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
 				{
 					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_SUCCESS') . "</span>";
-				}
-				else
+				} else
 				{
 					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
 
@@ -165,8 +162,7 @@ class RedshopControllerProduct extends RedshopController
 				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
 				{
 					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_SUCCESS') . "</span>";
-				}
-				else
+				} else
 				{
 					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
 
@@ -185,8 +181,7 @@ class RedshopControllerProduct extends RedshopController
 			if ($totalprd > 0)
 			{
 				$msg = $responcemsg;
-			}
-			else
+			} else
 			{
 				$msg = JText::_("COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_IS_COMPLETED");
 			}
@@ -244,9 +239,7 @@ class RedshopControllerProduct extends RedshopController
 			{
 				echo $data_product[$i];
 			}
-		}
-
-		else
+		} else
 		{
 			echo $data_product;
 		}
@@ -263,8 +256,7 @@ class RedshopControllerProduct extends RedshopController
 		if ($model->assignTemplate($post))
 		{
 			$msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
 		}
@@ -312,8 +304,7 @@ class RedshopControllerProduct extends RedshopController
 			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=product', false), $message, 'error');
 
 			return false;
-		}
-		else
+		} else
 		{
 			// Checkin succeeded.
 			$message = JText::plural('COM_REDSHOP_PRODUCT_N_ITEMS_CHECKED_IN', count($ids));

@@ -96,14 +96,13 @@ class RedshopViewMass_Discount extends RedshopViewAdmin
 		if ($isNew)
 		{
 			$suffix = JText::_('COM_REDSHOP_NEW');
-		}
-		else
+		} else
 		{
 			$suffix = JText::_('COM_REDSHOP_EDIT');
 		}
 
 		// Prepare text for title
-		$title = JText::_('COM_REDSHOP_MASS_DISCOUNT_PRODUCT') . ': <small>[ ' . $suffix  . ' ]</small>';
+		$title = JText::_('COM_REDSHOP_MASS_DISCOUNT_PRODUCT') . ': <small>[ ' . $suffix . ' ]</small>';
 
 		JToolBarHelper::title($title);
 		JToolBarHelper::apply('mass_discount.apply');
@@ -112,8 +111,7 @@ class RedshopViewMass_Discount extends RedshopViewAdmin
 		if ($isNew)
 		{
 			JToolBarHelper::cancel('mass_discount.cancel');
-		}
-		else
+		} else
 		{
 			JToolBarHelper::cancel('mass_discount.cancel', JText::_('JTOOLBAR_CLOSE'));
 		}

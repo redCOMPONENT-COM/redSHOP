@@ -59,8 +59,7 @@ class RedshopControllerQuotation extends RedshopController
 			if ($sent)
 			{
 				$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SENT');
-			}
-			else
+			} else
 			{
 				$msg = JText::_('COM_REDSHOP_ERROR_SENDING_QUOTATION_MAIL');
 			}
@@ -84,8 +83,7 @@ class RedshopControllerQuotation extends RedshopController
 			}
 
 			$this->setRedirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, $msg);
-		}
-		else
+		} else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
 			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=quotation&return=1&Itemid=' . $Itemid, $msg);
@@ -132,8 +130,7 @@ class RedshopControllerQuotation extends RedshopController
 			</script>
 			<?php
 			exit;
-		}
-		else
+		} else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
 		}

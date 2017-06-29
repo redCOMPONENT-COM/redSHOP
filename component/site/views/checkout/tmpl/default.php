@@ -46,8 +46,7 @@ $login_template = $redTemplate->getTemplate("login");
 if (count($login_template) > 0 && $login_template[0]->template_desc)
 {
 	$login_template_desc = $login_template[0]->template_desc;
-}
-else
+} else
 {
 	$login_template_desc = '
 	<div class="redshop-login">
@@ -78,15 +77,13 @@ $returnurl = base64_encode($returnurl);
 if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 {
 	echo $this->loadTemplate('address');
-}
-else
+} else
 {
 	if ($user->id == "" && Redshop::getConfig()->get('REGISTER_METHOD') != 1)
 	{
 		$show_login            = 1;
 		$open_to_mystretchermy = 0;
-	}
-	else
+	} else
 	{
 		$show_login            = 0;
 		$open_to_mystretchermy = 1;
@@ -144,13 +141,13 @@ else
 	?>
 
 	<div class="form-group">
-		<label class="radio-inline" <?php echo $allowCustomer;?>>
+		<label class="radio-inline" <?php echo $allowCustomer; ?>>
 			<input type="radio" name="togglerchecker" id="toggler1" class="toggler" onclick="showCompanyOrCustomer(this);" value="0" <?php echo ($is_company == 0) ? 'checked="checked"' : '' ?> />
-			<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION');?>
+			<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION'); ?>
 		</label>
-		<label class="radio-inline" <?php echo $allowCompany;?>>
+		<label class="radio-inline" <?php echo $allowCompany; ?>>
 			<input type="radio" name="togglerchecker" id="toggler2" class="toggler" onclick="showCompanyOrCustomer(this);" value="1"  <?php echo ($is_company == 1) ? 'checked="checked"' : '' ?> />
-			<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION');?>
+			<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?>
 		</label>
 	</div>
 
@@ -166,7 +163,7 @@ else
 	</div>
 
 	<div id="divSearchPhonemsg" style="display:none">
-		<?php echo JText::_('COM_REDSHOP_NO_RESULT_FOUND_BY_SEARCHPHONE');?>
+		<?php echo JText::_('COM_REDSHOP_NO_RESULT_FOUND_BY_SEARCHPHONE'); ?>
 	</div>
 	<?php endif; ?>
 
@@ -178,16 +175,16 @@ else
 			?>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" name="createaccount" <?php echo $checked_style;?> id="createaccount" value="1" onclick="createUserAccount(this);"/>
-					<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT');?>
+					<input type="checkbox" name="createaccount" <?php echo $checked_style; ?> id="createaccount" value="1" onclick="createUserAccount(this);"/>
+					<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
 				</label>
 			</div>
 			<?php endif; ?>
 
 			<fieldset>
-				<legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION');?></legend>
+				<legend><?php echo JText::_('COM_REDSHOP_ADDRESS_INFORMATION'); ?></legend>
 
-				<?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'), 1, Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX'));    ?>
+				<?php echo $userhelper->getBillingTable($post, $is_company, $this->lists, Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'), 1, Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX')); ?>
 			</fieldset>
 
 			<?php if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) : ?>
@@ -201,17 +198,16 @@ else
 				{
 					$billingisshipping = "style='display:none'";
 				}
-			}
-			elseif (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
+			} elseif (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
 			{
 				$billingisshipping = "style='display:none'";
 			}
 			?>
 
-			<div id="divShipping" <?php echo $billingisshipping;?>>
+			<div id="divShipping" <?php echo $billingisshipping; ?>>
 				<fieldset class="adminform subTable">
-					<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES');?></legend>
-					<?php echo $userhelper->getShippingTable($post, $is_company, $this->lists);    ?>
+					<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?></legend>
+					<?php echo $userhelper->getShippingTable($post, $is_company, $this->lists); ?>
 				</fieldset>
 			</div>
 

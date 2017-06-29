@@ -20,8 +20,7 @@ $payment_template = $redTemplate->getTemplate("redshop_payment");
 if (count($payment_template) > 0 && $payment_template[0]->template_desc)
 {
 	$template_desc = $payment_template[0]->template_desc;
-}
-else
+} else
 {
 	$template_desc = "<fieldset class=\"adminform\"><legend><strong>{payment_heading}</strong></legend>\r\n<div>{payment_loop_start}\r\n<div>{payment_method_name}</div>\r\n<div>{creditcard_information}</div>\r\n{payment_loop_end}</div></fieldset>";
 }
@@ -30,7 +29,7 @@ else
 $billingaddresses = $model->billingaddresses();
 $is_company       = $billingaddresses->is_company;
 
-$eanNumber 	  = (int) $billingaddresses->ean_number;
+$eanNumber = (int) $billingaddresses->ean_number;
 
 $template_desc = $carthelper->replacePaymentTemplate($template_desc, $this->element, $is_company, $eanNumber);
 
