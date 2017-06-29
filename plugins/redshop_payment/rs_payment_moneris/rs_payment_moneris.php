@@ -18,7 +18,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 	 * @param   string  $element    Element
 	 * @param   array   $data       Data
 	 *
-	 * @return  void
+	 * @return  void|null
 	 *
 	 * @since version
 	 */
@@ -150,7 +150,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			echo "<pre>";
 			echo "Raw Data<br /><br />";
 			echo "Globals: <br />";
-			var_export($mpgConfig->getGlobals());
 			echo "<br />";
 			echo "Request: <br />";
 			var_export($mpgHttpPost);
