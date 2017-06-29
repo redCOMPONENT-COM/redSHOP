@@ -18,7 +18,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 	 * @param   string  $element    Element
 	 * @param   array   $data       Data
 	 *
-	 * @return  void|string
+	 * @return  boolean|string
 	 *
 	 * @since   2.0.6
 	 */
@@ -31,7 +31,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		if ($element != 'rs_payment_moneris')
 		{
 
-			return;
+			return false;
 		}
 
 		if (empty($plugin))
