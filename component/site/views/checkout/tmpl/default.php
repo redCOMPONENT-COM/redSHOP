@@ -38,7 +38,7 @@ $jinput     = JFactory::getApplication()->input;
  * */
 
 // Actually need know and determine which variables we want to use
-$post = $jinput->getArray(array(), null, 'RAW');
+$post = $jinput->post->getArray();
 
 $login_template = $redTemplate->getTemplate("login");
 

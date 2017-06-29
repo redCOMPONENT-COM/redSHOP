@@ -141,18 +141,19 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		}
 
 		$mpgRequest = new mpgRequest($mpgTxn);
-
+		$mpgGlobals = new mpgGlobals;
 		$mpgHttpPost = new mpgHttpsPost($storeid, $apitoken, $mpgRequest, $moneris_api_host);
 		$mpgResponse = $mpgHttpPost->getMpgResponse();
 
-		if ($moneris_test_status == 1 && false)
+		if ($moneris_test_status == 1)
 		{
 			echo "<pre>";
 			echo "Raw Data<br /><br />";
 			echo "Globals: <br />";
+			var_export($mpgGlobals->getGlobals());
 			echo "<br />";
 			echo "Request: <br />";
-			var_export($mpgRequest);
+			var_export($mpgHttpPost);
 			echo "<br />";
 			echo "Response: <br />";
 			var_export($mpgResponse);

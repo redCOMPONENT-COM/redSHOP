@@ -639,6 +639,8 @@ class PlgRedshop_ProductBundle extends JPlugin
 			return;
 		}
 
+		// Init $data
+		$data = array();
 		foreach ($bundleRows as $row)
 		{
 			$propertyData = array();
@@ -651,7 +653,7 @@ class PlgRedshop_ProductBundle extends JPlugin
 
 			$bundleData = $this->getBundleData($row->product_id, $row->bundle_id);
 
-			$data = array
+			$data[] = array
 			(
 				'property' => $propertyData,
 				'bundle'   => $bundleData[0]
