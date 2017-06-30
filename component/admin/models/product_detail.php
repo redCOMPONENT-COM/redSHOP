@@ -261,7 +261,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['thumb_image_delete']))
 		{
 			$row->product_thumb_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_thumb_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_thumb_image']);
 
 			if (is_file($unlink_path))
 			{
