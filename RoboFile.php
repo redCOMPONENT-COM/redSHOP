@@ -171,9 +171,9 @@ class RoboFile extends \Robo\Tasks
 		}
 		else
 		{
-			$this->runSelenium();
-
 			$this->taskSeleniumStandaloneServer()
+				->setURL("http://localhost:4444")
+				->runSelenium()
 				->waitForSelenium()
 				->run()
 				->stopOnFail();
