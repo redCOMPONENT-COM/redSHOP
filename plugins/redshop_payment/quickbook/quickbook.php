@@ -10,7 +10,13 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_PaymentQuickbook extends JPlugin
+/**
+ *  PlgRedshop_PaymentQuickBook class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentQuickBook extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -140,6 +146,14 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 		return $return;
 	}
 
+	/**
+	 * onAuthorizeStatus_Quickbookf event
+	 *
+	 * @param   string  $element  Name of plugin
+	 * @param   int     $orderId  Order ID
+	 *
+	 * @return  object  Success or failed message
+	 */
 	public function onAuthorizeStatus_Quickbook($element, $orderId)
 	{
 		if ($element != 'quickbook')
