@@ -4,7 +4,6 @@
   "description": "Release script for redSHOP",
   "main": "gulpfile.js",
   "dependencies": {
-    "find": "^0.2.7",
     "gulp-install": "^0.6.0"
   },
   "devDependencies": {
