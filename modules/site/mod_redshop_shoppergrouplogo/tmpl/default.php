@@ -8,38 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
-$user = JFactory::getUser();
-$portalLogo = '';
-
-if (!$user->id)
-{
-	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO')))
-	{
-		$portalLogo = RedShopHelperImages::getImagePath(
-			Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO'),
-			'',
-			'thumb',
-			'shopperlogo',
-			$thumbwidth,
-			$thumbheight
-		);
-	}
-}
-elseif ($userInfo = RedshopHelperUser::getUserInformation($user->id))
-{
-	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $userInfo->shopper_group_logo))
-	{
-		$portalLogo = RedShopHelperImages::getImagePath(
-			$userInfo->shopper_group_logo,
-			'',
-			'thumb',
-			'shopperlogo',
-			$thumbwidth,
-			$thumbheight
-		);
-	}
-}
 ?>
 <div class="mod_redshop_shoppergrouplogo">
 	<?php if ($portalLogo): ?>
