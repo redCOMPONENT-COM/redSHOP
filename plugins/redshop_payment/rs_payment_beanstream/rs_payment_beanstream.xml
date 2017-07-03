@@ -1,87 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_BEANSTREAM</name>
-    <version>1.5.1</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <version>1.7.0</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>Nov 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>This plugin enables standard beanstream payments</description>
+    <description>PLG_RS_PAYMENT_BEANSTREAM</description>
 
     <files>
         <filename plugin="rs_payment_beanstream">rs_payment_beanstream.php</filename>
-
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_beanstream.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_beanstream.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_beanstream.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_beanstream.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
 
 
-                <field name="payment_oprand" type="text" size="10" default="-" label="Payment operand"
-                       description="Payment Operand"/>
-                <field name="payment_price" type="text" size="30" default="" label="Payment price"
-                       description="Payment price"/>
-                <field name="payment_discount_is_percent" type="radio" default="1" label="Discount Type: "
-                       description="Discount Type">
-                    <option value="1">Percentage</option>
-                    <option value="0">Total</option>
+                <field name="payment_oprand" type="text" size="10" default="-" label="PLG_RS_PAYMENT_BEANSTREAM_PAYMENT_OPERAND"
+                       description="PLG_RS_PAYMENT_BEANSTREAM_PAYMENT_OPERAND_DESC"/>
+                <field name="payment_price" type="text" size="30" default="" label="PLG_RS_PAYMENT_BEANSTREAM_PAYMENT_PRICE"
+                       description="PLG_RS_PAYMENT_BEANSTREAM_PAYMENT_PRICE_DESC"/>
+                <field name="payment_discount_is_percent" type="radio" default="1" label="PLG_RS_PAYMENT_BEANSTREAM_DISCOUNT_TYPE"
+                       description="PLG_RS_PAYMENT_BEANSTREAM_DISCOUNT_TYPE_DESC">
+                    <option value="1">PLG_RS_PAYMENT_BEANSTREAM_DISCOUNT_TYPE_PERCENTAGE</option>
+                    <option value="0">PLG_RS_PAYMENT_BEANSTREAM_DISCOUNT_TYPE_TOTAL</option>
                 </field>
 
 
-                <field name="merchant_id" type="text" default="" label="beanstream Merchant code"
-                       description="beanstream Merchant code"/>
-                <field name="api_username" type="text" default="" label="beanstream API Username"
-                       description="beanstream API Username"/>
-                <field name="api_password" type="text" default="" label="beanstream API Password"
-                       description="beanstream API Password"/>
+                <field name="merchant_id" type="text" default="" label="PLG_RS_PAYMENT_BEANSTREAM_MERCHANT_CODE"
+                       description="PLG_RS_PAYMENT_BEANSTREAM_MERCHANT_CODE_DESC"/>
+                <field name="api_username" type="text" default="" label="PLG_RS_PAYMENT_BEANSTREAM_API_USERNAME"
+                       description="PLG_RS_PAYMENT_BEANSTREAM_API_USERNAME_DESC"/>
+                <field name="api_password" type="text" default="" label="PLG_RS_PAYMENT_BEANSTREAM_API_PASSWORD"
+                       description="PLG_RS_PAYMENT_BEANSTREAM_API_PASSWORD_DESC"/>
 
                 <field name="verify_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="C"
-                       label="Order Status for successful transactions"
-                       description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+                       label="PLG_RS_PAYMENT_BEANSTREAM_VERIFY_STATUS"
+                       description="PLG_RS_PAYMENT_BEANSTREAM_VERIFY_STATUS_DESC">
 
                 </field>
                 <field name="invalid_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="P"
-                       label="Order Status for failed transactions"
-                       description="Select an order status for failed payment transactions.">
+                       label="PLG_RS_PAYMENT_BEANSTREAM_INVALID_STATUS"
+                       description="PLG_RS_PAYMENT_BEANSTREAM_INVALID_STATUS_DESC">
                 </field>
                 <field name="capture_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-                       key_field="st_value" value_field="st_title" default="S" label="Capture Payment Status"
-                       description="Select an capture status for capturing payment."></field>
+                       key_field="st_value" value_field="st_title" default="S" label="PLG_RS_PAYMENT_BEANSTREAM_CAPTURE_STATUS"
+                       description="PLG_RS_PAYMENT_BEANSTREAM_CAPTURE_STATUS_DESC"></field>
 
             </fieldset>
             <fieldset name="advanced">
-                <field name="private_person" type="radio" default="1" label="Show on Private Person"
-                       description="Show on Private Person">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="private_person" type="radio" default="1" label="PLG_RS_PAYMENT_BEANSTREAM_PRIVATE_PERSON"
+                       description="PLG_RS_PAYMENT_BEANSTREAM_PRIVATE_PERSON_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="business" type="radio" default="1" label="Show on Business" description="Show on Business">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="business" type="radio" default="1" label="PLG_RS_PAYMENT_BEANSTREAM_BUSINESS" description="PLG_RS_PAYMENT_BEANSTREAM_BUSINESS_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="is_creditcard" type="hidden" default="1" value="1"/>
                 <field name="economic_payment_terms_id" type="text" default="2"
-                       label="Enter E-conomic Payment Conditions ID"/>
+                       label="PLG_RS_PAYMENT_BEANSTREAM_TERM_ID"/>
                 <field name="economic_design_layout" type="text" default=""
-                       label="Enter E-conomic Design and Layout ID"/>
-                <field name="accepted_credict_card" type="creditcards" default="0" label="Select Credit Cards"
-                       description="Displays the selected category product"/>
-                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0" label="Select Shopper Group"
-                       description="Displays the shopper groups"/>
+                       label="PLG_RS_PAYMENT_BEANSTREAM_LAYOUT_ID"/>
+                <field name="accepted_credict_card" type="creditcards" default="0" label="PLG_RS_PAYMENT_BEANSTREAM_SELECT_CREDIT_CARD"
+                       description=""/>
+                <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0" label="PLG_RS_PAYMENT_BEANSTREAM_SELECT_SHOPPER_GROUP"
+                       description=""/>
             </fieldset>
         </fields>
     </config>
