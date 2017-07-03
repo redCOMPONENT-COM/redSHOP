@@ -11,10 +11,28 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_paymentrs_payment_imglobal extends JPlugin
+/**
+ * PlgRedshop_PaymentRs_Payment_ImGlobal installer class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentRs_Payment_ImGlobal extends JPlugin
 {
 	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
+	 * [onPrePayment_rs_payment_imglobal ]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [obj]     $values
 	 */
 	public function onPrePayment_rs_payment_imglobal($element, $data)
 	{
@@ -39,7 +57,7 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 			$urlParts['scheme'] = 'http';
 		}
 
-		$formdata = array(
+		$formData = array(
 			'type'     => 'sale',
 			'username' => $this->params->get("username"),
 			'password' => $this->params->get("password"),
@@ -49,22 +67,22 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 			'cvv'      => $ccdata['credit_card_code'],
 			'ccexp'    => ($ccdata['order_payment_expire_month']) . ($ccdata['order_payment_expire_year'])
 		);
-		$poststring = '';
+		$postString = '';
 
-		foreach ($formdata AS $key => $val)
+		foreach ($formData AS $key => $val)
 		{
-			$poststring .= urlencode($key) . "=" . urlencode($val) . "&";
+			$postString .= urlencode($key) . "=" . urlencode($val) . "&";
 		}
 
-		$poststring = substr($poststring, 0, -1);
+		$postString = substr($postString, 0, -1);
 		$CR = curl_init();
 		curl_setopt($CR, CURLOPT_URL, $url);
 		curl_setopt($CR, CURLOPT_TIMEOUT, 30);
 		curl_setopt($CR, CURLOPT_FAILONERROR, true);
 
-		if ($poststring)
+		if ($postString)
 		{
-			curl_setopt($CR, CURLOPT_POSTFIELDS, $poststring);
+			curl_setopt($CR, CURLOPT_POSTFIELDS, $postString);
 			curl_setopt($CR, CURLOPT_POST, 1);
 		}
 
@@ -111,6 +129,14 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 		return $values;
 	}
 
+	/**
+	 * [onCapture_Paymentrs_payment_imglobal description]
+	 *
+	 * @param   [string]  $element  [plugin name]
+	 * @param   [array]   $data     [data params]
+	 *
+	 * @return  [void]
+	 */
 	public function onCapture_Paymentrs_payment_imglobal($element, $data)
 	{
 		return;
