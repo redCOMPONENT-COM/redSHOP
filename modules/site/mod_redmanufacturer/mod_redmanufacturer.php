@@ -43,7 +43,7 @@ array_map(
 	{
 		$app = JFactory::getApplication();
 		$menu = $app->getMenu();
-		$menuItem = $menu->getItems('link', 'index.php?option=com_redshop&view=manufacturers&layout=products', false);
+		$menuItem = $menu->getItems('link', JRoute::_(JURI::base() . 'index.php?option=com_redshop&view=manufacturers&layout=products'), false);
 		$list->item_id = $app->input->getInt('Itemid');
 
 		foreach ($menuItem as $k => $value)

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
 	<name>MOD_REDMANUFACTURER</name>
-	<version>1.5.1</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<version>1.5.2</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>November 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<copyright>redCOMPONENT.com</copyright>
@@ -14,13 +14,9 @@
 		<filename>helper.php</filename>
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
+		<folder>language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redmanufacturer.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redmanufacturer.sys.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redmanufacturer.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redmanufacturer.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
