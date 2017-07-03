@@ -28,8 +28,8 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 	 * $return->message        = 'Success or Fail messafe';
 	 * $return->transaction_id = 'Transaction Id from gateway';
 	 *
-	 * @param   string  $element  Name of the payment plugin
-	 * @param   array   $data     Cart Information
+	 * @param   string $element Name of the payment plugin
+	 * @param   array  $data    Cart Information
 	 *
 	 * @return  object  Authorize or Charge success or failed message and transaction id
 	 */
@@ -43,7 +43,7 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 		$app = JFactory::getApplication();
 
 		// Include Quickbook Library
-		require_once JPATH_SITE . '/plugins/redshop_payment/quickbook/library/QuickBooks.php';
+		require_once __DIR__ . '/library/vendor/autoload.php';
 
 		$return = new stdClass;
 
@@ -59,7 +59,7 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 		$pathToCertificate = $this->params->get('certifiedPemFile', null);
 
 		// This is your login ID that Intuit assignes you during the application
-		$appLogin = $this->params->get('appLogin', null);
+		$appLogin         = $this->params->get('appLogin', null);
 		$connectionTicket = $this->params->get('connectionTicket');
 
 		// Create an instance of the MerchantService object
@@ -158,9 +158,9 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->update($db->qn('#__redshop_order_payment'))
-				->set($db->qn('authorize_status') . ' = ' . $db->q($authorizeStatus))
-				->where($db->qn('order_id') . ' = ' . $db->q($orderId));
+			->update($db->qn('#__redshop_order_payment'))
+			->set($db->qn('authorize_status') . ' = ' . $db->q($authorizeStatus))
+			->where($db->qn('order_id') . ' = ' . $db->q($orderId));
 
 		// Set the query and execute the update.
 		$db->setQuery($query)->execute();
@@ -169,8 +169,8 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 	/**
 	 * This method will be trigger on order status change to capture order ammount.
 	 *
-	 * @param   string  $element  Name of plugin
-	 * @param   array   $data     Order Information array
+	 * @param   string $element Name of plugin
+	 * @param   array  $data    Order Information array
 	 *
 	 * @return  object  Success or failed message
 	 */
@@ -187,7 +187,7 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 		$db  = JFactory::getDbo();
 
 		// Include Quickbook Library
-		require_once JPATH_SITE . '/plugins/redshop_payment/quickbook/library/QuickBooks.php';
+		require_once __DIR__ . '/library/vendor/autoload.php';
 
 		$return = new stdClass;
 
@@ -228,9 +228,9 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 
 			// Update transaction string
 			$query = $db->getQuery(true)
-					->update($db->qn('#__redshop_order_payment'))
-					->set($db->qn('order_payment_trans_id') . ' = ' . $db->q($transactionId))
-					->where($db->qn('order_id') . ' = ' . $db->q($data['order_id']));
+				->update($db->qn('#__redshop_order_payment'))
+				->set($db->qn('order_payment_trans_id') . ' = ' . $db->q($transactionId))
+				->where($db->qn('order_id') . ' = ' . $db->q($data['order_id']));
 
 			// Set the query and execute the update.
 			$db->setQuery($query)->execute();
