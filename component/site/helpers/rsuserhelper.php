@@ -22,8 +22,6 @@ class rsUserHelper
 
 	public $db = null;
 
-	protected static $shopperGroupData = array();
-
 	protected static $userInfo = array();
 
 	protected static $instance = null;
@@ -132,29 +130,13 @@ class rsUserHelper
 	 *
 	 * @param   int  $shopperGroupId  Shopper Group Id
 	 *
-	 * @return mixed
+	 * @return  array
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
 	 */
 	public function getShopperGroupList($shopperGroupId = 0)
 	{
-		if (!array_key_exists($shopperGroupId, self::$shopperGroupData))
-		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select(array('sh.*', $db->qn('sh.shopper_group_id', 'value'), $db->qn('sh.shopper_group_name', 'text')))
-				->from($db->qn('#__redshop_shopper_group', 'sh'))
-				->where('sh.published = 1');
-
-			if ($shopperGroupId)
-			{
-				$query->where('sh.shopper_group_id = ' . (int) $shopperGroupId);
-			}
-
-			$db->setQuery($query);
-
-			self::$shopperGroupData[$shopperGroupId] = $db->loadObjectList();
-		}
-
-		return self::$shopperGroupData[$shopperGroupId];
+		return Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 	}
 
 	/**
@@ -808,33 +790,18 @@ class rsUserHelper
 		return RedshopHelperNewsletter::subscribe($userId, $data, boolval($sendMail), $isNew);
 	}
 
+	/**
+	 * Method for unsubscribe email from newsletter
+	 *
+	 * @param   string  $email  Email
+	 *
+	 * @return  boolean
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
 	public function newsletterUnsubscribe($email = "")
 	{
-		$db   = JFactory::getDbo();
-		$user = JFactory::getUser();
-		$and  = "";
-
-		if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') != "")
-		{
-			$and .= "AND newsletter_id='" . Redshop::getConfig()->get('DEFAULT_NEWSLETTER') . "' ";
-		}
-
-		if ($user->id)
-		{
-			$and   .= "AND `user_id` = " . (int) $user->id . " ";
-			$email = $user->email;
-		}
-
-		if ($and != "")
-		{
-			$query = "DELETE FROM " . $db->qn('#__redshop_newsletter_subscription')
-				. " WHERE " . $db->qn('email') . " = " . $db->quote($email) . $and;
-			$this->_db->setQuery($query);
-			$this->_db->execute();
-			RedshopHelperMail::sendNewsletterCancellationMail($email);
-		}
-
-		return true;
+		return RedshopHelperNewsletter::removeSubscribe($email);
 	}
 
 	public function getBillingTable($post = array(), $is_company = 0, $lists, $show_shipping = 0, $show_newsletter = 0, $create_account = 1)
@@ -1233,7 +1200,7 @@ class rsUserHelper
 		$user                       = JFactory::getUser();
 		$user_id                    = $user->id;
 		$shopperGroupId             = $this->getShopperGroup($user_id);
-		$shopperGroupdata           = $this->getShopperGroupList($shopperGroupId);
+		$shopperGroupdata           = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 		$shopper_group_manufactures = $shopperGroupdata[0]->shopper_group_manufactures;
 
 		return $shopper_group_manufactures;
