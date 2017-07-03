@@ -191,7 +191,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (isset($post['newsletter_signoff']) && $post['newsletter_signoff'] == 1)
 		{
-			$this->_userhelper->newsletterUnsubscribe();
+			RedshopHelperNewsletter::removeSubscribe();
 		}
 
 		$order_paymentstatus = 'Unpaid';

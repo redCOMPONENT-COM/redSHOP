@@ -33,7 +33,7 @@ $app = JFactory::getApplication();
 $db = JFactory::getDbo();
 $userHelper = rsUserHelper::getInstance();
 $shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
-$shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId);
+$shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 $query = $db->getQuery(true)
 	->select('id as value, name as text')
 	->from($db->qn('#__redshop_category'))
