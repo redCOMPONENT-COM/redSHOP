@@ -14,7 +14,7 @@ $url = $uri->root();
 $Itemid = JRequest::getInt('Itemid');
 
 $document = JFactory::getDocument();
-JHTML::script('modules/mod_redproducts3d/js/redproduct360.js');
+JHtml::script('mod_redproducts3d/redproduct360.js', false, true);
 
 $enableImageReflection = 0;
 $enableimageStroke = 0;
@@ -25,28 +25,34 @@ if ($enableImageReflection == 'yes')
 {
 	$enableImageReflection = 1;
 }
+
 if ($enableimageStroke == 'yes')
 {
 	$enableimageStroke = 1;
 }
+
 if ($enableMouseOverToolTip == 'yes')
 {
 	$enableMouseOverToolTip = 1;
 }
+
 if ($enableMouseOverEffects == 'yes')
 {
 	$enableMouseOverEffects = 1;
 }
 
 $data = "";
+
 for ($i = 0, $in = count($rows); $i < $in; $i++)
 {
 	$row  = $rows[$i];
 	$path = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
+
 	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $row->product_full_image))
 	{
 		$path = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/' . $row->product_full_image;
 	}
+
 	$link = $url . 'index.php?option=com_redshop%26view=product%26pid=' . $row->product_id;
 	$data .= "thumb=" . $path . " | description=" . $row->product_name . " | name=" . $link . " | param=_self ";
 }
