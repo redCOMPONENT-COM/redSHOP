@@ -6,8 +6,9 @@ var xml2js     = require("xml2js");
 var fs         = require("fs");
 var sass       = require("gulp-sass");
 var path       = require("path");
-var find       = require("find");
 var composer   = require('gulp-composer');
+var gutil      = require('gulp-util');
+var glob       = require('glob');
 
 var config     = require("./gulp-config.json");
 var extension  = require("./package.json");
@@ -231,52 +232,37 @@ gulp.task('release:module', function(cb) {
 // Overwrite "release" method
 gulp.task("release",
     [
-        "composer",
         "release:plugin",
         "release:module",
         "release:redshop"
     ]
 );
 
-gulp.task("composer", ["composer:libraries", "composer:plugins"], function(cb){
-    return true;
-});
+gulp.task("composer", function(cb){
+    var composers = ['./libraries/redshop', './plugins/redshop_payment/quickbook/library'];
 
-gulp.task("composer:libraries", function(cb){
-    // Check if have composer.json file
-    find.file(/composer.json$/, './libraries', function(files) {
-        if (files.length) {
-            for (i = 0; i < files.length; i++) {
-                var composerPath = path.dirname(files[i])
+    for (var i = 0; i < composers.length; i++) {
+        // gutil.log(gutil.colors.blue(composerPath));
+        composer({cwd: composers[i], bin: 'php ./composer.phar'});
+    }
 
-                // Make sure this is not composer.json inside vendor library
-                if (composerPath.indexOf("vendor") == -1) {
-                    composer({cwd: composerPath, bin: 'php ./composer.phar'}).on("end", cb);
-                }
+    /* @TODO: Enable auto-get composer.json files instead of use composers array
+    glob("**!/composer.json", [], function (er, files) {
+        for (var i = 0; i < files.length; i++) {
+            var composerPath = path.dirname(files[i]);
+
+            // Make sure this is not composer.json inside vendor library
+            if (composerPath.indexOf("vendor") == -1 && composerPath != '.') {
+                gutil.log(gutil.colors.blue(composerPath));
+                composer({cwd: composerPath, bin: 'php ./composer.phar'});
             }
         }
-    });
-});
-
-gulp.task("composer:plugins", function(cb){
-    // Check if have composer.json file
-    find.file(/composer.json$/, './plugins', function(files) {
-        if (files.length) {
-            for (i = 0; i < files.length; i++) {
-                var composerPath = path.dirname(files[i])
-
-                // Make sure this is not composer.json inside vendor library
-                if (composerPath.indexOf("vendor") == -1) {
-                    // composer({cwd: composerPath, bin: 'php ./composer.phar'});
-                }
-            }
-        }
-    });
+    });*/
 });
 
 gulp.task("release:md5:generate", function(){
 
-    console.log("Create checksum.md5 file in: checksum.md5");
+    gutil.log(gutil.colors.yellow("Create checksum.md5 file in: checksum.md5"));
 
     return gulp.src([
         "./component/**/*",
@@ -376,7 +362,7 @@ gulp.task('release:md5:clean', ["release:md5:json"], function () {
 
 // Temporary remove release:md5 since it not ready for use yet.
 // // gulp.task("release:redshop", ["composer:libraries", "release:md5"], function (cb) {
-gulp.task("release:redshop", ["composer:libraries"], function (cb) {
+gulp.task("release:redshop", function (cb) {
     fs.readFile( "./redshop.xml", function(err, data) {
         parser.parseString(data, function (err, result) {
             var version  = result.extension.version[0];
@@ -439,9 +425,9 @@ gulp.task("release:redshop", ["composer:libraries"], function (cb) {
                 "./plugins/redshop_import/user/**",
                 "./plugins/redshop_import/related_product/**"
             ],{ base: "./" })
-                .pipe(zip(fileName))
-                .pipe(gulp.dest(config.releaseDir))
-                .on("end", cb);
+            .pipe(zip(fileName))
+            .pipe(gulp.dest(config.releaseDir))
+            .on("end", cb);
         });
     });
 });
