@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
 	<name>MOD_REDMASSCART</name>
-	<version>1.5.1</version>
+	<version>1.5.2</version>
 	<redshop>1.5</redshop>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
@@ -13,13 +13,9 @@
 		<filename module="mod_redmasscart">mod_redmasscart.php</filename>
 		<filename module="mod_redmasscart">index.html</filename>
 		<folder>tmpl</folder>
+		<folder>language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redmasscart.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redmasscart.sys.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redmasscart.ini</language>
-		<language tag="da-DK">language/da-DK/da-DK.mod_redmasscart.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
