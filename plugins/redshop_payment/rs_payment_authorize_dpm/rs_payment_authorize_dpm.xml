@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
 	<name>PLG_RS_PAYMENT_AUTHORIZE_DPM</name>
-	<version>1.5.2</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>November 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>http://www.redcomponent.com</authorUrl>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>GNU General Public License v2</license>
 	<description>PLG_RS_PAYMENT_AUTHORIZE_DPM_DESC</description>
-
 	<files>
 		<filename plugin="rs_payment_authorize_dpm">rs_payment_authorize_dpm.php</filename>
 		<filename>index.html</filename>
-		<folder>rs_payment_authorize_dpm</folder>
+		<folder>libraries</folder>
+		<folder>language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_authorize_dpm.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_authorize_dpm.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">
 			<fieldset name="basic">
-
 				<field name="payment_oprand" type="text" size="10" default="-"
 					   label="PLG_RS_PAYMENT_AUTHORIZE_DPM_PAYMENT_OPRAND_LBL"/>
 				<field name="payment_price" type="text" size="30" default=""
