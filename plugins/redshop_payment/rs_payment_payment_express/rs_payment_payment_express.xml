@@ -1,108 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" client="site" type="plugin" group="redshop_payment"
-           method="upgrade">
+<extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_PAYMENT_EXPRESS</name>
-    <version>1.5.1</version>
-    <redshop>2.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <version>1.7.0</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>DEC 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>This plugin enables standard Payment Express payments
-    </description>
+    <description>PLG_RS_PAYMENT_PAYMENT_EXPRESS_DESC</description>
 
     <files>
         <filename plugin="rs_payment_payment_express">rs_payment_payment_express.php</filename>
         <filename>index.html</filename>
         <folder>rs_payment_payment_express</folder>
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_payment_express.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_payment_express.sys.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_payment_express.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_payment_express.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
 
                 <field name="payment_oprand" type="text" size="10" default="-"
-                       label="Payment operand" description="Payment Operand"/>
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_PAYMENT_OPERAND" description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_PAYMENT_OPERAND"/>
                 <field name="payment_price" type="text" size="30" default=""
-                       label="Payment price" description="Payment price"/>
-                <field name="debug_mode" type="radio" default="1" label="Debug Mode: "
-                       description="Debug Mode">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_PAYMENT_PRICE" description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_PAYMENT_PRICE"/>
+                <field name="debug_mode" type="radio" default="1" label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_DEBUG_MODE"
+                       description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_DEBUG_MODE">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="payment_discount_is_percent" type="radio" default="1"
-                       label="Discount Type: " description="Discount Type">
-                    <option value="1">Percentage</option>
-                    <option value="0">Total</option>
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_DISCOUNT_TYPE" description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_DISCOUNT_TYPE">
+                    <option value="1">PLG_RS_PAYMENT_PAYMENT_EXPRESS_DISCOUNT_TYPE_PERCENTAGE</option>
+                    <option value="0">PLG_RS_PAYMENT_PAYMENT_EXPRESS_DISCOUNT_TYPE_TOTAL</option>
                 </field>
                 <field name="px_post_username" type="text" default=""
-                       label="PxPost Username" description="Username of Account (Supplied by Dps)  "/>
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_USERNAME" description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_USERNAME_DESC"/>
                 <field name="px_post_password" type="text" default=""
-                       label="PxPost Password" description="Password of Account (Supplied by Dps) "/>
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_PASSWORD" description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_PASSWORD_DESC"/>
                 <field name="px_pay_username" type="text" default=""
-                       label="PxPay Username" description="Username of Account (Supplied by Dps)  "/>
+                       label="PLG_RS_PAYMENT_PAYMENT_PAY_EXPRESS_USERNAME" description="PLG_RS_PAYMENT_PAYMENT_PAY_EXPRESS_USERNAME"/>
                 <field name="px_post_label_key" type="text" default=""
-                       label="PxPost Label Key" description="PxPost Label Key "/>
+                       label="PLG_RS_PAYMENT_PAYMENT_PAY_EXPRESS_LABEL_KEY" description="PLG_RS_PAYMENT_PAYMENT_PAY_EXPRESS_LABEL_KEY"/>
                 <field name="px_post_txntype" type="list" default="0"
-                       label="PxPost TxnType"
-                       description="Authorizes a transactions. Must be completed within 7 days using the 'Complete' TxnType.
-		Purchase - Funds are transferred immediately.  ">
-                    <option value="Auth">Auth</option>
-                    <option value="Purchase">Purchase</option>
+                       label="PLG_RS_PAYMENT_PAYMENT_PAY_EXPRESS_TNXTYPE"
+                       description="PLG_RS_PAYMENT_PAYMENT_PAY_EXPRESS_TNXTYPE_DESC">
+                    <option value="Auth">PLG_RS_PAYMENT_PAYMENT_PAY_EXPRESS_TNXTYPE_AUTH</option>
+                    <option value="Purchase">PLG_RS_PAYMENT_PAYMENT_PAY_EXPRESS_TNXTYPE_PURCHASE</option>
                 </field>
                 <field name="px_post_txnmethod" type="list" default="0"
-                       label="PxPost TxnMethod"
-                       description="If you will use PxPost method then you need to enable Is credit card to 'Yes' and if you will select Pxpay method thn you must have to set Is credit card to 'NO' ">
-                    <option value="PxPost">PxPost</option>
-                    <option value="PxPay">PxPay</option>
+                       label="PLG_RS_PAYMENT_PAYMENT_PAY_EXPRESS_TNXMETHOD"
+                       description="PLG_RS_PAYMENT_PAYMENT_PAY_EXPRESS_TNXMETHOD_DESC">
+                    <option value="PxPost">PLG_RS_PAYMENT_PAYMENT_PAY_EXPRESS_TNXMETHOD_PXPOST</option>
+                    <option value="PxPay">PLG_RS_PAYMENT_PAYMENT_PAY_EXPRESS_TNXMETHOD_PXPAY</option>
                 </field>
                 <field name="verify_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="C"
-                       label="Order Status for successful transactions"
-                       description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_VERIFY_STATUS"
+                       description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_VERIFY_STATUS">
                 </field>
                 <field name="invalid_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="P"
-                       label="Order Status for failed transactions"
-                       description="Select an order status for failed payment transactions.">
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_INVALID_STATUS"
+                       description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_INVALID_STATUS">
                 </field>
                 <field name="capture_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="S"
-                       label="Capture Payment Status"
-                       description="Select an capture status for capturing payment."></field>
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_CAPTURE_STATUS"
+                       description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_CAPTURE_STATUS"></field>
                 <field type="spacer"/>
                 <field type="spacer"/>
             </fieldset>
             <fieldset name="advanced">
                 <field name="private_person" type="radio" default="1"
-                       label="Show on Private Person" description="Show on Private Person">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_PRIVATE_PERSON" description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_PRIVATE_PERSON">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="business" type="radio" default="1" label="Show on Business"
-                       description="Show on Business">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="business" type="radio" default="1" label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_BUSINESS"
+                       description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_BUSINESS">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                	<field name="is_creditcard" type="hidden" default="1" value="1"/>
                 <field name="economic_payment_terms_id" type="text" default="2"
-                       label="Enter E-conomic Payment Conditions ID"/>
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_ECONOMIC_TERM_ID"/>
                 <field name="economic_design_layout" type="text" default=""
-                       label="Enter E-conomic Design and Layout ID"/>
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_ECONOMIC_DESIGN_ID"/>
                 <field name="accepted_credict_card" type="creditcards" default="0"
-                       label="Select Credit Cards" description="Displays the selected category product"/>
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_ACCEPTED_CREDITCARD" description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_ACCEPTED_CREDITCARD"/>
                 <field name="shopper_group_id" type="shoppergrouplist" multiple="multiple" default="0"
-                       label="Select Shopper Group" description="Displays the shopper groups"/>
+                       label="PLG_RS_PAYMENT_PAYMENT_EXPRESS_SHOPPER_GROUP" description="PLG_RS_PAYMENT_PAYMENT_EXPRESS_SHOPPER_GROUP"/>
             </fieldset>
         </fields>
     </config>
