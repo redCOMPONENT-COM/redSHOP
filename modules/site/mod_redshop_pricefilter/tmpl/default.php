@@ -10,10 +10,6 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-$uri = JURI::getInstance();
-$url = $uri->root();
-$Itemid = JRequest::getInt('Itemid');
-$document = JFactory::getDocument();
 
 JHtml::_('redshopjquery.ui');
 JHtml::script('com_redshop/attribute.js', false, true);
@@ -33,9 +29,9 @@ $numberFormatParams = '\'' . Redshop::getConfig()->get('PRICE_DECIMAL') . '\',\'
 
 			$("div#redslider").slider({
 				range: true, // necessary for creating a range slider
-				min: <?php echo $texpricemin;?>, // minimum range of slider
-				max: <?php echo $texpricemax;?>, //maximimum range of slider
-				values: [<?php echo $texpricemin;?>, <?php echo $texpricemax;?>], //initial range of slider
+				min: <?php echo $textPriceMin;?>, // minimum range of slider
+				max: <?php echo $textPriceMax;?>, //maximimum range of slider
+				values: [<?php echo $textPriceMin;?>, <?php echo $textPriceMax;?>], //initial range of slider
 				slide: function (event, ui) { // This event is triggered on every mouse move during slide.
 
 					var startrange = number_format(ui.values[0], <?php echo $numberFormatParams; ?>);
@@ -50,9 +46,9 @@ $numberFormatParams = '\'' . Redshop::getConfig()->get('PRICE_DECIMAL') . '\',\'
 					var url = "<?php echo $url;?>index.php?format=raw&option=com_redshop&view=price_filter";
 					url = url + "&category=<?php echo $category;?>&count=<?php echo $count;?>&image=<?php echo $image;?>";
 					url = url + "&thumbwidth=<?php echo $thumbwidth;?>&thumbheight=<?php echo $thumbheight;?>";
-					url = url + "&show_price=<?php echo $show_price;?>&show_readmore=<?php echo $show_readmore;?>";
-					url = url + "&show_addtocart=<?php echo $show_addtocart;?>&show_desc=<?php echo $show_desc;?>";
-					url = url + "&show_discountpricelayout=<?php echo $show_discountpricelayout;?>&Itemid=<?php echo $Itemid;?>";
+					url = url + "&show_price=<?php echo $showPrice;?>&show_readmore=<?php echo $showReadmore;?>";
+					url = url + "&show_addtocart=<?php echo $showAddToCart;?>&show_desc=<?php echo $showDesc;?>";
+					url = url + "&show_discountpricelayout=<?php echo $showDiscountPriceLayout;?>&Itemid=<?php echo $itemId;?>";
 					url = url + "&texpricemin=" + ui.values[0] + "&texpricemax=" + ui.values[1];
 
 					$products.load(url, '', function () {
@@ -73,10 +69,10 @@ $numberFormatParams = '\'' . Redshop::getConfig()->get('PRICE_DECIMAL') . '\',\'
 			var url = "<?php echo $url;?>index.php?format=raw&option=com_redshop&view=price_filter";
 			url = url + "&category=<?php echo $category;?>&count=<?php echo $count;?>&image=<?php echo $image;?>";
 			url = url + "&thumbwidth=<?php echo $thumbwidth;?>&thumbheight=<?php echo $thumbheight;?>";
-			url = url + "&show_price=<?php echo $show_price;?>&show_readmore=<?php echo $show_readmore;?>";
-			url = url + "&show_addtocart=<?php echo $show_addtocart;?>&show_desc=<?php echo $show_desc;?>";
-			url = url + "&show_discountpricelayout=<?php echo $show_discountpricelayout;?>&Itemid=<?php echo $Itemid;?>";
-			url = url + "&texpricemin=<?php echo $texpricemin;?>&texpricemax=<?php echo $texpricemax;?>";
+			url = url + "&show_price=<?php echo $showPrice;?>&show_readmore=<?php echo $showReadmore;?>";
+			url = url + "&show_addtocart=<?php echo $showAddToCart;?>&show_desc=<?php echo $showDesc;?>";
+			url = url + "&show_discountpricelayout=<?php echo $showDiscountPriceLayout;?>&Itemid=<?php echo $itemId;?>";
+			url = url + "&texpricemin=<?php echo $textPriceMin;?>&texpricemax=<?php echo $textPriceMax;?>";
 
 			$products.load(url, '', function () {
 				$ajaxMessage.css({display: 'none'});
