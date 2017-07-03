@@ -1,0 +1,5 @@
+{
+    "require": {
+        "consolibyte/quickbooks": "^3.3"
+    }
+}
