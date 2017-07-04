@@ -41,6 +41,7 @@ node_modules/
 # Composer
 vendor/*
 tests/vendor/*
+plugins/redshop_payment/quickbook/library/vendor/*
 
 # Bower
 bower_components/
