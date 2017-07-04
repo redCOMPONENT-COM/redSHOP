@@ -7,9 +7,9 @@
 	method="upgrade"
 >
 	<name>PLG_REDSHOP_PAYMENT_KLARNA</name>
-	<version>1.0.3</version>
-	<redshop>2.0</redshop>
-	<creationDate>Sep 2016</creationDate>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>Nov 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>http://www.redcomponent.com</authorUrl>
@@ -21,12 +21,9 @@
 		<filename plugin="klarna">klarna.php</filename>
 		<folder>library</folder>
 		<folder>layouts</folder>
+		<folder>language</folder>
 	</files>
-
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_klarna.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_klarna.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 
 	<config addfieldpath="/libraries/redshop/form/fields">
 		<fields name="params">

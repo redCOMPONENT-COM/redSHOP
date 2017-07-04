@@ -18,7 +18,13 @@ use Klarna\XMLRPC\PClass;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_PaymentKlarna extends RedshopPayment
+/**
+ *  PlgRedshop_PaymentKlarna installer class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentKlarna extends RedshopPayment
 {
 	/**
 	 * Constructor
@@ -66,10 +72,10 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 		}
 
 		$orderHelper = order_functions::getInstance();
-		$k           = new Klarna;
+		$klarna      = new Klarna;
 		$server = ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
 
-		$k->config(
+		$klarna->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
 			Country::fromCode($data['billinginfo']->country_2_code),
@@ -86,7 +92,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 
 			$productName = strip_tags($orderItem->order_item_name . " " . $orderItem->product_attribute . " " . $orderItem->product_accessory);
 
-			$k->addArticle(
+			$klarna->addArticle(
 				$orderItem->product_quantity,
 				$orderItem->order_item_sku,
 				$productName,
@@ -97,7 +103,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			);
 		}
 
-		$k->addArticle(
+		$klarna->addArticle(
 			1,
 			'',
 			'Shipping fee',
@@ -109,7 +115,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 
 		if ($data['order']->order_discount > 0)
 		{
-			$k->addArticle(
+			$klarna->addArticle(
 				1,
 				'',
 				'Discount Line',
@@ -204,7 +210,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			}
 		}
 
-		$k->setAddress(
+		$klarna->setAddress(
 			Flags::IS_BILLING,
 			new Address(
 				$data['billinginfo']->user_email,
@@ -222,7 +228,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			)
 		);
 
-		$k->setAddress(
+		$klarna->setAddress(
 			Flags::IS_SHIPPING,
 			new Address(
 				$data['shippinginfo']->user_email,
@@ -241,7 +247,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 		);
 
 		// Set redSHOP Order Identifier. We can always search using klarna reference number too.
-		$k->setEstoreInfo(
+		$klarna->setEstoreInfo(
 			$data['order_id'],
 			$data['order']->order_number
 		);
@@ -253,7 +259,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			// Reserve amount only for new orders.
 			if ('' == trim($paymentInfo->order_payment_trans_id))
 			{
-				$result = $k->reserveAmount(
+				$result = $klarna->reserveAmount(
 					$pno,
 					$gender,
 					-1,   // Automatically calculate and reserve the cart total amount
@@ -298,7 +304,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			// Update order if transaction placed already.
 			else
 			{
-				$k->update($paymentInfo->order_payment_trans_id);
+				$klarna->update($paymentInfo->order_payment_trans_id);
 
 				$app = JFactory::getApplication();
 				$app->redirect(
@@ -328,6 +334,8 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	/**
 	 * Notify payment function
 	 *
+	 * @param   mixed  $values  values
+	 * 
 	 * @return  void
 	 */
 	public function klarnaOrderReservationUpdate($values)
@@ -371,26 +379,26 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	 */
 	public function onCapture_PaymentKlarna($element, $data)
 	{
-		$transactionId = $data['order_transactionid'];
+		$transactionId = trim($data['order_transactionid']);
 
 		// Set default return
 		$return = new stdClass;
 		$return->responsestatus = 'Fail';
 		$return->type           = 'error';
 
-		if ('' == $transactionId)
+		if ($transactionId == '')
 		{
 			$return->message = 'Not valid transaction id';
 
 			return $return;
 		}
 
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$k   = new Klarna;
-		$server = ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
+		$db  		= JFactory::getDbo();
+		$app 		= JFactory::getApplication();
+		$klarna 	= new Klarna;
+		$server 	= ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
 
-		$k->config(
+		$klarna->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
 			Country::fromCode($data['billinginfo']->country_code),
@@ -403,7 +411,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 
 		try
 		{
-			$result = $k->activate(
+			$result = $klarna->activate(
 				$transactionId,
 				null,    // OCR Number
 				Flags::RSRV_SEND_BY_EMAIL
@@ -482,11 +490,11 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 
 		$orderBilling = RedshopHelperOrder::getOrderBillingUserInfo($data['order_id']);
 
-		$k = new Klarna;
+		$klarna = new Klarna;
 
 		$server = ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
 
-		$k->config(
+		$klarna->config(
 			$this->params->get('merchantId'),
 			$this->params->get('sharedSecret'),
 			Country::fromCode($orderBilling->country_code),
@@ -497,7 +505,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 
 		try
 		{
-			$k->creditInvoice($transactionId);
+			$klarna->creditInvoice($transactionId);
 
 			$return->responsestatus = 'Success';
 			$return->type           = 'message';
