@@ -6257,6 +6257,11 @@ class productHelper
 						. urldecode($subProperties[0]['subattribute_color_title']) . "</div>";
 				}
 
+				if ($i == 0)
+				{
+					$selectedProperty[$selP++] = $properties[$k]['property_id'];
+				}
+
 				for ($l = 0, $ln = count($subProperties); $l < $ln; $l++)
 				{
 					if ($l == 0)
