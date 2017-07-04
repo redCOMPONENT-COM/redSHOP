@@ -71,7 +71,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 			$shopList      = array();
 			$shopResponses = $this->GetNearstParcelShops($values);
 
-			if (!empty($shopResponses))
+			if (!empty($shopResponses) && is_array($shopResponses))
 			{
 				foreach ($shopResponses as $shopResponse)
 				{
@@ -80,21 +80,15 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 						$shopResponse->shop_id,
 						$shopResponse->CompanyName . ', ' . $shopResponse->Streetname . ', ' . $shopResponse->ZipCode . ', ' . $shopResponse->CityName
 					);
-				}
-			}
 
-
-			// Get selected shop id
-			if ($shopId && (isset($shopResponses) && count($shopResponses) > 0))
-			{
-				foreach ($shopResponses as $shopResponse)
-				{
-					$shopDetail = explode("|", $shopId);
-
-					if ($shopDetail[0] == $shopResponse->Number)
+					if ($shopId)
 					{
-						$selectedShopId = $shopResponse->shop_id;
-						break;
+						$shopDetail = explode("|", $shopId);
+
+						if ($shopDetail[0] == $shopResponse->Number)
+						{
+							$selectedShopId = $shopResponse->shop_id;
+						}
 					}
 				}
 			}
