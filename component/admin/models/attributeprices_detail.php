@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopModelAttributeprices_detail extends RedshopModel
 {
 	public $_id = null;
@@ -42,10 +41,7 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 
 	public function &getData()
 	{
-		if ($this->_loadData())
-		{
-		}
-		else
+		if (!$this->_loadData())
 		{
 			$this->_initData();
 		}
