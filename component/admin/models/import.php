@@ -1863,12 +1863,13 @@ class RedshopModelImport extends RedshopModel
 					$db->setQuery($query);
 					$shoppers = $db->loadObjectList();
 
+					// Fields for updating
+					$fields = array (
+						$db->quoteName('shopper_group_id' . ' = ' . (int) $last_insert_shopper)
+					);
+
 					foreach ($shoppers as $shopper)
 					{
-						$fields = array (
-							$db->quoteName('shopper_group_id' . ' = ' . (int) $last_insert_shopper)
-						);
-
 						$conditions = array (
 							$db->quoteName('user_id') . ' = ' . (int) $shopper->user_id
 						);
