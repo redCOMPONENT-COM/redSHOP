@@ -239,7 +239,7 @@ gulp.task("release",
 );
 
 gulp.task("composer", function(){
-    var composers = ['./libraries/redshop', './plugins/redshop_payment/quickbook/library', './plugins/redshop_payment/rs_payment_braintree/library'];
+    var composers = ['./libraries/redshop', './plugins/redshop_payment/quickbook/library', './plugins/redshop_payment/rs_payment_braintree/library', 'plugins/redshop_payment/klarna/library'];
 
     for (var i = 0; i < composers.length; i++) {
         // gutil.log(gutil.colors.blue(composerPath));
@@ -247,7 +247,7 @@ gulp.task("composer", function(){
     }
 
     /* @TODO: Enable auto-get composer.json files instead of use composers array
-    glob("**!/composer.json", [], function (er, files) {
+    glob("**!/composer.json", [], functioncd  (er, files) {
         for (var i = 0; i < files.length; i++) {
             var composerPath = path.dirname(files[i]);
 
