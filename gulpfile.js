@@ -238,7 +238,7 @@ gulp.task("release",
     ]
 );
 
-gulp.task("composer", function(cb){
+gulp.task("composer", function(){
     var composers = ['./libraries/redshop', './plugins/redshop_payment/quickbook/library'];
 
     for (var i = 0; i < composers.length; i++) {
