@@ -13,12 +13,10 @@
     <files>
         <filename plugin="rs_payment_braintree">rs_payment_braintree.php</filename>
         <filename>index.html</filename>
+        <folder>language</folder>
         <folder>library</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_braintree.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_braintree.sys.ini</language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">
