@@ -64,7 +64,7 @@ class ManageCouponAdministratorCest
 	 */
 	public function deleteCoupon(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Deletion of Coupon in Administrator');
+		$I->wantTo('Deletionpon in Administrator');
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete a Coupon');
