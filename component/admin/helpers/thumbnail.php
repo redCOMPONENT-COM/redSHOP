@@ -50,26 +50,22 @@ class thumbnail_images
 	public $NewHeight;
 	public $mime;
 
-	public function imagejpeg_new($NewImg, $path_img)
+	public function imagejpeg_new($newImage, $pathImage)
 	{
-		if ($this->mime == 'image/jpeg' || $this->mime == 'image/pjpeg')
+		switch ($this->mime)
 		{
-			@imagejpeg($NewImg, $path_img);
-		}
-
-		elseif ($this->mime == 'image/gif')
-		{
-			imagegif($NewImg, $path_img);
-		}
-
-		elseif ($this->mime == 'image/png')
-		{
-			imagepng($NewImg, $path_img);
-		}
-
-		else
-		{
-			return false;
+			case 'image/jpeg':
+			case 'image/pjpeg':
+				imagejpeg($newImage, $pathImage);
+				break;
+			case 'image/gif';
+				imagegif($newImage, $pathImage);
+				break;
+			case 'image/png':
+				imagepng($newImage, $pathImage);
+				break;
+			default:
+				return false;
 		}
 
 		return true;
