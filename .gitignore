@@ -42,6 +42,7 @@ node_modules/
 vendor/*
 tests/vendor/*
 plugins/redshop_payment/quickbook/library/vendor/*
+plugins/redshop_payment/rs_payment_braintree/library/vendor/*
 
 # Bower
 bower_components/

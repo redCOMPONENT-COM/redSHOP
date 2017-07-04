@@ -88,122 +88,124 @@ class PlgRedshop_Paymentrs_Payment_Braintree extends JPlugin
 
 		if ($newUser)
 		{
-			$cartData = '<form action="index.php?option=com_redshop&view=order_detail&layout=checkout_final&stap=2&oid=' . (int) $data['order_id'] . '&Itemid=' . $menuItemId . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">';
-			$session  = JFactory::getSession();
-			$ccdata   = $session->get('ccdata');
+			$cartData = '<form action="index.php?option=com_redshop&view=order_detail&layout=checkout_final&stap=2&oid='
+				. (int) $data['order_id'] . '&Itemid=' . $menuItemId
+				. '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">';
 
-			$creditCards                  = array();
-			$creditCards['VISA']          = new stdClass;
-			$creditCards['VISA']->img     = 'visa.jpg';
-			$creditCards['MC']            = new stdClass;
-			$creditCards['MC']->img       = 'master.jpg';
-			$creditCards['amex']          = new stdClass;
-			$creditCards['amex']->img     = 'blue.jpg';
-			$creditCards['maestro']       = new stdClass;
-			$creditCards['maestro']->img  = 'mastero.jpg';
-			$creditCards['jcb']           = new stdClass;
-			$creditCards['jcb']->img      = 'jcb.jpg';
-			$creditCards['diners']        = new stdClass;
-			$creditCards['diners']->img   = 'dinnersclub.jpg';
-			$creditCards['discover']      = new stdClass;
-			$creditCards['discover']->img = 'discover.jpg';
+			$creditCardSession = JFactory::getSession()->get('ccdata');
 
-			$montharr   = array();
-			$montharr[] = JHTML::_('select.option', '0', JText::_('PLG_RS_PAYMENT_BRAINTREE_MONTH'));
-			$montharr[] = JHTML::_('select.option', '01', 1);
-			$montharr[] = JHTML::_('select.option', '02', 2);
-			$montharr[] = JHTML::_('select.option', '03', 3);
-			$montharr[] = JHTML::_('select.option', '04', 4);
-			$montharr[] = JHTML::_('select.option', '05', 5);
-			$montharr[] = JHTML::_('select.option', '06', 6);
-			$montharr[] = JHTML::_('select.option', '07', 7);
-			$montharr[] = JHTML::_('select.option', '08', 8);
-			$montharr[] = JHTML::_('select.option', '09', 9);
-			$montharr[] = JHTML::_('select.option', '10', 10);
-			$montharr[] = JHTML::_('select.option', '11', 11);
-			$montharr[] = JHTML::_('select.option', '12', 12);
+			$availableCreditCards                  = array();
+			$availableCreditCards['VISA']          = new stdClass;
+			$availableCreditCards['VISA']->img     = 'visa.jpg';
+			$availableCreditCards['MC']            = new stdClass;
+			$availableCreditCards['MC']->img       = 'master.jpg';
+			$availableCreditCards['amex']          = new stdClass;
+			$availableCreditCards['amex']->img     = 'blue.jpg';
+			$availableCreditCards['maestro']       = new stdClass;
+			$availableCreditCards['maestro']->img  = 'mastero.jpg';
+			$availableCreditCards['jcb']           = new stdClass;
+			$availableCreditCards['jcb']->img      = 'jcb.jpg';
+			$availableCreditCards['diners']        = new stdClass;
+			$availableCreditCards['diners']->img   = 'dinnersclub.jpg';
+			$availableCreditCards['discover']      = new stdClass;
+			$availableCreditCards['discover']->img = 'discover.jpg';
 
-			$credict_card          = array();
-			$accepted_credict_card = $this->params->get("accepted_credict_card");
+			$months   = array();
+			$months[] = JHtml::_('select.option', '0', JText::_('PLG_RS_PAYMENT_BRAINTREE_MONTH'));
+			$months[] = JHtml::_('select.option', '01', 1);
+			$months[] = JHtml::_('select.option', '02', 2);
+			$months[] = JHtml::_('select.option', '03', 3);
+			$months[] = JHtml::_('select.option', '04', 4);
+			$months[] = JHtml::_('select.option', '05', 5);
+			$months[] = JHtml::_('select.option', '06', 6);
+			$months[] = JHtml::_('select.option', '07', 7);
+			$months[] = JHtml::_('select.option', '08', 8);
+			$months[] = JHtml::_('select.option', '09', 9);
+			$months[] = JHtml::_('select.option', '10', 10);
+			$months[] = JHtml::_('select.option', '11', 11);
+			$months[] = JHtml::_('select.option', '12', 12);
 
-			if ($accepted_credict_card != "")
+			$creditCard         = array();
+			$acceptedCreditCard = $this->params->get("accepted_credict_card");
+
+			if ($acceptedCreditCard != "")
 			{
-				$credict_card = $accepted_credict_card;
+				$creditCard = $acceptedCreditCard;
 			}
 
-			$cardinfo = '<fieldset class="adminform"><legend>'
+			$cardInforHtml = '<fieldset class="adminform"><legend>'
 				. JText::_('PLG_RS_PAYMENT_BRAINTREE_CARD_INFORMATION')
 				. '</legend>';
-			$cardinfo .= '<table class="admintable">';
-			$cardinfo .= '<tr><td colspan="2" align="right" nowrap="nowrap">';
-			$cardinfo .= '<table width="100%" border="0" cellspacing="2" cellpadding="2">';
-			$cardinfo .= '<tr>';
+			$cardInforHtml .= '<table class="admintable">';
+			$cardInforHtml .= '<tr><td colspan="2" align="right" nowrap="nowrap">';
+			$cardInforHtml .= '<table width="100%" border="0" cellspacing="2" cellpadding="2">';
+			$cardInforHtml .= '<tr>';
 
-			for ($ic = 0; $ic < count($credict_card); $ic++)
+			for ($ic = 0; $ic < count($creditCard); $ic++)
 			{
-				$cardinfo .= '<td align="center"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'checkout/' . $creditCards[$credict_card[$ic]]->img . '" alt="" border="0" /></td>';
+				$cardInforHtml .= '<td align="center"><img src="'
+					. REDSHOP_FRONT_IMAGES_ABSPATH . 'checkout/' . $availableCreditCards[$creditCard[$ic]]->img . '" alt="" border="0" /></td>';
 			}
 
-			$cardinfo .= '</tr>';
-			$cardinfo .= '<tr>';
+			$cardInforHtml .= '</tr><tr>';
 
-			for ($ic = 0; $ic < count($credict_card); $ic++)
+			for ($ic = 0; $ic < count($creditCard); $ic++)
 			{
-				$value   = $credict_card[$ic];
+				$value   = $creditCard[$ic];
 				$checked = "";
 
-				if (!isset($ccdata['creditcard_code']) && $ic == 0)
+				if (!isset($creditCardSession['creditcard_code']) && $ic == 0)
 				{
 					$checked = "checked";
 				}
-				elseif (isset($ccdata['creditcard_code']))
+				elseif (isset($creditCardSession['creditcard_code']))
 				{
-					$checked = ($ccdata['creditcard_code'] == $value) ? "checked" : "";
+					$checked = ($creditCardSession['creditcard_code'] == $value) ? "checked" : "";
 				}
 
-				$cardinfo .= '<td align="center"><input type="radio" name="creditcard_code" value="' . $value . '" ' . $checked . ' /></td>';
+				$cardInforHtml .= '<td align="center"><input type="radio" name="creditcard_code" value="' . $value . '" ' . $checked . ' /></td>';
 			}
 
-			$cardinfo             .= '</tr></table></td></tr>';
-			$cardinfo             .= '<tr valign="top">';
-			$cardinfo             .= '<td align="right" nowrap="nowrap" width="10%"><label for="order_payment_name">'
+			$cardInforHtml        .= '</tr></table></td></tr>';
+			$cardInforHtml        .= '<tr valign="top">';
+			$cardInforHtml        .= '<td align="right" nowrap="nowrap" width="10%"><label for="order_payment_name">'
 				. JText::_('PLG_RS_PAYMENT_BRAINTREE_NAME_ON_CARD') . '</label></td>';
-			$order_payment_name   = (!empty($ccdata['order_payment_name'])) ? $ccdata['order_payment_name'] : "";
-			$cardinfo             .= '<td><input class="inputbox" id="order_payment_name" name="order_payment_name" value="'
-				. $order_payment_name . '" autocomplete="off" type="text"></td>';
-			$cardinfo             .= '</tr>';
-			$cardinfo             .= '<tr valign="top">';
-			$cardinfo             .= '<td align="right" nowrap="nowrap" width="10%"><label for="order_payment_number">'
+			$orderPaymentName     = (!empty($creditCardSession['order_payment_name'])) ? $creditCardSession['order_payment_name'] : "";
+			$cardInforHtml        .= '<td><input class="inputbox" id="order_payment_name" name="order_payment_name" value="'
+				. $orderPaymentName . '" autocomplete="off" type="text"></td>';
+			$cardInforHtml        .= '</tr>';
+			$cardInforHtml        .= '<tr valign="top">';
+			$cardInforHtml        .= '<td align="right" nowrap="nowrap" width="10%"><label for="order_payment_number">'
 				. JText::_('PLG_RS_PAYMENT_BRAINTREE_CARD_NUM') . '</label></td>';
-			$order_payment_number = (!empty($ccdata['order_payment_number'])) ? $ccdata['order_payment_number'] : "";
-			$cardinfo             .= '<td><input class="inputbox" id="order_payment_number" name="order_payment_number" value="'
+			$order_payment_number = (!empty($creditCardSession['order_payment_number'])) ? $creditCardSession['order_payment_number'] : "";
+			$cardInforHtml        .= '<td><input class="inputbox" id="order_payment_number" name="order_payment_number" value="'
 				. $order_payment_number . '" autocomplete="off" type="text"></td>';
-			$cardinfo             .= '</tr>';
-			$cardinfo             .= '<tr><td align="right" nowrap="nowrap" width="10%">' . JText::_('PLG_RS_PAYMENT_BRAINTREE_EXPIRY_DATE') . '</td>';
-			$cardinfo             .= '<td>';
+			$cardInforHtml        .= '</tr>';
+			$cardInforHtml        .= '<tr><td align="right" nowrap="nowrap" width="10%">' . JText::_('PLG_RS_PAYMENT_BRAINTREE_EXPIRY_DATE') . '</td>';
+			$cardInforHtml        .= '<td>';
 
-			$value    = isset($ccdata['order_payment_expire_month']) ? $ccdata['order_payment_expire_month'] : date('m');
-			$cardinfo .= JHTML::_('select.genericlist', $montharr, 'order_payment_expire_month', 'size="1" class="inputbox" ', 'value', 'text', $value);
+			$value         = isset($creditCardSession['order_payment_expire_month']) ? $creditCardSession['order_payment_expire_month'] : date('m');
+			$cardInforHtml .= JHtml::_('select.genericlist', $months, 'order_payment_expire_month', 'size="1" class="inputbox" ', 'value', 'text', $value);
 
-			$thisyear = date('Y');
-			$cardinfo .= '/<select class="inputbox" name="order_payment_expire_year" size="1">';
+			$thisyear      = date('Y');
+			$cardInforHtml .= '/<select class="inputbox" name="order_payment_expire_year" size="1">';
 
 			for ($y = $thisyear; $y < ($thisyear + 10); $y++)
 			{
-				$selected = (!empty($ccdata['order_payment_expire_year']) && $ccdata['order_payment_expire_year'] == $y) ? "selected" : "";
-				$cardinfo .= '<option value="' . $y . '" ' . $selected . '>' . $y . '</option>';
+				$selected      = (!empty($creditCardSession['order_payment_expire_year']) && $creditCardSession['order_payment_expire_year'] == $y) ? "selected" : "";
+				$cardInforHtml .= '<option value="' . $y . '" ' . $selected . '>' . $y . '</option>';
 			}
 
-			$cardinfo .= '</select></td></tr>';
-			$cardinfo .= '<tr valign="top"><td align="right" nowrap="nowrap" width="10%"><label for="credit_card_code">'
+			$cardInforHtml .= '</select></td></tr>';
+			$cardInforHtml .= '<tr valign="top"><td align="right" nowrap="nowrap" width="10%"><label for="credit_card_code">'
 				. JText::_('PLG_RS_PAYMENT_BRAINTREE_CARD_SECURITY_CODE') . '</label></td>';
 
-			$credit_card_code = (!empty($ccdata['credit_card_code'])) ? $ccdata['credit_card_code'] : "";
-			$cardinfo         .= '<td><input class="inputbox" id="credit_card_code" name="credit_card_code" value="'
-				. $credit_card_code . '" autocomplete="off" type="password"></td></tr>';
+			$creditCardCode = (!empty($creditCardSession['credit_card_code'])) ? $creditCardSession['credit_card_code'] : "";
+			$cardInforHtml  .= '<td><input class="inputbox" id="credit_card_code" name="credit_card_code" value="'
+				. $creditCardCode . '" autocomplete="off" type="password"></td></tr>';
 
-			$cardinfo .= '</table></fieldset>';
-			$cartData .= $cardinfo;
+			$cardInforHtml .= '</table></fieldset>';
+			$cartData      .= $cardInforHtml;
 		}
 		else
 		{
@@ -233,17 +235,22 @@ class PlgRedshop_Paymentrs_Payment_Braintree extends JPlugin
 
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
+	 *
+	 * @param   string  $element  Name of payment plugin
+	 * @param   array   $data     Data
+	 *
+	 * @return  void
 	 */
 	public function getOrderAndCcdata($element, $data)
 	{
-		$session         = JFactory::getSession();
-		$order_functions = order_functions::getInstance();
-		$configobj       = Redconfiguration::getInstance();
-
 		if ($element != 'rs_payment_braintree')
 		{
 			return;
 		}
+
+		$session         = JFactory::getSession();
+		$order_functions = order_functions::getInstance();
+		$configobj       = Redconfiguration::getInstance();
 
 		if (empty($plugin))
 		{
@@ -388,8 +395,7 @@ class PlgRedshop_Paymentrs_Payment_Braintree extends JPlugin
 
 		$order_total = number_format($data['order']->order_total, $cal_no, '.', '');
 
-		$apipath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/_environment.php';
-		include $apipath;
+		include __DIR__ . '/library/environment.php';
 
 		if ($this->params->get("store_in_vault"))
 		{
@@ -491,7 +497,7 @@ class PlgRedshop_Paymentrs_Payment_Braintree extends JPlugin
 		$data['new_user']        = $new_user;
 		$app                     = JFactory::getApplication();
 
-		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
+		include __DIR__ . '/library/extra_info.php';
 	}
 
 	public function onNotifyPaymentrs_payment_braintree($element, $request)
@@ -513,8 +519,7 @@ class PlgRedshop_Paymentrs_Payment_Braintree extends JPlugin
 		$user_id = $user->id;
 
 		// Include API
-		$apipath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/_environment.php';
-		include $apipath;
+		include __DIR__ . '/library/environment.php';
 
 		// Confirm Return String
 		$query_string = "http_status=" . $request['http_status'] . "&id=" . $request['id'] . "&kind=" . $request['kind'] . "&tmpl=" . $request['tmpl'] . "&option=" . $request['option'] . "&view=" . $request['view'] . "&controller=" . $request['controller'] . "&task=" . $request['task'] . "&payment_plugin=" . $request['payment_plugin'] . "&orderid=" . $request['orderid'] . "&Itemid=" . $Itemid . "&hash=" . $request['hash'];
@@ -561,8 +566,7 @@ class PlgRedshop_Paymentrs_Payment_Braintree extends JPlugin
 	public function onCapture_Paymentrs_payment_braintree($element, $data)
 	{
 		// Get the class
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/_environment.php';
-		include $paymentpath;
+		include __DIR__ . '/library/environment.php';
 
 		$order_id = $data['order_id'];
 		$tid      = $data['order_transactionid'];

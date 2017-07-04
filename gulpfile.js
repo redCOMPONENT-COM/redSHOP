@@ -239,7 +239,7 @@ gulp.task("release",
 );
 
 gulp.task("composer", function(){
-    var composers = ['./libraries/redshop', './plugins/redshop_payment/quickbook/library'];
+    var composers = ['./libraries/redshop', './plugins/redshop_payment/quickbook/library', './plugins/redshop_payment/rs_payment_braintree/library'];
 
     for (var i = 0; i < composers.length; i++) {
         // gutil.log(gutil.colors.blue(composerPath));
