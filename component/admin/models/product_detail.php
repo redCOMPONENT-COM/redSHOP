@@ -261,7 +261,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['thumb_image_delete']))
 		{
 			$row->product_thumb_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_thumb_image'];
+			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_thumb_image']);
 
 			if (is_file($unlink_path))
 			{
@@ -317,11 +317,15 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (isset($data['product_full_image_delete']))
 		{
 			$row->product_thumb_image = '';
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_full_image'];
 
-			if (is_file($unlink_path))
+			if (!empty($data['product_full_image']))
 			{
-				unlink($unlink_path);
+				$oldImage = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_full_image'];
+
+				if (JFile::exists($oldImage))
+				{
+					JFile::delete($oldImage);
+				}
 			}
 		}
 		elseif ($file['name'] != "")
@@ -353,10 +357,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$filename = $new_image_name;
 			$row->product_full_image = $filename;
 
-			$src = JPATH_ROOT . '/' . $data['product_full_image'];
+			$src  = JPATH_ROOT . '/' . $data['product_full_image'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
 
-			copy($src, $dest);
+			if (JFile::exists($src))
+			{
+				JFile::copy($src, $dest);
+			}
 		}
 
 		if (isset($data['back_thumb_image_delete']))
@@ -1383,7 +1390,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 			else
 			{
-				$post = $this->input->getArray($_POST);
+				$post = $this->input->post->getArray();
 				$this->_initData();
 				$post = array_merge($post, (array) $this->data);
 			}
