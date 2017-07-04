@@ -44,10 +44,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function &getData()
 	{
-		if ($this->_loadData())
-		{
-		}
-		else
+		if (!$this->_loadData())
 		{
 			$this->_initData();
 		}
@@ -802,12 +799,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		$query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` SET `property_image` = '' WHERE `property_id` = " . $pid;
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->execute())
-		{
-			return false;
-		}
-
-		return true;
+		return $this->_db->execute();
 	}
 
 	public function removesubpropertyImage($pid)
