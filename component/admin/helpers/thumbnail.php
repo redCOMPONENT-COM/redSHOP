@@ -50,6 +50,15 @@ class thumbnail_images
 	public $NewHeight;
 	public $mime;
 
+	/**
+	 * @param   string  $newImage  Image file path
+	 * @param   string  $pathImage Image file path
+	 *
+	 * @return  bool
+	 *
+	 * @deprecated  2.0.6
+	 * @since  2.0.0.3
+	 */
 	public function imagejpeg_new($newImage, $pathImage)
 	{
 		switch ($this->mime)
