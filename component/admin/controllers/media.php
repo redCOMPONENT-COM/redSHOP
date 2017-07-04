@@ -18,38 +18,38 @@ class RedshopControllerMedia extends RedshopController
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since  2.0.6
+	 */
 	public function saveAdditionalFiles()
 	{
 		$post = $this->input->post->getArray();
 		$file = $this->input->files->get('downloadfile', array(), 'array');
 		$totalFile = count($file['name']);
 		$model = $this->getModel('media');
+		$msg = JText::_('COM_REDSHOP_UPLOAD_COMPLETE');
 
-		$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
+		$productDownloadRoot = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 
 		if (substr(Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT'), -1) != DIRECTORY_SEPARATOR)
 		{
-			$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/';
+			$productDownloadRoot = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/';
 		}
 
 		if ($post['hdn_download_file'] != "")
 		{
-			$download_path = $product_download_root . $post['hdn_download_file_path'];
+			$downloadPath = $productDownloadRoot . $post['hdn_download_file_path'];
 			$post['name'] = $post['hdn_download_file'];
 
-			if ($post['hdn_download_file_path'] != $download_path)
+			if ($post['hdn_download_file_path'] != $downloadPath)
 			{
-				$post['name'] = RedShopHelperImages::cleanFileName($post['hdn_download_file']);
-				$down_src = $download_path;
-				$down_dest = $post['name'];
-				copy($down_src, $down_dest);
+				$post['name'] = RedshopHelperMedia::cleanFileName($post['hdn_download_file']);
+				copy($downloadPath, $post['name']);
 			}
 
-			if ($model->store($post))
-			{
-				$msg = JText::_('COM_REDSHOP_UPLOAD_COMPLETE');
-			}
-			else
+			if (!$model->store($post))
 			{
 				$msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
 			}
@@ -61,16 +61,16 @@ class RedshopControllerMedia extends RedshopController
 
 			if (!$errors)
 			{
-				$filename = RedShopHelperImages::cleanFileName($file['name'][$i]);
+				$filename = RedshopHelperMedia::cleanFileName($file['name'][$i]);
 				$fileExt = JFile::getExt($filename);
 
 				if ($fileExt)
 				{
 					$src = $file['tmp_name'][$i];
-					$dest = $product_download_root . $filename;
-					$file_upload = JFile::upload($src, $dest);
+					$dest = $productDownloadRoot . $filename;
+					$fileUpload = JFile::upload($src, $dest);
 
-					if ($file_upload != 1)
+					if ($fileUpload != 1)
 					{
 						$msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
 						JFactory::getApplication()->enqueueMessage($msg, 'error');
@@ -79,11 +79,7 @@ class RedshopControllerMedia extends RedshopController
 					{
 						$post['name'] = $dest;
 
-						if ($model->store($post))
-						{
-							$msg = JText::_('COM_REDSHOP_UPLOAD_COMPLETE');
-						}
-						else
+						if (!$model->store($post))
 						{
 							$msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
 						}
