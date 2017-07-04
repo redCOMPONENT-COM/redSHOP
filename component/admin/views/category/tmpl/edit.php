@@ -28,7 +28,7 @@ JFactory::getDocument()->addScriptDeclaration('
     });
 </script>
 <form
-        action="index.php?option=com_redshop&task=category.edit&id=<?php echo $this->item->id; ?>"
+        action="index.php?option=com_redshop&task=category.upit&id=<?php echo $this->item->id; ?>"
         method="post"
         name="adminForm"
         id="adminForm"
