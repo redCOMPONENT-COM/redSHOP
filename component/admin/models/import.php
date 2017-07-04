@@ -1865,11 +1865,15 @@ class RedshopModelImport extends RedshopModel
 
 					foreach ($shoppers as $shopper)
 					{
-						$update = new stdClass();
-						$update->user_id = (int) $shopper->user_id;
-						$update->shopper_group_id = (int) $last_insert_shopper;
+						$fields = array (
+							$db->quoteName('shopper_group_id' . ' = ' . (int) $last_insert_shopper)
+						);
 
-						$db->updateObject('#__redshop_users_info', $update, 'user_id');
+						$conditions = array (
+							$db->quoteName('user_id') . ' = ' . (int) $shopper->user_id
+						);
+
+						$db->update($db->quoteName('#__redshop_users_info'))->set($fields)->where($conditions);
 						$db->execute();
 					}
 				}
