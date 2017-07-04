@@ -4,6 +4,9 @@ namespace PhpXmlRpc;
 
 use PhpXmlRpc\Helper\XMLParser;
 
+/**
+ * A helper class to easily convert between Value objects and php native values
+ */
 class Encoder
 {
     /**
@@ -60,11 +63,11 @@ class Encoder
                         $out = strtotime($out);
                     }
                     if (is_int($out)) {
-                        $result = new \Datetime();
+                        $result = new \DateTime();
                         $result->setTimestamp($out);
 
                         return $result;
-                    } elseif (is_a($out, 'Datetime')) {
+                    } elseif (is_a($out, 'DateTimeInterface')) {
                         return $out;
                     }
                 }
@@ -176,7 +179,7 @@ class Encoder
             case 'object':
                 if (is_a($phpVal, 'PhpXmlRpc\Value')) {
                     $xmlrpcVal = $phpVal;
-                } elseif (is_a($phpVal, 'DateTime')) {
+                } elseif (is_a($phpVal, 'DateTimeInterface')) {
                     $xmlrpcVal = new Value($phpVal->format('Ymd\TH:i:s'), Value::$xmlrpcStruct);
                 } else {
                     $arr = array();
