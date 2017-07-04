@@ -5,18 +5,23 @@ namespace PhpXmlRpc;
 use PhpXmlRpc\Helper\XMLParser;
 use PhpXmlRpc\Helper\Charset;
 
+/**
+ * Allows effortless implementation of XML-RPC servers
+ */
 class Server
 {
     /**
      * Array defining php functions exposed as xmlrpc methods by this server.
      */
     protected $dmap = array();
+
     /**
      * Defines how functions in dmap will be invoked: either using an xmlrpc request object
      * or plain php values.
      * Valid strings are 'xmlrpcvals', 'phpvals' or 'epivals'
      */
     public $functions_parameters_type = 'xmlrpcvals';
+
     /**
      * Option used for fine-tuning the encoding the php values returned from
      * functions registered in the dispatch map when the functions_parameters_types
@@ -24,11 +29,13 @@ class Server
      * @see Encoder::encode for a list of values
      */
     public $phpvals_encoding_options = array('auto_dates');
+
     /**
      * Controls whether the server is going to echo debugging messages back to the client as comments in response body.
      * Valid values: 0,1,2,3
      */
     public $debug = 1;
+
     /**
      * Controls behaviour of server when the invoked user function throws an exception:
      * 0 = catch it and return an 'internal error' xmlrpc response (default)
@@ -36,27 +43,32 @@ class Server
      * 2 = allow the exception to float to the upper layers
      */
     public $exception_handling = 0;
+
     /**
      * When set to true, it will enable HTTP compression of the response, in case
      * the client has declared its support for compression in the request.
      * Set at constructor time.
      */
     public $compress_response = false;
+
     /**
      * List of http compression methods accepted by the server for requests. Set at constructor time.
      * NB: PHP supports deflate, gzip compressions out of the box if compiled w. zlib
      */
     public $accepted_compression = array();
-    /// shall we serve calls to system.* methods?
+
+    /// Shall we serve calls to system.* methods?
     public $allow_system_funcs = true;
+
     /**
      * List of charset encodings natively accepted for requests.
      * Set at constructor time.
      * UNUSED so far...
      */
     public $accepted_charset_encodings = array();
+
     /**
-     * charset encoding to be used for response.
+     * Charset encoding to be used for response.
      * NB: if we can, we will convert the generated response from internal_encoding to the intended one.
      * Can be: a supported xml encoding (only UTF-8 and ISO-8859-1 at present, unless mbstring is enabled),
      * null (leave unspecified in response, convert output stream to US_ASCII),
@@ -65,10 +77,12 @@ class Server
      * NB: pretty dangerous if you accept every charset and do not have mbstring enabled)
      */
     public $response_charset_encoding = '';
+
     /**
      * Storage for internal debug info.
      */
     protected $debug_info = '';
+
     /**
      * Extra data passed at runtime to method handling functions. Used only by EPI layer
      */
@@ -321,7 +335,7 @@ class Server
                             $pt = $p->kindOf();
                         }
                     } else {
-                        $pt = $in[$n] == 'i4' ? 'int' : strtolower($in[$n]); // dispatch maps never use i4...
+                        $pt = ($in[$n] == 'i4') ? 'int' : strtolower($in[$n]); // dispatch maps never use i4...
                     }
 
                     // param index is $n+1, as first member of sig is return type
@@ -661,7 +675,8 @@ class Server
                         } else {
                             // functions using EPI api should NOT return resp objects,
                             // so make sure we encode the return type correctly
-                            $r = new Response(php_xmlrpc_encode($r, array('extension_api')));
+                            $encoder = new Encoder();
+                            $r = new Response($encoder->encode($r, array('extension_api')));
                         }
                     } else {
                         $r = call_user_func_array($func, $params);
@@ -671,7 +686,8 @@ class Server
                 if (!is_a($r, '\PhpXmlRpc\Response')) {
                     // what should we assume here about automatic encoding of datetimes
                     // and php classes instances???
-                    $r = new Response(php_xmlrpc_encode($r, $this->phpvals_encoding_options));
+                    $encoder = new Encoder();
+                    $r = new Response($encoder->encode($r, $this->phpvals_encoding_options));
                 }
             }
         } catch (\Exception $e) {
@@ -709,7 +725,7 @@ class Server
     }
 
     /**
-     * add a string to the 'internal debug message' (separate from 'user debug message').
+     * Add a string to the 'internal debug message' (separate from 'user debug message').
      *
      * @param string $string
      */

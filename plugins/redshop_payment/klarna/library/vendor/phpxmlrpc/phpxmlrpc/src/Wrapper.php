@@ -8,8 +8,7 @@
 namespace PhpXmlRpc;
 
 /**
- * PHP-XMLRPC "wrapper" class.
- * Generate stubs to transparently access xmlrpc methods as php functions and vice-versa.
+ * PHP-XMLRPC "wrapper" class - generate stubs to transparently access xmlrpc methods as php functions and vice-versa.
  * Note: this class implements the PROXY pattern, but it is not named so to avoid confusion with http proxies.
  *
  * @todo use some better templating system for code generation?
@@ -42,6 +41,7 @@ class Wrapper
             case 'integer':
             case Value::$xmlrpcInt: // 'int'
             case Value::$xmlrpcI4:
+            case Value::$xmlrpcI8:
                 return Value::$xmlrpcInt;
             case Value::$xmlrpcDouble: // 'double'
                 return Value::$xmlrpcDouble;
@@ -85,6 +85,7 @@ class Wrapper
                 return Value::$xmlrpcString;
             case 'int':
             case 'i4':
+            case 'i8':
                 return 'integer';
             case 'struct':
             case 'array':
@@ -837,7 +838,7 @@ class Wrapper
                     break;
                 }
                 $pType = $mSig[$i+1];
-                if ($pType == 'i4' || $pType == 'int' || $pType == 'boolean' || $pType == 'double' ||
+                if ($pType == 'i4' || $pType == 'i8' || $pType == 'int' || $pType == 'boolean' || $pType == 'double' ||
                     $pType == 'string' || $pType == 'dateTime.iso8601' || $pType == 'base64' || $pType == 'null'
                 ) {
                     // by building directly xmlrpc values when type is known and scalar (instead of encode() calls),
@@ -926,7 +927,7 @@ class Wrapper
         for ($i = 1; $i < $pCount; $i++) {
             $plist[] = "\$p$i";
             $pType = $mSig[$i];
-            if ($pType == 'i4' || $pType == 'int' || $pType == 'boolean' || $pType == 'double' ||
+            if ($pType == 'i4' || $pType == 'i8' || $pType == 'int' || $pType == 'boolean' || $pType == 'double' ||
                 $pType == 'string' || $pType == 'dateTime.iso8601' || $pType == 'base64' || $pType == 'null'
             ) {
                 // only build directly xmlrpc values when type is known and scalar

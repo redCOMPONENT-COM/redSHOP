@@ -1,17 +1,17 @@
 [
     {
         "name": "phpxmlrpc/phpxmlrpc",
-        "version": "4.0.0",
-        "version_normalized": "4.0.0.0",
+        "version": "4.2.0",
+        "version_normalized": "4.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/gggeek/phpxmlrpc.git",
-            "reference": "679eacd661962f353a809ab66e83a86233f28bcc"
+            "reference": "3b79b8fac3877418dad98585d9bc73d6b284d241"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/679eacd661962f353a809ab66e83a86233f28bcc",
-            "reference": "679eacd661962f353a809ab66e83a86233f28bcc",
+            "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/3b79b8fac3877418dad98585d9bc73d6b284d241",
+            "reference": "3b79b8fac3877418dad98585d9bc73d6b284d241",
             "shasum": ""
         },
         "require": {
@@ -24,16 +24,16 @@
             "ext-curl": "*",
             "ext-mbstring": "*",
             "indeyets/pake": "~1.99",
-            "phpdocumentor/phpdocumentor": "2.*",
-            "phpunit/phpunit": ">=4.0.0",
-            "phpunit/phpunit-selenium": "*"
+            "phpunit/phpunit": ">=4.0.0, <6.0.0",
+            "phpunit/phpunit-selenium": "*",
+            "sami/sami": "~3.1"
         },
         "suggest": {
             "ext-curl": "Needed for HTTPS and HTTP 1.1 support, NTLM Auth etc...",
             "ext-mbstring": "Needed to allow reception of requests/responses in character sets other than ASCII,LATIN-1,UTF-8",
             "ext-zlib": "Needed for sending compressed requests and receiving compressed responses, if cURL is not available"
         },
-        "time": "2016-01-20 23:28:09",
+        "time": "2017-06-30T22:22:59+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -51,5 +51,51 @@
             "webservices",
             "xmlrpc"
         ]
+    },
+    {
+        "name": "klarna/php-xmlrpc",
+        "version": "v5.0.0",
+        "version_normalized": "5.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/klarna/php-xmlrpc.git",
+            "reference": "c359520ce516b9172697e0355d89e000aede2934"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/klarna/php-xmlrpc/zipball/c359520ce516b9172697e0355d89e000aede2934",
+            "reference": "c359520ce516b9172697e0355d89e000aede2934",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "ext-xml": "*",
+            "php": ">=5.4.0",
+            "phpxmlrpc/phpxmlrpc": "~4.0"
+        },
+        "require-dev": {
+            "apigen/apigen": "4.0.*",
+            "klarna/apigen-theme": "~1.0"
+        },
+        "time": "2016-03-16T11:55:44+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Klarna AB",
+                "email": "integration@klarna.com"
+            }
+        ],
+        "description": "PHP SDK for Klarna's XMLRPC API",
+        "homepage": "http://developers.klarna.com"
     }
 ]

@@ -2,6 +2,9 @@
 
 namespace PhpXmlRpc;
 
+/**
+ * Manages global configuration for operation of the library.
+ */
 class PhpXmlRpc
 {
     static public $xmlrpcerr = array(
@@ -76,7 +79,7 @@ class PhpXmlRpc
     public static $xmlrpc_internalencoding = "UTF-8";
 
     public static $xmlrpcName = "XML-RPC for PHP";
-    public static $xmlrpcVersion = "4.0.0.alpha";
+    public static $xmlrpcVersion = "4.2.0";
 
     // let user errors start at 800
     public static $xmlrpcerruser = 800;

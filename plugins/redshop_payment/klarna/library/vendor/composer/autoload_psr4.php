@@ -7,5 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'PhpXmlRpc\\' => array($vendorDir . '/phpxmlrpc/phpxmlrpc/src'),
-    '' => array($baseDir . '/src'),
+    '' => array($vendorDir . '/klarna/php-xmlrpc/src'),
 );
