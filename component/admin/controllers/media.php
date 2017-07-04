@@ -25,11 +25,11 @@ class RedshopControllerMedia extends RedshopController
 	 */
 	public function saveAdditionalFiles()
 	{
-		$post = $this->input->post->getArray();
-		$file = $this->input->files->get('downloadfile', array(), 'array');
+		$post      = $this->input->post->getArray();
+		$file      = $this->input->files->get('downloadfile', array(), 'array');
 		$totalFile = count($file['name']);
-		$model = $this->getModel('media');
-		$msg = JText::_('COM_REDSHOP_UPLOAD_COMPLETE');
+		$model     = $this->getModel('media');
+		$msg       = JText::_('COM_REDSHOP_UPLOAD_COMPLETE');
 
 		$productDownloadRoot = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 
@@ -62,12 +62,12 @@ class RedshopControllerMedia extends RedshopController
 			if (!$errors)
 			{
 				$filename = RedshopHelperMedia::cleanFileName($file['name'][$i]);
-				$fileExt = JFile::getExt($filename);
+				$fileExt  = JFile::getExt($filename);
 
 				if ($fileExt)
 				{
-					$src = $file['tmp_name'][$i];
-					$dest = $productDownloadRoot . $filename;
+					$src        = $file['tmp_name'][$i];
+					$dest       = $productDownloadRoot . $filename;
 					$fileUpload = JFile::upload($src, $dest);
 
 					if ($fileUpload != 1)
@@ -96,8 +96,8 @@ class RedshopControllerMedia extends RedshopController
 	public function deleteAddtionalFiles()
 	{
 		$media_id = $this->input->getInt('media_id');
-		$fileId = $this->input->getInt('fileId');
-		$model = $this->getModel('media');
+		$fileId   = $this->input->getInt('fileId');
+		$model    = $this->getModel('media');
 
 		if ($model->deleteAddtionalFiles($fileId))
 		{
@@ -115,11 +115,11 @@ class RedshopControllerMedia extends RedshopController
 
 	public function saveorder()
 	{
-		$section_id = $this->input->getInt('section_id');
-		$section_name = $this->input->get('section_name');
+		$section_id    = $this->input->getInt('section_id');
+		$section_name  = $this->input->get('section_name');
 		$media_section = $this->input->get('media_section');
-		$cid = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
+		$cid           = $this->input->post->get('cid', array(), 'array');
+		$order         = $this->input->post->get('order', array(), 'array');
 
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
@@ -145,12 +145,12 @@ class RedshopControllerMedia extends RedshopController
 				. '&media_section=' . $media_section, $msg
 			);
 		}
-		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-			<script language="javascript" type="text/javascript">
-				window.parent.document.location = '<?php echo $link; ?>';
-			</script><?php
+			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+            <script language="javascript" type="text/javascript">
+                window.parent.document.location = '<?php echo $link; ?>';
+            </script><?php
 		}
 		else
 		{
@@ -165,11 +165,11 @@ class RedshopControllerMedia extends RedshopController
 	 */
 	public function setDefault()
 	{
-		$app = JFactory::getApplication();
-		$post = $this->input->post->getArray();
-		$section_id = $this->input->get('section_id');
+		$app           = JFactory::getApplication();
+		$post          = $this->input->post->getArray();
+		$section_id    = $this->input->get('section_id');
 		$media_section = $this->input->get('media_section');
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid           = $this->input->post->get('cid', array(0), 'array');
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
@@ -194,13 +194,13 @@ class RedshopControllerMedia extends RedshopController
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
-		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
+        elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$app->enqueueMessage($msg);
-			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
-			<script language="javascript" type="text/javascript">
-				window.parent.document.location = '<?php echo $link; ?>';
-			</script><?php
+			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
+            <script language="javascript" type="text/javascript">
+                window.parent.document.location = '<?php echo $link; ?>';
+            </script><?php
 		}
 		else
 		{
@@ -223,14 +223,14 @@ class RedshopControllerMedia extends RedshopController
 			$filename = $file['name'];
 
 			// Image Upload
-			$src = $file['tmp_name'];
+			$src     = $file['tmp_name'];
 			$tempDir = REDSHOP_FRONT_IMAGES_RELPATH . 'tmp/';
 			JFolder::create($tempDir, 0755);
 			$dest = $tempDir . $filename;
 			JFile::upload($src, $dest);
 
-			$fileId = '';
-			$media_type = 'images';
+			$fileId    = '';
+			$mediaType = 'images';
 
 			if ($new)
 			{
@@ -243,88 +243,88 @@ class RedshopControllerMedia extends RedshopController
 				{
 					case 'zip':
 					case '7z':
-						$media_type = 'archives';
+						$mediaType = 'archives';
 						break;
 
 					case 'pdf':
-						$media_type = 'pdfs';
+						$mediaType = 'pdfs';
 						break;
 
 					case 'docx':
 					case 'doc':
-						$media_type = 'words';
+						$mediaType = 'words';
 						break;
 
 					case 'xlsx':
 					case 'xls':
-						$media_type = 'excels';
+						$mediaType = 'excels';
 						break;
 
 					case 'pptx':
 					case 'ppt':
-						$media_type = 'powerpoints';
+						$mediaType = 'powerpoints';
 						break;
 
 					case 'mp3':
 					case 'flac':
-						$media_type = 'sounds';
+						$mediaType = 'sounds';
 						break;
 
 					case 'mp4':
 					case 'mkv':
 					case 'flv':
-						$media_type = 'videos';
+						$mediaType = 'videos';
 						break;
 
 					case 'txt':
-						$media_type = 'texts';
+						$mediaType = 'texts';
 						break;
 
 					case 'jpeg':
 					case 'jpg':
 					case 'png':
 					case 'gif':
-						$media_type = 'images';
+						$mediaType = 'images';
 						break;
 
 					default:
-						$media_type = '';
+						$mediaType = '';
 						break;
 				}
 
-				$fileId = $model->newFile(
-					[
-					'media_name'     => $filename,
-					'media_section'  => 'tmp',
-					'media_type'     => $media_type,
-					'media_mimetype' => $file['type']
-					]
+				$fileId = $model->newFile(array
+					(
+						'media_name'     => $filename,
+						'media_section'  => 'tmp',
+						'media_type'     => $mediaType,
+						'media_mimetype' => $file['type']
+					)
 				);
 			}
-		}
 
-		$dimension = getimagesize($dest);
+			$dimension = getimagesize($dest);
 
-		if ($dimension)
-		{
-			$dimension = $dimension[0] . ' x ' . $dimension[1];
-		}
+			if ($dimension)
+			{
+				$dimension = $dimension[0] . ' x ' . $dimension[1];
+			}
 
-		echo new JResponseJson(
-			array(
-			'success' => true,
-			'file' => array(
-					'id'        => $fileId,
-					'url'       => 'components/com_redshop/assets/images/tmp/' . $filename,
-					'name'      => $filename,
-					'size'      => RedshopHelperMediaImage::sizeFilter(filesize($dest)),
-					'dimension' => $dimension,
-					'media'     => 'tmp',
-					'mime'      => substr($media_type, 0, -1),
-					'status'    => ''
+			echo new JResponseJson(
+				array(
+					'success' => true,
+					'file'    => array(
+						'id'        => $fileId,
+						'url'       => 'components/com_redshop/assets/images/tmp/' . $filename,
+						'name'      => $filename,
+						'size'      => RedshopHelperMediaImage::sizeFilter(filesize($dest)),
+						'dimension' => $dimension,
+						'media'     => 'tmp',
+						'mime'      => substr($mediaType, 0, -1),
+						'status'    => ''
+					)
 				)
-			)
-		);
+			);
+		}
 
 		die;
 	}
@@ -346,7 +346,7 @@ class RedshopControllerMedia extends RedshopController
 			{
 				echo new JResponseJson(
 					array(
-					'success' => true
+						'success' => true
 					)
 				);
 
@@ -356,7 +356,7 @@ class RedshopControllerMedia extends RedshopController
 
 		echo new JResponseJson(
 			array(
-			'success' => false
+				'success' => false
 			)
 		);
 
