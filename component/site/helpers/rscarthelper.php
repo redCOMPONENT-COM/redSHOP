@@ -1009,7 +1009,7 @@ class rsCarthelper
 							$type, $prd_image, Redshop::getConfig()->get('CART_THUMB_WIDTH'), Redshop::getConfig()->get('CART_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE')
 						);
 
-						$product_image = "<div  class='product_image'><img src='" . $product_cart_img . "'></div>";
+						$product_image = "<div  class='product_image'><a href='" . $link . "'><img src='" . $product_cart_img . "'></a></div>";
 					}
 					else
 					{
@@ -1023,7 +1023,7 @@ class rsCarthelper
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 
-						$product_image = "<div  class='product_image'><img src='" . $thumbUrl . "'></div>";
+						$product_image = "<div  class='product_image'><a href='" . $link . "'><img src='" . $thumbUrl . "'></a></div>";
 					}
 				}
 				else
