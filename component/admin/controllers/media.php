@@ -79,7 +79,11 @@ class RedshopControllerMedia extends RedshopController
 					{
 						$post['name'] = $dest;
 
-						if (!$model->store($post))
+						if ($model->store($post))
+						{
+							$msg = JText::_('COM_REDSHOP_UPLOAD_COMPLETE');
+						}
+						else
 						{
 							$msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
 						}
