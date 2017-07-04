@@ -273,7 +273,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		$htmlshipping = $model->changeshippingaddress($shippingadd_id, $user_id, $is_company);
 
 		echo $htmlshipping;
-		die();
+		JFactory::getApplication()->close();
 	}
 
 	public function getShippingRate()
@@ -294,6 +294,6 @@ class RedshopControllerAddorder_detail extends RedshopController
 		echo "<div id='resultShippingClass'>" . $order_shipping_class . "</div>";
 		echo "<div id='resultShipping'>" . $order_shipping . "</div>";
 		echo "<div id='resultShippingVat'>" . $order_shipping_tax . "</div>";
-		die();
+		JFactory::getApplication()->close();
 	}
 }
