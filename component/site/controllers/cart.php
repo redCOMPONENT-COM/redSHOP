@@ -593,7 +593,7 @@ class RedshopControllerCart extends RedshopController
 			window.parent.location.href = "<?php echo $link ?>";
 		</script>
 		<?php
-        JFactory::getApplication()->close();;
+        JFactory::getApplication()->close();
 	}
 
 	/**
