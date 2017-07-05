@@ -59,7 +59,7 @@ function pluginRelease(group, name) {
                 count = 35 - name.length;
                 var nameFormat = name;
 
-                for (var i = 0; i < count; i++)
+                for (i = 0; i < count; i++)
                 {
                     nameFormat += ' ';
                 }
@@ -67,7 +67,7 @@ function pluginRelease(group, name) {
                 var version = result.extension.version[0];
                 count = 11 - version.length;
 
-                for (var i = 0; i < count; i++)
+                for (i = 0; i < count; i++)
                 {
                     version += ' ';
                 }
@@ -148,7 +148,7 @@ function moduleRelease(group, name) {
                 var count = 35 - name.length;
                 var nameFormat = name;
 
-                for (i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     nameFormat += ' ';
                 }
