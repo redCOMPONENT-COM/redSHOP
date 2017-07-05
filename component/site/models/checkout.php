@@ -840,7 +840,7 @@ class RedshopModelCheckout extends RedshopModel
 							$accessory_price    = $accessory_priceArr[1];
 						}
 
-						for ($t = 0, $tn = count($propArr); $t < $tn; $t++)
+						for ($t = 0, $countProperty = count($propArr), $tn = $countProperty; $t < $tn; $t++)
 						{
 							$subprooprand  = array();
 							$subproprice   = array();
@@ -1895,7 +1895,7 @@ class RedshopModelCheckout extends RedshopModel
 			if ($this->discount_type)
 				$this->discount_type .= '@';
 
-			for ($i = 0; $i < count($cart['voucher']); $i++)
+			for ($i = 0, $countVoucher = count($cart['voucher']); $i < $countVoucher; $i++)
 			{
 				$voucher_id             = $cart['voucher'][$i]['voucher_id'];
 				$voucher_volume         = $cart['voucher'][$i]['used_voucher'];
@@ -1960,7 +1960,7 @@ class RedshopModelCheckout extends RedshopModel
 				$this->discount_type .= '@';
 			}
 
-			for ($i = 0; $i < count($cart['coupon']); $i++)
+			for ($i = 0, $countCoupon = count($cart['coupon']); $i < $countCoupon; $i++)
 			{
 				$coupon_id             = $cart['coupon'][$i]['coupon_id'];
 				$coupon_volume         = $cart['coupon'][$i]['used_coupon'];
