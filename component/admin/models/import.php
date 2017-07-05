@@ -1076,16 +1076,15 @@ class RedshopModelImport extends RedshopModel
 				$text = "" . $line . "`_`" . $blank . "";
 				ob_clean();
 				echo  $text;
-				exit;
+				JFactory::getApplication()->close();
 			}
 		}
 
 		fclose($handle);
-		$blank = "";
 		$text = "`_`" . $correctlines . "`_`" . $correctlines . "";
 		ob_clean();
 		echo $text;
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
