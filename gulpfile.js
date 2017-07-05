@@ -48,10 +48,77 @@ function pluginRelease(group, name) {
             parser.parseString(data, function (err, result) {
                 fileName += '-v' + result.extension.version[0] + '.zip';
 
-                // We will output where release package is going so it is easier to find
-                console.log('Plugin release file in: ' + path.join(config.releaseDir + '/plugins', fileName));
+                var count = 25 - group.length;
+                var groupName = group;
 
-                return gulp.src('./plugins/' + group + '/' + name + '/**')
+                for (var i = 0; i < count; i++)
+                {
+                    groupName += ' ';
+                }
+
+                count = 35 - name.length;
+                var nameFormat = name;
+
+                for (i = 0; i < count; i++)
+                {
+                    nameFormat += ' ';
+                }
+
+                var version = result.extension.version[0];
+                count = 11 - version.length;
+
+                for (i = 0; i < count; i++)
+                {
+                    version += ' ';
+                }
+
+                // We will output where release package is going so it is easier to find
+                gutil.log(
+                    gutil.colors.green("Plugin"),
+                    "  |  ",
+                    gutil.colors.white(groupName),
+                    "  |  ",
+                    gutil.colors.blue(nameFormat),
+                    "  |  ",
+                    gutil.colors.yellow(version),
+                    "|  ",
+                    gutil.colors.grey(path.join(config.releaseDir + '/plugins', fileName))
+                );
+
+                return gulp.src([
+                        './plugins/' + group + '/' + name + '/**',
+                        '!./plugins/' + group + '/' + name + '/**/composer.json',
+                        '!./plugins/' + group + '/' + name + '/**/composer.lock',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/*.md',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/*.txt',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/*.TXT',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/*.pdf',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/LICENSE',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/CHANGES',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/README',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/VERSION',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/composer.json',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/.gitignore',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/docs',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/docs/**',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/tests',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/tests/**',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/unitTests',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/unitTests/**',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/.git',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/.git/**',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/examples',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/examples/**',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/build.xml',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/phpunit.xml',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/phpunit.xml.dist',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/**/phpcs.xml',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/mpdf/mpdf/ttfonts/!(DejaVu*.ttf)',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/ae_fonts*/**',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf*/**',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/freefont-*/**'
+                    ])
                     .pipe(zip(fileName))
                     .pipe(gulp.dest(config.releaseDir + '/plugins'));
             });
@@ -78,8 +145,34 @@ function moduleRelease(group, name) {
             parser.parseString(data, function (err, result) {
                 fileName += '-v' + result.extension.version[0] + '.zip';
 
+                var count = 35 - name.length;
+                var nameFormat = name;
+
+                for (var i = 0; i < count; i++)
+                {
+                    nameFormat += ' ';
+                }
+
+                var version = result.extension.version[0];
+                count = 8 - version.length;
+
+                for (i = 0; i < count; i++)
+                {
+                    version += ' ';
+                }
+
                 // We will output where release package is going so it is easier to find
-                console.log('Module release file in: ' + path.join(config.releaseDir + '/modules/' + group, fileName));
+                gutil.log(
+                    gutil.colors.green("Module"),
+                    "  |  ",
+                    gutil.colors.white(group),
+                    "  |  ",
+                    gutil.colors.blue(nameFormat),
+                    "  |  ",
+                    gutil.colors.yellow(version),
+                    "|  ",
+                    gutil.colors.grey(path.join(config.releaseDir + '/modules/' + group, fileName))
+                );
 
                 return gulp.src('./modules/' + group + '/' + name + '/**')
                     .pipe(zip(fileName))
@@ -330,7 +423,7 @@ gulp.task("release:md5:json", ["release:md5:generate"], function(cb){
         }
     }
 
-    console.log("Create checksum.md5.json file in: component/admin/assets/checksum.md5.json");
+    gutil.log(gutil.colors.yellow("checksum.md5.json file: "), "component/admin/assets/checksum.md5.json");
 
     rs = JSON.stringify(result);
 
@@ -360,7 +453,9 @@ gulp.task("release:redshop", function (cb) {
             var version  = result.extension.version[0];
             var fileName = argv.skipVersion ? "redshop.zip" : "redshop-v" + version + ".zip";
 
-            console.log('Create redSHOP release file in: ' + path.join(config.releaseDir + '/', fileName));
+            gutil.log(gutil.colors.grey("===================================================================="));
+            gutil.log(gutil.colors.cyan.bold("redSHOP"), "  |  ", gutil.colors.yellow.bold(version), "  |  ", gutil.colors.white.bold(path.join(config.releaseDir + '/', fileName)));
+            gutil.log(gutil.colors.grey("===================================================================="));
 
             return gulp.src([
                 "./component/**/*",
@@ -368,18 +463,33 @@ gulp.task("release:redshop", function (cb) {
                 "./libraries/redshop/**/*",
                 "./libraries/redshop/vendor/**/*",
                 "./libraries/redshop/.gitkeep",
-                "!./libraries/redshop/composer.*",
-                "!./libraries/redshop/vendor/**/tests/**/*",
-                "!./libraries/redshop/vendor/**/tests",
-                "!./libraries/redshop/vendor/**/Tests/**/*",
-                "!./libraries/redshop/vendor/**/Tests",
-                "!./libraries/redshop/vendor/**/docs/**/*",
-                "!./libraries/redshop/vendor/**/docs",
-                "!./libraries/redshop/vendor/**/doc/**/*",
-                "!./libraries/redshop/vendor/**/doc",
-                "!./libraries/redshop/vendor/**/composer.*",
-                "!./libraries/redshop/vendor/**/phpunit*",
-                "!./libraries/redshop/vendor/**/Vagrantfile",
+                '!./**/composer.json',
+                '!./**/composer.lock',
+                '!./**/vendor/**/*.md',
+                '!./**/vendor/**/*.txt',
+                '!./**/vendor/**/*.TXT',
+                '!./**/vendor/**/*.pdf',
+                '!./**/vendor/**/LICENSE',
+                '!./**/vendor/**/CHANGES',
+                '!./**/vendor/**/README',
+                '!./**/vendor/**/VERSION',
+                '!./**/vendor/**/composer.json',
+                '!./**/vendor/**/.gitignore',
+                '!./**/vendor/**/docs',
+                '!./**/vendor/**/docs/**',
+                '!./**/vendor/**/tests',
+                '!./**/vendor/**/tests/**',
+                '!./**/vendor/**/unitTests',
+                '!./**/vendor/**/unitTests/**',
+                '!./**/vendor/**/.git',
+                '!./**/vendor/**/.git/**',
+                '!./**/vendor/**/examples',
+                '!./**/vendor/**/examples/**',
+                '!./**/vendor/**/build.xml',
+                '!./**/vendor/**/phpunit.xml',
+                '!./**/vendor/**/phpunit.xml.dist',
+                '!./**/vendor/**/phpcs.xml',
+                "!./**/vendor/**/Vagrantfile",
                 "./media/**/*",
                 "./media/**/.gitkeep",
                 "!./media/com_redshop/scss",
@@ -394,6 +504,10 @@ gulp.task("release:redshop", function (cb) {
                 "./plugins/redshop_shipping/default_shipping/**",
                 "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**",
                 "./plugins/redshop_pdf/tcpdf/**",
+                '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
+                '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/ae_fonts*/**',
+                '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf*/**',
+                '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/freefont-*/**',
                 "./plugins/redshop_export/attribute/**",
                 "./plugins/redshop_export/category/**",
                 "./plugins/redshop_export/field/**",
