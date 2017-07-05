@@ -116,7 +116,7 @@ class PlgRedshop_PaymentDotpay extends RedshopPayment
 		$orderId       = $input->post->getInt('control');
 
 		// Set order status based DotPay post notification.
-		switch($input->post->get('operation_status'))
+		switch ($input->post->get('operation_status'))
 		{
 			case 'completed':
 				return $this->setStatus(
@@ -146,7 +146,7 @@ class PlgRedshop_PaymentDotpay extends RedshopPayment
 	/**
 	 * Method to verify signature
 	 *
-	 * @param   object   $post  JInput object for post data
+	 * @param   object  $post  JInput object for post data
 	 *
 	 * @return  boolean         True on validate signature
 	 */
@@ -163,16 +163,16 @@ class PlgRedshop_PaymentDotpay extends RedshopPayment
 			$post->get('operation_commission_amount', '', 'STRING') .
 			$post->get('operation_original_amount', '', 'STRING') .
 			$post->get('operation_original_currency', '', 'STRING') .
-			$post->get('operation_datetime', '','STRING') .
+			$post->get('operation_datetime', '', 'STRING') .
 			$post->get('operation_related_number', '', 'STRING') .
 			$post->get('control', '', 'STRING') .
-			$post->get('description', '','STRING') .
+			$post->get('description', '', 'STRING') .
 			$post->get('email', '', 'STRING') .
 			$post->get('p_info', '', 'STRING') .
 			$post->get('p_email', '', 'STRING') .
 			$post->get('channel', '', 'STRING') .
 			$post->get('channel_country', '', 'STRING') .
-			$post->get('geoip_country','', 'STRING');
+			$post->get('geoip_country', '', 'STRING');
 
 		if ($post->get('signature') == hash('sha256', $string))
 		{
