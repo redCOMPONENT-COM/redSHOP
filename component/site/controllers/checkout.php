@@ -558,35 +558,37 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function setcreditcardInfo()
 	{
-		$input             = JFactory::getApplication()->input;
-		$model             = $this->getModel('checkout');
-		$session           = JFactory::getSession();
-		$payment_method_id = $input->post->getCmd('payment_method_id', '');
-		$errormsg          = "";
-		$paymentmethod     = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
-		$paymentparams     = new JRegistry($paymentmethod[0]->params);
-		$is_creditcard     = $paymentparams->get('is_creditcard', 0);
+		$input           = JFactory::getApplication()->input;
+		$model           = $this->getModel('checkout');
+		$session         = JFactory::getSession();
+		$paymentMethodId = $input->post->getCmd('payment_method_id', '');
+		$paymentMethod   = $this->_order_functions->getPaymentMethodInfo($paymentMethodId);
+		$paymentParams   = new JRegistry($paymentMethod[0]->params);
+		$isCreditcard    = $paymentParams->get('is_creditcard', 0);
 
-		if ($is_creditcard)
+		if (!$isCreditcard)
 		{
-			$ccdata['order_payment_name']         = $input->post->getString('order_payment_name', '');
-			$ccdata['creditcard_code']            = $input->post->getString('creditcard_code', '');
-			$ccdata['order_payment_number']       = $input->post->getString('order_payment_number', '');
-			$ccdata['order_payment_expire_month'] = $input->post->getString('order_payment_expire_month', '');
-			$ccdata['order_payment_expire_year']  = $input->post->getString('order_payment_expire_year', '');
-			$ccdata['credit_card_code']           = $input->post->getString('credit_card_code', '');
-			$ccdata['selectedCardId']             = $input->post->getString('selectedCard', '');
-			$session->set('ccdata', $ccdata);
-
-			$validpayment = $model->validatepaymentccinfo();
-
-			if (!$validpayment[0])
-			{
-				$errormsg = $validpayment[1];
-			}
+			return "";
 		}
 
-		return $errormsg;
+		$data                               = array();
+		$data['order_payment_name']         = $input->post->getString('order_payment_name', '');
+		$data['creditcard_code']            = $input->post->getString('creditcard_code', '');
+		$data['order_payment_number']       = $input->post->getString('order_payment_number', '');
+		$data['order_payment_expire_month'] = $input->post->getString('order_payment_expire_month', '');
+		$data['order_payment_expire_year']  = $input->post->getString('order_payment_expire_year', '');
+		$data['credit_card_code']           = $input->post->getString('credit_card_code', '');
+		$data['selectedCardId']             = $input->post->getString('selectedCard', '');
+		$session->set('ccdata', $data);
+
+		$validPayment = $model->validatepaymentccinfo();
+
+		if ($validPayment[0])
+		{
+			return "";
+		}
+
+		return $validPayment[1];
 	}
 
 	/**
