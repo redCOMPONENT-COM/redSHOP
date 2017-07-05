@@ -1418,6 +1418,19 @@ class rsCarthelper
 			$product_id = $rowitem [$i]->product_id;
 			$quantity   = $rowitem [$i]->product_quantity;
 
+			$itemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product_id);
+
+			if (count($itemData) > 0)
+			{
+				$Itemid = $itemData->id;
+			}
+			else
+			{
+				$Itemid = RedshopHelperUtility::getItemId($product_id);
+			}
+
+			$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
+
 			if ($rowitem [$i]->is_giftcard)
 			{
 				$giftcardData      = $this->_producthelper->getGiftcardData($product_id);
@@ -1527,7 +1540,7 @@ class rsCarthelper
 				}
 			}
 
-			$product_name        = "<div class='product_name'>" . $product_name . "</div>";
+			$product_name        = "<div class='product_name'><a href='" . $link . "'>" . $product_name . "</a></div>";
 			$product_total_price = "<div class='product_price'>";
 
 			if (!$this->_producthelper->getApplyVatOrNot($data))
@@ -1731,7 +1744,7 @@ class rsCarthelper
 
 			$cart_mdata = str_replace(
 				"{product_thumb_image}",
-				"<div  class='product_image'>" . $attrib_img . "</div>",
+				"<div class='product_image'><a href='" . $link . "'>" . $attrib_img . "</a></div>",
 				$cart_mdata
 			);
 
