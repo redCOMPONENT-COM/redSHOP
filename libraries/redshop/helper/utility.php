@@ -168,7 +168,7 @@ class RedshopHelperUtility
 	 * @since   1.5
 	 */
 	public static function createTree($id, $indent, $list, &$childs, $maxLevel = 9999, $level = 0, $key = 'id', $nameKey = 'title',
-	                                  $spacer = '&#160;&#160;&#160;&#160;&#160;&#160;')
+									  $spacer = '&#160;&#160;&#160;&#160;&#160;&#160;')
 	{
 		if (empty($childs[$id]) || $level > $maxLevel)
 		{
@@ -731,9 +731,12 @@ class RedshopHelperUtility
 	 */
 	public static function getItemId($productId = 0, $categoryId = 0)
 	{
-		if ($categoryId)
+		// Get Itemid from Product detail
+		if ($productId)
 		{
-			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categoryId));
+			$result = self::getRedShopMenuItem(
+				array('option' => 'com_redshop', 'view' => 'product', 'pid' => (int) $productId)
+			);
 
 			if ($result)
 			{
@@ -741,20 +744,14 @@ class RedshopHelperUtility
 			}
 		}
 
-		if ($productId)
+		// Get Itemid from Category detail
+		if ($categoryId)
 		{
-			$product = RedshopHelperProduct::getProductById($productId);
+			$result = self::getCategoryItemid($categoryId);
 
-			if ($product && is_array($product->categories))
+			if ($result)
 			{
-				$result = self::getRedShopMenuItem(
-					array('option' => 'com_redshop', 'view' => 'category', 'cid' => $product->categories)
-				);
-
-				if ($result)
-				{
-					return $result;
-				}
+				return $result;
 			}
 		}
 
@@ -793,13 +790,37 @@ class RedshopHelperUtility
 	{
 		if ($categoryId)
 		{
-			$result = self::getRedShopMenuItem(
-				array('option' => 'com_redshop', 'view' => 'category', 'layout' => 'detail', 'cid' => (int) $categoryId)
-			);
+			$categories = explode(',', $categoryId);
 
-			if ($result)
+			if ($categories)
 			{
-				return $result;
+				foreach ($categories as $category)
+				{
+					$result = self::getRedShopMenuItem(
+						array('option' => 'com_redshop', 'view' => 'category', 'layout' => 'detail', 'cid' => (int) $category)
+					);
+
+					if ($result)
+					{
+						return $result;
+					}
+				}
+			}
+
+			//Get from Parents
+			$categories = RedshopHelperCategory::getCategoryListReverseArray($categoryId);
+
+			if ($categories)
+			{
+				foreach ($categories as $category)
+				{
+					self::getCategoryItemid($category->id);
+
+					if ($result)
+					{
+						return $result;
+					}
+				}
 			}
 		}
 		else

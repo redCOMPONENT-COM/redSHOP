@@ -23,8 +23,8 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object &$subject   The object to observe
+	 * @param   array  $config     An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
 	 *
@@ -33,7 +33,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	public function __construct(&$subject, $config = array())
 	{
 		// Load Klarna Library
-		require_once  __DIR__ . '/library/vendor/autoload.php';
+		require_once __DIR__ . '/library/vendor/autoload.php';
 
 		parent::__construct($subject, $config);
 	}
@@ -41,7 +41,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	/**
 	 * Prepare Payment Input
 	 *
-	 * @param   array  $orderInfo  Order Information
+	 * @param   array $orderInfo Order Information
 	 *
 	 * @return  array  Payment Gateway for parameters
 	 */
@@ -53,8 +53,8 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	/**
 	 * This method will be triggered on before placing order to reserve amount in klarna.
 	 *
-	 * @param   string  $element  Name of the payment plugin
-	 * @param   array   $data     Cart Information
+	 * @param   string $element Name of the payment plugin
+	 * @param   array  $data    Cart Information
 	 *
 	 * @return  object  Authorize or Charge success or failed message and transaction id
 	 */
@@ -67,7 +67,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 
 		$orderHelper = order_functions::getInstance();
 		$k           = new Klarna;
-		$server = ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
+		$server      = ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
 
 		$k->config(
 			$this->params->get('merchantId'),
@@ -317,8 +317,8 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			$values->order_status_code         = $this->params->get('invalid_status', '');
 			$values->order_payment_status_code = 'Unpaid';
 
-			$values->log                       = $e->getMessage() . ' #' . $e->getCode();
-			$values->msg                       = $e->getMessage();
+			$values->log = $e->getMessage() . ' #' . $e->getCode();
+			$values->msg = $e->getMessage();
 
 			// Change order status based on Klarna status response
 			$this->klarnaOrderReservationUpdate($values);
@@ -351,8 +351,8 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	 * This evet is not needed to verify the status, we are doing in different way for Klarna.
 	 * This method is only to ignore.
 	 *
-	 * @param   string  $element  Plugin Name
-	 * @param   array   $request  Request data sent from Epay
+	 * @param   string $element Plugin Name
+	 * @param   array  $request Request data sent from Epay
 	 *
 	 * @return  mixed  Status Object
 	 */
@@ -364,8 +364,8 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	/**
 	 * This method will be trigger on order status change to capture order ammount.
 	 *
-	 * @param   string  $element  Name of plugin
-	 * @param   array   $data     Order Information array
+	 * @param   string $element Name of plugin
+	 * @param   array  $data    Order Information array
 	 *
 	 * @return  object  Success or failed message
 	 */
@@ -374,7 +374,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 		$transactionId = $data['order_transactionid'];
 
 		// Set default return
-		$return = new stdClass;
+		$return                 = new stdClass;
 		$return->responsestatus = 'Fail';
 		$return->type           = 'error';
 
@@ -385,9 +385,9 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			return $return;
 		}
 
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$k   = new Klarna;
+		$db     = JFactory::getDbo();
+		$app    = JFactory::getApplication();
+		$k      = new Klarna;
 		$server = ((boolean) $this->params->get('isTestMode', 1)) ? Klarna::BETA : Klarna::LIVE;
 
 		$k->config(
@@ -413,16 +413,16 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 			// See Klarna::setActivateInfo
 
 			// "ok" or "no_risk"
-			$risk = $result[0];
+			$risk  = $result[0];
 			$invNo = $result[1];
 
 			if ('ok' == $risk || 'no_risk' == $risk)
 			{
 				// Update transaction string
 				$query = $db->getQuery(true)
-						->update($db->qn('#__redshop_order_payment'))
-						->set($db->qn('order_payment_trans_id') . ' = ' . $db->q($invNo))
-						->where($db->qn('order_id') . ' = ' . $db->q($data['order_id']));
+					->update($db->qn('#__redshop_order_payment'))
+					->set($db->qn('order_payment_trans_id') . ' = ' . $db->q($invNo))
+					->where($db->qn('order_id') . ' = ' . $db->q($data['order_id']));
 
 				// Set the query and execute the update.
 				$db->setQuery($query)->execute();
@@ -453,14 +453,14 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 	/**
 	 * Refund amount on cancel order
 	 *
-	 * @param   string  $element  Plugin Name
-	 * @param   array   $data     Order Transaction information
+	 * @param   string $element Plugin Name
+	 * @param   array  $data    Order Transaction information
 	 *
 	 * @return  object  Return status information
 	 */
 	public function onStatus_PaymentKlarna($element, $data)
 	{
-		$return = new stdClass;
+		$return                 = new stdClass;
 		$return->responsestatus = 'Fail';
 		$return->type           = 'error';
 
@@ -501,7 +501,7 @@ class plgRedshop_PaymentKlarna extends RedshopPayment
 
 			$return->responsestatus = 'Success';
 			$return->type           = 'message';
-			$return->message = JText::_('PLG_REDSHOP_PAYMENT_KLARNA_PAYMENT_REFUND_SUCCESS');
+			$return->message        = JText::_('PLG_REDSHOP_PAYMENT_KLARNA_PAYMENT_REFUND_SUCCESS');
 		}
 		catch (Exception $e)
 		{

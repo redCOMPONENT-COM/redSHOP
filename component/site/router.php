@@ -435,6 +435,12 @@ class RedshopRouter extends JComponentRouterBase
 							for ($x = 0, $xn = count($cats); $x < $xn; $x++)
 							{
 								$cat        = $cats[$x];
+
+								if ($cat->parent_id == 0)
+								{
+									continue;
+								}
+
 								$segments[] = RedshopHelperUtility::convertToNonSymbol($cat->name);
 							}
 						}
@@ -524,6 +530,11 @@ class RedshopRouter extends JComponentRouterBase
 
 							foreach ($cats as $cat)
 							{
+								if ($cat->parent_id == 0)
+								{
+									continue;
+								}
+
 								$segments[] = RedshopHelperUtility::convertToNonSymbol($cat->name);
 							}
 						}
