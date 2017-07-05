@@ -61,10 +61,10 @@ class RedshopModelWishlist extends RedshopModel
 
 		if ($user->id)
 		{
-			$wislists     = $this->getUserWishlist();
+			$wishlists     = $this->getUserWishlist();
 			$wishProducts = array();
 
-			foreach ($whislists as $key => $wishlist)
+			foreach ($wishlists as $key => $wishlist)
 			{
 				$query = $db->getQuery(true)
 					->select('DISTINCT wp.*, p.*')
