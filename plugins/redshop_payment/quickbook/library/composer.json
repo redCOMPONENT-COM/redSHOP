@@ -1,4 +1,7 @@
 {
+    "name": "redcomponent-com/redshop-payment-quickbook",
+    "description": "A redSHOP Payment plugin - QuickBook",
+    "license": "GPL-2.0+",
     "require": {
         "consolibyte/quickbooks": "^3.3"
     }

@@ -43,6 +43,7 @@ vendor/*
 tests/vendor/*
 plugins/redshop_payment/quickbook/library/vendor/*
 plugins/redshop_payment/rs_payment_braintree/library/vendor/*
+plugins/redshop_payment/klarna/library/vendor/*
 
 # Bower
 bower_components/
