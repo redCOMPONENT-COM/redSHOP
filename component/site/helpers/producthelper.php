@@ -1928,8 +1928,8 @@ class productHelper
 	public function GetdefaultshopperGroupData()
 	{
 		$list           = array();
-		$shopperGroupId = $this->_userhelper->getShopperGroup();
-		$result         = $this->_userhelper->getShopperGroupList($shopperGroupId);
+		$shopperGroupId = RedshopHelperUser::getShopperGroup();
+		$result         = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
 		if (count($result) > 0)
 		{
