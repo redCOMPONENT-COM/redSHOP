@@ -1875,7 +1875,7 @@ class RedshopModelImport extends RedshopModel
 
 					// Fields for updating
 					$fields = array(
-						$db->quoteName('shopper_group_id' . ' = ' . (int) $last_insert_shopper)
+						$db->quoteName('shopper_group_id') . ' = ' . (int) $last_insert_shopper
 					);
 
 					// Extract array of user_id
