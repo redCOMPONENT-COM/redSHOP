@@ -318,7 +318,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
 
-			for ($it = 0; $it < count($no_items); $it++)
+			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
 				echo str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name)) . " ,";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items [$it]->product_final_price . ",";
@@ -435,7 +435,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
 
-			for ($it = 0; $it < count($no_items); $it++)
+			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
 				echo $no_items [$it]->order_item_name . ",";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $no_items [$it]->product_final_price . ",";
