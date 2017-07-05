@@ -43,8 +43,7 @@ class RedshopModelZip_import extends RedshopModel
 
 	public function getzipfilescount()
 	{
-		$x = 5;
-		$url = Redshop::getConfig()->get('REMOTE_UPDATE_DOMAIN_URL') . "index.php?option=com_reviews&domainname=" . $_SERVER['HTTP_HOST'] . "";
+		$url = Redshop::getConfig()->get('REMOTE_UPDATE_DOMAIN_URL') . "index.php?option=com_reviews&domainname=" . JUri::getInstance()->toString(array('host'));
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 5.1; rv:1.7.3) Gecko/20041001 Firefox/0.10.1");
 		curl_setopt($ch, CURLOPT_URL, $url);

@@ -2764,14 +2764,16 @@ class productHelper
 
 							if (trim($data_txt) != "")
 							{
-								$resultArr[] = $userfield[$j]->title . " : " . stripslashes($data_txt);
+								$resultArr[] = '<span class="userfield-label"">' . $userfield[$j]->title
+								. ':</span><span class="userfield-value">' . stripslashes($data_txt) . '</span>';
 							}
 						}
 						else
 						{
 							if (trim($userfield[$j]->data_txt) != "")
 							{
-								$resultArr[] = $userfield[$j]->title . " : " . stripslashes($userfield[$j]->data_txt);
+								$resultArr[] = '<span class="userfield-label"">' . $userfield[$j]->title
+								. '</span> : <span class="userfield-value">' . stripslashes($userfield[$j]->data_txt);
 							}
 						}
 					}
@@ -2909,10 +2911,10 @@ class productHelper
 
 						if ($row_data[$j]->title)
 						{
-							$strtitle = $row_data[$j]->title . ' : ';
+							$strtitle = '<span class="product-userfield-title">' . $row_data[$j]->title . ':</span>';
 						}
 
-						$resultArr[] = $strtitle . $cart[$id][$userFieldTag[$i]];
+						$resultArr[] = $strtitle . '<span class="product-userfield-value">' . $cart[$id][$userFieldTag[$i]] . '</span>';
 					}
 				}
 			}
@@ -2945,7 +2947,7 @@ class productHelper
 			{
 				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
 				{
-					$resultArr[] = $main_result->title . " : " . $main_result->data_txt;
+					$resultArr[] = '<span class="product-field-title">' . $main_result->title . ':</span><span class="product-field-value">' . $main_result->data_txt . '</span>';
 				}
 			}
 		}
@@ -2980,7 +2982,7 @@ class productHelper
 			{
 				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
 				{
-					$resultArr[] = $main_result->title . " : " . $main_result->data_txt;
+					$resultArr[] = '<span class="product-order-title">' . $main_result->title . ':</span><span class="product-order-value">' . $main_result->data_txt . '</span>';
 				}
 			}
 		}
@@ -6253,6 +6255,11 @@ class productHelper
 				{
 					$displayattribute .= "<div class='checkout_subattribute_title'>"
 						. urldecode($subProperties[0]['subattribute_color_title']) . "</div>";
+				}
+
+				if ($i == 0)
+				{
+					$selectedProperty[$selP++] = $properties[$k]['property_id'];
 				}
 
 				for ($l = 0, $ln = count($subProperties); $l < $ln; $l++)

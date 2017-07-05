@@ -5,7 +5,6 @@ var config = require('../../gulp-config.json');
 // Dependencies
 var browserSync = require('browser-sync');
 var concat = require('gulp-concat');
-var composer = require('gulp-composer');
 var del = require('del');
 var fs = require('fs');
 var rename = require('gulp-rename');
@@ -110,13 +109,8 @@ function getLibraryFiles(callback) {
     });
 }
 
-// Composer
-gulp.task('composer:' + baseTask, function (cb) {
-    composer({cwd: extPath, bin: 'php ./composer.phar'}).on('end', cb);
-});
-
 // Copy: library
-gulp.task('copy:' + baseTask + ':library', ['composer:' + baseTask], function (cb) {
+gulp.task('copy:' + baseTask + ':library', function (cb) {
     getLibraryFiles(function (src) {
         return gulp.src(src, {base: extPath})
             .pipe(gulp.dest(wwwPath))
