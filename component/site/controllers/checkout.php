@@ -372,16 +372,17 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function checkoutfinal()
 	{
-		$app        = JFactory::getApplication();
-		$dispatcher = JDispatcher::getInstance();
-		$post       = JRequest::get('post');
-		$Itemid     = JRequest::getVar('Itemid');
-		$model      = $this->getModel('checkout');
-		$session    = JFactory::getSession();
-		$cart       = $session->get('cart');
-		$user       = JFactory::getUser();
-		$producthelper   = productHelper::getInstance();
-		$payment_method_id = JRequest::getCmd('payment_method_id', '');
+		$app               = JFactory::getApplication();
+		$input             = $app->input;
+		$dispatcher        = JDispatcher::getInstance();
+		$post              = $input->post->getArray();
+		$Itemid            = $input->post->getInt('Itemid', 0);
+		$model             = $this->getModel('checkout');
+		$session           = JFactory::getSession();
+		$cart              = $session->get('cart');
+		$user              = JFactory::getUser();
+		$producthelper     = productHelper::getInstance();
+		$payment_method_id = $input->post->getString('payment_method_id', '');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
 		{
@@ -399,7 +400,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
-			$shipping_rate_id = JFactory::getApplication()->input->getString('shipping_rate_id');
+			$shipping_rate_id = $input->post->getString('shipping_rate_id', '');
 			$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);
 
 			if (count($shippingdetail) < 4)
@@ -479,7 +480,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 			else
 			{
-				JRequest::setVar('order_id', $order_id);
+				$input->set('order_id', $order_id);
 			}
 
 			if ($order_id)

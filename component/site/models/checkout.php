@@ -248,10 +248,10 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($cart['free_shipping'] != 1)
 		{
-			$shipping_rate_id = $input->post->getInt('shipping_rate_id', "");
+			$shipping_rate_id = $input->post->getString('shipping_rate_id', "");
 		}
 
-		$payment_method_id = $input->post->getInt('payment_method_id', "");
+		$payment_method_id = $input->post->getString('payment_method_id', "");
 
 		if ($shipping_rate_id && $cart['free_shipping'] != 1)
 		{
