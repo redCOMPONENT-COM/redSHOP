@@ -57,7 +57,7 @@ class RedshopModelZip_import extends RedshopModel
 		$content = trim($out[0][0]);
 		$response = curl_getinfo($ch);
 		print_r($response);
-		exit;
+		JFactory::getApplication()->close();
 		curl_close($ch);
 		$x = count(explode(",", $content));
 

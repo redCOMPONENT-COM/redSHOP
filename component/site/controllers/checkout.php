@@ -426,7 +426,7 @@ class RedshopControllerCheckout extends RedshopController
 				else
 				{
 					$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false));
-					exit;
+					$app->close();
 				}
 			}
 
