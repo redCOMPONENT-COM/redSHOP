@@ -239,25 +239,17 @@ gulp.task("release",
 );
 
 gulp.task("composer", function(){
-    var composers = ['./libraries/redshop', './plugins/redshop_payment/quickbook/library', './plugins/redshop_payment/rs_payment_braintree/library', 'plugins/redshop_payment/klarna/library'];
-
-    for (var i = 0; i < composers.length; i++) {
-        // gutil.log(gutil.colors.blue(composerPath));
-        composer({cwd: composers[i], bin: 'php ./composer.phar'});
-    }
-
-    /* @TODO: Enable auto-get composer.json files instead of use composers array
-    glob("**!/composer.json", [], functioncd  (er, files) {
+    glob("**/composer.json", [], function  (er, files) {
         for (var i = 0; i < files.length; i++) {
             var composerPath = path.dirname(files[i]);
 
             // Make sure this is not composer.json inside vendor library
             if (composerPath.indexOf("vendor") == -1 && composerPath != '.') {
-                gutil.log(gutil.colors.blue(composerPath));
+                gutil.log("Composer found: ", gutil.colors.blue(composerPath));
                 composer({cwd: composerPath, bin: 'php ./composer.phar'});
             }
         }
-    });*/
+    });
 });
 
 gulp.task("release:md5:generate", function(){
