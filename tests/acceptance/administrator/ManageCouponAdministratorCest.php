@@ -29,7 +29,10 @@ class ManageCouponAdministratorCest
 	}
 
 	/**
+     *
+     * @group admin
 	 * Function to Test Coupon Creation in Backend
+     *
 	 *
 	 */
 	public function createCoupon(AcceptanceTester $I, $scenario)
@@ -42,25 +45,26 @@ class ManageCouponAdministratorCest
 		$I->searchCoupon($this->couponCode);
 	}
 
-	/**
-	 * Function to Test Coupon Updation in the Administrator
-	 *
-	 * @depends createCoupon
-	 */
-	public function updateCoupon(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test if Coupon gets updated in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
-		$I->wantTo('Update Existing Coupon');
-		$I->editCoupon($this->couponCode, $this->updateCouponCode);
-		$I->searchCoupon($this->updateCouponCode);
-	}
+//	/**
+//	 * Function to Test Coupon Updation in the Administrator
+//	 *
+//	 * @depends createCoupon
+//	 */
+//	public function updateCoupon(AcceptanceTester $I, $scenario)
+//	{
+//		$I->wantTo('Test if Coupon gets updated in Administrator');
+//		$I->doAdministratorLogin();
+//		$I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
+//		$I->wantTo('Update Existing Coupon');
+//		$I->editCoupon($this->couponCode, $this->updateCouponCode);
+//		$I->searchCoupon($this->updateCouponCode);
+//	}
 
 	/**
 	 * Function to Test Coupon Deletion
 	 *
-	 * @depends updateCoupon
+     *
+     * @group admin
 	 */
 	public function deleteCoupon(AcceptanceTester $I, $scenario)
 	{

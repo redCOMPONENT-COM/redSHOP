@@ -60,6 +60,10 @@ class AcceptanceHelper extends \Codeception\Module
 		$this->assertEquals($expected, $actual, "Page " . $page . " Contains PHP Notices and Warnings");
 	}
 
+	public function testFunction($expected){
+	    $this->assertEquals("Page have".$expected);
+    }
+
 	/**
 	 * Function to Verify the Discount while Checking out a product using Vouchers, Gift Cards, Coupon Codes
 	 *

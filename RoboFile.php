@@ -279,7 +279,12 @@ class RoboFile extends \Robo\Tasks
 			->stopOnFail();
 
 		// Make sure to Run the Build Command to Generate AcceptanceTester
-		$this->_exec("vendor/bin/codecept build");
+        if($this->isWindows()){
+            $this->_exec("vendor\bin\codecept build");
+        }else{
+            $this->_exec("vendor/bin/codecept build");
+
+        }
 
 		$this->taskCodecept()
 			->arg('--steps')

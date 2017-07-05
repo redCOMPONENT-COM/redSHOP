@@ -13,48 +13,63 @@
  *
  * @since  1.4
  */
-
 class UserManagerJoomla3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=user';
+    public static $URL = '/administrator/index.php?option=com_redshop&view=user';
 
-	public static $generalUserInformationTab = "//a[contains(text(), 'General User Information')]";
+    public static $URLShipping = '/administrator/index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=1&cid[]=0';
 
-	public static $billingInformationTab = "//a[contains(text(), 'Billing Information')]";
+    public static $generalUserInformationTab = "//a[contains(text(), 'General User Information')]";
 
-	public static $userName = "//input[@id='username']";
+    public static $billingInformationTab = "//a[contains(text(), 'Billing Information')]";
 
-	public static $newPassword = "//input[@id='password']";
+    public static $shippingInformation = "//a[contains(text(),'Shipping Information')]";
 
-	public static $confirmNewPassword = "//input[@id='password2']";
+    public static $userName = "//input[@id='username']";
 
-	public static $email = "//input[@id='email']";
+    public static $newPassword = "//input[@id='password']";
 
-	public static $groupRadioButton = "//form[@id='adminForm']/div[1]/dd[1]/div/fieldset/div/table/tbody/tr[6]/td[2]";
+    public static $confirmNewPassword = "//input[@id='password2']";
 
-	public static $shopperGroupDropDown = "//div[@id='s2id_shopper_group_id']/a";
+    public static $email = "//input[@id='email']";
 
-	public static $firstName = "//input[@id='firstname']";
+    public static $groupRadioButton = "//form[@id='adminForm']/div[1]/dd[1]/div/fieldset/div/table/tbody/tr[6]/td[2]";
 
-	public static $lastName = "//input[@id='lastname']";
+    public static $shopperGroupDropDown = "//div[@id='s2id_shopper_group_id']/a";
 
-	public static $userSuccessMessage = 'User detail saved';
+    public static $firstName = "//input[@id='firstname']";
 
-	public static $firstResultRow = "//div[@id='editcell']//table[1]//tbody/tr[1]";
+    public static $lastName = "//input[@id='lastname']";
 
-	public static $selectFirst = "//input[@id='cb0']";
+    public static $address = "//input[@id='address']";
 
-	/**
-	 * Function to get the path for Shopper Group
-	 *
-	 * @param   String  $shopperGroup  Group of Shopper
-	 *
-	 * @return string
-	 */
-	public function shopperGroup($shopperGroup)
-	{
-		$path = "//div[@class='select2-result-label'][contains(text(), '" . $shopperGroup . "')]";
+    public static $phone = "//input[@id='phone']";
 
-		return $path;
-	}
+    public static $zipcode = "//input[@id='zipcode']";
+
+    public static $city = "//input[@id='city']";
+
+    public static $userSuccessMessage = 'User detail saved';
+
+    public static $saveErrorEmailAlready = "Email already exists";
+
+    public static $saveErrorUserAlready = "Username already exists";
+
+    public static $firstResultRow = "//div[@id='editcell']//table[1]//tbody/tr[1]";
+
+    public static $selectFirst = "//input[@id='cb0']";
+
+    /**
+     * Function to get the path for Shopper Group
+     *
+     * @param   String $shopperGroup Group of Shopper
+     *
+     * @return string
+     */
+    public function shopperGroup($shopperGroup)
+    {
+        $path = "//div[@class='select2-result-label'][contains(text(), '" . $shopperGroup . "')]";
+
+        return $path;
+    }
 }
