@@ -145,8 +145,7 @@ class PlgRedshop_PaymentQuickpay extends RedshopPayment
 			);
 		}
 
-		if ($operation->pending
-				|| $operation->qp_status_code != 20000)
+		if ($operation->pending || $operation->qp_status_code != 20000)
 		{
 			return $this->setStatus(
 				$orderId,
@@ -159,7 +158,7 @@ class PlgRedshop_PaymentQuickpay extends RedshopPayment
 		}
 
 		// Set order status based QuickPay post notification.
-		switch($operation->type)
+		switch ($operation->type)
 		{
 			case 'authorize':
 
@@ -241,7 +240,7 @@ class PlgRedshop_PaymentQuickpay extends RedshopPayment
 
 		$body = json_decode($response->body);
 
-		if (202 == $response->code && $body->accepted)
+		if (($response->code == 202) && $body->accepted)
 		{
 			$operations = $body->operations;
 			$operation = $operations[count($operations) - 1];
@@ -386,9 +385,7 @@ class PlgRedshop_PaymentQuickpay extends RedshopPayment
 	/**
 	 * Method to verify signature
 	 *
-	 * @param   object   $post  JInput object for post data
-	 *
-	 * @return  boolean         True on validate signature
+	 * @return  boolean  True on validate signature
 	 */
 	private function isSignatureValidated()
 	{
@@ -440,7 +437,18 @@ class PlgRedshop_PaymentQuickpay extends RedshopPayment
 		}
 		else
 		{
-			$result[implode("", array_map(function($p) { return "[{$p}]"; }, $path))] = $obj;
+			$key = implode(
+					"",
+					array_map(
+						function($p)
+						{
+							return "[{$p}]";
+						},
+						$path
+					)
+				);
+
+			$result[$key] = $obj;
 		}
 
 		return $result;
