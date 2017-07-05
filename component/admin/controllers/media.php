@@ -29,7 +29,9 @@ class RedshopControllerMedia extends RedshopController
 		$file      = $this->input->files->get('downloadfile', array(), 'array');
 		$totalFile = count($file['name']);
 		$model     = $this->getModel('media');
-		$msg       = JText::_('COM_REDSHOP_UPLOAD_COMPLETE');
+
+		// Default message
+		$msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
 
 		$productDownloadRoot = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT');
 
@@ -49,7 +51,11 @@ class RedshopControllerMedia extends RedshopController
 				copy($downloadPath, $post['name']);
 			}
 
-			if (!$model->store($post))
+			if ($model->store($post))
+			{
+				$msg = JText::_('COM_REDSHOP_UPLOAD_COMPLETE');
+			}
+			else
 			{
 				$msg = JText::_('COM_REDSHOP_UPLOAD_FAIL');
 			}
