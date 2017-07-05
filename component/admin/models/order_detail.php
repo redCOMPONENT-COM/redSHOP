@@ -635,7 +635,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$userfields = $item[$i]->extrafieldname;
 			$userfields_id = $item[$i]->extrafieldId;
 
-			for ($ui = 0; $ui < count($userfields); $ui++)
+			for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 			{
 				$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $orderitemdata->order_item_id, 12, $userfields[$ui]);
 			}
