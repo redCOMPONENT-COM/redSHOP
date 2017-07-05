@@ -7497,18 +7497,19 @@ class productHelper
 			for ($i = 0, $in = count($acc_subproperty_data); $i < $in; $i++)
 			{
 				$acc_subproperty_data1 = @explode('##', $acc_subproperty_data[$i]);
+				$countAccessorySubroperty = count($acc_subproperty_data1);
 
-				for ($ia = 0; $ia < count($acc_subproperty_data1); $ia++)
+				for ($ia = 0; $ia < $countAccessorySubroperty; $ia++)
 				{
 					$acc_subproperty_data2 = @explode(',,', $acc_subproperty_data1[$ia]);
-					$countAccessosrySubroperty = count($acc_subproperty_data2);
+					$countAccessorySubroperty2 = count($acc_subproperty_data2);
 
-					for ($ip = 0; $ip < $countAccessosrySubroperty; $ip++)
+					for ($ip = 0; $ip < $countAccessorySubroperty2; $ip++)
 					{
 						$acc_subproperty_data3 = explode('::', $acc_subproperty_data2[$ip]);
-						$countAccessosrySubroperty = count($acc_subproperty_data3);
+						$countAccessorySubroperty3 = count($acc_subproperty_data3);
 
-						for ($isp = 0; $isp < $countAccessosrySubroperty; $isp++)
+						for ($isp = 0; $isp < $countAccessorySubroperty3; $isp++)
 						{
 							if ($acc_subproperty_data3[$isp] != "")
 							{
