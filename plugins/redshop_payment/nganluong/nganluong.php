@@ -11,7 +11,13 @@ defined('_JEXEC') or die;
 // Load nganluong library
 require_once dirname(__DIR__) . '/nganluong/library/init.php';
 
-class plgRedshop_PaymentNganluong extends RedshopPayment
+/**
+ *  PlgRedshop_PaymentNganLuong class.
+ *
+ * @package  Redshopb.Plugin
+ * @since    1.7.0
+ */
+class PlgRedshop_PaymentNganLuong extends RedshopPayment
 {
 	/**
 	 * Load the language file on instantiation.
@@ -77,62 +83,62 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 			return;
 		}
 
-		$app         = JFactory::getApplication();
-		$input       = $app->input;
-		$orderHelper = order_functions::getInstance();
-		$orderId     = $input->getInt('order_id');
-		$order       = $orderHelper->getOrderDetails($orderId);
-		$price       = $order->order_total;
+		$app         	= JFactory::getApplication();
+		$input       	= $app->input;
+		$orderHelper 	= order_functions::getInstance();
+		$orderId     	= $input->getInt('order_id');
+		$order       	= $orderHelper->getOrderDetails($orderId);
+		$price       	= $order->order_total;
 
-		$merchantId = $this->params->get('nganluong_merchant_id');
-		$merchantPass = $this->params->get('nganluong_merchant_password');
-		$email = $this->params->get('nganluong_email');
-		$url = $this->params->get('nganluong_url_api');
+		$merchantId 	= $this->params->get('nganluong_merchant_id');
+		$merchantPass 	= $this->params->get('nganluong_merchant_password');
+		$email 			= $this->params->get('nganluong_email');
+		$url 			= $this->params->get('nganluong_url_api');
 
-		$nlCheckout = new NL_CheckOutV3($merchantId, $merchantPass, $email, $url);
-		$totalAmount = $price;
-		$items = array();
-		$paymentMethod = $input->post->get('option_payment');
-		$bankCode = $input->post->get('bankcode');
-		$orderCode = $orderId;
-		$paymentType = '';
+		$nlCheckout 	= new NL_CheckOutV3($merchantId, $merchantPass, $email, $url);
+		$totalAmount 	= $price;
+		$items 			= [];
+		$paymentMethod 	= $input->post->get('option_payment');
+		$bankCode 		= $input->post->get('bankcode');
+		$orderCode 		= $orderId;
+		$paymentType 	= '';
 		$discountAmount = $order->order_discount;
-		$orderDescription = '';
-		$taxAmount = $order->order_tax;
-		$feeshipping = $order->order_shipping;
-		$returnUrl = urlencode($this->getNotifyUrl($orderId));
-		$cancelUrl = urlencode($this->getReturnUrl($orderId));
+		$orderDesc 		= '';
+		$taxAmount 		= $order->order_tax;
+		$shippingFee 	= $order->order_shipping;
+		$returnUrl 		= urlencode($this->getNotifyUrl($orderId));
+		$cancelUrl 		= urlencode($this->getReturnUrl($orderId));
 
-		$buyerFullname = $input->post->get('fullname');
-		$buyerEmail = $input->post->get('email');
-		$buyerMobile = $input->post->get('phone');
-		$buyerAddress = $input->post->get('address');
+		$buyerFullname 	= $input->post->get('fullname');
+		$buyerEmail 	= $input->post->get('email');
+		$buyerMobile 	= $input->post->get('phone');
+		$buyerAddress 	= $input->post->get('address');
 
 		if (!empty($paymentMethod) && !empty($buyerEmail) && !empty($buyerMobile) && !empty($buyerFullname))
 		{
 			if ($paymentMethod == "VISA")
 			{
-				$nlResult = $nlCheckout->VisaCheckout($orderCode, $totalAmount, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items, $bankCode);
+				$nlResult = $nlCheckout->VisaCheckout($orderCode, $totalAmount, $paymentType, $orderDesc, $taxAmount, $shippingFee, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items, $bankCode);
 			}
 			elseif ($paymentMethod == "NL")
 			{
-				$nlResult = $nlCheckout->NLCheckout($orderCode, $totalAmount, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
+				$nlResult = $nlCheckout->NLCheckout($orderCode, $totalAmount, $paymentType, $orderDesc, $taxAmount, $shippingFee, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
 			}
 			elseif ($paymentMethod == "ATM_ONLINE" && !empty($bankCode))
 			{
-				$nlResult = $nlCheckout->BankCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
+				$nlResult = $nlCheckout->BankCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDesc, $taxAmount, $shippingFee, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
 			}
 			elseif ($paymentMethod == "NH_OFFLINE")
 			{
-				$nlResult = $nlCheckout->officeBankCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
+				$nlResult = $nlCheckout->officeBankCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDesc, $taxAmount, $shippingFee, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
 			}
 			elseif ($paymentMethod == "ATM_OFFLINE")
 			{
-				$nlResult = $nlCheckout->BankOfflineCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
+				$nlResult = $nlCheckout->BankOfflineCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDesc, $taxAmount, $shippingFee, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
 			}
 			elseif ($paymentMethod == "IB_ONLINE")
 			{
-				$nlResult = $nlCheckout->IBCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDescription, $taxAmount, $feeshipping, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
+				$nlResult = $nlCheckout->IBCheckout($orderCode, $totalAmount, $bankCode, $paymentType, $orderDesc, $taxAmount, $shippingFee, $discountAmount, $returnUrl, $cancelUrl, $buyerFullname, $buyerEmail, $buyerMobile, $buyerAddress, $items);
 			}
 		}
 
@@ -155,20 +161,20 @@ class plgRedshop_PaymentNganluong extends RedshopPayment
 			return;
 		}
 
-		$app   = JFactory::getApplication();
-		$input = $app->input;
-		$token = $input->getString('token');
+		$app   				= JFactory::getApplication();
+		$input 				= $app->input;
+		$token 				= $input->getString('token');
 
-		$merchantId = $this->params->get('nganluong_merchant_id');
-		$merchantPass = $this->params->get('nganluong_merchant_password');
-		$email = $this->params->get('nganluong_email');
-		$url = $this->params->get('nganluong_url_api');
+		$merchantId 		= $this->params->get('nganluong_merchant_id');
+		$merchantPass 		= $this->params->get('nganluong_merchant_password');
+		$email 				= $this->params->get('nganluong_email');
+		$url 				= $this->params->get('nganluong_url_api');
 
-		$nlCheckout       = new NL_CheckOutV3($merchantId, $merchantPass, $email, $url);
-		$nlResult         = $nlCheckout->GetTransactionDetail($token);
-		$nlErrorCode      = (string) $nlResult->error_code;
-		$values           = new stdClass;
-		$values->order_id = (int) $nlResult->order_code;
+		$nlCheckout       	= new NL_CheckOutV3($merchantId, $merchantPass, $email, $url);
+		$nlResult         	= $nlCheckout->GetTransactionDetail($token);
+		$nlErrorCode      	= (string) $nlResult->error_code;
+		$values           	= new stdClass;
+		$values->order_id 	= (int) $nlResult->order_code;
 
 		if ($nlErrorCode == '00')
 		{
