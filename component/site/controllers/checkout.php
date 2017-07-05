@@ -597,7 +597,7 @@ class RedshopControllerCheckout extends RedshopController
 	public function oneStepCheckoutProcess()
 	{
 		$app           = JFactory::getApplication();
-		$input         = $app->input
+		$input         = $app->input;
 		$session       = JFactory::getSession();
 		$rs_user       = $session->get('rs_user');
 		$post          = $input->post->getArray();
