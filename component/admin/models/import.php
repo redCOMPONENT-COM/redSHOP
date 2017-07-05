@@ -1863,7 +1863,7 @@ class RedshopModelImport extends RedshopModel
 					$db->setQuery($query);
 					$shoppers = $db->loadObjectList();
 
-					for ($s = 0; $s <= count($shoppers); $s++)
+					for ($s = 0, $countShopper = count($shoppers); $s <= $countShopper; $s++)
 					{
 						$queryshop = "UPDATE `#__redshop_users_info` "
 							. "SET `shopper_group_id` = '" . $last_insert_shopper . "' "
