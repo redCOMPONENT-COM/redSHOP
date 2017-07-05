@@ -21,11 +21,11 @@ class thumbnail
 	/**
 	 * Create thumbnail from gif/jpg/png image
 	 *
-	 * @param   string   $filetype  Have 3 options: gif, png, jpg
-	 * @param   string   $tsrc      Source image
-	 * @param   string   $dest      Destination to create thumbnail
-	 * @param   integer  $nWidth    Width in pixel
-	 * @param   integer  $nHeight   Height in pixel
+	 * @param   string  $filetype Have 3 options: gif, png, jpg
+	 * @param   string  $tsrc     Source image
+	 * @param   string  $dest     Destination to create thumbnail
+	 * @param   integer $nWidth   Width in pixel
+	 * @param   integer $nHeight  Height in pixel
 	 *
 	 * @return  string   Destination of new thumbnail
 	 *
@@ -51,13 +51,13 @@ class thumbnail_images
 	public $mime;
 
 	/**
-	 * @param   string  $newImage  Image file path
-	 * @param   string  $pathImage Image file path
+	 * @param   string  $newImage   Image file path
+	 * @param   string  $pathImage  Image file path
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @deprecated  2.0.6
-	 * @since  2.0.0.3
+	 * @since       2.0.0.3
 	 */
 	public function imagejpeg_new($newImage, $pathImage)
 	{
@@ -80,42 +80,44 @@ class thumbnail_images
 		return true;
 	}
 
-	public function imagecreatefromjpeg_new($path_img)
+	/**
+	 * @param   string  $pathImg  Image file path
+	 *
+	 * @return  boolean|resource
+	 *
+	 * @deprecated  2.0.6
+	 * @since       2.0.3
+	 */
+	public function imagecreatefromjpeg_new($pathImg)
 	{
-		if ($this->mime == 'image/jpeg' or $this->mime == 'image/pjpeg')
+		switch ($this->mime)
 		{
-			$OldImg = imagecreatefromjpeg($path_img);
-		}
+			case 'image/jpeg':
+			case 'image/pjpeg':
 
-		elseif ($this->mime == 'image/gif')
-		{
-			$OldImg = imagecreatefromgif($path_img);
-		}
+				return imagecreatefromjpeg($pathImg);
+			case 'image/gif';
 
-		elseif ($this->mime == 'image/png')
-		{
-			$OldImg = imagecreatefrompng($path_img);
-		}
+				return imagecreatefromgif($pathImg);
+			case 'image/png':
 
-		else
-		{
-			return false;
+				return imagecreatefrompng($pathImg);
+			default:
+				return false;
 		}
-
-		return $OldImg;
 	}
 
 	public function create_thumbnail_images()
 	{
 		$PathImgOld = $this->PathImgOld;
 		$PathImgNew = $this->PathImgNew;
-		$NewWidth = $this->NewWidth;
-		$NewHeight = $this->NewHeight;
+		$NewWidth   = $this->NewWidth;
+		$NewHeight  = $this->NewHeight;
 
-		$Oldsize = @getimagesize($PathImgOld);
+		$Oldsize    = @getimagesize($PathImgOld);
 		$this->mime = $Oldsize['mime'];
-		$OldWidth = $Oldsize[0];
-		$OldHeight = $Oldsize[1];
+		$OldWidth   = $Oldsize[0];
+		$OldHeight  = $Oldsize[1];
 
 		if ($NewHeight == '' and $NewWidth != '')
 		{
@@ -131,27 +133,27 @@ class thumbnail_images
 		}
 
 		$OldHeight_castr = ceil(($OldWidth * $NewHeight) / $NewWidth);
-		$castr_bottom = ($OldHeight - $OldHeight_castr) / 2;
+		$castr_bottom    = ($OldHeight - $OldHeight_castr) / 2;
 
 		$OldWidth_castr = ceil(($OldHeight * $NewWidth) / $NewHeight);
-		$castr_right = ($OldWidth - $OldWidth_castr) / 2;
+		$castr_right    = ($OldWidth - $OldWidth_castr) / 2;
 
 		if ($castr_bottom > 0)
 		{
 			$OldWidth_castr = $OldWidth;
-			$castr_right = 0;
+			$castr_right    = 0;
 		}
 		elseif ($castr_right > 0)
 		{
 			$OldHeight_castr = $OldHeight;
-			$castr_bottom = 0;
+			$castr_bottom    = 0;
 		}
 		else
 		{
-			$OldWidth_castr = $OldWidth;
+			$OldWidth_castr  = $OldWidth;
 			$OldHeight_castr = $OldHeight;
-			$castr_right = 0;
-			$castr_bottom = 0;
+			$castr_right     = 0;
+			$castr_bottom    = 0;
 		}
 
 		$OldImg = $this->imagecreatefromjpeg_new($PathImgOld);
