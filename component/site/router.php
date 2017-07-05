@@ -598,13 +598,11 @@ class RedshopRouter extends JComponentRouterBase
 				break;
 
 			case 'quotation':
-
 				$segments[] = 'quotation';
 
 				break;
 
 			case 'quotation_detail':
-
 				$segments[] = 'quotation_detail';
 				$segments[] = $quotationId;
 
@@ -627,13 +625,11 @@ class RedshopRouter extends JComponentRouterBase
 	public function parse(&$segments)
 	{
 		$vars         = array();
-		$db           = JFactory::getDbo();
 		$firstSegment = $segments[0];
 
 		switch ($firstSegment)
 		{
 			case 'giftcard':
-
 				$vars['view'] = "giftcard";
 
 				if (isset($segments[1]))
@@ -697,7 +693,6 @@ class RedshopRouter extends JComponentRouterBase
 				break;
 
 			case 'manufacturers':
-
 				$vars['view'] = 'manufacturers';
 
 				if (isset($segments[1]))
@@ -714,13 +709,11 @@ class RedshopRouter extends JComponentRouterBase
 				break;
 
 			case 'orders':
-
 				$vars['view'] = 'orders';
 
 				break;
 
 			case 'order_detail':
-
 				$vars['view'] = 'order_detail';
 
 				if (isset($segments[1]))
@@ -741,7 +734,6 @@ class RedshopRouter extends JComponentRouterBase
 				break;
 
 			case 'wishlist':
-
 				$vars['view'] = 'wishlist';
 
 				if (isset($segments[1]))
@@ -757,7 +749,6 @@ class RedshopRouter extends JComponentRouterBase
 				break;
 
 			case 'account':
-
 				$vars['view'] = 'account';
 
 				if (isset($segments[1]))
@@ -817,20 +808,17 @@ class RedshopRouter extends JComponentRouterBase
 				break;
 
 			case 'quotation':
-
 				$vars['view'] = 'quotation';
 
 				break;
 
 			case 'quotation_detail':
-
 				$vars['view']  = 'quotation_detail';
 				$vars['quoid'] = $segments[1];
 
 				break;
 
 			default:
-
 				$last       = count($segments) - 1;
 				$secondLast = $last - 1;
 				$main       = explode(":", $segments[$last]);
