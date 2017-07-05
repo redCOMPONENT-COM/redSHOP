@@ -40,7 +40,7 @@ $query = $db->getQuery(true)
 	->where('published = 1')
 	->order('name asc');
 
-if ($shopperGroupData && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
+if (!empty($shopperGroupData) && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
 {
 	$query->where('id IN(' . $shopperGroupData[0]->shopper_group_categories . ')');
 }
@@ -52,7 +52,7 @@ $query->clear()
 	->from($db->qn('#__redshop_manufacturer'))
 	->where('published = 1');
 
-if ($shopperGroupData && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_manufactures)
+if (!empty($shopperGroupData) && isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_manufactures)
 {
 	$query->where('manufacturer_id IN(' . $shopperGroupData[0]->shopper_group_manufactures . ')');
 }
