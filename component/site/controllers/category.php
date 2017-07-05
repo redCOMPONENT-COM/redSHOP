@@ -128,7 +128,14 @@ class RedshopControllerCategory extends RedshopController
 		// IE Bug in download name workaround
 		if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']))
 		{
-			@ini_set('zlib.output_compression', 'Off');
+			try
+			{
+				ini_set('zlib.output_compression', 'Off');
+			}
+			catch (Exception $ex)
+			{
+				JFactory::getApplication()->enqueueMessage($ex->getMessage(), 'error');
+			}
 		}
 
 		if (!$this->downloadFile($filepath))
