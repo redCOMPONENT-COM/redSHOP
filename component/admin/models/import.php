@@ -1868,15 +1868,18 @@ class RedshopModelImport extends RedshopModel
 						$db->quoteName('shopper_group_id' . ' = ' . (int) $last_insert_shopper)
 					);
 
+					// Extract array of user_id
 					foreach ($shoppers as $shopper)
 					{
-						$conditions = array (
-							$db->quoteName('user_id') . ' = ' . (int) $shopper->user_id
-						);
-
-						$db->update($db->quoteName('#__redshop_users_info'))->set($fields)->where($conditions);
-						$db->execute();
+						$shopperUserIds[] =(int) $shopper->user_id;
 					}
+
+					$conditions = array (
+						$db->quoteName('user_id') . ' IN ( ' . implode(', ', $shopperUserIds) . ' ) '
+					);
+
+					$db->update($db->quoteName('#__redshop_users_info'))->set($fields)->where($conditions);
+					$db->execute();
 				}
 			}
 		}
