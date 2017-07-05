@@ -329,7 +329,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			echo "sucess";
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	public function removesubpropertyImage()
@@ -345,7 +345,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			echo "sucess";
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	public function saveAttributeStock()
