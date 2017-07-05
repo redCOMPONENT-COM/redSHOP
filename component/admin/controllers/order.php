@@ -234,7 +234,7 @@ class RedshopControllerOrder extends RedshopController
 			require_once JPATH_COMPONENT_ADMINISTRATOR . '/extras/order_export.php';
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
-			exit;
+			JFactory::getApplication()->close();
 		}
 
 		$producthelper = productHelper::getInstance();
@@ -355,7 +355,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
-			exit;
+			JFactory::getApplication()->close();
 		}
 
 		$producthelper  = productHelper::getInstance();

@@ -124,6 +124,6 @@ class RedshopControllerProduct_price extends RedshopController
 
 		$data_product = $model->product_template($template_id, $product_id, $section);
 		echo $data_product;
-		exit;
+		JFactory::getApplication()->close();
 	}
 }
