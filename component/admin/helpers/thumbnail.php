@@ -103,6 +103,7 @@ class thumbnail_images
 
 				return imagecreatefrompng($pathImg);
 			default:
+
 				return false;
 		}
 	}
