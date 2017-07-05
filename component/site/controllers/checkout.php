@@ -70,8 +70,9 @@ class RedshopControllerCheckout extends RedshopController
 	public function checkoutnext()
 	{
 		$app     = JFactory::getApplication();
+		$input   = $app->input;
 		$session = JFactory::getSession();
-		$post    = JRequest::get('post');
+		$post    = $input->post->getArray();
 		$user    = JFactory::getUser();
 		$cart    = $session->get('cart');
 
@@ -79,7 +80,7 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			if (count($post['extrafields0']) > 0 && count($post['extrafields']) > 0)
 			{
-				for ($r = 0; $r < count($post['extrafields']); $r++)
+				for ($r = 0, $countExtrafield = count($post['extrafieldstra']); $r < $countExtrafield; $r++)
 				{
 					$post['extrafields_values'][$post['extrafields'][$r]] = $post['extrafields0'][$r];
 				}
@@ -89,9 +90,10 @@ class RedshopControllerCheckout extends RedshopController
 			}
 		}
 
-		$Itemid        = JRequest::getInt('Itemid');
-		$users_info_id = JRequest::getInt('users_info_id');
-		$rs_user = $session->get('rs_user');
+		$Itemid        = $input->post->getInt('Itemid', 0);
+		$users_info_id = $input->post->getInt('users_info_id', 0);
+		$ccinfo        = $input->post->getString('ccinfo', '');
+		$rs_user       = $session->get('rs_user');
 
 		if ($users_info_id)
 		{
@@ -116,9 +118,6 @@ class RedshopControllerCheckout extends RedshopController
 
 			$app->redirect(JRoute::_($link, false));
 		}
-
-		$Itemid = JRequest::getVar('Itemid');
-		$ccinfo = JRequest::getVar('ccinfo');
 
 		$errormsg = "";
 
@@ -146,13 +145,14 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function updateGLSLocation()
 	{
-		$app = JFactory::getApplication();
+		$app             = JFactory::getApplication();
+		$input           = $app->input;
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = JDispatcher::getInstance();
-		$usersInfoId = $app->input->getInt('users_info_id', 0);
-		$values = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
-		$values->zipcode = $app->input->get('zipcode', '');
-		$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
+		$dispatcher      = JDispatcher::getInstance();
+		$usersInfoId     = $input->getInt('users_info_id', 0);
+		$values          = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
+		$values->zipcode = $input->get('zipcode', '');
+		$ShopResponses   = $dispatcher->trigger('GetNearstParcelShops', array($values));
 
 		if ($ShopResponses && isset($ShopResponses[0]) && $ShopResponses[0])
 		{
@@ -185,8 +185,8 @@ class RedshopControllerCheckout extends RedshopController
 	public function getShippingInformation()
 	{
 		$app = JFactory::getApplication();
-		$jInput = $app->input;
-		$plugin = $jInput->getCmd('plugin', '');
+		$input = $app->input;
+		$plugin = $input->getCmd('plugin', '');
 		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('on' . $plugin . 'AjaxRequest');
@@ -388,7 +388,7 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			if (count($post['extrafields0']) > 0 && count($post['extrafields']) > 0)
 			{
-				for ($r = 0; $r < count($post['extrafields']); $r++)
+				for ($r = 0, $countExtrafield = count($post['extrafields']); $r < $countExtrafield; $r++)
 				{
 					$post['extrafields_values'][$post['extrafields'][$r]] = $post['extrafields0'][$r];
 				}
@@ -558,34 +558,37 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function setcreditcardInfo()
 	{
-		$model             = $this->getModel('checkout');
-		$session           = JFactory::getSession();
-		$payment_method_id = JRequest::getCmd('payment_method_id', '');
-		$errormsg          = "";
-		$paymentmethod     = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
-		$paymentparams     = new JRegistry($paymentmethod[0]->params);
-		$is_creditcard     = $paymentparams->get('is_creditcard', 0);
+		$input           = JFactory::getApplication()->input;
+		$model           = $this->getModel('checkout');
+		$session         = JFactory::getSession();
+		$paymentMethodId = $input->post->getCmd('payment_method_id', '');
+		$paymentMethod   = $this->_order_functions->getPaymentMethodInfo($paymentMethodId);
+		$paymentParams   = new JRegistry($paymentMethod[0]->params);
+		$isCreditcard    = $paymentParams->get('is_creditcard', 0);
 
-		if ($is_creditcard)
+		if (!$isCreditcard)
 		{
-			$ccdata['order_payment_name']         = JRequest::getVar('order_payment_name');
-			$ccdata['creditcard_code']            = JRequest::getVar('creditcard_code');
-			$ccdata['order_payment_number']       = JRequest::getVar('order_payment_number');
-			$ccdata['order_payment_expire_month'] = JRequest::getVar('order_payment_expire_month');
-			$ccdata['order_payment_expire_year']  = JRequest::getVar('order_payment_expire_year');
-			$ccdata['credit_card_code']           = JRequest::getVar('credit_card_code');
-			$ccdata['selectedCardId'] = JFactory::getApplication()->input->getString('selectedCard', '');
-			$session->set('ccdata', $ccdata);
-
-			$validpayment = $model->validatepaymentccinfo();
-
-			if (!$validpayment[0])
-			{
-				$errormsg = $validpayment[1];
-			}
+			return "";
 		}
 
-		return $errormsg;
+		$data                               = array();
+		$data['order_payment_name']         = $input->post->getString('order_payment_name', '');
+		$data['creditcard_code']            = $input->post->getString('creditcard_code', '');
+		$data['order_payment_number']       = $input->post->getString('order_payment_number', '');
+		$data['order_payment_expire_month'] = $input->post->getString('order_payment_expire_month', '');
+		$data['order_payment_expire_year']  = $input->post->getString('order_payment_expire_year', '');
+		$data['credit_card_code']           = $input->post->getString('credit_card_code', '');
+		$data['selectedCardId']             = $input->post->getString('selectedCard', '');
+		$session->set('ccdata', $data);
+
+		$validPayment = $model->validatepaymentccinfo();
+
+		if ($validPayment[0])
+		{
+			return "";
+		}
+
+		return $validPayment[1];
 	}
 
 	/**
@@ -595,10 +598,12 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function oneStepCheckoutProcess()
 	{
-		$session = JFactory::getSession();
-		$rs_user = $session->get('rs_user');
-		$post    = JRequest::get('post');
-		$users_info_id    = $post['users_info_id'];
+		$app           = JFactory::getApplication();
+		$input         = $app->input;
+		$session       = JFactory::getSession();
+		$rs_user       = $session->get('rs_user');
+		$post          = $input->post->getArray();
+		$users_info_id = $post['users_info_id'];
 
 		if ($users_info_id)
 		{
@@ -687,7 +692,7 @@ class RedshopControllerCheckout extends RedshopController
 		$cart_total = $producthelper->getProductFormattedPrice($cart['mod_cart_total']);
 
 		echo eval("?>" . "`_`" . $description . "`_`" . $cart_total . "<?php ");
-		die();
+		$app->close();
 	}
 
 	/**
@@ -717,7 +722,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		ob_clean();
 		echo $creditcard;
-		die();
+		$app->close();
 	}
 
 	/**
@@ -750,7 +755,8 @@ class RedshopControllerCheckout extends RedshopController
 	public function displayshippingextrafield()
 	{
 		ob_clean();
-		$shipping_rate_id    = JRequest::getCmd('shipping_rate_id', '');
+		$app = JFactory::getApplication();
+		$shipping_rate_id    = $app->input->post->getCmd('shipping_rate_id', '');
 		$shippingmethod      = $this->_order_functions->getShippingMethodInfo($shipping_rate_id);
 		$shippingparams      = new JRegistry($shippingmethod[0]->params);
 		$extrafield_shipping = $shippingparams->get('extrafield_shipping', '');
@@ -761,7 +767,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		if (count($extrafield_shipping) > 0)
 		{
-			for ($ui = 0; $ui < count($extrafield_shipping); $ui++)
+			for ($ui = 0, $countExtrafield = count($extrafield_shipping); $ui < $countExtrafield; $ui++)
 			{
 				if ($extrafield_shipping[$ui] != "")
 				{
@@ -772,7 +778,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 
 			echo $extrafield_total . $extrafield_hidden;
-			die();
+			$app->close();
 		}
 	}
 }
