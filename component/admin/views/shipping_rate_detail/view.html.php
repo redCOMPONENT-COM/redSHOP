@@ -103,7 +103,7 @@ class RedshopViewShipping_rate_detail extends RedshopViewAdmin
 			$detail->shipping_rate_on_category, 10, false, true
 		);
 
-		$shoppergroup = $userhelper->getShopperGroupList();
+		$shoppergroup = Redshop\Helper\ShopperGroup::generateList();
 		$detail->shipping_rate_on_shopper_group = explode(',', $detail->shipping_rate_on_shopper_group);
 		$lists['shipping_rate_on_shopper_group'] = JHTML::_('select.genericlist', $shoppergroup, 'shipping_rate_on_shopper_group[]',
 			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->shipping_rate_on_shopper_group

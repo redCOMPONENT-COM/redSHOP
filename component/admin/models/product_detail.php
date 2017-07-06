@@ -4283,7 +4283,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->_db->execute();
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -4301,7 +4301,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (empty($attribute_set_id) && empty($product_id))
 		{
-			exit;
+			return;
 		}
 
 		if ($attribute_id)
@@ -4342,8 +4342,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$this->delete_prop($attributes[$i]->attribute_id, 0);
 			}
 		}
-
-		exit;
 	}
 
 	/**

@@ -1,0 +1,8 @@
+{
+    "name": "redcomponent-com/redshop-pdf-mpdf",
+    "description": "A redSHOP PDF plugin - mPDF",
+    "license": "GPL-2.0+",
+    "require": {
+        "mpdf/mpdf": "^6.1.3"
+    }
+}
