@@ -6,7 +6,7 @@
     "php": ">=5.3.10",
     "doctrine/annotations": "1.2.7",
     "doctrine/inflector": "^1.1",
-    "behat/transliterator": "^1.1"
+    "behat/transliterator": "^1.2"
   },
   "autoload": {
     "psr-4": {
