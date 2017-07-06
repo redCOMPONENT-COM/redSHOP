@@ -427,12 +427,13 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		$priceSort = false;
+		$count = count($this->_product);
 
 		if (strpos($orderBy, "p.product_price ASC") !== false)
 		{
 			$priceSort = true;
 
-			for ($i = 0; $i < count($this->_product); $i++)
+			for ($i = 0; $i < $count; $i++)
 			{
 				$ProductPriceArr                  = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
 				$this->_product[$i]->productPrice = $ProductPriceArr['product_price'];
@@ -445,7 +446,7 @@ class RedshopModelCategory extends RedshopModel
 			$priceSort = true;
 			$sort      = "DESC";
 
-			for ($i = 0; $i < count($this->_product); $i++)
+			for ($i = 0; $i < $count; $i++)
 			{
 				$ProductPriceArr                  = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
 				$this->_product[$i]->productPrice = $ProductPriceArr['product_price'];

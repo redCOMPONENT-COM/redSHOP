@@ -1928,8 +1928,8 @@ class productHelper
 	public function GetdefaultshopperGroupData()
 	{
 		$list           = array();
-		$shopperGroupId = $this->_userhelper->getShopperGroup();
-		$result         = $this->_userhelper->getShopperGroupList($shopperGroupId);
+		$shopperGroupId = RedshopHelperUser::getShopperGroup();
+		$result         = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
 		if (count($result) > 0)
 		{
@@ -2764,14 +2764,16 @@ class productHelper
 
 							if (trim($data_txt) != "")
 							{
-								$resultArr[] = $userfield[$j]->title . " : " . stripslashes($data_txt);
+								$resultArr[] = '<span class="userfield-label"">' . $userfield[$j]->title
+								. ':</span><span class="userfield-value">' . stripslashes($data_txt) . '</span>';
 							}
 						}
 						else
 						{
 							if (trim($userfield[$j]->data_txt) != "")
 							{
-								$resultArr[] = $userfield[$j]->title . " : " . stripslashes($userfield[$j]->data_txt);
+								$resultArr[] = '<span class="userfield-label"">' . $userfield[$j]->title
+								. '</span> : <span class="userfield-value">' . stripslashes($userfield[$j]->data_txt);
 							}
 						}
 					}
@@ -2909,10 +2911,10 @@ class productHelper
 
 						if ($row_data[$j]->title)
 						{
-							$strtitle = $row_data[$j]->title . ' : ';
+							$strtitle = '<span class="product-userfield-title">' . $row_data[$j]->title . ':</span>';
 						}
 
-						$resultArr[] = $strtitle . $cart[$id][$userFieldTag[$i]];
+						$resultArr[] = $strtitle . '<span class="product-userfield-value">' . $cart[$id][$userFieldTag[$i]] . '</span>';
 					}
 				}
 			}
@@ -2945,7 +2947,7 @@ class productHelper
 			{
 				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
 				{
-					$resultArr[] = $main_result->title . " : " . $main_result->data_txt;
+					$resultArr[] = '<span class="product-field-title">' . $main_result->title . ':</span><span class="product-field-value">' . $main_result->data_txt . '</span>';
 				}
 			}
 		}
@@ -2980,7 +2982,7 @@ class productHelper
 			{
 				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
 				{
-					$resultArr[] = $main_result->title . " : " . $main_result->data_txt;
+					$resultArr[] = '<span class="product-order-title">' . $main_result->title . ':</span><span class="product-order-value">' . $main_result->data_txt . '</span>';
 				}
 			}
 		}
@@ -4669,7 +4671,7 @@ class productHelper
 				$default_priceArr  = $this->makeTotalPriceByOprand($product_showprice, $prooprand, $proprice);
 				$product_showprice = $default_priceArr[1];
 
-				for ($i = 0, $in = count($selectedPropertyId); $i < $in; $i++)
+				for ($i = 0, $countProperty = count($selectedPropertyId), $in = $countProperty; $i < $in; $i++)
 				{
 					$subproprice  = array();
 					$subprooprand = array();
@@ -5107,12 +5109,12 @@ class productHelper
 			{
 				$property = $this->getAttibuteProperty(0, 0, $product_id);
 
-				for ($att_j = 0; $att_j < count($property); $att_j++)
+				for ($att_j = 0, $countProperty = count($property); $att_j < $countProperty; $att_j++)
 				{
 					$isSubpropertyStock = false;
 					$sub_property       = $this->getAttibuteSubProperty(0, $property[$att_j]->property_id);
 
-					for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
+					for ($sub_j = 0, $countSubproperty = count($sub_property); $sub_j < $countSubproperty; $sub_j++)
 					{
 						$isSubpropertyStock = $stockroomhelper->isStockExists(
 							$sub_property[$sub_j]->subattribute_color_id,
@@ -5183,12 +5185,13 @@ class productHelper
 				{
 					$property = $this->getAttibuteProperty(0, 0, $product_id);
 
-					for ($att_j = 0; $att_j < count($property); $att_j++)
+					for ($att_j = 0, $countProperty = count($property); $att_j < $countProperty; $att_j++)
 					{
 						$isSubpropertyStock = false;
 						$sub_property       = $this->getAttibuteSubProperty(0, $property[$att_j]->property_id);
+						$countSubproperty   = count($sub_property);
 
-						for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
+						for ($sub_j = 0; $sub_j < $countSubproperty; $sub_j++)
 						{
 							$isSubpropertyStock = $stockroomhelper->isPreorderStockExists(
 								$sub_property[$sub_j]->subattribute_color_id,
@@ -5384,7 +5387,7 @@ class productHelper
 							$subproperty        = $this->getAttibuteSubProperty(0, $selectedPropertyId);
 							$selectedId         = array();
 
-							for ($sp = 0; $sp < count($subproperty); $sp++)
+							for ($sp = 0, $countSubproperty = count($subproperty); $sp < $countSubproperty; $sp++)
 							{
 								if ($subproperty[$sp]->setdefault_selected)
 								{
@@ -6255,6 +6258,11 @@ class productHelper
 						. urldecode($subProperties[0]['subattribute_color_title']) . "</div>";
 				}
 
+				if ($i == 0)
+				{
+					$selectedProperty[$selP++] = $properties[$k]['property_id'];
+				}
+
 				for ($l = 0, $ln = count($subProperties); $l < $ln; $l++)
 				{
 					if ($l == 0)
@@ -6561,7 +6569,7 @@ class productHelper
 
 					$orderSubpropdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
 
-					for ($sp = 0; $sp < count($orderSubpropdata); $sp++)
+					for ($sp = 0, $countSubproperty = count($orderSubpropdata); $sp < $countSubproperty; $sp++)
 					{
 						$subproperty_price = $orderSubpropdata[$sp]->section_price;
 
@@ -6777,64 +6785,22 @@ class productHelper
 			$parent_section_id
 		);
 
-		if (count($ItemAttdata) > 0)
-		{
-			for ($i = 0, $in = count($ItemAttdata); $i < $in; $i++)
-			{
-				$displayattribute .= "<div class='checkout_attribute_title'>"
-					. urldecode($ItemAttdata[$i]->section_name) . "</div>";
-				$propdata = $quotationHelper->getQuotationItemAttributeDetail(
-					$quotation_item_id,
-					$is_accessory,
-					"property",
-					$ItemAttdata[$i]->section_id
-				);
-
-				for ($p = 0, $pn = count($propdata); $p < $pn; $p++)
-				{
-					$displayattribute .= "<div class='checkout_attribute_price'>"
-						. urldecode($propdata[$p]->section_name) . " ";
-
-					if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1))
-					{
-						$propertyOprand       = $propdata[$p]->section_oprand;
-						$propertyPrice        = $this->getProductFormattedPrice($propdata[$p]->section_price);
-						$propertyPriceWithVat = $this->getProductFormattedPrice($propdata[$p]->section_price + $propdata[$p]->section_vat);
-
-						$displayattribute .= "( $propertyOprand $propertyPrice excl. vat / $propertyPriceWithVat)";
-					}
-
-					$displayattribute .= "</div>";
-					$subpropdata = $quotationHelper->getQuotationItemAttributeDetail(
-						$quotation_item_id,
-						$is_accessory,
-						"subproperty",
-						$propdata[$p]->section_id
-					);
-
-					for ($sp = 0; $sp < count($subpropdata); $sp++)
-					{
-						$displayattribute .= "<div class='checkout_subattribute_price'>"
-							. urldecode($subpropdata[$sp]->section_name) . " ";
-
-						if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1))
-						{
-							$subpropertyOprand       = $subpropdata[$sp]->section_oprand;
-							$subpropertyPrice        = $this->getProductFormattedPrice($subpropdata[$sp]->section_price);
-							$subpropertyPriceWithVat = $this->getProductFormattedPrice($subpropdata[$sp]->section_price + $subpropdata[$sp]->section_vat);
-
-							$displayattribute .= "( $subpropertyOprand $subpropertyPrice excl. vat $subpropertyPriceWithVat)";
-						}
-
-						$displayattribute .= "</div>";
-					}
-				}
-			}
-		}
-		else
-		{
-			$displayattribute = $product_attribute;
-		}
+		$displayattribute = RedshopLayoutHelper::render(
+			'product.quotation_attribute',
+			array(
+					'itemAttdata'     => $ItemAttdata,
+					'quotationItemId' => $quotation_item_id,
+					'isAccessory'     => $is_accessory,
+					'quotationStatus' => $quotation_status,
+					'parentSectionId' => $parent_section_id,
+					'stock'           => $stock
+				),
+			'',
+			array(
+					'client'    => 0,
+					'component' => 'com_redshop'
+				)
+		);
 
 		return $displayattribute;
 	}
@@ -7506,12 +7472,14 @@ class productHelper
 			for ($i = 0, $in = count($acc_property_data); $i < $in; $i++)
 			{
 				$acc_property_data1 = explode('##', $acc_property_data[$i]);
+				$countAccessosryProperty = count($acc_property_data1);
 
-				for ($ia = 0; $ia < count($acc_property_data1); $ia++)
+				for ($ia = 0; $ia < $countAccessosryProperty; $ia++)
 				{
 					$acc_property_data2 = explode(',,', $acc_property_data1[$ia]);
+					$countAccessosryProperty2 = count($acc_property_data2);
 
-					for ($ip = 0; $ip < count($acc_property_data2); $ip++)
+					for ($ip = 0; $ip < $countAccessosryProperty2; $ip++)
 					{
 						if ($acc_property_data2[$ip] != "")
 						{
@@ -7529,16 +7497,19 @@ class productHelper
 			for ($i = 0, $in = count($acc_subproperty_data); $i < $in; $i++)
 			{
 				$acc_subproperty_data1 = @explode('##', $acc_subproperty_data[$i]);
+				$countAccessorySubroperty = count($acc_subproperty_data1);
 
-				for ($ia = 0; $ia < count($acc_subproperty_data1); $ia++)
+				for ($ia = 0; $ia < $countAccessorySubroperty; $ia++)
 				{
 					$acc_subproperty_data2 = @explode(',,', $acc_subproperty_data1[$ia]);
+					$countAccessorySubroperty2 = count($acc_subproperty_data2);
 
-					for ($ip = 0; $ip < count($acc_subproperty_data2); $ip++)
+					for ($ip = 0; $ip < $countAccessorySubroperty2; $ip++)
 					{
 						$acc_subproperty_data3 = explode('::', $acc_subproperty_data2[$ip]);
+						$countAccessorySubroperty3 = count($acc_subproperty_data3);
 
-						for ($isp = 0; $isp < count($acc_subproperty_data3); $isp++)
+						for ($isp = 0; $isp < $countAccessorySubroperty3; $isp++)
 						{
 							if ($acc_subproperty_data3[$isp] != "")
 							{
@@ -7564,11 +7535,12 @@ class productHelper
 		{
 			$acc_property_data = explode('##', $data['property_data']);
 
-			for ($ia = 0; $ia < count($acc_property_data); $ia++)
+			for ($ia = 0, $countProperty = count($acc_property_data); $ia < $countProperty; $ia++)
 			{
 				$acc_property_data1 = explode(',,', $acc_property_data[$ia]);
+				$countProperty1 = count($acc_property_data1);
 
-				for ($ip = 0; $ip < count($acc_property_data1); $ip++)
+				for ($ip = 0; $ip < $countProperty1; $ip++)
 				{
 					if ($acc_property_data1[$ip] != "")
 					{
@@ -7581,16 +7553,19 @@ class productHelper
 		if (!empty($data['subproperty_data']))
 		{
 			$acc_subproperty_data = explode('##', $data['subproperty_data']);
+			$countSubproperty = count($acc_subproperty_data);
 
-			for ($ia = 0; $ia < count($acc_property_data); $ia++)
+			for ($ia = 0; $ia < $countSubproperty; $ia++)
 			{
 				$acc_subproperty_data1 = @explode('::', $acc_subproperty_data[$ia]);
+				$countSubproperty1 = count($acc_subproperty_data1);
 
-				for ($ip = 0; $ip < count($acc_subproperty_data1); $ip++)
+				for ($ip = 0; $ip < $countSubproperty1; $ip++)
 				{
 					$acc_subproperty_data2 = explode(',,', $acc_subproperty_data1[$ip]);
+					$countSubproperty2 = count($acc_subproperty_data2);
 
-					for ($isp = 0; $isp < count($acc_subproperty_data2); $isp++)
+					for ($isp = 0; $isp < $countSubproperty2; $isp++)
 					{
 						if ($acc_subproperty_data2[$isp] != "")
 						{
@@ -7657,7 +7632,7 @@ class productHelper
 					$subproperty       = $this->getAttibuteSubProperty(0, $selectedId[$i]);
 					$selectedId        = array();
 
-					for ($sp = 0; $sp < count($subproperty); $sp++)
+					for ($sp = 0, $countSubproperty = count($subproperty); $sp < $countSubproperty; $sp++)
 					{
 						if ($subproperty[$sp]->setdefault_selected)
 						{
