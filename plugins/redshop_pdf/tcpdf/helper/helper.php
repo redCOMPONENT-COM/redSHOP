@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Load tcPDF library
-JLoader::import('tcpdf', __DIR__ . '/tcpdf');
+require_once __DIR__ . '/vendor/autoload.php';
 
 /**
  * Extends TCPDF

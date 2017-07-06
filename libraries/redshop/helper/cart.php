@@ -757,7 +757,7 @@ abstract class RedshopHelperCart
 		if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1 && $ajax == 1)
 		{
 			echo "`" . $carts[0] . "`" . $text;
-			exit;
+			JFactory::getApplication()->close();
 		}
 
 		return $cartOutput;
