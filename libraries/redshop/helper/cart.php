@@ -908,4 +908,47 @@ abstract class RedshopHelperCart
 
 		return true;
 	}
+
+	/**
+	 * Empty and delete current cart
+	 *
+	 * @return   boolean
+	 *
+	 * @since    2.0.6
+	 */
+	public static function emptyCart ()
+	{
+		$session         = JFactory::getSession();
+
+		$cart = $session->get('cart');
+		unset($cart);
+		setcookie("redSHOPcart", "", time() - 3600, "/");
+		$cart['idx'] = 0;
+		$session->set('cart', $cart);
+		return RedshopHelperStockroom::deleteCartAfterEmpty();
+	}
+
+	/**
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.6
+	 */
+	public static function getCart()
+	{
+		$session = JFactory::getSession();
+		return $session->get('cart');
+	}
+
+	/**
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	public static function setCart($cart)
+	{
+		$session = JFactory::getSession();
+		$session->set('cart', $cart);
+	}
 }
