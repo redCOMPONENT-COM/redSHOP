@@ -1140,5 +1140,5 @@ echo eval("?>" . $template_desc . "<?php ");
 
 if ($slide)
 {
-	exit;
+	JFactory::getApplication()->close();
 }
