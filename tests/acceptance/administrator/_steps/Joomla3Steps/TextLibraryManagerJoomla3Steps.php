@@ -128,7 +128,7 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		else
 		{
 			$I->click(['css' => "a[data-original-title='Publish Item']"], 0);
-			$I->waitForText('Text Library Detail Published', 60, ['id' => 'system-message-container']);
+			$I->waitForText('Text Library Detail Published Successfully', 60, ['id' => 'system-message-container']);
 		}
 	}
 
@@ -152,7 +152,7 @@ class TextLibraryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText('Text Library Management', 60, ['css' => 'h1']);
 		$I->click(['css' => "input[name='checkall-toggle']"]);
 		$I->click('Delete');
-		$I->waitForText('Text Library Detail Deleted', 60, ['id' => 'system-message-container']);
+		$I->waitForText('Text Library Detail Deleted Successfully', 60, ['id' => 'system-message-container']);
 		$I->dontSeeElement(['link' => $verifyName]);
 	}
 }

@@ -83,8 +83,8 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click("Delete");
 		$I->acceptPopup();
-		$I->waitForText("1 item deleted", 60, '.alert-success');
-		$I->see("1 item deleted", '.alert-success');
+		$I->waitForText("1 item successfully deleted", 60, '.alert-success');
+		$I->see("1 item successfully deleted", '.alert-success');
 		$I->fillField($this->searchField, $supplierName);
 		$I->pressKey($this->searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->dontSee($supplierName, $this->supplierResultRow);
