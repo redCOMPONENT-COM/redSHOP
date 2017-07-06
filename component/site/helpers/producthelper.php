@@ -7281,34 +7281,32 @@ class productHelper
 		return $finalAvgReviewData;
 	}
 
-	public function getProductReviewList($product_id)
+	public function getProductReviewList($productId)
 	{
 		// Initialize variables.
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$db = JFactory::getDbo();
 
 		// Create the base select statement.
-		$query->select('pr.*')
+		$query = $db->getQuery(true)
+			->select('pr.*')
+			->select($db->qn('ui.firstname'))
+			->select($db->qn('ui.lastname'))
 			->from($db->qn('#__redshop_product_rating', 'pr'))
-			->where($db->qn('pr.product_id') . ' = ' . (int) $product_id)
-			->where($db->qn('pr.published') . ' = 1')
-			->where($db->qn('pr.email') . ' != ' . $db->q(''))
-			->order($db->qn('pr.favoured') . ' DESC');
-
-		$query->select('ui.firstname,ui.lastname')
 			->leftjoin(
 				$db->qn('#__redshop_users_info', 'ui')
 				. ' ON '
 				. $db->qn('ui.user_id') . '=' . $db->qn('pr.userid')
 				. ' AND ' . $db->qn('ui.address_type') . '=' . $db->q('BT')
-			);
-
-		// Set the query and load the result.
-		$db->setQuery($query);
+			)
+			->where($db->qn('pr.product_id') . ' = ' . (int) $productId)
+			->where($db->qn('pr.published') . ' = 1')
+			->where($db->qn('pr.email') . ' != ' . $db->q(''))
+			->order($db->qn('pr.favoured') . ' DESC')
+			->group($db->qn('pr.rating_id'));
 
 		try
 		{
-			$reviews = $db->loadObjectList();
+			$reviews = $db->setQuery($query)->loadObjectList();
 		}
 		catch (RuntimeException $e)
 		{
