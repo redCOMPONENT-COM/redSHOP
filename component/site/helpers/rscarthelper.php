@@ -3556,7 +3556,9 @@ class rsCarthelper
 
 						if (count($extrafield_payment) > 0)
 						{
-							for ($ui = 0; $ui < count($extrafield_payment); $ui++)
+							$countExtrafield = count($extrafield_payment);
+
+							for ($ui = 0; $ui < $countExtrafield; $ui++)
 							{
 								$productUserFields = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
 								$extrafield_total .= $productUserFields[0] . " " . $productUserFields[1] . "<br>";
@@ -5894,8 +5896,9 @@ class rsCarthelper
 					if ($acc_attribute_data[$i] != "")
 					{
 						$acc_attribute_data = explode('##', $acc_attribute_data[$i]);
+						$countAccessoryAttribute = count($acc_attribute_data);
 
-						for ($ia = 0; $ia < count($acc_attribute_data); $ia++)
+						for ($ia = 0; $ia < $countAccessoryAttribute; $ia++)
 						{
 							$accPropertyCart                         = array();
 							$attribute                               = $this->_producthelper->getProductAttribute(0, 0, $acc_attribute_data[$ia]);
@@ -5910,8 +5913,9 @@ class rsCarthelper
 								if (isset($acc_property_data[$ia]) && $acc_property_data[$ia] != "")
 								{
 									$acc_property_data = explode(',,', $acc_property_data[$ia]);
+									$countAccessoryProperty = count($acc_property_data);
 
-									for ($ip = 0; $ip < count($acc_property_data); $ip++)
+									for ($ip = 0; $ip < $countAccessoryProperty; $ip++)
 									{
 										$accSubpropertyCart = array();
 										$property_price     = 0;
@@ -5942,8 +5946,9 @@ class rsCarthelper
 											if (isset($acc_subproperty_data[$ip]) && $acc_subproperty_data[$ip] != "")
 											{
 												$acc_subproperty_data = explode('::', $acc_subproperty_data[$ip]);
+												$countAccessorySubproperty = count($acc_subproperty_data);
 
-												for ($isp = 0; $isp < count($acc_subproperty_data); $isp++)
+												for ($isp = 0; $isp < $countAccessorySubproperty; $isp++)
 												{
 													$subproperty_price = 0;
 													$subproperty       = $this->_producthelper->getAttibuteSubProperty($acc_subproperty_data[$isp]);
@@ -5992,7 +5997,7 @@ class rsCarthelper
 					{
 						$requied_attributeArr = array();
 
-						for ($re = 0; $re < count($req_attribute); $re++)
+						for ($re = 0, $countAttribute = count($req_attribute); $re < $countAttribute; $re++)
 						{
 							$requied_attributeArr[$re] = urldecode($req_attribute[$re]->attribute_name);
 						}
@@ -6092,7 +6097,9 @@ class rsCarthelper
 
 		if ($data['attribute_data'] != "" && $data['attribute_data'] != 0)
 		{
-			for ($ia = 0; $ia < count($attribute_data); $ia++)
+			$countAttribute = count($attribute_data);
+
+			for ($ia = 0; $ia < $countAttribute; $ia++)
 			{
 				$prooprand                                    = array();
 				$proprice                                     = array();
@@ -6106,8 +6113,9 @@ class rsCarthelper
 					if (isset($acc_property_data[$ia]) && $acc_property_data[$ia] != "")
 					{
 						$accessoriesPropertiesData = explode(',,', $acc_property_data[$ia]);
+						$countProperty = count($accessoriesPropertiesData);
 
-						for ($ip = 0; $ip < count($accessoriesPropertiesData); $ip++)
+						for ($ip = 0; $ip < $countProperty; $ip++)
 						{
 							$accSubpropertyCart = array();
 							$property_price     = 0;
@@ -6138,8 +6146,9 @@ class rsCarthelper
 								if (isset($subPropertiesData[$ip]) && $subPropertiesData[$ip] != "")
 								{
 									$subSubPropertyData = explode('::', $subPropertiesData[$ip]);
+									$countSubproperty = count($subSubPropertyData);
 
-									for ($isp = 0; $isp < count($subSubPropertyData); $isp++)
+									for ($isp = 0; $isp < $countSubproperty; $isp++)
 									{
 										$subproperty_price = 0;
 										$subproperty       = $this->_producthelper->getAttibuteSubProperty($subSubPropertyData[$isp]);
@@ -6275,7 +6284,7 @@ class rsCarthelper
 
 				$orderSubpropdata = $this->_order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
 
-				for ($sp = 0; $sp < count($orderSubpropdata); $sp++)
+				for ($sp = 0, $countSubproperty = count($orderSubpropdata); $sp < $countSubproperty; $sp++)
 				{
 					$subproperty_price = 0;
 					$subproperty       = $this->_producthelper->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
@@ -6602,7 +6611,7 @@ class rsCarthelper
 			{
 				$pdcextradatas = $this->getDiscountCalcDataExtra($pdcextraid);
 
-				for ($pdc = 0; $pdc < count($pdcextradatas); $pdc++)
+				for ($pdc = 0, $countExtrafield = count($pdcextradatas); $pdc < $countExtrafield; $pdc++)
 				{
 					$pdcextradata = $pdcextradatas[$pdc];
 					$option_name  = $pdcextradata->option_name;
@@ -6833,7 +6842,7 @@ class rsCarthelper
 			{
 				$requied_attributeArr = array();
 
-				for ($re = 0; $re < count($req_attribute); $re++)
+				for ($re = 0, $countAttribute = count($req_attribute); $re < $countAttribute; $re++)
 				{
 					$requied_attributeArr[$re] = urldecode($req_attribute[$re]->attribute_name);
 				}
@@ -6871,7 +6880,7 @@ class rsCarthelper
 			{
 				$requied_subattributeArr = array();
 
-				for ($re1 = 0; $re1 < count($req_property); $re1++)
+				for ($re1 = 0, $countProperty = count($req_property); $re1 < $countProperty; $re1++)
 				{
 					$requied_subattributeArr[$re1] = urldecode($req_property[$re1]->property_name);
 				}

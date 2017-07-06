@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d29ee8641828ecbbec6c3af39784181c",
+    "content-hash": "b57bb692c0595965f25ede3a3d6840fb",
     "packages": [
         {
             "name": "consolibyte/quickbooks",

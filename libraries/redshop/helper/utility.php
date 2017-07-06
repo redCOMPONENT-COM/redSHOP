@@ -252,7 +252,7 @@ class RedshopHelperUtility
 		$user           = JFactory::getUser();
 		$userHelper     = rsUserHelper::getInstance();
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
-		$shopperGroups  = $userHelper->getShopperGroupList($shopperGroupId);
+		$shopperGroups  = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
 		if (empty($shopperGroups))
 		{
@@ -279,9 +279,8 @@ class RedshopHelperUtility
 	protected static function getCatalog()
 	{
 		$user           = JFactory::getUser();
-		$userHelper     = rsUserHelper::getInstance();
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
-		$shopperGroup   = $userHelper->getShopperGroupList($shopperGroupId);
+		$shopperGroup   = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
 		if (empty($shopperGroups))
 		{
