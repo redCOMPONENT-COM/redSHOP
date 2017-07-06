@@ -7448,7 +7448,7 @@ class productHelper
 		$selectedAccessory    = array();
 		$selectedAccessoryQua = array();
 		$selectedProperty     = array();
-		$selectedsubproperty  = array();
+		$selectedSubproperty  = array();
 
 		if (!empty($data['accessory_data']))
 		{
@@ -7469,12 +7469,12 @@ class productHelper
 
 		if (!empty($data['acc_property_data']))
 		{
-			$acc_property_data = explode('@@', $data['acc_property_data']);
+			$accessoryPropertyData = explode('@@', $data['acc_property_data']);
 
-			for ($i = 0, $in = count($acc_property_data); $i < $in; $i++)
+			for ($i = 0, $in = count($accessoryPropertyData); $i < $in; $i++)
 			{
-				$acc_property_data1 = explode('##', $acc_property_data[$i]);
-				$countAccessoryProperty = count($acc_property_data1);
+				$accessoryPropertyData1 = explode('##', $accessoryPropertyData[$i]);
+				$countAccessoryProperty = count($accessoryPropertyData1);
 
 				if ($countAccessoryProperty == 0)
 				{
@@ -7483,8 +7483,8 @@ class productHelper
 
 				for ($ia = 0; $ia < $countAccessoryProperty; $ia++)
 				{
-					$acc_property_data2 = explode(',,', $acc_property_data1[$ia]);
-					$countAccessoryProperty2 = count($acc_property_data2);
+					$accessoryPropertyData2 = explode(',,', $accessoryPropertyData1[$ia]);
+					$countAccessoryProperty2 = count($accessoryPropertyData2);
 
 					if ($countAccessoryProperty2 == 0)
 					{
@@ -7493,12 +7493,12 @@ class productHelper
 
 					for ($ip = 0; $ip < $countAccessoryProperty2; $ip++)
 					{
-						if ($acc_property_data2[$ip] == "")
+						if ($accessoryPropertyData2[$ip] == "")
 						{
 							continue;
 						}
 
-						$selectedProperty[] = $acc_property_data2[$ip];
+						$selectedProperty[] = $accessoryPropertyData2[$ip];
 					}
 				}
 			}
@@ -7506,12 +7506,12 @@ class productHelper
 
 		if (!empty($data['acc_subproperty_data']))
 		{
-			$acc_subproperty_data = explode('@@', $data['acc_subproperty_data']);
+			$accessorySubpropertyData = explode('@@', $data['acc_subproperty_data']);
 
-			for ($i = 0, $in = count($acc_subproperty_data); $i < $in; $i++)
+			for ($i = 0, $in = count($accessorySubpropertyData); $i < $in; $i++)
 			{
-				$acc_subproperty_data1 = explode('##', $acc_subproperty_data[$i]);
-				$countAccessorySubroperty = count($acc_subproperty_data1);
+				$accessorySubpropertyData1 = explode('##', $accessorySubpropertyData[$i]);
+				$countAccessorySubroperty = count($accessorySubpropertyData1);
 
 				if ($countAccessorySubroperty == 0)
 				{
@@ -7520,8 +7520,8 @@ class productHelper
 
 				for ($ia = 0; $ia < $countAccessorySubroperty; $ia++)
 				{
-					$acc_subproperty_data2 = explode(',,', $acc_subproperty_data1[$ia]);
-					$countAccessorySubroperty2 = count($acc_subproperty_data2);
+					$accessorySubpropertyData2 = explode(',,', $accessorySubpropertyData1[$ia]);
+					$countAccessorySubroperty2 = count($accessorySubpropertyData2);
 
 					if ($countAccessorySubroperty2 == 0)
 					{
@@ -7530,8 +7530,8 @@ class productHelper
 
 					for ($ip = 0; $ip < $countAccessorySubroperty2; $ip++)
 					{
-						$acc_subproperty_data3 = explode('::', $acc_subproperty_data2[$ip]);
-						$countAccessorySubroperty3 = count($acc_subproperty_data3);
+						$accessorySubpropertyData3 = explode('::', $accessorySubpropertyData2[$ip]);
+						$countAccessorySubroperty3 = count($accessorySubpropertyData3);
 
 						if ($countAccessorySubroperty3 == 0)
 						{
@@ -7540,19 +7540,19 @@ class productHelper
 
 						for ($isp = 0; $isp < $countAccessorySubroperty3; $isp++)
 						{
-							if ($acc_subproperty_data3[$isp] == "")
+							if ($accessorySubpropertyData3[$isp] == "")
 							{
 								continue;
 							}
 
-							$selectedsubproperty[] = $acc_subproperty_data3[$isp];
+							$selectedSubproperty[] = $accessorySubpropertyData3[$isp];
 						}
 					}
 				}
 			}
 		}
 
-		return array($selectedAccessory, $selectedProperty, $selectedsubproperty, $selectedAccessoryQua);
+		return array($selectedAccessory, $selectedProperty, $selectedSubproperty, $selectedAccessoryQua);
 	}
 
 	public function getSelectedAttributeArray($data = array())
