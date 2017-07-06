@@ -108,4 +108,47 @@ class RedshopHelperNewsletter
 
 		return true;
 	}
+
+	/**
+	 * Method for un-subscribe email from newsletter
+	 *
+	 * @param   string  $email  Email
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function removeSubscribe($email = "")
+	{
+		$db   = JFactory::getDbo();
+		$user = JFactory::getUser();
+
+		// Skip if user is guest and empty email.
+		if (empty($email) && $user->guest)
+		{
+			return true;
+		}
+
+		$query = $db->getQuery(true)
+			->delete($db->qn('#__redshop_newsletter_subscription'));
+
+		if (!$user->guest)
+		{
+			$email = $user->email;
+			$query->where($db->qn('user_id') . ' = ' . $user->id);
+		}
+
+		$query->where($db->qn('email') . ' = ' . $db->quote($email));
+
+		if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') != '')
+		{
+			$query->where($db->qn('newsletter_id') . ' = ' . $db->quote(Redshop::getConfig()->get('DEFAULT_NEWSLETTER')));
+		}
+
+		$db->setQuery($query)->execute();
+
+		RedshopHelperMail::sendNewsletterCancellationMail($email);
+
+		return true;
+	}
 }
