@@ -131,8 +131,8 @@ class TemplateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\TemplateManagerJoomla3Page::$selectFirst);
 		$I->click("Delete");
 		$I->acceptPopup();
-		$I->waitForText("1 item deleted", 60, '.alert-success');
-		$I->see("1 item deleted", '.alert-success');
+		$I->waitForText("1 item successfully deleted", 60, '.alert-success');
+		$I->see("1 item successfully deleted", '.alert-success');
 		$I->fillField(\TemplateManagerJoomla3Page::$filter, $templateName);
 		$I->pressKey(\TemplateManagerJoomla3Page::$filter, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->dontSee($templateName, \TemplateManagerJoomla3Page::$firstResultRow);

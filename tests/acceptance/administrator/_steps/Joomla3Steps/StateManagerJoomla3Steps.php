@@ -90,7 +90,7 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($stateName, \StateManagerJ3Page::$stateResultRow);
 		$I->click(\StateManagerJ3Page::$checkAll);
 		$I->click('Delete');
-		$I->see('1 item deleted', '.alert-success');
+		$I->see('1 item successfully deleted', '.alert-success');
 		$I->amOnPage(\StateManagerJ3Page::$URL);
 		$I->click(\StateManagerJ3Page::$searchButton);
 		$I->dontSee($stateName, \StateManagerJ3Page::$stateResultRow);
