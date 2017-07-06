@@ -510,7 +510,7 @@ class RedshopControllerCart extends RedshopController
 		ob_clean();
 		$get = JRequest::get('GET');
 		$this->_carthelper->discountCalculator($get);
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -550,7 +550,7 @@ class RedshopControllerCart extends RedshopController
 	{
 				$shipping = shipping::getInstance();
 		echo $shipping->getShippingrate_calc();
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -592,7 +592,8 @@ class RedshopControllerCart extends RedshopController
 		<script language="javascript">
 			window.parent.location.href = "<?php echo $link ?>";
 		</script>
-		<?php    exit;
+		<?php
+        JFactory::getApplication()->close();
 	}
 
 	/**

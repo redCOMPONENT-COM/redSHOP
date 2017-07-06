@@ -120,6 +120,6 @@ class PlgRedshop_Vies_Registrationrs_Vies_Registration extends JPlugin
 
 		echo json_encode($result);
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 }
