@@ -930,7 +930,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$child_product_id = $this->input->getInt('child_product_id', null);
 		$model            = $this->getModel('product_detail');
 		$model->removeaccesory($accessory_id, $category_id, $child_product_id);
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
