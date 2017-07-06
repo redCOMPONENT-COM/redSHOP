@@ -18,12 +18,24 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerOrder_detail extends RedshopController
 {
+	/**
+	 * RedshopControllerOrder_detail constructor.
+	 *
+	 * @param   array  $default  Array
+	 *
+	 * @since       1.0
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function edit()
 	{
 		$this->input->set('view', 'order_detail');
@@ -32,16 +44,21 @@ class RedshopControllerOrder_detail extends RedshopController
 		parent::display();
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function save()
 	{
 		$post = $this->input->post->getArray();
 
-		$text_field         = $this->input->post->get('text_field', '', 'raw');
-		$post["text_field"] = $text_field;
+		$textField          = $this->input->post->get('text_field', '', 'raw');
+		$post["text_field"] = $textField;
 
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
-		$post ['order_id'] = $cid [0];
+		$post ['order_id'] = (int) $cid [0];
 
 		$model = $this->getModel('order_detail');
 
@@ -57,6 +74,12 @@ class RedshopControllerOrder_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 * @throws  Exception
+	 */
 	public function remove()
 	{
 		$cid = $this->input->post->get('cid', array(0), 'array');
@@ -77,42 +100,46 @@ class RedshopControllerOrder_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function cancel()
 	{
-
-		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order', JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED'));
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function neworderitem()
 	{
-		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$stockroomhelper    = rsstockroomhelper::getInstance();
-		$post               = $this->input->post->getArray();
-		$tmpl               = "";
+		$post = $this->input->post->getArray();
+		$tmpl = "";
 
 		if (isset($post['tmpl']))
 		{
 			$tmpl = $post['tmpl'];
 		}
 
-
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		$order_item_id = $this->input->post->get('order_item_id', 0);
+		$cid         = $this->input->post->get('cid', array(0), 'array');
+		$orderItemId = $this->input->post->getInt('order_item_id', 0);
 
 		$model = $this->getModel('order_detail');
 
-		$orderItem          = $adminproducthelper->redesignProductItem($post);
+		$orderItem          = RedshopHelperProduct::redesignProductItem($post);
 		$post['order_item'] = $orderItem;
 
-		$product_id    = $orderItem[0]->product_id;
+		$productId     = $orderItem[0]->product_id;
 		$finalquantity = $quantity = $orderItem[0]->quantity;
 
 		// Check product Quantity
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
-			$currentStock = $stockroomhelper->getStockroomTotalAmount($product_id);
+			$currentStock = RedshopHelperStockroom::getStockroomTotalAmount($productId);
 
 			if ($currentStock >= $quantity)
 			{
@@ -126,9 +153,9 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		if ($finalquantity > 0)
 		{
-			if ($model->neworderitem($post, $finalquantity, $order_item_id))
+			if ($model->neworderitem($post, $finalquantity, $orderItemId))
 			{
-				if ($order_item_id == 0)
+				if ($orderItemId == 0)
 				{
 					$msg = JText::_('COM_REDSHOP_ORDER_ITEM_ADDED');
 				}
@@ -139,7 +166,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			}
 			else
 			{
-				if ($order_item_id == 0)
+				if ($orderItemId == 0)
 				{
 					$msg = JText::_('COM_REDSHOP_ERROR_ADDING_ORDER_ITEM');
 				}
@@ -159,13 +186,17 @@ class RedshopControllerOrder_detail extends RedshopController
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
 		}
-
 		else
 		{
 			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 		}
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function delete_item()
 	{
 		$post = $this->input->post->getArray();
@@ -174,8 +205,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		$model = $this->getModel('order_detail');
 
-		$order_functions = order_functions::getInstance();
-		$orderItem       = $order_functions->getOrderItemDetail($cid[0]);
+		$orderItem = RedshopHelperOrder::getOrderItemDetail($cid[0]);
 
 		if (count($orderItem) == 1 && $orderItem[0]->order_item_id == $post['order_item_id'])
 		{
@@ -196,9 +226,14 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_DELETING_ORDER_ITEM');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . (int) $cid[0], $msg);
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function updateItem()
 	{
 		$post = $this->input->post->getArray();
@@ -216,9 +251,14 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_UPDATING_PRICE');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . (int) $cid[0], $msg);
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function update_discount()
 	{
 		$post = $this->input->post->getArray();
@@ -236,7 +276,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_UPDATING_DISCOUNT');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . (int) $cid[0], $msg);
 	}
 
 	public function special_discount()
@@ -256,9 +296,14 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_IN_SPECIAL_DISCOUNT');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . (int) $cid[0], $msg);
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function update_shippingrates()
 	{
 		$post = $this->input->post->getArray();
@@ -276,9 +321,14 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_UPDATING_SHIPPING_RATE');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . (int) $cid[0], $msg);
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function updateShippingAdd()
 	{
 		$post      = $this->input->post->getArray();
@@ -302,15 +352,18 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		?>
         <script type="text/javascript">
-
             window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>'
-
             window.close()
         </script>
 		<?php
 		JFactory::getApplication()->close();
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function updateBillingAdd()
 	{
 		$post = $this->input->post->getArray();
@@ -345,6 +398,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	 * Method for create stock note pdf
 	 *
 	 * @return  void
+	 * @since   1.0
 	 */
 	public function createpdf()
 	{
@@ -364,6 +418,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	 * Method for create stock note pdf
 	 *
 	 * @return  void
+	 * @since   1.0
 	 */
 	public function createpdfstocknote()
 	{
@@ -379,23 +434,26 @@ class RedshopControllerOrder_detail extends RedshopController
 		parent::display();
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function send_downloadmail()
 	{
 		$cid  = $this->input->get->get('cid', array(0), 'array');
 		$tmpl = $this->input->getCmd('tmpl', '');
 
-		$order_functions = new order_functions;
-
 		$msg = JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL');
 
-		if ($order_functions->SendDownload($cid[0]))
+		if (RedshopHelperOrder::sendDownload($cid[0]))
 		{
 			$msg = JText::_('COM_REDSHOP_DOWNLOAD_MAIL_HAS_BEEN_SENT');
 		}
 
 		if ($tmpl)
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . (int) $cid[0] . '&tmpl=' . $tmpl, $msg);
 		}
 		else
 		{
@@ -403,10 +461,14 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function displayProductItemInfo()
 	{
-		$adminproducthelper = RedshopAdminProduct::getInstance();
-		$get                = $this->input->get->getArray();
+		$get = $this->input->get->getArray();
 
 		$product_id = $get['product'];
 		$quantity   = $get['quantity'];
@@ -414,19 +476,23 @@ class RedshopControllerOrder_detail extends RedshopController
 		$user_id    = $get['user_id'];
 		$newprice   = $get['newprice'];
 
-		$response = $adminproducthelper->getProductItemInfo($product_id, $quantity, $unique_id, $user_id, $newprice);
+		$response = RedshopHelperProduct::getProductItemInfo($product_id, $quantity, $unique_id, $user_id, $newprice);
+
 		echo $response;
 		JFactory::getApplication()->close();
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function checkoutnext()
 	{
-		$app     = JFactory::getApplication();
-		$session = JFactory::getSession();
-
-		$redconfig       = Redconfiguration::getInstance();
-		$model           = $this->getModel('order_detail');
-		$order_functions = order_functions::getInstance();
+		$app       = JFactory::getApplication();
+		$session   = JFactory::getSession();
+		$redconfig = Redconfiguration::getInstance();
+		$model     = $this->getModel('order_detail');
 
 		$request = $this->input->getArray();
 
@@ -435,7 +501,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['order_id']);
 		}
 
-		$order = $order_functions->getOrderDetails($request['order_id']);
+		$order = RedshopHelperOrder::getOrderDetails($request['order_id']);
 
 		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
 
@@ -500,7 +566,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$values['order']          = $order;
 
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		$results         = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
 		$paymentResponse = $results[0];
@@ -513,7 +579,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$paymentResponse->order_payment_status_code = 'Paid';
 			$paymentResponse->order_id                  = $request['order_id'];
 
-			$order_functions->changeorderstatus($paymentResponse);
+			RedshopHelperOrder::changeOrderStatus($paymentResponse);
 		}
 
 		// Update order payment table with  credit card details
@@ -524,14 +590,18 @@ class RedshopControllerOrder_detail extends RedshopController
 		$app->redirect($redirect_url, $paymentResponse->message);
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function send_invoicemail()
 	{
-		$redshopMail = redshopMail::getInstance();
 
 		$cid  = $this->input->get->get('cid', array(0), 'array');
 		$tmpl = $this->input->getCmd('tmpl', '');
 
-		if ($redshopMail->sendInvoiceMail($cid[0]))
+		if (RedshopHelperMail::sendInvoiceMai($cid[0]))
 		{
 			$msg = JText::_('COM_REDSHOP_INVOICE_MAIL_HAS_BEEN_SENT');
 		}
@@ -557,12 +627,11 @@ class RedshopControllerOrder_detail extends RedshopController
 	 */
 	public function resendOrderMail()
 	{
-		$redshopMail = redshopMail::getInstance();
 
 		$orderId = $this->input->getInt('orderid');
 		$tmpl    = $this->input->getCmd('tmpl', '');
 
-		if ($redshopMail->sendOrderMail($orderId))
+		if (RedshopHelperMail::sendOrderMail($orderId))
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_SEND_ORDER_MAIL'), 'success');
 		}
