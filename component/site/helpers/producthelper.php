@@ -7282,6 +7282,13 @@ class productHelper
 		return $finalAvgReviewData;
 	}
 
+	/**
+	 * Get Product Review List
+	 *
+	 * @param   int  $productId  Product id
+	 *
+	 * @return object
+	 */
 	public function getProductReviewList($productId)
 	{
 		// Initialize variables.
