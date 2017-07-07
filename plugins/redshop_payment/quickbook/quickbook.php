@@ -10,7 +10,12 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-class plgRedshop_PaymentQuickbook extends JPlugin
+/**
+ * Class PlgRedshop_PaymentQuickbook
+ *
+ * @since  1.5
+ */
+class PlgRedshop_PaymentQuickbook extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -43,7 +48,7 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 		$app = JFactory::getApplication();
 
 		// Include Quickbook Library
-		require_once JPATH_SITE . '/plugins/redshop_payment/quickbook/library/QuickBooks.php';
+		require_once __DIR__ . '/library/vendor/autoload.php';
 
 		$return = new stdClass;
 
@@ -187,7 +192,7 @@ class plgRedshop_PaymentQuickbook extends JPlugin
 		$db  = JFactory::getDbo();
 
 		// Include Quickbook Library
-		require_once JPATH_SITE . '/plugins/redshop_payment/quickbook/library/QuickBooks.php';
+		require_once __DIR__ . '/library/vendor/autoload.php';
 
 		$return = new stdClass;
 

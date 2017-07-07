@@ -797,7 +797,7 @@ class RedshopModelCart extends RedshopModel
 		{
 			$attribute_data = $data['attribute_id_prd_' . $product_id . '_0'];
 
-			for ($ia = 0; $ia < count($attribute_data); $ia++)
+			for ($ia = 0, $countAttribute = count($attribute_data); $ia < $countAttribute; $ia++)
 			{
 				$accPropertyCart                              = array();
 				$attribute                                    = $this->_producthelper->getProductAttribute(0, 0, $attribute_data[$ia]);
@@ -808,7 +808,7 @@ class RedshopModelCart extends RedshopModel
 				{
 					$acc_property_data = $data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]];
 
-					for ($ip = 0; $ip < count($acc_property_data); $ip++)
+					for ($ip = 0, $countProperty = count($acc_property_data); $ip < $countProperty; $ip++)
 					{
 						if ($acc_property_data[$ip] != 0)
 						{
@@ -840,8 +840,9 @@ class RedshopModelCart extends RedshopModel
 							if (isset($data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]]))
 							{
 								$acc_subproperty_data = $data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]];
+								$countSubProperty = count($acc_subproperty_data);
 
-								for ($isp = 0; $isp < count($acc_subproperty_data); $isp++)
+								for ($isp = 0; $isp < $countSubProperty; $isp++)
 								{
 									if ($acc_subproperty_data[$isp] != 0)
 									{
