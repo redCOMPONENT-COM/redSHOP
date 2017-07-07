@@ -1,0 +1,8 @@
+{
+    "name": "redcomponent-com/redshop-payment-braintree",
+    "description": "A redSHOP Payment plugin - BrainTree",
+    "license": "GPL-2.0+",
+    "require": {
+        "braintree/braintree_php": "^3.23"
+    }
+}

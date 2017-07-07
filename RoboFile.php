@@ -17,7 +17,7 @@ require_once 'vendor/autoload.php';
 class RoboFile extends \Robo\Tasks
 {
 	// Load tasks from composer, see composer.json
-	use \redcomponent\robo\loadTasks;
+	use Joomla\Testing\Robo\Tasks\loadTasks;
 
 	/**
 	 * File extension for executables
@@ -53,20 +53,20 @@ class RoboFile extends \Robo\Tasks
 		date_default_timezone_set('UTC');
 	}
 
-	/**
-	 * Hello World example task.
-	 *
-	 * @see  https://github.com/redCOMPONENT-COM/robo/blob/master/src/HelloWorld.php
-	 * @link https://packagist.org/packages/redcomponent/robo
-	 *
-	 * @return object Result
-	 */
-	public function sayHelloWorld()
-	{
-		$result = $this->taskHelloWorld()->run();
-
-		return $result;
-	}
+//	/**
+//	 * Hello World example task.
+//	 *
+//	 * @see  https://github.com/redCOMPONENT-COM/robo/blob/master/src/HelloWorld.php
+//	 * @link https://packagist.org/packages/redcomponent/robo
+//	 *
+//	 * @return object Result
+//	 */
+//	public function sayHelloWorld()
+//	{
+//		$result = $this->taskHelloWorld()->run();
+//
+//		return $result;
+//	}
 
 	/**
 	 * Sends Codeception errors to Slack
@@ -171,9 +171,10 @@ class RoboFile extends \Robo\Tasks
 		}
 		else
 		{
-			$this->runSelenium();
-
-			$this->taskWaitForSeleniumStandaloneServer()
+			$this->taskSeleniumStandaloneServer()
+				->setURL("http://localhost:4444")
+				->runSelenium()
+				->waitForSelenium()
 				->run()
 				->stopOnFail();
 		}
@@ -272,18 +273,21 @@ class RoboFile extends \Robo\Tasks
 
 		$this->taskComposerInstall()->run();
 
-		$this->runSelenium();
+//		$this->runSelenium();
 
-		$this->taskWaitForSeleniumStandaloneServer()
+		$this->taskSeleniumStandaloneServer()
+			->setURL("http://localhost:4444")
+			->runSelenium()
+			->waitForSelenium()
 			->run()
 			->stopOnFail();
 
-		// Make sure to Run the Build Command to Generate AcceptanceTester
+		// Make sure to Run the B uild Command to Generate AcceptanceTester
 		$this->_exec("vendor/bin/codecept build");
 
 		$this->taskCodecept()
-			//  ->arg('--steps')
-			//  ->arg('--debug')
+			->arg('--steps')
+			->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/install/')

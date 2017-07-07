@@ -80,7 +80,8 @@ class RedshopControllerQuotation extends RedshopController
 				<script>
 					window.parent.location.href = "<?php echo $link ?>";
 				</script>
-				<?php exit;
+				<?php
+				JFactory::getApplication()->close();
 			}
 
 			$this->setRedirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, $msg);
@@ -131,7 +132,7 @@ class RedshopControllerQuotation extends RedshopController
 				window.parent.location.href = "<?php echo $link ?>";
 			</script>
 			<?php
-			exit;
+			JFactory::getApplication()->close();
 		}
 		else
 		{
