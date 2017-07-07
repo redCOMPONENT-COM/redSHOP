@@ -165,7 +165,6 @@ class RoboFile extends \Robo\Tasks
 
 		$this->taskComposerInstall()->run();
 
-
 		if (isset($opts['suite']) && 'api' === $opts['suite'])
 		{
 			// Do not launch selenium when running API tests
