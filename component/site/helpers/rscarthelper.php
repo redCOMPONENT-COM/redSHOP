@@ -821,6 +821,11 @@ class rsCarthelper
 
 		for ($i = 0; $i < $idx; $i++)
 		{
+			$cart_mdata = $data;
+
+			// Plugin support:  Process the product plugin for cart item
+			$dispatcher->trigger('onCartItemDisplay', array(&$cart_mdata, $cart, $i));
+
 			$quantity = $cart[$i]['quantity'];
 
 			if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
@@ -833,17 +838,17 @@ class rsCarthelper
 
 				$product_name = "<div  class='product_name'><a href='" . $link . "'>" . $giftcardData->giftcard_name . "</a></div>" . $reciverInfo;
 
-				if (strpos($data, "{product_name_nolink}") !== false)
+				if (strpos($cart_mdata, "{product_name_nolink}") !== false)
 				{
 					$product_name_nolink = "<div  class=\"product_name\">" . $giftcardData->giftcard_name . "</div><" . $reciverInfo;
-					$cart_mdata          = str_replace("{product_name_nolink}", $product_name_nolink, $data);
+					$cart_mdata          = str_replace("{product_name_nolink}", $product_name_nolink, $cart_mdata);
 
-					if (strpos($data, "{product_name}") !== false)
+					if (strpos($cart_mdata, "{product_name}") !== false)
 						$cart_mdata = str_replace("{product_name}", "", $cart_mdata);
 				}
 				else
 				{
-					$cart_mdata = str_replace("{product_name}", $product_name, $data);
+					$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
 				}
 
 				$cart_mdata = str_replace("{product_attribute}", '', $cart_mdata);
@@ -935,10 +940,10 @@ class rsCarthelper
 			{
 				$product_id     = $cart[$i]['product_id'];
 				$product        = $this->_producthelper->getProductById($product_id);
-				$retAttArr      = $this->_producthelper->makeAttributeCart($cart [$i] ['cart_attribute'], $product_id, 0, 0, $quantity, $data);
+				$retAttArr      = $this->_producthelper->makeAttributeCart($cart [$i] ['cart_attribute'], $product_id, 0, 0, $quantity, $cart_mdata);
 				$cart_attribute = $retAttArr[0];
 
-				$retAccArr      = $this->_producthelper->makeAccessoryCart($cart [$i] ['cart_accessory'], $product_id, $data);
+				$retAccArr      = $this->_producthelper->makeAccessoryCart($cart [$i] ['cart_accessory'], $product_id, $cart_mdata);
 				$cart_accessory = $retAccArr[0];
 
 				$ItemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product_id);
@@ -1004,7 +1009,7 @@ class rsCarthelper
 							$type, $prd_image, Redshop::getConfig()->get('CART_THUMB_WIDTH'), Redshop::getConfig()->get('CART_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_CART_THUMB_IMAGE')
 						);
 
-						$product_image = "<div  class='product_image'><img src='" . $product_cart_img . "'></div>";
+						$product_image = "<div  class='product_image'><a href='" . $link . "'><img src='" . $product_cart_img . "'></a></div>";
 					}
 					else
 					{
@@ -1018,7 +1023,7 @@ class rsCarthelper
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 
-						$product_image = "<div  class='product_image'><img src='" . $thumbUrl . "'></div>";
+						$product_image = "<div  class='product_image'><a href='" . $link . "'><img src='" . $thumbUrl . "'></a></div>";
 					}
 				}
 				else
@@ -1095,20 +1100,18 @@ class rsCarthelper
 					}
 				}
 
-				$cart_mdata = '';
-
-				if (strpos($data, "{product_name_nolink}") !== false)
+				if (strpos($cart_mdata, "{product_name_nolink}") !== false)
 				{
 					$product_name_nolink = "";
 					$product_name_nolink = "<div  class='product_name'>$product->product_name</a></div>";
-					$cart_mdata          = str_replace("{product_name_nolink}", $product_name_nolink, $data);
+					$cart_mdata          = str_replace("{product_name_nolink}", $product_name_nolink, $cart_mdata);
 
-					if (strpos($data, "{product_name}") !== false)
+					if (strpos($cart_mdata, "{product_name}") !== false)
 						$cart_mdata = str_replace("{product_name}", "", $cart_mdata);
 				}
 				else
 				{
-					$cart_mdata = str_replace("{product_name}", $product_name, $data);
+					$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
 				}
 
 				$cart_mdata = str_replace("{product_s_desc}", $product->product_s_desc, $cart_mdata);
@@ -1383,9 +1386,6 @@ class rsCarthelper
 				$cart_mdata = str_replace("{remove_product}", '', $cart_mdata);
 			}
 
-			// Plugin support:  Process the product plugin for cart item
-			$dispatcher->trigger('onCartItemDisplay', array(& $cart_mdata, $cart, $i));
-
 			$cart_tr .= $cart_mdata;
 		}
 
@@ -1410,6 +1410,11 @@ class rsCarthelper
 
 		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
+			$cart_mdata = $data;
+
+			// Process the product plugin for cart item
+			$dispatcher->trigger('onOrderItemDisplay', array(&$cart_mdata, &$rowitem, $i));
+
 			$product_id = $rowitem [$i]->product_id;
 			$quantity   = $rowitem [$i]->product_quantity;
 
@@ -1566,7 +1571,7 @@ class rsCarthelper
 				$wrapper_name  = JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper_name . "(" . $wrapper_price . ")";
 			}
 
-			$cart_mdata = str_replace("{product_name}", $product_name, $data);
+			$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
 
 			$catId = $this->_producthelper->getCategoryProduct($product_id);
 			$res   = $this->_producthelper->getSection("category", $catId);
@@ -1871,9 +1876,6 @@ class rsCarthelper
 				$cart_mdata = str_replace("{download_date_list_lbl}", "", $cart_mdata);
 				$cart_mdata = str_replace("{download_date_list}", "", $cart_mdata);
 			}
-
-			// Process the product plugin for cart item
-			$dispatcher->trigger('onOrderItemDisplay', array(& $cart_mdata, &$rowitem, $i));
 
 			$cart .= $cart_mdata;
 		}
@@ -3541,7 +3543,9 @@ class rsCarthelper
 
 						if (count($extrafield_payment) > 0)
 						{
-							for ($ui = 0; $ui < count($extrafield_payment); $ui++)
+							$countExtrafield = count($extrafield_payment);
+
+							for ($ui = 0; $ui < $countExtrafield; $ui++)
 							{
 								$productUserFields = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
 								$extrafield_total .= $productUserFields[0] . " " . $productUserFields[1] . "<br>";
@@ -5879,8 +5883,9 @@ class rsCarthelper
 					if ($acc_attribute_data[$i] != "")
 					{
 						$acc_attribute_data = explode('##', $acc_attribute_data[$i]);
+						$countAccessoryAttribute = count($acc_attribute_data);
 
-						for ($ia = 0; $ia < count($acc_attribute_data); $ia++)
+						for ($ia = 0; $ia < $countAccessoryAttribute; $ia++)
 						{
 							$accPropertyCart                         = array();
 							$attribute                               = $this->_producthelper->getProductAttribute(0, 0, $acc_attribute_data[$ia]);
@@ -5895,8 +5900,9 @@ class rsCarthelper
 								if (isset($acc_property_data[$ia]) && $acc_property_data[$ia] != "")
 								{
 									$acc_property_data = explode(',,', $acc_property_data[$ia]);
+									$countAccessoryProperty = count($acc_property_data);
 
-									for ($ip = 0; $ip < count($acc_property_data); $ip++)
+									for ($ip = 0; $ip < $countAccessoryProperty; $ip++)
 									{
 										$accSubpropertyCart = array();
 										$property_price     = 0;
@@ -5927,8 +5933,9 @@ class rsCarthelper
 											if (isset($acc_subproperty_data[$ip]) && $acc_subproperty_data[$ip] != "")
 											{
 												$acc_subproperty_data = explode('::', $acc_subproperty_data[$ip]);
+												$countAccessorySubproperty = count($acc_subproperty_data);
 
-												for ($isp = 0; $isp < count($acc_subproperty_data); $isp++)
+												for ($isp = 0; $isp < $countAccessorySubproperty; $isp++)
 												{
 													$subproperty_price = 0;
 													$subproperty       = $this->_producthelper->getAttibuteSubProperty($acc_subproperty_data[$isp]);
@@ -5977,7 +5984,7 @@ class rsCarthelper
 					{
 						$requied_attributeArr = array();
 
-						for ($re = 0; $re < count($req_attribute); $re++)
+						for ($re = 0, $countAttribute = count($req_attribute); $re < $countAttribute; $re++)
 						{
 							$requied_attributeArr[$re] = urldecode($req_attribute[$re]->attribute_name);
 						}
@@ -6071,11 +6078,15 @@ class rsCarthelper
 		$setPropEqual          = true;
 		$setSubpropEqual       = true;
 
+		$attribute_data       = explode('##', $data['attribute_data']);
+		$acc_property_data    = explode('##', $data['property_data']);
+		$acc_subproperty_data = !empty($data['subproperty_data']) ? explode('##', $data['subproperty_data']) : null;
+
 		if ($data['attribute_data'] != "" && $data['attribute_data'] != 0)
 		{
-			$attribute_data = explode('##', $data['attribute_data']);
+			$countAttribute = count($attribute_data);
 
-			for ($ia = 0; $ia < count($attribute_data); $ia++)
+			for ($ia = 0; $ia < $countAttribute; $ia++)
 			{
 				$prooprand                                    = array();
 				$proprice                                     = array();
@@ -6086,18 +6097,17 @@ class rsCarthelper
 
 				if ($attribute[0]->text != "" && ($data['property_data'] != "" || $data['property_data'] != 0))
 				{
-					$acc_property_data = explode('##', $data['property_data']);
-
 					if (isset($acc_property_data[$ia]) && $acc_property_data[$ia] != "")
 					{
-						$acc_property_data = explode(',,', $acc_property_data[$ia]);
+						$accessoriesPropertiesData = explode(',,', $acc_property_data[$ia]);
+						$countProperty = count($accessoriesPropertiesData);
 
-						for ($ip = 0; $ip < count($acc_property_data); $ip++)
+						for ($ip = 0; $ip < $countProperty; $ip++)
 						{
 							$accSubpropertyCart = array();
 							$property_price     = 0;
-							$property           = $this->_producthelper->getAttibuteProperty($acc_property_data[$ip]);
-							$pricelist          = $this->_producthelper->getPropertyPrice($acc_property_data[$ip], $data['quantity'], 'property', $user_id);
+							$property           = $this->_producthelper->getAttibuteProperty($accessoriesPropertiesData[$ip]);
+							$pricelist          = $this->_producthelper->getPropertyPrice($accessoriesPropertiesData[$ip], $data['quantity'], 'property', $user_id);
 
 							if (count($pricelist) > 0)
 							{
@@ -6108,7 +6118,7 @@ class rsCarthelper
 								$property_price = $property[0]->property_price;
 							}
 
-							$accPropertyCart[$ip]['property_id']     = $acc_property_data[$ip];
+							$accPropertyCart[$ip]['property_id']     = $accessoriesPropertiesData[$ip];
 							$accPropertyCart[$ip]['attribute_id']    = $property[0]->attribute_id;
 							$accPropertyCart[$ip]['property_name']   = $property[0]->text;
 							$accPropertyCart[$ip]['property_oprand'] = $property[0]->oprand;
@@ -6116,21 +6126,21 @@ class rsCarthelper
 							$prooprand[$ip]                          = $property[0]->oprand;
 							$proprice[$ip]                           = $property_price;
 
-							if ($data['subproperty_data'] != "" && $data['subproperty_data'] != 0)
+							if (!empty($acc_subproperty_data))
 							{
-								$acc_subproperty_data = @explode('##', $data['subproperty_data']);
-								$acc_subproperty_data = @explode(',,', $acc_subproperty_data[$ia]);
+								$subPropertiesData = @explode(',,', $acc_subproperty_data[$ia]);
 
-								if (isset($acc_subproperty_data[$ip]) && $acc_subproperty_data[$ip] != "")
+								if (isset($subPropertiesData[$ip]) && $subPropertiesData[$ip] != "")
 								{
-									$acc_subproperty_data = explode('::', $acc_subproperty_data[$ip]);
+									$subSubPropertyData = explode('::', $subPropertiesData[$ip]);
+									$countSubproperty = count($subSubPropertyData);
 
-									for ($isp = 0; $isp < count($acc_subproperty_data); $isp++)
+									for ($isp = 0; $isp < $countSubproperty; $isp++)
 									{
 										$subproperty_price = 0;
-										$subproperty       = $this->_producthelper->getAttibuteSubProperty($acc_subproperty_data[$isp]);
+										$subproperty       = $this->_producthelper->getAttibuteSubProperty($subSubPropertyData[$isp]);
 
-										$pricelist = $this->_producthelper->getPropertyPrice($acc_subproperty_data[$isp], $data['quantity'], 'subproperty', $user_id);
+										$pricelist = $this->_producthelper->getPropertyPrice($subSubPropertyData[$isp], $data['quantity'], 'subproperty', $user_id);
 
 										if (count($pricelist) > 0)
 										{
@@ -6141,7 +6151,7 @@ class rsCarthelper
 											$subproperty_price = $subproperty[0]->subattribute_color_price;
 										}
 
-										$accSubpropertyCart[$isp]['subproperty_id']           = $acc_subproperty_data[$isp];
+										$accSubpropertyCart[$isp]['subproperty_id']           = $subSubPropertyData[$isp];
 										$accSubpropertyCart[$isp]['subproperty_name']         = $subproperty[0]->text;
 										$accSubpropertyCart[$isp]['subproperty_oprand']       = $subproperty[0]->oprand;
 										$accSubpropertyCart[$isp]['subattribute_color_title'] = $subproperty[0]->subattribute_color_title;
@@ -6261,7 +6271,7 @@ class rsCarthelper
 
 				$orderSubpropdata = $this->_order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
 
-				for ($sp = 0; $sp < count($orderSubpropdata); $sp++)
+				for ($sp = 0, $countSubproperty = count($orderSubpropdata); $sp < $countSubproperty; $sp++)
 				{
 					$subproperty_price = 0;
 					$subproperty       = $this->_producthelper->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
@@ -6588,7 +6598,7 @@ class rsCarthelper
 			{
 				$pdcextradatas = $this->getDiscountCalcDataExtra($pdcextraid);
 
-				for ($pdc = 0; $pdc < count($pdcextradatas); $pdc++)
+				for ($pdc = 0, $countExtrafield = count($pdcextradatas); $pdc < $countExtrafield; $pdc++)
 				{
 					$pdcextradata = $pdcextradatas[$pdc];
 					$option_name  = $pdcextradata->option_name;
@@ -6819,7 +6829,7 @@ class rsCarthelper
 			{
 				$requied_attributeArr = array();
 
-				for ($re = 0; $re < count($req_attribute); $re++)
+				for ($re = 0, $countAttribute = count($req_attribute); $re < $countAttribute; $re++)
 				{
 					$requied_attributeArr[$re] = urldecode($req_attribute[$re]->attribute_name);
 				}
@@ -6857,7 +6867,7 @@ class rsCarthelper
 			{
 				$requied_subattributeArr = array();
 
-				for ($re1 = 0; $re1 < count($req_property); $re1++)
+				for ($re1 = 0, $countProperty = count($req_property); $re1 < $countProperty; $re1++)
 				{
 					$requied_subattributeArr[$re1] = urldecode($req_property[$re1]->property_name);
 				}
