@@ -3365,7 +3365,7 @@ class rsCarthelper
 							for ($i = 0, $in = count($rate); $i < $in; $i++)
 							{
 								$glsLocation = '';
-								$checke      = '';
+								$checked      = '';
 								$data        .= $template_rate_middle;
 
 								$displayrate = (trim($rate[$i]->rate) > 0) ? " (" . $this->_producthelper->getProductFormattedPrice(trim($rate[$i]->rate)) . " )" : "";
