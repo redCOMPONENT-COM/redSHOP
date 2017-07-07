@@ -1928,8 +1928,8 @@ class productHelper
 	public function GetdefaultshopperGroupData()
 	{
 		$list           = array();
-		$shopperGroupId = $this->_userhelper->getShopperGroup();
-		$result         = $this->_userhelper->getShopperGroupList($shopperGroupId);
+		$shopperGroupId = RedshopHelperUser::getShopperGroup();
+		$result         = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
 		if (count($result) > 0)
 		{
@@ -2081,7 +2081,7 @@ class productHelper
 		$categorylist       = $this->getSection("category", $category_id);
 		$category_parent_id = $this->getParentCategory($category_id);
 
-		if (count($categorylist) > 0)
+		if (count($categorylist) > 0 && $categorylist->parent_id > 0)
 		{
 			$cItemid = RedshopHelperUtility::getCategoryItemid($categorylist->id);
 
@@ -4671,13 +4671,13 @@ class productHelper
 				$default_priceArr  = $this->makeTotalPriceByOprand($product_showprice, $prooprand, $proprice);
 				$product_showprice = $default_priceArr[1];
 
-				for ($i = 0, $in = count($selectedPropertyId); $i < $in; $i++)
+				for ($i = 0, $countProperty = count($selectedPropertyId), $in = $countProperty; $i < $in; $i++)
 				{
 					$subproprice  = array();
 					$subprooprand = array();
 					$subproperty  = $this->getAttibuteSubProperty(0, $selectedPropertyId[$i]);
 
-					for ($sp = 0; $sp < count($subproperty); $sp++)
+					for ($sp = 0, $countSubproperty = count($subproperty); $sp < $countSubproperty; $sp++)
 					{
 						if ($subproperty[$sp]->setdefault_selected)
 						{
@@ -5109,12 +5109,12 @@ class productHelper
 			{
 				$property = $this->getAttibuteProperty(0, 0, $product_id);
 
-				for ($att_j = 0; $att_j < count($property); $att_j++)
+				for ($att_j = 0, $countProperty = count($property); $att_j < $countProperty; $att_j++)
 				{
 					$isSubpropertyStock = false;
 					$sub_property       = $this->getAttibuteSubProperty(0, $property[$att_j]->property_id);
 
-					for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
+					for ($sub_j = 0, $countSubproperty = count($sub_property); $sub_j < $countSubproperty; $sub_j++)
 					{
 						$isSubpropertyStock = $stockroomhelper->isStockExists(
 							$sub_property[$sub_j]->subattribute_color_id,
@@ -5185,12 +5185,13 @@ class productHelper
 				{
 					$property = $this->getAttibuteProperty(0, 0, $product_id);
 
-					for ($att_j = 0; $att_j < count($property); $att_j++)
+					for ($att_j = 0, $countProperty = count($property); $att_j < $countProperty; $att_j++)
 					{
 						$isSubpropertyStock = false;
 						$sub_property       = $this->getAttibuteSubProperty(0, $property[$att_j]->property_id);
+						$countSubproperty   = count($sub_property);
 
-						for ($sub_j = 0; $sub_j < count($sub_property); $sub_j++)
+						for ($sub_j = 0; $sub_j < $countSubproperty; $sub_j++)
 						{
 							$isSubpropertyStock = $stockroomhelper->isPreorderStockExists(
 								$sub_property[$sub_j]->subattribute_color_id,
@@ -5386,7 +5387,7 @@ class productHelper
 							$subproperty        = $this->getAttibuteSubProperty(0, $selectedPropertyId);
 							$selectedId         = array();
 
-							for ($sp = 0; $sp < count($subproperty); $sp++)
+							for ($sp = 0, $countSubproperty = count($subproperty); $sp < $countSubproperty; $sp++)
 							{
 								if ($subproperty[$sp]->setdefault_selected)
 								{
@@ -6568,7 +6569,7 @@ class productHelper
 
 					$orderSubpropdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
 
-					for ($sp = 0; $sp < count($orderSubpropdata); $sp++)
+					for ($sp = 0, $countSubproperty = count($orderSubpropdata); $sp < $countSubproperty; $sp++)
 					{
 						$subproperty_price = $orderSubpropdata[$sp]->section_price;
 
@@ -7445,77 +7446,111 @@ class productHelper
 		$selectedAccessory    = array();
 		$selectedAccessoryQua = array();
 		$selectedProperty     = array();
-		$selectedsubproperty  = array();
+		$selectedSubproperty  = array();
 
-		if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
+		if (!empty($data['accessory_data']))
 		{
-			$accessory_data    = explode("@@", $data['accessory_data']);
-			$acc_quantity_data = explode("@@", $data['acc_quantity_data']);
+			$accessoryData    = explode("@@", $data['accessory_data']);
+			$accQuantityData = explode("@@", $data['acc_quantity_data']);
 
-			for ($i = 0, $in = count($accessory_data); $i < $in; $i++)
+			for ($i = 0, $in = count($accessoryData); $i < $in; $i++)
 			{
-				if ($accessory_data[$i] != "")
+				if (empty($accessoryData[$i]))
 				{
-					$selectedAccessory[]    = $accessory_data[$i];
-					$selectedAccessoryQua[] = $acc_quantity_data[$i];
+					continue;
 				}
+
+				$selectedAccessory[]    = $accessoryData[$i];
+				$selectedAccessoryQua[] = $accQuantityData[$i];
 			}
 		}
 
-		if (isset($data['acc_property_data']) && ($data['acc_property_data'] != "" && $data['acc_property_data'] != 0))
+		if (!empty($data['acc_property_data']))
 		{
-			$acc_property_data = explode('@@', $data['acc_property_data']);
+			$accessoryPropertyData = explode('@@', $data['acc_property_data']);
 
-			for ($i = 0, $in = count($acc_property_data); $i < $in; $i++)
+			for ($i = 0, $in = count($accessoryPropertyData); $i < $in; $i++)
 			{
-				$acc_property_data1 = explode('##', $acc_property_data[$i]);
+				$accessoryPropertyData1 = explode('##', $accessoryPropertyData[$i]);
+				$countAccessoryProperty = count($accessoryPropertyData1);
 
-				for ($ia = 0; $ia < count($acc_property_data1); $ia++)
+				if ($countAccessoryProperty == 0)
 				{
-					$acc_property_data2 = explode(',,', $acc_property_data1[$ia]);
+					continue;
+				}
 
-					for ($ip = 0; $ip < count($acc_property_data2); $ip++)
+				for ($ia = 0; $ia < $countAccessoryProperty; $ia++)
+				{
+					$accessoryPropertyData2 = explode(',,', $accessoryPropertyData1[$ia]);
+					$countAccessoryProperty2 = count($accessoryPropertyData2);
+
+					if ($countAccessoryProperty2 == 0)
 					{
-						if ($acc_property_data2[$ip] != "")
+						continue;
+					}
+
+					for ($ip = 0; $ip < $countAccessoryProperty2; $ip++)
+					{
+						if ($accessoryPropertyData2[$ip] == "")
 						{
-							$selectedProperty[] = $acc_property_data2[$ip];
+							continue;
 						}
+
+						$selectedProperty[] = $accessoryPropertyData2[$ip];
 					}
 				}
 			}
 		}
 
-		if (isset($data['acc_subproperty_data']) && ($data['acc_subproperty_data'] != "" && $data['acc_subproperty_data'] != 0))
+		if (!empty($data['acc_subproperty_data']))
 		{
-			$acc_subproperty_data = explode('@@', $data['acc_subproperty_data']);
+			$accessorySubpropertyData = explode('@@', $data['acc_subproperty_data']);
 
-			for ($i = 0, $in = count($acc_subproperty_data); $i < $in; $i++)
+			for ($i = 0, $in = count($accessorySubpropertyData); $i < $in; $i++)
 			{
-				$acc_subproperty_data1 = @explode('##', $acc_subproperty_data[$i]);
+				$accessorySubpropertyData1 = explode('##', $accessorySubpropertyData[$i]);
+				$countAccessorySubroperty = count($accessorySubpropertyData1);
 
-				for ($ia = 0; $ia < count($acc_subproperty_data1); $ia++)
+				if ($countAccessorySubroperty == 0)
 				{
-					$acc_subproperty_data2 = @explode(',,', $acc_subproperty_data1[$ia]);
+					continue;
+				}
 
-					for ($ip = 0; $ip < count($acc_subproperty_data2); $ip++)
+				for ($ia = 0; $ia < $countAccessorySubroperty; $ia++)
+				{
+					$accessorySubpropertyData2 = explode(',,', $accessorySubpropertyData1[$ia]);
+					$countAccessorySubroperty2 = count($accessorySubpropertyData2);
+
+					if ($countAccessorySubroperty2 == 0)
 					{
-						$acc_subproperty_data3 = explode('::', $acc_subproperty_data2[$ip]);
+						continue;
+					}
 
-						for ($isp = 0; $isp < count($acc_subproperty_data3); $isp++)
+					for ($ip = 0; $ip < $countAccessorySubroperty2; $ip++)
+					{
+						$accessorySubpropertyData3 = explode('::', $accessorySubpropertyData2[$ip]);
+						$countAccessorySubroperty3 = count($accessorySubpropertyData3);
+
+						if ($countAccessorySubroperty3 == 0)
 						{
-							if ($acc_subproperty_data3[$isp] != "")
+							continue;
+						}
+
+						for ($isp = 0; $isp < $countAccessorySubroperty3; $isp++)
+						{
+							if ($accessorySubpropertyData3[$isp] == "")
 							{
-								$selectedsubproperty[] = $acc_subproperty_data3[$isp];
+								continue;
 							}
+
+							$selectedSubproperty[] = $accessorySubpropertyData3[$isp];
 						}
 					}
 				}
 			}
 		}
 
-		$ret = array($selectedAccessory, $selectedProperty, $selectedsubproperty, $selectedAccessoryQua);
-
-		return $ret;
+		return array($selectedAccessory, $selectedProperty, $selectedSubproperty, $selectedAccessoryQua);
 	}
 
 	public function getSelectedAttributeArray($data = array())
@@ -7527,11 +7562,12 @@ class productHelper
 		{
 			$acc_property_data = explode('##', $data['property_data']);
 
-			for ($ia = 0; $ia < count($acc_property_data); $ia++)
+			for ($ia = 0, $countProperty = count($acc_property_data); $ia < $countProperty; $ia++)
 			{
 				$acc_property_data1 = explode(',,', $acc_property_data[$ia]);
+				$countProperty1 = count($acc_property_data1);
 
-				for ($ip = 0; $ip < count($acc_property_data1); $ip++)
+				for ($ip = 0; $ip < $countProperty1; $ip++)
 				{
 					if ($acc_property_data1[$ip] != "")
 					{
@@ -7544,16 +7580,19 @@ class productHelper
 		if (!empty($data['subproperty_data']))
 		{
 			$acc_subproperty_data = explode('##', $data['subproperty_data']);
+			$countSubproperty = count($acc_subproperty_data);
 
-			for ($ia = 0; $ia < count($acc_property_data); $ia++)
+			for ($ia = 0; $ia < $countSubproperty; $ia++)
 			{
 				$acc_subproperty_data1 = @explode('::', $acc_subproperty_data[$ia]);
+				$countSubproperty1 = count($acc_subproperty_data1);
 
-				for ($ip = 0; $ip < count($acc_subproperty_data1); $ip++)
+				for ($ip = 0; $ip < $countSubproperty1; $ip++)
 				{
 					$acc_subproperty_data2 = explode(',,', $acc_subproperty_data1[$ip]);
+					$countSubproperty2 = count($acc_subproperty_data2);
 
-					for ($isp = 0; $isp < count($acc_subproperty_data2); $isp++)
+					for ($isp = 0; $isp < $countSubproperty2; $isp++)
 					{
 						if ($acc_subproperty_data2[$isp] != "")
 						{
@@ -7620,7 +7659,7 @@ class productHelper
 					$subproperty       = $this->getAttibuteSubProperty(0, $selectedId[$i]);
 					$selectedId        = array();
 
-					for ($sp = 0; $sp < count($subproperty); $sp++)
+					for ($sp = 0, $countSubproperty = count($subproperty); $sp < $countSubproperty; $sp++)
 					{
 						if ($subproperty[$sp]->setdefault_selected)
 						{
