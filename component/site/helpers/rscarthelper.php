@@ -1433,7 +1433,7 @@ class rsCarthelper
 				$giftcardData = new stdClass;
 			}
 
-			$dirname = JPATH_COMPONENT_SITE . "/assets/images/orderMergeImages/" . $rowitem [$i]->attribute_image;
+			$dirname = JPath::clean(JPATH_COMPONENT_SITE . "/assets/images/orderMergeImages/" . $rowitem [$i]->attribute_image);
 
 			if (JFile::exists($dirname))
 			{
