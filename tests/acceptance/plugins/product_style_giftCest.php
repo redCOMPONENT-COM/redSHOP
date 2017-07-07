@@ -1,10 +1,7 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: nhung nguyen
- * Date: 7/7/2017
- * Time: 10:19 AM
+ * Codeception install product type gift
  */
 class product_style_giftCest
 {
