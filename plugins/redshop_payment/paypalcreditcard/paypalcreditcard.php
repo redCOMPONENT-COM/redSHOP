@@ -67,7 +67,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		{
 			try
 			{
-				$ccdata = JFactory::getSession()->get('ccdata');
+				$ccdata         = JFactory::getSession()->get('ccdata');
 				$selectedCardId = $ccdata['selectedCardId'];
 
 				if ($selectedCardId != '')
@@ -92,9 +92,9 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			{
 				$return->responsestatus = 'Fail';
 				$return->message        = JText::sprintf(
-											'PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_FAIL',
-											implode('<br />', $this->parsePaypalException($ex))
-										);
+					'PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_PAYMENT_FAIL',
+					implode('<br />', $this->parsePaypalException($ex))
+				);
 				$app->enqueueMessage($return->message, 'error');
 			}
 
@@ -127,12 +127,12 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			$product     = RedshopHelperProduct::getProductById($cartItem['product_id']);
 			$tax         = ($cartItem['product_vat'] < 0) ? 0 : $cartItem['product_vat'];
 			$item        = new Item();
-			$cartItems[] =  $item->setName($product->product_name)
-								->setDescription($product->product_s_desc)
-								->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
-								->setQuantity($cartItem['quantity'])
-								->setTax($tax)
-								->setPrice($cartItem['product_price']);
+			$cartItems[] = $item->setName($product->product_name)
+				->setDescription($product->product_s_desc)
+				->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
+				->setQuantity($cartItem['quantity'])
+				->setTax($tax)
+				->setPrice($cartItem['product_price']);
 		}
 
 		$itemList = new ItemList();
@@ -143,8 +143,8 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		// Additional payment details
 		$details = new Details();
 		$details->setShipping($cart['shipping'])
-				->setTax($cartTax)
-				->setSubtotal($cart['subtotal']);
+			->setTax($cartTax)
+			->setSubtotal($cart['subtotal']);
 
 		// Amount
 		// Lets you specify a payment amount.
@@ -184,11 +184,10 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 			$return->transaction_id = $payment->getId();
 
-			if ('created' == $payment->getState()
-				|| 'approved' == $payment->getState())
+			if ('created' == $payment->getState() || 'approved' == $payment->getState())
 			{
 				$return->responsestatus = 'Success';
-				$return->message = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_AUTHORIZE_SUCCESS');
+				$return->message        = JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_AUTHORIZE_SUCCESS');
 
 				if ('sale' == $payment->getIntent())
 				{
@@ -261,7 +260,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	 */
 	public function onListCreditCards($selectable = false)
 	{
-		$app = JFactory::getApplication();
+		$app    = JFactory::getApplication();
 		$plugin = $app->input->getCmd('plugin');
 
 		if ($this->isAjaxRequest() && 'paypalcreditcard' == $plugin)
@@ -280,22 +279,22 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 		$user = RedshopHelperUser::getUserInformation(JFactory::getUser()->id);
 
-		$apiContext  = $this->loadFramework();
+		$apiContext = $this->loadFramework();
 
-		$html =  RedshopLayoutHelper::render(
-				'cards',
-				array(
-					'apiContext' => $apiContext,
-					'params'    => $this->params,
-					'plugin' => $this,
-					'merchantId' => 'redSHOPPaypalCreditCard',
-					//'externalCardId' => $user->users_info_id,
-					'externalCustomerId' => $user->users_info_id,
-					'creditCardTypes' => $this->creditCardTypes(),
-					'selectable' => $selectable
-				),
-				JPATH_SITE . '/plugins/' . $this->_type . '/' . $this->_name . '/layouts'
-			);
+		$html = RedshopLayoutHelper::render(
+			'cards',
+			array(
+				'apiContext'         => $apiContext,
+				'params'             => $this->params,
+				'plugin'             => $this,
+				'merchantId'         => 'redSHOPPaypalCreditCard',
+				//'externalCardId' => $user->users_info_id,
+				'externalCustomerId' => $user->users_info_id,
+				'creditCardTypes'    => $this->creditCardTypes(),
+				'selectable'         => $selectable
+			),
+			JPATH_SITE . '/plugins/' . $this->_type . '/' . $this->_name . '/layouts'
+		);
 
 		echo $html;
 
@@ -342,8 +341,8 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 		if ($data['cardId'] != '0')
 		{
-			$apiContext  = $this->loadFramework();
-			$card = CreditCard::get($data['cardId'], $apiContext);
+			$apiContext = $this->loadFramework();
+			$card       = CreditCard::get($data['cardId'], $apiContext);
 		}
 		else
 		{
@@ -387,13 +386,13 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			$cardId = $card->getId();
 
 			$html = RedshopLayoutHelper::render(
-							'card',
-							array(
-								'card'            => $card,
-								'creditCardTypes' => $this->creditCardTypes()
-							),
-							JPATH_SITE . '/plugins/' . $this->_type . '/' . $this->_name . '/layouts'
-						);
+				'card',
+				array(
+					'card'            => $card,
+					'creditCardTypes' => $this->creditCardTypes()
+				),
+				JPATH_SITE . '/plugins/' . $this->_type . '/' . $this->_name . '/layouts'
+			);
 
 			$app->enqueueMessage(JText::_('PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD_SAVED'), 'success');
 		}
@@ -419,7 +418,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	 */
 	public function onCreditCardUpdate($data)
 	{
-		$apiContext  = $this->loadFramework();
+		$apiContext = $this->loadFramework();
 
 		list($firstName, $lastName) = explode(" ", $data['cardName']);
 
@@ -515,14 +514,14 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	 */
 	protected function getSystemMessages()
 	{
-		$messages = JFactory::getApplication()->getMessageQueue();
+		$messages           = JFactory::getApplication()->getMessageQueue();
 		$return['messages'] = array();
 
 		if (is_array($messages))
 		{
 			foreach ($messages as $msg)
 			{
-				$msgList = array(
+				$msgList        = array(
 					'msgList' => array(
 						$msg['type'] => array($msg['message'])
 					)
@@ -591,9 +590,9 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		// Initialiase variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->update($db->qn('#__redshop_order_payment'))
-				->set($db->qn('authorize_status') . ' = ' . $db->q($authorizeStatus))
-				->where($db->qn('order_id') . ' = ' . $db->q($orderId));
+			->update($db->qn('#__redshop_order_payment'))
+			->set($db->qn('authorize_status') . ' = ' . $db->q($authorizeStatus))
+			->where($db->qn('order_id') . ' = ' . $db->q($orderId));
 
 		// Set the query and execute the update.
 		$db->setQuery($query)->execute();
@@ -624,8 +623,8 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$app = JFactory::getApplication();
 		$db  = JFactory::getDbo();
 
-		$apiContext       = $this->loadFramework();
-		$payment          = Payment::get($transactionId, $apiContext);
+		$apiContext = $this->loadFramework();
+		$payment    = Payment::get($transactionId, $apiContext);
 
 		if ('sale' == $payment->getIntent())
 		{
@@ -660,9 +659,9 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			{
 				// Update transaction string
 				$query = $db->getQuery(true)
-						->update($db->qn('#__redshop_order_payment'))
-						->set($db->qn('order_payment_trans_id') . ' = ' . $db->q($transactionId))
-						->where($db->qn('order_id') . ' = ' . $db->q($data['order_id']));
+					->update($db->qn('#__redshop_order_payment'))
+					->set($db->qn('order_payment_trans_id') . ' = ' . $db->q($transactionId))
+					->where($db->qn('order_id') . ' = ' . $db->q($data['order_id']));
 
 				// Set the query and execute the update.
 				$db->setQuery($query)->execute();
@@ -698,7 +697,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	{
 		$data = json_decode($ex->getData());
 
-		$errorMessage = array();
+		$errorMessage   = array();
 		$errorMessage[] = $data->name;
 
 		if (isset($data->details))
@@ -763,11 +762,11 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		}
 
 		$paymentInfo = RedshopHelperOrder::getPaymentInfo($orderId);
-		$cardId = $paymentInfo->order_payment_trans_id;
+		$cardId      = $paymentInfo->order_payment_trans_id;
 
-		$apiContext  = $this->loadFramework();
-		$session     = JFactory::getSession();
-		$cart        = $session->get('cart');
+		$apiContext = $this->loadFramework();
+		$session    = JFactory::getSession();
+		$cart       = $session->get('cart');
 
 		$creditCardToken = new CreditCardToken;
 		$creditCardToken->setCreditCardId($cardId);
@@ -782,23 +781,23 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			->setFundingInstruments(array($fi));
 
 		// Itemized information
-		$cartItems = array();
+		$cartItems  = array();
 		$orderItems = order_functions::getInstance()->getOrderItemDetail($orderId);
 
 		for ($i = 0, $n = count($orderItems); $i < $n; $i++)
 		{
-			$orderItem   = $orderItems[$i];
+			$orderItem = $orderItems[$i];
 
 			$tax = ($orderItem->product_item_price - $orderItem->product_item_price_excl_vat);
 			$tax = ($tax < 0) ? 0 : $tax;
 
 			$item        = new Item;
-			$cartItems[] =  $item->setName($orderItem->order_item_name)
-								->setDescription('')
-								->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
-								->setQuantity($orderItem->product_quantity)
-								->setTax()
-								->setPrice($orderItem->product_item_price);
+			$cartItems[] = $item->setName($orderItem->order_item_name)
+				->setDescription('')
+				->setCurrency(Redshop::getConfig()->get('CURRENCY_CODE'))
+				->setQuantity($orderItem->product_quantity)
+				->setTax()
+				->setPrice($orderItem->product_item_price);
 		}
 
 		$itemList = new ItemList;
@@ -809,8 +808,8 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		// Additional payment details
 		$details = new Details;
 		$details->setShipping($orderInfo->order_shipping)
-				->setTax($orderTax)
-				->setSubtotal($orderInfo->order_subtotal);
+			->setTax($orderTax)
+			->setSubtotal($orderInfo->order_subtotal);
 
 		// Amount
 		$amount = new Amount;

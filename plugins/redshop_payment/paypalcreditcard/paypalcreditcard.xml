@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_REDSHOP_PAYMENT_PAYPAL_CREDITCARD</name>
-    <version>1.6.0</version>
+    <version>1.7.0</version>
     <redshop>2.0.0</redshop>
-    <creationDate>Sep 2016</creationDate>
+    <creationDate>July 2017</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
@@ -207,4 +207,6 @@
             </fieldset>
         </fields>
     </config>
+
+    <scriptfile>install.php</scriptfile>
 </extension>
