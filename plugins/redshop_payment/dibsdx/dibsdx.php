@@ -71,7 +71,7 @@ class PlgRedshop_PaymentDibsDx extends JPlugin
 			return;
 		}
 
-		return JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/dibs_hmac.php';
+		require JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/dibs_hmac.php';
 
 		$dibsHmac = new Dibs_Hmac;
 
@@ -90,12 +90,11 @@ class PlgRedshop_PaymentDibsDx extends JPlugin
 		$values  = new stdClass;
 
 		// Calculate the MAC for the form key-values posted from DIBS.
-		if ($request)
+		if (!empty($request))
 		{
-			// Getting the array of post values is done this way to maintain compatibility with J2.5. J3 supports using simply `$post->getArray()`
-			$MAC = $dibsHmac->calculateMac($request->getArray(array_flip(array_keys($_POST))), $hmacKey);
+			$macData = $dibsHmac->calculateMac($request->getArray(), $hmacKey);
 
-			if ($request->getString('MAC') == $MAC && $request->getString('status') == "ACCEPTED")
+			if ($request->getString('MAC') == $macData && $request->getString('status') == "ACCEPTED")
 			{
 				$tid = $request->get('transaction');
 

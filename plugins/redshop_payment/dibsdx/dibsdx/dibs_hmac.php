@@ -20,7 +20,7 @@ class Dibs_Hmac
 	 * This function converts an array holding the form key values to a string.
 	 * The generated string represents the message to be signed by the MAC.
 	 *
-	 * @param   array $formKeyValues Form key values.
+	 * @param   array  $formKeyValues  Form key values.
 	 *
 	 * @return  string
 	 *
@@ -61,7 +61,7 @@ class Dibs_Hmac
 	/**
 	 * This function converts from a hexadecimal representation to a string representation.
 	 *
-	 * @param   string $hex Hexadecimal string.
+	 * @param   string  $hex  Hexadecimal string.
 	 *
 	 * @return  string
 	 *
@@ -83,9 +83,9 @@ class Dibs_Hmac
 	/**
 	 * This function calculates the MAC for an array holding the form key values. The $logfile is optional.
 	 *
-	 * @param   array  $formKeyValues Form key values.
-	 * @param   string $hmacKey       Form key values.
-	 * @param   string $logfile       File path for store log.
+	 * @param   array   $formKeyValues  Form key values.
+	 * @param   string  $hmacKey        Form key values.
+	 * @param   string  $logfile        File path for store log.
 	 *
 	 * @return  string
 	 *
@@ -104,20 +104,22 @@ class Dibs_Hmac
 		// Calculate the MAC.
 		$mac = hash_hmac("sha256", $messageToBeSigned, $this->hexToStr($hmacKey));
 
-		// Following is only relevant if you wan't to log the calculated MAC to a log file.
-		if ($logfile)
+		if (empty($logfile))
 		{
-			$fp = fopen($logfile, 'a') or exit("Can't open $logfile!");
+			return $mac;
+		}
 
-			fwrite(
-				$fp,
-				"messageToBeSigned: " . $messageToBeSigned . PHP_EOL . " HmacKey: " . $hmacKey . PHP_EOL . " generated MAC: " . $mac . PHP_EOL
-			);
+		// Following is only relevant if you wan't to log the calculated MAC to a log file.
+		$fp = fopen($logfile, 'a') or exit("Can't open $logfile!");
 
-			if (isset($formKeyValues["MAC"]) && $formKeyValues["MAC"] != "")
-			{
-				fwrite($fp, " posted MAC:    " . $formKeyValues["MAC"] . PHP_EOL);
-			}
+		fwrite(
+			$fp,
+			"messageToBeSigned: " . $messageToBeSigned . PHP_EOL . " HmacKey: " . $hmacKey . PHP_EOL . " generated MAC: " . $mac . PHP_EOL
+		);
+
+		if (isset($formKeyValues["MAC"]) && $formKeyValues["MAC"] != "")
+		{
+			fwrite($fp, " posted MAC:    " . $formKeyValues["MAC"] . PHP_EOL);
 		}
 
 		return $mac;
