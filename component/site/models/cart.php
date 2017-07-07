@@ -315,7 +315,7 @@ class RedshopModelCart extends RedshopModel
 		$cart          = RedshopHelperCart::getCart();
 		$user          = JFactory::getUser();
 
-		if (!$cart)
+		if (empty($cart))
 		{
 			$cart        = array();
 			$cart['idx'] = 0;
@@ -598,12 +598,7 @@ class RedshopModelCart extends RedshopModel
 		$template              = RedshopHelperTemplate::getTemplate("product", $productTemplate);
 		$product_template_desc = $template[0]->template_desc;
 
-		if (strstr($product_template_desc, "{attribute_template:"))
-		{
-			return true;
-		}
-
-		return false;
+		return strstr($product_template_desc, "{attribute_template:") !== false;
 	}
 
 	/**
