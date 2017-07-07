@@ -125,29 +125,24 @@ class PlgRedshop_PaymentDibsDx extends JPlugin
 	/**
 	 * orderPaymentNotYetUpdated
 	 *
-	 * @param   JDatabase $dbConn   Name element
-	 * @param   int       $order_id Order ID
-	 * @param   int       $tid      Transaction ID
+	 * @param   JDatabase  $dbConn         Name element
+	 * @param   int        $orderId        Order ID
+	 * @param   int        $transactionId  Transaction ID
 	 *
 	 * @return  boolean
 	 */
-	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $orderId, $transactionId)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->qn('#__redshop_order_payment'))
-			->where($db->qn('order_id') . ' = ' . (int) $order_id)
-			->where($db->qn('order_payment_trans_id') . ' = ' . (int) $tid);
+			->where($db->qn('order_id') . ' = ' . (int) $orderId)
+			->where($db->qn('order_payment_trans_id') . ' = ' . (int) $transactionId);
 
 		$orderPayment = $db->setQuery($query)->loadResult();
 
-		if ($orderPayment == 0)
-		{
-			return true;
-		}
-
-		return false;
+		return $orderPayment == 0;
 	}
 
 	/**
