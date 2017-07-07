@@ -2081,7 +2081,7 @@ class productHelper
 		$categorylist       = $this->getSection("category", $category_id);
 		$category_parent_id = $this->getParentCategory($category_id);
 
-		if (count($categorylist) > 0)
+		if (count($categorylist) > 0 && $categorylist->parent_id > 0)
 		{
 			$cItemid = RedshopHelperUtility::getCategoryItemid($categorylist->id);
 
@@ -4677,7 +4677,7 @@ class productHelper
 					$subprooprand = array();
 					$subproperty  = $this->getAttibuteSubProperty(0, $selectedPropertyId[$i]);
 
-					for ($sp = 0; $sp < count($subproperty); $sp++)
+					for ($sp = 0, $countSubproperty = count($subproperty); $sp < $countSubproperty; $sp++)
 					{
 						if ($subproperty[$sp]->setdefault_selected)
 						{
@@ -7448,82 +7448,111 @@ class productHelper
 		$selectedAccessory    = array();
 		$selectedAccessoryQua = array();
 		$selectedProperty     = array();
-		$selectedsubproperty  = array();
+		$selectedSubproperty  = array();
 
-		if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
+		if (!empty($data['accessory_data']))
 		{
-			$accessory_data    = explode("@@", $data['accessory_data']);
-			$acc_quantity_data = explode("@@", $data['acc_quantity_data']);
+			$accessoryData    = explode("@@", $data['accessory_data']);
+			$accQuantityData = explode("@@", $data['acc_quantity_data']);
 
-			for ($i = 0, $in = count($accessory_data); $i < $in; $i++)
+			for ($i = 0, $in = count($accessoryData); $i < $in; $i++)
 			{
-				if ($accessory_data[$i] != "")
+				if (empty($accessoryData[$i]))
 				{
-					$selectedAccessory[]    = $accessory_data[$i];
-					$selectedAccessoryQua[] = $acc_quantity_data[$i];
+					continue;
 				}
+
+				$selectedAccessory[]    = $accessoryData[$i];
+				$selectedAccessoryQua[] = $accQuantityData[$i];
 			}
 		}
 
-		if (isset($data['acc_property_data']) && ($data['acc_property_data'] != "" && $data['acc_property_data'] != 0))
+		if (!empty($data['acc_property_data']))
 		{
-			$acc_property_data = explode('@@', $data['acc_property_data']);
+			$accessoryPropertyData = explode('@@', $data['acc_property_data']);
 
-			for ($i = 0, $in = count($acc_property_data); $i < $in; $i++)
+			for ($i = 0, $in = count($accessoryPropertyData); $i < $in; $i++)
 			{
-				$acc_property_data1 = explode('##', $acc_property_data[$i]);
-				$countAccessosryProperty = count($acc_property_data1);
+				$accessoryPropertyData1 = explode('##', $accessoryPropertyData[$i]);
+				$countAccessoryProperty = count($accessoryPropertyData1);
 
-				for ($ia = 0; $ia < $countAccessosryProperty; $ia++)
+				if ($countAccessoryProperty == 0)
 				{
-					$acc_property_data2 = explode(',,', $acc_property_data1[$ia]);
-					$countAccessosryProperty2 = count($acc_property_data2);
+					continue;
+				}
 
-					for ($ip = 0; $ip < $countAccessosryProperty2; $ip++)
+				for ($ia = 0; $ia < $countAccessoryProperty; $ia++)
+				{
+					$accessoryPropertyData2 = explode(',,', $accessoryPropertyData1[$ia]);
+					$countAccessoryProperty2 = count($accessoryPropertyData2);
+
+					if ($countAccessoryProperty2 == 0)
 					{
-						if ($acc_property_data2[$ip] != "")
+						continue;
+					}
+
+					for ($ip = 0; $ip < $countAccessoryProperty2; $ip++)
+					{
+						if ($accessoryPropertyData2[$ip] == "")
 						{
-							$selectedProperty[] = $acc_property_data2[$ip];
+							continue;
 						}
+
+						$selectedProperty[] = $accessoryPropertyData2[$ip];
 					}
 				}
 			}
 		}
 
-		if (isset($data['acc_subproperty_data']) && ($data['acc_subproperty_data'] != "" && $data['acc_subproperty_data'] != 0))
+		if (!empty($data['acc_subproperty_data']))
 		{
-			$acc_subproperty_data = explode('@@', $data['acc_subproperty_data']);
+			$accessorySubpropertyData = explode('@@', $data['acc_subproperty_data']);
 
-			for ($i = 0, $in = count($acc_subproperty_data); $i < $in; $i++)
+			for ($i = 0, $in = count($accessorySubpropertyData); $i < $in; $i++)
 			{
-				$acc_subproperty_data1 = @explode('##', $acc_subproperty_data[$i]);
-				$countAccessorySubroperty = count($acc_subproperty_data1);
+				$accessorySubpropertyData1 = explode('##', $accessorySubpropertyData[$i]);
+				$countAccessorySubroperty = count($accessorySubpropertyData1);
+
+				if ($countAccessorySubroperty == 0)
+				{
+					continue;
+				}
 
 				for ($ia = 0; $ia < $countAccessorySubroperty; $ia++)
 				{
-					$acc_subproperty_data2 = @explode(',,', $acc_subproperty_data1[$ia]);
-					$countAccessorySubroperty2 = count($acc_subproperty_data2);
+					$accessorySubpropertyData2 = explode(',,', $accessorySubpropertyData1[$ia]);
+					$countAccessorySubroperty2 = count($accessorySubpropertyData2);
+
+					if ($countAccessorySubroperty2 == 0)
+					{
+						continue;
+					}
 
 					for ($ip = 0; $ip < $countAccessorySubroperty2; $ip++)
 					{
-						$acc_subproperty_data3 = explode('::', $acc_subproperty_data2[$ip]);
-						$countAccessorySubroperty3 = count($acc_subproperty_data3);
+						$accessorySubpropertyData3 = explode('::', $accessorySubpropertyData2[$ip]);
+						$countAccessorySubroperty3 = count($accessorySubpropertyData3);
+
+						if ($countAccessorySubroperty3 == 0)
+						{
+							continue;
+						}
 
 						for ($isp = 0; $isp < $countAccessorySubroperty3; $isp++)
 						{
-							if ($acc_subproperty_data3[$isp] != "")
+							if ($accessorySubpropertyData3[$isp] == "")
 							{
-								$selectedsubproperty[] = $acc_subproperty_data3[$isp];
+								continue;
 							}
+
+							$selectedSubproperty[] = $accessorySubpropertyData3[$isp];
 						}
 					}
 				}
 			}
 		}
 
-		$ret = array($selectedAccessory, $selectedProperty, $selectedsubproperty, $selectedAccessoryQua);
-
-		return $ret;
+		return array($selectedAccessory, $selectedProperty, $selectedSubproperty, $selectedAccessoryQua);
 	}
 
 	public function getSelectedAttributeArray($data = array())
