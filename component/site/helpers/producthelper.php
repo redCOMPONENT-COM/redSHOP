@@ -2081,7 +2081,7 @@ class productHelper
 		$categorylist       = $this->getSection("category", $category_id);
 		$category_parent_id = $this->getParentCategory($category_id);
 
-		if (count($categorylist) > 0)
+		if (count($categorylist) > 0 && $categorylist->parent_id > 0)
 		{
 			$cItemid = RedshopHelperUtility::getCategoryItemid($categorylist->id);
 
