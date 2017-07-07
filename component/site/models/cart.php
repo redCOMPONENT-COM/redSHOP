@@ -103,28 +103,33 @@ class RedshopModelCart extends RedshopModel
 		}
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function emptyExpiredCartProducts()
 	{
 		if (Redshop::getConfig()->get('IS_PRODUCT_RESERVE') && Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
-			$session         = JFactory::getSession();
-			$db              = JFactory::getDbo();
-			$session_id      = session_id();
-			$carttimeout     = (int) Redshop::getConfig()->get('CART_TIMEOUT');
-			$time            = time() - ($carttimeout * 60);
+			$session     = JFactory::getSession();
+			$db          = JFactory::getDbo();
+			$query       = $db->getQuery(true);
+			$sessionId   = session_id();
+			$carttimeout = (int) Redshop::getConfig()->get('CART_TIMEOUT');
+			$time        = time() - ($carttimeout * 60);
 
-			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
-				. "WHERE session_id = " . $db->quote($session_id) . " "
-				. "AND section='product' "
-				. "AND time < $time ";
-			$db->setQuery($sql);
-			$deletedrs = $db->loadColumn();
-
-			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
-				. "WHERE session_id = " . $db->quote($session_id) . " "
-				. "AND section='product' ";
-			$db->setQuery($sql);
+			$query->select($db->quoteName('product_id'))
+				->from($db->quoteName('#__redshop_cart'))
+				->where($db->quoteName('session_id') . ' = ' . $db->quote($sessionId))
+				->where($db->quoteName('section') . ' = ' . $db->quote('product'));
+			$db->setQuery($query);
 			$includedrs = $db->loadColumn();
+
+			$query->where($db->quoteName('time') . ' > ' . $db->quote($time));
+
+			$db->setQuery($query);
+			$deletedrs = $db->loadColumn();
 
 			$cart = $session->get('cart');
 
@@ -199,8 +204,8 @@ class RedshopModelCart extends RedshopModel
 	 */
 	public function update($data)
 	{
-		$cart    = RedshopHelperCart::getCart();
-		$user    = JFactory::getUser();
+		$cart = RedshopHelperCart::getCart();
+		$user = JFactory::getUser();
 
 		$cartElement = $data['cart_index'];
 		$newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
@@ -312,8 +317,8 @@ class RedshopModelCart extends RedshopModel
 		$dispatcher    = JEventDispatcher::getInstance();
 		$productHelper = productHelper::getInstance();
 
-		$cart          = RedshopHelperCart::getCart();
-		$user          = JFactory::getUser();
+		$cart = RedshopHelperCart::getCart();
+		$user = JFactory::getUser();
 
 		if (empty($cart))
 		{
@@ -378,7 +383,7 @@ class RedshopModelCart extends RedshopModel
 
 						$discount_cal = $this->_carthelper->discountCalculator($calcdata);
 
-						$calculator_price  = $discount_cal['product_price'];
+						$calculator_price = $discount_cal['product_price'];
 					}
 
 					$dispatcher->trigger('onBeforeCartItemUpdate', array(&$cart, $i, &$calculator_price));
@@ -455,7 +460,7 @@ class RedshopModelCart extends RedshopModel
 	public function delete($cartElement)
 	{
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$cart = RedshopHelperCart::getCart();
+		$cart            = RedshopHelperCart::getCart();
 
 		if (array_key_exists($cartElement, $cart))
 		{
@@ -579,7 +584,7 @@ class RedshopModelCart extends RedshopModel
 	/**
 	 * check if attribute tag is present in product template.
 	 *
-	 * @param   int  $product_id  Product ID
+	 * @param   int $product_id Product ID
 	 *
 	 * @return  boolean
 	 *
@@ -587,7 +592,7 @@ class RedshopModelCart extends RedshopModel
 	 */
 	public function checkifTagAvailable($product_id)
 	{
-		$db          = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('product_template'))
 			->from($db->quoteName('#__redshop_product'))
@@ -776,7 +781,7 @@ class RedshopModelCart extends RedshopModel
 	}
 
 	/**
-	 * @param    array  $data  Data
+	 * @param    array $data Data
 	 *
 	 * @return   array
 	 *
