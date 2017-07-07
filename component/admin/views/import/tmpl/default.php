@@ -123,7 +123,7 @@ foreach ($characterSets as $char => $name)
                             // Update folder var
                             folder = data.result.folder;
                             // Update number of splitted files
-                            itemsCount = Math.round(total / data.result.files);
+                            itemsCount = data.result.files;
                             // Show number of product(s) will import
                             $("#import_count").html(total);
                             // Show process bar
