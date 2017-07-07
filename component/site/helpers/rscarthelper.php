@@ -1392,7 +1392,7 @@ class rsCarthelper
 		return $cart_tr;
 	}
 
-	public function repalceOrderItems($data, $rowitem = array())
+	public function repalceOrderItems($data, $rowitem = array(), $sendMail)
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
@@ -1540,7 +1540,13 @@ class rsCarthelper
 				}
 			}
 
-			$product_name        = "<div class='product_name'><a href='" . $link . "'>" . $product_name . "</a></div>";
+			if (!$sendMail)
+			{
+				$product_name = '<a href="' . $link . '">' . $product_name . '</a>';
+				$attrib_img   = '<a href="' . $link . '">' . $attrib_img . '</a>';
+			}
+
+			$product_name        = "<div class='product_name'>" . $product_name . "</div>";
 			$product_total_price = "<div class='product_price'>";
 
 			if (!$this->_producthelper->getApplyVatOrNot($data))
@@ -1744,7 +1750,7 @@ class rsCarthelper
 
 			$cart_mdata = str_replace(
 				"{product_thumb_image}",
-				"<div class='product_image'><a href='" . $link . "'>" . $attrib_img . "</a></div>",
+				"<div class='product_image'>" . $attrib_img . "</div>",
 				$cart_mdata
 			);
 
@@ -2648,7 +2654,7 @@ class rsCarthelper
 			$template_edata  = explode('{product_loop_end}', $template_sdata[1]);
 			$template_end    = $template_edata[1];
 			$template_middle = $template_edata[0];
-			$cartArr         = $this->repalceOrderItems($template_middle, $orderitem);
+			$cartArr         = $this->repalceOrderItems($template_middle, $orderitem, $sendmail);
 			$ReceiptTemplate = $template_start . $cartArr[0] . $template_end;
 		}
 
