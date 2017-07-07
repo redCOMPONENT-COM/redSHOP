@@ -111,7 +111,7 @@ class RedshopControllerProduct extends RedshopController
 		$seoProductSavingPrice  = $ProductPriceArr['seoProductSavingPrice'] * $quantity;
 
 		echo $product_price . ":" . $product_main_price . ":" . $product_old_price . ":" . $product_price_saving . ":" . $product_discount_price . ":" . $product_price_novat . ":" . $product_price_incl_vat . ":" . $price_excluding_vat . ":" . $seoProductPrice . ":" . $seoProductSavingPrice;
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -152,7 +152,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 
 		echo $response;
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -246,7 +246,7 @@ class RedshopControllerProduct extends RedshopController
 			. "`_`" . $product_availability_date_lbl
 			. "`_`" . $product_availability_date
 			. "`_`" . $additional_vids;
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -433,7 +433,7 @@ class RedshopControllerProduct extends RedshopController
 			}
 
 			echo "<span id='basketWrap' ><a href='index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=" . $Itemid . "&pid=" . $post['product_id'] . "'><img src='" . REDSHOP_FRONT_IMAGES_ABSPATH . $mainimg . "' height='30' width='30'/></a></span>:-:" . $proname->product_name . "";
-			exit;
+			JFactory::getApplication()->close();
 		}
 		elseif ($wishlistId == 1)
 		{
@@ -780,7 +780,7 @@ class RedshopControllerProduct extends RedshopController
 
 				// Red file using chunksize
 				$this->readfile_chunked($name);
-				exit;
+				JFactory::getApplication()->close();
 			}
 		}
 	}
@@ -1020,7 +1020,7 @@ class RedshopControllerProduct extends RedshopController
 
 			// Red file using chunksize
 			$this->readfile_chunked($fpath);
-			exit;
+			JFactory::getApplication()->close();
 		}
 	}
 
@@ -1107,6 +1107,6 @@ class RedshopControllerProduct extends RedshopController
 			echo $message = JText::_("COM_REDSHOP_STOCK_NOTIFICATION_ADDED_SUCCESSFULLY");
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 }
