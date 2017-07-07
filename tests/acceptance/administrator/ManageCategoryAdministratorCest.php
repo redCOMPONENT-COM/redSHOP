@@ -60,7 +60,6 @@ class ManageCategoryAdministratorCest
 	 *
 	 * @depends updateCategory
 	 */
-	 
 	public function changeStateCategory(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test if State of a Category gets Updated in Administrator');
