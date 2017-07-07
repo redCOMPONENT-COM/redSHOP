@@ -191,7 +191,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (isset($post['newsletter_signoff']) && $post['newsletter_signoff'] == 1)
 		{
-			$this->_userhelper->newsletterUnsubscribe();
+			RedshopHelperNewsletter::removeSubscribe();
 		}
 
 		$order_paymentstatus = 'Unpaid';
@@ -840,13 +840,13 @@ class RedshopModelCheckout extends RedshopModel
 							$accessory_price    = $accessory_priceArr[1];
 						}
 
-						for ($t = 0, $tn = count($propArr); $t < $tn; $t++)
+						for ($t = 0, $countProperty = count($propArr), $tn = $countProperty; $t < $tn; $t++)
 						{
 							$subprooprand  = array();
 							$subproprice   = array();
 							$subElementArr = $propArr[$t]['property_childs'];
 
-							for ($tp = 0; $tp < count($subElementArr); $tp++)
+							for ($tp = 0, $countElement = count($subElementArr); $tp < $countElement; $tp++)
 							{
 								$subprooprand[$tp] = $subElementArr[$tp]['subproperty_oprand'];
 								$subproprice[$tp]  = $subElementArr[$tp]['subproperty_price'];
@@ -1895,7 +1895,7 @@ class RedshopModelCheckout extends RedshopModel
 			if ($this->discount_type)
 				$this->discount_type .= '@';
 
-			for ($i = 0; $i < count($cart['voucher']); $i++)
+			for ($i = 0, $countVoucher = count($cart['voucher']); $i < $countVoucher; $i++)
 			{
 				$voucher_id             = $cart['voucher'][$i]['voucher_id'];
 				$voucher_volume         = $cart['voucher'][$i]['used_voucher'];
@@ -1960,7 +1960,7 @@ class RedshopModelCheckout extends RedshopModel
 				$this->discount_type .= '@';
 			}
 
-			for ($i = 0; $i < count($cart['coupon']); $i++)
+			for ($i = 0, $countCoupon = count($cart['coupon']); $i < $countCoupon; $i++)
 			{
 				$coupon_id             = $cart['coupon'][$i]['coupon_id'];
 				$coupon_volume         = $cart['coupon'][$i]['used_coupon'];
