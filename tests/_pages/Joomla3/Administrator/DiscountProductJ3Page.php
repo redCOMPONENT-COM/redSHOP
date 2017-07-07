@@ -13,7 +13,7 @@ class DiscountProductJ3Page
 
     public static $endDate="end_date";
 
-    public static $checkAll="//input[@onclick='Joomla.checkAll(this)']";
+   // public static $checkAll="//input[@onclick='Joomla.checkAll(this)']";
 
 
 }

@@ -280,7 +280,7 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
     public function checkUnpublishAll(){
         $I = $this;
         $I->amOnPage(\DiscountProductJ3Page::$URL);
-        $I->click(\DiscountProductJ3Page::$checkAll);
+        $I->checkAllResults();
         $I->click("Unpublish");
         $I->see("Discount Detail UnPublished Successfully", '.alert-success');
     }
@@ -288,7 +288,7 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
     public function checkPublishAll(){
         $I = $this;
         $I->amOnPage(\DiscountProductJ3Page::$URL);
-        $I->click(\DiscountProductJ3Page::$checkAll);
+        $I->checkAllResults();
         $I->click("Publish");
         $I->see("Discount Detail Published Successfully", '.alert-success');
     }
@@ -296,7 +296,7 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
     public function checkDeleteAll(){
         $I = $this;
         $I->amOnPage(\DiscountProductJ3Page::$URL);
-        $I->click(\DiscountProductJ3Page::$checkAll);
+        $I->checkAllResults();
         $I->click("Delete");
         $I->see("Discount Detail Deleted Successfully", '.alert-success');
     }
