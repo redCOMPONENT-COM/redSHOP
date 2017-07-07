@@ -3365,11 +3365,19 @@ class rsCarthelper
 							for ($i = 0, $in = count($rate); $i < $in; $i++)
 							{
 								$glsLocation = '';
-								$data .= $template_rate_middle;
+								$checke      = '';
+								$data        .= $template_rate_middle;
 
 								$displayrate = (trim($rate[$i]->rate) > 0) ? " (" . $this->_producthelper->getProductFormattedPrice(trim($rate[$i]->rate)) . " )" : "";
 
-								$checked = ($rateExist == 0 || $shipping_rate_id == $rate[$i]->value) ? "checked" : "";
+								if (isset($rate[$i]->checked) && $rate[$i]->checked)
+								{
+									$checked = "checked";
+								}
+								else if ($rateExist == 0)
+								{
+									$checked = "checked";
+								}
 
 								if ($checked == "checked")
 								{
