@@ -13,7 +13,6 @@ jimport('joomla.filesystem.file');
 
 use Joomla\Registry\Registry;
 
-
 class RedshopModelConfiguration extends RedshopModel
 {
 	public $configData = null;
@@ -27,75 +26,46 @@ class RedshopModelConfiguration extends RedshopModel
 		$this->Redconfiguration = Redconfiguration::getInstance();
 	}
 
+	/**
+	 * @param   array $data Data for storing
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.6
+	 */
 	public function store($data)
 	{
 		// Product Default Image upload
 		$productImg = JRequest::getVar('productImg', null, 'files', 'array');
-
-		if ($productImg['name'] != "")
-		{
-			$filetype = JFile::getExt($productImg['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["product_default_image"] = RedShopHelperImages::cleanFileName($productImg['name'], 'productdefault');
-
-				$src = $productImg['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data["product_default_image"];
-
-				if ($data['product_default_image'] != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_default_image']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_default_image']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
+		$data       = array_merge($data,
+			$this->uploadFile($productImg, array('name' => 'product_default_image', 'id' => 'productdefault', 'dir' => 'product'))
+		);
 
 		// 	Watermark Image upload
 		$watermarkImg = JRequest::getVar('watermarkImg', null, 'files', 'array');
-
-		if ($watermarkImg['name'] != "")
-		{
-			$filetype = JFile::getExt($watermarkImg['name']);
-
-			if ($filetype == 'gif' || $filetype == 'png')
-			{
-				$data["watermark_image"] = RedShopHelperImages::cleanFileName($watermarkImg['name'], 'watermark');
-
-				$src = $watermarkImg['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data["watermark_image"];
-
-				if ($data['watermark_image'] != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['watermark_image']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['watermark_image']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
+		$data         = array_merge($data,
+			$this->uploadFile($watermarkImg, array('name' => 'watermark_image', 'id' => 'watermark', 'dir' => 'product'), array('gif', 'png'))
+		);
 
 		// Shopper Group default portal upload
 		$default_portalLogo = JRequest::getVar('default_portal_logo', null, 'files', 'array');
-
 		if ($default_portalLogo['name'] != "")
 		{
 			$filetype = JFile::getExt($default_portalLogo['name']);
 
 			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
 			{
-				$logoname = RedShopHelperImages::cleanFileName($default_portalLogo['name']);
+				$logoname                    = RedshopHelperMedia::cleanFileName($default_portalLogo['name']);
 				$data["default_portal_logo"] = $logoname;
-				$src = $default_portalLogo['tmp_name'];
+				$src                         = $default_portalLogo['tmp_name'];
 
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $logoname;
 
 				if ($data['default_portal_logo_tmp'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['default_portal_logo_tmp']))
+					&& JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['default_portal_logo_tmp'])
+				)
 				{
-					@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['default_portal_logo_tmp']);
+					JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['default_portal_logo_tmp']);
 				}
 
 				JFile::upload($src, $dest);
@@ -108,268 +78,78 @@ class RedshopModelConfiguration extends RedshopModel
 
 		// Product image which is out of stock
 		$productoutofstockImg = JRequest::getVar('productoutofstockImg', null, 'files', 'array');
-
-		if ($productoutofstockImg['name'] != "")
-		{
-			$filetype = JFile::getExt($productoutofstockImg['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["product_outofstock_image"] = $productoutofstockImg['name'];
-
-				$src = $productoutofstockImg['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $productoutofstockImg['name'];
-
-				if ($data['product_outofstock_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_outofstock_image']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_outofstock_image']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
+		$data                 = array_merge($data,
+			$this->uploadFile($productoutofstockImg, array('name' => 'product_outofstock_image', 'id' => false, 'dir' => 'product'))
+		);
 
 		// Category Default Image upload
 		$categoryImg = JRequest::getVar('categoryImg', null, 'files', 'array');
-
-		if ($categoryImg['name'] != "")
-		{
-			$filetype = JFile::getExt($categoryImg['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["category_default_image"] = $categoryImg['name'];
-
-				$src = $categoryImg['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $categoryImg['name'];
-
-				if ($data['category_default_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['category_default_image']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['categoryt_default_image']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
+		$data        = array_merge($data,
+			$this->uploadFile($categoryImg, array('name' => 'category_default_image', 'id' => false, 'dir' => 'category'))
+		);
 
 		// Cart image upload
 		$cartimg = JRequest::getVar('cartimg', null, 'files', 'array');
-
-		if ($cartimg['name'] != "")
-		{
-			$filetype = JFile::getExt($cartimg['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["addtocart_image"] = $cartimg['name'];
-
-				$src = $cartimg['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $cartimg['name'];
-
-				if ($data['addtocart_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_image']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_image']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
+		$data    = array_merge($data,
+			$this->uploadFile($cartimg, array('name' => 'addtocart_image', 'id' => false, 'dir' => ''))
+		);
 
 		$quoteimg = JRequest::getVar('quoteimg', null, 'files', 'array');
-
-		if ($quoteimg['name'] != "")
-		{
-			$filetype = JFile::getExt($quoteimg['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["requestquote_image"] = $quoteimg['name'];
-
-				$src = $quoteimg['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $quoteimg['name'];
-
-				if ($data['requestquote_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['requestquote_image']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['requestquote_image']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
+		$data     = array_merge($data,
+			$this->uploadFile($quoteimg, array('name' => 'requestquote_image', 'id' => false, 'dir' => ''))
+		);
 
 		// Cart delete image upload
 		$cartdelete = JRequest::getVar('cartdelete', null, 'files', 'array');
-
-		if ($cartdelete['name'] != "")
-		{
-			$filetype = JFile::getExt($cartdelete['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["addtocart_delete"] = $cartdelete['name'];
-
-				$src = $cartdelete['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $cartdelete['name'];
-
-				if ($data['addtocart_delete'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_delete']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_delete']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
+		$data       = array_merge($data,
+			$this->uploadFile($cartdelete, array('name' => 'addtocart_delete', 'id' => false, 'dir' => ''))
+		);
 
 		// Cart update image upload
 		$cartupdate = JRequest::getVar('cartupdate', null, 'files', 'array');
-
-		if ($cartupdate['name'] != "")
-		{
-			$filetype = JFile::getExt($cartupdate['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["addtocart_update"] = $cartupdate['name'];
-
-				$src = $cartupdate['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $cartupdate['name'];
-
-				if ($data['addtocart_update'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_update']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_update']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
+		$data       = array_merge($data,
+			$this->uploadFile($cartupdate, array('name' => 'addtocart_update', 'id' => false, 'dir' => ''))
+		);
 
 		// Pre Order image upload
 		$preorderimg = JRequest::getVar('file_pre_order_image', null, 'files', 'array');
-
-		if ($preorderimg['name'] != "")
-		{
-			$filetype = JFile::getExt($preorderimg['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["pre_order_image"] = $preorderimg['name'];
-
-				$src = $preorderimg['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $preorderimg['name'];
-
-				if ($data['pre_order_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['pre_order_image']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['pre_order_image']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
+		$data        = array_merge($data,
+			$this->uploadFile($preorderimg, array('name' => 'pre_order_image', 'id' => false, 'dir' => ''))
+		);
 
 		// Image next link
 		$imgnext = JRequest::getVar('imgnext', null, 'files', 'array');
-
-		if ($imgnext['name'] != "")
-		{
-			$filetype = JFile::getExt($imgnext['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["image_next_link"] = $imgnext['name'];
-
-				$src = $imgnext['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $imgnext['name'];
-
-				if ($data['image_next_link'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['image_next_link']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['image_next_link']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
+		$data    = array_merge($data,
+			$this->uploadFile($imgnext, array('name' => 'image_next_link', 'id' => false, 'dir' => ''))
+		);
 
 		// Image previous link
 		$imgpre = JRequest::getVar('imgpre', null, 'files', 'array');
-
-		if ($imgpre['name'] != "")
-		{
-			$filetype = JFile::getExt($imgpre['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["image_previous_link"] = $imgpre['name'];
-
-				$src = $imgpre['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $imgpre['name'];
-
-				if ($data['image_previous_link'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['image_previous_link']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['image_previous_link']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
+		$data   = array_merge($data,
+			$this->uploadFile($imgpre, array('name' => 'image_previous_link', 'id' => false, 'dir' => ''))
+		);
 
 		// Product Detail Lightbox close button Image Start
-		$imgpre = JRequest::getVar('imgslimbox', null, 'files', 'array');
-
-		if ($imgpre['name'] != "")
-		{
-			$filetype = JFile::getExt($imgpre['name']);
-
-			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
-			{
-				$data["product_detail_lighbox_close_button_image"] = $imgpre['name'];
-
-				$src = $imgpre['tmp_name'];
-
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $imgpre['name'];
-
-				if ($data['product_detail_lighbox_close_button_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $data['product_detail_lighbox_close_button_image']))
-				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $data['product_detail_lighbox_close_button_image']);
-				}
-
-				JFile::upload($src, $dest);
-			}
-		}
+		$imgslimbox = JRequest::getVar('imgslimbox', null, 'files', 'array');
+		$data       = array_merge($data,
+			$this->uploadFile($imgslimbox, array('name' => 'product_detail_lighbox_close_button_image', 'id' => false, 'dir' => 'slimbox'))
+		);
 
 		// Product Detail Lightbox close button Image End
 		// Save the HTML tags into the tables
-		$data["welcomepage_introtext"] = JRequest::getVar('welcomepage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["category_frontpage_introtext"] = JRequest::getVar('category_frontpage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["registration_introtext"] = JRequest::getVar('registration_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["registration_comp_introtext"] = JRequest::getVar('registration_comp_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["vat_introtext"] = JRequest::getVar('vat_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["welcomepage_introtext"] = JRequest::getVar('welcomepage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["product_expire_text"] = JRequest::getVar('product_expire_text', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["cart_reservation_message"] = JRequest::getVar('cart_reservation_message', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["with_vat_text_info"] = JRequest::getVar('with_vat_text_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["without_vat_text_info"] = JRequest::getVar('without_vat_text_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data["show_price_user_group_list"] = @implode(",", $data['show_price_user_group_list']);
+		$data["welcomepage_introtext"]         = JRequest::getVar('welcomepage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["category_frontpage_introtext"]  = JRequest::getVar('category_frontpage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["registration_introtext"]        = JRequest::getVar('registration_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["registration_comp_introtext"]   = JRequest::getVar('registration_comp_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["vat_introtext"]                 = JRequest::getVar('vat_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["welcomepage_introtext"]         = JRequest::getVar('welcomepage_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["product_expire_text"]           = JRequest::getVar('product_expire_text', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["cart_reservation_message"]      = JRequest::getVar('cart_reservation_message', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["with_vat_text_info"]            = JRequest::getVar('with_vat_text_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["without_vat_text_info"]         = JRequest::getVar('without_vat_text_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data["show_price_user_group_list"]    = @implode(",", $data['show_price_user_group_list']);
 		$data["show_price_shopper_group_list"] = @implode(",", $data['show_price_shopper_group_list']);
-		$data["show_price_user_group_list"] = $data["show_price_user_group_list"] ? $data["show_price_user_group_list"] : '';
+		$data["show_price_user_group_list"]    = $data["show_price_user_group_list"] ? $data["show_price_user_group_list"] : '';
 		$data["show_price_shopper_group_list"] = $data["show_price_shopper_group_list"] ? $data["show_price_shopper_group_list"] : '';
 
 		if ($data['image_quality_output'] <= 10)
@@ -382,7 +162,7 @@ class RedshopModelConfiguration extends RedshopModel
 			$data['image_quality_output'] = 100;
 		}
 
-		$data['backward_compatible_js'] = isset($data['backward_compatible_js']) ? $data['backward_compatible_js'] : 0;
+		$data['backward_compatible_js']  = isset($data['backward_compatible_js']) ? $data['backward_compatible_js'] : 0;
 		$data['backward_compatible_php'] = isset($data['backward_compatible_php']) ? $data['backward_compatible_php'] : 0;
 
 		// Prepare post data to write
@@ -417,6 +197,55 @@ class RedshopModelConfiguration extends RedshopModel
 		return true;
 	}
 
+	/**
+	 * @param   array $requestFile       Request file array
+	 * @param   array $options           Options array
+	 * @param   array $allowedExtensions Allowed extensions
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.7
+	 */
+	protected function uploadFile($requestFile, array $options, $allowedExtensions = array('jpg', 'jpeg', 'gif', 'png'))
+	{
+		// Init return data array
+		$data = array();
+
+		if (!empty($requestFile['name']))
+		{
+			$fileExt = strtolower(JFile::getExt($requestFile['name']));
+
+			// Make sure this file extension is allowed
+			if (in_array($fileExt, $allowedExtensions))
+			{
+				if ($options['id'] !== false)
+				{
+					$fileName = RedshopHelperMedia::cleanFileName($requestFile['name'], $options['id']);
+				}
+				else
+				{
+					$fileName = $requestFile['name'];
+				}
+
+				$data[$options['data']] = $fileName;
+
+				$src  = $requestFile['tmp_name'];
+				$dest = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . $options['dir'] . '/' . $fileName);
+
+				// Delete old file is exists
+				if (!empty($fileName) && JFile::exists($dest))
+				{
+					JFile::delete($dest);
+				}
+
+				// Than upload new file
+				JFile::upload($src, $dest);
+			}
+		}
+
+		return $data;
+	}
+
 	public function configurationPrepare($d)
 	{
 		$this->configData = $this->Redconfiguration->redshopCFGData($d);
@@ -431,14 +260,14 @@ class RedshopModelConfiguration extends RedshopModel
 	 * RedshopConfig. If configuration data has been saved in the session, that
 	 * data will be merged into the original data, overwriting it.
 	 *
-	 * @return	object  An object containing all redshop config data.
+	 * @return    object  An object containing all redshop config data.
 	 *
-	 * @since	1.6
+	 * @since    1.6
 	 */
 	public function getData()
 	{
 		// Get the config data.
-		$data   = Redshop::getConfig()->toArray();
+		$data = Redshop::getConfig()->toArray();
 
 		// Check for data in the session.
 		$temp = JFactory::getApplication()->getUserState('com_redshop.config.global.data');
@@ -465,17 +294,27 @@ class RedshopModelConfiguration extends RedshopModel
 	 */
 	public function getCurrencies($currency = "")
 	{
-		$where = "";
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		if ($currency)
+		$query->select(
+			array(
+				$db->quoteName('currency_code', 'value'),
+				$db->quoteName('currency_name', 'text')
+			)
+		);
+		$query->from($db->quoteName('#__redshop_currency'));
+
+		if (!empty($currency))
 		{
-			$where = " WHERE currency_code IN ('" . $currency . "')";
+			$query->where($db->quoteName('currency_code') . ' IN ( ' . $currency . ' ) ');
 		}
 
-		$query = 'SELECT currency_code as value, currency_name as text FROM #__redshop_currency' . $where . ' ORDER BY currency_name ASC';
+		$query->order($db->quoteName('currency_name') . ' ASC');
+
 		$this->_db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	public function getnewsletters()
@@ -546,34 +385,34 @@ class RedshopModelConfiguration extends RedshopModel
 
 	public function newsletterEntry($data)
 	{
-		$db = JFactory::getDbo();
+		$db            = JFactory::getDbo();
 		$newsletter_id = $data['default_newsletter'];
-		$mailfrom = $data['news_mail_from'];
-		$mailfromname = $data['news_from_name'];
-		$to = $data['newsletter_test_email'];
+		$mailfrom      = $data['news_mail_from'];
+		$mailfromname  = $data['news_from_name'];
+		$to            = $data['newsletter_test_email'];
 		$producthelper = productHelper::getInstance();
-		$uri = JURI::getInstance();
-		$url = $uri->root();
+		$uri           = JURI::getInstance();
+		$url           = $uri->root();
 
 		// Getting newsletter content
 		$newsbody = $this->getnewsletter_content($newsletter_id);
 
-		$subject = "";
-		$newsletter_body = "";
+		$subject             = "";
+		$newsletter_body     = "";
 		$newsletter_template = "";
 
 		if (count($newsbody) > 0)
 		{
-			$subject = $newsbody[0]->subject;
-			$newsletter_body = $newsbody[0]->body;
+			$subject             = $newsbody[0]->subject;
+			$newsletter_body     = $newsbody[0]->body;
 			$newsletter_template = $newsbody[0]->template_desc;
 		}
 
-		$o = new stdClass;
+		$o       = new stdClass;
 		$o->text = $newsletter_body;
 		JPluginHelper::importPlugin('content');
 		$dispatcher = JDispatcher::getInstance();
-		$x = array();
+		$x          = array();
 		$dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
 		$newsletter_template2 = $o->text;
 
@@ -592,23 +431,23 @@ class RedshopModelConfiguration extends RedshopModel
 
 			if (strstr($content, '{Newsletter Products:' . $product_id . '}'))
 			{
-				$product_id = $product_id_list[$i]->product_id;
+				$product_id      = $product_id_list[$i]->product_id;
 				$newsproductbody = $this->getnewsletterproducts_content();
-				$np_temp_desc = $newsproductbody[0]->template_desc;
+				$np_temp_desc    = $newsproductbody[0]->template_desc;
 
 				$thum_image = "";
 
 				if ($product_id_list[$i]->product_full_image)
 				{
-					$thumbUrl = RedShopHelperImages::getImagePath(
-									$product_id_list[$i]->product_full_image,
-									'',
-									'thumb',
-									'product',
-									Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
-									Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
-									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-								);
+					$thumbUrl   = RedShopHelperImages::getImagePath(
+						$product_id_list[$i]->product_full_image,
+						'',
+						'thumb',
+						'product',
+						Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
+						Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
+						Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+					);
 					$thum_image = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
 						. $product_id_list[$i]->product_full_image . "' title='' rel=\"lightbox[product7]\">";
 					$thum_image .= "<img id='main_image' src='" . $thumbUrl . "'>";
@@ -626,13 +465,10 @@ class RedshopModelConfiguration extends RedshopModel
 		}
 
 		// Replacing the Text library texts
-		$texts = new text_library;
-		$content = $texts->replace_texts($content);
+		$content = RedshopHelperText::getTextLibraryData($content);
+		$data1       = RedshopHelperMail::imgInMail($content);
 
-		$redshopMail     = redshopMail::getInstance();
-		$data1 = $redshopMail->imginmail($content);
-
-		$to = trim($to);
+		$to    = trim($to);
 		$today = time();
 
 		// Replacing the tags with the values
@@ -673,7 +509,7 @@ class RedshopModelConfiguration extends RedshopModel
 	/**
 	 * Handle .htaccess file for Downloadble Product root folder
 	 *
-	 * @param   string  $product_download_root  Path to the downloadable product root folder
+	 * @param   string $product_download_root Path to the downloadable product root folder
 	 *
 	 * @deprecated  1.6      This method is deprecated and not used anywhere
 	 * @return      boolean  Return true on success
@@ -716,9 +552,10 @@ class RedshopModelConfiguration extends RedshopModel
 		if (strstr($row_product_download_root, JPATH_ROOT) && $row_product_download_root != JPATH_ROOT)
 		{
 			if ($row_product_download_root != $product_download_root
-				&& file_exists($oldhtaccessfile_path) && !strstr($row_product_download_root, $assets_dir))
+				&& file_exists($oldhtaccessfile_path) && !strstr($row_product_download_root, $assets_dir)
+			)
 			{
-				unlink($oldhtaccessfile_path);
+				JFile::delete($oldhtaccessfile_path);
 			}
 		}
 
@@ -731,9 +568,9 @@ class RedshopModelConfiguration extends RedshopModel
 		$xmlfile = JPATH_SITE . '/administrator/components/com_redshop/redshop.xml';
 		$version = JText::_('COM_REDSHOP_FILE_NOT_FOUND');
 
-		if (file_exists($xmlfile))
+		if (JFile::exists($xmlfile))
 		{
-			$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
+			$data    = JApplicationHelper::parseXMLInstallFile($xmlfile);
 			$version = $data['version'];
 		}
 
@@ -743,7 +580,7 @@ class RedshopModelConfiguration extends RedshopModel
 	/* Get all installed module for redshop*/
 	public function getinstalledmodule()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = "SELECT * FROM #__extensions WHERE `element` LIKE '%mod_redshop%'";
 		$db->setQuery($query);
 		$redshop_modules = $db->loadObjectList();
@@ -751,10 +588,18 @@ class RedshopModelConfiguration extends RedshopModel
 		return $redshop_modules;
 	}
 
-	/* Get all installed payment plugins for redshop*/
+	/**
+	 * Get all installed payment plugins for redshop
+	 *
+	 * @param   string  $secion  Template section
+	 *
+	 * @return  array
+	 *
+	 * @since   1.0
+	 */
 	public function getinstalledplugins($secion = 'redshop_payment')
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = "SELECT * FROM #__extensions WHERE `folder` = '" . $secion . "' ";
 		$db->setQuery($query);
 		$redshop_plugins = $db->loadObjectList();
@@ -762,10 +607,15 @@ class RedshopModelConfiguration extends RedshopModel
 		return $redshop_plugins;
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function resetTemplate()
 	{
 		$db = JFactory::getDbo();
-		$q = "SELECT * FROM #__redshop_template";
+		$q  = "SELECT * FROM #__redshop_template";
 		$db->setQuery($q);
 		$list = $db->loadObjectList();
 
@@ -773,15 +623,15 @@ class RedshopModelConfiguration extends RedshopModel
 		{
 			$data = $list[$i];
 
-			$red_template = Redtemplate::getInstance();
+			$red_template        = Redtemplate::getInstance();
 			$data->template_name = strtolower($data->template_name);
 			$data->template_name = str_replace(" ", "_", $data->template_name);
-			$tempate_file = $red_template->getTemplatefilepath($data->template_section, $data->template_name, true);
+			$tempate_file        = $red_template->getTemplatefilepath($data->template_section, $data->template_name, true);
 
-			if (is_file($tempate_file))
+			if (JFile::exists($tempate_file))
 			{
 				$template_desc = $red_template->getInstallSectionTemplate($data->template_name);
-				$fp = fopen($tempate_file, "w");
+				$fp            = fopen($tempate_file, "w");
 				fwrite($fp, $template_desc);
 				fclose($fp);
 			}
