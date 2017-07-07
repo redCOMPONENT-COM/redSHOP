@@ -6,6 +6,7 @@
  * @subpackage AuthorizeNetCIM
  */
 
+
 /**
  * A class that contains all fields for a CIM Customer Profile.
  *
@@ -14,14 +15,15 @@
  */
 class AuthorizeNetCustomer
 {
-	public $merchantCustomerId;
-	public $description;
-	public $email;
-	public $paymentProfiles = array();
-	public $shipToList = array();
-	public $customerProfileId;
+    public $merchantCustomerId;
+    public $description;
+    public $email;
+    public $paymentProfiles = array();
+    public $shipToList = array();
+    public $customerProfileId;
+    
 }
-
+ 
 /**
  * A class that contains all fields for a CIM Address.
  *
@@ -30,17 +32,17 @@ class AuthorizeNetCustomer
  */
 class AuthorizeNetAddress
 {
-	public $firstName;
-	public $lastName;
-	public $company;
-	public $address;
-	public $city;
-	public $state;
-	public $zip;
-	public $country;
-	public $phoneNumber;
-	public $faxNumber;
-	public $customerAddressId;
+    public $firstName;
+    public $lastName;
+    public $company;
+    public $address;
+    public $city;
+    public $state;
+    public $zip;
+    public $country;
+    public $phoneNumber;
+    public $faxNumber;
+    public $customerAddressId;
 }
 
 /**
@@ -51,16 +53,17 @@ class AuthorizeNetAddress
  */
 class AuthorizeNetPaymentProfile
 {
-	public $customerType;
-	public $billTo;
-	public $payment;
-	public $customerPaymentProfileId;
-
-	public function __construct()
-	{
-		$this->billTo = new AuthorizeNetAddress;
-		$this->payment = new AuthorizeNetPayment;
-	}
+    
+    public $customerType;
+    public $billTo;
+    public $payment;
+    public $customerPaymentProfileId;
+    
+    public function __construct()
+    {
+        $this->billTo = new AuthorizeNetAddress;
+        $this->payment = new AuthorizeNetPayment;
+    }
 
 }
 
@@ -72,14 +75,14 @@ class AuthorizeNetPaymentProfile
  */
 class AuthorizeNetPayment
 {
-	public $creditCard;
-	public $bankAccount;
-
-	public function __construct()
-	{
-		$this->creditCard = new AuthorizeNetCreditCard;
-		$this->bankAccount = new AuthorizeNetBankAccount;
-	}
+    public $creditCard;
+    public $bankAccount;
+    
+    public function __construct()
+    {
+        $this->creditCard = new AuthorizeNetCreditCard;
+        $this->bankAccount = new AuthorizeNetBankAccount;
+    }
 }
 
 /**
@@ -90,50 +93,50 @@ class AuthorizeNetPayment
  */
 class AuthorizeNetTransaction
 {
-	public $amount;
-	public $tax;
-	public $shipping;
-	public $duty;
-	public $lineItems = array();
-	public $customerProfileId;
-	public $customerPaymentProfileId;
-	public $customerShippingAddressId;
-	public $creditCardNumberMasked;
-	public $bankRoutingNumberMasked;
-	public $bankAccountNumberMasked;
-	public $order;
-	public $taxExempt;
-	public $recurringBilling;
-	public $cardCode;
-	public $splitTenderId;
-	public $approvalCode;
-	public $transId;
-
-	public function __construct()
-	{
-		$this->tax = (object) array();
-		$this->tax->amount = "";
-		$this->tax->name = "";
-		$this->tax->description = "";
-
-		$this->shipping = (object) array();
-		$this->shipping->amount = "";
-		$this->shipping->name = "";
-		$this->shipping->description = "";
-
-		$this->duty = (object) array();
-		$this->duty->amount = "";
-		$this->duty->name = "";
-		$this->duty->description = "";
-
-		// line items
-
-		$this->order = (object) array();
-		$this->order->invoiceNumber = "";
-		$this->order->description = "";
-		$this->order->purchaseOrderNumber = "";
-	}
-
+    public $amount;
+    public $tax;
+    public $shipping;
+    public $duty;
+    public $lineItems = array();
+    public $customerProfileId;
+    public $customerPaymentProfileId;
+    public $customerShippingAddressId;
+    public $creditCardNumberMasked;
+    public $bankRoutingNumberMasked;
+    public $bankAccountNumberMasked;
+    public $order;
+    public $taxExempt;
+    public $recurringBilling;
+    public $cardCode;
+    public $splitTenderId;
+    public $approvalCode;
+    public $transId;
+    
+    public function __construct()
+    {
+        $this->tax = (object)array();
+        $this->tax->amount = "";
+        $this->tax->name = "";
+        $this->tax->description = "";
+        
+        $this->shipping = (object)array();
+        $this->shipping->amount = "";
+        $this->shipping->name = "";
+        $this->shipping->description = "";
+        
+        $this->duty = (object)array();
+        $this->duty->amount = "";
+        $this->duty->name = "";
+        $this->duty->description = "";
+        
+        // line items
+        
+        $this->order = (object)array();
+        $this->order->invoiceNumber = "";
+        $this->order->description = "";
+        $this->order->purchaseOrderNumber = "";
+    }
+    
 }
 
 /**
@@ -144,12 +147,13 @@ class AuthorizeNetTransaction
  */
 class AuthorizeNetLineItem
 {
-	public $itemId;
-	public $name;
-	public $description;
-	public $quantity;
-	public $unitPrice;
-	public $taxable;
+    public $itemId;
+    public $name;
+    public $description;
+    public $quantity;
+    public $unitPrice;
+    public $taxable;
+
 }
 
 /**
@@ -160,9 +164,9 @@ class AuthorizeNetLineItem
  */
 class AuthorizeNetCreditCard
 {
-	public $cardNumber;
-	public $expirationDate;
-	public $cardCode;
+    public $cardNumber;
+    public $expirationDate;
+    public $cardCode;
 }
 
 /**
@@ -173,12 +177,12 @@ class AuthorizeNetCreditCard
  */
 class AuthorizeNetBankAccount
 {
-	public $accountType;
-	public $routingNumber;
-	public $accountNumber;
-	public $nameOnAccount;
-	public $echeckType;
-	public $bankName;
+    public $accountType;
+    public $routingNumber;
+    public $accountNumber;
+    public $nameOnAccount;
+    public $echeckType;
+    public $bankName;
 }
 
 /**
@@ -189,49 +193,50 @@ class AuthorizeNetBankAccount
  */
 class AuthorizeNet_Subscription
 {
-	public $name;
-	public $intervalLength;
-	public $intervalUnit;
-	public $startDate;
-	public $totalOccurrences;
-	public $trialOccurrences;
-	public $amount;
-	public $trialAmount;
-	public $creditCardCardNumber;
-	public $creditCardExpirationDate;
-	public $creditCardCardCode;
-	public $bankAccountAccountType;
-	public $bankAccountRoutingNumber;
-	public $bankAccountAccountNumber;
-	public $bankAccountNameOnAccount;
-	public $bankAccountEcheckType;
-	public $bankAccountBankName;
-	public $orderInvoiceNumber;
-	public $orderDescription;
-	public $customerId;
-	public $customerEmail;
-	public $customerPhoneNumber;
-	public $customerFaxNumber;
-	public $billToFirstName;
-	public $billToLastName;
-	public $billToCompany;
-	public $billToAddress;
-	public $billToCity;
-	public $billToState;
-	public $billToZip;
-	public $billToCountry;
-	public $shipToFirstName;
-	public $shipToLastName;
-	public $shipToCompany;
-	public $shipToAddress;
-	public $shipToCity;
-	public $shipToState;
-	public $shipToZip;
-	public $shipToCountry;
 
-	public function getXml()
-	{
-		$xml = "<subscription>
+    public $name;
+    public $intervalLength;
+    public $intervalUnit;
+    public $startDate;
+    public $totalOccurrences;
+    public $trialOccurrences;
+    public $amount;
+    public $trialAmount;
+    public $creditCardCardNumber;
+    public $creditCardExpirationDate;
+    public $creditCardCardCode;
+    public $bankAccountAccountType;
+    public $bankAccountRoutingNumber;
+    public $bankAccountAccountNumber;
+    public $bankAccountNameOnAccount;
+    public $bankAccountEcheckType;
+    public $bankAccountBankName;
+    public $orderInvoiceNumber;
+    public $orderDescription;
+    public $customerId;
+    public $customerEmail;
+    public $customerPhoneNumber;
+    public $customerFaxNumber;
+    public $billToFirstName;
+    public $billToLastName;
+    public $billToCompany;
+    public $billToAddress;
+    public $billToCity;
+    public $billToState;
+    public $billToZip;
+    public $billToCountry;
+    public $shipToFirstName;
+    public $shipToLastName;
+    public $shipToCompany;
+    public $shipToAddress;
+    public $shipToCity;
+    public $shipToState;
+    public $shipToZip;
+    public $shipToCountry;
+    
+    public function getXml()
+    {
+        $xml = "<subscription>
     <name>{$this->name}</name>
     <paymentSchedule>
         <interval>
@@ -290,34 +295,110 @@ class AuthorizeNet_Subscription
         <country>{$this->shipToCountry}</country>
     </shipTo>
 </subscription>";
-
-		$xml_clean = "";
-		// Remove any blank child elements
-		foreach (preg_split("/(\r?\n)/", $xml) as $key => $line)
-		{
-			if (!preg_match('/><\//', $line))
-			{
-				$xml_clean .= $line . "\n";
-			}
-		}
-
-		// Remove any blank parent elements
-		$element_removed = 1;
-		// Recursively repeat if a change is made
-		while ($element_removed)
-		{
-			$element_removed = 0;
-
-			if (preg_match('/<[a-z]+>[\r?\n]+\s*<\/[a-z]+>/i', $xml_clean))
-			{
-				$xml_clean = preg_replace('/<[a-z]+>[\r?\n]+\s*<\/[a-z]+>/i', '', $xml_clean);
-				$element_removed = 1;
-			}
-		}
-
-		// Remove any blank lines
-		// $xml_clean = preg_replace('/\r\n[\s]+\r\n/','',$xml_clean);
-		return $xml_clean;
-	}
+        
+        $xml_clean = "";
+        // Remove any blank child elements
+        foreach (preg_split("/(\r?\n)/", $xml) as $key => $line) {
+            if (!preg_match('/><\//', $line)) {
+                $xml_clean .= $line . "\n";
+            }
+        }
+        
+        // Remove any blank parent elements
+        $element_removed = 1;
+        // Recursively repeat if a change is made
+        while ($element_removed) {
+            $element_removed = 0;
+            if (preg_match('/<[a-z]+>[\r?\n]+\s*<\/[a-z]+>/i', $xml_clean)) {
+                $xml_clean = preg_replace('/<[a-z]+>[\r?\n]+\s*<\/[a-z]+>/i', '', $xml_clean);
+                $element_removed = 1;
+            }
+        }
+        
+        // Remove any blank lines
+        // $xml_clean = preg_replace('/\r\n[\s]+\r\n/','',$xml_clean);
+        return $xml_clean;
+    }
 }
 
+/**
+ * A class that contains all fields for an AuthorizeNet ARB SubscriptionList.
+ *
+ * @package    AuthorizeNet
+ * @subpackage AuthorizeNetARB
+ */
+class AuthorizeNetGetSubscriptionList
+{
+    public $searchType;
+    public $sorting;
+    public $paging;
+
+    public function getXml()
+    {
+        $emptyString = "";
+        $sortingXml = (is_null($this->sorting)) ? $emptyString : $this->sorting->getXml();
+        $pagingXml  = (is_null($this->paging))  ? $emptyString : $this->paging->getXml();
+
+        $xml = "
+        <searchType>{$this->searchType}</searchType>"
+        .$sortingXml
+        .$pagingXml
+        ;
+
+        $xml_clean = "";
+        // Remove any blank child elements
+        foreach (preg_split("/(\r?\n)/", $xml) as $key => $line) {
+            if (!preg_match('/><\//', $line)) {
+                $xml_clean .= $line . "\n";
+            }
+        }
+
+        // Remove any blank parent elements
+        $element_removed = 1;
+        // Recursively repeat if a change is made
+        while ($element_removed) {
+            $element_removed = 0;
+            if (preg_match('/<[a-z]+>[\r?\n]+\s*<\/[a-z]+>/i', $xml_clean)) {
+                $xml_clean = preg_replace('/<[a-z]+>[\r?\n]+\s*<\/[a-z]+>/i', '', $xml_clean);
+                $element_removed = 1;
+            }
+        }
+
+        // Remove any blank lines
+        // $xml_clean = preg_replace('/\r\n[\s]+\r\n/','',$xml_clean);
+        return $xml_clean;
+    }
+}
+
+class AuthorizeNetSubscriptionListPaging
+{
+    public $limit;
+    public $offset;
+
+    public function getXml()
+    {
+        $xml = "<paging>
+            <limit>{$this->limit}</limit>
+            <offset>{$this->offset}</offset>
+        </paging>";
+
+        return $xml;
+    }
+}
+
+class AuthorizeNetSubscriptionListSorting
+{
+    public $orderBy;
+    public $orderDescending;
+
+    public function getXml()
+    {
+        $xml = "
+        <sorting>
+            <orderBy>{$this->orderBy}</orderBy>
+            <orderDescending>{$this->orderDescending}</orderDescending>
+        </sorting>";
+
+        return $xml;
+    }
+}

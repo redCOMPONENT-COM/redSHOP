@@ -26,6 +26,7 @@
  */
 class AuthorizeNetDPM extends AuthorizeNetSIM_Form
 {
+
 	const LIVE_URL = 'https://secure2.authorize.net/gateway/transact.dll';
 	const SANDBOX_URL = 'https://test.authorize.net/gateway/transact.dll';
 
@@ -35,6 +36,7 @@ class AuthorizeNetDPM extends AuthorizeNetSIM_Form
 	 */
 	public static function directPostDemo($url, $api_login_id, $transaction_key, $amount = "0.00", $md5_setting = "")
 	{
+
 		// Step 1: Show checkout form to customer.
 		if (!count($_POST) && !count($_GET))
 		{
@@ -45,7 +47,6 @@ class AuthorizeNetDPM extends AuthorizeNetSIM_Form
 		elseif (count($_POST))
 		{
 			$response = new AuthorizeNetSIM($api_login_id, $md5_setting);
-
 			if ($response->isAuthorizeNet())
 			{
 				if ($response->approved)
@@ -101,116 +102,41 @@ class AuthorizeNetDPM extends AuthorizeNetSIM_Form
 	/**
 	 * Generate a sample form for use in a demo Direct Post implementation.
 	 *
-	 * @param string $amount                   Amount of the transaction.
-	 * @param string $fp_sequence              Sequential number(ie. Invoice #)
-	 * @param string $relay_response_url       The Relay Response URL
-	 * @param string $api_login_id             Your API Login ID
-	 * @param string $transaction_key          Your API Tran Key.
-	 * @param bool   $test_mode                Use the sandbox?
-	 * @param bool   $prefill                  Prefill sample values(for test purposes).
+	 * @param string $amount             Amount of the transaction.
+	 * @param string $fp_sequence        Sequential number(ie. Invoice #)
+	 * @param string $relay_response_url The Relay Response URL
+	 * @param string $api_login_id       Your API Login ID
+	 * @param string $transaction_key    Your API Tran Key.
+	 * @param bool   $test_mode          Use the sandbox?
+	 * @param bool   $prefill            Prefill sample values(for test purposes).
 	 *
 	 * @return string
 	 */
-	public static function getCreditCardForm($amount, $fp_sequence, $relay_response_url, $api_login_id, $transaction_key, $test_mode = 1, $prefill = true)
+	public static function getCreditCardForm($amount, $fpSequence, $relayResponseUrl, $apiLoginId, $transactionKey, $test_mode = true, $preFill = true)
 	{
-		$time = time();
-		$fp = self::getFingerprint($api_login_id, $transaction_key, $amount, $fp_sequence, $time);
-
-		if ($test_mode == 1)
-		{
-			$x_test_request = "TRUE";
-		}
-		else
-		{
-			$x_test_request = "FALSE";
-		}
-
-		$sim = new AuthorizeNetSIM_Form(
+		$time          = time();
+		$fp            = self::getFingerprint($apiLoginId, $transactionKey, $amount, $fpSequence, $time);
+		$sim           = new AuthorizeNetSIM_Form(
 			array(
 				'x_amount'         => $amount,
-				'x_fp_sequence'    => $fp_sequence,
+				'x_fp_sequence'    => $fpSequence,
 				'x_fp_hash'        => $fp,
 				'x_fp_timestamp'   => $time,
 				'x_relay_response' => "TRUE",
-				'x_relay_url'      => $relay_response_url,
-				'x_login'          => $api_login_id,
-				'x_test_request'   => $x_test_request,
+				'x_relay_url'      => $relayResponseUrl,
+				'x_login'          => $apiLoginId,
 			)
-
 		);
 		$hidden_fields = $sim->getHiddenFieldString();
-		$post_url = (($test_mode == 1) ? self::SANDBOX_URL : self::LIVE_URL);
+		$post_url      = ($test_mode ? self::SANDBOX_URL : self::LIVE_URL);
 
-		$form = '
-        <style>
-        fieldset {
-            overflow: auto;
-            border: 0;
-            margin: 0;
-            padding: 0; }
-
-        fieldset div {
-            float: left; }
-
-        fieldset.centered div {
-            text-align: center; }
-
-        label {
-            color: #183b55;
-            display: block;
-            margin-bottom: 5px; }
-
-        label img {
-            display: block;
-            margin-bottom: 5px; }
-
-        input.text {
-            border: 1px solid #bfbab4;
-            margin: 0 4px 8px 0;
-            padding: 6px;
-            color: #1e1e1e;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-            border-radius: 5px;
-            -webkit-box-shadow: inset 0px 5px 5px #eee;
-            -moz-box-shadow: inset 0px 5px 5px #eee;
-            box-shadow: inset 0px 5px 5px #eee; }
-        .submit {
-            display: block;
-            background-color: #76b2d7;
-            border: 1px solid #766056;
-            color: #3a2014;
-            margin: 13px 0;
-            padding: 8px 16px;
-            -webkit-border-radius: 12px;
-            -moz-border-radius: 12px;
-            border-radius: 12px;
-            font-size: 14px;
-            -webkit-box-shadow: inset 3px -3px 3px rgba(0,0,0,.5), inset 0 3px 3px rgba(255,255,255,.5), inset -3px 0 3px rgba(255,255,255,.75);
-            -moz-box-shadow: inset 3px -3px 3px rgba(0,0,0,.5), inset 0 3px 3px rgba(255,255,255,.5), inset -3px 0 3px rgba(255,255,255,.75);
-            box-shadow: inset 3px -3px 3px rgba(0,0,0,.5), inset 0 3px 3px rgba(255,255,255,.5), inset -3px 0 3px rgba(255,255,255,.75); }
-        </style>
-        <form method="post" action="' . $post_url . '">
-                ' . $hidden_fields . '
-            <fieldset>
-                <div>
-                    <label>Credit Card Number</label>
-                    <input type="text" class="text" size="15" name="x_card_num" value="' . ($prefill ? '6011000000000012' : '') . '"></input>
-                </div>
-                <div>
-                    <label>Exp.</label>
-                    <input type="text" class="text" size="4" name="x_exp_date" value="' . ($prefill ? '04/17' : '') . '"></input>
-                </div>
-                <div>
-                    <label>CCV</label>
-                    <input type="text" class="text" size="4" name="x_card_code" value="' . ($prefill ? '782' : '') . '"></input>
-                </div>
-            </fieldset>
-          
-            <input type="submit" value="BUY" class="submit buy">
-        </form>';
-
-		return $form;
+		return JLayoutHelper::render('forms.default',
+			array(
+				'postUrl'      => $post_url,
+				'hiddenFields' => $hidden_fields,
+				'preFill'      => $preFill
+			),
+			JPATH_ROOT . '/plugins/redshop_payment/rs_payment_authorize_dpm/layouts/'
+		);
 	}
-
 }
