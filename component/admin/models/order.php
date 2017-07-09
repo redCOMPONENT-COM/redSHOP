@@ -291,7 +291,7 @@ class RedshopModelOrder extends RedshopModel
 				if ($ordersInfo[$i]->ship_method_id != '')
 				{
 					$userDetail = array(
-						$shippingDetails->firstname . ' ' . $shippingDetails->lastname,
+						$billingDetails->firstname . ' ' . $billingDetails->lastname,
 						substr($ordersInfo[$i]->customer_note, 0, 29),		// GLS only support max 29 characters
 						Redshop::getConfig()->get('GLS_CUSTOMER_ID'),
 						$billingDetails->user_email,
