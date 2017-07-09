@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\Economic as RedshopEconomic;
 use Redshop\Helper\Utility;
 
 /**
@@ -579,7 +579,7 @@ class RsUserHelper
 		{
 			if ($isNew)
 			{
-				$maxDebtor = Economic::getMaxDebtorInEconomic();
+				$maxDebtor = RedshopEconomic::getMaxDebtorInEconomic();
 
 				if (count($maxDebtor) > 0)
 				{
@@ -608,7 +608,7 @@ class RsUserHelper
 				}
 			}
 
-			$debtorHandle = Economic::createUserInEconomic($row);
+			$debtorHandle = RedshopEconomic::createUserInEconomic($row);
 
 			if ($row->is_company && trim($row->ean_number) != '' && JError::isError(JError::getError()))
 			{
