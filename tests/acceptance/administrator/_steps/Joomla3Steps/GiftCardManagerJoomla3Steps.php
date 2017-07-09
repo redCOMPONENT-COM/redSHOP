@@ -41,7 +41,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
 		$I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
 		$I->click('Save & Close');
-		$I->waitForText('Item successfully saved', 60, ['id' => 'system-message-container']);
+		$I->waitForText('Item saved', 60, ['id' => 'system-message-container']);
 		$I->filterListBySearching($cardName, ['id' => 'filter_search']);
 		$I->seeElement(['link' => $cardName]);
 	}
@@ -64,7 +64,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\GiftCardManagerPage::$giftCardName);
 		$I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
 		$I->click('Save & Close');
-		$I->see('Item successfully saved', ['id' => 'system-message-container']);
+		$I->see('Item saved', ['id' => 'system-message-container']);
 		$I->filterListBySearching($newCardName, ['id' => 'filter_search']);
 		$I->seeElement(['link' => $newCardName]);
 	}
