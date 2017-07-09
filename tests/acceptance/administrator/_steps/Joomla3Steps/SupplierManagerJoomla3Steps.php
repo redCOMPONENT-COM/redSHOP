@@ -21,7 +21,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	private $supplierEmailId = ['id' => "jform_email"];
 
-	private $supplierSuccessMessage = "Item successfully saved.";
+	private $supplierSuccessMessage = "Item saved.";
 
 	private $supplierResultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
 
