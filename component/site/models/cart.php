@@ -126,7 +126,7 @@ class RedshopModelCart extends RedshopModel
 			$db->setQuery($query);
 			$includedrs = $db->loadColumn();
 
-			$query->where($db->quoteName('time') . ' > ' . $db->quote($time));
+			$query->where($db->quoteName('time') . ' < ' . $db->quote($time));
 
 			$db->setQuery($query);
 			$deletedrs = $db->loadColumn();
@@ -314,7 +314,7 @@ class RedshopModelCart extends RedshopModel
 	public function update_all($data)
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher    = JEventDispatcher::getInstance();
+		$dispatcher    = RedshopHelperUtility::getDispatcher();
 		$productHelper = productHelper::getInstance();
 
 		$cart = RedshopHelperCart::getCart();
@@ -325,7 +325,7 @@ class RedshopModelCart extends RedshopModel
 			$cart        = array();
 			$cart['idx'] = 0;
 			RedshopHelperCart::setCart($cart);
-			$cart = RedshopHelperCart::getCart('cart');
+			$cart = RedshopHelperCart::getCart();
 		}
 
 		$idx           = (int) ($cart['idx']);
@@ -480,7 +480,7 @@ class RedshopModelCart extends RedshopModel
 								}
 							}
 
-							RedshopHelperStockroom::deleteCartAfterEmpt($attributeChilds['property_id'], 'property', $cart[$cartElement]['quantity']);
+							RedshopHelperStockroom::deleteCartAfterEmpty($attributeChilds['property_id'], 'property', $cart[$cartElement]['quantity']);
 						}
 					}
 				}
@@ -596,7 +596,7 @@ class RedshopModelCart extends RedshopModel
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('product_template'))
 			->from($db->quoteName('#__redshop_product'))
-			->where($db->quoteName('product_ud') . ' = ' . (int) $product_id);
+			->where($db->quoteName('product_id') . ' = ' . (int) $product_id);
 
 		$productTemplate = $db->setQuery($query)->loadResult();
 
@@ -615,7 +615,7 @@ class RedshopModelCart extends RedshopModel
 	 */
 	public function shippingrate_calc()
 	{
-		JHTML::script('com_redshop/common.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
 
 		$countryarray         = RedshopHelperWorld::getCountryList();
 		$post['country_code'] = $countryarray['country_code'];
