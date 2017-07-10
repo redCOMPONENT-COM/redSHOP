@@ -1,4 +1,4 @@
-<?php
+pnj <?php
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Controller.OrderDetail
@@ -351,8 +351,12 @@ class RedshopControllerOrder_detail extends RedshopController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_UPDATING_SHIPPING_INFORMATION');
 		}
-
-		$this->setRedirect('index.php?option=' . $suboption . '&view=' . $view . '&cid[]=' . (int) $cid[0], $msg);
+		?>
+		<script type="text/javascript">
+            window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>'
+            window.close();
+		</script>
+		<?php
 
 		JFactory::getApplication()->close();
 	}
@@ -433,9 +437,9 @@ class RedshopControllerOrder_detail extends RedshopController
 	 */
 	public function send_downloadmail()
 	{
-		$cid  = $this->input->get->get('cid', array(0), 'array');
+		$cid     = $this->input->get->get('cid', array(0), 'array');
 		$orderId = (int) $cid[0];
-		$tmpl = $this->input->getCmd('tmpl', '');
+		$tmpl    = $this->input->getCmd('tmpl', '');
 
 		$msg = JText::_('COM_REDSHOP_ERROR_DOWNLOAD_MAIL_FAIL');
 
