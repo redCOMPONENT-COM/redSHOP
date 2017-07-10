@@ -39,6 +39,7 @@ npm-debug.log
 node_modules/
 
 # Composer
+composer.lock
 vendor/*
 tests/vendor/*
 libraries/redshop/vendor/*
