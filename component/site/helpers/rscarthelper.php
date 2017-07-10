@@ -1433,9 +1433,9 @@ class rsCarthelper
 				$giftcardData = new stdClass;
 			}
 
-			$dirname = JPATH_COMPONENT_SITE . "/assets/images/orderMergeImages/" . $rowitem [$i]->attribute_image;
+			$dirname = JPath::clean(JPATH_COMPONENT_SITE . "/assets/images/orderMergeImages/" . $rowitem [$i]->attribute_image);
 
-			if (is_file($dirname))
+			if (JFile::exists($dirname))
 			{
 				$attribute_image_path = RedShopHelperImages::getImagePath(
 											$rowitem[$i]->attribute_image,
@@ -1450,7 +1450,7 @@ class rsCarthelper
 			}
 			else
 			{
-				if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $rowitem [$i]->attribute_image))
+				if (JFile::exists(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $rowitem [$i]->attribute_image) && Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART'))
 				{
 					$attribute_image_path = RedShopHelperImages::getImagePath(
 												$rowitem[$i]->attribute_image,
@@ -1478,7 +1478,7 @@ class rsCarthelper
 
 					if ($product_full_image)
 					{
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_type . "/" . $product_full_image))
+						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $product_type . "/" . $product_full_image))
 						{
 							$attribute_image_path = RedShopHelperImages::getImagePath(
 														$product_full_image,
@@ -1493,7 +1493,7 @@ class rsCarthelper
 						}
 						else
 						{
-							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
+							if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 							{
 								$attribute_image_path = RedShopHelperImages::getImagePath(
 															Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
@@ -1510,7 +1510,7 @@ class rsCarthelper
 					}
 					else
 					{
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
+						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 						{
 							$attribute_image_path = RedShopHelperImages::getImagePath(
 														Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
