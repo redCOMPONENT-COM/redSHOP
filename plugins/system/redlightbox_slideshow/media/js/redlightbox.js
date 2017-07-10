@@ -1,7 +1,6 @@
 function preloadSlimbox(isenable)
 {
-    (function(window, $, PhotoSwipe){
-
+    (function($){
         $(document).ready(function(){
             $("a[rel^=\'myallimg\']").attr("rel","lightbox[gallery]");
             if (!/android|iphone|ipod|series60|symbian|windows ce|blackberry/i.test(navigator.userAgent))
@@ -15,5 +14,5 @@ function preloadSlimbox(isenable)
                 $("a[rel^=\'lightbox\']").photoSwipe({ enableMouseWheel: false , enableKeyboard: false, captionAndToolbarAutoHideDelay: 0});
             }
         });
-    }(window, window.jQuery, window.Code.PhotoSwipe));
+    })(jQuery);
 }
