@@ -187,7 +187,7 @@ class rsCarthelper
 	/**
 	 * Replace Billing Address
 	 *
-	 * @param   string   $template
+	 * @param   string   $data
 	 * @param   string   $billingaddresses
 	 * @param   boolean  $sendmail
 	 *
@@ -203,151 +203,17 @@ class rsCarthelper
 	/**
 	 * Replace Shipping Address
 	 *
-	 * @param $data
-	 * @param $shippingaddresses
+	 * @param   string   $data
+	 * @param   string   $shippingaddresses
+	 * @param   boolean  $sendmail
 	 *
-	 * @return mixed
+	 * @return   string
+	 *
+	 * @deprecated   2.0.7  Use RedshopHelperCartTag::replaceShippingAddress() instead.
 	 */
 	public function replaceShippingAddress($data, $shippingaddresses, $sendmail = false)
 	{
-		if (strpos($data, '{shipping_address_start}') !== false && strpos($data, '{shipping_address_end}') !== false)
-		{
-			$template_sdata = explode('{shipping_address_start}', $data);
-			$template_edata = explode('{shipping_address_end}', $template_sdata[1]);
-			$shippingdata   = (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) ? $template_edata[0] : '';
-
-			$shipping_extrafield = '';
-
-			if (isset($shippingaddresses) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
-			{
-				$extra_section = ($shippingaddresses->is_company == 1) ? 15 : 14;
-
-				if ($shippingaddresses->is_company == 1 && $shippingaddresses->company_name != "")
-				{
-					$shippingdata = str_replace("{companyname}", $shippingaddresses->company_name, $shippingdata);
-					$shippingdata = str_replace("{companyname_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $shippingdata);
-				}
-
-				if ($shippingaddresses->firstname != "")
-				{
-					$shippingdata = str_replace("{firstname}", $shippingaddresses->firstname, $shippingdata);
-					$shippingdata = str_replace("{firstname_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $shippingdata);
-				}
-
-				if ($shippingaddresses->lastname != "")
-				{
-					$shippingdata = str_replace("{lastname}", $shippingaddresses->lastname, $shippingdata);
-					$shippingdata = str_replace("{lastname_lbl}", JText::_('COM_REDSHOP_LASTNAME'), $shippingdata);
-				}
-
-				if ($shippingaddresses->address != "")
-				{
-					$shippingdata = str_replace("{address}", $shippingaddresses->address, $shippingdata);
-					$shippingdata = str_replace("{address_lbl}", JText::_('COM_REDSHOP_ADDRESS'), $shippingdata);
-				}
-
-				if ($shippingaddresses->zipcode != "")
-				{
-					$shippingdata = str_replace("{zip}", $shippingaddresses->zipcode, $shippingdata);
-					$shippingdata = str_replace("{zip_lbl}", JText::_('COM_REDSHOP_ZIP'), $shippingdata);
-				}
-
-				if ($shippingaddresses->city != "")
-				{
-					$shippingdata = str_replace("{city}", $shippingaddresses->city, $shippingdata);
-					$shippingdata = str_replace("{city_lbl}", JText::_('COM_REDSHOP_CITY'), $shippingdata);
-				}
-
-				$cname = $this->_order_functions->getCountryName($shippingaddresses->country_code);
-
-				if ($cname != "")
-				{
-					$shippingdata = str_replace("{country}", JText::_($cname), $shippingdata);
-					$shippingdata = str_replace("{country_lbl}", JText::_('COM_REDSHOP_COUNTRY'), $shippingdata);
-				}
-
-				$sname = $this->_order_functions->getStateName($shippingaddresses->state_code, $shippingaddresses->country_code);
-
-				if ($sname != "")
-				{
-					$shippingdata = str_replace("{state}", $sname, $shippingdata);
-					$shippingdata = str_replace("{state_lbl}", JText::_('COM_REDSHOP_STATE'), $shippingdata);
-				}
-
-				if ($shippingaddresses->phone != "")
-				{
-					$shippingdata = str_replace("{phone}", $shippingaddresses->phone, $shippingdata);
-					$shippingdata = str_replace("{phone_lbl}", JText::_('COM_REDSHOP_PHONE'), $shippingdata);
-				}
-
-				// Additional functionality - more flexible way
-				$shippingdata = $this->_extraFieldFront->extra_field_display($extra_section, $shippingaddresses->users_info_id, "", $shippingdata);
-
-				$shipping_extrafield = $this->_extra_field->list_all_field_display($extra_section, $shippingaddresses->users_info_id, 1);
-			}
-
-			$shippingdata = str_replace("{companyname}", "", $shippingdata);
-			$shippingdata = str_replace("{companyname_lbl}", "", $shippingdata);
-			$shippingdata = str_replace("{firstname}", "", $shippingdata);
-			$shippingdata = str_replace("{firstname_lbl}", "", $shippingdata);
-			$shippingdata = str_replace("{lastname}", "", $shippingdata);
-			$shippingdata = str_replace("{lastname_lbl}", "", $shippingdata);
-			$shippingdata = str_replace("{address}", "", $shippingdata);
-			$shippingdata = str_replace("{address_lbl}", "", $shippingdata);
-			$shippingdata = str_replace("{zip}", "", $shippingdata);
-			$shippingdata = str_replace("{zip_lbl}", "", $shippingdata);
-			$shippingdata = str_replace("{city}", "", $shippingdata);
-			$shippingdata = str_replace("{city_lbl}", "", $shippingdata);
-			$shippingdata = str_replace("{country}", "", $shippingdata);
-			$shippingdata = str_replace("{country_lbl}", "", $shippingdata);
-			$shippingdata = str_replace("{state}", "", $shippingdata);
-			$shippingdata = str_replace("{state_lbl}", "", $shippingdata);
-			$shippingdata = str_replace("{phone}", "", $shippingdata);
-			$shippingdata = str_replace("{phone_lbl}", "", $shippingdata);
-			$shippingdata = str_replace("{shipping_extrafield}", $shipping_extrafield, $shippingdata);
-
-			$data = $template_sdata[0] . $shippingdata . $template_edata[1];
-		}
-		elseif (strpos($data, '{shipping_address}') !== false)
-		{
-			$shipadd = '';
-
-			if (isset($shippingaddresses) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
-			{
-				$shippingLayout = 'cart.shipping';
-
-				if ($sendmail)
-				{
-					$shippingLayout = 'mail.shipping';
-				}
-
-				$shipadd = RedshopLayoutHelper::render(
-					$shippingLayout,
-					array('shippingaddresses' => $shippingaddresses),
-					null,
-					array('client' => 0)
-				);
-
-				if ($shippingaddresses->is_company == 1)
-				{
-					// Additional functionality - more flexible way
-					$data = $this->_extraFieldFront->extra_field_display(15, $shippingaddresses->users_info_id, "", $data);
-				}
-				else
-				{
-					// Additional functionality - more flexible way
-					$data = $this->_extraFieldFront->extra_field_display(14, $shippingaddresses->users_info_id, "", $data);
-				}
-			}
-
-			$data = str_replace("{shipping_address}", $shipadd, $data);
-		}
-
-		$shippingtext = (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) ? JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL') : '';
-		$data         = str_replace("{shipping_address}", "", $data);
-		$data         = str_replace("{shipping_address_information_lbl}", $shippingtext, $data);
-
-		return $data;
+		return RedshopHelperCartTag::replaceShippingAddress($data, $shippingaddresses, $sendmail);
 	}
 
 	/**
