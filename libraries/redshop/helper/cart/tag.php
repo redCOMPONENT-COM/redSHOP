@@ -1808,4 +1808,313 @@ class RedshopHelperCartTag
 
 		return $returnArr;
 	}
+
+	/**
+	 * @param   string  $template
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 */
+	public static function replaceLabel($template)
+	{
+		$search  = array();
+		$replace = array();
+
+		if (strpos($template, '{cart_lbl}') !== false)
+		{
+			$search[]  = "{cart_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_CART_LBL');
+		}
+
+		if (strpos($template, '{copy_orderitem_lbl}') !== false)
+		{
+			$search[]  = "{copy_orderitem_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_COPY_ORDERITEM_LBL');
+		}
+
+		if (strpos($template, '{totalpurchase_lbl}') !== false)
+		{
+			$search[]  = "{totalpurchase_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_CART_TOTAL_PURCHASE_TBL');
+		}
+
+		if (strpos($template, '{subtotal_excl_vat_lbl}') !== false)
+		{
+			$search[]  = "{subtotal_excl_vat_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_SUBTOTAL_EXCL_VAT_LBL');
+		}
+
+		if (strpos($template, '{product_name_lbl}') !== false)
+		{
+			$search[]  = "{product_name_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_PRODUCT_NAME_LBL');
+		}
+
+		if (strpos($template, '{price_lbl}') !== false)
+		{
+			$search[]  = "{price_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_PRICE_LBL');
+		}
+
+		if (strpos($template, '{quantity_lbl}') !== false)
+		{
+			$search[]  = "{quantity_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_QUANTITY_LBL');
+		}
+
+		if (strpos($template, '{total_price_lbl}') !== false)
+		{
+			$search[]  = "{total_price_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_TOTAL_PRICE_LBL');
+		}
+
+		if (strpos($template, '{total_price_exe_lbl}') !== false)
+		{
+			$search[]  = "{total_price_exe_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_TOTAL_PRICE_EXEL_LBL');
+		}
+
+		if (strpos($template, '{order_id_lbl}') !== false)
+		{
+			$search[]  = "{order_id_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_ORDER_ID_LBL');
+		}
+
+		if (strpos($template, '{order_number_lbl}') !== false)
+		{
+			$search[]  = "{order_number_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_ORDER_NUMBER_LBL');
+		}
+
+		if (strpos($template, '{order_date_lbl}') !== false)
+		{
+			$search[]  = "{order_date_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_ORDER_DATE_LBL');
+		}
+
+		if (strpos($template, '{requisition_number_lbl}') !== false)
+		{
+			$search[]  = "{requisition_number_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
+		}
+
+		if (strpos($template, '{order_status_lbl}') !== false)
+		{
+			$search[]  = "{order_status_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_ORDER_STAUS_LBL');
+		}
+
+		if (strpos($template, '{order_status_order_only_lbl}') !== false)
+		{
+			$search[]  = "{order_status_order_only_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_ORDER_STAUS_LBL');
+		}
+
+		if (strpos($template, '{order_status_payment_only_lbl}') !== false)
+		{
+			$search[]  = "{order_status_payment_only_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_PAYMENT_STAUS_LBL');
+		}
+
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
+		{
+			if (strpos($template, '{shipping_lbl}') !== false)
+			{
+				$search[]  = "{shipping_lbl}";
+				$replace[] = JText::_('COM_REDSHOP_CHECKOUT_SHIPPING_LBL');
+			}
+
+			if (strpos($template, '{tax_with_shipping_lbl}') !== false)
+			{
+				$search[]  = "{tax_with_shipping_lbl}";
+				$replace[] = JText::_('COM_REDSHOP_CHECKOUT_SHIPPING_LBL');
+			}
+		}
+		else
+		{
+			if (strpos($template, '{shipping_lbl}') !== false)
+			{
+				$search[]  = "{shipping_lbl}";
+				$replace[] = "";
+			}
+
+			if (strpos($template, '{tax_with_shipping_lbl}') !== false)
+			{
+				$search[]  = "{tax_with_shipping_lbl}";
+				$replace[] = "";
+			}
+		}
+
+		if (strpos($template, '{order_information_lbl}') !== false)
+		{
+			$search[]  = "{order_information_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_ORDER_INFORMATION_LBL');
+		}
+
+		if (strpos($template, '{order_detail_lbl}') !== false)
+		{
+			$search[]  = "{order_detail_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_ORDER_DETAIL_LBL');
+		}
+
+		if (strpos($template, '{product_name_lbl}') !== false)
+		{
+			$search[]  = "{product_name_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_PRODUCT_NAME_LBL');
+		}
+
+		if (strpos($template, '{note_lbl}') !== false)
+		{
+			$search[]  = "{note_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_NOTE_LBL');
+		}
+
+		if (strpos($template, '{price_lbl}') !== false)
+		{
+			$search[]  = "{price_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_PRICE_LBL');
+		}
+
+		if (strpos($template, '{quantity_lbl}') !== false)
+		{
+			$search[]  = "{quantity_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_QUANTITY_LBL');
+		}
+
+		if (strpos($template, '{total_price_lbl}') !== false)
+		{
+			$search[]  = "{total_price_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_TOTAL_PRICE_LBL');
+		}
+
+		if (strpos($template, '{order_subtotal_lbl}') !== false)
+		{
+			$search[]  = "{order_subtotal_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_ORDER_SUBTOTAL_LBL');
+		}
+
+		if (strpos($template, '{total_lbl}') !== false)
+		{
+			$search[]  = "{total_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_TOTAL_LBL');
+		}
+
+		if (strpos($template, '{discount_type_lbl}') !== false)
+		{
+			$search[]  = "{discount_type_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_CART_DISCOUNT_CODE_TBL');
+		}
+
+		if (strpos($template, '{payment_lbl}') !== false)
+		{
+			$search[]  = "{payment_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_PAYMENT_METHOD');
+		}
+
+		if (strpos($template, '{customer_note_lbl}') !== false)
+		{
+			$search [] = "{customer_note_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL');
+		}
+
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
+		{
+			if (strpos($template, '{shipping_method_lbl}') !== false)
+			{
+				$search[]  = "{shipping_method_lbl}";
+				$replace[] = JText::_('COM_REDSHOP_SHIPPING_METHOD_LBL');
+			}
+		}
+		else
+		{
+			if (strpos($template, '{shipping_method_lbl}') !== false)
+			{
+				$search[]  = "{shipping_method_lbl}";
+				$replace[] = '';
+			}
+		}
+
+		if (strpos($template, '{product_number_lbl}') !== false)
+		{
+			$search[]  = "{product_number_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_PRODUCT_NUMBER');
+		}
+
+		if (strpos($template, '{shopname}') !== false)
+		{
+			$search []  = "{shopname}";
+			$replace [] = Redshop::getConfig()->get('SHOP_NAME');
+		}
+
+		if (strpos($template, '{quotation_id_lbl}') !== false)
+		{
+			$search []  = "{quotation_id_lbl}";
+			$replace [] = JText::_('COM_REDSHOP_QUOTATION_ID');
+		}
+
+		if (strpos($template, '{quotation_number_lbl}') !== false)
+		{
+			$search []  = "{quotation_number_lbl}";
+			$replace [] = JText::_('COM_REDSHOP_QUOTATION_NUMBER');
+		}
+
+		if (strpos($template, '{quotation_date_lbl}') !== false)
+		{
+			$search []  = "{quotation_date_lbl}";
+			$replace [] = JText::_('COM_REDSHOP_QUOTATION_DATE');
+		}
+
+		if (strpos($template, '{quotation_status_lbl}') !== false)
+		{
+			$search []  = "{quotation_status_lbl}";
+			$replace [] = JText::_('COM_REDSHOP_QUOTATION_STATUS');
+		}
+
+		if (strpos($template, '{quotation_note_lbl}') !== false)
+		{
+			$search []  = "{quotation_note_lbl}";
+			$replace [] = JText::_('COM_REDSHOP_QUOTATION_NOTE');
+		}
+
+		if (strpos($template, '{quotation_information_lbl}') !== false)
+		{
+			$search []  = "{quotation_information_lbl}";
+			$replace [] = JText::_('COM_REDSHOP_QUOTATION_INFORMATION');
+		}
+
+		if (strpos($template, '{account_information_lbl}') !== false)
+		{
+			$search []  = "{account_information_lbl}";
+			$replace [] = JText::_('COM_REDSHOP_ACCOUNT_INFORMATION');
+		}
+
+		if (strpos($template, '{quotation_detail_lbl}') !== false)
+		{
+			$search []  = "{quotation_detail_lbl}";
+			$replace [] = JText::_('COM_REDSHOP_QUOTATION_DETAILS');
+		}
+
+		if (strpos($template, '{quotation_subtotal_lbl}') !== false)
+		{
+			$search []  = "{quotation_subtotal_lbl}";
+			$replace [] = JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL');
+		}
+
+		if (strpos($template, '{quotation_discount_lbl}') !== false)
+		{
+			$search []  = "{quotation_discount_lbl}";
+			$replace [] = JText::_('COM_REDSHOP_QUOTATION_DISCOUNT_LBL');
+		}
+
+		if (strpos($template, '{thirdparty_email_lbl}') !== false)
+		{
+			$search [] = "{thirdparty_email_lbl}";
+			$replace[] = JText::_('COM_REDSHOP_THIRDPARTY_EMAIL_LBL');
+		}
+
+		$template = str_replace($search, $replace, $template);
+
+		return $template;
+	}
 }
