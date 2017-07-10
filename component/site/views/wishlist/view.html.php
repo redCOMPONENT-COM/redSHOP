@@ -9,28 +9,31 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * Wishlist View
+ *
+ * @package     RedShop.Component
+ * @subpackage  View
+ *
+ * @since       1.0
+ */
 class RedshopViewWishlist extends RedshopView
 {
+	/**
+	 * @param   string  $tpl  Template layout
+	 *
+	 *
+	 * @since   1.0.0
+	 */
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
 
 		// Request variables
+		$task   = $app->input->getCmd('task', 'com_redshop');
+		$layout =  $app->input->getCmd('layout');
 
 		$params = $app->getParams('com_redshop');
-		$task   = JRequest::getCmd('task', 'com_redshop');
-
-		$Itemid = JRequest::getInt('Itemid');
-		$pid    = JRequest::getInt('product_id');
-		$layout = JRequest::getCmd('layout');
-
-		$config = Redconfiguration::getInstance();
-
-		$pageheadingtag = '';
-
-		$params   = $app->getParams('com_redshop');
-
 		$model = $this->getModel("wishlist");
 
 		$wishlist          = $model->getUserWishlist();
@@ -44,21 +47,20 @@ class RedshopViewWishlist extends RedshopView
 			$this->wish_products = $wish_products;
 			$this->wish_session  = $session_wishlists;
 			$this->params        = $params;
-			parent::display($tpl);
 		}
 		elseif ($task == 'viewloginwishlist')
 		{
 			$this->setlayout('viewloginwishlist');
 			$this->wishlists = $wishlist;
-			$this->params = $params;
-			parent::display($tpl);
+			$this->params    = $params;
 		}
 		else
 		{
 			$this->wish_session = $session_wishlists;
-			$this->wishlist = $wishlist;
-			$this->params = $params;
-			parent::display($tpl);
+			$this->wishlist     = $wishlist;
+			$this->params       = $params;
 		}
+
+		parent::display($tpl);
 	}
 }
