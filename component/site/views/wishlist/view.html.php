@@ -37,14 +37,13 @@ class RedshopViewWishlist extends RedshopView
 		$model = $this->getModel("wishlist");
 
 		$wishlist          = $model->getUserWishlist();
-		$wish_products     = $model->getWishlistProduct();
 		$session_wishlists = $model->getWishlistProductFromSession();
 
 		if ($task == 'viewwishlist' || $layout == 'viewwishlist')
 		{
 			$this->setlayout('viewwishlist');
 			$this->wishlists     = $wishlist;
-			$this->wish_products = $wish_products;
+			$this->wish_products = $model->getWishlistProduct();
 			$this->wish_session  = $session_wishlists;
 			$this->params        = $params;
 		}
