@@ -698,16 +698,16 @@ class RedshopHelperCartTag
 	}
 
 	/**
-	 * @param   string  $template
-	 * @param   array   $cart
-	 * @param   string  $replace_button
-	 * @param   int     $quotationMode
+	 * @param   string   $template
+	 * @param   array    $cart
+	 * @param   boolean  $replace_button
+	 * @param   int      $quotationMode
 	 *
 	 * @return  string
 	 *
 	 * @since   2.0.7
 	 */
-	public static function replaceCartItem($template, $cart = array(), $replace_button, $quotationMode = 0)
+	public static function replaceCartItem($template, $cart = array(), $replace_button = false, $quotationMode = 0)
 	{
 		$input = JFactory::getApplication()->input;
 		JPluginHelper::importPlugin('redshop_product');
