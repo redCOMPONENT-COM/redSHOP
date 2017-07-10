@@ -688,7 +688,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                                 <br/><br/>
                                                                 <?php
                                                                 JPluginHelper::importPlugin('redshop_product');
-                                                                $dispatcher = JDispatcher::getInstance();
+                                                                $dispatcher = RedshopHelperUtility::getDispatcher();
                                                                 $dispatcher->trigger('onDisplayOrderItemNote', array($products[$i]));
                                                                 ?>
                                                             </td>
