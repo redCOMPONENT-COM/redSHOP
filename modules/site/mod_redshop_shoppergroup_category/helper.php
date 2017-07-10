@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_menu
  * @since       1.5
  */
-class RedmodMenuHelper
+class RedModMenuHelper
 {
 	/**
 	 * Get a list of the menu items.
