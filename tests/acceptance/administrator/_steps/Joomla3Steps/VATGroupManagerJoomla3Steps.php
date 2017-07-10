@@ -32,7 +32,7 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\VATGroupManagerJoomla3Page::$VATGroupName, $VATGroupName);
         $I->click("Save & Close");
-        $I->see("item successfully saved", '.alert-success');
+        $I->see("item saved", '.alert-success');
     }
     public function addVATGroupsCancel()
     {
@@ -69,7 +69,7 @@ class VATGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->verifyNotices(false, $this->checkForNotices(), 'VAT / Tax Group Management: [ Edit ]');
         $I->fillField(\VATGroupManagerJoomla3Page::$VATGroupName, $VATGroupEdit);
         $I->click("Save & Close");
-        $I->see("item successfully saved", '.alert-success');
+        $I->see("item saved", '.alert-success');
     }
     public function editVATGroupsWithoutName($VATGroupName)
     {

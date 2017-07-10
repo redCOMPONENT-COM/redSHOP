@@ -251,7 +251,7 @@ class RedshopControllerProduct extends RedshopController
 			echo $data_product;
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	public function assignTemplate()
