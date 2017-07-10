@@ -96,51 +96,19 @@ class rsCarthelper
 		return RedshopHelperCart::calculateTaxAfterDiscount($tax, $discount);
 	}
 
-	/*
-	 * replace Conditional tag from Redshop Discount
+	/**
+	 * Replace Conditional tag from Redshop Discount
+	 *
+	 * @param   string $data
+	 * @param   int  $discount
+	 * @param   int  $subtotal
+	 * @param   int  $quotation_mode
+	 *
+	 * @return  string
 	 */
-
 	public function replaceDiscount($data = '', $discount = 0, $subtotal = 0, $quotation_mode = 0)
 	{
-		if (strpos($data, '{if discount}') !== false && strpos($data, '{discount end if}') !== false)
-		{
-			$percentage = '';
-
-			if ($discount <= 0)
-			{
-				$template_discount_sdata = explode('{if discount}', $data);
-				$template_discount_edata = explode('{discount end if}', $template_discount_sdata[1]);
-				$data                    = $template_discount_sdata[0] . $template_discount_edata[1];
-			}
-			else
-			{
-				$data = str_replace("{if discount}", '', $data);
-
-				if ($quotation_mode && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
-				{
-					$data = str_replace("{discount}", "", $data);
-					$data = str_replace("{discount_in_percentage}", $percentage, $data);
-
-				}
-				else
-				{
-					$data = str_replace("{discount}", $this->_producthelper->getProductFormattedPrice($discount, true), $data);
-					$data = str_replace("{order_discount}", $this->_producthelper->getProductFormattedPrice($discount, true), $data);
-
-					if (!empty($subtotal) && $subtotal > 0)
-					{
-						$percentage = round(($discount * 100 / $subtotal), 2) . " %";
-					}
-
-					$data = str_replace("{discount_in_percentage}", $percentage, $data);
-				}
-
-				$data = str_replace("{discount_lbl}", JText::_('COM_REDSHOP_CHECKOUT_DISCOUNT_LBL'), $data);
-				$data = str_replace("{discount end if}", '', $data);
-			}
-		}
-
-		return $data;
+		return RedshopHelperCartTag::replaceDiscount($data, $discount, $subtotal, $quotation_mode);
 	}
 
 	/**
