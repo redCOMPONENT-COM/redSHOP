@@ -38,7 +38,7 @@ class Utility
 
 		if (JFactory::getApplication()->isSite())
 		{
-			$default = JFactory::getApplication()->getMenu()->getActive()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+			$default = JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
 		}
 
 		if (empty($default))
