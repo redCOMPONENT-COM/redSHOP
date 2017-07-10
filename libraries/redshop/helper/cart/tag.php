@@ -567,4 +567,133 @@ class RedshopHelperCartTag
 
 		return $template;
 	}
+
+	/**
+	 * Replace Shipping methods
+	 *
+	 * @param   string  $template
+	 * @param   array   $row
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 */
+	public static function replaceShippingMethod($template = "", $row = array())
+	{
+		$productHelper = productHelper::getInstance();
+		$search = array();
+		$search[] = "{shipping_method}";
+		$search[] = "{order_shipping}";
+		$search[] = "{shipping_excl_vat}";
+		$search[] = "{shipping_rate_name}";
+		$search[] = "{shipping}";
+		$search[] = "{vat_shipping}";
+		$search[] = "{order_shipping_shop_location}";
+
+		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
+		{
+			$details = RedshopShippingRate::decrypt($row->ship_method_id);
+
+			if (count($details) <= 1)
+			{
+				$details = explode("|", $row->ship_method_id);
+			}
+
+			$shipping_method    = "";
+			$shipping_rate_name = "";
+
+			if (count($details) > 0)
+			{
+				// Load language file of the shipping plugin
+				JFactory::getLanguage()->load(
+					'plg_redshop_shipping_' . strtolower(str_replace('plgredshop_shipping', '', $details[0])),
+					JPATH_ADMINISTRATOR
+				);
+
+				if (array_key_exists(1, $details))
+				{
+					$shipping_method = $details[1];
+				}
+
+				if (array_key_exists(2, $details))
+				{
+					$shipping_rate_name = $details[2];
+				}
+			}
+
+			$shopLocation = $row->shop_id;
+			$replace      = array();
+			$replace[]    = JText::_($shipping_method);
+			$replace[]    = $productHelper->getProductFormattedPrice($row->order_shipping);
+			$replace[]    = $productHelper->getProductFormattedPrice($row->order_shipping - $row->order_shipping_tax);
+			$replace[]    = JText::_($shipping_rate_name);
+			$replace[]    = $productHelper->getProductFormattedPrice($row->order_shipping);
+			$replace[]    = $productHelper->getProductFormattedPrice($row->order_shipping_tax);
+
+			if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
+			{
+				$shopLocation = '';
+			}
+
+			$mobilearr = array();
+
+			if ($shopLocation)
+			{
+				$mobilearr          = explode('###', $shopLocation);
+				$arrLocationDetails = explode('|', $shopLocation);
+				$countLocDet = count($arrLocationDetails);
+				$shopLocation = '';
+
+				if ($countLocDet > 1)
+				{
+					$shopLocation .= '<b>' . $arrLocationDetails[0] . ' ' . $arrLocationDetails[1] . '</b>';
+				}
+
+				if ($countLocDet > 2)
+				{
+					$shopLocation .= '<br>' . $arrLocationDetails[2];
+				}
+
+				if ($countLocDet > 3)
+				{
+					$shopLocation .= '<br>' . $arrLocationDetails[3];
+				}
+
+				if ($countLocDet > 4)
+				{
+					$shopLocation .= ' ' . $arrLocationDetails[4];
+				}
+
+				if ($countLocDet > 5)
+				{
+					$shopLocation .= '<br>' . $arrLocationDetails[5];
+				}
+
+				if ($countLocDet > 6)
+				{
+					$arrLocationTime = explode('  ', $arrLocationDetails[6]);
+					$shopLocation .= '<br>';
+
+					for ($t = 0, $tn = count($arrLocationTime); $t < $tn; $t++)
+					{
+						$shopLocation .= $arrLocationTime[$t] . '<br>';
+					}
+				}
+			}
+
+			if (isset($mobilearr[1]))
+			{
+				$shopLocation .= ' ' . $mobilearr[1];
+			}
+
+			$replace[] = $shopLocation;
+			$template = str_replace($search, $replace, $template);
+		}
+		else
+		{
+			$template = str_replace($search, array("", "", "", ""), $template);
+		}
+
+		return $template;
+	}
 }
