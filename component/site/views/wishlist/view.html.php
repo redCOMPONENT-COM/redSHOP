@@ -37,14 +37,13 @@ class RedshopViewWishlist extends RedshopView
 		$model = $this->getModel("wishlist");
 
 		$wishlist          = $model->getUserWishlist();
-		$session_wishlists = $model->getWishlistProductFromSession();
 
 		if ($task == 'viewwishlist' || $layout == 'viewwishlist')
 		{
 			$this->setlayout('viewwishlist');
 			$this->wishlists     = $wishlist;
 			$this->wish_products = $model->getWishlistProduct();
-			$this->wish_session  = $session_wishlists;
+			$this->wish_session  = $model->getWishlistProductFromSession();
 			$this->params        = $params;
 		}
 		elseif ($task == 'viewloginwishlist')
@@ -55,7 +54,7 @@ class RedshopViewWishlist extends RedshopView
 		}
 		else
 		{
-			$this->wish_session = $session_wishlists;
+			$this->wish_session = $model->getWishlistProductFromSession();
 			$this->wishlist     = $wishlist;
 			$this->params       = $params;
 		}
