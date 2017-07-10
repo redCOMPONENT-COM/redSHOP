@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="2.5" client="site" method="upgrade">
 	<name>MOD_REDSHOP_LOGINGREETING</name>
-	<version>1.6</version>
+	<version>1.6.1</version>
 	<redshop>2.0</redshop>
 	<creationDate>Sep 2016</creationDate>
 	<author>redCOMPONENT.com</author>
@@ -12,19 +12,16 @@
 	<files>
 		<filename module="mod_redshop_logingreeting">mod_redshop_logingreeting.php</filename>
 		<filename module="mod_redshop_logingreeting">mod_redshop_logingreeting.xml</filename>
-		<filename module="mod_redshop_discount">tmpl/default.php</filename>
+		<folder module="mod_redshop_discount">tmpl</folder>
+		<folder module="mod_redshop_discount">language</folder>
 	</files>
 
 	<!-- Medias -->
 	<media destination="mod_redshop_logingreeting" folder="media">
-		<folder>css</folder>
-		<filename>index.html</filename>
+		<folder>mod_redshop_logingreeting</folder>
 	</media>
 
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_logingreeting.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_redshop_logingreeting.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -43,8 +40,8 @@
 					default="0"
 					label="MOD_REDSHOP_LOGINGREETING_TYPE"
 					description="MOD_REDSHOP_LOGINGREETING_TYPE_DESC">
-						<option value="0">Joomla Username</option>
-						<option value="1">Joomla Fullname</option>
+						<option value="0">MOD_REDSHOP_JOOMLA_USERNAME</option>
+						<option value="1">MOD_REDSHOP_JOOMLA_USER_FULLNAME</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">

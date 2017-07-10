@@ -14,11 +14,11 @@ defined('_JEXEC') or die;
 <?php if ($user->id) : ?>
 	<?php if ($params->def('logging_greeting', 1) == 0) : ?>
 		<div class="logingreeting">
-			<?php echo $maintext . ' ' . $user->username; ?>
+			<?php echo $greetingText . ' ' . $user->username; ?>
 		</div>
 	<?php else : ?>
 		<div class="loginname">
-			<?php echo $maintext . ' ' . $orderHelper->getUserFullname($user->id); ?>
+			<?php echo $greetingText . ' ' . $orderHelper->getUserFullname($user->id); ?>
 		</div>
 	<?php endif; ?>
 <?php endif; ?>
