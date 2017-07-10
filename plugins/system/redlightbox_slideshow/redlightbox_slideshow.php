@@ -3,68 +3,62 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
-class plgSystemRedlightbox_slideshow extends JPlugin
+
+/**
+ * Redshop Lightbox Slideshow
+ *
+ * @since  2.0
+ */
+class PlgSystemRedlightbox_Slideshow extends JPlugin
 {
-    public $plg_name = "redlightbox_slideshow";
+	/**
+	 * This event is triggered immediately before pushing the document buffers into the template placeholders,
+	 * retrieving data from the document and pushing it into the into the JResponse buffer.
+	 * http://docs.joomla.org/Plugin/Events/System
+	 *
+	 * @return void
+	 */
+	public function onBeforeRender()
+	{
+		$app = JFactory::getApplication();
 
-    public function onBeforeRender()
-    {
-        $app = JFactory::getApplication();
+		// No lightbox for admin
+		if ($app->isAdmin() || $app->input->getCmd('view') != 'product'
+			|| $app->input->getCmd('option') != "com_redshop" || $app->input->getCmd('tmpl') == "component")
+		{
+			return;
+		}
 
-        // No redlighbox for admin
-        if ($app->isAdmin())
-        {
-            return;
-        }
+		$document = JFactory::getDocument();
+		$scripts  = $document->_scripts;
 
-        if (JRequest::getCmd('view') != 'product')
-        {
-            return;
-        }
+		foreach ($scripts as $path => $val)
+		{
+			if (strpos($path, 'attribute.js') !== false || strpos($path, 'attribute-uncompressed.js') !== false)
+			{
+				unset($scripts[$path]);
+			}
+		}
 
-        // Assign paths
-        $sitePath = JPATH_SITE;
-        $siteUrl = JURI::base(true);
+		JHtml::_('redshopjquery.framework');
 
-        // Check if plugin is enabled
-        if (JPluginHelper::isEnabled('system', $this->plg_name) == false)
-        {
-            return;
-        }
+		JHtml::stylesheet('plg_system_redlightbox_slideshow/slimbox2/slimbox2.min.css', array(), true);
+		JHtml::stylesheet('plg_system_redlightbox_slideshow/photoswipe/photoswipe.min.css', array(), true);
+		JHtml::stylesheet('plg_system_redlightbox_slideshow/photoswipe/default-skin/default-skin.min.css', array(), true);
 
-        if (JRequest::getCmd('option') == "com_redshop"
-            && JRequest::getCmd('tmpl') != "component")
-        {
-            $document = JFactory::getDocument();
-            $headerstuff = $document->getHeadData();
-            $scripts = $headerstuff['scripts'];
+		JHtml::script('plg_system_redlightbox_slideshow/photoswipe/photoswipe.min.js', false, true, false, false);
+		JHtml::script('plg_system_redlightbox_slideshow/photoswipe/photoswipe-ui-default.min.js', false, true, false, false);
+		JHtml::script('plg_system_redlightbox_slideshow/slimbox2/slimbox2.min.js', false, true, false, false);
 
-            foreach ($scripts as $path => $val)
-            {
-                if (strpos($path, 'attribute.js') !== false)
-                {
-                    unset($scripts[$path]);
-                }
-            }
 
-            $headerstuff['scripts'] = $scripts;
-            $document->setHeadData($headerstuff);
-
-			JHtml::_('redshopjquery.framework');
-            $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/phoswipe/klass.min.js');
-            $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/phoswipe/photoswipe.js');
-            $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/slimbox/slimbox2.js');
-			JHtml::script('com_redshop/attribute.js', false, true);
-            $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/redlightbox.js');
-
-            $document->addStyleSheet('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/phoswipe/photoswipe.css');
-            $document->addStyleSheet('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/slimbox/slimbox2.css');
-        }
-    }
+		JHtml::script('com_redshop/attribute.js', false, true, false, false);
+		JHtml::script('plg_system_redlightbox_slideshow/redlightbox.js', false, true, false, false);
+	}
 }
 
