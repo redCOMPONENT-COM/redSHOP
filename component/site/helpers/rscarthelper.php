@@ -67,14 +67,14 @@ class rsCarthelper
 	/**
 	 * replace Conditional tag from Redshop tax
 	 *
-	 * @param string $data
-	 * @param int    $amount
-	 * @param int    $discount
-	 * @param int    $check
-	 * @param int    $quotation_mode
+	 * @param   string $data
+	 * @param   int    $amount
+	 * @param   int    $discount
+	 * @param   int    $check
+	 * @param   int    $quotation_mode
 	 *
 	 * @deprecated   2.0.7  Use RedshopHelperCartTag::replaceTax() instead
-	 * @return mixed|string
+	 * @return  mixed|string
 	 */
 	public function replaceTax($data = '', $amount = 0, $discount = 0, $check = 0, $quotation_mode = 0)
 	{
