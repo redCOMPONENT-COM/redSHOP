@@ -9,20 +9,21 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\Economic as RedshopEconomic;
+use Redshop\Helper\Utility;
 
 /**
  * redSHOP User Helper class
+ *
+ * @since  1.0.0
  */
-class rsUserHelper
+class RsUserHelper
 {
 	public $_session = null;
 
 	public $_userId = null;
 
 	public $db = null;
-
-	protected static $userInfo = array();
 
 	protected static $instance = null;
 
@@ -85,30 +86,30 @@ class rsUserHelper
 	/**
 	 * Get User groups
 	 *
-	 * @param   integer  $user_id  User identifier
+	 * @param   integer  $userId  User identifier
 	 *
-	 * @return  array              Array of user groups
+	 * @return  array             Array of user groups
 	 *
 	 * @deprecated  2.0.6
 	 */
-	public function getUserGroupList($user_id = 0)
+	public function getUserGroupList($userId = 0)
 	{
-		return RedshopHelperUser::getUserGroups($user_id);
+		return RedshopHelperUser::getUserGroups($userId);
 	}
 
 	/**
 	 * Method for update term & conditions of user.
 	 *
-	 * @param   int  $users_info_id  RedSHOP User ID
-	 * @param   int  $isSet          Is set?
+	 * @param   int  $userInfoId  RedSHOP User ID
+	 * @param   int  $isSet       Is set?
 	 *
 	 * @return  void
 	 *
 	 * @deprecated  2.0.6
 	 */
-	public function updateUserTermsCondition($users_info_id = 0, $isSet = 0)
+	public function updateUserTermsCondition($userInfoId = 0, $isSet = 0)
 	{
-		RedshopHelperUser::updateUserTermsCondition($users_info_id, $isSet);
+		RedshopHelperUser::updateUserTermsCondition($userInfoId, $isSet);
 	}
 
 	/**
@@ -120,7 +121,7 @@ class rsUserHelper
 	 *
 	 * @return mixed
 	 */
-	public function getShoppergroupData($userId = 0)
+	public function getShopperGroupData($userId = 0)
 	{
 		return RedshopHelperUser::getShopperGroupData($userId);
 	}
@@ -142,26 +143,26 @@ class rsUserHelper
 	/**
 	 * Create redshop user session
 	 *
-	 * @param   int  $user_id  Joomla user id
+	 * @param   int  $userId  Joomla user id
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::createUserSession instead
 	 *
 	 * @return  array|mixed
 	 */
-	public function createUserSession($user_id = 0)
+	public function createUserSession($userId = 0)
 	{
-		return RedshopHelperUser::createUserSession($user_id);
+		return RedshopHelperUser::createUserSession($userId);
 	}
 
 	/**
 	 * This function is used to check if the 'username' already exist in the database with any other ID
 	 *
-	 * @param   string  $username
-	 * @param   int     $id
+	 * @param   string   $username  Username for validate
+	 * @param   integer  $id        ID of user
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::validateUser instead
 	 *
-	 * @return  int|void
+	 * @return  integer
 	 */
 	public function validate_user($username, $id = 0)
 	{
@@ -171,12 +172,12 @@ class rsUserHelper
 	/**
 	 * This function is used to check if the 'email' already exist in the database with any other ID
 	 *
-	 * @param   string  $username
-	 * @param   int     $id
+	 * @param   string   $email  Email for validate
+	 * @param   integer  $id     ID of user
 	 *
 	 * @deprecated  1.5  Use RedshopHelperUser::validateEmail instead
 	 *
-	 * @return  int|void
+	 * @return  integer
 	 */
 	public function validate_email($email, $id = 0)
 	{
@@ -450,31 +451,19 @@ class rsUserHelper
 		return $user;
 	}
 
+	/**
+	 * This function is for check captcha code
+	 *
+	 * @param   string   $data            The answer
+	 * @param   boolean  $displayWarning  Display warning or not.
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 *
+	 * @return  boolean
+	 */
 	public function checkCaptcha($data, $displayWarning = true)
 	{
-		$default = JFactory::getConfig()->get('captcha');
-
-		if (JFactory::getApplication()->isSite())
-		{
-			$default = JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
-		}
-
-		if (!empty($default))
-		{
-			$captcha = JCaptcha::getInstance($default, array('namespace' => 'redshop'));
-
-			if ($captcha != null && !$captcha->checkAnswer($data))
-			{
-				if ($displayWarning)
-				{
-					JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'error');
-				}
-
-				return false;
-			}
-		}
-
-		return true;
+		return Utility::checkCaptcha($data, $displayWarning);
 	}
 
 	public function storeRedshopUser($data, $user_id = 0, $admin = 0)
@@ -590,7 +579,7 @@ class rsUserHelper
 		{
 			if ($isNew)
 			{
-				$maxDebtor = Economic::getMaxDebtorInEconomic();
+				$maxDebtor = RedshopEconomic::getMaxDebtorInEconomic();
 
 				if (count($maxDebtor) > 0)
 				{
@@ -619,7 +608,7 @@ class rsUserHelper
 				}
 			}
 
-			$debtorHandle = Economic::createUserInEconomic($row);
+			$debtorHandle = RedshopEconomic::createUserInEconomic($row);
 
 			if ($row->is_company && trim($row->ean_number) != '' && JError::isError(JError::getError()))
 			{
