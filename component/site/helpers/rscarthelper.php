@@ -250,7 +250,7 @@ class rsCarthelper
 	 * @param   string  $data
 	 * @param   array   $rowItem
 	 *
-	 * @return  array
+	 * @return  array<string>
 	 *
 	 * @deprecated   2.0.7  Use RedshopHelperCartTag::replaceOrderItems() instead.
 	 */
