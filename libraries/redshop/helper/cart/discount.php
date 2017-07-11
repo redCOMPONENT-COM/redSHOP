@@ -49,6 +49,6 @@ class RedshopHelperCartDiscount
 
 		$query->order($db->quoteName('option_name'));
 
-		return JFactory::getDbo()->setQuery($query)->loadObjectList();
+		return $db->setQuery($query)->loadObjectList();
 	}
 }
