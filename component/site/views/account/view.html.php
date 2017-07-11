@@ -92,7 +92,11 @@ class RedshopViewAccount extends RedshopView
 
 			$maxcategory = $params->get('maxcategory', 5);
 			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
-			$limitstart  = JRequest::getInt('limitstart', 0, '', 'int');
+			$limitstart  = JRequest::getInt('limitstart', 0, '', 'int');// Some comments here
+public String getFoo()
+{
+    return foo;
+}
 			$total       = $this->get('total');
 			$pagination  = new JPagination($total, $limitstart, $limit);
 			$this->pagination = $pagination;
