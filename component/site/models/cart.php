@@ -98,7 +98,7 @@ class RedshopModelCart extends RedshopModel
 				}
 			}
 
-			$session->set('cart', $cart);
+			RedshopHelperCartSession::setCart($cart);
 		}
 	}
 
@@ -165,7 +165,7 @@ class RedshopModelCart extends RedshopModel
 		unset($cart);
 		setcookie("redSHOPcart", "", time() - 3600, "/");
 		$cart['idx'] = 0;
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 		$stockroomhelper->deleteCartAfterEmpty();
 	}
 
@@ -302,18 +302,18 @@ class RedshopModelCart extends RedshopModel
 				$cart[$cartElement]['product_price_excl_vat'] = $product_price + $accessory_total_price + $wrapper_price;
 				$cart[$cartElement]['product_vat'] = $product_vat_price + $accessory_vat_price + $wrapper_vat;
 				JPluginHelper::importPlugin('redshop_product');
-				$dispatcher = JDispatcher::getInstance();
+				$dispatcher = RedshopHelperUtility::getDispatcher();
 				$dispatcher->trigger('onAfterCartUpdate', array(&$cart, $cartElement, $data));
 			}
 		}
 
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 	}
 
 	public function update_all($data)
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher    = JDispatcher::getInstance();
+		$dispatcher    = RedshopHelperUtility::getDispatcher();
 		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
@@ -323,7 +323,7 @@ class RedshopModelCart extends RedshopModel
 		{
 			$cart        = array();
 			$cart['idx'] = 0;
-			$session->set('cart', $cart);
+			RedshopHelperCartSession::setCart($cart);
 			$cart        = $session->get('cart');
 		}
 
@@ -453,7 +453,7 @@ class RedshopModelCart extends RedshopModel
 
 		unset($cart[$idx]);
 
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 	}
 
 	public function delete($cartElement)
@@ -504,7 +504,7 @@ class RedshopModelCart extends RedshopModel
 			}
 		}
 
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 	}
 
 	public function coupon($c_data = array())
@@ -797,7 +797,7 @@ class RedshopModelCart extends RedshopModel
 		{
 			$attribute_data = $data['attribute_id_prd_' . $product_id . '_0'];
 
-			for ($ia = 0; $ia < count($attribute_data); $ia++)
+			for ($ia = 0, $countAttribute = count($attribute_data); $ia < $countAttribute; $ia++)
 			{
 				$accPropertyCart                              = array();
 				$attribute                                    = $this->_producthelper->getProductAttribute(0, 0, $attribute_data[$ia]);
@@ -808,7 +808,7 @@ class RedshopModelCart extends RedshopModel
 				{
 					$acc_property_data = $data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]];
 
-					for ($ip = 0; $ip < count($acc_property_data); $ip++)
+					for ($ip = 0, $countProperty = count($acc_property_data); $ip < $countProperty; $ip++)
 					{
 						if ($acc_property_data[$ip] != 0)
 						{
@@ -840,8 +840,9 @@ class RedshopModelCart extends RedshopModel
 							if (isset($data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]]))
 							{
 								$acc_subproperty_data = $data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]];
+								$countSubProperty = count($acc_subproperty_data);
 
-								for ($isp = 0; $isp < count($acc_subproperty_data); $isp++)
+								for ($isp = 0; $isp < $countSubProperty; $isp++)
 								{
 									if ($acc_subproperty_data[$isp] != 0)
 									{

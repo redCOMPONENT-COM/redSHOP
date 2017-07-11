@@ -961,7 +961,7 @@ abstract class RedshopEntityBase
 	/**
 	 * Method for reset this static for load new data.
 	 *
-	 * @return  RedshopEntityBase
+	 * @return  self
 	 *
 	 * @since   2.0.6
 	 */
