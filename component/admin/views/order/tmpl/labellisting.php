@@ -9,6 +9,7 @@
 $shippinghelper = shipping::getInstance();
 
 $download = JRequest::getVar('download');
+
 if ($download)
 {
 	$oid = JRequest::getInt('oid');
@@ -37,7 +38,7 @@ if ($download)
 	ob_clean();
 	flush();
 	readfile($tmp_name);
-	exit;
+	JFactory::getApplication()->close();
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm"

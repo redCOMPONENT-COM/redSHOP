@@ -397,7 +397,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		$attribute = array_merge(array(), $post['attribute']);
 
-		for ($a = 0; $a < count($attribute); $a++)
+		for ($a = 0, $countAttribute = count($attribute); $a < $countAttribute; $a++)
 		{
 			$attribute_save['attribute_id']          = $attribute[$a]['id'];
 			$tmpordering                             = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
@@ -423,7 +423,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$propertyImage      = array_keys($attribute[$a]['property']);
 			$tmpproptyimagename = array_merge(array(), $propertyImage);
 
-			for ($p = 0; $p < count($property); $p++)
+			for ($p = 0, $countProperty = count($property); $p < $countProperty; $p++)
 			{
 				$property_save['property_id']         = $property[$p]['property_id'];
 				$property_save['attribute_id']        = $attribute_array->attribute_id;
@@ -468,7 +468,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				{
 					$listImages = $model->GetimageInfo($property_id, 'property');
 
-					for ($li = 0; $li < count($listImages); $li++)
+					for ($li = 0, $countImage = count($listImages); $li < $countImage; $li++)
 					{
 						$mImages                         = array();
 						$mImages['media_name']           = $listImages[$li]->media_name;
@@ -490,7 +490,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				// Set trigger to save Attribute Property Plugin Data
 				if ((int) $property_id)
 				{
-					$dispatcher = JDispatcher::getInstance();
+					$dispatcher = RedshopHelperUtility::getDispatcher();
 					JPluginHelper::importPlugin('redshop_product_type');
 
 					// Trigger the data preparation event.
@@ -548,8 +548,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 					if (empty($subproperty[$sp]['subproperty_id']))
 					{
 						$listsubpropImages = $model->GetimageInfo($subproperty_id, 'subproperty');
+						$countSubpropertyImage = count($listsubpropImages);
 
-						for ($lsi = 0; $lsi < count($listsubpropImages); $lsi++)
+						for ($lsi = 0; $lsi < $countSubpropertyImage; $lsi++)
 						{
 							$smImages                         = array();
 							$smImages['media_name']           = $listsubpropImages[$lsi]->media_name;
@@ -929,7 +930,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$child_product_id = $this->input->getInt('child_product_id', null);
 		$model            = $this->getModel('product_detail');
 		$model->removeaccesory($accessory_id, $category_id, $child_product_id);
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
