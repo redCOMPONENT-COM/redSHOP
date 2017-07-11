@@ -32,7 +32,7 @@ $paymentinfo = $paymentinfo[0];
 $order_id = $app->input->getInt('order_id', 0);
 
 JPluginHelper::importPlugin('redshop_product');
-$dispatcher = JDispatcher::getInstance();
+$dispatcher = RedshopHelperUtility::getDispatcher();
 $dispatcher->trigger('getStockroomStatus', array($order_id));
 
 $order = $order_functions->getOrderDetails($order_id);
@@ -336,7 +336,7 @@ else
 	else
 	{
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$results = $dispatcher->trigger('onPrePayment', array($plugin, array()));
 		$paymentResponse = $results[0];
 		?>

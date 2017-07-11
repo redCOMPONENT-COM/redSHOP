@@ -490,7 +490,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				// Set trigger to save Attribute Property Plugin Data
 				if ((int) $property_id)
 				{
-					$dispatcher = JDispatcher::getInstance();
+					$dispatcher = RedshopHelperUtility::getDispatcher();
 					JPluginHelper::importPlugin('redshop_product_type');
 
 					// Trigger the data preparation event.
