@@ -87,7 +87,7 @@ class ManageDiscountAdministratorCest
         $I->wantTo('Unpublish Discount ');
         $I->changeDiscountState($this->discountName);
         $I->wait(3);
-        $I->waitForText('Discount Detail UnPublished Successfully', 60, ['id' => 'system-message-container']);
+        $I->waitForText(\DiscountManagerJ3Page::$messageUnpublishSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);
         $currentState = $I->getDiscountState($this->discountName);
         $I->verifyState('unpublished', $currentState);
     }
@@ -184,7 +184,6 @@ class ManageDiscountAdministratorCest
         $I = new AcceptanceTester\DiscountManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Discount');
         $I->addDiscountCancel();
-        $I->see("Product Discount Management", '.page-title');
     }
 
     public function addDiscountStartThanEnd(AcceptanceTester $I, $scenario)
@@ -222,14 +221,6 @@ class ManageDiscountAdministratorCest
         $I->wantTo('Create a Discount');
         $I->addDiscountMissingShopperGroups($this->discountName, $this->amount, $this->discountAmount, $this->discountType, $this->startDate, $this->endDate);
     }
-//    public function addDiscountDateWrongFormat(AcceptanceTester $I, $scenario)
-//    {
-//        $I->wantTo('Test Discount creation with save button in Administrator');
-//        $I->doAdministratorLogin();
-//        $I = new AcceptanceTester\DiscountManagerJoomla3Steps($scenario);
-//        $I->wantTo('Create a Discount');
-//        $I->addDiscountStartThanEnd($this->discountName, $this->amount, $this->discountAmount,$shopperGroup = 'Default Private', $discountType = 'Total',$this->discountName,$this->discountAmount);
-//    }
 
     public function addDiscountWithAllFieldsEmpty(AcceptanceTester $I, $scenario)
     {
@@ -262,7 +253,6 @@ class ManageDiscountAdministratorCest
         $I->deleteAllDiscount();
         $I->dontSeeElement(['link' => $this->discountName]);
     }
-
 
     public function checkEditButton(AcceptanceTester $I, $scenario)
     {
