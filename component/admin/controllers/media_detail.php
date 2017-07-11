@@ -90,8 +90,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 					copy($old_path, $new_path);
 
-					unlink($old_path);
-					unlink($old_thumb_path);
+					JFile::delete($old_path);
+					JFile::delete(($old_thumb_path);
 				}
 
 				if ($save = $model->store($post))
@@ -473,7 +473,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 									{
 										$originaldir = $post['media_name'];
 										copy($btsrc, $originaldir);
-										unlink($btsrc);
+										JFile::delete(($btsrc);
 
 										$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
@@ -534,7 +534,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 												. $row->media_section . '/' . RedShopHelperImages::cleanFileName($newscan[$j]);
 
 											copy($btsrc, $originaldir);
-											unlink($btsrc);
+											JFile::delete(($btsrc);
 											$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 											if (isset($post['set']) && $post['media_section'] != 'manufacturer')
@@ -603,7 +603,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 								{
 									$originaldir = $post['media_name'];
 									copy($btsrc, $originaldir);
-									unlink($btsrc);
+									JFile::delete(($btsrc);
 									$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 									if (isset($post['set']) && $post['media_section'] != 'manufacturer')
