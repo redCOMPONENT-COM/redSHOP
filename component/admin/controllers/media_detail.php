@@ -473,7 +473,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 									{
 										$originaldir = $post['media_name'];
 										copy($btsrc, $originaldir);
-										JFile::delete(($btsrc);
+										JFile::delete($btsrc);
 
 										$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
