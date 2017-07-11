@@ -1,22 +1,4 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Marketplace
-Gist
- @nhungredweb
- Sign out
- Watch 4
-  Star 4
- Fork 28 redCOMPONENT-COM/redSHOP Private
- Code  Pull requests 138  Projects 0  Wiki Insights 
-Branch: develop Find file Copy pathredSHOP/composer.lock
-c09fbe0  17 hours ago
-@nhungredweb nhungredweb codeception for VAT/Tax Groups
-5 contributors @javigomez @puneet0191 @jatitoam @thongredweb @nhungredweb
-RawBlameHistory     
-3520 lines (3519 sloc)  121 KB
+
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
