@@ -18,82 +18,6 @@ namespace AcceptanceTester;
  */
 class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
-<<<<<<< HEAD
-=======
-	private $supplierNameField = ['id' => "jform_name"];
-
-	private $supplierEmailId = ['id' => "jform_email"];
-
-	private $supplierSuccessMessage = "Item saved.";
-
-	private $supplierResultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
-
-	private $searchField = ['id' => 'filter_search'];
-
-	/**
-	 * Function to Add a New Supplier
-	 *
-	 * @return void
-	 */
-	public function addSupplier($supplierName, $supplierEmail)
-	{
-		$I = $this;
-		$I->amOnPage(\SupplierManagerPage::$URL);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->click('New');
-		$I->waitForElement($this->supplierNameField, 30);
-		$I->fillField($this->supplierNameField, $supplierName);
-		$I->fillField($this->supplierEmailId, $supplierEmail);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->click('Save & Close');
-		$I->waitForText($this->supplierSuccessMessage, 60, '.alert-success');
-		$I->see($this->supplierSuccessMessage, '.alert-success');
-		$I->searchSupplier($supplierName);
-		$I->see($supplierName, $this->supplierResultRow);
-	}
-
-	public function searchSupplier($supplierName)
-	{
-		$I = $this;
-		$I->wantTo('Search the Supplier');
-		$I->amOnPage(\SupplierManagerPage::$URL);
-		$I->waitForText('Supplier Management', 30, ['xpath' => "//h1"]);
-		$I->filterListBySearching($supplierName);
-	}
-
-	public function editSupplier($supplierName, $supplierUpdatedName)
-	{
-		$I = $this;
-		$I->amOnPage(\SupplierManagerPage::$URL);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->searchSupplier($supplierName);
-		$I->click($supplierName);
-		$I->waitForElement($this->supplierNameField, 30);
-		$I->fillField($this->supplierNameField, $supplierUpdatedName);
-		$I->click('Save & Close');
-		$I->waitForText($this->supplierSuccessMessage, 60, '.alert-success');
-		$I->see($this->supplierSuccessMessage, '.alert-success');
-		$I->searchSupplier($supplierUpdatedName);
-		$I->see($supplierUpdatedName, $this->supplierResultRow);
-	}
-
-	public function deleteSupplier($supplierName)
-	{
-		$I = $this;
-		$I->amOnPage(\SupplierManagerPage::$URL);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->searchSupplier($supplierName);
-		$I->checkAllResults();
-		$I->click("Delete");
-		$I->acceptPopup();
-		$I->waitForText("1 item successfully deleted", 60, '.alert-success');
-		$I->see("1 item successfully deleted", '.alert-success');
-		$I->fillField($this->searchField, $supplierName);
-		$I->pressKey($this->searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->dontSee($supplierName, $this->supplierResultRow);
-	}
->>>>>>> a89af999abc24249eece87e8900f48fe113d9b34
-
     /**
      * Function to Add a New Supplier
      *
@@ -104,14 +28,14 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click('New');
+        $I->click(\SupplierManagerPage::$newButton);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierNameField, $supplierName);
         $I->fillField(\SupplierManagerPage::$supplierEmailId, $supplierEmail);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click('Save & Close');
-        $I->waitForText(\SupplierManagerPage::$supplierSuccessMessage, 60, '.alert-success');
-        $I->see(\SupplierManagerPage::$supplierSuccessMessage, '.alert-success');
+        $I->click(\SupplierManagerPage::$saveCloseButton);
+        $I->waitForText(\SupplierManagerPage::$supplierSuccessMessage, 60, SupplierManagerPage::$selectorSuccess);
+        $I->see(\SupplierManagerPage::$supplierSuccessMessage, SupplierManagerPage::$selectorSuccess);
         $I->searchSupplier($supplierName);
         $I->see($supplierName, \SupplierManagerPage::$supplierResultRow);
     }
@@ -126,27 +50,26 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click('New');
+        $I->click(\SupplierManagerPage::$newButton);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierNameField, $supplierName);
         $I->fillField(\SupplierManagerPage::$supplierEmailId, $supplierEmail);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click('Save');
-        $I->waitForText(\SupplierManagerPage::$supplierSuccessMessage, 60, '.alert-success');
-        $I->see(\SupplierManagerPage::$supplierSuccessMessage, '.alert-success');
+        $I->click(\SupplierManagerPage::$saveButton);
+        $I->waitForText(\SupplierManagerPage::$supplierSuccessMessage, 60, \SupplierManagerPage::$selectorSuccess);
+        $I->see(\SupplierManagerPage::$supplierSuccessMessage, \SupplierManagerPage::$selectorSuccess);
         $I->searchSupplier($supplierName);
         $I->see($supplierName, \SupplierManagerPage::$supplierResultRow);
     }
-
 
     public function checkCancelButton()
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click('New');
+        $I->click(\SupplierManagerPage::$newButton);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
-        $I->click('Cancel');
+        $I->click(\SupplierManagerPage::$cancelButton);
     }
 
     public function addSupplierSaveMissingName($supplierEmailId)
@@ -154,38 +77,36 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click('New');
+        $I->click(\SupplierManagerPage::$newButton);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierEmailId, $supplierEmailId);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click('Save');
-        $I->waitForText(\SupplierManagerPage::$fieldMissing, 60, '.alert-danger');
+        $I->click(\SupplierManagerPage::$saveButton);
+        $I->waitForText(\SupplierManagerPage::$fieldMissing, 60, \SupplierManagerPage::$selectorMissing);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
     }
-
 
     public function addSupplierWrongEmail($supplierName, $supplierEmail)
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click('New');
+        $I->click(\SupplierManagerPage::$newButton);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierNameField, $supplierName);
         $I->fillField(\SupplierManagerPage::$supplierEmailId, $supplierEmail);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click('Save');
-        $I->waitForText(\SupplierManagerPage::$fieldEmailInvalid, 60, '.alert-danger');
+        $I->click(\SupplierManagerPage::$saveButton);
+        $I->waitForText(\SupplierManagerPage::$fieldEmailInvalid, 60, \SupplierManagerPage::$selectorMissing);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
     }
-
 
     public function searchSupplier($supplierName)
     {
         $I = $this;
         $I->wantTo('Search the Supplier');
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->waitForText('Supplier Management', 30, ['xpath' => "//h1"]);
+        $I->waitForText(\SupplierManagerPage::$namePage, 30, \SupplierManagerPage::$headPage);
         $I->filterListBySearching($supplierName);
     }
 
@@ -198,10 +119,9 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click($supplierName);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierNameField, $supplierUpdatedName);
-        $I->click('Save & Close');
-        $I->waitForText(\SupplierManagerPage::$supplierSuccessMessage, 60, '.alert-success');
-        $I->see(\SupplierManagerPage::$supplierSuccessMessage, '.alert-success');
-
+        $I->click(\SupplierManagerPage::$saveCloseButton);
+        $I->waitForText(\SupplierManagerPage::$supplierSuccessMessage, 60, \SupplierManagerPage::$selectorSuccess);
+        $I->see(\SupplierManagerPage::$supplierSuccessMessage, \SupplierManagerPage::$selectorSuccess);
     }
 
     public function editSupplierMissingName($supplierUpdatedName)
@@ -213,11 +133,10 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click($supplierUpdatedName);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierNameField, "");
-        $I->click('Save');
-        $I->waitForText(\SupplierManagerPage::$fieldMissing, 60, '.alert-danger');
+        $I->click(\SupplierManagerPage::$saveButton);
+        $I->waitForText(\SupplierManagerPage::$fieldMissing, 60, \SupplierManagerPage::$selectorMissing);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
     }
-
 
     public function editSupplierCheckCloseButton($supplierUpdatedName)
     {
@@ -227,12 +146,10 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->searchSupplier($supplierUpdatedName);
         $I->click($supplierUpdatedName);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
-        $I->click('Close');
+        $I->click(\SupplierManagerPage::$closeButton);
     }
 
-
     // Unpublish supplier
-
     public function changeSupplierState($supplierName, $state = 'unpublish')
     {
         $I = $this;
@@ -240,15 +157,13 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->searchSupplier($supplierName);
         $I->wait(3);
         $I->see($supplierName, \SupplierManagerPage::$supplierResultRow);
-        $I->click(\SupplierManagerPage::$checkAllSupplier);
-
+        $I->checkAllResults();
         if ($state == 'unpublish') {
             $I->click(\SupplierManagerPage::$supplierStatePath);
         } else {
             $I->click(\SupplierManagerPage::$supplierStatePath);
         }
     }
-
 
     public function changeSupplierStatePublish($supplierName, $state = 'publish')
     {
@@ -257,8 +172,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->searchSupplier($supplierName);
         $I->wait(3);
         $I->see($supplierName, \SupplierManagerPage::$supplierResultRow);
-        $I->click(\SupplierManagerPage::$checkAllSupplier);
-
+        $I->checkAllResults();
         if ($state == 'publish') {
             $I->click(\SupplierManagerPage::$supplierStatePath);
         } else {
@@ -274,7 +188,6 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->wait(3);
         $I->see($supplierName, \SupplierManagerPage::$supplierResultRow);
         $text = $I->grabAttributeFrom(\SupplierManagerPage::$supplierStatePath, 'onclick');
-
         echo "Get status text " . $text;
         if (strpos($text, 'unpublish') > 0) {
             $result = 'published';
@@ -282,7 +195,6 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
             $result = 'unpublished';
         }
         echo "Status need show" . $result;
-
         return $result;
     }
 
@@ -293,10 +205,9 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->searchSupplier($supplierName);
         $I->checkAllResults();
-        $I->click("Delete");
+        $I->click(\SupplierManagerPage::$deleteButton);
         $I->cancelPopup();
     }
-
 
     public function deleteSupplier($supplierName)
     {
@@ -305,22 +216,21 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->searchSupplier($supplierName);
         $I->checkAllResults();
-        $I->click("Delete");
+        $I->click(\SupplierManagerPage::$deleteButton);
         $I->acceptPopup();
-        $I->waitForText("1 item successfully deleted", 60, '.alert-success');
-        $I->see("1 item successfully deleted", '.alert-success');
+        $I->waitForText(\SupplierManagerPage::$messageDeletedOneSuccess, 60, \SupplierManagerPage::$selectorSuccess);
+        $I->see(\SupplierManagerPage::$messageDeletedOneSuccess, \SupplierManagerPage::$selectorSuccess);
         $I->fillField(\SupplierManagerPage::$searchField, $supplierName);
         $I->pressKey(\SupplierManagerPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
         $I->dontSee($supplierName, \SupplierManagerPage::$supplierResultRow);
     }
-
 
     public function checkDeleteButton()
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click("Delete");
+        $I->click(\SupplierManagerPage::$deleteButton);
         $I->acceptPopup();
     }
 
@@ -329,19 +239,18 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click("Publish");
+        $I->click(\SupplierManagerPage::$publish);
         $I->acceptPopup();
     }
-
 
     public function unpublishAllSupplier()
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click(\SupplierManagerPage::$checkAllSupplier);
-        $I->click("Unpublish");
-        $I->waitForText("Message", 30, '.alert-success');
+        $I->checkAllResults();
+        $I->click(\SupplierManagerPage::$unpublish);
+        $I->waitForText(\SupplierManagerPage::$messageHead, 30, \SupplierManagerPage::$selectorSuccess);
     }
 
     public function publishAllSupplier()
@@ -349,9 +258,9 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click(\SupplierManagerPage::$checkAllSupplier);
-        $I->click("Publish");
-        $I->waitForText("Message", 30, '.alert-success');
+        $I->checkAllResults();
+        $I->click(\SupplierManagerPage::$publish);
+        $I->waitForText(\SupplierManagerPage::$messageHead, 30, \SupplierManagerPage::$selectorSuccess);
     }
 
     public function checkUnpublishButton()
@@ -359,7 +268,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click("Unpublish");
+        $I->click(\SupplierManagerPage::$unpublish);
         $I->acceptPopup();
     }
 
@@ -368,7 +277,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click("Check-in");
+        $I->click(\SupplierManagerPage::$checkinButton);
         $I->acceptPopup();
     }
 
@@ -378,7 +287,8 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
         $I->click(\SupplierManagerPage::$checkAllSupplier);
-        $I->click("Check-in");
-        $I->waitForText("Message", 30, '.alert-success');
+        $I->checkAllResults();
+        $I->click(\SupplierManagerPage::$checkinButton);
+        $I->waitForText(\SupplierManagerPage::$messageHead, 30, \SupplierManagerPage::$selectorSuccess);
     }
 }

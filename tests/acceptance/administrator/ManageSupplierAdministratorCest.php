@@ -28,6 +28,13 @@ class ManageSupplierAdministratorCest
 
     }
 
+    /**
+     *
+     * Function check delete button
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function checkDeleteButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Delete button in Administrator');
@@ -36,7 +43,13 @@ class ManageSupplierAdministratorCest
         $I->checkDeleteButton();
     }
 
-
+    /**
+     *
+     * Function ccheck publish button
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function checkPublishButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Publish button in Administrator');
@@ -45,6 +58,12 @@ class ManageSupplierAdministratorCest
         $I->checkPublishButton();
     }
 
+    /**
+     *
+     * Function check unpublish button
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function checkUnpublishButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Unpublish button in Administrator');
@@ -53,7 +72,13 @@ class ManageSupplierAdministratorCest
         $I->checkUnpublishButton();
     }
 
-
+    /**
+     *
+     * Function check checkin button
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function checkCheckinButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test CheckiIn button in Administrator');
@@ -62,7 +87,13 @@ class ManageSupplierAdministratorCest
         $I->checkCheckinButton();
     }
 
-
+    /**
+     *
+     * Function add supplier when missing name
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function addSupplierSaveMissingName(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Supplier Missing Name creation in Administrator');
@@ -71,7 +102,6 @@ class ManageSupplierAdministratorCest
         $I->addSupplierSaveMissingName($this->supplierEmail);
 
     }
-
 
 //    /*
 //     * This case will not run because at code pass this issues .
@@ -86,6 +116,7 @@ class ManageSupplierAdministratorCest
 
     /**
      * Function to Test Supplier Creation in Backend
+     * Create supplier with save and close button
      *
      */
     public function createSupplier(AcceptanceTester $I, $scenario)
@@ -97,7 +128,12 @@ class ManageSupplierAdministratorCest
 
     }
 
-
+    /**
+     * Function create supplier with save button
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function createSupplierSave(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Supplier creation with save in Administrator');
@@ -106,14 +142,19 @@ class ManageSupplierAdministratorCest
         $I->addSupplierSave($this->supplierNameSave, $this->supplierEmailSave);
     }
 
-
+    /**
+     * Function check cancel button
+     *
+     * @param AcceptanceTester $I
+     * @param $scenario
+     */
     public function checkCancelButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Supplier check cancel button inside in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\SupplierManagerJoomla3Steps($scenario);
         $I->checkCancelButton();
-        $I->see("Supplier Management", '.page-title');
+        $I->see(\SupplierManagerPage::$namePage, \SupplierManagerPage::$selectorPageTitle);
     }
 
 
@@ -124,7 +165,7 @@ class ManageSupplierAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\SupplierManagerJoomla3Steps($scenario);
         $I->unpublishAllSupplier();
-        $I->see("Supplier Management", '.page-title');
+        $I->see(\SupplierManagerPage::$namePage, \SupplierManagerPage::$selectorPageTitle);
     }
 
 
@@ -135,7 +176,7 @@ class ManageSupplierAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\SupplierManagerJoomla3Steps($scenario);
         $I->publishAllSupplier();
-        $I->see("Supplier Management", '.page-title');
+        $I->see(\SupplierManagerPage::$namePage, \SupplierManagerPage::$selectorPageTitle);
     }
 
     //unpublish
@@ -145,7 +186,7 @@ class ManageSupplierAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\SupplierManagerJoomla3Steps($scenario);
         $I->checkinSupplier();
-        $I->see("Supplier Management", '.page-title');
+        $I->see(\SupplierManagerPage::$namePage, \SupplierManagerPage::$selectorPageTitle);
     }
 
 
@@ -216,10 +257,9 @@ class ManageSupplierAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\SupplierManagerJoomla3Steps($scenario);
         $I->deleteSupplierCancel($this->supplierUpdatedName);
-        $I->see("Supplier Management", '.page-title');
+        $I->see(\SupplierManagerPage::$namePage, \SupplierManagerPage::$selectorPageTitle);
 
     }
-
 
     /**
      * Function to Test Supplier Update in Backend
@@ -232,5 +272,4 @@ class ManageSupplierAdministratorCest
         $I = new AcceptanceTester\SupplierManagerJoomla3Steps($scenario);
         $I->deleteSupplier($this->supplierUpdatedName);
     }
-
 }
