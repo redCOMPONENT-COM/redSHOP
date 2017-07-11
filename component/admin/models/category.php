@@ -313,8 +313,8 @@ class RedshopModelCategory extends RedshopModelForm
 		// Sheking for the image at the updation time
 		if (!empty($data['id']) && !empty($data['category_full_image']))
 		{
-			@JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
-			@JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
 		}
 
 		// Extra Field Data Saved
