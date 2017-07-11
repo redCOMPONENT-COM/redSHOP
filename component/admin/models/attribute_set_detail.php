@@ -812,14 +812,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		if (JFile::exists($imagethumbsrcphy))
 		{
-			@JFile::delete($imagethumbsrcphy);
+			JFile::delete($imagethumbsrcphy);
 		}
 
 		$imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $imagename;
 
 		if (JFile::exists($imagesrcphy))
 		{
-			@JFile::delete($imagesrcphy);
+			JFile::delete($imagesrcphy);
 		}
 
 		$query = "UPDATE `" . $this->_table_prefix . "product_subattribute_color` SET `subattribute_color_image` = ''
