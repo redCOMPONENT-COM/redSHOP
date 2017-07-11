@@ -302,7 +302,7 @@ class RedshopModelCart extends RedshopModel
 				$cart[$cartElement]['product_price_excl_vat'] = $product_price + $accessory_total_price + $wrapper_price;
 				$cart[$cartElement]['product_vat'] = $product_vat_price + $accessory_vat_price + $wrapper_vat;
 				JPluginHelper::importPlugin('redshop_product');
-				$dispatcher = JDispatcher::getInstance();
+				$dispatcher = RedshopHelperUtility::getDispatcher();
 				$dispatcher->trigger('onAfterCartUpdate', array(&$cart, $cartElement, $data));
 			}
 		}
@@ -313,7 +313,7 @@ class RedshopModelCart extends RedshopModel
 	public function update_all($data)
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher    = JDispatcher::getInstance();
+		$dispatcher    = RedshopHelperUtility::getDispatcher();
 		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$dispatcher    = JDispatcher::getInstance();
+$dispatcher    = RedshopHelperUtility::getDispatcher();
 $producthelper = productHelper::getInstance();
 $objshipping   = shipping::getInstance();
 $redhelper     = redhelper::getInstance();
@@ -91,7 +91,7 @@ else
 {
 	$checkout = '';
 	JPluginHelper::importPlugin('redshop_payment');
-	$dispatcher   = JDispatcher::getInstance();
+	$dispatcher   = RedshopHelperUtility::getDispatcher();
 	$pluginButton = $dispatcher->trigger('onPaymentCheckoutButton', array($cart));
 	$pluginButton = implode("<br>", $pluginButton);
 
