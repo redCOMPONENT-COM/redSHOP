@@ -178,7 +178,7 @@ class RedshopControllerProduct extends RedshopController
 		$redlayout      = $get['redlayout'];
 		$pluginResults  = array();
 
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher->trigger('onBeforeImageLoad', array($get, &$pluginResults));
 
