@@ -730,7 +730,7 @@ class rsCarthelper
 	public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$prdItemid  = JRequest::getInt('Itemid');
 		$Itemid     = RedshopHelperUtility::getCheckoutItemId();
 		$url        = JURI::base(true);
@@ -1331,7 +1331,7 @@ class rsCarthelper
 	public function repalceOrderItems($data, $rowitem = array())
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$mainview   = JRequest::getVar('view');
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
 
@@ -3176,7 +3176,7 @@ class rsCarthelper
 				$cartArr[$i]['product_price']              = $product_price;
 
 				JPluginHelper::importPlugin('redshop_product');
-				$dispatcher = JDispatcher::getInstance();
+				$dispatcher = RedshopHelperUtility::getDispatcher();
 				$dispatcher->trigger('onBeforeLoginCartSession', array(&$cartArr, $i));
 			}
 		}
@@ -3364,7 +3364,7 @@ class rsCarthelper
 			if ($template_middle != "" && count($shippingmethod) > 0)
 			{
 				JPluginHelper::importPlugin('redshop_shipping');
-				$dispatcher   = JDispatcher::getInstance();
+				$dispatcher   = RedshopHelperUtility::getDispatcher();
 				$shippingrate = $dispatcher->trigger('onListRates', array(&$d));
 
 				for ($s = 0, $sn = count($shippingmethod); $s < $sn; $s++)
@@ -5167,7 +5167,7 @@ class rsCarthelper
 	public function addProductToCart($data = array())
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher       = JDispatcher::getInstance();
+		$dispatcher       = RedshopHelperUtility::getDispatcher();
 		$rsUserhelper     = rsUserHelper::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
 		$user             = JFactory::getUser();

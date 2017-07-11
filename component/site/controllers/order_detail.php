@@ -130,7 +130,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		// Call payment plugin
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$results = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
 		$paymentResponse = $results[0];
@@ -171,7 +171,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$objOrder = order_functions::getInstance();
 
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$results = $dispatcher->trigger(
 			'onNotifyPayment' . $request['payment_plugin'],
@@ -240,7 +240,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		// Import redSHOP Product Plugin
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$app        = JFactory::getApplication();
 
 		// If empty then load order item detail from order table

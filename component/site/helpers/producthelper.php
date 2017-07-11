@@ -885,7 +885,7 @@ class productHelper
 		$linkimagename = trim($linkimagename);
 		$product_id    = $product->product_id;
 		$redhelper     = redhelper::getInstance();
-		$dispatcher    = JDispatcher::getInstance();
+		$dispatcher    = RedshopHelperUtility::getDispatcher();
 
 		$middlepath    = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 		$product_image = $product->product_full_image;
@@ -901,7 +901,7 @@ class productHelper
 		$altText = $this->getAltText('product', $product_id, $product_image);
 		$altText = empty($altText) ? $product->product_name : $altText;
 
-		$dispatcher    = JDispatcher::getInstance();
+		$dispatcher    = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
 		$title = " title='" . $altText . "' ";
@@ -1377,7 +1377,7 @@ class productHelper
 		}
 
 		// Set Product Custom Price through product plugin
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		JPluginHelper::importPlugin('redshop_product');
 		$results = $dispatcher->trigger('setProductCustomPrice', array($product_id));
 
@@ -4965,7 +4965,7 @@ class productHelper
 		$product_preorder = "";
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		if ($user_id == 0)
 		{
@@ -8033,7 +8033,7 @@ class productHelper
 		elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 		{
 			$altText = $product->product_name;
-			$dispatcher    = JDispatcher::getInstance();
+			$dispatcher    = RedshopHelperUtility::getDispatcher();
 			$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
 			$type                = 'product';
@@ -8124,7 +8124,7 @@ class productHelper
 
 			$altText = $product->product_name;
 
-			$dispatcher    = JDispatcher::getInstance();
+			$dispatcher    = RedshopHelperUtility::getDispatcher();
 			$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
 			$mainImageResponse = "<img id='main_image" . $product_id . "' src='" . $productmainimg . "' alt='"
@@ -8975,7 +8975,7 @@ class productHelper
 		$fieldArray       = $extra_field->getSectionFieldList(17, 0, 0);
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		if (count($related_template) > 0)
 		{
