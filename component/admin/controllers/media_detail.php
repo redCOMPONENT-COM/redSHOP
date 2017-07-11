@@ -91,7 +91,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 					copy($old_path, $new_path);
 
 					JFile::delete($old_path);
-					JFile::delete(($old_thumb_path);
+					JFile::delete($old_thumb_path);
 				}
 
 				if ($save = $model->store($post))
