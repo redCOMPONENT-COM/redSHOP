@@ -16,8 +16,8 @@ class ManagerMassDiscountAdministratorCest
         $this->MassDiscountAmoutTotal = rand(10, 100);
         $this->MassDiscountPercent = 0.3;
         $this->minimumPerProduct = 2;
-        $this->minimumQuantity = 3;
-        $this->maximumQuantity = 5;
+        $this->minimumQuantity =$this->faker->numberBetween(10, 100);
+        $this->maximumQuantity = $this->faker->numberBetween(100, 1000);
         $this->discountStart = "12-12-2016";
         $this->discountEnd = "23-05-2017";
         $this->randomProductNumber = rand(999, 9999);

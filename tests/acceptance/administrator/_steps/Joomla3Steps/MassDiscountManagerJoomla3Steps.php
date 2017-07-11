@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: nhung nguyen
- * Date: 6/8/2017
- * Time: 2:00 PM
+
  */
 
 namespace AcceptanceTester;
@@ -17,7 +14,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->click('New');
-        $I->verifyNotices(false, $this->checkForNotices(), 'product mass discount new');
+        $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageNew);
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
         $I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
@@ -49,7 +46,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->click('New');
-        $I->verifyNotices(false, $this->checkForNotices(), 'product mass discount new');
+        $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageNew);
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
         $I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
@@ -81,7 +78,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->click('New');
-        $I->verifyNotices(false, $this->checkForNotices(), 'product mass discount new');
+        $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageNew);
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
         $I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
@@ -125,7 +122,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->click('New');
-        $I->verifyNotices(false, $this->checkForNotices(), 'product mass discount new');
+        $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageNew);
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
         $I->fillField(\MassDiscountManagerPage::$dayStart, $discountEnd);
@@ -151,7 +148,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->click('New');
-        $I->verifyNotices(false, $this->checkForNotices(), 'product mass discount new');
+        $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageNew);
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
         $I->fillField(\MassDiscountManagerPage::$dayStart, $discountStart);
@@ -176,7 +173,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->click('New');
-        $I->verifyNotices(false, $this->checkForNotices(), 'product mass discount new');
+        $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageNew);
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
         $I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
@@ -194,7 +191,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->wait(3);
         $I->click(['link' => $massDiscountName]);
         $I->waitForElement(\MassDiscountManagerPage::$name, 30);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Mass Discount  Edit');
+        $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageEdit);
         $I->fillField(\MassDiscountManagerPage::$name, $massDiscountNameEdit);
         $I->click("Save & Close");
         $I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
@@ -208,7 +205,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->wait(3);
         $I->click(['link' => $massDiscountName]);
         $I->waitForElement(\MassDiscountManagerPage::$name, 30);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Mass Discount  Edit');
+        $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageEdit);
         $I->fillField(\MassDiscountManagerPage::$name, $massDiscountNameEdit);
         $I->click("Save & Close");
         $I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
@@ -223,7 +220,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\MassDiscountManagerPage::$checkFirstItems);
         $I->click('Edit');
         $I->waitForElement(\MassDiscountManagerPage::$name, 30);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Mass Discount  Edit');
+        $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageEdit);
         $I->fillField(\MassDiscountManagerPage::$name, $massDiscountNameEdit);
         $I->click("Save & Close");
         $I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
@@ -238,7 +235,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->wait(3);
         $I->click(['link' => $massDiscountName]);
         $I->waitForElement(\MassDiscountManagerPage::$name, 30);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Mass Discount  Edit');
+        $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageEdit);
 
         $I->click("Close");
         $I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
@@ -276,7 +273,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
-        $I->click(\MassDiscountManagerPage::$choiceAll);
+        $I->checkAllResults();
         $I->click('Delete');
         $I->acceptPopup();
         $I->waitForText('Message', 30, ['class' => 'alert-success']);
@@ -292,7 +289,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->click('New');
-        $I->verifyNotices(false, $this->checkForNotices(), 'product mass discount new');
+        $I->verifyNotices(false, $this->checkForNotices(), \MassDiscountManagerPage::$pageNew);
         $I->checkForPhpNoticesOrWarnings();
         $I->click('Cancel');
         $I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
