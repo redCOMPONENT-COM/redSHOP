@@ -292,7 +292,7 @@ class RedshopModelCheckout extends RedshopModel
 		$order_tax      = $cart ['tax'];
 		$d['order_tax'] = $order_tax;
 
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$tax_after_discount = 0;
 

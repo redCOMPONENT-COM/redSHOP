@@ -51,7 +51,7 @@ class RedshopControllerCart extends RedshopController
 		$userfield = JRequest::getVar('userfield');
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('onBeforeAddProductToCart', array(&$post));
 
 		$result = $this->_carthelper->addProductToCart($post);
