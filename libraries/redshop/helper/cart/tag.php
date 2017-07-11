@@ -20,7 +20,7 @@ class RedshopHelperCartTag
 	/**
 	 * replace Conditional tag from Redshop tax
 	 *
-	 * @param   string $data          Template
+	 * @param   string $template      Template
 	 * @param   int    $amount        Amount
 	 * @param   int    $discount      Discount
 	 * @param   int    $check         Check
@@ -29,73 +29,75 @@ class RedshopHelperCartTag
 	 * @return  mixed|string
 	 * @since   2.0.7
 	 */
-	public static function replaceTax($data = '', $amount = 0, $discount = 0, $check = 0, $quotationMode = 0)
+	public static function replaceTax($template = '', $amount = 0, $discount = 0, $check = 0, $quotationMode = 0)
 	{
-		if (strpos($data, '{if vat}') !== false && strpos($data, '{vat end if}') !== false)
+		if (strpos($template, '{if vat}') === false && strpos($template, '{vat end if}') == false)
 		{
-			$cart          = RedshopHelperCartSession::getCart();
-			$productHelper = productHelper::getInstance();
+			return $template;
+		}
 
-			if ($amount <= 0)
+		$cart          = RedshopHelperCartSession::getCart();
+		$productHelper = productHelper::getInstance();
+
+		if ($amount <= 0)
+		{
+			$templateVatSdata = explode('{if vat}', $template);
+			$templateVatEdata = explode('{vat end if}', $templateVatSdata[1]);
+			$template         = $templateVatSdata[0] . $templateVatEdata[1];
+		}
+		else
+		{
+			if ($quotationMode && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
 			{
-				$templateVatSdata = explode('{if vat}', $data);
-				$templateVatEdata = explode('{vat end if}', $templateVatSdata[1]);
-				$data             = $templateVatSdata[0] . $templateVatEdata[1];
+				$template = str_replace("{tax}", "", $template);
+				$template = str_replace("{order_tax}", "", $template);
 			}
 			else
 			{
-				if ($quotationMode && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
-				{
-					$data = str_replace("{tax}", "", $data);
-					$data = str_replace("{order_tax}", "", $data);
-				}
-				else
-				{
-					$data = str_replace("{tax}", $productHelper->getProductFormattedPrice($amount, true), $data);
-					$data = str_replace("{order_tax}", $productHelper->getProductFormattedPrice($amount, true), $data);
-				}
+				$template = str_replace("{tax}", $productHelper->getProductFormattedPrice($amount, true), $template);
+				$template = str_replace("{order_tax}", $productHelper->getProductFormattedPrice($amount, true), $template);
+			}
 
-				if (strpos($data, '{tax_after_discount}') !== false)
+			if (strpos($template, '{tax_after_discount}') !== false)
+			{
+				if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
 				{
-					if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
+					if ($check)
 					{
-						if ($check)
-						{
-							$taxAfterDiscount = $discount;
-						}
-						else
-						{
-							if (!isset($cart['tax_after_discount']))
-							{
-								$taxAfterDiscount = RedshopHelperCart::calculateTaxAfterDiscount($amount, $discount);
-							}
-							else
-							{
-								$taxAfterDiscount = $cart['tax_after_discount'];
-							}
-						}
-
-						if ($taxAfterDiscount > 0)
-						{
-							$data = str_replace("{tax_after_discount}", $productHelper->getProductFormattedPrice($taxAfterDiscount), $data);
-						}
-						else
-						{
-							$data = str_replace("{tax_after_discount}", $productHelper->getProductFormattedPrice($cart['tax']), $data);
-						}
+						$taxAfterDiscount = $discount;
 					}
 					else
 					{
-						$data = str_replace("{tax_after_discount}", $productHelper->getProductFormattedPrice($cart['tax']), $data);
+						if (!isset($cart['tax_after_discount']))
+						{
+							$taxAfterDiscount = RedshopHelperCart::calculateTaxAfterDiscount($amount, $discount);
+						}
+						else
+						{
+							$taxAfterDiscount = $cart['tax_after_discount'];
+						}
+					}
+
+					if ($taxAfterDiscount > 0)
+					{
+						$template = str_replace("{tax_after_discount}", $productHelper->getProductFormattedPrice($taxAfterDiscount), $template);
+					}
+					else
+					{
+						$template = str_replace("{tax_after_discount}", $productHelper->getProductFormattedPrice($cart['tax']), $template);
 					}
 				}
-
-				$data = str_replace("{vat_lbl}", JText::_('COM_REDSHOP_CHECKOUT_VAT_LBL'), $data);
-				$data = str_replace("{if vat}", '', $data);
-				$data = str_replace("{vat end if}", '', $data);
+				else
+				{
+					$template = str_replace("{tax_after_discount}", $productHelper->getProductFormattedPrice($cart['tax']), $template);
+				}
 			}
+
+			$template = str_replace("{vat_lbl}", JText::_('COM_REDSHOP_CHECKOUT_VAT_LBL'), $template);
+			$template = str_replace("{if vat}", '', $template);
+			$template = str_replace("{vat end if}", '', $template);
 		}
 
-		return $data;
+		return $template;
 	}
 }
