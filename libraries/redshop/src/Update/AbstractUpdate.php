@@ -163,7 +163,7 @@ abstract class AbstractUpdate
 				continue;
 			}
 
-			if (!unlink($file))
+			if (!JFile::delete($file))
 			{
 				return false;
 			}

@@ -718,7 +718,7 @@ class RedshopModelConfiguration extends RedshopModel
 			if ($row_product_download_root != $product_download_root
 				&& file_exists($oldhtaccessfile_path) && !strstr($row_product_download_root, $assets_dir))
 			{
-				unlink($oldhtaccessfile_path);
+				JFile::delete($oldhtaccessfile_path);
 			}
 		}
 
