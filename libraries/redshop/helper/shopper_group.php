@@ -205,10 +205,10 @@ class RedshopHelperShopper_Group
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn(array('c.shopper_group_id', 'c.name AS category_name', 'cx.shopper_group_id', 'cx.parent_id')))
+		$query->select($db->qn(array('c.shopper_group_id', 'cx.shopper_group_categories', 'cx.shopper_group_id', 'cx.parent_id')))
 			->from($db->qn('#__redshop_shopper_group', 'cx'))
 			->leftJoin(
-				$db->qn('#__redshop_category', 'c')
+				$db->qn('#__redshop_shopper_group', 'c')
 				. ' ON ' .
 				$db->qn('c.shopper_group_id') . ' = ' . $db->qn('cx.parent_id')
 			)
@@ -237,11 +237,10 @@ class RedshopHelperShopper_Group
 	 */
 	public static function getShopperGroupPortal()
 	{
-		$userHelper = rsUserHelper::getInstance();
 		$user = JFactory::getUser();
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
 
-		if ($result = $userHelper->getShopperGroupList($shopperGroupId))
+		if ($result = Redshop\Helper\ShopperGroup::generateList($shopperGroupId))
 		{
 			return $result[0];
 		}
@@ -261,10 +260,9 @@ class RedshopHelperShopper_Group
 	public static function getShopperGroupCategory($cid = 0)
 	{
 		$user = JFactory::getUser();
-		$userHelper = rsUserHelper::getInstance();
 		$shopperGroupId = RedshopHelperUser::getShopperGroup($user->id);
 
-		if ($shopperGroupData = $userHelper->getShopperGroupList($shopperGroupId))
+		if ($shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId))
 		{
 			if (isset($shopperGroupData[0]) && $shopperGroupData[0]->shopper_group_categories)
 			{
