@@ -34,7 +34,7 @@ modules:
             database password: 'VKZH5pu32ajwPdQD'                  # MySQL Server password, usually empty or root
             database name: 'testredshop1j3'            # DB Name, at the Server
             database type: 'mysqli'                # type in lowercase one of the options: MySQL\MySQLi\PDO
-            database prefix: 'jos_'                # DB Prefix for tables
+            #database prefix: 'jos_'                # DB Prefix for tables
             install sample data: 'No'              # Do you want to Download the Sample Data Along with Joomla Installation, then keep it Yes
             sample data: 'Default English (GB) Sample Data'    # Default Sample Data
             admin email: 'admin@mydomain.com'      # email Id of the Admin
