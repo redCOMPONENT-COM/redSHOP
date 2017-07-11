@@ -98,7 +98,7 @@ class RedshopModelCart extends RedshopModel
 				}
 			}
 
-			$session->set('cart', $cart);
+			RedshopHelperCartSession::setCart($cart);
 		}
 	}
 
@@ -165,7 +165,7 @@ class RedshopModelCart extends RedshopModel
 		unset($cart);
 		setcookie("redSHOPcart", "", time() - 3600, "/");
 		$cart['idx'] = 0;
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 		$stockroomhelper->deleteCartAfterEmpty();
 	}
 
@@ -307,7 +307,7 @@ class RedshopModelCart extends RedshopModel
 			}
 		}
 
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 	}
 
 	public function update_all($data)
@@ -323,7 +323,7 @@ class RedshopModelCart extends RedshopModel
 		{
 			$cart        = array();
 			$cart['idx'] = 0;
-			$session->set('cart', $cart);
+			RedshopHelperCartSession::setCart($cart);
 			$cart        = $session->get('cart');
 		}
 
@@ -453,7 +453,7 @@ class RedshopModelCart extends RedshopModel
 
 		unset($cart[$idx]);
 
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 	}
 
 	public function delete($cartElement)
@@ -504,7 +504,7 @@ class RedshopModelCart extends RedshopModel
 			}
 		}
 
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 	}
 
 	public function coupon($c_data = array())

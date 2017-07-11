@@ -326,7 +326,7 @@ class RedshopControllerCart extends RedshopController
 		$cart['shipping_tax']              = $calArr[6];
 		$cart['discount_ex_vat']           = $totaldiscount - $discountVAT;
 		$cart['mod_cart_total']            = $this->_carthelper->GetCartModuleCalc($cart);
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 
 		return $cart;
 	}
@@ -569,7 +569,7 @@ class RedshopControllerCart extends RedshopController
 		$cart = $this->_carthelper->modifyCart($cart, $user_id);
 
 		$session = JFactory::getSession();
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 		$this->_carthelper->cartFinalCalculation();
 
 		?>

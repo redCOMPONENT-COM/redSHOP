@@ -86,7 +86,7 @@ class RedshopControllerCheckout extends RedshopController
 				}
 
 				$cart['extrafields_values'] = $post['extrafields_values'];
-				$session->set('cart', $cart);
+				RedshopHelperCartSession::setCart($cart);
 			}
 		}
 
@@ -394,7 +394,7 @@ class RedshopControllerCheckout extends RedshopController
 				}
 
 				$cart['extrafields_values'] = $post['extrafields_values'];
-				$session->set('cart', $cart);
+				RedshopHelperCartSession::setCart($cart);
 			}
 		}
 
