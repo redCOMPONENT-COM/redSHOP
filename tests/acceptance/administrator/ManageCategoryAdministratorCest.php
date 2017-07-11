@@ -69,7 +69,7 @@ class ManageCategoryAdministratorCest
 		$I->wantTo('Update Existing Category');
 		$I->changeCategoryState($this->newCategoryName, 'unpublish');
 		$currentState = $I->getCategoryState($this->newCategoryName);
-		$I->verifyState('unpublished', $currentState);
+		$I->verifyState('published', $currentState);
 	}
 
 	/**
