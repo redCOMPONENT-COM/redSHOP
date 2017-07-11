@@ -565,7 +565,7 @@ class RedshopHelperMedia
 
 			else
 			{
-				unlink($file);
+				JFile::delete($file);
 			}
 		}
 

@@ -265,7 +265,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 		}
 
@@ -291,14 +291,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 
 			$unlink_path = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_image']);
 
 			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 
 			$query = 'DELETE FROM ' . $this->table_prefix . 'media
@@ -373,7 +373,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 		}
 
@@ -397,7 +397,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 		}
 
@@ -422,7 +422,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 		}
 
@@ -447,7 +447,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (JFile::exists($unlink_path))
 			{
-				unlink($unlink_path);
+				JFile::delete($unlink_path);
 			}
 		}
 
@@ -1057,12 +1057,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (JFile::exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (JFile::exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 
 				// Subattribute delete
@@ -1114,32 +1114,32 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (JFile::exists($dest_full))
 				{
-					unlink($dest_full);
+					JFile::delete($dest_full);
 				}
 
 				if (JFile::exists($tsrc_thumb))
 				{
-					unlink($tsrc_thumb);
+					JFile::delete($tsrc_thumb);
 				}
 
 				if (JFile::exists($dest_back_full))
 				{
-					unlink($dest_back_full);
+					JFile::delete($dest_back_full);
 				}
 
 				if (JFile::exists($tsrc_back_thumb))
 				{
-					unlink($tsrc_back_thumb);
+					JFile::delete($tsrc_back_thumb);
 				}
 
 				if (JFile::exists($dest_preview))
 				{
-					unlink($dest_preview);
+					JFile::delete($dest_preview);
 				}
 
 				if (JFile::exists($tsrc_preview_back))
 				{
-					unlink($tsrc_preview_back);
+					JFile::delete($tsrc_preview_back);
 				}
 			}
 
@@ -1989,12 +1989,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (file_exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (file_exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 			}
 
@@ -2046,12 +2046,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (file_exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (file_exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 			}
 
@@ -2105,12 +2105,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				if (file_exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (file_exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 			}
 
@@ -2405,12 +2405,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (file_exists($dest))
 		{
-			unlink($dest);
+			JFile::delete($dest);
 		}
 
 		if (file_exists($tsrc))
 		{
-			unlink($tsrc);
+			JFile::delete($tsrc);
 		}
 
 		$query = 'DELETE FROM ' . $this->table_prefix . 'media WHERE media_id = "' . $mediaid . '" ';
@@ -2467,12 +2467,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 						if (file_exists($sub))
 						{
-							unlink($sub);
+							JFile::delete($sub);
 						}
 
 						if (file_exists($sub_thumb))
 						{
-							unlink($sub_thumb);
+							JFile::delete($sub_thumb);
 						}
 					}
 
@@ -2535,7 +2535,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (file_exists($sub_dest))
 			{
-				unlink($sub_dest);
+				JFile::delete($sub_dest);
 			}
 
 			$query = 'DELETE FROM ' . $this->table_prefix . 'product_subattribute_color  WHERE subattribute_color_id = "' .
@@ -3095,14 +3095,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (JFile::exists($imagethumbsrcphy))
 		{
-			unlink($imagethumbsrcphy);
+			JFile::delete($imagethumbsrcphy);
 		}
 
 		$imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $imagename;
 
 		if (JFile::exists($imagesrcphy))
 		{
-			unlink($imagesrcphy);
+			JFile::delete($imagesrcphy);
 		}
 
 		$query = "UPDATE `" . $this->table_prefix . "product_attribute_property` SET `property_image` = '' WHERE `property_id` = '" . $pid . "' ";
@@ -3136,14 +3136,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (JFile::exists($imagethumbsrcphy))
 		{
-			unlink($imagethumbsrcphy);
+			JFile::delete($imagethumbsrcphy);
 		}
 
 		$imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $imagename;
 
 		if (JFile::exists($imagesrcphy))
 		{
-			unlink($imagesrcphy);
+			JFile::delete($imagesrcphy);
 		}
 
 		$query = "UPDATE `" . $this->table_prefix . "product_subattribute_color`
@@ -4358,7 +4358,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (JFile::exists($imagesrcphy))
 		{
-			unlink($imagesrcphy);
+			JFile::delete($imagesrcphy);
 		}
 	}
 
