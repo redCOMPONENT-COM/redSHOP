@@ -98,7 +98,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 
 			if (isset($data['stock_image']) != "" && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']))
 			{
-				unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']);
+				JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']);
 			}
 		}
 
@@ -134,7 +134,7 @@ class RedshopModelStockimage_detail extends RedshopModel
 
 				if ($stock_amount_image != "" && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image);
+					JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image);
 				}
 			}
 

@@ -126,7 +126,7 @@ abstract class AbstractUpdate
 		{
 			if (file_exists($file))
 			{
-				unlink($file);
+				JFile::delete($file);
 			}
 		}
 
