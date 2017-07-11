@@ -22,7 +22,6 @@ class RedshopViewWishlist extends RedshopView
 	/**
 	 * @param   string  $tpl  Template layout
 	 *
-	 *
 	 * @since   1.0.0
 	 */
 	public function display($tpl = null)
@@ -31,32 +30,26 @@ class RedshopViewWishlist extends RedshopView
 
 		// Request variables
 		$task   = $app->input->getCmd('task', 'com_redshop');
-		$layout =  $app->input->getCmd('layout');
+		$layout = $app->input->getCmd('layout');
 
-		$params = $app->getParams('com_redshop');
-		$model = $this->getModel("wishlist");
+		$model  = $this->getModel("wishlist");
 
-		$wishlist          = $model->getUserWishlist();
+		$this->params = $app->getParams('com_redshop');
+		$this->wishlists = $model->getUserWishlist();
 
 		if ($task == 'viewwishlist' || $layout == 'viewwishlist')
 		{
 			$this->setlayout('viewwishlist');
-			$this->wishlists     = $wishlist;
 			$this->wish_products = $model->getWishlistProduct();
 			$this->wish_session  = $model->getWishlistProductFromSession();
-			$this->params        = $params;
 		}
 		elseif ($task == 'viewloginwishlist')
 		{
 			$this->setlayout('viewloginwishlist');
-			$this->wishlists = $wishlist;
-			$this->params    = $params;
 		}
 		else
 		{
 			$this->wish_session = $model->getWishlistProductFromSession();
-			$this->wishlist     = $wishlist;
-			$this->params       = $params;
 		}
 
 		parent::display($tpl);
