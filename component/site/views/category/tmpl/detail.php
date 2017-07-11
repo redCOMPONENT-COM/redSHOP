@@ -987,6 +987,8 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 															$count_no_user_field
 														);
 
+		$this->dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $product));
+
 		$product_data .= $data_add;
 	}
 
@@ -1138,5 +1140,5 @@ echo eval("?>" . $template_desc . "<?php ");
 
 if ($slide)
 {
-	exit;
+	JFactory::getApplication()->close();
 }

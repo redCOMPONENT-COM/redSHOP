@@ -38,7 +38,7 @@ if ($window == 1)
 	?>
 	<script type="text/javascript">window.parent.location.reload();</script>
 	<?php
-	exit;
+	JFactory::getApplication()->close();
 }
 
 if ($this->params->get('show_page_heading', 1))

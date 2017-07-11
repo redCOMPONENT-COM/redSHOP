@@ -21,12 +21,11 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
 	/**
 	 * Method to run before an install/update/uninstall method
 	 *
-	 * @param   string $type   The type of change (install, update or discover_install)
-	 * @param   object $parent Class of calling method
+	 * @param   string  $type   The type of change (install, update or discover_install)
 	 *
 	 * @return  void
 	 */
-	public function preflight($type, $parent)
+	public function preflight($type)
 	{
 		if ($type == 'update' || $type == 'discover_install')
 		{
@@ -119,6 +118,8 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
 
 		$extensionTable->load($pluginId);
 		$pluginParams = $extensionTable->get('params');
+
+		jimport('redshop.library');
 
 		// Set the reset_status parameter to 0 and save the updated parameters
 		$pluginParams              = json_decode($pluginParams);

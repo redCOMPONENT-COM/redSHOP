@@ -44,10 +44,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function &getData()
 	{
-		if ($this->_loadData())
-		{
-		}
-		else
+		if (!$this->_loadData())
 		{
 			$this->_initData();
 		}
@@ -213,6 +210,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 			$attribute_id = $attr[$i]->attribute_id;
 			$attribute_name = $attr[$i]->attribute_name;
+			$attribute_description = $attr[$i]->attribute_description;
 			$attribute_required = $attr[$i]->attribute_required;
 			$allow_multiple_selection = $attr[$i]->allow_multiple_selection;
 			$hide_attribute_price = $attr[$i]->hide_attribute_price;
@@ -234,6 +232,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 			}
 
 			$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name,
+				'attribute_description' => $attribute_description,
 				'attribute_required' => $attribute_required, 'ordering' => $ordering,
 				'property' => $prop, 'allow_multiple_selection' => $allow_multiple_selection,
 				'hide_attribute_price' => $hide_attribute_price, 'attribute_published' => $attribute_published,
@@ -800,12 +799,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		$query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` SET `property_image` = '' WHERE `property_id` = " . $pid;
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->execute())
-		{
-			return false;
-		}
-
-		return true;
+		return $this->_db->execute();
 	}
 
 	public function removesubpropertyImage($pid)
@@ -857,7 +851,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		$database->execute();
 
-		for ($i = 0; $i < count($post['quantity']); $i++)
+		for ($i = 0, $countQuantity = count($post['quantity']); $i < $countQuantity; $i++)
 		{
 			if ($post['quantity'][$i] || (!Redshop::getConfig()->get('USE_BLANK_AS_INFINITE')))
 			{
@@ -1062,7 +1056,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 								$listImages = $this->GetimageInfo($product_attributes_property->property_id, 'property');
 
-								for ($li = 0; $li < count($listImages); $li++)
+								for ($li = 0, $countImage = count($listImages); $li < $countImage; $li++)
 								{
 									$mImages = array();
 									$mImages['media_name'] = $listImages[$li]->media_name;
@@ -1185,8 +1179,9 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 										}
 
 										$listsubpropImages = $this->GetimageInfo($product_sub_attributes_property->subattribute_color_id, 'subproperty');
+										$countSubpropertyImage = count($listsubpropImages);
 
-										for ($lsi = 0; $lsi < count($listsubpropImages); $lsi++)
+										for ($lsi = 0; $lsi < $countSubpropertyImage; $lsi++)
 										{
 											$smImages = array();
 											$smImages['media_name'] = $listsubpropImages[$lsi]->media_name;
