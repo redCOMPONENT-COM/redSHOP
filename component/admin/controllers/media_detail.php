@@ -666,16 +666,16 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 										copy($btsrc, $originaldir);
 
-										if (is_file($btsrc))
+										if (JFile::exists($btsrc))
 										{
-											unlink($btsrc);
+											JFile::delete($btsrc);
 										}
 
-										if (is_file($target))
+										if (JFile::exists($target))
 										{
-											rmdir($target . '/' . $name[0]);
-											rmdir($target);
-											unlink($dest);
+											JFolder::delete($target . '/' . $name[0]);
+											JFolder::delete($target);
+											JFile::exists($dest);
 
 											return true;
 										}

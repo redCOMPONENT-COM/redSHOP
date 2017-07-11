@@ -119,12 +119,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 				$tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
 
-				if (is_file($dest))
+				if (JFile::exists($dest))
 				{
 					unlink($dest);
 				}
 
-				if (is_file($tsrc))
+				if (JFile::exists($tsrc))
 				{
 					unlink($tsrc);
 				}
@@ -783,7 +783,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		$imagethumbsrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/thumb/" . $imagename;
 
-		if (is_file($imagethumbsrcphy))
+		if (JFile::exists($imagethumbsrcphy))
 		{
 			@unlink($imagethumbsrcphy);
 		}
@@ -791,7 +791,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		$imagesrc = REDSHOP_FRONT_IMAGES_ABSPATH . "product_attributes/" . $imagename;
 		$imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $imagename;
 
-		if (is_file($imagesrcphy))
+		if (JFile::exists($imagesrcphy))
 		{
 			@unlink($imagesrcphy);
 		}
@@ -810,14 +810,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		$imagename = $image->subattribute_color_image;
 		$imagethumbsrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/thumb/" . $imagename;
 
-		if (is_file($imagethumbsrcphy))
+		if (JFile::exists($imagethumbsrcphy))
 		{
 			@unlink($imagethumbsrcphy);
 		}
 
 		$imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $imagename;
 
-		if (is_file($imagesrcphy))
+		if (JFile::exists($imagesrcphy))
 		{
 			@unlink($imagesrcphy);
 		}
