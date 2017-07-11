@@ -20,7 +20,7 @@ class RedshopHelperCartSession
 	/**
 	 * Get cart from session
 	 *
-	 * @return   array
+	 * @return   boolean|array
 	 *
 	 * @since    2.0.7
 	 */
@@ -32,7 +32,7 @@ class RedshopHelperCartSession
 	/**
 	 * @param   array $cart Cart array
 	 *
-	 * @return  array
+	 * @return  boolean|array
 	 *
 	 * @since   2.0.7
 	 */
@@ -50,12 +50,6 @@ class RedshopHelperCartSession
 	 */
 	public static function reset()
 	{
-		$session = JFactory::getSession();
-		RedshopHelperCartSession::setCart(null);
-		$session->set('ccdata', null);
-		$session->set('issplit', null);
-		$session->set('userfield', null);
-
-		unset($_SESSION ['ccdata']);
+		self::setCart(null);
 	}
 }
