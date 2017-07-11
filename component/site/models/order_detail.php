@@ -142,14 +142,14 @@ class RedshopModelOrder_detail extends RedshopModel
 		return $db->setQuery($query)->loadResult();
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   2.0.7
+	 */
 	public function resetcart()
 	{
-		$session = JFactory::getSession();
-		$session->set('cart', null);
-		$session->set('ccdata', null);
-		$session->set('issplit', null);
-		$session->set('userfield', null);
-		unset ($_SESSION ['ccdata']);
+		RedshopHelperCartSession::reset();
 	}
 
 	public function update_ccdata($order_id, $payment_transaction_id)
