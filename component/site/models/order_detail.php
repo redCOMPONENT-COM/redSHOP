@@ -152,36 +152,45 @@ class RedshopModelOrder_detail extends RedshopModel
 		unset ($_SESSION ['ccdata']);
 	}
 
-	public function update_ccdata($order_id, $payment_transaction_id)
+	/**
+	 * @param   int  $orderId               orderID
+	 * @param   int  $paymentTransactionId  Transaction ID
+	 *
+	 * @return   boolean
+	 *
+	 */
+	public function update_ccdata($orderId, $paymentTransactionId)
 	{
 		$db = JFactory::getDbo();
-
 		$session = JFactory::getSession();
 		$ccdata  = $session->get('ccdata');
 
-		$order_payment_code     = $ccdata['creditcard_code'];
-		$order_payment_cardname = base64_encode($ccdata['order_payment_name']);
-		$order_payment_number   = base64_encode($ccdata['order_payment_number']);
+		$orderPaymentCode     = $ccdata['creditcard_code'];
+		$orderPaymentCardName = base64_encode($ccdata['order_payment_name']);
+		$orderPaymentNumber   = base64_encode($ccdata['order_payment_number']);
 
 		// This is ccv code
-		$order_payment_ccv      = base64_encode($ccdata['credit_card_code']);
-		$order_payment_expire   = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
-		$order_payment_trans_id = $payment_transaction_id;
+		$orderPaymentCcv      = base64_encode($ccdata['credit_card_code']);
+		$orderPaymentExpire   = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
 
-		$payment_update = "UPDATE " . $this->_table_prefix . "order_payment "
-			. " SET order_payment_code  = " . $db->quote($order_payment_code) . ", "
-			. " order_payment_cardname  = " . $db->quote($order_payment_cardname) . ", "
-			. " order_payment_number  = " . $db->quote($order_payment_number) . ", "
-			. " order_payment_ccv  = " . $db->quote($order_payment_ccv) . ", "
-			. " order_payment_expire  = " . $db->quote($order_payment_expire) . ", "
-			. " order_payment_trans_id  = " . $db->quote($payment_transaction_id) . " "
-			. " WHERE order_id  = " . (int) $order_id;
+		$query = $db->getQuery(true);
+		$query->update($db->quoteName('#__order_payment'))
+			->set(
+				array(
+					$db->quoteName('order_payment_code') . ' = ' . $db->quote($orderPaymentCode),
+					$db->quoteName('order_payment_cardname') . ' = ' . $db->quote($orderPaymentCardName),
+					$db->quoteName('order_payment_number') . ' = ' . $db->quote($orderPaymentNumber),
+					$db->quoteName('order_payment_ccv') . ' = ' . $db->quote($orderPaymentCcv),
+					$db->quoteName('order_payment_expire') . ' = ' . $db->quote($orderPaymentExpire),
+					$db->quoteName('order_payment_trans_id') . ' = ' . $db->quote($paymentTransactionId),
+				)
+			)
+			->where(
+				array(
+					$db->quoteName('order_id') . ' = ' . (int) $orderId
+				)
+			);
 
-		$db->setQuery($payment_update);
-
-		if (!$db->execute())
-		{
-			return false;
-		}
+		return JFactory::getDbo()->setQuery($query)->execute();
 	}
 }
