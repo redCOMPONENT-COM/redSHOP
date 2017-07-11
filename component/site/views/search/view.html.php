@@ -114,7 +114,7 @@ class RedshopViewSearch extends RedshopView
 			$input = JFactory::getApplication()->input;
 			$input->set('order_by', $app->getUserState('order_by'));
 
-			$dispatcher       = JDispatcher::getInstance();
+			$dispatcher       = RedshopHelperUtility::getDispatcher();
 			$redTemplate      = Redtemplate::getInstance();
 			$Redconfiguration = Redconfiguration::getInstance();
 			$producthelper    = productHelper::getInstance();
