@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic as RedshopEconomic;
 use Redshop\Helper\Utility;
 
 /**
@@ -299,156 +298,19 @@ class RsUserHelper
 		return $user;
 	}
 
-	public function createJoomlaUser($data, $createuser = 0)
+	/**
+	 * Method for create Joomla user.
+	 *
+	 * @param   array  $data        User data.
+	 * @param   int    $createUser  Create user
+	 *
+	 * @return  boolean|JUser       JUser if success. False otherwise.
+	 *
+	 * @deprecated    __DEPLOY_VERSION__
+	 */
+	public function createJoomlaUser($data, $createUser = 0)
 	{
-		$app = JFactory::getApplication();
-		$input = $app->input;
-		$createaccount = (isset($data['createaccount']) && $data['createaccount'] == 1) ? 1 : 0;
-
-		// Registration is without account creation REGISTER_METHOD = 1
-		// Or Optional account creation
-		if (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || (Redshop::getConfig()->get('REGISTER_METHOD') == 2 && $createaccount == 0))
-		{
-			$user     = new stdClass;
-			$user->id = 0;
-
-			return $user;
-		}
-
-		$data['password']  = $input->post->getRaw('password1', '');
-		$data['password2'] = $input->post->getRaw('password2', '');
-		$data['email']     = $data['email1'];
-		$data['name']      = $name = $data['firstname'];
-
-		// Prevent front-end user to change user group in the form and then being able to register on any Joomla! user group.
-		if ($app->isSite())
-		{
-			$params         = JComponentHelper::getParams('com_users');
-			$data['groups'] = array($params->get('new_usertype', 2));
-		}
-
-		// Do a password safety check
-		if (Redshop::getConfig()->get('REGISTER_METHOD') == 3)
-		{
-			// Silent registration
-			$better_token      = substr(uniqid(md5(rand()), true), 0, 10);
-			$data['username']  = $data['email'];
-			$data['password']  = $better_token;
-			$data['password2'] = $better_token;
-			$input->post->set('password1', $better_token);
-		}
-
-		if (trim($data['email']) == "")
-		{
-			JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_EMAIL'));
-
-			return false;
-		}
-
-		if (trim($data['username']) == "")
-		{
-			JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_USERNAME'));
-
-			return false;
-		}
-
-		$countusername = $this->validate_user($data['username']);
-
-		if ($countusername > 0)
-		{
-			JError::raiseWarning('', JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'));
-
-			return false;
-		}
-
-		$countemail = $this->validate_email($data['email']);
-
-		if ($countemail > 0)
-		{
-			JError::raiseWarning('', JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'));
-
-			return false;
-		}
-
-		if (trim($data['password']) == "")
-		{
-			JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_PASSWORD'));
-
-			return false;
-		}
-
-		if (strlen($data['password']) || strlen($data['password2']))
-		{
-			if ($data['password'] != $data['password2'])
-			{
-				JError::raiseWarning('', JText::_('COM_REDSHOP_PASSWORDS_DO_NOT_MATCH'));
-
-				return false;
-			}
-		}
-
-		JPluginHelper::importPlugin('redshop_user');
-		RedshopHelperUtility::getDispatcher()->trigger('onBeforeCreateJoomlaUser', array(&$data));
-
-		// Get required system objects
-		$user = clone JFactory::getUser();
-
-		// If user registration is not allowed, show 403 not authorized.
-		$usersConfig = JComponentHelper::getParams('com_users');
-
-		if (!$user->bind($data))
-		{
-			JError::raiseError(500, $user->getError());
-
-			return false;
-		}
-
-		$date = JFactory::getDate();
-		$user->set('id', 0);
-		$user->set('registerDate', $date->toSql());
-
-		// If user activation is turned on, we need to set the activation information
-		$useractivation = $usersConfig->get('useractivation');
-
-		if ($useractivation == '1')
-		{
-			if (version_compare(JVERSION, '3.0', '<'))
-			{
-				$hash = JApplication::getHash(JUserHelper::genRandomPassword());
-			}
-			else
-			{
-				$hash = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
-			}
-
-			$user->set('activation', $hash);
-			$user->set('block', '0');
-		}
-
-		$user->set('name', $name);
-		$user->name = $name;
-
-		// If there was an error with registration, set the message and display form
-		if (!$user->save())
-		{
-			JError::raiseWarning('', JText::_($user->getError()));
-
-			return false;
-		}
-
-		$credentials             = array();
-		$credentials['username'] = $data['username'];
-		$credentials['password'] = $data['password2'];
-
-		// Perform the login action
-		if (!JFactory::getUser()->id)
-		{
-			$app->login($credentials);
-		}
-
-		RedshopHelperUtility::getDispatcher()->trigger('onAfterCreateJoomlaUser', array(&$user));
-
-		return $user;
+		return RedshopHelperJoomla::createJoomlaUser($data, (boolean) $createUser);
 	}
 
 	/**
@@ -466,229 +328,20 @@ class RsUserHelper
 		return Utility::checkCaptcha($data, $displayWarning);
 	}
 
-	public function storeRedshopUser($data, $user_id = 0, $admin = 0)
+	/**
+	 * Method for store redshop user.
+	 *
+	 * @param   array    $data    User data.
+	 * @param   integer  $userId  ID of user
+	 * @param   integer  $admin   Is admin user.
+	 *
+	 * @return  bool|\JTable      RedshopTableUser if success. False otherwise.
+	 *
+	 * @deprecated    __DEPLOY_VERSION__
+	 */
+	public function storeRedshopUser($data, $userId = 0, $admin = 0)
 	{
-		$redshopMail = redshopMail::getInstance();
-		$extra_field = extra_field::getInstance();
-		$helper      = redhelper::getInstance();
-
-		$data['user_email']   = $data['email'] = $data['email1'];
-		$data['name']         = $name = $data['firstname'];
-		$data['address_type'] = 'BT';
-
-		$row = JTable::getInstance('user_detail', 'Table');
-
-		if (isset($data['users_info_id']) && $data['users_info_id'] != 0)
-		{
-			$isNew = false;
-			$row->load($data['users_info_id']);
-			$data["old_tax_exempt_approved"] = $row->tax_exempt_approved;
-			$user_id                         = $row->user_id;
-		}
-		else
-		{
-			$isNew            = true;
-			$data['password'] = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
-			$app              = JFactory::getApplication();
-			$is_admin         = $app->isAdmin();
-
-			if ($data['is_company'] == 1)
-			{
-				if ($is_admin && isset($data['shopper_group_id']) && $data['shopper_group_id'] != 0)
-				{
-					$data['shopper_group_id'] = $data['shopper_group_id'];
-				}
-				else
-				{
-					$data['shopper_group_id'] = (Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY') != 0) ? Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY') : 2;
-				}
-			}
-			else
-			{
-				if ($is_admin && isset($data['shopper_group_id']) && $data['shopper_group_id'] != 0)
-				{
-					$data['shopper_group_id'] = $data['shopper_group_id'];
-				}
-				else
-				{
-					$data['shopper_group_id'] = (Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE') != 0) ? Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE') : 1;
-				}
-			}
-		}
-
-		if ($user_id > 0)
-		{
-			$joomlauser       = new JUser($user_id);
-			$data['username'] = $joomlauser->username;
-			$data['name']     = $joomlauser->name;
-			$data['email']    = $joomlauser->email;
-		}
-
-		if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1 && isset($data['termscondition']) && $data['termscondition'] == 1)
-		{
-			$data['accept_terms_conditions'] = 1;
-		}
-
-		$row->user_id = $data['user_id'] = $user_id;
-
-		JPluginHelper::importPlugin('redshop_user');
-		RedshopHelperUtility::getDispatcher()->trigger('onBeforeCreateRedshopUser', array(&$data, $isNew));
-
-		if (!$row->bind($data))
-		{
-			$this->setError($this->db->getErrorMsg());
-
-			return false;
-		}
-
-		if (Redshop::getConfig()->get('USE_TAX_EXEMPT'))
-		{
-			if (!$admin && $row->is_company == 1)
-			{
-				$row->requesting_tax_exempt = $data['tax_exempt'];
-
-				if ($row->requesting_tax_exempt == 1)
-				{
-					$redshopMail->sendRequestTaxExemptMail($row, $data['username']);
-				}
-			}
-
-			// Sending tax exempted mails (tax_exempt_approval_mail)
-			if (!$isNew && $admin && isset($data["tax_exempt_approved"]) && $data["old_tax_exempt_approved"] != $data["tax_exempt_approved"])
-			{
-				if ($data["tax_exempt_approved"] == 1)
-				{
-					$redshopMail->sendTaxExemptMail("tax_exempt_approval_mail", $data, $row->user_email);
-				}
-				else
-				{
-					$redshopMail->sendTaxExemptMail("tax_exempt_disapproval_mail", $data, $row->user_email);
-				}
-			}
-		}
-
-		if (!$row->store())
-		{
-			$this->setError($this->db->getErrorMsg());
-
-			return false;
-		}
-
-		// Update user info id
-		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION'))
-		{
-			if ($isNew)
-			{
-				$maxDebtor = RedshopEconomic::getMaxDebtorInEconomic();
-
-				if (count($maxDebtor) > 0)
-				{
-					$maxDebtor = $maxDebtor[0];
-
-					if ($row->users_info_id <= $maxDebtor)
-					{
-						$db = $this->_db;
-						$query = $db->setQuery(true)
-							->select('MAX(' . $db->qn('users_info_id') . ')')
-							->from($db->qn('#__redshop_users_info'));
-						$currentMax = $db->setQuery($query)->loadResult();
-						$nextId = $currentMax + 1;
-
-						$query->clear()
-							->update($db->qn('#__redshop_users_info'))
-							->set($db->qn('users_info_id') . ' = ' . $nextId)
-							->where($db->qn('users_info_id') . ' = ' . (int) $row->users_info_id);
-						$db->setQuery($query)->execute();
-
-						$alterQuery = 'ALTER TABLE ' . $db->qn('#__redshop_users_info') . ' AUTO_INCREMENT = ' . $nextId + 1;
-						$db->setQuery($alterQuery)->execute();
-
-						$row->users_info_id = $nextId;
-					}
-				}
-			}
-
-			$debtorHandle = RedshopEconomic::createUserInEconomic($row);
-
-			if ($row->is_company && trim($row->ean_number) != '' && JError::isError(JError::getError()))
-			{
-				$msg = JText::_('PLEASE_ENTER_EAN_NUMBER');
-				JError::raiseWarning('', $msg);
-
-				return false;
-			}
-		}
-
-		$auth['users_info_id'] = $row->users_info_id;
-		$this->_session->set('auth', $auth);
-
-		// For non-registered customers
-		if (!$row->user_id)
-		{
-			$row->user_id = (0 - $row->users_info_id);
-			$row->store();
-			$u = JFactory::getUser();
-
-			$u->set('username', $row->user_email);
-			$u->set('email', $row->user_email);
-			$u->set('usertype', 'Registered');
-			$date = JFactory::getDate();
-			$u->set('registerDate', $date->toSql());
-			$data['user_id']  = $row->user_id;
-			$data['username'] = $row->user_email;
-			$data['email']    = $row->user_email;
-		}
-
-		if (isset($data['newsletter_signup']) && $data['newsletter_signup'] == 1)
-		{
-			$this->newsletterSubscribe($row->user_id, $data, 0, $isNew);
-		}
-
-		$billisship = 1;
-
-		if (!isset($data['billisship']))
-		{
-			$billisship = 0;
-		}
-
-		// Info: field_section 6 :Userinformations
-		$list_field = $extra_field->extra_field_save($data, 6, $row->users_info_id);
-
-		if ($row->is_company == 0)
-		{
-			// Info: field_section 7 :Userinformations
-			$list_field = $extra_field->extra_field_save($data, 7, $row->users_info_id);
-		}
-		else
-		{
-			// Info: field_section 8 :Userinformations
-			$list_field = $extra_field->extra_field_save($data, 8, $row->users_info_id);
-		}
-
-		if ($billisship != 1)
-		{
-			$rowShip = $this->storeRedshopUserShipping($data);
-		}
-
-		if (Redshop::getConfig()->get('REGISTER_METHOD') != 1 && $isNew && $admin == 0)
-		{
-			if (Redshop::getConfig()->get('REGISTER_METHOD') == 2)
-			{
-				if (isset($data['createaccount']) && $data['createaccount'] == 1)
-				{
-					$redshopMail->sendRegistrationMail($data);
-				}
-			}
-			else
-			{
-				$redshopMail->sendRegistrationMail($data);
-			}
-		}
-
-		JPluginHelper::importPlugin('user');
-		RedshopHelperUtility::getDispatcher()->trigger('onAfterCreateRedshopUser', array($data, $isNew));
-
-		return $row;
+		return RedshopHelperUser::storeRedshopUser($data, $userId, $admin);
 	}
 
 	public function storeRedshopUserShipping($data)
