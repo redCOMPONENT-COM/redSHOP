@@ -166,6 +166,6 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 		$get = $this->input->get->getArray();
 		$model = $this->getModel('shipping_rate_detail');
 		$model->GetStateDropdown($get);
-		exit;
+		JFactory::getApplication()->close();
 	}
 }

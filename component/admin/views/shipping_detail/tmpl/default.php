@@ -66,7 +66,7 @@ JHTML::_('behavior.tooltip');
 	<?php echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CONFIG'), 'tab2'); ?>
 	<div align="left"><?php
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$payment = $dispatcher->trigger('onShowconfig', array($this->detail));
 		?>
 	</div>

@@ -44,6 +44,6 @@ class Payment2CheckoutPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(['xpath' => "//input[@id='jform_params_vendor_id']"], $vendorID);
 		$I->fillField(['xpath' => "//input[@id='jform_params_secret_words']"], $secretWord);
 		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
-		$I->see('successfully saved', ['id' => 'system-message-container']);
+		$I->see( 'saved', ['id' => 'system-message-container']);
 	}
 }
