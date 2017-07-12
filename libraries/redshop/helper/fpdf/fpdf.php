@@ -1345,7 +1345,7 @@ function _parsegif($file)
 		$this->Error('Error while saving to temporary file');
 	imagedestroy($im);
 	$info=$this->_parsepng($tmp);
-	unlink($tmp);
+	JFile::delete($tmp);
 	return $info;
 }
 
