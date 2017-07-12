@@ -239,8 +239,8 @@ class RedshopControllerAddorder_detail extends RedshopController
 		// Save + Pay button pressed
 		if ($apply == 1)
 		{
-			$post['order_payment_status'] = empty($post['order_payment_status']) ? 'Unpaid' : $post['order_payment_status'];
-			$post['order_status']         = empty($post['order_status']) ? 'P' : $post['order_status'];
+			$post['order_payment_status'] = empty($post['order_payment_status']) ? REDSHOP_ORDER_PAYMENT_STATUS_UNPAID : $post['order_payment_status'];
+			$post['order_status']         = empty($post['order_status']) ? REDSHOP_ORDER_STATUS_PAID : $post['order_status'];
 		}
 
 		if ($row = $model->store($post))

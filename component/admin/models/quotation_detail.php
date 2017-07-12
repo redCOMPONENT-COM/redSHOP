@@ -778,8 +778,8 @@ class RedshopModelQuotation_detail extends RedshopModel
 		$row->order_tax               = $data['quotation_tax'];
 		$row->order_discount          = $data['quotation_discount'];
 		$row->special_discount_amount = $data['quotation_special_discount'];
-		$row->order_status            = 'P';
-		$row->order_payment_status    = 'Unpaid';
+		$row->order_status            = REDSHOP_ORDER_STATUS_PAID;
+		$row->order_payment_status    = REDSHOP_ORDER_PAYMENT_STATUS_UNPAID;
 		$row->cdate                   = time();
 		$row->mdate                   = time();
 		$row->ip_address              = $data['quotation_ipaddress'];
@@ -798,7 +798,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		$rowOrderStatus                = $this->getTable('order_status_log');
 		$rowOrderStatus->order_id      = $orderId;
-		$rowOrderStatus->order_status  = 'P';
+		$rowOrderStatus->order_status  = REDSHOP_ORDER_STATUS_PAID;
 		$rowOrderStatus->date_changed  = time();
 		$rowOrderStatus->customer_note = '';
 		$rowOrderStatus->store();
@@ -828,7 +828,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 				$rowItem->product_item_price_excl_vat = $quotationItem->product_excl_price;
 				$rowItem->product_final_price         = $quotationItem->product_final_price;
 				$rowItem->order_item_currency         = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
-				$rowItem->order_status                = 'P';
+				$rowItem->order_status                = REDSHOP_ORDER_STATUS_PAID;
 				$rowItem->cdate                       = time();
 				$rowItem->mdate                       = time();
 				$rowItem->product_attribute           = $quotationItem->product_attribute;
