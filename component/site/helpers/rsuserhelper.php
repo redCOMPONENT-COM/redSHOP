@@ -335,7 +335,7 @@ class RsUserHelper
 			$data['username']  = $data['email'];
 			$data['password']  = $better_token;
 			$data['password2'] = $better_token;
-			JRequest::setVar('password1', $better_token);
+			$input->post->set('password1', $better_token);
 		}
 
 		if (trim($data['email']) == "")
