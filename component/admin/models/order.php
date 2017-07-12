@@ -386,9 +386,9 @@ class RedshopModelOrder extends RedshopModel
 
 				$row = array_merge($row, $extraInfo, $rowAppend);
 
-				for ($j = 0, $jn = count($row); $j < $jn; $j++)
+				foreach ($row as $key => $value)
 				{
-					$row[$j] = utf8_decode($row[$j]);
+					$row[$key] = utf8_decode($value);
 				}
 
 				// Output CSV line
