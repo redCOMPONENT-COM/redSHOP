@@ -116,8 +116,8 @@ class RedshopViewAccount_Shipto extends RedshopView
 		}
 
 		$this->lists             = $lists;
-		$this->shippingAddresses = !is_array($shippingAddresses) ? array($shippingAddresses) : $shippingAddresses;
-		$this->billingAddresses  = !is_array($billingAddress) ? array($billingAddress) : $billingAddress;
+		$this->shippingAddresses = $shippingAddresses;
+		$this->billingAddresses  = $billingAddress;
 		$this->request_url       = JUri::getInstance()->toString();
 		JFilterOutput::cleanText($this->request_url);
 		$this->params = JFactory::getApplication()->getParams();
