@@ -534,7 +534,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 												. $row->media_section . '/' . RedShopHelperImages::cleanFileName($newscan[$j]);
 
 											copy($btsrc, $originaldir);
-											JFile::delete(($btsrc);
+											JFile::delete($btsrc);
 											$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 											if (isset($post['set']) && $post['media_section'] != 'manufacturer')
