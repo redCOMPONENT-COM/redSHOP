@@ -6749,41 +6749,14 @@ class rsCarthelper
 	}
 
 	/**
-	 * @param string $pdcextraids
-	 * @param int    $product_id
+	 * @param   string  $pdcextraids
+	 * @param   int     $productId
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 */
-	public function getDiscountCalcDataExtra($pdcextraids = "", $product_id = 0)
+	public function getDiscountCalcDataExtra($pdcextraids = "", $productId = 0)
 	{
-		$db = JFactory::getDbo();
-
-		$and = "";
-
-		if ($product_id)
-		{
-			$and .= "AND product_id = " . (int) $product_id . " ";
-		}
-
-		if ($pdcextraids)
-		{
-			// Secure $pdcextraids
-			if ($extraIds = explode(',', $pdcextraids))
-			{
-				JArrayHelper::toInteger($extraIds);
-			}
-
-			$and .= "AND pdcextra_id IN (" . implode(',', $extraIds) . ") ";
-		}
-
-		$query = "SELECT * FROM `" . $this->_table_prefix . "product_discount_calc_extra` "
-			. "WHERE 1=1 "
-			. $and
-			. "ORDER BY option_name ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperCartDiscount::getDiscountCalcDataExtra($pdcextraids, $productId);
 	}
 
 	/**
