@@ -25,7 +25,7 @@ class SupplierManagerPage
 
     public static $supplierEmailId = ['id' => "jform_email"];
 
-    public static $supplierSuccessMessage = "Item successfully saved.";
+    public static $supplierSuccessMessage = "Item saved.";
 
 
     public static $supplierResultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
@@ -38,7 +38,7 @@ class SupplierManagerPage
 
     public static $supplierResultName = "//div[@class='table-responsive']/table/tbody/tr/td[2]";
 
-    public static $supplierStatePath = "//div[@class='table-responsive']/table/tbody/tr/td[4]/a";
+    public static $supplierStatePath = "//div[@class='table-responsive']/table/tbody/tr/td[6]/a";
 
     public static $headPage = ['xpath' => "//h1"];
 

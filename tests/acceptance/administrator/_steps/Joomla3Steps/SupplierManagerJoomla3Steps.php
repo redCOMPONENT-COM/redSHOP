@@ -32,10 +32,9 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierNameField, $supplierName);
         $I->fillField(\SupplierManagerPage::$supplierEmailId, $supplierEmail);
-        $I->checkForPhpNoticesOrWarnings();
         $I->click(\SupplierManagerPage::$saveCloseButton);
-        $I->waitForText(\SupplierManagerPage::$supplierSuccessMessage, 60, SupplierManagerPage::$selectorSuccess);
-        $I->see(\SupplierManagerPage::$supplierSuccessMessage, SupplierManagerPage::$selectorSuccess);
+        $I->waitForText(\SupplierManagerPage::$supplierSuccessMessage, 60, \SupplierManagerPage::$selectorSuccess);
+        $I->see(\SupplierManagerPage::$supplierSuccessMessage, \SupplierManagerPage::$selectorSuccess);
         $I->searchSupplier($supplierName);
         $I->see($supplierName, \SupplierManagerPage::$supplierResultRow);
     }
@@ -54,7 +53,6 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierNameField, $supplierName);
         $I->fillField(\SupplierManagerPage::$supplierEmailId, $supplierEmail);
-        $I->checkForPhpNoticesOrWarnings();
         $I->click(\SupplierManagerPage::$saveButton);
         $I->waitForText(\SupplierManagerPage::$supplierSuccessMessage, 60, \SupplierManagerPage::$selectorSuccess);
         $I->see(\SupplierManagerPage::$supplierSuccessMessage, \SupplierManagerPage::$selectorSuccess);
@@ -80,7 +78,6 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\SupplierManagerPage::$newButton);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierEmailId, $supplierEmailId);
-        $I->checkForPhpNoticesOrWarnings();
         $I->click(\SupplierManagerPage::$saveButton);
         $I->waitForText(\SupplierManagerPage::$fieldMissing, 60, \SupplierManagerPage::$selectorMissing);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
@@ -95,7 +92,6 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierNameField, $supplierName);
         $I->fillField(\SupplierManagerPage::$supplierEmailId, $supplierEmail);
-        $I->checkForPhpNoticesOrWarnings();
         $I->click(\SupplierManagerPage::$saveButton);
         $I->waitForText(\SupplierManagerPage::$fieldEmailInvalid, 60, \SupplierManagerPage::$selectorMissing);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
@@ -286,7 +282,6 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click(\SupplierManagerPage::$checkAllSupplier);
         $I->checkAllResults();
         $I->click(\SupplierManagerPage::$checkinButton);
         $I->waitForText(\SupplierManagerPage::$messageHead, 30, \SupplierManagerPage::$selectorSuccess);

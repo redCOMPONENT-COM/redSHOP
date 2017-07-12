@@ -21,7 +21,7 @@ class ManageSupplierAdministratorCest
     {
         $this->faker = Faker\Factory::create();
         $this->supplierName = $this->faker->bothify('ManageSupplierAdministratorCest ?##?');
-        $this->supplierNameSave = "SupplierSave";
+        $this->supplierNameSave = $this->faker->bothify('ManageSupplierSaveAdministratorCest ?##?');
         $this->supplierUpdatedName = $this->faker->bothify('Supplier Updated Name ?##?');
         $this->supplierEmail = $this->faker->email();
         $this->supplierEmailSave = $this->faker->email();
@@ -201,16 +201,16 @@ class ManageSupplierAdministratorCest
         $I->verifyState('unpublished', $currentState);
     }
 
-//    public function changeSupplierStatePublish(AcceptanceTester $I, $scenario)
-//    {
-//        $I->wantTo('Test change publish Supplier gets Updated in Administrator');
-//        $I->doAdministratorLogin();
-//        $I = new AcceptanceTester\SupplierManagerJoomla3Steps($scenario);
-//        $I->wantTo(' update status of Supplier');
-//        $I->changeSupplierStatePublish($this->supplierNameSave, 'publish');
-//        $currentState = $I->getSupplierState($this->supplierNameSave);
-//        $I->verifyState('published', $currentState);
-//    }
+    public function changeSupplierStatePublish(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test change publish Supplier gets Updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\SupplierManagerJoomla3Steps($scenario);
+        $I->wantTo(' update status of Supplier');
+        $I->changeSupplierStatePublish($this->supplierNameSave, 'publish');
+        $currentState = $I->getSupplierState($this->supplierNameSave);
+        $I->verifyState('published', $currentState);
+    }
 
 
     /**
