@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    LOGman
- * @copyright  Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright  Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,7 +21,7 @@ class PlgLogmanRedshop extends ComLogmanPluginJoomla
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0.0
+	 * @since   1.7.0
 	 */
 	public function onAfterAdminSaveConfiguration($config)
 	{
@@ -32,9 +32,9 @@ class PlgLogmanRedshop extends ComLogmanPluginJoomla
 		$this->log(
 			array(
 				'object' => array(
-					'package' => $this->_getPackage(),
+					'package' => $this->getPackage(),
 					'type'    => $type,
-					'id'      => $this->_getUniqueId($config),
+					'id'      => $this->getUniqueId($config),
 					'name'    => $name,
 				),
 				'verb'   => 'save',
@@ -49,9 +49,9 @@ class PlgLogmanRedshop extends ComLogmanPluginJoomla
 	 *
 	 * @return  string
 	 *
-	 * @since  1.0.0
+	 * @since  1.7.0
 	 */
-	private function _getPackage()
+	private function getPackage()
 	{
 		return 'redshop';
 	}
@@ -63,9 +63,9 @@ class PlgLogmanRedshop extends ComLogmanPluginJoomla
 	 *
 	 * @return  string
 	 *
-	 * @since   1.0.0
+	 * @since   1.7.0
 	 */
-	private function _getUniqueId ($args)
+	private function getUniqueId ($args)
 	{
 		return md5(serialize($args) . serialize(JFactory::getUser()));
 	}
