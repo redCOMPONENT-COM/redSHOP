@@ -114,6 +114,8 @@ function pluginRelease(group, name) {
                         '!./plugins/' + group + '/' + name + '/**/vendor/**/phpunit.xml.dist',
                         '!./plugins/' + group + '/' + name + '/**/vendor/**/phpcs.xml',
                         '!./plugins/' + group + '/' + name + '/**/vendor/mpdf/mpdf/ttfonts/!(DejaVu*.ttf)',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/setasign/fpdi',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/setasign/fpdi/**',
                         '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
                         '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/ae_fonts*/**',
                         '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf*/**',
