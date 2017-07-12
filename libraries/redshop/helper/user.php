@@ -26,13 +26,6 @@ class RedshopHelperUser
 	protected static $userShopperGroupData = array();
 
 	/**
-	 * Shopper Group information
-	 *
-	 * @var  array
-	 */
-	protected static $shopperGroupData = array();
-
-	/**
 	 * Users Info
 	 *
 	 * @var  array
@@ -116,15 +109,14 @@ class RedshopHelperUser
 	/**
 	 * Create redshop user session
 	 *
-	 * @param   int $userId Joomla user id
+	 * @param   int  $userId  Joomla user id
 	 *
 	 * @return  array|mixed
 	 */
 	public static function createUserSession($userId = 0)
 	{
-		$session         = JFactory::getSession();
-		$userArr         = $session->get('rs_user');
-		$order_functions = order_functions::getInstance();
+		$session = JFactory::getSession();
+		$userArr = $session->get('rs_user');
 
 		if (!$userId)
 		{
@@ -145,12 +137,12 @@ class RedshopHelperUser
 			if (!isset($userArr['rs_user_info_id']))
 			{
 				$userInformation = self::getUserInformation($userId);
-				$shippingAddress = $order_functions->getShippingAddress($userId);
+				$shippingAddress = RedshopHelperOrder::getShippingAddress($userId);
 
 				if (count($shippingAddress) > 0 && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST')
 				{
-					$users_info_id   = $shippingAddress[0]->users_info_id;
-					$userInformation = self::getUserInformation($userId, 'ST', $users_info_id);
+					$redshopUserInforId = $shippingAddress[0]->users_info_id;
+					$userInformation    = self::getUserInformation($userId, 'ST', $redshopUserInforId);
 				}
 
 				$userArr['rs_user_info_id'] = isset($userInformation->users_info_id) ? $userInformation->users_info_id : 0;
@@ -245,24 +237,15 @@ class RedshopHelperUser
 	/**
 	 * Get Shopper Group Data using shopper group id
 	 *
-	 * @param   int $id Shopper Group Id
+	 * @param   int  $id  Shopper Group Id
 	 *
-	 * @return mixed
+	 * @return  null|object  Shopper group object data. Null if not found.
+	 *
+	 * @deprecated  __DEPLOY_VERSION__  Use RedshopEntityShopper_Group instead.
 	 */
 	public static function getShopperGroupDataById($id)
 	{
-		if (!array_key_exists($id, self::$shopperGroupData))
-		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('sg.*')
-				->from($db->qn('#__redshop_shopper_group', 'sg'))
-				->where('sg.shopper_group_id = ' . (int) $id);
-			$db->setQuery($query);
-			self::$shopperGroupData[$id] = $db->loadObject();
-		}
-
-		return self::$shopperGroupData[$id];
+		return RedshopEntityShopper_Group::getInstance($id)->getItem();
 	}
 
 	/**
@@ -431,10 +414,10 @@ class RedshopHelperUser
 
 			if ($userData['rs_user_info_id'] && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST')
 			{
-				$userInformation = RedshopHelperUser::getUserInformation($userId, '', $userData['rs_user_info_id'], false);
+				$userInformation = self::getUserInformation($userId, '', $userData['rs_user_info_id'], false);
 			}
 
-			if (count($userInformation) > 0)
+			if (!empty((array) $userInformation))
 			{
 				$userData['rs_user_info_id'] = isset($userInformation->users_info_id) ? $userInformation->users_info_id : 0;
 				$session->set('rs_user', $userData);
@@ -505,7 +488,7 @@ class RedshopHelperUser
 	 * @param   integer $userId ID of user
 	 * @param   integer $admin  Is admin user.
 	 *
-	 * @return  bool|\JTable      RedshopTableUser if success. False otherwise.
+	 * @return  boolean|Tableuser_detail      RedshopTableUser if success. False otherwise.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -642,6 +625,7 @@ class RedshopHelperUser
 				return false;
 			}
 		}
+
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth', array());
 
@@ -675,18 +659,13 @@ class RedshopHelperUser
 		$useBillingAsShipping = !isset($data['billisship']) ? false : true;
 
 		// Info: field_section 6 :User information
-		RedshopHelperExtrafields::extraFieldSave($data, 6, $row->users_info_id);
+		RedshopHelperExtrafields::extraFieldSave($data, RedshopHelperExtrafields::SECTION_USER_INFORMATIONS, $row->users_info_id);
 
-		if ($row->is_company == 0)
-		{
-			// Info: field_section 7 :User information
-			RedshopHelperExtrafields::extraFieldSave($data, 7, $row->users_info_id);
-		}
-		else
-		{
-			// Info: field_section 8 :User information
-			RedshopHelperExtrafields::extraFieldSave($data, 8, $row->users_info_id);
-		}
+		$extraFieldSection = !$row->is_company ?
+			RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS : RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS;
+
+		// Store user billing data.
+		RedshopHelperExtrafields::extraFieldSave($data, $extraFieldSection, $row->users_info_id);
 
 		if (!$useBillingAsShipping)
 		{
