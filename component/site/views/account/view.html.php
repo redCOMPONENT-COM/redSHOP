@@ -59,7 +59,7 @@ class RedshopViewAccount extends RedshopView
 			JLoader::import('joomla.html.pagination');
 			$this->setLayout('mytags');
 
-			$remove = JRequest::getInt('remove', 0);
+			$remove = $input->getInt('remove', 0);
 
 			if ($remove == 1)
 			{
