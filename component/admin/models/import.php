@@ -1547,9 +1547,9 @@ class RedshopModelImport extends RedshopModel
 						$src  = JPATH_ROOT . "/components/com_virtuemart/shop_image/product/" . $product_full_image;
 						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product_full_image;
 
-						if (is_file($src))
+						if (JFile::exists($src))
 						{
-							@copy($src, $dest);
+							JFile::copy($src, $dest);
 						}
 					}
 
@@ -1564,7 +1564,7 @@ class RedshopModelImport extends RedshopModel
 						$src      = JPATH_ROOT . $more_img->file_name;
 						$dest     = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $filename;
 
-						if (is_file($src) && file_exists($src))
+						if (JFile::exists($src))
 						{
 							@copy($src, $dest);
 						}
@@ -1632,14 +1632,14 @@ class RedshopModelImport extends RedshopModel
 						$redimagesrc = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $red_product_full_image;
 						$dest        = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product_full_image;
 
-						if (is_file($redimagesrc))
+						if (JFile::exists($redimagesrc))
 						{
-							@unlink($redimagesrc);
+							JFile::delete($redimagesrc);
 						}
 
-						if (is_file($src))
+						if (JFile::exists($src))
 						{
-							@copy($src, $dest);
+							JFile::copy($src, $dest);
 						}
 					}
 
@@ -1774,9 +1774,9 @@ class RedshopModelImport extends RedshopModel
 				$src  = JPATH_ROOT . "/components/com_virtuemart/shop_image/category/" . $cat_data->category_full_image;
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . "category/" . $cat_data->category_full_image;
 
-				if (is_file($src))
+				if (JFile::exists($src))
 				{
-					@copy($src, $dest);
+					JFile::copy($src, $dest);
 				}
 			}
 			else
@@ -1786,9 +1786,9 @@ class RedshopModelImport extends RedshopModel
 					$src  = JPATH_ROOT . "/components/com_virtuemart/shop_image/category/" . $cat_data->category_thumb_image;
 					$dest = REDSHOP_FRONT_IMAGES_RELPATH . "category/" . $cat_data->category_thumb_image;
 
-					if (is_file($src))
+					if (JFile::exists($src))
 					{
-						@copy($src, $dest);
+						JFile::copy($src, $dest);
 					}
 				}
 			}

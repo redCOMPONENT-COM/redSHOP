@@ -287,7 +287,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		/* product preview image. */
 		if (strstr($dataAdd, '{product_preview_img}'))
 		{
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image))
+			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image))
 			{
 				$previewsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_preview_image . "&newxsize=" . CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH . "&newysize=" . CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 				$previewImg     = "<img src='" . $previewsrcPath . "' class='rs_previewImg' />";

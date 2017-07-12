@@ -810,7 +810,7 @@ class rsCarthelper
 		$idx        = $cart['idx'];
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
 
-		if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_DELETE')))
+		if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_DELETE')))
 		{
 			$delete_img = Redshop::getConfig()->get('ADDTOCART_DELETE');
 		}
@@ -971,18 +971,18 @@ class rsCarthelper
 					$product_image = str_replace($image_path, '', $cart[$i]['hidden_attribute_cartimage']);
 				}
 
-				if ($product_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_image))
+				if ($product_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $product_image))
 				{
 					$val        = explode("/", $product_image);
 					$prd_image  = $val[1];
 					$type       = $val[0];
 				}
-				elseif ($product->product_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
+				elseif ($product->product_full_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 				{
 					$prd_image = $product->product_full_image;
 					$type      = 'product';
 				}
-				elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
+				elseif (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 				{
 					$prd_image = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 					$type      = 'product';
@@ -992,7 +992,7 @@ class rsCarthelper
 
 				if (isset($cart[$i]['attributeImage']))
 				{
-					$isAttributeImage = is_file(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $cart[$i]['attributeImage']);
+					$isAttributeImage = JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $cart[$i]['attributeImage']);
 				}
 
 				if ($isAttributeImage)
@@ -1309,7 +1309,7 @@ class rsCarthelper
 								<input type="hidden" name="Itemid" value="' . $Itemid . '">
 								<input type="hidden" name="task" value="">';
 
-					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_UPDATE')))
+					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_UPDATE')))
 					{
 						$update_img = Redshop::getConfig()->get('ADDTOCART_UPDATE');
 					}
@@ -1335,7 +1335,7 @@ class rsCarthelper
 						<input type="hidden" name="task" value=""><img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $update_img . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $i . '.task.value=\'update\';document.update_cart' . $i . '.submit();">
 						</form>';
 
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_DELETE')))
+				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_DELETE')))
 				{
 					$delete_img = Redshop::getConfig()->get('ADDTOCART_DELETE');
 				}
