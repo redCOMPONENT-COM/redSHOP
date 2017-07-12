@@ -119,7 +119,16 @@ class RedshopInstallDatabase
 					'idx_quantity'   => 'ALTER TABLE `#__redshop_product_stockroom_xref` ADD INDEX `idx_quantity` (`quantity` ASC);'
 				)
 			)
-		)
+		),
+		// 2.0.0.3.1
+		'country'      => array(
+			'drop' => array(
+				'index' => array(
+					'idx_country_2_code' => "ALTER TABLE `#__redshop_country` DROP INDEX `idx_country_2_code`",
+					'idx_country_3_code' => "ALTER TABLE `#__redshop_country` DROP INDEX `idx_country_3_code`"
+				)
+			)
+		),
 	);
 
 	private $_tablePrefix = '';
