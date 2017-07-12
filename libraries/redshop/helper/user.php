@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Economic\Economic as RedshopEconomic;
+
 /**
  * Class Redshop Helper Stock Room
  *
@@ -120,8 +122,8 @@ class RedshopHelperUser
 	 */
 	public static function createUserSession($userId = 0)
 	{
-		$session = JFactory::getSession();
-		$userArr = $session->get('rs_user');
+		$session         = JFactory::getSession();
+		$userArr         = $session->get('rs_user');
 		$order_functions = order_functions::getInstance();
 
 		if (!$userId)
@@ -147,7 +149,7 @@ class RedshopHelperUser
 
 				if (count($shippingAddress) > 0 && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST')
 				{
-					$users_info_id = $shippingAddress[0]->users_info_id;
+					$users_info_id   = $shippingAddress[0]->users_info_id;
 					$userInformation = self::getUserInformation($userId, 'ST', $users_info_id);
 				}
 
@@ -477,18 +479,234 @@ class RedshopHelperUser
 			if ($userInforId && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || Redshop::getConfig()->get('REGISTER_METHOD') == 2)
 				&& (Redshop::getConfig()->get('VAT_BASED_ON') == 2 || Redshop::getConfig()->get('VAT_BASED_ON') == 1))
 			{
-				$db              = JFactory::getDbo();
-				$query           = $db->getQuery(true)
+				$db = JFactory::getDbo();
+
+				$query = $db->getQuery(true)
 					->select($db->qn('country_code'))
 					->select($db->qn('state_code'))
 					->from($db->qn('#__redshop_users_info', 'u'))
-					->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON ' . $db->qn('sh.shopper_group_id') . ' = ' . $db->qn('u.shopper_group_id'))
+					->leftJoin(
+						$db->qn('#__redshop_shopper_group', 'sh') . ' ON ' . $db->qn('sh.shopper_group_id') . ' = ' . $db->qn('u.shopper_group_id')
+					)
 					->where($db->qn('u.users_info_id') . ' = ' . $userInforId)
 					->order($db->qn('u.users_info_id'));
+
 				$userInformation = $db->setQuery($query)->loadObject();
 			}
 		}
 
 		return $userInformation;
+	}
+
+	/**
+	 * Method for store redshop user.
+	 *
+	 * @param   array   $data   User data.
+	 * @param   integer $userId ID of user
+	 * @param   integer $admin  Is admin user.
+	 *
+	 * @return  bool|\JTable      RedshopTableUser if success. False otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function storeRedshopUser($data, $userId = 0, $admin = 0)
+	{
+		$app = JFactory::getApplication();
+
+		$data['user_email']   = $data['email'] = $data['email1'];
+		$data['name']         = $name = $data['firstname'];
+		$data['address_type'] = 'BT';
+
+		/** @var Tableuser_detail $row */
+		$row   = JTable::getInstance('user_detail', 'Table');
+		$isNew = true;
+
+		if (isset($data['users_info_id']) && $data['users_info_id'] != 0)
+		{
+			$row->load($data['users_info_id']);
+
+			$data["old_tax_exempt_approved"] = $row->tax_exempt_approved;
+
+			$userId = $row->user_id;
+			$isNew  = false;
+		}
+		else
+		{
+			$data['password'] = $app->input->post->get('password1', '', 'RAW');
+
+			$isAdmin = $app->isAdmin();
+
+			/*
+			 * Set user shopper group in case:
+			 *      1. User register at frontend.
+			 *      2. User created in backend by super user but forget to set shopper group.
+			 */
+			if (!$isAdmin || ($isAdmin && empty($data['shopper_group_id'])))
+			{
+				$data['shopper_group_id'] = ($data['is_company'] == 1) ? (int) Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY', 2)
+					: (int) Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE', 1);
+			}
+		}
+
+		if ($userId > 0)
+		{
+			$joomlaUser       = new JUser($userId);
+			$data['username'] = $joomlaUser->username;
+			$data['name']     = $joomlaUser->name;
+			$data['email']    = $joomlaUser->email;
+		}
+
+		if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1 && isset($data['termscondition']) && $data['termscondition'] == 1)
+		{
+			$data['accept_terms_conditions'] = 1;
+		}
+
+		$row->user_id = $data['user_id'] = $userId;
+
+		JPluginHelper::importPlugin('redshop_user');
+		RedshopHelperUtility::getDispatcher()->trigger('onBeforeCreateRedshopUser', array(&$data, $isNew));
+
+		if (!$row->bind($data))
+		{
+			JFactory::getApplication()->enqueueMessage($row->getError(), 'error');
+
+			return false;
+		}
+
+		if (Redshop::getConfig()->get('USE_TAX_EXEMPT'))
+		{
+			if (!$admin && $row->is_company == 1)
+			{
+				$row->requesting_tax_exempt = $data['tax_exempt'];
+
+				if ($row->requesting_tax_exempt == 1)
+				{
+					RedshopHelperMail::sendRequestTaxExemptMail($row, $data['username']);
+				}
+			}
+
+			// Sending tax exempted mails (tax_exempt_approval_mail)
+			if (!$isNew && $admin && isset($data["tax_exempt_approved"]) && $data["old_tax_exempt_approved"] != $data["tax_exempt_approved"])
+			{
+				$mailTemplate = $data["tax_exempt_approved"] == 1 ? 'tax_exempt_approval_mail' : 'tax_exempt_disapproval_mail';
+				RedshopHelperMail::sendTaxExemptMail($mailTemplate, $data, $row->user_email);
+			}
+		}
+
+		if (!$row->store())
+		{
+			JFactory::getApplication()->enqueueMessage($row->getError(), 'error');
+
+			return false;
+		}
+
+		// Update user info id
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION'))
+		{
+			if ($isNew)
+			{
+				$maxDebtor = RedshopEconomic::getMaxDebtorInEconomic();
+				$maxDebtor = is_array($maxDebtor) ? $maxDebtor[0] : $maxDebtor;
+
+				if ($row->users_info_id <= $maxDebtor)
+				{
+					$db = JFactory::getDbo();
+
+					$query = $db->getQuery(true)
+						->select('MAX(' . $db->qn('users_info_id') . ')')
+						->from($db->qn('#__redshop_users_info'));
+
+					$currentMax = $db->setQuery($query)->loadResult();
+					$nextId     = $currentMax + 1;
+
+					$query->clear()
+						->update($db->qn('#__redshop_users_info'))
+						->set($db->qn('users_info_id') . ' = ' . $nextId)
+						->where($db->qn('users_info_id') . ' = ' . (int) $row->users_info_id);
+					$db->setQuery($query)->execute();
+
+					$alterQuery = 'ALTER TABLE ' . $db->qn('#__redshop_users_info') . ' AUTO_INCREMENT = ' . ($nextId + 1);
+					$db->setQuery($alterQuery)->execute();
+
+					$row->users_info_id = $nextId;
+				}
+			}
+
+			RedshopEconomic::createUserInEconomic($row);
+
+			if ($row->is_company && trim($row->ean_number) != '' && JError::isError(JError::getError()))
+			{
+				$msg = JText::_('PLEASE_ENTER_EAN_NUMBER');
+				JError::raiseWarning('', $msg);
+
+				return false;
+			}
+		}
+		$session = JFactory::getSession();
+		$auth    = $session->get('auth', array());
+
+		$auth['users_info_id'] = $row->users_info_id;
+
+		$session->set('auth', $auth);
+
+		// For non-registered customers
+		if (!$row->user_id)
+		{
+			$row->user_id = (0 - $row->users_info_id);
+			$row->store();
+
+			$jUserTable = JFactory::getUser();
+
+			$jUserTable->set('username', $row->user_email);
+			$jUserTable->set('email', $row->user_email);
+			$jUserTable->set('usertype', 'Registered');
+			$jUserTable->set('registerDate', JFactory::getDate()->toSql());
+
+			$data['user_id']  = $row->user_id;
+			$data['username'] = $row->user_email;
+			$data['email']    = $row->user_email;
+		}
+
+		if (isset($data['newsletter_signup']) && $data['newsletter_signup'] == 1)
+		{
+			RedshopHelperNewsletter::subscribe($row->user_id, $data, 0, $isNew);
+		}
+
+		$useBillingAsShipping = !isset($data['billisship']) ? false : true;
+
+		// Info: field_section 6 :User information
+		RedshopHelperExtrafields::extraFieldSave($data, 6, $row->users_info_id);
+
+		if ($row->is_company == 0)
+		{
+			// Info: field_section 7 :User information
+			RedshopHelperExtrafields::extraFieldSave($data, 7, $row->users_info_id);
+		}
+		else
+		{
+			// Info: field_section 8 :User information
+			RedshopHelperExtrafields::extraFieldSave($data, 8, $row->users_info_id);
+		}
+
+		if (!$useBillingAsShipping)
+		{
+			RsUserHelper::getInstance()->storeRedshopUserShipping($data);
+		}
+
+		$registerMethod = Redshop::getConfig()->get('REGISTER_METHOD');
+
+		if ($registerMethod != 1 && $isNew && $admin == 0)
+		{
+			if ($registerMethod != 2
+				|| ($registerMethod == 2 && isset($data['createaccount']) && $data['createaccount'] == 1))
+			{
+				RedshopHelperMail::sendRegistrationMail($data);
+			}
+		}
+
+		JPluginHelper::importPlugin('user');
+		RedshopHelperUtility::getDispatcher()->trigger('onAfterCreateRedshopUser', array($data, $isNew));
+
+		return $row;
 	}
 }
