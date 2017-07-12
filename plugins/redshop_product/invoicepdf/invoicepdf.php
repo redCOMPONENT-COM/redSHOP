@@ -171,7 +171,9 @@ class PlgRedshop_ProductInvoicePdf extends JPlugin
 	/**
 	 * Merge Shipping Information PDF
 	 *
-	 * @return  void  Set PDF path on the viewport
+	 * @param   array  $mergeOrderIds  List id of order
+	 *
+	 * @return  string                 Set PDF path on the viewport
 	 */
 	public function mergeShippingPdf($mergeOrderIds)
 	{
