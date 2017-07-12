@@ -447,7 +447,7 @@ gulp.task('release:md5:clean', ["release:md5:json"], function () {
 
 // Temporary remove release:md5 since it not ready for use yet.
 // // gulp.task("release:redshop", ["composer:libraries", "release:md5"], function (cb) {
-gulp.task("release:redshop", function (cb) {
+gulp.task("release:redshop", ["composer:libraries.redshop", "composer:plugins.redshop_pdf.tcpdf"], function (cb) {
     fs.readFile( "./redshop.xml", function(err, data) {
         parser.parseString(data, function (err, result) {
             var version  = result.extension.version[0];

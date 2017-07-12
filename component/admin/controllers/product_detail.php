@@ -1012,7 +1012,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 									chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
 								}
 
-								unlink(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
+								JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
 							}
 						}
 					}
