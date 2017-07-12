@@ -34,6 +34,7 @@ class ManageUserAdministratorCest
         $this->emailWrong = "email";
         $this->userNameEdit = "UserNameSave" . $this->faker->randomNumber();
         $this->emailMatching = $this->faker->email;
+        $this->userMissing=$this->faker->bothify('ManageUserMissingAdministratorCest ?##?');
     }
 
     /**
@@ -93,7 +94,7 @@ class ManageUserAdministratorCest
         $I->wantTo('Test User creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUserEmailWrongSave($this->userName, $this->password, $this->emailWrong, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
+        $I->addUserEmailWrongSave($this->userMissing, $this->password, $this->emailWrong, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
     }
 
     public function addUserMissingUserNameSave(AcceptanceTester $I, $scenario)
@@ -127,6 +128,7 @@ class ManageUserAdministratorCest
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->addUserWithPasswordNotMatching($this->userNameEdit . "editMail1", $this->password, $this->emailMatching, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave);
     }
+
 
     public function addUserMissingShopperGroup(AcceptanceTester $I, $scenario)
     {
@@ -167,7 +169,7 @@ class ManageUserAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->checkCancelButton();
-        $I->see("User Management", '.page-title');
+        $I->see(\UserManagerJoomla3Page::$namePage, \UserManagerJoomla3Page::$selectorPageManagement);
     }
 
     public function checkEditButton(AcceptanceTester $I, $scenario)
@@ -176,7 +178,7 @@ class ManageUserAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->checkEditButton();
-        $I->see("User Management", '.page-title');
+        $I->see(\UserManagerJoomla3Page::$namePage, \UserManagerJoomla3Page::$selectorPageManagement);
     }
 
     public function checkDeleteButton(AcceptanceTester $I, $scenario)
@@ -185,7 +187,7 @@ class ManageUserAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->checkDeleteButton();
-        $I->see("User Management", '.page-title');
+        $I->see(\UserManagerJoomla3Page::$namePage, \UserManagerJoomla3Page::$selectorPageManagement);
     }
 
 
@@ -213,7 +215,7 @@ class ManageUserAdministratorCest
         $I->wantTo('Test if User gets updated in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->editUserReady($this->updateFirstName, $this->userName);
+        $I->editUserReady($this->updateFirstName, $this->userNameEdit);
     }
 
     public function checkCloseButton(AcceptanceTester $I, $scenario)
