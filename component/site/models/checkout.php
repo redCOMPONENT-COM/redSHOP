@@ -1142,6 +1142,9 @@ class RedshopModelCheckout extends RedshopModel
 		$orderuserrow->order_id     = $order_id;
 		$orderuserrow->address_type = 'ST';
 
+		JPluginHelper::importPlugin('redshop_checkout');
+		$dispatcher->trigger('onBeforeUserShippingStore', array(&$orderuserrow, $row));
+
 		if (!$orderuserrow->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
