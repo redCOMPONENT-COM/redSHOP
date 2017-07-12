@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" client="site" type="plugin" group="redshop_vies_registration" method="upgrade">
 	<name>PLG_REDSHOP_VIES_REGISTRATION_NAME</name>
-	<version>1.5</version>
-	<redshop>1.5</redshop>
-	<creationDate>April 2013</creationDate>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
+	<creationDate>November 2016</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>http://www.redcomponent.com</authorUrl>
@@ -13,18 +13,18 @@
 	<files>
 		<filename plugin="rs_vies_registration">rs_vies_registration.php</filename>
 		<filename>index.html</filename>
-		<folder plugin="rs_vies_registration">js</folder>
+		<folder>language</folder>
 	</files>
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_redshop_vies_registration_rs_vies_registration.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_redshop_vies_registration_rs_vies_registration.sys.ini</language>
-	</languages>
+	<media folder="media">
+		<folder>rs_vies_registration</folder>
+	</media>
+	<scriptfile>install.php</scriptfile>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="member_state" type="list" default=""
 					   label="PLG_REDSHOP_VIES_REGISTRATION_MEMBER_STATE_LBL">
-					<option value="">--</option>
+					<option value="">PLG_REDSHOP_VIES_REGISTRATION_CHOOSE</option>
 					<option value="AT">PLG_REDSHOP_VIES_REGISTRATION_AT</option>
 					<option value="BE">PLG_REDSHOP_VIES_REGISTRATION_BE</option>
 					<option value="BG">PLG_REDSHOP_VIES_REGISTRATION_BG</option>

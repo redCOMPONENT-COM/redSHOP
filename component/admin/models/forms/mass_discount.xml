@@ -38,19 +38,21 @@
                 />
         <field
                 name="start_date"
-                type="calendar"
+                type="redshop.calendar"
                 label="COM_REDSHOP_MASS_DISCOUNT_START_DATE"
                 description="COM_REDSHOP_MASS_DISCOUNT_START_DATE_DESC"
                 class="form-control"
                 default=""
+                readonly="true"
                 />
         <field
                 name="end_date"
-                type="calendar"
+                type="redshop.calendar"
                 label="COM_REDSHOP_MASS_DISCOUNT_END_DATE"
                 description="COM_REDSHOP_MASS_DISCOUNT_END_DATE_DESC"
                 class="form-control"
                 default=""
+                readonly="true"
                 />
         <field
                 name="discount_product"

@@ -104,7 +104,7 @@ class PlgRedshop_ProductShopperGroup_Tags extends JPlugin
 	{
 		$rsUserhelper      = rsUserHelper::getInstance();
 		$shopperGroupId    = $rsUserhelper->getShopperGroup(JFactory::getUser()->id);
-		$shopperGroupData  = $rsUserhelper->getShopperGroupList($shopperGroupId);
+		$shopperGroupData  = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 		$shopperGroupName  = $shopperGroupData[0]->shopper_group_name;
 
 		$startShopperGroups = $this->getStringPosition($template, '{if shoppergroup::');
@@ -174,7 +174,7 @@ class PlgRedshop_ProductShopperGroup_Tags extends JPlugin
 			return;
 		}
 
-		$shopperGroupData = rsUserhelper::getInstance()->getShopperGroupList($shopperGroupId);
+		$shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
 
 		if (empty($shopperGroupData))
 		{

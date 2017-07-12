@@ -57,7 +57,7 @@ class ManagerVATGroupAdministratorCest
         $I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
         $I->wantTo('Create VAT groups  Save button');
         $I->addVATGroupsSave($this->VATGroupName);
-        $I->see("item successfully saved", '.alert-success');
+        $I->see("item saved", '.alert-success');
     }
 
     public function addVATGroupsSaveClose(AcceptanceTester $I, $scenario)
@@ -89,7 +89,7 @@ class ManagerVATGroupAdministratorCest
         $I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
         $I->wantTo('Create VAT groups  Save $ Close  button');
         $I->editVATGroupsName($this->VATGroupNameSaveClose, $this->VATGroupNameEdit);
-        $I->see("item successfully saved", '.alert-success');
+        $I->see("item saved", '.alert-success');
         $I->searchVATGroup($this->VATGroupNameEdit);
         $I->see($this->VATGroupNameEdit,\VATGroupManagerJoomla3Page::$VATGroupsNamePath);
     }
