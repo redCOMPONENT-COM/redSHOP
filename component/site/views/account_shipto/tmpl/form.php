@@ -22,6 +22,11 @@ $post['zipcode_ST']      = $post['zipcode'];
 $post['phone_ST']        = $post['phone'];
 $post['country_code_ST'] = $post['country_code'];
 $post['state_code_ST']   = $post['state_code'];
+
+$input = JFactory::getApplication()->input;
+$infoId = $input->getInt('infoid', 0);
+
+$dispatcher->trigger('onRenderCustomField', array($infoId));
 ?>
 <script type="text/javascript">
 	function cancelForm(frm) {
