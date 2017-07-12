@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -140,17 +140,17 @@ class PlgRedshop_PaymentIngenico extends RedshopPayment
 			$request['tmpl']
 		);
 
-		$NCERROR             = $request['NCERROR'];
-		$order_id            = $request['orderID'];
-		$STATUS              = $request['STATUS'];
-		$response_hash       = $request['SHASIGN'];
+		$ncError             = $request['NCERROR'];
+		$orderId             = $request['orderID'];
+		$status              = $request['STATUS'];
+		$responseHash       = $request['SHASIGN'];
 		$tid                 = $request['PAYID'];
 
 		// Get params from plugin
-		$sha_out_pass_phrase = $this->params->get("sha_out_pass_phrase");
-		$verify_status       = $this->params->get("verify_status");
-		$invalid_status      = $this->params->get("invalid_status");
-		$secret_words        = "";
+		$shaOutPassPhrase 	 = $this->params->get("sha_out_pass_phrase");
+		$verifyStatus        = $this->params->get("verify_status");
+		$invalidStatus       = $this->params->get("invalid_status");
+		$secretWords         = "";
 
 		$request = array_change_key_case($request, CASE_UPPER);
 		ksort($request, SORT_STRING);
@@ -159,19 +159,19 @@ class PlgRedshop_PaymentIngenico extends RedshopPayment
 		{
 			if ($value != '' && $key != 'SHASIGN')
 			{
-				$secret_words .= $key . "=" . $value . $sha_out_pass_phrase;
+				$secretWords .= $key . "=" . $value . $shaOutPassPhrase;
 			}
 		}
 
-		$hash_to_check = strtoupper(sha1($secret_words));
+		$hashToCheck = strtoupper(sha1($secretWords));
 		$values = new stdClass;
 
-		if (($STATUS == 5 || $STATUS == 9) && $NCERROR == 0)
+		if (($status == 5 || $status == 9) && $ncError == 0)
 		{
-			if ($response_hash === $hash_to_check)
+			if ($responseHash === $hashToCheck)
 			{
 				$this->transactionStatus = true;
-				$values->order_status_code = $verify_status;
+				$values->order_status_code = $verifyStatus;
 				$values->order_payment_status_code = 'Paid';
 				$values->transaction_id = $tid;
 				$values->log = JText::_('PLG_REDSHOP_PAYMENT_INGENICO_ORDER_PLACED');
@@ -179,7 +179,7 @@ class PlgRedshop_PaymentIngenico extends RedshopPayment
 			else
 			{
 				$this->transactionStatus = false;
-				$values->order_status_code = $invalid_status;
+				$values->order_status_code = $invalidStatus;
 				$values->order_payment_status_code = 'Unpaid';
 				$values->log = JText::_('PLG_REDSHOP_PAYMENT_INGENICO_ORDER_NOT_PLACED');
 			}
@@ -188,13 +188,13 @@ class PlgRedshop_PaymentIngenico extends RedshopPayment
 		{
 			$this->transactionStatus = false;
 			$values->transaction_id = $tid;
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code = $invalidStatus;
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JText::_('PLG_REDSHOP_PAYMENT_INGENICO_ORDER_NOT_PLACED');
 		}
 
 		$values->msg = $values->log;
-		$values->order_id = $order_id;
+		$values->order_id = $orderId;
 
 		return $values;
 	}
