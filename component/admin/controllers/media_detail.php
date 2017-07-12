@@ -662,7 +662,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 									{
 										// Set First Image as product Main Imaged
 										$originaldir = JPATH_ROOT . '/components/com_redshop/assets/' . $row->media_type . '/'
-											. $row->media_section . '/' . RedShopHelperImages::cleanFileName($scan[$i]);
+											. $row->media_section . '/' . RedshopHelperMedia::cleanFileName($scan[$i]);
 
 										copy($btsrc, $originaldir);
 
@@ -1055,8 +1055,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 		$media_section = $this->input->get('media_section');
 		$cid           = $this->input->post->get('cid', array(), 'array');
 		$order         = $this->input->post->get('order', array(), 'array');
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		Joomla\Utilities\ArrayHelper::toInteger($cid);
+		Joomla\Utilities\ArrayHelper::toInteger($order);
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
