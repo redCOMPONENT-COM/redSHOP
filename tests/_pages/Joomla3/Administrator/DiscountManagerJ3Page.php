@@ -125,9 +125,23 @@ class DiscountManagerJ3Page
      *
      * @return string
      */
-    public function shopperGroup($groupType)
+    public function shopperGroup($shopperGroup)
     {
-        $path = "//div[@id='shopper_group_id_chzn']/div/ul/li[contains(text(), '" . $groupType . "')]";
+        $path = "//div[@id='shopper_group_id_chzn']/div/ul/li[contains(text(), '" . $shopperGroup . "')]";
+
+        return $path;
+    }
+
+    /**
+     *
+     * Function to choie shopper
+     *
+     * @param $typeChoice
+     * @return string
+     */
+    public function resultChoice($typeChoice)
+    {
+        $path = ['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $typeChoice . "')]"];
 
         return $path;
     }
