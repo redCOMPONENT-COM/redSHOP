@@ -71,77 +71,13 @@ class rsCarthelper
 	 * @param int    $amount
 	 * @param int    $discount
 	 * @param int    $check
-	 * @param int    $quotation_mode
+	 * @param int    $quotationMode
 	 *
-	 * @return mixed|string
+	 * @return  string
 	 */
-	public function replaceTax($data = '', $amount = 0, $discount = 0, $check = 0, $quotation_mode = 0)
+	public function replaceTax($data = '', $amount = 0, $discount = 0, $check = 0, $quotationMode = 0)
 	{
-		if (strpos($data, '{if vat}') !== false && strpos($data, '{vat end if}') !== false)
-		{
-			$cart = $this->_session->get('cart');
-
-			if ($amount <= 0)
-			{
-				$template_vat_sdata = explode('{if vat}', $data);
-				$template_vat_edata = explode('{vat end if}', $template_vat_sdata[1]);
-				$data               = $template_vat_sdata[0] . $template_vat_edata[1];
-			}
-			else
-			{
-				if ($quotation_mode && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
-				{
-					$data = str_replace("{tax}", "", $data);
-					$data = str_replace("{order_tax}", "", $data);
-				}
-				else
-				{
-					$data = str_replace("{tax}", $this->_producthelper->getProductFormattedPrice($amount, true), $data);
-					$data = str_replace("{order_tax}", $this->_producthelper->getProductFormattedPrice($amount, true), $data);
-				}
-
-				if (strpos($data, '{tax_after_discount}') !== false)
-				{
-					if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && (float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'))
-					{
-						if ($check)
-						{
-							$tax_after_discount = $discount;
-						}
-						else
-						{
-							if (!isset($cart['tax_after_discount']))
-							{
-								$tax_after_discount = $this->calculateTaxafterDiscount($amount, $discount);
-							}
-							else
-							{
-								$tax_after_discount = $cart['tax_after_discount'];
-							}
-						}
-
-						if ($tax_after_discount > 0)
-						{
-							$data = str_replace("{tax_after_discount}", $this->_producthelper->getProductFormattedPrice($tax_after_discount), $data);
-						}
-						else
-						{
-							$data = str_replace("{tax_after_discount}", $this->_producthelper->getProductFormattedPrice($cart['tax']), $data);
-						}
-					}
-					else
-					{
-						$data = str_replace("{tax_after_discount}", $this->_producthelper->getProductFormattedPrice($cart['tax']), $data);
-					}
-				}
-
-				$data = str_replace("{vat_lbl}", JText::_('COM_REDSHOP_CHECKOUT_VAT_LBL'), $data);
-				$data = str_replace("{if vat}", '', $data);
-				$data = str_replace("{vat end if}", '', $data);
-			}
-		}
-
-		return $data;
+		return RedshopHelperCartTag::replaceTax($data, $amount, $discount, $check, $quotationMode);
 	}
 
 	/**
@@ -794,7 +730,7 @@ class rsCarthelper
 	public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$prdItemid  = JRequest::getInt('Itemid');
 		$Itemid     = RedshopHelperUtility::getCheckoutItemId();
 		$url        = JURI::base(true);
@@ -810,7 +746,7 @@ class rsCarthelper
 		$idx        = $cart['idx'];
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
 
-		if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_DELETE')))
+		if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_DELETE')))
 		{
 			$delete_img = Redshop::getConfig()->get('ADDTOCART_DELETE');
 		}
@@ -971,18 +907,18 @@ class rsCarthelper
 					$product_image = str_replace($image_path, '', $cart[$i]['hidden_attribute_cartimage']);
 				}
 
-				if ($product_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_image))
+				if ($product_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $product_image))
 				{
 					$val        = explode("/", $product_image);
 					$prd_image  = $val[1];
 					$type       = $val[0];
 				}
-				elseif ($product->product_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
+				elseif ($product->product_full_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 				{
 					$prd_image = $product->product_full_image;
 					$type      = 'product';
 				}
-				elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
+				elseif (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 				{
 					$prd_image = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 					$type      = 'product';
@@ -992,7 +928,7 @@ class rsCarthelper
 
 				if (isset($cart[$i]['attributeImage']))
 				{
-					$isAttributeImage = is_file(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $cart[$i]['attributeImage']);
+					$isAttributeImage = JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $cart[$i]['attributeImage']);
 				}
 
 				if ($isAttributeImage)
@@ -1309,7 +1245,7 @@ class rsCarthelper
 								<input type="hidden" name="Itemid" value="' . $Itemid . '">
 								<input type="hidden" name="task" value="">';
 
-					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_UPDATE')))
+					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_UPDATE')))
 					{
 						$update_img = Redshop::getConfig()->get('ADDTOCART_UPDATE');
 					}
@@ -1335,7 +1271,7 @@ class rsCarthelper
 						<input type="hidden" name="task" value=""><img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $update_img . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $i . '.task.value=\'update\';document.update_cart' . $i . '.submit();">
 						</form>';
 
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_DELETE')))
+				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_DELETE')))
 				{
 					$delete_img = Redshop::getConfig()->get('ADDTOCART_DELETE');
 				}
@@ -1395,7 +1331,7 @@ class rsCarthelper
 	public function repalceOrderItems($data, $rowitem = array())
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$mainview   = JRequest::getVar('view');
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
 
@@ -1433,9 +1369,9 @@ class rsCarthelper
 				$giftcardData = new stdClass;
 			}
 
-			$dirname = JPATH_COMPONENT_SITE . "/assets/images/orderMergeImages/" . $rowitem [$i]->attribute_image;
+			$dirname = JPath::clean(JPATH_COMPONENT_SITE . "/assets/images/orderMergeImages/" . $rowitem [$i]->attribute_image);
 
-			if (is_file($dirname))
+			if (JFile::exists($dirname))
 			{
 				$attribute_image_path = RedShopHelperImages::getImagePath(
 											$rowitem[$i]->attribute_image,
@@ -1450,7 +1386,7 @@ class rsCarthelper
 			}
 			else
 			{
-				if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $rowitem [$i]->attribute_image))
+				if (JFile::exists(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $rowitem [$i]->attribute_image) && Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART'))
 				{
 					$attribute_image_path = RedShopHelperImages::getImagePath(
 												$rowitem[$i]->attribute_image,
@@ -1478,7 +1414,7 @@ class rsCarthelper
 
 					if ($product_full_image)
 					{
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_type . "/" . $product_full_image))
+						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $product_type . "/" . $product_full_image))
 						{
 							$attribute_image_path = RedShopHelperImages::getImagePath(
 														$product_full_image,
@@ -1493,7 +1429,7 @@ class rsCarthelper
 						}
 						else
 						{
-							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
+							if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 							{
 								$attribute_image_path = RedShopHelperImages::getImagePath(
 															Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
@@ -1510,7 +1446,7 @@ class rsCarthelper
 					}
 					else
 					{
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
+						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 						{
 							$attribute_image_path = RedShopHelperImages::getImagePath(
 														Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE'),
@@ -3240,7 +3176,7 @@ class rsCarthelper
 				$cartArr[$i]['product_price']              = $product_price;
 
 				JPluginHelper::importPlugin('redshop_product');
-				$dispatcher = JDispatcher::getInstance();
+				$dispatcher = RedshopHelperUtility::getDispatcher();
 				$dispatcher->trigger('onBeforeLoginCartSession', array(&$cartArr, $i));
 			}
 		}
@@ -3428,7 +3364,7 @@ class rsCarthelper
 			if ($template_middle != "" && count($shippingmethod) > 0)
 			{
 				JPluginHelper::importPlugin('redshop_shipping');
-				$dispatcher   = JDispatcher::getInstance();
+				$dispatcher   = RedshopHelperUtility::getDispatcher();
 				$shippingrate = $dispatcher->trigger('onListRates', array(&$d));
 
 				for ($s = 0, $sn = count($shippingmethod); $s < $sn; $s++)
@@ -5231,7 +5167,7 @@ class rsCarthelper
 	public function addProductToCart($data = array())
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher       = JDispatcher::getInstance();
+		$dispatcher       = RedshopHelperUtility::getDispatcher();
 		$rsUserhelper     = rsUserHelper::getInstance();
 		$redTemplate      = Redtemplate::getInstance();
 		$user             = JFactory::getUser();
@@ -6749,41 +6685,14 @@ class rsCarthelper
 	}
 
 	/**
-	 * @param string $pdcextraids
-	 * @param int    $product_id
+	 * @param   string  $pdcextraids
+	 * @param   int     $productId
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 */
-	public function getDiscountCalcDataExtra($pdcextraids = "", $product_id = 0)
+	public function getDiscountCalcDataExtra($pdcextraids = "", $productId = 0)
 	{
-		$db = JFactory::getDbo();
-
-		$and = "";
-
-		if ($product_id)
-		{
-			$and .= "AND product_id = " . (int) $product_id . " ";
-		}
-
-		if ($pdcextraids)
-		{
-			// Secure $pdcextraids
-			if ($extraIds = explode(',', $pdcextraids))
-			{
-				JArrayHelper::toInteger($extraIds);
-			}
-
-			$and .= "AND pdcextra_id IN (" . implode(',', $extraIds) . ") ";
-		}
-
-		$query = "SELECT * FROM `" . $this->_table_prefix . "product_discount_calc_extra` "
-			. "WHERE 1=1 "
-			. $and
-			. "ORDER BY option_name ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return RedshopHelperCartDiscount::getDiscountCalcDataExtra($pdcextraids, $productId);
 	}
 
 	/**
