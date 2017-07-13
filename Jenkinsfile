@@ -28,7 +28,7 @@ pipeline {
                 sh "vendor/bin/robo kill:selenium"
             }
         }
-        stage('Browser Tests setup') {
+        stage('Browser Tests run') {
             steps {
                 sh "vendor/bin/robo run:tests-jenkins"
             }
