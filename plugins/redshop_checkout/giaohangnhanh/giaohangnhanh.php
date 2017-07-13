@@ -165,9 +165,10 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 			return;
 		}
 
-		$userCity = "";
+		$userCity     = "";
 		$userDistrict = "";
-		$cities = array();
+		$cities       = array();
+		$districts    = array();
 
 		foreach ($result['Data'] as $key => $city)
 		{
