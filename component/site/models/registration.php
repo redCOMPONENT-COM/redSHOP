@@ -51,7 +51,7 @@ class RedshopModelRegistration extends RedshopModel
 		}
 
 		$data['billisship'] = 1;
-		$reduser            = $userhelper->storeRedshopUser($data, $joomlauser->id);
+		$reduser            = RedshopHelperUser::storeRedshopUser($data, $joomlauser->id);
 
 		return $reduser;
 	}

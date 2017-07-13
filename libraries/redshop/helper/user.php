@@ -669,7 +669,7 @@ class RedshopHelperUser
 
 		if (!$useBillingAsShipping)
 		{
-			RsUserHelper::getInstance()->storeRedshopUserShipping($data);
+			RedshopHelperUser::storeRedshopUserShipping($data);
 		}
 
 		$registerMethod = Redshop::getConfig()->get('REGISTER_METHOD');
