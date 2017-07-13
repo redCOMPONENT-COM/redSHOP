@@ -688,7 +688,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                                 <br/><br/>
                                                                 <?php
                                                                 JPluginHelper::importPlugin('redshop_product');
-                                                                $dispatcher = JDispatcher::getInstance();
+                                                                $dispatcher = RedshopHelperUtility::getDispatcher();
                                                                 $dispatcher->trigger('onDisplayOrderItemNote', array($products[$i]));
                                                                 ?>
                                                             </td>
@@ -878,7 +878,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                             <?php
                         }
                         $cart['idx'] = count($cart);
-                        $session->set('cart', $cart); ?>
+                        RedshopHelperCartSession::setCart($cart); ?>
                         <tr>
                             <td>
                                 <div class="row-fluid">

@@ -105,98 +105,97 @@ class RedshopModelNewsletter extends RedshopModel
 		return $this->_db->loadResult();
 	}
 
-	public function listallsubscribers($n = 0)
+	/**
+	 * Method for list all subscribers
+	 *
+	 * @param   integer  $newsletterId  ID of newsletter
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function listAllSubscribers($newsletterId = 0)
 	{
-		$post = JRequest::get('post');
-		$where = "";
+		$input = JFactory::getApplication()->input;
 
-		$zipstart = (isset($post['zipstart'])) ? $post['zipstart'] : "";
-		$zipend = (isset($post['zipend'])) ? $post['zipend'] : "";
-		$cityfilter = (isset($post['cityfilter'])) ? $post['cityfilter'] : "";
-		$newsletter_id = (isset($post['newsletter_id'])) ? $post['newsletter_id'] : 0;
-		$between = "";
-		$start_date = (isset($post['start_date'])) ? $post['start_date'] : "";
-		$end_date = (isset($post['end_date'])) ? $post['end_date'] : "";
-		$country_value = (isset($post['country'])) ? $post['country'] : "";
-		$country = "";
+		$newsletterId = $input->getInt('newsletter_id', $newsletterId);
 
-		if ($country_value)
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn(array('uf.firstname', 'uf.lastname', 'u.username')))
+			->select('ns.*')
+			->from($db->qn('#__redshop_newsletter_subscription', 'ns'))
+			->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('uf.user_id') . ' = ' . $db->qn('ns.user_id'))
+			->leftJoin($db->qn('#__users', 'u') . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('ns.user_id'))
+			->where($db->qn('ns.newsletter_id') . ' = ' . (int) $newsletterId)
+			->where($db->qn('ns.published') . ' = 1');
+
+		$zipStart      = $input->getString('zipstart', '');
+		$zipEnd        = $input->getString('zipend', '');
+		$filterCity    = $input->getString('cityfilter', '');
+		$startDate     = $input->getString('start_date', '');
+		$endDate       = $input->getString('end_date', '');
+		$filterCountry = $input->get('country', array(), 'array');
+
+		// Filter: Country
+		if (!empty($filterCountry))
 		{
-			$country_code = implode("','", $country_value);
-
-			if ($country_code != '')
-			{
-				$country = "  AND uf.country_code in('" . $country_code . "') ";
-			}
+			$query->where($db->qn('uf.country_code') . ' IN (' . implode(',', $filterCountry) . ')');
 		}
 
-		if ($newsletter_id != 0)
+		// Filter: Start date and end date
+		if (!empty($startDate) && !empty($endDate))
 		{
-			$n = $newsletter_id;
+			$query->where(
+				'CAST(' . $db->qn('u.registerDate') . ' AS ' . $db->qn('date') . ') '
+				. 'BETWEEN ' . $db->quote($startDate) . ' AND ' . $db->quote($endDate)
+			);
 		}
 
-		if ($cityfilter != "")
+		// Filter: zip code start
+		if (!empty($zipStart))
 		{
-			// City field filter
-			$query = "SELECT field_id FROM #__redshop_fields WHERE field_name like 'field_city' ";
-			$this->_db->setQuery($query);
-			$cityfieldid = $this->_db->loadResult();
-
-			// City field filter end
-			$where = " AND f.fieldid in(" . $cityfieldid . ") AND f.section in(7) AND f.data_txt like '"
-				. $cityfilter . "%' AND f.itemid=uf.users_info_id";
+			$query->where($db->qn('uf.zipcode') . ' LIKE ' . $db->quote($zipStart . '%'));
 		}
 
-		if ($start_date && $end_date)
+		// Filter: zip code start and end
+		if (!empty($zipStart) && !empty($zipEnd))
 		{
-			$between = " AND cast(u.registerDate as date)  between '" . $start_date . "' and '" . $end_date . "' ";
+			$query->where(
+				'(' . $db->qn('uf.zipcode') . ' LIKE ' . $db->quote($zipStart . '%')
+				. ' OR ' . $db->qn('uf.zipcode') . ' LIKE ' . $db->quote($zipEnd . '%') . ')'
+			);
 		}
 
-		if ($zipstart != "")
+		// Filter: city
+		if (!empty($filterCity))
 		{
-			$where = " AND uf.zipcode like '$zipstart%'";
-		}
+			$cityQuery = $db->getQuery(true)
+				->select($db->qn('field_id'))
+				->from($db->qn('#__redshop_fields'))
+				->where($db->qn('field_name') . ' = ' . $db->quote('field_city'));
+			$cityFieldIds = $db->setQuery($cityQuery)->loadRow();
 
-		if ($zipstart != "" && $zipend != "")
-		{
-			$where = " AND (uf.zipcode like '$zipstart%' OR uf.zipcode like '$zipend%')";
-		}
-
-		// Shopper group filter
-		$shopper_group_ids = "";
-
-		if (isset($post['shoppergroups']) && count($post['shoppergroups']) > 0 && isset($post['checkoutshoppers']))
-		{
-			$shoppergroupids = implode("','", $post['shoppergroups']);
-			$shopper_group_ids = "  AND uf.shopper_group_id IN ('" . $shoppergroupids . "') ";
-		}
-
-		if ($cityfilter != "")
-		{
-			$query = 'SELECT uf.firstname,uf.lastname,u.username,ns.* FROM #__redshop_newsletter_subscription AS ns '
-				. ', #__redshop_users_info AS uf '
-				. ', #__users AS u '
-				. ', #__redshop_fields_data AS f '
-				. 'WHERE ns.newsletter_id="' . $n . '" '
-				. 'AND ns.published=1 AND u.id=ns.user_id '
-				. 'AND ns.user_id=uf.user_id '
-				. 'AND uf.address_type LIKE "BT" '
-				. $where . $between . $country;
+			$query->leftJoin($db->qn('#__redshop_fields_data', 'f') . ' ON ' . $db->qn('f.itemid') . ' = ' . $db->qn('ns.users_info_id'))
+				->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'))
+				->where($db->qn('f.fieldid') . ' IN (' . implode(',', $cityFieldIds) . ')')
+				->where($db->qn('f.section') . ' = 7')
+				->where($db->qn('f.data_txt') . ' LIKE ' . $db->quote($filterCity . '%'));
 		}
 		else
 		{
-			$query = "SELECT ns.*,u.username,uf.address_type,uf.firstname,uf.lastname FROM #__redshop_newsletter_subscription AS ns "
-				. "LEFT JOIN #__users AS u ON ns.user_id = u.id "
-				. "LEFT JOIN #__redshop_users_info AS uf ON uf.user_id = ns.user_id "
-				. "WHERE (uf.address_type = 'BT' OR uf.address_type IS NULL) "
-				. "AND ns.newsletter_id='" . $n . "' "
-				. "AND published=1 "
-				. $where . $between . $country . $shopper_group_ids;
+			$query->select($db->qn('uf.address_type'))
+				->where('(' . $db->qn('uf.address_type') . ' = ' . $db->quote('BT') . ' OR ' . $db->qn('uf.address_type') . ' IS NULL)');
+
+			$shopperGroupFilter = $input->get('shoppergroups', array(), 'array');
+
+			if (!empty($shopperGroupFilter))
+			{
+				$query->where($db->qn('uf.shopper_group_id') . ' IN (' . implode(',', $shopperGroupFilter) . ')');
+			}
 		}
 
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectlist();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	public function subscribersinfo($subscriberid)

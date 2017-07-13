@@ -180,8 +180,8 @@ class RedshopModelCategory extends RedshopModelForm
 
 		if (isset($data['image_delete']))
 		{
-			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
-			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
 
 			$fields = array(
 				$db->qn('category_thumb_image') . ' = ""',
@@ -241,8 +241,8 @@ class RedshopModelCategory extends RedshopModelForm
 
 		if (isset($data['image_back_delete']))
 		{
-			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_back_image']);
-			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_back_image']);
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_back_image']);
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_back_image']);
 
 			$fields = array(
 				$db->qn('category_back_full_image') . ' = ""'
@@ -313,8 +313,8 @@ class RedshopModelCategory extends RedshopModelForm
 		// Sheking for the image at the updation time
 		if (!empty($data['id']) && !empty($data['category_full_image']))
 		{
-			@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
-			@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
 		}
 
 		// Extra Field Data Saved

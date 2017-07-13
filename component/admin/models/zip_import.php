@@ -145,7 +145,7 @@ class RedshopModelZip_import extends RedshopModel
 		$this->setState('extension.message', $installer->get('extension.message'));
 
 		// Cleanup the install files
-		if (!is_file($package['packagefile']))
+		if (!JFile::exists($package['packagefile']))
 		{
 			$config = JFactory::getConfig();
 			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
