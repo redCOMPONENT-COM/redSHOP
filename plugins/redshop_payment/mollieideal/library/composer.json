@@ -1,0 +1,8 @@
+{
+  "name": "redcomponent-com/redshop-payment-mollie",
+  "description": "A redSHOP Payment plugin - Mollie",
+  "license": "GPL-2.0+",
+  "require": {
+    "mollie/mollie-api-php" : "^1.9.0"
+  }
+}

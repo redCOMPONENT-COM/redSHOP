@@ -151,7 +151,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 			if ($row->template_name != $this->_data->template_name)
 			{
 				$tempate_file = $red_template->getTemplatefilepath($this->_data->template_section, $this->_data->template_name, true);
-				unlink($tempate_file);
+				JFile::delete($tempate_file);
 			}
 		}
 
@@ -179,7 +179,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 
 				$tempate_file = $red_template->getTemplatefilepath($rs->template_section, $rs->template_name, true);
 
-				unlink($tempate_file);
+				JFile::delete($tempate_file);
 			}
 
 			$cids = implode(',', $cid);
