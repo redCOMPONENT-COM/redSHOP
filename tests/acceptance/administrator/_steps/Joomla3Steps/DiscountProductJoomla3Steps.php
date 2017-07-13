@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: nhung nguyen
- * Date: 6/19/2017
- * Time: 3:54 PM
+
  */
 
 namespace AcceptanceTester;
@@ -18,17 +15,17 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\DiscountProductJ3Page::$newButton);
         $I->verifyNotices(false, $this->checkForNotices(), \DiscountProductJ3Page::$namePageDiscount);
         $I->checkForPhpNoticesOrWarnings();
+        $userDiscountPage=new\DiscountProductJ3Page();
         $I->fillField(\DiscountProductJ3Page::$productPrice, $productPrice);
 
         $I->click(\DiscountProductJ3Page::$condition);
         $I->waitForElement(\DiscountProductJ3Page::$conditionSearch);
         $I->fillField(\DiscountProductJ3Page::$conditionSearch, $condition);
-        $I->returnSpan($condition);
-
+        $userDiscountPage->returnSpan($condition);
         $I->click(\DiscountProductJ3Page::$discountType);
         $I->waitForElement(\DiscountProductJ3Page::$discountTypeSearch);
         $I->fillField(\DiscountProductJ3Page::$discountTypeSearch, $type);
-        $I->returnSpan($type);
+        $userDiscountPage->returnSpan($condition);
 
         $I->fillField(\DiscountProductJ3Page::$discountAmount, $discountAmount);
         $I->fillField(\DiscountProductJ3Page::$startDate, $startDate);
@@ -36,11 +33,11 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->click(\DiscountProductJ3Page::$category);
         $I->fillField(\DiscountProductJ3Page::$categoryInput, $nameCate);
-        $I->returnSpan($nameCate);
+        $userDiscountPage->returnSpan($nameCate);
 
         $I->click(\DiscountProductJ3Page::$shopperGroup);
         $I->fillField(\DiscountProductJ3Page::$shopperGroupInput, $groupName);
-        $I->returnSpan($groupName);
+        $userDiscountPage->returnSpan($groupName);
 
         $I->click(\DiscountProductJ3Page::$saveButton);
         $I->waitForElement(\DiscountProductJ3Page::$productPrice, 30);
@@ -53,17 +50,18 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\DiscountProductJ3Page::$newButton);
         $I->verifyNotices(false, $this->checkForNotices(), \DiscountProductJ3Page::$namePageDiscount);
         $I->checkForPhpNoticesOrWarnings();
+        $userDiscountPage=new\DiscountProductJ3Page();
         $I->fillField(\DiscountProductJ3Page::$productPrice, $productPrice);
 
         $I->click(\DiscountProductJ3Page::$condition);
         $I->waitForElement(\DiscountProductJ3Page::$conditionSearch);
         $I->fillField(\DiscountProductJ3Page::$conditionSearch, $condition);
-        $I->returnSpan($condition);
+        $userDiscountPage->returnSpan($condition);
 
         $I->click(\DiscountProductJ3Page::$discountType);
         $I->waitForElement(\DiscountProductJ3Page::$discountTypeSearch);
         $I->fillField(\DiscountProductJ3Page::$discountTypeSearch, $type);
-        $I->returnSpan($type);
+        $userDiscountPage->returnSpan($type);
 
         $I->fillField(\DiscountProductJ3Page::$discountAmount, $discountAmount);
         $I->fillField(\DiscountProductJ3Page::$startDate, $startDate);
@@ -71,11 +69,11 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->click(\DiscountProductJ3Page::$category);
         $I->fillField(\DiscountProductJ3Page::$categoryInput, $nameCate);
-        $I->returnSpan($nameCate);
+        $userDiscountPage->returnSpan($nameCate);
 
         $I->click(\DiscountProductJ3Page::$shopperGroup);
         $I->fillField(\DiscountProductJ3Page::$shopperGroupInput, $groupName);
-        $I->returnSpan($groupName);
+        $userDiscountPage->returnSpan($groupName);
 
         $I->click(\DiscountProductJ3Page::$saveCloseButton);
     }
@@ -97,28 +95,29 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\DiscountProductJ3Page::$newButton);
         $I->verifyNotices(false, $this->checkForNotices(), \DiscountProductJ3Page::$namePageDiscount);
         $I->checkForPhpNoticesOrWarnings();
+        $userDiscountPage=new\DiscountProductJ3Page();
         $I->fillField(\DiscountProductJ3Page::$productPrice, $productPrice);
 
         $I->click(\DiscountProductJ3Page::$condition);
         $I->waitForElement(\DiscountProductJ3Page::$conditionSearch);
         $I->fillField(\DiscountProductJ3Page::$conditionSearch, $condition);
-        $I->returnSpan($condition);
+        $userDiscountPage->returnSpan($condition);
 
         $I->click(\DiscountProductJ3Page::$discountType);
         $I->waitForElement(\DiscountProductJ3Page::$discountTypeSearch);
         $I->fillField(\DiscountProductJ3Page::$discountTypeSearch, $type);
-        $I->returnSpan($type);
+        $userDiscountPage->returnSpan($type);
 
         $I->fillField(\DiscountProductJ3Page::$startDate, $startDate);
         $I->fillField(\DiscountProductJ3Page::$endDate, $endDate);
 
         $I->click(\DiscountProductJ3Page::$category);
         $I->fillField(\DiscountProductJ3Page::$categoryInput, $nameCate);
-        $I->returnSpan($nameCate);
+        $userDiscountPage->returnSpan($nameCate);
 
         $I->click(\DiscountProductJ3Page::$shopperGroup);
         $I->fillField(\DiscountProductJ3Page::$shopperGroupInput, $groupName);
-        $I->returnSpan($groupName);
+        $userDiscountPage->returnSpan($groupName);
 
 
         $I->click(\DiscountProductJ3Page::$saveCloseButton);
@@ -132,17 +131,18 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\DiscountProductJ3Page::$newButton);
         $I->verifyNotices(false, $this->checkForNotices(), \DiscountProductJ3Page::$namePageDiscount);
         $I->checkForPhpNoticesOrWarnings();
+        $userDiscountPage=new\DiscountProductJ3Page();
         $I->fillField(\DiscountProductJ3Page::$productPrice, $productPrice);
 
         $I->click(\DiscountProductJ3Page::$condition);
         $I->waitForElement(\DiscountProductJ3Page::$conditionSearch);
         $I->fillField(\DiscountProductJ3Page::$conditionSearch, $condition);
-        $I->returnSpan($condition);
+        $userDiscountPage->returnSpan($condition);
 
         $I->click(\DiscountProductJ3Page::$discountType);
         $I->waitForElement(\DiscountProductJ3Page::$discountTypeSearch);
         $I->fillField(\DiscountProductJ3Page::$discountTypeSearch, $type);
-        $I->returnSpan($type);
+        $userDiscountPage->returnSpan($type);
 
         $I->fillField(\DiscountProductJ3Page::$discountAmount, $discountAmount);
         $I->fillField(\DiscountProductJ3Page::$startDate, $startDate);
@@ -150,7 +150,7 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->click(\DiscountProductJ3Page::$category);
         $I->fillField(\DiscountProductJ3Page::$categoryInput, $nameCate);
-        $I->returnSpan($nameCate);
+        $userDiscountPage->returnSpan($nameCate);
 
         $I->click(\DiscountProductJ3Page::$saveCloseButton);
         $I->acceptPopup();
@@ -163,17 +163,18 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\DiscountProductJ3Page::$newButton);
         $I->verifyNotices(false, $this->checkForNotices(), \DiscountProductJ3Page::$namePageDiscount);
         $I->checkForPhpNoticesOrWarnings();
+        $userDiscountPage=new\DiscountProductJ3Page();
         $I->fillField(\DiscountProductJ3Page::$productPrice, $productPrice);
 
         $I->click(\DiscountProductJ3Page::$condition);
         $I->waitForElement(\DiscountProductJ3Page::$conditionSearch);
         $I->fillField(\DiscountProductJ3Page::$conditionSearch, $condition);
-        $I->returnSpan($condition);
+        $userDiscountPage->returnSpan($condition);
 
         $I->click(\DiscountProductJ3Page::$discountType);
         $I->waitForElement(\DiscountProductJ3Page::$discountTypeSearch);
         $I->fillField(\DiscountProductJ3Page::$discountTypeSearch, $type);
-        $I->returnSpan($type);
+        $userDiscountPage->returnSpan($type);
 
         $I->fillField(\DiscountProductJ3Page::$discountAmount, $discountAmount);
         $I->fillField(\DiscountProductJ3Page::$startDate, $endDate);
@@ -181,11 +182,11 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->click(\DiscountProductJ3Page::$category);
         $I->fillField(\DiscountProductJ3Page::$categoryInput, $nameCate);
-        $I->returnSpan($nameCate);
+        $userDiscountPage->returnSpan($nameCate);
 
         $I->click(\DiscountProductJ3Page::$shopperGroup);
         $I->fillField(\DiscountProductJ3Page::$shopperGroupInput, $groupName);
-        $I->returnSpan($groupName);
+        $userDiscountPage->returnSpan($groupName);
 
         $I->click(\DiscountProductJ3Page::$saveCloseButton);
         $I->acceptPopup();
@@ -198,28 +199,29 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\DiscountProductJ3Page::$newButton);
         $I->verifyNotices(false, $this->checkForNotices(), \DiscountProductJ3Page::$namePageDiscount);
         $I->checkForPhpNoticesOrWarnings();
+        $userDiscountPage=new\DiscountProductJ3Page();
         $I->fillField(\DiscountProductJ3Page::$productPrice, $productPrice);
 
         $I->click(\DiscountProductJ3Page::$condition);
         $I->waitForElement(\DiscountProductJ3Page::$conditionSearch);
         $I->fillField(\DiscountProductJ3Page::$conditionSearch, $condition);
-        $I->returnSpan($condition);
+        $userDiscountPage->returnSpan($condition);
 
         $I->click(\DiscountProductJ3Page::$discountType);
         $I->waitForElement(\DiscountProductJ3Page::$discountTypeSearch);
         $I->fillField(\DiscountProductJ3Page::$discountTypeSearch, $type);
-        $I->returnSpan($type);
+        $userDiscountPage->returnSpan($type);
 
         $I->fillField(\DiscountProductJ3Page::$discountAmount, $discountAmount);
         $I->fillField(\DiscountProductJ3Page::$endDate, $endDate);
 
         $I->click(\DiscountProductJ3Page::$category);
         $I->fillField(\DiscountProductJ3Page::$categoryInput, $nameCate);
-        $I->returnSpan($nameCate);
+        $userDiscountPage->returnSpan($nameCate);
 
         $I->click(\DiscountProductJ3Page::$shopperGroup);
         $I->fillField(\DiscountProductJ3Page::$shopperGroupInput, $groupName);
-        $I->returnSpan($groupName);
+        $userDiscountPage->returnSpan($groupName);
 
         $I->fillField(\DiscountProductJ3Page::$startDate, "string");
         $I->click(\DiscountProductJ3Page::$saveCloseButton);
@@ -280,12 +282,4 @@ class DiscountProductJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\DiscountProductJ3Page::$deleteButton);
         $I->see(\DiscountProductJ3Page::$messageDeleteSuccess, \DiscountProductJ3Page::$selectorSuccess);
     }
-
-    public function returnSpan($condition)
-    {
-        $I = $this;
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $condition . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $condition . "')]"]);
-    }
-
 }

@@ -1,7 +1,11 @@
 <?php
 
 /**
+ * * Class ManageDiscountProductAdministratorCest
  *
+ * @package  AcceptanceTester
+ *
+ * @link     http://codeception.com/docs/07-AdvancedUsage
  */
 class ManageDiscountProductAdministratorCest
 {
@@ -10,14 +14,13 @@ class ManageDiscountProductAdministratorCest
         $this->faker = Faker\Factory::create();
         $this->categoryName = 'Events and Forms';
         $this->noPage = $this->faker->randomNumber();
-        $this->productPrice = $this->faker->numberBetween(100,999);
+        $this->productPrice = $this->faker->numberBetween(100, 999);
         $this->condition = "Higher";
         $this->type = "Percentage";
         $this->startDate = "19-06-2017";
         $this->endDate = "23-06-2017";
         $this->GroupName = "Product Name";
-        $this->discountAmount = $this->faker->numberBetween(1,10);
-//        $this->fakeDat=$this->faker->dateTimeBetween();
+        $this->discountAmount = $this->faker->numberBetween(1, 10);
         $this->groupName = "Default Private";
     }
 
@@ -254,5 +257,4 @@ class ManageDiscountProductAdministratorCest
         $I->checkDeleteAll();
         $I->see(\DiscountProductJ3Page::$namePage, \DiscountProductJ3Page::$pageTitle);
     }
-
 }
