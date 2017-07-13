@@ -6,8 +6,6 @@ pipeline {
                 sh "pwd"
                 sh "whoami"
                 sh "echo $WORKSPACE"
-                sh "General SCM"
-                sh "git clone -b blue-ocean-1 https://git@github.com/puneet0191/redshop.git"
                 sh "ls -la"
                 sh "Xvfb :99 &"
                 sh "export DISPLAY=:99"
