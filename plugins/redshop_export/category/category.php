@@ -155,7 +155,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 			{
 				if ($column == 'category_full_image' && $value != "")
 				{
-					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $value))
+					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $value))
 					{
 						$item[$column] = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $value;
 					}

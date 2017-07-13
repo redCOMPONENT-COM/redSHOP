@@ -826,7 +826,7 @@ class RedshopModelCart extends RedshopModel
 								$property_price = $property[0]->property_price;
 							}
 
-							if (count($property) > 0 && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[0]->property_image))
+							if (count($property) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[0]->property_image))
 							{
 								$type      = 'product_attributes';
 								$imagename = $property[0]->property_image;
@@ -859,7 +859,7 @@ class RedshopModelCart extends RedshopModel
 											$subproperty_price = $subproperty[0]->subattribute_color_price;
 										}
 
-										if (count($subproperty) > 0 && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[0]->subattribute_color_image))
+										if (count($subproperty) > 0 && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[0]->subattribute_color_image))
 										{
 											$type      = 'subcolor';
 											$imagename = $subproperty[0]->subattribute_color_image;

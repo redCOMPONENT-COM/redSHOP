@@ -1,21 +1,20 @@
 <?php
 /**
  * @package     Redshop.Plugins
- * @subpackage  PlgRedshop_Vies_RegistrationRs_Vies_Registration
+ * @subpackage  PlgRedshop_AlertAlert
  *
  * @copyright   Copyright (C) 2012 - 2016 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 defined('_JEXEC') or die();
 use Joomla\Registry\Registry;
-
 /**
- *  PlgRedshop_Vies_RegistrationRs_Vies_Registration installer class.
+ *  PlgRedshop_AlertAlert installer class.
  *
  * @package  Redshopb.Plugin
  * @since    1.7.0
  */
-class PlgRedshop_Vies_RegistrationRs_Vies_RegistrationInstallerScript
+class PlgRedshop_AlertAlertInstallerScript
 {
 	/**
 	 * Method to run before an install/update/uninstall method
@@ -35,8 +34,8 @@ class PlgRedshop_Vies_RegistrationRs_Vies_RegistrationInstallerScript
 					->select($db->qn('manifest_cache'))
 					->from($db->qn('#__extensions'))
 					->where($db->qn('type') . ' = ' . $db->q('plugin'))
-					->where($db->qn('element') . ' = ' . $db->q('rs_vies_registration'))
-					->where($db->qn('folder')) . ' = ' . $db->q('redshop_vies_registration')
+					->where($db->qn('element') . ' = ' . $db->q('alert'))
+					->where($db->qn('folder')) . ' = ' . $db->q('redshop_alert')
 			)->loadResult();
 
 			if (!empty($version))
