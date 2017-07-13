@@ -13,19 +13,19 @@ class ManagerMassDiscountAdministratorCest
         $this->MassDiscountNameEdit = 'Edit' . $this->MassDiscountName;
         $this->CategoryName = "CategoryName" . rand(1, 100);
         $this->ManufactureName = "ManufactureName" . rand(1, 10);
-        $this->MassDiscountAmoutTotal = rand(10, 100);
+        $this->MassDiscountAmoutTotal = $this->faker->numberBetween(10, 100);
         $this->MassDiscountPercent = 0.3;
-        $this->minimumPerProduct = 2;
+        $this->minimumPerProduct = $this->faker->numberBetween(1,3);
         $this->minimumQuantity =$this->faker->numberBetween(10, 100);
         $this->maximumQuantity = $this->faker->numberBetween(100, 1000);
         $this->discountStart = "12-12-2016";
         $this->discountEnd = "23-05-2017";
-        $this->randomProductNumber = rand(999, 9999);
-        $this->randomProductNumberNew = rand(999, 9999);
-        $this->randomProductAttributeNumber = rand(999, 9999);
+        $this->randomProductNumber = $this->faker->numberBetween(999, 9999);
+        $this->randomProductNumberNew = $this->faker->numberBetween(999, 9999);
+        $this->randomProductAttributeNumber = $this->faker->numberBetween(999, 9999);
         $this->randomProductNameAttribute = 'Testing Attribute' . rand(99, 999);
-        $this->randomProductPrice = rand(99, 199);
-        $this->discountPriceThanPrice = 100;
+        $this->randomProductPrice = $this->faker->numberBetween(99, 199);
+        $this->discountPriceThanPrice = $this->faker->numberBetween(10, 100);;
         $this->statusProducts = 'Product on sale';
         $this->searchCategory = 'Category';
         $this->newProductName = 'New-Test Product' . rand(99, 999);
@@ -34,9 +34,9 @@ class ManagerMassDiscountAdministratorCest
         $this->priceAttribute = 12;
         $this->nameProductAccessories = "redFORM";
         $this->nameRelatedProduct = "redITEM";
-        $this->quantityStock = 4;
-        $this->PreorderStock = 2;
-        $this->priceProductForThan = 10;
+        $this->quantityStock = $this->faker->numberBetween(10, 100);;
+        $this->PreorderStock = $this->faker->numberBetween(10, 100);;
+        $this->priceProductForThan = $this->faker->numberBetween(10, 100);;
 
     }
 
