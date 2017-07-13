@@ -86,7 +86,7 @@ class RedshopControllerCheckout extends RedshopController
 				}
 
 				$cart['extrafields_values'] = $post['extrafields_values'];
-				$session->set('cart', $cart);
+				RedshopHelperCartSession::setCart($cart);
 			}
 		}
 
@@ -148,7 +148,7 @@ class RedshopControllerCheckout extends RedshopController
 		$app             = JFactory::getApplication();
 		$input           = $app->input;
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher      = JDispatcher::getInstance();
+		$dispatcher      = RedshopHelperUtility::getDispatcher();
 		$usersInfoId     = $input->getInt('users_info_id', 0);
 		$values          = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
 		$values->zipcode = $input->get('zipcode', '');
@@ -188,7 +188,7 @@ class RedshopControllerCheckout extends RedshopController
 		$input = $app->input;
 		$plugin = $input->getCmd('plugin', '');
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('on' . $plugin . 'AjaxRequest');
 
 		$app->close();
@@ -374,7 +374,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$app               = JFactory::getApplication();
 		$input             = $app->input;
-		$dispatcher        = JDispatcher::getInstance();
+		$dispatcher        = RedshopHelperUtility::getDispatcher();
 		$post              = $input->post->getArray();
 		$Itemid            = $input->post->getInt('Itemid', 0);
 		$model             = $this->getModel('checkout');
@@ -394,7 +394,7 @@ class RedshopControllerCheckout extends RedshopController
 				}
 
 				$cart['extrafields_values'] = $post['extrafields_values'];
-				$session->set('cart', $cart);
+				RedshopHelperCartSession::setCart($cart);
 			}
 		}
 
