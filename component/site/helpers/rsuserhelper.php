@@ -19,15 +19,14 @@ use Redshop\Helper\Utility;
 class RsUserHelper
 {
 	/**
-	 * @var null
+	 * @var self
 	 */
-	protected static $instance = null;
+	protected static $instance;
 
 	/**
-	 * Returns the rsUserHelper object, only creating it
-	 * if it doesn't already exist.
+	 * Returns the rsUserHelper object, only creating it if it doesn't already exist.
 	 *
-	 * @return  rsUserHelper  The rsUserHelper object
+	 * @return  self  The rsUserHelper object
 	 *
 	 * @since   1.6
 	 */
