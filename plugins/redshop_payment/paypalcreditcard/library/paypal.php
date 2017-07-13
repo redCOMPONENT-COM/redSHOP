@@ -46,12 +46,14 @@ class RedshopPaypalPayment extends JPlugin
 	{
 		JLoader::import('redshop.library');
 
-		//If the project is used as its own project, it would use rest-api-sdk-php composer autoloader.
+		// If the project is used as its own project, it would use rest-api-sdk-php composer autoloader.
 		$composerAutoload = __DIR__ . '/vendor/autoload.php';
 
-		if (!file_exists($composerAutoload))
+		if (!JFile::exists($composerAutoload))
 		{
-			echo "The 'vendor' folder is missing. You must run 'composer update' to resolve application dependencies.\nPlease see the README for more information.\n";
+			echo "The 'vendor' folder is missing. You must run 'composer update' to resolve application dependencies."
+				. "\nPlease see the README for more information.\n";
+
 			exit(1);
 		}
 

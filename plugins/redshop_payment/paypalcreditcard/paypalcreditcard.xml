@@ -13,18 +13,16 @@
 
     <files>
         <filename plugin="paypalcreditcard">paypalcreditcard.php</filename>
-        <folder>library</folder>
+        <folder>language</folder>
         <folder>layouts</folder>
+        <folder>library</folder>
     </files>
+
+    <scriptfile>install.php</scriptfile>
 
     <media destination="plg_redshop_payment_paypalcreditcard" folder="media">
         <folder>js</folder>
     </media>
-
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_paypalcreditcard.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_paypalcreditcard.sys.ini</language>
-    </languages>
 
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params" addfieldpath="/plugins/redshop_payment/paypalcreditcard/fields">
@@ -207,6 +205,4 @@
             </fieldset>
         </fields>
     </config>
-
-    <scriptfile>install.php</scriptfile>
 </extension>

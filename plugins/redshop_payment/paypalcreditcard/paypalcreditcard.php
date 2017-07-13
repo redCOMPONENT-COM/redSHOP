@@ -24,7 +24,14 @@ use PayPal\Api\Authorization;
 use PayPal\Api\Capture;
 use PayPal\Api\Patch;
 
-class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
+/**
+ * Paypal CreditCard payment class
+ *
+ * @package  Redshop.Plugin
+ *
+ * @since    2.0.0
+ */
+class PlgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 {
 	/**
 	 * Load the language file on instantiation.
@@ -45,7 +52,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	 * @param   string  $element  Name of the payment plugin
 	 * @param   array   $data     Cart Information
 	 *
-	 * @return  object  Authorize or Charge success or failed message and transaction id
+	 * @return  object            Authorize or Charge success or failed message and transaction id
 	 */
 	public function onPrePayment_PaypalCreditcard($element, $data)
 	{
@@ -105,7 +112,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		$card = $this->creditCard($data);
 
 		// FundingInstrument
-		$fi = new FundingInstrument();
+		$fi = new FundingInstrument;
 		$fi->setCreditCard($card);
 
 		// Payer
@@ -219,7 +226,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	 *
 	 * @param   array  $data  Cart information
 	 *
-	 * @return  object        Paypal Credit Card object
+	 * @return  CreditCard    Paypal Credit Card object
 	 */
 	protected function creditCard($data)
 	{
@@ -232,10 +239,11 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			$cardType = 'mastercard';
 		}
 
-		// CreditCard
-		// A resource representing a credit card that can be
-		// used to fund a payment.
-		$card = new CreditCard();
+		/*
+		 * CreditCard
+		 * A resource representing a credit card that can be used to fund a payment.
+		 */
+		$card = new CreditCard;
 		$card->setType($cardType)
 			->setNumber($ccdata['order_payment_number'])
 			->setExpireMonth($ccdata['order_payment_expire_month'])
@@ -346,7 +354,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 		}
 		else
 		{
-			$card = new CreditCard();
+			$card = new CreditCard;
 		}
 
 		$card->setType($data['cardType'])
@@ -368,7 +376,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	 *
 	 * @param   array  $data  Credit Card information
 	 *
-	 * @return  JSON  Outputs the json string.
+	 * @return  JSON          Outputs the json string.
 	 */
 	public function onCreditCardNew($data)
 	{
@@ -414,7 +422,7 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	 *
 	 * @param   array  $data  Credit Card information
 	 *
-	 * @return  JSON  Outputs the json string.
+	 * @return  string        Outputs the json string.
 	 */
 	public function onCreditCardUpdate($data)
 	{
