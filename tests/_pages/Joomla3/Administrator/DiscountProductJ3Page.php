@@ -69,12 +69,11 @@ class DiscountProductJ3Page
 
     public static $editButton = "Edit";
 
-
-    public function returnSpan($condition)
+    public function returnType($condition)
     {
-        $I = $this;
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $condition . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $condition . "')]"]);
+        $path = "//span[contains(text(), '" . $condition . "')]";
+        return $path;
     }
+
 
 }
