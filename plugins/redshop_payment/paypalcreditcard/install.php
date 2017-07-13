@@ -44,7 +44,7 @@ class PlgRedshop_PaymentPaypalCreditcardInstallerScript
 				$version = new JRegistry($version);
 				$version = $version->get('version');
 
-				if (version_compare($version, '1.1.0', '<'))
+				if (version_compare($version, '1.7.0', '<'))
 				{
 					$this->deleteOldLibrary();
 				}
@@ -59,6 +59,7 @@ class PlgRedshop_PaymentPaypalCreditcardInstallerScript
 	 */
 	protected function deleteOldLibrary()
 	{
+		// Delete old languages files if necessary
 		JLoader::import('joomla.filesystem.file');
 
 		// Remove old library
@@ -67,6 +68,36 @@ class PlgRedshop_PaymentPaypalCreditcardInstallerScript
 		if (JFolder::exists($oldFolder))
 		{
 			JFolder::delete($oldFolder);
+		}
+
+		// Remove old languages structure.
+		$languageFolder       = __DIR__ . '/language';
+		$joomlaLanguageFolder = JPATH_ADMINISTRATOR . '/language';
+		$codes                = JFolder::folders($languageFolder, '.', true);
+
+		if (empty($codes))
+		{
+			return;
+		}
+
+		foreach ($codes as $code)
+		{
+			$files = JFolder::files($languageFolder . '/' . $code, '.ini');
+
+			if (empty($files))
+			{
+				continue;
+			}
+
+			foreach ($files as $file)
+			{
+				if (!JFile::exists($joomlaLanguageFolder . '/' . $code . '/' . $file))
+				{
+					continue;
+				}
+
+				JFile::delete($joomlaLanguageFolder . '/' . $code . '/' . $file);
+			}
 		}
 	}
 }
