@@ -6,6 +6,9 @@
  * @copyright   Copyright (C) 2012 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die;
 
 /**
@@ -19,12 +22,11 @@ class PlgRedshop_PaymentPaysonInstallerScript
 	/**
 	 * Method to run before an install/update/uninstall method
 	 *
-	 * @param   string  $type    The type of change (install, update or discover_install)
-	 * @param   object  $parent  Class of calling method
+	 * @param   string  $type  The type of change (install, update or discover_install)
 	 *
 	 * @return  void
 	 */
-	public function preflight($type, $parent)
+	public function preflight($type)
 	{
 		if ($type == 'update' || $type == 'discover_install')
 		{
@@ -42,10 +44,10 @@ class PlgRedshop_PaymentPaysonInstallerScript
 
 			if (!empty($version))
 			{
-				$version = new JRegistry($version);
+				$version = new Registry($version);
 				$version = $version->get('version');
 
-				if (version_compare($version, '2.0.0', '<'))
+				if (version_compare($version, '1.7.0', '<'))
 				{
 					$this->deleteOldLanguages();
 				}
