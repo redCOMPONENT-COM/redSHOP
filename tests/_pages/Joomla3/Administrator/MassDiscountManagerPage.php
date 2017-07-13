@@ -21,13 +21,69 @@ class MassDiscountManagerPage
 
     public static $MassDiscountFilter = "#filter_search";
 
-    public static $MassDicountResultRow="//div[@class='table-responsive']/table/tbody/tr/td[3]/a";
+    public static $MassDicountResultRow = "//div[@class='table-responsive']/table/tbody/tr/td[3]/a";
+
+    public static $categoryForm = ['xpath' => "//div[@id='s2id_jform_category_id']//ul/li"];
+
+    public static $categoryFormInput = ['xpath' => "//div[@id='s2id_jform_category_id']//ul/li//input"];
+
+    public static $discountForm = ['xpath' => "//div[@id='s2id_jform_discount_product']//ul/li"];
+
+    public static $discountFormInput = ['xpath' => "//div[@id='s2id_jform_discount_product']//ul/li//input"];
+
 
     //page name
 
-    public static $pageEdit="Mass Discount  Edit";
+    public static $pageEdit = "Mass Discount  Edit";
 
-    public static $pageNew="product mass discount new";
+    public static $pageNew = "product mass discount new";
+
+    //Message
+
+    public static $saveOneSuccess = "Item successfully saved.";
+
+    public static $fieldName = "Field required: Name";
+
+    public static $saveError = "Save failed with the following error";
+
+    public static $messageSuccess = "Message";
+
+    public static $messageError = "Error";
+    //selector
+
+    public static $selectorSuccess = ['class' => 'alert-success'];
+
+    public static $selectorError = ['class' => 'alert-danger'];
+
+
+    //button
+    public static $newButton = "New";
+
+    public static $saveButton = "Save";
+
+    public static $unpublishButton = "Unpublish";
+
+    public static $publishButton = "Publish";
+
+    public static $saveCloseButton = "Save & Close";
+
+    public static $deleteButton = "Delete";
+
+    public static $editButton = "Edit";
+
+    public static $cancelButton = "Cancel";
+
+    public static $closeButton = "Close";
+
+    public static $addButton = "Add";
+
+
+    public function returnSpan($type)
+    {
+        $I = $this;
+        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $type . "')]"], 60);
+        $I->click(['xpath' => "//span[contains(text(), '" . $type . "')]"]);
+    }
 
 
 }
