@@ -265,7 +265,7 @@ else
 				$product_img = RedshopHelperMedia::watermark('giftcard', $detail[$i]->giftcard_image, Redshop::getConfig()->get('GIFTCARD_LIST_THUMB_WIDTH'), Redshop::getConfig()->get('GIFTCARD_LIST_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_GIFTCART_THUMB_IMAGE'), '0');
 				$linkimage   = RedshopHelperMedia::watermark('giftcard', $detail[$i]->giftcard_image, '', '', Redshop::getConfig()->get('WATERMARK_GIFTCART_IMAGE'), '0');
 
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "giftcard/" . $detail[$i]->giftcard_image))
+				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "giftcard/" . $detail[$i]->giftcard_image))
 				{
 					$thum_image = "<a href='" . $link . "'><img src='" . $product_img . "' title='" . $detail[$i]->giftcard_name . "' alt='" . $detail[$i]->giftcard_name . "'></a>";
 					$data_add   = str_replace("{giftcard_image}", $thum_image, $data_add);

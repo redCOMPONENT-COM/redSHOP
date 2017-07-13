@@ -172,7 +172,7 @@ class RedshopControllerOrder extends RedshopController
 		{
 			$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
 
-			if (is_file($bookinvoicepdf))
+			if (JFile::exists($bookinvoicepdf))
 			{
 				$ecomsg = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
 				$msgType = 'message';
@@ -215,7 +215,7 @@ class RedshopControllerOrder extends RedshopController
 			{
 				$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 1);
 
-				if (is_file($bookinvoicepdf))
+				if (JFile::exists($bookinvoicepdf))
 				{
 					$ret = RedshopHelperMail::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 				}
