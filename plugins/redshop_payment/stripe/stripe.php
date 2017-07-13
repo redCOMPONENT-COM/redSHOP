@@ -8,7 +8,6 @@
  */
 
 use Stripe\Charge;
-use Stripe\Error\Card;
 use Stripe\Stripe;
 
 defined('_JEXEC') or die;
@@ -116,7 +115,7 @@ class PlgRedshop_PaymentStripe extends JPlugin
 				$values->msg = JText::_('PLG_REDSHOP_PAYMENT_STRIPE_ORDER_PLACED');
 			}
 		}
-		catch (Card $e)
+		catch (Exception $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
