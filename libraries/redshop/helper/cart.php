@@ -448,6 +448,11 @@ abstract class RedshopHelperCart
 				$productPrice = 0;
 				$productData  = RedshopHelperProduct::getProductById($productId);
 
+				if ($productData->published == 0)
+				{
+					continue;
+				}
+
 				// Attribute price added
 				$generateAttributeCart = self::generateAttributeFromCart($cartItemId, 0, $productId, $quantity);
 				$cartAttributes        = $productHelper->makeAttributeCart($generateAttributeCart, $productId, 0, $productPrice, $quantity);

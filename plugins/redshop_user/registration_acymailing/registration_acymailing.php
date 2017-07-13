@@ -52,7 +52,7 @@ class PlgRedshop_UserRegistration_Acymailing extends JPlugin
 
 			$query->select($db->qn(array('subid')))
 				->from($db->qn('#__acymailing_subscriber'))
-				->where($db->qn('userid') . ' = ' . $db->quote($user->id));
+				->where($db->qn('userid') . ' = ' . $db->q($user->id));
 
 			$db->setQuery($query);
 			$sub = $db->loadObject();
@@ -95,7 +95,7 @@ class PlgRedshop_UserRegistration_Acymailing extends JPlugin
 							$query = $db->getQuery(true);
 							$query->insert($db->qn('#__acymailing_listsub'))
 								->columns($db->qn(array('listid', 'subid', 'subdate', 'status')))
-								->values($db->quote($item->listid) . ',' . $db->quote($sub->subid) . ',' . $date . ',' . $db->quote('1'));
+								->values($db->q($item->listid) . ',' . $db->q($sub->subid) . ',' . $date . ',' . $db->q('1'));
 
 							$db->setQuery($query);
 							$db->execute();
