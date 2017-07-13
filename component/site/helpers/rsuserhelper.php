@@ -446,224 +446,44 @@ class RsUserHelper
 		return RedshopHelperNewsletter::removeSubscribe($email);
 	}
 
-	public function getBillingTable($post = array(), $is_company = 0, $lists, $show_shipping = 0, $show_newsletter = 0, $create_account = 1)
+	/**
+	 * Method for render billing layout
+	 *
+	 * @param   array    $post            Available data.
+	 * @param   integer  $isCompany       Is company?
+	 * @param   array    $lists           Lists
+	 * @param   integer  $showShipping    Show shipping?
+	 * @param   integer  $showNewsletter  Show newsletter?
+	 * @param   integer  $createAccount   Is create account?
+	 *
+	 * @return  string                    HTML content layout.
+	 *
+	 * @deprecated   __DEPLOY_VERSION__   Use RedshopHelperBilling::renderTemplate instead
+	 */
+	public function getBillingTable($post = array(), $isCompany = 0, $lists, $showShipping = 0, $showNewsletter = 0, $createAccount = 1)
 	{
-		$redTemplate = Redtemplate::getInstance();
-
-		$billingisshipping = "";
-
-		if (isset($post['billisship']) && $post['billisship'] == 1)
-		{
-			$billingisshipping = "checked='checked'";
-		}
-		elseif (Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
-		{
-			$billingisshipping = "checked='checked'";
-		}
-
-		$billing_template = $redTemplate->getTemplate("billing_template");
-
-		if (count($billing_template) > 0 && $billing_template[0]->template_desc != "" && strstr($billing_template[0]->template_desc, "private_billing_template:") && strstr($billing_template[0]->template_desc, "company_billing_template:"))
-		{
-			$template_desc = $billing_template[0]->template_desc;
-		}
-		else
-		{
-			$template_desc = '<table class="admintable" border="0" cellspacing="0" cellpadding="0"><tbody><tr valign="top"><td>{private_billing_template:private_billing_template}{company_billing_template:company_billing_template}</td><td>{account_creation_start}<table class="admintable" border="0"><tbody><tr><td width="100" align="right">{username_lbl}</td><td>{username}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{password_lbl}</td><td>{password}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{confirm_password_lbl}</td><td>{confirm_password}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{newsletter_signup_chk}</td><td colspan="2">{newsletter_signup_lbl}</td></tr></tbody></table>{account_creation_end}</td></tr><tr><td colspan="2" align="right"><span class="required">*</span>{required_lbl}</td></tr><tr class="trshipping_add"><td class="tdshipping_add" colspan="2">{shipping_same_as_billing_lbl} {shipping_same_as_billing}</td></tr></tbody></table>';
-		}
-
-		$private_template = $redTemplate->getTemplate("private_billing_template");
-
-		if (count($private_template) <= 0)
-		{
-			$private_template[0]->template_name = 'private_billing_template';
-			$private_template[0]->template_id   = 0;
-		}
-
-		for ($i = 0, $in = count($private_template); $i < $in; $i++)
-		{
-			if (strstr($template_desc, "{private_billing_template:" . $private_template[$i]->template_name . "}"))
-			{
-				if ($private_template[$i]->template_desc != "")
-				{
-					$private_template_desc = $private_template[$i]->template_desc;
-				}
-				else
-				{
-					$private_template_desc = '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr><td width="100" align="right">{email_lbl}:</td><td>{email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_start} --><tr><td width="100" align="right">{retype_email_lbl}</td><td>{retype_email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_end} --><tr><td width="100" align="right">{firstname_lbl}</td><td>{firstname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_lbl}</td><td>{lastname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_lbl}</td><td>{address}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_lbl}</td><td>{zipcode}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_lbl}</td><td>{city}</td><td><span class="required">*</span></td></tr><tr id="{country_txtid}" style="{country_style}"><td width="100" align="right">{country_lbl}</td><td>{country}</td><td><span class="required">*</span></td></tr><tr id="{state_txtid}" style="{state_style}"><td width="100" align="right">{state_lbl}</td><td>{state}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td><td>{phone}</td><td><span class="required">*</span></td></tr><tr><td colspan="3">{private_extrafield}</td></tr></tbody></table>';
-				}
-
-				$private_template_desc = ($is_company == 1) ? '' : $this->replacePrivateCustomer($private_template_desc, $post, $lists);
-				$template_desc         = str_replace("{private_billing_template:" . $private_template[$i]->template_name . "}", "<div id='tblprivate_customer'>" . $private_template_desc . "</div><div id='divPrivateTemplateId' style='display:none;'>" . $private_template[$i]->template_id . "</div>", $template_desc);
-				break;
-			}
-		}
-
-		$company_template = $redTemplate->getTemplate("company_billing_template");
-
-		if (count($company_template) <= 0)
-		{
-			$company_template[0]->template_name = 'company_billing_template';
-			$company_template[0]->template_id   = 0;
-		}
-
-		for ($i = 0, $in = count($company_template); $i < $in; $i++)
-		{
-			if (strstr($template_desc, "{company_billing_template:" . $company_template[$i]->template_name . "}"))
-			{
-				if ($company_template[$i]->template_desc != "")
-				{
-					$company_template_desc = $company_template[$i]->template_desc;
-				}
-				else
-				{
-					$company_template_desc = '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr><td width="100" align="right">{email_lbl}:</td><td>{email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_start} --><tr><td width="100" align="right">{retype_email_lbl}</td><td>{retype_email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_end} --><tr><td width="100" align="right">{company_name_lbl}</td><td>{company_name}</td><td><span class="required">*</span></td></tr><!-- {vat_number_start} --><tr><td width="100" align="right">{vat_number_lbl}</td><td>{vat_number}</td><td><span class="required">*</span></td></tr><!-- {vat_number_end} --><tr><td width="100" align="right">{firstname_lbl}</td><td>{firstname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_lbl}</td><td>{lastname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_lbl}</td><td>{address}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_lbl}</td><td>{zipcode}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_lbl}</td><td>{city}</td><td><span class="required">*</span></td></tr><tr id="{country_txtid}" style="{country_style}"><td width="100" align="right">{country_lbl}</td><td>{country}</td><td><span class="required">*</span></td></tr><tr id="{state_txtid}" style="{state_style}"><td width="100" align="right">{state_lbl}</td><td>{state}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td><td>{phone}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{ean_number_lbl}</td><td>{ean_number}</td><td></td></tr><tr><td width="100" align="right">{tax_exempt_lbl}</td><td>{tax_exempt}</td></tr><tr><td colspan="3">{company_extrafield}</td></tr></tbody></table>';
-				}
-
-				$company_template_desc = ($is_company == 1) ? $this->replaceCompanyCustomer($company_template_desc, $post, $lists) : '';
-				$template_desc         = str_replace("{company_billing_template:" . $company_template[$i]->template_name . "}", "<div id='tblcompany_customer'>" . $company_template_desc . "</div><div id='divCompanyTemplateId' style='display:none;'>" . $company_template[$i]->template_id . "</div>", $template_desc);
-				break;
-			}
-		}
-
-		$template_desc = str_replace("{required_lbl}", JText::_('COM_REDSHOP_REQUIRED'), $template_desc);
-
-		if ($show_shipping && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
-		{
-			$template_desc = str_replace("{shipping_same_as_billing_lbl}", JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING'), $template_desc);
-			$template_desc = str_replace("{shipping_same_as_billing}", '<input type="checkbox" id="billisship" name="billisship" value="1" onclick="billingIsShipping(this);" ' . $billingisshipping . ' />', $template_desc);
-		}
-		else
-		{
-			$template_desc = str_replace("{shipping_same_as_billing_lbl}", '', $template_desc);
-			$template_desc = str_replace("{shipping_same_as_billing}", '', $template_desc);
-		}
-
-		if (strstr($template_desc, "{account_creation_start}") && strstr($template_desc, "{account_creation_end}"))
-		{
-			$template_pd_sdata = explode('{account_creation_start}', $template_desc);
-			$template_pd_edata = explode('{account_creation_end}', $template_pd_sdata [1]);
-			$template_middle   = "";
-			$checkbox_style    = '';
-
-			if (Redshop::getConfig()->get('REGISTER_METHOD') != 1 && Redshop::getConfig()->get('REGISTER_METHOD') != 3)
-			{
-				$template_middle = $template_pd_edata[0];
-
-				if (Redshop::getConfig()->get('REGISTER_METHOD') == 2)
-				{
-					if ($create_account == 1)
-					{
-						$checkbox_style = 'style="display:block"';
-					}
-					else
-					{
-						$checkbox_style = 'style="display:none"';
-					}
-				}
-				else
-				{
-					$checkbox_style = 'style="display:block"';
-				}
-
-				$template_middle = str_replace("{username_lbl}", JText::_('COM_REDSHOP_USERNAME_REGISTER'), $template_middle);
-				$template_middle = str_replace("{username}", '<input class="inputbox required" type="text" name="username" id="username" size="32" maxlength="250" value="' . @$post ["username"] . '" />', $template_middle);
-				$template_middle = str_replace("{password_lbl}", JText::_('COM_REDSHOP_PASSWORD_REGISTER'), $template_middle);
-				$template_middle = str_replace("{password}", '<input class="inputbox required" type="password" name="password1" id="password1" size="32" maxlength="250" value="" />', $template_middle);
-				$template_middle = str_replace("{confirm_password_lbl}", JText::_('COM_REDSHOP_CONFIRM_PASSWORD'), $template_middle);
-				$template_middle = str_replace("{confirm_password}", '<input class="inputbox required" type="password" name="password2" id="password2" size="32" maxlength="250" value="" />', $template_middle);
-
-				$newsletter_signup_lbl = "";
-				$newsletter_signup_chk = "";
-
-				if ($show_newsletter && Redshop::getConfig()->get('NEWSLETTER_ENABLE'))
-				{
-					$newsletter_signup_lbl = JText::_('COM_REDSHOP_SIGN_UP_FOR_NEWSLETTER');
-					$newsletter_signup_chk = '<input type="checkbox" name="newsletter_signup" id="newsletter_signup" value="1">';
-				}
-
-				$template_middle = str_replace("{newsletter_signup_lbl}", $newsletter_signup_lbl, $template_middle);
-				$template_middle = str_replace("{newsletter_signup_chk}", $newsletter_signup_chk, $template_middle);
-			}
-
-			$template_desc = $template_pd_sdata[0] . '<div id="tdUsernamePassword" ' . $checkbox_style . '>' . $template_middle . '</div>' . $template_pd_edata[1];
-		}
-
-		$template_desc = $template_desc . "<div id='tmpRegistrationDiv' style='display: none;'></div>";
-
-		return $template_desc;
+		return RedshopHelperBilling::render($post, $isCompany, $lists, $showShipping, $showNewsletter, $createAccount);
 	}
 
-	public function replaceBillingCommonFields($template_desc, $post = array(), $lists)
+	/**
+	 * Method for replace billing common fields
+	 *
+	 * @param   string  $templateHtml  Html content
+	 * @param   array   $data          Data
+	 * @param   array   $lists         Array select
+	 *
+	 * @return  string
+	 *
+	 * @deprecated   __DEPLOY_VERSION__  Use RedshopHelperBilling::replaceCommonFields
+	 */
+	public function replaceBillingCommonFields($templateHtml, $data, $lists)
 	{
-		$countryarray          = RedshopHelperWorld::getCountryList($post);
-		$post['country_code']  = $countryarray['country_code'];
-		$lists['country_code'] = $countryarray['country_dropdown'];
-		$statearray            = RedshopHelperWorld::getStateList($post);
-		$lists['state_code']   = $statearray['state_dropdown'];
-		$countrystyle          = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
-		$statestyle            = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
-
-		$read_only = "";
-
-		$template_desc = str_replace("{email_lbl}", JText::_('COM_REDSHOP_EMAIL'), $template_desc);
-		$template_desc = str_replace("{email}", '<input class="inputbox required" type="text" title="' . JTEXT::_('COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS') . '" name="email1" id="email1" size="32" maxlength="250" value="' . (isset($post["email1"]) ? $post["email1"] : '') . '" />', $template_desc);
-
-		if (strstr($template_desc, "{retype_email_start}") && strstr($template_desc, "{retype_email_end}"))
-		{
-			$template_pd_sdata = explode('{retype_email_start}', $template_desc);
-			$template_pd_edata = explode('{retype_email_end}', $template_pd_sdata [1]);
-			$template_middle   = "";
-
-			if (Redshop::getConfig()->get('SHOW_EMAIL_VERIFICATION'))
-			{
-				$template_middle = $template_pd_edata[0];
-				$template_middle = str_replace("{retype_email_lbl}", JText::_('COM_REDSHOP_RETYPE_CUSTOMER_EMAIL'), $template_middle);
-				$template_middle = str_replace("{retype_email}", '<input class="inputbox required" type="text" id="email2" name="email2" size="32" maxlength="250" value="" />', $template_middle);
-			}
-
-			$template_desc = $template_pd_sdata[0] . $template_middle . $template_pd_edata[1];
-		}
-
-		$template_desc = str_replace("{company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $template_desc);
-		$template_desc = str_replace("{company_name}", '<input class="inputbox required" type="text" name="company_name" id="company_name" size="32" maxlength="250" value="' . (isset($post["company_name"]) ? $post["company_name"] : '') . '" />', $template_desc);
-		$template_desc = str_replace("{firstname_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $template_desc);
-		$template_desc = str_replace("{firstname}", '<input class="inputbox required" type="text" name="firstname" id="firstname" size="32" maxlength="250" value="' . (isset($post["firstname"]) ? $post["firstname"] : '') . '" />', $template_desc);
-		$template_desc = str_replace("{lastname_lbl}", JText::_('COM_REDSHOP_LASTNAME'), $template_desc);
-		$template_desc = str_replace("{lastname}", '<input class="inputbox required" type="text" name="lastname" id="lastname" size="32" maxlength="250" value="' . (isset($post["lastname"]) ? $post["lastname"] : '') . '" />', $template_desc);
-		$template_desc = str_replace("{address_lbl}", JText::_('COM_REDSHOP_ADDRESS'), $template_desc);
-		$template_desc = str_replace("{address}", '<input class="inputbox required" type="text" name="address" id="address" size="32" maxlength="250" value="' . (isset($post["address"]) ? $post["address"] : '') . '" />', $template_desc);
-		$template_desc = str_replace("{zipcode_lbl}", JText::_('COM_REDSHOP_ZIP'), $template_desc);
-		$template_desc = str_replace("{zipcode}", '<input class="inputbox required"  type="text" name="zipcode" id="zipcode" size="32" maxlength="10" value="' . (isset($post["zipcode"]) ? $post["zipcode"] : '') . '" onblur="return autoFillCity(this.value,\'BT\');" />', $template_desc);
-		$template_desc = str_replace("{city_lbl}", JText::_('COM_REDSHOP_CITY'), $template_desc);
-		$template_desc = str_replace("{city}", '<input class="inputbox required" type="text" name="city" ' . $read_only . ' id="city" value="' . (isset($post["city"]) ? $post["city"] : '') . '" size="32" maxlength="250" />', $template_desc);
-
-		// Allow phone number to be optional using template tags.
-		$phoneIsRequired = ((boolean) strstr($template_desc, '{phone_optional}')) ? '' : 'required';
-		$template_desc   = str_replace("{phone_optional}", '', $template_desc);
-		$template_desc   = str_replace(
-			"{phone}",
-			'<input class="inputbox ' . $phoneIsRequired . '" type="text" name="phone" id="phone" size="32" maxlength="250" value="' . (isset($post["phone"]) ? $post["phone"] : '') . '" onblur="return searchByPhone(this.value,\'BT\');" />',
-			$template_desc
-		);
-		$template_desc   = str_replace("{phone_lbl}", JText::_('COM_REDSHOP_PHONE'), $template_desc);
-
-		$template_desc = str_replace("{country_txtid}", "div_country_txt", $template_desc);
-		$template_desc = str_replace("{country_style}", $countrystyle, $template_desc);
-		$template_desc = str_replace("{state_txtid}", "div_state_txt", $template_desc);
-		$template_desc = str_replace("{state_style}", $statestyle, $template_desc);
-
-		$template_desc = str_replace("{country_lbl}", JText::_('COM_REDSHOP_COUNTRY'), $template_desc);
-		$template_desc = str_replace("{country}", $lists['country_code'], $template_desc);
-		$template_desc = str_replace("{state_lbl}", JText::_('COM_REDSHOP_STATE'), $template_desc);
-		$template_desc = str_replace("{state}", $lists ['state_code'], $template_desc);
-
-		return $template_desc;
+		return RedshopHelperBilling::replaceCommonFields($templateHtml, $data, $lists);
 	}
 
 	public function replacePrivateCustomer($template_desc, $post = array(), $lists)
 	{
-		$template_desc = $this->replaceBillingCommonFields($template_desc, $post, $lists);
+		$template_desc = RedshopHelperBilling::replaceCommonFields($template_desc, $post, $lists);
 
 		if (strstr($template_desc, "{private_extrafield}"))
 		{
@@ -676,7 +496,7 @@ class RsUserHelper
 
 	public function replaceCompanyCustomer($template_desc, $post = array(), $lists)
 	{
-		$template_desc = $this->replaceBillingCommonFields($template_desc, $post, $lists);
+		$template_desc = RedshopHelperBilling::replaceCommonFields($template_desc, $post, $lists);
 
 		$template_desc = str_replace("{company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $template_desc);
 		$template_desc = str_replace("{company_name}", '<input class="inputbox required" type="text" name="company_name" id="company_name" size="32" maxlength="250" value="' . @$post ["company_name"] . '" />', $template_desc);
