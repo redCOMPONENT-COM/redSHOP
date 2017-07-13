@@ -46,7 +46,12 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->click(\DiscountManagerJ3Page::$searchResults);
         $I->click(\DiscountManagerJ3Page::$searchShopperId);
-        $I->resultShopperGroup($shopperGroup);
+
+        $userDiscountPage = new \DiscountManagerJ3Page();
+        $I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 60);
+        $I->click($userDiscountPage->resultChoice($shopperGroup));
+
+
         $I->click(\DiscountManagerJ3Page::$saveCloseButton);
         $I->waitForText(\DiscountManagerJ3Page::$messageSaveSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);
         $I->filterListBySearching($name, \DiscountManagerJ3Page::$filter);
@@ -70,7 +75,11 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->click(\DiscountManagerJ3Page::$searchResults);
         $I->click(\DiscountManagerJ3Page::$searchShopperId);
-        $I->resultShopperGroup($shopperGroup);
+
+        $userDiscountPage = new \DiscountManagerJ3Page();
+        $I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
+        $I->click($userDiscountPage->resultChoice($shopperGroup));
+
         $I->click(\DiscountManagerJ3Page::$saveButton);
         $I->waitForText(\DiscountManagerJ3Page::$messageSaveSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);
     }
@@ -104,7 +113,11 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->click(\DiscountManagerJ3Page::$searchResults);
         $I->click(\DiscountManagerJ3Page::$searchShopperId);
-        $I->resultShopperGroup($shopperGroup);
+
+        $userDiscountPage = new \DiscountManagerJ3Page();
+        $I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
+        $I->click($userDiscountPage->resultChoice($shopperGroup));
+
         $I->click(\DiscountManagerJ3Page::$saveButton);
         $I->acceptPopup();
         $I->waitForElement(\DiscountManagerJ3Page::$amount, 30);
@@ -139,7 +152,11 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->click(\DiscountManagerJ3Page::$searchResults);
         $I->click(\DiscountManagerJ3Page::$searchShopperId);
-        $I->resultShopperGroup($shopperGroup);
+
+        $userDiscountPage = new \DiscountManagerJ3Page();
+        $I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
+        $I->click($userDiscountPage->resultChoice($shopperGroup));
+
         $I->click(\DiscountManagerJ3Page::$saveButton);
         $I->acceptPopup();
         $I->waitForElement(\DiscountManagerJ3Page::$amount, 30);
@@ -162,7 +179,11 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->click(\DiscountManagerJ3Page::$searchResults);
         $I->click(\DiscountManagerJ3Page::$searchShopperId);
-        $I->resultShopperGroup($shopperGroup);
+
+        $userDiscountPage = new \DiscountManagerJ3Page();
+        $I->waitForElement($userDiscountPage->resultChoice($shopperGroup), 30);
+        $I->click($userDiscountPage->resultChoice($shopperGroup));
+
         $I->click(\DiscountManagerJ3Page::$saveButton);
         $I->acceptPopup();
         $I->waitForElement(\DiscountManagerJ3Page::$amount, 30);
@@ -254,7 +275,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\DiscountManagerJ3Page::$discountCheckBox);
         $I->click(\DiscountManagerJ3Page::$unpublish);
         $I->wait(3);
-        $I->waitForText(\DiscountManagerJ3Page::$messageUnpublishSuccess,60, \DiscountManagerJ3Page::$saveSuccess);
+        $I->waitForText(\DiscountManagerJ3Page::$messageUnpublishSuccess, 60, \DiscountManagerJ3Page::$saveSuccess);
     }
 
     public function publishDiscountStateButton($discountName)
@@ -360,7 +381,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\DiscountManagerJ3Page::$URL);
         $I->click(\DiscountManagerJ3Page::$editButton);
         $I->acceptPopup();
-        $I->see(\DiscountManagerJ3Page::$namePageManagement,\DiscountManagerJ3Page::$selectorPage);
+        $I->see(\DiscountManagerJ3Page::$namePageManagement, \DiscountManagerJ3Page::$selectorPage);
     }
 
     public function checkDeleteButton()
@@ -369,7 +390,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\DiscountManagerJ3Page::$URL);
         $I->click(\DiscountManagerJ3Page::$deleteButton);
         $I->acceptPopup();
-        $I->see(\DiscountManagerJ3Page::$namePageManagement,\DiscountManagerJ3Page::$selectorPage);
+        $I->see(\DiscountManagerJ3Page::$namePageManagement, \DiscountManagerJ3Page::$selectorPage);
     }
 
     public function checkPublishButton()
@@ -378,7 +399,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\DiscountManagerJ3Page::$URL);
         $I->click(\DiscountManagerJ3Page::$publish);
         $I->acceptPopup();
-        $I->see(\DiscountManagerJ3Page::$namePageManagement,\DiscountManagerJ3Page::$selectorPage);
+        $I->see(\DiscountManagerJ3Page::$namePageManagement, \DiscountManagerJ3Page::$selectorPage);
     }
 
     public function checkUnpublishButton()
@@ -387,8 +408,9 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\DiscountManagerJ3Page::$URL);
         $I->click(\DiscountManagerJ3Page::$unpublish);
         $I->acceptPopup();
-        $I->see(\DiscountManagerJ3Page::$namePageManagement,\DiscountManagerJ3Page::$selectorPage);
+        $I->see(\DiscountManagerJ3Page::$namePageManagement, \DiscountManagerJ3Page::$selectorPage);
     }
+
 
     public function resultShopperGroup($shopperGroup)
     {
@@ -396,5 +418,4 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $shopperGroup . "')]"], 30);
         $I->click(['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $shopperGroup . "')]"]);
     }
-
 }
