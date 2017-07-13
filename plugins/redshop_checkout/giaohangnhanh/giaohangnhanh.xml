@@ -71,7 +71,8 @@
                 </field>
                 <field 
                     name="city" 
-                    type="ghncity" 
+                    type="ghncity"
+                    onchange="ghnSelectDistrict(this);"
                     default=""
                     label="PLG_REDSHOP_CHECKOUT_GIAOHANGNHANH_CITY"
                     description="PLG_REDSHOP_CHECKOUT_GIAOHANGNHANH_CITY_DESC">

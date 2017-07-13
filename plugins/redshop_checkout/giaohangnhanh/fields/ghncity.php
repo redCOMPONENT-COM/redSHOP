@@ -19,14 +19,6 @@ JFormHelper::loadFieldClass('list');
 class JFormFieldGhncity extends JFormFieldList
 {
 	/**
-	 * A flexible category list that respects access controls
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	public $type = 'ghncity';
-
-	/**
 	 * Set select list options
 	 *
 	 * @return  string  select list options
