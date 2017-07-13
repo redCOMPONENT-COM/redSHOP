@@ -114,6 +114,8 @@ function pluginRelease(group, name) {
                         '!./plugins/' + group + '/' + name + '/**/vendor/**/phpunit.xml.dist',
                         '!./plugins/' + group + '/' + name + '/**/vendor/**/phpcs.xml',
                         '!./plugins/' + group + '/' + name + '/**/vendor/mpdf/mpdf/ttfonts/!(DejaVu*.ttf)',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/setasign/fpdi',
+                        '!./plugins/' + group + '/' + name + '/**/vendor/setasign/fpdi/**',
                         '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
                         '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/ae_fonts*/**',
                         '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf*/**',
@@ -447,7 +449,7 @@ gulp.task('release:md5:clean', ["release:md5:json"], function () {
 
 // Temporary remove release:md5 since it not ready for use yet.
 // // gulp.task("release:redshop", ["composer:libraries", "release:md5"], function (cb) {
-gulp.task("release:redshop", function (cb) {
+gulp.task("release:redshop", ["composer:libraries.redshop", "composer:plugins.redshop_pdf.tcpdf"], function (cb) {
     fs.readFile( "./redshop.xml", function(err, data) {
         parser.parseString(data, function (err, result) {
             var version  = result.extension.version[0];
