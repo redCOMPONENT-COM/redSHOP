@@ -1,5 +1,7 @@
 node('master') {
     stage('Setup') {
+        sh "pwd"
+        sh "whoami"
         sh "Xvfb :99 &"
         sh "export DISPLAY=:99"
         sh "sleep 3"
