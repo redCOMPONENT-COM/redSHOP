@@ -213,7 +213,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
         $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
         $I->click(\UserManagerJoomla3Page::$saveButton);
-//        $I->waitForText(\UserManagerJoomla3Page::$saveErrorEmailAlready, 60, \UserManagerJoomla3Page::$selectorError);
         $I->see(\UserManagerJoomla3Page::$saveErrorEmailAlready,\UserManagerJoomla3Page::$selectorError);
     }
 
