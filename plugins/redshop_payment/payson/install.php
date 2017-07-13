@@ -1,20 +1,23 @@
 <?php
 /**
  * @package     Redshop.Plugin
- * @subpackage  Braintree
+ * @subpackage  Payson
  *
  * @copyright   Copyright (C) 2012 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
-defined('_JEXEC') or die();
+
+use Joomla\Registry\Registry;
+
+defined('_JEXEC') or die;
 
 /**
- * PlgRedshop_Paymentrs_Payment_Braintree installer class.
+ * Payson Payment installer class.
  *
  * @package  Redshopb.Plugin
- * @since    2.0.0
+ * @since    1.7.0
  */
-class PlgRedshop_Paymentrs_Payment_BraintreeInstallerScript
+class PlgRedshop_PaymentPaysonInstallerScript
 {
 	/**
 	 * Method to run before an install/update/uninstall method
@@ -35,16 +38,16 @@ class PlgRedshop_Paymentrs_Payment_BraintreeInstallerScript
 					->from($db->qn('#__extensions'))
 					->where($db->qn('type') . ' = ' . $db->quote('plugin'))
 					->where($db->qn('folder') . ' = ' . $db->quote('redshop_payment'))
-					->where($db->qn('element') . ' = ' . $db->quote('rs_payment_braintree'))
+					->where($db->qn('element') . ' = ' . $db->quote('payson'))
 			)
 				->loadResult();
 
 			if (!empty($version))
 			{
-				$version = new JRegistry($version);
+				$version = new Registry($version);
 				$version = $version->get('version');
 
-				if (version_compare($version, '2.0.0', '<'))
+				if (version_compare($version, '1.7.0', '<'))
 				{
 					$this->deleteOldLanguages();
 				}
@@ -63,7 +66,7 @@ class PlgRedshop_Paymentrs_Payment_BraintreeInstallerScript
 		JLoader::import('joomla.filesystem.file');
 
 		// Remove old library
-		$oldFolder = JPATH_ROOT . '/plugins/redshop_payment/rs_payment_braintree/rs_payment_braintree';
+		$oldFolder = JPATH_ROOT . '/plugins/redshop_payment/payson/library';
 
 		if (JFolder::exists($oldFolder))
 		{
