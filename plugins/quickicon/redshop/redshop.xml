@@ -7,17 +7,15 @@
 	<authorUrl>http://www.redcomponent.com</authorUrl>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>GNU General Public License v2</license>
-	<version>1.5</version>
-	<redshop>1.5</redshop>
+	<version>1.7.0</version>
+	<redshop>2.0.0.6</redshop>
 	<description>PLG_QUICKICON_REDSHOP_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="redshop">redshop.php</filename>
 		<filename>index.html</filename>
+		<folder>language</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_quickicon_redshop.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_quickicon_redshop.sys.ini</language>
-	</languages>
+	<scriptfile>install.php</scriptfile>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
