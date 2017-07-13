@@ -10,7 +10,6 @@
 use Paymill\Models\Request\Payment;
 use Paymill\Models\Request\Transaction;
 use Paymill\Request;
-use Paymill\Services\PaymillException;
 
 defined('_JEXEC') or die;
 
@@ -116,8 +115,9 @@ class PlgRedshop_Paymentrs_Payment_Paymill extends JPlugin
 		echo RedshopLayoutHelper::render(
 			'form',
 			array(
-				'data'   => $data,
-				'params' => $this->params
+				'element' => $element,
+				'data'    => $data,
+				'params'  => $this->params
 			),
 			__DIR__ . '/layouts'
 		);
@@ -178,9 +178,9 @@ class PlgRedshop_Paymentrs_Payment_Paymill extends JPlugin
 				. '&payment_plugin=rs_payment_paymill&Itemid=' . $itemId . "&orderid=" . $data['order_id'] . '&transactionId='
 				. $transactionId . '&key=' . $key;
 		}
-		catch (PaymillException $e)
+		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getResponseCode() . ' : ' . $e->getErrorMessage(), 'error');
+			$app->enqueueMessage($e->getCode() . ' : ' . $e->getMessage(), 'error');
 		}
 
 		$app->redirect(JRoute::_($redirectUrl, false));

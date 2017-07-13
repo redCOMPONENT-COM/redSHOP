@@ -1,30 +1,32 @@
 <?php
 /**
  * @package     Redshop.Plugin
- * @subpackage  Braintree
+ * @subpackage  Paymill
  *
  * @copyright   Copyright (C) 2012 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
+
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die();
 
 /**
- * PlgRedshop_Paymentrs_Payment_Braintree installer class.
+ * PlgRedshop_Paymentrs_Payment_Paymill installer class.
  *
  * @package  Redshopb.Plugin
  * @since    2.0.0
  */
-class PlgRedshop_Paymentrs_Payment_BraintreeInstallerScript
+class PlgRedshop_Paymentrs_Payment_PaymillInstallerScript
 {
 	/**
 	 * Method to run before an install/update/uninstall method
 	 *
-	 * @param   string  $type    The type of change (install, update or discover_install)
-	 * @param   object  $parent  Class of calling method
+	 * @param   string  $type  The type of change (install, update or discover_install)
 	 *
 	 * @return  void
 	 */
-	public function preflight($type, $parent)
+	public function preflight($type)
 	{
 		if ($type == 'update' || $type == 'discover_install')
 		{
@@ -36,13 +38,13 @@ class PlgRedshop_Paymentrs_Payment_BraintreeInstallerScript
 					->from($db->qn('#__extensions'))
 					->where($db->qn('type') . ' = ' . $db->quote('plugin'))
 					->where($db->qn('folder') . ' = ' . $db->quote('redshop_payment'))
-					->where($db->qn('element') . ' = ' . $db->quote('rs_payment_braintree'))
+					->where($db->qn('element') . ' = ' . $db->quote('rs_payment_paymill'))
 			)
 				->loadResult();
 
 			if (!empty($version))
 			{
-				$version = new JRegistry($version);
+				$version = new Registry($version);
 				$version = $version->get('version');
 
 				if (version_compare($version, '2.0.0', '<'))
