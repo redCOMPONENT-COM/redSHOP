@@ -27,9 +27,11 @@ class JFormFieldPickhub extends JFormFieldList
 	public $type = 'pickhub';
 
 	/**
-	 * Set select list options
+	 * Method to get the field options.
 	 *
-	 * @return  string  select list options
+	 * @return  array  The field option objects.
+	 *
+	 * @since   3.7.0
 	 */
 	protected function getOptions()
 	{
