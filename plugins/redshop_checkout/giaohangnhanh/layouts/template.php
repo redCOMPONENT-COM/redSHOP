@@ -18,8 +18,8 @@ extract($displayData);
 	        url: "<?php echo JUri::root() . 'index.php?option=com_ajax&plugin=GetGHNCity&group=redshop_checkout&format=raw'; ?>",
 	        data: {id: infoId},
 	        success: function(data) {
-	        	jQuery('select#rs_city').append(data);
-	        	jQuery("select#rs_city").trigger("change");
+	        	jQuery('select#rs_ghn_city').append(data);
+	        	jQuery("select#rs_ghn_city").trigger("change");
 	        }
 	    });
 
@@ -30,10 +30,10 @@ extract($displayData);
 	        data: {city: id, id: infoId},
 	        url: "<?php echo JUri::root() . 'index.php?option=com_ajax&plugin=GetGHNDistrict&group=redshop_checkout&format=raw'; ?>",
 	        success: function(data) {
-	        	jQuery('select#rs_district').html('');
-	        	jQuery('#s2id_rs_district .select2-chosen').html('Select District');
-	        	jQuery('select#rs_district').append(data);
-	        	jQuery("select#rs_district").trigger("change");
+	        	jQuery('select#rs_ghn_district').html('');
+	        	jQuery('#s2id_rs_ghn_district .select2-chosen').html('Select District');
+	        	jQuery('select#rs_ghn_district').append(data);
+	        	jQuery("select#rs_ghn_district").trigger("change");
 	        }
 	    });
 	    })

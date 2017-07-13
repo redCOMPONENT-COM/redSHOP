@@ -57,7 +57,7 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 		$app          = JFactory::getApplication();
 		$input        = $app->input;
 		$id           = $input->post->getInt('id', 0);
-		$selectedCity = RedshopHelperExtrafields::getDataByName('rs_city', 14, $id);
+		$selectedCity = RedshopHelperExtrafields::getDataByName('rs_ghn_city', 14, $id);
 
 		$data   = $this->getDistrictProvinceData();
 		$cities = array();
@@ -102,7 +102,7 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 		$input            = $app->input;
 		$city             = $input->post->getInt('city', 0);
 		$id               = $input->post->getInt('id', 0);
-		$selectedDistrict = RedshopHelperExtrafields::getDataByName('rs_district', 14, $id);
+		$selectedDistrict = RedshopHelperExtrafields::getDataByName('rs_ghn_district', 14, $id);
 
 		$data      = $this->getDistrictProvinceData();
 		$districts = array();
@@ -150,8 +150,8 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 	 */
 	public function onBeforeUserShippingStore(&$data)
 	{
-		$cityField = RedshopHelperExtrafields::getDataByName('rs_city', 14, $data->users_info_id);
-		$districtField = RedshopHelperExtrafields::getDataByName('rs_district', 14, $data->users_info_id);
+		$cityField = RedshopHelperExtrafields::getDataByName('rs_ghn_city', 14, $data->users_info_id);
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_district', 14, $data->users_info_id);
 
 		if (empty($cityField) && empty($districtField))
 		{
