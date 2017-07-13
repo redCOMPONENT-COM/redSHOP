@@ -5508,7 +5508,7 @@ class rsCarthelper
 						$sameProduct = false;
 					}
 
-					if ($cart[$i]['wrapper_id'] != $data['sel_wrapper_id'])
+					if (isset($data['sel_wrapper_id']) && $cart[$i]['wrapper_id'] != $data['sel_wrapper_id'])
 					{
 						$sameProduct = false;
 					}
