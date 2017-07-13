@@ -178,7 +178,7 @@ class RedshopControllerProduct extends RedshopController
 		$redlayout      = $get['redlayout'];
 		$pluginResults  = array();
 
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher->trigger('onBeforeImageLoad', array($get, &$pluginResults));
 
@@ -947,9 +947,9 @@ class RedshopControllerProduct extends RedshopController
 			unset($userDocuments[$productId][$id]);
 			$session->set('userDocument', $userDocuments);
 
-			if ($deleteFile && is_file($filePath))
+			if ($deleteFile && JFile::exists($filePath))
 			{
-				unlink($filePath);
+				JFile::delete($filePath);
 			}
 		}
 
@@ -967,7 +967,7 @@ class RedshopControllerProduct extends RedshopController
 		$fname = JRequest::getVar('fname', '', 'request', 'string');
 		$fpath = REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $fname;
 
-		if (is_file($fpath))
+		if (JFile::exists($fpath))
 		{
 			$tmp_type = strtolower(JFile::getExt($fpath));
 
