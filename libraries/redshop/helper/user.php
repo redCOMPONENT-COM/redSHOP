@@ -296,7 +296,7 @@ class RedshopHelperUser
 	 * @param   string $username User name
 	 * @param   int    $id       User Id
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   2.0.0.6
 	 */
@@ -318,7 +318,7 @@ class RedshopHelperUser
 	 * @param   string $email User mail
 	 * @param   int    $id    User Id
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   2.0.0.6
 	 */
@@ -687,5 +687,70 @@ class RedshopHelperUser
 		RedshopHelperUtility::getDispatcher()->trigger('onAfterCreateRedshopUser', array($data, $isNew));
 
 		return $row;
+	}
+
+	/**
+	 * Method for store user shipping data
+	 *
+	 * @param   array  $data  Available data.
+	 *
+	 * @return  boolean|Tableuser_detail  Table user if success. False otherwise.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function storeRedshopUserShipping($data = array())
+	{
+		/** @var Tableuser_detail $userTable */
+		$userTable = JTable::getInstance('user_detail', 'Table');
+
+		if (!$userTable->bind($data))
+		{
+			JFactory::getApplication()->enqueueMessage($userTable->getError(), 'error');
+
+			return false;
+		}
+
+		$userTable->user_id               = $data['user_id'];
+		$userTable->address_type          = 'ST';
+		$userTable->country_code          = $data['country_code_ST'];
+		$userTable->state_code            = (isset($data['state_code_ST'])) ? $data['state_code_ST'] : "";
+		$userTable->firstname             = $data['firstname_ST'];
+		$userTable->lastname              = $data['lastname_ST'];
+		$userTable->address               = $data['address_ST'];
+		$userTable->city                  = $data['city_ST'];
+		$userTable->zipcode               = $data['zipcode_ST'];
+		$userTable->phone                 = $data['phone_ST'];
+		$userTable->user_email            = $data['user_email'];
+		$userTable->tax_exempt            = $data['tax_exempt'];
+		$userTable->requesting_tax_exempt = $data['requesting_tax_exempt'];
+		$userTable->shopper_group_id      = $data['shopper_group_id'];
+		$userTable->tax_exempt_approved   = $data['tax_exempt_approved'];
+		$userTable->is_company            = $data['is_company'];
+
+		if ($data['is_company'] == 1)
+		{
+			$userTable->company_name = $data['company_name'];
+			$userTable->vat_number   = $data['vat_number'];
+		}
+
+		if (!$userTable->store())
+		{
+			JFactory::getApplication()->enqueueMessage($userTable->getError(), 'error');
+
+			return false;
+		}
+
+		if ($data['is_company'] == 0)
+		{
+			// Info: field_section 14 :Customer shipping Address
+			RedshopHelperExtrafields::extraFieldSave($data, RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $userTable->users_info_id);
+		}
+		else
+		{
+			// Info: field_section 15 :Company shipping Address
+			RedshopHelperExtrafields::extraFieldSave($data, RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $userTable->users_info_id);
+		}
+
+		return $userTable;
 	}
 }
