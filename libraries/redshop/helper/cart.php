@@ -921,37 +921,16 @@ abstract class RedshopHelperCart
 	 *
 	 * @since    2.0.6
 	 */
-	public static function emptyCart ()
+	public static function emptyCart()
 	{
-		$cart = self::getCart();
+		$cart = RedshopHelperCartSession::getCart();
 		unset($cart);
+
 		setcookie("redSHOPcart", "", time() - 3600, "/");
+
 		$cart['idx'] = 0;
-		self::setCart($cart);
+		RedshopHelperCartSession::setCart($cart);
+
 		return RedshopHelperStockroom::deleteCartAfterEmpty();
-	}
-
-	/**
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.6
-	 */
-	public static function getCart()
-	{
-		$session = JFactory::getSession();
-		return $session->get('cart');
-	}
-
-	/**
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 */
-	public static function setCart($cart)
-	{
-		$session = JFactory::getSession();
-		$session->set('cart', $cart);
 	}
 }

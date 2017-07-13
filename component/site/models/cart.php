@@ -603,7 +603,7 @@ class RedshopModelCart extends RedshopModel
 		$template              = RedshopHelperTemplate::getTemplate("product", $productTemplate);
 		$product_template_desc = $template[0]->template_desc;
 
-		return strstr($product_template_desc, "{attribute_template:") !== false;
+		return strpos($product_template_desc, "{attribute_template:") !== false;
 	}
 
 	/**
