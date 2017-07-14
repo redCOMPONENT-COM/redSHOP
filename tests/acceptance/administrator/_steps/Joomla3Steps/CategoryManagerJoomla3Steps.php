@@ -47,7 +47,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   String  $categoryName  Name of the Category
 	 * @param   String  $updatedName   Updated Name of the Category
 	 *
-	 * @return void
+//	 * @return void
 	 */
 	public function updateCategory($categoryName, $updatedName)
 	{
