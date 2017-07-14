@@ -73,8 +73,8 @@ class RedshopControllerAccount_billto extends RedshopController
 		$post['id']            = $post['user_id'];
 		$post['address_type']  = "BT";
 		$post['email']         = $post['email1'];
-		$post['password']      = $input->post->getRaw('password1', '');
-		$post['password2']     = $input->post->getRaw('password2', '');
+		$post['password']      = $input->post->get('password1', '', 'RAW');
+		$post['password2']     = $input->post->get('password2', '', 'RAW');
 
 		if (isset($user->username))
 		{
