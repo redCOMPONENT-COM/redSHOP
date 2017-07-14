@@ -26,8 +26,8 @@ class RedshopHelperCheckoutGls
 	 */
 	public static function getShopId($shopId)
 	{
-		$glsMobile = JFactory::getApplication()->post->getString('gls_mobile', '');
-		$glsZipCode = JFactory::getApplication()->post->getString('gls_zipcode', '');
+		$glsMobile = JFactory::getApplication()->input->post->getString('gls_mobile', '');
+		$glsZipCode = JFactory::getApplication()->input->post->getString('gls_zipcode', '');
 
 		if (!empty($glsMobile))
 		{
