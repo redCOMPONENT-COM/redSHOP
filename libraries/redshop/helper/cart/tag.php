@@ -18,6 +18,20 @@ defined('_JEXEC') or die;
 class RedshopHelperCartTag
 {
 	/**
+	 * @param   string  $template  Template
+	 * @param   string  $beginTag  Begin tag
+	 * @param   string  $closeTag  Close tag
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.7
+	 */
+	public static function isBlockTagExists($template, $beginTag, $closeTag)
+	{
+		return (strpos($template, $beginTag) !== false && strpos($template, $closeTag) !== false);
+	}
+
+	/**
 	 * replace Conditional tag from Redshop tax
 	 *
 	 * @param   string  $template       Template
