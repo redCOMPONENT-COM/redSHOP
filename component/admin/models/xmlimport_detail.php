@@ -153,7 +153,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 			$xmlimport_url = $dest;
 		}
 
-		elseif ($this->_data->filename != "" && is_file(JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' .$this->_data->filename))
+		elseif ($this->_data->filename != "" && JFile::exists(JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' .$this->_data->filename))
 		{
 			$xmlimport_url = JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' .$this->_data->filename;
 		}
@@ -362,9 +362,9 @@ class RedshopModelXmlimport_detail extends RedshopModel
 				$result = $xmlhelper->getXMLImportInfo($cid[$i]);
 				$rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/import/" .$result->filename;
 
-				if (is_file($rootpath))
+				if (JFile::exists($rootpath))
 				{
-					unlink($rootpath);
+					JFile::delete($rootpath);
 				}
 			}
 

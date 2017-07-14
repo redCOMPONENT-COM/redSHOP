@@ -22,7 +22,7 @@ $pageTitle = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
 		setTimeout(function(){
 			window.parent.location.href = '<?php echo JRoute::_("index.php?option=com_redshop&view=" . $return . "&Itemid" . $Itemid); ?>';
 		}, 3000);
-		
+
 	<?php endif; ?>
 </script>
 <?php if ($this->params->get('show_page_heading', 1)): ?>
@@ -45,9 +45,9 @@ $pageTitle = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
 			</tr>
 		<?php endif; ?>
 
-		<?php for ($i = 0; $i < count($this->shippingaddresses); $i++): ?>
-			<?php $editLink = "index.php?option=com_redshop&view=account_shipto&task=addshipping&infoid=" . $this->shippingaddresses[$i]->users_info_id . "&Itemid=" . $itemId; ?>
-			<tr>
+		<?php for ($i = 0; $i < count($this->shippingAddresses); $i++): ?>
+			<?php $editLink = "index.php?option=com_redshop&view=account_shipto&task=addshipping&infoid=" . $this->shippingAddresses[$i]->users_info_id . "&Itemid=" . $itemId; ?>
+			<tr>A
 				<td>
 					<?php echo "- <a href='" . JRoute::_($editLink) . "'>" . $this->shippingaddresses[$i]->text . "</a>"; ?>
 				</td>

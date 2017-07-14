@@ -27,7 +27,7 @@ class plgContentredshop_product extends JPlugin
 			JHtml::_('redshopjquery.framework');
 
 			JPluginHelper::importPlugin('redshop_product');
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = RedshopHelperUtility::getDispatcher();
 
 			$session = JFactory::getSession();
 			$post    = JRequest::get('POST');

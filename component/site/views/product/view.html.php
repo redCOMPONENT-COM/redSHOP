@@ -93,7 +93,7 @@ class RedshopViewProduct extends RedshopView
 		$template     = $this->input->getString('r_template', '');
 
 		JPluginHelper::importPlugin('redshop_product');
-		$this->dispatcher = JDispatcher::getInstance();
+		$this->dispatcher = RedshopHelperUtility::getDispatcher();
 
 		if (!$this->pid)
 		{
