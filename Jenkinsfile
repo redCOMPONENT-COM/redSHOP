@@ -11,19 +11,26 @@ pipeline {
                     whoami && \
                     echo $WORKSPACE && \
                     ls -la && \
-                    (Xvfb :99 &) && \
-                    export DISPLAY=:99 && \
-                    sleep 3 && \
                     composer update && \
-                    export DISPLAY=:99 && \
                     mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml && \
                     vendor/bin/robo prepare:site-for-system-tests
                 '''
             }
         }
         stage('Browser Tests setup') {
+            agent {
+                docker {
+                    image 'joomlaprojects/docker-systemtests'
+                    args  '--user 0'
+                }
+            }
             steps {
                 sh '''
+                    ln -s /usr/bin/nodejs /usr/bin/node && \
+                    export DISPLAY=:0 && \
+                    (Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset &) && \
+                    sleep 3 && \
+                    (fluxbox &) && \
                     sudo chown -R www-data:www-data tests/joomla-cms3 && \
                     cd /var/www/html && \
                     ln -sf $WORKSPACE/tests/joomla-cms3 ./tests/ && \
@@ -33,13 +40,14 @@ pipeline {
                     npm install && \
                     mv gulp-config.sample.jenkins.json gulp-config.json && \
                     gulp release --skip-version && \
-                    vendor/bin/robo kill:selenium
+                    vendor/bin/robo kill:selenium &&\
+                    vendor/bin/robo run:tests-jenkins
                 '''
             }
         }
         stage('Browser Tests run') {
             steps {
-                sh "vendor/bin/robo run:tests-jenkins"
+                sh "vendor/bin/robo kill:selenium"
             }
             post
             {
