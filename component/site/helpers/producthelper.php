@@ -9334,7 +9334,7 @@ class productHelper
 	 */
 	public function replaceProductStockdata($productId, $propertyId, $subPropertyId, $template, $stockStatusArray)
 	{
-		return RedshopHelperProductTag::replaceProductStockData($productId, $propertyId, $subPropertyId, $template, $stockStatusArray)
+		return RedshopHelperProductTag::replaceProductStockData($productId, $propertyId, $subPropertyId, $template, $stockStatusArray);
 	}
 
 	/**
