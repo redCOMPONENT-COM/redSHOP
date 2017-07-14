@@ -15,6 +15,9 @@
  */
 class ProductManagerPage
 {
+
+
+
     public static $URL = 'administrator/index.php?option=com_redshop&view=product';
     public static $productFilter = ['id' => 'keyword'];
     public static $productName = "#product_name";
@@ -26,7 +29,6 @@ class ProductManagerPage
     public static $maximumQuantity = ['id' => "max_order_product_quantity"];
 
     public static $checkAllProducts="//input[@onclick='Joomla.checkAll(this)']";
-
 
 
 }
