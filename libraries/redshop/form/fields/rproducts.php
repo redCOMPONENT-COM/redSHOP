@@ -37,8 +37,14 @@ class JFormFieldRproducts extends JFormFieldList
 		$query = $db->getQuery(true)
 			->select($db->qn('product_id'))
 			->select($db->qn('product_name'))
+			->select($db->qn('product_number'))
 			->from($db->qn('#__redshop_product'))
 			->order($db->qn('product_name'));
+
+		if (!$this->element['parent'])
+		{
+			$query->where($db->qn('product_parent_id') . ' != 0');
+		}
 
 		$items = $db->setQuery($query)->loadObjectList();
 		$options = array();
@@ -47,7 +53,7 @@ class JFormFieldRproducts extends JFormFieldList
 		{
 			foreach ($items as $item)
 			{
-				$option = JHTML::_('select.option', $item->product_id, $item->product_name);
+				$option = JHTML::_('select.option', $item->product_id, $item->product_name . '(' . $item->product_number . ')');
 				$options[] = $option;
 			}
 		}
