@@ -49,24 +49,16 @@ class RedshopViewVouchers extends RedshopViewList
 
 				return productHelper::getInstance()->getProductFormattedPrice($value);
 
-				break;
-
 			case 'free_ship':
 				if ($value)
 				{
 					return '<i class="text-success fa fa-check"></i>';
 				}
-				else
-				{
-					return '<i class="text-danger fa fa-remove"></i>';
-				}
 
-				break;
+				return '<i class="text-danger fa fa-remove"></i>';
 
 			case 'voucher_left':
 				return productHelper::getInstance()->getProductFormattedPrice($value);
-
-				break;
 
 			case 'start_date':
 			case 'end_date':
@@ -77,12 +69,8 @@ class RedshopViewVouchers extends RedshopViewList
 
 				return JFactory::getDate($value)->format(Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'Y-m-d'));
 
-				break;
-
 			default:
 				return parent::onRenderColumn($config, $index, $row);
-
-				break;
 		}
 	}
 }
