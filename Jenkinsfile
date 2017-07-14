@@ -21,7 +21,7 @@ pipeline {
             agent {
                 docker {
                     image 'joomlaprojects/docker-systemtests'
-                    args  '--user 0'
+                    args  '--user 111'
                 }
             }
             steps {
