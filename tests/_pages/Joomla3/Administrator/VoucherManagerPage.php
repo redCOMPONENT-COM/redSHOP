@@ -19,19 +19,19 @@ class VoucherManagerPage
     //name pag
     public static $namePageManagement = 'Voucher Management';
 
-    public static $URL = '/administrator/index.php?option=com_redshop&view=voucher';
+    public static $URL = '/administrator/index.php?option=com_redshop&view=vouchers';
 
-    public static $URLEdit = '/administrator/index.php?option=com_redshop&view=voucher_detail&task=edit&cid[]=';
+    public static $URLEdit = '/administrator/index.php?option=com_redshop&task=voucher.edit&id=';
 
-    public static $voucherCode = "#voucher_code";
+    public static $voucherCode = "#jform_code";
 
-    public static $voucherAmount = "#voucher_amount";
+    public static $voucherAmount = "#jform_amount";
 
-    public static $voucherStartDate = "#start_date";
+    public static $voucherStartDate = "#jform_start_date";
 
-    public static $voucherEndDate = "#end_date";
+    public static $voucherEndDate = "#jform_end_date";
 
-    public static $voucherLeft = "#voucher_left";
+    public static $voucherLeft = "#jform_voucher_left";
 
     public static $voucherCheck = "#cb0";
 
@@ -42,7 +42,7 @@ class VoucherManagerPage
     public static $voucherId = "//div[@id='editcell']/div[2]/table/tbody/tr/td[10]";
 
     public static $filter = ['id' => 'filter'];
-    public static $voucherSearchField = "#filter";
+    public static $voucherSearchField = "#filter_search";
 
     public static $xPathStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[9]/a"];
 
