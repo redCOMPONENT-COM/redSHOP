@@ -17,63 +17,63 @@ require_once 'vendor/autoload.php';
 class RoboFile extends \Robo\Tasks
 {
 	// Load tasks from composer, see composer.json
-	use \redcomponent\robo\loadTasks;
-
-		/**
-		 * File extension for executables
-		 *
-		 * @var string
-		 */
-		private $executableExtension = '';
-
-		/**
-		 * Local configuration parameters
-		 *
-		 * @var array
-		 */
-		private $configuration = array();
-
-		/**
-		 * Path to the local CMS root
-		 *
-		 * @var string
-		 */
-		private $cmsPath = '';
-
-		/**
-		 * Constructor
-		 */
-		public function __construct()
-		{
-			$this->configuration = $this->getConfiguration();
-			$this->cmsPath = $this->getCmsPath();
-			$this->executableExtension = $this->getExecutableExtension();
-
-			// Set default timezone (so no warnings are generated if it is not set)
-			date_default_timezone_set('UTC');
-		}
+	use Joomla\Testing\Robo\Tasks\LoadTasks;
 
 	/**
-	 * Hello World example task.
+	 * File extension for executables
 	 *
-	 * @see  https://github.com/redCOMPONENT-COM/robo/blob/master/src/HelloWorld.php
-	 * @link https://packagist.org/packages/redcomponent/robo
-	 *
-	 * @return object Result
+	 * @var string
 	 */
-	public function sayHelloWorld()
-	{
-		$result = $this->taskHelloWorld()->run();
+	private $executableExtension = '';
 
-		return $result;
+	/**
+	 * Local configuration parameters
+	 *
+	 * @var array
+	 */
+	private $configuration = array();
+
+	/**
+	 * Path to the local CMS root
+	 *
+	 * @var string
+	 */
+	private $cmsPath = '';
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->configuration       = $this->getConfiguration();
+		$this->cmsPath             = $this->getCmsPath();
+		$this->executableExtension = $this->getExecutableExtension();
+
+		// Set default timezone (so no warnings are generated if it is not set)
+		date_default_timezone_set('UTC');
 	}
+
+//	/**
+//	 * Hello World example task.
+//	 *
+//	 * @see  https://github.com/redCOMPONENT-COM/robo/blob/master/src/HelloWorld.php
+//	 * @link https://packagist.org/packages/redcomponent/robo
+//	 *
+//	 * @return object Result
+//	 */
+//	public function sayHelloWorld()
+//	{
+//		$result = $this->taskHelloWorld()->run();
+//
+//		return $result;
+//	}
 
 	/**
 	 * Sends Codeception errors to Slack
 	 *
-	 * @param   string  $slackChannel             The Slack Channel ID
-	 * @param   string  $slackToken               Your Slack authentication token.
-	 * @param   string  $codeceptionOutputFolder  Optional. By default tests/_output
+	 * @param   string $slackChannel            The Slack Channel ID
+	 * @param   string $slackToken              Your Slack authentication token.
+	 * @param   string $codeceptionOutputFolder Optional. By default tests/_output
 	 *
 	 * @return mixed
 	 */
@@ -92,7 +92,7 @@ class RoboFile extends \Robo\Tasks
 			$slackChannel,
 			$slackToken,
 			$codeceptionOutputFolder
-			)
+		)
 			->run();
 
 		return $result;
@@ -149,153 +149,41 @@ class RoboFile extends \Robo\Tasks
 		}
 	}
 
-  /**
-   * Executes Selenium System Tests in your machine
-   *
-   * @param   array  $options  Use -h to see available options
-   *
-   * @return mixed
-   */
-	public function runTest($opts = [
-		'test|t'	    => null,
-		'suite|s'	    => 'acceptance'
-	])
+	public function runTestsJenkins()
 	{
-	$this->getComposer();
-
-	$this->taskComposerInstall()->run();
-
-		if (isset($opts['suite']) && 'api' === $opts['suite'])
-		{
-			// Do not launch selenium when running API tests
-		}
-		else
-		{
-			$this->runSelenium();
-
-	  $this->taskWaitForSeleniumStandaloneServer()
-		   ->run()
-		   ->stopOnFail();
-		}
-
-		// Make sure to Run the Build Command to Generate AcceptanceTester
-		$this->_exec("vendor/bin/codecept build");
-
-		if (!$opts['test'])
-		{
-			$this->say('Available tests in the system:');
-
-			$iterator = new RecursiveIteratorIterator(
-				new RecursiveDirectoryIterator(
-					'tests/' . $opts['suite'],
-					RecursiveDirectoryIterator::SKIP_DOTS),
-				RecursiveIteratorIterator::SELF_FIRST);
-
-			$tests = array();
-
-			$iterator->rewind();
-			$i = 1;
-
-			while ($iterator->valid())
-			{
-				if (strripos($iterator->getSubPathName(), 'cept.php')
-					|| strripos($iterator->getSubPathName(), 'cest.php'))
-				{
-					$this->say('[' . $i . '] ' . $iterator->getSubPathName());
-					$tests[$i] = $iterator->getSubPathName();
-					$i++;
-				}
-
-				$iterator->next();
-			}
-
-			$this->say('');
-			$testNumber     = $this->ask('Type the number of the test  in the list that you want to run...');
-			$opts['test'] = $tests[$testNumber];
-		}
-
-		$pathToTestFile = 'tests/' . $opts['suite'] . '/' . $opts['test'];
-
-		//loading the class to display the methods in the class
-		require 'tests/' . $opts['suite'] . '/' . $opts['test'];
-
-		$classes = Nette\Reflection\AnnotationsParser::parsePhp(file_get_contents($pathToTestFile));
-		$className = array_keys($classes)[0];
-
-		// If test is Cest, give the option to execute individual methods
-		if (strripos($className, 'cest'))
-		{
-			$testFile = new Nette\Reflection\ClassType($className);
-			$testMethods = $testFile->getMethods(ReflectionMethod::IS_PUBLIC);
-
-			foreach ($testMethods as $key => $method)
-			{
-				$this->say('[' . $key . '] ' . $method->name);
-			}
-
-			$this->say('');
-			$methodNumber = $this->askDefault('Choose the method in the test to run (hit ENTER for All)', 'All');
-
-			if($methodNumber != 'All')
-			{
-				$method = $testMethods[$methodNumber]->name;
-				$pathToTestFile = $pathToTestFile . ':' . $method;
-			}
-		}
-
-		$this->taskCodecept()
-			 ->test($pathToTestFile)
-			 ->arg('--steps')
-			 ->arg('--debug')
-			 ->arg('--fail-fast')
-			 ->run()
-			 ->stopOnFail();
-
-		if (!'api' == $opts['suite'])
-		{
-			$this->killSelenium();
-		}
-	}
-
-	/**
-	 * Function to Run tests in a Group
-	 *
-	 * @return void
-	 */
-	public function runTests($use_htaccess = 0)
-	{
-		$this->prepareSiteForSystemTests($use_htaccess);
-
 		$this->getComposer();
 
 		$this->taskComposerInstall()->run();
 
-		$this->runSelenium();
+//		$this->runSelenium();
 
-		$this->taskWaitForSeleniumStandaloneServer()
-			 ->run()
-			 ->stopOnFail();
+		$this->taskSeleniumStandaloneServer()
+			->setURL("http://localhost:4444")
+			->runSelenium()
+			->waitForSelenium()
+			->run()
+			->stopOnFail();
 
-		// Make sure to Run the Build Command to Generate AcceptanceTester
+		// Make sure to Run the B uild Command to Generate AcceptanceTester
 		$this->_exec("vendor/bin/codecept build");
 
 		$this->taskCodecept()
-			//  ->arg('--steps')
-			//  ->arg('--debug')
-			 ->arg('--tap')
-			 ->arg('--fail-fast')
-			 ->arg('tests/acceptance/install/')
-			 ->run()
-			 ->stopOnFail();
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/install/')
+			->run()
+			->stopOnFail();
 
 		$this->taskCodecept()
-			  ->arg('--steps')
-			//  ->arg('--debug')
-			 ->arg('--tap')
-			 ->arg('--fail-fast')
-			 ->arg('tests/acceptance/administrator/')
-			 ->run()
-			 ->stopOnFail();
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/administrator/')
+			->run()
+			->stopOnFail();
 
 		$this->taskCodecept()
 			->arg('--steps')
@@ -320,23 +208,221 @@ class RoboFile extends \Robo\Tasks
 		$this->taskCodecept()
 			//  ->arg('--steps')
 			//  ->arg('--debug')
-			 ->arg('--tap')
-			 ->arg('--fail-fast')
-			 ->arg('tests/acceptance/uninstall/')
-			 ->run()
-			 ->stopOnFail();
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/uninstall/')
+			->run()
+			->stopOnFail();
 
 		/* @todo: REDSHOP-2884
-		$this->say('preparing for update test');
-		$this->getDevelop();
+		 * $this->say('preparing for update test');
+		 * $this->getDevelop();
+		 * $this->taskCodecept()
+		 * ->arg('--steps')
+		 * ->arg('--debug')
+		 * ->arg('--fail-fast')
+		 * ->arg('tests/acceptance/update/')
+		 * ->run()
+		 * ->stopOnFail();
+		 */
+
+		$this->killSelenium();
+	}
+
+	/**
+	 * Executes Selenium System Tests in your machine
+	 *
+	 * @param   array  $options  Use -h to see available options
+	 *
+	 * @return mixed
+	 */
+	public function runTest($opts = [
+		'test|t'  => null,
+		'suite|s' => 'acceptance'
+	])
+	{
+		$this->getComposer();
+
+		$this->taskComposerInstall()->run();
+
+		if (isset($opts['suite']) && 'api' === $opts['suite'])
+		{
+			// Do not launch selenium when running API tests
+		}
+		else
+		{
+			$this->taskSeleniumStandaloneServer()
+				->setURL("http://localhost:4444")
+				->runSelenium()
+				->waitForSelenium()
+				->run()
+				->stopOnFail();
+		}
+
+		// Make sure to Run the Build Command to Generate AcceptanceTester
+		$this->_exec("vendor/bin/codecept build");
+
+		if (!$opts['test'])
+		{
+			$this->say('Available tests in the system:');
+
+			$iterator = new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator(
+					'tests/' . $opts['suite'],
+					RecursiveDirectoryIterator::SKIP_DOTS
+				),
+				RecursiveIteratorIterator::SELF_FIRST
+			);
+
+			$tests = array();
+
+			$iterator->rewind();
+			$i = 1;
+
+			while ($iterator->valid())
+			{
+				if (strripos($iterator->getSubPathName(), 'cept.php')
+					|| strripos($iterator->getSubPathName(), 'cest.php'))
+				{
+					$this->say('[' . $i . '] ' . $iterator->getSubPathName());
+					$tests[$i] = $iterator->getSubPathName();
+					$i++;
+				}
+
+				$iterator->next();
+			}
+
+			$this->say('');
+			$testNumber   = $this->ask('Type the number of the test  in the list that you want to run...');
+			$opts['test'] = $tests[$testNumber];
+		}
+
+		$pathToTestFile = 'tests/' . $opts['suite'] . '/' . $opts['test'];
+
+		// Loading the class to display the methods in the class
+		require 'tests/' . $opts['suite'] . '/' . $opts['test'];
+
+		$classes   = Nette\Reflection\AnnotationsParser::parsePhp(file_get_contents($pathToTestFile));
+		$className = array_keys($classes)[0];
+
+		// If test is Cest, give the option to execute individual methods
+		if (strripos($className, 'cest'))
+		{
+			$testFile    = new Nette\Reflection\ClassType($className);
+			$testMethods = $testFile->getMethods(ReflectionMethod::IS_PUBLIC);
+
+			foreach ($testMethods as $key => $method)
+			{
+				$this->say('[' . $key . '] ' . $method->name);
+			}
+
+			$this->say('');
+			$methodNumber = $this->askDefault('Choose the method in the test to run (hit ENTER for All)', 'All');
+
+			if ($methodNumber != 'All')
+			{
+				$method         = $testMethods[$methodNumber]->name;
+				$pathToTestFile = $pathToTestFile . ':' . $method;
+			}
+		}
+
 		$this->taskCodecept()
-			 ->arg('--steps')
-			 ->arg('--debug')
-			 ->arg('--fail-fast')
-			 ->arg('tests/acceptance/update/')
-			 ->run()
-			 ->stopOnFail();
+			->test($pathToTestFile)
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--fail-fast')
+			->run()
+			->stopOnFail();
+
+		if (!'api' == $opts['suite'])
+		{
+			$this->killSelenium();
+		}
+	}
+
+	/**
+	 * Function to Run tests in a Group
+	 *
+	 * @return void
+	 */
+	public function runTests($use_htaccess = 0)
+	{
+		$this->prepareSiteForSystemTests($use_htaccess);
+
+		$this->getComposer();
+
+		$this->taskComposerInstall()->run();
+
+//		$this->runSelenium();
+
+		$this->taskSeleniumStandaloneServer()
+			->setURL("http://localhost:4444")
+			->runSelenium()
+			->waitForSelenium()
+			->run()
+			->stopOnFail();
+
+		// Make sure to Run the B uild Command to Generate AcceptanceTester
+		$this->_exec("vendor/bin/codecept build");
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/install/')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/administrator/')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/ManageProductsCheckoutFrontEndCest.php')
+			->run()
+			->stopOnFail();
+
+		/*
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/checkout/')
+			->run();
+			// ->stopOnFail();
 		*/
+
+		$this->taskCodecept()
+			//  ->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/uninstall/')
+			->run()
+			->stopOnFail();
+
+		/* @todo: REDSHOP-2884
+		 * $this->say('preparing for update test');
+		 * $this->getDevelop();
+		 * $this->taskCodecept()
+		 * ->arg('--steps')
+		 * ->arg('--debug')
+		 * ->arg('--fail-fast')
+		 * ->arg('tests/acceptance/update/')
+		 * ->run()
+		 * ->stopOnFail();
+		 */
 
 		$this->killSelenium();
 	}
@@ -377,80 +463,80 @@ class RoboFile extends \Robo\Tasks
 		$this->_exec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &");
 	}
 
-		public function sendScreenshotFromTravisToGithub($cloudName, $apiKey, $apiSecret, $GithubToken, $repoOwner, $repo, $pull)
-		{
-			$errorSelenium = true;
-			$reportError = false;
-			$reportFile = 'tests/selenium.log';
-			$body = 'Selenium log:' . chr(10). chr(10);
+	public function sendScreenshotFromTravisToGithub($cloudName, $apiKey, $apiSecret, $GithubToken, $repoOwner, $repo, $pull)
+	{
+		$errorSelenium = true;
+		$reportError   = false;
+		$reportFile    = 'tests/selenium.log';
+		$body          = 'Selenium log:' . chr(10) . chr(10);
 
-			// Loop throught Codeception snapshots
-			if (file_exists('tests/_output') && $handler = opendir('tests/_output'))
+		// Loop throught Codeception snapshots
+		if (file_exists('tests/_output') && $handler = opendir('tests/_output'))
+		{
+			$reportFile    = 'tests/_output/report.tap.log';
+			$body          = 'Codeception tap log:' . chr(10) . chr(10);
+			$errorSelenium = false;
+		}
+
+		if (file_exists($reportFile))
+		{
+			if ($reportFile)
 			{
-				$reportFile = 'tests/_output/report.tap.log';
-				$body = 'Codeception tap log:' . chr(10). chr(10);
-				$errorSelenium = false;
+				$body .= file_get_contents($reportFile, null, null, 15);
 			}
 
-			if (file_exists($reportFile))
+			if (!$errorSelenium)
 			{
-				if ($reportFile)
-				{
-					$body .= file_get_contents($reportFile, null, null, 15);
-				}
+				$handler = opendir('tests/_output');
 
-				if (!$errorSelenium)
+				while (false !== ($errorSnapshot = readdir($handler)))
 				{
-					$handler = opendir('tests/_output');
-
-					while (false !== ($errorSnapshot = readdir($handler)))
+					// Avoid sending system files or html files
+					if (!('png' === pathinfo($errorSnapshot, PATHINFO_EXTENSION)))
 					{
-						// Avoid sending system files or html files
-						if (!('png' === pathinfo($errorSnapshot, PATHINFO_EXTENSION)))
-						{
-							continue;
-						}
-
-						$reportError = true;
-						$this->say("Uploading screenshots: $errorSnapshot");
-
-						Cloudinary::config(
-							array(
-								'cloud_name' => $cloudName,
-								'api_key'    => $apiKey,
-								'api_secret' => $apiSecret
-							)
-						);
-
-						$result = \Cloudinary\Uploader::upload(realpath(dirname(__FILE__) . '/tests/_output/' . $errorSnapshot));
-						$this->say($errorSnapshot . 'Image sent');
-						$body .= '![Screenshot](' . $result['secure_url'] . ')';
+						continue;
 					}
-				}
 
-				// If it's a Selenium error log, it prints it in the regular output
-				if ($errorSelenium)
-				{
-					$this->say($body);
-				}
+					$reportError = true;
+					$this->say("Uploading screenshots: $errorSnapshot");
 
-				// If it needs to, it creates the error log in a Github comment
-				if ($reportError)
-				{
-					$this->say('Creating Github issue');
-					$client = new \Github\Client;
-					$client->authenticate($GithubToken, \Github\Client::AUTH_HTTP_TOKEN);
-					$client
-						->api('issue')
-						->comments()->create(
-							$repoOwner, $repo, $pull,
-							array(
-								'body'  => $body
-							)
-						);
+					Cloudinary::config(
+						array(
+							'cloud_name' => $cloudName,
+							'api_key'    => $apiKey,
+							'api_secret' => $apiSecret
+						)
+					);
+
+					$result = \Cloudinary\Uploader::upload(realpath(dirname(__FILE__) . '/tests/_output/' . $errorSnapshot));
+					$this->say($errorSnapshot . 'Image sent');
+					$body .= '![Screenshot](' . $result['secure_url'] . ')';
 				}
+			}
+
+			// If it's a Selenium error log, it prints it in the regular output
+			if ($errorSelenium)
+			{
+				$this->say($body);
+			}
+
+			// If it needs to, it creates the error log in a Github comment
+			if ($reportError)
+			{
+				$this->say('Creating Github issue');
+				$client = new \Github\Client;
+				$client->authenticate($GithubToken, \Github\Client::AUTH_HTTP_TOKEN);
+				$client
+					->api('issue')
+					->comments()->create(
+						$repoOwner, $repo, $pull,
+						array(
+							'body' => $body
+						)
+					);
 			}
 		}
+	}
 
 	private function getDevelop()
 	{
@@ -464,100 +550,100 @@ class RoboFile extends \Robo\Tasks
 		$this->say('Downloaded Develop Branch for Update test');
 	}
 
-		/**
-		 * Check if local OS is Windows
-		 *
-		 * @return bool
-		 */
-		private function isWindows()
+	/**
+	 * Check if local OS is Windows
+	 *
+	 * @return bool
+	 */
+	private function isWindows()
+	{
+		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+	}
+
+	/**
+	 * Get the correct CMS root path
+	 *
+	 * @return string
+	 */
+	private function getCmsPath()
+	{
+		if (empty($this->configuration->cmsPath))
 		{
-			return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+			return 'tests/joomla-cms3';
 		}
 
-		/**
-		 * Get the correct CMS root path
-		 *
-		 * @return string
-		 */
-		private function getCmsPath()
+		if (!file_exists(dirname($this->configuration->cmsPath)))
 		{
-			if (empty($this->configuration->cmsPath))
-			{
-				return 'tests/joomla-cms3';
-			}
+			$this->say("Cms path written in local configuration does not exists or is not readable");
 
-			if (!file_exists(dirname($this->configuration->cmsPath)))
-			{
-				$this->say("Cms path written in local configuration does not exists or is not readable");
-
-				return 'tests/joomla-cms3';
-			}
-
-			return $this->configuration->cmsPath;
+			return 'tests/joomla-cms3';
 		}
 
-		/**
-		 * Get the executable extension according to Operating System
-		 *
-		 * @return void
-		 */
-		private function getExecutableExtension()
-		{
-			if ($this->isWindows())
-			{
-				// Check whether git.exe or git as command should be used, as on windows both are possible
-				if (!$this->_exec('git.exe --version')->getMessage())
-				{
-					return '';
-				}
-				else
-				{
-					return '.exe';
-				}
-			}
+		return $this->configuration->cmsPath;
+	}
 
-			return '';
+	/**
+	 * Get the executable extension according to Operating System
+	 *
+	 * @return void
+	 */
+	private function getExecutableExtension()
+	{
+		if ($this->isWindows())
+		{
+			// Check whether git.exe or git as command should be used, as on windows both are possible
+			if (!$this->_exec('git.exe --version')->getMessage())
+			{
+				return '';
+			}
+			else
+			{
+				return '.exe';
+			}
 		}
 
-		/**
-		 * Get (optional) configuration from an external file
-		 *
-		 * @return \stdClass|null
-		 */
-		public function getConfiguration()
+		return '';
+	}
+
+	/**
+	 * Get (optional) configuration from an external file
+	 *
+	 * @return \stdClass|null
+	 */
+	public function getConfiguration()
+	{
+		$configurationFile = __DIR__ . '/tests/RoboFile.ini';
+
+		if (!file_exists($configurationFile))
 		{
-			$configurationFile = __DIR__ . '/tests/RoboFile.ini';
+			$this->say("No local configuration file");
 
-			if (!file_exists($configurationFile))
-			{
-				$this->say("No local configuration file");
-
-				return null;
-			}
-
-			$configuration = parse_ini_file($configurationFile);
-
-			if ($configuration === false)
-			{
-				$this->say('Local configuration file is empty or wrong (check is it in correct .ini format');
-
-				return null;
-			}
-
-			return json_decode(json_encode($configuration));
+			return null;
 		}
 
-		/**
-		 * Build correct git clone command according to local configuration and OS
-		 *
-		 * @return string
-		 */
-		private function buildGitCloneCommand()
-		{
-			$branch = empty($this->configuration->branch) ? 'staging' : $this->configuration->branch;
+		$configuration = parse_ini_file($configurationFile);
 
-			return "git" . $this->executableExtension . " clone -b $branch --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/cache";
+		if ($configuration === false)
+		{
+			$this->say('Local configuration file is empty or wrong (check is it in correct .ini format');
+
+			return null;
 		}
+
+		return json_decode(json_encode($configuration));
+	}
+
+	/**
+	 * Build correct git clone command according to local configuration and OS
+	 *
+	 * @return string
+	 */
+	private function buildGitCloneCommand()
+	{
+		$branch = empty($this->configuration->branch) ? 'staging' : $this->configuration->branch;
+
+		return "git" . $this->executableExtension . " clone -b $branch --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/cache";
+	}
 
 	/**
 	 * Looks for missed debug code like var_dump or console.log

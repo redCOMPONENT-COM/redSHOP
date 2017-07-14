@@ -27,15 +27,15 @@ JLoader::import('redshop.library');
  */
 class Plgredshop_Shippingbring extends JPlugin
 {
-    public $payment_code = "bring";
+	public $payment_code = "bring";
 
-    public $classname = "bring";
+	public $classname = "bring";
 
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object &$subject   The object to observe
+	 * @param   array  $config     An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
 	 */
@@ -50,7 +50,7 @@ class Plgredshop_Shippingbring extends JPlugin
 	/**
 	 * onShowconfig
 	 *
-	 * @param   object  $ps  Values
+	 * @param   object $ps Values
 	 *
 	 * @return bool
 	 */
@@ -58,69 +58,69 @@ class Plgredshop_Shippingbring extends JPlugin
 	{
 		if ($ps->element == $this->classname)
 		{
-			$ArrExlode = explode(',', BRING_SERVICE);
+			$ArrExlode    = explode(',', BRING_SERVICE);
 			$bringService = array(
-				'SERVICEPAKKE' => 'SERVICEPAKKE',
-				'A-POST' => 'A-POST',
-				'B-POST' => 'B-POST',
-				'PA_DOREN' => 'PA_DOREN',
+				'SERVICEPAKKE'   => 'SERVICEPAKKE',
+				'A-POST'         => 'A-POST',
+				'B-POST'         => 'B-POST',
+				'PA_DOREN'       => 'PA_DOREN',
 				'BPAKKE_DOR-DOR' => 'BPAKKE_DOR-DOR',
-				'EKSPRESS09' => 'EKSPRESS09'
+				'EKSPRESS09'     => 'EKSPRESS09'
 			);
 			?>
-			<table class="admintable table table-striped">
-				<tr class="row0">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_USERCODE_LBL') ?></strong></td>
-					<td><input type="text" name="BRING_USERCODE" class="inputbox" value="<?php echo BRING_USERCODE ?>"/>
-					</td>
-				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_SERVER_LBL') ?></strong></td>
-					<td><input type="text" name="BRING_SERVER" class="inputbox" value="<?php echo BRING_SERVER ?>"/>
-					</td>
-				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_PATH_LBL') ?></strong></td>
-					<td><input type="text" name="BRING_PATH" class="inputbox" value="<?php echo BRING_PATH ?>"/></td>
-				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_ZIPCODE_FROM_LBL') ?></strong></td>
-					<td><input type="text" name="BRING_ZIPCODE_FROM" class="inputbox"
-					           value="<?php echo BRING_ZIPCODE_FROM ?>"/></td>
-				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_PRICE_SHOW_WITHVAT_LBL') ?></strong></td>
-					<td>
+            <table class="admintable table table-striped">
+                <tr class="row0">
+                    <td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_USERCODE_LBL') ?></strong></td>
+                    <td><input type="text" name="BRING_USERCODE" class="inputbox" value="<?php echo BRING_USERCODE ?>"/>
+                    </td>
+                </tr>
+                <tr class="row1">
+                    <td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_SERVER_LBL') ?></strong></td>
+                    <td><input type="text" name="BRING_SERVER" class="inputbox" value="<?php echo BRING_SERVER ?>"/>
+                    </td>
+                </tr>
+                <tr class="row1">
+                    <td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_PATH_LBL') ?></strong></td>
+                    <td><input type="text" name="BRING_PATH" class="inputbox" value="<?php echo BRING_PATH ?>"/></td>
+                </tr>
+                <tr class="row1">
+                    <td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_ZIPCODE_FROM_LBL') ?></strong></td>
+                    <td><input type="text" name="BRING_ZIPCODE_FROM" class="inputbox"
+                               value="<?php echo BRING_ZIPCODE_FROM ?>"/></td>
+                </tr>
+                <tr class="row1">
+                    <td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_PRICE_SHOW_WITHVAT_LBL') ?></strong></td>
+                    <td>
 						<?php echo JHtml::_('redshopselect.booleanlist', 'BRING_PRICE_SHOW_WITHVAT', '', BRING_PRICE_SHOW_WITHVAT); ?>
-					</td>
-				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_PRICE_SHOW_SHORT_DESC_LBL') ?></strong></td>
-					<td>
+                    </td>
+                </tr>
+                <tr class="row1">
+                    <td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_PRICE_SHOW_SHORT_DESC_LBL') ?></strong></td>
+                    <td>
 						<?php echo JHtml::_('redshopselect.booleanlist', 'BRING_PRICE_SHOW_SHORT_DESC', '', BRING_PRICE_SHOW_SHORT_DESC); ?>
-					</td>
-				</tr>
-				<tr class="row1">
-					<td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_PRICE_SHOW_DESC_LBL') ?></strong></td>
-					<td>
+                    </td>
+                </tr>
+                <tr class="row1">
+                    <td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_PRICE_SHOW_DESC_LBL') ?></strong></td>
+                    <td>
 						<?php echo JHtml::_('redshopselect.booleanlist', 'BRING_PRICE_SHOW_DESC', '', BRING_PRICE_SHOW_DESC); ?>
-					</td>
-				</tr>
-				<tr class="row1">
-					<td>
-						<strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_USE_SHIPPING_BOX_LBL') ?></strong></td>
-					<td>
+                    </td>
+                </tr>
+                <tr class="row1">
+                    <td>
+                        <strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_USE_SHIPPING_BOX_LBL') ?></strong></td>
+                    <td>
 						<?php echo JHtml::_('redshopselect.booleanlist', 'BRING_USE_SHIPPING_BOX', '', BRING_USE_SHIPPING_BOX); ?>
-					</td>
-				</tr>
-				<tr class="row1">
-					<td>
-						<strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_SERVICE_LBL') ?></strong></td>
-					<td>
+                    </td>
+                </tr>
+                <tr class="row1">
+                    <td>
+                        <strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_SERVICE_LBL') ?></strong></td>
+                    <td>
 						<?php echo JHtml::_('select.genericlist', $bringService, 'BRING_SERVICE[]', 'multiple="multiple"', 'value', 'text', $ArrExlode); ?>
-					</td>
-				</tr>
-			</table>
+                    </td>
+                </tr>
+            </table>
 			<?php
 			return true;
 		}
@@ -129,7 +129,7 @@ class Plgredshop_Shippingbring extends JPlugin
 	/**
 	 * onWriteconfig
 	 *
-	 * @param   array  $d  Values
+	 * @param   array $d Values
 	 *
 	 * @return bool
 	 */
@@ -176,29 +176,28 @@ class Plgredshop_Shippingbring extends JPlugin
 	/**
 	 * onListRates
 	 *
-	 * @param   array  &$d  Values
+	 * @param   array &$d Values
 	 *
 	 * @return array
 	 */
 	public function onListRates(&$d)
 	{
 		$shippinghelper = shipping::getInstance();
-		$producthelper = productHelper::getInstance();
-		$currency = CurrencyHelper::getInstance();
-		$redconfig = Redconfiguration::getInstance();
+		$producthelper  = productHelper::getInstance();
+		$redconfig      = Redconfiguration::getInstance();
 
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		include_once JPATH_ROOT . '/plugins/redshop_shipping/' . $this->classname . '/' . $this->classname . '.cfg.php';
 
 		$shippingrate = array();
-		$rate = 0;
+		$rate         = 0;
 
 		// Conversation of weight ( ration )
-		$unitRatio = $producthelper->getUnitConversation('gram', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+		$unitRatio       = $producthelper->getUnitConversation('gram', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
 		$unitRatioVolume = $producthelper->getUnitConversation('inch', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
 
 		$totaldimention = $shippinghelper->getCartItemDimention();
-		$order_weight = $totaldimention['totalweight'];
+		$order_weight   = $totaldimention['totalweight'];
 
 		if ($unitRatio != 0)
 		{
@@ -219,22 +218,22 @@ class Plgredshop_Shippingbring extends JPlugin
 		}
 		else
 		{
-			$whereShippingBoxes = array();
-			$productData = $shippinghelper->getProductVolumeShipping();
+			$whereShippingBoxes               = array();
+			$productData                      = $shippinghelper->getProductVolumeShipping();
 			$whereShippingBoxes['box_length'] = $productData[2]['length'];
-			$whereShippingBoxes['box_width'] = $productData[1]['width'];
+			$whereShippingBoxes['box_width']  = $productData[1]['width'];
 			$whereShippingBoxes['box_height'] = $productData[0]['height'];
 		}
 
 		$shipping_length = $totaldimention['totallength'];
 		$shipping_height = $totaldimention['totalheight'];
-		$shipping_width = $totaldimention['totalwidth'];
+		$shipping_width  = $totaldimention['totalwidth'];
 		$shipping_volume = $totaldimention['totalvolume'];
 
 		if (is_array($whereShippingBoxes) && count($whereShippingBoxes) > 0 && $unitRatioVolume > 0)
 		{
 			$shipping_length = (int) ($whereShippingBoxes['box_length'] * $unitRatioVolume);
-			$shipping_width = (int) ($whereShippingBoxes['box_width'] * $unitRatioVolume);
+			$shipping_width  = (int) ($whereShippingBoxes['box_width'] * $unitRatioVolume);
 			$shipping_height = (int) ($whereShippingBoxes['box_height'] * $unitRatioVolume);
 		}
 
@@ -280,10 +279,10 @@ class Plgredshop_Shippingbring extends JPlugin
 			$query .= '&weightInGrams=' . $shipping_gram;
 		}
 
-		$query .= '&length=' . $shipping_length;
-		$query .= '&width=' . $shipping_width;
-		$query .= '&height=' . $shipping_height;
-		$query .= '&volume=' . $shipping_volume;
+		$query  .= '&length=' . $shipping_length;
+		$query  .= '&width=' . $shipping_width;
+		$query  .= '&height=' . $shipping_height;
+		$query  .= '&volume=' . $shipping_volume;
 		$xmlDoc = false;
 
 		// Using cURL is Up-To-Date and easier!!
@@ -297,7 +296,7 @@ class Plgredshop_Shippingbring extends JPlugin
 			curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
 
 			$xmlResult = curl_exec($CR);
-			$error = curl_error($CR);
+			$error     = curl_error($CR);
 
 			if (!empty($error))
 			{
@@ -323,7 +322,7 @@ class Plgredshop_Shippingbring extends JPlugin
 
 		foreach ($xmlDoc->Product as $oneProduct)
 		{
-			$bringProduct = new stdClass;
+			$bringProduct             = new stdClass;
 			$bringProduct->product_id = (string) $oneProduct->ProductId;
 
 			if ((string) $oneProduct->GuiInformation->ProductName)
@@ -345,12 +344,12 @@ class Plgredshop_Shippingbring extends JPlugin
 				$bringProduct->product_desc1 = (string) $oneProduct->GuiInformation->HelpText;
 			}
 
-			$attributePrice = $oneProduct->Price->attributes();
+			$attributePrice                           = $oneProduct->Price->attributes();
 			$bringProduct->currencyidentificationcode = (string) $attributePrice['currencyIdentificationCode'];
-			$bringProduct->AmountWithoutVAT = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithoutVAT;
-			$bringProduct->AmountWithVAT = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithVAT;
-			$bringProduct->VAT = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->VAT;
-			$bringProduct->delivery = (string) $oneProduct->ExpectedDelivery->WorkingDays;
+			$bringProduct->AmountWithoutVAT           = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithoutVAT;
+			$bringProduct->AmountWithVAT              = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithVAT;
+			$bringProduct->VAT                        = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->VAT;
+			$bringProduct->delivery                   = (string) $oneProduct->ExpectedDelivery->WorkingDays;
 
 			$bring_products[] = $bringProduct;
 		}
@@ -363,40 +362,40 @@ class Plgredshop_Shippingbring extends JPlugin
 
 			if (in_array($product_id, $ArrExlode))
 			{
-				$AmountWithoutVAT = $bringProduct->AmountWithoutVAT;
-				$AmountVAT = $bringProduct->VAT;
-				$product_name = $bringProduct->product_name;
+				$AmountWithoutVAT           = $bringProduct->AmountWithoutVAT;
+				$AmountVAT                  = $bringProduct->VAT;
+				$product_name               = $bringProduct->product_name;
 				$currencyidentificationcode = $bringProduct->currencyidentificationcode;
 
 				// Convert NOK currency to site currency
-				$Displaycost = $currency->convert($AmountWithoutVAT, $currencyidentificationcode);
-				$cost = $currency->convert($AmountWithoutVAT, $currencyidentificationcode);
-				$vat = $currency->convert($AmountVAT, $currencyidentificationcode);
+				$Displaycost = RedshopHelperCurrency::convert($AmountWithoutVAT, $currencyidentificationcode);
+				$cost        = RedshopHelperCurrency::convert($AmountWithoutVAT, $currencyidentificationcode);
+				$vat         = RedshopHelperCurrency::convert($AmountVAT, $currencyidentificationcode);
 
 				if (BRING_PRICE_SHOW_WITHVAT)
 				{
-					$Displaycost = $currency->convert($bringProduct->AmountWithVAT, $currencyidentificationcode);
+					$Displaycost = RedshopHelperCurrency::convert($bringProduct->AmountWithVAT, $currencyidentificationcode);
 				}
 
 				$shipping_rate_id = RedshopShippingRate::encrypt(
-									array(
-										__CLASS__ ,
-										$shipping->name ,
-										$product_name ,
-										number_format($cost + $vat, 2, '.', '') ,
-										$product_name ,
-										'single',
-										'0'
-									)
-								);
+					array(
+						__CLASS__,
+						$shipping->name,
+						$product_name,
+						number_format($cost + $vat, 2, '.', ''),
+						$product_name,
+						'single',
+						'0'
+					)
+				);
 
-				$shippingrate[$rate] = new stdClass;
-				$shippingrate[$rate]->text = $product_name;
-				$shippingrate[$rate]->value = $shipping_rate_id;
-				$shippingrate[$rate]->rate = $Displaycost;
-				$shippingrate[$rate]->vat = $vat;
+				$shippingrate[$rate]            = new stdClass;
+				$shippingrate[$rate]->text      = $product_name;
+				$shippingrate[$rate]->value     = $shipping_rate_id;
+				$shippingrate[$rate]->rate      = $Displaycost;
+				$shippingrate[$rate]->vat       = $vat;
 				$shippingrate[$rate]->shortdesc = (BRING_PRICE_SHOW_SHORT_DESC) ? $bringProduct->product_desc : '';
-				$shippingrate[$rate]->desc = (BRING_PRICE_SHOW_DESC) ? $bringProduct->product_desc1 : '';
+				$shippingrate[$rate]->desc      = (BRING_PRICE_SHOW_DESC) ? $bringProduct->product_desc1 : '';
 				$rate++;
 			}
 		}

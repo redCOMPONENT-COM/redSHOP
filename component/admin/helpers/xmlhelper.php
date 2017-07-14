@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -579,15 +579,20 @@ class xmlHelper
 
 					for ($j = 0, $jn = count($prdextrafieldlist); $j < $jn; $j++)
 					{
-						$xml_prdextradocument .= "<$xmlexportdata->prdextrafield_element_name>";
+						$xml_prdextradocument .= "<" . $prdextrafieldlist[$j]->name . ">";
 
 						while (list($prop, $val) = each($prdextrafieldlist[$j]))
 						{
+							if ($prop == 'name')
+							{
+								continue;
+							}
+
 							$val = html_entity_decode($val);
 							$xml_prdextradocument .= "<$prop><![CDATA[$val]]></$prop>";
 						}
 
-						$xml_prdextradocument .= "</$xmlexportdata->prdextrafield_element_name>";
+						$xml_prdextradocument .= "</" . $prdextrafieldlist[$j]->name . ">";
 					}
 
 					$xml_prdextradocument .= "</" . $xmlexportdata->prdextrafield_element_name . "s>";
@@ -1054,7 +1059,7 @@ class xmlHelper
 
 		$destpath = JPATH_SITE . "/components/com_redshop/assets/xmlfile/import/";
 
-		if (($xmlimportdata->filename == "" || !is_file($destpath . $xmlimportdata->filename)) && $xmlimportdata->published == 0)
+		if (($xmlimportdata->filename == "" || !JFile::exists($destpath . $xmlimportdata->filename)) && $xmlimportdata->published == 0)
 		{
 			return false;
 		}
@@ -1945,67 +1950,68 @@ class xmlHelper
 		return $list;
 	}
 
-	public function getStockroomList($xmlarray = array(), $product_id = 0)
+	public function getStockroomList($xmls = array(), $product_id = 0)
 	{
+		if (empty($xmls))
+		{
+			return array();
+		}
+
 		$list = array();
 		$field = array();
 		$strfield = "";
 
-		if (count($xmlarray) > 0)
+		foreach ($xmls AS $key => $value)
 		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				$field[] = $key . " AS " . $value;
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . " FROM " . $this->_table_prefix . "stockroom AS s "
-					. "LEFT JOIN " . $this->_table_prefix . "product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
-					. "WHERE product_id=" . (int) $product_id . " "
-					. "ORDER BY s.stockroom_id ASC ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectList();
-			}
+			$field[] = $key . " AS " . $value;
 		}
 
-		return $list;
+		if (empty($field))
+		{
+			return array();
+		}
+
+		$query = "SELECT " . implode(", ", $field) . " FROM " . $this->_table_prefix . "stockroom AS s "
+			. "LEFT JOIN " . $this->_table_prefix . "product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
+			. "WHERE product_id=" . (int) $product_id . " "
+			. "ORDER BY s.stockroom_id ASC ";
+		$this->_db->setQuery($query);
+
+		return $this->_db->loadObjectList();
 	}
 
-	public function getExtraFieldList($xmlarray = array(), $section_id = 0, $fieldsection = 0)
+	public function getExtraFieldList($xmls = array(), $section_id = 0, $fieldsection = 0)
 	{
-		$list = array();
-		$field = array();
-		$strfield = "";
-
-		if (count($xmlarray) > 0)
+		if (empty($xmls))
 		{
-			foreach ($xmlarray AS $key => $value)
-			{
-				$field[] = $key . " AS " . $value;
-			}
-
-			if (count($field) > 0)
-			{
-				$strfield = implode(", ", $field);
-			}
-
-			if ($strfield != "")
-			{
-				$query = "SELECT " . $strfield . " FROM " . $this->_table_prefix . "fields_data "
-					. "WHERE itemid=" . (int) $section_id . " "
-					. "AND section=" . (int) $fieldsection . " ";
-				$this->_db->setQuery($query);
-				$list = $this->_db->loadObjectList();
-			}
+			return array();
 		}
 
-		return $list;
+		$db       = JFactory::getDbo();
+		$list     = array();
+		$field    = array();
+
+		foreach ($xmls AS $key => $value)
+		{
+			$field[] = $db->qn($key, $value);
+		}
+
+		if (empty($field))
+		{
+			return array();
+		}
+
+		$query = $db->getQuery(true)
+			->select($field)
+			->select($db->qn('f.name', 'name'))
+			->from($db->qn('#__redshop_fields_data', 'fd'))
+			->innerjoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.id')
+			->where($db->qn('fd.itemid') . ' = ' . (int) $section_id)
+			->where($db->qn('fd.section') . ' = ' . (int) $fieldsection);
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
 	}
 
 	public function importRemoteImage($src, $dest)

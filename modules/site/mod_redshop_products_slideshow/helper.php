@@ -155,7 +155,7 @@ class RedshopProductSlideshow
 			->select('DISTINCT(p.product_id)')
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'x') . ' ON x.product_id = p.product_id')
-			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.category_id = x.category_id')
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.id = x.category_id')
 			->where('p.published = 1')
 			->where('c.published = 1');
 
@@ -223,7 +223,7 @@ class RedshopProductSlideshow
 			}
 			else
 			{
-				$Itemid = $redhelper->getItemid($rows[$k]->product_id);
+				$Itemid = RedshopHelperUtility::getItemId($rows[$k]->product_id);
 			}
 
 			if ($params->get('show_price') == "yes")
@@ -256,7 +256,7 @@ class RedshopProductSlideshow
 			$curr_link = JRoute::_('index.php?option=com_redshop&amp;view=product&amp;pid=' . $rows[$k]->product_id . '&amp;Itemid=' . $Itemid, true);
 			$pname = $rows[$k]->product_name;
 
-			if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $rows[$k]->product_full_image))
+			if (!JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $rows[$k]->product_full_image))
 			{
 				$imgpath = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
 			}

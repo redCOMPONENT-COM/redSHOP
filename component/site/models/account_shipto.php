@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -123,10 +123,8 @@ class RedshopModelAccount_shipto extends RedshopModel
 
 	public function store($post)
 	{
-		$userhelper = rsUserHelper::getInstance();
-
 		$post['user_email'] = $post['email1'] = $post['email'];
-		$reduser            = $userhelper->storeRedshopUserShipping($post);
+		$reduser            = RedshopHelperUser::storeRedshopUserShipping($post);
 
 		return $reduser;
 	}

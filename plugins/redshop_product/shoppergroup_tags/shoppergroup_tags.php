@@ -27,54 +27,41 @@ class PlgRedshop_ProductShopperGroup_Tags extends JPlugin
 	 * @param   object  &$params    The product params
 	 * @param   object  $product    The product object
 	 *
-	 * @return  null
+	 * @return  void
 	 */
 	public function onPrepareProduct(&$template, &$params, $product)
 	{
-		$app               = JFactory::getApplication();
-		$user              = JFactory::getUser();
-		$user_id           = $user->id;
-		$rsUserhelper      = rsUserHelper::getInstance();
+		$this->stripShopperGroupTags($template);
+	}
 
-		$shopperGroupId    = $rsUserhelper->getShopperGroup($user_id);
-		$shopperGroupdata  = $rsUserhelper->getShopperGroupList($shopperGroupId);
-		$shoppergroup_name = $shopperGroupdata[0]->shopper_group_name;
-
-		$start_shoppergroup = $this->getStringPosition($template, '{if shoppergroup::');
-		$end_shoppergroup   = $this->getStringPosition($template, '{shoppergroup end if}');
-
-		if (count($start_shoppergroup) == count($end_shoppergroup) && count($start_shoppergroup) > 0 && count($end_shoppergroup) > 0)
+	/**
+	 * Event run before replace data in "Cart" template.
+	 * Called in view "Cart" and "Checkout"
+	 *
+	 * @param   string  &$cartTemplate  The Cart Template Data.
+	 * @param   array   $cart           Cart data.
+	 *
+	 * @return  void
+	 */
+	public function onStartCartTemplateReplace(&$cartTemplate, $cart)
+	{
+		// Separate html code for {product_loop_start} and {product_loop_end}
+		if (strpos($cartTemplate, '{product_loop_start}') !== false && strpos($cartTemplate, '{product_loop_end}') !== true)
 		{
-			for ($r = 0, $rn = count($start_shoppergroup); $r < $rn; $r++)
-			{
-				$main_substr = substr($template, $start_shoppergroup[$r], ($end_shoppergroup[$r] - $start_shoppergroup[$r]));
-				$main_substr_pos = strpos($main_substr, "::");
-				$main_substr_pos_next = strpos($main_substr, "}", $main_substr_pos);
-				$main_substr_blog = substr($main_substr, ($main_substr_pos + 2), ($main_substr_pos_next - ($main_substr_pos + 2)));
-				$main_substr_blog_exp = explode(",", $main_substr_blog);
+			$tempContent = explode('{product_loop_start}', $cartTemplate);
+			$preContent = (count($tempContent) > 1) ? $tempContent[0] : '';
+			$tempContent = $tempContent[count($tempContent) - 1];
+			$tempContent = explode('{product_loop_end}', $tempContent);
+			$subTemplate = $tempContent[0];
+			$postContent = (count($tempContent) > 1) ? $tempContent[count($tempContent) - 1] : '';
 
-				if (count($main_substr_blog_exp) > 0)
-				{
-					$main_string1 = "{if shoppergroup::" . $main_substr_blog . "}";
-					$main_string_sp1 = explode($main_string1, $main_substr);
+			// Strip tags for sub-template of Product Loops
+			$this->stripShopperGroupTags($subTemplate);
 
-					if (in_array($shoppergroup_name, $main_substr_blog_exp))
-					{
-						$string_main1 = "{if shoppergroup::" . $main_substr_blog . "}";
-						$template = str_replace($string_main1, "", $template);
-					}
-					else
-					{
-						$string_main1 = "{if shoppergroup::" . $main_substr_blog . "}" . $main_string_sp1[1] . "{shoppergroup end if}";
-						$template = str_replace($string_main1, "", $template);
-					}
-				}
-			}
-
-			$template = str_replace("{shoppergroup end if}", "", $template);
+			$cartTemplate = $preContent . '{product_loop_start}' . $subTemplate . '{product_loop_end}' . $postContent;
 		}
 
-		return;
+		$this->stripShopperGroupTags($cartTemplate);
 	}
 
 	/**
@@ -83,7 +70,7 @@ class PlgRedshop_ProductShopperGroup_Tags extends JPlugin
 	 * @param   string  $haystack  Haystack scope
 	 * @param   string  $needle    Needle to match string
 	 *
-	 * @return  integer  String position
+	 * @return  array              String position
 	 */
 	protected function getStringPosition($haystack, $needle)
 	{
@@ -97,9 +84,107 @@ class PlgRedshop_ProductShopperGroup_Tags extends JPlugin
 		while ($seek = strrpos($haystack, $needle))
 		{
 			array_push($seeks, $seek);
+
 			$haystack = substr($haystack, 0, $seek);
 		}
 
 		return $seeks;
+	}
+
+	/**
+	 * Method for strip HTML template code on specific shopper groups
+	 *
+	 * @param   string  &$template  Template HTML code.
+	 *
+	 * @return  void
+	 *
+	 * @since  1.6.0
+	 */
+	protected function stripShopperGroupTags(&$template)
+	{
+		$shopperGroupId   = RedshopHelperUser::getShopperGroup(JFactory::getUser()->id);
+		$shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
+		$shopperGroupName = $shopperGroupData[0]->shopper_group_name;
+
+		$startShopperGroups = $this->getStringPosition($template, '{if shoppergroup::');
+		$endShopperGroups   = $this->getStringPosition($template, '{shoppergroup end if}');
+
+		// Get ShopperGroup parents
+		$shopperGroupNames = array();
+
+		if (!empty($shopperGroupData[0]->parent_id))
+		{
+			$this->getShoppergroup($shopperGroupNames, $shopperGroupData[0]->parent_id);
+		}
+
+		if (empty($startShopperGroups) || empty($endShopperGroups) || count($startShopperGroups) != count($endShopperGroups))
+		{
+			return;
+		}
+
+		for ($r = 0, $rn = count($startShopperGroups); $r < $rn; $r++)
+		{
+			$main_substr = substr($template, $startShopperGroups[$r], ($endShopperGroups[$r] - $startShopperGroups[$r]));
+			$main_substr_pos = strpos($main_substr, "::");
+			$main_substr_pos_next = strpos($main_substr, "}", $main_substr_pos);
+			$main_substr_blog = substr($main_substr, ($main_substr_pos + 2), ($main_substr_pos_next - ($main_substr_pos + 2)));
+			$main_substr_blog_exp = explode(",", $main_substr_blog);
+			$main_substr_blog_exp = array_map('trim', $main_substr_blog_exp);
+
+			if (empty($main_substr_blog_exp))
+			{
+				continue;
+			}
+
+			$main_string1 = "{if shoppergroup::" . $main_substr_blog . "}";
+			$main_string_sp1 = explode($main_string1, $main_substr);
+			$hasParentShopperGroups = array_intersect($shopperGroupNames, $main_substr_blog_exp);
+			$hasParentShopperGroups = !empty($hasParentShopperGroups);
+
+			if (in_array($shopperGroupName, $main_substr_blog_exp) || $hasParentShopperGroups)
+			{
+				$string_main1 = "{if shoppergroup::" . $main_substr_blog . "}";
+				$template = str_replace($string_main1, "", $template);
+			}
+			else
+			{
+				$string_main1 = "{if shoppergroup::" . $main_substr_blog . "}" . $main_string_sp1[1] . "{shoppergroup end if}";
+				$template = str_replace($string_main1, "", $template);
+			}
+		}
+
+		$template = str_replace("{shoppergroup end if}", "", $template);
+	}
+
+	/**
+	 * Method for prepare an list of shopper names with parent-child relation
+	 *
+	 * @param   array  &$shoppergroupNames  List of shopper group names with Reference.
+	 * @param   int    $shopperGroupId      ID of shopper group
+	 *
+	 * @return  void
+	 *
+	 * @since  1.6.0
+	 */
+	protected function getShoppergroup(&$shoppergroupNames, $shopperGroupId = 0)
+	{
+		if (!$shopperGroupId)
+		{
+			return;
+		}
+
+		$shopperGroupData = Redshop\Helper\ShopperGroup::generateList($shopperGroupId);
+
+		if (empty($shopperGroupData))
+		{
+			return;
+		}
+
+		$shoppergroupNames[] = $shopperGroupData[0]->shopper_group_name;
+
+		if (!empty($shopperGroupData[0]->parent_id))
+		{
+			$this->getShoppergroup($shopperGroupData[0]->parent_id, $shoppergroupNames);
+		}
 	}
 }

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,7 +46,7 @@ class RedshopModelWishlist extends RedshopModel
 	 *
 	 * @return  bool|mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperWishlist::getUserWishlist() instead.
+	 * @deprecated  2.0.3  Use RedshopHelperWishlist::getUserWishlist() instead.
 	 */
 	public function getUserWishlist()
 	{
@@ -57,53 +57,59 @@ class RedshopModelWishlist extends RedshopModel
 	{
 		$user = JFactory::getUser();
 		$db   = JFactory::getDbo();
+		$session = JFactory::getSession();
 
 		if ($user->id)
 		{
-			$whislists     = $this->getUserWishlist();
-			$wish_products = array();
+			$wishlists     = $this->getUserWishlist();
+			$wishProducts = array();
 
-			for ($i = 0, $in = count($whislists); $i < $in; $i++)
+			foreach ($wishlists as $key => $wishlist)
 			{
-				$sql = "SELECT DISTINCT wp.* ,p.* "
-					. "FROM  #__redshop_product as p "
-					. ", #__redshop_wishlist_product as wp "
-					. "WHERE wp.product_id = p.product_id AND wp.wishlist_id = " . (int) $whislists[$i]->wishlist_id;
-				$db->setQuery($sql);
-				$wish_products[$whislists[$i]->wishlist_id] = $db->loadObjectList();
+				$query = $db->getQuery(true)
+					->select('DISTINCT wp.*, p.*')
+					->from($db->qn('#__redshop_product', 'p'))
+					->leftJoin($db->qn('#__redshop_wishlist_product', 'wp') . ' ON ' . $db->qn('wp.product_id') . ' = ' . $db->qn('p.product_id'))
+					->where($db->qn('wp.wishlist_id') . ' = ' . $db->q((int) $wishlist->wishlist_id));
+
+				$wishProducts[$wishlist->wishlist_id] = $db->setQuery($query)->loadObjectList();
 			}
 
-			return $wish_products;
+			return $wishProducts;
 		}
 		else
 		{
-			$productIds = array();
-			$rows    = array();
+			$numberProduct = $session->get('no_of_prod');
 
-			if (isset($_SESSION["no_of_prod"]))
+			if (!isset($numberProduct))
 			{
-				for ($add_i = 1; $add_i <= $_SESSION["no_of_prod"]; $add_i++)
-				{
-					if (isset($_SESSION['wish_' . $add_i]->product_id))
-					{
-						$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
-					}
-				}
-
-				if (count($productIds))
-				{
-					// Sanitize ids
-					JArrayHelper::toInteger($productIds);
-
-					$sql = "SELECT DISTINCT p.* "
-						. "FROM #__redshop_product as p "
-						. "WHERE p.product_id IN( " . implode(',', $productIds) . ")";
-					$db->setQuery($sql);
-					$rows = $db->loadObjectList();
-				}
+				return array();
 			}
 
-			return $rows;
+			$productIds = array();
+
+			for ($add = 1; $add <= $numberProduct; $add++)
+			{
+				if (!isset($session->get('wish_' . $add)->product_id))
+				{
+					continue;
+				}
+
+				$productIds[] = (int) $session->get('wish_' . $add)->product_id;
+			}
+
+			if (empty($productIds))
+			{
+				return array();
+			}
+
+			JArrayHelper::toInteger($productIds);
+			$query = $db->getQuery(true)
+				->select('DISTINCT *')
+				->from($db->qn('#__redshop_product'))
+				->where($db->qn('product_id') . ' IN (' . implode(',', $productIds) . ')');
+
+			return $db->setQuery($query)->loadObjectList();
 		}
 	}
 
@@ -486,7 +492,7 @@ class RedshopModelWishlist extends RedshopModel
 	 *
 	 * @return  boolean       True on exist. False otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public function isProductDataExist($wishlistId, $productId, $attributes = null, $properties = null, $subAttributes = null)
 	{

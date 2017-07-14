@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -151,7 +151,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 			if ($row->template_name != $this->_data->template_name)
 			{
 				$tempate_file = $red_template->getTemplatefilepath($this->_data->template_section, $this->_data->template_name, true);
-				unlink($tempate_file);
+				JFile::delete($tempate_file);
 			}
 		}
 
@@ -179,7 +179,7 @@ class RedshopModelTemplate_detail extends RedshopModel
 
 				$tempate_file = $red_template->getTemplatefilepath($rs->template_section, $rs->template_name, true);
 
-				unlink($tempate_file);
+				JFile::delete($tempate_file);
 			}
 
 			$cids = implode(',', $cid);

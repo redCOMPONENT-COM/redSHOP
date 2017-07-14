@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -130,7 +130,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		// Call payment plugin
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$results = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
 		$paymentResponse = $results[0];
@@ -153,7 +153,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$model->resetcart();
 
 		$link = 'index.php?option=com_redshop&view=order_detail&Itemid=' . $Itemid . '&oid=' . $request['order_id'];
-		$app->redirect(JRoute::_($link), $paymentResponse->message);
+		$app->redirect(JRoute::_($link, false), $paymentResponse->message);
 
 	}
 
@@ -171,7 +171,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$objOrder = order_functions::getInstance();
 
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$results = $dispatcher->trigger(
 			'onNotifyPayment' . $request['payment_plugin'],
@@ -209,6 +209,9 @@ class RedshopControllerOrder_detail extends RedshopController
 			)
 		);
 
+		JPluginHelper::importPlugin('system');
+		$dispatcher->trigger('afterOrderNotify', array($results));
+
 		if ($request['payment_plugin'] == "rs_payment_payer")
 		{
 			die("TRUE");
@@ -217,7 +220,10 @@ class RedshopControllerOrder_detail extends RedshopController
 		if ($request['payment_plugin'] != "rs_payment_worldpay")
 		{
 			// New checkout flow
-			$redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id);
+			$redirect_url = JRoute::_(
+			        JUri::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id, false
+            );
+
 			$this->setRedirect($redirect_url, $msg);
 		}
 	}
@@ -234,7 +240,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		// Import redSHOP Product Plugin
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$app        = JFactory::getApplication();
 
 		// If empty then load order item detail from order table
@@ -281,7 +287,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$row['sel_wrapper_id']  = $row['wrapper_id'];
 			$row['category_id']     = 0;
 
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "orderMergeImages/" . $row['attribute_image']))
+			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "orderMergeImages/" . $row['attribute_image']))
 			{
 				$newMedia = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $row['attribute_image'];
 				$oldMedia = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $row['attribute_image'];
@@ -290,7 +296,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 			$row['attributeImage'] = $row['attribute_image'];
 
-			if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $row['attribute_image']))
+			if (JFile::exists(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $row['attribute_image']))
 			{
 				$row['hidden_attribute_cartimage'] = REDSHOP_FRONT_IMAGES_ABSPATH . "product_attributes/" . $row['attribute_image'];
 			}
@@ -308,7 +314,7 @@ class RedshopControllerOrder_detail extends RedshopController
 				// Do final cart calculations
 				$this->_carthelper->cartFinalCalculation();
 
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $this->_redhelper->getCartItemid()));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false));
 			}
 		}
 		else
@@ -321,18 +327,18 @@ class RedshopControllerOrder_detail extends RedshopController
 			}
 			else
 			{
-				$Itemid = $this->_redhelper->getItemid($row['product_id']);
+				$Itemid = RedshopHelperUtility::getItemId($row['product_id']);
 			}
 
 			$errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
 			if (JError::isError(JError::getError()))
 			{
-				$errorMessage = JError::getError()->message;
+				$errorMessage = JError::getError()->getMessage();
 			}
 
 			$app->redirect(
-				JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row['product_id'] . '&Itemid=' . $Itemid),
+				JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row['product_id'] . '&Itemid=' . $Itemid, false),
 				$errorMessage
 			);
 		}
@@ -367,7 +373,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$this->_carthelper->cartFinalCalculation();
 		}
 
-		$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $this->_redhelper->getCartItemid()));
+		$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false));
 	}
 
 	/**
@@ -398,7 +404,7 @@ class RedshopControllerOrder_detail extends RedshopController
 				{
 					JHtml::script('com_redshop/credit_card.js', false, true);    ?>
 
-				<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout') ?>" method="post"
+				<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout', false) ?>" method="post"
 				      name="adminForm" id="adminForm" enctype="multipart/form-data"
 				      onsubmit="return CheckCardNumber(this);">
 					<?php echo $cardinfo = $this->_carthelper->replaceCreditCardInformation($paymentInfo[0]->payment_method_class); ?>
@@ -436,7 +442,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		$orderId = $app->input->post->getInt('id');
 
-		$orderPaymentStatus = RedshopHelperOrder::getOrderDetail($orderId)->order_payment_status;
+		$orderPaymentStatus = RedshopEntityOrder::load($orderId)->get('order_payment_status');
 
 		$status = JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID');
 

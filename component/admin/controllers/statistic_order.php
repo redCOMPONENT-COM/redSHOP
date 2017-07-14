@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -116,7 +116,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 
 			$noItems = $orderFunction->getOrderItemDetail($data[$i]->order_id);
 
-			for ($it = 0; $it < count($noItems); $it++)
+			for ($it = 0, $countItem = count($noItems); $it < $countItem; $it++)
 			{
 				echo str_replace(",", " ", utf8_decode($noItems[$it]->order_item_name)) . " ,";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $noItems[$it]->product_final_price . ",";

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -232,13 +232,13 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 
 		if ($product->product_full_image)
 		{
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
+			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 			{
 				$product_image_path = $product->product_full_image;
 			}
 			else
 			{
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
+				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 				{
 					$product_image_path = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 				}
@@ -246,7 +246,7 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 		}
 		else
 		{
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
+			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE')))
 			{
 				$product_image_path = Redshop::getConfig()->get('PRODUCT_DEFAULT_IMAGE');
 			}
@@ -284,7 +284,14 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 	$cart_mdata = str_replace("{product_name}", $product_name, $cart_mdata);
 	$cart_mdata = str_replace("{product_s_desc}", $product->product_s_desc, $cart_mdata);
 
-	$cart_mdata = str_replace("{product_attribute}", $quotationProducts[$i]->product_attribute, $cart_mdata);
+	$cart_mdata = RedshopTagsReplacer::_(
+						'attribute',
+						$cart_mdata,
+						array(
+							'product_attribute' 	=> $quotationProducts[$i]->product_attribute,
+						)
+					);
+
 	$cart_mdata = str_replace("{product_accessory}", $quotationProducts[$i]->product_accessory, $cart_mdata);
 
 	$cart_mdata = str_replace("{product_number}", $product_number, $cart_mdata);

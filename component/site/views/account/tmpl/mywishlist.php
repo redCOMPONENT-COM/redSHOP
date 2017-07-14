@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,7 @@ if ($window == 1)
 	?>
 	<script type="text/javascript">window.parent.location.reload();</script>
 	<?php
-	exit;
+	JFactory::getApplication()->close();
 }
 
 if ($this->params->get('show_page_heading', 1))

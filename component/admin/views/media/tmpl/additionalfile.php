@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -133,7 +133,7 @@ $mediaId = JFactory::getApplication()->input->getInt('media_id');
 					?>
 						<tr class="<?php echo "row$k"; ?>">
 							<td width="70%">
-								<?php if (is_file($path)) : ?>
+								<?php if (JFile::exists($path)) : ?>
 									<?php if ($fileExt == 'gif' || $fileExt == 'png' || $fileExt == 'jpg' || $fileExt == 'jpeg') : ?>
 										<a href="<?php echo $link; ?>" class="joom-box" rel="{handler: 'image', size: {}}">
 											<?php echo $filename;?>

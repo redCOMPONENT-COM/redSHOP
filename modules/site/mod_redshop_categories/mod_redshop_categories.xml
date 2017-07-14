@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>redSHOP Category Module</name>
-    <version>1.5.2</version>
-    <redshop>2.0</redshop>
+    <version>1.5.3</version>
+    <redshop>2.0.5</redshop>
     <creationDate>Sep 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -34,7 +34,7 @@
         <language tag="fr-FR">language/fr-FR/fr-FR.mod_redshop_categories.ini</language>
     </languages>
     <config>
-        <fields name="params" addfieldpath="/modules/mod_redshop_categories/elements">
+        <fields name="params" addfieldpath="/libraries/redshop/form/fields">
             <fieldset name="basic">
                 <field name="class_sfx" type="text" default="" label="COM_REDSHOP_CLASS_SFX_LABEL"
                        description="COM_REDSHOP_CLASS_SFX_DESC"/>
@@ -60,10 +60,17 @@
                     <option value="yes">JYES</option>
                     <option value="no">JNO</option>
                 </field>
-                <field name="redshop_category" type="redshopcategory" default=""
+                <field name="base_on_category" type="radio" default="no"
+                       label="COM_REDSHOP_BASE_ON_CATEGORY"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_BASE_ON_CATEGORY_DESC">
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
+                </field>
+                <field name="redshop_category" type="categorylist" default=""
                        label="COM_REDSHOP_CATEGORIES_SELECTION"
                        description="COM_REDSHOP_CATEGORIES_SELECTION_DESC"></field>
-                <field name="redshop_category_remove" type="redshopcategoryremove" default=""
+                <field name="redshop_category_remove" type="categorylist" multiple="true" remove_select="1" default=""
                        label="COM_REDSHOP_CATEGORIES_SELECTION_REMOVE"
                        description="COM_REDSHOP_CATEGORIES_SELECTION_REMOVE_DESC"></field>
 

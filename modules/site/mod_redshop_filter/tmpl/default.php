@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('redshopjquery.ui');
 ?>
 <div class="<?php echo $moduleClassSfx; ?>">
 	<form action="<?php echo $action; ?>" method="post" name="adminForm-<?php echo $module->id;?>" id="redproductfinder-form-<?php echo $module->id;?>" class="form-validate">
@@ -22,9 +23,9 @@ defined('_JEXEC') or die;
 							<li>
 								<?php if (($view == 'search') || (!empty($cid) && in_array($cid, $childCat)) || !empty($mid)) : ?>
 								<label>
-									<span class='taginput' data-aliases='cat-<?php echo $cat->category_id;?>'>
-										<input type="checkbox" name="redform[category][]" value="<?php echo $cat->category_id ?>" onclick="javascript: checkclick(this);" />
-										<span class='tagname'><?php echo $cat->category_name; ?></span>
+									<span class='taginput' data-aliases='cat-<?php echo $cat->id;?>'>
+										<input type="checkbox" name="redform[category][]" value="<?php echo $cat->id ?>" onclick="javascript: checkclick(this);" />
+										<span class='tagname'><?php echo $cat->name; ?></span>
 									</span>
 								</label>
 								<?php endif; ?>
@@ -33,10 +34,10 @@ defined('_JEXEC') or die;
 										<?php foreach ($cat->child as $k => $child) :?>
 											<li>
 												<label>
-													<span class='taginput' data-aliases='child-cat-<?php echo $child->category_id;?>'>
+													<span class='taginput' data-aliases='child-cat-<?php echo $child->id;?>'>
 														<!-- <i class="icon icon-check-empty"></i> -->
-														<input type="checkbox" name="redform[category][]" value="<?php echo $child->category_id ?>" onclick="javascript: checkclick(this);"" />
-														<span class='tagname'><?php echo $child->category_name; ?></span>
+														<input type="checkbox" name="redform[category][]" value="<?php echo $child->id ?>" onclick="javascript: checkclick(this);"" />
+														<span class='tagname'><?php echo $child->name; ?></span>
 													</span>
 												</label>
 												<?php if (!empty($child->sub)): ?>
@@ -44,9 +45,9 @@ defined('_JEXEC') or die;
 														<?php foreach ($child->sub as $i => $sub) :?>
 															<li>
 																<label>
-																	<span class='taginput' data-aliases='sub-cat-<?php echo $sub->category_id;?>'>
-																		<input parent="<?php echo $child->category_id ?>" type="checkbox" name="redform[category][]" value="<?php echo $sub->category_id ?>" onclick="javascript: checkclick(this);" />
-																		<span class='tagname'><?php echo $sub->category_name; ?></span>
+																	<span class='taginput' data-aliases='sub-cat-<?php echo $sub->id;?>'>
+																		<input parent="<?php echo $child->id ?>" type="checkbox" name="redform[category][]" value="<?php echo $sub->id ?>" onclick="javascript: checkclick(this);" />
+																		<span class='tagname'><?php echo $sub->name; ?></span>
 																	</span>
 																</label>
 															</li>
@@ -117,8 +118,6 @@ defined('_JEXEC') or die;
 </form>
 </div>
 
-<link rel="stylesheet" type="text/css" href="<?php echo JUri::root() . 'modules/mod_redshop_filter/lib/css/jqui.css'; ?>">
-<script type="text/javascript" src="<?php echo JUri::root() . 'modules/mod_redshop_filter/lib/js/jquery-ui.min.js'; ?>"></script>
 <script type="text/javascript">
 	function range_slide (min_range, max_range , cur_min , cur_max, callback) {
 		jQuery.ui.slider.prototype.widgetEventPrefix = 'slider';

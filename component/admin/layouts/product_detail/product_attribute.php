@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -48,6 +48,7 @@ JText::script('COM_REDSHOP_PARAMETER');
 JText::script('COM_REDSHOP_PROPERTY_NUMBER');
 JText::script('COM_REDSHOP_DO_WANT_TO_DELETE');
 JText::script('COM_REDSHOP_ALERT_PRESELECTED_CHECK');
+JText::script('COM_REDSHOP_DESCRIPTION');
 ?>
 
 <div class="row-fluid mainTableAttributes" id="mainTableAttributes">
@@ -85,6 +86,11 @@ if ($data->lists['attributes'])
 					   value="<?php echo $attributeData['attribute_name']; ?>"/>
 			</div>
 			<div class="span2">
+				<?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?>
+				<input class="text-center input-small" type="text" name="<?php echo $attrPref; ?>[attribute_description]"
+					   value="<?php echo $attributeData['attribute_description']; ?>"/>
+			</div>
+			<div class="span2">
 				<?php echo JText::_('COM_REDSHOP_ORDERING'); ?>
 				<input class="text-center input-xmini" type="text" name="<?php echo $attrPref; ?>[ordering]"
 					   value="<?php echo $attributeData['ordering']; ?>"/>
@@ -105,7 +111,7 @@ if ($data->lists['attributes'])
 						   value="1"/>
 				</label>
 			</div>
-			<div class="span2">
+			<div class="span1">
 				<input class="btn btn-danger delete_attribute btn-small"
 					   id="deleteAttribute_<?php echo $attributeId; ?>_<?php
 						echo $productId; ?>_<?php

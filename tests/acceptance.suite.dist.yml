@@ -30,6 +30,7 @@ modules:
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
             database host: 'localhost'             # place where the Application is Hosted #server Address
+            database host: 'localhost'             # place where the Application is Hosted #server Address
             database user: 'root'                  # MySQL Server user ID, usually root
             database password: ''                  # MySQL Server password, usually empty or root
             database name: 'testredshop1j3'            # DB Name, at the Server
@@ -45,4 +46,5 @@ modules:
             folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
             install demo data: 'Yes'              # If you wish to Download Demo Data for the Extension then Keep this to Yes
             host: 'http://localhost/tests/joomla-cms3'  #Something important
+            redshop packages url: 'http://localhost/tests/releases/'     # the url that points to the extension .zip package defined in your properties.dist file at the root of the repo
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"

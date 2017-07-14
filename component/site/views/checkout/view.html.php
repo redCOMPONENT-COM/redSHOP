@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,7 +28,7 @@ class RedshopViewCheckout extends RedshopView
 		RedshopHelperPayment::loadLanguages();
 
 		// Load Shipping language file
-		$shippingPlugins = $redhelper->getPlugins("redshop_shipping");
+		$shippingPlugins = RedshopHelperUtility::getPlugins("redshop_shipping", 1);
 		$base_dir        = JPATH_ADMINISTRATOR;
 
 		for ($l = 0, $ln = count($shippingPlugins); $l < $ln; $l++)

@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder instead
+ * @deprecated  2.0.3  Use RedshopHelperOrder instead
  */
 
 defined('_JEXEC') or die;
@@ -16,9 +16,9 @@ JHTML::_('behavior.tooltip');
 /**
  * Order helper for backend
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder instead
+ * @deprecated  2.0.3  Use RedshopHelperOrder instead
  */
 class order_functions
 {
@@ -47,7 +47,7 @@ class order_functions
 	 *
 	 * @return      void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::resetOrderId() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::resetOrderId() instead
 	 */
 	public function resetOrderId()
 	{
@@ -61,7 +61,7 @@ class order_functions
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderStatusTitle() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderStatusTitle() instead
 	 */
 	public function getOrderStatusTitle($order_status_code)
 	{
@@ -76,7 +76,7 @@ class order_functions
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::updateOrderStatus() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::updateOrderStatus() instead
 	 */
 	public function updateOrderStatus($order_id, $newstatus)
 	{
@@ -90,7 +90,7 @@ class order_functions
 	 *
 	 * @return  string   'success' or error message
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::generateParcel() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::generateParcel() instead
 	 */
 	public function generateParcel($orderId)
 	{
@@ -104,7 +104,7 @@ class order_functions
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::changeOrderStatus() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::changeOrderStatus() instead
 	 */
 	public function changeorderstatus($data)
 	{
@@ -119,7 +119,7 @@ class order_functions
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::updateOrderPaymentStatus() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::updateOrderPaymentStatus() instead
 	 */
 	public function updateOrderPaymentStatus($order_id, $newstatus)
 	{
@@ -134,7 +134,7 @@ class order_functions
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::updateOrderComment() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::updateOrderComment() instead
 	 */
 	public function updateOrderComment($order_id, $comment = '')
 	{
@@ -149,7 +149,7 @@ class order_functions
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::updateOrderRequisitionNumber() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::updateOrderRequisitionNumber() instead
 	 */
 	public function updateOrderRequisitionNumber($order_id, $requisition_number = '')
 	{
@@ -167,7 +167,7 @@ class order_functions
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::updateOrderItemStatus() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::updateOrderItemStatus() instead
 	 */
 	public function updateOrderItemStatus($orderId = 0, $productId = 0, $newStatus = '', $comment = '', $orderItemId = 0)
 	{
@@ -195,7 +195,7 @@ class order_functions
 	 *
 	 * @return  string  HTML of status list
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getStatusList() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getStatusList() instead
 	 */
 	public function getstatuslist($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
@@ -211,7 +211,7 @@ class order_functions
 	 *
 	 * @return  string  HTML of filter list
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getFilterByList() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getFilterByList() instead
 	 */
 	public function getFilterbyList($name = 'filterbylist', $selected = 'all', $attributes = ' class="inputbox" size="1" ')
 	{
@@ -227,7 +227,7 @@ class order_functions
 	 *
 	 * @return  string  HTML of payment status list
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getPaymentStatusList() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getPaymentStatusList() instead
 	 */
 	public function getpaymentstatuslist($name = 'paymentstatuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
@@ -239,7 +239,7 @@ class order_functions
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::updateStatus() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::updateStatus() instead
 	 */
 	public function update_status()
 	{
@@ -253,7 +253,7 @@ class order_functions
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderDetails() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderDetails() instead
 	 */
 	public function getOrderDetails($order_id)
 	{
@@ -267,7 +267,7 @@ class order_functions
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getMultiOrderDetails() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getMultiOrderDetails() instead
 	 */
 	public function getmultiOrderDetails($order_id)
 	{
@@ -281,7 +281,7 @@ class order_functions
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getUserOrderDetails() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getUserOrderDetails() instead
 	 */
 	public function getUserOrderDetails($user_id = 0)
 	{
@@ -297,7 +297,7 @@ class order_functions
 	 *
 	 * @return  boolean/object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderItemDetail() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderItemDetail() instead
 	 */
 	public function getOrderItemDetail($order_id = 0, $product_id = 0, $order_item_id = 0)
 	{
@@ -331,7 +331,7 @@ class order_functions
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderPartialPayment() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderPartialPayment() instead
 	 */
 	public function getOrderPartialPayment($order_id)
 	{
@@ -345,7 +345,7 @@ class order_functions
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getShippingMethodInfo() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getShippingMethodInfo() instead
 	 */
 	public function getShippingMethodInfo($shipping_class = '')
 	{
@@ -359,7 +359,7 @@ class order_functions
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getPaymentMethodInfo() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getPaymentMethodInfo() instead
 	 */
 	public function getPaymentMethodInfo($payment_method_class = '')
 	{
@@ -371,9 +371,9 @@ class order_functions
 	 *
 	 * @param   integer  $user_id  User ID
 	 *
-	 * @return  array
+	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getBillingAddress() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getBillingAddress() instead
 	 */
 	public function getBillingAddress($user_id = 0)
 	{
@@ -397,15 +397,15 @@ class order_functions
 	/**
 	 * Get Shipping address
 	 *
-	 * @param   integer  $user_id  User Id
+	 * @param   integer  $userId  User Id
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getShippingAddress() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getShippingAddress() instead
 	 */
-	public function getShippingAddress($user_id = 0)
+	public function getShippingAddress($userId = 0)
 	{
-		return RedshopHelperOrder::getShippingAddress($user_id);
+		return RedshopHelperOrder::getShippingAddress($userId);
 	}
 
 	/**
@@ -429,7 +429,7 @@ class order_functions
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getUserFullName() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getUserFullName() instead
 	 */
 	public function getUserFullname($user_id)
 	{
@@ -443,7 +443,7 @@ class order_functions
 	 *
 	 * @return  null/object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderItemAccessoryDetail() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderItemAccessoryDetail() instead
 	 */
 	public function getOrderItemAccessoryDetail($order_item_id = 0)
 	{
@@ -460,7 +460,7 @@ class order_functions
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderItemAttributeDetail() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderItemAttributeDetail() instead
 	 */
 	public function getOrderItemAttributeDetail($order_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{
@@ -475,7 +475,7 @@ class order_functions
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getOrderUserFieldData() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderUserFieldData() instead
 	 */
 	public function getOrderUserfieldData($order_item_id = 0, $section = 0)
 	{
@@ -487,7 +487,7 @@ class order_functions
 	 *
 	 * @return  integer
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::generateOrderNumber() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::generateOrderNumber() instead
 	 */
 	public function generateOrderNumber()
 	{
@@ -501,7 +501,7 @@ class order_functions
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::randomGenerateEncryptKey() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::randomGenerateEncryptKey() instead
 	 */
 	public function random_gen_enc_key($p_length = '30')
 	{
@@ -515,7 +515,7 @@ class order_functions
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getCountryName() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getCountryName() instead
 	 */
 	public function getCountryName($cnt3 = "")
 	{
@@ -530,7 +530,7 @@ class order_functions
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getStateName() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getStateName() instead
 	 */
 	public function getStateName($st3 = "", $cnt3 = "")
 	{
@@ -544,7 +544,7 @@ class order_functions
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::sendDownload() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::sendDownload() instead
 	 */
 	public function SendDownload($order_id = 0)
 	{
@@ -558,7 +558,7 @@ class order_functions
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getDownloadProduct() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getDownloadProduct() instead
 	 */
 	public function getDownloadProduct($order_id)
 	{
@@ -573,7 +573,7 @@ class order_functions
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getDownloadProductLog() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getDownloadProductLog() instead
 	 */
 	public function getDownloadProductLog($order_id, $did = '')
 	{
@@ -587,7 +587,7 @@ class order_functions
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getParameters() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getParameters() instead
 	 */
 	public function getparameters($payment)
 	{
@@ -602,7 +602,7 @@ class order_functions
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getPaymentInformation() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getPaymentInformation() instead
 	 */
 	public function getpaymentinformation($row, $post)
 	{
@@ -616,7 +616,7 @@ class order_functions
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::getShippingLocationInfo() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::getShippingLocationInfo() instead
 	 */
 	public function getshippinglocationinfo($shippingname)
 	{
@@ -631,7 +631,7 @@ class order_functions
 	 *
 	 * @return  object
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public function barcode_randon_number($length = 12, $barcodekey = 0)
 	{
@@ -646,7 +646,7 @@ class order_functions
 	 *
 	 * @return  null
 	 *
-	 * @deprecated  __DEPLOY_VERSION__
+	 * @deprecated  2.0.3
 	 */
 	public function updatebarcode($oid, $barcode)
 	{
@@ -660,7 +660,7 @@ class order_functions
 	 *
 	 * @return  integer
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::checkUpdateOrders() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::checkUpdateOrders() instead
 	 */
 	public function checkupdateordersts($data)
 	{
@@ -676,7 +676,7 @@ class order_functions
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::changeOrderStatusMail() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::changeOrderStatusMail() instead
 	 */
 	public function changeOrderStatusMail($order_id, $newstatus, $order_comment = '')
 	{
@@ -691,7 +691,7 @@ class order_functions
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::createBookInvoice() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::createBookInvoice() instead
 	 */
 	public function createBookInvoice($order_id, $order_status)
 	{
@@ -705,7 +705,7 @@ class order_functions
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::createMultiPrintInvoicePdf() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::createMultiPrintInvoicePdf() instead
 	 */
 	public function createMultiprintInvoicePdf($order_id)
 	{
@@ -719,7 +719,7 @@ class order_functions
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::generateInvoicePdf() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::generateInvoicePdf() instead
 	 */
 	public static function generateInvoicePDF($orderId)
 	{
@@ -735,7 +735,7 @@ class order_functions
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::createWebPackLabel() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::createWebPackLabel() instead
 	 */
 	public function createWebPacklabel($order_id, $order_status, $paymentStatus)
 	{
@@ -750,7 +750,7 @@ class order_functions
 	 *
 	 * @return  boolean/mixed
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperOrder::orderStatusUpdate() instead
+	 * @deprecated  2.0.3  Use RedshopHelperOrder::orderStatusUpdate() instead
 	 */
 	public function orderStatusUpdate($order_id, $post = array())
 	{

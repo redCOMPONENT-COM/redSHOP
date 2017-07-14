@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -89,19 +89,17 @@ class RedshopModelAccount_billto extends RedshopModel
 
 	public function store($post)
 	{
-		$userhelper = rsUserHelper::getInstance();
-
 		$post['billisship']    = 1;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 
-		$joomlauser = $userhelper->updateJoomlaUser($post);
+		$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
 
 		if (!$joomlauser)
 		{
 			return false;
 		}
 
-		$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id);
+		$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id);
 
 		return $reduser;
 	}

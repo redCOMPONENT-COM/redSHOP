@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $Itemid = JRequest::getInt('Itemid');
 $userhelper = rsUserHelper::getInstance();
 
-$post = (array) $this->shippingaddresses;
+$post = (array) $this->shippingAddresses;
 
 $post['firstname_ST']    = $post['firstname'];
 $post['lastname_ST']     = $post['lastname'];
@@ -79,7 +79,7 @@ $post['state_code_ST']   = $post['state_code'];
 	<div id="divShipping">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES');?></legend>
-			<?php    echo $userhelper->getShippingTable($post, $this->billingaddresses->is_company, $this->lists);    ?>
+			<?php    echo $userhelper->getShippingTable($post, $this->billingAddresses->is_company, $this->lists);    ?>
 			<table cellspacing="3" cellpadding="0" border="0" width="100%">
 				<tr>
 					<td align="right"><input type="button" class="button btn" name="back"
@@ -92,18 +92,18 @@ $post['state_code_ST']   = $post['state_code'];
 			</table>
 		</fieldset>
 	</div>
-	<input type="hidden" name="cid" value="<?php echo $this->shippingaddresses->users_info_id; ?>"/>
-	<input type="hidden" name="user_id" value="<?php echo $this->billingaddresses->user_id; ?>"/>
-	<input type="hidden" name="is_company" value="<?php echo $this->billingaddresses->is_company; ?>"/>
-	<input type="hidden" name="email" value="<?php echo $this->billingaddresses->user_email; ?>"/>
-	<input type="hidden" name="shopper_group_id" value="<?php echo $this->billingaddresses->shopper_group_id; ?>"/>
-	<input type="hidden" name="company_name" value="<?php echo $this->billingaddresses->company_name; ?>"/>
-	<input type="hidden" name="vat_number" value="<?php echo $this->billingaddresses->vat_number; ?>"/>
-	<input type="hidden" name="tax_exempt" value="<?php echo $this->billingaddresses->tax_exempt; ?>"/>
+	<input type="hidden" name="cid" value="<?php echo $this->shippingAddresses->users_info_id; ?>"/>
+	<input type="hidden" name="user_id" value="<?php echo $this->billingAddresses->user_id; ?>"/>
+	<input type="hidden" name="is_company" value="<?php echo $this->billingAddresses->is_company; ?>"/>
+	<input type="hidden" name="email" value="<?php echo $this->billingAddresses->user_email; ?>"/>
+	<input type="hidden" name="shopper_group_id" value="<?php echo $this->billingAddresses->shopper_group_id; ?>"/>
+	<input type="hidden" name="company_name" value="<?php echo $this->billingAddresses->company_name; ?>"/>
+	<input type="hidden" name="vat_number" value="<?php echo $this->billingAddresses->vat_number; ?>"/>
+	<input type="hidden" name="tax_exempt" value="<?php echo $this->billingAddresses->tax_exempt; ?>"/>
 	<input type="hidden" name="requesting_tax_exempt"
-	       value="<?php echo $this->billingaddresses->requesting_tax_exempt; ?>"/>
+	       value="<?php echo $this->billingAddresses->requesting_tax_exempt; ?>"/>
 	<input type="hidden" name="tax_exempt_approved"
-	       value="<?php echo $this->billingaddresses->tax_exempt_approved; ?>"/>
+	       value="<?php echo $this->billingAddresses->tax_exempt_approved; ?>"/>
 	<input type="hidden" name="task" value="save"/>
 	<input type="hidden" name="address_type" value="ST"/>
 	<input type="hidden" name="view" value="account_shipto"/>

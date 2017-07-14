@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -68,7 +68,7 @@ class RedshopControllerSearch extends RedshopController
 			echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>' . JHTML::_('select.genericlist', $manufacdata, 'manufacture_id', 'class="inputbox span12" size="1" onChange="' . $javaFun . '" ', 'value', 'text', $manufac_data);
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -85,7 +85,7 @@ class RedshopControllerSearch extends RedshopController
 		$encoded = json_encode($detail);
 		ob_clean();
 		echo "{\"results\": " . $encoded . "}";
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**

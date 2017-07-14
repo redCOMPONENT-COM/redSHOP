@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,6 +16,8 @@ class Tableproduct_attribute extends JTable
 	public $attribute_set_id = 0;
 
 	public $attribute_name = null;
+
+	public $attribute_description = null;
 
 	public $attribute_required = null;
 

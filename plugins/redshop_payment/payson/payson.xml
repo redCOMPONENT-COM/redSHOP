@@ -1,222 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <extension
-    	version="3.0"
-    	client="site"
-    	type="plugin"
-    	group="redshop_payment"
-    	method="upgrade"
-    >
-        <name>PLG_REDSHOP_PAYMENT_PAYSON</name>
-        <version>1.6</version>
-        <redshop>2.0</redshop>
-        <creationDate>Sep 2016</creationDate>
-        <author>redCOMPONENT.com</author>
-        <authorEmail>email@redcomponent.com</authorEmail>
-        <authorUrl>www.redweb.dk</authorUrl>
-        <copyright>redCOMPONENT.com</copyright>
-        <license>GNU General Public License v2</license>
-        <description>PLG_REDSHOP_PAYMENT_PAYSON_DESC</description>
-        <files>
-            <filename plugin="payson">payson.php</filename>
-            <folder>library</folder>
-        </files>
-        <languages>
-            <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_payson.ini</language>
-            <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_payson.sys.ini</language>
-        </languages>
-        <config addfieldpath="/libraries/redshop/form/fields">
-		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="paymentMode"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_PAYMENT_MODE"
-					description="PLG_REDSHOP_PAYMENT_PAYSON_PAYMENT_MODE_DESC"
-				>
-					<option value="1">PLG_REDSHOP_PAYMENT_PAYSON_TEST_MODE</option>
-					<option value="0">PLG_REDSHOP_PAYMENT_PAYSON_LIVE_MODE</option>
-				</field>
-				<field
-					name="agentID"
-					type="text"
-					default="4"
-					required="true"
-					class="validate-numeric"
-					hint="PLG_REDSHOP_PAYMENT_PAYSON_AGENT_ID_HINT"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_AGENT_ID"
-					description="PLG_REDSHOP_PAYMENT_PAYSON_AGENT_ID_DESC"
-				/>
-				<field
-					name="md5Key"
-					type="text"
-					default="2acab30d-fe50-426f-90d7-8c60a7eb31d4"
-					required="true"
-					hint="PLG_REDSHOP_PAYMENT_PAYSON_MD5_KEY_HINT"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_MD5_KEY"
-					description="PLG_REDSHOP_PAYMENT_PAYSON_MD5_KEY_DESC"
-				/>
-				<field
-					name="receiverEmail"
-					type="text"
-					default="testagent-1@payson.se"
-					required="true"
-					class="validate-email"
-					hint="PLG_REDSHOP_PAYMENT_PAYSON_RECEIVER_EMAIL_HINT"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_RECEIVER_EMAIL"
-					description="PLG_REDSHOP_PAYMENT_PAYSON_RECEIVER_EMAIL_DESC"
-				/>
-				<field
-					name="currencyCode"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="SEK"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_CURRENCY_CODE"
-					description="PLG_REDSHOP_PAYMENT_PAYSON_CURRENCY_CODE_DESC"
-				>
-					<option value="SEK">PLG_REDSHOP_PAYMENT_PAYSON_CURRENCY_SEK</option>
-					<option value="EUR">PLG_REDSHOP_PAYMENT_PAYSON_CURRENCY_EUR</option>
-				</field>
-				<field
-					name="localeCode"
-					type="list"
-					class="btn-group btn-group-yesno"
-					default="SV"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE"
-					description="PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE_DESC"
-				>
-					<option value="SV">PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE_SWEDISH</option>
-					<option value="EN">PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE_ENGLISH</option>
-					<option value="FI">PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE_FINNISH</option>
-					<option value="DK">PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE_DANISH</option>
-					<option value="NO">PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE_NORWEGIAN</option>
-				</field>
-				<field
-					name="guaranteeOffered"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="OPTIONAL"
-					required="true"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_GUARANTEE_OFFERED"
-					description="PLG_REDSHOP_PAYMENT_PAYSON_GUARANTEE_OFFERED_DESC"
-				>
-					<option value="OPTIONAL">PLG_REDSHOP_PAYMENT_PAYSON_OPTIONAL</option>
-					<option value="REQUIRED">PLG_REDSHOP_PAYMENT_PAYSON_REQUIRED</option>
-					<option value="NO">PLG_REDSHOP_PAYMENT_PAYSON_NO</option>
-				</field>
-			</fieldset>
-			<fieldset name="advanced">
-				<field
-					name="verify_status"
-					type="sql"
-					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-					key_field="st_value"
-					value_field="st_title"
-					default="C"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_SUCCESS_ORDER_STATUS"
-					description="PLG_REDSHOP_PAYMENT_PAYSON_SUCCESS_ORDER_STATUS_DESC"
-				/>
-				<field
-					name="invalid_status"
-					type="sql"
-					query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-					key_field="st_value"
-					value_field="st_title"
-					default="P"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_SUCCESS_FAILED_STATUS"
-					description="PLG_REDSHOP_PAYMENT_PAYSON_SUCCESS_FAILED_STATUS_DESC"
-				/>
-				<field
-					name="payment_oprand"
-					type="text"
-					size="10"
-					default="-"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_PAYMENT_OPRAND_LBL"
-				/>
-				<field
-					name="payment_price"
-					type="text"
-					size="30"
-					default=""
-					label="PLG_REDSHOP_PAYMENT_PAYSON_PAYMENT_PRICE_LBL"
-				/>
-				<field
-					name="payment_discount_is_percent"
-					type="radio"
-					default="1"
-					class="btn-group"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_PAYMENT_DISCOUNT_IS_PERCENT_LBL"
-				>
-					<option value="1">PLG_REDSHOP_PAYMENT_PAYSON_PERCENTAGE</option>
-					<option value="0">PLG_REDSHOP_PAYMENT_PAYSON_TOTAL</option>
-				</field>
-				<field
-					name="private_person"
-					type="radio"
-					default="1"
-					class="btn-group btn-group-yesno"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_PRIVATE_PERSON_LBL"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="business"
-					type="radio"
-					default="1"
-					class="btn-group btn-group-yesno"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_BUSINESS_LBL"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="extrafield_payment"
-					type="extrafields"
-					field_section="18"
-					multiple="multiple"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_EXTRAFIELD_PAYMENT_LBL"
-					description="PLG_REDSHOP_PAYMENT_PAYSON_EXTRAFIELD_PAYMENT_DESC"
-				/>
-				<field
-					name="shopper_group_id"
-					type="shoppergrouplist"
-					default="0"
-					multiple="multiple"
-					label="PLG_REDSHOP_PAYMENT_PAYSON_SHOPPER_GROUP_ID_LBL"
-					description="PLG_REDSHOP_PAYMENT_PAYSON_SHOPPER_GROUP_ID_DESC"
-				/>
-				<field
-					name="economic_payment_terms_id"
-					type="text"
-					default=""
-					label="PLG_REDSHOP_PAYMENT_PAYSON_ECONOMIC_PAYMENT_TERMS_ID_LBL"
-				/>
-				<field
-					name="economic_design_layout"
-					type="text"
-					default=""
-					label="PLG_REDSHOP_PAYMENT_PAYSON_ECONOMIC_DESIGN_LAYOUT_LBL"
-				/>
+<extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
+    <name>PLG_REDSHOP_PAYMENT_PAYSON</name>
+    <version>1.7.0</version>
+    <redshop>2.0.0</redshop>
+    <creationDate>July 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redweb.dk</authorUrl>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>PLG_REDSHOP_PAYMENT_PAYSON_DESC</description>
+    <files>
+        <filename plugin="payson">payson.php</filename>
+        <folder>language</folder>
+        <folder>libraries</folder>
+    </files>
+    <scriptfile>install.php</scriptfile>
+    <config addfieldpath="/libraries/redshop/form/fields">
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="paymentMode"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default="1"
+                        required="true"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_PAYMENT_MODE"
+                        description="PLG_REDSHOP_PAYMENT_PAYSON_PAYMENT_MODE_DESC"
+                >
+                    <option value="1">PLG_REDSHOP_PAYMENT_PAYSON_TEST_MODE</option>
+                    <option value="0">PLG_REDSHOP_PAYMENT_PAYSON_LIVE_MODE</option>
+                </field>
+                <field
+                        name="agentID"
+                        type="text"
+                        default="4"
+                        required="true"
+                        class="validate-numeric"
+                        hint="PLG_REDSHOP_PAYMENT_PAYSON_AGENT_ID_HINT"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_AGENT_ID"
+                        description="PLG_REDSHOP_PAYMENT_PAYSON_AGENT_ID_DESC"
+                />
+                <field
+                        name="md5Key"
+                        type="text"
+                        default="2acab30d-fe50-426f-90d7-8c60a7eb31d4"
+                        required="true"
+                        hint="PLG_REDSHOP_PAYMENT_PAYSON_MD5_KEY_HINT"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_MD5_KEY"
+                        description="PLG_REDSHOP_PAYMENT_PAYSON_MD5_KEY_DESC"
+                />
+                <field
+                        name="receiverEmail"
+                        type="text"
+                        default="testagent-1@payson.se"
+                        required="true"
+                        class="validate-email"
+                        hint="PLG_REDSHOP_PAYMENT_PAYSON_RECEIVER_EMAIL_HINT"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_RECEIVER_EMAIL"
+                        description="PLG_REDSHOP_PAYMENT_PAYSON_RECEIVER_EMAIL_DESC"
+                />
+                <field
+                        name="currencyCode"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default="SEK"
+                        required="true"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_CURRENCY_CODE"
+                        description="PLG_REDSHOP_PAYMENT_PAYSON_CURRENCY_CODE_DESC"
+                >
+                    <option value="SEK">PLG_REDSHOP_PAYMENT_PAYSON_CURRENCY_SEK</option>
+                    <option value="EUR">PLG_REDSHOP_PAYMENT_PAYSON_CURRENCY_EUR</option>
+                </field>
+                <field
+                        name="localeCode"
+                        type="list"
+                        class="btn-group btn-group-yesno"
+                        default="SV"
+                        required="true"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE"
+                        description="PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE_DESC"
+                >
+                    <option value="SV">PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE_SWEDISH</option>
+                    <option value="EN">PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE_ENGLISH</option>
+                    <option value="FI">PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE_FINNISH</option>
+                    <option value="DK">PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE_DANISH</option>
+                    <option value="NO">PLG_REDSHOP_PAYMENT_PAYSON_LOCAL_CODE_NORWEGIAN</option>
+                </field>
+                <field
+                        name="guaranteeOffered"
+                        type="radio"
+                        class="btn-group btn-group-yesno"
+                        default="OPTIONAL"
+                        required="true"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_GUARANTEE_OFFERED"
+                        description="PLG_REDSHOP_PAYMENT_PAYSON_GUARANTEE_OFFERED_DESC"
+                >
+                    <option value="OPTIONAL">PLG_REDSHOP_PAYMENT_PAYSON_OPTIONAL</option>
+                    <option value="REQUIRED">PLG_REDSHOP_PAYMENT_PAYSON_REQUIRED</option>
+                    <option value="NO">PLG_REDSHOP_PAYMENT_PAYSON_NO</option>
+                </field>
+            </fieldset>
+            <fieldset name="advanced">
+                <field
+                        name="verify_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="C"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_SUCCESS_ORDER_STATUS"
+                        description="PLG_REDSHOP_PAYMENT_PAYSON_SUCCESS_ORDER_STATUS_DESC"
+                />
+                <field
+                        name="invalid_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="P"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_SUCCESS_FAILED_STATUS"
+                        description="PLG_REDSHOP_PAYMENT_PAYSON_SUCCESS_FAILED_STATUS_DESC"
+                />
+                <field
+                        name="payment_oprand"
+                        type="text"
+                        size="10"
+                        default="-"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_PAYMENT_OPRAND_LBL"
+                />
+                <field
+                        name="payment_price"
+                        type="text"
+                        size="30"
+                        default=""
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_PAYMENT_PRICE_LBL"
+                />
+                <field
+                        name="payment_discount_is_percent"
+                        type="radio"
+                        default="1"
+                        class="btn-group"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_PAYMENT_DISCOUNT_IS_PERCENT_LBL"
+                >
+                    <option value="1">PLG_REDSHOP_PAYMENT_PAYSON_PERCENTAGE</option>
+                    <option value="0">PLG_REDSHOP_PAYMENT_PAYSON_TOTAL</option>
+                </field>
+                <field
+                        name="private_person"
+                        type="radio"
+                        default="1"
+                        class="btn-group btn-group-yesno"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_PRIVATE_PERSON_LBL"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="business"
+                        type="radio"
+                        default="1"
+                        class="btn-group btn-group-yesno"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_BUSINESS_LBL"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="extrafield_payment"
+                        type="extrafields"
+                        field_section="18"
+                        multiple="multiple"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_EXTRAFIELD_PAYMENT_LBL"
+                        description="PLG_REDSHOP_PAYMENT_PAYSON_EXTRAFIELD_PAYMENT_DESC"
+                />
+                <field
+                        name="shopper_group_id"
+                        type="shoppergrouplist"
+                        default="0"
+                        multiple="multiple"
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_SHOPPER_GROUP_ID_LBL"
+                        description="PLG_REDSHOP_PAYMENT_PAYSON_SHOPPER_GROUP_ID_DESC"
+                />
+                <field
+                        name="economic_payment_terms_id"
+                        type="text"
+                        default=""
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_ECONOMIC_PAYMENT_TERMS_ID_LBL"
+                />
+                <field
+                        name="economic_design_layout"
+                        type="text"
+                        default=""
+                        label="PLG_REDSHOP_PAYMENT_PAYSON_ECONOMIC_DESIGN_LAYOUT_LBL"
+                />
 
-				<!-- Don't remove this hidden field or change value - this is to identify payment gateway is credit card or redirection.  -->
-				<field
-					name="is_creditcard"
-					type="hidden"
-					default="0"
-					value="0"
-				/>
-				<field
-					name="refund"
-					type="hidden"
-					default="0"
-					value="0"
-				/>
-			</fieldset>
-		</fields>
-	</config>
-    </extension>
+                <!-- Don't remove this hidden field or change value - this is to identify payment gateway is credit card or redirection.  -->
+                <field
+                        name="is_creditcard"
+                        type="hidden"
+                        default="0"
+                        value="0"
+                />
+                <field
+                        name="refund"
+                        type="hidden"
+                        default="0"
+                        value="0"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>

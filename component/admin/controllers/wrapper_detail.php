@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,12 @@ class RedshopControllerWrapper_detail extends RedshopController
 		parent::display();
 	}
 
-	public function save()
+	public function apply()
+	{
+		$this->save(1);
+	}
+
+	public function save($apply = 0)
 	{
 		$showall = $this->input->get('showall', '0');
 		$tmpl    = '';
@@ -46,7 +51,7 @@ class RedshopControllerWrapper_detail extends RedshopController
 
 		$model = $this->getModel('wrapper_detail');
 
-		if ($model->store($post))
+		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_SAVED');
 		}
@@ -55,7 +60,14 @@ class RedshopControllerWrapper_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_WRAPPER_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
+		if ($apply == 1)
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=wrapper_detail&task=edit&cid[]=' . $row->wrapper_id, $msg);
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
+		}
 	}
 
 	public function cancel()

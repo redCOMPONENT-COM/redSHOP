@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,7 +66,7 @@ JHTML::_('behavior.tooltip');
 	<?php echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CONFIG'), 'tab2'); ?>
 	<div align="left"><?php
 		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$payment = $dispatcher->trigger('onShowconfig', array($this->detail));
 		?>
 	</div>

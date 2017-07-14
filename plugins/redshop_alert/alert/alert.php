@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,7 +34,7 @@ class PlgRedshop_AlertAlert extends JPlugin
 	/**
 	 * store alert function
 	 *
-	 * @param   strint   $message  alert message
+	 * @param   string  $message  alert message
 	 *
 	 * @return boolean
 	 */
@@ -43,7 +43,7 @@ class PlgRedshop_AlertAlert extends JPlugin
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true)
 			->insert($db->qn('#__redshop_alerts'))
-			->columns($db->qn(array('message', 'sent_date', 'read')))
+			->columns($db->qn(['message', 'sent_date', 'read']))
 			->values($db->q($message) . ',' . $db->q(date('Y-m-d H:i:s')) . ',' . $db->q('0'));
 
 		return $db->setQuery($query)->execute();
@@ -52,20 +52,22 @@ class PlgRedshop_AlertAlert extends JPlugin
 	/**
 	 * send mail to admin
 	 *
-	 * @param   strint   $message  alert message
+	 * @param   string  $message  alert message
 	 *
 	 * @return boolean
 	 */
 	public function sendEmail($message)
 	{
+		$config = JFactory::getConfig();
 		$mailer = JFactory::getMailer();
 		$mailer->isHTML(true);
-		$config = JFactory::getConfig();
+
+		$adminEmail = trim(Redshop::getConfig()->get('ADMINISTRATOR_EMAIL'));
 
 		$sent = $mailer->sendMail(
 			$config->get('mailfrom'),
 			$config->get('fromname'),
-			ADMINISTRATOR_EMAIL,
+			$adminEmail,
 			JText::_('COM_REDSHOP_ALERT_STOCKROOM_BELOW_AMOUNT_NUMBER_MAIN_SUBJECT'),
 			$message,
 			1

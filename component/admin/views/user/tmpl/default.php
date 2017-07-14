@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -30,12 +30,13 @@ $model         = $this->getModel('user');
 			return;
 		}
 		else if (
-			(pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish') || (pressbutton == 'remove') || (pressbutton == 'copy')
+			pressbutton == 'edit' || pressbutton == 'publish' || pressbutton == 'unpublish' || pressbutton == 'remove' || pressbutton == 'copy'
 		) {
-			if ((pressbutton == 'remove') && confirm("<?php echo JText::_('COM_REDSHOP_CONFIRM_DELETE_RESPECTIVE_JOOMLA_USERS'); ?>"))
+			if (pressbutton == 'remove' && confirm("<?php echo JText::_('COM_REDSHOP_CONFIRM_DELETE_RESPECTIVE_JOOMLA_USERS'); ?>"))
 			{
 				form.delete_joomla_users.value = true;
 			}
+
 			form.view.value = "user_detail";
 		}
 		try {
@@ -129,7 +130,7 @@ $model         = $this->getModel('user');
 					<td><?php echo $row->username;?></td>
 					<td>
 						<?php
-						$shoppergroup = $userhelper->getShopperGroupList($row->shopper_group_id);
+						$shoppergroup = Redshop\Helper\ShopperGroup::generateList($row->shopper_group_id);
 
 						if (count($shoppergroup) > 0)
 						{

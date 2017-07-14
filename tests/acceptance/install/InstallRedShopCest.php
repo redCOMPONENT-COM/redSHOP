@@ -52,8 +52,8 @@ class InstallRedShopCest
 		$I->selectOptionInChosen('Status Module Position', 'Top');
 		$I->selectOptionInRadioField('Pinned Toolbar', 'No');
 		$I->click('Save & Close');
-		$I->waitForText('Style successfully saved.', 60, ['id' => 'system-message-container']);
-		$I->see('Style successfully saved.', ['id' => 'system-message-container']);
+		$I->waitForText('Style saved.', 60, ['id' => 'system-message-container']);
+		$I->see('Style saved.', ['id' => 'system-message-container']);
 	}
 
 	/**
@@ -65,15 +65,20 @@ class InstallRedShopCest
 	 */
 	public function testInstallRedShopExtension(AcceptanceTester $I)
 	{
-		$I->wantTo('Install Extension');
+		$I->wantTo('Install extension');
 		$I->doAdministratorLogin();
 		$I->disableStatistics();
-		$I->wantTo('Install redSHOP');
-		$I->installExtensionFromFolder($I->getConfig('repo folder'));
+		$I->wantTo('Install redSHOP extension');
+		$I->amOnPage('/administrator/index.php?option=com_installer');
+		$I->waitForText('Extensions: Install', '30', ['css' => 'H1']);
+		$I->click(['link' => 'Install from URL']);
+		$I->fillField(['id' => 'install_url'], $I->getConfig('redshop packages url') . '/redshop.zip');
+		$I->click(['id' => 'installbutton_url']);
+		$I->waitForText('installed successfully', '120', ['id' => 'system-message-container']);
 
 		if ($I->getConfig('install demo data') == 'Yes')
 		{
-			$I->click("//input[@value='Install Demo Content']");
+			$I->click(['id' => 'btn-demo-content']);
 			$I->waitForText('Data Installed Successfully', 10, '#system-message-container');
 		}
 	}

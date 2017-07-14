@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -125,7 +125,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="small hidden-phone">
 							<?php $giftCardPath = 'giftcard/' . $item->giftcard_bgimage; ?>
 
-							<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $giftCardPath)) : ?>
+							<?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $giftCardPath)) : ?>
 								<?php
 									$giftCardImagePath = RedShopHelperImages::getImagePath(
 										$item->giftcard_bgimage,

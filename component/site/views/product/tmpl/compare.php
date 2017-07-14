@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -248,7 +248,7 @@ if ($total > 0)
 		if (strstr($template, "{product_category}"))
 		{
 			$category = $producthelper->getSection('category', $data['item']->categoryId);
-			$template = str_replace('{product_category}', $exp_div . $category->category_name . $div_end . $td_end . $td_start . "{product_category}", $template);
+			$template = str_replace('{product_category}', $exp_div . $category->name . $div_end . $td_end . $td_start . "{product_category}", $template);
 		}
 
 		$link_remove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&cid=' . $category->category_id . '&Itemid=' . $this->itemId . '&tmpl=component';

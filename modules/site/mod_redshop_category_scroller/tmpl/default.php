@@ -84,7 +84,7 @@ for ($i = 0, $countRows = count($rows); $i < $countRows; $i++)
 	}
 	else
 	{
-		$Itemid = $redhelper->getItemid($row->product_id);
+		$Itemid = RedshopHelperUtility::getItemId($row->product_id);
 	}
 
 	$catattach = '';
@@ -134,7 +134,7 @@ for ($i = 0, $countRows = count($rows); $i < $countRows; $i++)
 	{
 		$prod_img = "";
 
-		if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_full_image))
+		if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_full_image))
 		{
 			$prod_img = RedShopHelperImages::getImagePath(
 							$row->product_full_image,
@@ -146,7 +146,7 @@ for ($i = 0, $countRows = count($rows); $i < $countRows; $i++)
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 		}
-		elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_thumb_image))
+		elseif (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_thumb_image))
 		{
 			$prod_img = RedShopHelperImages::getImagePath(
 							$row->product_thumb_image,

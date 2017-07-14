@@ -36,7 +36,7 @@ abstract class ModRedshopFilter
 
 		foreach ($list as $key => $value)
 		{
-			$childCat[] = $value->category_id;
+			$childCat[] = $value->id;
 		}
 
 		if (intval($cid) != 0)
@@ -64,12 +64,10 @@ abstract class ModRedshopFilter
 			}
 		}
 
-		$db->setQuery($query);
-
-		$pids = $db->loadAssocList("product_id");
+		$pids = $db->setQuery($query)->loadAssocList("product_id");
 
 		// Get only productid key
-		$pids = array_keys($pids);
+		$pids  = array_keys($pids);
 		$range = self::getRange($pids);
 
 		return $range;
@@ -202,25 +200,24 @@ abstract class ModRedshopFilter
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('c.category_id'))
-			->select($db->qn('c.category_name'))
-			->from($db->qn("#__redshop_category", "c"))
-			->join("LEFT", $db->qn("#__redshop_category_xref", "cx") . " ON " . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
-			->where($db->qn("c.category_id") . ' = ' . $db->q((int) $cid))
-			->where($db->qn("c.published") . " = 1");
+			->select($db->qn('id'))
+			->select($db->qn('name'))
+			->from($db->qn("#__redshop_category"))
+			->where($db->qn("id") . ' = ' . $db->q((int) $cid))
+			->where($db->qn("published") . " = 1");
 
 		$data = $db->setQuery($query)->loadObjectList();
 
 		foreach ($data as $key => $value)
 		{
-			if ($value->category_id != 0)
+			if ($value->id != 0)
 			{
-				$child = self::getChildCategory($value->category_id);
+				$child = self::getChildCategory($value->id);
 				$data[$key]->child = $child;
 
 				foreach ($child as $k => $subChild)
 				{
-					$sub = self::getChildCategory($subChild->category_id);
+					$sub = self::getChildCategory($subChild->id);
 					$data[$key]->child[$k]->sub = $sub;
 				}
 			}
@@ -240,12 +237,11 @@ abstract class ModRedshopFilter
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('c.category_id'))
-			->select($db->qn('c.category_name'))
-			->from($db->qn("#__redshop_category", "c"))
-			->leftjoin($db->qn("#__redshop_category_xref", "cx") . " ON " . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
-			->where($db->qn("cx.category_parent_id") . ' = ' . $db->q((int) $parentId))
-			->where($db->qn("c.published") . " = 1");
+			->select($db->qn('id'))
+			->select($db->qn('name'))
+			->from($db->qn("#__redshop_category"))
+			->where($db->qn("parent_id") . ' = ' . $db->q((int) $parentId))
+			->where($db->qn("published") . " = 1");
 
 		return $db->setQuery($query)->loadObjectList();
 	}
@@ -287,19 +283,18 @@ abstract class ModRedshopFilter
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('c.category_id'))
-			->select($db->qn('c.category_name'))
-			->from($db->qn("#__redshop_category", "c"))
-			->join("LEFT", $db->qn("#__redshop_category_xref", "cx") . " ON " . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
-			->where($db->qn("cx.category_parent_id") . ' = ' . $db->q((int) $rootCategory));
+			->select($db->qn('id'))
+			->select($db->qn('name'))
+			->from($db->qn("#__redshop_category"))
+			->where($db->qn("parent_id") . ' = ' . $db->q((int) $rootCategory));
 
 		if (!empty($catList))
 		{
-			$query->where($db->qn('c.category_id') . ' IN (' . implode(',', $catList) . ')');
+			$query->where($db->qn('id') . ' IN (' . implode(',', $catList) . ')');
 
 			if (!empty($saleCategory))
 			{
-				$query->where($db->qn('c.category_id') . ' != ' . $db->q((int) $saleCategory));
+				$query->where($db->qn('id') . ' != ' . $db->q((int) $saleCategory));
 			}
 		}
 
@@ -314,7 +309,7 @@ abstract class ModRedshopFilter
 	public static function getCategorybyPids($pids = array(), $rootCategory = 0, $saleCategory = null)
 	{
 		$data = array();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		if (!empty($pids))
@@ -328,19 +323,18 @@ abstract class ModRedshopFilter
 
 			$query = $db->getQuery(true)
 				->clear()
-				->select($db->qn('c.category_id'))
-				->select($db->qn('c.category_name'))
-				->from($db->qn("#__redshop_category", "c"))
-				->join("LEFT", $db->qn("#__redshop_category_xref", "cx") . " ON " . $db->qn('c.category_id') . ' = ' . $db->qn('cx.category_child_id'))
-				->where($db->qn("cx.category_parent_id") . ' = ' . $db->q((int) $rootCategory));
+				->select($db->qn('id'))
+				->select($db->qn('name'))
+				->from($db->qn("#__redshop_category"))
+				->where($db->qn("parent_id") . ' = ' . $db->q((int) $rootCategory));
 
 			if (!empty($cids))
 			{
-				$query->where($db->qn('c.category_id') . ' IN (' . implode(',', $cids) . ')');
+				$query->where($db->qn('id') . ' IN (' . implode(',', $cids) . ')');
 
 				if (!empty($saleCategory))
 				{
-					$query->where($db->qn('c.category_id') . ' != ' . $db->q((int) $saleCategory));
+					$query->where($db->qn('id') . ' != ' . $db->q((int) $saleCategory));
 				}
 			}
 
@@ -348,14 +342,14 @@ abstract class ModRedshopFilter
 
 			foreach ($data as $key => $value)
 			{
-				if (!empty($value) && $value->category_id != 0)
+				if (!empty($value) && $value->id != 0)
 				{
-					$child = self::getChildCategory($value->category_id);
+					$child = self::getChildCategory($value->id);
 					$data[$key]->child = $child;
 
 					foreach ($child as $k => $subChild)
 					{
-						$sub = self::getChildCategory($subChild->category_id);
+						$sub = self::getChildCategory($subChild->id);
 						$data[$key]->child[$k]->sub = $sub;
 					}
 				}
@@ -374,7 +368,7 @@ abstract class ModRedshopFilter
 	 *
 	 * @return  object
 	 */
-	public function getManufacturerById($mid)
+	public static function getManufacturerById($mid)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -392,11 +386,11 @@ abstract class ModRedshopFilter
 	/**
 	 * Get products by manufacturer id
 	 *
-	 * @param   $mid  manufacturer id
+	 * @param   integer  $mid  Manufacturer id
 	 *
 	 * @return  array
 	 */
-	public function getProductByManufacturer($mid)
+	public static function getProductByManufacturer($mid)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Collection of entities.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.3
  */
 class RedshopEntitiesCollection implements Countable, Iterator
 {
@@ -40,9 +40,9 @@ class RedshopEntitiesCollection implements Countable, Iterator
 	 */
 	public function add(RedshopEntity $entity)
 	{
-		if ($entity->hasId() && !$this->has($entity->id))
+		if ($entity->hasId() && !$this->has($entity->getId()))
 		{
-			$this->entities[$entity->id] = $entity;
+			$this->entities[$entity->getId()] = $entity;
 		}
 
 		return $this;

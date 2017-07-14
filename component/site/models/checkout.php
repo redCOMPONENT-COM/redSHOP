@@ -3,11 +3,13 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Redshop\Economic\Economic;
 
 
 
@@ -104,7 +106,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart = $this->_carthelper->modifyCart($cart, $user->id);
 		}
 
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 		$this->_carthelper->carttodb();
 	}
 
@@ -147,15 +149,14 @@ class RedshopModelCheckout extends RedshopModel
 		$shippinghelper  = shipping::getInstance();
 		$order_functions = order_functions::getInstance();
 
-		$post = JRequest::get('post');
-
-		$Itemid     = JRequest::getVar('Itemid');
-		$shop_id    = JRequest::getVar('shop_id');
-		$gls_zipcode = JRequest::getVar('gls_zipcode');
-		$gls_mobile = JRequest::getVar('gls_mobile');
-
-		$customer_message = JRequest::getVar('rs_customer_message_ta');
-		$referral_code    = JRequest::getVar('txt_referral_code');
+		$input            = $app->input;
+		$post             = $input->post->getArray();
+		$Itemid           = $input->post->getInt('Itemid', 0);
+		$shop_id          = $input->post->getString('shop_id', "");
+		$gls_zipcode      = $input->post->getString('gls_zipcode', "");
+		$gls_mobile       = $input->post->getString('gls_mobile', "");
+		$customer_message = $input->post->getString('rs_customer_message_ta', "");
+		$referral_code    = $input->post->getString('txt_referral_code', "");
 
 		if ($gls_mobile)
 		{
@@ -190,7 +191,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (isset($post['newsletter_signoff']) && $post['newsletter_signoff'] == 1)
 		{
-			$this->_userhelper->newsletterUnsubscribe();
+			RedshopHelperNewsletter::removeSubscribe();
 		}
 
 		$order_paymentstatus = 'Unpaid';
@@ -206,6 +207,16 @@ class RedshopModelCheckout extends RedshopModel
 
 			$shippingaddresses->country_2_code = $d ["shippingaddress"]->country_2_code;
 			$shippingaddresses->state_2_code   = $d ["shippingaddress"]->state_2_code;
+		}
+		else
+		{
+			$shippingaddresses = $billingaddresses;
+			$shippingaddresses->firstname = isset($post['firstname_ST']) ? $post['firstname_ST'] : $billingaddresses->firstname;
+			$shippingaddresses->lastname = isset($post['lastname_ST']) ? $post['lastname_ST'] : $billingaddresses->lastname;
+			$shippingaddresses->address = isset($post['address_ST']) ? $post['address_ST'] : $billingaddresses->address;
+			$shippingaddresses->zipcode = isset($post['zipcode_ST']) ? $post['zipcode_ST'] : $billingaddresses->zipcode;
+			$shippingaddresses->city = isset($post['city_ST']) ? $post['city_ST'] : $billingaddresses->city;
+			$shippingaddresses->country_code = isset($post['country_code_ST']) ? $post['country_code_ST'] : $billingaddresses->country_code;
 		}
 
 		if (isset($billingaddresses))
@@ -237,10 +248,10 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($cart['free_shipping'] != 1)
 		{
-			$shipping_rate_id = JRequest::getVar('shipping_rate_id');
+			$shipping_rate_id = $input->post->getString('shipping_rate_id', "");
 		}
 
-		$payment_method_id = JRequest::getVar('payment_method_id');
+		$payment_method_id = $input->post->getString('payment_method_id', "");
 
 		if ($shipping_rate_id && $cart['free_shipping'] != 1)
 		{
@@ -272,7 +283,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		$paymentArray  = $this->_carthelper->calculatePayment($paymentAmount, $paymentInfo, $cart ['total']);
 		$cart['total'] = $paymentArray[0];
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 
 		$order_shipping = RedshopShippingRate::decrypt($shipping_rate_id);
 		$order_status   = 'P';
@@ -280,6 +291,8 @@ class RedshopModelCheckout extends RedshopModel
 		$cdiscount      = $cart ['coupon_discount'];
 		$order_tax      = $cart ['tax'];
 		$d['order_tax'] = $order_tax;
+
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$tax_after_discount = 0;
 
@@ -300,7 +313,7 @@ class RedshopModelCheckout extends RedshopModel
 			$order_total = $order_total / 2;
 		}
 
-		JRequest::setVar('order_ship', $order_shipping [3]);
+		$input->set('order_ship', $order_shipping[3]);
 
 		$paymentElementName = $paymentMethod->element;
 
@@ -334,13 +347,11 @@ class RedshopModelCheckout extends RedshopModel
 		$is_creditcard             = $paymentMethod->params->get('is_creditcard', '');
 		$is_redirected             = $paymentMethod->params->get('is_redirected', 0);
 
-		JRequest::setVar('payment_status', $order_paymentstatus);
+		$input->set('payment_status', $order_paymentstatus);
 
 		$d['order_shipping']         = $order_shipping [3];
 		$GLOBALS['billingaddresses'] = $billingaddresses;
 		$timestamp                   = time();
-
-		$dispatcher = JDispatcher::getInstance();
 
 		$order_status_log = '';
 
@@ -513,7 +524,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
-			$helper->clickatellSMS($order_id);
+			RedshopHelperClickatell::clickatellSMS($order_id);
 		}
 
 		$session->set('order_id', $order_id);
@@ -526,8 +537,8 @@ class RedshopModelCheckout extends RedshopModel
 		$rowOrderStatus->customer_note = $order_status_log;
 		$rowOrderStatus->store();
 
-		JRequest::setVar('order_id', $row->order_id);
-		JRequest::setVar('order_number', $row->order_number);
+		$input->set('order_id', $row->order_id);
+		$input->set('order_number', $row->order_number);
 
 		if (!isset($order_shipping [5]))
 		{
@@ -535,7 +546,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$product_delivery_time = $this->_producthelper->getProductMinDeliveryTime($cart[0]['product_id']);
-		JRequest::setVar('order_delivery', $product_delivery_time);
+		$input->set('order_delivery', $product_delivery_time);
 
 		$idx = $cart ['idx'];
 
@@ -829,13 +840,13 @@ class RedshopModelCheckout extends RedshopModel
 							$accessory_price    = $accessory_priceArr[1];
 						}
 
-						for ($t = 0, $tn = count($propArr); $t < $tn; $t++)
+						for ($t = 0, $countProperty = count($propArr), $tn = $countProperty; $t < $tn; $t++)
 						{
 							$subprooprand  = array();
 							$subproprice   = array();
 							$subElementArr = $propArr[$t]['property_childs'];
 
-							for ($tp = 0; $tp < count($subElementArr); $tp++)
+							for ($tp = 0, $countElement = count($subElementArr); $tp < $countElement; $tp++)
 							{
 								$subprooprand[$tp] = $subElementArr[$tp]['subproperty_oprand'];
 								$subproprice[$tp]  = $subElementArr[$tp]['subproperty_price'];
@@ -1166,17 +1177,17 @@ class RedshopModelCheckout extends RedshopModel
 			}
 
 			$economicdata['economic_payment_method'] = $payment_name;
-			$economic->createInvoiceInEconomic($row->order_id, $economicdata);
+			Economic::createInvoiceInEconomic($row->order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
 				$checkOrderStatus = ($isBankTransferPaymentType) ? 0 : 1;
 
-				$bookinvoicepdf = $economic->bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
+				$bookinvoicepdf = Economic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
-				if (is_file($bookinvoicepdf))
+				if (JFile::exists($bookinvoicepdf))
 				{
-					$this->_redshopMail->sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
+					RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
 			}
 		}
@@ -1823,7 +1834,7 @@ class RedshopModelCheckout extends RedshopModel
 	{
 		$session = JFactory::getSession();
 		setcookie("redSHOPcart", "", time() - 3600, "/");
-		$session->set('cart', null);
+		RedshopHelperCartSession::setCart(null);
 		$session->set('ccdata', null);
 		$session->set('issplit', null);
 		$session->set('userfield', null);
@@ -1859,13 +1870,17 @@ class RedshopModelCheckout extends RedshopModel
 
 	public function getCategoryNameByProductId($pid)
 	{
-		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pcx.category_id "
-			. "WHERE pcx.product_id = " . (int) $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('c.name'))
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
+			->where($db->qn('c.name') . ' IS NOT NULL')
+			->order($db->qn('c.id') . ' ASC')
+			->setLimit(0, 1);
 
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
+		return $db->setQuery($query)->loadResult();
 	}
 
 	public function voucher($cart, $order_id)
@@ -1880,7 +1895,7 @@ class RedshopModelCheckout extends RedshopModel
 			if ($this->discount_type)
 				$this->discount_type .= '@';
 
-			for ($i = 0; $i < count($cart['voucher']); $i++)
+			for ($i = 0, $countVoucher = count($cart['voucher']); $i < $countVoucher; $i++)
 			{
 				$voucher_id             = $cart['voucher'][$i]['voucher_id'];
 				$voucher_volume         = $cart['voucher'][$i]['used_voucher'];
@@ -1945,7 +1960,7 @@ class RedshopModelCheckout extends RedshopModel
 				$this->discount_type .= '@';
 			}
 
-			for ($i = 0; $i < count($cart['coupon']); $i++)
+			for ($i = 0, $countCoupon = count($cart['coupon']); $i < $countCoupon; $i++)
 			{
 				$coupon_id             = $cart['coupon'][$i]['coupon_id'];
 				$coupon_volume         = $cart['coupon'][$i]['used_coupon'];
@@ -2037,6 +2052,10 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$cart = $this->_carthelper->modifyDiscount($cart);
+
+		// Plugin support:  Process the shipping cart
+		JPluginHelper::importPlugin('redshop_product');
+		JDispatcher::getInstance()->trigger('onDisplayShoppingCart', array($cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id));
 
 		$paymentMethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentMethod = $paymentMethod[0];
@@ -2160,7 +2179,7 @@ class RedshopModelCheckout extends RedshopModel
 			{
 				$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 			}
-			elseif ($catItemId = $redHelper->getCategoryItemid())
+			elseif ($catItemId = RedshopHelperUtility::getCategoryItemid())
 			{
 				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
 			}
@@ -2203,7 +2222,7 @@ class RedshopModelCheckout extends RedshopModel
 		$template_desc = $this->_carthelper->replaceNewsletterSubscription($template_desc);
 
 		$checkout = '<div id="checkoutfinal" style="float: right;">';
-		$checkout .= '<input type="button" id="checkout_final" name="checkout_final" class="greenbutton btn btn-primary" value="' . JText::_("COM_REDSHOP_BTN_CHECKOUTFINAL") . '" onclick="if(chkvalidaion()){checkout_disable(\'checkout_final\');}"/>';
+		$checkout .= '<input type="submit" id="checkout_final" name="checkout_final" class="greenbutton btn btn-primary" value="' . JText::_("COM_REDSHOP_BTN_CHECKOUTFINAL") . '" onclick="if(chkvalidaion() && validation()){checkout_disable(\'checkout_final\');}"/>';
 		$checkout .= '<input type="hidden" name="task" value="checkoutfinal" />';
 		$checkout .= '<input type="hidden" name="view" value="checkout" />';
 		$checkout .= '<input type="hidden" name="option" value="com_redshop" />';
@@ -2243,7 +2262,7 @@ class RedshopModelCheckout extends RedshopModel
 		$template_desc = $this->_carthelper->replaceLabel($template_desc);
 		$template_desc = str_replace("{print}", '', $template_desc);
 
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 
 		return $template_desc;
 	}

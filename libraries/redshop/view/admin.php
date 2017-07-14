@@ -3,7 +3,7 @@
  * @package     Redshop
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -35,6 +35,13 @@ class RedshopViewAdmin extends JViewLegacy
 	protected $displaySidebar = true;
 
 	/**
+	 * Do we have to disable a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $disableSidebar = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -48,9 +55,13 @@ class RedshopViewAdmin extends JViewLegacy
 			array(
 				'view' => $this,
 				'tpl' => $tpl,
-				'sidebar_display' => $this->displaySidebar
+				'sidebar_display' => $this->displaySidebar,
+				'disableSidebar'  => $this->disableSidebar
 			)
 		);
+
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminRender', array(&$render));
 
 		if ($render instanceof Exception)
 		{

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -63,7 +63,7 @@ class RedshopControllerNewslettersubscr extends RedshopController
 
 			if ($success)
 			{
-				unlink($dest);
+				JFile::delete($dest);
 				$msg = JText::_('COM_REDSHOP_DATA_IMPORT_SUCCESS');
 				$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
 			}

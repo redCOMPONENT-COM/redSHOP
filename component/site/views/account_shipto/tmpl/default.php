@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,12 +47,12 @@ if ($this->params->get('show_page_heading', 1))
 		<?php
 		}
 
-		for ($i = 0; $i < count($this->shippingaddresses); $i++)
+		for ($i = 0; $i < count($this->shippingAddresses); $i++)
 		{
-			$edit_addlink = "index.php?option=com_redshop&view=account_shipto&task=addshipping&infoid=" . $this->shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;?>
+			$edit_addlink = "index.php?option=com_redshop&view=account_shipto&task=addshipping&infoid=" . $this->shippingAddresses[$i]->users_info_id . "&Itemid=" . $Itemid;?>
 			<tr>
 				<td>
-					<?php    echo "- <a href='" . JRoute::_($edit_addlink) . "'>" . $this->shippingaddresses[$i]->text . "</a>"; ?>
+					<?php    echo "- <a href='" . JRoute::_($edit_addlink) . "'>" . $this->shippingAddresses[$i]->text . "</a>"; ?>
 				</td>
 			</tr>
 		<?php

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,8 +43,7 @@ class RedshopModelZip_import extends RedshopModel
 
 	public function getzipfilescount()
 	{
-		$x = 5;
-		$url = Redshop::getConfig()->get('REMOTE_UPDATE_DOMAIN_URL') . "index.php?option=com_reviews&domainname=" . $_SERVER['HTTP_HOST'] . "";
+		$url = Redshop::getConfig()->get('REMOTE_UPDATE_DOMAIN_URL') . "index.php?option=com_reviews&domainname=" . JUri::getInstance()->toString(array('host'));
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 5.1; rv:1.7.3) Gecko/20041001 Firefox/0.10.1");
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -58,7 +57,7 @@ class RedshopModelZip_import extends RedshopModel
 		$content = trim($out[0][0]);
 		$response = curl_getinfo($ch);
 		print_r($response);
-		exit;
+		JFactory::getApplication()->close();
 		curl_close($ch);
 		$x = count(explode(",", $content));
 
@@ -146,7 +145,7 @@ class RedshopModelZip_import extends RedshopModel
 		$this->setState('extension.message', $installer->get('extension.message'));
 
 		// Cleanup the install files
-		if (!is_file($package['packagefile']))
+		if (!JFile::exists($package['packagefile']))
 		{
 			$config = JFactory::getConfig();
 			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];

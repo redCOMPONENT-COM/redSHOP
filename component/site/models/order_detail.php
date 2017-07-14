@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -97,7 +97,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	/**
 	 * Get Billing Addresses
 	 *
-	 * @return  array
+	 * @return  object
 	 */
 	public function billingaddresses()
 	{
@@ -129,23 +129,33 @@ class RedshopModelOrder_detail extends RedshopModel
 	 */
 	public function getCategoryNameByProductId($pid)
 	{
-		$db    = JFactory::getDbo();
-		$query = "SELECT c.category_name FROM #__redshop_product_category_xref AS pcx "
-			. "LEFT JOIN #__redshop_category AS c ON c.category_id=pcx.category_id "
-			. "WHERE pcx.product_id=" . (int) $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
-		$db->setQuery($query);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('c.name'))
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
+			->where($db->qn('c.name') . ' IS NOT NULL')
+			->order($db->qn('c.id') . ' ASC')
+			->setLimit(0, 1);
 
-		return $db->loadResult();
+		return $db->setQuery($query)->loadResult();
 	}
 
+	/**
+	 * @return  void
+	 *
+	 * @since   2.0.7
+	 */
 	public function resetcart()
 	{
+		RedshopHelperCartSession::reset();
 		$session = JFactory::getSession();
-		$session->set('cart', null);
 		$session->set('ccdata', null);
 		$session->set('issplit', null);
 		$session->set('userfield', null);
-		unset ($_SESSION ['ccdata']);
+
+		unset($_SESSION ['ccdata']);
 	}
 
 	public function update_ccdata($order_id, $payment_transaction_id)

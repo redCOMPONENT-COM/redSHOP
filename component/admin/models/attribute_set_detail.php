@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,10 +44,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 	public function &getData()
 	{
-		if ($this->_loadData())
-		{
-		}
-		else
+		if (!$this->_loadData())
 		{
 			$this->_initData();
 		}
@@ -122,14 +119,14 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 				$tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
 
-				if (is_file($dest))
+				if (JFile::exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
-				if (is_file($tsrc))
+				if (JFile::exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 
 				$attr_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_id =' . $imagename->attribute_id;
@@ -197,7 +194,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 			$attr = $this->_db->loadObjectlist();
 		}
 
-		$attribute_data = '';
+		$attribute_data = array();
 
 		for ($i = 0, $in = count($attr); $i < $in; $i++)
 		{
@@ -213,6 +210,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 			$attribute_id = $attr[$i]->attribute_id;
 			$attribute_name = $attr[$i]->attribute_name;
+			$attribute_description = $attr[$i]->attribute_description;
 			$attribute_required = $attr[$i]->attribute_required;
 			$allow_multiple_selection = $attr[$i]->allow_multiple_selection;
 			$hide_attribute_price = $attr[$i]->hide_attribute_price;
@@ -234,6 +232,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 			}
 
 			$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name,
+				'attribute_description' => $attribute_description,
 				'attribute_required' => $attribute_required, 'ordering' => $ordering,
 				'property' => $prop, 'allow_multiple_selection' => $allow_multiple_selection,
 				'hide_attribute_price' => $hide_attribute_price, 'attribute_published' => $attribute_published,
@@ -247,7 +246,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	public function getattributelist($data)
 	{
 		$db = $this->_db;
-		$attribute_data = '';
+		$attribute_data = array();
 		$producthelper = productHelper::getInstance();
 		$attr = $producthelper->getProductAttribute(0, $data);
 
@@ -306,12 +305,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 				if (file_exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (file_exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 			}
 
@@ -355,12 +354,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 				if (file_exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (file_exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 			}
 
@@ -406,12 +405,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 				if (file_exists($dest))
 				{
-					unlink($dest);
+					JFile::delete($dest);
 				}
 
 				if (file_exists($tsrc))
 				{
-					unlink($tsrc);
+					JFile::delete($tsrc);
 				}
 			}
 
@@ -592,12 +591,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		if (file_exists($dest))
 		{
-			unlink($dest);
+			JFile::delete($dest);
 		}
 
 		if (file_exists($tsrc))
 		{
-			unlink($tsrc);
+			JFile::delete($tsrc);
 		}
 
 		$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id = ' . $mediaid;
@@ -646,12 +645,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 						if (file_exists($sub))
 						{
-							unlink($sub);
+							JFile::delete($sub);
 						}
 
 						if (file_exists($sub_thumb))
 						{
-							unlink($sub_thumb);
+							JFile::delete($sub_thumb);
 						}
 					}
 
@@ -717,7 +716,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 			if (file_exists($sub_dest))
 			{
-				unlink($sub_dest);
+				JFile::delete($sub_dest);
 			}
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_color_id = "'
@@ -784,28 +783,23 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		$imagethumbsrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/thumb/" . $imagename;
 
-		if (is_file($imagethumbsrcphy))
+		if (JFile::exists($imagethumbsrcphy))
 		{
-			@unlink($imagethumbsrcphy);
+			JFile::delete($imagethumbsrcphy);
 		}
 
 		$imagesrc = REDSHOP_FRONT_IMAGES_ABSPATH . "product_attributes/" . $imagename;
 		$imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $imagename;
 
-		if (is_file($imagesrcphy))
+		if (JFile::exists($imagesrcphy))
 		{
-			@unlink($imagesrcphy);
+			JFile::delete($imagesrcphy);
 		}
 
 		$query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` SET `property_image` = '' WHERE `property_id` = " . $pid;
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->execute())
-		{
-			return false;
-		}
-
-		return true;
+		return $this->_db->execute();
 	}
 
 	public function removesubpropertyImage($pid)
@@ -816,16 +810,16 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		$imagename = $image->subattribute_color_image;
 		$imagethumbsrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/thumb/" . $imagename;
 
-		if (is_file($imagethumbsrcphy))
+		if (JFile::exists($imagethumbsrcphy))
 		{
-			@unlink($imagethumbsrcphy);
+			JFile::delete($imagethumbsrcphy);
 		}
 
 		$imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $imagename;
 
-		if (is_file($imagesrcphy))
+		if (JFile::exists($imagesrcphy))
 		{
-			@unlink($imagesrcphy);
+			JFile::delete($imagesrcphy);
 		}
 
 		$query = "UPDATE `" . $this->_table_prefix . "product_subattribute_color` SET `subattribute_color_image` = ''
@@ -857,7 +851,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		$database->execute();
 
-		for ($i = 0; $i < count($post['quantity']); $i++)
+		for ($i = 0, $countQuantity = count($post['quantity']); $i < $countQuantity; $i++)
 		{
 			if ($post['quantity'][$i] || (!Redshop::getConfig()->get('USE_BLANK_AS_INFINITE')))
 			{
@@ -1062,7 +1056,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 								$listImages = $this->GetimageInfo($product_attributes_property->property_id, 'property');
 
-								for ($li = 0; $li < count($listImages); $li++)
+								for ($li = 0, $countImage = count($listImages); $li < $countImage; $li++)
 								{
 									$mImages = array();
 									$mImages['media_name'] = $listImages[$li]->media_name;
@@ -1185,8 +1179,9 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 										}
 
 										$listsubpropImages = $this->GetimageInfo($product_sub_attributes_property->subattribute_color_id, 'subproperty');
+										$countSubpropertyImage = count($listsubpropImages);
 
-										for ($lsi = 0; $lsi < count($listsubpropImages); $lsi++)
+										for ($lsi = 0; $lsi < $countSubpropertyImage; $lsi++)
 										{
 											$smImages = array();
 											$smImages['media_name'] = $listsubpropImages[$lsi]->media_name;

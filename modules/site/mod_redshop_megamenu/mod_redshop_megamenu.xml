@@ -6,7 +6,8 @@
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
+    <redshop>2.0.5</redshop>
     <description>MOD_REDSHOP_MEGAMENU_DESCRIPTION</description>
     <files>
         <folder>language</folder>
@@ -47,7 +48,7 @@
                 </field>
                 <field
                         name="category"
-                        type="redshopcategory"
+                        type="categorylist"
                         default=""
                         label="MOD_REDSHOP_MEGAMENU_PARAMS_CATEGORY"
                         description="MOD_REDSHOP_MEGAMENU_PARAMS_CATEGORY_DESC"
