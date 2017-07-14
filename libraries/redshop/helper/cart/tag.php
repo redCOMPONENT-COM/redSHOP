@@ -40,12 +40,12 @@ class RedshopHelperCartTag
 	 * @param   int     $check          Check
 	 * @param   int     $quotationMode  Quotation mode
 	 *
-	 * @return  mixed|string
+	 * @return  string
 	 * @since   2.0.7
 	 */
 	public static function replaceTax($template = '', $amount = 0, $discount = 0, $check = 0, $quotationMode = 0)
 	{
-		if (strpos($template, '{if vat}') === false || strpos($template, '{vat end if}') == false)
+		if (!self::isBlockTagExists($template, '{if vat}', '{vat end if}'))
 		{
 			return $template;
 		}
