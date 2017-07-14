@@ -172,7 +172,7 @@ class RedshopControllerOrder extends RedshopController
 		{
 			$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
 
-			if (is_file($bookinvoicepdf))
+			if (JFile::exists($bookinvoicepdf))
 			{
 				$ecomsg = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
 				$msgType = 'message';
@@ -215,7 +215,7 @@ class RedshopControllerOrder extends RedshopController
 			{
 				$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 1);
 
-				if (is_file($bookinvoicepdf))
+				if (JFile::exists($bookinvoicepdf))
 				{
 					$ret = RedshopHelperMail::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 				}
@@ -234,7 +234,7 @@ class RedshopControllerOrder extends RedshopController
 			require_once JPATH_COMPONENT_ADMINISTRATOR . '/extras/order_export.php';
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
-			exit;
+			JFactory::getApplication()->close();
 		}
 
 		$producthelper = productHelper::getInstance();
@@ -318,7 +318,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
 
-			for ($it = 0; $it < count($no_items); $it++)
+			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
 				echo str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name)) . " ,";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items [$it]->product_final_price . ",";
@@ -355,7 +355,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
-			exit;
+			JFactory::getApplication()->close();
 		}
 
 		$producthelper  = productHelper::getInstance();
@@ -435,7 +435,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
 
-			for ($it = 0; $it < count($no_items); $it++)
+			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
 				echo $no_items [$it]->order_item_name . ",";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $no_items [$it]->product_final_price . ",";
