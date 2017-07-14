@@ -20,6 +20,15 @@ class CategoryManagerJ3Page
 
     public static $URLNew = 'administrator/index.php?option=com_redshop&view=category&layout=edit';
 
+    public static $URLEdit = '/administrator/index.php?option=com_redshop&view=category&layout=edit&id=';
+
+
+    //page name
+    public static $pageManageName = "Category Management";
+
+
+    public static $headPageName = ['xpath' => "//h1"];
+
     public static $categoryName = "#jform_name";
 
 //	public static $categoryPage="#"
@@ -31,6 +40,8 @@ class CategoryManagerJ3Page
     public static $categorySearch = "//button[@onclick=\"document.adminForm.submit();\"]";
 
     public static $categoryResultRow = "//div[@class='table-responsive']/table/tbody/tr/td[5]";
+
+    public static $categoryId = "//div[@class='table-responsive']/table/tbody/tr/td[9]";
 
     public static $categoryCheckInRow = "//div[@class='table-responsive']/table/tbody/tr/td[3]";
 
@@ -53,6 +64,60 @@ class CategoryManagerJ3Page
 
     public static $categoryManagement = "/html/body/div/div/div/section[1]/div[1]/h1";
 
+    public static $tabAccessory = ['link' => "Accessories"];
+
+    public static $accessorySearch = ['xpath' => '//div[@id="s2id_category_accessory_search"]//a'];
+
+    public static $searchFirst = ['id' => "s2id_autogen1_search"];
+
+    public static $getAccessory = ['xpath' => "//h3[text()='Accessories']"];
+
+
+    //templatep
+
+    public static $template = "//div/div/div[@id='s2id_jform_more_template']/ul";
+
+    public static $choiceTemplate = '//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]';
+
+    //selector
+
+    public static $selectorSuccess = '.alert-success';
+
+    public static $selectorError = '.alert-danger';
+
+    public static $selectorNamePage = '.page-title';
+
+
+    //message
+    public static $messageSaveSuccess = "Item saved.";
+
+    public static $messageError = "Error";
+
+    public static $messageSuccess = "Message";
+
+    public static $messageDeleteSuccess = "1 item successfully deleted";
+
+    //button
+
+    public static $newButton = "New";
+
+    public static $saveButton = "Save";
+
+    public static $unpublishButton = "Unpublish";
+
+    public static $publishButton = "Publish";
+
+    public static $saveCloseButton = "Save & Close";
+
+    public static $deleteButton = "Delete";
+
+    public static $editButton = "Edit";
+
+    public static $saveNewButton = "Save & New";
+
+    public static $cancelButton = "Cancel";
+
+    public static $checkInButton = "Check-in";
 
     /**
      * Function to get the Path for Template ID
@@ -79,6 +144,12 @@ class CategoryManagerJ3Page
     {
         $path = "//div[@id='filter_category_template']/div/ul/li[contains(text(), '" . $templateName . "')]";
 
+        return $path;
+    }
+
+    public function xPathAccessory($accessoryName)
+    {
+        $path = ['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"];
         return $path;
     }
 }

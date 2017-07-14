@@ -27,33 +27,16 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
-        $I->click("New");
-        $I->verifyNotices(false, $this->checkForNotices(), CategoryManagerJ3Page::$URLNew);
-//        $I->verifyNotices(false, $this->checkForNotices(\CategoryManagerJ3Page::$URL), 'Category Manager Page New');
-//        $I->checkForPhpNoticesOrWarnings(\CategoryManagerJ3Page::$URLNew);
+        $I->click(\CategoryManagerJ3Page::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\CategoryManagerJ3Page::$URLNew);
         $I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
-        $I->click('//*[@id="s2id_jform_more_template"]/ul');
-        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
-        $I->click("Save");
-//        $I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
-    }
 
+        $I->click(\CategoryManagerJ3Page::$template);
+        $I->click(\CategoryManagerJ3Page::$choiceTemplate);
 
-    /** Function add Category and click "Save" button
-     * @param $categoryName
-     */
-    public function addCategoryName($categoryName)
-    {
-        $I = $this;
-        $I->amOnPage(\CategoryManagerJ3Page::$URL);
-        $I->click("New");
-        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
-        $I->checkForPhpNoticesOrWarnings();
-        $I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
-        $I->click('//*[@id="s2id_jform_more_template"]/ul');
-        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
-        $I->click("Save");
+        $I->click(\CategoryManagerJ3Page::$saveButton);
         $I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
+        $I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
     }
 
     /**
@@ -67,14 +50,14 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
-        $I->click("New");
-        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
-        $I->checkForPhpNoticesOrWarnings();
+        $I->click(\CategoryManagerJ3Page::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\CategoryManagerJ3Page::$URLNew);
         $I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
-        $I->click('//*[@id="s2id_jform_more_template"]/ul');
-        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
-        $I->click("Save & Close");
+        $I->click(\CategoryManagerJ3Page::$template);
+        $I->click(\CategoryManagerJ3Page::$choiceTemplate);
+        $I->click(\CategoryManagerJ3Page::$saveCloseButton);
         $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+        $I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
     }
 
     /** Create category Save and New button
@@ -86,15 +69,15 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
-        $I->click("New");
-        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
-        $I->checkForPhpNoticesOrWarnings();
+        $I->click(\CategoryManagerJ3Page::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\CategoryManagerJ3Page::$URLNew);
         $I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
         $I->fillField(\CategoryManagerJ3Page::$categoryNoPage, $noPage);
-        $I->click('//*[@id="s2id_jform_more_template"]/ul');
-        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
-        $I->click("Save & New");
+        $I->click(\CategoryManagerJ3Page::$template);
+        $I->click(\CategoryManagerJ3Page::$choiceTemplate);
+        $I->click(\CategoryManagerJ3Page::$saveNewButton);
         $I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
+
     }
 
     /**
@@ -104,10 +87,9 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
-        $I->click("New");
-        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click("Cancel");
+        $I->click(\CategoryManagerJ3Page::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\CategoryManagerJ3Page::$URLNew);
+        $I->click(\CategoryManagerJ3Page::$cancelButton);
         $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
     }
 
@@ -119,16 +101,16 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
-        $I->click("New");
-        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
+        $I->click(\CategoryManagerJ3Page::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\CategoryManagerJ3Page::$URLNew);
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
         $I->click(\CategoryManagerJ3Page::$parentCategory);
-        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
+        $I->click(\CategoryManagerJ3Page::$choiceTemplate);
         $I->fillField(\CategoryManagerJ3Page::$categoryNoPage, $noPage);
-        $I->click('//*[@id="s2id_jform_more_template"]/ul');
-        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
-        $I->click("Save & Close");
+        $I->click(\CategoryManagerJ3Page::$template);
+        $I->click(\CategoryManagerJ3Page::$choiceTemplate);
+        $I->click(\CategoryManagerJ3Page::$saveCloseButton);
         $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
     }
 
@@ -144,31 +126,32 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
-        $I->click("New");
-        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
-        $I->checkForPhpNoticesOrWarnings();
+        $I->click(\CategoryManagerJ3Page::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\CategoryManagerJ3Page::$URLNew);
         $I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
         $I->click(\CategoryManagerJ3Page::$parentCategory);
-        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
+        $I->click(\CategoryManagerJ3Page::$choiceTemplate);
         $I->fillField(\CategoryManagerJ3Page::$categoryNoPage, $noPage);
-		$I->click('//div[@id="s2id_jform_more_template"]/ul');
-        $I->click('//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]');
-        $I->click(['link' => "Accessories"]);
-		$I->waitForElement(['xpath' => "//h3[text()='Accessories']"], 60);
+        $I->click(\CategoryManagerJ3Page::$template);
+        $I->click(\CategoryManagerJ3Page::$choiceTemplate);
+        $I->click(\CategoryManagerJ3Page::$tabAccessory);
+        $I->waitForElement(\CategoryManagerJ3Page::$getAccessory, 60);
         $this->selectAccessories($productAccessories);
-        $I->click("Save & Close");
+        $I->click(\CategoryManagerJ3Page::$saveCloseButton);
         $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+        $I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
     }
 
-	private function selectAccessories($accessoryName)
-	{
-		$I = $this;
-		$I->click(['xpath' => '//div[@id="s2id_category_accessory_search"]//a']);
-		$I->waitForElement(['id' => "s2id_autogen1_search"]);
-		$I->fillField(['id' => "s2id_autogen1_search"], $accessoryName);
-		$I->waitForElement(['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"], 60);
-		$I->click(['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"]);
-	}
+    private function selectAccessories($accessoryName)
+    {
+        $I = $this;
+        $I->click(\CategoryManagerJ3Page::$accessorySearch);
+        $I->waitForElement(\CategoryManagerJ3Page::$searchFirst);
+        $I->fillField(\CategoryManagerJ3Page::$searchFirst, $accessoryName);
+        $userCategoryPage = new \CategoryManagerJ3Page();
+        $I->waitForElement($userCategoryPage->xPathAccessory($accessoryName), 60);
+        $I->click($userCategoryPage->xPathAccessory($accessoryName));
+    }
 
     // That is the function for udpate category
 
@@ -183,13 +166,17 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->searchCategory($categoryName);
         $I->wait(3);
         $I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
+        $value = $I->grabTextFrom(\CategoryManagerJ3Page::$categoryId);
         $I->click(\CategoryManagerJ3Page::$checkAll);
         $I->click(['link' => $categoryName]);
         $I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
+
+        $URLEdit = \CategoryManagerJ3Page::$URLEdit . $value;
+        $I->checkForPhpNoticesOrWarnings($URLEdit);
         $I->fillField(\CategoryManagerJ3Page::$categoryName, $updatedName);
-        $I->click("Save");
+        $I->click(\CategoryManagerJ3Page::$saveButton);
         $I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
+        $I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
     }
 
 
@@ -208,13 +195,17 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->searchCategory($categoryName);
         $I->wait(3);
         $I->see($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
+        $value = $I->grabTextFrom(\CategoryManagerJ3Page::$categoryId);
         $I->click(\CategoryManagerJ3Page::$checkAll);
         $I->click(['link' => $categoryName]);
         $I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
+
+        $URLEdit = \CategoryManagerJ3Page::$URLEdit . $value;
+        $I->checkForPhpNoticesOrWarnings($URLEdit);
         $I->fillField(\CategoryManagerJ3Page::$categoryName, $updatedName);
-        $I->click("Save & Close");
-        $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+        $I->click(\CategoryManagerJ3Page::$saveCloseButton);
+        $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 60);
+        $I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
     }
 
 
@@ -255,7 +246,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->wantTo('Search the Category');
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
-        $I->waitForText('Category Management', 30, ['xpath' => "//h1"]);
+        $I->waitForText(\CategoryManagerJ3Page::$pageManageName, 30, \CategoryManagerJ3Page::$headPageName);
         $I->filterListBySearching($categoryName);
     }
 
@@ -286,13 +277,12 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         return $result;
     }
 
-
     public function deleteWithoutChoice()
     {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click("Delete");
+        $I->click(\CategoryManagerJ3Page::$deleteButton);
         $I->acceptPopup();
         $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
     }
@@ -311,10 +301,10 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->searchCategory($categoryName);
         $I->checkAllResults();
-        $I->click("Delete");
+        $I->click(\CategoryManagerJ3Page::$deleteButton);
         $I->acceptPopup();
-        $I->waitForText("1 item successfully deleted", 60, '.alert-success');
-        $I->see("1 item successfully deleted", '.alert-success');
+        $I->waitForText(\CategoryManagerJ3Page::$messageDeleteSuccess, 60, \CategoryManagerJ3Page::$selectorSuccess);
+        $I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
         $I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
         $I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
         $I->dontSee($categoryName, \CategoryManagerJ3Page::$categoryResultRow);
@@ -326,9 +316,9 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings();
         $I->click(\CategoryManagerJ3Page::$checkAllCategory);
-        $I->click("Delete");
+        $I->click(\CategoryManagerJ3Page::$deleteButton);
         $I->acceptPopup();
-        $I->waitForText("Error", 30, '.alert-danger');
+        $I->waitForText(\CategoryManagerJ3Page::$messageError, 30, \CategoryManagerJ3Page::$selectorError);
 
     }
 
@@ -338,7 +328,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click("Publish");
+        $I->click(\CategoryManagerJ3Page::$publishButton);
         $I->acceptPopup();
 //        $I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
     }
@@ -350,43 +340,47 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings();
         $I->click(\CategoryManagerJ3Page::$checkAllCategory);
-        $I->click("Publish");
-        $I->waitForText("Message", 30, '.alert-success');
+        $I->click(\CategoryManagerJ3Page::$publishButton);
+        $I->waitForText(\CategoryManagerJ3Page::$messageSuccess, 30, \CategoryManagerJ3Page::$selectorSuccess);
     }
 
-    public function unpublishWithoutChoice(){
+    public function unpublishWithoutChoice()
+    {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click("Unpublish");
+        $I->click(\CategoryManagerJ3Page::$unpublishButton);
         $I->acceptPopup();
     }
 
-    public function unpublishAllCategories(){
+    public function unpublishAllCategories()
+    {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings();
         $I->click(\CategoryManagerJ3Page::$checkAllCategory);
-        $I->click("Unpublish");
-        $I->waitForText("Message", 30, '.alert-success');
+        $I->click(\CategoryManagerJ3Page::$unpublishButton);
+        $I->waitForText(\CategoryManagerJ3Page::$messageSuccess, 30, \CategoryManagerJ3Page::$selectorSuccess);
     }
 
-    public function checkinWithoutChoice(){
+    public function checkinWithoutChoice()
+    {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings();
-        $I->click("Check-in");
+        $I->click(\CategoryManagerJ3Page::$checkInButton);
         $I->acceptPopup();
     }
 
 
-    public function checkinAllCategories(){
+    public function checkinAllCategories()
+    {
         $I = $this;
         $I->amOnPage(\CategoryManagerJ3Page::$URL);
         $I->checkForPhpNoticesOrWarnings();
         $I->click(\CategoryManagerJ3Page::$checkAllCategory);
-        $I->click("Check-in");
-        $I->waitForText("Message", 30, '.alert-success');
+        $I->click(\CategoryManagerJ3Page::$checkInButton);
+        $I->waitForText(\CategoryManagerJ3Page::$messageSuccess, 30, \CategoryManagerJ3Page::$selectorSuccess);
     }
 
 

@@ -29,15 +29,15 @@ class ManageCategoryAdministratorCest
 
     /*
      * Create category and save button
-     */
-    public function createCategorySave(AcceptanceTester $I, $scenario)
+//     */
+    public function createCategory(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Category Save creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category Save button');
         $I->addCategorySave($this->categoryName);
-        $I->see("item successfully saved", '.alert-success');
+
     }
 
     public function updateCategorySaveClose(AcceptanceTester $I, $scenario)
@@ -47,13 +47,12 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Update Existing Category');
         $I->updateCategory($this->categoryName, $this->newCategoryName);
-        $I->see("item successfully saved", '.alert-success');
     }
 
     /**
      * Function to Test Category Updation then Save button in the Administrator
      *
-     * @depends createCategorySave
+     * @depends createCategory
      */
     public function updateCategorySave(AcceptanceTester $I, $scenario)
     {
@@ -62,7 +61,6 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Update Existing Category');
         $I->updateCategorySave($this->newCategoryName, $this->newCategoryName);
-        $I->see("item successfully saved", '.alert-success');
     }
 
     /**
@@ -106,7 +104,6 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
         $I->addCategorySaveClose($this->categoryName);
-        $I->see("item successfully saved", '.alert-success');
     }
 
     /**
@@ -121,7 +118,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
         $I->addCategorySaveNew($this->categoryName, $this->noPage);
-        $I->see("item successfully saved", '.alert-success');
+
     }
 
     /**
@@ -136,7 +133,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
         $I->addCategoryCancel();
-        $I->see("Category Management", \CategoryManagerJ3Page::$categoryManagement);
+        $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$categoryManagement);
     }
 
     /**
@@ -151,7 +148,6 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
         $I->addCategoryChild($this->categoryName, $this->noPage);
-        $I->see("item successfully saved", '.alert-success');
     }
 
     /**
@@ -166,7 +162,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Delete without a Category');
         $I->deleteWithoutChoice();
-        $I->see("Category Management", '.page-title');
+        $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
     }
 
     /**
@@ -181,7 +177,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
         $I->deleteAllCategory();
-        $I->see("Category Management", '.page-title');
+        $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
 
     }
 
@@ -197,7 +193,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Publish without a Category');
         $I->publishWithoutChoice();
-        $I->see("Category Management", '.page-title');
+        $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
     }
 
     /** depends publishWithouChoice
@@ -211,7 +207,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Publish without a Category');
         $I->publishAllCategory();
-        $I->see("Category Management", '.page-title');
+        $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
     }
 
     /**
@@ -226,7 +222,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Unpublish without a Category');
         $I->unpublishWithoutChoice();
-        $I->see("Category Management", '.page-title');
+        $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
     }
 
     /**
@@ -243,7 +239,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Unpublish without a Category');
         $I->unpublishAllCategories();
-        $I->see("Category Management", '.page-title');
+        $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
     }
 
     /**
@@ -258,7 +254,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Check-in  without a Category');
         $I->checkinWithoutChoice();
-        $I->see("Category Management", '.page-title');
+        $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
     }
 
     /**
@@ -273,7 +269,7 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Check-in without a Category');
         $I->checkinAllCategories();
-        $I->see("Category Management", '.page-title');
+        $I->see(\CategoryManagerJ3Page::$pageManageName, \CategoryManagerJ3Page::$selectorNamePage);
     }
 
     /** Function to create category with access
@@ -287,7 +283,6 @@ class ManageCategoryAdministratorCest
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
         $I->addCategoryAccessories($this->categoryName, $this->noPage, $this->productAccessories);
-        $I->see("item successfully saved", '.alert-success');
     }
 
 
