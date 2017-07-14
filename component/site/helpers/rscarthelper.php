@@ -3629,7 +3629,7 @@ class rsCarthelper
 			$template1       = explode("{payment_loop_start}", $template_desc);
 			$template1       = explode("{payment_loop_end}", $template1[1]);
 			$template_middle = $template1[0];
-			$shopperGroupId  = $rsUserhelper->getShopperGroup($user_id);
+			$shopperGroupId  = RedshopHelperUser::getShopperGroup($user_id);
 			$payment_display = "";
 			$flag            = false;
 
@@ -5508,7 +5508,7 @@ class rsCarthelper
 						$sameProduct = false;
 					}
 
-					if ($cart[$i]['wrapper_id'] != $data['sel_wrapper_id'])
+					if (isset($data['sel_wrapper_id']) && $cart[$i]['wrapper_id'] != $data['sel_wrapper_id'])
 					{
 						$sameProduct = false;
 					}
@@ -5746,7 +5746,7 @@ class rsCarthelper
 
 		if (!isset($cart['user_shopper_group_id']) || (isset($cart['user_shopper_group_id']) && $cart['user_shopper_group_id'] == 0))
 		{
-			$cart['user_shopper_group_id'] = $rsUserhelper->getShopperGroup($user->id);
+			$cart['user_shopper_group_id'] = RedshopHelperUser::getShopperGroup($user->id);
 		}
 
 		$cart['free_shipping'] = 0;
