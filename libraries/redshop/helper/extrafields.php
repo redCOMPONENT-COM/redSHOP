@@ -1868,7 +1868,7 @@ class RedshopHelperExtrafields
 							$documentLink    = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/' . $fileName;
 							$absDocumentLink = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $fileName;
 
-							if (is_file($absDocumentLink))
+							if (JFile::exists($absDocumentLink))
 							{
 								$displayValue .= '<a href="' . $documentLink . '" target="_blank">' . $documentTitle . '</a>';
 							}

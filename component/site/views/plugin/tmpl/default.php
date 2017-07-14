@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$dispatcher = JDispatcher::getInstance();
+$dispatcher = RedshopHelperUtility::getDispatcher();
 
 // Event
 $task = JRequest::getCmd('task');

@@ -59,7 +59,14 @@ foreach ($characterSets as $char => $name)
         var plugin = '';
         var total = 0;
         var folder = '';
+        // Init import value for first time
+        var importInit = 0;
+        // Number of files after splitted. This one also value of ajax request will be execute
+        var itemsCount = 0;
+        // Number of item will be execute for each ajax request
         var itemRun = 1;
+        // Number of failed import
+        var failedCount = 0;
         var allowFileType = ["<?php echo implode('","', $allowFileTypes) ?>"];
         var allowFileExt = ["<?php echo implode('","', $allowFileExtensions) ?>"];
         var allowMaxFileSize = <?php echo $allowMaxFileSize ?>;
@@ -70,6 +77,7 @@ foreach ($characterSets as $char => $name)
                 var $uploadProgress = $("#import_upload_progress");
                 var $uploadWrapper = $("#import_upload_progress_wrapper");
 
+                // Get config
                 $("#import_plugins input[type='radio']").change(function (e) {
                     plugin = $(this).val();
                     $("#import_config").addClass('disabled muted');
@@ -90,20 +98,38 @@ foreach ($characterSets as $char => $name)
                     );
                 });
 
+                /**
+                 * Submit file upload
+                 */
                 $("#fileupload").fileupload({
                     dataType: "json",
                     singleFileUploads: true,
+                    /**
+                     * Uploaded
+                     *
+                     * @param e
+                     * @param data
+                     */
                     done: function (e, data) {
                         $uploadWrapper.hide();
                         $("#import_process_msg_body").empty();
 
+                        // File uploaded and success at service side
                         if (data.result.status == 1) {
+                            // Message
                             $("<p>").addClass("text-success").html(data.result.msg).appendTo($("#import_process_msg_body"));
+                            // Show number of product(s) will import counted by number of lines without head line
                             total = data.result.lines - 1;
+                            // Update folder var
                             folder = data.result.folder;
+                            // Update number of splitted files
+                            itemsCount = data.result.files;
+                            // Show number of product(s) will import
                             $("#import_count").html(total);
+                            // Show process bar
                             $("#import_process_bar").parent().show();
-                            run_import(0);
+                            // Execute import
+                            run_import(importInit);
                         } else {
                             $("#import_plugins").removeClass("disabled muted");
                             $("#import_config").removeClass("disabled muted");
@@ -186,18 +212,23 @@ foreach ($characterSets as $char => $name)
                 var data = $("#adminForm").serialize();
                 data += "&folder=" + folder;
 
+                /**
+                 * Request ajax for importing
+                 */
                 $.post(
                     url,
                     data,
                     function (response) {
+                        var $bar = $("#import_process_bar");
+                        // Current process percent
                         var success = startIndex + itemRun;
                         var percent = 0.0;
-                        var $bar = $("#import_process_bar");
 
                         if (success > total) {
                             percent = 100;
                         } else {
-                            percent = (success / total) * 100;
+                            // itemsCount is number of files we'll need ajax request to process import
+                            percent = (success * 100) / itemsCount;
                         }
 
                         if (percent > 100) {
@@ -207,31 +238,41 @@ foreach ($characterSets as $char => $name)
                         $bar.css("width", percent + "%");
                         $bar.html(percent.toFixed(2) + "%");
 
-                        if (response.data.length) {
-                            for (i = 0; i < response.data.length; i++) {
-                                var textClass = "text-success";
+                        // Completed
+                        if (percent == 100) {
+                            // Render success message
+                            $("<p>").addClass('text-info').html("<?php echo JText::_('COM_REDSHOP_IMPORT_SUCCESS'); ?>").appendTo($("#import_process_msg_body"));
+                        }
+                        else
+                        {
+                            // Number if processed items / products
+                            if (response.data.length) {
+                                for (i = 0; i < response.data.length; i++) {
+                                    var textClass = "text-success";
 
-                                if (response.data[i].status == 0) {
-                                    textClass = "text-danger";
+                                    if (response.data[i].status == 0) {
+                                        textClass = "text-danger";
+                                    }
+
+                                    $("<p>").addClass(textClass).html(response.data[i].message).appendTo($("#import_process_msg_body"));
                                 }
-
-                                $("<p>").addClass(textClass).html(response.data[i].message).appendTo($("#import_process_msg_body"));
                             }
-                        }
 
-                        if (response.status == 1) {
-                            run_import(success);
-                        }
-                        else if (response.status == 0 || success > total) {
-                            total = 0;
-                            $("#import_plugins").removeClass("disabled muted");
-                            $("#import_config").removeClass("disabled muted");
-                        }
-                        else {
-                            total = 0;
-                            $("#import_plugins").removeClass("disabled muted");
-                            $("#import_config").removeClass("disabled muted");
-                            $("<p>").addClass("text-danger").html(response).appendTo($("#import_process_msg_body"));
+                            // Execute next import
+                            if (response.status == 1) {
+                                run_import(success);
+                            }
+                            else if (response.status == 0 || success > total) {
+                                total = 0;
+                                $("#import_plugins").removeClass("disabled muted");
+                                $("#import_config").removeClass("disabled muted");
+                            }
+                            else {
+                                total = 0;
+                                $("#import_plugins").removeClass("disabled muted");
+                                $("#import_config").removeClass("disabled muted");
+                                $("<p>").addClass("text-danger").html(response).appendTo($("#import_process_msg_body"));
+                            }
                         }
                     },
                     "JSON"
@@ -282,11 +323,13 @@ foreach ($characterSets as $char => $name)
                             <fieldset class="form-horizontal">
                                 <p>
 									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MIN_FILE_SIZE') ?>:&nbsp;
-                                    <span class="text-primary"><?php echo number_format($allowMinFileSize) ?> bytes</span>
+                                    <span class="text-primary"><?php echo number_format($allowMinFileSize) ?>
+                                        bytes</span>
                                 </p>
                                 <p>
 									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_FILE_SIZE') ?>:&nbsp;
-                                    <span class="text-primary"><?php echo number_format($allowMaxFileSize) ?> bytes</span>
+                                    <span class="text-primary"><?php echo number_format($allowMaxFileSize) ?>
+                                        bytes</span>
                                 </p>
                                 <p>
 									<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_MIME') ?>:&nbsp;
@@ -303,23 +346,14 @@ foreach ($characterSets as $char => $name)
 										<?php echo JText::_('COM_REDSHOP_IMPORT_CONFIG_SEPARATOR') ?>
                                     </label>
                                     <div class="col-md-10">
-                                        <input type="text" value="," class="form-control" maxlength="1" name="separator"/>
+                                        <input type="text" value="," class="form-control" maxlength="1"
+                                               name="separator"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label"><?php echo JText::_('COM_REDSHOP_IMPORT_ENCODING') ?></label>
                                     <div class="col-md-10">
-										<?php
-										echo JHtml::_(
-											'select.genericlist',
-											$encodings,
-											'encoding',
-											'class="form-control"',
-											'value',
-											'text',
-											'UTF-8'
-										);
-										?>
+										<?php echo JHtml::_('select.genericlist', $encodings, 'encoding', 'class="form-control"', 'value', 'text', 'UTF-8'); ?>
                                     </div>
                                 </div>
                                 <div id="import_config_body"></div>
@@ -335,7 +369,8 @@ foreach ($characterSets as $char => $name)
                 <!-- Step 3. Process -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4 class="panel-title" id="import_process_title"><?php echo JText::_('COM_REDSHOP_IMPORT_STEP_3') ?></h4>
+                        <h4 class="panel-title"
+                            id="import_process_title"><?php echo JText::_('COM_REDSHOP_IMPORT_STEP_3') ?></h4>
                     </div>
                     <div id="import_process_panel">
                         <div class="panel-body">
@@ -349,14 +384,17 @@ foreach ($characterSets as $char => $name)
                                     <p></p>
                                     <div class="progress" id="import_upload_progress_wrapper" style="display: none;">
                                         <div id="import_upload_progress" class="progress-bar" role="progressbar"
-                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%
+                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: 0%;">0%
                                         </div>
                                     </div>
                                     <hr/>
                                     <h3><?php echo JText::_('COM_REDSHOP_IMPORT_DATA_IMPORT') ?>: <span id="import_count"></span></h3>
                                     <div class="progress" style="display: none;">
-                                        <div id="import_process_bar" class="progress-bar progress-bar-success" role="progressbar"
-                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                        <div id="import_process_bar" class="progress-bar progress-bar-success"
+                                             role="progressbar"
+                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: 0%;">
                                             0%
                                         </div>
                                     </div>
