@@ -84,7 +84,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$manufacturer_template = array_merge($templatesel, $manufacturer_template);
 		$ajax_detail_template  = array_merge($templatesel, $ajax_detail_template);
 
-		$shopper_groups = $userhelper->getShopperGroupList();
+		$shopper_groups = Redshop\Helper\ShopperGroup::generateList();
 
 		if (count($shopper_groups) <= 0)
 		{

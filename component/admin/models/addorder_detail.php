@@ -672,7 +672,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 				$userfields = $item[$i]->extrafieldname;
 				$userfields_id = $item[$i]->extrafieldId;
 
-				for ($ui = 0; $ui < count($userfields); $ui++)
+				for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 				{
 					$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
 				}
@@ -782,7 +782,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				$bookinvoicepdf = Economic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
-				if (is_file($bookinvoicepdf))
+				if (JFile::exists($bookinvoicepdf))
 				{
 					RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}

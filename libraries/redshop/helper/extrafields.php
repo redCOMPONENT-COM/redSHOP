@@ -681,7 +681,7 @@ class RedshopHelperExtrafields
 							$destinationPrefixDel      = '/components/com_redshop/assets/document/extrafields/';
 							$mediaImage                = $destinationPrefixAbsolute . $dataTxtValue;
 
-							if (is_file($mediaImage))
+							if (JFile::exists($mediaImage))
 							{
 								$mediaImage = $destinationPrefix . $dataTxtValue;
 								$mediaType  = strtolower(JFile::getExt($dataTxtValue));
@@ -1909,7 +1909,7 @@ class RedshopHelperExtrafields
 							$documentLink    = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/' . $fileName;
 							$absDocumentLink = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $fileName;
 
-							if (is_file($absDocumentLink))
+							if (JFile::exists($absDocumentLink))
 							{
 								$displayValue .= '<a href="' . $documentLink . '" target="_blank">' . $documentTitle . '</a>';
 							}

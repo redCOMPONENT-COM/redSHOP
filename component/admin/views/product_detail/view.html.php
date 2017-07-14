@@ -62,7 +62,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		JPluginHelper::importPlugin('redshop_product');
 		JPluginHelper::importPlugin('redshop_product_type');
-		$this->dispatcher    = JDispatcher::getInstance();
+		$this->dispatcher    = RedshopHelperUtility::getDispatcher();
 
 		$redTemplate         = Redtemplate::getInstance();
 		$redhelper           = redhelper::getInstance();
