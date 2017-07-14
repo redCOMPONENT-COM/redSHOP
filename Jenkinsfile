@@ -16,7 +16,8 @@ pipeline {
                     sleep 3 && \
                     composer update && \
                     export DISPLAY=:99 && \
-                    mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml
+                    mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml && \
+                    vendor/bin/robo prepare:site-for-system-tests
                 '''
             }
         }
