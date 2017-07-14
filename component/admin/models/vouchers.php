@@ -26,11 +26,13 @@ class RedshopModelVouchers extends RedshopModelList
 	protected $filterFormName = 'filter_vouchers';
 
 	/**
-	 * Construct class
+	 * Constructor.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JModelLegacy
 	 */
-	public function __construct()
+	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
 		{
