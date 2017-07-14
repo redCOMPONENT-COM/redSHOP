@@ -22,7 +22,7 @@ class RedshopViewOrders extends RedshopView
 		if ($user->id == 0)
 		{
 			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid')));
-			exit;
+			$app->close();
 		}
 
 		$layout = JRequest::getCmd('layout', 'default');

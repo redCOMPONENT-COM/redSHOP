@@ -1097,7 +1097,7 @@ class RedshopHelperProduct
 			$userArr = $userHelper->createUserSession($userId);
 		}
 
-		$shopperGroupId = $userHelper->getShopperGroup($userId);
+		$shopperGroupId = RedshopHelperUser::getShopperGroup($userId);
 
 		if ($userId)
 		{
