@@ -8,6 +8,7 @@ class ManagerMassDiscountAdministratorCest
     public function __construct()
     {
 
+        $this->faker = Faker\Factory::create();
         $this->ProductName = 'ProductName' . rand(100, 999);
         $this->MassDiscountName = 'MassDiscount' . rand(10, 100);
         $this->MassDiscountNameEdit = 'Edit' . $this->MassDiscountName;
@@ -31,7 +32,7 @@ class ManagerMassDiscountAdministratorCest
         $this->newProductName = 'New-Test Product' . rand(99, 999);
         $this->nameAttribute = 'Size';
         $this->valueAttribute = "Z";
-        $this->priceAttribute = 12;
+        $this->priceAttribute =  $this->faker->numberBetween(1,30);
         $this->nameProductAccessories = "redFORM";
         $this->nameRelatedProduct = "redITEM";
         $this->quantityStock = $this->faker->numberBetween(10, 100);;
@@ -66,12 +67,12 @@ class ManagerMassDiscountAdministratorCest
         $I->wantTo('I Want to add product inside the category');
         $I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
     }
-
-    /*
-   * Funtion to mass Discount for Product inside the category
-   *
-   * @depends createProductSave
-   */
+//
+//    /*
+//   * Funtion to mass Discount for Product inside the category
+//   *
+//   * @depends createProductSave
+//   */
     public function addMassDiscount(AcceptanceTester $I, $scenario)
     {
         $I->wantTo(' add Mass discount in Administrator');

@@ -78,12 +78,10 @@ class MassDiscountManagerPage
     public static $addButton = "Add";
 
 
-    public function returnSpan($type)
+    public function returnXpath($type)
     {
-        $I = $this;
-        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $type . "')]"], 60);
-        $I->click(['xpath' => "//span[contains(text(), '" . $type . "')]"]);
+        $path = ['xpath' => "//span[contains(text(), '" . $type . "')]"];
+        return $path;
     }
-
 
 }
