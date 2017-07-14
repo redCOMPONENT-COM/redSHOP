@@ -812,17 +812,19 @@ class RedshopHelperOrder
 		$filter    = JFilterInput::getInstance();
 
 		// Filter name to remove special characters
+		// We are using $billingInfo instead $shippingInfo because $shippingInfo stored information of service point not buyer
 		$firstName = $filter->clean(
-			mb_convert_encoding($shippingInfo->firstname, "ISO-8859-1", "UTF-8"),
+			mb_convert_encoding($billingInfo->firstname, "ISO-8859-1", "UTF-8"),
 			'username'
 		);
 		$lastName  = $filter->clean(
-			mb_convert_encoding($shippingInfo->lastname, "ISO-8859-1", "UTF-8"),
+			mb_convert_encoding($billingInfo->lastname, "ISO-8859-1", "UTF-8"),
 			'username'
 		);
 		$fullName  = $firstName . " " . $lastName;
-		$address   = mb_convert_encoding($shippingInfo->address, "ISO-8859-1", "UTF-8");
-		$city      = mb_convert_encoding($shippingInfo->city, "ISO-8859-1", "UTF-8");
+
+		$address   = mb_convert_encoding($billingInfo->address, "ISO-8859-1", "UTF-8");
+		$city      = mb_convert_encoding($billingInfo->city, "ISO-8859-1", "UTF-8");
 
 		if ($billingInfo->is_company)
 		{
@@ -884,9 +886,9 @@ class RedshopHelperOrder
 				<val n="name"><![CDATA[' . $fullName . ']]></val>
 				<val n="address1"><![CDATA[' . $finalAddress1 . ']]></val>
 				<val n="address2"><![CDATA[' . $finalAddress2 . ']]></val>
-				<val n="zipcode">' . $shippingInfo->zipcode . '</val>
+				<val n="zipcode">' . $billingInfo->zipcode . '</val>
 				<val n="city">' . $city . '</val>
-				<val n="country">' . $shippingInfo->country_code . '</val>
+				<val n="country">' . $billingInfo->country_code . '</val>
 				<val n="contact"><![CDATA[' . $firstName . ']]></val>
 				<val n="phone">' . $shippingInfo->phone . '</val>
 				<val n="doorcode"/>
@@ -2625,7 +2627,7 @@ class RedshopHelperOrder
 
 			$bookInvoicePdf = Economic::bookInvoiceInEconomic($orderId, Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT'));
 
-			if (is_file($bookInvoicePdf))
+			if (JFile::exists($bookInvoicePdf))
 			{
 				RedshopHelperMail::sendEconomicBookInvoiceMail($orderId, $bookInvoicePdf);
 			}

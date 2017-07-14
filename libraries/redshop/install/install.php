@@ -220,7 +220,7 @@ class RedshopInstall
 			$template->template_name = str_replace(" ", "_", $template->template_name);
 			$templateFile            = RedshopHelperTemplate::getTemplatefilepath($template->template_section, $template->template_name, true);
 
-			if (!is_file($templateFile))
+			if (!JFile::exists($templateFile))
 			{
 				$fp = fopen($templateFile, "w");
 				fwrite($fp, $template->template_desc);
