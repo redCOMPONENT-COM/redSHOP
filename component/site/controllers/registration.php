@@ -29,7 +29,7 @@ class RedshopControllerRegistration extends RedshopController
 		$app        = JFactory::getApplication();
 		$post       = JRequest::get('post');
 		$Itemid     = JRequest::getInt('Itemid', 0);
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$prodhelperobj = productHelper::getInstance();
 		$redshopMail   = redshopMail::getInstance();
@@ -91,7 +91,7 @@ class RedshopControllerRegistration extends RedshopController
 		$return = "";
 
 		JPluginHelper::importPlugin('telesearch');
-		$this->_dispatcher = JDispatcher::getInstance();
+		$this->_dispatcher = RedshopHelperUtility::getDispatcher();
 		$tele['phone']     = $get['phone'];
 		$accountHandle     = $this->_dispatcher->trigger('onSearchUserDetails', array($tele));
 

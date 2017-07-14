@@ -114,13 +114,14 @@ class RedshopViewSearch extends RedshopView
 			$input = JFactory::getApplication()->input;
 			$input->set('order_by', $app->getUserState('order_by'));
 
-			$dispatcher       = JDispatcher::getInstance();
+			$dispatcher       = RedshopHelperUtility::getDispatcher();
 			$redTemplate      = Redtemplate::getInstance();
 			$Redconfiguration = Redconfiguration::getInstance();
 			$producthelper    = productHelper::getInstance();
 			$extraField       = extraField::getInstance();
 			$texts            = new text_library;
 			$stockroomhelper  = rsstockroomhelper::getInstance();
+			$objhelper        = redhelper::getInstance();
 
 			$Itemid         = JRequest::getInt('Itemid');
 			$search_type    = JRequest::getCmd('search_type');
@@ -335,14 +336,27 @@ class RedshopViewSearch extends RedshopView
 
 					if (!in_array($keyword, $tagarray))
 					{
-						$pname      = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $pname);
-						$pro_s_desc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_s_desc);
-						$pro_desc   = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_desc);
+						$regex      = "/" . $keyword . "(?![^<]*>)/";
+						$pname      = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pname);
+						$pro_s_desc = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_s_desc);
+						$pro_desc   = preg_replace($regex, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_desc);
 					}
 				}
 
 				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
-				$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $Itemid);
+
+				$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->search[$i]->product_id);
+
+				if (count($ItemData) > 0)
+				{
+					$pItemid = $ItemData->id;
+				}
+				else
+				{
+					$pItemid = $objhelper->getItemid($this->search[$i]->product_id, $this->search[$i]->category_id);
+				}
+
+				$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $pItemid);
 
 				if (strstr($data_add, '{product_name}'))
 				{
@@ -501,7 +515,7 @@ class RedshopViewSearch extends RedshopView
 							$alttext = $media_documents[$m]->media_name;
 						}
 
-						if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
+						if (JFile::exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 						{
 							$downlink = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 							$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";

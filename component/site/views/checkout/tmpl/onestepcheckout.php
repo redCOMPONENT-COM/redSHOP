@@ -211,7 +211,7 @@ else
 
 if ($users_info_id)
 {
-	$onestep_template_desc = $carthelper->replaceBillingAddress($onestep_template_desc, $billingaddresses);	
+	$onestep_template_desc = $carthelper->replaceBillingAddress($onestep_template_desc, $billingaddresses);
 }
 else
 {
