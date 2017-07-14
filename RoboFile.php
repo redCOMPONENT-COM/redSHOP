@@ -17,7 +17,7 @@ require_once 'vendor/autoload.php';
 class RoboFile extends \Robo\Tasks
 {
     // Load tasks from composer, see composer.json
-    use Joomla\Testing\Robo\Tasks\loadTasks;
+    use Joomla\Testing\Robo\Tasks\LoadTasks;
 
     /**
      * File extension for executables
