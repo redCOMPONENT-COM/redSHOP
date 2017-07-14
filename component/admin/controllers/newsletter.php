@@ -121,7 +121,8 @@ class RedshopControllerNewsletter extends RedshopController
 
 		$responcemsg = "<div id='sentresponse'>" . $responcemsg . "</div>";
 		echo $responcemsg;
-		exit;
+
+		JFactory::getApplication()->close();
 	}
 
 	public function publish()
