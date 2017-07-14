@@ -13,7 +13,7 @@ pipeline {
                     ls -la && \
                     composer update && \
                     mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml && \
-                    vendor/bin/robo prepare:site-for-system-tests
+                    sudo vendor/bin/robo prepare:site-for-system-tests
                 '''
             }
         }
