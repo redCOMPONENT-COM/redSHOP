@@ -175,18 +175,8 @@ class RedshopModelCheckout extends RedshopModel
 
 		$issplit = $session->get('issplit');
 
-		// If user subscribe for the newsletter
-		if (isset($post['newsletter_signup']) && $post['newsletter_signup'] == 1)
-		{
-			RedshopHelperNewsletter::subscribe();
-		}
-
-		// If user unsubscribe for the newsletter
-
-		if (isset($post['newsletter_signoff']) && $post['newsletter_signoff'] == 1)
-		{
-			RedshopHelperNewsletter::removeSubscribe();
-		}
+		// Subscribe or Unsubscribe for the newsletter
+		RedshopHelperCheckout::newsLetter($post);
 
 		$orderPaymentStatus = 'Unpaid';
 		$userInforId        = $input->getInt('users_info_id');
@@ -274,7 +264,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		$orderShipping  = RedshopShippingRate::decrypt($shippingRateId);
 		$orderStatus    = 'P';
-		$order_subtotal = $cart ['product_subtotal'];
+		$orderSubTotal = $cart ['product_subtotal'];
 		$cdiscount      = $cart ['coupon_discount'];
 		$order_tax      = $cart ['tax'];
 		$d['order_tax'] = $order_tax;
@@ -343,17 +333,17 @@ class RedshopModelCheckout extends RedshopModel
 		// For credit card payment gateway page will redirect to order detail page from plugin
 		if ($isCreditCard == 1 && $isRedirected == 0 && $cart['total'] > 0)
 		{
-			$order_number = RedshopHelperOrder::generateOrderNumber();
+			$orderNumber = RedshopHelperOrder::generateOrderNumber();
 
 			JPluginHelper::importPlugin('redshop_payment');
 
 			$values['order_shipping'] = $d['order_shipping'];
-			$values['order_number']   = $order_number;
+			$values['order_number']   = $orderNumber;
 			$values['order_tax']      = $d['order_tax'];
 			$values['shippinginfo']   = $d['shippingaddress'];
 			$values['billinginfo']    = $d['billingaddress'];
 			$values['order_total']    = $orderTotal;
-			$values['order_subtotal'] = $order_subtotal;
+			$values['order_subtotal'] = $orderSubTotal;
 			$values["order_id"]       = $app->input->get('order_id', 0);
 			$values['payment_plugin'] = $paymentMethod->element;
 			$values['odiscount']      = $orderDiscount;
@@ -411,15 +401,15 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		// Start code to track duplicate order number checking
-		$order_number = RedshopHelperOrder::generateOrderNumber();
+		$orderNumber = RedshopHelperOrder::generateOrderNumber();
 
 		$random_gen_enc_key                   = RedshopHelperOrder::randomGenerateEncryptKey(35);
 		$userInforId                          = $billingAddresses->users_info_id;
 		$orderDetailTable->user_id            = $userId;
-		$orderDetailTable->order_number       = $order_number;
+		$orderDetailTable->order_number       = $orderNumber;
 		$orderDetailTable->user_info_id       = $userInforId;
 		$orderDetailTable->order_total        = $orderTotal;
-		$orderDetailTable->order_subtotal     = $order_subtotal;
+		$orderDetailTable->order_subtotal     = $orderSubTotal;
 		$orderDetailTable->order_tax          = $order_tax;
 		$orderDetailTable->tax_after_discount = $taxAfterDiscount;
 		$orderDetailTable->order_tax_details  = '';

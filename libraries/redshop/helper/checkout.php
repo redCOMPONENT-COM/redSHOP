@@ -18,6 +18,27 @@ defined('_JEXEC') or die;
 class RedshopHelperCheckout
 {
 	/**
+	 * @param   array  $post  Post
+	 *
+	 *
+	 * @since   2.0.7
+	 */
+	public static function newsLetter($post)
+	{
+		// If user subscribe for the newsletter
+		if (isset($post['newsletter_signup']) && $post['newsletter_signup'] == 1)
+		{
+			RedshopHelperNewsletter::subscribe();
+		}
+
+		// If user unsubscribe for the newsletter
+
+		if (isset($post['newsletter_signoff']) && $post['newsletter_signoff'] == 1)
+		{
+			RedshopHelperNewsletter::removeSubscribe();
+		}
+	}
+	/**
 	 *
 	 * @return  array
 	 *
