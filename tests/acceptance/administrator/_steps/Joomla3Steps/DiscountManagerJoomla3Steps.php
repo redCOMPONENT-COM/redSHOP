@@ -67,6 +67,8 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
 		$newVerifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $newAmount . ',00';
+
+
 		$I->filterListBySearching($name, ['id' => 'name_filter']);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->waitForElement(['link' => $verifyAmount]);
