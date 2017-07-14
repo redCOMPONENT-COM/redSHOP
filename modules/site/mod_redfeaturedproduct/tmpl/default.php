@@ -88,7 +88,7 @@ if (count($list) > 0)
 						$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $cid . '&Itemid=' . $Itemid);
 						$prod_img = "";
 
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_full_image))
+						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_full_image))
 						{
 							$prod_img = RedShopHelperImages::getImagePath(
 								$row->product_full_image,
@@ -100,7 +100,7 @@ if (count($list) > 0)
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 						}
-						elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_thumb_image))
+						elseif (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_thumb_image))
 						{
 							$prod_img = RedShopHelperImages::getImagePath(
 								$row->product_thumb_image,
