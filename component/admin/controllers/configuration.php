@@ -246,7 +246,7 @@ class RedshopControllerConfiguration extends RedshopController
 
 		if (JPATH_ROOT . '/' . $spath . '/' . $imname)
 		{
-			unlink(JPATH_ROOT . '/' . $spath . '/' . $imname);
+			JFile::delete(JPATH_ROOT . '/' . $spath . '/' . $imname);
 		}
 
 		JFactory::getApplication()->close();
