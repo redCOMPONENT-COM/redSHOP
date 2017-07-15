@@ -32,61 +32,59 @@ global.getFolders = function getFolders(dir){
         );
 }
 
+global.renderLog = function renderLog(extension, group, extName, version, releasePath){
+    // We will output where release package is going so it is easier to find
+    gutil.log(
+        gutil.colors.green(extension),
+        "  |  ",
+        gutil.colors.white(group),
+        "  |  ",
+        gutil.colors.blue(extName),
+        "  |  ",
+        gutil.colors.yellow(version),
+        "|  ",
+        gutil.colors.grey(releasePath)
+    );
+}
 
-/**
- * Function for release module
- * @param group
- * @param name
- * @returns {*}
- */
-function moduleRelease(group, name) {
-    var fileName = name;
-
-    if (!argv.skipVersion) {
-        fs.readFile('./modules/' + group + '/' + name + '/' + name + '.xml', function(err, data) {
-            parser.parseString(data, function (err, result) {
-                fileName += '-v' + result.extension.version[0] + '.zip';
-
-                var count = 35 - name.length;
-                var nameFormat = name;
-
-                for (var i = 0; i < count; i++)
-                {
-                    nameFormat += ' ';
-                }
-
-                var version = result.extension.version[0];
-                count = 8 - version.length;
-
-                for (i = 0; i < count; i++)
-                {
-                    version += ' ';
-                }
-
-                // We will output where release package is going so it is easier to find
-                gutil.log(
-                    gutil.colors.green("Module"),
-                    "  |  ",
-                    gutil.colors.white(group),
-                    "  |  ",
-                    gutil.colors.blue(nameFormat),
-                    "  |  ",
-                    gutil.colors.yellow(version),
-                    "|  ",
-                    gutil.colors.grey(path.join(config.releaseDir + '/modules/' + group, fileName))
-                );
-
-                return gulp.src('./modules/' + group + '/' + name + '/**')
-                    .pipe(zip(fileName))
-                    .pipe(gulp.dest(config.releaseDir + '/modules/' + group));
-            });
-        });
-    }
-    else {
-        return gulp.src('./plugins/' + group + '/' + name + '/**')
-            .pipe(zip(fileName + '.zip'))
-            .pipe(gulp.dest(config.releaseDir + '/plugins'));
-    }
+global.getGlobPattern = function getGlobPattern(extensionType, group, extName)
+{
+    return [
+        './' + extensionType + '/' + group + '/' + extName + '/**',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/composer.json',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/composer.lock',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/*.md',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/*.txt',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/*.TXT',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/*.pdf',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/LICENSE',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/CHANGES',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/README',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/VERSION',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/composer.json',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/.gitignore',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/docs',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/docs/**',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/tests',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/tests/**',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/unitTests',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/unitTests/**',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/.git',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/.git/**',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/examples',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/examples/**',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/build.xml',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/phpunit.xml',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/phpunit.xml.dist',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/**/phpcs.xml',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/mpdf/mpdf/ttfonts/!(DejaVu*.ttf)',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/setasign/fpdi',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/setasign/fpdi/**',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/tecnickcom/tcpdf/fonts/ae_fonts*/**',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf*/**',
+        '!./' + extensionType + '/' + group + '/' + extName + '/**/vendor/tecnickcom/tcpdf/fonts/freefont-*/**'
+    ]
 }
 
 // Clean test site
@@ -128,55 +126,6 @@ gulp.task(
         return true;
     });
 
-
-
-// Release: Modules
-gulp.task('release:module', function(cb) {
-    var basePath  = './modules';
-    var modSource = argv.group ? argv.group : false;
-    var modName   = argv.name ? argv.name : false;
-    var modules   = [];
-
-    // No group specific, release all of them.
-    if (!modSource) {
-        var groups = getFolders(basePath);
-
-        for (var i = 0; i < groups.length; i++) {
-            modules = getFolders(basePath + '/' + groups[i]);
-
-            for (j = 0; j < modules.length; j++) {
-                moduleRelease(groups[i], modules[j]);
-            }
-        }
-    }
-    else if (modSource && !modName) {
-        try {
-            fs.statSync('./modules/' + modSource);
-        }
-        catch (e) {
-            console.error("Folder not exist: " + basePath + '/' + plgGroup);
-            return;
-        }
-
-        modules = getFolders(basePath + '/' + modSource);
-
-        for (i = 0; i < modules.length; i++) {
-            moduleRelease(modSource, modules[i]);
-        }
-    }
-    else
-    {
-        try {
-            fs.statSync('./modules/' + modSource + '/' + modName);
-        }
-        catch (e) {
-            console.error("Folder not exist: " + basePath + '/' + modSource + '/' + modName);
-            return;
-        }
-
-        moduleRelease(modSource, modName);
-    }
-});
 
 // Overwrite "release" method
 gulp.task("release",
@@ -229,36 +178,36 @@ gulp.task("release:md5:generate", function(){
         "!./media/com_redshop/scss/**",
         "./*(install.php|LICENSE.txt|redshop.xml)",
         "./modules/site/mod_redshop_cart/**",
-        "./plugins/system/redshop/**",
-        "./plugins/redshop_payment/rs_payment_banktransfer/**",
-        "./plugins/redshop_payment/rs_payment_paypal/**",
-        "./plugins/finder/redshop/**",
-        "./plugins/redshop_alert/alert/**",
-        "./plugins/redshop_shipping/default_shipping/**",
-        "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**",
-        "./plugins/redshop_pdf/tcpdf/**",
-        "./plugins/redshop_export/attribute/**",
-        "./plugins/redshop_export/category/**",
-        "./plugins/redshop_export/field/**",
-        "./plugins/redshop_export/manufacturer/**",
-        "./plugins/redshop_export/product/**",
-        "./plugins/redshop_export/product_stockroom_data/**",
-        "./plugins/redshop_export/related_product/**",
-        "./plugins/redshop_export/shipping_address/**",
-        "./plugins/redshop_export/shopper_group_attribute_price/**",
-        "./plugins/redshop_export/shopper_group_product_price/**",
-        "./plugins/redshop_export/user/**",
-        "./plugins/redshop_import/attribute/**",
-        "./plugins/redshop_import/category/**",
-        "./plugins/redshop_import/field/**",
-        "./plugins/redshop_import/manufacturer/**",
-        "./plugins/redshop_import/product/**",
-        "./plugins/redshop_import/product_stockroom_data/**",
-        "./plugins/redshop_import/shipping_address/**",
-        "./plugins/redshop_import/shopper_group_product_price/**",
-        "./plugins/redshop_import/shopper_group_attribute_price/**",
-        "./plugins/redshop_import/user/**",
-        "./plugins/redshop_import/related_product/**"
+        "./' + extensionType + '/system/redshop/**",
+        "./' + extensionType + '/redshop_payment/rs_payment_banktransfer/**",
+        "./' + extensionType + '/redshop_payment/rs_payment_paypal/**",
+        "./' + extensionType + '/finder/redshop/**",
+        "./' + extensionType + '/redshop_alert/alert/**",
+        "./' + extensionType + '/redshop_shipping/default_shipping/**",
+        "./' + extensionType + '/sh404sefextplugins/sh404sefextplugincom_redshop/**",
+        "./' + extensionType + '/redshop_pdf/tcpdf/**",
+        "./' + extensionType + '/redshop_export/attribute/**",
+        "./' + extensionType + '/redshop_export/category/**",
+        "./' + extensionType + '/redshop_export/field/**",
+        "./' + extensionType + '/redshop_export/manufacturer/**",
+        "./' + extensionType + '/redshop_export/product/**",
+        "./' + extensionType + '/redshop_export/product_stockroom_data/**",
+        "./' + extensionType + '/redshop_export/related_product/**",
+        "./' + extensionType + '/redshop_export/shipping_address/**",
+        "./' + extensionType + '/redshop_export/shopper_group_attribute_price/**",
+        "./' + extensionType + '/redshop_export/shopper_group_product_price/**",
+        "./' + extensionType + '/redshop_export/user/**",
+        "./' + extensionType + '/redshop_import/attribute/**",
+        "./' + extensionType + '/redshop_import/category/**",
+        "./' + extensionType + '/redshop_import/field/**",
+        "./' + extensionType + '/redshop_import/manufacturer/**",
+        "./' + extensionType + '/redshop_import/product/**",
+        "./' + extensionType + '/redshop_import/product_stockroom_data/**",
+        "./' + extensionType + '/redshop_import/shipping_address/**",
+        "./' + extensionType + '/redshop_import/shopper_group_product_price/**",
+        "./' + extensionType + '/redshop_import/shopper_group_attribute_price/**",
+        "./' + extensionType + '/redshop_import/user/**",
+        "./' + extensionType + '/redshop_import/related_product/**"
     ],{ base: "./" })
         .pipe(hashsum({dest: "./", filename: "checksum.md5", hash: "md5"}));
 });
@@ -352,40 +301,40 @@ gulp.task("release:redshop", ["composer:libraries.redshop", "composer:plugins.re
                 "!./media/com_redshop/scss/**",
                 "./*(install.php|LICENSE.txt|redshop.xml)",
                 "./modules/site/mod_redshop_cart/**",
-                "./plugins/system/redshop/**",
-                "./plugins/redshop_payment/rs_payment_banktransfer/**",
-                "./plugins/redshop_payment/rs_payment_paypal/**",
-                "./plugins/finder/redshop/**",
-                "./plugins/redshop_alert/alert/**",
-                "./plugins/redshop_shipping/default_shipping/**",
-                "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**",
-                "./plugins/redshop_pdf/tcpdf/**",
-                '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
-                '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/ae_fonts*/**',
-                '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf*/**',
-                '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/freefont-*/**',
-                "./plugins/redshop_export/attribute/**",
-                "./plugins/redshop_export/category/**",
-                "./plugins/redshop_export/field/**",
-                "./plugins/redshop_export/manufacturer/**",
-                "./plugins/redshop_export/product/**",
-                "./plugins/redshop_export/product_stockroom_data/**",
-                "./plugins/redshop_export/related_product/**",
-                "./plugins/redshop_export/shipping_address/**",
-                "./plugins/redshop_export/shopper_group_attribute_price/**",
-                "./plugins/redshop_export/shopper_group_product_price/**",
-                "./plugins/redshop_export/user/**",
-                "./plugins/redshop_import/attribute/**",
-                "./plugins/redshop_import/category/**",
-                "./plugins/redshop_import/field/**",
-                "./plugins/redshop_import/manufacturer/**",
-                "./plugins/redshop_import/product/**",
-                "./plugins/redshop_import/product_stockroom_data/**",
-                "./plugins/redshop_import/shipping_address/**",
-                "./plugins/redshop_import/shopper_group_product_price/**",
-                "./plugins/redshop_import/shopper_group_attribute_price/**",
-                "./plugins/redshop_import/user/**",
-                "./plugins/redshop_import/related_product/**"
+                "./' + extensionType + '/system/redshop/**",
+                "./' + extensionType + '/redshop_payment/rs_payment_banktransfer/**",
+                "./' + extensionType + '/redshop_payment/rs_payment_paypal/**",
+                "./' + extensionType + '/finder/redshop/**",
+                "./' + extensionType + '/redshop_alert/alert/**",
+                "./' + extensionType + '/redshop_shipping/default_shipping/**",
+                "./' + extensionType + '/sh404sefextplugins/sh404sefextplugincom_redshop/**",
+                "./' + extensionType + '/redshop_pdf/tcpdf/**",
+                '!./' + extensionType + '/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
+                '!./' + extensionType + '/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/ae_fonts*/**',
+                '!./' + extensionType + '/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf*/**',
+                '!./' + extensionType + '/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/freefont-*/**',
+                "./' + extensionType + '/redshop_export/attribute/**",
+                "./' + extensionType + '/redshop_export/category/**",
+                "./' + extensionType + '/redshop_export/field/**",
+                "./' + extensionType + '/redshop_export/manufacturer/**",
+                "./' + extensionType + '/redshop_export/product/**",
+                "./' + extensionType + '/redshop_export/product_stockroom_data/**",
+                "./' + extensionType + '/redshop_export/related_product/**",
+                "./' + extensionType + '/redshop_export/shipping_address/**",
+                "./' + extensionType + '/redshop_export/shopper_group_attribute_price/**",
+                "./' + extensionType + '/redshop_export/shopper_group_product_price/**",
+                "./' + extensionType + '/redshop_export/user/**",
+                "./' + extensionType + '/redshop_import/attribute/**",
+                "./' + extensionType + '/redshop_import/category/**",
+                "./' + extensionType + '/redshop_import/field/**",
+                "./' + extensionType + '/redshop_import/manufacturer/**",
+                "./' + extensionType + '/redshop_import/product/**",
+                "./' + extensionType + '/redshop_import/product_stockroom_data/**",
+                "./' + extensionType + '/redshop_import/shipping_address/**",
+                "./' + extensionType + '/redshop_import/shopper_group_product_price/**",
+                "./' + extensionType + '/redshop_import/shopper_group_attribute_price/**",
+                "./' + extensionType + '/redshop_import/user/**",
+                "./' + extensionType + '/redshop_import/related_product/**"
             ],{ base: "./" })
             .pipe(zip(fileName))
             .pipe(gulp.dest(config.releaseDir))
