@@ -17,11 +17,50 @@ var parser     = new xml2js.Parser();
  */
 function pluginRelease(group, name) {
     var fileName = 'plg_' + group + '_' + name;
+    var arraySrc = [
+        './plugins/' + group + '/' + name + '/**',
+        '!./plugins/' + group + '/' + name + '/**/composer.json',
+        '!./plugins/' + group + '/' + name + '/**/composer.lock',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/*.md',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/*.txt',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/*.TXT',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/*.pdf',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/LICENSE',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/CHANGES',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/README',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/VERSION',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/composer.json',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/.gitignore',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/docs',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/docs/**',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/tests',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/tests/**',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/unitTests',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/unitTests/**',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/.git',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/.git/**',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/examples',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/examples/**',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/build.xml',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/phpunit.xml',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/phpunit.xml.dist',
+        '!./plugins/' + group + '/' + name + '/**/vendor/**/phpcs.xml',
+        '!./plugins/' + group + '/' + name + '/**/vendor/mpdf/mpdf/ttfonts/!(DejaVu*.ttf)',
+        '!./plugins/' + group + '/' + name + '/**/vendor/setasign/fpdi',
+        '!./plugins/' + group + '/' + name + '/**/vendor/setasign/fpdi/**',
+        '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',
+        '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/ae_fonts*/**',
+        '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf*/**',
+        '!./plugins/' + group + '/' + name + '/**/vendor/tecnickcom/tcpdf/fonts/freefont-*/**'
+    ];
 
     if (!argv.skipVersion) {
         fs.readFile('./plugins/' + group + '/' + name + '/' + name + '.xml', function (err, data) {
             parser.parseString(data, function (err, result) {
-                fileName += '-v' + result.extension.version[0] + '.zip';
+                var version = result.extension.version[0];
+
+                // Generate file name
+                fileName += '-v' + version + '.zip';
 
                 var count = 25 - group.length;
                 var groupName = group;
@@ -37,7 +76,6 @@ function pluginRelease(group, name) {
                     nameFormat += ' ';
                 }
 
-                var version = result.extension.version[0];
                 count = 11 - version.length;
 
                 for (i = 0; i < count; i++) {
@@ -57,14 +95,14 @@ function pluginRelease(group, name) {
                     gutil.colors.grey(path.join(config.releaseDir + '/plugins', fileName))
                 );
 
-                return gulp.src(config.src.plugin)
+                return gulp.src(arraySrc)
                     .pipe(zip(fileName))
                     .pipe(gulp.dest(config.releaseDir + '/plugins'));
             });
         });
     }
     else {
-        return gulp.src('./plugins/' + group + '/' + name + '/**')
+        return gulp.src(arraySrc)
             .pipe(zip(fileName + '.zip'))
             .pipe(gulp.dest(config.releaseDir + '/plugins'));
     }
