@@ -3,5 +3,47 @@
     "browserConfig" : {
         "proxy" : "redshop.local"
     },
-    "releaseDir"   : "./tests/releases/"
+    "releaseDir"   : "./tests/releases/",
+    "basePaths": {
+        "plugins" : "./plugins"
+    },
+    "src":
+    {
+        "plugin":[
+            "./plugins/**/**/**",
+            "!./plugins/**/**/**/composer.json",
+            "!./plugins/**/**/**/composer.lock",
+            "!./plugins/**/**/**/vendor/**/*.md",
+            "!./plugins/**/**/**/vendor/**/*.txt",
+            "!./plugins/**/**/**/vendor/**/*.TXT",
+            "!./plugins/**/**/**/vendor/**/*.pdf",
+            "!./plugins/**/**/**/vendor/**/LICENSE",
+            "!./plugins/**/**/**/vendor/**/CHANGES",
+            "!./plugins/**/**/**/vendor/**/README",
+            "!./plugins/**/**/**/vendor/**/VERSION",
+            "!./plugins/**/**/**/vendor/**/composer.json",
+            "!./plugins/**/**/**/vendor/**/.gitignore",
+            "!./plugins/**/**/**/vendor/**/docs",
+            "!./plugins/**/**/**/vendor/**/docs/**",
+            "!./plugins/**/**/**/vendor/**/tests",
+            "!./plugins/**/**/**/vendor/**/tests/**",
+            "!./plugins/**/**/**/vendor/**/unitTests",
+            "!./plugins/**/**/**/vendor/**/unitTests/**",
+            "!./plugins/**/**/**/vendor/**/.git",
+            "!./plugins/**/**/**/vendor/**/.git/**",
+            "!./plugins/**/**/**/vendor/**/examples",
+            "!./plugins/**/**/**/vendor/**/examples/**",
+            "!./plugins/**/**/**/vendor/**/build.xml",
+            "!./plugins/**/**/**/vendor/**/phpunit.xml",
+            "!./plugins/**/**/**/vendor/**/phpunit.xml.dist",
+            "!./plugins/**/**/**/vendor/**/phpcs.xml",
+            "!./plugins/**/**/**/vendor/mpdf/mpdf/ttfonts/!(DejaVu*.ttf)",
+            "!./plugins/**/**/**/vendor/setasign/fpdi",
+            "!./plugins/**/**/**/vendor/setasign/fpdi/**",
+            "!./plugins/**/**/**/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)",
+            "!./plugins/**/**/**/vendor/tecnickcom/tcpdf/fonts/ae_fonts*/**",
+            "!./plugins/**/**/**/vendor/tecnickcom/tcpdf/fonts/dejavu-fonts-ttf*/**",
+            "!./plugins/**/**/**/vendor/tecnickcom/tcpdf/fonts/freefont-*/**"
+        ]
+    }
 }
