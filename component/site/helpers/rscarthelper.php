@@ -3370,11 +3370,7 @@ class rsCarthelper
 
 								$displayrate = (trim($rate[$i]->rate) > 0) ? " (" . $this->_producthelper->getProductFormattedPrice(trim($rate[$i]->rate)) . " )" : "";
 
-								if (isset($rate[$i]->checked) && $rate[$i]->checked)
-								{
-									$checked = "checked";
-								}
-								else if ($rateExist == 0)
+								if ((isset($rate[$i]->checked) && $rate[$i]->checked) || $rateExist == 0)
 								{
 									$checked = "checked";
 								}
