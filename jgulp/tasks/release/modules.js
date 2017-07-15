@@ -17,7 +17,7 @@ var parser     = new xml2js.Parser();
  */
 function moduleRelease(group, name) {
     var fileName = name;
-    var arraySrc = getGlobPattern('modules', group, name);
+    var arraySrc = getGlobExtensionPattern('modules', group, name);
     var destDir = config.releaseDir + '/modules/' + group;
 
     if (!argv.skipVersion) {

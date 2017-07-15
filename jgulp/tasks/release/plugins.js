@@ -17,7 +17,7 @@ var parser     = new xml2js.Parser();
  */
 function pluginRelease(group, name) {
     var fileName = 'plg_' + group + '_' + name;
-    var arraySrc = getGlobPattern('plugins', group, name);
+    var arraySrc = getGlobExtensionPattern('plugins', group, name);
     var destDir = config.releaseDir + '/plugins';
 
     if (!argv.skipVersion) {
