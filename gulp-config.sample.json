@@ -5,6 +5,7 @@
     },
     "releaseDir"   : "./tests/releases/",
     "basePaths": {
-        "plugins" : "./plugins"
+        "plugins" : "./plugins",
+        "modules" : "./modules"
     }
 }
