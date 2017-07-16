@@ -45,10 +45,20 @@ class RedshopTableVoucher extends RedshopTable
 		// Check duplicate if new data.
 		if (!$this->hasPrimaryKey())
 		{
+			$code = $this->get('code');
+
+			$voucherQuery = $db->getQuery(true)
+				->select($db->qn('code'))
+				->from($db->qn('#__redshop_voucher'));
+			$couponQuery = $db->getQuery(true)
+				->select($db->qn('coupon_code', 'code'))
+				->from($db->qn('#__redshop_coupons'));
+			$couponQuery->union($voucherQuery);
+
 			$query = $db->getQuery(true)
-				->select('COUNT(id)')
-				->from($db->qn('#__redshop_voucher'))
-				->where($db->qn('code') . ' = ' . $db->quote($this->get('code')));
+				->select('COUNT(*)')
+				->from('(' . $couponQuery . ') AS ' . $db->qn('data'))
+				->where($db->qn('data.code') . ' = ' . $db->quote($code));
 
 			if ($db->setQuery($query)->loadResult())
 			{
