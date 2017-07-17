@@ -14,7 +14,6 @@ var hashsum    = require("gulp-hashsum");
 var clean      = require('gulp-clean');
 // XML parser
 var xml2js     = require("xml2js");
-var xmlConvert = require('xml-js');
 
 var joomlaGulp = requireDir("./node_modules/joomla-gulp", {recurse: true});
 var jgulp      = requireDir("./jgulp", {recurse: true});
