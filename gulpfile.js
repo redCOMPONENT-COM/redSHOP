@@ -1,20 +1,19 @@
 var gulp       = require("gulp");
-var argv       = require("yargs").argv;
-var requireDir = require("require-dir");
-var zip        = require("gulp-zip");
-var xml2js     = require("xml2js");
-var fs         = require("fs");
-var sass       = require("gulp-sass");
-var path       = require("path");
-var composer   = require('gulp-composer');
 var gutil      = require('gulp-util');
-var glob       = require('glob');
-var extension  = require("./package.json");
+var sass       = require("gulp-sass");
+var composer   = require('gulp-composer');
+var zip        = require("gulp-zip");
 var hashsum    = require("gulp-hashsum");
 var clean      = require('gulp-clean');
+var argv       = require("yargs").argv;
+var requireDir = require("require-dir");
+var fs         = require("fs");
+var path       = require("path");
+var glob       = require('glob');
 // XML parser
 var xml2js     = require("xml2js");
 
+var extension  = require("./package.json");
 var joomlaGulp = requireDir("./node_modules/joomla-gulp", {recurse: true});
 var jgulp      = requireDir("./jgulp", {recurse: true});
 var parser     = new xml2js.Parser();
