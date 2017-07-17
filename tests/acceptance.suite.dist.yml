@@ -40,10 +40,10 @@ modules:
             sample data: 'Default English (GB) Sample Data'    # Default Sample Data
             admin email: 'admin@mydomain.com'      # email Id of the Admin
             language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
-            joomla folder: '\xampp\htdocs\tests\joomla-cms3\' # Path to Joomla installation where we execute the tests
+             joomla folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/tests/joomla-cms3/' # Path to Joomla installation where we execute the tests
         AcceptanceHelper:
-            repo folder: 'D:\redSHOP\tests\releases' # Path to the Extension to be installed via Install from folder
-            folder: '\xampp\htdocs\redSHOP\' # Path to the Extension to be installed via Install from folder
+           repo folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
+           folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
             install demo data: 'Yes'              # If you wish to Download Demo Data for the Extension then Keep this to Yes
             host: 'http://localhost/tests/joomla-cms3'  #Something important
             redshop packages url: 'http://localhost/tests/releases/'     # the url that points to the extension .zip package defined in your properties.dist file at the root of the repo
