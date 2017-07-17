@@ -23,7 +23,7 @@ extract($displayData);
 	        }
 	    });
 
-	    jQuery('select#rs_city').on('change', function(){
+	    jQuery('select#rs_ghn_city').on('change', function(){
 	    	var id = jQuery(this).val();
 	    	jQuery.ajax({
 	        type: "POST",
