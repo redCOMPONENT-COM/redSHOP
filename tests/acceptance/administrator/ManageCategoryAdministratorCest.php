@@ -17,72 +17,84 @@
  */
 class ManageCategoryAdministratorCest
 {
-	public function __construct()
-	{
-		$this->faker = Faker\Factory::create();
-		$this->categoryName = 'Testing Category ' . $this->faker->randomNumber();
-		$this->newCategoryName = 'New -' . $this->categoryName;
-	}
+    public function __construct()
+    {
+        $this->faker = Faker\Factory::create();
+        $this->categoryName = 'Testing Category ' . $this->faker->randomNumber();
+        $this->newCategoryName = 'New -' . $this->categoryName;
+    }
 
-	/**
-	 * Function to Test Category Creation in Backend
-	 *
-	 */
-	public function createCategory(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Category creation in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Category');
-		$I->addCategory($this->categoryName);
-		$I->see($this->categoryName);
-	}
+    /**
+     * Function to Test Category Creation in Backend
+     *
+     */
+    public function createCategory(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Category creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+        $I->wantTo('Create a Category');
+        $I->addCategory($this->categoryName);
+        $I->see($this->categoryName);
+    }
 
-	/**
-	 * Function to Test Category Updation in the Administrator
-	 *
-	 * @depends createCategory
-	 */
-	public function updateCategory(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test if Category gets updated in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Update Existing Category');
-		$I->searchCategory($this->categoryName);
-		$I->updateCategory($this->categoryName, $this->newCategoryName);
-		//$I->searchCategory($this->newCategoryName);
-		//$I->see($this->newCategoryName);
-	}
+    /**
+     * Function to Test Category Updation in the Administrator
+     *
+     * @depends createCategory
+     */
+    public function updateCategory(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if Category gets updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+        $I->wantTo('Update Existing Category');
+        $I->searchCategory($this->categoryName);
+        $I->updateCategory($this->categoryName, $this->newCategoryName);
+        //$I->searchCategory($this->newCategoryName);
+        //$I->see($this->newCategoryName);
+    }
 
-	/**
-	 * Test for State Change in Category Administrator
-	 *
-	 * @depends updateCategory
-	 */
-	 
-	public function changeStateCategory(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test if State of a Category gets Updated in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Update Existing Category');
-		$I->changeCategoryState($this->newCategoryName, 'unpublish');
-		$currentState = $I->getCategoryState($this->newCategoryName);
-		$I->verifyState('unpublished', $currentState);
-	}
+    /**
+     * Test for State Change in Category Administrator
+     *
+     * @depends updateCategory
+     */
 
-	/**
-	 * Function to Test Category Deletion
-	 *
-	 * @depends changeStateCategory
-	 */
-	public function deleteCategory(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Deletion of Category in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Delete a Category');
-		$I->deleteCategory($this->newCategoryName);
-	}
+    public function changeStateCategory(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test if State of a Category gets Updated in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+        $I->wantTo('Update Existing Category');
+        $I->changeCategoryState($this->newCategoryName, 'unpublish');
+        $currentState = $I->getCategoryState($this->newCategoryName);
+        $I->verifyState('unpublished', $currentState);
+    }
+
+    /**
+     * Function to Test Category Deletion
+     *
+     * @depends changeStateCategory
+     */
+    public function deleteCategory(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Deletion of Category in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+        $I->wantTo('Delete a Category');
+        $I->deleteCategory($this->newCategoryName);
+    }
+
+    public function createCategoryNew(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Category creation in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+        $I->wantTo('Create a Category');
+        $I->addCategorySave($this->categoryName);
+        $I->see("item successfully saved", '.alert-success');
+    }
+
+
 }
