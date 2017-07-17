@@ -16,6 +16,11 @@ pipeline {
                     sudo vendor/bin/robo prepare:site-for-system-tests
                 '''
             }
+            post {
+                always {
+                    step([$class: 'WsCleanup'])
+                }
+            }
         }
         stage('Browser Tests setup') {
             agent {
@@ -25,6 +30,9 @@ pipeline {
             }
             steps {
                 sh '''
+                    composer update && \
+                    mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml && \
+                    sudo vendor/bin/robo prepare:site-for-system-tests &&\
                     ln -s /usr/bin/nodejs /usr/bin/node && \
                     export DISPLAY=:0 && \
                     (Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset &) && \
@@ -42,6 +50,11 @@ pipeline {
                     vendor/bin/robo kill:selenium &&\
                     vendor/bin/robo run:tests-jenkins
                 '''
+            }
+            post {
+                always {
+                    step([$class: 'WsCleanup'])
+                }
             }
         }
         stage('Browser Tests run') {
