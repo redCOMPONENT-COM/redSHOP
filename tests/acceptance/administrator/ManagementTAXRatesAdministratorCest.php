@@ -28,7 +28,6 @@ class ManagementTAXRatesAdministratorCest
         $I = new AcceptanceTester\VATGroupManagerJoomla3Steps($scenario);
         $I->wantTo('Create VAT groups  Save button');
         $I->addVATGroupsSave($this->VATGroupName);
-        $I->see("item successfully saved", '.alert-success');
     }
 
     /**
@@ -44,7 +43,6 @@ class ManagementTAXRatesAdministratorCest
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->addTAXRatesSave($this->TAXRatesName, $this->VATGroupName, $this->TaxRatesValue, $this->NameCountry, $this->NameState);
-        $I->see("item successfully saved", '.alert-success');
     }
 
     /**
@@ -168,7 +166,7 @@ class ManagementTAXRatesAdministratorCest
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Create VAT/Tax Rates  Save button');
         $I->addTAXRatesSaveClose($this->TAXRatesName, $this->VATGroupName, $this->TaxRatesValue, $this->NameCountry, $this->NameState);
-        $I->see("VAT Rates", '.page-title');
+        $I->see(\TAXRatesJoomla3Page::$nameManagement, \TAXRatesJoomla3Page::$selectorNamePage);
         $I->searchTAXRates($this->TAXRatesName);
     }
 
@@ -189,7 +187,7 @@ class ManagementTAXRatesAdministratorCest
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo('Check Edit button');
         $I->editButton();
-        $I->see("VAT Rates", '.page-title');
+        $I->see(\TAXRatesJoomla3Page::$nameManagement, \TAXRatesJoomla3Page::$selectorNamePage);
     }
 
     public function deleteButton(AcceptanceTester $I, $scenario)
@@ -209,7 +207,7 @@ class ManagementTAXRatesAdministratorCest
         $I = new AcceptanceTester\TAXRatesManagementJoomla3Steps($scenario);
         $I->wantTo(' Delete  button');
         $I->deleteTAXRates($this->TAXRatesName);
-        $I->see("VAT Rates", '.page-title');
+        $I->see(\TAXRatesJoomla3Page::$nameManagement, \TAXRatesJoomla3Page::$selectorNamePage);
     }
 
 // codeception use for show dialog delete VAT/TAX rates .
