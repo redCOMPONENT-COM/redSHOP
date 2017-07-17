@@ -18,6 +18,7 @@
         <folder>fields</folder>
         <folder>language</folder>
         <folder>layouts</folder>
+        <folder>sql</folder>
     </files>
 
     <languages folder="language">
