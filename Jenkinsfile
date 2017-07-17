@@ -10,10 +10,7 @@ pipeline {
                     pwd && \
                     whoami && \
                     echo $WORKSPACE && \
-                    ls -la && \
-                    composer update && \
-                    mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml && \
-                    sudo vendor/bin/robo prepare:site-for-system-tests
+                    ls -la
                 '''
             }
             post {
