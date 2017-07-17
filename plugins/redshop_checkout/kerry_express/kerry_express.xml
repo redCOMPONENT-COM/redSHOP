@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.5.1" type="plugin" group="redshop_checkout" method="upgrade">
+    <name>PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS</name>
+    <version>1.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>May 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <copyright>(C) 2014 redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+
+    <description>PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_DESC</description>
+
+    <files>
+        <filename plugin="kerry_express">kerry_express.php</filename>
+        <folder>data</folder>
+        <folder>fields</folder>
+        <folder>language</folder>
+        <folder>layouts</folder>
+    </files>
+
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_redshop_checkout_kerry_express.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_redshop_checkout_kerry_express.sys.ini</language>
+    </languages>
+
+    <config>
+        <fields name="params" addfieldpath="/plugins/redshop_checkout/kerry_express/fields">
+            <fieldset name="basic">
+                <field 
+                    name="city" 
+                    type="kerrycity"
+                    onchange="kerrySelectDistrict(this);"
+                    default=""
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CITY"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CITY_DESC">
+                </field>
+                <field 
+                    name="district_code" 
+                    type="kerrydistrict"
+                    onchange="kerrySelectWard(this);"
+                    default=""
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_DISTRICT"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_DISTRICT_DESC">
+                </field>
+                <field 
+                    name="ward_code" 
+                    type="kerryward" 
+                    default=""
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_WARD"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_WARD_DESC">
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.sql</file>
+        </sql>
+    </uninstall>
+</extension>
