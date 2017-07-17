@@ -624,7 +624,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 				$wrapperimage_div .= "<td id='wrappertd" . $wid . "'>";
 
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image))
+				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image))
 				{
 					$thumbUrl = RedShopHelperImages::getImagePath(
 									$wrapper[$i]->wrapper_image,
@@ -1204,7 +1204,7 @@ if (strstr($template_desc, "{more_documents}"))
 			$alttext = $media_documents[$m]->media_name;
 		}
 
-		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
+		if (JFile::exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 		{
 			$downlink = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id .
 										'&task=downloadDocument&fname=' . $media_documents[$m]->media_name .
@@ -1433,7 +1433,7 @@ else
 // Product preview image.
 if (strstr($template_desc, "{product_preview_img}"))
 {
-	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->data->product_preview_image))
+	if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->data->product_preview_image))
 	{
 		$previewsrcPath = RedShopHelperImages::getImagePath(
 						$this->data->product_preview_image,
