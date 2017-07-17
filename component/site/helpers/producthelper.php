@@ -5550,7 +5550,7 @@ class productHelper
 				$addtocart_quantity = "<span id='stockQuantity" . $stockId
 					. "'><input class='quantity inputbox input-mini' type='text' name='quantity' id='quantity" . $product_id . "' value='" . $quan
 					. "' maxlength='" . Redshop::getConfig()->get('DEFAULT_QUANTITY') . "' size='" . Redshop::getConfig()->get('DEFAULT_QUANTITY')
-					. "' onchange='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
+					. "' onblur='validateInputNumber(this.id);' onkeypress='return event.keyCode!=13'></span>";
 				$cartform           = str_replace("{addtocart_quantity}", $addtocart_quantity, $cartform);
 				$cartform           = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $cartform);
 			}
