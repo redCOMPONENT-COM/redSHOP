@@ -164,7 +164,19 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
 	}
+
+
+
+    public function filterListBySearch($text, $searchField = ['id' => 'filter']){
+        $I = $this;
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->fillField($searchField, $text);
+        $I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->waitForElement(['link' => $text]);
+    }
+
     public function filterListBySearchingProduct($text, $searchField = ['id' => 'keyword'])
+
     {
         $I = $this;
         $I->executeJS('window.scrollTo(0,0)');
@@ -172,4 +184,5 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         $I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
         $I->waitForElement(['link' => $text]);
     }
+
 }
