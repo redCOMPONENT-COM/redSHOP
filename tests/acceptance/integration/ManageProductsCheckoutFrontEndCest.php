@@ -27,7 +27,7 @@ class ManageProductsCheckoutFrontEndCest
 	 */
     public function __construct()
     {
-        $this->categoryName = 'TestingCategory' . rand(99, 999);
+        $this->categoryName = 'TestingCategory';
         $this->ramdoCategoryNameAssign = 'CategoryAssign' . rand(99, 999);
         $this->productName = 'Testing Products' . rand(99, 999);
         $this->minimumPerProduct = 2;
@@ -143,35 +143,35 @@ class ManageProductsCheckoutFrontEndCest
 	 */
 	private function checkOutProductWithBankTransfer(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $productName, $categoryName )
 	{
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv,30);
-		$I->checkForPhpNoticesOrWarnings();
-		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
-		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
-		$I->click($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
-		$I->see("Product has been added to your cart.", '.alert-message');
-		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->checkForPhpNoticesOrWarnings();
-		$I->seeElement(['link' => $productName]);
-		$I->click(['xpath' => "//input[@value='Checkout']"]);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
-		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->addressInformation($addressDetail);
-		$I->shippingInformation($shipmentDetail);
-		$I->click("Proceed");
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
-		$I->click(['xpath' => "//div[@id='rs_payment_banktransfer']//label//input"]);
-		$I->click("Checkout");
-		$I->waitForElement($productFrontEndManagerPage->product($productName),30);
-		$I->seeElement($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->waitForText('Order Receipt', 10, \FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
-		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
-	}
+        $I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv,30);
+        $I->checkForPhpNoticesOrWarnings();
+        $productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+        $I->click($productFrontEndManagerPage->productCategory($categoryName));
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList,30);
+        $I->click($productFrontEndManagerPage->product($productName));
+        $I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+        $I->waitForText("Product has been added to your cart.", 10, '.alert-message');
+        $I->see("Product has been added to your cart.", '.alert-message');
+        $I->amOnPage('index.php?option=com_redshop&view=cart');
+        $I->checkForPhpNoticesOrWarnings();
+        $I->seeElement(['link' => $productName]);
+        $I->click(['xpath' => "//input[@value='Checkout']"]);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan,30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
+        $I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
+        $I->addressInformation($addressDetail);
+        $I->shippingInformation($shipmentDetail);
+        $I->click("Proceed");
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
+        $I->click(['xpath' => "//div[@id='rs_payment_banktransfer']//label//input"]);
+        $I->click("Checkout");
+        $I->waitForElement($productFrontEndManagerPage->product($productName),30);
+        $I->seeElement($productFrontEndManagerPage->product($productName));
+        $I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+        $I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+        $I->waitForText('Order Receipt', 10, \FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
+        $I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
+    }
 }
 
