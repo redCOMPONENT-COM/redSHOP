@@ -3,11 +3,11 @@
     <name>PLG_REDSHOP_CHECKOUT_GIAOHANGNHANH</name>
     <version>1.0</version>
     <redshop>2.0</redshop>
-    <creationDate>May 2017</creationDate>
+    <creationDate>July 2017</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redcomponent.com</authorUrl>
-    <copyright>(C) 2014 redCOMPONENT.com</copyright>
+    <copyright>(C) 2017 redCOMPONENT.com</copyright>
     <license>GNU/GPL</license>
 
     <description>PLG_REDSHOP_CHECKOUT_GIAOHANGNHANH_DESC</description>

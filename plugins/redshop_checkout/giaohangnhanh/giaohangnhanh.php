@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 /**
- * Plugins redSHOP One step checkout
+ * Plugins redSHOP Giaohangnhanh shipping
  *
  * @since  1.0
  */
@@ -234,7 +234,7 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 	}
 
 	/**
-	 * get GiaoHangNhanh Data List
+	 * get GiaoHangNhanh Service List
 	 *
 	 * @param   int  $districtCode  GHN District code
 	 *
