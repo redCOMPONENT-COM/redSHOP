@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JPluginHelper::importPlugin('redshop_checkout');
+$dispatcher = RedshopHelperUtility::getDispatcher();
 $Itemid = JRequest::getInt('Itemid');
 $userhelper = rsUserHelper::getInstance();
 
