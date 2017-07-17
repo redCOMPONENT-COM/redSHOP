@@ -280,12 +280,14 @@ class RedshopModelCategory extends RedshopModel
 
 	public function getCategorylistProduct($categoryId = 0)
 	{
-		$app     = JFactory::getApplication();
-		$menu    = $app->getMenu();
-		$item    = $menu->getActive();
-		$limit   = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
-		$db      = $this->getDbo();
-		$orderBy = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : 'p.product_name ASC';
+		$app           = JFactory::getApplication();
+		$menu          = $app->getMenu();
+		$item          = $menu->getActive();
+		$limit         = (isset($item)) ? intval($item->params->get('maxproduct')) : 0;
+		$db            = $this->getDbo();
+		$orderBySelect = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : 'p.product_name ASC';
+		$orderByMethod = $app->getUserStateFromRequest($this->context . '.order_by', 'order_by', $orderBySelect);
+		$orderBy       = RedshopHelperUtility::prepareOrderBy($orderByMethod);
 
 		$query = $db->getQuery(true)
 			->select('*')
@@ -297,7 +299,7 @@ class RedshopModelCategory extends RedshopModel
 			->where($db->qn('p.expired') . ' = 0')
 			->where($db->qn('pc.category_id') . ' = ' . $db->q((int) $categoryId))
 			->where($db->qn('p.product_parent_id') . ' = 0')
-			->order($orderBy)
+			->order($orderBy->ordering . ' ' . $orderBy->direction)
 			->setLimit(0, $limit);
 
 		$this->_product = $this->_getList($query);
