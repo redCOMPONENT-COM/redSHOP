@@ -3,5 +3,9 @@
     "browserConfig" : {
         "proxy" : "redshop.local"
     },
-    "releaseDir"   : "./tests/releases/"
+    "releaseDir"   : "./tests/releases/",
+    "basePaths": {
+        "plugins" : "./plugins",
+        "modules" : "./modules"
+    }
 }
