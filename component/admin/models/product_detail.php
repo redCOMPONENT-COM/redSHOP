@@ -328,7 +328,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 			}
 		}
-		elseif ($file['name'] != "")
+
+		if ($file['name'] != "")
 		{
 			$filename = RedShopHelperImages::cleanFileName($file['name'], $row->product_id);
 			$row->product_full_image = $filename;
