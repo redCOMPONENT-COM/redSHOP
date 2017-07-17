@@ -33,6 +33,7 @@
         <folder>table</folder>
         <folder>tags</folder>
         <folder>toolbar</folder>
+        <folder>troubleshoot</folder>
         <folder>vendor</folder>
         <folder>view</folder>
         <filename>index.html</filename>
