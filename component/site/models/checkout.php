@@ -1143,7 +1143,7 @@ class RedshopModelCheckout extends RedshopModel
 		$orderuserrow->address_type = 'ST';
 
 		JPluginHelper::importPlugin('redshop_checkout');
-		$dispatcher->trigger('onBeforeUserShippingStore', array(&$orderuserrow, $row));
+		$dispatcher->trigger('onBeforeUserShippingStore', array(&$orderuserrow));
 
 		if (!$orderuserrow->store())
 		{
