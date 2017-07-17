@@ -205,15 +205,6 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	 */
 	public function onBeforeUserShippingStore(&$data)
 	{
-		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_city', 14, $data->users_info_id);
-		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_district', 14, $data->users_info_id);
-		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_ward', 14, $data->users_info_id);
-
-		if (empty($cityField) && empty($districtField) && empty($wardField))
-		{
-			return;
-		}
-
 		$result = $this->getDistrictProvinceData();
 
 		if (empty($result))
@@ -221,42 +212,39 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 			return;
 		}
 
+		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_city', 14, $data->users_info_id);
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_district', 14, $data->users_info_id);
+		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_ward', 14, $data->users_info_id);
+
 		$userCity     = "";
 		$userDistrict = "";
+		$userWard     = "";
 		$cities       = array();
 		$districts    = array();
+		$wards        = array();
 
-		foreach ($result['Data'] as $key => $city)
-		{
-			$cities[$city['ProvinceCode']] = $city['ProvinceName'];
-		}
+		$handle = $this->getDistrictProvinceData();
 
-		foreach ($result['Data'] as $key => $district)
+		while ($result = fgetcsv($handle, null, ',', '"'))
 		{
-			if ($cityField->data_txt != $district['ProvinceCode'])
+			if (!is_numeric($result[1]))
 			{
 				continue;
 			}
 
-			$districts[$district['ProvinceCode']][$district['DistrictCode']] = $district['DistrictName'];
+			$cities[$result[1]]                = $result[0];
+			$districts[$result[1]][$result[3]] = $result[2];
+			$wards[$result[3]][$result[5]]     = $result[4];
 		}
 
-		$userCity = $cities[$cityField->data_txt];
+		$userCity     = $cities[$cityField->data_txt];
 		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
+		$userWard     = $wards[$districtField->data_txt][$wardField->data_txt];
 
-		$data->address .= ' ' . $userDistrict . ' ' . $userCity;
+		$data->address .= ' ' . $userWard . ' ' . $userDistrict . ' ' . $userCity;
 		$data->city = $userCity;
 
-		$serviceList = $this->getServiceList($districtField->data_txt);
-		$serviceId = $serviceList['Services'][0]['ShippingServiceID'];
-
-		if (empty($serviceId))
-		{
-			return;
-		}
-
-		$ghnOrder = $this->createShippingOrder($data->order_id, $serviceId, $districtField->data_txt, $data);
-		$this->updateOrder($data->order_id, $ghnOrder);
+		$this->createShippingOrder($data);
 
 		return;
 	}
@@ -275,69 +263,72 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	}
 
 	/**
-	 * Create GHN Shipping Order
+	 * Create Kerry express Shipping Order
 	 *
-	 * @param   int     $orderId        Order id
-	 * @param   int     $serviceId      Service id
-	 * @param   int     $districtCode   District code
-	 * @param   object  $orderShipping  Order shipping data
+	 * @param   object  $data  Order shipping data
 	 *
 	 * @return array
 	 */
-	public function createShippingOrder($orderId, $serviceId, $districtCode, $orderShipping)
+	public function createShippingOrder($data)
 	{
-		$items = RedshopHelperOrder::getItems($orderId);
-		$weight = 0;
+		$orderId       = $data->order_id;
+		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_city', 14, $data->users_info_id);
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_district', 14, $data->users_info_id);
+		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_ward', 14, $data->users_info_id);
+		$items         = RedshopHelperOrder::getItems($orderId);
+		$weight        = 0;
+		$itemList      = array();
+		$i             = 0;
 
 		foreach ($items as $item)
 		{
 			$productData = RedshopHelperProduct::getProductById($item->product_id);
 			$weight += $productData->weight;
+			$itemList[$i]['product_name']      = $productData->product_name;
+			$itemList[$i]['package_weight']    = $productData->weight;
+			$itemList[$i]['package_dimension'] = '0x0x0';
+			$i++;
 		}
 
 		$post = array(
-			'ApiKey'               => $this->params->get('api_key'),
-			'ApiSecretKey'         => $this->params->get('api_secret'),
-			'ClientID'             => $this->params->get('client_id'),
-			'Password'             => $this->params->get('password'),
-			'PickHubID'            => $this->params->get('pick_hub_id', '287484'),
-			'ClientOrderCode'      => $orderId,
-			'RecipientName'        => $orderShipping->firstname . ' ' . $orderShipping->lastname,
-			'RecipientPhone'       => $orderShipping->phone,
-			'DeliveryAddress'      => $orderShipping->address,
-			'DeliveryDistrictCode' => $districtCode,
-			'Weight'               => $weight,
-			'ServiceID'            => $serviceId
+			'token_key'        => $this->params->get('token_key'),
+			'order_number'     => $orderId,
+			'waybill_number'   => $orderId,
+			'no_packs'         => count($items),
+			'package_weight'   => $weight,
+			'cod'              => 0,
+			'service_type'      => '0201',
+			'order_note'       => $data->firstname . ' ' . $data->lastname,
+			'receiver_address' => array(
+					'full_address'       => $data->address,
+					'province_area_code' => $cityField->data_txt,
+					'district_area_code' => $districtField->data_txt,
+					'ward_area_code'     => $wardField->data_txt,
+					'contact_phone'      => $data->phone,
+					'contact_name'       => $data->firstname . ' ' . $data->lastname
+				),
+			'sender_address' => array(
+					'full_address'       => $this->params->get('address'),
+					'province_area_code' => $this->params->get('city'),
+					'district_area_code' => $this->params->get('district_code'),
+					'ward_area_code'     => $this->params->get('ward_code'),
+					'contact_phone'      => $this->params->get('contact_phone'),
+					'contact_name'       => $this->params->get('contact_name')
+				),
+			'orderItem' => $itemList
 		);
 		$headers = array(
-			"Content-Type: application/x-www-form-urlencoded",
+			"Content-Type: application/json",
 			"Cache-control: no-cache"
 		);
 
-		$curl = curl_init($this->params->get('url_service') . 'CreateShippingOrder');
+		$curl = curl_init('http://gw.kerryexpress.com.vn/api/WS001PostNewOrderInfor');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
+		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($post));
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 		$json = curl_exec($curl);
 		curl_close($curl);
 
 		return json_decode($json, true);
-	}
-
-	/**
-	 * update Order
-	 *
-	 * @param   int    $orderId  Order ID
-	 * @param   array  $data     Update data
-	 *
-	 * @return array
-	 */
-	public function updateOrder($orderId, $data)
-	{
-		$order           = new stdClass;
-		$order->order_id = $orderId;
-		$order->track_no = $data['OrderCode'];
-
-		return JFactory::getDbo()->updateObject('#__redshop_orders', $order, 'id');
 	}
 }

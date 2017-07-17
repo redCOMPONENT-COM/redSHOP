@@ -29,10 +29,27 @@
         <fields name="params" addfieldpath="/plugins/redshop_checkout/kerry_express/fields">
             <fieldset name="basic">
                 <field 
+                    name="token_key" 
+                    type="text"
+                    default=""
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_TOKEN_KEY"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_TOKEN_KEY_DESC">
+                </field>
+                <field 
+                    name="service_type" 
+                    type="kerryservice"
+                    default=""
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_SERVICE"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_SERVICE_DESC">
+                </field>
+                <field 
                     name="city" 
                     type="kerrycity"
                     onchange="kerrySelectDistrict(this);"
                     default=""
+                    required="true"
                     label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CITY"
                     description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CITY_DESC">
                 </field>
@@ -41,6 +58,7 @@
                     type="kerrydistrict"
                     onchange="kerrySelectWard(this);"
                     default=""
+                    required="true"
                     label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_DISTRICT"
                     description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_DISTRICT_DESC">
                 </field>
@@ -48,8 +66,33 @@
                     name="ward_code" 
                     type="kerryward" 
                     default=""
+                    required="true"
                     label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_WARD"
                     description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_WARD_DESC">
+                </field>
+                <field 
+                    name="address" 
+                    type="text"
+                    default=""
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ADDRESS"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ADDRESS_DESC">
+                </field>
+                <field 
+                    name="contact_name" 
+                    type="text"
+                    default=""
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CONTACT_NAME"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CONTACT_NAME_DESC">
+                </field>
+                <field 
+                    name="contact_phone" 
+                    type="text"
+                    default=""
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CONTACT_PHONE"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CONTACT_PHONE_DESC">
                 </field>
             </fieldset>
         </fields>
