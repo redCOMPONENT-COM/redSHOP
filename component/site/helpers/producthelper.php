@@ -9321,107 +9321,20 @@ class productHelper
 		return $rsltdata;
 	}
 
-	public function replaceProductStockdata($product_id, $property_id, $subproperty_id, $data_add, $stockStatusArray)
+	/**
+	 * @param   int     $productId          Product ID
+	 * @param   int     $propertyId         Property ID
+	 * @param   int     $subPropertyId      Sub property ID
+	 * @param   string  $template           Template
+	 * @param   array   $stockStatusArray   Stock status array
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  Use RedshopHelperProductTag::replaceProductStockData() instead
+	 */
+	public function replaceProductStockdata($productId, $propertyId, $subPropertyId, $template, $stockStatusArray)
 	{
-		if (strpos($data_add, "{stock_status") !== false)
-		{
-			$product = RedshopProduct::getInstance($product_id);
-
-			$stocktag     = strstr($data_add, "{stock_status");
-			$newstocktag  = explode("}", $stocktag);
-			$realstocktag = $newstocktag[0] . "}";
-
-			$stock_tag = substr($newstocktag[0], 1);
-			$sts_array = explode(":", $stock_tag);
-
-			$avail_class = "available_stock_cls";
-
-			if (isset($sts_array[1]) && $sts_array[1] != "")
-			{
-				$avail_class = $sts_array[1];
-			}
-
-			$out_stock_class = "out_stock_cls";
-
-			if (isset($sts_array[2]) && $sts_array[2] != "")
-			{
-				$out_stock_class = $sts_array[2];
-			}
-
-			$pre_order_class = "pre_order_cls";
-
-			if (isset($sts_array[3]) && $sts_array[3] != "")
-			{
-				$pre_order_class = $sts_array[3];
-			}
-
-			if ($product->not_for_sale == 1)
-			{
-				$stock_status = '';
-			}
-			elseif (!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock'])
-			{
-				if (($stockStatusArray['preorder'] && !$stockStatusArray['preorder_stock']) || !$stockStatusArray['preorder'])
-				{
-					$stock_status = "<span id='stock_status_div" . $product_id . "'><div id='" . $out_stock_class
-						. "' class='" . $out_stock_class . "'>" . JText::_('COM_REDSHOP_OUT_OF_STOCK') . "</div></span>";
-				}
-				else
-				{
-					$stock_status = "<span id='stock_status_div" . $product_id . "'><div id='" . $pre_order_class
-						. "' class='" . $pre_order_class . "'>" . JText::_('COM_REDSHOP_PRE_ORDER') . "</div></span>";
-				}
-			}
-			else
-			{
-				$stock_status = "<span id='stock_status_div" . $product_id . "'><div id='" . $avail_class . "' class='"
-					. $avail_class . "'>" . JText::_('COM_REDSHOP_AVAILABLE_STOCK') . "</div></span>";
-			}
-
-			$data_add = str_replace($realstocktag, $stock_status, $data_add);
-		}
-
-		RedshopLayoutHelper::renderTag(
-			'{stock_notify_flag}', $data_add, 'product', array(
-				'productId' => $product_id, 'propertyId' => $property_id, 'subPropertyId' => $subproperty_id,
-				'productStockStatus' => $stockStatusArray
-			)
-		);
-
-		if (strstr($data_add, "{product_availability_date}"))
-		{
-			$redshopconfig = Redconfiguration::getInstance();
-			$product       = $this->getProductById($product_id);
-
-			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']) && $stockStatusArray['preorder'])
-			{
-				if ($product->product_availability_date)
-				{
-					$data_add = str_replace("{product_availability_date_lbl}", "<span id='stock_availability_date_lbl"
-						. $product_id . "'>" . JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL') . ": </span>", $data_add);
-					$data_add = str_replace("{product_availability_date}", "<span id='stock_availability_date" . $product_id
-						. "'>" . $redshopconfig->convertDateFormat($product->product_availability_date) . "</span>", $data_add);
-				}
-				else
-				{
-					$data_add = str_replace("{product_availability_date_lbl}", "<span id='stock_availability_date_lbl"
-						. $product_id . "'></span>", $data_add);
-					$data_add = str_replace("{product_availability_date}", "<span id='stock_availability_date" . $product_id
-						. "'></span>", $data_add);
-				}
-
-			}
-			else
-			{
-				$data_add = str_replace("{product_availability_date_lbl}", "<span id='stock_availability_date_lbl"
-					. $product_id . "'></span>", $data_add);
-				$data_add = str_replace("{product_availability_date}", "<span id='stock_availability_date" . $product_id
-					. "'></span>", $data_add);
-
-			}
-		}
-
-		return $data_add;
+		return RedshopHelperProductTag::replaceProductStockData($productId, $propertyId, $subPropertyId, $template, $stockStatusArray);
 	}
 
 	/**
