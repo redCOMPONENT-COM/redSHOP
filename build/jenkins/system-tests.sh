@@ -11,8 +11,11 @@ ln -s /opt/firefox47/firefox /usr/bin/firefox
 firefox --version
 service apache2 restart
 service mysql start
-export $WORKSPACE=$(pwd)
 echo $WORKSPACE
+grep -R "DocumentRoot" /etc/apache2/sites-enabled
+cd ./tests/
+ls -la
+cd $WORKSPACE
 
 # Start Xvfb
 export DISPLAY=:0
@@ -33,7 +36,6 @@ vendor/bin/robo prepare:site-for-system-tests
 git submodule update --init --recursive
 composer install --working-dir ./libraries/redshop --ansi
 ln -s /usr/bin/nodejs /usr/bin/node
-rm -r /tests/www
 cd /tests/www
 mkdir tests
 cd tests
