@@ -27,27 +27,7 @@ pipeline {
                 }
             }
             steps {
-                sh '''
-                    composer update && \
-                    mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml && \
-                    sudo vendor/bin/robo prepare:site-for-system-tests &&\
-                    ln -s /usr/bin/nodejs /usr/bin/node && \
-                    export DISPLAY=:0 && \
-                    (Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset &) && \
-                    sleep 3 && \
-                    (fluxbox &) && \
-                    sudo chown -R www-data:www-data tests/joomla-cms3 && \
-                    cd /var/www/html && \
-                    ln -sf $WORKSPACE/tests/joomla-cms3 ./tests/ && \
-                    cd $WORKSPACE && \
-                    git submodule update --init --recursive && \
-                    composer install --working-dir ./libraries/redshop --ansi && \
-                    npm install && \
-                    mv gulp-config.sample.jenkins.json gulp-config.json && \
-                    gulp release --skip-version && \
-                    vendor/bin/robo kill:selenium &&\
-                    vendor/bin/robo run:tests-jenkins
-                '''
+                sh 'bash build/jenkins/system-tests.sh'
             }
             post {
                 always {
