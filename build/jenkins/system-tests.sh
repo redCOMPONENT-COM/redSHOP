@@ -20,9 +20,10 @@ echo $(pwd)
 ls -la
 whoami
 mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml
-sudo vendor/bin/robo prepare:site-for-system-tests
+vendor/bin/robo prepare:site-for-system-tests
 git submodule update --init --recursive
 composer install --working-dir ./libraries/redshop --ansi
+ln -s /usr/bin/nodejs /usr/bin/node
 npm install
 mv gulp-config.sample.jenkins.json gulp-config.json
 gulp release --skip-version
