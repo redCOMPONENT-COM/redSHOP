@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 /**
- * Plugins redSHOP One step checkout
+ * Plugins redSHOP Kerry express shipping
  *
  * @since  1.0
  */
@@ -205,10 +205,11 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	 */
 	public function onBeforeUserShippingStore(&$data)
 	{
-		$cityField = RedshopHelperExtrafields::getDataByName('rs_ghn_city', 14, $data->users_info_id);
-		$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_district', 14, $data->users_info_id);
+		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_city', 14, $data->users_info_id);
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_district', 14, $data->users_info_id);
+		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_ward', 14, $data->users_info_id);
 
-		if (empty($cityField) && empty($districtField))
+		if (empty($cityField) && empty($districtField) && empty($wardField))
 		{
 			return;
 		}
