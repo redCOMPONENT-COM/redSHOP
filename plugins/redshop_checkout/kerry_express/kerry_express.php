@@ -48,7 +48,7 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	}
 
 	/**
-	 * get GiaoHangNhanh City List
+	 * get Kerry City List
 	 *
 	 * @return mixed
 	 */
@@ -57,12 +57,22 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 		$app          = JFactory::getApplication();
 		$input        = $app->input;
 		$id           = $input->post->getInt('id', 0);
-		$selectedCity = RedshopHelperExtrafields::getDataByName('rs_ghn_city', 14, $id);
+		$selectedCity = RedshopHelperExtrafields::getDataByName('rs_kerry_city', 14, $id);
 
-		$data   = $this->getDistrictProvinceData();
-		$cities = array();
+		$handle = $this->getDistrictProvinceData();
+		$data   = array();
 
-		if (empty($data['Data']))
+		while ($result = fgetcsv($handle, null, ',', '"'))
+		{
+			if (!is_numeric($result[1]))
+			{
+				continue;
+			}
+
+			$data[$result[1]] = $result[0];
+		}
+
+		if (empty($data))
 		{
 			echo '';
 			JFactory::getApplication()->close();
@@ -70,12 +80,7 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 
 		$html = '';
 
-		foreach ($data['Data'] as $key => $city)
-		{
-			$cities[$city['ProvinceCode']] = $city['ProvinceName'];
-		}
-
-		foreach ($cities as $code => $name)
+		foreach ($data as $code => $name)
 		{
 			$selected = '';
 
@@ -92,7 +97,7 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	}
 
 	/**
-	 * get GiaoHangNhanh District List
+	 * get Kerry District List
 	 *
 	 * @return mixed
 	 */
@@ -100,14 +105,24 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	{
 		$app              = JFactory::getApplication();
 		$input            = $app->input;
-		$city             = $input->post->getInt('city', 0);
+		$city             = $input->post->getString('city', '');
 		$id               = $input->post->getInt('id', 0);
-		$selectedDistrict = RedshopHelperExtrafields::getDataByName('rs_ghn_district', 14, $id);
+		$selectedDistrict = RedshopHelperExtrafields::getDataByName('rs_kerry_district', 14, $id);
 
-		$data      = $this->getDistrictProvinceData();
-		$districts = array();
+		$handle = $this->getDistrictProvinceData();
+		$data   = array();
 
-		if (empty($data['Data']))
+		while ($result = fgetcsv($handle, null, ',', '"'))
+		{
+			if (!is_numeric($result[1]))
+			{
+				continue;
+			}
+
+			$data[$result[1]][$result[3]] = $result[2];
+		}
+
+		if (empty($data))
 		{
 			echo '';
 			$app->close();
@@ -115,21 +130,61 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 
 		$html = '';
 
-		foreach ($data['Data'] as $key => $district)
-		{
-			if ($city != $district['ProvinceCode'])
-			{
-				continue;
-			}
-
-			$districts[$district['ProvinceCode']][$district['DistrictCode']] = $district['DistrictName'];
-		}
-
-		foreach ($districts[$city] as $code => $name)
+		foreach ($data[$city] as $code => $name)
 		{
 			$selected = '';
 
 			if (!empty($selectedDistrict) && $code == $selectedDistrict->data_txt)
+			{
+				$selected = 'selected="selected"';
+			}
+
+			$html .= '<option ' . $selected . ' value="' . $code . '">' . $name . '</option>';
+		}
+
+		echo $html;
+		$app->close();
+	}
+
+	/**
+	 * get Kerry District List
+	 *
+	 * @return mixed
+	 */
+	public function onAjaxGetKerryWard()
+	{
+		$app          = JFactory::getApplication();
+		$input        = $app->input;
+		$district     = $input->post->getString('district', '');
+		$id           = $input->post->getInt('id', 0);
+		$selectedWard = RedshopHelperExtrafields::getDataByName('rs_kerry_ward', 14, $id);
+
+		$handle = $this->getDistrictProvinceData();
+		$data   = array();
+
+		while ($result = fgetcsv($handle, null, ',', '"'))
+		{
+			if (!is_numeric($result[1]))
+			{
+				continue;
+			}
+
+			$data[$result[3]][$result[5]] = $result[4];
+		}
+
+		if (empty($data))
+		{
+			echo '';
+			$app->close();
+		}
+
+		$html = '';
+
+		foreach ($data[$district] as $code => $name)
+		{
+			$selected = '';
+
+			if (!empty($selectedWard) && $code == $selectedWard->data_txt)
 			{
 				$selected = 'selected="selected"';
 			}
@@ -206,63 +261,16 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	}
 
 	/**
-	 * get GiaoHangNhanh Data List
+	 * get Kerry Data List
 	 *
 	 * @return array
 	 */
 	public function getDistrictProvinceData()
 	{
-		$post = array(
-			'ApiKey'       => $this->params->get('api_key'),
-			'ApiSecretKey' => $this->params->get('api_secret'),
-			'ClientID'     => $this->params->get('client_id'),
-			'Password'     => $this->params->get('password')
-		);
-		$headers = array(
-			"Content-Type: application/x-www-form-urlencoded",
-			"Cache-control: no-cache"
-		);
+		$path = JPATH_PLUGINS . '/redshop_checkout/kerry_express/data/data.csv';
+		$handle = fopen($path, 'r');
 
-		$curl = curl_init($this->params->get('url_service') . 'GetDistrictProvinceData');
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-		$json = curl_exec($curl);
-		curl_close($curl);
-
-		return json_decode($json, true);
-	}
-
-	/**
-	 * get GiaoHangNhanh Data List
-	 *
-	 * @param   int  $districtCode  GHN District code
-	 *
-	 * @return array
-	 */
-	public function getServiceList($districtCode)
-	{
-		$post = array(
-			'ApiKey'           => $this->params->get('api_key'),
-			'ApiSecretKey'     => $this->params->get('api_secret'),
-			'ClientID'         => $this->params->get('client_id'),
-			'Password'         => $this->params->get('password'),
-			'FromDistrictCode' => $this->params->get('from_district_code', '0201'),
-			'ToDistrictCode'   => $districtCode
-		);
-		$headers = array(
-			"Content-Type: application/x-www-form-urlencoded",
-			"Cache-control: no-cache"
-		);
-
-		$curl = curl_init($this->params->get('url_service') . 'GetServiceList');
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-		$json = curl_exec($curl);
-		curl_close($curl);
-
-		return json_decode($json, true);
+		return $handle;
 	}
 
 	/**
