@@ -8,74 +8,86 @@
  */
 
 defined('_JEXEC') or die;
-
-JHTML::_('behavior.tooltip');
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton == 'shipping_rate') {
-			form.view.value = "shipping_rate";
-		}
-		if (pressbutton == 'cancel') {
-			submitform(pressbutton);
-			return;
-		}
+    Joomla.submitbutton = function (pressbutton) {
+        var form = document.adminForm;
 
-		if (form.name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_MUST_HAVE_A_NAME', true ); ?>");
-		} else {
-			submitform(pressbutton);
-		}
-	}
+        if (pressbutton == "shipping_rate") {
+            form.view.value = "shipping_rate";
+        }
+
+        if (pressbutton == "cancel") {
+            submitform(pressbutton);
+            return;
+        }
+
+        if (form.name.value == "") {
+            alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_METHOD_MUST_HAVE_A_NAME', true); ?>");
+        } else {
+            submitform(pressbutton);
+        }
+    };
 </script>
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
-	<?php
-	echo JHtml::_('tabs.start', 'shipping-pane', array('startOffset' => 0));
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DETAILS'), 'tab1');
-	?>
-	<table class="admintable" width="100%">
-		<tr>
-			<td width="100" align="right" class="key">
-				<label for="name">
-					<?php echo JText::_('COM_REDSHOP_SHIPPING_NAME'); ?>:
-				</label>
-			</td>
-			<td>
-				<?php echo JText::_($this->detail->name); ?>
-			</td>
-		</tr>
-		<tr>
-			<td width="100" align="right" class="key">
-				<label for="name">
-					<?php echo JText::_('COM_REDSHOP_SHIPPING_CLASS'); ?>:
-				</label>
-			</td>
-			<td><?php echo $this->detail->element;?></td>
-		</tr>
-		</tr>
-		<tr>
-			<td valign="top" align="right" class="key">
-				<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>:
-			</td>
-			<td>
-				<?php echo $this->lists['published']; ?>
-			</td>
-		</tr>
-	</table>
-	<?php echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CONFIG'), 'tab2'); ?>
-	<div align="left"><?php
-		JPluginHelper::importPlugin('redshop_shipping');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$payment = $dispatcher->trigger('onShowconfig', array($this->detail));
-		?>
-	</div>
-	<?php echo JHtml::_('tabs.end'); ?>
-	<div class="clr"></div>
-
-	<input type="hidden" name="element" value="<?php echo $this->detail->element; ?>"/>
-	<input type="hidden" name="extension_id" value="<?php echo $this->detail->extension_id; ?>"/>
-	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="view" value="shipping_detail"/>
-	<input type="hidden" name="plugin" value="<?php echo $this->detail->folder; ?>"/>
+<form action="<?php echo JRoute::_(JUri::getInstance()->toString()) ?>" method="post" name="adminForm" id="adminForm">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="text-primary"><?php echo JText::_('COM_REDSHOP_DETAILS') ?></h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="name" class="col-md-4">
+								<?php echo JText::_('COM_REDSHOP_SHIPPING_NAME'); ?>:
+                            </label>
+                            <div class="col-md-8">
+                                <strong><?php echo JText::_($this->detail->name) ?></strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="name" class="col-md-4">
+								<?php echo JText::_('COM_REDSHOP_SHIPPING_CLASS'); ?>:
+                            </label>
+                            <div class="col-md-8">
+                                <strong><?php echo JText::_($this->detail->element) ?></strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="name" class="col-md-4">
+								<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>:
+                            </label>
+                            <div class="col-md-8">
+								<?php echo $this->lists['published'] ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="text-primary"><?php echo JText::_('COM_REDSHOP_CONFIG') ?></h3>
+                </div>
+                <div class="box-body">
+					<?php
+					JPluginHelper::importPlugin('redshop_shipping');
+					$dispatcher = RedshopHelperUtility::getDispatcher();
+					$payment    = $dispatcher->trigger('onShowConfig', array($this->detail));
+					?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="element" value="<?php echo $this->detail->element; ?>"/>
+    <input type="hidden" name="extension_id" value="<?php echo $this->detail->extension_id; ?>"/>
+    <input type="hidden" name="task" value=""/>
+    <input type="hidden" name="view" value="shipping_detail"/>
+    <input type="hidden" name="plugin" value="<?php echo $this->detail->folder; ?>"/>
 </form>
