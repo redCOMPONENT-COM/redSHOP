@@ -38,7 +38,7 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	 *
 	 * @return mixed
 	 */
-	public function onRenderCustomField($infoId)
+	public function onRenderCustomField($infoId = 0)
 	{
 		echo RedshopLayoutHelper::render(
 			'template',
@@ -58,6 +58,11 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 		$input        = $app->input;
 		$id           = $input->post->getInt('id', 0);
 		$selectedCity = RedshopHelperExtrafields::getDataByName('rs_kerry_city', 14, $id);
+
+		if (empty($selectedCity))
+		{
+			$selectedCity = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_city', 7, $id);
+		}
 
 		$handle = $this->getDistrictProvinceData();
 		$data   = array();
@@ -109,6 +114,11 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 		$id               = $input->post->getInt('id', 0);
 		$selectedDistrict = RedshopHelperExtrafields::getDataByName('rs_kerry_district', 14, $id);
 
+		if (empty($selectedDistrict))
+		{
+			$selectedDistrict = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_district', 7, $id);
+		}
+
 		$handle = $this->getDistrictProvinceData();
 		$data   = array();
 
@@ -159,6 +169,11 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 		$id           = $input->post->getInt('id', 0);
 		$selectedWard = RedshopHelperExtrafields::getDataByName('rs_kerry_ward', 14, $id);
 
+		if (empty($selectedWard))
+		{
+			$selectedWard = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_ward', 7, $id);
+		}
+
 		$handle = $this->getDistrictProvinceData();
 		$data   = array();
 
@@ -197,6 +212,50 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	}
 
 	/**
+	 * trigger before user billing stored
+	 *
+	 * @param   object  $data  User billing data
+	 *
+	 * @return void
+	 */
+	public function onBeforeUserBillingStore(&$data)
+	{
+		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_city', 7, $data->users_info_id);
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_district', 7, $data->users_info_id);
+		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_ward', 7, $data->users_info_id);
+
+		$userCity     = "";
+		$userDistrict = "";
+		$userWard     = "";
+		$cities       = array();
+		$districts    = array();
+		$wards        = array();
+
+		$handle = $this->getDistrictProvinceData();
+
+		while ($result = fgetcsv($handle, null, ',', '"'))
+		{
+			if (!is_numeric($result[1]))
+			{
+				continue;
+			}
+
+			$cities[$result[1]]                = $result[0];
+			$districts[$result[1]][$result[3]] = $result[2];
+			$wards[$result[3]][$result[5]]     = $result[4];
+		}
+
+		$userCity     = $cities[$cityField->data_txt];
+		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
+		$userWard     = $wards[$districtField->data_txt][$wardField->data_txt];
+
+		$data->address .= ' ' . $userWard . ' ' . $userDistrict . ' ' . $userCity;
+		$data->city = $userCity;
+
+		return;
+	}
+
+	/**
 	 * trigger before user shipping stored
 	 *
 	 * @param   object  $data  User shipping data
@@ -205,16 +264,16 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	 */
 	public function onBeforeUserShippingStore(&$data)
 	{
-		$result = $this->getDistrictProvinceData();
-
-		if (empty($result))
-		{
-			return;
-		}
-
 		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_city', 14, $data->users_info_id);
 		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_district', 14, $data->users_info_id);
 		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_ward', 14, $data->users_info_id);
+
+		if (empty($cityField) && empty($districtField) && empty($wardField))
+		{
+			$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_city', 7, $data->users_info_id);
+			$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_district', 7, $data->users_info_id);
+			$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_ward', 7, $data->users_info_id);
+		}
 
 		$userCity     = "";
 		$userDistrict = "";

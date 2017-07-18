@@ -28,6 +28,10 @@ $auth       = $session->get('auth');
 $l          = JRequest::getInt('l', 1);
 $jinput     = JFactory::getApplication()->input;
 
+JPluginHelper::importPlugin('redshop_checkout');
+$dispatcher = RedshopHelperUtility::getDispatcher();
+$dispatcher->trigger('onRenderCustomField');
+
 /*
  * REGISTER_METHOD
  * 0 With account creation
