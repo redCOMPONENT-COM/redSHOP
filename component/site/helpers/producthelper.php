@@ -6158,7 +6158,7 @@ class productHelper
 		$db = JFactory::getDbo();
 
 		// download data
-		$downloadable_product = $this->checkProductDownload($product_id, true); //die();
+		$downloadable_product = RedshopHelperProductDownload::checkDownload($product_id, true); //die();
 
 		$product_download_limit = ($downloadable_product->product_download_limit > 0) ? $downloadable_product->product_download_limit : Redshop::getConfig()->get('PRODUCT_DOWNLOAD_LIMIT');
 
