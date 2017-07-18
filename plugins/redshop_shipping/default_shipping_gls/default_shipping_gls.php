@@ -10,104 +10,149 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-
-/**
- * Joomla! System Logging Plugin
- *
- * @package        Joomla
- * @subpackage     System
- */
 JLoader::import('redshop.library');
 
-class  plgredshop_shippingdefault_shipping_gls extends JPlugin
+/**
+ * redSHOP Shipping GLS
+ *
+ * @since 1.0.0
+ */
+class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 {
+	/**
+	 * Shipping name
+	 *
+	 * @var  string
+	 *
+	 * @since  1.0.0
+	 */
 	const SHIPPING_NAME    = "default_shipping_gls";
 
-	public $client       = '';
-
-	public $errorMsg     = '';
-
-	public $error        = 0;
+	/**
+	 * Client
+	 *
+	 * @var  string
+	 *
+	 * @since  1.0.0
+	 */
+	public $client = '';
 
 	/**
-	 * specific redform plugin parameters
+	 * Error Message
 	 *
-	 * @var JParameter object
+	 * @var  string
+	 *
+	 * @since  1.0.0
+	 */
+	public $errorMsg     = '';
+
+	/**
+	 * Error
+	 *
+	 * @var  interger
+	 *
+	 * @since  1.0.0
+	 */
+	public $error = 0;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   object $subject The object to observe
+	 * @param   array  $config  An optional associative array of configuration settings
+	 *
+	 * @since   1.0.0
 	 */
 	public function __construct( &$subject, $config = array() )
 	{
 		parent::__construct($subject, $config);
 
-		$this->onlabels_GLSConnection();
+		$this->onLabelsGLSConnection();
 	}
 
+	/**
+	 * Get GLS Location
+	 *
+	 * @param   int     $usersInfoId  redSHOP user info id
+	 * @param   string  $className    Shipping class name
+	 * @param   int     $shopId       GLS Shop ID
+	 *
+	 * @return  mixed
+	 */
 	public function getGLSLocation($usersInfoId, $className, $shopId = 0)
 	{
 		$output         = '';
 		$shippingGLS    = order_functions::getInstance()->getparameters('default_shipping_gls');
 		$selectedShopId = null;
 
-		if (count($shippingGLS) > 0 && $shippingGLS[0]->enabled && $className == 'default_shipping_gls')
+		if (count($shippingGLS) == 0 && !$shippingGLS[0]->enabled && $className != 'default_shipping_gls')
 		{
-			$values     = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
+			return '';
+		}
 
-			if ($shopId)
+		$values     = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
+
+		if ($shopId)
+		{
+			$shopOrderdetail = explode("###", $shopId);
+
+			// Zipcode
+			if (isset($shopOrderdetail[2]) && !empty($shopOrderdetail[2]))
 			{
-				$shopOrderdetail = explode("###", $shopId);
-
-				// Zipcode
-				if (isset($shopOrderdetail[2]) && !empty($shopOrderdetail[2]))
-				{
-					$values->zipcode = $shopOrderdetail[2];
-				}
-
-				// Phone
-				if (isset($shopOrderdetail[1]) && !empty($shopOrderdetail[1]))
-				{
-					$values->phone = $shopOrderdetail[1];
-				}
+				$values->zipcode = $shopOrderdetail[2];
 			}
 
-			$shopList      = array();
-			$shopResponses = $this->GetNearstParcelShops($values);
-
-			if (!empty($shopResponses) && is_array($shopResponses))
+			// Phone
+			if (isset($shopOrderdetail[1]) && !empty($shopOrderdetail[1]))
 			{
-				foreach ($shopResponses as $shopResponse)
+				$values->phone = $shopOrderdetail[1];
+			}
+		}
+
+		$shopList      = array();
+		$shopResponses = $this->GetNearstParcelShops($values);
+
+		if (!empty($shopResponses) && is_array($shopResponses))
+		{
+			foreach ($shopResponses as $shopResponse)
+			{
+				$shopList[] = JHTML::_(
+					'select.option',
+					$shopResponse->shop_id,
+					$shopResponse->CompanyName . ', ' . $shopResponse->Streetname . ', ' . $shopResponse->ZipCode . ', ' . $shopResponse->CityName
+				);
+
+				if ($shopId)
 				{
-					$shopList[] = JHTML::_(
-						'select.option',
-						$shopResponse->shop_id,
-						$shopResponse->CompanyName . ', ' . $shopResponse->Streetname . ', ' . $shopResponse->ZipCode . ', ' . $shopResponse->CityName
-					);
+					$shopDetail = explode("|", $shopId);
 
-					if ($shopId)
+					if ($shopDetail[0] == $shopResponse->Number)
 					{
-						$shopDetail = explode("|", $shopId);
-
-						if ($shopDetail[0] == $shopResponse->Number)
-						{
-							$selectedShopId = $shopResponse->shop_id;
-						}
+						$selectedShopId = $shopResponse->shop_id;
 					}
 				}
 			}
-
-			$output = RedshopLayoutHelper::render(
-				'glslocation',
-				array(
-					'values' => $values,
-					'selectedShopId' => $selectedShopId,
-					'shopList' => $shopList
-				),
-				JPATH_PLUGINS . '/redshop_shipping/default_shipping_gls/layouts'
-			);
 		}
+
+		$output = RedshopLayoutHelper::render(
+			'glslocation',
+			array(
+				'values' => $values,
+				'selectedShopId' => $selectedShopId,
+				'shopList' => $shopList
+			),
+			JPATH_PLUGINS . '/redshop_shipping/default_shipping_gls/layouts'
+		);
 
 		return $output;
 	}
 
-	public function onlabels_GLSConnection()
+	/**
+	 * GLS Connection
+	 *
+	 * @return  void
+	 */
+	public function onLabelsGLSConnection()
 	{
 		$url = 'http://www.gls.dk/webservices_v4/wsShopFinder.asmx?WSDL';
 
@@ -115,7 +160,7 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		{
 			$this->client = new SoapClient($url, array ("trace" => 1, "exceptions" => 1 ));
 		}
-		catch ( Exception $exception )
+		catch (Exception $exception)
 		{
 			$this->error = 1;
 
@@ -125,7 +170,14 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		}
 	}
 
-	public function GetNearstParcelShops ($values)
+	/**
+	 * Get GLS Nearst Parcel Shop
+	 *
+	 * @param   object  $values  redSHOP Shipping data
+	 *
+	 * @return  mixed
+	 */
+	public function GetNearstParcelShops($values)
 	{
 		if ($this->error)
 		{
@@ -143,9 +195,9 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 				)
 			)->SearchNearestParcelShopsResult;
 
-			return $this->ShopArray($Handle->parcelshops->PakkeshopData);
+			return $this->shopArray($Handle->parcelshops->PakkeshopData);
 		}
-		catch ( Exception $exception )
+		catch (Exception $exception)
 		{
 			if ($exception->getMessage())
 			{
@@ -156,86 +208,104 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		}
 	}
 
-	public function ShopArray($PakkeshopData)
+	/**
+	 * get Pacsoft array
+	 *
+	 * @param   array  $pakkeshopData  Pacsoft data
+	 *
+	 * @return  array
+	 */
+	public function shopArray($pakkeshopData)
 	{
-		$j              = 0;
-		$returnArr      = array();
-
-		for ($i = 0, $in = count($PakkeshopData); $i < $in; $i++)
+		if (empty($pakkeshopData))
 		{
-			$shopNUmber           = $PakkeshopData[$i]->Number;
-			$CompanyName          = $PakkeshopData[$i]->CompanyName;
-			$Streetname           = $PakkeshopData[$i]->Streetname;
-			$ZipCode              = $PakkeshopData[$i]->ZipCode;
-			$Telephone            = $PakkeshopData[$i]->Telephone;
-			$CountryCodeISO3166A2 = $PakkeshopData[$i]->CountryCodeISO3166A2;
-			$CityName             = $PakkeshopData[$i]->CityName;
+			return array();
+		}
 
-			$stropeningTime       = $this->WeekdaysTime($PakkeshopData[$i]->OpeningHours->Weekday);
-			$shop_id              = $shopNUmber . "|" . $CompanyName
-									. "|" . $Streetname . "|" . $ZipCode
-									. "|" . $CountryCodeISO3166A2
-									. "|" . $Telephone . "|" . $stropeningTime
-									. "|" . $CityName;
+		$i         = 0;
+		$returnArr = array();
 
-			$returnArr[$j]                       = new stdClass;
-			$returnArr[$j]->shop_id              = $shop_id;
-			$returnArr[$j]->Number               = $shopNUmber;
-			$returnArr[$j]->CompanyName          = $CompanyName;
-			$returnArr[$j]->Streetname           = $Streetname;
-			$returnArr[$j]->ZipCode              = $ZipCode;
-			$returnArr[$j]->Telephone            = $Telephone;
-			$returnArr[$j]->openingTime          = $stropeningTime;
-			$returnArr[$j]->CityName             = $CityName;
-			$returnArr[$j]->CountryCodeISO3166A2 = $CountryCodeISO3166A2;
+		foreach ($pakkeshopData as $key => $data)
+		{
+			$shopNumber           = $data->Number;
+			$companyName          = $data->CompanyName;
+			$streetName           = $data->Streetname;
+			$zipCode              = $data->ZipCode;
+			$telephone            = $data->Telephone;
+			$countryCodeISO3166A2 = $data->CountryCodeISO3166A2;
+			$cityName             = $data->CityName;
+			$stropeningTime       = $this->weekdaysTime($data->OpeningHours->Weekday);
+			$shopId               = $shopNumber . "|" . $companyName
+									. "|" . $streetName . "|" . $zipCode
+									. "|" . $countryCodeISO3166A2
+									. "|" . $telephone . "|" . $stropeningTime
+									. "|" . $cityName;
 
-			$j++;
+			$returnArr[$i]                       = new stdClass;
+			$returnArr[$i]->shop_id              = $shopId;
+			$returnArr[$i]->Number               = $shopNUmber;
+			$returnArr[$i]->CompanyName          = $companyName;
+			$returnArr[$i]->Streetname           = $streetName;
+			$returnArr[$i]->ZipCode              = $zipCode;
+			$returnArr[$i]->Telephone            = $telephone;
+			$returnArr[$i]->openingTime          = $stropeningTime;
+			$returnArr[$i]->CityName             = $cityName;
+			$returnArr[$i]->CountryCodeISO3166A2 = $countryCodeISO3166A2;
+
+			$i++;
 		}
 
 		return  $returnArr;
 	}
 
-	public function WeekdaysTime($Weekday)
+	/**
+	 * get Pacsoft weekday
+	 *
+	 * @param   array  $weekday  Pacsoft data
+	 *
+	 * @return  array
+	 */
+	public function weekdaysTime($weekday)
 	{
 		$opningTime = Array();
 
-		for ($i = 0, $in = count($Weekday); $i < $in; $i++)
+		for ($i = 0, $in = count($weekday); $i < $in; $i++)
 		{
-			if ($Weekday[$i]->day == 'Monday')
+			if ($weekday[$i]->day == 'Monday')
 			{
 				$day = JText::_('MON');
 			}
-			elseif ($Weekday[$i]->day == 'Tuesday')
+			elseif ($weekday[$i]->day == 'Tuesday')
 			{
 				$day = JText::_('TUE');
 			}
-			elseif ($Weekday[$i]->day == 'Wednesday')
+			elseif ($weekday[$i]->day == 'Wednesday')
 			{
 				$day = JText::_('WED');
 			}
-			elseif ($Weekday[$i]->day == 'Thursday')
+			elseif ($weekday[$i]->day == 'Thursday')
 			{
 				$day = JText::_('THU');
 			}
-			elseif($Weekday[$i]->day == 'Friday')
+			elseif ($weekday[$i]->day == 'Friday')
 			{
 				$day = JText::_('FRI');
 			}
-			elseif ($Weekday[$i]->day == 'Saturday')
+			elseif ($weekday[$i]->day == 'Saturday')
 			{
 				$day = JText::_('SAT');
 			}
-			elseif ($Weekday[$i]->day == 'Sunday')
+			elseif ($weekday[$i]->day == 'Sunday')
 			{
 				$day = JText::_('SUN');
 			}
 			else
 			{
-				$day = $Weekday[$i]->day;
+				$day = $weekday[$i]->day;
 			}
 
 			$opningTime[] = "<b>" . $day . '</b> '
-							. $Weekday[$i]->openAt->From . '-' . $Weekday[$i]->openAt->To;
+							. $weekday[$i]->openAt->From . '-' . $weekday[$i]->openAt->To;
 		}
 
 		$stropeningTime = implode('  ', $opningTime);
@@ -243,23 +313,30 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 		return $stropeningTime;
 	}
 
-	public function onListRates(&$d)
+	/**
+	 * get List Shipping rate
+	 *
+	 * @param   array  $data  redSHOP Shipping data
+	 *
+	 * @return  array
+	 */
+	public function onListRates(&$data)
 	{
-		$shippinghelper = shipping::getInstance();
-		$shippingrate   = array();
+		$shippingHelper = shipping::getInstance();
+		$shippingRate   = array();
 		$rate           = 0;
-		$shipping       = $shippinghelper->getShippingMethodByClass(self::SHIPPING_NAME);
-		$ratelist       = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
+		$shipping       = $shippingHelper->getShippingMethodByClass(self::SHIPPING_NAME);
+		$ratelist       = $shippingHelper->listshippingrates($shipping->element, $data['users_info_id'], $data);
 		$countRate      = count($ratelist) >= 1 ? 1 : 0;
 
 		for ($i = 0; $i < $countRate; $i++)
 		{
 			$rs                         = $ratelist[$i];
 			$shippingRate               = $rs->shipping_rate_value;
-			$rs->shipping_rate_value    = $shippinghelper->applyVatOnShippingRate($rs, $d);
+			$rs->shipping_rate_value    = $shippingHelper->applyVatOnShippingRate($rs, $data);
 			$shippingVatRate            = $rs->shipping_rate_value - $shippingRate;
-			$economic_displaynumber     = $rs->economic_displaynumber;
-			$shipping_rate_id           = RedshopShippingRate::encrypt(
+			$economicDisplayNumber      = $rs->economic_displaynumber;
+			$shippingRateId             = RedshopShippingRate::encrypt(
 											array(
 												__CLASS__,
 												$shipping->name,
@@ -268,22 +345,32 @@ class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 												$rs->shipping_rate_id,
 												'single',
 												$shippingVatRate,
-												$economic_displaynumber
+												$economicDisplayNumber
 											)
 										);
 
-			$shippingrate[$rate]        = new stdClass;
-			$shippingrate[$rate]->text  = $rs->shipping_rate_name;
-			$shippingrate[$rate]->value = $shipping_rate_id;
-			$shippingrate[$rate]->rate  = $rs->shipping_rate_value;
-			$shippingrate[$rate]->vat   = $shippingVatRate;
+			$shippingRate[$rate]        = new stdClass;
+			$shippingRate[$rate]->text  = $rs->shipping_rate_name;
+			$shippingRate[$rate]->value = $shippingRateId;
+			$shippingRate[$rate]->rate  = $rs->shipping_rate_value;
+			$shippingRate[$rate]->vat   = $shippingVatRate;
 
 			$rate++;
 		}
 
-		return $shippingrate;
+		return $shippingRate;
 	}
 
+	/**
+	 * get List Shipping rate
+	 *
+	 * @param   array   $data       redSHOP Shipping data
+	 * @param   string  $template   redSHOP Shipping template
+	 * @param   string  $className  Shipping class name
+	 * @param   string  $checked    Is checked
+	 *
+	 * @return  void
+	 */
 	public function onReplaceShippingTemplate($data, &$template, $className, $checked)
 	{
 		if ($className != "default_shipping_gls")
