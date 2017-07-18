@@ -181,27 +181,8 @@ class PlgRedshop_ShippingBring extends JPlugin
 			$shippingHeight = (int) ($whereShippingBoxes['box_height'] * $unitRatioVolume);
 		}
 
-		/*
-		 * Determine weight in pounds and ounces send integer rounded down
-		 * end cw733 fix
-		 */
-		$shippingGram = floor($orderWeight);
-
-		// WeightInGrams=1500&from=7600&to=1407&length=30&width=40&height=40&volume=33&date=2009-2-3
-		$query = 'from=' . BRING_ZIPCODE_FROM . '&to=' . substr($shippingInformation->zipcode, 0, 5);
-
-		$shippingLength = !$shippingLength ? 1 : $shippingLength;
-		$shippingWidth  = !$shippingWidth ? 1 : $shippingWidth;
-		$shippingHeight = !$shippingHeight ? 1 : $shippingHeight;
-		$shippingVolume = !$shippingVolume ? 1 : $shippingVolume;
-
-		$query = $shippingGram ? $query . '&weightInGrams=' . $shippingGram : $query;
-		$query .= '&length=' . $shippingLength;
-		$query .= '&width=' . $shippingWidth;
-		$query .= '&height=' . $shippingHeight;
-		$query .= '&volume=' . $shippingVolume;
-
-		$xmlDoc = $this->loadData("http://" . BRING_SERVER . BRING_PATH . "?" . $query);
+		$url    = $this->buildUrl($shippingInformation->zipcode, $shippingLength, $shippingWidth, $shippingHeight, $shippingVolume, $orderWeight);
+		$xmlDoc = $this->loadData($url);
 
 		if ($xmlDoc === false)
 		{
@@ -209,14 +190,43 @@ class PlgRedshop_ShippingBring extends JPlugin
 		}
 
 		// Get shipping options that are selected as available in VM from XML response
-		$bringProducts = array();
-
-		foreach ($xmlDoc->Product as $oneProduct)
-		{
-			$bringProducts = $this->loadProduct($oneProduct);
-		}
+		$bringProducts = $this->loadProducts($xmlDoc);
 
 		return $this->populateShippingRates($bringProducts);
+	}
+
+	/**
+	 * Method for build service url
+	 *
+	 * @param   string   $zipcode  Zip code
+	 * @param   integer  $length   Length
+	 * @param   integer  $width    Width
+	 * @param   integer  $height   Height
+	 * @param   integer  $volume   Volume
+	 * @param   integer  $weight   Weight
+	 *
+	 * @return  string
+	 */
+	protected function buildUrl($zipcode, $length, $width, $height, $volume, $weight)
+	{
+		$length = !$length ? 1 : $length;
+		$width  = !$width ? 1 : $width;
+		$height = !$height ? 1 : $height;
+		$volume = !$volume ? 1 : $volume;
+
+		/*
+		 * Determine weight in pounds and ounces send integer rounded down
+		 * end cw733 fix
+		 */
+		$weight = floor($weight);
+
+		// WeightInGrams=1500&from=7600&to=1407&length=30&width=40&height=40&volume=33&date=2009-2-3
+		$query = 'from=' . BRING_ZIPCODE_FROM . '&to=' . substr($zipcode, 0, 5);
+
+		$query = $weight ? $query . '&weightInGrams=' . $weight : $query;
+		$query .= '&length=' . $length . '&width=' . $width . '&height=' . $height . '&volume=' . $volume;
+
+		return "http://" . BRING_SERVER . BRING_PATH . "?" . $query;
 	}
 
 	/**
@@ -255,40 +265,47 @@ class PlgRedshop_ShippingBring extends JPlugin
 	/**
 	 * Method for prepare an list of products base on XML data.
 	 *
-	 * @param   SimpleXMLElement  $oneProduct  XML data
+	 * @param   SimpleXMLElement $data XML data
 	 *
-	 * @return  stdClass
+	 * @return  array
 	 */
-	protected function loadProduct(SimpleXMLElement $oneProduct)
+	protected function loadProducts(SimpleXMLElement $data)
 	{
-		$bringProduct = new stdClass;
+		$results = array();
 
-		$bringProduct->product_id   = (string) $oneProduct->ProductId;
-		$bringProduct->product_name = $bringProduct->product_id;
-
-		if ((string) $oneProduct->GuiInformation->ProductName)
+		foreach ($data->Product as $oneProduct)
 		{
-			$bringProduct->product_name = (string) $oneProduct->GuiInformation->ProductName;
+			$bringProduct = new stdClass;
+
+			$bringProduct->product_id   = (string) $oneProduct->ProductId;
+			$bringProduct->product_name = $bringProduct->product_id;
+
+			if ((string) $oneProduct->GuiInformation->ProductName)
+			{
+				$bringProduct->product_name = (string) $oneProduct->GuiInformation->ProductName;
+			}
+
+			if ((string) $oneProduct->GuiInformation->DescriptionText)
+			{
+				$bringProduct->product_desc = (string) $oneProduct->GuiInformation->DescriptionText;
+			}
+
+			if ((string) $oneProduct->GuiInformation->HelpText)
+			{
+				$bringProduct->product_desc1 = (string) $oneProduct->GuiInformation->HelpText;
+			}
+
+			$attributePrice                             = $oneProduct->Price->attributes();
+			$bringProduct->currencyidentificationcode = (string) $attributePrice['currencyIdentificationCode'];
+			$bringProduct->AmountWithoutVAT            = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithoutVAT;
+			$bringProduct->AmountWithVAT               = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithVAT;
+			$bringProduct->VAT                          = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->VAT;
+			$bringProduct->delivery                    = (string) $oneProduct->ExpectedDelivery->WorkingDays;
+
+			$results[] = $bringProduct;
 		}
 
-		if ((string) $oneProduct->GuiInformation->DescriptionText)
-		{
-			$bringProduct->product_desc = (string) $oneProduct->GuiInformation->DescriptionText;
-		}
-
-		if ((string) $oneProduct->GuiInformation->HelpText)
-		{
-			$bringProduct->product_desc1 = (string) $oneProduct->GuiInformation->HelpText;
-		}
-
-		$attributePrice                             = $oneProduct->Price->attributes();
-		$bringProduct->currencyidentificationcode = (string) $attributePrice['currencyIdentificationCode'];
-		$bringProduct->AmountWithoutVAT            = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithoutVAT;
-		$bringProduct->AmountWithVAT               = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithVAT;
-		$bringProduct->VAT                          = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->VAT;
-		$bringProduct->delivery                    = (string) $oneProduct->ExpectedDelivery->WorkingDays;
-
-		return $bringProduct;
+		return $results;
 	}
 
 	/**
@@ -317,7 +334,7 @@ class PlgRedshop_ShippingBring extends JPlugin
 				continue;
 			}
 
-			$productName  = $product->product_name;
+			$productName = $product->product_name;
 			$currencyCode = $product->currencyidentificationcode;
 
 			$rate = new stdClass;
