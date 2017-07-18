@@ -133,27 +133,28 @@ class PlgRedshop_ShippingBring extends JPlugin
 	 */
 	public function onListRates(&$data)
 	{
-		$productHelper = productHelper::getInstance();
-
-		include_once JPATH_ROOT . '/plugins/redshop_shipping/' . $this->_name . '/config/' . $this->_name . '.cfg.php';
-
-		$shippingRates = array();
-
-		// Conversation of weight ( ration )
-		$unitRatio       = $productHelper->getUnitConversation('gram', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
-		$unitRatioVolume = $productHelper->getUnitConversation('inch', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
-
-		$totalDimension = RedshopHelperShipping::getCartItemDimension();
-
-		// Converting weight in pounds
-		$orderWeight = $unitRatio != 0 ? $totalDimension['totalweight'] * $unitRatio : $totalDimension['totalweight'];
-
 		$shippingInformation = RedshopHelperShipping::getShippingAddress($data['users_info_id']);
 
 		if (is_null($shippingInformation))
 		{
-			return $shippingRates;
+			return array();
 		}
+
+		if (isset($shippingInformation->country_code))
+		{
+			$shippingInformation->country_2_code = RedshopHelperWorld::getCountryCode2($shippingInformation->country_code);
+		}
+
+		include_once JPATH_ROOT . '/plugins/redshop_shipping/' . $this->_name . '/config/' . $this->_name . '.cfg.php';
+		$productHelper = productHelper::getInstance();
+
+		// Conversation of weight ( ration )
+		$unitRatio       = $productHelper->getUnitConversation('gram', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+		$unitRatioVolume = $productHelper->getUnitConversation('inch', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
+		$totalDimension  = RedshopHelperShipping::getCartItemDimension();
+
+		// Converting weight in pounds
+		$orderWeight = $unitRatio != 0 ? $totalDimension['totalweight'] * $unitRatio : $totalDimension['totalweight'];
 
 		if (BRING_USE_SHIPPING_BOX == '1')
 		{
@@ -180,11 +181,6 @@ class PlgRedshop_ShippingBring extends JPlugin
 			$shippingHeight = (int) ($whereShippingBoxes['box_height'] * $unitRatioVolume);
 		}
 
-		if (isset($shippingInformation->country_code))
-		{
-			$shippingInformation->country_2_code = RedshopHelperWorld::getCountryCode2($shippingInformation->country_code);
-		}
-
 		/*
 		 * Determine weight in pounds and ounces send integer rounded down
 		 * end cw733 fix
@@ -209,7 +205,7 @@ class PlgRedshop_ShippingBring extends JPlugin
 
 		if ($xmlDoc === false)
 		{
-			return $shippingRates;
+			return array();
 		}
 
 		// Get shipping options that are selected as available in VM from XML response
@@ -236,7 +232,6 @@ class PlgRedshop_ShippingBring extends JPlugin
 		curl_setopt($curl, CURLOPT_HEADER, 0);
 		curl_setopt($curl, CURLOPT_HTTPGET, 1);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
 		$xmlResult = curl_exec($curl);
 		$error     = curl_error($curl);
 
@@ -247,7 +242,6 @@ class PlgRedshop_ShippingBring extends JPlugin
 
 		// Disable libxml errors and allow to fetch error information as needed
 		libxml_use_internal_errors(true);
-
 		curl_close($curl);
 
 		return simplexml_load_string($xmlResult, 'SimpleXMLElement');
@@ -325,23 +319,25 @@ class PlgRedshop_ShippingBring extends JPlugin
 				continue;
 			}
 
-			$results[$index] = new stdClass;
+			$productName = $product->product_name;
+			$currencyCode = $product->currencyidentificationcode;
 
-			$results[$index]->text      = $product->product_name;
-			$results[$index]->vat       = RedshopHelperCurrency::convert($product->VAT, $product->currencyidentificationcode);
-			$results[$index]->shortdesc = (BRING_PRICE_SHOW_SHORT_DESC) ? $product->product_desc : '';
-			$results[$index]->desc      = (BRING_PRICE_SHOW_DESC) ? $product->product_desc1 : '';
+			$rate = new stdClass;
+
+			$rate->text      = $productName;
+			$rate->vat       = RedshopHelperCurrency::convert($product->VAT, $currencyCode);
+			$rate->shortdesc = (BRING_PRICE_SHOW_SHORT_DESC) ? $product->product_desc : '';
+			$rate->desc      = (BRING_PRICE_SHOW_DESC) ? $product->product_desc1 : '';
 
 			// Convert NOK currency to site currency
-			$results[$index]->rate = RedshopHelperCurrency::convert($product->AmountWithoutVAT, $product->currencyidentificationcode);
-
-			$results[$index]->value = RedshopShippingRate::encrypt(
+			$rate->rate = RedshopHelperCurrency::convert($product->AmountWithoutVAT, $currencyCode);
+			$rate->value = RedshopShippingRate::encrypt(
 				array(
 					__CLASS__,
 					$shippingName,
-					$product->product_name,
-					number_format($results[$index]->rate + $results[$index]->vat, 2, '.', ''),
-					$product->product_name,
+					$productName,
+					number_format($rate->rate + $rate->vat, 2, '.', ''),
+					$productName,
 					'single',
 					'0'
 				)
@@ -349,9 +345,10 @@ class PlgRedshop_ShippingBring extends JPlugin
 
 			if (BRING_PRICE_SHOW_WITHVAT)
 			{
-				$results[$index]->rate = RedshopHelperCurrency::convert($product->AmountWithVAT, $product->currencyidentificationcode);
+				$rate->rate = RedshopHelperCurrency::convert($product->AmountWithVAT, $currencyCode);
 			}
 
+			$results[$index] = $rate;
 			$index++;
 		}
 
