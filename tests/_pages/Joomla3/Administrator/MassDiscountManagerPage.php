@@ -5,6 +5,8 @@ class MassDiscountManagerPage
 {
     public static $URL = '/administrator/index.php?option=com_redshop&view=mass_discounts';
 
+    public static $URLNew='/administrator/index.php?option=com_redshop&view=mass_discount&layout=edit';
+
     public static $name = "#jform_name";
 
     public static $valueAmount = "#jform_amount";
