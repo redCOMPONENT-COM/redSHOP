@@ -28,7 +28,7 @@ extract($displayData);
 </td>
 <td>
 	<?php foreach ($fieldCheck as $key => $field) : ?>
-		<?php $checked = (@in_array(urlencode($field->field_value), $checkData)) ? ' checked="checked" ' : ''; ?>
+		<?php $checked = (!empty($checkData) && in_array(urlencode($field->field_value), $checkData)) ? ' checked="checked" ' : ''; ?>
 		<label>
 			<input 
 				type="radio"

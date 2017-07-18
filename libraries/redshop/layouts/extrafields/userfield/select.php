@@ -33,7 +33,7 @@ extract($displayData);
 		<?php if ($fieldChk[$c]->field_value == "" && $fieldChk[$c]->field_value == "-" && $fieldChk[$c]->field_value == "0" && $fieldChk[$c]->field_value == "select") : ?>
 			<?php continue; ?>
 		<?php endif; ?>
-		<?php $selected = (@in_array(urlencode($field->field_value), $checkData)) ? ' selected="selected" ' : ''; ?>
+		<?php $selected = (!empty($checkData) && in_array(urlencode($field->field_value), $checkData)) ? ' selected="selected" ' : ''; ?>
 		<option <?php echo $selected; ?> value="<?php echo urlencode($field->field_value); ?>"><?php echo $field->field_name; ?></option>
 	<?php endforeach; ?>
 	</select>
