@@ -93,7 +93,7 @@ abstract class ModRedshopFilter
 			foreach ($pids as $k => $id)
 			{
 				$productprices = $producthelper->getProductNetPrice($id);
-				$allProductPrices[] = $productprices['product_price'];
+				$allProductPrices[] = $productprices['productPrice'];
 			}
 
 			// Get first value to make sure it won't zero value

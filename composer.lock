@@ -1163,7 +1163,10 @@
                 "rest",
                 "web service"
             ],
+<<<<<<< HEAD
             "abandoned": "guzzlehttp/guzzle",
+=======
+>>>>>>> 370795c02a4637b356d5322c6eba8fd273e7513e
             "time": "2015-03-18T18:23:50+00:00"
         },
         {
@@ -1445,7 +1448,7 @@
                 "task",
                 "tests"
             ],
-            "time": "2017-06-22 20:33:25"
+            "time": "2017-06-22T20:33:25+00:00"
         },
         {
             "name": "joomla-projects/joomla-testing-robo",
@@ -1495,7 +1498,11 @@
                 "task",
                 "tests"
             ],
+<<<<<<< HEAD
             "time": "2017-07-13T07:39:20+00:00"
+=======
+            "time": "2017-06-04T05:04:56+00:00"
+>>>>>>> 370795c02a4637b356d5322c6eba8fd273e7513e
         },
         {
             "name": "joomla-projects/selenium-server-standalone",
