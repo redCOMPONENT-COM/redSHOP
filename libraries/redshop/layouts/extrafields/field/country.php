@@ -36,7 +36,7 @@ extract($displayData);
 		<?php echo $errorMsg; ?>
 	>
 		<?php foreach ($fieldCheck as $key => $field) : ?>
-			<?php $selected = (@in_array(urlencode($field->id), $checkData)) ? ' selected="selected" ' : ''; ?>
+			<?php $selected = (!empty($checkData) && in_array(urlencode($field->id), $checkData)) ? ' selected="selected" ' : ''; ?>
 			<option <?php echo $selected; ?> value="<?php echo $field->id; ?>"><?php echo $field->country_name; ?></option>
 		<?php endforeach; ?>
 	</select>
