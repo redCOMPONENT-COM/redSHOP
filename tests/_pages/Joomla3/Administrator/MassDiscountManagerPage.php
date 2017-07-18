@@ -35,6 +35,12 @@ class MassDiscountManagerPage
 
     public static $dateCalender='#jform_start_date_img';
 
+    public static $startDateIcon=['id' => "jform_start_date_img"];
+
+    public static $endDateIcon=['id' => "jform_end_date_img"];
+
+    public static $getToday=['xpath' => "//td[contains(@class, 'selected')]"];
+
 
     //page name
 
@@ -44,7 +50,7 @@ class MassDiscountManagerPage
 
     //Message
 
-    public static $saveOneSuccess = "Item successfully saved.";
+    public static $saveOneSuccess = "Item saved.";
 
     public static $fieldName = "Field required: Name";
 

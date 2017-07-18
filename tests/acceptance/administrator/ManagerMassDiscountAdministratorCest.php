@@ -40,46 +40,46 @@ class ManagerMassDiscountAdministratorCest
         $this->priceProductForThan = $this->faker->numberBetween(10, 100);;
 
     }
-//
-//    /*
-//     * Function to create new Category
-//     */
-//    public function createCategory(AcceptanceTester $I, $scenario)
-//    {
-//        $I->wantTo('Create Category in Administrator');
-//        $I->doAdministratorLogin();
-//        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-//        $I->wantTo('Create a Category');
-//        $I->addCategorySave($this->CategoryName);
-//    }
-//
-//    /*
-//     * Funtion to create Product inside the category
-//     *
-//     * @depends createCategory
-//     */
-//
-//    public function createProductSave(AcceptanceTester $I, $scenario)
-//    {
-//        $I->wantTo('Test Product Save Manager in Administrator');
-//        $I->doAdministratorLogin();
-//        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-//        $I->wantTo('I Want to add product inside the category');
-//        $I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
-//    }
-//
-//    /*
-//   * Funtion to mass Discount for Product inside the category
-//   *
-//   * @depends createProductSave
-//   */
+
+    /*
+     * Function to create new Category
+     */
+    public function createCategory(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Create Category in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+        $I->wantTo('Create a Category');
+        $I->addCategorySave($this->CategoryName);
+    }
+
+    /*
+     * Funtion to create Product inside the category
+     *
+     * @depends createCategory
+     */
+
+    public function createProductSave(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Product Save Manager in Administrator');
+        $I->doAdministratorLogin();
+        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+        $I->wantTo('I Want to add product inside the category');
+        $I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+    }
+
+    /*
+   * Funtion to mass Discount for Product inside the category
+   *
+   * @depends createProductSave
+   */
     public function addMassDiscount(AcceptanceTester $I, $scenario)
     {
         $I->wantTo(' add Mass discount in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\MassDiscountManagerJoomla3Steps($scenario);
         $I->wantTo('Test check add Mass discount ');
-        $I->addMassDiscount($this->MassDiscountName, $this->MassDiscountAmoutTotal, $this->discountStart, $this->discountEnd, "TestingCategory27","producttest");
+        $I->addMassDiscount($this->MassDiscountName, $this->MassDiscountAmoutTotal, $this->discountStart, $this->discountEnd,$this->CategoryName, $this->ProductName);
     }
 
     public function addMassDiscountSaveClose(AcceptanceTester $I, $scenario)
