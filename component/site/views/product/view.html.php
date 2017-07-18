@@ -493,7 +493,7 @@ class RedshopViewProduct extends RedshopView
 		// Breadcrumb
 		if ($this->pid)
 		{
-			$prodhelperobj->generateBreadcrumb($this->pid);
+			RedshopHelperBreadcrumb::generate($this->pid);
 		}
 
 		$this->template = $productTemplate;
