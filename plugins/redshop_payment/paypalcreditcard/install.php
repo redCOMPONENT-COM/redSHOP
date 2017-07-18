@@ -70,6 +70,14 @@ class PlgRedshop_PaymentPaypalCreditcardInstallerScript
 			JFolder::delete($oldFolder);
 		}
 
+		// Remove old file
+		$oldFile = JPATH_ROOT . '/plugins/redshop_payment/paypalcreditcard/library/paypal.php';
+
+		if (JFile::exists($oldFile))
+		{
+			JFile::delete($oldFile);
+		}
+
 		// Remove old languages structure.
 		$languageFolder       = __DIR__ . '/language';
 		$joomlaLanguageFolder = JPATH_ADMINISTRATOR . '/language';
