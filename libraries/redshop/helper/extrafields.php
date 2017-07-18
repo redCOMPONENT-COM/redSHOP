@@ -504,7 +504,7 @@ class RedshopHelperExtrafields
 				case extraField::TYPE_TEXT_AREA:
 					$textareaValue   = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
 					$exField .= RedshopLayoutHelper::render(
-						'extrafields.field..textarea',
+						'extrafields.field.textarea',
 						array(
 								'rowData'         => $rowData[$i],
 								'extraFieldLabel' => $extraFieldLabel,
@@ -524,7 +524,7 @@ class RedshopHelperExtrafields
 					$fieldChk = RedshopEntityField::getInstance($rowData[$i]->id)->getFieldValues();
 					$chkData  = explode(",", $dataValue->data_txt);
 					$exField .= RedshopLayoutHelper::render(
-						'extrafields.field..checkbox',
+						'extrafields.field.checkbox',
 						array(
 								'rowData'         => $rowData[$i],
 								'extraFieldLabel' => $extraFieldLabel,
@@ -545,7 +545,7 @@ class RedshopHelperExtrafields
 					$fieldChk = RedshopEntityField::getInstance($rowData[$i]->id)->getFieldValues();
 					$chkData  = explode(",", $dataValue->data_txt);
 					$exField .= RedshopLayoutHelper::render(
-						'extrafields.field..radio',
+						'extrafields.field.radio',
 						array(
 								'rowData'         => $rowData[$i],
 								'extraFieldLabel' => $extraFieldLabel,
@@ -566,7 +566,7 @@ class RedshopHelperExtrafields
 					$fieldChk = RedshopEntityField::getInstance($rowData[$i]->id)->getFieldValues();
 					$chkData  = explode(",", $dataValue->data_txt);
 					$exField .= RedshopLayoutHelper::render(
-						'extrafields.field..select',
+						'extrafields.field.select',
 						array(
 								'rowData'         => $rowData[$i],
 								'extraFieldLabel' => $extraFieldLabel,
@@ -587,7 +587,7 @@ class RedshopHelperExtrafields
 					$fieldChk = RedshopEntityField::getInstance($rowData[$i]->id)->getFieldValues();
 					$chkData  = explode(",", $dataValue->data_txt);
 					$exField .= RedshopLayoutHelper::render(
-						'extrafields.field..multiple',
+						'extrafields.field.multiple',
 						array(
 								'rowData'         => $rowData[$i],
 								'extraFieldLabel' => $extraFieldLabel,
@@ -612,7 +612,7 @@ class RedshopHelperExtrafields
 					$fieldChk = $db->loadObjectList();
 					$chkData  = @explode(",", $dataValue->data_txt);
 					$exField .= RedshopLayoutHelper::render(
-						'extrafields.field..multiple',
+						'extrafields.field.multiple',
 						array(
 								'rowData'         => $rowData[$i],
 								'extraFieldLabel' => $extraFieldLabel,
@@ -632,7 +632,7 @@ class RedshopHelperExtrafields
 				case extraField::TYPE_WYSIWYG:
 					$editor          = JFactory::getEditor();
 					$exField .= RedshopLayoutHelper::render(
-						'extrafields.field..editor',
+						'extrafields.field.editor',
 						array(
 								'rowData'         => $rowData[$i],
 								'extraFieldLabel' => $extraFieldLabel,
@@ -668,7 +668,7 @@ class RedshopHelperExtrafields
 					}
 
 					$exField .= RedshopLayoutHelper::render(
-						'extrafields.field..document',
+						'extrafields.field.document',
 						array(
 								'rowData'         => $rowData[$i],
 								'extraFieldLabel' => $extraFieldLabel,
@@ -698,7 +698,7 @@ class RedshopHelperExtrafields
 
 					$chkData = explode(",", $dataValue->data_txt);
 					$exField .= RedshopLayoutHelper::render(
-						'extrafields.field..image',
+						'extrafields.field.image',
 						array(
 								'rowData'         => $rowData[$i],
 								'extraFieldLabel' => $extraFieldLabel,
@@ -737,7 +737,7 @@ class RedshopHelperExtrafields
 					}
 
 					$exField .= RedshopLayoutHelper::render(
-						'extrafields.field..date_picker',
+						'extrafields.field.date_picker',
 						array(
 								'rowData'         => $rowData[$i],
 								'extraFieldLabel' => $extraFieldLabel,
@@ -783,7 +783,7 @@ class RedshopHelperExtrafields
 					}
 
 					$exField .= RedshopLayoutHelper::render(
-						'extrafields.field..image_link',
+						'extrafields.field.image_link',
 						array(
 								'rowData'         => $rowData[$i],
 								'extraFieldLabel' => $extraFieldLabel,
@@ -832,7 +832,7 @@ class RedshopHelperExtrafields
 					}
 
 					$exField .= RedshopLayoutHelper::render(
-						'extrafields.field..selected_condition',
+						'extrafields.field.selected_condition',
 						array(
 								'rowData'            => $rowData[$i],
 								'extraFieldLabel'    => $extraFieldLabel,
