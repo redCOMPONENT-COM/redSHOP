@@ -1294,31 +1294,19 @@ class productHelper
 	}
 
 	/**
-	 * Check discount date
+	 * Get discount price from product with check discount date.
 	 *
 	 * @param   int  $productId  Product id
 	 *
-	 * @return  int
+	 * @return  float
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 *
+	 * @see  RedshopHelperDiscount::getDiscountPriceBaseDiscountDate()
 	 */
 	public function checkDiscountDate($productId)
 	{
-		$discountPrice = 0;
-		$today = time();
-
-		if ($productData = $this->getProductById($productId))
-		{
-			// Convert discount_enddate to middle night
-			$productData->discount_enddate = RedshopHelperDatetime::generateTimestamp($productData->discount_enddate);
-
-			if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
-				|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today)
-				|| ($productData->discount_enddate == '0' && (int) $productData->discount_stratdate <= $today))
-			{
-				$discountPrice = $productData->discount_price;
-			}
-		}
-
-		return $discountPrice;
+		return RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($productId);
 	}
 
 	/**
@@ -1678,29 +1666,21 @@ class productHelper
 		return $res;
 	}
 
-	/*
-	 * function to check product is downloadable or else
-	 * @param: $pid : product Id
-	 * @param: $return : return variable to change return type
-	 * if $return = true
-	 * @return: std class array
-	 * else
-	 *  @return: boolean
+	/**
+	 * Method to check product is downloadable or else
 	 *
+	 * @param   integer  $productId  Product Id
+	 * @param   boolean  $return     If yes, return object. False return number of download
+	 *
+	 * @return  object|integer
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 *
+	 * @see  RedshopHelperProductDownload::checkDownload()
 	 */
-	public function checkProductDownload($pid, $return = false)
+	public function checkProductDownload($productId, $return = false)
 	{
-		$query = 'SELECT product_download,product_download_days,product_download_limit,product_download_clock,product_download_clock_min,product_download_infinite FROM '
-			. $this->_table_prefix . 'product '
-			. 'WHERE product_id =' . (int) $pid;
-
-		$this->_db->setQuery($query);
-		$res = $this->_db->loadObject();
-
-		if ($return)
-			return $res;
-		else
-			return $res->product_download;
+		return RedshopHelperProductDownload::checkDownload($productId, $return);
 	}
 
 	public function getProductMediaName($product_id)
@@ -6178,7 +6158,7 @@ class productHelper
 		$db = JFactory::getDbo();
 
 		// download data
-		$downloadable_product = $this->checkProductDownload($product_id, true); //die();
+		$downloadable_product = RedshopHelperProductDownload::checkDownload($product_id, true); //die();
 
 		$product_download_limit = ($downloadable_product->product_download_limit > 0) ? $downloadable_product->product_download_limit : Redshop::getConfig()->get('PRODUCT_DOWNLOAD_LIMIT');
 
@@ -6397,29 +6377,39 @@ class productHelper
 		return $reviews;
 	}
 
-	public function calOprandPrice($price_1, $oprand, $price_2)
+	/**
+	 * Method for calculate two price with oprand symbol
+	 *
+	 * @param   float   $firstPrice   First price
+	 * @param   string  $oprand       Operation symbol
+	 * @param   float   $secondPrice  Second price
+	 *
+	 * @return  float
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
+	 */
+	public function calOprandPrice($firstPrice, $oprand, $secondPrice)
 	{
 		switch ($oprand)
 		{
-			case "+" :
-				$price = $price_1 + $price_2;
-				break;
-			case "-" :
-				$price = $price_1 - $price_2;
-				break;
-			case "*" :
-				$price = $price_1 * $price_2;
-				break;
-			case "/" :
-				$price = $price_1 / $price_2;
-				break;
-			case "=" :
-				$price = $price_2;
-				break;
-			default :
-				$price = $price_1;
+			case "+":
+				return $firstPrice + $secondPrice;
+
+			case "-":
+				return $firstPrice - $secondPrice;
+
+			case "*":
+				return $firstPrice * $secondPrice;
+
+			case "/":
+				return $firstPrice / $secondPrice;
+
+			case "=":
+				return $secondPrice;
+
+			default:
+				return $firstPrice;
 		}
-		return $price;
 	}
 
 	public function makeCompareProductDiv()
@@ -8565,28 +8555,43 @@ class productHelper
 		return $resultstr;
 	}
 
-	/*
-	 * 	return checked if product is in session of compare product cart else blank
+	/**
+	 * Return checked if product is in session of compare product cart else blank
+	 *
+	 * @param   integer  $productId  Id of product
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  __DEPLOY_VERSION__
 	 */
-	public function checkcompareproduct($product_id)
+	public function checkCompareProduct($productId)
 	{
-		$compare_product = $this->_session->get('compare_product');
+		$productId = (int) $productId;
 
-		if ($product_id != 0)
+		if (!$productId)
 		{
-			if (!$compare_product)
-				return "";
-			else
-			{
-				$idx = (int) ($compare_product['idx']);
-
-				for ($i = 0; $i < $idx; $i++)
-					if ($compare_product[$i]["product_id"] == $product_id)
-						return "checked";
-
-				return "";
-			}
+			return '';
 		}
+
+		$compareProducts = $this->_session->get('compare_product');
+
+		if (!$compareProducts)
+		{
+			return '';
+		}
+
+		$idx = (int) ($compareProducts['idx']);
+
+		for ($i = 0; $i < $idx; $i++)
+		{
+			if ($compareProducts[$i]["product_id"] == $productId)
+			{
+				return 'checked';
+			}
+
+		}
+
+		return '';
 	}
 
 	/**
