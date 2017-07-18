@@ -352,13 +352,6 @@ class RedshopModelStatistic extends RedshopModelList
 			$query->where($db->qn('cdate') . ' >= ' . $minDate);
 		}
 
-		$query->leftjoin(
-					$db->qn('#__redshop_users_info', 'uf')
-					. ' ON '
-					. $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id')
-					. ' AND ' . $db->qn('uf.address_type') . ' = ' . $db->q('BT')
-				);
-
 		if ($this->_filteroption == 2)
 		{
 			$query->select('CONCAT("' . JText::_('COM_REDSHOP_WEEKS') . ' - ", WEEKOFYEAR(FROM_UNIXTIME(o.cdate,"%Y-%m-%d"))) AS viewdate');
@@ -400,12 +393,6 @@ class RedshopModelStatistic extends RedshopModelList
 			->select('SUM(' . $db->qn('o.order_total') . ') AS total')
 			->select('COUNT(' . $db->qn('o.order_total') . ') AS orders')
 			->from($db->qn('#__redshop_orders', 'o'))
-			->leftjoin(
-				$db->qn('#__redshop_users_info', 'uf')
-				. ' ON '
-				. $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id')
-				. ' AND ' . $db->qn('uf.address_type') . ' = ' . $db->q('BT')
-			)
 			->where($db->qn('o.order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')');
 
 		// 30 days

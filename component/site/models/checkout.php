@@ -2058,7 +2058,9 @@ class RedshopModelCheckout extends RedshopModel
 
 		// Plugin support:  Process the shipping cart
 		JPluginHelper::importPlugin('redshop_product');
-		JDispatcher::getInstance()->trigger('onDisplayShoppingCart', array($cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id));
+		RedshopHelperUtility::getDispatcher()->trigger(
+			'onDisplayShoppingCart', array(&$cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id)
+		);
 
 		$paymentMethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentMethod = $paymentMethod[0];
