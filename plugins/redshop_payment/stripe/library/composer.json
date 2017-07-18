@@ -1,0 +1,8 @@
+{
+  "name": "redcomponent-com/redshop-payment-stripe",
+  "description": "A redSHOP Payment plugin - Stripe",
+  "license": "GPL-2.0+",
+  "require": {
+    "stripe/stripe-php": "^5.1.1"
+  }
+}

@@ -53,6 +53,15 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->wantTo('Search the Product');
         $I->amOnPage(\PriceProductJoomla3Page::$URL);
         $I->see(\PriceProductJoomla3Page::$namePage, \PriceProductJoomla3Page::$selectorPage);
-        $I->filterListPriceProductSearch($productName);
+        $I->filterListBySearchingProductPrice($productName);
+    }
+
+    public function filterListBySearchingProductPrice($text, $searchField = ['name' => 'keyword'])
+    {
+        $I = $this;
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->fillField($searchField, $text);
+        $I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->waitForElement(['link' => $text]);a
     }
 }
