@@ -390,4 +390,39 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 
 		return json_decode($json, true);
 	}
+
+	/**
+	 * Trigger before store redSHOP user
+	 *
+	 * @param   array    $data   Order shipping data
+	 * @param   boolean  $isNew  User is new
+	 *
+	 * @return void
+	 */
+	public function onBeforeCreateRedshopUser(&$data, $isNew)
+	{
+		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_city', 7, $data['users_info_id']);
+
+		$userCity     = "";
+		$cities       = array();
+
+		$handle = $this->getDistrictProvinceData();
+
+		while ($result = fgetcsv($handle, null, ',', '"'))
+		{
+			if (!is_numeric($result[1]))
+			{
+				continue;
+			}
+
+			$cities[$result[1]]                = $result[0];
+		}
+
+		$userCity     = $cities[$cityField->data_txt];
+
+		$data['city'] = $userCity;
+		$data['zipcode'] = $this->params->get('zipcode', '70000');
+
+		return;
+	}
 }

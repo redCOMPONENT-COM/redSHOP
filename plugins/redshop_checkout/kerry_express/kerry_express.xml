@@ -95,6 +95,13 @@
                     label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CONTACT_PHONE"
                     description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_CONTACT_PHONE_DESC">
                 </field>
+                <field 
+                    name="zipcode" 
+                    type="number"
+                    default=""
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ZIPCODE"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ZIPCODE_DESC">
+                </field>
             </fieldset>
         </fields>
     </config>
