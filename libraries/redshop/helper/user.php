@@ -202,36 +202,9 @@ class RedshopHelperUser
 	 */
 	public static function getShopperGroupData($userId = 0)
 	{
-		if ($userId == 0)
-		{
-			$user   = JFactory::getUser();
-			$userId = $user->id;
-		}
+		$shopperGroupId = self::getShopperGroup($userId);
 
-		if ($userId != 0)
-		{
-			if (!array_key_exists($userId, self::$userShopperGroupData))
-			{
-				$db    = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->select('sg.*')
-					->from($db->qn('#__redshop_shopper_group', 'sg'))
-					->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.shopper_group_id')
-					->where('ui.user_id = ' . (int) $userId)
-					->where('ui.address_type = ' . $db->q('BT'));
-				$db->setQuery($query);
-				self::$userShopperGroupData[$userId] = $db->loadObject();
-
-				if (!self::$userShopperGroupData[$userId])
-				{
-					self::$userShopperGroupData[$userId] = array();
-				}
-			}
-
-			return self::$userShopperGroupData[$userId];
-		}
-
-		return array();
+		return self::getShopperGroupDataById($shopperGroupId);
 	}
 
 	/**
