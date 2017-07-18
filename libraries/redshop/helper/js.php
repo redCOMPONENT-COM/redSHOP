@@ -160,7 +160,7 @@ class RedshopHelperJs
 
 		if ($view == 'product')
 		{
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE')))
+			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE')))
 			{
 				$slimboxCloseButton = "#sbox-btn-close {background: transparent url( \""
 					. REDSHOP_FRONT_IMAGES_ABSPATH . "slimbox/" . $config->get('PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE')
