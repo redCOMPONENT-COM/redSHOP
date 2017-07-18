@@ -33,6 +33,7 @@ ls -la
 whoami
 mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml
 vendor/bin/robo prepare:site-for-system-tests
+chown -R www-data:www-data tests/joomla-cms3
 git submodule update --init --recursive
 composer install --working-dir ./libraries/redshop --ansi
 ln -s /usr/bin/nodejs /usr/bin/node
