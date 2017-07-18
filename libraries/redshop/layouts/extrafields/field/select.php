@@ -37,7 +37,7 @@ extract($displayData);
 	>
 		<option><?php echo JText::_('COM_REDSHOP_SELECT'); ?></option>
 		<?php foreach ($fieldCheck as $key => $field) : ?>
-			<?php $selected = (@in_array(urlencode($field->field_value), $checkData)) ? ' selected="selected" ' : ''; ?>
+			<?php $selected = (!empty($checkData) && in_array(urlencode($field->field_value), $checkData)) ? ' selected="selected" ' : ''; ?>
 			<option <?php echo $selected; ?> value="<?php echo urlencode($field->field_value); ?>"><?php echo $field->field_name; ?></option>
 		<?php endforeach; ?>
 	</select>
