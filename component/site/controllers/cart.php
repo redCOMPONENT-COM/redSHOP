@@ -469,7 +469,7 @@ class RedshopControllerCart extends RedshopController
 		$model     = $this->getModel('cart');
 
 		// Call empty_cart method of model to remove all products from cart
-		$model->empty_cart();
+		$model->emptyCart();
 		$user = JFactory::getUser();
 
 		if ($user->id)

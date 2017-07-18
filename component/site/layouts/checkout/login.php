@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$returnUrl = JRoute::_($url . 'index.php?option=com_redshop&view=checkout', false);
+$returnUrl = JRoute::_('index.php?option=com_redshop&view=checkout', false);
 $returnUrl = base64_encode($returnUrl);
 $itemId    = redhelper::getInstance()->getCheckoutItemid();
 ?>
