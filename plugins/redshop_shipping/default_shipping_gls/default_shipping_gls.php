@@ -84,7 +84,7 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 		$shippingGLS    = order_functions::getInstance()->getparameters('default_shipping_gls');
 		$selectedShopId = null;
 
-		if (count($shippingGLS) == 0 || !$shippingGLS[0]->enabled && $className != 'default_shipping_gls')
+		if (count($shippingGLS) == 0 || !$shippingGLS[0]->enabled || $className != 'default_shipping_gls')
 		{
 			return '';
 		}
