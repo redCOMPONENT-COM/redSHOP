@@ -209,7 +209,12 @@ class PlgRedshop_ShippingBring extends JPlugin
 		}
 
 		// Get shipping options that are selected as available in VM from XML response
-		$bringProducts = $this->loadProducts($xmlDoc);
+		$bringProducts = array();
+
+		foreach ($xmlDoc->Product as $oneProduct)
+		{
+			$bringProducts = $this->loadProduct($oneProduct);
+		}
 
 		return $this->populateShippingRates($bringProducts);
 	}
@@ -250,47 +255,40 @@ class PlgRedshop_ShippingBring extends JPlugin
 	/**
 	 * Method for prepare an list of products base on XML data.
 	 *
-	 * @param   SimpleXMLElement $data XML data
+	 * @param   SimpleXMLElement  $oneProduct  XML data
 	 *
-	 * @return  array
+	 * @return  stdClass
 	 */
-	protected function loadProducts(SimpleXMLElement $data)
+	protected function loadProduct(SimpleXMLElement $oneProduct)
 	{
-		$results = array();
+		$bringProduct = new stdClass;
 
-		foreach ($data->Product as $oneProduct)
+		$bringProduct->product_id   = (string) $oneProduct->ProductId;
+		$bringProduct->product_name = $bringProduct->product_id;
+
+		if ((string) $oneProduct->GuiInformation->ProductName)
 		{
-			$bringProduct = new stdClass;
-
-			$bringProduct->product_id   = (string) $oneProduct->ProductId;
-			$bringProduct->product_name = $bringProduct->product_id;
-
-			if ((string) $oneProduct->GuiInformation->ProductName)
-			{
-				$bringProduct->product_name = (string) $oneProduct->GuiInformation->ProductName;
-			}
-
-			if ((string) $oneProduct->GuiInformation->DescriptionText)
-			{
-				$bringProduct->product_desc = (string) $oneProduct->GuiInformation->DescriptionText;
-			}
-
-			if ((string) $oneProduct->GuiInformation->HelpText)
-			{
-				$bringProduct->product_desc1 = (string) $oneProduct->GuiInformation->HelpText;
-			}
-
-			$attributePrice                             = $oneProduct->Price->attributes();
-			$bringProduct->currencyidentificationcode = (string) $attributePrice['currencyIdentificationCode'];
-			$bringProduct->AmountWithoutVAT            = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithoutVAT;
-			$bringProduct->AmountWithVAT               = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithVAT;
-			$bringProduct->VAT                          = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->VAT;
-			$bringProduct->delivery                    = (string) $oneProduct->ExpectedDelivery->WorkingDays;
-
-			$results[] = $bringProduct;
+			$bringProduct->product_name = (string) $oneProduct->GuiInformation->ProductName;
 		}
 
-		return $results;
+		if ((string) $oneProduct->GuiInformation->DescriptionText)
+		{
+			$bringProduct->product_desc = (string) $oneProduct->GuiInformation->DescriptionText;
+		}
+
+		if ((string) $oneProduct->GuiInformation->HelpText)
+		{
+			$bringProduct->product_desc1 = (string) $oneProduct->GuiInformation->HelpText;
+		}
+
+		$attributePrice                             = $oneProduct->Price->attributes();
+		$bringProduct->currencyidentificationcode = (string) $attributePrice['currencyIdentificationCode'];
+		$bringProduct->AmountWithoutVAT            = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithoutVAT;
+		$bringProduct->AmountWithVAT               = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->AmountWithVAT;
+		$bringProduct->VAT                          = (string) $oneProduct->Price->PackagePriceWithoutAdditionalServices->VAT;
+		$bringProduct->delivery                    = (string) $oneProduct->ExpectedDelivery->WorkingDays;
+
+		return $bringProduct;
 	}
 
 	/**
@@ -319,7 +317,7 @@ class PlgRedshop_ShippingBring extends JPlugin
 				continue;
 			}
 
-			$productName = $product->product_name;
+			$productName  = $product->product_name;
 			$currencyCode = $product->currencyidentificationcode;
 
 			$rate = new stdClass;
