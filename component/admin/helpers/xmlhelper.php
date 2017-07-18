@@ -1059,7 +1059,7 @@ class xmlHelper
 
 		$destpath = JPATH_SITE . "/components/com_redshop/assets/xmlfile/import/";
 
-		if (($xmlimportdata->filename == "" || !is_file($destpath . $xmlimportdata->filename)) && $xmlimportdata->published == 0)
+		if (($xmlimportdata->filename == "" || !JFile::exists($destpath . $xmlimportdata->filename)) && $xmlimportdata->published == 0)
 		{
 			return false;
 		}

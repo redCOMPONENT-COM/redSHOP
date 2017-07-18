@@ -17,7 +17,7 @@ require_once 'vendor/autoload.php';
 class RoboFile extends \Robo\Tasks
 {
 	// Load tasks from composer, see composer.json
-	use Joomla\Testing\Robo\Tasks\loadTasks;
+	use Joomla\Testing\Robo\Tasks\LoadTasks;
 
 	/**
 	 * File extension for executables
@@ -147,6 +147,86 @@ class RoboFile extends \Robo\Tasks
 			$this->_copy($this->cmsPath . '/htaccess.txt', $this->cmsPath . '/.htaccess');
 			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /' . $this->cmsPath . '/,g" --in-place ' . $this->cmsPath . '/.htaccess');
 		}
+	}
+
+	public function runTestsJenkins()
+	{
+		$this->getComposer();
+
+		$this->taskComposerInstall()->run();
+
+//		$this->runSelenium();
+
+		$this->taskSeleniumStandaloneServer()
+			->setURL("http://localhost:4444")
+			->runSelenium()
+			->waitForSelenium()
+			->run()
+			->stopOnFail();
+
+		// Make sure to Run the B uild Command to Generate AcceptanceTester
+		$this->_exec("vendor/bin/codecept build");
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/install/')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/administrator/')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/integration/ManageProductsCheckoutFrontEndCest.php')
+			->run()
+			->stopOnFail();
+
+		/*
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/checkout/')
+			->run();
+			// ->stopOnFail();
+		*/
+
+		$this->taskCodecept()
+			//  ->arg('--steps')
+			//  ->arg('--debug')
+			->arg('--tap')
+			->arg('--fail-fast')
+			->arg('tests/acceptance/uninstall/')
+			->run()
+			->stopOnFail();
+
+		/* @todo: REDSHOP-2884
+		 * $this->say('preparing for update test');
+		 * $this->getDevelop();
+		 * $this->taskCodecept()
+		 * ->arg('--steps')
+		 * ->arg('--debug')
+		 * ->arg('--fail-fast')
+		 * ->arg('tests/acceptance/update/')
+		 * ->run()
+		 * ->stopOnFail();
+		 */
+
+		$this->killSelenium();
 	}
 
 	/**
