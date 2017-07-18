@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('redshop_checkout');
 $openToStretcher = 0;
+$company = "";
+$customer = "";
 
 if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
 {

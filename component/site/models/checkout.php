@@ -2035,7 +2035,7 @@ class RedshopModelCheckout extends RedshopModel
 		return $shipArr;
 	}
 
-	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "", $post)
+	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "", $post = array())
 	{
 		$session  = JFactory::getSession();
 		$cart     = $session->get('cart');
@@ -2062,7 +2062,9 @@ class RedshopModelCheckout extends RedshopModel
 		// Plugin support:  Process the shipping cart
 		JPluginHelper::importPlugin('redshop_product');
         JPluginHelper::importPlugin('redshop_checkout');
-		JDispatcher::getInstance()->trigger('onDisplayShoppingCart', array($cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id));
+		RedshopHelperUtility::getDispatcher()->trigger(
+			'onDisplayShoppingCart', array(&$cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id)
+		);
 
 		$paymentMethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentMethod = $paymentMethod[0];

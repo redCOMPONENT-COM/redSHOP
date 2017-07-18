@@ -55,7 +55,7 @@ $payment_method_id    = JRequest::getCmd('payment_method_id', $selpayment_method
 $shipping_box_post_id = JRequest::getInt('shipping_box_id', $selshipping_box_post_id);
 $shipping_rate_id     = JRequest::getInt('shipping_rate_id', 0);
 
-if ($users_info_id == 0)
+if (!empty($billingaddresses) && $users_info_id == 0)
 {
 	$users_info_id = $billingaddresses->users_info_id;
 }
@@ -188,12 +188,9 @@ else
 	$onestep_template_desc = str_replace($shipping_template, "", $onestep_template_desc);
 }
 
-// Get billing info for check is_company
-$is_company = $billingaddresses->is_company;
-
 $ean_number = 0;
 
-if ($billingaddresses->ean_number != "")
+if (!empty($billingaddresses) && $billingaddresses->ean_number != "")
 {
 	$ean_number = 1;
 }
@@ -257,10 +254,7 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 	}
 }
 
-JPluginHelper::importPlugin('redshop_checkout');
-JDispatcher::getInstance()->trigger('onRenderInvoiceOnstepCheckout', array (&$onestep_template_desc));
-
-$payment_template_desc = $carthelper->replacePaymentTemplate($payment_template_desc, $payment_method_id, $is_company, $ean_number);
+$payment_template_desc = $carthelper->replacePaymentTemplate($payment_template_desc, $payment_method_id, $billingaddresses->is_company, $ean_number);
 $onestep_template_desc = str_replace($payment_template, $payment_template_desc, $onestep_template_desc);
 
 $onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid);
