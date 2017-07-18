@@ -26,9 +26,9 @@ class RedshopHelperProductPrice
 	/**
 	 * Get Product Special Price
 	 *
-	 * @param   float  $productPrice      Product price
-	 * @param   string $discountStringIds Discount ids
-	 * @param   int    $productId         Product id
+	 * @param   float   $productPrice       Product price
+	 * @param   string  $discountStringIds  Discount ids
+	 * @param   int     $productId          Product id
 	 *
 	 * @return  null|object
 	 *
@@ -135,7 +135,7 @@ class RedshopHelperProductPrice
 	/**
 	 * Method for replace price.
 	 *
-	 * @param   float $productPrice Product price
+	 * @param   float  $productPrice  Product price
 	 *
 	 * @return  string
 	 *
@@ -173,9 +173,9 @@ class RedshopHelperProductPrice
 	/**
 	 * Format Product Price
 	 *
-	 * @param   float   $productPrice   Product price
-	 * @param   boolean $convert        Decide to convert price in Multi Currency
-	 * @param   string  $currencySymbol Product Formatted Price
+	 * @param   float    $productPrice    Product price
+	 * @param   boolean  $convert         Decide to convert price in Multi Currency
+	 * @param   string   $currencySymbol  Product Formatted Price
 	 *
 	 * @return  string                    Formatted Product Price
 	 *
@@ -234,7 +234,7 @@ class RedshopHelperProductPrice
 	/**
 	 * Method for round product price
 	 *
-	 * @param   float $productPrice Product price
+	 * @param   float  $productPrice  Product price
 	 *
 	 * @return  float
 	 *
@@ -248,11 +248,11 @@ class RedshopHelperProductPrice
 	/**
 	 * Method for get product net price
 	 *
-	 * @param   integer $productId    ID of product
-	 * @param   integer $userId       ID of user
-	 * @param   integer $quantity     Quantity for get
-	 * @param   string  $templateHtml Template data
-	 * @param   array   $attributes   Attributes list.
+	 * @param   integer  $productId     ID of product
+	 * @param   integer  $userId        ID of user
+	 * @param   integer  $quantity      Quantity for get
+	 * @param   string   $templateHtml  Template data
+	 * @param   array    $attributes    Attributes list.
 	 *
 	 * @return  array
 	 *
