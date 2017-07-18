@@ -420,9 +420,22 @@ class productHelper
 		return $result;
 	}
 
-	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0)
+	/**
+	 * Get Product image
+	 *
+	 * @param   integer  $product_id               Product Id
+	 * @param   string   $link                     Product link
+	 * @param   integer  $width                    Product image width
+	 * @param   integer  $height                   Product image height
+	 * @param   integer  $Product_detail_is_light  Product detail is light
+	 * @param   integer  $enableHover              Enable hover
+	 * @param   integer  $suffixid                 Suffix id
+	 * @param   array    $preselectedresult        Preselected result
+	 *
+	 * @return  string   Product Image
+	 */
+	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0, $preselectedresult = array())
 	{
-		$config          = Redconfiguration::getInstance();
 		$thum_image      = '';
 		$stockroomhelper = rsstockroomhelper::getInstance();
 		$result          = $this->getProductById($product_id);
@@ -477,7 +490,7 @@ class productHelper
 					$height,
 					$Product_detail_is_light,
 					$enableHover,
-					array(),
+					$preselectedresult,
 					$suffixid
 				);
 			}
@@ -495,7 +508,7 @@ class productHelper
 						$height,
 						$Product_detail_is_light,
 						$enableHover,
-						array(),
+						$preselectedresult,
 						$suffixid
 					);
 				}
@@ -510,7 +523,7 @@ class productHelper
 						$height,
 						$Product_detail_is_light,
 						$enableHover,
-						array(),
+						$preselectedresult,
 						$suffixid
 					);
 				}
@@ -525,7 +538,7 @@ class productHelper
 						$height,
 						$Product_detail_is_light,
 						$enableHover,
-						array(),
+						$preselectedresult,
 						$suffixid
 					);
 				}
@@ -541,7 +554,7 @@ class productHelper
 					$height,
 					$Product_detail_is_light,
 					$enableHover,
-					array(),
+					$preselectedresult,
 					$suffixid
 				);
 			}
@@ -560,7 +573,7 @@ class productHelper
 					$height,
 					$Product_detail_is_light,
 					$enableHover,
-					array(),
+					$preselectedresult,
 					$suffixid
 				);
 			}
@@ -575,7 +588,7 @@ class productHelper
 					$height,
 					$Product_detail_is_light,
 					$enableHover,
-					array(),
+					$preselectedresult,
 					$suffixid
 				);
 			}
@@ -590,7 +603,7 @@ class productHelper
 					$height,
 					$Product_detail_is_light,
 					$enableHover,
-					array(),
+					$preselectedresult,
 					$suffixid
 				);
 			}
@@ -608,7 +621,7 @@ class productHelper
 					$height,
 					$Product_detail_is_light,
 					$enableHover,
-					array(),
+					$preselectedresult,
 					$suffixid
 				);
 			}
