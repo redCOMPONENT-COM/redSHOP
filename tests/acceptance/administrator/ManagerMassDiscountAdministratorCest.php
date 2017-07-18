@@ -67,12 +67,12 @@ class ManagerMassDiscountAdministratorCest
         $I->wantTo('I Want to add product inside the category');
         $I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
     }
-//
-//    /*
-//   * Funtion to mass Discount for Product inside the category
-//   *
-//   * @depends createProductSave
-//   */
+
+    /*
+   * Funtion to mass Discount for Product inside the category
+   *
+   * @depends createProductSave
+   */
     public function addMassDiscount(AcceptanceTester $I, $scenario)
     {
         $I->wantTo(' add Mass discount in Administrator');
