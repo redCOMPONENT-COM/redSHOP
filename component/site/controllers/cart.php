@@ -51,7 +51,7 @@ class RedshopControllerCart extends RedshopController
 		$userfield = JRequest::getVar('userfield');
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('onBeforeAddProductToCart', array(&$post));
 
 		$result = $this->_carthelper->addProductToCart($post);
@@ -326,7 +326,7 @@ class RedshopControllerCart extends RedshopController
 		$cart['shipping_tax']              = $calArr[6];
 		$cart['discount_ex_vat']           = $totaldiscount - $discountVAT;
 		$cart['mod_cart_total']            = $this->_carthelper->GetCartModuleCalc($cart);
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 
 		return $cart;
 	}
@@ -469,7 +469,7 @@ class RedshopControllerCart extends RedshopController
 		$model     = $this->getModel('cart');
 
 		// Call empty_cart method of model to remove all products from cart
-		$model->empty_cart();
+		$model->emptyCart();
 		$user = JFactory::getUser();
 
 		if ($user->id)
@@ -569,7 +569,7 @@ class RedshopControllerCart extends RedshopController
 		$cart = $this->_carthelper->modifyCart($cart, $user_id);
 
 		$session = JFactory::getSession();
-		$session->set('cart', $cart);
+		RedshopHelperCartSession::setCart($cart);
 		$this->_carthelper->cartFinalCalculation();
 
 		?>
