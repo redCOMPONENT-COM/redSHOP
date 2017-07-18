@@ -43,6 +43,8 @@ cd tests
 mkdir releases-redshop
 cd $WORKSPACE
 npm install
+npm install -g gulp
+gulp -version
 mv gulp-config.sample.jenkins.json gulp-config.json
 gulp release --skip-version
 mv tests/RoboFile.ini.dist tests/RoboFile.ini
