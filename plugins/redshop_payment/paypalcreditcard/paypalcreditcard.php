@@ -245,9 +245,14 @@ class plgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 			->setFirstName($billingInfo->firstname)
 			->setLastName($billingInfo->lastname);
 
-		$card->setMerchantId('redSHOPPaypalCreditCard');
-		$card->setExternalCardId($billingInfo->users_info_id . uniqid());
-		$card->setExternalCustomerId($billingInfo->users_info_id);
+		$enableVault = $this->params->get('enableVault', 0);
+
+		if ($enableVault)
+		{
+			$card->setMerchantId('redSHOPPaypalCreditCard');
+			$card->setExternalCardId($billingInfo->users_info_id . uniqid());
+			$card->setExternalCustomerId($billingInfo->users_info_id);
+		}
 
 		return $card;
 	}
