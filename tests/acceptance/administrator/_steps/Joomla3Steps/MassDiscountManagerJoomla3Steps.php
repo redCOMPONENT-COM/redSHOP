@@ -14,36 +14,58 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\MassDiscountManagerPage::$URL);
         $I->click(\MassDiscountManagerPage::$newButton);
         $I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
+
+        $I->waitForElement(['id' => "jform_start_date_img"], 30);
+
+        $I->click(['id' => "jform_start_date_img"]);
+
+        $I->waitForElementVisible(['xpath' => "//td[contains(@class, 'selected')]"]);
+
+        $I->click(['xpath' => "//td[contains(@class, 'selected')]"]);
+
+        $I->wait(2);
+
+
+        $I->waitForElement(['id' => "jform_end_date_img"], 30);
+
+        $I->click(['id' => "jform_end_date_img"]);
+
+        $I->waitForElementVisible(['xpath' => "//td[contains(@class, 'selected')]"]);
+
+        $I->click(['xpath' => "//td[contains(@class, 'weekend')]"]);
+
+        $I->wait(2);
+
         $I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
         $I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
-        $I->click(\MassDiscountManagerPage::$dateCalender);
-        $I->setFilter(\MassDiscountManagerPage::$dayStart, $discountStart);
-//        $I->fillField(\MassDiscountManagerPage::$dayStart, $discountStart);
-//        $I->fillField(\MassDiscountManagerPage::$dayEnd, $discountEnd);
-
-//        $I->click(['xpath' => "//div[@id='s2id_jform_manufacturer_id']//ul/li"]);
-//        $I->fillField(['xpath' => "//div[@id='s2id_jform_manufacturer_id']//ul/li//input"], $nameManufacture);
-//        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameManufacture . "')]"]);
-//        $I->click(['xpath' => "//span[contains(text(), '" . $nameManufacture . "')]"]);
-
+//        $I->click(\MassDiscountManagerPage::$dateCalender);
+//        $I->setFilter(\MassDiscountManagerPage::$dayStart, $discountStart);
+////        $I->fillField(\MassDiscountManagerPage::$dayStart, $discountStart);
+        $I->fillField(\MassDiscountManagerPage::$dayEnd, $discountEnd);
+//
+////        $I->click(['xpath' => "//div[@id='s2id_jform_manufacturer_id']//ul/li"]);
+////        $I->fillField(['xpath' => "//div[@id='s2id_jform_manufacturer_id']//ul/li//input"], $nameManufacture);
+////        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameManufacture . "')]"]);
+////        $I->click(['xpath' => "//span[contains(text(), '" . $nameManufacture . "')]"]);
+//
         $I->click(\MassDiscountManagerPage::$categoryForm);
         $I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
         $useMassDiscountPage = new \MassDiscountManagerPage();
         $I->waitForElement($useMassDiscountPage->returnXpath($nameCategory));
         $I->click($useMassDiscountPage->returnXpath($nameCategory));
-
-
-        $I->click(\MassDiscountManagerPage::$discountForm);
-        $I->fillField(\MassDiscountManagerPage::$discountFormInput, $nameProduct);
-        $I->waitForElement($useMassDiscountPage->returnXpath($nameProduct));
-        $I->click($useMassDiscountPage->returnXpath($nameProduct));
 //
 //
-//        $I->click(['xpath' => "//div[@id='s2id_jform_discount_product']//ul/li"]);
-//        $I->fillField(['xpath' => "//div[@id='s2id_jform_discount_product']//ul/li//input"], $nameProduct);
-//        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameProduct . "')]"]);
-//        $I->click(['xpath' => "//span[contains(text(), '" . $nameProduct . "')]"]);
-
+//        $I->click(\MassDiscountManagerPage::$discountForm);
+//        $I->fillField(\MassDiscountManagerPage::$discountFormInput, $nameProduct);
+//        $I->waitForElement($useMassDiscountPage->returnXpath($nameProduct));
+//        $I->click($useMassDiscountPage->returnXpath($nameProduct));
+////
+////
+////        $I->click(['xpath' => "//div[@id='s2id_jform_discount_product']//ul/li"]);
+////        $I->fillField(['xpath' => "//div[@id='s2id_jform_discount_product']//ul/li//input"], $nameProduct);
+////        $I->waitForElement(['xpath' => "//span[contains(text(), '" . $nameProduct . "')]"]);
+////        $I->click(['xpath' => "//span[contains(text(), '" . $nameProduct . "')]"]);
+//
         $I->click(\MassDiscountManagerPage::$saveButton);
         $I->see(\MassDiscountManagerPage::$saveOneSuccess, \MassDiscountManagerPage::$selectorSuccess);
     }
