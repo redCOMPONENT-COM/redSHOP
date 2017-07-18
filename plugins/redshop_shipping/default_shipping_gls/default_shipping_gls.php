@@ -81,31 +81,30 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	 */
 	public function getGLSLocation($usersInfoId, $className, $shopId = 0)
 	{
-		$output         = '';
 		$shippingGLS    = order_functions::getInstance()->getparameters('default_shipping_gls');
 		$selectedShopId = null;
 
-		if (count($shippingGLS) == 0 && !$shippingGLS[0]->enabled && $className != 'default_shipping_gls')
+		if (count($shippingGLS) == 0 || !$shippingGLS[0]->enabled && $className != 'default_shipping_gls')
 		{
 			return '';
 		}
 
-		$values     = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
+		$values = RedshopHelperUser::getUserInformation(0, '', $usersInfoId, false);
 
 		if ($shopId)
 		{
-			$shopOrderdetail = explode("###", $shopId);
+			$shopOrderDetail = explode("###", $shopId);
 
 			// Zipcode
-			if (isset($shopOrderdetail[2]) && !empty($shopOrderdetail[2]))
+			if (isset($shopOrderDetail[2]) && !empty($shopOrderDetail[2]))
 			{
-				$values->zipcode = $shopOrderdetail[2];
+				$values->zipcode = $shopOrderDetail[2];
 			}
 
 			// Phone
-			if (isset($shopOrderdetail[1]) && !empty($shopOrderdetail[1]))
+			if (isset($shopOrderDetail[1]) && !empty($shopOrderDetail[1]))
 			{
-				$values->phone = $shopOrderdetail[1];
+				$values->phone = $shopOrderDetail[1];
 			}
 		}
 
@@ -122,19 +121,21 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 					$shopResponse->CompanyName . ', ' . $shopResponse->Streetname . ', ' . $shopResponse->ZipCode . ', ' . $shopResponse->CityName
 				);
 
-				if ($shopId)
+				if (!$shopId)
 				{
-					$shopDetail = explode("|", $shopId);
+					continue;
+				}
 
-					if ($shopDetail[0] == $shopResponse->Number)
-					{
-						$selectedShopId = $shopResponse->shop_id;
-					}
+				$shopDetail = explode("|", $shopId);
+
+				if ($shopDetail[0] == $shopResponse->Number)
+				{
+					$selectedShopId = $shopResponse->shop_id;
 				}
 			}
 		}
 
-		$output = RedshopLayoutHelper::render(
+		return RedshopLayoutHelper::render(
 			'glslocation',
 			array(
 				'values' => $values,
@@ -143,8 +144,6 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 			),
 			JPATH_PLUGINS . '/redshop_shipping/default_shipping_gls/layouts'
 		);
-
-		return $output;
 	}
 
 	/**
@@ -261,51 +260,51 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	/**
 	 * get Pacsoft weekday
 	 *
-	 * @param   array  $weekday  Pacsoft data
+	 * @param   array  $weekDay  Pacsoft data
 	 *
 	 * @return  array
 	 */
-	public function weekdaysTime($weekday)
+	public function weekdaysTime($weekDay)
 	{
 		$opningTime = Array();
 
-		for ($i = 0, $in = count($weekday); $i < $in; $i++)
+		for ($i = 0, $in = count($weekDay); $i < $in; $i++)
 		{
-			if ($weekday[$i]->day == 'Monday')
+			if ($weekDay[$i]->day == 'Monday')
 			{
 				$day = JText::_('MON');
 			}
-			elseif ($weekday[$i]->day == 'Tuesday')
+			elseif ($weekDay[$i]->day == 'Tuesday')
 			{
 				$day = JText::_('TUE');
 			}
-			elseif ($weekday[$i]->day == 'Wednesday')
+			elseif ($weekDay[$i]->day == 'Wednesday')
 			{
 				$day = JText::_('WED');
 			}
-			elseif ($weekday[$i]->day == 'Thursday')
+			elseif ($weekDay[$i]->day == 'Thursday')
 			{
 				$day = JText::_('THU');
 			}
-			elseif ($weekday[$i]->day == 'Friday')
+			elseif ($weekDay[$i]->day == 'Friday')
 			{
 				$day = JText::_('FRI');
 			}
-			elseif ($weekday[$i]->day == 'Saturday')
+			elseif ($weekDay[$i]->day == 'Saturday')
 			{
 				$day = JText::_('SAT');
 			}
-			elseif ($weekday[$i]->day == 'Sunday')
+			elseif ($weekDay[$i]->day == 'Sunday')
 			{
 				$day = JText::_('SUN');
 			}
 			else
 			{
-				$day = $weekday[$i]->day;
+				$day = $weekDay[$i]->day;
 			}
 
 			$opningTime[] = "<b>" . $day . '</b> '
-							. $weekday[$i]->openAt->From . '-' . $weekday[$i]->openAt->To;
+							. $weekDay[$i]->openAt->From . '-' . $weekDay[$i]->openAt->To;
 		}
 
 		$stropeningTime = implode('  ', $opningTime);
@@ -387,7 +386,5 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 		}
 
 		$template = str_replace("{gls_shipping_location}", $glsLocation, $template);
-
-		return;
 	}
 }
