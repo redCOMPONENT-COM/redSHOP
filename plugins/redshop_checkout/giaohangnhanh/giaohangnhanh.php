@@ -38,7 +38,7 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 	 *
 	 * @return mixed
 	 */
-	public function onRenderCustomField($infoId)
+	public function onRenderCustomField($infoId = 0)
 	{
 		echo RedshopLayoutHelper::render(
 			'template',
@@ -58,6 +58,11 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 		$input        = $app->input;
 		$id           = $input->post->getInt('id', 0);
 		$selectedCity = RedshopHelperExtrafields::getDataByName('rs_ghn_city', 14, $id);
+
+		if (empty($selectedCity))
+		{
+			$selectedCity = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_city', 7, $id);
+		}
 
 		$data   = $this->getDistrictProvinceData();
 		$cities = array();
@@ -104,6 +109,11 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 		$id               = $input->post->getInt('id', 0);
 		$selectedDistrict = RedshopHelperExtrafields::getDataByName('rs_ghn_district', 14, $id);
 
+		if (empty($selectedDistrict))
+		{
+			$selectedDistrict = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_district', 7, $id);
+		}
+
 		$data      = $this->getDistrictProvinceData();
 		$districts = array();
 
@@ -142,6 +152,54 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 	}
 
 	/**
+	 * trigger before user billing stored
+	 *
+	 * @param   object  $data  User billing data
+	 *
+	 * @return void
+	 */
+	public function onBeforeUserBillingStore(&$data)
+	{
+		$cityField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_city', 7, $data->users_info_id);
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_district', 7, $data->users_info_id);
+
+		$result = $this->getDistrictProvinceData();
+
+		if (empty($result))
+		{
+			return;
+		}
+
+		$userCity     = "";
+		$userDistrict = "";
+		$cities       = array();
+		$districts    = array();
+
+		foreach ($result['Data'] as $key => $city)
+		{
+			$cities[$city['ProvinceCode']] = $city['ProvinceName'];
+		}
+
+		foreach ($result['Data'] as $key => $district)
+		{
+			if ($cityField->data_txt != $district['ProvinceCode'])
+			{
+				continue;
+			}
+
+			$districts[$district['ProvinceCode']][$district['DistrictCode']] = $district['DistrictName'];
+		}
+
+		$userCity = $cities[$cityField->data_txt];
+		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
+
+		$data->address .= ' ' . $userDistrict . ' ' . $userCity;
+		$data->city = $userCity;
+
+		return;
+	}
+
+	/**
 	 * trigger before user shipping stored
 	 *
 	 * @param   object  $data  User shipping data
@@ -155,7 +213,8 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 
 		if (empty($cityField) && empty($districtField))
 		{
-			return;
+			$cityField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_city', 7, $data->users_info_id);
+			$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_district', 7, $data->users_info_id);
 		}
 
 		$result = $this->getDistrictProvinceData();
@@ -247,7 +306,7 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 			'ApiSecretKey'     => $this->params->get('api_secret'),
 			'ClientID'         => $this->params->get('client_id'),
 			'Password'         => $this->params->get('password'),
-			'FromDistrictCode' => $this->params->get('from_district_code', '0201'),
+			'FromDistrictCode' => $this->params->get('from_district_code'),
 			'ToDistrictCode'   => $districtCode
 		);
 		$headers = array(
@@ -291,7 +350,7 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 			'ApiSecretKey'         => $this->params->get('api_secret'),
 			'ClientID'             => $this->params->get('client_id'),
 			'Password'             => $this->params->get('password'),
-			'PickHubID'            => $this->params->get('pick_hub_id', '287484'),
+			'PickHubID'            => $this->params->get('pick_hub_id'),
 			'ClientOrderCode'      => $orderId,
 			'RecipientName'        => $orderShipping->firstname . ' ' . $orderShipping->lastname,
 			'RecipientPhone'       => $orderShipping->phone,
@@ -329,6 +388,6 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 		$order->order_id = $orderId;
 		$order->track_no = $data['OrderCode'];
 
-		return JFactory::getDbo()->updateObject('#__redshop_orders', $order, 'id');
+		return JFactory::getDbo()->updateObject('#__redshop_orders', $order, 'order_id');
 	}
 }
