@@ -37,7 +37,7 @@ JHtml::script('plg_redshop_payment_paypalcreditcard/cards.min.js', false, true, 
 				'expireYear'      => null,
 				'creditCardTypes' => $creditCardTypes
 			),
-			__DIR__
+			JPATH_PLUGINS . '/redshop_payment/paypalcreditcard/layouts'
 		);
 		?>
 	</div>
@@ -81,7 +81,7 @@ try
 							'creditCardTypes' => $creditCardTypes,
 							'selectable'      => $selectable
 						),
-						__DIR__
+						JPATH_PLUGINS . '/redshop_payment/paypalcreditcard/layouts'
 					);
 					?>
 				<?php endforeach; ?>

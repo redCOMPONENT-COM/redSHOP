@@ -50,7 +50,7 @@ extract($displayData);
 				'expireYear'      => $card->expire_year,
 				'creditCardTypes' => $creditCardTypes
 			),
-			__DIR__
+			JPATH_PLUGINS . '/redshop_payment/paypalcreditcard/layouts'
 		);
 		?>
 	</td>

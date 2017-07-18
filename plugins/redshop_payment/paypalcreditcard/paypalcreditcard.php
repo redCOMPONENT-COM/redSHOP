@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/library/paypal.php';
-
 use PayPal\Api\Amount;
 use PayPal\Api\CreditCard;
 use PayPal\Api\CreditCardToken;
@@ -23,6 +21,8 @@ use PayPal\Api\Transaction;
 use PayPal\Api\Authorization;
 use PayPal\Api\Capture;
 use PayPal\Api\Patch;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Rest\ApiContext;
 
 /**
  * Paypal CreditCard payment class
@@ -31,7 +31,7 @@ use PayPal\Api\Patch;
  *
  * @since    2.0.0
  */
-class PlgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
+class PlgRedshop_PaymentPaypalCreditcard extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -40,6 +40,13 @@ class PlgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Plugin base path
+	 *
+	 * @var  null
+	 */
+	protected $path = null;
 
 	/**
 	 * This method will be triggered on before placing order to authorize or charge credit card
@@ -312,7 +319,7 @@ class PlgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 	/**
 	 * Handle AJAX request to create/update/delete cards in paypal vault.
 	 *
-	 * @return  JSON  Outputs the json string.
+	 * @return  string  Outputs the json string.
 	 */
 	protected function handleAjaxRequest()
 	{
@@ -894,5 +901,68 @@ class PlgRedshop_PaymentPaypalCreditcard extends RedshopPaypalPayment
 
 			return false;
 		}
+	}
+
+	/**
+	 * Load Framework
+	 *
+	 * @return  object  Paypal Application Context
+	 *
+	 * @throws  Exception
+	 */
+	public function loadFramework()
+	{
+		JLoader::import('redshop.library');
+
+		// If the project is used as its own project, it would use rest-api-sdk-php composer autoloader.
+		$composerAutoload = __DIR__ . '/vendor/autoload.php';
+
+		if (!JFile::exists($composerAutoload))
+		{
+			throw new Exception(
+				"The 'vendor' folder is missing. You must run 'composer update' to resolve application dependencies."
+				. "\nPlease see the README for more information.\n"
+			);
+		}
+
+		require_once $composerAutoload;
+
+		return $this->getApiContext();
+	}
+
+	/**
+	 * Get Paypal Application Context
+	 *
+	 * @return  object  Paypal Application Context
+	 */
+	public function getApiContext()
+	{
+		$clientId     = $this->params->get('clientId');
+		$clientSecret = $this->params->get('clientSecret');
+
+		$apiContext = new ApiContext(
+			new OAuthTokenCredential(
+				$clientId,
+				$clientSecret
+			)
+		);
+
+		$mode    = $this->params->get('isTest') ? 'sandbox' : 'live';
+		$debug   = $this->params->get('isDebug') ? 'DEBUG' : 'FINE';
+		$isDebug = (boolean) $this->params->get('isDebug');
+
+		$apiContext->setConfig(
+			array(
+				'mode'           => $mode,
+				'log.LogEnabled' => $isDebug,
+				'log.FileName'   => '../PayPal.log',
+				'log.LogLevel'   => $debug, // PLEASE USE `FINE` LEVEL FOR LOGGING IN LIVE ENVIRONMENTS
+				'cache.enabled'  => true,
+				// 'http.CURLOPT_CONNECTTIMEOUT' => 30
+				// 'http.headers.PayPal-Partner-Attribution-Id' => '123123123'
+			)
+		);
+
+		return $apiContext;
 	}
 }
