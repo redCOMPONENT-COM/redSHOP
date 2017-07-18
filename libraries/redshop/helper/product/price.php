@@ -55,7 +55,7 @@ class RedshopHelperProductPrice
 		if (!array_key_exists($key, self::$productSpecialPrices))
 		{
 			$time = time();
-			$db = JFactory::getDbo();
+			$db   = JFactory::getDbo();
 
 			// Secure discount ids
 			$discountIds = !empty($discountStringIds) ? ArrayHelper::toInteger(explode(',', $discountStringIds)) : array();
@@ -243,5 +243,239 @@ class RedshopHelperProductPrice
 	public static function priceRound($productPrice)
 	{
 		return round($productPrice, Redshop::getConfig()->get('CALCULATION_PRICE_DECIMAL', 4));
+	}
+
+	/**
+	 * Method for get product net price
+	 *
+	 * @param   integer  $productId     ID of product
+	 * @param   integer  $userId        ID of user
+	 * @param   integer  $quantity      Quantity for get
+	 * @param   string   $templateHtml  Template data
+	 * @param   array    $attributes    Attributes list.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getNetPrice($productId, $userId = 0, $quantity = 1, $templateHtml = '', $attributes = array())
+	{
+		$row       = RedshopHelperProduct::getProductById($productId);
+		$productId = $row->product_id;
+		$newPrice  = $row->product_price;
+
+		$userId             = !$userId ? JFactory::getUser()->id : $userId;
+		$productPrices      = array();
+		$priceText          = JText::_('COM_REDSHOP_REGULAR_PRICE') . "";
+		$productVatLabel    = '';
+		$priceLabel         = '';
+		$oldPriceLabel      = '';
+		$priceSavingLabel   = '';
+		$oldPriceExcludeVat = '';
+
+		$result = productHelper::getInstance()->getProductPrices($productId, $userId, $quantity);
+
+		if (!empty($result))
+		{
+			$newPrice = $result->product_price;
+		}
+
+		// Set Product Custom Price through product plugin
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+		JPluginHelper::importPlugin('redshop_product');
+		$results = $dispatcher->trigger('setProductCustomPrice', array($productId));
+
+		if (count($results) > 0 && $results[0])
+		{
+			$newPrice = $results[0];
+		}
+
+		$isApplyTax   = productHelper::getInstance()->getApplyVatOrNot($templateHtml, $userId);
+		$specialPrice = self::getProductSpecialPrice($newPrice, productHelper::getInstance()->getProductSpecialId($userId), $productId);
+
+		if (!is_null($specialPrice))
+		{
+			$discountAmount = $specialPrice->discount_type == 0 ?
+				$specialPrice->discount_amount : ($newPrice * $specialPrice->discount_amount) / (100);
+
+			$newPrice = $newPrice < 0 ? 0 : $newPrice;
+			$regPrice = $row->product_price;
+
+			if ($isApplyTax)
+			{
+				$priceTax = RedshopHelperProduct::getProductTax($row->product_id, $newPrice, $userId);
+				$regPrice = $row->product_price + $priceTax;
+			}
+
+			/**
+			 * @TODO: Need to check here why system force
+			 * $priceTax  = $this->getProductTax($productId, $row->product_price, $userId);
+			 * $reg_price = $row->product_price;
+			 */
+
+			$formattedPrice = self::formattedPrice($regPrice);
+			$productPrice   = $newPrice - $discountAmount;
+			$productPrice   = $productPrice < 0 ? 0 : $productPrice;
+
+			$priceText = $priceText . '<span class="redPriceLineThrough">' . $formattedPrice
+				. '</span><br />' . JText::_('COM_REDSHOP_SPECIAL_PRICE');
+		}
+		else
+		{
+			$productPrice = $newPrice;
+		}
+
+		$excludeVat     = productHelper::getInstance()->defaultAttributeDataPrice($productId, $productPrice, $templateHtml, $userId, 0, $attributes);
+		$formattedPrice = self::formattedPrice($excludeVat);
+		$priceText      = $priceText . '<span id="display_product_price_without_vat' . $productId . '">' . $formattedPrice . '</span>'
+			. '<input type="hidden" name="product_price_excluding_price" id="product_price_excluding_price' . $productId . '" '
+			. 'value="' . $productPrice . '" />';
+
+		$defaultTaxAmount         = RedshopHelperProduct::getProductTax($productId, $productPrice, $userId, 1);
+		$taxAmount                = RedshopHelperProduct::getProductTax($productId, $productPrice, $userId);
+		$productPriceExcludingVat = $productPrice;
+		$productPriceIncludingVat = $defaultTaxAmount + $productPriceExcludingVat;
+
+		if ($isApplyTax)
+		{
+			$productPrice = $taxAmount + $productPrice;
+		}
+
+		$productPrice = $productPrice < 0 ? 0 : $productPrice;
+
+		if (Redshop::getConfig()->get('SHOW_PRICE'))
+		{
+			$priceExcludingVat        = $priceText;
+			$productDiscountPriceTemp = productHelper::getInstance()->checkDiscountDate($productId);
+			$oldPriceExcludeVat       = $productPriceExcludingVat;
+
+			if ($row->product_on_sale && $productDiscountPriceTemp > 0)
+			{
+				$discountPriceExcludingVat = $productDiscountPriceTemp;
+
+				$taxAmount = RedshopHelperProduct::getProductTax($productId, $productDiscountPriceTemp, $userId);
+
+				if (intval($isApplyTax) && $productDiscountPriceTemp)
+				{
+					$productDiscountPriceTemp = $productDiscountPriceTemp + $taxAmount;
+				}
+
+				if ($productPrice < $productDiscountPriceTemp)
+				{
+					$productPrice = productHelper::getInstance()->defaultAttributeDataPrice(
+						$productId, $productPrice, $templateHtml, $userId, intval($isApplyTax), $attributes
+					);
+
+					$mainPrice             = $productPrice;
+					$discountPrice         = '';
+					$oldPrice              = '';
+					$priceSaving           = '';
+					$priceSavingPercentage = '';
+					$priceNoVAT            = $productPriceExcludingVat;
+					$seoProductSavingPrice = '';
+					$seoProductPrice       = $productPrice;
+					$taxAmount             = RedshopHelperProduct::getProductTax($productId, $priceNoVAT, $userId);
+				}
+				else
+				{
+					$priceSaving = $productPriceExcludingVat - $discountPriceExcludingVat;
+
+					// Calculate total price saving in percentage
+					$priceSavingPercentage = ($priceSaving / $productPriceExcludingVat) * 100;
+
+					// Only apply VAT if set to apply in config or tag
+					if (intval($isApplyTax) && $priceSaving)
+					{
+						// Adding VAT in saving price
+						$priceSaving += RedshopHelperProduct::getProductTax($productId, $priceSaving, $userId);
+					}
+
+					$productPriceIncludingVat = $productDiscountPriceTemp + $taxAmount;
+
+					$oldPrice = productHelper::getInstance()->defaultAttributeDataPrice(
+						$productId, $productPrice, $templateHtml, $userId, intval($isApplyTax), $attributes
+					);
+
+					$productDiscountPriceTemp = productHelper::getInstance()->defaultAttributeDataPrice(
+						$productId, $productDiscountPriceTemp, $templateHtml, $userId, intval($isApplyTax), $attributes
+					);
+
+					$discountPrice = $productDiscountPriceTemp;
+					$mainPrice     = $productDiscountPriceTemp;
+					$productPrice  = $productDiscountPriceTemp;
+
+					$priceNoVAT = productHelper::getInstance()->defaultAttributeDataPrice(
+						$productId, $discountPriceExcludingVat, $templateHtml, $userId, 0, $attributes
+					);
+
+					$seoProductPrice       = $productDiscountPriceTemp;
+					$seoProductSavingPrice = $priceSaving;
+
+					$priceSavingLabel = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVING_LBL');
+					$oldPriceLabel    = JText::_('COM_REDSHOP_PRODUCT_OLD_PRICE_LBL');
+				}
+			}
+			else
+			{
+				$mainPrice = $productPrice;
+
+				$productPrice = productHelper::getInstance()->defaultAttributeDataPrice(
+					$productId, $productPrice, $templateHtml, $userId, intval($isApplyTax), $attributes
+				);
+
+				$discountPrice         = '';
+				$priceSaving           = '';
+				$priceSavingPercentage = '';
+				$oldPrice              = '';
+				$priceNoVAT            = $productPriceExcludingVat;
+				$seoProductPrice       = $productPrice;
+				$seoProductSavingPrice = '';
+			}
+
+			if ($taxAmount && intval($isApplyTax))
+			{
+				$productVatLabel = ' ' . JText::_('COM_REDSHOP_PRICE_INCLUDING_TAX');
+			}
+			else
+			{
+				$productVatLabel = ' ' . JText::_('COM_REDSHOP_PRICE_EXCLUDING_TAX');
+			}
+
+			$priceLabel = JText::_('COM_REDSHOP_PRODUCT_PRICE');
+		}
+		else
+		{
+			$seoProductPrice       = '';
+			$seoProductSavingPrice = '';
+			$discountPrice         = '';
+			$oldPrice              = '';
+			$priceSaving           = '';
+			$priceSavingPercentage = '';
+			$priceNoVAT            = '';
+			$mainPrice             = '';
+			$productPrice          = '';
+			$priceExcludingVat     = '';
+		}
+
+		$productPrices['productPrice']                    = (float) $priceNoVAT;
+		$productPrices['product_price']                   = (float) $productPrice;
+		$productPrices['price_excluding_vat']             = (float) $priceExcludingVat;
+		$productPrices['product_main_price']              = (float) $mainPrice;
+		$productPrices['product_price_novat']             = (float) $priceNoVAT;
+		$productPrices['product_price_saving']            = (float) $priceSaving;
+		$productPrices['product_price_saving_percentage'] = (float) $priceSavingPercentage;
+		$productPrices['product_price_saving_lbl']        = $priceSavingLabel;
+		$productPrices['product_old_price']               = (float) $oldPrice;
+		$productPrices['product_discount_price']          = (float) $discountPrice;
+		$productPrices['seoProductSavingPrice']           = (float) $seoProductSavingPrice;
+		$productPrices['seoProductPrice']                 = (float) $seoProductPrice;
+		$productPrices['product_old_price_lbl']           = $oldPriceLabel;
+		$productPrices['product_price_lbl']               = $priceLabel;
+		$productPrices['product_vat_lbl']                 = $productVatLabel;
+		$productPrices['productVat']                      = (float) $taxAmount;
+		$productPrices['product_old_price_excl_vat']      = (float) $oldPriceExcludeVat;
+		$productPrices['product_price_incl_vat']          = (float) $productPriceIncludingVat;
+
+		return $productPrices;
 	}
 }
