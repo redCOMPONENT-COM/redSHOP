@@ -45,7 +45,7 @@ foreach ($fields as $field)
 	}
 }
 
-$this->dispatcher->trigger('onRenderExtraFields', array($product_id));
+$this->dispatcher->trigger('onRenderExtraFields', array($product_id, &$html));
 ?>
 
 <div class="row">
