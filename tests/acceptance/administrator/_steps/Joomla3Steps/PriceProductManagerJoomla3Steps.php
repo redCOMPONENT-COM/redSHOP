@@ -62,6 +62,6 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->executeJS('window.scrollTo(0,0)');
         $I->fillField($searchField, $text);
         $I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-        $I->waitForElement(['link' => $text]);a
+        $I->waitForElement(['link' => $text]);
     }
 }
