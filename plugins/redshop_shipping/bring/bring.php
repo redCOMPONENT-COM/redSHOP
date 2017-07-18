@@ -144,10 +144,9 @@ class PlgRedshop_ShippingBring extends JPlugin
 		$unitRatioVolume = $productHelper->getUnitConversation('inch', Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT'));
 
 		$totalDimension = RedshopHelperShipping::getCartItemDimension();
-		$orderWeight    = $totalDimension['totalweight'];
 
 		// Converting weight in pounds
-		$orderWeight = $unitRatio != 0 ? $orderWeight * $unitRatio : $orderWeight;
+		$orderWeight = $unitRatio != 0 ? $totalDimension['totalweight'] * $unitRatio : $totalDimension['totalweight'];
 
 		$shippingInformation = RedshopHelperShipping::getShippingAddress($data['users_info_id']);
 
@@ -193,9 +192,7 @@ class PlgRedshop_ShippingBring extends JPlugin
 		$shippingGram = floor($orderWeight);
 
 		// WeightInGrams=1500&from=7600&to=1407&length=30&width=40&height=40&volume=33&date=2009-2-3
-		$query = '';
-		$query .= 'from=' . BRING_ZIPCODE_FROM;
-		$query .= '&to=' . substr($shippingInformation->zipcode, 0, 5);
+		$query = 'from=' . BRING_ZIPCODE_FROM . '&to=' . substr($shippingInformation->zipcode, 0, 5);
 
 		$shippingLength = !$shippingLength ? 1 : $shippingLength;
 		$shippingWidth  = !$shippingWidth ? 1 : $shippingWidth;
@@ -203,7 +200,6 @@ class PlgRedshop_ShippingBring extends JPlugin
 		$shippingVolume = !$shippingVolume ? 1 : $shippingVolume;
 
 		$query = $shippingGram ? $query . '&weightInGrams=' . $shippingGram : $query;
-
 		$query .= '&length=' . $shippingLength;
 		$query .= '&width=' . $shippingWidth;
 		$query .= '&height=' . $shippingHeight;
@@ -272,15 +268,12 @@ class PlgRedshop_ShippingBring extends JPlugin
 		{
 			$bringProduct = new stdClass;
 
-			$bringProduct->product_id = (string) $oneProduct->ProductId;
+			$bringProduct->product_id   = (string) $oneProduct->ProductId;
+			$bringProduct->product_name = $bringProduct->product_id;
 
 			if ((string) $oneProduct->GuiInformation->ProductName)
 			{
 				$bringProduct->product_name = (string) $oneProduct->GuiInformation->ProductName;
-			}
-			else
-			{
-				$bringProduct->product_name = $bringProduct->product_id;
 			}
 
 			if ((string) $oneProduct->GuiInformation->DescriptionText)
@@ -320,55 +313,44 @@ class PlgRedshop_ShippingBring extends JPlugin
 			return array();
 		}
 
-		$shipping      = RedshopHelperShipping::getShippingMethodByClass($this->_name);
-		$shippingName  = $shipping->name;
+		$shippingName  = RedshopHelperShipping::getShippingMethodByClass($this->_name)->name;
 		$bringServices = explode(',', BRING_SERVICE);
 		$index         = 0;
 		$results       = array();
 
 		foreach ($products as $product)
 		{
-			$productId = $product->product_id;
-
-			if (!in_array($productId, $bringServices))
+			if (!in_array($product->product_id, $bringServices))
 			{
 				continue;
 			}
 
-			$amountWithoutVAT            = $product->AmountWithoutVAT;
-			$amountVAT                   = $product->VAT;
-			$productName                 = $product->product_name;
-			$currencyIndentificationCode = $product->currencyidentificationcode;
+			$results[$index] = new stdClass;
+
+			$results[$index]->text      = $product->product_name;
+			$results[$index]->vat       = RedshopHelperCurrency::convert($product->VAT, $product->currencyidentificationcode);
+			$results[$index]->shortdesc = (BRING_PRICE_SHOW_SHORT_DESC) ? $product->product_desc : '';
+			$results[$index]->desc      = (BRING_PRICE_SHOW_DESC) ? $product->product_desc1 : '';
 
 			// Convert NOK currency to site currency
-			$displayCost = RedshopHelperCurrency::convert($amountWithoutVAT, $currencyIndentificationCode);
-			$cost        = RedshopHelperCurrency::convert($amountWithoutVAT, $currencyIndentificationCode);
-			$vat         = RedshopHelperCurrency::convert($amountVAT, $currencyIndentificationCode);
+			$results[$index]->rate = RedshopHelperCurrency::convert($product->AmountWithoutVAT, $product->currencyidentificationcode);
 
-			if (BRING_PRICE_SHOW_WITHVAT)
-			{
-				$displayCost = RedshopHelperCurrency::convert($product->AmountWithVAT, $currencyIndentificationCode);
-			}
-
-			$shippingRateId = RedshopShippingRate::encrypt(
+			$results[$index]->value = RedshopShippingRate::encrypt(
 				array(
 					__CLASS__,
 					$shippingName,
-					$productName,
-					number_format($cost + $vat, 2, '.', ''),
-					$productName,
+					$product->product_name,
+					number_format($results[$index]->rate + $results[$index]->vat, 2, '.', ''),
+					$product->product_name,
 					'single',
 					'0'
 				)
 			);
 
-			$results[$index]            = new stdClass;
-			$results[$index]->text      = $productName;
-			$results[$index]->value     = $shippingRateId;
-			$results[$index]->rate      = $displayCost;
-			$results[$index]->vat       = $vat;
-			$results[$index]->shortdesc = (BRING_PRICE_SHOW_SHORT_DESC) ? $product->product_desc : '';
-			$results[$index]->desc      = (BRING_PRICE_SHOW_DESC) ? $product->product_desc1 : '';
+			if (BRING_PRICE_SHOW_WITHVAT)
+			{
+				$results[$index]->rate = RedshopHelperCurrency::convert($product->AmountWithVAT, $product->currencyidentificationcode);
+			}
 
 			$index++;
 		}
