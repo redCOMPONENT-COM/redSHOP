@@ -325,7 +325,7 @@ class RedshopHelperProductPrice
 			$productPrice = $newPrice;
 		}
 
-		$dispatcher->trigger('onSetProductPrice', array(&$productPrice, $product_id));
+		$dispatcher->trigger('onSetProductPrice', array(&$productPrice, $productId));
 
 		$excludeVat     = productHelper::getInstance()->defaultAttributeDataPrice($productId, $productPrice, $templateHtml, $userId, 0, $attributes);
 		$formattedPrice = self::formattedPrice($excludeVat);
@@ -351,7 +351,7 @@ class RedshopHelperProductPrice
 			$productDiscountPriceTemp = productHelper::getInstance()->checkDiscountDate($productId);
 			$oldPriceExcludeVat       = $productPriceExcludingVat;
 
-			$dispatcher->trigger('onSetProductDiscountPrice', array(&$productDiscountPriceTemp, $product_id));
+			$dispatcher->trigger('onSetProductDiscountPrice', array(&$productDiscountPriceTemp, $productId));
 
 			if ($row->product_on_sale && $productDiscountPriceTemp > 0)
 			{
