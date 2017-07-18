@@ -69,7 +69,7 @@ class RedshopControllerRegistration extends RedshopController
 		}
 		else
 		{
-			parent::display();
+			$this->display();
 		}
 	}
 
