@@ -54,3 +54,14 @@ ln -s $(pwd)/tests/joomla-cms3 /tests/www/tests/
 
 # Run tests
 vendor/bin/robo run:tests-jenkins
+
+#send screenshot of failed test to Travis
+export CLOUD_NAME=redcomponent
+export API_KEY=365447364384436
+export API_SECRET=Q94UM5kjZkZIrau8MIL93m0dN6U
+export GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
+export ORGANIZATION=redCOMPONENT-COM
+export REPO=redSHOP
+echo $ORGANIZATION
+echo $ghprbPullId
+vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $ghprbPullId
