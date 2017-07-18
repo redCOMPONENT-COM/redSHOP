@@ -64,6 +64,9 @@
     "redshop_alert": [
       "alert"
     ],
+    "redshop_checkout": [
+      "kerry_express"
+    ],
     "redshop_export": [
       "attribute",
       "category",
