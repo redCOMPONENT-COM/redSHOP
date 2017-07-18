@@ -896,192 +896,25 @@ class productHelper
 		return $qunselect;
 	}
 
-	public function GetProductShowPrice($product_id, $data_add, $seoTemplate = "", $user_id = 0, $isrel = 0, $attributes = array())
+	/**
+	 * Method for get product show price
+	 *
+	 * @param   integer  $productId     Product ID
+	 * @param   string   $templateHtml  Template content
+	 * @param   string   $seoTemplate   SEO template
+	 * @param   int      $userId        User ID
+	 * @param   int      $isRel         Is Rel
+	 * @param   array    $attributes    Attributes
+	 *
+	 * @return  mixed|string
+	 *
+	 * @deprecated   __DEPLOY_VERSION__
+	 *
+	 * @see  RedshopHelperProductPrice::getShowPrice()
+	 */
+	public function getProductShowPrice($productId, $templateHtml, $seoTemplate = "", $userId = 0, $isRel = 0, $attributes = array())
 	{
-		$product_price                           = '';
-		$price_excluding_vat                     = '';
-		$display_product_discount_price          = '';
-		$display_product_old_price               = '';
-		$display_product_price_saving            = '';
-		$display_product_price_saving_percentage = '';
-		$display_product_price_novat             = '';
-		$display_product_price_incl_vat          = '';
-		$product_price_saving_lbl                = '';
-		$product_old_price_lbl                   = '';
-		$product_vat_lbl                         = '';
-		$product_price_lbl                       = '';
-		$seoProductPrice                         = '';
-		$seoProductSavingPrice                   = '';
-		$product_old_price_excl_vat              = '';
-
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
-		{
-			$user_id = $user->id;
-		}
-
-		$qunselect = $this->GetDefaultQuantity($product_id, $data_add);
-
-		$ProductPriceArr = $this->getProductNetPrice($product_id, $user_id, $qunselect, $data_add, $attributes);
-
-		$relPrefix = '';
-
-		if ($isrel)
-		{
-			$relPrefix = 'rel';
-		}
-
-		$stockroomhelper = rsstockroomhelper::getInstance();
-
-		if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
-		{
-			$product_price              = $this->getPriceReplacement($ProductPriceArr['product_price'] * $qunselect);
-			$product_main_price         = $this->getPriceReplacement($ProductPriceArr['product_main_price'] * $qunselect);
-			$product_old_price          = $this->getPriceReplacement((float) $ProductPriceArr['product_old_price'] * $qunselect);
-			$product_price_saving       = $this->getPriceReplacement($ProductPriceArr['product_price_saving'] * $qunselect);
-			$product_discount_price     = $this->getPriceReplacement($ProductPriceArr['product_discount_price'] * $qunselect);
-			$product_price_novat        = $this->getPriceReplacement($ProductPriceArr['product_price_novat'] * $qunselect);
-			$product_price_incl_vat     = $this->getPriceReplacement($ProductPriceArr['product_price_incl_vat'] * $qunselect);
-			$product_old_price_excl_vat = $this->getPriceReplacement($ProductPriceArr['product_old_price_excl_vat'] * $qunselect);
-
-			$isStockExists = $stockroomhelper->isStockExists($product_id);
-
-			if ($isStockExists && strpos($data_add, "{" . $relPrefix . "product_price_table}") !== false)
-			{
-				$product_price_table = $this->getProductQuantityPrice($product_id, $user_id);
-				$data_add            = str_replace("{" . $relPrefix . "product_price_table}", $product_price_table, $data_add);
-			}
-
-			$price_excluding_vat            = $ProductPriceArr['price_excluding_vat'];
-			$seoProductPrice                = $this->getPriceReplacement($ProductPriceArr['seoProductPrice'] * $qunselect);
-			$seoProductSavingPrice          = $this->getPriceReplacement((float) $ProductPriceArr['seoProductSavingPrice'] * $qunselect);
-
-			$product_old_price_lbl          = $ProductPriceArr['product_old_price_lbl'];
-			$product_price_saving_lbl       = $ProductPriceArr['product_price_saving_lbl'];
-			$product_price_lbl              = $ProductPriceArr['product_price_lbl'];
-			$product_vat_lbl                = $ProductPriceArr['product_vat_lbl'];
-
-			$display_product_old_price      = $product_old_price;
-			$display_product_discount_price = $product_discount_price;
-			$display_product_price_saving   = $product_price_saving;
-			$display_product_price_novat    = $product_price_novat;
-
-			if ($ProductPriceArr['product_discount_price'])
-			{
-				$display_product_discount_price = '<span id="display_product_discount_price' . $product_id . '">' . $product_discount_price . '</span>';
-			}
-
-			if ($ProductPriceArr['product_old_price'])
-			{
-				$display_product_old_price = '<span id="display_product_old_price' . $product_id . '">' . $product_old_price . '</span>';
-			}
-
-			if ($ProductPriceArr['product_price_saving'])
-			{
-				$display_product_price_saving            = '<span id="display_product_saving_price' . $product_id . '">' . $product_price_saving . '</span>';
-				$display_product_price_saving_percentage = '<span id="display_product_saving_price_percentage' . $product_id . '">'
-					. JText::sprintf('COM_REDSHOP_PRODUCT_PRICE_SAVING_PERCENTAGE_LBL', round($ProductPriceArr['product_price_saving_percentage']))
-					. '%</span>';
-			}
-
-			if ($ProductPriceArr['product_price_novat'] != "")
-			{
-				$display_product_price_novat = '<span id="display_product_price_no_vat' . $product_id . '">' . $product_price_novat . '</span>';
-			}
-
-			if ($ProductPriceArr['product_price_incl_vat'] != "")
-			{
-				$display_product_price_incl_vat = '<span id="product_price_incl_vat' . $product_id . '">' . $product_price_incl_vat . '</span>';
-			}
-		}
-
-		if (strpos($data_add, "{" . $relPrefix . "product_price_table}") !== false)
-		{
-			$data_add = str_replace("{" . $relPrefix . "product_price_table}", '', $data_add);
-		}
-
-		if (strpos($data_add, "{" . $relPrefix . "lowest_price}") !== false ||
-			strpos($data_add, "{" . $relPrefix . "highest_price}") !== false)
-		{
-			$productPriceMinMax = $this->getProductMinMaxPrice($product_id);
-
-			if (strpos($data_add, "{" . $relPrefix . "lowest_price}") !== false)
-			{
-				if (!empty($productPriceMinMax['min']))
-				{
-					$productMinPrice = $this->getPriceReplacement($productPriceMinMax['min'] * $qunselect);
-					$data_add = str_replace("{" . $relPrefix . "lowest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $productMinPrice . '</span>', $data_add);
-				}
-				else
-				{
-					$data_add = str_replace("{" . $relPrefix . "lowest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
-				}
-			}
-
-			if (strpos($data_add, "{" . $relPrefix . "highest_price}") !== false)
-			{
-				if (!empty($productPriceMinMax['min']))
-				{
-					$productMaxPrice = $this->getPriceReplacement($productPriceMinMax['max'] * $qunselect);
-					$data_add = str_replace("{" . $relPrefix . "highest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $productMaxPrice . '</span>', $data_add);
-				}
-				else
-				{
-					$data_add = str_replace("{" . $relPrefix . "highest_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
-				}
-			}
-		}
-
-		$data_add = str_replace("{" . $relPrefix . "product_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
-		$data_add = str_replace("{" . $relPrefix . "price_excluding_vat}", $price_excluding_vat, $data_add);
-		$data_add = str_replace("{" . $relPrefix . "product_discount_price}", $display_product_discount_price, $data_add);
-
-		if ($ProductPriceArr['product_price_saving'])
-		{
-			$data_add = str_replace("{" . $relPrefix . "product_price_saving}", $display_product_price_saving, $data_add);
-			$data_add = str_replace("{" . $relPrefix . "product_price_saving_excl_vat}", $display_product_price_saving, $data_add);
-			$data_add = str_replace("{" . $relPrefix . "product_price_saving_lbl}", $product_price_saving_lbl, $data_add);
-
-			$data_add = str_replace("{" . $relPrefix . "product_price_saving_percentage}", $display_product_price_saving_percentage, $data_add);
-		}
-		else
-		{
-			$data_add = str_replace("{" . $relPrefix . "product_price_saving}", '', $data_add);
-			$data_add = str_replace("{" . $relPrefix . "product_price_saving_lbl}", '', $data_add);
-
-			$data_add = str_replace("{" . $relPrefix . "product_price_saving_percentage}", '', $data_add);
-		}
-
-		if ($ProductPriceArr['product_old_price'])
-		{
-			$product_price_percent_discount = 100 - ($ProductPriceArr['product_discount_price'] / $ProductPriceArr['product_old_price'] * 100);
-			$data_add = str_replace("{" . $relPrefix . "product_old_price}", $display_product_old_price, $data_add);
-			$data_add = str_replace("{" . $relPrefix . "product_old_price_lbl}", $product_old_price_lbl, $data_add);
-		}
-		else
-		{
-			$data_add = str_replace("{" . $relPrefix . "product_old_price}", '', $data_add);
-			$data_add = str_replace("{" . $relPrefix . "product_old_price_lbl}", '', $data_add);
-		}
-
-		$product_old_price_excl_vat = '<span id="display_product_old_price' . $product_id . '">' . $product_old_price_excl_vat . '</span>';
-
-		$data_add = str_replace("{" . $relPrefix . "product_old_price_excl_vat}", $product_old_price_excl_vat, $data_add);
-		$data_add = str_replace("{" . $relPrefix . "product_price_novat}", $display_product_price_novat, $data_add);
-		$data_add = str_replace("{" . $relPrefix . "product_price_incl_vat}", $display_product_price_incl_vat, $data_add);
-		$data_add = str_replace("{" . $relPrefix . "product_vat_lbl}", $product_vat_lbl, $data_add);
-		$data_add = str_replace("{" . $relPrefix . "product_price_lbl}", $product_price_lbl, $data_add);
-
-		if ($seoTemplate != "")
-		{
-			$seoTemplate = str_replace("{" . $relPrefix . "saleprice}", $seoProductPrice, $seoTemplate);
-			$seoTemplate = str_replace("{" . $relPrefix . "saving}", $seoProductSavingPrice, $seoTemplate);
-
-			return $seoTemplate;
-		}
-
-		return $data_add;
+		return RedshopHelperProductPrice::getShowPrice($productId, $templateHtml, $seoTemplate, $userId, (boolean) $isRel, $attributes);
 	}
 
 	/**
@@ -3056,7 +2889,7 @@ class productHelper
 				$GLOBAL ['without_vat'] = true;
 			}
 
-			$data_add = $this->GetProductShowPrice($product->product_id, $data_add, $seoTemplate, 0, $is_relatedproduct, $attributes);
+			$data_add = RedshopHelperProductPrice::getShowPrice($product->product_id, $data_add, $seoTemplate, 0, $is_relatedproduct, $attributes);
 		}
 		else
 		{
