@@ -6392,22 +6392,22 @@ class productHelper
 	{
 		switch ($oprand)
 		{
-			case "+" :
+			case "+":
 				return $firstPrice + $secondPrice;
 
-			case "-" :
+			case "-":
 				return $firstPrice - $secondPrice;
 
-			case "*" :
+			case "*":
 				return $firstPrice * $secondPrice;
 
-			case "/" :
+			case "/":
 				return $firstPrice / $secondPrice;
 
-			case "=" :
+			case "=":
 				return $secondPrice;
 
-			default :
+			default:
 				return $firstPrice;
 		}
 	}
