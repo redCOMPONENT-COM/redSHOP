@@ -913,4 +913,24 @@ abstract class RedshopHelperCart
 
 		return true;
 	}
+
+	/**
+	 * Empty and delete current cart
+	 *
+	 * @return   boolean
+	 *
+	 * @since    2.0.6
+	 */
+	public static function emptyCart()
+	{
+		$cart = RedshopHelperCartSession::getCart();
+		unset($cart);
+
+		setcookie("redSHOPcart", "", time() - 3600, "/");
+
+		$cart['idx'] = 0;
+		RedshopHelperCartSession::setCart($cart);
+
+		return RedshopHelperStockroom::deleteCartAfterEmpty();
+	}
 }

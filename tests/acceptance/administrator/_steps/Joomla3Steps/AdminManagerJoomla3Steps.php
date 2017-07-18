@@ -161,8 +161,8 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
-		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $text]);
+        $I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->waitForElement(['link' => $text]);
 	}
     public function filterListBySearchingProduct($text, $searchField = ['id' => 'keyword'])
     {
@@ -170,6 +170,15 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         $I->executeJS('window.scrollTo(0,0)');
         $I->fillField($searchField, $text);
         $I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->waitForElement(['link' => $text]);
+    }
+
+    public function filterListBySearchDiscount($text, $searchField = ['id' => 'name_filter']){
+        $I = $this;
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->fillField($searchField, $text);
+        $I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->wait(3);
         $I->waitForElement(['link' => $text]);
     }
 }

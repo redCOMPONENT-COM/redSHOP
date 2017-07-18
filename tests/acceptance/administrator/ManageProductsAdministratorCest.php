@@ -18,6 +18,7 @@
 class ManageProductsAdministratorCest
 {
 
+
     public function __construct()
     {
         $this->randomCategoryName = 'TestingCategory' . rand(99, 999);
@@ -62,7 +63,7 @@ class ManageProductsAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Category');
-        $I->addCategory($this->randomCategoryName);
+        $I->addCategorySave($this->randomCategoryName);
     }
 
     /**
@@ -433,5 +434,6 @@ class ManageProductsAdministratorCest
         $I->featureOffStockRoom();
         $I->see("Configuration", '.page-title');
     }
+
 
 }

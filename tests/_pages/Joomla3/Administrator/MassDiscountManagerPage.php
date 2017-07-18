@@ -33,6 +33,8 @@ class MassDiscountManagerPage
 
     public static $discountFormInput = ['xpath' => "//div[@id='s2id_jform_discount_product']//ul/li//input"];
 
+    public static $dateCalender='#jform_start_date_img';
+
 
     //page name
 
