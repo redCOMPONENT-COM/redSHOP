@@ -665,7 +665,7 @@ class RedshopModelCheckout extends RedshopModel
 				$rowitem->giftcard_user_name  = $cart[$i]['reciver_name'];
 			}
 
-			if ($this->_producthelper->checkProductDownload($rowitem->product_id))
+			if (RedshopHelperProductDownload::checkDownload($rowitem->product_id))
 			{
 				$medianame = $this->_producthelper->getProductMediaName($rowitem->product_id);
 
