@@ -11,13 +11,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-/**
- * Joomla! System Logging Plugin
- *
- * @package        Joomla
- * @subpackage     System
- */
-
 JLoader::import('redshop.library');
 
 /**
