@@ -58,6 +58,9 @@
     "logman": [
       "redshop"
     ],
+    "order": [
+      "sms"
+    ],
     "quickicon": [
       "redshop"
     ],

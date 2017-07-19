@@ -1069,7 +1069,13 @@ class RedshopHelperOrder
 
 			// Trigger function on Order Status change
 			JPluginHelper::importPlugin('order');
-			RedshopHelperUtility::getDispatcher()->trigger('onAfterOrderStatusUpdate', array(self::getOrderDetails($orderId)));
+			RedshopHelperUtility::getDispatcher()->trigger(
+				'onAfterOrderStatusUpdate', 
+				array(
+					self::getOrderDetails($orderId),
+					$data->order_status_code
+				)
+			);
 
 			// For Webpack Postdk Label Generation
 			self::createWebPackLabel($orderId, $data->order_status_code, $data->order_payment_status_code);
@@ -1343,7 +1349,10 @@ class RedshopHelperOrder
 
 			RedshopHelperUtility::getDispatcher()->trigger(
 				'onAfterOrderStatusUpdate',
-				array(RedshopEntityOrder::getInstance($orderId)->getItem())
+				array(
+					RedshopEntityOrder::getInstance($orderId)->getItem(),
+					$newStatus
+				)
 			);
 
 			if ($paymentStatus == "Paid")
