@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.5.1" type="plugin" group="order" method="upgrade">
+	<name>PLG_ORDER_SMS</name>
+	<version>1.0.0</version>
+	<redshop>2.0.6</redshop>
+	<creationDate>July 2017</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redcomponent.com</authorUrl>
+	<copyright>(C) 2017 redCOMPONENT.com</copyright>
+	<license>GNU/GPL</license>
+  	<description>PLG_ORDER_SMS_DESC</description>
+	<files>
+		<filename plugin="sms">sms.php</filename>
+		<folder>language</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_order_sms.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_order_sms.sys.ini</language>
+		<language tag="vi-VN">vi-VN/vi-VN.plg_order_sms.ini</language>
+		<language tag="vi-VN">vi-VN/vi-VN.plg_order_sms.sys.ini</language>
+	</languages>
+	<config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field 
+                    name="api_key" 
+                    type="text"
+                    default=""
+                    required="true"
+                    label="PLG_ORDER_SMS_API_KEY"
+                    description="PLG_ORDER_SMS_API_KEY_DESC">
+                </field>
+                <field
+                    name="api_secret" 
+                    type="text"
+                    default=""
+                    required="true"
+                    label="PLG_ORDER_SMS_API_SECRET"
+                    description="PLG_ORDER_SMS_API_SECRET_DESC">
+                </field>
+                <field
+                    name="type" 
+                    type="list"
+                    default=""
+                    required="true"
+                    label="PLG_ORDER_SMS_API_TYPE"
+                    description="PLG_ORDER_SMS_API_TYPE_DESC">
+                    <option value="">PLG_ORDER_SMS_API_TYPE_SELECT</option>
+                    <option value="1">PLG_ORDER_SMS_API_TYPE_1</option>
+                    <option value="2">PLG_ORDER_SMS_API_TYPE_2</option>
+                    <option value="3">PLG_ORDER_SMS_API_TYPE_3</option>
+                    <option value="4">PLG_ORDER_SMS_API_TYPE_4</option>
+                    <option value="6">PLG_ORDER_SMS_API_TYPE_6</option>
+                    <option value="7">PLG_ORDER_SMS_API_TYPE_7</option>
+                    <option value="8">PLG_ORDER_SMS_API_TYPE_8</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
