@@ -35,19 +35,46 @@ class PlgOrderSms extends JPlugin
 	/**
 	 * store alert function
 	 *
-	 * @param   object  $data  Order data
+	 * @param   object  $data       Order data
+	 * @param   string  $newStatus  Order status
 	 *
 	 * @return void
 	 */
-	public function onAfterOrderStatusUpdate($data)
+	public function onAfterOrderStatusUpdate($data, $newStatus)
 	{
+		$statusList = $this->params->get('status', '');
+
+		if (!in_array($newStatus, $statusList) || $data->order_status == $newStatus)
+		{
+			return;
+		}
+
 		$apiKey    = $this->params->get('api_key', '');
 		$apiSecret = $this->params->get('api_secret', '');
 		$type      = $this->params->get('type', '6');
+		$content   = $this->params->get('content', '');
 		$shopName  = RedShop::getConfig()->get('SHOP_NAME');
-		$content   = JText::sprintf('PLG_ORDER_SMS_CONTENT', $data->order_id, $shopName, $data->order_status);
 		$billing   = RedshopHelperOrder::getOrderBillingUserInfo($data->order_id);
-		$apiUrl    = "http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_get?Phone=" . $billing->phone . "&ApiKey=" . $apiKey . "&SecretKey=" . $apiSecret . "&Content=" . $content . "&SmsType=" . $type;
+		$status    = RedshopHelperOrder::getOrderStatusTitle($newStatus);
+
+		if (strpos($content, "{order_id}") !== false)
+		{
+			$content = str_replace("{order_id}", $data->order_id, $content);
+		}
+
+		if (strpos($content, "{shop_name}") !== false)
+		{
+			$content = str_replace("{shop_name}", $shopName, $content);
+		}
+
+		if (strpos($content, "{status}") !== false)
+		{
+			$content = str_replace("{status}", $status, $content);
+		}
+
+		$content = urlencode($content);
+
+		$apiUrl = "http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_get?Phone=" . $billing->phone . "&ApiKey=" . $apiKey . "&SecretKey=" . $apiSecret . "&Content=" . $content . "&SmsType=" . $type;
 
 		$curl = curl_init($apiUrl);
 		curl_setopt($curl, CURLOPT_FAILONERROR, true);
