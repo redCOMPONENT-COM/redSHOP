@@ -16,7 +16,6 @@ require_once 'vendor/autoload.php';
  */
 class RoboFile extends \Robo\Tasks
 {
-<<<<<<< HEAD
     // Load tasks from composer, see composer.json
     use Joomla\Testing\Robo\Tasks\LoadTasks;
 
@@ -53,44 +52,6 @@ class RoboFile extends \Robo\Tasks
         // Set default timezone (so no warnings are generated if it is not set)
         date_default_timezone_set('UTC');
     }
-=======
-	// Load tasks from composer, see composer.json
-	use Joomla\Testing\Robo\Tasks\LoadTasks;
-
-	/**
-	 * File extension for executables
-	 *
-	 * @var string
-	 */
-	private $executableExtension = '';
-
-	/**
-	 * Local configuration parameters
-	 *
-	 * @var array
-	 */
-	private $configuration = array();
-
-	/**
-	 * Path to the local CMS root
-	 *
-	 * @var string
-	 */
-	private $cmsPath = '';
-
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		$this->configuration       = $this->getConfiguration();
-		$this->cmsPath             = $this->getCmsPath();
-		$this->executableExtension = $this->getExecutableExtension();
-
-		// Set default timezone (so no warnings are generated if it is not set)
-		date_default_timezone_set('UTC');
-	}
->>>>>>> 370795c02a4637b356d5322c6eba8fd273e7513e
 
 //	/**
 //	 * Hello World example task.
