@@ -433,7 +433,14 @@ class RedshopControllerCheckout extends RedshopController
 			if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 			{
 				$users_info_id = JRequest::getInt('users_info_id');
-				$chk           = $this->chkvalidation($users_info_id);
+
+				if (empty($users_info_id))
+				{
+					$userDetail = $model->store($post);
+					$users_info_id = $userDetail->users_info_id;
+				}
+
+				$chk = $this->chkvalidation($users_info_id);
 
 				if (!empty($chk))
 				{
@@ -673,7 +680,7 @@ class RedshopControllerCheckout extends RedshopController
 			$templatelist = $redTemplate->getTemplate("checkout", $cart_template_id);
 			$onestep_template_desc = $templatelist[0]->template_desc;
 
-			$onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid, $customer_note, $req_number, '', $customer_message, $referral_code);
+			$onestep_template_desc = $model->displayShoppingCart($onestep_template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $Itemid, $customer_note, $req_number, '', $customer_message, $referral_code, '', $post);
 		}
 
 		$display_shippingrate = '<div id="onestepshiprate">' . $rate_template_desc . '</div>';

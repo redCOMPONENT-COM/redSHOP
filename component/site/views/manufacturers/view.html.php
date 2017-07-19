@@ -218,7 +218,7 @@ class RedshopViewManufacturers extends RedshopView
 		}
 
 		// Breadcrumbs
-		$producthelper->generateBreadcrumb($mid);
+		RedshopHelperBreadcrumb::generate($mid);
 
 		// Breadcrumbs end
 
