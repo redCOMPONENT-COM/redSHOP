@@ -1,18 +1,17 @@
 (function ($) {
+    "use strict";
+
     /**
      *
      * @param status
      */
-    function importLockElements(status)
-    {
-        if (!status)
-        {
+    function importLockElements(status) {
+        if (!status) {
             $("#import_plugins").removeClass("disabled muted");
             $("#import_config").removeClass("disabled muted");
             $("#import_btn_start").removeClass("disabled muted hide");
         }
-        else
-        {
+        else {
             $("#import_plugins").addClass("disabled muted");
             $("#import_config").addClass("disabled muted");
             $("#import_btn_start").addClass("disabled muted hide");
@@ -57,7 +56,7 @@
      */
     function importExecuteImport(index, folder, total) {
         // Add overlay
-        importResultLogAppend('text-info', 'Importing...');
+        importResultLogAppend('text-info', Joomla.JText._('COM_REDSHOP_IMPORT_IMPORTING'));
 
         var plugin = $("input[name='plugin_name']:checked").val()
 
@@ -94,6 +93,7 @@
                 // Number if processed items / products
                 if (response.data.length) {
                     // @TODO Use each instead
+                    var dataIndex = 0;
                     for (dataIndex = 0; dataIndex < response.data.length; dataIndex++) {
                         var textClass = "text-success";
 
@@ -109,7 +109,7 @@
                 // Go to next file
                 index++;
                 if (index <= total) {
-                    importExecuteImport(index, folder, total)
+                    importExecuteImport(index, folder, total);
                 }
                 else {
                     // Completed
@@ -149,45 +149,35 @@
              * @param data
              */
             done: function (e, data) {
-                importResultLogAppend('text-success', 'File upload completed');
+                importResultLogAppend('text-success', Joomla.JText._('COM_REDSHOP_IMPORT_FILE_UPLOAD_COMPLETED'));
 
                 $uploadWrapper.hide();
                 $("#import_process_msg_body").empty();
 
                 // File uploaded and success at service side
-                if (data.result.status == 1) {
+                if (data.result.status === 1) {
 
                     // Message
                     importResultLogAppend('text-success', data.result.msg);
 
-                    // Show number of product(s) will import counted by number of lines without head line
-                    total = data.result.rows - 1;
-
-                    // Update folder var
-                    folder = data.result.folder;
-
-                    // Update number of splitted files
-                    files = data.result.files;
-
                     // Show number of product(s) will import
-                    $("#import_count").html(files);
+                    $("#import_count").html(data.result.files);
 
                     // Show process bar
                     $("#import_process_bar").parent().show();
 
-                    importResultLogAppend('text-info', 'Init import');
-                    importResultLogAppend('text-primary', 'Folder: <span class="label label-default">' + data.result.folder + '</span>');
-                    importResultLogAppend('text-primary', 'Total rows: <span class="label label-default">' + (data.result.rows - 1) + '</span>');
-                    importResultLogAppend('text-primary', 'Total rows/ file: <span class="label label-default">' + data.result.rows_per_file + '</span>');
-                    importResultLogAppend('text-primary', 'Total files: <span class="label label-default">' + data.result.files + '</span>');
+                    importResultLogAppend('text-info', Joomla.JText._('COM_REDSHOP_IMPORT_INIT_IMPORT'));
+                    importResultLogAppend('text-primary', Joomla.JText._('COM_REDSHOP_IMPORT_FOLDER') + '<span class="label label-default">' + data.result.folder + '</span>');
+                    importResultLogAppend('text-primary', Joomla.JText._('COM_REDSHOP_IMPORT_TOTAL_ROWS') + '<span class="label label-default">' + (data.result.rows - 1) + '</span>');
+                    importResultLogAppend('text-primary', Joomla.JText._('COM_REDSHOP_IMPORT_TOTAL_ROWS_PERCENT_FILE') + '<span class="label label-default">' + data.result.rows_per_file + '</span>');
+                    importResultLogAppend('text-primary', Joomla.JText._('COM_REDSHOP_IMPORT_TOTAL_FILES') + '<span class="label label-default">' + data.result.files + '</span>');
 
                     // Execute import
-                    index = 1;
-                    importExecuteImport(index, folder, files);
+                    importExecuteImport(1, data.result.folder, data.result.files);
                 } else {
                     importLockElements(true);
                     $("#import_count").empty();
-                    importResultLogAppend('text-danger', data.result.msg)
+                    importResultLogAppend('text-danger', data.result.msg);
                 }
             },
             /**
@@ -197,7 +187,7 @@
              * @param data
              */
             add: function (e, data) {
-                importResultLogAppend('text-info', 'File uploading...');
+                importResultLogAppend('text-info', Joomla.JText._('COM_REDSHOP_IMPORT_FILE_UPLOADING'));
                 $uploadWrapper.show();
                 data.submit();
             },
@@ -228,7 +218,7 @@
          * Hook into select import to get config for each one
          */
         $("#import_plugins input[type='radio']").change(function (e) {
-            plugin = $(this).val();
+            var plugin = $("input[name='plugin_name']:checked").val()
 
             $("#import_config").addClass('disabled muted');
             $("#import_process_msg_body").html("");
@@ -245,7 +235,7 @@
                     $("#import_config").removeClass('disabled muted');
                     $("#import_btn_start").prop("disabled", false).removeClass("disabled");
 
-                    importResultLogAppend('text-success', 'Loaded configuration: ' + plugin);
+                    importResultLogAppend('text-success', Joomla.JText._('COM_REDSHOP_IMPORT_FILE_UPLOADING') + plugin);
                 }
             );
         });
@@ -264,5 +254,5 @@
 
                 event.preventDefault();
             });
-    })
+    });
 })(jQuery)
