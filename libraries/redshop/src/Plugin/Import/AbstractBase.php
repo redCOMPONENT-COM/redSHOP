@@ -70,6 +70,14 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	protected $encodingColumns = array();
 
 	/**
+	 * Default extension for splitted file
+	 *
+	 * @var    string
+	 *
+	 * @since  2.0.3
+	 */
+	protected $splitFileExtension = 'csv';
+	/**
 	 * List of columns for number format
 	 *
 	 * @var array
@@ -207,7 +215,7 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 		foreach ($smallerContentArray as $index => $contentOfFile)
 		{
 			// Always save as CSV
-			$saveToFile = ($index + 1) . '.csv';
+			$saveToFile = ($index + 1) . '.' . $this->splitFileExtension;
 
 			// Write header
 			$phpExcel->writeHeader($returnData['header']);
@@ -238,12 +246,11 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 		$result->data   = array();
 
 		// Get file to process
-		$file   = \JFactory::getApplication()->input->getInt('index') . '.csv';
+		$file   = \JFactory::getApplication()->input->getInt('index') . '.' . $this->splitFileExtension;
 		$filePath = $this->getPath() . '/' . $this->folder . '/' . $file;
 
 		if (!\JFile::exists($filePath))
 		{
-			echo 'xxx';
 			return $result;
 		}
 
@@ -251,7 +258,7 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 		$phpExcel = \Redshop\File\Parser\Excel::load($filePath);
 
 		if ($phpExcel === false)
-		{echo 'yyy';
+		{
 			return $result;
 		}
 

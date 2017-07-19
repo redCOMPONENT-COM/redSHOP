@@ -11,10 +11,17 @@ namespace Redshop\File\Parser;
 
 defined('_JEXEC') or die;
 
+/**
+ * Excel parser
+ *
+ * @package     Redshop\File\Parser
+ *
+ * @since       2.0.7
+ */
 class Excel
 {
 	/**
-	 * @var    \PHPExcel
+	 * @var    \Excel
 	 *
 	 * @since  2.0.7
 	 */
@@ -23,7 +30,7 @@ class Excel
 	/**
 	 * Parser constructor.
 	 *
-	 * @param   \PHPExcel  $phpExcel
+	 * @param   \Excel  $phpExcel  PhpExcel object
 	 *
 	 * @since  2.0.7
 	 */
@@ -32,16 +39,26 @@ class Excel
 		$this->phpExcel = $phpExcel;
 	}
 
+	/**
+	 * Magic method for phpExcel object
+	 *
+	 * @param   string  $name       Method
+	 * @param   array   $arguments  Parameters
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.7
+	 */
 	public function __call($name, $arguments)
 	{
 		return call_user_func_array(array($this->phpExcel, $name), $arguments);
 	}
 
 	/**
-	 * @param   string  $filePath
-	 * @param   string  $separator
+	 * @param   string  $filePath  File path
+	 * @param   string  $separator Separator
 	 *
-	 * @return  bool|Excel
+	 * @return  boolean|Excel
 	 *
 	 * @since   2.0.7
 	 */
@@ -67,6 +84,11 @@ class Excel
 		return new \Redshop\File\Parser\Excel(\PHPExcel_IOFactory::load($filePath));
 	}
 
+	/**
+	 * Create new phpExcel
+	 *
+	 * @since  2.0.7
+	 */
 	public function create ()
 	{
 		$this->phpExcel = new  \PHPExcel();
@@ -80,7 +102,7 @@ class Excel
 	 */
 	public function getHeaderArray()
 	{
-		return $this->phpExcel->getActiveSheet()->rangeToArray('A1' . ':' . $this->countColumns() . '1');
+		return $this->phpExcel->getActiveSheet()->rangeToArray('A1:' . $this->countColumns() . '1');
 	}
 
 	/**
@@ -91,12 +113,12 @@ class Excel
 	 */
 	public function getDataArray()
 	{
-		return $this->phpExcel->getActiveSheet()->rangeToArray('A2' . ':' . $this->countColumns() . $this->countRows());
+		return $this->phpExcel->getActiveSheet()->rangeToArray('A2:' . $this->countColumns() . $this->countRows());
 	}
 
 	/**
 	 *
-	 * @return   int
+	 * @return   integer
 	 *
 	 * @since    2.0.7
 	 */
@@ -182,7 +204,7 @@ class Excel
 	 */
 	public function saveToFile($toFile)
 	{
-		$ext =  strtoupper(\JFile::getExt($toFile));
+		$ext = strtoupper(\JFile::getExt($toFile));
 		$objWriter = \PHPExcel_IOFactory::createWriter($this->phpExcel, $ext);
 
 		return $objWriter->save($toFile);
