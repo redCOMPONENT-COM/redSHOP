@@ -15,9 +15,15 @@
  */
 class GiftCardManagerPage
 {
+
+    //name page
+    public static $namePageManagement = 'Gift Card Management';
+
     public static $URL = '/administrator/index.php?option=com_redshop&view=giftcards';
 
-    public static $URLNew='/administrator/index.php?option=com_redshop&view=giftcard&layout=edit';
+    public static $URLNew = '/administrator/index.php?option=com_redshop&view=giftcard&layout=edit';
+
+    public static $URLEdit = '/administrator/index.php?option=com_redshop&view=giftcard&layout=edit&giftcard_id=';
 
     public static $giftCardName = "//input[@id='jform_giftcard_name']";
 
@@ -37,6 +43,13 @@ class GiftCardManagerPage
 
     public static $checkAllCart = "//input[@onclick='Joomla.checkAll(this)']";
 
+    public static $getCartStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[2]"];
+
+    public static $errorValid = ['xpath' => "//div[@id='system-message-container']/div/div"];
+
+    public static $getGiftCard = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[1]"];
+
+    public static $giftCardId =['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[9]"];
 
     //button
     public static $newButton = "New";
@@ -78,4 +91,12 @@ class GiftCardManagerPage
     public static $messageSuccess = "Message";
 
     public static $messageDeleteSuccess = "1 item successfully deleted";
+
+    public static $messageInvalidName = 'Invalid field: Gift Card Name';
+
+    public static $messageInvalidPrice = 'Invalid field:  Gift Card Price ';
+
+    public static $messageInvalidGiftCart = 'Invalid field:  Gift Card Value ';
+
+    public static $messageInvalidCart = 'Invalid field:  Gift Card Validity';
 }
