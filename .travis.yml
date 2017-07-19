@@ -10,7 +10,6 @@ env:
     - REPO=redSHOP
 php:
   - 5.5
-  - 5.6
   - 7.0
 install:
   - . $HOME/.nvm/nvm.sh
@@ -49,14 +48,16 @@ before_script:
 - fluxbox &
 - sleep 3 # give fluxbox some time to start
 
+# Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753
+- composer config -g github-oauth.github.com $GITHUB_TOKEN
+- composer update
+- composer install --working-dir ./libraries/redshop --ansi
+
 # Gulp packages
 - npm install
 - mv gulp-config.sample.json gulp-config.json
 - gulp release --skip-version
 
-# Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753
-- composer config -g github-oauth.github.com $GITHUB_TOKEN
-- composer update
 script:
 - php vendor/bin/robo check:for-missed-debug-code
 - php vendor/bin/robo check:for-php-parse

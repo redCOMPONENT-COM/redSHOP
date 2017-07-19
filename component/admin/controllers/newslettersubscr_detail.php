@@ -156,7 +156,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 			echo "\n";
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	public function export_acy_data()
@@ -195,6 +195,6 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 			echo "\n";
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 }

@@ -383,7 +383,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$rowitem->wrapper_price = $wrapper_price;
 			$rowitem->is_giftcard = 0;
 
-			if ($producthelper->checkProductDownload($product_id))
+			if (RedshopHelperProductDownload::checkDownload($product_id))
 			{
 				$medianame = $producthelper->getProductMediaName($product_id);
 
@@ -672,7 +672,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 				$userfields = $item[$i]->extrafieldname;
 				$userfields_id = $item[$i]->extrafieldId;
 
-				for ($ui = 0; $ui < count($userfields); $ui++)
+				for ($ui = 0, $countUserField = count($userfields); $ui < $countUserField; $ui++)
 				{
 					$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
 				}
@@ -782,7 +782,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 				$bookinvoicepdf = Economic::bookInvoiceInEconomic($row->order_id, $checkOrderStatus);
 
-				if (is_file($bookinvoicepdf))
+				if (JFile::exists($bookinvoicepdf))
 				{
 					RedshopHelperMail::sendEconomicBookInvoiceMail($row->order_id, $bookinvoicepdf);
 				}
