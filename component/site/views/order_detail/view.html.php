@@ -49,8 +49,7 @@ class RedshopViewOrder_Detail extends RedshopView
 			<?php
 		}
 
-		$productHelper = productHelper::getInstance();
-		$productHelper->generateBreadcrumb();
+		RedshopHelperBreadcrumb::generate();
 
 		$user         = JFactory::getUser();
 		$session      = JFactory::getSession();
