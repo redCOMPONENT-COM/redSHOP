@@ -383,7 +383,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$rowitem->wrapper_price = $wrapper_price;
 			$rowitem->is_giftcard = 0;
 
-			if ($producthelper->checkProductDownload($product_id))
+			if (RedshopHelperProductDownload::checkDownload($product_id))
 			{
 				$medianame = $producthelper->getProductMediaName($product_id);
 
