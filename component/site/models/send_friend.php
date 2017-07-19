@@ -105,6 +105,6 @@ class RedshopModelSend_friend extends RedshopModel
 			}
 		}
 
-		exit;
+		JFactory::getApplication()->close();
 	}
 }

@@ -34,14 +34,15 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
-        $I->click('New');
-        $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager New');
+        $I->click(\GiftCardManagerPage::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\GiftCardManagerPage::$URLNew);
+//        $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager New');
         $I->waitForElement(\GiftCardManagerPage::$giftCardName);
         $I->fillField(\GiftCardManagerPage::$giftCardName, $cardName);
         $I->fillField(\GiftCardManagerPage::$giftCardPrice, $cardPrice);
         $I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
         $I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
-        $I->click('Save & Close');
+        $I->click(\GiftCardManagerPage::$saveCloseButton);
         $I->waitForText('Item successfully saved', 60, ['id' => 'system-message-container']);
         $I->filterListBySearching($cardName, ['id' => 'filter_search']);
         $I->seeElement(['link' => $cardName]);
@@ -62,14 +63,14 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
-        $I->click('New');
+        $I->click(\GiftCardManagerPage::$newButton);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager New');
         $I->waitForElement(\GiftCardManagerPage::$giftCardName);
         $I->fillField(\GiftCardManagerPage::$giftCardName, $cardName);
         $I->fillField(\GiftCardManagerPage::$giftCardPrice, $cardPrice);
         $I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
         $I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
-        $I->click('Save');
+        $I->click(\GiftCardManagerPage::$saveButton);
         $I->waitForText('Item successfully saved', 60, ['id' => 'system-message-container']);
     }
 
@@ -82,9 +83,9 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
-        $I->click('New');
+        $I->click(\GiftCardManagerPage::$newButton);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager New');
-        $I->click('Cancel');
+        $I->click(\GiftCardManagerPage::$cancelButton);
     }
 
     /**
@@ -100,13 +101,13 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
-        $I->click('New');
+        $I->click(\GiftCardManagerPage::$newButton);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager New');
         $I->waitForElement(\GiftCardManagerPage::$giftCardName);
         $I->fillField(\GiftCardManagerPage::$giftCardPrice, $cardPrice);
         $I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
         $I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
-        $I->click('Save');
+        $I->click(\GiftCardManagerPage::$saveButton);
         $I->see('Invalid field: Gift Card Name', ['xpath' => "//div[@id='system-message-container']/div/div"]);
     }
 
@@ -123,13 +124,13 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
-        $I->click('New');
+        $I->click(\GiftCardManagerPage::$newButton);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager New');
         $I->waitForElement(\GiftCardManagerPage::$giftCardName);
         $I->fillField(\GiftCardManagerPage::$giftCardName, $cardName);
         $I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
         $I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
-        $I->click('Save');
+        $I->click(\GiftCardManagerPage::$saveButton);
         $I->see('Invalid field:  Gift Card Price ', ['xpath' => "//div[@id='system-message-container']/div/div"]);
     }
 
@@ -147,13 +148,13 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
-        $I->click('New');
+        $I->click(\GiftCardManagerPage::$newButton);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager New');
         $I->waitForElement(\GiftCardManagerPage::$giftCardName);
         $I->fillField(\GiftCardManagerPage::$giftCardName, $cardName);
         $I->fillField(\GiftCardManagerPage::$giftCardPrice, $cardPrice);
         $I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
-        $I->click('Save');
+        $I->click(\GiftCardManagerPage::$saveButton);
         $I->see('Invalid field:  Gift Card Value ', ['xpath' => "//div[@id='system-message-container']/div/div"]);
     }
 
@@ -171,13 +172,13 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
-        $I->click('New');
+        $I->click(\GiftCardManagerPage::$newButton);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager New');
         $I->waitForElement(\GiftCardManagerPage::$giftCardName);
         $I->fillField(\GiftCardManagerPage::$giftCardName, $cardName);
         $I->fillField(\GiftCardManagerPage::$giftCardPrice, $cardPrice);
         $I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
-        $I->click('Save');
+        $I->click(\GiftCardManagerPage::$saveButton);
         $I->see('Invalid field:  Gift Card Validity', ['xpath' => "//div[@id='system-message-container']/div/div"]);
     }
 
@@ -198,7 +199,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Edit View');
         $I->waitForElement(\GiftCardManagerPage::$giftCardName);
         $I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
-        $I->click('Save & Close');
+        $I->click(\GiftCardManagerPage::$saveCloseButton);
         $I->see('Item successfully saved', ['id' => 'system-message-container']);
         $I->filterListBySearching($newCardName, ['id' => 'filter_search']);
         $I->seeElement(['link' => $newCardName]);
@@ -213,7 +214,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Edit View');
         $I->waitForElement(\GiftCardManagerPage::$giftCardName);
         $I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
-        $I->click('Save');
+        $I->click(\GiftCardManagerPage::$saveButton);
         $I->see('Item successfully saved', ['id' => 'system-message-container']);
 
     }
@@ -224,7 +225,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->filterListBySearching($cardName, ['id' => 'filter_search']);
         $I->click(['link' => $cardName]);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Edit View');
-        $I->click('Close');
+        $I->click(\GiftCardManagerPage::$closeButton);
         $I->filterListBySearching($cardName, ['id' => 'filter_search']);
         $I->seeElement(['link' => $cardName]);
     }
@@ -245,11 +246,11 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->filterListBySearching($cardName, ['id' => 'filter_search']);
         $I->click(['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[1]"]);
-        $I->click('Edit');
+        $I->click(\GiftCardManagerPage::$editButton);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Edit View');
         $I->waitForElement(\GiftCardManagerPage::$giftCardName);
         $I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
-        $I->click('Save & Close');
+        $I->click(\GiftCardManagerPage::$saveCloseButton);
         $I->see('Item successfully saved', ['id' => 'system-message-container']);
         $I->filterListBySearching($newCardName, ['id' => 'filter_search']);
         $I->seeElement(['link' => $newCardName]);
@@ -263,7 +264,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
-        $I->click('Edit');
+        $I->click(\GiftCardManagerPage::$editButton);
         $I->acceptPopup();
     }
 
@@ -275,7 +276,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
-        $I->click('Delete');
+        $I->click(\GiftCardManagerPage::$deleteButton);
         $I->acceptPopup();
     }
 
@@ -287,7 +288,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
-        $I->click('Publish');
+        $I->click(\GiftCardManagerPage::$publishButton);
         $I->acceptPopup();
     }
 
@@ -299,7 +300,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->verifyNotices(false, $this->checkForNotices(), 'Gift Card Manager Page');
-        $I->click('Unpublish');
+        $I->click(\GiftCardManagerPage::$unpublishButton);
         $I->acceptPopup();
     }
 
@@ -316,7 +317,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->filterListBySearching($cardName, ['id' => 'filter_search']);
         $I->click(\GiftCardManagerPage::$firstResult);
-        $I->click('Delete');
+        $I->click(\GiftCardManagerPage::$editButton);
         $I->dontSeeElement(['link' => $cardName]);
     }
 
@@ -357,7 +358,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->filterListBySearching($cardName, ['id' => 'filter_search']);
         $I->wait(3);
         $I->click(\GiftCardManagerPage::$checkAllCart);
-        $I->click('Unpublish');
+        $I->click(\GiftCardManagerPage::$unpublishButton);
         $I->wait(3);
         $I->see('1 item successfully unpublished', '.alert-success');
     }
@@ -369,7 +370,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->filterListBySearching($cardName, ['id' => 'filter_search']);
         $I->wait(3);
         $I->click(\GiftCardManagerPage::$checkAllCart);
-        $I->click('Publish');
+        $I->click(\GiftCardManagerPage::$publishButton);
         $I->see('1 item successfully published', '.alert-success');
     }
 
@@ -379,9 +380,9 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->click(\GiftCardManagerPage::$checkAllCart);
-        $I->click('Unpublish');
+        $I->click(\GiftCardManagerPage::$unpublishButton);
         $I->wait(3);
-        $I->see('Message', '.alert-success');
+        $I->see(\GiftCardManagerPage::$messageSuccess, \GiftCardManagerPage::$selectorSuccess);
     }
 
     public function changeAllCardPublishButton()
@@ -389,9 +390,9 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->click(\GiftCardManagerPage::$checkAllCart);
-        $I->click('Publish');
+        $I->click(\GiftCardManagerPage::$publishButton);;
         $I->wait(3);
-        $I->see('Message', '.alert-success');
+        $I->see(\GiftCardManagerPage::$messageSuccess, \GiftCardManagerPage::$selectorSuccess);
     }
 
 

@@ -42,7 +42,7 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\StateManagerJ3Page::$stateTwoCode, $twoCode);
 		$I->fillField(\StateManagerJ3Page::$stateThreeCode, $threeCode);
 		$I->click("Save & Close");
-		$I->see('Item successfully saved', '.alert-success');
+		$I->see('Item saved', '.alert-success');
 		$I->fillField(\StateManagerJ3Page::$searchField, $stateName);
 		$I->click(\StateManagerJ3Page::$searchButton);
 		$I->see($stateName, \StateManagerJ3Page::$stateResultRow);
@@ -67,7 +67,7 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Edit');
 		$I->fillField(\StateManagerJ3Page::$stateName, $stateNewName);
 		$I->click("Save & Close");
-		$I->see('Item successfully saved', '.alert-success');
+		$I->see('Item saved', '.alert-success');
 		$I->amOnPage(\StateManagerJ3Page::$URL);
 		$I->fillField(\StateManagerJ3Page::$searchField, $stateNewName);
 		$I->click(\StateManagerJ3Page::$searchButton);

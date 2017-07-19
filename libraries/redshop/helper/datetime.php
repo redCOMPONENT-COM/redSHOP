@@ -31,6 +31,14 @@ class RedshopHelperDatetime
 		// Convert to date string
 		$date = date('Y-m-d', $inputTimestamp);
 
+		// Skip add time with $night if there are specific time.
+		if (empty($inputTimestamp))
+		{
+			$date = new DateTime($date);
+
+			return $date->getTimestamp();
+		}
+
 		if ($night)
 		{
 			$date = $date . ' 23:59:59';

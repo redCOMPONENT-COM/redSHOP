@@ -253,7 +253,7 @@ class RedshopViewList extends AbstractView
 	{
 		$formPath = JPATH_COMPONENT_ADMINISTRATOR . '/models/forms/' . $this->getInstanceName() . '.xml';
 
-		if (!is_file($formPath))
+		if (!JFile::exists($formPath))
 		{
 			return;
 		}

@@ -64,12 +64,10 @@ abstract class ModRedshopFilter
 			}
 		}
 
-		$db->setQuery($query);
-
-		$pids = $db->loadAssocList("product_id");
+		$pids = $db->setQuery($query)->loadAssocList("product_id");
 
 		// Get only productid key
-		$pids = array_keys($pids);
+		$pids  = array_keys($pids);
 		$range = self::getRange($pids);
 
 		return $range;
@@ -95,7 +93,7 @@ abstract class ModRedshopFilter
 			foreach ($pids as $k => $id)
 			{
 				$productprices = $producthelper->getProductNetPrice($id);
-				$allProductPrices[] = $productprices['product_price'];
+				$allProductPrices[] = $productprices['productPrice'];
 			}
 
 			// Get first value to make sure it won't zero value
@@ -311,7 +309,7 @@ abstract class ModRedshopFilter
 	public static function getCategorybyPids($pids = array(), $rootCategory = 0, $saleCategory = null)
 	{
 		$data = array();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		if (!empty($pids))
@@ -370,7 +368,7 @@ abstract class ModRedshopFilter
 	 *
 	 * @return  object
 	 */
-	public function getManufacturerById($mid)
+	public static function getManufacturerById($mid)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -388,11 +386,11 @@ abstract class ModRedshopFilter
 	/**
 	 * Get products by manufacturer id
 	 *
-	 * @param   $mid  manufacturer id
+	 * @param   integer  $mid  Manufacturer id
 	 *
 	 * @return  array
 	 */
-	public function getProductByManufacturer($mid)
+	public static function getProductByManufacturer($mid)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
