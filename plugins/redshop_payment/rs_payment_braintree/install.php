@@ -19,12 +19,11 @@ class PlgRedshop_Paymentrs_Payment_BraintreeInstallerScript
 	/**
 	 * Method to run before an install/update/uninstall method
 	 *
-	 * @param   string  $type    The type of change (install, update or discover_install)
-	 * @param   object  $parent  Class of calling method
+	 * @param   string  $type  The type of change (install, update or discover_install)
 	 *
 	 * @return  void
 	 */
-	public function preflight($type, $parent)
+	public function preflight($type)
 	{
 		if ($type == 'update' || $type == 'discover_install')
 		{

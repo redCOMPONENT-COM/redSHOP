@@ -74,6 +74,8 @@ class rsCarthelper
 	 * @param int    $quotationMode
 	 *
 	 * @return  string
+	 *
+	 * @deprecated   2.0.7  Use RedshopHelperCartTag::replaceTax() instead.
 	 */
 	public function replaceTax($data = '', $amount = 0, $discount = 0, $check = 0, $quotationMode = 0)
 	{
@@ -95,51 +97,21 @@ class rsCarthelper
 		return RedshopHelperCart::calculateTaxAfterDiscount($tax, $discount);
 	}
 
-	/*
+	/**
 	 * replace Conditional tag from Redshop Discount
+	 *
+	 * @param   string  $template       Template
+	 * @param   int     $discount       Discount
+	 * @param   int     $subTotal       Subtotal
+	 * @param   int     $quotationMode  Quotation mode
+	 *
+	 * @return  string
+	 *
+	 * @deprecated   2.0.7  Use RedshopHelperCartTag::replaceDiscount() instead.
 	 */
-
-	public function replaceDiscount($data = '', $discount = 0, $subtotal = 0, $quotation_mode = 0)
+	public function replaceDiscount($template = '', $discount = 0, $subTotal = 0, $quotationMode = 0)
 	{
-		if (strpos($data, '{if discount}') !== false && strpos($data, '{discount end if}') !== false)
-		{
-			$percentage = '';
-
-			if ($discount <= 0)
-			{
-				$template_discount_sdata = explode('{if discount}', $data);
-				$template_discount_edata = explode('{discount end if}', $template_discount_sdata[1]);
-				$data                    = $template_discount_sdata[0] . $template_discount_edata[1];
-			}
-			else
-			{
-				$data = str_replace("{if discount}", '', $data);
-
-				if ($quotation_mode && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
-				{
-					$data = str_replace("{discount}", "", $data);
-					$data = str_replace("{discount_in_percentage}", $percentage, $data);
-
-				}
-				else
-				{
-					$data = str_replace("{discount}", $this->_producthelper->getProductFormattedPrice($discount, true), $data);
-					$data = str_replace("{order_discount}", $this->_producthelper->getProductFormattedPrice($discount, true), $data);
-
-					if (!empty($subtotal) && $subtotal > 0)
-					{
-						$percentage = round(($discount * 100 / $subtotal), 2) . " %";
-					}
-
-					$data = str_replace("{discount_in_percentage}", $percentage, $data);
-				}
-
-				$data = str_replace("{discount_lbl}", JText::_('COM_REDSHOP_CHECKOUT_DISCOUNT_LBL'), $data);
-				$data = str_replace("{discount end if}", '', $data);
-			}
-		}
-
-		return $data;
+		return RedshopHelperCartTag::replaceDiscount($template, $discount, $subTotal, $quotationMode);
 	}
 
 	/**
@@ -1179,9 +1151,6 @@ class rsCarthelper
 					$cart_mdata = str_replace("{product_price_excl_vat}", "", $cart_mdata);
 					$cart_mdata = str_replace("{product_total_price_excl_vat}", "", $cart_mdata);
 				}
-
-				// $cart[$i]['product_price_excl_vat'] = $product_price_excl_vat;
-				$this->_session->set('cart', $cart);
 
 				if ($product->product_type == 'subscription')
 				{
@@ -3396,11 +3365,15 @@ class rsCarthelper
 							for ($i = 0, $in = count($rate); $i < $in; $i++)
 							{
 								$glsLocation = '';
-								$data .= $template_rate_middle;
+								$checked      = '';
+								$data        .= $template_rate_middle;
 
 								$displayrate = (trim($rate[$i]->rate) > 0) ? " (" . $this->_producthelper->getProductFormattedPrice(trim($rate[$i]->rate)) . " )" : "";
 
-								$checked = ($rateExist == 0 || $shipping_rate_id == $rate[$i]->value) ? "checked" : "";
+								if ((isset($rate[$i]->checked) && $rate[$i]->checked) || $rateExist == 0)
+								{
+									$checked = "checked";
+								}
 
 								if ($checked == "checked")
 								{
@@ -3422,8 +3395,8 @@ class rsCarthelper
 									. $shippingmethod[$s]->extension_id . '_' . $i . '" name="shipping_rate_id" value="'
 									. $rate[$i]->value . '" '
 									. $checked
-									. ' onclick="javascript:onestepCheckoutProcess(this.name,\'' . $classname . '\');">'
-									. '' . html_entity_decode($rate[$i]->text) . '</label>';
+									. ' onclick="javascript:onestepCheckoutProcess(this.name,\'' . $classname . '\');"><span>'
+									. '' . html_entity_decode($rate[$i]->text) . '</span></label>';
 
 								$shipping_rate_short_desc = '';
 
@@ -3518,6 +3491,9 @@ class rsCarthelper
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
+
+		JPluginHelper::importPlugin('redshop_checkout');
+		JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$template_desc));
 
 		$returnarr = array("template_desc" => $template_desc, "shipping_rate_id" => $shipping_rate_id);
 
@@ -3629,7 +3605,7 @@ class rsCarthelper
 			$template1       = explode("{payment_loop_start}", $template_desc);
 			$template1       = explode("{payment_loop_end}", $template1[1]);
 			$template_middle = $template1[0];
-			$shopperGroupId  = $rsUserhelper->getShopperGroup($user_id);
+			$shopperGroupId  = RedshopHelperUser::getShopperGroup($user_id);
 			$payment_display = "";
 			$flag            = false;
 
@@ -5508,7 +5484,7 @@ class rsCarthelper
 						$sameProduct = false;
 					}
 
-					if ($cart[$i]['wrapper_id'] != $data['sel_wrapper_id'])
+					if (isset($data['sel_wrapper_id']) && $cart[$i]['wrapper_id'] != $data['sel_wrapper_id'])
 					{
 						$sameProduct = false;
 					}
@@ -5746,7 +5722,7 @@ class rsCarthelper
 
 		if (!isset($cart['user_shopper_group_id']) || (isset($cart['user_shopper_group_id']) && $cart['user_shopper_group_id'] == 0))
 		{
-			$cart['user_shopper_group_id'] = $rsUserhelper->getShopperGroup($user->id);
+			$cart['user_shopper_group_id'] = RedshopHelperUser::getShopperGroup($user->id);
 		}
 
 		$cart['free_shipping'] = 0;
