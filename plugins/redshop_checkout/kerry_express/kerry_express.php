@@ -140,6 +140,10 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 
 		$html = '';
 
+		uasort($data[$city], function($a, $b){
+			return strnatcmp($a, $b);
+		});
+
 		foreach ($data[$city] as $code => $name)
 		{
 			$selected = '';
@@ -194,6 +198,10 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 		}
 
 		$html = '';
+
+		uasort($data[$district], function($a, $b){
+			return strnatcmp($a, $b);
+		});
 
 		foreach ($data[$district] as $code => $name)
 		{
