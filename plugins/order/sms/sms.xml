@@ -21,7 +21,7 @@
 		<language tag="vi-VN">vi-VN/vi-VN.plg_order_sms.sys.ini</language>
 	</languages>
 	<config>
-        <fields name="params">
+        <fields name="params" addfieldpath="/libraries/redshop/form/fields">
             <fieldset name="basic">
                 <field 
                     name="api_key" 
@@ -54,6 +54,23 @@
                     <option value="6">PLG_ORDER_SMS_API_TYPE_6</option>
                     <option value="7">PLG_ORDER_SMS_API_TYPE_7</option>
                     <option value="8">PLG_ORDER_SMS_API_TYPE_8</option>
+                </field>
+                <field 
+                    name="status" 
+                    type="orderstatus"
+                    multiple="true"
+                    required="true"
+                    label="PLG_ORDER_SMS_ORDER_STATUS"
+                    description="PLG_ORDER_SMS_ORDER_STATUS_DESC">
+                </field>
+                <field 
+                    name="content" 
+                    type="textarea"
+                    maxlength="160"
+                    default="Order ID: {order_id} in {shop_name} has been updated to {status}"
+                    required="true"
+                    label="PLG_ORDER_SMS_CONTENT"
+                    description="PLG_ORDER_SMS_CONTENT_DESC">
                 </field>
             </fieldset>
         </fields>
