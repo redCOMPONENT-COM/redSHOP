@@ -76,7 +76,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 //        $I->click(['xpath' => "//span[contains(text(), '" . $nameManufacture . "')]"]);
 
         $I->click(\MassDiscountManagerPage::$categoryForm);
-        $I->fillField(\MassDiscountManagerPage::$categoryForm, $nameCategory);
+        $I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
         $useMassDiscountPage = new \MassDiscountManagerPage();
         $I->waitForElement($useMassDiscountPage->returnXpath($nameCategory));
         $I->click($useMassDiscountPage->returnXpath($nameCategory));
@@ -158,9 +158,8 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\MassDiscountManagerPage::$getToday);
         $I->wait(2);
 
-
         $I->click(\MassDiscountManagerPage::$categoryForm);
-        $I->fillField(\MassDiscountManagerPage::$categoryForm, $nameCategory);
+        $I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
         $useMassDiscountPage = new \MassDiscountManagerPage();
         $I->waitForElement($useMassDiscountPage->returnXpath($nameCategory));
         $I->click($useMassDiscountPage->returnXpath($nameCategory));
@@ -196,8 +195,9 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->wait(2);
 
 
+
         $I->click(\MassDiscountManagerPage::$categoryForm);
-        $I->fillField(\MassDiscountManagerPage::$categoryForm, $nameCategory);
+        $I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
         $useMassDiscountPage = new \MassDiscountManagerPage();
         $I->waitForElement($useMassDiscountPage->returnXpath($nameCategory));
         $I->click($useMassDiscountPage->returnXpath($nameCategory));
