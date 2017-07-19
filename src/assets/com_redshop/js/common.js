@@ -710,6 +710,7 @@ function getBillingTemplate(el)
 		success: function(html) {
 			jQuery('#wrapper-billing').html('');
 			jQuery('#wrapper-billing').append(html);
+			jQuery(document).trigger("AfterGetBillingTemplate");
 		}
 	})
 }
