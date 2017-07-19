@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Redshop\Plugin;
+namespace Redshop\Plugin\Export;
 
 defined('_JEXEC') or die;
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since  2.0.3
  */
-class AbstractExportPlugin extends \JPlugin
+class AbstractBase extends \JPlugin
 {
 	/**
 	 * @var  string

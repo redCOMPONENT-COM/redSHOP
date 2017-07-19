@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Redshop\Plugin;
+namespace Redshop\Plugin\Import;
 
 defined('_JEXEC') or die;
 
@@ -16,35 +16,47 @@ defined('_JEXEC') or die;
  *
  * @since  2.0.3
  */
-class AbstractImportPlugin extends \JPlugin
+class AbstractBase extends \Redshop\Plugin\AbstractBase
 {
 	/**
 	 * @var  string
+	 *
+	 * @since  2.0.3
 	 */
 	protected $separator = ',';
 
 	/**
 	 * @var string
+	 *
+	 * @since  2.0.3
 	 */
 	protected $folder = '';
 
 	/**
 	 * @var string
+	 *
+	 * @since  2.0.3
 	 */
 	protected $encoding = 'UTF-8';
 
 	/**
 	 * @var  \JDatabaseDriver
+	 *
+	 * @since  2.0.3
 	 */
 	protected $db;
 
 	/**
 	 * @var string
+	 *
+	 * @since  2.0.3
 	 */
 	protected $primaryKey = 'id';
 
 	/**
 	 * @var string
+	 *
+	 * @since  2.0.3
 	 */
 	protected $nameKey = 'name';
 
@@ -52,6 +64,8 @@ class AbstractImportPlugin extends \JPlugin
 	 * List of columns for encoding UTF8
 	 *
 	 * @var array
+	 *
+	 * @since  2.0.3
 	 */
 	protected $encodingColumns = array();
 
@@ -59,11 +73,13 @@ class AbstractImportPlugin extends \JPlugin
 	 * List of columns for number format
 	 *
 	 * @var array
+	 *
+	 * @since  2.0.3
 	 */
 	protected $numberColumns = array();
 
 	/**
-	 * List of alias columns. For backward compability. Example array('category_id' => 'id')
+	 * List of alias columns. For backward compatibility. Example array('category_id' => 'id')
 	 *
 	 * @var array
 	 *
@@ -85,7 +101,6 @@ class AbstractImportPlugin extends \JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		$this->loadLanguage();
 		$this->db = \JFactory::getDbo();
 	}
 
@@ -107,62 +122,106 @@ class AbstractImportPlugin extends \JPlugin
 			return null;
 		}
 
+		// Init default separator
 		if (!empty($data) && !empty($data['separator']))
 		{
 			$this->separator = $data['separator'];
 		}
 
-		$this->folder = md5(time());
+		$importDir = $this->getPath();
 
-		if (\JFolder::exists($this->getPath()))
+		if (!\JFolder::exists($importDir))
 		{
-			\JFolder::delete($this->getPath());
+			\JFolder::create($importDir);
 		}
 
-		\JFolder::create($this->getPath() . '/' . $this->folder);
-
-		if (!\JFile::move($file['tmp_name'], $this->getPath() . '/' . $file['name']))
+		// Try to move upload file to $importDir
+		if (!\JFile::move($file['tmp_name'], $importDir . '/' . $file['name']))
 		{
 			return false;
 		}
 
-		$result = array(
-			'folder' => $this->folder,
-			// Number of lines in csv file
-			'lines' => $this->countLines($this->getPath() . '/' . $file['name']),
-			// Number of splitted files
-			'files' => $this->splitFiles($this->getPath() . '/' . $file['name'])
-		);
-
-		return $result;
+		return $this->splitFiles($this->getPath() . '/' . $file['name']);
 	}
 
 	/**
-	 * Method for count lines of an specific file.
+	 * Method for split uploaded file to smaller files.
 	 *
-	 * @param   string  $path  File path.
+	 * @param   string  $file  Path of file.
 	 *
-	 * @return  int            Lines of file.
+	 * @return  array
 	 *
-	 * @since  1.2.1
+	 * @since   2.0.3
 	 */
-	public function countLines($path)
+	public function splitFiles($file)
 	{
-		$count = 0;
-
-		$handle = fopen($path, "r");
-
-		while (!feof($handle))
+		if (empty($file) || !\JFile::exists($file))
 		{
-			if (fgets($handle) !== false)
-			{
-				$count++;
-			}
+			return false;
 		}
 
-		fclose($handle);
+		// Create splitting dir
+		$this->folder = \Redshop\String\Helper::getUserRandomString();
 
-		return $count;
+		if (\JFolder::exists($this->folder))
+		{
+			\JFolder::delete($this->folder);
+		}
+
+		\JFolder::create($this->getPath() . '/' . $this->folder);
+
+		$phpExcel = \Redshop\File\Parser\Excel::load($file, $this->separator);
+
+		// File load success than go to process
+		if (!$phpExcel)
+		{
+			return false;
+		}
+
+		$maxRows = $phpExcel->countRows();
+		$importMaxRows = \Redshop::getConfig()->get('IMPORT_MAX_LINE', 10);
+
+		// Prepare array of return data
+		$returnData = array (
+			'folder' => $this->folder,
+			// Total rows in file
+			'rows' => $maxRows,
+			// Total rows in smaller file which one we'll split into
+			'rows_per_file' => ($importMaxRows > $maxRows) ? $maxRows : $importMaxRows,
+			// Array of header row
+			'header' => $phpExcel->getHeaderArray()[0],
+			// Init total files
+			'files' => 0
+		);
+
+		// Get all data as array
+		$contentArray = $phpExcel->getDataArray();
+
+		// Split it into smaller
+		$smallerContentArray = array_chunk($contentArray, $returnData['rows_per_file']);
+
+		// Create new file
+		$phpExcel->create();
+
+		// And now write to file
+		foreach ($smallerContentArray as $index => $contentOfFile)
+		{
+			// Always save as CSV
+			$saveToFile = ($index + 1) . '.csv';
+
+			// Write header
+			$phpExcel->writeHeader($returnData['header']);
+			$phpExcel->writeData($contentOfFile);
+			$phpExcel->saveToFile($this->getPath() . '/' . $this->folder . '/' . $saveToFile);
+
+			// Increase total files
+			$returnData['files'] = $returnData['files'] + 1;
+		}
+
+		// Clean up
+		\JFile::delete($file);
+
+		return $returnData;
 	}
 
 	/**
@@ -174,25 +233,33 @@ class AbstractImportPlugin extends \JPlugin
 	 */
 	public function importing()
 	{
-		$files          = \JFolder::files($this->getPath() . '/' . $this->folder, '.', true);
 		$result         = new \stdClass;
 		$result->status = 0;
 		$result->data   = array();
 
-		if (empty($files))
-		{
-			\JFolder::delete($this->getPath() . '/' . $this->folder);
+		// Get file to process
+		$file   = \JFactory::getApplication()->input->getInt('index') . '.csv';
+		$filePath = $this->getPath() . '/' . $this->folder . '/' . $file;
 
+		if (!\JFile::exists($filePath))
+		{
+			echo 'xxx';
 			return $result;
 		}
 
-		$file   = array_shift($files);
-		$handle = fopen($this->getPath() . '/' . $this->folder . '/' . $file, 'r');
-		$header = fgetcsv($handle, null, $this->separator, '"');
+		// Try to parse
+		$phpExcel = \Redshop\File\Parser\Excel::load($filePath);
 
+		if ($phpExcel === false)
+		{echo 'yyy';
+			return $result;
+		}
+
+		$header = $phpExcel->getHeaderArray()[0];
+		$dataArray = $phpExcel->getDataArray();
 		$table = $this->getTable();
 
-		while ($data = fgetcsv($handle, null, $this->separator, '"'))
+		foreach ($dataArray as $data)
 		{
 			$table->reset();
 
@@ -231,10 +298,19 @@ class AbstractImportPlugin extends \JPlugin
 			$result->data[] = $rowResult;
 		}
 
-		fclose($handle);
-		JFile::delete($this->getPath() . '/' . $this->folder . '/' . $file);
+		// Delete processed file;
+		\JFile::delete($this->getPath() . '/' . $this->folder . '/' . $file);
 
 		$result->status = 1;
+		$result->file = $file;
+
+		// Try to clean up if this's last one
+		$files          = \JFolder::files($this->getPath() . '/' . $this->folder, '.', true);
+
+		if (empty($files))
+		{
+			\JFolder::delete($this->getPath() . '/' . $this->folder);
+		}
 
 		return $result;
 	}
@@ -273,66 +349,6 @@ class AbstractImportPlugin extends \JPlugin
 	public function getPath()
 	{
 		return JPATH_ROOT . '/tmp/redshop/import/' . $this->_name;
-	}
-
-	/**
-	 * Method for split uploaded file to smaller files.
-	 *
-	 * @param   string  $file  Path of file.
-	 *
-	 * @return  int
-	 *
-	 * @since   2.0.3
-	 */
-	public function splitFiles($file)
-	{
-		if (empty($file) || !\JFile::exists($file))
-		{
-			return false;
-		}
-
-		// @TODO    Check if we can't read / open file and return msg for this case
-		$handler = fopen($file, 'r');
-		$rows    = array();
-
-		while ($row = fgetcsv($handler, null, $this->separator))
-		{
-			$rows[] = $row;
-		}
-
-		fclose($handler);
-
-		$headers = array_shift($rows);
-		$maxLine = \Redshop::getConfig()->get('IMPORT_MAX_LINE', 10);
-		$maxLine = $maxLine < 10 ? 10 : $maxLine;
-		$rows    = array_chunk($rows, $maxLine);
-		$fileExt = \JFile::getExt($file);
-
-		// Remove old file
-		JFile::delete($file);
-
-		foreach ($rows as $index => $fileRows)
-		{
-			$fileHandle = fopen($this->getPath() . '/' . $this->folder . '/' . ($index + 1) . '.' . $fileExt, 'w');
-
-			// Write headers
-			fwrite($fileHandle, '"' . implode('"' . $this->separator . '"', $headers) . '"' . "\n");
-
-			foreach ($fileRows as $row)
-			{
-				// Add slash for data
-				foreach ($row as $index => $value)
-				{
-					$row[$index] = addslashes($value);
-				}
-
-				fwrite($fileHandle, '"' . implode('"' . $this->separator . '"', $row) . '"' . "\n");
-			}
-
-			fclose($fileHandle);
-		}
-
-		return count($rows);
 	}
 
 	/**
