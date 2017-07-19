@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractImportPlugin;
+use \Redshop\Plugin\Import;
 
 JLoader::import('redshop.library');
 
@@ -18,7 +18,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ImportProduct_Stockroom_Data extends AbstractImportPlugin
+class PlgRedshop_ImportProduct_Stockroom_Data extends Import\AbstractBase
 {
 	/**
 	 * @var string
