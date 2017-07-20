@@ -27,18 +27,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-
         $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
-        $I->click('New');
-        $I->waitForElement($this->supplierNameField, 30);
-        $I->fillField($this->supplierNameField, $supplierName);
-        $I->fillField($this->supplierEmailId, $supplierEmail);
-        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
-        $I->click('Save & Close');
-        $I->waitForText($this->supplierSuccessMessage, 60, '.alert-success');
-        $I->see($this->supplierSuccessMessage, '.alert-success');
-
-        $I->checkForPhpNoticesOrWarnings();
         $I->click(\SupplierManagerPage::$newButton);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierNameField, $supplierName);
@@ -59,7 +48,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->click(\SupplierManagerPage::$newButton);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierNameField, $supplierName);
@@ -75,7 +64,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->click(\SupplierManagerPage::$newButton);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->click(\SupplierManagerPage::$cancelButton);
@@ -85,7 +74,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->click(\SupplierManagerPage::$newButton);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierEmailId, $supplierEmailId);
@@ -98,7 +87,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->click(\SupplierManagerPage::$newButton);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
         $I->fillField(\SupplierManagerPage::$supplierNameField, $supplierName);
@@ -135,7 +124,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->searchSupplier($supplierUpdatedName);
         $I->click($supplierUpdatedName);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
@@ -149,7 +138,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->searchSupplier($supplierUpdatedName);
         $I->click($supplierUpdatedName);
         $I->waitForElement(\SupplierManagerPage::$supplierNameField, 30);
@@ -209,7 +198,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->searchSupplier($supplierName);
         $I->checkAllResults();
         $I->click(\SupplierManagerPage::$deleteButton);
@@ -236,7 +225,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->click(\SupplierManagerPage::$deleteButton);
         $I->acceptPopup();
     }
@@ -245,7 +234,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->click(\SupplierManagerPage::$publish);
         $I->acceptPopup();
     }
@@ -254,7 +243,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->checkAllResults();
         $I->click(\SupplierManagerPage::$unpublish);
         $I->waitForText(\SupplierManagerPage::$messageHead, 30, \SupplierManagerPage::$selectorSuccess);
@@ -264,7 +253,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->checkAllResults();
         $I->click(\SupplierManagerPage::$publish);
         $I->waitForText(\SupplierManagerPage::$messageHead, 30, \SupplierManagerPage::$selectorSuccess);
@@ -274,7 +263,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->click(\SupplierManagerPage::$unpublish);
         $I->acceptPopup();
     }
@@ -283,7 +272,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->click(\SupplierManagerPage::$checkinButton);
         $I->acceptPopup();
     }
@@ -292,7 +281,7 @@ class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\SupplierManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\SupplierManagerPage::$URL);
         $I->checkAllResults();
         $I->click(\SupplierManagerPage::$checkinButton);
         $I->waitForText(\SupplierManagerPage::$messageHead, 30, \SupplierManagerPage::$selectorSuccess);
