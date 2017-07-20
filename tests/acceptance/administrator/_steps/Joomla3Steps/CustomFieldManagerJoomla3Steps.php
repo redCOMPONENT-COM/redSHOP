@@ -34,7 +34,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$fieldsForOptions = array("Check box", "Image", "Image with link", "Multiple select box", );
 		$I->amOnPage(\CustomFieldManagerJoomla3Page::$URL);
 		$customFieldsManagerPage = new \CustomFieldManagerJoomla3Page;
-		$I->verifyNotices(false, $this->checkForNotices(), 'Fields Manager Page');
+//		$I->verifyNotices(false, $this->checkForNotices(), 'Fields Manager Page');
 		$I->click('New');
 		$I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName,30);
 		$I->fillField(\CustomFieldManagerJoomla3Page::$fieldName, $name);

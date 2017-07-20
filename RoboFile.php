@@ -374,14 +374,14 @@ class RoboFile extends \Robo\Tasks
             ->run()
             ->stopOnFail();
 
-        $this->taskCodecept()
-            ->arg('--steps')
-            ->arg('--debug')
-            ->arg('--tap')
-            ->arg('--fail-fast')
-            ->arg('tests/acceptance/redSHOP_1.6_Tests/administrator/')
-            ->run()
-            ->stopOnFail();
+//        $this->taskCodecept()
+//            ->arg('--steps')
+//            ->arg('--debug')
+//            ->arg('--tap')
+//            ->arg('--fail-fast')
+//            ->arg('tests/acceptance/redSHOP_1.6_Tests/administrator/')
+//            ->run()
+//            ->stopOnFail();
         /*
         $this->taskCodecept()
             ->arg('--steps')
