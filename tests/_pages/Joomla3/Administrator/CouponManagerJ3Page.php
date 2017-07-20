@@ -43,7 +43,41 @@ class CouponManagerJ3Page
     public static $couponResultRow = "//table[@id='articleList']/tbody/tr[2]";
 
 
-    // //table[@class='test-redshop-table']//tr[@class='test-redshop-table'][1]//td[@class='test-redshop-coupon-checkall']
+    //button
+
+    public static $newButton = "New";
+
+    public static $saveButton = "Save";
+
+    public static $unpublishButton = "Unpublish";
+
+    public static $publishButton = "Publish";
+
+    public static $saveCloseButton = "Save & Close";
+
+    public static $deleteButton = "Delete";
+
+    public static $editButton = "Edit";
+
+    public static $saveNewButton = "Save & New";
+
+    public static $cancelButton = "Cancel";
+
+    public static $checkInButton = "Check-in";
+
+
+    //message
+    public static $saveSuccess="Coupon detail save";
+
+    //selector
+
+    public static $selectorSuccess = '.alert-success';
+
+    public static $selectorError = '.alert-danger';
+
+    public static $selectorNamePage = '.page-title';
+
+
     public static $firstResultRow = ['class' => "test-redshop-table-row"];
 
 
