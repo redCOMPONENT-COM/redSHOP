@@ -62,7 +62,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\DiscountManagerJ3Page::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\DiscountManagerJ3Page::$URL);
         $I->click(\DiscountManagerJ3Page::$newButton);
         $I->waitForElement(\DiscountManagerJ3Page::$amount, 30);
         $I->fillField(\DiscountManagerJ3Page::$name, $name);
@@ -249,7 +249,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
     public function changeDiscountState($discountName)
     {
         $I = $this;
-        $I->amOnPage(\DiscountManagerJ3Page::$URL);
+//        $I->amOnPage(\DiscountManagerJ3Page::$URL);
         $I->searchDiscount($discountName);
         $I->wait(3);
         $I->see($discountName, \DiscountManagerJ3Page::$discountNamePath);
@@ -350,10 +350,10 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
     public function searchDiscount($discountName)
     {
         $I = $this;
-        $I->wantTo('Search Discount ');
+//        $I->wantTo('Search Discount ');
         $I->amOnPage(\DiscountManagerJ3Page::$URL);
         $I->waitForText(\DiscountManagerJ3Page::$namePageManagement, 30, \DiscountManagerJ3Page::$pageManagement);
-        $I->filterListBySearchingDiscount($discountName);
+        $I->filterListBySearchDiscount($discountName);
     }
 
     /**
