@@ -13,7 +13,9 @@ pipeline {
                     ls -la
                     echo ${JOB_NAME}
                     echo 'next value'
-                    echo {sha1}
+                    echo ${sha1}
+                    echo 'next value'
+                    echo ${PR}
                 '''
             }
             post {
