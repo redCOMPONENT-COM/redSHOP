@@ -9,21 +9,21 @@
 			<fieldset class="form-horizontal">
 				<p>
 					<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MIN_FILE_SIZE') ?>:&nbsp;
-					<span class="text-primary"><?php echo number_format($allowMinFileSize) ?>
+					<span class="text-primary"><?php echo number_format($this->allowMinFileSize) ?>
 						bytes</span>
 				</p>
 				<p>
 					<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_FILE_SIZE') ?>:&nbsp;
-					<span class="text-primary"><?php echo number_format($allowMaxFileSize) ?>
+					<span class="text-primary"><?php echo number_format($this->allowMaxFileSize) ?>
 						bytes</span>
 				</p>
 				<p>
 					<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_MIME') ?>:&nbsp;
-					<span class="text-primary"><?php echo implode(', ', $allowFileTypes) ?></span>
+					<span class="text-primary"><?php echo implode(', ', $this->allowFileTypes) ?></span>
 				</p>
 				<p>
 					<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_EXTENSION') ?>:&nbsp;
-					<span class="text-primary"><?php echo implode(', ', $allowFileExtensions) ?></span>
+					<span class="text-primary"><?php echo implode(', ', $this->allowFileExtensions) ?></span>
 				</p>
 				<p class="help-block"><?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_HELP') ?></p>
 				<hr/>
@@ -39,7 +39,7 @@
 				<div class="form-group">
 					<label class="col-md-2 control-label"><?php echo JText::_('COM_REDSHOP_IMPORT_ENCODING') ?></label>
 					<div class="col-md-10">
-						<?php echo JHtml::_('select.genericlist', $encodings, 'encoding', 'class="form-control"', 'value', 'text', 'UTF-8'); ?>
+						<?php echo JHtml::_('select.genericlist', $this->encodings, 'encoding', 'class="form-control"', 'value', 'text', 'UTF-8'); ?>
 					</div>
 				</div>
 				<div id="import_config_body"></div>
