@@ -26,7 +26,7 @@ pipeline {
                     args  '--user 0 --privileged=true'
                 }
             }
-            environment{
+            environment {
                 PR_ID = ${CHANGE_ID}
                 CLOUD_NAME= 'redcomponent'
                 API_KEY= '365447364384436'
