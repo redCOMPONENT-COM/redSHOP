@@ -77,7 +77,7 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	 * @param   string  $className    Shipping class name
 	 * @param   int     $shopId       GLS Shop ID
 	 *
-	 * @return  mixed
+	 * @return  string
 	 */
 	public function getGLSLocation($usersInfoId, $className, $shopId = 0)
 	{
@@ -161,7 +161,7 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 		}
 		catch (Exception $exception)
 		{
-			$this->error = 1;
+			$this->error = true;
 
 			echo $this->errorMsg = "Unable to connect soap client";
 
@@ -174,7 +174,7 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	 *
 	 * @param   object  $values  redSHOP Shipping data
 	 *
-	 * @return  mixed
+	 * @return  array
 	 */
 	public function GetNearstParcelShops($values)
 	{
@@ -242,7 +242,7 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 
 			$returnArr[$i]                       = new stdClass;
 			$returnArr[$i]->shop_id              = $shopId;
-			$returnArr[$i]->Number               = $shopNUmber;
+			$returnArr[$i]->Number               = $shopNumber;
 			$returnArr[$i]->CompanyName          = $companyName;
 			$returnArr[$i]->Streetname           = $streetName;
 			$returnArr[$i]->ZipCode              = $zipCode;
@@ -262,7 +262,7 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	 *
 	 * @param   array  $weekDay  Pacsoft data
 	 *
-	 * @return  array
+	 * @return  string
 	 */
 	public function weekdaysTime($weekDay)
 	{
