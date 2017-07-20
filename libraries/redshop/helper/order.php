@@ -2233,9 +2233,9 @@ class RedshopHelperOrder
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select('*')
-					->from($db->qn('#__extensions'))
-					->where($db->qn('element') . ' = ' . $db->quote($payment));
+			->select('*')
+			->from($db->qn('#__extensions'))
+			->where($db->qn('element') . ' = ' . $db->quote($payment));
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
