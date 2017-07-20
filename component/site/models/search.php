@@ -1252,7 +1252,7 @@ class RedshopModelSearch extends RedshopModel
 			{
 				foreach ($catList as $key => $cat)
 				{
-					$list[] = $cat->category_id;
+					$list[] = $cat->id;
 				}
 
 				array_push($list, $cid);
@@ -1301,7 +1301,7 @@ class RedshopModelSearch extends RedshopModel
 
 		foreach ($catList as $key => $value)
 		{
-			$childCat[] = $value->category_id;
+			$childCat[] = $value->id;
 		}
 
 		if (!empty($categoryForSale) && in_array($cid, $childCat))
@@ -1347,6 +1347,9 @@ class RedshopModelSearch extends RedshopModel
 		{
 			$query->order($db->escape($orderBy));
 		}
+
+		JPluginHelper::importPlugin('redshop_product');
+		JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
 
 		return $query;
 	}

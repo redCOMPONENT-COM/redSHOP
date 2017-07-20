@@ -238,16 +238,16 @@ class RedshopModelWrapper_detail extends RedshopModel
 			{
 				$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/thumb/' . $wrapper[0]->wrapper_image;
 
-				if (is_file($unlink_path))
+				if (JFile::exists($unlink_path))
 				{
-					unlink($unlink_path);
+					JFile::delete($unlink_path);
 				}
 
 				$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/' . $wrapper[0]->wrapper_image;
 
-				if (is_file($unlink_path))
+				if (JFile::exists($unlink_path))
 				{
-					unlink($unlink_path);
+					JFile::delete($unlink_path);
 				}
 			}
 		}

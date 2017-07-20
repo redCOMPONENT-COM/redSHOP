@@ -522,7 +522,7 @@ class RedshopHelperExtrafields
 					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
 					{
 						$checked         = (@in_array(urlencode($fieldChk[$c]->field_value), $chkData)) ? ' checked="checked" ' : '';
-						$extraFieldValue .= '<input  class="' . $rowData[$i]->class . '" type="checkbox" ' . $required . $reqlbl . $errormsg . ' ' . $checked . ' name="' . $rowData[$i]->name . '[]"  id="' . $rowData[$i]->name . "_" . $fieldChk[$c]->value_id . '" value="' . urlencode($fieldChk[$c]->field_value) . '" />' . $fieldChk[$c]->field_value . '<br />';
+						$extraFieldValue .= '<label><input  class="' . $rowData[$i]->class . '" type="checkbox" ' . $required . $reqlbl . $errormsg . ' ' . $checked . ' name="' . $rowData[$i]->name . '[]"  id="' . $rowData[$i]->name . "_" . $fieldChk[$c]->value_id . '" value="' . urlencode($fieldChk[$c]->field_value) . '" /><span>' . $fieldChk[$c]->field_value . '</span></label><br />';
 					}
 
 					$exField .= '<td>' . $extraFieldValue;
@@ -538,7 +538,7 @@ class RedshopHelperExtrafields
 					for ($c = 0, $cn = count($fieldChk); $c < $cn; $c++)
 					{
 						$checked         = (@in_array(urlencode($fieldChk[$c]->field_value), $chkData)) ? ' checked="checked" ' : '';
-						$extraFieldValue .= '<input class="' . $rowData[$i]->class . '" type="radio" ' . $checked . ' ' . $required . $reqlbl . $errormsg . ' name="' . $rowData[$i]->name . '"  id="' . $rowData[$i]->name . "_" . $fieldChk[$c]->value_id . '" value="' . urlencode($fieldChk[$c]->field_value) . '" />' . $fieldChk[$c]->field_value . '<br />';
+						$extraFieldValue .= '<label><input class="' . $rowData[$i]->class . '" type="radio" ' . $checked . ' ' . $required . $reqlbl . $errormsg . ' name="' . $rowData[$i]->name . '"  id="' . $rowData[$i]->name . "_" . $fieldChk[$c]->value_id . '" value="' . urlencode($fieldChk[$c]->field_value) . '" /><span>' . $fieldChk[$c]->field_value . '</span></label><br />';
 					}
 
 					$exField .= '<td>' . $extraFieldValue;
@@ -681,7 +681,7 @@ class RedshopHelperExtrafields
 							$destinationPrefixDel      = '/components/com_redshop/assets/document/extrafields/';
 							$mediaImage                = $destinationPrefixAbsolute . $dataTxtValue;
 
-							if (is_file($mediaImage))
+							if (JFile::exists($mediaImage))
 							{
 								$mediaImage = $destinationPrefix . $dataTxtValue;
 								$mediaType  = strtolower(JFile::getExt($dataTxtValue));
@@ -1909,7 +1909,7 @@ class RedshopHelperExtrafields
 							$documentLink    = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/' . $fileName;
 							$absDocumentLink = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $fileName;
 
-							if (is_file($absDocumentLink))
+							if (JFile::exists($absDocumentLink))
 							{
 								$displayValue .= '<a href="' . $documentLink . '" target="_blank">' . $documentTitle . '</a>';
 							}

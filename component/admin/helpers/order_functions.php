@@ -397,15 +397,15 @@ class order_functions
 	/**
 	 * Get Shipping address
 	 *
-	 * @param   integer  $user_id  User Id
+	 * @param   integer  $userId  User Id
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getShippingAddress() instead
 	 */
-	public function getShippingAddress($user_id = 0)
+	public function getShippingAddress($userId = 0)
 	{
-		return RedshopHelperOrder::getShippingAddress($user_id);
+		return RedshopHelperOrder::getShippingAddress($userId);
 	}
 
 	/**

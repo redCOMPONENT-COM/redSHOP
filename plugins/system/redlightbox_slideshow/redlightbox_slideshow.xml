@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="system" method="upgrade">
-    <name>System - Redlightbox Slideshow</name>
+    <name>PLG_SYSTEM_REDLIGHTBOX_SLIDESHOW</name>
     <author>redCOMPONENT.com</author>
-    <version>2.0.2</version>
-    <redshop>1.5</redshop>
-    <creationDate>June 2013</creationDate>
+    <version>2.1.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>July 2016</creationDate>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Image slideshow for all images.</description>
+    <description>PLG_SYSTEM_REDLIGHTBOX_SLIDESHOW_DESC</description>
     <files>
         <filename plugin="redlightbox_slideshow">redlightbox_slideshow.php</filename>
         <filename>index.html</filename>
-        <folder>redlightbox_slideshow</folder>
+        <folder>language</folder>
     </files>
+    <media destination="plg_system_redlightbox_slideshow" folder="media">
+        <folder>js</folder>
+        <folder>photoswipe</folder>
+        <folder>slimbox2</folder>
+        <filename>index.html</filename>
+    </media>
+    <scriptfile>install.php</scriptfile>
 </extension>
