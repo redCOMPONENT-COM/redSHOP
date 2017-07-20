@@ -60,14 +60,14 @@ if [ $? -eq 0 ]
 then
   echo "Tests Runs were successful"
   #send screenshot of failed test to Travis
-  echo $PR_ID
+  echo ${CHANGE_ID}
   echo $CLOUD_NAME
-  vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $PR_ID
+  vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO ${CHANGE_ID}
   exit 0
 else
   echo "Tests Runs Failed" >&2
-  echo $PR_ID
+  echo ${CHANGE_ID}
   echo $CLOUD_NAME
-  vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $PR_ID
+  vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO ${CHANGE_ID}
   exit 1
 fi
