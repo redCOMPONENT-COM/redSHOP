@@ -1810,6 +1810,11 @@ class RedshopHelperShipping
 	 */
 	public static function isUserInfoMatch(&$data)
 	{
+		if (!isset($data['users_info_id']) || $data['users_info_id'] == 0)
+		{
+			return false;
+		}
+
 		$userHelper   = rsUserHelper::getInstance();
 		$db           = JFactory::getDbo();
 		$userInfo     = self::getShippingAddress($data['users_info_id']);
