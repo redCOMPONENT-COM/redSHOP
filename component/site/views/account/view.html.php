@@ -24,8 +24,7 @@ class RedshopViewAccount extends RedshopView
 		$input = $app->input;
 		$params = $app->getParams('com_redshop');
 
-		$prodhelperobj = productHelper::getInstance();
-		$prodhelperobj->generateBreadcrumb();
+		RedshopHelperBreadcrumb::generate();
 
 		$itemId = $input->getInt('Itemid');
 		$layout = $input->getCmd('layout');

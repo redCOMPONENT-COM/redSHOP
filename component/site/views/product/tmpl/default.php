@@ -881,7 +881,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	// Trigger plugin to get merge images.
 	$this->dispatcher->trigger('onBeforeImageLoad', array ($get, &$pluginResults));
 
-	$preselectedresult = $producthelper->displayAdditionalImage(
+	$preselectedresult = RedshopHelperProductTag::displayAdditionalImage(
 		$this->data->product_id,
 		0,
 		0,
