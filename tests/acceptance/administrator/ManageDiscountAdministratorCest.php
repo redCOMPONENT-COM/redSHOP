@@ -69,7 +69,6 @@ class ManageDiscountAdministratorCest
         $I->wantTo('Test Discount creation with save button in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\DiscountManagerJoomla3Steps($scenario);
-        $I->wantTo('Create a Discount');
         $I->addDiscountSave($this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType);
     }
 
