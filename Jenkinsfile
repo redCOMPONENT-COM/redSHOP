@@ -12,9 +12,8 @@ pipeline {
                     echo $WORKSPACE && \
                     ls -la
                     echo ${env.JOB_NAME}
-                    echo ${env.BUILD_NUMBER}
-                    echo ${PR}
-                    echo ${PULL-REQUEST-ID}
+                    echo 'next value'
+                    echo {sha1}
                 '''
             }
             post {
