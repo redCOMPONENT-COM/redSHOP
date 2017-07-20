@@ -1,62 +1,68 @@
-var gulp = require('gulp');
+var gulp = require("gulp");
 
 // Load config
-var config = require('../../../gulp-config.json');
+var config = require("../../../gulp-config.json");
 
 // Dependencies
-var browserSync = require('browser-sync');
-var del         = require('del');
+var browserSync = require("browser-sync");
+var del         = require("del");
+var composer    = require("gulp-composer");
 
-var group = 'redshop_pdf';
-var name  = 'tcpdf';
+var group = "redshop_pdf";
+var name  = "tcpdf";
 
-var baseTask   = 'plugins.' + group + '.' + name;
-var extPath    = './plugins/' + group + '/' + name;
+var baseTask = "plugins." + group + "." + name;
+var extPath  = "./plugins/" + group + "/" + name;
 
-var wwwExtPath = config.wwwDir + '/plugins/' + group + '/' + name;
+var wwwExtPath = config.wwwDir + "/plugins/" + group + "/" + name;
 
 // Clean
-gulp.task('clean:' + baseTask,
+gulp.task("clean:" + baseTask,
     [
-        'clean:' + baseTask + ':plugin'
+        "clean:" + baseTask + ":plugin"
     ],
-    function() {
+    function () {
     });
 
 // Clean: plugin
-gulp.task('clean:' + baseTask + ':plugin', function() {
-    return del(wwwExtPath, {force : true});
+gulp.task("clean:" + baseTask + ":plugin", function () {
+    return del(wwwExtPath, {force: true});
 });
 
 // Copy
-gulp.task('copy:' + baseTask,
+gulp.task("copy:" + baseTask,
     [
-        'copy:' + baseTask + ':plugin'
+        "copy:" + baseTask + ":plugin"
     ],
-    function() {
+    function () {
     });
 
 // Copy: plugin
-gulp.task('copy:' + baseTask + ':plugin', ['clean:' + baseTask + ':plugin'], function() {
+gulp.task("copy:" + baseTask + ":plugin", ["clean:" + baseTask + ":plugin"], function () {
     return gulp.src([
-        extPath + '/**'
+        extPath + "/**"
     ])
         .pipe(gulp.dest(wwwExtPath));
 });
 
 // Watch
-gulp.task('watch:' + baseTask,
+gulp.task("watch:" + baseTask,
     [
-        'watch:' + baseTask + ':plugin'
+        "watch:" + baseTask + ":plugin"
     ],
-    function() {
+    function () {
     });
 
 // Watch: plugin
-gulp.task('watch:' + baseTask + ':plugin', function() {
+gulp.task("watch:" + baseTask + ":plugin", function () {
     gulp.watch([
-            extPath + '/**/*'
+            extPath + "/**/*"
         ],
-        ['copy:' + baseTask, browserSync.reload]
+        ["copy:" + baseTask, browserSync.reload]
     );
+});
+
+// Composer
+gulp.task("composer:" + baseTask, function () {
+    composer({cwd: extPath + "/helper", bin: "php ./composer.phar"});
 });

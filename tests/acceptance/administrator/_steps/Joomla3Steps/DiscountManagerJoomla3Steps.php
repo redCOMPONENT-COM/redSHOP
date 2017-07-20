@@ -48,8 +48,8 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $shopperGroup . "')]"]);
 		$I->click('Save & Close');
 		$I->waitForText('Discount Detail Saved', 60, ['id' => 'system-message-container']);
-		$I->filterListBySearching($name, ['id' => 'name_filter']);
-		$I->seeElement(['link' => $verifyAmount]);
+        $I->filterListBySearchDiscount($name, ['id' => 'name_filter']);
+        $I->seeElement(['link' => $name]);
 	}
 
 	/**
@@ -67,7 +67,9 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
 		$newVerifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $newAmount . ',00';
-		$I->filterListBySearching($name, ['id' => 'name_filter']);
+
+
+        $I->filterListBySearchDiscount($name, ['id' => 'name_filter']);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->waitForElement(['link' => $verifyAmount]);
 		$I->click(['link' => $verifyAmount]);
@@ -76,8 +78,8 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click('Save & Close');
 		$I->waitForText('Discount Detail Saved', 60, ['id' => 'system-message-container']);
 		$I->click('Reset');
-		$I->filterListBySearching($name, ['id' => 'name_filter']);
-		$I->seeElement(['link' => $newVerifyAmount]);
+        $I->filterListBySearchDiscount($name, ['id' => 'name_filter']);
+        $I->seeElement(['link' => $name]);
 	}
 
 	/**
@@ -96,7 +98,7 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click('Reset');
-		$I->filterListBySearching($name, ['id' => 'name_filter']);
+        $I->filterListBySearchDiscount($name, ['id' => 'name_filter']);
 		$I->waitForElement(['link' => $verifyAmount]);
 
 		if ($state == 'unpublish')
@@ -136,7 +138,8 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$verifyAmount = \DiscountManagerJ3Page::getCurrencyCode() . $amount . ',00';
-		$I->filterListBySearching($name, ['id' => 'name_filter']);
+        $I->filterListBySearchDiscount($name, ['id' => 'name_filter']);
+
 		$result = $I->getState(new \DiscountManagerJ3Page, $verifyAmount, \DiscountManagerJ3Page::$firstResultRow, \DiscountManagerJ3Page::$discountStatePath);
 
 		return $result;
@@ -155,7 +158,8 @@ class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\DiscountManagerJ3Page::$URL);
 		$I->click('Reset');
-		$I->filterListBySearching($name, ['id' => 'name_filter']);
+        $I->filterListBySearchDiscount($name, ['id' => 'name_filter']);
+
 		$I->click(\DiscountManagerJ3Page::$selectFirst);
 		$I->click('Delete');
 		$I->waitForText('Discount Detail Deleted Successfully', 60, ['id' => 'system-message-container']);

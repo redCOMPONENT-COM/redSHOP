@@ -39,8 +39,20 @@ npm-debug.log
 node_modules/
 
 # Composer
+composer.lock
 vendor/*
 tests/vendor/*
+libraries/redshop/vendor/*
+plugins/redshop_payment/klarna/library/vendor/*
+plugins/redshop_payment/mollieideal/library/vendor/*
+plugins/redshop_payment/payson/libraries/vendor/*
+plugins/redshop_payment/quickbook/library/vendor/*
+plugins/redshop_payment/rs_payment_braintree/library/vendor/*
+plugins/redshop_payment/rs_payment_paymill/library/vendor/*
+plugins/redshop_payment/stripe/library/vendor/*
+plugins/redshop_pdf/dompdf/helper/vendor/*
+plugins/redshop_pdf/mpdf/helper/vendor/*
+plugins/redshop_pdf/tcpdf/helper/vendor/*
 
 # Bower
 bower_components/

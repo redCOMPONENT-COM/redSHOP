@@ -8,11 +8,12 @@
         "phpmd/phpmd": "^2.4"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "1.*",
+        "squizlabs/php_codesniffer": "~2",
         "codeception/codeception": "~2.2",
-        "joomla-projects/joomla-browser": "v3.6.0.1",
-        "codegyre/robo": "~0.5",
-        "redcomponent/robo": "dev-master",
+        "joomla-projects/joomla-browser": "3.7.3",
+        "consolidation/robo": "1.0.8",
+        "joomla-projects/joomla-testing-robo": "dev-container-test",
+        "joomla-projects/joomla-testing": "dev-container-test",
         "fzaninotto/faker": "^1.5",
         "cloudinary/cloudinary_php": "1.1.1",
         "knplabs/github-api": "1.4.12",
