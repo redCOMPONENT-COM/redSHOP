@@ -409,8 +409,6 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	 */
 	public function onBeforeCreateRedshopUser(&$data, $isNew)
 	{
-		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_city', 7, $data['users_info_id']);
-
 		$userCity     = "";
 		$cities       = array();
 
@@ -423,10 +421,10 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 				continue;
 			}
 
-			$cities[$result[1]]                = $result[0];
+			$cities[$result[1]] = $result[0];
 		}
 
-		$userCity     = $cities[$cityField->data_txt];
+		$userCity = $cities[$data['rs_kerry_billing_city']];
 
 		$data['city'] = $userCity;
 		$data['zipcode'] = $this->params->get('zipcode', '70000');
