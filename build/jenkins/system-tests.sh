@@ -29,7 +29,6 @@ sleep 3 # give fluxbox some time to start
 # Test Setup
 composer update
 echo $(pwd)
-echo ${CHANGE_ID}
 ls -la
 whoami
 mv tests/acceptance.suite.dist.jenkins.yml tests/acceptance.suite.yml
