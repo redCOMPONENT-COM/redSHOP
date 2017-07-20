@@ -41,12 +41,16 @@ class PlgRedshop_ShippingUps extends JPlugin
 	 */
 	public function onShowConfig($shipping)
 	{
-		if ($shipping->element != $this->className)
+		if ($shipping->element != $this->_name)
 		{
 			return false;
 		}
 
+		include_once JPATH_ROOT . '/plugins/' . $this->_type . '/' . $this->_name . '/config/' . $this->_name . '.cfg.php';
+
 		echo RedshopLayoutHelper::render('config', array(), __DIR__ . '/layouts');
+
+		return true;
 	}
 
 	/**
@@ -60,12 +64,12 @@ class PlgRedshop_ShippingUps extends JPlugin
 	 */
 	public function onWriteConfig($data)
 	{
-		if ($data['element'] != $this->className)
+		if ($data['element'] != $this->_name)
 		{
 			return true;
 		}
 
-		$configFile = JPATH_ROOT . '/plugins/' . $data['plugin'] . '/' . $this->className . '/' . $this->className . '.cfg.php';
+		$configFile = JPATH_ROOT . '/plugins/' . $data['plugin'] . '/' . $this->_name . '/config/' . $this->_name . '.cfg.php';
 
 		$configs = array(
 			"UPS_ACCESS_CODE"                   => $data['UPS_ACCESS_CODE'],
@@ -132,15 +136,11 @@ class PlgRedshop_ShippingUps extends JPlugin
 	public function onListRates(&$data)
 	{
 		$productHelper = productHelper::getInstance();
-		$shipping      = RedshopHelperShipping::getShippingMethodByClass($this->className);
+		$shipping      = RedshopHelperShipping::getShippingMethodByClass($this->_name);
 
 		$shippingParams = new Registry($shipping->params);
-		$shippingConfig = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '/' . $shipping->element . '.cfg.php';
 
-		include_once $shippingConfig;
-
-		$shippingRates = array();
-		$rate          = 0;
+		include_once JPATH_ROOT . '/plugins/' . $this->_type . '/' . $this->_name . '/config/' . $this->_name . '.cfg.php';
 
 		// Conversation of weight ( ration )
 		$unitRatio       = $productHelper->getUnitConversation('pounds', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
@@ -159,7 +159,7 @@ class PlgRedshop_ShippingUps extends JPlugin
 
 		if (is_null($shippingInformation))
 		{
-			return $shippingRates;
+			return array();
 		}
 
 		if (isset($data['shipping_box_id']) && $data['shipping_box_id'])
@@ -175,158 +175,54 @@ class PlgRedshop_ShippingUps extends JPlugin
 			$whereShippingBoxes['box_height'] = $productData[0]['height'];
 		}
 
-		if (is_array($whereShippingBoxes) && count($whereShippingBoxes) > 0 && $unitRatioVolume > 0)
+		if (!is_array($whereShippingBoxes) || empty($whereShippingBoxes) || $unitRatioVolume <= 0)
 		{
-			$shippingLength = (int) ($whereShippingBoxes['box_length'] * $unitRatioVolume);
-			$shippingWidth  = (int) ($whereShippingBoxes['box_width'] * $unitRatioVolume);
-			$shippingHeight = (int) ($whereShippingBoxes['box_height'] * $unitRatioVolume);
-		}
-		else
-		{
-			return $shippingRates;
+			return array();
 		}
 
-		if ($orderWeight < 1)
-		{
-			$orderWeight = 1;
-		}
-
-		if ($orderWeight > 150)
-		{
-			$orderWeight = 150.00;
-		}
-
-		// The zip that you are shipping to
-		$vendorCountry2Code = Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY');
-
-		if (Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY'))
-		{
-			$vendorCountry2Code = RedshopHelperWorld::getCountryCode2(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY'));
-		}
+		$shippingLength = (int) ($whereShippingBoxes['box_length'] * $unitRatioVolume);
+		$shippingWidth  = (int) ($whereShippingBoxes['box_width'] * $unitRatioVolume);
+		$shippingHeight = (int) ($whereShippingBoxes['box_height'] * $unitRatioVolume);
+		$orderWeight    = $orderWeight < 1 ? 1 : $orderWeight;
+		$orderWeight    = $orderWeight > 150 ? 150.00 : $orderWeight;
 
 		if (isset($shippingInformation->country_code))
 		{
 			$shippingInformation->country_2_code = RedshopHelperWorld::getCountryCode2($shippingInformation->country_code);
 		}
 
-		// Make sure the ZIP is 5 chars long
-		$destinationZipcode = substr($shippingInformation->zipcode, 0, 5);
-
 		/*
 		 * LBS  = Pounds
 		 * KGS  = Kilograms
 		 * If change than change conversation base unit also
-		 *
 		 */
 		$weightMeasure = (Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT') == "gram") ? "KGS" : "LBS";
-		$measureCode   = ($weightMeasure == "KGS") ? "CM" : "IN";
 
-		// The XML that will be posted to UPS
-		$xmlPost = "<?xml version=\"1.0\"?>";
-		$xmlPost .= "<AccessRequest xml:lang=\"en-US\">";
-		$xmlPost .= " <AccessLicenseNumber>" . UPS_ACCESS_CODE . "</AccessLicenseNumber>";
-		$xmlPost .= " <UserId>" . UPS_USER_ID . "</UserId>";
-		$xmlPost .= " <Password>" . UPS_PASSWORD . "</Password>";
-		$xmlPost .= "</AccessRequest>";
-		$xmlPost .= "<?xml version=\"1.0\"?>";
-		$xmlPost .= "<RatingServiceSelectionRequest xml:lang=\"en-US\">";
-		$xmlPost .= " <Request>";
-		$xmlPost .= "  <TransactionReference>";
-		$xmlPost .= "  <CustomerContext>Shipping Estimate</CustomerContext>";
-		$xmlPost .= "  <XpciVersion>1.0001</XpciVersion>";
-		$xmlPost .= "  </TransactionReference>";
-		$xmlPost .= "  <RequestAction>rate</RequestAction>";
-		$xmlPost .= "  <RequestOption>shop</RequestOption>";
-		$xmlPost .= " </Request>";
-		$xmlPost .= " <PickupType>";
-		$xmlPost .= "  <Code>" . UPS_PICKUP_TYPE . "</Code>";
-		$xmlPost .= " </PickupType>";
-		$xmlPost .= " <Shipment>";
-		$xmlPost .= "  <Shipper>";
-		$xmlPost .= "   <Address>";
-		$xmlPost .= "    <PostalCode>" . Override_Source_Zip . "</PostalCode>";
-		$xmlPost .= "    <CountryCode>$vendorCountry2Code</CountryCode>";
-		$xmlPost .= "   </Address>";
-		$xmlPost .= "  </Shipper>";
-		$xmlPost .= "  <ShipTo>";
-		$xmlPost .= "   <Address>";
-		$xmlPost .= "    <PostalCode>" . $destinationZipcode . "</PostalCode>";
-		$xmlPost .= "    <CountryCode>" . $shippingInformation->country_2_code . "</CountryCode>";
+		$xmlData = array(
+			'shipping'      => $shippingInformation,
+			'weightMeasure' => $weightMeasure,
+			'measureCode'   => ($weightMeasure == "KGS") ? "CM" : "IN",
+			'length'        => $shippingLength,
+			'width'         => $shippingWidth,
+			'height'        => $shippingHeight,
+			'weight'        => $orderWeight
+		);
 
-		if (UPS_RESIDENTIAL == "yes")
+		// Prepare XML post fields.
+		$xmlPost = $this->generateXML($xmlData);
+
+		// Get data from service.
+		$xmlResult = $this->getDataFromService($xmlPost);
+
+		// Let's check whether the response from UPS is Success or Failure !
+		if ($xmlResult && strpos($xmlResult, "Failure") !== false)
 		{
-			$xmlPost .= "    <ResidentialAddressIndicator/>";
+			return array();
 		}
 
-		$xmlPost .= "   </Address>";
-		$xmlPost .= "  </ShipTo>";
-		$xmlPost .= "  <ShipFrom>";
-		$xmlPost .= "   <Address>";
-		$xmlPost .= "    <PostalCode>" . Override_Source_Zip . "</PostalCode>";
-		$xmlPost .= "    <CountryCode>$vendorCountry2Code</CountryCode>";
-		$xmlPost .= "   </Address>";
-		$xmlPost .= "  </ShipFrom>";
-
-		/*
-		Service is only required, if the Tag "RequestOption" contains the value "rate"
-		We don't want a specific servive, but ALL Rates
-		$xmlPost .= "  <Service>";
-		$xmlPost .= "   <Code>".$shipping_type."</Code>";
-		$xmlPost .= "  </Service>";
-		*/
-
-		$xmlPost .= "  <Package>";
-		$xmlPost .= "   <PackagingType>";
-		$xmlPost .= "    <Code>" . UPS_PACKAGE_TYPE . "</Code>";
-		$xmlPost .= "   </PackagingType>";
-		$xmlPost .= "   <Dimensions>";
-		$xmlPost .= "    <UnitOfMeasurement>";
-		$xmlPost .= "     <Code>" . $measureCode . "</Code>";
-		$xmlPost .= "    </UnitOfMeasurement>";
-		$xmlPost .= "    <Length>" . ceil($shippingLength) . "</Length>";
-		$xmlPost .= "    <Width>" . ceil($shippingWidth) . "</Width>";
-		$xmlPost .= "    <Height>" . ceil($shippingHeight) . "</Height>";
-		$xmlPost .= "   </Dimensions>";
-		$xmlPost .= "   <PackageWeight>";
-		$xmlPost .= "    <UnitOfMeasurement>";
-		$xmlPost .= "     <Code>" . $weightMeasure . "</Code>";
-		$xmlPost .= "    </UnitOfMeasurement>";
-		$xmlPost .= "    <Weight>" . $orderWeight . "</Weight>";
-		$xmlPost .= "   </PackageWeight>";
-		$xmlPost .= "  </Package>";
-		$xmlPost .= " </Shipment>";
-		$xmlPost .= "</RatingServiceSelectionRequest>";
-
-		$upsURL = "https://www.ups.com:443/ups.app/xml/Rate";
-
-		$CR = curl_init();
-		curl_setopt($CR, CURLOPT_URL, $upsURL); /* "?API=RateV2&XML=".$xmlPost); */
-		curl_setopt($CR, CURLOPT_POST, 1);
-		curl_setopt($CR, CURLOPT_FAILONERROR, true);
-		curl_setopt($CR, CURLOPT_POSTFIELDS, $xmlPost);
-		curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, false);
-		$xmlResult    = curl_exec($CR);
-		$matchesChild = array();
-
-		if (!$xmlResult)
-		{
-			$error = true;
-		}
-		else
-		{
-			// XML Parsing
-			$xmlDoc       = JFactory::getXML($xmlResult, false);
-			$matchesChild = $xmlDoc->RatedShipment;
-
-			// Let's check wether the response from UPS is Success or Failure !
-			if (strstr($xmlResult, "Failure"))
-			{
-				$error = true;
-
-				return $shippingRates;
-			}
-		}
+		// XML Parsing
+		$xmlDoc = JFactory::getXML($xmlResult, false);
+		$matchesChild = $xmlDoc->RatedShipment;
 
 		if ($shippingParams->get("ups_debug"))
 		{
@@ -353,7 +249,8 @@ class PlgRedshop_ShippingUps extends JPlugin
 			"UPS_Worldwide_Express_Plus_SM",
 			"UPS_2nd_Day_Air_AM",
 			"UPS_Saver",
-			"na");
+			"na"
+		);
 
 		$myServiceCodes = array();
 
@@ -365,92 +262,249 @@ class PlgRedshop_ShippingUps extends JPlugin
 			}
 		}
 
-		$count           = 0;
-		$shippingPostage = array();
+		$shippingPostage = $this->processMatchesData($matchesChild, $myServiceCodes);
 
-		for ($t = 0, $tn = count($matchesChild); $t < $tn; $t++)
+		// UPS returns Charges in USD ONLY.
+		// So we have to convert from USD to Vendor Currency if necessary
+		$convert = Redshop::getConfig()->get('CURRENCY_CODE') != "USD" ? true : false;
+
+		return $this->processShippingRate($shippingPostage, $convert, $shipping->name);
+	}
+
+	/**
+	 * Method for generate XML post.
+	 *
+	 * @param   array $data Available data.
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.0
+	 */
+	protected function generateXML($data)
+	{
+		// The zip that you are shipping to
+		$vendorCountry2Code = Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY');
+
+		if (Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY'))
 		{
-			$currNode = $matchesChild[$t];
+			$vendorCountry2Code = RedshopHelperWorld::getCountryCode2(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY'));
+		}
 
-			if (strtolower($matchesChild[$t]->name() != 'ratedshipment'))
+		// The XML that will be posted to UPS
+		$xmlPost = '<?xml version="1.0"?>';
+		$xmlPost .= '<AccessRequest xml:lang="en-US">';
+		$xmlPost .= ' <AccessLicenseNumber>' . UPS_ACCESS_CODE . '</AccessLicenseNumber>';
+		$xmlPost .= ' <UserId>' . UPS_USER_ID . '</UserId>';
+		$xmlPost .= ' <Password>' . UPS_PASSWORD . '</Password>';
+		$xmlPost .= '</AccessRequest>';
+		$xmlPost .= '<?xml version="1.0"?>';
+		$xmlPost .= '<RatingServiceSelectionRequest xml:lang="en-US">';
+		$xmlPost .= ' <Request>';
+		$xmlPost .= '  <TransactionReference>';
+		$xmlPost .= '  <CustomerContext>Shipping Estimate</CustomerContext>';
+		$xmlPost .= '  <XpciVersion>1.0001</XpciVersion>';
+		$xmlPost .= '  </TransactionReference>';
+		$xmlPost .= '  <RequestAction>rate</RequestAction>';
+		$xmlPost .= '  <RequestOption>shop</RequestOption>';
+		$xmlPost .= ' </Request>';
+		$xmlPost .= ' <PickupType>';
+		$xmlPost .= '  <Code>' . UPS_PICKUP_TYPE . '</Code>';
+		$xmlPost .= ' </PickupType>';
+		$xmlPost .= ' <Shipment>';
+		$xmlPost .= '  <Shipper>';
+		$xmlPost .= '   <Address>';
+		$xmlPost .= '    <PostalCode>' . Override_Source_Zip . '</PostalCode>';
+		$xmlPost .= '    <CountryCode>' . $vendorCountry2Code . '</CountryCode>';
+		$xmlPost .= '   </Address>';
+		$xmlPost .= '  </Shipper>';
+		$xmlPost .= '  <ShipTo>';
+		$xmlPost .= '   <Address>';
+		$xmlPost .= '    <PostalCode>' . substr($data['shipping']->zipcode, 0, 5) . '</PostalCode>';
+		$xmlPost .= '    <CountryCode>' . $data['shipping']->country_2_code . '</CountryCode>';
+
+		if (UPS_RESIDENTIAL == "yes")
+		{
+			$xmlPost .= '    <ResidentialAddressIndicator/>';
+		}
+
+		$xmlPost .= '   </Address>';
+		$xmlPost .= '  </ShipTo>';
+		$xmlPost .= '  <ShipFrom>';
+		$xmlPost .= '   <Address>';
+		$xmlPost .= '    <PostalCode>' . Override_Source_Zip . '</PostalCode>';
+		$xmlPost .= '    <CountryCode>' . $vendorCountry2Code . '</CountryCode>';
+		$xmlPost .= '   </Address>';
+		$xmlPost .= '  </ShipFrom>';
+
+		/*
+		Service is only required, if the Tag "RequestOption" contains the value "rate"
+		We don't want a specific servive, but ALL Rates
+		$xmlPost .= "  <Service>";
+		$xmlPost .= "   <Code>".$shipping_type."</Code>";
+		$xmlPost .= "  </Service>";
+		*/
+
+		$xmlPost .= '  <Package>';
+		$xmlPost .= '   <PackagingType>';
+		$xmlPost .= '    <Code>' . UPS_PACKAGE_TYPE . '</Code>';
+		$xmlPost .= '   </PackagingType>';
+		$xmlPost .= '   <Dimensions>';
+		$xmlPost .= '    <UnitOfMeasurement>';
+		$xmlPost .= '     <Code>' . $data['measureCode'] . '</Code>';
+		$xmlPost .= '    </UnitOfMeasurement>';
+		$xmlPost .= '    <Length>' . ceil($data['length']) . '</Length>';
+		$xmlPost .= '    <Width>' . ceil($data['width']) . '</Width>';
+		$xmlPost .= '    <Height>' . ceil($data['height']) . '</Height>';
+		$xmlPost .= '   </Dimensions>';
+		$xmlPost .= '   <PackageWeight>';
+		$xmlPost .= '    <UnitOfMeasurement>';
+		$xmlPost .= '     <Code>' . $data['weightMeasure'] . '</Code>';
+		$xmlPost .= '    </UnitOfMeasurement>';
+		$xmlPost .= '    <Weight>' . $data['weight'] . '</Weight>';
+		$xmlPost .= '   </PackageWeight>';
+		$xmlPost .= '  </Package>';
+		$xmlPost .= ' </Shipment>';
+		$xmlPost .= '</RatingServiceSelectionRequest>';
+
+		return $xmlPost;
+	}
+
+	/**
+	 * Method for get data from service
+	 *
+	 * @param   string  $xmlPost  Post field data.
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.0
+	 */
+	protected function getDataFromService($xmlPost = '')
+	{
+		$upsURL = "https://www.ups.com:443/ups.app/xml/Rate";
+
+		$CR = curl_init();
+		curl_setopt($CR, CURLOPT_URL, $upsURL); /* "?API=RateV2&XML=".$xmlPost); */
+		curl_setopt($CR, CURLOPT_POST, 1);
+		curl_setopt($CR, CURLOPT_FAILONERROR, true);
+		curl_setopt($CR, CURLOPT_POSTFIELDS, $xmlPost);
+		curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, false);
+
+		$xmlResult = curl_exec($CR);
+
+		if (!$xmlResult)
+		{
+			curl_close($CR);
+
+			return false;
+		}
+
+		curl_close($CR);
+
+		return $xmlResult;
+	}
+
+	/**
+	 * Method for process data from service
+	 *
+	 * @param   array  $matchesChild    Post field data.
+	 * @param   array  $myServiceCodes  Post field data.
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.0
+	 */
+	protected function processMatchesData($matchesChild = array(), $myServiceCodes = array())
+	{
+		if (empty($matchesChild))
+		{
+			return array();
+		}
+
+		$count = 0;
+		$result = array();
+
+		foreach ($matchesChild as $currNode)
+		{
+			if (strtolower($currNode->name() != 'ratedshipment'))
 			{
 				continue;
 			}
 
-			$serviceCode = (string) $matchesChild[$t]->Service->Code;
+			$serviceCode = (string) $currNode->Service->Code;
 
 			if (!in_array($serviceCode, $myServiceCodes))
 			{
 				continue;
 			}
 
-			if (isset($shippingPostage[$count]['Ratedshipmentwarning']))
+			if (isset($result[$count]['Ratedshipmentwarning']))
 			{
-				$shippingPostage[$count]['Ratedshipmentwarning'] = array();
+				$result[$count]['Ratedshipmentwarning'] = array();
 			}
 
 			foreach ($currNode->RatedShipmentWarning as $ratedShippingWarning)
 			{
-				$shippingPostage[$count]['Ratedshipmentwarning'][] = (string) $ratedShippingWarning;
+				$result[$count]['Ratedshipmentwarning'][] = (string) $ratedShippingWarning;
 			}
 
-			$shippingPostage[$count]['ScheduledDeliveryTime']    = (string) $currNode->ScheduledDeliveryTime;
-			$shippingPostage[$count]['GuaranteedDaysToDelivery'] = (string) $currNode->GuaranteedDaysToDelivery;
-			$shippingPostage[$count]['Currency']                 = (string) $currNode->TransportationCharges->CurrencyCode;
-			$shippingPostage[$count]['Rate']                     = (string) $currNode->TransportationCharges->MonetaryValue;
+			$result[$count]['ScheduledDeliveryTime']    = (string) $currNode->ScheduledDeliveryTime;
+			$result[$count]['GuaranteedDaysToDelivery'] = (string) $currNode->GuaranteedDaysToDelivery;
+			$result[$count]['Currency']                 = (string) $currNode->TransportationCharges->CurrencyCode;
+			$result[$count]['Rate']                     = (string) $currNode->TransportationCharges->MonetaryValue;
 
 			switch ($serviceCode)
 			{
 				case "01":
-					$shippingPostage[$count]["ServiceName"] = "UPS Next Day Air";
+					$result[$count]["ServiceName"] = "UPS Next Day Air";
 					break;
 
 				case "02":
-					$shippingPostage[$count]["ServiceName"] = "UPS 2nd Day Air";
+					$result[$count]["ServiceName"] = "UPS 2nd Day Air";
 					break;
 
 				case "03":
-					$shippingPostage[$count]["ServiceName"] = "UPS Ground";
+					$result[$count]["ServiceName"] = "UPS Ground";
 					break;
 
 				case "07":
-					$shippingPostage[$count]["ServiceName"] = "UPS Worldwide Express SM";
+					$result[$count]["ServiceName"] = "UPS Worldwide Express SM";
 					break;
 
 				case "08":
-					$shippingPostage[$count]["ServiceName"] = "UPS Worldwide Expedited SM";
+					$result[$count]["ServiceName"] = "UPS Worldwide Expedited SM";
 					break;
 
 				case "11":
-					$shippingPostage[$count]["ServiceName"] = "UPS Standard";
+					$result[$count]["ServiceName"] = "UPS Standard";
 					break;
 
 				case "12":
-					$shippingPostage[$count]["ServiceName"] = "UPS 3 Day Select";
+					$result[$count]["ServiceName"] = "UPS 3 Day Select";
 					break;
 
 				case "13":
-					$shippingPostage[$count]["ServiceName"] = "UPS Next Day Air Saver";
+					$result[$count]["ServiceName"] = "UPS Next Day Air Saver";
 					break;
 
 				case "14":
-					$shippingPostage[$count]["ServiceName"] = "UPS Next Day Air Early A.M.";
+					$result[$count]["ServiceName"] = "UPS Next Day Air Early A.M.";
 					break;
 
 				case "54":
-					$shippingPostage[$count]["ServiceName"] = "UPS Worldwide Express Plus SM";
+					$result[$count]["ServiceName"] = "UPS Worldwide Express Plus SM";
 					break;
 
 				case "59":
-					$shippingPostage[$count]["ServiceName"] = "UPS 2nd Day Air A.M.";
+					$result[$count]["ServiceName"] = "UPS 2nd Day Air A.M.";
 					break;
 
 				case "64":
-					$shippingPostage[$count]["ServiceName"] = "n/a";
+					$result[$count]["ServiceName"] = "n/a";
 					break;
 
 				case "65":
-					$shippingPostage[$count]["ServiceName"] = "UPS Saver";
+					$result[$count]["ServiceName"] = "UPS Saver";
 					break;
 
 				default:
@@ -460,29 +514,37 @@ class PlgRedshop_ShippingUps extends JPlugin
 			$count++;
 		}
 
-		if (count($shippingPostage) <= 0)
+		return $result;
+	}
+
+	/**
+	 * Method for process shipping rates
+	 *
+	 * @param   array    $shippingPostage  Shipping postage data.
+	 * @param   boolean  $convert          Convert currency.
+	 * @param   string   $shippingName     Shipping name.
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.0
+	 */
+	protected function processShippingRate($shippingPostage = array(), $convert = false, $shippingName = '')
+	{
+		if (empty($shippingPostage))
 		{
-			return $shippingRates;
+			return array();
 		}
 
-		// UPS returns Charges in USD ONLY.
-		// So we have to convert from USD to Vendor Currency if necessary
-		if (Redshop::getConfig()->get('CURRENCY_CODE') != "USD")
-		{
-			$convert = true;
-		}
-		else
-		{
-			$convert = false;
-		}
+		$index = 0;
+		$rates = array();
 
-		for ($i = 0, $in = count($shippingPostage); $i < $in; $i++)
+		foreach ($shippingPostage as $postage)
 		{
-			$rateValue   = $shippingPostage[$i]['Rate'];
-			$serviceName = $shippingPostage[$i]['ServiceName'];
-			$fsc         = $shippingPostage[$i]['ServiceName'] . "_FSC";
-			$fsc         = str_replace(" ", "_", str_replace(".", "", str_replace("/", "", $fsc)));
-			$fsc         = constant($fsc);
+			$rateValue   = $postage['Rate'];
+			$serviceName = $postage['ServiceName'];
+			$serviceFSC  = $postage['ServiceName'] . "_FSC";
+			$serviceFSC  = str_replace(" ", "_", str_replace(".", "", str_replace("/", "", $serviceFSC)));
+			$serviceFSC  = constant($serviceFSC);
 
 			/*if ($fsc == 0)
 			{
@@ -491,22 +553,21 @@ class PlgRedshop_ShippingUps extends JPlugin
 
 			if ($convert)
 			{
-				$tmp    = RedshopHelperCurrency::convert($rateValue, "USD", Redshop::getConfig()->get('CURRENCY_CODE'));
-				$charge = !empty($tmp) ? $tmp : $rateValue;
-
+				$charge = RedshopHelperCurrency::convert($rateValue, "USD", Redshop::getConfig()->get('CURRENCY_CODE'));
+				$charge = !empty($charge) ? $charge : $rateValue;
 			}
 			else
 			{
 				$charge = $rateValue;
 			}
 
-			$chargeFee = ($fsc == 0) ? 0 : ($charge * $fsc) / 100;
+			$chargeFee = ($serviceFSC == 0) ? 0 : ($charge * $serviceFSC) / 100;
 			$charge    += (int) UPS_HANDLING_FEE + $chargeFee;
 
 			$shippingRateId = RedshopShippingRate::encrypt(
 				array(
 					__CLASS__,
-					$shipping->name,
+					$shippingName,
 					$serviceName,
 					number_format($charge, 2, '.', ''),
 					$serviceName,
@@ -515,14 +576,15 @@ class PlgRedshop_ShippingUps extends JPlugin
 				)
 			);
 
-			$shippingRates[$rate]        = new stdClass;
-			$shippingRates[$rate]->text  = $serviceName;
-			$shippingRates[$rate]->value = $shippingRateId;
-			$shippingRates[$rate]->rate  = $charge;
-			$shippingRates[$rate]->vat   = 0;
-			$rate++;
+			$rates[$index]        = new stdClass;
+			$rates[$index]->text  = $serviceName;
+			$rates[$index]->value = $shippingRateId;
+			$rates[$index]->rate  = $charge;
+			$rates[$index]->vat   = 0;
+
+			$index++;
 		}
 
-		return $shippingRates;
+		return $rates;
 	}
 }
