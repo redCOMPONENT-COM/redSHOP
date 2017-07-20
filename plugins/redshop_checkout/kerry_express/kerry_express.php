@@ -42,7 +42,10 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	{
 		echo RedshopLayoutHelper::render(
 			'template',
-			array('id' => $infoId),
+			array(
+				'id' => $infoId,
+				'zipcode' => $this->params->get('zipcode')
+			),
 			JPATH_PLUGINS . '/redshop_checkout/kerry_express/layouts'
 		);
 	}
