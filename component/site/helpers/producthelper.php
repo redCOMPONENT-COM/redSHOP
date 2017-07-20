@@ -6983,8 +6983,8 @@ class productHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('t.template_id'))
-			->from($db->qn('#__redshop_tempplate', 't'))
-			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('t.template_id') . ' = ' . $db->qn('c.compare_template'))
+			->from($db->qn('#__redshop_template', 't'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('t.template_id') . ' = ' . $db->qn('c.compare_template_id'))
 			->where($db->qn('c.id') . ' = ' . $db->q((int) $cid))
 			->where($db->qn('t.published') . ' = 1');
 
