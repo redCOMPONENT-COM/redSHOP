@@ -93,7 +93,7 @@ class RedshopViewProduct extends RedshopView
 		$template     = $this->input->getString('r_template', '');
 
 		JPluginHelper::importPlugin('redshop_product');
-		$this->dispatcher = JDispatcher::getInstance();
+		$this->dispatcher = RedshopHelperUtility::getDispatcher();
 
 		if (!$this->pid)
 		{
@@ -135,7 +135,7 @@ class RedshopViewProduct extends RedshopView
 			if ($template == 'cartbox' && Redshop::getConfig()->get('AJAX_CART_BOX') == 1)
 			{
 				$this->loadTemplate('cartbox');
-				exit;
+				JFactory::getApplication()->close();
 			}
 			else
 			{
@@ -493,7 +493,7 @@ class RedshopViewProduct extends RedshopView
 		// Breadcrumb
 		if ($this->pid)
 		{
-			$prodhelperobj->generateBreadcrumb($this->pid);
+			RedshopHelperBreadcrumb::generate($this->pid);
 		}
 
 		$this->template = $productTemplate;

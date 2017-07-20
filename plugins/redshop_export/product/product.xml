@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="redshop_export" method="upgrade">
     <name>PLG_REDSHOP_EXPORT_PRODUCT</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <redshop>2.0.0</redshop>
-    <creationDate>January 2017</creationDate>
+    <creationDate>June 2017</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redcomponent.com</authorUrl>

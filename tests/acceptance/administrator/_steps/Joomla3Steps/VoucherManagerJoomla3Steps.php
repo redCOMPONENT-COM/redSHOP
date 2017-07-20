@@ -27,53 +27,53 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
      *
      * @return void
      */
-    public function addVoucher($code = 'Testing123', $amount = '100', $count = '10')
+    public function addVoucher($code, $amount, $count, $nameProduct)
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click('New');
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
+        $I->click(\VoucherManagerPage::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
         $I->fillField(\VoucherManagerPage::$voucherCode, $code);
         $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
 
         // @todo: we need a generic function to select options in a Select2 multiple option field
-        $I->fillField(['id' => 's2id_autogen1'], 'redCORE');
-        $I->waitForElement(['css' => 'span.select2-match'], 60);
-        $I->click(['css' => 'span.select2-match']);
+        $I->fillField(\VoucherManagerPage::$fillProduct, $nameProduct);
+        $I->waitForElement(\VoucherManagerPage::$waitProduct, 60);
+        $I->click(\VoucherManagerPage::$waitProduct);
         // end of select2
 
         $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
-        $I->click('Save & Close');
-        $I->waitForElement(['id' => 'system-message-container'], 60);
-        $I->scrollTo(['css' => '.alert-success']);
-        $I->see("Voucher details saved", '.alert-success');
+        $I->click(\VoucherManagerPage::$saveCloseButton);
+        $I->waitForElement(\VoucherManagerPage::$messageContainer, 60);
+//        $I->scrollTo(['css' => '.alert-success']);
+        $I->see(\VoucherManagerPage::$messageSaveSuccessVocher, \VoucherManagerPage::$selectorSuccess);
         $I->seeElement(['link' => $code]);
     }
 
-    public function addVoucherSave($code = 'Testing123', $amount = '100', $voucherStartDate, $voucherEndDate, $count = '10')
+    public function addVoucherSave($code, $amount, $voucherStartDate, $voucherEndDate, $count, $nameProduct)
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click('New');
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
+        $I->click(\VoucherManagerPage::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
         $I->fillField(\VoucherManagerPage::$voucherCode, $code);
         $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
 
         // @todo: we need a generic function to select options in a Select2 multiple option field
-        $I->fillField(['id' => 's2id_autogen1'], 'redCORE');
-        $I->waitForElement(['css' => 'span.select2-match'], 60);
-        $I->click(['css' => 'span.select2-match']);
+        $I->fillField(\VoucherManagerPage::$fillProduct, $nameProduct);
+        $I->waitForElement(\VoucherManagerPage::$waitProduct, 60);
+        $I->click(\VoucherManagerPage::$waitProduct);
         // end of select2
 
         $I->fillField(\VoucherManagerPage::$voucherStartDate, $voucherStartDate);
         $I->fillField(\VoucherManagerPage::$voucherEndDate, $voucherEndDate);
         $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
-        $I->click('Save');
-        $I->waitForElement(['id' => 'system-message-container'], 60);
-        $I->scrollTo(['css' => '.alert-success']);
-        $I->see("Voucher details saved", '.alert-success');
+        $I->click(\VoucherManagerPage::$saveButton);
+        $I->see(\VoucherManagerPage::$messageSaveSuccessVocher, \VoucherManagerPage::$selectorSuccess);
+//        $I->scrollTo(['css' => '.alert-success']);
+        $I->see(\VoucherManagerPage::$messageSaveSuccessVocher, \VoucherManagerPage::$selectorSuccess);
     }
 
     /**
@@ -83,71 +83,71 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click('New');
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click('Cancel');
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
+        $I->click(\VoucherManagerPage::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
+        $I->click(\VoucherManagerPage::$cancelButton);
     }
 
-    public function addStartMoreThanEnd($code = 'Testing123', $amount = '100', $voucherStartDate, $voucherEndDate, $count = '10')
+    public function addStartMoreThanEnd($code, $amount, $voucherStartDate, $voucherEndDate, $count, $nameProduct)
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click('New');
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
+        $I->click(\VoucherManagerPage::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
         $I->fillField(\VoucherManagerPage::$voucherCode, $code);
         $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
 
         // @todo: we need a generic function to select options in a Select2 multiple option field
-        $I->fillField(['id' => 's2id_autogen1'], 'redCORE');
-        $I->waitForElement(['css' => 'span.select2-match'], 60);
-        $I->click(['css' => 'span.select2-match']);
+        $I->fillField(\VoucherManagerPage::$fillProduct, $nameProduct);
+        $I->waitForElement(\VoucherManagerPage::$waitProduct, 60);
+        $I->click(\VoucherManagerPage::$waitProduct);
         // end of select2
 
         $I->fillField(\VoucherManagerPage::$voucherStartDate, $voucherEndDate);
         $I->fillField(\VoucherManagerPage::$voucherEndDate, $voucherStartDate);
         $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
-        $I->click('Save');
+        $I->click(\VoucherManagerPage::$saveButton);
         $I->acceptPopup();
     }
 
-    public function addVoucherMissingCode($amount = '100', $voucherStartDate, $voucherEndDate, $count = '10')
+    public function addVoucherMissingCode($amount = '100', $voucherStartDate, $voucherEndDate, $count, $nameProduct)
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click('New');
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
+        $I->click(\VoucherManagerPage::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
         $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
         $I->fillField(\VoucherManagerPage::$voucherCode, "");
         // @todo: we need a generic function to select options in a Select2 multiple option field
-        $I->fillField(['id' => 's2id_autogen1'], 'redCORE');
-        $I->waitForElement(['css' => 'span.select2-match'], 60);
-        $I->click(['css' => 'span.select2-match']);
+        $I->fillField(\VoucherManagerPage::$fillProduct, $nameProduct);
+        $I->waitForElement(\VoucherManagerPage::$waitProduct, 60);
+        $I->click(\VoucherManagerPage::$waitProduct);
         // end of select2
 
         $I->fillField(\VoucherManagerPage::$voucherStartDate, $voucherEndDate);
         $I->fillField(\VoucherManagerPage::$voucherEndDate, $voucherStartDate);
         $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
-        $I->click('Save');
-        $I->see('Invalid field:  Voucher Code:', ['xpath' => "//div[@id='system-message-container']/div/div"]);
+        $I->click(\VoucherManagerPage::$saveButton);
+        $I->see(\VoucherManagerPage::$invalidCode, \VoucherManagerPage::$xPathInvalid);
     }
 
-    public function addVoucherMissingProducts($code = 'Testing123', $amount = '100', $voucherStartDate, $voucherEndDate, $count = '10')
+    public function addVoucherMissingProducts($code, $amount, $voucherStartDate, $voucherEndDate, $count)
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click('New');
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
+        $I->click(\VoucherManagerPage::$newButton);
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
         $I->fillField(\VoucherManagerPage::$voucherCode, $code);
         $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
         $I->fillField(\VoucherManagerPage::$voucherStartDate, $voucherEndDate);
         $I->fillField(\VoucherManagerPage::$voucherEndDate, $voucherStartDate);
         $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
-        $I->click('Save');
-        $I->see('Invalid field:  Voucher Products', ['xpath' => "//div[@id='system-message-container']/div/div"]);
+        $I->click(\VoucherManagerPage::$saveButton);
+        $I->see(\VoucherManagerPage::$invalidProduct, \VoucherManagerPage::$xPathInvalid);
     }
 
     /**
@@ -163,13 +163,18 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
         $I->waitForElement(['link' => $voucherCode], 60);
-        $I->click(\VoucherManagerPage::$voucherCheck);
-        $I->click("Edit");
-        $I->verifyNotices(false, $this->checkForNotices(), 'Voucher Manager Edit');
+        $I->searchVoucherCode($voucherCode);
+        $I->wait(3);
+        $I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
+        $value = $I->grabTextFrom(\VoucherManagerPage::$voucherId);
+        $URLEdit = \VoucherManagerPage::$URLEdit . $value;
+        $I->click(['link' => $voucherCode]);
+        $I->checkForPhpNoticesOrWarnings($URLEdit);
+
         $I->fillField(\VoucherManagerPage::$voucherCode, $voucherNewCode);
-        $I->click('Save & Close');
-        $I->waitForElement(['id' => 'system-message-container'], 60);
-        $I->see("Voucher details saved", '.alert-success');
+        $I->click(\VoucherManagerPage::$saveCloseButton);
+        $I->waitForElement(\VoucherManagerPage::$messageContainer, 60);
+        $I->see(\VoucherManagerPage::$messageSaveSuccessVocher, \VoucherManagerPage::$selectorSuccess);
         $I->seeElement(['link' => $voucherNewCode]);
     }
 
@@ -178,12 +183,16 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
         $I->waitForElement(['link' => $voucherCode], 60);
-        $I->click(\VoucherManagerPage::$voucherCheck);
-        $I->click("Edit");
-        $I->verifyNotices(false, $this->checkForNotices(), 'Voucher Manager Edit');
+        $I->searchVoucherCode($voucherCode);
+        $I->wait(3);
+        $I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
+        $value = $I->grabTextFrom(\VoucherManagerPage::$voucherId);
+        $URLEdit = \VoucherManagerPage::$URLEdit . $value;
+        $I->click(['link' => $voucherCode]);
+        $I->checkForPhpNoticesOrWarnings($URLEdit);
         $I->fillField(\VoucherManagerPage::$voucherCode, "");
-        $I->click('Save & Close');
-        $I->see('Invalid field:  Voucher Code:', ['xpath' => "//div[@id='system-message-container']/div/div"]);
+        $I->click(\VoucherManagerPage::$saveCloseButton);
+        $I->see(\VoucherManagerPage::$invalidCode, \VoucherManagerPage::$xPathInvalid);
     }
 
     public function checkCloseButton($voucherCode)
@@ -191,12 +200,17 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
         $I->waitForElement(['link' => $voucherCode], 60);
-        $I->click(\VoucherManagerPage::$voucherCheck);
-        $I->click("Edit");
-        $I->verifyNotices(false, $this->checkForNotices(), 'Voucher Manager Edit');
+        $I->searchVoucherCode($voucherCode);
+        $I->wait(3);
+        $I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
+        $value = $I->grabTextFrom(\VoucherManagerPage::$voucherId);
+        $URLEdit = \VoucherManagerPage::$URLEdit . $value;
+        $I->click(['link' => $voucherCode]);
+        $I->checkForPhpNoticesOrWarnings($URLEdit);
+//        $I->verifyNotices(false, $this->checkForNotices(), 'Voucher Manager Edit');
         $I->fillField(\VoucherManagerPage::$voucherCode, "");
-        $I->click("Close");
-        $I->filterListBySearching($voucherCode, ['id' => 'filter']);
+        $I->click(\VoucherManagerPage::$closeButton);
+        $I->filterListBySearching($voucherCode, \VoucherManagerPage::$filter);
         $I->seeElement(['link' => $voucherCode]);
     }
 
@@ -217,8 +231,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click('Edit');
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
+        $I->click(\VoucherManagerPage::$editButton);
         $I->acceptPopup();
     }
 
@@ -226,8 +240,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click('Delete');
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
+        $I->click(\VoucherManagerPage::$deleteButton);
         $I->acceptPopup();
     }
 
@@ -235,8 +249,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click('Publish');
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
+        $I->click(\VoucherManagerPage::$publishButton);
         $I->acceptPopup();
     }
 
@@ -244,8 +258,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->click('Unpublish');
+        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
+        $I->click(\VoucherManagerPage::$unpublishButton);
         $I->acceptPopup();
     }
 
@@ -266,7 +280,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->pressKey(\VoucherManagerPage::$voucherSearchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
         $I->waitForElement(['link' => $voucherCode]);
         $I->click(\VoucherManagerPage::$voucherCheck);
-        $I->click('Delete');
+        $I->click(\VoucherManagerPage::$deleteButton);
         $I->dontSeeElement(['link' => $voucherCode]);
     }
 
@@ -282,34 +296,34 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->filterListBySearching($voucherCode, ['id' => 'filter']);
+        $I->filterListBySearching($voucherCode, \VoucherManagerPage::$filter);
         $I->wait(3);
         $I->seeElement(['link' => $voucherCode]);
-        $I->click(['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[9]/a"]);
+        $I->click(\VoucherManagerPage::$xPathStatus);
     }
 
     public function changeVoucherUnpublishButton($voucherCode)
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->filterListBySearching($voucherCode, ['id' => 'filter']);
+        $I->filterListBySearching($voucherCode, \VoucherManagerPage::$filter);
         $I->wait(3);
-        $I->click(\VoucherManagerPage::$checkAllVoucher);
-        $I->click('Unpublish');
+        $I->checkAllResults();
+        $I->click(\VoucherManagerPage::$unpublishButton);
         $I->wait(3);
-        $I->see('Voucher detail unpublished successfully', '.alert-success');
+        $I->see(\VoucherManagerPage::$messageUnpublishSuccess, \VoucherManagerPage::$selectorSuccess);
     }
 
     public function changeVoucherPublishButton($voucherCode)
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->filterListBySearching($voucherCode, ['id' => 'filter']);
+        $I->filterListBySearching($voucherCode, \VoucherManagerPage::$filter);
         $I->wait(3);
-        $I->click(\VoucherManagerPage::$checkAllVoucher);
-        $I->click('Publish');
+        $I->checkAllResults();
+        $I->click(\VoucherManagerPage::$publishButton);
         $I->wait(3);
-        $I->see('Voucher detail published successfully', '.alert-success');
+        $I->see(\VoucherManagerPage::$messagePublishSuccess, \VoucherManagerPage::$selectorSuccess);
     }
 
 
@@ -317,30 +331,30 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->click(\VoucherManagerPage::$checkAllVoucher);
-        $I->click('Unpublish');
+        $I->checkAllResults();
+        $I->click(\VoucherManagerPage::$unpublishButton);
         $I->wait(3);
-        $I->see('Message', '.alert-success');
+        $I->see(\VoucherManagerPage::$messageSuccess, \VoucherManagerPage::$selectorSuccess);
     }
 
     public function changeAllVoucherPublishButton()
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->click(\VoucherManagerPage::$checkAllVoucher);
-        $I->click('Publish');
+        $I->checkAllResults();
+        $I->click(\VoucherManagerPage::$publishButton);
         $I->wait(3);
-        $I->see('Message', '.alert-success');
+        $I->see(\VoucherManagerPage::$messageSuccess, \VoucherManagerPage::$selectorSuccess);
     }
 
     public function deleteAllVoucher($updatedRandomVoucherCode)
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->click(\VoucherManagerPage::$checkAllVoucher);
-        $I->click('Delete');
+        $I->checkAllResults();
+        $I->click(\VoucherManagerPage::$deleteButton);
         $I->wait(3);
-        $I->see('Message', '.alert-success');
+        $I->see(\VoucherManagerPage::$messageSuccess, \VoucherManagerPage::$selectorSuccess);
         $I->dontSeeElement(['link' => $updatedRandomVoucherCode]);
     }
 
@@ -354,7 +368,15 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     public function getVoucherState($voucherCode)
     {
         $result = $this->getState(new \VoucherManagerPage, $voucherCode, \VoucherManagerPage::$voucherResultRow, \VoucherManagerPage::$voucherStatePath);
-
         return $result;
+    }
+
+    public function searchVoucherCode($voucherCode)
+    {
+        $I = $this;
+        $I->wantTo('Search the Category');
+        $I->amOnPage(\VoucherManagerPage::$URL);
+        $I->waitForText(\VoucherManagerPage::$namePageManagement, 30, \VoucherManagerPage::$headPageName);
+        $I->filterListBySearching($voucherCode, \VoucherManagerPage::$filter);
     }
 }
