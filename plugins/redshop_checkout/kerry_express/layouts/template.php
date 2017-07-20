@@ -50,6 +50,10 @@ extract($displayData);
 	{
 		jQuery('select[name="rs_kerry_billing_city"]').on('change', function(){
 	    	var id = jQuery(this).val();
+	    	if (id){
+	    		var city = jQuery(this).find('option:selected').text();
+	    		jQuery('input[name="city"]').val(city);
+	    	}
 	    	jQuery.ajax({
 		        type: "POST",
 		        data: {city: id, id: infoId},
@@ -85,6 +89,7 @@ extract($displayData);
 	jQuery(document).ready(function(){
 		jQuery(document).on("AfterGetBillingTemplate", function(){
 			var infoId = <?php echo $id; ?>;
+			jQuery('input[name="zipcode"]').val('<?php echo $zipcode; ?>');
 		    getShippingDistrict(infoId);
 		    getShippingWard(infoId);
 		    jQuery.ajax({
