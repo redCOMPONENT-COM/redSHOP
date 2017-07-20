@@ -379,7 +379,7 @@ class RoboFile extends \Robo\Tasks
             ->arg('--debug')
             ->arg('--tap')
             ->arg('--fail-fast')
-            ->arg('tests/acceptance/administrator/redSHOP_1.6_Tests/administrator/')
+            ->arg('tests/acceptance/redSHOP_1.6_Tests/administrator/')
             ->run()
             ->stopOnFail();
         /*
