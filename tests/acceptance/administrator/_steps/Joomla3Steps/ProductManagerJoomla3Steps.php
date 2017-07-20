@@ -152,11 +152,11 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$URL);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\ProductManagerPage::$URL);
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->click("New");
         $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\ProductManagerPage::$URLNew);
         $I->fillField(['id' => "product_name"], $productName);
         $I->fillField(['id' => "product_number"], $productNumber);
         $I->fillField(['id' => "product_price"], $price);
@@ -344,7 +344,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
         $I->click("New");
         $I->waitForElement(['id' => "product_name"], 30);
-        $I->checkForPhpNoticesOrWarnings();
+        $I->checkForPhpNoticesOrWarnings(\ProductManagerPage::$URLNew);
         $I->fillField(['id' => "product_name"], $productName);
         $I->fillField(['id' => "product_number"], $productNumber);
         $I->fillField(['id' => "product_price"], $price);

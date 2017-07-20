@@ -1,8 +1,7 @@
 redSHOP 2.x
 ==========
 
-## Travis Status
-Develop: [![Build Status](https://travis-ci.com/redCOMPONENT-COM/redSHOP.svg?token=exSzjzLhFrzHef99DDg1&branch=develop)](https://travis-ci.com/redCOMPONENT-COM/redSHOP)
+[![Build Status](https://travis-ci.com/redCOMPONENT-COM/redSHOP.svg?token=exSzjzLhFrzHef99DDg1&branch=develop)](https://travis-ci.com/redCOMPONENT-COM/redSHOP) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/redCOMPONENT-COM/redSHOP/badges/quality-score.png?b=develop&s=f945d89ef335953761803d0e0f0e37d5fecf0b62)](https://scrutinizer-ci.com/g/redCOMPONENT-COM/redSHOP/?branch=develop)
 
 ## Requirement
 PHP Version: **>= 5.3.10**
