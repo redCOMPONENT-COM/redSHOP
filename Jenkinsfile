@@ -11,7 +11,7 @@ pipeline {
                     whoami && \
                     echo $WORKSPACE && \
                     ls -la
-                    echo ${env.JOB_NAME}
+                    echo ${JOB_NAME}
                     echo 'next value'
                     echo {sha1}
                 '''
