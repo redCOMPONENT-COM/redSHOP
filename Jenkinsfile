@@ -6,7 +6,6 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
-                gitPR = sh(returnStdout: true, script: 'env.BRANCH_NAME.replace(/^PR-/, '')').trim()
                 sh '''
                     pwd && \
                     whoami && \
@@ -24,7 +23,6 @@ pipeline {
                     echo 'next'
                     echo ${BRANCH_NAME}
                     echo 'next'
-                    echo ${gitPR}
                 '''
             }
             post {
