@@ -61,6 +61,9 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 					<?php echo JText::_('MOD_REDSHOP_CART_PRICE') . " " . $productHelper->getProductFormattedPrice($price, true); ?>
 				</div>
 				<?php endif; ?>
+				<div class="mod_cart_product_delete">
+					<a href="javascript:void(0);" onclick="deleteCartItem(<?php echo $cart[$i]; ?>)"><?php echo JText::_('COM_REDSHOP_DELETE'); ?></a>
+				</div>
 			</div>
 		<?php endfor; ?>
 	<?php endif; ?>
@@ -122,3 +125,18 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 <?php else: ?>
 	<?php echo JText::_('MOD_REDSHOP_CART_EMPTY_CART'); ?>
 <?php endif;
+?>
+
+<script type="text/javascript">
+	function deleteCartItem(idx) 
+	{
+		jQuery.ajax({
+	        type: "POST",
+	        data: {idx: idx},
+	        url: "<?php echo JUri::root() . 'index.php?option=com_redshop&task=cart.ajaxDeleteCartItem'; ?>",
+	        success: function(data) {
+	        	jQuery('#mod_cart_total').html(data);
+	        }
+	    });
+	}
+</script>
