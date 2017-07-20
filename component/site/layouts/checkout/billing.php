@@ -9,24 +9,16 @@
 
 defined('_JEXEC') or die;
 
-$dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('redshop_checkout');
-$openToStretcher = 0;
-$company = "";
+$dispatcher = RedshopHelperUtility::getDispatcher();
+$company  = "";
 $customer = "";
 
-if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
+if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 3)
 {
 	$company = "hide";
-	$openToStretcher = 0;
-}
-elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
-{
 	$customer = "hide";
-	$openToStretcher = 1;
 }
-
-$isCompany = $openToStretcher == 1 ? 1 : 0;
 
 $lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(14);
 $lists['shipping_company_field']  = RedshopHelperExtrafields::listAllField(15);
