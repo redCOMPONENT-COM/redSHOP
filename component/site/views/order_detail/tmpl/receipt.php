@@ -125,6 +125,8 @@ $x               = array();
 $results         = $dispatcher->trigger('onPrepareContent', array(&$o, &$x, 0));
 $ReceiptTemplate = $o->text;
 
+$dispatcher->trigger('onRenderReceipt', array(&$ReceiptTemplate, $order_id));
+
 // End
 
 echo eval("?>" . $ReceiptTemplate . "<?php ");

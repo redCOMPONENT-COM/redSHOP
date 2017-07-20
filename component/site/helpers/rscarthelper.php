@@ -3414,8 +3414,8 @@ class rsCarthelper
 									. $shippingmethod[$s]->extension_id . '_' . $i . '" name="shipping_rate_id" value="'
 									. $rate[$i]->value . '" '
 									. $checked
-									. ' onclick="javascript:onestepCheckoutProcess(this.name,\'' . $classname . '\');">'
-									. '' . html_entity_decode($rate[$i]->text) . '</label>';
+									. ' onclick="javascript:onestepCheckoutProcess(this.name,\'' . $classname . '\');"><span>'
+									. '' . html_entity_decode($rate[$i]->text) . '</span></label>';
 
 								$shipping_rate_short_desc = '';
 
@@ -3510,6 +3510,9 @@ class rsCarthelper
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
+
+		JPluginHelper::importPlugin('redshop_checkout');
+		JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$template_desc));
 
 		$returnarr = array("template_desc" => $template_desc, "shipping_rate_id" => $shipping_rate_id);
 

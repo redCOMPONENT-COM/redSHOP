@@ -185,7 +185,7 @@ class RedshopControllerProduct extends RedshopController
 		if (!empty($pluginResults))
 		{
 			$mainImageResponse = $pluginResults['mainImageResponse'];
-			$result            = $producthelper->displayAdditionalImage(
+			$result            = RedshopHelperProductTag::displayAdditionalImage(
 									$product_id,
 									$accessory_id,
 									$relatedprd_id,
@@ -200,7 +200,7 @@ class RedshopControllerProduct extends RedshopController
 		}
 		else
 		{
-			$result            = $producthelper->displayAdditionalImage(
+			$result            = RedshopHelperProductTag::displayAdditionalImage(
 									$product_id,
 									$accessory_id,
 									$relatedprd_id,
