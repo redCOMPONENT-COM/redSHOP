@@ -18,17 +18,7 @@ defined('_JEXEC') or die;
  */
 
 extract($displayData);
-
 ?>
-<div class="row">
-    <div class="form-group">
-        <label class="col-md-4"></label>
-        <div class="col-md-8">
-
-        </div>
-    </div>
-</div>
-
 <table class="table table-striped">
     <tr>
         <td><strong><?php echo JText::_('PLG_REDSHOP_SHIPPING_BRING_USERCODE_LBL') ?></strong></td>
