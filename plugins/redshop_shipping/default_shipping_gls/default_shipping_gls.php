@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,7 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	 *
 	 * @since  1.0.0
 	 */
-	const SHIPPING_NAME    = "default_shipping_gls";
+	const SHIPPING_NAME = "default_shipping_gls";
 
 	/**
 	 * Client
@@ -44,12 +44,12 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	 *
 	 * @since  1.0.0
 	 */
-	public $errorMsg     = '';
+	public $errorMsg = '';
 
 	/**
 	 * Error
 	 *
-	 * @var  interger
+	 * @var  integer
 	 *
 	 * @since  1.0.0
 	 */
@@ -58,12 +58,12 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @param   object $subject The object to observe
-	 * @param   array  $config  An optional associative array of configuration settings
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An optional associative array of configuration settings
 	 *
 	 * @since   1.0.0
 	 */
-	public function __construct( &$subject, $config = array() )
+	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
 
@@ -81,10 +81,10 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	 */
 	public function getGLSLocation($usersInfoId, $className, $shopId = 0)
 	{
-		$shippingGLS    = order_functions::getInstance()->getparameters('default_shipping_gls');
+		$shippingGLS    = RedshopHelperOrder::getParameters('default_shipping_gls');
 		$selectedShopId = null;
 
-		if (count($shippingGLS) == 0 || !$shippingGLS[0]->enabled || $className != 'default_shipping_gls')
+		if (empty($shippingGLS) || !$shippingGLS[0]->enabled || $className != $this->_name)
 		{
 			return '';
 		}
@@ -138,9 +138,9 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 		return RedshopLayoutHelper::render(
 			'glslocation',
 			array(
-				'values' => $values,
+				'values'         => $values,
 				'selectedShopId' => $selectedShopId,
-				'shopList' => $shopList
+				'shopList'       => $shopList
 			),
 			JPATH_PLUGINS . '/redshop_shipping/default_shipping_gls/layouts'
 		);
@@ -157,7 +157,7 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 
 		try
 		{
-			$this->client = new SoapClient($url, array ("trace" => 1, "exceptions" => 1 ));
+			$this->client = new SoapClient($url, array("trace" => 1, "exceptions" => 1));
 		}
 		catch (Exception $exception)
 		{
@@ -174,9 +174,9 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	 *
 	 * @param   object  $values  redSHOP Shipping data
 	 *
-	 * @return  array
+	 * @return  mixed
 	 */
-	public function GetNearstParcelShops($values)
+	public function getNearstParcelShops($values)
 	{
 		if ($this->error)
 		{
@@ -185,16 +185,16 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 
 		try
 		{
-			$Handle = $this->client->SearchNearestParcelShops(
+			$handle = $this->client->SearchNearestParcelShops(
 				array(
 					'street'           => (string) $values->address,
 					'zipcode'          => (string) $values->zipcode,
-					'countryIso3166A2' => Redconfiguration::getInstance()->getCountryCode2($values->country_code),
+					'countryIso3166A2' => RedshopHelperWorld::getCountryCode2($values->country_code),
 					'Amount'           => $this->params->get('amount_shop', 10)
 				)
 			)->SearchNearestParcelShopsResult;
 
-			return $this->shopArray($Handle->parcelshops->PakkeshopData);
+			return $this->shopArray($handle->parcelshops->PakkeshopData);
 		}
 		catch (Exception $exception)
 		{
@@ -210,7 +210,7 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	/**
 	 * get Pacsoft array
 	 *
-	 * @param   array  $pakkeshopData  Pacsoft data
+	 * @param   array $pakkeshopData Pacsoft data
 	 *
 	 * @return  array
 	 */
@@ -235,10 +235,10 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 			$cityName             = $data->CityName;
 			$stropeningTime       = $this->weekdaysTime($data->OpeningHours->Weekday);
 			$shopId               = $shopNumber . "|" . $companyName
-									. "|" . $streetName . "|" . $zipCode
-									. "|" . $countryCodeISO3166A2
-									. "|" . $telephone . "|" . $stropeningTime
-									. "|" . $cityName;
+				. "|" . $streetName . "|" . $zipCode
+				. "|" . $countryCodeISO3166A2
+				. "|" . $telephone . "|" . $stropeningTime
+				. "|" . $cityName;
 
 			$returnArr[$i]                       = new stdClass;
 			$returnArr[$i]->shop_id              = $shopId;
@@ -254,13 +254,13 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 			$i++;
 		}
 
-		return  $returnArr;
+		return $returnArr;
 	}
 
 	/**
 	 * get Pacsoft weekday
 	 *
-	 * @param   array  $weekDay  Pacsoft data
+	 * @param   array $weekDay Pacsoft data
 	 *
 	 * @return  string
 	 */
@@ -304,7 +304,7 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 			}
 
 			$opningTime[] = "<b>" . $day . '</b> '
-							. $weekDay[$i]->openAt->From . '-' . $weekDay[$i]->openAt->To;
+				. $weekDay[$i]->openAt->From . '-' . $weekDay[$i]->openAt->To;
 		}
 
 		$stropeningTime = implode('  ', $opningTime);
@@ -315,38 +315,37 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	/**
 	 * get List Shipping rate
 	 *
-	 * @param   array  $data  redSHOP Shipping data
+	 * @param   array $data redSHOP Shipping data
 	 *
 	 * @return  array
 	 */
 	public function onListRates(&$data)
 	{
-		$shippingHelper = shipping::getInstance();
-		$shippingRate   = array();
-		$rate           = 0;
-		$shipping       = $shippingHelper->getShippingMethodByClass(self::SHIPPING_NAME);
-		$ratelist       = $shippingHelper->listshippingrates($shipping->element, $data['users_info_id'], $data);
-		$countRate      = count($ratelist) >= 1 ? 1 : 0;
+		$shippingRate = array();
+		$rate         = 0;
+		$shipping     = RedshopHelperShipping::getShippingMethodByClass($this->_name);
+		$rates        = RedshopHelperShipping::listShippingRates($shipping->element, $data['users_info_id'], $data);
+		$countRate    = count($rates) >= 1 ? 1 : 0;
 
 		for ($i = 0; $i < $countRate; $i++)
 		{
-			$rs                         = $ratelist[$i];
-			$shippingRate               = $rs->shipping_rate_value;
-			$rs->shipping_rate_value    = $shippingHelper->applyVatOnShippingRate($rs, $data);
-			$shippingVatRate            = $rs->shipping_rate_value - $shippingRate;
-			$economicDisplayNumber      = $rs->economic_displaynumber;
-			$shippingRateId             = RedshopShippingRate::encrypt(
-											array(
-												__CLASS__,
-												$shipping->name,
-												$rs->shipping_rate_name,
-												number_format($rs->shipping_rate_value, 2, '.', ''),
-												$rs->shipping_rate_id,
-												'single',
-												$shippingVatRate,
-												$economicDisplayNumber
-											)
-										);
+			$rs                      = $rates[$i];
+			$shippingRate            = $rs->shipping_rate_value;
+			$rs->shipping_rate_value = RedshopHelperShipping::applyVatOnShippingRate($rs, $data);
+			$shippingVatRate         = $rs->shipping_rate_value - $shippingRate;
+			$economicDisplayNumber   = $rs->economic_displaynumber;
+			$shippingRateId          = RedshopShippingRate::encrypt(
+				array(
+					__CLASS__,
+					$shipping->name,
+					$rs->shipping_rate_name,
+					number_format($rs->shipping_rate_value, 2, '.', ''),
+					$rs->shipping_rate_id,
+					'single',
+					$shippingVatRate,
+					$economicDisplayNumber
+				)
+			);
 
 			$shippingRate[$rate]        = new stdClass;
 			$shippingRate[$rate]->text  = $rs->shipping_rate_name;
@@ -363,10 +362,10 @@ class PlgRedshop_ShippingDefault_Shipping_Gls extends JPlugin
 	/**
 	 * get List Shipping rate
 	 *
-	 * @param   array   $data       redSHOP Shipping data
-	 * @param   string  $template   redSHOP Shipping template
-	 * @param   string  $className  Shipping class name
-	 * @param   string  $checked    Is checked
+	 * @param   array  $data      redSHOP Shipping data
+	 * @param   string $template  redSHOP Shipping template
+	 * @param   string $className Shipping class name
+	 * @param   string $checked   Is checked
 	 *
 	 * @return  void
 	 */
