@@ -691,6 +691,8 @@ function showCompanyOrCustomer(obj)
 		jQuery('#tmpRegistrationDiv').html('');
 
 		jQuery('select:not(".disableBootstrapChosen")').select2();
+
+		jQuery(document).trigger("AfterGetBillingTemplate");
 	})
 	.fail(function() {
 		console.warn("error");
