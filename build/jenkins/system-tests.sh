@@ -62,6 +62,7 @@ export API_SECRET=Q94UM5kjZkZIrau8MIL93m0dN6U
 export GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
 export ORGANIZATION=redCOMPONENT-COM
 export REPO=redSHOP
+export ghprbPullId=3645
 echo $ORGANIZATION
 echo $ghprbPullId
 vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $ghprbPullId
