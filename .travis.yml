@@ -55,6 +55,7 @@ before_script:
 
 # Gulp packages
 - npm install
+- npm install -g gulp
 - mv gulp-config.sample.json gulp-config.json
 - gulp release --skip-version
 
