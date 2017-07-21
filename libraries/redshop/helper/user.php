@@ -162,13 +162,35 @@ class RedshopHelperUser
 	/**
 	 * Replace Conditional tag from Redshop tax
 	 *
-	 * @param   integer $userId User identifier
+	 * @param   integer  $userId  User identifier
 	 *
 	 * @return  integer            User group
 	 */
 	public static function getShopperGroup($userId = 0)
 	{
-		if (0 == $userId)
+		$shopperGroupData = self::getShopperGroupData($userId);
+
+		if (!is_null($shopperGroupData))
+		{
+			return $shopperGroupData->shopper_group_id;
+		}
+
+		return Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
+	}
+
+	/**
+	 * Get Shopper Group Data
+	 *
+	 * @param   int  $userId  User id
+	 *
+	 * @return  mixed
+	 */
+	public static function getShopperGroupData($userId = 0)
+	{
+		$userId = !$userId ? JFactory::getUser()->id : $userId;
+
+		// If user is guest. Try to get redshop user id.
+		if (!$userId)
 		{
 			$auth = JFactory::getSession()->get('auth');
 
@@ -178,60 +200,31 @@ class RedshopHelperUser
 			}
 		}
 
-		$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
-
-		if ($userId)
+		// In case user doesn't not entered any information yet. Get from default config.
+		if (!$userId)
 		{
-			$shopperGroupData = self::getShopperGroupData($userId);
+			$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
-			if (count($shopperGroupData) > 0)
-			{
-				$shopperGroupId = $shopperGroupData->shopper_group_id;
-			}
+			return self::getShopperGroupDataById($shopperGroupId);
 		}
 
-		return $shopperGroupId;
-	}
-
-	/**
-	 * Get Shopper Group Data
-	 *
-	 * @param   int $userId User id
-	 *
-	 * @return mixed
-	 */
-	public static function getShopperGroupData($userId = 0)
-	{
-		if ($userId == 0)
+		// In case user is not guest.
+		if (!array_key_exists($userId, self::$userShopperGroupData))
 		{
-			$user   = JFactory::getUser();
-			$userId = $user->id;
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('sg.*')
+				->from($db->qn('#__redshop_shopper_group', 'sg'))
+				->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.shopper_group_id')
+				->where('ui.user_id = ' . (int) $userId)
+				->where('ui.address_type = ' . $db->q('BT'));
+
+			$db->setQuery($query);
+
+			self::$userShopperGroupData[$userId] = $db->loadObject();
 		}
 
-		if ($userId != 0)
-		{
-			if (!array_key_exists($userId, self::$userShopperGroupData))
-			{
-				$db    = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->select('sg.*')
-					->from($db->qn('#__redshop_shopper_group', 'sg'))
-					->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.shopper_group_id')
-					->where('ui.user_id = ' . (int) $userId)
-					->where('ui.address_type = ' . $db->q('BT'));
-				$db->setQuery($query);
-				self::$userShopperGroupData[$userId] = $db->loadObject();
-
-				if (!self::$userShopperGroupData[$userId])
-				{
-					self::$userShopperGroupData[$userId] = array();
-				}
-			}
-
-			return self::$userShopperGroupData[$userId];
-		}
-
-		return array();
+		return self::$userShopperGroupData[$userId];
 	}
 
 	/**
