@@ -5,6 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace AcceptanceTester;
 /**
  * Class AdminManagerJoomla3Steps
@@ -34,8 +35,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
     {
         $I = $this;
 
-        foreach (\AdminManagerPage::$allExtensionPages as $page => $url)
-        {
+        foreach (\AdminManagerPage::$allExtensionPages as $page => $url) {
             $I->amOnPage($url);
             $I->verifyNotices(false, $this->checkForNotices(), $page);
             $I->click('New');
@@ -47,10 +47,10 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
     /**
      * Function to Search for an Item
      *
-     * @param   Object  $pageClass     Class Object for which Search is to be done
-     * @param   String  $searchItem    Search Variable
-     * @param   String  $resultRow     Xpath for the field to be searched in
-     * @param   string  $functionName  Name of the function After Which search is being Called
+     * @param   Object $pageClass Class Object for which Search is to be done
+     * @param   String $searchItem Search Variable
+     * @param   String $resultRow Xpath for the field to be searched in
+     * @param   string $functionName Name of the function After Which search is being Called
      *
      * @return void
      */
@@ -59,12 +59,9 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         $I = $this;
         $I->amOnPage($pageClass::$URL);
 
-        if ($functionName == 'Search')
-        {
+        if ($functionName == 'Search') {
             $I->seeElement(['link' => $searchItem]);
-        }
-        else
-        {
+        } else {
             $I->dontSeeElement(['link' => $searchItem]);
         }
     }
@@ -72,10 +69,10 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
     /**
      * Function to Delete an Item
      *
-     * @param   object  $pageClass   Page Class where we need to delete the Item
-     * @param   string  $deleteItem  Item which is to be Deleted
-     * @param   string  $resultRow   Result Row Where we need to pick the item from
-     * @param   string  $check       Selection Box Path
+     * @param   object $pageClass Page Class where we need to delete the Item
+     * @param   string $deleteItem Item which is to be Deleted
+     * @param   string $resultRow Result Row Where we need to pick the item from
+     * @param   string $check Selection Box Path
      *
      * @return void
      */
@@ -92,10 +89,10 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
     /**
      * Function to get State of an Item in the Administrator
      *
-     * @param   Object  $pageClass      Page at which Operation is to be performed
-     * @param   String  $item           Item for which the State is being fetched
-     * @param   String  $resultRow      Result Row where we need to pick the item from
-     * @param   String  $itemStatePath  Path to the State for the Item
+     * @param   Object $pageClass Page at which Operation is to be performed
+     * @param   String $item Item for which the State is being fetched
+     * @param   String $resultRow Result Row where we need to pick the item from
+     * @param   String $itemStatePath Path to the State for the Item
      *
      * @return string  Result of state
      */
@@ -106,28 +103,23 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         $I->waitForElement(['link' => $item], 60);
         $text = $I->grabAttributeFrom($itemStatePath, 'onclick');
 
-        if (strpos($text, 'unpublish') > 0)
-        {
+        if (strpos($text, 'unpublish') > 0) {
             $result = 'published';
-        }
-
-        if (strpos($text, 'publish') > 0)
-        {
+        } else {
             $result = 'unpublished';
         }
-
         return $result;
     }
 
     /**
      * Function to change State of an Item in the Backend
      *
-     * @param   Object  $pageClass    Page Class on which we are performing the Operation
-     * @param   String  $item         Item which we are supposed to change
-     * @param   String  $state        State for the Item
-     * @param   String  $resultRow    Result row where we need to look for the item
-     * @param   String  $check        Checkbox path for Selecting the Item
-     * @param   String  $searchField  The locator for the search field
+     * @param   Object $pageClass Page Class on which we are performing the Operation
+     * @param   String $item Item which we are supposed to change
+     * @param   String $state State for the Item
+     * @param   String $resultRow Result row where we need to look for the item
+     * @param   String $check Checkbox path for Selecting the Item
+     * @param   String $searchField The locator for the search field
      *
      * @return void
      */
@@ -138,12 +130,9 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         $I->filterListBySearching($item, $searchField);
         $I->click($check);
 
-        if ($state == 'unpublish')
-        {
+        if ($state == 'unpublish') {
             $I->click("Unpublish");
-        }
-        else
-        {
+        } else {
             $I->click("Publish");
         }
     }
@@ -151,8 +140,8 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
     /**
      * Filters an administrator list by searching for a given string
      *
-     * @param   String  $text         text to be searched to filter the administrator list
-     * @param   String  $searchField  id of field to search
+     * @param   String $text text to be searched to filter the administrator list
+     * @param   String $searchField id of field to search
      *
      * @return void
      */
@@ -164,6 +153,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         $I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
         $I->waitForElement(['link' => $text]);
     }
+
     public function filterListBySearchingProduct($text, $searchField = ['id' => 'keyword'])
     {
         $I = $this;
@@ -173,7 +163,8 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         $I->waitForElement(['link' => $text]);
     }
 
-    public function filterListBySearchDiscount($text, $searchField = ['id' => 'name_filter']){
+    public function filterListBySearchDiscount($text, $searchField = ['id' => 'name_filter'])
+    {
         $I = $this;
         $I->executeJS('window.scrollTo(0,0)');
         $I->fillField($searchField, $text);

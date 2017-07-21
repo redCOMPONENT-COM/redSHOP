@@ -15,7 +15,16 @@
  */
 class CouponManagerJ3Page
 {
+
+    //name page
+    public static $namePageManagement='Coupon Management';
+
     public static $URL = '/administrator/index.php?option=com_redshop&view=coupon';
+
+    public static $URLNew = '/administrator/index.php?option=com_redshop&view=coupon_detail&layout=edit';
+
+    public static $URLEdit='/administrator/index.php?option=com_redshop&view=coupon_detail&task=edit&cid[]=';
+
 
     public static $couponCode = "//input[@id='coupon_code']";
 
@@ -29,11 +38,11 @@ class CouponManagerJ3Page
 
     public static $couponValueInDropDown = "//div[@id='s2id_percent_or_total']/a";
 
-    public static $couponTypeDropdown="//div[@id='s2id_coupon_type']/a";
+    public static $couponTypeDropdown = "//div[@id='s2id_coupon_type']/a";
 
     public static $couponTypeDropDown = "//div[@id='coupon_type_chzn']/a";
 
-    public static $userDropDown="//div[@id='s2id_userid']/a";
+    public static $userDropDown = "//div[@id='s2id_userid']/a";
 
     public static $selectFirst = "//input[@id='cb0']";
 
@@ -42,6 +51,9 @@ class CouponManagerJ3Page
 
     public static $couponResultRow = "//table[@id='articleList']/tbody/tr[2]";
 
+    public static $selectContainer = ['id' => 'system-message-container'];
+
+    public static $searchUser = ['id' => "s2id_autogen1_search"];
 
     //button
 
@@ -67,7 +79,13 @@ class CouponManagerJ3Page
 
 
     //message
-    public static $saveSuccess="Coupon detail save";
+    public static $saveSuccess = "Coupon detail saved";
+
+    public static $deleteSuccess = 'Coupon deleted successfully';
+
+    public static $publishSuccess = 'Coupon detail published successfully';
+
+    public static $unpublishSuccess = 'Coupon detail unpublished successfully';
 
     //selector
 
@@ -82,6 +100,10 @@ class CouponManagerJ3Page
 
 
     public static $couponState = "//div[@id='editcell']/div[2]/table/tbody/tr/td[9]/a";
+
+    public static $xPathState=['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[9]/a"];
+
+    public static $couponId=['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[10]"];
 
     /**
      * Function to get path for CouponValueIn
@@ -110,9 +132,15 @@ class CouponManagerJ3Page
         return $path;
     }
 
-    public function userValue($nameUser){
+    public function userValue($nameUser)
+    {
         $path = "//div[@id='select2-drop']//ul//li//div[contains(text(), '" . $nameUser . "')]";
         return $path;
     }
 
+    public function returnUser($nameUser)
+    {
+        $path = ['xpath' => "//span[contains(text(), '" . $nameUser . "')]"];
+        return $path;
+    }
 }

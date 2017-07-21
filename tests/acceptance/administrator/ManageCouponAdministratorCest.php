@@ -192,7 +192,7 @@ class ManageCouponAdministratorCest
         $I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Coupon');
         $I->checkEditButton();
-        $I->see('Coupon Management', '.page-title');
+        $I->see(\CouponManagerJ3Page::$namePageManagement, \CouponManagerJ3Page::$selectorNamePage);
     }
 
     /**
@@ -209,7 +209,7 @@ class ManageCouponAdministratorCest
         $I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Coupon');
         $I->checkDeleteButton();
-        $I->see('Coupon Management', '.page-title');
+        $I->see(\CouponManagerJ3Page::$namePageManagement, \CouponManagerJ3Page::$selectorNamePage);
     }
 
     /**
@@ -226,7 +226,7 @@ class ManageCouponAdministratorCest
         $I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Coupon');
         $I->checkPublishButton();
-        $I->see('Coupon Management', '.page-title');
+        $I->see(\CouponManagerJ3Page::$namePageManagement, \CouponManagerJ3Page::$selectorNamePage);
     }
 
     /**
@@ -243,7 +243,7 @@ class ManageCouponAdministratorCest
         $I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Coupon');
         $I->checkUnpublishButton();
-        $I->see('Coupon Management', '.page-title');
+        $I->see(\CouponManagerJ3Page::$namePageManagement, \CouponManagerJ3Page::$selectorNamePage);
     }
 
     /**
