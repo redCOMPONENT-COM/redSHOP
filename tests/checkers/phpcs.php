@@ -53,7 +53,7 @@ $options = array(
 		REPO_BASE . '/../modules',
 		REPO_BASE . '/../libraries',
 	),
-	'standard'     => array(REPO_BASE . '/../.travis/phpcs/Joomla'),
+	'standard'     => array(REPO_BASE . '/../.travis/phpcs/Joomla/Joomla/ruleset.xml'),
 	'ignored'      => $ignored,
 	'showProgress' => true,
 	'verbosity'    => false,
