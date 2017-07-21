@@ -103,6 +103,78 @@
                     description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ZIPCODE_DESC">
                 </field>
             </fieldset>
+            <fieldset name="extra" label="extra" addfieldpath="/libraries/redshop/form/fields">
+                <field 
+                    name="pux" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PUX"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PUX_DESC">
+                </field>
+                <field 
+                    name="pup" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PUP"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PUP_DESC">
+                </field>
+                <field 
+                    name="sip" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SIP"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SIP_DESC">
+                </field>
+                <field 
+                    name="sip-l" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SIPL"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SIPL_DESC">
+                </field>
+                <field 
+                    name="sop-d" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SOPD"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SOPD_DESC">
+                </field>
+                <field 
+                    name="pod" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_POD"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_POD_DESC">
+                </field>
+                <field 
+                    name="podex" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PODEX"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PODEX_DESC">
+                </field>
+                <field 
+                    name="cancel" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_CANCEL"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_CANCEL_DESC">
+                </field>
+                <field 
+                    name="podr" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PODR"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_PODR_DESC">
+                </field>
+                <field 
+                    name="sopr" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SOPR"
+                    description="PLG_REDSHOP_CHECKOUT_KERRY_EXPRESS_ORDER_STATUS_SOPR_DESC">
+                </field>
+            </fieldset>
         </fields>
     </config>
 

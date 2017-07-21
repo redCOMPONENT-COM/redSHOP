@@ -143,9 +143,13 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 
 		$html = '';
 
-		uasort($data[$city], function($a, $b){
-			return strnatcmp($a, $b);
-		});
+		uasort(
+			$data[$city],
+			function ($a, $b)
+			{
+				return strnatcmp($a, $b);
+			}
+		);
 
 		foreach ($data[$city] as $code => $name)
 		{
@@ -202,9 +206,13 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 
 		$html = '';
 
-		uasort($data[$district], function($a, $b){
-			return strnatcmp($a, $b);
-		});
+		uasort(
+			$data[$district],
+			function ($a, $b)
+			{
+				return strnatcmp($a, $b);
+			}
+		);
 
 		foreach ($data[$district] as $code => $name)
 		{
@@ -231,36 +239,9 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	 */
 	public function onBeforeUserBillingStore(&$data)
 	{
-		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_city', 7, $data->users_info_id);
-		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_district', 7, $data->users_info_id);
-		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_ward', 7, $data->users_info_id);
+		$billing = $this->getBillingExtraFields($data->users_info_id);
 
-		$userCity     = "";
-		$userDistrict = "";
-		$userWard     = "";
-		$cities       = array();
-		$districts    = array();
-		$wards        = array();
-
-		$handle = $this->getDistrictProvinceData();
-
-		while ($result = fgetcsv($handle, null, ',', '"'))
-		{
-			if (!is_numeric($result[1]))
-			{
-				continue;
-			}
-
-			$cities[$result[1]]                = $result[0];
-			$districts[$result[1]][$result[3]] = $result[2];
-			$wards[$result[3]][$result[5]]     = $result[4];
-		}
-
-		$userCity     = $cities[$cityField->data_txt];
-		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
-		$userWard     = $wards[$districtField->data_txt][$wardField->data_txt];
-
-		$data->address .= ' ' . $userWard . ' ' . $userDistrict . ' ' . $userCity;
+		$data->address .= ' ' . $billing['ward'] . ' ' . $billing['district'] . ' ' . $billing['city'];
 		$data->city = $userCity;
 
 		return;
@@ -433,5 +414,172 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 		$data['zipcode'] = $this->params->get('zipcode', '70000');
 
 		return;
+	}
+
+	/**
+	 * Trigger before render Billing address in checkout
+	 *
+	 * @param   array  $data  User billing data
+	 *
+	 * @return  void
+	 */
+	public function onBeforeRenderBillingAddress(&$data)
+	{
+		$billing = $this->getBillingExtraFields($data->users_info_id);
+
+		$data->extraField = array(
+				'rs_kerry_billing_city'     => $billing['city'],
+				'rs_kerry_billing_district' => $billing['district'],
+				'rs_kerry_billing_ward'     => $billing['ward'],
+			);
+	}
+
+	/**
+	 * Trigger before render Shipping address in checkout
+	 *
+	 * @param   array  $data  User shipping data
+	 *
+	 * @return  void
+	 */
+	public function onBeforeRenderShippingAddress(&$data)
+	{
+		$shipping = $this->getShippingExtraFields($data->users_info_id);
+
+		$data->extraField = array(
+				'rs_kerry_city'     => $shipping['city'],
+				'rs_kerry_district' => $shipping['district'],
+				'rs_kerry_ward'     => $shipping['ward'],
+			);
+	}
+
+	/**
+	 * Trigger before Webservice store redSHOP order
+	 *
+	 * @param   array  $data  Order shipping data
+	 *
+	 * @return  void
+	 */
+	public function onBeforeWSOrderStore(&$data)
+	{
+		$data['status'] = $this->params->get(strtolower($data['status']));
+	}
+
+	/**
+	 * Trigger after Webservice store redSHOP order
+	 *
+	 * @param   array  $data  Order shipping data
+	 *
+	 * @return  void
+	 */
+	public function onAfterWSOrderStore($data)
+	{
+		$data['status'] = $this->params->get(strtolower($data['status']));
+
+		$log               = new stdClass;
+		$log->order_id     = $data['order_id'];
+		$log->order_status = $data['status'];
+		$log->date_changed = time();
+
+		JFactory::getDbo()->insertObject('#__redshop_order_status_log', $log);
+	}
+
+	/**
+	 * Function to get User billing extra fields
+	 *
+	 * @param   int  $userInfoId  Order info id
+	 *
+	 * @return  array
+	 */
+	public function getBillingExtraFields($userInfoId)
+	{
+		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_city', 7, $userInfoId);
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_district', 7, $userInfoId);
+		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_ward', 7, $userInfoId);
+
+		if (empty($cityField) && empty($districtField) && empty($wardField))
+		{
+			return array();
+		}
+
+		$userCity     = "";
+		$userDistrict = "";
+		$userWard     = "";
+		$cities       = array();
+		$districts    = array();
+		$wards        = array();
+
+		$handle = $this->getDistrictProvinceData();
+
+		while ($result = fgetcsv($handle, null, ',', '"'))
+		{
+			if (!is_numeric($result[1]))
+			{
+				continue;
+			}
+
+			$cities[$result[1]]                = $result[0];
+			$districts[$result[1]][$result[3]] = $result[2];
+			$wards[$result[3]][$result[5]]     = $result[4];
+		}
+
+		$userCity     = $cities[$cityField->data_txt];
+		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
+		$userWard     = $wards[$districtField->data_txt][$wardField->data_txt];
+
+		return array(
+				'city'     => $userCity,
+				'district' => $userDistrict,
+				'ward'     => $userWard,
+			);
+	}
+
+	/**
+	 * Function to get User shipping extra fields
+	 *
+	 * @param   int  $userInfoId  Order info id
+	 *
+	 * @return  array
+	 */
+	public function getShippingExtraFields($userInfoId)
+	{
+		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_city', 14, $userInfoId);
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_district', 14, $userInfoId);
+		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_ward', 14, $userInfoId);
+
+		if (empty($cityField) && empty($districtField) && empty($wardField))
+		{
+			return array();
+		}
+
+		$userCity     = "";
+		$userDistrict = "";
+		$userWard     = "";
+		$cities       = array();
+		$districts    = array();
+		$wards        = array();
+
+		$handle = $this->getDistrictProvinceData();
+
+		while ($result = fgetcsv($handle, null, ',', '"'))
+		{
+			if (!is_numeric($result[1]))
+			{
+				continue;
+			}
+
+			$cities[$result[1]]                = $result[0];
+			$districts[$result[1]][$result[3]] = $result[2];
+			$wards[$result[3]][$result[5]]     = $result[4];
+		}
+
+		$userCity     = $cities[$cityField->data_txt];
+		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
+		$userWard     = $wards[$districtField->data_txt][$wardField->data_txt];
+
+		return array(
+				'city'     => $userCity,
+				'district' => $userDistrict,
+				'ward'     => $userWard,
+			);
 	}
 }
