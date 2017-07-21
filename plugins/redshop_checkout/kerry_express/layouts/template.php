@@ -19,10 +19,8 @@ extract($displayData);
 		        data: {city: id, id: infoId},
 		        url: "<?php echo JUri::root() . 'index.php?option=com_ajax&plugin=GetKerryDistrict&group=redshop_checkout&format=raw'; ?>",
 		        success: function(data) {
-		        	jQuery('select[name="rs_kerry_district"]').html('');
 		        	jQuery('#s2id_rs_kerry_district .select2-chosen').html('Select District');
-		        	jQuery('select[name="rs_kerry_district"]').append(data);
-		        	jQuery('select[name="rs_kerry_district"]').trigger("change");
+		        	jQuery('select[name="rs_kerry_district"]').html(data).trigger("change");
 		        }
 		    });
 	    });
@@ -37,10 +35,8 @@ extract($displayData);
 		        data: {district: id, id: infoId},
 		        url: "<?php echo JUri::root() . 'index.php?option=com_ajax&plugin=GetKerryWard&group=redshop_checkout&format=raw'; ?>",
 		        success: function(data) {
-		        	jQuery('select[name="rs_kerry_ward"]').html('');
 		        	jQuery('#s2id_rs_kerry_ward .select2-chosen').html('Select Ward');
-		        	jQuery('select[name="rs_kerry_ward"]').append(data);
-		        	jQuery('select[name="rs_kerry_ward"]').trigger("change");
+		        	jQuery('select[name="rs_kerry_ward"]').html(data).trigger("change");
 		        }
 		    });
 	    });
@@ -59,10 +55,8 @@ extract($displayData);
 		        data: {city: id, id: infoId},
 		        url: "<?php echo JUri::root() . 'index.php?option=com_ajax&plugin=GetKerryDistrict&group=redshop_checkout&format=raw'; ?>",
 		        success: function(data) {
-		        	jQuery('select[name="rs_kerry_billing_district"]').html('');
 		        	jQuery('#s2id_rs_kerry_billing_district .select2-chosen').html('Select District');
-		        	jQuery('select[name="rs_kerry_billing_district"]').append(data);
-		        	jQuery('select[name="rs_kerry_billing_district"]').trigger("change");
+		        	jQuery('select[name="rs_kerry_billing_district"]').html(data).trigger("change");
 		        }
 		    });
 	    });
@@ -77,10 +71,8 @@ extract($displayData);
 		        data: {district: id, id: infoId},
 		        url: "<?php echo JUri::root() . 'index.php?option=com_ajax&plugin=GetKerryWard&group=redshop_checkout&format=raw'; ?>",
 		        success: function(data) {
-		        	jQuery('select[name="rs_kerry_billing_ward"]').html('');
 		        	jQuery('#s2id_rs_kerry_billing_ward .select2-chosen').html('Select Ward');
-		        	jQuery('select[name="rs_kerry_billing_ward"]').append(data);
-		        	jQuery('select[name="rs_kerry_billing_ward"]').trigger("change");
+		        	jQuery('select[name="rs_kerry_billing_ward"]').html(data).trigger("change");
 		        }
 		    });
 	    });
@@ -97,11 +89,11 @@ extract($displayData);
 		        url: "<?php echo JUri::root() . 'index.php?option=com_ajax&plugin=GetKerryCity&group=redshop_checkout&format=raw'; ?>",
 		        data: {id: infoId},
 		        success: function(data) {
-		        	jQuery('select[name="rs_kerry_city"]').append(data).trigger("change");
-		        	jQuery('select[name="rs_kerry_billing_city"]').append(data);
+		        	jQuery('select[name="rs_kerry_city"]').html(data).trigger("change");
+		        	jQuery('select[name="rs_kerry_billing_city"]').html(data);
 		        	getBillingDistrict(infoId);
 		    		getBillingWard(infoId);
-		    		jQuery('select[name="rs_kerry_billing_city"]').append(data).trigger('change');
+		    		jQuery('select[name="rs_kerry_billing_city"]').trigger('change');
 		        }
 		    });	
 		});
