@@ -14,7 +14,6 @@ install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 8
   - nvm use 8
-  - npm install --save-dev
 addons:
   firefox: "46.0"
 before_script:
@@ -53,6 +52,7 @@ before_script:
 - composer install --working-dir ./libraries/redshop --ansi
 
 # Gulp packages
+- npm install
 - mv gulp-config.sample.json gulp-config.json
 - gulp release --skip-version
 
