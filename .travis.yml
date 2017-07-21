@@ -9,7 +9,7 @@ env:
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
 php:
-  - 5.5
+  - 5.6
   - 7.0
 install:
   - . $HOME/.nvm/nvm.sh
@@ -17,7 +17,7 @@ install:
   - nvm use 6
   - npm install
 addons:
-  firefox: "46.0"
+  firefox: "47.0.2"
 before_script:
 - sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts # forcing localhost to be the 1st alias of 127.0.0.1 in /etc/hosts (https://github.com/seleniumhq/selenium/issues/2074)
 - sudo apt-get update -qq
