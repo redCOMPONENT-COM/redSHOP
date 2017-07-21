@@ -57,14 +57,15 @@ $options = array(
 	'files'        => array(
 		/*REPO_BASE . '/../plugins',*/
 		REPO_BASE . '/../component',
-		REPO_BASE . '/../modules',
-		REPO_BASE . '/../libraries',
+		/*REPO_BASE . '/../modules',*/
+		REPO_BASE . '/../libraries'
 	),
 	'standard'     => array(REPO_BASE . '/../.travis/phpcs/Joomla/Joomla/ruleset.xml'),
 	'ignored'      => $ignored,
 	'showProgress' => true,
 	'verbosity'    => false,
-	'extensions'   => array('php')
+	'extensions'   => array('php'),
+	'colors'       => true
 );
 
 // Instantiate the sniffer
