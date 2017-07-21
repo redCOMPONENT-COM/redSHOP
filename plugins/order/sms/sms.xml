@@ -12,7 +12,6 @@
   	<description>PLG_ORDER_SMS_DESC</description>
 	<files>
 		<filename plugin="sms">sms.php</filename>
-		<folder>language</folder>
 	</files>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.plg_order_sms.ini</language>
