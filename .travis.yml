@@ -8,6 +8,7 @@ env:
     - GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
+    - HOST_PATH=$(pwd)
 php:
   - 5.5
   - 7.0
@@ -71,7 +72,6 @@ script:
 - sudo mkdir /var/www/html/tests
 - sudo mkdir /var/www/html/tests/joomla-cms3
 - sudo ln -s $(pwd)/tests/joomla-cms3 /var/www/html/tests/joomla-cms3/
-- export HOST_PATH = $(pwd)
 - cd /var/www/html/tests
 - ls -la
 - cd joomla-cms3
