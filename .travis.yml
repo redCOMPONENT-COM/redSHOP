@@ -68,6 +68,7 @@ script:
 - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
 # Download Joomla for testing
 - php vendor/bin/robo prepare:site-for-system-tests
+- sudo mkdir /var/www/tests
 - sudo ln -s $(pwd)/tests/joomla-cms3 /var/www/tests/
 - curl http://localhost/
 - curl http://localhost/tests
