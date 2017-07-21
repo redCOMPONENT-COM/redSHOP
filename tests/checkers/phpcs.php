@@ -39,16 +39,23 @@ $ignored = array(
 	REPO_BASE . '/../libraries/redshop/form/*',
 	REPO_BASE . '/../libraries/redshop/layouts/*',
 	REPO_BASE . '/../libraries/redshop/vendor/*',
-	REPO_BASE . '/../modules/site/*', /* Ignore all modules */
-	REPO_BASE . '/../plugins/redshop_payment/*', /* Ignore plugin "redSHOP Payment" group */
-	REPO_BASE . '/../plugins/redshop_shipping/*', /* Ignore plugin "redSHOP Shipping" group */
+	/* Ignore plugin "redSHOP Payment" group */
+	REPO_BASE . '/../plugins/redshop_payment/*',
+	/* Ignore plugin "redSHOP Shipping" group */
+	REPO_BASE . '/../plugins/redshop_shipping/*',
+	/* Ignore plugin "redSHOP PDF" group */
+	REPO_BASE . '/../plugins/redshop_pdf/*',
+	/* Ignore plugin "redSHOP Import" group */
+	REPO_BASE . '/../plugins/redshop_import/*',
+	/* Ignore plugin "redSHOP Export" group */
+	REPO_BASE . '/../plugins/redshop_export/*',
 	REPO_BASE . '*.js',
 );
 
 // Build the options for the sniffer
 $options = array(
 	'files'        => array(
-		REPO_BASE . '/../plugins',
+		/*REPO_BASE . '/../plugins',*/
 		REPO_BASE . '/../component',
 		REPO_BASE . '/../modules',
 		REPO_BASE . '/../libraries',
