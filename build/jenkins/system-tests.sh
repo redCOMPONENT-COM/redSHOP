@@ -53,7 +53,7 @@ mv tests/RoboFile.ini.dist tests/RoboFile.ini
 ln -s $(pwd)/tests/joomla-cms3 /tests/www/tests/
 
 # Run tests
-# vendor/bin/robo run:tests-jenkins
+vendor/bin/robo run:tests-jenkins
 
 if [ $? -eq 0 ]
 then
