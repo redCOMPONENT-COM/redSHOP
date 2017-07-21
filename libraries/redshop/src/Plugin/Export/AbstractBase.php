@@ -16,15 +16,19 @@ defined('_JEXEC') or die;
  *
  * @since  2.0.3
  */
-class AbstractBase extends \JPlugin
+class AbstractBase extends \Redshop\Plugin\AbstractBase
 {
 	/**
 	 * @var  string
+	 *
+	 * @since  2.0.3
 	 */
 	protected $separator = ',';
 
 	/**
 	 * @var  \JDatabaseDriver
+	 *
+	 * @since  2.0.3
 	 */
 	protected $db;
 
@@ -42,7 +46,6 @@ class AbstractBase extends \JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		$this->loadLanguage();
 		$this->db = \JFactory::getDbo();
 	}
 
@@ -55,7 +58,7 @@ class AbstractBase extends \JPlugin
 	 */
 	protected function getFilePath()
 	{
-		return JPATH_ROOT . '/tmp/redshop_' . $this->_name . '.csv';
+		return JPATH_ROOT . '/tmp/redshop/export/product/redshop_' . $this->_name . '.csv';
 	}
 
 	/**
@@ -217,9 +220,7 @@ class AbstractBase extends \JPlugin
 
 		if (!\JFile::exists($this->getFilePath()))
 		{
-			$handle = fopen($this->getFilePath(), 'w+');
-			fwrite($handle, '');
-			fclose($handle);
+
 		}
 
 		$filename = basename($this->getFilePath());
@@ -236,10 +237,17 @@ class AbstractBase extends \JPlugin
 			header('Pragma: no-cache');
 		}
 
-		readfile($this->getFilePath());
+		// Converting
+		$phpExcel = \Redshop\File\Parser\Excel::load($this->getFilePath());
+		// Generate temporary file for exporting;
+		$toFile = JPATH_ROOT . '/tmp/redshop/export/product/' . \Redshop\String\Helper::getUserRandomString();
+		$phpExcel->saveToFile($toFile , 'Excel2007');
+
+		readfile($toFile);
 
 		// Clean up file.
 		JFile::delete($this->getFilePath());
+		JFile::delete($toFile);
 	}
 
 	/**

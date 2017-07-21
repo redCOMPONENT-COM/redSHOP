@@ -34,4 +34,16 @@ class AbstractBase extends \JPlugin
 
 		$this->loadLanguage();
 	}
+
+	/**
+	 * Get temporary folder using in this plugin
+	 *
+	 * @return string
+	 *
+	 * @since   2.0.3
+	 */
+	public function getTemporaryFolder()
+	{
+		return JPATH_ROOT . '/tmp/redshop/' . $this->_type . '/' . $this->_name;
+	}
 }

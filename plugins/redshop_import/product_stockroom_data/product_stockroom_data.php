@@ -137,7 +137,7 @@ class PlgRedshop_ImportProduct_Stockroom_Data extends Import\AbstractBase
 	 *
 	 * @param   string  $productNumber  Product number
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since  1.0.0
 	 */

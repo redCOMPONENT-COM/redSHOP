@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use \Redshop\Plugin\Import;
+use Redshop\Plugin\Import;
 
 JLoader::import('redshop.library');
 
@@ -22,11 +22,15 @@ class PlgRedshop_ImportManufacturer extends Import\AbstractBase
 {
 	/**
 	 * @var string
+	 *
+	 * @since   2.0.3
 	 */
 	protected $primaryKey = 'manufacturer_id';
 
 	/**
 	 * @var string
+	 *
+	 * @since   2.0.3
 	 */
 	protected $nameKey = 'manufacturer_name';
 
@@ -72,8 +76,6 @@ class PlgRedshop_ImportManufacturer extends Import\AbstractBase
 	 */
 	public function getTable()
 	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
-
 		return JTable::getInstance('Manufacturer_Detail', 'Table');
 	}
 

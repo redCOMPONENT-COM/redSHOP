@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use \Redshop\Plugin\Import;
+use Redshop\Plugin\Import;
 
 JLoader::import('redshop.library');
 
@@ -22,11 +22,15 @@ class PlgRedshop_ImportUser extends Import\AbstractBase
 {
 	/**
 	 * @var string
+	 *
+	 * @since  1.0
 	 */
 	protected $primaryKey = 'users_info_id';
 
 	/**
 	 * @var string
+	 *
+	 * @since  1.0
 	 */
 	protected $nameKey = 'email';
 
@@ -216,6 +220,8 @@ class PlgRedshop_ImportUser extends Import\AbstractBase
 	 * Get all users information
 	 *
 	 * @return  array  User email id as a key of an array
+	 *
+	 * @since  1.0.0
 	 */
 	private function getUsersInfoByEmail()
 	{
@@ -237,7 +243,9 @@ class PlgRedshop_ImportUser extends Import\AbstractBase
 	/**
 	 * Get Shopper Group Id from input
 	 *
-	 * @return  integer  Shopper Group Id
+	 * @return  object  Shopper Group object
+	 *
+	 * @since  1.0.0
 	 */
 	public function getShopperGroupInfo()
 	{

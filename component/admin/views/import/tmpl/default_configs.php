@@ -1,3 +1,13 @@
+<?php
+/**
+ * @package     RedSHOP.Backend
+ * @subpackage  Template
+ *
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+defined('_JEXEC') or die;
+?>
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h4 class="panel-title">
@@ -32,8 +42,7 @@
 						<?php echo JText::_('COM_REDSHOP_IMPORT_CONFIG_SEPARATOR') ?>
 					</label>
 					<div class="col-md-10">
-						<input type="text" value="," class="form-control" maxlength="1"
-						       name="separator"/>
+						<input type="text" value="," class="form-control" maxlength="1" name="separator"/>
 					</div>
 				</div>
 				<div class="form-group">

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use \Redshop\Plugin\Import;
+use Redshop\Plugin\Import;
 
 JLoader::import('redshop.library');
 
@@ -22,6 +22,8 @@ class PlgRedshop_ImportShipping_Address extends Import\AbstractBase
 {
 	/**
 	 * @var string
+	 *
+	 * @since  1.0.0
 	 */
 	protected $primaryKey = 'users_info_id';
 

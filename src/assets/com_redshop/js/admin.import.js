@@ -2,14 +2,18 @@
 
     if (typeof redSHOP === 'undefined') {
         var redSHOP = {};
+        w.redSHOP = redSHOP;
     }
 
     if (typeof redSHOP.Admin === 'undefined') {
-        redSHOP.Admin = {};
+        redSHOP.Admin = {}
     }
 
     if (typeof redSHOP.Admin.import === 'undefined') {
         var importObj = {
+
+            countSuccessed: 0,
+            countFailed: 0,
 
             /**
              *
@@ -19,12 +23,14 @@
                 if (!lock) {
                     $("#import_plugins").removeClass("disabled muted");
                     $("#import_config").removeClass("disabled muted");
-                    $("#import_btn_start").removeClass("disabled muted hide");
+                    $("#import_btn_start").removeClass("disabled muted");
+                    $("#fileupload").removeClass("disabled muted");
                 }
                 else {
                     $("#import_plugins").addClass("disabled muted");
                     $("#import_config").addClass("disabled muted");
-                    $("#import_btn_start").addClass("disabled muted hide");
+                    $("#import_btn_start").addClass("disabled muted");
+                    $("#fileupload").addClass("disabled muted");
                 }
             },
 
@@ -65,9 +71,6 @@
                 return $("input[name='plugin_name']:checked").val();
             },
 
-            /**
-             *
-             */
             getFormSerialize: function () {
                 return $("#adminForm").serialize();
             },
@@ -128,10 +131,15 @@
 
                                 if (data.status == 0) {
                                     textClass = "text-danger";
+                                    $this.countFailed = $this.countFailed + 1;
+                                }
+                                else
+                                {
+                                    $this.countSuccessed = $this.countSuccessed + 1;
                                 }
 
                                 // Show log imported item
-                                $this.appendLog(textClass, response.data[dataIndex].message);
+                                $this.appendLog(textClass, data.message);
                             })
                         }
 
@@ -157,9 +165,6 @@
                     });
             },
 
-            /**
-             *
-             */
             init: function () {
                 var $fileUpload = $('#fileupload');
                 var $uploadWrapper = $("#import_upload_progress_wrapper");
@@ -216,6 +221,8 @@
                                 Joomla.JText._('COM_REDSHOP_IMPORT_TOTAL_FILES') + '<span class="label label-default">' + data.result.files + '</span>'
                             );
 
+                            $('#import_process').show();
+
                             // Execute import
                             $this.executeImport(1, data.result.folder, data.result.files);
                         } else {
@@ -223,6 +230,7 @@
                             $this.lockElements(false);
                             // Reset counting
                             $("#import_count").empty();
+                            $('#import_process').hide();
                             $this.appendLog('text-danger', data.result.msg)
                         }
                     },
@@ -233,7 +241,6 @@
                      * @param data
                      */
                     add: function (e, data) {
-
                         // Verify file type
                         if (allowFileType.indexOf(data.files[0].type) == -1
                             && data.files[0].name.indexOf(allowFileExt) == -1) {
@@ -339,7 +346,9 @@
         // Call init
         $(document).ready(function () {
             redSHOP.Admin.import.init();
-        });
+        })
     }
 
-})(window, jQuery);
+
+
+})(window, jQuery)

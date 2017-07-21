@@ -26,6 +26,13 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	protected $separator = ',';
 
 	/**
+	 * @var    string
+	 *
+	 * @since  2.0.7
+	 */
+	protected $defaultExtension = '.csv';
+
+	/**
 	 * @var string
 	 *
 	 * @since  2.0.3
@@ -70,14 +77,6 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	protected $encodingColumns = array();
 
 	/**
-	 * Default extension for splitted file
-	 *
-	 * @var    string
-	 *
-	 * @since  2.0.3
-	 */
-	protected $splitFileExtension = 'csv';
-	/**
 	 * List of columns for number format
 	 *
 	 * @var array
@@ -98,8 +97,8 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $subject  The object to observe
-	 * @param   array   $config   An optional associative array of configuration settings.
+	 * @param   object  $subject     The object to observe
+	 * @param   array   $config      An optional associative array of configuration settings.
 	 *                              Recognized key values include 'name', 'group', 'params', 'language'
 	 *                              (this list is not meant to be comprehensive).
 	 *
@@ -110,6 +109,8 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 		parent::__construct($subject, $config);
 
 		$this->db = \JFactory::getDbo();
+
+		\JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 	}
 
 	/**
@@ -136,8 +137,9 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 			$this->separator = $data['separator'];
 		}
 
-		$importDir = $this->getPath();
+		$importDir = $this->getTemporaryFolder();
 
+		// Create temporary directory
 		if (!\JFolder::exists($importDir))
 		{
 			\JFolder::create($importDir);
@@ -149,7 +151,8 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 			return false;
 		}
 
-		return $this->splitFiles($this->getPath() . '/' . $file['name']);
+		// @TODO Should we move splitFiles into another ajax to make it more clearly
+		return $this->splitFiles($importDir . '/' . $file['name']);
 	}
 
 	/**
@@ -171,13 +174,15 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 		// Create splitting dir
 		$this->folder = \Redshop\String\Helper::getUserRandomString();
 
+		// Create temporary for this import
 		if (\JFolder::exists($this->folder))
 		{
 			\JFolder::delete($this->folder);
 		}
 
-		\JFolder::create($this->getPath() . '/' . $this->folder);
+		\JFolder::create($this->getTemporaryFolder() . '/' . $this->folder);
 
+		// Load request file
 		$phpExcel = \Redshop\File\Parser\Excel::load($file, $this->separator);
 
 		// File load success than go to process
@@ -186,20 +191,20 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 			return false;
 		}
 
-		$maxRows = $phpExcel->countRows();
+		$maxRows       = $phpExcel->countRows();
 		$importMaxRows = \Redshop::getConfig()->get('IMPORT_MAX_LINE', 10);
 
 		// Prepare array of return data
-		$returnData = array (
-			'folder' => $this->folder,
+		$returnData = array(
+			'folder'        => $this->folder,
 			// Total rows in file
-			'rows' => $maxRows,
+			'rows'          => $maxRows,
 			// Total rows in smaller file which one we'll split into
 			'rows_per_file' => ($importMaxRows > $maxRows) ? $maxRows : $importMaxRows,
 			// Array of header row
-			'header' => $phpExcel->getHeaderArray()[0],
+			'header'        => $phpExcel->getHeaderArray()[0],
 			// Init total files
-			'files' => 0
+			'files'         => 0
 		);
 
 		// Get all data as array
@@ -215,12 +220,13 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 		foreach ($smallerContentArray as $index => $contentOfFile)
 		{
 			// Always save as CSV
-			$saveToFile = ($index + 1) . '.' . $this->splitFileExtension;
+			$saveToFile = ($index + 1) . $this->defaultExtension;
+			$saveToFile = $this->getTemporaryFolder() . '/' . $this->folder . '/' . $saveToFile;
 
 			// Write header
 			$phpExcel->writeHeader($returnData['header']);
 			$phpExcel->writeData($contentOfFile);
-			$phpExcel->saveToFile($this->getPath() . '/' . $this->folder . '/' . $saveToFile);
+			$phpExcel->saveToFile($saveToFile);
 
 			// Increase total files
 			$returnData['files'] = $returnData['files'] + 1;
@@ -241,17 +247,17 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	 */
 	public function importing()
 	{
-		$result         = new \stdClass;
-		$result->status = 0;
-		$result->data   = array();
+		$response = new \Redshop\Ajax\Response;
+
+		$workingDir = $this->getTemporaryFolder() . '/' . $this->folder;
 
 		// Get file to process
-		$file   = \JFactory::getApplication()->input->getInt('index') . '.' . $this->splitFileExtension;
-		$filePath = $this->getPath() . '/' . $this->folder . '/' . $file;
+		$file     = \JFactory::getApplication()->input->getInt('index') . $this->defaultExtension;
+		$filePath = $workingDir . '/' . $file;
 
 		if (!\JFile::exists($filePath))
 		{
-			return $result;
+			return $response;
 		}
 
 		// Try to parse
@@ -259,12 +265,12 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 
 		if ($phpExcel === false)
 		{
-			return $result;
+			return $response;
 		}
 
-		$header = $phpExcel->getHeaderArray()[0];
+		$header    = $phpExcel->getHeaderArray()[0];
 		$dataArray = $phpExcel->getDataArray();
-		$table = $this->getTable();
+		$table     = $this->getTable();
 
 		foreach ($dataArray as $data)
 		{
@@ -302,24 +308,23 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 				$rowResult->message = $table->getError();
 			}
 
-			$result->data[] = $rowResult;
+			$response->addData($rowResult);
 		}
 
 		// Delete processed file;
-		\JFile::delete($this->getPath() . '/' . $this->folder . '/' . $file);
+		\JFile::delete($workingDir . '/' . $file);
 
-		$result->status = 1;
-		$result->file = $file;
+		$response->success()->addProperty('file', $file);
 
 		// Try to clean up if this's last one
-		$files          = \JFolder::files($this->getPath() . '/' . $this->folder, '.', true);
+		$files = \JFolder::files($workingDir, '.', true);
 
 		if (empty($files))
 		{
-			\JFolder::delete($this->getPath() . '/' . $this->folder);
+			\JFolder::delete($workingDir);
 		}
 
-		return $result;
+		return $response;
 	}
 
 	/**
@@ -344,18 +349,6 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	public function getDataProperties()
 	{
 		return $this->getTable()->getProperties();
-	}
-
-	/**
-	 * Method for get absolute path of temporary folder for import.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.0.3
-	 */
-	public function getPath()
-	{
-		return JPATH_ROOT . '/tmp/redshop/import/' . $this->_name;
 	}
 
 	/**

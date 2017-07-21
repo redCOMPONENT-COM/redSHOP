@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use \Redshop\Plugin\Import;
+use Redshop\Plugin\Import;
 
 JLoader::import('redshop.library');
 
@@ -22,11 +22,15 @@ class PlgRedshop_ImportShopper_group_attribute_price extends Import\AbstractBase
 {
 	/**
 	 * @var string
+	 *
+	 * @since   1.0.0
 	 */
 	protected $primaryKey = 'price_id';
 
 	/**
 	 * @var string
+	 *
+	 * @since   1.0.0
 	 */
 	protected $nameKey = 'product_price';
 
@@ -172,6 +176,8 @@ class PlgRedshop_ImportShopper_group_attribute_price extends Import\AbstractBase
 	 * @param   integer  $shopperGroupInputId  Shopper Group Id from CSV File
 	 *
 	 * @return  integer  Shopper Group Id
+	 *
+	 * @since   1.0.0
 	 */
 	public function getShopperGroupId($shopperGroupInputId)
 	{
