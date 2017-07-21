@@ -26,12 +26,10 @@ before_script:
 - sudo a2enmod rewrite actions fastcgi alias
 - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
-- sudo apachectl -V
 - sudo cp -f tests/travis-ci-apache.conf /etc/apache2/sites-available/default
-- ls /etc/apache2/sites-available/
 - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
 - sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/default
-- git submodule update --init --recursive
+- sudo a2ensite default
 - sudo service apache2 restart
 # XVFB
 - "export DISPLAY=:99.0"
@@ -42,6 +40,7 @@ before_script:
 - fluxbox &
 - sleep 3 # give fluxbox some time to start
 # Gulp packages
+- git submodule update --init --recursive
 - npm install
 - mv gulp-config.sample.json gulp-config.json
 - ./node_modules/.bin/gulp release --skip-version
