@@ -922,8 +922,6 @@ abstract class RedshopEntityBase
 	 *
 	 * @return  integer  The item id
 	 *
-	 * @throws  RuntimeException  When JTable instance not found
-	 *
 	 * @since   1.0
 	 */
 	public function save($item = null)
@@ -940,25 +938,32 @@ abstract class RedshopEntityBase
 
 		if (!$item)
 		{
-			throw new RuntimeException("Nothing to save", 422);
+			JLog::add("Nothing to save", JLog::ERROR, 'entity');
+
+			return 0;
 		}
 
 		$table = $this->getTable();
 
 		if (!$table instanceof JTable)
 		{
-			throw new RuntimeException("Table for instance " . $this->getInstanceName() . " could not be loaded", 500);
+			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
+
+			return 0;
 		}
 
 		if (!$table->save((array) $item))
 		{
-			JLog::add($table->getError(), JLog::ERROR, 'database');
-			return false;
+			JLog::add($table->getError(), JLog::ERROR, 'entity');
+
+			return 0;
 		}
 
 		// Force entity reload / save to cache
 		static::clearInstance($this->id);
 		static::loadFromTable($table);
+
+		$this->processAfterSaving($table);
 
 		return $table->{$table->getKeyName()};
 	}
@@ -986,20 +991,26 @@ abstract class RedshopEntityBase
 	}
 
 	/**
-	 * Process $item data before saving
-	 * Return false will break save process
+	 * Process $item data before saving.
 	 *
-	 * @param   array  $item
+	 * @param   mixed  $item  Array / Object of data.
 	 *
-	 * @return  bool
+	 * @return  boolean       Return false will break save process
 	 */
-	public function processBeforeSaving (&$item = array())
+	public function processBeforeSaving(&$item)
 	{
 		return true;
 	}
 
-	public function processAfterSaving (&$table)
+	/**
+	 * Process data after saving.
+	 *
+	 * @param   JTable  $table  JTable instance data.
+	 *
+	 * @return  boolean
+	 */
+	public function processAfterSaving(&$table)
 	{
-
+		return true;
 	}
 }
