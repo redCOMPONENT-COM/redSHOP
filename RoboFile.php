@@ -679,7 +679,7 @@ class RoboFile extends \Robo\Tasks
         }
 
         $this->taskExec('php tests/checkers/phpcs.php')
-                ->printed(true)
+                ->printOutput(true)
                 ->run();
     }
 
