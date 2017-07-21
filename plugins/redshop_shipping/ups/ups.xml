@@ -13,6 +13,7 @@
     <shipping_class>ups</shipping_class>
     <shipping_method_code>ups</shipping_method_code>
     <files>
+        <folder>config</folder>
         <folder>language</folder>
         <folder>layouts</folder>
         <filename plugin="ups">ups.php</filename>
