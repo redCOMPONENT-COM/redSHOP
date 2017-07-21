@@ -1,5 +1,6 @@
 language: php
 sudo: required
+group: deprecated-2017Q3
 env:
   global:
     - CLOUD_NAME=redcomponent
@@ -68,15 +69,6 @@ script:
 - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
 # Download Joomla for testing
 - php vendor/bin/robo prepare:site-for-system-tests
-- echo $(pwd)
-- sudo mkdir /var/www/html/tests
-- sudo mkdir /var/www/html/tests/joomla-cms3
-- sudo ln -s $(pwd)/tests/joomla-cms3 /var/www/html/tests/joomla-cms3/
-- cd /var/www/html/tests
-- ls -la
-- cd joomla-cms3
-- ls -la
-- cd $HOST_PATH
 - php vendor/bin/robo check:travis-webserver # Test apache
 - php vendor/bin/robo run:tests 1
 #- php vendor/bin/robo send:codeception-output-to-slack C02L0SE5E xoxp-2309442657-4789197868-4789233706-68cec7
