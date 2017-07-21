@@ -36,6 +36,7 @@ before_script:
 - sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/default
 - git submodule update --init --recursive
 - sudo service apache2 restart
+- sudo service apache2 status
 - mv tests/RoboFile.ini.dist tests/RoboFile.ini
 
 # XVFB
