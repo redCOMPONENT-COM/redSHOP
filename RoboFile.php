@@ -670,7 +670,7 @@ class RoboFile extends \Robo\Tasks
      *
      * @return  void
      */
-    /*public function checkCodestyle()
+    public function checkCodestyle()
     {
         if (!file_exists('.travis/phpcs/Joomla/ruleset.xml'))
         {
@@ -681,7 +681,7 @@ class RoboFile extends \Robo\Tasks
         $this->taskExec('php tests/checkers/phpcs.php')
                 ->printed(true)
                 ->run();
-    }*/
+    }
 
     /**
      * Looks for Travis Webserver
