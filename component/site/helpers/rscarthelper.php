@@ -392,6 +392,10 @@ class rsCarthelper
 					$billingLayout = 'mail.billing';
 				}
 
+				JPluginHelper::importPlugin('redshop_checkout');
+				$dispatcher = RedshopHelperUtility::getDispatcher();
+				$dispatcher->trigger('onBeforeRenderBillingAddress', array(&$billingaddresses));
+
 				$billadd = RedshopLayoutHelper::render(
 					$billingLayout,
 					array('billingaddresses' => $billingaddresses),
@@ -543,6 +547,10 @@ class rsCarthelper
 				{
 					$shippingLayout = 'mail.shipping';
 				}
+
+				JPluginHelper::importPlugin('redshop_checkout');
+				$dispatcher = RedshopHelperUtility::getDispatcher();
+				$dispatcher->trigger('onBeforeRenderShippingAddress', array(&$shippingaddresses));
 
 				$shipadd = RedshopLayoutHelper::render(
 					$shippingLayout,
