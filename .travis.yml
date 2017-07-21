@@ -38,7 +38,7 @@ before_script:
 - sudo service apache2 restart
 - sudo service apache2 status
 - mv tests/RoboFile.ini.dist tests/RoboFile.ini
-
+- grep -R "DocumentRoot" /etc/apache2/sites-enabled
 # XVFB
 - "export DISPLAY=:99.0"
 - "sh -e /etc/init.d/xvfb start"
