@@ -672,7 +672,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function checkCodestyle()
     {
-        if (!file_exists('.travis/phpcs/Joomla/ruleset.xml'))
+        if (!file_exists('.travis/phpcs/Joomla/Joomla/ruleset.xml'))
         {
             $this->say('Downloading Joomla Coding Standards Sniffers');
             $this->_exec("git clone -b master --single-branch --depth 1 https://github.com/joomla/coding-standards.git .travis/phpcs/Joomla");
