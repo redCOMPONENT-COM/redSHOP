@@ -12,8 +12,8 @@ php:
   - 7.0
 install:
   - . $HOME/.nvm/nvm.sh
-  - nvm install 8
-  - nvm use 8
+  - nvm install 6
+  - nvm use 6
 addons:
   firefox: "46.0"
 before_script:
