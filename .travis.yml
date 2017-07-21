@@ -10,6 +10,10 @@ env:
     - REPO=redSHOP
 php:
   - 7.0
+install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install 8
+  - nvm use 8
 addons:
   firefox: "46.0"
 before_script:
@@ -45,7 +49,7 @@ before_script:
 # Gulp packages
 - npm install
 - mv gulp-config.sample.json gulp-config.json
-- gulp release --skip-version
+- ./node_modules/.bin/gulp release --skip-version
 
 script:
 # Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753
