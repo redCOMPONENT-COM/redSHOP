@@ -29,6 +29,7 @@ before_script:
 - sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/default.conf
 - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default.conf
 - sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/default.conf
+- sudo cat /etc/apache2/sites-available/default.conf
 - git submodule update --init --recursive
 - sudo service apache2 restart
 # XVFB
