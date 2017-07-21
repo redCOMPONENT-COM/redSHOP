@@ -79,7 +79,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		$accessorylist = RedshopHelperAccessory::getProductAccessories(0, $product->product_id);
 		$totacc        = count($accessorylist);
 		$netPrice      = $productHelper->getProductNetPrice($pid);
-		$productPrice  = $netPrice['productPrice'] + $netPrice['productVat'];
+		$productPrice  = $netPrice['productPrice'];
 
 		$dataAdd = $templateProduct;
 

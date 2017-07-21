@@ -165,5 +165,5 @@ gulp.task("watch:" + baseTask + ":manifest", function () {
 
 // Composer
 gulp.task("composer:" + baseTask, function () {
-    composer({cwd: extPath, bin: "php ./composer.phar"});
+    executeComposer(extPath);
 });
