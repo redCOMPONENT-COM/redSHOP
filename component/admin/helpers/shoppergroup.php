@@ -18,7 +18,8 @@ defined('_JEXEC') or die;
  *
  * @deprecated  2.0.3  Use RedshopHelperShopper_Group instead
  */
-class shoppergroup
+class
+shoppergroup
 {
 	/**
 	 * List all shopper group as dropdown list
