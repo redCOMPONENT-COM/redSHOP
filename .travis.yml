@@ -9,12 +9,11 @@ env:
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
 php:
-  - 5.5
   - 7.0
 install:
   - . $HOME/.nvm/nvm.sh
-  - nvm install 6
-  - nvm use 6
+  - nvm install 8
+  - nvm use 8
   - npm install
 addons:
   firefox: "46.0"
@@ -61,7 +60,7 @@ before_script:
 script:
 - php vendor/bin/robo check:for-missed-debug-code
 - php vendor/bin/robo check:for-php-parse
-# - php vendor/bin/robo check:codestyle
+- php vendor/bin/robo check:codestyle
 - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
 # Download Joomla for testing
 - php vendor/bin/robo prepare:site-for-system-tests
