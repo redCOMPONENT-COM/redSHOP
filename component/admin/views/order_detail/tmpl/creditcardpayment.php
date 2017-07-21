@@ -61,7 +61,7 @@ $paymentinfo->payment_oprand = $payment_oprand;
 $paymentinfo->payment_discount_is_percent = $payment_discount_is_percent;
 $paymentinfo->accepted_credict_card = $accepted_credict_card;
 
-$shopperGroupId = $userhelper->getShopperGroup($user_id);
+$shopperGroupId = RedshopHelperUser::getShopperGroup($user_id);
 
 if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 {

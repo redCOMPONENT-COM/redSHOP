@@ -11,8 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-$request = JRequest::get('request');
-$input   = JFactory::getApplication()->input;
+$input = JFactory::getApplication()->input;
 
 if ($input->getInt('ccinfo', 0) == 1)
 {

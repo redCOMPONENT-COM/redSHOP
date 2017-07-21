@@ -18,6 +18,20 @@ defined('_JEXEC') or die;
 class RedshopHelperCartTag
 {
 	/**
+	 * @param   string  $template  Template
+	 * @param   string  $beginTag  Begin tag
+	 * @param   string  $closeTag  Close tag
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.7
+	 */
+	public static function isBlockTagExists($template, $beginTag, $closeTag)
+	{
+		return (strpos($template, $beginTag) !== false && strpos($template, $closeTag) !== false);
+	}
+
+	/**
 	 * replace Conditional tag from Redshop tax
 	 *
 	 * @param   string  $template       Template
@@ -26,12 +40,12 @@ class RedshopHelperCartTag
 	 * @param   int     $check          Check
 	 * @param   int     $quotationMode  Quotation mode
 	 *
-	 * @return  mixed|string
+	 * @return  string
 	 * @since   2.0.7
 	 */
 	public static function replaceTax($template = '', $amount = 0, $discount = 0, $check = 0, $quotationMode = 0)
 	{
-		if (strpos($template, '{if vat}') === false || strpos($template, '{vat end if}') == false)
+		if (!self::isBlockTagExists($template, '{if vat}', '{vat end if}'))
 		{
 			return $template;
 		}
@@ -97,6 +111,62 @@ class RedshopHelperCartTag
 		$template = str_replace("{vat_lbl}", JText::_('COM_REDSHOP_CHECKOUT_VAT_LBL'), $template);
 		$template = str_replace("{if vat}", '', $template);
 		$template = str_replace("{vat end if}", '', $template);
+
+		return $template;
+	}
+
+
+	/**
+	 * @param   string  $template      Template
+	 * @param   int     $discount      Discount
+	 * @param   int     $subTotal      Subtotal
+	 * @param   int     $quotationMode Quotation mode
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 */
+	public static function replaceDiscount($template = '', $discount = 0, $subTotal = 0, $quotationMode = 0)
+	{
+		if (!self::isBlockTagExists($template, '{if discount}', '{discount end if}'))
+		{
+			return $template;
+		}
+
+		$productHelper = productHelper::getInstance();
+		$percentage = '';
+
+		if ($discount <= 0)
+		{
+			$templateDiscountSdata = explode('{if discount}', $template);
+			$templateDiscountEdata = explode('{discount end if}', $templateDiscountSdata[1]);
+			$template              = $templateDiscountSdata[0] . $templateDiscountEdata[1];
+		}
+		else
+		{
+			$template = str_replace("{if discount}", '', $template);
+
+			if ($quotationMode && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
+			{
+				$template = str_replace("{discount}", "", $template);
+				$template = str_replace("{discount_in_percentage}", $percentage, $template);
+			}
+			else
+			{
+				$template = str_replace("{discount}", $productHelper->getProductFormattedPrice($discount, true), $template);
+				$template = str_replace("{order_discount}", $productHelper->getProductFormattedPrice($discount, true), $template);
+
+				if (!empty($subTotal) && $subTotal > 0)
+				{
+					$percentage = round(($discount * 100 / $subTotal), 2) . " %";
+				}
+
+				$template = str_replace("{discount_in_percentage}", $percentage, $template);
+			}
+
+			$template = str_replace("{discount_lbl}", JText::_('COM_REDSHOP_CHECKOUT_DISCOUNT_LBL'), $template);
+			$template = str_replace("{discount end if}", '', $template);
+		}
 
 		return $template;
 	}

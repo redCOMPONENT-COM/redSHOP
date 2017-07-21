@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Helper\ShopperGroup;
+
 /**
  * Class Redshop Helper for Shopper Group
  *
@@ -317,5 +319,32 @@ class RedshopHelperShopper_Group
 		}
 
 		return $flag;
+	}
+
+	/**
+	 * Method for get shopper group manufacturers of specific user.
+	 *
+	 * @param   integer  $userId  Joomla user id.
+	 *
+	 * @return  string            List of manufacturer Ids.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function getShopperGroupManufacturers($userId = 0)
+	{
+		if (!$userId)
+		{
+			$userId = JFactory::getUser()->id;
+		}
+
+		$shopperGroupId = RedshopHelperUser::getShopperGroup($userId);
+		$shopperGroups  = ShopperGroup::generateList($shopperGroupId);
+
+		if (empty($shopperGroups))
+		{
+			return '';
+		}
+
+		return $shopperGroups[0]->shopper_group_manufactures;
 	}
 }

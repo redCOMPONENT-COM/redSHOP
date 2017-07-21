@@ -198,4 +198,113 @@ class RedshopHelperJoomla
 
 		return $user;
 	}
+
+	/**
+	 * Method for update Joomla user.
+	 *
+	 * @param   array   $data  User data.
+	 *
+	 * @return  boolean|JUser|stdClass       JUser if success. False otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function updateJoomlaUser($data)
+	{
+		$app = JFactory::getApplication();
+
+		if ((!$app->isAdmin() && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || $data['user_id'] < 0))
+			|| $app->isAdmin() && $data['user_id'] < 0 && isset($data['users_info_id']))
+		{
+			$reduser     = new stdClass;
+			$reduser->id = $data['user_id'];
+
+			return $reduser;
+		}
+
+		$me = JFactory::getUser();
+
+		$data['name'] = $name = $data['firstname'];
+
+		// Check: Username is not empty
+		if (trim($data['username']) == "")
+		{
+			JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_USERNAME'));
+
+			return false;
+		}
+
+		// Check: Validate username.
+		if (RedshopHelperUser::validateUser($data['username'], $data['user_id']))
+		{
+			JError::raiseWarning('', JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'));
+
+			return false;
+		}
+
+		// Check: Email not empty.
+		if (trim($data['email']) == "")
+		{
+			JError::raiseWarning('', JText::_('EMPTY_EMAIL'));
+
+			return false;
+		}
+
+		// Check: Validate email
+		if (RedshopHelperUser::validateEmail($data['email'], $data['user_id']))
+		{
+			JError::raiseWarning('', JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'));
+
+			return false;
+		}
+
+		// Get required system objects
+		$user = new JUser($data['user_id']);
+
+		if (!$user->bind($data))
+		{
+			JError::raiseError(500, $user->getError());
+
+			return false;
+		}
+
+		// Initialise variables;
+		$pk = $user->get('id');
+
+		if ($user->get('block') && $pk == $me->id && !$me->block)
+		{
+			$app->enqueueMessage(JText::_('YOU_CANNOT_BLOCK_YOURSELF!'), 'error');
+
+			return false;
+		}
+
+		// Make sure that we are not removing ourself from Super Admin group
+		if ($me->authorise('core.admin') && $me->get('id') == $pk)
+		{
+			// Check that at least one of our new groups is Super Admin
+			$stillSuperAdmin = false;
+			$myNewGroups     = $user->groups;
+
+			foreach ($myNewGroups as $group)
+			{
+				$stillSuperAdmin = ($stillSuperAdmin) ? ($stillSuperAdmin) : JAccess::checkGroup($group, 'core.admin');
+			}
+
+			if (!$stillSuperAdmin)
+			{
+				$app->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_DEMOTE_SELF'), 'error');
+
+				return false;
+			}
+		}
+
+		// If there was an error with registration, set the message and display form
+		if (!$user->save())
+		{
+			JError::raiseWarning('', JText::_($user->getError()));
+
+			return false;
+		}
+
+		return $user;
+	}
 }

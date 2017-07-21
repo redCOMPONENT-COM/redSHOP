@@ -162,13 +162,35 @@ class RedshopHelperUser
 	/**
 	 * Replace Conditional tag from Redshop tax
 	 *
-	 * @param   integer $userId User identifier
+	 * @param   integer  $userId  User identifier
 	 *
 	 * @return  integer            User group
 	 */
 	public static function getShopperGroup($userId = 0)
 	{
-		if (0 == $userId)
+		$shopperGroupData = self::getShopperGroupData($userId);
+
+		if (!is_null($shopperGroupData))
+		{
+			return $shopperGroupData->shopper_group_id;
+		}
+
+		return Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
+	}
+
+	/**
+	 * Get Shopper Group Data
+	 *
+	 * @param   int  $userId  User id
+	 *
+	 * @return  mixed
+	 */
+	public static function getShopperGroupData($userId = 0)
+	{
+		$userId = !$userId ? JFactory::getUser()->id : $userId;
+
+		// If user is guest. Try to get redshop user id.
+		if (!$userId)
 		{
 			$auth = JFactory::getSession()->get('auth');
 
@@ -178,60 +200,31 @@ class RedshopHelperUser
 			}
 		}
 
-		$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
-
-		if ($userId)
+		// In case user doesn't not entered any information yet. Get from default config.
+		if (!$userId)
 		{
-			$shopperGroupData = self::getShopperGroupData($userId);
+			$shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
 
-			if (count($shopperGroupData) > 0)
-			{
-				$shopperGroupId = $shopperGroupData->shopper_group_id;
-			}
+			return self::getShopperGroupDataById($shopperGroupId);
 		}
 
-		return $shopperGroupId;
-	}
-
-	/**
-	 * Get Shopper Group Data
-	 *
-	 * @param   int $userId User id
-	 *
-	 * @return mixed
-	 */
-	public static function getShopperGroupData($userId = 0)
-	{
-		if ($userId == 0)
+		// In case user is not guest.
+		if (!array_key_exists($userId, self::$userShopperGroupData))
 		{
-			$user   = JFactory::getUser();
-			$userId = $user->id;
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('sg.*')
+				->from($db->qn('#__redshop_shopper_group', 'sg'))
+				->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.shopper_group_id')
+				->where('ui.user_id = ' . (int) $userId)
+				->where('ui.address_type = ' . $db->q('BT'));
+
+			$db->setQuery($query);
+
+			self::$userShopperGroupData[$userId] = $db->loadObject();
 		}
 
-		if ($userId != 0)
-		{
-			if (!array_key_exists($userId, self::$userShopperGroupData))
-			{
-				$db    = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->select('sg.*')
-					->from($db->qn('#__redshop_shopper_group', 'sg'))
-					->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.shopper_group_id')
-					->where('ui.user_id = ' . (int) $userId)
-					->where('ui.address_type = ' . $db->q('BT'));
-				$db->setQuery($query);
-				self::$userShopperGroupData[$userId] = $db->loadObject();
-
-				if (!self::$userShopperGroupData[$userId])
-				{
-					self::$userShopperGroupData[$userId] = array();
-				}
-			}
-
-			return self::$userShopperGroupData[$userId];
-		}
-
-		return array();
+		return self::$userShopperGroupData[$userId];
 	}
 
 	/**
@@ -296,7 +289,7 @@ class RedshopHelperUser
 	 * @param   string $username User name
 	 * @param   int    $id       User Id
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   2.0.0.6
 	 */
@@ -318,7 +311,7 @@ class RedshopHelperUser
 	 * @param   string $email User mail
 	 * @param   int    $id    User Id
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   2.0.0.6
 	 */
@@ -669,7 +662,7 @@ class RedshopHelperUser
 
 		if (!$useBillingAsShipping)
 		{
-			RsUserHelper::getInstance()->storeRedshopUserShipping($data);
+			RedshopHelperUser::storeRedshopUserShipping($data);
 		}
 
 		$registerMethod = Redshop::getConfig()->get('REGISTER_METHOD');
@@ -687,5 +680,70 @@ class RedshopHelperUser
 		RedshopHelperUtility::getDispatcher()->trigger('onAfterCreateRedshopUser', array($data, $isNew));
 
 		return $row;
+	}
+
+	/**
+	 * Method for store user shipping data
+	 *
+	 * @param   array  $data  Available data.
+	 *
+	 * @return  boolean|Tableuser_detail  Table user if success. False otherwise.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function storeRedshopUserShipping($data = array())
+	{
+		/** @var Tableuser_detail $userTable */
+		$userTable = JTable::getInstance('user_detail', 'Table');
+
+		if (!$userTable->bind($data))
+		{
+			JFactory::getApplication()->enqueueMessage($userTable->getError(), 'error');
+
+			return false;
+		}
+
+		$userTable->user_id               = $data['user_id'];
+		$userTable->address_type          = 'ST';
+		$userTable->country_code          = $data['country_code_ST'];
+		$userTable->state_code            = (isset($data['state_code_ST'])) ? $data['state_code_ST'] : "";
+		$userTable->firstname             = $data['firstname_ST'];
+		$userTable->lastname              = $data['lastname_ST'];
+		$userTable->address               = $data['address_ST'];
+		$userTable->city                  = $data['city_ST'];
+		$userTable->zipcode               = $data['zipcode_ST'];
+		$userTable->phone                 = $data['phone_ST'];
+		$userTable->user_email            = $data['user_email'];
+		$userTable->tax_exempt            = $data['tax_exempt'];
+		$userTable->requesting_tax_exempt = $data['requesting_tax_exempt'];
+		$userTable->shopper_group_id      = $data['shopper_group_id'];
+		$userTable->tax_exempt_approved   = $data['tax_exempt_approved'];
+		$userTable->is_company            = $data['is_company'];
+
+		if ($data['is_company'] == 1)
+		{
+			$userTable->company_name = $data['company_name'];
+			$userTable->vat_number   = $data['vat_number'];
+		}
+
+		if (!$userTable->store())
+		{
+			JFactory::getApplication()->enqueueMessage($userTable->getError(), 'error');
+
+			return false;
+		}
+
+		if ($data['is_company'] == 0)
+		{
+			// Info: field_section 14 :Customer shipping Address
+			RedshopHelperExtrafields::extraFieldSave($data, RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $userTable->users_info_id);
+		}
+		else
+		{
+			// Info: field_section 15 :Company shipping Address
+			RedshopHelperExtrafields::extraFieldSave($data, RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $userTable->users_info_id);
+		}
+
+		return $userTable;
 	}
 }

@@ -33,7 +33,12 @@ class RedshopControllerCoupon_detail extends RedshopController
 		parent::display();
 	}
 
-	public function save()
+	public function apply()
+	{
+		$this->save(1);
+	}
+
+	public function save($apply = 0)
 	{
 		$app             = JFactory::getApplication();
 		$post            = $this->input->post->getArray();
@@ -61,7 +66,7 @@ class RedshopControllerCoupon_detail extends RedshopController
 			}
 		}
 
-		if ($model->store($post))
+		if ($row = $model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_SAVED');
 		}
@@ -70,7 +75,14 @@ class RedshopControllerCoupon_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_COUPON_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
+		if ($apply == 1)
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=coupon_detail&task=edit&cid[]=' . $row->coupon_id, $msg);
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
+		}
 	}
 
 	public function remove()
