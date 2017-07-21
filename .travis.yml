@@ -21,9 +21,6 @@ before_script:
 - sudo apt-get update -qq
 - sudo apt-get install -y --force-yes apache2 libapache2-mod-fastcgi > /dev/null
 - sudo mkdir $(pwd)/.run
-- phpenv config-add .travis.ini
-- phpenv rehash
-
 - chmod a+x tests/travis-php-fpm.sh
 - sudo ./tests/travis-php-fpm.sh $USER $(phpenv version-name)
 - sudo a2enmod rewrite actions fastcgi alias
@@ -34,22 +31,19 @@ before_script:
 - sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/default
 - git submodule update --init --recursive
 - sudo service apache2 restart
-- mv tests/RoboFile.ini.dist tests/RoboFile.ini
-
 # XVFB
 - "export DISPLAY=:99.0"
 - "sh -e /etc/init.d/xvfb start"
 - sleep 3 # give xvfb some time to start
-
 # Window manager
 - sudo apt-get install fluxbox -y --force-yes
 - fluxbox &
 - sleep 3 # give fluxbox some time to start
-
 # Gulp packages
 - npm install
 - mv gulp-config.sample.json gulp-config.json
 - ./node_modules/.bin/gulp release --skip-version
+- mv tests/RoboFile.ini.dist tests/RoboFile.ini
 
 script:
 # Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753
