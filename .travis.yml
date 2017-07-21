@@ -20,7 +20,7 @@ before_script:
 - sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts # forcing localhost to be the 1st alias of 127.0.0.1 in /etc/hosts (https://github.com/seleniumhq/selenium/issues/2074)
 - sudo apt-get update -qq
 - sudo apt-get install -y --force-yes apache2 libapache2-mod-fastcgi > /dev/null
-- apache2ctl -V
+- apachectl -V
 - sudo mkdir $(pwd)/.run
 - chmod a+x tests/travis-php-fpm.sh
 - sudo ./tests/travis-php-fpm.sh $USER $(phpenv version-name)
