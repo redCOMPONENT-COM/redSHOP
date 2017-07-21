@@ -1,6 +1,5 @@
 language: php
 sudo: required
-dist: precise
 env:
   global:
     - CLOUD_NAME=redcomponent
@@ -41,7 +40,6 @@ before_script:
 - sudo service apache2 status
 - mv tests/RoboFile.ini.dist tests/RoboFile.ini
 - grep -R "DocumentRoot" /etc/apache2/sites-enabled
-- echo %TRAVIS_BUILD_DIR%
 # XVFB
 - "export DISPLAY=:99.0"
 - "sh -e /etc/init.d/xvfb start"
@@ -70,6 +68,7 @@ script:
 - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
 # Download Joomla for testing
 - php vendor/bin/robo prepare:site-for-system-tests
+- sudo ln -s $(pwd)/tests/joomla-cms3 /tests/www/tests/
 - curl http://localhost/
 - curl http://localhost/tests
 - php vendor/bin/robo check:travis-webserver # Test apache
