@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ev
 
 sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts # forcing localhost to be the 1st alias of 127.0.0.1 in /etc/hosts (https://github.com/seleniumhq/selenium/issues/2074)
 sudo apt-get update -qq

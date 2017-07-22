@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ev
 
 # Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753
 - composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
