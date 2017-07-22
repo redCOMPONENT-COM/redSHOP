@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ev
 
-if [ "${TEST_FOLDER}" = "false" ]; then
+if [ "${ACCEPTANCE}" = "false" ]; then
 	# Check missed debug code
 	php tests/checkers/debugcode.php component/ libraries/redshop modules/ plugins/
 

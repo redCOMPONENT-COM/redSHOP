@@ -21,13 +21,11 @@ install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 8
   - nvm use 8
-  - sudo apt-get update -qq
-  - sudo apt-get install -yes apache2 libapache2-mod-fastcgi
 
 env:
   matrix:
-      - TEST_FOLDER=false # this will run phpcs checks etc
-      - TEST_FOLDER=true # this will run acceptance test
+      - ACCEPTANCE=false # this will run phpcs checks etc
+      - ACCEPTANCE=true # this will run acceptance test
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436

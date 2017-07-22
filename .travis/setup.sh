@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ev
 
-if [ "${TEST_FOLDER}" = "false" ]; then
+if [ "${ACCEPTANCE}" = "false" ]; then
 	git submodule update --init --recursive
 
 	# Following line uses a bot account to authenticate in github and make composer stable and faster, see https://redweb.atlassian.net/wiki/pages/viewpage.action?pageId=46694753
@@ -12,6 +12,9 @@ if [ "${TEST_FOLDER}" = "false" ]; then
 else
 	# forcing localhost to be the 1st alias of 127.0.0.1 in /etc/hosts (https://github.com/seleniumhq/selenium/issues/2074)
 	sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts
+
+	sudo apt-get update -qq
+  	sudo apt-get install -yes apache2 libapache2-mod-fastcgi
 
 	sudo mkdir $(pwd)/.run
 	phpversionname="$(phpenv version-name)"
