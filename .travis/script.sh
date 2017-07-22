@@ -5,9 +5,9 @@ set -ev
 composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
 composer update
 composer install --working-dir ./libraries/redshop --ansi
-#php vendor/bin/robo check:for-missed-debug-code
-#php vendor/bin/robo check:for-php-parse
-#php vendor/bin/robo check:codestyle
+php vendor/bin/robo check:for-missed-debug-code
+php vendor/bin/robo check:for-php-parse
+php vendor/bin/robo check:codestyle
 mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
 # Download Joomla for testing
 php vendor/bin/robo prepare:site-for-system-tests
