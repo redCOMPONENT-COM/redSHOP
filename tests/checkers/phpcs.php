@@ -25,36 +25,35 @@ fwrite(STDOUT, "\033[32;1mInitializing PHP_CodeSniffer checks.\033[0m\n");
 
 // Ignored files
 $ignored = array(
-	REPO_BASE . '/../../component/admin/assets/*',
-	REPO_BASE . '/../../component/admin/config/*',
-	REPO_BASE . '/../../component/admin/extras/*',
-	REPO_BASE . '/../../component/admin/help/*',
-	REPO_BASE . '/../../component/admin/language/*',
-	REPO_BASE . '/../../component/admin/layouts/*',
-	REPO_BASE . '/../../component/admin/views/*/tmpl/*',
-	REPO_BASE . '/../../component/admin/tables/*',
-	REPO_BASE . '/../../component/site/assets/*',
-	REPO_BASE . '/../../component/site/helpers/*',
-	REPO_BASE . '/../../component/site/language/*',
-	REPO_BASE . '/../../component/site/views/*/tmpl/*',
-	REPO_BASE . '/../../component/site/layouts/*',
-	REPO_BASE . '/../../component/site/tables/*',
-	REPO_BASE . '/../../component/site/templates/*',
-	REPO_BASE . '/../../libraries/tcpdf/*',
-	REPO_BASE . '/../../libraries/redshop/helper/*',
-	REPO_BASE . '/../../libraries/redshop/form/*',
-	REPO_BASE . '/../../libraries/redshop/layouts/*',
-	REPO_BASE . '/../../libraries/redshop/vendor/*',
+	REPO_BASE . '/../component/admin/assets/*',
+	REPO_BASE . '/../component/admin/config/*',
+	REPO_BASE . '/../component/admin/extras/*',
+	REPO_BASE . '/../component/admin/help/*',
+	REPO_BASE . '/../component/admin/language/*',
+	REPO_BASE . '/../component/admin/layouts/*',
+	REPO_BASE . '/../component/admin/views/*/tmpl/*',
+	REPO_BASE . '/../component/admin/tables/*',
+	REPO_BASE . '/../component/site/assets/*',
+	REPO_BASE . '/../component/site/helpers/*',
+	REPO_BASE . '/../component/site/language/*',
+	REPO_BASE . '/../component/site/views/*/tmpl/*',
+	REPO_BASE . '/../component/site/layouts/*',
+	REPO_BASE . '/../component/site/tables/*',
+	REPO_BASE . '/../component/site/templates/*',
+	REPO_BASE . '/../libraries/redshop/helper/*',
+	REPO_BASE . '/../libraries/redshop/form/*',
+	REPO_BASE . '/../libraries/redshop/layouts/*',
+	REPO_BASE . '/../libraries/redshop/vendor/*',
 	/* Ignore plugin "redSHOP Payment" group */
-	REPO_BASE . '/../../plugins/redshop_payment/*',
+	REPO_BASE . '/../plugins/redshop_payment/*',
 	/* Ignore plugin "redSHOP Shipping" group */
-	REPO_BASE . '/../../plugins/redshop_shipping/*',
+	REPO_BASE . '/../plugins/redshop_shipping/*',
 	/* Ignore plugin "redSHOP PDF" group */
-	REPO_BASE . '/../../plugins/redshop_pdf/*',
+	REPO_BASE . '/../plugins/redshop_pdf/*',
 	/* Ignore plugin "redSHOP Import" group */
-	REPO_BASE . '/../../plugins/redshop_import/*',
+	REPO_BASE . '/../plugins/redshop_import/*',
 	/* Ignore plugin "redSHOP Export" group */
-	REPO_BASE . '/../../plugins/redshop_export/*',
+	REPO_BASE . '/../plugins/redshop_export/*',
 	REPO_BASE . '*.js',
 );
 
@@ -62,11 +61,11 @@ $ignored = array(
 $options = array(
 	'files'        => array(
 		/*REPO_BASE . '/../plugins',*/
-		REPO_BASE . '/../../component',
+		REPO_BASE . '/../component',
 		/*REPO_BASE . '/../modules',*/
-		REPO_BASE . '/../../libraries'
+		REPO_BASE . '/../libraries'
 	),
-	'standard'     => array(REPO_BASE . '/../../.travis/phpcs/Joomla/Joomla/ruleset.xml'),
+	'standard'     => array(REPO_BASE . '/../.travis/phpcs/Joomla/Joomla/ruleset.xml'),
 	'ignored'      => $ignored,
 	'showProgress' => true,
 	'verbosity'    => false,
@@ -91,8 +90,6 @@ if ($numErrors)
 	// @todo: when all the codestyle issues will be fixed, please change the following line to exit(1)
 	exit(0);
 }
-else
-{
-	fwrite(STDOUT, "\033[32;1mThere were no issues detected.\033[0m\n");
-	exit(0);
-}
+
+fwrite(STDOUT, "\033[32;1mThere were no issues detected.\033[0m\n");
+exit(0);
