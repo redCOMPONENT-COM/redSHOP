@@ -10,8 +10,8 @@ composer install --working-dir ./libraries/redshop --ansi
 #php vendor/bin/robo check:codestyle
 mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
 # Download Joomla for testing
-ls -la tests/joomla-cms3
 php vendor/bin/robo prepare:site-for-system-tests
 php vendor/bin/robo check:travis-webserver # Test apache
+ls -la tests/joomla-cms3
 php vendor/bin/robo run:tests 1
 #- php vendor/bin/robo send:codeception-output-to-slack C02L0SE5E xoxp-2309442657-4789197868-4789233706-68cec7
