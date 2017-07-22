@@ -9,7 +9,7 @@ if [ "${ACCEPTANCE}" = "false" ]; then
 	php tests/checkers/phppec.php component/ libraries/redshop modules/ plugins/
 
 	# Check PHP Codestyle.
-	php vendor/bin/robo check:codestyle
+	php tests/checkers/phpcs.php
 else
 	# Create Robo Config file.
 	mv tests/RoboFile.ini.dist tests/RoboFile.ini
