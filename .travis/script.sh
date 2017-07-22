@@ -3,10 +3,10 @@ set -ev
 
 if [ "${ACCEPTANCE}" = "false" ]; then
 	# Check missed debug code
-	php tests/checkers/debugcode.php component/ libraries/redshop modules/ plugins/
+	php tests/checkers/debugcode.php
 
 	# Check PHP Parse
-	php tests/checkers/phppec.php component/ libraries/redshop modules/ plugins/
+	php tests/checkers/phppec.php
 
 	# Check PHP Codestyle.
 	php tests/checkers/phpcs.php
