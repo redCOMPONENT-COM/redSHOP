@@ -24,6 +24,8 @@ sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place $file
 sed -e "s,user = nobody,;user = $USER,g" --in-place $file
 sed -e "s,group = nobody,;group = $USER,g" --in-place $file
 
+cat $file
+
 sudo a2enmod rewrite actions fastcgi alias
 echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$phpversionname/etc/php.ini
 ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
