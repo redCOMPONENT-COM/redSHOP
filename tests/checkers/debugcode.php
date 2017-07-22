@@ -54,7 +54,7 @@ for ($i = 1; $i < $arguments; $i++)
 	{
 		fwrite(STDOUT, "\033[31;1mWARNING: Missed Debug code detected: console.log was found\033[0m\n");
 		fwrite(STDOUT, $jsDebugCheck);
-		exit(1);
+		exit(0);
 	}
 }
 
