@@ -10,10 +10,10 @@ php:
 addons:
   firefox: "46.0"
 
-#install:
-#  - . $HOME/.nvm/nvm.sh
-#  - nvm install 8
-#  - nvm use 8
+install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install 8
+  - nvm use 8
 
 env:
   global:
