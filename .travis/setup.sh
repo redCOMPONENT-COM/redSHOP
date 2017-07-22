@@ -6,14 +6,15 @@ sudo apt-get update -qq
 sudo apt-get install -y --force-yes apache2 libapache2-mod-fastcgi php5-curl php5-mysql php5-intl php5-gd > /dev/null
 sudo mkdir $(pwd)/.run
 
-file="~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf"
+owner="$USER"
+phpversionname="$(phpenv version-name)"
 
-if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ];
-then
-	file="~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf"
-	sudo cp -f ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
-else
-	sudo cp -f ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+file="/home/$owner/.phpenv/versions/$phpversionname/etc/php-fpm.conf"
+
+cp /home/$owner/.phpenv/versions/$phpversionname/etc/php-fpm.conf.default /home/$owner/.phpenv/versions/$phpversionname/etc/php-fpm.conf
+if [ -f /home/$owner/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default ]; then
+	cp /home/$owner/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default /home/$owner/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
+	file=/home/$owner/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
 fi;
 
 sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php${phpversionname:0:1}-fpm.sock,g" --in-place $file
