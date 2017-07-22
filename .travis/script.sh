@@ -8,9 +8,6 @@ if [ "${TEST_FOLDER}" = "false" ]; then
 	# Check PHP Parse
 	php tests/checkers/phppec.php component/ libraries/redshop modules/ plugins/
 
-	# Get Joomla coding standard
-	git clone -b master --single-branch --depth 1 https://github.com/joomla/coding-standards.git .travis/phpcs/Joomla
-
 	# Check PHP Codestyle.
 	php vendor/bin/robo check:codestyle
 else
