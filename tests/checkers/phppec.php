@@ -20,39 +20,28 @@ define('REPO_BASE', dirname(__DIR__));
 // Welcome message
 fwrite(STDOUT, "\033[32;1mInitializing PHP Parse Error checks.\033[0m\n");
 
-if (2 > count($argv))
-{
-	fwrite(STDOUT, "\033[32;1mPlease add path to check for PHP Parse Errors.\033[0m\n");
-	exit(1);
-}
+$error   = 0;
+$folders = array('component', 'libraries/redshop', 'modules', 'plugins');
 
-$errors = 0;
-$argvCount = count($argv);
-
-for ($i = 1; $argvCount; $i++)
+foreach ($folders as $folder)
 {
-	$folderToCheck = REPO_BASE . '/../' . $argv[$i];
+	$folderToCheck = REPO_BASE . '/../' . $folder;
 
 	if (!file_exists($folderToCheck))
 	{
-		fwrite(STDOUT, "\033[31;1mFolder: " . $argv[$i] . " does not exist\033[0m\n");
+		fwrite(STDOUT, "\033[31;1mFolder: " . $folderToCheck . " does not exist\033[0m\n");
 		continue;
 	}
 
-	fwrite(STDOUT, "\033[32;1m- Checking errors at: " . $argv[$i] . "\033[0m\n");
+	fwrite(STDOUT, "\033[32;1m- Checking errors at: " . $folder . "\033[0m\n");
 	$parseErrors = shell_exec('find ' . $folderToCheck . ' -name "*.php" -exec php -l {} \; | grep "Parse error";');
 
 	if ($parseErrors)
 	{
-		$errors = 1;
+		$error = 1;
 		fwrite(STDOUT, "\033[31;1mParse error found:\033[0m\n");
 		fwrite(STDOUT, $parseErrors);
 	}
 }
 
-if ($errors)
-{
-	exit(1);
-}
-
-exit(0);
+exit($error);

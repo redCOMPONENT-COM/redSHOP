@@ -20,26 +20,22 @@ define('REPO_BASE', dirname(__DIR__));
 // Welcome message
 fwrite(STDOUT, "\033[32;1mInitializing PHP Debug Missed Debug Code Checker.\033[0m\n");
 
-// Check for arguments
-if (2 > count($argv))
-{
-	fwrite(STDOUT, "\033[32;1mPlease add path to check with PHP Debug Missed Code Checker.\033[0m\n");
-	exit(1);
-}
-
 $arguments = count($argv);
+$error     = 0;
 
-for ($i = 1; $i < $arguments; $i++)
+$folders = array('component', 'libraries/redshop', 'modules', 'plugins');
+
+foreach ($folders as $folder)
 {
-	$folderToCheck = REPO_BASE . '/../' . $argv[$i];
+	$folderToCheck = REPO_BASE . '/../' . $folder;
 
 	if (!file_exists($folderToCheck))
 	{
-		fwrite(STDOUT, "\033[32;1mFolder: " . $argv[$i] . " does not exist\033[0m\n");
+		fwrite(STDOUT, "\033[32;1mFolder: " . $folderToCheck . " does not exist\033[0m\n");
 		continue;
 	}
 
-	fwrite(STDOUT, "\033[32;1m- Checking missed debug code at: " . $argv[$i] . "\033[0m\n");
+	fwrite(STDOUT, "\033[32;1m- Checking missed debug code at: " . $folder . "\033[0m\n");
 	$phpDebugCheck = shell_exec('grep -r --include "*.php" var_dump ' . $folderToCheck);
 	$jsDebugCheck  = shell_exec('grep -r --include "*.js" console.log ' . $folderToCheck);
 
@@ -47,15 +43,15 @@ for ($i = 1; $i < $arguments; $i++)
 	{
 		fwrite(STDOUT, "\033[31;1mWARNING: Missed Debug code detected: var_dump was found\033[0m\n");
 		fwrite(STDOUT, $phpDebugCheck);
-		exit(1);
+		$error = 1;
 	}
 
 	if ($jsDebugCheck)
 	{
 		fwrite(STDOUT, "\033[31;1mWARNING: Missed Debug code detected: console.log was found\033[0m\n");
 		fwrite(STDOUT, $jsDebugCheck);
-		exit(0);
+		$error = 0;
 	}
 }
 
-exit(0);
+exit($error);
