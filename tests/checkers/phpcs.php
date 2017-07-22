@@ -26,10 +26,16 @@ fwrite(STDOUT, "\033[32;1mInitializing PHP_CodeSniffer checks.\033[0m\n");
 // Ignored files
 $ignored = array(
 	REPO_BASE . '/../component/admin/assets/*',
-	REPO_BASE . '/../component/admin/views/*/tmpl/*',
+	REPO_BASE . '/../component/admin/config/*',
+	REPO_BASE . '/../component/admin/extras/*',
+	REPO_BASE . '/../component/admin/help/*',
+	REPO_BASE . '/../component/admin/language/*',
 	REPO_BASE . '/../component/admin/layouts/*',
+	REPO_BASE . '/../component/admin/views/*/tmpl/*',
 	REPO_BASE . '/../component/admin/tables/*',
 	REPO_BASE . '/../component/site/assets/*',
+	REPO_BASE . '/../component/site/helpers/*',
+	REPO_BASE . '/../component/site/language/*',
 	REPO_BASE . '/../component/site/views/*/tmpl/*',
 	REPO_BASE . '/../component/site/layouts/*',
 	REPO_BASE . '/../component/site/tables/*',

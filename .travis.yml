@@ -5,17 +5,29 @@ dist:
   precise
 
 php:
+  - 5.5
   - 7.0
 
 addons:
   firefox: "46.0"
 
+cache:
+  apt: true
+  directories:
+    - node_modules
+    - $HOME/.composer/cache/files
+
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install 8
   - nvm use 8
+  - sudo apt-get update -qq
+  - sudo apt-get install -yes apache2 libapache2-mod-fastcgi
 
 env:
+  matrix:
+      - TEST_FOLDER=false # this will run phpcs checks etc
+      - TEST_FOLDER=true # this will run acceptance test
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
@@ -23,6 +35,9 @@ env:
     - GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
+
+matrix:
+  fast_finish: true
 
 before_script:
   - "export DISPLAY=:99.0"
