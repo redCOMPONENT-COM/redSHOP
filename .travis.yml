@@ -7,10 +7,10 @@ php:
 addons:
   firefox: "46.0"
 
-install:
-  - . $HOME/.nvm/nvm.sh
-  - nvm install 8
-  - nvm use 8
+#install:
+#  - . $HOME/.nvm/nvm.sh
+#  - nvm install 8
+#  - nvm use 8
 
 env:
   global:
@@ -23,8 +23,6 @@ env:
 
 before_script:
   - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
   - ./.travis/setup.sh
 
 script:
