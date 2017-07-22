@@ -33,6 +33,10 @@ sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-availa
 sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/default.conf
 sudo a2ensite default.conf
 sudo service apache2 restart
+
+sh -e /etc/init.d/xvfb start
+sleep 3 # give xvfb some time to start
+
 git submodule update --init --recursive
 # Window manager
 sudo apt-get install fluxbox -y --force-yes
