@@ -31,7 +31,7 @@ $argvCount = count($argv);
 
 for ($i = 1; $argvCount; $i++)
 {
-	$folderToCheck = REPO_BASE . '/' . $argv[$i];
+	$folderToCheck = REPO_BASE . '/../../' . $argv[$i];
 
 	if (!file_exists($folderToCheck))
 	{

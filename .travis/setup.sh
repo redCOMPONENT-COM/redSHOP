@@ -14,7 +14,7 @@ else
 	sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts
 
 	sudo apt-get update -qq
-  	sudo apt-get install --yes apache2 libapache2-mod-fastcgi
+  	sudo apt-get install --yes --force-yes apache2 libapache2-mod-fastcgi
 
 	sudo mkdir $(pwd)/.run
 	phpversionname="$(phpenv version-name)"
