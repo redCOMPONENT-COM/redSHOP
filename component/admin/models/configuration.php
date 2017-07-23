@@ -47,7 +47,79 @@ class RedshopModelConfiguration extends RedshopModel
 	public function store($data)
 	{
 		$jInput = JFactory::getApplication()->input;
-		$jFile = $jInput->files;
+
+		$this->fileUpload($data);
+
+		// Product Detail Lightbox close button Image End
+		// Save the HTML tags into the tables
+		$data["welcomepage_introtext"]         = $jInput->getRaw('welcomepage_introtext');
+		$data["category_frontpage_introtext"]  = $jInput->getRaw('category_frontpage_introtext');
+		$data["registration_introtext"]        = $jInput->getRaw('registration_introtext');
+		$data["registration_comp_introtext"]   = $jInput->getRaw('registration_comp_introtext');
+		$data["vat_introtext"]                 = $jInput->getRaw('vat_introtext');
+		$data["welcomepage_introtext"]         = $jInput->getRaw('welcomepage_introtext');
+		$data["product_expire_text"]           = $jInput->getRaw('product_expire_text');
+		$data["cart_reservation_message"]      = $jInput->getRaw('cart_reservation_message');
+		$data["with_vat_text_info"]            = $jInput->getRaw('with_vat_text_info');
+		$data["without_vat_text_info"]         = $jInput->getRaw('without_vat_text_info');
+		$data["show_price_user_group_list"]    = implode(",", $data['show_price_user_group_list']);
+		$data["show_price_shopper_group_list"] = implode(",", $data['show_price_shopper_group_list']);
+		$data["show_price_user_group_list"]    = $data["show_price_user_group_list"] ? $data["show_price_user_group_list"] : '';
+		$data["show_price_shopper_group_list"] = $data["show_price_shopper_group_list"] ? $data["show_price_shopper_group_list"] : '';
+
+		if ($data['image_quality_output'] <= 10)
+		{
+			$data['image_quality_output'] = 100;
+		}
+
+		if ($data['image_quality_output'] >= 100)
+		{
+			$data['image_quality_output'] = 100;
+		}
+
+		$data['backward_compatible_js']  = isset($data['backward_compatible_js']) ? $data['backward_compatible_js'] : 0;
+		$data['backward_compatible_php'] = isset($data['backward_compatible_php']) ? $data['backward_compatible_php'] : 0;
+
+		// Prepare post data to write
+		if (!$this->configurationPrepare($data))
+		{
+			return false;
+		}
+
+		JFactory::getApplication()->setUserState('com_redshop.config.global.data', $this->configData);
+
+		JPluginHelper::importPlugin('redshop');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$dispatcher->trigger('onBeforeAdminSaveConfiguration', array(&$this->configData));
+
+		// Temporary new way to save config
+		$config = Redshop::getConfig();
+
+		try
+		{
+			if ($config->save(new Registry($this->configData)))
+			{
+				$dispatcher->trigger('onAfterAdminSaveConfiguration', array($config));
+			}
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param   array  $data  Array of data
+	 *
+	 * @since  2.0.7
+	 */
+	private function fileUpload(&$data)
+	{
+		$jFile = JFactory::getApplication()->input->files;
 
 		$allowedDefaultExt = array ('jpg', 'jpeg', 'gif', 'png');
 
@@ -346,66 +418,6 @@ class RedshopModelConfiguration extends RedshopModel
 			}
 		}
 
-		// Product Detail Lightbox close button Image End
-		// Save the HTML tags into the tables
-		$data["welcomepage_introtext"]         = $jInput->getRaw('welcomepage_introtext');
-		$data["category_frontpage_introtext"]  = $jInput->getRaw('category_frontpage_introtext');
-		$data["registration_introtext"]        = $jInput->getRaw('registration_introtext');
-		$data["registration_comp_introtext"]   = $jInput->getRaw('registration_comp_introtext');
-		$data["vat_introtext"]                 = $jInput->getRaw('vat_introtext');
-		$data["welcomepage_introtext"]         = $jInput->getRaw('welcomepage_introtext');
-		$data["product_expire_text"]           = $jInput->getRaw('product_expire_text');
-		$data["cart_reservation_message"]      = $jInput->getRaw('cart_reservation_message');
-		$data["with_vat_text_info"]            = $jInput->getRaw('with_vat_text_info');
-		$data["without_vat_text_info"]         = $jInput->getRaw('without_vat_text_info');
-		$data["show_price_user_group_list"]    = implode(",", $data['show_price_user_group_list']);
-		$data["show_price_shopper_group_list"] = implode(",", $data['show_price_shopper_group_list']);
-		$data["show_price_user_group_list"]    = $data["show_price_user_group_list"] ? $data["show_price_user_group_list"] : '';
-		$data["show_price_shopper_group_list"] = $data["show_price_shopper_group_list"] ? $data["show_price_shopper_group_list"] : '';
-
-		if ($data['image_quality_output'] <= 10)
-		{
-			$data['image_quality_output'] = 100;
-		}
-
-		if ($data['image_quality_output'] >= 100)
-		{
-			$data['image_quality_output'] = 100;
-		}
-
-		$data['backward_compatible_js']  = isset($data['backward_compatible_js']) ? $data['backward_compatible_js'] : 0;
-		$data['backward_compatible_php'] = isset($data['backward_compatible_php']) ? $data['backward_compatible_php'] : 0;
-
-		// Prepare post data to write
-		if (!$this->configurationPrepare($data))
-		{
-			return false;
-		}
-
-		JFactory::getApplication()->setUserState('com_redshop.config.global.data', $this->configData);
-
-		JPluginHelper::importPlugin('redshop');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onBeforeAdminSaveConfiguration', array(&$this->configData));
-
-		// Temporary new way to save config
-		$config = Redshop::getConfig();
-
-		try
-		{
-			if ($config->save(new Registry($this->configData)))
-			{
-				$dispatcher->trigger('onAfterAdminSaveConfiguration', array($config));
-			}
-		}
-		catch (Exception $e)
-		{
-			$this->setError($e->getMessage());
-
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
