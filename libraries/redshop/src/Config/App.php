@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Abstract class for export plugin
  *
+ * @TODO   Consider to use \Redshop\App\Config instead
  * @since  2.0.6
  */
 class App
