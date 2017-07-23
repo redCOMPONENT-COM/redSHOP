@@ -16,14 +16,14 @@ use Joomla\Registry\Registry;
 class RedshopModelConfiguration extends RedshopModel
 {
 	/**
-	 * @var null
-	 * @since version
+	 * @var    array
+	 * @since  2.0.7
 	 */
 	public $configData = null;
 
 	/**
-	 * @var null|\Redshop\Config\App
-	 * @since version
+	 * @var   \Redshop\Config\App
+	 * @since  2.0.7
 	 */
 	public $redConfiguration = null;
 
@@ -428,7 +428,7 @@ class RedshopModelConfiguration extends RedshopModel
 	 */
 	public function configurationPrepare($d)
 	{
-		$this->configData = $this->redConfiguration->redshopCFGData($d);
+		$this->configData = $this->redConfiguration->prepareConfigData($d);
 
 		return (boolean) $this->configData;
 	}
