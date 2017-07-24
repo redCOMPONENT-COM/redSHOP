@@ -83,7 +83,7 @@ class ManageShopperGroupAdministratorCest
         $I->wantTo('Test Unpublish Shopper groups');
         $I->changeStateShopperGroups();
         $currentState = $I->getShopperGroupsStates();
-        $I->verifyState('published', $currentState);
+        $I->verifyState('unpublished', $currentState);
     }
 
     /**
@@ -102,7 +102,7 @@ class ManageShopperGroupAdministratorCest
         $I->wantTo('Test Publish Shopper groups');
         $I->changeStateShopperGroups();
         $currentState = $I->getShopperGroupsStates();
-        $I->verifyState('unpublished', $currentState);
+        $I->verifyState('published', $currentState);
     }
 
     /**
