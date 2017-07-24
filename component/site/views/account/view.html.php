@@ -77,15 +77,12 @@ class RedshopViewAccount extends RedshopView
 		{
 			$wishlistId = $input->getInt('wishlist_id', 0);
 
-			if ($wishlistId == 0)
+			if ($wishlistId == 0 && !Redshop::getConfig()->get('WISHLIST_LIST'))
 			{
-				if (!Redshop::getConfig()->get('WISHLIST_LIST'))
-				{
-					$usersWishlist = RedshopHelperWishlist::getUserWishlist();
-					$usersWishlist = reset($usersWishlist);
+				$usersWishlist = RedshopHelperWishlist::getUserWishlist();
+				$usersWishlist = reset($usersWishlist);
 
-					$app->redirect(JRoute::_("index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id=" . $usersWishlist->wishlist_id . "&Itemid=" . $itemId));
-				}
+				$app->redirect(JRoute::_("index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id=" . $usersWishlist->wishlist_id . "&Itemid=" . $itemId));
 			}
 
 			// If wishlist Id is not set then redirect to it's main page
