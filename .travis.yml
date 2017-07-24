@@ -5,19 +5,17 @@ php:
   - 5.6
   - 7.0
 
+node_js:
+  - 7
+
 addons:
   firefox: "46.0"
 
 cache:
   apt: true
   directories:
-    - node_modules
+    - "node_modules"
     - $HOME/.composer/cache/files
-
-install:
-  - . $HOME/.nvm/nvm.sh
-  - nvm install 8
-  - nvm use 8
 
 env:
   matrix:
@@ -35,7 +33,7 @@ matrix:
   fast_finish: true
 
 before_script:
-  - sudo npm install -g gulp
+  - npm install -g gulp-cli
   - "export DISPLAY=:99.0"
   - ./.travis/setup.sh
 
