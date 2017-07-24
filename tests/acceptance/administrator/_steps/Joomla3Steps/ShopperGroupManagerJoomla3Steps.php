@@ -252,7 +252,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkAllResults();
         $I->click(\ShopperGroupJ3Page::$deleteButton);
         $I->acceptPopup();
-        $I->see(\ShopperGroupJ3Page::$cannotDelete, \ShopperGroupJ3Page::$selectorSuccess);
+        $I->see(\ShopperGroupJ3Page::$cannotDelete, \ShopperGroupJ3Page::$xpathMessageSuccess);
     }
 
     public function getShopperGroupsStates()

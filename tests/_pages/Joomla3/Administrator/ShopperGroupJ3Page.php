@@ -77,9 +77,7 @@ class ShopperGroupJ3Page
     public static $xpathMessageSuccess = "//div[@id='system-message']/div/div/p";
 
 
-//    public static $shopperFirstStatusUnpublish=['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[5]/a[@onclick='return listItemTask('cb0','publish')"];
 
-    //div[@class='table-responsive']/table/tbody/tr/td[5]/a[@onclick="return listItemTask('cb0','unpublish')"]
     //selector
 
     public static $selectorSuccess = '.alert-success';
