@@ -1,9 +1,6 @@
 language: php
 sudo: required
 
-dist:
-  precise
-
 php:
   - 5.6
   - 7.0
