@@ -32,6 +32,8 @@ else
 	sudo sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place $file
 	sudo sed -e "s,user = nobody,;user = $USER,g" --in-place $file
 	sudo sed -e "s,group = nobody,;group = $USER,g" --in-place $file
+	echo $file
+	cat $file
 	sudo sudo a2enmod rewrite actions fastcgi alias
 	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 	~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
@@ -42,17 +44,19 @@ else
 	sudo a2ensite 000-default.conf
 	sudo service apache2 restart
 
+	sudo service apache2 status
+
 	# XVFB
 	sh -e /etc/init.d/xvfb start
 	sleep 3
 	# Window manager
-	# sudo apt-get install fluxbox -y --force-yes
-	# fluxbox &
-	# sleep 3 # give fluxbox some time to start
+	sudo apt-get install fluxbox -y --force-yes
+	fluxbox &
+	sleep 3 # give fluxbox some time to start
 
 	# Install redSHOP Library composer
-	# composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
-	# composer global require hirak/prestissimo
+	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
+	composer global require hirak/prestissimo
 
 	cd libraries/redshop
 	composer install --prefer-dist
