@@ -24,13 +24,13 @@ else
 		cp /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
 		file=/home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
 	fi;
-	sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php${phpversionname:0:1}-fpm.sock,g" --in-place $file
-	sed -e "s,;listen.owner = nobody,listen.owner = $USER,g" --in-place $file
-	sed -e "s,;listen.group = nobody,listen.group = $USER,g" --in-place $file
-	sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place $file
-	sed -e "s,user = nobody,;user = $USER,g" --in-place $file
-	sed -e "s,group = nobody,;group = $USER,g" --in-place $file
-	sudo a2enmod rewrite actions fastcgi alias
+	sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php${phpversionname:0:1}-fpm.sock,g" --in-place $file
+	sudo sed -e "s,;listen.owner = nobody,listen.owner = $USER,g" --in-place $file
+	sudo sed -e "s,;listen.group = nobody,listen.group = $USER,g" --in-place $file
+	sudo sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place $file
+	sudo sed -e "s,user = nobody,;user = $USER,g" --in-place $file
+	sudo sed -e "s,group = nobody,;group = $USER,g" --in-place $file
+	sudo sudo a2enmod rewrite actions fastcgi alias
 	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$phpversionname/etc/php.ini
 	~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
 	sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/default.conf
@@ -38,6 +38,9 @@ else
 	sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/default.conf
 	sudo a2ensite default.conf
 	sudo /etc/init.d/apache2 restart
+
+	cat $file
+	ls -la tests/cache
 
 	# XVFB
 	sh -e /etc/init.d/xvfb start
