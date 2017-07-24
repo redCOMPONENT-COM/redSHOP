@@ -19,19 +19,17 @@ else
 	sudo mkdir $(pwd)/.run
 	phpversionname="$(phpenv version-name)"
 	file="/home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.conf"
-	cp /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.conf.default /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.conf
-	if [ -f /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default ]; then
-		cp /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
-		file=/home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
-	fi;
+	sudo cp /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.conf.default /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.conf
+	#if [ -f /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default ]; then
+		#sudo cp /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
+		#file=/home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
+	#fi;
 	sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php${phpversionname:0:1}-fpm.sock,g" --in-place $file
 	sudo sed -e "s,;listen.owner = nobody,listen.owner = $USER,g" --in-place $file
 	sudo sed -e "s,;listen.group = nobody,listen.group = $USER,g" --in-place $file
 	sudo sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place $file
-	sudo sed -e "s,user = nobody,user = $USER,g" --in-place $file
-	sudo sed -e "s,group = nobody,group = $USER,g" --in-place $file
-	sudo sed -e "s,export APACHE_RUN_USER=www-data,export APACHE_RUN_USER=$USER,g" --in-place /etc/apache2/envvars
-	sudo sed -e "s,export APACHE_RUN_GROUP=www-data,export APACHE_RUN_GROUP=$USER,g" --in-place /etc/apache2/envvars
+	sudo sed -e "s,user = nobody,;user = $USER,g" --in-place $file
+	sudo sed -e "s,group = nobody,;group = $USER,g" --in-place $file
 	sudo sudo a2enmod rewrite actions fastcgi alias
 	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$phpversionname/etc/php.ini
 	~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
