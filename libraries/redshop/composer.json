@@ -2,6 +2,7 @@
   "name"       : "redcomponent-com/redshop-libraries",
   "description": "a Joomla Webshop Component",
   "license"    : "GPL-2.0+",
+  "minimum-stability": "dev",
   "require"    : {
     "php": ">=5.3.10",
     "doctrine/annotations": "1.2.7",
