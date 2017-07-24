@@ -9,6 +9,10 @@ node_js:
 
 addons:
   firefox: "46.0"
+  apt:
+    packages:
+      - apache2
+      - libapache2-mod-fastcgi
 
 cache:
   apt: true
@@ -32,7 +36,6 @@ matrix:
   fast_finish: true
 
 before_script:
-  - npm install -g gulp-cli
   - "export DISPLAY=:99.0"
   - ./.travis/setup.sh
 
