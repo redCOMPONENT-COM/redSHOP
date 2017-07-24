@@ -346,7 +346,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$orderitemdata->wrapper_id = $item[$i]->wrapper_data;
 			$orderitemdata->wrapper_price = $wrapper_price;
 
-			if ($producthelper->checkProductDownload($product_id))
+			if (RedshopHelperProductDownload::checkDownload($product_id))
 			{
 				$medianame = $producthelper->getProductMediaName($product_id);
 
