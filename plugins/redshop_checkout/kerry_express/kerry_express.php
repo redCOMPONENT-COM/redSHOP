@@ -542,9 +542,9 @@ class PlgRedshop_CheckoutKerry_Express extends JPlugin
 	 */
 	public function getShippingExtraFields($userInfoId)
 	{
-		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_city', 14, $userInfoId);
-		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_district', 14, $userInfoId);
-		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_billing_ward', 14, $userInfoId);
+		$cityField     = RedshopHelperExtrafields::getDataByName('rs_kerry_city', 14, $userInfoId);
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_kerry_district', 14, $userInfoId);
+		$wardField     = RedshopHelperExtrafields::getDataByName('rs_kerry_ward', 14, $userInfoId);
 
 		if (empty($cityField) && empty($districtField) && empty($wardField))
 		{
