@@ -108,6 +108,17 @@ class RedshopViewImport extends RedshopViewAdmin
 			$this->encodings[] = JHtml::_('select.option', $char, $title);
 		}
 
+		$this->loadLanguages();
+
+		parent::display($tpl);
+	}
+
+	/**
+	 *
+	 * @since  2.0.7
+	 */
+	protected function loadLanguages()
+	{
 		JText::script('COM_REDSHOP_IMPORT_SELECT_FILE');
 		JText::script('COM_REDSHOP_IMPORT_FAIL');
 		JText::script('COM_REDSHOP_IMPORT_SUCCESS');
@@ -128,7 +139,6 @@ class RedshopViewImport extends RedshopViewAdmin
 		JText::script('COM_REDSHOP_IMPORT_TOTAL_FILES');
 		JText::script('COM_REDSHOP_IMPORT_FILE_UPLOADING');
 		JText::script('COM_REDSHOP_IMPORT_LOADED_CONFIGURATION');
-
-		parent::display($tpl);
+		JText::script('COM_REDSHOP_IMPORT_AJAX_FAILED');
 	}
 }

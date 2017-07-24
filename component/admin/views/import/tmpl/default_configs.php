@@ -19,17 +19,11 @@ defined('_JEXEC') or die;
 			<fieldset class="form-horizontal">
 				<p>
 					<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MIN_FILE_SIZE') ?>:&nbsp;
-					<span class="text-primary"><?php echo number_format($this->allowMinFileSize) ?>
-						bytes</span>
+					<span class="text-primary"><?php echo \Redshop\String\Helper::getFilesize($this->allowMinFileSize) ?></span>
 				</p>
 				<p>
 					<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_MAX_FILE_SIZE') ?>:&nbsp;
-					<span class="text-primary"><?php echo number_format($this->allowMaxFileSize) ?>
-						bytes</span>
-				</p>
-				<p>
-					<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_MIME') ?>:&nbsp;
-					<span class="text-primary"><?php echo implode(', ', $this->allowFileTypes) ?></span>
+					<span class="text-primary"><?php echo \Redshop\String\Helper::getFilesize($this->allowMaxFileSize) ?></span>
 				</p>
 				<p>
 					<?php echo JText::_('COM_REDSHOP_IMPORT_SETTINGS_FILE_EXTENSION') ?>:&nbsp;
@@ -48,7 +42,15 @@ defined('_JEXEC') or die;
 				<div class="form-group">
 					<label class="col-md-2 control-label"><?php echo JText::_('COM_REDSHOP_IMPORT_ENCODING') ?></label>
 					<div class="col-md-10">
-						<?php echo JHtml::_('select.genericlist', $this->encodings, 'encoding', 'class="form-control"', 'value', 'text', 'UTF-8'); ?>
+						<?php echo JHtml::_(
+							'select.genericlist',
+							$this->encodings,
+							'encoding',
+							'class="form-control"',
+							'value',
+							'text',
+							'UTF-8'
+						); ?>
 					</div>
 				</div>
 				<div id="import_config_body"></div>

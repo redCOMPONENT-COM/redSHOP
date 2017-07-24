@@ -9,10 +9,12 @@
 
 namespace Redshop\File\Parser;
 
+use \PhpOffice\PhpSpreadsheet;
+
 defined('_JEXEC') or die;
 
 /**
- * Excel parser
+ * Excel parser class
  *
  * @package     Redshop\File\Parser
  *
@@ -21,44 +23,49 @@ defined('_JEXEC') or die;
 class Excel
 {
 	/**
-	 * @var    \Excel
+	 * @var    PhpSpreadsheet\Spreadsheet
 	 *
 	 * @since  2.0.7
 	 */
-	private $phpExcel = null;
+	private $spreadsheet = null;
 
 	/**
 	 * Parser constructor.
 	 *
-	 * @param   \Excel  $phpExcel  PhpExcel object
+	 * @param   PhpSpreadsheet\Spreadsheet  $spreadsheet  Spreadsheet object
 	 *
-	 * @since  2.0.7
+	 * @since   2.0.7
 	 */
-	public function __construct($phpExcel)
+	public function __construct($spreadsheet = null)
 	{
-		$this->phpExcel = $phpExcel;
+		if ($spreadsheet === null)
+		{
+			$spreadsheet = new PhpSpreadsheet\Spreadsheet;
+		}
+
+		$this->spreadsheet = $spreadsheet;
 	}
 
 	/**
-	 * Magic method for phpExcel object
+	 * Magic method to call spreadsheet method
 	 *
-	 * @param   string  $name       Method
-	 * @param   array   $arguments  Parameters
+	 * @param   string  $name      Method
+	 * @param   array   $arguments Args
 	 *
-	 * @return  mixed
+	 * @return mixed
 	 *
 	 * @since   2.0.7
 	 */
 	public function __call($name, $arguments)
 	{
-		return call_user_func_array(array($this->phpExcel, $name), $arguments);
+		return call_user_func_array(array($this->spreadsheet, $name), $arguments);
 	}
 
 	/**
-	 * @param   string  $filePath  File path
-	 * @param   string  $separator Separator
+	 * @param   string  $filePath   File path to load
+	 * @param   string  $separator  Separator
 	 *
-	 * @return  boolean|Excel
+	 * @return  boolean|PhpSpreadsheet\Spreadshee
 	 *
 	 * @since   2.0.7
 	 */
@@ -66,7 +73,7 @@ class Excel
 	{
 		if (!\JFile::exists($filePath))
 		{
-			return false;
+			return new Excel(new PhpSpreadsheet\Spreadsheet);
 		}
 
 		$ext = strtolower(\JFile::getExt($filePath));
@@ -74,24 +81,23 @@ class Excel
 		// Specific case for CSV we'll provide delimiter
 		if ($ext == 'csv')
 		{
-			$reader = \PHPExcel_IOFactory::createReader('CSV');
+			$reader = PhpSpreadsheet\IOFactory::createReader('Csv');
 			$reader->setDelimiter($separator);
 
-			return new \Redshop\File\Parser\Excel($reader->load($filePath));
+			return new Excel($reader->load($filePath));
 		}
 
-		// @TODO Verify extension for different library
-		return new \Redshop\File\Parser\Excel(\PHPExcel_IOFactory::load($filePath));
+		return new Excel(PhpSpreadsheet\IOFactory::load($filePath));
 	}
 
 	/**
-	 * Create new phpExcel
+	 * Reset current Spreadsheet
 	 *
 	 * @since  2.0.7
 	 */
-	public function create ()
+	public function reset()
 	{
-		$this->phpExcel = new  \PHPExcel();
+		$this->spreadsheet = new PhpSpreadsheet\Spreadsheet;
 	}
 
 	/**
@@ -102,7 +108,7 @@ class Excel
 	 */
 	public function getHeaderArray()
 	{
-		return $this->phpExcel->getActiveSheet()->rangeToArray('A1:' . $this->countColumns() . '1');
+		return $this->spreadsheet->getActiveSheet()->rangeToArray('A1:' . $this->countColumns() . '1');
 	}
 
 	/**
@@ -113,7 +119,7 @@ class Excel
 	 */
 	public function getDataArray()
 	{
-		return $this->phpExcel->getActiveSheet()->rangeToArray('A2:' . $this->countColumns() . $this->countRows());
+		return $this->spreadsheet->getActiveSheet()->rangeToArray('A2:' . $this->countColumns() . $this->countRows());
 	}
 
 	/**
@@ -124,7 +130,7 @@ class Excel
 	 */
 	public function countRows()
 	{
-		return (int) $this->phpExcel->setActiveSheetIndex(0)->getHighestRow();
+		return (int) $this->spreadsheet->setActiveSheetIndex(0)->getHighestRow();
 	}
 
 	/**
@@ -135,58 +141,70 @@ class Excel
 	 */
 	public function countColumns()
 	{
-		return $this->phpExcel->setActiveSheetIndex(0)->getHighestColumn();
+		return $this->spreadsheet->setActiveSheetIndex(0)->getHighestColumn();
 	}
 
 	/**
-	 * @param   string  $cell
-	 * @param   string  $value
+	 * Append new row
 	 *
+	 * @param   array  $data  Data for append
+	 * @param   int    $row   Init row
 	 *
 	 * @since   2.0.7
 	 */
-	protected function writeCell($cell, $value)
+	public function appendRow($data, $row = 0)
 	{
-		$this->phpExcel->getActiveSheet()->setCellValue($cell, $value);
+		$index = 1;
+		$row   = $this->countRows() + 1;
+
+		foreach ($data as $key => $value)
+		{
+			$column = PhpSpreadsheet\Cell::stringFromColumnIndex($index);
+			$this->writeCell($column . $row, $value);
+			$index++;
+		}
 	}
 
 	/**
-	 * @param   array  $headerArray
+	 * @param   string  $cell   Cell coordinate
+	 * @param   string  $value  Value
 	 *
+	 * @since   2.0.7
+	 */
+	public function writeCell($cell, $value)
+	{
+		$this->spreadsheet->getActiveSheet()->setCellValue($cell, $value);
+	}
+
+	/**
+	 * @param   array  $headerArray  Array of header
 	 *
 	 * @since   2.0.7
 	 */
 	public function writeHeader($headerArray)
 	{
-		// Prepare headers
-		$arrayOfColumns = range('A', 'Z');
-
 		// Write header
 		foreach ($headerArray as $index => $value)
 		{
-			$this->writeCell($arrayOfColumns[$index] . '1', $value);
+			$this->writeCell(PhpSpreadsheet\Cell::stringFromColumnIndex($index) . '1', $value);
 		}
 	}
 
 	/**
 	 * Write array to excel rows
 	 *
-	 * @param   array  $dataArray
+	 * @param   array $dataArray  Data for writing
+	 * @param   int   $startRow   Init row
 	 *
-	 *
-	 * @since   2.0.7
+	 * @since version
 	 */
 	public function writeData($dataArray, $startRow = 2)
 	{
-		// Prepare headers
-		$arrayOfColumns = range('A', 'Z');
-
 		foreach ($dataArray as $data)
 		{
 			foreach ($data as $index => $columnData)
 			{
-				$columnName = $arrayOfColumns[$index];
-				$this->writeCell($columnName . $startRow, $columnData);
+				$this->writeCell(PhpSpreadsheet\Cell::stringFromColumnIndex($index) . $startRow, $columnData);
 			}
 
 			$startRow++;
@@ -194,18 +212,34 @@ class Excel
 	}
 
 	/**
-	 * Save to file
+	 * Write to physical file
 	 *
-	 * @param   string  $toFile
+	 * @param   string  $toFile File path to write
+	 * @param   string  $type   File format
 	 *
-	 * @return  mixed
+	 * @return  boolean
 	 *
 	 * @since   2.0.7
 	 */
-	public function saveToFile($toFile)
+	public function saveToFile($toFile, $type = null)
 	{
-		$ext = strtoupper(\JFile::getExt($toFile));
-		$objWriter = \PHPExcel_IOFactory::createWriter($this->phpExcel, $ext);
+		if ($type != null)
+		{
+			$ext = $type;
+		}
+		else
+		{
+			$ext = ucfirst(\JFile::getExt($toFile));
+		}
+
+		$pathInfo = pathinfo($toFile);
+
+		if (!\JFolder::exists($pathInfo['dirname']))
+		{
+			\JFolder::create($pathInfo['dirname']);
+		}
+
+		$objWriter = PhpSpreadsheet\IOFactory::createWriter($this->spreadsheet, $ext);
 
 		return $objWriter->save($toFile);
 	}

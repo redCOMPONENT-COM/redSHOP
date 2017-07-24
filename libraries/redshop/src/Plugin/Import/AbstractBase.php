@@ -214,7 +214,7 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 		$smallerContentArray = array_chunk($contentArray, $returnData['rows_per_file']);
 
 		// Create new file
-		$phpExcel->create();
+		$phpExcel->reset();
 
 		// And now write to file
 		foreach ($smallerContentArray as $index => $contentOfFile)

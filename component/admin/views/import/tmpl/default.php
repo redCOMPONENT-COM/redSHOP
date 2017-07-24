@@ -11,11 +11,8 @@ defined('_JEXEC') or die;
 JHtml::_('redshopjquery.ui');
 JHtml::script('com_redshop/jquery.iframe-transport.js', false, true);
 JHtml::script('com_redshop/jquery.fileupload.js', false, true);
-JHtml::script('com_redshop/admin.import.js', false, true);
-
-
+JHtml::script('com_redshop/require.js', false, true);
 ?>
-
 <?php if (empty($this->imports)): ?>
 	<div class="alert alert-warning">
 		<span class="close" data-dismiss="alert">×</span>
@@ -28,10 +25,22 @@ JHtml::script('com_redshop/admin.import.js', false, true);
 	</div>
 <?php else: ?>
 	<script type="text/javascript">;
-        var allowFileType = ["<?php echo implode('","', $this->allowFileTypes) ?>"];
-        var allowFileExt = ["<?php echo implode('","', $this->allowFileExtensions) ?>"];
-        var allowMaxFileSize = <?php echo $this->allowMaxFileSize ?>;
-        var allowMinFileSize = <?php echo $this->allowMinFileSize ?>;
+		// Setup requirejs
+		requirejs.config({
+			// By default we load under ../media/com_redshop/js
+			baseUrl: '../media/com_redshop/js',
+			deps: [
+				// General library
+				'lib/log',
+				// Administrator import
+				'admin/import'
+			]
+		});
+
+		var allowFileType = ["<?php echo implode('","', $this->allowFileTypes) ?>"];
+		var allowFileExt = ["<?php echo implode('","', $this->allowFileExtensions) ?>"];
+		var allowMaxFileSize = <?php echo $this->allowMaxFileSize ?>;
+		var allowMinFileSize = <?php echo $this->allowMinFileSize ?>;
 	</script>
 
 	<form action="index.php?option=com_redshop&view=import" method="post" name="adminForm" id="adminForm">
