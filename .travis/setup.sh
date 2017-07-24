@@ -20,10 +20,10 @@ else
 	phpversionname="$(phpenv version-name)"
 	file="/home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.conf"
 	sudo cp /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.conf.default /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.conf
-	#if [ -f /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default ]; then
-		#sudo cp /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
-		#file=/home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
-	#fi;
+	if [ -f /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default ]; then
+		sudo cp /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf.default /home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
+		file=/home/$USER/.phpenv/versions/$phpversionname/etc/php-fpm.d/www.conf
+	fi;
 	sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php${phpversionname:0:1}-fpm.sock,g" --in-place $file
 	sudo sed -e "s,;listen.owner = nobody,listen.owner = $USER,g" --in-place $file
 	sudo sed -e "s,;listen.group = nobody,listen.group = $USER,g" --in-place $file
@@ -38,6 +38,8 @@ else
 	sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/default.conf
 	sudo a2ensite default.conf
 	sudo /etc/init.d/apache2 restart
+
+	echo $file
 
 	# XVFB
 	sh -e /etc/init.d/xvfb start
