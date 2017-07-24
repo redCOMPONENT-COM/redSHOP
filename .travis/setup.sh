@@ -15,8 +15,8 @@ else
 	# forcing localhost to be the 1st alias of 127.0.0.1 in /etc/hosts (https://github.com/seleniumhq/selenium/issues/2074)
 	sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts
 
-	# sudo apt-get update -qq
-  	# sudo apt-get install --yes --force-yes apache2 libapache2-mod-fastcgi
+	sudo apt-get update -qq
+  	sudo apt-get install --yes --force-yes apache2 libapache2-mod-fastcgi
 
 	sudo mkdir $(pwd)/.run
 
@@ -24,7 +24,7 @@ else
 	sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
 	if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ]; then
 		sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
-		file=~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+		# file=~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
 	fi;
 	sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php${TRAVIS_PHP_VERSION:0:1}-fpm.sock,g" --in-place $file
 	sudo sed -e "s,;listen.owner = nobody,listen.owner = $USER,g" --in-place $file
@@ -41,8 +41,6 @@ else
 	sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/000-default.conf
 	sudo a2ensite 000-default.conf
 	sudo service apache2 restart
-
-	cat /etc/apache2/sites-available/000-default.conf
 
 	# XVFB
 	sh -e /etc/init.d/xvfb start
