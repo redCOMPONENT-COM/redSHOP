@@ -420,15 +420,24 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Method for run specific scenario
 	 *
-	 * @param   string  $case  Scenario case.
+	 * @param   string  $testCase  Scenario case.
+	 *                            (example: "acceptance/install" for folder, "acceptance/integration/productCheckoutVatExemptUser" for file)
 	 *
 	 * @return  void
 	 */
-	public function runTravis($case)
+	public function runTravis($testCase)
 	{
 		$this->prepareSiteForSystemTests(1);
 
 		$this->checkTravisWebserver();
+
+		$testPath = __DIR__ . '/tests/' . $testCase;
+
+		// Populate test case. In case this path is not an exist folder.
+		if (!file_exists($testPath) || !is_dir($testPath))
+		{
+			$testCase .= 'Cest.php';
+		}
 
 		$this->taskSeleniumStandaloneServer()
 			->setURL('http://localhost:4444')
@@ -452,11 +461,11 @@ class RoboFile extends \Robo\Tasks
 
 		// Run specific task
 		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--debug')
+			->test('tests/' . $testCase)
+			// ->arg('--steps')
+			// ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
-			->arg('tests/acceptance/administrator/' . $case . '.php')
 			->run()
 			->stopOnFail();
 
