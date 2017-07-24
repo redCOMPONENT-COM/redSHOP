@@ -15,75 +15,87 @@
  */
 class CustomFieldManagerJoomla3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=fields';
+    public static $URL = '/administrator/index.php?option=com_redshop&view=fields';
 
-	public static $URLNew='';
+    public static $URLNew = '';
 
-	public static $fieldName = "//input[@id='jform_name']";
+    public static $fieldName = "//input[@id='jform_name']";
 
-	public static $fieldTitle = "//input[@id='jform_title']";
-
-
+    public static $fieldTitle = "//input[@id='jform_title']";
 
 
-	public static $fieldTypeDropDown = ['id' => 's2id_jform_type'];
+    public static $fieldTypeDropDown = ['id' => 's2id_jform_type'];
 
-	public static $fieldTypeSearch= ['id' => 's2id_autogen1_search'];
+    public static $fieldTypeSearch = ['id' => 's2id_autogen1_search'];
 
-	public static $fieldSectionDropDown=['id'=>'s2id_jform_section'];
+    public static $fieldSectionDropDown = ['id' => 's2id_jform_section'];
 
-	public static $fieldSectionSearch=['id'=>'s2id_autogen2_search'];
+    public static $fieldSectionSearch = ['id' => 's2id_autogen2_search'];
+
+    public static $filterSearch = ['id' => 'filter_search'];
+
+
+    public static $fieldTypeSearchField = "//div[@id='jform_type_chzn']/div/div/input";
+
+    public static $fieldSectionSearchField = "//div[@id='jform_section_chzn']/div/div/input";
+
+    public static $fieldSuccessMessage = 'Item saved.';
+
+    public static $fieldMessagesLocation = "//div[@id='system-message-container']/div/p";
+
+    public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
+
+    public static $selectFirst = "//input[@id='cb0']";
+
+    public static $fieldStatePath = "//div[@id='editcell']/table/tbody/tr[1]/td[8]/a";
+
+    public static $optionValueField = "//input[@name='extra_value[]']";
+
+    //message
+    public static $messageSaveSuccess='Item saved.';
+
+
+    //selector
+
+    public static $selectorSuccess = '.alert-success';
+
+    public static $selectorError = '.alert-danger';
+
+    public static $selectorNamePage = '.page-title';
 
 
 
-	public static $fieldTypeSearchField = "//div[@id='jform_type_chzn']/div/div/input";
+    /**
+     * Function to get the path for Field Type
+     *
+     * @param   String $type Type of Field to be Added
+     *
+     * @return string
+     */
+    public function fieldType($type)
+    {
+        $path = "//div[@id='jform_type_chzn']/div/ul/li//em[contains(text(),'" . $type . "')]";
 
-//	public static $fieldSectionDropDown = "//div[@id='jform_section_chzn']/a";
+        return $path;
+    }
 
-	public static $fieldSectionSearchField = "//div[@id='jform_section_chzn']/div/div/input";
+    /**
+     * Function to get the path for Field Section
+     *
+     * @param   String $section Section of Field to be Added
+     *
+     * @return string
+     */
+    public function fieldSection($section)
+    {
+        $path = "//div[@id='jform_section_chzn']/div/ul/li//em[contains(text(),'" . $section . "')]";
 
-	public static $fieldSuccessMessage = 'Item saved.';
-
-	public static $fieldMessagesLocation = "//div[@id='system-message-container']/div/p";
-
-	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
-
-	public static $selectFirst = "//input[@id='cb0']";
-
-	public static $fieldStatePath = "//div[@id='editcell']/table/tbody/tr[1]/td[8]/a";
-
-	public static $optionValueField = "//input[@name='extra_value[]']";
-
-	/**
-	 * Function to get the path for Field Type
-	 *
-	 * @param   String  $type  Type of Field to be Added
-	 *
-	 * @return string
-	 */
-	public function fieldType($type)
-	{
-		$path = "//div[@id='jform_type_chzn']/div/ul/li//em[contains(text(),'" . $type . "')]";
-
-		return $path;
-	}
-
-	/**
-	 * Function to get the path for Field Section
-	 *
-	 * @param   String  $section  Section of Field to be Added
-	 *
-	 * @return string
-	 */
-	public function fieldSection($section)
-	{
-		$path = "//div[@id='jform_section_chzn']/div/ul/li//em[contains(text(),'" . $section . "')]";
-
-		return $path;
-	}
+        return $path;
+    }
 
     public function xPathChoice($typeChoice)
     {
         $path = ['xpath' => "//span[contains(text(), '" . $typeChoice . "')]"];
         return $path;
-    }}
+    }
+}

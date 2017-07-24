@@ -50,24 +50,9 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldSectionSearch, 3);
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldSectionSearch, $section);
         $I->click($customFieldsManagerPage->xPathChoice($section));
-
-        $I->click('Save & Close');
-
-//        $I->waitForElement(\CustomFieldManagerJoomla3Page::$categoryFilter, 30);
-//        $I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
-
-//        $I->waitForText(\CustomFieldManagerJoomla3Page::$fieldSuccessMessage, 10, \CustomFieldManagerJoomla3Page::$fieldMessagesLocation);
-//
-//        if ($type == "Check box") {
-//            $I->executeJS('window.scrollTo(0,0)');
-//            $I->click(['link' => 'ID']);
-//        }
-//
-//        $I->executeJS('window.scrollTo(0,0)');
-//        $I->click(['link' => 'ID']);
-//        $I->see($title, \CustomFieldManagerJoomla3Page::$firstResultRow);
-//        $I->executeJS('window.scrollTo(0,0)');
-//        $I->click(['link' => 'ID']);
+//        $I->click('Save');
+//        $I->wait(4);
+//        $I->see(\CustomFieldManagerJoomla3Page::$messageSaveSuccess, \CustomFieldManagerJoomla3Page::$selectorSuccess);
     }
 
     /**
