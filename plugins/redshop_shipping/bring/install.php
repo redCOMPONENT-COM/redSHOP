@@ -22,7 +22,7 @@ class PlgRedshop_ShippingBringInstallerScript
 	/**
 	 * @var string
 	 */
-	protected $name = 'fedex';
+	protected $name = 'bring';
 
 	/**
 	 * Method to run after an install/update/uninstall method
