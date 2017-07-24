@@ -23,7 +23,7 @@ else
 	file="~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf"
 	sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
 	if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ]; then
-		sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+		sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
 		# file=~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
 	fi;
 	sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php${TRAVIS_PHP_VERSION:0:1}-fpm.sock,g" --in-place $file
