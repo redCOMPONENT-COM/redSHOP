@@ -13,15 +13,19 @@ extract($displayData);
 <script type="text/javascript">
 	function getShippingDistrict(infoId)
 	{
-		jQuery('select#rs_ghn_city').on('change', function(){
+		jQuery('select[name="rs_ghn_city"]').on('change', function(){
 	    	var id = jQuery(this).val();
+	    	if (id){
+	    		var city = jQuery(this).find('option:selected').text();
+	    		jQuery('input[name="city_ST"]').val(city);
+	    	}
 	    	jQuery.ajax({
 		        type: "POST",
 		        data: {city: id, id: infoId},
 		        url: "<?php echo JUri::root() . 'index.php?option=com_ajax&plugin=GetGHNDistrict&group=redshop_checkout&format=raw'; ?>",
 		        success: function(data) {
 		        	jQuery('#s2id_rs_ghn_district .select2-chosen').html('Select District');
-		        	jQuery('select#rs_ghn_district').html(data).trigger("change");
+		        	jQuery('select[name="rs_ghn_district"]').html(data).trigger("change");
 		        }
 		    });
 	    });
@@ -29,7 +33,7 @@ extract($displayData);
 
 	function getBillingDistrict(infoId)
 	{
-		jQuery('select#rs_ghn_billing_city').on('change', function(){
+		jQuery('select[name="rs_ghn_billing_city"]').on('change', function(){
 	    	var id = jQuery(this).val();
 	    	if (id){
 	    		var city = jQuery(this).find('option:selected').text();
@@ -41,27 +45,30 @@ extract($displayData);
 		        url: "<?php echo JUri::root() . 'index.php?option=com_ajax&plugin=GetGHNDistrict&group=redshop_checkout&format=raw'; ?>",
 		        success: function(data) {
 		        	jQuery('#s2id_rs_ghn_billing_district .select2-chosen').html('Select District');
-		        	jQuery('select#rs_ghn_billing_district').html(data).trigger("change");
+		        	jQuery('select[name="rs_ghn_billing_district"]').html(data).trigger("change");
 		        }
 		    });
 	    });
 	}
 
 	jQuery(document).ready(function(){
-		var infoId = <?php echo $id; ?>;
-		jQuery('input[name="zipcode"]').val('<?php echo $zipcode; ?>');
-		jQuery.ajax({
-	        type: "POST",
-	        url: "<?php echo JUri::root() . 'index.php?option=com_ajax&plugin=GetGHNCity&group=redshop_checkout&format=raw'; ?>",
-	        data: {id: infoId},
-	        success: function(data) {
-	        	jQuery('select#rs_ghn_city').html(data).trigger("change");
-	        	jQuery('select#rs_ghn_billing_city').html(data);
-	        	getBillingDistrict(infoId);
-	        	jQuery('select#rs_ghn_billing_city').trigger("change");
-	        }
-	    });
-
-	    getShippingDistrict(infoId);
+		jQuery(document).on("AfterGetBillingTemplate", function(){
+			var infoId = <?php echo $id; ?>;
+			jQuery('input[name="zipcode"]').val('<?php echo $zipcode; ?>');
+			jQuery('input[name="zipcode_ST"]').val('<?php echo $zipcode; ?>');
+			getShippingDistrict(infoId);
+			jQuery.ajax({
+		        type: "POST",
+		        url: "<?php echo JUri::root() . 'index.php?option=com_ajax&plugin=GetGHNCity&group=redshop_checkout&format=raw'; ?>",
+		        data: {id: infoId},
+		        success: function(data) {
+		        	jQuery('select[name="rs_ghn_city"]').html(data).trigger("change");
+		        	jQuery('select[name="rs_ghn_billing_city"]').html(data);
+		        	getBillingDistrict(infoId);
+		        	jQuery('select[name="rs_ghn_billing_city"]').trigger("change");
+		        }
+		    });	
+		});
+		jQuery(document).trigger("AfterGetBillingTemplate");
 	});
 </script>
