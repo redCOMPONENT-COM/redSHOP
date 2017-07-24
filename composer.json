@@ -17,7 +17,7 @@
         "fzaninotto/faker": "~1",
         "cloudinary/cloudinary_php": "^1.7",
         "knplabs/github-api": "~1",
-        "joomla-projects/selenium-server-standalone": "^v3.4",
+        "joomla-projects/selenium-server-standalone": "^v2.53.1",
         "nette/reflection": "~2.4"
     }
 }
