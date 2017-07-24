@@ -39,9 +39,6 @@ else
 	sudo a2ensite default.conf
 	sudo /etc/init.d/apache2 restart
 
-	cat $file
-	ls -la tests/cache
-
 	# XVFB
 	sh -e /etc/init.d/xvfb start
 	sleep 3
