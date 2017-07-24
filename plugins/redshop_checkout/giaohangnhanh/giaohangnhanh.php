@@ -42,7 +42,10 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 	{
 		echo RedshopLayoutHelper::render(
 			'template',
-			array('id' => $infoId),
+			array(
+				'id'      => $infoId,
+				'zipcode' => $this->params->get('zipcode', '70000')
+			),
 			JPATH_PLUGINS . '/redshop_checkout/giaohangnhanh/layouts'
 		);
 	}
@@ -160,41 +163,10 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 	 */
 	public function onBeforeUserBillingStore(&$data)
 	{
-		$cityField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_city', 7, $data->users_info_id);
-		$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_district', 7, $data->users_info_id);
+		$billing = $this->getBillingExtraFields($data->users_info_id);
 
-		$result = $this->getDistrictProvinceData();
-
-		if (empty($result))
-		{
-			return;
-		}
-
-		$userCity     = "";
-		$userDistrict = "";
-		$cities       = array();
-		$districts    = array();
-
-		foreach ($result['Data'] as $key => $city)
-		{
-			$cities[$city['ProvinceCode']] = $city['ProvinceName'];
-		}
-
-		foreach ($result['Data'] as $key => $district)
-		{
-			if ($cityField->data_txt != $district['ProvinceCode'])
-			{
-				continue;
-			}
-
-			$districts[$district['ProvinceCode']][$district['DistrictCode']] = $district['DistrictName'];
-		}
-
-		$userCity = $cities[$cityField->data_txt];
-		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
-
-		$data->address .= ' ' . $userDistrict . ' ' . $userCity;
-		$data->city = $userCity;
+		$data->address .= ' ' . $billing['district'] . ' ' . $billing['city'];
+		$data->city = $billing['city'];
 
 		return;
 	}
@@ -389,5 +361,161 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 		$order->track_no = $data['OrderCode'];
 
 		return JFactory::getDbo()->updateObject('#__redshop_orders', $order, 'order_id');
+	}
+
+	/**
+	 * Trigger before store redSHOP user
+	 *
+	 * @param   array    $data   Order shipping data
+	 * @param   boolean  $isNew  User is new
+	 *
+	 * @return void
+	 */
+	public function onBeforeCreateRedshopUser(&$data, $isNew)
+	{
+		$userCity     = "";
+		$cities       = array();
+
+		$result = $this->getDistrictProvinceData();
+
+		foreach ($result['Data'] as $key => $city)
+		{
+			$cities[$city['ProvinceCode']] = $city['ProvinceName'];
+		}
+
+		$userCity = $cities[$data['rs_ghn_billing_city']];
+
+		$data['city'] = $userCity;
+		$data['zipcode'] = $this->params->get('zipcode', '70000');
+	}
+
+	/**
+	 * Trigger before render Billing address in checkout
+	 *
+	 * @param   array  $data  User billing data
+	 *
+	 * @return  void
+	 */
+	public function onBeforeRenderBillingAddress(&$data)
+	{
+		$billing = $this->getBillingExtraFields($data->users_info_id);
+
+		$data->extraField = array(
+				'rs_kerry_billing_city'     => $billing['city'],
+				'rs_kerry_billing_district' => $billing['district']
+			);
+	}
+
+	/**
+	 * Trigger before render Shipping address in checkout
+	 *
+	 * @param   array  $data  User shipping data
+	 *
+	 * @return  void
+	 */
+	public function onBeforeRenderShippingAddress(&$data)
+	{
+		$shipping = $this->getShippingExtraFields($data->users_info_id);
+
+		$data->extraField = array(
+				'rs_kerry_city'     => $shipping['city'],
+				'rs_kerry_district' => $shipping['district']
+			);
+	}
+
+	/**
+	 * Function to get User billing extra fields
+	 *
+	 * @param   int  $userInfoId  Order info id
+	 *
+	 * @return  array
+	 */
+	public function getBillingExtraFields($userInfoId)
+	{
+		$cityField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_city', 7, $userInfoId);
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_district', 7, $userInfoId);
+
+		if (empty($cityField) && empty($districtField))
+		{
+			return array();
+		}
+
+		$result = $this->getDistrictProvinceData();
+
+		$userCity     = "";
+		$userDistrict = "";
+		$cities       = array();
+		$districts    = array();
+
+		foreach ($result['Data'] as $key => $city)
+		{
+			$cities[$city['ProvinceCode']] = $city['ProvinceName'];
+		}
+
+		foreach ($result['Data'] as $key => $district)
+		{
+			if ($cityField->data_txt != $district['ProvinceCode'])
+			{
+				continue;
+			}
+
+			$districts[$district['ProvinceCode']][$district['DistrictCode']] = $district['DistrictName'];
+		}
+
+		$userCity = $cities[$cityField->data_txt];
+		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
+
+		return array(
+				'city'     => $userCity,
+				'district' => $userDistrict
+			);
+	}
+
+	/**
+	 * Function to get User shipping extra fields
+	 *
+	 * @param   int  $userInfoId  Order info id
+	 *
+	 * @return  array
+	 */
+	public function getShippingExtraFields($userInfoId)
+	{
+		$cityField = RedshopHelperExtrafields::getDataByName('rs_ghn_city', 14, $userInfoId);
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_district', 14, $userInfoId);
+
+		if (empty($cityField) && empty($districtField))
+		{
+			return array();
+		}
+
+		$result = $this->getDistrictProvinceData();
+
+		$userCity     = "";
+		$userDistrict = "";
+		$cities       = array();
+		$districts    = array();
+
+		foreach ($result['Data'] as $key => $city)
+		{
+			$cities[$city['ProvinceCode']] = $city['ProvinceName'];
+		}
+
+		foreach ($result['Data'] as $key => $district)
+		{
+			if ($cityField->data_txt != $district['ProvinceCode'])
+			{
+				continue;
+			}
+
+			$districts[$district['ProvinceCode']][$district['DistrictCode']] = $district['DistrictName'];
+		}
+
+		$userCity = $cities[$cityField->data_txt];
+		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
+
+		return array(
+				'city'     => $userCity,
+				'district' => $userDistrict
+			);
 	}
 }
