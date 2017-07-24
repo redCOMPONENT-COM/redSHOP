@@ -10,11 +10,13 @@ if [ "${ACCEPTANCE}" = "false" ]; then
 	composer install --prefer-dist
 	composer install --working-dir ./libraries/redshop --ansi
 else
+	npm install -g gulp-cli
+
 	# forcing localhost to be the 1st alias of 127.0.0.1 in /etc/hosts (https://github.com/seleniumhq/selenium/issues/2074)
 	sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts
 
-	sudo apt-get update -qq
-  	sudo apt-get install --yes --force-yes apache2 libapache2-mod-fastcgi
+	# sudo apt-get update -qq
+  	# sudo apt-get install --yes --force-yes apache2 libapache2-mod-fastcgi
 
 	sudo mkdir $(pwd)/.run
 	phpversionname="$(phpenv version-name)"
@@ -33,13 +35,10 @@ else
 	sudo sudo a2enmod rewrite actions fastcgi alias
 	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$phpversionname/etc/php.ini
 	~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
-	sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/default.conf
-	sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default.conf
-	sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/default.conf
-	sudo a2ensite default.conf
+	sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
+	sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
+	sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/000-default.conf
 	sudo /etc/init.d/apache2 restart
-
-	echo $file
 
 	# XVFB
 	sh -e /etc/init.d/xvfb start
