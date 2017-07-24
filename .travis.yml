@@ -26,6 +26,7 @@ env:
   matrix:
       - ACCEPTANCE=false # this will run phpcs checks etc
       - ACCEPTANCE=true # this will run acceptance test
+      - ACCEPTANCE=ManagerVATGroupAdministratorCest # this will run acceptance VAT Group test.
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
