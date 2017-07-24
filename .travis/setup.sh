@@ -30,6 +30,8 @@ else
 	sudo sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place $file
 	sudo sed -e "s,user = nobody,user = $USER,g" --in-place $file
 	sudo sed -e "s,group = nobody,group = $USER,g" --in-place $file
+	sudo sed -e "s,export APACHE_RUN_USER=www-data,export APACHE_RUN_USER=$USER,g" --in-place /etc/apache2/envvars
+	sudo sed -e "s,export APACHE_RUN_GROUP=www-data,export APACHE_RUN_GROUP=$USER,g" --in-place /etc/apache2/envvars
 	sudo sudo a2enmod rewrite actions fastcgi alias
 	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$phpversionname/etc/php.ini
 	~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
