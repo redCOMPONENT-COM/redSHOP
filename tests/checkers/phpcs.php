@@ -26,15 +26,20 @@ fwrite(STDOUT, "\033[32;1mInitializing PHP_CodeSniffer checks.\033[0m\n");
 // Ignored files
 $ignored = array(
 	REPO_BASE . '/../component/admin/assets/*',
-	REPO_BASE . '/../component/admin/views/*/tmpl/*',
+	REPO_BASE . '/../component/admin/config/*',
+	REPO_BASE . '/../component/admin/extras/*',
+	REPO_BASE . '/../component/admin/help/*',
+	REPO_BASE . '/../component/admin/language/*',
 	REPO_BASE . '/../component/admin/layouts/*',
+	REPO_BASE . '/../component/admin/views/*/tmpl/*',
 	REPO_BASE . '/../component/admin/tables/*',
 	REPO_BASE . '/../component/site/assets/*',
+	REPO_BASE . '/../component/site/helpers/*',
+	REPO_BASE . '/../component/site/language/*',
 	REPO_BASE . '/../component/site/views/*/tmpl/*',
 	REPO_BASE . '/../component/site/layouts/*',
 	REPO_BASE . '/../component/site/tables/*',
 	REPO_BASE . '/../component/site/templates/*',
-	REPO_BASE . '/../libraries/tcpdf/*',
 	REPO_BASE . '/../libraries/redshop/helper/*',
 	REPO_BASE . '/../libraries/redshop/form/*',
 	REPO_BASE . '/../libraries/redshop/layouts/*',
@@ -85,8 +90,6 @@ if ($numErrors)
 	// @todo: when all the codestyle issues will be fixed, please change the following line to exit(1)
 	exit(0);
 }
-else
-{
-	fwrite(STDOUT, "\033[32;1mThere were no issues detected.\033[0m\n");
-	exit(0);
-}
+
+fwrite(STDOUT, "\033[32;1mThere were no issues detected.\033[0m\n");
+exit(0);
