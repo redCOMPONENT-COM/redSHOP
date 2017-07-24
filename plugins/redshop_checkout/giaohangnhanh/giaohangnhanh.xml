@@ -85,6 +85,13 @@
                     label="PLG_REDSHOP_CHECKOUT_GIAOHANGNHANH_DISTRICT"
                     description="PLG_REDSHOP_CHECKOUT_GIAOHANGNHANH_DISTRICT_DESC">
                 </field>
+                <field 
+                    name="zipcode" 
+                    type="number" 
+                    default="" 
+                    label="PLG_REDSHOP_CHECKOUT_GIAOHANGNHANH_ZIPCODE"
+                    description="PLG_REDSHOP_CHECKOUT_GIAOHANGNHANH_ZIPCODE_DESC"
+                />
             </fieldset>
         </fields>
     </config>
