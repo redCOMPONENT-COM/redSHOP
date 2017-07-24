@@ -25,8 +25,27 @@ install:
 env:
   matrix:
       - ACCEPTANCE=false # this will run phpcs checks etc
-      - ACCEPTANCE=true # this will run acceptance test
-      - ACCEPTANCE=ManagerVATGroupAdministratorCest # this will run acceptance VAT Group test.
+      - ACCEPTANCE=ManageCategoryAdministratorCest
+      - ACCEPTANCE=ManageConfigurationAdministratorCest
+      - ACCEPTANCE=ManageCountryAdministratorCest
+      - ACCEPTANCE=ManageCouponAdministratorCest
+      - ACCEPTANCE=ManageCurrencyAdministratorCest
+      - ACCEPTANCE=ManageDiscountAdministratorCest
+      - ACCEPTANCE=ManageDiscountProductAdministratorCest
+      - ACCEPTANCE=ManageMailCenterAdministratorCest
+      - ACCEPTANCE=ManagementTAXRatesAdministratorCest
+      - ACCEPTANCE=ManageProductsAdministratorCest
+      - ACCEPTANCE=ManagerMassDiscountAdministratorCest
+      - ACCEPTANCE=ManagerVATGroupAdministratorCest
+      - ACCEPTANCE=ManageStateAdministratorCest
+      - ACCEPTANCE=ManageStockImageAdministratorCest
+      - ACCEPTANCE=ManageSupplierAdministratorCest
+      - ACCEPTANCE=ManageTemplateAdministratorCest
+      - ACCEPTANCE=ManageTextLibraryAdministratorCest
+      - ACCEPTANCE=ManageUserAdministratorCest
+      - ACCEPTANCE=ManageVoucherAdministratorCest
+      - ACCEPTANCE=ManageWrapperAdministratorCest
+      - ACCEPTANCE=PriceProductAdministratorCest
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
