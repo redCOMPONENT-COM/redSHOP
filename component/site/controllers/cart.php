@@ -78,8 +78,7 @@ class RedshopControllerCart extends RedshopController
 				}
 				else
 				{
-					$catidmain = $product->cat_in_sefurl;
-					$prdItemid = RedshopHelperUtility::getItemId($post['product_id'], $catidmain);
+					$prdItemid = RedshopHelperUtility::getItemId($post['product_id'], $product->cat_in_sefurl);
 				}
 
 				// Directly redirect if error found
