@@ -401,8 +401,8 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 		$billing = $this->getBillingExtraFields($data->users_info_id);
 
 		$data->extraField = array(
-				'rs_kerry_billing_city'     => $billing['city'],
-				'rs_kerry_billing_district' => $billing['district']
+				'rs_ghn_billing_city'     => $billing['city'],
+				'rs_ghn_billing_district' => $billing['district']
 			);
 	}
 
@@ -418,8 +418,8 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 		$shipping = $this->getShippingExtraFields($data->users_info_id);
 
 		$data->extraField = array(
-				'rs_kerry_city'     => $shipping['city'],
-				'rs_kerry_district' => $shipping['district']
+				'rs_ghn_city'     => $shipping['city'],
+				'rs_ghn_district' => $shipping['district']
 			);
 	}
 
