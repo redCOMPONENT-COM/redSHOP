@@ -5,7 +5,6 @@ dist:
   precise
 
 php:
-  - '5.6.29'
   - 7.0
 
 addons:
@@ -25,27 +24,27 @@ install:
 env:
   matrix:
       - ACCEPTANCE=false # this will run phpcs checks etc
-      - ACCEPTANCE=ManageCategoryAdministratorCest
-      - ACCEPTANCE=ManageConfigurationAdministratorCest
-      - ACCEPTANCE=ManageCountryAdministratorCest
-      - ACCEPTANCE=ManageCouponAdministratorCest
-      - ACCEPTANCE=ManageCurrencyAdministratorCest
-      - ACCEPTANCE=ManageDiscountAdministratorCest
-      - ACCEPTANCE=ManageDiscountProductAdministratorCest
-      - ACCEPTANCE=ManageMailCenterAdministratorCest
-      - ACCEPTANCE=ManagementTAXRatesAdministratorCest
-      - ACCEPTANCE=ManageProductsAdministratorCest
-      - ACCEPTANCE=ManagerMassDiscountAdministratorCest
-      - ACCEPTANCE=ManagerVATGroupAdministratorCest
-      - ACCEPTANCE=ManageStateAdministratorCest
-      - ACCEPTANCE=ManageStockImageAdministratorCest
-      - ACCEPTANCE=ManageSupplierAdministratorCest
-      - ACCEPTANCE=ManageTemplateAdministratorCest
-      - ACCEPTANCE=ManageTextLibraryAdministratorCest
-      - ACCEPTANCE=ManageUserAdministratorCest
-      - ACCEPTANCE=ManageVoucherAdministratorCest
-      - ACCEPTANCE=ManageWrapperAdministratorCest
-      - ACCEPTANCE=PriceProductAdministratorCest
+      - ACCEPTANCE=acceptance/administrator/ManageCategoryAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageConfigurationAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageCountryAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageCouponAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageCurrencyAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageDiscountAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageDiscountProductAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageMailCenterAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManagementTAXRatesAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageProductsAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManagerMassDiscountAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManagerVATGroupAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageStateAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageStockImageAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageSupplierAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageTemplateAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageTextLibraryAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageUserAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageVoucherAdministrator
+      - ACCEPTANCE=acceptance/administrator/ManageWrapperAdministrator
+      - ACCEPTANCE=acceptance/administrator/PriceProductAdministrator
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
