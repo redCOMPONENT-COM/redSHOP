@@ -14,11 +14,6 @@ cache:
     - node_modules
     - $HOME/.composer/cache/files
 
-install:
-  - . $HOME/.nvm/nvm.sh
-  - nvm install 8
-  - nvm use 8
-
 env:
   matrix:
       - ACCEPTANCE=false # this will run phpcs checks etc
