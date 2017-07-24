@@ -20,26 +20,40 @@ else
 
 	sudo mkdir $(pwd)/.run
 
-	file="~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf"
-	sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-	if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ]; then
-		sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-		# file=~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
-	fi;
-	sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php${TRAVIS_PHP_VERSION:0:1}-fpm.sock,g" --in-place $file
-	sudo sed -e "s,;listen.owner = nobody,listen.owner = $USER,g" --in-place $file
-	sudo sed -e "s,;listen.group = nobody,listen.group = $USER,g" --in-place $file
-	sudo sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place $file
-	sudo sed -e "s,user = nobody,user = $USER,g" --in-place $file
-	sudo sed -e "s,group = nobody,group = $USER,g" --in-place $file
 	sudo a2enmod rewrite actions fastcgi alias
-	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-	~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
-	sudo a2dissite 000-default.conf
-	sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
-	sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
-	sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/000-default.conf
-	sudo a2ensite 000-default.conf
+
+	if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then
+		sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+		sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php7-fpm.sock,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+		sudo sed -e "s,;listen.owner = nobody,listen.owner = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+		sudo sed -e "s,;listen.group = nobody,listen.group = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+		sudo sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+		sudo sed -e "s,user = nobody,user = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+		sudo sed -e "s,group = nobody,group = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
+
+		echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+		~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+		#sudo a2dissite 000-default.conf
+		sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
+		sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
+		sudo sed -e "s?%PHPVERSION%?7?g" --in-place /etc/apache2/sites-available/000-default.conf
+		#sudo a2ensite 000-default.conf
+	else
+		sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+		sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php5-fpm.sock,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+		sudo sed -e "s,;listen.owner = nobody,listen.owner = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+		sudo sed -e "s,;listen.group = nobody,listen.group = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+		sudo sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+		sudo sed -e "s,user = nobody,user = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+		sudo sed -e "s,group = nobody,group = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+
+		echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+		~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+		sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/default
+		sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
+		sudo sed -e "s?%PHPVERSION%?5?g" --in-place /etc/apache2/sites-available/default
+	fi
+
 	sudo service apache2 restart
 
 	# XVFB
