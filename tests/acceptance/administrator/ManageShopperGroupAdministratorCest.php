@@ -117,7 +117,7 @@ class ManageShopperGroupAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\ShopperGroupManagerJoomla3Steps($scenario);
         $I->wantTo('Edit Name of Shopper groups');
-        $I->checkCloseButton($this->shopperType,$this->idShopperChange);
+        $I->checkCloseButton($this->idShopperChange);
     }
 
     /**
