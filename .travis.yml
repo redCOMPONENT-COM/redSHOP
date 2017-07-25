@@ -36,8 +36,13 @@ matrix:
 
 before_script:
   - "export DISPLAY=:99.0"
+  - cd /etc/apache2/
+  - ls -la
+  - grep -R "DocumentRoot" /etc/apache2/sites-enabled
+  - cd mods-available
+  - ls -la
   - ./.travis/setup.sh
-  - cat /etc/apache2/sites-available/default.conf
+  - cat /etc/apache2/sites-available/000-default.conf
 
 script:
   #- ./.travis/script.sh
