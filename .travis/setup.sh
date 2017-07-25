@@ -38,30 +38,4 @@ else
 	sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/000-default.conf
 	sudo a2ensite 000-default.conf
 	sudo /etc/init.d/apache2 restart
-
-	# XVFB
-	sh -e /etc/init.d/xvfb start
-	sleep 3
-	# Window manager
-	sudo apt-get install fluxbox -y --force-yes
-	fluxbox &
-	sleep 3 # give fluxbox some time to start
-
-	# Install redSHOP Library composer
-	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
-	composer global require hirak/prestissimo
-
-	cd libraries/redshop
-	composer install --prefer-dist
-
-	#cd plugins/redshop_pdf/tcpdf/helper
-	#composer install --prefer-dist
-
-	#cd ../../../..
-	#composer install --prefer-dist
-
-	# Gulp packages
-	npm install
-	mv gulp-config.sample.json gulp-config.json
-	gulp release --skip-version
 fi
