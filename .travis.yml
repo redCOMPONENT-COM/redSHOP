@@ -40,8 +40,8 @@ before_script:
   - ./.travis/setup.sh
 script:
   #- sudo chmod 777 -R $(pwd)
-  #- sudo /etc/init.d/apache2 start
-  - curl http://localhost/LICENSE.txt
+  - sudo /etc/init.d/apache2 status
+  - curl http://localhost/
   - ./.travis/script.sh
 
 after_script:
