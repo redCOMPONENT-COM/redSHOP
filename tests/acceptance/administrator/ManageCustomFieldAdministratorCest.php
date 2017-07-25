@@ -21,12 +21,12 @@
  */
 class ManageCustomFieldAdministratorCest
 {
-	public function __construct()
-	{
-		$this->faker = Faker\Factory::create();
+    public function __construct()
+    {
+        $this->faker = Faker\Factory::create();
 
-		$this->fieldType = array(
-			"Check box",
+        $this->fieldType = array(
+            "Check box",
 //			"Country selection box",
 //			"Date picker",
 //			"Documents",
@@ -39,29 +39,31 @@ class ManageCustomFieldAdministratorCest
 //			"Text Tag Content",
 //			"Text area",
 //			"WYSIWYG"
-		);
-	}
+        );
+    }
 
-	/**
-	 * Function to Test Custom Field CRUD in Backend
-	 *
-	 */
-	public function testCustomFields(AcceptanceTester $I, $scenario)
-	{
-//		$scenario->skip('@fixme: skiping test due to bug REDSHOP-2864');
-		$I->wantTo('Test Custom Field CRUD in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\CustomFieldManagerJoomla3Steps($scenario);
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
+    }
 
-		foreach ($this->fieldType as $type)
-		{
-			$I->wantTo("Test $type");
-			$name = (string) $this->faker->bothify('ManageCustomFieldAdministratorCest ?##?');
-			$title = (string) $this->faker->bothify("ManageCustomFieldAdministratorCest $type ?##?");
-			$optionValue =  (string) $this->faker->numberBetween(100, 1000);
-			$section = 'Category';
+    /**
+     * Function to Test Custom Field CRUD in Backend
+     *
+     */
+    public function testCustomFields(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Custom Field CRUD in Administrator');
+        $I = new AcceptanceTester\CustomFieldManagerJoomla3Steps($scenario);
+
+        foreach ($this->fieldType as $type) {
+            $I->wantTo("Test $type");
+            $name = (string)$this->faker->bothify('ManageCustomFieldAdministratorCest ?##?');
+            $title = (string)$this->faker->bothify("ManageCustomFieldAdministratorCest $type ?##?");
+            $optionValue = (string)$this->faker->numberBetween(100, 1000);
+            $section = 'Category';
 //			$newTitle = 'Updated ' . $title;
-			$I->addField($name, $title, $type, $section, $optionValue);
+            $I->addField($name, $title, $type, $section, $optionValue);
 //			$I->filterListBySearching($title);
 //			$I->seeElement(['link' => $title]);
 //			$I->editField($title, $newTitle);
@@ -71,6 +73,6 @@ class ManageCustomFieldAdministratorCest
 //			$I->verifyState('unpublished', $I->getFieldState($newTitle));
 //			$I->deleteCustomField($newTitle);
 //			$I->searchField($newTitle, 'Delete');
-		}
-	}
+        }
+    }
 }

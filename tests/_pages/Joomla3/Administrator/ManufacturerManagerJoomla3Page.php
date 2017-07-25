@@ -28,4 +28,35 @@ class ManufacturerManagerJoomla3Page
 	public static $selectFirst = "//input[@id='cb0']";
 
 	public static $manufacturerStatePath = "//div[@id='editcell']//table[2]//tbody/tr[1]/td[7]/a";
+
+    //button
+    public static $newButton = "New";
+
+    public static $saveButton = "Save";
+
+    public static $unpublishButton = "Unpublish";
+
+    public static $publishButton = "Publish";
+
+    public static $saveCloseButton = "Save & Close";
+
+    public static $deleteButton = "Delete";
+
+    public static $editButton = "Edit";
+
+    public static $saveNewButton = "Save & New";
+
+    public static $cancelButton = "Cancel";
+
+    public static $checkInButton = "Check-in";
+
+    public static $closeButton = "Close";
+
+
+    //selector
+    public static $selectorSuccess = '.alert-success';
+
+    public static $selectorError = '.alert-danger';
+
+    public static $selectorNamePage = '.page-title';
 }

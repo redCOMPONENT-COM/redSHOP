@@ -21,10 +21,14 @@ class ManageQuotationAdministratorCest
 	 * Function to Test Quotation Creation in Backend
 	 *
 	 */
+
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
+    }
 	public function createQuotation(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Quotation creation in Administrator');
-		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\QuotationManagerJoomla3Steps($scenario);
 		$I->addQuotation();
 	}

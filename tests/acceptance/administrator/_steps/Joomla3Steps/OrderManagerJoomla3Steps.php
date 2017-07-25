@@ -27,8 +27,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Order Manager Page');
-		$I->click('New');
+		$I->click(\OrderManagerPage::$newButton);
 //		$I->verifyNotices(false, $this->checkForNotices(), 'Order Manager New');
-		$I->click('Cancel');
+		$I->click(\OrderManagerPage::$cancelButton);
 	}
 }

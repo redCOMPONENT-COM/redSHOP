@@ -26,9 +26,8 @@ class MediaManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\MediaManagerPage::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Media Manager Page');
-		$I->click('New');
+		$I->click(\MediaManagerPage::$newButton);
 //		$I->verifyNotices(false, $this->checkForNotices(), 'Media Manager New');
-		$I->click('Cancel');
+        $I->click(\MediaManagerPage::$cancelButton);
 	}
 }

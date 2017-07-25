@@ -16,4 +16,29 @@
 class QuotationManagerPage
 {
 	public static $URL = '/administrator/index.php?option=com_redshop&view=quotation';
+
+    //button
+    public static $newButton = "New";
+
+    public static $saveButton = "Save";
+
+    public static $unpublishButton = "Unpublish";
+
+    public static $publishButton = "Publish";
+
+    public static $saveCloseButton = "Save & Close";
+
+    public static $deleteButton = "Delete";
+
+    public static $editButton = "Edit";
+
+    public static $saveNewButton = "Save & New";
+
+    public static $cancelButton = "Cancel";
+
+    public static $checkInButton = "Check-in";
+
+    public static $closeButton = "Close";
+
+
 }
