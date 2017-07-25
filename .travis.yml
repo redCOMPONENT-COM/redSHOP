@@ -43,6 +43,8 @@ before_script:
   - ls -la
   - ./.travis/setup.sh
   - grep -R "DocumentRoot" /etc/apache2/sites-enabled
+  - cd /etc/apache2/sites-available
+  - ls -la
   - cat /etc/apache2/sites-available/000-default.conf
 
 script:

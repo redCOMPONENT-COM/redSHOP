@@ -54,7 +54,7 @@ else
 	cd libraries/redshop
 	composer install --prefer-dist
 
-	cd ../../plugins/redshop_pdf/tcpdf/helper
+	cd plugins/redshop_pdf/tcpdf/helper
 	composer install --prefer-dist
 
 	cd ../../../..
