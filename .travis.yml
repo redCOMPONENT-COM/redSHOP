@@ -1,6 +1,10 @@
 language: php
 sudo: required
 dist: precise
+install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install 8
+  - nvm use 8
 php:
   - 5.6.30
   - 7.0
