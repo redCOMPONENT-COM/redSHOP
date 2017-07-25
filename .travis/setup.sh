@@ -40,6 +40,7 @@ else
 	sudo /etc/init.d/apache2 restart
 
 	# XVFB
+	export DISPLAY=:99.0
 	sh -e /etc/init.d/xvfb start
 	sleep 3
 	# Window manager
@@ -62,6 +63,7 @@ else
 
 	# Gulp packages
 	npm install
+	npm install -g gulp
 	mv gulp-config.sample.json gulp-config.json
 	gulp release --skip-version
 fi
