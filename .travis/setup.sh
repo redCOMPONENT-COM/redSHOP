@@ -31,11 +31,9 @@ else
 
 		echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 		~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
-		#sudo a2dissite 000-default.conf
 		sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
 		sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
 		sudo sed -e "s?%PHPVERSION%?7?g" --in-place /etc/apache2/sites-available/000-default.conf
-		#sudo a2ensite 000-default.conf
 	else
 		sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
 		sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php5-fpm.sock,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
@@ -53,27 +51,25 @@ else
 	fi
 
 	sudo service apache2 restart
-
-	# sh -e /etc/init.d/xvfb start
-	# sleep 3
-	#sudo apt-get install fluxbox -y --force-yes
-	#fluxbox &
-	#sleep 3 # give fluxbox some time to start
+	sh -e /etc/init.d/xvfb start
+	sleep 3
+	sudo apt-get install fluxbox -y --force-yes
+	fluxbox &
+	sleep 3
 
 	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
 	composer global require hirak/prestissimo
 
-	#cd libraries/redshop
-	#composer install --prefer-dist
-
-	#cd ../../plugins/redshop_pdf/tcpdf/helper
-	#composer install --prefer-dist
-
-	#cd ../../../..
+	cd libraries/redshop
 	composer install --prefer-dist
 
-	# Gulp packages
-	#npm install
-	#mv gulp-config.sample.json gulp-config.json
-	#gulp release --skip-version
+	cd ../../plugins/redshop_pdf/tcpdf/helper
+	composer install --prefer-dist
+
+	cd ../../../..
+	composer install --prefer-dist
+
+	npm install
+	mv gulp-config.sample.json gulp-config.json
+	gulp release --skip-version
 fi
