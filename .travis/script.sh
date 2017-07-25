@@ -24,6 +24,7 @@ else
 	php vendor/bin/robo check:travis-webserver
 
 	# Run Acceptance test
+	sudo chown -R www-data:www-data $(pwd)
 	php vendor/bin/robo run:tests 1
 
 	# Send output to Slack.
