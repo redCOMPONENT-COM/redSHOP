@@ -39,8 +39,11 @@ before_script:
   - "export DISPLAY=:99.0"
   - ./.travis/setup.sh
 script:
-  - chmod 777 -R $(pwd)
+  - sudo chmod 777 -R $(pwd)
   - ls -la
+  - cd /etc/apache2
+  - cat envvars
+  - cd $CURRENT_PATH
   - curl http://localhost/LICENSE.txt
   - ./.travis/script.sh
 
