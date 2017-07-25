@@ -76,6 +76,8 @@ class ShopperGroupJ3Page
 
     public static $xpathMessageSuccess = "//div[@id='system-message']/div/div/p";
 
+    public static $pageHead="//div[@id='redSHOPAdminContainer']/div/div/section[1]/div[1]/h1";
+
 
 
     //selector
