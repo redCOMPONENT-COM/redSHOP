@@ -30,6 +30,7 @@ env:
     - GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
     - ORGANIZATION=redCOMPONENT-COM
     - REPO=redSHOP
+    - CURRENT_PATH=$(pwd)
 
 matrix:
   fast_finish: true
@@ -41,6 +42,8 @@ before_script:
   - ls -la
   - cd sites-available
   - ls -la
+  - cat 000-default.conf
+  - cd $CURRENT_PATH
   - sudo cp -f tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
   - sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/000-default.conf
