@@ -428,6 +428,45 @@ class RoboFile extends \Robo\Tasks
         $this->killSelenium();
     }
 
+
+    public function runTravis($folder)
+    {
+        $this->prepareSiteForSystemTests(1);
+
+        $this->runSelenium();
+
+        // Make sure to Run the Build Command to Generate AcceptanceTester
+        $this->_exec("vendor/bin/codecept build");
+
+        $this->taskCodecept()
+            ->arg('--steps')
+            ->arg('--debug')
+            ->arg('--tap')
+            ->arg('--fail-fast')
+            ->arg('tests/acceptance/install/')
+            ->run()
+            ->stopOnFail();
+
+        if (false !== strpos($folder, 'integration'))
+        {
+            $this->taskCodecept()
+                ->arg('--steps')
+                ->arg('--debug')
+                ->arg('--tap')
+                ->arg('--fail-fast')
+                ->arg('tests/acceptance/install/integration')
+                ->run()
+                ->stopOnFail();
+        }
+
+        $this->taskCodecept()
+            ->arg('--steps')
+            ->arg('--debug')
+            ->arg('--fail-fast')
+            ->arg('tests/' . $folder . '/')
+            ->run()
+            ->stopOnFail();
+    }
     /**
      * Stops Selenium Standalone Server
      *

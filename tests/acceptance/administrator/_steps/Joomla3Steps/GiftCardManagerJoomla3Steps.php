@@ -143,30 +143,6 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         }
     }
 
-//    /**
-//     * Function to Edit a Gift Card when clicks on name of gift card
-//     *
-//     * @param   string $cardName Name of the card which is to be edited
-//     * @param   string $newCardName New Name for the Card
-//     *
-//     * @return void
-//     */
-//    public function editCard($cardName, $newCardName)
-//    {
-//        $I = $this;
-//        $I->amOnPage(\GiftCardManagerPage::$URL);
-//        $I->filterListBySearching($cardName);
-//        $I->click(['link' => $cardName]);
-//        $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
-//        $I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
-//        $I->click(\GiftCardManagerPage::$saveCloseButton);
-//        $I->waitForText(\GiftCardManagerPage::$messageSaveSuccess, 30, \GiftCardManagerPage::$selectorSuccess);
-//        $I->filterListBySearching($newCardName);
-//        $I->seeElement(['link' => $newCardName]);
-//    }
-
-
-
     public function editCard($cardName = 'Sample Card', $newCardName ,$function){
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
@@ -193,22 +169,6 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         }
     }
-
-//
-//    public function editCardSave($cardName, $newCardName)
-//    {
-//        $I = $this;
-//        $I->amOnPage(\GiftCardManagerPage::$URL);
-//        $I->filterListBySearching($cardName);
-//        $I->click(['link' => $cardName]);
-//        $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
-//        $I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
-//        $I->click(\GiftCardManagerPage::$saveButton);
-//        $I->waitForText(\GiftCardManagerPage::$messageSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
-//        $I->click(\GiftCardManagerPage::$closeButton);
-//        $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorNamePage);
-//
-//    }
 
     public function editCardCloseButton($cardName)
     {
