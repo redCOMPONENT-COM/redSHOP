@@ -14,7 +14,7 @@ else
 	sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts
 
 	sudo apt-get update -qq
-	sudo apt-get install --yes --force-yes apache2 libapache2-mod-fastcgi
+	sudo apt-get install --yes --allow apache2 libapache2-mod-fastcgi
 
 	sudo mkdir $(pwd)/.run
 	phpversionname="$(phpenv version-name)"
@@ -43,7 +43,7 @@ else
 	sh -e /etc/init.d/xvfb start
 	sleep 3
 	# Window manager
-	sudo apt-get install fluxbox -y --force-yes
+	sudo apt-get install fluxbox -y --allow
 	fluxbox &
 	sleep 3 # give fluxbox some time to start
 
