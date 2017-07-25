@@ -41,6 +41,8 @@ before_script:
 script:
   #- sudo chmod 777 -R $(pwd)
   - sudo /etc/init.d/apache2 status
+  - chown -R $USER:$USER $(pwd)
+  - ls -la
   - curl http://localhost/
   - ./.travis/script.sh
 
