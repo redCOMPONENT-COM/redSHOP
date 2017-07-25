@@ -45,6 +45,12 @@ class RedshopViewShipping_Detail extends RedshopViewAdmin
 		// Load language file of the shipping plugin
 		JFactory::getLanguage()->load('plg_redshop_shipping_' . strtolower($detail->element), JPATH_ADMINISTRATOR);
 
+		// Load language file from plugin folder.
+		JFactory::getLanguage()->load(
+			'plg_redshop_shipping_' . strtolower($detail->element),
+			JPATH_ROOT . '/plugins/redshop_shipping/' . $detail->element
+		);
+
 		$isNew = ($detail->extension_id < 1);
 		$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
