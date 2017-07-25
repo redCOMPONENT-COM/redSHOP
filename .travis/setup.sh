@@ -22,6 +22,8 @@ else
 
 	sudo a2enmod rewrite actions fastcgi alias
 
+	echo ${TRAVIS_PHP_VERSION:0:1}
+
 	if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then
 		sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
 		sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php7-fpm.sock,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf
