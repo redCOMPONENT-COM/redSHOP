@@ -21,7 +21,6 @@ else
 	php vendor/bin/robo prepare:site-for-system-tests
 
 	# Test apache
-	sudo chown -R www-data:www-data $(pwd)
 	php vendor/bin/robo check:travis-webserver
 
 	# Run Acceptance test

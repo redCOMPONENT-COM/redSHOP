@@ -39,6 +39,7 @@ before_script:
   - "export DISPLAY=:99.0"
   - ./.travis/setup.sh
 script:
+  - curl http://localhost/LICENSE.txt
   - ./.travis/script.sh
 
 after_script:
