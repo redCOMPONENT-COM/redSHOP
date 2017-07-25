@@ -41,7 +41,7 @@ before_script:
   - ls -la
   - cd sites-available
   - ls -la
-  - sudo cp -f /tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
+  - sudo cp -f tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
   - sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/000-default.conf
   - sudo a2ensite 000-default.conf
