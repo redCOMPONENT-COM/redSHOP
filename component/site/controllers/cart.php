@@ -501,6 +501,26 @@ class RedshopControllerCart extends RedshopController
 	}
 
 	/**
+	 * Method to delete cart entry from session by ajax
+	 *
+	 * @return void
+	 */
+	public function ajaxDeleteCartItem()
+	{
+		RedshopHelperAjax::validateAjaxRequest();
+		$app         = JFactory::getApplication();
+		$input       = $app->input;
+		$cartElement = $input->post->getInt('idx');
+		$model       = $this->getModel('cart');
+		$input->set('ajax_cart_box', 1);
+		$model->delete($cartElement);
+		$this->_carthelper->carttodb();
+		$this->_carthelper->cartFinalCalculation();
+
+		$app->close();
+	}
+
+	/**
 	 * discount calculator Ajax Function
 	 *
 	 * @return discount by Ajax
