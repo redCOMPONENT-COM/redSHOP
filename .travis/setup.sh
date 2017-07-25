@@ -33,13 +33,15 @@ else
 	sudo a2enmod rewrite actions fastcgi alias
 	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$phpversionname/etc/php.ini
 	~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+	sudo /etc/init.d/apache2 stop
 	sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
 	sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
 	sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/000-default.conf
 	sudo a2ensite 000-default.conf
 	sudo sed -i -e "s,APACHE_RUN_USER=www-data,APACHE_RUN_USER=$USER,g" /etc/apache2/envvars
     sudo sed -i -e "s,APACHE_RUN_GROUP=www-data,APACHE_RUN_GROUP=$USER,g" /etc/apache2/envvars
-	sudo /etc/init.d/apache2 restart
+    sudo chown $USER:$USER /etc/apache2/mods-enabled/fastcgi.conf
+	sudo /etc/init.d/apache2 start
 
 	# XVFB
 	export DISPLAY=:99.0
