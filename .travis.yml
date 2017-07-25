@@ -39,7 +39,8 @@ before_script:
   - "export DISPLAY=:99.0"
   - ./.travis/setup.sh
 script:
-  - sudo chown www-data:www-data $(pwd)
+  - sudo chown www-data $(pwd)
+  - ls -la
   - curl http://localhost/LICENSE.txt
   - ./.travis/script.sh
 
