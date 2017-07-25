@@ -28,33 +28,30 @@ class ManageGiftCardAdministratorCest
         $this->cardValue = $this->faker->numberBetween(9, 99);
         $this->cardValidity = $this->faker->numberBetween(1, 15);
     }
-
-    /**
-     * Function to Test Gift Cards Creation in Backend
-     *
-     */
-    public function createGiftCard(AcceptanceTester $I, $scenario)
+    public function _before(AcceptanceTester $I)
     {
-        $I->wantTo('Test Gift Card creation in Administrator');
         $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->addCard($this->randomCardName, $this->cardPrice, $this->cardValue, $this->cardValidity);
     }
 
-    /**
-     *  Function to create card with save button
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
-    public function createCardSave(AcceptanceTester $I, $scenario)
+    public function addCard(AcceptanceTester $I, $scenario)
     {
-        $I->wantTo('Test Gift Card creation in Administrator');
-        $I->doAdministratorLogin();
+        $I->wantTo('Test to validate different Missing Fields in the Edit View');
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->addCardSave($this->cardNameSave, $this->cardPrice, $this->cardValue, $this->cardValidity);
+        $I->addCardNew($this->randomCardName, $this->cardPrice, $this->cardValue, $this->cardValidity,'save');
+        $I->addCardNew($this->cardNameSave, $this->cardPrice, $this->cardValue, $this->cardValidity,'saveclose');
     }
-
+    /**
+     * Function to Test Gift Card Updation in the Administrator
+     *
+     * @depends addCard
+     */
+    public function editCard(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Edit Card with save and save&close ');
+        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+        $I->editCard($this->randomCardName, $this->newRandomCardName,'save');
+        $I->editCard($this->newRandomCardName, $this->newRandomCardName,'saveclose');
+    }
     /**
      *  Function to validate Missing Field Validations, Error Messages
      *
@@ -64,56 +61,27 @@ class ManageGiftCardAdministratorCest
     public function validateMissingFieldEditView(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test to validate different Missing Fields in the Edit View');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-		$I->giftCardEditViewMissingFieldValidation('cardName');
-		$I->giftCardEditViewMissingFieldValidation('cardValue');
-		$I->giftCardEditViewMissingFieldValidation('cardPrice');
-		$I->giftCardEditViewMissingFieldValidation('cardValidity');
-    }
-
-	/**
-	 * Function to validate different buttons on Gift Card Views
-	 *
-	 * @param AcceptanceTester $I
-	 * @param $scenario
-	 */
-	public function checkButtons(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test to validate different buttons on Gift Card Views');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-		$I->checkButtons('edit');
-		$I->checkButtons('cancel');
-		$I->checkButtons('publish');
-		$I->checkButtons('unpublish');
-	}
-
-    /**
-     * Function to Test Gift Card Updation in the Administrator
-     *
-     * @depends createGiftCard
-     */
-    public function updateGiftCard(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test if Gift Card gets updated in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->editCard($this->randomCardName, $this->newRandomCardName);
-        $I->searchCard($this->newRandomCardName);
+        $I->giftCardEditViewMissingFieldValidation('cardName');
+        $I->giftCardEditViewMissingFieldValidation('cardValue');
+        $I->giftCardEditViewMissingFieldValidation('cardPrice');
+        $I->giftCardEditViewMissingFieldValidation('cardValidity');
     }
 
     /**
-     * Function to Test Gift Card Updation with save button in the Administrator
+     * Function to validate different buttons on Gift Card Views
      *
-     * @depends updateGiftCard
+     * @param AcceptanceTester $I
+     * @param $scenario
      */
-    public function editCardSave(AcceptanceTester $I, $scenario)
+    public function checkButtons(AcceptanceTester $I, $scenario)
     {
-        $I->wantTo('Test if Gift Card gets updated in Administrator');
-        $I->doAdministratorLogin();
+        $I->wantTo('Test to validate different buttons on Gift Card Views');
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->editCardSave($this->newRandomCardName, $this->newRandomCardName);
+        $I->checkButtons('edit');
+        $I->checkButtons('cancel');
+        $I->checkButtons('publish');
+        $I->checkButtons('unpublish');
     }
 
     /**
@@ -122,12 +90,11 @@ class ManageGiftCardAdministratorCest
      * @param AcceptanceTester $I
      * @param $scenario
      *
-     * * @depends updateGiftCard
+     * * @depends editCard
      */
     public function updateCardCloseButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test if Gift Card gets updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->editCardCloseButton($this->newRandomCardName);
         $I->searchCard($this->newRandomCardName);
@@ -139,13 +106,12 @@ class ManageGiftCardAdministratorCest
      * @param AcceptanceTester $I
      * @param $scenario
      *
-     *  * @depends createCardSave
+     *
      *
      */
     public function updateGiftCardEditButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test if Gift Card gets updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->editCardWithEditButton($this->cardNameSave, $this->cardNameSaveEdit);
         $I->searchCard($this->cardNameSaveEdit);
@@ -154,12 +120,11 @@ class ManageGiftCardAdministratorCest
     /**
      * Test for State Change is unpublish in Gift Card Administrator
      *
-     * @depends updateGiftCard
+     *
      */
     public function changeGiftCardStateUnpublish(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test if State Unpublish of a Gift Card gets Updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->changeCardState($this->cardNameSaveEdit);
         $I->verifyState('unpublished', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
@@ -173,7 +138,6 @@ class ManageGiftCardAdministratorCest
     public function changeGiftCardStatePublish(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->changeCardState($this->cardNameSaveEdit);
         $I->verifyState('published', $I->getCardState($this->cardNameSaveEdit), 'State Must be published');
@@ -187,7 +151,6 @@ class ManageGiftCardAdministratorCest
     public function changeCardUnpublishButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->changeCardUnpublishButton($this->cardNameSaveEdit);
         $I->wait(3);
@@ -202,7 +165,6 @@ class ManageGiftCardAdministratorCest
     public function changeCardPublishButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->changeCardPublishButton($this->cardNameSaveEdit);
         $I->verifyState('published', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
@@ -216,7 +178,6 @@ class ManageGiftCardAdministratorCest
     public function changeAllCardUnpublishButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->changeAllCardUnpublishButton();
         $I->wait(3);
@@ -231,7 +192,6 @@ class ManageGiftCardAdministratorCest
     public function changeAllCardPublishButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->changeAllCardPublishButton();
         $I->verifyState('published', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
@@ -245,7 +205,6 @@ class ManageGiftCardAdministratorCest
     public function deleteGiftCard(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Deletion of Gift Card in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->deleteCard($this->cardNameSaveEdit);
     }

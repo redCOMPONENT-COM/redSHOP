@@ -47,6 +47,8 @@ class GiftCardManagerPage
 
     public static $errorValid = ['xpath' => "//div[@id='system-message-container']/div/div"];
 
+    public static $xpathMessage=['xpath'=>"//div[@id='system-message-container']/div/div/div"];
+
     public static $getGiftCard = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[1]"];
 
     public static $giftCardId =['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[9]"];
@@ -89,6 +91,14 @@ class GiftCardManagerPage
     public static $messageError = "Error";
 
     public static $messageSuccess = "Message";
+
+//    public static $messageSuccessPublishAll="";
+
+    public static $messageSuccessUnpublish="items successfully unpublished";
+
+    public static $messageUnpublishSuccess="1 item successfully unpublished";
+
+    public static $messagePublishSuccess="1 item successfully published";
 
     public static $messageDeleteSuccess = "1 item successfully deleted";
 
