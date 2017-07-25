@@ -41,7 +41,8 @@ before_script:
 script:
   #- sudo chmod 777 -R $(pwd)
   - sudo /etc/init.d/apache2 status
-  - sudo chown -R $USER:$USER $(pwd)
+  - sudo chown -R $USER:$USER $(pwd)/
+  - sudo chmod -R 777 $(pwd)/
   - cat /etc/apache2/envvars
   - ls -la
   - curl http://localhost/
