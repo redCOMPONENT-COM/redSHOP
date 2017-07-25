@@ -30,7 +30,6 @@ else
 	sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place $file
 	sed -e "s,user = nobody,;user = $USER,g" --in-place $file
 	sed -e "s,group = nobody,;group = $USER,g" --in-place $file
-	sudo a2enmod rewrite actions fastcgi alias
 	echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$phpversionname/etc/php.ini
 	~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
 	sudo /etc/init.d/apache2 stop
@@ -40,8 +39,7 @@ else
 	sudo a2ensite 000-default.conf
 	sudo sed -i -e "s,APACHE_RUN_USER=www-data,APACHE_RUN_USER=$USER,g" /etc/apache2/envvars
     sudo sed -i -e "s,APACHE_RUN_GROUP=www-data,APACHE_RUN_GROUP=$USER,g" /etc/apache2/envvars
-    sudo chown $USER:$USER /etc/apache2/mods-enabled/fastcgi.conf
-	sudo /etc/init.d/apache2 start
+    sudo /etc/init.d/apache2 start
 
 	# XVFB
 	export DISPLAY=:99.0
