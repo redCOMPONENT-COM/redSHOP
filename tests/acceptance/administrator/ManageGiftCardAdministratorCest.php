@@ -20,10 +20,10 @@ class ManageGiftCardAdministratorCest
     public function __construct()
     {
         $this->faker = Faker\Factory::create();
-        $this->randomCardName = 'EditName'.rand(1,1000);
-        $this->cardNameSave = 'Cart Name' . rand(1, 100);
+        $this->randomCardName = $this->faker->bothify('Edit Name ##??');
+        $this->cardNameSave = $this->faker->bothify('Card Name ##??');
         $this->cardNameSaveEdit = 'New' . $this->cardNameSave;
-        $this->newRandomCardName = 'New ';
+        $this->newRandomCardName = $this->faker->bothify('New ##??');
         $this->cardPrice = $this->faker->numberBetween(99, 999);
         $this->cardValue = $this->faker->numberBetween(9, 99);
         $this->cardValidity = $this->faker->numberBetween(1, 15);
@@ -39,7 +39,6 @@ class ManageGiftCardAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->addCard($this->randomCardName, $this->cardPrice, $this->cardValue, $this->cardValidity);
-        $I->searchCard($this->randomCardName);
     }
 
     /**
@@ -57,136 +56,38 @@ class ManageGiftCardAdministratorCest
     }
 
     /**
-     *  Function to check cancel button
+     *  Function to validate Missing Field Validations, Error Messages
      *
      * @param AcceptanceTester $I
      * @param $scenario
      */
-    public function checkCancelButton(AcceptanceTester $I, $scenario)
+    public function validateMissingFieldEditView(AcceptanceTester $I, $scenario)
     {
-        $I->wantTo('Test Gift Card creation in Administrator');
+        $I->wantTo('Test to validate different Missing Fields in the Edit View');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->checkCancelButton();
-        $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorNamePage);
+		$I->giftCardEditViewMissingFieldValidation('cardName');
+		$I->giftCardEditViewMissingFieldValidation('cardValue');
+		$I->giftCardEditViewMissingFieldValidation('cardPrice');
+		$I->giftCardEditViewMissingFieldValidation('cardValidity');
     }
 
-    /**
-     *  Function to create card missing name
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
-    public function createCardMissingName(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test Gift Card creation missing name in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->addCardMissingName($this->cardPrice, $this->cardValue, $this->cardValidity);
-    }
-
-    /**
-     *  Function to create card missing Card Price
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
-    public function createCardMissingCardPrice(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test Gift Card creation  missing card price in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->addCardMissingCardPrice($this->randomCardName, $this->cardValue, $this->cardValidity);
-    }
-
-    /**
-     *  Function to create card missing Card Value
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
-    public function createCardMissingGiftCardValue(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test Gift Card creation missing gift card value in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->addCardMissingGiftCardValue($this->randomCardName, $this->cardPrice, $this->cardValidity);
-    }
-
-    /**
-     *  Function to create card missing Card Validity
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
-    public function createCardMissingGiftCardValidity(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test Gift Card creation missing card validity in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->addCardMissingGiftCardValidity($this->randomCardName, $this->cardPrice, $this->cardValue);
-    }
-
-    /**
-     *
-     * Functon check Edit Button without choice any gift card
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
-    public function checkEditButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Check Edit Button in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->checkEditButton();
-        $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorNamePage);
-    }
-
-    /**
-     * Functon check Delete Button without choice any gift card
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
-    public function checkDeleteButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Check Edit Button in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->checkDeleteButton();
-        $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorNamePage);
-    }
-
-    /**
-     * Functon check Publish Button without choice any gift card
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
-    public function checkPublishButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Check Edit Button in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->checkPublishButton();
-        $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorNamePage);
-    }
-
-    /**
-     * Functon check Unpublish Button without choice any gift card
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
-    public function checkUnpublishButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Check Edit Button in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->checkUnpublishButton();
-        $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorNamePage);
-    }
+	/**
+	 * Function to validate different buttons on Gift Card Views
+	 *
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 */
+	public function checkButtons(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Test to validate different buttons on Gift Card Views');
+		$I->doAdministratorLogin();
+		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+		$I->checkButtons('edit');
+		$I->checkButtons('cancel');
+		$I->checkButtons('publish');
+		$I->checkButtons('unpublish');
+	}
 
     /**
      * Function to Test Gift Card Updation in the Administrator
