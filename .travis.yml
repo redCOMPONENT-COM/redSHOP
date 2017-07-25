@@ -39,9 +39,14 @@ before_script:
   - sudo apt-get install --yes --force-yes apache2 libapache2-mod-fastcgi
   - cd /etc/apache2/
   - ls -la
-  - cd mods-available
+  - cd sites-available
   - ls -la
-  - ./.travis/setup.sh
+  - sudo cp -f ./tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
+  - sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/000-default.conf
+  - sudo a2ensite 000-default.conf
+  - sudo /etc/init.d/apache2 restart
+  #- ./.travis/setup.sh
   - grep -R "DocumentRoot" /etc/apache2/sites-enabled
   - cd /etc/apache2/sites-available
   - ls -la
