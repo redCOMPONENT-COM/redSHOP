@@ -37,29 +37,12 @@ matrix:
 
 before_script:
   - "export DISPLAY=:99.0"
-  - sudo apt-get install --yes --force-yes apache2 libapache2-mod-fastcgi
-  - cd /etc/apache2/
-  - ls -la
-  - cd sites-available
-  - ls -la
-  - cat 000-default.conf
-  - cd $CURRENT_PATH
-  - sudo cp -f tests/travis-ci-apache.conf /etc/apache2/sites-available/000-default.conf
-  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
-  - sudo sed -e "s?%PHPVERSION%?${TRAVIS_PHP_VERSION:0:1}?g" --in-place /etc/apache2/sites-available/000-default.conf
-  - sudo a2ensite 000-default.conf
-  - sudo /etc/init.d/apache2 restart
-  #- ./.travis/setup.sh
-  - grep -R "DocumentRoot" /etc/apache2/sites-enabled
-  - cd /etc/apache2/sites-available
-  - ls -la
-  - cat /etc/apache2/sites-available/000-default.conf
-
+  - ./.travis/setup.sh
 script:
-  #- ./.travis/script.sh
+  - ./.travis/script.sh
 
 after_script:
-  #- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
+  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:screenshot-from-travis-to-github $CLOUD_NAME $API_KEY $API_SECRET $GITHUB_TOKEN $ORGANIZATION $REPO $TRAVIS_PULL_REQUEST; fi
 
 notifications:
   slack:
