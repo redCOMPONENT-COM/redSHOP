@@ -60,8 +60,8 @@ else
 	#fluxbox &
 	#sleep 3 # give fluxbox some time to start
 
-	#composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
-	#composer global require hirak/prestissimo
+	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
+	composer global require hirak/prestissimo
 
 	#cd libraries/redshop
 	#composer install --prefer-dist
@@ -70,7 +70,7 @@ else
 	#composer install --prefer-dist
 
 	#cd ../../../..
-	#composer install --prefer-dist
+	composer install --prefer-dist
 
 	# Gulp packages
 	#npm install

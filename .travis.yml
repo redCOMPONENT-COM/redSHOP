@@ -18,7 +18,7 @@ cache:
 
 env:
   matrix:
-      - ACCEPTANCE=false # this will run phpcs checks etc
+      #- ACCEPTANCE=false # this will run phpcs checks etc
       - ACCEPTANCE=acceptance/administrator # run test administrator
   global:
     - CLOUD_NAME=redcomponent
