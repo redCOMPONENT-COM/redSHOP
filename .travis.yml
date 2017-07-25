@@ -3,7 +3,7 @@ sudo: required
 
 php:
   - '5.6.29'
-  - 7.0
+  #- 7.0
 
 addons:
   firefox: "46.0"
@@ -38,10 +38,10 @@ before_script:
   - "export DISPLAY=:99.0"
   - cd /etc/apache2/
   - ls -la
-  - grep -R "DocumentRoot" /etc/apache2/sites-enabled
   - cd mods-available
   - ls -la
   - ./.travis/setup.sh
+  - grep -R "DocumentRoot" /etc/apache2/sites-enabled
   - cat /etc/apache2/sites-available/000-default.conf
 
 script:
