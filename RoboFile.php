@@ -230,203 +230,203 @@ class RoboFile extends \Robo\Tasks
         $this->killSelenium();
     }
 
-    /**
-     * Executes Selenium System Tests in your machine
-     *
-     * @param   array  $opts  Use -h to see available options
-     *
-     * @return mixed
-     */
-    public function runTest($opts = array('test|t'  => null, 'suite|s' => 'acceptance'))
-    {
-        $this->getComposer();
-
-        $this->taskComposerInstall()->run();
-
-        if (isset($opts['suite']) && 'api' === $opts['suite'])
-        {
-            // Do not launch selenium when running API tests
-        }
-        else
-        {
-            $this->runSelenium();
-
-            if (!$this->isWindows())
-            {
-                $this->taskWaitForSeleniumStandaloneServer()
-                    ->run()
-                    ->stopOnFail();
-            };
-        }
-
-        // Make sure to Run the Build Command to Generate AcceptanceTester
-        $this->_exec("vendor/bin/codecept build");
-
-        if (!$opts['test'])
-        {
-            $this->say('Available tests in the system:');
-
-            $iterator = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator(
-                    'tests/' . $opts['suite'],
-                    RecursiveDirectoryIterator::SKIP_DOTS
-                ),
-                RecursiveIteratorIterator::SELF_FIRST
-            );
-
-            $tests = array();
-
-            $iterator->rewind();
-            $i = 1;
-
-            while ($iterator->valid())
-            {
-                if (strripos($iterator->getSubPathName(), 'cept.php')
-                    || strripos($iterator->getSubPathName(), 'cest.php'))
-                {
-                    $this->say('[' . $i . '] ' . $iterator->getSubPathName());
-                    $tests[$i] = $iterator->getSubPathName();
-                    $i++;
-                }
-
-                $iterator->next();
-            }
-
-            $this->say('');
-            $testNumber   = $this->ask('Type the number of the test  in the list that you want to run...');
-            $opts['test'] = $tests[$testNumber];
-        }
-
-        $pathToTestFile = 'tests/' . $opts['suite'] . '/' . $opts['test'];
-
-        // Loading the class to display the methods in the class
-        require 'tests/' . $opts['suite'] . '/' . $opts['test'];
-
-        $classes   = Nette\Reflection\AnnotationsParser::parsePhp(file_get_contents($pathToTestFile));
-        $className = array_keys($classes);
-        $className = $className[0];
-
-        // If test is Cest, give the option to execute individual methods
-        if (strripos($className, 'cest'))
-        {
-            $testFile    = new Nette\Reflection\ClassType($className);
-            $testMethods = $testFile->getMethods(ReflectionMethod::IS_PUBLIC);
-
-            foreach ($testMethods as $key => $method)
-            {
-                $this->say('[' . $key . '] ' . $method->name);
-            }
-
-            $this->say('');
-            $methodNumber = $this->askDefault('Choose the method in the test to run (hit ENTER for All)', 'All');
-
-            if ($methodNumber != 'All')
-            {
-                $method         = $testMethods[$methodNumber]->name;
-                $pathToTestFile = $pathToTestFile . ':' . $method;
-            }
-        }
-
-        $this->taskCodecept()
-            ->test($pathToTestFile)
-            ->arg('--steps')
-            ->arg('--debug')
-            ->arg('--fail-fast')
-            ->run()
-            ->stopOnFail();
-
-        if (!'api' == $opts['suite'])
-        {
-            $this->killSelenium();
-        }
-    }
-
 //     /**
-//      * Function to Run tests in a Group
+//      * Executes Selenium System Tests in your machine
 //      *
-//      * @return void
+//      * @param   array  $opts  Use -h to see available options
+//      *
+//      * @return mixed
 //      */
-//     public function runTests($use_htaccess = 0)
+//     public function runTest($opts = array('test|t'  => null, 'suite|s' => 'acceptance'))
 //     {
-//         $this->prepareSiteForSystemTests($use_htaccess);
-
 //         $this->getComposer();
 
 //         $this->taskComposerInstall()->run();
 
-// //		$this->runSelenium();
+//         if (isset($opts['suite']) && 'api' === $opts['suite'])
+//         {
+//             // Do not launch selenium when running API tests
+//         }
+//         else
+//         {
+//             $this->runSelenium();
 
-//         $this->taskSeleniumStandaloneServer()
-//             ->setURL("http://localhost:4444")
-//             ->runSelenium()
-//             ->waitForSelenium()
-//             ->run()
-//             ->stopOnFail();
+//             if (!$this->isWindows())
+//             {
+//                 $this->taskWaitForSeleniumStandaloneServer()
+//                     ->run()
+//                     ->stopOnFail();
+//             };
+//         }
 
-//         // Make sure to Run the B uild Command to Generate AcceptanceTester
+//         // Make sure to Run the Build Command to Generate AcceptanceTester
 //         $this->_exec("vendor/bin/codecept build");
 
+//         if (!$opts['test'])
+//         {
+//             $this->say('Available tests in the system:');
+
+//             $iterator = new RecursiveIteratorIterator(
+//                 new RecursiveDirectoryIterator(
+//                     'tests/' . $opts['suite'],
+//                     RecursiveDirectoryIterator::SKIP_DOTS
+//                 ),
+//                 RecursiveIteratorIterator::SELF_FIRST
+//             );
+
+//             $tests = array();
+
+//             $iterator->rewind();
+//             $i = 1;
+
+//             while ($iterator->valid())
+//             {
+//                 if (strripos($iterator->getSubPathName(), 'cept.php')
+//                     || strripos($iterator->getSubPathName(), 'cest.php'))
+//                 {
+//                     $this->say('[' . $i . '] ' . $iterator->getSubPathName());
+//                     $tests[$i] = $iterator->getSubPathName();
+//                     $i++;
+//                 }
+
+//                 $iterator->next();
+//             }
+
+//             $this->say('');
+//             $testNumber   = $this->ask('Type the number of the test  in the list that you want to run...');
+//             $opts['test'] = $tests[$testNumber];
+//         }
+
+//         $pathToTestFile = 'tests/' . $opts['suite'] . '/' . $opts['test'];
+
+//         // Loading the class to display the methods in the class
+//         require 'tests/' . $opts['suite'] . '/' . $opts['test'];
+
+//         $classes   = Nette\Reflection\AnnotationsParser::parsePhp(file_get_contents($pathToTestFile));
+//         $className = array_keys($classes);
+//         $className = $className[0];
+
+//         // If test is Cest, give the option to execute individual methods
+//         if (strripos($className, 'cest'))
+//         {
+//             $testFile    = new Nette\Reflection\ClassType($className);
+//             $testMethods = $testFile->getMethods(ReflectionMethod::IS_PUBLIC);
+
+//             foreach ($testMethods as $key => $method)
+//             {
+//                 $this->say('[' . $key . '] ' . $method->name);
+//             }
+
+//             $this->say('');
+//             $methodNumber = $this->askDefault('Choose the method in the test to run (hit ENTER for All)', 'All');
+
+//             if ($methodNumber != 'All')
+//             {
+//                 $method         = $testMethods[$methodNumber]->name;
+//                 $pathToTestFile = $pathToTestFile . ':' . $method;
+//             }
+//         }
+
 //         $this->taskCodecept()
+//             ->test($pathToTestFile)
 //             ->arg('--steps')
 //             ->arg('--debug')
-//             ->arg('--tap')
 //             ->arg('--fail-fast')
-//             ->arg('tests/acceptance/install/')
 //             ->run()
 //             ->stopOnFail();
 
-//         $this->taskCodecept()
-//             ->arg('--steps')
-//             ->arg('--debug')
-//             ->arg('--tap')
-//             ->arg('--fail-fast')
-//             ->arg('tests/acceptance/administrator/')
-//             ->run()
-//             ->stopOnFail();
-
-//         $this->taskCodecept()
-//             ->arg('--steps')
-//             //  ->arg('--debug')
-//             ->arg('--tap')
-//             ->arg('--fail-fast')
-//             ->arg('tests/acceptance/integration/ManageProductsCheckoutFrontEndCest.php')
-//             ->run()
-//             ->stopOnFail();
-
-//         /*
-//         $this->taskCodecept()
-//             ->arg('--steps')
-//             ->arg('--debug')
-//             ->arg('--tap')
-//             ->arg('--fail-fast')
-//             ->arg('tests/acceptance/checkout/')
-//             ->run();
-//             // ->stopOnFail();
-//         */
-
-//         $this->taskCodecept()
-//             //  ->arg('--steps')
-//             //  ->arg('--debug')
-//             ->arg('--tap')
-//             ->arg('--fail-fast')
-//             ->arg('tests/acceptance/uninstall/')
-//             ->run()
-//             ->stopOnFail();
-
-//         /* @todo: REDSHOP-2884
-//          * $this->say('preparing for update test');
-//          * $this->getDevelop();
-//          * $this->taskCodecept()
-//          * ->arg('--steps')
-//          * ->arg('--debug')
-//          * ->arg('--fail-fast')
-//          * ->arg('tests/acceptance/update/')
-//          * ->run()
-//          * ->stopOnFail();
-//          */
-
-//         $this->killSelenium();
+//         if (!'api' == $opts['suite'])
+//         {
+//             $this->killSelenium();
+//         }
 //     }
+
+    /**
+     * Function to Run tests in a Group
+     *
+     * @return void
+     */
+    public function runTests($use_htaccess = 0)
+    {
+        $this->prepareSiteForSystemTests($use_htaccess);
+
+        $this->getComposer();
+
+        $this->taskComposerInstall()->run();
+
+//		$this->runSelenium();
+
+        $this->taskSeleniumStandaloneServer()
+            ->setURL("http://localhost:4444")
+            ->runSelenium()
+            ->waitForSelenium()
+            ->run()
+            ->stopOnFail();
+
+        // Make sure to Run the B uild Command to Generate AcceptanceTester
+        $this->_exec("vendor/bin/codecept build");
+
+        $this->taskCodecept()
+            ->arg('--steps')
+            ->arg('--debug')
+            ->arg('--tap')
+            ->arg('--fail-fast')
+            ->arg('tests/acceptance/install/')
+            ->run()
+            ->stopOnFail();
+
+        $this->taskCodecept()
+            ->arg('--steps')
+            ->arg('--debug')
+            ->arg('--tap')
+            ->arg('--fail-fast')
+            ->arg('tests/acceptance/administrator/')
+            ->run()
+            ->stopOnFail();
+
+        $this->taskCodecept()
+            ->arg('--steps')
+            //  ->arg('--debug')
+            ->arg('--tap')
+            ->arg('--fail-fast')
+            ->arg('tests/acceptance/integration/ManageProductsCheckoutFrontEndCest.php')
+            ->run()
+            ->stopOnFail();
+
+        /*
+        $this->taskCodecept()
+            ->arg('--steps')
+            ->arg('--debug')
+            ->arg('--tap')
+            ->arg('--fail-fast')
+            ->arg('tests/acceptance/checkout/')
+            ->run();
+            // ->stopOnFail();
+        */
+
+        $this->taskCodecept()
+            //  ->arg('--steps')
+            //  ->arg('--debug')
+            ->arg('--tap')
+            ->arg('--fail-fast')
+            ->arg('tests/acceptance/uninstall/')
+            ->run()
+            ->stopOnFail();
+
+        /* @todo: REDSHOP-2884
+         * $this->say('preparing for update test');
+         * $this->getDevelop();
+         * $this->taskCodecept()
+         * ->arg('--steps')
+         * ->arg('--debug')
+         * ->arg('--fail-fast')
+         * ->arg('tests/acceptance/update/')
+         * ->run()
+         * ->stopOnFail();
+         */
+
+        $this->killSelenium();
+    }
 
 
     public function runTravis($folder)
