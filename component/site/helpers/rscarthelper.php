@@ -3316,7 +3316,7 @@ class rsCarthelper
 		return $output;
 	}
 
-	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0)
+	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0, $post = array())
 	{
 		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
 		$adminpath            = JPATH_ADMINISTRATOR . '/components/com_redshop';
@@ -3326,6 +3326,7 @@ class rsCarthelper
 		$d['shipping_box_id'] = $shipping_box_post_id;
 		$d['ordertotal']      = $ordertotal;
 		$d['order_subtotal']  = $order_subtotal;
+		$d['post']            = $post;
 		$template_desc        = str_replace("{shipping_heading}", JText::_('COM_REDSHOP_SHIPPING_METHOD'), $template_desc);
 		$extrafield_total     = "";
 

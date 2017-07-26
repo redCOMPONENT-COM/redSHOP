@@ -691,6 +691,8 @@ function showCompanyOrCustomer(obj)
 		jQuery('#tmpRegistrationDiv').html('');
 
 		jQuery('select:not(".disableBootstrapChosen")').select2();
+
+		jQuery(document).trigger("AfterGetBillingTemplate");
 	})
 	.fail(function() {
 		console.warn("error");
@@ -710,6 +712,7 @@ function getBillingTemplate(el)
 		success: function(html) {
 			jQuery('#wrapper-billing').html('');
 			jQuery('#wrapper-billing').append(html);
+			jQuery(document).trigger("AfterGetBillingTemplate");
 		}
 	})
 }
