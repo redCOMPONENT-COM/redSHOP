@@ -17,7 +17,7 @@ jimport('joomla.plugin.plugin');
  *
  * @since  1.0
  */
-class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
+class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 {
 	/**
 	 * Constructor - note in Joomla 2.5 PHP4.x is no longer supported so we can use this.
@@ -29,6 +29,110 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
+	}
+
+	function onListRates(&$data)
+	{
+		$cart = JFactory::getSession()->get('cart');
+
+		$district = $data['post']['ghnDistrict'];
+
+		if ($data['users_info_id'] != 0)
+		{
+			$userInfoId    = $data['users_info_id'];
+			$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_district', 14, $userInfoId);
+
+			if (empty($districtField))
+			{
+				$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_district', 7, $userInfoId);
+			}
+
+			$district = $districtField->data_txt;
+		}
+
+		$serviceList = $this->getServiceList($district);
+		$weight = 0;
+		$height = 0;
+		$length = 0;
+		$width  = 0;
+
+		foreach ($cart as $key => $value)
+		{
+			if (!is_numeric($key))
+			{
+				continue;
+			}
+
+			$productData = RedshopHelperProduct::getProductById($value['product_id']);
+
+			$weight += $productData->weight;
+			$height += $productData->product_height;
+			$length += $productData->product_length;
+			$width  += $productData->product_width;
+		}
+
+		$items[0]['Weight']           = $weight;
+		$items[0]['Length']           = $length;
+		$items[0]['Width']            = $width;
+		$items[0]['Height']           = $height;
+		$items[0]['FromDistrictCode'] = $this->params->get('from_district_code');
+		$items[0]['ToDistrictCode']   = $district;
+		$items[0]['ServiceID']        = $serviceList['Services'][0]['ShippingServiceID'];
+
+		$post = array(
+			'ApiKey'       => $this->params->get('api_key'),
+			'ApiSecretKey' => $this->params->get('api_secret'),
+			'ClientID'     => $this->params->get('client_id'),
+			'Password'     => $this->params->get('password'),
+			'Items'        => $items
+		);
+		$headers = array(
+			"Content-Type: application/x-www-form-urlencoded",
+			"Cache-control: no-cache"
+		);
+
+		$curl = curl_init($this->params->get('url_service') . 'CalculateServiceFee');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		$json = curl_exec($curl);
+		curl_close($curl);
+
+		$result = json_decode($json, true);
+
+		if (empty($result['Items']) || !empty($result['ErrorMessage']))
+		{
+			return array();
+		}
+
+		$shippingRate = array();
+
+		$shipping = RedshopHelperShipping::getShippingMethodByClass('giaohangnhanh');
+
+		foreach ($result['Items'] as $key => $rate)
+		{
+			$shippingRateId = RedshopShippingRate::encrypt(
+				array(
+					__CLASS__ ,
+					$shipping->name,
+					$rate['ServiceName'],
+					number_format($rate['ServiceFee'], 2, '.', ''),
+					0,
+					'single',
+					0,
+					0,
+					0
+				)
+			);
+
+			$shippingRate[$key]        = new stdClass;
+			$shippingRate[$key]->text  = $rate['ServiceName'];
+			$shippingRate[$key]->value = $shippingRateId;
+			$shippingRate[$key]->rate  = $rate['ServiceFee'];
+			$shippingRate[$key]->vat   = 0;
+		}
+
+		return $shippingRate;
 	}
 
 	/**
@@ -46,7 +150,7 @@ class PlgRedshop_CheckoutGiaohangnhanh extends JPlugin
 				'id'      => $infoId,
 				'zipcode' => $this->params->get('zipcode', '70000')
 			),
-			JPATH_PLUGINS . '/redshop_checkout/giaohangnhanh/layouts'
+			JPATH_PLUGINS . '/redshop_shipping/giaohangnhanh/layouts'
 		);
 	}
 
