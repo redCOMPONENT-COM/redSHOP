@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JPluginHelper::importPlugin('redshop_checkout');
+JPluginHelper::importPlugin('redshop_shipping');
 $dispatcher = RedshopHelperUtility::getDispatcher();
 $dispatcher->trigger('onRenderCustomField', array($infoId));
 $input      = JFactory::getApplication()->input;
