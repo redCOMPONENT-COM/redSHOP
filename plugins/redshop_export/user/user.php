@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractExportPlugin;
+use Redshop\Plugin\Export;
+use Redshop\Ajax\Response;
 
 JLoader::import('redshop.library');
 
@@ -18,7 +19,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ExportUser extends AbstractExportPlugin
+class PlgRedshop_ExportUser extends Export\AbstractBase
 {
 	/**
 	 * Event run when user load config for export this data.
@@ -47,9 +48,26 @@ class PlgRedshop_ExportUser extends AbstractExportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$this->writeData($this->getHeader(), 'w+');
+		$headers = $this->getHeader();
 
-		return (int) $this->getTotal();
+		if (!empty($headers))
+		{
+			// Init temporary folder
+			Redshop\Filesystem\Folder\Helper::create($this->getTemporaryFolder());
+			$this->writeData($headers, 'w+');
+		}
+
+		$response = new Response;
+		$data = new stdClass;
+
+		// Total rows for exporting
+		$data->rows = (int) $this->getTotal();
+
+		// Limit rows percent request
+		$data->limit = $this->limit;
+		$data->total = ceil($data->rows / $data->limit);
+
+		return $response->setData($data)->success()->respond();
 	}
 
 	/**
@@ -64,10 +82,8 @@ class PlgRedshop_ExportUser extends AbstractExportPlugin
 		RedshopHelperAjax::validateAjaxRequest();
 
 		$input = JFactory::getApplication()->input;
-		$limit = $input->getInt('limit', 0);
-		$start = $input->getInt('start', 0);
 
-		return $this->exporting($start, $limit);
+		return $this->exporting($input->getInt('from', 0) * $this->limit, $this->limit);
 	}
 
 	/**
@@ -79,9 +95,9 @@ class PlgRedshop_ExportUser extends AbstractExportPlugin
 	 */
 	public function onAjaxUser_Complete()
 	{
-		$this->downloadFile();
+		RedshopHelperAjax::validateAjaxRequest();
 
-		JFactory::getApplication()->close();
+		return $this->convertFile();
 	}
 
 	/**

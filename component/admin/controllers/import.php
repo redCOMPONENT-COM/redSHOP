@@ -53,6 +53,9 @@ class RedshopControllerImport extends RedshopControllerAdmin
 		JPluginHelper::importPlugin('redshop_import');
 		$result = RedshopHelperUtility::getDispatcher()->trigger('onUploadFile', array($plugin, $file, $data));
 
+		// @TODO If anything wrong we'll need delete current temporary folder
+		// @TODO Use ajax response object instead
+
 		if (in_array(false, $result, false))
 		{
 			$response['status'] = 0;

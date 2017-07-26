@@ -2,9 +2,9 @@
 
 define(
 	// modular name
-	'log',
+	'import',
 	// dependencies
-	[],
+	['ajax, log'],
 	(function (w, $) {
 		var redSHOP = w.redSHOP;
 
@@ -25,30 +25,45 @@ define(
 				 *
 				 * @param lock
 				 */
-				lockElements: function (lock) {
+				blockElements: function (lock) {
+					var lockClass = 'disabled muted';
+					var elements = '#import_plugins, #import_config, #import_btn_start, #fileupload'
+
 					if (!lock) {
-						$("#import_plugins").removeClass("disabled muted");
-						$("#import_config").removeClass("disabled muted");
-						$("#import_btn_start").removeClass("disabled muted");
-						$("#fileupload").removeClass("disabled muted");
+						$(elements).removeClass(lockClass);
+						$(elements).prop("disabled", false);
 					}
 					else {
-						$("#import_plugins").addClass("disabled muted");
-						$("#import_config").addClass("disabled muted");
-						$("#import_btn_start").addClass("disabled muted");
-						$("#fileupload").addClass("disabled muted");
+						$(elements).addClass(lockClass);
+						$(elements).prop("disabled", true);
 					}
 				},
 
+				/**
+				 *
+				 * @param lock
+				 */
+				reDraw: function (lock) {
+					var cleanHtml = '#import_count, #import_config_body, #import_process_msg_body';
+					var cleanProcessbar = '#import_upload_progress, #import_process_bar';
+
+					$(cleanHtml).html('');
+					$(cleanProcessbar).html('0%').css("width", "0%");
+
+					this.blockElements(lock);
+				},
 				/**
 				 *
 				 * @param type
 				 * @param message
 				 */
 				appendLog: function (type, message) {
-					$("#import_process_msg_body").append(
-						redSHOP.Log[type](message)
-					);
+					if (typeof redSHOP.Log[type] === 'function') {
+						message = redSHOP.Log[type](message);
+
+					}
+
+					$("#import_process_msg_body").append(message);
 				},
 
 				/**
@@ -127,9 +142,7 @@ define(
 						dataType: "json",
 						method: "POST"
 					})
-					/**
-					 * Ajax request success
-					 */
+
 						.done(function (response, textStatus, jqXHR) {
 							// Update status bar
 							$this.updateProcessbar(total, index);
@@ -143,8 +156,6 @@ define(
 							// Number if processed items / products
 							if (response.data.length) {
 								$.each(response.data, function (index, data) {
-									var textClass = "success";
-
 									if (data.status == 0) {
 										// Show log imported item
 										$this.appendLog('error', data.message);
@@ -162,27 +173,25 @@ define(
 								$this.executeImport(index, folder, total)
 							}
 							else {
+								// Unblocking
+								$this.blockElements(false);
 								// Completed
 								$this.appendLog('success', Joomla.JText._('COM_REDSHOP_IMPORT_SUCCESS'));
-								// Unblocking
-								$this.lockElements(false);
 							}
 						})
-						/**
-						 * Ajax failed
-						 * @TODO Should we keep execute next ajax ?
-						 */
+
 						.fail(function () {
-							$this.lockElements(false);
-							$this.appendLog('error', Joomla.JText._('COM_REDSHOP_IMPORT_IMPORTING'));
+							// Unblocking & reDraw
+							$this.reDraw(false);
+							$this.appendLog('error', Joomla.JText._('COM_REDSHOP_IMPORT_AJAX_FAILED'));
 						});
 				},
 
 				init: function () {
+					var $this = this;
 					var $fileUpload = $('#fileupload');
 					var $uploadWrapper = $("#import_upload_progress_wrapper");
 					var $uploadProgress = $("#import_upload_progress");
-					var $this = this;
 
 					/**
 					 * Submit file upload
@@ -241,7 +250,7 @@ define(
 								$this.executeImport(1, data.result.folder, data.result.files);
 							} else {
 								// Something wrong than we do release locking
-								$this.lockElements(false);
+								$this.reDraw(false);
 								// Reset counting
 								$("#import_count").empty();
 								$('#import_process').hide();
@@ -318,45 +327,35 @@ define(
 					$("#import_plugins input[type='radio']").change(function (e) {
 						var plugin = $(this).val();
 
-						$("#import_config").addClass('disabled muted');
-						$("#import_process_msg_body").html("");
-						$("#import_process_bar").html('0%').css("width", "0%");
-
-						$uploadProgress.html('0%').css("width", "0%");
+						// Redraw and lock elements
+						$this.reDraw(true);
 
 						// Load specific configuration of plugin
-						$.post(
-							"index.php?option=com_ajax&plugin=" + plugin + "_config&group=redshop_import&format=raw",
-							$("#adminForm").serialize(),
-							function (response) {
-								$("#import_config_body").empty().html(response);
+						var jqXHR = $.ajax({
+							url: "index.php?option=com_ajax&plugin=" + plugin + "_config&group=redshop_import&format=raw",
+							data: $("#adminForm").serialize(),
+							method: "POST"
+						})
+							.done(function (response, textStatus, jqXHR) {
+								// Redraw and unlock
+								$this.reDraw(false);
+								$("#import_config_body").html(response);
 								$("select").select2({});
-								$("#import_config").removeClass('disabled muted');
-								$("#import_btn_start").prop("disabled", false).removeClass("disabled");
 
 								$this.appendLog('success', Joomla.JText._('COM_REDSHOP_IMPORT_LOADED_CONFIGURATION') + '<span class="label label-debug">' + plugin + '</span>');
-							}
-						);
+							})
+
 					});
 
 					/**
 					 * Hook click on Upload button
 					 */
-					$("#import_btn_start")
-						.addClass("disabled")
-						.prop("disabled", true)
-						.click(function (event) {
-							// Lock elements
-							$this.lockElements(true);
-
-							$("#import_process_msg").removeClass("alert-success").removeClass("alert-danger");
-							$("#import_process_msg_body").html("");
-
-							$("#import_process_bar").html('0%').css("width", "0%");
-							$("#fileupload").click();
-
-							event.preventDefault();
-						});
+					$("#import_btn_start").click(function (event) {
+						$("#fileupload").click();
+						// Lock elements
+						$this.reDraw(true);
+						event.preventDefault();
+					});
 				}
 			}
 

@@ -9,6 +9,10 @@
 
 namespace Redshop\Plugin\Export;
 
+use Redshop\Ajax\Response;
+use Redshop\File\Helper;
+use Redshop\Plugin\ImportExport;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,57 +20,23 @@ defined('_JEXEC') or die;
  *
  * @since  2.0.3
  */
-class AbstractBase extends \Redshop\Plugin\AbstractBase
+class AbstractBase extends ImportExport
 {
 	/**
-	 * @var  string
+	 * Limit records percent export
 	 *
-	 * @since  2.0.3
+	 * @var    integer
+	 * @since  2.0.7
 	 */
-	protected $separator = ',';
-
-	/**
-	 * @var  \JDatabaseDriver
-	 *
-	 * @since  2.0.3
-	 */
-	protected $db;
-
-	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
-	 *
-	 * @since   1.5
-	 */
-	public function __construct(&$subject, $config = array())
-	{
-		parent::__construct($subject, $config);
-
-		$this->db = \JFactory::getDbo();
-	}
-
-	/**
-	 * Method for get path of temporary file.
-	 *
-	 * @return  string  Path of temporary file.
-	 *
-	 * @since  2.0.3
-	 */
-	protected function getFilePath()
-	{
-		return JPATH_ROOT . '/tmp/redshop/export/product/redshop_' . $this->_name . '.csv';
-	}
+	protected $limit = 150;
 
 	/**
 	 * Method for write data into file.
+	 * By default we always write to CSV format to make it faster
 	 *
-	 * @param   array     $row      Array of data.
-	 * @param   string    $mode     Mode for open file.
-	 * @param   resource  &$handle  Resource handle if necessary.
+	 * @param   array     $row     Array of data.
+	 * @param   string    $mode    Mode for open file.
+	 * @param   resource  $handle  Resource handle if necessary.
 	 *
 	 * @return  boolean      True on success. False otherwise.
 	 *
@@ -90,7 +60,7 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 
 		if (is_null($handle))
 		{
-			$fileHandle = fopen($this->getFilePath(), $mode);
+			$fileHandle = fopen($this->getTemporaryFile('export'), $mode);
 			fwrite($fileHandle, implode($separator, $row) . "\r\n");
 			fclose($fileHandle);
 		}
@@ -105,7 +75,7 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	/**
 	 * Method for do some stuff for data return. (Like image path,...)
 	 *
-	 * @param   array  &$data  Array of data.
+	 * @param   array  $data  Array of data.
 	 *
 	 * @return  void
 	 *
@@ -131,7 +101,7 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	/**
 	 * Method for get total count of data.
 	 *
-	 * @return int
+	 * @return integer
 	 *
 	 * @since  2.0.3
 	 */
@@ -148,8 +118,8 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	/**
 	 * Method for get data.
 	 *
-	 * @param   int  $start  Start row for write.
-	 * @param   int  $limit  Limit for row.
+	 * @param   int $start Start row for write.
+	 * @param   int $limit Limit for row.
 	 *
 	 * @return array|mixed
 	 *
@@ -159,7 +129,7 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	{
 		$query = $this->getQuery();
 		$query->setLimit($limit, $start);
-		$data  = $this->db->setQuery($query)->loadObjectList();
+		$data = $this->db->setQuery($query)->loadObjectList();
 
 		$this->processData($data);
 
@@ -169,7 +139,7 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	/**
 	 * Method for get headers data.
 	 *
-	 * @return array|bool
+	 * @return array|boolean
 	 *
 	 * @since  2.0.3
 	 */
@@ -193,70 +163,34 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	 *
 	 * @since   2.0.3
 	 */
-	protected function downloadFile()
+	protected function convertFile()
 	{
-		/* Start output to the browser */
-		if (preg_match('Opera(/| )([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
-		{
-			$UserBrowser = "Opera";
-		}
-		elseif (preg_match('MSIE ([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
-		{
-			$UserBrowser = "IE";
-		}
-		else
-		{
-			$UserBrowser = '';
-		}
+		$csvExportedFile = $this->getTemporaryFile('export');
 
-		$mime_type = ($UserBrowser == 'IE' || $UserBrowser == 'Opera') ? 'application/octetstream' : 'application/octet-stream';
+		$fileType = \JFactory::getApplication()->input->getString('export_file_type');
+		$convertFile = $this->getTemporaryFile('export_convert') . '.' . $fileType;
 
-		/* Clean the buffer */
-		ob_clean();
+		$phpExcel = $this->loadFile($csvExportedFile);
+		$phpExcel->saveToFile($convertFile, $fileType);
 
-		header('Content-Type: ' . $mime_type);
-		header('Content-Encoding: UTF-8');
-		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		// Delete old CSV file
+		\JFile::delete($csvExportedFile);
 
-		if (!\JFile::exists($this->getFilePath()))
-		{
+		$response = new Response;
+		$data = new \stdClass;
+		$data->filePath = $convertFile;
+		$data->fileUrl = str_replace(JPATH_ROOT, trim(\JUri::root(), '/'), $convertFile);
 
-		}
-
-		$filename = basename($this->getFilePath());
-
-		if ($UserBrowser == 'IE')
-		{
-			header('Content-Disposition: inline; filename="' . $filename . '"');
-			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-			header('Pragma: public');
-		}
-		else
-		{
-			header('Content-Disposition: attachment; filename="' . $filename . '"');
-			header('Pragma: no-cache');
-		}
-
-		// Converting
-		$phpExcel = \Redshop\File\Parser\Excel::load($this->getFilePath());
-		// Generate temporary file for exporting;
-		$toFile = JPATH_ROOT . '/tmp/redshop/export/product/' . \Redshop\String\Helper::getUserRandomString();
-		$phpExcel->saveToFile($toFile , 'Excel2007');
-
-		readfile($toFile);
-
-		// Clean up file.
-		JFile::delete($this->getFilePath());
-		JFile::delete($toFile);
+		return $response->setData($data)->success()->respond();
 	}
 
 	/**
 	 * Method for exporting data.
 	 *
-	 * @param   int  $start  Start row for write.
-	 * @param   int  $limit  Limit for row.
+	 * @param   int $start Start row for write.
+	 * @param   int $limit Limit for row.
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since  2.0.3
 	 */
@@ -269,7 +203,7 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 			return 0;
 		}
 
-		$handle = fopen($this->getFilePath(), 'a');
+		$handle = fopen($this->getTemporaryFile('export'), 'a');
 
 		foreach ($data as $item)
 		{
@@ -278,6 +212,8 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 
 		fclose($handle);
 
-		return 1;
+		$response = new Response;
+
+		return $response->success()->respond();
 	}
 }

@@ -1,0 +1,55 @@
+<?php
+/**
+ * @package     Redshop\File
+ * @subpackage
+ *
+ * @copyright   A copyright
+ * @license     A "Slug" license name e.g. GPL2
+ */
+
+namespace Redshop\File;
+
+class Helper
+{
+	/**
+	 * @param   string   $filePath  File path
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.7
+	 */
+	public static function download($filePath)
+	{
+		if (!\JFile::exists($filePath))
+		{
+			return false;
+		}
+
+		$filePath = \JPath::clean($filePath);
+		$fileName = basename($filePath);
+
+		$fileMime = mime_content_type($filePath);
+
+		header('Content-Type: ' . $fileMime);
+
+		header('Content-Encoding: UTF-8');
+		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+
+		if (\Redshop\Environment\Helper::isIe())
+		{
+			header('Content-Disposition: inline; filename="' . $fileName . '"');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: public');
+		}
+		else
+		{
+			header('Content-Disposition: attachment; filename="' . $fileName . '"');
+			header('Pragma: no-cache');
+		}
+
+		readfile($filePath);
+
+		\JFile::delete($filePath);
+		\JFactory::getApplication()->close();
+	}
+}

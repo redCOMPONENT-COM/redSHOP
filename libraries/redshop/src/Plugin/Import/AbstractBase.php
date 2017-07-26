@@ -9,6 +9,10 @@
 
 namespace Redshop\Plugin\Import;
 
+use Redshop\Ajax\Response;
+use Redshop\Filesystem\Folder\Helper;
+use Redshop\Plugin\ImportExport;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,42 +20,14 @@ defined('_JEXEC') or die;
  *
  * @since  2.0.3
  */
-class AbstractBase extends \Redshop\Plugin\AbstractBase
+class AbstractBase extends ImportExport
 {
-	/**
-	 * @var  string
-	 *
-	 * @since  2.0.3
-	 */
-	protected $separator = ',';
-
-	/**
-	 * @var    string
-	 *
-	 * @since  2.0.7
-	 */
-	protected $defaultExtension = '.csv';
-
-	/**
-	 * @var string
-	 *
-	 * @since  2.0.3
-	 */
-	protected $folder = '';
-
 	/**
 	 * @var string
 	 *
 	 * @since  2.0.3
 	 */
 	protected $encoding = 'UTF-8';
-
-	/**
-	 * @var  \JDatabaseDriver
-	 *
-	 * @since  2.0.3
-	 */
-	protected $db;
 
 	/**
 	 * @var string
@@ -97,8 +73,8 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $subject     The object to observe
-	 * @param   array   $config      An optional associative array of configuration settings.
+	 * @param   object $subject     The object to observe
+	 * @param   array  $config      An optional associative array of configuration settings.
 	 *                              Recognized key values include 'name', 'group', 'params', 'language'
 	 *                              (this list is not meant to be comprehensive).
 	 *
@@ -108,13 +84,12 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	{
 		parent::__construct($subject, $config);
 
-		$this->db = \JFactory::getDbo();
-
 		\JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 	}
 
 	/**
 	 * Event run when upload file success.
+	 * This event is triggered via import.uploadFile
 	 *
 	 * @param   string  $plugin  Plugin name.
 	 * @param   array   $file    File data in array format.
@@ -139,20 +114,20 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 
 		$importDir = $this->getTemporaryFolder();
 
+		// At upload time we'll renew temporary name every upload
+		$saveTo    = $importDir . '/' . \Redshop\String\Helper::getUserRandomStringByKey(__FUNCTION__, true);
+
 		// Create temporary directory
-		if (!\JFolder::exists($importDir))
-		{
-			\JFolder::create($importDir);
-		}
+		Helper::create($importDir);
 
 		// Try to move upload file to $importDir
-		if (!\JFile::move($file['tmp_name'], $importDir . '/' . $file['name']))
+		if (!\JFile::move($file['tmp_name'], $saveTo))
 		{
 			return false;
 		}
 
 		// @TODO Should we move splitFiles into another ajax to make it more clearly
-		return $this->splitFiles($importDir . '/' . $file['name']);
+		return $this->splitFiles($saveTo);
 	}
 
 	/**
@@ -160,7 +135,7 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	 *
 	 * @param   string  $file  Path of file.
 	 *
-	 * @return  array
+	 * @return  false|array
 	 *
 	 * @since   2.0.3
 	 */
@@ -172,18 +147,17 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 		}
 
 		// Create splitting dir
-		$this->folder = \Redshop\String\Helper::getUserRandomString();
+		$this->folder  = \Redshop\String\Helper::getUserRandomStringByKey(__FUNCTION__, true);
+		$workingFolder = $this->getTemporaryFolder() . '/' . $this->folder;
 
 		// Create temporary for this import
-		if (\JFolder::exists($this->folder))
+		if (!Helper::create($workingFolder))
 		{
-			\JFolder::delete($this->folder);
+			return false;
 		}
 
-		\JFolder::create($this->getTemporaryFolder() . '/' . $this->folder);
-
 		// Load request file
-		$phpExcel = \Redshop\File\Parser\Excel::load($file, $this->separator);
+		$phpExcel = $this->loadFile($file);
 
 		// File load success than go to process
 		if (!$phpExcel)
@@ -219,20 +193,18 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 		// And now write to file
 		foreach ($smallerContentArray as $index => $contentOfFile)
 		{
-			// Always save as CSV
-			$saveToFile = ($index + 1) . $this->defaultExtension;
-			$saveToFile = $this->getTemporaryFolder() . '/' . $this->folder . '/' . $saveToFile;
+			$saveToFile = $workingFolder . '/' . ($index + 1) . '.' . $this->defaultExtension;
 
 			// Write header
 			$phpExcel->writeHeader($returnData['header']);
 			$phpExcel->writeData($contentOfFile);
-			$phpExcel->saveToFile($saveToFile);
+			$phpExcel->saveToFile($saveToFile, $this->defaultExtension, $this->separator);
 
 			// Increase total files
 			$returnData['files'] = $returnData['files'] + 1;
 		}
 
-		// Clean up
+		// Clean up uploaded file
 		\JFile::delete($file);
 
 		return $returnData;
@@ -247,13 +219,16 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 	 */
 	public function importing()
 	{
-		$response = new \Redshop\Ajax\Response;
+		// Ajax response object
+		$response = new Response;
 
+		// Generate working folder
 		$workingDir = $this->getTemporaryFolder() . '/' . $this->folder;
 
+		$fileName = \JFactory::getApplication()->input->getInt('index');
+
 		// Get file to process
-		$file     = \JFactory::getApplication()->input->getInt('index') . $this->defaultExtension;
-		$filePath = $workingDir . '/' . $file;
+		$filePath = $workingDir . '/' . $fileName . '.' . $this->defaultExtension;
 
 		if (!\JFile::exists($filePath))
 		{
@@ -261,7 +236,8 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 		}
 
 		// Try to parse
-		$phpExcel = \Redshop\File\Parser\Excel::load($filePath);
+		// This file is csv format with default separator ','
+		$phpExcel = $this->loadFile($filePath);
 
 		if ($phpExcel === false)
 		{
@@ -312,12 +288,12 @@ class AbstractBase extends \Redshop\Plugin\AbstractBase
 		}
 
 		// Delete processed file;
-		\JFile::delete($workingDir . '/' . $file);
+		\JFile::delete($filePath);
 
-		$response->success()->addProperty('file', $file);
+		$response->success()->addProperty('file', $fileName);
 
 		// Try to clean up if this's last one
-		$files = \JFolder::files($workingDir, '.', true);
+		$files = \JFolder::files($workingDir, '.', true, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
 
 		if (empty($files))
 		{

@@ -65,15 +65,16 @@ class Excel
 	 * @param   string  $filePath   File path to load
 	 * @param   string  $separator  Separator
 	 *
-	 * @return  boolean|PhpSpreadsheet\Spreadshee
+	 * @return  boolean|$this
 	 *
 	 * @since   2.0.7
 	 */
 	public static function load($filePath, $separator = ',')
 	{
+		// Return blank Excel object
 		if (!\JFile::exists($filePath))
 		{
-			return new Excel(new PhpSpreadsheet\Spreadsheet);
+			return new Excel;
 		}
 
 		$ext = strtolower(\JFile::getExt($filePath));
@@ -93,11 +94,15 @@ class Excel
 	/**
 	 * Reset current Spreadsheet
 	 *
+	 * @return  $this
+	 *
 	 * @since  2.0.7
 	 */
 	public function reset()
 	{
 		$this->spreadsheet = new PhpSpreadsheet\Spreadsheet;
+
+		return $this;
 	}
 
 	/**
@@ -150,6 +155,8 @@ class Excel
 	 * @param   array  $data  Data for append
 	 * @param   int    $row   Init row
 	 *
+	 * @return  $this
+	 *
 	 * @since   2.0.7
 	 */
 	public function appendRow($data, $row = 0)
@@ -163,21 +170,29 @@ class Excel
 			$this->writeCell($column . $row, $value);
 			$index++;
 		}
+
+		return $this;
 	}
 
 	/**
 	 * @param   string  $cell   Cell coordinate
 	 * @param   string  $value  Value
 	 *
+	 * @return  $this
+	 *
 	 * @since   2.0.7
 	 */
 	public function writeCell($cell, $value)
 	{
 		$this->spreadsheet->getActiveSheet()->setCellValue($cell, $value);
+
+		return $this;
 	}
 
 	/**
 	 * @param   array  $headerArray  Array of header
+	 *
+	 * @return  $this
 	 *
 	 * @since   2.0.7
 	 */
@@ -188,6 +203,8 @@ class Excel
 		{
 			$this->writeCell(PhpSpreadsheet\Cell::stringFromColumnIndex($index) . '1', $value);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -196,7 +213,9 @@ class Excel
 	 * @param   array $dataArray  Data for writing
 	 * @param   int   $startRow   Init row
 	 *
-	 * @since version
+	 * @return  $this
+	 *
+	 * @since   2.0.7
 	 */
 	public function writeData($dataArray, $startRow = 2)
 	{
@@ -209,29 +228,23 @@ class Excel
 
 			$startRow++;
 		}
+
+		return $this;
 	}
 
 	/**
 	 * Write to physical file
 	 *
-	 * @param   string  $toFile File path to write
-	 * @param   string  $type   File format
+	 * @param   string  $toFile     File path to write
+	 * @param   string  $type       File format
+	 * @param   string  $separator  Separator for CSV
 	 *
 	 * @return  boolean
 	 *
 	 * @since   2.0.7
 	 */
-	public function saveToFile($toFile, $type = null)
+	public function saveToFile($toFile, $type, $separator = ',')
 	{
-		if ($type != null)
-		{
-			$ext = $type;
-		}
-		else
-		{
-			$ext = ucfirst(\JFile::getExt($toFile));
-		}
-
 		$pathInfo = pathinfo($toFile);
 
 		if (!\JFolder::exists($pathInfo['dirname']))
@@ -239,7 +252,14 @@ class Excel
 			\JFolder::create($pathInfo['dirname']);
 		}
 
-		$objWriter = PhpSpreadsheet\IOFactory::createWriter($this->spreadsheet, $ext);
+		// For CSV by default it's using ',' for separator
+		$objWriter = PhpSpreadsheet\IOFactory::createWriter($this->spreadsheet, ucfirst($type));
+
+		// Try to set separator if possible
+		if (method_exists($objWriter, 'setDelimiter'))
+		{
+			$objWriter->setDelimiter($separator);
+		}
 
 		return $objWriter->save($toFile);
 	}

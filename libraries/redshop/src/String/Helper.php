@@ -9,8 +9,38 @@
 
 namespace Redshop\String;
 
+/**
+ * String helper class
+ *
+ * @package     Redshop\String
+ *
+ * @since       2.0.7
+ */
 class Helper
 {
+	/**
+	 * @param   string   $key    Session key
+	 * @param   boolean  $renew  Renew random string
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 */
+	public static function getUserRandomStringByKey($key = 'default', $renew = false)
+	{
+		$session = \JFactory::getSession();
+		$randomString = $session->get($key, false);
+
+		// Generate new key
+		if ($randomString === false || $renew === true)
+		{
+			$randomString = self::getUserRandomString();
+			$session->set($key, $randomString);
+		}
+
+		return $randomString;
+	}
+
 	/**
 	 *
 	 * @return  string
@@ -19,7 +49,7 @@ class Helper
 	 */
 	public static function getUserRandomString()
 	{
-		return md5(\JFactory::getUser()->id . time());
+		return md5(\JFactory::getUser()->id . time() . uniqid());
 	}
 
 	/**

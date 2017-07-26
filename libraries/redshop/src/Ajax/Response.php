@@ -57,6 +57,20 @@ class Response extends \stdClass
 	/**
 	 * @param   mixed  $data  Data
 	 *
+	 * @return  $this
+	 *
+	 * @since   2.0.7
+	 */
+	public function setData($data)
+	{
+		$this->data = $data;
+
+		return $this;
+	}
+
+	/**
+	 * @param   mixed  $data  Data
+	 *
 	 * @return  Response  $this
 	 *
 	 * @since   2.0.7

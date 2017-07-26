@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Plugin\AbstractExportPlugin;
+use Redshop\Ajax\Response;
+use Redshop\Plugin\Export;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::import('redshop.library');
@@ -19,7 +20,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_ExportProduct extends AbstractExportPlugin
+class PlgRedshop_ExportProduct extends Export\AbstractBase
 {
 	/**
 	 * Is include attributes.
@@ -52,74 +53,40 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		// Radio for load extra fields
-		$configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_EXTRA_FIELDS') . '</label>
-			<div class="col-md-10">
-				<label class="radio-inline"><input name="product_extrafields" value="1" type="radio" />' . JText::_('JYES') . '</label>
-				<label class="radio-inline"><input name="product_extrafields" value="0" type="radio" checked />' . JText::_('JNO') . '</label>
-			</div>
-		</div>';
-
-		// Radio for load extra fields
-		$configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_ATTRIBUTES_DATA') . '</label>
-			<div class="col-md-10">
-				<label class="radio-inline"><input name="include_attributes" value="1" type="radio" />' . JText::_('JYES') . '</label>
-				<label class="radio-inline"><input name="include_attributes" value="0" type="radio" checked />' . JText::_('JNO') . '</label>
-			</div>
-		</div>';
-
 		// Prepare categories list.
 		$categories = RedshopEntityCategory::getInstance(RedshopHelperCategory::getRootId())->getChildCategories();
-		$options    = array();
+		$categoriesHtml    = array();
 
 		if (!$categories->isEmpty())
 		{
 			foreach ($categories as $category)
 			{
-				$options[] = JHtml::_('select.option', $category->getId(), $category->get('name'), 'value', 'text');
+				$categoriesHtml[] = JHtml::_('select.option', $category->getId(), $category->get('name'), 'value', 'text');
 			}
 		}
 
-		$configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_CATEGORIES') . '</label>
-			<div class="col-md-10">'
-			. JHtml::_(
-				'select.genericlist', $options, 'product_categories[]',
-				'class="form-control" multiple placeholder="' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_CATEGORIES_PLACEHOLDER') . '"',
-				'value',
-				'text'
-			) . '</div>
-		</div>';
-
 		// Prepare manufacturers list.
+		// @TODO Move to model
 		$db            = JFactory::getDbo();
 		$query         = $db->getQuery(true)
 			->select($db->qn('manufacturer_id', 'value'))
 			->select($db->qn('manufacturer_name', 'text'))
 			->from($db->qn('#__redshop_manufacturer'));
 		$manufacturers = $db->setQuery($query)->loadObjectList();
-		$options       = array();
+		$manufacturersHtml       = array();
 
 		foreach ($manufacturers as $manufacturer)
 		{
-			$options[] = JHtml::_('select.option', $manufacturer->value, $manufacturer->text, 'value', 'text');
+			$manufacturersHtml[] = JHtml::_('select.option', $manufacturer->value, $manufacturer->text, 'value', 'text');
 		}
 
-		$configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_MANUFACTURERS') . '</label>
-			<div class="col-md-10">'
-			. JHtml::_(
-				'select.genericlist', $options, 'product_manufacturers[]',
-				'class="form-control" multiple placeholder="' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_MANUFACTURERS_PLACEHOLDER') . '"',
-				'value',
-				'text'
-			) . '
-			</div>
-		</div>';
-
-		return implode('', $configs);
+		return RedshopLayoutHelper::render(
+			'export.config.product',
+			array(
+				'categories'     => $manufacturersHtml,
+				'manufacturers'   => $manufacturersHtml
+			)
+		);
 	}
 
 	/**
@@ -140,42 +107,52 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 		if (!empty($headers))
 		{
+			// Init temporary folder
+			Redshop\Filesystem\Folder\Helper::create($this->getTemporaryFolder());
 			$this->writeData($headers, 'w+');
 		}
 
-		return (int) $this->getTotal();
+		$response = new Response;
+		$data = new stdClass;
+
+		// Total rows for exporting
+		$data->rows = (int) $this->getTotal();
+
+		// Limit rows percent request
+		$data->limit = $this->limit;
+		$data->total = ceil($data->rows / $data->limit);
+
+		return $response->setData($data)->success()->respond();
 	}
 
 	/**
 	 * Event run on export process
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	public function onAjaxProduct_Export()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
 		$input = JFactory::getApplication()->input;
-		$limit = $input->getInt('limit', 0);
-		$start = $input->getInt('start', 0);
 
-		return $this->exporting($start, $limit);
+		return $this->exporting($input->getInt('from', 0) * $this->limit, $this->limit);
 	}
 
 	/**
 	 * Event run on export process
 	 *
-	 * @return  void
+	 * @return  string
 	 *
 	 * @since  1.0.0
 	 */
 	public function onAjaxProduct_Complete()
 	{
-		$this->downloadFile();
+		RedshopHelperAjax::validateAjaxRequest();
 
-		JFactory::getApplication()->close();
+		return $this->convertFile();
 	}
 
 	/**
@@ -231,7 +208,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		);
 
 		$mediaColumn = array('m.media_name', 'm.ordering', 'm.media_alternate_text');
-		$mediaQuery = $db->getQuery(true);
+		$mediaQuery  = $db->getQuery(true);
 
 		foreach ($medias as $mediaType => $columns)
 		{
@@ -322,12 +299,12 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	protected function getAttributesHeader()
 	{
 		return array(
-			'attribute_name','attribute_ordering','allow_multiple_selection','hide_attribute_price','attribute_required',
-			'display_type','property_name','property_stock','property_ordering','property_virtual_number','setdefault_selected',
-			'setrequire_selected', 'setdisplay_type', 'oprand','property_price','property_image','property_main_image',
-			'subattribute_color_name', 'subattribute_stock', 'subattribute_color_ordering','subattribute_setdefault_selected',
-			'subattribute_color_title','subattribute_virtual_number', 'subattribute_color_oprand','required_sub_attribute',
-			'subattribute_color_price','subattribute_color_image','delete', 'media_name', 'media_alternate_text', 'media_section',
+			'attribute_name', 'attribute_ordering', 'allow_multiple_selection', 'hide_attribute_price', 'attribute_required',
+			'display_type', 'property_name', 'property_stock', 'property_ordering', 'property_virtual_number', 'setdefault_selected',
+			'setrequire_selected', 'setdisplay_type', 'oprand', 'property_price', 'property_image', 'property_main_image',
+			'subattribute_color_name', 'subattribute_stock', 'subattribute_color_ordering', 'subattribute_setdefault_selected',
+			'subattribute_color_title', 'subattribute_virtual_number', 'subattribute_color_oprand', 'required_sub_attribute',
+			'subattribute_color_price', 'subattribute_color_image', 'delete', 'media_name', 'media_alternate_text', 'media_section',
 			'media_published', 'media_ordering'
 		);
 	}
@@ -335,7 +312,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	/**
 	 * Method for do some stuff for data return. (Like image path,...)
 	 *
-	 * @param   array  $data  Array of data.
+	 * @param   array $data Array of data.
 	 *
 	 * @return  void
 	 *
@@ -360,14 +337,15 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		if ($this->isExtraFields)
 		{
 			$productIds = array_map(
-				function($o) {
+				function ($o)
+				{
 					return $o->product_id;
 				},
 				$data
 			);
 
-			$db     = $this->db;
-			$query  = $db->getQuery(true)
+			$db         = $this->db;
+			$query      = $db->getQuery(true)
 				->select($db->qn(array('d.data_txt', 'd.itemid', 'f.name')))
 				->from($db->qn('#__redshop_fields', 'f'))
 				->leftJoin($db->qn('#__redshop_fields_data', 'd') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('d.fieldid'))
@@ -378,11 +356,11 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		}
 
 		$isAttributes = JFactory::getApplication()->input->getBool('include_attributes', 0);
-		$newData = array();
+		$newData      = array();
 
 		foreach ($data as $index => $item)
 		{
-			$item = (array) $item;
+			$item          = (array) $item;
 			$attributeRows = array();
 
 			if ($this->isExtraFields && isset($fieldsData[$item['product_id']]))
@@ -478,7 +456,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	/**
 	 * Method for process medias of product.
 	 *
-	 * @param   array  $product  Product data.
+	 * @param   array $product Product data.
 	 *
 	 * @return  void
 	 *
@@ -494,7 +472,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	/**
 	 * Method for get query
 	 *
-	 * @param   array  $productData  Product data.
+	 * @param   array $productData Product data.
 	 *
 	 * @return  array
 	 *
