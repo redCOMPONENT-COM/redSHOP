@@ -112,7 +112,6 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         }else{
             $result = 'unpublished';
         }
-
         return $result;
     }
 

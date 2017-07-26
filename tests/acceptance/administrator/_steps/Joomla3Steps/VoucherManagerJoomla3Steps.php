@@ -27,59 +27,6 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
      *
      * @return void
      */
-//    public function addVoucher($code, $amount, $count, $nameProduct)
-//    {
-//        $I = $this;
-//        $I->amOnPage(\VoucherManagerPage::$URL);
-//        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
-//        $I->click(\VoucherManagerPage::$newButton);
-//        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
-//
-//
-//        $I->fillField(\VoucherManagerPage::$voucherCode, $code);
-//        $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
-//
-//        // @todo: we need a generic function to select options in a Select2 multiple option field
-//        $I->fillField(\VoucherManagerPage::$fillProduct, $nameProduct);
-//        $I->waitForElement(\VoucherManagerPage::$waitProduct, 60);
-//        $I->click(\VoucherManagerPage::$waitProduct);
-//        // end of select2
-//
-//        $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
-//        $I->click(\VoucherManagerPage::$saveCloseButton);
-//        $I->waitForElement(\VoucherManagerPage::$messageContainer, 60);
-////        $I->scrollTo(['css' => '.alert-success']);
-//        $I->see(\VoucherManagerPage::$messageSaveSuccessVocher, \VoucherManagerPage::$selectorSuccess);
-//        $I->seeElement(['link' => $code]);
-//    }
-//
-//    public function addVoucherSave($code, $amount, $voucherStartDate, $voucherEndDate, $count, $nameProduct)
-//    {
-//        $I = $this;
-//        $I->amOnPage(\VoucherManagerPage::$URL);
-//        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
-//        $I->click(\VoucherManagerPage::$newButton);
-//        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
-//
-//
-//        $I->fillField(\VoucherManagerPage::$voucherCode, $code);
-//        $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
-//
-//        // @todo: we need a generic function to select options in a Select2 multiple option field
-//        $I->fillField(\VoucherManagerPage::$fillProduct, $nameProduct);
-//        $I->waitForElement(\VoucherManagerPage::$waitProduct, 60);
-//        $I->click(\VoucherManagerPage::$waitProduct);
-//        // end of select2
-//
-//        $I->fillField(\VoucherManagerPage::$voucherStartDate, $voucherStartDate);
-//        $I->fillField(\VoucherManagerPage::$voucherEndDate, $voucherEndDate);
-//        $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
-//        $I->click(\VoucherManagerPage::$saveButton);
-//        $I->see(\VoucherManagerPage::$messageSaveSuccessVocher, \VoucherManagerPage::$selectorSuccess);
-////        $I->scrollTo(['css' => '.alert-success']);
-//        $I->see(\VoucherManagerPage::$messageSaveSuccessVocher, \VoucherManagerPage::$selectorSuccess);
-//    }
-
     public function addVoucher($code, $amount, $voucherStartDate, $voucherEndDate, $count, $nameProduct,$nameFunction){
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
@@ -122,19 +69,6 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         }
     }
-//    /**
-//     * function check cancel button
-//     */
-//    public function cancelButton()
-//    {
-//        $I = $this;
-//        $I->amOnPage(\VoucherManagerPage::$URL);
-//        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
-//        $I->click(\VoucherManagerPage::$newButton);
-//        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
-//        $I->click(\VoucherManagerPage::$cancelButton);
-//        $I->see(\VoucherManagerPage::$namePageManagement, \VoucherManagerPage::$selectorNamePage);
-//    }
 
     public function addStartMoreThanEnd($code, $amount, $voucherStartDate, $voucherEndDate, $count, $nameProduct)
     {
@@ -142,7 +76,6 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\VoucherManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
         $I->click(\VoucherManagerPage::$newButton);
-        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
         $I->fillField(\VoucherManagerPage::$voucherCode, $code);
         $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
 
@@ -159,45 +92,6 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->acceptPopup();
     }
 
-//    public function addVoucherMissingCode($amount = '100', $voucherStartDate, $voucherEndDate, $count, $nameProduct)
-//    {
-//        $I = $this;
-//        $I->amOnPage(\VoucherManagerPage::$URL);
-//        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
-//        $I->click(\VoucherManagerPage::$newButton);
-//        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
-//        $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
-//        $I->fillField(\VoucherManagerPage::$voucherCode, "");
-//        // @todo: we need a generic function to select options in a Select2 multiple option field
-//        $I->fillField(\VoucherManagerPage::$fillProduct, $nameProduct);
-//        $I->waitForElement(\VoucherManagerPage::$waitProduct, 60);
-//        $I->click(\VoucherManagerPage::$waitProduct);
-//        // end of select2
-//
-//        $I->fillField(\VoucherManagerPage::$voucherStartDate, $voucherEndDate);
-//        $I->fillField(\VoucherManagerPage::$voucherEndDate, $voucherStartDate);
-//        $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
-//        $I->click(\VoucherManagerPage::$saveButton);
-//        $I->see(\VoucherManagerPage::$invalidCode, \VoucherManagerPage::$xPathInvalid);
-//    }
-//
-//    public function addVoucherMissingProducts($code, $amount, $voucherStartDate, $voucherEndDate, $count)
-//    {
-//        $I = $this;
-//        $I->amOnPage(\VoucherManagerPage::$URL);
-//        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
-//        $I->click(\VoucherManagerPage::$newButton);
-//        $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
-//        $I->fillField(\VoucherManagerPage::$voucherCode, $code);
-//        $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
-//        $I->fillField(\VoucherManagerPage::$voucherStartDate, $voucherEndDate);
-//        $I->fillField(\VoucherManagerPage::$voucherEndDate, $voucherStartDate);
-//        $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
-//        $I->click(\VoucherManagerPage::$saveButton);
-//        $I->see(\VoucherManagerPage::$invalidProduct, \VoucherManagerPage::$xPathInvalid);
-//    }
-//
-//
     public function voucherMissingFieldValidValidation($code, $amount, $voucherStartDate, $voucherEndDate, $count, $nameProduct,$fieldName){
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
@@ -288,25 +182,11 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $URLEdit = \VoucherManagerPage::$URLEdit . $value;
         $I->click(['link' => $voucherCode]);
         $I->checkForPhpNoticesOrWarnings($URLEdit);
-//        $I->verifyNotices(false, $this->checkForNotices(), 'Voucher Manager Edit');
         $I->fillField(\VoucherManagerPage::$voucherCode, "");
         $I->click(\VoucherManagerPage::$closeButton);
         $I->filterListBySearching($voucherCode, \VoucherManagerPage::$filter);
         $I->seeElement(['link' => $voucherCode]);
     }
-
-//    public function editVoucherMissingProduct($voucherCode)
-//    {
-//        $I = $this;
-//        $I->amOnPage(\VoucherManagerPage::$URL);
-//        $I->waitForElement(['link' => $voucherCode], 60);
-//        $I->click(\VoucherManagerPage::$voucherCheck);
-//        $I->click("Edit");
-//        $I->verifyNotices(false, $this->checkForNotices(), 'Voucher Manager Edit');
-//        $I->fillField(\VoucherManagerPage::$voucherCode, "");
-//        $I->click('Save & Close');
-//        $I->see('Invalid field:  Voucher Code:','.system-message-container');
-//    }
 
     public function checkButtons($buttonName)
     {
@@ -332,36 +212,12 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 break;
             case 'cancel':
                 $I->click(\VoucherManagerPage::$newButton);
-                $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URLNew);
                 $I->click(\VoucherManagerPage::$cancelButton);
 
                 break;
         }
         $I->see(\VoucherManagerPage::$namePageManagement, \VoucherManagerPage::$selectorNamePage);
     }
-
-//    public function checkEditButton()
-//    {
-//
-//
-//    }
-//
-//    public function checkDeleteButton()
-//    {
-//
-//    }
-//
-//    public function checkPublishButton()
-//    {
-//
-//    }
-//
-//    public function checkUnpublishButton()
-//    {
-//
-//
-//    }
-
 
     /**
      * Function to Delete a Voucher
