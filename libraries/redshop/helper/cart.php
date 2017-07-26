@@ -754,10 +754,10 @@ abstract class RedshopHelperCart
 
 		$cartOutput = array();
 		$carts      = self::generateCartOutput($cart);
-		$text       = RedshopHelperShipping::getFreeShippingRate();
 
 		$cartOutput['cart_output']    = $carts[0];
 		$cartOutput['total_quantity'] = $carts[1];
+		$text                         = RedshopHelperShipping::getFreeShippingRate();
 
 		if (Redshop::getConfig()->get('AJAX_CART_BOX') == 1 && $ajax == 1)
 		{
