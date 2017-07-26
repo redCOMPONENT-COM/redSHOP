@@ -23,7 +23,7 @@ class ManageGiftCardAdministratorCest
         $this->randomCardName = 'EditName'.rand(1,1000);
         $this->cardNameSave = 'Cart Name' . rand(1, 100);
         $this->cardNameSaveEdit = 'New' . $this->cardNameSave;
-        $this->newRandomCardName = 'New ';
+        $this->newRandomCardName = 'NewEdit ';
         $this->cardPrice = $this->faker->numberBetween(99, 999);
         $this->cardValue = $this->faker->numberBetween(9, 99);
         $this->cardValidity = $this->faker->numberBetween(1, 15);
@@ -199,7 +199,7 @@ class ManageGiftCardAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
         $I->editCard($this->randomCardName, $this->newRandomCardName);
-        $I->searchCard($this->newRandomCardName);
+//        $I->searchCard($this->newRandomCardName);
     }
 
     /**
