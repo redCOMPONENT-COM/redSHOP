@@ -113,7 +113,7 @@ class FrontEndProductManagerJoomla3Page
 	 */
 	public function finalCheckout($productName)
 	{
-		$path = "//div[text()='" . $productName . "']";
+		$path = "//div/a[text()='" . $productName . "']";
 
 		return $path;
 	}

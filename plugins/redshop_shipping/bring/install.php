@@ -20,7 +20,12 @@ defined('_JEXEC') or die();
 class PlgRedshop_ShippingBringInstallerScript
 {
 	/**
-	 * Method to run before an install/update/uninstall method
+	 * @var string
+	 */
+	protected $name = 'bring';
+
+	/**
+	 * Method to run after an install/update/uninstall method
 	 *
 	 * @param   string  $type  The type of change (install, update or discover_install)
 	 *
@@ -28,35 +33,45 @@ class PlgRedshop_ShippingBringInstallerScript
 	 */
 	public function preflight($type)
 	{
-		if ($type == 'update' || $type == 'discover_install')
+		if ($type != 'update')
 		{
-			// Reads current (old) version from manifest
-			$db = JFactory::getDbo();
-			$version = $db->setQuery(
-				$db->getQuery(true)
-					->select($db->qn('manifest_cache'))
-					->from($db->qn('#__extensions'))
-					->where($db->qn('type') . ' = ' . $db->quote('plugin'))
-					->where($db->qn('folder') . ' = ' . $db->quote('redshop_shipping'))
-					->where($db->qn('element') . ' = ' . $db->quote('bring'))
-			)
-				->loadResult();
-
-			if (!empty($version))
-			{
-				$version = new Registry($version);
-				$version = $version->get('version');
-
-				if (version_compare($version, '2.0.0', '<'))
-				{
-					$this->deleteOldLanguages();
-				}
-			}
+			return;
 		}
 
-		if ($type != 'uninstall')
+		// Reads current (old) version from manifest
+		$db = JFactory::getDbo();
+		$version = $db->setQuery(
+			$db->getQuery(true)
+				->select($db->qn('manifest_cache'))
+				->from($db->qn('#__extensions'))
+				->where($db->qn('type') . ' = ' . $db->quote('plugin'))
+				->where($db->qn('folder') . ' = ' . $db->quote('redshop_shipping'))
+				->where($db->qn('element') . ' = ' . $db->quote($this->name))
+		)
+			->loadResult();
+
+		$version = new Registry($version);
+		$version = $version->get('version');
+
+		if (version_compare($version, '2.0.0', '<'))
 		{
-			$this->checkConfig();
+			$this->deleteOldLanguages();
+			$this->updateConfig();
+		}
+	}
+
+	/**
+	 * Method to run after an install/update/uninstall method
+	 *
+	 * @param   string  $type  The type of change (install, update or discover_install)
+	 *
+	 * @return  void
+	 */
+	public function postflight($type)
+	{
+		if ($type == 'install' || $type == 'discover_install')
+		{
+			$this->createConfig();
 		}
 	}
 
@@ -108,9 +123,9 @@ class PlgRedshop_ShippingBringInstallerScript
 	 *
 	 * @since   2.0.0
 	 */
-	protected function checkConfig()
+	protected function updateConfig()
 	{
-		$configFile = JPATH_ROOT . '/plugins/redshop_shipping/bring/config/bring.cfg.php';
+		$configFile = JPATH_ROOT . '/plugins/redshop_shipping/' . $this->name . '/config/' . $this->name . '.cfg.php';
 
 		if (JFile::exists($configFile))
 		{
@@ -118,17 +133,39 @@ class PlgRedshop_ShippingBringInstallerScript
 		}
 
 		// Move old config file to new folder structure.
-		$oldConfigFile = JPATH_ROOT . '/plugins/redshop_shipping/bring/bring.cfg.php';
+		$oldConfigFile = JPATH_ROOT . '/plugins/redshop_shipping/' . $this->name . '/' . $this->name . '.cfg.php';
 
 		if (JFile::exists($oldConfigFile))
 		{
+			if (!JFolder::exists(JPATH_ROOT . '/plugins/redshop_shipping/' . $this->name . '/config'))
+			{
+				JFolder::create(JPATH_ROOT . '/plugins/redshop_shipping/' . $this->name . '/config');
+			}
+
 			JFile::move($oldConfigFile, $configFile);
 
 			return;
 		}
 
 		// Copy default to config file if not exist.
-		$defaultFile = JPATH_ROOT . '/plugins/redshop_shipping/bring/config/default.cfg.php';
+		$defaultFile = JPATH_ROOT . '/plugins/redshop_shipping/' . $this->name . '/config/default.cfg.php';
+
+		JFile::copy($defaultFile, $configFile);
+	}
+
+	/**
+	 * Method for create config file.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.0
+	 */
+	protected function createConfig()
+	{
+		$configFile = JPATH_ROOT . '/plugins/redshop_shipping/' . $this->name . '/config/' . $this->name . '.cfg.php';
+
+		// Copy default to config file if not exist.
+		$defaultFile = __DIR__ . '/config/default.cfg.php';
 
 		JFile::copy($defaultFile, $configFile);
 	}
