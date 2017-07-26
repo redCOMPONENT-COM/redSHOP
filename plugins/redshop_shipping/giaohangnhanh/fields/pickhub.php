@@ -56,7 +56,7 @@ class JFormFieldPickhub extends JFormFieldList
 	 */
 	public function getPickHubsData()
 	{
-		$plugin = JPluginHelper::getPlugin('redshop_checkout', 'giaohangnhanh');
+		$plugin = JPluginHelper::getPlugin('redshop_shipping', 'giaohangnhanh');
 		$params = new JRegistry($plugin->params);
 
 		$post = array(

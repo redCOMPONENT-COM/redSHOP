@@ -44,7 +44,7 @@ class JFormFieldGhndistrict extends JFormFieldList
 				jQuery.ajax({
 			        type: 'POST',
 			        data: {city: city},
-			        url: '" . JUri::root() . "index.php?option=com_ajax&plugin=GetGHNDistrict&group=redshop_checkout&format=raw',
+			        url: '" . JUri::root() . "index.php?option=com_ajax&plugin=GetGHNDistrict&group=redshop_shipping&format=raw',
 			        success: function(data) {
 			        	jQuery('select#jform_params_from_district_code').html('');
 			        	jQuery('select#jform_params_from_district_code').append(data);
