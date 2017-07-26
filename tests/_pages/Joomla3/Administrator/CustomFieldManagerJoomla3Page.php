@@ -17,8 +17,6 @@ class CustomFieldManagerJoomla3Page
 {
 	public static $URL = '/administrator/index.php?option=com_redshop&view=fields';
 
-	public static $URLNew='';
-
 	public static $fieldName = "//input[@id='jform_name']";
 
 	public static $fieldTitle = "//input[@id='jform_title']";
