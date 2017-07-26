@@ -91,4 +91,33 @@ class RedshopHelperDiscount
 
 		return $result;
 	}
+
+	/**
+	 * Get discount price from product with check discount date.
+	 *
+	 * @param   int  $productId  Product id
+	 *
+	 * @return  float
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getDiscountPriceBaseDiscountDate($productId)
+	{
+		if ($productData = RedshopHelperProduct::getProductById($productId))
+		{
+			$today = time();
+
+			// Convert discount_enddate to middle night
+			$productData->discount_enddate = RedshopHelperDatetime::generateTimestamp($productData->discount_enddate);
+
+			if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
+				|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today)
+				|| ($productData->discount_enddate == '0' && (int) $productData->discount_stratdate <= $today))
+			{
+				return (float) $productData->discount_price;
+			}
+		}
+
+		return 0.0;
+	}
 }

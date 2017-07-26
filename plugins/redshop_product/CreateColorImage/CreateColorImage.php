@@ -65,7 +65,7 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 		$colorToBeReplaced = $this->params->get('colorToBeReplaced');
 		$bgImage = $this->params->get('bgImage');
 
-		for ($i = 0;$i < count($arrproperty_id);$i++)
+		for ($i = 0, $count = count($arrproperty_id); $i < $count; $i++)
 		{
 			if (!empty($arrproperty_id[$i]))
 			{

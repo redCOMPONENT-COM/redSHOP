@@ -115,7 +115,7 @@ class RedshopControllerCategory extends RedshopController
 			if (!JFile::exists($filepath))
 			{
 				JError::raiseError(500, "Oops. File not found");
-				exit;
+				JFactory::getApplication()->close();
 			}
 		}
 		else
@@ -128,7 +128,14 @@ class RedshopControllerCategory extends RedshopController
 		// IE Bug in download name workaround
 		if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']))
 		{
-			@ini_set('zlib.output_compression', 'Off');
+			try
+			{
+				ini_set('zlib.output_compression', 'Off');
+			}
+			catch (Exception $ex)
+			{
+				JFactory::getApplication()->enqueueMessage($ex->getMessage(), 'error');
+			}
 		}
 
 		if (!$this->downloadFile($filepath))
@@ -225,7 +232,7 @@ class RedshopControllerCategory extends RedshopController
 		if ($size == 0)
 		{
 			JError::raiseError(500, 'ERROR.ZERO_BYE_FILE');
-			exit;
+			JFactory::getApplication()->close();
 		}
 
 		if (version_compare(PHP_VERSION, '5.3.0', '<'))
@@ -275,7 +282,7 @@ class RedshopControllerCategory extends RedshopController
 		$sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";
 		$db->setQuery($sel_zipcode);
 		echo $db->loadResult();
-		exit;
+		JFactory::getApplication()->close();
 	}
 
 	/**

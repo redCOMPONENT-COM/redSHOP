@@ -149,10 +149,14 @@
       "product_alttext",
       "shoppergroup_tags",
       "stock_notifyemail",
-      "stockroom_status"
+      "stockroom_status",
+      "discount_affect_attribute",
+      "bundle",
+      "gift"
     ],
     "redshop_product_type": [
-      "bundle"
+      "bundle",
+      "gift"
     ],
     "redshop_shipping": [
       "bring",

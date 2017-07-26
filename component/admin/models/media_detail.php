@@ -137,14 +137,14 @@ class RedshopModelMedia_detail extends RedshopModel
 				$nsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
 					. $mediadata->media_section . '/' . $mediadata->media_name;
 
-				if (is_file($nsrc))
+				if (JFile::exists($nsrc))
 				{
-					unlink($nsrc);
+					JFile::delete($nsrc);
 				}
 
-				if (is_file($ntsrc))
+				if (JFile::exists($ntsrc))
 				{
-					unlink($ntsrc);
+					JFile::delete($ntsrc);
 				}
 
 				if ($mediadata->media_section == 'manufacturer')

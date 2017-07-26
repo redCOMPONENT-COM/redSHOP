@@ -22,6 +22,24 @@ JLoader::import('redshop.library');
 class PlgRedshop_ExportProduct extends AbstractExportPlugin
 {
 	/**
+	 * Is include attributes.
+	 *
+	 * @var    boolean
+	 *
+	 * @since  1.0.1
+	 */
+	protected $isAttributes = false;
+
+	/**
+	 * Is include extra fields.
+	 *
+	 * @var    boolean
+	 *
+	 * @since  1.0.1
+	 */
+	protected $isExtraFields = false;
+
+	/**
 	 * Event run when user load config for export this data.
 	 *
 	 * @return  string
@@ -40,6 +58,15 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			<div class="col-md-10">
 				<label class="radio-inline"><input name="product_extrafields" value="1" type="radio" />' . JText::_('JYES') . '</label>
 				<label class="radio-inline"><input name="product_extrafields" value="0" type="radio" checked />' . JText::_('JNO') . '</label>
+			</div>
+		</div>';
+
+		// Radio for load extra fields
+		$configs[] = '<div class="form-group">
+			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_ATTRIBUTES_DATA') . '</label>
+			<div class="col-md-10">
+				<label class="radio-inline"><input name="include_attributes" value="1" type="radio" />' . JText::_('JYES') . '</label>
+				<label class="radio-inline"><input name="include_attributes" value="0" type="radio" checked />' . JText::_('JNO') . '</label>
 			</div>
 		</div>';
 
@@ -106,6 +133,9 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
+		$this->isAttributes  = JFactory::getApplication()->input->getBool('include_attributes', 0);
+		$this->isExtraFields = JFactory::getApplication()->input->getBool('product_extrafields', 0);
+
 		$headers = $this->getHeader();
 
 		if (!empty($headers))
@@ -164,6 +194,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 		$db    = $this->db;
 		$query = $db->getQuery(true)
+			->select('m.manufacturer_name')
 			->select('p.*')
 			->select($db->quote(JUri::root()) . ' AS ' . $db->qn('sitepath'))
 			->select(
@@ -188,6 +219,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			)
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))
+			->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('p.manufacturer_id') . ' = ' . $db->qn('m.manufacturer_id'))
 			->group($db->qn('p.product_id'))
 			->order($db->qn('p.product_id') . ' asc');
 
@@ -234,7 +266,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	/**
 	 * Method for get headers data.
 	 *
-	 * @return array|bool
+	 * @return  mixed
 	 *
 	 * @since  1.0.0
 	 */
@@ -242,6 +274,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	{
 		// Get main data.
 		$headers = parent::getHeader();
+		$input   = JFactory::getApplication()->input;
 
 		// Stockroom
 		$stockrooms = RedshopHelperStockroom::getStockroom();
@@ -255,9 +288,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		}
 
 		// Extra fields if needed.
-		$extraFields = (bool) JFactory::getApplication()->input->get('product_extrafields', 0);
-
-		if ($extraFields)
+		if ($this->isExtraFields)
 		{
 			$db     = $this->db;
 			$query  = $db->getQuery(true)
@@ -272,13 +303,39 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			}
 		}
 
+		// Product attributes if needed.
+		if (JFactory::getApplication()->input->getBool('include_attributes', 0) == true)
+		{
+			$headers = array_merge($headers, $this->getAttributesHeader());
+		}
+
 		return $headers;
+	}
+
+	/**
+	 * Method for get additional headers when include attributes enabled.
+	 *
+	 * @return  array
+	 *
+	 * @since   1.0.1
+	 */
+	protected function getAttributesHeader()
+	{
+		return array(
+			'attribute_name','attribute_ordering','allow_multiple_selection','hide_attribute_price','attribute_required',
+			'display_type','property_name','property_stock','property_ordering','property_virtual_number','setdefault_selected',
+			'setrequire_selected', 'setdisplay_type', 'oprand','property_price','property_image','property_main_image',
+			'subattribute_color_name', 'subattribute_stock', 'subattribute_color_ordering','subattribute_setdefault_selected',
+			'subattribute_color_title','subattribute_virtual_number', 'subattribute_color_oprand','required_sub_attribute',
+			'subattribute_color_price','subattribute_color_image','delete', 'media_name', 'media_alternate_text', 'media_section',
+			'media_published', 'media_ordering'
+		);
 	}
 
 	/**
 	 * Method for do some stuff for data return. (Like image path,...)
 	 *
-	 * @param   array  &$data  Array of data.
+	 * @param   array  $data  Array of data.
 	 *
 	 * @return  void
 	 *
@@ -298,10 +355,9 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		$stockrooms = RedshopHelperStockroom::getStockroom();
 
 		// Process fields if needed.
-		$extraFields = (bool) JFactory::getApplication()->input->get('product_extrafields', 0);
-		$fieldsData  = array();
+		$fieldsData = array();
 
-		if ($extraFields)
+		if ($this->isExtraFields)
 		{
 			$productIds = array_map(
 				function($o) {
@@ -321,11 +377,15 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			$fieldsData = $db->setQuery($query)->loadObjectList('itemid');
 		}
 
+		$isAttributes = JFactory::getApplication()->input->getBool('include_attributes', 0);
+		$newData = array();
+
 		foreach ($data as $index => $item)
 		{
 			$item = (array) $item;
+			$attributeRows = array();
 
-			if ($extraFields && isset($fieldsData[$item['product_id']]))
+			if ($this->isExtraFields && isset($fieldsData[$item['product_id']]))
 			{
 				$itemField = $fieldsData[$item['product_id']];
 
@@ -390,14 +450,35 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			// Media process
 			$this->processMedia($item);
 
-			$data[$index] = $item;
+			if ($isAttributes)
+			{
+				$attributeRows = $this->getAttributesData($item);
+
+				// Add empty data for additional header
+				foreach ($this->getAttributesHeader() as $header)
+				{
+					$item[$header] = '';
+				}
+			}
+
+			$newData[] = $item;
+
+			if (!empty($attributeRows))
+			{
+				foreach ($attributeRows as $attributeRow)
+				{
+					$newData[] = $attributeRow;
+				}
+			}
 		}
+
+		$data = $newData;
 	}
 
 	/**
 	 * Method for process medias of product.
 	 *
-	 * @param   array  &$product  Product data.
+	 * @param   array  $product  Product data.
 	 *
 	 * @return  void
 	 *
@@ -408,5 +489,237 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		// @TODO: Would implement media check files exist.
 
 		return;
+	}
+
+	/**
+	 * Method for get query
+	 *
+	 * @param   array  $productData  Product data.
+	 *
+	 * @return  array
+	 *
+	 * @since  1.0.0
+	 */
+	protected function getAttributesData($productData)
+	{
+		$db = $this->db;
+
+		// Attributes query
+		$attributeQuery = $db->getQuery(true)
+			->select($db->qn('a.attribute_name'))
+			->select($db->qn('a.ordering', 'attribute_ordering'))
+			->select($db->qn('a.allow_multiple_selection'))
+			->select($db->qn('a.hide_attribute_price'))
+			->select($db->qn('a.attribute_required'))
+			->select($db->qn('a.display_type'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_name'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_stock'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_ordering'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_virtual_number'))
+			->select($db->quote('') . ' AS ' . $db->qn('setdefault_selected'))
+			->select($db->quote('') . ' AS ' . $db->qn('setrequire_selected'))
+			->select($db->quote('') . ' AS ' . $db->qn('setdisplay_type'))
+			->select($db->quote('') . ' AS ' . $db->qn('oprand'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_price'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_image'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_main_image'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_name'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_stock'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_ordering'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_setdefault_selected'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_title'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_virtual_number'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_oprand'))
+			->select($db->quote('') . ' AS ' . $db->qn('required_sub_attribute'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_price'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_image'))
+			->select($db->quote('0') . ' AS ' . $db->qn('delete'))
+			->select($db->quote('') . ' AS ' . $db->qn('media_name'))
+			->select($db->quote('') . ' AS ' . $db->qn('media_alternate_text'))
+			->select($db->quote('') . ' AS ' . $db->qn('media_section'))
+			->select($db->quote('') . ' AS ' . $db->qn('media_published'))
+			->select($db->quote('') . ' AS ' . $db->qn('media_ordering'))
+			->from($db->qn('#__redshop_product', 'p'))
+			->innerJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id'))
+			->where($db->qn('p.product_id') . ' = ' . $productData['product_id']);
+
+		// Properties query
+		$propertiesQuery = $db->getQuery(true)
+			->select($db->qn('a.attribute_name'))
+			->select($db->quote('') . ' AS ' . $db->qn('attribute_ordering'))
+			->select($db->quote('') . ' AS ' . $db->qn('allow_multiple_selection'))
+			->select($db->quote('') . ' AS ' . $db->qn('hide_attribute_price'))
+			->select($db->quote('') . ' AS ' . $db->qn('attribute_required'))
+			->select($db->quote('') . ' AS ' . $db->qn('display_type'))
+			->select($db->qn('ap.property_name'))
+			->select(
+				'(SELECT GROUP_CONCAT(CONCAT('
+				. $db->qn('att_stock.stockroom_id') . ',' . $db->quote(':') . ',' . $db->qn('att_stock.quantity') . ')'
+				. ' SEPARATOR ' . $db->quote('#') . ') FROM ' . $db->qn('#__redshop_product_attribute_stockroom_xref', 'att_stock')
+				. ' WHERE ' . $db->qn('att_stock.section_id') . ' = ' . $db->qn('ap.property_id')
+				. ' AND ' . $db->qn('att_stock.section') . ' = ' . $db->quote('property') . ') AS ' . $db->qn('property_stock')
+			)
+			->select($db->qn('ap.ordering', 'property_ordering'))
+			->select($db->qn('ap.property_number', 'property_virtual_number'))
+			->select($db->qn('ap.setdefault_selected'))
+			->select($db->qn('ap.setrequire_selected'))
+			->select($db->qn('ap.setdisplay_type'))
+			->select($db->qn('ap.oprand'))
+			->select($db->qn('ap.property_price'))
+			->select($db->qn('ap.property_image'))
+			->select($db->qn('ap.property_main_image'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_name'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_stock'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_ordering'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_setdefault_selected'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_title'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_virtual_number'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_oprand'))
+			->select($db->quote('') . ' AS ' . $db->qn('required_sub_attribute'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_price'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_image'))
+			->select($db->quote('0') . ' AS ' . $db->qn('delete'))
+			->select($db->qn('m.media_name') . ' AS ' . $db->qn('media_name'))
+			->select($db->qn('m.media_alternate_text') . ' AS ' . $db->qn('media_alternate_text'))
+			->select($db->qn('m.media_section') . ' AS ' . $db->qn('media_section'))
+			->select($db->qn('m.published') . ' AS ' . $db->qn('media_published'))
+			->select($db->qn('m.ordering') . ' AS ' . $db->qn('media_ordering'))
+			->from($db->qn('#__redshop_product', 'p'))
+			->innerJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id'))
+			->innerJoin(
+				$db->qn('#__redshop_product_attribute_property', 'ap') . ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
+			)
+			->leftJoin(
+				$db->qn('#__redshop_media', 'm') . ' ON ' . $db->qn('m.section_id') . ' = ' . $db->qn('ap.property_id')
+				. ' AND ' . $db->qn('m.media_section') . ' = ' . $db->q('property')
+			)
+			->where($db->qn('p.product_id') . ' = ' . $productData['product_id'])
+			->order($db->qn('product_number') . ',' . $db->qn('property_ordering'));
+
+		// Sub-properties query
+		$subPropertiesQuery = $db->getQuery(true)
+			->select($db->qn('a.attribute_name'))
+			->select($db->quote('') . ' AS ' . $db->qn('attribute_ordering'))
+			->select($db->quote('') . ' AS ' . $db->qn('allow_multiple_selection'))
+			->select($db->quote('') . ' AS ' . $db->qn('hide_attribute_price'))
+			->select($db->quote('') . ' AS ' . $db->qn('attribute_required'))
+			->select($db->quote('') . ' AS ' . $db->qn('display_type'))
+			->select($db->qn('ap.property_name'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_stock'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_ordering'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_virtual_number'))
+			->select($db->quote('') . ' AS ' . $db->qn('setdefault_selected'))
+			->select($db->quote('') . ' AS ' . $db->qn('setrequire_selected'))
+			->select($db->quote('') . ' AS ' . $db->qn('setdisplay_type'))
+			->select($db->quote('') . ' AS ' . $db->qn('oprand'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_price'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_image'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_main_image'))
+			->select($db->qn('sp.subattribute_color_name'))
+			->select(
+				'(SELECT GROUP_CONCAT(CONCAT('
+				. $db->qn('stocksp.stockroom_id') . ',' . $db->quote(':') . ',' . $db->qn('stocksp.quantity') . ')'
+				. ' SEPARATOR ' . $db->quote('#') . ') FROM ' . $db->qn('#__redshop_product_attribute_stockroom_xref', 'stocksp')
+				. ' WHERE ' . $db->qn('stocksp.section_id') . ' = ' . $db->qn('sp.subattribute_color_id')
+				. ' AND ' . $db->qn('stocksp.section') . ' = ' . $db->quote('subproperty') . ') AS ' . $db->qn('subattribute_stock')
+			)
+			->select($db->qn('sp.ordering', 'subattribute_color_ordering'))
+			->select($db->qn('sp.setdefault_selected', 'subattribute_setdefault_selected'))
+			->select($db->qn('sp.subattribute_color_title'))
+			->select($db->qn('sp.subattribute_color_number', 'subattribute_virtual_number'))
+			->select($db->qn('sp.oprand', 'subattribute_color_oprand'))
+			->select($db->qn('ap.setrequire_selected', 'required_sub_attribute'))
+			->select($db->qn('sp.subattribute_color_price'))
+			->select($db->qn('sp.subattribute_color_image'))
+			->select($db->quote('0') . ' AS ' . $db->qn('delete'))
+			->select($db->qn('m1.media_name') . ' AS ' . $db->qn('media_name'))
+			->select($db->qn('m1.media_alternate_text') . ' AS ' . $db->qn('media_alternate_text'))
+			->select($db->qn('m1.media_section') . ' AS ' . $db->qn('media_section'))
+			->select($db->qn('m1.published') . ' AS ' . $db->qn('media_published'))
+			->select($db->qn('m1.ordering') . ' AS ' . $db->qn('media_ordering'))
+			->from($db->qn('#__redshop_product', 'p'))
+			->innerJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a.product_id'))
+			->innerJoin(
+				$db->qn('#__redshop_product_attribute_property', 'ap') . ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
+			)
+			->innerJoin(
+				$db->qn('#__redshop_product_subattribute_color', 'sp') . ' ON ' . $db->qn('ap.property_id') . ' = ' . $db->qn('sp.subattribute_id')
+			)
+			->leftJoin(
+				$db->qn('#__redshop_media', 'm1') . ' ON ' . $db->qn('m1.section_id') . ' = ' . $db->qn('sp.subattribute_color_id')
+				. ' AND ' . $db->qn('m1.media_section') . ' = ' . $db->q('subproperty')
+			)
+			->where($db->qn('p.product_id') . ' = ' . $productData['product_id'])
+			->order($db->qn('product_number') . ',' . $db->qn('subattribute_color_ordering'));
+
+		$attributeQuery->union($propertiesQuery)->union($subPropertiesQuery);
+
+		$results = $db->setQuery($attributeQuery)->loadObjectList();
+
+		if (empty($results))
+		{
+			return array();
+		}
+
+		// Create new row data.
+		$cleanItem  = array();
+		$attributes = array();
+
+		foreach ($productData as $key => $value)
+		{
+			if (in_array($key, array('product_number', 'product_id', 'product_name')))
+			{
+				$cleanItem[$key] = $value;
+			}
+			else
+			{
+				$cleanItem[$key] = '';
+			}
+		}
+
+		foreach ($results as $result)
+		{
+			$newItem = $cleanItem;
+			$result  = (array) $result;
+
+			$newItem = array_merge($newItem, $result);
+
+			foreach ($newItem as $key => $value)
+			{
+				// Property image
+				if (!empty($newItem['property_image']))
+				{
+					$newItem['property_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' . $newItem['property_image'];
+				}
+
+				// Property main image
+				if (!empty($newItem['property_main_image']))
+				{
+					$newItem['property_main_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $newItem['property_main_image'];
+				}
+
+				// Property Media Image
+				if (!empty($newItem['media_name']) && ($newItem['media_section'] == 'property'))
+				{
+					$newItem['media_name'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $newItem['media_name'];
+				}
+
+				// Sub-attribute image
+				if (!empty($newItem['subattribute_color_image']))
+				{
+					$newItem['subattribute_color_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $newItem['subattribute_color_image'];
+				}
+
+				// Property Media Image
+				if (!empty($newItem['media_name']) && ($newItem['media_section'] == 'subproperty'))
+				{
+					$newItem['media_name'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'subproperty/' . $newItem['media_name'];
+				}
+			}
+
+			$attributes[] = $newItem;
+		}
+
+		return $attributes;
 	}
 }
