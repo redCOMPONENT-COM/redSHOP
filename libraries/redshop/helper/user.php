@@ -693,6 +693,10 @@ class RedshopHelperUser
 	 */
 	public static function storeRedshopUserShipping($data = array())
 	{
+		JPluginHelper::importPlugin('redshop_user');
+		JPluginHelper::importPlugin('redshop_shipping');
+		RedshopHelperUtility::getDispatcher()->trigger('onBeforeStoreRedshopUserShipping', array(&$data));
+
 		/** @var Tableuser_detail $userTable */
 		$userTable = JTable::getInstance('user_detail', 'Table');
 

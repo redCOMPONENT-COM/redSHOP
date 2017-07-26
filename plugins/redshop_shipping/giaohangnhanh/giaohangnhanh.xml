@@ -28,6 +28,12 @@
     <config>
         <fields name="params" addfieldpath="/plugins/redshop_shipping/giaohangnhanh/fields">
             <fieldset name="basic">
+                <field
+                    name="is_shipper"
+                    type="hidden"
+                    default="1"
+                    value="1"
+                />
                 <field 
                     name="api_key" 
                     type="text" 

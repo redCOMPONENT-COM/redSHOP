@@ -62,7 +62,7 @@ class JFormFieldGhncity extends JFormFieldList
 	 */
 	public function getDistrictProvinceData()
 	{
-		$plugin = JPluginHelper::getPlugin('redshop_checkout', 'giaohangnhanh');
+		$plugin = JPluginHelper::getPlugin('redshop_shipping', 'giaohangnhanh');
 		$params = new JRegistry($plugin->params);
 
 		$post = array(

@@ -40,6 +40,43 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 	 */
 	public function onListRates(&$data)
 	{
+		$shipping = RedshopHelperShipping::getShippingMethodByClass('giaohangnhanh');
+		$rateList = RedshopHelperShipping::listShippingRates($shipping->element, $data['users_info_id'], $data);
+
+		$shippingRate = array();
+
+		if (!empty($rateList))
+		{
+			foreach ($rateList as $key => $rate)
+			{
+				$shippingRateValue         = $rate->shipping_rate_value;
+				$rate->shipping_rate_value = RedshopHelperShipping::applyVatOnShippingRate($rate, $data);
+				$shippingVatRate           = $rate->shipping_rate_value - $shippingRateValue;
+
+				$shippingRateId = RedshopShippingRate::encrypt(
+					array(
+						__CLASS__ ,
+						$shipping->name,
+						$rate->shipping_rate_name,
+						number_format($rate->shipping_rate_value, 2, '.', ''),
+						$rate->shipping_rate_id,
+						'single',
+						$shippingVatRate,
+						$rate->economic_displaynumber,
+						$rate->deliver_type
+					)
+				);
+
+				$shippingRate[$key]        = new stdClass;
+				$shippingRate[$key]->text  = $rate->shipping_rate_name;
+				$shippingRate[$key]->value = $shippingRateId;
+				$shippingRate[$key]->rate  = $rate->shipping_rate_value;
+				$shippingRate[$key]->vat   = $shippingVatRate;
+			}
+
+			return $shippingRate;
+		}
+
 		$cart = JFactory::getSession()->get('cart');
 
 		$district = $data['post']['ghnDistrict'];
@@ -113,8 +150,6 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 		}
 
 		$shippingRate = array();
-
-		$shipping = RedshopHelperShipping::getShippingMethodByClass('giaohangnhanh');
 
 		foreach ($result['Items'] as $key => $rate)
 		{
@@ -278,6 +313,7 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 
 		$data->address .= ' ' . $billing['district'] . ' ' . $billing['city'];
 		$data->city = $billing['city'];
+		$data->state_code = $billing['city_code'];
 
 		return;
 	}
@@ -330,8 +366,9 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 		$userCity = $cities[$cityField->data_txt];
 		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
 
-		$data->address .= ' ' . $userDistrict . ' ' . $userCity;
-		$data->city = $userCity;
+		$data->address    .= ' ' . $userDistrict . ' ' . $userCity;
+		$data->city       = $userCity;
+		$data->state_code = $cityField->data_txt;
 	}
 
 	/**
@@ -371,6 +408,49 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 
 		$ghnOrder = $this->createShippingOrder($data->order_id, $serviceId, $district, $shippingData);
 		$this->updateOrder($data->order_id, $ghnOrder);
+	}
+
+	/**
+	 * trigger before when render Shipping Rate State
+	 *
+	 * @param   object  $stateList    State List
+	 * @param   string  $countryCode  Country Code
+	 *
+	 * @return void
+	 */
+	public function onRenderShippingRateState(&$stateList, $countryCode)
+	{
+		if ($countryCode != "VNM")
+		{
+			return;
+		}
+
+		$result = $this->getDistrictProvinceData();
+
+		if (empty($result))
+		{
+			return;
+		}
+
+		$cities = array();
+
+		foreach ($result['Data'] as $key => $city)
+		{
+			$cities[$city['ProvinceCode']] = $city['ProvinceName'];
+		}
+
+		$data       = array();
+		$key        = 0;
+		$data[$key] = new stdClass;
+
+		foreach ($cities as $value => $text)
+		{
+			$data[$key]->value = $value;
+			$data[$key]->text  = $text;
+			$key++;
+		}
+
+		$stateList = array_merge($stateList, $data);
 	}
 
 	/**
@@ -510,9 +590,7 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 	 */
 	public function onBeforeCreateRedshopUser(&$data, $isNew)
 	{
-		$userCity     = "";
-		$cities       = array();
-
+		$cities = array();
 		$result = $this->getDistrictProvinceData();
 
 		foreach ($result['Data'] as $key => $city)
@@ -520,10 +598,31 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			$cities[$city['ProvinceCode']] = $city['ProvinceName'];
 		}
 
-		$userCity = $cities[$data['rs_ghn_billing_city']];
+		$data['city']       = $cities[$data['rs_ghn_billing_city']];
+		$data['zipcode']    = $this->params->get('zipcode', '70000');
+		$data['state_code'] = $data['rs_ghn_billing_city'];
+	}
 
-		$data['city'] = $userCity;
-		$data['zipcode'] = $this->params->get('zipcode', '70000');
+	/**
+	 * Trigger before store redSHOP user shipping
+	 *
+	 * @param   array   $data  Order shipping data
+	 *
+	 * @return void
+	 */
+	public function onBeforeStoreRedshopUserShipping(&$data)
+	{
+		$cities = array();
+		$result = $this->getDistrictProvinceData();
+
+		foreach ($result['Data'] as $key => $city)
+		{
+			$cities[$city['ProvinceCode']] = $city['ProvinceName'];
+		}
+
+		$data['city_ST']       = $cities[$data['rs_ghn_city']];
+		$data['zipcode_ST']    = $this->params->get('zipcode', '70000');
+		$data['state_code_ST'] = $data['rs_ghn_city'];
 	}
 
 	/**
@@ -603,8 +702,10 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
 
 		return array(
-				'city'     => $userCity,
-				'district' => $userDistrict
+				'city'          => $userCity,
+				'district'      => $userDistrict,
+				'city_code'     => $cityField->data_txt,
+				'district_code' => $districtField->data_txt
 			);
 	}
 
@@ -651,8 +752,10 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 		$userDistrict = $districts[$cityField->data_txt][$districtField->data_txt];
 
 		return array(
-				'city'     => $userCity,
-				'district' => $userDistrict
+				'city'          => $userCity,
+				'district'      => $userDistrict,
+				'city_code'     => $cityField->data_txt,
+				'district_code' => $districtField->data_txt
 			);
 	}
 }
