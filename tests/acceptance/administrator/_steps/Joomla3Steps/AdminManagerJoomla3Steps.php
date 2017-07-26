@@ -109,10 +109,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         if (strpos($text, 'unpublish') > 0)
         {
             $result = 'published';
-        }
-
-        if (strpos($text, 'publish') > 0)
-        {
+        }else{
             $result = 'unpublished';
         }
 
@@ -162,7 +159,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         $I->executeJS('window.scrollTo(0,0)');
         $I->fillField($searchField, $text);
         $I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-        $I->waitForElement(['link' => $text]);
+        $I->waitForElement(['link' => $text], 60);
     }
     public function filterListBySearchingProduct($text, $searchField = ['id' => 'keyword'])
     {

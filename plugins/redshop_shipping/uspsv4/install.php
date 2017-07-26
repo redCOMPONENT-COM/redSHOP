@@ -12,17 +12,17 @@ use Joomla\Registry\Registry;
 defined('_JEXEC') or die();
 
 /**
- * PlgRedshop_ShippingUps installer class.
+ * PlgRedshop_ShippingUspsv4 installer class.
  *
  * @package  Redshopb.Plugin
  * @since    2.0.0
  */
-class PlgRedshop_ShippingUpsInstallerScript
+class PlgRedshop_ShippingUspsv4InstallerScript
 {
 	/**
 	 * @var string
 	 */
-	protected $name = 'ups';
+	protected $name = 'uspsv4';
 
 	/**
 	 * Method to run after an install/update/uninstall method
