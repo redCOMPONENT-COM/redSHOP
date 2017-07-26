@@ -21,8 +21,6 @@ class VoucherManagerPage
 
     public static $URL = '/administrator/index.php?option=com_redshop&view=voucher';
 
-    public static $URLNew = '/administrator/index.php?option=com_redshop&view=voucher_detail&task=edit';
-
     public static $URLEdit = '/administrator/index.php?option=com_redshop&view=voucher_detail&task=edit&cid[]=';
 
     public static $voucherCode = "#voucher_code";
@@ -110,6 +108,4 @@ class VoucherManagerPage
     public static $messagePublishSuccess = 'Voucher detail published successfully';
 
     public static $messageUnpublishSuccess = 'Voucher detail unpublished successfully';
-
-
 }
