@@ -64,9 +64,6 @@
     "redshop_alert": [
       "alert"
     ],
-    "redshop_checkout": [
-      "giaohangnhanh"
-    ],
     "redshop_export": [
       "attribute",
       "category",
