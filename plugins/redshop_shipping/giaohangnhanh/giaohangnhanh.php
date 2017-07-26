@@ -40,6 +40,7 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 	 */
 	public function onListRates(&$data)
 	{
+		$data['state_code'] = $data['post']['ghnCity'];
 		$shipping = RedshopHelperShipping::getShippingMethodByClass('giaohangnhanh');
 		$rateList = RedshopHelperShipping::listShippingRates($shipping->element, $data['users_info_id'], $data);
 
@@ -77,8 +78,7 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			return $shippingRate;
 		}
 
-		$cart = JFactory::getSession()->get('cart');
-
+		$cart     = JFactory::getSession()->get('cart');
 		$district = $data['post']['ghnDistrict'];
 
 		if ($data['users_info_id'] != 0)

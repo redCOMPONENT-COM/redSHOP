@@ -105,9 +105,11 @@ extract($displayData);
 		if (typeof postParams.ghnDistrict == 'undefined')
 		{
 			if (jQuery('input[name="billisship"]').is(':checked')){
+				postParams.ghnCity     = jQuery('select[name="rs_ghn_billing_city"]').val();
 				postParams.ghnDistrict = jQuery('select[name="rs_ghn_billing_district"]').val();
 			}
 			else{
+				postParams.ghnCity     = jQuery('select[name="rs_ghn_city"]').val();
 				postParams.ghnDistrict = jQuery('select[name="rs_ghn_district"]').val();
 			}
 		}
