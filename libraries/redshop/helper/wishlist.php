@@ -191,6 +191,11 @@ class RedshopHelperWishlist
 
 			if (empty($wishList))
 			{
+				$wishList = array(self::createWishlistDefault($userId));
+			}
+
+			if (empty($wishList))
+			{
 				static::$usersWishlist[$userId] = array();
 
 				return static::$usersWishlist[$userId];
@@ -281,5 +286,37 @@ class RedshopHelperWishlist
 			->order($db->qn('fieldid') . ' ASC');
 
 		return $db->setQuery($query)->loadObjectList();
+	}
+
+	/**
+	 * Create Default wishlist list
+	 *
+	 * @param   int  $userId  ID of user.
+	 *
+	 * @return  object|null
+	 */
+	private static function createWishlistDefault($userId)
+	{
+		if (!$userId)
+		{
+			return null;
+		}
+
+		$db = JFactory::getDbo();
+
+		$wishlist                = new stdClass();
+		$wishlist->wishlist_name = 'Default';
+		$wishlist->user_id       =$userId;
+		$wishlist->cdate         =$db->quote(time());
+
+		// Insert the object into the user profile table.
+		if ($db->insertObject('#__redshop_wishlist', $wishlist))
+		{
+			$wishlist->wishlist_id = $db->insertid();
+
+			return $wishlist;
+		}
+
+		return null;
 	}
 }
