@@ -1,0 +1,19 @@
+{
+  "php": {
+    "max_execution_time": {
+      "required": 300,
+      "recommended": 600
+    },
+    "max_input_time": {
+      "required": 600,
+      "recommended": 1200
+    },
+    "memory_limit": {
+      "required": 640,
+      "recommended": 1280
+    },
+    "display_errors": {
+      "recommended": "Off"
+    }
+  }
+}
