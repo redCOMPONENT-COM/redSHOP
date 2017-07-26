@@ -188,164 +188,134 @@ class ManageGiftCardAdministratorCest
         $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorNamePage);
     }
 
-    /**
-     * Function to Test Gift Card Updation in the Administrator
-     *
-     * @depends createGiftCard
-     */
-    public function updateGiftCard(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test if Gift Card gets updated in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->editCard($this->randomCardName, $this->newRandomCardName);
-//        $I->searchCard($this->newRandomCardName);
-    }
+//    /**
+//     * Function to Test Gift Card Updation in the Administrator
+//     *
+//     * @depends createGiftCard
+//     */
+//    public function updateGiftCard(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test if Gift Card gets updated in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+//        $I->editCard($this->randomCardName, $this->newRandomCardName);
+////        $I->searchCard($this->newRandomCardName);
+//    }
 
-    /**
-     * Function to Test Gift Card Updation with save button in the Administrator
-     *
-     * @depends updateGiftCard
-     */
-    public function editCardSave(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test if Gift Card gets updated in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->editCardSave($this->newRandomCardName, $this->newRandomCardName);
-    }
-
-    /**
-     *
-     * Function check Close button inside Gift Card Edit
-     * @param AcceptanceTester $I
-     * @param $scenario
-     *
-     * * @depends updateGiftCard
-     */
-    public function updateCardCloseButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test if Gift Card gets updated in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->editCardCloseButton($this->newRandomCardName);
-        $I->searchCard($this->newRandomCardName);
-    }
-
-    /**
-     * Function create edit Gift Card with edit button
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     *
-     *  * @depends createCardSave
-     *
-     */
-    public function updateGiftCardEditButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test if Gift Card gets updated in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->editCardWithEditButton($this->cardNameSave, $this->cardNameSaveEdit);
-        $I->searchCard($this->cardNameSaveEdit);
-    }
-
-    /**
-     * Test for State Change is unpublish in Gift Card Administrator
-     *
-     * @depends updateGiftCard
-     */
-    public function changeGiftCardStateUnpublish(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test if State Unpublish of a Gift Card gets Updated in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->changeCardState($this->cardNameSaveEdit);
-        $I->verifyState('unpublished', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
-    }
-
-    /**
-     * Test for State Change is unpublish in Gift Card Administrator
-     *
-     * @depends changeGiftCardStateUnpublish
-     */
-    public function changeGiftCardStatePublish(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->changeCardState($this->cardNameSaveEdit);
-        $I->verifyState('published', $I->getCardState($this->cardNameSaveEdit), 'State Must be published');
-    }
-
-    /**
-     * Test for State Change unpublish with unpublish button is unpublish in Gift Card Administrator
-     *
-     * @depends changeGiftCardStatePublish
-     */
-    public function changeCardUnpublishButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->changeCardUnpublishButton($this->cardNameSaveEdit);
-        $I->wait(3);
-        $I->verifyState('unpublished', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
-    }
-
-    /**
-     * Test for State Change publish with publish button in Gift Card Administrator
-     *
-     * @depends changeCardUnpublishButton
-     */
-    public function changeCardPublishButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->changeCardPublishButton($this->cardNameSaveEdit);
-        $I->verifyState('published', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
-    }
-
-    /**
-     * Test for All Gift Card is unpublish Administrator
-     *
-     * @depends changeCardPublishButton
-     */
-    public function changeAllCardUnpublishButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->changeAllCardUnpublishButton();
-        $I->wait(3);
-        $I->verifyState('unpublished', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
-    }
-
-    /**
-     * Test for All Gift Card is publish Administrator
-     *
-     * @depends changeAllCardUnpublishButton
-     */
-    public function changeAllCardPublishButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->changeAllCardPublishButton();
-        $I->verifyState('published', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
-    }
-
-    /**
-     * Function to Test Gift Card Deletion
-     *
-     * @depends changeAllCardUnpublishButton
-     */
-    public function deleteGiftCard(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Deletion of Gift Card in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
-        $I->deleteCard($this->cardNameSaveEdit);
-    }
+//    /**
+//     * Function create edit Gift Card with edit button
+//     *
+//     * @param AcceptanceTester $I
+//     * @param $scenario
+//     *
+//     *  * @depends createCardSave
+//     *
+//     */
+//    public function updateGiftCardEditButton(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test if Gift Card gets updated in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+//        $I->editCardWithEditButton($this->cardNameSave, $this->cardNameSaveEdit);
+//        $I->searchCard($this->cardNameSaveEdit);
+//    }
+//
+//    /**
+//     * Test for State Change is unpublish in Gift Card Administrator
+//     *
+//     * @depends updateGiftCard
+//     */
+//    public function changeGiftCardStateUnpublish(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test if State Unpublish of a Gift Card gets Updated in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+//        $I->changeCardState($this->cardNameSaveEdit);
+//        $I->verifyState('unpublished', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
+//    }
+//
+//    /**
+//     * Test for State Change is unpublish in Gift Card Administrator
+//     *
+//     * @depends changeGiftCardStateUnpublish
+//     */
+//    public function changeGiftCardStatePublish(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+//        $I->changeCardState($this->cardNameSaveEdit);
+//        $I->verifyState('published', $I->getCardState($this->cardNameSaveEdit), 'State Must be published');
+//    }
+//
+//    /**
+//     * Test for State Change unpublish with unpublish button is unpublish in Gift Card Administrator
+//     *
+//     * @depends changeGiftCardStatePublish
+//     */
+//    public function changeCardUnpublishButton(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+//        $I->changeCardUnpublishButton($this->cardNameSaveEdit);
+//        $I->wait(3);
+//        $I->verifyState('unpublished', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
+//    }
+//
+//    /**
+//     * Test for State Change publish with publish button in Gift Card Administrator
+//     *
+//     * @depends changeCardUnpublishButton
+//     */
+//    public function changeCardPublishButton(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+//        $I->changeCardPublishButton($this->cardNameSaveEdit);
+//        $I->verifyState('published', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
+//    }
+//
+//    /**
+//     * Test for All Gift Card is unpublish Administrator
+//     *
+//     * @depends changeCardPublishButton
+//     */
+//    public function changeAllCardUnpublishButton(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+//        $I->changeAllCardUnpublishButton();
+//        $I->wait(3);
+//        $I->verifyState('unpublished', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
+//    }
+//
+//    /**
+//     * Test for All Gift Card is publish Administrator
+//     *
+//     * @depends changeAllCardUnpublishButton
+//     */
+//    public function changeAllCardPublishButton(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Test  State Publish of a Gift Card gets Updated in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+//        $I->changeAllCardPublishButton();
+//        $I->verifyState('published', $I->getCardState($this->cardNameSaveEdit), 'State Must be Unpublished');
+//    }
+//
+//    /**
+//     * Function to Test Gift Card Deletion
+//     *
+//     * @depends changeAllCardUnpublishButton
+//     */
+//    public function deleteGiftCard(AcceptanceTester $I, $scenario)
+//    {
+//        $I->wantTo('Deletion of Gift Card in Administrator');
+//        $I->doAdministratorLogin();
+//        $I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+//        $I->deleteCard($this->cardNameSaveEdit);
+//    }
 }

@@ -107,7 +107,19 @@ if ($total > 0)
 		$exp_div = "<div name='exp_" . $product->product_id . "'>";
 		$div_end = "</div>";
 
-		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $this->itemId);
+		$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
+
+		if (count($ItemData) > 0)
+		{
+			$pItemid = $ItemData->id;
+		}
+		else
+		{
+			$catidmain = $product->cat_in_sefurl;
+			$pItemid = RedshopHelperUtility::getItemId($product->product_id, $catidmain);
+		}
+
+		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $pItemid);
 
 		$thumbUrl = RedShopHelperImages::getImagePath(
 							$product->product_full_image,

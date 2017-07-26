@@ -220,11 +220,10 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->filterListBySearching($cardName);
-
         $value = $I->grabTextFrom(\GiftCardManagerPage::$giftCardId);
+        $URLEdit = \GiftCardManagerPage::$URLEdit . $value;
         $I->click(['link' => $cardName]);
-        $URLEdit = \GiftCardManagerPage::$URLEdit.$value;
-        $I->amOnPage(\GiftCardManagerPage::$URLEdit);
+        $I->amOnPage($URLEdit);
         $I->waitForElement(\GiftCardManagerPage::$giftCardName);
         $I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
         $I->click(\GiftCardManagerPage::$saveButton);
@@ -237,8 +236,8 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->filterListBySearching($cardName);
         $value = $I->grabTextFrom(\GiftCardManagerPage::$giftCardId);
+        $URLEdit = \GiftCardManagerPage::$URLEdit . $value;
         $I->click(['link' => $cardName]);
-        $URLEdit = \GiftCardManagerPage::$URLEdit.$value;
         $I->amOnPage($URLEdit);
         $I->click(\GiftCardManagerPage::$closeButton);
         $I->filterListBySearching($cardName);
