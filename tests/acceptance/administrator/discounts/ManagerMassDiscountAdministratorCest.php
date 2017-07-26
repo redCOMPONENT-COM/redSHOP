@@ -12,11 +12,11 @@ class ManagerMassDiscountAdministratorCest
     {
 
         $this->faker = Faker\Factory::create();
-        $this->ProductName = 'ProductName' . rand(100, 999);
-        $this->MassDiscountName = 'MassDiscount' . rand(10, 100);
-        $this->MassDiscountNameSave = 'MassDiscountSave' . rand(10, 1000);
+        $this->ProductName = $this->faker->bothify('ProductName ?##?');
+        $this->MassDiscountName = $this->faker->bothify('MassDiscount ?##?');
+        $this->MassDiscountNameSave = $this->faker->bothify('MassDiscountSave ?###?');
         $this->MassDiscountNameEdit = 'Edit' . $this->MassDiscountName;
-        $this->CategoryName = "CategoryName" . rand(1, 100);
+        $this->CategoryName = $this->faker->bothify('CategoryName ?##?');
         $this->ManufactureName = "ManufactureName" . rand(1, 10);
         $this->MassDiscountAmoutTotal = $this->faker->numberBetween(10, 100);
         $this->MassDiscountPercent = 0.3;
@@ -28,7 +28,8 @@ class ManagerMassDiscountAdministratorCest
         $this->randomProductNumber = $this->faker->numberBetween(999, 9999);
         $this->randomProductNumberNew = $this->faker->numberBetween(999, 9999);
         $this->randomProductAttributeNumber = $this->faker->numberBetween(999, 9999);
-        $this->randomProductNameAttribute = 'Testing Attribute' . rand(99, 999);
+        $this->randomProductNameAttribute =    $this->CategoryName = $this->faker->bothify('Testing Attribute ?##?');
+
         $this->randomProductPrice = $this->faker->numberBetween(99, 199);
         $this->discountPriceThanPrice = $this->faker->numberBetween(10, 100);;
         $this->statusProducts = 'Product on sale';
@@ -37,11 +38,14 @@ class ManagerMassDiscountAdministratorCest
         $this->nameAttribute = 'Size';
         $this->valueAttribute = "Z";
         $this->priceAttribute = $this->faker->numberBetween(1, 30);
-        $this->nameProductAccessories = "redFORM";
-        $this->nameRelatedProduct = "redITEM";
+        $this->nameProductAccessories = $this->faker->bothify('ProductNameAccess ?##?');
+        $this->nameRelatedProduct =$this->faker->bothify('ProductNameRelated ?##?');
         $this->quantityStock = $this->faker->numberBetween(10, 100);;
         $this->PreorderStock = $this->faker->numberBetween(10, 100);;
-        $this->priceProductForThan = $this->faker->numberBetween(10, 100);;
+        $this->priceProductForThan = $this->faker->numberBetween(10, 100);
+        $this->randomProductNumberRelated=$this->faker->numberBetween(100,1000);
+        $this->randomProductNumberAccess=$this->faker->numberBetween(1000,10000);
+
 
     }
 
@@ -70,6 +74,10 @@ class ManagerMassDiscountAdministratorCest
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('I Want to add product inside the category');
         $I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+        $I->createProductSave($this->nameRelatedProduct, $this->CategoryName, $this->randomProductNumberRelated, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+        $I->createProductSave($this->nameProductAccessories, $this->CategoryName, $this->randomProductNumberAccess, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+
+
     }
 
     /*
