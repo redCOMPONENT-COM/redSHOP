@@ -31,7 +31,14 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 		$this->loadLanguage();
 	}
 
-	function onListRates(&$data)
+	/**
+	 * onListRates
+	 *
+	 * @param   array  $data  Array values
+	 *
+	 * @return array
+	 */
+	public function onListRates(&$data)
 	{
 		$cart = JFactory::getSession()->get('cart');
 
@@ -325,8 +332,36 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 
 		$data->address .= ' ' . $userDistrict . ' ' . $userCity;
 		$data->city = $userCity;
+	}
 
-		$serviceList = $this->getServiceList($districtField->data_txt);
+	/**
+	 * trigger before after order status changed
+	 *
+	 * @param   object  $data  Order payment data
+	 *
+	 * @return void
+	 */
+	public function sendOrderShipping($data)
+	{
+		$paymentData = RedshopHelperOrder::getOrderPaymentDetail($data->order_id);
+
+		if ($paymentData->payment_method_class != 'rs_payment_banktransfer' && $data->order_payment_status_code != 'Paid')
+		{
+			return;
+		}
+
+		$shippingData  = RedshopHelperOrder::getOrderShippingUserInfo($data->order_id);
+		$userInfoId    = $shippingData->users_info_id;
+		$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_district', 14, $userInfoId);
+
+		if (empty($districtField))
+		{
+			$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_billing_district', 7, $userInfoId);
+		}
+
+		$district = $districtField->data_txt;
+
+		$serviceList = $this->getServiceList($district);
 		$serviceId = $serviceList['Services'][0]['ShippingServiceID'];
 
 		if (empty($serviceId))
@@ -334,10 +369,8 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			return;
 		}
 
-		$ghnOrder = $this->createShippingOrder($data->order_id, $serviceId, $districtField->data_txt, $data);
+		$ghnOrder = $this->createShippingOrder($data->order_id, $serviceId, $district, $shippingData);
 		$this->updateOrder($data->order_id, $ghnOrder);
-
-		return;
 	}
 
 	/**
