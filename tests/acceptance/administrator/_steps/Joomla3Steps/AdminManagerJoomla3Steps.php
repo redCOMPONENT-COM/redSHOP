@@ -112,7 +112,6 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         }else{
             $result = 'unpublished';
         }
-
         return $result;
     }
 
@@ -159,7 +158,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
         $I->executeJS('window.scrollTo(0,0)');
         $I->fillField($searchField, $text);
         $I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-        $I->waitForElement(['link' => $text], 60);
+        $I->waitForElement(['link' => $text]);
     }
     public function filterListBySearchingProduct($text, $searchField = ['id' => 'keyword'])
     {

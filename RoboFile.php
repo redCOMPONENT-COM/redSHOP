@@ -54,21 +54,6 @@ class RoboFile extends \Robo\Tasks
         date_default_timezone_set('UTC');
     }
 
-//	/**
-//	 * Hello World example task.
-//	 *
-//	 * @see  https://github.com/redCOMPONENT-COM/robo/blob/master/src/HelloWorld.php
-//	 * @link https://packagist.org/packages/redcomponent/robo
-//	 *
-//	 * @return object Result
-//	 */
-//	public function sayHelloWorld()
-//	{
-//		$result = $this->taskHelloWorld()->run();
-//
-//		return $result;
-//	}
-
     /**
      * Sends Codeception errors to Slack
      *
@@ -102,11 +87,11 @@ class RoboFile extends \Robo\Tasks
     /**
      * Downloads and prepares a Joomla CMS site for testing
      *
-     * @param   int $use_htaccess (1/0) Rename and enable embedded Joomla .htaccess file
+     * @param   int  $useHtaccess  (1/0) Rename and enable embedded Joomla .htaccess file
      *
      * @return mixed
      */
-    public function prepareSiteForSystemTests($use_htaccess = 0)
+    public function prepareSiteForSystemTests($useHtaccess = 0)
     {
         // Caching cloned installations locally
         if (!is_dir('tests/cache') || (time() - filemtime('tests/cache') > 60 * 60 * 24))
@@ -143,7 +128,7 @@ class RoboFile extends \Robo\Tasks
         }
 
         // Optionally uses Joomla default htaccess file
-        if ($use_htaccess == 1)
+        if ($useHtaccess == 1)
         {
             $this->_copy($this->cmsPath . '/htaccess.txt', $this->cmsPath . '/.htaccess');
             $this->_exec('sed -e "s,# RewriteBase /,RewriteBase /' . $this->cmsPath . '/,g" --in-place ' . $this->cmsPath . '/.htaccess');
@@ -156,7 +141,7 @@ class RoboFile extends \Robo\Tasks
 
         $this->taskComposerInstall()->run();
 
-//		$this->runSelenium();
+        // $this->runSelenium();
 
         $this->taskSeleniumStandaloneServer()
             ->setURL("http://localhost:4444")
@@ -344,17 +329,21 @@ class RoboFile extends \Robo\Tasks
     /**
      * Function to Run tests in a Group
      *
-     * @return void
+     * @param   int  $useHtaccess  Use htacess.
+     *
+     * @return  void
      */
-    public function runTests($use_htaccess = 0)
+    public function runTests($useHtaccess = 0)
     {
-        $this->prepareSiteForSystemTests($use_htaccess);
+        $this->prepareSiteForSystemTests($useHtaccess);
+
+        $this->checkTravisWebserver();
 
         $this->getComposer();
 
         $this->taskComposerInstall()->run();
 
-//		$this->runSelenium();
+        // $this->runSelenium();
 
         $this->taskSeleniumStandaloneServer()
             ->setURL("http://localhost:4444")
@@ -368,7 +357,7 @@ class RoboFile extends \Robo\Tasks
 
         $this->taskCodecept()
             ->arg('--steps')
-            ->arg('--debug')
+            // ->arg('--debug')
             ->arg('--tap')
             ->arg('--fail-fast')
             ->arg('tests/acceptance/install/')
@@ -424,6 +413,69 @@ class RoboFile extends \Robo\Tasks
          * ->run()
          * ->stopOnFail();
          */
+
+        $this->killSelenium();
+    }
+
+    /**
+     * Method for run specific scenario
+     *
+     * @param   string  $testCase  Scenario case.
+     *                            (example: "acceptance/install" for folder, "acceptance/integration/productCheckoutVatExemptUser" for file)
+     *
+     * @return  void
+     */
+    public function runTravis($testCase)
+    {
+        $this->prepareSiteForSystemTests(1);
+
+        $this->checkTravisWebserver();
+
+        $testPath = __DIR__ . '/tests/' . $testCase;
+
+        // Populate test case. In case this path is not an exist folder.
+        if (!file_exists($testPath) || !is_dir($testPath))
+        {
+            $testCase .= 'Cest.php';
+        }
+
+        $this->taskSeleniumStandaloneServer()
+            ->setURL('http://localhost:4444')
+            ->runSelenium()
+            ->waitForSelenium()
+            ->run()
+            ->stopOnFail();
+
+        // Make sure to Run the B uild Command to Generate AcceptanceTester
+        $this->_exec('vendor/bin/codecept build');
+
+        // Install Joomla + redSHOP
+        $this->taskCodecept()
+            ->arg('--steps')
+            ->arg('--debug')
+            ->arg('--tap')
+            ->arg('--fail-fast')
+            ->arg('tests/acceptance/install/')
+            ->run()
+            ->stopOnFail();
+
+        // Run specific task
+        $this->taskCodecept()
+            ->test('tests/' . $testCase)
+            // ->arg('--steps')
+            // ->arg('--debug')
+            ->arg('--tap')
+            ->arg('--fail-fast')
+            ->run()
+            ->stopOnFail();
+
+        // Uninstall after test.
+        $this->taskCodecept()
+            ->arg('--tap')
+            ->arg('--fail-fast')
+            ->arg('tests/acceptance/uninstall/')
+            ->run()
+            ->stopOnFail();
 
         $this->killSelenium();
     }

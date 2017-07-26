@@ -15,73 +15,57 @@
  */
 class CustomFieldManagerJoomla3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=fields';
+    public static $URL = '/administrator/index.php?option=com_redshop&view=fields';
 
-	public static $fieldName = "//input[@id='jform_name']";
+    public static $fieldName = "//input[@id='jform_name']";
 
-	public static $fieldTitle = "//input[@id='jform_title']";
+    public static $fieldTitle = "//input[@id='jform_title']";
 
+    public static $fieldTypeDropDown = "//div[@id='jform_type_chzn']/a";
 
+    public static $fieldTypeSearchField = "//div[@id='jform_type_chzn']/div/div/input";
 
+    public static $fieldSectionDropDown = "//div[@id='jform_section_chzn']/a";
 
-	public static $fieldTypeDropDown = ['id' => 's2id_jform_type'];
+    public static $fieldSectionSearchField = "//div[@id='jform_section_chzn']/div/div/input";
 
-	public static $fieldTypeSearch= ['id' => 's2id_autogen1_search'];
+    public static $fieldSuccessMessage = 'Field details saved';
 
-	public static $fieldSectionDropDown=['id'=>'s2id_jform_section'];
+    public static $fieldMessagesLocation = "//div[@id='system-message-container']/div/p";
 
-	public static $fieldSectionSearch=['id'=>'s2id_autogen2_search'];
+    public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
 
+    public static $selectFirst = "//input[@id='cb0']";
 
+    public static $fieldStatePath = "//div[@id='editcell']/table/tbody/tr[1]/td[8]/a";
 
-	public static $fieldTypeSearchField = "//div[@id='jform_type_chzn']/div/div/input";
+    public static $optionValueField = "//input[@name='extra_value[]']";
 
-//	public static $fieldSectionDropDown = "//div[@id='jform_section_chzn']/a";
-
-	public static $fieldSectionSearchField = "//div[@id='jform_section_chzn']/div/div/input";
-
-	public static $fieldSuccessMessage = 'Item saved.';
-
-	public static $fieldMessagesLocation = "//div[@id='system-message-container']/div/p";
-
-	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
-
-	public static $selectFirst = "//input[@id='cb0']";
-
-	public static $fieldStatePath = "//div[@id='editcell']/table/tbody/tr[1]/td[8]/a";
-
-	public static $optionValueField = "//input[@name='extra_value[]']";
-
-	/**
-	 * Function to get the path for Field Type
-	 *
-	 * @param   String  $type  Type of Field to be Added
-	 *
-	 * @return string
-	 */
-	public function fieldType($type)
-	{
-		$path = "//div[@id='jform_type_chzn']/div/ul/li//em[contains(text(),'" . $type . "')]";
-
-		return $path;
-	}
-
-	/**
-	 * Function to get the path for Field Section
-	 *
-	 * @param   String  $section  Section of Field to be Added
-	 *
-	 * @return string
-	 */
-	public function fieldSection($section)
-	{
-		$path = "//div[@id='jform_section_chzn']/div/ul/li//em[contains(text(),'" . $section . "')]";
-
-		return $path;
-	}
-
-    public function xPathChoice($typeChoice)
+    /**
+     * Function to get the path for Field Type
+     *
+     * @param   String  $type  Type of Field to be Added
+     *
+     * @return string
+     */
+    public function fieldType($type)
     {
-        $path = ['xpath' => "//span[contains(text(), '" . $typeChoice . "')]"];
+        $path = "//div[@id='jform_type_chzn']/div/ul/li//em[contains(text(),'" . $type . "')]";
+
         return $path;
-    }}
+    }
+
+    /**
+     * Function to get the path for Field Section
+     *
+     * @param   String  $section  Section of Field to be Added
+     *
+     * @return string
+     */
+    public function fieldSection($section)
+    {
+        $path = "//div[@id='jform_section_chzn']/div/ul/li//em[contains(text(),'" . $section . "')]";
+
+        return $path;
+    }
+}
