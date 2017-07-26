@@ -915,6 +915,8 @@ function onestepCheckoutProcess(objectname,classname)
 			sid	: Math.random()
 		};
 
+		jQuery(redSHOP).trigger("onBeforeOneStepCheckoutProcess", [postParams]);
+
 		var url= redSHOP.RSConfig._('SITE_URL')+'index.php?tmpl=component';
 
 		if(document.getElementById('divShippingRate') && (objectname=="users_info_id" || objectname=="shipping_box_id"))
