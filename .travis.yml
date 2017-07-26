@@ -24,7 +24,8 @@ install:
 
 env:
   matrix:
-      - TEST_FOLDER=acceptance/administrator/giftcard
+      - ACCEPTANCE=false # this will run phpcs checks etc
+      - ACCEPTANCE=true # this will run acceptance test
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
