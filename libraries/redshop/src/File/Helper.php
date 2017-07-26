@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Redshop\File
- * @subpackage
+ * @package     RedShop
+ * @subpackage  Libraries
  *
- * @copyright   A copyright
- * @license     A "Slug" license name e.g. GPL2
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Redshop\File;
