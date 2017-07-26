@@ -18,7 +18,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgOrderSms extends JPlugin
+class PlgRedshop_OrderSms extends JPlugin
 {
 	/**
 	 * Constructor - note in Joomla 2.5 PHP4.x is no longer supported so we can use this.

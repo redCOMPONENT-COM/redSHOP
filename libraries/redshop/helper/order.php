@@ -1068,9 +1068,9 @@ class RedshopHelperOrder
 			}
 
 			// Trigger function on Order Status change
-			JPluginHelper::importPlugin('order');
+			JPluginHelper::importPlugin('redshop_order');
 			RedshopHelperUtility::getDispatcher()->trigger(
-				'onAfterOrderStatusUpdate', 
+				'onAfterOrderStatusUpdate',
 				array(
 					self::getOrderDetails($orderId),
 					$data->order_status_code
@@ -1345,7 +1345,7 @@ class RedshopHelperOrder
 			self::updateOrderStatus($orderId, $newStatus);
 
 			// Trigger function on Order Status change
-			JPluginHelper::importPlugin('order');
+			JPluginHelper::importPlugin('redshop_order');
 
 			RedshopHelperUtility::getDispatcher()->trigger(
 				'onAfterOrderStatusUpdate',
