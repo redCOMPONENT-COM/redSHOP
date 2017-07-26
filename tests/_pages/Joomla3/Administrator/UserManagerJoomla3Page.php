@@ -97,12 +97,18 @@ class UserManagerJoomla3Page
 
     public static $addButton = "Add";
 
+    //selector
+    public static $selectorSuccess = '.alert-success';
+
+    public static $selectorError = '.alert-danger';
+
+    public static $selectorNamePage = '.page-title';
+
 
     //selector
 
-    public static $selectorSuccess = '.alert-success';
 
-    public static $selectorError = ['xpath' => "//div[@id='system-message']/div/div/p[1]"];
+    public static $xPathError = ['xpath' => "//div[@id='system-message']/div/div/p[1]"];
 
     public static $errorUserReady = ['xpath' => "//div[@id='system-message']/div/h4"];
 

@@ -23,6 +23,7 @@ class ManageUserAdministratorCest
         $this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
         $this->password = $this->faker->bothify('Password ?##?');
         $this->email = $this->faker->email;
+        $this->emailMissingUser=$this->faker->email;
         $this->emailsave = $this->faker->email;
         $this->shopperGroup = 'Default Private';
         $this->group = 'Public';
@@ -34,172 +35,60 @@ class ManageUserAdministratorCest
         $this->emailWrong = "email";
         $this->userNameEdit = "UserNameSave" . $this->faker->randomNumber();
         $this->emailMatching = $this->faker->email;
-        $this->userMissing=$this->faker->bothify('ManageUserMissingAdministratorCest ?##?');
+        $this->userMissing = $this->faker->bothify('ManageUserMissingAdministratorCest ?##?');
     }
-
-    /**
-     * Function to Test User Creation in Backend
-     *
-     */
-    public function createUser(AcceptanceTester $I, $scenario)
+    public function _before(AcceptanceTester $I)
     {
-        $I->wantTo('Test User creation with save and close button in Administrator');
         $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
-        $I->searchUser($this->firstName);
     }
 
     /**
-     * Function create user with save button
+     *
+     * Function add user with save and save &c lose button
      *
      * @param AcceptanceTester $I
      * @param $scenario
-     *
      */
-    public function addUserSave(AcceptanceTester $I, $scenario)
+    public function addUser(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test User creation with save button in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUser($this->userNameEdit, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave);
-        $I->searchUser($this->firstNameSave);
+        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
+        $I->addUser($this->userNameEdit, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'saveclose');
+
     }
 
     /**
      *
-     * add user with missing email
-     *
-     * @param AcceptanceTester $I
-     * @param $scenario
-     *
-     */
-    public function addUserMissingEmailSave(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test User  missing email in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUserMissingEmailSave($this->userName, $this->password, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave);
-    }
-
-    /**
-     *
-     * Create User with wrong email
+     * Function create user with missing field
      *
      * @param AcceptanceTester $I
      * @param $scenario
      */
-    public function addUserEmailWrongSave(AcceptanceTester $I, $scenario)
+    public function addUserMissing(AcceptanceTester $I, $scenario)
     {
-        $I->wantTo('Test User creation in Administrator');
-        $I->doAdministratorLogin();
+        $I->wantTo('Test User creation with save button in Administrator');
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUserEmailWrongSave($this->userMissing, $this->password, $this->emailWrong, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
+        $I->addUserMissing($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'email');
+        $I->addUserMissing($this->userMissing, $this->password, $this->emailWrong, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'wrongemail');
+        $I->addUserMissing($this->userMissing, $this->password, $this->emailMissingUser, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'userName');
+        $I->addUserMissing($this->userNameEdit, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'readyUser');
+        $I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'readyEmail');
+        $I->addUserMissing($this->userNameEdit . "editMail1Test", $this->password, $this->emailMatching, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'passwordNotMatching');
+        $I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailMatching, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'missingShopper');
+        $I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailMatching, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'missingJoomlaGroup');
+        $I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'firstName');
+        $I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'lastName');
     }
-
-    public function addUserMissingUserNameSave(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test User creation in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUserMissingUserNameSave($this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
-    }
-
-    public function addReadyUserSave(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test User creation in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addReadyUserSave($this->userNameEdit, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave);
-    }
-
-    public function addReadyEmailSave(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test User creation in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addReadyEmailSave($this->userNameEdit . "editMail", $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave);
-    }
-
-    public function addUserWithPasswordNotMaching(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test User creation in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUserWithPasswordNotMatching($this->userNameEdit . "editMail1", $this->password, $this->emailMatching, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave);
-    }
-
-
-    public function addUserMissingShopperGroup(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test User creation in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUserMissingShopperGroup($this->userNameEdit . "editMail1", $this->password, $this->emailMatching, $this->group, $this->firstNameSave, $this->lastNameSave);
-
-    }
-
-    public function addUserMissingJoomlaGroup(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test User creation in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUserMissingJoomlaGroup($this->userNameEdit . "editMail1", $this->password, $this->emailMatching, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave);
-    }
-
-    public function addUserMissingFirstName(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test User creation in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUserMissingFirstName($this->userNameEdit, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->lastNameSave);
-    }
-
-    public function addUserMissingLastName(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test User creation in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUserMissingLastName($this->userNameEdit, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave);
-    }
-
-    public function checkCancelButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test User creation in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->checkCancelButton();
-        $I->see(\UserManagerJoomla3Page::$namePage, \UserManagerJoomla3Page::$selectorPageManagement);
-    }
-
-    public function checkEditButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test User creation in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->checkEditButton();
-        $I->see(\UserManagerJoomla3Page::$namePage, \UserManagerJoomla3Page::$selectorPageManagement);
-    }
-
-    public function checkDeleteButton(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Test User creation in Administrator');
-        $I->doAdministratorLogin();
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->checkDeleteButton();
-        $I->see(\UserManagerJoomla3Page::$namePage, \UserManagerJoomla3Page::$selectorPageManagement);
-    }
-
 
     /**
      * Function to Test User Update in the Administrator
      *
-     * @depends createUser
+     * @depends addUser
      */
     public function updateUser(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test if User gets updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->editUser($this->firstName, $this->updateFirstName);
         $I->searchUser($this->updateFirstName);
@@ -208,12 +97,11 @@ class ManageUserAdministratorCest
     /**
      * Function to Test User Update in the Administrator
      *
-     * @depends createUser
+     * @depends addUser
      */
     public function updateReadyUserName(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test if User gets updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->editUserReady($this->updateFirstName, $this->userNameEdit);
     }
@@ -221,7 +109,6 @@ class ManageUserAdministratorCest
     public function checkCloseButton(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test if User gets updated in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->checkCloseButton($this->updateFirstName);
         $I->searchUser($this->updateFirstName);
@@ -235,10 +122,16 @@ class ManageUserAdministratorCest
     public function deleteUser(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Deletion of User in Administrator');
-        $I->doAdministratorLogin();
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->deleteUser($this->updateFirstName, false);
     }
 
-
+    public function checkButtons(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test to validate different buttons on Gift Card Views');
+        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+        $I->checkButtons('edit');
+        $I->checkButtons('cancel');
+        $I->checkButtons('delete');
+    }
 }

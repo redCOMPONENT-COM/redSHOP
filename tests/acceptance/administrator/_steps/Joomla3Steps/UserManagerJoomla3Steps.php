@@ -31,340 +31,279 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
      *
      * @return void
      */
-    public function addUser($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName)
-    {
+    public function addUser($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName,$function){
         $I = $this;
         $I->amOnPage(\UserManagerJoomla3Page::$URL);
         $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(), \UserManagerJoomla3Page::$pageNotice);
         $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
-        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$email, $email);
-        $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
-        $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-        $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
-        $I->click($userManagerPage->shopperGroup($shopperGroup));
-        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
-        $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
-        $I->click(\UserManagerJoomla3Page::$saveCloseButton);
-        $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, \UserManagerJoomla3Page::$selectorSuccess);
-        $I->see(\UserManagerJoomla3Page::$userSuccessMessage,\UserManagerJoomla3Page::$selectorSuccess);
-        $I->executeJS('window.scrollTo(0,0)');
-        $I->click(\UserManagerJoomla3Page::$linkUser);
-        $I->see($firstName, \UserManagerJoomla3Page::$firstResultRow);
-        $I->executeJS('window.scrollTo(0,0)');
-        $I->click(\UserManagerJoomla3Page::$linkUser);
+        switch ($function){
+            case 'save':
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
+                $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$email, $email);
+                $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+                $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
+                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+                $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
+                $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->click(\UserManagerJoomla3Page::$saveCloseButton);
+                $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, \UserManagerJoomla3Page::$selectorSuccess);
+                $I->see(\UserManagerJoomla3Page::$userSuccessMessage,\UserManagerJoomla3Page::$selectorSuccess);
+                $I->executeJS('window.scrollTo(0,0)');
+                $I->click(\UserManagerJoomla3Page::$linkUser);
+                $I->see($firstName, \UserManagerJoomla3Page::$firstResultRow);
+                $I->executeJS('window.scrollTo(0,0)');
+                $I->click(\UserManagerJoomla3Page::$linkUser);
+                break;
+            case 'saveclose':
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
+                $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$email, $email);
+                $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+                $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
+                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+                $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
+                $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->click(\UserManagerJoomla3Page::$saveButton);
+                $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60,\UserManagerJoomla3Page::$selectorSuccess);
+                $I->see(\UserManagerJoomla3Page::$userSuccessMessage,\UserManagerJoomla3Page::$selectorSuccess);
+                break;
+        }
+
     }
 
-    public function addUserSave($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName)
-    {
+
+    public function addUserMissing($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName,$function){
         $I = $this;
         $I->amOnPage(\UserManagerJoomla3Page::$URL);
         $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(), \UserManagerJoomla3Page::$pageNotice);
         $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
-        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$email, $email);
-        $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
-        $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-        $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
-        $I->click($userManagerPage->shopperGroup($shopperGroup));
-        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
-        $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
-        $I->click(\UserManagerJoomla3Page::$saveButton);
-        $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60,\UserManagerJoomla3Page::$selectorSuccess);
-        $I->see(\UserManagerJoomla3Page::$userSuccessMessage,\UserManagerJoomla3Page::$selectorSuccess);
+        switch ($function){
+            case 'email':
+                //function missing email
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
+                $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
+                $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+                $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
+                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+                $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
+                $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->click(\UserManagerJoomla3Page::$saveButton);
+                $I->acceptPopup();
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                break;
+            case 'wrongemail':
+                //function wrong email
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
+                $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$email, $email);
+                $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+                $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
+                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+                $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
+                $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->click(\UserManagerJoomla3Page::$saveButton);
+                $I->waitForText(\UserManagerJoomla3Page::$emailInvalid, 60, \UserManagerJoomla3Page::$xPathError);
+                $I->see(\UserManagerJoomla3Page::$emailInvalid, \UserManagerJoomla3Page::$xPathError);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                break;
+            case 'userName':
+                //function missing username
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$email, $email);
+                $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+                $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
+                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+                $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
+                $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->click(\UserManagerJoomla3Page::$saveButton);
+                $I->acceptPopup();
+                break;
+            case 'readyUser':
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
+                $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$email, $email);
+                $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+                $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
+                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+                $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
+                $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->click(\UserManagerJoomla3Page::$saveButton);
+                $I->waitForText(\UserManagerJoomla3Page::$saveErrorUserAlready, 60, \UserManagerJoomla3Page::$xPathError);
+                $I->see(\UserManagerJoomla3Page::$saveErrorUserAlready, \UserManagerJoomla3Page::$xPathError);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                break;
+            case 'readyEmail':
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
+                $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$email, $email);
+                $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+                $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
+                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+                $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
+                $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->click(\UserManagerJoomla3Page::$saveButton);
+                $I->see(\UserManagerJoomla3Page::$saveErrorEmailAlready,\UserManagerJoomla3Page::$xPathError);
+                break;
+            case 'passwordNotMatching':
+
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
+                $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, "Edit");
+                $I->fillField(\UserManagerJoomla3Page::$email, $email);
+                $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+                $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
+                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+                $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
+                $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->click(\UserManagerJoomla3Page::$saveButton);
+                $I->acceptPopup();
+                break;
+            case 'missingShopper':
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
+                $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$email, $email);
+                $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+                $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
+                $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->click(\UserManagerJoomla3Page::$saveButton);
+                $I->acceptPopup();
+                break;
+            case 'missingJoomlaGroup':
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
+                $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password . "Edit");
+                $I->fillField(\UserManagerJoomla3Page::$email, $email);
+                $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
+                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+                $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
+                $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->click(\UserManagerJoomla3Page::$saveButton);
+                $I->acceptPopup();
+                break;
+            case 'firstName':
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
+                $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$email, $email);
+                $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+                $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
+                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+                $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->click(\UserManagerJoomla3Page::$saveButton);
+                $I->acceptPopup();
+                break;
+            case 'lastName':
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
+                $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
+                $I->fillField(\UserManagerJoomla3Page::$email, $email);
+                $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
+                $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
+                $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
+                $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->click(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
+                $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
+                $I->click(\UserManagerJoomla3Page::$saveButton);
+                $I->acceptPopup();
+                break;
+
+        }
     }
 
-    public function addUserMissingEmailSave($userName, $password, $group, $shopperGroup, $firstName, $lastName)
+    /**
+     * Function to do the validation for different buttons on gift card views
+     *
+     * @param $buttonName
+     *
+     */
+    public function checkButtons($buttonName)
     {
         $I = $this;
         $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(),\UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
-        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
-        $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
-        $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-        $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
-        $I->click($userManagerPage->shopperGroup($shopperGroup));
-        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
-        $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
-        $I->click(\UserManagerJoomla3Page::$saveButton);
-        $I->acceptPopup();
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-    }
+        $I->waitForText(\UserManagerJoomla3Page::$namePage, 30, \UserManagerJoomla3Page::$selectorNamePage);
 
-    public function addUserEmailWrongSave($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName)
-    {
-        $I = $this;
-        $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(),\UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
-        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$email, $email);
-        $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
-        $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-        $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
-        $I->click($userManagerPage->shopperGroup($shopperGroup));
-        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
-        $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
-        $I->click(\UserManagerJoomla3Page::$saveButton);
-        $I->waitForText(\UserManagerJoomla3Page::$emailInvalid, 60, \UserManagerJoomla3Page::$selectorError);
-        $I->see(\UserManagerJoomla3Page::$emailInvalid, \UserManagerJoomla3Page::$selectorError);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-    }
-
-    public function addUserMissingUserNameSave($password, $email, $group, $shopperGroup, $firstName, $lastName)
-    {
-        $I = $this;
-        $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(),\UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$email, $email);
-        $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
-        $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-        $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
-        $I->click($userManagerPage->shopperGroup($shopperGroup));
-        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
-        $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
-        $I->click(\UserManagerJoomla3Page::$saveButton);
-        $I->acceptPopup();
-    }
-
-    public function addReadyUserSave($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName)
-    {
-        $I = $this;
-        $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(),\UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
-        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$email, $email);
-        $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
-        $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-        $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
-        $I->click($userManagerPage->shopperGroup($shopperGroup));
-        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
-        $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
-        $I->click(\UserManagerJoomla3Page::$saveButton);
-        $I->waitForText(\UserManagerJoomla3Page::$saveErrorUserAlready, 60, \UserManagerJoomla3Page::$selectorError);
-        $I->see(\UserManagerJoomla3Page::$saveErrorUserAlready, \UserManagerJoomla3Page::$selectorError);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-    }
-
-    public function addReadyEmailSave($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName)
-    {
-        $I = $this;
-        $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(),\UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
-        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$email, $email);
-        $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
-        $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-        $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
-        $I->click($userManagerPage->shopperGroup($shopperGroup));
-        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
-        $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
-        $I->click(\UserManagerJoomla3Page::$saveButton);
-        $I->see(\UserManagerJoomla3Page::$saveErrorEmailAlready,\UserManagerJoomla3Page::$selectorError);
-    }
-
-    public function addUserWithPasswordNotMatching($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName)
-    {
-        $I = $this;
-        $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(),\UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
-        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, "Edit");
-        $I->fillField(\UserManagerJoomla3Page::$email, $email);
-        $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
-        $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-        $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
-        $I->click($userManagerPage->shopperGroup($shopperGroup));
-        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
-        $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
-        $I->click(\UserManagerJoomla3Page::$saveButton);
-        $I->acceptPopup();
-    }
-
-    public function addUserMissingShopperGroup($userName, $password, $email, $group, $firstName, $lastName)
-    {
-        $I = $this;
-        $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(),\UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
-        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$email, $email);
-        $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
-        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
-        $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
-        $I->click(\UserManagerJoomla3Page::$saveButton);
-        $I->acceptPopup();
-    }
-
-    public function addUserMissingJoomlaGroup($userName, $password, $email, $shopperGroup, $firstName, $lastName)
-    {
-        $I = $this;
-        $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(),\UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
-        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password . "Edit");
-        $I->fillField(\UserManagerJoomla3Page::$email, $email);
-        $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-        $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
-        $I->click($userManagerPage->shopperGroup($shopperGroup));
-        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
-        $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
-        $I->click(\UserManagerJoomla3Page::$saveButton);
-        $I->acceptPopup();
-    }
-
-    public function addUserMissingFirstName($userName, $password, $email, $group, $shopperGroup, $lastName)
-    {
-        $I = $this;
-        $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(),\UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
-        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$email, $email);
-        $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
-        $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-        $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
-        $I->click($userManagerPage->shopperGroup($shopperGroup));
-        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
-        $I->click(\UserManagerJoomla3Page::$saveButton);
-        $I->acceptPopup();
-    }
-
-
-    public function addUserMissingLastName($userName, $password, $email, $group, $shopperGroup, $firstName)
-    {
-        $I = $this;
-        $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(),\UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
-        $I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
-        $I->fillField(\UserManagerJoomla3Page::$email, $email);
-        $I->selectOption(\UserManagerJoomla3Page::$groupRadioButton, $group);
-        $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
-        $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
-        $I->click($userManagerPage->shopperGroup($shopperGroup));
-        $I->click(\UserManagerJoomla3Page::$billingInformationTab);
-        $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
-        $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
-        $I->click(\UserManagerJoomla3Page::$saveButton);
-        $I->acceptPopup();
-    }
-
-    public function checkCancelButton()
-    {
-        $I = $this;
-        $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(),\UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$newButton);
-        $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-        $I->click(\UserManagerJoomla3Page::$cancelButton);
-    }
-
-    public function checkEditButton()
-    {
-        $I = $this;
-        $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(),\UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$editButton);
-        $I->acceptPopup();
-    }
-
-    public function checkDeleteButton()
-    {
-        $I = $this;
-        $I->amOnPage(\UserManagerJoomla3Page::$URL);
-        $userManagerPage = new \UserManagerJoomla3Page;
-        $I->verifyNotices(false, $this->checkForNotices(), \UserManagerJoomla3Page::$pageNotice);
-        $I->click(\UserManagerJoomla3Page::$deleteButton);
-        $I->acceptPopup();
+        switch ($buttonName) {
+            case 'cancel':
+                $I->click(\UserManagerJoomla3Page::$newButton);
+                $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
+                $I->click(\UserManagerJoomla3Page::$cancelButton);
+                break;
+            case 'edit':
+                $I->click(\UserManagerJoomla3Page::$editButton);
+                $I->acceptPopup();
+                break;
+            case 'delete':
+                $I->click(\UserManagerJoomla3Page::$deleteButton);
+                $I->acceptPopup();
+                break;
+        }
+        $I->see(\UserManagerJoomla3Page::$namePage, \UserManagerJoomla3Page::$selectorNamePage);
     }
 
     /**
@@ -436,9 +375,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\UserManagerJoomla3Page::$city, $city);
         $I->fillField(\UserManagerJoomla3Page::$phone, $phone);
         $I->fillField(\UserManagerJoomla3Page::$zipcode, $zipcode);
-
     }
-
 
     public function checkCloseButton($firstName)
     {
