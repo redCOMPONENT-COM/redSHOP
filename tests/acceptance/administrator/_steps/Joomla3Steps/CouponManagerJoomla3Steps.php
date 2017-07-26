@@ -105,17 +105,6 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\CouponManagerJ3Page::$selectContainer, 60);
     }
 
-    public function checkCancelButton()
-    {
-        $I = $this;
-        $I->amOnPage(\CouponManagerJ3Page::$URL);
-        $I->checkForPhpNoticesOrWarnings(\CouponManagerJ3Page::$URL);
-//        $couponManagerPage = new \CouponManagerJ3Page;
-        $I->click(\CouponManagerJ3Page::$newButton);
-        $I->checkForPhpNoticesOrWarnings(\CouponManagerJ3Page::$URLNew);
-        $I->click(\CouponManagerJ3Page::$cancelButton);
-    }
-
     /**
      * Function to Edit Coupon Code
      *
@@ -132,14 +121,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->searchCoupon($couponCode);
         $I->wait(3);
-        $value = $I->grabTextFrom($couponCode, \CouponManagerJ3Page::$couponId);
-        $URLEdit = \GiftCardManagerPage::$URLEdit . $value;
-
         $I->click(['link' => $couponCode]);
-//        $I->see($couponCode, \CouponManagerJ3Page::$firstResultRow);
-//        $I->click(\CouponManagerJ3Page::$selectFirst);
-//        $I->click(\CouponManagerJ3Page::$editButton);
-        $I->checkForPhpNoticesOrWarnings($URLEdit);
         $I->waitForElement(\CouponManagerJ3Page::$couponCode, 20);
         $I->fillField(\CouponManagerJ3Page::$couponCode, $newCouponCode);
         $I->click(\CouponManagerJ3Page::$saveCloseButton);
@@ -181,7 +163,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
      */
     public function searchCoupon($couponCode, $functionName = 'Search')
     {
-        $this->search(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$firstResultRow, $functionName);
+        $this->search(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$xPathState, $functionName);
     }
 
     /**
@@ -270,6 +252,38 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->acceptPopup();
     }
 
+    public function checkButtons($buttonName)
+    {
+        $I = $this;
+        $I->amOnPage(\CouponManagerJ3Page::$URL);
+        $I->waitForText(\CouponManagerJ3Page::$namePageManagement, 30, \CouponManagerJ3Page::$selectorNamePage);
+
+        switch ($buttonName) {
+            case 'cancel':
+                $I->click(\CouponManagerJ3Page::$newButton);
+                $I->waitForElement(\CouponManagerJ3Page::$couponCode, 30);
+                $I->click(\CouponManagerJ3Page::$cancelButton);
+                $I->see(\CouponManagerJ3Page::$namePageManagement, \CouponManagerJ3Page::$selectorNamePage);
+                break;
+            case 'edit':
+                $I->click(\CouponManagerJ3Page::$editButton);
+                $I->acceptPopup();
+                break;
+            case 'delete':
+                $I->click(\CouponManagerJ3Page::$deleteButton);
+                $I->acceptPopup();
+                break;
+            case 'publish':
+                $I->click(\CouponManagerJ3Page::$publishButton);
+                $I->acceptPopup();
+                break;
+            case 'unpublish':
+                $I->click(\CouponManagerJ3Page::$unpublishButton);
+                $I->acceptPopup();
+                break;
+        }
+        $I->see(\CouponManagerJ3Page::$namePageManagement, \CouponManagerJ3Page::$selectorNamePage);
+    }
 
     /**
      *
@@ -280,7 +294,7 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
      */
     public function getCouponState($couponCode)
     {
-        $result = $this->getState(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$firstResultRow, \CouponManagerJ3Page::$couponState);
+        $result = $this->getState(new \CouponManagerJ3Page, $couponCode, \CouponManagerJ3Page::$firstResultRow, \CouponManagerJ3Page::$xPathState);
 
         return $result;
     }
