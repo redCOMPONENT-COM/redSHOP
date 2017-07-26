@@ -1071,6 +1071,9 @@ class RedshopHelperOrder
 			JPluginHelper::importPlugin('order');
 			RedshopHelperUtility::getDispatcher()->trigger('onAfterOrderStatusUpdate', array(self::getOrderDetails($orderId)));
 
+			JPluginHelper::importPlugin('redshop_shipping');
+			RedshopHelperUtility::getDispatcher()->trigger('sendOrderShipping', array($data));
+
 			// For Webpack Postdk Label Generation
 			self::createWebPackLabel($orderId, $data->order_status_code, $data->order_payment_status_code);
 			self::createBookInvoice($orderId, $data->order_status_code);
