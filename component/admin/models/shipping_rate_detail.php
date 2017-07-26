@@ -23,9 +23,9 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 	public $_copydata = null;
 
-	public function __construct()
+	public function __construct($config = array())
 	{
-		parent::__construct();
+		parent::__construct($config);
 
 		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
@@ -318,4 +318,5 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 			'text',
 			$shippingRate->shipping_rate_state
 		);
+	}
 }
