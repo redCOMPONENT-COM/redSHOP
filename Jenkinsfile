@@ -36,10 +36,13 @@ pipeline {
             }
             steps {
                 sh 'bash build/jenkins/system-tests.sh'
+                sh 'echo $(pwd)'
             }
             post {
                 always {
                     step([$class: 'WsCleanup'])
+                    deleteDir()
+                    sh 'sudo rm -rf *'
                 }
             }
         }
