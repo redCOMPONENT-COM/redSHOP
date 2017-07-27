@@ -1016,8 +1016,10 @@ class RedshopHelperShipping
 		}
 		else
 		{
-			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", "
-				. $db->qn('shipping_rate_country') . ") )";
+			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", " . $db->qn('shipping_rate_country') . ")"
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote(0)
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote('')
+				. " )";
 		}
 
 		if ($state)
@@ -1842,8 +1844,10 @@ class RedshopHelperShipping
 		}
 		else
 		{
-			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", "
-				. $db->qn('shipping_rate_country') . ")) ";
+			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", " . $db->qn('shipping_rate_country') . ")"
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote(0)
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote('')
+				. " )";
 		}
 
 		$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);
