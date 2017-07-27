@@ -35,14 +35,15 @@ pipeline {
                 REPO='redSHOP'
             }
             steps {
-                sh 'bash build/jenkins/system-tests.sh'
                 sh 'echo $(pwd)'
             }
             post {
                 always {
                     step([$class: 'WsCleanup'])
-                    deleteDir()
-                    sh 'sudo rm -rf *'
+                    cd ../
+                    export TEMP='MPONENT-COM_redSHOP_PR-'${CHANGE_ID}'*'
+                    echo $TEMP
+                    rm -rf $TEMP
                 }
             }
         }
