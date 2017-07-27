@@ -71,16 +71,21 @@ class ManageUserAdministratorCest
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->addUserMissing($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'email');
         $I->addUserMissing($this->userMissing, $this->password, $this->emailWrong, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'wrongemail');
-        $I->addUserMissing($this->userMissing, $this->password, $this->emailMissingUser, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'userName');
+        $I->addUserMissing($this->userNameEdit, $this->password, $this->emailMissingUser, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'userName');
         $I->addUserMissing($this->userNameEdit, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'readyUser');
         $I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'readyEmail');
         $I->addUserMissing($this->userNameEdit . "editMail1Test", $this->password, $this->emailMatching, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'passwordNotMatching');
-        $I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailMatching, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'missingShopper');
-        $I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailMatching, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'missingJoomlaGroup');
+        $I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailMatching, $this->group, 'Top', $this->firstNameSave, $this->lastNameSave, 'missingShopper');
         $I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'firstName');
         $I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'lastName');
     }
 
+    public function addUserMissingJoomla(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test User creation with save button in Administrator');
+        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+        $I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailMatching, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'missingJoomlaGroup');
+    }
     /**
      * Function to Test User Update in the Administrator
      *
