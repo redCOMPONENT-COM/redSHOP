@@ -19,8 +19,8 @@ env:
   matrix:
       - ACCEPTANCE=false # this will run phpcs checks etc
       - ACCEPTANCE=acceptance/administrator # run test administrator
-      - ACCEPTANCE=administrator/products #run test product
-      - ACCEPTANCE=administrator/discounts #run test discount
+      - ACCEPTANCE=acceptance/administrator/products #run test product
+      - ACCEPTANCE=acceptance/administrator/discounts #run test discount
   global:
     - CLOUD_NAME=redcomponent
     - API_KEY=365447364384436
