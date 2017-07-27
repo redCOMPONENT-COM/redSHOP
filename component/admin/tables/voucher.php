@@ -42,30 +42,33 @@ class RedshopTableVoucher extends RedshopTable
 
 		$db = $this->getDbo();
 
-		// Check duplicate if new data.
-		if (!$this->hasPrimaryKey())
+		// Check duplicate.
+		$code = $this->get('code');
+
+		$voucherQuery = $db->getQuery(true)
+			->select($db->qn('code'))
+			->from($db->qn('#__redshop_voucher'));
+
+		if ($this->hasPrimaryKey())
 		{
-			$code = $this->get('code');
+			$voucherQuery->where($db->qn('id') . ' <> ' . $this->id);
+		}
 
-			$voucherQuery = $db->getQuery(true)
-				->select($db->qn('code'))
-				->from($db->qn('#__redshop_voucher'));
-			$couponQuery = $db->getQuery(true)
-				->select($db->qn('coupon_code', 'code'))
-				->from($db->qn('#__redshop_coupons'));
-			$couponQuery->union($voucherQuery);
+		$couponQuery = $db->getQuery(true)
+			->select($db->qn('coupon_code', 'code'))
+			->from($db->qn('#__redshop_coupons'));
+		$couponQuery->union($voucherQuery);
 
-			$query = $db->getQuery(true)
-				->select('COUNT(*)')
-				->from('(' . $couponQuery . ') AS ' . $db->qn('data'))
-				->where($db->qn('data.code') . ' = ' . $db->quote($code));
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from('(' . $couponQuery . ') AS ' . $db->qn('data'))
+			->where($db->qn('data.code') . ' = ' . $db->quote($code));
 
-			if ($db->setQuery($query)->loadResult())
-			{
-				$this->setError(JText::_('COM_REDSHOP_VOUCHER_ERROR_CODE_ALREADY_EXIST'));
+		if ($db->setQuery($query)->loadResult())
+		{
+			$this->setError(JText::_('COM_REDSHOP_VOUCHER_ERROR_CODE_ALREADY_EXIST'));
 
-				return false;
-			}
+			return false;
 		}
 
 		return true;
