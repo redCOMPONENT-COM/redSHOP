@@ -29,5 +29,7 @@ class VoucherManagerPage
 
 	public static $voucherStatePath = "//div[@id='editcell']/div[2]/table/tbody/tr/td[9]/a";
 
+    //div[@class='table-responsive']/table/tbody/tr/td[9]/a
+
 	public static $voucherSearchField = "#filter";
 }

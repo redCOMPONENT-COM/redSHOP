@@ -35,7 +35,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\UserManagerJoomla3Page::$URL);
 		$userManagerPage = new \UserManagerJoomla3Page;
-		$I->verifyNotices(false, $this->checkForNotices(), 'User Manager Page');
+		$I->checkForPhpNoticesOrWarnings(\UserManagerJoomla3Page::$URL);
 		$I->click('New');
 		$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 		$I->waitForElement(\UserManagerJoomla3Page::$userName,30);
