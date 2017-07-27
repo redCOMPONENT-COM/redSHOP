@@ -15,37 +15,64 @@
  */
 class QuestionManagerJoomla3Page
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=question';
+    public static $URL = '/administrator/index.php?option=com_redshop&view=questions';
 
-	public static $userPhone = "//input[@id='telephone']";
+    public static $userPhone = "//input[@id='jform_telephone']";
 
-	public static $productNameDropDown = "//div[@id='s2id_product_id']/a";
+    public static $productNameDropDown = ['id' => "s2id_jform_product_id"];
 
-	public static $productNameSearchField = "//input[@id='s2id_autogen1_search']";
+    public static $productSearch = ['id' => "s2id_autogen1_search"];
 
-	public static $toggleQuestionDescriptionEditor = "//div[@class='editor']//textarea[@id='question']/../div//div//a[@title='Toggle editor']";
+    public static $address = ['id' => 'jform_address'];
 
-	public static $question = "//textarea[@id='question']";
+    public static $productNameSearchField = "//input[@id='s2id_autogen1_search']";
 
-	public static $questionSuccessMessage = 'Question Detail Saved';
+    public static $toggleQuestionDescriptionEditor = "//div[@class='editor']//textarea[@id='question']/../div//div//a[@title='Toggle editor']";
 
-	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
+    public static $question = "//textarea[@id='question']";
 
-	public static $selectFirst = "//input[@id='cb0']";
+    public static $questionSuccessMessage = 'Question Detail Saved';
 
-	public static $questionStatePath = "//div[@id='editcell']//table//tbody/tr[1]/td[9]/a";
+    public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
 
-	/**
-	 * Function to get the path for Product Name
-	 *
-	 * @param   String  $name  Name of the Product for which question is to be posted
-	 *
-	 * @return string
-	 */
-	public function productName($name)
-	{
-		$path = "//div[@id='select2-drop']//ul//li//div//span[contains(text(),'" . $name . "')]";
+    public static $selectFirst = "//input[@id='cb0']";
 
-		return $path;
-	}
+    public static $questionStatePath = "//div[@id='editcell']//table//tbody/tr[1]/td[9]/a";
+
+    /**
+     * Function to get the path for Product Name
+     *
+     * @param   String $name Name of the Product for which question is to be posted
+     *
+     * @return string
+     */
+
+    public function productName($name)
+    {
+        $path = ['xpath' => "//span[contains(text(), '" . $name . "')]"];
+        return $path;
+    }
+
+    //button
+    public static $newButton = "New";
+
+    public static $saveButton = "Save";
+
+    public static $unpublishButton = "Unpublish";
+
+    public static $publishButton = "Publish";
+
+    public static $saveCloseButton = "Save & Close";
+
+    public static $deleteButton = "Delete";
+
+    public static $editButton = "Edit";
+
+    public static $saveNewButton = "Save & New";
+
+    public static $cancelButton = "Cancel";
+
+    public static $checkInButton = "Check-in";
+
+    public static $closeButton = "Close";
 }

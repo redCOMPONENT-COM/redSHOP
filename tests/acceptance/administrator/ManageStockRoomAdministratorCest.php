@@ -25,6 +25,10 @@ class ManageStockRoomAdministratorCest
 		$this->amount = '100';
 	}
 
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
+    }
 	/**
 	 * Function to Test Stock Room Creation in Backend
 	 *
@@ -32,7 +36,6 @@ class ManageStockRoomAdministratorCest
 	public function createStockRoom(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Stock Room creation in Administrator');
-		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
 		$I->addStockRoom($this->name, $this->amount);
 		$I->searchStockRoom($this->name);
@@ -46,7 +49,6 @@ class ManageStockRoomAdministratorCest
 	public function updateStockRoom(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test if Stock Room gets updated in Administrator');
-		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
 		$I->editStockRoom($this->name, $this->newName);
 		$I->searchStockRoom($this->newName);
@@ -60,7 +62,6 @@ class ManageStockRoomAdministratorCest
 	public function changeStockRoomState(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test if State of a Stock Room gets Updated in Administrator');
-		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
 		$I->changeStockRoomState($this->newName);
 		$I->verifyState('unpublished', $I->getStockRoomState($this->newName));
@@ -71,10 +72,9 @@ class ManageStockRoomAdministratorCest
 	 *
 	 * @depends changeStockRoomState
 	 */
-	public function deleteQuestion(AcceptanceTester $I, $scenario)
+	public function deleteStockRoom(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Deletion of Stock Room in Administrator');
-		$I->doAdministratorLogin();
 		$I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
 		$I->deleteStockRoom($this->newName);
 		$I->searchStockRoom($this->newName, 'Delete');

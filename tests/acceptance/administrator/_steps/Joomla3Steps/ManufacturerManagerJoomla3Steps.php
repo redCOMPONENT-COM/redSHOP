@@ -28,12 +28,11 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\ManufacturerManagerJoomla3Page::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Page');
-		$I->click('New');
+		$I->click(\ManufacturerManagerJoomla3Page::$newButton);
 		$I->waitForElement(\ManufacturerManagerJoomla3Page::$detailsTab,30);
 		$I->click(\ManufacturerManagerJoomla3Page::$detailsTab);
 		$I->fillField(\ManufacturerManagerJoomla3Page::$manufacturerName, $manufacturerName);
-		$I->click('Save & Close');
+        $I->click(\ManufacturerManagerJoomla3Page::$saveCloseButton);
 		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,60,'.alert-success');
 		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,'.alert-success');
 		$I->executeJS('window.scrollTo(0,0)');
@@ -62,12 +61,12 @@ class ManufacturerManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(['link' => 'ID']);
 		$I->see($manufacturerName, \ManufacturerManagerJoomla3Page::$firstResultRow);
 		$I->click(\ManufacturerManagerJoomla3Page::$selectFirst);
-		$I->click('Edit');
+        $I->click(\ManufacturerManagerJoomla3Page::$editButton);
 		$I->waitForElement(\ManufacturerManagerJoomla3Page::$detailsTab,30);
 		$I->click(\ManufacturerManagerJoomla3Page::$detailsTab);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Edit Page');
 		$I->fillField(\ManufacturerManagerJoomla3Page::$manufacturerName, $updatedName);
-		$I->click('Save & Close');
+        $I->click(\ManufacturerManagerJoomla3Page::$saveCloseButton);
 		$I->waitForText(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage,60,'.alert-success');
 		$I->see(\ManufacturerManagerJoomla3Page::$manufacturerSuccessMessage, '.alert-success');
 		$I->see($updatedName, \ManufacturerManagerJoomla3Page::$firstResultRow);

@@ -17,15 +17,19 @@
  */
 class ManageOrderAdministratorCest
 {
-	/**
-	 * Function to Test Order Creation in Backend
-	 *
-	 */
-	public function createOrder(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Test Order creation in Administrator');
-		$I->doAdministratorLogin();
-		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
-		$I->addOrder();
-	}
+    /**
+     * Function to Test Order Creation in Backend
+     *
+     */
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
+    }
+
+    public function createOrder(AcceptanceTester $I, $scenario)
+    {
+        $I->wantTo('Test Order creation in Administrator');
+        $I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+        $I->addOrder();
+    }
 }
