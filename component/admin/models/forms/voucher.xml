@@ -15,7 +15,7 @@
                 default=""
                 required="true"
                 table-sortable="1"
-                table-inline="0"
+                table-inline="1"
                 table-edit-link="1"
         />
         <field
@@ -38,7 +38,7 @@
                 label="COM_REDSHOP_VOUCHER_TYPE"
                 description="COM_REDSHOP_VOUCHER_TYPE_DESC"
                 label-class="radio-inline"
-                default="0"
+                default="Total"
                 table-sortable="1"
                 table-width="5%">
             <option value="Total">COM_REDSHOP_VOUCHER_TYPE_OPTION_TOTAL</option>

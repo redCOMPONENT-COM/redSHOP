@@ -40,14 +40,14 @@ class RedshopViewVouchers extends RedshopViewList
 		switch ($config['dataCol'])
 		{
 			case 'amount':
-				if ($config['inline'] === true && !$isCheckedOut && $isInline && $this->canEdit)
+				if (!$isCheckedOut && $isInline && $this->canEdit && $config['inline'] === true)
 				{
-					$display = productHelper::getInstance()->getProductFormattedPrice($value);
+					$display = RedshopHelperProductPrice::formattedPrice($value);
 
-					return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
+					return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, 'number');
 				}
 
-				return productHelper::getInstance()->getProductFormattedPrice($value);
+				return RedshopHelperProductPrice::formattedPrice($value);
 
 			case 'free_ship':
 				if ($value)
@@ -58,11 +58,11 @@ class RedshopViewVouchers extends RedshopViewList
 				return '<i class="text-danger fa fa-remove"></i>';
 
 			case 'voucher_left':
-				return productHelper::getInstance()->getProductFormattedPrice($value);
+				return RedshopHelperProductPrice::formattedPrice($value);
 
 			case 'start_date':
 			case 'end_date':
-				if ($value == '0000-00-00 00:00:00')
+				if ($value === '0000-00-00 00:00:00')
 				{
 					return '';
 				}

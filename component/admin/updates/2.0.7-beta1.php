@@ -113,7 +113,6 @@ class RedshopUpdate207Beta1 extends RedshopInstallUpdate
 	{
 		$db = JFactory::getDbo();
 
-		$db->setQuery('DROP TABLE IF EXISTS ' . $db->qn('#__redshop_product_voucher'))
-			->execute();
+		$db->setQuery('DROP TABLE IF EXISTS ' . $db->qn('#__redshop_product_voucher'))->execute();
 	}
 }
