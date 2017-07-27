@@ -40,10 +40,12 @@ pipeline {
             post {
                 always {
                     step([$class: 'WsCleanup'])
-                    cd ../
-                    export TEMP='MPONENT-COM_redSHOP_PR-'${CHANGE_ID}'*'
-                    echo $TEMP
-                    rm -rf $TEMP
+                    sh 'cd ../'
+                    sh '''
+                        export TEMP='MPONENT-COM_redSHOP_PR-'${CHANGE_ID}'*'
+                    '''
+                    sh 'echo $TEMP'
+                    sh 'rm -rf $TEMP'
                 }
             }
         }
