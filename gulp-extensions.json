@@ -58,9 +58,6 @@
     "logman": [
       "redshop"
     ],
-    "order": [
-      "sms"
-    ],
     "quickicon": [
       "redshop"
     ],
@@ -92,6 +89,9 @@
       "shopper_group_attribute_price",
       "user",
       "related_product"
+    ],
+    "redshop_order": [
+      "esms"
     ],
     "redshop_payment": [
       "baokim",

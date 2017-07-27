@@ -18,7 +18,7 @@ JLoader::import('redshop.library');
  *
  * @since  1.0
  */
-class PlgRedshop_OrderSms extends JPlugin
+class PlgRedshop_OrderESms extends JPlugin
 {
 	/**
 	 * Constructor - note in Joomla 2.5 PHP4.x is no longer supported so we can use this.
@@ -87,9 +87,7 @@ class PlgRedshop_OrderSms extends JPlugin
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('PLG_ORDER_SMS_SEND_SMS_SUCCESSFUL'));
 		}
-		else
-		{
-			JFactory::getApplication()->enqueueMessage($result['ErrorMessage']);
-		}
+
+		JFactory::getApplication()->enqueueMessage($result['ErrorMessage']);
 	}
 }
