@@ -158,12 +158,6 @@ switch ($name)
 		{attribute_price_with_vat} {attribute_price_without_vat} {vat_shipping} {shipping_lbl} {customer_note_lbl} {customer_note} {requisition_number_lbl} {requisition_number} {shipping_excl_vat} {sub_total_vat} {discount_excl_vat} {total_excl_vat} {denotation_label} {discount_denotation} {discount_excl_vat} {shipping_denotation} {shipping_excl_vat} {checkout_back_button} {product_attribute_number} {thirdparty_email} {thirdparty_email_lbl} {quotation_request}
 		<?php
 		break;
-	case 'clicktell_sms_message':
-		?>
-		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_CLICKATELL_SMS_MESSAGE_HINT'); ?></b><br /><br />
-		{order_id} {order_status} {customer_name} {payment_status}
-		<?php
-		break;
 	case 'company_billing':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_COMPANY_BILLING_HINT'); ?></b><br /><br />

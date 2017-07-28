@@ -750,10 +750,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
-		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
-		{
-			RedshopHelperClickatell::clickatellSMS($row->order_id);
-		}
+		// @TODO: Place Click-A-Tell Send SMS here
 
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)

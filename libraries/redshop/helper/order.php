@@ -1396,7 +1396,7 @@ class RedshopHelperOrder
 		}
 
 		self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
-		RedshopHelperClickatell::clickatellSMS($orderId);
+		// @TODO: Place Click-A-Tell Send SMS here
 
 		switch ($newStatus)
 		{
@@ -2866,11 +2866,7 @@ class RedshopHelperOrder
 			self::createWebPackLabel($orderId, $newStatus, $paymentStatus);
 		}
 
-		if (Redshop::getConfig()->get('CLICKATELL_ENABLE'))
-		{
-			// Changing the status of the order end
-			RedshopHelperClickatell::clickatellSMS($orderId);
-		}
+		// @TODO: Place Click-A-Tell Send SMS here
 
 		// If changing the status of the order then there item status need to change
 		if ($isProduct != 1)

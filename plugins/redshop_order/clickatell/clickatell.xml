@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" client="site" type="plugin" group="redshop_order" method="upgrade">
+    <name>PLG_REDSHOP_ORDER_CLICKATELL</name>
+    <version>1.0.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>July 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>PLG_REDSHOP_ORDER_CLICKATELL_DESC</description>
+    <files>
+        <filename plugin="clickatell">clickatell.php</filename>
+        <filename>index.html</filename>
+        <folder>helper</folder>
+        <folder>language</folder>
+    </files>
+    <scriptfile>install.php</scriptfile>
+    <config>
+        <fields name="params" addfieldpath="/libraries/redshop/form/field">
+            <fieldset name="basic">
+                <field
+                        name="username"
+                        type="text"
+                        default=""
+                        required="true"
+                        class="input-xxlarge"
+                        label="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_USERNAME"
+                        description="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_USERNAME_DESC"
+                />
+                <field
+                        name="password"
+                        type="password"
+                        default=""
+                        required="true"
+                        class="input-xxlarge"
+                        label="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_PASSWORD"
+                        description="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_PASSWORD_DESC"
+                />
+                <field
+                        name="apiId"
+                        type="password"
+                        default=""
+                        required="true"
+                        class="input-xxlarge"
+                        label="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_API_ID"
+                        description="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_API_ID_DESC"
+                />
+                <field
+                        name="payment"
+                        type="redshop.payments"
+                        multiple="true"
+                        class="input-xxlarge"
+                        label="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_PAYMENTS"
+                        description="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_PAYMENTS_DESC"
+                />
+                <field
+                        name="shipping"
+                        type="redshop.shippings"
+                        multiple="true"
+                        class="input-xxlarge"
+                        label="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_SHIPPINGS"
+                        description="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_SHIPPINGS_DESC"
+                />
+                <field
+                        name="status"
+                        type="orderstatus"
+                        multiple="true"
+                        required="true"
+                        class="input-xxlarge"
+                        label="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_ORDER_STATUS"
+                        description="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_ORDER_STATUS_DESC"
+                />
+                <field
+                        name="message"
+                        type="textarea"
+                        maxlength="160"
+                        required="true"
+                        class="input-xxlarge"
+                        label="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_MESSAGE"
+                        description="PLG_REDSHOP_ORDER_CLICKATELL_PARAM_MESSAGE_DESC"
+                        rows="4"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>

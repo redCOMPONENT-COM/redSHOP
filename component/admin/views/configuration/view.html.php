@@ -295,7 +295,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['watermark_manufacturer_image']        = JHtml::_('redshopselect.booleanlist', 'watermark_manufacturer_image',
 			'class="form-control" size="1"', $this->config->get('WATERMARK_MANUFACTURER_IMAGE')
 		);
-		$lists['clickatell_enable']                   = JHtml::_('redshopselect.booleanlist', 'clickatell_enable', 'class="form-control" size="1"', $this->config->get('CLICKATELL_ENABLE'));
 		$lists['quotation_mode']                      = JHtml::_('redshopselect.booleanlist', 'default_quotation_mode', 'class="form-control" size="1"',
 			$this->config->get('DEFAULT_QUOTATION_MODE_PRE'), $yes = JText::_('COM_REDSHOP_ON'),
 			$no = JText::_('COM_REDSHOP_OFF')
@@ -312,13 +311,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$lists['category_tree_in_sef_url'] = JHtml::_('redshopselect.booleanlist', 'category_tree_in_sef_url', 'class="form-control"', $this->config->get('CATEGORY_TREE_IN_SEF_URL'));
 		$lists['statistics_enable']        = JHtml::_('redshopselect.booleanlist', 'statistics_enable', 'class="form-control" size="1"', $this->config->get('STATISTICS_ENABLE'));
-		$orderstatus                       = $model->getOrderstatus();
-		$tmp                               = array();
-		$tmp[]                             = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-		$orderstatus                       = array_merge($tmp, $orderstatus);
-		$lists['clickatell_order_status']  = JHtml::_('select.genericlist', $orderstatus, 'clickatell_order_status',
-			'class="form-control" size="1" ', 'value', 'text', $this->config->get('CLICKATELL_ORDER_STATUS')
-		);
 
 		$menuitem           = array();
 		$menuitem[0]        = new stdClass;

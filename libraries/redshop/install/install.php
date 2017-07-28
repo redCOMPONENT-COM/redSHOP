@@ -160,7 +160,6 @@ class RedshopInstall
 					(112, 'ajax_cart_detail_box', 'ajax_cart_detail_box', '" . $redTemplate->getInstallSectionTemplate('ajax_cart_detail_box') . "', 1),
 					(200, 'shipping_pdf', 'shipping_pdf', '" . $redTemplate->getInstallSectionTemplate('shipping_pdf') . "', 1),
 					(251, 'order_print', 'order_print', '" . $redTemplate->getInstallSectionTemplate('order_print') . "', 1),
-					(252, 'clicktell_sms_message', 'clicktell_sms_message', '" . $redTemplate->getInstallSectionTemplate('clicktell_sms_message') . "', 1),
 					(260, 'redproductfinder', 'redproductfinder', '" . $redTemplate->getInstallSectionTemplate('redproductfinder') . "', 1),
 					(265, 'quotation_detail', 'quotation_detail', '" . $redTemplate->getInstallSectionTemplate('quotation_detail') . "', 1),
 					(334, 'newsletter_products', 'newsletter_product', '" . $redTemplate->getInstallSectionTemplate('newsletter_products') . "', 1),

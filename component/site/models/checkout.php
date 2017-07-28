@@ -528,10 +528,7 @@ class RedshopModelCheckout extends RedshopModel
 			$quotationHelper->updateQuotationwithOrder($cart['quotation_id'], $row->order_id);
 		}
 
-		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
-		{
-			RedshopHelperClickatell::clickatellSMS($order_id);
-		}
+		// @TODO: Place Click-A-Tell Send SMS here
 
 		$session->set('order_id', $order_id);
 

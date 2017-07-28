@@ -22,15 +22,6 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 <?php endif; ?>
 
 <script language="javascript" type="text/javascript">
-
-	function showclicktellbox() {
-		if (document.adminForm.template_section.value == "clickatell") {
-			document.getElementById('clicktellbox').style.display = 'block';
-		} else {
-			document.getElementById('clicktellbox').style.display = 'none';
-		}
-	}
-
 	Joomla.submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
@@ -92,32 +83,6 @@ $showbuttons = $app->input->getInt('showbuttons', 0);
 					</td>
 					<td><?php echo $this->lists['section']; ?></td>
 				</tr>
-
-				<?php if ('clicktell_sms_message' == $this->detail->template_section) :	?>
-				<tr>
-					<td colspan="2">
-						<div id="clicktellbox">
-							<table class="admintable table">
-								<tr>
-									<td width="100" align="right" class="key">
-										<?php echo JText::_('COM_REDSHOP_PAYMENT_METHOD'); ?>:
-									</td>
-									<td><?php echo $this->lists['payment_methods']; ?><?php echo $this->lists['shipping_methods']; ?>
-									</td>
-								</tr>
-
-								<tr>
-									<td valign="top" align="right"
-									    class="key"><?php echo JText::_('COM_REDSHOP_ORDER_STATUS'); ?>:
-									</td>
-									<td><?php echo $this->lists['order_status']; ?></td>
-								</tr>
-
-							</table>
-						</div>
-					</td>
-				</tr>
-				<?php endif; ?>
 				<tr>
 					<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>:</td>
 					<td><?php echo $this->lists['published']; ?></td>

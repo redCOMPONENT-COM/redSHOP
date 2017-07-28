@@ -29,11 +29,6 @@ class RedshopHelperClickatell
 	 */
 	public static function clickatellSMS($orderId)
 	{
-		if (Redshop::getConfig()->get('CLICKATELL_ENABLE') <= 0)
-		{
-			return;
-		}
-
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)

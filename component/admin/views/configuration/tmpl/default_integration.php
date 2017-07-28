@@ -22,15 +22,6 @@ defined('_JEXEC') or die;
 				)
 			);
 			?>
-			<?php
-			echo RedshopLayoutHelper::render(
-				'config.group',
-				array(
-					'title'   => JText::_('COM_REDSHOP_CLICKATELL'),
-					'content' => $this->loadTemplate('clicktell')
-				)
-			);
-			?>
         </div>
         <div class="col-sm-4">
 			<?php

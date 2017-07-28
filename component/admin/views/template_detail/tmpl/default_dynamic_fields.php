@@ -572,32 +572,6 @@ if ($this->detail->template_section == "categoryproduct")
 	}
 }
 
-// Clicktell Message Template Start
-if ($this->detail->template_section == "clicktell_sms_message")
-{
-	echo JHtml::_('tabs.panel', $title, 'clicktell_sms_template'); ?>
-    <table class="adminlist table table-striped">
-        <tr>
-            <td><?php echo Redtemplate::getTemplateValues('clicktell_sms_message'); ?></td>
-        </tr>
-    </table>
-	<?php
-	$click_desc = $redtemplate->getInstallSectionTemplate("clicktell_sms_message", $setflag = true);
-	if ($click_desc != "")
-	{
-		echo JHtml::_('tabs.panel', $default_template, 'events'); ?>
-        <table class="adminlist table table-striped">
-            <tr>
-                <td>
-					<?php echo $click_desc; ?>
-                </td>
-            </tr>
-        </table>
-		<?php
-
-	}
-}
-
 // Empty Cart Template Start
 if ($this->detail->template_section == "empty_cart")
 {

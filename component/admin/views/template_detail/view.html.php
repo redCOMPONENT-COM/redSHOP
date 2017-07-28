@@ -80,7 +80,7 @@ class RedshopViewTemplate_detail extends RedshopViewAdmin
 		// Section can be added from here
 		$optionsection = $redtemplate->getTemplateSections();
 		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'template_section',
-			'class="inputbox" size="1"  onchange="showclicktellbox();"', 'value', 'text', $detail->template_section
+			'class="inputbox" size="1"', 'value', 'text', $detail->template_section
 		);
 
 		$lists['published'] = JHTML::_('redshopselect.booleanlist', 'published', 'class="inputbox" ', $detail->published);

@@ -462,51 +462,6 @@ class redhelper
 	}
 
 	/**
-	 * Method for run process on order ID
-	 *
-	 * @param   integer  $order_id  ID of order
-	 *
-	 * @return  void
-	 *
-	 * @deprecated   2.0.6  Use RedshopHelperClickATell::clickatellSMS instead
-	 */
-	public function clickatellSMS($order_id)
-	{
-		RedshopHelperClickatell::clickatellSMS($order_id);
-	}
-
-	/**
-	 * Method for send message
-	 *
-	 * @param   string  $text  Message text
-	 * @param   string  $to    Phone number for send
-	 *
-	 * @return  void
-	 *
-	 * @deprecated   2.0.6  Use RedshopHelperClickATell::clickatellSMS instead
-	 */
-	public function sendmessage($text, $to)
-	{
-		RedshopHelperClickatell::sendMessage($text, $to);
-	}
-
-	/**
-	 * Method for replace message
-	 *
-	 * @param   string  $message      Message text
-	 * @param   object  $orderData    Object data
-	 * @param   string  $paymentName  Name of payment
-	 *
-	 * @return  mixed
-	 *
-	 * @deprecated   2.0.6  Use RedshopHelperClickATell::replaceMessage instead
-	 */
-	public function replaceMessage($message, $orderData, $paymentName)
-	{
-		return RedshopHelperClickatell::replaceMessage($message, $orderData, $paymentName);
-	}
-
-	/**
 	 * SSL link
 	 *
 	 * @param   string   $link      Link
