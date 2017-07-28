@@ -2,7 +2,7 @@
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_REDSHOP_FILTER</name>
     <version>1.0.0</version>
-    <redshop>2.0.0.4</redshop>
+    <redshop>2.0.6</redshop>
     <creationDate>Nov 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -10,9 +10,9 @@
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>MOD_REDSHOP_FILTER_DESC</description>
     <files>
+        <filename>index.html</filename>
         <filename>helper.php</filename>
         <filename module="mod_redshop_filter">mod_redshop_filter.php</filename>
-        <folder>lib</folder>
         <folder>tmpl</folder>
     </files>
     <languages>
