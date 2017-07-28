@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="library" method="upgrade" version="2.5">
+    <name>LIB_GIROCHECKOUT</name>
+    <libraryname>girocheckout</libraryname>
+    <creationDate>April 2017</creationDate>
+    <author>redCOMPONENT</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later, see LICENSE.</license>
+    <version>1.0.0</version>
+    <description>LIB_GIROCHECKOUT_DESCRIPTION</description>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.lib_girocheckout.ini</language>
+        <language tag="en-GB">en-GB/en-GB.lib_girocheckout.sys.ini</language>
+    </languages>
+    <files>
+        <folder>sdk</folder>
+        <filename>girocheckout.php</filename>
+        <filename>girocheckout.xml</filename>
+    </files>
+</extension>
