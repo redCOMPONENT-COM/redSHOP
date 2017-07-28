@@ -28,9 +28,7 @@ class Helper
 		$filePath = \JPath::clean($filePath);
 		$fileName = basename($filePath);
 
-		$fileMime = mime_content_type($filePath);
-
-		header('Content-Type: ' . $fileMime);
+		header('Content-Type: mime/type');
 
 		header('Content-Encoding: UTF-8');
 		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
