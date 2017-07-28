@@ -17,29 +17,19 @@ class CustomFieldManagerJoomla3Page
 {
     public static $URL = '/administrator/index.php?option=com_redshop&view=fields';
 
-    public static $URLNew = '';
-
     public static $fieldName = "//input[@id='jform_name']";
 
     public static $fieldTitle = "//input[@id='jform_title']";
 
-
-    public static $fieldTypeDropDown = ['id' => 's2id_jform_type'];
-
-    public static $fieldTypeSearch = ['id' => 's2id_autogen1_search'];
-
-    public static $fieldSectionDropDown = ['id' => 's2id_jform_section'];
-
-    public static $fieldSectionSearch = ['id' => 's2id_autogen2_search'];
-
-    public static $filterSearch = ['id' => 'filter_search'];
-
+    public static $fieldTypeDropDown = "//div[@id='jform_type_chzn']/a";
 
     public static $fieldTypeSearchField = "//div[@id='jform_type_chzn']/div/div/input";
 
+    public static $fieldSectionDropDown = "//div[@id='jform_section_chzn']/a";
+
     public static $fieldSectionSearchField = "//div[@id='jform_section_chzn']/div/div/input";
 
-    public static $fieldSuccessMessage = 'Item saved.';
+    public static $fieldSuccessMessage = 'Field details saved';
 
     public static $fieldMessagesLocation = "//div[@id='system-message-container']/div/p";
 
@@ -51,24 +41,10 @@ class CustomFieldManagerJoomla3Page
 
     public static $optionValueField = "//input[@name='extra_value[]']";
 
-    //message
-    public static $messageSaveSuccess='Item saved.';
-
-
-    //selector
-
-    public static $selectorSuccess = '.alert-success';
-
-    public static $selectorError = '.alert-danger';
-
-    public static $selectorNamePage = '.page-title';
-
-
-
     /**
      * Function to get the path for Field Type
      *
-     * @param   String $type Type of Field to be Added
+     * @param   String  $type  Type of Field to be Added
      *
      * @return string
      */
@@ -82,7 +58,7 @@ class CustomFieldManagerJoomla3Page
     /**
      * Function to get the path for Field Section
      *
-     * @param   String $section Section of Field to be Added
+     * @param   String  $section  Section of Field to be Added
      *
      * @return string
      */
@@ -90,12 +66,6 @@ class CustomFieldManagerJoomla3Page
     {
         $path = "//div[@id='jform_section_chzn']/div/ul/li//em[contains(text(),'" . $section . "')]";
 
-        return $path;
-    }
-
-    public function xPathChoice($typeChoice)
-    {
-        $path = ['xpath' => "//span[contains(text(), '" . $typeChoice . "')]"];
         return $path;
     }
 }
