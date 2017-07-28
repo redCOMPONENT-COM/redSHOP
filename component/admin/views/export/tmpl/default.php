@@ -72,20 +72,20 @@ JHtml::script('com_redshop/require.js', false, true);
 									</label>
 									<div class="col-md-10">
 										<input type="text" value="," class="form-control" maxlength="1" name="separator"/>
-										<!-- File format -->
-										<div class="form-group">
-											<label class="col-md-2 control-label">
-												<?php echo JText::_('COM_REDSHOP_EXPORT_PRODUCT_CONFIG_FILE_TYPE'); ?>
-											</label>
-											<div class="col-md-10">
-												<select name="export_file_type">
-													<option value="xls">Excel5</option>
-													<option value="xlsx">Excel2007</option>
-													<option value="html">HTML</option>
-													<option value="csv">CSV</option>
-												</select>
-											</div>
-										</div>
+									</div>
+								</div>
+								<!-- File format -->
+								<div class="form-group">
+									<label class="col-md-2 control-label">
+										<?php echo JText::_('COM_REDSHOP_EXPORT_PRODUCT_CONFIG_FILE_TYPE'); ?>
+									</label>
+									<div class="col-md-10">
+										<select name="export_file_type">
+											<option value="xls">Excel5</option>
+											<option value="xlsx">Excel2007</option>
+											<option value="html">HTML</option>
+											<option value="csv">CSV</option>
+										</select>
 									</div>
 								</div>
 								<div id="export_config_body"></div>
