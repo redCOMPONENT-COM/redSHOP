@@ -84,11 +84,11 @@ defined('_JEXEC') or die;
 			<div id="filter-price">
 				<div id="amount-min">
 					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
-					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][min]" value="<?php echo $rangeMin; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
+					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][min]" value="<?php echo $currentMin; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
 				</div>
 				<div id="amount-max">
 					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
-					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][max]" value="<?php echo $rangeMax; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
+					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][max]" value="<?php echo $currentMax; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
 				</div>
 			</div>
 		</div>
@@ -271,7 +271,7 @@ defined('_JEXEC') or die;
 					jQuery(this).addClass('active').next('ul.collapse').addClass('in');
 				}
 			});
-			range_slide(<?php echo $rangeMin;?>, <?php echo $rangeMax;?>, <?php echo $rangeMin;?>, <?php echo $rangeMax;?>, submitpriceform );
+			range_slide(<?php echo $rangeMin;?>, <?php echo $rangeMax;?>, <?php echo $currentMin;?>, <?php echo $currentMax;?>, submitpriceform );
 		});
 	});
 </script>

@@ -96,7 +96,9 @@ elseif ($view == 'search')
 	$rangePrice    = ModRedshopFilter::getRange($pids);
 }
 
-$rangeMin = $getData['filterprice']['min'] ? $getData['filterprice']['min'] : $rangePrice['min'];
-$rangeMax = $getData['filterprice']['max'] ? $getData['filterprice']['max'] : $rangePrice['max'];
+$rangeMin = $rangePrice['min'];
+$rangeMax = $rangePrice['max'];
+$currentMin = $getData['filterprice']['min'] ? $getData['filterprice']['min'] : $rangePrice['min'];
+$currentMax = $getData['filterprice']['max'] ? $getData['filterprice']['max'] : $rangePrice['max'];
 
 require JModuleHelper::getLayoutPath('mod_redshop_filter', $params->get('layout', 'default'));
