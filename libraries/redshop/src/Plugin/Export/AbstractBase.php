@@ -31,6 +31,118 @@ class AbstractBase extends ImportExport
 	protected $limit = 150;
 
 	/**
+	 * Constructor
+	 *
+	 * @param   object  $subject     The object to observe
+	 * @param   array   $config      An optional associative array of configuration settings.
+	 *                              Recognized key values include 'name', 'group', 'params', 'language'
+	 *                              (this list is not meant to be comprehensive).
+	 *
+	 * @since   2.0.3
+	 */
+	public function __construct($subject, array $config = array())
+	{
+		parent::__construct($subject, $config);
+
+		\JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
+	}
+
+	/**
+	 * Fetch config and respond HTML of config to render on page
+	 *
+	 * @param   string  $html  HTML data for responding
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.7
+	 */
+	protected function config($html = '')
+	{
+		$response = new Response;
+		$response->addHtml($html)->success()->respond();
+	}
+
+	/**
+	 * Start export process
+	 * Get headers and write to file
+	 *
+	 * @return  void
+	 *
+	 * @since  2.0.7
+	 */
+	protected function start()
+	{
+		$headers = $this->getHeader();
+
+		// Write headers to csv file
+		if (!empty($headers))
+		{
+			// Init temporary folder
+			\Redshop\Filesystem\Folder\Helper::create($this->getTemporaryFolder());
+			$this->writeData($headers, 'w+');
+		}
+
+		$response = new Response;
+		$data = new \stdClass;
+
+		// Total rows for exporting
+		$data->rows = (int) $this->getTotal();
+
+		// Limit rows percent request
+		$data->limit = $this->limit;
+		$data->total = ceil($data->rows / $data->limit);
+
+
+		$response->setData($data)->success()->respond();
+	}
+
+	/**
+	 * Export process
+	 * Get data and write to file
+	 *
+	 * @return  void
+	 *
+	 * @since  2.0.7
+	 */
+	protected function export()
+	{
+		$input = \JFactory::getApplication()->input;
+		$this->exporting($input->getInt('from', 0) * $this->limit, $this->limit);
+
+		$response = new Response;
+		$response->success()->respond();
+	}
+
+	/**
+	 * Method for exporting data.
+	 *
+	 * @param   int $start Start row for write.
+	 * @param   int $limit Limit for row.
+	 *
+	 * @return  integer
+	 *
+	 * @since  2.0.3
+	 */
+	protected function exporting($start, $limit)
+	{
+		$data = $this->getData($start, $limit);
+
+		if (empty($data))
+		{
+			return 0;
+		}
+
+		$handle = fopen($this->getTemporaryFile('export'), 'a');
+
+		foreach ($data as $item)
+		{
+			$this->writeData((array) $item, '', $handle);
+		}
+
+		fclose($handle);
+	}
+
+	/**
 	 * Method for write data into file.
 	 * By default we always write to CSV format to make it faster
 	 *
@@ -167,7 +279,7 @@ class AbstractBase extends ImportExport
 	{
 		$csvExportedFile = $this->getTemporaryFile('export');
 
-		$fileType = \JFactory::getApplication()->input->getString('export_file_type');
+		$fileType = \JFactory::getApplication()->input->getString('export_file_type', 'csv');
 		$convertFile = $this->getTemporaryFile('export_convert') . '.' . $fileType;
 
 		$phpExcel = $this->loadFile($csvExportedFile);
@@ -182,38 +294,5 @@ class AbstractBase extends ImportExport
 		$data->fileUrl = str_replace(JPATH_ROOT, trim(\JUri::root(), '/'), $convertFile);
 
 		return $response->setData($data)->success()->respond();
-	}
-
-	/**
-	 * Method for exporting data.
-	 *
-	 * @param   int $start Start row for write.
-	 * @param   int $limit Limit for row.
-	 *
-	 * @return  integer
-	 *
-	 * @since  2.0.3
-	 */
-	protected function exporting($start, $limit)
-	{
-		$data = $this->getData($start, $limit);
-
-		if (empty($data))
-		{
-			return 0;
-		}
-
-		$handle = fopen($this->getTemporaryFile('export'), 'a');
-
-		foreach ($data as $item)
-		{
-			$this->writeData((array) $item, '', $handle);
-		}
-
-		fclose($handle);
-
-		$response = new Response;
-
-		return $response->success()->respond();
 	}
 }

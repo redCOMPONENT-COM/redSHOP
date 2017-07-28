@@ -28,8 +28,6 @@ JHtml::script('com_redshop/require.js', false, true);
 			// By default we load under ../media/com_redshop/js
 			baseUrl: '../media/com_redshop/js',
 			deps: [
-				// General library
-				'lib/log',
 				// Administrator export
 				'admin/export'
 			]

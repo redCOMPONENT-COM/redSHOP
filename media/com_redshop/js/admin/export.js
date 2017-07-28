@@ -1,69 +1,56 @@
 "use strict";
 
-define(
-	// modular name
-	'export',
-	// dependencies
-	['ajax', 'log'],
-	(function (w, $) {
-		var redSHOP = w.redSHOP;
+/**
+ * @copyright  Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
+ */
 
-		/**
-		 * redSHOP Administrator object
-		 */
-		if (typeof redSHOP.Admin === 'undefined') {
-			redSHOP.Admin = {}
-		}
+// redSHOP Admin export
 
-		/**
-		 * redSHOP Administrator import
-		 */
-		if (typeof redSHOP.Admin.export === 'undefined') {
+(function (w, $) {
+	define(
+		// Dependencies
+		['lib/log', 'lib/ajax', 'admin/admin'],
+		// Export class
+		function (redLog, redAjax, redAdmin) {
 
+			// Declare export
 			var redshopExport = {
 				/**
-				 *
-				 * @param lock
+				 * Elements object
 				 */
-				blockElements: function (lock) {
-					var lockClass = 'disabled muted';
-					var elements = '#export_plugins, #export_config, #export_btn_start'
-
-					if (!lock) {
-						$(elements).removeClass(lockClass);
-						$(elements).prop("disabled", false);
-					}
-					else {
-						$(elements).addClass(lockClass);
-						$(elements).prop("disabled", true);
-					}
+				_elements: {
+					blocks: '#export_plugins, #export_config, #export_btn_start',
+					logArea: '#export_process_msg_body',
+					progressBar: '#export_process_bar',
+					//
+					html: '#export_count, #export_config_body, #export_process_msg_body'
+				},
+				/**
+				 *
+				 * @param block
+				 */
+				blockElements: function (block) {
+					redAdmin.blockElements(this._elements.blocks, block);
 				},
 
 				/**
 				 *
 				 */
-				reDraw: function (lock) {
-					var cleanHtml = '#export_count, #export_process_msg_body';
-					var cleanProcessbar = '#export_process_bar';
+				reDraw: function (block) {
+					redAdmin.clean(this._elements.html);
+					redAdmin.cleanProgress(this._elements.progressBar);
 
-					// Clean up
-					$(cleanHtml).html('');
-					$(cleanProcessbar).html('0%').css("width", "0%");
-
-					this.blockElements(lock);
+					this.blockElements(block);
 				},
+
 				/**
 				 *
 				 * @param type
 				 * @param message
 				 */
-				appendLog: function (type, message) {
-					if (typeof redSHOP.Log[type] === 'function') {
-						message = redSHOP.Log[type](message);
-
-					}
-
-					$("#export_process_msg_body").append(message);
+				log: function (type, message) {
+					redAdmin.appendLog(this._elements.logArea, type, message);
 				},
 
 				/**
@@ -72,7 +59,7 @@ define(
 				 * @param value
 				 * @returns {number}
 				 */
-				updateProcessbar: function (total, value) {
+				updateProgressBar: function (value, total) {
 					var $bar = $("#export_process_bar");
 
 					// Get current percent
@@ -98,13 +85,11 @@ define(
 				},
 
 				/**
-				 * @return  string
+				 *
+				 * @param index
+				 * @param total
 				 */
-				getFormSerialize: function () {
-					return $("#adminForm").serialize();
-				},
-
-				executeExport: function (index, total) {
+				exporting: function (index, total) {
 					var $this = this;
 
 					// Init default index
@@ -115,52 +100,48 @@ define(
 					var plugin = $this.getSelectedPlugin();
 					var url = "index.php?option=com_ajax&plugin=" + plugin + "_export&group=redshop_export&format=raw";
 					var data = $("#adminForm").serialize() + "&from=" + index;
-					/**
-					 * Post ajax request
-					 */
-					var jqXHR = $.ajax({
-						url: url,
-						// Force to wait
-						async: true,
-						// Before request ajax for importing
-						beforeSend: function (xhr) {
+
+					// Execute ajax for exporting
+					redAjax.execute(
+						{
+							url: url,
+							data: data
 						},
-						data: data,
-						dataType: "json",
-						method: "POST"
-					})
-						.done(function (response, textStatus, jqXHR) {
+						// Done callback
+						function (response, textStatus, jqXHR) {
 							// Update status bar
-							$this.updateProcessbar(total, index);
+							$this.updateProgressBar(index, total);
 
 							// Go to next file
 							index++;
 							if (index <= total) {
-								$this.executeExport(index, total)
+								$this.exporting(index, total)
 							}
 							else {
 								// Unblocking
 								$this.blockElements(false);
 								// Completed
-								$this.appendLog('success', Joomla.JText._('COM_REDSHOP_EXPORT_SUCCESS'));
+								$this.log('success', Joomla.JText._('COM_REDSHOP_EXPORT_SUCCESS'));
 
-								// Generate download file
-								var jqXHRComplete = $.ajax({
-									url: "index.php?option=com_ajax&plugin=" + plugin + "_complete&group=redshop_export&format=raw",
-									data: data,
-									dataType: "json",
-									method: "POST"
-								})
-									.done(function (response, textStatus, jqXHR) {
-										var url = 'index.php?option=com_redshop&view=export&task=download&file_path=' + response.data.filePath + '&format=raw';
+								redAjax.execute(
+									{
+										url: "index.php?option=com_ajax&plugin=" + plugin + "_complete&group=redshop_export&format=raw",
+										data: data
+									},
+									// Done callback
+									function (response, textStatus, jqXHR) {
+										// Generate download file
+										// @TODO Move this to js lib
+										var url = 'index.php?option=com_redshop&view=export&task=download&file_path=' + response.data.filePath;
 										$('#export_iframe').attr('src', url);
-									})
+									}
+								)
 							}
-
-						})
+						}
+					)
 				},
 
-				init: function () {
+				hookChangePlugin: function () {
 					var $this = this;
 
 					/**
@@ -170,18 +151,37 @@ define(
 						var plugin = $this.getSelectedPlugin();
 
 						// Load specific configuration of plugin
-						// @TODO Should work with json instead
-						var jqXHR = $.ajax({
-							url: "index.php?option=com_ajax&plugin=" + plugin + "_config&group=redshop_export&format=raw",
-							data: $("#adminForm").serialize(),
-							method: "POST"
-						})
-							.done(function (response, textStatus, jqXHR) {
+						redAjax.execute(
+							{
+								url: "index.php?option=com_ajax&plugin=" + plugin + "_config&group=redshop_export&format=raw",
+								data: redAdmin.getAdminFormSerialize()
+							},
+							// Done callback
+							function (response, textStatus, jqXHR) {
+
+								// Redraw and unlock
 								$this.reDraw(false);
-								$("#export_config_body").html(response);
+
+								if (response.status) {
+									if (response.data[0].dataContent != '') {
+										$("#export_config_body").html(response.data[0].dataContent);
+									}
+								}
+
+								//
 								$("select").select2({});
-							})
+
+								$this.log(
+									'success',
+									Joomla.JText._('COM_REDSHOP_EXPORT_LOADED_CONFIGURATION') + '<span class="label label-debug">' + plugin + '</span>'
+								);
+							}
+						)
 					});
+				},
+
+				hookStart: function () {
+					var $this = this;
 
 					/**
 					 * Start
@@ -190,36 +190,39 @@ define(
 						var plugin = $this.getSelectedPlugin();
 
 						// Redraw
-						$this.reDraw(true);
+						//$this.reDraw(true);
+						$this.blockElements(true);
 
-						var jqXHR = $.ajax({
-							url: "index.php?option=com_ajax&plugin=" + plugin + "_start&group=redshop_export&format=raw",
-							data: $("#adminForm").serialize(),
-							dataType: "json",
-							method: "POST"
-						})
-							.done(function (response, textStatus, jqXHR) {
+						redAjax.execute(
+							{
+								url: "index.php?option=com_ajax&plugin=" + plugin + "_start&group=redshop_export&format=raw",
+								data: redAdmin.getAdminFormSerialize()
+							},
+							// Done callback
+							function (response, textStatus, jqXHR) {
 								if (response.status) {
 									// First execute;
-									$this.executeExport(0, response.data.total);
+									$this.exporting(0, response.data.total);
 								}
-
-							})
-
+							}
+						)
 						event.preventDefault();
 					});
+				},
+
+				init: function () {
+
+					this.hookChangePlugin();
+					this.hookStart();
 				}
 			}
 
-			redSHOP.Admin.export = redshopExport;
+			redAdmin.export = redshopExport;
 
 			// Call init
 			$(document).ready(function () {
-				redSHOP.Admin.export.init();
+				redAdmin.export.init();
 			})
 		}
-
-	})(window, jQuery)
-);
-
-
+	)
+})(window, jQuery)

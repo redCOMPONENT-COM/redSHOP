@@ -24,7 +24,7 @@ class PlgRedshop_ExportCategory extends Export\AbstractBase
 	/**
 	 * Event run when user load config for export this data.
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since   1.0.0
 	 */
@@ -32,46 +32,27 @@ class PlgRedshop_ExportCategory extends Export\AbstractBase
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		$this->config();
 	}
 
 	/**
 	 * Event run when user click on Start Export
 	 *
-	 * @return  integer
+	 * @return  void
 	 *
-	 * @since   1.0.0
+	 * @since  1.0.0
 	 */
 	public function onAjaxCategory_Start()
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$headers = $this->getHeader();
-
-		if (!empty($headers))
-		{
-			// Init temporary folder
-			Redshop\Filesystem\Folder\Helper::create($this->getTemporaryFolder());
-			$this->writeData($headers, 'w+');
-		}
-
-		$response = new Response;
-		$data = new stdClass;
-
-		// Total rows for exporting
-		$data->rows = (int) $this->getTotal();
-
-		// Limit rows percent request
-		$data->limit = $this->limit;
-		$data->total = ceil($data->rows / $data->limit);
-
-		return $response->setData($data)->success()->respond();
+		$this->start();
 	}
 
 	/**
 	 * Event run on export process
 	 *
-	 * @return  integer
+	 * @return  void
 	 *
 	 * @since   1.0.0
 	 */
@@ -79,9 +60,7 @@ class PlgRedshop_ExportCategory extends Export\AbstractBase
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input = JFactory::getApplication()->input;
-
-		return $this->exporting($input->getInt('from', 0) * $this->limit, $this->limit);
+		$this->export();
 	}
 
 	/**
@@ -89,7 +68,7 @@ class PlgRedshop_ExportCategory extends Export\AbstractBase
 	 *
 	 * @return  string
 	 *
-	 * @since   1.0.0
+	 * @since  1.0.0
 	 */
 	public function onAjaxCategory_Complete()
 	{

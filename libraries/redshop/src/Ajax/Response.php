@@ -40,18 +40,33 @@ class Response extends \stdClass
 	public $data = null;
 
 	/**
-	 * @param   string  $key    Property key
-	 * @param   mixed   $value  Value
+	 * @param   string  $property  Property key
+	 * @param   mixed   $value     Value
 	 *
 	 * @return  Response  $this
 	 *
 	 * @since   2.0.7
 	 */
-	public function addProperty($key, $value)
+	public function set($property, $value)
 	{
-		$this->$key = $value;
+		$this->$property = $value;
 
 		return $this;
+	}
+
+	/**
+	 * Returns a property of the object or the default value if the property is not set.
+	 *
+	 * @param   string  $property  The name of the property.
+	 * @param   mixed   $default   The default value.
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.7
+	 */
+	public function get($property, $default)
+	{
+		return (isset($this->$property) ? $this->$property : $default);
 	}
 
 	/**
@@ -83,14 +98,45 @@ class Response extends \stdClass
 	}
 
 	/**
+	 * @param   string  $html   HTML content
 	 *
-	 * @return   string
+	 * @return  Response  $this
+	 *
+	 * @since   2.0.7
+	 */
+	public function addHtml($html)
+	{
+		$data = new \stdClass;
+		$data->dataContent = $html;
+		$data->dataType = 'html';
+
+		return $this->addData($data);
+	}
+
+	/**
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 */
+	public function getJson()
+	{
+		return json_encode($this, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+	}
+
+	/**
+	 *
+	 * @return   void
 	 *
 	 * @since    2.0.7
 	 */
 	public function respond()
 	{
-		return json_encode($this);
+		header('Content-Type: application/json');
+
+		echo $this->getJson();
+
+		\JFactory::getApplication()->close();
 	}
 
 	/**

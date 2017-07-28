@@ -110,7 +110,8 @@ class ImportExport extends AbstractBase
 	/**
 	 * Method for get path of temporary file.
 	 *
-	 * @param   string  $key  Key to generate or get random filename
+	 * @param   string   $key    Key to generate or get random filename
+	 * @param   boolean  $renew  Generate new string
 	 *
 	 * @return  string
 	 *

@@ -88,6 +88,34 @@ class AbstractBase extends ImportExport
 	}
 
 	/**
+	 * @param   string $html HTML of configuratio
+	 *
+	 * @since   2.0.7
+	 */
+	protected function config($html = '')
+	{
+		$response = new Response;
+		$response->addHtml($html)->success()->respond();
+	}
+
+	/**
+	 *
+	 * @return string
+	 *
+	 * @since  2.0.7
+	 */
+	protected function import()
+	{
+		$input           = \JFactory::getApplication()->input;
+		$this->encoding  = $input->getString('encoding', 'UTF-8');
+		$this->separator = $input->getString('separator', ',');
+		$this->folder    = $input->getCmd('folder', '');
+
+		// @TODO Use Response object instead
+		return json_encode($this->importing());
+	}
+
+	/**
 	 * Event run when upload file success.
 	 * This event is triggered via import.uploadFile
 	 *
@@ -97,6 +125,7 @@ class AbstractBase extends ImportExport
 	 *
 	 * @return  mixed            Array of data (file path, lines) if success. False otherwise.
 	 *
+	 * @TODO    Should we execute this method directly via ajax instead request to controller
 	 * @since   2.0.3
 	 */
 	public function onUploadFile($plugin = '', $file = array(), $data = array())
@@ -127,6 +156,7 @@ class AbstractBase extends ImportExport
 		}
 
 		// @TODO Should we move splitFiles into another ajax to make it more clearly
+		// @TODO File detect before process
 		return $this->splitFiles($saveTo);
 	}
 
@@ -290,7 +320,7 @@ class AbstractBase extends ImportExport
 		// Delete processed file;
 		\JFile::delete($filePath);
 
-		$response->success()->addProperty('file', $fileName);
+		$response->success()->set('file', $fileName);
 
 		// Try to clean up if this's last one
 		$files = \JFolder::files($workingDir, '.', true, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));

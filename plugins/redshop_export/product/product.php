@@ -43,7 +43,7 @@ class PlgRedshop_ExportProduct extends Export\AbstractBase
 	/**
 	 * Event run when user load config for export this data.
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since  1.0.0
 	 *
@@ -55,44 +55,25 @@ class PlgRedshop_ExportProduct extends Export\AbstractBase
 
 		// Prepare categories list.
 		$categories = RedshopEntityCategory::getInstance(RedshopHelperCategory::getRootId())->getChildCategories();
-		$categoriesHtml    = array();
-
-		if (!$categories->isEmpty())
-		{
-			foreach ($categories as $category)
-			{
-				$categoriesHtml[] = JHtml::_('select.option', $category->getId(), $category->get('name'), 'value', 'text');
-			}
-		}
 
 		// Prepare manufacturers list.
-		// @TODO Move to model
-		$db            = JFactory::getDbo();
-		$query         = $db->getQuery(true)
-			->select($db->qn('manufacturer_id', 'value'))
-			->select($db->qn('manufacturer_name', 'text'))
-			->from($db->qn('#__redshop_manufacturer'));
-		$manufacturers = $db->setQuery($query)->loadObjectList();
-		$manufacturersHtml       = array();
+		$manufacturers = RedshopModel::getInstance('Manufacturer', 'RedshopModel')->getManufacturers();
 
-		foreach ($manufacturers as $manufacturer)
-		{
-			$manufacturersHtml[] = JHtml::_('select.option', $manufacturer->value, $manufacturer->text, 'value', 'text');
-		}
-
-		return RedshopLayoutHelper::render(
+		$html = RedshopLayoutHelper::render(
 			'export.config.product',
 			array(
-				'categories'     => $manufacturersHtml,
-				'manufacturers'   => $manufacturersHtml
+				'categories'     => $categories,
+				'manufacturers'   => $manufacturers
 			)
 		);
+
+		$this->config($html);
 	}
 
 	/**
 	 * Event run when user click on Start Export
 	 *
-	 * @return  number
+	 * @return  void
 	 *
 	 * @since  1.0.0
 	 */
@@ -103,32 +84,13 @@ class PlgRedshop_ExportProduct extends Export\AbstractBase
 		$this->isAttributes  = JFactory::getApplication()->input->getBool('include_attributes', 0);
 		$this->isExtraFields = JFactory::getApplication()->input->getBool('product_extrafields', 0);
 
-		$headers = $this->getHeader();
-
-		if (!empty($headers))
-		{
-			// Init temporary folder
-			Redshop\Filesystem\Folder\Helper::create($this->getTemporaryFolder());
-			$this->writeData($headers, 'w+');
-		}
-
-		$response = new Response;
-		$data = new stdClass;
-
-		// Total rows for exporting
-		$data->rows = (int) $this->getTotal();
-
-		// Limit rows percent request
-		$data->limit = $this->limit;
-		$data->total = ceil($data->rows / $data->limit);
-
-		return $response->setData($data)->success()->respond();
+		$this->start();
 	}
 
 	/**
 	 * Event run on export process
 	 *
-	 * @return  integer
+	 * @return  void
 	 *
 	 * @since   1.0.0
 	 */
@@ -136,9 +98,7 @@ class PlgRedshop_ExportProduct extends Export\AbstractBase
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input = JFactory::getApplication()->input;
-
-		return $this->exporting($input->getInt('from', 0) * $this->limit, $this->limit);
+		$this->export();
 	}
 
 	/**

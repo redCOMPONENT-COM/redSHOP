@@ -20,6 +20,11 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerExport extends RedshopControllerAdmin
 {
+	/**
+	 * Download exported file
+	 *
+	 * @since  2.0.7
+	 */
 	public function download()
 	{
 		$file = JFactory::getApplication()->input->getRaw('file_path');

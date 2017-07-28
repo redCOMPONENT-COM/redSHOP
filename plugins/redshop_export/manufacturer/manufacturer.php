@@ -34,7 +34,7 @@ class PlgRedshop_ExportManufacturer extends Export\AbstractBase
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		$this->config();
 	}
 
 	/**
@@ -48,26 +48,7 @@ class PlgRedshop_ExportManufacturer extends Export\AbstractBase
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$headers = $this->getHeader();
-
-		if (!empty($headers))
-		{
-			// Init temporary folder
-			Redshop\Filesystem\Folder\Helper::create($this->getTemporaryFolder());
-			$this->writeData($headers, 'w+');
-		}
-
-		$response = new Response;
-		$data = new stdClass;
-
-		// Total rows for exporting
-		$data->rows = (int) $this->getTotal();
-
-		// Limit rows percent request
-		$data->limit = $this->limit;
-		$data->total = ceil($data->rows / $data->limit);
-
-		return $response->setData($data)->success()->respond();
+		$this->start();
 	}
 
 	/**
@@ -81,9 +62,7 @@ class PlgRedshop_ExportManufacturer extends Export\AbstractBase
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input = JFactory::getApplication()->input;
-
-		return $this->exporting($input->getInt('from', 0) * $this->limit, $this->limit);
+		$this->export();
 	}
 
 	/**
@@ -95,7 +74,7 @@ class PlgRedshop_ExportManufacturer extends Export\AbstractBase
 	 */
 	public function onAjaxManufacturer_Complete()
 	{
-		$this->downloadFile();
+		RedshopHelperAjax::validateAjaxRequest();
 
 		return $this->convertFile();
 	}
