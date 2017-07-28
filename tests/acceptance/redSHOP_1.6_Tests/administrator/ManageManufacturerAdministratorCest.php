@@ -22,7 +22,6 @@ class ManageManufacturerAdministratorCest
         $this->faker = Faker\Factory::create();
         $this->manufacturerName = $this->faker->bothify('ManageManufacturerAdministratorCest ?##?');
         $this->updatedName = 'Updated ' . $this->manufacturerName;
-        $this->productPerPage = $this->faker->numberBetween(1, 100);
     }
 
     /**
@@ -34,7 +33,7 @@ class ManageManufacturerAdministratorCest
         $I->wantTo('Test Manufacture creation in Administrator');
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
-        $I->addManufacturer($this->manufacturerName, $this->productPerPage);
+        $I->addManufacturer($this->manufacturerName);
         $I->searchManufacturer($this->manufacturerName);
     }
 
