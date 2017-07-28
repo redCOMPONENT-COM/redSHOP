@@ -6713,9 +6713,9 @@ class rsCarthelper
 		}
 
 		// Check if required attribute is filled or not ...
-		$attribute_template = $this->_producthelper->getAttributeTemplate($attributeTemplate);
+		$attributeTemplateArray = $this->_producthelper->getAttributeTemplate($attributeTemplate);
 
-		if (count($attribute_template) > 0)
+		if (!empty($attributeTemplateArray))
 		{
 			$selectedAttributId = 0;
 
@@ -6724,7 +6724,7 @@ class rsCarthelper
 				$selectedAttributId = implode(",", $selectedAttrId);
 			}
 
-			$req_attribute = $this->_producthelper->getProductAttribute(
+			$requiredAttribute = RedshopHelperProduct_Attribute::getProductAttribute(
 								$data['product_id'],
 								0,
 								0,
@@ -6733,24 +6733,24 @@ class rsCarthelper
 								$selectedAttributId
 							);
 
-			if (count($req_attribute) > 0)
+			if (!empty($requiredAttribute))
 			{
-				$requied_attributeArr = array();
+				$requiredAttributeArray = array();
 
-				for ($re = 0, $countAttribute = count($req_attribute); $re < $countAttribute; $re++)
+				for ($re = 0, $countAttribute = count($requiredAttribute); $re < $countAttribute; $re++)
 				{
-					$requied_attributeArr[$re] = urldecode($req_attribute[$re]->attribute_name);
+					$requiredAttributeArray[$re] = urldecode($requiredAttribute[$re]->attribute_name);
 				}
 
-				$requied_attribute_name = implode(", ", $requied_attributeArr);
+				$requiredAttributeName = implode(", ", $requiredAttributeArray);
 
 				// Error message if first attribute is required
-				return $requied_attribute_name . " " . JText::_('COM_REDSHOP_IS_REQUIRED');
+				return $requiredAttributeName . " " . JText::_('COM_REDSHOP_IS_REQUIRED');
 			}
 
 			$selectedPropertyId = 0;
 
-			if (count($selectedPropId) > 0)
+			if (!empty($selectedPropId))
 			{
 				$selectedPropertyId = implode(",", $selectedPropId);
 			}
@@ -6762,7 +6762,7 @@ class rsCarthelper
 				$notselectedSubpropertyId = implode(",", $notselectedSubpropId);
 			}
 
-			$req_property = $this->_producthelper->getAttibuteProperty(
+			$requiredProperty = RedshopHelperProduct_Attribute::getAttributeProperties(
 								$selectedPropertyId,
 								$selectedAttributId,
 								$data['product_id'],
@@ -6771,21 +6771,21 @@ class rsCarthelper
 								$notselectedSubpropertyId
 							);
 
-			if (count($req_property) > 0)
+			if (!empty($requiredProperty))
 			{
-				$requied_subattributeArr = array();
+				$requiredSubAttributeArray = array();
 
-				for ($re1 = 0, $countProperty = count($req_property); $re1 < $countProperty; $re1++)
+				for ($re1 = 0, $countProperty = count($requiredProperty); $re1 < $countProperty; $re1++)
 				{
-					$requied_subattributeArr[$re1] = urldecode($req_property[$re1]->property_name);
+					$requiredSubAttributeArray[$re1] = urldecode($requiredProperty[$re1]->property_name);
 				}
 
-				$requied_subattribute_name = implode(",", $requied_subattributeArr);
+				$requiredSubAttributeName = implode(",", $requiredSubAttributeArray);
 
 				// Give error as second attribute is required
 				if ($data['reorder'] != 1)
 				{
-					return $requied_subattribute_name . " " . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
+					return $requiredSubAttributeName . " " . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
 				}
 			}
 		}
