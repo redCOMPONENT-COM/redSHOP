@@ -1390,11 +1390,12 @@ class RedshopHelperOrder
 				break;
 
 			case "RT":
+			case "R":
 
 				if ($isProduct)
 				{
 					// Changing the status of the order item to Returned
-					self::updateOrderItemStatus($orderId, $productId, "RT", $customerNote, $orderItemId);
+					self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
 
 					// Changing the status of the order to Partially Returned
 					self::updateOrderStatus($orderId, "PRT");
