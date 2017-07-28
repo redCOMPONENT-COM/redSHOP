@@ -54,6 +54,13 @@ class RedshopEntityOrder extends RedshopEntity
 	protected $shipping;
 
 	/**
+	 * @var   array
+	 *
+	 * @since   2.0.6
+	 */
+	protected $statusLog;
+
+	/**
 	 * Get the associated table
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
@@ -108,6 +115,28 @@ class RedshopEntityOrder extends RedshopEntity
 		}
 
 		return $this->orderItems;
+	}
+
+	/**
+	 * Method for get order status log for this order
+	 *
+	 * @return   array   RedshopEntitiesCollection if success. Null otherwise.
+	 *
+	 * @since   2.0.6
+	 */
+	public function getStatusLog()
+	{
+		if (!$this->hasId())
+		{
+			return null;
+		}
+
+		if (null === $this->statusLog)
+		{
+			$this->loadStatusLog();
+		}
+
+		return $this->statusLog;
 	}
 
 	/**
@@ -233,6 +262,36 @@ class RedshopEntityOrder extends RedshopEntity
 
 			$this->orderItems->add($entity);
 		}
+
+		return $this;
+	}
+
+	/**
+	 * Method for load order status log for this order
+	 *
+	 * @return  self
+	 *
+	 * @since   2.0.6
+	 */
+	protected function loadStatusLog()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('l.*')
+			->select($db->qn('s.order_status_name'))
+			->from($db->qn('#__redshop_order_status_log', 'l'))
+			->leftJoin(
+				$db->qn('#__redshop_order_status', 's') . ' ON '
+				. $db->qn('l.order_status') . ' = ' . $db->qn('s.order_status_code')
+			)
+			->where($db->qn('l.order_id') . ' = ' . $this->getId());
+
+		$this->statusLog = $db->setQuery($query)->loadObjectList();
 
 		return $this;
 	}
