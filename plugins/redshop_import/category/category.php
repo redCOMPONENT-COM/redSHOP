@@ -53,7 +53,7 @@ class PlgRedshop_ImportCategory extends Import\AbstractBase
 	/**
 	 * Event run when user load config for export this data.
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since  1.0.0
 	 */
@@ -61,7 +61,8 @@ class PlgRedshop_ImportCategory extends Import\AbstractBase
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		return '';
+		// Get config and respond ajax
+		$this->config();
 	}
 
 	/**
@@ -75,12 +76,7 @@ class PlgRedshop_ImportCategory extends Import\AbstractBase
 	{
 		RedshopHelperAjax::validateAjaxRequest();
 
-		$input           = JFactory::getApplication()->input;
-		$this->encoding  = $input->getString('encoding', 'UTF-8');
-		$this->separator = $input->getString('separator', ',');
-		$this->folder    = $input->getCmd('folder', '');
-
-		return json_encode($this->importing());
+		return $this->import();
 	}
 
 	/**
