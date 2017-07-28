@@ -30,30 +30,6 @@ class RedshopViewList extends AbstractView
 	protected $componentLayout = 'component.admin';
 
 	/**
-	 * Do we have to display a sidebar ?
-	 *
-	 * @var  boolean
-	 */
-	protected $displaySidebar = true;
-
-	/**
-	 * Do we have to disable a sidebar ?
-	 *
-	 * @var  boolean
-	 */
-	protected $disableSidebar = false;
-
-	/**
-	 * @var  string
-	 */
-	protected $instancesName;
-
-	/**
-	 * @var  string
-	 */
-	protected $instanceName;
-
-	/**
 	 * @var array
 	 */
 	protected $columns = array();
@@ -67,9 +43,12 @@ class RedshopViewList extends AbstractView
 	protected $stateColumns = array('published', 'state');
 
 	/**
-	 * @var  RedshopModel
+	 * Display check-in button or not.
+	 *
+	 * @var   boolean
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public $model;
+	protected $checkIn = true;
 
 	/**
 	 * @var  array
@@ -224,9 +203,16 @@ class RedshopViewList extends AbstractView
 
 		if ($this->canEdit)
 		{
-			JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::checkin($this->getInstancesName() . '.checkin', 'JTOOLBAR_CHECKIN', true);
+			if (!empty($this->stateColumns))
+			{
+				JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
+				JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			}
+
+			if ($this->checkIn)
+			{
+				JToolbarHelper::checkin($this->getInstancesName() . '.checkin', 'JTOOLBAR_CHECKIN', true);
+			}
 		}
 	}
 
@@ -315,7 +301,7 @@ class RedshopViewList extends AbstractView
 	public function onRenderColumn($config, $index, $row)
 	{
 		$user             = JFactory::getUser();
-		$isCheckedOut     = $row->checked_out && $user->id != $row->checked_out;
+		$isCheckedOut     = !empty($row->checked_out) && $user->id != $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
 		$value = $row->{$config['dataCol']};
 
