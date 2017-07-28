@@ -90,6 +90,9 @@
       "user",
       "related_product"
     ],
+    "redshop_order": [
+      "esms"
+    ],
     "redshop_payment": [
       "baokim",
       "cielo",
