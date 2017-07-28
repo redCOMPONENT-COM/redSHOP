@@ -142,6 +142,7 @@ class PlgRedshop_ImportProduct extends Import\AbstractBase
 		{
 			if (!JUri::isInternal($data['product_thumb_image']))
 			{
+				// Fetch image
 				$this->copyFile($data, 'product_thumb_image');
 			}
 			else
@@ -159,6 +160,7 @@ class PlgRedshop_ImportProduct extends Import\AbstractBase
 		{
 			if (!JUri::isInternal($data['product_full_image']))
 			{
+				// @TODO Use copyFile function
 				$url        = $data['product_full_image'];
 				$binaryData = file_get_contents($url);
 

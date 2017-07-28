@@ -23,15 +23,15 @@ JHtml::script('com_redshop/require.js', false, true);
 	</div>
 <?php else: ?>
 	<script type="text/javascript">
-		// Setup requirejs
-		requirejs.config({
-			// By default we load under ../media/com_redshop/js
-			baseUrl: '../media/com_redshop/js',
-			deps: [
-				// Administrator export
-				'admin/export'
-			]
-		});
+        // Setup requirejs
+        requirejs.config({
+            // By default we load under ../media/com_redshop/js
+            baseUrl: '../media/com_redshop/js',
+            deps: [
+                // Administrator export
+                'admin/export'
+            ]
+        });
 	</script>
 
 	<form action="<?php echo 'index.php?option=com_redshop' ?>" method="post" name="adminForm" id="adminForm">
@@ -71,8 +71,21 @@ JHtml::script('com_redshop/require.js', false, true);
 										<?php echo JText::_('COM_REDSHOP_EXPORT_CONFIG_SEPARATOR') ?>
 									</label>
 									<div class="col-md-10">
-										<input type="text" value="," class="form-control" maxlength="1"
-										       name="separator"/>
+										<input type="text" value="," class="form-control" maxlength="1" name="separator"/>
+										<!-- File format -->
+										<div class="form-group">
+											<label class="col-md-2 control-label">
+												<?php echo JText::_('COM_REDSHOP_EXPORT_PRODUCT_CONFIG_FILE_TYPE'); ?>
+											</label>
+											<div class="col-md-10">
+												<select name="export_file_type">
+													<option value="xls">Excel5</option>
+													<option value="xlsx">Excel2007</option>
+													<option value="html">HTML</option>
+													<option value="csv">CSV</option>
+												</select>
+											</div>
+										</div>
 									</div>
 								</div>
 								<div id="export_config_body"></div>

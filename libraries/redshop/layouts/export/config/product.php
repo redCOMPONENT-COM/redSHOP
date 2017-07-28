@@ -59,20 +59,6 @@ foreach ($manufacturers as $manufacturer)
 	</div>
 </div>
 
-<!-- File format -->
-<div class="form-group">
-	<label class="col-md-2 control-label"><?php echo JText::_('COM_REDSHOP_EXPORT_PRODUCT_CONFIG_FILE_TYPE'); ?></label>
-	<div class="col-md-10">
-		<select name="export_file_type">
-			<option value="xls">Excel5</option>
-			<option value="xlsx">Excel2007</option>
-			<option value="html">HTML</option>
-			<option value="csv">CSV</option>
-			<option value="pdf">PDF</option>
-		</select>
-	</div>
-</div>
-
 <div class="form-group">
 	<label class="col-md-2 control-label"><?php echo JText::_('PLG_REDSHOP_EXPORT_PRODUCT_CONFIG_CATEGORIES'); ?></label>
 	<div class="col-md-10">
