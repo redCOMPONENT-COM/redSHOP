@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.5.1" type="plugin" group="redshop_order" method="upgrade">
+    <name>PLG_REDSHOP_ORDER_ESMS</name>
+    <version>1.0.0</version>
+    <redshop>2.0.6</redshop>
+    <creationDate>July 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <copyright>(C) 2017 redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+    <description>PLG_REDSHOP_ORDER_ESMS_DESC</description>
+    <files>
+        <folder>language</folder>
+        <filename plugin="esms">esms.php</filename>
+        <filename>index.html</filename>
+    </files>
+    <config>
+        <fields name="params" addfieldpath="/libraries/redshop/form/fields">
+            <fieldset name="basic">
+                <field
+                        name="api_key"
+                        type="text"
+                        default=""
+                        required="true"
+                        class="input-xxlarge"
+                        label="PLG_REDSHOP_ORDER_ESMS_API_KEY"
+                        description="PLG_REDSHOP_ORDER_ESMS_API_KEY_DESC">
+                </field>
+                <field
+                        name="api_secret"
+                        type="text"
+                        default=""
+                        required="true"
+                        class="input-xxlarge"
+                        label="PLG_REDSHOP_ORDER_ESMS_API_SECRET"
+                        description="PLG_REDSHOP_ORDER_ESMS_API_SECRET_DESC">
+                </field>
+                <field
+                        name="type"
+                        type="list"
+                        default=""
+                        required="true"
+                        class="input-xxlarge"
+                        label="PLG_REDSHOP_ORDER_ESMS_API_TYPE"
+                        description="PLG_REDSHOP_ORDER_ESMS_API_TYPE_DESC">
+                    <option value="">PLG_REDSHOP_ORDER_ESMS_API_TYPE_SELECT</option>
+                    <option value="1">PLG_REDSHOP_ORDER_ESMS_API_TYPE_1</option>
+                    <option value="2">PLG_REDSHOP_ORDER_ESMS_API_TYPE_2</option>
+                    <option value="3">PLG_REDSHOP_ORDER_ESMS_API_TYPE_3</option>
+                    <option value="4">PLG_REDSHOP_ORDER_ESMS_API_TYPE_4</option>
+                    <option value="6">PLG_REDSHOP_ORDER_ESMS_API_TYPE_6</option>
+                    <option value="7">PLG_REDSHOP_ORDER_ESMS_API_TYPE_7</option>
+                    <option value="8">PLG_REDSHOP_ORDER_ESMS_API_TYPE_8</option>
+                </field>
+                <field
+                        name="status"
+                        type="orderstatus"
+                        multiple="true"
+                        required="true"
+                        class="input-xxlarge"
+                        label="PLG_REDSHOP_ORDER_ESMS_ORDER_STATUS"
+                        description="PLG_REDSHOP_ORDER_ESMS_ORDER_STATUS_DESC">
+                </field>
+                <field
+                        name="content"
+                        type="textarea"
+                        maxlength="160"
+                        default="Order ID: {order_id} in {shop_name} has been updated to {status}"
+                        required="true"
+                        rows="4"
+                        class="input-xxlarge"
+                        label="PLG_REDSHOP_ORDER_ESMS_CONTENT"
+                        description="PLG_REDSHOP_ORDER_ESMS_CONTENT_DESC">
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
