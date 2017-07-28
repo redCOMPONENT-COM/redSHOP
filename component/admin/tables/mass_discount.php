@@ -34,7 +34,7 @@ class RedshopTableMass_Discount extends RedshopTable
 	 * method only binds properties that are publicly accessible and optionally
 	 * takes an array of properties to ignore when binding.
 	 *
-	 * @param   mixed  &$src    An associative array or object to bind to the JTable instance.
+	 * @param   mixed  $src     An associative array or object to bind to the JTable instance.
 	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
 	 *
 	 * @return  boolean  True on success.
@@ -87,7 +87,7 @@ class RedshopTableMass_Discount extends RedshopTable
 	 * method only binds properties that are publicly accessible and optionally
 	 * takes an array of properties to ignore when binding.
 	 *
-	 * @param   mixed  &$src    An associative array or object to bind to the JTable instance.
+	 * @param   mixed  $src     An associative array or object to bind to the JTable instance.
 	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
 	 *
 	 * @return  boolean  True on success.
@@ -100,6 +100,12 @@ class RedshopTableMass_Discount extends RedshopTable
 		{
 			$this->discount_product = null;
 			unset($src['discount_product']);
+		}
+
+		if (empty($src['category_id']) && empty($this->category_id))
+		{
+			$this->category_id = null;
+			unset($src['category_id']);
 		}
 
 		return parent::doBind($src, $ignore);
@@ -124,18 +130,18 @@ class RedshopTableMass_Discount extends RedshopTable
 		$massDiscountIds = ArrayHelper::toInteger($massDiscountIds);
 		$productIds      = array();
 
+		$table = clone $this;
+
 		foreach ($massDiscountIds as $massDiscountId)
 		{
-			$table = JTable::getInstance('Mass_Discount', 'RedshopTable');
-
 			if (!$table->load($massDiscountId))
 			{
 				continue;
 			}
 
-			if (!empty($table->discount_product))
+			if (!empty($table->get('discount_product')))
 			{
-				$this->updateProduct($table->discount_product);
+				$this->updateProduct($table->get('discount_product'));
 			}
 
 			$categories = explode(',', $table->category_id);
@@ -467,7 +473,7 @@ class RedshopTableMass_Discount extends RedshopTable
 	 *
 	 * @param   array  $productIds  List of products.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 */
 	public function updateProduct($productIds)
 	{
@@ -528,7 +534,7 @@ class RedshopTableMass_Discount extends RedshopTable
 	 * @param   boolean  $isNew    Is new or not.
 	 * @param   mixed    $oldItem  Old data
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   2.0.3
 	 */
@@ -543,7 +549,7 @@ class RedshopTableMass_Discount extends RedshopTable
 		$discountProducts    = $isNew ? array() : explode(',', $oldItem->discount_product);
 		$newDiscountProducts = explode(',', $this->discount_product);
 
-		$diffProducts = array_diff($discountProducts, $newDiscountProducts);
+		$diffProducts = array_filter(array_diff($discountProducts, $newDiscountProducts));
 
 		if (count($diffProducts))
 		{
