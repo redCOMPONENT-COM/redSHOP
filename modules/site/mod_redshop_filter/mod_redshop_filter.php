@@ -21,13 +21,18 @@ $rootCategory       = $params->get('root_category', 0);
 $enableCategory     = $params->get('category');
 $enableManufacturer = $params->get('manufacturer');
 $enablePrice        = $params->get('price');
+$enableCustomField  = $params->get('custom_field');
+$productFields      = $params->get('product_fields');
 $enableKeyword      = $params->get('keyword');
 $template           = $params->get('template_id');
 $limit              = $params->get('limit', 0);
+$option             = $input->getCmd('option', '');
 $view               = $input->getCmd('view', '');
 $layout             = $input->getCmd('layout', '');
+$itemId             = $input->getInt('Itemid', 0);
 $keyword            = $input->post->getString('keyword', '');
 $action             = JRoute::_("index.php?option=com_redshop&view=search");
+$getData            = $input->getArray();
 
 if (!empty($cid))
 {
@@ -53,7 +58,7 @@ if (!empty($cid))
 	$catList       = array_unique($catList);
 	$manufacturers = ModRedshopFilter::getManufacturers(array_unique($manuList));
 	$categories    = ModRedshopFilter::getCategories($catList, $rootCategory, $cid);
-	$customFields  = ModRedshopFilter::getCustomFields($pids);
+	$customFields  = ModRedshopFilter::getCustomFields($pids, $productFields);
 	$rangePrice    = ModRedshopFilter::getRange($pids);
 }
 elseif (!empty($mid))
@@ -91,7 +96,7 @@ elseif ($view == 'search')
 	$rangePrice    = ModRedshopFilter::getRange($pids);
 }
 
-$rangeMin = $rangePrice['min'];
-$rangeMax = $rangePrice['max'];
+$rangeMin = $getData['filterprice']['min'] ? $getData['filterprice']['min'] : $rangePrice['min'];
+$rangeMax = $getData['filterprice']['max'] ? $getData['filterprice']['max'] : $rangePrice['max'];
 
 require JModuleHelper::getLayoutPath('mod_redshop_filter', $params->get('layout', 'default'));

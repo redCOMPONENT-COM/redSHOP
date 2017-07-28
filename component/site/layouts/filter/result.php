@@ -784,6 +784,8 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateDesc = RedshopHelperTemplate::parseRedshopPlugin($templateDesc);
 
 	$templateDesc = RedshopHelperText::replaceTexts($templateDesc);
+
+	$templateDesc .= '<div id="new-url" style="display: none">' . $displayData['url'] . '</div>';
 }
 
 // End Replace Products
