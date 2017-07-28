@@ -51,7 +51,6 @@
                 description="COM_REDSHOP_VOUCHER_START_DATE_DESC"
                 class="form-control"
                 default=""
-                readonly="true"
                 table-sortable="1"
                 table-width="10%"
         />
@@ -62,7 +61,6 @@
                 description="COM_REDSHOP_VOUCHER_END_DATE_DESC"
                 class="form-control"
                 default=""
-                readonly="true"
                 table-sortable="1"
                 table-width="10%"
         />
