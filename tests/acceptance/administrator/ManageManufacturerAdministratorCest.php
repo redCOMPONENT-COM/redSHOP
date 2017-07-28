@@ -78,6 +78,5 @@ class ManageManufacturerAdministratorCest
         $I->doAdministratorLogin();
         $I = new AcceptanceTester\ManufacturerManagerJoomla3Steps($scenario);
         $I->deleteManufacturer($this->updatedName);
-        $I->searchManufacturer($this->updatedName, 'Delete');
     }
 }
