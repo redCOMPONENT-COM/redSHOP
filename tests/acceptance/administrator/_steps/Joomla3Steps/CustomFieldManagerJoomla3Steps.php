@@ -41,7 +41,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldTypeSearch, 3);
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldTypeSearch, $type);
 
-        $I->click($customFieldsManagerPage->selectorForChoice($type));
+        $I->click($customFieldsManagerPage->xPathChoice($type));
 
 
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $title);
@@ -49,7 +49,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\CustomFieldManagerJoomla3Page::$fieldSectionDropDown);
         $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldSectionSearch, 3);
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldSectionSearch, $section);
-        $I->click($customFieldsManagerPage->selectorForChoice($section));
+        $I->click($customFieldsManagerPage->xPathChoice($section));
 //        $I->click('Save');
 //        $I->wait(4);
 //        $I->see(\CustomFieldManagerJoomla3Page::$messageSaveSuccess, \CustomFieldManagerJoomla3Page::$selectorSuccess);

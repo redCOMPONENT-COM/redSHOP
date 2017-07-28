@@ -93,7 +93,7 @@ class CustomFieldManagerJoomla3Page
         return $path;
     }
 
-    public function selectorForChoice($typeChoice)
+    public function xPathChoice($typeChoice)
     {
         $path = ['xpath' => "//span[contains(text(), '" . $typeChoice . "')]"];
         return $path;
