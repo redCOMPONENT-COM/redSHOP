@@ -27,10 +27,10 @@ class PlgRedshop_OrderClickATellInstallerScript
 	 */
 	public function postflight($type)
 	{
-		/*if ($type !== 'install' && $type !== 'discover_install')
+		if ($type !== 'install' && $type !== 'discover_install')
 		{
 			return;
-		}*/
+		}
 
 		$this->getClickATellKeyFromOldRedshop();
 	}

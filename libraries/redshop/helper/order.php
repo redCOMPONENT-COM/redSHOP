@@ -1396,7 +1396,6 @@ class RedshopHelperOrder
 		}
 
 		self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
-		// @TODO: Place Click-A-Tell Send SMS here
 
 		switch ($newStatus)
 		{
@@ -2866,7 +2865,8 @@ class RedshopHelperOrder
 			self::createWebPackLabel($orderId, $newStatus, $paymentStatus);
 		}
 
-		// @TODO: Place Click-A-Tell Send SMS here
+		JPluginHelper::importPlugin('redshop_order');
+		RedshopHelperUtility::getDispatcher()->trigger('onAfterOrderStatusUpdate', array(RedshopEntityOrder::getInstance($orderId)->getItem(), $newStatus));
 
 		// If changing the status of the order then there item status need to change
 		if ($isProduct != 1)

@@ -528,7 +528,8 @@ class RedshopModelCheckout extends RedshopModel
 			$quotationHelper->updateQuotationwithOrder($cart['quotation_id'], $row->order_id);
 		}
 
-		// @TODO: Place Click-A-Tell Send SMS here
+		JPluginHelper::importPlugin('redshop_order');
+		RedshopHelperUtility::getDispatcher()->trigger('onAfterOrderPlace', array($row->order_id));
 
 		$session->set('order_id', $order_id);
 

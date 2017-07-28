@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
+JLoader::import('PlgRedshop_OrderClickATellHelper', __DIR__ . '/helper');
 
 /**
  * redSHOP Click A Tell plugin
@@ -37,5 +38,18 @@ class PlgRedshop_OrderClickATell extends JPlugin
 	public function onAfterOrderStatusUpdate($data, $newStatus)
 	{
 
+	}
+
+	/**
+	 * Event run after new order placed.
+	 *
+	 * @param   int  $orderId  ID of new order.
+	 *
+	 * @return  void
+	 * @since   1.0.0
+	 */
+	public function onAfterOrderPlace($orderId = 0)
+	{
+		PlgRedshop_OrderClickATellHelper::clickatellSMS($orderId);
 	}
 }

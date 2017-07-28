@@ -750,7 +750,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 			return false;
 		}
 
-		// @TODO: Place Click-A-Tell Send SMS here
+		// Trigger event after order place
+		JPluginHelper::importPlugin('redshop_order');
+		RedshopHelperUtility::getDispatcher()->trigger('onAfterOrderPlace', array($row->order_id));
 
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)

@@ -16,8 +16,13 @@ defined('_JEXEC') or die;
  * @subpackage  Helpers
  * @since       2.0.6
  */
-class RedshopHelperClickatell
+class PlgRedshop_OrderClickATellHelper
 {
+	public static function check($orderId = 0, $orderStatus = array(), $payments = array())
+	{
+
+	}
+
 	/**
 	 * Method for run process on order ID
 	 *
