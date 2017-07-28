@@ -940,7 +940,7 @@ class RedshopHelperOrder
 
 			$xmlResponse = $xmlResponse->val;
 
-			if ('201' == (string) $xmlResponse[1] && 'Created' == (string) $xmlResponse[2])
+			if ('201' === (string) $xmlResponse[1] && 'Created' === (string) $xmlResponse[2])
 			{
 				// Update current order success entry.
 				$query = $db->getQuery(true)
@@ -1068,8 +1068,14 @@ class RedshopHelperOrder
 			}
 
 			// Trigger function on Order Status change
-			JPluginHelper::importPlugin('order');
-			RedshopHelperUtility::getDispatcher()->trigger('onAfterOrderStatusUpdate', array(self::getOrderDetails($orderId)));
+			JPluginHelper::importPlugin('redshop_order');
+			RedshopHelperUtility::getDispatcher()->trigger(
+				'onAfterOrderStatusUpdate',
+				array(
+					self::getOrderDetails($orderId),
+					$data->order_status_code
+				)
+			);
 
 			// For Webpack Postdk Label Generation
 			self::createWebPackLabel($orderId, $data->order_status_code, $data->order_payment_status_code);
@@ -1339,11 +1345,14 @@ class RedshopHelperOrder
 			self::updateOrderStatus($orderId, $newStatus);
 
 			// Trigger function on Order Status change
-			JPluginHelper::importPlugin('order');
+			JPluginHelper::importPlugin('redshop_order');
 
 			RedshopHelperUtility::getDispatcher()->trigger(
 				'onAfterOrderStatusUpdate',
-				array(RedshopEntityOrder::getInstance($orderId)->getItem())
+				array(
+					RedshopEntityOrder::getInstance($orderId)->getItem(),
+					$newStatus
+				)
 			);
 
 			if ($paymentStatus == "Paid")
@@ -1366,7 +1375,7 @@ class RedshopHelperOrder
 				}
 			}
 
-			self::createWebPacklabel($orderId, $newStatus, $paymentStatus);
+			self::createWebPackLabel($orderId, $newStatus, $paymentStatus);
 		}
 
 		self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
@@ -1375,7 +1384,6 @@ class RedshopHelperOrder
 		switch ($newStatus)
 		{
 			case "X";
-
 				$orderProducts = self::getOrderItemDetail($orderId);
 
 				for ($i = 0, $in = count($orderProducts); $i < $in; $i++)
@@ -1935,7 +1943,7 @@ class RedshopHelperOrder
 
 			$maxOrderNumber = $db->loadResult();
 			$maxInvoice     = Economic::getMaxOrderNumberInEconomic();
-			$maxId          = max(intval($maxOrderNumber), $maxInvoice);
+			$maxId          = max((int) $maxOrderNumber, $maxInvoice);
 		}
 		elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
 		{
