@@ -14,7 +14,8 @@
  * @since  1.4
  */
 class CustomFieldManagerJoomla3Page
-{ public static $URL = '/administrator/index.php?option=com_redshop&view=fields';
+{
+    public static $URL = '/administrator/index.php?option=com_redshop&view=fields';
 
     public static $URLNew = '';
 
@@ -92,7 +93,7 @@ class CustomFieldManagerJoomla3Page
         return $path;
     }
 
-    public function xPathChoice($typeChoice)
+    public function selectorForChoice($typeChoice)
     {
         $path = ['xpath' => "//span[contains(text(), '" . $typeChoice . "')]"];
         return $path;
