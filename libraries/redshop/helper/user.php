@@ -539,6 +539,7 @@ class RedshopHelperUser
 
 		$row->user_id = $data['user_id'] = $userId;
 
+		JPluginHelper::importPlugin('redshop_shipping');
 		JPluginHelper::importPlugin('redshop_user');
 		RedshopHelperUtility::getDispatcher()->trigger('onBeforeCreateRedshopUser', array(&$data, $isNew));
 
