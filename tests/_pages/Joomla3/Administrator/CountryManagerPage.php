@@ -15,6 +15,9 @@
  */
 class CountryManagerPage
 {
+	public static $namePage = 'Country Management';
+	public static $headPage = ['xpath' => "//h1"];
+
 	public static $URL = '/administrator/index.php?option=com_redshop&view=countries';
 
 	public static $countryName = "#jform_country_name";
@@ -28,4 +31,12 @@ class CountryManagerPage
 	public static $countryCheck = "//input[@id='cb0']";
 
 	public static $countryResultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
+
+	public static $newButton = "New";
+
+	public static $saveCloseButton = "Save & Close";
+
+	public static $itemSaveSuccessMessage = "Item saved.";
+
+	public static $selectorSuccess = ".alert-success";
 }
