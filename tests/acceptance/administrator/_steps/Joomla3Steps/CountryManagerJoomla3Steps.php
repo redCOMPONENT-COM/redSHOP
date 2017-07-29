@@ -99,6 +99,17 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteCountry($countryName)
 	{
-		$this->delete(new \CountryManagerPage, $countryName, \CountryManagerPage::$countryResultRow, \CountryManagerPage::$countryCheck, ['id' => 'filter_search']);
+		$I = $this;
+		$I->amOnPage(\CountryManagerPage::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->searchCountry($countryName);
+		$I->checkAllResults();
+		$I->click(\CountryManagerPage::$deleteButton);
+		$I->acceptPopup();
+		$I->waitForText(\CountryManagerPage::$messageDeletedOneSuccess, 60, \CountryManagerPage::$selectorSuccess);
+		$I->see(\CountryManagerPage::$messageDeletedOneSuccess, \CountryManagerPage::$selectorSuccess);
+		$I->fillField(\CountryManagerPage::$searchField, $countryName);
+		$I->pressKey(\CountryManagerPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->dontSee($countryName, \CountryManagerPage::$countryResultRow);
 	}
 }

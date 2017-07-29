@@ -69,6 +69,5 @@ class ManageCountryAdministratorCest
 		$I = new AcceptanceTester\CountryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete a Country');
 		$I->deleteCountry($this->newCountryName);
-		$I->searchCountry($this->newCountryName, 'Delete');
 	}
 }
