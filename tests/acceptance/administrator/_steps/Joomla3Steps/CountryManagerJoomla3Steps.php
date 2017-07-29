@@ -45,7 +45,7 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText('Country Management',60,'h1');
 		$I->see('Item saved', ['id' => 'system-message-container']);
 		$I->filterListBySearching($countryName);
-		$I->seeElement(['link' => $countryName]);
+		$I->see($countryName, \CountryManagerPage::$countryResultRow);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText('Country Management',10,'h1');
 		$I->see('Item saved', ['id' => 'system-message-container']);
 		$I->filterListBySearching($newCountryName);
-		$I->seeElement(['link' => $newCountryName]);
+		$I->see($newCountryName, \CountryManagerPage::$countryResultRow);
 	}
 
 	/**
