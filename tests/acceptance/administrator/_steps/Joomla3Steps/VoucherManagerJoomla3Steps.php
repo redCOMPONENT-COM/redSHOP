@@ -47,7 +47,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(\VoucherManagerPage::$voucherEndDate, $voucherEndDate);
                 $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
                 $I->click(\VoucherManagerPage::$saveButton);
-                $I->see(\VoucherManagerPage::$messageSaveSuccessVocher, \VoucherManagerPage::$selectorSuccess);
+                $I->see(\VoucherManagerPage::$messageSaveSuccess, \VoucherManagerPage::$selectorSuccess);
 
                 break;
             case 'saveclose':
@@ -62,7 +62,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
                 $I->click(\VoucherManagerPage::$saveCloseButton);
                 $I->waitForElement(\VoucherManagerPage::$messageContainer, 60);
-                $I->see(\VoucherManagerPage::$messageSaveSuccessVocher, \VoucherManagerPage::$selectorSuccess);
+                $I->see(\VoucherManagerPage::$messageSaveSuccess, \VoucherManagerPage::$selectorSuccess);
                 $I->seeElement(['link' => $code]);
                 break;
 
