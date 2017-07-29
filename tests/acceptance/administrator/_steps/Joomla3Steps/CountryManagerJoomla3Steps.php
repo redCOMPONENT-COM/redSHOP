@@ -34,17 +34,18 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CountryManagerPage::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager Page');
-		$I->click('New');
-		$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager New');
+		$I->checkForPhpNoticesOrWarnings();
+		$I->click(\CountryManagerPage::$newButton);
+		$I->waitForElement(\CountryManagerPage::$countryName, 30);
+		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\CountryManagerPage::$countryName, $countryName);
 		$I->fillField(\CountryManagerPage::$countryThreeCode, $threeCode);
 		$I->fillField(\CountryManagerPage::$countryTwoCode, $twoCode);
 		$I->fillField(\CountryManagerPage::$country, $country);
-		$I->click('Save & Close');
-		$I->waitForText('Country Management',60,'h1');
-		$I->see('Item saved', ['id' => 'system-message-container']);
-		$I->filterListBySearching($countryName);
+		$I->click(\CountryManagerPage::$saveCloseButton);
+		$I->waitForText(\CountryManagerPage::$itemSaveSuccessMessage, 60, \CountryManagerPage::$selectorSuccess);
+		$I->see(\CountryManagerPage::$itemSaveSuccessMessage, \CountryManagerPage::$selectorSuccess);
+		$I->searchCountry($countryName);
 		$I->see($countryName, \CountryManagerPage::$countryResultRow);
 	}
 
@@ -78,13 +79,15 @@ class CountryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @param   string  $countryName   Name of the Country
 	 *
-	 * @param   string  $functionName  Function Name after which Search is being Called
-	 *
 	 * @return void
 	 */
-	public function searchCountry($countryName, $functionName = 'Search')
+	public function searchCountry($countryName)
 	{
-		$this->search(new \CountryManagerPage, $countryName, \CountryManagerPage::$countryResultRow, $functionName);
+		$I = $this;
+		$I->wantTo('Search country');
+		$I->amOnPage(\CountryManagerPage::$URL);
+		$I->waitForText(\CountryManagerPage::$namePage, 30, \CountryManagerPage::$headPage);
+		$I->filterListBySearching($countryName);
 	}
 
 	/**
