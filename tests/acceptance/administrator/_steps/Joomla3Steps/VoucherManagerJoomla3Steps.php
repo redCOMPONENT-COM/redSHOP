@@ -242,18 +242,17 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     /**
      * Function to Change Voucher State
      *
-     * @param   String $voucherCode Code of the voucher for which the state is to be changed
-     * @param   String $state State to which we want it to be changed to
+     * @param   string  $voucherCode  Code of the voucher for which the state is to be changed
      *
-     * @return void
+     * @return  void
      */
     public function changeVoucherState($voucherCode)
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->filterListBySearching($voucherCode, \VoucherManagerPage::$filter);
+        $I->searchVoucherCode($voucherCode);
         $I->wait(3);
-        $I->seeElement(['link' => $voucherCode]);
+	    $I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
         $I->click(\VoucherManagerPage::$xPathStatus);
     }
 
@@ -329,7 +328,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     public function searchVoucherCode($voucherCode)
     {
         $I = $this;
-        $I->wantTo('Search the Category');
+        $I->wantTo('Search voucher code');
         $I->amOnPage(\VoucherManagerPage::$URL);
         $I->waitForText(\VoucherManagerPage::$namePageManagement, 30, \VoucherManagerPage::$headPageName);
         $I->filterListBySearching($voucherCode, \VoucherManagerPage::$filter);
