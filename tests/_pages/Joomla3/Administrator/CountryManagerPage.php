@@ -27,5 +27,5 @@ class CountryManagerPage
 
 	public static $countryCheck = "//input[@id='cb0']";
 
-	public static $countryResultRow = "//form[@id='adminForm']/table/tbody/tr[1]";
+	public static $countryResultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
 }

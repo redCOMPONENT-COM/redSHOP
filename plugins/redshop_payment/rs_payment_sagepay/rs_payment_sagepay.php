@@ -21,14 +21,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 			return;
 		}
 
-		if (empty($plugin))
-		{
-			$plugin = $element;
-		}
-
-		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
-		include $paymentpath;
+		include JPATH_SITE . '/plugins/redshop_payment/' . $this->_name . '/' . $this->_name . '/extra_info.php';
 	}
 
 	public function onNotifyPaymentrs_payment_sagepay($element, $request)
