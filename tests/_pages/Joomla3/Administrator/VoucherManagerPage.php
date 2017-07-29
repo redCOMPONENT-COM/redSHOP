@@ -44,7 +44,7 @@ class VoucherManagerPage
     public static $filter = ['id' => 'filter'];
     public static $voucherSearchField = "#filter_search";
 
-    public static $xPathStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[9]/a"];
+    public static $xPathStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[10]/a"];
 
 
     public static $xPathInvalid = ['xpath' => "//div[@id='system-message-container']/div/div"];
