@@ -92,11 +92,13 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->acceptPopup();
     }
 
-    public function voucherMissingFieldValidValidation($code, $amount, $voucherStartDate, $voucherEndDate, $count, $nameProduct,$fieldName){
+    public function voucherMissingFieldValidValidation($code, $amount, $voucherStartDate, $voucherEndDate, $count, $nameProduct,$fieldName)
+    {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
         $I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
         $I->click(\VoucherManagerPage::$newButton);
+
         switch ($fieldName){
             case 'code':
                 $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
@@ -113,7 +115,9 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->click(\VoucherManagerPage::$saveButton);
                 $I->see(\VoucherManagerPage::$invalidCode, \VoucherManagerPage::$xPathInvalid);
                 break;
-            case 'product':
+
+            /* @TODO: Since vouchers can be set associated with all products if leave it empty. Keep this check for future consider.
+             * case 'product':
                 $I->fillField(\VoucherManagerPage::$voucherCode, $code);
                 $I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
                 $I->fillField(\VoucherManagerPage::$voucherStartDate, $voucherEndDate);
@@ -121,8 +125,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(\VoucherManagerPage::$voucherLeft, $count);
                 $I->click(\VoucherManagerPage::$saveButton);
                 $I->see(\VoucherManagerPage::$invalidProduct, \VoucherManagerPage::$xPathInvalid);
-                break;
-
+                break;*/
         }
     }
     /**
