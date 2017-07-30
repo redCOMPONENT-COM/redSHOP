@@ -82,7 +82,7 @@ class StateManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\StateManagerJ3Page::$URL);
 		$I->checkForPhpNoticesOrWarnings();
-		$I->searchSupplier($stateName);
+		$I->searchState($stateName);
 		$I->checkAllResults();
 		$I->click(\StateManagerJ3Page::$deleteButton);
 		$I->acceptPopup();
