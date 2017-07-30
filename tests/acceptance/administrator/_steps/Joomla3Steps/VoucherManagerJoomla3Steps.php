@@ -220,14 +220,14 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
 	    $I->amOnPage(\VoucherManagerPage::$URL);
 	    $I->checkForPhpNoticesOrWarnings();
-	    $I->searchSupplier($voucherCode);
+	    $I->searchVoucherCode($voucherCode);
 	    $I->checkAllResults();
 	    $I->click(\VoucherManagerPage::$deleteButton);
 	    $I->acceptPopup();
 	    $I->waitForText(\VoucherManagerPage::$messageDeletedOneSuccess, 60, \VoucherManagerPage::$selectorSuccess);
 	    $I->see(\VoucherManagerPage::$messageDeletedOneSuccess, \VoucherManagerPage::$selectorSuccess);
 	    $I->fillField(\VoucherManagerPage::$searchField, $voucherCode);
-	    $I->pressKey(\SupplierManagerPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+	    $I->pressKey(\VoucherManagerPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	    $I->dontSee($voucherCode, \VoucherManagerPage::$voucherResultRow);
     }
 
