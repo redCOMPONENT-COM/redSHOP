@@ -218,14 +218,17 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     public function deleteVoucher($voucherCode)
     {
         $I = $this;
-        $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->waitForElement(\VoucherManagerPage::$voucherResultRow, 30);
-        $I->fillField(\VoucherManagerPage::$voucherSearchField, $voucherCode);
-        $I->pressKey(\VoucherManagerPage::$voucherSearchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-        $I->waitForElement(['link' => $voucherCode]);
-        $I->click(\VoucherManagerPage::$voucherCheck);
-        $I->click(\VoucherManagerPage::$deleteButton);
-        $I->dontSeeElement(['link' => $voucherCode]);
+	    $I->amOnPage(\VoucherManagerPage::$URL);
+	    $I->checkForPhpNoticesOrWarnings();
+	    $I->searchSupplier($voucherCode);
+	    $I->checkAllResults();
+	    $I->click(\VoucherManagerPage::$deleteButton);
+	    $I->acceptPopup();
+	    $I->waitForText(\VoucherManagerPage::$messageDeletedOneSuccess, 60, \VoucherManagerPage::$selectorSuccess);
+	    $I->see(\VoucherManagerPage::$messageDeletedOneSuccess, \VoucherManagerPage::$selectorSuccess);
+	    $I->fillField(\VoucherManagerPage::$searchField, $voucherCode);
+	    $I->pressKey(\SupplierManagerPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+	    $I->dontSee($voucherCode, \VoucherManagerPage::$voucherResultRow);
     }
 
     /**

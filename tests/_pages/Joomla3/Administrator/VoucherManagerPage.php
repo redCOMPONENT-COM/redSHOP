@@ -53,7 +53,7 @@ class VoucherManagerPage
 
     public static $messageContainer = ['id' => 'system-message-container'];
 
-
+	public static $searchField = ['id' => 'filter_search'];
 
     //button
     public static $newButton = "New";
@@ -95,7 +95,7 @@ class VoucherManagerPage
 
     public static $messageSuccess = "Message";
 
-    public static $messageDeleteSuccess = "1 item successfully deleted";
+	public static $messageDeletedOneSuccess = "1 item successfully deleted";
 
     public static $invalidCode = 'Field required: Code';
 
