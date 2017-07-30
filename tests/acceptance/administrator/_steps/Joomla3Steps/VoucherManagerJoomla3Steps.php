@@ -184,7 +184,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings($URLEdit);
         $I->fillField(\VoucherManagerPage::$voucherCode, "");
         $I->click(\VoucherManagerPage::$closeButton);
-        $I->filterListBySearching($voucherCode, \VoucherManagerPage::$filter);
+        $I->filterListBySearching($voucherCode);
         $I->seeElement(['link' => $voucherCode]);
     }
 
@@ -260,7 +260,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->filterListBySearching($voucherCode, \VoucherManagerPage::$filter);
+        $I->filterListBySearching($voucherCode);
         $I->wait(3);
         $I->checkAllResults();
         $I->click(\VoucherManagerPage::$unpublishButton);
@@ -272,7 +272,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->filterListBySearching($voucherCode, \VoucherManagerPage::$filter);
+        $I->filterListBySearching($voucherCode);
         $I->wait(3);
         $I->checkAllResults();
         $I->click(\VoucherManagerPage::$publishButton);
@@ -331,6 +331,6 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->wantTo('Search voucher code');
         $I->amOnPage(\VoucherManagerPage::$URL);
         $I->waitForText(\VoucherManagerPage::$namePageManagement, 30, \VoucherManagerPage::$headPageName);
-        $I->filterListBySearching($voucherCode, \VoucherManagerPage::$filter);
+        $I->filterListBySearching($voucherCode);
     }
 }

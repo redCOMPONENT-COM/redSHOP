@@ -41,7 +41,6 @@ class VoucherManagerPage
 
     public static $voucherId = "//div[@class='table-responsive']/tbody/tr/td[11]/a";
 
-    public static $filter = ['id' => 'filter'];
     public static $voucherSearchField = "#filter_search";
 
     public static $xPathStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[10]/a"];
