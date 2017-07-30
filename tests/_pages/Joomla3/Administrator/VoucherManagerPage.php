@@ -39,12 +39,11 @@ class VoucherManagerPage
 
     public static $voucherStatePath = "//div[@class='table-responsive']/table/tbody/tr/td[10]/a";
 
-    public static $voucherId = "//div[@class='table-responsive']/tbody/tr/td[12]";
+    public static $voucherId = "//div[@class='table-responsive']/tbody/tr[1]/td[12]";
 
     public static $voucherSearchField = "#filter_search";
 
     public static $xPathStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[10]/a"];
-
 
     public static $xPathInvalid = ['xpath' => "//div[@id='system-message-container']/div/div"];
 
