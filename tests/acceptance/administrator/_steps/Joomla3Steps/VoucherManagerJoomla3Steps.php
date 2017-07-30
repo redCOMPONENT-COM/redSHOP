@@ -137,15 +137,11 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->waitForElement(['link' => $voucherCode], 60);
-        $I->searchVoucherCode($voucherCode);
-        $I->wait(3);
-        $I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
-        $value = $I->grabTextFrom(\VoucherManagerPage::$voucherId);
-        $URLEdit = \VoucherManagerPage::$URLEdit . $value;
-        $I->click(['link' => $voucherCode]);
-        $I->checkForPhpNoticesOrWarnings($URLEdit);
-
+	    $I->checkForPhpNoticesOrWarnings();
+	    $I->searchVoucherCode($voucherCode);
+	    $I->click($voucherCode);
+	    $I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
+        $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\VoucherManagerPage::$voucherCode, $voucherNewCode);
         $I->click(\VoucherManagerPage::$saveCloseButton);
         $I->waitForElement(\VoucherManagerPage::$messageContainer, 60);
@@ -157,14 +153,11 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->waitForElement(['link' => $voucherCode], 60);
+        $I->checkForPhpNoticesOrWarnings();
         $I->searchVoucherCode($voucherCode);
-        $I->wait(3);
-        $I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
-        $value = $I->grabTextFrom(\VoucherManagerPage::$voucherId);
-        $URLEdit = \VoucherManagerPage::$URLEdit . $value;
-        $I->click(['link' => $voucherCode]);
-        $I->checkForPhpNoticesOrWarnings($URLEdit);
+        $I->click($voucherCode);
+        $I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
+        $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\VoucherManagerPage::$voucherCode, "");
         $I->click(\VoucherManagerPage::$saveCloseButton);
         $I->see(\VoucherManagerPage::$invalidCode, \VoucherManagerPage::$xPathInvalid);
@@ -173,19 +166,15 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
     public function checkCloseButton($voucherCode)
     {
         $I = $this;
-        $I->amOnPage(\VoucherManagerPage::$URL);
-        $I->waitForElement(['link' => $voucherCode], 60);
-        $I->searchVoucherCode($voucherCode);
-        $I->wait(3);
-        $I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
-        $value = $I->grabTextFrom(\VoucherManagerPage::$voucherId);
-        $URLEdit = \VoucherManagerPage::$URLEdit . $value;
-        $I->click(['link' => $voucherCode]);
-        $I->checkForPhpNoticesOrWarnings($URLEdit);
+	    $I->amOnPage(\VoucherManagerPage::$URL);
+	    $I->checkForPhpNoticesOrWarnings();
+	    $I->searchVoucherCode($voucherCode);
+	    $I->click($voucherCode);
+	    $I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
+        $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\VoucherManagerPage::$voucherCode, "");
         $I->click(\VoucherManagerPage::$closeButton);
-        $I->filterListBySearching($voucherCode);
-        $I->seeElement(['link' => $voucherCode]);
+        $I->searchVoucherCode($voucherCode);
     }
 
     public function checkButtons($buttonName)
