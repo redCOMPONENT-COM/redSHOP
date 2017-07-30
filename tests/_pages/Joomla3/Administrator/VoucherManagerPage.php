@@ -97,7 +97,7 @@ class VoucherManagerPage
 
     public static $messageDeleteSuccess = "1 item successfully deleted";
 
-    public static $invalidCode = 'Invalid field:  Voucher Code:';
+    public static $invalidCode = 'Field required: Code';
 
     public static $invalidProduct = 'Invalid field:  Voucher Products';
 
