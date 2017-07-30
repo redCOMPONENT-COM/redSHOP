@@ -16,6 +16,7 @@
 class StateManagerJ3Page
 {
 	public static $URL = '/administrator/index.php?option=com_redshop&view=states';
+	public static $namePage = 'State Management';
 
 	public static $editUrl = '/administrator/index.php?option=com_redshop&view=state&layout=edit';
 
@@ -36,6 +37,14 @@ class StateManagerJ3Page
 	public static $searchField = "//input[@id='filter_search']";
 
 	public static $searchButton = "//input[@value='Search']";
+	public static $saveCloseButton = "Save & Close";
+	public static $deleteButton = "Delete";
+
+	public static $headPage = ['xpath' => "//h1"];
+	public static $selectorSuccess = ".alert-success";
+
+	public static $itemSaveSuccessMessage = "Item saved.";
+	public static $messageDeletedOneSuccess = "1 item successfully deleted";
 
 	/**
 	 * Function to get the CountryID Path
