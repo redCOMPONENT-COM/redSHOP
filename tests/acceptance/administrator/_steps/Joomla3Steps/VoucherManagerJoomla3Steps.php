@@ -160,7 +160,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings();
         $I->fillField(\VoucherManagerPage::$voucherCode, "");
         $I->click(\VoucherManagerPage::$saveCloseButton);
-        $I->see(\VoucherManagerPage::$invalidCode, \VoucherManagerPage::$xPathInvalid);
+        $I->see(\VoucherManagerPage::$invalidCode, \VoucherManagerPage::$selectorError);
     }
 
     public function checkCloseButton($voucherCode)
