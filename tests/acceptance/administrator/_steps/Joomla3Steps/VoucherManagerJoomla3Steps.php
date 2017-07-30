@@ -149,7 +149,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\VoucherManagerPage::$voucherCode, $voucherNewCode);
         $I->click(\VoucherManagerPage::$saveCloseButton);
         $I->waitForElement(\VoucherManagerPage::$messageContainer, 60);
-        $I->see(\VoucherManagerPage::$messageSaveSuccessVocher, \VoucherManagerPage::$selectorSuccess);
+        $I->see(\VoucherManagerPage::$messageSaveSuccess, \VoucherManagerPage::$selectorSuccess);
         $I->seeElement(['link' => $voucherNewCode]);
     }
 

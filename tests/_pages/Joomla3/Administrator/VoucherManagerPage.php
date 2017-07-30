@@ -102,9 +102,7 @@ class VoucherManagerPage
 
     public static $invalidProduct = 'Invalid field:  Voucher Products';
 
-    public static $messageSaveSuccessVocher = 'Voucher details saved';
+    public static $messagePublishSuccess = '1 item successfully published';
 
-    public static $messagePublishSuccess = 'Voucher detail published successfully';
-
-    public static $messageUnpublishSuccess = 'Voucher detail unpublished successfully';
+    public static $messageUnpublishSuccess = '1 item successfully unpublished';
 }
