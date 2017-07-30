@@ -64,7 +64,7 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 		$client->waitForText(\SupplierPage::$messageItemSaveSuccess, 60, \SupplierPage::$selectorSuccess);
 		$client->see(\SupplierPage::$messageItemSaveSuccess, \SupplierPage::$selectorSuccess);
 		$client->searchSupplier($supplierName);
-		$client->see($supplierName, \SupplierPage::$supplierResultRow);
+		$client->see($supplierName, \SupplierPage::$resultRow);
 	}
 
 	/**
@@ -110,7 +110,6 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 	public function searchSupplier($supplierName)
 	{
 		$client = $this;
-		$client->wantTo('Search the Supplier');
 		$client->amOnPage(\SupplierPage::$url);
 		$client->waitForText(\SupplierPage::$namePage, 30, \SupplierPage::$headPage);
 		$client->filterListBySearching($supplierName);
