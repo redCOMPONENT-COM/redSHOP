@@ -39,7 +39,7 @@ class VoucherManagerPage
 
     public static $voucherStatePath = "//div[@class='table-responsive']/table/tbody/tr/td[10]/a";
 
-    public static $voucherId = "//div[@class='table-responsive']/tbody/tr/td[11]";
+    public static $voucherId = "//div[@class='table-responsive']/tbody/tr/td[12]";
 
     public static $voucherSearchField = "#filter_search";
 
