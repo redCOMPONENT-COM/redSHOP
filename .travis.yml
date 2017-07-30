@@ -6,7 +6,6 @@ install:
   - nvm install 8
   - nvm use 8
 php:
-  - 5.6.30
   - 7.0
 addons:
   firefox: "46.0"
