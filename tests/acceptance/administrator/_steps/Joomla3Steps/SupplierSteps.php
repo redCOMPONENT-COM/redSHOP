@@ -75,7 +75,7 @@ class SupplierSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\SupplierPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->click(\SupplierPage::$buttonCancel);
+		$client->click(\SupplierPage::$buttonNew);
 		$client->waitForElement(\SupplierPage::$fieldName, 30);
 		$client->click(\SupplierPage::$buttonCancel);
 	}
