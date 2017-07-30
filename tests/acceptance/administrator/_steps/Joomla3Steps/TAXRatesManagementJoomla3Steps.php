@@ -21,7 +21,7 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\TAXRatesJoomla3Page::$countryJform);
         $I->waitForElement(\TAXRatesJoomla3Page::$countrySelect);
 
-        $userTaxPage= new \TAXRatesJoomla3Page();
+        $userTaxPage = new \TAXRatesJoomla3Page();
         $I->fillField(\TAXRatesJoomla3Page::$countrySelect, $nameCountry);
         $I->waitForElement($userTaxPage->resultsSelect($nameCountry), 60);
         $I->click($userTaxPage->resultsSelect($nameCountry));

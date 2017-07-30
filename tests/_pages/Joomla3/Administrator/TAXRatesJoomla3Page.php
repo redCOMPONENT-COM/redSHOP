@@ -25,7 +25,7 @@ class TAXRatesJoomla3Page
 
     public static $countryJform = ['xpath' => '//div[@id="s2id_jform_tax_country"]//a'];
 
-    public static $countrySelect = ['id' => "s2id_autogen1_search"];
+    public static $countrySelect = ['id' => "s2id_jform_tax_country"];
 
     public static $taxJform = ['xpath' => '//div[@id="s2id_jform_tax_group_id"]//a'];
 
