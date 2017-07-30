@@ -35,9 +35,9 @@ class VoucherManagerPage
 
     public static $voucherCheck = "#cb0";
 
-    public static $voucherResultRow = "//div[@class='table-responsive']/table/tbody/tr[4]";
+    public static $voucherResultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
 
-    public static $voucherStatePath = "//div[@class='table-responsive']/tbody/tr/td[10]/a";
+    public static $voucherStatePath = "//div[@class='table-responsive']/table/tbody/tr/td[10]/a";
 
     public static $voucherId = "//div[@class='table-responsive']/tbody/tr/td[11]/a";
 
