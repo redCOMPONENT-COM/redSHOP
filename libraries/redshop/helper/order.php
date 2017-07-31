@@ -1280,9 +1280,7 @@ class RedshopHelperOrder
 	public static function updateStatus()
 	{
 		$app             = JFactory::getApplication();
-		$helper          = redhelper::getInstance();
 		$productHelper   = productHelper::getInstance();
-		$stockroomHelper = rsstockroomhelper::getInstance();
 
 		$newStatus       = $app->input->getCmd('status');
 		$paymentStatus   = $app->input->getString('order_paymentstatus');
@@ -1292,11 +1290,12 @@ class RedshopHelperOrder
 		$customerNote    = stripslashes($customerNote[0]);
 
 		$oid             = $app->input->get('order_id', array(), 'method', 'array');
-		$orderId         = $oid[0];
+		$orderId         = (int) $oid[0];
 
 		$isProduct       = $app->input->getInt('isproduct', 0);
 		$productId       = $app->input->getInt('product_id', 0);
 		$orderItemId     = $app->input->getInt('order_item_id', 0);
+
 
 		if (isset($paymentStatus))
 		{
@@ -1305,6 +1304,13 @@ class RedshopHelperOrder
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 		$orderLog = JTable::getInstance('order_status_log', 'Table');
+
+		// @TODO We should have helper instead work with JTable
+		$orderDetailTable = JTable::getInstance('order_detail', 'Table');
+
+		// Get current order detail before processing
+		$orderDetailTable->load($orderId);
+		$prevOrderStatus = $orderDetailTable->order_status;
 
 		if (!$isProduct)
 		{
@@ -1369,12 +1375,15 @@ class RedshopHelperOrder
 			self::createWebPacklabel($orderId, $newStatus, $paymentStatus);
 		}
 
+
 		self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
 		RedshopHelperClickatell::clickatellSMS($orderId);
 
 		switch ($newStatus)
 		{
+			// Cancel & refund case
 			case "X";
+			case 'R':
 
 				$orderProducts = self::getOrderItemDetail($orderId);
 
@@ -1383,14 +1392,18 @@ class RedshopHelperOrder
 					$prodid = $orderProducts[$i]->product_id;
 					$prodqty = $orderProducts[$i]->stockroom_quantity;
 
-					// When the order is set to "cancelled",product will return to stock
-					RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$i]->stockroom_id);
+					// Do not process update stock if this order already "returned" before
+					if ($prevOrderStatus != 'RT')
+					{
+						// When the order is set to "Cancelled / Refunded",product will return to stock
+						RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$i]->stockroom_id);
+					}
+
 					$productHelper->makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
 				}
 				break;
 
 			case "RT":
-			case "R":
 
 				if ($isProduct)
 				{
