@@ -155,6 +155,32 @@ abstract class ModRedshopFilter
 	/**
 	 * This method will get parent category redshop
 	 *
+	 * @param   array  $catList       category ids
+	 * @param   int    $rootCategory  root category ids
+	 * @param   array  $cid           category id
+	 *
+	 * @return array
+	 */
+	public static function getSearchCategories($catList = array())
+	{
+		if (empty($catList))
+		{
+			return array();
+		}
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('id'))
+			->select($db->qn('name'))
+			->from($db->qn("#__redshop_category"))
+			->where($db->qn('id') . ' IN (' . implode(',', $catList) . ')');
+
+		return $db->setQuery($query)->loadObjectList();
+	}
+
+	/**
+	 * This method will get parent category redshop
+	 *
 	 * @param   array  $pids          product ids
 	 * @param   int    $rootCategory  root category ids
 	 *
@@ -260,35 +286,40 @@ abstract class ModRedshopFilter
 	/**
 	 * Get products custom fields
 	 *
-	 * @param   int  $pids  Product Ids
+	 * @param   array  $pids           Product Ids
+	 * @param   array  $productFields  Product custom fields
 	 *
 	 * @return  array
 	 */
-	public static function getCustomFields($pids = array())
+	public static function getCustomFields($pids = array(), $productFields = array())
 	{
-		if ($cid == 0)
+		if (empty($pids) || empty($productFields))
 		{
 			return array();
 		}
 
-		$tmpCategories = RedshopHelperCategory::getCategoryTree($cid);
-		$categories = array($cid);
-
-		if (!empty($tmpCategories))
-		{
-			foreach ($tmpCategories as $child)
-			{
-				$categories[] = $child->id;
-			}
-		}
-
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('product_id'))
-			->from($db->qn('#__redshop_product_category_xref'))
-			->where($db->qn('category_id') . ' IN (' . implode(',', $categories) . ')')
-			->group('product_id');
+			->select($db->qn('fv.field_value'))
+			->select($db->qn('fv.field_id'))
+			->select($db->qn('fv.field_name'))
+			->select($db->qn('f.title'))
+			->from($db->qn('#__redshop_fields', 'f'))
+			->leftJoin($db->qn('#__redshop_fields_value', 'fv') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fv.field_id'))
+			->leftJoin($db->qn('#__redshop_fields_data', 'fd') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('fd.fieldid'))
+			->where($db->qn('fd.itemid') . ' IN (' . implode(',', $pids) . ')')
+			->where($db->qn('f.name') . ' IN (' . implode(',', $db->q($productFields)) . ')');
 
-		return $db->setQuery($query)->loadColumn();
+		$data   = $db->setQuery($query)->loadObjectList();
+		$result = array();
+
+		foreach ($data as $key => $value)
+		{
+			$result[$value->field_id]['title'] = $value->title;
+			$result[$value->field_id]['value'][$key]['value'] = $value->field_value;
+			$result[$value->field_id]['value'][$key]['name'] = $value->field_name;
+		}
+
+		return $result;
 	}
 }

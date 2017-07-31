@@ -97,14 +97,20 @@ defined('_JEXEC') or die;
 	</div>
 	<input type="hidden" name="redform[cid]" value="<?php echo !empty($cid) ? $cid : 0; ?>" />
 	<input type="hidden" name="redform[mid]" value="<?php echo !empty($mid) ? $mid : 0; ?>" />
-	<input type="hidden" name="limitstart" value="0" />
-	<input type="hidden" name="limit" value="<?php echo $limit; ?>" />
-	<input type="hidden" name="redform[keyword]" value="<?php echo $keyword;?>" />
+	<input type="hidden" name="limitstart" value="<?php echo $getData['limitstart'] ? $getData['limitstart'] : 0; ?>" />
+	<input type="hidden" name="limit" value="<?php echo $getData['limit'] ? $getData['limit'] : $limit; ?>" />
+	<input type="hidden" name="redform[keyword]" value="<?php echo $getData['keyword'] ? $getData['keyword'] : $keyword; ?>" />
 	<input type="hidden" name="check_list" value="" >
 	<input type="hidden" name="order_by" value="" >
-	<input type="hidden" name="redform[template_id]" value="<?php echo $template; ?>" />
-	<input type="hidden" name="redform[root_category]" value="<?php echo $rootCategory; ?>" />
 	<input type="hidden" name="redform[product_on_sale]" value="<?php echo $productOnSale; ?>" >
+	<input type="hidden" name="redform[template_id]" value="<?php echo $getData['template_id'] ? $getData['template_id'] : $template; ?>" />
+	<input type="hidden" name="redform[root_category]" value="<?php echo $rootCategory; ?>" />
+	<input type="hidden" name="redform[category_for_sale]" value="<?php echo $categoryForSale; ?>" />
+	<input type="hidden" name="redform[product_on_sale]" value="<?php echo $productOnSale; ?>" >
+	<input type="hidden" name="option" value="<?php echo $option; ?>" >
+	<input type="hidden" name="view" value="<?php echo $view; ?>" >
+	<input type="hidden" name="layout" value="<?php echo $layout; ?>" >
+	<input type="hidden" name="Itemid" value="<?php echo $itemId; ?>" >
 </form>
 </div>
 

@@ -30,7 +30,7 @@ $option             = $input->getCmd('option', '');
 $view               = $input->getCmd('view', '');
 $layout             = $input->getCmd('layout', '');
 $itemId             = $input->getInt('Itemid', 0);
-$keyword            = $input->post->getString('keyword', '');
+$keyword            = $input->getString('keyword', '');
 $action             = JRoute::_("index.php?option=com_redshop&view=search");
 $getData            = $input->getArray();
 
@@ -72,34 +72,29 @@ elseif (!empty($mid))
 elseif ($view == 'search')
 {
 	$modelSearch = JModelLegacy::getInstance("Search", "RedshopModel");
-	$products    = $modelSearch->getData();
+	$productList = $modelSearch->getData();
 	$manuList    = array();
 	$catList     = array();
 	$pids        = array();
 
-	foreach ($products as $key => $value)
+	foreach ($productList as $k => $value)
 	{
-		$pids[] = $value->product_id;
+		$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
+		$catList = array_merge($catList, $tmpCategories);
+		$pids[]  = $value->product_id;
 
-		if (!empty($value->manufacturer_id))
+		if ($value->manufacturer_id && $value->manufacturer_id != $mid)
 		{
 			$manuList[] = $value->manufacturer_id;
-		}
-
-		if (!empty($value->category_id))
-		{
-			$catList[] = $value->category_id;
 		}
 	}
 
 	$manufacturers = ModRedshopFilter::getManufacturers(array_unique($manuList));
-	$categories    = ModRedshopFilter::getCategories(array_unique($catList));
+	$categories    = ModRedshopFilter::getSearchCategories(array_unique($catList));
 	$rangePrice    = ModRedshopFilter::getRange($pids);
 }
 
-$rangeMin = $rangePrice['min'];
-$rangeMax = $rangePrice['max'];
-$currentMin = $getData['filterprice']['min'] ? $getData['filterprice']['min'] : $rangePrice['min'];
-$currentMax = $getData['filterprice']['max'] ? $getData['filterprice']['max'] : $rangePrice['max'];
+$rangeMin = $getData['filterprice']['min'] ? $getData['filterprice']['min'] : $rangePrice['min'];
+$rangeMax = $getData['filterprice']['max'] ? $getData['filterprice']['max'] : $rangePrice['max'];
 
 require JModuleHelper::getLayoutPath('mod_redshop_filter', $params->get('layout', 'default'));
