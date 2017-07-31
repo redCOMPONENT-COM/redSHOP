@@ -26,11 +26,16 @@ class RedshopControllerWishlist extends RedshopController
 	 */
 	public function createsave()
 	{
-		$user  = JFactory::getUser();
-		$model = $this->getModel("wishlist");
-		$post['wishlist_name'] = JRequest::getVar('txtWishlistname');
+		$input    = JFactory::getApplication()->input;
+		$user     = JFactory::getUser();
+		$model    = $this->getModel("wishlist");
+		$postData = $input->post->getArray();
+
+		$post                  = array();
+		$post['wishlist_name'] = $postData['txtWishlistname'];
 		$post['user_id']       = $user->id;
 		$post['cdate']         = time();
+		$post['product_id']    = $postData['product_id'];
 
 		if ($model->store($post))
 		{
@@ -43,7 +48,7 @@ class RedshopControllerWishlist extends RedshopController
 
 		if (JRequest::getVar('loginwishlist') == 1)
 		{
-			$wishreturn = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . JRequest::getVar('Itemid'), false);
+			$wishreturn = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . $input->post->getInt('Itemid'), false);
 			$this->setRedirect($wishreturn);
 		}
 		else

@@ -196,62 +196,68 @@ class RedshopModelWishlist extends RedshopModel
 		}
 		else
 		{
-			$db         = JFactory::getDbo();
-			$product_id = JRequest::getInt('product_id');
+			$session       = JFactory::getSession();
+			$numberProduct = $session->get('no_of_prod');
+			$db            = JFactory::getDbo();
+			$productId     = $data['product_id'];
 
-			if ($product_id)
+			if ($productId)
 			{
-				$ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product "
-					. " SET wishlist_id=" . (int) $row->wishlist_id
-					. ", product_id=" . (int) $product_id
-					. ", cdate = " . $db->quote(time());
-				$db->setQuery($ins_query);
+				$columns = array('wishlist_id', 'product_id', 'cdate');
+				$values = array($row->wishlist_id, $productId, $db->q(time()));
+				$query = $db->getQuery(true)
+					->insert($db->qn('#__redshop_wishlist_product'))
+					->columns($db->qn($columns))
+					->values(implode(',', $values));
 
-				if ($db->execute())
+				if ($db->setQuery($query)->execute())
 				{
 					return true;
 				}
-				else
-				{
-					return false;
-				}
+
+				return false;
 			}
-			elseif (!empty($_SESSION["no_of_prod"]))
+			elseif ($numberProduct)
 			{
 				ob_clean();
 				$extraField = extraField::getInstance();
-				$section    = 12;
-				$row_data   = $extraField->getSectionFieldList($section);
+				$rowData    = $extraField->getSectionFieldList(12);
 
-				for ($si = 1; $si <= $_SESSION["no_of_prod"]; $si++)
+				for ($si = 1; $si <= $numberProduct; $si++)
 				{
-					for ($k = 0, $kn = count($row_data); $k < $kn; $k++)
+					$data = $session->get('wish_' . $si);
+
+					for ($k = 0, $kn = count($rowData); $k < $kn; $k++)
 					{
-						$myfield = "productuserfield_" . $k;
+						$field = "productuserfield_" . $k;
 
-						if ($_SESSION['wish_' . $si]->$myfield != '')
+						if ($data->$myfield == '')
 						{
-							$myuserdata = $_SESSION['wish_' . $si]->$myfield;
-							$ins_query  = "INSERT INTO #__redshop_wishlist_userfielddata SET "
-								. " wishlist_id = " . (int) $row->wishlist_id
-								. " , product_id = " . (int) $_SESSION['wish_' . $si]->product_id
-								. ", userfielddata = " . $db->quote($myuserdata);
-
-							$db->setQuery($ins_query);
-							$db->execute();
+							continue;
 						}
+
+						$columns = array('wishlist_id', 'product_id', 'userfielddata');
+						$values  = array($row->wishlist_id, (int) $data->product_id, $db->q($data->$myfield));
+						$query   = $db->getQuery(true)
+							->insert($db->qn('#__redshop_wishlist_userfielddata'))
+							->columns($db->qn($columns))
+							->values(implode(',', $values));
+
+						$db->setQuery($query)->execute();
 					}
 
-					$ins_query = "INSERT INTO #__redshop_wishlist_product SET "
-						. " wishlist_id = " . (int) $row->wishlist_id
-						. ", product_id = " . (int) $_SESSION['wish_' . $si]->product_id
-						. ", cdate = " . $db->quote($_SESSION['wish_' . $si]->cdate);
-					$db->setQuery($ins_query);
-					$db->execute();
-					unset($_SESSION['wish_' . $si]);
+					$columns = array('wishlist_id', 'product_id', 'cdate');
+					$values  = array($row->wishlist_id, (int) $data->product_id, $db->q($data->cdate));
+					$query   = $db->getQuery(true)
+						->insert($db->qn('#__redshop_wishlist_product'))
+						->columns($db->qn($columns))
+						->values(implode(',', $values));
+
+					$db->setQuery($query)->execute();
+					$session->clear('wish_' . $si);
 				}
 
-				unset($_SESSION["no_of_prod"]);
+				$session->clear('no_of_prod');
 			}
 		}
 
