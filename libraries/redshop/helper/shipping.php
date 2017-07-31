@@ -877,7 +877,7 @@ class RedshopHelperShipping
 	 * @param   object $shippingRate Shipping Rate information
 	 * @param   array  $data         Shipping Rate user information from cart or checkout selection.
 	 *
-	 * @return  object  Shipping Rate
+	 * @return  float  Shipping Rate
 	 *
 	 * @since   2.0.0.3
 	 */
