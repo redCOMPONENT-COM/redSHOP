@@ -13,12 +13,12 @@
  *
  * @since  1.4
  */
-class SupplierPage extends CoreJ3Page
+class SupplierPage extends AdminJ3Page
 {
 	/**
 	 * @var string
 	 */
-	public static $namePage = "Supplier Management";
+	public static $namePage = 'Supplier Management';
 
 	/**
 	 * @var string
@@ -28,20 +28,20 @@ class SupplierPage extends CoreJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldName = array('id' => "jform_name");
+	public static $fieldName = array('id' => 'jform_name');
 
 	/**
 	 * @var array
 	 */
-	public static $fieldEmail = array('id' => "jform_email");
+	public static $fieldEmail = array('id' => 'jform_email');
 
 	/**
 	 * @var string
 	 */
-	public static $fieldMissing = "Field required: Name";
+	public static $fieldMissing = 'Field required: Name';
 
 	/**
 	 * @var string
 	 */
-	public static $fieldEmailInvalid = "Invalid field:  Supplier Email ";
+	public static $fieldEmailInvalid = 'Invalid field:  Supplier Email';
 }
