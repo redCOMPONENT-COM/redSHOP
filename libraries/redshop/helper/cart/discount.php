@@ -56,7 +56,7 @@ class RedshopHelperCartDiscount
 	/**
 	 * Method for apply coupon to cart.
 	 *
-	 * @param   array  $cartData  Cart data
+	 * @param   array $cartData Cart data
 	 *
 	 * @return  array|bool        Array of cart or boolean value.
 	 *
@@ -164,9 +164,10 @@ class RedshopHelperCartDiscount
 
 			$key = rsCarthelper::getInstance()->rs_multi_array_key_exists('coupon', $cart);
 
+			$coupons = array();
+
 			if (!$key)
 			{
-				$coupons     = array();
 				$oldCoupons  = array();
 				$couponIndex = 0;
 			}
