@@ -119,8 +119,6 @@ class CategoryManagerJ3Page
 
     public static $checkInButton = "Check-in";
 
-
-
     /**
      * Function to get the Path for Template ID
      *
