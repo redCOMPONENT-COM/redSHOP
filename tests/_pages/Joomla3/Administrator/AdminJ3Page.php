@@ -13,7 +13,7 @@
  *
  * @since  1.4
  */
-abstract class CoreJ3Page
+abstract class AdminJ3Page
 {
 	/**
 	 * @var string
