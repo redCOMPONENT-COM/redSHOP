@@ -21,6 +21,7 @@ use PayPal\Api\Transaction;
 use PayPal\Api\Authorization;
 use PayPal\Api\Capture;
 use PayPal\Api\Patch;
+use PayPal\Api\PatchRequest;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;
 
@@ -439,7 +440,7 @@ class PlgRedshop_PaymentPaypalCreditcard extends JPlugin
 
 		$card = $this->prepareCreditCard($data);
 
-		$pathRequest = new \PayPal\Api\PatchRequest();
+		$pathRequest = new PatchRequest;
 
 		$name = new Patch();
 		$name->setOp("replace")
