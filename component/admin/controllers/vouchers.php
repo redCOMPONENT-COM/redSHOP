@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 /**
- * Controller Voucher Detail
+ * Vouchers controller
  *
- * @package     RedSHOP.Backend
+ * @package     RedSHOP.backend
  * @subpackage  Controller
  * @since       __DEPLOY_VERSION__
  */
-class RedshopControllerVoucher extends RedshopControllerForm
+class RedshopControllerVouchers extends RedshopControllerAdmin
 {
 }

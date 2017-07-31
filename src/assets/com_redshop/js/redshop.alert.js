@@ -44,7 +44,7 @@
             $alert.fadeIn('slow', function () {
                 window.setTimeout(function () {
                     $alert.fadeOut('slow');
-                }, 1500);
+                }, 5000);
             });
         };
 

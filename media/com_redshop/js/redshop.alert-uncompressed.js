@@ -5,10 +5,10 @@
 
 (function ($) {
     $.redshopAlert = function (title, message, type) {
-        var $alert   = null;
+        var $alert = null;
         var msgTitle = title;
-        var msgBody  = message;
-        var msgType  = "success";
+        var msgBody = message;
+        var msgType = "success";
 
         if (typeof type != "undefined") {
             msgType = type;
@@ -44,7 +44,7 @@
             $alert.fadeIn('slow', function () {
                 window.setTimeout(function () {
                     $alert.fadeOut('slow');
-                }, 1000);
+                }, 5000);
             });
         };
 
