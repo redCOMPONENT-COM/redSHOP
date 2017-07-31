@@ -10,15 +10,26 @@
 defined('_JEXEC') or die;
 
 JPluginHelper::importPlugin('redshop_checkout');
-$dispatcher = RedshopHelperUtility::getDispatcher();
-$company  = "";
-$customer = "";
+$dispatcher      = JDispatcher::getInstance();
+$openToStretcher = 0;
+$company         = "hidden";
+$customer        = "hidden";
 
-if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 3)
+if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 0)
 {
-	$company = "hide";
-	$customer = "hide";
+	$company  = "";
+	$customer = "";
 }
+elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
+{
+	$openToStretcher = 0;
+}
+elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
+{
+	$openToStretcher = 1;
+}
+
+$isCompany = $openToStretcher == 1 ? 1 : 0;
 
 $lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(14);
 $lists['shipping_company_field']  = RedshopHelperExtrafields::listAllField(15);
@@ -36,14 +47,3 @@ $lists['shipping_company_field']  = RedshopHelperExtrafields::listAllField(15);
 	<?php $dispatcher->trigger('onRenderOnstepCheckout'); ?>
 </div>
 <div id="wrapper-billing"></div>
-<?php if (!JFactory::getUser()->id && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) : ?>
-<div class="form-group">
-	<label for="billisship">
-		<input class="toggler" type="checkbox" id="billisship" name="billisship" value="1" onclick="billingIsShipping(this);" checked="" />
-		<?php echo JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING'); ?>
-	</label>
-</div>
-<div id="divShipping" style="display: none">
-	<?php echo rsUserHelper::getInstance()->getShippingTable(array(), $isCompany, $lists); ?>
-</div>
-<?php endif; ?>
