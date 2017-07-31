@@ -38,6 +38,7 @@ if (!empty($cid))
 {
 	$categoryModel = JModelLegacy::getInstance('Category', 'RedshopModel');
 	$categoryModel->setId($cid);
+	$categoryModel->setState('include_sub_categories_products', true);
 	$productList = $categoryModel->getCategoryProduct(true, true);
 	$catList     = array();
 	$manuList    = array();
