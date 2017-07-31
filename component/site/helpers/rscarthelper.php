@@ -1305,7 +1305,17 @@ class rsCarthelper
 		return $cart_tr;
 	}
 
-	public function repalceOrderItems($data, $rowitem = array())
+	/**
+	 * replace Order Items
+	 *
+	 * @param   string   $data      template
+	 * @param   array    $rowitem   Order item list
+	 * @param   boolean  $sendMail  is send mail
+	 *
+	 * @return  string
+	 *
+	 */
+	public function repalceOrderItems($data, $rowitem = array(), $sendMail = false)
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
@@ -1319,7 +1329,7 @@ class rsCarthelper
 
 		$wrapper_name = "";
 
-		$OrdersDetail = $this->_order_functions->getOrderDetails($rowitem [0]->order_id);
+		$OrdersDetail = $this->_order_functions->getOrderDetails($rowitem[0]->order_id);
 
 		for ($i = 0, $in = count($rowitem); $i < $in; $i++)
 		{
@@ -1328,10 +1338,16 @@ class rsCarthelper
 			// Process the product plugin for cart item
 			$dispatcher->trigger('onOrderItemDisplay', array(&$cart_mdata, &$rowitem, $i));
 
-			$product_id = $rowitem [$i]->product_id;
-			$quantity   = $rowitem [$i]->product_quantity;
+			$product_id = $rowitem[$i]->product_id;
+			$quantity   = $rowitem[$i]->product_quantity;
 
-			if ($rowitem [$i]->is_giftcard)
+			$itemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product_id);
+
+			$Itemid = !empty($itemData) ? $itemData->id : RedshopHelperUtility::getItemId($product_id) ;
+
+			$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
+
+			if ($rowitem[$i]->is_giftcard)
 			{
 				$giftcardData      = $this->_producthelper->getGiftcardData($product_id);
 				$product_name      = $giftcardData->giftcard_name;
@@ -1346,7 +1362,8 @@ class rsCarthelper
 				$giftcardData = new stdClass;
 			}
 
-			$dirname = JPath::clean(JPATH_COMPONENT_SITE . "/assets/images/orderMergeImages/" . $rowitem [$i]->attribute_image);
+			$dirname = JPath::clean(JPATH_COMPONENT_SITE . "/assets/images/orderMergeImages/" . $rowitem[$i]->attribute_image);
+			$attrib_img = "";
 
 			if (JFile::exists($dirname))
 			{
@@ -1363,7 +1380,7 @@ class rsCarthelper
 			}
 			else
 			{
-				if (JFile::exists(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $rowitem [$i]->attribute_image) && Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART'))
+				if (JFile::exists(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $rowitem[$i]->attribute_image) && Redshop::getConfig()->get('WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART'))
 				{
 					$attribute_image_path = RedShopHelperImages::getImagePath(
 												$rowitem[$i]->attribute_image,
@@ -1378,7 +1395,7 @@ class rsCarthelper
 				}
 				else
 				{
-					if ($rowitem [$i]->is_giftcard)
+					if ($rowitem[$i]->is_giftcard)
 					{
 						$product_full_image = $giftcardData->giftcard_image;
 						$product_type = 'giftcard';
@@ -1440,16 +1457,22 @@ class rsCarthelper
 				}
 			}
 
+			if (!$sendMail)
+			{
+				$product_name = '<a href="' . $link . '">' . $product_name . '</a>';
+				$attrib_img   = '<a href="' . $link . '">' . $attrib_img . '</a>';
+			}
+
 			$product_name        = "<div class='product_name'>" . $product_name . "</div>";
 			$product_total_price = "<div class='product_price'>";
 
 			if (!$this->_producthelper->getApplyVatOrNot($data))
 			{
-				$product_total_price .= $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price_excl_vat * $quantity);
+				$product_total_price .= $this->_producthelper->getProductFormattedPrice($rowitem[$i]->product_item_price_excl_vat * $quantity);
 			}
 			else
 			{
-				$product_total_price .= $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price * $quantity);
+				$product_total_price .= $this->_producthelper->getProductFormattedPrice($rowitem[$i]->product_item_price * $quantity);
 			}
 
 			$product_total_price .= "</div>";
@@ -1458,29 +1481,29 @@ class rsCarthelper
 
 			if (!$this->_producthelper->getApplyVatOrNot($data))
 			{
-				$product_price .= $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price_excl_vat);
+				$product_price .= $this->_producthelper->getProductFormattedPrice($rowitem[$i]->product_item_price_excl_vat);
 			}
 			else
 			{
-				$product_price .= $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price);
+				$product_price .= $this->_producthelper->getProductFormattedPrice($rowitem[$i]->product_item_price);
 			}
 
 			$product_price .= "</div>";
 
-			$product_old_price = $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_old_price);
+			$product_old_price = $this->_producthelper->getProductFormattedPrice($rowitem[$i]->product_item_old_price);
 
 			$product_quantity = '<div class="update_cart">' . $quantity . '</div>';
 
-			if ($rowitem [$i]->wrapper_id)
+			if ($rowitem[$i]->wrapper_id)
 			{
-				$wrapper = $this->_producthelper->getWrapper($product_id, $rowitem [$i]->wrapper_id);
+				$wrapper = $this->_producthelper->getWrapper($product_id, $rowitem[$i]->wrapper_id);
 
 				if (count($wrapper) > 0)
 				{
 					$wrapper_name = $wrapper [0]->wrapper_name;
 				}
 
-				$wrapper_price = $this->_producthelper->getProductFormattedPrice($rowitem [$i]->wrapper_price);
+				$wrapper_price = $this->_producthelper->getProductFormattedPrice($rowitem[$i]->wrapper_price);
 				$wrapper_name  = JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper_name . "(" . $wrapper_price . ")";
 			}
 
@@ -1575,17 +1598,17 @@ class rsCarthelper
 				$cart_mdata = str_replace("{product_attribute_number}", "", $cart_mdata);
 			}
 
-			$cart_mdata = str_replace("{product_accessory}", $this->_producthelper->makeAccessoryOrder($rowitem [$i]->order_item_id), $cart_mdata);
+			$cart_mdata = str_replace("{product_accessory}", $this->_producthelper->makeAccessoryOrder($rowitem[$i]->order_item_id), $cart_mdata);
 
-			$productUserFields = $this->_producthelper->getuserfield($rowitem [$i]->order_item_id, $userfield_section);
+			$productUserFields = $this->_producthelper->getuserfield($rowitem[$i]->order_item_id, $userfield_section);
 
 			$cart_mdata = str_replace("{product_userfields}", $productUserFields, $cart_mdata);
 
-			$user_custom_fields = $this->_producthelper->GetProdcutfield_order($rowitem [$i]->order_item_id);
+			$user_custom_fields = $this->_producthelper->GetProdcutfield_order($rowitem[$i]->order_item_id);
 			$cart_mdata         = str_replace("{product_customfields}", $user_custom_fields, $cart_mdata);
 			$cart_mdata         = str_replace("{product_customfields_lbl}", JText::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD"), $cart_mdata);
 
-			if ($rowitem [$i]->is_giftcard)
+			if ($rowitem[$i]->is_giftcard)
 			{
 				$cart_mdata = str_replace(
 					array('{product_sku}', '{product_number}', '{product_s_desc}', '{product_subscription}', '{product_subscription_lbl}'),
@@ -1615,7 +1638,7 @@ class rsCarthelper
 
 			$cart_mdata = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $cart_mdata);
 
-			$product_vat = ($rowitem [$i]->product_item_price - $rowitem [$i]->product_item_price_excl_vat) * $rowitem [$i]->product_quantity;
+			$product_vat = ($rowitem[$i]->product_item_price - $rowitem[$i]->product_item_price_excl_vat) * $rowitem [$i]->product_quantity;
 
 			$cart_mdata = str_replace("{product_vat}", $product_vat, $cart_mdata);
 
@@ -1644,7 +1667,7 @@ class rsCarthelper
 
 			$cart_mdata = str_replace(
 				"{product_thumb_image}",
-				"<div  class='product_image'>" . $attrib_img . "</div>",
+				"<div class='product_image'>" . $attrib_img . "</div>",
 				$cart_mdata
 			);
 
@@ -2548,7 +2571,7 @@ class rsCarthelper
 			$template_edata  = explode('{product_loop_end}', $template_sdata[1]);
 			$template_end    = $template_edata[1];
 			$template_middle = $template_edata[0];
-			$cartArr         = $this->repalceOrderItems($template_middle, $orderitem);
+			$cartArr         = $this->repalceOrderItems($template_middle, $orderitem, $sendmail);
 			$ReceiptTemplate = $template_start . $cartArr[0] . $template_end;
 		}
 
@@ -2953,6 +2976,25 @@ class rsCarthelper
 
 		$ReceiptTemplate = $this->replaceBillingAddress($ReceiptTemplate, $billingaddresses, $sendmail);
 		$ReceiptTemplate = $this->replaceShippingAddress($ReceiptTemplate, $shippingaddresses, $sendmail);
+
+		if (strpos($ReceiptTemplate, '{order_status_log}') !== false)
+		{
+			$orderStatusLogs = RedshopEntityOrder::getInstance($row->order_id)->getStatusLog();
+
+			$logLayout = RedshopLayoutHelper::render(
+				'order.status_log',
+				array(
+						'orderStatusLogs' => $orderStatusLogs,
+					),
+				'',
+				array(
+						'client'    => 0,
+						'component' => 'com_redshop'
+					)
+			);
+
+			$ReceiptTemplate = str_replace('{order_status_log}', $logLayout, $ReceiptTemplate);
+		}
 
 		$message = str_replace($search, $replace, $ReceiptTemplate);
 		$message = $this->replacePayment($message, $row->payment_discount, 0, $row->payment_oprand);
