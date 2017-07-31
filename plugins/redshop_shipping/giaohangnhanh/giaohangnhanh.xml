@@ -99,6 +99,78 @@
                     description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ZIPCODE_DESC"
                 />
             </fieldset>
+            <fieldset name="extra" label="extra" addfieldpath="/libraries/redshop/form/fields">
+                <field 
+                    name="order_status_to_create" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_TO_CREATE"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_TO_CREATE_DESC">
+                </field>
+                <field 
+                    name="readytopick" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_READY_TO_PICK"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_READY_TO_PICK_DESC">
+                </field>
+                <field 
+                    name="picking" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_PICKING"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_PICKING_DESC">
+                </field>
+                <field 
+                    name="storing" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_STORING"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_STORING_DESC">
+                </field>
+                <field 
+                    name="delivering" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_DELIVERING"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_DELIVERING_DESC">
+                </field>
+                <field 
+                    name="delevered" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_DELIVERED"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_DELIVERED_DESC">
+                </field>
+                <field 
+                    name="return" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_RETURN"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_RETURN_DESC">
+                </field>
+                <field 
+                    name="returned" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_RETURNED"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_RETURNED_DESC">
+                </field>
+                <field 
+                    name="cancel" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_CANCEL"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_CANCEL_DESC">
+                </field>
+                <field 
+                    name="lostpackage" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_LOST_PACKAGE"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_LOST_PACKAGE_DESC">
+                </field>
+            </fieldset>
         </fields>
     </config>
 

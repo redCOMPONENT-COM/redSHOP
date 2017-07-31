@@ -115,7 +115,6 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			$width  += $productData->product_width;
 		}
 
-		$items                        = array();
 		$items[0]['Weight']           = $weight;
 		$items[0]['Length']           = $length;
 		$items[0]['Width']            = $width;
@@ -375,20 +374,31 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 	/**
 	 * trigger before after order status changed
 	 *
-	 * @param   object  $data  Order payment data
+	 * @param   int     $orderId        Order ID
+	 * @param   string  $paymentStatus  Order payment status
+	 * @param   string  $orderStatus    Order status
 	 *
 	 * @return void
 	 */
-	public function sendOrderShipping($data)
+	public function sendOrderShipping($orderId, $paymentStatus, $orderStatus)
 	{
-		$paymentData = RedshopHelperOrder::getOrderPaymentDetail($data->order_id);
+		$createOrder = $this->params->get('order_status_to_create', '');
+		$orderData = RedshopHelperOrder::getOrderDetail($orderId);
+		$trackingId = $orderData->track_no;
 
-		if ($paymentData->payment_method_class != 'rs_payment_banktransfer' && $data->order_payment_status_code != 'Paid')
+		if ($orderStatus != $createOrder && $trackingId != "")
 		{
 			return;
 		}
 
-		$shippingData  = RedshopHelperOrder::getOrderShippingUserInfo($data->order_id);
+		$paymentData = RedshopHelperOrder::getOrderPaymentDetail($orderId);
+
+		if ($paymentData->payment_method_class != 'rs_payment_banktransfer' && $paymentStatus != 'Paid')
+		{
+			return;
+		}
+
+		$shippingData  = RedshopHelperOrder::getOrderShippingUserInfo($orderId);
 		$userInfoId    = $shippingData->users_info_id;
 		$districtField = RedshopHelperExtrafields::getDataByName('rs_ghn_district', 14, $userInfoId);
 
@@ -407,8 +417,8 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			return;
 		}
 
-		$ghnOrder = $this->createShippingOrder($data->order_id, $serviceId, $district, $shippingData);
-		$this->updateOrder($data->order_id, $ghnOrder);
+		$ghnOrder = $this->createShippingOrder($orderId, $serviceId, $district, $shippingData);
+		$this->updateOrder($orderId, $ghnOrder);
 	}
 
 	/**
@@ -505,6 +515,37 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 		);
 
 		$curl = curl_init($this->params->get('url_service') . 'GetServiceList');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		$json = curl_exec($curl);
+		curl_close($curl);
+
+		return json_decode($json, true);
+	}
+
+	/**
+	 * get GiaoHangNhanh Data List
+	 *
+	 * @param   string  $trackingId  Order tracking Id
+	 *
+	 * @return array
+	 */
+	public function getGHNOrderInfo($trackingId)
+	{
+		$post = array(
+			'ApiKey'       => $this->params->get('api_key'),
+			'ApiSecretKey' => $this->params->get('api_secret'),
+			'ClientID'     => $this->params->get('client_id'),
+			'Password'     => $this->params->get('password'),
+			'OrderCode'    => $trackingId
+		);
+		$headers = array(
+			"Content-Type: application/x-www-form-urlencoded",
+			"Cache-control: no-cache"
+		);
+
+		$curl = curl_init($this->params->get('url_service') . 'GetOrderInfo');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
@@ -758,5 +799,56 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 				'city_code'     => $cityField->data_txt,
 				'district_code' => $districtField->data_txt
 			);
+	}
+
+	/**
+	 * Trigger before Webservice store redSHOP order
+	 *
+	 * @param   array  $data  Order shipping data
+	 *
+	 * @return  void
+	 */
+	public function onBeforeWSOrderStore(&$data)
+	{
+		$orderInfo        = $this->getGHNOrderInfo($data['trackingId']);
+		$data['status']   = $this->params->get(strtolower($orderInfo['CurrentStatus']));
+		$data['order_id'] = $this->getOrderbyTrackingId($data['trackingId']);
+	}
+
+	/**
+	 * Trigger after Webservice store redSHOP order
+	 *
+	 * @param   array  $data  Order shipping data
+	 *
+	 * @return  void
+	 */
+	public function onAfterWSOrderStore($data)
+	{
+		$orderInfo = $this->getGHNOrderInfo($data['trackingId']);
+		$data['status'] = $this->params->get(strtolower($orderInfo['CurrentStatus']));
+
+		$log               = new stdClass;
+		$log->order_id     = $this->getOrderbyTrackingId($data['trackingId']);
+		$log->order_status = $data['status'];
+		$log->date_changed = time();
+
+		JFactory::getDbo()->insertObject('#__redshop_order_status_log', $log);
+	}
+
+	/**
+	 * Function to get Order by tracking ID
+	 *
+	 * @param   string  $trackingId  Order tracking id
+	 *
+	 * @return  boolean
+	 */
+	public function getOrderbyTrackingId($trackingId)
+	{
+		$db = JFactory::getDbo();
+		$query->select($db->qn('order_id'))
+			->from($db->qn('#__redshop_orders'))
+			->where($db->qn('track_no') . ' = ' . $db->q($trackingId));
+
+		return $db->setQuery($query)->loadResult();
 	}
 }
