@@ -125,8 +125,8 @@ class RedshopControllerSearch extends RedshopController
 		$pagination = $model->getFilterPagination();
 		$orderBy    = $model->getState('order_by');
 		$total      = $model->getFilterTotal();
-		$url = JUri::root()
-			. 'index.php?option=' . $post['option']
+		$url = JRoute::_(
+			'index.php?option=' . $post['option']
 			. '&view=' . $post['view']
 			. '&layout=' . $post['layout']
 			. '&cid=' . $data['cid']
@@ -139,7 +139,8 @@ class RedshopControllerSearch extends RedshopController
 			. '&template_id=' . $data['template_id']
 			. '&order_by=' . $post['order_by']
 			. '&limit=' . $post['limit']
-			. '&limitstart=' . $post['limitstart'];
+			. '&limitstart=' . $post['limitstart']
+		);
 
 		foreach ($data['custom_field'] as $fieldId => $fieldValues)
 		{
