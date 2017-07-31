@@ -36,7 +36,6 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->checkForPhpNoticesOrWarnings(\CouponManagerJ3Page::$URL);
         $couponManagerPage = new \CouponManagerJ3Page;
         $I->click(\CouponManagerJ3Page::$newButton);
-        $I->checkForPhpNoticesOrWarnings(\CouponManagerJ3Page::$URLNew);
         $I->fillField(\CouponManagerJ3Page::$couponCode, $couponCode);
         $I->fillField(\CouponManagerJ3Page::$couponValue, $couponValue);
         $I->fillField(\CouponManagerJ3Page::$startDate, $startDate);
@@ -63,7 +62,6 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $couponManagerPage = new \CouponManagerJ3Page;
         $I->checkForPhpNoticesOrWarnings(\CouponManagerJ3Page::$URL);
         $I->click(\CouponManagerJ3Page::$newButton);
-        $I->checkForPhpNoticesOrWarnings(\CouponManagerJ3Page::$URLNew);
         $I->fillField(\CouponManagerJ3Page::$couponCode, $couponCode);
         $I->fillField(\CouponManagerJ3Page::$couponValue, $couponValue);
         $I->fillField(\CouponManagerJ3Page::$couponLeft, $couponLeft);
@@ -91,7 +89,6 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $couponManagerPage = new \CouponManagerJ3Page;
         $I->checkForPhpNoticesOrWarnings(\CouponManagerJ3Page::$URL);
         $I->click(\CouponManagerJ3Page::$newButton);
-        $I->checkForPhpNoticesOrWarnings(\CouponManagerJ3Page::$URLNew);
         $I->fillField(\CouponManagerJ3Page::$couponValue, $couponValue);
         $I->fillField(\CouponManagerJ3Page::$couponLeft, $couponLeft);
 
@@ -207,50 +204,6 @@ class CouponManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->see(\CouponManagerJ3Page::$publishSuccess, \CouponManagerJ3Page::$selectorSuccess);
     }
 
-    public function checkEditButton()
-    {
-        $I = $this;
-        $I->amOnPage(\CouponManagerJ3Page::$URL);
-        $I->checkForPhpNoticesOrWarnings(\CouponManagerJ3Page::$URL);
-        $I->click(\CouponManagerJ3Page::$editButton);
-        $I->acceptPopup();
-    }
-
-    /**
-     * Function check Delete button
-     */
-    public function checkDeleteButton()
-    {
-        $I = $this;
-        $I->amOnPage(\CouponManagerJ3Page::$URL);
-        $I->checkForPhpNoticesOrWarnings(\CouponManagerJ3Page::$URL);
-        $I->click(\CouponManagerJ3Page::$deleteButton);
-        $I->acceptPopup();
-    }
-
-    /**
-     * Function check publish button without choice any gift card
-     */
-    public function checkPublishButton()
-    {
-        $I = $this;
-        $I->amOnPage(\CouponManagerJ3Page::$URL);
-        $I->checkForPhpNoticesOrWarnings(\CouponManagerJ3Page::$URL);
-        $I->click(\CouponManagerJ3Page::$publishButton);
-        $I->acceptPopup();
-    }
-
-    /**
-     * Function check unpublish button without choice any gift card
-     */
-    public function checkUnpublishButton()
-    {
-        $I = $this;
-        $I->amOnPage(\CouponManagerJ3Page::$URL);
-        $I->checkForPhpNoticesOrWarnings(\CouponManagerJ3Page::$URL);
-        $I->click(\CouponManagerJ3Page::$unpublishButton);
-        $I->acceptPopup();
-    }
 
     public function checkButtons($buttonName)
     {

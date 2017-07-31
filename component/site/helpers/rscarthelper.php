@@ -2969,6 +2969,25 @@ class rsCarthelper
 		$ReceiptTemplate = $this->replaceBillingAddress($ReceiptTemplate, $billingaddresses, $sendmail);
 		$ReceiptTemplate = $this->replaceShippingAddress($ReceiptTemplate, $shippingaddresses, $sendmail);
 
+		if (strpos($ReceiptTemplate, '{order_status_log}') !== false)
+		{
+			$orderStatusLogs = RedshopEntityOrder::getInstance($row->order_id)->getStatusLog();
+
+			$logLayout = RedshopLayoutHelper::render(
+				'order.status_log',
+				array(
+						'orderStatusLogs' => $orderStatusLogs,
+					),
+				'',
+				array(
+						'client'    => 0,
+						'component' => 'com_redshop'
+					)
+			);
+
+			$ReceiptTemplate = str_replace('{order_status_log}', $logLayout, $ReceiptTemplate);
+		}
+
 		$message = str_replace($search, $replace, $ReceiptTemplate);
 		$message = $this->replacePayment($message, $row->payment_discount, 0, $row->payment_oprand);
 		$message = $this->replaceDiscount($message, $row->order_discount, $total_for_discount);
@@ -3241,86 +3260,12 @@ class rsCarthelper
 		return $box_template_desc;
 	}
 
-	public function getGLSLocation($users_info_id, $classname, $shop_id = 0)
-	{
-		$output           = '';
-		$shippingGLS      = $this->_order_functions->getparameters('default_shipping_gls');
-		$selectedShopId = null;
-
-		if (count($shippingGLS) > 0 && $shippingGLS[0]->enabled && $classname == 'default_shipping_gls')
-		{
-			JPluginHelper::importPlugin('redshop_shipping');
-			$dispatcher = RedshopHelperUtility::getDispatcher();
-			$values     = RedshopHelperUser::getUserInformation(0, '', $users_info_id, false);
-
-			if ($shop_id)
-			{
-				$shopOrderdetail = explode("###", $shop_id);
-
-				// zipcode
-				if (isset($shopOrderdetail[2]) && !empty($shopOrderdetail[2]))
-				{
-					$values->zipcode = $shopOrderdetail[2];
-				}
-
-				// phone
-				if (isset($shopOrderdetail[1]) && !empty($shopOrderdetail[1]))
-				{
-					$values->phone = $shopOrderdetail[1];
-				}
-			}
-
-			$shopList   = array();
-			$response   = $dispatcher->trigger('GetNearstParcelShops', array($values));
-
-			if($response && isset($response[0]) && is_array($response[0]))
-			{
-				$shopResponses = $response[0];
-
-				foreach ($shopResponses as $shopResponse)
-				{
-					$shopList[] = JHTML::_(
-						'select.option',
-						$shopResponse->shop_id,
-						$shopResponse->CompanyName . ', ' . $shopResponse->Streetname . ', ' . $shopResponse->ZipCode . ', ' . $shopResponse->CityName
-					);
-				}
-			}
-
-
-			// Get selected shop id
-			if ($shop_id && (isset($shopResponses) && count($shopResponses) > 0))
-			{
-				foreach ($shopResponses as $shopResponse)
-				{
-					$shopDetail = explode("|", $shop_id);
-
-					if ($shopDetail[0] == $shopResponse->Number)
-					{
-						$selectedShopId = $shopResponse->shop_id;
-						break;
-					}
-				}
-			}
-
-			$output = RedshopLayoutHelper::render(
-						'order.glslocation',
-						array(
-							'shopList' => '<span id="rs_locationdropdown">' . JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selectedShopId, false, true) . '</span>',
-							'zipcode'  => '<input type="text" id="gls_zipcode" name="gls_zipcode" value="' . $values->zipcode . '"" onblur="javascript:updateGLSLocation(this.value);"" />',
-							'phone'    => '<input type="text" id="gls_mobile" name="gls_mobile"  value="' . $values->phone . '" />'
-						)
-					);
-		}
-
-		return $output;
-	}
-
 	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0)
 	{
 		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
 		$adminpath            = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$rateExist            = 0;
+		$d                    = array();
 		$d['user_id']         = $user_id;
 		$d['users_info_id']   = $users_info_id;
 		$d['shipping_box_id'] = $shipping_box_post_id;
@@ -3403,17 +3348,6 @@ class rsCarthelper
 									$shipping_rate_id = $rate[$i]->value;
 								}
 
-								if ($classname == 'default_shipping_gls')
-								{
-									$glsLocation = $this->getGLSLocation($users_info_id, $classname);
-									$style       = ($checked != "checked") ? "style='display:none;'" : "style='display:block;'";
-
-									if ($glsLocation)
-									{
-										$glsLocation = "<div $style id='rs_glslocationId'>" . $glsLocation . "</div>";
-									}
-								}
-
 								$shipping_rate_name = '<label class="radio inline" for="shipping_rate_id_' . $shippingmethod[$s]->extension_id . '_' . $i . '"><input type="radio" id="shipping_rate_id_'
 									. $shippingmethod[$s]->extension_id . '_' . $i . '" name="shipping_rate_id" value="'
 									. $rate[$i]->value . '" '
@@ -3456,7 +3390,7 @@ class rsCarthelper
 									$data = str_replace("{shipping_location}", $mainlocation, $data);
 								}
 
-								$data = str_replace("{gls_shipping_location}", $glsLocation, $data);
+								$dispatcher->trigger('onReplaceShippingTemplate', array($d, &$data, $classname, $checked));
 							}
 
 							$rate_data = str_replace("{shipping_rate_loop_start}", "", $rate_data);
@@ -6713,9 +6647,9 @@ class rsCarthelper
 		}
 
 		// Check if required attribute is filled or not ...
-		$attribute_template = $this->_producthelper->getAttributeTemplate($attributeTemplate);
+		$attributeTemplateArray = $this->_producthelper->getAttributeTemplate($attributeTemplate);
 
-		if (count($attribute_template) > 0)
+		if (!empty($attributeTemplateArray))
 		{
 			$selectedAttributId = 0;
 
@@ -6724,7 +6658,7 @@ class rsCarthelper
 				$selectedAttributId = implode(",", $selectedAttrId);
 			}
 
-			$req_attribute = $this->_producthelper->getProductAttribute(
+			$requiredAttribute = RedshopHelperProduct_Attribute::getProductAttribute(
 								$data['product_id'],
 								0,
 								0,
@@ -6733,24 +6667,24 @@ class rsCarthelper
 								$selectedAttributId
 							);
 
-			if (count($req_attribute) > 0)
+			if (!empty($requiredAttribute))
 			{
-				$requied_attributeArr = array();
+				$requiredAttributeArray = array();
 
-				for ($re = 0, $countAttribute = count($req_attribute); $re < $countAttribute; $re++)
+				for ($re = 0, $countAttribute = count($requiredAttribute); $re < $countAttribute; $re++)
 				{
-					$requied_attributeArr[$re] = urldecode($req_attribute[$re]->attribute_name);
+					$requiredAttributeArray[$re] = urldecode($requiredAttribute[$re]->attribute_name);
 				}
 
-				$requied_attribute_name = implode(", ", $requied_attributeArr);
+				$requiredAttributeName = implode(", ", $requiredAttributeArray);
 
 				// Error message if first attribute is required
-				return $requied_attribute_name . " " . JText::_('COM_REDSHOP_IS_REQUIRED');
+				return $requiredAttributeName . " " . JText::_('COM_REDSHOP_IS_REQUIRED');
 			}
 
 			$selectedPropertyId = 0;
 
-			if (count($selectedPropId) > 0)
+			if (!empty($selectedPropId))
 			{
 				$selectedPropertyId = implode(",", $selectedPropId);
 			}
@@ -6762,7 +6696,7 @@ class rsCarthelper
 				$notselectedSubpropertyId = implode(",", $notselectedSubpropId);
 			}
 
-			$req_property = $this->_producthelper->getAttibuteProperty(
+			$requiredProperty = RedshopHelperProduct_Attribute::getAttributeProperties(
 								$selectedPropertyId,
 								$selectedAttributId,
 								$data['product_id'],
@@ -6771,21 +6705,21 @@ class rsCarthelper
 								$notselectedSubpropertyId
 							);
 
-			if (count($req_property) > 0)
+			if (!empty($requiredProperty))
 			{
-				$requied_subattributeArr = array();
+				$requiredSubAttributeArray = array();
 
-				for ($re1 = 0, $countProperty = count($req_property); $re1 < $countProperty; $re1++)
+				for ($re1 = 0, $countProperty = count($requiredProperty); $re1 < $countProperty; $re1++)
 				{
-					$requied_subattributeArr[$re1] = urldecode($req_property[$re1]->property_name);
+					$requiredSubAttributeArray[$re1] = urldecode($requiredProperty[$re1]->property_name);
 				}
 
-				$requied_subattribute_name = implode(",", $requied_subattributeArr);
+				$requiredSubAttributeName = implode(",", $requiredSubAttributeArray);
 
 				// Give error as second attribute is required
 				if ($data['reorder'] != 1)
 				{
-					return $requied_subattribute_name . " " . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
+					return $requiredSubAttributeName . " " . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
 				}
 			}
 		}

@@ -21,7 +21,6 @@ class CouponManagerJ3Page
 
     public static $URL = '/administrator/index.php?option=com_redshop&view=coupon';
 
-    public static $URLNew = '/administrator/index.php?option=com_redshop&view=coupon_detail&layout=edit';
 
     public static $URLEdit='/administrator/index.php?option=com_redshop&view=coupon_detail&task=edit&cid[]=';
 

@@ -51,7 +51,6 @@ class ManageCouponAdministratorCest
     public function createUser(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test User creation in Administrator');
-
         $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
         $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
         $I->searchUser($this->firstName);
@@ -63,7 +62,6 @@ class ManageCouponAdministratorCest
     public function createCoupon(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Coupon creation in Administrator');
-
         $I = new AcceptanceTester\CouponManagerJoomla3Steps($scenario);
         $I->wantTo('Create a Coupon');
         $I->addCoupon($this->couponCode, $this->couponValueIn, $this->couponValue, $this->couponType, $this->couponLeft, $this->startDate, $this->endDate);

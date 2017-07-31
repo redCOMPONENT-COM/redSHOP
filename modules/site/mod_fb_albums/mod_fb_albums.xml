@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+    <name>MOD_FB_ALBUMS</name>
+    <version>1.0</version>
+    <creationDate>April 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>FB Albums</description>
+    <files>
+        <filename module="mod_fb_albums">mod_fb_albums.php</filename>
+        <filename>index.html</filename>
+        <folder>helpers</folder>
+        <folder>tmpl</folder>
+    </files>
+    <media folder="media">
+        <folder>mod_fb_albums</folder>
+    </media>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_fb_albums.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_fb_albums.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params" addfieldpath="/libraries/redshop/form/fields">
+            <fieldset name="basic">
+                <field name="client_id" type="text" default="" label="MOD_FB_ALBUM_CLIENT_ID"
+                       description="MOD_FB_ALBUM_CLIENT_ID"/>
+                <field name="client_secret" type="text" default="" label="MOD_FB_ALBUM_CLIENT_SECRET"
+                       description="MOD_FB_ALBUM_CLIENT_SECRET"/>
+                <field name="fb_page" type="text" default="" label="MOD_FB_ALBUM_FB_PAGE"
+                       description="MOD_FB_ALBUM_FB_PAGE"/>
+                <field
+                        name="display"
+                        type="list"
+                        default="0"
+                        label="MOD_FB_ALBUMS_DISPLAY"
+                        description="MOD_FB_ALBUMS_DISPLAY">
+                    <option value="0">MOD_FB_ALBUMS_DISPLAY_ALBUMS</option>
+                    <option value="1">MOD_FB_ALBUMS_DISPLAY_POSTS</option>
+                </field>
+
+                <field
+                        name="limit"
+                        type="list"
+                        default="5"
+                        label="MOD_FB_ALBUMS_LIMIT"
+                        description="MOD_FB_ALBUMS_LIMIT">
+                    <option value="1">J1</option>
+                    <option value="2">J2</option>
+                    <option value="3">J3</option>
+                    <option value="4">J4</option>
+                    <option value="5">J5</option>
+                    <option value="6">J6</option>
+                    <option value="7">J7</option>
+                    <option value="8">J8</option>
+                    <option value="9">J9</option>
+                    <option value="10">J10</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
