@@ -2969,6 +2969,25 @@ class rsCarthelper
 		$ReceiptTemplate = $this->replaceBillingAddress($ReceiptTemplate, $billingaddresses, $sendmail);
 		$ReceiptTemplate = $this->replaceShippingAddress($ReceiptTemplate, $shippingaddresses, $sendmail);
 
+		if (strpos($ReceiptTemplate, '{order_status_log}') !== false)
+		{
+			$orderStatusLogs = RedshopEntityOrder::getInstance($row->order_id)->getStatusLog();
+
+			$logLayout = RedshopLayoutHelper::render(
+				'order.status_log',
+				array(
+						'orderStatusLogs' => $orderStatusLogs,
+					),
+				'',
+				array(
+						'client'    => 0,
+						'component' => 'com_redshop'
+					)
+			);
+
+			$ReceiptTemplate = str_replace('{order_status_log}', $logLayout, $ReceiptTemplate);
+		}
+
 		$message = str_replace($search, $replace, $ReceiptTemplate);
 		$message = $this->replacePayment($message, $row->payment_discount, 0, $row->payment_oprand);
 		$message = $this->replaceDiscount($message, $row->order_discount, $total_for_discount);
