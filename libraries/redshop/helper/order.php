@@ -339,7 +339,14 @@ class RedshopHelperOrder
 	 */
 	public static function getPaymentInfo($orderId)
 	{
-		return RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
+		$payment = RedshopEntityOrder::getInstance($orderId)->getPayment();
+
+		if (null === $payment)
+		{
+			return null;
+		}
+
+		return $payment->getItem();
 	}
 
 	/**
