@@ -123,7 +123,6 @@ class RedshopControllerSearch extends RedshopController
 		$model->setState("filter.data", $post);
 		$list       = $model->getItem();
 		$pagination = $model->getFilterPagination();
-		$orderBy    = $model->getState('order_by');
 		$total      = $model->getFilterTotal();
 		$url = JRoute::_(
 			'index.php?option=' . $post['option']
@@ -158,14 +157,14 @@ class RedshopControllerSearch extends RedshopController
 		echo RedshopLayoutHelper::render(
 			'filter.result',
 			array(
-				"products"    => $list,
-				"model"       => $model,
-				"post"        => $data,
-				"pagination"  => $pagination,
-				"orderby"     => $orderBy,
-				'total'       => $total,
-				'template_id' => $data['template_id'],
-				'url'         => $url
+				"products"   => $list,
+				"model"      => $model,
+				"post"       => $data,
+				"pagination" => $pagination,
+				"orderBy"    => $post['order_by'],
+				'total'      => $total,
+				'templateId' => $data['template_id'],
+				'url'        => $url
 			),
 			'',
 			array(

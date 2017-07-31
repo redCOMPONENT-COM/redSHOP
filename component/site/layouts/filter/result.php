@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 JLoader::import('redshop.library');
 
 $products   = $displayData["products"];
-$templateId = $displayData['template_id'];
+$templateId = $displayData['templateId'];
 $pk         = $displayData["post"];
 $cid        = $pk["cid"] ? $pk["cid"] : 0;
 $model      = $displayData["model"];
@@ -22,13 +22,12 @@ $categoryModel->setId($cid);
 $categoryData = $categoryModel->getData();
 $mainCategory = $categoryModel->_loadCategory();
 
+RedshopHelperUtility::defineDynamicVariables();
 $productHelper    = productHelper::getInstance();
 $objHelper        = redhelper::getInstance();
-RedshopHelperUtility::defineDynamicVariables();
-
-$extraField      = extraField::getInstance();
-$stockroomHelper = rsstockroomhelper::getInstance();
-$redTemplate     = Redtemplate::getInstance();
+$extraField       = extraField::getInstance();
+$stockroomHelper  = rsstockroomhelper::getInstance();
+$redTemplate      = Redtemplate::getInstance();
 $redconfiguration = Redconfiguration::getInstance();
 
 $list = array(
@@ -38,8 +37,14 @@ $list = array(
 	JHtml::_('select.option', 'p.product_id', JText::_('COM_REDSHOP_NEWEST'))
 );
 
-$getOrderBy = $input->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
-$lists['order_select'] = JHtml::_('select.genericlist', $list, 'orderBy', 'class="inputbox" size="1" onchange="order(this);" ', 'value', 'text', $getOrderBy);
+$orderBy = JHtml::_(
+	'select.genericlist',
+	$list, 'orderBy',
+	'class="inputbox" size="1" onchange="order(this);" ',
+	'value',
+	'text',
+	$displayData['orderBy']
+);
 
 $productData         = '';
 $extraFieldName      = $extraField->getSectionFieldNameArray(1, 1, 1);
@@ -48,8 +53,6 @@ JPluginHelper::importPlugin('redshop_product');
 
 $dispatcher = RedshopHelperUtility::getDispatcher();
 $params     = $app->getParams('com_redshop');
-
-// Check Itemid on pagination
 $itemId     = $input->get('Itemid', 0, "int");
 $fieldArray = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
 
@@ -58,15 +61,14 @@ $templateDesc      = $templateArray[0]->template_desc;
 $attributeTemplate = $productHelper->getAttributeTemplate($templateDesc);
 
 // Begin replace template
-$templateDesc = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $templateDesc);
-$templateDesc = str_replace("{total_product}", $displayData['total'], $templateDesc);
-
+$templateDesc   = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $templateDesc);
+$templateDesc   = str_replace("{total_product}", $displayData['total'], $templateDesc);
 $categoryDetail = RedshopHelperCategory::getCategoryById($cid);
 
 if (strpos($templateDesc, "{template_selector_category}") !== false)
 {
 	$categoryTemplate = $categoryDetail->template . ',' . $categoryDetail->more_template;
-	$template = RedshopHelperTemplate::getTemplate('category', $categoryTemplate);
+	$template         = RedshopHelperTemplate::getTemplate('category', $categoryTemplate);
 
 	$renderTemplate = JHtml::_(
 		'select.genericlist',
@@ -75,7 +77,7 @@ if (strpos($templateDesc, "{template_selector_category}") !== false)
 		'class="inputbox" size="1" onchange="loadTemplate(this);"',
 		'template_id',
 		'template_name',
-		$categoryDetail->template
+		$templateId
 	);
 
 	if ($renderTemplate != "")
@@ -103,25 +105,25 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 
 	if (strpos($subcatTemplate, '{category_thumb_image_2}') !== false)
 	{
-		$tag     = '{category_thumb_image_2}';
+		$tag    = '{category_thumb_image_2}';
 		$hThumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
 		$wThumb = Redshop::getConfig()->get('THUMB_WIDTH_2');
 	}
 	elseif (strpos($subcatTemplate, '{category_thumb_image_3}') !== false)
 	{
-		$tag     = '{category_thumb_image_3}';
+		$tag    = '{category_thumb_image_3}';
 		$hThumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
 		$wThumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
 	}
 	elseif (strpos($subcatTemplate, '{category_thumb_image_1}') !== false)
 	{
-		$tag     = '{category_thumb_image_1}';
+		$tag    = '{category_thumb_image_1}';
 		$hThumb = Redshop::getConfig()->get('THUMB_HEIGHT');
 		$wThumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 	else
 	{
-		$tag     = '{category_thumb_image}';
+		$tag    = '{category_thumb_image}';
 		$hThumb = Redshop::getConfig()->get('THUMB_HEIGHT');
 		$wThumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
@@ -176,7 +178,8 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 				Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'),
 				'0'
 			);
-			$linkImage         = RedshopHelperMedia::watermark(
+
+			$linkImage = RedshopHelperMedia::watermark(
 				'category',
 				$row->category_full_image,
 				'',
@@ -196,7 +199,8 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 				Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'),
 				'0'
 			);
-			$linkImage         = RedshopHelperMedia::watermark(
+
+			$linkImage = RedshopHelperMedia::watermark(
 				'category',
 				Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'),
 				'',
@@ -233,13 +237,23 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 
 		if (strpos($dataAdd, '{category_description}') !== false)
 		{
-			$catDesc = $redconfiguration->maxchar($row->description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
+			$catDesc = $redconfiguration->maxchar(
+				$row->description,
+				Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'),
+				Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
+			);
+
 			$dataAdd = str_replace("{category_description}", $catDesc, $dataAdd);
 		}
 
 		if (strpos($dataAdd, '{category_short_desc}') !== false)
 		{
-			$catShortDesc = $redconfiguration->maxchar($row->short_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
+			$catShortDesc = $redconfiguration->maxchar(
+				$row->short_description,
+				Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'),
+				Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
+			);
+
 			$dataAdd   = str_replace("{category_short_desc}", $catShortDesc, $dataAdd);
 		}
 
@@ -282,12 +296,18 @@ if (strpos($templateDesc, "{if subcats}") !== false && strpos($templateDesc, "{s
 		$templateDesc = $templateD1[0] . $templateD2[1];
 	}
 }
+
 // End replace sub category
 
 // Replace Main Category
 if (strpos($templateDesc, '{category_main_description}') !== false)
 {
-	$mainCategoryDesc = $redconfiguration->maxchar($mainCategory->description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
+	$mainCategoryDesc = $redconfiguration->maxchar(
+		$mainCategory->description,
+		Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), 
+		Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
+	);
+
 	$templateDesc = str_replace("{category_main_description}", $mainCategoryDesc, $templateDesc);
 }
 
@@ -298,6 +318,7 @@ if (strpos($templateDesc, '{category_main_short_desc}') !== false)
 		Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'),
 		Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX')
 	);
+
 	$templateDesc   = str_replace("{category_main_short_desc}", $mainCategoryShortDesc, $templateDesc);
 }
 
@@ -360,6 +381,7 @@ if (strpos($templateDesc, "{include_product_in_sub_cat}") !== false)
 {
 	$templateDesc = str_replace("{include_product_in_sub_cat}", '', $templateDesc);
 }
+
 // End replace Main Category
 
 // Replace Products
@@ -389,9 +411,9 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		// ProductFinderDatepicker Extra Field Start
 		$dataAdd = $productHelper->getProductFinderDatepickerValue($templateProduct, $product->product_id, $fieldArray);
 
-		$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
+		$itemData  = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 		$catidmain = $input->get('cid');
-		$pItemid = count($itemData) > 0 ? $itemData->id : RedshopHelperUtility::getItemId($product->product_id, $catidmain);
+		$pItemid   = count($itemData) > 0 ? $itemData->id : RedshopHelperUtility::getItemId($product->product_id, $catidmain);
 
 		$dataAdd             = str_replace("{product_price}", $productHelper->getProductFormattedPrice($productPrice), $dataAdd);
 		$dataAdd             = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $dataAdd);
@@ -405,7 +427,11 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
 
-		$productName = RedshopHelperUtility::maxChars($product->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
+		$productName = RedshopHelperUtility::maxChars(
+			$product->product_name,
+			Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'),
+			Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX')
+		);
 
 		if (strstr($dataAdd, '{product_name_nolink}'))
 		{
@@ -436,13 +462,23 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 		if (strstr($dataAdd, '{product_s_desc}'))
 		{
-			$productShortDesc = RedshopHelperUtility::maxChars($product->product_s_desc, CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS, CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX);
+			$productShortDesc = RedshopHelperUtility::maxChars(
+				$product->product_s_desc,
+				Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS'),
+				Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX')
+			);
+
 			$dataAdd          = str_replace("{product_s_desc}", $productShortDesc, $dataAdd);
 		}
 
 		if (strstr($dataAdd, '{product_desc}'))
 		{
-			$productDesc = RedshopHelperUtility::maxChars($product->product_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
+			$productDesc = RedshopHelperUtility::maxChars(
+				$product->product_desc,
+				Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'),
+				Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX')
+			);
+
 			$dataAdd     = str_replace("{product_desc}", $productDesc, $dataAdd);
 		}
 
@@ -499,7 +535,13 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		 */
 		if ($extraFieldsForCurrentTemplate)
 		{
-			$dataAdd = $extraField->extra_field_display(1, $product->product_id, $extraFieldsForCurrentTemplate, $dataAdd, 1);
+			$dataAdd = $extraField->extra_field_display(
+				1,
+				$product->product_id,
+				$extraFieldsForCurrentTemplate,
+				$dataAdd,
+				1
+			);
 		}
 
 		if (strstr($dataAdd, "{product_thumb_image_3}"))
@@ -651,7 +693,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 		if (count($childProducts) > 0)
 		{
-			if (PURCHASE_PARENT_WITH_CHILD == 1)
+			if (Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 1)
 			{
 				$isChilds = false;
 
@@ -660,7 +702,12 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 				if ($product->attribute_set_id > 0)
 				{
-					$attributesSet = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
+					$attributesSet = RedshopHelperProduct_Attribute::getProductAttribute(
+						0,
+						$product->attribute_set_id, 
+						0,
+						1
+					);
 				}
 
 				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
@@ -681,7 +728,12 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 			if ($product->attribute_set_id > 0)
 			{
-				$attributesSet = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
+				$attributesSet = RedshopHelperProduct_Attribute::getProductAttribute(
+					0,
+					$product->attribute_set_id,
+					0,
+					1
+				);
 			}
 
 			$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
@@ -697,9 +749,22 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		// Check product for not for sale
 		$dataAdd = $productHelper->getProductNotForSaleComment($product, $dataAdd, $attributes);
 
-		$dataAdd = $productHelper->replaceProductInStock($product->product_id, $dataAdd, $attributes, $attributeTemplate);
+		$dataAdd = $productHelper->replaceProductInStock(
+			$product->product_id,
+			$dataAdd,
+			$attributes,
+			$attributeTemplate
+		);
 
-		$dataAdd = RedshopHelperAttribute::replaceAttributeData($product->product_id, 0, 0, $attributes, $dataAdd, $attributeTemplate, $isChilds);
+		$dataAdd = RedshopHelperAttribute::replaceAttributeData(
+			$product->product_id,
+			0,
+			0,
+			$attributes,
+			$dataAdd,
+			$attributeTemplate,
+			$isChilds
+		);
 
 		// Replace attribute with null value if it exist
 		if (isset($attributeTemplate))
@@ -713,7 +778,19 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 
 		// Get cart template
-		$dataAdd = $productHelper->replaceCartTemplate($product->product_id, $catid, 0, 0, $dataAdd, $isChilds, $userfieldArr, $totalatt, $totacc, 0, "");
+		$dataAdd = $productHelper->replaceCartTemplate(
+			$product->product_id,
+			$catid,
+			0,
+			0,
+			$dataAdd,
+			$isChilds,
+			$userfieldArr,
+			$totalatt,
+			$totacc,
+			0,
+			""
+		);
 
 		$results = $dispatcher->trigger('onPrepareProduct', array(&$dataAdd, &$params, $product));
 
@@ -721,18 +798,6 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	}
 
 	$productTmpl = $productData;
-	$catName     = "";
-
-	if (!empty($cid))
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('name'))
-			->from($db->qn('#__redshop_category'))
-			->where($db->qn('id') . ' = ' . $db->q((int) $cid));
-
-		$catName = $db->setQuery($query)->loadResult();
-	}
 
 	if (strstr($templateDesc, "{pagination}"))
 	{
@@ -765,10 +830,10 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	}
 
 	$templateDesc = str_replace("{order_by_lbl}", JText::_('COM_REDSHOP_SELECT_ORDER_BY'), $templateDesc);
-	$templateDesc = str_replace("{order_by}", $lists['order_select'], $templateDesc);
+	$templateDesc = str_replace("{order_by}", $orderBy, $templateDesc);
 	$templateDesc = str_replace("{product_loop_start}", "", $templateDesc);
 	$templateDesc = str_replace("{product_loop_end}", "", $templateDesc);
-	$templateDesc = str_replace("{category_main_name}", $catName, $templateDesc);
+	$templateDesc = str_replace("{category_main_name}", $categoryDetail->name, $templateDesc);
 	$templateDesc = str_replace("{category_main_description}", '', $templateDesc);
 	$templateDesc = str_replace($templateProduct, $productTmpl, $templateDesc);
 	$templateDesc = str_replace("{with_vat}", "", $templateDesc);
