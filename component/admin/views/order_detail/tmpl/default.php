@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal', 'a.joom-box');
 
+JPluginHelper::importPlugin('redshop_shipping');
+$dispatcher   = JDispatcher::getInstance();
 
 $productHelper    = productHelper::getInstance();
 $cartHelper       = rsCarthelper::getInstance();
@@ -32,7 +34,7 @@ $shipping        = $this->shipping;
 $isCompany       = $billing->is_company;
 $orderId         = $this->detail->order_id;
 $products        = RedshopHelperOrder::getOrderItemDetail($orderId);
-$orderStatusLogs = $model->getOrderLog($orderId);
+$orderStatusLogs = RedshopEntityOrder::getInstance($orderId)->getStatusLog();
 
 if (!$shipping)
 {
@@ -361,7 +363,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                 <tr>
                                     <td align="left">
                                         <div id="rs_glslocationId" <?php echo $disp_style ?>>
-                                            <?php echo $cartHelper->getGLSLocation($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
+                                            <?php $result = $dispatcher->trigger('getGLSLocation', array($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id)); ?>
+											<?php echo $result[0]; ?>
                                         </div>
                                     </td>
                                 </tr>
