@@ -264,7 +264,7 @@ class RedshopHelperCartDiscount
 				$coupons['coupon']     = array_merge($coupons['coupon'], $oldCoupons);
 				$cart                  = array_merge($cart, $coupons);
 				$cart['free_shipping'] = $coupon->free_shipping;
-				RedshopHelperCartSession::set($cart);
+				RedshopHelperCartSession::setCart($cart);
 			}
 		}
 		elseif (Redshop::getConfig()->get('VOUCHERS_ENABLE'))
