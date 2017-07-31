@@ -48,7 +48,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $searchField = array('id' => 'filter_search');
+	public static $searchField = ['id' => 'filter_search'];
 
 	/**
 	 * @var string
@@ -63,7 +63,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $headPage = array('xpath' => "//h1");
+	public static $headPage = ['xpath' => "//h1"];
 
 	/**
 	 * @var string

@@ -28,12 +28,12 @@ class SupplierPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldName = array('id' => 'jform_name');
+	public static $fieldName = ['id' => 'jform_name'];
 
 	/**
 	 * @var array
 	 */
-	public static $fieldEmail = array('id' => 'jform_email');
+	public static $fieldEmail = ['id' => 'jform_email'];
 
 	/**
 	 * @var string
