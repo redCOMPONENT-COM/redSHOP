@@ -1085,7 +1085,14 @@ class RedshopHelperOrder
 			);
 
 			JPluginHelper::importPlugin('redshop_shipping');
-			RedshopHelperUtility::getDispatcher()->trigger('sendOrderShipping', array($data));
+			RedshopHelperUtility::getDispatcher()->trigger(
+				'sendOrderShipping'
+				, array(
+					$orderId,
+					$data->order_payment_status_code,
+					$data->order_status_code
+				)
+			);
 
 			// For Webpack Postdk Label Generation
 			self::createWebPackLabel($orderId, $data->order_status_code, $data->order_payment_status_code);
@@ -1456,6 +1463,16 @@ class RedshopHelperOrder
 
 				break;
 		}
+
+		JPluginHelper::importPlugin('redshop_shipping');
+		RedshopHelperUtility::getDispatcher()->trigger(
+			'sendOrderShipping',
+			array(
+				$orderId,
+				$paymentStatus,
+				$newStatus
+			)
+		);
 
 		if ($app->input->getCmd('order_sendordermail') == 'true')
 		{
