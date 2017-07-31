@@ -417,7 +417,7 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			return;
 		}
 
-		$ghnOrder = $this->createShippingOrder($orderId, $serviceId, $district, $shippingData);
+		$ghnOrder = $this->createShippingOrder($orderId, $serviceId, $district, $shippingData, $orderData);
 		$this->updateOrder($orderId, $ghnOrder);
 	}
 
@@ -562,13 +562,15 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 	 * @param   int     $serviceId      Service id
 	 * @param   int     $districtCode   District code
 	 * @param   object  $orderShipping  Order shipping data
+	 * @param   object  $orderData      Order payment data
 	 *
 	 * @return array
 	 */
-	public function createShippingOrder($orderId, $serviceId, $districtCode, $orderShipping)
+	public function createShippingOrder($orderId, $serviceId, $districtCode, $orderShipping, $orderData)
 	{
-		$items = RedshopHelperOrder::getItems($orderId);
-		$weight = 0;
+		$items     = RedshopHelperOrder::getItems($orderId);
+		$weight    = 0;
+		$codAmount = $orderData->order_total;
 
 		foreach ($items as $item)
 		{
@@ -588,7 +590,8 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			'DeliveryAddress'      => $orderShipping->address,
 			'DeliveryDistrictCode' => $districtCode,
 			'Weight'               => $weight,
-			'ServiceID'            => $serviceId
+			'ServiceID'            => $serviceId,
+			'CODAmount'            => $codAmount
 		);
 		$headers = array(
 			"Content-Type: application/x-www-form-urlencoded",
