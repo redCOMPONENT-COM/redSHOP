@@ -115,6 +115,11 @@ class RedshopTableVoucher extends RedshopTable
 			return false;
 		}
 
+		if ($this->getOption('skip.updateProducts', false) === true)
+		{
+			return true;
+		}
+
 		return $this->updateProduct();
 	}
 

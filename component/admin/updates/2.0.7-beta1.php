@@ -76,17 +76,18 @@ class RedshopUpdate207Beta1 extends RedshopInstallUpdate
 
 		$table = RedshopTable::getAdminInstance('Voucher');
 		$table->setOption('skip.checkPrimary', true);
+		$table->setOption('skip.updateProducts', true);
 
 		foreach ($vouchers as $voucher)
 		{
 			$data = (array) $voucher;
 
-			$data['id'] = $data['voucher_id'];
-			$data['code'] = $data['voucher_code'];
-			$data['type'] = $data['voucher_type'];
-			$data['free_ship'] = $data['free_shipping'];
+			$data['id']         = $data['voucher_id'];
+			$data['code']       = $data['voucher_code'];
+			$data['type']       = $data['voucher_type'];
+			$data['free_ship']  = $data['free_shipping'];
 			$data['start_date'] = !$data['start_date'] ? '0000-00-00 00:00:00' : JFactory::getDate($data['start_date'])->format('Y-m-d H:i:s');
-			$data['end_date'] = !$data['end_date'] ? '0000-00-00 00:00:00' : JFactory::getDate($data['end_date'])->format('Y-m-d H:i:s');
+			$data['end_date']   = !$data['end_date'] ? '0000-00-00 00:00:00' : JFactory::getDate($data['end_date'])->format('Y-m-d H:i:s');
 
 			unset($data['voucher_id']);
 			unset($data['voucher_code']);
