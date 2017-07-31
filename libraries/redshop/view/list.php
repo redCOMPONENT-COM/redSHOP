@@ -284,7 +284,7 @@ class RedshopViewList extends AbstractView
 
 			$this->columns[] = array(
 				// This column is sortable?
-				'sortable'  => isset($field['table-sortable']) ? (boolean) $field['table-sortable'] : false,
+				'sortable'  => isset($field['table-sortable']) ? boolval((int) $field['table-sortable']) : false,
 				// Text for column
 				'text'      => JText::_((string) $field['label']),
 				// Name of property for get data.
@@ -292,9 +292,9 @@ class RedshopViewList extends AbstractView
 				// Width of column
 				'width'     => isset($field['table-width']) ? (string) $field['table-width'] : 'auto',
 				// Enable edit inline?
-				'inline'    => isset($field['table-inline']) ? (boolean) $field['table-inline'] : false,
+				'inline'    => isset($field['table-inline']) ? boolval((int) $field['table-inline']) : false,
 				// Display with edit link or not?
-				'edit_link' => isset($field['table-edit-link']) ? (boolean) $field['table-edit-link'] : false,
+				'edit_link' => isset($field['table-edit-link']) ? boolval((int) $field['table-edit-link']) : false,
 				// Type of column
 				'type'      => (string) $field['type'],
 			);
@@ -317,6 +317,7 @@ class RedshopViewList extends AbstractView
 		$user             = JFactory::getUser();
 		$isCheckedOut     = $row->checked_out && $user->id != $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
+		$value = $row->{$config['dataCol']};
 
 		if (in_array($config['dataCol'], $this->stateColumns))
 		{
@@ -332,7 +333,6 @@ class RedshopViewList extends AbstractView
 		}
 		elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable && $this->canEdit)
 		{
-			$value   = $row->{$config['dataCol']};
 			$display = $value;
 
 			if ($config['edit_link'])
@@ -344,9 +344,9 @@ class RedshopViewList extends AbstractView
 		}
 		elseif ($config['edit_link'] === true)
 		{
-			return '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $row->{$config['dataCol']} . '</a>';
+			return '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $value . '</a>';
 		}
 
-		return '<div class="normal-data">' . $row->{$config['dataCol']} . '</div>';
+		return '<div class="normal-data">' . $value . '</div>';
 	}
 }
