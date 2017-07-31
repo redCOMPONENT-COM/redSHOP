@@ -4387,7 +4387,7 @@ class rsCarthelper
 
 		$user         = JFactory::getUser();
 		$voucher      = array();
-		$current_time = time();
+		$current_time = JFactory::getDate()->toSql();
 
 		$gbvoucher = $this->globalvoucher($voucher_code);
 
@@ -4398,21 +4398,21 @@ class rsCarthelper
 				$subQuery = $db->getQuery(true)
 					->select('GROUP_CONCAT(DISTINCT pv.product_id SEPARATOR ' . $db->quote(', ') . ') AS product_id')
 					->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
-					->where('v.voucher_id = pv.voucher_id');
+					->where('v.id = pv.voucher_id');
 
 				$query = $db->getQuery(true)
 					->select(
 						array('vt.transaction_voucher_id', 'vt.amount AS total', 'vt.product_id', 'v.*', '(' . $subQuery . ') AS nproduct')
 					)
-					->from($db->qn('#__redshop_product_voucher', 'v'))
+					->from($db->qn('#__redshop_voucher', 'v'))
 					->leftJoin($db->qn('#__redshop_product_voucher_transaction', 'vt') . ' ON vt.voucher_id = v.voucher_id')
 					->where('vt.voucher_code = ' . $db->quote($voucher_code))
 					->where('vt.amount > 0')
-					->where('v.voucher_type = ' . $db->quote('Total'))
+					->where('v.type = ' . $db->quote('Total'))
 					->where('v.published = 1')
-					->where('((start_date <= ' . $db->quote($current_time) . ' AND end_date >= ' . $db->quote($current_time) . ') OR (start_date = 0 AND end_date = 0))')
+					->where('((v.start_date <= ' . $db->quote($current_time) . ' AND v.end_date >= ' . $db->quote($current_time) . ') OR (v.start_date = ' . $db->getNullDate() . ' AND v.end_date = ' . $db->getNullDate() . '))')
 					->where('vt.user_id = ' . (int) $user->id)
-					->order('transaction_voucher_id DESC');
+					->order('vt.transaction_voucher_id DESC');
 				$db->setQuery($query);
 				$voucher = $db->loadObject();
 
@@ -4425,17 +4425,17 @@ class rsCarthelper
 				$subQuery = $db->getQuery(true)
 					->select('GROUP_CONCAT(DISTINCT pv.product_id SEPARATOR ' . $db->quote(', ') . ') AS product_id')
 					->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
-					->where('v.voucher_id = pv.voucher_id');
+					->where('v.id = pv.voucher_id');
 
 				$query = $db->getQuery(true)
 					->select(
 						array(
-							'(' . $subQuery . ') AS nproduct', 'v.amount AS total', 'v.voucher_type',
-							'v.free_shipping', 'v.voucher_id', 'v.voucher_code', 'v.voucher_left')
+							'(' . $subQuery . ') AS nproduct', 'v.amount AS total', 'v.type',
+							'v.free_ship', 'v.id', 'v.code', 'v.voucher_left')
 					)
-					->from($db->qn('#__redshop_product_voucher', 'v'))
+					->from($db->qn('#__redshop_voucher', 'v'))
 					->where('v.published = 1')
-					->where('v.voucher_code = ' . $db->quote($voucher_code))
+					->where('v.code = ' . $db->quote($voucher_code))
 					->where('((v.start_date <= ' . $db->quote($current_time) . ' AND v.end_date >= ' . $db->quote($current_time) . ') OR (v.start_date = 0 AND v.end_date = 0))')
 					->where('v.voucher_left > 0');
 				$db->setQuery($query);
@@ -4454,11 +4454,11 @@ class rsCarthelper
 	{
 		$db = JFactory::getDbo();
 
-		$current_time = time();
+		$current_time = JFactory::getDate()->toSql();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
-			. "left join " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id "
+			. "left join " . $this->_table_prefix . "voucher as v on v.voucher_id = pv.voucher_id "
 			. " \nWHERE v.published = 1"
-			. " AND v.voucher_code=" . $db->quote($voucher_code)
+			. " AND v.code=" . $db->quote($voucher_code)
 			. " AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
 			. " OR ( v.start_date =0 AND v.end_date = 0) ) AND v.voucher_left>0 limit 0,1";
 		$this->_db->setQuery($query);
@@ -4467,9 +4467,9 @@ class rsCarthelper
 		if (count($voucher) <= 0)
 		{
 			$this->_globalvoucher = 1;
-			$query                = "SELECT v.*,v.amount as total from " . $this->_table_prefix . "product_voucher as v "
+			$query                = "SELECT v.*,v.amount as total from " . $this->_table_prefix . "voucher as v "
 				. "WHERE v.published = 1 "
-				. "AND v.voucher_code=" . $db->quote($voucher_code)
+				. "AND v.code=" . $db->quote($voucher_code)
 				. "AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
 				. " OR ( v.start_date =0 AND v.end_date = 0) ) "
 				. "AND v.voucher_left>0 LIMIT 0,1 ";

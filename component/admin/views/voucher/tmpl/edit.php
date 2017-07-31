@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     RedSHOP.Backend
- * @subpackage  Controller
+ * @subpackage  Template
  *
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,13 +9,4 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Controller Voucher Detail
- *
- * @package     RedSHOP.Backend
- * @subpackage  Controller
- * @since       __DEPLOY_VERSION__
- */
-class RedshopControllerVoucher extends RedshopControllerForm
-{
-}
+echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' => $this));
