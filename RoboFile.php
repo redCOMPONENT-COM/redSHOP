@@ -19,9 +19,6 @@ class RoboFile extends \Robo\Tasks
 {
 	// Load tasks from composer, see composer.json
 	use Joomla\Testing\Robo\Tasks\LoadTasks;
-	use Codeception\Task\MergeReports;
-	use Codeception\Task\SplitTestsByGroups;
-
 
 	/**
 	 * File extension for executables
@@ -595,8 +592,8 @@ class RoboFile extends \Robo\Tasks
 
 		// Install Joomla + redSHOP
 		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--debug')
+			// ->arg('--steps')
+			// ->arg('--debug')
 			->arg('--tap')
 			->arg('--fail-fast')
 			->arg('tests/acceptance/install/')
@@ -612,67 +609,6 @@ class RoboFile extends \Robo\Tasks
 			->arg('--fail-fast')
 			->run()
 			->stopOnFail();
-
-		// Uninstall after test.
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/uninstall/')
-			->run()
-			->stopOnFail();
-
-		$this->killSelenium();
-	}
-
-	/**
-	 * Method for run specific scenario
-	 *
-	 * @param   string $testCase  Scenario case.
-	 *                            (example: "acceptance/install" for folder, "acceptance/integration/productCheckoutVatExemptUser" for file)
-	 *
-	 * @return  void
-	 */
-	public function runParallelTravis()
-	{
-		$this->prepareSiteForSystemTests(1);
-
-		$this->checkTravisWebserver();
-
-		$this->taskSeleniumStandaloneServer()
-			->setURL('http://localhost:4444')
-			->runSelenium()
-			->waitForSelenium()
-			->run()
-			->stopOnFail();
-
-		// Make sure to Run the B uild Command to Generate AcceptanceTester
-		$this->_exec('vendor/bin/codecept build');
-
-		// Install Joomla + redSHOP
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/install/')
-			->run()
-			->stopOnFail();
-
-		$this->taskSplitTestsByGroups(5)
-			->testsFrom('tests/acceptance/administrator')
-			->projectRoot('.')
-			->groupsTo('tests/_data/group_')
-			->run();
-
-		// Run specific task
-		/*$this->taskCodecept()
-			->test('tests/acceptance/administrator')
-			// ->arg('--steps')
-			// ->arg('--debug')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->run()
-			->stopOnFail();*/
 
 		// Uninstall after test.
 		$this->taskCodecept()
