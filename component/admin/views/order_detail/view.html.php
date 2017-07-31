@@ -189,7 +189,7 @@ class RedshopViewOrder_Detail extends RedshopViewAdmin
 		);
 
 		if (isset($payment_detail->plugin->params) && $payment_detail->plugin->params->get('enableVault')
-			&& ('P' == $detail->order_status || 'Unpaid' == $detail->order_payment_status))
+			&& (REDSHOP_ORDER_STATUS_PAID == $detail->order_status || REDSHOP_ORDER_PAYMENT_STATUS_UNPAID == $detail->order_payment_status))
 		{
 			RedshopToolbarHelper::link(
 				'index.php?option=com_redshop&view=order_detail&task=pay&orderId=' . $order_id . $appendTmpl,

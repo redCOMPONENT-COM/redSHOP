@@ -79,7 +79,7 @@ switch ($_REQUEST ['_type'])
 {
 	case 'new-order-notification' :
 
-		$orders_status_id = 'P';
+		$orders_status_id = REDSHOP_ORDER_STATUS_PAID;
 		$orders_payment_status_id = 'UNPAID';
 		$log = JText::_('COM_REDSHOP_GC_ORDER_PLACED');
 		break;
@@ -95,7 +95,7 @@ switch ($_REQUEST ['_type'])
 				$log = JText::_('COM_REDSHOP_GC_ORDER_CHARGED');
 				break;
 			case 'REVIEWING' :
-				$orders_status_id = 'P';
+				$orders_status_id = REDSHOP_ORDER_STATUS_PAID;
 				$orders_payment_status_id = 'UNPAID';
 				$log = JText::_('COM_REDSHOP_GC_ORDER_REVIED');
 				break;

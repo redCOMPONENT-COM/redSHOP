@@ -36,6 +36,7 @@
         <folder>vendor</folder>
         <folder>view</folder>
         <filename>index.html</filename>
+        <filename>defines.php</filename>
         <filename>library.php</filename>
         <filename>redshop.php</filename>
         <filename>redshop.xml</filename>

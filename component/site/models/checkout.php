@@ -286,7 +286,7 @@ class RedshopModelCheckout extends RedshopModel
 		RedshopHelperCartSession::setCart($cart);
 
 		$order_shipping = RedshopShippingRate::decrypt($shipping_rate_id);
-		$order_status   = 'P';
+		$order_status   = REDSHOP_ORDER_STATUS_PAID;
 		$order_subtotal = $cart ['product_subtotal'];
 		$cdiscount      = $cart ['coupon_discount'];
 		$order_tax      = $cart ['tax'];
@@ -464,8 +464,8 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
-			$order_status        = 'P';
-			$order_paymentstatus = 'Unpaid';
+			$order_status        = REDSHOP_ORDER_STATUS_PAID;
+			$order_paymentstatus = REDSHOP_ORDER_PAYMENT_STATUS_UNPAID;
 		}
 
 		$dispatcher->trigger('onOrderStatusChange', array($post, &$order_status));
