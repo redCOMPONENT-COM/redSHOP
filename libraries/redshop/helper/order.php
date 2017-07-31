@@ -339,7 +339,14 @@ class RedshopHelperOrder
 	 */
 	public static function getPaymentInfo($orderId)
 	{
-		return RedshopEntityOrder::getInstance($orderId)->getPayment()->getItem();
+		$payment = RedshopEntityOrder::getInstance($orderId)->getPayment();
+
+		if (null === $payment)
+		{
+			return null;
+		}
+
+		return $payment->getItem();
 	}
 
 	/**
@@ -940,7 +947,7 @@ class RedshopHelperOrder
 
 			$xmlResponse = $xmlResponse->val;
 
-			if ('201' == (string) $xmlResponse[1] && 'Created' == (string) $xmlResponse[2])
+			if ('201' === (string) $xmlResponse[1] && 'Created' === (string) $xmlResponse[2])
 			{
 				// Update current order success entry.
 				$query = $db->getQuery(true)
@@ -1068,8 +1075,14 @@ class RedshopHelperOrder
 			}
 
 			// Trigger function on Order Status change
-			JPluginHelper::importPlugin('order');
-			RedshopHelperUtility::getDispatcher()->trigger('onAfterOrderStatusUpdate', array(self::getOrderDetails($orderId)));
+			JPluginHelper::importPlugin('redshop_order');
+			RedshopHelperUtility::getDispatcher()->trigger(
+				'onAfterOrderStatusUpdate',
+				array(
+					self::getOrderDetails($orderId),
+					$data->order_status_code
+				)
+			);
 
 			// For Webpack Postdk Label Generation
 			self::createWebPackLabel($orderId, $data->order_status_code, $data->order_payment_status_code);
@@ -1280,7 +1293,9 @@ class RedshopHelperOrder
 	public static function updateStatus()
 	{
 		$app             = JFactory::getApplication();
+		$helper          = redhelper::getInstance();
 		$productHelper   = productHelper::getInstance();
+		$stockroomHelper = rsstockroomhelper::getInstance();
 
 		$newStatus       = $app->input->getCmd('status');
 		$paymentStatus   = $app->input->getString('order_paymentstatus');
@@ -1290,12 +1305,11 @@ class RedshopHelperOrder
 		$customerNote    = stripslashes($customerNote[0]);
 
 		$oid             = $app->input->get('order_id', array(), 'method', 'array');
-		$orderId         = (int) $oid[0];
+		$orderId         = $oid[0];
 
 		$isProduct       = $app->input->getInt('isproduct', 0);
 		$productId       = $app->input->getInt('product_id', 0);
 		$orderItemId     = $app->input->getInt('order_item_id', 0);
-
 
 		if (isset($paymentStatus))
 		{
@@ -1304,13 +1318,6 @@ class RedshopHelperOrder
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 		$orderLog = JTable::getInstance('order_status_log', 'Table');
-
-		// @TODO We should have helper instead work with JTable
-		$orderDetailTable = JTable::getInstance('order_detail', 'Table');
-
-		// Get current order detail before processing
-		$orderDetailTable->load($orderId);
-		$prevOrderStatus = $orderDetailTable->order_status;
 
 		if (!$isProduct)
 		{
@@ -1345,11 +1352,14 @@ class RedshopHelperOrder
 			self::updateOrderStatus($orderId, $newStatus);
 
 			// Trigger function on Order Status change
-			JPluginHelper::importPlugin('order');
+			JPluginHelper::importPlugin('redshop_order');
 
 			RedshopHelperUtility::getDispatcher()->trigger(
 				'onAfterOrderStatusUpdate',
-				array(RedshopEntityOrder::getInstance($orderId)->getItem())
+				array(
+					RedshopEntityOrder::getInstance($orderId)->getItem(),
+					$newStatus
+				)
 			);
 
 			if ($paymentStatus == "Paid")
@@ -1372,19 +1382,15 @@ class RedshopHelperOrder
 				}
 			}
 
-			self::createWebPacklabel($orderId, $newStatus, $paymentStatus);
+			self::createWebPackLabel($orderId, $newStatus, $paymentStatus);
 		}
-
 
 		self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
 		RedshopHelperClickatell::clickatellSMS($orderId);
 
 		switch ($newStatus)
 		{
-			// Cancel & refund case
 			case "X";
-			case 'R':
-
 				$orderProducts = self::getOrderItemDetail($orderId);
 
 				for ($i = 0, $in = count($orderProducts); $i < $in; $i++)
@@ -1392,13 +1398,8 @@ class RedshopHelperOrder
 					$prodid = $orderProducts[$i]->product_id;
 					$prodqty = $orderProducts[$i]->stockroom_quantity;
 
-					// Do not process update stock if this order already "returned" before
-					if ($prevOrderStatus != 'RT')
-					{
-						// When the order is set to "Cancelled / Refunded",product will return to stock
-						RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$i]->stockroom_id);
-					}
-
+					// When the order is set to "cancelled",product will return to stock
+					RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$i]->stockroom_id);
 					$productHelper->makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
 				}
 				break;
@@ -1408,7 +1409,7 @@ class RedshopHelperOrder
 				if ($isProduct)
 				{
 					// Changing the status of the order item to Returned
-					self::updateOrderItemStatus($orderId, $productId, $newStatus, $customerNote, $orderItemId);
+					self::updateOrderItemStatus($orderId, $productId, "RT", $customerNote, $orderItemId);
 
 					// Changing the status of the order to Partially Returned
 					self::updateOrderStatus($orderId, "PRT");
@@ -1949,7 +1950,7 @@ class RedshopHelperOrder
 
 			$maxOrderNumber = $db->loadResult();
 			$maxInvoice     = Economic::getMaxOrderNumberInEconomic();
-			$maxId          = max(intval($maxOrderNumber), $maxInvoice);
+			$maxId          = max((int) $maxOrderNumber, $maxInvoice);
 		}
 		elseif (Redshop::getConfig()->get('INVOICE_NUMBER_TEMPLATE'))
 		{
