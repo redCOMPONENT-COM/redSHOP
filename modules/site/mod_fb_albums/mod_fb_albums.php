@@ -9,29 +9,23 @@
 
 defined('_JEXEC') or die;
 
-$path = __DIR__ . '/helpers/fb.php';
-
-include_once $path;
+include_once __DIR__ . '/helpers/fb.php';
 
 $output = ModFbAlbumsHelper::getList($params);
 
 if (isset($output->error))
 {
-    echo $output->error->message;
+	echo $output->error->message;
 }
-else{
-    $class_sfx	= htmlspecialchars($params->get('class_sfx'));
-    JHtml::stylesheet('mod_fb_albums/css.css', false, true);
+else
+{
+	$class_sfx = htmlspecialchars($params->get('class_sfx'));
 
-    $type = $params->get('display', 0);
+	JHtml::stylesheet('mod_fb_albums/css.css', false, true);
 
-    switch ($type)
-    {
-        case 1:
-            require JModuleHelper::getLayoutPath('mod_fb_albums', $params->get('layout', 'posts'));
-            break;
-        default:
-            require JModuleHelper::getLayoutPath('mod_fb_albums', $params->get('layout', 'default'));
-            break;
-    }
+	$type = $params->get('display', 0);
+
+	$layout = $type === 1 ? 'posts' : 'default';
+
+	require JModuleHelper::getLayoutPath('mod_fb_albums', $params->get('layout', $layout));
 }
