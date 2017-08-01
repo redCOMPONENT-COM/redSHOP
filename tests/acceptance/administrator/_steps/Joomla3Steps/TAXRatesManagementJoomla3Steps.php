@@ -68,7 +68,7 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\TAXRatesJoomla3Page::$TAXRatesName, $TAXRatesName);
 		$I->chooseOnSelect2(\TAXRatesJoomla3Page::$fieldGroup, $VATGroupName);
 		$I->click(\TAXRatesJoomla3Page::$saveButton);
-		$I->acceptPopup();
+		$I->see(\TAXRatesJoomla3Page::$messageSaveSuccess, \TAXRatesJoomla3Page::$selectorSuccess);
 	}
 
 	public function addTAXRatesValueAmountLessZeroSave($TAXRatesName, $VATGroupName, $TaxRatesValue)
@@ -83,7 +83,7 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->chooseOnSelect2(\TAXRatesJoomla3Page::$fieldGroup, $VATGroupName);
 		$I->click(\TAXRatesJoomla3Page::$saveButton);
-		$I->acceptPopup();
+		$I->see(\TAXRatesJoomla3Page::$messageError, \TAXRatesJoomla3Page::$selectorErrorHead);
 	}
 
 	public function addTAXRatesValueAmountStringSave($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
@@ -98,7 +98,7 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->chooseOnSelect2(\TAXRatesJoomla3Page::$fieldCountry, $nameCountry);
 		$I->chooseOnSelect2(\TAXRatesJoomla3Page::$fieldGroup, $VATGroupName);
 		$I->click(\TAXRatesJoomla3Page::$saveButton);
-		$I->acceptPopup();
+		$I->see(\TAXRatesJoomla3Page::$messageSaveSuccess, \TAXRatesJoomla3Page::$selectorSuccess);
 	}
 
 	public function addTAXRatesSaveClose($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
@@ -133,7 +133,6 @@ class TAXRatesManagementJoomla3Steps extends AdminManagerJoomla3Steps
 	public function searchTAXRates($TAXRatesName)
 	{
 		$I = $this;
-		$I->wantTo('Search the VAT/Tax Groups ');
 		$I->amOnPage(\TAXRatesJoomla3Page::$URL);
 		$I->waitForText(\TAXRatesJoomla3Page::$nameManagement, 30, \TAXRatesJoomla3Page::$headXPath);
 		$I->filterListBySearching($TAXRatesName);
