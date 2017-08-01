@@ -5250,7 +5250,7 @@ class productHelper
 
 			if (count($properties) > 0)
 			{
-				$displayAttribute += 1;
+				$displayAttribute++;
 			}
 
 			for ($k = 0, $kn = count($properties); $k < $kn; $k++)
@@ -5284,12 +5284,6 @@ class productHelper
 				$propertiesPriceWithVat[$k] = $propertyPrice;
 				$propertiesVat[$k]          = $propertyVat;
 				$subProperties              = $properties[$k]['property_childs'];
-
-				if (count($subProperties) > 0)
-				{
-					$displayattribute .= "<div class='checkout_subattribute_title'>"
-						. urldecode($subProperties[0]['subattribute_color_title']) . "</div>";
-				}
 
 				for ($l = 0, $ln = count($subProperties); $l < $ln; $l++)
 				{
@@ -5473,13 +5467,17 @@ class productHelper
 		{
 			for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++)
 			{
-				$attribute            = $this->getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
+				$attribute = $this->getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
 
 				// Assign Attribute middle template in tmp variable
 				$tmp_attribute_middle_template = $attribute_middle_template;
-				$tmp_attribute_middle_template = str_replace("{product_attribute_name}", urldecode($orderItemAttdata[$i]->section_name), $tmp_attribute_middle_template);
+				$tmp_attribute_middle_template = str_replace(
+					"{product_attribute_name}", urldecode($orderItemAttdata[$i]->section_name), $tmp_attribute_middle_template
+				);
 
-				$orderPropdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "property", $orderItemAttdata[$i]->section_id);
+				$orderPropdata = RedshopHelperOrder::getOrderItemAttributeDetail(
+					$order_item_id, $is_accessory, "property", $orderItemAttdata[$i]->section_id
+				);
 
 				// Initialize attribute calculated price
 				$propertyCalculatedPriceSum = $orderItemdata[0]->product_item_old_price;
@@ -5506,10 +5504,25 @@ class productHelper
 					{
 						$propertyOperand                     = $orderPropdata[$p]->section_oprand;
 						$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
-						$propertyCalculatedPriceSum, $propertyOperand, $property_price
+							$propertyCalculatedPriceSum, $propertyOperand, $property_price
 						);
 						$productAttributeCalculatedPrice     = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 						$propertyCalculatedPriceSum          = $productAttributeCalculatedPriceBase;
+					}
+
+					$disPrice = '';
+					$hideAttributePrice = count($attribute) > 0 ? $attribute[0]->hide_attribute_price : 0;
+
+					if (strpos($data, '{product_attribute_price}') !== false)
+					{
+						if ($export == 1)
+						{
+							$disPrice = ' (' . $orderPropdata[$p]->section_oprand . Redshop::getConfig()->get('CURRENCY_SYMBOL') . $property_price . ')';
+						}
+						elseif (!$hideAttributePrice)
+						{
+							$disPrice = " (" . $orderPropdata[$p]->section_oprand . $this->getProductFormattedPrice($property_price) . ")";
+						}
 					}
 
 					// Replace attribute property price and value
@@ -5567,9 +5580,7 @@ class productHelper
 					}
 
 					// Format Calculated price using Language variable
-					$productAttributeCalculatedPrice = $this->getProductFormattedPrice(
-						$productAttributeCalculatedPrice
-					);
+					$productAttributeCalculatedPrice = $this->getProductFormattedPrice($productAttributeCalculatedPrice);
 					$productAttributeCalculatedPrice = JText::sprintf('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE', $productAttributeCalculatedPrice);
 					$tmp_attribute_middle_template   = str_replace(
 						"{product_attribute_calculated_price}",
@@ -5584,7 +5595,7 @@ class productHelper
 					$attribute[0]->attribute_childs[] = $attributeChilds;
 				}
 
-				// Prapare cart type attribute array
+				// Prepare cart type attribute array
 				$cartAttributes[] = get_object_vars($attribute[0]);
 			}
 
