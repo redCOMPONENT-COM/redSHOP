@@ -508,7 +508,7 @@ class RedshopModelCart extends RedshopModel
 
 	public function coupon($c_data = array())
 	{
-		return $this->_carthelper->coupon();
+		return RedshopHelperCartDiscount::applyCoupon();
 	}
 
 	public function voucher($v_data = array())
