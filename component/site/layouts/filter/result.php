@@ -708,7 +708,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 				{
 					$attributesSet = RedshopHelperProduct_Attribute::getProductAttribute(
 						0,
-						$product->attribute_set_id, 
+						$product->attribute_set_id,
 						0,
 						1
 					);
