@@ -25,7 +25,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	public function onAjaxCategory_Config()
 	{
@@ -37,9 +37,9 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	/**
 	 * Event run when user click on Start Export
 	 *
-	 * @return  number
+	 * @return  integer
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	public function onAjaxCategory_Start()
 	{
@@ -58,9 +58,9 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	/**
 	 * Event run on export process
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	public function onAjaxCategory_Export()
 	{
@@ -76,9 +76,9 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	/**
 	 * Event run on export process
 	 *
-	 * @return  number
+	 * @return  void
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	public function onAjaxCategory_Complete()
 	{
@@ -88,33 +88,57 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	}
 
 	/**
+	 * Method for get headers data.
+	 *
+	 * @return  mixed
+	 *
+	 * @since   1.0.0
+	 */
+	protected function getHeader()
+	{
+		return array(
+			'id', 'parent_id', 'name', 'short_description', 'description', 'template', 'more_template', 'products_per_page', 'category_thumb_image',
+			'category_full_image', 'metakey', 'metadesc', 'metalanguage_setting', 'metarobot_info', 'pagetitle', 'pageheading', 'sef_url',
+			'published', 'category_pdate', 'ordering', 'canonical_url', 'category_back_full_image', 'compare_template_id', 'append_to_global_seo',
+			'alias', 'path', 'created_date', 'created_by', 'modified_by', 'modified_date', 'publish_up', 'publish_down'
+		);
+	}
+
+	/**
 	 * Method for get query
 	 *
-	 * @return \JDatabaseQuery
+	 * @return   JDatabaseQuery
 	 *
-	 * @since  1.0.0
+	 * @since    1.0.0
 	 */
 	protected function getQuery()
 	{
 		return $this->db->getQuery(true)
-			->select('c.*')
-			->select($this->db->qn('cx.category_parent_id'))
-			->from($this->db->qn('#__redshop_category', 'c'))
-			->leftJoin(
-				$this->db->qn('#__redshop_category_xref', 'cx') . ' ON ' . $this->db->qn('c.category_id') . ' = ' . $this->db->qn('cx.category_child_id')
+			->select(
+				$this->db->qn(
+					array(
+						'id', 'parent_id', 'name', 'short_description', 'description', 'template', 'more_template', 'products_per_page',
+						'category_thumb_image', 'category_full_image', 'metakey', 'metadesc', 'metalanguage_setting', 'metarobot_info', 'pagetitle',
+						'pageheading', 'sef_url', 'published', 'category_pdate', 'ordering', 'canonical_url', 'category_back_full_image',
+						'compare_template_id', 'append_to_global_seo', 'alias', 'path', 'created_date', 'created_by', 'modified_by', 'modified_date',
+						'publish_up', 'publish_down'
+					)
+				)
 			)
-			->where($this->db->qn('cx.category_parent_id') . ' IS NOT NULL')
-			->order($this->db->qn('c.category_id'));
+			->from($this->db->qn('#__redshop_category'))
+			->where($this->db->qn('level') . ' > 0')
+			->where($this->db->qn('id') . ' <> ' . RedshopHelperCategory::getRootId())
+			->order($this->db->qn('level') . ' ASC');
 	}
 
 	/**
 	 * Method for do some stuff for data return. (Like image path,...)
 	 *
-	 * @param   array  &$data  Array of data.
+	 * @param   array  $data  Array of data.
 	 *
 	 * @return  void
 	 *
-	 * @since  1.0.0
+	 * @since   1.0.0
 	 */
 	protected function processData(&$data)
 	{
@@ -131,7 +155,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 			{
 				if ($column == 'category_full_image' && $value != "")
 				{
-					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $value))
+					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $value))
 					{
 						$item[$column] = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $value;
 					}

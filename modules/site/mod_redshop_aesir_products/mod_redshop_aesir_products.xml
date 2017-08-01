@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+    <name>MOD_REDSHOP_AESIR_PRODUCTS</name>
+    <version>1.0.0</version>
+    <redshop>2.0.4</redshop>
+    <creationDate>April 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>MOD_REDSHOP_AESIR_PRODUCTS_DESC</description>
+    <files>
+        <filename module="mod_redshop_aesir_products">mod_redshop_aesir_products.php</filename>
+        <filename>index.html</filename>
+        <folder>fields</folder>
+        <folder>tmpl</folder>
+        <folder>css</folder>
+        <folder>images</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_aesir_products.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_aesir_products.sys.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_aesir_products.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_aesir_products.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params"  addfieldpath="/modules/mod_redshop_aesir_products/fields">
+            <fieldset name="basic">
+                <field name="moduleclass_sfx" type="text" default="" label="COM_REDSHOP_CLASS_SUFFIX"
+                       description="COM_REDSHOP_CLASS_SFX_DESC"/>
+                <field 
+                    name="type" 
+                    type="aesirtypes" 
+                    default=""
+                    label="MOD_REDSHOP_AESIR_PRODUCTS_TYPE"
+                    description="MOD_REDSHOP_AESIR_PRODUCTS_TYPE_DESC">
+                </field>
+                <field 
+                    name="item" 
+                    type="aesiritems" 
+                    default=""
+                    label="MOD_REDSHOP_AESIR_PRODUCTS_ITEM"
+                    description="MOD_REDSHOP_AESIR_PRODUCTS_ITEM_DESC">
+                </field>
+                <field
+                    name="urlCategoryId"
+                    type="radio"
+                    default="0"
+                    label="MOD_REDSHOP_AESIR_PRODUCTS_GET_CATEGORY_FROM_URL"
+                    description="MOD_REDSHOP_AESIR_PRODUCTS_GET_CATEGORY_FROM_URL_DESC"
+                    class="btn-group btn-group-yesno"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="count" type="text" default="5" size="10" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
+                       description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
+
+                <field name="featured_product" type="radio" default="0" label="COM_REDSHOP_FEATURED_PRODUCT"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_FEATURED_PRODUCT_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field name="image" type="radio" default="0" label="COM_REDSHOP_SHOW_IMAGE"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_IMAGE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH"
+                       description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100"/>
+                <field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT"
+                       description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100"/>
+
+                <field name="show_price" type="radio" default="0" label="COM_REDSHOP_SHOW_PRICE"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_PRICE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_vat" type="radio" default="1" label="COM_REDSHOP_SHOW_VAT"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_VAT_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_short_description" type="radio" default="1" label="COM_REDSHOP_SHOW_SHORT_DESCRIPTION"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_SHORT_DESCRIPTION_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_readmore" type="radio" default="1" label="COM_REDSHOP_SHOW_READ_MORE"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_READ_MORE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_addtocart" type="radio" default="1" label="COM_REDSHOP_SHOW_ADD_TO_CART"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_discountpricelayout" type="radio" default="1"
+                       class="btn-group btn-group-yesno"
+                       label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT"
+                       description="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_childproducts" type="radio" default="1" label="COM_REDSHOP_SHOW_CHILD_PRODUCTS"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_CHILD_PRODUCTS">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="show_stockroom_status" type="radio" default="1" label="COM_REDSHOP_SHOW_STOCKROOM_STATUS"
+                       class="btn-group btn-group-yesno"
+                       description="COM_REDSHOP_SHOW_STOCKROOM_STATUS">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+            </fieldset>
+        </fields>
+    </config>
+</extension>

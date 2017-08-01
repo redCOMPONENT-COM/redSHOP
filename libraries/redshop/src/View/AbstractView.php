@@ -20,7 +20,7 @@ jimport('joomla.application.component.viewlegacy');
  *
  * @package     Redshob.Libraries
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.6
  */
 abstract class AbstractView extends \JViewLegacy
 {
@@ -56,16 +56,43 @@ abstract class AbstractView extends \JViewLegacy
 	protected $instanceName;
 
 	/**
+	 * @var  boolean
+	 *
+	 * @since  2.0.6
+	 */
+	protected $useUserPermission = true;
+
+	/**
+	 * @var  boolean
+	 */
+	public $canView;
+
+	/**
+	 * @var  boolean
+	 */
+	public $canEdit;
+
+	/**
+	 * @var  boolean
+	 */
+	public $canDelete;
+
+	/**
+	 * @var  boolean
+	 */
+	public $canCreate;
+
+	/**
 	 * @var    \JModelLegacy
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	public $model;
 
 	/**
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected $layout;
 
@@ -80,6 +107,8 @@ abstract class AbstractView extends \JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$this->generatePermission();
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -128,7 +157,7 @@ abstract class AbstractView extends \JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function beforeDisplay(&$tpl)
 	{
@@ -152,7 +181,7 @@ abstract class AbstractView extends \JViewLegacy
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getTitle()
 	{
@@ -164,7 +193,7 @@ abstract class AbstractView extends \JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function addToolbar()
 	{
@@ -172,11 +201,31 @@ abstract class AbstractView extends \JViewLegacy
 	}
 
 	/**
+	 * Method for generate 4 normal permission.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	protected function generatePermission()
+	{
+		if (!$this->useUserPermission)
+		{
+			return;
+		}
+
+		$this->canCreate = \RedshopHelperAccess::canCreate($this->getInstanceName());
+		$this->canView   = \RedshopHelperAccess::canView($this->getInstanceName());
+		$this->canEdit   = \RedshopHelperAccess::canEdit($this->getInstanceName());
+		$this->canDelete = \RedshopHelperAccess::canDelete($this->getInstanceName());
+	}
+
+	/**
 	 * Method for get instance name with multi (Ex: products, categories,...) of current view
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getInstancesName()
 	{
@@ -193,7 +242,7 @@ abstract class AbstractView extends \JViewLegacy
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getInstanceName()
 	{

@@ -62,7 +62,7 @@ class RedshopViewList extends AbstractView
 	 * Column for render published state.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.6
 	 */
 	protected $stateColumns = array('published', 'state');
 
@@ -97,16 +97,39 @@ class RedshopViewList extends AbstractView
 	public $filterForm;
 
 	/**
+	 * @var  boolean
+	 *
+	 * @since  2.0.6
+	 */
+	public $hasOrdering = false;
+
+	/**
+	 * @var  boolean
+	 *
+	 * @since  2.0.6
+	 */
+	public $isNested = false;
+
+	/**
+	 * @var    array
+	 *
+	 * @since  2.0.6
+	 */
+	public $nestedOrdering;
+
+	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string  &$tpl  Template name
+	 * @param   string  $tpl  Template name
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function beforeDisplay(&$tpl)
 	{
+		$this->checkPermission();
+
 		// Get data from the model
 		$this->items         = $this->model->getItems();
 		$this->pagination    = $this->model->getPagination();
@@ -115,6 +138,37 @@ class RedshopViewList extends AbstractView
 		$this->filterForm    = $this->model->getForm();
 
 		$this->prepareTable();
+
+		if ($this->hasOrdering && $this->isNested && !empty($this->items))
+		{
+			foreach ($this->items as &$item)
+			{
+				$this->nestedOrdering[$item->parent_id][] = $item->id;
+			}
+		}
+	}
+
+	/**
+	 * Method for check permission of current user on view
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	protected function checkPermission()
+	{
+		if (!$this->useUserPermission)
+		{
+			return;
+		}
+
+		// Check permission on create new
+		if (!$this->canView)
+		{
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
+			$app->redirect('index.php?option=com_redshop');
+		}
 	}
 
 	/**
@@ -133,7 +187,7 @@ class RedshopViewList extends AbstractView
 			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'> (" . $this->pagination->total . ")</span>";
 		}
 
-		JToolBarHelper::title($title);
+		JToolbarHelper::title($title);
 	}
 
 	/**
@@ -141,7 +195,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getTitle()
 	{
@@ -153,16 +207,27 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function addToolbar()
 	{
 		// Add common button
-		JToolbarHelper::addNew($this->getInstanceName() . '.add');
-		JToolbarHelper::deleteList('', $this->getInstancesName() . '.delete');
-		JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
-		JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-		JToolbarHelper::checkin($this->getInstancesName() . '.publish', 'JTOOLBAR_CHECKIN', true);
+		if ($this->canCreate)
+		{
+			JToolbarHelper::addNew($this->getInstanceName() . '.add');
+		}
+
+		if ($this->canDelete)
+		{
+			JToolbarHelper::deleteList('', $this->getInstancesName() . '.delete');
+		}
+
+		if ($this->canEdit)
+		{
+			JToolbarHelper::publish($this->getInstancesName() . '.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish($this->getInstancesName() . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::checkin($this->getInstancesName() . '.checkin', 'JTOOLBAR_CHECKIN', true);
+		}
 	}
 
 	/**
@@ -170,7 +235,7 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function getColumns()
 	{
@@ -182,13 +247,13 @@ class RedshopViewList extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	protected function prepareTable()
 	{
 		$formPath = JPATH_COMPONENT_ADMINISTRATOR . '/models/forms/' . $this->getInstanceName() . '.xml';
 
-		if (!is_file($formPath))
+		if (!JFile::exists($formPath))
 		{
 			return;
 		}
@@ -212,9 +277,14 @@ class RedshopViewList extends AbstractView
 				continue;
 			}
 
+			if ($field['name'] == 'ordering')
+			{
+				$this->hasOrdering = true;
+			}
+
 			$this->columns[] = array(
 				// This column is sortable?
-				'sortable'  => isset($field['table-sortable']) ? (boolean) $field['table-sortable'] : false,
+				'sortable'  => isset($field['table-sortable']) ? boolval((int) $field['table-sortable']) : false,
 				// Text for column
 				'text'      => JText::_((string) $field['label']),
 				// Name of property for get data.
@@ -222,9 +292,9 @@ class RedshopViewList extends AbstractView
 				// Width of column
 				'width'     => isset($field['table-width']) ? (string) $field['table-width'] : 'auto',
 				// Enable edit inline?
-				'inline'    => isset($field['table-inline']) ? (boolean) $field['table-inline'] : false,
+				'inline'    => isset($field['table-inline']) ? boolval((int) $field['table-inline']) : false,
 				// Display with edit link or not?
-				'edit_link' => isset($field['table-edit-link']) ? (boolean) $field['table-edit-link'] : false,
+				'edit_link' => isset($field['table-edit-link']) ? boolval((int) $field['table-edit-link']) : false,
 				// Type of column
 				'type'      => (string) $field['type'],
 			);
@@ -234,26 +304,35 @@ class RedshopViewList extends AbstractView
 	/**
 	 * Method for render 'Published' column
 	 *
-	 * @param   array   $config  Row config.
-	 * @param   int     $index   Row index.
-	 * @param   object  $row     Row data.
+	 * @param   array  $config Row config.
+	 * @param   int    $index  Row index.
+	 * @param   object $row    Row data.
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.6
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
-		$isCheckedOut = $row->checked_out && JFactory::getUser()->id != $row->checked_out;
+		$user             = JFactory::getUser();
+		$isCheckedOut     = $row->checked_out && $user->id != $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
+		$value = $row->{$config['dataCol']};
 
 		if (in_array($config['dataCol'], $this->stateColumns))
 		{
-			return JHtml::_('jgrid.published', $row->published, $index);
+			if ($this->canEdit)
+			{
+				return JHtml::_('jgrid.published', $row->published, $index);
+			}
+			else
+			{
+				return '<span class="label ' . ($row->published ? 'label-success' : 'label-danger') . '">' .
+					($row->published ? JText::_('JYES') : JText::_('JNO')) . '</span>';
+			}
 		}
-		elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable)
+		elseif ($config['inline'] === true && !$isCheckedOut && $inlineEditEnable && $this->canEdit)
 		{
-			$value   = $row->{$config['dataCol']};
 			$display = $value;
 
 			if ($config['edit_link'])
@@ -263,7 +342,11 @@ class RedshopViewList extends AbstractView
 
 			return JHtml::_('redshopgrid.inline', $config['dataCol'], $value, $display, $row->id, $config['type']);
 		}
+		elseif ($config['edit_link'] === true)
+		{
+			return '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&id=' . $row->id . '">' . $value . '</a>';
+		}
 
-		return '<div class="normal-data">' . $row->{$config['dataCol']} . '</div>';
+		return '<div class="normal-data">' . $value . '</div>';
 	}
 }

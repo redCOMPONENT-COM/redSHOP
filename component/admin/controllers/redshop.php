@@ -13,6 +13,7 @@ class RedshopControllerRedshop extends RedshopController
 {
 	public function demoContentInsert()
 	{
+		/** @var RedshopModelRedshop $model */
 		$model = $this->getModel('redshop');
 
 		$model->demoContentInsert();

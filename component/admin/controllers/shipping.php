@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Redshop\Economic\Economic;
+
 
 class RedshopControllerShipping extends RedshopController
 {
@@ -40,7 +42,7 @@ class RedshopControllerShipping extends RedshopController
 					$shipping_number = $shipping[$i]->economic_displayname;
 				}
 
-				$economic->createShippingRateInEconomic(
+				Economic::createShippingRateInEconomic(
 					$shipping_number, $shipping_name, $shipping_rate,
 					$shipping[$i]->apply_vat
 				);

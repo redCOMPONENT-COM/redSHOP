@@ -9,26 +9,23 @@
 
 defined('_JEXEC') or die;
 
+$app = JFactory::getApplication();
+
 $default = JFactory::getConfig()->get('captcha');
 
-if (JFactory::getApplication()->isSite())
+if ($app->isSite())
 {
-	$default = JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+	$default = $app->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
 }
-
-if (!empty($default))
-{
-	$captcha = JCaptcha::getInstance($default, array('namespace' => 'redshop'));
-
-	if ($captcha != null)
-	{
 ?>
 
-<div class="form-group">
-	<?php
-		echo $captcha->display('security_code', 'security_code', 'required');
-	?>
-</div>
+<?php if (!empty($default)): ?>
+	<?php $captcha = JCaptcha::getInstance($default, array('namespace' => 'redshop')); ?>
 
-<?php } } ?>
+	<?php if ($captcha != null): ?>
+        <div class="form-group">
+			<?php echo $captcha->display('security_code', 'security_code', 'required'); ?>
+        </div>
+	<?php endif; ?>
+<?php endif; ?>
 

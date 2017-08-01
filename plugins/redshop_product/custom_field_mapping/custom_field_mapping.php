@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,14 +14,12 @@ jimport('joomla.plugin.plugin');
 JLoader::import('redshop.library');
 
 /**
- * Plgredshop_Productstock_Notifyemail Class
+ * PlgRedshop_ProductCustom_Field_Mapping Class
  *
  * @since  1.5
  */
-class Plgredshop_ProductCustom_Field_Mapping extends JPlugin
+class PlgRedshop_ProductCustom_Field_Mapping extends JPlugin
 {
-	protected $autoloadLanguage = true;
-
 	/**
 	 * constructor
 	 *

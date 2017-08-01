@@ -84,6 +84,7 @@ class RedshopViewProduct extends RedshopView
 		$menu_meta_description = $params->get('menu-meta_description');
 		$menu_robots           = $params->get('robots');
 		$this->data            = $this->get('data');
+
 		$productTemplate       = null;
 
 		$this->itemId = $this->input->getInt('Itemid', null);
@@ -92,7 +93,7 @@ class RedshopViewProduct extends RedshopView
 		$template     = $this->input->getString('r_template', '');
 
 		JPluginHelper::importPlugin('redshop_product');
-		$this->dispatcher = JDispatcher::getInstance();
+		$this->dispatcher = RedshopHelperUtility::getDispatcher();
 
 		if (!$this->pid)
 		{
@@ -134,7 +135,7 @@ class RedshopViewProduct extends RedshopView
 			if ($template == 'cartbox' && Redshop::getConfig()->get('AJAX_CART_BOX') == 1)
 			{
 				$this->loadTemplate('cartbox');
-				exit;
+				JFactory::getApplication()->close();
 			}
 			else
 			{
@@ -177,8 +178,8 @@ class RedshopViewProduct extends RedshopView
 				while ($parentid != 0)
 				{
 					$parentdetail = $prodhelperobj->getSection("category", $parentid);
-					$parentcat    = $parentdetail->category_name . "  " . $parentcat;
-					$parentid     = $prodhelperobj->getParentCategory($parentdetail->category_id);
+					$parentcat    = $parentdetail->name . "  " . $parentcat;
+					$parentid     = $prodhelperobj->getParentCategory($parentdetail->id);
 				}
 
 				$pagetitletag = str_replace("{parentcategoryloop}", $parentcat, $pagetitletag);
@@ -492,7 +493,7 @@ class RedshopViewProduct extends RedshopView
 		// Breadcrumb
 		if ($this->pid)
 		{
-			$prodhelperobj->generateBreadcrumb($this->pid);
+			RedshopHelperBreadcrumb::generate($this->pid);
 		}
 
 		$this->template = $productTemplate;

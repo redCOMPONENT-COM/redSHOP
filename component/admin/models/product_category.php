@@ -45,9 +45,9 @@ class RedshopModelProduct_category extends RedshopModel
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('c.category_name, pcx.product_id')
+			->select('c.name, pcx.product_id')
 			->from($db->qn('#__redshop_category', 'c'))
-			->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON pcx.category_id = c.category_id')
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON pcx.category_id = c.id')
 			->where('pcx.product_id IN (' . implode(',', array_keys($products)) . ')');
 
 		if ($categories = $db->setQuery($query)->loadObjectList())
@@ -59,7 +59,7 @@ class RedshopModelProduct_category extends RedshopModel
 					$products[$category->product_id]->categories = array();
 				}
 
-				$products[$category->product_id]->categories[] = $category->category_name;
+				$products[$category->product_id]->categories[] = $category->name;
 			}
 		}
 

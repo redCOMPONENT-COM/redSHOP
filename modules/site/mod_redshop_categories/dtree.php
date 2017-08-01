@@ -52,15 +52,15 @@ $category_id = JRequest::getInt('cid');
 
 if ($params->get('categorysorttype') == "catnameasc")
 {
-	$sortparam = "category_name ASC";
+	$sortparam = "name ASC";
 }
 if ($params->get('categorysorttype') == "catnamedesc")
 {
-	$sortparam = "category_name DESC";
+	$sortparam = "name DESC";
 }
 if ($params->get('categorysorttype') == "newest")
 {
-	$sortparam = "category_id DESC";
+	$sortparam = "id DESC";
 }
 if ($params->get('categorysorttype') == "catorder")
 {
@@ -77,13 +77,12 @@ else
 }
 
 // select menu items from database
-$query = "SELECT category_id,category_parent_id,category_name FROM #__redshop_category AS c "
-	. "LEFT JOIN #__redshop_category_xref AS cx ON c.category_id=cx.category_child_id "
+$query = "SELECT id,parent_id,name FROM #__redshop_category "
 	. "WHERE c.published=1 ";
 
 if ($shopper_group_id && $shoppergroup_cat)
 {
-	$query .= " and category_id IN(" . $shoppergroup_cat . ")";
+	$query .= " and id IN(" . $shoppergroup_cat . ")";
 }
 
 $query .= " ORDER BY " . $sortparam . "";
@@ -149,7 +148,7 @@ $document = JFactory::getDocument();
 
 foreach ($catdatas as $catdata)
 {
-	$cItemid = $objhelper->getCategoryItemid($catdata->category_id);
+	$cItemid = RedshopHelperUtility::getCategoryItemid($catdata->id);
 	if ($cItemid != "")
 	{
 		$tmpItemid = $cItemid;
@@ -160,12 +159,12 @@ foreach ($catdatas as $catdata)
 	}
 
 	// get name and link (just to save space in the code later on)
-	$name = $catdata->category_name . ($redproduct_menu->products_in_category($catdata->category_id, $params));
-	$url  = JRoute::_("index.php?option=com_redshop&view=category&layout=detail&Itemid=" . $tmpItemid . "&cid=" . $catdata->category_id);
-	$menu_htmlcode .= "$tree.add(\"" . $catdata->category_id . "\",\"" . $catdata->category_parent_id . "\",\"$name\",\"$url\",\"\",\"$target\");\n";
+	$name = $catdata->name . ($redproduct_menu->products_in_category($catdata->id, $params));
+	$url  = JRoute::_("index.php?option=com_redshop&view=category&layout=detail&Itemid=" . $tmpItemid . "&cid=" . $catdata->id);
+	$menu_htmlcode .= "$tree.add(\"" . $catdata->id . "\",\"" . $catdata->parent_id . "\",\"$name\",\"$url\",\"\",\"$target\");\n";
 
 	// if this node is the selected node
-	if ($catdata->category_id == $openid)
+	if ($catdata->id == $openid)
 	{
 		$opento          = $openid;
 		$opento_selected = "true";

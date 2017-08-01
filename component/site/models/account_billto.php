@@ -89,19 +89,17 @@ class RedshopModelAccount_billto extends RedshopModel
 
 	public function store($post)
 	{
-		$userhelper = rsUserHelper::getInstance();
-
 		$post['billisship']    = 1;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 
-		$joomlauser = $userhelper->updateJoomlaUser($post);
+		$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
 
 		if (!$joomlauser)
 		{
 			return false;
 		}
 
-		$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id);
+		$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id);
 
 		return $reduser;
 	}

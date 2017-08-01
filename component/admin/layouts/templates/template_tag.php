@@ -18,7 +18,7 @@ switch ($name)
 		{if accessory_main} {accessory_main end if} {accessory_mainproduct_price} {accessory_main_image} {accessory_main_title} {accessory_main_short_desc} {accessory_main_readmore} {accessory_main_image_3} {accessory_main_image_2} <br />
 		{accessory_product_start} {accessory_product_end} {accessory_title} {accessory_image} {accessory_price} {accessory_price_saving} {accessory_main_price} <br />
 		{accessory_short_desc} {accessory_quantity} {product_number} {accessory_readmore} {accessory_image_3} {accessory_image_2} <br />
-		{manufacturer_name} {manufacturer_link} {without_vat} {accessory_readmore_link} {accessory_add_chkbox_lbl} {accessory_quantity_lbl} <br />
+		{manufacturer_name} {manufacturer_link} {without_vat} {accessory_readmore_link} {accessory_add_chkbox_lbl} {accessory_quantity_lbl} {accessory_preview_image}<br />
 		{selected_accessory_price} {accessory_add_chkbox} {attribute_template:attributes} {stock_status}
 		<?php
 		break;
@@ -64,7 +64,7 @@ switch ($name)
 	case 'attribute':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ATTRIBUTE_HINT'); ?></b><br /><br />
-		{attribute_title} {property_dropdown} {property_image_without_scroller} {property_image_scroller} <br />
+		{attribute_title} {attribute_tooltip} {property_dropdown} {property_image_without_scroller} {property_image_scroller} <br />
 		{subproperty_start} {property_title} {subproperty_dropdown} {subproperty_image_without_scroller} {subproperty_image_scroller} {subproperty_end}
 		<?php
 		break;
@@ -252,13 +252,13 @@ switch ($name)
 	case 'onestep_checkout':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ONESTEP_CHECKOUT_HINT'); ?></b><br /><br />
-		{billing_address_information_lbl} {edit_billing_address} {billing_address} {shipping_address_information_lbl} {shipping_address}
+		{billing_template} {billing_address_information_lbl} {edit_billing_address} {billing_address} {shipping_address_information_lbl} {shipping_address}
 		<?php
 		break;
 	case 'order_detail':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ORDER_DETAIL_HINT'); ?></b><br /><br />
-		{order_id} {order_number} {order_date} {order_status} {order_status_order_only_lbl} {order_status_payment_only_lbl} {order_status_order_only} {order_status_payment_only} <br />
+		{order_id} {order_number} {order_date} {order_status} {order_status_log} {order_status_order_only_lbl} {order_status_payment_only_lbl} {order_status_order_only} {order_status_payment_only} <br />
 		{billing_address} {shipping_address} {product_name} {product_number} {product_wrapper} <br />
 		{product_price} {product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_calculated_price} {product_attribute_loop_end} {attribute_label} {product_quantity} {product_total_price} {order_subtotal} {order_total} <br />
 		{order_information_lbl} {order_id_lbl} {order_number_lbl} {order_date_lbl} {order_status_lbl} <br />
@@ -272,7 +272,7 @@ switch ($name)
 		{download_date_list_lbl} {download_date_list} {download_counter_lbl} {download_counter} {download_date_lbl} {download_date} {download_token_lbl} {download_token} <br />
 		{product_subtotal} {shipping_excl_vat} {product_subtotal} {sub_total_vat} {discount_excl_vat} {total_excl_vat} {denotation_label} {discount_denotation} {discount_excl_vat} <br />
 		{shipping_denotation} {shipping_excl_vat} {product_s_desc} {product_thumb_image} {product_old_price} {special_discount} {special_discount_amount} <br />
-		{payment_extrafields_lbl} {payment_extrafields} {shipping_extrafields_lbl} {shipping_extrafields}
+		{payment_extrafields_lbl} {payment_extrafields} {shipping_extrafields_lbl} {shipping_extrafields} {product_gift}
 		<?php
 		break;
 	case 'order_print':
@@ -299,7 +299,7 @@ switch ($name)
 		{product_userfields} {shipping} {vat_shipping} {shipping_lbl} <br />
 		{download_date_list_lbl} {download_date_list} {download_counter_lbl} {download_counter} {download_date_lbl} {download_date} {download_token_lbl} {download_token} <br />
 		{product_subtotal} {product_subtotal_excl_vat} {shipping_excl_vat} {product_subtotal} {sub_total_vat} {discount_excl_vat} {total_excl_vat} {denotation_label} {discount_denotation} <br />
-		{discount_excl_vat} {shipping_denotation} {shipping_excl_vat} {payment_extrafields_lbl} {payment_extrafields} {shipping_extrafields_lbl} {shipping_extrafields}
+		{discount_excl_vat} {shipping_denotation} {shipping_excl_vat} {payment_extrafields_lbl} {payment_extrafields} {shipping_extrafields_lbl} {shipping_extrafields} {product_gift}
 		<?php
 		break;
 	case 'orderlist':
@@ -330,7 +330,7 @@ switch ($name)
 		<h4><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_PRODUCT_HINT'); ?></h4>
 		{product_name} {manufacturer_name} {supplier_name} {publish_date} {update_date} <br />
 		{discount_start_date} {discount_end_date} {product_discount_price} {product_old_price} {product_price_saving} {product_price_saving_percentage} {if product_on_sale} <br />
-		{product_on_sale end if} {product_price_lbl} {if product_special} {product_special end if} {product_name} {product_price} <br />
+		{product_on_sale end if} {product_price_lbl} {if product_special} {product_special end if} {product_name} {product_price} {lowest_price} {highest_price} <br />
 		{product_thumb_image} {product_thumb_image_2} {product_thumb_image_3} {product_s_desc} {product_rating} {more_images} {more_documents} {more_videos} <br />
 		{product_desc} {bookmark} {send_to_friend} {ask_question_about_product} {ask_question_about_product_without_lightbox} {manufacturer_product_link} {product_rating_summary} <br />
 		{product_delivery_time} {manufacturer_link} {form_rating} {form_rating_without_lightbox} {product_id_lbl} {product_id} <br />
@@ -345,7 +345,7 @@ switch ($name)
 		{product_length} {product_width} {product_height} <br />
 		{front_img_link} {back_img_link} {category_product_img} {category_front_img_link} {category_back_img_link} {product_preview_img} {diameter} {product_diameter_lbl} {manufacturer_image} <br />
 		{back_link} {product_length_lbl} {product_width_lbl} {product_height_lbl} {min_order_product_quantity} {print} {product_category_list} {stock_notify_flag} {product_availability_date}  <br />
-		{stock_status}
+		{stock_status} {product_gift_table}
 		<?php
 		break;
 	case 'product_content':

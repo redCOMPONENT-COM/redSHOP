@@ -17,8 +17,7 @@ $producthelper = productHelper::getInstance();
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'copy')) {
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'copy')) {
 			form.view.value = "shipping_box_detail";
 		}
 

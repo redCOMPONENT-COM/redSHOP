@@ -99,13 +99,11 @@ $formToken = JSession::getFormToken();
                             percent = 100;
                         }
 
-                        $bar.css("width", percent + "%");
-                        $bar.html(percent.toFixed(2) + "%");
-
                         if (response == 1) {
                             run_export(success);
                         }
                         else if (response == 0 || success > total) {
+                            percent = 100;
                             total = 0;
                             $("#export_process_msg").addClass("alert-success").removeClass("alert-danger");
                             $("#export_process_msg_body").html("<?php echo JText::_('COM_REDSHOP_EXPORT_DONE') ?>");
@@ -115,12 +113,16 @@ $formToken = JSession::getFormToken();
                                 .attr("src", "index.php?option=com_ajax&plugin=" + plugin + "_complete&group=redshop_export&format=raw");
                         }
                         else {
+                            percent = 100;
                             total = 0;
                             $("#export_plugins").removeClass("disabled muted");
                             $("#export_config").removeClass("disabled muted");
                             $("#export_process_msg").removeClass("alert-success").addClass("alert-danger");
                             $("#export_process_msg_body").html(response);
                         }
+
+                        $bar.css("width", percent + "%");
+                        $bar.html(percent.toFixed(2) + "%");
                     }
                 );
             })(jQuery);

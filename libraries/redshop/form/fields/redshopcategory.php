@@ -68,7 +68,7 @@ class JFormFieldRedshopCategory extends JFormFieldList
 
 			foreach (self::$cache as $item)
 			{
-				$options[] = JHtml::_('select.option', $item->category_id, $item->category_name, 'value', 'text');
+				$options[] = JHtml::_('select.option', $item->id, $item->name, 'value', 'text');
 			}
 
 			if ($this->multiple)

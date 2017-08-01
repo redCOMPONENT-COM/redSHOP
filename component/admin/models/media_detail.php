@@ -94,6 +94,11 @@ class RedshopModelMedia_detail extends RedshopModel
 			$data['media_alternate_text'] = preg_replace('#\.[^/.]+$#', '', $data['media_name']);
 		}
 
+		if (isset($data['cid'][0]))
+		{
+			$data['media_id'] = $data['cid'][0];
+		}
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -132,14 +137,14 @@ class RedshopModelMedia_detail extends RedshopModel
 				$nsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
 					. $mediadata->media_section . '/' . $mediadata->media_name;
 
-				if (is_file($nsrc))
+				if (JFile::exists($nsrc))
 				{
-					unlink($nsrc);
+					JFile::delete($nsrc);
 				}
 
-				if (is_file($ntsrc))
+				if (JFile::exists($ntsrc))
 				{
-					unlink($ntsrc);
+					JFile::delete($ntsrc);
 				}
 
 				if ($mediadata->media_section == 'manufacturer')
@@ -197,12 +202,12 @@ class RedshopModelMedia_detail extends RedshopModel
 			case 'category':
 				$query->select(
 					array(
-						$db->qn('category_id', 'id'),
-						$db->qn('category_name', 'name')
+						$db->qn('id'),
+						$db->qn('name')
 					)
 				)
 					->from($db->qn('#__redshop_category'))
-					->where($db->qn('category_id') . $search);
+					->where($db->qn('id') . $search);
 				break;
 			case 'property':
 				$query->select(
