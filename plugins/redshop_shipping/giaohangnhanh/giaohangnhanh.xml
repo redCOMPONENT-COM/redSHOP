@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.5.1" type="plugin" group="redshop_shipping" method="upgrade">
+    <name>PLG_REDSHOP_SHIPPING_GIAOHANGNHANH</name>
+    <version>1.0</version>
+    <redshop>2.0</redshop>
+    <creationDate>July 2017</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <copyright>(C) 2017 redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+
+    <description>PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_DESC</description>
+
+    <files>
+        <filename plugin="giaohangnhanh">giaohangnhanh.php</filename>
+        <folder>sql</folder>
+        <folder>fields</folder>
+        <folder>language</folder>
+        <folder>layouts</folder>
+    </files>
+
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_redshop_shipping_giaohangnhanh.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_redshop_shipping_giaohangnhanh.sys.ini</language>
+    </languages>
+
+    <config>
+        <fields name="params" addfieldpath="/plugins/redshop_shipping/giaohangnhanh/fields">
+            <fieldset name="basic">
+                <field
+                    name="is_shipper"
+                    type="hidden"
+                    default="1"
+                    value="1"
+                />
+                <field 
+                    name="api_key" 
+                    type="text" 
+                    default="" 
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_API_KEY"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_API_KEY_DESC"
+                />
+                <field 
+                    name="api_secret" 
+                    type="text" 
+                    default="" 
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_API_SECRET"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_API_SECRET_DESC"
+                />
+                <field 
+                    name="client_id" 
+                    type="text" 
+                    default="" 
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_CLIENT_ID"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_CLIENT_ID_DESC"
+                />
+                <field 
+                    name="password" 
+                    type="password" 
+                    default="" 
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_PASSWORD"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_PASSWORD_DESC"
+                />
+                <field 
+                    name="url_service" 
+                    type="text" 
+                    default="" 
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_URL_SERVICE"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_URL_SERVICE_DESC"
+                />
+                <field 
+                    name="pick_hub_id" 
+                    type="pickhub" 
+                    default=""
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_PICK_HUB"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_PICK_HUB_DESC">
+                </field>
+                <field 
+                    name="city" 
+                    type="ghncity"
+                    onchange="ghnSelectDistrict(this);"
+                    default=""
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_CITY"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_CITY_DESC">
+                </field>
+                <field 
+                    name="from_district_code" 
+                    type="ghndistrict" 
+                    default=""
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_DISTRICT"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_DISTRICT_DESC">
+                </field>
+                <field 
+                    name="zipcode" 
+                    type="number" 
+                    default="" 
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ZIPCODE"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ZIPCODE_DESC"
+                />
+            </fieldset>
+            <fieldset name="extra" label="extra" addfieldpath="/libraries/redshop/form/fields">
+                <field 
+                    name="order_status_to_create" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_TO_CREATE"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_TO_CREATE_DESC">
+                </field>
+                <field 
+                    name="readytopick" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_READY_TO_PICK"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_READY_TO_PICK_DESC">
+                </field>
+                <field 
+                    name="picking" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_PICKING"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_PICKING_DESC">
+                </field>
+                <field 
+                    name="storing" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_STORING"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_STORING_DESC">
+                </field>
+                <field 
+                    name="delivering" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_DELIVERING"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_DELIVERING_DESC">
+                </field>
+                <field 
+                    name="delevered" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_DELIVERED"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_DELIVERED_DESC">
+                </field>
+                <field 
+                    name="return" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_RETURN"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_RETURN_DESC">
+                </field>
+                <field 
+                    name="returned" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_RETURNED"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_RETURNED_DESC">
+                </field>
+                <field 
+                    name="cancel" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_CANCEL"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_CANCEL_DESC">
+                </field>
+                <field 
+                    name="lostpackage" 
+                    type="orderstatus"
+                    required="true"
+                    label="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_LOST_PACKAGE"
+                    description="PLG_REDSHOP_SHIPPING_GIAOHANGNHANH_ORDER_STATUS_LOST_PACKAGE_DESC">
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.sql</file>
+        </sql>
+    </uninstall>
+</extension>

@@ -24,12 +24,24 @@
     <config>
         <fields name="params" addfieldpath="/libraries/redshop/form/fields">
             <fieldset name="basic">
-                <field name="client_id" type="text" default="" label="MOD_FB_ALBUM_CLIENT_ID"
-                       description="MOD_FB_ALBUM_CLIENT_ID"/>
-                <field name="client_secret" type="text" default="" label="MOD_FB_ALBUM_CLIENT_SECRET"
-                       description="MOD_FB_ALBUM_CLIENT_SECRET"/>
-                <field name="fb_page" type="text" default="" label="MOD_FB_ALBUM_FB_PAGE"
-                       description="MOD_FB_ALBUM_FB_PAGE"/>
+                <field
+                        name="client_id"
+                        type="text"
+                        default=""
+                        label="MOD_FB_ALBUM_CLIENT_ID"
+                        description="MOD_FB_ALBUM_CLIENT_ID" />
+                <field
+                        name="client_secret"
+                        type="text"
+                        default=""
+                        label="MOD_FB_ALBUM_CLIENT_SECRET"
+                        description="MOD_FB_ALBUM_CLIENT_SECRET" />
+                <field
+                        name="fb_page"
+                        type="text"
+                        default=""
+                        label="MOD_FB_ALBUM_FB_PAGE"
+                        description="MOD_FB_ALBUM_FB_PAGE" />
                 <field
                         name="display"
                         type="list"
@@ -39,7 +51,6 @@
                     <option value="0">MOD_FB_ALBUMS_DISPLAY_ALBUMS</option>
                     <option value="1">MOD_FB_ALBUMS_DISPLAY_POSTS</option>
                 </field>
-
                 <field
                         name="limit"
                         type="list"

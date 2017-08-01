@@ -23,9 +23,9 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 	public $_copydata = null;
 
-	public function __construct()
+	public function __construct($config = array())
 	{
-		parent::__construct();
+		parent::__construct($config);
 
 		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
@@ -285,21 +285,38 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * Get State Dropdown
+	 *
+	 * @param   array  $data  Data
+	 *
+	 * @return  mixed
+	 */
 	public function GetStateDropdown($data)
 	{
-		$coutry_code = $data['country_codes'];
-		$shipping_rate_id = $data['shipping_rate_id'];
+		$countryCode    = $data['country_codes'];
+		$shippingRateId = $data['shipping_rate_id'];
 
-		$shipping_rate = $this->getTable('shipping_rate_detail');
-		$shipping_rate->load($shipping_rate_id);
-		$shipping_rate_state = $this->GetStateList($coutry_code);
+		$shippingRate = $this->getTable('shipping_rate_detail');
+		$shippingRate->load($shippingRateId);
+		$shippingRateState = $this->GetStateList($countryCode);
 
-		$shipping_rate->shipping_rate_state = explode(',', $shipping_rate->shipping_rate_state);
+		JPluginHelper::importPlugin('redshop_shipping');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$dispatcher->trigger('onRenderShippingRateState', array(&$shippingRateState, $countryCode));
+
+		$shippingRate->shipping_rate_state = explode(',', $shippingRate->shipping_rate_state);
 		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $shipping_rate->shipping_rate_state);
+		$tmp = array_merge($tmp, $shippingRate->shipping_rate_state);
 
-		echo JHTML::_('select.genericlist', $shipping_rate_state, 'shipping_rate_state[]', 'class="inputbox" multiple="multiple"',
-			'value', 'text', $shipping_rate->shipping_rate_state
+		echo JHTML::_(
+			'select.genericlist',
+			$shippingRateState,
+			'shipping_rate_state[]',
+			'class="inputbox" multiple="multiple"',
+			'value',
+			'text',
+			$shippingRate->shipping_rate_state
 		);
 	}
 }
