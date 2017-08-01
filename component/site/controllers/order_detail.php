@@ -130,7 +130,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		// Call payment plugin
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$results = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
 		$paymentResponse = $results[0];
@@ -171,7 +171,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		$objOrder = order_functions::getInstance();
 
 		JPluginHelper::importPlugin('redshop_payment');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		$results = $dispatcher->trigger(
 			'onNotifyPayment' . $request['payment_plugin'],
@@ -240,7 +240,7 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		// Import redSHOP Product Plugin
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$app        = JFactory::getApplication();
 
 		// If empty then load order item detail from order table
@@ -287,7 +287,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$row['sel_wrapper_id']  = $row['wrapper_id'];
 			$row['category_id']     = 0;
 
-			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "orderMergeImages/" . $row['attribute_image']))
+			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "orderMergeImages/" . $row['attribute_image']))
 			{
 				$newMedia = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $row['attribute_image'];
 				$oldMedia = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $row['attribute_image'];
@@ -296,7 +296,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 			$row['attributeImage'] = $row['attribute_image'];
 
-			if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $row['attribute_image']))
+			if (JFile::exists(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $row['attribute_image']))
 			{
 				$row['hidden_attribute_cartimage'] = REDSHOP_FRONT_IMAGES_ABSPATH . "product_attributes/" . $row['attribute_image'];
 			}

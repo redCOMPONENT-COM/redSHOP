@@ -1,9 +1,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
 
 -- -----------------------------------------------------
 -- Table `#__redshop_attribute_set`
@@ -1186,6 +1183,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_attribute` (
   `attribute_set_id` INT(11) NOT NULL,
   `display_type` VARCHAR(255) NOT NULL,
   `attribute_published` INT(11) NOT NULL DEFAULT '1',
+  `attribute_description` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`attribute_id`),
   INDEX `idx_product_id` (`product_id` ASC),
   INDEX `idx_attribute_name` (`attribute_name` ASC),
@@ -1588,29 +1586,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_tags_xref` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'Product Tags Relation With product and user';
-
-
--- -----------------------------------------------------
--- Table `#__redshop_product_voucher`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `#__redshop_product_voucher` ;
-
-CREATE TABLE IF NOT EXISTS `#__redshop_product_voucher` (
-  `voucher_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `voucher_code` VARCHAR(255) NOT NULL,
-  `amount` DECIMAL(12,2) NOT NULL DEFAULT '0.00',
-  `voucher_type` VARCHAR(250) NOT NULL,
-  `start_date` DOUBLE NOT NULL,
-  `end_date` DOUBLE NOT NULL,
-  `free_shipping` TINYINT(4) NOT NULL,
-  `voucher_left` INT(11) NOT NULL,
-  `published` TINYINT(4) NOT NULL,
-  PRIMARY KEY (`voucher_id`),
-  INDEX `idx_common` (`voucher_code` ASC, `published` ASC, `start_date` ASC, `end_date` ASC),
-  INDEX `idx_voucher_left` (`voucher_left` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'redSHOP Product Voucher';
 
 
 -- -----------------------------------------------------
@@ -2546,6 +2521,35 @@ CREATE TABLE IF NOT EXISTS `#__redshop_wishlist_product_item` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'Wishlist product item';
+
+
+-- -----------------------------------------------------
+-- Table `#__redshop_voucher`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__redshop_voucher` ;
+
+CREATE TABLE IF NOT EXISTS `#__redshop_voucher` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `code` VARCHAR(255) NOT NULL DEFAULT '',
+  `amount` DECIMAL(12,2) NOT NULL DEFAULT '0.00',
+  `type` VARCHAR(250) NOT NULL,
+  `start_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `end_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `free_ship` TINYINT(4) NOT NULL,
+  `voucher_left` INT(11) NOT NULL,
+  `published` TINYINT(4) NOT NULL DEFAULT '0',
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `#__rs_voucher_code` (`code` ASC),
+  INDEX `#__rs_voucher_common` (`code` ASC, `published` ASC, `start_date` ASC, `end_date` ASC),
+  INDEX `#__rs_voucher_left` (`voucher_left` ASC))
+ENGINE = InnoDB;
+
 
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
