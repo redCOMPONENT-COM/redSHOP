@@ -187,7 +187,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	public function chooseOnSelect2($elementId, $text)
 	{
 		$I = $this;
-		$I->executeJS('jQuery("#' + $elementId + ').select2("search", "' . $text . '");');
+		$I->executeJS('jQuery("' . $elementId . '").select2("search", "' . $text . '")');
 		$I->waitForElement(['xpath' => "//div[contains(@class, 'select2-drop-active')]/ul[(@class, 'select2-results')]/li[1]/div"], 60);
 		$I->click(['xpath' => "//div[contains(@class, 'select2-drop-active')]/ul[(@class, 'select2-results')]/li[1]/div"]);
 	}
