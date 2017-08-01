@@ -13,6 +13,10 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.calendar');
 JHtml::_('behavior.modal');
 
+JPluginHelper::importPlugin('redshop_shipping');
+$dispatcher = RedshopHelperUtility::getDispatcher();
+$dispatcher->trigger('onRenderCustomField');
+
 $url     = JURI::base();
 $user    = JFactory::getUser();
 $session = JFactory::getSession();

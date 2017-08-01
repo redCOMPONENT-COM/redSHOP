@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal', 'a.joom-box');
 
+JPluginHelper::importPlugin('redshop_shipping');
+$dispatcher   = JDispatcher::getInstance();
 
 $productHelper    = productHelper::getInstance();
 $cartHelper       = rsCarthelper::getInstance();
@@ -316,7 +318,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <?php echo JText::_('COM_REDSHOP_SHIPPING_NAME') ?>:
                                     </td>
                                     <td>
-                                        <?php echo $shipping_name = $cartHelper->replaceShippingMethod($this->detail, "{shipping_method}"); ?>
+                                        <?php echo $shipping_name = RedshopHelperShippingTag::replaceShippingMethod($this->detail, "{shipping_method}"); ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -324,7 +326,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                         <?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME') ?>:
                                     </td>
                                     <td>
-                                        <?php echo $shipping_name = $cartHelper->replaceShippingMethod($this->detail, "{shipping_rate_name}"); ?>
+                                        <?php echo $shipping_name = RedshopHelperShippingTag::replaceShippingMethod($this->detail, "{shipping_rate_name}"); ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -361,7 +363,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                 <tr>
                                     <td align="left">
                                         <div id="rs_glslocationId" <?php echo $disp_style ?>>
-                                            <?php echo $cartHelper->getGLSLocation($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
+                                            <?php $result = $dispatcher->trigger('getGLSLocation', array($shipping->users_info_id, 'default_shipping_gls', $this->detail->shop_id)); ?>
+											<?php echo $result[0]; ?>
                                         </div>
                                     </td>
                                 </tr>
