@@ -55,7 +55,7 @@ function getIncludedExtensions() {
     return included.concat(includedPlugins, includedModules, excluded);
 }
 
-gulp.task("release:redshop", ["composer:libraries.redshop", "composer:plugins.redshop_pdf.tcpdf"], function (cb) {
+gulp.task("release:redshop", ["scripts:components.redshop", "sass:components.redshop", "composer:libraries.redshop", "composer:plugins.redshop_pdf.tcpdf"], function (cb) {
     fs.readFile("./redshop.xml", function (err, data) {
         parser.parseString(data, function (err, result) {
             var version = result.extension.version[0];

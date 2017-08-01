@@ -325,6 +325,8 @@ class RedshopHelperProductPrice
 			$productPrice = $newPrice;
 		}
 
+		$dispatcher->trigger('onSetProductPrice', array(&$productPrice, $productId));
+
 		$excludeVat     = productHelper::getInstance()->defaultAttributeDataPrice($productId, $productPrice, $templateHtml, $userId, 0, $attributes);
 		$formattedPrice = self::formattedPrice($excludeVat);
 		$priceText      = $priceText . '<span id="display_product_price_without_vat' . $productId . '">' . $formattedPrice . '</span>'
@@ -346,8 +348,10 @@ class RedshopHelperProductPrice
 		if (Redshop::getConfig()->get('SHOW_PRICE'))
 		{
 			$priceExcludingVat        = $priceText;
-			$productDiscountPriceTemp = productHelper::getInstance()->checkDiscountDate($productId);
+			$productDiscountPriceTemp = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($productId);
 			$oldPriceExcludeVat       = $productPriceExcludingVat;
+
+			$dispatcher->trigger('onSetProductDiscountPrice', array(&$productDiscountPriceTemp, $productId));
 
 			if ($row->product_on_sale && $productDiscountPriceTemp > 0)
 			{
@@ -477,5 +481,217 @@ class RedshopHelperProductPrice
 		$productPrices['product_price_incl_vat']          = (float) $productPriceIncludingVat;
 
 		return $productPrices;
+	}
+
+	/**
+	 * Method for get product show price
+	 *
+	 * @param   integer  $productId     Product ID
+	 * @param   string   $templateHtml  Template content
+	 * @param   string   $seoTemplate   SEO template
+	 * @param   int      $userId        User ID
+	 * @param   boolean  $isRel         Is Rel
+	 * @param   array    $attributes    Attributes
+	 *
+	 * @return mixed|string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getShowPrice($productId, $templateHtml, $seoTemplate = "", $userId = 0, $isRel = false, $attributes = array())
+	{
+		$price                        = '';
+		$priceNoVat                   = '';
+		$displayPriceDiscount         = '';
+		$displayOldPrice              = '';
+		$displayPriceSaving           = '';
+		$displayPriceSavingPercentage = '';
+		$displayPriceNoVAT            = '';
+		$displayPriceWithVAT          = '';
+		$priceSavingLabel             = '';
+		$oldPriceLabel                = '';
+		$vatLabel                     = '';
+		$priceLabel                   = '';
+		$seoProductPrice              = '';
+		$seoProductSavingPrice        = '';
+		$oldPriceNoVat                = '';
+
+		$userId    = !$userId ? JFactory::getUser()->id : $userId;
+		$relPrefix = !$isRel ? '' : 'rel';
+
+		$defaultQuantity = productHelper::getInstance()->GetDefaultQuantity($productId, $templateHtml);
+		$productPrices   = self::getNetPrice($productId, $userId, $defaultQuantity, $templateHtml, $attributes);
+
+		if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
+			|| (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
+		{
+			$price         = self::priceReplacement($productPrices['product_price'] * $defaultQuantity);
+			$mainPrice     = self::priceReplacement($productPrices['product_main_price'] * $defaultQuantity);
+			$oldPrice      = self::priceReplacement((float) $productPrices['product_old_price'] * $defaultQuantity);
+			$priceSaving   = self::priceReplacement($productPrices['product_price_saving'] * $defaultQuantity);
+			$discountPrice = self::priceReplacement($productPrices['product_discount_price'] * $defaultQuantity);
+			$priceNoVAT    = self::priceReplacement($productPrices['product_price_novat'] * $defaultQuantity);
+			$priceWithVAT  = self::priceReplacement($productPrices['product_price_incl_vat'] * $defaultQuantity);
+			$oldPriceNoVat = self::priceReplacement($productPrices['product_old_price_excl_vat'] * $defaultQuantity);
+
+			$isStockExists = RedshopHelperStockroom::isStockExists($productId);
+
+			if ($isStockExists && strpos($templateHtml, "{" . $relPrefix . "product_price_table}") !== false)
+			{
+				$productPriceTable = RedshopHelperProduct::getProductQuantityPrice($productId, $userId);
+				$templateHtml      = str_replace("{" . $relPrefix . "product_price_table}", $productPriceTable, $templateHtml);
+			}
+
+			$priceNoVat            = $productPrices['price_excluding_vat'];
+			$seoProductPrice       = self::priceReplacement($productPrices['seoProductPrice'] * $defaultQuantity);
+			$seoProductSavingPrice = self::priceReplacement((float) $productPrices['seoProductSavingPrice'] * $defaultQuantity);
+
+			$oldPriceLabel    = $productPrices['product_old_price_lbl'];
+			$priceSavingLabel = $productPrices['product_price_saving_lbl'];
+			$priceLabel       = $productPrices['product_price_lbl'];
+			$vatLabel         = $productPrices['product_vat_lbl'];
+
+			$displayOldPrice      = $oldPrice;
+			$displayPriceDiscount = $discountPrice;
+			$displayPriceSaving   = $priceSaving;
+			$displayPriceNoVAT    = $priceNoVAT;
+
+			if ($productPrices['product_discount_price'])
+			{
+				$displayPriceDiscount = '<span id="display_product_discount_price' . $productId . '">' . $discountPrice . '</span>';
+			}
+
+			if ($productPrices['product_old_price'])
+			{
+				$displayOldPrice = '<span id="display_product_old_price' . $productId . '">' . $oldPrice . '</span>';
+			}
+
+			if ($productPrices['product_price_saving'])
+			{
+				$displayPriceSaving           = '<span id="display_product_saving_price' . $productId . '">' . $priceSaving . '</span>';
+				$displayPriceSavingPercentage = '<span id="display_product_saving_price_percentage' . $productId . '">'
+					. JText::sprintf('COM_REDSHOP_PRODUCT_PRICE_SAVING_PERCENTAGE_LBL', round($productPrices['product_price_saving_percentage']))
+					. '%</span>';
+			}
+
+			if ($productPrices['product_price_novat'] != "")
+			{
+				$displayPriceNoVAT = '<span id="display_product_price_no_vat' . $productId . '">' . $priceNoVAT . '</span>';
+			}
+
+			if ($productPrices['product_price_incl_vat'] != "")
+			{
+				$displayPriceWithVAT = '<span id="product_price_incl_vat' . $productId . '">' . $priceWithVAT . '</span>';
+			}
+		}
+
+		if (strpos($templateHtml, "{" . $relPrefix . "product_price_table}") !== false)
+		{
+			$templateHtml = str_replace("{" . $relPrefix . "product_price_table}", '', $templateHtml);
+		}
+
+		if ($seoTemplate != "")
+		{
+			$seoTemplate = str_replace("{" . $relPrefix . "saleprice}", $seoProductPrice, $seoTemplate);
+			$seoTemplate = str_replace("{" . $relPrefix . "saving}", $seoProductSavingPrice, $seoTemplate);
+
+			return $seoTemplate;
+		}
+
+		if (strpos($templateHtml, "{" . $relPrefix . "lowest_price}") !== false
+			|| strpos($templateHtml, "{" . $relPrefix . "highest_price}") !== false)
+		{
+			$productPriceMinMax = productHelper::getInstance()->getProductMinMaxPrice($productId);
+
+			if (strpos($templateHtml, "{" . $relPrefix . "lowest_price}") !== false)
+			{
+				if (!empty($productPriceMinMax['min']))
+				{
+					$productMinPrice = self::priceReplacement($productPriceMinMax['min'] * $defaultQuantity);
+
+					$templateHtml = str_replace(
+						"{" . $relPrefix . "lowest_price}",
+						'<span id="produkt_kasse_hoejre_pris_indre' . $productId . '">' . $productMinPrice . '</span>',
+						$templateHtml
+					);
+				}
+				else
+				{
+					$templateHtml = str_replace(
+						"{" . $relPrefix . "lowest_price}",
+						'<span id="produkt_kasse_hoejre_pris_indre' . $productId . '">' . $price . '</span>',
+						$templateHtml
+					);
+				}
+			}
+
+			if (strpos($templateHtml, "{" . $relPrefix . "highest_price}") !== false)
+			{
+				if (!empty($productPriceMinMax['min']))
+				{
+					$productMaxPrice = self::priceReplacement($productPriceMinMax['max'] * $defaultQuantity);
+
+					$templateHtml = str_replace(
+						"{" . $relPrefix . "highest_price}",
+						'<span id="produkt_kasse_hoejre_pris_indre' . $productId . '">' . $productMaxPrice . '</span>',
+						$templateHtml
+					);
+				}
+				else
+				{
+					$templateHtml = str_replace(
+						"{" . $relPrefix . "highest_price}",
+						'<span id="produkt_kasse_hoejre_pris_indre' . $productId . '">' . $price . '</span>',
+						$templateHtml
+					);
+				}
+			}
+		}
+
+		$templateHtml = str_replace(
+			"{" . $relPrefix . "product_price}",
+			'<span id="produkt_kasse_hoejre_pris_indre' . $productId . '">' . $price . '</span>',
+			$templateHtml
+		);
+
+		$templateHtml = str_replace("{" . $relPrefix . "price_excluding_vat}", $priceNoVat, $templateHtml);
+		$templateHtml = str_replace("{" . $relPrefix . "product_discount_price}", $displayPriceDiscount, $templateHtml);
+
+		if ($productPrices['product_price_saving'])
+		{
+			$templateHtml = str_replace("{" . $relPrefix . "product_price_saving}", $displayPriceSaving, $templateHtml);
+			$templateHtml = str_replace("{" . $relPrefix . "product_price_saving_excl_vat}", $displayPriceSaving, $templateHtml);
+			$templateHtml = str_replace("{" . $relPrefix . "product_price_saving_lbl}", $priceSavingLabel, $templateHtml);
+
+			$templateHtml = str_replace("{" . $relPrefix . "product_price_saving_percentage}", $displayPriceSavingPercentage, $templateHtml);
+		}
+		else
+		{
+			$templateHtml = str_replace("{" . $relPrefix . "product_price_saving}", '', $templateHtml);
+			$templateHtml = str_replace("{" . $relPrefix . "product_price_saving_lbl}", '', $templateHtml);
+
+			$templateHtml = str_replace("{" . $relPrefix . "product_price_saving_percentage}", '', $templateHtml);
+		}
+
+		if ($productPrices['product_old_price'])
+		{
+			$pricePercentDiscount = 100 - ($productPrices['product_discount_price'] / $productPrices['product_old_price'] * 100);
+			$templateHtml         = str_replace("{" . $relPrefix . "product_old_price}", $displayOldPrice, $templateHtml);
+			$templateHtml         = str_replace("{" . $relPrefix . "product_old_price_lbl}", $oldPriceLabel, $templateHtml);
+		}
+		else
+		{
+			$templateHtml = str_replace("{" . $relPrefix . "product_old_price}", '', $templateHtml);
+			$templateHtml = str_replace("{" . $relPrefix . "product_old_price_lbl}", '', $templateHtml);
+		}
+
+		$oldPriceNoVat = '<span id="display_product_old_price' . $productId . '">' . $oldPriceNoVat . '</span>';
+
+		$templateHtml = str_replace("{" . $relPrefix . "product_old_price_excl_vat}", $oldPriceNoVat, $templateHtml);
+		$templateHtml = str_replace("{" . $relPrefix . "product_price_novat}", $displayPriceNoVAT, $templateHtml);
+		$templateHtml = str_replace("{" . $relPrefix . "product_price_incl_vat}", $displayPriceWithVAT, $templateHtml);
+		$templateHtml = str_replace("{" . $relPrefix . "product_vat_lbl}", $vatLabel, $templateHtml);
+		$templateHtml = str_replace("{" . $relPrefix . "product_price_lbl}", $priceLabel, $templateHtml);
+
+		return $templateHtml;
 	}
 }

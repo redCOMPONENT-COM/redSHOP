@@ -877,7 +877,7 @@ class RedshopHelperShipping
 	 * @param   object $shippingRate Shipping Rate information
 	 * @param   array  $data         Shipping Rate user information from cart or checkout selection.
 	 *
-	 * @return  object  Shipping Rate
+	 * @return  float  Shipping Rate
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -1810,6 +1810,11 @@ class RedshopHelperShipping
 	 */
 	public static function isUserInfoMatch(&$data)
 	{
+		if (!isset($data['users_info_id']) || $data['users_info_id'] == 0)
+		{
+			return false;
+		}
+
 		$userHelper   = rsUserHelper::getInstance();
 		$db           = JFactory::getDbo();
 		$userInfo     = self::getShippingAddress($data['users_info_id']);

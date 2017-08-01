@@ -204,7 +204,7 @@ class RedshopModelCart extends RedshopModel
 	 */
 	public function update($data)
 	{
-		$cart = RedshopHelperCart::getCart();
+		$cart = RedshopHelperCartSession::getCart();
 		$user = JFactory::getUser();
 
 		$cartElement = $data['cart_index'];
@@ -317,7 +317,7 @@ class RedshopModelCart extends RedshopModel
 		$dispatcher    = RedshopHelperUtility::getDispatcher();
 		$productHelper = productHelper::getInstance();
 
-		$cart = RedshopHelperCart::getCart();
+		$cart = RedshopHelperCartSession::getCart();
 		$user = JFactory::getUser();
 
 		if (empty($cart))
@@ -460,7 +460,7 @@ class RedshopModelCart extends RedshopModel
 	public function delete($cartElement)
 	{
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$cart            = RedshopHelperCart::getCart();
+		$cart            = RedshopHelperCartSession::getCart();
 
 		if (array_key_exists($cartElement, $cart))
 		{
@@ -508,7 +508,7 @@ class RedshopModelCart extends RedshopModel
 
 	public function coupon($c_data = array())
 	{
-		return $this->_carthelper->coupon();
+		return RedshopHelperCartDiscount::applyCoupon();
 	}
 
 	public function voucher($v_data = array())
@@ -791,7 +791,7 @@ class RedshopModelCart extends RedshopModel
 	{
 		$imagename = '';
 		$type      = '';
-		$cart      = RedshopHelperCart::getCart();
+		$cart      = RedshopHelperCartSession::getCart();
 
 		$generateAttributeCart = array();
 		$product_id            = $data['product_id'];
