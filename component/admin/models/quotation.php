@@ -96,12 +96,7 @@ class RedshopModelQuotation extends RedshopModelList
 		);
 
 		JPluginHelper::importPlugin('redshop_quotation');
-		$data = RedshopHelperUtility::getDispatcher()->trigger('getQuotationColumn');
-
-		if (!empty($data))
-		{
-			$result = array_merge($result, (array) $data[0]);
-		}
+		RedshopHelperUtility::getDispatcher()->trigger('getQuotationColumn', array(&$result));
 
 		return $result;
 	}
