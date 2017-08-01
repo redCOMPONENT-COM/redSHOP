@@ -2502,7 +2502,7 @@ class RedshopHelperOrder
 			$replace [] = $discountType;
 
 			// Getting the order status changed template from mail center end
-			$mailData = $cartHelper->replaceBillingAddress($mailData, $userDetail);
+			$mailData = RedshopHelperBillingTag::replaceBillingAddress($mailData, $userDetail);
 
 			// Get ShippingAddress From order Users info
 			$shippingAddresses = self::getOrderShippingUserInfo($orderId);
