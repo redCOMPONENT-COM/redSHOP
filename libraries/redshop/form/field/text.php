@@ -75,6 +75,11 @@ class RedshopFormFieldText extends JFormField
 		$this->attribs['disabled'] = ($this->element['disabled'] == 'true') ? 'disabled' : null;
 		$this->attribs['placeholder'] = $this->element['placeholder'] ? JText::_($this->element['placeholder']) : null;
 
+		if (isset($this->element['filter']) && ($this->element['filter'] == 'float' || $this->element['filter'] == 'integer'))
+		{
+			$this->attribs['type'] = 'number';
+		}
+
 		// Automatically insert any other attribute inserted
 		if ($elementAttribs = $this->element->attributes())
 		{

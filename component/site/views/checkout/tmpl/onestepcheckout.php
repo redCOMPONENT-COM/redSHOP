@@ -12,6 +12,10 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
+JPluginHelper::importPlugin('redshop_shipping');
+$dispatcher = RedshopHelperUtility::getDispatcher();
+$dispatcher->trigger('onRenderCustomField');
+
 $url = JURI::base();
 $user = JFactory::getUser();
 $app = JFactory::getApplication();
@@ -294,7 +298,71 @@ echo eval("?>" . $onestep_template_desc . "<?php ");?>
 	});
 	function validation()
 	{
-		return true;
+		var email     = jQuery('input[name="email1"]').val();
+		var email2    = jQuery('input[name="email2"]').val();
+		var company   = jQuery('input[name="company_name"]').val();
+		var firstname = jQuery('input[name="firstname"]').val();
+		var lastname  = jQuery('input[name="lastname"]').val();
+		var address   = jQuery('input[name="address"]').val();
+		var zipcode   = jQuery('input[name="zipcode"]').val();
+		var city      = jQuery('input[name="city"]').val();
+		var phone     = jQuery('input[name="phone"]').val();
+		var eanNumber = jQuery('input[name="ean_number"]').val();
+
+		if (jQuery.type(eanNumber) != 'undefined'){
+			if (eanNumber == ""){
+				alert(Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'));
+				return false;
+			}
+			else if (eanNumber.length < 13){
+				alert(Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'));
+				return false;
+			}
+			else if (isNaN(eanNumber) == true){
+				alert(Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'));
+				return false;
+			}
+		}
+
+		if (jQuery.type(email) != 'undefined' && email == ""){
+			alert(Joomla.JText._('COM_REDSHOP_PROVIDE_EMAIL_ADDRESS'));
+			return false;
+		}
+		else if (redSHOP.RSConfig._('SHOW_EMAIL_VERIFICATION') && email != email2){
+			alert(Joomla.JText._('COM_REDSHOP_EMAIL_NOT_MATCH'));
+			return false;
+		}
+		else if (jQuery.type(company) != 'undefined' && company == ""){
+			alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME'));
+			return false;
+		}
+		else if (jQuery.type(firstname) != 'undefined' && firstname == ""){
+			alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME'));
+			return false;
+		}
+		else if (jQuery.type(lastname) != 'undefined' && lastname == ""){
+			alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME'));
+			return false;
+		}
+		else if (jQuery.type(address) != 'undefined' && address == ""){
+			alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ADDRESS'));
+			return false;
+		}
+		else if (jQuery.type(zipcode) != 'undefined' && zipcode == ""){
+			alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP'));
+			return false;
+		}
+		else if (jQuery.type(city) != 'undefined' && city == ""){
+			alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_CITY'));
+			return false;
+		}
+		else if (jQuery.type(phone) != 'undefined' && phone == ""){
+			alert(Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_PHONE'));
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 	function chkvalidaion() {
 		<?php

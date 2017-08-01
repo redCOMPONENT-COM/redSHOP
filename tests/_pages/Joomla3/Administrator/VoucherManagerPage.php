@@ -19,33 +19,31 @@ class VoucherManagerPage
     //name pag
     public static $namePageManagement = 'Voucher Management';
 
-    public static $URL = '/administrator/index.php?option=com_redshop&view=voucher';
+    public static $URL = '/administrator/index.php?option=com_redshop&view=vouchers';
 
-    public static $URLEdit = '/administrator/index.php?option=com_redshop&view=voucher_detail&task=edit&cid[]=';
+    public static $URLEdit = '/administrator/index.php?option=com_redshop&task=voucher.edit&id=';
 
-    public static $voucherCode = "#voucher_code";
+    public static $voucherCode = "#jform_code";
 
-    public static $voucherAmount = "#voucher_amount";
+    public static $voucherAmount = "#jform_amount";
 
-    public static $voucherStartDate = "#start_date";
+    public static $voucherStartDate = "#jform_start_date";
 
-    public static $voucherEndDate = "#end_date";
+    public static $voucherEndDate = "#jform_end_date";
 
-    public static $voucherLeft = "#voucher_left";
+    public static $voucherLeft = "#jform_voucher_left";
 
     public static $voucherCheck = "#cb0";
 
-    public static $voucherResultRow = "//div[@id='editcell']/div[2]/table/tbody/tr[1]";
+    public static $voucherResultRow = "//table[contains(@class, 'adminlist')]/tbody/tr[1]";
 
-    public static $voucherStatePath = "//div[@id='editcell']/div[2]/table/tbody/tr/td[9]/a";
+    public static $voucherStatePath = "//div[@class='table-responsive']/table/tbody/tr/td[10]/a";
 
-    public static $voucherId = "//div[@id='editcell']/div[2]/table/tbody/tr/td[10]";
+    public static $voucherId = "//div[@class='table-responsive']/tbody/tr[1]/td[12]";
 
-    public static $filter = ['id' => 'filter'];
-    public static $voucherSearchField = "#filter";
+    public static $voucherSearchField = "#filter_search";
 
-    public static $xPathStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[9]/a"];
-
+    public static $xPathStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[10]/a"];
 
     public static $xPathInvalid = ['xpath' => "//div[@id='system-message-container']/div/div"];
 
@@ -55,7 +53,7 @@ class VoucherManagerPage
 
     public static $messageContainer = ['id' => 'system-message-container'];
 
-
+	public static $searchField = ['id' => 'filter_search'];
 
     //button
     public static $newButton = "New";
@@ -97,15 +95,13 @@ class VoucherManagerPage
 
     public static $messageSuccess = "Message";
 
-    public static $messageDeleteSuccess = "1 item successfully deleted";
+	public static $messageDeletedOneSuccess = "1 item successfully deleted";
 
-    public static $invalidCode = 'Invalid field:  Voucher Code:';
+    public static $invalidCode = 'Field required: Code';
 
     public static $invalidProduct = 'Invalid field:  Voucher Products';
 
-    public static $messageSaveSuccessVocher = 'Voucher details saved';
+    public static $messagePublishSuccess = '1 item successfully published';
 
-    public static $messagePublishSuccess = 'Voucher detail published successfully';
-
-    public static $messageUnpublishSuccess = 'Voucher detail unpublished successfully';
+    public static $messageUnpublishSuccess = '1 item successfully unpublished';
 }
