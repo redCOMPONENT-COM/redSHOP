@@ -294,6 +294,10 @@ class RedshopModelCheckout extends RedshopModel
 
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 
+		// Add plugin support
+		JPluginHelper::importPlugin('redshop_checkout');
+		$dispatcher->trigger('onBeforeOrderSave', array(&$cart, &$post, &$order_shipping));
+
 		$tax_after_discount = 0;
 
 		if (isset($cart ['tax_after_discount']))
@@ -463,6 +467,8 @@ class RedshopModelCheckout extends RedshopModel
 			$order_status        = 'P';
 			$order_paymentstatus = 'Unpaid';
 		}
+
+		$dispatcher->trigger('onOrderStatusChange', array($post, &$order_status));
 
 		// For barcode generation
 		$row->order_discount       = $odiscount;
@@ -665,7 +671,7 @@ class RedshopModelCheckout extends RedshopModel
 				$rowitem->giftcard_user_name  = $cart[$i]['reciver_name'];
 			}
 
-			if ($this->_producthelper->checkProductDownload($rowitem->product_id))
+			if (RedshopHelperProductDownload::checkDownload($rowitem->product_id))
 			{
 				$medianame = $this->_producthelper->getProductMediaName($rowitem->product_id);
 
@@ -1115,6 +1121,9 @@ class RedshopModelCheckout extends RedshopModel
 		$orderuserrow->order_id     = $order_id;
 		$orderuserrow->address_type = 'BT';
 
+		JPluginHelper::importPlugin('redshop_shipping');
+		$dispatcher->trigger('onBeforeUserBillingStore', array(&$orderuserrow));
+
 		if (!$orderuserrow->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -1141,6 +1150,8 @@ class RedshopModelCheckout extends RedshopModel
 
 		$orderuserrow->order_id     = $order_id;
 		$orderuserrow->address_type = 'ST';
+
+		$dispatcher->trigger('onBeforeUserShippingStore', array(&$orderuserrow));
 
 		if (!$orderuserrow->store())
 		{
@@ -2029,7 +2040,7 @@ class RedshopModelCheckout extends RedshopModel
 		return $shipArr;
 	}
 
-	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "")
+	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "", $post = array())
 	{
 		$session  = JFactory::getSession();
 		$cart     = $session->get('cart');
@@ -2055,7 +2066,10 @@ class RedshopModelCheckout extends RedshopModel
 
 		// Plugin support:  Process the shipping cart
 		JPluginHelper::importPlugin('redshop_product');
-		JDispatcher::getInstance()->trigger('onDisplayShoppingCart', array($cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id));
+        JPluginHelper::importPlugin('redshop_checkout');
+		RedshopHelperUtility::getDispatcher()->trigger(
+			'onDisplayShoppingCart', array(&$cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id)
+		);
 
 		$paymentMethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentMethod = $paymentMethod[0];

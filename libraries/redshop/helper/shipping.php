@@ -877,7 +877,7 @@ class RedshopHelperShipping
 	 * @param   object $shippingRate Shipping Rate information
 	 * @param   array  $data         Shipping Rate user information from cart or checkout selection.
 	 *
-	 * @return  object  Shipping Rate
+	 * @return  float  Shipping Rate
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -974,7 +974,7 @@ class RedshopHelperShipping
 
 		$userInfo     = self::getShippingAddress($usersInfoId);
 		$country      = '';
-		$state        = '';
+		$state        = $data['state_code'] ? $data['state_code'] : '';
 		$isCompany    = false;
 		$shippingRate = array();
 		$zip          = '';
@@ -1016,8 +1016,10 @@ class RedshopHelperShipping
 		}
 		else
 		{
-			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", "
-				. $db->qn('shipping_rate_country') . ") )";
+			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", " . $db->qn('shipping_rate_country') . ")"
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote(0)
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote('')
+				. " )";
 		}
 
 		if ($state)
@@ -1810,6 +1812,11 @@ class RedshopHelperShipping
 	 */
 	public static function isUserInfoMatch(&$data)
 	{
+		if (!isset($data['users_info_id']) || $data['users_info_id'] == 0)
+		{
+			return false;
+		}
+
 		$userHelper   = rsUserHelper::getInstance();
 		$db           = JFactory::getDbo();
 		$userInfo     = self::getShippingAddress($data['users_info_id']);
@@ -1837,8 +1844,10 @@ class RedshopHelperShipping
 		}
 		else
 		{
-			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", "
-				. $db->qn('shipping_rate_country') . ")) ";
+			$whereCountry = "AND (FIND_IN_SET(" . $db->quote(Redshop::getConfig()->get('DEFAULT_SHIPPING_COUNTRY')) . ", " . $db->qn('shipping_rate_country') . ")"
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote(0)
+				. " OR " . $db->qn('shipping_rate_country') . " = " . $db->quote('')
+				. " )";
 		}
 
 		$shopperGroup = $userHelper->getShoppergroupData($userInfo->user_id);

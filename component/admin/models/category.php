@@ -155,6 +155,8 @@ class RedshopModelCategory extends RedshopModelForm
 	 */
 	public function save($data)
 	{
+		$dispatcher = JDispatcher::getInstance();
+		JPluginHelper::importPlugin('redshop_category');
 		$db  = $this->getDbo();
 		$row = $this->getTable();
 		$pk  = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
@@ -304,6 +306,8 @@ class RedshopModelCategory extends RedshopModelForm
 		{
 			return false;
 		}
+
+		$dispatcher->trigger('onAfterCategorySave', array(&$row));
 
 		if (isset($row->id))
 		{
