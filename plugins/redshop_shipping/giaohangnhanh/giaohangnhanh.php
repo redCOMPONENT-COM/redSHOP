@@ -115,6 +115,7 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 			$width  += $productData->product_width;
 		}
 
+		$items                        = array();
 		$items[0]['Weight']           = $weight;
 		$items[0]['Length']           = $length;
 		$items[0]['Width']            = $width;
