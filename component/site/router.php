@@ -504,7 +504,7 @@ class RedshopRouter extends JComponentRouterBase
 				{
 					$segments[] = $mid;
 					$query      = $db->getQuery(true);
-					$query->select(array($db->quoteName('sef_url'), $db->quoteName('manufacturer_name')))
+					$query->select($db->quoteName(array('sef_url', 'manufacturer_name')))
 						->from($db->quoteName('#__redshop_manufacturer'))
 						->where($db->quoteName('manufacturer_id') . ' = ' . (int) $mid);
 					$url = $db->setQuery($query)->loadObject();
