@@ -1310,8 +1310,7 @@ class RedshopHelperOrder
 		$orderItemId     = $app->input->getInt('order_item_id', 0);
 
 		// Get order detail before processing
-		$orderDetail = RedshopEntityOrder::getInstance($orderId);
-		$prevOrderStatus = $orderDetail->getItem()->order_status;
+		$prevOrderStatus = RedshopEntityOrder::getInstance($orderId)->getItem()->order_status;
 
 		if (isset($paymentStatus))
 		{
@@ -1391,7 +1390,7 @@ class RedshopHelperOrder
 		switch ($newStatus)
 		{
 			// Cancel & return
-			case 'X';
+			case 'X':
 			case 'R':
 
 				$orderProducts = self::getOrderItemDetail($orderId);
