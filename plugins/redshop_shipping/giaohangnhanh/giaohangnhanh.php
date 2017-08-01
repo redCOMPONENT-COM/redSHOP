@@ -848,7 +848,8 @@ class PlgRedshop_ShippingGiaohangnhanh extends JPlugin
 	public function getOrderbyTrackingId($trackingId)
 	{
 		$db = JFactory::getDbo();
-		$query->select($db->qn('order_id'))
+		$query = $db->getQuery(true)
+			->select($db->qn('order_id'))
 			->from($db->qn('#__redshop_orders'))
 			->where($db->qn('track_no') . ' = ' . $db->q($trackingId));
 
