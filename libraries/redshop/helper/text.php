@@ -63,7 +63,7 @@ class RedshopHelperText
 	 *
 	 * @param   array  $data  Data to replace with
 	 *
-	 * @return  array
+	 * @return  string
 	 *
 	 * @since   2.0.3
 	 */

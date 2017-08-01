@@ -881,7 +881,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	// Trigger plugin to get merge images.
 	$this->dispatcher->trigger('onBeforeImageLoad', array ($get, &$pluginResults));
 
-	$preselectedresult = $producthelper->displayAdditionalImage(
+	$preselectedresult = RedshopHelperProductTag::displayAdditionalImage(
 		$this->data->product_id,
 		0,
 		0,
@@ -1225,22 +1225,13 @@ $hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_mai
 						<input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 $link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->data->product_id);
 
-if (count($preselectedresult) > 0)
-{
-	$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
-					$producthelper->replaceProductImage($this->data, "", "", "", $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, $preselectedresult) .
-					"</div>";
-}
-else
-{
-	// Product image flying addwishlist time start
-	$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
-					$producthelper->getProductImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX')) .
-					"</div>";
-}
+// Product image
+$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
+				$producthelper->getProductImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, 0, $preselectedresult) .
+				"</div>";
 
-// Product image flying addwishlist time end
 $template_desc = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $template_desc);
+// Product image end
 
 $template_desc = $producthelper->getJcommentEditor($this->data, $template_desc);
 
