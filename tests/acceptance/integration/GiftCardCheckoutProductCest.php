@@ -20,7 +20,7 @@ class GiftCardCheckoutProductCest
     public function __construct()
     {
         $this->faker = Faker\Factory::create();
-        $this->userName = $this->faker->bothify('GiftCardCheckoutProductCest ?##?');
+        $this->userName = $this->faker->bothify('UserNameCheckoutProductCest ?##?');
         $this->password = 'test';
         $this->email = $this->faker->email;
         $this->shopperGroup = 'Default Private';
@@ -72,13 +72,11 @@ class GiftCardCheckoutProductCest
             "shippingAddress" => "some place on earth",
             "customerName" => 'Testing Customer'
         );
-//		$this->createUser($I, $scenario);
+		$this->createUser($I, $scenario);
         $this->createGiftCard($I, $scenario);
-        $pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_authorize/';
-        $I->installExtensionFromFolder($pathToPlugin, 'Plugin');
-        $I->enablePlugin('Authorize Payments');
-        $this->updateAuthorizePlugin($I, $checkoutAccountInformation['accessId'], $checkoutAccountInformation['transactionId']);
-        $I->doAdministratorLogout();
+        $I->installExtensionFromUrl($I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');
+        $I->wait(3);
+        $I->enablePlugin('PayPal');
         $this->checkoutGiftCardWithAuthorizePayment($I, $scenario, $this->userInformation, $this->userInformation, $checkoutAccountInformation, $this->randomCardName);
         $this->couponCode = $this->fetchCouponCode($I, $scenario);
         $productName = 'redCOOKIE';
@@ -157,9 +155,9 @@ class GiftCardCheckoutProductCest
     private function checkoutGiftCardWithAuthorizePayment(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $checkoutAccountDetail, $giftCardName)
     {
         $I->doFrontEndLogin($this->userName, $this->password);
+        // here , can't get this link
         $I->amOnPage('/index.php?option=com_redshop&view=giftcard');
         $I->waitForElement(['link' => $giftCardName], 60);
-//		$I->checkForPhpNoticesOrWarnings();
         $productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
         $I->click(['link' => $giftCardName]);
         $I->waitForElement(['id' => "reciver_name"]);
@@ -169,7 +167,6 @@ class GiftCardCheckoutProductCest
         $I->waitForText("Product has been added to your cart.", 60, '.alert-message');
         $I->see("Product has been added to your cart.", '.alert-message');
         $I->amOnPage('index.php?option=com_redshop&view=cart');
-//		$I->checkForPhpNoticesOrWarnings();
         $I->seeElement(['link' => $giftCardName]);
         $I->click(['xpath' => "//input[@value='Checkout']"]);
         $I->waitForElement(['xpath' => "//div[@id='rs_payment_authorize']//label//input"], 30);
