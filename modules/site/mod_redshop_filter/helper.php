@@ -155,9 +155,7 @@ abstract class ModRedshopFilter
 	/**
 	 * This method will get parent category redshop
 	 *
-	 * @param   array  $catList       category ids
-	 * @param   int    $rootCategory  root category ids
-	 * @param   array  $cid           category id
+	 * @param   array  $catList  category ids
 	 *
 	 * @return array
 	 */
