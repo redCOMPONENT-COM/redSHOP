@@ -356,15 +356,21 @@ abstract class AbstractTable extends \JTable implements TableInterface
 			unset($this->asset_id);
 		}
 
+		$isInsert = true;
+
 		// If a primary key exists update the object, otherwise insert it.
 		if ($this->hasPrimaryKey())
 		{
-			$result = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
+			$clone = clone $this;
+
+			if ($clone->load($this->getPrimaryKey()))
+			{
+				$isInsert = false;
+			}
 		}
-		else
-		{
-			$result = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
-		}
+
+		$result = $isInsert ? $this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0])
+			: $this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
 
 		// If the table is not set to track assets return true.
 		if ($this->_trackAssets)
