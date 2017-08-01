@@ -23,7 +23,7 @@ class RedshopRouter extends JComponentRouterBase
 	/**
 	 * Build the route for the com_reditem component
 	 *
-	 * @param   array $query An array of URL arguments
+	 * @param   array  $query  An array of URL arguments
 	 *
 	 * @return  array          The URL arguments to use to assemble the subsequent URL.
 	 */
@@ -507,8 +507,7 @@ class RedshopRouter extends JComponentRouterBase
 					$query->select(array($db->quoteName('sef_url'), $db->quoteName('manufacturer_name')))
 						->from($db->quoteName('#__redshop_manufacturer'))
 						->where($db->quoteName('manufacturer_id') . ' = ' . (int) $mid);
-					$db->setQuery($query);
-					$url = $db->loadObject();
+					$url = $db->setQuery($query)->loadObject();
 
 					if ($url)
 					{
@@ -558,8 +557,7 @@ class RedshopRouter extends JComponentRouterBase
 						$query->select($db->quoteName('tags_name'))
 							->from($db->quoteName('#__redshop_product_tags'))
 							->where($db->quoteName('tags_id') . ' = ' . (int) $tagId);
-						$db->setQuery($query);
-						$tagname = $db->loadResult();
+						$tagname = $db->setQuery($query)->loadResult();
 
 						$segments[] = str_replace($specialChars, "-", $tagname);
 
@@ -623,7 +621,7 @@ class RedshopRouter extends JComponentRouterBase
 	/**
 	 * Parse the segments of a URL.
 	 *
-	 * @param   array $segments The segments of the URL to parse.
+	 * @param   array  $segments  The segments of the URL to parse.
 	 *
 	 * @return  array             The URL attributes to be used by the application.
 	 */
