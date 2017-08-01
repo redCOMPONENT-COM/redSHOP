@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,9 +19,9 @@ class RedshopControllerXmlexport_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'xmlexport_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'xmlexport_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
@@ -33,9 +33,9 @@ class RedshopControllerXmlexport_detail extends RedshopController
 	public function save($export = 0)
 	{
 		$session = JFactory::getSession();
-		$post = JRequest::get('post');
+		$post    = $this->input->post->getArray();
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$post['xmlexport_id'] = $cid [0];
 		$model = $this->getModel('xmlexport_detail');
@@ -122,13 +122,13 @@ function setChildElement()
 {
 	JHTMLBehavior::modal();
 
-	$xmlhelper = new xmlHelper;
-	$post = JRequest::get('post');
-	$session = JFactory::getSession();
+	$xmlhelper    = new xmlHelper;
+	$post         = $this->input->post->getArray();
+	$session      = JFactory::getSession();
 	$childelement = $session->get('childelement');
-	$resarray = array();
-	$uarray = array();
-	$columns = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
+	$resarray     = array();
+	$uarray       = array();
+	$columns      = $xmlhelper->getSectionColumnList($post['section_type'], $post['parentsection']);
 
 	for ($i = 0, $in = count($columns); $i < $in; $i++)
 	{
@@ -161,7 +161,7 @@ function setChildElement()
 }
 	public function removeIpAddress()
 	{
-		$xmlexport_ip_id = JRequest::getVar('xmlexport_ip_id', 0);
+		$xmlexport_ip_id = $this->input->get('xmlexport_ip_id', 0);
 
 		$model = $this->getModel('xmlexport_detail');
 		$model->deleteIpAddress($xmlexport_ip_id);
@@ -170,8 +170,7 @@ function setChildElement()
 
 	public function remove()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -191,7 +190,6 @@ function setChildElement()
 
 	public function cancel()
 	{
-
 		$session = JFactory::getSession();
 		$session->set('childelement', null);
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_DETAIL_EDITING_CANCELLED');
@@ -206,8 +204,7 @@ function setChildElement()
 	 */
 	public function auto_syncpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -233,8 +230,7 @@ function setChildElement()
 	 */
 	public function auto_syncunpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -260,8 +256,7 @@ function setChildElement()
 	 */
 	public function usetoallpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -287,8 +282,7 @@ function setChildElement()
 	 */
 	public function usetoallunpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -314,8 +308,7 @@ function setChildElement()
 	 */
 	public function publish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -341,8 +334,7 @@ function setChildElement()
 	 */
 	public function unpublish()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

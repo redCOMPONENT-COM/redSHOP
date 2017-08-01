@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,7 +28,7 @@ class RedshopViewCheckout extends RedshopView
 		RedshopHelperPayment::loadLanguages();
 
 		// Load Shipping language file
-		$shippingPlugins = $redhelper->getPlugins("redshop_shipping");
+		$shippingPlugins = RedshopHelperUtility::getPlugins("redshop_shipping", 1);
 		$base_dir        = JPATH_ADMINISTRATOR;
 
 		for ($l = 0, $ln = count($shippingPlugins); $l < $ln; $l++)
@@ -151,7 +151,6 @@ class RedshopViewCheckout extends RedshopView
 			$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 			$subtotal       = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
 
-			$this->users_info_id = $users_info_id;
 			$this->shipping_rate_id = $shipping_rate_id;
 			$this->element = $element;
 			$this->ccinfo = $ccinfo;
@@ -160,6 +159,8 @@ class RedshopViewCheckout extends RedshopView
 		}
 		else
 		{
+			$users_info_id = 0;
+
 			if ($lists['is_company'])
 			{
 				// Field_section Company
@@ -175,11 +176,12 @@ class RedshopViewCheckout extends RedshopView
 			$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
 		}
 
-		if (($user->id || $auth['users_info_id'] > 0) && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
+		if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
 		{
 			$this->setLayout('onestepcheckout');
 		}
 
+		$this->users_info_id = $users_info_id;
 		$this->lists = $lists;
 		parent::display($tpl);
 	}

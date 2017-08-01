@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,9 +21,9 @@ class RedshopControllerShopper_group_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'shopper_group_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'shopper_group_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
 		parent::display();
 	}
@@ -35,13 +35,12 @@ class RedshopControllerShopper_group_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$post = JRequest::get('post');
-		$post["shopper_group_introtext"] = JRequest::getVar('shopper_group_introtext', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post["shopper_group_desc"] = JRequest::getVar('shopper_group_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post["shopper_group_url"] = "";
-		$post["shopper_group_id"] = $cid [0];
+		$cid                             = $this->input->post->get('cid', array(0), 'array');
+		$post                            = $this->input->post->getArray();
+		$post["shopper_group_introtext"] = $this->input->post->get('shopper_group_introtext', '', 'raw');
+		$post["shopper_group_desc"]      = $this->input->post->get('shopper_group_desc', '', 'raw');
+		$post["shopper_group_url"]       = "";
+		$post["shopper_group_id"]        = $cid [0];
 
 		if (isset($post['shopper_group_categories']) && count($post['shopper_group_categories']) > 0)
 		{
@@ -85,8 +84,7 @@ class RedshopControllerShopper_group_detail extends RedshopController
 
 	public function remove()
 	{
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -125,7 +123,6 @@ class RedshopControllerShopper_group_detail extends RedshopController
 
 	public function cancel()
 	{
-
 		$msg = JText::_('COM_REDSHOP_SHOPPER_GROUP_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=shopper_group', $msg);
 	}

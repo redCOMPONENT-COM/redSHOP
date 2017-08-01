@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 
 class RedshopModelQuestion extends RedshopModelForm
@@ -74,15 +74,23 @@ class RedshopModelQuestion extends RedshopModelForm
 			return true;
 		}
 
-		$table = clone $this->getTable();
+		if ($data['parent_id'])
+		{
+			return true;
+		}
+
+		$user = JFactory::getUser();
 
 		// Store Answer
 		$answerData = $data;
 		$answerData['id'] = 0;
-		$answerData['parent_id'] = $data['id']? $data['id']: $table->id;
-		$answerData['question']  = $data['answer'];
+		$answerData['parent_id'] = $data['id']? $data['id']: $this->_db->insertid();
+		$answerData['question']  = '';
 		$answerData['cdate']     = time();
+		$answerData['question']    = $data['answer'];
+		$answerData['user_email'] = $user->email;
+		$answerData['user_name'] = $user->name;
 
-		return $table->store($data);
+		return $this->save($answerData);
 	}
 }

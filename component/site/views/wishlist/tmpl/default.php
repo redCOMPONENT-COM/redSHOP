@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,13 +13,13 @@ JHtml::_('behavior.framework');
 
 $url = JUri::base();
 $input = JFactory::getApplication()->input;
-$wishlists = $this->wishlist;
+$wishlists = $this->wishlists;
 $productId = $input->getInt('product_id', 0);
 $hasWishlist = ($productId && count($wishlists) > 0) ? true : false;
 $Itemid = $input->getInt('Itemid', 0);
 ?>
 <div class="divnewwishlist">
-<?php if ($hasWishlist) : ?>
+<?php if ($hasWishlist && Redshop::getConfig()->get('WISHLIST_LIST')) : ?>
 	<label>
 		<input type="checkbox" name="chkNewwishlist" id="chkNewwishlist"
 		   onchange="changeDiv(this);" />
@@ -100,10 +100,17 @@ $Itemid = $input->getInt('Itemid', 0);
 					<tbody>
 					<?php
 					$k = 0;
+					$firstId = 0;
 
 					foreach ($wishlists as $wishlist)
 					{
 						$i = 0;
+
+						if ($i == 0)
+						{
+							$firstId = $wishlist->wishlist_id;
+						}
+
 						?>
 						<tr class="<?php echo "row$i"; ?>">
 							<td align="center">
@@ -160,6 +167,11 @@ $Itemid = $input->getInt('Itemid', 0);
 				document.getElementById('wishlist').style.display = 'block';
 			}
 		}
+
+		<?php if (!Redshop::getConfig()->get('WISHLIST_LIST')) : ?>
+			document.getElementsByName('checkall-toggle')[0].click();
+			submitform();
+		<?php endif; ?>
 	</script>
 <?php endif; ?>
 <script language="javascript" type="text/javascript">

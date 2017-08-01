@@ -3,13 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
 
+JHtml::_('behavior.modal', 'a.joom-box');
+JHTML::_('behavior.tooltip');
 
 $model = $this->getModel('xmlexport_detail');
 
@@ -163,7 +163,7 @@ switch ($this->detail->section_type)
 			<table class="admintable" id="tblOrderType" style="display: <?php echo $orderstyle; ?>;">
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ADD_ORDER_DETAIL'); ?></td>
-					<td><a class="modal"
+					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=order&parentsection=orderdetail"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
 							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
@@ -173,7 +173,7 @@ switch ($this->detail->section_type)
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ADD_ORDER_USER_BILLING_INFORMATION'); ?></td>
-					<td><a class="modal"
+					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=order&parentsection=billingdetail"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
 							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
@@ -183,7 +183,7 @@ switch ($this->detail->section_type)
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ADD_ORDER_USER_SHIPPING_INFORMATION'); ?></td>
-					<td><a class="modal"
+					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=order&parentsection=shippingdetail"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
 							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
@@ -193,7 +193,7 @@ switch ($this->detail->section_type)
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ADD_ORDERITEMDETAIL'); ?></td>
-					<td><a class="modal"
+					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=order&parentsection=orderitem"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
 							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
@@ -210,7 +210,7 @@ switch ($this->detail->section_type)
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT_DETAIL'); ?></td>
-					<td><a class="modal"
+					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=product&parentsection=productdetail"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
 							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
@@ -220,7 +220,7 @@ switch ($this->detail->section_type)
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT_STOCK_DETAIL'); ?></td>
-					<td><a class="modal"
+					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=product&parentsection=stockdetail"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
 							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"
@@ -230,7 +230,7 @@ switch ($this->detail->section_type)
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT_FIELD_DETAIL'); ?></td>
-					<td><a class="modal"
+					<td><a class="joom-box"
 					       href="index.php?tmpl=component&option=com_redshop&view=xmlexport_detail&cid[]=<?php echo $this->detail->xmlexport_id; ?>&layout=elementdetail&section_type=product&parentsection=prdextrafield"
 					       rel="{handler: 'iframe', size: {x: 750, y: 500}}">
 							<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH . 'add.jpg'; ?>"

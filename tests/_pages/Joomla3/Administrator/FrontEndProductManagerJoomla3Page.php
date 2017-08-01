@@ -22,7 +22,7 @@ class FrontEndProductManagerJoomla3Page
 
 	public static $productList = "//div[@id='redcatproducts']";
 
-	public static $addToCart = "//div[@id='add_to_cart_all']//form//span[text() = 'Add to cart']";
+	public static $addToCart = "//span[contains(text(), 'Add to cart')]";
 
 	public static $alertMessageDiv = "//div[@class='alert alert-success']";
 
@@ -66,7 +66,7 @@ class FrontEndProductManagerJoomla3Page
 
 	public static $shippingPhone = "//input[@id='phone_ST']";
 
-	public static $billingFinal = "//legend[text() = 'Bill to information']";
+	public static $billingFinal = "//h3[text() = 'Bill to information']";
 
 	public static $bankTransfer = "//input[@id='rs_payment_banktransfer0']";
 
@@ -74,7 +74,7 @@ class FrontEndProductManagerJoomla3Page
 
 	public static $checkoutFinalStep = "//input[@id='checkout_final']";
 
-	public static $orderReceiptTitle = "//div[@id='redshopcomponent']/div";
+	public static $orderReceiptTitle = "//h1[contains(text(), 'Order Receipt')]";
 
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page
@@ -113,7 +113,7 @@ class FrontEndProductManagerJoomla3Page
 	 */
 	public function finalCheckout($productName)
 	{
-		$path = "//div[text()='" . $productName . "']";
+		$path = "//div/a[text()='" . $productName . "']";
 
 		return $path;
 	}

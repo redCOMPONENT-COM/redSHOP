@@ -15,120 +15,86 @@ JLoader::import('redshop.library');
 $productHelper      = productHelper::getInstance();
 $input              = JFactory::getApplication()->input;
 $cid                = $input->getInt('cid', 0);
-$mid                = $input->getInt('mid', 0);
+$mid                = $input->getInt('manufacturer_id', 0);
 $moduleClassSfx     = $params->get("moduleclass_sfx");
 $rootCategory       = $params->get('root_category', 0);
-$categoryForSale    = $params->get('category_for_sale', 0);
 $enableCategory     = $params->get('category');
 $enableManufacturer = $params->get('manufacturer');
 $enablePrice        = $params->get('price');
+$enableCustomField  = $params->get('custom_field');
+$productFields      = $params->get('product_fields');
 $enableKeyword      = $params->get('keyword');
 $template           = $params->get('template_id');
-$view               = $input->getString('view', '');
-$layout             = $input->getString('layout', '');
-$keyword            = $input->post->getString('keyword', '');
-$productOnSale      = 0;
+$limit              = $params->get('limit', 0);
+$option             = $input->getCmd('option', '');
+$view               = $input->getCmd('view', '');
+$layout             = $input->getCmd('layout', '');
+$itemId             = $input->getInt('Itemid', 0);
+$keyword            = $input->getString('keyword', '');
 $action             = JRoute::_("index.php?option=com_redshop&view=search");
+$getData            = $input->getArray();
 
 if (!empty($cid))
 {
-	$childCat = array($categoryForSale);
+	$categoryModel = JModelLegacy::getInstance('Category', 'RedshopModel');
+	$categoryModel->setId($cid);
+	$categoryModel->setState('include_sub_categories_products', true);
+	$productList = $categoryModel->getCategoryProduct(true, true);
+	$catList     = array();
+	$manuList    = array();
+	$pids        = ModRedshopFilter::getProductByCategory($cid);
 
-	if ($categoryForSale > 0)
+	foreach ($productList as $k => $value)
 	{
-		$list = RedshopHelperCategory::getCategoryListArray($categoryForSale);
+		$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
+		$catList = array_merge($catList, $tmpCategories);
+		$pids[]  = $value->product_id;
 
-		foreach ($list as $key => $value)
+		if ($value->manufacturer_id && $value->manufacturer_id != $mid)
 		{
-			$childCat[] = $value->category_id;
-		}
-	}
-
-	if (in_array($cid, $childCat))
-	{
-		$productList = array();
-		$catList     = array();
-		$manuList    = array();
-		$pids        = array();
-
-		if ($cid == $categoryForSale)
-		{
-			foreach ($childCat as $k => $value)
-			{
-				$productCats = $productHelper->getProductCategory($value);
-
-				foreach ($productCats as $key => $value)
-				{
-					$productList[] = $productHelper->getProductById($value->product_id);
-				}
-			}
-		}
-		else
-		{
-			$productCats = $productHelper->getProductCategory($cid);
-
-			foreach ($productCats as $key => $value)
-			{
-				$productList[$key] = $productHelper->getProductById($value->product_id);
-			}
-		}
-
-		foreach ($productList as $k => $value)
-		{
-			$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
-			$catList = array_merge($catList, $tmpCategories);
 			$manuList[] = $value->manufacturer_id;
-			$pids[]     = $value->product_id;
 		}
+	}
 
-		$catList = array_unique($catList);
-		$manufacturers = ModRedshopFilter::getManufacturerOnSale(array_unique($manuList));
-		$categories    = ModRedshopFilter::getParentCategoryOnSale($catList, $rootCategory, $categoryForSale);
-		$rangePrice    = ModRedshopFilter::getRange($pids);
-	}
-	else
-	{
-		$categories    = ModRedshopFilter::getParentCategory($cid);
-		$rangePrice    = ModRedshopFilter::getRangeMaxMin($cid);
-		$manufacturers = ModRedshopFilter::getManufacturers($cid);
-	}
+	$catList       = array_unique($catList);
+	$manufacturers = ModRedshopFilter::getManufacturers(array_unique($manuList));
+	$categories    = ModRedshopFilter::getCategories($catList, $rootCategory, $cid);
+	$customFields  = ModRedshopFilter::getCustomFields($pids, $productFields);
+	$rangePrice    = ModRedshopFilter::getRange($pids);
 }
 elseif (!empty($mid))
 {
-	$manufacturers = ModRedshopFilter::getManufacturerById($mid);
+	$manufacturers = array();
 	$pids          = ModRedshopFilter::getProductByManufacturer($mid);
-	$categories    = ModRedshopFilter::getCategorybyPids($pids, $rootCategory, $categoryForSale);
+	$categories    = ModRedshopFilter::getCategorybyPids($pids, $rootCategory);
 	$rangePrice    = ModRedshopFilter::getRange($pids);
 }
 elseif ($view == 'search')
 {
 	$modelSearch = JModelLegacy::getInstance("Search", "RedshopModel");
-	$products    = $modelSearch->getData();
+	$productList = $modelSearch->getData();
 	$manuList    = array();
 	$catList     = array();
 	$pids        = array();
 
-	foreach ($products as $key => $value)
+	foreach ($productList as $k => $value)
 	{
-		$pids[] = $value->product_id;
+		$tmpCategories = is_array($value->categories) ? $value->categories : explode(',', $value->categories);
+		$catList = array_merge($catList, $tmpCategories);
+		$pids[]  = $value->product_id;
 
-		if (!empty($value->manufacturer_id))
+		if ($value->manufacturer_id && $value->manufacturer_id != $mid)
 		{
 			$manuList[] = $value->manufacturer_id;
 		}
-
-		if (!empty($value->category_id))
-		{
-			$catList[] = $value->category_id;
-		}
 	}
 
-	$manufacturers = ModRedshopFilter::getManufacturerOnSale(array_unique($manuList));
-	$categories    = ModRedshopFilter::getParentCategoryOnSale(array_unique($catList));
+	$manufacturers = ModRedshopFilter::getManufacturers(array_unique($manuList));
+	$categories    = ModRedshopFilter::getSearchCategories(array_unique($catList));
 	$rangePrice    = ModRedshopFilter::getRange($pids);
 }
 
-$rangeMin = $rangePrice['min'];
-$rangeMax = $rangePrice['max'];
+$rangeMin = $getData['filterprice']['min'] ? $getData['filterprice']['min'] : $rangePrice['min'];
+$rangeMax = $getData['filterprice']['max'] ? $getData['filterprice']['max'] : $rangePrice['max'];
 
 require JModuleHelper::getLayoutPath('mod_redshop_filter', $params->get('layout', 'default'));

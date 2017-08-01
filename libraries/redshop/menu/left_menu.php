@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,16 +17,16 @@ defined('_JEXEC') or die;
 class RedshopMenuLeft_Menu
 {
 	/**
-	 * @var null
+	 * @var  null
 	 */
 	protected static $view = null;
 
 	/**
-	 * @var null
+	 * @var  null
 	 */
 	protected static $layout = null;
 
-	/*
+	/**
 	 * @var  RedshopMenu
 	 */
 	protected static $menu = null;
@@ -34,7 +34,7 @@ class RedshopMenuLeft_Menu
 	/**
 	 * Method for render left menu
 	 *
-	 * @param   bool  $disableMenu  True for return list of menu. False for return HTML rendered code.
+	 * @param   bool $disableMenu True for return list of menu. False for return HTML rendered code.
 	 *
 	 * @return  mixed               Array of menu / HTML code of menu.
 	 */
@@ -78,7 +78,7 @@ class RedshopMenuLeft_Menu
 		return RedshopLayoutHelper::render(
 			'component.full.sidebar.menu',
 			array(
-				'items' => self::$menu->items,
+				'items'  => self::$menu->items,
 				'active' => $active
 			)
 		);
@@ -99,8 +99,8 @@ class RedshopMenuLeft_Menu
 				return array('PRODUCT_LISTING', 'product');
 				break;
 
-			case "category":
-				return array('SHOP', 'category');
+			case "categories":
+				return array('SHOP', 'categories');
 				break;
 
 			case "manufacturer":
@@ -141,7 +141,7 @@ class RedshopMenuLeft_Menu
 			case "stockroom":
 			case "stockroom_listing":
 			case "stockimage":
-				return array('ORDER', 'stockroom');
+				return array('STOCKROOM', 'stockroom');
 				break;
 
 			case "suppliers":
@@ -149,6 +149,7 @@ class RedshopMenuLeft_Menu
 				return array('PRODUCT_LISTING', 'suppliers');
 			case "discount":
 			case "discount_detail":
+			case "mass_discounts":
 			case "mass_discount":
 				return array('DISCOUNT', 'discount');
 				break;
@@ -158,8 +159,8 @@ class RedshopMenuLeft_Menu
 				return array('DISCOUNT', 'giftcards');
 				break;
 
+			case "vouchers":
 			case "voucher":
-			case "voucher_detail":
 				return array('DISCOUNT', 'voucher');
 				break;
 
@@ -203,14 +204,9 @@ class RedshopMenuLeft_Menu
 				return array('USER', 'user');
 				break;
 
-			case "accessmanager":
-			case 'accessmanager_detail':
-				return array('USER', 'accessmanager');
-				break;
-
+			case "tax_groups":
 			case "tax_group":
-			case "tax_group_detail":
-				return array('PRODUCT_LISTING', 'tax_group');
+				return array('PRODUCT_LISTING', 'tax_groups');
 				break;
 
 			case "tax_rates":
@@ -303,17 +299,19 @@ class RedshopMenuLeft_Menu
 
 			case "statistic_customer":
 			case 'statistic':
-				// @TODO: Would enable these statistic when done.
-
-			/*case "statistic_order":
+			case "statistic_order":
 			case "statistic_product":
-			case "statistic_quotation":
-			case "statistic_variant":*/
+				/**
+				 * @TODO: Would enable these statistic when done.
+				 * case "statistic_quotation":
+				 * case "statistic_variant":
+				 */
 				return array('STATISTIC', 'statistic');
 				break;
 
 			case "configuration":
 			case 'update':
+			case "access":
 				return array('CONFIG', 'configuration');
 				break;
 
@@ -330,23 +328,20 @@ class RedshopMenuLeft_Menu
 	 */
 	protected static function setShop()
 	{
-		self::$menu->section('shop')
-			->addItem(
-				'index.php?option=com_redshop&view=category',
-				'COM_REDSHOP_CATEGORY_LISTING',
-				(self::$view == 'category') ? true : false,
-				null,
-				'fa fa-sitemap'
-			)
-			->addItem(
+		self::$menu->addHeaderItem(
+			'index.php?option=com_redshop&view=categories',
+			'COM_REDSHOP_CATEGORY_LISTING',
+			(self::$view == 'categories') ? true : false,
+			null,
+			'fa fa-sitemap'
+		)
+			->addHeaderItem(
 				'index.php?option=com_redshop&view=media',
 				'COM_REDSHOP_MEDIA_LISTING',
 				(self::$view == 'media') ? true : false,
 				null,
 				'fa fa-picture-o'
 			);
-
-		self::$menu->group('SHOP', 'header');
 	}
 
 	/**
@@ -398,19 +393,20 @@ class RedshopMenuLeft_Menu
 		}
 
 		self::$menu->addItem(
-			'index.php?option=com_redshop&view=tax_group',
+			'index.php?option=com_redshop&view=tax_groups',
 			'COM_REDSHOP_TAX_GROUP_LISTING',
-			(self::$view == 'tax_group') ? true : false
-		);
+			(self::$view == 'tax_groups') ? true : false
+		)
+			->addItem(
+				'index.php?option=com_redshop&view=tax_rates',
+				'COM_REDSHOP_TAX_RATES_SIDEBAR',
+				(self::$view == 'tax_rates') ? true : false
+			);
 
-		self::$menu->addItem(
-			'index.php?option=com_redshop&view=tax_rates',
-			'COM_REDSHOP_TAX_RATES_SIDEBAR',
-			(self::$view == 'tax_rates') ? true : false
-		);
-
-		/*@TODO: Enable when Product Variants ready
-		self::setAttributes();*/
+		/**
+		 * @TODO: Enable when Product Variants ready
+		 * self::setAttributes();
+		 */
 
 		self::$menu->group('PRODUCT_LISTING');
 	}
@@ -474,9 +470,9 @@ class RedshopMenuLeft_Menu
 		self::$menu->section('discount')
 			->title('COM_REDSHOP_DISCOUNT')
 			->addItem(
-				'index.php?option=com_redshop&view=mass_discount',
+				'index.php?option=com_redshop&view=mass_discounts',
 				'COM_REDSHOP_MASS_DISCOUNT',
-				(self::$view == 'mass_discount') ? true : false
+				(self::$view == 'mass_discounts') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=discount',
@@ -494,9 +490,9 @@ class RedshopMenuLeft_Menu
 				(self::$view == 'giftcards') ? true : false
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=voucher',
+				'index.php?option=com_redshop&view=vouchers',
 				'COM_REDSHOP_VOUCHER_LISTING',
-				(self::$view == 'voucher') ? true : false
+				(self::$view == 'vouchers') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=coupon',
@@ -514,7 +510,7 @@ class RedshopMenuLeft_Menu
 	protected static function setCommunicationGroup()
 	{
 		self::$menu->section('communication')
-			->title('COM_REDSHOP_MAIL_CENTER')
+			->title('COM_REDSHOP_COMMUNICATION')
 			->addItem(
 				'index.php?option=com_redshop&view=mail',
 				'COM_REDSHOP_MAIL_CENTER_LISTING',
@@ -546,7 +542,7 @@ class RedshopMenuLeft_Menu
 	protected static function setShippingGroup()
 	{
 		self::$menu->section('shipping')
-			->title('COM_REDSHOP_SHIPPING_METHOD')
+			->title('COM_REDSHOP_SHIPPING')
 			->addItem(
 				'index.php?option=com_redshop&view=shipping',
 				'COM_REDSHOP_SHIPPING_METHOD_LISTING',
@@ -556,16 +552,16 @@ class RedshopMenuLeft_Menu
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && JPluginHelper::isEnabled('economic'))
 		{
 			self::$menu->addItem(
-					'index.php?option=com_redshop&view=shipping&task=importeconomic',
-					'COM_REDSHOP_IMPORT_RATES_TO_ECONOMIC'
-				);
+				'index.php?option=com_redshop&view=shipping&task=importeconomic',
+				'COM_REDSHOP_IMPORT_RATES_TO_ECONOMIC'
+			);
 		}
 
 		self::$menu->addItem(
-				'index.php?option=com_redshop&view=shipping_box',
-				'COM_REDSHOP_SHIPPING_BOXES',
-				(self::$view == 'shipping_box') ? true : false
-			)
+			'index.php?option=com_redshop&view=shipping_box',
+			'COM_REDSHOP_SHIPPING_BOXES',
+			(self::$view == 'shipping_box') ? true : false
+		)
 			->addItem(
 				'index.php?option=com_redshop&view=wrapper',
 				'COM_REDSHOP_WRAPPER_LISTING',
@@ -607,8 +603,8 @@ class RedshopMenuLeft_Menu
 			function userSync() {
 				if (confirm("' . JText::_('COM_REDSHOP_DO_YOU_WANT_TO_SYNC') . '") == true)
 					window.location = "index.php?option=com_redshop&view=user&sync=1";
-			}
-		');
+			}'
+		);
 
 		self::$menu->group('USER');
 	}
@@ -651,8 +647,8 @@ class RedshopMenuLeft_Menu
 			function vmImport() {
 				if (confirm("' . JText::_('COM_REDSHOP_DO_YOU_WANT_TO_IMPORT_VM') . '") == true)
 					window.location = "index.php?option=com_redshop&view=import&vm=1";
-			}
-		');
+			}'
+		);
 
 		self::$menu->group('IMPORT_EXPORT');
 	}
@@ -665,6 +661,7 @@ class RedshopMenuLeft_Menu
 	protected static function setCustomisationGroup()
 	{
 		self::$menu->section('custom')
+			->title('COM_REDSHOP_CUSTOMIZATION')
 			->addItem(
 				'index.php?option=com_redshop&view=fields',
 				'COM_REDSHOP_FIELDS_LISTING',
@@ -736,15 +733,12 @@ class RedshopMenuLeft_Menu
 	protected static function setCustomerInputGroup()
 	{
 		self::$menu->section('questions')
-			->title('COM_REDSHOP_QUESTION')
+			->title('COM_REDSHOP_CUSTOMER_INPUT')
 			->addItem(
 				'index.php?option=com_redshop&view=questions',
 				'COM_REDSHOP_QUESTION_LISTING',
 				(self::$view == 'question') ? true : false
-			);
-
-		self::$menu->section('rating')
-			->title('COM_REDSHOP_REVIEW')
+			)
 			->addItem(
 				'index.php?option=com_redshop&view=rating',
 				'COM_REDSHOP_RATING_REVIEW',
@@ -794,8 +788,6 @@ class RedshopMenuLeft_Menu
 				'COM_REDSHOP_STATISTIC_CUSTOMER',
 				(self::$view == 'statistic_customer' && self::$layout == '') ? true : false
 			)
-			/*
-			@TODO: Enable this menu when done.
 			->addItem(
 				'index.php?option=com_redshop&view=statistic_order',
 				'COM_REDSHOP_STATISTIC_ORDER',
@@ -806,6 +798,10 @@ class RedshopMenuLeft_Menu
 				'COM_REDSHOP_STATISTIC_PRODUCT',
 				(self::$view == 'statistic_product' && self::$layout == '') ? true : false
 			)
+			/**
+			 * @TODO: Enable this menu when done.
+			 */
+			/*
 			->addItem(
 				'index.php?option=com_redshop&view=statistic_variant',
 				'COM_REDSHOP_STATISTIC_PRODUCT_VARIANT',
@@ -815,7 +811,8 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=statistic_quotation',
 				'COM_REDSHOP_STATISTIC_QUOTATION',
 				(self::$view == 'statistic_quotation' && self::$layout == '') ? true : false
-			)*/
+			)
+			*/
 			->addItem(
 				'index.php?option=com_redshop&view=statistic',
 				'COM_REDSHOP_TOTAL_VISITORS',
@@ -888,26 +885,17 @@ class RedshopMenuLeft_Menu
 				'index.php?option=com_redshop&view=configuration',
 				'COM_REDSHOP_RESHOP_CONFIGURATION',
 				(self::$view == 'configuration' && self::$layout == '') ? true : false
-			);
-
-		self::$menu->section('resettemplate')
-			->title('COM_REDSHOP_RESET_TEMPLATE_LBL')
+			)
 			->addItem(
 				'index.php?option=com_redshop&view=configuration&layout=resettemplate',
 				'COM_REDSHOP_RESET_TEMPLATE_LBL',
 				(self::$view == 'configuration' && self::$layout == 'resettemplate') ? true : false
-			);
-
-		self::$menu->section('accessmanager')
-			->title('COM_REDSHOP_ACCESS_MANAGER')
+			)
 			->addItem(
-				'index.php?option=com_redshop&view=accessmanager',
+				'index.php?option=com_redshop&view=access',
 				'COM_REDSHOP_ACCESS_MANAGER',
-				(self::$view == 'accessmanager') ? true : false
-			);
-
-		self::$menu->section('redshopbackendaccess')
-			->title('COM_REDSHOP_BACKEND_ACCESS_CONFIG')
+				(self::$view == 'access') ? true : false
+			)
 			->addItem(
 				'index.php?option=com_config&view=component&component=com_redshop',
 				'COM_REDSHOP_BACKEND_ACCESS_CONFIG',

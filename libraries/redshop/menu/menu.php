@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2014 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 
 defined('_JEXEC') or die;
@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @subpackage  Menu
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopMenu
 {
@@ -27,7 +27,7 @@ class RedshopMenu
 	 *
 	 * @var boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public $disableMenu = false;
 
@@ -36,7 +36,7 @@ class RedshopMenu
 	 *
 	 * @var array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	public $items = array();
 
@@ -45,7 +45,7 @@ class RedshopMenu
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected $data = array();
 
@@ -54,7 +54,7 @@ class RedshopMenu
 	 *
 	 * @var    null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected $section = null;
 
@@ -63,7 +63,7 @@ class RedshopMenu
 	 *
 	 * @var    null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected $title = null;
 
@@ -72,14 +72,14 @@ class RedshopMenu
 	 *
 	 * @var    null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.3
 	 */
 	protected $menuhide = null;
 
 	/**
 	 * Protected menu constructor. Must use getInstance() method.
 	 *
-	 * @since       __DEPLOY_VERSION__
+	 * @since       2.0.3
 	 */
 	public function __construct()
 	{
@@ -93,7 +93,7 @@ class RedshopMenu
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function section($section)
 	{
@@ -109,7 +109,7 @@ class RedshopMenu
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function title($title)
 	{
@@ -125,7 +125,7 @@ class RedshopMenu
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function getData($section)
 	{
@@ -140,12 +140,40 @@ class RedshopMenu
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.3
 	 */
 	public function group($group, $style = 'tree')
 	{
+		// Check if all of sub-menu is disabled => Disable this menu too.
+		$isDisable = true;
+
+		foreach ($this->data as $groupData)
+		{
+			if (empty($groupData->items))
+			{
+				continue;
+			}
+
+			foreach ($groupData->items as $item)
+			{
+				if ($item->disable === false)
+				{
+					$isDisable = false;
+
+					break;
+				}
+			}
+
+			if (!$isDisable)
+			{
+				break;
+			}
+		}
+
 		$this->items[$group]['items'] = $this->data;
 		$this->items[$group]['style'] = $style;
+		$this->items[$group]['disable'] = $isDisable;
+
 		$this->data = array();
 	}
 
@@ -162,14 +190,15 @@ class RedshopMenu
 	 */
 	public function addItem($link, $title, $active = null, $param = null, $icon = '')
 	{
-		if ($this->disableMenu || !in_array($title, $this->menuhide))
+		if (!$this->disableMenu)
 		{
-			$item         = new stdClass;
-			$item->link   = $link;
-			$item->title  = $title;
-			$item->active = $active;
-			$item->param  = $param;
-			$item->icon   = $icon;
+			$item          = new stdClass;
+			$item->link    = $link;
+			$item->title   = $title;
+			$item->active  = $active;
+			$item->param   = $param;
+			$item->icon    = $icon;
+			$item->disable = in_array($title, $this->menuhide);
 
 			if ($this->section)
 			{
@@ -180,6 +209,35 @@ class RedshopMenu
 			{
 				$this->data[$this->section]->title = $this->title;
 			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Add new menu header item
+	 *
+	 * @param   string   $link    Link of item
+	 * @param   string   $title   Title of item
+	 * @param   boolean  $active  Active or not
+	 * @param   array    $param   Other options
+	 * @param   string   $icon    Icon class
+	 *
+	 * @return  self
+	 */
+	public function addHeaderItem($link, $title, $active = null, $param = null, $icon = '')
+	{
+		if (!$this->disableMenu)
+		{
+			$item          = new stdClass;
+			$item->link    = $link;
+			$item->title   = $title;
+			$item->active  = $active;
+			$item->param   = $param;
+			$item->icon    = $icon;
+			$item->disable = in_array($title, $this->menuhide);
+
+			array_push($this->items, $item);
 		}
 
 		return $this;

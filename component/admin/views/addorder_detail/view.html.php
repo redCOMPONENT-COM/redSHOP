@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.3
  */
 class RedshopViewAddorder_Detail extends RedshopViewAdmin
 {
@@ -42,7 +42,6 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
 	public function display($tpl = null)
 	{
 		$input = JFactory::getApplication()->input;
-		$world = RedshopHelperWorld::getInstance();
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
@@ -133,21 +132,21 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
 		JToolBarHelper::custom('validateUserDetail', 'apply.png', 'apply_f2.png', JText::_('COM_REDSHOP_SAVE_USER_INFORMATION'), false);
 		JToolBarHelper::cancel();
 
-		$countryarray          = $world->getCountryList((array) $billing);
+		$countryarray          = RedshopHelperWorld::getCountryList((array) $billing);
 		$billing->country_code = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
 
-		$statearray          = $world->getStateList((array) $billing, "state_code", "country_code", "BT", 1);
+		$statearray          = RedshopHelperWorld::getStateList((array) $billing, "state_code", "country_code", "BT");
 		$lists['state_code'] = $statearray['state_dropdown'];
 
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code;
-		$countryarray = $world->getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
+		$countryarray = RedshopHelperWorld::getCountryList((array) $shipping, "country_code_ST", "ST", '', 'state_code_ST');
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code = $countryarray['country_code_ST'];
 
 		$shipping['state_code_ST'] = $shippinginfo[$key]->state_code;
 		$lists['country_code_ST']  = $countryarray['country_dropdown'];
 
-		$statearray = $world->getStateList((array) $shipping, "state_code_ST", "ST");
+		$statearray = RedshopHelperWorld::getStateList((array) $shipping, "state_code_ST", "ST");
 		$lists['state_code_ST'] = $statearray['state_dropdown'];
 
 		$lists['is_company'] = JHTML::_('select.booleanlist', 'is_company',

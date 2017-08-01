@@ -3,94 +3,161 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
 
-class RedshopControllerProduct_price extends RedshopController
+/**
+ * The Product Price controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller.State
+ * @since       2.0.6
+ */
+class RedshopControllerProduct_Price extends RedshopController
 {
+	/**
+	 * Cancel process.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * Listing method.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
 	public function listing()
 	{
-		JRequest::setVar('layout', 'listing');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('layout', 'listing');
+		$this->input->set('hidemainmenu', 1);
+
 		parent::display();
 	}
 
+	/**
+	 * Method for save prices of products.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
 	public function saveprice()
 	{
-		$db = JFactory::getDbo();
-		$product_id = JRequest::getVar('pid');
-		$shopper_group_id = JRequest::getVar('shopper_group_id', array(), 'post', 'array');
-		$price = JRequest::getVar('price', array(), 'post', 'array');
-		$price_quantity_start = JRequest::getVar('price_quantity_start', array(), 'post', 'array');
-		$price_quantity_end = JRequest::getVar('price_quantity_end', array(), 'post', 'array');
-		$price_id = JRequest::getVar('price_id', array(), 'post', 'array');
+		$db                   = JFactory::getDbo();
+		$query                = $db->getQuery(true);
+		$productId            = $this->input->get('pid');
+		$shopperGroupId       = $this->input->post->get('shopper_group_id', array(), 'array');
+		$prices               = $this->input->post->get('price', array(), 'array');
+		$priceQuantitiesStart = $this->input->post->get('price_quantity_start', array(), 'array');
+		$priceQuantitiesEnd   = $this->input->post->get('price_quantity_end', array(), 'array');
+		$priceId              = $this->input->post->get('price_id', array(), 'array');
 
-		for ($i = 0, $in = count($price); $i < $in; $i++)
+		$shopperGroupId       = ArrayHelper::toInteger($shopperGroupId);
+		$priceQuantitiesStart = ArrayHelper::toInteger($priceQuantitiesStart);
+		$priceQuantitiesEnd   = ArrayHelper::toInteger($priceQuantitiesEnd);
+		$priceId              = ArrayHelper::toInteger($priceId);
+
+		foreach ($prices as $i => $price)
 		{
-			$sql = "SELECT count(*) FROM  #__redshop_product_price  WHERE product_id='" . $product_id . "' AND price_id = '"
-				. $price_id[$i] . "' AND shopper_group_id = '" . $shopper_group_id[$i] . "' ";
-			$db->setQuery($sql);
-
-			if ($db->loadResult())
+			// Check quantity start and end.
+			if ($priceQuantitiesStart[$i] > $priceQuantitiesEnd[$i])
 			{
-				$query = 'SELECT price_id FROM #__redshop_product_price WHERE shopper_group_id = "' . $shopper_group_id[$i]
-					. '" AND product_id = ' . $product_id . ' AND price_quantity_end >= ' . $price_quantity_start[$i]
-					. ' AND price_quantity_start <=' . $price_quantity_start[$i];
-				$db->setQuery($query);
-				$xid = intval($db->loadResult());
+				continue;
+			}
 
-				if ($xid && $xid != intval($price_id[$i]))
+			$query->clear()
+				->select('COUNT(*)')
+				->from($db->qn('#__redshop_product_price'))
+				->where($db->qn('product_id') . ' = ' . $productId)
+				->where($db->qn('price_id') . ' = ' . $priceId[$i])
+				->where($db->qn('shopper_group_id') . ' = ' . $shopperGroupId[$i]);
+			$count = (int) $db->setQuery($query)->loadResult();
+
+			if ($count)
+			{
+				$query->clear()
+					->select($db->qn('price_id'))
+					->from($db->qn('#__redshop_product_price'))
+					->where($db->qn('shopper_group_id') . ' = ' . $shopperGroupId[$i])
+					->where($db->qn('product_id') . ' = ' . $productId)
+					->where($db->qn('price_quantity_end') . ' >= ' . $priceQuantitiesStart[$i])
+					->where($db->qn('price_quantity_start') . ' <= ' . $priceQuantitiesStart[$i]);
+				$xid = $db->setQuery($query)->loadResult();
+
+				if ($xid && $xid != $priceId[$i])
 				{
 					echo $xid;
 
-					$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
+					$this->setError(JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS')));
 				}
 
-				if ($price[$i] != '')
+				if (!empty($priceId[$i]))
 				{
-					$sql = "UPDATE #__redshop_product_price  SET product_price='" . $price[$i] . "' ,"
-						. " price_quantity_start = '" . $price_quantity_start[$i] . "', price_quantity_end = '" . $price_quantity_end[$i] . "' "
-						. " WHERE product_id='" . $product_id . "' AND price_id = '" . $price_id[$i] . "' AND shopper_group_id = '"
-						. $shopper_group_id[$i] . "' ";
+					$query->clear()
+						->update($db->qn('#__redshop_product_price'))
+						->set($db->qn('product_price') . ' = ' . $db->quote($price))
+						->set($db->qn('price_quantity_start') . ' = ' . $db->quote($priceQuantitiesStart[$i]))
+						->set($db->qn('price_quantity_end') . ' = ' . $db->quote($priceQuantitiesEnd[$i]))
+						->where($db->qn('product_id') . ' = ' . $productId)
+						->where($db->qn('price_id') . ' = ' . $priceId[$i])
+						->where($db->qn('shopper_group_id') . ' = ' . $shopperGroupId[$i]);
 				}
 				else
 				{
-					$sql = "DELETE FROM  #__redshop_product_price   WHERE product_id='" . $product_id . "' AND price_id = '"
-						. $price_id[$i] . "' AND shopper_group_id = '" . $shopper_group_id[$i] . "' ";
+					$query->clear()
+						->delete($db->qn('#__redshop_product_price'))
+						->where($db->qn('product_id') . ' = ' . $productId)
+						->where($db->qn('price_id') . ' = ' . $priceId[$i])
+						->where($db->qn('shopper_group_id') . ' = ' . $shopperGroupId[$i]);
 				}
 			}
-			elseif ($price[$i] != '')
+			elseif (!empty($price))
 			{
-				$sql = "INSERT INTO  #__redshop_product_price  SET product_price='" . $price[$i] . "', price_quantity_start = '"
-					. $price_quantity_start[$i] . "' , price_quantity_end = '" . $price_quantity_end[$i] . "' , product_id='"
-					. $product_id . "' , shopper_group_id = '" . $shopper_group_id[$i] . "' ";
+				$query->clear()
+					->insert($db->qn('#__redshop_product_price'))
+					->columns(
+						$db->qn(array('product_price', 'price_quantity_start', 'price_quantity_end', 'product_id', 'shopper_group_id'))
+					)
+					->values(
+						$price . ',' . $priceQuantitiesStart[$i] . ',' . $priceQuantitiesEnd[$i] . ',' . $productId . ',' . $shopperGroupId[$i]
+					);
 			}
 
-			$db->setQuery($sql);
-			$db->execute();
+			$db->setQuery($query)->execute();
 		}
 
-		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=product_price&pid=' . $product_id);
+		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=product_price&pid=' . $productId);
 	}
 
+	/**
+	 * Method for get template content
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
 	public function template()
 	{
-		$template_id = JRequest::getVar('template_id', '');
-		$product_id = JRequest::getVar('product_id', '');
-		$section = JRequest::getVar('section', '');
-		$model = $this->getModel('product');
+		$templateId = $this->input->get('template_id', '');
+		$productId  = $this->input->get('product_id', '');
+		$section    = $this->input->get('section', '');
+		$model      = $this->getModel('product');
 
-		$data_product = $model->product_template($template_id, $product_id, $section);
-		echo $data_product;
-		exit;
+		echo $model->product_template($templateId, $productId, $section);
+
+		JFactory::getApplication()->close();
 	}
 }

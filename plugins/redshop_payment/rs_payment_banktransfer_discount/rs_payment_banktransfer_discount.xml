@@ -1,30 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" client="site" type="plugin" group="redshop_payment"
-           method="upgrade">
+<extension version="3.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_BANKTRANSFER_DISCOUNT</name>
-    <version>1.5.1</version>
-    <redshop>2.0</redshop>
+    <version>1.6.0</version>
+    <redshop>2.0.0</redshop>
     <creationDate>Sep 2016</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>This plugin enables standard Bank Transfer Discount
-        payments
-    </description>
+    <description>This plugin enables standard Bank Transfer Discount payments</description>
 
     <files>
         <filename plugin="rs_payment_banktransfer_discount">rs_payment_banktransfer_discount.php</filename>
+        <folder>language</folder>
     </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_banktransfer_discount.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_banktransfer_discount.sys.ini
-        </language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_banktransfer_discount.ini</language>
-        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_banktransfer_discount.sys.ini
-        </language>
-    </languages>
+    <scriptfile>install.php</scriptfile>
     <config addfieldpath="/libraries/redshop/form/fields">
         <fields name="params">
             <fieldset name="basic">

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Form.Field
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -91,13 +91,14 @@ class JFormFieldExtraFields extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$this->fieldSection     = isset($this->element['field_section']) ? (int) $this->element['field_section'] : 1;
-		$this->fieldShowInFront = isset($this->element['field_show_in_front']) ? (int) $this->element['field_show_in_front'] : 1;
+		$this->fieldSection     = isset($this->element['section']) ? (int) $this->element['section'] : 1;
+		$this->fieldType        = isset($this->element['field_type']) ? $this->element['field_type'] : "";
+		$this->fieldShowInFront = isset($this->element['show_in_front']) ? (int) $this->element['show_in_front'] : 1;
 		$this->published        = isset($this->element['published']) ? (int) $this->element['published'] : 1;
 
 		// Dynamic query select options
-		$this->valueField = isset($this->element['value_field']) ? (string) $this->element['value_field'] : 'field_name';
-		$this->textField  = isset($this->element['text_field']) ? (string) $this->element['text_field'] : 'field_title';
+		$this->valueField = isset($this->element['value_field']) ? (string) $this->element['value_field'] : 'name';
+		$this->textField  = isset($this->element['text_field']) ? (string) $this->element['text_field'] : 'title';
 
 		return array_merge(
 			parent::getOptions(),
@@ -131,9 +132,14 @@ class JFormFieldExtraFields extends JFormFieldList
 			)
 			->from($db->qn('#__redshop_fields'))
 			->where($db->qn('published') . ' = ' . (int) $this->published)
-			->where($db->qn('field_show_in_front') . ' = ' . (int) $this->fieldShowInFront)
-			->where($db->qn('field_section') . ' = ' . (int) $this->fieldSection)
+			->where($db->qn('show_in_front') . ' = ' . (int) $this->fieldShowInFront)
+			->where($db->qn('section') . ' = ' . (int) $this->fieldSection)
 			->order($db->qn('ordering') . ' ASC');
+
+		if ($this->fieldType != "")
+		{
+			$query->where($db->qn('type') . 'IN (' . $this->fieldType . ')');
+		}
 
 		// Set the query and load the result.
 		$db->setQuery($query);

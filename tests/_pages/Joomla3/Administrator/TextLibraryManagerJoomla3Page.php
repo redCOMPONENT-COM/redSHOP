@@ -22,7 +22,7 @@ class TextLibraryManagerJoomla3Page
 
 	public static $textTagDescription = "#text_desc";
 
-	public static $sectionDropDown = "//div[@id='section_chzn']/a";
+	public static $sectionDropDown = "//div[@id='s2id_section']/a";
 
 	public static $textResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
 
@@ -43,7 +43,8 @@ class TextLibraryManagerJoomla3Page
 	 */
 	public function section($sectionType)
 	{
-		$path = "//div[@id='section_chzn']/div/ul/li[contains(text(), '" . $sectionType . "')]";
+		//input[@id='s2id_autogen1_search']
+		$path = "//div[@id='select2-drop']//ul[@id='select2-results-1']//span[contains(text(),'" . $sectionType . "')]";
 
 		return $path;
 	}

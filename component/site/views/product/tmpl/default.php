@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,6 +15,14 @@ JHtmlBehavior::modal();
 $url             = JURI::base();
 $u               = JURI::getInstance();
 $Scheme          = $u->getScheme();
+
+$watched = $this->session->get('watched_product', array());
+
+if (in_array($this->pid, $watched) == 0)
+{
+	array_push($watched, $this->pid);
+	$this->session->set('watched_product', $watched);
+}
 
 $print           = $this->input->getBool('print', false);
 $user            = JFactory::getUser();
@@ -616,7 +624,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 
 				$wrapperimage_div .= "<td id='wrappertd" . $wid . "'>";
 
-				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image))
+				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image))
 				{
 					$thumbUrl = RedShopHelperImages::getImagePath(
 									$wrapper[$i]->wrapper_image,
@@ -796,7 +804,7 @@ $template_desc = $producthelper->replaceProductInStock($this->data->product_id, 
 
 // Product attribute  Start
 $totalatt = count($attributes);
-$template_desc = $producthelper->replaceAttributeData($this->data->product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds);
+$template_desc = RedshopHelperAttribute::replaceAttributeData($this->data->product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds);
 
 // Product attribute  End
 
@@ -873,7 +881,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	// Trigger plugin to get merge images.
 	$this->dispatcher->trigger('onBeforeImageLoad', array ($get, &$pluginResults));
 
-	$preselectedresult = $producthelper->displayAdditionalImage(
+	$preselectedresult = RedshopHelperProductTag::displayAdditionalImage(
 		$this->data->product_id,
 		0,
 		0,
@@ -1111,24 +1119,75 @@ if (strstr($template_desc, $mpimg_tag))
 
 // More images end
 
-// More videos
+// More videos (youtube)
 if (strstr($template_desc, "{more_videos}"))
 {
-	$media_videos = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "youtube");
+	$media_product_videos = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "youtube");
+
+	if (count($attributes) > 0 && count($attribute_template) > 0)
+	{
+		for ($a = 0, $an = count($attributes); $a < $an; $a++)
+		{
+			$selectedId = array();
+			$property   = $producthelper->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+
+			if ($attributes[$a]->text != "" && count($property) > 0)
+			{
+				for ($i = 0, $in = count($property); $i < $in; $i++)
+				{
+					if ($property[$i]->setdefault_selected)
+					{
+						$media_property_videos = $producthelper->getAdditionMediaImage($property[$i]->property_id, "property", "youtube");
+						$selectedId[] = $property[$i]->property_id;
+					}
+				}
+
+				if (count($selectedId) > 0)
+				{
+					$selectedpropertyId = $selectedId[count($selectedId) - 1];
+					$subproperty        = $producthelper->getAttibuteSubProperty(0, $selectedpropertyId);
+					$selectedId         = array();
+
+					for ($sp = 0; $sp < count($subproperty); $sp++)
+					{
+						if ($subproperty[$sp]->setdefault_selected)
+						{
+							$media_subproperty_videos = $producthelper->getAdditionMediaImage($subproperty[$sp]->subattribute_color_id, "subproperty", "youtube");
+							$selectedId[]     = $subproperty[$sp]->subattribute_color_id;
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	if (!empty($media_subproperty_videos))
+	{
+		$media_videos = $media_subproperty_videos;
+	}
+	elseif (!empty($media_property_videos))
+	{
+		$media_videos = $media_property_videos;
+	}
+	elseif (!empty($media_product_videos))
+	{
+		$media_videos = $media_product_videos;
+	}
+
 	$insertStr = '';
 
-	for ($m = 0, $mn = count($media_videos); $m < $mn; $m++)
+	if (count($media_videos) > 0)
 	{
-		$more_vid = '<iframe width="510" height="315" src="http://www.youtube.com/embed/' . $media_videos[$m]->media_name . '" />';
-		$more_vid .= '</iframe>';
-
-		$insertStr .= "<div id='additional_vids_" . $media_videos[$m]->media_id . "'><a class='additional_video' href='#video-" . $media_videos[$m]->media_id . "'><img src='https://img.youtube.com/vi/" . $media_videos[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
-		$insertStr .= "<div class='hide'><div class='content' id='video-" . $media_videos[$m]->media_id . "'>" . $more_vid . "</div></div>";
+		for ($m = 0, $mn = count($media_videos); $m < $mn; $m++)
+		{
+			$insertStr .= "<div id='additional_vids_" . $media_videos[$m]->media_id . "'><a class='modal' title='" . $media_videos[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_videos[$m]->media_name . "' rel='{handler: \"iframe\", size: {x: 800, y: 500}}'><img src='https://img.youtube.com/vi/" . $media_videos[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+		}
 	}
 
 	$template_desc = str_replace("{more_videos}", $insertStr, $template_desc);
 }
-// More videos end
+// More videos (youtube) end
 
 // More documents
 if (strstr($template_desc, "{more_documents}"))
@@ -1145,7 +1204,7 @@ if (strstr($template_desc, "{more_documents}"))
 			$alttext = $media_documents[$m]->media_name;
 		}
 
-		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
+		if (JFile::exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 		{
 			$downlink = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id .
 										'&task=downloadDocument&fname=' . $media_documents[$m]->media_name .
@@ -1166,22 +1225,13 @@ $hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_mai
 						<input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 $link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->data->product_id);
 
-if (count($preselectedresult) > 0)
-{
-	$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
-					$producthelper->replaceProductImage($this->data, "", "", "", $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, $preselectedresult) .
-					"</div>";
-}
-else
-{
-	// Product image flying addwishlist time start
-	$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
-					$producthelper->getProductImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX')) .
-					"</div>";
-}
+// Product image
+$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
+				$producthelper->getProductImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, 0, $preselectedresult) .
+				"</div>";
 
-// Product image flying addwishlist time end
 $template_desc = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $template_desc);
+// Product image end
 
 $template_desc = $producthelper->getJcommentEditor($this->data, $template_desc);
 
@@ -1374,7 +1424,7 @@ else
 // Product preview image.
 if (strstr($template_desc, "{product_preview_img}"))
 {
-	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->data->product_preview_image))
+	if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->data->product_preview_image))
 	{
 		$previewsrcPath = RedShopHelperImages::getImagePath(
 						$this->data->product_preview_image,
@@ -1617,7 +1667,7 @@ if (strstr($template_desc, "{ask_question_about_product}"))
 }
 
 // Product subscription type
-if (strstr($template_desc, "subscription"))
+if (strstr($template_desc, "{subscription}") || strstr($template_desc, "{product_subscription}"))
 {
 	if ($this->data->product_type == 'subscription')
 	{
@@ -1645,10 +1695,12 @@ if (strstr($template_desc, "subscription"))
 
 		$subscription_data .= "</table>";
 		$template_desc = str_replace("{subscription}", $subscription_data, $template_desc);
+		$template_desc = str_replace("{product_subscription}", $subscription_data, $template_desc);
 	}
 	else
 	{
 		$template_desc = str_replace("{subscription}", "", $template_desc);
+		$template_desc = str_replace("{product_subscription}", "", $template_desc);
 	}
 }
 
@@ -1820,9 +1872,6 @@ echo eval("?>" . $template_desc . "<?php ");
 ?>
 
 <script type="text/javascript">
-	jQuery(document).ready(function($) {
-        $(".product_more_images .additional_video").colorbox({inline:true, width:"510px", iframe:false});
-    });
 
 function setsendImagepath(elm) {
 	var path = document.getElementById('<?php echo "main_image" . $this->pid;?>').src;

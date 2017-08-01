@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,11 +28,10 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$document = JFactory::getDocument();
-
-		$document->addScript('components/com_redshop/assets/js/media.js');
-
 		$uri = JFactory::getURI();
+
+		$document = JFactory::getDocument();
+		$document->addScript('components/com_redshop/assets/js/media.js');
 
 		$this->setLayout('default');
 
@@ -45,6 +44,7 @@ class RedshopViewMedia_detail extends RedshopViewAdmin
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIAS') . ': <small><small>[ ' . $text . ' ]</small></small>', 'camera redshop_media48');
 
+		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
 		if ($isNew)

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -218,7 +218,7 @@ class RedshopViewManufacturers extends RedshopView
 		}
 
 		// Breadcrumbs
-		$producthelper->generateBreadcrumb($mid);
+		RedshopHelperBreadcrumb::generate($mid);
 
 		// Breadcrumbs end
 
@@ -226,7 +226,7 @@ class RedshopViewManufacturers extends RedshopView
 		{
 			$filter_order = $params->get('order_by', Redshop::getConfig()->get('DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD'));
 			$order_by_select = $app->input->getString('order_by', $filter_order);
-			$order_data      = $redhelper->getOrderByList();
+			$order_data      = RedshopHelperUtility::getOrderByList();
 		}
 		else
 		{
@@ -245,7 +245,7 @@ class RedshopViewManufacturers extends RedshopView
 				$order_by_select = $filter_order;
 			}
 
-			$order_data      = $redhelper->getManufacturerOrderByList();
+			$order_data      = RedshopHelperUtility::getManufacturerOrderByList();
 		}
 
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ' . $disabled . ' ', 'value', 'text', $order_by_select);

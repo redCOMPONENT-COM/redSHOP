@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,7 +47,7 @@ class RedshopControllerStatistic_Product extends RedshopControllerAdmin
 	{
 		$productHelper = productHelper::getInstance();
 		$model         = $this->getModel();
-		$data          = $model->getProducts();
+		$data          = $model->getItems();
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");

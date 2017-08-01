@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopper_Group instead
+ * @deprecated  2.0.3  Use RedshopHelperShopper_Group instead
  */
 
 defined('_JEXEC') or die;
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since       1.6
  *
- * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopper_Group instead
+ * @deprecated  2.0.3  Use RedshopHelperShopper_Group instead
  */
 class shoppergroup
 {
@@ -33,7 +33,7 @@ class shoppergroup
 	 *
 	 * @return string    HTML of dropdown list to render
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopper_Group::listAll() instead
+	 * @deprecated  2.0.3  Use RedshopHelperShopper_Group::listAll() instead
 	 */
 	public function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true, $multiple = false,
 		$disabledFields = array())
@@ -53,7 +53,7 @@ class shoppergroup
 	 *
 	 * @return  string  HTML to render <option></option>
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopper_Group::listTree() instead
+	 * @deprecated  2.0.3  Use RedshopHelperShopper_Group::listTree() instead
 	 */
 	public function list_tree($shopper_group_id = 0, $cid = 0, $level = 0, $selected_groups = array(), $disabledFields = array(), $html = '')
 	{
@@ -69,7 +69,7 @@ class shoppergroup
 	 *
 	 * @return array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopper_Group::getShopperGroupListArray() instead
+	 * @deprecated  2.0.3  Use RedshopHelperShopper_Group::getShopperGroupListArray() instead
 	 */
 	public function getshopperGroupListArray($shopper_group_id = "", $cid = 0, $level = 0)
 	{
@@ -83,7 +83,7 @@ class shoppergroup
 	 *
 	 * @return  array
 	 *
-	 * @deprecated  __DEPLOY_VERSION__  Use RedshopHelperShopper_Group::getCategoryListReverceArray() instead
+	 * @deprecated  2.0.3  Use RedshopHelperShopper_Group::getCategoryListReverceArray() instead
 	 */
 	public function getCategoryListReverceArray($cid = 0)
 	{

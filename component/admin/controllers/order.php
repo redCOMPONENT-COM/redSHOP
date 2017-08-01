@@ -3,11 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Redshop\Economic\Economic;
 
 
 class RedshopControllerOrder extends RedshopController
@@ -20,52 +22,74 @@ class RedshopControllerOrder extends RedshopController
 	public function printPDF()
 	{
 		$app = JFactory::getApplication();
-		$orderId = $app->input->getInt('id', 0);
+		$orderId = $this->input->getInt('id', 0);
 
 		if (!$orderId)
 		{
 			$this->setMessage(JText::_('COM_REDSHOP_ORDER_DOWNLOAD_ERROR_MISSING_ORDER_ID'), 'error');
 			$this->setRedirect('index.php?option=com_redshop&view=order');
 		}
-		else
+
+		// Check pdf plugins
+		if (!RedshopHelperPdf::isAvailablePdfPlugins())
 		{
-			order_functions::generateInvoicePDF($orderId);
+			$this->setMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order'));
 		}
+
+		RedshopHelperOrder::generateInvoicePdf($orderId, 'I');
 
 		$app->close();
 	}
 
 	public function multiprint_order()
 	{
-		$mypost = JRequest::getVar('cid');
-		$order_function = order_functions::getInstance();
-		ob_start();
-		$invoicePdf = $order_function->createMultiprintInvoicePdf($mypost);
-		ob_end_clean();
+		$orderIds = $this->input->get('cid');
+
+		if (empty($orderIds))
+		{
+			$this->setMessage(JText::_('COM_REDSHOP_ORDER_DOWNLOAD_ERROR_MISSING_ORDER_ID'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order'));
+		}
+
+		// Check pdf plugins
+		if (!RedshopHelperPdf::isAvailablePdfPlugins())
+		{
+			$this->setMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order', false));
+		}
+
+		$invoicePdf = RedshopHelperPdf::createMultiInvoice($orderIds);
+
+		if (empty($invoicePdf))
+		{
+			$this->setMessage(JText::_('COM_REDSHOP_ERROR_GENERATE_PDF'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order', false));
+		}
+
 		$invoiceLink = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'invoice/' . $invoicePdf . '.pdf';
 		$this->setMessage(JText::sprintf('COM_REDSHOP_ORDER_DOWNLOAD_INVOICE_LINK', $invoiceLink, $invoicePdf . '.pdf'));
 
-		for ($i = 0, $in = count($mypost); $i < $in; $i++)
+		foreach ($orderIds as $orderId)
 		{
-			if (file_exists(JPATH_COMPONENT_SITE . "/assets/labels/label_" . $mypost[$i] . ".pdf"))
+			if (file_exists(JPATH_COMPONENT_SITE . "/assets/labels/label_" . $orderId . ".pdf"))
 			{
-				$labelLink = JURI::root() . '/components/com_redshop/assets/labels/label_' . $mypost[$i] . '.pdf';
-				$this->setMessage(JText::sprintf('COM_REDSHOP_ORDER_DOWNLOAD_LABEL', $labelLink, 'label_' . $mypost[$i] . '.pdf'));
+				$labelLink = JURI::root() . '/components/com_redshop/assets/labels/label_' . $orderId . '.pdf';
+				$this->setMessage(JText::sprintf('COM_REDSHOP_ORDER_DOWNLOAD_LABEL', $labelLink, 'label_' . $orderId . '.pdf'));
 			}
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=order');
+		$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order', false));
 	}
 
 	public function cancel()
 	{
-
 		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 
 	public function update_status()
 	{
-		order_functions::getInstance()->update_status();
+		RedshopHelperOrder::updateStatus();
 	}
 
 	/**
@@ -82,7 +106,7 @@ class RedshopControllerOrder extends RedshopController
 		$app = JFactory::getApplication();
 
 		// @todo This needs to be fixed in better way
-		$postData              = $app->input->getArray($_POST);
+		$postData              = $this->input->post->getArray();
 		$postData['isPacsoft'] = $isPacsoft;
 
 		$app->setUserState("com_redshop.order.batch.postdata", serialize($postData));
@@ -115,7 +139,7 @@ class RedshopControllerOrder extends RedshopController
 		$app             = JFactory::getApplication();
 		$serialized      = $app->getUserState("com_redshop.order.batch.postdata");
 		$post            = unserialize($serialized);
-		$orderId         = $app->input->getInt('oid', 0);
+		$orderId         = $this->input->getInt('oid', 0);
 		$order_functions = order_functions::getInstance();
 
 		// Change Order Status
@@ -137,24 +161,22 @@ class RedshopControllerOrder extends RedshopController
 
 	public function bookInvoice()
 	{
-		$post = JRequest::get('post');
+		$post            = $this->input->post->getArray();
 		$bookInvoiceDate = $post ['bookInvoiceDate'];
-		$order_id = JRequest::getCmd('order_id');
-		$ecomsg = JText::_('COM_REDSHOP_INVOICE_NOT_BOOKED_IN_ECONOMIC');
-		$msgType = 'warning';
+		$order_id        = $this->input->getInt('order_id');
+		$ecomsg          = JText::_('COM_REDSHOP_INVOICE_NOT_BOOKED_IN_ECONOMIC');
+		$msgType         = 'warning';
 
 		// Economic Integration start for invoice generate and book current invoice
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
-			$economic = economic::getInstance();
-			$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
+			$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 0, $bookInvoiceDate);
 
-			if (is_file($bookinvoicepdf))
+			if (JFile::exists($bookinvoicepdf))
 			{
-				$redshopMail = redshopMail::getInstance();
 				$ecomsg = JText::_('COM_REDSHOP_SUCCESSFULLY_BOOKED_INVOICE_IN_ECONOMIC');
 				$msgType = 'message';
-				$redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+				RedshopHelperMail::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
 
@@ -166,9 +188,9 @@ class RedshopControllerOrder extends RedshopController
 	{
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
-			$order_id = JRequest::getCmd('order_id');
+			$order_id       = $this->input->getInt('order_id');
 			$order_function = order_functions::getInstance();
-			$paymentInfo = RedshopHelperOrder::getPaymentInfo($order_id);
+			$paymentInfo    = RedshopHelperOrder::getPaymentInfo($order_id);
 
 			if ($paymentInfo)
 			{
@@ -187,16 +209,15 @@ class RedshopControllerOrder extends RedshopController
 			}
 
 			$economic = economic::getInstance();
-			$economic->createInvoiceInEconomic($order_id, $economicdata);
+			Economic::createInvoiceInEconomic($order_id, $economicdata);
 
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
 			{
-				$bookinvoicepdf = $economic->bookInvoiceInEconomic($order_id, 1);
+				$bookinvoicepdf = Economic::bookInvoiceInEconomic($order_id, 1);
 
-				if (is_file($bookinvoicepdf))
+				if (JFile::exists($bookinvoicepdf))
 				{
-					$redshopMail = redshopMail::getInstance();
-					$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+					$ret = RedshopHelperMail::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 				}
 			}
 		}
@@ -213,7 +234,7 @@ class RedshopControllerOrder extends RedshopController
 			require_once JPATH_COMPONENT_ADMINISTRATOR . '/extras/order_export.php';
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
-			exit;
+			JFactory::getApplication()->close();
 		}
 
 		$producthelper = productHelper::getInstance();
@@ -297,7 +318,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
 
-			for ($it = 0; $it < count($no_items); $it++)
+			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
 				echo str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name)) . " ,";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items [$it]->product_final_price . ",";
@@ -334,20 +355,20 @@ class RedshopControllerOrder extends RedshopController
 
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
-			exit;
+			JFactory::getApplication()->close();
 		}
 
-		$producthelper = productHelper::getInstance();
+		$producthelper  = productHelper::getInstance();
 		$order_function = order_functions::getInstance();
-		$model = $this->getModel('order');
+		$model          = $this->getModel('order');
 
 		$product_count = array();
-		$db = JFactory::getDbo();
+		$db            = JFactory::getDbo();
 
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$data = $model->export_data($cid);
+		$cid      = $this->input->get('cid', array(0), 'array');
+		$data     = $model->export_data($cid);
 		$order_id = implode(',', $cid);
-		$where = "";
+		$where    = "";
 
 		if ($order_id != 0)
 		{
@@ -414,7 +435,7 @@ class RedshopControllerOrder extends RedshopController
 
 			$no_items = $order_function->getOrderItemDetail($data [$i]->order_id);
 
-			for ($it = 0; $it < count($no_items); $it++)
+			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
 				echo $no_items [$it]->order_item_name . ",";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $no_items [$it]->product_final_price . ",";
@@ -447,25 +468,25 @@ class RedshopControllerOrder extends RedshopController
 	public function generateParcel()
 	{
 		$order_function = order_functions::getInstance();
-		$order_id = JRequest::getCmd('order_id');
+		$order_id       = $this->input->getInt('order_id');
 
 		$generate_label = $order_function->generateParcel($order_id);
 
 		if ($generate_label == "success")
 		{
 			$sussces_message = JText::_('COM_REDSHOP_XML_GENERATED_SUCCESSFULLY');
-			$this->setRedirect('index.php?option=com_redshop&view=order', $sussces_message);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $sussces_message, 'success');
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=order', $generate_label);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $generate_label, 'error');
 		}
 	}
 
 	public function download_token()
 	{
-		$post = JRequest::get('post');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post = $this->input->post->getArray();
+		$cid  = $this->input->post->get('cid', array(0), 'array');
 
 		$model = $this->getModel('order');
 
@@ -510,14 +531,14 @@ class RedshopControllerOrder extends RedshopController
 
 	public function gls_export()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		$cid   = $this->input->get('cid', array(0), 'array');
 		$model = $this->getModel('order');
 		$model->gls_export($cid);
 	}
 
 	public function business_gls_export()
 	{
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
+		$cid   = $this->input->get('cid', array(0), 'array');
 		$model = $this->getModel('order');
 		$model->business_gls_export($cid);
 	}

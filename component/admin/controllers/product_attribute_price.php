@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,22 +19,22 @@ class RedshopControllerProduct_attribute_price extends RedshopController
 
 	public function listing()
 	{
-		JRequest::setVar('layout', 'listing');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('layout', 'listing');
+		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
 	public function saveprice()
 	{
 		$db = JFactory::getDbo();
-		$section_id = JRequest::getVar('section_id');
-		$section = JRequest::getVar('section');
-		$cid = JRequest::getVar('cid');
-		$shopper_group_id = JRequest::getVar('shopper_group_id', array(), 'post', 'array');
-		$price = JRequest::getVar('price', array(), 'post', 'array');
-		$price_quantity_start = JRequest::getVar('price_quantity_start', array(), 'post', 'array');
-		$price_quantity_end = JRequest::getVar('price_quantity_end', array(), 'post', 'array');
-		$price_id = JRequest::getVar('price_id', array(), 'post', 'array');
+		$section_id = $this->input->get('section_id');
+		$section = $this->input->get('section');
+		$cid = $this->input->get('cid');
+		$shopper_group_id = $this->input->post->get('shopper_group_id', array(), 'array');
+		$price = $this->input->post->get('price', array(), 'array');
+		$price_quantity_start = $this->input->post->get('price_quantity_start', array(), 'array');
+		$price_quantity_end = $this->input->post->get('price_quantity_end', array(), 'array');
+		$price_id = $this->input->post->get('price_id', array(), 'array');
 
 		for ($i = 0, $in = count($price); $i < $in; $i++)
 		{

@@ -45,4 +45,5 @@ modules:
             folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
             install demo data: 'Yes'              # If you wish to Download Demo Data for the Extension then Keep this to Yes
             host: 'http://localhost/tests/joomla-cms3'  #Something important
+            redshop packages url: 'http://localhost/tests/releases/'     # the url that points to the extension .zip package defined in your properties.dist file at the root of the repo
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"

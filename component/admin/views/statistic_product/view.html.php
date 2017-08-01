@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,22 +27,18 @@ class RedshopViewStatistic_Product extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
-		global $context;
-
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC_PRODUCT'));
-		$document->addStyleSheet('components/com_redshop/assets/css/daterangepicker.css');
-		$document->addScript('components/com_redshop/assets/js/moment.min.js');
-		$document->addScript('components/com_redshop/assets/js/daterangepicker.js');
 
-		$this->products        = $this->get('Products');
-		$this->filterStartDate = $app->input->getString('filter_start_date', '');
-		$this->filterEndDate   = $app->input->getString('filter_end_date', '');
-		$this->filterDateLabel = $app->input->getString('filter_date_label', '');
+		$model = $this->getModel();
+
+		$this->products   = $model->getItems();
+		$this->pagination = $model->getPagination();
+		$this->state      = $model->getState();
+		$this->filterForm = $model->getForm();
 
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 
@@ -55,9 +51,8 @@ class RedshopViewStatistic_Product extends RedshopViewAdmin
 	 */
 	protected function addToolbar()
 	{
-		$title           = JText::_('COM_REDSHOP_STATISTIC_PRODUCT');
 		JFactory::getApplication()->input->set('hidemainmenu', true);
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_PRODUCT') . " :: " . $title, 'statistic redshop_statistic48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_PRODUCT'), 'statistic redshop_statistic48');
 
 		RedshopToolbarHelper::custom(
 			'exportProduct',

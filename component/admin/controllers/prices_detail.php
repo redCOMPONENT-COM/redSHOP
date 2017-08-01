@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,25 +20,25 @@ class RedshopControllerPrices_detail extends RedshopController
 
 	public function edit()
 	{
-		JRequest::setVar('view', 'prices_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'prices_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
 
 		parent::display();
 	}
 
 	public function save()
 	{
-		$post = JRequest::get('post');
+		$post = $this->input->post->getArray();
 
-		$product_id = JRequest::getVar('product_id');
-		$price_quantity_start = JRequest::getVar('price_quantity_start');
-		$price_quantity_end = JRequest::getVar('price_quantity_end');
+		$product_id = $this->input->get('product_id');
+		$price_quantity_start = $this->input->get('price_quantity_start');
+		$price_quantity_end = $this->input->get('price_quantity_end');
 
 		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$post['cdate'] = time();
 
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 		$post ['price_id'] = $cid [0];
 
 		$post['discount_start_date'] = strtotime($post ['discount_start_date']);
@@ -85,9 +85,8 @@ class RedshopControllerPrices_detail extends RedshopController
 
 	public function remove()
 	{
-
-		$product_id = JRequest::getVar('product_id');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$product_id = $this->input->get('product_id');
+		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -107,8 +106,7 @@ class RedshopControllerPrices_detail extends RedshopController
 
 	public function cancel()
 	{
-
-		$product_id = JRequest::getVar('product_id');
+		$product_id = $this->input->get('product_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);

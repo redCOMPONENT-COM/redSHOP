@@ -26,7 +26,7 @@ $document = JFactory::getDocument();
 $document->addScriptDeclaration('
 function validation() {
 		var name = document.subscribeForm.name.value;
-		var email = document.subscribeForm.email1.value;
+		var email = document.subscribeForm.email.value;
 		var patt1 = new RegExp("([a-z0-9_]+)@([^\\s+@\\s+$]+)[.][a-z]");
 
 		if (name == \'\') {
@@ -56,7 +56,7 @@ function validation() {
 		</div>
 		<div class="redshop_newsletter_input">
 			<label for="email12"><?php echo JText::_('COM_REDSHOP_EMAIL');?> : </label>
-			<input type="text" name="email1" id="email12" value="<?php echo $email; ?>"
+			<input type="text" name="email" id="email12" value="<?php echo $email; ?>"
 			       class="redshop_newsletter_email span12"/>
 		</div>
 		<div class="redshop_newsletter_buttons">

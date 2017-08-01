@@ -3,10 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
+JHtml::_('behavior.modal', 'a.joom-box');
 
 $editor = JFactory::getEditor();
 $order_functions = order_functions::getInstance();
@@ -23,7 +25,8 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 			<div class="box-body">
 				<div class="form-group">
 					<label for="name">
-						<?php echo JText::_('COM_REDSHOP_NAME'); ?>:
+						<?php echo JText::_('COM_REDSHOP_NAME'); ?>
+						<span class="star text-danger"> *</span>:
 					</label>
 					<input class="text_area" type="text" name="manufacturer_name" id="manufacturer_name" size="32"
 						   maxlength="250" value="<?php echo $this->detail->manufacturer_name; ?>"/>
@@ -41,7 +44,7 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 						<?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:
 					</label>
 					<input class="text_area" type="text" name="manufacturer_email" id="manufacturer_email" size="32"
-					       maxlength="250" value="<?php echo $this->detail->manufacturer_email; ?>"/>
+						   maxlength="250" value="<?php echo $this->detail->manufacturer_email; ?>"/>
 				</div>
 
 				<div class="form-group">
@@ -49,7 +52,7 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 						<?php echo JText::_('COM_REDSHOP_MANUFACTURER_URL'); ?>:
 					</label>
 					<input class="text_area" type="text" name="manufacturer_url" id="manufacturer_url" size="32"
-					       maxlength="250" value="<?php echo $this->detail->manufacturer_url; ?>"/>
+						   maxlength="250" value="<?php echo $this->detail->manufacturer_url; ?>"/>
 				</div>
 
 				<div class="form-group">
@@ -57,7 +60,7 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 						<?php echo JText::_('COM_REDSHOP_PRODUCT_PER_PAGE'); ?>:
 					</label>
 					<input class="text_area" type="text" name="product_per_page" id="product_per_page" size="32"
-					       maxlength="250" value="<?php echo $this->detail->product_per_page; ?>"/>
+						   maxlength="250" value="<?php echo $this->detail->product_per_page; ?>"/>
 				</div>
 
 				<?php if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled) { ?>
@@ -93,42 +96,33 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 			<div class="box-body">
 				<?php
 				$model = $this->getModel('manufacturer_detail');
-				$media_id = $model->getMediaId($this->detail->manufacturer_id);
+				$media = $model->getMediaId($this->detail->manufacturer_id);
+				$mediaId = 0;
+				$mediaName = '';
+				$mediaText = '';
 
-				if ($media_id)
+				if ($media)
 				{
-					$mediaId = $media_id->media_id;
-					$mediaName = $media_id->media_name;
-				}
-				else
-				{
-					$mediaId = 0;
-					$mediaName = '';
+					$mediaId   = $media->media_id;
+					$mediaName = $media->media_name;
+					$mediaText = $media->media_alternate_text;
 				}
 
 				$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media_detail&cid[]=' . $mediaId . '&section_id=' . $this->detail->manufacturer_id . '&showbuttons=1&media_section=manufacturer&section_name=' . $this->detail->manufacturer_name);
-
-				$image_path = RedShopHelperImages::getImagePath(
-								$mediaName,
-								'',
-								'thumb',
-								'manufacturer',
-								Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH'),
-								Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT'),
-								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
 				?>
-
-				<div class="divimage">
-					<img src="<?php echo $image_path; ?>" id="image_display" border="0"/>
-					<input type="hidden" name="product_image" id="product_image"/>
+				<div class="form-group">
+					<label class="label"><?php echo JText::_('COM_REDSHOP_MEDIA_ALTERNATE_TEXT') ?></label>
+					<input type="text" class="form-control" value="<?php echo $mediaText ?>" name="media_alternate_text"
+						   placeholder="<?php echo JText::_('COM_REDSHOP_TOOLTIP_MEDIA_ALTERNATE_TEXT') ?>" />
 				</div>
-
-				<div class="btn-toolbar">
-					<a class="modal btn btn-primary" title="Image" href="<?php echo $ilink; ?>" rel="{handler: 'iframe', size: {x: 950, y: 500}}">
-						<?php echo JText::_('COM_REDSHOP_ADD_ADDITIONAL_IMAGES');?>
-					</a>
-				</div>
+				<?php echo RedshopHelperMediaImage::render(
+					'manufacturer_image',
+					'manufacturer',
+					$this->detail->manufacturer_id,
+					'manufacturer',
+					$mediaName,
+					false
+                ); ?>
 			</div>
 		</div>
 	</div>

@@ -653,7 +653,7 @@ function showCompanyOrCustomer(obj)
 	var linktocontroller = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
 		linktocontroller += "&is_company="+obj.value+"&template_id="+template_id;
 
-	var postData = jQuery("#redshopRegistrationForm").serializeArray();
+	var postData = jQuery("#redshopRegistrationForm #adminForm").serializeArray();
 
 	postData = jQuery.grep(postData, function(value) {
 		if (
@@ -695,6 +695,23 @@ function showCompanyOrCustomer(obj)
 	.fail(function() {
 		console.warn("error");
 	});
+}
+
+function getBillingTemplate(el)
+{
+	var isCompany = jQuery(el).val();
+	var type = jQuery(el).attr('billing_type');
+	var url = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=getBillingTemplate";
+
+	jQuery.ajax({
+		url: url,
+		type: 'POST',
+		data: {type: type, isCompany: isCompany},
+		success: function(html) {
+			jQuery('#wrapper-billing').html('');
+			jQuery('#wrapper-billing').append(html);
+		}
+	})
 }
 
 function updateGLSLocation(zipcode)

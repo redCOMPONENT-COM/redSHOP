@@ -16,68 +16,27 @@ defined('_JEXEC') or die;
 		<div class="row-fluid">
 			<?php if ($enableCategory == 1 && !empty($categories)): ?>
 				<div id="categories">
-					<?php if (($view == 'search') || (!empty($cid) && in_array($cid, $childCat)) || !empty($mid)) : ?>
-						<?php if (!empty($categories)): ?>
-							<h3><?php echo JText::_('MOD_REDSHOP_FILTER_CATEGORY_LABEL');?></h3>
-						<?php else : ?>
-						<?php endif; ?>
-					<?php else : ?>
-						<?php if (!empty($categories[0]->child)): ?>
-							<h3><?php echo JText::_('MOD_REDSHOP_FILTER_CATEGORY_LABEL');?></h3>
-						<?php else : ?>
-						<?php endif; ?>
-					<?php endif ?>
+					<h3><?php echo JText::_('MOD_REDSHOP_FILTER_CATEGORY_LABEL');?></h3>
 					<ul class='taglist'>
 						<?php foreach ($categories as $key => $cat) :?>
 							<li>
-								<?php if (($view == 'search') || (!empty($cid) && in_array($cid, $childCat))) : ?>
 								<label>
-									<span class='taginput' data-aliases='cat-<?php echo $cat->category_id;?>'>
-										<input type="checkbox" name="redform[category][]" value="<?php echo $cat->category_id ?>" onclick="javascript: checkclick(this);" />
-										<span class='tagname'><?php echo $cat->category_name; ?></span>
+									<span class='taginput' data-aliases='cat-<?php echo $cat->id;?>'>
+										<input type="checkbox" name="redform[category][]" value="<?php echo $cat->id ?>" onclick="javascript: checkclick(this);" />
+										<span class='tagname'><?php echo $cat->name; ?></span>
 									</span>
 								</label>
-								<?php endif; ?>
-								<?php if (!empty($cat->child)): ?>
-									<ul class='taglist'>
-										<?php foreach ($cat->child as $k => $child) :?>
-											<li>
-												<label>
-													<span class='taginput' data-aliases='child-cat-<?php echo $child->category_id;?>'>
-														<!-- <i class="icon icon-check-empty"></i> -->
-														<input type="checkbox" name="redform[category][]" value="<?php echo $child->category_id ?>" onclick="javascript: checkclick(this);"" />
-														<span class='tagname'><?php echo $child->category_name; ?></span>
-													</span>
-												</label>
-												<?php if (!empty($child->sub)): ?>
-													<ul class='taglist'>
-														<?php foreach ($child->sub as $i => $sub) :?>
-															<li>
-																<label>
-																	<span class='taginput' data-aliases='sub-cat-<?php echo $sub->category_id;?>'>
-																		<input parent="<?php echo $child->category_id ?>" type="checkbox" name="redform[category][]" value="<?php echo $sub->category_id ?>" onclick="javascript: checkclick(this);" />
-																		<span class='tagname'><?php echo $sub->category_name; ?></span>
-																	</span>
-																</label>
-															</li>
-														<?php endforeach; ?>
-													</ul>
-												<?php endif; ?>
-											</li>
-										<?php endforeach; ?>
-									</ul>
-								<?php endif; ?>
 							</li>
 						<?php endforeach; ?>
 					</ul>
 				</div>
 			<?php endif; ?>
 		</div>
-		<?php if ($enableManufacturer == 1 && count($manufacturers) > 0): ?>
+		<?php if ($enableManufacturer == 1 && !empty($manufacturers)): ?>
 			<div id='manu'>
 				<label class="title"><?php echo JText::_("MOD_REDSHOP_FILTER_MANUFACTURER_LABEL"); ?></label>
 				<div class="brand-input">
-					<input type="text" name="keyword-manufacturer" id="keyword-manufacturer" placeholder="<?php echo JText::_('TYPE_A_KEYWORD')?>" />
+					<input type="text" name="keyword-manufacturer" id="keyword-manufacturer" placeholder="<?php echo JText::_('MOD_REDSHOP_FILTER_TYPE_A_KEYWORD')?>" />
 					<i class="icon-search"></i>
 				</div>
 				<ul class='taglist' id="manufacture-list">
@@ -96,6 +55,28 @@ defined('_JEXEC') or die;
 				</ul>
 			</div>
 		<?php endif; ?>
+		<div class="row-fluid">
+			<?php if ($enableCustomField == 1 && !empty($customFields)): ?>
+				<div id="customFields">
+					<h3><?php echo JText::_('MOD_REDSHOP_FILTER_CUSTOM_FIELDS_LABEL');?></h3>
+					<ul class='taglist'>
+						<?php foreach ($customFields as $key => $fields) :?>
+							<h4><?php echo $fields['title']; ?></h3>
+							<?php foreach ($fields['value'] as $k => $value) :?>
+							<li>
+								<label>
+									<span class='taginput' data-aliases='cat-<?php echo $value['name'];?>'>
+										<input type="checkbox" name="redform[custom_field][<?php echo $key;?>][]" value="<?php echo $value['value'] ?>" onclick="javascript: checkclick(this);" />
+										<span class='tagname'><?php echo $value['name']; ?></span>
+									</span>
+								</label>
+							</li>
+							<?php endforeach; ?>
+						<?php endforeach; ?>
+					</ul>
+				</div>
+			<?php endif; ?>
+		</div>
 		<?php if ($enablePrice == 1) : ?>
 		<div class="row-fluid">
 			<div class="price"><?php echo JText::_("MOD_REDSHOP_FILTER_PRICE_LABEL"); ?></div>
@@ -103,27 +84,33 @@ defined('_JEXEC') or die;
 			<div id="filter-price">
 				<div id="amount-min">
 					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
-					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][min]" value="<?php echo $rangeMin; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
+					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][min]" value="<?php echo $currentMin; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
 				</div>
 				<div id="amount-max">
 					<div><?php echo Redshop::getConfig()->get('CURRENCY_CODE')?></div>
-					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][max]" value="<?php echo $rangeMax; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
+					<input type="text" pattern="^\d*(\.\d{2}$)?" class="span12" name="redform[filterprice][max]" value="<?php echo $currentMax; ?>" min="0" max="<?php echo $rangeMax; ?>" required/>
 				</div>
 			</div>
 		</div>
 		<?php endif; ?>
+		<span id="clear-btn" class="clear-btn" onclick="clearAll();"><?php echo JText::_("MOD_REDSHOP_FILTER_CLEAR_LABEL"); ?></span>
 	</div>
 	<input type="hidden" name="redform[cid]" value="<?php echo !empty($cid) ? $cid : 0; ?>" />
 	<input type="hidden" name="redform[mid]" value="<?php echo !empty($mid) ? $mid : 0; ?>" />
-	<input type="hidden" name="limitstart" value="0" />
-	<input type="hidden" name="limit" value="27" />
-	<input type="hidden" name="redform[keyword]" value="<?php echo $keyword;?>" />
+	<input type="hidden" name="limitstart" value="<?php echo $getData['limitstart'] ? $getData['limitstart'] : 0; ?>" />
+	<input type="hidden" name="limit" value="<?php echo $getData['limit'] ? $getData['limit'] : $limit; ?>" />
+	<input type="hidden" name="redform[keyword]" value="<?php echo $getData['keyword'] ? $getData['keyword'] : $keyword; ?>" />
 	<input type="hidden" name="check_list" value="" >
 	<input type="hidden" name="order_by" value="" >
 	<input type="hidden" name="redform[product_on_sale]" value="<?php echo $productOnSale; ?>" >
-	<input type="hidden" name="redform[template_id]" value="<?php echo $template; ?>" />
+	<input type="hidden" name="redform[template_id]" value="<?php echo $getData['template_id'] ? $getData['template_id'] : $template; ?>" />
 	<input type="hidden" name="redform[root_category]" value="<?php echo $rootCategory; ?>" />
 	<input type="hidden" name="redform[category_for_sale]" value="<?php echo $categoryForSale; ?>" />
+	<input type="hidden" name="redform[product_on_sale]" value="<?php echo $productOnSale; ?>" >
+	<input type="hidden" name="option" value="<?php echo $option; ?>" >
+	<input type="hidden" name="view" value="<?php echo $view; ?>" >
+	<input type="hidden" name="layout" value="<?php echo $layout; ?>" >
+	<input type="hidden" name="Itemid" value="<?php echo $itemId; ?>" >
 </form>
 </div>
 
@@ -150,7 +137,6 @@ defined('_JEXEC') or die;
 		});
 	}
 
-	// function to enable modal compare after search
 	function modalCompare()
 	{
 		redSHOP = window.redSHOP || {};
@@ -158,114 +144,6 @@ defined('_JEXEC') or die;
 		jQuery('[id^="rsProductCompareChk"]').click(function(event) {
 		    redSHOP.compareAction(jQuery(this), "add");
 		});
-	}
-
-	// function to enable modal wishlist after search
-	function modalWishlist(){
-		// User
-        jQuery('.redshop-wishlist-button, .redshop-wishlist-link').click(function(event) {
-            event.preventDefault();
-
-            var productId = jQuery(this).attr('data-productid');
-            var formId = jQuery(this).attr('data-formid');
-            var link = jQuery(this).attr('data-href');
-
-            if (link == '' || typeof link == 'undefined') {
-                link = jQuery(this).attr('href');
-            }
-
-            if (productId == '' || isNaN(productId)) {
-                return false;
-            }
-
-            link += '&product_id=' + productId;
-
-            if (formId == '') {
-                var $form = jQuery('form#addtocart_prd_' + productId);
-            } else {
-                var $form = jQuery('form#' + formId);
-            }
-
-
-            if (!$form.length) {
-                SqueezeBox.open(link, {
-                    handler: 'iframe'
-                });
-
-                return true;
-            }
-
-            $form = jQuery($form[0]);
-
-            var attribute = $form.children('input#attribute_data');
-            var property = $form.children('input#property_data');
-            var subAttribute = $form.children('input#subproperty_data');
-
-            if (attribute.length) {
-                link += '&attribute_id=' + encodeURIComponent(jQuery(attribute[0]).val());
-            }
-
-            if (property.length) {
-                link += '&property_id=' + encodeURIComponent(jQuery(property[0]).val());
-            }
-
-            if (subAttribute.length)
-                link += '&subattribute_id=' + encodeURIComponent(jQuery(subAttribute[0]).val());
-
-            SqueezeBox.open(link, {
-                handler: 'iframe'
-            });
-
-            return true;
-        });
-
-        // Guest
-        jQuery('.redshop-wishlist-form-button, .redshop-wishlist-form-link').click(function(event) {
-            event.preventDefault();
-            var productId = jQuery(this).attr('data-productid');
-            var formId = jQuery(this).attr('data-formid');
-
-            if (productId == '' || isNaN(productId))
-                return false;
-
-            var $wishlistForm = jQuery('form#' + jQuery(this).attr('data-target'));
-
-            if (!$wishlistForm.length)
-                return false;
-
-            if (formId == '') {
-                var $form = jQuery('form#addtocart_prd_' + productId);
-            } else {
-                var $form = jQuery('form#' + formId);
-            }
-
-            if (!$form.length) {
-                $wishlistForm.submit();
-                return true;
-            }
-
-            $form = $($form[0]);
-
-            var attribute = $form.children('input#attribute_data');
-            var property = $form.children('input#property_data');
-            var subAttribute = $form.children('input#subproperty_data');
-
-            if (attribute.length) {
-                $wishlistForm.children("input[name='attribute_id']").val(jQuery(attribute[0]).val());
-            }
-
-            if (property.length) {
-                $wishlistForm.children("input[name='property_id']").val(jQuery(property[0]).val());
-            }
-
-            if (subAttribute.length) {
-                $wishlistForm.children("input[name='subattribute_id']").val(jQuery(subAttribute[0]).val());
-            }
-
-            $wishlistForm.submit();
-
-            return true;
-        });
 	}
 
 	function checkclick(obj) {
@@ -293,12 +171,10 @@ defined('_JEXEC') or die;
 				jQuery('.category_header').css('display', 'none');
 			},
 		 	success: function(data) {
-		 		jQuery('#productlist').empty();
+		 		jQuery('#redshopcomponent').empty();
 		 		jQuery('#main-content .category_main_toolbar').first().remove();
-		 		jQuery('#productlist').html(data);
-		 		jQuery('.category_wrapper.parent .category_main_toolbar, .category_wrapper.parent .category_product_list').css('display', 'block');
-                jQuery('.category-list').hide();
-
+		 		jQuery('#redshopcomponent').html(data);
+				jQuery('select#orderBy').select2();
 		 	},
 		 	complete: function() {
 			    jQuery('#wait').css('display', 'none');
@@ -315,6 +191,23 @@ defined('_JEXEC') or die;
 
 	function pagination(start){
 		jQuery('input[name="limitstart"]').val(start);
+		submitpriceform();
+	}
+	
+	function clearAll(){
+		jQuery('#redproductfinder-form-<?php echo $module->id;?> input[type="checkbox"]').prop('checked' , false);
+		jQuery('#redproductfinder-form-<?php echo $module->id;?> input[type="checkbox"]').each(function(){
+			checkclick(jQuery(this))
+		});
+		jQuery('input[name="redform[filterprice][min]"]').val('<?php echo $rangeMin;?>');
+		jQuery('input[name="redform[filterprice][max]"]').val('<?php echo $rangeMax;?>');
+		range_slide(<?php echo $rangeMin;?>, <?php echo $rangeMax;?>, <?php echo $rangeMin;?>, <?php echo $rangeMax;?>, submitpriceform );
+		submitpriceform(null);
+	}
+
+	function loadTemplate(el){
+		id = jQuery(el).val();
+		jQuery('input[name="redform[template_id]"]').val(id);
 		submitpriceform();
 	}
 
@@ -384,7 +277,7 @@ defined('_JEXEC') or die;
 					jQuery(this).addClass('active').next('ul.collapse').addClass('in');
 				}
 			});
-			range_slide(<?php echo $rangeMin;?>, <?php echo $rangeMax;?>, <?php echo $rangeMin;?>, <?php echo $rangeMax;?>, submitpriceform );
+			range_slide(<?php echo $rangeMin;?>, <?php echo $rangeMax;?>, <?php echo $currentMin;?>, <?php echo $currentMax;?>, submitpriceform );
 		});
 	});
 </script>

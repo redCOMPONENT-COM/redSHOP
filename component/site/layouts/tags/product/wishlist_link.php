@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,9 +19,17 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 $user = JFactory::getUser();
+$wishlistExist = 'icon icon-heart-2';
+$checkWishlist = RedshopHelperWishlist::checkWishlistExist($productId);
+
+if ($checkWishlist > 0)
+{
+	$wishlistExist = 'icon icon-heart';
+}
 ?>
 <?php if (!$user->guest) :?>
 	<a class="redshop-wishlist-link" href="<?php echo $link ?>" data-productid="<?php echo $productId ?>" data-formid="<?php echo $formId ?>">
+		<i class="<?php echo $wishlistExist; ?>"></i>
 		<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>
 	</a>
 <?php else : ?>

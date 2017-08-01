@@ -3,12 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-JHtmlBehavior::modal();
+JHtml::_('behavior.modal', 'a.joom-box');
 
 $model = $this->getModel('manufacturer');
 $orderDir = $this->lists['order_Dir'];
@@ -31,8 +31,7 @@ if ($allowOrder)
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'remove') || (pressbutton == 'copy')) {
 			form.view.value = "manufacturer_detail";
 		}
 		try {
@@ -129,7 +128,7 @@ if ($allowOrder)
 					</td>
 					<td align="center">
 						<?php $media_id = $model->getMediaId($row->manufacturer_id);?>
-						<a class="modal"
+						<a class="joom-box"
 						   href="index.php?tmpl=component&option=com_redshop&amp;view=media_detail&amp;cid[]=<?php echo $media_id; ?>&amp;section_id=<?php echo $row->manufacturer_id; ?>&amp;showbuttons=1&amp;media_section=manufacturer&amp;section_name=<?php echo $row->manufacturer_name; ?>"
 						   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><img
 								src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
